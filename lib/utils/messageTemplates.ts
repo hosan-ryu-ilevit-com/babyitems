@@ -4,7 +4,7 @@ import { CORE_ATTRIBUTES, AttributeInfo } from '@/data/attributes';
  * 인트로 메시지 생성
  */
 export function generateIntroMessage(): string {
-  return '안녕하세요! 6개월 아기를 위한 분유포트 구매를 도와드릴 AI 쇼핑 비서입니다.\n\n육아에 지치신 부모님께 편안하고 안전한 수유 환경을 만들어 드릴 수 있도록, 제가 핵심적인 7가지 기준을 하나씩 안내해 드리고, 고객님께 가장 중요한 요소가 무엇인지 함께 찾아보겠습니다.';
+  return '안녕하세요! 분유포트 구매를 도와드릴 AI 쇼핑 비서입니다.\n\n육아에 지치신 부모님께 편안하고 안전한 수유 환경을 만들어 드릴 수 있도록, 제가 핵심적인 7가지 기준을 하나씩 안내해 드리고, 고객님께 가장 중요한 요소가 무엇인지 함께 찾아보겠습니다.';
 }
 
 /**
@@ -60,5 +60,5 @@ export function generateImportanceFeedback(
  * Chat2 전환 메시지 생성
  */
 export function generateChat2TransitionMessage(): string {
-  return '모든 핵심 항목에 대한 답변 감사합니다! 😊\n\n혹시 추가로 고려하시는 사항이 있으신가요? 예를 들어 쌍둥이 육아, 야간 수유 빈도, 예산 등 무엇이든 편하게 말씀해주세요.';
+  return '모든 핵심 항목에 대한 답변 감사합니다! 😊\n\n혹시 추가로 고려하시는 사항이 있으신가요? 예를 들어 쌍둥이 육아, 야간 수유 빈도, 예산 등 무엇이든 편하게 말씀해주세요. \n\n 추가로 말씀하실 사항이 없다면, 아래 **추천 받기**버튼을 눌러주세요!';
 }

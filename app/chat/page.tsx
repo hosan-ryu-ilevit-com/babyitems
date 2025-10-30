@@ -14,6 +14,7 @@ import {
   changePhase,
   calculateProgress,
   isStructuredPhaseComplete,
+  clearSession,
 } from '@/lib/utils/session';
 import {
   generateIntroMessage,
@@ -22,8 +23,22 @@ import {
   generateChat2TransitionMessage,
 } from '@/lib/utils/messageTemplates';
 
+// 마크다운 볼드 처리 함수
+function formatMarkdown(text: string) {
+  // **텍스트** → <strong>텍스트</strong>
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const boldText = part.slice(2, -2);
+      return <strong key={index} className="font-bold">{boldText}</strong>;
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
 // 타이핑 이펙트 컴포넌트
-function TypingMessage({ content, onComplete }: { content: string; onComplete?: () => void }) {
+function TypingMessage({ content, onComplete, onUpdate }: { content: string; onComplete?: () => void; onUpdate?: () => void }) {
   const [displayedContent, setDisplayedContent] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -32,15 +47,19 @@ function TypingMessage({ content, onComplete }: { content: string; onComplete?: 
       const timeout = setTimeout(() => {
         setDisplayedContent(content.slice(0, currentIndex + 1));
         setCurrentIndex(currentIndex + 1);
-      }, 20); // 20ms per character
+        // 타이핑 중에 스크롤 업데이트
+        if (onUpdate) {
+          onUpdate();
+        }
+      }, 10); // 10ms per character (더 빠르게)
 
       return () => clearTimeout(timeout);
     } else if (onComplete) {
       onComplete();
     }
-  }, [currentIndex, content, onComplete]);
+  }, [currentIndex, content, onComplete, onUpdate]);
 
-  return <span>{displayedContent}</span>;
+  return <span>{formatMarkdown(displayedContent)}</span>;
 }
 
 export default function ChatPage() {
@@ -92,12 +111,6 @@ export default function ChatPage() {
       saveSession(updatedSession);
       setMessages([welcomeMessage, firstQuestion]);
       setTypingMessageId(firstQuestion.id);
-
-      // 타이핑 완료 후 빠른 응답 버튼 표시
-      setTimeout(() => {
-        setTypingMessageId(null);
-        setShowQuickReplies(true);
-      }, firstQuestion.content.length * 20 + 500);
     } else {
       // 기존 세션 복원
       setMessages(session.messages);
@@ -107,10 +120,23 @@ export default function ChatPage() {
     }
   }, [mounted]);
 
-  // 자동 스크롤
-  useEffect(() => {
+  // 자동 스크롤 함수
+  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // 메시지 변경 시 자동 스크롤
+  useEffect(() => {
+    scrollToBottom();
   }, [messages]);
+
+  // 타이핑 중에도 스크롤 (추가 보험)
+  useEffect(() => {
+    if (typingMessageId) {
+      const interval = setInterval(scrollToBottom, 100);
+      return () => clearInterval(interval);
+    }
+  }, [typingMessageId]);
 
   // 빠른 응답 버튼 클릭 핸들러 (LLM 없이 즉시 처리)
   const handleQuickReply = async (importance: ImportanceLevel) => {
@@ -143,14 +169,9 @@ export default function ChatPage() {
       setMessages(session.messages);
       setProgress(calculateProgress(session));
 
-      // 타이핑 효과 후 빠른 응답 버튼 다시 표시
+      // 타이핑 효과 시작
       const lastMessage = session.messages[session.messages.length - 1];
       setTypingMessageId(lastMessage.id);
-
-      setTimeout(() => {
-        setTypingMessageId(null);
-        setShowQuickReplies(true);
-      }, nextQuestion.length * 20 + 500);
     } else {
       // 모든 속성 완료 → Chat2로 전환
       const transitionMessage = generateChat2TransitionMessage();
@@ -163,10 +184,6 @@ export default function ChatPage() {
 
       const lastMessage = session.messages[session.messages.length - 1];
       setTypingMessageId(lastMessage.id);
-
-      setTimeout(() => {
-        setTypingMessageId(null);
-      }, transitionMessage.length * 20 + 500);
     }
   };
 
@@ -226,10 +243,6 @@ export default function ChatPage() {
         saveSession(session);
         setMessages(session.messages);
         setTypingMessageId(newMessage.id);
-
-        setTimeout(() => {
-          setTypingMessageId(null);
-        }, data.message.length * 20 + 500);
       } else {
         setProgress(calculateProgress(session));
 
@@ -237,14 +250,6 @@ export default function ChatPage() {
         saveSession(session);
         setMessages(session.messages);
         setTypingMessageId(newMessage.id);
-
-        // 다음 속성으로 이동했거나 추가 설명을 했으면 빠른 응답 버튼 표시
-        setTimeout(() => {
-          setTypingMessageId(null);
-          if (data.type === 'next_attribute' || data.type === 'follow_up') {
-            setShowQuickReplies(true);
-          }
-        }, data.message.length * 20 + 500);
       }
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -293,10 +298,6 @@ export default function ChatPage() {
       saveSession(session);
       setMessages(session.messages);
       setTypingMessageId(newMessage.id);
-
-      setTimeout(() => {
-        setTypingMessageId(null);
-      }, data.message.length * 20 + 500);
     } catch (error) {
       console.error('Failed to send message:', error);
       session = addMessage(session, 'assistant', '죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.', 'chat2');
@@ -322,6 +323,7 @@ export default function ChatPage() {
 
   // 추천 받기
   const handleGetRecommendation = () => {
+    // result 페이지로 이동 (API 호출은 result 페이지에서)
     router.push('/result');
   };
 
@@ -349,7 +351,17 @@ export default function ChatPage() {
               </svg>
             </button>
             <h1 className="text-base font-semibold text-gray-900">추천 받기</h1>
-            <div className="w-6"></div>
+            <button
+              onClick={() => {
+                if (window.confirm('대화 내역을 초기화하고 처음부터 다시 시작하시겠습니까?')) {
+                  clearSession();
+                  window.location.reload();
+                }
+              }}
+              className="text-sm text-gray-600 hover:text-gray-900 font-medium"
+            >
+              다시 시작
+            </button>
           </div>
 
           {/* Progress Bar */}
@@ -360,7 +372,7 @@ export default function ChatPage() {
             </div>
             <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                className="h-full bg-blue-600"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.5 }}
@@ -388,14 +400,24 @@ export default function ChatPage() {
                 <div
                   className={`max-w-[80%] px-4 py-3 rounded-2xl whitespace-pre-wrap ${
                     message.role === 'user'
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 text-gray-900'
                   }`}
                 >
                   {typingMessageId === message.id ? (
-                    <TypingMessage content={message.content} />
+                    <TypingMessage
+                      content={message.content}
+                      onUpdate={scrollToBottom}
+                      onComplete={() => {
+                        setTypingMessageId(null);
+                        // Chat1 phase에서 assistant 메시지가 완료되면 빠른 응답 버튼 표시
+                        if (phase === 'chat1' && message.role === 'assistant') {
+                          setShowQuickReplies(true);
+                        }
+                      }}
+                    />
                   ) : (
-                    message.content
+                    formatMarkdown(message.content)
                   )}
                 </div>
               </motion.div>
@@ -432,7 +454,7 @@ export default function ChatPage() {
             >
               <button
                 onClick={() => handleQuickReply('매우 중요')}
-                className="flex-shrink-0 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium rounded-full hover:shadow-lg transition-shadow"
+                className="flex-shrink-0 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors"
               >
                 매우 중요
               </button>
@@ -459,7 +481,7 @@ export default function ChatPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleGetRecommendation}
-              className="w-full h-12 mb-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full shadow-lg"
+              className="w-full h-12 mb-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition-colors"
             >
               추천 받기 ✨
             </motion.button>
@@ -478,7 +500,7 @@ export default function ChatPage() {
             <button
               onClick={handleSendMessage}
               disabled={!input.trim() || isLoading}
-              className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
