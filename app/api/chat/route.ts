@@ -68,12 +68,12 @@ export async function POST(request: NextRequest) {
         const nextIndex = currentAttributeIndex + 1;
 
         if (nextIndex < CORE_ATTRIBUTES.length) {
-          // 피드백 + 다음 속성 질문
-          const nextQuestion = generateAttributeQuestion(nextIndex);
-          const fullMessage = `${feedbackMessage}\n\n${nextQuestion}`;
+          // 피드백 + 다음 속성 질문 (여러 버블로 분리)
+          const nextQuestionParts = generateAttributeQuestion(nextIndex);
+          const messages = [feedbackMessage, ...nextQuestionParts];
 
           return NextResponse.json({
-            message: fullMessage,
+            messages, // 배열로 반환
             type: 'next_attribute',
             importance,
             nextAttributeIndex: nextIndex,
@@ -81,10 +81,10 @@ export async function POST(request: NextRequest) {
         } else {
           // 모든 속성 완료 → Chat2로 전환
           const transitionMessage = generateChat2TransitionMessage();
-          const fullMessage = `${feedbackMessage}\n\n${transitionMessage}`;
+          const messages = [feedbackMessage, transitionMessage];
 
           return NextResponse.json({
-            message: fullMessage,
+            messages, // 배열로 반환
             type: 'transition_to_chat2',
             importance,
           });

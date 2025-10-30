@@ -96,21 +96,23 @@ export default function ChatPage() {
         phase: 'chat1',
       };
 
-      const firstQuestion: Message = {
-        id: 'q1',
-        role: 'assistant',
-        content: generateAttributeQuestion(0),
-        timestamp: Date.now() + 100,
-        phase: 'chat1',
-      };
+      // 첫 번째 질문을 여러 버블로 나누기
+      const firstQuestionParts = generateAttributeQuestion(0);
 
       let updatedSession = changePhase(session, 'chat1');
       updatedSession = addMessage(updatedSession, 'assistant', welcomeMessage.content, 'chat1');
-      updatedSession = addMessage(updatedSession, 'assistant', firstQuestion.content, 'chat1');
+
+      // 각 파트를 별도의 메시지로 추가
+      firstQuestionParts.forEach((part) => {
+        updatedSession = addMessage(updatedSession, 'assistant', part, 'chat1');
+      });
 
       saveSession(updatedSession);
-      setMessages([welcomeMessage, firstQuestion]);
-      setTypingMessageId(firstQuestion.id);
+      setMessages(updatedSession.messages);
+
+      // 마지막 메시지에만 타이핑 효과 적용
+      const lastMessage = updatedSession.messages[updatedSession.messages.length - 1];
+      setTypingMessageId(lastMessage.id);
     } else {
       // 기존 세션 복원
       setMessages(session.messages);
@@ -160,16 +162,22 @@ export default function ChatPage() {
     const nextIndex = currentAttributeIndex + 1;
 
     if (nextIndex < CORE_ATTRIBUTES.length) {
-      // 다음 속성 질문
-      const nextQuestion = generateAttributeQuestion(nextIndex);
-      session = moveToNextAttribute(addMessage(session, 'assistant', nextQuestion, 'chat1'));
+      // 다음 속성 질문을 여러 버블로 나누기
+      const nextQuestionParts = generateAttributeQuestion(nextIndex);
+
+      // 각 파트를 별도의 메시지로 추가
+      nextQuestionParts.forEach((part) => {
+        session = addMessage(session, 'assistant', part, 'chat1');
+      });
+
+      session = moveToNextAttribute(session);
       setCurrentAttributeIndex(nextIndex);
 
       saveSession(session);
       setMessages(session.messages);
       setProgress(calculateProgress(session));
 
-      // 타이핑 효과 시작
+      // 마지막 메시지에만 타이핑 효과 적용
       const lastMessage = session.messages[session.messages.length - 1];
       setTypingMessageId(lastMessage.id);
     } else {
@@ -215,7 +223,17 @@ export default function ChatPage() {
       const data = await response.json();
 
       session = loadSession();
-      session = addMessage(session, 'assistant', data.message, 'chat1');
+
+      // 응답이 배열인 경우 (여러 버블)와 단일 메시지인 경우 처리
+      if (data.messages && Array.isArray(data.messages)) {
+        // 여러 메시지를 순차적으로 추가
+        data.messages.forEach((msg: string) => {
+          session = addMessage(session, 'assistant', msg, 'chat1');
+        });
+      } else if (data.message) {
+        // 단일 메시지
+        session = addMessage(session, 'assistant', data.message, 'chat1');
+      }
 
       // 중요도가 파악되었으면 업데이트
       if (data.importance) {
