@@ -29,7 +29,8 @@ function calculateAttributeScore(grade: EvaluationGrade, weight: number): number
  *
  * 1. 각 속성의 평가 등급을 수치로 변환 (2-10)
  * 2. 페르소나 가중치(1-10)를 곱함
- * 3. 합산한 점수를 정규화하여 0-100% 범위로 변환
+ * 3. overallScore(1-5)를 추가 가중치로 반영 (30%)
+ * 4. 합산한 점수를 정규화하여 0-100% 범위로 변환
  *
  * 최대 가능 점수: 10 (매우 충족) × 10 (최대 가중치) × 8 (속성 수) = 800
  * 최소 가능 점수: 2 (매우 미흡) × 1 (최소 가중치) × 8 (속성 수) = 16
@@ -53,9 +54,15 @@ export function calculateFinalScore(
   }
 
   // 0-100% 범위로 정규화
-  const normalizedScore = (totalScore / maxPossibleScore) * 100;
+  const attributeScore = maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
 
-  return Math.round(normalizedScore); // 정수로 반올림
+  // overallScore를 0-100 범위로 변환 (1-5 -> 0-100)
+  const overallScoreNormalized = ((evaluation.overallScore - 1) / 4) * 100;
+
+  // 속성 점수 70% + 전체 점수 30% 가중 평균
+  const finalScore = attributeScore * 0.7 + overallScoreNormalized * 0.3;
+
+  return Math.round(finalScore); // 정수로 반올림
 }
 
 /**

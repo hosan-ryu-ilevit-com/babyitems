@@ -1,17 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { products } from '@/data/products';
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const scrollToRanking = () => {
     const rankingSection = document.getElementById('ranking-section');
     if (rankingSection) {
@@ -26,7 +20,7 @@ export default function Home() {
         {/* Header */}
         <header className="absolute top-0 left-0 right-0 flex items-center justify-center p-4 z-10">
           <motion.div
-            initial={mounted ? { opacity: 0, y: -20 } : false}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-lg font-bold text-gray-800"
@@ -38,7 +32,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center min-h-screen px-6">
           <motion.div
-            initial={mounted ? { opacity: 0, y: 20 } : false}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center mb-12"
@@ -56,19 +50,19 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            initial={mounted ? { opacity: 0, scale: 0.9 } : false}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             className="w-full max-w-sm mb-12"
           >
-            <div className="aspect-square bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl flex items-center justify-center">
+            <div className="aspect-square bg-linear-to-br from-blue-50 to-purple-50 rounded-3xl flex items-center justify-center">
               <div className="text-6xl">🍼</div>
             </div>
           </motion.div>
 
           {/* Scroll Indicator */}
           <motion.div
-            initial={mounted ? { opacity: 0, y: 20 } : false}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
             className="flex flex-col items-center cursor-pointer mb-8"
@@ -115,7 +109,7 @@ export default function Home() {
 
           {/* Floating Button */}
           <motion.div
-            initial={mounted ? { opacity: 0, y: 50 } : false}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
             className="w-full px-6 mb-8"
@@ -141,7 +135,7 @@ export default function Home() {
             {products.map((product, index) => (
               <motion.div
                 key={product.id}
-                initial={mounted ? { opacity: 0, y: 20 } : false}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 + index * 0.03 }}
                 className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
@@ -158,9 +152,11 @@ export default function Home() {
 
                   {/* Thumbnail */}
                   <div className="shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
-                    <img
+                    <Image
                       src={product.thumbnail}
                       alt={product.title}
+                      width={80}
+                      height={80}
                       className="w-full h-full object-cover"
                     />
                   </div>

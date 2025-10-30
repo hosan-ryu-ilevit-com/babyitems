@@ -1,4 +1,4 @@
-import { CORE_ATTRIBUTES, AttributeInfo } from '@/data/attributes';
+import { CORE_ATTRIBUTES } from '@/data/attributes';
 
 /**
  * 인트로 메시지 생성

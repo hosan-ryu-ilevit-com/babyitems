@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server';
 import { generatePersona } from '@/lib/agents/personaGenerator';
 import { evaluateMultipleProducts } from '@/lib/agents/productEvaluator';
-import { validateMultipleEvaluations } from '@/lib/agents/evaluationValidator';
 import { generateTop3Recommendations } from '@/lib/agents/recommendationWriter';
 import { loadAllProducts } from '@/lib/data/productLoader';
 import { selectTopProducts, filterByBudget } from '@/lib/filtering/initialFilter';
@@ -11,17 +10,17 @@ import { Message } from '@/types';
 /**
  * POST /api/recommend
  *
- * Phase 2-6: 전체 추천 워크플로우 실행 (스트리밍 방식)
- * 1. Persona Generation + Reflection
- * 2. Initial Filtering (Code-based)
- * 3. Product Evaluation + Validation
- * 4. Final Score Calculation
- * 5. Recommendation Generation
+ * 간소화된 추천 워크플로우 (스트리밍 방식)
+ * 1. Persona Generation (Reflection 제거)
+ * 2. Initial Filtering (Code-based Top 5)
+ * 3. Product Evaluation (병렬 처리, Validation 제거)
+ * 4. Final Score Calculation (overallScore 반영)
+ * 5. Recommendation Generation (병렬 처리)
  */
 export async function POST(request: NextRequest) {
   // request body를 먼저 읽어서 저장 (스트림 시작 전에 읽어야 함)
   const body = await request.json();
-  const { messages, attributeAssessments } = body;
+  const { messages } = body;
 
   const encoder = new TextEncoder();
 
@@ -39,7 +38,7 @@ export async function POST(request: NextRequest) {
         controller.enqueue(encoder.encode(`data: ${data}\n\n`));
       };
 
-      const sendComplete = (result: any) => {
+      const sendComplete = (result: { persona: unknown; recommendations: unknown }) => {
         const data = JSON.stringify({ type: 'complete', ...result }) + '\n';
         controller.enqueue(encoder.encode(`data: ${data}\n\n`));
       };
@@ -98,53 +97,38 @@ export async function POST(request: NextRequest) {
 
         sendProgress('filtering', 35, 'Top 5 후보 선정 완료');
 
-        // Phase 4: Product Evaluation + Validation (35-70%)
-        sendProgress('evaluation', 40, 'AI가 각 제품을 평가하고 있습니다... (1/2)');
+        // Phase 4: Product Evaluation (35-60%) - 병렬 처리로 속도 최적화
+        sendProgress('evaluation', 40, 'AI가 5개 제품을 동시에 평가하고 있습니다...');
 
-        console.log('\n=== Phase 4: Product Evaluation ===');
+        console.log('\n=== Phase 4: Product Evaluation (Parallel) ===');
         const evalStartTime = Date.now();
         const evaluations = await evaluateMultipleProducts(top5Products, persona);
-        console.log(`✓ Products evaluated in ${Date.now() - evalStartTime}ms`);
+        console.log(`✓ All 5 products evaluated in parallel in ${Date.now() - evalStartTime}ms`);
         console.log('Evaluation count:', evaluations.length);
 
-        sendProgress('evaluation', 55, 'AI가 각 제품을 평가하고 있습니다... (2/2)');
+        sendProgress('evaluation', 60, '제품 평가 완료');
 
-        console.log('\n=== Phase 4: Evaluation Validation ===');
-        const validationStartTime = Date.now();
-        const validations = await validateMultipleEvaluations(evaluations, persona);
-        console.log(`✓ Evaluations validated in ${Date.now() - validationStartTime}ms`);
+        // Phase 5: Final Score Calculation (60-70%) - 빠른 코드 기반 계산
+        sendProgress('scoring', 65, '최종 점수를 계산하고 있습니다...');
 
-        const invalidEvaluations = validations.filter(v => !v.isValid);
-        if (invalidEvaluations.length > 0) {
-          console.log(`⚠️ ${invalidEvaluations.length} evaluations flagged for review`);
-          invalidEvaluations.forEach(inv => {
-            console.log(`  - Product ${inv.productId}:`, inv.invalidEvaluations);
-          });
-        }
-
-        sendProgress('evaluation', 70, '제품 평가 완료');
-
-        // Phase 5: Final Score Calculation (70-80%)
-        sendProgress('scoring', 75, '최종 점수를 계산하고 있습니다...');
-
-        console.log('\n=== Phase 5: Final Score Calculation ===');
+        console.log('\n=== Phase 5: Final Score Calculation (with overallScore) ===');
         const rankedProducts = calculateAndRankProducts(top5Products, evaluations, persona);
         const top3 = selectTop3(rankedProducts);
-        console.log('✓ Final scores calculated');
+        console.log('✓ Final scores calculated (70% attributes + 30% overallScore)');
         console.log('Top 3:');
         top3.forEach((p, i) => {
           console.log(`  ${i + 1}. [${p.finalScore}%] ${p.product.title.substring(0, 40)}`);
         });
 
-        sendProgress('scoring', 80, 'Top 3 제품 선정 완료');
+        sendProgress('scoring', 70, 'Top 3 제품 선정 완료');
 
-        // Phase 6: Recommendation Generation (80-100%)
-        sendProgress('recommendation', 85, '개인 맞춤형 추천 이유를 작성하고 있습니다...');
+        // Phase 6: Recommendation Generation (70-100%) - 병렬 처리로 속도 최적화
+        sendProgress('recommendation', 75, 'Top 3 제품에 대한 맞춤 추천 이유를 동시에 작성하고 있습니다...');
 
-        console.log('\n=== Phase 6: Recommendation Generation ===');
+        console.log('\n=== Phase 6: Recommendation Generation (Parallel) ===');
         const recStartTime = Date.now();
         const recommendations = await generateTop3Recommendations(top3, persona);
-        console.log(`✓ Recommendations generated in ${Date.now() - recStartTime}ms`);
+        console.log(`✓ All 3 recommendations generated in parallel in ${Date.now() - recStartTime}ms`);
         console.log('Recommendation count:', recommendations.length);
 
         sendProgress('recommendation', 100, '추천 완료!');

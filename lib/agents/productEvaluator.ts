@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { Product, UserPersona, ProductEvaluation, AttributeEvaluation, EvaluationGrade, CoreValues } from '@/types';
-import { callGeminiWithRetry, parseJSONResponse } from '../ai/gemini';
+import { Product, UserPersona, ProductEvaluation } from '@/types';
+import { callGeminiWithRetry } from '../ai/gemini';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
@@ -21,7 +21,8 @@ const EVALUATION_PROMPT = `당신은 사용자의 페르소나를 기반으로 �
       "reason": "평가 이유 (1-2문장)"
     },
     ...
-  ]
+  ],
+  "overallScore": 1 | 2 | 3 | 4 | 5
 }
 
 # 평가 기준
@@ -63,6 +64,14 @@ const EVALUATION_PROMPT = `당신은 사용자의 페르소나를 기반으로 �
    - 제품 점수: {ADDITIONAL_FEATURES}/10
    - 살균, 중탕, 타이머, 야간등 등 추가 기능
 
+## 전체 평가 점수 (overallScore)
+7개 속성 평가를 종합하여 해당 페르소나에게 이 제품이 얼마나 적합한지 1~5점으로 평가합니다.
+- **5점**: 이 사용자에게 매우 적합한 제품 (핵심 니즈를 모두 충족)
+- **4점**: 적합한 제품 (주요 니즈를 충족하나 일부 아쉬운 부분 존재)
+- **3점**: 보통 수준 (니즈 충족도가 평균적)
+- **2점**: 부적합 (중요한 니즈를 충족하지 못함)
+- **1점**: 매우 부적합 (핵심 니즈를 거의 충족하지 못함)
+
 # 사용자 페르소나
 {PERSONA}
 
@@ -75,6 +84,7 @@ const EVALUATION_PROMPT = `당신은 사용자의 페르소나를 기반으로 �
 3. **균형 유지**: 모든 속성을 '매우 충족'으로 평가하지 말 것
 4. **구체적 이유**: "좋다"가 아니라 "왜 좋은지" 구체적으로 설명
 5. **사용자 관점**: 페르소나의 상황에서 평가 (예: 야간 수유가 많으면 빠른 가열 중요)
+6. **전체 점수**: 페르소나의 핵심 니즈(가중치 9-10)를 얼마나 충족하는지가 overallScore의 핵심
 
 평가 결과를 JSON으로만 출력하세요 (설명 없이):`;
 

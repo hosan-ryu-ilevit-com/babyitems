@@ -60,8 +60,8 @@ export interface ReflectionResult {
   issues: string[];
   suggestedRevisions: {
     field: string;
-    currentValue: any;
-    suggestedValue: any;
+    currentValue: string | number | boolean | null | undefined;
+    suggestedValue: string | number | boolean | null | undefined;
     reason: string;
   }[];
 }
@@ -80,6 +80,7 @@ export interface AttributeEvaluation {
 export interface ProductEvaluation {
   productId: string;
   evaluations: AttributeEvaluation[];
+  overallScore: 1 | 2 | 3 | 4 | 5;  // 전체적인 평가 점수 (1: 매우 미흡 ~ 5: 매우 충족)
 }
 
 // Validation result for evaluations

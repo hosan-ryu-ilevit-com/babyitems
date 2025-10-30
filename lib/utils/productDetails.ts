@@ -52,7 +52,6 @@ export function formatProductForEvaluation(
   formatted += `- 사용 편의성: ${coreValues.usability}/10\n`;
   formatted += `- 휴대성: ${coreValues.portability}/10\n`;
   formatted += `- 가격/가성비: ${coreValues.priceValue}/10\n`;
-  formatted += `- 내구성/A/S: ${coreValues.durability}/10\n`;
   formatted += `- 부가기능/디자인: ${coreValues.additionalFeatures}/10\n\n`;
 
   if (detail) {

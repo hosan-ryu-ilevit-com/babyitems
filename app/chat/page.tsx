@@ -13,7 +13,6 @@ import {
   moveToNextAttribute,
   changePhase,
   calculateProgress,
-  isStructuredPhaseComplete,
   clearSession,
 } from '@/lib/utils/session';
 import {
@@ -153,7 +152,7 @@ export default function ChatPage() {
     setMessages(session.messages);
 
     // 중요도 업데이트
-    session = updateAttributeAssessment(session, attribute.key as any, importance);
+    session = updateAttributeAssessment(session, attribute.key as keyof import('@/types').CoreValues, importance);
 
     // 피드백 메시지 생성
     const feedbackMessage = generateImportanceFeedback(attribute.name, importance, false);
@@ -240,7 +239,7 @@ export default function ChatPage() {
         const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
         session = updateAttributeAssessment(
           session,
-          attribute.key as any,
+          attribute.key as keyof import('@/types').CoreValues,
           data.importance
         );
       }
@@ -472,19 +471,19 @@ export default function ChatPage() {
             >
               <button
                 onClick={() => handleQuickReply('매우 중요')}
-                className="flex-shrink-0 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors"
+                className="shrink-0 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors"
               >
                 매우 중요
               </button>
               <button
                 onClick={() => handleQuickReply('중요')}
-                className="flex-shrink-0 px-4 py-2 bg-blue-50 text-blue-700 text-sm font-medium rounded-full hover:bg-blue-100 transition-colors"
+                className="shrink-0 px-4 py-2 bg-blue-50 text-blue-700 text-sm font-medium rounded-full hover:bg-blue-100 transition-colors"
               >
                 중요함
               </button>
               <button
                 onClick={() => handleQuickReply('보통')}
-                className="flex-shrink-0 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-200 transition-colors"
+                className="shrink-0 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-200 transition-colors"
               >
                 보통
               </button>

@@ -1,16 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { products } from '@/data/products';
 
 export default function RankingPage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -44,13 +39,13 @@ export default function RankingPage() {
             {products.map((product, index) => (
               <motion.div
                 key={product.id}
-                initial={mounted ? { opacity: 0, y: 20 } : false}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow relative"
               >
                 {/* Ranking Badge */}
-                <div className="absolute top-2 left-2 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center z-10 shadow-md">
+                <div className="absolute top-2 left-2 w-8 h-8 bg-linear-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center z-10 shadow-md">
                   <span className="text-white font-bold text-sm">
                     {product.ranking}
                   </span>
@@ -58,10 +53,12 @@ export default function RankingPage() {
 
                 <div className="flex gap-4 p-4">
                   {/* Thumbnail */}
-                  <div className="flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-gray-100">
-                    <img
+                  <div className="shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-gray-100">
+                    <Image
                       src={product.thumbnail}
                       alt={product.title}
+                      width={96}
+                      height={96}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -101,7 +98,7 @@ export default function RankingPage() {
 
         {/* Floating Button */}
         <motion.div
-          initial={mounted ? { opacity: 0, y: 50 } : false}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t border-gray-200"
@@ -111,7 +108,7 @@ export default function RankingPage() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full shadow-lg"
+              className="w-full h-12 bg-linear-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full shadow-lg"
             >
               나에게 맞는 제품 찾기
             </motion.button>
