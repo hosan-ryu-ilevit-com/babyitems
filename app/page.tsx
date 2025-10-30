@@ -71,7 +71,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="absolute bottom-8 left-0 right-0 px-6"
         >
-          <Link href="/chat/structured">
+          <Link href="/chat">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

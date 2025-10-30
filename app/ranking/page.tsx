@@ -116,7 +116,7 @@ export default function RankingPage() {
           className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t border-gray-200"
           style={{ maxWidth: '480px', margin: '0 auto' }}
         >
-          <Link href="/chat/structured">
+          <Link href="/chat">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
