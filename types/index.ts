@@ -50,6 +50,7 @@ export interface UserPersona {
   summary: string;                // 페르소나 요약
   coreValueWeights: CoreValues;   // 가중치 (1-10)
   contextualNeeds: string[];      // 추가 맥락 (예: "쌍둥이", "야간 수유 많음")
+  budget?: number;                // 예산 (optional)
 }
 
 // Reflection result
