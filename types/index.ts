@@ -106,6 +106,14 @@ export interface Recommendation {
   additionalConsiderations: string;
 }
 
+// Conversational flow state
+export interface ConversationalState {
+  currentAttribute: keyof CoreValues | null;  // 현재 진행 중인 속성
+  awaitingResponse: boolean;                   // 사용자 답변 대기 중
+  hasAskedFollowUp: boolean;                   // 추가 질문 중인지 여부
+  isIntroduced: boolean;                       // 인트로 완료 여부
+}
+
 // Session state
 export interface SessionState {
   phase: 'home' | 'ranking' | 'chat1' | 'chat2' | 'result';
@@ -114,6 +122,7 @@ export interface SessionState {
   currentAttribute: number;       // 현재 질문 중인 속성 (0-7)
   additionalContext: string[];    // Chat 2에서 수집한 추가 맥락
   accuracy: number;               // 추천 정확도 (80-100)
+  conversationalState?: ConversationalState;  // 대화형 상태
   persona?: UserPersona;
   recommendations?: Recommendation[];
 }

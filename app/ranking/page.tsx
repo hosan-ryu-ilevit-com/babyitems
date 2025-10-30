@@ -47,60 +47,44 @@ export default function RankingPage() {
                 initial={mounted ? { opacity: 0, y: 20 } : false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-md transition-shadow"
+                className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow relative"
               >
-                <div className="flex gap-4">
-                  {/* Ranking Badge */}
-                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">
-                      {product.ranking}
-                    </span>
+                {/* Ranking Badge */}
+                <div className="absolute top-2 left-2 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center z-10 shadow-md">
+                  <span className="text-white font-bold text-sm">
+                    {product.ranking}
+                  </span>
+                </div>
+
+                <div className="flex gap-4 p-4">
+                  {/* Thumbnail */}
+                  <div className="flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-gray-100">
+                    <img
+                      src={product.thumbnail}
+                      alt={product.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
                   {/* Product Info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-gray-900 mb-2 line-clamp-2">
+                  <div className="flex-1 min-w-0 flex flex-col justify-between">
+                    <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug">
                       {product.title}
                     </h3>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-lg font-bold text-gray-900">
+                    <div className="space-y-1">
+                      <div className="text-lg font-bold text-gray-900">
                         {product.price.toLocaleString()}원
-                      </span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <span className="text-yellow-500">⭐</span>
+                        <span>리뷰 {product.reviewCount.toLocaleString()}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <span>⭐ 리뷰 {product.reviewCount.toLocaleString()}개</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Core Values Preview (optional) */}
-                <div className="mt-3 pt-3 border-t border-gray-100">
-                  <div className="flex gap-2 flex-wrap">
-                    {product.coreValues.temperatureControl >= 8 && (
-                      <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-full">
-                        🌡️ 온도조절 우수
-                      </span>
-                    )}
-                    {product.coreValues.hygiene >= 8 && (
-                      <span className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-full">
-                        ✨ 위생 우수
-                      </span>
-                    )}
-                    {product.coreValues.priceValue >= 8 && (
-                      <span className="px-2 py-1 bg-purple-50 text-purple-700 text-xs rounded-full">
-                        💰 가성비
-                      </span>
-                    )}
-                    {product.coreValues.portability >= 8 && (
-                      <span className="px-2 py-1 bg-orange-50 text-orange-700 text-xs rounded-full">
-                        🎒 휴대성
-                      </span>
-                    )}
                   </div>
                 </div>
 
                 {/* Action Button */}
-                <div className="mt-3">
+                <div className="px-4 pb-4">
                   <a
                     href={product.reviewUrl}
                     target="_blank"

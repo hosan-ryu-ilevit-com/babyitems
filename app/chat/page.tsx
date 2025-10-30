@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Message, ImportanceLevel } from '@/types';
 import { CORE_ATTRIBUTES } from '@/data/attributes';
@@ -15,6 +15,12 @@ import {
   calculateProgress,
   isStructuredPhaseComplete,
 } from '@/lib/utils/session';
+import {
+  generateIntroMessage,
+  generateAttributeQuestion,
+  generateImportanceFeedback,
+  generateChat2TransitionMessage,
+} from '@/lib/utils/messageTemplates';
 
 // 타이핑 이펙트 컴포넌트
 function TypingMessage({ content, onComplete }: { content: string; onComplete?: () => void }) {
@@ -43,13 +49,12 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [currentAttributeIndex, setCurrentAttributeIndex] = useState(0);
   const [phase, setPhase] = useState<'chat1' | 'chat2'>('chat1');
   const [progress, setProgress] = useState(0);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
+  const [showQuickReplies, setShowQuickReplies] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const bottomSheetHeightRef = useRef(0);
 
   // Hydration 에러 방지: 클라이언트에서만 렌더링
   useEffect(() => {
@@ -63,20 +68,19 @@ export default function ChatPage() {
     const session = loadSession();
 
     if (session.messages.length === 0) {
-      // 첫 방문: 환영 메시지 및 첫 질문
+      // 첫 방문: 환영 메시지 및 첫 질문 (고정된 템플릿)
       const welcomeMessage: Message = {
         id: 'welcome',
         role: 'assistant',
-        content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요 😊\n\n몇 가지 질문을 통해 회원님께 가장 적합한 제품을 추천해드리겠습니다.',
+        content: generateIntroMessage(),
         timestamp: Date.now(),
         phase: 'chat1',
       };
 
-      const firstAttribute = CORE_ATTRIBUTES[0];
       const firstQuestion: Message = {
         id: 'q1',
         role: 'assistant',
-        content: `먼저, **${firstAttribute.name}**에 대해 여쭤볼게요.\n\n${firstAttribute.description}\n\n회원님께는 이 기능이 얼마나 중요하신가요?`,
+        content: generateAttributeQuestion(0),
         timestamp: Date.now() + 100,
         phase: 'chat1',
       };
@@ -89,10 +93,10 @@ export default function ChatPage() {
       setMessages([welcomeMessage, firstQuestion]);
       setTypingMessageId(firstQuestion.id);
 
-      // 타이핑 완료 후 바텀시트 표시
+      // 타이핑 완료 후 빠른 응답 버튼 표시
       setTimeout(() => {
-        setShowBottomSheet(true);
         setTypingMessageId(null);
+        setShowQuickReplies(true);
       }, firstQuestion.content.length * 20 + 500);
     } else {
       // 기존 세션 복원
@@ -100,102 +104,77 @@ export default function ChatPage() {
       setCurrentAttributeIndex(session.currentAttribute);
       setPhase(session.phase === 'chat2' ? 'chat2' : 'chat1');
       setProgress(calculateProgress(session));
-
-      // 구조화된 질문 중이면 바텀시트 표시
-      if (session.phase === 'chat1' && !isStructuredPhaseComplete(session)) {
-        setShowBottomSheet(true);
-      }
     }
   }, [mounted]);
 
   // 자동 스크롤
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, showBottomSheet]);
+  }, [messages]);
 
-  // 바텀시트 선택 핸들러
-  const handleImportanceSelect = async (importance: ImportanceLevel) => {
+  // 빠른 응답 버튼 클릭 핸들러 (LLM 없이 즉시 처리)
+  const handleQuickReply = async (importance: ImportanceLevel) => {
+    setShowQuickReplies(false);
+
     let session = loadSession();
     const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
 
-    // 사용자 선택을 채팅 메시지로 표시
-    const emoji = importance === '매우 중요' ? '⭐⭐⭐' : importance === '중요' ? '⭐⭐' : '⭐';
-    const userMessage = `${attribute.name}은 **${importance}**해요 ${emoji}`;
-
-    session = updateAttributeAssessment(
-      addMessage(session, 'user', userMessage, 'chat1'),
-      attribute.key as any,
-      importance
-    );
-
+    // 사용자 선택 메시지
+    const userMessage = importance === '매우 중요' ? '매우 중요합니다' : importance === '중요' ? '중요합니다' : '보통입니다';
+    session = addMessage(session, 'user', userMessage, 'chat1');
     setMessages(session.messages);
-    setShowBottomSheet(false);
 
-    // 다음 속성으로 이동
+    // 중요도 업데이트
+    session = updateAttributeAssessment(session, attribute.key as any, importance);
+
+    // 피드백 메시지 생성
+    const feedbackMessage = generateImportanceFeedback(attribute.name, importance, false);
+    session = addMessage(session, 'assistant', feedbackMessage, 'chat1');
+
     const nextIndex = currentAttributeIndex + 1;
 
     if (nextIndex < CORE_ATTRIBUTES.length) {
-      // 다음 질문
-      setIsLoading(true);
+      // 다음 속성 질문
+      const nextQuestion = generateAttributeQuestion(nextIndex);
+      session = moveToNextAttribute(addMessage(session, 'assistant', nextQuestion, 'chat1'));
+      setCurrentAttributeIndex(nextIndex);
+
+      saveSession(session);
+      setMessages(session.messages);
+      setProgress(calculateProgress(session));
+
+      // 타이핑 효과 후 빠른 응답 버튼 다시 표시
+      const lastMessage = session.messages[session.messages.length - 1];
+      setTypingMessageId(lastMessage.id);
 
       setTimeout(() => {
-        const nextAttribute = CORE_ATTRIBUTES[nextIndex];
-        const nextQuestion = `좋아요! 다음으로 **${nextAttribute.name}**에 대해 여쭤볼게요.\n\n${nextAttribute.description}\n\n이 부분은 회원님께 얼마나 중요하신가요?`;
-
-        session = moveToNextAttribute(
-          addMessage(session, 'assistant', nextQuestion, 'chat1')
-        );
-
-        const newMessage = session.messages[session.messages.length - 1];
-        saveSession(session);
-        setMessages(session.messages);
-        setCurrentAttributeIndex(nextIndex);
-        setIsLoading(false);
-        setProgress(calculateProgress(session));
-        setTypingMessageId(newMessage.id);
-
-        // 타이핑 완료 후 바텀시트 표시
-        setTimeout(() => {
-          setShowBottomSheet(true);
-          setTypingMessageId(null);
-        }, nextQuestion.length * 20 + 500);
-      }, 800);
+        setTypingMessageId(null);
+        setShowQuickReplies(true);
+      }, nextQuestion.length * 20 + 500);
     } else {
-      // 구조화된 질문 완료 → Chat 2 단계로 전환
-      setIsLoading(true);
+      // 모든 속성 완료 → Chat2로 전환
+      const transitionMessage = generateChat2TransitionMessage();
+      session = changePhase(addMessage(session, 'assistant', transitionMessage, 'chat2'), 'chat2');
+
+      saveSession(session);
+      setMessages(session.messages);
+      setPhase('chat2');
+      setProgress(80);
+
+      const lastMessage = session.messages[session.messages.length - 1];
+      setTypingMessageId(lastMessage.id);
 
       setTimeout(() => {
-        const transitionMessage = '모든 핵심 항목에 대한 답변 감사합니다! 😊\n\n혹시 추가로 고려하시는 사항이 있으신가요? 예를 들어 쌍둥이 육아, 야간 수유 빈도, 예산 등 무엇이든 편하게 말씀해주세요.';
-
-        session = changePhase(
-          addMessage(session, 'assistant', transitionMessage, 'chat2'),
-          'chat2'
-        );
-
-        const newMessage = session.messages[session.messages.length - 1];
-        saveSession(session);
-        setMessages(session.messages);
-        setPhase('chat2');
-        setIsLoading(false);
-        setProgress(80);
-        setTypingMessageId(newMessage.id);
-
-        setTimeout(() => {
-          setTypingMessageId(null);
-        }, transitionMessage.length * 20 + 500);
-      }, 1000);
+        setTypingMessageId(null);
+      }, transitionMessage.length * 20 + 500);
     }
   };
 
-  // 자유 대화 메시지 전송
-  const handleSendMessage = async () => {
-    if (!input.trim() || isLoading) return;
-
-    const userInput = input.trim();
-    setInput('');
-
+  // Chat1 메시지 전송 (대화형)
+  const handleChat1Message = async (userInput: string) => {
+    setShowQuickReplies(false);
     let session = loadSession();
-    session = addMessage(session, 'user', userInput, phase);
+    session = addMessage(session, 'user', userInput, 'chat1');
     setMessages(session.messages);
     saveSession(session);
 
@@ -207,25 +186,107 @@ export default function ChatPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: session.messages,
-          phase,
+          phase: 'chat1',
+          currentAttributeIndex,
         }),
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('API Error:', errorText);
         throw new Error('API request failed');
       }
 
       const data = await response.json();
 
       session = loadSession();
-      session = addMessage(session, 'assistant', data.message, phase);
+      session = addMessage(session, 'assistant', data.message, 'chat1');
+
+      // 중요도가 파악되었으면 업데이트
+      if (data.importance) {
+        const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+        session = updateAttributeAssessment(
+          session,
+          attribute.key as any,
+          data.importance
+        );
+      }
+
+      // 다음 속성으로 이동
+      if (data.nextAttributeIndex !== undefined) {
+        session = moveToNextAttribute(session);
+        setCurrentAttributeIndex(data.nextAttributeIndex);
+      }
+
+      // Chat2로 전환
+      if (data.type === 'transition_to_chat2') {
+        session = changePhase(session, 'chat2');
+        setPhase('chat2');
+        setProgress(80);
+
+        const newMessage = session.messages[session.messages.length - 1];
+        saveSession(session);
+        setMessages(session.messages);
+        setTypingMessageId(newMessage.id);
+
+        setTimeout(() => {
+          setTypingMessageId(null);
+        }, data.message.length * 20 + 500);
+      } else {
+        setProgress(calculateProgress(session));
+
+        const newMessage = session.messages[session.messages.length - 1];
+        saveSession(session);
+        setMessages(session.messages);
+        setTypingMessageId(newMessage.id);
+
+        // 다음 속성으로 이동했거나 추가 설명을 했으면 빠른 응답 버튼 표시
+        setTimeout(() => {
+          setTypingMessageId(null);
+          if (data.type === 'next_attribute' || data.type === 'follow_up') {
+            setShowQuickReplies(true);
+          }
+        }, data.message.length * 20 + 500);
+      }
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      session = addMessage(session, 'assistant', '죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.', 'chat1');
+      setMessages(session.messages);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Chat2 메시지 전송
+  const handleChat2Message = async (userInput: string) => {
+    let session = loadSession();
+    session = addMessage(session, 'user', userInput, 'chat2');
+    setMessages(session.messages);
+    saveSession(session);
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: session.messages,
+          phase: 'chat2',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('API request failed');
+      }
+
+      const data = await response.json();
+
+      session = loadSession();
+      session = addMessage(session, 'assistant', data.message, 'chat2');
 
       const newMessage = session.messages[session.messages.length - 1];
 
-      // 진행률 업데이트 (Chat 2에서만)
-      if (phase === 'chat2' && data.accuracy) {
+      // 진행률 업데이트
+      if (data.accuracy) {
         setProgress(Math.min(100, 80 + (data.accuracy * 0.2)));
       }
 
@@ -238,12 +299,24 @@ export default function ChatPage() {
       }, data.message.length * 20 + 500);
     } catch (error) {
       console.error('Failed to send message:', error);
-
-      // 에러 메시지
-      session = addMessage(session, 'assistant', '죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.', phase);
+      session = addMessage(session, 'assistant', '죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.', 'chat2');
       setMessages(session.messages);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // 통합 메시지 전송
+  const handleSendMessage = async () => {
+    if (!input.trim() || isLoading) return;
+
+    const userInput = input.trim();
+    setInput('');
+
+    if (phase === 'chat1') {
+      await handleChat1Message(userInput);
+    } else if (phase === 'chat2') {
+      await handleChat2Message(userInput);
     }
   };
 
@@ -300,8 +373,7 @@ export default function ChatPage() {
         <main
           className="flex-1 overflow-y-auto px-4 py-6"
           style={{
-            paddingBottom: showBottomSheet ? '400px' : '140px',
-            transition: 'padding-bottom 0.3s ease-out'
+            paddingBottom: '140px',
           }}
         >
           <div className="space-y-4">
@@ -351,6 +423,35 @@ export default function ChatPage() {
 
         {/* Bottom Input Area - Fixed */}
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
+          {/* 빠른 응답 버튼 (Chat1에서만) */}
+          {phase === 'chat1' && showQuickReplies && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex gap-2 mb-3 overflow-x-auto"
+            >
+              <button
+                onClick={() => handleQuickReply('매우 중요')}
+                className="flex-shrink-0 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium rounded-full hover:shadow-lg transition-shadow"
+              >
+                매우 중요
+              </button>
+              <button
+                onClick={() => handleQuickReply('중요')}
+                className="flex-shrink-0 px-4 py-2 bg-blue-50 text-blue-700 text-sm font-medium rounded-full hover:bg-blue-100 transition-colors"
+              >
+                중요함
+              </button>
+              <button
+                onClick={() => handleQuickReply('보통')}
+                className="flex-shrink-0 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-200 transition-colors"
+              >
+                보통
+              </button>
+            </motion.div>
+          )}
+
+          {/* 추천 받기 버튼 (Chat2) */}
           {phase === 'chat2' && progress >= 80 && (
             <motion.button
               initial={{ opacity: 0, y: 10 }}
@@ -370,13 +471,13 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder={phase === 'chat1' ? '궁금한 점을 물어보세요' : '추가로 고려할 사항을 알려주세요'}
-              disabled={isLoading || showBottomSheet}
+              placeholder={phase === 'chat1' ? '답변을 입력해주세요' : '추가로 고려할 사항을 알려주세요'}
+              disabled={isLoading}
               className="flex-1 h-12 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
             />
             <button
               onClick={handleSendMessage}
-              disabled={!input.trim() || isLoading || showBottomSheet}
+              disabled={!input.trim() || isLoading}
               className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -385,55 +486,6 @@ export default function ChatPage() {
             </button>
           </div>
         </div>
-
-        {/* Bottom Sheet for Importance Selection - 그림자 없이 화면 위로 밀어올림 */}
-        <AnimatePresence>
-          {showBottomSheet && (
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-200 z-30 px-6 py-6"
-              style={{ maxWidth: '480px', margin: '0 auto' }}
-              ref={(el) => {
-                if (el) {
-                  bottomSheetHeightRef.current = el.offsetHeight;
-                }
-              }}
-            >
-              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4" />
-
-              <h3 className="text-base font-bold text-gray-900 mb-1 text-center">
-                중요도를 선택해주세요
-              </h3>
-              <p className="text-sm text-gray-500 mb-4 text-center">
-                {CORE_ATTRIBUTES[currentAttributeIndex]?.name}
-              </p>
-
-              <div className="space-y-2">
-                <button
-                  onClick={() => handleImportanceSelect('매우 중요')}
-                  className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-2xl hover:shadow-lg transition-shadow text-sm"
-                >
-                  ⭐⭐⭐ 매우 중요해요
-                </button>
-                <button
-                  onClick={() => handleImportanceSelect('중요')}
-                  className="w-full h-12 bg-blue-50 text-blue-700 font-semibold rounded-2xl hover:bg-blue-100 transition-colors text-sm"
-                >
-                  ⭐⭐ 중요해요
-                </button>
-                <button
-                  onClick={() => handleImportanceSelect('보통')}
-                  className="w-full h-12 bg-gray-100 text-gray-700 font-semibold rounded-2xl hover:bg-gray-200 transition-colors text-sm"
-                >
-                  ⭐ 보통이에요
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );

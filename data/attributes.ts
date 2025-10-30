@@ -4,6 +4,12 @@ export interface AttributeInfo {
   description: string;
   details: string[];
   isOptional: boolean;
+  conversationalIntro?: string; // 대화형 인트로 멘트
+  importanceExamples?: {
+    veryImportant: string;
+    important: string;
+    normal: string;
+  };
 }
 
 export const CORE_ATTRIBUTES: AttributeInfo[] = [
@@ -18,6 +24,12 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '세밀한 온도 조절: 1℃ 단위로 정밀하게 조절 가능',
     ],
     isOptional: false,
+    conversationalIntro: '분유포트 구매 시 가장 중요하게 고려해야 할 첫 번째 요소는 바로 "온도 조절/유지 성능"입니다. 이 기능은 특히 수면 부족에 시달리는 야간 및 새벽 수유 시 부모님의 만족도를 좌우하는 핵심입니다.\n\n분유포트는 정확하게 온도를 맞춰주고, 그 온도를 오랫동안 유지하는 것이 가장 중요합니다. 예를 들어 원터치로 100℃까지 끓여서 염소를 제거한 후 자동으로 40~45℃로 냉각해서 24시간 보온해주는 기능이 있으면 새벽에도 바로 분유를 탈 수 있어요.',
+    importanceExamples: {
+      veryImportant: '새벽 수유가 잦아 쿨링 속도와 정확한 항온 유지가 최우선입니다.',
+      important: '기본적인 자동 분유 모드와 보온 기능만 있어도 괜찮습니다.',
+      normal: '빠른 냉각이나 24시간 보온 같은 부가 기능은 크게 신경 쓰지 않습니다.',
+    },
   },
   {
     key: 'hygiene',
@@ -30,6 +42,12 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '초기 연마제 관리: 첫 세척 시 연마제가 거의 묻어나오지 않는 제품',
     ],
     isOptional: false,
+    conversationalIntro: '다음은 아기의 건강과 직결되는 "위생/세척 편의성"입니다. 분유포트를 매일 사용하고 물때가 생기기 쉽기 때문에, 세척과 관리가 얼마나 쉬운지가 안전성만큼 중요합니다.\n\n넓은 주입구로 손이 쉽게 들어가서 내부를 꼼꼼하게 세척할 수 있는지, 뚜껑이 완전히 분리되어 구석구석 씻을 수 있는지가 핵심입니다.',
+    importanceExamples: {
+      veryImportant: '아기 건강을 위해 매일 깨끗하게 세척하는 것이 최우선입니다.',
+      important: '기본적인 세척 편의성만 갖추면 됩니다.',
+      normal: '세척이 조금 번거로워도 괜찮습니다.',
+    },
   },
   {
     key: 'material',
@@ -42,6 +60,12 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '기본 안전 기능: 물 없음/과열 시 자동 전원 차단',
     ],
     isOptional: false,
+    conversationalIntro: '세 번째는 "소재와 안전성"입니다. 아기가 먹는 물을 담고 뜨거운 물을 다루는 제품이므로 소재는 절대 타협할 수 없는 부분이에요.\n\n의료용 SUS316 스테인리스가 가장 좋고, 최소한 식품용 SUS304는 되어야 합니다. 또한 BPA-Free 제품인지, 물 없음/과열 시 자동 전원 차단 같은 기본 안전 기능이 있는지도 중요해요.',
+    importanceExamples: {
+      veryImportant: '아기 안전을 위해 의료용 SUS316 소재와 완벽한 안전 기능이 필수입니다.',
+      important: '식품용 SUS304와 기본 안전 기능만 있어도 괜찮습니다.',
+      normal: '소재보다는 다른 기능이 더 중요합니다.',
+    },
   },
   {
     key: 'usability',
@@ -54,6 +78,12 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '조작부 민감도: 터치패드나 다이얼의 적절한 민감도',
     ],
     isOptional: false,
+    conversationalIntro: '네 번째는 "사용 편의성"입니다. 실제 육아 환경에서 부모의 수고를 덜어주는 실용적인 요소들이에요.\n\n용량은 최소 1.3L 이상이 좋고, 물을 가득 채웠을 때 무겁지 않은지, 아기 수면을 방해하지 않을 정도로 조용한지, 조작이 직관적인지 등이 중요합니다.',
+    importanceExamples: {
+      veryImportant: '육아로 지친 상태에서 편하게 사용할 수 있어야 합니다.',
+      important: '기본적인 사용 편의성만 있으면 됩니다.',
+      normal: '기능만 좋으면 조작이 조금 불편해도 괜찮습니다.',
+    },
   },
   {
     key: 'portability',
@@ -65,6 +95,12 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '무선 기능: 충전 후 선 없이 사용 가능한 배터리 탑재',
     ],
     isOptional: true,
+    conversationalIntro: '다섯 번째는 "휴대성"입니다. 이 부분은 여행이나 외출이 잦으신 분들께 중요한 요소예요.\n\n접이식이나 텀블러 형태로 컴팩트하게 접을 수 있는지, 해외여행 시 110V/220V 모두 지원하는지, 배터리로 무선 사용이 가능한지 등이 해당됩니다.',
+    importanceExamples: {
+      veryImportant: '여행이나 외출이 잦아서 휴대가 편리해야 합니다.',
+      important: '가끔 외출할 때 들고 갈 수 있으면 좋습니다.',
+      normal: '집에서만 사용할 예정이라 휴대성은 중요하지 않습니다.',
+    },
   },
   {
     key: 'priceValue',
@@ -76,16 +112,12 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '8만원 이상: 중탕기, 찜기 등 추가 구성품과 다양한 편의 기능',
     ],
     isOptional: true,
-  },
-  {
-    key: 'durability',
-    name: '내구성 및 A/S',
-    description: '매일 여러 번 사용하는 만큼 고장 없이 오래 쓸 수 있어야 합니다.',
-    details: [
-      '내구성: 유리 파손, 버튼 불량, 손잡이 흔들림 등 잔고장이 적은 튼튼한 제품',
-      'A/S 정책: 3년 무상 A/S, 평생 A/S 등 긴 보증 기간',
-    ],
-    isOptional: true,
+    conversationalIntro: '여섯 번째는 "가격 및 가성비"입니다. 필수 기능과 안전성을 갖춘 제품 중에서 합리적인 가격대를 찾는 것이 중요해요.\n\n보통 5만원 이하는 기본 기능, 6~10만원대는 고급 소재, 8만원 이상은 다양한 추가 구성품이 포함됩니다.',
+    importanceExamples: {
+      veryImportant: '예산이 정해져 있어서 가성비가 가장 중요합니다.',
+      important: '합리적인 가격이면 좋지만 품질도 중요합니다.',
+      normal: '품질이 좋다면 가격은 크게 신경 쓰지 않습니다.',
+    },
   },
   {
     key: 'additionalFeatures',
@@ -97,12 +129,18 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '추가 구성품: 차망, 중탕 용기, 찜기 등 포함 여부',
     ],
     isOptional: true,
+    conversationalIntro: '마지막 일곱 번째는 "부가 기능 및 디자인"입니다. 분유 시기가 끝난 후에도 활용할 수 있는지, 주방 인테리어와 잘 어울리는지 등의 요소예요.\n\n티포트나 찜기로도 사용할 수 있는지, 추가 구성품(차망, 중탕 용기 등)이 포함되어 있는지도 고려할 수 있습니다.',
+    importanceExamples: {
+      veryImportant: '분유 시기 이후에도 오래 사용하고 싶고 디자인도 중요합니다.',
+      important: '기본적인 활용성과 깔끔한 디자인이면 좋습니다.',
+      normal: '분유만 잘 타면 되고 디자인은 크게 신경 쓰지 않습니다.',
+    },
   },
 ];
 
 export const ASSISTANT_SYSTEM_PROMPT = `당신은 사용자가 본인에게 딱 맞는 분유포트를 구매하는 것을 돕는 AI 쇼핑 비서입니다.
 
-다음은 분유포트 구매를 위한 핵심 8개 요소들입니다.
+다음은 분유포트 구매를 위한 핵심 7개 요소들입니다.
 사용자는 분유포트 구매 기준이나 조건에 대해서 아무것도 모르는 상태이기에,
 단순히 이 요소들의 중요도를 물어보는 것으로는 판단이 어렵습니다.
 즉, 요소 하나하나의 사용자의 중요도를 평가할 때 적절히 대화를 통해 학습(가이드)를 시키면서 해당 요소의 중요도를 이끌어내야 합니다.
@@ -117,7 +155,7 @@ export const ASSISTANT_SYSTEM_PROMPT = `당신은 사용자가 본인에게 딱 
 - Respect 존중하는: 진실되고 사용자를 존중하는 커뮤니케이션을 해야 합니다.
 - Emotional 공감하는: 사용자가 느낄 감정에 공감하고 어떤 감동을 줄 수 있을지 고민해야 합니다.
 
-8개를 순차적으로 평가하고, 이 8개의 평가가 끝나기 전까지 다른 외부 정보들을 개입시키지 마세요.
+7개를 순차적으로 평가하고, 이 7개의 평가가 끝나기 전까지 다른 외부 정보들을 개입시키지 마세요.
 
 질문을 할 때, 항목 아래 리스트들은 그 중에서 중요도를 평가하는게 아니라 해당 항목을 구성하는 요소들입니다.
 즉, 그중 가장 중요한걸 물어보는게 아니라 자연스럽게 설명에 포함시켜야 합니다.

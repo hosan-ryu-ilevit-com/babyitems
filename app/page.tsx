@@ -23,7 +23,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="text-lg font-bold text-gray-800"
           >
-            베이비
+            아기용품 비서
           </motion.div>
           <motion.div
             initial={mounted ? { opacity: 0, x: 20 } : false}
@@ -53,9 +53,9 @@ export default function Home() {
               골라드림
             </h1>
             <p className="text-base text-gray-600 leading-relaxed">
-              실시간 가장 많이 판매되는 템 중에서
+              실시간 가장 많이 판매되는 제품들 중에서
               <br />
-              너에게 딱 맞는걸 찾아준다
+              내 상황에 딱 맞는걸 찾아드려요
             </p>
           </motion.div>
 

@@ -8,7 +8,7 @@ export const products: Product[] = [
     reviewCount: 13590,
     reviewUrl: 'https://www.coupang.com/vp/products/6876934040/reviews',
     ranking: 1,
-    thumbnail: '/images/products/product-1.jpg',
+    thumbnail: '/thumbnails/6876934040.jpg',
     coreValues: {
       temperatureControl: 1,  // 매우 미달 - 온도조절 기능 전무
       hygiene: 5,             // 보통 - 넓은 입구지만 실리콘 냄새 배임
@@ -27,7 +27,7 @@ export const products: Product[] = [
     reviewCount: 80365,
     reviewUrl: 'https://www.coupang.com/vp/products/6962086794/reviews',
     ranking: 2,
-    thumbnail: '/images/products/product-2.jpg',
+    thumbnail: '/thumbnails/6962086794.jpg',
     coreValues: {
       temperatureControl: 10, // 매우 충족 - 원터치, 영구보온, 1도 조절
       hygiene: 10,            // 매우 충족 - 통세척, 완전분리
@@ -46,7 +46,7 @@ export const products: Product[] = [
     reviewCount: 12169,
     reviewUrl: 'https://www.coupang.com/vp/products/8025187240/reviews',
     ranking: 3,
-    thumbnail: '/images/products/product-3.jpg',
+    thumbnail: '/thumbnails/8025187240.png',
     coreValues: {
       temperatureControl: 8,  // 충족 - 1도 조절, 빠른 가열, 보온
       hygiene: 5,             // 보통 - 넓은 입구지만 충전부 때문에 통세척 불가
@@ -65,7 +65,7 @@ export const products: Product[] = [
     reviewCount: 4794,
     reviewUrl: 'https://www.coupang.com/vp/products/8248083200/reviews',
     ranking: 6,
-    thumbnail: '/images/products/product-4.jpg',
+    thumbnail: '/thumbnails/8248083200.jpg',
     coreValues: {
       temperatureControl: 1,  // 매우 미달 - 자동모드 없음, 보온 3-4시간만
       hygiene: 10,            // 매우 충족 - 통세척, 완전분리, 연마제 적음
@@ -84,7 +84,7 @@ export const products: Product[] = [
     reviewCount: 970,
     reviewUrl: 'https://www.coupang.com/vp/products/8832134810/reviews',
     ranking: 7,
-    thumbnail: '/images/products/product-5.jpg',
+    thumbnail: '/thumbnails/8832134810.jpg',
     coreValues: {
       temperatureControl: 1,  // 매우 미달 - 온도조절 전무
       hygiene: 5,             // 보통 - 통세척 가능하나 과도한 연마제
@@ -103,7 +103,7 @@ export const products: Product[] = [
     reviewCount: 14096,
     reviewUrl: 'https://www.coupang.com/vp/products/1519776763/reviews',
     ranking: 9,
-    thumbnail: '/images/products/product-6.jpg',
+    thumbnail: '/thumbnails/1519776763.jpg',
     coreValues: {
       temperatureControl: 8,  // 충족 - 1도 조절, 8시간 보온
       hygiene: 5,             // 보통 - 내부 세척 좋으나 외부 세척 불가
@@ -122,7 +122,7 @@ export const products: Product[] = [
     reviewCount: 2365,
     reviewUrl: 'https://www.coupang.com/vp/products/7118428974/reviews',
     ranking: 10,
-    thumbnail: '/images/products/product-7.jpg',
+    thumbnail: '/thumbnails/7118428974.jpg',
     coreValues: {
       temperatureControl: 10, // 매우 충족 - 원터치, 냉각팬, 영구보온
       hygiene: 8,             // 충족 - 통세척 (일부 패킹 문제)
@@ -141,7 +141,7 @@ export const products: Product[] = [
     reviewCount: 23521,
     reviewUrl: 'https://www.coupang.com/vp/products/6699913168/reviews',
     ranking: 11,
-    thumbnail: '/images/products/product-8.jpg',
+    thumbnail: '/thumbnails/6699913168.png',
     coreValues: {
       temperatureControl: 5,  // 보통 - 온도 유지 불완전
       hygiene: 8,             // 충족 - 고온살균 기능
@@ -160,7 +160,7 @@ export const products: Product[] = [
     reviewCount: 960,
     reviewUrl: 'https://www.coupang.com/vp/products/8356115729/reviews',
     ranking: 12,
-    thumbnail: '/images/products/product-9.jpg',
+    thumbnail: '/thumbnails/8356115729.jpg',
     coreValues: {
       temperatureControl: 8,  // 충족 - 분유모드, 12시간 보온
       hygiene: 5,             // 보통 - 통세척 가능하나 QC 문제 (곰팡이)
@@ -179,7 +179,7 @@ export const products: Product[] = [
     reviewCount: 1986,
     reviewUrl: 'https://www.coupang.com/vp/products/8682829959/reviews',
     ranking: 13,
-    thumbnail: '/images/products/product-10.jpg',
+    thumbnail: '/thumbnails/8682829959.jpg',
     coreValues: {
       temperatureControl: 10, // 매우 충족 - 1도 조절, 장시간 유지
       hygiene: 10,            // 매우 충족 - 99.9% 자체 살균
@@ -198,7 +198,7 @@ export const products: Product[] = [
     reviewCount: 626,
     reviewUrl: 'https://www.coupang.com/vp/products/8599323586/reviews',
     ranking: 14,
-    thumbnail: '/images/products/product-11.jpg',
+    thumbnail: '/thumbnails/8599323586.png',
     coreValues: {
       temperatureControl: 1,  // 매우 미달 - 일반 전기포트
       hygiene: 10,            // 매우 충족 - 통스텐, 통세척
@@ -217,7 +217,7 @@ export const products: Product[] = [
     reviewCount: 1286,
     reviewUrl: 'https://www.coupang.com/vp/products/8950011599/reviews',
     ranking: 16,
-    thumbnail: '/images/products/product-12.jpg',
+    thumbnail: '/thumbnails/8950011599.jpg',
     coreValues: {
       temperatureControl: 8,  // 충족 - 최대 55도, 16시간 보온
       hygiene: 5,             // 보통 - 좁은 입구
@@ -236,7 +236,7 @@ export const products: Product[] = [
     reviewCount: 2846,
     reviewUrl: 'https://www.coupang.com/vp/products/8591558719/reviews',
     ranking: 17,
-    thumbnail: '/images/products/product-13.jpg',
+    thumbnail: '/thumbnails/8591558719.jpg',
     coreValues: {
       temperatureControl: 3,  // 미달 - 보온 약함
       hygiene: 10,            // 매우 충족 - 통세척, 물때 안낌
@@ -255,7 +255,7 @@ export const products: Product[] = [
     reviewCount: 280,
     reviewUrl: 'https://www.coupang.com/vp/products/8723454926/reviews',
     ranking: 20,
-    thumbnail: '/images/products/product-14.jpg',
+    thumbnail: '/thumbnails/8723454926.jpg',
     coreValues: {
       temperatureControl: 3,  // 미달 - 자동모드 없음
       hygiene: 5,             // 보통 - 넓은 입구지만 냄새 배임
