@@ -1,9 +1,16 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       {/* 모바일 최적화 컨테이너 */}
@@ -11,7 +18,7 @@ export default function Home() {
         {/* Header */}
         <header className="absolute top-0 left-0 right-0 flex items-center justify-between p-4 z-10">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={mounted ? { opacity: 0, x: -20 } : false}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             className="text-lg font-bold text-gray-800"
@@ -19,7 +26,7 @@ export default function Home() {
             베이비
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={mounted ? { opacity: 0, x: 20 } : false}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
@@ -35,7 +42,7 @@ export default function Home() {
         {/* Main Content */}
         <main className="flex flex-col items-center justify-center min-h-screen px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={mounted ? { opacity: 0, y: 20 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center mb-12"
@@ -53,12 +60,12 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={mounted ? { opacity: 0, scale: 0.9 } : false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             className="w-full max-w-sm"
           >
-            <div className="aspect-square bg-linear-to-br from-blue-50 to-purple-50 rounded-3xl flex items-center justify-center mb-8">
+            <div className="aspect-square bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl flex items-center justify-center mb-8">
               <div className="text-6xl">🍼</div>
             </div>
           </motion.div>
@@ -66,7 +73,7 @@ export default function Home() {
 
         {/* Floating Button */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={mounted ? { opacity: 0, y: 50 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
           className="absolute bottom-8 left-0 right-0 px-6"
@@ -75,7 +82,7 @@ export default function Home() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full h-14 bg-linear-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-shadow"
+              className="w-full h-14 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-shadow"
             >
               고르러 가기
             </motion.button>

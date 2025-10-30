@@ -1,10 +1,17 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { products } from '@/data/products';
 
 export default function RankingPage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg">
@@ -37,14 +44,14 @@ export default function RankingPage() {
             {products.map((product, index) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={mounted ? { opacity: 0, y: 20 } : false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 className="bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-md transition-shadow"
               >
                 <div className="flex gap-4">
                   {/* Ranking Badge */}
-                  <div className="flex-shrink-0 w-12 h-12 bg-linear-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
                     <span className="text-white font-bold text-lg">
                       {product.ranking}
                     </span>
@@ -110,7 +117,7 @@ export default function RankingPage() {
 
         {/* Floating Button */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={mounted ? { opacity: 0, y: 50 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t border-gray-200"
@@ -120,7 +127,7 @@ export default function RankingPage() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full h-12 bg-linear-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full shadow-lg"
+              className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full shadow-lg"
             >
               나에게 맞는 제품 찾기
             </motion.button>
