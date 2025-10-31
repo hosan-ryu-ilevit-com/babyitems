@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "올웨이즈-아기용품 쇼핑 AI 비서",
   description: "내게 딱 맞는 아기용품을 1분만에 골라보세요",
+  openGraph: {
+    title: "올웨이즈-아기용품 쇼핑 AI 비서",
+    description: "내게 딱 맞는 아기용품을 1분만에 골라보세요",
+  },
 };
 
 export default function RootLayout({

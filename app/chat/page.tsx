@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Message, ImportanceLevel, SessionState } from '@/types';
 import { CORE_ATTRIBUTES } from '@/data/attributes';
 import {
@@ -496,7 +497,6 @@ export default function ChatPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h1 className="text-base font-semibold text-gray-900">추천 받기</h1>
             <button
               onClick={() => {
                 if (window.confirm('대화 내역을 초기화하고 처음부터 다시 시작하시겠습니까?')) {
@@ -504,7 +504,7 @@ export default function ChatPage() {
                   window.location.reload();
                 }
               }}
-              className="text-sm text-gray-600 hover:text-gray-900 font-medium"
+              className="text-sm text-gray-600 hover:text-gray-900 font-semibold"
             >
               다시 시작
             </button>
@@ -513,12 +513,14 @@ export default function ChatPage() {
           {/* Progress Bar */}
           <div className="mt-3">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-gray-500">진행률</span>
-              <span className="text-xs font-semibold text-blue-600">{Math.round(progress)}%</span>
+              <span className="text-xs text-gray-500">
+                {progress >= 100 ? '추가 정보를 줄수록 정확한 추천이 가능해요' : '진행률'}
+              </span>
+              <span className="text-xs font-semibold text-gray-700">{Math.round(progress)}%</span>
             </div>
             <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-blue-600"
+                className="h-full bg-linear-to-r from-gray-900 to-gray-700"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.5 }}
@@ -535,7 +537,7 @@ export default function ChatPage() {
           }}
         >
           <div className="space-y-4">
-            {messages.map((message) => {
+            {messages.map((message, index) => {
               // 확인 메시지는 특별한 스타일로 표시
               if (message.isConfirmation) {
                 return (
@@ -563,39 +565,98 @@ export default function ChatPage() {
                 );
               }
 
-              // 일반 메시지
+              // 첫 번째 인트로 메시지는 특별한 스타일 (배경 없음, 100% 너비, 프로필 이미지)
+              const isIntroMessage = index === 0 && message.role === 'assistant';
+
+              if (isIntroMessage) {
+                return (
+                  <motion.div
+                    key={message.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="w-full px-4"
+                  >
+                    {/* 프로필 이미지 - 왼쪽 위 */}
+                    <div className="mb-3">
+                      <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden bg-white">
+                        <Image
+                          src="/images/192x192.png"
+                          alt="쇼핑 비서"
+                          width={40}
+                          height={40}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* 메시지 내용 */}
+                    <div className="w-full py-1 whitespace-pre-wrap text-gray-900">
+                      {typingMessageId === message.id ? (
+                        <TypingMessage
+                          content={message.content}
+                          onUpdate={scrollToBottom}
+                          onComplete={() => setTypingMessageId(null)}
+                        />
+                      ) : (
+                        formatMarkdown(message.content)
+                      )}
+                    </div>
+
+                    {/* 하단 디바이더 */}
+                    <div className="mt-4 mb-2 border-t border-gray-200 opacity-50" />
+                  </motion.div>
+                );
+              }
+
+              // 어시스턴트 메시지 (user 제외)
+              if (message.role === 'assistant') {
+                return (
+                  <motion.div
+                    key={message.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="w-full flex justify-start"
+                  >
+                    <div
+                      className={`px-4 py-3 whitespace-pre-wrap ${
+                        message.isImportanceQuestion
+                          ? 'bg-sky-100 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
+                          : 'text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
+                      }`}
+                    >
+                      {typingMessageId === message.id ? (
+                        <TypingMessage
+                          content={message.content}
+                          onUpdate={scrollToBottom}
+                          onComplete={() => {
+                            setTypingMessageId(null);
+                            // Chat1 phase에서 중요도 질문이 완료되면 빠른 응답 버튼 표시
+                            if (phase === 'chat1' && message.role === 'assistant' && message.isImportanceQuestion) {
+                              setShowQuickReplies(true);
+                            }
+                          }}
+                        />
+                      ) : (
+                        formatMarkdown(message.content)
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              // 사용자 메시지
               return (
                 <motion.div
                   key={message.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className="w-full flex justify-end"
                 >
-                  <div
-                    className={`max-w-[80%] px-4 py-3 rounded-2xl whitespace-pre-wrap ${
-                      message.role === 'user'
-                        ? 'bg-blue-600 text-white'
-                        : message.isImportanceQuestion
-                        ? 'bg-sky-100 text-gray-900'
-                        : 'bg-gray-100 text-gray-900'
-                    }`}
-                  >
-                    {typingMessageId === message.id ? (
-                      <TypingMessage
-                        content={message.content}
-                        onUpdate={scrollToBottom}
-                        onComplete={() => {
-                          setTypingMessageId(null);
-                          // Chat1 phase에서 중요도 질문이 완료되면 빠른 응답 버튼 표시
-                          if (phase === 'chat1' && message.role === 'assistant' && message.isImportanceQuestion) {
-                            setShowQuickReplies(true);
-                          }
-                        }}
-                      />
-                    ) : (
-                      formatMarkdown(message.content)
-                    )}
+                  <div className="max-w-[90%] px-4 py-3 whitespace-pre-wrap bg-linear-to-r from-gray-900 to-gray-700 text-white rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl">
+                    {formatMarkdown(message.content)}
                   </div>
                 </motion.div>
               );
@@ -632,13 +693,13 @@ export default function ChatPage() {
             >
               <button
                 onClick={() => handleQuickReply('매우 중요')}
-                className="shrink-0 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors"
+                className="shrink-0 px-4 py-2 bg-blue-200 text-gray-900 text-sm font-medium rounded-full hover:bg-blue-300 transition-colors"
               >
                 매우 중요함
               </button>
               <button
                 onClick={() => handleQuickReply('중요')}
-                className="shrink-0 px-4 py-2 bg-blue-50 text-blue-700 text-sm font-medium rounded-full hover:bg-blue-100 transition-colors"
+                className="shrink-0 px-4 py-2 bg-blue-50 text-gray-900 text-sm font-medium rounded-full hover:bg-blue-100 transition-colors"
               >
                 중요함
               </button>
@@ -671,14 +732,14 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder={phase === 'chat1' ? '답변을 입력해주세요' : '추가로 고려할 사항을 알려주세요'}
+              placeholder={phase === 'chat1' ? '자유롭게 질문하거나 답을 입력해주세요' : '추가로 고려할 사항을 알려주세요'}
               disabled={isLoading}
               className="flex-1 h-12 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
             />
             <button
               onClick={handleSendMessage}
               disabled={!input.trim() || isLoading}
-              className="w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-12 h-12 bg-linear-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

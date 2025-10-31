@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateAIResponse } from '@/lib/ai/gemini';
 import { Message, ImportanceLevel } from '@/types';
-import { ASSISTANT_SYSTEM_PROMPT, CORE_ATTRIBUTES } from '@/data/attributes';
+import { ASSISTANT_CHAT2_PROMPT, CORE_ATTRIBUTES } from '@/data/attributes';
 import { analyzeUserIntent, generateDetailedExplanation } from '@/lib/ai/intentAnalyzer';
 import {
   generateAttributeQuestion,
@@ -121,11 +121,7 @@ export async function POST(request: NextRequest) {
         parts: [{ text: msg.content }],
       }));
 
-      const systemPrompt = `${ASSISTANT_SYSTEM_PROMPT}
-
-현재는 7가지 핵심 항목에 대한 평가가 완료된 상태입니다.
-이제 사용자로부터 추가적으로 구매에 고려해야 할 수 있는 개인적이고 특수한 상황과 맥락을 자연스럽게 이끌어내세요.
-사용자가 "충분해요", "이정도면 됐어요" 같은 말을 하면 정중하게 대화를 마무리하세요.`;
+      const systemPrompt = ASSISTANT_CHAT2_PROMPT;
 
       // AI 응답 생성
       const aiResponse = await generateAIResponse(

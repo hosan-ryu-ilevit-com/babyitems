@@ -135,16 +135,16 @@ export const isStructuredPhaseComplete = (session: SessionState): boolean => {
 
 // 진행률 계산 (0-100)
 export const calculateProgress = (session: SessionState): number => {
-  // Structured phase: 0-80%
+  // Structured phase: 0-100% (7 questions)
   const completedAttributes = Object.values(session.attributeAssessments).filter(
     (v) => v !== null
   ).length;
-  const structuredProgress = (completedAttributes / 8) * 80;
+  const structuredProgress = (completedAttributes / 7) * 100;
 
-  // Open phase: 80-100%
+  // Open phase: stays at 100%
   if (session.phase === 'chat2') {
-    return Math.min(100, 80 + session.accuracy * 0.2); // accuracy는 0-100이므로 0.2를 곱해 20%로 변환
+    return 100;
   }
 
-  return structuredProgress;
+  return Math.min(100, structuredProgress);
 };

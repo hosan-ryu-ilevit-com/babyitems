@@ -17,7 +17,7 @@ export function generateAttributeQuestion(attributeIndex: number): string[] {
   // 인트로 설정 (첫 번째일 때만 특별, 나머지는 conversationalIntro 사용)
   let intro: string;
   if (attributeIndex === 0) {
-    intro = `분유포트 구매 시 가장 중요하게 고려해야 할 첫 번째 요소는 바로 **'${attribute.name}'**입니다. 이 기능은 특히 수면 부족에 시달리는 야간 및 새벽 수유 시 부모님의 만족도를 좌우하는 핵심입니다.`;
+    intro = `분유포트 구매 시 가장 중요하게 고려해야 할 첫 번째 요소는 바로 **'${attribute.name}'**입니다. 이 기능은 수면 부족에 시달리는 야간 및 새벽 수유 시 부모님의 만족도를 좌우하는 핵심입니다.`;
   } else {
     intro = attribute.conversationalIntro || `다음은 **'${attribute.name}'**입니다.`;
   }
