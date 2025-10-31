@@ -412,7 +412,7 @@ export default function ResultPage() {
                             <span className="font-medium text-gray-700">리뷰 {rec.product.reviewCount.toLocaleString()}</span>
                           </span>
                           <span className="text-gray-400">•</span>
-                          <span className="font-medium text-blue-600">랭킹 {rec.product.ranking}위</span>
+                          <span className="font-medium text-blue-600">판매량 랭킹 {rec.product.ranking}위</span>
                         </div>
                       </div>
                     </div>
