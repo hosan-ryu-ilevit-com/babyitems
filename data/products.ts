@@ -6,7 +6,7 @@ export const products: Product[] = [
     title: '지티스 여행용 접이식 전기포트 휴대용 커피 분유 미니 햇반 보랄 옵션 A',
     price: 34800,
     reviewCount: 13590,
-    reviewUrl: 'https://www.coupang.com/vp/products/6876934040/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/6876934040',
     ranking: 1,
     thumbnail: '/thumbnails/6876934040.jpg',
     coreValues: {
@@ -25,7 +25,7 @@ export const products: Product[] = [
     title: '보르르 분유포트',
     price: 95000,
     reviewCount: 80365,
-    reviewUrl: 'https://www.coupang.com/vp/products/6962086794/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/6962086794',
     ranking: 2,
     thumbnail: '/thumbnails/6962086794.jpg',
     coreValues: {
@@ -44,7 +44,7 @@ export const products: Product[] = [
     title: '나리몽 휴대용 분유포트',
     price: 89000,
     reviewCount: 12169,
-    reviewUrl: 'https://www.coupang.com/vp/products/8025187240/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8025187240',
     ranking: 3,
     thumbnail: '/thumbnails/8025187240.png',
     coreValues: {
@@ -63,7 +63,7 @@ export const products: Product[] = [
     title: '다룸 온도조절 멜로우 전기포트 보온 커피포트 분유 집들이선물 1L 퓨어 화이트',
     price: 54900,
     reviewCount: 4794,
-    reviewUrl: 'https://www.coupang.com/vp/products/8248083200/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8248083200',
     ranking: 6,
     thumbnail: '/thumbnails/8248083200.jpg',
     coreValues: {
@@ -82,7 +82,7 @@ export const products: Product[] = [
     title: '지티스 올스텐 여행용 접이식 전기포트 캠핑용 휴대용 커피 햇반 미니 도무스',
     price: 55800,
     reviewCount: 970,
-    reviewUrl: 'https://www.coupang.com/vp/products/8832134810/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8832134810',
     ranking: 7,
     thumbnail: '/thumbnails/8832134810.jpg',
     coreValues: {
@@ -101,7 +101,7 @@ export const products: Product[] = [
     title: '보아르 이지전기포트M1 접이식 분유포트 휴대용 커피 미니 여행용 온도조절',
     price: 49800,
     reviewCount: 14096,
-    reviewUrl: 'https://www.coupang.com/vp/products/1519776763/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/1519776763',
     ranking: 9,
     thumbnail: '/thumbnails/1519776763.jpg',
     coreValues: {
@@ -120,7 +120,7 @@ export const products: Product[] = [
     title: '리웨이 분유포트 커피포트 멀티 차탕기 유리 전기 무선포트 티포트',
     price: 54900,
     reviewCount: 2365,
-    reviewUrl: 'https://www.coupang.com/vp/products/7118428974/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/7118428974',
     ranking: 10,
     thumbnail: '/thumbnails/7118428974.jpg',
     coreValues: {
@@ -139,7 +139,7 @@ export const products: Product[] = [
     title: '국민 분유포트 홀리 티메이커 전기티포트 주전자 커피포트기',
     price: 53900,
     reviewCount: 23521,
-    reviewUrl: 'https://www.coupang.com/vp/products/6699913168/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/6699913168',
     ranking: 11,
     thumbnail: '/thumbnails/6699913168.png',
     coreValues: {
@@ -158,7 +158,7 @@ export const products: Product[] = [
     title: '끌리젠 여행용 전기포트 분유 커피 접이식 휴대용',
     price: 69800,
     reviewCount: 960,
-    reviewUrl: 'https://www.coupang.com/vp/products/8356115729/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8356115729',
     ranking: 12,
     thumbnail: '/thumbnails/8356115729.jpg',
     coreValues: {
@@ -177,7 +177,7 @@ export const products: Product[] = [
     title: '이지맘마 휴대용 분유포트 온도조절 아기 분유 보온병 500ml 신생아 가열 텀블러 100도',
     price: 79000,
     reviewCount: 1986,
-    reviewUrl: 'https://www.coupang.com/vp/products/8682829959/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8682829959',
     ranking: 13,
     thumbnail: '/thumbnails/8682829959.jpg',
     coreValues: {
@@ -196,7 +196,7 @@ export const products: Product[] = [
     title: '네오플램 올스텐 무선 전기주전자 전기포트 티 커피 분유포트기 1.7L',
     price: 44900,
     reviewCount: 626,
-    reviewUrl: 'https://www.coupang.com/vp/products/8599323586/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8599323586',
     ranking: 14,
     thumbnail: '/thumbnails/8599323586.png',
     coreValues: {
@@ -215,7 +215,7 @@ export const products: Product[] = [
     title: '에디슨 휴대용 분유포트 무선 분유 가열 보온병 원터치 텀블러 500ml 여행용',
     price: 79000,
     reviewCount: 1286,
-    reviewUrl: 'https://www.coupang.com/vp/products/8950011599/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8950011599',
     ranking: 16,
     thumbnail: '/thumbnails/8950011599.jpg',
     coreValues: {
@@ -234,7 +234,7 @@ export const products: Product[] = [
     title: '모즈스웨덴 전기티포트 무선 커피포트기 보온 온도조절 분유 스텐 1L',
     price: 68900,
     reviewCount: 2846,
-    reviewUrl: 'https://www.coupang.com/vp/products/8591558719/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8591558719',
     ranking: 17,
     thumbnail: '/thumbnails/8591558719.jpg',
     coreValues: {
@@ -253,7 +253,7 @@ export const products: Product[] = [
     title: '보아르 폴더블 휴대용 전기포트 분유포트 접이식 여행용 햇반 커피 프리볼트',
     price: 39800,
     reviewCount: 280,
-    reviewUrl: 'https://www.coupang.com/vp/products/8723454926/reviews',
+    reviewUrl: 'https://www.coupang.com/vp/products/8723454926',
     ranking: 20,
     thumbnail: '/thumbnails/8723454926.jpg',
     coreValues: {
