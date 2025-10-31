@@ -110,6 +110,7 @@ export default function ChatPage() {
   const [expandedDetails, setExpandedDetails] = useState<{ [messageId: string]: boolean }>({});
   const [showToggleButtons, setShowToggleButtons] = useState<{ [messageId: string]: boolean }>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Hydration 에러 방지: 클라이언트에서만 렌더링
   useEffect(() => {
@@ -808,7 +809,7 @@ export default function ChatPage() {
                             >
                               ▶
                             </motion.span>
-                            <span className="font-medium">이 속성 자세히 알아보기</span>
+                            <span className="font-medium">이 속성 더 자세히 알아보기</span>
                           </button>
 
                           {/* 디테일 리스트 (토글 가능) */}
@@ -853,7 +854,7 @@ export default function ChatPage() {
                                 disabled={isLoading}
                                 className="mt-2 mb-1 px-4 py-2 text-sm bg-blue-50 text-gray-900 font-medium rounded-full hover:bg-blue-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                               >
-                                💬 쉬운 설명 듣기
+                                💬 쉬운 설명 요청
                               </motion.button>
                             )}
                           </motion.div>
@@ -927,6 +928,18 @@ export default function ChatPage() {
               >
                 보통
               </button>
+              <button
+                onClick={() => {
+                  inputRef.current?.focus();
+                  inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }}
+                className="shrink-0 px-4 py-2 bg-white border-1 border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors flex items-center gap-1.5"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+                직접 입력
+              </button>
             </motion.div>
           )}
 
@@ -962,6 +975,7 @@ export default function ChatPage() {
 
           <div className="flex gap-2">
             <input
+              ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
