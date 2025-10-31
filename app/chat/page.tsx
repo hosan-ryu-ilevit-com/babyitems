@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Message, ImportanceLevel } from '@/types';
+import { Message, ImportanceLevel, SessionState } from '@/types';
 import { CORE_ATTRIBUTES } from '@/data/attributes';
 import {
   loadSession,
@@ -79,6 +79,49 @@ export default function ChatPage() {
     setMounted(true);
   }, []);
 
+  // 메시지를 순차적으로 추가하는 함수
+  const addMessagesSequentially = async (
+    session: SessionState,
+    messageParts: string[],
+    phase: 'chat1' | 'chat2'
+  ): Promise<SessionState> => {
+    let updatedSession = session;
+
+    for (let i = 0; i < messageParts.length; i++) {
+      const isLastPart = i === messageParts.length - 1;
+      const isImportanceQuestion = isLastPart; // 마지막 파트가 중요도 질문
+
+      updatedSession = addMessage(
+        updatedSession,
+        'assistant',
+        messageParts[i],
+        phase,
+        { isImportanceQuestion }
+      );
+
+      // 즉시 UI 업데이트
+      setMessages([...updatedSession.messages]);
+      saveSession(updatedSession);
+
+      // 마지막 메시지에 타이핑 효과 적용
+      const lastMessage = updatedSession.messages[updatedSession.messages.length - 1];
+      setTypingMessageId(lastMessage.id);
+
+      // 타이핑이 끝날 때까지 대기 (약 10ms * 문자 수 + 여유시간)
+      await new Promise((resolve) => {
+        const typingDuration = messageParts[i].length * 10 + 300;
+        setTimeout(resolve, typingDuration);
+      });
+
+      // 타이핑 완료 후 다음 메시지 전에 약간의 딜레이
+      if (!isLastPart) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+
+    return updatedSession;
+  };
+
   // 초기 세션 로드 및 첫 메시지
   useEffect(() => {
     if (!mounted) return;
@@ -87,31 +130,35 @@ export default function ChatPage() {
 
     if (session.messages.length === 0) {
       // 첫 방문: 환영 메시지 및 첫 질문 (고정된 템플릿)
-      const welcomeMessage: Message = {
-        id: 'welcome',
-        role: 'assistant',
-        content: generateIntroMessage(),
-        timestamp: Date.now(),
-        phase: 'chat1',
+      const initializeChat = async () => {
+        let updatedSession = changePhase(session, 'chat1');
+        updatedSession = addMessage(updatedSession, 'assistant', generateIntroMessage(), 'chat1');
+        setMessages([...updatedSession.messages]);
+        saveSession(updatedSession);
+
+        // 첫 메시지 타이핑 효과
+        const firstMessage = updatedSession.messages[0];
+        setTypingMessageId(firstMessage.id);
+
+        // 타이핑 완료 대기
+        await new Promise((resolve) => {
+          const typingDuration = generateIntroMessage().length * 10 + 300;
+          setTimeout(resolve, typingDuration);
+        });
+
+        // 딜레이 후 첫 질문 시작
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // 첫 번째 질문을 순차적으로 추가
+        const firstQuestionParts = generateAttributeQuestion(0);
+        updatedSession = await addMessagesSequentially(updatedSession, firstQuestionParts, 'chat1');
+
+        // 마지막 메시지 완료 후 빠른 응답 버튼 표시
+        setTypingMessageId(null);
+        setShowQuickReplies(true);
       };
 
-      // 첫 번째 질문을 여러 버블로 나누기
-      const firstQuestionParts = generateAttributeQuestion(0);
-
-      let updatedSession = changePhase(session, 'chat1');
-      updatedSession = addMessage(updatedSession, 'assistant', welcomeMessage.content, 'chat1');
-
-      // 각 파트를 별도의 메시지로 추가
-      firstQuestionParts.forEach((part) => {
-        updatedSession = addMessage(updatedSession, 'assistant', part, 'chat1');
-      });
-
-      saveSession(updatedSession);
-      setMessages(updatedSession.messages);
-
-      // 마지막 메시지에만 타이핑 효과 적용
-      const lastMessage = updatedSession.messages[updatedSession.messages.length - 1];
-      setTypingMessageId(lastMessage.id);
+      initializeChat();
     } else {
       // 기존 세션 복원
       setMessages(session.messages);
@@ -149,43 +196,48 @@ export default function ChatPage() {
     // 사용자 선택 메시지
     const userMessage = importance === '매우 중요' ? '매우 중요합니다' : importance === '중요' ? '중요합니다' : '보통입니다';
     session = addMessage(session, 'user', userMessage, 'chat1');
-    setMessages(session.messages);
+    setMessages([...session.messages]);
+    saveSession(session);
+
+    // 짧은 딜레이
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     // 중요도 업데이트
     session = updateAttributeAssessment(session, attribute.key as keyof import('@/types').CoreValues, importance);
 
-    // 피드백 메시지 생성
-    const feedbackMessage = generateImportanceFeedback(attribute.name, importance, false);
-    session = addMessage(session, 'assistant', feedbackMessage, 'chat1');
+    // 확인 메시지 생성 (특별한 스타일)
+    const feedbackMessage = generateImportanceFeedback(attribute.name, importance);
+    session = addMessage(session, 'assistant', feedbackMessage, 'chat1', { isConfirmation: true });
+    setMessages([...session.messages]);
+    saveSession(session);
+
+    // 확인 메시지 표시 후 딜레이
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const nextIndex = currentAttributeIndex + 1;
 
     if (nextIndex < CORE_ATTRIBUTES.length) {
-      // 다음 속성 질문을 여러 버블로 나누기
+      // 다음 속성 질문을 순차적으로 추가
       const nextQuestionParts = generateAttributeQuestion(nextIndex);
-
-      // 각 파트를 별도의 메시지로 추가
-      nextQuestionParts.forEach((part) => {
-        session = addMessage(session, 'assistant', part, 'chat1');
-      });
+      session = await addMessagesSequentially(session, nextQuestionParts, 'chat1');
 
       session = moveToNextAttribute(session);
       setCurrentAttributeIndex(nextIndex);
 
       saveSession(session);
-      setMessages(session.messages);
+      setMessages([...session.messages]);
       setProgress(calculateProgress(session));
 
-      // 마지막 메시지에만 타이핑 효과 적용
-      const lastMessage = session.messages[session.messages.length - 1];
-      setTypingMessageId(lastMessage.id);
+      // 마지막 메시지 완료 후 빠른 응답 버튼 표시
+      setTypingMessageId(null);
+      setShowQuickReplies(true);
     } else {
       // 모든 속성 완료 → Chat2로 전환
       const transitionMessage = generateChat2TransitionMessage();
       session = changePhase(addMessage(session, 'assistant', transitionMessage, 'chat2'), 'chat2');
 
       saveSession(session);
-      setMessages(session.messages);
+      setMessages([...session.messages]);
       setPhase('chat2');
       setProgress(80);
 
@@ -223,17 +275,6 @@ export default function ChatPage() {
 
       session = loadSession();
 
-      // 응답이 배열인 경우 (여러 버블)와 단일 메시지인 경우 처리
-      if (data.messages && Array.isArray(data.messages)) {
-        // 여러 메시지를 순차적으로 추가
-        data.messages.forEach((msg: string) => {
-          session = addMessage(session, 'assistant', msg, 'chat1');
-        });
-      } else if (data.message) {
-        // 단일 메시지
-        session = addMessage(session, 'assistant', data.message, 'chat1');
-      }
-
       // 중요도가 파악되었으면 업데이트
       if (data.importance) {
         const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
@@ -250,23 +291,72 @@ export default function ChatPage() {
         setCurrentAttributeIndex(data.nextAttributeIndex);
       }
 
+      // importance_response 타입인 경우 (확인 메시지 + 다음 질문)
+      if (data.type === 'next_attribute' && data.confirmationMessage) {
+        // 확인 메시지 추가
+        session = addMessage(session, 'assistant', data.confirmationMessage, 'chat1', { isConfirmation: true });
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        // 확인 메시지 표시 후 딜레이
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // 다음 질문들을 순차적으로 추가
+        if (data.messages && Array.isArray(data.messages)) {
+          session = await addMessagesSequentially(session, data.messages, 'chat1');
+        }
+
+        setProgress(calculateProgress(session));
+        saveSession(session);
+        setMessages([...session.messages]);
+
+        // 마지막 메시지 완료 후 빠른 응답 버튼 표시
+        setTypingMessageId(null);
+        setShowQuickReplies(true);
+      }
       // Chat2로 전환
-      if (data.type === 'transition_to_chat2') {
+      else if (data.type === 'transition_to_chat2' && data.confirmationMessage) {
+        // 확인 메시지 추가
+        session = addMessage(session, 'assistant', data.confirmationMessage, 'chat1', { isConfirmation: true });
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        // 확인 메시지 표시 후 딜레이
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // 전환 메시지 추가
+        if (data.messages && Array.isArray(data.messages) && data.messages.length > 0) {
+          session = addMessage(session, 'assistant', data.messages[0], 'chat2');
+        }
+
         session = changePhase(session, 'chat2');
         setPhase('chat2');
         setProgress(80);
 
-        const newMessage = session.messages[session.messages.length - 1];
         saveSession(session);
-        setMessages(session.messages);
-        setTypingMessageId(newMessage.id);
-      } else {
-        setProgress(calculateProgress(session));
+        setMessages([...session.messages]);
 
-        const newMessage = session.messages[session.messages.length - 1];
+        const lastMessage = session.messages[session.messages.length - 1];
+        setTypingMessageId(lastMessage.id);
+      }
+      // 일반 응답 (단일 메시지나 여러 메시지)
+      else {
+        if (data.messages && Array.isArray(data.messages)) {
+          // 여러 메시지를 순차적으로 추가
+          session = await addMessagesSequentially(session, data.messages, 'chat1');
+        } else if (data.message) {
+          // 단일 메시지
+          session = addMessage(session, 'assistant', data.message, 'chat1');
+          setMessages([...session.messages]);
+          saveSession(session);
+
+          const lastMessage = session.messages[session.messages.length - 1];
+          setTypingMessageId(lastMessage.id);
+        }
+
+        setProgress(calculateProgress(session));
         saveSession(session);
-        setMessages(session.messages);
-        setTypingMessageId(newMessage.id);
+        setMessages([...session.messages]);
       }
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -406,39 +496,71 @@ export default function ChatPage() {
           }}
         >
           <div className="space-y-4">
-            {messages.map((message) => (
-              <motion.div
-                key={message.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] px-4 py-3 rounded-2xl whitespace-pre-wrap ${
-                    message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-900'
-                  }`}
+            {messages.map((message) => {
+              // 확인 메시지는 특별한 스타일로 표시
+              if (message.isConfirmation) {
+                return (
+                  <motion.div
+                    key={message.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex justify-center items-center py-2"
+                  >
+                    <div className="flex items-center gap-2 text-gray-500 text-sm">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                        className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center"
+                      >
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </motion.div>
+                      <span>{message.content}</span>
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              // 일반 메시지
+              return (
+                <motion.div
+                  key={message.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  {typingMessageId === message.id ? (
-                    <TypingMessage
-                      content={message.content}
-                      onUpdate={scrollToBottom}
-                      onComplete={() => {
-                        setTypingMessageId(null);
-                        // Chat1 phase에서 assistant 메시지가 완료되면 빠른 응답 버튼 표시
-                        if (phase === 'chat1' && message.role === 'assistant') {
-                          setShowQuickReplies(true);
-                        }
-                      }}
-                    />
-                  ) : (
-                    formatMarkdown(message.content)
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                  <div
+                    className={`max-w-[80%] px-4 py-3 rounded-2xl whitespace-pre-wrap ${
+                      message.role === 'user'
+                        ? 'bg-blue-600 text-white'
+                        : message.isImportanceQuestion
+                        ? 'bg-sky-100 text-gray-900'
+                        : 'bg-gray-100 text-gray-900'
+                    }`}
+                  >
+                    {typingMessageId === message.id ? (
+                      <TypingMessage
+                        content={message.content}
+                        onUpdate={scrollToBottom}
+                        onComplete={() => {
+                          setTypingMessageId(null);
+                          // Chat1 phase에서 중요도 질문이 완료되면 빠른 응답 버튼 표시
+                          if (phase === 'chat1' && message.role === 'assistant' && message.isImportanceQuestion) {
+                            setShowQuickReplies(true);
+                          }
+                        }}
+                      />
+                    ) : (
+                      formatMarkdown(message.content)
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
 
             {isLoading && (
               <motion.div

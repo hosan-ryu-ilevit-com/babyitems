@@ -9,7 +9,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // 기본 모델 설정
 export const getModel = (temperature: number = 0.7) => {
   return genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-flash-lite-latest',
     generationConfig: {
       temperature,
       topK: 40,

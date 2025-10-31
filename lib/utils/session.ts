@@ -55,7 +55,8 @@ export const addMessage = (
   session: SessionState,
   role: 'user' | 'assistant',
   content: string,
-  phase?: 'chat1' | 'chat2'
+  phase?: 'chat1' | 'chat2',
+  options?: { isImportanceQuestion?: boolean; isConfirmation?: boolean }
 ): SessionState => {
   const newMessage: Message = {
     id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -63,6 +64,8 @@ export const addMessage = (
     content,
     timestamp: Date.now(),
     phase,
+    ...(options?.isImportanceQuestion && { isImportanceQuestion: true }),
+    ...(options?.isConfirmation && { isConfirmation: true }),
   };
 
   return {

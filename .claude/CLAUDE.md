@@ -1,55 +1,76 @@
-# Baby Item AI Shopping Assistant - Formula Milk Warmer Recommendation Service
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-An Agentic Workflow-based AI recommendation service using Gemini API.
-**Core Concept**: "From the top N most popular formula milk warmers, we'll pick the perfect top 3 for you"
+AI-powered formula milk warmer recommendation service using an **Agentic Workflow** architecture with Google Gemini API. The core concept: "From the top N most popular formula milk warmers, we'll pick the perfect top 3 for you."
 
-## Tech Stack
+**Tech Stack**: Next.js 16.0.1 (App Router), React 19.2.0, TypeScript, Tailwind CSS v4, Framer Motion, Google Gemini API
 
-- **Frontend**: Next.js 16.0.1 (App Router), React 19.2.0, TypeScript
-- **Styling**: Tailwind CSS v4
-- **Animation**: Framer Motion (smooth mobile app UX)
-- **AI**: Google Gemini API
-- **Backend**: Session-based (Supabase is optional)
+## Development Commands
 
-## Environment Variables
+```bash
+# Development
+npm run dev         # Start dev server at http://localhost:3000
 
-Create `.env.local`:
-```env
-GEMINI_API_KEY=AIzaSyBvSSRV3Kw_2H0fDUXkhWZ0FfX-Hx1-Tvk
+# Production
+npm run build       # Build for production
+npm start           # Start production server
+
+# Code Quality
+npm run lint        # Run ESLint
 ```
 
-## Page Structure (5 Pages)
+## Architecture Overview
 
-### 1. Home (/)
-- Top-left: Logo
-- Top-right: "Real-time Ranking" button
-- Center: Main title and subtitle
-- Bottom: Floating "Start" button -> Navigate to Chat 1
+### Page Flow (5 Pages)
+1. **Home** (`/`) → "Start" button
+2. **Ranking** (`/ranking`) → Product list
+3. **Chat 1** (`/chat/structured`) → 8 core attribute questions with importance ratings
+4. **Chat 2** (`/chat/open`) → Open conversation (80-100% accuracy progress bar)
+5. **Result** (`/result`) → Top 3 personalized recommendations
 
-### 2. Ranking (/ranking)
-Display crawled product ranking list
+### Agentic Workflow Pipeline
 
-### 3. Chat 1 (/chat/structured)
-Structured questions about 8 core attributes
-- AI assistant questions
-- Bottom sheet multiple choice: "Normal / Important / Very Important"
-- Chat input for additional questions
+The recommendation workflow (`lib/workflow/recommendationWorkflow.ts`) orchestrates a multi-phase AI pipeline:
 
-### 4. Chat 2 (/chat/open)
-Open conversation for additional context
-- Progress bar above chat input (starts at 80%, max 100%)
-- "Get Recommendation" button (always active)
+**Phase 1: Persona Generation** (`lib/agents/personaGenerator.ts`)
+- Input: Chat transcript from both chat phases
+- Output: `UserPersona` with weighted importance scores (1-10) for 8 core attributes
+- Optional: Reflection pattern for validation (can be disabled for speed)
 
-### 5. Result (/result)
-Final Top 3 recommendations
-- Top-right: "Home" button
-- Product cards with personalized reasons and comparisons
+**Phase 2: Initial Filtering** (`lib/filtering/initialFilter.ts`)
+- Code-based weighted sum: `score = Σ(product.coreValues[i] × persona.weights[i])`
+- Budget filtering if specified
+- Selects Top 5 candidates
 
-## Core Attributes (8)
+**Phase 3: AI Evaluation** (`lib/agents/productEvaluator.ts`)
+- Parallel evaluation of Top 5 products from persona's perspective
+- Output: Grades (매우 충족 ~ 매우 미흡) with reasons per attribute
+- Optional: Validation pattern (can be disabled for speed)
 
-1. Temperature Control/Maintenance (Most Important)
+**Phase 4: Final Scoring** (`lib/filtering/scoreCalculator.ts`)
+- Converts grades to numeric scores
+- Formula: `70% attribute scores + 30% overallScore`
+- Selects Top 3 products
+
+**Phase 5: Recommendation Generation** (`lib/agents/recommendationWriter.ts`)
+- Parallel generation of personalized recommendations for Top 3
+- Output: Strengths, weaknesses, comparisons, additional considerations
+
+### Core Data Types
+
+All types defined in `types/index.ts`:
+
+- **Product**: Product data with 8 `CoreValues` (temperatureControl, hygiene, material, usability, portability, priceValue, durability, additionalFeatures)
+- **UserPersona**: AI-generated persona with `coreValueWeights` (1-10 for each attribute)
+- **ProductEvaluation**: AI evaluation with grades and reasons per attribute
+- **Recommendation**: Final Top 3 with personalized reasons and comparisons
+
+### 8 Core Attributes
+
+1. Temperature Control/Maintenance (가장 중요)
 2. Hygiene/Cleaning Convenience
 3. Material (Safety)
 4. Usability
@@ -58,81 +79,68 @@ Final Top 3 recommendations
 7. Durability/A/S (optional)
 8. Additional Features/Design (optional)
 
-## Agentic Workflow
+### Product Data Structure
 
-### Phase 1: Information Collection (Chat 1 + Chat 2)
+Products stored as markdown files in `data/products/` with:
+- Product ID as filename (e.g., `7118428974.md`)
+- Detailed analysis: 장점, 단점, 구매 패턴, 기타 정보
+- Loaded via `lib/data/productLoader.ts`
 
-AI assistant collects user preferences on 8 attributes + additional context
+### API Endpoints
 
-### Phase 2: Persona Generation + Reflection
+**POST /api/recommend** (`app/api/recommend/route.ts`)
+- Streaming endpoint using Server-Sent Events (SSE)
+- Accepts: `{ messages: Message[] }`
+- Returns: Progress updates (0-100%) and final recommendations
+- Response format: `data: {"phase": "...", "progress": ..., "message": "..."}\n\n`
 
-**Agent 1: Persona Generator**
-- Input: Chat transcript, attribute importance ratings
-- Output: UserPersona with coreValueWeights (1-10 for each attribute)
+**POST /api/chat** (`app/api/chat/route.ts`)
+- Chat interaction endpoint for structured/open conversation phases
 
-**Agent 2: Persona Reflector** (Reflection pattern)
-- Validates persona accuracy against original conversation
-- Auto-regeneration if confidence < 80%
+### AI Integration
 
-### Phase 3: Initial Filtering (Code-based)
+**Gemini API Client** (`lib/ai/gemini.ts`)
+- Model: `gemini-flash-lite-latest`
+- Retry logic: 3 attempts with exponential backoff (1s, 2s, 4s)
+- Helper: `callGeminiWithRetry()` wraps all API calls
+- Helper: `parseJSONResponse()` extracts JSON from markdown code blocks
+- All agents use retry mechanism for reliability
 
-Calculate fit scores using weighted sum:
-```
-score = sum(product.coreValues[i] * persona.weights[i])
-```
-Select Top 5 candidates
+### Performance Optimizations
 
-### Phase 4: AI Evaluation + Validation
+1. **Parallel Processing**: Product evaluation and recommendation generation run in parallel
+2. **Hybrid Approach**: Code-based filtering (fast) + LLM evaluation (contextual)
+3. **Optional Patterns**: Reflection and Evaluation patterns can be disabled for speed
+4. **Streaming**: Progress updates via SSE keep users informed during 10-30s workflow
 
-**Agent 3: Product Evaluator**
-- Evaluate each Top 5 product from persona's perspective
-- Output: Grades (Very Good ~ Very Poor) with reasons
+### UI/UX Guidelines
 
-**Agent 4: Evaluation Validator** (Evaluation pattern)
-- Validate logical consistency of evaluations
-- Re-evaluate if validation fails
-
-### Phase 5: Final Score Calculation
-
-Convert grades to numeric scores, multiply by persona weights
-Select Top 3 products
-
-### Phase 6: Recommendation Generation
-
-**Agent 5: Recommendation Writer**
-- Generate personalized reasons (strengths, weaknesses)
-- Comparison with other candidates
-- Additional considerations
-
-## Key Improvements
-
-1. **Reflection Pattern**: Auto-validates and corrects persona generation
-2. **Evaluation Pattern**: Ensures AI evaluation quality
-3. **Hybrid Approach**: Code for speed, LLM for context understanding
-4. **Error Handling**: Retry mechanisms with exponential backoff
-5. **Caching**: Minimize API calls
-
-## Development Priorities
-
-1. Fix CLAUDE.md file
-2. Install dependencies (framer-motion, @google/generative-ai)
-3. Create folder structure
-4. Define TypeScript types
-5. Create mock product data
-6. Implement pages (Home -> Ranking -> Chat 1 -> Chat 2 -> Result)
-7. Implement Agentic Workflow
-8. Add animations and mobile optimization
-
-## UI/UX Guidelines
-
-- Max width: 480px (centered)
-- Gray background beyond max width
-- Simple & clean design for 30-40 women
+- Max width: 480px (centered, gray background beyond)
+- Target audience: 30-40 year old women (simple, clean design)
+- Minimum touch area: 44×44px
 - Smooth animations with Framer Motion
-- Minimum touch area: 44x44px
+- All user-facing text in Korean
 
-## Notes
+## Environment Variables
 
-- Refresh returns to Home
-- Session management in memory or sessionStorage
-- All Korean text in actual implementation
+Required in `.env.local`:
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+
+## Key Implementation Notes
+
+1. **Session Management**: In-memory or sessionStorage (no database required)
+2. **Error Handling**: All Gemini API calls wrapped with retry logic
+3. **JSON Extraction**: AI responses may contain markdown code blocks - use `parseJSONResponse()`
+4. **Page Refresh**: Returns to home page
+5. **Accuracy Tracking**: Chat 2 shows progress bar (80-100%) for perceived recommendation quality
+6. **Speed vs Quality**: Reflection/Validation patterns can be toggled based on requirements
+
+## Common Gotchas
+
+- AI responses may wrap JSON in markdown code blocks (````json\n...\n````) - always parse defensively
+- Product coreValues and persona weights must align on the same 8 attributes
+- Grade conversion: 매우 충족=5, 충족=4, 보통=3, 미흡=2, 매우 미흡=1
+- Importance levels: 매우 중요=10, 중요=7, 보통=4
+- All product markdown files must be loaded before filtering

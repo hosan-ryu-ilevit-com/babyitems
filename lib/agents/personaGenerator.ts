@@ -3,7 +3,7 @@ import { UserPersona } from '@/types';
 import { callGeminiWithRetry } from '../ai/gemini';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' });
 
 const PERSONA_GENERATION_PROMPT = `당신은 육아 부모의 대화를 분석하여 분유포트 구매 페르소나를 생성하는 AI 에이전트입니다.
 

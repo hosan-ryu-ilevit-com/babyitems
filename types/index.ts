@@ -29,6 +29,8 @@ export interface Message {
   content: string;
   timestamp: number;
   phase?: 'chat1' | 'chat2';
+  isImportanceQuestion?: boolean;  // 중요도 질문 메시지인지 여부
+  isConfirmation?: boolean;        // 확인 메시지인지 여부
 }
 
 // User's importance rating for each attribute

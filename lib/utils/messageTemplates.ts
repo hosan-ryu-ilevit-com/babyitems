@@ -50,17 +50,10 @@ export function generateAttributeQuestion(attributeIndex: number): string[] {
  */
 export function generateImportanceFeedback(
   attributeName: string,
-  importance: '매우 중요' | '중요' | '보통',
-  isNaturalLanguage: boolean = false,
-  userMessage?: string
+  importance: '매우 중요' | '중요' | '보통'
 ): string {
-  if (isNaturalLanguage && userMessage) {
-    // 자연어 답변에 대한 맥락 반영 피드백
-    return `네, 말씀 감사합니다. '${attributeName}'을(를) **${importance}**하게 생각하시는 것으로 이해했습니다.`;
-  }
-
-  // 버튼 클릭에 대한 간단한 피드백
-  return `네, 고객님의 의견 감사합니다. '${attributeName}'을(를) **${importance}**(으)로 기록해 두겠습니다.`;
+  // 버튼 클릭이든 자연어든 동일하게 확인 메시지 스타일로 처리
+  return `조건 업데이트: '${attributeName}'을(를) '${importance}'(으)로 기록`;
 }
 
 /**

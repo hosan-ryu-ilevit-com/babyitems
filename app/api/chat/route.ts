@@ -60,20 +60,18 @@ export async function POST(request: NextRequest) {
         const importance = intent.importance as ImportanceLevel;
         const feedbackMessage = generateImportanceFeedback(
           currentAttribute.name,
-          importance,
-          true,
-          lastUserMessage.content
+          importance
         );
 
         const nextIndex = currentAttributeIndex + 1;
 
         if (nextIndex < CORE_ATTRIBUTES.length) {
-          // 피드백 + 다음 속성 질문 (여러 버블로 분리)
+          // 피드백은 확인 메시지로 처리, 다음 속성 질문은 별도로 분리
           const nextQuestionParts = generateAttributeQuestion(nextIndex);
-          const messages = [feedbackMessage, ...nextQuestionParts];
 
           return NextResponse.json({
-            messages, // 배열로 반환
+            confirmationMessage: feedbackMessage, // 확인 메시지로 표시
+            messages: nextQuestionParts, // 다음 질문들
             type: 'next_attribute',
             importance,
             nextAttributeIndex: nextIndex,
@@ -81,10 +79,10 @@ export async function POST(request: NextRequest) {
         } else {
           // 모든 속성 완료 → Chat2로 전환
           const transitionMessage = generateChat2TransitionMessage();
-          const messages = [feedbackMessage, transitionMessage];
 
           return NextResponse.json({
-            messages, // 배열로 반환
+            confirmationMessage: feedbackMessage, // 확인 메시지로 표시
+            messages: [transitionMessage], // 전환 메시지
             type: 'transition_to_chat2',
             importance,
           });

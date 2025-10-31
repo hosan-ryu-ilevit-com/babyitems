@@ -3,7 +3,7 @@ import { Product, UserPersona, ProductEvaluation } from '@/types';
 import { callGeminiWithRetry } from '../ai/gemini';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' });
 
 const EVALUATION_PROMPT = `당신은 사용자의 페르소나를 기반으로 분유포트 제품을 평가하는 AI 에이전트입니다.
 

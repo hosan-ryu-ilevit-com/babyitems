@@ -3,7 +3,7 @@ import { Product, UserPersona, ProductEvaluation, Recommendation } from '@/types
 import { callGeminiWithRetry } from '../ai/gemini';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' });
 
 const RECOMMENDATION_PROMPT = `당신은 사용자에게 맞춤형 제품 추천 이유를 작성하는 AI 에이전트입니다.
 

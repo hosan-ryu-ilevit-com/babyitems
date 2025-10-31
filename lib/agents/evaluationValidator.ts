@@ -3,7 +3,7 @@ import { ProductEvaluation, UserPersona, ValidationResult } from '@/types';
 import { callGeminiWithRetry } from '../ai/gemini';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' });
 
 const VALIDATION_PROMPT = `당신은 제품 평가의 논리적 일관성을 검증하는 Validation 에이전트입니다.
 
