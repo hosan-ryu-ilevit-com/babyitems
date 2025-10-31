@@ -44,9 +44,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: false,
     conversationalIntro: '다음은 아기의 건강과 직결되는 "위생/세척 편의성"입니다. 분유포트를 매일 사용하고 물때가 생기기 쉽기 때문에, 세척과 관리가 얼마나 쉬운지가 안전성만큼 중요합니다.\n\n넓은 주입구로 손이 쉽게 들어가서 내부를 꼼꼼하게 세척할 수 있는지, 뚜껑이 완전히 분리되어 구석구석 씻을 수 있는지가 핵심입니다.',
     importanceExamples: {
-      veryImportant: '아기 건강을 위해 매일 깨끗하게 세척하는 것이 최우선입니다.',
+      veryImportant: '세척이 최대한 간편하고 완벽한 통세척이 가능해야 합니다.',
       important: '기본적인 세척 편의성만 갖추면 됩니다.',
-      normal: '세척이 조금 번거로워도 괜찮습니다.',
+      normal: '물때가 끼지 않게 주기적으로 관리할 의향이 있으며, 세척이 조금 번거로워도 괜찮습니다.',
     },
   },
   {
@@ -62,9 +62,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: false,
     conversationalIntro: '세 번째는 "소재와 안전성"입니다. 아기가 먹는 물을 담고 뜨거운 물을 다루는 제품이므로 소재는 절대 타협할 수 없는 부분이에요.\n\n의료용 SUS316 스테인리스가 가장 좋고, 최소한 식품용 SUS304는 되어야 합니다. 또한 BPA-Free 제품인지, 물 없음/과열 시 자동 전원 차단 같은 기본 안전 기능이 있는지도 중요해요.',
     importanceExamples: {
-      veryImportant: '아기 안전을 위해 의료용 SUS316 소재와 완벽한 안전 기능이 필수입니다.',
-      important: '식품용 SUS304와 기본 안전 기능만 있어도 괜찮습니다.',
-      normal: '소재보다는 다른 기능이 더 중요합니다.',
+      veryImportant: '반드시 의료용 등급 스테인리스(SUS316)와 BPA-Free 소재만을 사용한, 최고의 안전성을 가진 제품을 원합니다.',
+      important: '식품용 스테인리스(SUS304)나 안전 기준을 통과한 소재면 충분하며, 필수적인 안전 기능만 잘 갖추면 됩니다.',
+      normal: '기본적인 안전 인증만 통과하면 소재의 등급은 크게 따지지 않습니다.',
     },
   },
   {
@@ -80,8 +80,8 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: false,
     conversationalIntro: '네 번째는 "사용 편의성"입니다. 실제 육아 환경에서 부모의 수고를 덜어주는 실용적인 요소들이에요.\n\n용량은 최소 1.3L 이상이 좋고, 물을 가득 채웠을 때 무겁지 않은지, 아기 수면을 방해하지 않을 정도로 조용한지, 조작이 직관적인지 등이 중요합니다.',
     importanceExamples: {
-      veryImportant: '육아로 지친 상태에서 편하게 사용할 수 있어야 합니다.',
-      important: '기본적인 사용 편의성만 있으면 됩니다.',
+      veryImportant: '용량은 무조건 크고, 소음은 최대한 작아야 하며, 가벼운 무게와 안정적인 조작감이 필수입니다',
+      important: '1.3L 이상의 용량과 일반적인 소음 수준이면 충분하며, 사용에 불편함만 없으면 됩니다.',
       normal: '기능만 좋으면 조작이 조금 불편해도 괜찮습니다.',
     },
   },
@@ -97,7 +97,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: true,
     conversationalIntro: '다섯 번째는 **휴대성**입니다. 이 부분은 여행이나 외출이 잦으신 분들께 중요한 요소예요.\n\n접이식이나 텀블러 형태로 컴팩트하게 접을 수 있는지, 해외여행 시 110V/220V 모두 지원하는지, 배터리로 무선 사용이 가능한지 등이 해당됩니다.',
     importanceExamples: {
-      veryImportant: '여행이나 외출이 잦아서 휴대가 편리해야 합니다.',
+      veryImportant: '외출/여행 시 사용할 서브 포트가 필요하며, 작고 가볍고 무선 기능이 중요합니다.',
       important: '가끔 외출할 때 들고 갈 수 있으면 좋습니다.',
       normal: '집에서만 사용할 예정이라 휴대성은 중요하지 않습니다.',
     },
@@ -114,9 +114,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: true,
     conversationalIntro: '여섯 번째는 "가격 및 가성비"입니다. 필수 기능과 안전성을 갖춘 제품 중에서 합리적인 가격대를 찾는 것이 중요해요.\n\n보통 5만원 이하는 기본 기능, 6~10만원대는 고급 소재, 8만원 이상은 다양한 추가 구성품이 포함됩니다.',
     importanceExamples: {
-      veryImportant: '예산이 정해져 있어서 가성비가 가장 중요합니다.',
-      important: '합리적인 가격이면 좋지만 품질도 중요합니다.',
-      normal: '품질이 좋다면 가격은 크게 신경 쓰지 않습니다.',
+      veryImportant: '가성비 최고: 5~6만 원대 이하의 제품으로, 필수 기능만 충족되면 됩니다',
+      important: '적정 가격: 6만 원 ~ 10만 원대 사이에서 소재와 편의 기능이 보강된 합리적인 제품을 원합니다.',
+      normal: '가격 무관: 10만 원 이상의 고가라도 최고의 기능과 다용도 활용성이 있다면 괜찮습니다.',
     },
   },
   {

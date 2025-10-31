@@ -60,3 +60,43 @@ export async function loadProductById(id: string): Promise<Product | null> {
     return null;
   }
 }
+
+/**
+ * 제품의 상세 분석 마크다운 내용 로드
+ */
+export async function loadProductDetails(id: string): Promise<string | null> {
+  try {
+    const mdPath = path.join(PRODUCTS_DIR, `${id}.md`);
+
+    if (!fs.existsSync(mdPath)) {
+      console.warn(`Markdown file not found for product ${id}`);
+      return null;
+    }
+
+    const content = fs.readFileSync(mdPath, 'utf-8');
+    return content;
+  } catch (error) {
+    console.error(`Failed to load product details for ${id}:`, error);
+    return null;
+  }
+}
+
+/**
+ * 여러 제품의 상세 정보를 한번에 로드
+ */
+export async function loadMultipleProductDetails(
+  ids: string[]
+): Promise<Record<string, string>> {
+  const details: Record<string, string> = {};
+
+  for (const id of ids) {
+    const content = await loadProductDetails(id);
+    if (content) {
+      details[id] = content;
+    }
+  }
+
+  console.log(`Loaded detailed markdown for ${Object.keys(details).length}/${ids.length} products`);
+
+  return details;
+}
