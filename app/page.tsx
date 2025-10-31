@@ -84,11 +84,11 @@ export default function Home() {
           >
             <h1 className="text-3xl font-bold text-gray-900 mb-4 leading-tight">
               AI가 찾아주는<br />
-              나만의 분유포트
+              내게 딱 맞는 분유포트
             </h1>
             <p className="text-base text-gray-600 leading-relaxed px-2">
-              가장 많이 팔린 대표제품들 중에서<br />
-              내 상황에 딱 맞는 제품을 찾아드려요
+              가장 많이 팔린 대표 상품들 중<br />
+              내 상황에 딱 맞는 분유포트를 찾아드려요
             </p>
           </motion.div>
 
@@ -163,10 +163,10 @@ export default function Home() {
           {/* Section Header */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              실시간 인기 랭킹
+              실시간 랭킹
             </h2>
              <p className="text-l font-bold text-gray-900 mb-2">
-              ✅ 검증된 선택 - 이 중에서 골라드려요!
+              ✅ 이 중에서 골라드려요!
             </p>
             
             <p className="text-sm text-gray-600">
