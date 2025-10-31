@@ -1,8 +1,16 @@
-import { Product, UserPersona, Recommendation } from '@/types';
+import { Product, UserPersona, Recommendation, AttributeAssessment } from '@/types';
 import { generatePersona } from '../agents/personaGenerator';
 import { evaluateMultipleProducts } from '../agents/productEvaluator';
 import { generateTop3Recommendations } from '../agents/recommendationWriter';
-import { selectTopProducts, filterByBudget, selectTop3 } from '../filtering/initialFilter';
+import { selectTopProducts, filterByBudget } from '../filtering/initialFilter';
+import { calculateAndRankProducts, selectTop3 } from '../filtering/scoreCalculator';
+
+/**
+ * ⚠️ DEPRECATED: This workflow is no longer used.
+ * The API route (app/api/recommend/route.ts) directly calls each phase for better control.
+ *
+ * This file is kept for reference only.
+ */
 
 /**
  * 전체 추천 워크플로우
@@ -23,7 +31,8 @@ export interface WorkflowResult {
 
 export async function runRecommendationWorkflow(
   chatHistory: string,
-  allProducts: Product[]
+  allProducts: Product[],
+  attributeAssessments: AttributeAssessment
 ): Promise<WorkflowResult> {
   const startTime = Date.now();
 
@@ -31,7 +40,7 @@ export async function runRecommendationWorkflow(
 
   // Phase 1: Persona Generation
   console.log('📝 Phase 1: Generating persona...');
-  const persona = await generatePersona(chatHistory);
+  const persona = await generatePersona(chatHistory, attributeAssessments);
   console.log(`✓ Persona generated: ${persona.summary}`);
 
   // Phase 2: Budget Filtering (optional)
@@ -59,11 +68,12 @@ export async function runRecommendationWorkflow(
 
   // Phase 5: Final Scoring & Top 3 Selection
   console.log('🎯 Phase 4: Calculating final scores and selecting Top 3...');
-  const evaluatedProducts = top5Products.map((product, i) => ({
-    product,
-    evaluation: evaluations[i],
-  }));
-  const top3WithScores = selectTop3(evaluatedProducts, persona);
+  const rankedProducts = calculateAndRankProducts(
+    top5Products.map(p => ({ ...p })),
+    evaluations,
+    persona
+  );
+  const top3WithScores = selectTop3(rankedProducts);
   console.log(`✓ Top 3 finalized`);
   console.log(
     top3WithScores
@@ -93,8 +103,9 @@ export async function runRecommendationWorkflow(
  */
 export async function runFastRecommendationWorkflow(
   chatHistory: string,
-  allProducts: Product[]
+  allProducts: Product[],
+  attributeAssessments: AttributeAssessment
 ): Promise<WorkflowResult> {
   // 동일한 로직이지만 Reflection 없이 빠르게 처리
-  return runRecommendationWorkflow(chatHistory, allProducts);
+  return runRecommendationWorkflow(chatHistory, allProducts, attributeAssessments);
 }

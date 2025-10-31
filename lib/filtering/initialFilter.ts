@@ -52,6 +52,8 @@ export function selectTopProducts(
   persona: UserPersona,
   topN: number = 5
 ): Array<Product & { fitScore: number }> {
+  console.log(`🔍 Calculating fit scores for ${products.length} products...`);
+
   // 각 제품에 fit score 계산
   const productsWithScores = products.map((product) => ({
     ...product,
@@ -62,16 +64,29 @@ export function selectTopProducts(
   productsWithScores.sort((a, b) => b.fitScore - a.fitScore);
 
   // Top N 선택
-  return productsWithScores.slice(0, topN);
+  const topProducts = productsWithScores.slice(0, topN);
+
+  console.log(`✓ Top ${topN} products selected by fit score:`);
+  topProducts.forEach((p, i) => {
+    console.log(`  ${i + 1}. [Score: ${Math.round(p.fitScore)}] ${p.title.substring(0, 50)}`);
+  });
+
+  return topProducts;
 }
 
 /**
  * 가격 필터링 (옵션)
  */
 export function filterByBudget(products: Product[], maxBudget?: number | null): Product[] {
-  if (!maxBudget) return products;
+  if (!maxBudget) {
+    console.log(`💰 No budget filter applied (${products.length} products)`);
+    return products;
+  }
 
-  return products.filter((product) => product.price <= maxBudget);
+  const filtered = products.filter((product) => product.price <= maxBudget);
+  console.log(`💰 Budget filter applied (${maxBudget.toLocaleString()}원): ${products.length} → ${filtered.length} products`);
+
+  return filtered;
 }
 
 /**

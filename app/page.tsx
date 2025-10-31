@@ -26,6 +26,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
+            suppressHydrationWarning
           >
             <h1 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
              대표 분유포트 중에서
@@ -45,6 +46,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="w-full max-w-md space-y-3 mb-16"
+            suppressHydrationWarning
           >
             <Link href="/chat" className="block">
               <button className="w-full h-14 bg-gray-900 text-white font-medium rounded-2xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
@@ -69,10 +71,12 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="flex flex-col items-center cursor-pointer"
             onClick={scrollToRanking}
+            suppressHydrationWarning
           >
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              suppressHydrationWarning
             >
               <ArrowDown size={24} weight="bold" className="text-gray-400" />
             </motion.div>
@@ -100,6 +104,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 + index * 0.03 }}
                 className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-gray-300 transition-all"
+                suppressHydrationWarning
               >
                 <div className="flex gap-4 p-4">
                   {/* Ranking Badge */}

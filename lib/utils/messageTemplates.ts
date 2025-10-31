@@ -53,7 +53,8 @@ export function generateImportanceFeedback(
   importance: '매우 중요' | '중요' | '보통'
 ): string {
   // 버튼 클릭이든 자연어든 동일하게 확인 메시지 스타일로 처리
-  return `조건 업데이트: '${attributeName}'을(를) '${importance}'(으)로 기록`;
+  const displayImportance = importance === '매우 중요' ? '매우 중요함' : importance === '중요' ? '중요함' : '보통';
+  return `조건 업데이트: '${attributeName}'을(를) '${displayImportance}'으로 기록`;
 }
 
 /**

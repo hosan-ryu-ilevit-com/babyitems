@@ -79,6 +79,8 @@ export function calculateAndRankProducts(
   evaluations: ProductEvaluation[],
   persona: UserPersona
 ): ProductWithScore[] {
+  console.log(`🧮 Calculating final scores for ${products.length} products...`);
+
   // 제품과 평가를 매칭하여 점수 계산
   const productsWithScores: ProductWithScore[] = products.map((product) => {
     const evaluation = evaluations.find(e => e.productId === product.id);
@@ -88,6 +90,8 @@ export function calculateAndRankProducts(
     }
 
     const finalScore = calculateFinalScore(evaluation, persona);
+
+    console.log(`  [${finalScore}%] ${product.title.substring(0, 50)}`);
 
     return {
       product,
@@ -99,6 +103,8 @@ export function calculateAndRankProducts(
   // 점수 기준 내림차순 정렬
   productsWithScores.sort((a, b) => b.finalScore - a.finalScore);
 
+  console.log(`✓ Products ranked by final score`);
+
   return productsWithScores;
 }
 
@@ -106,5 +112,12 @@ export function calculateAndRankProducts(
  * Top 3 제품 선택
  */
 export function selectTop3(productsWithScores: ProductWithScore[]): ProductWithScore[] {
-  return productsWithScores.slice(0, 3);
+  const top3 = productsWithScores.slice(0, 3);
+
+  console.log(`🏆 Top 3 products selected:`);
+  top3.forEach((p, i) => {
+    console.log(`  ${i + 1}위. [${p.finalScore}%] ${p.product.title.substring(0, 50)}`);
+  });
+
+  return top3;
 }

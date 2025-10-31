@@ -92,6 +92,8 @@ export async function evaluateProduct(
   product: Product,
   persona: UserPersona
 ): Promise<ProductEvaluation> {
+  console.log(`  📋 Evaluating: ${product.title.substring(0, 40)}...`);
+
   const coreValues = product.coreValues;
 
   const prompt = EVALUATION_PROMPT
@@ -127,6 +129,8 @@ export async function evaluateProduct(
     return JSON.parse(jsonText);
   });
 
+  console.log(`  ✓ Evaluated: ${product.title.substring(0, 40)} - Overall: ${result.overallScore}/5`);
+
   return result as ProductEvaluation;
 }
 
@@ -134,7 +138,13 @@ export async function evaluateMultipleProducts(
   products: Product[],
   persona: UserPersona
 ): Promise<ProductEvaluation[]> {
+  console.log(`🔄 Starting parallel evaluation of ${products.length} products...`);
+
   // 병렬 처리로 속도 향상
   const evaluationPromises = products.map(product => evaluateProduct(product, persona));
-  return Promise.all(evaluationPromises);
+  const results = await Promise.all(evaluationPromises);
+
+  console.log(`✓ All ${products.length} products evaluated successfully`);
+
+  return results;
 }

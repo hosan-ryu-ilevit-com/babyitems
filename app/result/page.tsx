@@ -3,8 +3,21 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { loadSession, saveSession } from '@/lib/utils/session';
 import { Recommendation } from '@/types';
+
+// 마크다운 볼드 처리 함수
+function parseMarkdownBold(text: string) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const boldText = part.slice(2, -2);
+      return <strong key={index} className="font-bold">{boldText}</strong>;
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
 
 // 진행 단계 컴포넌트
 function ProgressStep({
@@ -81,6 +94,12 @@ export default function ResultPage() {
         }
 
         // API 호출 (스트리밍)
+        console.log('🚀 Starting recommendation API call...');
+        console.log('📨 Request payload:', {
+          messagesCount: session.messages.length,
+          attributeAssessments: session.attributeAssessments,
+        });
+
         const response = await fetch('/api/recommend', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -90,8 +109,10 @@ export default function ResultPage() {
           }),
         });
 
+        console.log('📡 Response status:', response.status, response.statusText);
+
         if (!response.ok) {
-          throw new Error('Recommendation API failed');
+          throw new Error(`Recommendation API failed: ${response.status} ${response.statusText}`);
         }
 
         // 스트리밍 응답 처리
@@ -103,33 +124,48 @@ export default function ResultPage() {
         }
 
         let buffer = '';
+        console.log('📖 Starting to read SSE stream...');
 
         while (true) {
           const { done, value } = await reader.read();
 
-          if (done) break;
+          if (done) {
+            console.log('✓ Stream reading completed');
+            break;
+          }
 
-          buffer += decoder.decode(value, { stream: true });
+          const chunk = decoder.decode(value, { stream: true });
+          console.log('📡 Received chunk:', chunk.substring(0, 200));
+          buffer += chunk;
 
           // SSE 메시지 파싱 (data: {...}\n\n 형식)
           const lines = buffer.split('\n\n');
           buffer = lines.pop() || ''; // 마지막 불완전한 줄은 버퍼에 보관
 
+          console.log(`🔍 Processing ${lines.length} lines from buffer`);
+
           for (const line of lines) {
+            console.log('📄 Processing line:', line.substring(0, 150));
+
             if (line.startsWith('data: ')) {
               const jsonStr = line.substring(6);
+              console.log('📦 Extracted JSON:', jsonStr.substring(0, 100) + '...');
+
               try {
                 const data = JSON.parse(jsonStr);
 
                 if (data.error) {
-                  console.error('API error:', data.error);
+                  console.error('❌ API error:', data.error);
+                  setProgressMessage('오류: ' + data.error);
                   setLoading(false);
                   return;
                 }
 
                 if (data.type === 'complete') {
                   // 최종 결과
-                  console.log('Recommendation complete:', data);
+                  console.log('✅ Recommendation complete!');
+                  console.log('  Recommendations count:', data.recommendations?.length);
+                  console.log('  Persona summary:', data.persona?.summary?.substring(0, 50) + '...');
 
                   // 세션에 저장
                   const updatedSession = loadSession();
@@ -138,18 +174,35 @@ export default function ResultPage() {
                   saveSession(updatedSession);
 
                   // 화면에 표시
+                  if (!data.recommendations || data.recommendations.length === 0) {
+                    console.error('⚠️ No recommendations in response!');
+                    setProgressMessage('추천 결과가 없습니다');
+                    setLoading(false);
+                    return;
+                  }
+
+                  console.log('🎯 Setting recommendations to state:', data.recommendations.length);
+                  console.log('📦 First recommendation:', {
+                    rank: data.recommendations[0]?.rank,
+                    hasProduct: !!data.recommendations[0]?.product,
+                    hasReason: !!data.recommendations[0]?.personalizedReason,
+                    hasComparison: !!data.recommendations[0]?.comparison,
+                    hasAdditional: !!data.recommendations[0]?.additionalConsiderations,
+                  });
+
                   setRecommendations(data.recommendations);
                   setProgress(100);
                   setProgressMessage('완료!');
                   setLoading(false);
                 } else if (data.progress !== undefined) {
                   // 진행 상황 업데이트
+                  console.log(`📊 Progress: [${data.progress}%] ${data.phase} - ${data.message}`);
                   setProgress(data.progress);
                   setProgressMessage(data.message);
-                  console.log(`[${data.progress}%] ${data.message}`);
                 }
               } catch (e) {
-                console.error('Failed to parse SSE message:', jsonStr, e);
+                console.error('❌ Failed to parse SSE message:', e);
+                console.error('   Raw message:', jsonStr);
               }
             }
           }
@@ -252,15 +305,21 @@ export default function ResultPage() {
                 />
               </div>
             </div>
-          ) : recommendations.length === 0 ? (
+          ) : !recommendations || recommendations.length === 0 ? (
             // 결과 없음
             <div className="flex flex-col items-center justify-center min-h-[400px]">
-              <p className="text-gray-600 text-center mb-4">
+              <div className="text-6xl mb-4">😔</div>
+              <p className="text-gray-900 font-semibold text-lg mb-2">
+                추천 결과가 없습니다
+              </p>
+              <p className="text-gray-600 text-center mb-4 text-sm">
                 추천 결과를 생성하는 중 오류가 발생했습니다.
+                <br />
+                다시 시도해 주세요.
               </p>
               <button
                 onClick={() => router.push('/chat')}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors"
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors font-semibold"
               >
                 다시 시도하기
               </button>
@@ -319,28 +378,42 @@ export default function ResultPage() {
 
                   {/* 제품 정보 */}
                   <div className="flex gap-4 mb-4">
-                    <div className="w-24 h-24 bg-linear-to-br from-gray-100 to-gray-200 rounded-xl shrink-0 flex items-center justify-center">
-                      <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
+                    {/* 제품 썸네일 */}
+                    <div className="w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100">
+                      {rec.product.thumbnail ? (
+                        <Image
+                          src={rec.product.thumbnail}
+                          alt={rec.product.title}
+                          width={112}
+                          height={112}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-linear-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                          <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                      )}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-gray-900 text-base mb-2 line-clamp-2 leading-tight">
+
+                    {/* 제품 상세 정보 */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
+                      <h3 className="font-bold text-gray-900 text-base mb-1 line-clamp-2 leading-tight">
                         {rec.product.title}
                       </h3>
-                      <p className="text-xl font-bold text-gray-900 mb-1">
-                        {rec.product.price.toLocaleString()}
-                        <span className="text-sm font-normal text-gray-600">원</span>
-                      </p>
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <span className="flex items-center gap-1">
-                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                          리뷰 {rec.product.reviewCount.toLocaleString()}
-                        </span>
-                        <span>•</span>
-                        <span>#{rec.product.ranking}위</span>
+                      <div className="space-y-1">
+                        <p className="text-xl font-bold text-gray-900">
+                          {rec.product.price.toLocaleString()}
+                          <span className="text-sm font-normal text-gray-600 ml-0.5">원</span>
+                        </p>
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <span className="inline-flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-md">
+                            <span className="font-medium text-gray-700">리뷰 {rec.product.reviewCount.toLocaleString()}</span>
+                          </span>
+                          <span className="text-gray-400">•</span>
+                          <span className="font-medium text-blue-600">랭킹 {rec.product.ranking}위</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -357,7 +430,7 @@ export default function ResultPage() {
                       {rec.personalizedReason.strengths.map((strength, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                           <span className="text-green-500 shrink-0 mt-0.5">✓</span>
-                          <span className="leading-relaxed">{strength}</span>
+                          <span className="leading-relaxed">{parseMarkdownBold(strength)}</span>
                         </li>
                       ))}
                     </ul>
@@ -373,7 +446,7 @@ export default function ResultPage() {
                         {rec.personalizedReason.weaknesses.map((weakness, i) => (
                           <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
                             <span className="shrink-0 mt-0.5">•</span>
-                            <span>{weakness}</span>
+                            <span>{parseMarkdownBold(weakness)}</span>
                           </li>
                         ))}
                       </ul>
@@ -384,7 +457,18 @@ export default function ResultPage() {
                   {rec.comparison && (
                     <div className="border-t border-gray-200 pt-3 mb-3">
                       <p className="text-xs text-gray-600 leading-relaxed">
-                        {rec.comparison}
+                        <span className="font-semibold text-gray-700">💡 비교: </span>
+                        {parseMarkdownBold(rec.comparison)}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* 추가 고려사항 */}
+                  {rec.additionalConsiderations && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-3">
+                      <p className="text-xs text-amber-900 leading-relaxed">
+                        <span className="font-semibold">💡 참고: </span>
+                        {parseMarkdownBold(rec.additionalConsiderations)}
                       </p>
                     </div>
                   )}

@@ -634,7 +634,7 @@ export default function ChatPage() {
                 onClick={() => handleQuickReply('매우 중요')}
                 className="shrink-0 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors"
               >
-                매우 중요
+                매우 중요함
               </button>
               <button
                 onClick={() => handleQuickReply('중요')}

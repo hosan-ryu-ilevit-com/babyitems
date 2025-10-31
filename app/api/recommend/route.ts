@@ -20,7 +20,7 @@ import { Message } from '@/types';
 export async function POST(request: NextRequest) {
   // request body를 먼저 읽어서 저장 (스트림 시작 전에 읽어야 함)
   const body = await request.json();
-  const { messages } = body;
+  const { messages, attributeAssessments } = body;
 
   const encoder = new TextEncoder();
 
@@ -28,18 +28,18 @@ export async function POST(request: NextRequest) {
     async start(controller) {
       // 진행 상황 전송 헬퍼 함수
       const sendProgress = (phase: string, progress: number, message: string) => {
-        const data = JSON.stringify({ phase, progress, message }) + '\n';
+        const data = JSON.stringify({ phase, progress, message });
         controller.enqueue(encoder.encode(`data: ${data}\n\n`));
         console.log(`[${progress}%] ${phase}: ${message}`);
       };
 
       const sendError = (error: string) => {
-        const data = JSON.stringify({ error }) + '\n';
+        const data = JSON.stringify({ error });
         controller.enqueue(encoder.encode(`data: ${data}\n\n`));
       };
 
       const sendComplete = (result: { persona: unknown; recommendations: unknown }) => {
-        const data = JSON.stringify({ type: 'complete', ...result }) + '\n';
+        const data = JSON.stringify({ type: 'complete', ...result });
         controller.enqueue(encoder.encode(`data: ${data}\n\n`));
       };
 
@@ -47,6 +47,12 @@ export async function POST(request: NextRequest) {
 
         if (!messages || !Array.isArray(messages)) {
           sendError('Invalid messages format');
+          controller.close();
+          return;
+        }
+
+        if (!attributeAssessments) {
+          sendError('Missing attributeAssessments');
           controller.close();
           return;
         }
@@ -60,9 +66,12 @@ export async function POST(request: NextRequest) {
 
         console.log('\n=== Phase 2: Persona Generation ===');
         console.log('Chat history length:', chatHistory.length);
+        console.log('Attribute Assessments:', attributeAssessments);
+
+        sendProgress('persona', 10, 'AI가 대화를 분석하고 있습니다...');
 
         const personaStartTime = Date.now();
-        const persona = await generatePersona(chatHistory);
+        const persona = await generatePersona(chatHistory, attributeAssessments);
         console.log(`✓ Persona generated in ${Date.now() - personaStartTime}ms`);
         console.log('Summary:', persona.summary);
         console.log('Weights:', persona.coreValueWeights);
