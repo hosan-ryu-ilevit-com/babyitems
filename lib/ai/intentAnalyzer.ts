@@ -96,7 +96,7 @@ export async function generateDetailedExplanation(
 
     const prompt = `당신은 분유포트 구매를 돕는 친절한 AI 쇼핑 비서입니다.
 
-사용자가 "${attributeName}"에 대해 다음과 같이 질문했습니다:
+사용자가 대화 중간에 "${attributeName}"에 대해 다음과 같이 질문했습니다:
 "${userQuestion}"
 
 **속성 정보:**
@@ -106,7 +106,8 @@ ${attributeDescription}
 ${attributeDetails.map((detail, i) => `${i + 1}. ${detail}`).join('\n')}
 
 사용자의 질문에 대해 친절하고 명확하게 답변해주세요.
-육아에 지친 30-40대 여성이 이해하기 쉽게, 구체적인 예시와 함께 설명해주세요.
+사용자가 이해하기 쉽게, 구체적인 예시와 함께 설명해주세요.
+대화 도중이기에, 별도로 인사를 할 필요는 없습니다. 
 답변은 3-4문장 정도로 간결하게 작성하세요.`;
 
     const result = await model.generateContent(prompt);

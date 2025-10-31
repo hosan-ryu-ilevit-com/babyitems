@@ -135,11 +135,21 @@ export const isStructuredPhaseComplete = (session: SessionState): boolean => {
 
 // 진행률 계산 (0-100)
 export const calculateProgress = (session: SessionState): number => {
-  // Structured phase: 0-100% (7 questions)
-  const totalAttributes = 7; // CORE_ATTRIBUTES.length
-  const completedAttributes = Object.values(session.attributeAssessments).filter(
-    (v) => v !== null
-  ).length;
+  // Structured phase: 0-100% (7 questions from CORE_ATTRIBUTES)
+  const totalAttributes = 7; // CORE_ATTRIBUTES has 7 items
+
+  // durability는 CORE_ATTRIBUTES에 없으므로 제외하고 계산
+  const relevantAssessments = [
+    session.attributeAssessments.temperatureControl,
+    session.attributeAssessments.hygiene,
+    session.attributeAssessments.material,
+    session.attributeAssessments.usability,
+    session.attributeAssessments.portability,
+    session.attributeAssessments.priceValue,
+    session.attributeAssessments.additionalFeatures,
+  ];
+
+  const completedAttributes = relevantAssessments.filter((v) => v !== null).length;
   const structuredProgress = (completedAttributes / totalAttributes) * 100;
 
   // Open phase: stays at 100%

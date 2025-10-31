@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
         }
       } else {
         // off_topic → 원래 주제로 유도 + 중요도 질문 다시 표시
-        const redirectMessage = `${currentAttribute.name}에 대해 여쭤보고 있어요. 이 부분이 회원님께 얼마나 중요하신지 알려주시면 더 정확한 추천을 해드릴 수 있습니다.`;
+        const redirectMessage = `지금은 ${currentAttribute.name}에 대해 여쭤보고 있어요. 이 부분이 고객님께 얼마나 중요하신지 알려주셔야 더 정확한 추천을 해드릴 수 있어요!`;
 
         // 중요도 질문 (마지막 파트만 - 중요도 질문)
         const importanceQuestion = `고객님께서는 **'${currentAttribute.name}'**에 대해 어느 정도 중요하게 생각하시나요?${

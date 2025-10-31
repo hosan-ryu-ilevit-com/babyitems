@@ -134,7 +134,7 @@ export default function Home() {
               className="w-full h-14 bg-white border border-gray-300 text-gray-700 text-base font-medium rounded-2xl hover:bg-gray-50 hover:border-gray-400 transition-all flex items-center justify-center gap-2"
             >
               <ChartBar size={22} weight="bold" />
-              <span>실시간 랭킹 보기</span>
+              <span>대표제품 랭킹 보기</span>
             </button>
           </motion.div>
           </div>
@@ -165,8 +165,12 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               실시간 인기 랭킹
             </h2>
+             <p className="text-l font-bold text-gray-900 mb-2">
+              ✅ 검증된 선택 - 이 중에서 골라드려요!
+            </p>
+            
             <p className="text-sm text-gray-600">
-              이 중에서 골라드려요.<br></br>  지금 가장 많이 판매되는 제품이에요. <br></br> (네이버 스토어 판매량 많은 순, 2025. 10. 31 update)
+              *네이버 스토어 분유포트 판매량 많은 순 <br></br>*2025년 10월 31일 기준
             </p>
           </div>
 

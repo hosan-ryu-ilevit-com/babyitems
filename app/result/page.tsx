@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { loadSession, saveSession } from '@/lib/utils/session';
@@ -19,65 +19,47 @@ function parseMarkdownBold(text: string) {
   });
 }
 
-// 진행 단계 컴포넌트
-function ProgressStep({
-  label,
-  completed,
-  active,
-}: {
-  label: string;
-  completed: boolean;
-  active: boolean;
-}) {
-  return (
-    <div className="flex items-center gap-3">
-      <div
-        className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-          completed
-            ? 'bg-green-500 text-white'
-            : active
-            ? 'bg-blue-500 text-white animate-pulse'
-            : 'bg-gray-300 text-gray-500'
-        }`}
-      >
-        {completed ? (
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        ) : (
-          <div className="w-2 h-2 rounded-full bg-current" />
-        )}
-      </div>
-      <p
-        className={`text-sm ${
-          completed
-            ? 'text-green-600 font-medium'
-            : active
-            ? 'text-blue-600 font-medium'
-            : 'text-gray-500'
-        }`}
-      >
-        {label}
-      </p>
-    </div>
-  );
-}
-
 export default function ResultPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [progressMessage, setProgressMessage] = useState('시작 중...');
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
+
+  // 순차적으로 보여줄 상태 메시지들
+  const phaseMessages = [
+    '랭킹 상품 확인 중...',
+    '고객님 선호도 분석 중...',
+    '꼭 맞는 상품 분석 중...',
+  ];
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // 타이머 효과
+  useEffect(() => {
+    if (!loading) return;
+
+    const timer = setInterval(() => {
+      setElapsedTime((prev) => prev + 0.01);
+    }, 10); // 10ms마다 업데이트 (0.01초씩 증가)
+
+    return () => clearInterval(timer);
+  }, [loading]);
+
+  // 상태 메시지 자동 교체 (progress 기반)
+  useEffect(() => {
+    if (progress < 33) {
+      setCurrentPhaseIndex(0); // 랭킹 상품 확인 중...
+    } else if (progress < 66) {
+      setCurrentPhaseIndex(1); // 고객님 선호도 분석 중...
+    } else {
+      setCurrentPhaseIndex(2); // 꼭 맞는 상품 분석 중...
+    }
+  }, [progress]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -156,7 +138,6 @@ export default function ResultPage() {
 
                 if (data.error) {
                   console.error('❌ API error:', data.error);
-                  setProgressMessage('오류: ' + data.error);
                   setLoading(false);
                   return;
                 }
@@ -176,7 +157,6 @@ export default function ResultPage() {
                   // 화면에 표시
                   if (!data.recommendations || data.recommendations.length === 0) {
                     console.error('⚠️ No recommendations in response!');
-                    setProgressMessage('추천 결과가 없습니다');
                     setLoading(false);
                     return;
                   }
@@ -192,13 +172,11 @@ export default function ResultPage() {
 
                   setRecommendations(data.recommendations);
                   setProgress(100);
-                  setProgressMessage('완료!');
                   setLoading(false);
                 } else if (data.progress !== undefined) {
                   // 진행 상황 업데이트
                   console.log(`📊 Progress: [${data.progress}%] ${data.phase} - ${data.message}`);
                   setProgress(data.progress);
-                  setProgressMessage(data.message);
                 }
               } catch (e) {
                 console.error('❌ Failed to parse SSE message:', e);
@@ -209,7 +187,6 @@ export default function ResultPage() {
         }
       } catch (error) {
         console.error('Failed to get recommendation:', error);
-        setProgressMessage('오류가 발생했습니다');
         setLoading(false);
       }
     };
@@ -243,69 +220,69 @@ export default function ResultPage() {
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto px-4 py-6">
-          {loading ? (
-            // 로딩 상태 with 프로그레스 바
-            <div className="flex flex-col items-center justify-center min-h-[400px] px-8">
-              {/* 프로그레스 바 */}
-              <div className="w-full max-w-md mb-8">
-                <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-                  <motion.div
-                    className="absolute top-0 left-0 h-full bg-linear-to-r from-blue-500 to-blue-600 rounded-full"
-                    initial={{ width: '0%' }}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                  />
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <p className="text-sm font-medium text-gray-700">
-                    {progressMessage}
-                  </p>
-                  <p className="text-sm font-bold text-blue-600">
-                    {progress}%
-                  </p>
-                </div>
+          <AnimatePresence mode="wait">
+            {loading ? (
+              // 로딩 상태 - 심플한 디자인
+              <motion.div
+                key="loading"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col items-center justify-center min-h-[calc(100vh-180px)] px-8"
+              >
+              {/* 캐릭터 이미지 - 통통 튀는 애니메이션 */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{
+                  opacity: 1,
+                  y: [0, -15, 0]
+                }}
+                transition={{
+                  opacity: { duration: 0.5 },
+                  y: {
+                    duration: 1.2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }
+                }}
+                className="mb-8"
+              >
+                <Image
+                  src="/images/mainchartrans.png"
+                  alt="분석 중"
+                  width={120}
+                  height={120}
+                  className="w-[120px] h-[120px] object-contain"
+                />
+              </motion.div>
+
+              {/* 로딩 퍼센트 */}
+              <div className="mb-4">
+                <p className="text-xl font-medium text-gray-900">
+                  {progress}%
+                </p>
               </div>
 
-              {/* 스피너 */}
-              <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4" />
-
-              {/* 메시지 */}
-              <p className="text-gray-600 text-center">
-                고객님께 딱 맞는 분유포트를
-                <br />
-                찾고 있습니다...
+              {/* 실시간 타이머 */}
+              <p className="text-sm text-gray-500 mb-8 font-mono">
+                {elapsedTime.toFixed(2)}s
               </p>
 
-              {/* 진행 단계 설명 */}
-              <div className="mt-6 w-full max-w-md space-y-2">
-                <ProgressStep
-                  label="페르소나 생성"
-                  completed={progress >= 20}
-                  active={progress < 20}
-                />
-                <ProgressStep
-                  label="Top 5 제품 선정"
-                  completed={progress >= 35}
-                  active={progress >= 20 && progress < 35}
-                />
-                <ProgressStep
-                  label="5개 제품 동시 평가"
-                  completed={progress >= 60}
-                  active={progress >= 35 && progress < 60}
-                />
-                <ProgressStep
-                  label="최종 점수 계산"
-                  completed={progress >= 70}
-                  active={progress >= 60 && progress < 70}
-                />
-                <ProgressStep
-                  label="맞춤 추천 생성"
-                  completed={progress >= 100}
-                  active={progress >= 70 && progress < 100}
-                />
-              </div>
-            </div>
-          ) : !recommendations || recommendations.length === 0 ? (
+              {/* 순차적 상태 메시지 */}
+              <motion.div
+                key={currentPhaseIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5 }}
+                className="text-center"
+              >
+                <p className="text-base font-medium text-gray-700">
+                  {phaseMessages[currentPhaseIndex]}
+                </p>
+              </motion.div>
+              </motion.div>
+            ) : !recommendations || recommendations.length === 0 ? (
             // 결과 없음
             <div className="flex flex-col items-center justify-center min-h-[400px]">
               <div className="text-6xl mb-4">😔</div>
@@ -488,6 +465,7 @@ export default function ResultPage() {
               ))}
             </div>
           )}
+          </AnimatePresence>
         </main>
       </div>
     </div>

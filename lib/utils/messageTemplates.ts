@@ -4,7 +4,7 @@ import { CORE_ATTRIBUTES } from '@/data/attributes';
  * 인트로 메시지 생성
  */
 export function generateIntroMessage(): string {
-  return '안녕하세요! 분유포트 구매를 도와드릴 쇼핑 비서에요.\n\n분유포트 구매에 가장 중요한 7가지 기준을 하나씩 안내해 드릴게요. 하나씩 평가하며 고객님께 가장 맞는 분유포트를 함께 찾아봐요!';
+  return '안녕하세요! 분유포트 구매를 도와드릴 쇼핑 비서에요. 분유포트 구매에 가장 중요한 7가지 기준을 하나씩 안내해 드릴게요.\n하나씩 평가하며 내게 딱 맞는 분유포트를 찾아봐요!';
 }
 
 /**

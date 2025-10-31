@@ -197,6 +197,12 @@ export default function ChatPage() {
       setCurrentAttributeIndex(session.currentAttribute);
       setPhase(session.phase === 'chat2' ? 'chat2' : 'chat1');
       setProgress(calculateProgress(session));
+
+      // 마지막 메시지가 중요도 질문이면 빠른 응답 버튼 표시
+      const lastMessage = session.messages[session.messages.length - 1];
+      if (session.phase === 'chat1' && lastMessage?.role === 'assistant' && lastMessage?.isImportanceQuestion) {
+        setShowQuickReplies(true);
+      }
     }
   }, [mounted]);
 
@@ -294,7 +300,7 @@ export default function ChatPage() {
       saveSession(session);
       setMessages([...session.messages]);
       setPhase('chat2');
-      setProgress(80);
+      setProgress(100);
 
       const lastMessage = session.messages[session.messages.length - 1];
       setTypingMessageId(lastMessage.id);
@@ -386,7 +392,7 @@ export default function ChatPage() {
 
         session = changePhase(session, 'chat2');
         setPhase('chat2');
-        setProgress(80);
+        setProgress(100);
 
         saveSession(session);
         setMessages([...session.messages]);
@@ -491,10 +497,8 @@ export default function ChatPage() {
 
       const newMessage = session.messages[session.messages.length - 1];
 
-      // 진행률 업데이트
-      if (data.accuracy) {
-        setProgress(Math.min(100, 80 + (data.accuracy * 0.2)));
-      }
+      // Chat2 단계에서는 항상 100% 유지
+      setProgress(100);
 
       saveSession(session);
       setMessages(session.messages);
@@ -568,7 +572,7 @@ export default function ChatPage() {
           <div className="mt-3">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs text-gray-500">
-                {progress >= 100 ? '추가 정보를 줄수록 정확한 추천이 가능해요' : '진행률'}
+                {progress >= 100 ? '추천을 받을 수 있어요!' : '진행률'}
               </span>
               <span className="text-xs font-semibold text-gray-700">{Math.round(progress)}%</span>
             </div>
@@ -709,7 +713,7 @@ export default function ChatPage() {
                   transition={{ duration: 0.3 }}
                   className="w-full flex justify-end"
                 >
-                  <div className="max-w-[90%] px-4 py-3 whitespace-pre-wrap bg-linear-to-r from-gray-900 to-gray-700 text-white rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl">
+                  <div className="max-w-[90%] px-4 py-3 whitespace-pre-wrap bg-gray-100 text-gray-900 rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl">
                     {formatMarkdown(message.content)}
                   </div>
                 </motion.div>
@@ -774,9 +778,9 @@ export default function ChatPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleGetRecommendation}
-              className="w-full h-12 mb-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition-colors"
+              className="w-full h-12 mb-3 bg-blue-700 hover:bg-blue-900 text-white font-semibold rounded-full shadow-lg transition-colors"
             >
-              추천 받기 ✨
+              ⭐️ 맞춤 추천 받기 ⭐️
             </motion.button>
           )}
 
@@ -796,7 +800,7 @@ export default function ChatPage() {
               className="w-12 h-12 bg-linear-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
               </svg>
             </button>
           </div>
