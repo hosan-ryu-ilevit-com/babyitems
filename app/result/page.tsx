@@ -440,7 +440,7 @@ export default function ResultPage() {
                   {rec.personalizedReason.weaknesses && rec.personalizedReason.weaknesses.length > 0 && (
                     <div className="bg-gray-50 rounded-xl p-4 mb-3">
                       <h4 className="text-sm font-bold text-gray-700 mb-2">
-                        참고하세요
+                        주의하세요
                       </h4>
                       <ul className="space-y-1">
                         {rec.personalizedReason.weaknesses.map((weakness, i) => (

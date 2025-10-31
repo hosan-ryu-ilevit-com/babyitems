@@ -23,17 +23,46 @@ import {
   generateChat2TransitionMessage,
 } from '@/lib/utils/messageTemplates';
 
-// 마크다운 볼드 처리 함수
+// 마크다운 볼드 및 리스트 처리 함수
 function formatMarkdown(text: string) {
-  // **텍스트** → <strong>텍스트</strong>
-  const parts = text.split(/(\*\*.*?\*\*)/g);
+  // 줄 단위로 분리
+  const lines = text.split('\n');
 
-  return parts.map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      const boldText = part.slice(2, -2);
-      return <strong key={index} className="font-bold">{boldText}</strong>;
+  return lines.map((line, lineIndex) => {
+    // 리스트 아이템 감지: "- " 또는 "* " 또는 "• "로 시작
+    const listMatch = line.match(/^[\s]*[-*•]\s+(.+)$/);
+
+    if (listMatch) {
+      const content = listMatch[1];
+      // **텍스트** → <strong>텍스트</strong> 처리
+      const parts = content.split(/(\*\*.*?\*\*)/g);
+      const formattedContent = parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          const boldText = part.slice(2, -2);
+          return <strong key={index} className="font-bold">{boldText}</strong>;
+        }
+        return <span key={index}>{part}</span>;
+      });
+
+      return (
+        <div key={lineIndex} className="flex items-start gap-2 my-1.5">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-200 mt-2 shrink-0" />
+          <span className="flex-1">{formattedContent}</span>
+        </div>
+      );
     }
-    return <span key={index}>{part}</span>;
+
+    // 일반 텍스트 (볼드 처리)
+    const parts = line.split(/(\*\*.*?\*\*)/g);
+    const formattedLine = parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return <strong key={index} className="font-bold">{boldText}</strong>;
+      }
+      return <span key={index}>{part}</span>;
+    });
+
+    return <div key={lineIndex}>{formattedLine}</div>;
   });
 }
 

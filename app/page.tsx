@@ -5,8 +5,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChatCircleDots, ChartBar, ArrowDown } from '@phosphor-icons/react/dist/ssr';
 import { products } from '@/data/products';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [showFloatingButton, setShowFloatingButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // 조금만 스크롤해도 플로팅 버튼 표시
+      const scrollThreshold = 190; 
+      setShowFloatingButton(window.scrollY > scrollThreshold);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // 초기 상태 설정
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const scrollToRanking = () => {
     const rankingSection = document.getElementById('ranking-section');
     if (rankingSection) {
@@ -49,10 +65,10 @@ export default function Home() {
             {/* Character */}
             <div className="flex justify-center">
               <Image
-                src="/images/mainchar.png"
+                src="/images/mainchartrans.png"
                 alt="AI 추천 도우미"
-                width={160}
-                height={160}
+                width={180}
+                height={180}
                 className="object-contain"
               />
             </div>
@@ -71,8 +87,8 @@ export default function Home() {
               나만의 분유포트
             </h1>
             <p className="text-base text-gray-600 leading-relaxed px-2">
-              가장 판매량 많은 대표상품 중에서<br />
-              내 상황에 꼭 맞는 제품을 찾아드려요
+              가장 많이 팔린 대표제품들 중에서<br />
+              내 상황에 딱 맞는 제품을 찾아드려요
             </p>
           </motion.div>
 
@@ -84,7 +100,7 @@ export default function Home() {
             className="flex items-center gap-2 mt-4 mb-12"
             suppressHydrationWarning
           >
-            <span className="text-xs text-gray-500">powered by</span>
+            <span className="text-xs text-gray-500">Powered by</span>
             <Image
               src="/images/naverstorelogo.png"
               alt="네이버 스토어"
@@ -150,7 +166,7 @@ export default function Home() {
               실시간 인기 랭킹
             </h2>
             <p className="text-sm text-gray-600">
-              지금 가장 많이 판매되는 제품이에요 <br></br> (네이버 스토어 판매량 많은 순, 2025. 10. 31 update)
+              이 중에서 골라드려요.<br></br>  지금 가장 많이 판매되는 제품이에요. <br></br> (네이버 스토어 판매량 많은 순, 2025. 10. 31 update)
             </p>
           </div>
 
@@ -219,19 +235,28 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Bottom CTA */}
-          <div className="fixed bottom-0 left-0 right-0 px-6 py-4 bg-white/95 backdrop-blur-sm border-t border-gray-200" style={{ maxWidth: '480px', margin: '0 auto' }}>
-            <Link href="/chat">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full h-14 bg-linear-to-r from-gray-900 to-gray-700 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5"
-              >
-                <ChatCircleDots size={24} weight="bold" />
-                <span>1분만에 추천받기</span>
-              </motion.button>
-            </Link>
-          </div>
+          {/* Bottom CTA - 스크롤 시에만 표시 */}
+          {showFloatingButton && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="fixed bottom-0 left-0 right-0 px-6 py-4 bg-white/95 backdrop-blur-sm border-t border-gray-200"
+              style={{ maxWidth: '480px', margin: '0 auto' }}
+            >
+              <Link href="/chat">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full h-14 bg-linear-to-r from-gray-900 to-gray-700 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5"
+                >
+                  <ChatCircleDots size={24} weight="bold" />
+                  <span>1분만에 추천받기</span>
+                </motion.button>
+              </Link>
+            </motion.div>
+          )}
         </section>
       </div>
     </div>
