@@ -50,8 +50,15 @@ export async function POST(request: NextRequest) {
           lastUserMessage.content
         );
 
+        // 중요도 질문 (하늘색 배경용)
+        const importanceQuestion = `고객님께서는 **'${currentAttribute.name}'**에 대해 어느 정도 중요하게 생각하시나요?${
+          currentAttribute.importanceExamples
+            ? `\n\n**매우 중요**: ${currentAttribute.importanceExamples.veryImportant}\n**중요함**: ${currentAttribute.importanceExamples.important}\n**보통**: ${currentAttribute.importanceExamples.normal}`
+            : ''
+        }`;
+
         return NextResponse.json({
-          message: `${explanation}\n\n${currentAttribute.name}은(는) 회원님께 얼마나 중요하신가요?`,
+          messages: [explanation, importanceQuestion],
           type: 'follow_up',
           requiresImportance: true,
         });
@@ -88,10 +95,20 @@ export async function POST(request: NextRequest) {
           });
         }
       } else {
-        // off_topic → 원래 주제로 유도
+        // off_topic → 원래 주제로 유도 + 중요도 질문 다시 표시
+        const redirectMessage = `${currentAttribute.name}에 대해 여쭤보고 있어요. 이 부분이 회원님께 얼마나 중요하신지 알려주시면 더 정확한 추천을 해드릴 수 있습니다.`;
+
+        // 중요도 질문 (마지막 파트만 - 중요도 질문)
+        const importanceQuestion = `고객님께서는 **'${currentAttribute.name}'**에 대해 어느 정도 중요하게 생각하시나요?${
+          currentAttribute.importanceExamples
+            ? `\n\n**매우 중요**: ${currentAttribute.importanceExamples.veryImportant}\n**중요함**: ${currentAttribute.importanceExamples.important}\n**보통**: ${currentAttribute.importanceExamples.normal}`
+            : ''
+        }`;
+
         return NextResponse.json({
-          message: `${currentAttribute.name}에 대해 여쭤보고 있어요. 이 부분이 회원님께 얼마나 중요하신지 알려주시면 더 정확한 추천을 해드릴 수 있습니다.`,
+          messages: [redirectMessage, importanceQuestion],
           type: 'redirect',
+          requiresImportance: true,
         });
       }
     }
@@ -107,7 +124,7 @@ export async function POST(request: NextRequest) {
       const systemPrompt = `${ASSISTANT_SYSTEM_PROMPT}
 
 현재는 7가지 핵심 항목에 대한 평가가 완료된 상태입니다.
-이제 사용자로부터 추가적인 맥락(쌍둥이 육아, 야간 수유 빈도, 예산, 특별한 요구사항 등)을 자연스럽게 이끌어내세요.
+이제 사용자로부터 추가적으로 구매에 고려해야 할 수 있는 개인적이고 특수한 상황과 맥락을 자연스럽게 이끌어내세요.
 사용자가 "충분해요", "이정도면 됐어요" 같은 말을 하면 정중하게 대화를 마무리하세요.`;
 
       // AI 응답 생성

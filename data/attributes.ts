@@ -95,7 +95,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '무선 기능: 충전 후 선 없이 사용 가능한 배터리 탑재',
     ],
     isOptional: true,
-    conversationalIntro: '다섯 번째는 "휴대성"입니다. 이 부분은 여행이나 외출이 잦으신 분들께 중요한 요소예요.\n\n접이식이나 텀블러 형태로 컴팩트하게 접을 수 있는지, 해외여행 시 110V/220V 모두 지원하는지, 배터리로 무선 사용이 가능한지 등이 해당됩니다.',
+    conversationalIntro: '다섯 번째는 **휴대성**입니다. 이 부분은 여행이나 외출이 잦으신 분들께 중요한 요소예요.\n\n접이식이나 텀블러 형태로 컴팩트하게 접을 수 있는지, 해외여행 시 110V/220V 모두 지원하는지, 배터리로 무선 사용이 가능한지 등이 해당됩니다.',
     importanceExamples: {
       veryImportant: '여행이나 외출이 잦아서 휴대가 편리해야 합니다.',
       important: '가끔 외출할 때 들고 갈 수 있으면 좋습니다.',

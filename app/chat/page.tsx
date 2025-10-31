@@ -339,6 +339,45 @@ export default function ChatPage() {
         const lastMessage = session.messages[session.messages.length - 1];
         setTypingMessageId(lastMessage.id);
       }
+      // redirect 타입 (off_topic 처리 후 중요도 질문 다시 표시)
+      else if (data.type === 'redirect' || data.type === 'follow_up') {
+        // 첫 번째 메시지 (설명 또는 리다이렉트) 추가 (일반 회색 말풍선)
+        session = addMessage(session, 'assistant', data.messages[0], 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        // 첫 번째 메시지 타이핑 효과
+        const firstMsg = session.messages[session.messages.length - 1];
+        setTypingMessageId(firstMsg.id);
+
+        // 타이핑 완료 대기
+        await new Promise((resolve) => {
+          const typingDuration = data.messages[0].length * 10 + 300;
+          setTimeout(resolve, typingDuration);
+        });
+
+        // 딜레이 후 중요도 질문 표시
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // 중요도 질문 추가 (하늘색 배경)
+        session = addMessage(session, 'assistant', data.messages[1], 'chat1', { isImportanceQuestion: true });
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        // 중요도 질문 타이핑 효과
+        const questionMsg = session.messages[session.messages.length - 1];
+        setTypingMessageId(questionMsg.id);
+
+        // 타이핑 완료 대기
+        await new Promise((resolve) => {
+          const typingDuration = data.messages[1].length * 10 + 300;
+          setTimeout(resolve, typingDuration);
+        });
+
+        // 타이핑 완료 후 버튼 표시
+        setTypingMessageId(null);
+        setShowQuickReplies(true);
+      }
       // 일반 응답 (단일 메시지나 여러 메시지)
       else {
         if (data.messages && Array.isArray(data.messages)) {

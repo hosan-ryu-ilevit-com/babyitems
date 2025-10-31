@@ -49,13 +49,26 @@ export async function callGeminiWithRetry<T>(
 // JSON 응답을 파싱하는 헬퍼 함수
 export function parseJSONResponse<T>(text: string): T {
   try {
-    // 마크다운 코드 블록 제거
-    const jsonText = text
-      .replace(/```json\n?/g, '')
-      .replace(/```\n?/g, '')
-      .trim();
+    // 1. 마크다운 JSON 코드 블록이 있는 경우 추출
+    const jsonBlockMatch = text.match(/```json\s*\n([\s\S]*?)\n```/);
+    if (jsonBlockMatch) {
+      return JSON.parse(jsonBlockMatch[1].trim());
+    }
 
-    return JSON.parse(jsonText);
+    // 2. 일반 코드 블록이 있는 경우 추출
+    const codeBlockMatch = text.match(/```\s*\n([\s\S]*?)\n```/);
+    if (codeBlockMatch) {
+      return JSON.parse(codeBlockMatch[1].trim());
+    }
+
+    // 3. 중괄호로 시작하는 JSON 객체 찾기
+    const jsonObjectMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonObjectMatch) {
+      return JSON.parse(jsonObjectMatch[0]);
+    }
+
+    // 4. 그래도 안되면 전체 텍스트를 파싱 시도
+    return JSON.parse(text.trim());
   } catch (error) {
     console.error('Failed to parse JSON response:', text);
     throw new Error(`JSON parsing failed: ${(error as Error).message}`);

@@ -40,8 +40,9 @@ const INTENT_ANALYSIS_PROMPT = `당신은 사용자의 답변을 분석하여 �
 - 언급한 요소의 중요도를 바탕으로 전체 중요도 추정
 - type은 "importance_response"
 
-사용자 답변을 분석하고 다음 JSON 형식으로 응답하세요:
+**중요: 응답은 반드시 JSON만 출력하세요. 설명이나 분석 텍스트는 포함하지 마세요.**
 
+JSON 형식:
 {
   "type": "importance_response | follow_up_question | off_topic",
   "importance": "매우 중요 | 중요 | 보통" (type이 importance_response인 경우만),
