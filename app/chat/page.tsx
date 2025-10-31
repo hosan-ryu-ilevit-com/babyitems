@@ -47,9 +47,11 @@ function TypingMessage({ content, onComplete, onUpdate }: { content: string; onC
       const timeout = setTimeout(() => {
         setDisplayedContent(content.slice(0, currentIndex + 1));
         setCurrentIndex(currentIndex + 1);
-        // 타이핑 중에 스크롤 업데이트
+        // DOM 업데이트 후 스크롤 (React 렌더링 완료 대기)
         if (onUpdate) {
-          onUpdate();
+          requestAnimationFrame(() => {
+            onUpdate();
+          });
         }
       }, 10); // 10ms per character (더 빠르게)
 
@@ -169,9 +171,12 @@ export default function ChatPage() {
     }
   }, [mounted]);
 
-  // 자동 스크롤 함수
+  // 자동 스크롤 함수 (모바일 최적화)
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // requestAnimationFrame으로 DOM 업데이트 후 실행 보장
+    requestAnimationFrame(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+    });
   };
 
   // 메시지 변경 시 자동 스크롤
@@ -182,10 +187,30 @@ export default function ChatPage() {
   // 타이핑 중에도 스크롤 (추가 보험)
   useEffect(() => {
     if (typingMessageId) {
-      const interval = setInterval(scrollToBottom, 100);
+      const interval = setInterval(scrollToBottom, 50); // 100ms → 50ms (더 빠른 반응)
       return () => clearInterval(interval);
     }
   }, [typingMessageId]);
+
+  // 모바일 viewport 높이 변화 감지 (키보드 올라올 때)
+  useEffect(() => {
+    const handleResize = () => {
+      scrollToBottom();
+    };
+
+    window.addEventListener('resize', handleResize);
+    // visualViewport API 지원 시 사용 (모바일 최적화)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
 
   // 빠른 응답 버튼 클릭 핸들러 (LLM 없이 즉시 처리)
   const handleQuickReply = async (importance: ImportanceLevel) => {
