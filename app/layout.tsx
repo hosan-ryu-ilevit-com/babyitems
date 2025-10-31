@@ -18,6 +18,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "올웨이즈-아기용품 쇼핑 AI 비서",
     description: "내게 딱 맞는 아기용품을 1분만에 골라보세요",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "올웨이즈-아기용품 쇼핑 AI 비서",
+      },
+    ],
   },
 };
 

@@ -31,6 +31,7 @@ export interface Message {
   phase?: 'chat1' | 'chat2';
   isImportanceQuestion?: boolean;  // 중요도 질문 메시지인지 여부
   isConfirmation?: boolean;        // 확인 메시지인지 여부
+  details?: string[];              // 속성 디테일 리스트 (토글 형식으로 표시)
 }
 
 // User's importance rating for each attribute
