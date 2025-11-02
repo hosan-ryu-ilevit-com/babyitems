@@ -144,7 +144,7 @@ export default function Home() {
         </section>
 
         {/* Ranking Section */}
-        <section id="ranking-section" className="min-h-screen bg-white px-6 py-8">
+        <section id="ranking-section" className="min-h-screen bg-white px-6 pt-4 pb-8">
           {/* Section Header */}
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-1">
