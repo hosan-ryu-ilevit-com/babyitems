@@ -1323,7 +1323,7 @@ export default function ChatPage() {
               onClick={handleGetRecommendation}
               className="w-full h-12 mb-3 bg-blue-700 hover:bg-blue-900 text-white font-semibold rounded-full shadow-lg transition-colors"
             >
-              맞춤 추천 받기
+              추천 받기
             </motion.button>
           )}
 

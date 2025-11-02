@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Product, UserPersona, ProductEvaluation, Recommendation } from '@/types';
-import { callGeminiWithRetry } from '../ai/gemini';
+import { callGeminiWithRetry, parseJSONResponse } from '../ai/gemini';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' });
@@ -155,14 +155,20 @@ export async function generateRecommendationReason(
     const response = await model.generateContent(prompt);
     const text = response.response.text();
 
-    // Extract JSON from potential markdown code blocks
-    const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Failed to extract JSON from recommendation response');
-    }
+    console.log(`  📝 AI Response for Rank ${input.rank} (first 200 chars):`, text.substring(0, 200));
 
-    const jsonText = jsonMatch[1] || jsonMatch[0];
-    return JSON.parse(jsonText);
+    try {
+      return parseJSONResponse<{
+        strengths: string[];
+        weaknesses: string[];
+        comparison: string;
+        additionalConsiderations: string;
+      }>(text);
+    } catch (error) {
+      console.error(`  ❌ Failed to parse recommendation JSON for Rank ${input.rank}`);
+      console.error(`  Full AI response:`, text);
+      throw error;
+    }
   });
 
   console.log(`  ✓ Recommendation generated for Rank ${input.rank}`);
@@ -198,32 +204,58 @@ export async function generateTop3Recommendations(
       }))
       .filter((_, idx) => idx !== i);
 
-    const reason = await generateRecommendationReason({
-      rank,
-      product: current.product,
-      evaluation: current.evaluation,
-      finalScore: current.finalScore,
-      persona,
-      otherCandidates
-    });
+    try {
+      const reason = await generateRecommendationReason({
+        rank,
+        product: current.product,
+        evaluation: current.evaluation,
+        finalScore: current.finalScore,
+        persona,
+        otherCandidates
+      });
 
-    return {
-      product: current.product,
-      rank,
-      finalScore: current.finalScore,
-      personalizedReason: {
-        strengths: reason.strengths,
-        weaknesses: reason.weaknesses
-      },
-      comparison: reason.comparison,
-      additionalConsiderations: reason.additionalConsiderations
-    };
+      return {
+        product: current.product,
+        rank,
+        finalScore: current.finalScore,
+        personalizedReason: {
+          strengths: reason.strengths,
+          weaknesses: reason.weaknesses
+        },
+        comparison: reason.comparison,
+        additionalConsiderations: reason.additionalConsiderations
+      };
+    } catch (error) {
+      console.error(`❌ Failed to generate recommendation for Rank ${rank}:`, error);
+      throw error;
+    }
   });
 
-  // 병렬 실행
-  const recommendations = await Promise.all(recommendationPromises);
+  // 병렬 실행 - allSettled로 개별 실패 처리
+  const results = await Promise.allSettled(recommendationPromises);
 
-  console.log(`✓ All 3 recommendations generated successfully`);
+  // 성공한 추천만 필터링
+  const recommendations = results
+    .filter((r): r is PromiseFulfilledResult<Recommendation> => r.status === 'fulfilled')
+    .map(r => r.value);
+
+  // 실패한 추천 로깅
+  const failedCount = results.filter(r => r.status === 'rejected').length;
+  if (failedCount > 0) {
+    console.error(`⚠️ ${failedCount} recommendation(s) failed to generate`);
+    results.forEach((r, i) => {
+      if (r.status === 'rejected') {
+        console.error(`  - Rank ${i + 1} failed:`, r.reason);
+      }
+    });
+  }
+
+  // 최소 1개 이상의 추천이 있어야 함
+  if (recommendations.length === 0) {
+    throw new Error('All recommendations failed to generate');
+  }
+
+  console.log(`✓ ${recommendations.length}/3 recommendations generated successfully`);
 
   // rank 순서대로 정렬하여 반환
   return recommendations.sort((a, b) => a.rank - b.rank);

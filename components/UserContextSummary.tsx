@@ -1,19 +1,20 @@
 import { UserContextSummary, ImportanceLevel } from '@/types';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface UserContextSummaryProps {
   summary: UserContextSummary;
 }
 
-// 중요도 레벨에 따른 스타일
+// 중요도 레벨에 따른 스타일 (채팅 버튼과 통일, 보더라인 추가)
 const getLevelStyle = (level: ImportanceLevel) => {
   switch (level) {
     case '중요함':
-      return 'bg-blue-100 text-blue-700 border-blue-200';
+      return 'bg-blue-200 text-gray-900 border border-blue-300';
     case '보통':
-      return 'bg-gray-100 text-gray-700 border-gray-200';
+      return 'bg-blue-50 text-gray-900 border border-blue-200';
     case '중요하지 않음':
-      return 'bg-gray-50 text-gray-500 border-gray-200';
+      return 'bg-gray-100 text-gray-700 border border-gray-200';
   }
 };
 
@@ -38,7 +39,22 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
     >
       {/* 헤더 */}
       <div className="mb-4">
-        <h3 className="text-base font-bold text-gray-900">✅ 내 선택 기준</h3>
+        <h3 className="text-base font-bold text-gray-900 text-center">✅ 내 선택 기준</h3>
+        {/* 귀여운 캐릭터 */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="flex justify-center mt-0"
+        >
+          <Image
+            src="/images/mainchartrans.png"
+            alt="AI 도우미"
+            width={140}
+            height={140}
+            className="object-contain"
+          />
+        </motion.div>
       </div>
 
       {/* 우선순위 속성들 - 2열 그리드 */}

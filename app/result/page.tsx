@@ -30,6 +30,7 @@ export default function ResultPage() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+  const [error, setError] = useState<string | null>(null);
 
   const toggleSection = (key: string) => {
     setExpandedSections((prev) => ({
@@ -71,144 +72,157 @@ export default function ResultPage() {
     }
   }, [progress]);
 
-  useEffect(() => {
-    if (!mounted) return;
+  const fetchRecommendations = async () => {
+    try {
+      // 상태 초기화
+      setLoading(true);
+      setProgress(0);
+      setError(null);
+      setRecommendations([]);
+      setContextSummary(null);
 
-    const fetchRecommendations = async () => {
-      try {
-        const session = loadSession();
+      const session = loadSession();
 
-        // 이미 추천 결과가 있으면 바로 표시
-        if (session.recommendations && session.recommendations.length > 0) {
-          setRecommendations(session.recommendations);
-          if (session.contextSummary) {
-            setContextSummary(session.contextSummary);
-          }
-          setLoading(false);
-          return;
-        }
+      // API 호출 (스트리밍)
+      console.log('🚀 Starting recommendation API call...');
+      console.log('📨 Request payload:', {
+        messagesCount: session.messages.length,
+        attributeAssessments: session.attributeAssessments,
+      });
 
-        // API 호출 (스트리밍)
-        console.log('🚀 Starting recommendation API call...');
-        console.log('📨 Request payload:', {
-          messagesCount: session.messages.length,
+      const response = await fetch('/api/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: session.messages,
           attributeAssessments: session.attributeAssessments,
-        });
+        }),
+      });
 
-        const response = await fetch('/api/recommend', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: session.messages,
-            attributeAssessments: session.attributeAssessments,
-          }),
-        });
+      console.log('📡 Response status:', response.status, response.statusText);
 
-        console.log('📡 Response status:', response.status, response.statusText);
+      if (!response.ok) {
+        throw new Error(`Recommendation API failed: ${response.status} ${response.statusText}`);
+      }
 
-        if (!response.ok) {
-          throw new Error(`Recommendation API failed: ${response.status} ${response.statusText}`);
+      // 스트리밍 응답 처리
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      if (!reader) {
+        throw new Error('No response body');
+      }
+
+      let buffer = '';
+      console.log('📖 Starting to read SSE stream...');
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          console.log('✓ Stream reading completed');
+          break;
         }
 
-        // 스트리밍 응답 처리
-        const reader = response.body?.getReader();
-        const decoder = new TextDecoder();
+        const chunk = decoder.decode(value, { stream: true });
+        console.log('📡 Received chunk:', chunk.substring(0, 200));
+        buffer += chunk;
 
-        if (!reader) {
-          throw new Error('No response body');
-        }
+        // SSE 메시지 파싱 (data: {...}\n\n 형식)
+        const lines = buffer.split('\n\n');
+        buffer = lines.pop() || ''; // 마지막 불완전한 줄은 버퍼에 보관
 
-        let buffer = '';
-        console.log('📖 Starting to read SSE stream...');
+        console.log(`🔍 Processing ${lines.length} lines from buffer`);
 
-        while (true) {
-          const { done, value } = await reader.read();
+        for (const line of lines) {
+          console.log('📄 Processing line:', line.substring(0, 150));
 
-          if (done) {
-            console.log('✓ Stream reading completed');
-            break;
-          }
+          if (line.startsWith('data: ')) {
+            const jsonStr = line.substring(6);
+            console.log('📦 Extracted JSON:', jsonStr.substring(0, 100) + '...');
 
-          const chunk = decoder.decode(value, { stream: true });
-          console.log('📡 Received chunk:', chunk.substring(0, 200));
-          buffer += chunk;
+            try {
+              const data = JSON.parse(jsonStr);
 
-          // SSE 메시지 파싱 (data: {...}\n\n 형식)
-          const lines = buffer.split('\n\n');
-          buffer = lines.pop() || ''; // 마지막 불완전한 줄은 버퍼에 보관
+              if (data.error) {
+                console.error('❌ API error:', data.error);
+                setError(data.error);
+                setLoading(false);
+                return;
+              }
 
-          console.log(`🔍 Processing ${lines.length} lines from buffer`);
+              if (data.type === 'complete') {
+                // 최종 결과
+                console.log('✅ Recommendation complete!');
+                console.log('  Recommendations count:', data.recommendations?.length);
+                console.log('  Persona summary:', data.persona?.summary?.substring(0, 50) + '...');
+                console.log('  Context summary:', data.contextSummary);
 
-          for (const line of lines) {
-            console.log('📄 Processing line:', line.substring(0, 150));
+                // 세션에 저장
+                const updatedSession = loadSession();
+                updatedSession.persona = data.persona;
+                updatedSession.recommendations = data.recommendations;
+                updatedSession.contextSummary = data.contextSummary;
+                saveSession(updatedSession);
 
-            if (line.startsWith('data: ')) {
-              const jsonStr = line.substring(6);
-              console.log('📦 Extracted JSON:', jsonStr.substring(0, 100) + '...');
-
-              try {
-                const data = JSON.parse(jsonStr);
-
-                if (data.error) {
-                  console.error('❌ API error:', data.error);
+                // 화면에 표시
+                if (!data.recommendations || data.recommendations.length === 0) {
+                  console.error('⚠️ No recommendations in response!');
+                  setError('추천 결과가 없습니다');
                   setLoading(false);
                   return;
                 }
 
-                if (data.type === 'complete') {
-                  // 최종 결과
-                  console.log('✅ Recommendation complete!');
-                  console.log('  Recommendations count:', data.recommendations?.length);
-                  console.log('  Persona summary:', data.persona?.summary?.substring(0, 50) + '...');
-                  console.log('  Context summary:', data.contextSummary);
+                console.log('🎯 Setting recommendations to state:', data.recommendations.length);
+                console.log('📦 First recommendation:', {
+                  rank: data.recommendations[0]?.rank,
+                  hasProduct: !!data.recommendations[0]?.product,
+                  hasReason: !!data.recommendations[0]?.personalizedReason,
+                  hasComparison: !!data.recommendations[0]?.comparison,
+                  hasAdditional: !!data.recommendations[0]?.additionalConsiderations,
+                });
 
-                  // 세션에 저장
-                  const updatedSession = loadSession();
-                  updatedSession.persona = data.persona;
-                  updatedSession.recommendations = data.recommendations;
-                  updatedSession.contextSummary = data.contextSummary;
-                  saveSession(updatedSession);
-
-                  // 화면에 표시
-                  if (!data.recommendations || data.recommendations.length === 0) {
-                    console.error('⚠️ No recommendations in response!');
-                    setLoading(false);
-                    return;
-                  }
-
-                  console.log('🎯 Setting recommendations to state:', data.recommendations.length);
-                  console.log('📦 First recommendation:', {
-                    rank: data.recommendations[0]?.rank,
-                    hasProduct: !!data.recommendations[0]?.product,
-                    hasReason: !!data.recommendations[0]?.personalizedReason,
-                    hasComparison: !!data.recommendations[0]?.comparison,
-                    hasAdditional: !!data.recommendations[0]?.additionalConsiderations,
-                  });
-
-                  setRecommendations(data.recommendations);
-                  if (data.contextSummary) {
-                    setContextSummary(data.contextSummary);
-                  }
-                  setProgress(100);
-                  setLoading(false);
-                } else if (data.progress !== undefined) {
-                  // 진행 상황 업데이트
-                  console.log(`📊 Progress: [${data.progress}%] ${data.phase} - ${data.message}`);
-                  setProgress(data.progress);
+                setRecommendations(data.recommendations);
+                if (data.contextSummary) {
+                  setContextSummary(data.contextSummary);
                 }
-              } catch (e) {
-                console.error('❌ Failed to parse SSE message:', e);
-                console.error('   Raw message:', jsonStr);
+                setProgress(100);
+                setLoading(false);
+              } else if (data.progress !== undefined) {
+                // 진행 상황 업데이트
+                console.log(`📊 Progress: [${data.progress}%] ${data.phase} - ${data.message}`);
+                setProgress(data.progress);
               }
+            } catch (e) {
+              console.error('❌ Failed to parse SSE message:', e);
+              console.error('   Raw message:', jsonStr);
             }
           }
         }
-      } catch (error) {
-        console.error('Failed to get recommendation:', error);
-        setLoading(false);
       }
-    };
+    } catch (error) {
+      console.error('Failed to get recommendation:', error);
+      setError(error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다');
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    if (!mounted) return;
+
+    const session = loadSession();
+
+    // 이미 추천 결과가 있으면 바로 표시
+    if (session.recommendations && session.recommendations.length > 0) {
+      setRecommendations(session.recommendations);
+      if (session.contextSummary) {
+        setContextSummary(session.contextSummary);
+      }
+      setLoading(false);
+      return;
+    }
+
+    // 추천 결과가 없으면 API 호출
     fetchRecommendations();
   }, [mounted]);
 
@@ -300,20 +314,20 @@ export default function ResultPage() {
                 </p>
               </motion.div>
               </motion.div>
-            ) : !recommendations || recommendations.length === 0 ? (
-            // 결과 없음
+            ) : error || (!recommendations || recommendations.length === 0) ? (
+            // 결과 없음 또는 에러
             <div className="flex flex-col items-center justify-center min-h-[400px]">
               <div className="text-6xl mb-4">😔</div>
               <p className="text-gray-900 font-semibold text-lg mb-2">
                 추천 결과가 없습니다
               </p>
               <p className="text-gray-600 text-center mb-4 text-sm">
-                추천 결과를 생성하는 중 오류가 발생했습니다.
+                {error || '추천 결과를 생성하는 중 오류가 발생했습니다.'}
                 <br />
                 다시 시도해 주세요.
               </p>
               <button
-                onClick={() => router.push('/chat')}
+                onClick={fetchRecommendations}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors font-semibold"
               >
                 다시 시도하기
@@ -344,7 +358,7 @@ export default function ResultPage() {
                         className={`inline-flex items-center justify-center w-10 h-10 rounded-full text-base font-bold ${
                           rec.rank === 1
                             ? 'bg-yellow-400 text-white'
-                            : 'bg-gray-400 text-white'
+                            : 'bg-gray-600 text-white'
                         }`}
                       >
                         {rec.rank}
@@ -386,20 +400,18 @@ export default function ResultPage() {
 
                     {/* 제품 상세 정보 */}
                     <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
-                      <h3 className="font-bold text-gray-900 text-base mb-1 line-clamp-2 leading-tight">
+                      <h3 className="font-bold text-gray-900 text-base mb-1 leading-tight">
                         {rec.product.title}
                       </h3>
                       <div className="space-y-1">
-                        <p className="text-xl font-bold text-gray-900">
-                          {rec.product.price.toLocaleString()}
-                          <span className="text-sm font-normal text-gray-600 ml-0.5">원</span>
+                        <p className="text-base font-bold text-gray-900">
+                          {rec.product.price.toLocaleString()}원
                         </p>
-                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                          <span className="inline-flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-md">
-                            <span className="font-medium text-gray-700">리뷰 {rec.product.reviewCount.toLocaleString()}</span>
-                          </span>
-                          <span className="text-gray-400">•</span>
-                          <span className="font-medium text-blue-600">판매량 랭킹 {rec.product.ranking}위</span>
+                        <div className="flex items-center gap-1 text-xs text-gray-600">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                          </svg>
+                          <span className="font-medium">리뷰 {rec.product.reviewCount.toLocaleString()}</span>
                         </div>
                       </div>
                     </div>
@@ -451,8 +463,8 @@ export default function ResultPage() {
                         className="w-full flex items-center justify-between text-left hover:bg-gray-50 -mx-2 px-2 py-1 rounded-lg transition-colors"
                       >
                         <span className="text-sm font-semibold text-gray-700 flex items-center gap-1.5">
-                          <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                           </svg>
                           비교하기
                         </span>
@@ -493,7 +505,7 @@ export default function ResultPage() {
                         className="w-full flex items-center justify-between text-left hover:bg-gray-50 -mx-2 px-2 py-1 rounded-lg transition-colors"
                       >
                         <span className="text-sm font-semibold text-gray-700 flex items-center gap-1.5">
-                          <svg className="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                           </svg>
                           구매 Tip

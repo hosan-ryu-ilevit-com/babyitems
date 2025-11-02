@@ -101,7 +101,7 @@ export default function RankingPage() {
               whileTap={{ scale: 0.98 }}
               className="w-full h-14 bg-gray-900 text-white font-medium rounded-2xl shadow-lg hover:bg-gray-800 transition-colors"
             >
-              맞춤 추천 받기
+              추천 받기
             </motion.button>
           </Link>
         </motion.div>

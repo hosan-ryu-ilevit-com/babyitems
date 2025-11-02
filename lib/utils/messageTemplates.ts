@@ -71,7 +71,7 @@ export function generateChat2TransitionMessage(): string {
  * Chat2 추천 확인 메시지 생성
  */
 export function generateChat2ReadyMessage(): string {
-  return '준비 완료!\n딱 맞는 제품 3개 골라봤어요. 추천 받기 버튼을 눌러주세요!';
+  return '준비 완료!\n딱 맞는 상품들을 골라드릴게요. [추천 받기] 버튼을 눌러주세요!';
 }
 
 /**
