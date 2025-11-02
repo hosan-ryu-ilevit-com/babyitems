@@ -14,10 +14,11 @@ export async function POST(request: NextRequest) {
   try {
     const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails } = await request.json();
 
-    // follow-up 질문 생성 (모든 중요도에 대해)
-    if (action === 'generate_followup' && attributeName && phase0Context) {
+    // follow-up 질문 생성 (모든 중요도에 대해, 맥락 없어도 진행)
+    if (action === 'generate_followup' && attributeName) {
       try {
-        const prompt = createFollowUpPrompt(attributeName, phase0Context, importance, attributeDetails);
+        // phase0Context가 비어있거나 '없어요'여도 AI가 속성 세부사항 기반으로 질문 생성
+        const prompt = createFollowUpPrompt(attributeName, phase0Context || '', importance, attributeDetails);
         const followUpQuestion = await generateAIResponse(prompt, [
           {
             role: 'user',

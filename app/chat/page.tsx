@@ -357,56 +357,52 @@ export default function ChatPage() {
     session = updateAttributeAssessment(session, attribute.key as keyof import('@/types').CoreValues, importance);
     saveSession(session);
 
-    // 모든 선택에 대해 Phase 0 맥락 기반 follow-up 질문
-    const phase0Context = session.phase0Context;
+    // 모든 선택에 대해 Phase 0 맥락 기반 follow-up 질문 (맥락 없어도 AI 호출)
+    const phase0Context = session.phase0Context || ''; // undefined면 빈 문자열
 
-    if (phase0Context && phase0Context.trim() !== '' && phase0Context !== '없어요') {
-      // Phase 0 맥락이 있으면 AI를 통해 맥락 기반 질문 생성
-      setIsLoading(true);
-      try {
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: session.messages,
-            phase: 'chat1',
-            action: 'generate_followup',
-            attributeName: attribute.name,
-            phase0Context: phase0Context,
-            importance: importance, // 중요도도 전달하여 질문 톤 조절 가능
-            attributeDetails: attribute.details, // 속성 세부 정보 전달
-          }),
+    // 항상 AI를 통해 질문 생성 (맥락이 비어있어도 속성 세부사항 기반으로 생성)
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: session.messages,
+          phase: 'chat1',
+          action: 'generate_followup',
+          attributeName: attribute.name,
+          phase0Context: phase0Context, // 빈 문자열이어도 전달
+          importance: importance,
+          attributeDetails: attribute.details,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const followUpQuestion = data.message || generateVeryImportantFollowUp(attribute.name, attribute.details);
+
+        session = loadSession();
+        session = addMessage(session, 'assistant', followUpQuestion, 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        const lastMsg = session.messages[session.messages.length - 1];
+        setTypingMessageId(lastMsg.id);
+
+        await new Promise((resolve) => {
+          const typingDuration = followUpQuestion.length * 10 + 300;
+          setTimeout(resolve, typingDuration);
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          const followUpQuestion = data.message || generateVeryImportantFollowUp(attribute.name);
-
-          session = loadSession();
-          session = addMessage(session, 'assistant', followUpQuestion, 'chat1');
-          setMessages([...session.messages]);
-          saveSession(session);
-
-          const lastMsg = session.messages[session.messages.length - 1];
-          setTypingMessageId(lastMsg.id);
-
-          await new Promise((resolve) => {
-            const typingDuration = followUpQuestion.length * 10 + 300;
-            setTimeout(resolve, typingDuration);
-          });
-
-          setTypingMessageId(null);
-          setWaitingForFollowUpResponse(true);
-          setShowFollowUpSkip(true); // "넘어가기" 버튼 표시
-          setIsLoading(false);
-          return; // follow-up 응답 대기
-        }
-      } catch (error) {
-        console.error('Failed to generate follow-up:', error);
+        setTypingMessageId(null);
+        setWaitingForFollowUpResponse(true);
+        setShowFollowUpSkip(true);
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false);
-    } else {
-      // Phase 0 맥락 없거나 건너뛴 경우 속성 세부사항 기반 질문
+    } catch (error) {
+      console.error('Failed to generate follow-up:', error);
+      // 에러 시 fallback 질문 사용
       const followUpQuestion = generateVeryImportantFollowUp(attribute.name, attribute.details);
       session = addMessage(session, 'assistant', followUpQuestion, 'chat1');
       setMessages([...session.messages]);
@@ -422,9 +418,9 @@ export default function ChatPage() {
 
       setTypingMessageId(null);
       setWaitingForFollowUpResponse(true);
-      setShowFollowUpSkip(true); // "넘어가기" 버튼 표시
-      return; // follow-up 응답 대기
+      setShowFollowUpSkip(true);
     }
+    setIsLoading(false);
   };
 
   // Follow-up 넘어가기 핸들러
