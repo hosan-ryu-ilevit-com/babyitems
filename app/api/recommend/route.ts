@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { generatePersona } from '@/lib/agents/personaGenerator';
 import { evaluateMultipleProducts } from '@/lib/agents/productEvaluator';
 import { generateTop3Recommendations } from '@/lib/agents/recommendationWriter';
+import { generateContextSummary } from '@/lib/agents/contextSummaryGenerator';
 import { loadAllProducts } from '@/lib/data/productLoader';
 import { selectTopProducts, filterByBudget } from '@/lib/filtering/initialFilter';
 import { calculateAndRankProducts, selectTop3 } from '@/lib/filtering/scoreCalculator';
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
         controller.enqueue(encoder.encode(`data: ${data}\n\n`));
       };
 
-      const sendComplete = (result: { persona: unknown; recommendations: unknown }) => {
+      const sendComplete = (result: { persona: unknown; recommendations: unknown; contextSummary: unknown }) => {
         const data = JSON.stringify({ type: 'complete', ...result });
         controller.enqueue(encoder.encode(`data: ${data}\n\n`));
       };
@@ -131,14 +132,21 @@ export async function POST(request: NextRequest) {
 
         sendProgress('scoring', 70, 'Top 3 제품 선정 완료');
 
-        // Phase 6: Recommendation Generation (70-100%) - 병렬 처리로 속도 최적화
+        // Phase 6: Recommendation Generation & Context Summary (70-100%) - 병렬 처리로 속도 최적화
         sendProgress('recommendation', 75, 'Top 3 제품에 대한 맞춤 추천 이유를 동시에 작성하고 있습니다...');
 
-        console.log('\n=== Phase 6: Recommendation Generation (Parallel) ===');
-        const recStartTime = Date.now();
-        const recommendations = await generateTop3Recommendations(top3, persona);
-        console.log(`✓ All 3 recommendations generated in parallel in ${Date.now() - recStartTime}ms`);
+        console.log('\n=== Phase 6: Recommendation Generation & Context Summary (Parallel) ===');
+        const finalStartTime = Date.now();
+
+        // 추천 이유 생성과 맥락 요약을 병렬로 처리
+        const [recommendations, contextSummary] = await Promise.all([
+          generateTop3Recommendations(top3, persona),
+          generateContextSummary(messages, attributeAssessments)
+        ]);
+
+        console.log(`✓ Recommendations and context summary generated in parallel in ${Date.now() - finalStartTime}ms`);
         console.log('Recommendation count:', recommendations.length);
+        console.log('Context summary priority attributes:', contextSummary.priorityAttributes.length);
 
         sendProgress('recommendation', 100, '추천 완료!');
 
@@ -149,6 +157,7 @@ export async function POST(request: NextRequest) {
         sendComplete({
           persona,
           recommendations,
+          contextSummary,
         });
 
         controller.close();

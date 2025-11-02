@@ -12,12 +12,12 @@ import {
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance } = await request.json();
+    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails } = await request.json();
 
     // follow-up 질문 생성 (모든 중요도에 대해)
     if (action === 'generate_followup' && attributeName && phase0Context) {
       try {
-        const prompt = createFollowUpPrompt(attributeName, phase0Context, importance);
+        const prompt = createFollowUpPrompt(attributeName, phase0Context, importance, attributeDetails);
         const followUpQuestion = await generateAIResponse(prompt, [
           {
             role: 'user',
@@ -104,7 +104,12 @@ export async function POST(request: NextRequest) {
         let followUpQuestion = '';
         if (phase0Context && phase0Context.trim() !== '' && phase0Context !== '없어요') {
           try {
-            const followUpPrompt = createFollowUpPrompt(currentAttribute.name, phase0Context, importance);
+            const followUpPrompt = createFollowUpPrompt(
+              currentAttribute.name,
+              phase0Context,
+              importance,
+              currentAttribute.details
+            );
             followUpQuestion = await generateAIResponse(followUpPrompt, [
               {
                 role: 'user',

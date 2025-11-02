@@ -116,7 +116,7 @@ export default function ChatPage() {
   const [showToggleButtons, setShowToggleButtons] = useState<{ [messageId: string]: boolean }>({});
   const [waitingForFollowUpResponse, setWaitingForFollowUpResponse] = useState(false); // "매우 중요" follow-up 응답 대기 중
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Hydration 에러 방지: 클라이언트에서만 렌더링
   useEffect(() => {
@@ -296,8 +296,8 @@ export default function ChatPage() {
 
     let session = loadSession();
 
-    // Phase 0를 빈 문자열로 저장 (건너뜀 표시)
-    session.phase0Context = '';
+    // Phase 0를 '없어요'로 저장 (건너뜀 표시)
+    session.phase0Context = '없어요';
 
     // 사용자 메시지 추가
     session = addMessage(session, 'user', '없어요', 'chat1');
@@ -305,9 +305,9 @@ export default function ChatPage() {
     saveSession(session);
 
     // 짧은 딜레이
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
-    // Phase 0 완료 메시지
+    // Phase 0 완료 메시지 (정보 업데이트됨 없이 바로 넘어감)
     const transitionMsg = '알겠습니다! 그럼 이제 구체적으로 여쭤볼게요.';
     session = addMessage(session, 'assistant', transitionMsg, 'chat1');
     setMessages([...session.messages]);
@@ -360,7 +360,7 @@ export default function ChatPage() {
     // 모든 선택에 대해 Phase 0 맥락 기반 follow-up 질문
     const phase0Context = session.phase0Context;
 
-    if (phase0Context && phase0Context.trim() !== '') {
+    if (phase0Context && phase0Context.trim() !== '' && phase0Context !== '없어요') {
       // Phase 0 맥락이 있으면 AI를 통해 맥락 기반 질문 생성
       setIsLoading(true);
       try {
@@ -374,6 +374,7 @@ export default function ChatPage() {
             attributeName: attribute.name,
             phase0Context: phase0Context,
             importance: importance, // 중요도도 전달하여 질문 톤 조절 가능
+            attributeDetails: attribute.details, // 속성 세부 정보 전달
           }),
         });
 
@@ -405,8 +406,8 @@ export default function ChatPage() {
       }
       setIsLoading(false);
     } else {
-      // Phase 0 맥락 없거나 건너뛴 경우 기본 질문
-      const followUpQuestion = generateVeryImportantFollowUp(attribute.name);
+      // Phase 0 맥락 없거나 건너뛴 경우 속성 세부사항 기반 질문
+      const followUpQuestion = generateVeryImportantFollowUp(attribute.name, attribute.details);
       session = addMessage(session, 'assistant', followUpQuestion, 'chat1');
       setMessages([...session.messages]);
       saveSession(session);
@@ -495,8 +496,8 @@ export default function ChatPage() {
     setShowFollowUpSkip(false); // Follow-up 버튼도 숨김
     let session = loadSession();
 
-    // Phase 0 워밍업 응답 처리
-    if (!session.phase0Context) {
+    // Phase 0 워밍업 응답 처리 (phase0Context가 undefined인 경우에만)
+    if (session.phase0Context === undefined) {
       // Phase 0 맥락 저장
       session.phase0Context = userInput;
       session = addMessage(session, 'user', userInput, 'chat1');
@@ -1136,31 +1137,7 @@ export default function ChatPage() {
                             ))}
 
                             {/* AI 설명 요청 버튼 */}
-                            {isExpanded && (
-                              <motion.button
-                                initial={{ opacity: 0, y: -5 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                                onClick={async () => {
-                                  // 속성 이름 추출 (메시지 content에서 **'속성명'** 형식 찾기)
-                                  const match = message.content.match(/\*\*'([^']+)'\*\*/);
-                                  const attributeName = match ? match[1] : '이 속성';
-
-                                  // 사용자 메시지 생성 및 전송
-                                  const userMessage = `${attributeName} 쉽게 설명해주세요`;
-
-                                  if (phase === 'chat1') {
-                                    await handleChat1Message(userMessage);
-                                  } else if (phase === 'chat2') {
-                                    await handleChat2Message(userMessage);
-                                  }
-                                }}
-                                disabled={isLoading}
-                                className="mt-2 mb-1 px-4 py-2 text-sm bg-blue-50 text-gray-900 font-medium rounded-full hover:bg-blue-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                              >
-                                쉽게 설명해주세요
-                              </motion.button>
-                            )}
+                            
                           </motion.div>
                         </motion.div>
                       )}
@@ -1309,16 +1286,26 @@ export default function ChatPage() {
             </motion.button>
           )}
 
-          <div className="flex gap-2">
-            <input
+          <div className="flex gap-2 items-end">
+            <textarea
               ref={inputRef}
-              type="text"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              onChange={(e) => {
+                setInput(e.target.value);
+                // Auto-resize textarea
+                e.target.style.height = 'auto';
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+              }}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendMessage();
+                }
+              }}
               placeholder={phase === 'chat1' ? '대화하듯 편하게 물어보세요' : '더 고려할 점이 있으신가요?'}
               disabled={isLoading}
-              className="flex-1 h-12 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
+              rows={1}
+              className="flex-1 min-h-[48px] max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400 resize-none overflow-y-auto"
             />
             <button
               onClick={handleSendMessage}

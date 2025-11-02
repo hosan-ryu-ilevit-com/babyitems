@@ -75,13 +75,34 @@ export function generateChat2ReadyMessage(): string {
 }
 
 /**
- * "매우 중요" 선택 시 follow-up 질문 생성 (기본 템플릿)
+ * Follow-up 질문 생성 (맥락 없을 때 속성 세부사항 기반)
  */
 export function generateVeryImportantFollowUp(
-  attributeName: string
+  attributeName: string,
+  attributeDetails?: string[]
 ): string {
-  // 기본 템플릿 - Phase 0 맥락 기반 질문은 AI가 생성
-  return `${attributeName}이(가) 많이 중요하시군요!\n구체적으로 어떤 상황에서 특히 중요하신가요?`;
+  // 속성별 세부 사항 기반 질문 생성
+  if (attributeDetails && attributeDetails.length > 0) {
+    // 속성별 맞춤 질문 패턴
+    if (attributeName.includes('온도')) {
+      return `${attributeName}이 중요하시군요!\n혹시 빠른 냉각이나 24시간 보온 같은 기능이 필요하신가요?`;
+    } else if (attributeName.includes('위생') || attributeName.includes('세척')) {
+      return `${attributeName}이 중요하시군요!\n입구가 넓거나 뚜껑이 완전 분리되는 게 중요하신가요?`;
+    } else if (attributeName.includes('소재') || attributeName.includes('안전')) {
+      return `${attributeName}이 중요하시군요!\n의료용 등급 소재나 유해물질 제로가 꼭 필요하신가요?`;
+    } else if (attributeName.includes('사용 편의')) {
+      return `${attributeName}이 중요하시군요!\n용량, 무게, 소음 중에서 특히 신경 쓰이는 부분이 있으신가요?`;
+    } else if (attributeName.includes('휴대')) {
+      return `${attributeName}이 중요하시군요!\n접이식이나 무선 타입이 필요하신가요?`;
+    } else if (attributeName.includes('가격')) {
+      return `${attributeName}이 중요하시군요!\n예산 범위가 어느 정도이신가요?`;
+    } else if (attributeName.includes('부가') || attributeName.includes('디자인')) {
+      return `${attributeName}이 중요하시군요!\n티포트나 찜기처럼 다용도로 쓰고 싶으신가요?`;
+    }
+  }
+
+  // 세부사항 없거나 매칭 안되면 일반 질문
+  return `${attributeName}이 중요하시군요!\n어떤 점이 특히 중요하신가요?`;
 }
 
 /**
@@ -91,7 +112,8 @@ export function generateVeryImportantFollowUp(
 export function createFollowUpPrompt(
   attributeName: string,
   phase0Context: string,
-  importance?: string
+  importance?: string,
+  attributeDetails?: string[]
 ): string {
   const importanceText = importance === '중요함'
     ? '매우 중요하다고'
@@ -99,31 +121,37 @@ export function createFollowUpPrompt(
     ? '보통이라고'
     : '중요하지 않다고';
 
+  const detailsContext = attributeDetails && attributeDetails.length > 0
+    ? `\n\n**${attributeName}의 세부 요소들:**\n${attributeDetails.map((d, i) => `${i + 1}. ${d}`).join('\n')}`
+    : '';
+
   return `사용자가 이전에 다음과 같이 말했습니다:
 "${phase0Context}"
 
-이제 사용자가 "${attributeName}" 속성을 "${importanceText}" 선택했습니다.
+이제 사용자가 "${attributeName}" 속성을 "${importanceText}" 선택했습니다.${detailsContext}
+
 이 속성에 대해 좀 더 구체적으로 물어보는 짧고 친근한 질문(1-2문장)을 생성해주세요.
 
-**Phase 0 맥락 사용 지침:**
+**질문 생성 가이드:**
 - Phase 0 맥락과 현재 속성이 **명확히 연관**될 때만 자연스럽게 언급
 - 연관이 약하거나 억지스러우면 맥락을 언급하지 말고 일반적인 질문만
-- 매번 반복하지 말고 필요할 때만 사용
+- 세부 요소들을 참고하여 구체적이고 자연스러운 질문 (예: "빠른 냉각이 중요하신가요?", "입구가 넓은 게 좋으신가요?")
+- 너무 형식적이지 않고 대화하듯이, 하지만 너무 길지 않게 (1-2문장)
 
-중요도에 따른 톤 가이드:
-- "매우 중요": 적극적으로 상세한 정보 요청 (예: "구체적으로 어떤 상황에서 불편하셨나요?")
-- "보통": 부담 없이 가볍게 물어보기 (예: "혹시 특별히 고려하시는 부분이 있으신가요?")
-- "중요하지 않음": 매우 가볍게 확인 (예: "참고로, 이 부분은 어떤 점이 덜 중요하신가요?")
+중요도에 따른 톤:
+- "중요함": 적극적으로 상세 요청 (예: "빠른 냉각 기능이 필요하신가요?")
+- "보통": 가볍게 물어보기 (예: "혹시 특별히 원하시는 기능 있으신가요?")
+- "중요하지 않음": 매우 가볍게 (예: "참고로, 어떤 점이 덜 중요하신가요?")
 
 예시:
-- Phase 0: "밤중 수유가 힘들어요" + 속성: "온도 조절/유지력" + 중요도: "중요함"
-  → "밤중 수유 말씀하셨으니 온도 유지가 정말 중요하시겠어요! 혹시 구체적으로 어떤 상황에서 불편하셨나요?" (연관 있음, 언급)
+- Phase 0: "밤중 수유가 힘들어요" + 속성: "온도 조절/유지력" + details: ["빠른 냉각", "24시간 보온"...]
+  → "밤중 수유 말씀하셨으니 빠른 냉각이나 24시간 보온 같은 기능이 중요하실 것 같은데, 맞나요?" (맥락 연결 + 세부 요소)
 
-- Phase 0: "밤중 수유가 힘들어요" + 속성: "위생/세척 편의성" + 중요도: "보통"
-  → "세척이 중요하시군요! 혹시 특별히 원하시는 부분이 있으신가요?" (연관 약함, 언급 안 함)
+- Phase 0: "밤중 수유가 힘들어요" + 속성: "위생/세척 편의성" + details: ["입구가 넓음", "뚜껑 분리"...]
+  → "혹시 입구가 넓거나 뚜껑이 완전 분리되는 게 중요하신가요?" (맥락 X, 세부 요소만)
 
-- Phase 0: "외출이 많아요" + 속성: "휴대성" + 중요도: "중요함"
-  → "외출 많으시다고 하셨으니 휴대성이 정말 중요하시겠네요! 주로 어떤 상황에서 사용하실 예정인가요?" (연관 있음, 언급)
+- Phase 0: "외출이 많아요" + 속성: "휴대성" + details: ["접어서 작게", "무선 사용"...]
+  → "외출 많으시다니 접이식이나 무선 타입이 필요하실까요?" (맥락 연결 + 세부 요소)
 
 질문만 생성하고, 다른 설명은 추가하지 마세요.`;
 }

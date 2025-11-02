@@ -56,6 +56,17 @@ export interface UserPersona {
   budget?: number;                // 예산 (optional)
 }
 
+// User context summary for result page display
+export interface UserContextSummary {
+  priorityAttributes: {
+    name: string;                 // 속성명 (한글)
+    level: ImportanceLevel;       // 중요도 레벨
+    reason: string;               // 중요한 이유 (LLM이 대화에서 추출한 맥락)
+  }[];
+  additionalContext: string[];    // 추가 맥락 정보 (예: "쌍둥이 육아 중", "야간 수유 빈번")
+  budget?: string;                // 예산 (있다면)
+}
+
 // Reflection result
 export interface ReflectionResult {
   isValid: boolean;
@@ -130,6 +141,7 @@ export interface SessionState {
   conversationalState?: ConversationalState;  // 대화형 상태
   persona?: UserPersona;
   recommendations?: Recommendation[];
+  contextSummary?: UserContextSummary;  // 사용자 맥락 요약
 }
 
 // Gemini API request/response types

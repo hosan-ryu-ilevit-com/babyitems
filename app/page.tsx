@@ -109,8 +109,8 @@ export default function Home() {
                 <ChartBar size={22} weight="bold" />
                 <span className="text-base font-medium">대표상품 랭킹보기</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-[10px] text-gray-500">powered by</span>
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] text-gray-500">Powered by</span>
                 <Image
                   src="/images/naverstorelogo.png"
                   alt="네이버 스토어"

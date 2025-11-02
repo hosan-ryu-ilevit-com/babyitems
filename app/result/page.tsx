@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { loadSession, saveSession } from '@/lib/utils/session';
-import { Recommendation } from '@/types';
+import { Recommendation, UserContextSummary } from '@/types';
+import UserContextSummaryComponent from '@/components/UserContextSummary';
 
 // 마크다운 볼드 처리 함수
 function parseMarkdownBold(text: string) {
@@ -23,6 +24,7 @@ export default function ResultPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [contextSummary, setContextSummary] = useState<UserContextSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -79,6 +81,9 @@ export default function ResultPage() {
         // 이미 추천 결과가 있으면 바로 표시
         if (session.recommendations && session.recommendations.length > 0) {
           setRecommendations(session.recommendations);
+          if (session.contextSummary) {
+            setContextSummary(session.contextSummary);
+          }
           setLoading(false);
           return;
         }
@@ -155,11 +160,13 @@ export default function ResultPage() {
                   console.log('✅ Recommendation complete!');
                   console.log('  Recommendations count:', data.recommendations?.length);
                   console.log('  Persona summary:', data.persona?.summary?.substring(0, 50) + '...');
+                  console.log('  Context summary:', data.contextSummary);
 
                   // 세션에 저장
                   const updatedSession = loadSession();
                   updatedSession.persona = data.persona;
                   updatedSession.recommendations = data.recommendations;
+                  updatedSession.contextSummary = data.contextSummary;
                   saveSession(updatedSession);
 
                   // 화면에 표시
@@ -179,6 +186,9 @@ export default function ResultPage() {
                   });
 
                   setRecommendations(data.recommendations);
+                  if (data.contextSummary) {
+                    setContextSummary(data.contextSummary);
+                  }
                   setProgress(100);
                   setLoading(false);
                 } else if (data.progress !== undefined) {
@@ -312,6 +322,8 @@ export default function ResultPage() {
           ) : (
             // 추천 결과 표시
             <div className="space-y-4">
+              {/* 사용자 맥락 요약 (최상단에 표시) */}
+              {contextSummary && <UserContextSummaryComponent summary={contextSummary} />}
 
               {recommendations.map((rec, index) => (
                 <motion.div
