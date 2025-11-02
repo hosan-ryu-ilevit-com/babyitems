@@ -334,7 +334,7 @@ export default function ResultPage() {
                   className={`relative bg-white rounded-2xl p-5 ${
                     rec.rank === 1
                       ? 'border-2 border-yellow-400'
-                      : 'border border-gray-200'
+                      : 'border border-white'
                   }`}
                 >
                   {/* 순위 배지 */}

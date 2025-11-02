@@ -115,6 +115,7 @@ export default function ChatPage() {
   const [expandedDetails, setExpandedDetails] = useState<{ [messageId: string]: boolean }>({});
   const [showToggleButtons, setShowToggleButtons] = useState<{ [messageId: string]: boolean }>({});
   const [waitingForFollowUpResponse, setWaitingForFollowUpResponse] = useState(false); // "매우 중요" follow-up 응답 대기 중
+  const [lastFollowUpQuestion, setLastFollowUpQuestion] = useState<string>(''); // 마지막 follow-up 질문 저장
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -397,6 +398,7 @@ export default function ChatPage() {
         setTypingMessageId(null);
         setWaitingForFollowUpResponse(true);
         setShowFollowUpSkip(true);
+        setLastFollowUpQuestion(followUpQuestion); // 질문 저장
         setIsLoading(false);
         return;
       }
@@ -419,6 +421,7 @@ export default function ChatPage() {
       setTypingMessageId(null);
       setWaitingForFollowUpResponse(true);
       setShowFollowUpSkip(true);
+      setLastFollowUpQuestion(followUpQuestion); // 질문 저장
     }
     setIsLoading(false);
   };
@@ -549,14 +552,56 @@ export default function ChatPage() {
       saveSession(session);
 
       setWaitingForFollowUpResponse(false);
+      setIsLoading(true);
+
+      const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+      const initialImportance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
+
+      // AI를 통한 중요도 재평가
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'reassess_importance',
+            attributeName: attribute.name,
+            followUpQuestion: lastFollowUpQuestion,
+            userAnswer: userInput,
+            initialImportance: initialImportance,
+            attributeDetails: attribute.details,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const { action: reassessAction, newImportance, reason } = data;
+
+          // 중요도가 변경되었으면 업데이트
+          if (reassessAction !== 'maintain' && newImportance !== initialImportance) {
+            session = loadSession();
+            session = updateAttributeAssessment(
+              session,
+              attribute.key as keyof import('@/types').CoreValues,
+              newImportance as ImportanceLevel
+            );
+            saveSession(session);
+            console.log(`중요도 재평가: ${initialImportance} → ${newImportance} (이유: ${reason})`);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to reassess importance:', error);
+        // 에러 시 초기 중요도 유지
+      }
+
+      setIsLoading(false);
 
       // 짧은 딜레이
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // 이제 확인 메시지 표시 (중요도 기록 완료)
-      const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
-      const importance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
-      const feedbackMessage = generateImportanceFeedback(attribute.name, importance!);
+      // 확인 메시지 표시 (재평가 후 최종 중요도)
+      session = loadSession();
+      const finalImportance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
+      const feedbackMessage = generateImportanceFeedback(attribute.name, finalImportance!);
 
       session = addMessage(session, 'assistant', feedbackMessage, 'chat1', { isConfirmation: true });
       setMessages([...session.messages]);

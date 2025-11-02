@@ -171,3 +171,54 @@ export function createFollowUpPrompt(
 질문만 생성하고, 다른 설명은 추가하지 마세요.`;
   }
 }
+
+/**
+ * Follow-up 답변 기반 중요도 재평가 프롬프트
+ */
+export function createReassessmentPrompt(
+  attributeName: string,
+  initialImportance: string,
+  followUpQuestion: string,
+  userAnswer: string,
+  attributeDetails?: string[]
+): string {
+  const detailsContext = attributeDetails && attributeDetails.length > 0
+    ? `\n\n**${attributeName}의 세부 요소들:**\n${attributeDetails.map((d, i) => `${i + 1}. ${d}`).join('\n')}`
+    : '';
+
+  return `사용자가 "${attributeName}" 속성에 대해 초기에 "${initialImportance}"을(를) 선택했습니다.${detailsContext}
+
+그 후 우리가 물어본 질문:
+"${followUpQuestion}"
+
+사용자의 답변:
+"${userAnswer}"
+
+**임무:** 사용자의 답변을 분석하여, 초기 중요도 선택("${initialImportance}")이 적절한지 재평가해주세요.
+
+**재평가 기준:**
+1. **유지(maintain)**: 답변이 초기 선택과 일치하거나 구체적인 요구사항을 제시한 경우
+   - 예: "중요함" 선택 후 "빠른 냉각 기능 꼭 필요해요" → 유지
+   - 예: "보통" 선택 후 "기본 기능만 있으면 돼요" → 유지
+
+2. **상향(upgrade)**: 답변에서 더 강한 니즈나 구체적인 요구가 드러난 경우
+   - 예: "보통" 선택 후 "매일 여러 번 세척해야 해서 세척이 정말 쉬워야 해요" → "중요함"으로 상향
+
+3. **하향(downgrade)**: 답변에서 실제로는 덜 중요하다는 뉘앙스가 드러난 경우
+   - 예: "중요함" 선택 후 "그런 기능까지는 필요 없어요" → "보통" 또는 "중요하지 않음"으로 하향
+   - 예: "보통" 선택 후 "크게 신경 안 써요" → "중요하지 않음"으로 하향
+
+**출력 형식 (JSON):**
+{
+  "action": "maintain" | "upgrade" | "downgrade",
+  "newImportance": "중요함" | "보통" | "중요하지 않음",
+  "reason": "재평가 이유를 1문장으로"
+}
+
+**중요:**
+- action이 "maintain"이면 newImportance는 초기값과 동일
+- 애매하면 "maintain" 선택 (사용자 선택 존중)
+- 답변이 "넘어가기", "다음", "없어요" 같은 경우 무조건 "maintain"
+
+JSON만 출력하고, 다른 설명은 추가하지 마세요.`;
+}

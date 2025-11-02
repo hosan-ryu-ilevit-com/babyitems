@@ -8,11 +8,52 @@ import {
   generateImportanceFeedback,
   generateChat2TransitionMessage,
   createFollowUpPrompt,
+  createReassessmentPrompt,
+  generateVeryImportantFollowUp,
 } from '@/lib/utils/messageTemplates';
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails } = await request.json();
+    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails, followUpQuestion, userAnswer, initialImportance } = await request.json();
+
+    // follow-up 답변 기반 중요도 재평가
+    if (action === 'reassess_importance' && attributeName && followUpQuestion && userAnswer && initialImportance) {
+      try {
+        const prompt = createReassessmentPrompt(attributeName, initialImportance, followUpQuestion, userAnswer, attributeDetails);
+        const aiResponse = await generateAIResponse(prompt, [
+          {
+            role: 'user',
+            parts: [{ text: prompt }],
+          },
+        ]);
+
+        // JSON 파싱
+        const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const reassessment = JSON.parse(jsonMatch[0]);
+          return NextResponse.json({
+            action: reassessment.action,
+            newImportance: reassessment.newImportance,
+            reason: reassessment.reason,
+          });
+        }
+
+        // 파싱 실패 시 유지
+        return NextResponse.json({
+          action: 'maintain',
+          newImportance: initialImportance,
+          reason: '재평가 실패',
+        });
+      } catch (error) {
+        console.error('Failed to reassess importance:', error);
+        // 에러 시 초기값 유지
+        return NextResponse.json({
+          action: 'maintain',
+          newImportance: initialImportance,
+          reason: '재평가 오류',
+        });
+      }
+    }
 
     // follow-up 질문 생성 (모든 중요도에 대해, 맥락 없어도 진행)
     if (action === 'generate_followup' && attributeName) {
@@ -101,28 +142,25 @@ export async function POST(request: NextRequest) {
           phase0Context = userMessages[0].content;
         }
 
-        // Phase 0 맥락이 있으면 AI 기반 follow-up, 없으면 기본 질문
+        // 항상 AI 기반 follow-up 질문 생성 (맥락 없어도 진행)
         let followUpQuestion = '';
-        if (phase0Context && phase0Context.trim() !== '' && phase0Context !== '없어요') {
-          try {
-            const followUpPrompt = createFollowUpPrompt(
-              currentAttribute.name,
-              phase0Context,
-              importance,
-              currentAttribute.details
-            );
-            followUpQuestion = await generateAIResponse(followUpPrompt, [
-              {
-                role: 'user',
-                parts: [{ text: followUpPrompt }],
-              },
-            ]);
-          } catch (error) {
-            console.error('Failed to generate follow-up:', error);
-            followUpQuestion = `${currentAttribute.name}이(가) 중요하시군요! 구체적으로 어떤 상황에서 특히 중요하신가요?`;
-          }
-        } else {
-          followUpQuestion = `${currentAttribute.name}이(가) 중요하시군요! 구체적으로 어떤 상황에서 특히 중요하신가요?`;
+        try {
+          const followUpPrompt = createFollowUpPrompt(
+            currentAttribute.name,
+            phase0Context || '', // 맥락 없어도 빈 문자열로 전달
+            importance,
+            currentAttribute.details
+          );
+          followUpQuestion = await generateAIResponse(followUpPrompt, [
+            {
+              role: 'user',
+              parts: [{ text: followUpPrompt }],
+            },
+          ]);
+        } catch (error) {
+          console.error('Failed to generate follow-up:', error);
+          // 에러 시 fallback: 속성 세부사항 기반 질문
+          followUpQuestion = generateVeryImportantFollowUp(currentAttribute.name, currentAttribute.details);
         }
 
         return NextResponse.json({
