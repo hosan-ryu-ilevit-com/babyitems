@@ -980,7 +980,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder={phase === 'chat1' ? '자유롭게 질문하거나 답을 입력해주세요' : '추가로 고려할 사항을 알려주세요'}
+              placeholder={phase === 'chat1' ? '대화하듯이 AI에게 물어보세요.' : '추가로 고려할 사항을 알려주세요'}
               disabled={isLoading}
               className="flex-1 h-12 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
             />
