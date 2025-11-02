@@ -754,7 +754,7 @@ export default function ChatPage() {
                     <div
                       className={`px-4 py-3 whitespace-pre-wrap ${
                         message.isImportanceQuestion
-                          ? 'bg-sky-100 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
+                          ? 'bg-linear-to-b from-blue-50 to-blue-100 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
                           : 'text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
                       }`}
                     >
