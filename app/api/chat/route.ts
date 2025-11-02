@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
         // 중요도 질문 (하늘색 배경용)
         const importanceQuestion = `고객님께서는 **'${currentAttribute.name}'**에 대해 어느 정도 중요하게 생각하시나요?${
           currentAttribute.importanceExamples
-            ? `\n\n**매우 중요**: ${currentAttribute.importanceExamples.veryImportant}\n**중요함**: ${currentAttribute.importanceExamples.important}\n**보통**: ${currentAttribute.importanceExamples.normal}`
+            ? `\n\n**중요함**: ${currentAttribute.importanceExamples.important}\n**보통**: ${currentAttribute.importanceExamples.normal}\n**중요하지 않음**: ${currentAttribute.importanceExamples.notImportant}`
             : ''
         }`;
 
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
         // 중요도 질문 (마지막 파트만 - 중요도 질문)
         const importanceQuestion = `고객님께서는 **'${currentAttribute.name}'**에 대해 어느 정도 중요하게 생각하시나요?${
           currentAttribute.importanceExamples
-            ? `\n\n**매우 중요**: ${currentAttribute.importanceExamples.veryImportant}\n**중요함**: ${currentAttribute.importanceExamples.important}\n**보통**: ${currentAttribute.importanceExamples.normal}`
+            ? `\n\n**중요함**: ${currentAttribute.importanceExamples.important}\n**보통**: ${currentAttribute.importanceExamples.normal}\n**중요하지 않음**: ${currentAttribute.importanceExamples.notImportant}`
             : ''
         }`;
 

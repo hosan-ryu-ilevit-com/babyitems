@@ -6,9 +6,9 @@ export interface AttributeInfo {
   isOptional: boolean;
   conversationalIntro?: string; // 대화형 인트로 멘트
   importanceExamples?: {
-    veryImportant: string;
     important: string;
     normal: string;
+    notImportant: string;
   };
 }
 
@@ -26,9 +26,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: false,
     conversationalIntro: '첫 번째는 **"온도 조절/유지 성능"**이에요.\n새벽 수유할 때 가장 중요한 기능이죠!',
     importanceExamples: {
-      veryImportant: '새벽 수유가 잦아서 빠른 냉각과 정확한 온도 유지가 꼭 필요해요',
-      important: '자동 모드와 보온 기능만 있으면 충분해요',
-      normal: '빠른 냉각이나 24시간 보온은 없어도 괜찮아요',
+      important: '새벽 수유가 잦아서 빠른 냉각과 정확한 온도 유지가 꼭 필요해요',
+      normal: '자동 모드와 보온 기능만 있으면 충분해요',
+      notImportant: '빠른 냉각이나 24시간 보온은 없어도 괜찮아요',
     },
   },
   {
@@ -44,9 +44,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: false,
     conversationalIntro: '두 번째는 **"위생/세척 편의성"**이에요.\n매일 쓰다 보면 세척이 쉬운 게 정말 중요하죠. 세척이 번거로우면 관리가 소홀해질 수 있거든요.',
     importanceExamples: {
-      veryImportant: '구석구석 완벽하게 세척할 수 있어야 해요',
-      important: '기본적으로 세척만 잘되면 돼요',
-      normal: '조금 번거로워도 자주 닦으면 괜찮아요',
+      important: '구석구석 완벽하게 세척할 수 있어야 해요',
+      normal: '기본적으로 세척만 잘되면 돼요',
+      notImportant: '조금 번거로워도 자주 닦으면 괜찮아요',
     },
   },
   {
@@ -62,9 +62,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: false,
     conversationalIntro: '세 번째는 **"소재(안전성)"**예요.\n아기가 먹을 물을 담으니까 안전한 소재가 중요하죠.',
     importanceExamples: {
-      veryImportant: '의료용 등급 소재에 유해물질 완전 제로여야 해요',
-      important: '식품용 소재에 기본 안전 기능만 있으면 돼요',
-      normal: '안전 인증만 통과했으면 소재 등급은 크게 안 따져요',
+      important: '의료용 등급 소재에 유해물질 완전 제로여야 해요',
+      normal: '식품용 소재에 기본 안전 기능만 있으면 돼요',
+      notImportant: '안전 인증만 통과했으면 소재 등급은 크게 안 따져요',
     },
   },
   {
@@ -80,9 +80,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: false,
     conversationalIntro: '네 번째는 **"사용 편의성"**이에요.\n실제로 쓰다 보면 작은 불편함도 크게 느껴져요.',
     importanceExamples: {
-      veryImportant: '용량 크고, 가볍고, 조용하고, 조작 쉬운 게 다 필요해요',
-      important: '1.3L 이상 용량에 평범한 소음이면 돼요',
-      normal: '기능만 좋으면 조작이 좀 불편해도 괜찮아요',
+      important: '용량 크고, 가볍고, 조용하고, 조작 쉬운 게 다 필요해요',
+      normal: '1.3L 이상 용량에 평범한 소음이면 돼요',
+      notImportant: '기능만 좋으면 조작이 좀 불편해도 괜찮아요',
     },
   },
   {
@@ -97,9 +97,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: true,
     conversationalIntro: '다섯 번째는 **"휴대성"**이에요.\n집에서만 쓰신다면 중요하지 않지만, 외출이나 여행 자주 가시면 중요해져요.',
     importanceExamples: {
-      veryImportant: '외출이나 여행 갈 때 꼭 필요해요. 작고 가볍고 무선이어야 해요',
-      important: '가끔 외출할 때 들고 갈 수 있으면 좋겠어요',
-      normal: '집에서만 쓸 거라 휴대성은 안 중요해요',
+      important: '외출이나 여행 갈 때 꼭 필요해요. 작고 가볍고 무선이어야 해요',
+      normal: '가끔 외출할 때 들고 갈 수 있으면 좋겠어요',
+      notImportant: '집에서만 쓸 거라 휴대성은 안 중요해요',
     },
   },
   {
@@ -114,9 +114,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: true,
     conversationalIntro: '여섯 번째는 **"가격 및 가성비"**예요.\n가격대별로 기능이 달라요.',
     importanceExamples: {
-      veryImportant: '5~6만원대 이하로, 필수 기능만 있으면 돼요',
-      important: '6~10만원대에서 합리적인 제품을 원해요',
-      normal: '10만원 넘어도 최고 기능이면 괜찮아요',
+      important: '5~6만원대 이하로, 필수 기능만 있으면 돼요',
+      normal: '6~10만원대에서 합리적인 제품을 원해요',
+      notImportant: '10만원 넘어도 최고 기능이면 괜찮아요',
     },
   },
   {
@@ -131,9 +131,9 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
     isOptional: true,
     conversationalIntro: '마지막 일곱 번째는 **"부가 기능 및 디자인"**이에요.\n필수는 아니지만 있으면 좋은 것들이에요.',
     importanceExamples: {
-      veryImportant: '분유 끝나도 오래 쓰고 싶고 디자인도 중요해요',
-      important: '기본 활용성이랑 깔끔한 디자인이면 좋아요',
-      normal: '분유만 잘 타면 되고 디자인은 별로 안 중요해요',
+      important: '분유 끝나도 오래 쓰고 싶고 디자인도 중요해요',
+      normal: '기본 활용성이랑 깔끔한 디자인이면 좋아요',
+      notImportant: '분유만 잘 타면 되고 디자인은 별로 안 중요해요',
     },
   },
 ];

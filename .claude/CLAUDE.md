@@ -142,5 +142,5 @@ GEMINI_API_KEY=your_api_key_here
 - AI responses may wrap JSON in markdown code blocks (````json\n...\n````) - always parse defensively
 - Product coreValues and persona weights must align on the same 8 attributes
 - Grade conversion: 매우 충족=5, 충족=4, 보통=3, 미흡=2, 매우 미흡=1
-- Importance levels: 매우 중요=10, 중요=7, 보통=4
+- Importance levels: 중요함=10, 보통=7, 중요하지 않음=5
 - All product markdown files must be loaded before filtering

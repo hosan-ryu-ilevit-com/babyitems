@@ -35,7 +35,7 @@ export interface Message {
 }
 
 // User's importance rating for each attribute
-export type ImportanceLevel = '보통' | '중요' | '매우 중요';
+export type ImportanceLevel = '중요하지 않음' | '보통' | '중요함';
 
 export interface AttributeAssessment {
   temperatureControl: ImportanceLevel | null;

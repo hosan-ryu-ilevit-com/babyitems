@@ -26,11 +26,11 @@ export function calculateFinalScore(
 }
 
 // ImportanceLevel을 가중치 숫자로 변환
-export function importanceLevelToWeight(level: '보통' | '중요' | '매우 중요'): number {
+export function importanceLevelToWeight(level: '중요하지 않음' | '보통' | '중요함'): number {
   const mapping: Record<string, number> = {
-    보통: 5,
-    중요: 7,
-    '매우 중요': 10,
+    '중요하지 않음': 5,
+    보통: 7,
+    중요함: 10,
   };
-  return mapping[level] || 5;
+  return mapping[level] || 7;
 }

@@ -89,7 +89,7 @@ async function generatePersonaProfile(chatHistory: string): Promise<PersonaProfi
  * 완전한 UserPersona 생성
  *
  * @param chatHistory - 전체 대화 기록
- * @param attributeAssessments - Chat1에서 수집한 8개 속성별 중요도 (매우 중요/중요/보통)
+ * @param attributeAssessments - Chat1에서 수집한 8개 속성별 중요도 (중요함/보통/중요하지 않음)
  * @returns UserPersona (가중치 + 정성적 프로필)
  */
 export async function generatePersona(

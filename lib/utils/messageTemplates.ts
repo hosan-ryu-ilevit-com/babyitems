@@ -29,7 +29,7 @@ export function generateAttributeQuestion(attributeIndex: number): Array<{
 
   // 중요도 옵션 설명
   const examplesText = attribute.importanceExamples
-    ? `\n\n**매우 중요**: ${attribute.importanceExamples.veryImportant}\n**중요함**: ${attribute.importanceExamples.important}\n**보통**: ${attribute.importanceExamples.normal}`
+    ? `\n\n**중요함**: ${attribute.importanceExamples.important}\n**보통**: ${attribute.importanceExamples.normal}\n**중요하지 않음**: ${attribute.importanceExamples.notImportant}`
     : '';
 
   // 두 번째 버블: 질문 (하늘색 배경)
@@ -47,11 +47,10 @@ export function generateAttributeQuestion(attributeIndex: number): Array<{
  */
 export function generateImportanceFeedback(
   attributeName: string,
-  importance: '매우 중요' | '중요' | '보통'
+  importance: '중요함' | '보통' | '중요하지 않음'
 ): string {
   // 버튼 클릭이든 자연어든 동일하게 확인 메시지 스타일로 처리
-  const displayImportance = importance === '매우 중요' ? '매우 중요함' : importance === '중요' ? '중요함' : '보통';
-  return `'${attributeName}'을(를) '${displayImportance}'으로 기록`;
+  return `'${attributeName}'을(를) '${importance}'으로 기록`;
 }
 
 /**

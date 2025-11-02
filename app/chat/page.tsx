@@ -275,7 +275,7 @@ export default function ChatPage() {
     const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
 
     // 사용자 선택 메시지
-    const userMessage = importance === '매우 중요' ? '매우 중요합니다' : importance === '중요' ? '중요합니다' : '보통입니다';
+    const userMessage = importance === '중요함' ? '중요합니다' : importance === '보통' ? '보통입니다' : '중요하지 않습니다';
     session = addMessage(session, 'user', userMessage, 'chat1');
     setMessages([...session.messages]);
     saveSession(session);
@@ -911,22 +911,22 @@ export default function ChatPage() {
               className="flex gap-2 mb-3 overflow-x-auto"
             >
               <button
-                onClick={() => handleQuickReply('매우 중요')}
+                onClick={() => handleQuickReply('중요함')}
                 className="shrink-0 px-4 py-2 bg-blue-200 text-gray-900 text-sm font-medium rounded-full hover:bg-blue-300 transition-colors"
-              >
-                매우 중요함
-              </button>
-              <button
-                onClick={() => handleQuickReply('중요')}
-                className="shrink-0 px-4 py-2 bg-blue-50 text-gray-900 text-sm font-medium rounded-full hover:bg-blue-100 transition-colors"
               >
                 중요함
               </button>
               <button
                 onClick={() => handleQuickReply('보통')}
-                className="shrink-0 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-200 transition-colors"
+                className="shrink-0 px-4 py-2 bg-blue-50 text-gray-900 text-sm font-medium rounded-full hover:bg-blue-100 transition-colors"
               >
                 보통
+              </button>
+              <button
+                onClick={() => handleQuickReply('중요하지 않음')}
+                className="shrink-0 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-200 transition-colors"
+              >
+                중요하지 않음
               </button>
               <button
                 onClick={() => {
