@@ -18,10 +18,12 @@ import {
 } from '@/lib/utils/session';
 import {
   generateIntroMessage,
+  generateWarmupQuestion,
   generateAttributeQuestion,
   generateImportanceFeedback,
   generateChat2TransitionMessage,
   generateChat2ReadyMessage,
+  generateVeryImportantFollowUp,
 } from '@/lib/utils/messageTemplates';
 
 // 마크다운 볼드 및 리스트 처리 함수
@@ -102,13 +104,17 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentAttributeIndex, setCurrentAttributeIndex] = useState(0);
   const [phase, setPhase] = useState<'chat1' | 'chat2'>('chat1');
+  const [isPhase0Complete, setIsPhase0Complete] = useState(false); // Phase 0 워밍업 완료 여부
   const [progress, setProgress] = useState(0);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
   const [showQuickReplies, setShowQuickReplies] = useState(false);
+  const [showPhase0QuickReply, setShowPhase0QuickReply] = useState(false); // Phase 0 "건너뛰기" 버튼
+  const [showFollowUpSkip, setShowFollowUpSkip] = useState(false); // Follow-up "넘어가기" 버튼
   const [showChat2QuickReply, setShowChat2QuickReply] = useState(false);
   const [showRecommendButton, setShowRecommendButton] = useState(false);
   const [expandedDetails, setExpandedDetails] = useState<{ [messageId: string]: boolean }>({});
   const [showToggleButtons, setShowToggleButtons] = useState<{ [messageId: string]: boolean }>({});
+  const [waitingForFollowUpResponse, setWaitingForFollowUpResponse] = useState(false); // "매우 중요" follow-up 응답 대기 중
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -172,7 +178,7 @@ export default function ChatPage() {
     const session = loadSession();
 
     if (session.messages.length === 0) {
-      // 첫 방문: 환영 메시지 및 첫 질문 (고정된 템플릿)
+      // 첫 방문: 환영 메시지 및 Phase 0 워밍업 질문
       const initializeChat = async () => {
         let updatedSession = changePhase(session, 'chat1');
         updatedSession = addMessage(updatedSession, 'assistant', generateIntroMessage(), 'chat1');
@@ -189,16 +195,28 @@ export default function ChatPage() {
           setTimeout(resolve, typingDuration);
         });
 
-        // 딜레이 후 첫 질문 시작
+        // 딜레이 후 Phase 0 워밍업 질문
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        // 첫 번째 질문을 순차적으로 추가
-        const firstQuestionParts = generateAttributeQuestion(0);
-        updatedSession = await addMessagesSequentially(updatedSession, firstQuestionParts, 'chat1');
+        // Phase 0 워밍업 질문 추가
+        const warmupQuestion = generateWarmupQuestion();
+        updatedSession = addMessage(updatedSession, 'assistant', warmupQuestion, 'chat1');
+        setMessages([...updatedSession.messages]);
+        saveSession(updatedSession);
 
-        // 마지막 메시지 완료 후 빠른 응답 버튼 표시
+        // 워밍업 질문 타이핑 효과
+        const warmupMessage = updatedSession.messages[updatedSession.messages.length - 1];
+        setTypingMessageId(warmupMessage.id);
+
+        // 타이핑 완료 대기
+        await new Promise((resolve) => {
+          const typingDuration = warmupQuestion.length * 10 + 300;
+          setTimeout(resolve, typingDuration);
+        });
+
+        // 타이핑 완료 후 Phase 0 건너뛰기 버튼 표시
         setTypingMessageId(null);
-        setShowQuickReplies(true);
+        setShowPhase0QuickReply(true);
       };
 
       initializeChat();
@@ -208,6 +226,11 @@ export default function ChatPage() {
       setCurrentAttributeIndex(session.currentAttribute);
       setPhase(session.phase === 'chat2' ? 'chat2' : 'chat1');
       setProgress(calculateProgress(session));
+
+      // Phase 0 완료 여부 확인
+      if (session.phase0Context) {
+        setIsPhase0Complete(true);
+      }
 
       // 마지막 메시지가 중요도 질문이면 빠른 응답 버튼 표시
       const lastMessage = session.messages[session.messages.length - 1];
@@ -267,6 +290,53 @@ export default function ChatPage() {
     };
   }, []);
 
+  // Phase 0 건너뛰기 핸들러
+  const handlePhase0Skip = async () => {
+    setShowPhase0QuickReply(false);
+
+    let session = loadSession();
+
+    // Phase 0를 빈 문자열로 저장 (건너뜀 표시)
+    session.phase0Context = '';
+
+    // 사용자 메시지 추가
+    session = addMessage(session, 'user', '없어요', 'chat1');
+    setMessages(session.messages);
+    saveSession(session);
+
+    // 짧은 딜레이
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Phase 0 완료 메시지
+    const transitionMsg = '알겠습니다! 그럼 이제 구체적으로 여쭤볼게요.';
+    session = addMessage(session, 'assistant', transitionMsg, 'chat1');
+    setMessages([...session.messages]);
+    saveSession(session);
+
+    const transMsg = session.messages[session.messages.length - 1];
+    setTypingMessageId(transMsg.id);
+
+    await new Promise((resolve) => {
+      const typingDuration = transitionMsg.length * 10 + 300;
+      setTimeout(resolve, typingDuration);
+    });
+
+    // 딜레이 후 첫 속성 질문 시작
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // 첫 번째 속성 질문
+    const firstQuestionParts = generateAttributeQuestion(0);
+    session = await addMessagesSequentially(session, firstQuestionParts, 'chat1');
+
+    saveSession(session);
+    setMessages([...session.messages]);
+    setIsPhase0Complete(true);
+
+    // 마지막 메시지 완료 후 빠른 응답 버튼 표시
+    setTypingMessageId(null);
+    setShowQuickReplies(true);
+  };
+
   // 빠른 응답 버튼 클릭 핸들러 (LLM 없이 즉시 처리)
   const handleQuickReply = async (importance: ImportanceLevel) => {
     setShowQuickReplies(false);
@@ -283,22 +353,109 @@ export default function ChatPage() {
     // 짧은 딜레이
     await new Promise((resolve) => setTimeout(resolve, 300));
 
-    // 중요도 업데이트
+    // 중요도 업데이트 (세션에만 저장, 확인 메시지는 나중에)
     session = updateAttributeAssessment(session, attribute.key as keyof import('@/types').CoreValues, importance);
+    saveSession(session);
 
-    // 확인 메시지 생성 (특별한 스타일)
-    const feedbackMessage = generateImportanceFeedback(attribute.name, importance);
+    // 모든 선택에 대해 Phase 0 맥락 기반 follow-up 질문
+    const phase0Context = session.phase0Context;
+
+    if (phase0Context && phase0Context.trim() !== '') {
+      // Phase 0 맥락이 있으면 AI를 통해 맥락 기반 질문 생성
+      setIsLoading(true);
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: session.messages,
+            phase: 'chat1',
+            action: 'generate_followup',
+            attributeName: attribute.name,
+            phase0Context: phase0Context,
+            importance: importance, // 중요도도 전달하여 질문 톤 조절 가능
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const followUpQuestion = data.message || generateVeryImportantFollowUp(attribute.name);
+
+          session = loadSession();
+          session = addMessage(session, 'assistant', followUpQuestion, 'chat1');
+          setMessages([...session.messages]);
+          saveSession(session);
+
+          const lastMsg = session.messages[session.messages.length - 1];
+          setTypingMessageId(lastMsg.id);
+
+          await new Promise((resolve) => {
+            const typingDuration = followUpQuestion.length * 10 + 300;
+            setTimeout(resolve, typingDuration);
+          });
+
+          setTypingMessageId(null);
+          setWaitingForFollowUpResponse(true);
+          setShowFollowUpSkip(true); // "넘어가기" 버튼 표시
+          setIsLoading(false);
+          return; // follow-up 응답 대기
+        }
+      } catch (error) {
+        console.error('Failed to generate follow-up:', error);
+      }
+      setIsLoading(false);
+    } else {
+      // Phase 0 맥락 없거나 건너뛴 경우 기본 질문
+      const followUpQuestion = generateVeryImportantFollowUp(attribute.name);
+      session = addMessage(session, 'assistant', followUpQuestion, 'chat1');
+      setMessages([...session.messages]);
+      saveSession(session);
+
+      const lastMsg = session.messages[session.messages.length - 1];
+      setTypingMessageId(lastMsg.id);
+
+      await new Promise((resolve) => {
+        const typingDuration = followUpQuestion.length * 10 + 300;
+        setTimeout(resolve, typingDuration);
+      });
+
+      setTypingMessageId(null);
+      setWaitingForFollowUpResponse(true);
+      setShowFollowUpSkip(true); // "넘어가기" 버튼 표시
+      return; // follow-up 응답 대기
+    }
+  };
+
+  // Follow-up 넘어가기 핸들러
+  const handleFollowUpSkip = async () => {
+    setShowFollowUpSkip(false);
+    setWaitingForFollowUpResponse(false);
+
+    let session = loadSession();
+
+    // 사용자 메시지 추가
+    session = addMessage(session, 'user', '다음 질문으로 넘어갈게요', 'chat1');
+    setMessages(session.messages);
+    saveSession(session);
+
+    // 짧은 딜레이
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // 확인 메시지
+    const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+    const importance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
+    const feedbackMessage = generateImportanceFeedback(attribute.name, importance!);
+
     session = addMessage(session, 'assistant', feedbackMessage, 'chat1', { isConfirmation: true });
     setMessages([...session.messages]);
     saveSession(session);
 
-    // 확인 메시지 표시 후 딜레이
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
+    // 다음 속성으로 이동
     const nextIndex = currentAttributeIndex + 1;
 
     if (nextIndex < CORE_ATTRIBUTES.length) {
-      // 다음 속성 질문을 순차적으로 추가
       const nextQuestionParts = generateAttributeQuestion(nextIndex);
       session = await addMessagesSequentially(session, nextQuestionParts, 'chat1');
 
@@ -309,7 +466,6 @@ export default function ChatPage() {
       setMessages([...session.messages]);
       setProgress(calculateProgress(session));
 
-      // 마지막 메시지 완료 후 빠른 응답 버튼 표시
       setTypingMessageId(null);
       setShowQuickReplies(true);
     } else {
@@ -325,7 +481,6 @@ export default function ChatPage() {
       const lastMessage = session.messages[session.messages.length - 1];
       setTypingMessageId(lastMessage.id);
 
-      // 타이핑 완료 후 Chat2 빠른 응답 버튼 표시
       setTimeout(() => {
         setTypingMessageId(null);
         setShowChat2QuickReply(true);
@@ -336,7 +491,120 @@ export default function ChatPage() {
   // Chat1 메시지 전송 (대화형)
   const handleChat1Message = async (userInput: string) => {
     setShowQuickReplies(false);
+    setShowPhase0QuickReply(false); // Phase 0 버튼도 숨김
+    setShowFollowUpSkip(false); // Follow-up 버튼도 숨김
     let session = loadSession();
+
+    // Phase 0 워밍업 응답 처리
+    if (!session.phase0Context) {
+      // Phase 0 맥락 저장
+      session.phase0Context = userInput;
+      session = addMessage(session, 'user', userInput, 'chat1');
+      setMessages(session.messages);
+      saveSession(session);
+
+      // 짧은 딜레이
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      // 확인 메시지 (초록색 체크)
+      const confirmMsg = '정보 업데이트됨';
+      session = addMessage(session, 'assistant', confirmMsg, 'chat1', { isConfirmation: true });
+      setMessages([...session.messages]);
+      saveSession(session);
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Phase 0 완료 메시지
+      const transitionMsg = '알겠습니다! 그럼 이제 구체적으로 여쭤볼게요.';
+      session = addMessage(session, 'assistant', transitionMsg, 'chat1');
+      setMessages([...session.messages]);
+      saveSession(session);
+
+      const transMsg = session.messages[session.messages.length - 1];
+      setTypingMessageId(transMsg.id);
+
+      await new Promise((resolve) => {
+        const typingDuration = transitionMsg.length * 10 + 300;
+        setTimeout(resolve, typingDuration);
+      });
+
+      // 딜레이 후 첫 속성 질문 시작
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // 첫 번째 속성 질문
+      const firstQuestionParts = generateAttributeQuestion(0);
+      session = await addMessagesSequentially(session, firstQuestionParts, 'chat1');
+
+      saveSession(session);
+      setMessages([...session.messages]);
+      setIsPhase0Complete(true);
+
+      // 마지막 메시지 완료 후 빠른 응답 버튼 표시
+      setTypingMessageId(null);
+      setShowQuickReplies(true);
+      return;
+    }
+
+    // follow-up 응답 처리
+    if (waitingForFollowUpResponse) {
+      session = addMessage(session, 'user', userInput, 'chat1');
+      setMessages(session.messages);
+      saveSession(session);
+
+      setWaitingForFollowUpResponse(false);
+
+      // 짧은 딜레이
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // 이제 확인 메시지 표시 (중요도 기록 완료)
+      const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+      const importance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
+      const feedbackMessage = generateImportanceFeedback(attribute.name, importance!);
+
+      session = addMessage(session, 'assistant', feedbackMessage, 'chat1', { isConfirmation: true });
+      setMessages([...session.messages]);
+      saveSession(session);
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // 다음 속성으로 이동
+      const nextIndex = currentAttributeIndex + 1;
+
+      if (nextIndex < CORE_ATTRIBUTES.length) {
+        const nextQuestionParts = generateAttributeQuestion(nextIndex);
+        session = await addMessagesSequentially(session, nextQuestionParts, 'chat1');
+
+        session = moveToNextAttribute(session);
+        setCurrentAttributeIndex(nextIndex);
+
+        saveSession(session);
+        setMessages([...session.messages]);
+        setProgress(calculateProgress(session));
+
+        setTypingMessageId(null);
+        setShowQuickReplies(true);
+      } else {
+        // 모든 속성 완료 → Chat2로 전환
+        const transitionMessage = generateChat2TransitionMessage();
+        session = changePhase(addMessage(session, 'assistant', transitionMessage, 'chat2'), 'chat2');
+
+        saveSession(session);
+        setMessages([...session.messages]);
+        setPhase('chat2');
+        setProgress(100);
+
+        const lastMessage = session.messages[session.messages.length - 1];
+        setTypingMessageId(lastMessage.id);
+
+        setTimeout(() => {
+          setTypingMessageId(null);
+          setShowChat2QuickReply(true);
+        }, transitionMessage.length * 10 + 300);
+      }
+      return;
+    }
+
+    // 일반 Chat1 메시지 (기존 로직)
     session = addMessage(session, 'user', userInput, 'chat1');
     setMessages(session.messages);
     saveSession(session);
@@ -361,6 +629,42 @@ export default function ChatPage() {
       const data = await response.json();
 
       session = loadSession();
+
+      // 자연어로 중요도 판단된 경우 (버튼과 동일하게 처리)
+      if (data.type === 'natural_language_followup') {
+        const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+        const importance = data.importance;
+
+        // 중요도 업데이트
+        session = updateAttributeAssessment(
+          session,
+          attribute.key as keyof import('@/types').CoreValues,
+          importance
+        );
+        saveSession(session);
+
+        // 짧은 딜레이
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // follow-up 질문 추가
+        session = addMessage(session, 'assistant', data.followUpQuestion, 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        const lastMsg = session.messages[session.messages.length - 1];
+        setTypingMessageId(lastMsg.id);
+
+        await new Promise((resolve) => {
+          const typingDuration = data.followUpQuestion.length * 10 + 300;
+          setTimeout(resolve, typingDuration);
+        });
+
+        setTypingMessageId(null);
+        setWaitingForFollowUpResponse(true);
+        setShowFollowUpSkip(true); // "넘어가기" 버튼 표시
+        setIsLoading(false);
+        return;
+      }
 
       // 중요도가 파악되었으면 업데이트
       if (data.importance) {
@@ -754,7 +1058,7 @@ export default function ChatPage() {
                     <div
                       className={`px-4 py-3 whitespace-pre-wrap ${
                         message.isImportanceQuestion
-                          ? 'bg-linear-to-b from-blue-50 to-blue-100 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
+                          ? 'bg-linear-to-b from-blue-50 to-blue-50 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
                           : 'text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
                       }`}
                     >
@@ -903,6 +1207,38 @@ export default function ChatPage() {
 
         {/* Bottom Input Area - Fixed */}
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
+          {/* Phase 0 건너뛰기 버튼 */}
+          {phase === 'chat1' && showPhase0QuickReply && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex gap-2 mb-3 overflow-x-auto"
+            >
+              <button
+                onClick={handlePhase0Skip}
+                className="shrink-0 px-4 py-2 bg-blue-200 text-gray-900 text-sm font-medium rounded-full hover:bg-blue-300 transition-colors"
+              >
+                없어요
+              </button>
+            </motion.div>
+          )}
+
+          {/* Follow-up 넘어가기 버튼 */}
+          {phase === 'chat1' && showFollowUpSkip && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex gap-2 mb-3 overflow-x-auto"
+            >
+              <button
+                onClick={handleFollowUpSkip}
+                className="shrink-0 px-4 py-2 bg-blue-200 text-gray-900 text-sm font-medium rounded-full hover:bg-blue-300 transition-colors"
+              >
+                넘어가기
+              </button>
+            </motion.div>
+          )}
+
           {/* 빠른 응답 버튼 (Chat1에서만) */}
           {phase === 'chat1' && showQuickReplies && !isLoading && (
             <motion.div
@@ -933,7 +1269,7 @@ export default function ChatPage() {
                   inputRef.current?.focus();
                   inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }}
-                className="shrink-0 px-4 py-2 bg-white border-1 border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors flex items-center gap-1.5"
+                className="shrink-0 px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors flex items-center gap-1.5"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />

@@ -7,11 +7,35 @@ import {
   generateAttributeQuestion,
   generateImportanceFeedback,
   generateChat2TransitionMessage,
+  createFollowUpPrompt,
 } from '@/lib/utils/messageTemplates';
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages, phase, currentAttributeIndex } = await request.json();
+    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance } = await request.json();
+
+    // follow-up 질문 생성 (모든 중요도에 대해)
+    if (action === 'generate_followup' && attributeName && phase0Context) {
+      try {
+        const prompt = createFollowUpPrompt(attributeName, phase0Context, importance);
+        const followUpQuestion = await generateAIResponse(prompt, [
+          {
+            role: 'user',
+            parts: [{ text: prompt }],
+          },
+        ]);
+
+        return NextResponse.json({
+          message: followUpQuestion.trim(),
+        });
+      } catch (error) {
+        console.error('Failed to generate follow-up:', error);
+        return NextResponse.json(
+          { error: 'Failed to generate follow-up question' },
+          { status: 500 }
+        );
+      }
+    }
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -63,37 +87,43 @@ export async function POST(request: NextRequest) {
           requiresImportance: true,
         });
       } else if (intent.type === 'importance_response') {
-        // 중요도 답변 → 피드백 + 다음 속성으로 전환
+        // 중요도 답변 → follow-up 질문 생성 (버튼 방식과 동일)
         const importance = intent.importance as ImportanceLevel;
-        const feedbackMessage = generateImportanceFeedback(
-          currentAttribute.name,
-          importance
-        );
 
-        const nextIndex = currentAttributeIndex + 1;
+        // follow-up 질문 생성을 위해 phase0Context 가져오기
+        const sessionMessages = messages as Message[];
+        let phase0Context = '';
 
-        if (nextIndex < CORE_ATTRIBUTES.length) {
-          // 피드백은 확인 메시지로 처리, 다음 속성 질문은 별도로 분리
-          const nextQuestionParts = generateAttributeQuestion(nextIndex);
-
-          return NextResponse.json({
-            confirmationMessage: feedbackMessage, // 확인 메시지로 표시
-            messages: nextQuestionParts, // 다음 질문들
-            type: 'next_attribute',
-            importance,
-            nextAttributeIndex: nextIndex,
-          });
-        } else {
-          // 모든 속성 완료 → Chat2로 전환
-          const transitionMessage = generateChat2TransitionMessage();
-
-          return NextResponse.json({
-            confirmationMessage: feedbackMessage, // 확인 메시지로 표시
-            messages: [transitionMessage], // 전환 메시지
-            type: 'transition_to_chat2',
-            importance,
-          });
+        // Phase 0 맥락 찾기 (두 번째 user 메시지가 Phase 0 응답)
+        const userMessages = sessionMessages.filter((m: Message) => m.role === 'user');
+        if (userMessages.length >= 1) {
+          phase0Context = userMessages[0].content;
         }
+
+        // Phase 0 맥락이 있으면 AI 기반 follow-up, 없으면 기본 질문
+        let followUpQuestion = '';
+        if (phase0Context && phase0Context.trim() !== '' && phase0Context !== '없어요') {
+          try {
+            const followUpPrompt = createFollowUpPrompt(currentAttribute.name, phase0Context, importance);
+            followUpQuestion = await generateAIResponse(followUpPrompt, [
+              {
+                role: 'user',
+                parts: [{ text: followUpPrompt }],
+              },
+            ]);
+          } catch (error) {
+            console.error('Failed to generate follow-up:', error);
+            followUpQuestion = `${currentAttribute.name}이(가) 중요하시군요! 구체적으로 어떤 상황에서 특히 중요하신가요?`;
+          }
+        } else {
+          followUpQuestion = `${currentAttribute.name}이(가) 중요하시군요! 구체적으로 어떤 상황에서 특히 중요하신가요?`;
+        }
+
+        return NextResponse.json({
+          type: 'natural_language_followup',
+          importance,
+          followUpQuestion: followUpQuestion.trim(),
+        });
       } else {
         // off_topic → 원래 주제로 유도 + 중요도 질문 다시 표시
         const redirectMessage = `지금은 ${currentAttribute.name}에 대해 여쭤보고 있어요. 이 부분이 고객님께 얼마나 중요하신지 알려주셔야 더 정확한 추천을 해드릴 수 있어요!`;

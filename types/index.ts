@@ -125,6 +125,7 @@ export interface SessionState {
   attributeAssessments: AttributeAssessment;
   currentAttribute: number;       // 현재 질문 중인 속성 (0-7)
   additionalContext: string[];    // Chat 2에서 수집한 추가 맥락
+  phase0Context?: string;         // Phase 0 워밍업에서 수집한 자유 맥락
   accuracy: number;               // 추천 정확도 (80-100)
   conversationalState?: ConversationalState;  // 대화형 상태
   persona?: UserPersona;
