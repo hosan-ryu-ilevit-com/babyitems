@@ -75,7 +75,7 @@ export default function Home() {
               내게 딱 맞는 분유포트
             </h1>
             <p className="text-base text-gray-600 leading-relaxed px-2">
-              가장 많이 팔린 대표 상품들 중<br />
+              가장 많이 팔린 대표상품들 중<br />
               내 상황에 딱 맞는 상품을 골라드려요
             </p>
           </motion.div>
@@ -107,7 +107,7 @@ export default function Home() {
             >
               <div className="flex items-center gap-2">
                 <ChartBar size={22} weight="bold" />
-                <span className="text-base font-medium">대표제품 랭킹 보기</span>
+                <span className="text-base font-medium">대표상품 랭킹보기</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="text-[10px] text-gray-500">powered by</span>
@@ -144,81 +144,71 @@ export default function Home() {
         </section>
 
         {/* Ranking Section */}
-        <section id="ranking-section" className="min-h-screen bg-gray-50 px-6 py-8">
+        <section id="ranking-section" className="min-h-screen bg-white px-6 py-8">
           {/* Section Header */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-1">
               실시간 랭킹
             </h2>
-             
+            <div className="flex items-center gap-2 text-xs text-gray-500">
             
-            <p className="text-sm text-gray-600">
-              *네이버 스토어 분유포트 판매량 많은 순 <br></br>*2025년 10월 31일 기준
-            </p>
+              <span>네이버 스토어 분유포트 판매량 많은 순</span>
+              <span className="text-gray-400">•</span>
+              <span>2025년 10월 31일 기준</span>
+            </div>
           </div>
 
-          {/* Product List */}
-          <div className="space-y-4 pb-24">
+          {/* Product Grid - 2 columns */}
+          <div className="grid grid-cols-2 gap-4 pb-24">
             {products.map((product, index) => (
-              <motion.div
+              <motion.a
                 key={product.id}
+                href={product.reviewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 + index * 0.03 }}
-                className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-gray-300 transition-all"
+                className="cursor-pointer group"
                 suppressHydrationWarning
               >
-                <div className="flex gap-4 p-4">
-                  {/* Ranking Badge */}
-                  <div className="shrink-0 w-8 flex flex-col items-center justify-start pt-1">
-                    <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-sm">
-                        {product.ranking}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Thumbnail */}
-                  <div className="shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-gray-100">
-                    <Image
-                      src={product.thumbnail}
-                      alt={product.title}
-                      width={96}
-                      height={96}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Product Info */}
-                  <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
-                    <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug mb-2">
-                      {product.title}
-                    </h3>
-                    <div className="space-y-1.5">
-                      <div className="text-lg font-bold text-gray-900">
-                        {product.price.toLocaleString()}<span className="text-sm font-normal text-gray-600 ml-0.5">원</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs">
-                        <span className="inline-flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-md">
-                          <span className="font-medium text-gray-700">리뷰 {product.reviewCount.toLocaleString()}</span>
-                        </span>
-                      </div>
-                    </div>
+                {/* Thumbnail with Ranking Badge */}
+                <div className="relative aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 mb-2.5 group-hover:border-gray-300 transition-colors">
+                  <Image
+                    src={product.thumbnail}
+                    alt={product.title}
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Ranking Badge - Top Left - All Products */}
+                  <div className="absolute top-2 left-2 w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-white font-bold text-sm">
+                      {product.ranking}
+                    </span>
                   </div>
                 </div>
 
-                {/* Action Button */}
-                <div className="px-4 pb-4">
-                  <a
-                    href={product.reviewUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full py-2.5 text-center text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
-                  >
-                    상세보기
-                  </a>
+                {/* Product Info */}
+                <div className="space-y-0">
+                  {/* Title - 2 lines max */}
+                  <h3 className="text-xs font-medium text-gray-900 line-clamp-2 leading-[1.4] h-[2.1rem]">
+                    {product.title}
+                  </h3>
+
+                  {/* Price */}
+                  <div className="text-base font-bold text-gray-900">
+                    {product.price.toLocaleString()}<span className="text-xs font-normal text-gray-600 ml-0.5">원</span>
+                  </div>
+
+                  {/* Review Count with Star */}
+                  <div className="flex items-center gap-1 text-xs text-gray-600">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
+                    <span className="font-medium">리뷰 {product.reviewCount.toLocaleString()}</span>
+                  </div>
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
 
