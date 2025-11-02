@@ -4,7 +4,7 @@ import { CORE_ATTRIBUTES } from '@/data/attributes';
  * 인트로 메시지 생성
  */
 export function generateIntroMessage(): string {
-  return '안녕하세요! 분유포트 구매를 도와드릴 쇼핑 비서에요. 분유포트 구매에 가장 중요한 7가지 기준을 하나씩 안내해 드릴게요.\n하나씩 평가하며 내게 딱 맞는 분유포트를 찾아봐요!';
+  return '안녕하세요! 분유포트 구매 도우미에요.\n제가 딱 맞는 고객님께 상품을 찾아드릴게요. 구매시 고려해야 할 중요한 기준들을 여쭤보는 것으로 시작할게요!';
 }
 
 /**
@@ -22,9 +22,9 @@ export function generateAttributeQuestion(attributeIndex: number): Array<{
   // 인트로 설정 (첫 번째일 때만 특별, 나머지는 conversationalIntro 사용)
   let intro: string;
   if (attributeIndex === 0) {
-    intro = `분유포트 구매 시 가장 중요하게 고려해야 할 첫 번째 요소는 바로 **'${attribute.name}'**입니다. 이 기능은 수면 부족에 시달리는 야간 및 새벽 수유 시 부모님의 만족도를 좌우하는 핵심입니다.`;
+    intro = `첫 번째는 **'${attribute.name}'**이에요.\n새벽 수유할 때 가장 중요한 기능이죠.`;
   } else {
-    intro = attribute.conversationalIntro || `다음은 **'${attribute.name}'**입니다.`;
+    intro = attribute.conversationalIntro || `다음은 **'${attribute.name}'**이에요.`;
   }
 
   // 중요도 옵션 설명
@@ -33,7 +33,7 @@ export function generateAttributeQuestion(attributeIndex: number): Array<{
     : '';
 
   // 두 번째 버블: 질문 (하늘색 배경)
-  const questionMessage = `고객님께서는 **'${attribute.name}'**에 대해 어느 정도 중요하게 생각하시나요?${examplesText}`;
+  const questionMessage = `**'${attribute.name}'**이 얼마나 중요하신가요?${examplesText}`;
 
   // 2개의 분리된 메시지로 반환 (첫 번째는 인트로 + 토글 가능한 디테일, 두 번째는 질문)
   return [
@@ -58,12 +58,12 @@ export function generateImportanceFeedback(
  * Chat2 전환 메시지 생성
  */
 export function generateChat2TransitionMessage(): string {
-  return '모든 항목에 대한 답변 감사합니다! 😊\n혹시 추가로 고려해야 할 개인적인 상황이 있다면 알려주세요!\n자세하게 알려주실수록 추천 정확도가 높아져요.';
+  return '말씀 잘 들었어요! 😊\n혹시 더 고려할 점이 있으신가요?\n편하게 말씀해주세요.';
 }
 
 /**
  * Chat2 추천 확인 메시지 생성
  */
 export function generateChat2ReadyMessage(): string {
-  return '감사합니다! 이제 맞춤 추천을 해드릴게요. 아래 추천 받기 버튼을 눌러주세요!';
+  return '준비 완료!\n딱 맞는 제품 3개 골라봤어요. 추천 받기 버튼을 눌러주세요!';
 }

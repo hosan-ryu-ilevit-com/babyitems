@@ -197,7 +197,7 @@ export default function Home() {
 
                   {/* Price */}
                   <div className="text-base font-bold text-gray-900">
-                    {product.price.toLocaleString()}<span className="text-xs font-normal text-gray-600 ml-0.5">원</span>
+                    {product.price.toLocaleString()}원
                   </div>
 
                   {/* Review Count with Star */}

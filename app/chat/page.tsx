@@ -635,7 +635,7 @@ export default function ChatPage() {
               }}
               className="text-sm text-gray-600 hover:text-gray-900 font-semibold"
             >
-              다시 시작
+              처음부터
             </button>
           </div>
 
@@ -643,7 +643,7 @@ export default function ChatPage() {
           <div className="mt-3">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs text-gray-500">
-                {progress >= 100 ? '추천을 받을 수 있어요!' : '진행률'}
+                {progress >= 100 ? '추천 받을 수 있어요!' : '진행률'}
               </span>
               <span className="text-xs font-semibold text-gray-700">{Math.round(progress)}%</span>
             </div>
@@ -809,7 +809,7 @@ export default function ChatPage() {
                             >
                               ▶
                             </motion.span>
-                            <span className="font-medium">이 속성 더 자세히 알아보기</span>
+                            <span className="font-medium">자세히 보기</span>
                           </button>
 
                           {/* 디테일 리스트 (토글 가능) */}
@@ -854,7 +854,7 @@ export default function ChatPage() {
                                 disabled={isLoading}
                                 className="mt-2 mb-1 px-4 py-2 text-sm bg-blue-50 text-gray-900 font-medium rounded-full hover:bg-blue-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                               >
-                                💬 쉬운 설명 요청
+                                쉽게 설명해주세요
                               </motion.button>
                             )}
                           </motion.div>
@@ -954,7 +954,7 @@ export default function ChatPage() {
                 onClick={handleChat2QuickReply}
                 className="shrink-0 px-4 py-2 bg-blue-200 text-gray-900 text-sm font-medium rounded-full hover:bg-blue-300 transition-colors"
               >
-                아니요, 없어요
+                없어요
               </button>
             </motion.div>
           )}
@@ -969,7 +969,7 @@ export default function ChatPage() {
               onClick={handleGetRecommendation}
               className="w-full h-12 mb-3 bg-blue-700 hover:bg-blue-900 text-white font-semibold rounded-full shadow-lg transition-colors"
             >
-              ⭐️ 맞춤 추천 받기 ⭐️
+              맞춤 추천 받기
             </motion.button>
           )}
 
@@ -980,7 +980,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder={phase === 'chat1' ? '대화하듯이 AI에게 물어보세요.' : '추가로 고려할 사항을 알려주세요'}
+              placeholder={phase === 'chat1' ? '대화하듯 편하게 물어보세요' : '더 고려할 점이 있으신가요?'}
               disabled={isLoading}
               className="flex-1 h-12 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
             />
