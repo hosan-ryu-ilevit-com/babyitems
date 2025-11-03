@@ -287,4 +287,44 @@ export const products: Product[] = [
       additionalFeatures: 9   // 매우 충족 - 깔끔한 디자인, 차 거름망 제공, 다용도 활용 가능.
     }
   }
+,
+  {
+    id: '7550948917',
+    title: '이즈홈 스마트 1.8L 티포트 약탕기 커피포트 분유포트 전기포트 전기주전자',
+    price: 39770,
+    reviewCount: 3991,
+    reviewUrl: 'https://www.coupang.com/vp/products/7550948917',
+    ranking: 22,
+    thumbnail: '/thumbnails/7550948917.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 45도~100도 세분화, 24시간 보온, 타이머 기능
+      hygiene: 5,             // 보통 - 유리 재질로 세척 용이하나, 바닥 착색 및 화학/고무 냄새 문제 심각
+      material: 4,            // 미달 - 유리 강도 매우 약함, 뚜껑 금속 손잡이 발열 위험
+      usability: 5,           // 보통 - 전원 3초 버튼 불편, 뚜껑 결합/물 따름 문제, 터치 불량 보고됨
+      portability: 1,        // 매우 미달 - 가정용 대용량 유리 포트
+      priceValue: 10,          // 매우 충족 - 다양한 기능과 대용량 대비 압도적인 가성비
+      durability: 3,          // 미달 - 잦은 고장 보고 (4개월 내), 유리가 쉽게 깨지는 치명적 내구성 문제
+      additionalFeatures: 8   // 충족 - 세련된 디자인 (올리브그린 인기), 약탕기/타이머 등 다용도 기능
+    }
+  }
+,
+  {
+    id: '8500920656',
+    title: '벤하임 SUS304티망 커피부터 분유까지 디지털 원터치 멀티 글라스 티메이커 1.8L BMT-04-001',
+    price: 24730,
+    reviewCount: 284,
+    reviewUrl: 'https://www.coupang.com/vp/products/8500920656',
+    ranking: 23,
+    thumbnail: '/thumbnails/8500920656.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 40~90도 정밀 조절, 분유 모드, 자동 보온 기능 탁월
+      hygiene: 8,             // 충족 - 유리 바디, 분리형 티망으로 세척 용이하나 초기 연마제 제거 필수
+      material: 7,            // 만족 - SUS304 스텐, 내열 강화 유리 사용, 환경호르몬 걱정 없음
+      usability: 5,           // 보통 - 원터치 조작은 간편하나 물 끓는 속도가 일반 포트 대비 느림
+      portability: 1,        // 매우 미달 - 1.8L 대용량 가정용 글라스 포트
+      priceValue: 10,          // 매우 충족 - 2만원대 가격으로 멀티 기능 제공, 압도적인 가성비
+      durability: 3,          // 미달 - 저렴한 플라스틱 베이스와 얇은 유리로 내구성에 대한 우려 존재
+      additionalFeatures: 9   // 매우 충족 - 20가지 멀티 기능(죽, 뱅쇼), 세련된 화이트/글라스 디자인
+    }
+  }
 ];

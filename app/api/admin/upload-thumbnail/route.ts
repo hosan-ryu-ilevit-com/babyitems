@@ -57,7 +57,26 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // public/thumbnails 디렉토리 경로
+    // 배포 환경 확인
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isVercel = process.env.VERCEL === '1';
+
+    console.log('Environment:', {
+      isProduction,
+      isVercel,
+      cwd: process.cwd(),
+      nodeEnv: process.env.NODE_ENV
+    });
+
+    // 서버리스 환경에서는 파일 시스템에 쓰기 불가
+    if (isVercel || isProduction) {
+      return NextResponse.json({
+        error: '서버리스 환경에서는 파일 업로드를 지원하지 않습니다. 클라우드 스토리지를 사용해주세요.',
+        suggestion: 'Vercel Blob, Cloudinary, AWS S3 등의 클라우드 스토리지 사용을 권장합니다.'
+      }, { status: 501 });
+    }
+
+    // 로컬 개발 환경에서만 파일 저장
     const thumbnailsDir = path.join(process.cwd(), 'public', 'thumbnails');
 
     // 디렉토리가 없으면 생성

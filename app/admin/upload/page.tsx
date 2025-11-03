@@ -467,7 +467,7 @@ export default function AdminUploadPage() {
   reviewCount: ${preview.productData.reviewCount},
   reviewUrl: 'https://www.coupang.com/vp/products/${preview.productData.id}',
   ranking: ${preview.productData.ranking},
-  thumbnail: '/thumbnails/${preview.productData.id}.jpg',
+  thumbnail: '${preview.productData.thumbnail || `/thumbnails/${preview.productData.id}.${thumbnailFile?.name.split('.').pop()?.toLowerCase() || 'jpg'}`}',
   coreValues: {
     temperatureControl: ${preview.productData.coreValues.temperatureControl},
     hygiene: ${preview.productData.coreValues.hygiene},
