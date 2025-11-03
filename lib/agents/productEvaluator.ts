@@ -87,12 +87,14 @@ const EVALUATION_PROMPT = `당신은 사용자의 페르소나를 기반으로 �
      • 프리볼트 (Free Volt): 110V와 220V 모두 지원
      • 무선 기능: 충전 후 선 없이 사용 가능한 배터리 탑재
 
-6. **priceValue** (가격/가성비)
-   - 제품 점수: {PRICE_VALUE}/10
-   - **세부 평가 항목:**
-     • 5만원 이하: 염소 제거와 기본 보온 기능
-     • 6만원 ~ 10만원: 의료용 SUS316 소재 등 고급 소재
-     • 8만원 이상: 중탕기, 찜기 등 추가 구성품과 다양한 편의 기능
+6. **priceValue** (가격 대비 가치)
+   - 제품 가격: {PRICE}원
+   - 제품 점수: {PRICE_VALUE}/10 (점수가 높을수록 가격 대비 성능이 우수함)
+   - **평가 기준:**
+     • 이 점수는 **가성비(가격 대비 성능)**를 나타냅니다
+     • 점수가 높다 = 가격 대비 얻을 수 있는 성능/품질/기능이 뛰어남
+     • 저렴해도 성능이 나쁘면 낮은 점수, 비싸도 성능이 훌륭하면 높은 점수일 수 있음
+     • 사용자의 페르소나를 고려하여 "이 가격에 이 정도 성능이면 합리적인가?"를 평가
 
 7. **additionalFeatures** (부가 기능/디자인)
    - 제품 점수: {ADDITIONAL_FEATURES}/10
@@ -147,6 +149,7 @@ export async function evaluateProduct(
     .replace('{MATERIAL}', coreValues.material.toString())
     .replace('{USABILITY}', coreValues.usability.toString())
     .replace('{PORTABILITY}', coreValues.portability.toString())
+    .replace('{PRICE}', product.price.toLocaleString())
     .replace('{PRICE_VALUE}', coreValues.priceValue.toString())
     .replace('{ADDITIONAL_FEATURES}', coreValues.additionalFeatures.toString())
     .replace('{PERSONA}', JSON.stringify(persona, null, 2))

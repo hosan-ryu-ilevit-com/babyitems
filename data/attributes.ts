@@ -104,15 +104,15 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
   },
   {
     key: 'priceValue',
-    name: '가격 및 가성비',
-    description: '가격대별로 기능이 달라요.',
+    name: '가격 대비 가치',
+    description: '일반적으로 가격대별로 기능이 달라요.',
     details: [
-      '5만원대: 기본 보온 기능',
-      '6~10만원대: 좋은 소재와 편의 기능',
-      '8만원 이상: 다양한 추가 구성품',
+      '5만원대: 기본 보온 기능만 포함해요.',
+      '6~10만원대: 좋은 소재와 편의 기능이 포함돼요.',
+      '8만원 이상: 다양한 추가 구성품이 들어있어요.',
     ],
     isOptional: true,
-    conversationalIntro: '여섯 번째는 **"가격 및 가성비"**예요.\n가격대별로 기능이 달라요.',
+    conversationalIntro: '여섯 번째는 **"가격 대비 가치"**예요.\n일반적으로 가격대별로 기능이 달라요.',
     importanceExamples: {
       important: '5~6만원대 이하로, 필수 기능만 있으면 돼요',
       normal: '6~10만원대에서 합리적인 제품을 원해요',

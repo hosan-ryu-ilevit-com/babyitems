@@ -42,9 +42,9 @@ export default function ResultPage() {
 
   // 순차적으로 보여줄 상태 메시지들
   const phaseMessages = [
-    '랭킹 상품 확인 중...',
+    '대표 상품 리스트 확인 중...',
     '고객님 선호도 분석 중...',
-    '꼭 맞는 상품 분석 중...',
+    '꼭 맞는 상품 고르는 중...',
   ];
 
   useEffect(() => {

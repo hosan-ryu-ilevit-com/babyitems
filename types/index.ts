@@ -5,7 +5,7 @@ export interface CoreValues {
   material: number;              // 소재/안전성 (1-10)
   usability: number;             // 사용 편의성 (1-10)
   portability: number;           // 휴대성 (1-10)
-  priceValue: number;            // 가격/가성비 (1-10)
+  priceValue: number;            // 가격 대비 가치 (1-10, 높을수록 가성비 좋음)
   durability: number;            // 내구성/A/S (1-10)
   additionalFeatures: number;    // 부가 기능/디자인 (1-10)
 }

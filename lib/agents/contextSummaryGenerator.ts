@@ -23,7 +23,7 @@ const ATTRIBUTE_NAME_MAP: Record<string, string> = {
   material: '소재/안전성',
   usability: '사용 편의성',
   portability: '휴대성',
-  priceValue: '가격/가성비',
+  priceValue: '가격 대비 가치',
   durability: '내구성/A/S',
   additionalFeatures: '부가 기능/디자인',
 };
