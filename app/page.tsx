@@ -6,14 +6,20 @@ import Image from 'next/image';
 import { ChatCircleDots, ChartBar, ArrowDown } from '@phosphor-icons/react/dist/ssr';
 import { products } from '@/data/products';
 import { useState, useEffect } from 'react';
+import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 
 export default function Home() {
   const [showFloatingButton, setShowFloatingButton] = useState(false);
 
+  // 페이지 뷰 로깅
+  useEffect(() => {
+    logPageView('home');
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       // 조금만 스크롤해도 플로팅 버튼 표시
-      const scrollThreshold = 190; 
+      const scrollThreshold = 190;
       setShowFloatingButton(window.scrollY > scrollThreshold);
     };
 
@@ -94,6 +100,7 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => logButtonClick('1분만에 추천받기', 'home')}
                 className="w-full h-14 bg-linear-to-r from-gray-900 to-gray-700 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5"
               >
                 <ChatCircleDots size={24} weight="bold" />
@@ -102,7 +109,10 @@ export default function Home() {
             </Link>
 
             <button
-              onClick={scrollToRanking}
+              onClick={() => {
+                logButtonClick('대표상품 랭킹보기', 'home');
+                scrollToRanking();
+              }}
               className="w-full h-[72px] bg-white border border-gray-300 text-gray-700 rounded-2xl hover:bg-gray-50 hover:border-gray-400 transition-all flex flex-col items-center justify-center gap-1 py-3"
             >
               <div className="flex items-center gap-2">
@@ -130,7 +140,10 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.5 }}
             className="flex flex-col items-center cursor-pointer mt-2 pb-8"
-            onClick={scrollToRanking}
+            onClick={() => {
+              logButtonClick('스크롤 인디케이터', 'home');
+              scrollToRanking();
+            }}
             suppressHydrationWarning
           >
             <motion.div
@@ -226,6 +239,7 @@ export default function Home() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  onClick={() => logButtonClick('1분만에 추천받기 (플로팅)', 'home')}
                   className="w-full h-14 bg-linear-to-r from-gray-900 to-gray-700 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5"
                 >
                   <ChatCircleDots size={24} weight="bold" />

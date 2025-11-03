@@ -16,6 +16,7 @@ import {
   calculateProgress,
   clearSession,
 } from '@/lib/utils/session';
+import { logPageView, logButtonClick, logUserInput } from '@/lib/logging/clientLogger';
 import {
   generateIntroMessage,
   generateWarmupQuestion,
@@ -123,6 +124,14 @@ export default function ChatPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // 페이지 뷰 로깅
+  useEffect(() => {
+    if (!mounted) return;
+    const session = loadSession();
+    const pageLabel = session.phase === 'chat2' ? 'chat/open' : 'chat/structured';
+    logPageView(pageLabel);
+  }, [mounted]);
 
   // 메시지를 순차적으로 추가하는 함수
   const addMessagesSequentially = async (
@@ -294,6 +303,7 @@ export default function ChatPage() {
   // Phase 0 건너뛰기 핸들러
   const handlePhase0Skip = async () => {
     setShowPhase0QuickReply(false);
+    logButtonClick('없어요 (Phase 0)', 'chat/structured');
 
     let session = loadSession();
 
@@ -341,9 +351,13 @@ export default function ChatPage() {
   // 빠른 응답 버튼 클릭 핸들러 (LLM 없이 즉시 처리)
   const handleQuickReply = async (importance: ImportanceLevel) => {
     setShowQuickReplies(false);
+    const pageLabel = phase === 'chat2' ? 'chat/open' : 'chat/structured';
 
     let session = loadSession();
     const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+
+    // 속성 정보를 포함하여 로깅
+    logButtonClick(`중요도: ${importance}`, pageLabel, attribute.key);
 
     // 사용자 선택 메시지
     const userMessage = importance === '중요함' ? '중요합니다' : importance === '보통' ? '보통입니다' : '중요하지 않습니다';
@@ -432,6 +446,10 @@ export default function ChatPage() {
     setWaitingForFollowUpResponse(false);
 
     let session = loadSession();
+    const currentAttribute = CORE_ATTRIBUTES[currentAttributeIndex];
+
+    // 속성 정보를 포함하여 로깅
+    logButtonClick('넘어가기 (Follow-up)', 'chat/structured', currentAttribute.key);
 
     // 사용자 메시지 추가
     session = addMessage(session, 'user', '다음 질문으로 넘어갈게요', 'chat1');
@@ -848,6 +866,7 @@ export default function ChatPage() {
   // Chat2 빠른 응답 버튼 핸들러
   const handleChat2QuickReply = async () => {
     setShowChat2QuickReply(false);
+    logButtonClick('없어요 (Chat2)', 'chat/open');
 
     let session = loadSession();
 
@@ -936,6 +955,17 @@ export default function ChatPage() {
     const userInput = input.trim();
     setInput('');
 
+    // 사용자 입력 로깅 (속성 정보 포함)
+    const pageLabel = phase === 'chat2' ? 'chat/open' : 'chat/structured';
+
+    // Chat1 phase에서만 속성 정보 추가
+    if (phase === 'chat1' && currentAttributeIndex < CORE_ATTRIBUTES.length) {
+      const currentAttribute = CORE_ATTRIBUTES[currentAttributeIndex];
+      logUserInput(userInput, pageLabel, currentAttribute.key);
+    } else {
+      logUserInput(userInput, pageLabel);
+    }
+
     if (phase === 'chat1') {
       await handleChat1Message(userInput);
     } else if (phase === 'chat2') {
@@ -945,6 +975,7 @@ export default function ChatPage() {
 
   // 추천 받기
   const handleGetRecommendation = () => {
+    logButtonClick('추천 받기', 'chat/open');
     // result 페이지로 이동 (API 호출은 result 페이지에서)
     router.push('/result');
   };

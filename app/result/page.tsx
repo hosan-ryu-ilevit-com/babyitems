@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { loadSession, saveSession } from '@/lib/utils/session';
 import { Recommendation, UserContextSummary } from '@/types';
 import UserContextSummaryComponent from '@/components/UserContextSummary';
+import { logPageView } from '@/lib/logging/clientLogger';
 
 // 마크다운 볼드 처리 함수
 function parseMarkdownBold(text: string) {
@@ -49,6 +50,12 @@ export default function ResultPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // 페이지 뷰 로깅
+  useEffect(() => {
+    if (!mounted) return;
+    logPageView('result');
+  }, [mounted]);
 
   // 타이머 효과
   useEffect(() => {
@@ -164,6 +171,44 @@ export default function ResultPage() {
                 updatedSession.recommendations = data.recommendations;
                 updatedSession.contextSummary = data.contextSummary;
                 saveSession(updatedSession);
+
+                // 추천 결과 로깅 (전체 리포트 포함)
+                if (data.recommendations && data.recommendations.length > 0) {
+                  const productIds = data.recommendations.map((r: Recommendation) => r.product.id);
+                  const fullReport = {
+                    userContext: data.contextSummary ? {
+                      priorityAttributes: data.contextSummary.priorityAttributes,
+                      additionalContext: data.contextSummary.additionalContext,
+                      budget: data.contextSummary.budget,
+                    } : undefined,
+                    recommendations: data.recommendations.map((r: Recommendation) => ({
+                      rank: r.rank,
+                      productId: r.product.id,
+                      productTitle: r.product.title,
+                      price: r.product.price,
+                      finalScore: r.finalScore,
+                      strengths: r.personalizedReason.strengths,
+                      weaknesses: r.personalizedReason.weaknesses,
+                      comparison: r.comparison,
+                      additionalConsiderations: r.additionalConsiderations,
+                    })),
+                  };
+
+                  // 전체 리포트를 포함하여 로깅
+                  fetch('/api/log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      sessionId: localStorage.getItem('baby_item_session_id'),
+                      eventType: 'recommendation_received',
+                      recommendations: {
+                        productIds,
+                        persona: data.persona?.summary || '',
+                        fullReport,
+                      },
+                    }),
+                  }).catch(console.error);
+                }
 
                 // 화면에 표시
                 if (!data.recommendations || data.recommendations.length === 0) {

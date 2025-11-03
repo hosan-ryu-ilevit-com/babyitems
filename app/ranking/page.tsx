@@ -5,8 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { CaretLeft, Star } from '@phosphor-icons/react/dist/ssr';
 import { products } from '@/data/products';
+import { useEffect } from 'react';
+import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 
 export default function RankingPage() {
+  // 페이지 뷰 로깅
+  useEffect(() => {
+    logPageView('ranking');
+  }, []);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -77,6 +83,7 @@ export default function RankingPage() {
                     href={product.reviewUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => logButtonClick(`상세보기: ${product.title}`, 'ranking')}
                     className="block w-full py-2.5 text-center text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
                   >
                     상세보기
@@ -99,6 +106,7 @@ export default function RankingPage() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => logButtonClick('추천 받기', 'ranking')}
               className="w-full h-14 bg-gray-900 text-white font-medium rounded-2xl shadow-lg hover:bg-gray-800 transition-colors"
             >
               추천 받기
