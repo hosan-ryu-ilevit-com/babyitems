@@ -367,4 +367,84 @@ export const products: Product[] = [
       additionalFeatures: 9   // 매우 충족 - 99% 살균 기능, C타입 충전, 삼성SDI 배터리 탑재, 깔끔한 디자인
     }
   }
+,
+  {
+    id: '7821923686',
+    title: '보닉 이중전기포트 티포트 분유포트 커피포트 1.5리터 kettle teapot NT1500단품',
+    price: 15640,
+    reviewCount: 50,
+    reviewUrl: 'https://www.coupang.com/vp/products/7821923686',
+    ranking: 26,
+    thumbnail: '/thumbnails/7821923686.png',
+    coreValues: {
+      temperatureControl: 1,  // 매우 미달 - 온도조절 기능 전무 (기본 끓임 기능만 제공)
+      hygiene: 8,             // 충족 - 내부 올스텐, 입구가 넓어 세척 용이
+      material: 9,            // 매우 충족 - 이중 구조로 외부 표면이 뜨겁지 않아 안전함
+      usability: 4,           // 미달 - 뚜껑 개폐가 불편하고 잘 닫히지 않아 위험함
+      portability: 1,        // 매우 미달 - 가정용 대용량 제품
+      priceValue: 10,          // 매우 충족 - 만원 중반대 가격으로 최고의 가성비
+      durability: 3,          // 미달 - 뚜껑 내구성이 약하고 바닥 누수 문제가 보고됨
+      additionalFeatures: 6   // 보통 - 심플하고 깔끔한 디자인
+    }
+  }
+,
+  {
+    id: '8565802095',
+    title: '아이닉 올케어 분유포트 화이트',
+    price: 129000,
+    reviewCount: 173,
+    reviewUrl: 'https://www.coupang.com/vp/products/8565802095',
+    ranking: 27,
+    thumbnail: '/thumbnails/8565802095.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 100℃ 끓임, 쿨링팬, 1도 단위 조절, 자동 보온까지 완벽.
+      hygiene: 9,             // 매우 충족 - 유리 포트, 완전 분리 세척, 출수관 잔수 자동 배출 기능.
+      material: 9,            // 매우 충족 - 스테인리스 316 재질과 위생적인 유리 포트 사용.
+      usability: 9,           // 매우 충족 - 자동 출수, 1ml 단위 조절, 직관적 다이얼 조작으로 매우 편리함.
+      portability: 1,        // 매우 미달 - 가정용 대용량 제품으로 휴대성 없음.
+      priceValue: 10,          // 매우 충족 - 출수형+주전자형 올인원 기능 대비 압도적인 가성비.
+      durability: 7,          // 충족 - 유리 포트 특성상 주의 필요하나, 전반적인 내구성 평가는 양호.
+      additionalFeatures: 9   // 매우 충족 - 중탕기 포함, 스마트폰 앱 연동, 수유등 등 부가 기능 풍부.
+    }
+  }
+,
+  {
+    id: '8260978952',
+    title: '풀무원 바른 분유포트 1.3L',
+    price: 77200,
+    reviewCount: 307,
+    reviewUrl: 'https://www.coupang.com/vp/products/8260978952',
+    ranking: 28,
+    thumbnail: '/thumbnails/8260978952.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 원터치 분유 모드, 자동 염소 제거, 영구 보온
+      hygiene: 8,             // 충족 - 넓은 입구로 통세척 용이 (일부 뚜껑 패킹에 물 고임 문제 제기)
+      material: 5,            // 보통 - STS316 고급 소재 사용 (일부 사용자 유리/바닥 얇음 지적)
+      usability: 5,           // 보통 - 가벼운 무게 (냉각팬 소음 및 민감한 터치 단점 상쇄)
+      portability: 1,        // 매우 미달 - 가정용 대용량 주전자형 포트
+      priceValue: 10,          // 매우 충족 - 경쟁 제품 대비 압도적인 가성비
+      durability: 3,          // 미달 - 초기 고장 및 AS 지연 사례, 바닥면 변색/녹 발생 보고
+      additionalFeatures: 8   // 충족 - 깔끔한 디자인, 6가지 자동 모드 (차, 커피, 살균 등)
+    }
+  }
+,
+  {
+    id: '7865821886',
+    title: '위마망 접이식 분유포트 접이식 전기포트, 1개, 화이트[600ml]',
+    price: 29000,
+    reviewCount: 123,
+    reviewUrl: 'https://www.coupang.com/vp/products/7865821886',
+    ranking: 29,
+    thumbnail: '/thumbnails/7865821886.png',
+    coreValues: {
+      temperatureControl: 9,  // 매우 충족 - 100℃ 끓임 및 40℃ 고정 보온 기능 우수
+      hygiene: 7,             // 충족 - 실리콘 재질로 세척 간편, 다만 완전 건조 필수 및 이물질 발생 우려 일부 존재
+      material: 8,            // 충족 - 식품용 실리콘 및 스테인리스 사용, 분유용으로 안심하고 사용
+      usability: 7,           // 충족 - 간단한 조작, 고정형 손잡이 편리, 다만 600ml 소용량 및 안정성 주의 필요
+      portability: 10,        // 매우 충족 - 접이식 구조, 컴팩트한 크기, 가벼운 무게, 프리볼트 지원
+      priceValue: 10,          // 매우 충족 - 3만원대 가격에 분유포트 기능과 압도적인 휴대성 제공
+      durability: 6,          // 보통 - 실리콘 재질 특성상 내구성이 약할 수 있으나, 여행용으로는 충분함
+      additionalFeatures: 9   // 매우 충족 - 깔끔한 디자인, 전용 파우치 제공, 분유포트/전기포트 겸용
+    }
+  }
 ];
