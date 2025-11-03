@@ -129,7 +129,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-col items-center cursor-pointer pb-8"
+            className="flex flex-col items-center cursor-pointer mt-2 pb-8"
             onClick={scrollToRanking}
             suppressHydrationWarning
           >

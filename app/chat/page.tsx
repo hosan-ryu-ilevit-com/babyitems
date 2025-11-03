@@ -1321,7 +1321,7 @@ export default function ChatPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleGetRecommendation}
-              className="w-full h-12 mb-3 bg-blue-700 hover:bg-blue-900 text-white font-semibold rounded-full shadow-lg transition-colors"
+              className="w-full h-12 mb-3 bg-linear-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white font-semibold rounded-full shadow-lg transition-all"
             >
               추천 받기
             </motion.button>
