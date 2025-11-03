@@ -4,6 +4,7 @@ export type LogEventType =
   | 'page_view'
   | 'button_click'
   | 'user_input'
+  | 'ai_response'
   | 'recommendation_received';
 
 export interface LogEvent {
@@ -17,6 +18,7 @@ export interface LogEvent {
   attributeIcon?: string; // 속성 아이콘 (예: "🌡️")
   buttonLabel?: string; // 버튼 텍스트
   userInput?: string; // 자연어 입력
+  aiResponse?: string; // AI 응답 텍스트
   recommendations?: {
     productIds: string[];
     persona?: string; // 간단한 페르소나 요약

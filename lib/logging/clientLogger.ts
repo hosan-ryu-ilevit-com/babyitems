@@ -108,6 +108,20 @@ export function logUserInput(
   sendLogEvent('user_input', data);
 }
 
+// AI 응답 로깅
+export function logAIResponse(
+  aiResponse: string,
+  page?: string,
+  attributeKey?: string
+): void {
+  const data: Record<string, unknown> = { aiResponse, page };
+  if (attributeKey) {
+    data.attribute = ATTRIBUTE_NAMES[attributeKey];
+    data.attributeIcon = ATTRIBUTE_ICONS[attributeKey];
+  }
+  sendLogEvent('ai_response', data);
+}
+
 // 추천 결과 로깅
 export function logRecommendation(
   productIds: string[],

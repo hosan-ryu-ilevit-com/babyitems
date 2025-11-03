@@ -74,6 +74,7 @@ export default function AdminPage() {
       page_view: '페이지 뷰',
       button_click: '버튼 클릭',
       user_input: '사용자 입력',
+      ai_response: 'AI 응답',
       recommendation_received: '추천 결과',
     };
     return labels[type] || type;
@@ -409,7 +410,12 @@ export default function AdminPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y">
-                        {session.events.map((event, idx) => (
+                        {session.events.map((event, idx) => {
+                          // 디버깅: AI 응답이 있는지 확인
+                          if (event.eventType === 'ai_response') {
+                            console.log('AI Response Event:', event);
+                          }
+                          return (
                           <tr key={idx} className="hover:bg-gray-50">
                             <td className="px-3 py-2 whitespace-nowrap">
                               {formatTime(event.timestamp)}
@@ -434,12 +440,24 @@ export default function AdminPage() {
                             </td>
                             <td className="px-3 py-2">
                               {event.buttonLabel && (
-                                <div>{formatButtonLabel(event.buttonLabel)}</div>
+                                <div className="mb-2">{formatButtonLabel(event.buttonLabel)}</div>
                               )}
                               {event.userInput && (
-                                <span className="text-green-600">
-                                  입력: {event.userInput}
-                                </span>
+                                <div className="bg-green-50 border-l-4 border-green-500 p-2 rounded text-sm mb-2">
+                                  <span className="text-green-700 font-semibold">사용자</span>
+                                  <p className="text-gray-800 mt-1">{event.userInput}</p>
+                                </div>
+                              )}
+                              {event.eventType === 'ai_response' && 'aiResponse' in event && (
+                                <div className="bg-blue-50 border-l-4 border-blue-500 p-2 rounded text-sm mb-2">
+                                  <span className="text-blue-700 font-semibold">AI</span>
+                                  <p className="text-gray-800 mt-1 whitespace-pre-wrap">
+                                    {event.aiResponse || '(내용 없음)'}
+                                  </p>
+                                </div>
+                              )}
+                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && event.eventType !== 'page_view' && (
+                                <span className="text-xs text-gray-400">-</span>
                               )}
                               {event.recommendations && (
                                 <div className="space-y-1">
@@ -579,7 +597,8 @@ export default function AdminPage() {
                               )}
                             </td>
                           </tr>
-                        ))}
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>

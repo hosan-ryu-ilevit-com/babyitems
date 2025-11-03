@@ -16,7 +16,7 @@ import {
   calculateProgress,
   clearSession,
 } from '@/lib/utils/session';
-import { logPageView, logButtonClick, logUserInput } from '@/lib/logging/clientLogger';
+import { logPageView, logButtonClick, logUserInput, logAIResponse } from '@/lib/logging/clientLogger';
 import {
   generateIntroMessage,
   generateWarmupQuestion,
@@ -133,6 +133,26 @@ export default function ChatPage() {
     logPageView(pageLabel);
   }, [mounted]);
 
+  // AI 메시지 추가 및 로깅 헬퍼 함수
+  const addAssistantMessage = (
+    session: SessionState,
+    content: string,
+    phase: 'chat1' | 'chat2',
+    options?: { isImportanceQuestion?: boolean; isConfirmation?: boolean; details?: string[] }
+  ): SessionState => {
+    const updatedSession = addMessage(session, 'assistant', content, phase, options);
+
+    // 현재 속성 정보 가져오기
+    const currentAttr = CORE_ATTRIBUTES[session.currentAttribute];
+    const attributeKey = currentAttr?.key;
+    const pageLabel = phase === 'chat2' ? 'chat/open' : 'chat/structured';
+
+    // AI 응답 로깅
+    logAIResponse(content, pageLabel, attributeKey);
+
+    return updatedSession;
+  };
+
   // 메시지를 순차적으로 추가하는 함수
   const addMessagesSequentially = async (
     session: SessionState,
@@ -150,9 +170,8 @@ export default function ChatPage() {
       const details = typeof messagePart === 'object' ? messagePart.details : undefined;
       const isImportanceQuestion = typeof messagePart === 'object' ? messagePart.isImportanceQuestion : isLastPart;
 
-      updatedSession = addMessage(
+      updatedSession = addAssistantMessage(
         updatedSession,
-        'assistant',
         content,
         phase,
         { isImportanceQuestion, details }
@@ -191,7 +210,7 @@ export default function ChatPage() {
       // 첫 방문: 환영 메시지 및 Phase 0 워밍업 질문
       const initializeChat = async () => {
         let updatedSession = changePhase(session, 'chat1');
-        updatedSession = addMessage(updatedSession, 'assistant', generateIntroMessage(), 'chat1');
+        updatedSession = addAssistantMessage(updatedSession, generateIntroMessage(), 'chat1');
         setMessages([...updatedSession.messages]);
         saveSession(updatedSession);
 
@@ -210,7 +229,7 @@ export default function ChatPage() {
 
         // Phase 0 워밍업 질문 추가
         const warmupQuestion = generateWarmupQuestion();
-        updatedSession = addMessage(updatedSession, 'assistant', warmupQuestion, 'chat1');
+        updatedSession = addAssistantMessage(updatedSession, warmupQuestion, 'chat1');
         setMessages([...updatedSession.messages]);
         saveSession(updatedSession);
 
@@ -320,7 +339,7 @@ export default function ChatPage() {
 
     // Phase 0 완료 메시지 (정보 업데이트됨 없이 바로 넘어감)
     const transitionMsg = '알겠습니다! 그럼 이제 구체적으로 여쭤볼게요.';
-    session = addMessage(session, 'assistant', transitionMsg, 'chat1');
+    session = addAssistantMessage(session, transitionMsg, 'chat1');
     setMessages([...session.messages]);
     saveSession(session);
 
@@ -397,7 +416,7 @@ export default function ChatPage() {
         const followUpQuestion = data.message || generateVeryImportantFollowUp(attribute.name, attribute.details);
 
         session = loadSession();
-        session = addMessage(session, 'assistant', followUpQuestion, 'chat1');
+        session = addAssistantMessage(session, followUpQuestion, 'chat1');
         setMessages([...session.messages]);
         saveSession(session);
 
@@ -420,7 +439,7 @@ export default function ChatPage() {
       console.error('Failed to generate follow-up:', error);
       // 에러 시 fallback 질문 사용
       const followUpQuestion = generateVeryImportantFollowUp(attribute.name, attribute.details);
-      session = addMessage(session, 'assistant', followUpQuestion, 'chat1');
+      session = addAssistantMessage(session, followUpQuestion, 'chat1');
       setMessages([...session.messages]);
       saveSession(session);
 
@@ -464,7 +483,7 @@ export default function ChatPage() {
     const importance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
     const feedbackMessage = generateImportanceFeedback(attribute.name, importance!);
 
-    session = addMessage(session, 'assistant', feedbackMessage, 'chat1', { isConfirmation: true });
+    session = addAssistantMessage(session, feedbackMessage, 'chat1', { isConfirmation: true });
     setMessages([...session.messages]);
     saveSession(session);
 
@@ -489,7 +508,7 @@ export default function ChatPage() {
     } else {
       // 모든 속성 완료 → Chat2로 전환
       const transitionMessage = generateChat2TransitionMessage();
-      session = changePhase(addMessage(session, 'assistant', transitionMessage, 'chat2'), 'chat2');
+      session = changePhase(addAssistantMessage(session, transitionMessage, 'chat2'), 'chat2');
 
       saveSession(session);
       setMessages([...session.messages]);
@@ -526,7 +545,7 @@ export default function ChatPage() {
 
       // 확인 메시지 (초록색 체크)
       const confirmMsg = '정보 업데이트됨';
-      session = addMessage(session, 'assistant', confirmMsg, 'chat1', { isConfirmation: true });
+      session = addAssistantMessage(session, confirmMsg, 'chat1', { isConfirmation: true });
       setMessages([...session.messages]);
       saveSession(session);
 
@@ -534,7 +553,7 @@ export default function ChatPage() {
 
       // Phase 0 완료 메시지
       const transitionMsg = '알겠습니다! 그럼 이제 구체적으로 여쭤볼게요.';
-      session = addMessage(session, 'assistant', transitionMsg, 'chat1');
+      session = addAssistantMessage(session, transitionMsg, 'chat1');
       setMessages([...session.messages]);
       saveSession(session);
 
@@ -621,7 +640,7 @@ export default function ChatPage() {
       const finalImportance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
       const feedbackMessage = generateImportanceFeedback(attribute.name, finalImportance!);
 
-      session = addMessage(session, 'assistant', feedbackMessage, 'chat1', { isConfirmation: true });
+      session = addAssistantMessage(session, feedbackMessage, 'chat1', { isConfirmation: true });
       setMessages([...session.messages]);
       saveSession(session);
 
@@ -646,7 +665,7 @@ export default function ChatPage() {
       } else {
         // 모든 속성 완료 → Chat2로 전환
         const transitionMessage = generateChat2TransitionMessage();
-        session = changePhase(addMessage(session, 'assistant', transitionMessage, 'chat2'), 'chat2');
+        session = changePhase(addAssistantMessage(session, transitionMessage, 'chat2'), 'chat2');
 
         saveSession(session);
         setMessages([...session.messages]);
@@ -707,7 +726,7 @@ export default function ChatPage() {
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         // follow-up 질문 추가
-        session = addMessage(session, 'assistant', data.followUpQuestion, 'chat1');
+        session = addAssistantMessage(session, data.followUpQuestion, 'chat1');
         setMessages([...session.messages]);
         saveSession(session);
 
@@ -745,7 +764,7 @@ export default function ChatPage() {
       // importance_response 타입인 경우 (확인 메시지 + 다음 질문)
       if (data.type === 'next_attribute' && data.confirmationMessage) {
         // 확인 메시지 추가
-        session = addMessage(session, 'assistant', data.confirmationMessage, 'chat1', { isConfirmation: true });
+        session = addAssistantMessage(session, data.confirmationMessage, 'chat1', { isConfirmation: true });
         setMessages([...session.messages]);
         saveSession(session);
 
@@ -768,7 +787,7 @@ export default function ChatPage() {
       // Chat2로 전환
       else if (data.type === 'transition_to_chat2' && data.confirmationMessage) {
         // 확인 메시지 추가
-        session = addMessage(session, 'assistant', data.confirmationMessage, 'chat1', { isConfirmation: true });
+        session = addAssistantMessage(session, data.confirmationMessage, 'chat1', { isConfirmation: true });
         setMessages([...session.messages]);
         saveSession(session);
 
@@ -777,7 +796,7 @@ export default function ChatPage() {
 
         // 전환 메시지 추가
         if (data.messages && Array.isArray(data.messages) && data.messages.length > 0) {
-          session = addMessage(session, 'assistant', data.messages[0], 'chat2');
+          session = addAssistantMessage(session, data.messages[0], 'chat2');
         }
 
         session = changePhase(session, 'chat2');
@@ -799,7 +818,7 @@ export default function ChatPage() {
       // redirect 타입 (off_topic 처리 후 중요도 질문 다시 표시)
       else if (data.type === 'redirect' || data.type === 'follow_up') {
         // 첫 번째 메시지 (설명 또는 리다이렉트) 추가 (일반 회색 말풍선)
-        session = addMessage(session, 'assistant', data.messages[0], 'chat1');
+        session = addAssistantMessage(session, data.messages[0], 'chat1');
         setMessages([...session.messages]);
         saveSession(session);
 
@@ -817,7 +836,7 @@ export default function ChatPage() {
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         // 중요도 질문 추가 (하늘색 배경)
-        session = addMessage(session, 'assistant', data.messages[1], 'chat1', { isImportanceQuestion: true });
+        session = addAssistantMessage(session, data.messages[1], 'chat1', { isImportanceQuestion: true });
         setMessages([...session.messages]);
         saveSession(session);
 
@@ -842,7 +861,7 @@ export default function ChatPage() {
           session = await addMessagesSequentially(session, data.messages, 'chat1');
         } else if (data.message) {
           // 단일 메시지
-          session = addMessage(session, 'assistant', data.message, 'chat1');
+          session = addAssistantMessage(session, data.message, 'chat1');
           setMessages([...session.messages]);
           saveSession(session);
 
@@ -856,7 +875,7 @@ export default function ChatPage() {
       }
     } catch (error) {
       console.error('Failed to send message:', error);
-      session = addMessage(session, 'assistant', '죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.', 'chat1');
+      session = addAssistantMessage(session, '죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.', 'chat1');
       setMessages(session.messages);
     } finally {
       setIsLoading(false);
@@ -880,7 +899,7 @@ export default function ChatPage() {
 
     // 추천 준비 완료 메시지
     const readyMessage = generateChat2ReadyMessage();
-    session = addMessage(session, 'assistant', readyMessage, 'chat2');
+    session = addAssistantMessage(session, readyMessage, 'chat2');
     setMessages([...session.messages]);
     saveSession(session);
 
@@ -923,7 +942,7 @@ export default function ChatPage() {
       const data = await response.json();
 
       session = loadSession();
-      session = addMessage(session, 'assistant', data.message, 'chat2');
+      session = addAssistantMessage(session, data.message, 'chat2');
 
       const newMessage = session.messages[session.messages.length - 1];
 
@@ -941,7 +960,7 @@ export default function ChatPage() {
       }, data.message.length * 10 + 300);
     } catch (error) {
       console.error('Failed to send message:', error);
-      session = addMessage(session, 'assistant', '죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.', 'chat2');
+      session = addAssistantMessage(session, '죄송합니다. 일시적인 오류가 발생했습니다. 다시 시도해주세요.', 'chat2');
       setMessages(session.messages);
     } finally {
       setIsLoading(false);
