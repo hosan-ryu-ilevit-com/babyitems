@@ -213,6 +213,11 @@ export default function AdminUploadPage() {
       const uploadResult = await uploadResponse.json();
       const actualThumbnailPath = uploadResult.path; // 실제 업로드된 파일 경로
 
+      console.log('📸 썸네일 업로드 완료:', {
+        uploadResult,
+        actualThumbnailPath,
+      });
+
       // 2. 상품 데이터 저장 (실제 썸네일 경로 포함)
       const updatedPreview = {
         ...preview,
@@ -221,6 +226,11 @@ export default function AdminUploadPage() {
           thumbnail: actualThumbnailPath,
         },
       };
+
+      console.log('💾 저장할 데이터:', {
+        thumbnail: updatedPreview.productData.thumbnail,
+        productId: updatedPreview.productData.id,
+      });
 
       const response = await fetch('/api/admin/save-product', {
         method: 'POST',
@@ -467,7 +477,7 @@ export default function AdminUploadPage() {
   reviewCount: ${preview.productData.reviewCount},
   reviewUrl: 'https://www.coupang.com/vp/products/${preview.productData.id}',
   ranking: ${preview.productData.ranking},
-  thumbnail: '${preview.productData.thumbnail || `/thumbnails/${preview.productData.id}.${thumbnailFile?.name.split('.').pop()?.toLowerCase() || 'jpg'}`}',
+  thumbnail: '${preview.productData.thumbnail || (thumbnailFile ? `/thumbnails/${preview.productData.id}.${thumbnailFile.name.split('.').pop()?.toLowerCase()}` : '/thumbnails/[pending]')}',
   coreValues: {
     temperatureControl: ${preview.productData.coreValues.temperatureControl},
     hygiene: ${preview.productData.coreValues.hygiene},

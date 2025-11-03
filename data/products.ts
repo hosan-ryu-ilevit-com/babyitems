@@ -327,4 +327,44 @@ export const products: Product[] = [
       additionalFeatures: 9   // 매우 충족 - 20가지 멀티 기능(죽, 뱅쇼), 세련된 화이트/글라스 디자인
     }
   }
+,
+  {
+    id: '7594586358',
+    title: '쿠비녹스 접이식 여행용 전기포트 휴대용 미니 커피 분유 포트 캠핑용 햇반 CX-2072SC단품',
+    price: 37900,
+    reviewCount: 859,
+    reviewUrl: 'https://www.coupang.com/vp/products/7594586358',
+    ranking: 24,
+    thumbnail: '/thumbnails/7594586358.png',
+    coreValues: {
+      temperatureControl: 3,  // 미달 - 정밀 온도 조절 및 자동 꺼짐 기능 전무
+      hygiene: 6,             // 보통 - 넓은 입구와 SUS316은 장점, 하지만 코드 일체형 및 부유물 발생 보고됨
+      material: 7,            // 충족 - 프리미엄 SUS316 소재, 하지만 손잡이 내구성 및 전기 안전 문제 보고됨
+      usability: 5,           // 보통 - 접이식 손잡이 편리, 하지만 끓는 속도 느리고 다이얼 조작 및 짧은 코드 불편
+      portability: 10,        // 매우 충족 - 접이식 디자인, 가벼운 무게, 전 세계 전압 호환(듀얼 볼트)
+      priceValue: 9,          // 매우 충족 - SUS316, 대용량, 듀얼 볼트 기능을 갖춘 압도적인 가성비
+      durability: 3,          // 미달 - 해외 사용 시 초기 고장 및 작동 불량 사례 빈번, 손잡이 나사 풀림 보고됨
+      additionalFeatures: 8   // 충족 - 햇반 데우기 최적화된 대용량, 찜기 포함, 전용 파우치 제공
+    }
+  }
+,
+  {
+    id: '7912705855',
+    title: '코넘 99%살균기능 휴대용 분유포트 국산배터리 탑재',
+    price: 85900,
+    reviewCount: 240,
+    reviewUrl: 'https://www.coupang.com/vp/products/7912705855',
+    ranking: 25,
+    thumbnail: '/thumbnails/7912705855.png',
+    coreValues: {
+      temperatureControl: 9,  // 매우 충족 - 1도 세밀 조절, 최대 25시간 보온, 온도 유지력 탁월
+      hygiene: 8,             // 충족 - 99% 살균 기능 탑재, 연마제 적음, 다만 내부 세척 구조는 아쉬움
+      material: 9,            // 매우 충족 - 의료용 SUS316, 국산 삼성SDI 배터리 탑재, 안전성 우수
+      usability: 5,           // 보통 - 무겁고 부피가 큼, 터치 조작 반응 속도가 느리거나 예민함
+      portability: 7,        // 충족 - 무선 가열/보온 및 C타입 충전 편리, 다만 500ml 용량 대비 부피와 무게가 부담됨
+      priceValue: 8,          // 충족 - 고기능 무선 포트임을 감안 시 합리적인 가격대
+      durability: 4,          // 미달 - 초기 불량(디스플레이, 충전단자 탈락) 및 뚜껑 이음새 녹 발생 사례 보고됨
+      additionalFeatures: 9   // 매우 충족 - 99% 살균 기능, C타입 충전, 삼성SDI 배터리 탑재, 깔끔한 디자인
+    }
+  }
 ];

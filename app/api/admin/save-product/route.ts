@@ -26,6 +26,7 @@ interface SaveProductRequest {
     price: number;
     reviewCount: number;
     ranking: number;
+    thumbnail?: string; // 썸네일 경로 추가
     coreValues: {
       temperatureControl: number;
       hygiene: number;
@@ -50,6 +51,12 @@ export async function POST(request: NextRequest) {
   try {
     const body: SaveProductRequest = await request.json();
     const { productData, markdownContent, coreValuesComments } = body;
+
+    console.log('💾 상품 저장 시작:', {
+      productId: productData.id,
+      thumbnail: productData.thumbnail,
+      hasThumbnail: !!productData.thumbnail,
+    });
 
     // 1. products.ts 업데이트
     await updateProductsTs(productData, coreValuesComments);
@@ -78,6 +85,15 @@ async function updateProductsTs(
   const content = await fs.readFile(productsPath, 'utf-8');
 
   // 새로운 제품 객체 생성 (주석 포함)
+  // 썸네일 경로가 없으면 기본값 사용 (이전 버전 호환성)
+  const thumbnailPath = productData.thumbnail || `/thumbnails/${productData.id}.jpg`;
+
+  console.log('📝 products.ts 업데이트:', {
+    productId: productData.id,
+    receivedThumbnail: productData.thumbnail,
+    finalThumbnailPath: thumbnailPath,
+  });
+
   const newProduct = `  {
     id: '${productData.id}',
     title: '${productData.title.replace(/'/g, "\\'")}',
@@ -85,7 +101,7 @@ async function updateProductsTs(
     reviewCount: ${productData.reviewCount},
     reviewUrl: 'https://www.coupang.com/vp/products/${productData.id}',
     ranking: ${productData.ranking},
-    thumbnail: '/thumbnails/${productData.id}.jpg',
+    thumbnail: '${thumbnailPath}',
     coreValues: {
       temperatureControl: ${productData.coreValues.temperatureControl},  // ${coreValuesComments.temperatureControl.comment}
       hygiene: ${productData.coreValues.hygiene},             // ${coreValuesComments.hygiene.comment}
