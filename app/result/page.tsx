@@ -50,9 +50,9 @@ export default function ResultPage() {
 
   // 순차적으로 보여줄 상태 메시지들
   const phaseMessages = [
-    '대표 상품 리스트 확인 중...',
-    '고객님 선호도 분석 중...',
-    '꼭 맞는 상품 고르는 중...',
+    '대표 상품 랭킹 확인 중...',
+    '선호도 분석 중...',
+    '딱 맞는 상품 고르는 중...',
   ];
 
   useEffect(() => {
@@ -411,13 +411,13 @@ export default function ResultPage() {
               <div id="top3-section" />
 
               {/* 안내 문구 컨테이너 */}
-              <div className="bg-gray-100 rounded-xl p-4 flex items-start gap-3">
-                <svg className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              <div className="bg-green-50 rounded-xl p-4 flex items-start gap-2 border border-green-300 mt-12">
+                <svg className="w-5 h-5 text-green-600 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <div className="flex-1">
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    객관적인 상품 정보와, 내돈내산 리뷰만을 기반으로 추천했어요.
+                  <p className="text-sm text-green-900 leading-relaxed font-semibold">
+                    광고는 자동 차단! 오직 실제 구매자들의 긍/부정 리뷰만을 분석했어요.
                   </p>
                 </div>
               </div>

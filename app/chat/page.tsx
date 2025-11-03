@@ -338,7 +338,7 @@ export default function ChatPage() {
     await new Promise((resolve) => setTimeout(resolve, 300));
 
     // Phase 0 완료 메시지 (정보 업데이트됨 없이 바로 넘어감)
-    const transitionMsg = '알겠습니다! 그럼 이제 구체적으로 여쭤볼게요.';
+    const transitionMsg = '알겠습니다! 그럼 이제 구매할때 생각해야 할 중요 기준들을 하나씩 여쭤볼게요. 여쭤볼 구매기준은 **총 7개**에요.';
     session = addAssistantMessage(session, transitionMsg, 'chat1');
     setMessages([...session.messages]);
     saveSession(session);
@@ -552,7 +552,7 @@ export default function ChatPage() {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Phase 0 완료 메시지
-      const transitionMsg = '알겠습니다! 그럼 이제 구체적으로 여쭤볼게요.';
+      const transitionMsg = '알겠습니다! 그럼 이제 구매할때 생각해야 할 중요 기준들을 하나씩 여쭤볼게요. 여쭤볼 구매기준은 **총 7개**에요.';
       session = addAssistantMessage(session, transitionMsg, 'chat1');
       setMessages([...session.messages]);
       saveSession(session);

@@ -112,7 +112,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '8만원 이상: 다양한 추가 구성품이 들어있어요.',
     ],
     isOptional: true,
-    conversationalIntro: '여섯 번째는 **"가격 대비 가치"**예요.\n가격대별로 기능 차이가 꽤 있더라고요.',
+    conversationalIntro: '여섯 번째는 **"가격 대비 가치"**예요.\n일반적으로 가격대별로 기능 차이가 꽤 있답니다.',
     importanceExamples: {
       important: '5~6만원대 이하로, 필수 기능만 있으면 돼요',
       normal: '6~10만원대에서 합리적인 제품을 원해요',

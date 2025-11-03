@@ -39,7 +39,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
     >
       {/* 헤더 */}
       <div className="mb-4">
-        <h3 className="text-base font-bold text-gray-900 text-center">✅ 내 선택 기준</h3>
+        <h3 className="text-base font-bold text-gray-900 text-center">✅ 내 구매 기준</h3>
         {/* 귀여운 캐릭터 */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}

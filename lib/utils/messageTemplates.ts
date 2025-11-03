@@ -5,14 +5,14 @@ import type { ContextRelevance } from './contextRelevance';
  * 인트로 메시지 생성
  */
 export function generateIntroMessage(): string {
-  return '안녕하세요! 분유포트 구매 도우미에요.\n고객님께 딱 맞는 상품을 찾아드릴게요 😀 구매시 고려해야 할 중요한 기준들을 하나씩 여쭤볼게요!';
+  return '안녕하세요! 분유포트 구매 도우미에요.\n**실시간 판매량 베스트 상품들** 중에서, 고객님께 딱 맞는 상품을 찾아드려요 😀';
 }
 
 /**
  * Phase 0: 워밍업 질문 (자유 맥락 수집)
  */
 export function generateWarmupQuestion(): string {
-  return '본격적으로 시작하기 전에, 분유포트 구매와 관련된 상황을 편하게 이야기해주세요! 어떤 것이든 좋아요. (예산 고민, 첫 아이, 쌍둥이, 중요  구매 기준 등)';
+  return '본격적으로 시작하기 전에, 분유포트 구매와 관련된 상황을 편하게 이야기해주세요. 어떤 것이든 좋아요. (예산 고민, 첫 아이, 쌍둥이, 중요  구매기준 등)';
 }
 
 /**
