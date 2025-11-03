@@ -587,4 +587,204 @@ export const products: Product[] = [
       additionalFeatures: 8   // 충족 - 깔끔한 디자인, 다양한 생수병 호환 어댑터 제공
     }
   }
+,
+  {
+    id: '8856687595',
+    title: '100도 가열 트립베드 히팅텀블러 무선 휴대용 분유포트',
+    price: 113050,
+    reviewCount: 33,
+    reviewUrl: 'https://www.coupang.com/vp/products/8856687595',
+    ranking: 37,
+    thumbnail: '/thumbnails/8856687595.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 100도 가열, 정밀 온도 조절 및 보온 기능 완벽
+      hygiene: 5,             // 보통 - 100도 살균 가능하나, 충전부 방수 문제로 세척이 번거로움
+      material: 9,            // 매우 충족 - 내부 SUS316 고급 소재 사용으로 안전성 높음
+      usability: 7,           // 충족 - 조작은 쉬우나, 500ml 기준 가열 속도가 느리고 소음 발생
+      portability: 10,        // 매우 충족 - 무선 사용 및 휴대성 극대화, 외출 필수템
+      priceValue: 6,          // 보통 - 독보적인 기능 대비 가격은 높다는 불만이 다수
+      durability: 7,          // 충족 - 큰 구조적 문제 없으나, 잦은 100도 가열 시 배터리 수명 우려
+      additionalFeatures: 8   // 충족 - 안전 잠금, 디지털 온도 표시, 다용도 활용 가능
+    }
+  }
+,
+  {
+    id: '8852932895',
+    title: '맘코니 4세대 휴대용분유포트 무선 아기 여행용 캠핑용 분유보온병 히팅기',
+    price: 91000,
+    reviewCount: 153,
+    reviewUrl: 'https://www.coupang.com/vp/products/8852932895',
+    ranking: 38,
+    thumbnail: '/thumbnails/8852932895.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 1도 단위 세밀 조절, 24시간 보온, 자동 재가열 기능
+      hygiene: 9,             // 매우 충족 - 저온 살균 기능 탑재, SUS316 소재, 연마제 거의 없음
+      material: 10,            // 매우 충족 - 의료용 SUS316 스테인리스 사용, 트라이탄 소재 입구
+      usability: 7,           // 충족 - C타입 충전 편리, 키즈락 기능, 100℃ 가열 불가 및 소음 아쉬움
+      portability: 6,        // 보통 - 무선 충전 편리하나, 휴대용치고 무게감이 느껴짐
+      priceValue: 7,          // 충족 - 가격대가 높으나, 4세대 기능과 SUS316 소재로 가치 충족
+      durability: 3,          // 미달 - 초기 고장 및 충전 불량 후기 다수, A/S 정책 불만족
+      additionalFeatures: 9   // 매우 충족 - 저온 살균, 키즈락, C타입 충전, 2중 누수 방지 등 스마트 기능
+    }
+  }
+,
+  {
+    id: '6598603367',
+    title: '보랄 전기 티포트 커피 포트 유리 분유포트 1.8L 주전자 BR-T75WK',
+    price: 38900,
+    reviewCount: 159,
+    reviewUrl: 'https://www.coupang.com/vp/products/6598603367',
+    ranking: 39,
+    thumbnail: '/thumbnails/6598603367.png',
+    coreValues: {
+      temperatureControl: 4,  // 미달 - 보온 기능 불안정, 설정 온도 유지 실패
+      hygiene: 7,             // 보통 - 넓은 입구와 분리형 티망, 뚜껑 개방 각도 제한
+      material: 3,            // 미달 - 장기 사용 후 녹 발생 및 누수 보고됨
+      usability: 5,           // 보통 - 조작은 간단하나 끓일 때 소음이 매우 큼
+      portability: 1,        // 매우 미달 - 가정용 대용량 유리포트
+      priceValue: 10,          // 매우 충족 - 압도적인 가성비
+      durability: 3,          // 미달 - 누수 및 녹 발생 보고 (장기 사용 시)
+      additionalFeatures: 8   // 충족 - 깔끔한 무광 디자인과 티망 제공
+    }
+  }
+,
+  {
+    id: '7368490136',
+    title: '바란 스마트 자동 출수형 분유포트',
+    price: 49750,
+    reviewCount: 55,
+    reviewUrl: 'https://www.coupang.com/vp/products/7368490136',
+    ranking: 40,
+    thumbnail: '/thumbnails/7368490136.png',
+    coreValues: {
+      temperatureControl: 8,  // 충족 - 자동 끓임/식힘/보온 기능 우수하나, 일부 제품에서 보온 유지 실패 보고됨.
+      hygiene: 7,             // 보통 - 유리 본체로 위생적, 연마제 적음, 하지만 물/플라스틱 냄새 지속 보고됨.
+      material: 6,            // 보통 - 유리 본체로 위생적, 스테인리스 등급은 양호하나 냄새 문제 발생.
+      usability: 7,           // 충족 - 자동 출수 기능 매우 편리, 다만 출수량 오차 및 사용 순서 주의 필요.
+      portability: 1,        // 매우 미달 - 가정용 대용량 유리 포트.
+      priceValue: 10,          // 매우 충족 - 자동 출수 기능 포함, 압도적인 가성비.
+      durability: 3,          // 미달 - 잦은 고장(누수, 자동 꺼짐), 고객센터 응대 미흡.
+      additionalFeatures: 8   // 충족 - 자동 출수 기능, 깔끔하고 세련된 디자인.
+    }
+  }
+,
+  {
+    id: '7517972651',
+    title: '웰베노 분유포트 무음 온도조절 영구보온 분유포트기',
+    price: 65000,
+    reviewCount: 66,
+    reviewUrl: 'https://www.coupang.com/vp/products/7517972651',
+    ranking: 41,
+    thumbnail: '/thumbnails/7517972651.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 영구보온, 1도 미세조정, 자동 쿨링팬
+      hygiene: 8,             // 충족 - 뚜껑 분리 세척 용이, 3분 살균 기능
+      material: 8,            // 충족 - SUS 316L 의료용 스텐 사용, 두꺼운 유리
+      usability: 9,           // 매우 충족 - 무음 모드, 직관적 터치, 수유등 기능
+      portability: 1,        // 매우 미달 - 가정용 유리 포트
+      priceValue: 10,          // 매우 충족 - 유명 경쟁사 대비 압도적인 가성비
+      durability: 7,          // 충족 - 1년 무상 A/S 및 1회 새제품 교환 제공
+      additionalFeatures: 10   // 매우 충족 - 요거트, 중탕, 티팟 등 다기능 및 우수한 디자인
+    }
+  }
+,
+  {
+    id: '5065624051',
+    title: 'New 엘프슈타펠 분유포트 BNB-7500W 전기티포트 현재온도표시창 24시간보온 새벽수유 OK',
+    price: 96000,
+    reviewCount: 469,
+    reviewUrl: 'https://www.coupang.com/vp/products/5065624051',
+    ranking: 42,
+    thumbnail: '/thumbnails/5065624051.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 24시간 보온, 원하는 온도 설정 및 정확한 유지, 새벽 수유 최적화.
+      hygiene: 9,             // 매우 충족 - 넓은 입구와 완전 분리형 뚜껑으로 통세척 용이. (단, 이중 유리 습기 문제는 있음)
+      material: 8,            // 충족 - 이중 유리 쿨터치 구조로 안전성 우수. (일부 마감재 품질 및 유리 재질 표기 논란 존재)
+      usability: 8,           // 충족 - 직관적인 조작 및 저소음. (단, 뚜껑 결합부와 코드선 길이에 대한 아쉬움 존재)
+      portability: 1,        // 매우 미달 - 가정용 대용량 제품으로 휴대성 없음.
+      priceValue: 9,          // 매우 충족 - 분유/티포트 겸용의 다양한 기능 대비 10만원 이하의 합리적인 가격.
+      durability: 6,          // 보통 - 본체는 튼튼하나, 뚜껑 결합부 마감 및 초기 불량/반품 상품 이슈가 지적됨.
+      additionalFeatures: 9   // 매우 충족 - 깔끔한 디자인, LCD 온도 표시, 촘촘한 스텐 차망으로 티포트 활용도 높음.
+    }
+  }
+,
+  {
+    id: '7647695393',
+    title: '베이비부스트 이지 분유포트',
+    price: 177650,
+    reviewCount: 51,
+    reviewUrl: 'https://www.coupang.com/vp/products/7647695393',
+    ranking: 43,
+    thumbnail: '/thumbnails/7647695393.png',
+    coreValues: {
+      temperatureControl: 9,  // 매우 충족 - 1도 단위 세밀 조절, 원터치 분유 모드 제공.
+      hygiene: 10,             // 압도적 충족 - 분리형 유리 포트로 통세척 및 위생 관리가 매우 용이함.
+      material: 9,            // 매우 충족 - 붕규산 내열 유리 사용으로 쇠맛 우려 해소 및 위생적.
+      usability: 8,           // 충족 - 자동 출수, 무음 모드 등 편리하지만 20ml 단위 출수 및 느린 냉각 속도 아쉬움.
+      portability: 1,        // 매우 미달 - 대용량 가정용 제품으로 휴대 불가능.
+      priceValue: 7,          // 충족 - 고가이지만 분리형 유리 포트 및 자동 출수 기능 대비 합리적인 가격.
+      durability: 7,          // 충족 - 고장 관련 불만은 적으나, 유리 재질 특성상 파손 위험은 상존.
+      additionalFeatures: 10   // 압도적 충족 - 국내 분유 농도 맞춤 추출 기능 및 무음/출수등 모드 제공.
+    }
+  }
+,
+  {
+    id: '8449192048',
+    title: '베스트하임 모담 스마트 온도 조절 자동 출수형 분유 포트',
+    price: 58900,
+    reviewCount: 49,
+    reviewUrl: 'https://www.coupang.com/vp/products/8449192048',
+    ranking: 44,
+    thumbnail: '/thumbnails/8449192048.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 정밀 온도 조절, 장시간 보온, 자동 출수량 조절
+      hygiene: 8,             // 충족 - 살균 기능, 뚜껑 완전 분리, 의료등급 스텐
+      material: 4,            // 미달 - SUS316 사용에도 불구하고 유리 파손 위험
+      usability: 7,           // 충족 - 자동 출수 편리성 극대화 (소음, 설명서 부족은 단점)
+      portability: 1,        // 매우 미달 - 가정용 대용량 자동 출수 포트
+      priceValue: 10,          // 매우 충족 - 기능 대비 압도적인 가성비
+      durability: 2,          // 매우 미달 - 초기 불량 및 강화유리 파손 문제 빈번
+      additionalFeatures: 9   // 매우 충족 - 차망, 달임, 살균, 자동 잠금 등 다기능 및 감성 디자인
+    }
+  }
+,
+  {
+    id: '6804978516',
+    title: '델루체 스마트 분유포트',
+    price: 51900,
+    reviewCount: 183,
+    reviewUrl: 'https://www.coupang.com/vp/products/6804978516',
+    ranking: 45,
+    thumbnail: '/thumbnails/6804978516.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 1도 단위 조절, 24시간 보온, 쿨링팬 기능 완벽
+      hygiene: 8,             // 충족 - 붕규산 유리 및 SUS316 소재, 넓은 입구로 세척 용이
+      material: 5,            // 보통 - 고급 소재 사용에도 불구하고 유리 포트 파손 사례가 빈번함
+      usability: 5,           // 보통 - 가볍고 터치 간편하나, 코드선 짧음 및 터치 민감도 문제
+      portability: 1,        // 매우 미달 - 가정용 대용량 유리 포트로 휴대성 없음
+      priceValue: 10,          // 매우 충족 - 경쟁 제품 대비 압도적인 가성비
+      durability: 3,          // 미달 - 유리 파손 및 초기 불량 보고, A/S 정책에 대한 불만 존재
+      additionalFeatures: 8   // 충족 - 심플한 디자인, 6가지 자동 모드, 직관적 LED 디스플레이
+    }
+  }
+,
+  {
+    id: '8008665038',
+    title: '국민 분유포트 미엘루 전기티포트 커피포트기',
+    price: 65900,
+    reviewCount: 64,
+    reviewUrl: 'https://www.coupang.com/vp/products/8008665038',
+    ranking: 46,
+    thumbnail: '/thumbnails/8008665038.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 1°C 단위 조절, 자동 염소 제거, 24시간 보온 기능.
+      hygiene: 9,             // 매우 충족 - 넓은 입구로 통세척 용이, SUS316 소재, 자동 살균 기능.
+      material: 8,            // 충족 - SUS316L 고급 소재 및 봉규산 내열유리 사용.
+      usability: 6,           // 충족 - 빠른 가열 속도, 하지만 무게감 및 터치 버튼 민감도 문제 있음.
+      portability: 1,        // 매우 미달 - 가정용 대용량 유리 포트로 휴대성 없음.
+      priceValue: 10,          // 매우 충족 - 고가 브랜드 대비 기능 동일, 압도적인 가성비.
+      durability: 4,          // 미달 - 유리 파손 및 기능 오류 빈번, A/S는 신속함.
+      additionalFeatures: 8   // 충족 - 세련된 디자인, 차망 포함, 다양한 온도 설정 활용 가능.
+    }
+  }
 ];
