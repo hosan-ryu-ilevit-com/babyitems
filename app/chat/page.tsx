@@ -1346,7 +1346,7 @@ export default function ChatPage() {
               placeholder={phase === 'chat1' ? '대화하듯 편하게 물어보세요' : '더 고려할 점이 있으신가요?'}
               disabled={isLoading}
               rows={1}
-              className="flex-1 min-h-[48px] max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400 resize-none overflow-y-auto scrollbar-hide"
+              className="flex-1 min-h-[48px] max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"
             />
             <button
               onClick={handleSendMessage}

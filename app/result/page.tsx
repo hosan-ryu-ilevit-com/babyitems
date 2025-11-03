@@ -417,6 +417,14 @@ export default function ResultPage() {
                     </div>
                   </div>
 
+                  {/* 상세보기 버튼 */}
+                  <button
+                    onClick={() => window.open(rec.product.reviewUrl, '_blank')}
+                    className="w-full py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 mb-3"
+                  >
+                    쿠팡에서 상세보기
+                  </button>
+
                   {/* 추천 이유 */}
                   <div className="bg-blue-50 rounded-xl p-4 mb-3">
                     <h4 className="text-sm font-bold text-blue-900 mb-3 flex items-center gap-1">
@@ -538,14 +546,6 @@ export default function ResultPage() {
                       </AnimatePresence>
                     </div>
                   )}
-
-                  {/* 상세보기 버튼 */}
-                  <button
-                    onClick={() => window.open(rec.product.reviewUrl, '_blank')}
-                    className="w-full py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
-                  >
-                    쿠팡에서 상세보기
-                  </button>
                 </motion.div>
               ))}
             </div>

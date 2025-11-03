@@ -68,15 +68,15 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
               transition={{ duration: 0.3, delay: index * 0.05 }}
               className="bg-gray-50 rounded-xl p-3 border border-white"
             >
-              <div className="flex items-start justify-between gap-2 mb-2">
-                <span className="text-sm font-semibold text-gray-900 leading-tight">{attr.name}</span>
+              <div className="mb-2">
                 <span
-                  className={`text-xs font-medium px-2 py-0.5 rounded-full border shrink-0 ${getLevelStyle(
+                  className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full border mb-1.5 ${getLevelStyle(
                     attr.level
                   )}`}
                 >
                   {getLevelLabel(attr.level)}
                 </span>
+                <span className="text-sm font-semibold text-gray-900 leading-tight block">{attr.name}</span>
               </div>
               <p className="text-xs text-gray-600 leading-relaxed">{attr.reason}</p>
             </motion.div>
