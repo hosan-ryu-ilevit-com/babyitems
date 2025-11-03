@@ -179,7 +179,7 @@ export const products: Product[] = [
     reviewCount: 1986,
     reviewUrl: 'https://www.coupang.com/vp/products/8682829959',
     ranking: 13,
-    thumbnail: '/thumbnails/8682829959.jpg',
+    thumbnail: '/thumbnails/8682829959.png',
     coreValues: {
       temperatureControl: 10, // 매우 충족 - 1도 조절, 장시간 유지
       hygiene: 10,            // 매우 충족 - 99.9% 자체 살균
