@@ -8,6 +8,7 @@ import {
   createReassessmentPrompt,
   generateVeryImportantFollowUp,
 } from '@/lib/utils/messageTemplates';
+import { assessContextRelevance } from '@/lib/utils/contextRelevance';
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,8 +56,13 @@ export async function POST(request: NextRequest) {
     // follow-up 질문 생성 (모든 중요도에 대해, 맥락 없어도 진행)
     if (action === 'generate_followup' && attributeName) {
       try {
-        // phase0Context가 비어있거나 '없어요'여도 AI가 속성 세부사항 기반으로 질문 생성
-        const prompt = createFollowUpPrompt(attributeName, phase0Context || '', importance, attributeDetails);
+        // 1. 연관도 판단 (LLM 기반)
+        const relevance = await assessContextRelevance(phase0Context || '', attributeName);
+
+        // 2. 연관도 기반 프롬프트 생성
+        const prompt = createFollowUpPrompt(attributeName, phase0Context || '', relevance, importance, attributeDetails);
+
+        // 3. AI 응답 생성
         const followUpQuestion = await generateAIResponse(prompt, [
           {
             role: 'user',
@@ -142,12 +148,19 @@ export async function POST(request: NextRequest) {
         // 항상 AI 기반 follow-up 질문 생성 (맥락 없어도 진행)
         let followUpQuestion = '';
         try {
+          // 1. 연관도 판단 (LLM 기반)
+          const relevance = await assessContextRelevance(phase0Context || '', currentAttribute.name);
+
+          // 2. 연관도 기반 프롬프트 생성
           const followUpPrompt = createFollowUpPrompt(
             currentAttribute.name,
             phase0Context || '', // 맥락 없어도 빈 문자열로 전달
+            relevance,
             importance,
             currentAttribute.details
           );
+
+          // 3. AI 응답 생성
           followUpQuestion = await generateAIResponse(followUpPrompt, [
             {
               role: 'user',

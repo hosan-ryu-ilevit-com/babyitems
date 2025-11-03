@@ -167,7 +167,7 @@ export default function Home() {
             
               <span>네이버 스토어 분유포트 판매량 많은 순</span>
               <span className="text-gray-400">•</span>
-              <span>2025년 10월 31일 기준</span>
+              <span>2025년 11월 3일 기준</span>
             </div>
           </div>
 
