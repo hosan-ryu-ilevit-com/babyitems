@@ -1,50 +1,54 @@
-// 서버 사이드 로깅 유틸리티
-import { promises as fs } from 'fs';
-import path from 'path';
+// 서버 사이드 로깅 유틸리티 (Supabase 기반)
+import { supabase } from '@/lib/supabase/client';
 import type { LogEvent, DailyLog } from '@/types/logging';
 
-const LOGS_DIR = path.join(process.cwd(), 'data', 'logs');
-
-// 로그 디렉토리 생성
-async function ensureLogsDir() {
-  try {
-    await fs.mkdir(LOGS_DIR, { recursive: true });
-  } catch (error) {
-    console.error('Failed to create logs directory:', error);
-  }
-}
-
-// 오늘 날짜 파일명 생성 (YYYY-MM-DD.json)
-function getTodayLogFilename(): string {
-  const today = new Date().toISOString().split('T')[0];
-  return path.join(LOGS_DIR, `${today}.json`);
+// 오늘 날짜 문자열 생성 (YYYY-MM-DD)
+function getTodayDate(): string {
+  return new Date().toISOString().split('T')[0];
 }
 
 // 로그 이벤트 저장
 export async function saveLogEvent(event: LogEvent): Promise<void> {
   try {
-    await ensureLogsDir();
-    const filename = getTodayLogFilename();
-    const today = new Date().toISOString().split('T')[0];
+    const today = getTodayDate();
 
-    // 기존 로그 읽기
-    let dailyLog: DailyLog;
-    try {
-      const content = await fs.readFile(filename, 'utf-8');
-      dailyLog = JSON.parse(content);
-    } catch {
-      // 파일이 없으면 새로 생성
-      dailyLog = {
-        date: today,
-        events: [],
-      };
+    // 오늘 날짜의 로그 조회
+    const { data: existingLog, error: fetchError } = await supabase
+      .from('daily_logs')
+      .select('*')
+      .eq('date', today)
+      .single();
+
+    if (fetchError && fetchError.code !== 'PGRST116') {
+      // PGRST116은 "no rows returned" 에러 (정상)
+      console.error('Failed to fetch log:', fetchError);
+      return;
     }
 
-    // 이벤트 추가
-    dailyLog.events.push(event);
+    if (existingLog) {
+      // 기존 로그에 이벤트 추가
+      const updatedEvents = [...(existingLog.events as LogEvent[]), event];
+      const { error: updateError } = await supabase
+        .from('daily_logs')
+        .update({ events: updatedEvents })
+        .eq('date', today);
 
-    // 파일에 쓰기
-    await fs.writeFile(filename, JSON.stringify(dailyLog, null, 2), 'utf-8');
+      if (updateError) {
+        console.error('Failed to update log:', updateError);
+      }
+    } else {
+      // 새 로그 생성
+      const { error: insertError } = await supabase
+        .from('daily_logs')
+        .insert({
+          date: today,
+          events: [event],
+        });
+
+      if (insertError) {
+        console.error('Failed to insert log:', insertError);
+      }
+    }
   } catch (error) {
     console.error('Failed to save log event:', error);
   }
@@ -53,25 +57,47 @@ export async function saveLogEvent(event: LogEvent): Promise<void> {
 // 특정 날짜의 로그 읽기
 export async function getLogsByDate(date: string): Promise<DailyLog | null> {
   try {
-    const filename = path.join(LOGS_DIR, `${date}.json`);
-    const content = await fs.readFile(filename, 'utf-8');
-    return JSON.parse(content);
-  } catch {
+    const { data, error } = await supabase
+      .from('daily_logs')
+      .select('*')
+      .eq('date', date)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        // 데이터가 없는 경우
+        return null;
+      }
+      console.error('Failed to fetch log:', error);
+      return null;
+    }
+
+    return {
+      date: data.date,
+      events: data.events as LogEvent[],
+    };
+  } catch (error) {
+    console.error('Failed to get logs by date:', error);
     return null;
   }
 }
 
-// 모든 로그 파일 목록 가져오기
+// 모든 로그 날짜 목록 가져오기
 export async function getAllLogDates(): Promise<string[]> {
   try {
-    await ensureLogsDir();
-    const files = await fs.readdir(LOGS_DIR);
-    return files
-      .filter((file) => file.endsWith('.json'))
-      .map((file) => file.replace('.json', ''))
-      .sort()
-      .reverse(); // 최신순 정렬
-  } catch {
+    const { data, error } = await supabase
+      .from('daily_logs')
+      .select('date')
+      .order('date', { ascending: false });
+
+    if (error) {
+      console.error('Failed to fetch log dates:', error);
+      return [];
+    }
+
+    return data.map((log) => log.date);
+  } catch (error) {
+    console.error('Failed to get all log dates:', error);
     return [];
   }
 }
@@ -82,17 +108,24 @@ export async function getLogsByDateRange(
   endDate: string
 ): Promise<DailyLog[]> {
   try {
-    const allDates = await getAllLogDates();
-    const filteredDates = allDates.filter(
-      (date) => date >= startDate && date <= endDate
-    );
+    const { data, error } = await supabase
+      .from('daily_logs')
+      .select('*')
+      .gte('date', startDate)
+      .lte('date', endDate)
+      .order('date', { ascending: false });
 
-    const logs = await Promise.all(
-      filteredDates.map((date) => getLogsByDate(date))
-    );
+    if (error) {
+      console.error('Failed to fetch logs by date range:', error);
+      return [];
+    }
 
-    return logs.filter((log): log is DailyLog => log !== null);
-  } catch {
+    return data.map((log) => ({
+      date: log.date,
+      events: log.events as LogEvent[],
+    }));
+  } catch (error) {
+    console.error('Failed to get logs by date range:', error);
     return [];
   }
 }
@@ -103,7 +136,6 @@ export async function deleteSessionFromDate(
   sessionId: string
 ): Promise<boolean> {
   try {
-    const filename = path.join(LOGS_DIR, `${date}.json`);
     const dailyLog = await getLogsByDate(date);
 
     if (!dailyLog) {
@@ -115,13 +147,28 @@ export async function deleteSessionFromDate(
       (event) => event.sessionId !== sessionId
     );
 
-    // 파일 업데이트 (이벤트가 남아있으면 저장, 없으면 파일 삭제)
     if (filteredEvents.length > 0) {
-      dailyLog.events = filteredEvents;
-      await fs.writeFile(filename, JSON.stringify(dailyLog, null, 2), 'utf-8');
+      // 이벤트가 남아있으면 업데이트
+      const { error } = await supabase
+        .from('daily_logs')
+        .update({ events: filteredEvents })
+        .eq('date', date);
+
+      if (error) {
+        console.error('Failed to update log after deletion:', error);
+        return false;
+      }
     } else {
-      // 모든 이벤트가 삭제되면 파일 자체를 삭제
-      await fs.unlink(filename);
+      // 모든 이벤트가 삭제되면 해당 날짜 로그 삭제
+      const { error } = await supabase
+        .from('daily_logs')
+        .delete()
+        .eq('date', date);
+
+      if (error) {
+        console.error('Failed to delete log:', error);
+        return false;
+      }
     }
 
     return true;
