@@ -210,14 +210,25 @@ export default function AdminUploadPage() {
         throw new Error('썸네일 업로드 실패');
       }
 
-      // 2. 상품 데이터 저장
+      const uploadResult = await uploadResponse.json();
+      const actualThumbnailPath = uploadResult.path; // 실제 업로드된 파일 경로
+
+      // 2. 상품 데이터 저장 (실제 썸네일 경로 포함)
+      const updatedPreview = {
+        ...preview,
+        productData: {
+          ...preview.productData,
+          thumbnail: actualThumbnailPath,
+        },
+      };
+
       const response = await fetch('/api/admin/save-product', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-admin-password': '1545',
         },
-        body: JSON.stringify(preview),
+        body: JSON.stringify(updatedPreview),
       });
 
       if (!response.ok) {

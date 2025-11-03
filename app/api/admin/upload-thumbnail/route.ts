@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 
+// Next.js에서 파일 업로드를 위한 설정
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 // 비밀번호 검증
 function checkPassword(request: NextRequest): boolean {
   const password = request.headers.get('x-admin-password');
@@ -16,11 +20,23 @@ export async function POST(request: NextRequest) {
 
   try {
     const formData = await request.formData();
-    const file = formData.get('file') as File;
-    const coupangId = formData.get('coupangId') as string;
+    const file = formData.get('file') as File | null;
+    const coupangId = formData.get('coupangId') as string | null;
+
+    console.log('Upload request:', {
+      hasFile: !!file,
+      fileType: file?.type,
+      fileName: file?.name,
+      coupangId
+    });
 
     if (!file || !coupangId) {
       return NextResponse.json({ error: '파일과 쿠팡 ID가 필요합니다.' }, { status: 400 });
+    }
+
+    // File 타입 체크
+    if (typeof file === 'string' || !file.arrayBuffer) {
+      return NextResponse.json({ error: '유효하지 않은 파일입니다.' }, { status: 400 });
     }
 
     // 파일 확장자 추출

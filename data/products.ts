@@ -267,4 +267,24 @@ export const products: Product[] = [
       additionalFeatures: 8   // 충족 - 찜기, 파우치
     }
   }
+,
+  {
+    id: '8720154091',
+    title: '어프리비 국민 분유포트 티 커피 무선 전기 포트 주전자',
+    price: 69000,
+    reviewCount: 451,
+    reviewUrl: 'https://www.coupang.com/vp/products/8720154091',
+    ranking: 21,
+    thumbnail: '/thumbnails/8720154091.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 원하는 온도 설정 및 유지, 염소 제거 기능이 완벽함.
+      hygiene: 9,             // 매우 충족 - 넓은 입구와 유리 재질, 316 SS로 위생 관리 용이.
+      material: 8,            // 충족 - SUS316 스테인리스 및 위생적인 유리 재질 사용.
+      usability: 9,           // 매우 충족 - 빠른 가열 속도, 낮은 소음, 가벼운 무게와 좋은 그립감.
+      portability: 4,        // 미달 - 무선이지만 유리 재질 특성상 휴대 및 이동에 제약이 있음.
+      priceValue: 10,          // 매우 충족 - 6만원대 가격에 프리미엄 기능 탑재, 압도적인 가성비.
+      durability: 6,          // 보통 - 유리 재질 특성상 충격에 취약할 수 있으나, 초기 불량 보고는 적음.
+      additionalFeatures: 9   // 매우 충족 - 깔끔한 디자인, 차 거름망 제공, 다용도 활용 가능.
+    }
+  }
 ];
