@@ -12,6 +12,7 @@ interface ProductPreview {
     price: number;
     reviewCount: number;
     ranking: number;
+    thumbnail?: string;
     coreValues: {
       temperatureControl: number;
       hygiene: number;
