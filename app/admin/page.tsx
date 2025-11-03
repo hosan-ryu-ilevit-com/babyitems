@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import type { SessionSummary } from '@/types/logging';
 
 export default function AdminPage() {
@@ -207,7 +207,7 @@ export default function AdminPage() {
     if (label.includes('1분만에 추천받기')) {
       return (
         <span className="inline-flex items-center gap-2">
-          <span className="px-4 py-2 bg-linear-to-r from-gray-900 to-gray-700 text-white text-xs font-semibold rounded-xl shadow-lg">
+          <span className="px-4 py-2 bg-linear-to-r from-gray-900 to-gray-700 text-white text-xs font-semibold rounded-xl">
             💬 1분만에 추천받기
           </span>
         </span>
@@ -264,12 +264,23 @@ export default function AdminPage() {
         <div className="bg-white rounded-lg p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-2xl font-bold">육아용품 MVP (v0.2.1) - 사용자 로그</h1>
-            <button
-              onClick={() => setIsAuthenticated(false)}
-              className="text-gray-600 hover:text-gray-800"
-            >
-              로그아웃
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => window.location.href = '/admin/upload'}
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                상품 추가
+              </button>
+              <button
+                onClick={() => setIsAuthenticated(false)}
+                className="text-gray-600 hover:text-gray-800"
+              >
+                로그아웃
+              </button>
+            </div>
           </div>
 
           {/* 날짜 선택 및 새로고침 */}
@@ -311,7 +322,7 @@ export default function AdminPage() {
 
         {/* 세션 목록 */}
         {!loading && sessions.length === 0 && (
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+          <div className="bg-white rounded-lg p-8 text-center">
             <p className="text-gray-600">해당 날짜에 기록된 로그가 없습니다.</p>
           </div>
         )}
@@ -321,7 +332,7 @@ export default function AdminPage() {
             {sessions.map((session) => (
               <div
                 key={session.sessionId}
-                className="bg-white rounded-lg shadow-lg overflow-hidden"
+                className="bg-white rounded-lg overflow-hidden"
               >
                 {/* 세션 헤더 */}
                 <div className="p-4 bg-gray-50">

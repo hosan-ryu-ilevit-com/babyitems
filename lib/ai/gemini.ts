@@ -19,6 +19,19 @@ export const getModel = (temperature: number = 0.7) => {
   });
 };
 
+// Gemini Pro 2.5 모델 (리뷰 분석용 - thinking 모드)
+export const getProModel = (temperature: number = 0.3) => {
+  return genAI.getGenerativeModel({
+    model: 'gemini-flash-latest',
+    generationConfig: {
+      temperature,
+      topK: 40,
+      topP: 0.95,
+      maxOutputTokens: 8192,
+    },
+  });
+};
+
 // 재시도 로직을 포함한 API 호출
 export async function callGeminiWithRetry<T>(
   apiCall: () => Promise<T>,

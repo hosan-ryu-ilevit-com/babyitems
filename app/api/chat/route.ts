@@ -4,9 +4,6 @@ import { Message, ImportanceLevel } from '@/types';
 import { ASSISTANT_CHAT2_PROMPT, CORE_ATTRIBUTES } from '@/data/attributes';
 import { analyzeUserIntent, generateDetailedExplanation } from '@/lib/ai/intentAnalyzer';
 import {
-  generateAttributeQuestion,
-  generateImportanceFeedback,
-  generateChat2TransitionMessage,
   createFollowUpPrompt,
   createReassessmentPrompt,
   generateVeryImportantFollowUp,
