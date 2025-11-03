@@ -447,4 +447,144 @@ export const products: Product[] = [
       additionalFeatures: 9   // 매우 충족 - 깔끔한 디자인, 전용 파우치 제공, 분유포트/전기포트 겸용
     }
   }
+,
+  {
+    id: '8382153223',
+    title: '올스텐 전기포트 접이식 햇반 분유포트 캠핑용 여행용 변색없는 지티스',
+    price: 54500,
+    reviewCount: 272,
+    reviewUrl: 'https://www.coupang.com/vp/products/8382153223',
+    ranking: 30,
+    thumbnail: '/thumbnails/8382153223.png',
+    coreValues: {
+      temperatureControl: 3,  // 미달 - 정밀 온도 조절 기능 전무, 1/2단 가열 세기 조절만 가능
+      hygiene: 8,             // 충족 - 올스텐 재질로 위생적, 초기 연마제 제거 작업 필요
+      material: 9,            // 매우 충족 - 304 올스텐 사용, 변색 및 환경호르몬 걱정 없음
+      usability: 6,           // 보통 - 조작은 간단하나, 접이식 잠금장치가 빡빡하여 조립에 시간이 소요됨
+      portability: 10,        // 매우 충족 - 접이식 구조, 가벼운 무게, 전용 파우치 제공으로 휴대성 극대화
+      priceValue: 8,          // 충족 - 올스텐 접이식 구조 및 다용도 기능 대비 합리적인 가격대
+      durability: 9,          // 매우 충족 - 올스텐 통주물 방식으로 튼튼하며 3년 AS 보장 언급
+      additionalFeatures: 9   // 매우 충족 - 베이지톤의 심미적 디자인, 햇반/라면 등 다용도 조리 활용성 높음
+    }
+  }
+,
+  {
+    id: '7743811249',
+    title: '보아르 아가맘마 통유리 보온 퓨어 분유포트',
+    price: 69000,
+    reviewCount: 113,
+    reviewUrl: 'https://www.coupang.com/vp/products/7743811249',
+    ranking: 31,
+    thumbnail: '/thumbnails/7743811249.png',
+    coreValues: {
+      temperatureControl: 7,  // 충족 - 1도 조절, 염소 제거 기능 우수하나, 냉각 속도 느리고 12시간 보온 제한.
+      hygiene: 9,             // 매우 충족 - 통유리 바닥, 넓은 입구, 완전 분리형 뚜껑으로 위생 관리 최상.
+      material: 7,            // 충족 - 붕규산 통유리, SUS304 사용, 연마제 걱정 없으나, 충격에 약해 파손 위험 높음.
+      usability: 5,           // 보통 - 가볍고 직관적이지만, 포트 결합 방식과 물 따르기, 느린 가열 속도가 불편함.
+      portability: 1,        // 매우 미달 - 가정용 대용량 포트.
+      priceValue: 8,          // 충족 - 통유리 소재와 멀티 기능 대비 합리적인 가격대.
+      durability: 3,          // 미달 - 초기 불량 및 작동 오류 반복, 유리 포트 파손 위험이 높음.
+      additionalFeatures: 9   // 매우 충족 - 깔끔한 디자인, 6가지 멀티 모드(세척/중탕/DIY) 활용도 높음.
+    }
+  }
+,
+  {
+    id: '8631468812',
+    title: '2in1 맘편한 분유포트 DB-MK7',
+    price: 69000,
+    reviewCount: 102,
+    reviewUrl: 'https://www.coupang.com/vp/products/8631468812',
+    ranking: 32,
+    thumbnail: '/thumbnails/8631468812.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 원터치 분유 모드, 쿨링팬, 24시간 영구 보온
+      hygiene: 9,             // 매우 충족 - 염소소독 기능, 316L 스텐, 분리형 포트로 세척 용이
+      material: 9,            // 매우 충족 - 의료용 316L 스테인리스와 붕규산 강화유리 사용
+      usability: 8,           // 충족 - 자동 출수, 2L 대용량, 밤중 수유등 (다만 냉각팬 소음 및 물 수위 확인 어려움)
+      portability: 1,        // 매우 미달 - 대용량 가정용 제품
+      priceValue: 10,          // 매우 충족 - 프리미엄 기능 대비 압도적인 가성비
+      durability: 7,          // 충족 - 튼튼한 소재 (다만 받침대 마감처리 미흡 지적 1건)
+      additionalFeatures: 9   // 매우 충족 - 2in1 기능, 자동 잠금, 깔끔한 디자인
+    }
+  }
+,
+  {
+    id: '7716649665',
+    title: '라온르 베베보다 무선전기포트 핑크',
+    price: 34900,
+    reviewCount: 92,
+    reviewUrl: 'https://www.coupang.com/vp/products/7716649665',
+    ranking: 33,
+    thumbnail: '/thumbnails/7716649665.png',
+    coreValues: {
+      temperatureControl: 9,  // 매우 충족 - 5가지 자동 모드, 염소 제거, 8시간 보온 (일부 24시간 보온 미지원 아쉬움)
+      hygiene: 8,             // 충족 - 넓은 입구로 통세척 용이, 유리 재질로 위생적
+      material: 7,            // 충족 - SUS316 고급 스테인리스 사용, 다만 유리 재질 특성상 파손 주의 필요
+      usability: 8,           // 충족 - 가볍고 조작 직관적, 무선 편리성 높음. (단, 전원선 짧음)
+      portability: 1,        // 매우 미달 - 가정용 대용량 유리 포트로 휴대성 낮음
+      priceValue: 10,          // 매우 충족 - 동급 기능 대비 압도적인 가성비
+      durability: 5,          // 보통 - 유리 재질 특성상 충격에 취약하며, 파손 위험 상존
+      additionalFeatures: 9   // 매우 충족 - 염소제거, 차망 포함, 24시간 예약, 음소거 기능 등 다기능성 우수
+    }
+  }
+,
+  {
+    id: '7342144886',
+    title: '국민 분유포트 브라비 스마트 분유포트기',
+    price: 87300,
+    reviewCount: 52,
+    reviewUrl: 'https://www.coupang.com/vp/products/7342144886',
+    ranking: 34,
+    thumbnail: '/thumbnails/7342144886.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 100℃ 염소 제거, 쾌속 쿨링, 1도 단위 조절
+      hygiene: 6,             // 보통 - 살균 기능은 있으나, 구연산 세척 후에도 물때/이물질 발생 보고됨
+      material: 3,            // 미달 - 유리병이 작은 충격에도 쉽게 깨지며, 물때/이물질 발생 우려
+      usability: 7,           // 충족 - 조작은 편하나, 소음 및 쿨링 속도에 대한 아쉬움 존재
+      portability: 1,        // 매우 미달 - 가정용 대용량 유리 포트
+      priceValue: 9,          // 매우 충족 - 프리미엄 기능 대비 합리적인 가격
+      durability: 3,          // 미달 - 유리병 내구성 취약, 작은 충격에도 파손 위험
+      additionalFeatures: 8   // 충족 - 중탕, 살균, 예약 등 올인원 기능 제공 및 예쁜 디자인
+    }
+  }
+,
+  {
+    id: '1138522184',
+    title: '오쿠 스마트 전기 분유포트',
+    price: 75050,
+    reviewCount: 993,
+    reviewUrl: 'https://www.coupang.com/vp/products/1138522184',
+    ranking: 35,
+    thumbnail: '/thumbnails/1138522184.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 원터치, 냉각팬, 1도 조절, 최대 24시간 보온
+      hygiene: 8,             // 충족 - 넓은 입구 통세척 용이, 살균 기능 (일부 뚜껑 패킹 문제)
+      material: 5,            // 보통 - SUS304, 붕규산 유리 사용 (유리 파손 위험 높음)
+      usability: 5,           // 보통 - 느린 끓는 속도, 짧은 코드, 큰 알림음 소음
+      portability: 1,        // 매우 미달
+      priceValue: 10,          // 매우 충족 - 경쟁 제품 대비 최고 가성비
+      durability: 3,          // 미달 - 유리 파손 빈번, 잦은 고장 및 A/S 문제 심각
+      additionalFeatures: 8   // 충족 - 요거트, 차 모드, 쾌속 냉각 기능
+    }
+  }
+,
+  {
+    id: '6133211986',
+    title: '보아르 더온리제로 전기 분유포트',
+    price: 69000,
+    reviewCount: 533,
+    reviewUrl: 'https://www.coupang.com/vp/products/6133211986',
+    ranking: 36,
+    thumbnail: '/thumbnails/6133211986.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 3초 직수 가열, 7단계 온도 조절 (18~95℃) 기능 완벽
+      hygiene: 7,             // 충족 - 직수 방식이라 청소 불필요, 다만 초기 화학/고무 냄새 지적 다수
+      material: 5,            // 보통 - 소재 자체 불만은 적으나, 장기간 지속되는 화학 냄새 문제 제기됨
+      usability: 5,           // 보통 - 직관적 조작, 하지만 출수 소음 크고 컵 높이 제약이 있음
+      portability: 10,        // 매우 충족 - 미니멀 사이즈, 여행/외출 시 휴대성 극대화
+      priceValue: 8,          // 충족 - 직수/온도 조절 기능 대비 합리적인 가격대 형성
+      durability: 4,          // 미달 - 초기 고장 사례 및 소모품(커넥터) 미판매로 인한 내구성 우려
+      additionalFeatures: 8   // 충족 - 깔끔한 디자인, 다양한 생수병 호환 어댑터 제공
+    }
+  }
 ];

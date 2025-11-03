@@ -40,6 +40,14 @@ export default function ResultPage() {
     }));
   };
 
+  // Top 3 섹션으로 스크롤
+  const scrollToTop3 = () => {
+    const top3Element = document.getElementById('top3-section');
+    if (top3Element) {
+      top3Element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   // 순차적으로 보여줄 상태 메시지들
   const phaseMessages = [
     '대표 상품 리스트 확인 중...',
@@ -295,6 +303,21 @@ export default function ResultPage() {
           </div>
         </header>
 
+        {/* Top 3 바로보기 버튼 - 추천 결과가 있을 때만 표시 */}
+        {!loading && recommendations.length > 0 && (
+          <div className="px-4 pt-4 flex justify-center">
+            <button
+              onClick={scrollToTop3}
+              className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 text-sm font-medium rounded-lg transition-colors flex items-center gap-1.5"
+            >
+              <span>추천상품 확인하기</span>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+        )}
+
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto px-4 py-6">
           <AnimatePresence mode="wait">
@@ -383,6 +406,21 @@ export default function ResultPage() {
             <div className="space-y-4">
               {/* 사용자 맥락 요약 (최상단에 표시) */}
               {contextSummary && <UserContextSummaryComponent summary={contextSummary} />}
+
+              {/* Top 3 섹션 시작 - 스크롤 타겟 */}
+              <div id="top3-section" />
+
+              {/* 안내 문구 컨테이너 */}
+              <div className="bg-gray-100 rounded-xl p-4 flex items-start gap-3">
+                <svg className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+                <div className="flex-1">
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    객관적인 상품 정보와, 내돈내산 리뷰만을 기반으로 추천했어요.
+                  </p>
+                </div>
+              </div>
 
               {recommendations.map((rec, index) => (
                 <motion.div
