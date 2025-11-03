@@ -42,7 +42,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '처음 닦을 때 이물질이 거의 안 나와요',
     ],
     isOptional: false,
-    conversationalIntro: '두 번째는 **"위생/세척 편의성"**이에요.\n매일 쓰다 보면 세척이 쉬운 게 정말 중요하죠. 세척이 번거로우면 관리가 소홀해질 수 있거든요.',
+    conversationalIntro: '두 번째는 **"위생/세척 편의성"**이에요.\n매일 쓰다 보면 세척이 쉬운 게 정말 중요하더라고요. 번거로우면 자꾸 미루게 되거든요.',
     importanceExamples: {
       important: '구석구석 완벽하게 세척할 수 있어야 해요',
       normal: '기본적으로 세척만 잘되면 돼요',
@@ -60,7 +60,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '물이 없거나 과열되면 자동으로 꺼져요',
     ],
     isOptional: false,
-    conversationalIntro: '세 번째는 **"소재(안전성)"**예요.\n아기가 먹을 물을 담으니까 안전한 소재가 중요하죠.',
+    conversationalIntro: '세 번째는 **"소재(안전성)"**예요.\n아기 입에 들어가는 물이니까 소재가 정말 신경 쓰이시죠?',
     importanceExamples: {
       important: '의료용 등급 소재에 유해물질 완전 제로여야 해요',
       normal: '식품용 소재에 기본 안전 기능만 있으면 돼요',
@@ -78,7 +78,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '버튼이나 다이얼이 원하는 대로 잘 작동해요',
     ],
     isOptional: false,
-    conversationalIntro: '네 번째는 **"사용 편의성"**이에요.\n실제로 쓰다 보면 작은 불편함도 크게 느껴져요.',
+    conversationalIntro: '네 번째는 **"사용 편의성"**이에요.\n실제로 쓰다 보면 작은 불편함도 정말 크게 느껴지더라고요.',
     importanceExamples: {
       important: '용량 크고, 가볍고, 조용하고, 조작 쉬운 게 다 필요해요',
       normal: '1.3L 이상 용량에 평범한 소음이면 돼요',
@@ -95,7 +95,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '선 없이 배터리로 쓸 수 있어요',
     ],
     isOptional: true,
-    conversationalIntro: '다섯 번째는 **"휴대성"**이에요.\n집에서만 쓰신다면 중요하지 않지만, 외출이나 여행 자주 가시면 중요해져요.',
+    conversationalIntro: '다섯 번째는 **"휴대성"**이에요.\n집에서만 쓰신다면 안 중요하지만, 외출이나 여행 자주 가시면 꼭 필요하실 거예요.',
     importanceExamples: {
       important: '외출이나 여행 갈 때 꼭 필요해요. 작고 가볍고 무선이어야 해요',
       normal: '가끔 외출할 때 들고 갈 수 있으면 좋겠어요',
@@ -112,7 +112,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '8만원 이상: 다양한 추가 구성품이 들어있어요.',
     ],
     isOptional: true,
-    conversationalIntro: '여섯 번째는 **"가격 대비 가치"**예요.\n일반적으로 가격대별로 기능이 달라요.',
+    conversationalIntro: '여섯 번째는 **"가격 대비 가치"**예요.\n가격대별로 기능 차이가 꽤 있더라고요.',
     importanceExamples: {
       important: '5~6만원대 이하로, 필수 기능만 있으면 돼요',
       normal: '6~10만원대에서 합리적인 제품을 원해요',
@@ -129,7 +129,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
       '차망, 중탕 용기 같은 구성품이 추가로 들어있어요',
     ],
     isOptional: true,
-    conversationalIntro: '마지막 일곱 번째는 **"부가 기능 및 디자인"**이에요.\n필수는 아니지만 있으면 좋은 것들이에요.',
+    conversationalIntro: '마지막 일곱 번째는 **"부가 기능 및 디자인"**이에요.\n필수는 아니지만 있으면 더 오래 쓸 수 있어요.',
     importanceExamples: {
       important: '분유 끝나도 오래 쓰고 싶고 디자인도 중요해요',
       normal: '기본 활용성이랑 깔끔한 디자인이면 좋아요',
