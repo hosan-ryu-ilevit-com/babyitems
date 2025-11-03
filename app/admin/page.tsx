@@ -391,6 +391,7 @@ export default function AdminPage() {
                       <thead className="bg-gray-50">
                         <tr>
                           <th className="px-3 py-2 text-left">시간</th>
+                          <th className="px-3 py-2 text-left">속성</th>
                           <th className="px-3 py-2 text-left">이벤트</th>
                           <th className="px-3 py-2 text-left">페이지</th>
                           <th className="px-3 py-2 text-left">상세</th>
@@ -399,8 +400,20 @@ export default function AdminPage() {
                       <tbody className="divide-y">
                         {session.events.map((event, idx) => (
                           <tr key={idx} className="hover:bg-gray-50">
-                            <td className="px-3 py-2">
+                            <td className="px-3 py-2 whitespace-nowrap">
                               {formatTime(event.timestamp)}
+                            </td>
+                            <td className="px-3 py-2">
+                              {event.attribute ? (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-base">{event.attributeIcon}</span>
+                                  <span className="text-xs text-gray-700 font-medium">
+                                    {event.attribute}
+                                  </span>
+                                </div>
+                              ) : (
+                                <span className="text-xs text-gray-400">-</span>
+                              )}
                             </td>
                             <td className="px-3 py-2">
                               {getEventTypeLabel(event.eventType)}
@@ -428,7 +441,7 @@ export default function AdminPage() {
                                     }}
                                     className="text-purple-600 hover:text-purple-800 underline text-left font-medium"
                                   >
-                                    📋 추천 리포트 보기 ({event.recommendations.productIds.length}개 제품)
+                                    📋 추천 리포트 펼쳐보기 ({event.recommendations.productIds.length}개 제품)
                                   </button>
                                   {expandedRecommendation === `${session.sessionId}-${idx}` && event.recommendations.fullReport && (
                                     <div className="mt-2 p-4 bg-purple-50 rounded-lg text-xs space-y-4">
