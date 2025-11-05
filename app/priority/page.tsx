@@ -21,7 +21,14 @@ import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 
 export default function PriorityPage() {
   const router = useRouter();
-  const [prioritySettings, setPrioritySettings] = useState<PrioritySettings>({});
+  const [prioritySettings, setPrioritySettings] = useState<PrioritySettings>({
+    temperatureControl: 'medium',
+    hygiene: 'medium',
+    material: 'medium',
+    usability: 'medium',
+    portability: 'medium',
+    additionalFeatures: 'medium',
+  });
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [selectedAttribute, setSelectedAttribute] = useState<AttributeInfo | null>(null);
   const [budget, setBudget] = useState<BudgetRange | null>(null);
@@ -184,52 +191,40 @@ export default function PriorityPage() {
             <h1 className="text-lg font-bold text-gray-900">중요 기준 설정</h1>
             <div className="w-6"></div>
           </div>
-          <p className="text-sm text-gray-600 leading-relaxed mb-3">
-            분유포트를 고를 때 꼭 확인해야 할 6가지 기준과 예산을 선택해주시면, 딱 맞는 제품을 찾아드릴게요.
+          <p className="text-sm text-gray-700 leading-5 mb-3 mt-8">
+            AI와 채팅하기 전, 가장 중요하게 생각하는 구매 기준을 골라주세요! [중요함]은 최대 3개까지 고르실 수 있어요.
           </p>
-          {/* 중요함 카운터 */}
-          <div className={`
-            flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all
-            ${highPriorityCount === 3
-              ? 'bg-gray-900 text-white'
-              : 'bg-gray-100 text-gray-600'
-            }
-          `}>
-            <span className="text-base">⭐</span>
-            <span>
-              중요함: <strong className="font-bold">{highPriorityCount}/3</strong>
-            </span>
-            {highPriorityCount === 3 && <span className="ml-auto text-xs">✓ 최대 선택</span>}
-          </div>
+          
         </header>
 
         {/* Scrollable Content */}
         <main className="flex-1 px-6 py-6 pb-44 overflow-y-auto">
           {/* 6가지 속성 */}
-          <div className="space-y-8 mb-12">
+          <div className="space-y-4 mb-12">
             {PRIORITY_ATTRIBUTES.map((attribute, index) => (
               <motion.div
                 key={attribute.key}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
+                className="bg-gray-50 rounded-2xl p-4"
               >
                 {/* Attribute Header */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl">{ATTRIBUTE_ICONS[attribute.key]}</span>
-                    <h3 className="text-base font-bold text-gray-900">{attribute.name}</h3>
+                    <span className="text-xl">{ATTRIBUTE_ICONS[attribute.key]}</span>
+                    <h3 className="text-sm font-bold text-gray-900">{attribute.name}</h3>
                   </div>
                   <button
                     onClick={() => openBottomSheet(attribute)}
-                    className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center"
+                    className="w-7 h-7 rounded-full bg-white hover:bg-gray-100 transition-colors flex items-center justify-center shadow-sm"
                   >
-                    <Question size={20} weight="bold" className="text-gray-600" />
+                    <Question size={16} weight="bold" className="text-gray-600" />
                   </button>
                 </div>
 
-                {/* Button Group */}
-                <div className="flex gap-2">
+                {/* Button Group - Unified Tab Bar */}
+                <div className="flex bg-white rounded-xl p-1 border border-gray-200 gap-1">
                   <PriorityButton
                     level="low"
                     selected={prioritySettings[attribute.key as keyof PrioritySettings] === 'low'}
@@ -253,115 +248,113 @@ export default function PriorityPage() {
 
           {/* 예산 선택 섹션 */}
           <div className="border-t border-gray-200 pt-8">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-2xl">💰</span>
-              <h3 className="text-base font-bold text-gray-900">예산 범위</h3>
-            </div>
-            <p className="text-sm text-gray-600 mb-4">
-              예산에 맞는 제품을 추천해드릴게요. 가격대별로 기능 차이가 있어요.
-            </p>
+            <div className="bg-gray-50 rounded-2xl p-4 ">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-xl">💰</span>
+                <h3 className="text-sm font-bold text-gray-900">예산 범위</h3>
+              </div>
+              <p className="text-xs text-gray-600 mb-4">
+                일반적으로 가격대별로 기능 차이가 있어요.
+              </p>
 
-            <div className="space-y-3">
-              {/* 예산 버튼들 */}
+              {/* 2x2 Grid for budget buttons */}
+              <div className="grid grid-cols-2 gap-2 mb-3">
               <button
                 onClick={() => handleBudgetSelect('0-50000')}
                 className={`
-                  w-full p-4 rounded-2xl text-left transition-all border-2
+                  p-3 rounded-xl text-left transition-all border
                   ${budget === '0-50000'
                     ? 'bg-gray-900 text-white border-gray-900'
-                    : 'bg-white text-gray-900 border-gray-200 hover:border-gray-400'
+                    : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                   }
                 `}
               >
-                <div className="font-semibold mb-1">5만원 이하</div>
-                <div className={`text-sm ${budget === '0-50000' ? 'text-gray-300' : 'text-gray-500'}`}>
-                  기본 보온 기능 중심
+                <div className="font-semibold text-sm mb-0.5">5만원 이하</div>
+                <div className={`text-xs ${budget === '0-50000' ? 'text-gray-300' : 'text-gray-500'}`}>
+                  기본 보온 기능
                 </div>
               </button>
 
               <button
                 onClick={() => handleBudgetSelect('50000-100000')}
                 className={`
-                  w-full p-4 rounded-2xl text-left transition-all border-2
+                  p-3 rounded-xl text-left transition-all border
                   ${budget === '50000-100000'
                     ? 'bg-gray-900 text-white border-gray-900'
-                    : 'bg-white text-gray-900 border-gray-200 hover:border-gray-400'
+                    : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                   }
                 `}
               >
-                <div className="font-semibold mb-1">5~10만원</div>
-                <div className={`text-sm ${budget === '50000-100000' ? 'text-gray-300' : 'text-gray-500'}`}>
-                  좋은 소재와 편의 기능 포함
+                <div className="font-semibold text-sm mb-0.5">5~10만원</div>
+                <div className={`text-xs ${budget === '50000-100000' ? 'text-gray-300' : 'text-gray-500'}`}>
+                  소재+편의 기능
                 </div>
               </button>
 
               <button
                 onClick={() => handleBudgetSelect('100000-150000')}
                 className={`
-                  w-full p-4 rounded-2xl text-left transition-all border-2
+                  p-3 rounded-xl text-left transition-all border
                   ${budget === '100000-150000'
                     ? 'bg-gray-900 text-white border-gray-900'
-                    : 'bg-white text-gray-900 border-gray-200 hover:border-gray-400'
+                    : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                   }
                 `}
               >
-                <div className="font-semibold mb-1">10~15만원</div>
-                <div className={`text-sm ${budget === '100000-150000' ? 'text-gray-300' : 'text-gray-500'}`}>
-                  프리미엄 기능 및 구성품
+                <div className="font-semibold text-sm mb-0.5">10~15만원</div>
+                <div className={`text-xs ${budget === '100000-150000' ? 'text-gray-300' : 'text-gray-500'}`}>
+                  프리미엄 기능
                 </div>
               </button>
 
               <button
                 onClick={() => handleBudgetSelect('150000+')}
                 className={`
-                  w-full p-4 rounded-2xl text-left transition-all border-2
+                  p-3 rounded-xl text-left transition-all border
                   ${budget === '150000+'
                     ? 'bg-gray-900 text-white border-gray-900'
-                    : 'bg-white text-gray-900 border-gray-200 hover:border-gray-400'
+                    : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                   }
                 `}
               >
-                <div className="font-semibold mb-1">15만원 이상</div>
-                <div className={`text-sm ${budget === '150000+' ? 'text-gray-300' : 'text-gray-500'}`}>
+                <div className="font-semibold text-sm mb-0.5">15만원 이상</div>
+                <div className={`text-xs ${budget === '150000+' ? 'text-gray-300' : 'text-gray-500'}`}>
                   최고급 제품
                 </div>
               </button>
+            </div>
 
-              {/* 주관식 입력 */}
-              {!isCustomBudgetMode ? (
-                <button
-                  onClick={handleCustomBudgetClick}
-                  className="w-full p-4 rounded-2xl text-left transition-all border-2 border-dashed border-gray-300 hover:border-gray-500 bg-white text-gray-700"
-                >
-                  <div className="font-semibold mb-1">직접 입력</div>
-                  <div className="text-sm text-gray-500">
-                    원하는 금액을 입력해주세요
-                  </div>
-                </button>
-              ) : (
-                <div className="w-full p-4 rounded-2xl border-2 border-gray-900 bg-white">
-                  <div className="font-semibold mb-3 text-gray-900">예산을 입력해주세요</div>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={customBudget}
-                      onChange={(e) => setCustomBudget(e.target.value)}
-                      placeholder="예: 80000"
-                      className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 text-gray-900"
-                      autoFocus
-                    />
-                    <button
-                      onClick={handleCustomBudgetSubmit}
-                      className="px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors"
-                    >
-                      확인
-                    </button>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">
-                    * 입력한 금액에 맞는 범위로 자동 분류됩니다
-                  </p>
+            {/* 주관식 입력 - 더 컴팩트하게 */}
+            {!isCustomBudgetMode ? (
+              <button
+                onClick={handleCustomBudgetClick}
+                className="w-full p-3 rounded-xl text-left transition-all border border-dashed border-gray-300 hover:border-gray-500 bg-white text-gray-700"
+              >
+                <div className="font-semibold text-sm">직접 입력하기</div>
+              </button>
+            ) : (
+              <div className="w-full p-3 rounded-xl border border-gray-900 bg-white">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={customBudget}
+                    onChange={(e) => setCustomBudget(e.target.value)}
+                    placeholder="예: 80000"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm text-gray-900"
+                    autoFocus
+                  />
+                  <button
+                    onClick={handleCustomBudgetSubmit}
+                    className="px-4 py-2 bg-gray-900 text-white rounded-lg font-semibold text-sm hover:bg-gray-800 transition-colors"
+                  >
+                    확인
+                  </button>
                 </div>
-              )}
+                <p className="text-xs text-gray-500 mt-2">
+                  * 입력한 금액에 맞는 범위로 자동 분류됩니다
+                </p>
+              </div>
+            )}
             </div>
           </div>
         </main>

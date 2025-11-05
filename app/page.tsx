@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChatCircleDots, ChartBar, ArrowDown } from '@phosphor-icons/react/dist/ssr';
+import { ChatCircleDots, ChartBar, CaretDown } from '@phosphor-icons/react/dist/ssr';
 import { products } from '@/data/products';
 import { useState, useEffect } from 'react';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
@@ -80,7 +80,7 @@ export default function Home() {
               
               AI가 찾아주는<br></br>내게 딱 맞는 분유포트
             </h1>
-            <p className="text-base text-gray-600 leading-relaxed px-2">
+            <p className="text-lg text-gray-600 leading-6 px-2">
               <strong className="font-bold">놓칠 수도 있는 기준</strong>까지<br />
               꼼꼼하게 전부 챙겨드려요
             </p>
@@ -93,7 +93,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="w-full max-w-sm space-y-3 mt-34 px-2"
+            className="w-full max-w-sm space-y-3 mt-14 px-2"
             suppressHydrationWarning
           >
             <Link href="/priority" className="block">
@@ -108,7 +108,31 @@ export default function Home() {
               </motion.button>
             </Link>
 
-            
+
+          </motion.div>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            onClick={scrollToRanking}
+            className="flex flex-col items-center gap-2 mt-8 cursor-pointer"
+            suppressHydrationWarning
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="flex flex-col items-center gap-1"
+            >
+              <CaretDown size={24} weight="bold" className="text-gray-400" />
+              <CaretDown size={24} weight="bold" className="text-gray-300" />
+            </motion.div>
+            <span className="text-xs text-gray-500 font-medium mt-2 text-center">스크롤해서<br></br> 실시간 랭킹 보기</span>
           </motion.div>
           </div>
         </section>
@@ -117,9 +141,35 @@ export default function Home() {
         <section id="ranking-section" className="min-h-screen bg-white px-6 pt-4 pb-8">
           {/* Section Header */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">
-              실시간 랭킹
-            </h2>
+            <div className="flex items-center gap-3 mb-1">
+              <h2 className="text-2xl font-bold text-gray-900">
+                실시간 랭킹
+              </h2>
+              {/* Speech Bubble */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="relative"
+              >
+                <motion.div
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="relative"
+                >
+                  <div className="bg-gray-900 text-yellow-400 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap">
+                    이 중에서 골라드려요!
+                  </div>
+                  {/* Speech bubble tail */}
+                  <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-900"></div>
+                </motion.div>
+              </motion.div>
+            </div>
             <div className="flex items-center gap-1">
                 <span className="text-[10px] text-gray-500">Powered by</span>
                 <Image
@@ -131,10 +181,10 @@ export default function Home() {
                 />
               </div>
             <div className="flex items-center gap-2 mt-4 text-xs text-gray-500">
-            
-              <span>네이버 스토어 분유포트 판매량 많은 순</span>
+
+              <span>판매량 많은 순</span>
               <span className="text-gray-400">•</span>
-              <span>2025년 11월 3일 기준</span>
+              <span>2025년 11월 5일 기준</span>
             </div>
           </div>
 
