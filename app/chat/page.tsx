@@ -109,26 +109,30 @@ export default function ChatPage() {
   const [currentAttributeIndex, setCurrentAttributeIndex] = useState(0);
   const [phase, setPhase] = useState<'chat1' | 'chat2'>('chat1');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isPhase0Complete, setIsPhase0Complete] = useState(false); // Phase 0 워밍업 완료 여부
+  const [isPhase0Complete, setIsPhase0Complete] = useState(false);
   const [progress, setProgress] = useState(0);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
-  const [showQuickReplies, setShowQuickReplies] = useState(false);
-  const [showPhase0QuickReply, setShowPhase0QuickReply] = useState(false); // Phase 0 "건너뛰기" 버튼
-  const [showFollowUpSkip, setShowFollowUpSkip] = useState(false); // Follow-up "넘어가기" 버튼
+
+  // Priority 플로우 전용 변수들
+  const [showPhase0QuickReply, setShowPhase0QuickReply] = useState(false);
+  const [showFollowUpSkip, setShowFollowUpSkip] = useState(false);
   const [showChat2QuickReply, setShowChat2QuickReply] = useState(false);
   const [showRecommendButton, setShowRecommendButton] = useState(false);
   const [expandedDetails, setExpandedDetails] = useState<{ [messageId: string]: boolean }>({});
   const [showToggleButtons, setShowToggleButtons] = useState<{ [messageId: string]: boolean }>({});
-  const [waitingForFollowUpResponse, setWaitingForFollowUpResponse] = useState(false); // "매우 중요" follow-up 응답 대기 중
-  const [lastFollowUpQuestion, setLastFollowUpQuestion] = useState<string>(''); // 마지막 follow-up 질문 저장
-  const [showBudgetButtons, setShowBudgetButtons] = useState(false); // 예산 질문 버튼 표시
-  const [budgetSelected, setBudgetSelected] = useState(false); // 예산 선택 완료
+  const [inAttributeConversation, setInAttributeConversation] = useState(false);
+  const [attributeConversationTurn, setAttributeConversationTurn] = useState(0);
+  const [waitingForTransitionResponse, setWaitingForTransitionResponse] = useState(false);
+
+  // DEPRECATED: 기존 플로우 변수들 (하위 호환성 유지, Priority 플로우에서 사용 안 함)
+  const [showQuickReplies, setShowQuickReplies] = useState(false);
+  const [waitingForFollowUpResponse, setWaitingForFollowUpResponse] = useState(false);
+  const [lastFollowUpQuestion, setLastFollowUpQuestion] = useState<string>('');
+  const [showBudgetButtons, setShowBudgetButtons] = useState(false);
+  const [budgetSelected, setBudgetSelected] = useState(false);
+  const [waitingForBudgetInput, setWaitingForBudgetInput] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [filteredAttributes, setFilteredAttributes] = useState<typeof CORE_ATTRIBUTES>(CORE_ATTRIBUTES); // 필터링된 속성 목록
-  const [inAttributeConversation, setInAttributeConversation] = useState(false); // 속성별 자유 대화 모드
-  const [attributeConversationTurn, setAttributeConversationTurn] = useState(0); // 현재 속성 대화 턴 수 (최대 3)
-  const [waitingForTransitionResponse, setWaitingForTransitionResponse] = useState(false); // 전환 의사 응답 대기 중
-  const [waitingForBudgetInput, setWaitingForBudgetInput] = useState(false); // 직접 입력으로 예산 입력 대기 중
+  const [filteredAttributes, setFilteredAttributes] = useState<typeof CORE_ATTRIBUTES>(CORE_ATTRIBUTES);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 

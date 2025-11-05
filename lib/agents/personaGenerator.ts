@@ -86,16 +86,16 @@ async function generatePersonaProfile(chatHistory: string): Promise<PersonaProfi
 }
 
 /**
- * 완전한 UserPersona 생성
+ * DEPRECATED: 기존 AttributeAssessment 기반 페르소나 생성
  *
- * @param chatHistory - 전체 대화 기록
- * @param attributeAssessments - Chat1에서 수집한 8개 속성별 중요도 (중요함/보통/중요하지 않음)
- * @returns UserPersona (가중치 + 정성적 프로필)
+ * Priority 플로우에서는 사용하지 않습니다.
+ * 대신 generatePersonaFromPriorityWithChat() 사용
  */
 export async function generatePersona(
   chatHistory: string,
   attributeAssessments: AttributeAssessment
 ): Promise<UserPersona> {
+  console.log('⚠️  DEPRECATED: generatePersona() called - use generatePersonaFromPriorityWithChat() instead');
   console.log('📝 Generating persona profile (AI)...');
 
   // 1. AI가 정성적 분석 수행
@@ -132,9 +132,61 @@ export async function generatePersona(
 }
 
 /**
+ * Priority 설정 + Chat 이력 기반 페르소나 생성 (Primary 방식)
+ *
+ * Priority 플로우의 메인 함수
+ * - Priority 설정을 가중치로 변환 (코드 기반, 확정적)
+ * - Chat 이력이 있으면 AI로 contextualNeeds + summary 보강
+ * - Chat 이력이 없으면 Priority만으로 기본 페르소나 생성
+ *
+ * @param settings - Priority 페이지에서 선택한 6개 속성 중요도
+ * @param budget - 선택한 예산 범위
+ * @param chatHistory - 대화 기록 (선택적)
+ * @returns UserPersona
+ */
+export async function generatePersonaFromPriorityWithChat(
+  settings: PrioritySettings,
+  budget?: BudgetRange,
+  chatHistory?: string
+): Promise<UserPersona> {
+  console.log('📊 Generating persona from Priority + Chat...');
+  console.log('  Priority settings:', settings);
+  console.log('  Budget:', budget);
+  console.log('  Chat history length:', chatHistory?.length || 0);
+
+  // 1. Priority 설정을 가중치로 변환 (항상 실행, 확정적)
+  const basePersona = generatePersonaFromPriority(settings, budget);
+
+  // 2. Chat 이력이 있고 충분히 긴 경우 AI로 보강
+  if (chatHistory && chatHistory.trim().length > 50) {
+    try {
+      console.log('🤖 Enhancing persona with AI analysis...');
+      const profile = await generatePersonaProfile(chatHistory);
+
+      // AI가 생성한 정성적 분석으로 업그레이드
+      return {
+        ...basePersona,
+        summary: profile.summary, // AI의 풍부한 요약으로 교체
+        contextualNeeds: [
+          ...basePersona.contextualNeeds,
+          ...profile.contextualNeeds
+        ].filter((v, i, a) => a.indexOf(v) === i), // 중복 제거
+      };
+    } catch (error) {
+      console.error('⚠️  Failed to enhance persona with AI, using base persona:', error);
+      return basePersona;
+    }
+  }
+
+  // 3. Chat 이력이 없거나 짧으면 Priority 기반만 사용
+  console.log('ℹ️  No chat history, using Priority-only persona');
+  return basePersona;
+}
+
+/**
  * Priority 설정에서 간단한 페르소나 생성 (AI 없이, 코드 기반)
  *
- * "바로 추천받기" 플로우에서 사용
+ * "바로 추천받기" 플로우 또는 fallback에서 사용
  * Priority 페이지에서 선택한 중요도를 가중치로 직접 변환
  *
  * @param settings - Priority 페이지에서 선택한 6개 속성 중요도

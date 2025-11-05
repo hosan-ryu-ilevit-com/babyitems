@@ -86,7 +86,7 @@ export function AttributeBottomSheet({ isOpen, attribute, onClose }: AttributeBo
               </p>
 
               {/* Details List */}
-              <div className="bg-gray-50 rounded-2xl p-5 space-y-3">
+              <div className="bg-gray-50 rounded-2xl p-5 space-y-1">
                 {attribute.details.map((detail, index) => (
                   <div key={index} className="flex items-start gap-2">
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-900 mt-2 shrink-0" />

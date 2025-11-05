@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { generatePersona, generatePersonaFromPriority } from '@/lib/agents/personaGenerator';
+import { generatePersona, generatePersonaFromPriorityWithChat } from '@/lib/agents/personaGenerator';
 import { evaluateMultipleProducts } from '@/lib/agents/productEvaluator';
 import { generateTop3Recommendations } from '@/lib/agents/recommendationWriter';
 import { generateContextSummary } from '@/lib/agents/contextSummaryGenerator';
@@ -148,31 +148,41 @@ export async function POST(request: NextRequest) {
         let persona;
         const personaStartTime = Date.now();
 
-        if (isQuickRecommendation && prioritySettings) {
-          // Case A: 바로 추천받기 - Priority 설정 기반 간단한 페르소나 생성
-          console.log('📊 Using Priority-based persona generation (code-based, fast)');
+        // Priority 플로우: Priority 설정 + Chat 이력 (선택적)
+        if (prioritySettings) {
+          console.log('📊 Using Priority-based persona generation (with optional chat enhancement)');
           sendProgress('persona', 10, '선택하신 기준을 분석하고 있습니다...');
 
-          persona = generatePersonaFromPriority(prioritySettings, budget);
-        } else {
-          // Case B: 채팅으로 더 자세히 - 대화 기반 정교한 페르소나 생성
-          console.log('🤖 Using conversation-based persona generation (AI, detailed)');
+          // Chat 이력 준비 (있으면)
+          const chatHistory = messages && messages.length > 0
+            ? messages
+                .map((msg: Message) => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
+                .join('\n\n')
+            : undefined;
+
+          console.log('Priority settings:', prioritySettings);
+          console.log('Budget:', budget);
+          console.log('Chat history length:', chatHistory?.length || 0);
+
+          // 통합 함수 사용: Priority 기반 + Chat으로 보강 (있으면)
+          persona = await generatePersonaFromPriorityWithChat(prioritySettings, budget, chatHistory);
+
+        } else if (attributeAssessments) {
+          // DEPRECATED: 기존 플로우 (attributeAssessments 기반)
+          console.log('⚠️  Using DEPRECATED conversation-based persona generation');
           sendProgress('persona', 10, 'AI가 대화를 분석하고 있습니다...');
 
           const chatHistory = messages
             .map((msg: Message) => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
             .join('\n\n');
 
-          console.log('Chat history length:', chatHistory.length);
-          console.log('Attribute Assessments:', attributeAssessments);
-
-          if (!attributeAssessments) {
-            sendError('Missing attributeAssessments for conversation-based recommendation');
-            controller.close();
-            return;
-          }
-
           persona = await generatePersona(chatHistory, attributeAssessments as unknown as import('@/types').AttributeAssessment);
+
+        } else {
+          console.error('❌ Missing both prioritySettings and attributeAssessments');
+          sendError('Missing both prioritySettings and attributeAssessments');
+          controller.close();
+          return;
         }
 
         console.log(`✓ Persona generated in ${Date.now() - personaStartTime}ms`);

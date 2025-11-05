@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateAIResponse } from '@/lib/ai/gemini';
-import { Message, ImportanceLevel, PrioritySettings } from '@/types';
-import { ASSISTANT_CHAT2_PROMPT, CORE_ATTRIBUTES } from '@/data/attributes';
-import { analyzeUserIntent, generateDetailedExplanation } from '@/lib/ai/intentAnalyzer';
-import {
-  createFollowUpPrompt,
-  createReassessmentPrompt,
-  generateVeryImportantFollowUp,
-} from '@/lib/utils/messageTemplates';
-import { assessContextRelevance } from '@/lib/utils/contextRelevance';
+import { Message, PrioritySettings } from '@/types';
+import { ASSISTANT_CHAT2_PROMPT } from '@/data/attributes';
 
 /**
  * Priority 설정을 자연스러운 한국어로 요약
@@ -48,7 +41,7 @@ function generatePrioritySummary(settings: PrioritySettings): string {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails, followUpQuestion, userAnswer, initialImportance, prioritySettings, conversationHistory } = body;
+    const { messages, phase, action, attributeName, phase0Context, attributeDetails, conversationHistory, currentTurn, prioritySettings } = body;
 
     // Priority 요약 메시지 생성
     if (action === 'generate_priority_summary' && prioritySettings) {
@@ -154,6 +147,15 @@ JSON 형식으로 답변하세요:
       try {
         const { currentTurn } = body;
 
+        // 최대 5턴 제한 (강제 전환)
+        if (currentTurn >= 5) {
+          return NextResponse.json({
+            message: `${attributeName}에 대해 충분히 파악했습니다! 다음 기준으로 넘어갈게요.`,
+            shouldTransition: true,
+            forceTransition: true, // 강제 전환 플래그
+          });
+        }
+
         const prompt = `당신은 분유포트 추천 전문가 AI입니다. 사용자의 **${attributeName}**에 대한 니즈를 파악하기 위해 대화하고 있습니다.
 
 ## 사용자의 초기 상황 (Phase 0 컨텍스트):
@@ -165,14 +167,14 @@ ${attributeDetails?.map((d: string, i: number) => `${i + 1}. ${d}`).join('\n') |
 ## 지금까지의 대화 히스토리:
 ${conversationHistory || '(첫 대화)'}
 
-## 현재 대화 턴: ${currentTurn}/3
+## 현재 대화 턴: ${currentTurn}/5 (최대 5턴)
 
 ---
 
-## 대화 구조 (3턴 고정):
-- **턴 1**: 첫 번째 디테일 질문 (구체적 상황 파악)
-- **턴 2**: 답변에 대한 반응 + 두 번째 디테일 질문 (추가 상황 파악)
-- **턴 3**: 답변에 대한 반응 + 종합 정리 + "넘어가도 괜찮을까요?"
+## 대화 구조 (최대 5턴, 3턴 권장):
+- **턴 1-2**: 구체적 상황 파악 질문
+- **턴 3**: 종합 정리 + 전환 제안 (권장)
+- **턴 4-5**: 사용자가 더 말하고 싶어하는 경우만
 
 ## 응답 가이드:
 - **톤**: 친근하고 공감하는 30-40대 육아 맘 상담사 스타일
@@ -181,22 +183,22 @@ ${conversationHistory || '(첫 대화)'}
 - **필수**: 항상 질문으로 끝나야 함 (? 로 종료)
 
 ## 턴별 응답 방식:
-### 턴 1 또는 2:
+### 턴 1-2:
 {
   "message": "공감/반응 + 디테일 질문",
   "shouldTransition": false
 }
 
-### 턴 3 (마지막):
+### 턴 3 이상 (전환 제안):
 {
   "message": "답변 반응 + 종합 정리. ${attributeName}에 대해 충분히 파악했습니다! 혹시 더 말씀하실 게 있으시면 지금 알려주세요. 아니면 다음 기준으로 넘어가도 괜찮을까요?",
   "shouldTransition": true
 }
 
 **중요**:
-- 턴 1, 2는 shouldTransition: false
-- 턴 3은 반드시 shouldTransition: true
-- 턴 3의 message는 반드시 "~파악했습니다! 혹시 더 말씀하실 게 있으시면~ 넘어가도 괜찮을까요?" 형식으로 끝나야 함`;
+- 턴 1-2는 shouldTransition: false
+- 턴 3 이상은 shouldTransition: true (전환 제안)
+- 턴 5 도달 시 자동으로 강제 전환됨`;
 
         const aiResponse = await generateAIResponse(prompt, [
           {
@@ -230,73 +232,13 @@ ${conversationHistory || '(첫 대화)'}
       }
     }
 
-    // follow-up 답변 기반 중요도 재평가
-    if (action === 'reassess_importance' && attributeName && followUpQuestion && userAnswer && initialImportance) {
-      try {
-        const prompt = createReassessmentPrompt(attributeName, initialImportance, followUpQuestion, userAnswer, attributeDetails);
-        const aiResponse = await generateAIResponse(prompt, [
-          {
-            role: 'user',
-            parts: [{ text: prompt }],
-          },
-        ]);
-
-        // JSON 파싱
-        const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          const reassessment = JSON.parse(jsonMatch[0]);
-          return NextResponse.json({
-            action: reassessment.action,
-            newImportance: reassessment.newImportance,
-            reason: reassessment.reason,
-          });
-        }
-
-        // 파싱 실패 시 유지
-        return NextResponse.json({
-          action: 'maintain',
-          newImportance: initialImportance,
-          reason: '재평가 실패',
-        });
-      } catch (error) {
-        console.error('Failed to reassess importance:', error);
-        // 에러 시 초기값 유지
-        return NextResponse.json({
-          action: 'maintain',
-          newImportance: initialImportance,
-          reason: '재평가 오류',
-        });
-      }
-    }
-
-    // follow-up 질문 생성 (모든 중요도에 대해, 맥락 없어도 진행)
-    if (action === 'generate_followup' && attributeName) {
-      try {
-        // 1. 연관도 판단 (LLM 기반)
-        const relevance = await assessContextRelevance(phase0Context || '', attributeName);
-
-        // 2. 연관도 기반 프롬프트 생성
-        const prompt = createFollowUpPrompt(attributeName, phase0Context || '', relevance, importance, attributeDetails);
-
-        // 3. AI 응답 생성
-        const followUpQuestion = await generateAIResponse(prompt, [
-          {
-            role: 'user',
-            parts: [{ text: prompt }],
-          },
-        ]);
-
-        return NextResponse.json({
-          message: followUpQuestion.trim(),
-        });
-      } catch (error) {
-        console.error('Failed to generate follow-up:', error);
-        return NextResponse.json(
-          { error: 'Failed to generate follow-up question' },
-          { status: 500 }
-        );
-      }
-    }
+    // ==========================================
+    // DEPRECATED: 기존 플로우 액션들 (Priority 도입으로 사용 안 함)
+    // - reassess_importance: Follow-up 답변 기반 중요도 재평가
+    // - generate_followup: Phase 0 맥락 기반 follow-up 질문 생성
+    //
+    // Priority 플로우에서는 'generate_attribute_conversation' 사용
+    // ==========================================
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -305,113 +247,11 @@ ${conversationHistory || '(첫 대화)'}
       );
     }
 
-    // Chat1 단계: 대화형 속성 평가
-    if (phase === 'chat1') {
-      const lastUserMessage = messages.filter((m: Message) => m.role === 'user').pop();
-
-      if (!lastUserMessage) {
-        return NextResponse.json(
-          { error: 'No user message found' },
-          { status: 400 }
-        );
-      }
-
-      const currentAttribute = CORE_ATTRIBUTES[currentAttributeIndex];
-
-      // 사용자 의도 분석 (세부 항목 정보 포함)
-      const intent = await analyzeUserIntent(
-        lastUserMessage.content,
-        currentAttribute.name,
-        currentAttribute.details
-      );
-
-      // 의도에 따라 다른 응답 생성
-      if (intent.type === 'follow_up_question') {
-        // 추가 질문 → 더 자세한 설명 제공
-        const explanation = await generateDetailedExplanation(
-          currentAttribute.name,
-          currentAttribute.description,
-          currentAttribute.details,
-          lastUserMessage.content
-        );
-
-        // 중요도 질문 (하늘색 배경용)
-        const importanceQuestion = `고객님께서는 **'${currentAttribute.name}'**에 대해 어느 정도 중요하게 생각하시나요?${
-          currentAttribute.importanceExamples
-            ? `\n\n**중요함**: ${currentAttribute.importanceExamples.important}\n**보통**: ${currentAttribute.importanceExamples.normal}\n**중요하지 않음**: ${currentAttribute.importanceExamples.notImportant}`
-            : ''
-        }`;
-
-        return NextResponse.json({
-          messages: [explanation, importanceQuestion],
-          type: 'follow_up',
-          requiresImportance: true,
-        });
-      } else if (intent.type === 'importance_response') {
-        // 중요도 답변 → follow-up 질문 생성 (버튼 방식과 동일)
-        const importance = intent.importance as ImportanceLevel;
-
-        // follow-up 질문 생성을 위해 phase0Context 가져오기
-        const sessionMessages = messages as Message[];
-        let phase0Context = '';
-
-        // Phase 0 맥락 찾기 (두 번째 user 메시지가 Phase 0 응답)
-        const userMessages = sessionMessages.filter((m: Message) => m.role === 'user');
-        if (userMessages.length >= 1) {
-          phase0Context = userMessages[0].content;
-        }
-
-        // 항상 AI 기반 follow-up 질문 생성 (맥락 없어도 진행)
-        let followUpQuestion = '';
-        try {
-          // 1. 연관도 판단 (LLM 기반)
-          const relevance = await assessContextRelevance(phase0Context || '', currentAttribute.name);
-
-          // 2. 연관도 기반 프롬프트 생성
-          const followUpPrompt = createFollowUpPrompt(
-            currentAttribute.name,
-            phase0Context || '', // 맥락 없어도 빈 문자열로 전달
-            relevance,
-            importance,
-            currentAttribute.details
-          );
-
-          // 3. AI 응답 생성
-          followUpQuestion = await generateAIResponse(followUpPrompt, [
-            {
-              role: 'user',
-              parts: [{ text: followUpPrompt }],
-            },
-          ]);
-        } catch (error) {
-          console.error('Failed to generate follow-up:', error);
-          // 에러 시 fallback: 속성 세부사항 기반 질문
-          followUpQuestion = generateVeryImportantFollowUp(currentAttribute.name, currentAttribute.details);
-        }
-
-        return NextResponse.json({
-          type: 'natural_language_followup',
-          importance,
-          followUpQuestion: followUpQuestion.trim(),
-        });
-      } else {
-        // off_topic → 원래 주제로 유도 + 중요도 질문 다시 표시
-        const redirectMessage = `지금은 ${currentAttribute.name}에 대해 여쭤보고 있어요. 이 부분이 고객님께 얼마나 중요하신지 알려주셔야 더 정확한 추천을 해드릴 수 있어요!`;
-
-        // 중요도 질문 (마지막 파트만 - 중요도 질문)
-        const importanceQuestion = `고객님께서는 **'${currentAttribute.name}'**에 대해 어느 정도 중요하게 생각하시나요?${
-          currentAttribute.importanceExamples
-            ? `\n\n**중요함**: ${currentAttribute.importanceExamples.important}\n**보통**: ${currentAttribute.importanceExamples.normal}\n**중요하지 않음**: ${currentAttribute.importanceExamples.notImportant}`
-            : ''
-        }`;
-
-        return NextResponse.json({
-          messages: [redirectMessage, importanceQuestion],
-          type: 'redirect',
-          requiresImportance: true,
-        });
-      }
-    }
+    // ==========================================
+    // DEPRECATED: 기존 Chat1 플로우 (Priority 도입으로 사용 안 함)
+    // Priority 페이지에서 중요도를 먼저 설정하므로,
+    // 이 분기는 더 이상 실행되지 않습니다.
+    // ==========================================
 
     // Chat2 단계: 추가 컨텍스트 수집
     if (phase === 'chat2') {
