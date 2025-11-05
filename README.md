@@ -57,13 +57,14 @@ npm run lint
 
 ## 프로젝트 구조
 
-### 페이지 플로우 (5단계)
+### 페이지 플로우 (6단계)
 
 1. **홈** (`/`) - 서비스 소개 및 시작
 2. **랭킹** (`/ranking`) - 인기 제품 목록
-3. **채팅 1** (`/chat/structured`) - 8가지 핵심 속성 질문 및 중요도 평가
-4. **채팅 2** (`/chat/open`) - 자유 대화 (정확도 진행률 80-100% 표시)
-5. **결과** (`/result`) - 맞춤형 Top 3 추천
+3. **채팅** (`/chat`) - 대화형 속성 평가 및 맞춤 질문 (단일 페이지, Phase 0-8)
+4. **결과** (`/result`) - 맞춤형 Top 3 추천
+5. **관리자** (`/admin`) - 로그 뷰어 및 대화 추적
+6. **관리자 업로드** (`/admin/upload`) - 제품 관리 인터페이스
 
 ### Agentic Workflow 파이프라인
 
@@ -71,9 +72,9 @@ npm run lint
 
 #### Phase 1: 페르소나 생성
 - **위치**: `lib/agents/personaGenerator.ts`
-- **입력**: 채팅 대화 내용
-- **출력**: 8가지 속성별 가중치(1-10)를 포함한 `UserPersona`
-- **옵션**: Reflection 패턴 (속도/품질 조절 가능)
+- **입력**: 전체 채팅 기록 + `AttributeAssessment` 객체
+- **출력**: 7가지 속성별 가중치(1-10)를 포함한 `UserPersona`
+- **기능**: 버튼 클릭뿐만 아니라 대화 맥락을 통해 우선순위 추론
 
 #### Phase 2: 초기 필터링
 - **위치**: `lib/filtering/initialFilter.ts`
@@ -95,16 +96,17 @@ npm run lint
 - **방식**: Top 3 제품 병렬 추천문 생성
 - **출력**: 장단점, 비교, 추가 고려사항
 
-### 8가지 핵심 속성
+### 7가지 핵심 속성
 
-1. 온도 조절/유지 능력 (가장 중요)
-2. 위생/세척 편의성
-3. 재질 (안전성)
-4. 사용 편의성
-5. 휴대성 (선택)
-6. 가격/가성비 (선택)
-7. 내구성/A/S (선택)
-8. 부가 기능/디자인 (선택)
+1. 온도 조절/유지 성능 (Temperature Control)
+2. 위생/세척 편의성 (Hygiene)
+3. 소재 (안전성) (Material Safety)
+4. 사용 편의성 (Usability)
+5. 휴대성 (Portability) - 선택
+6. 가격 대비 가치 (Price/Value) - 선택
+7. 부가 기능 및 디자인 (Additional Features) - 선택
+
+**참고**: 이전 버전의 "내구성/A/S" 속성은 제거되었습니다.
 
 ### 주요 디렉토리
 
@@ -133,27 +135,35 @@ babyitem_MVP/
 
 ### POST /api/recommend
 - **기능**: 스트리밍 추천 API (Server-Sent Events)
-- **입력**: `{ messages: Message[] }`
+- **입력**: `{ messages: Message[], attributeAssessments: AttributeAssessment }`
 - **출력**: 진행률 업데이트 (0-100%) 및 최종 추천 결과
 - **응답 형식**: `data: {"phase": "...", "progress": ..., "message": "..."}\n\n`
+- **중요**: 실제 워크플로우는 이 파일(`app/api/recommend/route.ts`)에 있으며, `lib/workflow/recommendationWorkflow.ts`는 DEPRECATED
 
 ### POST /api/chat
-- **기능**: 구조화/자유 대화 단계의 채팅 처리
+- **기능**: 다목적 채팅 엔드포인트
+- **action 파라미터**:
+  - `generate_followup`: 맥락적 후속 질문 생성
+  - `reassess_importance`: 후속 답변 기반 중요도 재평가
+- **phase 파라미터**:
+  - `chat1`: 속성 평가 (`analyzeUserIntent()` 사용)
+  - `chat2`: 자유 대화
 
 ## 핵심 데이터 타입
 
 모든 타입은 `types/index.ts`에 정의:
 
-- **Product**: 8가지 `CoreValues`를 포함한 제품 데이터
-- **UserPersona**: AI 생성 페르소나 및 속성별 가중치
-- **ProductEvaluation**: AI 평가 결과 (등급 및 사유)
+- **Product**: 7가지 `CoreValues` (temperatureControl, hygiene, material, usability, portability, priceValue, additionalFeatures)
+- **UserPersona**: AI 생성 페르소나 및 `coreValueWeights` (1-10 스케일)
+- **ProductEvaluation**: 속성별 등급 + 사유 + `overallScore`
 - **Recommendation**: 최종 Top 3 추천 및 맞춤형 설명
+- **ConversationalState**: 현재 속성, 후속 질문 상태, 인트로 완료 여부 추적
 
 ## 성능 최적화
 
 1. **병렬 처리**: 제품 평가 및 추천 생성을 병렬로 실행
 2. **하이브리드 접근**: 코드 기반 필터링(빠름) + LLM 평가(맥락 이해)
-3. **선택적 패턴**: Reflection/Validation 패턴 토글 가능
+3. **선택적 검증**: `evaluationValidator.ts` (현재 속도를 위해 비활성화)
 4. **스트리밍**: SSE를 통한 실시간 진행률 표시 (10-30초 워크플로우)
 
 ## UI/UX 가이드라인
@@ -174,18 +184,26 @@ babyitem_MVP/
   - `parseJSONResponse()`: 마크다운 코드 블록에서 JSON 추출
 
 ### 주요 구현 노트
-1. **세션 관리**: 인메모리 또는 sessionStorage (DB 불필요)
-2. **에러 핸들링**: 모든 Gemini API 호출에 재시도 로직 적용
-3. **JSON 파싱**: AI 응답이 마크다운 코드 블록을 포함할 수 있음 - 방어적 파싱 필요
-4. **페이지 새로고침**: 홈 페이지로 복귀
-5. **정확도 추적**: Chat 2에서 진행률 바 표시 (80-100%)
+
+1. **채팅 플로우**: 단일 페이지 대화형 플로우, 동적 단계 전환 (별도 chat1/chat2 페이지 없음)
+2. **중요도 감지**: AI가 자연어를 분석하여 중요도 추출 (버튼 클릭뿐만 아니라)
+3. **후속 질문 전략**: Phase 0 맥락 관련성 분석 기반 LLM 생성 맥락적 질문
+4. **워크플로우 위치**: 실제 워크플로우는 `app/api/recommend/route.ts`에 있음 (NOT `lib/workflow/recommendationWorkflow.ts`)
+5. **JSON 파싱**: AI 응답에 항상 `parseJSONResponse()` 사용 - 마크다운으로 래핑될 수 있음
+6. **재시도 로직**: 모든 Gemini 호출은 `callGeminiWithRetry()`로 래핑하여 안정성 확보
+7. **등급 변환**: 매우 충족=5, 충족=4, 보통=3, 미흡=2, 매우 미흡=1
+8. **가중치 매핑**: 중요함=10, 보통=7, 중요하지 않음=5 (페르소나 생성에 사용)
 
 ### 주의사항
-- AI 응답이 JSON을 마크다운 코드 블록으로 래핑할 수 있음 (````json\n...\n````)
-- 제품 `coreValues`와 페르소나 `weights`는 동일한 8가지 속성으로 정렬되어야 함
-- 등급 변환: 매우 충족=5, 충족=4, 보통=3, 미흡=2, 매우 미흡=1
-- 중요도 레벨: 매우 중요=10, 중요=7, 보통=4
-- 필터링 전 모든 제품 마크다운 파일 로드 필수
+
+- **Deprecated 파일**: `lib/workflow/recommendationWorkflow.ts`에 경고 주석 - 사용하지 말것
+- **속성 개수**: 8개에서 7개 속성으로 변경 ("내구성/A/S" 제거됨)
+- **JSON in Markdown**: AI 응답이 종종 JSON을 ````json\n...\n``` 블록으로 래핑
+- **제품 로딩**: 필터링 전 모든 제품 로드 필수 (`loadAllProducts()` 사용)
+- **정렬**: 제품 `coreValues`와 페르소나 `weights`는 동일한 7개 속성을 같은 순서로 사용해야 함
+- **맥락 참조**: 후속 질문은 관련성이 높을 때만 Phase 0를 자연스럽게 참조
+- **톤 일관성**: 채팅 플로우 전반에 걸쳐 공감형 한국어 톤 유지
+- **관리자 기능**: 제품 업로드는 쿠팡 리뷰 URL로부터 AI 기반 분석 포함
 
 ## 프로젝트 가이드
 
