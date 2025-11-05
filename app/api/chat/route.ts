@@ -47,12 +47,40 @@ function generatePrioritySummary(settings: PrioritySettings): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails, followUpQuestion, userAnswer, initialImportance, prioritySettings } = await request.json();
+    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails, followUpQuestion, userAnswer, initialImportance, prioritySettings, userMessage } = await request.json();
 
     // Priority 요약 메시지 생성
     if (action === 'generate_priority_summary' && prioritySettings) {
       const summary = generatePrioritySummary(prioritySettings);
       return NextResponse.json({ summary });
+    }
+
+    // Priority 플로우: 속성별 자유 대화 모드
+    if (action === 'generate_attribute_conversation' && attributeName && userMessage) {
+      try {
+        // 단순히 전달된 프롬프트를 AI에게 보내고 응답 받기
+        const aiResponse = await generateAIResponse(userMessage, [
+          {
+            role: 'user',
+            parts: [{ text: userMessage }],
+          },
+        ]);
+
+        // JSON 파싱 시도
+        const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          return NextResponse.json({ message: parsed.message || aiResponse.trim() });
+        }
+
+        return NextResponse.json({ message: aiResponse.trim() });
+      } catch (error) {
+        console.error('Failed to generate attribute conversation:', error);
+        return NextResponse.json(
+          { error: 'Failed to generate conversation response' },
+          { status: 500 }
+        );
+      }
     }
 
     // follow-up 답변 기반 중요도 재평가

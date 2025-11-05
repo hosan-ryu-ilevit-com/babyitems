@@ -123,6 +123,7 @@ export default function ChatPage() {
   const [showBudgetButtons, setShowBudgetButtons] = useState(false); // 예산 질문 버튼 표시
   const [budgetSelected, setBudgetSelected] = useState(false); // 예산 선택 완료
   const [filteredAttributes, setFilteredAttributes] = useState<typeof CORE_ATTRIBUTES>(CORE_ATTRIBUTES); // 필터링된 속성 목록
+  const [inAttributeConversation, setInAttributeConversation] = useState(false); // 속성별 자유 대화 모드
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -474,6 +475,19 @@ export default function ChatPage() {
       await new Promise((resolve) => setTimeout(resolve, transitionMsg.length * 10 + 300));
       await new Promise((resolve) => setTimeout(resolve, 500));
 
+      // 속성 인트로 메시지 (볼드체)
+      const attrIntroMsg = `**${firstHighAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+      session = loadSession();
+      session = addAssistantMessage(session, attrIntroMsg, 'chat1');
+      setMessages([...session.messages]);
+      saveSession(session);
+
+      const attrIntroMessage = session.messages[session.messages.length - 1];
+      setTypingMessageId(attrIntroMessage.id);
+
+      await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       // 첫 번째 속성에 대한 follow-up 질문 생성
       setIsLoading(true);
       try {
@@ -505,7 +519,7 @@ export default function ChatPage() {
 
           setTypingMessageId(null);
           setCurrentAttributeIndex(firstAttrIndex);
-          setWaitingForFollowUpResponse(true);
+          setInAttributeConversation(true); // 속성별 대화 모드 활성화
           setShowFollowUpSkip(true);
         }
       } catch (error) {
@@ -661,6 +675,9 @@ export default function ChatPage() {
     const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
 
     if (hasPriority) {
+      // 대화 모드 종료
+      setInAttributeConversation(false);
+
       // Priority 플로우: 다음 '중요함' 속성으로 이동
       const highPriorityKeys = Object.entries(session.prioritySettings || {})
         .filter(([_, level]) => level === 'high')
@@ -685,6 +702,19 @@ export default function ChatPage() {
           '중요함'
         );
         saveSession(session);
+
+        // 속성 인트로 메시지 (볼드체)
+        const attrIntroMsg = `**${nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+        session = loadSession();
+        session = addAssistantMessage(session, attrIntroMsg, 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        const attrIntroMessage = session.messages[session.messages.length - 1];
+        setTypingMessageId(attrIntroMessage.id);
+
+        await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
         // 다음 속성 follow-up 질문 생성
         setIsLoading(true);
@@ -717,7 +747,7 @@ export default function ChatPage() {
 
             setTypingMessageId(null);
             setCurrentAttributeIndex(nextAttrIndex);
-            setWaitingForFollowUpResponse(true);
+            setInAttributeConversation(true); // 속성별 대화 모드 유지
             setShowFollowUpSkip(true);
           }
         } catch (error) {
@@ -867,6 +897,19 @@ export default function ChatPage() {
         await new Promise((resolve) => setTimeout(resolve, transitionMsg.length * 10 + 300));
         await new Promise((resolve) => setTimeout(resolve, 500));
 
+        // 속성 인트로 메시지 (볼드체)
+        const attrIntroMsg = `**${firstHighAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+        session = loadSession();
+        session = addAssistantMessage(session, attrIntroMsg, 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        const attrIntroMessage = session.messages[session.messages.length - 1];
+        setTypingMessageId(attrIntroMessage.id);
+
+        await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
         // 첫 번째 속성에 대한 follow-up 질문 생성
         setIsLoading(true);
         try {
@@ -898,7 +941,7 @@ export default function ChatPage() {
 
             setTypingMessageId(null);
             setCurrentAttributeIndex(firstAttrIndex);
-            setWaitingForFollowUpResponse(true);
+            setInAttributeConversation(true); // 속성별 대화 모드 활성화
             setShowFollowUpSkip(true);
           }
         } catch (error) {
@@ -940,7 +983,82 @@ export default function ChatPage() {
       return;
     }
 
-    // follow-up 응답 처리
+    // Priority 플로우: 속성별 자유 대화 모드
+    if (inAttributeConversation) {
+      session = addMessage(session, 'user', userInput, 'chat1');
+      setMessages(session.messages);
+      saveSession(session);
+
+      setIsLoading(true);
+
+      const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+
+      // AI와 자유 대화 (해당 속성에 대해)
+      try {
+        const prompt = `당신은 분유포트 추천 AI예요. 현재 사용자와 **${attribute.name}**에 대해 대화하고 있어요.
+
+사용자가 방금 이렇게 말했어요: "${userInput}"
+
+**${attribute.name}**의 세부 사항:
+${attribute.details.map((d, i) => `${i + 1}. ${d}`).join('\n')}
+
+사용자의 니즈를 더 깊이 파악하기 위한 자연스러운 후속 질문을 생성하세요.
+- 50자 이내로 간결하게
+- 구체적인 상황이나 선호도를 물어보세요
+- 공감하는 톤으로
+
+예시:
+- "그렇군요! 하루에 몇 번 정도 분유를 타시나요?"
+- "새벽 수유가 많으시군요! 미리 물을 끓여두시나요?"
+- "이해해요. 외출 시에는 어떻게 하시나요?"
+
+JSON 형식으로 답변하세요:
+{
+  "message": "AI의 후속 질문"
+}`;
+
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'generate_attribute_conversation',
+            attributeName: attribute.name,
+            userMessage: prompt,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const aiResponse = data.message || '알겠습니다! 다른 궁금한 점이 있으신가요?';
+
+          session = loadSession();
+          session = addAssistantMessage(session, aiResponse, 'chat1');
+          setMessages([...session.messages]);
+          saveSession(session);
+
+          const lastMsg = session.messages[session.messages.length - 1];
+          setTypingMessageId(lastMsg.id);
+
+          await new Promise((resolve) => setTimeout(resolve, aiResponse.length * 10 + 300));
+          setTypingMessageId(null);
+
+          // 대화 모드 유지, "넘어가기" 버튼도 유지
+          setShowFollowUpSkip(true);
+        }
+      } catch (error) {
+        console.error('Failed to generate follow-up:', error);
+        // 에러 시 기본 응답
+        session = loadSession();
+        session = addAssistantMessage(session, '알겠습니다! 다른 궁금한 점이 있으신가요?', 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+      }
+
+      setIsLoading(false);
+      return;
+    }
+
+    // 기존 플로우: follow-up 응답 처리 (Priority 없는 경우)
     if (waitingForFollowUpResponse) {
       session = addMessage(session, 'user', userInput, 'chat1');
       setMessages(session.messages);
