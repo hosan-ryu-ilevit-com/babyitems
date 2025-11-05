@@ -273,8 +273,16 @@ export default function ResultPage() {
 
     const session = loadSession();
 
-    // 이미 추천 결과가 있으면 바로 표시
+    // Quick Recommendation 플로우는 항상 새로 생성
+    if (session.isQuickRecommendation) {
+      console.log('🚀 Quick Recommendation flow - generating new recommendations');
+      fetchRecommendations();
+      return;
+    }
+
+    // 일반 플로우: 이미 추천 결과가 있으면 바로 표시
     if (session.recommendations && session.recommendations.length > 0) {
+      console.log('✓ Using cached recommendations from session');
       setRecommendations(session.recommendations);
       if (session.contextSummary) {
         setContextSummary(session.contextSummary);
@@ -284,6 +292,7 @@ export default function ResultPage() {
     }
 
     // 추천 결과가 없으면 API 호출
+    console.log('🚀 No cached recommendations - fetching new ones');
     fetchRecommendations();
   }, [mounted]);
 
@@ -311,20 +320,7 @@ export default function ResultPage() {
           </div>
         </header>
 
-        {/* Top 3 바로보기 버튼 - 추천 결과가 있을 때만 표시 */}
-        {!loading && recommendations.length > 0 && (
-          <div className="px-4 pt-4 flex justify-center">
-            <button
-              onClick={scrollToTop3}
-              className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 text-sm font-medium rounded-lg transition-colors flex items-center gap-1.5"
-            >
-              <span>추천상품 확인하기</span>
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
-        )}
+      
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto px-4 py-6">
@@ -425,7 +421,7 @@ export default function ResultPage() {
                 </svg>
                 <div className="flex-1">
                   <p className="text-sm text-green-900 leading-relaxed font-semibold">
-                    광고는 자동 차단! 오직 실제 구매자들의 긍/부정 리뷰만을 분석했어요.
+                    광고는 자동 차단! 오직 실제 구매자들의 리뷰만을 분석했어요.
                   </p>
                 </div>
               </div>

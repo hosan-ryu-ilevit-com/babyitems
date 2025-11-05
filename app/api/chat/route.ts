@@ -56,6 +56,56 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ summary });
     }
 
+    // 자연어 예산 파싱
+    if (action === 'parse_budget') {
+      try {
+        const { userInput } = body;
+
+        const prompt = `사용자가 입력한 예산 정보를 분석하여 BudgetRange로 변환하세요.
+
+사용자 입력: "${userInput}"
+
+BudgetRange 옵션:
+- "0-50000": 5만원 이하
+- "50000-100000": 5~10만원
+- "100000-150000": 10~15만원
+- "150000+": 15만원 이상
+- null: 예산 제한 없음 (사용자가 "상관없어요", "제한없어요" 등으로 표현한 경우)
+
+예시:
+- "7만원" → "50000-100000"
+- "5만원 이하" → "0-50000"
+- "10만원 정도" → "100000-150000"
+- "5~8만원" → "50000-100000"
+- "15만원 이상" → "150000+"
+- "상관없어요" → null
+- "제한 없어요" → null
+
+JSON 형식으로 답변하세요:
+{
+  "budget": "0-50000" 또는 "50000-100000" 또는 "100000-150000" 또는 "150000+" 또는 null
+}`;
+
+        const aiResponse = await generateAIResponse(prompt, [
+          {
+            role: 'user',
+            parts: [{ text: prompt }],
+          },
+        ]);
+
+        const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          return NextResponse.json({ budget: parsed.budget });
+        }
+
+        return NextResponse.json({ budget: null });
+      } catch (error) {
+        console.error('Failed to parse budget:', error);
+        return NextResponse.json({ budget: null });
+      }
+    }
+
     // Priority 플로우: 전환 의도 분석
     if (action === 'analyze_transition_intent') {
       try {

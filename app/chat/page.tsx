@@ -128,6 +128,7 @@ export default function ChatPage() {
   const [inAttributeConversation, setInAttributeConversation] = useState(false); // 속성별 자유 대화 모드
   const [attributeConversationTurn, setAttributeConversationTurn] = useState(0); // 현재 속성 대화 턴 수 (최대 3)
   const [waitingForTransitionResponse, setWaitingForTransitionResponse] = useState(false); // 전환 의사 응답 대기 중
+  const [waitingForBudgetInput, setWaitingForBudgetInput] = useState(false); // 직접 입력으로 예산 입력 대기 중
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -832,6 +833,79 @@ export default function ChatPage() {
     setShowPhase0QuickReply(false); // Phase 0 버튼도 숨김
     setShowFollowUpSkip(false); // Follow-up 버튼도 숨김
     let session = loadSession();
+
+    // 직접 입력으로 예산 입력 대기 중
+    if (waitingForBudgetInput) {
+      setWaitingForBudgetInput(false);
+      setShowBudgetButtons(false);
+      setBudgetSelected(true);
+
+      session = addMessage(session, 'user', userInput, 'chat1');
+      setMessages(session.messages);
+      saveSession(session);
+
+      setIsLoading(true);
+
+      try {
+        // LLM을 사용해 자연어 예산 파싱
+        const parseResponse = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'parse_budget',
+            userInput: userInput,
+          }),
+        });
+
+        if (parseResponse.ok) {
+          const { budget } = await parseResponse.json();
+          session.budget = budget;
+          saveSession(session);
+
+          logButtonClick(`예산 선택: ${budget || '제한 없음'}`, 'chat/structured');
+
+          // AI 응답 - Chat2로 전환
+          const transitionMsg = '알겠습니다! 그럼 마지막으로 추가로 고려하실 사항이 있으시면 자유롭게 말씀해주세요. 없으시면 바로 추천을 받으실 수 있어요!';
+          session = changePhase(addAssistantMessage(session, transitionMsg, 'chat2'), 'chat2');
+          saveSession(session);
+          setMessages([...session.messages]);
+          setPhase('chat2');
+
+          const lastMsg = session.messages[session.messages.length - 1];
+          setTypingMessageId(lastMsg.id);
+
+          await new Promise((resolve) => setTimeout(resolve, transitionMsg.length * 10 + 300));
+          setTypingMessageId(null);
+          setShowChat2QuickReply(true);
+        }
+      } catch (error) {
+        console.error('Failed to parse budget:', error);
+      }
+
+      setIsLoading(false);
+      return;
+    }
+
+    // 예산 버튼이 표시된 상태에서 사용자 입력 (직접 입력 아님)
+    if (showBudgetButtons && !budgetSelected) {
+      // 예산 관련 자연어 처리 또는 무시
+      session = addMessage(session, 'user', userInput, 'chat1');
+      setMessages(session.messages);
+      saveSession(session);
+
+      // 예산을 선택하라는 안내 메시지
+      const reminderMsg = '예산 범위를 버튼으로 선택해주시거나, 아래 "직접 입력" 버튼을 눌러주세요!';
+      session = addAssistantMessage(session, reminderMsg, 'chat1');
+      setMessages([...session.messages]);
+      saveSession(session);
+
+      const msg = session.messages[session.messages.length - 1];
+      setTypingMessageId(msg.id);
+      await new Promise((resolve) => setTimeout(resolve, reminderMsg.length * 10 + 300));
+      setTypingMessageId(null);
+
+      return;
+    }
 
     // Phase 0 워밍업 응답 처리 (phase0Context가 undefined인 경우에만)
     if (session.phase0Context === undefined) {
@@ -1864,10 +1938,71 @@ export default function ChatPage() {
                                 [message.id]: true,
                               }));
                             }
+                            // 예산 질문인 경우 버튼 표시
+                            if (message.content.includes('예산 범위를 알려주시겠어요')) {
+                              setShowBudgetButtons(true);
+                            }
                           }}
                         />
                       ) : (
                         formatMarkdown(message.content)
+                      )}
+
+                      {/* 예산 선택 버튼 (메시지 안에 포함) */}
+                      {message.content.includes('예산 범위를 알려주시겠어요') && showBudgetButtons && !budgetSelected && typingMessageId !== message.id && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                          className="mt-3 flex flex-col gap-2"
+                        >
+                          <button
+                            onClick={() => handleBudgetSelect('0-50000')}
+                            className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
+                          >
+                            5만원 이하
+                          </button>
+                          <button
+                            onClick={() => handleBudgetSelect('50000-100000')}
+                            className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
+                          >
+                            5~10만원
+                          </button>
+                          <button
+                            onClick={() => handleBudgetSelect('100000-150000')}
+                            className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
+                          >
+                            10~15만원
+                          </button>
+                          <button
+                            onClick={() => handleBudgetSelect('150000+')}
+                            className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
+                          >
+                            15만원 이상
+                          </button>
+                          <button
+                            onClick={() => {
+                              // 직접 입력 모드 활성화
+                              setWaitingForBudgetInput(true);
+                              logButtonClick('예산 직접 입력 시작', 'chat/structured');
+
+                              // AI 안내 메시지 추가
+                              let session = loadSession();
+                              const promptMsg = '예산을 자유롭게 입력해주세요! (예: 7만원, 5~8만원 정도, 10만원 이하)';
+                              session = addAssistantMessage(session, promptMsg, 'chat1');
+                              setMessages([...session.messages]);
+                              saveSession(session);
+
+                              // 입력창 포커스
+                              setTimeout(() => {
+                                inputRef.current?.focus();
+                              }, 100);
+                            }}
+                            className="w-full px-4 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 rounded-lg text-gray-600 font-medium text-sm transition-colors text-center"
+                          >
+                            ✏️ 직접 입력
+                          </button>
+                        </motion.div>
                       )}
 
                       {/* 속성 디테일 토글 버튼 */}
@@ -2000,39 +2135,6 @@ export default function ChatPage() {
             </motion.div>
           )}
 
-          {/* 예산 선택 버튼 */}
-          {phase === 'chat1' && showBudgetButtons && !budgetSelected && !isLoading && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col gap-2 mb-3"
-            >
-              <button
-                onClick={() => handleBudgetSelect('0-50000')}
-                className="w-full h-14 bg-white border-2 border-gray-300 rounded-xl text-gray-900 font-medium hover:border-gray-900 hover:bg-gray-50 transition-all"
-              >
-                5만원 이하
-              </button>
-              <button
-                onClick={() => handleBudgetSelect('50000-100000')}
-                className="w-full h-14 bg-white border-2 border-gray-300 rounded-xl text-gray-900 font-medium hover:border-gray-900 hover:bg-gray-50 transition-all"
-              >
-                5~10만원
-              </button>
-              <button
-                onClick={() => handleBudgetSelect('100000-150000')}
-                className="w-full h-14 bg-white border-2 border-gray-300 rounded-xl text-gray-900 font-medium hover:border-gray-900 hover:bg-gray-50 transition-all"
-              >
-                10~15만원
-              </button>
-              <button
-                onClick={() => handleBudgetSelect('150000+')}
-                className="w-full h-14 bg-white border-2 border-gray-300 rounded-xl text-gray-900 font-medium hover:border-gray-900 hover:bg-gray-50 transition-all"
-              >
-                15만원 이상
-              </button>
-            </motion.div>
-          )}
 
           {/* 빠른 응답 버튼 (Chat1에서만) */}
           {phase === 'chat1' && showQuickReplies && !isLoading && (

@@ -104,8 +104,17 @@ export async function POST(request: NextRequest) {
       };
 
       try {
+        console.log('\n=== API /recommend called ===');
+        console.log('Request body:', {
+          messagesLength: messages?.length,
+          hasAttributeAssessments: !!attributeAssessments,
+          hasPrioritySettings: !!prioritySettings,
+          budget,
+          isQuickRecommendation
+        });
 
         if (!messages || !Array.isArray(messages)) {
+          console.error('❌ Invalid messages format');
           sendError('Invalid messages format');
           controller.close();
           return;
@@ -113,6 +122,7 @@ export async function POST(request: NextRequest) {
 
         // Validation: attributeAssessments는 대화형 플로우에서만 필수
         if (!isQuickRecommendation && !attributeAssessments) {
+          console.error('❌ Missing attributeAssessments for conversation-based recommendation');
           sendError('Missing attributeAssessments for conversation-based recommendation');
           controller.close();
           return;
@@ -120,6 +130,8 @@ export async function POST(request: NextRequest) {
 
         // Validation: Quick recommendation에는 prioritySettings와 budget 필요
         if (isQuickRecommendation && !prioritySettings) {
+          console.error('❌ Missing prioritySettings for quick recommendation');
+          console.log('Priority Settings received:', prioritySettings);
           sendError('Missing prioritySettings for quick recommendation');
           controller.close();
           return;
