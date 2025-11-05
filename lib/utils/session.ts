@@ -1,4 +1,4 @@
-import { SessionState, Message, AttributeAssessment, ImportanceLevel, PrioritySettings, PriorityLevel, BudgetRange } from '@/types';
+import { SessionState, Message, AttributeAssessment, ImportanceLevel, PrioritySettings, BudgetRange } from '@/types';
 import { PRIORITY_ATTRIBUTES } from '@/data/attributes';
 
 const SESSION_KEY = 'babyitem_session';
@@ -180,7 +180,7 @@ export const getHighPriorityAttributes = (session: SessionState): string[] => {
   if (!session.prioritySettings) return [];
 
   return Object.entries(session.prioritySettings)
-    .filter(([_, level]) => level === 'high')
+    .filter(([, level]) => level === 'high')
     .map(([key]) => key);
 };
 
@@ -189,7 +189,7 @@ export const getMediumPriorityAttributes = (session: SessionState): string[] => 
   if (!session.prioritySettings) return [];
 
   return Object.entries(session.prioritySettings)
-    .filter(([_, level]) => level === 'medium')
+    .filter(([, level]) => level === 'medium')
     .map(([key]) => key);
 };
 

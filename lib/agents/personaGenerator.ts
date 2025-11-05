@@ -194,7 +194,7 @@ export function generatePersonaFromPriority(
 
   // 중요도가 'high'인 속성들을 contextualNeeds로 변환
   const highPriorityAttributes = Object.entries(settings)
-    .filter(([_, level]) => level === 'high')
+    .filter(([, level]) => level === 'high')
     .map(([key]) => {
       const attributeNames: { [key: string]: string } = {
         temperatureControl: '빠른 온도 조절과 유지',

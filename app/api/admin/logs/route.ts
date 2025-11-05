@@ -7,7 +7,7 @@ import {
   getLogsByDateRange,
   deleteSessionFromDate,
 } from '@/lib/logging/logger';
-import type { SessionSummary, DailyLog, LogEvent } from '@/types/logging';
+import type { SessionSummary, DailyLog } from '@/types/logging';
 
 // 비밀번호 검증
 function validatePassword(password: string): boolean {

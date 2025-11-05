@@ -70,7 +70,7 @@ export default function AdminUploadPage() {
         setError('');
         alert('✅ 사용 가능한 ID입니다.');
       }
-    } catch (err) {
+    } catch {
       setError('중복 체크 실패');
     } finally {
       setIsDuplicateCheck(false);

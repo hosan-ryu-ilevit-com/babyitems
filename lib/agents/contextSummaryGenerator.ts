@@ -41,7 +41,7 @@ export async function generateContextSummary(
 
   // 중요도가 선택된 속성들 추출 (사용자가 선택한 7개)
   const selectedAttributes = Object.entries(attributeAssessments)
-    .filter(([_, level]) => level !== null)
+    .filter(([, level]) => level !== null)
     .map(([key, level]) => ({
       key,
       name: ATTRIBUTE_NAME_MAP[key as keyof typeof ATTRIBUTE_NAME_MAP],

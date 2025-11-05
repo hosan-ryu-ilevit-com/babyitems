@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { AttributeInfo } from '@/data/attributes';
 import { ATTRIBUTE_IMAGES } from '@/data/attributes';
 
@@ -65,28 +66,29 @@ export function AttributeBottomSheet({ isOpen, attribute, onClose }: AttributeBo
             {/* Content */}
             <div className="px-6 pb-8">
               {/* Image */}
-              <div className="w-full max-w-[180px] mx-auto mb-6">
-                <img
+              <div className="w-full max-w-[130px] mx-auto mt-6 mb-6 relative h-[130px]">
+                <Image
                   src={imageUrl}
                   alt={attribute.name}
-                  className="w-full h-auto object-contain"
+                  fill
+                  className="object-contain"
                 />
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-0 text-center">
                 {attribute.name}
               </h3>
 
               {/* Description */}
-              <p className="text-base text-gray-600 mb-4 text-center leading-relaxed">
+              <p className="text-base text-gray-600 mb-4 font-medium text-center leading-relaxed">
                 {attribute.description}
               </p>
 
               {/* Details List */}
               <div className="bg-gray-50 rounded-2xl p-5 space-y-3">
                 {attribute.details.map((detail, index) => (
-                  <div key={index} className="flex items-start gap-3">
+                  <div key={index} className="flex items-start gap-2">
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-900 mt-2 shrink-0" />
                     <span className="flex-1 text-sm text-gray-700 leading-relaxed">
                       {detail}

@@ -62,7 +62,7 @@ export default function PriorityPage() {
     const session = loadSession();
 
     // 메시지와 대화 관련 상태 초기화 (Priority 설정은 유지)
-    let updatedSession = {
+    let updatedSession: import('@/types').SessionState = {
       ...session,
       messages: [],
       phase0Context: undefined,
@@ -97,7 +97,7 @@ export default function PriorityPage() {
     const session = loadSession();
 
     // 메시지와 대화 관련 상태 초기화 (Priority 설정은 유지)
-    let updatedSession = {
+    let updatedSession: import('@/types').SessionState = {
       ...session,
       messages: [],
       phase0Context: undefined,
@@ -139,7 +139,7 @@ export default function PriorityPage() {
             <div className="w-6"></div>
           </div>
           <p className="text-sm text-gray-600 leading-relaxed mb-3">
-            분유포트를 고를 때 꼭 확인해야 할 6가지 기준이에요. 더 중요한 기준을 알려주시면, 딱 맞는 제품을 찾아드릴게요.
+            분유포트를 고를 때 꼭 확인해야 할 6가지 기준이에요. 우선순위를 선택해주시면, 딱 맞는 제품을 찾아드릴게요.
           </p>
           {/* 중요함 카운터 */}
           <div className={`
@@ -151,7 +151,7 @@ export default function PriorityPage() {
           `}>
             <span className="text-base">⭐</span>
             <span>
-              '중요함' 선택: <strong className="font-bold">{highPriorityCount}/3</strong>
+              중요함: <strong className="font-bold">{highPriorityCount}/3</strong>
             </span>
             {highPriorityCount === 3 && <span className="ml-auto text-xs">✓ 최대 선택</span>}
           </div>

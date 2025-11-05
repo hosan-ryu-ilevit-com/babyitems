@@ -24,11 +24,11 @@ function generatePrioritySummary(settings: PrioritySettings): string {
   };
 
   const highPriority = Object.entries(settings)
-    .filter(([_, level]) => level === 'high')
+    .filter(([, level]) => level === 'high')
     .map(([key]) => attributeNames[key] || key);
 
   const mediumPriority = Object.entries(settings)
-    .filter(([_, level]) => level === 'medium')
+    .filter(([, level]) => level === 'medium')
     .map(([key]) => attributeNames[key] || key);
 
   let summary = '';
@@ -47,7 +47,8 @@ function generatePrioritySummary(settings: PrioritySettings): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails, followUpQuestion, userAnswer, initialImportance, prioritySettings, userMessage } = await request.json();
+    const body = await request.json();
+    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails, followUpQuestion, userAnswer, initialImportance, prioritySettings, conversationHistory } = body;
 
     // Priority 요약 메시지 생성
     if (action === 'generate_priority_summary' && prioritySettings) {
@@ -55,25 +56,121 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ summary });
     }
 
-    // Priority 플로우: 속성별 자유 대화 모드
-    if (action === 'generate_attribute_conversation' && attributeName && userMessage) {
+    // Priority 플로우: 전환 의도 분석
+    if (action === 'analyze_transition_intent') {
       try {
-        // 단순히 전달된 프롬프트를 AI에게 보내고 응답 받기
-        const aiResponse = await generateAIResponse(userMessage, [
+        const { userMessage } = body;
+
+        const prompt = `사용자가 다음 속성으로 넘어가고 싶은지 의도를 분석하세요.
+
+사용자 메시지: "${userMessage}"
+
+이 메시지가 "다음으로 넘어가겠다"는 긍정적 의사를 표현하는지 판단하세요.
+
+예시:
+- "네" / "예" / "넵" / "응" → YES
+- "좋아요" / "그래요" / "오케이" → YES
+- "넘어가요" / "다음으로" / "넘어갑시다" → YES
+- "아니요" / "좀 더 얘기하고 싶어요" → NO
+- "잘 모르겠어요" / "질문 있어요" → NO
+
+JSON 형식으로 답변하세요:
+{
+  "shouldTransition": true 또는 false
+}`;
+
+        const aiResponse = await generateAIResponse(prompt, [
           {
             role: 'user',
-            parts: [{ text: userMessage }],
+            parts: [{ text: prompt }],
           },
         ]);
 
-        // JSON 파싱 시도
         const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
-          return NextResponse.json({ message: parsed.message || aiResponse.trim() });
+          return NextResponse.json({ shouldTransition: parsed.shouldTransition || false });
         }
 
-        return NextResponse.json({ message: aiResponse.trim() });
+        return NextResponse.json({ shouldTransition: false });
+      } catch (error) {
+        console.error('Failed to analyze transition intent:', error);
+        return NextResponse.json({ shouldTransition: false });
+      }
+    }
+
+    // Priority 플로우: 속성별 자유 대화 모드
+    if (action === 'generate_attribute_conversation' && attributeName) {
+      try {
+        const { currentTurn } = body;
+
+        const prompt = `당신은 분유포트 추천 전문가 AI입니다. 사용자의 **${attributeName}**에 대한 니즈를 파악하기 위해 대화하고 있습니다.
+
+## 사용자의 초기 상황 (Phase 0 컨텍스트):
+${phase0Context || '(정보 없음)'}
+
+## ${attributeName}의 세부 사항:
+${attributeDetails?.map((d: string, i: number) => `${i + 1}. ${d}`).join('\n') || ''}
+
+## 지금까지의 대화 히스토리:
+${conversationHistory || '(첫 대화)'}
+
+## 현재 대화 턴: ${currentTurn}/3
+
+---
+
+## 대화 구조 (3턴 고정):
+- **턴 1**: 첫 번째 디테일 질문 (구체적 상황 파악)
+- **턴 2**: 답변에 대한 반응 + 두 번째 디테일 질문 (추가 상황 파악)
+- **턴 3**: 답변에 대한 반응 + 종합 정리 + "넘어가도 괜찮을까요?"
+
+## 응답 가이드:
+- **톤**: 친근하고 공감하는 30-40대 육아 맘 상담사 스타일
+- **길이**: 정확히 2문장
+- **구조**: (공감/반응 + 정보/팁) → 구체적 질문
+- **필수**: 항상 질문으로 끝나야 함 (? 로 종료)
+
+## 턴별 응답 방식:
+### 턴 1 또는 2:
+{
+  "message": "공감/반응 + 디테일 질문",
+  "shouldTransition": false
+}
+
+### 턴 3 (마지막):
+{
+  "message": "답변 반응 + 종합 정리. ${attributeName}에 대해 충분히 파악했습니다! 혹시 더 말씀하실 게 있으시면 지금 알려주세요. 아니면 다음 기준으로 넘어가도 괜찮을까요?",
+  "shouldTransition": true
+}
+
+**중요**:
+- 턴 1, 2는 shouldTransition: false
+- 턴 3은 반드시 shouldTransition: true
+- 턴 3의 message는 반드시 "~파악했습니다! 혹시 더 말씀하실 게 있으시면~ 넘어가도 괜찮을까요?" 형식으로 끝나야 함`;
+
+        const aiResponse = await generateAIResponse(prompt, [
+          {
+            role: 'user',
+            parts: [{ text: prompt }],
+          },
+        ]);
+
+        // JSON 파싱
+        const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          return NextResponse.json({
+            message: parsed.message || aiResponse.trim(),
+            shouldTransition: parsed.shouldTransition || false,
+            transitionMessage: parsed.transitionMessage || null,
+          });
+        }
+
+        return NextResponse.json({
+          message: aiResponse.trim(),
+          shouldTransition: false,
+          transitionMessage: null,
+        });
       } catch (error) {
         console.error('Failed to generate attribute conversation:', error);
         return NextResponse.json(

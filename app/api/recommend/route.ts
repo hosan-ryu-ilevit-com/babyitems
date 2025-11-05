@@ -31,7 +31,7 @@ function generateContextSummaryFromPriority(
   };
 
   const priorityAttributes = Object.entries(settings)
-    .filter(([_, level]) => level !== 'low')
+    .filter(([, level]) => level !== 'low')
     .map(([key, level]) => ({
       name: attributeNames[key] || key,
       level: priorityLevelKorean[level] as '중요함' | '보통' | '중요하지 않음',
@@ -72,8 +72,7 @@ export async function POST(request: NextRequest) {
     attributeAssessments,
     prioritySettings,
     budget,
-    isQuickRecommendation,
-    chatConversations
+    isQuickRecommendation
   } = body as {
     messages: Message[];
     attributeAssessments?: Record<string, string | null>;
@@ -161,7 +160,7 @@ export async function POST(request: NextRequest) {
             return;
           }
 
-          persona = await generatePersona(chatHistory, attributeAssessments);
+          persona = await generatePersona(chatHistory, attributeAssessments as unknown as import('@/types').AttributeAssessment);
         }
 
         console.log(`✓ Persona generated in ${Date.now() - personaStartTime}ms`);
@@ -235,7 +234,7 @@ export async function POST(request: NextRequest) {
           generateTop3Recommendations(top3, persona),
           isQuickRecommendation && prioritySettings
             ? generateContextSummaryFromPriority(prioritySettings, budget)
-            : generateContextSummary(messages, attributeAssessments!)
+            : generateContextSummary(messages, attributeAssessments! as unknown as import('@/types').AttributeAssessment)
         ]);
 
         console.log(`✓ Recommendations and context summary generated in parallel in ${Date.now() - finalStartTime}ms`);

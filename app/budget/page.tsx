@@ -17,10 +17,9 @@ import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 export default function BudgetPage() {
   const router = useRouter();
   const [selectedBudget, setSelectedBudget] = useState<BudgetRange | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [mounted] = useState(true); // Immediately set to true, no need for effect
 
   useEffect(() => {
-    setMounted(true);
     logPageView('budget');
 
     // Priority 설정이 없으면 priority 페이지로 리다이렉트

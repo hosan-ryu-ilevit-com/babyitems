@@ -108,6 +108,7 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentAttributeIndex, setCurrentAttributeIndex] = useState(0);
   const [phase, setPhase] = useState<'chat1' | 'chat2'>('chat1');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPhase0Complete, setIsPhase0Complete] = useState(false); // Phase 0 워밍업 완료 여부
   const [progress, setProgress] = useState(0);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
@@ -122,8 +123,11 @@ export default function ChatPage() {
   const [lastFollowUpQuestion, setLastFollowUpQuestion] = useState<string>(''); // 마지막 follow-up 질문 저장
   const [showBudgetButtons, setShowBudgetButtons] = useState(false); // 예산 질문 버튼 표시
   const [budgetSelected, setBudgetSelected] = useState(false); // 예산 선택 완료
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [filteredAttributes, setFilteredAttributes] = useState<typeof CORE_ATTRIBUTES>(CORE_ATTRIBUTES); // 필터링된 속성 목록
   const [inAttributeConversation, setInAttributeConversation] = useState(false); // 속성별 자유 대화 모드
+  const [attributeConversationTurn, setAttributeConversationTurn] = useState(0); // 현재 속성 대화 턴 수 (최대 3)
+  const [waitingForTransitionResponse, setWaitingForTransitionResponse] = useState(false); // 전환 의사 응답 대기 중
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -282,7 +286,7 @@ export default function ChatPage() {
 
           // 필터링된 속성 설정 ('high'만 질문)
           const highPriorityKeys = Object.entries(session.prioritySettings || {})
-            .filter(([_, level]) => level === 'high')
+            .filter(([, level]) => level === 'high')
             .map(([key]) => key);
 
           const filtered = CORE_ATTRIBUTES.filter(attr => highPriorityKeys.includes(attr.key));
@@ -430,7 +434,7 @@ export default function ChatPage() {
     if (hasPriority) {
       // Priority 플로우: '중요함' 속성들에 대해 바로 follow-up 질문
       const highPriorityKeys = Object.entries(session.prioritySettings || {})
-        .filter(([_, level]) => level === 'high')
+        .filter(([, level]) => level === 'high')
         .map(([key]) => key);
 
       if (highPriorityKeys.length === 0) {
@@ -677,10 +681,11 @@ export default function ChatPage() {
     if (hasPriority) {
       // 대화 모드 종료
       setInAttributeConversation(false);
+      setAttributeConversationTurn(0); // 턴 카운터 초기화
 
       // Priority 플로우: 다음 '중요함' 속성으로 이동
       const highPriorityKeys = Object.entries(session.prioritySettings || {})
-        .filter(([_, level]) => level === 'high')
+        .filter(([, level]) => level === 'high')
         .map(([key]) => key);
 
       const currentAttrKey = currentAttribute.key;
@@ -748,6 +753,7 @@ export default function ChatPage() {
             setTypingMessageId(null);
             setCurrentAttributeIndex(nextAttrIndex);
             setInAttributeConversation(true); // 속성별 대화 모드 유지
+            setAttributeConversationTurn(0); // 턴 카운터 초기화
             setShowFollowUpSkip(true);
           }
         } catch (error) {
@@ -852,7 +858,7 @@ export default function ChatPage() {
       if (hasPriority) {
         // Priority 플로우: '중요함' 속성들에 대해 바로 follow-up 질문
         const highPriorityKeys = Object.entries(session.prioritySettings || {})
-          .filter(([_, level]) => level === 'high')
+          .filter(([, level]) => level === 'high')
           .map(([key]) => key);
 
         if (highPriorityKeys.length === 0) {
@@ -942,6 +948,7 @@ export default function ChatPage() {
             setTypingMessageId(null);
             setCurrentAttributeIndex(firstAttrIndex);
             setInAttributeConversation(true); // 속성별 대화 모드 활성화
+            setAttributeConversationTurn(0); // 턴 카운터 초기화
             setShowFollowUpSkip(true);
           }
         } catch (error) {
@@ -985,6 +992,142 @@ export default function ChatPage() {
 
     // Priority 플로우: 속성별 자유 대화 모드
     if (inAttributeConversation) {
+      // 전환 의도 응답 대기 중인 경우 (턴 3 이후)
+      if (waitingForTransitionResponse) {
+        session = addMessage(session, 'user', userInput, 'chat1');
+        setMessages(session.messages);
+        saveSession(session);
+
+        setIsLoading(true);
+        setWaitingForTransitionResponse(false);
+
+        const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+
+        // LLM을 사용해 전환 의도 분석
+        try {
+          const intentResponse = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'analyze_transition_intent',
+              userMessage: userInput,
+            }),
+          });
+
+          if (intentResponse.ok) {
+            const intentData = await intentResponse.json();
+            const userConfirmsTransition = intentData.shouldTransition;
+
+            if (userConfirmsTransition) {
+              // 자동으로 다음 속성으로 전환 (handleFollowUpSkip과 동일한 로직)
+              setShowFollowUpSkip(false);
+              setInAttributeConversation(false);
+              setAttributeConversationTurn(0);
+
+              await new Promise((resolve) => setTimeout(resolve, 500));
+
+              const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
+
+              if (hasPriority) {
+                const highPriorityKeys = Object.entries(session.prioritySettings || {})
+                  .filter(([, level]) => level === 'high')
+                  .map(([key]) => key);
+
+                const currentAttrKey = attribute.key;
+                const currentIdx = highPriorityKeys.indexOf(currentAttrKey);
+                const nextIdx = currentIdx + 1;
+
+                if (nextIdx < highPriorityKeys.length) {
+                  const nextAttrKey = highPriorityKeys[nextIdx];
+                  const nextAttr = CORE_ATTRIBUTES.find(attr => attr.key === nextAttrKey);
+                  if (nextAttr) {
+                    const nextAttrIndex = CORE_ATTRIBUTES.findIndex(attr => attr.key === nextAttr.key);
+
+                    session = updateAttributeAssessment(session, nextAttr.key as keyof import('@/types').CoreValues, '중요함');
+                    saveSession(session);
+
+                    const attrIntroMsg = `**${nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+                    session = loadSession();
+                    session = addAssistantMessage(session, attrIntroMsg, 'chat1');
+                    setMessages([...session.messages]);
+                    saveSession(session);
+
+                    const attrIntroMessage = session.messages[session.messages.length - 1];
+                    setTypingMessageId(attrIntroMessage.id);
+                    await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
+                    await new Promise((resolve) => setTimeout(resolve, 500));
+
+                    const followUpResponse = await fetch('/api/chat', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        action: 'generate_followup',
+                        attributeName: nextAttr.name,
+                        phase0Context: session.phase0Context || '',
+                        importance: '중요함',
+                        attributeDetails: nextAttr.details,
+                      }),
+                    });
+
+                    if (followUpResponse.ok) {
+                      const followUpData = await followUpResponse.json();
+                      const followUpQuestion = followUpData.message || generateVeryImportantFollowUp(nextAttr.name, nextAttr.details);
+
+                      session = loadSession();
+                      session = addAssistantMessage(session, followUpQuestion, 'chat1');
+                      setMessages([...session.messages]);
+                      saveSession(session);
+
+                      const lastMsg = session.messages[session.messages.length - 1];
+                      setTypingMessageId(lastMsg.id);
+                      await new Promise((resolve) => setTimeout(resolve, followUpQuestion.length * 10 + 300));
+
+                      setTypingMessageId(null);
+                      setCurrentAttributeIndex(nextAttrIndex);
+                      setInAttributeConversation(true);
+                      setAttributeConversationTurn(0);
+                      setShowFollowUpSkip(true);
+                    }
+                  }
+                } else {
+                  const budgetMsg = '알겠습니다! 마지막으로 예산 범위를 알려주시겠어요?';
+                  session = addAssistantMessage(session, budgetMsg, 'chat1');
+                  setMessages([...session.messages]);
+                  saveSession(session);
+
+                  const msg = session.messages[session.messages.length - 1];
+                  setTypingMessageId(msg.id);
+                  await new Promise((resolve) => setTimeout(resolve, budgetMsg.length * 10 + 300));
+                  setTypingMessageId(null);
+                  setShowBudgetButtons(true);
+                }
+              }
+            } else {
+              // 사용자가 더 말하고 싶어함 - 대화 계속
+              const continueMsg = '알겠습니다! 더 궁금하신 점을 말씀해주세요.';
+              session = loadSession();
+              session = addAssistantMessage(session, continueMsg, 'chat1');
+              setMessages([...session.messages]);
+              saveSession(session);
+
+              const lastMsg = session.messages[session.messages.length - 1];
+              setTypingMessageId(lastMsg.id);
+              await new Promise((resolve) => setTimeout(resolve, continueMsg.length * 10 + 300));
+              setTypingMessageId(null);
+
+              // 대화 모드 유지 (턴은 증가하지 않음)
+              setShowFollowUpSkip(true);
+            }
+          }
+        } catch (intentError) {
+          console.error('Failed to analyze transition intent:', intentError);
+        }
+
+        setIsLoading(false);
+        return;
+      }
+
+      // 일반 대화 (턴 1, 2, 3)
       session = addMessage(session, 'user', userInput, 'chat1');
       setMessages(session.messages);
       saveSession(session);
@@ -993,37 +1136,44 @@ export default function ChatPage() {
 
       const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
 
+      // 현재 턴 증가
+      const currentTurn = attributeConversationTurn + 1;
+      setAttributeConversationTurn(currentTurn);
+
+      // 현재 속성에서의 대화 히스토리 추출 (속성 인트로 이후부터)
+      const currentAttributeMessages: Message[] = [];
+
+      for (let i = session.messages.length - 1; i >= 0; i--) {
+        const msg = session.messages[i];
+
+        // 현재 속성의 인트로 메시지를 찾으면 종료
+        if (msg.role === 'assistant' && msg.content.includes(`**${attribute.name}**에 대해`)) {
+          break;
+        }
+
+        // 인트로를 찾기 전까지 역순으로 수집
+        if (msg.role === 'user' || msg.role === 'assistant') {
+          currentAttributeMessages.unshift(msg);
+        }
+      }
+
+      // 대화 히스토리 텍스트로 변환
+      const conversationHistory = currentAttributeMessages
+        .map(msg => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
+        .join('\n');
+
       // AI와 자유 대화 (해당 속성에 대해)
       try {
-        const prompt = `당신은 분유포트 추천 AI예요. 현재 사용자와 **${attribute.name}**에 대해 대화하고 있어요.
-
-사용자가 방금 이렇게 말했어요: "${userInput}"
-
-**${attribute.name}**의 세부 사항:
-${attribute.details.map((d, i) => `${i + 1}. ${d}`).join('\n')}
-
-사용자의 니즈를 더 깊이 파악하기 위한 자연스러운 후속 질문을 생성하세요.
-- 50자 이내로 간결하게
-- 구체적인 상황이나 선호도를 물어보세요
-- 공감하는 톤으로
-
-예시:
-- "그렇군요! 하루에 몇 번 정도 분유를 타시나요?"
-- "새벽 수유가 많으시군요! 미리 물을 끓여두시나요?"
-- "이해해요. 외출 시에는 어떻게 하시나요?"
-
-JSON 형식으로 답변하세요:
-{
-  "message": "AI의 후속 질문"
-}`;
-
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             action: 'generate_attribute_conversation',
             attributeName: attribute.name,
-            userMessage: prompt,
+            attributeDetails: attribute.details,
+            conversationHistory: conversationHistory,
+            phase0Context: session.phase0Context || '',
+            currentTurn: currentTurn,
           }),
         });
 
@@ -1041,6 +1191,12 @@ JSON 형식으로 답변하세요:
 
           await new Promise((resolve) => setTimeout(resolve, aiResponse.length * 10 + 300));
           setTypingMessageId(null);
+
+          // AI가 충분한 정보를 얻었다고 판단한 경우 (턴 3)
+          if (data.shouldTransition) {
+            // 다음 사용자 응답을 전환 의도로 분석하도록 플래그 설정
+            setWaitingForTransitionResponse(true);
+          }
 
           // 대화 모드 유지, "넘어가기" 버튼도 유지
           setShowFollowUpSkip(true);
@@ -1563,7 +1719,7 @@ JSON 형식으로 답변하세요:
               onClick={() => {
                 if (window.confirm('대화 내역을 초기화하고 처음부터 다시 시작하시겠습니까?')) {
                   clearSession();
-                  window.location.reload();
+                  router.push('/priority');
                 }
               }}
               className="text-sm text-gray-600 hover:text-gray-900 font-semibold"

@@ -39,7 +39,7 @@ export default function AdminPage() {
         setSelectedDate(data.dates[0]);
         fetchLogs(data.dates[0]);
       }
-    } catch (err) {
+    } catch {
       setError('날짜 목록을 불러오는데 실패했습니다.');
     }
   };
@@ -55,7 +55,7 @@ export default function AdminPage() {
       });
       const data = await response.json();
       setSessions(data.sessions || []);
-    } catch (err) {
+    } catch {
       setError('로그를 불러오는데 실패했습니다.');
     } finally {
       setLoading(false);
@@ -125,7 +125,7 @@ export default function AdminPage() {
       } else {
         setError('세션 삭제에 실패했습니다.');
       }
-    } catch (err) {
+    } catch {
       setError('세션 삭제 중 오류가 발생했습니다.');
     }
   };
