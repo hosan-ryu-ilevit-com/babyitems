@@ -78,12 +78,11 @@ export default function Home() {
           >
             <h1 className="text-3xl font-extrabold text-gray-900 mb-3 leading-tight">
               
-              첫 분유포트, <br></br> 함께 찾아드려요
+              AI가 찾아주는<br></br>내게 딱 맞는 분유포트
             </h1>
             <p className="text-base text-gray-600 leading-relaxed px-2">
-              선배 부모들이 가장 중요하게 생각한<br />
               <strong className="font-bold">놓칠 수도 있는 기준</strong>까지<br />
-              꼼꼼하게 챙겨드려요
+              꼼꼼하게 전부 챙겨드려요
             </p>
           </motion.div>
 

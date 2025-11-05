@@ -15,6 +15,9 @@ import {
   changePhase,
   calculateProgress,
   clearSession,
+  getAttributesToAsk,
+  isPriorityComplete,
+  saveBudget,
 } from '@/lib/utils/session';
 import { logPageView, logButtonClick, logUserInput, logAIResponse } from '@/lib/logging/clientLogger';
 import {
@@ -117,6 +120,9 @@ export default function ChatPage() {
   const [showToggleButtons, setShowToggleButtons] = useState<{ [messageId: string]: boolean }>({});
   const [waitingForFollowUpResponse, setWaitingForFollowUpResponse] = useState(false); // "매우 중요" follow-up 응답 대기 중
   const [lastFollowUpQuestion, setLastFollowUpQuestion] = useState<string>(''); // 마지막 follow-up 질문 저장
+  const [showBudgetButtons, setShowBudgetButtons] = useState(false); // 예산 질문 버튼 표시
+  const [budgetSelected, setBudgetSelected] = useState(false); // 예산 선택 완료
+  const [filteredAttributes, setFilteredAttributes] = useState<typeof CORE_ATTRIBUTES>(CORE_ATTRIBUTES); // 필터링된 속성 목록
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -207,48 +213,119 @@ export default function ChatPage() {
     const session = loadSession();
 
     if (session.messages.length === 0) {
-      // 첫 방문: 환영 메시지 및 Phase 0 워밍업 질문
-      const initializeChat = async () => {
-        let updatedSession = changePhase(session, 'chat1');
-        updatedSession = addAssistantMessage(updatedSession, generateIntroMessage(), 'chat1');
-        setMessages([...updatedSession.messages]);
-        saveSession(updatedSession);
+      // Priority 설정 여부 확인
+      const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
 
-        // 첫 메시지 타이핑 효과
-        const firstMessage = updatedSession.messages[0];
-        setTypingMessageId(firstMessage.id);
+      if (hasPriority) {
+        // Case A: Priority 설정 있음 - "채팅으로 더 자세히" 플로우
+        const initializePriorityChat = async () => {
+          let updatedSession = changePhase(session, 'chat1');
 
-        // 타이핑 완료 대기
-        await new Promise((resolve) => {
-          const typingDuration = generateIntroMessage().length * 10 + 300;
-          setTimeout(resolve, typingDuration);
-        });
+          // 1. 인트로 메시지 (안녕하세요~)
+          const introMsg = generateIntroMessage();
+          updatedSession = addAssistantMessage(updatedSession, introMsg, 'chat1');
+          setMessages([...updatedSession.messages]);
+          saveSession(updatedSession);
 
-        // 딜레이 후 Phase 0 워밍업 질문
-        await new Promise((resolve) => setTimeout(resolve, 500));
+          const introMessage = updatedSession.messages[0];
+          setTypingMessageId(introMessage.id);
 
-        // Phase 0 워밍업 질문 추가
-        const warmupQuestion = generateWarmupQuestion();
-        updatedSession = addAssistantMessage(updatedSession, warmupQuestion, 'chat1');
-        setMessages([...updatedSession.messages]);
-        saveSession(updatedSession);
+          await new Promise((resolve) => setTimeout(resolve, introMsg.length * 10 + 300));
+          await new Promise((resolve) => setTimeout(resolve, 500));
 
-        // 워밍업 질문 타이핑 효과
-        const warmupMessage = updatedSession.messages[updatedSession.messages.length - 1];
-        setTypingMessageId(warmupMessage.id);
+          // 2. Priority 요약 메시지 생성 (API 호출)
+          try {
+            const response = await fetch('/api/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                action: 'generate_priority_summary',
+                prioritySettings: session.prioritySettings
+              })
+            });
 
-        // 타이핑 완료 대기
-        await new Promise((resolve) => {
-          const typingDuration = warmupQuestion.length * 10 + 300;
-          setTimeout(resolve, typingDuration);
-        });
+            if (response.ok) {
+              const data = await response.json();
+              const summaryMsg = data.summary;
 
-        // 타이핑 완료 후 Phase 0 건너뛰기 버튼 표시
-        setTypingMessageId(null);
-        setShowPhase0QuickReply(true);
-      };
+              updatedSession = loadSession();
+              updatedSession = addAssistantMessage(updatedSession, summaryMsg, 'chat1');
+              setMessages([...updatedSession.messages]);
+              saveSession(updatedSession);
 
-      initializeChat();
+              const summaryMessage = updatedSession.messages[updatedSession.messages.length - 1];
+              setTypingMessageId(summaryMessage.id);
+
+              await new Promise((resolve) => setTimeout(resolve, summaryMsg.length * 10 + 300));
+              await new Promise((resolve) => setTimeout(resolve, 500));
+            }
+          } catch (error) {
+            console.error('Failed to generate priority summary:', error);
+          }
+
+          // 3. "추가로 말할 게 있으면~" 메시지
+          const askMoreMsg = '본격적으로 시작하기 전에, **미리 말씀해주실 특별한 상황이나 고민이 있으시면** 편하게 이야기해주세요!';
+          updatedSession = loadSession();
+          updatedSession = addAssistantMessage(updatedSession, askMoreMsg, 'chat1');
+          setMessages([...updatedSession.messages]);
+          saveSession(updatedSession);
+
+          const askMoreMessage = updatedSession.messages[updatedSession.messages.length - 1];
+          setTypingMessageId(askMoreMessage.id);
+
+          await new Promise((resolve) => setTimeout(resolve, askMoreMsg.length * 10 + 300));
+
+          // 타이핑 완료 후 "없어요" 버튼 표시
+          setTypingMessageId(null);
+          setShowPhase0QuickReply(true);
+
+          // 필터링된 속성 설정 ('high'만 질문)
+          const highPriorityKeys = Object.entries(session.prioritySettings || {})
+            .filter(([_, level]) => level === 'high')
+            .map(([key]) => key);
+
+          const filtered = CORE_ATTRIBUTES.filter(attr => highPriorityKeys.includes(attr.key));
+          setFilteredAttributes(filtered);
+        };
+
+        initializePriorityChat();
+      } else {
+        // Case B: Priority 설정 없음 - 기존 플로우 (Phase 0 워밍업)
+        const initializeOriginalChat = async () => {
+          let updatedSession = changePhase(session, 'chat1');
+          updatedSession = addAssistantMessage(updatedSession, generateIntroMessage(), 'chat1');
+          setMessages([...updatedSession.messages]);
+          saveSession(updatedSession);
+
+          const firstMessage = updatedSession.messages[0];
+          setTypingMessageId(firstMessage.id);
+
+          await new Promise((resolve) => {
+            const typingDuration = generateIntroMessage().length * 10 + 300;
+            setTimeout(resolve, typingDuration);
+          });
+
+          await new Promise((resolve) => setTimeout(resolve, 500));
+
+          const warmupQuestion = generateWarmupQuestion();
+          updatedSession = addAssistantMessage(updatedSession, warmupQuestion, 'chat1');
+          setMessages([...updatedSession.messages]);
+          saveSession(updatedSession);
+
+          const warmupMessage = updatedSession.messages[updatedSession.messages.length - 1];
+          setTypingMessageId(warmupMessage.id);
+
+          await new Promise((resolve) => {
+            const typingDuration = warmupQuestion.length * 10 + 300;
+            setTimeout(resolve, typingDuration);
+          });
+
+          setTypingMessageId(null);
+          setShowPhase0QuickReply(true);
+        };
+
+        initializeOriginalChat();
+      }
     } else {
       // 기존 세션 복원
       setMessages(session.messages);
@@ -256,18 +333,27 @@ export default function ChatPage() {
       setPhase(session.phase === 'chat2' ? 'chat2' : 'chat1');
       setProgress(calculateProgress(session));
 
-      // Phase 0 완료 여부 확인
+      // Priority 설정이 있으면 필터링된 속성 복원
+      if (session.prioritySettings && isPriorityComplete(session.prioritySettings)) {
+        const attributeKeys = getAttributesToAsk(session);
+        const filtered = CORE_ATTRIBUTES.filter(attr => attributeKeys.includes(attr.key));
+        setFilteredAttributes(filtered);
+      }
+
+      // 예산 선택 완료 여부 확인
+      if (session.budget) {
+        setBudgetSelected(true);
+      }
+
       if (session.phase0Context) {
         setIsPhase0Complete(true);
       }
 
-      // 마지막 메시지가 중요도 질문이면 빠른 응답 버튼 표시
       const lastMessage = session.messages[session.messages.length - 1];
       if (session.phase === 'chat1' && lastMessage?.role === 'assistant' && lastMessage?.isImportanceQuestion) {
         setShowQuickReplies(true);
       }
 
-      // 기존 메시지 중 디테일이 있는 메시지들의 토글 버튼 표시
       const toggleStates: { [messageId: string]: boolean } = {};
       session.messages.forEach((msg) => {
         if (msg.details && msg.details.length > 0) {
@@ -337,7 +423,100 @@ export default function ChatPage() {
     // 짧은 딜레이
     await new Promise((resolve) => setTimeout(resolve, 300));
 
-    // Phase 0 완료 메시지 (정보 업데이트됨 없이 바로 넘어감)
+    // Priority 플로우인지 확인
+    const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
+
+    if (hasPriority) {
+      // Priority 플로우: '중요함' 속성들에 대해 바로 follow-up 질문
+      const highPriorityKeys = Object.entries(session.prioritySettings || {})
+        .filter(([_, level]) => level === 'high')
+        .map(([key]) => key);
+
+      if (highPriorityKeys.length === 0) {
+        // '중요함'이 없으면 바로 예산 질문
+        const budgetMsg = '알겠습니다! 그럼 마지막으로 예산 범위를 알려주시겠어요?';
+        session = addAssistantMessage(session, budgetMsg, 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        const msg = session.messages[session.messages.length - 1];
+        setTypingMessageId(msg.id);
+
+        await new Promise((resolve) => setTimeout(resolve, budgetMsg.length * 10 + 300));
+        setTypingMessageId(null);
+        setShowBudgetButtons(true);
+        return;
+      }
+
+      // 첫 번째 '중요함' 속성으로 시작
+      const firstHighAttr = CORE_ATTRIBUTES.find(attr => attr.key === highPriorityKeys[0]);
+      if (!firstHighAttr) return;
+
+      const firstAttrIndex = CORE_ATTRIBUTES.findIndex(attr => attr.key === firstHighAttr.key);
+
+      // '중요함' 속성에 중요도 저장 (스킵했으므로)
+      session = updateAttributeAssessment(
+        session,
+        firstHighAttr.key as keyof import('@/types').CoreValues,
+        '중요함'
+      );
+      saveSession(session);
+
+      // 전환 메시지
+      const transitionMsg = `알겠습니다! 그럼 중요하게 생각하시는 기준들에 대해 조금 더 자세히 여쭤볼게요.`;
+      session = addAssistantMessage(session, transitionMsg, 'chat1');
+      setMessages([...session.messages]);
+      saveSession(session);
+
+      const transMsg = session.messages[session.messages.length - 1];
+      setTypingMessageId(transMsg.id);
+
+      await new Promise((resolve) => setTimeout(resolve, transitionMsg.length * 10 + 300));
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // 첫 번째 속성에 대한 follow-up 질문 생성
+      setIsLoading(true);
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'generate_followup',
+            attributeName: firstHighAttr.name,
+            phase0Context: session.phase0Context || '',
+            importance: '중요함',
+            attributeDetails: firstHighAttr.details,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const followUpQuestion = data.message || generateVeryImportantFollowUp(firstHighAttr.name, firstHighAttr.details);
+
+          session = loadSession();
+          session = addAssistantMessage(session, followUpQuestion, 'chat1');
+          setMessages([...session.messages]);
+          saveSession(session);
+
+          const lastMsg = session.messages[session.messages.length - 1];
+          setTypingMessageId(lastMsg.id);
+
+          await new Promise((resolve) => setTimeout(resolve, followUpQuestion.length * 10 + 300));
+
+          setTypingMessageId(null);
+          setCurrentAttributeIndex(firstAttrIndex);
+          setWaitingForFollowUpResponse(true);
+          setShowFollowUpSkip(true);
+        }
+      } catch (error) {
+        console.error('Failed to generate follow-up:', error);
+      }
+      setIsLoading(false);
+      setIsPhase0Complete(true);
+      return;
+    }
+
+    // 기존 플로우 (Priority 없음)
     const transitionMsg = '알겠습니다! 그럼 이제 구매할때 생각해야 할 중요 기준들을 하나씩 여쭤볼게요. 여쭤볼 구매기준은 **총 7개**에요.';
     session = addAssistantMessage(session, transitionMsg, 'chat1');
     setMessages([...session.messages]);
@@ -478,6 +657,92 @@ export default function ChatPage() {
     // 짧은 딜레이
     await new Promise((resolve) => setTimeout(resolve, 500));
 
+    // Priority 플로우인지 확인
+    const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
+
+    if (hasPriority) {
+      // Priority 플로우: 다음 '중요함' 속성으로 이동
+      const highPriorityKeys = Object.entries(session.prioritySettings || {})
+        .filter(([_, level]) => level === 'high')
+        .map(([key]) => key);
+
+      const currentAttrKey = currentAttribute.key;
+      const currentIndex = highPriorityKeys.indexOf(currentAttrKey);
+      const nextIndex = currentIndex + 1;
+
+      if (nextIndex < highPriorityKeys.length) {
+        // 다음 '중요함' 속성으로
+        const nextAttrKey = highPriorityKeys[nextIndex];
+        const nextAttr = CORE_ATTRIBUTES.find(attr => attr.key === nextAttrKey);
+        if (!nextAttr) return;
+
+        const nextAttrIndex = CORE_ATTRIBUTES.findIndex(attr => attr.key === nextAttr.key);
+
+        // 중요도 저장
+        session = updateAttributeAssessment(
+          session,
+          nextAttr.key as keyof import('@/types').CoreValues,
+          '중요함'
+        );
+        saveSession(session);
+
+        // 다음 속성 follow-up 질문 생성
+        setIsLoading(true);
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'generate_followup',
+              attributeName: nextAttr.name,
+              phase0Context: session.phase0Context || '',
+              importance: '중요함',
+              attributeDetails: nextAttr.details,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            const followUpQuestion = data.message || generateVeryImportantFollowUp(nextAttr.name, nextAttr.details);
+
+            session = loadSession();
+            session = addAssistantMessage(session, followUpQuestion, 'chat1');
+            setMessages([...session.messages]);
+            saveSession(session);
+
+            const lastMsg = session.messages[session.messages.length - 1];
+            setTypingMessageId(lastMsg.id);
+
+            await new Promise((resolve) => setTimeout(resolve, followUpQuestion.length * 10 + 300));
+
+            setTypingMessageId(null);
+            setCurrentAttributeIndex(nextAttrIndex);
+            setWaitingForFollowUpResponse(true);
+            setShowFollowUpSkip(true);
+          }
+        } catch (error) {
+          console.error('Failed to generate follow-up:', error);
+        }
+        setIsLoading(false);
+        return;
+      } else {
+        // 모든 '중요함' 속성 완료 → 예산 질문
+        const budgetMsg = '알겠습니다! 마지막으로 예산 범위를 알려주시겠어요?';
+        session = addAssistantMessage(session, budgetMsg, 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        const msg = session.messages[session.messages.length - 1];
+        setTypingMessageId(msg.id);
+
+        await new Promise((resolve) => setTimeout(resolve, budgetMsg.length * 10 + 300));
+        setTypingMessageId(null);
+        setShowBudgetButtons(true);
+        return;
+      }
+    }
+
+    // 기존 플로우 (Priority 없음)
     // 확인 메시지
     const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
     const importance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
@@ -551,7 +816,100 @@ export default function ChatPage() {
 
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // Phase 0 완료 메시지
+      // Priority 플로우인지 확인
+      const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
+
+      if (hasPriority) {
+        // Priority 플로우: '중요함' 속성들에 대해 바로 follow-up 질문
+        const highPriorityKeys = Object.entries(session.prioritySettings || {})
+          .filter(([_, level]) => level === 'high')
+          .map(([key]) => key);
+
+        if (highPriorityKeys.length === 0) {
+          // '중요함'이 없으면 바로 예산 질문
+          const budgetMsg = '알겠습니다! 그럼 마지막으로 예산 범위를 알려주시겠어요?';
+          session = addAssistantMessage(session, budgetMsg, 'chat1');
+          setMessages([...session.messages]);
+          saveSession(session);
+
+          const msg = session.messages[session.messages.length - 1];
+          setTypingMessageId(msg.id);
+
+          await new Promise((resolve) => setTimeout(resolve, budgetMsg.length * 10 + 300));
+          setTypingMessageId(null);
+          setShowBudgetButtons(true);
+          return;
+        }
+
+        // 첫 번째 '중요함' 속성으로 시작
+        const firstHighAttr = CORE_ATTRIBUTES.find(attr => attr.key === highPriorityKeys[0]);
+        if (!firstHighAttr) return;
+
+        const firstAttrIndex = CORE_ATTRIBUTES.findIndex(attr => attr.key === firstHighAttr.key);
+
+        // '중요함' 속성에 중요도 저장
+        session = updateAttributeAssessment(
+          session,
+          firstHighAttr.key as keyof import('@/types').CoreValues,
+          '중요함'
+        );
+        saveSession(session);
+
+        // 전환 메시지
+        const transitionMsg = `알겠습니다! 그럼 중요하게 생각하시는 기준들에 대해 조금 더 자세히 여쭤볼게요.`;
+        session = addAssistantMessage(session, transitionMsg, 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        const transMsg = session.messages[session.messages.length - 1];
+        setTypingMessageId(transMsg.id);
+
+        await new Promise((resolve) => setTimeout(resolve, transitionMsg.length * 10 + 300));
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // 첫 번째 속성에 대한 follow-up 질문 생성
+        setIsLoading(true);
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'generate_followup',
+              attributeName: firstHighAttr.name,
+              phase0Context: session.phase0Context || '',
+              importance: '중요함',
+              attributeDetails: firstHighAttr.details,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            const followUpQuestion = data.message || generateVeryImportantFollowUp(firstHighAttr.name, firstHighAttr.details);
+
+            session = loadSession();
+            session = addAssistantMessage(session, followUpQuestion, 'chat1');
+            setMessages([...session.messages]);
+            saveSession(session);
+
+            const lastMsg = session.messages[session.messages.length - 1];
+            setTypingMessageId(lastMsg.id);
+
+            await new Promise((resolve) => setTimeout(resolve, followUpQuestion.length * 10 + 300));
+
+            setTypingMessageId(null);
+            setCurrentAttributeIndex(firstAttrIndex);
+            setWaitingForFollowUpResponse(true);
+            setShowFollowUpSkip(true);
+          }
+        } catch (error) {
+          console.error('Failed to generate follow-up:', error);
+        }
+        setIsLoading(false);
+        setIsPhase0Complete(true);
+        return;
+      }
+
+      // 기존 플로우 (Priority 없음)
       const transitionMsg = '알겠습니다! 그럼 이제 구매할때 생각해야 할 중요 기준들을 하나씩 여쭤볼게요. 여쭤볼 구매기준은 **총 7개**에요.';
       session = addAssistantMessage(session, transitionMsg, 'chat1');
       setMessages([...session.messages]);
@@ -992,6 +1350,67 @@ export default function ChatPage() {
     }
   };
 
+  // 예산 선택 핸들러
+  const handleBudgetSelect = async (budget: import('@/types').BudgetRange) => {
+    setShowBudgetButtons(false);
+    setBudgetSelected(true);
+
+    const session = loadSession();
+    let updatedSession = saveBudget(session, budget);
+    saveSession(updatedSession);
+
+    logButtonClick(`예산 선택: ${budget}`, 'chat/structured');
+
+    // 예산 선택 사용자 메시지
+    const budgetText = {
+      '0-50000': '5만원 이하',
+      '50000-100000': '5~10만원',
+      '100000-150000': '10~15만원',
+      '150000+': '15만원 이상'
+    }[budget];
+
+    updatedSession = addMessage(updatedSession, 'user', budgetText, 'chat1');
+    setMessages([...updatedSession.messages]);
+    saveSession(updatedSession);
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    // "바로 추천받기"였으면 → 추천 API 호출
+    if (session.isQuickRecommendation) {
+      const confirmMsg = '알겠습니다! 선택하신 기준과 예산을 바탕으로 최적의 제품을 찾아드릴게요.';
+      updatedSession = addAssistantMessage(updatedSession, confirmMsg, 'chat1');
+      setMessages([...updatedSession.messages]);
+      saveSession(updatedSession);
+
+      const msg = updatedSession.messages[updatedSession.messages.length - 1];
+      setTypingMessageId(msg.id);
+
+      await new Promise((resolve) => setTimeout(resolve, confirmMsg.length * 10 + 300));
+      setTypingMessageId(null);
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      setShowRecommendButton(true);
+    } else {
+      // "채팅으로 더 자세히"였으면 → Chat2로 전환
+      const transitionMessage = generateChat2TransitionMessage();
+      updatedSession = changePhase(addAssistantMessage(updatedSession, transitionMessage, 'chat2'), 'chat2');
+
+      saveSession(updatedSession);
+      setMessages([...updatedSession.messages]);
+      setPhase('chat2');
+      setProgress(100);
+
+      const lastMessage = updatedSession.messages[updatedSession.messages.length - 1];
+      setTypingMessageId(lastMessage.id);
+
+      setTimeout(() => {
+        setTypingMessageId(null);
+        setShowChat2QuickReply(true);
+      }, transitionMessage.length * 10 + 300);
+    }
+  };
+
   // 추천 받기
   const handleGetRecommendation = () => {
     logButtonClick('추천 받기', 'chat/open');
@@ -1307,6 +1726,40 @@ export default function ChatPage() {
             </motion.div>
           )}
 
+          {/* 예산 선택 버튼 */}
+          {phase === 'chat1' && showBudgetButtons && !budgetSelected && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col gap-2 mb-3"
+            >
+              <button
+                onClick={() => handleBudgetSelect('0-50000')}
+                className="w-full h-14 bg-white border-2 border-gray-300 rounded-xl text-gray-900 font-medium hover:border-gray-900 hover:bg-gray-50 transition-all"
+              >
+                5만원 이하
+              </button>
+              <button
+                onClick={() => handleBudgetSelect('50000-100000')}
+                className="w-full h-14 bg-white border-2 border-gray-300 rounded-xl text-gray-900 font-medium hover:border-gray-900 hover:bg-gray-50 transition-all"
+              >
+                5~10만원
+              </button>
+              <button
+                onClick={() => handleBudgetSelect('100000-150000')}
+                className="w-full h-14 bg-white border-2 border-gray-300 rounded-xl text-gray-900 font-medium hover:border-gray-900 hover:bg-gray-50 transition-all"
+              >
+                10~15만원
+              </button>
+              <button
+                onClick={() => handleBudgetSelect('150000+')}
+                className="w-full h-14 bg-white border-2 border-gray-300 rounded-xl text-gray-900 font-medium hover:border-gray-900 hover:bg-gray-50 transition-all"
+              >
+                15만원 이상
+              </button>
+            </motion.div>
+          )}
+
           {/* 빠른 응답 버튼 (Chat1에서만) */}
           {phase === 'chat1' && showQuickReplies && !isLoading && (
             <motion.div
@@ -1345,6 +1798,20 @@ export default function ChatPage() {
                 직접 입력
               </button>
             </motion.div>
+          )}
+
+          {/* 추천 받기 버튼 (Chat1 - 바로 추천받기 플로우) */}
+          {phase === 'chat1' && showRecommendButton && !isLoading && (
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleGetRecommendation}
+              className="w-full h-12 mb-3 bg-linear-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white font-semibold rounded-full shadow-lg transition-all"
+            >
+              추천 받기
+            </motion.button>
           )}
 
           {/* Chat2 빠른 응답 버튼 */}

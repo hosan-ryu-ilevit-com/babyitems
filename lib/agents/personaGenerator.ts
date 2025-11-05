@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { UserPersona, AttributeAssessment } from '@/types';
+import { UserPersona, AttributeAssessment, PrioritySettings, BudgetRange } from '@/types';
 import { callGeminiWithRetry } from '../ai/gemini';
 import { importanceLevelToWeight } from '../utils/scoring';
 
@@ -125,6 +125,97 @@ export async function generatePersona(
 
   console.log('✓ Persona generated');
   console.log('  Summary:', persona.summary.substring(0, 80) + '...');
+  console.log('  Weights:', coreValueWeights);
+  console.log('  Budget:', persona.budget);
+
+  return persona;
+}
+
+/**
+ * Priority 설정에서 간단한 페르소나 생성 (AI 없이, 코드 기반)
+ *
+ * "바로 추천받기" 플로우에서 사용
+ * Priority 페이지에서 선택한 중요도를 가중치로 직접 변환
+ *
+ * @param settings - Priority 페이지에서 선택한 6개 속성 중요도
+ * @param budget - 선택한 예산 범위
+ * @returns UserPersona
+ */
+export function generatePersonaFromPriority(
+  settings: PrioritySettings,
+  budget?: BudgetRange
+): UserPersona {
+  console.log('📊 Generating persona from priority settings (code-based)...');
+  console.log('  Priority settings:', settings);
+  console.log('  Budget:', budget);
+
+  // Priority level → weight 매핑
+  const priorityToWeight = {
+    low: 5,
+    medium: 7,
+    high: 10
+  };
+
+  // 예산 범위에서 max 값 추출하여 budget 필드에 저장
+  const parseBudgetRange = (range: BudgetRange): number | undefined => {
+    const budgetMap: { [key in BudgetRange]: number } = {
+      '0-50000': 50000,
+      '50000-100000': 100000,
+      '100000-150000': 150000,
+      '150000+': 200000  // 상한선을 200000으로 설정
+    };
+    return budgetMap[range];
+  };
+
+  // priceValue는 예산에서 추론 (예산이 낮을수록 가격 대비 가치 중요)
+  const inferPriceValueWeight = (budgetRange?: BudgetRange): number => {
+    if (!budgetRange) return 7; // 기본값
+
+    const priceValueMap: { [key in BudgetRange]: number } = {
+      '0-50000': 10,      // 예산 낮으면 가성비 매우 중요
+      '50000-100000': 8,  // 중간 예산, 가성비 중요
+      '100000-150000': 6, // 높은 예산, 가성비 덜 중요
+      '150000+': 5        // 최고 예산, 가성비 최소 중요
+    };
+
+    return priceValueMap[budgetRange];
+  };
+
+  const coreValueWeights = {
+    temperatureControl: priorityToWeight[settings.temperatureControl || 'medium'],
+    hygiene: priorityToWeight[settings.hygiene || 'medium'],
+    material: priorityToWeight[settings.material || 'medium'],
+    usability: priorityToWeight[settings.usability || 'medium'],
+    portability: priorityToWeight[settings.portability || 'medium'],
+    priceValue: inferPriceValueWeight(budget),
+    durability: 7, // durability는 Priority 설정에 없으므로 기본값
+    additionalFeatures: priorityToWeight[settings.additionalFeatures || 'medium']
+  };
+
+  // 중요도가 'high'인 속성들을 contextualNeeds로 변환
+  const highPriorityAttributes = Object.entries(settings)
+    .filter(([_, level]) => level === 'high')
+    .map(([key]) => {
+      const attributeNames: { [key: string]: string } = {
+        temperatureControl: '빠른 온도 조절과 유지',
+        hygiene: '완벽한 위생과 쉬운 세척',
+        material: '안전한 소재',
+        usability: '편리한 사용성',
+        portability: '뛰어난 휴대성',
+        additionalFeatures: '유용한 부가 기능'
+      };
+      return attributeNames[key] || key;
+    });
+
+  const persona: UserPersona = {
+    summary: `Priority 설정 기반 페르소나: ${highPriorityAttributes.join(', ')}을 중요하게 생각함`,
+    coreValueWeights,
+    contextualNeeds: highPriorityAttributes,
+    budget: budget ? parseBudgetRange(budget) : undefined
+  };
+
+  console.log('✓ Priority-based persona generated');
+  console.log('  Summary:', persona.summary);
   console.log('  Weights:', coreValueWeights);
   console.log('  Budget:', persona.budget);
 

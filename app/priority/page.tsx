@@ -60,7 +60,30 @@ export default function PriorityPage() {
   // 채팅으로 더 자세히 추천받기
   const handleDetailedRecommendation = () => {
     const session = loadSession();
-    let updatedSession = savePrioritySettings(session, prioritySettings);
+
+    // 메시지와 대화 관련 상태 초기화 (Priority 설정은 유지)
+    let updatedSession = {
+      ...session,
+      messages: [],
+      phase0Context: undefined,
+      currentAttribute: 0,
+      attributeAssessments: {
+        temperatureControl: null,
+        hygiene: null,
+        material: null,
+        usability: null,
+        portability: null,
+        priceValue: null,
+        durability: null,
+        additionalFeatures: null,
+      },
+      additionalContext: [],
+      accuracy: 0,
+      chatConversations: undefined,
+      budget: undefined,
+    };
+
+    updatedSession = savePrioritySettings(updatedSession, prioritySettings);
     updatedSession = setQuickRecommendation(updatedSession, false);
     updatedSession = changePhase(updatedSession, 'chat1');
     saveSession(updatedSession);
@@ -72,13 +95,35 @@ export default function PriorityPage() {
   // 바로 추천받기
   const handleQuickRecommendation = () => {
     const session = loadSession();
-    let updatedSession = savePrioritySettings(session, prioritySettings);
+
+    // 메시지와 대화 관련 상태 초기화 (Priority 설정은 유지)
+    let updatedSession = {
+      ...session,
+      messages: [],
+      phase0Context: undefined,
+      currentAttribute: 0,
+      attributeAssessments: {
+        temperatureControl: null,
+        hygiene: null,
+        material: null,
+        usability: null,
+        portability: null,
+        priceValue: null,
+        durability: null,
+        additionalFeatures: null,
+      },
+      additionalContext: [],
+      accuracy: 0,
+      chatConversations: undefined,
+      budget: undefined,
+    };
+
+    updatedSession = savePrioritySettings(updatedSession, prioritySettings);
     updatedSession = setQuickRecommendation(updatedSession, true);
-    updatedSession = changePhase(updatedSession, 'chat1');
     saveSession(updatedSession);
 
     logButtonClick('바로 추천받기', 'priority');
-    router.push('/chat');
+    router.push('/budget');
   };
 
   return (

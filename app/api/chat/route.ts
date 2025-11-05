@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateAIResponse } from '@/lib/ai/gemini';
-import { Message, ImportanceLevel } from '@/types';
+import { Message, ImportanceLevel, PrioritySettings } from '@/types';
 import { ASSISTANT_CHAT2_PROMPT, CORE_ATTRIBUTES } from '@/data/attributes';
 import { analyzeUserIntent, generateDetailedExplanation } from '@/lib/ai/intentAnalyzer';
 import {
@@ -10,9 +10,50 @@ import {
 } from '@/lib/utils/messageTemplates';
 import { assessContextRelevance } from '@/lib/utils/contextRelevance';
 
+/**
+ * Priority 설정을 자연스러운 한국어로 요약
+ */
+function generatePrioritySummary(settings: PrioritySettings): string {
+  const attributeNames: { [key: string]: string } = {
+    temperatureControl: '온도 조절/유지 성능',
+    hygiene: '위생/세척 편의성',
+    material: '소재 안전성',
+    usability: '사용 편의성',
+    portability: '휴대성',
+    additionalFeatures: '부가 기능'
+  };
+
+  const highPriority = Object.entries(settings)
+    .filter(([_, level]) => level === 'high')
+    .map(([key]) => attributeNames[key] || key);
+
+  const mediumPriority = Object.entries(settings)
+    .filter(([_, level]) => level === 'medium')
+    .map(([key]) => attributeNames[key] || key);
+
+  let summary = '';
+
+  if (highPriority.length > 0) {
+    summary += `특히 **${highPriority.join(', ')}**을(를) 중요하게 생각하시는군요!`;
+  }
+
+  if (mediumPriority.length > 0) {
+    if (summary) summary += '\n';
+    summary += `그리고 ${mediumPriority.join(', ')}도 적당히 고려하시고 싶으시고요.`;
+  }
+
+  return summary;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails, followUpQuestion, userAnswer, initialImportance } = await request.json();
+    const { messages, phase, currentAttributeIndex, action, attributeName, phase0Context, importance, attributeDetails, followUpQuestion, userAnswer, initialImportance, prioritySettings } = await request.json();
+
+    // Priority 요약 메시지 생성
+    if (action === 'generate_priority_summary' && prioritySettings) {
+      const summary = generatePrioritySummary(prioritySettings);
+      return NextResponse.json({ summary });
+    }
 
     // follow-up 답변 기반 중요도 재평가
     if (action === 'reassess_importance' && attributeName && followUpQuestion && userAnswer && initialImportance) {

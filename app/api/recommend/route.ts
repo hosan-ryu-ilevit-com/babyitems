@@ -1,12 +1,58 @@
 import { NextRequest } from 'next/server';
-import { generatePersona } from '@/lib/agents/personaGenerator';
+import { generatePersona, generatePersonaFromPriority } from '@/lib/agents/personaGenerator';
 import { evaluateMultipleProducts } from '@/lib/agents/productEvaluator';
 import { generateTop3Recommendations } from '@/lib/agents/recommendationWriter';
 import { generateContextSummary } from '@/lib/agents/contextSummaryGenerator';
 import { loadAllProducts } from '@/lib/data/productLoader';
 import { selectTopProducts, filterByBudget } from '@/lib/filtering/initialFilter';
 import { calculateAndRankProducts, selectTop3 } from '@/lib/filtering/scoreCalculator';
-import { Message } from '@/types';
+import { Message, PrioritySettings, BudgetRange, AttributeConversation, UserContextSummary } from '@/types';
+
+/**
+ * Priority 설정에서 간단한 Context Summary 생성 (코드 기반, AI 없음)
+ */
+function generateContextSummaryFromPriority(
+  settings: PrioritySettings,
+  budget?: BudgetRange
+): UserContextSummary {
+  const attributeNames: { [key: string]: string } = {
+    temperatureControl: '온도 조절/유지 성능',
+    hygiene: '위생/세척 편의성',
+    material: '소재 (안전성)',
+    usability: '사용 편의성',
+    portability: '휴대성',
+    additionalFeatures: '부가 기능 및 디자인'
+  };
+
+  const priorityLevelKorean: { [key: string]: string } = {
+    high: '중요함',
+    medium: '보통',
+    low: '중요하지 않음'
+  };
+
+  const priorityAttributes = Object.entries(settings)
+    .filter(([_, level]) => level !== 'low')
+    .map(([key, level]) => ({
+      name: attributeNames[key] || key,
+      level: priorityLevelKorean[level] as '중요함' | '보통' | '중요하지 않음',
+      reason: level === 'high' ? '특히 중요하게 고려함' : '적당히 고려함'
+    }));
+
+  const budgetText = budget
+    ? {
+        '0-50000': '5만원 이하',
+        '50000-100000': '5~10만원',
+        '100000-150000': '10~15만원',
+        '150000+': '15만원 이상'
+      }[budget]
+    : undefined;
+
+  return {
+    priorityAttributes,
+    additionalContext: [],
+    budget: budgetText
+  };
+}
 
 /**
  * POST /api/recommend
@@ -21,7 +67,21 @@ import { Message } from '@/types';
 export async function POST(request: NextRequest) {
   // request body를 먼저 읽어서 저장 (스트림 시작 전에 읽어야 함)
   const body = await request.json();
-  const { messages, attributeAssessments } = body;
+  const {
+    messages,
+    attributeAssessments,
+    prioritySettings,
+    budget,
+    isQuickRecommendation,
+    chatConversations
+  } = body as {
+    messages: Message[];
+    attributeAssessments?: Record<string, string | null>;
+    prioritySettings?: PrioritySettings;
+    budget?: BudgetRange;
+    isQuickRecommendation?: boolean;
+    chatConversations?: AttributeConversation[];
+  };
 
   const encoder = new TextEncoder();
 
@@ -52,8 +112,16 @@ export async function POST(request: NextRequest) {
           return;
         }
 
-        if (!attributeAssessments) {
-          sendError('Missing attributeAssessments');
+        // Validation: attributeAssessments는 대화형 플로우에서만 필수
+        if (!isQuickRecommendation && !attributeAssessments) {
+          sendError('Missing attributeAssessments for conversation-based recommendation');
+          controller.close();
+          return;
+        }
+
+        // Validation: Quick recommendation에는 prioritySettings와 budget 필요
+        if (isQuickRecommendation && !prioritySettings) {
+          sendError('Missing prioritySettings for quick recommendation');
           controller.close();
           return;
         }
@@ -61,18 +129,41 @@ export async function POST(request: NextRequest) {
         // Phase 2: Persona Generation (0-20%)
         sendProgress('persona', 5, '고객님의 니즈를 분석하고 있습니다...');
 
-        const chatHistory = messages
-          .map((msg: Message) => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
-          .join('\n\n');
-
         console.log('\n=== Phase 2: Persona Generation ===');
-        console.log('Chat history length:', chatHistory.length);
-        console.log('Attribute Assessments:', attributeAssessments);
+        console.log('Is Quick Recommendation:', isQuickRecommendation);
+        console.log('Has Priority Settings:', !!prioritySettings);
+        console.log('Budget:', budget);
 
-        sendProgress('persona', 10, 'AI가 대화를 분석하고 있습니다...');
-
+        let persona;
         const personaStartTime = Date.now();
-        const persona = await generatePersona(chatHistory, attributeAssessments);
+
+        if (isQuickRecommendation && prioritySettings) {
+          // Case A: 바로 추천받기 - Priority 설정 기반 간단한 페르소나 생성
+          console.log('📊 Using Priority-based persona generation (code-based, fast)');
+          sendProgress('persona', 10, '선택하신 기준을 분석하고 있습니다...');
+
+          persona = generatePersonaFromPriority(prioritySettings, budget);
+        } else {
+          // Case B: 채팅으로 더 자세히 - 대화 기반 정교한 페르소나 생성
+          console.log('🤖 Using conversation-based persona generation (AI, detailed)');
+          sendProgress('persona', 10, 'AI가 대화를 분석하고 있습니다...');
+
+          const chatHistory = messages
+            .map((msg: Message) => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
+            .join('\n\n');
+
+          console.log('Chat history length:', chatHistory.length);
+          console.log('Attribute Assessments:', attributeAssessments);
+
+          if (!attributeAssessments) {
+            sendError('Missing attributeAssessments for conversation-based recommendation');
+            controller.close();
+            return;
+          }
+
+          persona = await generatePersona(chatHistory, attributeAssessments);
+        }
+
         console.log(`✓ Persona generated in ${Date.now() - personaStartTime}ms`);
         console.log('Summary:', persona.summary);
         console.log('Weights:', persona.coreValueWeights);
@@ -139,9 +230,12 @@ export async function POST(request: NextRequest) {
         const finalStartTime = Date.now();
 
         // 추천 이유 생성과 맥락 요약을 병렬로 처리
+        // Quick recommendation인 경우 contextSummary는 priority 기반으로 간단히 생성
         const [recommendations, contextSummary] = await Promise.all([
           generateTop3Recommendations(top3, persona),
-          generateContextSummary(messages, attributeAssessments)
+          isQuickRecommendation && prioritySettings
+            ? generateContextSummaryFromPriority(prioritySettings, budget)
+            : generateContextSummary(messages, attributeAssessments!)
         ]);
 
         console.log(`✓ Recommendations and context summary generated in parallel in ${Date.now() - finalStartTime}ms`);

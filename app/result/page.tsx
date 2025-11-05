@@ -103,6 +103,10 @@ export default function ResultPage() {
       console.log('📨 Request payload:', {
         messagesCount: session.messages.length,
         attributeAssessments: session.attributeAssessments,
+        prioritySettings: session.prioritySettings,
+        budget: session.budget,
+        isQuickRecommendation: session.isQuickRecommendation,
+        chatConversations: session.chatConversations,
       });
 
       const response = await fetch('/api/recommend', {
@@ -111,6 +115,10 @@ export default function ResultPage() {
         body: JSON.stringify({
           messages: session.messages,
           attributeAssessments: session.attributeAssessments,
+          prioritySettings: session.prioritySettings,
+          budget: session.budget,
+          isQuickRecommendation: session.isQuickRecommendation,
+          chatConversations: session.chatConversations,
         }),
       });
 
