@@ -280,6 +280,16 @@ export default function ResultPage() {
       return;
     }
 
+    // forceRegenerate 플래그가 있으면 캐시 무시하고 새로 생성 (채팅 후 추천받기)
+    if (session.forceRegenerate) {
+      console.log('🚀 Force regenerate - generating new recommendations (from chat)');
+      // 플래그 리셋
+      session.forceRegenerate = false;
+      saveSession(session);
+      fetchRecommendations();
+      return;
+    }
+
     // 일반 플로우: 이미 추천 결과가 있으면 바로 표시
     if (session.recommendations && session.recommendations.length > 0) {
       console.log('✓ Using cached recommendations from session');

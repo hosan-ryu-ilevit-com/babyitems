@@ -204,7 +204,7 @@ export default function PriorityPage() {
         </header>
 
         {/* Scrollable Content */}
-        <main className="flex-1 px-6 py-6 pb-56 overflow-y-auto">
+        <main className="flex-1 px-6 py-6 pb-44 overflow-y-auto">
           {/* 6가지 속성 */}
           <div className="space-y-8 mb-12">
             {PRIORITY_ATTRIBUTES.map((attribute, index) => (
@@ -385,7 +385,7 @@ export default function PriorityPage() {
                 }
               `}
             >
-              채팅으로 더 자세히 추천받기
+              채팅하고 1분만에 추천받기
             </motion.button>
 
             <motion.button

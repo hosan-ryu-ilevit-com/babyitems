@@ -108,52 +108,9 @@ export default function Home() {
               </motion.button>
             </Link>
 
-            <button
-              onClick={() => {
-                logButtonClick('대표상품 랭킹보기', 'home');
-                scrollToRanking();
-              }}
-              className="w-full h-[72px] bg-white border border-gray-300 text-gray-700 rounded-2xl hover:bg-gray-50 hover:border-gray-400 transition-all flex flex-col items-center justify-center gap-1 py-3"
-            >
-              <div className="flex items-center gap-2">
-                <ChartBar size={22} weight="bold" />
-                <span className="text-base font-medium">대표상품 랭킹보기</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-gray-500">Powered by</span>
-                <Image
-                  src="/images/naverstorelogo.png"
-                  alt="네이버 스토어"
-                  width={60}
-                  height={15}
-                  className="object-contain"
-                />
-              </div>
-            </button>
+            
           </motion.div>
           </div>
-          
-
-          {/* Scroll Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-col items-center cursor-pointer mt-2 pb-8"
-            onClick={() => {
-              logButtonClick('스크롤 인디케이터', 'home');
-              scrollToRanking();
-            }}
-            suppressHydrationWarning
-          >
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              suppressHydrationWarning
-            >
-              <ArrowDown size={24} weight="bold" className="text-gray-400" />
-            </motion.div>
-          </motion.div>
         </section>
 
         {/* Ranking Section */}
@@ -163,7 +120,17 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-gray-900 mb-1">
               실시간 랭킹
             </h2>
-            <div className="flex items-center gap-2 text-xs text-gray-500">
+            <div className="flex items-center gap-1">
+                <span className="text-[10px] text-gray-500">Powered by</span>
+                <Image
+                  src="/images/naverstorelogo.png"
+                  alt="네이버 스토어"
+                  width={60}
+                  height={15}
+                  className="object-contain"
+                />
+              </div>
+            <div className="flex items-center gap-2 mt-4 text-xs text-gray-500">
             
               <span>네이버 스토어 분유포트 판매량 많은 순</span>
               <span className="text-gray-400">•</span>

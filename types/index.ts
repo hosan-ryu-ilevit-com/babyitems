@@ -174,6 +174,7 @@ export interface SessionState {
   budget?: BudgetRange;                 // 예산 범위
   isQuickRecommendation?: boolean;      // 바로 추천받기 선택 여부
   chatConversations?: AttributeConversation[];  // 속성별 자유 대화 저장
+  forceRegenerate?: boolean;            // 캐시 무시하고 새로 생성 (채팅 후 추천받기)
 }
 
 // Gemini API request/response types

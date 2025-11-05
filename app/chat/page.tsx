@@ -443,18 +443,18 @@ export default function ChatPage() {
         .map(([key]) => key);
 
       if (highPriorityKeys.length === 0) {
-        // '중요함'이 없으면 바로 예산 질문
-        const budgetMsg = '알겠습니다! 그럼 마지막으로 예산 범위를 알려주시겠어요?';
-        session = addAssistantMessage(session, budgetMsg, 'chat1');
+        // '중요함'이 없으면 바로 추천 버튼 표시 (예산은 Priority에서 선택됨)
+        const finalMsg = '네, 잘 알겠습니다! 말씀해주신 내용을 바탕으로 최적의 제품을 찾아드릴게요. 아래 버튼을 눌러 추천을 받아보세요!';
+        session = addAssistantMessage(session, finalMsg, 'chat1');
         setMessages([...session.messages]);
         saveSession(session);
 
         const msg = session.messages[session.messages.length - 1];
         setTypingMessageId(msg.id);
 
-        await new Promise((resolve) => setTimeout(resolve, budgetMsg.length * 10 + 300));
+        await new Promise((resolve) => setTimeout(resolve, finalMsg.length * 10 + 300));
         setTypingMessageId(null);
-        setShowBudgetButtons(true);
+        setShowRecommendButton(true);
         return;
       }
 
@@ -473,7 +473,7 @@ export default function ChatPage() {
       saveSession(session);
 
       // 전환 메시지
-      const transitionMsg = `알겠습니다! 그럼 중요하게 생각하시는 기준들에 대해 조금 더 자세히 여쭤볼게요.`;
+      const transitionMsg = `알겠습니다! 그럼 **중요하게 생각하시는 기준**에 대해 조금 더 자세히 여쭤볼게요.`;
       session = addAssistantMessage(session, transitionMsg, 'chat1');
       setMessages([...session.messages]);
       saveSession(session);
@@ -497,18 +497,20 @@ export default function ChatPage() {
       await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // 첫 번째 속성에 대한 follow-up 질문 생성
+      // 첫 번째 속성에 대한 대화 시작
       setIsLoading(true);
+      setAttributeConversationTurn(1); // 첫 턴으로 초기화
       try {
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            action: 'generate_followup',
+            action: 'generate_attribute_conversation',
             attributeName: firstHighAttr.name,
-            phase0Context: session.phase0Context || '',
-            importance: '중요함',
             attributeDetails: firstHighAttr.details,
+            conversationHistory: '', // 첫 대화이므로 비어있음
+            phase0Context: session.phase0Context || '',
+            currentTurn: 1,
           }),
         });
 
@@ -569,7 +571,7 @@ export default function ChatPage() {
     setShowQuickReplies(true);
   };
 
-  // 빠른 응답 버튼 클릭 핸들러 (LLM 없이 즉시 처리)
+  // DEPRECATED: 빠른 응답 버튼 클릭 핸들러 (old flow only, Priority flow에서 사용 안 함)
   const handleQuickReply = async (importance: ImportanceLevel) => {
     setShowQuickReplies(false);
     const pageLabel = phase === 'chat2' ? 'chat/open' : 'chat/structured';
@@ -726,18 +728,20 @@ export default function ChatPage() {
         await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        // 다음 속성 follow-up 질문 생성
+        // 다음 속성 대화 시작
         setIsLoading(true);
+        setAttributeConversationTurn(1); // 턴 초기화
         try {
           const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              action: 'generate_followup',
+              action: 'generate_attribute_conversation',
               attributeName: nextAttr.name,
-              phase0Context: session.phase0Context || '',
-              importance: '중요함',
               attributeDetails: nextAttr.details,
+              conversationHistory: '', // 새 속성이므로 비어있음
+              phase0Context: session.phase0Context || '',
+              currentTurn: 1,
             }),
           });
 
@@ -767,18 +771,19 @@ export default function ChatPage() {
         setIsLoading(false);
         return;
       } else {
-        // 모든 '중요함' 속성 완료 → 예산 질문
-        const budgetMsg = '알겠습니다! 마지막으로 예산 범위를 알려주시겠어요?';
-        session = addAssistantMessage(session, budgetMsg, 'chat1');
+        // 모든 '중요함' 속성 완료 → Priority flow에서는 예산 이미 선택됨
+        // 추천 버튼 바로 표시
+        const finalMsg = '네, 잘 알겠습니다! 말씀해주신 내용을 바탕으로 최적의 제품을 찾아드릴게요. 아래 버튼을 눌러 추천을 받아보세요!';
+        session = addAssistantMessage(session, finalMsg, 'chat1');
         setMessages([...session.messages]);
         saveSession(session);
 
         const msg = session.messages[session.messages.length - 1];
         setTypingMessageId(msg.id);
 
-        await new Promise((resolve) => setTimeout(resolve, budgetMsg.length * 10 + 300));
+        await new Promise((resolve) => setTimeout(resolve, finalMsg.length * 10 + 300));
         setTypingMessageId(null);
-        setShowBudgetButtons(true);
+        setShowRecommendButton(true); // 추천 버튼 표시
         return;
       }
     }
@@ -940,18 +945,18 @@ export default function ChatPage() {
           .map(([key]) => key);
 
         if (highPriorityKeys.length === 0) {
-          // '중요함'이 없으면 바로 예산 질문
-          const budgetMsg = '알겠습니다! 그럼 마지막으로 예산 범위를 알려주시겠어요?';
-          session = addAssistantMessage(session, budgetMsg, 'chat1');
+          // '중요함'이 없으면 바로 추천 버튼 표시 (예산은 Priority에서 선택됨)
+          const finalMsg = '네, 잘 알겠습니다! 말씀해주신 내용을 바탕으로 최적의 제품을 찾아드릴게요. 아래 버튼을 눌러 추천을 받아보세요!';
+          session = addAssistantMessage(session, finalMsg, 'chat1');
           setMessages([...session.messages]);
           saveSession(session);
 
           const msg = session.messages[session.messages.length - 1];
           setTypingMessageId(msg.id);
 
-          await new Promise((resolve) => setTimeout(resolve, budgetMsg.length * 10 + 300));
+          await new Promise((resolve) => setTimeout(resolve, finalMsg.length * 10 + 300));
           setTypingMessageId(null);
-          setShowBudgetButtons(true);
+          setShowRecommendButton(true);
           return;
         }
 
@@ -970,7 +975,7 @@ export default function ChatPage() {
         saveSession(session);
 
         // 전환 메시지
-        const transitionMsg = `알겠습니다! 그럼 중요하게 생각하시는 기준들에 대해 조금 더 자세히 여쭤볼게요.`;
+        const transitionMsg = `알겠습니다! 그럼 **중요하게 생각하시는 기준**에 대해 조금 더 자세히 여쭤볼게요.`;
         session = addAssistantMessage(session, transitionMsg, 'chat1');
         setMessages([...session.messages]);
         saveSession(session);
@@ -994,18 +999,20 @@ export default function ChatPage() {
         await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        // 첫 번째 속성에 대한 follow-up 질문 생성
+        // 첫 번째 속성 대화 시작
         setIsLoading(true);
+        setAttributeConversationTurn(1); // 턴 초기화
         try {
           const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              action: 'generate_followup',
+              action: 'generate_attribute_conversation',
               attributeName: firstHighAttr.name,
-              phase0Context: session.phase0Context || '',
-              importance: '중요함',
               attributeDetails: firstHighAttr.details,
+              conversationHistory: '', // 첫 대화이므로 비어있음
+              phase0Context: session.phase0Context || '',
+              currentTurn: 1,
             }),
           });
 
@@ -1135,15 +1142,17 @@ export default function ChatPage() {
                     await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
                     await new Promise((resolve) => setTimeout(resolve, 500));
 
+                    setAttributeConversationTurn(1); // 새 속성, 턴 초기화
                     const followUpResponse = await fetch('/api/chat', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({
-                        action: 'generate_followup',
+                        action: 'generate_attribute_conversation',
                         attributeName: nextAttr.name,
-                        phase0Context: session.phase0Context || '',
-                        importance: '중요함',
                         attributeDetails: nextAttr.details,
+                        conversationHistory: '', // 새 속성이므로 비어있음
+                        phase0Context: session.phase0Context || '',
+                        currentTurn: 1,
                       }),
                     });
 
@@ -1168,16 +1177,17 @@ export default function ChatPage() {
                     }
                   }
                 } else {
-                  const budgetMsg = '알겠습니다! 마지막으로 예산 범위를 알려주시겠어요?';
-                  session = addAssistantMessage(session, budgetMsg, 'chat1');
+                  // 모든 high 속성 완료 → 추천 버튼 표시 (예산은 Priority에서 선택됨)
+                  const finalMsg = '네, 잘 알겠습니다! 말씀해주신 내용을 바탕으로 최적의 제품을 찾아드릴게요. 아래 버튼을 눌러 추천을 받아보세요!';
+                  session = addAssistantMessage(session, finalMsg, 'chat1');
                   setMessages([...session.messages]);
                   saveSession(session);
 
                   const msg = session.messages[session.messages.length - 1];
                   setTypingMessageId(msg.id);
-                  await new Promise((resolve) => setTimeout(resolve, budgetMsg.length * 10 + 300));
+                  await new Promise((resolve) => setTimeout(resolve, finalMsg.length * 10 + 300));
                   setTypingMessageId(null);
-                  setShowBudgetButtons(true);
+                  setShowRecommendButton(true);
                 }
               }
             } else {
@@ -1304,13 +1314,14 @@ export default function ChatPage() {
       const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
       const initialImportance = session.attributeAssessments[attribute.key as keyof import('@/types').CoreValues];
 
-      // AI를 통한 중요도 재평가
+      // DEPRECATED: AI를 통한 중요도 재평가 (old flow only)
+      // Priority flow에서는 사용하지 않음 (prioritySettings가 최종)
       try {
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            action: 'reassess_importance',
+            action: 'reassess_importance', // DEPRECATED
             attributeName: attribute.name,
             followUpQuestion: lastFollowUpQuestion,
             userAnswer: userInput,
@@ -1766,6 +1777,12 @@ export default function ChatPage() {
   // 추천 받기
   const handleGetRecommendation = () => {
     logButtonClick('추천 받기', 'chat/open');
+
+    // 채팅 후 추천이므로 기존 캐시 무시하고 새로 생성
+    const session = loadSession();
+    session.forceRegenerate = true; // 캐시 무시 플래그
+    saveSession(session);
+
     // result 페이지로 이동 (API 호출은 result 페이지에서)
     router.push('/result');
   };
