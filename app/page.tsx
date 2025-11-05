@@ -77,12 +77,13 @@ export default function Home() {
             suppressHydrationWarning
           >
             <h1 className="text-3xl font-extrabold text-gray-900 mb-3 leading-tight">
-              AI가 찾아주는<br />
-              내게 딱 맞는 분유포트
+              
+              첫 분유포트, <br></br> 함께 찾아드려요
             </h1>
             <p className="text-base text-gray-600 leading-relaxed px-2">
-              가장 많이 팔린 대표상품들 중<br />
-              내 상황에 딱 맞는 상품을 골라드려요
+              선배 부모들이 가장 중요하게 생각한<br />
+              <strong className="font-bold">놓칠 수도 있는 기준</strong>까지<br />
+              꼼꼼하게 챙겨드려요
             </p>
           </motion.div>
 
@@ -96,11 +97,11 @@ export default function Home() {
             className="w-full max-w-sm space-y-3 mt-34 px-2"
             suppressHydrationWarning
           >
-            <Link href="/chat" className="block">
+            <Link href="/priority" className="block">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => logButtonClick('1분만에 추천받기', 'home')}
+                onClick={() => logButtonClick('나에게 맞는 분유포트 찾기 시작', 'home')}
                 className="w-full h-14 bg-linear-to-r from-gray-900 to-gray-700 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5"
               >
                 <ChatCircleDots size={24} weight="bold" />
@@ -235,11 +236,11 @@ export default function Home() {
               className="fixed bottom-0 left-0 right-0 px-6 py-4 bg-white/95 backdrop-blur-sm border-t border-gray-200"
               style={{ maxWidth: '480px', margin: '0 auto' }}
             >
-              <Link href="/chat">
+              <Link href="/priority">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => logButtonClick('1분만에 추천받기 (플로팅)', 'home')}
+                  onClick={() => logButtonClick('나에게 맞는 분유포트 찾기 시작 (플로팅)', 'home')}
                   className="w-full h-14 bg-linear-to-r from-gray-900 to-gray-700 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5"
                 >
                   <ChatCircleDots size={24} weight="bold" />

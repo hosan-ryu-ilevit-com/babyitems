@@ -138,6 +138,31 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
   },
 ];
 
+// Priority 설정 페이지용 속성 (priceValue 제외한 6개)
+export const PRIORITY_ATTRIBUTES = CORE_ATTRIBUTES.filter(
+  attr => attr.key !== 'priceValue'
+);
+
+// 속성 이미지 매핑 (public/attributesimages/ 폴더)
+export const ATTRIBUTE_IMAGES: Record<string, string> = {
+  temperatureControl: '/attributesimages/temperature.png',
+  hygiene: '/attributesimages/hygiene.png',
+  material: '/attributesimages/material.png',
+  usability: '/attributesimages/usability.png',
+  portability: '/attributesimages/portability.png',
+  additionalFeatures: '/attributesimages/features.png',
+};
+
+// 속성별 아이콘 이모지
+export const ATTRIBUTE_ICONS: Record<string, string> = {
+  temperatureControl: '🌡️',
+  hygiene: '🧼',
+  material: '🛡️',
+  usability: '👍',
+  portability: '🎒',
+  additionalFeatures: '✨',
+};
+
 export const ASSISTANT_SYSTEM_PROMPT = `당신은 분유포트 구매를 돕는 AI 쇼핑 비서입니다.
 
 **핵심 역할**

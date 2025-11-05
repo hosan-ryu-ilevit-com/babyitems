@@ -1,4 +1,5 @@
-import { SessionState, Message, AttributeAssessment, ImportanceLevel } from '@/types';
+import { SessionState, Message, AttributeAssessment, ImportanceLevel, PrioritySettings, PriorityLevel, BudgetRange } from '@/types';
+import { PRIORITY_ATTRIBUTES } from '@/data/attributes';
 
 const SESSION_KEY = 'babyitem_session';
 
@@ -159,4 +160,75 @@ export const calculateProgress = (session: SessionState): number => {
   }
 
   return Math.min(100, structuredProgress);
+};
+
+// ===== Priority 관련 헬퍼 함수 =====
+
+// Priority 설정 저장
+export const savePrioritySettings = (
+  session: SessionState,
+  settings: PrioritySettings
+): SessionState => {
+  return {
+    ...session,
+    prioritySettings: settings,
+  };
+};
+
+// Priority 설정에서 중요도가 'high'인 속성만 필터링
+export const getHighPriorityAttributes = (session: SessionState): string[] => {
+  if (!session.prioritySettings) return [];
+
+  return Object.entries(session.prioritySettings)
+    .filter(([_, level]) => level === 'high')
+    .map(([key]) => key);
+};
+
+// Priority 설정에서 중요도가 'medium'인 속성만 필터링
+export const getMediumPriorityAttributes = (session: SessionState): string[] => {
+  if (!session.prioritySettings) return [];
+
+  return Object.entries(session.prioritySettings)
+    .filter(([_, level]) => level === 'medium')
+    .map(([key]) => key);
+};
+
+// 채팅에서 질문할 속성 목록 가져오기
+// 1순위: 'high' 속성, 2순위: 'medium' 속성, 3순위: 빈 배열
+export const getAttributesToAsk = (session: SessionState): string[] => {
+  const highPriority = getHighPriorityAttributes(session);
+  if (highPriority.length > 0) return highPriority;
+
+  const mediumPriority = getMediumPriorityAttributes(session);
+  if (mediumPriority.length > 0) return mediumPriority;
+
+  return []; // 모두 'low'인 경우 스킵
+};
+
+// 예산 저장
+export const saveBudget = (
+  session: SessionState,
+  budget: BudgetRange
+): SessionState => {
+  return {
+    ...session,
+    budget,
+  };
+};
+
+// 바로 추천받기 플래그 설정
+export const setQuickRecommendation = (
+  session: SessionState,
+  isQuick: boolean
+): SessionState => {
+  return {
+    ...session,
+    isQuickRecommendation: isQuick,
+  };
+};
+
+// Priority 설정 완료 여부 확인 (6개 모두 선택)
+export const isPriorityComplete = (settings: PrioritySettings): boolean => {
+  const requiredKeys = PRIORITY_ATTRIBUTES.map(attr => attr.key);
+  return requiredKeys.every(key => settings[key as keyof PrioritySettings] !== undefined);
 };
