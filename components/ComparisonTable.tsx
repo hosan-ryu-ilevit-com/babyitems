@@ -34,7 +34,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
       <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한눈에 비교</h3>
 
       {/* 모바일 가로 스크롤 테이블 */}
-      <div className="overflow-x-auto -mx-5 px-5">
+      <div className="overflow-x-auto -mx-5 px-5 scrollbar-hide">
         <table className="w-full min-w-[600px]">
           <thead>
             <tr className="border-b border-gray-200">

@@ -353,7 +353,8 @@ export default function PriorityPage() {
                     value={customBudget}
                     onChange={(e) => setCustomBudget(e.target.value)}
                     placeholder="직접 입력 (예: 4만원~6만원)"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm text-gray-900"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-base text-gray-900"
+                    style={{ fontSize: '16px' }}
                     autoFocus
                   />
                   <button
