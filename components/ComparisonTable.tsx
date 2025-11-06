@@ -50,6 +50,8 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
                           width={48}
                           height={48}
                           className="w-full h-full object-cover"
+                          quality={85}
+                          sizes="48px"
                         />
                       )}
                     </div>

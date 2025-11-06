@@ -370,6 +370,9 @@ export default function ResultPage() {
                   width={120}
                   height={120}
                   className="w-[120px] h-[120px] object-contain"
+                  priority
+                  quality={90}
+                  sizes="120px"
                 />
               </motion.div>
 
@@ -432,6 +435,9 @@ export default function ResultPage() {
                   width={150}
                   height={150}
                   className="w-[150px] h-[150px] object-contain"
+                  priority
+                  quality={90}
+                  sizes="150px"
                 />
                 <div className="text-center flex items-start gap-2">
                  
@@ -489,6 +495,9 @@ export default function ResultPage() {
                           width={112}
                           height={112}
                           className="w-full h-full object-cover"
+                          priority={index === 0}
+                          quality={90}
+                          sizes="112px"
                         />
                       ) : (
                         <div className="w-full h-full bg-linear-to-br from-gray-100 to-gray-200 flex items-center justify-center">
@@ -600,6 +609,8 @@ export default function ResultPage() {
                           width={64}
                           height={64}
                           className="w-full h-full object-cover"
+                          quality={85}
+                          sizes="64px"
                         />
                       )}
                     </div>

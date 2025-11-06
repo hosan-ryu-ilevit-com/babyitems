@@ -72,6 +72,9 @@ export function AttributeBottomSheet({ isOpen, attribute, onClose }: AttributeBo
                   alt={attribute.name}
                   fill
                   className="object-contain"
+                  priority
+                  quality={90}
+                  sizes="130px"
                 />
               </div>
 

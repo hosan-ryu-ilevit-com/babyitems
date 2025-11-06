@@ -57,6 +57,9 @@ export default function RankingPage() {
                       width={96}
                       height={96}
                       className="w-full h-full object-cover"
+                      priority={index < 3}
+                      quality={85}
+                      sizes="96px"
                     />
                   </div>
 
