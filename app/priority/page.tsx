@@ -187,8 +187,12 @@ export default function PriorityPage() {
               <div className="w-6"></div>
             </div>
           </header>
-          <p className="text-sm text-gray-700 leading-5 mb-6">
-            구매 기준들의 중요도를 골라주세요! <br></br><span className="font-bold">중요함은 최대 3개까지 선택할 수 있어요.</span>
+          <p className="text-sm text-gray-700 leading-5 mb-6 flex flex-col items-center gap-1">
+            <span>구매 기준들의 중요도를 골라주세요!</span>
+            <span className="flex items-center gap-1">
+              <span className="inline-flex items-center px-2 py-0.5 bg-gray-600 text-white rounded-md text-xs font-bold">중요함</span>
+              <span>은 최대 3개까지 선택할 수 있어요.</span>
+            </span>
           </p>
           {/* 6가지 속성 */}
           <div className="space-y-4 mb-12">
