@@ -171,19 +171,18 @@ export default function PriorityPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg flex flex-col">
-        {/* Header - 상단 고정 */}
-        <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-6 py-4 z-10">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
-              <CaretLeft size={24} weight="bold" />
-            </Link>
-            <h1 className="text-lg font-bold text-gray-900">기본 정보 입력</h1>
-            <div className="w-6"></div>
-          </div>
-        </header>
-
         {/* Scrollable Content */}
         <main className="flex-1 px-6 py-6 pb-44 overflow-y-auto text-center">
+          {/* Header - 스크롤됨 */}
+          <header className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
+                <CaretLeft size={24} weight="bold" />
+              </Link>
+              <h1 className="text-lg font-bold text-gray-900">기본 정보 입력</h1>
+              <div className="w-6"></div>
+            </div>
+          </header>
           <p className="text-sm text-gray-700 leading-5 mb-6">
             구매 기준들의 중요도를 골라주세요! <br></br><span className="font-bold">중요함은 최대 3개까지 선택할 수 있어요.</span>
           </p>
