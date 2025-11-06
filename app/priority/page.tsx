@@ -188,7 +188,7 @@ export default function PriorityPage() {
             <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
               <CaretLeft size={24} weight="bold" />
             </Link>
-            <h1 className="text-lg font-bold text-gray-900">중요 기준 설정</h1>
+            <h1 className="text-lg font-bold text-gray-900">기본 정보 입력</h1>
             <div className="w-6"></div>
           </div>
           <p className="text-sm text-gray-700 leading-5 mb-3 mt-8">
@@ -249,12 +249,12 @@ export default function PriorityPage() {
           {/* 예산 선택 섹션 */}
           <div className="border-t border-gray-200 pt-8">
             <div className="bg-gray-50 rounded-2xl p-4 ">
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-1">
                 <span className="text-xl">💰</span>
                 <h3 className="text-sm font-bold text-gray-900">예산 범위</h3>
               </div>
               <p className="text-xs text-gray-600 mb-4">
-                일반적으로 가격대별로 기능 차이가 있어요.
+                 보통 가격대별로 기능 차이가 있어요.
               </p>
 
               {/* 2x2 Grid for budget buttons */}
@@ -271,23 +271,28 @@ export default function PriorityPage() {
               >
                 <div className="font-semibold text-sm mb-0.5">5만원 이하</div>
                 <div className={`text-xs ${budget === '0-50000' ? 'text-gray-300' : 'text-gray-500'}`}>
-                  기본 보온 기능
+                  기본 기능
                 </div>
               </button>
 
               <button
                 onClick={() => handleBudgetSelect('50000-100000')}
                 className={`
-                  p-3 rounded-xl text-left transition-all border
+                  p-3 rounded-xl text-left transition-all border relative
                   ${budget === '50000-100000'
                     ? 'bg-gray-900 text-white border-gray-900'
                     : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                   }
                 `}
               >
-                <div className="font-semibold text-sm mb-0.5">5~10만원</div>
+                <div className="flex items-center gap-1 mb-0.5">
+                  <span className="font-semibold text-sm">5~10만원</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${budget === '50000-100000' ? 'bg-white text-gray-900' : 'bg-blue-100 text-blue-700'}`}>
+                    인기
+                  </span>
+                </div>
                 <div className={`text-xs ${budget === '50000-100000' ? 'text-gray-300' : 'text-gray-500'}`}>
-                  소재+편의 기능
+                  더 좋은 소재+편의 기능
                 </div>
               </button>
 
@@ -319,7 +324,7 @@ export default function PriorityPage() {
               >
                 <div className="font-semibold text-sm mb-0.5">15만원 이상</div>
                 <div className={`text-xs ${budget === '150000+' ? 'text-gray-300' : 'text-gray-500'}`}>
-                  최고급 제품
+                  최고급
                 </div>
               </button>
             </div>
@@ -328,12 +333,12 @@ export default function PriorityPage() {
             {!isCustomBudgetMode ? (
               <button
                 onClick={handleCustomBudgetClick}
-                className="w-full p-3 rounded-xl text-left transition-all border border-dashed border-gray-300 hover:border-gray-500 bg-white text-gray-700"
+                className="w-full p-3 rounded-xl text-left transition-all border border-dashed border-gray-300 hover:border-gray-500 bg-white text-gray-700 mb-6"
               >
                 <div className="font-semibold text-sm">직접 입력하기</div>
               </button>
             ) : (
-              <div className="w-full p-3 rounded-xl border border-gray-900 bg-white">
+              <div className="w-full p-3 rounded-xl border border-gray-900 bg-white mb-6">
                 <div className="flex gap-2">
                   <input
                     type="text"
@@ -351,7 +356,6 @@ export default function PriorityPage() {
                   </button>
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
-                  * 입력한 금액에 맞는 범위로 자동 분류됩니다
                 </p>
               </div>
             )}
