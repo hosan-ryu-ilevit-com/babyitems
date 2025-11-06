@@ -1732,7 +1732,7 @@ export default function ChatPage() {
       '150000+': '15만원 이상'
     }[budget];
 
-    updatedSession = addMessage(updatedSession, 'user', budgetText, 'chat1');
+    updatedSession = addMessage(updatedSession, 'user', budgetText || budget, 'chat1');
     setMessages([...updatedSession.messages]);
     saveSession(updatedSession);
 

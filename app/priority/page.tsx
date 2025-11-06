@@ -173,21 +173,20 @@ export default function PriorityPage() {
       <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg flex flex-col">
         {/* Header - 상단 고정 */}
         <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-6 py-4 z-10">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between">
             <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
               <CaretLeft size={24} weight="bold" />
             </Link>
             <h1 className="text-lg font-bold text-gray-900">기본 정보 입력</h1>
             <div className="w-6"></div>
           </div>
-          <p className="text-sm text-gray-700 leading-5 mb-3 mt-8">
-            AI와 채팅하기 전, 가장 중요하게 생각하는 구매 기준을 골라주세요! [중요함]은 3개까지 선택하실 수 있어요.
-          </p>
-          
         </header>
 
         {/* Scrollable Content */}
-        <main className="flex-1 px-6 py-6 pb-44 overflow-y-auto">
+        <main className="flex-1 px-6 py-6 pb-44 overflow-y-auto text-center">
+          <p className="text-sm text-gray-700 leading-5 mb-6">
+            구매 기준들의 중요도를 골라주세요! <br></br><span className="font-bold">중요함은 최대 3개까지 선택할 수 있어요.</span>
+          </p>
           {/* 6가지 속성 */}
           <div className="space-y-4 mb-12">
             {PRIORITY_ATTRIBUTES.map((attribute, index) => (
@@ -255,10 +254,7 @@ export default function PriorityPage() {
                 <span className="text-xl">💰</span>
                 <h3 className="text-sm font-bold text-gray-900">예산</h3>
               </div>
-              <p className="text-xs text-gray-600 mb-4">
-                 보통 가격대별로 기능 차이가 있어요.
-              </p>
-
+              
               {/* 2x2 Grid for budget buttons */}
               <div className="grid grid-cols-2 gap-2 mb-3">
               <button

@@ -33,7 +33,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
   },
   {
     key: 'hygiene',
-    name: '위생/세척 편의성',
+    name: '세척 편의성',
     description: '매일 써야 하니 세척이 쉬워야 해요.',
     details: [
       '입구가 넓어서 손이 쏙 들어가요',
@@ -51,7 +51,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
   },
   {
     key: 'material',
-    name: '소재 (안전성)',
+    name: '안전한 소재',
     description: '아기가 먹을 물을 담으니까 안전한 소재가 중요해요.',
     details: [
       '의료용 스테인리스가 식품용보다 더 안전해요',
@@ -69,7 +69,7 @@ export const CORE_ATTRIBUTES: AttributeInfo[] = [
   },
   {
     key: 'usability',
-    name: '사용 편의성',
+    name: '편리한 사용성',
     description: '실제로 쓰다 보면 작은 불편함도 크게 느껴져요.',
     details: [
       '하루 치 물을 담을 수 있는 넉넉한 용량 (1.3L 이상)',

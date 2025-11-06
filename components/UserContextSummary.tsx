@@ -1,20 +1,21 @@
 import { UserContextSummary, ImportanceLevel } from '@/types';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface UserContextSummaryProps {
   summary: UserContextSummary;
 }
 
-// 중요도 레벨에 따른 스타일 (채팅 버튼과 통일, 보더라인 추가)
+// 중요도 레벨에 따른 스타일 (흰색 배경 통일)
 const getLevelStyle = (level: ImportanceLevel) => {
   switch (level) {
     case '중요함':
-      return 'bg-blue-200 text-gray-900 border border-blue-300';
+      return 'bg-white text-gray-900 border border-gray-300';
     case '보통':
-      return 'bg-blue-50 text-gray-900 border border-blue-200';
+      return 'bg-white text-gray-900 border border-gray-300';
     case '중요하지 않음':
-      return 'bg-gray-100 text-gray-700 border border-gray-200';
+      return 'bg-white text-gray-700 border border-gray-300';
   }
 };
 
@@ -30,6 +31,22 @@ const getLevelLabel = (level: ImportanceLevel) => {
 };
 
 export default function UserContextSummaryComponent({ summary }: UserContextSummaryProps) {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const toggleExpand = (index: number) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  // 중요도 순서로 정렬 (중요함 > 보통 > 중요하지 않음)
+  const sortedAttributes = [...summary.priorityAttributes].sort((a, b) => {
+    const levelOrder: Record<ImportanceLevel, number> = {
+      '중요함': 0,
+      '보통': 1,
+      '중요하지 않음': 2,
+    };
+    return levelOrder[a.level] - levelOrder[b.level];
+  });
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -38,49 +55,78 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
       className="bg-white rounded-2xl p-5 mb-6 border border-white"
     >
       {/* 헤더 */}
-      <div className="mb-4">
-        <h3 className="text-base font-bold text-gray-900 text-center">✅ 내 구매 기준</h3>
-        {/* 귀여운 캐릭터 */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="flex justify-center mt-0"
-        >
-          <Image
-            src="/images/mainchartrans.png"
-            alt="AI 도우미"
-            width={140}
-            height={140}
-            className="object-contain"
-          />
-        </motion.div>
+      <div>
+        <h3 className="text-lg font-bold text-gray-900 mb-2">📝 내 구매 기준</h3>
+        
       </div>
 
       {/* 우선순위 속성들 - 2열 그리드 */}
       {summary.priorityAttributes.length > 0 && (
         <div className="grid grid-cols-2 gap-3 mb-4">
-          {summary.priorityAttributes.map((attr, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-gray-50 rounded-xl p-3 border border-white"
-            >
-              <div className="mb-2">
-                <span
-                  className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full border mb-1.5 ${getLevelStyle(
-                    attr.level
-                  )}`}
+          {sortedAttributes.map((attr, index) => {
+            // 중요도에 따른 배경색 (더 연한 톤)
+            const bgColor = attr.level === '중요함'
+              ? 'bg-blue-100'
+              : attr.level === '보통'
+              ? 'bg-blue-50'
+              : 'bg-gray-50';
+
+            return (
+              <motion.button
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                onClick={() => toggleExpand(index)}
+                className={`${bgColor} rounded-xl p-3 text-left hover:opacity-80 transition-all flex flex-col ${
+                  expandedIndex === index ? 'ring-2 ring-blue-300 ring-inset' : ''
+                }`}
+              >
+              {/* 상단 고정 영역 */}
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex-1">
+                  <span
+                    className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full border mb-1.5 ${getLevelStyle(
+                      attr.level
+                    )}`}
+                  >
+                    {getLevelLabel(attr.level)}
+                  </span>
+                  <div className="text-sm font-semibold text-gray-900 leading-tight break-keep" style={{ wordBreak: 'keep-all' }}>
+                    {attr.name}
+                  </div>
+                </div>
+                <svg
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 shrink-0 ml-1 mt-0.5 ${
+                    expandedIndex === index ? 'rotate-180' : ''
+                  }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  {getLevelLabel(attr.level)}
-                </span>
-                <span className="text-sm font-semibold text-gray-900 leading-tight block">{attr.name}</span>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </div>
-              <p className="text-xs text-gray-600 leading-relaxed">{attr.reason}</p>
-            </motion.div>
-          ))}
+
+              {/* 펼쳐진 디테일 설명 */}
+              <AnimatePresence initial={false}>
+                {expandedIndex === index && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-2">
+                      <p className="text-xs text-gray-600 leading-relaxed">{attr.reason}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
+            );
+          })}
         </div>
       )}
 
@@ -111,7 +157,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
 
       {/* 예산 */}
       {summary.budget && (
-        <div className="pt-3 border-t border-blue-100">
+        <div className="pt-3 border-t border-gray-200">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-gray-700 flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">

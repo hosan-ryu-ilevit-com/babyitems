@@ -21,12 +21,12 @@ export function PriorityButton({ level, selected, onClick, disabled = false }: P
       onClick={disabled ? undefined : onClick}
       disabled={disabled}
       className={`
-        flex-1 h-10 font-medium text-xs rounded-lg transition-all
+        flex-1 h-10 text-xs rounded-lg transition-all
         ${disabled
-          ? 'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50'
+          ? 'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50 font-medium'
           : selected
-          ? 'bg-gray-900 text-white shadow-sm'
-          : 'bg-white text-gray-700 hover:bg-gray-50'
+          ? 'bg-gray-900 text-white shadow-sm font-bold'
+          : 'bg-white text-gray-400 hover:bg-gray-50 font-medium'
         }
       `}
     >

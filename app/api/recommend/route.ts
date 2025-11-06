@@ -2,57 +2,11 @@ import { NextRequest } from 'next/server';
 import { generatePersona, generatePersonaFromPriorityWithChat } from '@/lib/agents/personaGenerator';
 import { evaluateMultipleProducts } from '@/lib/agents/productEvaluator';
 import { generateTop3Recommendations } from '@/lib/agents/recommendationWriter';
-import { generateContextSummary } from '@/lib/agents/contextSummaryGenerator';
+import { generateContextSummary, generateContextSummaryFromPriorityWithChat } from '@/lib/agents/contextSummaryGenerator';
 import { loadAllProducts } from '@/lib/data/productLoader';
 import { selectTopProducts, filterByBudget } from '@/lib/filtering/initialFilter';
 import { calculateAndRankProducts, selectTop3 } from '@/lib/filtering/scoreCalculator';
-import { Message, PrioritySettings, BudgetRange, AttributeConversation, UserContextSummary } from '@/types';
-
-/**
- * Priority 설정에서 간단한 Context Summary 생성 (코드 기반, AI 없음)
- */
-function generateContextSummaryFromPriority(
-  settings: PrioritySettings,
-  budget?: BudgetRange
-): UserContextSummary {
-  const attributeNames: { [key: string]: string } = {
-    temperatureControl: '온도 조절/유지 성능',
-    hygiene: '위생/세척 편의성',
-    material: '소재 (안전성)',
-    usability: '사용 편의성',
-    portability: '휴대성',
-    additionalFeatures: '부가 기능 및 디자인'
-  };
-
-  const priorityLevelKorean: { [key: string]: string } = {
-    high: '중요함',
-    medium: '보통',
-    low: '중요하지 않음'
-  };
-
-  const priorityAttributes = Object.entries(settings)
-    .filter(([, level]) => level !== 'low')
-    .map(([key, level]) => ({
-      name: attributeNames[key] || key,
-      level: priorityLevelKorean[level] as '중요함' | '보통' | '중요하지 않음',
-      reason: level === 'high' ? '특히 중요하게 고려함' : '적당히 고려함'
-    }));
-
-  const budgetText = budget
-    ? {
-        '0-50000': '5만원 이하',
-        '50000-100000': '5~10만원',
-        '100000-150000': '10~15만원',
-        '150000+': '15만원 이상'
-      }[budget] || budget  // 사전 정의된 범위가 아니면 그대로 사용
-    : undefined;
-
-  return {
-    priorityAttributes,
-    additionalContext: [],
-    budget: budgetText
-  };
-}
+import { Message, PrioritySettings, BudgetRange, AttributeConversation } from '@/types';
 
 /**
  * POST /api/recommend
@@ -251,11 +205,12 @@ export async function POST(request: NextRequest) {
         const finalStartTime = Date.now();
 
         // 추천 이유 생성과 맥락 요약을 병렬로 처리
-        // Quick recommendation인 경우 contextSummary는 priority 기반으로 간단히 생성
+        // Priority 플로우: Priority 설정 + Chat 이력 (선택적) 기반으로 생성
+        // DEPRECATED 플로우: attributeAssessments 기반으로 생성
         const [recommendations, contextSummary] = await Promise.all([
           generateTop3Recommendations(top3, persona),
-          isQuickRecommendation && prioritySettings
-            ? generateContextSummaryFromPriority(prioritySettings, budget)
+          prioritySettings
+            ? generateContextSummaryFromPriorityWithChat(prioritySettings, budget, messages)
             : generateContextSummary(messages, attributeAssessments! as unknown as import('@/types').AttributeAssessment)
         ]);
 
