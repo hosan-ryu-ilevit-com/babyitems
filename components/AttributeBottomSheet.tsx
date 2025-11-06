@@ -14,7 +14,7 @@ interface AttributeBottomSheetProps {
 export function AttributeBottomSheet({ isOpen, attribute, onClose }: AttributeBottomSheetProps) {
   if (!attribute) return null;
 
-  const imageUrl = ATTRIBUTE_IMAGES[attribute.key] || '/attributesimages/material.png';
+  const imageUrl = ATTRIBUTE_IMAGES[attribute.key] || '/attributesImages/material.png';
 
   return (
     <AnimatePresence>

@@ -143,14 +143,14 @@ export const PRIORITY_ATTRIBUTES = CORE_ATTRIBUTES.filter(
   attr => attr.key !== 'priceValue'
 );
 
-// 속성 이미지 매핑 (public/attributesimages/ 폴더)
+// 속성 이미지 매핑 (public/attributesImages/ 폴더)
 export const ATTRIBUTE_IMAGES: Record<string, string> = {
-  temperatureControl: '/attributesimages/temperature.png',
-  hygiene: '/attributesimages/hygiene.png',
-  material: '/attributesimages/material.png',
-  usability: '/attributesimages/usability.png',
-  portability: '/attributesimages/portability.png',
-  additionalFeatures: '/attributesimages/features.png',
+  temperatureControl: '/attributesImages/temperature.png',
+  hygiene: '/attributesImages/hygiene.png',
+  material: '/attributesImages/material.png',
+  usability: '/attributesImages/usability.png',
+  portability: '/attributesImages/portability.png',
+  additionalFeatures: '/attributesImages/features.png',
 };
 
 // 속성별 아이콘 이모지
