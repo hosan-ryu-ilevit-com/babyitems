@@ -428,23 +428,59 @@ export default function ResultPage() {
               <div id="top3-section" />
 
               {/* 안내 문구 컨테이너 */}
-              <div className="bg-white rounded-xl flex flex-col items-center gap-0 shadow-m">
-                <Image
-                  src="/images/compairimg.png"
-                  alt="비교 분석"
-                  width={150}
-                  height={150}
-                  className="w-[150px] h-[150px] object-contain"
-                  priority
-                  quality={90}
-                  sizes="150px"
-                />
-                <div className="text-center flex items-start gap-2">
-                 
-                  <p className="text-sm text-gray-700 leading-relaxed text-center mb-4 font-medium">
-                    <span className="font-bold text-gray-900">광고 아닌</span> 실구매자 리뷰만 분석해서<br />
-                    <span className="font-bold text-gray-900">실시간 인기상품</span> 중에서 골랐어요
-                  </p>
+              <div className="bg-white rounded-xl flex flex-col items-center gap-0 shadow-m pt-4 pb-4">
+                {/* 이미지와 말풍선 그룹 */}
+                <div className="relative flex items-center justify-center gap-3 mb-2">
+                  {/* 캐릭터 이미지 */}
+                  <Image
+                    src="/images/compairimg.png"
+                    alt="비교 분석"
+                    width={120}
+                    height={120}
+                    className="w-[120px] h-[120px] object-contain"
+                    priority
+                    quality={90}
+                    sizes="120px"
+                  />
+
+                  {/* 말풍선 */}
+                  <motion.div
+                    animate={{ y: [0, -4, 0] }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="relative"
+                  >
+                    <div className="bg-gray-900 text-yellow-300 text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap shadow-2xs">
+                      광고 아닌 실구매자 리뷰만<br />분석했어요!
+                    </div>
+                    {/* 말풍선 꼬리 (왼쪽) */}
+                    <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-900"></div>
+                  </motion.div>
+                </div>
+
+                {/* 추가 설명 텍스트 */}
+                <div className="flex flex-col items-center justify-center gap-1 px-4">
+                  <div className="flex items-center justify-center gap-1">
+                    <svg className="w-4 h-4 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <p className="text-xs text-gray-600 leading-relaxed text-center">
+                      <span className="font-bold text-gray-700">실시간 인기상품 중에서 골랐어요</span> 
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center gap-1">
+                    <span className="text-[10px] text-gray-400">Powered by</span>
+                    <Image
+                      src="/images/naverstorelogo.png"
+                      alt="네이버 스토어"
+                      width={40}
+                      height={14}
+                      className="h-2.5 w-auto object-contain"
+                    />
+                  </div>
                 </div>
               </div>
 

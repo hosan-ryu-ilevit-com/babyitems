@@ -38,7 +38,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
         <table className="w-full min-w-[600px]">
           <thead>
             <tr className="border-b border-gray-200">
-              <th className="text-left py-3 px-2 text-xs font-semibold text-gray-500 w-24">항목</th>
+              <th className="text-left py-3 px-2 text-xs font-semibold text-gray-500 w-24"></th>
               {top3.map((rec) => (
                 <th key={rec.product.id} className="py-3 px-2 text-center">
                   <div className="flex flex-col items-center gap-2">
