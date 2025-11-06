@@ -168,13 +168,19 @@ export default function ChatPage() {
     session: SessionState,
     content: string,
     phase: 'chat1' | 'chat2',
-    options?: { isImportanceQuestion?: boolean; isConfirmation?: boolean; details?: string[] }
+    options?: {
+      isImportanceQuestion?: boolean;
+      isConfirmation?: boolean;
+      details?: string[];
+      attributeKey?: string;
+      showDetailButton?: boolean;
+    }
   ): SessionState => {
     const updatedSession = addMessage(session, 'assistant', content, phase, options);
 
     // 현재 속성 정보 가져오기
     const currentAttr = CORE_ATTRIBUTES[session.currentAttribute];
-    const attributeKey = currentAttr?.key;
+    const attributeKey = options?.attributeKey || currentAttr?.key;
     const pageLabel = phase === 'chat2' ? 'chat/open' : 'chat/structured';
 
     // AI 응답 로깅
@@ -501,7 +507,10 @@ export default function ChatPage() {
       // 속성 인트로 메시지 (볼드체)
       const attrIntroMsg = `중요하다고 해주신 **${firstHighAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
       session = loadSession();
-      session = addAssistantMessage(session, attrIntroMsg, 'chat1');
+      session = addAssistantMessage(session, attrIntroMsg, 'chat1', {
+        attributeKey: firstHighAttr.key,
+        showDetailButton: true,
+      });
       setMessages([...session.messages]);
       saveSession(session);
 
@@ -729,10 +738,22 @@ export default function ChatPage() {
         );
         saveSession(session);
 
-        // 속성 인트로 메시지 (볼드체)
-        const attrIntroMsg = `**$중요하다고 해주신 {nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+        // 메모리 업데이트 확인 메시지
+        const confirmMsg = '정보 업데이트됨';
         session = loadSession();
-        session = addAssistantMessage(session, attrIntroMsg, 'chat1');
+        session = addAssistantMessage(session, confirmMsg, 'chat1', { isConfirmation: true });
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        await new Promise((resolve) => setTimeout(resolve, 600));
+
+        // 속성 인트로 메시지 (볼드체)
+        const attrIntroMsg = `중요하다고 해주신 **${nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+        session = loadSession();
+        session = addAssistantMessage(session, attrIntroMsg, 'chat1', {
+          attributeKey: nextAttr.key,
+          showDetailButton: true,
+        });
         setMessages([...session.messages]);
         saveSession(session);
 
@@ -786,8 +807,18 @@ export default function ChatPage() {
         return;
       } else {
         // 모든 '중요함' 속성 완료 → Priority flow에서는 예산 이미 선택됨
+        // 메모리 업데이트 확인 메시지
+        const confirmMsg = '정보 업데이트됨';
+        session = loadSession();
+        session = addAssistantMessage(session, confirmMsg, 'chat1', { isConfirmation: true });
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        await new Promise((resolve) => setTimeout(resolve, 600));
+
         // 추천 버튼 바로 표시
         const finalMsg = '네, 잘 알겠습니다! 말씀해주신 내용을 바탕으로 최적의 제품을 찾아드릴게요. 아래 버튼을 눌러 추천을 받아보세요!';
+        session = loadSession();
         session = addAssistantMessage(session, finalMsg, 'chat1');
         setMessages([...session.messages]);
         saveSession(session);
@@ -1145,9 +1176,21 @@ export default function ChatPage() {
                     session = updateAttributeAssessment(session, nextAttr.key as keyof import('@/types').CoreValues, '중요함');
                     saveSession(session);
 
+                    // 메모리 업데이트 확인 메시지
+                    const confirmMsg = '정보 업데이트됨';
+                    session = loadSession();
+                    session = addAssistantMessage(session, confirmMsg, 'chat1', { isConfirmation: true });
+                    setMessages([...session.messages]);
+                    saveSession(session);
+
+                    await new Promise((resolve) => setTimeout(resolve, 600));
+
                     const attrIntroMsg = `중요하다고 해주신 **${nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
                     session = loadSession();
-                    session = addAssistantMessage(session, attrIntroMsg, 'chat1');
+                    session = addAssistantMessage(session, attrIntroMsg, 'chat1', {
+                      attributeKey: nextAttr.key,
+                      showDetailButton: true,
+                    });
                     setMessages([...session.messages]);
                     saveSession(session);
 
@@ -1191,7 +1234,17 @@ export default function ChatPage() {
                   }
                 } else {
                   // 모든 high 속성 완료 → 추천 버튼 표시 (예산은 Priority에서 선택됨)
+                  // 메모리 업데이트 확인 메시지
+                  const confirmMsg = '정보 업데이트됨';
+                  session = loadSession();
+                  session = addAssistantMessage(session, confirmMsg, 'chat1', { isConfirmation: true });
+                  setMessages([...session.messages]);
+                  saveSession(session);
+
+                  await new Promise((resolve) => setTimeout(resolve, 600));
+
                   const finalMsg = '네, 잘 알겠습니다! 말씀해주신 내용을 바탕으로 최적의 제품을 찾아드릴게요. 아래 버튼을 눌러 추천을 받아보세요!';
+                  session = loadSession();
                   session = addAssistantMessage(session, finalMsg, 'chat1');
                   setMessages([...session.messages]);
                   saveSession(session);
@@ -1985,7 +2038,7 @@ export default function ChatPage() {
                           {message.showDetailButton && message.attributeKey && (
                             <button
                               onClick={() => openBottomSheet(message.attributeKey!)}
-                              className="inline-flex items-center gap-1 mt-2 px-2.5 py-1 text-xs text-sky-600 bg-sky-50 hover:bg-sky-100 rounded-full transition-colors"
+                              className="inline-flex items-center gap-1 mt-2 px-2.5 py-1 text-xs text-sky-600 bg-sky-50 hover:bg-sky-100 rounded-full transition-colors font-semibold"
                             >
                               <span>자세히 보기</span>
                               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

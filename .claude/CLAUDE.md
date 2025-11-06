@@ -19,7 +19,7 @@ npm run lint        # Run ESLint
 
 ## Architecture Overview
 
-### Page Flow (5 Pages)
+### Page Flow (7 Pages)
 1. **Home** (`/`) → Start button
 2. **Ranking** (`/ranking`) → Product list view
 3. **Priority** (`/priority`) → Single-page priority & budget selection
@@ -185,10 +185,24 @@ interface ConversationalState {
 }
 ```
 
-### 7 Core Attributes (`data/attributes.ts`)
+### Core Attributes (`data/attributes.ts`)
 
+**CORE_ATTRIBUTES**: 7개 (UI 및 대화용, durability 제외)
 **PRIORITY_ATTRIBUTES**: 6개 (priceValue 제외)
-**CORE_ATTRIBUTES**: 7개 (전체, 제품 평가용)
+**CoreValues interface**: 8개 속성 (durability 포함, 제품 데이터용)
+
+**Note**: `CoreValues` interface has 8 properties including `durability`, but `CORE_ATTRIBUTES` array only has 7 (durability removed from UI). Product data may still have durability scores but they're not displayed or used in conversations.
+
+**The 7 active attributes** (in `CORE_ATTRIBUTES`):
+1. temperatureControl (온도 조절/유지 성능)
+2. hygiene (위생/세척 편의성)
+3. material (소재/안전성)
+4. usability (사용 편의성)
+5. portability (휴대성) - optional
+6. priceValue (가격 대비 가치) - optional
+7. additionalFeatures (부가 기능 및 디자인) - optional
+
+**Priority page uses 6** (excludes priceValue, which is handled via budget selection)
 
 Each attribute:
 - `key`: Property name
@@ -277,6 +291,8 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
+**Note**: Supabase is only used for logging. The app will work without it, but logs won't be saved.
+
 ## Key Implementation Notes
 
 1. **Priority 페이지 필수**: 모든 사용자는 Priority 페이지를 먼저 거침
@@ -293,11 +309,15 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ## Common Gotchas
 
 - **DEPRECATED 파일들**: `lib/workflow/recommendationWorkflow.ts`, intentAnalyzer, contextRelevance 등은 Priority 플로우에서 사용 안 함
-- **속성 개수**: PRIORITY_ATTRIBUTES(6개) vs CORE_ATTRIBUTES(7개) 구분
+- **속성 개수 불일치**:
+  - `CoreValues` interface: 8개 속성 (durability 포함)
+  - `CORE_ATTRIBUTES` array: 7개 (durability 제외, UI용)
+  - `PRIORITY_ATTRIBUTES` array: 6개 (priceValue 제외, Priority 페이지용)
 - **JSON 파싱**: AI 응답이 ````json\n...\n``` 블록에 감싸져 올 수 있음
 - **턴 카운터**: `attributeConversationTurn`은 1부터 시작 (0이 아님)
 - **강제 전환**: 턴 5 도달 시 사용자 응답 무시하고 다음 속성으로
 - **Phase 0 맥락**: Priority 플로우에서는 "특별한 상황" 중심, 필수 아님
+- **Durability 속성**: `CoreValues`에는 존재하지만 UI/대화에서는 사용 안 함
 
 ## Migration Notes (기존 플로우 → Priority 플로우)
 
@@ -324,3 +344,45 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 - Product 데이터 구조
 - Logging 시스템
 - Admin 페이지
+
+## Debugging & Troubleshooting
+
+### Common Issues
+
+**Session not persisting between pages**:
+- Check browser console for `sessionStorage` errors
+- Session key: `babyitem_session`
+- Clear session: `sessionStorage.removeItem('babyitem_session')`
+
+**AI responses failing**:
+- Verify `GEMINI_API_KEY` in `.env.local`
+- Check retry logic in `lib/ai/gemini.ts` (3 attempts with exponential backoff)
+- Look for JSON parsing errors (use `parseJSONResponse()`)
+
+**Recommendation workflow timeout**:
+- SSE endpoint has no explicit timeout, but typically completes in 10-30s
+- Check browser Network tab for `/api/recommend` streaming response
+- Verify progress events are being sent (0-100%)
+
+**Products not loading**:
+- Product files in `data/products/` are markdown with frontmatter
+- Use `loadAllProducts()` from product loader
+- Check file format: frontmatter + content sections
+
+### Testing Flow
+
+**Quick test of full flow**:
+1. Visit `/` → click start
+2. Visit `/ranking` → view products
+3. Visit `/priority` → set 1-3 'high' priorities + budget → "바로 추천받기"
+4. Visit `/result` → see recommendations
+
+**Test chat flow**:
+1. Same as above but click "채팅으로 더 자세히"
+2. Chat will ask about each 'high' priority (3-5 turns each)
+3. Then Chat2 phase (2-3 additional questions)
+4. Click "추천 받기" button
+
+**Admin features**:
+- `/admin` - View logs (requires Supabase)
+- `/admin/upload` - Upload new products from Coupang review URLs
