@@ -56,6 +56,10 @@ export default function PriorityPage() {
       return;
     }
 
+    // 로깅: 우선순위 선택
+    const levelText = level === 'high' ? '중요함' : level === 'medium' ? '보통' : '중요하지 않음';
+    logButtonClick(`우선순위 선택: ${levelText}`, 'priority', attributeKey);
+
     setPrioritySettings(prev => ({
       ...prev,
       [attributeKey]: level

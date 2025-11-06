@@ -8,7 +8,7 @@ import { loadSession, saveSession } from '@/lib/utils/session';
 import { Recommendation, UserContextSummary } from '@/types';
 import UserContextSummaryComponent from '@/components/UserContextSummary';
 import ComparisonTable from '@/components/ComparisonTable';
-import { logPageView } from '@/lib/logging/clientLogger';
+import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 
 // 마크다운 볼드 처리 함수
 function parseMarkdownBold(text: string) {
@@ -530,13 +530,17 @@ export default function ResultPage() {
                   {/* 버튼 2개 (가로 배치) */}
                   <div className="grid grid-cols-2 gap-2">
                     <button
-                      onClick={() => window.open(rec.product.reviewUrl, '_blank')}
+                      onClick={() => {
+                        logButtonClick(`쿠팡에서 보기: ${rec.product.title}`, 'result');
+                        window.open(rec.product.reviewUrl, '_blank');
+                      }}
                       className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
                     >
                       쿠팡에서 보기
                     </button>
                     <button
                       onClick={() => {
+                        logButtonClick(`추천 이유 보기: ${rec.product.title}`, 'result');
                         setSelectedRecommendation(rec);
                         setIsBottomSheetOpen(true);
                       }}

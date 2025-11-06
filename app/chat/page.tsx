@@ -963,6 +963,9 @@ export default function ChatPage() {
 
     // Phase 0 워밍업 응답 처리 (phase0Context가 undefined인 경우에만)
     if (session.phase0Context === undefined) {
+      // Phase 0 자연어 입력 로깅
+      logUserInput(userInput, 'chat/structured');
+
       // Phase 0 맥락 저장
       session.phase0Context = userInput;
       session = addMessage(session, 'user', userInput, 'chat1');
@@ -1124,14 +1127,17 @@ export default function ChatPage() {
     if (inAttributeConversation) {
       // 전환 의도 응답 대기 중인 경우 (턴 3 이후)
       if (waitingForTransitionResponse) {
+        const currentAttr = CORE_ATTRIBUTES[currentAttributeIndex];
+
+        // 전환 의도 응답 로깅
+        logUserInput(userInput, 'chat/structured', currentAttr.key);
+
         session = addMessage(session, 'user', userInput, 'chat1');
         setMessages(session.messages);
         saveSession(session);
 
         setIsLoading(true);
         setWaitingForTransitionResponse(false);
-
-        const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
 
         // LLM을 사용해 전환 의도 분석
         try {
@@ -1163,7 +1169,7 @@ export default function ChatPage() {
                   .filter(([, level]) => level === 'high')
                   .map(([key]) => key);
 
-                const currentAttrKey = attribute.key;
+                const currentAttrKey = currentAttr.key;
                 const currentIdx = highPriorityKeys.indexOf(currentAttrKey);
                 const nextIdx = currentIdx + 1;
 
@@ -1282,13 +1288,16 @@ export default function ChatPage() {
       }
 
       // 일반 대화 (턴 1, 2, 3)
+      const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
+
+      // 속성별 대화 자연어 입력 로깅
+      logUserInput(userInput, 'chat/structured', attribute.key);
+
       session = addMessage(session, 'user', userInput, 'chat1');
       setMessages(session.messages);
       saveSession(session);
 
       setIsLoading(true);
-
-      const attribute = CORE_ATTRIBUTES[currentAttributeIndex];
 
       // 현재 턴 증가
       const currentTurn = attributeConversationTurn + 1;
