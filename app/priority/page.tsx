@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { CaretLeft, Question } from '@phosphor-icons/react/dist/ssr';
+import { CaretLeft, Question, ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import { PRIORITY_ATTRIBUTES, ATTRIBUTE_ICONS, AttributeInfo } from '@/data/attributes';
 import { PriorityButton } from '@/components/PriorityButton';
@@ -85,27 +85,16 @@ export default function PriorityPage() {
 
   // 주관식 예산 입력 처리
   const handleCustomBudgetSubmit = () => {
-    const amount = parseInt(customBudget.replace(/[^0-9]/g, ''));
-    if (isNaN(amount) || amount <= 0) {
-      alert('올바른 금액을 입력해주세요.');
+    const trimmed = customBudget.trim();
+    if (!trimmed) {
+      alert('예산을 입력해주세요.');
       return;
     }
 
-    // 입력한 금액에 맞는 범위로 자동 매핑
-    let mappedBudget: BudgetRange;
-    if (amount <= 50000) {
-      mappedBudget = '0-50000';
-    } else if (amount <= 100000) {
-      mappedBudget = '50000-100000';
-    } else if (amount <= 150000) {
-      mappedBudget = '100000-150000';
-    } else {
-      mappedBudget = '150000+';
-    }
-
-    setBudget(mappedBudget);
+    // 입력한 자연어 예산을 그대로 저장
+    setBudget(trimmed);
     setIsCustomBudgetMode(false);
-    logButtonClick(`주관식 예산 입력: ${amount}원 (매핑: ${mappedBudget})`, 'priority');
+    logButtonClick(`주관식 예산 입력: ${trimmed}`, 'priority');
   };
 
   // 채팅으로 더 자세히 추천받기
@@ -192,7 +181,7 @@ export default function PriorityPage() {
             <div className="w-6"></div>
           </div>
           <p className="text-sm text-gray-700 leading-5 mb-3 mt-8">
-            AI와 채팅하기 전, 가장 중요하게 생각하는 구매 기준을 골라주세요! [중요함]은 최대 3개까지 고르실 수 있어요.
+            AI와 채팅하기 전, 가장 중요하게 생각하는 구매 기준을 골라주세요! [중요함]은 3개까지 선택하실 수 있어요.
           </p>
           
         </header>
@@ -211,13 +200,26 @@ export default function PriorityPage() {
               >
                 {/* Attribute Header */}
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">{ATTRIBUTE_ICONS[attribute.key]}</span>
-                    <h3 className="text-sm font-bold text-gray-900">{attribute.name}</h3>
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <span className="text-xl shrink-0">{ATTRIBUTE_ICONS[attribute.key]}</span>
+                    <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                      <h3 className="text-sm font-bold text-gray-900 shrink-0">{attribute.name}</h3>
+                      {/* 통계 태그 */}
+                      {attribute.key === 'temperatureControl' && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold bg-orange-100 text-orange-700 whitespace-nowrap shrink-0">
+                          87%가 중요함 선택
+                        </span>
+                      )}
+                      {attribute.key === 'hygiene' && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold bg-orange-100 text-orange-700 whitespace-nowrap shrink-0">
+                          74%가 중요함 선택
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <button
                     onClick={() => openBottomSheet(attribute)}
-                    className="w-7 h-7 rounded-full bg-white hover:bg-gray-100 transition-colors flex items-center justify-center shadow-sm"
+                    className="w-7 h-7 rounded-full bg-white hover:bg-gray-100 transition-colors flex items-center justify-center shrink-0"
                   >
                     <Question size={16} weight="bold" className="text-gray-600" />
                   </button>
@@ -248,10 +250,10 @@ export default function PriorityPage() {
 
           {/* 예산 선택 섹션 */}
           <div className="border-t border-gray-200 pt-8">
-            <div className="bg-gray-50 rounded-2xl p-4 ">
+            <div className="bg-gray-50 rounded-2xl p-4 mb-8">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xl">💰</span>
-                <h3 className="text-sm font-bold text-gray-900">예산 범위</h3>
+                <h3 className="text-sm font-bold text-gray-900">예산</h3>
               </div>
               <p className="text-xs text-gray-600 mb-4">
                  보통 가격대별로 기능 차이가 있어요.
@@ -330,21 +332,32 @@ export default function PriorityPage() {
             </div>
 
             {/* 주관식 입력 - 더 컴팩트하게 */}
-            {!isCustomBudgetMode ? (
+            {!isCustomBudgetMode && budget && !['0-50000', '50000-100000', '100000-150000', '150000+'].includes(budget) ? (
+              // 커스텀 예산이 선택된 상태 (선택된 것처럼 표시)
               <button
                 onClick={handleCustomBudgetClick}
-                className="w-full p-3 rounded-xl text-left transition-all border border-dashed border-gray-300 hover:border-gray-500 bg-white text-gray-700 mb-6"
+                className="w-full p-3 rounded-xl text-left transition-all border-2 border-gray-900 bg-gray-900 text-white"
+              >
+                <div className="font-semibold text-sm mb-0.5">직접 입력</div>
+                <div className="text-xs text-gray-300">{budget}</div>
+              </button>
+            ) : !isCustomBudgetMode ? (
+              // 아무것도 선택 안 됐거나 고정 버튼 선택된 상태
+              <button
+                onClick={handleCustomBudgetClick}
+                className="w-full p-3 rounded-xl text-left transition-all border border-dashed border-gray-300 hover:border-gray-500 bg-white text-gray-700"
               >
                 <div className="font-semibold text-sm">직접 입력하기</div>
               </button>
             ) : (
-              <div className="w-full p-3 rounded-xl border border-gray-900 bg-white mb-6">
+              // 입력 모드
+              <div className="w-full p-3 rounded-xl border border-gray-900 bg-white">
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={customBudget}
                     onChange={(e) => setCustomBudget(e.target.value)}
-                    placeholder="예: 80000"
+                    placeholder="직접 입력 (예: 4만원~6만원)"
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm text-gray-900"
                     autoFocus
                   />
@@ -374,15 +387,16 @@ export default function PriorityPage() {
               onClick={handleDetailedRecommendation}
               disabled={!isValidSelection}
               className={`
-                w-full h-14 rounded-2xl font-semibold text-base transition-all
+                w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5
                 ${
                   isValidSelection
-                    ? 'bg-gray-900 text-white hover:bg-gray-800'
+                    ? 'bg-linear-to-r from-gray-900 to-gray-700 text-white shadow-lg hover:shadow-xl'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }
               `}
             >
-              채팅하고 1분만에 추천받기
+              <ChatCircleDots size={24} weight="bold" />
+              <span>채팅하고 1분만에 추천받기</span>
             </motion.button>
 
             <motion.button
@@ -391,15 +405,16 @@ export default function PriorityPage() {
               onClick={handleQuickRecommendation}
               disabled={!isValidSelection}
               className={`
-                w-full h-14 rounded-2xl font-semibold text-base transition-all border-2
+                w-full h-14 rounded-2xl font-semibold text-base transition-all border-2 flex items-center justify-center gap-2.5
                 ${
                   isValidSelection
-                    ? 'bg-white text-gray-900 border-gray-900 hover:bg-gray-50'
+                    ? 'bg-white text-gray-900 border-gray-300 hover:bg-gray-50'
                     : 'bg-white text-gray-400 border-gray-200 cursor-not-allowed'
                 }
               `}
             >
-              바로 추천받기
+              <Lightning size={24} weight="bold" />
+              <span>바로 추천받기</span>
             </motion.button>
 
             {/* 유효성 검사 안내 메시지 */}

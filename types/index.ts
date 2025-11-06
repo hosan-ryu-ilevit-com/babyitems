@@ -61,8 +61,8 @@ export interface PrioritySettings {
   additionalFeatures?: PriorityLevel;
 }
 
-// Budget range
-export type BudgetRange = '0-50000' | '50000-100000' | '100000-150000' | '150000+';
+// Budget range (can be predefined ranges or custom amount as string)
+export type BudgetRange = '0-50000' | '50000-100000' | '100000-150000' | '150000+' | string;
 
 // Chat conversation for a specific attribute
 export interface AttributeConversation {

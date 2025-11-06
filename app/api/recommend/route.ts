@@ -44,7 +44,7 @@ function generateContextSummaryFromPriority(
         '50000-100000': '5~10만원',
         '100000-150000': '10~15만원',
         '150000+': '15만원 이상'
-      }[budget]
+      }[budget] || budget  // 사전 정의된 범위가 아니면 그대로 사용
     : undefined;
 
   return {

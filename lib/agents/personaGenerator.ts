@@ -209,28 +209,58 @@ export function generatePersonaFromPriority(
   };
 
   // 예산 범위에서 max 값 추출하여 budget 필드에 저장
+  // 커스텀 예산인 경우 문자열에서 숫자를 추출하거나 그대로 반환
   const parseBudgetRange = (range: BudgetRange): number | undefined => {
-    const budgetMap: { [key in BudgetRange]: number } = {
+    // 사전 정의된 범위 처리
+    const budgetMap: Record<string, number> = {
       '0-50000': 50000,
       '50000-100000': 100000,
       '100000-150000': 150000,
       '150000+': 200000  // 상한선을 200000으로 설정
     };
-    return budgetMap[range];
+
+    if (budgetMap[range]) {
+      return budgetMap[range];
+    }
+
+    // 커스텀 예산: 문자열에서 숫자 추출 시도
+    const numbers = range.match(/\d+/g);
+    if (numbers && numbers.length > 0) {
+      // 마지막 숫자를 최대값으로 사용 (예: "4만원~6만원" → 60000)
+      const lastNumber = parseInt(numbers[numbers.length - 1]);
+      // 만원 단위로 입력했을 가능성 고려
+      return lastNumber < 1000 ? lastNumber * 10000 : lastNumber;
+    }
+
+    return undefined;
   };
 
   // priceValue는 예산에서 추론 (예산이 낮을수록 가격 대비 가치 중요)
   const inferPriceValueWeight = (budgetRange?: BudgetRange): number => {
     if (!budgetRange) return 7; // 기본값
 
-    const priceValueMap: { [key in BudgetRange]: number } = {
+    // 사전 정의된 범위 처리
+    const priceValueMap: Record<string, number> = {
       '0-50000': 10,      // 예산 낮으면 가성비 매우 중요
       '50000-100000': 8,  // 중간 예산, 가성비 중요
       '100000-150000': 6, // 높은 예산, 가성비 덜 중요
       '150000+': 5        // 최고 예산, 가성비 최소 중요
     };
 
-    return priceValueMap[budgetRange];
+    if (priceValueMap[budgetRange]) {
+      return priceValueMap[budgetRange];
+    }
+
+    // 커스텀 예산인 경우 숫자 추출해서 판단
+    const budgetValue = parseBudgetRange(budgetRange);
+    if (budgetValue) {
+      if (budgetValue <= 50000) return 10;
+      if (budgetValue <= 100000) return 8;
+      if (budgetValue <= 150000) return 6;
+      return 5;
+    }
+
+    return 7; // fallback
   };
 
   const coreValueWeights = {
