@@ -31,7 +31,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
       transition={{ duration: 0.5, delay: 0.6 }}
       className="bg-white rounded-2xl p-5 border border-white"
     >
-      <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한눈에 비교</h3>
+      <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한 눈에 비교</h3>
 
       {/* 모바일 가로 스크롤 테이블 */}
       <div className="overflow-x-auto -mx-5 px-5 scrollbar-hide">
