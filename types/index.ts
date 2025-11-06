@@ -32,6 +32,13 @@ export interface Message {
   isImportanceQuestion?: boolean;  // 중요도 질문 메시지인지 여부
   isConfirmation?: boolean;        // 확인 메시지인지 여부
   details?: string[];              // 속성 디테일 리스트 (토글 형식으로 표시)
+
+  // Priority 플로우 전용 메타데이터
+  attributeKey?: keyof CoreValues; // 어떤 속성에 대한 메시지인지
+  conversationId?: string;         // 속성별 대화 세션 ID (예: "temperatureControl_1")
+  turnNumber?: number;             // 해당 속성 대화에서의 턴 번호 (1~5)
+  isTransitionPrompt?: boolean;    // 전환 제안 메시지 여부
+  showDetailButton?: boolean;      // '자세히 보기' 버튼 표시 여부
 }
 
 // User's importance rating for each attribute

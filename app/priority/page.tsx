@@ -415,17 +415,17 @@ export default function PriorityPage() {
 
             {/* 유효성 검사 안내 메시지 */}
             {allSelected && highPriorityCount < 1 && (
-              <p className="text-sm text-center text-red-500 mt-2">
+              <p className="text-sm text-center text-red-500 mt-2 font-semibold">
                 &lsquo;중요함&rsquo;을 최소 1개 이상 선택해주세요
               </p>
             )}
             {highPriorityCount > 3 && (
-              <p className="text-sm text-center text-red-500 mt-2">
+              <p className="text-sm text-center text-red-500 mt-2 font-semibold">
                 &lsquo;중요함&rsquo;은 최대 3개까지 선택할 수 있습니다
               </p>
             )}
             {allSelected && highPriorityCount >= 1 && highPriorityCount <= 3 && !budget && (
-              <p className="text-sm text-center text-red-500 mt-2">
+              <p className="text-sm text-center text-red-500 mt-2 font-semibold">
                 예산 범위를 선택해주세요
               </p>
             )}

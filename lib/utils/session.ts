@@ -51,13 +51,22 @@ export const clearSession = (): void => {
   }
 };
 
-// 메시지 추가
+// 메시지 추가 (메타데이터 포함)
 export const addMessage = (
   session: SessionState,
   role: 'user' | 'assistant',
   content: string,
   phase?: 'chat1' | 'chat2',
-  options?: { isImportanceQuestion?: boolean; isConfirmation?: boolean; details?: string[] }
+  options?: {
+    isImportanceQuestion?: boolean;
+    isConfirmation?: boolean;
+    details?: string[];
+    attributeKey?: string;
+    conversationId?: string;
+    turnNumber?: number;
+    isTransitionPrompt?: boolean;
+    showDetailButton?: boolean;
+  }
 ): SessionState => {
   const newMessage: Message = {
     id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -68,6 +77,11 @@ export const addMessage = (
     ...(options?.isImportanceQuestion && { isImportanceQuestion: true }),
     ...(options?.isConfirmation && { isConfirmation: true }),
     ...(options?.details && { details: options.details }),
+    ...(options?.attributeKey && { attributeKey: options.attributeKey as keyof import('@/types').CoreValues }),
+    ...(options?.conversationId && { conversationId: options.conversationId }),
+    ...(options?.turnNumber && { turnNumber: options.turnNumber }),
+    ...(options?.isTransitionPrompt && { isTransitionPrompt: true }),
+    ...(options?.showDetailButton && { showDetailButton: true }),
   };
 
   return {
@@ -137,10 +151,29 @@ export const isStructuredPhaseComplete = (session: SessionState): boolean => {
 
 // 진행률 계산 (0-100)
 export const calculateProgress = (session: SessionState): number => {
-  // Structured phase: 0-100% (7 questions from CORE_ATTRIBUTES)
-  const totalAttributes = 7; // CORE_ATTRIBUTES has 7 items
+  // Chat2 단계: 항상 100%
+  if (session.phase === 'chat2') {
+    return 100;
+  }
 
-  // durability는 CORE_ATTRIBUTES에 없으므로 제외하고 계산
+  // Priority 플로우: 질문할 속성 개수 기준으로 계산
+  if (session.prioritySettings && isPriorityComplete(session.prioritySettings)) {
+    const attributesToAsk = getAttributesToAsk(session);
+
+    // 질문할 속성이 없으면 100% (모두 'low'인 경우)
+    if (attributesToAsk.length === 0) {
+      return 100;
+    }
+
+    // 질문할 속성 중 완료된 개수 계산
+    const completedCount = attributesToAsk.filter(
+      key => session.attributeAssessments[key as keyof AttributeAssessment] !== null
+    ).length;
+
+    return Math.min(100, (completedCount / attributesToAsk.length) * 100);
+  }
+
+  // 기존 플로우 (DEPRECATED): 7개 전체 속성 기준
   const relevantAssessments = [
     session.attributeAssessments.temperatureControl,
     session.attributeAssessments.hygiene,
@@ -152,12 +185,7 @@ export const calculateProgress = (session: SessionState): number => {
   ];
 
   const completedAttributes = relevantAssessments.filter((v) => v !== null).length;
-  const structuredProgress = (completedAttributes / totalAttributes) * 100;
-
-  // Open phase: stays at 100%
-  if (session.phase === 'chat2') {
-    return 100;
-  }
+  const structuredProgress = (completedAttributes / 7) * 100;
 
   return Math.min(100, structuredProgress);
 };
@@ -231,4 +259,22 @@ export const setQuickRecommendation = (
 export const isPriorityComplete = (settings: PrioritySettings): boolean => {
   const requiredKeys = PRIORITY_ATTRIBUTES.map(attr => attr.key);
   return requiredKeys.every(key => settings[key as keyof PrioritySettings] !== undefined);
+};
+
+// 특정 속성에 대한 대화 히스토리 추출 (메타데이터 기반)
+export const getAttributeConversationHistory = (
+  session: SessionState,
+  attributeKey: string,
+  conversationId: string
+): Message[] => {
+  return session.messages.filter(
+    msg => msg.attributeKey === attributeKey && msg.conversationId === conversationId
+  );
+};
+
+// 특정 속성에 대한 대화 히스토리를 텍스트로 변환
+export const formatConversationHistory = (messages: Message[]): string => {
+  return messages
+    .map(msg => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
+    .join('\n');
 };

@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Message, ImportanceLevel, SessionState } from '@/types';
-import { CORE_ATTRIBUTES } from '@/data/attributes';
+import { CORE_ATTRIBUTES, AttributeInfo } from '@/data/attributes';
+import { AttributeBottomSheet } from '@/components/AttributeBottomSheet';
 import {
   loadSession,
   saveSession,
@@ -124,6 +125,10 @@ export default function ChatPage() {
   const [attributeConversationTurn, setAttributeConversationTurn] = useState(0);
   const [waitingForTransitionResponse, setWaitingForTransitionResponse] = useState(false);
 
+  // 바텀시트 상태
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
+  const [selectedAttribute, setSelectedAttribute] = useState<AttributeInfo | null>(null);
+
   // DEPRECATED: 기존 플로우 변수들 (하위 호환성 유지, Priority 플로우에서 사용 안 함)
   const [showQuickReplies, setShowQuickReplies] = useState(false);
   const [waitingForFollowUpResponse, setWaitingForFollowUpResponse] = useState(false);
@@ -148,6 +153,15 @@ export default function ChatPage() {
     const pageLabel = session.phase === 'chat2' ? 'chat/open' : 'chat/structured';
     logPageView(pageLabel);
   }, [mounted]);
+
+  // 바텀시트 열기 핸들러
+  const openBottomSheet = (attributeKey: string) => {
+    const attribute = CORE_ATTRIBUTES.find(attr => attr.key === attributeKey);
+    if (attribute) {
+      setSelectedAttribute(attribute);
+      setBottomSheetOpen(true);
+    }
+  };
 
   // AI 메시지 추가 및 로깅 헬퍼 함수
   const addAssistantMessage = (
@@ -485,7 +499,7 @@ export default function ChatPage() {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       // 속성 인트로 메시지 (볼드체)
-      const attrIntroMsg = `**${firstHighAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+      const attrIntroMsg = `중요하다고 해주신 **${firstHighAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
       session = loadSession();
       session = addAssistantMessage(session, attrIntroMsg, 'chat1');
       setMessages([...session.messages]);
@@ -716,7 +730,7 @@ export default function ChatPage() {
         saveSession(session);
 
         // 속성 인트로 메시지 (볼드체)
-        const attrIntroMsg = `**${nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+        const attrIntroMsg = `**$중요하다고 해주신 {nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
         session = loadSession();
         session = addAssistantMessage(session, attrIntroMsg, 'chat1');
         setMessages([...session.messages]);
@@ -1033,7 +1047,7 @@ export default function ChatPage() {
             setTypingMessageId(null);
             setCurrentAttributeIndex(firstAttrIndex);
             setInAttributeConversation(true); // 속성별 대화 모드 활성화
-            setAttributeConversationTurn(0); // 턴 카운터 초기화
+            // setAttributeConversationTurn은 1004에서 이미 1로 설정됨
             setShowFollowUpSkip(true);
           }
         } catch (error) {
@@ -1131,7 +1145,7 @@ export default function ChatPage() {
                     session = updateAttributeAssessment(session, nextAttr.key as keyof import('@/types').CoreValues, '중요함');
                     saveSession(session);
 
-                    const attrIntroMsg = `**${nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
+                    const attrIntroMsg = `중요하다고 해주신 **${nextAttr.name}**에 대해 더 자세히 여쭤볼게요.`;
                     session = loadSession();
                     session = addAssistantMessage(session, attrIntroMsg, 'chat1');
                     setMessages([...session.messages]);
@@ -1142,7 +1156,6 @@ export default function ChatPage() {
                     await new Promise((resolve) => setTimeout(resolve, attrIntroMsg.length * 10 + 300));
                     await new Promise((resolve) => setTimeout(resolve, 500));
 
-                    setAttributeConversationTurn(1); // 새 속성, 턴 초기화
                     const followUpResponse = await fetch('/api/chat', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
@@ -1172,7 +1185,7 @@ export default function ChatPage() {
                       setTypingMessageId(null);
                       setCurrentAttributeIndex(nextAttrIndex);
                       setInAttributeConversation(true);
-                      setAttributeConversationTurn(0);
+                      setAttributeConversationTurn(1); // 새 속성, 턴 1로 설정 (AI가 첫 질문을 했으므로)
                       setShowFollowUpSkip(true);
                     }
                   }
@@ -1966,7 +1979,21 @@ export default function ChatPage() {
                           }}
                         />
                       ) : (
-                        formatMarkdown(message.content)
+                        <>
+                          {formatMarkdown(message.content)}
+                          {/* '자세히 보기' 버튼 */}
+                          {message.showDetailButton && message.attributeKey && (
+                            <button
+                              onClick={() => openBottomSheet(message.attributeKey!)}
+                              className="inline-flex items-center gap-1 mt-2 px-2.5 py-1 text-xs text-sky-600 bg-sky-50 hover:bg-sky-100 rounded-full transition-colors"
+                            >
+                              <span>자세히 보기</span>
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                            </button>
+                          )}
+                        </>
                       )}
 
                       {/* 예산 선택 버튼 (메시지 안에 포함) */}
@@ -2274,6 +2301,13 @@ export default function ChatPage() {
           </div>
         </div>
       </div>
+
+      {/* 속성 상세 바텀시트 */}
+      <AttributeBottomSheet
+        isOpen={bottomSheetOpen}
+        attribute={selectedAttribute}
+        onClose={() => setBottomSheetOpen(false)}
+      />
     </div>
   );
 }

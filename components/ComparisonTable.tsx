@@ -71,7 +71,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
               <td className="py-3 px-2 text-xs font-semibold text-gray-700">제품명</td>
               {top3.map((rec) => (
                 <td key={rec.product.id} className="py-3 px-2">
-                  <p className="text-xs text-gray-900 leading-tight line-clamp-2">
+                  <p className="text-xs text-gray-900 leading-tight font-semibold line-clamp-2">
                     {rec.product.title}
                   </p>
                 </td>
@@ -100,17 +100,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
               ))}
             </tr>
 
-            {/* 리뷰 수 */}
-            <tr className="border-b border-gray-100">
-              <td className="py-3 px-2 text-xs font-semibold text-gray-700">리뷰 수</td>
-              {top3.map((rec) => (
-                <td key={rec.product.id} className="py-3 px-2">
-                  <p className="text-xs text-gray-600">
-                    {rec.product.reviewCount.toLocaleString()}개
-                  </p>
-                </td>
-              ))}
-            </tr>
+            
 
             {/* 비교 분석 */}
             {top3.some((rec) => rec.comparison) && (
