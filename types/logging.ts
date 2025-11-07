@@ -22,6 +22,7 @@ export interface LogEvent {
   recommendations?: {
     productIds: string[];
     persona?: string; // 간단한 페르소나 요약
+    isQuickRecommendation?: boolean; // 바로 추천받기 여부
     fullReport?: {
       userContext?: {
         priorityAttributes?: Array<{
@@ -61,4 +62,5 @@ export interface SessionSummary {
   events: LogEvent[];
   journey: string[]; // 페이지 이동 경로
   completed: boolean; // result 페이지까지 도달 여부
+  recommendationMethods?: ('quick' | 'chat')[]; // 사용한 추천 방식들 (배열로 여러 개 가능)
 }

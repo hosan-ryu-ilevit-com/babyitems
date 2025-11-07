@@ -1,7 +1,8 @@
 'use client';
 
-import { useState} from 'react';
+import { useState } from 'react';
 import type { SessionSummary } from '@/types/logging';
+import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 
 export default function AdminPage() {
   const [password, setPassword] = useState('');
@@ -13,6 +14,7 @@ export default function AdminPage() {
   const [error, setError] = useState('');
   const [expandedSession, setExpandedSession] = useState<string | null>(null);
   const [expandedRecommendation, setExpandedRecommendation] = useState<string | null>(null);
+  const [selectedSessions, setSelectedSessions] = useState<Set<string>>(new Set());
 
   // 비밀번호 검증
   const handleLogin = () => {
@@ -65,6 +67,7 @@ export default function AdminPage() {
   // 날짜 선택 시
   const handleDateChange = (date: string) => {
     setSelectedDate(date);
+    setSelectedSessions(new Set()); // 선택 초기화
     fetchLogs(date);
   };
 
@@ -102,6 +105,26 @@ export default function AdminPage() {
     });
   };
 
+  // 체크박스 토글
+  const toggleSessionSelection = (sessionId: string) => {
+    const newSelected = new Set(selectedSessions);
+    if (newSelected.has(sessionId)) {
+      newSelected.delete(sessionId);
+    } else {
+      newSelected.add(sessionId);
+    }
+    setSelectedSessions(newSelected);
+  };
+
+  // 전체 선택/해제
+  const toggleSelectAll = () => {
+    if (selectedSessions.size === sessions.length) {
+      setSelectedSessions(new Set());
+    } else {
+      setSelectedSessions(new Set(sessions.map(s => s.sessionId)));
+    }
+  };
+
   // 세션 삭제
   const handleDeleteSession = async (sessionId: string) => {
     if (!window.confirm('이 세션을 삭제하시겠습니까?')) {
@@ -122,9 +145,44 @@ export default function AdminPage() {
       if (response.ok) {
         // 삭제 성공 시 로그 다시 불러오기
         fetchLogs(selectedDate);
+        // 선택 목록에서 제거
+        const newSelected = new Set(selectedSessions);
+        newSelected.delete(sessionId);
+        setSelectedSessions(newSelected);
       } else {
         setError('세션 삭제에 실패했습니다.');
       }
+    } catch {
+      setError('세션 삭제 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 선택된 세션 일괄 삭제
+  const handleDeleteSelectedSessions = async () => {
+    if (selectedSessions.size === 0) {
+      alert('삭제할 세션을 선택해주세요.');
+      return;
+    }
+
+    if (!window.confirm(`선택한 ${selectedSessions.size}개의 세션을 삭제하시겠습니까?`)) {
+      return;
+    }
+
+    try {
+      const deletePromises = Array.from(selectedSessions).map(sessionId =>
+        fetch(`/api/admin/logs?date=${selectedDate}&sessionId=${sessionId}`, {
+          method: 'DELETE',
+          headers: {
+            'x-admin-password': '1545',
+          },
+        })
+      );
+
+      await Promise.all(deletePromises);
+
+      // 삭제 성공 시 로그 다시 불러오기
+      fetchLogs(selectedDate);
+      setSelectedSessions(new Set());
     } catch {
       setError('세션 삭제 중 오류가 발생했습니다.');
     }
@@ -135,6 +193,49 @@ export default function AdminPage() {
     if (selectedDate) {
       fetchLogs(selectedDate);
     }
+  };
+
+  // IP 주소 포맷팅
+  const formatIpAddress = (ip: string | undefined) => {
+    if (!ip) return 'unknown';
+    if (ip === '211.53.92.162') {
+      return (
+        <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded">
+          [레브잇 테크]
+        </span>
+      );
+    }
+    if (ip === '::1') {
+      return (
+        <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">
+          [로컬 테스트]
+        </span>
+      );
+    }
+    return ip;
+  };
+
+  // 추천 방식에 따른 태그 렌더링 (여러 개 가능)
+  const renderRecommendationTags = (session: SessionSummary) => {
+    const methods = session.recommendationMethods || [];
+    if (methods.length === 0) return null;
+
+    return (
+      <>
+        {methods.includes('quick') && (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm bg-white border-2 border-gray-300 text-gray-700 font-medium">
+            <Lightning weight="fill" className="w-4 h-4" />
+            바로 추천받기
+          </span>
+        )}
+        {methods.includes('chat') && (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm bg-gray-900 text-white font-medium">
+            <ChatCircleDots weight="fill" className="w-4 h-4" />
+            채팅하고 추천받기
+          </span>
+        )}
+      </>
+    );
   };
 
   // 버튼 라벨 포맷팅 (실제 채팅 디자인 반영)
@@ -193,7 +294,31 @@ export default function AdminPage() {
       );
     }
 
-    // 추천 받기 버튼
+    // 바로 추천받기 버튼 - 하얀 버튼 스타일 (Priority 페이지)
+    if (label === '바로 추천받기') {
+      return (
+        <span className="inline-flex items-center gap-2">
+          <span className="px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 text-xs font-semibold rounded-xl inline-flex items-center gap-1.5">
+            <Lightning weight="fill" className="w-3.5 h-3.5" />
+            바로 추천받기
+          </span>
+        </span>
+      );
+    }
+
+    // 채팅으로 더 자세히 추천받기 버튼 - 검은 버튼 스타일 (Priority 페이지)
+    if (label === '채팅으로 더 자세히 추천받기') {
+      return (
+        <span className="inline-flex items-center gap-2">
+          <span className="px-4 py-2 bg-gray-900 text-white text-xs font-semibold rounded-xl inline-flex items-center gap-1.5">
+            <ChatCircleDots weight="fill" className="w-3.5 h-3.5" />
+            채팅으로 더 자세히
+          </span>
+        </span>
+      );
+    }
+
+    // 추천 받기 버튼 (Chat 페이지)
     if (label === '추천 받기') {
       return (
         <span className="inline-flex items-center gap-2">
@@ -204,7 +329,7 @@ export default function AdminPage() {
       );
     }
 
-    // 1분만에 추천받기 버튼
+    // 1분만에 추천받기 버튼 (Home 페이지)
     if (label.includes('1분만에 추천받기')) {
       return (
         <span className="inline-flex items-center gap-2">
@@ -215,7 +340,7 @@ export default function AdminPage() {
       );
     }
 
-    // 대표상품 랭킹보기 버튼
+    // 대표상품 랭킹보기 버튼 (Home 페이지)
     if (label.includes('대표상품 랭킹보기')) {
       return (
         <span className="inline-flex items-center gap-2">
@@ -285,7 +410,7 @@ export default function AdminPage() {
           </div>
 
           {/* 날짜 선택 및 새로고침 */}
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center mb-4">
             <label className="font-semibold">날짜:</label>
             <select
               value={selectedDate}
@@ -312,6 +437,37 @@ export default function AdminPage() {
               새로고침
             </button>
           </div>
+
+          {/* 일괄 작업 컨트롤 */}
+          {!loading && sessions.length > 0 && (
+            <div className="flex gap-3 items-center pt-4 border-t">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={selectedSessions.size === sessions.length && sessions.length > 0}
+                  onChange={toggleSelectAll}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <span className="text-sm font-medium">전체 선택</span>
+              </label>
+              {selectedSessions.size > 0 && (
+                <>
+                  <span className="text-sm text-gray-600">
+                    {selectedSessions.size}개 선택됨
+                  </span>
+                  <button
+                    onClick={handleDeleteSelectedSessions}
+                    className="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    선택 삭제
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
         {/* 로딩 상태 */}
@@ -337,7 +493,20 @@ export default function AdminPage() {
               >
                 {/* 세션 헤더 */}
                 <div className="p-4 bg-gray-50">
-                  <div className="flex justify-between items-start">
+                  <div className="flex gap-3 items-start">
+                    {/* 체크박스 */}
+                    <input
+                      type="checkbox"
+                      checked={selectedSessions.has(session.sessionId)}
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        toggleSessionSelection(session.sessionId);
+                      }}
+                      className="mt-1 w-4 h-4 cursor-pointer shrink-0"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+
+                    {/* 세션 정보 */}
                     <div
                       className="flex-1 cursor-pointer hover:opacity-80 transition-opacity"
                       onClick={() =>
@@ -351,10 +520,12 @@ export default function AdminPage() {
                       <p className="font-mono text-sm text-gray-600 mb-1">
                         Session: {session.sessionId.slice(0, 8)}...
                       </p>
-                      <p className="text-sm text-gray-500">
-                        IP: {session.ip || 'unknown'} | 시작:{' '}
-                        {formatTime(session.firstSeen)} | 종료:{' '}
-                        {formatTime(session.lastSeen)}
+                      <p className="text-sm text-gray-500 flex items-center gap-2">
+                        <span>IP: {formatIpAddress(session.ip)}</span>
+                        <span>|</span>
+                        <span>시작: {formatTime(session.firstSeen)}</span>
+                        <span>|</span>
+                        <span>종료: {formatTime(session.lastSeen)}</span>
                       </p>
                       <div className="mt-2">
                         <p className="text-sm font-semibold text-gray-700">
@@ -367,15 +538,18 @@ export default function AdminPage() {
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="text-right">
-                        <span
-                          className={`inline-block px-3 py-1 rounded-full text-sm ${
-                            session.completed
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-yellow-100 text-yellow-700'
-                          }`}
-                        >
-                          {session.completed ? '완료' : '미완료'}
-                        </span>
+                        <div className="flex items-center gap-2 justify-end">
+                          {renderRecommendationTags(session)}
+                          <span
+                            className={`inline-block px-3 py-1 rounded-full text-sm ${
+                              session.completed
+                                ? 'bg-green-100 text-green-700'
+                                : 'bg-yellow-100 text-yellow-700'
+                            }`}
+                          >
+                            {session.completed ? '완료' : '미완료'}
+                          </span>
+                        </div>
                         <p className="text-sm text-gray-500 mt-1">
                           {session.events.length}개 이벤트
                         </p>

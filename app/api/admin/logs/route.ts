@@ -29,6 +29,7 @@ function groupBySession(logs: DailyLog[]): SessionSummary[] {
           events: [],
           journey: [],
           completed: false,
+          recommendationMethods: [],
         });
       }
 
@@ -43,7 +44,21 @@ function groupBySession(logs: DailyLog[]): SessionSummary[] {
         }
       }
 
-      // result 페이지 도달 여부
+      // 추천 버튼 클릭 추적
+      if (event.eventType === 'button_click' && event.buttonLabel) {
+        // Priority 페이지: '바로 추천받기' 버튼 → quick
+        if (event.buttonLabel === '바로 추천받기' && !session.recommendationMethods?.includes('quick')) {
+          session.recommendationMethods = session.recommendationMethods || [];
+          session.recommendationMethods.push('quick');
+        }
+        // Chat 페이지: '추천 받기' 버튼 → chat
+        else if (event.buttonLabel === '추천 받기' && !session.recommendationMethods?.includes('chat')) {
+          session.recommendationMethods = session.recommendationMethods || [];
+          session.recommendationMethods.push('chat');
+        }
+      }
+
+      // result 페이지 도달 여부 추적
       if (event.eventType === 'recommendation_received') {
         session.completed = true;
       }

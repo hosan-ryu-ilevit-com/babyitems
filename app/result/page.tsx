@@ -223,6 +223,7 @@ export default function ResultPage() {
                       recommendations: {
                         productIds,
                         persona: data.persona?.summary || '',
+                        isQuickRecommendation: updatedSession.isQuickRecommendation || false,
                         fullReport,
                       },
                     }),
