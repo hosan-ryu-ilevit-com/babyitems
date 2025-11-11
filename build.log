@@ -1,0 +1,43 @@
+
+> my-nextjs-app@0.1.0 build
+> next build
+
+   ▲ Next.js 16.0.1 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 1433.0ms
+   Running TypeScript ...
+   Collecting page data ...
+✅ Supabase client initialized
+✅ Supabase client initialized
+   Generating static pages (0/17) ...
+✅ Supabase client initialized
+   Generating static pages (4/17) 
+   Generating static pages (8/17) 
+   Generating static pages (12/17) 
+ ✓ Generating static pages (17/17) in 315.9ms
+   Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /admin
+├ ○ /admin/upload
+├ ƒ /api/admin/analyze-product
+├ ƒ /api/admin/check-duplicate
+├ ƒ /api/admin/logs
+├ ƒ /api/admin/save-product
+├ ƒ /api/admin/upload-thumbnail
+├ ƒ /api/chat
+├ ƒ /api/log
+├ ƒ /api/recommend
+├ ○ /chat
+├ ○ /priority
+├ ○ /ranking
+└ ○ /result
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
