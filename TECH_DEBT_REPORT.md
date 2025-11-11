@@ -27,58 +27,61 @@ lib/agents/evaluationValidator.ts    (3.1 KB) - 0개 참조
 
 ---
 
-## 2. 플로우 불일치 (가장 큰 문제)
+## 2. 플로우 현황 (이미 Priority 플로우 구현됨!)
 
-### 현재 상황
+### ✅ 실제 현황 (재확인)
 
-#### **문서 (CLAUDE.md)**: Priority 플로우
+#### **현재 동작하는 플로우**:
 ```
 Home → Priority → (Chat 선택적) → Result
 ```
-- Priority 페이지에서 6개 속성 사전 설정
-- Chat은 'high' 속성만 deep-dive (3~5턴)
-- 사용자는 선택: "채팅으로 더 자세히" or "바로 추천받기"
 
-#### **실제 코드 (app/chat/page.tsx)**: 구버전 Chat1 플로우
-```
-Home → Ranking → Chat → Result
-```
-- Phase 0: warmup 질문
-- Chat1: 7개 속성 순차 질문 + 중요도 버튼 3개
-- Chat2: 오픈 대화
+**Priority 페이지 (`/priority`)**:
+- 6개 속성 중요도 설정 (high/medium/low)
+- 예산 선택
+- 두 가지 선택지:
+  - "채팅으로 더 자세히" → `/chat`
+  - "바로 추천받기" → `/result`
 
-### 문제점
-1. **중복 질문**: Priority 페이지와 Chat1이 같은 것을 물음
-2. **사용자 혼란**: 두 가지 다른 플로우가 섞여 있음
-3. **코드 복잡도**: Chat 페이지 1800+ 라인 (구버전 로직 때문)
+**Chat 페이지 (`/chat`)** - 이미 Priority 기반 동작 중:
+- **Priority 있을 때** (Line 313-314, 461-462):
+  - `'high'` 속성만 필터링하여 질문
+  - Phase 0 변형 (특별한 상황)
+  - Phase 1: high 속성 deep-dive
+  - Phase 2 (Chat2): 추가 질문
+- **Priority 없을 때** (Line 323):
+  - 구버전 플로우 fallback (Phase 0 워밍업 + Chat1)
 
-### 해결 방안
+### 🔍 발견된 실제 문제
 
-#### **Option A: Priority 플로우로 완전 전환** (권장)
-- Chat 페이지를 Priority 기반으로 리팩토링
-- Phase 0 변형: 특별한 상황만 물음 (스킵 가능)
-- Chat1 대체: 'high' 속성만 3~5턴 자유 대화
-- Chat2 유지: 추가 질문
+#### A. **두 플로우 공존** (혼재)
+Chat 페이지가 두 가지 경로를 모두 지원:
+1. **신규 (Priority 플로우)**: Priority 페이지 경유 시
+2. **레거시 (구버전 플로우)**: Priority 없이 직접 접근 시
 
-**장점**:
-- CLAUDE.md와 일치
-- 사용자 경험 개선
-- 중복 제거
-- messageTemplates, contextRelevance 삭제 가능 (추가 12KB+)
+**문제점**:
+- 코드 복잡도: 1800+ 라인 (두 플로우 모두 유지)
+- 유지보수 부담: 두 가지 로직 동시 관리
+- 불필요한 레거시 코드 (Priority 페이지가 필수 진입점인데 fallback 유지)
 
-**단점**:
-- Chat 페이지 대규모 리팩토링 필요
+#### B. **미사용 레거시 코드**
+Priority 플로우가 우선이므로 구버전 코드는 **실질적으로 미사용**:
+- Phase 0 워밍업 질문 로직
+- Chat1 7개 속성 순차 질문
+- `messageTemplates`의 일부 함수들
+- 중요도 버튼 3개 UI
 
-#### **Option B: 구버전 플로우 유지 및 문서 수정**
-- CLAUDE.md를 구버전 플로우에 맞게 수정
-- Priority 페이지 제거 or 선택적 진입점으로 변경
+### 📝 정정된 분석
 
-**장점**:
-- 코드 변경 최소
+#### **문서와 코드는 이미 일치함**
+- CLAUDE.md: Priority 플로우 설명 ✅
+- 실제 코드: Priority 플로우 동작 ✅
+- **문제 없음!**
 
-**단점**:
-- 중복 질문 문제 미해결
-- 사용자 경험 저하
+#### **실제 문제는: 레거시 코드 잔여**
+- Chat 페이지에 구버전 로직이 fallback으로 남아있음
+- Priority 페이지가 필수 진입점이므로 fallback은 불필요
+- 약 40-50%의 Chat 코드가 실제로는 사용되지 않음
 
 ---
 
@@ -202,10 +205,10 @@ components/
 2. ✅ **Next.js 15 params 에러 수정** (모든 dynamic route)
 3. ✅ **Gemini API 에러 핸들링 강화**
 
-### Phase 2: 플로우 결정 (사용자 판단 필요)
-4. **Chat 페이지 플로우 선택**:
-   - Option A: Priority 플로우 전환 (권장, 대규모 리팩토링)
-   - Option B: 구버전 유지 (문서 수정)
+### Phase 2: 레거시 코드 정리 (선택적, 권장)
+4. **Chat 페이지 레거시 코드 제거**:
+   - Option A: 구버전 fallback 로직 삭제 (권장, 4-6시간)
+   - Option B: 현재 상태 유지 (fallback 보존)
 
 ### Phase 3: 리팩토링 (선택적)
 5. **session.ts 분리** (파일 크기 감소, 유지보수성 향상)
