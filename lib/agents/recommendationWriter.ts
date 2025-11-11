@@ -24,7 +24,10 @@ const RECOMMENDATION_PROMPT = `당신은 사용자에게 맞춤형 제품 추천
     "단점 1 (솔직한 평가)",
     "단점 2 (개선 필요 부분)"
   ],
-  "comparison": "다른 후보들과 비교한 종합 설명 (2-3문장)",
+  "comparison": [
+    "2위 제품 대비: 차별점 (1문장)",
+    "3위 제품 대비: 차별점 (1문장)"
+  ],
   "additionalConsiderations": "추가 고려사항 또는 팁 (1-2문장)"
 }
 
@@ -59,16 +62,21 @@ const RECOMMENDATION_PROMPT = `당신은 사용자에게 맞춤형 제품 추천
 ❌ "휴대성 점수가 3점으로 낮습니다." (점수 직접 언급)
 
 ## 3. 비교 (Comparison)
-- **순위 언급**: "2위 제품과 비교했을 때" 형태
-- **차별점 강조**: 왜 이 제품을 선택했는지 명확히 설명
+- **리스트 형태**: 2개 항목 배열로 반환 (2위 vs, 3위 vs)
+- **간결한 문장**: 각 항목은 1문장으로 핵심 차별점만
+- **형식**: "[순위]위 제품 대비: [핵심 차별점]" 또는 "[순위]위보다: [핵심 차별점]"
+- **차별점 강조**: 왜 이 제품을 선택했는지 명확히
 - **균형**: 다른 제품을 폄하하지 않고 객관적으로 비교
-- **2-3문장**: 간결하고 명확하게
 - **자연어 표현**: 점수 직접 언급 금지, 질적 표현 사용
 - **마크다운 강조**: 핵심 차별점은 **볼드** 처리
 
 예시:
-✅ "2위 제품 대비 **온도 유지력**이 우수하며, 3위 제품보다 **세척이 훨씬 편리**해요. 고객님의 우선순위인 온도 조절과 위생 관리 측면에서 가장 **균형 잡힌** 선택이에요."
+✅ [
+  "2위 제품 대비 **온도 유지력**이 더 뛰어나고, **정확한 온도 조절**이 가능해요",
+  "3위 제품보다 **세척이 훨씬 편리**하고 **입구가 넓어** 손이 잘 들어가요"
+]
 ❌ "2위 제품은 85점, 이 제품은 92점입니다." (점수 직접 비교)
+❌ 긴 문장이나 여러 차별점을 한 문장에 나열 (간결성 부족)
 
 ## 4. 추가 고려사항 (Additional Considerations)
 - **실용 팁**: 사용 시 유용한 정보
@@ -123,7 +131,7 @@ export async function generateRecommendationReason(
 ): Promise<{
   strengths: string[];
   weaknesses: string[];
-  comparison: string;
+  comparison: string[];
   additionalConsiderations: string;
 }> {
   console.log(`  ✍️  Generating recommendation for Rank ${input.rank}: ${input.product.title.substring(0, 40)}...`);
@@ -161,7 +169,7 @@ export async function generateRecommendationReason(
       return parseJSONResponse<{
         strengths: string[];
         weaknesses: string[];
-        comparison: string;
+        comparison: string[];
         additionalConsiderations: string;
       }>(text);
     } catch (error) {

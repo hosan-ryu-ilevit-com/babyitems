@@ -494,7 +494,7 @@ export default function PriorityPage() {
                 <textarea
                   value={additionalRequest}
                   onChange={(e) => setAdditionalRequest(e.target.value)}
-                  placeholder="예: 쌍둥이라 동시에 분유를 자주 타요"
+                  placeholder="예: 쌍둥이라 동시에 분유를 자주 타고, 깔끔하게 세척이 잘 됐으면 좋겠어요. 디자인도 흰색 유광을 좋아해서 예뻤으면 좋겠어요."
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm text-gray-900 resize-none"
                   style={{ fontSize: '16px' }}
                   rows={4}

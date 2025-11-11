@@ -41,7 +41,7 @@ export interface LogEvent {
         finalScore: number;
         strengths: string[];
         weaknesses: string[];
-        comparison: string;
+        comparison: string[];
         additionalConsiderations: string;
       }>;
     };

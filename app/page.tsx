@@ -101,8 +101,8 @@ export default function Home() {
               분유포트, 수천개를<br />다 비교해볼 순 없잖아요
             </h1>
             <p className="text-lg text-gray-600 leading-6 px-2">
-              가장 <strong className="font-bold">사랑받는 제품들</strong>로 시작해서,<br />
-              당신만의 최고를 찾아드릴게요
+              지금 가장 <strong className="font-bold">사랑받는 제품들</strong> 중,<br />
+              나만의 최고를 찾아드려요
             </p>
           </motion.div>
         </section>
@@ -116,12 +116,10 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              분유포트, 처음이신가요?
+            <h2 className="text-xl font-bold text-gray-900 text-center">
+              첫 분유포트- 핵심만 한눈에.
             </h2>
-            <p className="text-sm text-gray-600">
-              핵심만 쏙쏙! 5분이면 충분합니다
-            </p>
+           
           </motion.div>
 
           {/* Guide Cards */}
@@ -283,9 +281,7 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-8 text-center"
           >
-            <p className="text-sm text-gray-600 mb-4">
-              이제 당신에게 딱 맞는 제품을 찾아볼까요?
-            </p>
+           
           </motion.div>
         </section>
 
@@ -293,7 +289,7 @@ export default function Home() {
         <section id="ranking-section" className="min-h-screen bg-white px-6 pt-4 pb-8">
           {/* Section Header */}
           <div className="mb-6">
-            <div className="flex items-center gap-3 mb-1">
+            <div className="flex items-center gap-3 mt-6 mb-1">
               <h2 className="text-2xl font-bold text-gray-900">
                 실시간 랭킹
               </h2>

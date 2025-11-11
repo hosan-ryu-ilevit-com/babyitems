@@ -150,7 +150,7 @@ export interface Recommendation {
     strengths: string[];
     weaknesses: string[];
   };
-  comparison: string;
+  comparison: string[]; // 리스트 형태로 변경 (2위 vs, 3위 vs)
   additionalConsiderations: string;
 }
 

@@ -296,6 +296,9 @@ export default function ResultPage() {
     // Quick Recommendation 플로우는 항상 새로 생성
     if (session.isQuickRecommendation) {
       console.log('🚀 Quick Recommendation flow - generating new recommendations');
+      // 플래그 리셋 (한 번만 실행되도록)
+      session.isQuickRecommendation = false;
+      saveSession(session);
       fetchRecommendations();
       return;
     }
@@ -580,31 +583,52 @@ export default function ResultPage() {
                     </div>
                   </div>
 
-                  {/* 버튼 2개 (가로 배치) */}
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => {
-                        logButtonClick(`쿠팡에서 보기: ${rec.product.title}`, 'result');
-                        window.open(rec.product.reviewUrl, '_blank');
-                      }}
-                      className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
-                    >
-                      쿠팡에서 보기
-                    </button>
+                  {/* 버튼 3개 */}
+                  <div className="space-y-2">
+                    {/* 상단: 쿠팡에서 보기 + AI 질문하기 */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => {
+                          logButtonClick(`쿠팡에서 보기: ${rec.product.title}`, 'result');
+                          window.open(rec.product.reviewUrl, '_blank');
+                        }}
+                        className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
+                      >
+                        쿠팡에서 보기
+                      </button>
+                      <button
+                        onClick={() => {
+                          logButtonClick(`이 상품 질문하기: ${rec.product.title}`, 'result');
+                          // TODO: Navigate to product detail chat
+                          router.push(`/product-chat?productId=${rec.product.id}`);
+                        }}
+                        className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-900 hover:bg-gray-800 text-white flex items-center justify-center gap-1.5"
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                        </svg>
+                        이 상품 질문하기
+                      </button>
+                    </div>
+                    {/* 하단: 추천 이유 보기 */}
                     <button
                       onClick={() => {
                         logButtonClick(`추천 이유 보기: ${rec.product.title}`, 'result');
                         setSelectedRecommendation(rec);
                         setIsBottomSheetOpen(true);
                       }}
-                      className="py-3 font-bold rounded-xl text-sm transition-all bg-blue-500 hover:bg-blue-300 text-white flex items-center justify-center gap-1.5"
+                      className="w-full py-3 font-bold rounded-xl text-sm transition-all bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center gap-1.5"
                     >
                       <svg
                         className="w-4 h-4"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                        <path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                       </svg>
                       추천 이유 보기
                     </button>
@@ -721,17 +745,24 @@ export default function ResultPage() {
                   )}
 
                   {/* 비교하기 */}
-                  {selectedRecommendation.comparison && (
+                  {selectedRecommendation.comparison && selectedRecommendation.comparison.length > 0 && (
                     <div className="bg-gray-50 rounded-xl p-4">
-                      <h4 className="text-sm font-bold text-gray-700 mb-2 flex items-center gap-1.5">
+                      <h4 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
                         <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                         </svg>
                         비교하기
                       </h4>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        {parseMarkdownBold(selectedRecommendation.comparison)}
-                      </p>
+                      <ul className="space-y-2">
+                        {selectedRecommendation.comparison.map((item, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-1.5 shrink-0" />
+                            <span className="text-sm text-gray-600 leading-relaxed flex-1">
+                              {parseMarkdownBold(item)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
 
