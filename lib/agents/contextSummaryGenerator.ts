@@ -6,6 +6,31 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' });
 
 /**
+ * Helper function to safely extract and parse JSON from Gemini response
+ */
+function extractAndParseJSON(text: string): any {
+  // Extract JSON from potential markdown code blocks
+  const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/\{[\s\S]*\}/);
+
+  if (!jsonMatch) {
+    console.error('❌ Failed to extract JSON from response');
+    console.error('   Response text (first 300 chars):', text.substring(0, 300));
+    throw new Error('Failed to extract JSON from Gemini response');
+  }
+
+  const jsonText = jsonMatch[1] || jsonMatch[0];
+
+  try {
+    return JSON.parse(jsonText);
+  } catch (parseError) {
+    console.error('❌ JSON.parse failed');
+    console.error('   JSON text (first 500 chars):', jsonText.substring(0, 500));
+    console.error('   Parse error:', parseError);
+    throw new Error(`Failed to parse JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
+  }
+}
+
+/**
  * Context Summary Generator Agent
  *
  * 사용자가 대화 중 선택한 7개 기준의 중요도와 추가 맥락들을 분석하여
@@ -114,14 +139,7 @@ JSON만 출력하세요.`;
     const text = response.response.text();
     console.log('  📄 Response text length:', text.length);
 
-    // Extract JSON from potential markdown code blocks
-    const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Failed to extract JSON from context summary response');
-    }
-
-    const jsonText = jsonMatch[1] || jsonMatch[0];
-    return JSON.parse(jsonText);
+    return extractAndParseJSON(text);
   });
 
   console.log('✓ Context summary generated');
@@ -257,14 +275,7 @@ JSON만 출력하세요.`;
     const text = response.response.text();
     console.log('  📄 Response text length:', text.length);
 
-    // Extract JSON from potential markdown code blocks
-    const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Failed to extract JSON from context summary response');
-    }
-
-    const jsonText = jsonMatch[1] || jsonMatch[0];
-    return JSON.parse(jsonText);
+    return extractAndParseJSON(text);
   });
 
   console.log('✓ Context summary generated');
