@@ -146,6 +146,20 @@ export default function ChatPage() {
     setMounted(true);
   }, []);
 
+  // Priority 설정 필수 체크 (레거시 플로우 차단)
+  useEffect(() => {
+    if (!mounted) return;
+
+    const session = loadSession();
+    const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
+
+    // Priority 설정이 없으면 Priority 페이지로 리다이렉트
+    if (!hasPriority) {
+      console.log('⚠️  Priority 설정 없음 - /priority로 리다이렉트');
+      router.push('/priority');
+    }
+  }, [mounted, router]);
+
   // 페이지 뷰 로깅
   useEffect(() => {
     if (!mounted) return;
