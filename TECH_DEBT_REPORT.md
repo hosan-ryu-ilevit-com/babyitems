@@ -2,13 +2,15 @@
 
 **분석 일자**: 2025-11-11
 **분석 시점**: v0.3 (commit: b7dff34 "0.3 최종 save 1111")
+**최종 업데이트**: 2025-11-11 (Phase 1-2 완료)
 
 ## 🔍 Executive Summary
 
-- **데드 코드**: 19.5 KB (4개 파일)
-- **Critical 버그**: 3개 (Next.js 15, Gemini 파싱, Priority chat API)
-- **가장 큰 문제**: 플로우 불일치 (문서 vs 코드)
-- **즉시 실행 가능**: Phase 1 작업 (1-2시간)
+- ✅ **Phase 1 완료**: 19.5 KB 데드 코드 제거 (commit: 1d935e5)
+- ✅ **Phase 2 완료**: 레거시 플로우 차단 + ~150 lines unused code 제거 (commit: 0162090)
+- **총 제거**: ~20 KB dead code + 234 lines legacy code
+- **TypeScript**: 컴파일 에러 0개
+- **남은 작업**: Phase 3-4 (선택적 리팩토링 & 문서화)
 
 ---
 
@@ -205,10 +207,12 @@ components/
 2. ✅ **Next.js 15 params 에러 수정** (모든 dynamic route)
 3. ✅ **Gemini API 에러 핸들링 강화**
 
-### Phase 2: 레거시 코드 정리 (선택적, 권장)
-4. **Chat 페이지 레거시 코드 제거**:
-   - Option A: 구버전 fallback 로직 삭제 (권장, 4-6시간)
-   - Option B: 현재 상태 유지 (fallback 보존)
+### Phase 2: 레거시 코드 정리 ✅ COMPLETED
+4. **Chat 페이지 레거시 코드 차단**:
+   - ✅ Option B 선택: 안전한 접근 (fallback 코드 보존, 실행은 차단)
+   - ✅ Priority 설정 체크 추가 → 없으면 /priority 리다이렉트
+   - ✅ contextRelevance.ts 삭제
+   - ✅ messageTemplates에서 unused functions 제거 (~150 lines)
 
 ### Phase 3: 리팩토링 (선택적)
 5. **session.ts 분리** (파일 크기 감소, 유지보수성 향상)
@@ -277,19 +281,24 @@ git commit -m "chore: Remove deprecated unused files (19.5KB dead code)"
 
 ## 📋 체크리스트
 
-### Phase 1 (긴급)
-- [ ] intentAnalyzer.ts 삭제
-- [ ] recommendationWorkflow.ts 삭제
-- [ ] chatHelpers.ts 삭제
-- [ ] evaluationValidator.ts 삭제
-- [ ] Next.js 15 params 수정 (모든 dynamic routes)
-- [ ] Gemini API 에러 핸들링 강화
-- [ ] 커밋 & 푸시
+### Phase 1 (긴급) ✅ COMPLETED
+- [x] intentAnalyzer.ts 삭제 (commit: 1d935e5)
+- [x] recommendationWorkflow.ts 삭제 (commit: 1d935e5)
+- [x] chatHelpers.ts 삭제 (commit: 1d935e5)
+- [x] evaluationValidator.ts 삭제 (commit: 1d935e5)
+- [x] Gemini API 에러 핸들링 강화 (commit: 1d935e5)
+- [x] 커밋 & 푸시
 
-### Phase 2 (플로우 결정)
-- [ ] Option A or B 결정
-- [ ] Chat 페이지 리팩토링 (Option A) or 문서 수정 (Option B)
-- [ ] messageTemplates/contextRelevance 처리
+**Note**: Next.js 15 params issue not found in v0.3 codebase (likely N/A for this version)
+
+### Phase 2 (레거시 정리) ✅ COMPLETED
+- [x] Option B 선택: Legacy flow 차단 (안전한 접근)
+- [x] Chat 페이지에 Priority 체크 추가 → /priority 리다이렉트 (commit: 0162090)
+- [x] contextRelevance.ts 삭제 (commit: 0162090)
+- [x] messageTemplates 내 unused functions 삭제 (commit: 0162090)
+  - createFollowUpPrompt() (~100 lines)
+  - createReassessmentPrompt() (~47 lines)
+- [x] TypeScript 에러 해결 (ContextRelevance type not found)
 
 ### Phase 3 (리팩토링)
 - [ ] session.ts 분리
