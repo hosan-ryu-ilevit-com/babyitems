@@ -164,103 +164,119 @@ export default function ResultPage() {
           console.log('📄 Processing line:', line.substring(0, 150));
 
           if (line.startsWith('data: ')) {
-            const jsonStr = line.substring(6);
+            const jsonStr = line.substring(6).trim();
+
+            // 빈 문자열 체크
+            if (!jsonStr) {
+              console.debug('⏭️  Empty JSON string, skipping');
+              continue;
+            }
+
             console.log('📦 Extracted JSON:', jsonStr.substring(0, 100) + '...');
 
+            let data;
             try {
-              const data = JSON.parse(jsonStr);
+              data = JSON.parse(jsonStr);
+            } catch (parseError) {
+              console.error('❌ JSON parse error:', parseError);
+              console.error('   Failed to parse:', jsonStr.substring(0, 200));
+              // 파싱 실패는 일부 메시지만 건너뛰고 계속
+              continue;
+            }
 
-              if (data.error) {
-                console.error('❌ API error:', data.error);
-                setError(data.error);
+            // 데이터 유효성 검증
+            if (!data || typeof data !== 'object') {
+              console.warn('⚠️  Invalid data object, skipping');
+              continue;
+            }
+
+            if (data.error) {
+              console.error('❌ API error:', data.error);
+              setError(data.error);
+              setLoading(false);
+              return;
+            }
+
+            if (data.type === 'complete') {
+              // 최종 결과
+              console.log('✅ Recommendation complete!');
+              console.log('  Recommendations count:', data.recommendations?.length);
+              console.log('  Persona summary:', data.persona?.summary?.substring(0, 50) + '...');
+              console.log('  Context summary:', data.contextSummary);
+
+              // 세션에 저장
+              const updatedSession = loadSession();
+              updatedSession.persona = data.persona;
+              updatedSession.recommendations = data.recommendations;
+              updatedSession.contextSummary = data.contextSummary;
+              saveSession(updatedSession);
+
+              // 추천 결과 로깅 (전체 리포트 포함)
+              if (data.recommendations && data.recommendations.length > 0) {
+                const productIds = data.recommendations.map((r: Recommendation) => r.product.id);
+                const fullReport = {
+                  userContext: data.contextSummary ? {
+                    priorityAttributes: data.contextSummary.priorityAttributes,
+                    additionalContext: data.contextSummary.additionalContext,
+                    budget: data.contextSummary.budget,
+                  } : undefined,
+                  recommendations: data.recommendations.map((r: Recommendation) => ({
+                    rank: r.rank,
+                    productId: r.product.id,
+                    productTitle: r.product.title,
+                    price: r.product.price,
+                    finalScore: r.finalScore,
+                    strengths: r.personalizedReason.strengths,
+                    weaknesses: r.personalizedReason.weaknesses,
+                    comparison: r.comparison,
+                    additionalConsiderations: r.additionalConsiderations,
+                  })),
+                };
+
+                // 전체 리포트를 포함하여 로깅
+                fetch('/api/log', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    sessionId: localStorage.getItem('baby_item_session_id'),
+                    eventType: 'recommendation_received',
+                    recommendations: {
+                      productIds,
+                      persona: data.persona?.summary || '',
+                      isQuickRecommendation: updatedSession.isQuickRecommendation || false,
+                      fullReport,
+                    },
+                  }),
+                }).catch(console.error);
+              }
+
+              // 화면에 표시
+              if (!data.recommendations || data.recommendations.length === 0) {
+                console.error('⚠️ No recommendations in response!');
+                setError('추천 결과가 없습니다');
                 setLoading(false);
                 return;
               }
 
-              if (data.type === 'complete') {
-                // 최종 결과
-                console.log('✅ Recommendation complete!');
-                console.log('  Recommendations count:', data.recommendations?.length);
-                console.log('  Persona summary:', data.persona?.summary?.substring(0, 50) + '...');
-                console.log('  Context summary:', data.contextSummary);
+              console.log('🎯 Setting recommendations to state:', data.recommendations.length);
+              console.log('📦 First recommendation:', {
+                rank: data.recommendations[0]?.rank,
+                hasProduct: !!data.recommendations[0]?.product,
+                hasReason: !!data.recommendations[0]?.personalizedReason,
+                hasComparison: !!data.recommendations[0]?.comparison,
+                hasAdditional: !!data.recommendations[0]?.additionalConsiderations,
+              });
 
-                // 세션에 저장
-                const updatedSession = loadSession();
-                updatedSession.persona = data.persona;
-                updatedSession.recommendations = data.recommendations;
-                updatedSession.contextSummary = data.contextSummary;
-                saveSession(updatedSession);
-
-                // 추천 결과 로깅 (전체 리포트 포함)
-                if (data.recommendations && data.recommendations.length > 0) {
-                  const productIds = data.recommendations.map((r: Recommendation) => r.product.id);
-                  const fullReport = {
-                    userContext: data.contextSummary ? {
-                      priorityAttributes: data.contextSummary.priorityAttributes,
-                      additionalContext: data.contextSummary.additionalContext,
-                      budget: data.contextSummary.budget,
-                    } : undefined,
-                    recommendations: data.recommendations.map((r: Recommendation) => ({
-                      rank: r.rank,
-                      productId: r.product.id,
-                      productTitle: r.product.title,
-                      price: r.product.price,
-                      finalScore: r.finalScore,
-                      strengths: r.personalizedReason.strengths,
-                      weaknesses: r.personalizedReason.weaknesses,
-                      comparison: r.comparison,
-                      additionalConsiderations: r.additionalConsiderations,
-                    })),
-                  };
-
-                  // 전체 리포트를 포함하여 로깅
-                  fetch('/api/log', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      sessionId: localStorage.getItem('baby_item_session_id'),
-                      eventType: 'recommendation_received',
-                      recommendations: {
-                        productIds,
-                        persona: data.persona?.summary || '',
-                        isQuickRecommendation: updatedSession.isQuickRecommendation || false,
-                        fullReport,
-                      },
-                    }),
-                  }).catch(console.error);
-                }
-
-                // 화면에 표시
-                if (!data.recommendations || data.recommendations.length === 0) {
-                  console.error('⚠️ No recommendations in response!');
-                  setError('추천 결과가 없습니다');
-                  setLoading(false);
-                  return;
-                }
-
-                console.log('🎯 Setting recommendations to state:', data.recommendations.length);
-                console.log('📦 First recommendation:', {
-                  rank: data.recommendations[0]?.rank,
-                  hasProduct: !!data.recommendations[0]?.product,
-                  hasReason: !!data.recommendations[0]?.personalizedReason,
-                  hasComparison: !!data.recommendations[0]?.comparison,
-                  hasAdditional: !!data.recommendations[0]?.additionalConsiderations,
-                });
-
-                setRecommendations(data.recommendations);
-                if (data.contextSummary) {
-                  setContextSummary(data.contextSummary);
-                }
-                setProgress(100);
-                setLoading(false);
-              } else if (data.progress !== undefined) {
-                // 진행 상황 업데이트
-                console.log(`📊 Progress: [${data.progress}%] ${data.phase} - ${data.message}`);
-                setProgress(data.progress);
+              setRecommendations(data.recommendations);
+              if (data.contextSummary) {
+                setContextSummary(data.contextSummary);
               }
-            } catch (e) {
-              console.error('❌ Failed to parse SSE message:', e);
-              console.error('   Raw message:', jsonStr);
+              setProgress(100);
+              setLoading(false);
+            } else if (data.progress !== undefined) {
+              // 진행 상황 업데이트
+              console.log(`📊 Progress: [${data.progress}%] ${data.phase} - ${data.message}`);
+              setProgress(data.progress);
             }
           }
         }

@@ -25,20 +25,50 @@ export const createInitialSession = (): SessionState => ({
 // 세션 저장
 export const saveSession = (session: SessionState): void => {
   if (typeof window !== 'undefined') {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    try {
+      const sessionStr = JSON.stringify(session);
+      sessionStorage.setItem(SESSION_KEY, sessionStr);
+    } catch (e) {
+      // Quota exceeded or circular reference errors
+      if (e instanceof Error) {
+        if (e.name === 'QuotaExceededError') {
+          console.error('❌ SessionStorage quota exceeded. Clearing old session...');
+          // Try to clear and save minimal session
+          try {
+            sessionStorage.removeItem(SESSION_KEY);
+            const minimalSession = createInitialSession();
+            sessionStorage.setItem(SESSION_KEY, JSON.stringify(minimalSession));
+          } catch (retryError) {
+            console.error('❌ Failed to save even minimal session:', retryError);
+          }
+        } else {
+          console.error('❌ Failed to save session:', e.message);
+        }
+      }
+    }
   }
 };
 
 // 세션 불러오기
 export const loadSession = (): SessionState => {
   if (typeof window !== 'undefined') {
-    const saved = sessionStorage.getItem(SESSION_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Failed to parse session:', e);
+    try {
+      const saved = sessionStorage.getItem(SESSION_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          // Basic validation
+          if (parsed && typeof parsed === 'object') {
+            return parsed as SessionState;
+          }
+        } catch (parseError) {
+          console.error('❌ Failed to parse session (corrupted data). Creating new session...');
+          // Clear corrupted session
+          sessionStorage.removeItem(SESSION_KEY);
+        }
       }
+    } catch (storageError) {
+      console.error('❌ SessionStorage access failed:', storageError);
     }
   }
   return createInitialSession();

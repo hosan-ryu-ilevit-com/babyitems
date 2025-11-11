@@ -1,5 +1,5 @@
 // 서버 사이드 로깅 유틸리티 (Supabase 기반)
-import { supabase } from '@/lib/supabase/client';
+import { supabase, isSupabaseAvailable } from '@/lib/supabase/client';
 import type { LogEvent, DailyLog } from '@/types/logging';
 
 // 오늘 날짜 문자열 생성 (YYYY-MM-DD)
@@ -9,6 +9,12 @@ function getTodayDate(): string {
 
 // 로그 이벤트 저장
 export async function saveLogEvent(event: LogEvent): Promise<void> {
+  // Supabase 사용 불가능하면 조용히 종료
+  if (!isSupabaseAvailable() || !supabase) {
+    console.debug('Logging skipped (Supabase not available)');
+    return;
+  }
+
   try {
     const today = getTodayDate();
 
@@ -56,6 +62,10 @@ export async function saveLogEvent(event: LogEvent): Promise<void> {
 
 // 특정 날짜의 로그 읽기
 export async function getLogsByDate(date: string): Promise<DailyLog | null> {
+  if (!isSupabaseAvailable() || !supabase) {
+    return null;
+  }
+
   try {
     const { data, error } = await supabase
       .from('daily_logs')
@@ -84,6 +94,10 @@ export async function getLogsByDate(date: string): Promise<DailyLog | null> {
 
 // 모든 로그 날짜 목록 가져오기
 export async function getAllLogDates(): Promise<string[]> {
+  if (!isSupabaseAvailable() || !supabase) {
+    return [];
+  }
+
   try {
     const { data, error } = await supabase
       .from('daily_logs')
@@ -107,6 +121,10 @@ export async function getLogsByDateRange(
   startDate: string,
   endDate: string
 ): Promise<DailyLog[]> {
+  if (!isSupabaseAvailable() || !supabase) {
+    return [];
+  }
+
   try {
     const { data, error } = await supabase
       .from('daily_logs')
@@ -135,6 +153,10 @@ export async function deleteSessionFromDate(
   date: string,
   sessionId: string
 ): Promise<boolean> {
+  if (!isSupabaseAvailable() || !supabase) {
+    return false;
+  }
+
   try {
     const dailyLog = await getLogsByDate(date);
 

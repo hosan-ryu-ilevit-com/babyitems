@@ -1,13 +1,25 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY is not defined in environment variables');
+// Gemini API 키 확인 - 필수이지만 빌드 시에는 체크하지 않음
+const apiKey = process.env.GEMINI_API_KEY;
+
+if (!apiKey) {
+  console.error('❌ GEMINI_API_KEY is not defined in environment variables');
+  console.error('   AI features will not work. Please set GEMINI_API_KEY in .env.local');
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+
+// Gemini API 사용 가능 여부 확인
+export const isGeminiAvailable = (): boolean => {
+  return genAI !== null;
+};
 
 // 기본 모델 설정
 export const getModel = (temperature: number = 0.7) => {
+  if (!genAI) {
+    throw new Error('Gemini API is not initialized. Please set GEMINI_API_KEY environment variable.');
+  }
   return genAI.getGenerativeModel({
     model: 'gemini-flash-lite-latest',
     generationConfig: {
@@ -21,6 +33,9 @@ export const getModel = (temperature: number = 0.7) => {
 
 // Gemini flash 모델 (리뷰 분석용 - thinking 모드)
 export const getProModel = (temperature: number = 0.3) => {
+  if (!genAI) {
+    throw new Error('Gemini API is not initialized. Please set GEMINI_API_KEY environment variable.');
+  }
   return genAI.getGenerativeModel({
     model: 'gemini-flash-latest',
     generationConfig: {
