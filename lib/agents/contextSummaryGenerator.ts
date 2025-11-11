@@ -1,34 +1,5 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { callGeminiWithRetry } from '../ai/gemini';
+import { getModel, callGeminiWithRetry, parseJSONResponse } from '../ai/gemini';
 import { AttributeAssessment, UserContextSummary, Message, PrioritySettings, BudgetRange } from '@/types';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' });
-
-/**
- * Helper function to safely extract and parse JSON from Gemini response
- */
-function extractAndParseJSON(text: string): any {
-  // Extract JSON from potential markdown code blocks
-  const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/\{[\s\S]*\}/);
-
-  if (!jsonMatch) {
-    console.error('❌ Failed to extract JSON from response');
-    console.error('   Response text (first 300 chars):', text.substring(0, 300));
-    throw new Error('Failed to extract JSON from Gemini response');
-  }
-
-  const jsonText = jsonMatch[1] || jsonMatch[0];
-
-  try {
-    return JSON.parse(jsonText);
-  } catch (parseError) {
-    console.error('❌ JSON.parse failed');
-    console.error('   JSON text (first 500 chars):', jsonText.substring(0, 500));
-    console.error('   Parse error:', parseError);
-    throw new Error(`Failed to parse JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
-  }
-}
 
 /**
  * Context Summary Generator Agent
@@ -134,19 +105,20 @@ JSON만 출력하세요.`;
 
   const result = await callGeminiWithRetry(async () => {
     console.log('  🔄 Sending request to Gemini...');
+    const model = getModel(0.3); // 낮은 temperature for classification
     const response = await model.generateContent(prompt);
     console.log('  ✓ Received response from Gemini');
     const text = response.response.text();
     console.log('  📄 Response text length:', text.length);
 
-    return extractAndParseJSON(text);
+    return parseJSONResponse<UserContextSummary>(text);
   });
 
   console.log('✓ Context summary generated');
   console.log('  Priority attributes:', result.priorityAttributes.length);
   console.log('  Additional context:', result.additionalContext.length);
 
-  return result as UserContextSummary;
+  return result;
 }
 
 /**
@@ -270,12 +242,13 @@ JSON만 출력하세요.`;
 
   const result = await callGeminiWithRetry(async () => {
     console.log('  🔄 Sending request to Gemini...');
+    const model = getModel(0.3); // 낮은 temperature for classification
     const response = await model.generateContent(prompt);
     console.log('  ✓ Received response from Gemini');
     const text = response.response.text();
     console.log('  📄 Response text length:', text.length);
 
-    return extractAndParseJSON(text);
+    return parseJSONResponse<UserContextSummary>(text);
   });
 
   console.log('✓ Context summary generated');
@@ -283,5 +256,5 @@ JSON만 출력하세요.`;
   console.log('  Additional context:', result.additionalContext.length);
   console.log('  Budget:', result.budget);
 
-  return result as UserContextSummary;
+  return result;
 }
