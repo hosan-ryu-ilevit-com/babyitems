@@ -4,6 +4,13 @@ import { useState } from 'react';
 import type { SessionSummary } from '@/types/logging';
 import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 
+// 액션 통계 타입
+interface ActionStats {
+  action: string;
+  todayCount: number;
+  totalCount: number;
+}
+
 export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -15,6 +22,8 @@ export default function AdminPage() {
   const [expandedSession, setExpandedSession] = useState<string | null>(null);
   const [expandedRecommendation, setExpandedRecommendation] = useState<string | null>(null);
   const [selectedSessions, setSelectedSessions] = useState<Set<string>>(new Set());
+  const [isDashboardExpanded, setIsDashboardExpanded] = useState(false);
+  const [allSessions, setAllSessions] = useState<SessionSummary[]>([]); // 전체 날짜 세션
 
   // 비밀번호 검증
   const handleLogin = () => {
@@ -40,9 +49,27 @@ export default function AdminPage() {
       if (data.dates && data.dates.length > 0) {
         setSelectedDate(data.dates[0]);
         fetchLogs(data.dates[0]);
+        // 전체 날짜의 로그를 가져와서 누적 통계 계산
+        fetchAllLogs(data.dates);
       }
     } catch {
       setError('날짜 목록을 불러오는데 실패했습니다.');
+    }
+  };
+
+  // 전체 날짜의 로그 가져오기 (누적 통계용)
+  const fetchAllLogs = async (dates: string[]) => {
+    try {
+      const promises = dates.map(date =>
+        fetch(`/api/admin/logs?date=${date}`, {
+          headers: { 'x-admin-password': '1545' },
+        }).then(res => res.json())
+      );
+      const results = await Promise.all(promises);
+      const allSessionsData = results.flatMap(data => data.sessions || []);
+      setAllSessions(allSessionsData);
+    } catch {
+      console.error('전체 로그를 불러오는데 실패했습니다.');
     }
   };
 
@@ -355,6 +382,76 @@ export default function AdminPage() {
     return <span className="text-blue-600 text-xs">{label}</span>;
   };
 
+  // 액션 통계 계산
+  const calculateActionStats = (): ActionStats[] => {
+    const today = new Date().toISOString().split('T')[0];
+    const actionMap = new Map<string, { today: number; total: number }>();
+
+    // 오늘 날짜의 세션들
+    const todaySessions = sessions.filter(s =>
+      s.firstSeen.startsWith(today)
+    );
+
+    // 전체 세션에서 통계 수집
+    allSessions.forEach(session => {
+      const isToday = session.firstSeen.startsWith(today);
+
+      session.events.forEach(event => {
+        let actionKey = '';
+
+        // 버튼 클릭 이벤트
+        if (event.eventType === 'button_click' && event.buttonLabel) {
+          actionKey = event.buttonLabel;
+        }
+        // 페이지 뷰
+        else if (event.eventType === 'page_view' && event.page) {
+          actionKey = `페이지 방문: ${event.page}`;
+        }
+
+        if (actionKey) {
+          const current = actionMap.get(actionKey) || { today: 0, total: 0 };
+          actionMap.set(actionKey, {
+            today: isToday ? current.today + 1 : current.today,
+            total: current.total + 1,
+          });
+        }
+      });
+    });
+
+    // 오늘 날짜 세션들도 체크 (혹시 전체에 포함 안된 경우 대비)
+    todaySessions.forEach(session => {
+      session.events.forEach(event => {
+        let actionKey = '';
+
+        if (event.eventType === 'button_click' && event.buttonLabel) {
+          actionKey = event.buttonLabel;
+        } else if (event.eventType === 'page_view' && event.page) {
+          actionKey = `페이지 방문: ${event.page}`;
+        }
+
+        if (actionKey) {
+          const current = actionMap.get(actionKey) || { today: 0, total: 0 };
+          // 전체 세션에 이미 카운트되지 않았다면 추가
+          if (!allSessions.some(s => s.sessionId === session.sessionId)) {
+            actionMap.set(actionKey, {
+              today: current.today + 1,
+              total: current.total + 1,
+            });
+          }
+        }
+      });
+    });
+
+    // 배열로 변환하고 총 횟수 기준 정렬
+    return Array.from(actionMap.entries())
+      .map(([action, counts]) => ({
+        action,
+        todayCount: counts.today,
+        totalCount: counts.total,
+      }))
+      .sort((a, b) => b.totalCount - a.totalCount);
+  };
+
   // 로그인 화면
   if (!isAuthenticated) {
     return (
@@ -407,6 +504,58 @@ export default function AdminPage() {
                 로그아웃
               </button>
             </div>
+          </div>
+
+          {/* 액션 통계 대시보드 */}
+          <div className="border-t pt-4 mt-4">
+            <button
+              onClick={() => setIsDashboardExpanded(!isDashboardExpanded)}
+              className="flex items-center gap-2 text-lg font-semibold text-gray-800 hover:text-gray-900 transition-colors"
+            >
+              <svg
+                className={`w-5 h-5 transition-transform ${isDashboardExpanded ? 'rotate-90' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+              <span>📊 액션 통계 대시보드</span>
+            </button>
+
+            {isDashboardExpanded && (
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="px-4 py-3 text-left font-semibold text-gray-700 border">액션</th>
+                      <th className="px-4 py-3 text-center font-semibold text-gray-700 border">오늘</th>
+                      <th className="px-4 py-3 text-center font-semibold text-gray-700 border">누적</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {calculateActionStats().map((stat, idx) => (
+                      <tr key={idx} className="hover:bg-gray-50">
+                        <td className="px-4 py-2 border text-gray-800">{stat.action}</td>
+                        <td className="px-4 py-2 border text-center">
+                          <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
+                            {stat.todayCount}
+                          </span>
+                        </td>
+                        <td className="px-4 py-2 border text-center">
+                          <span className="inline-block px-3 py-1 bg-gray-100 text-gray-800 rounded-full font-medium">
+                            {stat.totalCount}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {calculateActionStats().length === 0 && (
+                  <p className="text-center text-gray-500 py-4">통계 데이터가 없습니다.</p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* 날짜 선택 및 새로고침 */}
