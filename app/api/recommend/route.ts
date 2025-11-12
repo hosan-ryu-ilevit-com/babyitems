@@ -26,7 +26,8 @@ export async function POST(request: NextRequest) {
     attributeAssessments,
     prioritySettings,
     budget,
-    isQuickRecommendation
+    isQuickRecommendation,
+    phase0Context
   } = body as {
     messages: Message[];
     attributeAssessments?: Record<string, string | null>;
@@ -34,6 +35,7 @@ export async function POST(request: NextRequest) {
     budget?: BudgetRange;
     isQuickRecommendation?: boolean;
     chatConversations?: AttributeConversation[];
+    phase0Context?: string;
   };
 
   const encoder = new TextEncoder();
@@ -64,7 +66,8 @@ export async function POST(request: NextRequest) {
           hasAttributeAssessments: !!attributeAssessments,
           hasPrioritySettings: !!prioritySettings,
           budget,
-          isQuickRecommendation
+          isQuickRecommendation,
+          phase0Context: phase0Context?.substring(0, 50) || 'none'
         });
 
         if (!messages || !Array.isArray(messages)) {
@@ -107,16 +110,24 @@ export async function POST(request: NextRequest) {
           console.log('📊 Using Priority-based persona generation (with optional chat enhancement)');
           sendProgress('persona', 10, '선택하신 기준을 분석하고 있습니다...');
 
-          // Chat 이력 준비 (있으면)
-          const chatHistory = messages && messages.length > 0
-            ? messages
-                .map((msg: Message) => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
-                .join('\n\n')
-            : undefined;
+          // Chat 이력 + phase0Context 준비 (있으면)
+          let chatHistory: string | undefined;
+          if (messages && messages.length > 0) {
+            chatHistory = messages
+              .map((msg: Message) => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
+              .join('\n\n');
+          }
+
+          // phase0Context를 chatHistory에 포함 (있으면 맨 앞에 추가)
+          if (phase0Context) {
+            const contextPrefix = `사용자의 추가 요청사항: ${phase0Context}`;
+            chatHistory = chatHistory ? `${contextPrefix}\n\n${chatHistory}` : contextPrefix;
+          }
 
           console.log('Priority settings:', prioritySettings);
           console.log('Budget:', budget);
           console.log('Chat history length:', chatHistory?.length || 0);
+          console.log('Phase0 context:', phase0Context?.substring(0, 100) || 'none');
 
           // 통합 함수 사용: Priority 기반 + Chat으로 보강 (있으면)
           persona = await generatePersonaFromPriorityWithChat(prioritySettings, budget, chatHistory);
@@ -205,12 +216,12 @@ export async function POST(request: NextRequest) {
         const finalStartTime = Date.now();
 
         // 추천 이유 생성과 맥락 요약을 병렬로 처리
-        // Priority 플로우: Priority 설정 + Chat 이력 (선택적) 기반으로 생성
+        // Priority 플로우: Priority 설정 + Chat 이력 (선택적) + phase0Context 기반으로 생성
         // DEPRECATED 플로우: attributeAssessments 기반으로 생성
         const [recommendations, contextSummary] = await Promise.all([
           generateTop3Recommendations(top3, persona),
           prioritySettings
-            ? generateContextSummaryFromPriorityWithChat(prioritySettings, budget, messages)
+            ? generateContextSummaryFromPriorityWithChat(prioritySettings, budget, messages, phase0Context)
             : generateContextSummary(messages, attributeAssessments! as unknown as import('@/types').AttributeAssessment)
         ]);
 

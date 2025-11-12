@@ -1,14 +1,17 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 interface GuideBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-// Expanded Guide Card Component (always open)
+// Collapsible Guide Card Component
 function GuideCard({ number, title, content }: { number: string; title: string; content: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -17,15 +20,39 @@ function GuideCard({ number, title, content }: { number: string; title: string; 
       transition={{ duration: 0.3 }}
       className="bg-white rounded-2xl border border-gray-200 overflow-hidden"
     >
-      <div className="px-5 py-4">
-        <div className="flex items-center gap-3 mb-3">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+      >
+        <div className="flex items-center gap-3">
           <span className="text-xs font-bold text-gray-400">{number}</span>
           <h3 className="text-base font-bold text-gray-900">{title}</h3>
         </div>
-        <div>
-          {content}
-        </div>
-      </div>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="shrink-0"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </motion.div>
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{ height: 'auto' }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-4 pt-1">
+              {content}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -51,7 +78,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[85vh] flex flex-col"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 h-[85vh] flex flex-col"
             style={{ maxWidth: '480px', margin: '0 auto' }}
           >
             {/* Header */}

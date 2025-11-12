@@ -97,6 +97,7 @@ function ProductChatContent() {
   const [typingMessageIndex, setTypingMessageIndex] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const initializedRef = useRef<string | null>(null); // 초기화 추적용
 
   // 페이지 뷰 로깅
   useEffect(() => {
@@ -105,7 +106,10 @@ function ProductChatContent() {
 
   // 제품 로드
   useEffect(() => {
-    if (productId) {
+    if (productId && initializedRef.current !== productId) {
+      // 이미 초기화된 productId면 스킵
+      initializedRef.current = productId;
+
       const foundProduct = products.find((p) => p.id === productId);
       if (foundProduct) {
         setProduct(foundProduct);
@@ -123,7 +127,8 @@ function ProductChatContent() {
         router.back();
       }
     }
-  }, [productId, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productId]);
 
   // 스크롤 자동 이동
   useEffect(() => {
@@ -150,14 +155,15 @@ function ProductChatContent() {
       const data = await response.json();
 
       setMessages((prev) => {
-        const newMessages: Message[] = [
+        const newMessages = [
           ...prev,
           {
             role: 'assistant' as const,
             content: data.message,
           },
         ];
-        setTypingMessageIndex(newMessages.length - 1);
+        // 새 메시지 추가 후 바로 인덱스 설정
+        setTimeout(() => setTypingMessageIndex(newMessages.length - 1), 0);
         return newMessages;
       });
     } catch (error) {
@@ -209,7 +215,8 @@ function ProductChatContent() {
               productRecommendation: recommendedProd,
             },
           ];
-          setTypingMessageIndex(newMessages.length - 1);
+          // 새 메시지 추가 후 바로 인덱스 설정
+          setTimeout(() => setTypingMessageIndex(newMessages.length - 1), 0);
           return newMessages;
         });
       } else {
@@ -221,7 +228,8 @@ function ProductChatContent() {
               content: data.message,
             },
           ];
-          setTypingMessageIndex(newMessages.length - 1);
+          // 새 메시지 추가 후 바로 인덱스 설정
+          setTimeout(() => setTypingMessageIndex(newMessages.length - 1), 0);
           return newMessages;
         });
       }
@@ -266,7 +274,7 @@ function ProductChatContent() {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg flex flex-col">
         {/* Fixed Header with Product Info */}
-        <header className="bg-white border-b border-gray-200 px-4 py-3">
+        <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20" style={{ maxWidth: '480px', margin: '0 auto' }}>
           <div className="flex items-center justify-between mb-3">
             <button
               onClick={() => router.push('/result')}
@@ -291,16 +299,30 @@ function ProductChatContent() {
                 />
               )}
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight mb-1">
+            <div className="flex-1 min-w-0 flex flex-col justify-between">
+              <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight">
                 {product.title}
               </h3>
-              <p className="text-xs font-semibold text-gray-900">
-                {product.price.toLocaleString()}원
-              </p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-semibold text-gray-900">
+                  {product.price.toLocaleString()}원
+                </p>
+                <button
+                  onClick={() => {
+                    logButtonClick(`쿠팡에서 보기: ${product.title}`, 'product-chat');
+                    window.open(product.reviewUrl, '_blank');
+                  }}
+                  className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 transition-all whitespace-nowrap"
+                >
+                  쿠팡에서 보기
+                </button>
+              </div>
             </div>
           </div>
         </header>
+
+        {/* Spacer for fixed header */}
+        <div className="h-[140px]"></div>
 
         {/* Messages */}
         <main className="flex-1 px-4 py-4 overflow-y-auto pb-32">

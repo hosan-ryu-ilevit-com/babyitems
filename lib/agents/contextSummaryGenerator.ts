@@ -122,21 +122,24 @@ JSON만 출력하세요.`;
 }
 
 /**
- * Priority 플로우용: Priority 설정 + Chat 이력을 함께 분석하여 Context Summary 생성
+ * Priority 플로우용: Priority 설정 + Chat 이력 + 추가 요청사항을 함께 분석하여 Context Summary 생성
  *
  * @param prioritySettings - Priority 페이지에서 선택한 6개 속성 중요도
  * @param budget - 선택한 예산 범위
  * @param messages - Chat 대화 이력 (선택적, 바로 추천받기 시 빈 배열)
+ * @param phase0Context - Priority 페이지에서 입력한 추가 요청사항 (선택적)
  */
 export async function generateContextSummaryFromPriorityWithChat(
   prioritySettings: PrioritySettings,
   budget: BudgetRange | undefined,
-  messages: Message[]
+  messages: Message[],
+  phase0Context?: string
 ): Promise<UserContextSummary> {
   console.log('🔍 Generating context summary from Priority + Chat...');
   console.log('  Priority settings:', prioritySettings);
   console.log('  Budget:', budget);
   console.log('  Messages count:', messages?.length || 0);
+  console.log('  Phase0 context:', phase0Context?.substring(0, 100) || 'none');
 
   // 속성명 매핑 (Priority 플로우 기준 - 6개)
   const attributeNames: { [key: string]: string } = {
@@ -177,13 +180,18 @@ export async function generateContextSummaryFromPriorityWithChat(
     : undefined;
 
   const prompt = `당신은 분유 워머 추천 서비스의 요약 생성 전문가입니다.
-사용자가 선택한 중요도 설정${chatHistory ? '과 대화 내역' : ''}을 분석하여, 결과 페이지 최상단에 표시할 깔끔한 요약 정보를 생성해주세요.
+사용자가 선택한 중요도 설정${phase0Context || chatHistory ? ', 추가 요청사항' : ''}${chatHistory ? ', 대화 내역' : ''}을 분석하여, 결과 페이지 최상단에 표시할 깔끔한 요약 정보를 생성해주세요.
 
 # 사용자가 선택한 중요도 (Priority 페이지)
 ${priorityText}
 
 # 예산
 ${budgetText || '미선택'}
+${phase0Context ? `
+
+# 추가 요청사항 (Priority 페이지 Step 3)
+${phase0Context}
+` : ''}
 ${chatHistory ? `
 
 # 채팅 대화 내역
@@ -195,16 +203,17 @@ ${chatHistory}
 1. **priorityAttributes**: 위에 나열된 **선택된 모든 속성** (6개)에 대해 **빠짐없이 전부** 포함하여:
    - name: 속성명 (한글) - 위에 나열된 것과 정확히 동일하게
    - level: 중요도 레벨 ("중요하지 않음" | "보통" | "중요함") - 위에 나열된 것과 정확히 동일하게
-   - reason: ${chatHistory ? '대화에서 파악한 이 속성에 대한 사용자의 니즈를 **간결하게 1-2문장**으로 요약. 대화에서 명확한 언급이 없었다면 일반적으로 작성 (예: "기본적인 수준이면 충분")' : '중요도에 따라 일반적으로 작성 (예: "특히 중요하게 고려함", "적당히 고려함", "기본 수준이면 충분")'}
+   - reason: ${phase0Context || chatHistory ? '추가 요청사항과 대화에서 파악한 이 속성에 대한 사용자의 니즈를 **간결하게 1-2문장**으로 요약. 명확한 언급이 없었다면 일반적으로 작성 (예: "기본적인 수준이면 충분")' : '중요도에 따라 일반적으로 작성 (예: "특히 중요하게 고려함", "적당히 고려함", "기본 수준이면 충분")'}
 
    ⚠️ 매우 중요:
    - 위에 나열된 **모든 속성을 빠짐없이 100% 포함**해야 합니다
    - 하나라도 누락하면 안 됩니다
    - "중요하지 않음"으로 선택한 속성도 반드시 포함
 
-2. **additionalContext**: ${chatHistory ? '대화에서 파악한 추가 맥락을 **짧은 키워드 형태**로 추출' : '빈 배열로 반환'}:
-   - 예: "쌍둥이 육아 중", "야간 수유 빈번", "외출 많음", "좁은 공간"
+2. **additionalContext**: ${phase0Context || chatHistory ? '추가 요청사항과 대화에서 파악한 추가 맥락을 **짧은 키워드 형태**로 추출' : '빈 배열로 반환'}:
+   - 예: "쌍둥이 육아 중", "야간 수유 빈번", "외출 많음", "좁은 공간", "디자인 선호: 흰색 유광"
    - 3-5개 정도로 핵심만 추출
+   - 추가 요청사항의 핵심 내용을 우선적으로 포함
    - 없으면 빈 배열
 
 3. **budget**: "${budgetText || 'null'}"
@@ -235,8 +244,9 @@ ${chatHistory}
 ⚠️ 주의사항:
 - reason은 **반드시 간결하게** (1-2문장, 최대 50자 이내)
 - additionalContext는 **짧은 키워드**로 (각 항목 10자 이내)
-${chatHistory ? '- 대화에서 명확하게 드러난 내용만 포함' : '- 대화가 없으므로 additionalContext는 빈 배열'}
+${phase0Context || chatHistory ? '- 추가 요청사항과 대화에서 명확하게 드러난 내용만 포함' : '- 추가 요청사항과 대화가 없으므로 additionalContext는 빈 배열'}
 - 추측하지 말고 실제 내용 기반으로만 작성
+- 추가 요청사항이 있다면 **우선적으로 반영**
 
 JSON만 출력하세요.`;
 

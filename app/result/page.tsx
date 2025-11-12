@@ -110,6 +110,7 @@ export default function ResultPage() {
         budget: session.budget,
         isQuickRecommendation: session.isQuickRecommendation,
         chatConversations: session.chatConversations,
+        phase0Context: session.phase0Context,
       });
 
       const response = await fetch('/api/recommend', {
@@ -122,6 +123,7 @@ export default function ResultPage() {
           budget: session.budget,
           isQuickRecommendation: session.isQuickRecommendation,
           chatConversations: session.chatConversations,
+          phase0Context: session.phase0Context,
         }),
       });
 
@@ -488,7 +490,7 @@ export default function ResultPage() {
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <p className="text-s text-gray-600 leading-relaxed text-center">
-                      <span className="font-bold text-gray-700">실시간 인기상품 중에서 골랐어요</span> 
+                      <span className="font-bold text-gray-700">실시간 인기상품 중에서 골랐어요</span>
                     </p>
                   </div>
                   <div className="flex items-center justify-center gap-1">
@@ -504,6 +506,9 @@ export default function ResultPage() {
                 </div>
               </div>
 
+              {/* 사용자 맥락 요약 (1위 상품 위로 이동) */}
+              {contextSummary && <UserContextSummaryComponent summary={contextSummary} />}
+
               {/* 추천 상품 3개 */}
               {recommendations.map((rec, index) => (
                 <motion.div
@@ -511,6 +516,7 @@ export default function ResultPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.2 }}
+                  layout
                   className={`relative bg-white rounded-2xl p-5 ${
                     rec.rank === 1
                       ? 'border-2 border-yellow-400'
@@ -623,13 +629,7 @@ export default function ResultPage() {
                       }}
                       className="w-full py-3 font-bold rounded-xl text-sm transition-all bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center gap-1.5"
                     >
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-                      </svg>
+                     
                       추천 이유 보기
                     </button>
                   </div>
@@ -638,9 +638,6 @@ export default function ResultPage() {
 
               {/* 비교표 */}
               <ComparisonTable recommendations={recommendations} />
-
-              {/* 사용자 맥락 요약 (최하단으로 이동) */}
-              {contextSummary && <UserContextSummaryComponent summary={contextSummary} />}
             </div>
           )}
           </AnimatePresence>

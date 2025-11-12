@@ -5,14 +5,25 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChatCircleDots } from '@phosphor-icons/react/dist/ssr';
 import { products } from '@/data/products';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import ProductBottomSheet from '@/components/ProductBottomSheet';
+import { Product } from '@/types';
 
 export default function Home() {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+
   // 페이지 뷰 로깅
   useEffect(() => {
     logPageView('home');
   }, []);
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsBottomSheetOpen(true);
+    logButtonClick(`제품 클릭: ${product.title}`, 'home');
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -112,11 +123,9 @@ export default function Home() {
           {/* Product Grid - 2 columns */}
           <div className="grid grid-cols-2 gap-4 pb-24">
             {products.map((product, index) => (
-              <motion.a
+              <motion.div
                 key={product.id}
-                href={product.reviewUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={() => handleProductClick(product)}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 + index * 0.03 }}
@@ -159,7 +168,7 @@ export default function Home() {
                     <span className="font-medium">리뷰 {product.reviewCount.toLocaleString()}</span>
                   </div>
                 </div>
-              </motion.a>
+              </motion.div>
             ))}
           </div>
 
@@ -184,6 +193,13 @@ export default function Home() {
             </Link>
           </motion.div>
         </section>
+
+        {/* Product Bottom Sheet */}
+        <ProductBottomSheet
+          isOpen={isBottomSheetOpen}
+          product={selectedProduct}
+          onClose={() => setIsBottomSheetOpen(false)}
+        />
       </div>
     </div>
   );
