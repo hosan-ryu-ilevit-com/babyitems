@@ -5,7 +5,8 @@ export type LogEventType =
   | 'button_click'
   | 'user_input'
   | 'ai_response'
-  | 'recommendation_received';
+  | 'recommendation_received'
+  | 'product_chat_message';
 
 export interface LogEvent {
   sessionId: string;
@@ -46,6 +47,18 @@ export interface LogEvent {
       }>;
     };
   };
+  chatData?: {
+    productId: string;
+    productTitle?: string;
+    userMessage: string;
+    aiResponse: string;
+    hasRecommendation: boolean;
+    recommendedProductId?: string;
+    isInitialMessage?: boolean;
+    isExampleQuestion?: boolean;
+  };
+  guideCardNumber?: string; // 가이드 카드 번호
+  guideCardTitle?: string; // 가이드 카드 제목
   metadata?: Record<string, unknown>; // 추가 정보
 }
 

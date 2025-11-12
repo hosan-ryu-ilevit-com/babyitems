@@ -20,11 +20,11 @@ function GuideCard({ number, title, content, defaultOpen = false }: { number: st
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId: localStorage.getItem('baby_item_session_id'),
-          eventType: 'guide_card_opened',
-          guideCard: {
-            number,
-            title,
-          },
+          eventType: 'button_click',
+          buttonLabel: `가이드 카드 ${number} 열기: ${title}`,
+          page: 'priority',
+          guideCardNumber: number,
+          guideCardTitle: title,
         }),
       }).catch(console.error);
     }

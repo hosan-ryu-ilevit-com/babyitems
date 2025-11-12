@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChatCircleDots } from '@phosphor-icons/react/dist/ssr';
+import { logButtonClick } from '@/lib/logging/clientLogger';
 
 interface UserContextSummaryProps {
   summary: UserContextSummary;
@@ -36,15 +37,42 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [isMainExpanded, setIsMainExpanded] = useState(false);
 
+  // 중요도 순서로 정렬 (중요함 > 보통 > 중요하지 않음)
+  const sortedAttributes = [...summary.priorityAttributes].sort((a, b) => {
+    const levelOrder: Record<ImportanceLevel, number> = {
+      '중요함': 0,
+      '보통': 1,
+      '중요하지 않음': 2,
+    };
+    return levelOrder[a.level] - levelOrder[b.level];
+  });
+
   const toggleExpand = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
+    const newState = expandedIndex === index ? null : index;
+    setExpandedIndex(newState);
+
+    // 로깅 - 속성 상세 토글
+    if (newState !== null) {
+      const attr = sortedAttributes[index];
+      logButtonClick(`속성 상세 열기: ${attr?.name}`, 'result');
+    }
   };
 
   const toggleMainExpanded = () => {
-    setIsMainExpanded(!isMainExpanded);
+    const newState = !isMainExpanded;
+    setIsMainExpanded(newState);
+
+    // 로깅 - 내 구매 기준 토글
+    logButtonClick(
+      newState ? '내 구매 기준 열기' : '내 구매 기준 닫기',
+      'result'
+    );
   };
 
   const handleChatRedirect = () => {
+    // 로깅
+    logButtonClick('채팅하고 더 자세히 추천받기', 'result');
+
     // 세션 스토리지에서 현재 세션 불러오기
     const sessionData = sessionStorage.getItem('babyitem_session');
     if (sessionData) {
@@ -56,16 +84,6 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
     // chat 페이지로 이동
     router.push('/chat');
   };
-
-  // 중요도 순서로 정렬 (중요함 > 보통 > 중요하지 않음)
-  const sortedAttributes = [...summary.priorityAttributes].sort((a, b) => {
-    const levelOrder: Record<ImportanceLevel, number> = {
-      '중요함': 0,
-      '보통': 1,
-      '중요하지 않음': 2,
-    };
-    return levelOrder[a.level] - levelOrder[b.level];
-  });
 
   return (
     <motion.div

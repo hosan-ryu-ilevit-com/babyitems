@@ -37,10 +37,17 @@ export default function ResultPage() {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const toggleSection = (key: string) => {
+    const newState = !expandedSections[key];
     setExpandedSections((prev) => ({
       ...prev,
-      [key]: !prev[key],
+      [key]: newState,
     }));
+
+    // 로깅
+    logButtonClick(
+      newState ? `섹션 열기: ${key}` : `섹션 닫기: ${key}`,
+      'result'
+    );
   };
 
   // Top 3 섹션으로 스크롤

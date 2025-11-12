@@ -125,6 +125,7 @@ export default function PriorityPage() {
   // 예시 쿼리 클릭
   const handleExampleClick = (query: string) => {
     setAdditionalRequest(query);
+    logButtonClick(`예시 쿼리 선택: ${query}`, 'priority');
   };
 
   // 다음 단계
@@ -176,6 +177,11 @@ export default function PriorityPage() {
     updatedSession = savePrioritySettings(updatedSession, prioritySettings);
     updatedSession = setQuickRecommendation(updatedSession, true);
     saveSession(updatedSession);
+
+    // Step 3 자연어 입력 로깅
+    if (additionalRequest.trim()) {
+      logButtonClick('추가 요청사항 입력됨', 'priority', additionalRequest);
+    }
 
     logButtonClick('바로 추천받기 (최종)', 'priority');
     router.push('/result');

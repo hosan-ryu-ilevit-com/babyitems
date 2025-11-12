@@ -106,6 +106,7 @@ export default function AdminPage() {
       user_input: '사용자 입력',
       ai_response: 'AI 응답',
       recommendation_received: '추천 결과',
+      product_chat_message: '상품 채팅',
     };
     return labels[type] || type;
   };
@@ -779,7 +780,43 @@ export default function AdminPage() {
                                   </p>
                                 </div>
                               )}
-                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && event.eventType !== 'page_view' && (
+                              {event.eventType === 'product_chat_message' && 'chatData' in event && event.chatData && (
+                                <div className="space-y-2">
+                                  <div className="bg-gray-50 p-2 rounded text-xs">
+                                    <p className="font-semibold text-gray-700 mb-1">
+                                      📦 제품: {event.chatData.productTitle || event.chatData.productId}
+                                    </p>
+                                    {event.chatData.isInitialMessage && (
+                                      <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+                                        초기 메시지
+                                      </span>
+                                    )}
+                                    {event.chatData.isExampleQuestion && (
+                                      <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs font-medium ml-1">
+                                        예시 질문
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="bg-green-50 border-l-4 border-green-500 p-2 rounded text-sm">
+                                    <span className="text-green-700 font-semibold">사용자</span>
+                                    <p className="text-gray-800 mt-1">{event.chatData.userMessage}</p>
+                                  </div>
+                                  <div className="bg-blue-50 border-l-4 border-blue-500 p-2 rounded text-sm">
+                                    <span className="text-blue-700 font-semibold">AI</span>
+                                    <p className="text-gray-800 mt-1 whitespace-pre-wrap">
+                                      {event.chatData.aiResponse}
+                                    </p>
+                                  </div>
+                                  {event.chatData.hasRecommendation && event.chatData.recommendedProductId && (
+                                    <div className="bg-purple-50 p-2 rounded text-xs">
+                                      <span className="text-purple-700 font-semibold">
+                                        🔗 추천 제품: {event.chatData.recommendedProductId}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && !event.chatData && event.eventType !== 'page_view' && (
                                 <span className="text-xs text-gray-400">-</span>
                               )}
                               {event.recommendations && (
