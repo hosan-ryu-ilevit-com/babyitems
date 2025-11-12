@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Message, ImportanceLevel, SessionState } from '@/types';
@@ -124,6 +124,9 @@ export default function ChatPage() {
   const [inAttributeConversation, setInAttributeConversation] = useState(false);
   const [attributeConversationTurn, setAttributeConversationTurn] = useState(0);
   const [waitingForTransitionResponse, setWaitingForTransitionResponse] = useState(false);
+
+  // 뒤로가기 확인 모달
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false);
 
   // 바텀시트 상태
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
@@ -977,32 +980,36 @@ export default function ChatPage() {
       return;
     }
 
-    // Phase 0 워밍업 응답 처리 (phase0Context가 undefined인 경우에만)
-    if (session.phase0Context === undefined) {
+    // Phase 0 워밍업 응답 처리
+    // Result → Chat 플로우: phase0Context는 Priority 페이지에서만 설정되며, Chat에서는 절대 수정하지 않음
+    // Chat에서의 입력은 대화 맥락(messages)으로만 사용
+    // 조건: Chat 초기화 단계에서만 이 입력을 받음 (!isPhase0Complete)
+    const hasPrioritySettings = session.prioritySettings && isPriorityComplete(session.prioritySettings);
+
+    if (!isPhase0Complete && (session.phase0Context === undefined || session.phase0Context === '없어요' || session.phase0Context === '' || hasPrioritySettings)) {
+
       // Phase 0 자연어 입력 로깅
       logUserInput(userInput, 'chat/structured');
 
-      // Phase 0 맥락 저장
-      session.phase0Context = userInput;
-      session = addMessage(session, 'user', userInput, 'chat1');
-      setMessages(session.messages);
-      saveSession(session);
+      // Result → Chat 플로우 (Priority 있음): phase0Context를 절대 업데이트하지 않음
+      // 단지 대화 맥락으로만 저장 (메시지에만 추가)
+      if (hasPrioritySettings) {
+        // 대화 맥락으로만 저장 (phase0Context는 Priority 페이지 값 유지)
+        session = addMessage(session, 'user', userInput, 'chat1');
+        setMessages(session.messages);
+        saveSession(session);
 
-      // 짧은 딜레이
-      await new Promise((resolve) => setTimeout(resolve, 300));
+        // 짧은 딜레이
+        await new Promise((resolve) => setTimeout(resolve, 300));
 
-      // 확인 메시지 (초록색 체크)
-      const confirmMsg = '정보 업데이트됨';
-      session = addAssistantMessage(session, confirmMsg, 'chat1', { isConfirmation: true });
-      setMessages([...session.messages]);
-      saveSession(session);
+        // 확인 메시지
+        const confirmMsg = '알겠습니다!';
+        session = addAssistantMessage(session, confirmMsg, 'chat1', { isConfirmation: true });
+        setMessages([...session.messages]);
+        saveSession(session);
 
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+        await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // Priority 플로우인지 확인
-      const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
-
-      if (hasPriority) {
         // Priority 플로우: '중요함' 속성들에 대해 바로 follow-up 질문
         const highPriorityKeys = Object.entries(session.prioritySettings || {})
           .filter(([, level]) => level === 'high')
@@ -1106,37 +1113,54 @@ export default function ChatPage() {
         setIsLoading(false);
         setIsPhase0Complete(true);
         return;
+      } else {
+        // 기존 플로우 (Priority 없음): phase0Context 저장
+        session.phase0Context = userInput;
+        session = addMessage(session, 'user', userInput, 'chat1');
+        setMessages(session.messages);
+        saveSession(session);
+
+        // 짧은 딜레이
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        // 확인 메시지 (초록색 체크)
+        const confirmMsg = '정보 업데이트됨';
+        session = addAssistantMessage(session, confirmMsg, 'chat1', { isConfirmation: true });
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // 기존 플로우 (Priority 없음) - DEPRECATED
+        const transitionMsg = '알겠습니다! 그럼 이제 구매할때 생각해야 할 중요 기준들을 하나씩 여쭤볼게요. 여쭤볼 구매기준은 **총 7개**에요.';
+        session = addAssistantMessage(session, transitionMsg, 'chat1');
+        setMessages([...session.messages]);
+        saveSession(session);
+
+        const transMsg = session.messages[session.messages.length - 1];
+        setTypingMessageId(transMsg.id);
+
+        await new Promise((resolve) => {
+          const typingDuration = transitionMsg.length * 10 + 300;
+          setTimeout(resolve, typingDuration);
+        });
+
+        // 딜레이 후 첫 속성 질문 시작
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // 첫 번째 속성 질문
+        const firstQuestionParts = generateAttributeQuestion(0);
+        session = await addMessagesSequentially(session, firstQuestionParts, 'chat1');
+
+        saveSession(session);
+        setMessages([...session.messages]);
+        setIsPhase0Complete(true);
+
+        // 마지막 메시지 완료 후 빠른 응답 버튼 표시
+        setTypingMessageId(null);
+        setShowQuickReplies(true);
+        return;
       }
-
-      // 기존 플로우 (Priority 없음)
-      const transitionMsg = '알겠습니다! 그럼 이제 구매할때 생각해야 할 중요 기준들을 하나씩 여쭤볼게요. 여쭤볼 구매기준은 **총 7개**에요.';
-      session = addAssistantMessage(session, transitionMsg, 'chat1');
-      setMessages([...session.messages]);
-      saveSession(session);
-
-      const transMsg = session.messages[session.messages.length - 1];
-      setTypingMessageId(transMsg.id);
-
-      await new Promise((resolve) => {
-        const typingDuration = transitionMsg.length * 10 + 300;
-        setTimeout(resolve, typingDuration);
-      });
-
-      // 딜레이 후 첫 속성 질문 시작
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // 첫 번째 속성 질문
-      const firstQuestionParts = generateAttributeQuestion(0);
-      session = await addMessagesSequentially(session, firstQuestionParts, 'chat1');
-
-      saveSession(session);
-      setMessages([...session.messages]);
-      setIsPhase0Complete(true);
-
-      // 마지막 메시지 완료 후 빠른 응답 버튼 표시
-      setTypingMessageId(null);
-      setShowQuickReplies(true);
-      return;
     }
 
     // Priority 플로우: 속성별 자유 대화 모드
@@ -1495,7 +1519,29 @@ export default function ChatPage() {
       return;
     }
 
-    // 일반 Chat1 메시지 (기존 로직)
+    // Priority 플로우에서는 여기까지 도달하면 안 됨 (모든 경우가 위에서 처리됨)
+    const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
+    if (hasPriority) {
+      console.error('⚠️  Unexpected: Priority flow reached deprecated code path');
+      session = addMessage(session, 'user', userInput, 'chat1');
+      setMessages(session.messages);
+      saveSession(session);
+
+      // 에러 메시지 표시
+      session = addAssistantMessage(
+        session,
+        '죄송합니다. 예상치 못한 오류가 발생했습니다. "처음부터" 버튼을 눌러 다시 시작해주세요.',
+        'chat1'
+      );
+      setMessages([...session.messages]);
+      saveSession(session);
+      return;
+    }
+
+    // ==========================================
+    // DEPRECATED: 일반 Chat1 메시지 (기존 플로우, Priority 없음)
+    // 이 코드는 Priority 설정이 없는 경우에만 실행됨
+    // ==========================================
     session = addMessage(session, 'user', userInput, 'chat1');
     setMessages(session.messages);
     saveSession(session);
@@ -1894,7 +1940,10 @@ export default function ChatPage() {
         <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
           <div className="flex items-center justify-between">
             <button
-              onClick={() => router.back()}
+              onClick={() => {
+                // Chat에서 뒤로가기: 확인 모달 표시
+                setShowBackConfirmModal(true);
+              }}
               className="text-gray-600 hover:text-gray-900"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2393,6 +2442,69 @@ export default function ChatPage() {
         attribute={selectedAttribute}
         onClose={() => setBottomSheetOpen(false)}
       />
+
+      {/* 뒤로가기 확인 모달 */}
+      <AnimatePresence>
+        {showBackConfirmModal && (
+          <>
+            {/* 배경 오버레이 */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50"
+              onClick={() => setShowBackConfirmModal(false)}
+            />
+
+            {/* 모달 */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed inset-0 flex items-center justify-center z-50 px-4"
+            >
+              <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
+                
+                <p className="text-m text-gray-800 mb-6 leading-relaxed">
+                  ⚠️ &lsquo;추천받기&rsquo;를 누르신게 아니라면 말씀하신 내용이 반영되지 않아요! 그래도 나가시겠어요?
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowBackConfirmModal(false)}
+                    className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold rounded-xl transition-colors"
+                  >
+                    취소
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowBackConfirmModal(false);
+                      logButtonClick('뒤로가기 확인 - 나가기', 'chat');
+
+                      // 뒤로가기로 나갈 때는 forceRegenerate 플래그를 명시적으로 false로 설정
+                      // 이렇게 하면 Result 페이지에서 캐시된 추천을 사용하고 API 호출을 하지 않음
+                      const session = loadSession();
+                      console.log('🔙 Chat 뒤로가기 - 현재 세션 상태:', {
+                        forceRegenerate: session.forceRegenerate,
+                        hasRecommendations: !!(session.recommendations && session.recommendations.length > 0),
+                      });
+                      session.forceRegenerate = false;
+                      session.isQuickRecommendation = false; // 이것도 혹시 모르니 명시적으로 false
+                      saveSession(session);
+                      console.log('🔙 Chat 뒤로가기 - 플래그 리셋 완료, Result 페이지로 이동');
+
+                      // Result 페이지로 이동 (캐시 유지, API 호출 안 함)
+                      router.push('/result');
+                    }}
+                    className="flex-1 px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-xl transition-colors"
+                  >
+                    나가기
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

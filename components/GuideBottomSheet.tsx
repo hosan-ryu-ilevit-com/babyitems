@@ -113,7 +113,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 <GuideCard
                   number="01"
                   title="육아 필수템인 이유"
-                  defaultOpen={true}
+                  defaultOpen={false}
                   content={
                     <>
                       <p className="text-sm text-gray-700 leading-relaxed mb-3">

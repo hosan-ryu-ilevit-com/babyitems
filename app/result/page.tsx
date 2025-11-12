@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { loadSession, saveSession } from '@/lib/utils/session';
+import { loadSession, saveSession, clearSession } from '@/lib/utils/session';
 import { Recommendation, UserContextSummary } from '@/types';
 import UserContextSummaryComponent from '@/components/UserContextSummary';
 import ComparisonTable from '@/components/ComparisonTable';
@@ -296,9 +296,19 @@ export default function ResultPage() {
 
     const session = loadSession();
 
+    // 디버깅: 세션 상태 로그 (상세)
+    console.log('📊 Result page useEffect - Session state:', {
+      isQuickRecommendation: session.isQuickRecommendation,
+      forceRegenerate: session.forceRegenerate,
+      hasRecommendations: !!(session.recommendations && session.recommendations.length > 0),
+      recommendationsCount: session.recommendations?.length || 0,
+      phase: session.phase,
+      messagesCount: session.messages?.length || 0,
+    });
+
     // Quick Recommendation 플로우는 항상 새로 생성
     if (session.isQuickRecommendation) {
-      console.log('🚀 Quick Recommendation flow - generating new recommendations');
+      console.log('🚀 [Branch 1] Quick Recommendation flow - generating new recommendations');
       // 플래그 리셋 (한 번만 실행되도록)
       session.isQuickRecommendation = false;
       saveSession(session);
@@ -308,7 +318,7 @@ export default function ResultPage() {
 
     // forceRegenerate 플래그가 있으면 캐시 무시하고 새로 생성 (채팅 후 추천받기)
     if (session.forceRegenerate) {
-      console.log('🚀 Force regenerate - generating new recommendations (from chat)');
+      console.log('🚀 [Branch 2] Force regenerate - generating new recommendations (from chat)');
       // 플래그 리셋
       session.forceRegenerate = false;
       saveSession(session);
@@ -318,7 +328,7 @@ export default function ResultPage() {
 
     // 일반 플로우: 이미 추천 결과가 있으면 바로 표시
     if (session.recommendations && session.recommendations.length > 0) {
-      console.log('✓ Using cached recommendations from session');
+      console.log('✓ [Branch 3] Using cached recommendations from session (NO API call)');
       setRecommendations(session.recommendations);
       if (session.contextSummary) {
         setContextSummary(session.contextSummary);
@@ -328,7 +338,7 @@ export default function ResultPage() {
     }
 
     // 추천 결과가 없으면 API 호출
-    console.log('🚀 No cached recommendations - fetching new ones');
+    console.log('🚀 [Branch 4] No cached recommendations - fetching new ones');
     fetchRecommendations();
   }, [mounted]);
 
@@ -348,7 +358,11 @@ export default function ResultPage() {
           <div className="flex items-center justify-between">
             <h1 className="text-base font-semibold text-gray-900">추천 결과</h1>
             <button
-              onClick={() => router.push('/')}
+              onClick={() => {
+                logButtonClick('다시하기', 'result');
+                clearSession(); // 세션 완전 초기화
+                router.push('/');
+              }}
               className="text-sm text-gray-600 hover:text-gray-900 font-medium"
             >
              다시하기

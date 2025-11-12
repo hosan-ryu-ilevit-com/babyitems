@@ -173,6 +173,24 @@ function ProductChatContent() {
 
       const data = await response.json();
 
+      // 초기 대화 로깅
+      fetch('/api/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: localStorage.getItem('baby_item_session_id'),
+          eventType: 'product_chat_message',
+          chatData: {
+            productId: prod.id,
+            productTitle: prod.title,
+            userMessage: '이 상품에 대해 자세히 설명해줘',
+            aiResponse: data.message,
+            hasRecommendation: false,
+            isInitialMessage: true,
+          },
+        }),
+      }).catch(console.error);
+
       setMessages((prev) => {
         const newMessages = [
           ...prev,
@@ -307,6 +325,25 @@ function ProductChatContent() {
       });
 
       const data = await response.json();
+
+      // 대화 로깅 (예시 질문)
+      fetch('/api/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: localStorage.getItem('baby_item_session_id'),
+          eventType: 'product_chat_message',
+          chatData: {
+            productId: product.id,
+            productTitle: product.title,
+            userMessage: question,
+            aiResponse: data.message,
+            hasRecommendation: !!data.recommendedProduct,
+            recommendedProductId: data.recommendedProduct?.productId,
+            isExampleQuestion: true,
+          },
+        }),
+      }).catch(console.error);
 
       // 다른 상품 추천이 있는 경우
       if (data.recommendedProduct) {

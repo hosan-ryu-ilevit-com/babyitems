@@ -37,8 +37,13 @@ function generatePrioritySummary(settings: PrioritySettings, phase0Context?: str
     summary += `그리고 ${mediumPriority.join(', ')}도 적당히 고려하시고 싶으시고요.`;
   }
 
-  // phase0Context가 있으면 추가
-  if (phase0Context && phase0Context.trim()) {
+  // phase0Context가 있으면 추가 (단, "없어요", "상관없어요" 등은 제외)
+  const negativePhrases = ['없어요', '없습니다', '상관없어요', '상관없습니다', '특별한 상황 없어요', '해당 없음'];
+  const hasValidContext = phase0Context &&
+    phase0Context.trim() &&
+    !negativePhrases.some(phrase => phase0Context.trim().toLowerCase().includes(phrase.toLowerCase()));
+
+  if (hasValidContext) {
     if (summary) summary += '\n\n';
     summary += `말씀하신 **"${phase0Context}"** 같은 특별한 상황도 함께 고려할게요!`;
   }
@@ -185,9 +190,19 @@ ${conversationHistory || '(첫 대화)'}
 - **턴 4-5**: 사용자가 더 말하고 싶어하는 경우만
 
 ## 응답 가이드:
-- **톤**: 친근하고 공감하는 육아용품 구매자를 대상으로 하는 상담사 스타일. 유저는 분유포트를 '처음으로' 구매하는 것으로 간주. 따라서 관련 지식이 없기에, 어려운 개념을 사용하거나 물어봐서는 안되며 친절하게 가이드 해야 함. 사용자가 답하기 까다로운 질문 (아기에게 분유를 타실 때 몇 도의 물을 사용하시나요?) 같은 것을 바로 하면 안되며, 필요하다면 맥락이나 예시를 충분히 설명한 이후에 진행해야 함.
+- **톤**: 친근하고 공감하는 육아용품 구매자를 대상으로 하는 상담사 스타일
+- **전제**: 사용자는 분유포트를 '처음으로' 구매하는 초보자로 간주
+- **질문 원칙** (매우 중요):
+  ✅ **상황 중심 질문**: "주로 언제 분유를 타시나요?", "새벽 수유가 많으신가요?", "외출이 잦으신 편인가요?"
+  ✅ **경험 중심 질문**: "지금은 어떻게 분유를 준비하고 계신가요?", "불편하신 점이 있으신가요?"
+  ✅ **구체적 상황 질문**: "집에서 주로 사용하실 건가요, 아니면 이동할 때도 쓰실 건가요?"
+  ❌ **기술적 질문 금지**: "몇 도의 물을 사용하시나요?", "냉각 속도가 중요한가요?", "미리 데운 물 vs 바로 맞춰주는 기능?"
+  ❌ **전문 용어 금지**: "보온 성능", "열효율", "온도 편차", "용량 대비 효율"
+  ❌ **복잡한 비교 금지**: "A 기능과 B 기능 중 뭐가 더 나은가요?" (사용자가 둘 다 모를 수 있음)
+  ⚠️ **기능 설명이 필요한 경우**: 먼저 쉬운 예시로 설명한 후, 상황에 대해 질문
+- **설명 방식**: "예를 들어 [구체적 상황]할 때 [기능]이 도움이 돼요" 형식
 - **길이**: 정확히 2문장 (턴 1-2) 또는 2-3문장 (턴 3+, 전환 제안 포함)
-- **구조**: (공감/반응 + 정보/팁) → 구체적 질문 (턴 1-2) / 전환 제안 (턴 3+)
+- **구조**: (공감/반응 + 쉬운 설명/예시) → 상황 중심 질문 (턴 1-2) / 전환 제안 (턴 3+)
 - **필수**: 항상 질문으로 끝나야 함 (? 로 종료)
 
 ## **절대 금지 사항**:
@@ -290,7 +305,16 @@ ${conversationHistory || '(첫 대화)'}
     // DEPRECATED: 기존 Chat1 플로우 (Priority 도입으로 사용 안 함)
     // Priority 페이지에서 중요도를 먼저 설정하므로,
     // 이 분기는 더 이상 실행되지 않습니다.
+    //
+    // Phase 'chat1' 요청은 더 이상 지원되지 않음
+    // Priority 플로우에서는 action 파라미터가 필수
     // ==========================================
+    if (phase === 'chat1') {
+      return NextResponse.json(
+        { error: 'Chat1 phase requests must include a valid action parameter. Use action=generate_attribute_conversation for Priority flow.' },
+        { status: 400 }
+      );
+    }
 
     // Chat2 단계: 추가 컨텍스트 수집
     if (phase === 'chat2') {
