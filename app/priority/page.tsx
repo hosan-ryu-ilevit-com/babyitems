@@ -252,7 +252,7 @@ export default function PriorityPage() {
                   <span className="ml-1">은 최대 3개까지 선택할 수 있어요.</span>
                 </p>
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full border-2 border-dashed border-gray-300">
-                  <span className="text-xs text-gray-600 font-semibold">구매자 76%가 선택한 가장 인기있는 조합</span>
+                  <span className="text-xs text-gray-600 font-semibold">가장 인기있는 조합이 선택되어 있어요. 자유롭게 변경해주세요!</span>
                 </div>
                
               </div>
@@ -538,7 +538,7 @@ export default function PriorityPage() {
                 `}
               >
                 <span>다음</span>
-                <CaretRight size={24} weight="bold" />
+              
               </motion.button>
 
               {/* 유효성 검사 안내 메시지 */}
