@@ -25,10 +25,11 @@ export function PriorityButton({ level, selected, onClick, disabled = false }: P
         ${disabled
           ? 'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50 font-medium'
           : selected
-          ? 'bg-gray-900 text-white shadow-sm font-bold'
+          ? 'font-bold'
           : 'bg-white text-gray-400 hover:bg-gray-50 font-medium'
         }
       `}
+      style={selected && !disabled ? { backgroundColor: '#E5F1FF', color: '#0074F3' } : {}}
     >
       {LEVEL_LABELS[level]}
     </button>

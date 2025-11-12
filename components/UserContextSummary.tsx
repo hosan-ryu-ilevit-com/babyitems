@@ -2,7 +2,6 @@ import { UserContextSummary, ImportanceLevel } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChatCircleDots } from '@phosphor-icons/react/dist/ssr';
 import { logButtonClick } from '@/lib/logging/clientLogger';
 
 interface UserContextSummaryProps {
@@ -99,16 +98,9 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
         className="w-full flex items-center justify-between mb-2"
       >
         <h3 className="text-lg font-bold text-gray-900">📝 내 구매 기준</h3>
-        <svg
-          className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
-            isMainExpanded ? 'rotate-180' : ''
-          }`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">
+          {isMainExpanded ? '접기' : '펼치기'}
+        </span>
       </button>
 
       {/* 펼쳐진 내용 */}
@@ -240,10 +232,17 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
       <div className="mt-3 pt-3 border-t border-gray-200">
         <button
           onClick={handleChatRedirect}
-          className="w-full h-14 bg-linear-to-r from-gray-800 to-gray-700 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5"
+          className="w-full h-14 text-base font-bold rounded-2xl transition-all hover:opacity-90 flex items-center justify-center gap-2.5"
+          style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
         >
-          <ChatCircleDots size={24} weight="bold" />
-          채팅하고 더 자세히 추천받기
+          <svg
+            className="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+          </svg>
+          채팅하고 더 정확히 추천받기
         </button>
       </div>
     </motion.div>

@@ -117,17 +117,17 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                   content={
                     <>
                       <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                        하루 <strong className="font-semibold">8~10번</strong> 분유를 타야 하는데요.
-                        매번 물을 끓이고 식히고, 밤낮없이 반복하려면 정말 힘들어요.
+                        하루에 보통 <strong className="font-semibold">8~10번</strong> 분유를 타야 하는데요.
+                        매번 물을 끓이고 식히고, 밤낮없이 반복하려면 정말 힘들죠.
                       </p>
                       <div className="bg-blue-50 rounded-xl p-3.5 border border-blue-100 mb-3">
-                        <p className="text-sm font-semibold text-gray-900 mb-2">💡 분유포트는 이 과정을 자동으로 해줘요</p>
+                        <p className="text-sm font-semibold text-gray-900 mb-2">분유포트는 이 과정을 자동으로 해줘요!</p>
                         <div className="flex items-center gap-2 text-sm text-gray-700">
                           <span className="font-medium">끓이고</span>
                           <span>→</span>
                           <span className="font-medium">식히고</span>
                           <span>→</span>
-                          <span className="font-medium">따뜻하게 보온</span>
+                          <span className="font-medium">따뜻하게 보온까지</span>
                         </div>
                       </div>
                       <p className="text-xs text-gray-600">
@@ -144,7 +144,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                   content={
                     <>
                       <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                        자동 분유모드 하나면 끝이에요. 물만 넣고 버튼 누르면 알아서 다 해줘요.
+                        자동 원터치 모드 하나면 끝이에요. 물만 넣고 버튼 누르면 알아서 다 해주죠.
                       </p>
                       <div className="space-y-3">
                         <div className="flex gap-3">
@@ -189,7 +189,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                         <div>
                           <p className="text-sm font-semibold text-gray-900 mb-1.5">용량은 1.3L 이상</p>
                           <p className="text-sm text-gray-600 leading-relaxed">
-                            하루 필요한 물이 1~1.5L 정도예요. 1.3L면 여유있게 사용할 수 있어요.
+                            하루 필요한 물이 보통 1~1.5L 정도예요. 1.3L면 여유있게 사용할 수 있답니다.
                           </p>
                         </div>
                         <div className="h-px bg-gray-200"></div>
@@ -273,7 +273,8 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onClose}
-                className="w-full h-14 bg-gray-900 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                className="w-full h-14 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                style={{ backgroundColor: '#0084FE' }}
               >
                 이해했어요
               </motion.button>

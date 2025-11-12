@@ -29,7 +29,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.6 }}
-      className="bg-white rounded-2xl p-5 border border-white"
+      className="bg-white rounded-2xl p-5 border border-white mb-6"
     >
       <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한 눈에 비교</h3>
 
@@ -97,7 +97,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
               <td className="py-3 px-2 text-xs font-semibold text-gray-700">적합도</td>
               {top3.map((rec) => (
                 <td key={rec.product.id} className="py-3 px-2">
-                  <p className="text-sm font-bold text-blue-600">{rec.finalScore}%</p>
+                  <p className="text-sm font-bold" style={{ color: '#0084FE' }}>{rec.finalScore}%</p>
                 </td>
               ))}
             </tr>

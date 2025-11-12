@@ -115,7 +115,8 @@ export default function ProductBottomSheet({ isOpen, product, onClose }: Product
                     router.push(`/product-chat?productId=${product.id}&from=/`);
                     onClose();
                   }}
-                  className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-900 hover:bg-gray-800 text-white flex items-center justify-center gap-1.5"
+                  className="py-3 font-semibold rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
+                  style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
                 >
                   <svg
                     className="w-4 h-4"

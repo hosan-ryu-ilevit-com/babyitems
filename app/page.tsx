@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChatCircleDots } from '@phosphor-icons/react/dist/ssr';
 import { products } from '@/data/products';
 import { useEffect, useState } from 'react';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
@@ -94,11 +93,11 @@ export default function Home() {
                   }}
                   className="relative"
                 >
-                  <div className="bg-gray-900 text-yellow-400 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap">
+                  <div className="bg-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap" style={{ color: '#0074F3' }}>
                     이 중에서 골라드려요!
                   </div>
                   {/* Speech bubble tail */}
-                  <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-900"></div>
+                  <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-100"></div>
                 </motion.div>
               </motion.div>
             </div>
@@ -185,9 +184,9 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => logButtonClick('나에게 맞는 분유포트 찾기 시작 (플로팅)', 'home')}
-                className="w-full h-14 bg-linear-to-r from-gray-900 to-gray-700 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5"
+                className="w-full h-14 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5"
+                style={{ backgroundColor: '#0084FE' }}
               >
-                <ChatCircleDots size={24} weight="bold" />
                 <span>1분만에 추천받기</span>
               </motion.button>
             </Link>

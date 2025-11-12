@@ -220,12 +220,13 @@ export default function PriorityPage() {
                   className={`
                     w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all
                     ${currentStep === step
-                      ? 'bg-gray-900 text-white'
+                      ? 'text-white'
                       : currentStep > step
                       ? 'bg-gray-300 text-gray-600'
                       : 'bg-gray-100 text-gray-400'
                     }
                   `}
+                  style={currentStep === step ? { backgroundColor: '#0084FE' } : {}}
                 >
                   {step}
                 </div>
@@ -353,15 +354,16 @@ export default function PriorityPage() {
                   <button
                     onClick={() => handleBudgetSelect('0-50000')}
                     className={`
-                      p-3 rounded-xl text-left transition-all border
+                      p-3 rounded-xl text-left transition-all border-2
                       ${budget === '0-50000'
-                        ? 'bg-gray-900 text-white border-gray-900'
+                        ? ''
                         : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                       }
                     `}
+                    style={budget === '0-50000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#0084FE' } : {}}
                   >
                     <div className="font-semibold text-sm mb-0.5">5만원 이하</div>
-                    <div className={`text-xs ${budget === '0-50000' ? 'text-gray-300' : 'text-gray-500'}`}>
+                    <div className={`text-xs ${budget === '0-50000' ? 'opacity-70' : 'text-gray-500'}`}>
                       기본 기능
                     </div>
                   </button>
@@ -369,12 +371,13 @@ export default function PriorityPage() {
                   <button
                     onClick={() => handleBudgetSelect('50000-100000')}
                     className={`
-                      p-3 rounded-xl text-left transition-all border relative
+                      p-3 rounded-xl text-left transition-all border-2 relative
                       ${budget === '50000-100000'
-                        ? 'bg-gray-900 text-white border-gray-900'
+                        ? ''
                         : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                       }
                     `}
+                    style={budget === '50000-100000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#0084FE' } : {}}
                   >
                     <div className="flex items-center gap-1 mb-0.5">
                       <span className="font-semibold text-sm">5~10만원</span>
@@ -382,7 +385,7 @@ export default function PriorityPage() {
                         인기
                       </span>
                     </div>
-                    <div className={`text-xs ${budget === '50000-100000' ? 'text-gray-300' : 'text-gray-500'}`}>
+                    <div className={`text-xs ${budget === '50000-100000' ? 'opacity-70' : 'text-gray-500'}`}>
                       더 좋은 소재+편의 기능
                     </div>
                   </button>
@@ -390,15 +393,16 @@ export default function PriorityPage() {
                   <button
                     onClick={() => handleBudgetSelect('100000-150000')}
                     className={`
-                      p-3 rounded-xl text-left transition-all border
+                      p-3 rounded-xl text-left transition-all border-2
                       ${budget === '100000-150000'
-                        ? 'bg-gray-900 text-white border-gray-900'
+                        ? ''
                         : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                       }
                     `}
+                    style={budget === '100000-150000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#0084FE' } : {}}
                   >
                     <div className="font-semibold text-sm mb-0.5">10~15만원</div>
-                    <div className={`text-xs ${budget === '100000-150000' ? 'text-gray-300' : 'text-gray-500'}`}>
+                    <div className={`text-xs ${budget === '100000-150000' ? 'opacity-70' : 'text-gray-500'}`}>
                       프리미엄 기능
                     </div>
                   </button>
@@ -406,15 +410,16 @@ export default function PriorityPage() {
                   <button
                     onClick={() => handleBudgetSelect('150000+')}
                     className={`
-                      p-3 rounded-xl text-left transition-all border
+                      p-3 rounded-xl text-left transition-all border-2
                       ${budget === '150000+'
-                        ? 'bg-gray-900 text-white border-gray-900'
+                        ? ''
                         : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
                       }
                     `}
+                    style={budget === '150000+' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#0084FE' } : {}}
                   >
                     <div className="font-semibold text-sm mb-0.5">15만원 이상</div>
-                    <div className={`text-xs ${budget === '150000+' ? 'text-gray-300' : 'text-gray-500'}`}>
+                    <div className={`text-xs ${budget === '150000+' ? 'opacity-70' : 'text-gray-500'}`}>
                       최고급
                     </div>
                   </button>
@@ -498,8 +503,8 @@ export default function PriorityPage() {
                   value={additionalRequest}
                   onChange={(e) => setAdditionalRequest(e.target.value)}
                   placeholder="예: 쌍둥이라 동시에 분유를 자주 타고, 깔끔하게 세척이 잘 됐으면 좋겠어요. 디자인도 흰색 유광을 좋아해서 예뻤으면 좋겠어요."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm text-gray-900 resize-none"
-                  style={{ fontSize: '16px' }}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 text-sm text-gray-900 resize-none"
+                  style={{ fontSize: '16px', '--tw-ring-color': '#0084FE' } as React.CSSProperties}
                   rows={4}
                 />
               </div>
@@ -538,13 +543,14 @@ export default function PriorityPage() {
                   w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5
                   ${
                     (currentStep === 1 && isStep1Valid) || (currentStep === 2 && isStep2Valid)
-                      ? 'bg-linear-to-r from-gray-900 to-gray-700 text-white shadow-lg hover:shadow-xl'
+                      ? 'text-white shadow-lg hover:shadow-xl'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }
                 `}
+                style={(currentStep === 1 && isStep1Valid) || (currentStep === 2 && isStep2Valid) ? { backgroundColor: '#0084FE' } : {}}
               >
                 <span>다음</span>
-              
+
               </motion.button>
 
               {/* 유효성 검사 안내 메시지 */}
@@ -569,7 +575,8 @@ export default function PriorityPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleFinalSubmit}
-              className="w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 bg-linear-to-r from-gray-900 to-gray-700 text-white shadow-lg hover:shadow-xl"
+              className="w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 text-white shadow-lg hover:shadow-xl"
+              style={{ backgroundColor: '#0084FE' }}
             >
               <Lightning size={24} weight="bold" />
               <span>바로 추천받기</span>

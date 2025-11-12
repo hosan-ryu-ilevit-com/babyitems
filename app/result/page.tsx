@@ -363,7 +363,7 @@ export default function ResultPage() {
         {/* Header */}
         <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
           <div className="flex items-center justify-between">
-            <h1 className="text-base font-semibold text-gray-900">추천 결과</h1>
+            <h1 className="text-base font-bold text-gray-900">BEST 3 추천 결과</h1>
             <button
               onClick={() => {
                 logButtonClick('다시하기', 'result');
@@ -372,7 +372,7 @@ export default function ResultPage() {
               }}
               className="text-sm text-gray-600 hover:text-gray-900 font-medium"
             >
-             다시하기
+             처음으로
             </button>
           </div>
         </header>
@@ -380,7 +380,7 @@ export default function ResultPage() {
       
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-4 py-6">
+        <main className="flex-1 overflow-y-auto px-4">
           <AnimatePresence mode="wait">
             {loading ? (
               // 로딩 상태 - 심플한 디자인
@@ -470,14 +470,15 @@ export default function ResultPage() {
             <div className="space-y-4">
               {/* Top 3 섹션 시작 - 스크롤 타겟 */}
               <div id="top3-section" />
+              
 
               {/* 안내 문구 컨테이너 */}
-              <div className="bg-white rounded-xl flex flex-col items-center gap-0 shadow-m pt-4 pb-4">
+              <div className="flex flex-col items-center">
                 {/* 이미지와 말풍선 그룹 */}
-                <div className="relative flex items-center justify-center gap-3 mb-2">
+                <div className="relative flex items-center justify-center gap-2">
                   {/* 캐릭터 이미지 */}
                   <Image
-                    src="/images/compairimg.png"
+                    src="/images/compairimg-removebg.png"
                     alt="비교 분석"
                     width={120}
                     height={120}
@@ -497,35 +498,19 @@ export default function ResultPage() {
                     }}
                     className="relative"
                   >
-                    <div className="bg-gray-900 text-yellow-300 text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap shadow-2xs">
+                    <div className="bg-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap border" style={{ color: '#0074F3', borderColor: '#E5F1FF' }}>
                       광고 아닌 실구매자 리뷰만<br />분석했어요!
                     </div>
                     {/* 말풍선 꼬리 (왼쪽) */}
-                    <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-900"></div>
+                    <div
+                      className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-white"
+                      style={{ filter: 'drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.05))' }}
+                    ></div>
                   </motion.div>
                 </div>
 
                 {/* 추가 설명 텍스트 */}
-                <div className="flex flex-col items-center justify-center gap-1 px-4">
-                  <div className="flex items-center justify-center gap-1">
-                    <svg className="w-4 h-4 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <p className="text-s text-gray-600 leading-relaxed text-center">
-                      <span className="font-bold text-gray-700">실시간 인기상품 중에서 골랐어요</span>
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-center gap-1">
-                    <span className="text-[12px] text-gray-400">Powered by</span>
-                    <Image
-                      src="/images/naverstorelogo.png"
-                      alt="네이버 스토어"
-                      width={40}
-                      height={14}
-                      className="h-2.5 w-auto object-contain"
-                    />
-                  </div>
-                </div>
+                
               </div>
 
               {/* 사용자 맥락 요약 (1위 상품 위로 이동) */}
@@ -541,7 +526,7 @@ export default function ResultPage() {
                   layout
                   className={`relative bg-white rounded-2xl p-5 ${
                     rec.rank === 1
-                      ? 'border-2 border-yellow-400'
+                      ? 'border-0 border-yellow-400'
                       : 'border border-white'
                   }`}
                 >
@@ -562,7 +547,7 @@ export default function ResultPage() {
                           BEST
                         </span>
                       )}
-                      <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
+                      <span className="text-xs font-bold px-2 py-1 rounded-full bg-blue-50" style={{ color: '#0084FE' }}>
                         적합도 {rec.finalScore}%
                       </span>
                     </div>
@@ -629,7 +614,8 @@ export default function ResultPage() {
                           logButtonClick(`이 상품 질문하기: ${rec.product.title}`, 'result');
                           router.push(`/product-chat?productId=${rec.product.id}&from=/result`);
                         }}
-                        className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-900 hover:bg-gray-800 text-white flex items-center justify-center gap-1.5"
+                        className="py-3 font-semibold rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
+                        style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
                       >
                         <svg
                           className="w-4 h-4"
@@ -648,7 +634,8 @@ export default function ResultPage() {
                         setSelectedRecommendation(rec);
                         setIsBottomSheetOpen(true);
                       }}
-                      className="w-full py-3 font-bold rounded-xl text-sm transition-all bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center gap-1.5"
+                      className="w-full py-3 font-bold rounded-xl text-sm transition-all hover:opacity-90 text-white flex items-center justify-center gap-1.5"
+                      style={{ backgroundColor: '#0084FE' }}
                     >
                      
                       추천 이유 보기
