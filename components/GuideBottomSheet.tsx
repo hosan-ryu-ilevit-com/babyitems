@@ -9,8 +9,8 @@ interface GuideBottomSheetProps {
 }
 
 // Collapsible Guide Card Component
-function GuideCard({ number, title, content }: { number: string; title: string; content: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
+function GuideCard({ number, title, content, defaultOpen = false }: { number: string; title: string; content: React.ReactNode; defaultOpen?: boolean }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
     <motion.div
@@ -95,6 +95,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 <GuideCard
                   number="01"
                   title="육아 필수템인 이유"
+                  defaultOpen={true}
                   content={
                     <>
                       <p className="text-sm text-gray-700 leading-relaxed mb-3">

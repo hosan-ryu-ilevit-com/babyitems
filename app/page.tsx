@@ -116,7 +116,7 @@ export default function Home() {
 
               <span>판매량 많은 순</span>
               <span className="text-gray-400">•</span>
-              <span>2025년 11월 6일 기준</span>
+              <span>2025년 11월 12일 기준</span>
             </div>
           </div>
 

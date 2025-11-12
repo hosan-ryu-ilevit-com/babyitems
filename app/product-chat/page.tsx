@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CaretLeft, PaperPlaneRight } from '@phosphor-icons/react/dist/ssr';
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import Image from 'next/image';
 import Link from 'next/link';
 import { products } from '@/data/products';
@@ -37,7 +37,7 @@ function formatMarkdown(text: string) {
 
       return (
         <div key={lineIndex} className="flex items-start gap-2 my-1.5">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-200 mt-2 shrink-0" />
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" />
           <span className="flex-1">{formattedContent}</span>
         </div>
       );
@@ -556,11 +556,16 @@ function ProductChatContent() {
         <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4"
           style={{ maxWidth: '480px', margin: '0 auto' }}
         >
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-end">
             <textarea
               ref={inputRef}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                // Auto-resize textarea
+                e.target.style.height = 'auto';
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+              }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -568,21 +573,18 @@ function ProductChatContent() {
                 }
               }}
               placeholder="궁금한 점을 물어보세요..."
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm resize-none"
-              style={{ fontSize: '16px' }}
-              rows={1}
               disabled={isLoading}
+              rows={1}
+              className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"
             />
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className={`px-4 py-3 rounded-xl transition-all ${
-                inputValue.trim() && !isLoading
-                  ? 'bg-gray-900 hover:bg-gray-800 text-white'
-                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-              }`}
+              className="w-12 h-12 bg-linear-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              <PaperPlaneRight size={20} weight="bold" />
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+              </svg>
             </button>
           </div>
         </footer>

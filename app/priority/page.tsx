@@ -244,19 +244,17 @@ export default function PriorityPage() {
               transition={{ duration: 0.3 }}
             >
               <div className="text-center mb-6">
-                <p className="text-sm text-gray-700 leading-5 mb-2">
+                <p className="text-sm text-gray-700 leading-5 mb-1">
                   구매 기준들의 중요도를 골라주세요!
                 </p>
-                <div className="inline-flex items-center gap-2 px-3 py-2 bg-blue-50 rounded-lg">
-                  <span className="text-xs text-blue-700">💡</span>
-                  <span className="text-xs text-blue-700 font-medium">
-                    가장 많은 사람이 선택한 조합이에요!
-                  </span>
-                </div>
-                <p className="text-xs text-gray-500 mt-3">
-                  <span className="inline-flex items-center px-2 py-0.5 bg-gray-600 text-white rounded-md text-xs font-bold">중요함</span>
+                 <p className="text-xs text-gray-500">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-gray-600 text-white rounded-md text-xs font-bold mb-4">중요함</span>
                   <span className="ml-1">은 최대 3개까지 선택할 수 있어요.</span>
                 </p>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full border-2 border-dashed border-gray-300">
+                  <span className="text-xs text-gray-600 font-semibold">구매자 76%가 선택한 가장 인기있는 조합</span>
+                </div>
+               
               </div>
 
               {/* 6가지 속성 */}
@@ -333,11 +331,8 @@ export default function PriorityPage() {
                 <p className="text-sm text-gray-700 leading-5 mb-2">
                   예산 범위를 선택해주세요
                 </p>
-                <div className="inline-flex items-center gap-2 px-3 py-2 bg-blue-50 rounded-lg">
-                  <span className="text-xs text-blue-700">💡</span>
-                  <span className="text-xs text-blue-700 font-medium">
-                    5~10만원이 가장 인기있는 구간이에요!
-                  </span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full border-2 border-dashed border-gray-300">
+                  <span className="text-xs text-gray-600 font-semibold">5~10만원이 가장 인기있는 예산이에요!</span>
                 </div>
               </div>
 
@@ -473,7 +468,7 @@ export default function PriorityPage() {
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full border-2 border-dashed border-gray-300">
                   <span className="text-sm font-semibold text-gray-600">선택사항</span>
                   <span className="text-xs text-gray-500">•</span>
-                  <span className="text-xs text-gray-500">입력 없이 바로 추천받을 수 있어요</span>
+                  <span className="text-xs text-gray-500">없다면, 바로 추천받기를 눌러주세요!</span>
                 </div>
               </div>
 

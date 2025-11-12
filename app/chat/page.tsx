@@ -54,7 +54,7 @@ function formatMarkdown(text: string) {
 
       return (
         <div key={lineIndex} className="flex items-start gap-2 my-1.5">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-200 mt-2 shrink-0" />
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" />
           <span className="flex-1">{formattedContent}</span>
         </div>
       );
@@ -309,7 +309,7 @@ export default function ChatPage() {
           }
 
           // 3. "추가로 말할 게 있으면~" 메시지
-          const askMoreMsg = '본격적으로 시작하기 전에, **미리 말씀해주실 특별한 상황이나 고민이 있으시면** 편하게 이야기해주세요!';
+          const askMoreMsg = '중요하다고 말씀 주신 구매 조건들에 대해 이야기 하기 전에, **특별한 상황이나 고민이 있으시면** 편하게 이야기해주세요!';
           updatedSession = loadSession();
           updatedSession = addAssistantMessage(updatedSession, askMoreMsg, 'chat1');
           setMessages([...updatedSession.messages]);
