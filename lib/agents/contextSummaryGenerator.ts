@@ -128,18 +128,21 @@ JSON만 출력하세요.`;
  * @param budget - 선택한 예산 범위
  * @param messages - Chat 대화 이력 (선택적, 바로 추천받기 시 빈 배열)
  * @param phase0Context - Priority 페이지에서 입력한 추가 요청사항 (선택적)
+ * @param existingContextSummary - 기존 contextSummary (재추천 시 additionalContext 보존용)
  */
 export async function generateContextSummaryFromPriorityWithChat(
   prioritySettings: PrioritySettings,
   budget: BudgetRange | undefined,
   messages: Message[],
-  phase0Context?: string
+  phase0Context?: string,
+  existingContextSummary?: UserContextSummary
 ): Promise<UserContextSummary> {
   console.log('🔍 Generating context summary from Priority + Chat...');
   console.log('  Priority settings:', prioritySettings);
   console.log('  Budget:', budget);
   console.log('  Messages count:', messages?.length || 0);
   console.log('  Phase0 context:', phase0Context?.substring(0, 100) || 'none');
+  console.log('  Existing additionalContext:', existingContextSummary?.additionalContext || 'none');
 
   // 속성명 매핑 (Priority 플로우 기준 - 6개)
   const attributeNames: { [key: string]: string } = {
@@ -179,6 +182,11 @@ export async function generateContextSummaryFromPriorityWithChat(
       }[budget] || budget
     : undefined;
 
+  // 기존 additionalContext 준비 (재추천 시 보존할 태그들)
+  const existingContextText = existingContextSummary?.additionalContext && existingContextSummary.additionalContext.length > 0
+    ? `\n\n# 기존에 파악한 맥락 (반드시 보존해야 함)\n${existingContextSummary.additionalContext.map(c => `- ${c}`).join('\n')}`
+    : '';
+
   const prompt = `당신은 분유 워머 추천 서비스의 요약 생성 전문가입니다.
 사용자가 선택한 중요도 설정${phase0Context || chatHistory ? ', 추가 요청사항' : ''}${chatHistory ? ', 대화 내역' : ''}을 분석하여, 결과 페이지 최상단에 표시할 깔끔한 요약 정보를 생성해주세요.
 
@@ -196,7 +204,7 @@ ${chatHistory ? `
 
 # 채팅 대화 내역
 ${chatHistory}
-` : ''}
+` : ''}${existingContextText}
 
 # 작업 지침
 
@@ -210,11 +218,13 @@ ${chatHistory}
    - 하나라도 누락하면 안 됩니다
    - "중요하지 않음"으로 선택한 속성도 반드시 포함
 
-2. **additionalContext**: ${phase0Context || chatHistory ? '추가 요청사항과 대화에서 파악한 추가 맥락을 **짧은 키워드 형태**로 추출' : '빈 배열로 반환'}:
+2. **additionalContext**: 추가 요청사항과 대화에서 파악한 추가 맥락을 **짧은 키워드 형태**로 추출:
    - 예: "쌍둥이 육아 중", "야간 수유 빈번", "외출 많음", "좁은 공간", "디자인 선호: 흰색 유광"
-   - 3-5개 정도로 핵심만 추출
+   ${existingContextText ? '- ⚠️ **매우 중요**: 위에 나열된 "기존에 파악한 맥락"을 **반드시 모두 포함**하고, 새로운 대화에서 추가 맥락이 발견되면 함께 포함' : '- 3-5개 정도로 핵심만 추출'}
    - 추가 요청사항의 핵심 내용을 우선적으로 포함
-   - 없으면 빈 배열
+   ${existingContextText ? '- 기존 맥락 + 새로운 맥락 = 총 3-7개 정도' : ''}
+   - ⚠️ **매우 중요**: 추가 요청사항이나 대화에서 실제로 파악된 맥락이 **하나도 없으면** 반드시 **빈 배열 []** 을 반환해야 합니다
+   - **절대로** "추가 요청사항 없음", "없음", "해당 없음" 같은 텍스트를 배열에 넣지 마세요
 
 3. **budget**: "${budgetText || 'null'}"
 
@@ -244,9 +254,11 @@ ${chatHistory}
 ⚠️ 주의사항:
 - reason은 **반드시 간결하게** (1-2문장, 최대 50자 이내)
 - additionalContext는 **짧은 키워드**로 (각 항목 10자 이내)
-${phase0Context || chatHistory ? '- 추가 요청사항과 대화에서 명확하게 드러난 내용만 포함' : '- 추가 요청사항과 대화가 없으므로 additionalContext는 빈 배열'}
+- 추가 요청사항과 대화에서 명확하게 드러난 내용만 포함
 - 추측하지 말고 실제 내용 기반으로만 작성
 - 추가 요청사항이 있다면 **우선적으로 반영**
+- **매우 중요**: 파악된 맥락이 없으면 additionalContext는 **반드시 빈 배열 []**
+- **절대 금지**: "추가 요청사항 없음", "없음" 같은 텍스트를 additionalContext에 넣는 것
 
 JSON만 출력하세요.`;
 

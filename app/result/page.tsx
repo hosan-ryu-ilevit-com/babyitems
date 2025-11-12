@@ -124,6 +124,7 @@ export default function ResultPage() {
           isQuickRecommendation: session.isQuickRecommendation,
           chatConversations: session.chatConversations,
           phase0Context: session.phase0Context,
+          existingContextSummary: session.contextSummary, // 기존 contextSummary 전달
         }),
       });
 
@@ -605,8 +606,7 @@ export default function ResultPage() {
                       <button
                         onClick={() => {
                           logButtonClick(`이 상품 질문하기: ${rec.product.title}`, 'result');
-                          // TODO: Navigate to product detail chat
-                          router.push(`/product-chat?productId=${rec.product.id}`);
+                          router.push(`/product-chat?productId=${rec.product.id}&from=/result`);
                         }}
                         className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-900 hover:bg-gray-800 text-white flex items-center justify-center gap-1.5"
                       >

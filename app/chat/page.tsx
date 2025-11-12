@@ -265,8 +265,8 @@ export default function ChatPage() {
         const initializePriorityChat = async () => {
           let updatedSession = changePhase(session, 'chat1');
 
-          // 1. 인트로 메시지 (안녕하세요~)
-          const introMsg = generateIntroMessage();
+          // 1. 인트로 메시지 (안녕하세요~ + phase0Context 언급)
+          const introMsg = generateIntroMessage(session.phase0Context);
           updatedSession = addAssistantMessage(updatedSession, introMsg, 'chat1');
           setMessages([...updatedSession.messages]);
           saveSession(updatedSession);
@@ -284,7 +284,8 @@ export default function ChatPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 action: 'generate_priority_summary',
-                prioritySettings: session.prioritySettings
+                prioritySettings: session.prioritySettings,
+                phase0Context: session.phase0Context
               })
             });
 
@@ -337,7 +338,8 @@ export default function ChatPage() {
         // Case B: Priority 설정 없음 - 기존 플로우 (Phase 0 워밍업)
         const initializeOriginalChat = async () => {
           let updatedSession = changePhase(session, 'chat1');
-          updatedSession = addAssistantMessage(updatedSession, generateIntroMessage(), 'chat1');
+          const introMsg = generateIntroMessage(session.phase0Context);
+          updatedSession = addAssistantMessage(updatedSession, introMsg, 'chat1');
           setMessages([...updatedSession.messages]);
           saveSession(updatedSession);
 
@@ -345,7 +347,7 @@ export default function ChatPage() {
           setTypingMessageId(firstMessage.id);
 
           await new Promise((resolve) => {
-            const typingDuration = generateIntroMessage().length * 10 + 300;
+            const typingDuration = introMsg.length * 10 + 300;
             setTimeout(resolve, typingDuration);
           });
 
@@ -1892,7 +1894,7 @@ export default function ChatPage() {
         <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
           <div className="flex items-center justify-between">
             <button
-              onClick={() => router.push('/')}
+              onClick={() => router.back()}
               className="text-gray-600 hover:text-gray-900"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1901,9 +1903,16 @@ export default function ChatPage() {
             </button>
             <button
               onClick={() => {
-                if (window.confirm('대화 내역을 초기화하고 처음부터 다시 시작하시겠습니까?')) {
-                  clearSession();
-                  router.push('/priority');
+                if (window.confirm('채팅을 초기화하고 처음부터 다시 시작하시겠습니까?')) {
+                  const session = loadSession();
+                  // 채팅 관련 상태만 초기화 (priority 설정과 recommendations는 유지)
+                  session.messages = [];
+                  session.currentAttribute = 0;
+                  session.phase = 'priority';
+                  session.chatConversations = undefined;
+                  saveSession(session);
+                  // 페이지 새로고침하여 채팅 초기화
+                  window.location.reload();
                 }
               }}
               className="text-sm text-gray-600 hover:text-gray-900 font-semibold"

@@ -27,7 +27,8 @@ export async function POST(request: NextRequest) {
     prioritySettings,
     budget,
     isQuickRecommendation,
-    phase0Context
+    phase0Context,
+    existingContextSummary
   } = body as {
     messages: Message[];
     attributeAssessments?: Record<string, string | null>;
@@ -36,6 +37,7 @@ export async function POST(request: NextRequest) {
     isQuickRecommendation?: boolean;
     chatConversations?: AttributeConversation[];
     phase0Context?: string;
+    existingContextSummary?: UserContextSummary;
   };
 
   const encoder = new TextEncoder();
@@ -221,7 +223,7 @@ export async function POST(request: NextRequest) {
         const [recommendations, contextSummary] = await Promise.all([
           generateTop3Recommendations(top3, persona),
           prioritySettings
-            ? generateContextSummaryFromPriorityWithChat(prioritySettings, budget, messages, phase0Context)
+            ? generateContextSummaryFromPriorityWithChat(prioritySettings, budget, messages, phase0Context, existingContextSummary)
             : generateContextSummary(messages, attributeAssessments! as unknown as import('@/types').AttributeAssessment)
         ]);
 

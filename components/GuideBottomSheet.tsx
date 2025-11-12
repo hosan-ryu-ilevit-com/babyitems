@@ -83,8 +83,8 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
           >
             {/* Header */}
             <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 text-center">
-                내 첫 분유포트- 핵심만 한눈에.
+              <h2 className="text-m font-bold text-gray-900 text-center">
+                처음 사는 분유포트, 2분이면 충분해요 ✨
               </h2>
             </div>
 
@@ -94,24 +94,26 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 {/* Card 1: 왜 필요한가요? */}
                 <GuideCard
                   number="01"
-                  title="왜 필요한가요?"
+                  title="육아 필수템인 이유"
                   content={
                     <>
                       <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                        6개월 미만 아이는 <strong className="font-semibold">물을 2분 이상 끓여</strong> 사용할 것을 권고합니다.
-                        하루 <strong className="font-semibold">8~10번</strong> 분유를 타야 하는데, 매번 끓이고 식히는 건 정말 힘들죠.
+                        하루 <strong className="font-semibold">8~10번</strong> 분유를 타야 하는데요.
+                        매번 물을 끓이고 식히고, 밤낮없이 반복하려면 정말 힘들어요.
                       </p>
-                      <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-                        <p className="text-xs font-semibold text-gray-900 mb-2">분유포트가 하는 일</p>
-                        <div className="flex items-center gap-2 text-xs text-gray-600">
-                          <span className="font-medium">끓이기</span>
+                      <div className="bg-blue-50 rounded-xl p-3.5 border border-blue-100 mb-3">
+                        <p className="text-sm font-semibold text-gray-900 mb-2">💡 분유포트는 이 과정을 자동으로 해줘요</p>
+                        <div className="flex items-center gap-2 text-sm text-gray-700">
+                          <span className="font-medium">끓이고</span>
                           <span>→</span>
-                          <span className="font-medium">식히기</span>
+                          <span className="font-medium">식히고</span>
                           <span>→</span>
-                          <span className="font-medium">보온</span>
-                          <span className="text-gray-400">(자동)</span>
+                          <span className="font-medium">따뜻하게 보온</span>
                         </div>
                       </div>
+                      <p className="text-xs text-gray-600">
+                        *6개월 미만 아기 물은 2분 이상 끓여 사용하는 게 좋아요 (WHO, 식약처 권고)
+                      </p>
                     </>
                   }
                 />
@@ -119,35 +121,38 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 {/* Card 2: 작동 원리 */}
                 <GuideCard
                   number="02"
-                  title="어떻게 작동하나요?"
+                  title="버튼 하나로 끝내기"
                   content={
                     <>
+                      <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                        자동 분유모드 하나면 끝이에요. 물만 넣고 버튼 누르면 알아서 다 해줘요.
+                      </p>
                       <div className="space-y-3">
                         <div className="flex gap-3">
-                          <div className="shrink-0 w-6 h-6 bg-gray-900 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                          <div className="shrink-0 w-7 h-7 bg-gray-900 text-white rounded-full flex items-center justify-center text-sm font-bold">
                             1
                           </div>
                           <div className="flex-1">
-                            <p className="text-sm font-semibold text-gray-900 mb-1">끓이기 (3~5분)</p>
-                            <p className="text-xs text-gray-600">100℃ 도달 후에도 계속 끓여 염소와 균을 제거합니다</p>
+                            <p className="text-sm font-semibold text-gray-900 mb-0.5">끓이기 3~5분</p>
+                            <p className="text-sm text-gray-600">100℃에서 더 끓여 염소와 균 제거</p>
                           </div>
                         </div>
                         <div className="flex gap-3">
-                          <div className="shrink-0 w-6 h-6 bg-gray-900 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                          <div className="shrink-0 w-7 h-7 bg-gray-900 text-white rounded-full flex items-center justify-center text-sm font-bold">
                             2
                           </div>
                           <div className="flex-1">
-                            <p className="text-sm font-semibold text-gray-900 mb-1">냉각 (40~60분)</p>
-                            <p className="text-xs text-gray-600">쿨링팬으로 40~45℃로 빠르게 식혀줍니다</p>
+                            <p className="text-sm font-semibold text-gray-900 mb-0.5">식히기 40~60분</p>
+                            <p className="text-sm text-gray-600">쿨링팬으로 분유 타기 좋은 온도로</p>
                           </div>
                         </div>
                         <div className="flex gap-3">
-                          <div className="shrink-0 w-6 h-6 bg-gray-900 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                          <div className="shrink-0 w-7 h-7 bg-gray-900 text-white rounded-full flex items-center justify-center text-sm font-bold">
                             3
                           </div>
                           <div className="flex-1">
-                            <p className="text-sm font-semibold text-gray-900 mb-1">보온 (12~24시간)</p>
-                            <p className="text-xs text-gray-600">언제든 분유를 탈 수 있게 온도를 유지합니다</p>
+                            <p className="text-sm font-semibold text-gray-900 mb-0.5">보온 12~24시간</p>
+                            <p className="text-sm text-gray-600">언제든 바로 분유 탈 수 있게</p>
                           </div>
                         </div>
                       </div>
@@ -158,28 +163,30 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 {/* Card 3: 용량과 소재 */}
                 <GuideCard
                   number="03"
-                  title="용량과 소재"
+                  title="이 정도는 기본으로"
                   content={
                     <>
-                      <div className="space-y-3">
+                      <div className="space-y-3.5">
                         <div>
-                          <p className="text-sm font-semibold text-gray-900 mb-1">용량: 1.3L 이상</p>
-                          <p className="text-xs text-gray-600">하루 필요한 물 1~1.5L를 여유있게 담을 수 있습니다</p>
+                          <p className="text-sm font-semibold text-gray-900 mb-1.5">용량은 1.3L 이상</p>
+                          <p className="text-sm text-gray-600 leading-relaxed">
+                            하루 필요한 물이 1~1.5L 정도예요. 1.3L면 여유있게 사용할 수 있어요.
+                          </p>
                         </div>
                         <div className="h-px bg-gray-200"></div>
                         <div>
-                          <p className="text-sm font-semibold text-gray-900 mb-1">소재: 내열강화유리 + 스테인리스</p>
-                          <p className="text-xs text-gray-600 mb-2">
-                            안이 보이는 유리 포트가 일반적이고, 열판과 뚜껑은 스테인리스를 사용합니다
+                          <p className="text-sm font-semibold text-gray-900 mb-1.5">소재는 유리 + 스테인리스</p>
+                          <p className="text-sm text-gray-600 mb-2.5 leading-relaxed">
+                            안이 보이는 유리 포트가 일반적이고, 물이 닿는 부분은 스테인리스를 써요.
                           </p>
-                          <div className="flex gap-2 text-xs">
-                            <div className="flex-1 bg-gray-50 rounded p-2 border border-gray-200">
-                              <p className="font-medium text-gray-900">304 SUS</p>
-                              <p className="text-gray-600">일반 주방용</p>
+                          <div className="flex gap-2 text-sm">
+                            <div className="flex-1 bg-gray-50 rounded-lg p-2.5 border border-gray-200">
+                              <p className="font-semibold text-gray-900 mb-0.5">304 SUS</p>
+                              <p className="text-gray-600">주방 수저용</p>
                             </div>
-                            <div className="flex-1 bg-gray-50 rounded p-2 border border-gray-200">
-                              <p className="font-medium text-gray-900">316 SUS</p>
-                              <p className="text-gray-600">의료용 고급</p>
+                            <div className="flex-1 bg-blue-50 rounded-lg p-2.5 border border-blue-200">
+                              <p className="font-semibold text-gray-900 mb-0.5">316 SUS ⭐</p>
+                              <p className="text-gray-600">의료용 프리미엄</p>
                             </div>
                           </div>
                         </div>
@@ -191,46 +198,46 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 {/* Card 4: 세척과 사용 */}
                 <GuideCard
                   number="04"
-                  title="세척과 사용 편의성"
+                  title="매일 써야 하니까"
                   content={
                     <>
-                      <div className="space-y-3">
+                      <div className="space-y-3.5">
                         <div>
-                          <p className="text-sm font-semibold text-gray-900 mb-1">세척이 편한 제품</p>
-                          <ul className="text-xs text-gray-600 space-y-1">
-                            <li className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                              주입구 직경 10cm 이상 (손이 들어가야 함)
+                          <p className="text-sm font-semibold text-gray-900 mb-2">세척하기 편한 게 좋아요</p>
+                          <ul className="text-xs text-gray-600 space-y-1.5">
+                            <li className="flex items-start gap-2">
+                              <span className="shrink-0 w-1.5 h-1.5 bg-gray-400 rounded-full mt-1.5"></span>
+                              <span>주입구 10cm 이상 (손 넣어 닦기 편하게)</span>
                             </li>
-                            <li className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                              뚜껑 완전 분리형
+                            <li className="flex items-start gap-2">
+                              <span className="shrink-0 w-1.5 h-1.5 bg-gray-400 rounded-full mt-1.5"></span>
+                              <span>뚜껑 완전 분리형</span>
                             </li>
-                            <li className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                              포트 무게 800g 이하
+                            <li className="flex items-start gap-2">
+                              <span className="shrink-0 w-1.5 h-1.5 bg-gray-400 rounded-full mt-1.5"></span>
+                              <span>포트 무게 800g 이하 (손목 안 아프게)</span>
                             </li>
-                            <li className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                              바닥이 평평함 (구조물 없음)
+                            <li className="flex items-start gap-2">
+                              <span className="shrink-0 w-1.5 h-1.5 bg-gray-400 rounded-full mt-1.5"></span>
+                              <span>바닥이 평평해야 닦기 쉬워요</span>
                             </li>
                           </ul>
                         </div>
                         <div className="h-px bg-gray-200"></div>
                         <div>
-                          <p className="text-sm font-semibold text-gray-900 mb-1">유용한 기능</p>
-                          <ul className="text-xs text-gray-600 space-y-1">
-                            <li className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                              수유등 (새벽에 편리)
+                          <p className="text-sm font-semibold text-gray-900 mb-2">있으면 편한 기능</p>
+                          <ul className="text-xs text-gray-600 space-y-1.5">
+                            <li className="flex items-start gap-2">
+                              <span className="shrink-0 w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5"></span>
+                              <span>수유등 (새벽에 불 안 켜도 돼요)</span>
                             </li>
-                            <li className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                              자동 분유모드 (원터치)
+                            <li className="flex items-start gap-2">
+                              <span className="shrink-0 w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5"></span>
+                              <span>원터치 자동모드</span>
                             </li>
-                            <li className="flex items-center gap-2">
-                              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                              차망 (보리차용)
+                            <li className="flex items-start gap-2">
+                              <span className="shrink-0 w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5"></span>
+                              <span>차망 (분유 끝나면 보리차 끓이기 좋아요)</span>
                             </li>
                           </ul>
                         </div>
@@ -249,7 +256,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 onClick={onClose}
                 className="w-full h-14 bg-gray-900 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all"
               >
-                이해했어요!
+                알겠어요, 추천 받을게요!
               </motion.button>
             </div>
           </motion.div>

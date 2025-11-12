@@ -78,7 +78,7 @@ function TypingMessage({ content, onComplete }: { content: string; onComplete?: 
   return <>{formatMarkdown(displayedContent)}</>;
 }
 
-// 예시 질문들
+// 고정 예시 질문들
 const EXAMPLE_QUESTIONS = [
   '이 제품의 단점을 요약해줘',
   '비슷한데 더 저렴한 상품 있어?',
@@ -103,6 +103,25 @@ function ProductChatContent() {
   useEffect(() => {
     logPageView('product-chat');
   }, []);
+
+  // 진입 경로 저장
+  useEffect(() => {
+    if (!productId) return;
+
+    // URL의 from 파라미터 확인 (명시적으로 전달된 경우)
+    const fromParam = searchParams.get('from');
+    if (fromParam) {
+      sessionStorage.setItem(`product-chat-referrer-${productId}`, fromParam);
+      return;
+    }
+
+    // from 파라미터가 없으면 이미 저장된 값이 있는지 확인
+    const existingReferrer = sessionStorage.getItem(`product-chat-referrer-${productId}`);
+    if (!existingReferrer) {
+      // 저장된 값도 없으면 기본값 설정
+      sessionStorage.setItem(`product-chat-referrer-${productId}`, '/');
+    }
+  }, [productId, searchParams]);
 
   // 제품 로드
   useEffect(() => {
@@ -166,6 +185,7 @@ function ProductChatContent() {
         setTimeout(() => setTypingMessageIndex(newMessages.length - 1), 0);
         return newMessages;
       });
+
     } catch (error) {
       console.error('Failed to get initial response:', error);
       setMessages((prev) => [
@@ -233,6 +253,7 @@ function ProductChatContent() {
           return newMessages;
         });
       }
+
     } catch (error) {
       console.error('Failed to send message:', error);
       setMessages((prev) => [
@@ -247,16 +268,108 @@ function ProductChatContent() {
     }
   };
 
-  // 예시 질문 클릭
-  const handleExampleClick = (question: string) => {
-    setInputValue(question);
-    inputRef.current?.focus();
+  // 예시 질문 클릭 - 바로 전송
+  const handleExampleClick = async (question: string) => {
+    if (isLoading || !product) return;
+
+    // 사용자 메시지 추가
+    setMessages((prev) => [...prev, { role: 'user', content: question }]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/product-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'chat',
+          productId: product.id,
+          userMessage: question,
+          conversationHistory: messages,
+        }),
+      });
+
+      const data = await response.json();
+
+      // 다른 상품 추천이 있는 경우
+      if (data.recommendedProduct) {
+        const recommendedProd = products.find((p) => p.id === data.recommendedProduct.productId);
+        setMessages((prev) => {
+          const newMessages: Message[] = [
+            ...prev,
+            {
+              role: 'assistant' as const,
+              content: data.message,
+              productRecommendation: recommendedProd,
+            },
+          ];
+          setTimeout(() => setTypingMessageIndex(newMessages.length - 1), 0);
+          return newMessages;
+        });
+      } else {
+        setMessages((prev) => {
+          const newMessages: Message[] = [
+            ...prev,
+            {
+              role: 'assistant' as const,
+              content: data.message,
+            },
+          ];
+          setTimeout(() => setTypingMessageIndex(newMessages.length - 1), 0);
+          return newMessages;
+        });
+      }
+
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: '메시지를 처리하는 중 오류가 발생했습니다.',
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // 추천 상품 클릭
   const handleRecommendedProductClick = (prod: Product) => {
     logButtonClick(`추천 상품 클릭: ${prod.title}`, 'product-chat');
-    router.push(`/product-chat?productId=${prod.id}`);
+    // 다른 product-chat에서 온 것으로 표시
+    const currentPath = `/product-chat?productId=${productId}`;
+    router.push(`/product-chat?productId=${prod.id}&from=${encodeURIComponent(currentPath)}`);
+  };
+
+  // 뒤로가기 처리
+  const handleBack = () => {
+    if (!productId) {
+      router.push('/');
+      return;
+    }
+
+    // sessionStorage에서 referrer 확인
+    const savedReferrer = sessionStorage.getItem(`product-chat-referrer-${productId}`);
+
+    if (savedReferrer) {
+      // 저장된 referrer로 이동
+      if (savedReferrer === '/result') {
+        // Result 페이지로 직접 이동 (캐시된 추천 결과 유지)
+        router.push('/result');
+      } else if (savedReferrer === '/') {
+        // 홈으로 이동
+        router.push('/');
+      } else if (savedReferrer.startsWith('/product-chat')) {
+        // 다른 product-chat에서 온 경우 해당 페이지로 이동
+        router.push(savedReferrer);
+      } else {
+        // 기타 경로
+        router.push(savedReferrer);
+      }
+    } else {
+      // referrer 정보가 없으면 홈으로
+      router.push('/');
+    }
   };
 
   if (!product) {
@@ -277,7 +390,7 @@ function ProductChatContent() {
         <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20" style={{ maxWidth: '480px', margin: '0 auto' }}>
           <div className="flex items-center justify-between mb-3">
             <button
-              onClick={() => router.push('/result')}
+              onClick={handleBack}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               <CaretLeft size={24} weight="bold" />
@@ -413,9 +526,14 @@ function ProductChatContent() {
             </motion.div>
           )}
 
-          {/* 예시 질문 (첫 메시지 이후) */}
-          {messages.length > 1 && messages.length < 5 && !isLoading && (
-            <div className="mt-6 mb-4">
+          {/* 고정 예시 질문 (AI 응답 후 항상 표시) */}
+          {messages.length > 1 && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-6 mb-4"
+            >
               <p className="text-xs text-gray-500 mb-2 font-semibold">💡 이런 질문을 해보세요</p>
               <div className="space-y-2">
                 {EXAMPLE_QUESTIONS.map((question, index) => (
@@ -428,7 +546,7 @@ function ProductChatContent() {
                   </button>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
 
           <div ref={messagesEndRef} />

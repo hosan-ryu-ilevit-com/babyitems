@@ -5,8 +5,10 @@ import { ASSISTANT_CHAT2_PROMPT } from '@/data/attributes';
 
 /**
  * Priority 설정을 자연스러운 한국어로 요약
+ * @param settings - Priority 설정
+ * @param phase0Context - 추가 요청사항 (선택적)
  */
-function generatePrioritySummary(settings: PrioritySettings): string {
+function generatePrioritySummary(settings: PrioritySettings, phase0Context?: string): string {
   const attributeNames: { [key: string]: string } = {
     temperatureControl: '온도 조절/유지 성능',
     hygiene: '위생/세척 편의성',
@@ -35,6 +37,12 @@ function generatePrioritySummary(settings: PrioritySettings): string {
     summary += `그리고 ${mediumPriority.join(', ')}도 적당히 고려하시고 싶으시고요.`;
   }
 
+  // phase0Context가 있으면 추가
+  if (phase0Context && phase0Context.trim()) {
+    if (summary) summary += '\n\n';
+    summary += `말씀하신 **"${phase0Context}"** 같은 특별한 상황도 함께 고려할게요!`;
+  }
+
   return summary;
 }
 
@@ -45,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     // Priority 요약 메시지 생성
     if (action === 'generate_priority_summary' && prioritySettings) {
-      const summary = generatePrioritySummary(prioritySettings);
+      const summary = generatePrioritySummary(prioritySettings, phase0Context);
       return NextResponse.json({ summary });
     }
 

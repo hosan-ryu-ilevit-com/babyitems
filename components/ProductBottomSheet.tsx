@@ -112,7 +112,7 @@ export default function ProductBottomSheet({ isOpen, product, onClose }: Product
                 <button
                   onClick={() => {
                     logButtonClick(`이 상품 질문하기: ${product.title}`, 'home_bottomsheet');
-                    router.push(`/product-chat?productId=${product.id}`);
+                    router.push(`/product-chat?productId=${product.id}&from=/`);
                     onClose();
                   }}
                   className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-900 hover:bg-gray-800 text-white flex items-center justify-center gap-1.5"
