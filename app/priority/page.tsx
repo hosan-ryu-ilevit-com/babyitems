@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { PRIORITY_ATTRIBUTES, ATTRIBUTE_ICONS, AttributeInfo } from '@/data/attributes';
 import { PriorityButton } from '@/components/PriorityButton';
 import { AttributeBottomSheet } from '@/components/AttributeBottomSheet';
+import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 import { PrioritySettings, PriorityLevel, BudgetRange } from '@/types';
 import {
   loadSession,
@@ -50,6 +51,7 @@ export default function PriorityPage() {
   const [customBudget, setCustomBudget] = useState<string>('');
   const [isCustomBudgetMode, setIsCustomBudgetMode] = useState(false);
   const [additionalRequest, setAdditionalRequest] = useState<string>('');
+  const [guideBottomSheetOpen, setGuideBottomSheetOpen] = useState(true);
 
   // 페이지 뷰 로깅
   useEffect(() => {
@@ -574,11 +576,17 @@ export default function PriorityPage() {
           )}
         </footer>
 
-        {/* Bottom Sheet */}
+        {/* Attribute Bottom Sheet */}
         <AttributeBottomSheet
           isOpen={bottomSheetOpen}
           attribute={selectedAttribute}
           onClose={() => setBottomSheetOpen(false)}
+        />
+
+        {/* Guide Bottom Sheet */}
+        <GuideBottomSheet
+          isOpen={guideBottomSheetOpen}
+          onClose={() => setGuideBottomSheetOpen(false)}
         />
       </div>
     </div>
