@@ -6,7 +6,7 @@ import { generateContextSummary, generateContextSummaryFromPriorityWithChat } fr
 import { loadAllProducts } from '@/lib/data/productLoader';
 import { selectTopProducts, filterByBudget } from '@/lib/filtering/initialFilter';
 import { calculateAndRankProducts, selectTop3 } from '@/lib/filtering/scoreCalculator';
-import { Message, PrioritySettings, BudgetRange, AttributeConversation } from '@/types';
+import { Message, PrioritySettings, BudgetRange, AttributeConversation, UserContextSummary } from '@/types';
 
 /**
  * POST /api/recommend

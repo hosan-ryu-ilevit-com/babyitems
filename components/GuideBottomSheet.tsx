@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface GuideBottomSheetProps {
   isOpen: boolean;
@@ -11,6 +11,24 @@ interface GuideBottomSheetProps {
 // Collapsible Guide Card Component
 function GuideCard({ number, title, content, defaultOpen = false }: { number: string; title: string; content: React.ReactNode; defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  // 카드가 열릴 때 로깅
+  useEffect(() => {
+    if (isOpen) {
+      fetch('/api/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: localStorage.getItem('baby_item_session_id'),
+          eventType: 'guide_card_opened',
+          guideCard: {
+            number,
+            title,
+          },
+        }),
+      }).catch(console.error);
+    }
+  }, [isOpen, number, title]);
 
   return (
     <motion.div
@@ -257,7 +275,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 onClick={onClose}
                 className="w-full h-14 bg-gray-900 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all"
               >
-                알겠어요, 추천 받을게요!
+                이해했어요
               </motion.button>
             </div>
           </motion.div>

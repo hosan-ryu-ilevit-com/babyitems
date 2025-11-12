@@ -3,12 +3,15 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { CaretLeft, Star } from '@phosphor-icons/react/dist/ssr';
 import { products } from '@/data/products';
 import { useEffect } from 'react';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 
 export default function RankingPage() {
+  const router = useRouter();
+
   // 페이지 뷰 로깅
   useEffect(() => {
     logPageView('ranking');
@@ -80,17 +83,28 @@ export default function RankingPage() {
                   </div>
                 </div>
 
-                {/* Action Button */}
-                <div className="px-4 pb-4">
-                  <a
-                    href={product.reviewUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => logButtonClick(`상세보기: ${product.title}`, 'ranking')}
-                    className="block w-full py-2.5 text-center text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
-                  >
-                    상세보기
-                  </a>
+                {/* Action Buttons */}
+                <div className="px-4 pb-4 space-y-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => {
+                        logButtonClick(`쿠팡에서 보기: ${product.title}`, 'ranking');
+                        window.open(product.reviewUrl, '_blank');
+                      }}
+                      className="py-2.5 text-center text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
+                    >
+                      쿠팡에서 보기
+                    </button>
+                    <button
+                      onClick={() => {
+                        logButtonClick(`이 상품 질문하기: ${product.title}`, 'ranking');
+                        router.push(`/product-chat?productId=${product.id}&from=/ranking`);
+                      }}
+                      className="py-2.5 text-center text-sm font-medium text-white bg-gray-900 rounded-xl hover:bg-gray-800 transition-colors"
+                    >
+                      질문하기
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             ))}

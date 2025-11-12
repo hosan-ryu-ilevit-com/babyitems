@@ -349,9 +349,9 @@ export default function ResultPage() {
             <h1 className="text-base font-semibold text-gray-900">추천 결과</h1>
             <button
               onClick={() => router.push('/')}
-              className="text-sm text-gray-600 hover:text-gray-900"
+              className="text-sm text-gray-600 hover:text-gray-900 font-medium"
             >
-              처음으로
+             다시하기
             </button>
           </div>
         </header>

@@ -223,6 +223,24 @@ function ProductChatContent() {
 
       const data = await response.json();
 
+      // 대화 로깅
+      fetch('/api/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: localStorage.getItem('baby_item_session_id'),
+          eventType: 'product_chat_message',
+          chatData: {
+            productId: product.id,
+            productTitle: product.title,
+            userMessage,
+            aiResponse: data.message,
+            hasRecommendation: !!data.recommendedProduct,
+            recommendedProductId: data.recommendedProduct?.productId,
+          },
+        }),
+      }).catch(console.error);
+
       // 다른 상품 추천이 있는 경우
       if (data.recommendedProduct) {
         const recommendedProd = products.find((p) => p.id === data.recommendedProduct.productId);
