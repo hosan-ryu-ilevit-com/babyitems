@@ -258,7 +258,7 @@ export default function PriorityPage() {
                   <span className="inline-flex items-center px-2 py-0.5 bg-gray-600 text-white rounded-md text-xs font-bold mb-4">중요함</span>
                   <span className="ml-1">은 최대 3개까지 선택할 수 있어요.</span>
                 </p>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full border-2 border-dashed border-gray-300">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
                   <span className="text-xs text-gray-600 font-semibold">가장 인기있는 조합이 선택되어 있어요. 자유롭게 변경해주세요!</span>
                 </div>
                
@@ -338,7 +338,7 @@ export default function PriorityPage() {
                 <p className="text-sm text-gray-700 leading-5 mb-2">
                   예산 범위를 선택해주세요
                 </p>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full border-2 border-dashed border-gray-300">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full  border-gray-300">
                   <span className="text-xs text-gray-600 font-semibold">5~10만원이 가장 인기있는 예산이에요!</span>
                 </div>
               </div>
@@ -450,8 +450,8 @@ export default function PriorityPage() {
                         value={customBudget}
                         onChange={(e) => setCustomBudget(e.target.value)}
                         placeholder="직접 입력 (예: 4만원~6만원)"
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 text-base text-gray-900"
-                        style={{ fontSize: '16px', '--tw-ring-color': '#B8DCFF' } as React.CSSProperties}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 text-base text-gray-900"
+                        style={{ fontSize: '14px', '--tw-ring-color': '#B8DCFF' } as React.CSSProperties}
                         autoFocus
                       />
                       <button
@@ -478,7 +478,7 @@ export default function PriorityPage() {
             >
               {/* Optional Badge */}
               <div className="flex justify-center mb-3">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full border-2 border-dashed border-gray-300">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
                   <span className="text-sm font-semibold text-gray-600">선택사항</span>
                   <span className="text-xs text-gray-500">•</span>
                   <span className="text-xs text-gray-500 font-semibold">없다면, 바로 추천받기를 눌러주세요!</span>

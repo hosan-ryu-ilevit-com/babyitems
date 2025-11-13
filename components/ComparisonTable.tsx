@@ -97,7 +97,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
               <td className="py-3 px-2 text-xs font-semibold text-gray-700">적합도</td>
               {top3.map((rec) => (
                 <td key={rec.product.id} className="py-3 px-2">
-                  <p className="text-sm font-bold" style={{ color: '#0084FE' }}>{rec.finalScore}%</p>
+                  <p className="text-sm font-bold" style={{ color: '#009896' }}>{rec.finalScore}%</p>
                 </td>
               ))}
             </tr>

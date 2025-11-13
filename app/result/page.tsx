@@ -473,7 +473,7 @@ export default function ResultPage() {
               
 
               {/* 안내 문구 컨테이너 */}
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center mb-0">
                 {/* 이미지와 말풍선 그룹 */}
                 <div className="relative flex items-center justify-center gap-2">
                   {/* 캐릭터 이미지 */}
@@ -498,7 +498,7 @@ export default function ResultPage() {
                     }}
                     className="relative"
                   >
-                    <div className="bg-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap border" style={{ color: '#0074F3', borderColor: '#E5F1FF' }}>
+                    <div className="bg-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap border" style={{ color: '#71737C', borderColor: '#E5F1FF' }}>
                       광고 아닌 실구매자 리뷰만<br />분석했어요!
                     </div>
                     {/* 말풍선 꼬리 (왼쪽) */}
@@ -508,12 +508,45 @@ export default function ResultPage() {
                     ></div>
                   </motion.div>
                 </div>
-
-                {/* 추가 설명 텍스트 */}
-                
               </div>
 
-              {/* 사용자 맥락 요약 (1위 상품 위로 이동) */}
+              {/* 채팅하고 더 정확히 추천받기 버튼 */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="mb-8"
+              >
+                <button
+                  onClick={() => {
+                    logButtonClick('채팅하고 더 정확히 추천받기', 'result');
+
+                    // 세션 스토리지에서 현재 세션 불러오기
+                    const sessionData = sessionStorage.getItem('babyitem_session');
+                    if (sessionData) {
+                      const session = JSON.parse(sessionData);
+                      // forceRegenerate 플래그 설정 (채팅 후 새로운 추천 받기 위함)
+                      session.forceRegenerate = true;
+                      sessionStorage.setItem('babyitem_session', JSON.stringify(session));
+                    }
+                    // chat 페이지로 이동
+                    router.push('/chat');
+                  }}
+                  className="w-full h-14 text-base font-bold rounded-2xl transition-all hover:opacity-90 flex items-center justify-center gap-2.5"
+                  style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                  </svg>
+                  채팅하고 더 정확히 추천받기
+                </button>
+              </motion.div>
+
+              {/* 사용자 맥락 요약 */}
               {contextSummary && <UserContextSummaryComponent summary={contextSummary} />}
 
               {/* 추천 상품 3개 */}
@@ -547,7 +580,7 @@ export default function ResultPage() {
                           BEST
                         </span>
                       )}
-                      <span className="text-xs font-bold px-2 py-1 rounded-full bg-blue-50" style={{ color: '#0084FE' }}>
+                      <span className="text-xs font-bold px-2 py-1 rounded-full" style={{ backgroundColor: '#EAF8F8', color: '#009896' }}>
                         적합도 {rec.finalScore}%
                       </span>
                     </div>
@@ -638,7 +671,7 @@ export default function ResultPage() {
                       style={{ backgroundColor: '#0084FE' }}
                     >
                      
-                      추천 이유 보기
+                      추천 이유 확인하기
                     </button>
                   </div>
                 </motion.div>
@@ -686,27 +719,58 @@ export default function ResultPage() {
 
                 <div className="p-4 space-y-4 pb-6">
                   {/* 제품 정보 요약 */}
-                  <div className="flex items-center gap-3 pb-4 border-b border-gray-200">
-                    <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-100">
-                      {selectedRecommendation.product.thumbnail && (
-                        <Image
-                          src={selectedRecommendation.product.thumbnail}
-                          alt={selectedRecommendation.product.title}
-                          width={64}
-                          height={64}
-                          className="w-full h-full object-cover"
-                          quality={85}
-                          sizes="64px"
-                        />
-                      )}
+                  <div className="pb-4 border-b border-gray-200">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                        {selectedRecommendation.product.thumbnail && (
+                          <Image
+                            src={selectedRecommendation.product.thumbnail}
+                            alt={selectedRecommendation.product.title}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-cover"
+                            quality={85}
+                            sizes="64px"
+                          />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-gray-900 text-sm mb-1 leading-tight">
+                          {selectedRecommendation.product.title}
+                        </h4>
+                        <p className="text-sm font-bold text-gray-900">
+                          {selectedRecommendation.product.price.toLocaleString()}원
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-gray-900 text-sm mb-1 leading-tight">
-                        {selectedRecommendation.product.title}
-                      </h4>
-                      <p className="text-sm font-bold text-gray-900">
-                        {selectedRecommendation.product.price.toLocaleString()}원
-                      </p>
+                    {/* 버튼 2개 */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => {
+                          logButtonClick(`바텀시트 쿠팡에서 보기: ${selectedRecommendation.product.title}`, 'result');
+                          window.open(selectedRecommendation.product.reviewUrl, '_blank');
+                        }}
+                        className="py-2.5 font-semibold rounded-lg text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
+                      >
+                        쿠팡에서 보기
+                      </button>
+                      <button
+                        onClick={() => {
+                          logButtonClick(`바텀시트 이 상품 질문하기: ${selectedRecommendation.product.title}`, 'result');
+                          router.push(`/product-chat?productId=${selectedRecommendation.product.id}&from=/result`);
+                        }}
+                        className="py-2.5 font-semibold rounded-lg text-sm transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
+                        style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                        </svg>
+                        이 상품 질문하기
+                      </button>
                     </div>
                   </div>
 

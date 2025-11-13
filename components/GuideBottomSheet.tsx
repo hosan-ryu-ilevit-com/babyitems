@@ -96,11 +96,11 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-gray-100 rounded-t-3xl z-50 h-[85vh] flex flex-col overflow-hidden"
+            className="fixed bottom-0 left-0 right-0 bg-gray-50 rounded-t-3xl z-50 h-[85vh] flex flex-col overflow-hidden"
             style={{ maxWidth: '480px', margin: '0 auto' }}
           >
             {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-200 bg-white">
+            <div className="px-6 py-4  bg-gray-50">
               <h2 className="text-m font-bold text-gray-900 text-center">
                 처음 사는 분유포트, 2분이면 충분해요
               </h2>
@@ -120,7 +120,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                         하루에 보통 <strong className="font-semibold">8~10번</strong> 분유를 타야 하는데요.
                         매번 물을 끓이고 식히고, 밤낮없이 반복하려면 정말 힘들죠.
                       </p>
-                      <div className="bg-blue-50 rounded-xl p-3.5 border border-blue-100 mb-3">
+                      <div className="bg-blue-50 rounded-xl p-3.5  mb-3">
                         <p className="text-sm font-semibold text-gray-900 mb-2">분유포트는 이 과정을 자동으로 해줘요!</p>
                         <div className="flex items-center gap-2 text-sm text-gray-700">
                           <span className="font-medium">끓이고</span>
@@ -268,7 +268,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             </div>
 
             {/* Footer CTA */}
-            <div className="px-6 py-4 border-t border-gray-200 bg-white">
+            <div className="px-6 py-4 border-t border-gray-100 bg-white">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
