@@ -102,7 +102,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             {/* Header */}
             <div className="px-6 py-4 border-b border-gray-200 bg-white">
               <h2 className="text-m font-bold text-gray-900 text-center">
-                처음 사는 분유포트, 2분이면 충분해요 ✨
+                처음 사는 분유포트, 2분이면 충분해요
               </h2>
             </div>
 
@@ -199,12 +199,12 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                             안이 보이는 유리 포트가 일반적이고, 물이 닿는 부분은 스테인리스를 써요.
                           </p>
                           <div className="flex gap-2 text-sm">
-                            <div className="flex-1 bg-gray-50 rounded-lg p-2.5 border border-gray-200">
+                            <div className="flex-1 bg-gray-50 rounded-lg p-2.5">
                               <p className="font-semibold text-gray-900 mb-0.5">304 SUS</p>
                               <p className="text-gray-600">주방 수저용</p>
                             </div>
-                            <div className="flex-1 bg-blue-50 rounded-lg p-2.5 border border-blue-200">
-                              <p className="font-semibold text-gray-900 mb-0.5">316 SUS ⭐</p>
+                            <div className="flex-1 bg-blue-50 rounded-lg p-2.5">
+                              <p className="font-semibold text-gray-900 mb-0.5">316 SUS</p>
                               <p className="text-gray-600">의료용 프리미엄</p>
                             </div>
                           </div>

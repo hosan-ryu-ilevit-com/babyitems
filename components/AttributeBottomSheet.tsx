@@ -103,7 +103,8 @@ export function AttributeBottomSheet({ isOpen, attribute, onClose }: AttributeBo
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="w-full mt-6 h-14 bg-gray-900 text-white font-semibold rounded-2xl hover:bg-gray-800 transition-colors"
+                className="w-full mt-6 h-14 text-white font-semibold rounded-2xl transition-colors"
+                style={{ backgroundColor: '#0084FE' }}
               >
                 닫기
               </button>
