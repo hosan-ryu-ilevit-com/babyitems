@@ -282,12 +282,12 @@ export default function PriorityPage() {
                           <h3 className="text-sm font-bold text-gray-900 shrink-0">{attribute.name}</h3>
                           {/* 통계 태그 */}
                           {attribute.key === 'temperatureControl' && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold bg-orange-100 text-orange-700 whitespace-nowrap shrink-0">
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold whitespace-nowrap shrink-0" style={{ backgroundColor: '#EAF8F8', color: '#009896' }}>
                               87%가 중요함 선택
                             </span>
                           )}
                           {attribute.key === 'hygiene' && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold bg-orange-100 text-orange-700 whitespace-nowrap shrink-0">
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold whitespace-nowrap shrink-0" style={{ backgroundColor: '#EAF8F8', color: '#009896' }}>
                               74%가 중요함 선택
                             </span>
                           )}
@@ -295,9 +295,9 @@ export default function PriorityPage() {
                       </div>
                       <button
                         onClick={() => openBottomSheet(attribute)}
-                        className="w-7 h-7 rounded-full bg-white hover:bg-gray-100 transition-colors flex items-center justify-center shrink-0"
+                        className="w-7 h-7 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center shrink-0"
                       >
-                        <Question size={16} weight="bold" className="text-gray-600" />
+                        <Question size={16} weight="bold" className="text-gray-500" />
                       </button>
                     </div>
 
@@ -354,13 +354,13 @@ export default function PriorityPage() {
                   <button
                     onClick={() => handleBudgetSelect('0-50000')}
                     className={`
-                      p-3 rounded-xl text-left transition-all border-2
+                      p-3 rounded-xl text-left transition-all border
                       ${budget === '0-50000'
                         ? ''
-                        : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
+                        : 'bg-white text-gray-900 border-gray-200 hover:border-gray-300'
                       }
                     `}
-                    style={budget === '0-50000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#0084FE' } : {}}
+                    style={budget === '0-50000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#B8DCFF' } : {}}
                   >
                     <div className="font-semibold text-sm mb-0.5">5만원 이하</div>
                     <div className={`text-xs ${budget === '0-50000' ? 'opacity-70' : 'text-gray-500'}`}>
@@ -371,17 +371,17 @@ export default function PriorityPage() {
                   <button
                     onClick={() => handleBudgetSelect('50000-100000')}
                     className={`
-                      p-3 rounded-xl text-left transition-all border-2 relative
+                      p-3 rounded-xl text-left transition-all border relative
                       ${budget === '50000-100000'
                         ? ''
-                        : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
+                        : 'bg-white text-gray-900 border-gray-200 hover:border-gray-300'
                       }
                     `}
-                    style={budget === '50000-100000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#0084FE' } : {}}
+                    style={budget === '50000-100000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#B8DCFF' } : {}}
                   >
                     <div className="flex items-center gap-1 mb-0.5">
                       <span className="font-semibold text-sm">5~10만원</span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${budget === '50000-100000' ? 'bg-white text-gray-900' : 'bg-blue-100 text-blue-700'}`}>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${budget === '50000-100000' ? 'bg-white text-gray-900' : ''}`} style={budget !== '50000-100000' ? { backgroundColor: '#EAF8F8', color: '#009896' } : {}}>
                         인기
                       </span>
                     </div>
@@ -393,13 +393,13 @@ export default function PriorityPage() {
                   <button
                     onClick={() => handleBudgetSelect('100000-150000')}
                     className={`
-                      p-3 rounded-xl text-left transition-all border-2
+                      p-3 rounded-xl text-left transition-all border
                       ${budget === '100000-150000'
                         ? ''
-                        : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
+                        : 'bg-white text-gray-900 border-gray-200 hover:border-gray-300'
                       }
                     `}
-                    style={budget === '100000-150000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#0084FE' } : {}}
+                    style={budget === '100000-150000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#B8DCFF' } : {}}
                   >
                     <div className="font-semibold text-sm mb-0.5">10~15만원</div>
                     <div className={`text-xs ${budget === '100000-150000' ? 'opacity-70' : 'text-gray-500'}`}>
@@ -410,13 +410,13 @@ export default function PriorityPage() {
                   <button
                     onClick={() => handleBudgetSelect('150000+')}
                     className={`
-                      p-3 rounded-xl text-left transition-all border-2
+                      p-3 rounded-xl text-left transition-all border
                       ${budget === '150000+'
                         ? ''
-                        : 'bg-white text-gray-900 border-gray-300 hover:border-gray-400'
+                        : 'bg-white text-gray-900 border-gray-200 hover:border-gray-300'
                       }
                     `}
-                    style={budget === '150000+' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#0084FE' } : {}}
+                    style={budget === '150000+' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#B8DCFF' } : {}}
                   >
                     <div className="font-semibold text-sm mb-0.5">15만원 이상</div>
                     <div className={`text-xs ${budget === '150000+' ? 'opacity-70' : 'text-gray-500'}`}>
@@ -429,33 +429,35 @@ export default function PriorityPage() {
                 {!isCustomBudgetMode && budget && !['0-50000', '50000-100000', '100000-150000', '150000+'].includes(budget) ? (
                   <button
                     onClick={handleCustomBudgetClick}
-                    className="w-full p-3 rounded-xl text-left transition-all border-2 border-gray-900 bg-gray-900 text-white"
+                    className="w-full p-3 rounded-xl text-left transition-all border-2 text-white"
+                    style={{ borderColor: '#B8DCFF', backgroundColor: '#0084FE' }}
                   >
                     <div className="font-semibold text-sm mb-0.5">직접 입력</div>
-                    <div className="text-xs text-gray-300">{budget}</div>
+                    <div className="text-xs opacity-80">{budget}</div>
                   </button>
                 ) : !isCustomBudgetMode ? (
                   <button
                     onClick={handleCustomBudgetClick}
-                    className="w-full p-3 rounded-xl text-left transition-all border border-dashed border-gray-300 hover:border-gray-500 bg-white text-gray-700"
+                    className="w-full p-3 rounded-xl text-left transition-all border border-dashed border-gray-200 hover:border-gray-300 bg-white text-gray-700"
                   >
-                    <div className="font-semibold text-sm">직접 입력하기</div>
+                    <div className="font-semibold text-sm">직접 입력</div>
                   </button>
                 ) : (
-                  <div className="w-full p-3 rounded-xl border border-gray-900 bg-white">
+                  <div className="w-full p-3 rounded-xl border-2 bg-white" style={{ borderColor: '#B8DCFF' }}>
                     <div className="flex gap-2">
                       <input
                         type="text"
                         value={customBudget}
                         onChange={(e) => setCustomBudget(e.target.value)}
                         placeholder="직접 입력 (예: 4만원~6만원)"
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-base text-gray-900"
-                        style={{ fontSize: '16px' }}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 text-base text-gray-900"
+                        style={{ fontSize: '16px', '--tw-ring-color': '#B8DCFF' } as React.CSSProperties}
                         autoFocus
                       />
                       <button
                         onClick={handleCustomBudgetSubmit}
-                        className="px-4 py-2 bg-gray-900 text-white rounded-lg font-semibold text-sm hover:bg-gray-800 transition-colors"
+                        className="px-4 py-2 text-white rounded-lg font-semibold text-sm transition-colors"
+                        style={{ backgroundColor: '#0084FE' }}
                       >
                         확인
                       </button>
@@ -475,18 +477,16 @@ export default function PriorityPage() {
               transition={{ duration: 0.3 }}
             >
               {/* Optional Badge */}
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-3">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full border-2 border-dashed border-gray-300">
                   <span className="text-sm font-semibold text-gray-600">선택사항</span>
                   <span className="text-xs text-gray-500">•</span>
-                  <span className="text-xs text-gray-500">없다면, 바로 추천받기를 눌러주세요!</span>
+                  <span className="text-xs text-gray-500 font-semibold">없다면, 바로 추천받기를 눌러주세요!</span>
                 </div>
               </div>
 
-              <div className="text-center mb-6">
-                <p className="text-base font-bold text-gray-900 mb-2">
-                  특별한 상황이 있으신가요?
-                </p>
+              <div className="text-center mb-4">
+               
                 <p className="text-xs text-gray-500">
                   입력하시면 더 정확한 추천이 가능해요!
                 </p>
@@ -495,16 +495,16 @@ export default function PriorityPage() {
               <div className="bg-gray-50 rounded-2xl p-4 mb-4">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">💭</span>
-                  <h3 className="text-sm font-bold text-gray-900">추가 요청사항</h3>
-                  <span className="text-[10px] px-2 py-0.5 rounded-md font-bold bg-gray-200 text-gray-600">선택</span>
+                  <h3 className="text-sm font-bold text-gray-900">추가로 입력할 상황이 있으신가요?</h3>
+                  
                 </div>
 
                 <textarea
                   value={additionalRequest}
                   onChange={(e) => setAdditionalRequest(e.target.value)}
                   placeholder="예: 쌍둥이라 동시에 분유를 자주 타고, 깔끔하게 세척이 잘 됐으면 좋겠어요. 디자인도 흰색 유광을 좋아해서 예뻤으면 좋겠어요."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 text-sm text-gray-900 resize-none"
-                  style={{ fontSize: '16px', '--tw-ring-color': '#0084FE' } as React.CSSProperties}
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-1 text-sm text-gray-900 resize-none"
+                  style={{ fontSize: '14px', '--tw-ring-color': '#0084FE' } as React.CSSProperties}
                   rows={4}
                 />
               </div>
@@ -543,7 +543,7 @@ export default function PriorityPage() {
                   w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5
                   ${
                     (currentStep === 1 && isStep1Valid) || (currentStep === 2 && isStep2Valid)
-                      ? 'text-white shadow-lg hover:shadow-xl'
+                      ? 'text-white'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }
                 `}
@@ -575,7 +575,7 @@ export default function PriorityPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleFinalSubmit}
-              className="w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 text-white shadow-lg hover:shadow-xl"
+              className="w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 text-white"
               style={{ backgroundColor: '#0084FE' }}
             >
               <Lightning size={24} weight="bold" />

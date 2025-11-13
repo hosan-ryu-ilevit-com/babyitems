@@ -36,7 +36,7 @@ function GuideCard({ number, title, content, defaultOpen = false }: { number: st
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.3 }}
-      className="bg-white rounded-2xl border border-gray-200 overflow-hidden"
+      className="bg-white rounded-2xl overflow-hidden"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -49,7 +49,7 @@ function GuideCard({ number, title, content, defaultOpen = false }: { number: st
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="shrink-0"
+          className="shrink-0 text-gray-400"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -96,11 +96,11 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 h-[85vh] flex flex-col"
+            className="fixed bottom-0 left-0 right-0 bg-gray-100 rounded-t-3xl z-50 h-[85vh] flex flex-col overflow-hidden"
             style={{ maxWidth: '480px', margin: '0 auto' }}
           >
             {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-200">
+            <div className="px-6 py-4 border-b border-gray-200 bg-white">
               <h2 className="text-m font-bold text-gray-900 text-center">
                 처음 사는 분유포트, 2분이면 충분해요 ✨
               </h2>
@@ -144,7 +144,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                   content={
                     <>
                       <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                        자동 원터치 모드 하나면 끝이에요. 물만 넣고 버튼 누르면 알아서 다 해주죠.
+                        자동 원터치 모드 하나면 끝이에요. 물만 넣고 버튼 누르면 알아서 다 해줘요.
                       </p>
                       <div className="space-y-3">
                         <div className="flex gap-3">
@@ -182,7 +182,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                 {/* Card 3: 용량과 소재 */}
                 <GuideCard
                   number="03"
-                  title="이 정도는 기본으로"
+                  title="이 정도는 기본"
                   content={
                     <>
                       <div className="space-y-3.5">
@@ -268,12 +268,12 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             </div>
 
             {/* Footer CTA */}
-            <div className="px-6 py-4 border-t border-gray-200">
+            <div className="px-6 py-4 border-t border-gray-200 bg-white">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onClose}
-                className="w-full h-14 text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all"
                 style={{ backgroundColor: '#0084FE' }}
               >
                 이해했어요
