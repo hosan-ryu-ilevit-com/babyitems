@@ -450,8 +450,8 @@ export default function PriorityPage() {
                         value={customBudget}
                         onChange={(e) => setCustomBudget(e.target.value)}
                         placeholder="직접 입력 (예: 4만원~6만원)"
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 text-base text-gray-900"
-                        style={{ fontSize: '14px', '--tw-ring-color': '#B8DCFF' } as React.CSSProperties}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 text-gray-900"
+                        style={{ fontSize: '16px', '--tw-ring-color': '#B8DCFF' } as React.CSSProperties}
                         autoFocus
                       />
                       <button
@@ -503,8 +503,8 @@ export default function PriorityPage() {
                   value={additionalRequest}
                   onChange={(e) => setAdditionalRequest(e.target.value)}
                   placeholder="예: 쌍둥이라 동시에 분유를 자주 타고, 깔끔하게 세척이 잘 됐으면 좋겠어요. 디자인도 흰색 유광을 좋아해서 예뻤으면 좋겠어요."
-                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-1 text-sm text-gray-900 resize-none"
-                  style={{ fontSize: '14px', '--tw-ring-color': '#0084FE' } as React.CSSProperties}
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-1 text-gray-900 resize-none"
+                  style={{ fontSize: '16px', '--tw-ring-color': '#0084FE' } as React.CSSProperties}
                   rows={4}
                 />
               </div>

@@ -2426,7 +2426,8 @@ export default function ChatPage() {
             <button
               onClick={handleSendMessage}
               disabled={!input.trim() || isLoading}
-              className="w-12 h-12 bg-linear-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-12 h-12 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
+              style={{ backgroundColor: '#0074F3' }}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
@@ -2495,7 +2496,8 @@ export default function ChatPage() {
                       // Result 페이지로 이동 (캐시 유지, API 호출 안 함)
                       router.push('/result');
                     }}
-                    className="flex-1 px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-xl transition-colors"
+                    className="flex-1 px-4 py-3 text-white font-semibold rounded-xl transition-colors"
+                    style={{ backgroundColor: '#0074F3' }}
                   >
                     나가기
                   </button>
