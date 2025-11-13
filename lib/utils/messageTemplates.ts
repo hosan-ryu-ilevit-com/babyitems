@@ -5,7 +5,7 @@ import { CORE_ATTRIBUTES } from '@/data/attributes';
  * @param phase0Context - Priority 페이지에서 입력한 추가 요청사항
  */
 export function generateIntroMessage(phase0Context?: string): string {
-  const baseMessage = '안녕하세요! 분유포트 구매 도우미에요.\n**실시간 판매량 베스트 상품들** 중에서, 고객님께 딱 맞는 상품을 찾아드려요 😀';
+  const baseMessage = '안녕하세요! 더 정확한 추천을 위해, 고객님의 목소리를 듣고 있어요 😀';
 
 
   return baseMessage;

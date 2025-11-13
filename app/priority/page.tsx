@@ -302,7 +302,7 @@ export default function PriorityPage() {
                     </div>
 
                     {/* Button Group - Unified Tab Bar */}
-                    <div className="flex bg-white rounded-xl p-1 border border-gray-200 gap-1">
+                    <div className="flex bg-white rounded-xl p-1 gap-1">
                       <PriorityButton
                         level="low"
                         selected={prioritySettings[attribute.key as keyof PrioritySettings] === 'low'}
@@ -502,7 +502,7 @@ export default function PriorityPage() {
                 <textarea
                   value={additionalRequest}
                   onChange={(e) => setAdditionalRequest(e.target.value)}
-                  placeholder="예: 쌍둥이라 동시에 분유를 자주 타고, 깔끔하게 세척이 잘 됐으면 좋겠어요. 디자인도 흰색 유광을 좋아해서 예뻤으면 좋겠어요."
+                  placeholder="예: 쌍둥이라 동시에 타는 분유 양이 많고, 깔끔하게 세척이 잘 됐으면 좋겠어요. 디자인은 흰색 유광이였으면 좋겠어요."
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-1 text-gray-900 resize-none"
                   style={{ fontSize: '16px', '--tw-ring-color': '#0084FE' } as React.CSSProperties}
                   rows={4}

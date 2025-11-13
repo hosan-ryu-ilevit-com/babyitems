@@ -29,13 +29,13 @@ function generatePrioritySummary(settings: PrioritySettings, phase0Context?: str
   let summary = '';
 
   if (highPriority.length > 0) {
-    summary += `특히 **${highPriority.join(', ')}**을(를) 중요하게 생각하시는군요!`;
+    summary += `평가해주신 기준을 보니, **${highPriority.join(', ')}**을(를) 중요하게 생각하시는군요!`;
   }
 
-  if (mediumPriority.length > 0) {
-    if (summary) summary += '\n';
-    summary += `그리고 ${mediumPriority.join(', ')}도 적당히 고려하시고 싶으시고요.`;
-  }
+  // if (mediumPriority.length > 0) {
+  //   if (summary) summary += '\n';
+  //   summary += `${mediumPriority.join(', ')}도 적당히 고려하시고 싶으시고요.`;
+  // }
 
   // phase0Context가 있으면 추가 (단, "없어요", "상관없어요" 등은 제외)
   const negativePhrases = ['없어요', '없습니다', '상관없어요', '상관없습니다', '특별한 상황 없어요', '해당 없음'];
@@ -45,7 +45,7 @@ function generatePrioritySummary(settings: PrioritySettings, phase0Context?: str
 
   if (hasValidContext) {
     if (summary) summary += '\n\n';
-    summary += `말씀하신 **"${phase0Context}"** 같은 특별한 상황도 함께 고려할게요!`;
+    summary += `추가로 말씀하신 **"${phase0Context}"** 같은 상황도 모두 이해했습니다.`;
   }
 
   return summary;

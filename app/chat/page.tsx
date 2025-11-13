@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Message, ImportanceLevel, SessionState } from '@/types';
+import { Message, ImportanceLevel, SessionState, UserContextSummary } from '@/types';
 import { CORE_ATTRIBUTES, AttributeInfo } from '@/data/attributes';
 import { AttributeBottomSheet } from '@/components/AttributeBottomSheet';
+import UserContextSummaryComponent from '@/components/UserContextSummary';
 import {
   loadSession,
   saveSession,
@@ -14,7 +15,6 @@ import {
   updateAttributeAssessment,
   moveToNextAttribute,
   changePhase,
-  calculateProgress,
   clearSession,
   getAttributesToAsk,
   isPriorityComplete,
@@ -111,7 +111,7 @@ export default function ChatPage() {
   const [phase, setPhase] = useState<'chat1' | 'chat2'>('chat1');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPhase0Complete, setIsPhase0Complete] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [contextSummary, setContextSummary] = useState<UserContextSummary | null>(null);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
 
   // Priority 플로우 전용 변수들
@@ -259,6 +259,11 @@ export default function ChatPage() {
 
     const session = loadSession();
 
+    // contextSummary가 있으면 항상 로드 (메시지 개수 무관)
+    if (session.contextSummary) {
+      setContextSummary(session.contextSummary);
+    }
+
     if (session.messages.length === 0) {
       // Priority 설정 여부 확인
       const hasPriority = session.prioritySettings && isPriorityComplete(session.prioritySettings);
@@ -312,7 +317,7 @@ export default function ChatPage() {
           }
 
           // 3. "추가로 말할 게 있으면~" 메시지
-          const askMoreMsg = '중요하다고 말씀 주신 구매 조건들에 대해 이야기 하기 전에, **특별한 상황이나 고민이 있으시면** 편하게 이야기해주세요!';
+          const askMoreMsg = '중요하다고 평가한 조건에 대해 대화를 나누며, 더 구체적인 조건을 파악해보려고 해요. 시작하기 전에, **특별한 상황이나 고민이 있으시면** 편하게 이야기해주세요!';
           updatedSession = loadSession();
           updatedSession = addAssistantMessage(updatedSession, askMoreMsg, 'chat1');
           setMessages([...updatedSession.messages]);
@@ -380,7 +385,11 @@ export default function ChatPage() {
       setMessages(session.messages);
       setCurrentAttributeIndex(session.currentAttribute);
       setPhase(session.phase === 'chat2' ? 'chat2' : 'chat1');
-      setProgress(calculateProgress(session));
+
+      // contextSummary 복원
+      if (session.contextSummary) {
+        setContextSummary(session.contextSummary);
+      }
 
       // Priority 설정이 있으면 필터링된 속성 복원
       if (session.prioritySettings && isPriorityComplete(session.prioritySettings)) {
@@ -876,7 +885,6 @@ export default function ChatPage() {
 
       saveSession(session);
       setMessages([...session.messages]);
-      setProgress(calculateProgress(session));
 
       setTypingMessageId(null);
       setShowQuickReplies(true);
@@ -888,7 +896,6 @@ export default function ChatPage() {
       saveSession(session);
       setMessages([...session.messages]);
       setPhase('chat2');
-      setProgress(100);
 
       const lastMessage = session.messages[session.messages.length - 1];
       setTypingMessageId(lastMessage.id);
@@ -1494,7 +1501,6 @@ export default function ChatPage() {
 
         saveSession(session);
         setMessages([...session.messages]);
-        setProgress(calculateProgress(session));
 
         setTypingMessageId(null);
         setShowQuickReplies(true);
@@ -1506,7 +1512,6 @@ export default function ChatPage() {
         saveSession(session);
         setMessages([...session.messages]);
         setPhase('chat2');
-        setProgress(100);
 
         const lastMessage = session.messages[session.messages.length - 1];
         setTypingMessageId(lastMessage.id);
@@ -1634,7 +1639,6 @@ export default function ChatPage() {
           session = await addMessagesSequentially(session, data.messages, 'chat1');
         }
 
-        setProgress(calculateProgress(session));
         saveSession(session);
         setMessages([...session.messages]);
 
@@ -1659,7 +1663,6 @@ export default function ChatPage() {
 
         session = changePhase(session, 'chat2');
         setPhase('chat2');
-        setProgress(100);
 
         saveSession(session);
         setMessages([...session.messages]);
@@ -1727,7 +1730,6 @@ export default function ChatPage() {
           setTypingMessageId(lastMessage.id);
         }
 
-        setProgress(calculateProgress(session));
         saveSession(session);
         setMessages([...session.messages]);
       }
@@ -1803,9 +1805,6 @@ export default function ChatPage() {
       session = addAssistantMessage(session, data.message, 'chat2');
 
       const newMessage = session.messages[session.messages.length - 1];
-
-      // Chat2 단계에서는 항상 100% 유지
-      setProgress(100);
 
       saveSession(session);
       setMessages(session.messages);
@@ -1899,7 +1898,6 @@ export default function ChatPage() {
       saveSession(updatedSession);
       setMessages([...updatedSession.messages]);
       setPhase('chat2');
-      setProgress(100);
 
       const lastMessage = updatedSession.messages[updatedSession.messages.length - 1];
       setTypingMessageId(lastMessage.id);
@@ -1968,24 +1966,6 @@ export default function ChatPage() {
             >
               처음부터
             </button>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="mt-3">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-gray-500">
-                {progress >= 100 ? '추천 받을 수 있어요!' : '진행률'}
-              </span>
-              <span className="text-xs font-semibold text-gray-700">{Math.round(progress)}%</span>
-            </div>
-            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-linear-to-r from-gray-900 to-gray-700"
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.5 }}
-              />
-            </div>
           </div>
         </header>
 
@@ -2065,6 +2045,13 @@ export default function ChatPage() {
 
                     {/* 하단 디바이더 */}
                     <div className="mt-4 mb-2 border-t border-gray-200 opacity-50" />
+
+                    {/* 구매 기준 토글 (인트로 메시지 다음에만 표시) */}
+                    {contextSummary && (
+                      <div className="mt-1 border border-gray-200 rounded-2xl overflow-hidden">
+                        <UserContextSummaryComponent summary={contextSummary} />
+                      </div>
+                    )}
                   </motion.div>
                 );
               }
