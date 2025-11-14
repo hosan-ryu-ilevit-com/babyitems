@@ -97,7 +97,7 @@ export default function FavoritesBottomSheet({
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, x: -100 }}
-                      className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-200"
+                      className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl"
                     >
                       {/* Product Image */}
                       <div className="relative w-20 h-20 flex-shrink-0 bg-white rounded-xl overflow-hidden">

@@ -1,18 +1,84 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { products } from '@/data/products';
 import { Product } from '@/types';
-import { motion } from 'framer-motion';
+
+// Markdown formatting function (handles bold text and lists)
+function formatMarkdown(text: string) {
+  const lines = text.split('\n');
+
+  return lines.map((line, lineIndex) => {
+    // List item detection: "- " or "* " or "• "
+    const listMatch = line.match(/^[\s]*[-*•]\s+(.+)$/);
+
+    if (listMatch) {
+      const content = listMatch[1];
+      // **text** → <strong>text</strong>
+      const parts = content.split(/(\*\*.*?\*\*)/g);
+      const formattedContent = parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          const boldText = part.slice(2, -2);
+          return <strong key={index} className="font-bold">{boldText}</strong>;
+        }
+        return <span key={index}>{part}</span>;
+      });
+
+      return (
+        <div key={lineIndex} className="flex items-start gap-2 my-1.5">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" />
+          <span className="flex-1">{formattedContent}</span>
+        </div>
+      );
+    }
+
+    // Regular text (with bold handling)
+    const parts = line.split(/(\*\*.*?\*\*)/g);
+    const formattedLine = parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return <strong key={index} className="font-bold">{boldText}</strong>;
+      }
+      return <span key={index}>{part}</span>;
+    });
+
+    return <div key={lineIndex}>{formattedLine}</div>;
+  });
+}
+
+// Typing message component with streaming effect
+function TypingMessage({ content, onComplete }: { content: string; onComplete?: () => void }) {
+  const [displayedContent, setDisplayedContent] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < content.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedContent(content.slice(0, currentIndex + 1));
+        setCurrentIndex(currentIndex + 1);
+      }, 10); // 10ms per character
+
+      return () => clearTimeout(timeout);
+    } else if (onComplete) {
+      onComplete();
+    }
+  }, [currentIndex, content, onComplete]);
+
+  return <span className="whitespace-pre-wrap">{formatMarkdown(displayedContent)}</span>;
+}
 
 function ComparePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
+  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string; id?: string }>>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoadingComparison, setIsLoadingComparison] = useState(true);
+  const [isLoadingMessage, setIsLoadingMessage] = useState(false);
+  const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
 
   // Absolute evaluation color system (based on score thresholds)
@@ -66,20 +132,81 @@ function ComparePageContent() {
     fetchProductDetails();
   }, [searchParams, router]);
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isLoadingMessage) return;
+
+    const userMessage = inputValue.trim();
+    const messageId = Date.now().toString();
 
     // Add user message
-    setMessages((prev) => [...prev, { role: 'user', content: inputValue }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage, id: `user-${messageId}` }]);
     setInputValue('');
+    setIsLoadingMessage(true);
 
-    // TODO: Call API to get AI response
-    setTimeout(() => {
+    // Reset textarea height
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+    }
+
+    try {
+      // Build conversation history
+      const conversationHistory = messages
+        .map((m) => `${m.role === 'user' ? '사용자' : 'AI'}: ${m.content}`)
+        .join('\n');
+
+      // Call API
+      const response = await fetch('/api/compare-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userMessage,
+          productIds: selectedProducts.map((p) => p.id),
+          conversationHistory
+        })
+      });
+
+      const data = await response.json();
+
+      const assistantMessageId = `assistant-${messageId}`;
+
+      if (data.type === 'replace' || data.type === 'add') {
+        // Product replacement/addition intent detected
+        // Show AI response with suggested products
+        let aiResponse = data.response;
+
+        if (data.suggestedProducts && data.suggestedProducts.length > 0) {
+          aiResponse += '\n\n추천 제품:\n';
+          data.suggestedProducts.forEach((p: Product & { reason: string }, idx: number) => {
+            aiResponse += `\n${idx + 1}. ${p.title} (${p.price.toLocaleString()}원)\n   ${p.reason}`;
+          });
+        }
+
+        setMessages((prev) => [
+          ...prev,
+          { role: 'assistant', content: aiResponse, id: assistantMessageId }
+        ]);
+        setTypingMessageId(assistantMessageId);
+
+        // TODO: Show product replacement UI or buttons
+      } else {
+        // General answer
+        setMessages((prev) => [
+          ...prev,
+          { role: 'assistant', content: data.response, id: assistantMessageId }
+        ]);
+        setTypingMessageId(assistantMessageId);
+      }
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      const errorMessageId = `error-${messageId}`;
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: `You said: ${inputValue}` },
+        { role: 'assistant', content: '죄송합니다. 응답을 생성하는 중 오류가 발생했습니다.', id: errorMessageId }
       ]);
-    }, 500);
+      setTypingMessageId(errorMessageId);
+    } finally {
+      setIsLoadingMessage(false);
+    }
   };
 
   if (selectedProducts.length === 0) {
@@ -159,6 +286,39 @@ function ComparePageContent() {
                           <p className="text-xs text-gray-900 leading-tight font-semibold line-clamp-2">
                             {product.title}
                           </p>
+                        </td>
+                      ))}
+                    </tr>
+
+                    {/* 액션 버튼 */}
+                    <tr className="border-b border-gray-100">
+                      <td className="py-3 px-2 text-xs font-semibold text-gray-700"></td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="py-3 px-2">
+                          <div className="space-y-1.5">
+                            {/* 쿠팡에서 보기 */}
+                            <button
+                              onClick={() => window.open(product.reviewUrl, '_blank')}
+                              className="w-full py-2 text-xs font-semibold rounded-lg transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
+                            >
+                              쿠팡에서 보기
+                            </button>
+                            {/* 이 상품 질문하기 */}
+                            <button
+                              onClick={() => router.push(`/product-chat?productId=${product.id}&from=/compare`)}
+                              className="w-full py-2 text-xs font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-1"
+                              style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                            >
+                              <svg
+                                className="w-3 h-3"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                              </svg>
+                              <span>질문하기</span>
+                            </button>
+                          </div>
                         </td>
                       ))}
                     </tr>
@@ -468,21 +628,6 @@ function ComparePageContent() {
                         ))}
                       </tr>
                     )}
-
-                    {/* 쿠팡에서 보기 버튼 */}
-                    <tr>
-                      <td className="py-3 px-2"></td>
-                      {selectedProducts.map((product) => (
-                        <td key={product.id} className="py-3 px-2">
-                          <button
-                            onClick={() => window.open(product.reviewUrl, '_blank')}
-                            className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
-                          >
-                            쿠팡에서 보기
-                          </button>
-                        </td>
-                      ))}
-                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -492,56 +637,112 @@ function ComparePageContent() {
 
         {/* Chat Area - Fixed at bottom 40% */}
         <div className="flex-[4] flex flex-col bg-white border-t border-gray-200">
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center text-gray-400">
-                <p className="text-sm">비교하고 싶은 내용을 물어보세요</p>
-                <p className="text-xs mt-1">예: &quot;A와 B 중 소음이 더 적은 건 뭐야?&quot;</p>
+          {/* Messages - Scrollable area */}
+          <div className="flex-1 overflow-y-auto p-4">
+            {messages.length === 0 && (
+              <div className="flex flex-col items-center justify-center h-full px-4">
+                <p className="text-sm text-gray-500 mb-1 text-center">비교하고 싶은 내용을 물어보세요</p>
               </div>
-            ) : (
-              messages.map((message, index) => (
+            )}
+
+            <div className="space-y-3">
+              {messages.map((message) => (
                 <div
-                  key={index}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  key={message.id || message.content}
+                  className={`w-full flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] px-4 py-2 rounded-2xl ${
+                    className={`max-w-[90%] px-4 py-3 ${
                       message.role === 'user'
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-100 text-gray-900'
+                        ? 'bg-gray-100 text-gray-900 rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl'
+                        : 'text-gray-900'
                     }`}
                   >
-                    <p className="text-sm">{message.content}</p>
+                    <div className="text-sm">
+                      {message.role === 'assistant' && typingMessageId === message.id ? (
+                        <TypingMessage
+                          content={message.content}
+                          onComplete={() => setTypingMessageId(null)}
+                        />
+                      ) : (
+                        <div className="whitespace-pre-wrap">{formatMarkdown(message.content)}</div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              ))
-            )}
+              ))}
+
+              {/* Loading indicator - 3 dots animation */}
+              {isLoadingMessage && (
+                <div className="w-full flex justify-start">
+                  <div className="px-4 py-3">
+                    <div className="flex items-center gap-1">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0s_infinite]"></span>
+                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0.15s_infinite]"></span>
+                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0.3s_infinite]"></span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Guide Chips - Hide during streaming, show after completion */}
+              {!typingMessageId && (
+                <div className="flex flex-wrap gap-2 justify-center pt-2 animate-[fadeIn_0.3s_ease-in]">
+                  {[
+                    "가장 세척하기 편한 제품은?",
+                    "소음이 가장 적은 제품은?",
+                    "휴대성이 가장 좋은 제품은?",
+                    "가격 대비 가장 좋은 제품은?"
+                  ].map((query, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setInputValue(query)}
+                      disabled={isLoadingMessage}
+                      className="px-3 py-2 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {query}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
+            </div>
           </div>
 
           {/* Input Area */}
           <div className="p-4 border-t border-gray-200">
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
+            <div className="flex gap-2 items-end">
+              <textarea
+                ref={inputRef}
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  // Auto-resize textarea
+                  e.target.style.height = 'auto';
+                  e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
                 placeholder="메시지를 입력하세요..."
-                className="flex-1 px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-blue-500 text-sm"
+                disabled={isLoadingMessage}
+                rows={1}
+                className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"
               />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={handleSendMessage}
-                disabled={!inputValue.trim()}
-                className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!inputValue.trim() || isLoadingMessage}
+                className="w-12 h-12 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
+                style={{ backgroundColor: '#0074F3' }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="12 19 19 12 12 5" />
-                  <line x1="19" y1="12" x2="5" y2="12" />
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
                 </svg>
-              </motion.button>
+              </button>
             </div>
           </div>
         </div>
