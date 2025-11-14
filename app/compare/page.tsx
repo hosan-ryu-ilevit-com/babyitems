@@ -54,6 +54,12 @@ function TypingMessage({ content, onComplete }: { content: string; onComplete?: 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    // Safety check: ensure content is defined
+    if (!content) {
+      if (onComplete) onComplete();
+      return;
+    }
+
     if (currentIndex < content.length) {
       const timeout = setTimeout(() => {
         setDisplayedContent(content.slice(0, currentIndex + 1));
@@ -82,12 +88,20 @@ function ComparePageContent() {
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [userContext, setUserContext] = useState<{
+    prioritySettings?: Record<string, string>;
+    budget?: { min: number; max: number };
+    phase0Context?: string;
+    chatConversations?: Record<string, Array<{ role: string; content: string }>>;
+  } | null>(null);
+  const [productScores, setProductScores] = useState<Record<string, number>>({});
+  const [productRanks, setProductRanks] = useState<Record<string, number>>({});
 
   // Absolute evaluation color system (based on score thresholds)
   const getColorForScore = (value: number): string => {
     if (value >= 8) return '#49CDCB'; // Excellent (8-10): cyan
-    if (value >= 6) return '#F9B73B'; // Good (6-7): yellow
-    return '#F15850'; // Poor (5 or less): red
+    if (value >= 5) return '#F9B73B'; // Good (5-7): yellow
+    return '#F15850'; // Poor (4 or less): red
   };
 
   useEffect(() => {
@@ -109,6 +123,42 @@ function ComparePageContent() {
     }
 
     setSelectedProducts(foundProducts);
+
+    // Parse user context from URL if available
+    const contextParam = searchParams.get('context');
+    if (contextParam) {
+      try {
+        const context = JSON.parse(decodeURIComponent(contextParam));
+        setUserContext(context);
+        console.log('📊 User context loaded:', context);
+      } catch (error) {
+        console.error('Failed to parse user context:', error);
+      }
+    }
+
+    // Parse product scores from URL if available (from result page)
+    const scoresParam = searchParams.get('scores');
+    if (scoresParam) {
+      try {
+        const scores = JSON.parse(decodeURIComponent(scoresParam));
+        setProductScores(scores);
+        console.log('📊 Product scores loaded:', scores);
+      } catch (error) {
+        console.error('Failed to parse product scores:', error);
+      }
+    }
+
+    // Parse product ranks from URL if available (from result page)
+    const ranksParam = searchParams.get('ranks');
+    if (ranksParam) {
+      try {
+        const ranks = JSON.parse(decodeURIComponent(ranksParam));
+        setProductRanks(ranks);
+        console.log('📊 Product ranks loaded:', ranks);
+      } catch (error) {
+        console.error('Failed to parse product ranks:', error);
+      }
+    }
 
     // Fetch pros/cons from API
     const fetchProductDetails = async () => {
@@ -163,11 +213,21 @@ function ComparePageContent() {
         body: JSON.stringify({
           message: userMessage,
           productIds: selectedProducts.map((p) => p.id),
-          conversationHistory
+          conversationHistory,
+          userContext // Pass Priority context to API
         })
       });
 
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
       const data = await response.json();
+
+      // Check if response has error
+      if (data.error) {
+        throw new Error(data.error);
+      }
 
       const assistantMessageId = `assistant-${messageId}`;
 
@@ -273,7 +333,18 @@ function ComparePageContent() {
                                 className="w-full h-full object-cover"
                               />
                             </div>
-
+                            {/* Ranking badge - show below thumbnail (from result page) */}
+                            {productRanks[product.id] && (
+                              <span
+                                className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
+                                  productRanks[product.id] === 1
+                                    ? 'bg-yellow-400 text-white'
+                                    : 'bg-gray-600 text-white'
+                                }`}
+                              >
+                                {productRanks[product.id]}
+                              </span>
+                            )}
                           </div>
                         </th>
                       ))}
@@ -302,6 +373,27 @@ function ComparePageContent() {
                         </td>
                       ))}
                     </tr>
+
+                    {/* 적합도 - Show only if scores are available (from result page) */}
+                    {Object.keys(productScores).length > 0 && (
+                      <tr className="border-b border-white">
+                        <td className="py-3 px-2 text-xs font-semibold text-gray-700">적합도</td>
+                        {selectedProducts.map((product) => {
+                          const score = productScores[product.id];
+                          return (
+                            <td key={product.id} className="py-3 px-2">
+                              {score ? (
+                                <span className="text-xs font-bold px-2 py-1 rounded-full inline-block" style={{ backgroundColor: '#EAF8F8', color: '#009896' }}>
+                                  {score}%
+                                </span>
+                              ) : (
+                                <p className="text-xs text-gray-400">-</p>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    )}
 
                     {/* 액션 버튼 */}
                     <tr className="border-b border-gray-100">
@@ -646,19 +738,12 @@ function ComparePageContent() {
             className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full bg-[#E5F1FF] rounded-t-xl shadow-lg px-6 py-4 flex items-center justify-between hover:bg-[#D0E7FF] transition-colors"
           >
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-xl bg-[#E5F1FF] flex items-center justify-center">
-                  <svg className="w-5 h-5 text-[#0074F3]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                  </svg>
-                </div>
-                <div className="flex flex-col items-start">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm font-bold text-gray-900">제품 비교 질문하기</span>
-                    <span className="px-1.5 py-0.5 bg-[#0074F3] rounded text-[10px] font-bold text-white">AI</span>
-                  </div>
-                  <span className="text-xs text-gray-500">3개 제품을 비교해드려요</span>
-                </div>
+              <svg className="w-5 h-5 text-[#0074F3]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+              </svg>
+              <div className="flex flex-col items-start">
+                <span className="text-sm font-bold text-gray-900">비교 질문하기</span>
+                <span className="text-xs text-gray-500">3개 제품을 AI와 비교해보세요</span>
               </div>
             </div>
             <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
@@ -699,10 +784,8 @@ function ComparePageContent() {
                 <div className="px-6 py-3 border-b border-gray-200">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <svg className="w-5 h-5 text-[#0074F3]" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                      </svg>
-                      <h2 className="text-base font-bold text-gray-900">제품 비교 질문</h2>
+                      
+                      <h2 className="text-base font-bold text-gray-900">비교 질문하기</h2>
                     </div>
                     <button
                       onClick={() => setIsChatOpen(false)}
@@ -716,9 +799,9 @@ function ComparePageContent() {
                   </div>
 
                   {/* Product Info */}
-                  <div className="flex items-center gap-3 text-xs">
+                  <div className="flex items-center gap-2 text-xs">
                     {selectedProducts.map((product) => (
-                      <div key={product.id} className="flex flex-col flex-1">
+                      <div key={product.id} className="flex flex-col flex-1 bg-gray-50 rounded-lg p-2.5">
                         <span className="font-semibold text-gray-900 line-clamp-2 text-xs leading-tight mb-1">{product.title}</span>
                         <span className="text-xs font-bold text-gray-700">{product.price.toLocaleString()}원</span>
                       </div>
@@ -779,7 +862,7 @@ function ComparePageContent() {
               </div>
 
               {/* Guide Chips - Above input area */}
-              {!typingMessageId && (
+              {!typingMessageId && messages.length === 0 && (
                 <div className="px-4 pb-3 border-t border-gray-100 pt-3 bg-white">
                   <div className="flex flex-wrap gap-2 justify-center animate-[fadeIn_0.3s_ease-in]">
                     {[
