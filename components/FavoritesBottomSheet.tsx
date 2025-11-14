@@ -61,7 +61,7 @@ export default function FavoritesBottomSheet({
             <div className="px-6 py-4 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-gray-900">
-                  찜한 상품
+                  찜하고 비교하기
                 </h2>
                 <button
                   onClick={onClose}
@@ -74,7 +74,7 @@ export default function FavoritesBottomSheet({
                 </button>
               </div>
               <p className="text-sm text-gray-600 mt-1">
-                최대 3개까지 선택 가능 ({favorites.length}/3)
+                3개 선택 가능 ({favorites.length}/3)
               </p>
             </div>
 
@@ -86,7 +86,7 @@ export default function FavoritesBottomSheet({
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                   </svg>
                   <p className="text-base font-medium">찜한 상품이 없습니다</p>
-                  <p className="text-sm mt-2">하트 버튼을 눌러 상품을 찜해보세요</p>
+                  <p className="text-sm mt-1">상품 사진 우측 위 하트를 눌러 상품을 찜해보세요</p>
                 </div>
               ) : (
                 <div className="space-y-4">

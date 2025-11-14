@@ -15,13 +15,11 @@ function ComparePageContent() {
   const [isLoadingComparison, setIsLoadingComparison] = useState(true);
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
 
-  // 3-tier color system helper
-  const getColorForRank = (value: number, values: number[]): string => {
-    const sortedValues = [...values].sort((a, b) => b - a);
-    const rank = sortedValues.indexOf(value);
-    if (rank === 0) return '#49CDCB'; // Best (cyan)
-    if (rank === values.length - 1) return '#F15850'; // Worst (red)
-    return '#F9B73B'; // Medium (yellow)
+  // Absolute evaluation color system (based on score thresholds)
+  const getColorForScore = (value: number): string => {
+    if (value >= 8) return '#49CDCB'; // Excellent (8-10): cyan
+    if (value >= 6) return '#F9B73B'; // Good (6-7): yellow
+    return '#F15850'; // Poor (5 or less): red
   };
 
   useEffect(() => {
@@ -76,7 +74,6 @@ function ComparePageContent() {
     setInputValue('');
 
     // TODO: Call API to get AI response
-    // For now, just echo back
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
@@ -97,34 +94,35 @@ function ComparePageContent() {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       {/* Mobile Container */}
       <div className="relative w-full max-w-[480px] bg-white shadow-lg h-screen flex flex-col">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-white">
-          <button
-            onClick={() => router.back()}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-          <h1 className="text-lg font-bold text-gray-900">제품 비교</h1>
-          <div className="w-10" /> {/* Spacer */}
-        </div>
-
-        {/* Comparison Table - Fixed Top 60% */}
+        {/* Comparison Table - Fixed Top 60% with scrollable content */}
         <div className="flex-[6] overflow-y-auto bg-gray-50 border-b border-gray-200">
+          {/* Header - Scrolls with content */}
+          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-white sticky top-0 z-10">
+            <button
+              onClick={() => router.back()}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <h1 className="text-lg font-bold text-gray-900">제품 비교</h1>
+            <div className="w-10" /> {/* Spacer */}
+          </div>
+
+          {/* Table content */}
+
           <div className="p-4">
-            <div className="bg-white rounded-xl p-4 border border-gray-200">
-              <h3 className="text-sm font-bold text-gray-900 mb-3">제품 비교</h3>
+            <div className="bg-white rounded-xl p-4">
 
               {/* Table Format */}
-              <div className="overflow-x-auto -mx-4 px-4">
+              <div className="overflow-x-auto -mx-4 px-4 scrollbar-hide">
                 <table className="w-full min-w-[600px]">
                   <thead>
                     <tr className="border-b border-gray-200">
                       <th className="text-left py-3 px-2 text-xs font-semibold text-gray-500 w-24"></th>
                       {selectedProducts.map((product) => (
-                        <th key={product.id} className="py-3 px-2 text-center">
+                        <th key={product.id} className="py-3 px-2 text-center" style={{ width: '28%' }}>
                           <div className="flex flex-col items-center gap-2">
                             <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
                               <img
@@ -133,9 +131,7 @@ function ComparePageContent() {
                                 className="w-full h-full object-cover"
                               />
                             </div>
-                            <div className="w-6 h-6 bg-gray-900 rounded-full flex items-center justify-center">
-                              <span className="text-white font-bold text-xs">{product.ranking}</span>
-                            </div>
+
                           </div>
                         </th>
                       ))}
@@ -171,9 +167,7 @@ function ComparePageContent() {
                       <td className="py-3 px-2 text-xs font-semibold text-gray-700">온도 조절/유지</td>
                       {selectedProducts.map((product) => {
                         const value = product.coreValues.temperatureControl;
-                        const values = selectedProducts.map(p => p.coreValues.temperatureControl);
-                        const color = getColorForRank(value, values);
-                        const isMax = value === Math.max(...values);
+                        const color = getColorForScore(value);
                         return (
                           <td key={product.id} className="py-3 px-2">
                             <div className="space-y-1">
@@ -181,7 +175,6 @@ function ComparePageContent() {
                                 <span className="text-xs font-bold" style={{ color }}>
                                   {value}/10
                                 </span>
-                                {isMax && <span className="text-[10px] font-semibold" style={{ color }}>최고</span>}
                               </div>
                               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                 <div
@@ -200,9 +193,7 @@ function ComparePageContent() {
                       <td className="py-3 px-2 text-xs font-semibold text-gray-700">위생/세척</td>
                       {selectedProducts.map((product) => {
                         const value = product.coreValues.hygiene;
-                        const values = selectedProducts.map(p => p.coreValues.hygiene);
-                        const color = getColorForRank(value, values);
-                        const isMax = value === Math.max(...values);
+                        const color = getColorForScore(value);
                         return (
                           <td key={product.id} className="py-3 px-2">
                             <div className="space-y-1">
@@ -210,7 +201,6 @@ function ComparePageContent() {
                                 <span className="text-xs font-bold" style={{ color }}>
                                   {value}/10
                                 </span>
-                                {isMax && <span className="text-[10px] font-semibold" style={{ color }}>최고</span>}
                               </div>
                               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                 <div
@@ -229,9 +219,7 @@ function ComparePageContent() {
                       <td className="py-3 px-2 text-xs font-semibold text-gray-700">소재/안전성</td>
                       {selectedProducts.map((product) => {
                         const value = product.coreValues.material;
-                        const values = selectedProducts.map(p => p.coreValues.material);
-                        const color = getColorForRank(value, values);
-                        const isMax = value === Math.max(...values);
+                        const color = getColorForScore(value);
                         return (
                           <td key={product.id} className="py-3 px-2">
                             <div className="space-y-1">
@@ -239,7 +227,6 @@ function ComparePageContent() {
                                 <span className="text-xs font-bold" style={{ color }}>
                                   {value}/10
                                 </span>
-                                {isMax && <span className="text-[10px] font-semibold" style={{ color }}>최고</span>}
                               </div>
                               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                 <div
@@ -258,9 +245,7 @@ function ComparePageContent() {
                       <td className="py-3 px-2 text-xs font-semibold text-gray-700">사용 편의성</td>
                       {selectedProducts.map((product) => {
                         const value = product.coreValues.usability;
-                        const values = selectedProducts.map(p => p.coreValues.usability);
-                        const color = getColorForRank(value, values);
-                        const isMax = value === Math.max(...values);
+                        const color = getColorForScore(value);
                         return (
                           <td key={product.id} className="py-3 px-2">
                             <div className="space-y-1">
@@ -268,7 +253,6 @@ function ComparePageContent() {
                                 <span className="text-xs font-bold" style={{ color }}>
                                   {value}/10
                                 </span>
-                                {isMax && <span className="text-[10px] font-semibold" style={{ color }}>최고</span>}
                               </div>
                               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                 <div
@@ -287,9 +271,7 @@ function ComparePageContent() {
                       <td className="py-3 px-2 text-xs font-semibold text-gray-700">휴대성</td>
                       {selectedProducts.map((product) => {
                         const value = product.coreValues.portability;
-                        const values = selectedProducts.map(p => p.coreValues.portability);
-                        const color = getColorForRank(value, values);
-                        const isMax = value === Math.max(...values);
+                        const color = getColorForScore(value);
                         return (
                           <td key={product.id} className="py-3 px-2">
                             <div className="space-y-1">
@@ -297,7 +279,6 @@ function ComparePageContent() {
                                 <span className="text-xs font-bold" style={{ color }}>
                                   {value}/10
                                 </span>
-                                {isMax && <span className="text-[10px] font-semibold" style={{ color }}>최고</span>}
                               </div>
                               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                 <div
@@ -316,9 +297,7 @@ function ComparePageContent() {
                       <td className="py-3 px-2 text-xs font-semibold text-gray-700">가격 대비 가치</td>
                       {selectedProducts.map((product) => {
                         const value = product.coreValues.priceValue;
-                        const values = selectedProducts.map(p => p.coreValues.priceValue);
-                        const color = getColorForRank(value, values);
-                        const isMax = value === Math.max(...values);
+                        const color = getColorForScore(value);
                         return (
                           <td key={product.id} className="py-3 px-2">
                             <div className="space-y-1">
@@ -326,7 +305,6 @@ function ComparePageContent() {
                                 <span className="text-xs font-bold" style={{ color }}>
                                   {value}/10
                                 </span>
-                                {isMax && <span className="text-[10px] font-semibold" style={{ color }}>최고</span>}
                               </div>
                               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                 <div
@@ -345,9 +323,7 @@ function ComparePageContent() {
                       <td className="py-3 px-2 text-xs font-semibold text-gray-700">부가 기능/디자인</td>
                       {selectedProducts.map((product) => {
                         const value = product.coreValues.additionalFeatures;
-                        const values = selectedProducts.map(p => p.coreValues.additionalFeatures);
-                        const color = getColorForRank(value, values);
-                        const isMax = value === Math.max(...values);
+                        const color = getColorForScore(value);
                         return (
                           <td key={product.id} className="py-3 px-2">
                             <div className="space-y-1">
@@ -355,7 +331,6 @@ function ComparePageContent() {
                                 <span className="text-xs font-bold" style={{ color }}>
                                   {value}/10
                                 </span>
-                                {isMax && <span className="text-[10px] font-semibold" style={{ color }}>최고</span>}
                               </div>
                               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                 <div
@@ -378,14 +353,26 @@ function ComparePageContent() {
                           return (
                             <td key={product.id} className="py-3 px-2 align-top">
                               {details && details.pros.length > 0 ? (
-                                <ul className="space-y-1">
+                                <div className="rounded-lg p-2.5 space-y-1.5" style={{ backgroundColor: '#ECFAF3' }}>
                                   {details.pros.slice(0, 3).map((pro, idx) => (
-                                    <li key={idx} className="text-xs text-gray-700 leading-tight flex items-start gap-1">
-                                      <span className="text-green-500 shrink-0 mt-0.5">✓</span>
-                                      <span className="line-clamp-2">{pro}</span>
-                                    </li>
+                                    <div key={idx} className="text-xs leading-relaxed flex items-start gap-1.5 text-gray-700">
+                                      <svg
+                                        className="shrink-0 mt-0.5"
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="#22C55E"
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      >
+                                        <polyline points="20 6 9 17 4 12" />
+                                      </svg>
+                                      <span>{pro}</span>
+                                    </div>
                                   ))}
-                                </ul>
+                                </div>
                               ) : (
                                 <p className="text-xs text-gray-400">-</p>
                               )}
@@ -395,7 +382,7 @@ function ComparePageContent() {
                       </tr>
                     )}
 
-                    {/* 단점 */}
+                    {/* 주의점 */}
                     {!isLoadingComparison && Object.keys(productDetails).length > 0 && (
                       <tr className="border-b border-gray-100">
                         <td className="py-3 px-2 text-xs font-semibold text-gray-700 align-top">주의점</td>
@@ -404,14 +391,27 @@ function ComparePageContent() {
                           return (
                             <td key={product.id} className="py-3 px-2 align-top">
                               {details && details.cons.length > 0 ? (
-                                <ul className="space-y-1">
+                                <div className="rounded-lg p-2.5 space-y-1.5" style={{ backgroundColor: '#FFF6EC' }}>
                                   {details.cons.slice(0, 3).map((con, idx) => (
-                                    <li key={idx} className="text-xs text-gray-600 leading-tight flex items-start gap-1">
-                                      <span className="shrink-0 mt-0.5">•</span>
-                                      <span className="line-clamp-2">{con}</span>
-                                    </li>
+                                    <div key={idx} className="text-xs leading-relaxed flex items-start gap-1.5 text-gray-700">
+                                      <svg
+                                        className="shrink-0 mt-0.5"
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="#EF4444"
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      >
+                                        <line x1="18" y1="6" x2="6" y2="18" />
+                                        <line x1="6" y1="6" x2="18" y2="18" />
+                                      </svg>
+                                      <span>{con}</span>
+                                    </div>
                                   ))}
-                                </ul>
+                                </div>
                               ) : (
                                 <p className="text-xs text-gray-400">-</p>
                               )}
@@ -424,13 +424,13 @@ function ComparePageContent() {
                     {/* 비교 */}
                     {!isLoadingComparison && Object.keys(productDetails).length > 0 && (
                       <tr className="border-b border-gray-100">
-                        <td className="py-3 px-2 text-xs font-semibold text-gray-700 align-top">타 제품 대비</td>
+                        <td className="py-3 px-2 text-xs font-semibold text-gray-700 align-top">한줄 비교</td>
                         {selectedProducts.map((product) => {
                           const details = productDetails[product.id];
                           return (
                             <td key={product.id} className="py-3 px-2 align-top">
                               {details && details.comparison ? (
-                                <p className="text-xs text-gray-700 leading-relaxed">
+                                <p className="text-xs text-gray-700 leading-relaxed font-semibold">
                                   {details.comparison}
                                 </p>
                               ) : (
@@ -482,14 +482,14 @@ function ComparePageContent() {
           </div>
         </div>
 
-        {/* Chat Area - Bottom 40% */}
-        <div className="flex-[4] flex flex-col bg-white">
+        {/* Chat Area - Fixed at bottom 40% */}
+        <div className="flex-[4] flex flex-col bg-white border-t border-gray-200">
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center text-gray-400">
                 <p className="text-sm">비교하고 싶은 내용을 물어보세요</p>
-                <p className="text-xs mt-1">예: "A와 B 중 소음이 더 적은 건 뭐야?"</p>
+                <p className="text-xs mt-1">예: &quot;A와 B 중 소음이 더 적은 건 뭐야?&quot;</p>
               </div>
             ) : (
               messages.map((message, index) => (
