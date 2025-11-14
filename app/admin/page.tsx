@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { SessionSummary } from '@/types/logging';
+import type { SessionSummary, DashboardStats } from '@/types/logging';
 import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 
 // 액션 통계 타입
@@ -24,6 +24,8 @@ export default function AdminPage() {
   const [selectedSessions, setSelectedSessions] = useState<Set<string>>(new Set());
   const [isDashboardExpanded, setIsDashboardExpanded] = useState(false);
   const [allSessions, setAllSessions] = useState<SessionSummary[]>([]); // 전체 날짜 세션
+  const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState(false);
 
   // 비밀번호 검증
   const handleLogin = () => {
@@ -51,9 +53,29 @@ export default function AdminPage() {
         fetchLogs(data.dates[0]);
         // 전체 날짜의 로그를 가져와서 누적 통계 계산
         fetchAllLogs(data.dates);
+        // 통계 대시보드 가져오기
+        fetchDashboardStats();
       }
     } catch {
       setError('날짜 목록을 불러오는데 실패했습니다.');
+    }
+  };
+
+  // 통계 대시보드 가져오기
+  const fetchDashboardStats = async () => {
+    setStatsLoading(true);
+    try {
+      const response = await fetch('/api/admin/stats', {
+        headers: {
+          'x-admin-password': '1545',
+        },
+      });
+      const data = await response.json();
+      setDashboardStats(data);
+    } catch (error) {
+      console.error('Failed to fetch dashboard stats:', error);
+    } finally {
+      setStatsLoading(false);
     }
   };
 
@@ -487,7 +509,7 @@ export default function AdminPage() {
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-lg p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">육아용품 MVP (v0.2.1) - 사용자 로그</h1>
+            <h1 className="text-2xl font-bold">아기용품 MVP - 사용자 로그 (v0.4: 13일 18시 배포)</h1>
             <div className="flex gap-3">
               <button
                 onClick={() => window.location.href = '/admin/upload'}
@@ -507,7 +529,196 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* 액션 통계 대시보드 */}
+          {/* 신규 통계 대시보드 */}
+          <div className="border-t pt-4 mt-4">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">📊 통계 대시보드</h2>
+
+            {statsLoading ? (
+              <div className="text-center py-8">
+                <p className="text-gray-600">통계 로딩 중...</p>
+              </div>
+            ) : dashboardStats ? (
+              <div className="space-y-6">
+                {/* 1. 홈 페이지 통계 */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    🏠 홈 페이지
+                  </h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">총 방문</p>
+                      <p className="text-2xl font-bold text-gray-900">{dashboardStats.home.totalVisits}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">1분만에 추천받기</p>
+                      <p className="text-2xl font-bold text-blue-600">{dashboardStats.home.quickStartClicks}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">랭킹보기</p>
+                      <p className="text-2xl font-bold text-purple-600">{dashboardStats.home.rankingPageClicks}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. 홈 랭킹 페이지 전체 통계 */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    📊 홈 랭킹 페이지 전체
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">쿠팡 클릭</p>
+                      <p className="text-2xl font-bold text-orange-600">{dashboardStats.ranking.coupangClicks}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">질문하기</p>
+                      <p className="text-2xl font-bold text-green-600">{dashboardStats.ranking.chatClicks}</p>
+                    </div>
+                  </div>
+
+                  {/* 상품별 클릭 통계 */}
+                  {dashboardStats.ranking.productClicks.length > 0 && (
+                    <div className="mt-4">
+                      <p className="text-sm font-semibold text-gray-700 mb-2">상품별 클릭 통계</p>
+                      <div className="bg-white rounded-lg overflow-hidden">
+                        <table className="w-full text-xs">
+                          <thead className="bg-gray-100">
+                            <tr>
+                              <th className="px-3 py-2 text-center font-semibold">클릭<br/>순위</th>
+                              <th className="px-3 py-2 text-center font-semibold">랭킹</th>
+                              <th className="px-3 py-2 text-left font-semibold">상품명</th>
+                              <th className="px-3 py-2 text-center font-semibold">총 클릭</th>
+                              <th className="px-3 py-2 text-center font-semibold">쿠팡</th>
+                              <th className="px-3 py-2 text-center font-semibold">질문</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200">
+                            {dashboardStats.ranking.productClicks.slice(0, 10).map((product, idx) => (
+                              <tr key={product.productId} className="hover:bg-gray-50">
+                                <td className="px-3 py-2 text-center">
+                                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold">
+                                    {idx + 1}
+                                  </span>
+                                </td>
+                                <td className="px-3 py-2 text-center">
+                                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold">
+                                    {product.ranking}
+                                  </span>
+                                </td>
+                                <td className="px-3 py-2 text-gray-900 font-medium">{product.productTitle}</td>
+                                <td className="px-3 py-2 text-center">
+                                  <span className="px-2 py-1 bg-gray-100 text-gray-900 rounded-full font-semibold">
+                                    {product.totalClicks}
+                                  </span>
+                                </td>
+                                <td className="px-3 py-2 text-center text-orange-600 font-medium">{product.coupangClicks}</td>
+                                <td className="px-3 py-2 text-center text-green-600 font-medium">{product.chatClicks}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. Priority 페이지 통계 */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    🎯 Priority 페이지
+                  </h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">총 방문</p>
+                      <p className="text-2xl font-bold text-gray-900">{dashboardStats.priority.totalVisits}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">바로 추천받기</p>
+                      <p className="text-2xl font-bold text-yellow-600">{dashboardStats.priority.quickRecommendations}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">채팅으로 추천</p>
+                      <p className="text-2xl font-bold text-blue-600">{dashboardStats.priority.chatRecommendations}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Result 페이지 통계 */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    🏆 Result 페이지
+                  </h3>
+                  <div className="grid grid-cols-4 gap-4 mb-4">
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">총 방문</p>
+                      <p className="text-2xl font-bold text-gray-900">{dashboardStats.result.totalVisits}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">상세 채팅</p>
+                      <p className="text-2xl font-bold text-blue-600">{dashboardStats.result.detailChatClicks}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">쿠팡 클릭</p>
+                      <p className="text-2xl font-bold text-orange-600">{dashboardStats.result.totalCoupangClicks}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center">
+                      <p className="text-xs text-gray-600 mb-1">질문하기</p>
+                      <p className="text-2xl font-bold text-green-600">{dashboardStats.result.totalProductChatClicks}</p>
+                    </div>
+                  </div>
+
+                  {/* 추천 상품 통계 */}
+                  {dashboardStats.result.recommendations.length > 0 && (
+                    <div className="mt-4">
+                      <p className="text-sm font-semibold text-gray-700 mb-2">추천된 상품 통계</p>
+                      <div className="bg-white rounded-lg overflow-hidden">
+                        <table className="w-full text-xs">
+                          <thead className="bg-gray-100">
+                            <tr>
+                              <th className="px-3 py-2 text-left font-semibold">상품명</th>
+                              <th className="px-3 py-2 text-center font-semibold">총 추천</th>
+                              <th className="px-3 py-2 text-center font-semibold">1위</th>
+                              <th className="px-3 py-2 text-center font-semibold">2위</th>
+                              <th className="px-3 py-2 text-center font-semibold">3위</th>
+                              <th className="px-3 py-2 text-center font-semibold">쿠팡</th>
+                              <th className="px-3 py-2 text-center font-semibold">질문</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200">
+                            {dashboardStats.result.recommendations.slice(0, 10).map((product) => (
+                              <tr key={product.productId} className="hover:bg-gray-50">
+                                <td className="px-3 py-2 text-gray-900 font-medium">{product.productTitle}</td>
+                                <td className="px-3 py-2 text-center">
+                                  <span className="px-2 py-1 bg-purple-100 text-purple-900 rounded-full font-semibold">
+                                    {product.recommendCount}
+                                  </span>
+                                </td>
+                                <td className="px-3 py-2 text-center">
+                                  <span className="px-2 py-1 bg-yellow-100 text-yellow-900 rounded-full font-semibold">
+                                    {product.rank1Count}
+                                  </span>
+                                </td>
+                                <td className="px-3 py-2 text-center text-gray-600 font-medium">{product.rank2Count}</td>
+                                <td className="px-3 py-2 text-center text-gray-600 font-medium">{product.rank3Count}</td>
+                                <td className="px-3 py-2 text-center text-orange-600 font-medium">{product.coupangClicks}</td>
+                                <td className="px-3 py-2 text-center text-green-600 font-medium">{product.chatClicks}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-600">통계 데이터가 없습니다.</p>
+              </div>
+            )}
+          </div>
+
+          {/* 기존 액션 통계 대시보드 */}
           <div className="border-t pt-4 mt-4">
             <button
               onClick={() => setIsDashboardExpanded(!isDashboardExpanded)}
@@ -521,7 +732,7 @@ export default function AdminPage() {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-              <span>📊 액션 통계 대시보드</span>
+              <span>📋 상세 액션 로그</span>
             </button>
 
             {isDashboardExpanded && (
