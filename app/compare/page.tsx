@@ -97,7 +97,7 @@ function ComparePageContent() {
         {/* Comparison Table - Fixed Top 60% with scrollable content */}
         <div className="flex-[6] overflow-y-auto bg-gray-50 border-b border-gray-200">
           {/* Header - Scrolls with content */}
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-white sticky top-0 z-10">
+          <div className="px-6 py-1 flex items-center justify-between bg-gray-50">
             <button
               onClick={() => router.back()}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -106,9 +106,22 @@ function ComparePageContent() {
                 <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
-            <h1 className="text-lg font-bold text-gray-900">제품 비교</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg font-bold text-gray-900">제품 비교하기</h1>
+              <span className="px-2 py-0.5 bg-[#0084FE]/10 rounded-md text-xs font-bold flex items-center gap-1 text-[#0084FE]">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
+                <span>AI</span>
+              </span>
+            </div>
             <div className="w-10" /> {/* Spacer */}
           </div>
+
+          {/* 가로 스크롤 힌트 */}
+          <p className="text-xs text-gray-400 text-center py-2 bg-gray-50">
+            ← 좌우로 스크롤해서 확인하세요 →
+          </p>
 
           {/* Table content */}
 
@@ -473,11 +486,6 @@ function ComparePageContent() {
                   </tbody>
                 </table>
               </div>
-
-              {/* 가로 스크롤 힌트 */}
-              <p className="text-xs text-gray-400 text-center mt-3">
-                ← 좌우로 스크롤해서 확인하세요 →
-              </p>
             </div>
           </div>
         </div>
