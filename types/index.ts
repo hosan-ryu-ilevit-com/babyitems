@@ -162,6 +162,12 @@ export interface ConversationalState {
   isIntroduced: boolean;                       // 인트로 완료 여부
 }
 
+// Favorite products state (for comparison feature)
+export interface FavoritesState {
+  productIds: string[];  // 찜한 제품 ID 목록 (최대 3개)
+  timestamp: number;     // 마지막 업데이트 시간
+}
+
 // Session state
 export interface SessionState {
   phase: 'home' | 'ranking' | 'priority' | 'chat1' | 'chat2' | 'result';

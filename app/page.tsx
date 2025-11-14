@@ -1,17 +1,21 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { products } from '@/data/products';
 import { useEffect, useState } from 'react';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
+import FavoritesBottomSheet from '@/components/FavoritesBottomSheet';
 import { Product } from '@/types';
+import { useFavorites } from '@/hooks/useFavorites';
 
 export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isFavoritesSheetOpen, setIsFavoritesSheetOpen] = useState(false);
+  const { favorites, toggleFavorite, isFavorite, canAddMore, count } = useFavorites();
 
   // 페이지 뷰 로깅
   useEffect(() => {
@@ -23,6 +27,23 @@ export default function Home() {
     setIsBottomSheetOpen(true);
     logButtonClick(`제품 클릭: ${product.title}`, 'home');
   };
+
+  const handleHeartClick = (e: React.MouseEvent, productId: string) => {
+    e.stopPropagation(); // Prevent product click event
+    const success = toggleFavorite(productId);
+    if (!success && !isFavorite(productId)) {
+      // Show toast or alert when max limit reached
+      alert('최대 3개까지 찜할 수 있습니다');
+    }
+    logButtonClick(`찜하기 토글: ${productId}`, 'home');
+  };
+
+  const handleFavoritesClick = () => {
+    setIsFavoritesSheetOpen(true);
+    logButtonClick('찜 목록 열기', 'home');
+  };
+
+  const favoriteProducts = products.filter((p) => favorites.includes(p.id));
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -145,6 +166,27 @@ export default function Home() {
                       {product.ranking}
                     </span>
                   </div>
+
+                  {/* Heart Button - Top Right */}
+                  <motion.button
+                    onClick={(e) => handleHeartClick(e, product.id)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors z-10"
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill={isFavorite(product.id) ? "#FF6B6B" : "none"}
+                      stroke={isFavorite(product.id) ? "#FF6B6B" : "#6B7280"}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                  </motion.button>
                 </div>
 
                 {/* Product Info */}
@@ -176,7 +218,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-0 left-0 right-0 px-6 py-4 bg-white/95 backdrop-blur-sm border-t border-gray-200"
+            className="fixed bottom-0 left-0 right-0 px-6 py-4 bg-white/95 backdrop-blur-sm border-t border-gray-200 z-40"
             style={{ maxWidth: '480px', margin: '0 auto' }}
           >
             <Link href="/priority">
@@ -191,6 +233,51 @@ export default function Home() {
               </motion.button>
             </Link>
           </motion.div>
+
+          {/* Favorites Floating Button - Bottom Right (above CTA) - Capsule Style */}
+          <AnimatePresence>
+            {count > 0 && (
+              <motion.button
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleFavoritesClick}
+                className="fixed bottom-[100px] right-6 px-4 py-3 bg-white rounded-full shadow-lg flex items-center gap-2 border-2 z-40"
+                style={{
+                  maxWidth: '480px',
+                  borderColor: '#FF6B6B'
+                }}
+              >
+                <div className="relative flex items-center gap-2">
+                  {/* Heart Icon */}
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#FF6B6B"
+                    stroke="#FF6B6B"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  </svg>
+
+                  {/* Count Badge */}
+                  <div className="flex items-center justify-center w-6 h-6 bg-[#FF6B6B] rounded-full">
+                    <span className="text-white text-xs font-bold">{count}</span>
+                  </div>
+
+                  {/* Text */}
+                  <span className="text-sm font-semibold whitespace-nowrap" style={{ color: '#FF6B6B' }}>
+                    찜한 상품 비교하기
+                  </span>
+                </div>
+              </motion.button>
+            )}
+          </AnimatePresence>
         </section>
 
         {/* Product Bottom Sheet */}
@@ -198,6 +285,29 @@ export default function Home() {
           isOpen={isBottomSheetOpen}
           product={selectedProduct}
           onClose={() => setIsBottomSheetOpen(false)}
+          onAddToFavorites={(productId) => {
+            const success = toggleFavorite(productId);
+            if (!success && !isFavorite(productId)) {
+              alert('최대 3개까지 찜할 수 있습니다');
+            }
+          }}
+          isFavorite={selectedProduct ? isFavorite(selectedProduct.id) : false}
+          onOpenFavorites={() => {
+            setIsBottomSheetOpen(false);
+            setTimeout(() => setIsFavoritesSheetOpen(true), 300);
+          }}
+          favoritesCount={count}
+        />
+
+        {/* Favorites Bottom Sheet */}
+        <FavoritesBottomSheet
+          isOpen={isFavoritesSheetOpen}
+          onClose={() => setIsFavoritesSheetOpen(false)}
+          favorites={favoriteProducts}
+          onRemove={(productId) => {
+            toggleFavorite(productId);
+            logButtonClick(`찜 취소: ${productId}`, 'home');
+          }}
         />
       </div>
     </div>

@@ -19,14 +19,15 @@ npm run lint        # Run ESLint
 
 ## Architecture Overview
 
-### Page Flow (7 Pages)
+### Page Flow (8 Pages)
 1. **Home** (`/`) → Start button
 2. **Ranking** (`/ranking`) → Product list view
 3. **Priority** (`/priority`) → Single-page priority & budget selection
 4. **Chat** (`/chat`) → Deep-dive conversation on 'high' priority attributes (optional)
 5. **Result** (`/result`) → Top 3 personalized recommendations
-6. **Admin** (`/admin`) → Log viewer with conversation tracking
-7. **Admin Upload** (`/admin/upload`) → Product management interface
+6. **Product Chat** (`/product-chat`) → Detailed Q&A about specific products
+7. **Admin** (`/admin`) → Log viewer with statistics dashboard
+8. **Admin Upload** (`/admin/upload`) → Product management interface
 
 ### Priority Flow (Main User Journey)
 
@@ -238,6 +239,23 @@ SSE streaming endpoint
 - Output: Progress events (0-100%) + final recommendations
 - Format: `data: {"phase": "...", "progress": ..., "message": "..."}\n\n`
 
+#### **POST /api/product-chat**
+Product-specific Q&A endpoint
+- Input: `{ message, productId, conversationHistory }`
+- Output: AI-generated answers about specific product features and details
+- Uses product data and user persona for contextual responses
+
+#### **GET /api/admin/stats**
+Statistics dashboard endpoint (requires authentication)
+- Auth: `x-admin-password: '1545'` header
+- Output: `DashboardStats` with comprehensive analytics:
+  - Home page visits and button clicks
+  - Ranking page product click statistics
+  - Priority page conversion metrics (quick vs chat recommendations)
+  - Result page recommendation statistics and product performance
+- Excludes test IPs: `['::1', '211.53.92.162']`
+- Aggregates data across all dates in Supabase `daily_logs` table
+
 ### AI Integration (`lib/ai/gemini.ts`)
 
 **Model**: `gemini-flash-lite-latest`
@@ -248,6 +266,44 @@ SSE streaming endpoint
 - 분류 (전환 의사 분석): 0.3
 - 생성 (속성별 대화, Chat2): 0.7
 
+### Product Data Structure
+
+**Location**: `data/products/` directory (markdown files with frontmatter)
+
+**Format**:
+```markdown
+---
+id: "product-id"
+title: "제품명"
+brand: "브랜드명"
+price: 89000
+ranking: 1
+image: "/images/products/product-image.jpg"
+coupangUrl: "https://link.coupang.com/..."
+coreValues:
+  temperatureControl: 8
+  hygiene: 9
+  material: 8
+  usability: 7
+  portability: 6
+  priceValue: 8
+  additionalFeatures: 7
+  durability: 7  # Not used in UI but kept for data
+tags: ["스테인리스", "빠른 가열"]
+---
+
+# 제품 특징 섹션 (마크다운 본문)
+## 장점
+- 특징 1
+- 특징 2
+...
+```
+
+**Loading**: Use `loadAllProducts()` from `lib/data/productLoader.ts`
+- Parses frontmatter using `gray-matter`
+- Sorts by ranking
+- Returns `Product[]` type
+
 ### Key Agents
 
 **Priority 플로우 전용**:
@@ -257,6 +313,7 @@ SSE streaming endpoint
 **공통**:
 - `lib/agents/productEvaluator.ts`: Top 5 제품 평가
 - `lib/agents/recommendationWriter.ts`: Top 3 추천 이유 생성
+- `lib/agents/reviewAnalyzer.ts`: Admin upload 시 Coupang 리뷰 분석
 
 **DEPRECATED**:
 - `lib/ai/intentAnalyzer.ts`: 자연어 의도 분석 (analyzeUserIntent)
@@ -272,8 +329,16 @@ SSE streaming endpoint
 
 **Logging** (`lib/logging/`):
 - `logger.ts`: 서버 Supabase 로깅
-- `clientLogger.ts`: 클라이언트 래퍼
+- `clientLogger.ts`: 클라이언트 래퍼 (`logPageView`, `logButtonClick`, etc.)
 - Table: `daily_logs` (date + events array)
+- **Event Types**:
+  - `page_view`: 페이지 방문 추적
+  - `button_click`: 버튼 클릭 추적 (buttonLabel 포함)
+  - `recommendation_received`: 추천 결과 수신 (recommendations 객체 포함)
+  - `message_sent`: 채팅 메시지 전송
+  - `priority_set`: Priority 설정 완료
+- **SessionSummary**: 세션별 집계 데이터 (journey, completed, recommendationMethods)
+- **DashboardStats**: 전체 통계 집계 (home, ranking, priority, result 섹션별)
 
 ### UI/UX Guidelines
 
@@ -318,6 +383,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 - **강제 전환**: 턴 5 도달 시 사용자 응답 무시하고 다음 속성으로
 - **Phase 0 맥락**: Priority 플로우에서는 "특별한 상황" 중심, 필수 아님
 - **Durability 속성**: `CoreValues`에는 존재하지만 UI/대화에서는 사용 안 함
+- **Admin 인증**: Admin 페이지 및 통계 API는 하드코딩된 비밀번호 '1545' 사용 (프로덕션에서는 환경 변수로 이동 권장)
+- **Test IP 필터링**: 통계에서 `['::1', '211.53.92.162']` 자동 제외됨
 
 ## Migration Notes (기존 플로우 → Priority 플로우)
 
@@ -384,5 +451,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 4. Click "추천 받기" button
 
 **Admin features**:
-- `/admin` - View logs (requires Supabase)
+- `/admin` - View logs and statistics dashboard (requires Supabase)
+  - Password: `1545`
+  - Statistics dashboard shows:
+    - Home/Ranking/Priority/Result page analytics
+    - Product click rankings and conversion rates
+    - Recommendation performance (which products recommended most, click-through rates)
+  - Detailed action logs (expandable section)
+  - Session tracking with user journey visualization
 - `/admin/upload` - Upload new products from Coupang review URLs

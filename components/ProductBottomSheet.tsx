@@ -11,9 +11,21 @@ interface ProductBottomSheetProps {
   isOpen: boolean;
   product: Product | null;
   onClose: () => void;
+  onAddToFavorites?: (productId: string) => void;
+  isFavorite?: boolean;
+  onOpenFavorites?: () => void;
+  favoritesCount?: number;
 }
 
-export default function ProductBottomSheet({ isOpen, product, onClose }: ProductBottomSheetProps) {
+export default function ProductBottomSheet({
+  isOpen,
+  product,
+  onClose,
+  onAddToFavorites,
+  isFavorite = false,
+  onOpenFavorites,
+  favoritesCount = 0
+}: ProductBottomSheetProps) {
   const router = useRouter();
 
   if (!product) return null;
@@ -99,34 +111,95 @@ export default function ProductBottomSheet({ isOpen, product, onClose }: Product
               </div>
 
               {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-2 pb-2">
-                <button
-                  onClick={() => {
-                    logButtonClick(`쿠팡에서 보기: ${product.title}`, 'home_bottomsheet');
-                    window.open(product.reviewUrl, '_blank');
-                  }}
-                  className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
-                >
-                  쿠팡에서 보기
-                </button>
-                <button
-                  onClick={() => {
-                    logButtonClick(`이 상품 질문하기: ${product.title}`, 'home_bottomsheet');
-                    router.push(`/product-chat?productId=${product.id}&from=/`);
-                    onClose();
-                  }}
-                  className="py-3 font-semibold rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
-                  style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
+              <div className="space-y-2 pb-2">
+                {/* Top Row - 2 buttons */}
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => {
+                      logButtonClick(`쿠팡에서 보기: ${product.title}`, 'home_bottomsheet');
+                      window.open(product.reviewUrl, '_blank');
+                    }}
+                    className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
                   >
-                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                  </svg>
-                  이 상품 질문하기
-                </button>
+                    쿠팡에서 보기
+                  </button>
+                  <button
+                    onClick={() => {
+                      logButtonClick(`이 상품 질문하기: ${product.title}`, 'home_bottomsheet');
+                      router.push(`/product-chat?productId=${product.id}&from=/`);
+                      onClose();
+                    }}
+                    className="py-3 font-semibold rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
+                    style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                    이 상품 질문하기
+                  </button>
+                </div>
+
+                {/* Bottom Row - Add to Favorites */}
+                {onAddToFavorites && (
+                  <button
+                    onClick={() => {
+                      onAddToFavorites(product.id);
+                      logButtonClick(`찜해놓고 비교하기: ${product.title}`, 'home_bottomsheet');
+                    }}
+                    className="w-full py-3 font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-2"
+                    style={{
+                      backgroundColor: isFavorite ? '#FFE5E5' : '#FFF4F4',
+                      color: isFavorite ? '#FF6B6B' : '#FF8888',
+                      border: `2px solid ${isFavorite ? '#FF6B6B' : '#FFD0D0'}`
+                    }}
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill={isFavorite ? "#FF6B6B" : "none"}
+                      stroke="#FF6B6B"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    {isFavorite ? '찜 완료' : '찜해놓고 비교하기'}
+                  </button>
+                )}
+
+                {/* Open Favorites Button - Show when user has favorites */}
+                {isFavorite && favoritesCount > 0 && onOpenFavorites && (
+                  <motion.button
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    onClick={() => {
+                      onOpenFavorites();
+                      logButtonClick('찜 목록 보기 (제품 바텀시트)', 'home_bottomsheet');
+                    }}
+                    className="w-full py-2 text-xs font-medium transition-all flex items-center justify-center gap-1.5 text-gray-600 hover:text-[#FF6B6B]"
+                  >
+                    <span>찜한 상품 보기 ({favoritesCount}개)</span>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </motion.button>
+                )}
               </div>
             </div>
           </motion.div>
