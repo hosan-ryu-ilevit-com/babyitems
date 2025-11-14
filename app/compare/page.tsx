@@ -862,7 +862,7 @@ function ComparePageContent() {
               </div>
 
               {/* Guide Chips - Above input area */}
-              {!typingMessageId && messages.length === 0 && (
+              {!typingMessageId && !isLoadingMessage && (
                 <div className="px-4 pb-3 border-t border-gray-100 pt-3 bg-white">
                   <div className="flex flex-wrap gap-2 justify-center animate-[fadeIn_0.3s_ease-in]">
                     {[
