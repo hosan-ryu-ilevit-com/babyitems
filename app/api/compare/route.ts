@@ -26,8 +26,10 @@ export async function POST(req: NextRequest) {
       })
     );
 
-    // Filter out any missing products
-    const validProducts = productsData.filter(p => p.product && p.markdown);
+    // Filter out any missing products and cast to correct type
+    const validProducts = productsData.filter((p): p is { id: string; product: any; markdown: string } =>
+      p.product !== null && p.markdown !== null
+    );
 
     if (validProducts.length !== 3) {
       return NextResponse.json(

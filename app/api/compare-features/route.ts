@@ -164,6 +164,7 @@ ${(productDetailsMap[prod3.id] || '').slice(0, 2500)}
 
       // 각 제품의 특징 저장
       for (const product of selectedProducts) {
+        if (!product) continue; // Type guard
         if (parsedFeatures[product.id] && Array.isArray(parsedFeatures[product.id])) {
           features[product.id] = parsedFeatures[product.id].slice(0, 4); // 정확히 4개
         } else {
@@ -175,6 +176,7 @@ ${(productDetailsMap[prod3.id] || '').slice(0, 2500)}
       console.error('Failed to generate comparative features:', error);
       // 폴백: 모든 제품에 점수 기반 자동 생성
       for (const product of selectedProducts) {
+        if (!product) continue; // Type guard
         features[product.id] = generateFallbackFeatures(product);
       }
     }
