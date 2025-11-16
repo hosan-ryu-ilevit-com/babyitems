@@ -626,13 +626,31 @@ export default function ResultPage() {
                 </div>
               </div>
 
-              {/* 채팅하고 더 정확히 추천받기 버튼 */}
+              {/* 비교표 바로가기 + 채팅하고 더 정확히 추천받기 버튼 */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="space-y-3 mb-8"
               >
+                {/* 비교표 바로가기 */}
+                <button
+                  onClick={() => {
+                    logButtonClick('비교표 바로가기', 'result');
+                    const comparisonTable = document.querySelector('.comparison-table-section');
+                    if (comparisonTable) {
+                      comparisonTable.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                  }}
+                  className="w-full py-2 text-xs font-medium rounded-lg transition-all hover:bg-gray-200 bg-gray-100 text-gray-500 flex items-center justify-center gap-1.5"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                  스크롤하면 비교표를 볼 수 있어요 [바로가기]
+                </button>
+
+                {/* 채팅하고 더 정확히 추천받기 */}
                 <button
                   onClick={() => {
                     logButtonClick('채팅하고 더 정확히 추천받기', 'result');
