@@ -60,7 +60,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
       layout
-      className="bg-white rounded-2xl p-4 mb-4 border border-white"
+      className="bg-white rounded-2xl p-4 border border-white"
     >
       {/* 헤더 - 클릭 가능 */}
       <button
@@ -68,7 +68,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
         className="w-full flex items-center justify-between"
       >
         <h3 className="text-base font-bold text-gray-900">📝 내 구매 기준</h3>
-        <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">
+        <span className="text-xs font-medium px-2.5 py-2 rounded-full bg-gray-100 text-gray-600">
           {isMainExpanded ? '접기' : '펼치기'}
         </span>
       </button>

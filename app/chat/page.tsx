@@ -317,7 +317,7 @@ export default function ChatPage() {
           }
 
           // 3. "추가로 말할 게 있으면~" 메시지
-          const askMoreMsg = '중요하다고 평가한 조건에 대해 대화를 나누며, 더 구체적인 조건을 파악해보려고 해요. 시작하기 전에, **특별한 상황이나 고민이 있으시면** 편하게 이야기해주세요!';
+          const askMoreMsg = '시작하기 전에, **특별한 상황이나 고민이 있으시면** 편하게 이야기해주세요!';
           updatedSession = loadSession();
           updatedSession = addAssistantMessage(updatedSession, askMoreMsg, 'chat1');
           setMessages([...updatedSession.messages]);
@@ -2043,12 +2043,9 @@ export default function ChatPage() {
                       )}
                     </div>
 
-                    {/* 하단 디바이더 */}
-                    <div className="mt-4 mb-2 border-t border-gray-200 opacity-50" />
-
                     {/* 구매 기준 토글 (인트로 메시지 다음에만 표시) */}
                     {contextSummary && (
-                      <div className="mt-1 border border-gray-200 rounded-2xl overflow-hidden">
+                      <div className="mt-4 border border-gray-200 rounded-2xl overflow-hidden">
                         <UserContextSummaryComponent summary={contextSummary} />
                       </div>
                     )}
@@ -2225,7 +2222,7 @@ export default function ChatPage() {
                             ))}
 
                             {/* AI 설명 요청 버튼 */}
-                            
+
                           </motion.div>
                         </motion.div>
                       )}
@@ -2353,9 +2350,16 @@ export default function ChatPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleGetRecommendation}
-              className="w-full h-12 mb-3 bg-linear-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white font-semibold rounded-full shadow-lg transition-all"
+              className="w-full h-14 mb-3 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 text-white"
+              style={{ backgroundColor: '#0084FE' }}
             >
-              추천 받기
+              <span>추천 받기</span>
+              <span className="px-2 py-0.5 bg-white/20 rounded-md text-xs font-bold flex items-center gap-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
+                <span>AI</span>
+              </span>
             </motion.button>
           )}
 
@@ -2383,9 +2387,16 @@ export default function ChatPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleGetRecommendation}
-              className="w-full h-12 mb-3 bg-linear-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white font-semibold rounded-full shadow-lg transition-all"
+              className="w-full h-14 mb-3 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 text-white"
+              style={{ backgroundColor: '#0084FE' }}
             >
-              추천 받기
+              <span>추천 받기</span>
+              <span className="px-2 py-0.5 bg-white/20 rounded-md text-xs font-bold flex items-center gap-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
+                <span>AI</span>
+              </span>
             </motion.button>
           )}
 

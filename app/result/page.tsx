@@ -769,7 +769,11 @@ export default function ResultPage() {
               </motion.div>
 
               {/* 사용자 맥락 요약 */}
-              {contextSummary && <UserContextSummaryComponent summary={contextSummary} />}
+              {contextSummary && (
+                <div className="mb-4">
+                  <UserContextSummaryComponent summary={contextSummary} />
+                </div>
+              )}
 
               {/* 추천 상품 3개 */}
               {recommendations.map((rec, index) => (

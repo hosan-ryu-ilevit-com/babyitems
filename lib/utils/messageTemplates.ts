@@ -5,9 +5,7 @@ import { CORE_ATTRIBUTES } from '@/data/attributes';
  * @param phase0Context - Priority 페이지에서 입력한 추가 요청사항
  */
 export function generateIntroMessage(phase0Context?: string): string {
-  const baseMessage = '안녕하세요! 더 정확한 추천을 위해, 고객님의 목소리를 듣고 있어요 😀';
-
-
+  const baseMessage = '안녕하세요! 더 정확한 추천을 위해, 중요하게 생각하시는 구매 기준에 대해 질문을 드릴게요 😀';
   return baseMessage;
 }
 
@@ -15,7 +13,7 @@ export function generateIntroMessage(phase0Context?: string): string {
  * Phase 0: 워밍업 질문 (자유 맥락 수집)
  */
 export function generateWarmupQuestion(): string {
-  return '본격적으로 시작하기 전에, 분유포트 구매와 관련된 상황을 편하게 이야기해주세요. 어떤 것이든 좋아요. (예산 고민, 첫 아이, 쌍둥이, 중요  구매기준 등)';
+  return '시작하기 전에, 구매와 관련하여 제가 고려해야 할 사항이 있다면 무엇이든 편하게 이야기해주세요. (예산 고민, 첫 아이, 중요  구매기준 등)';
 }
 
 /**
