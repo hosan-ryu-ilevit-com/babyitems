@@ -79,7 +79,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.6 }}
-      className="bg-white rounded-2xl p-5 border border-white mb-6"
+      className="bg-white rounded-2xl p-5 border border-white mb-24"
     >
       <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한 눈에 비교</h3>
 
@@ -157,17 +157,36 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
               ))}
             </tr>
 
-            {/* 쿠팡에서 보기 버튼 */}
+            {/* 쿠팡에서 보기 + 이 상품 질문하기 버튼 */}
             <tr className="border-b border-gray-100">
               <td className="py-3 px-2 text-xs font-semibold text-gray-700"></td>
               {top3.map((rec) => (
                 <td key={rec.product.id} className="py-3 px-2">
-                  <button
-                    onClick={() => window.open(rec.product.reviewUrl, '_blank')}
-                    className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
-                  >
-                    쿠팡에서 보기
-                  </button>
+                  <div className="space-y-1.5">
+                    <button
+                      onClick={() => window.open(rec.product.reviewUrl, '_blank')}
+                      className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                    >
+                      쿠팡에서 보기
+                    </button>
+                    <button
+                      onClick={() => {
+                        // Navigate to product-chat page
+                        window.location.href = `/product-chat?productId=${rec.product.id}&from=/result`;
+                      }}
+                      className="w-full py-2 text-xs font-semibold rounded-lg transition-colors hover:opacity-90 flex items-center justify-center gap-1"
+                      style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                    >
+                      <svg
+                        className="w-3 h-3"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                      </svg>
+                      이 상품 질문하기
+                    </button>
+                  </div>
                 </td>
               ))}
             </tr>
@@ -186,12 +205,9 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                           {features.map((feature, idx) => (
                             <span
                               key={idx}
-                              className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold"
+                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold"
                               style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
                             >
-                              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                              </svg>
                               {feature}
                             </span>
                           ))}
