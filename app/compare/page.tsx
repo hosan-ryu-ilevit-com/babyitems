@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { products } from '@/data/products';
 import { Product } from '@/types';
+import { logComparisonProductAction, logComparisonChat, logPageView } from '@/lib/logging/clientLogger';
 
 // Markdown formatting function (handles bold text and lists)
 function formatMarkdown(text: string) {
@@ -124,6 +125,9 @@ function ComparePageContent() {
     }
 
     setSelectedProducts(foundProducts);
+
+    // Log page view
+    logPageView('compare');
 
     // Parse user context from URL if available
     const contextParam = searchParams.get('context');
@@ -251,6 +255,14 @@ function ComparePageContent() {
       }
 
       const assistantMessageId = `assistant-${messageId}`;
+
+      // Log comparison chat
+      logComparisonChat(
+        'home',
+        selectedProducts.map(p => p.id),
+        userMessage,
+        data.response
+      );
 
       if (data.type === 'replace' || data.type === 'add') {
         // Product replacement/addition intent detected
@@ -424,14 +436,32 @@ function ComparePageContent() {
                           <div className="space-y-1.5">
                             {/* 쿠팡에서 보기 */}
                             <button
-                              onClick={() => window.open(product.reviewUrl, '_blank')}
+                              onClick={() => {
+                                logComparisonProductAction(
+                                  'home',
+                                  'coupang_clicked',
+                                  product.id,
+                                  product.title,
+                                  selectedProducts.map(p => p.id)
+                                );
+                                window.open(product.reviewUrl, '_blank');
+                              }}
                               className="w-full py-2 text-xs font-semibold rounded-lg transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
                             >
                               쿠팡에서 보기
                             </button>
                             {/* 이 상품 질문하기 */}
                             <button
-                              onClick={() => router.push(`/product-chat?productId=${product.id}&from=/compare`)}
+                              onClick={() => {
+                                logComparisonProductAction(
+                                  'home',
+                                  'product_chat_clicked',
+                                  product.id,
+                                  product.title,
+                                  selectedProducts.map(p => p.id)
+                                );
+                                router.push(`/product-chat?productId=${product.id}&from=/compare`);
+                              }}
                               className="w-full py-2 text-xs font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-1"
                               style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
                             >
@@ -991,7 +1021,7 @@ function ComparePageContent() {
                         handleSendMessage();
                       }
                     }}
-                    placeholder="메시지를 입력하세요..."
+                    placeholder="비교하는 질문을 입력해보세요"
                     disabled={isLoadingMessage}
                     rows={1}
                     className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"

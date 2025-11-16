@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Recommendation } from '@/types';
 import { products } from '@/data/products';
+import { logComparisonProductAction } from '@/lib/logging/clientLogger';
 
 interface DetailedComparisonTableProps {
   recommendations: Recommendation[];
@@ -164,13 +165,29 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                 <td key={rec.product.id} className="py-3 px-2">
                   <div className="space-y-1.5">
                     <button
-                      onClick={() => window.open(rec.product.reviewUrl, '_blank')}
+                      onClick={() => {
+                        logComparisonProductAction(
+                          'result',
+                          'coupang_clicked',
+                          rec.product.id,
+                          rec.product.title,
+                          top3.map(r => r.product.id)
+                        );
+                        window.open(rec.product.reviewUrl, '_blank');
+                      }}
                       className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
                     >
                       쿠팡에서 보기
                     </button>
                     <button
                       onClick={() => {
+                        logComparisonProductAction(
+                          'result',
+                          'product_chat_clicked',
+                          rec.product.id,
+                          rec.product.title,
+                          top3.map(r => r.product.id)
+                        );
                         // Navigate to product-chat page
                         window.location.href = `/product-chat?productId=${rec.product.id}&from=/result`;
                       }}

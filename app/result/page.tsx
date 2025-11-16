@@ -9,9 +9,9 @@ import { Recommendation, UserContextSummary } from '@/types';
 import UserContextSummaryComponent from '@/components/UserContextSummary';
 // import ComparisonTable from '@/components/ComparisonTable';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
-import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import { logPageView, logButtonClick, logComparisonChat } from '@/lib/logging/clientLogger';
 
-// 마크다운 볼드 처리 함수
+// 마크다운 볼드 처리 함수 (기존 추천 상세 정보용)
 function parseMarkdownBold(text: string) {
   const parts = text.split(/(\*\*.*?\*\*)/g);
   return parts.map((part, index) => {
@@ -21,6 +21,75 @@ function parseMarkdownBold(text: string) {
     }
     return <span key={index}>{part}</span>;
   });
+}
+
+// 마크다운 포맷팅 함수 (볼드 + 리스트) (채팅용)
+function formatMarkdown(text: string) {
+  const lines = text.split('\n');
+
+  return lines.map((line, lineIndex) => {
+    // 리스트 항목 감지: "- " or "* " or "• "
+    const listMatch = line.match(/^[\s]*[-*•]\s+(.+)$/);
+
+    if (listMatch) {
+      const content = listMatch[1];
+      // **text** → <strong>text</strong>
+      const parts = content.split(/(\*\*.*?\*\*)/g);
+      const formattedContent = parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          const boldText = part.slice(2, -2);
+          return <strong key={index} className="font-bold">{boldText}</strong>;
+        }
+        return <span key={index}>{part}</span>;
+      });
+
+      return (
+        <div key={lineIndex} className="flex items-start gap-2 my-1.5">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" />
+          <span className="flex-1">{formattedContent}</span>
+        </div>
+      );
+    }
+
+    // 일반 텍스트 (볼드 처리)
+    const parts = line.split(/(\*\*.*?\*\*)/g);
+    const formattedLine = parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return <strong key={index} className="font-bold">{boldText}</strong>;
+      }
+      return <span key={index}>{part}</span>;
+    });
+
+    return <div key={lineIndex}>{formattedLine}</div>;
+  });
+}
+
+// 타이핑 메시지 컴포넌트 (스트리밍 효과)
+function TypingMessage({ content, onComplete }: { content: string; onComplete?: () => void }) {
+  const [displayedContent, setDisplayedContent] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    // 안전 체크: content가 정의되어 있는지 확인
+    if (!content) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    if (currentIndex < content.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedContent(content.slice(0, currentIndex + 1));
+        setCurrentIndex(currentIndex + 1);
+      }, 10); // 10ms per character
+
+      return () => clearTimeout(timeout);
+    } else if (onComplete) {
+      onComplete();
+    }
+  }, [currentIndex, content, onComplete]);
+
+  return <span className="whitespace-pre-wrap">{formatMarkdown(displayedContent)}</span>;
 }
 
 export default function ResultPage() {
@@ -110,6 +179,15 @@ export default function ResultPage() {
         ...prev,
         { role: 'assistant', content: data.response, id: assistantMessageId }
       ]);
+      setTypingMessageId(assistantMessageId);
+
+      // Log comparison chat
+      logComparisonChat(
+        'result',
+        productIds,
+        userMessage,
+        data.response
+      );
     } catch (error) {
       console.error('Failed to send message:', error);
       const errorMessageId = `error-${messageId}`;
@@ -148,12 +226,22 @@ export default function ResultPage() {
       }
 
       const data = await response.json();
+      const assistantMessageId = `assistant-${messageId}`;
       const assistantMessage = {
         role: 'assistant' as const,
         content: data.response,
-        id: `assistant-${messageId}`
+        id: assistantMessageId
       };
       setMessages((prev) => [...prev, assistantMessage]);
+      setTypingMessageId(assistantMessageId);
+
+      // Log quick question comparison chat
+      logComparisonChat(
+        'result',
+        productIds,
+        query,
+        data.response
+      );
     } catch (error) {
       console.error('Failed to send message:', error);
       const errorMessage = {
@@ -819,7 +907,7 @@ export default function ResultPage() {
         </main>
 
         {/* 비교 질문하기 플로팅 버튼 (접힌 상태) */}
-        {!isChatOpen && (
+        {!loading && !isChatOpen && (
           <button
             onClick={() => setIsChatOpen(true)}
             className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full bg-[#E5F1FF] rounded-t-xl shadow-lg px-6 py-4 flex items-center justify-between hover:bg-[#D0E7FF] transition-colors z-30"
@@ -914,7 +1002,16 @@ export default function ResultPage() {
                               : 'text-gray-900'
                           }`}
                         >
-                          <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                          <div className="text-sm whitespace-pre-wrap">
+                            {message.role === 'assistant' && message.id === typingMessageId ? (
+                              <TypingMessage
+                                content={message.content}
+                                onComplete={() => setTypingMessageId(null)}
+                              />
+                            ) : (
+                              message.role === 'assistant' ? formatMarkdown(message.content) : message.content
+                            )}
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -976,7 +1073,7 @@ export default function ResultPage() {
                           handleSendMessage();
                         }
                       }}
-                      placeholder="메시지를 입력하세요..."
+                      placeholder="비교하는 질문을 입력해보세요"
                       disabled={isLoadingMessage}
                       rows={1}
                       className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"

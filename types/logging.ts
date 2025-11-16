@@ -6,7 +6,12 @@ export type LogEventType =
   | 'user_input'
   | 'ai_response'
   | 'recommendation_received'
-  | 'product_chat_message';
+  | 'product_chat_message'
+  | 'favorite_added'
+  | 'favorite_removed'
+  | 'favorites_compare_clicked'
+  | 'comparison_chat_message'
+  | 'comparison_product_action';
 
 export interface LogEvent {
   sessionId: string;
@@ -59,6 +64,21 @@ export interface LogEvent {
   };
   guideCardNumber?: string; // 가이드 카드 번호
   guideCardTitle?: string; // 가이드 카드 제목
+  favoriteData?: {
+    productId: string;
+    productTitle: string;
+    action: 'added' | 'removed';
+    currentFavoritesCount: number;
+  };
+  comparisonData?: {
+    source: 'home' | 'result'; // 어디서 진입했는지
+    productIds?: string[]; // 비교 중인 제품들
+    actionType?: 'compare_clicked' | 'coupang_clicked' | 'product_chat_clicked' | 'chat_opened' | 'chat_message';
+    productId?: string; // 특정 제품 액션인 경우
+    productTitle?: string;
+    userMessage?: string; // 비교 채팅 메시지
+    aiResponse?: string; // AI 응답
+  };
   metadata?: Record<string, unknown>; // 추가 정보
 }
 

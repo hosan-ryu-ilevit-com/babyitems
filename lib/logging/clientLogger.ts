@@ -139,3 +139,68 @@ export function logRecommendation(
 export function getSessionId(): string {
   return getOrCreateSessionId();
 }
+
+// 찜하기 로깅
+export function logFavoriteAction(
+  action: 'added' | 'removed',
+  productId: string,
+  productTitle: string,
+  currentFavoritesCount: number
+): void {
+  sendLogEvent(action === 'added' ? 'favorite_added' : 'favorite_removed', {
+    favoriteData: {
+      productId,
+      productTitle,
+      action,
+      currentFavoritesCount,
+    },
+  });
+}
+
+// 찜하기 비교하기 클릭 로깅
+export function logFavoritesCompareClick(productIds: string[]): void {
+  sendLogEvent('favorites_compare_clicked', {
+    comparisonData: {
+      source: 'home',
+      productIds,
+      actionType: 'compare_clicked',
+    },
+  });
+}
+
+// 비교 채팅 로깅
+export function logComparisonChat(
+  source: 'home' | 'result',
+  productIds: string[],
+  userMessage: string,
+  aiResponse?: string
+): void {
+  sendLogEvent('comparison_chat_message', {
+    comparisonData: {
+      source,
+      productIds,
+      actionType: 'chat_message',
+      userMessage,
+      aiResponse,
+    },
+  });
+}
+
+// 비교표 제품 액션 로깅 (쿠팡, 질문하기)
+export function logComparisonProductAction(
+  source: 'home' | 'result',
+  actionType: 'coupang_clicked' | 'product_chat_clicked',
+  productId: string,
+  productTitle: string,
+  productIds?: string[]
+): void {
+  sendLogEvent('comparison_product_action', {
+    comparisonData: {
+      source,
+      actionType,
+      productId,
+      productTitle,
+      productIds,
+    },
+  });
+}

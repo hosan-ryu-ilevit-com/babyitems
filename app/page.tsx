@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { products } from '@/data/products';
 import { useEffect, useState } from 'react';
-import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import FavoritesBottomSheet from '@/components/FavoritesBottomSheet';
 import { Product } from '@/types';
@@ -30,12 +30,21 @@ export default function Home() {
 
   const handleHeartClick = (e: React.MouseEvent, productId: string) => {
     e.stopPropagation(); // Prevent product click event
+    const wasFavorite = isFavorite(productId);
     const success = toggleFavorite(productId);
-    if (!success && !isFavorite(productId)) {
+
+    if (!success && !wasFavorite) {
       // Show toast or alert when max limit reached
       alert('최대 3개까지 찜할 수 있습니다');
+    } else if (success) {
+      // Log favorite action
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        const action = wasFavorite ? 'removed' : 'added';
+        const newCount = wasFavorite ? count - 1 : count + 1;
+        logFavoriteAction(action, productId, product.title, newCount);
+      }
     }
-    logButtonClick(`찜하기 토글: ${productId}`, 'home');
   };
 
   const handleFavoritesClick = () => {

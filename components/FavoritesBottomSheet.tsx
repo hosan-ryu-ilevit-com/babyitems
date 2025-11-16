@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Product } from '@/types';
 import { useRouter } from 'next/navigation';
+import { logFavoritesCompareClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 
 interface FavoritesBottomSheetProps {
   isOpen: boolean;
@@ -25,9 +26,20 @@ export default function FavoritesBottomSheet({
       alert('정확히 3개의 제품을 선택해주세요');
       return;
     }
+    // Log comparison click
+    const productIds = favorites.map((p) => p.id);
+    logFavoritesCompareClick(productIds);
+
     // Navigate to compare page with product IDs
-    const productIds = favorites.map((p) => p.id).join(',');
-    router.push(`/compare?products=${productIds}`);
+    router.push(`/compare?products=${productIds.join(',')}`);
+  };
+
+  const handleRemove = (productId: string) => {
+    const product = favorites.find(p => p.id === productId);
+    if (product) {
+      logFavoriteAction('removed', productId, product.title, favorites.length - 1);
+    }
+    onRemove(productId);
   };
 
   return (
@@ -127,7 +139,7 @@ export default function FavoritesBottomSheet({
 
                       {/* Remove Button */}
                       <button
-                        onClick={() => onRemove(product.id)}
+                        onClick={() => handleRemove(product.id)}
                         className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors"
                       >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF6B6B" stroke="#FF6B6B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

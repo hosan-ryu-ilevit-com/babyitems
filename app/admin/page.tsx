@@ -129,6 +129,11 @@ export default function AdminPage() {
       ai_response: 'AI 응답',
       recommendation_received: '추천 결과',
       product_chat_message: '상품 채팅',
+      favorite_added: '찜 추가',
+      favorite_removed: '찜 제거',
+      favorites_compare_clicked: '찜 비교하기',
+      comparison_chat_message: '비교 채팅',
+      comparison_product_action: '비교표 액션',
     };
     return labels[type] || type;
   };
@@ -141,6 +146,7 @@ export default function AdminPage() {
       'chat/structured': '구조화 챗',
       'chat/open': '자유 챗',
       result: '결과',
+      compare: '비교',
     };
     return page ? labels[page] || page : '-';
   };
@@ -1027,7 +1033,77 @@ export default function AdminPage() {
                                   )}
                                 </div>
                               )}
-                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && !event.chatData && event.eventType !== 'page_view' && (
+                              {event.eventType === 'favorite_added' && 'favoriteData' in event && event.favoriteData && (
+                                <div className="bg-pink-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-pink-700 mb-1">
+                                    ❤️ 찜 추가: {event.favoriteData.productTitle}
+                                  </p>
+                                  <p className="text-gray-600">상품 ID: {event.favoriteData.productId}</p>
+                                  <p className="text-gray-600">현재 찜 개수: {event.favoriteData.currentFavoritesCount}/3</p>
+                                </div>
+                              )}
+                              {event.eventType === 'favorite_removed' && 'favoriteData' in event && event.favoriteData && (
+                                <div className="bg-gray-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-gray-700 mb-1">
+                                    💔 찜 제거: {event.favoriteData.productTitle}
+                                  </p>
+                                  <p className="text-gray-600">상품 ID: {event.favoriteData.productId}</p>
+                                  <p className="text-gray-600">현재 찜 개수: {event.favoriteData.currentFavoritesCount}/3</p>
+                                </div>
+                              )}
+                              {event.eventType === 'favorites_compare_clicked' && 'comparisonData' in event && event.comparisonData && (
+                                <div className="bg-blue-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-blue-700 mb-1">
+                                    🔄 찜 비교하기 클릭 ({event.comparisonData.source === 'home' ? '홈' : '결과'})
+                                  </p>
+                                  <p className="text-gray-600">비교 제품 수: {event.comparisonData.productIds?.length || 0}개</p>
+                                  {event.comparisonData.productIds && (
+                                    <p className="text-gray-500 text-xs mt-1">
+                                      {event.comparisonData.productIds.join(', ')}
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+                              {event.eventType === 'comparison_chat_message' && 'comparisonData' in event && event.comparisonData && (
+                                <div className="space-y-2">
+                                  <div className="bg-gray-50 p-2 rounded text-xs">
+                                    <p className="font-semibold text-gray-700 mb-1">
+                                      💬 비교 채팅 ({event.comparisonData.source === 'home' ? '홈-비교표' : '결과-비교표'})
+                                    </p>
+                                    {event.comparisonData.productIds && (
+                                      <p className="text-gray-500 text-xs">
+                                        비교 중인 제품: {event.comparisonData.productIds.length}개
+                                      </p>
+                                    )}
+                                  </div>
+                                  {event.comparisonData.userMessage && (
+                                    <div className="bg-green-50 border-l-4 border-green-500 p-2 rounded text-sm">
+                                      <span className="text-green-700 font-semibold">사용자</span>
+                                      <p className="text-gray-800 mt-1">{event.comparisonData.userMessage}</p>
+                                    </div>
+                                  )}
+                                  {event.comparisonData.aiResponse && (
+                                    <div className="bg-blue-50 border-l-4 border-blue-500 p-2 rounded text-sm">
+                                      <span className="text-blue-700 font-semibold">AI</span>
+                                      <p className="text-gray-800 mt-1 whitespace-pre-wrap">
+                                        {event.comparisonData.aiResponse}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              {event.eventType === 'comparison_product_action' && 'comparisonData' in event && event.comparisonData && (
+                                <div className="bg-purple-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-purple-700 mb-1">
+                                    {event.comparisonData.actionType === 'coupang_clicked' && '🛒 쿠팡 링크 클릭'}
+                                    {event.comparisonData.actionType === 'product_chat_clicked' && '💭 상품 질문하기 클릭'}
+                                    {' '}({event.comparisonData.source === 'home' ? '홈-비교표' : '결과-비교표'})
+                                  </p>
+                                  <p className="text-gray-600">제품: {event.comparisonData.productTitle}</p>
+                                  <p className="text-gray-500 text-xs">상품 ID: {event.comparisonData.productId}</p>
+                                </div>
+                              )}
+                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && !event.chatData && !event.favoriteData && !event.comparisonData && event.eventType !== 'page_view' && (
                                 <span className="text-xs text-gray-400">-</span>
                               )}
                               {event.recommendations && (
