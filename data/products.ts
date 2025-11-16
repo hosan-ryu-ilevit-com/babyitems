@@ -787,4 +787,24 @@ export const products: Product[] = [
       additionalFeatures: 8   // 충족 - 세련된 디자인, 차망 포함, 다양한 온도 설정 활용 가능.
     }
   }
+,
+  {
+    id: '7675640984',
+    title: '보아르 이지전기포트S 휴대용 접이식 여행용 올스텐 무선 커피포트',
+    price: 59900,
+    reviewCount: 135,
+    reviewUrl: 'https://www.coupang.com/vp/products/7675640984',
+    ranking: 4,
+    thumbnail: '/thumbnails/7675640984.png',
+    coreValues: {
+      temperatureControl: 10,  // 매우 충족 - 6가지 멀티 모드, 24시간 분유 온도 유지 기능 제공
+      hygiene: 8,             // 충족 - 올스텐, 분리형 구조로 세척 용이하나 가열 본체 세척 시 주의 필요
+      material: 9,            // 매우 충족 - SUS304 올 스테인리스 채택으로 위생 및 안전성 확보
+      usability: 6,           // 보통 이상 - 조작은 간편하나 500ml 용량 한계, 끓는 속도 느림, 선 분리 불편함
+      portability: 10,        // 매우 충족 - 접이식 구조, 프리볼트, 600g대 경량, 파우치 제공
+      priceValue: 8,          // 충족 - 휴대용 올스텐 멀티포트로서 가격은 비싸지만 기능 대비 가치 높음
+      durability: 6,          // 보통 이상 - 소재 내구성은 좋으나 초기 불량 및 물샘 이슈가 일부 보고됨
+      additionalFeatures: 9   // 매우 충족 - 6가지 멀티 모드, LCD 디스플레이, 프리볼트, 파우치 등 구성 우수
+    }
+  }
 ];

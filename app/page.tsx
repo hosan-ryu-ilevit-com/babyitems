@@ -145,13 +145,13 @@ export default function Home() {
 
               <span>판매량 많은 순</span>
               <span className="text-gray-400">•</span>
-              <span>2025년 11월 12일 기준</span>
+              <span>2025년 11월 16일 기준</span>
             </div>
           </div>
 
           {/* Product Grid - 2 columns */}
           <div className="grid grid-cols-2 gap-4 pb-24">
-            {products.map((product, index) => (
+            {[...products].sort((a, b) => a.ranking - b.ranking).map((product, index) => (
               <motion.div
                 key={product.id}
                 onClick={() => handleProductClick(product)}
