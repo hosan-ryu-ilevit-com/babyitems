@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { loadSession, saveSession, clearSession } from '@/lib/utils/session';
 import { Recommendation, UserContextSummary } from '@/types';
 import UserContextSummaryComponent from '@/components/UserContextSummary';
-import ComparisonTable from '@/components/ComparisonTable';
+// import ComparisonTable from '@/components/ComparisonTable';
+import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 
 // 마크다운 볼드 처리 함수
@@ -35,6 +36,20 @@ export default function ResultPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedRecommendation, setSelectedRecommendation] = useState<Recommendation | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+
+  // 상세 비교표 관련 state
+  const [productFeatures, setProductFeatures] = useState<Record<string, string[]>>({});
+  const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
+  const [isLoadingComparison, setIsLoadingComparison] = useState(false);
+
+  // 채팅 관련 state
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string; id?: string }>>([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoadingMessage, setIsLoadingMessage] = useState(false);
+  const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const toggleSection = (key: string) => {
     const newState = !expandedSections[key];
@@ -544,47 +559,16 @@ export default function ResultPage() {
                   </span>
                 </button>
 
-                {/* 이 상품들 비교 질문하기 버튼 */}
+                {/* 비교 질문하기 버튼 - 바텀시트 열기 */}
                 <button
                   onClick={() => {
-                    logButtonClick('이 상품들 비교 질문하기', 'result');
-
-                    // 3개 상품 ID로 비교 페이지 이동
-                    const productIds = recommendations.map(r => r.product.id).join(',');
-
-                    // Priority 컨텍스트를 URL로 전달
-                    const session = loadSession();
-                    const contextParams = new URLSearchParams();
-                    if (session.prioritySettings) {
-                      contextParams.set('context', JSON.stringify({
-                        prioritySettings: session.prioritySettings,
-                        budget: session.budget,
-                        phase0Context: session.phase0Context,
-                        chatConversations: session.chatConversations,
-                      }));
-                    }
-
-                    // 적합도 점수를 URL로 전달
-                    const scores: Record<string, number> = {};
-                    recommendations.forEach(r => {
-                      scores[r.product.id] = r.finalScore;
-                    });
-                    contextParams.set('scores', JSON.stringify(scores));
-
-                    // 랭킹 정보를 URL로 전달
-                    const ranks: Record<string, number> = {};
-                    recommendations.forEach((r, idx) => {
-                      ranks[r.product.id] = idx + 1; // 1, 2, 3
-                    });
-                    contextParams.set('ranks', JSON.stringify(ranks));
-
-                    router.push(`/compare?products=${productIds}&${contextParams.toString()}`);
+                    logButtonClick('비교 질문하기', 'result');
+                    setIsChatOpen(true);
                   }}
                   className="w-full h-14 text-base font-bold rounded-2xl transition-all hover:opacity-90 flex items-center justify-center gap-2.5 border-2"
                   style={{ backgroundColor: '#F0F7FF', color: '#0074F3', borderColor: '#B8DCFF' }}
                 >
-                  
-                  <span>자세히 비교하기 / 질문하기</span>
+                  <span>비교 질문하기</span>
                   <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1" style={{ backgroundColor: '#4A9EFF', color: '#FFFFFF' }}>
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
@@ -725,8 +709,8 @@ export default function ResultPage() {
                 </motion.div>
               ))}
 
-              {/* 비교표 */}
-              <ComparisonTable recommendations={recommendations} />
+              {/* 상세 비교표 (핵심 특징 포함) */}
+              <DetailedComparisonTable recommendations={recommendations} />
             </div>
           )}
           </AnimatePresence>

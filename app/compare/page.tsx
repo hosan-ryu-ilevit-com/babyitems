@@ -96,6 +96,7 @@ function ComparePageContent() {
   } | null>(null);
   const [productScores, setProductScores] = useState<Record<string, number>>({});
   const [productRanks, setProductRanks] = useState<Record<string, number>>({});
+  const [productFeatures, setProductFeatures] = useState<Record<string, string[]>>({});
 
   // Absolute evaluation color system (based on score thresholds)
   const getColorForScore = (value: number): string => {
@@ -181,7 +182,27 @@ function ComparePageContent() {
       }
     };
 
+    // Fetch core features (LLM-generated tags)
+    const fetchProductFeatures = async () => {
+      try {
+        const response = await fetch('/api/compare-features', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productIds }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setProductFeatures(data.features);
+          console.log('📊 Product features loaded:', data.features);
+        }
+      } catch (error) {
+        console.error('Failed to fetch product features:', error);
+      }
+    };
+
     fetchProductDetails();
+    fetchProductFeatures();
   }, [searchParams, router]);
 
   const handleSendMessage = async () => {
@@ -428,7 +449,39 @@ function ComparePageContent() {
                       ))}
                     </tr>
 
-                  
+                    {/* 핵심 특징 (LLM 생성 태그) */}
+                    {Object.keys(productFeatures).length > 0 && (
+                      <tr className="border-b border-gray-100 bg-blue-50/30">
+                        <td className="py-3 px-2 text-xs font-semibold text-gray-700 align-top">핵심 특징</td>
+                        {selectedProducts.map((product) => {
+                          const features = productFeatures[product.id] || [];
+                          return (
+                            <td key={product.id} className="py-3 px-2 align-top">
+                              {features.length > 0 ? (
+                                <div className="flex flex-wrap gap-1.5">
+                                  {features.map((feature, idx) => (
+                                    <span
+                                      key={idx}
+                                      className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold"
+                                      style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                                    >
+                                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                      </svg>
+                                      {feature}
+                                    </span>
+                                  ))}
+                                </div>
+                              ) : (
+                                <p className="text-xs text-gray-400">분석 중...</p>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    )}
+
+
 
                     {/* 장점 */}
                     {!isLoadingComparison && Object.keys(productDetails).length > 0 && (
