@@ -7,7 +7,7 @@ export const products: Product[] = [
     price: 34800,
     reviewCount: 13590,
     reviewUrl: 'https://www.coupang.com/vp/products/6876934040',
-    ranking: 1,
+    ranking: 2,
     thumbnail: '/thumbnails/6876934040.jpg',
     coreValues: {
       temperatureControl: 1,  // 매우 미달 - 온도조절 기능 전무
@@ -26,7 +26,7 @@ export const products: Product[] = [
     price: 95000,
     reviewCount: 80365,
     reviewUrl: 'https://www.coupang.com/vp/products/6962086794',
-    ranking: 2,
+    ranking: 1,
     thumbnail: '/thumbnails/6962086794.jpg',
     coreValues: {
       temperatureControl: 10, // 매우 충족 - 원터치, 영구보온, 1도 조절
@@ -805,6 +805,66 @@ export const products: Product[] = [
       priceValue: 8,          // 충족 - 휴대용 올스텐 멀티포트로서 가격은 비싸지만 기능 대비 가치 높음
       durability: 6,          // 보통 이상 - 소재 내구성은 좋으나 초기 불량 및 물샘 이슈가 일부 보고됨
       additionalFeatures: 9   // 매우 충족 - 6가지 멀티 모드, LCD 디스플레이, 프리볼트, 파우치 등 구성 우수
+    }
+  }
+,
+  {
+    id: '8416748095',
+    title: '무선 전기 티 포트 커피 분유 주전자',
+    price: 29610,
+    reviewCount: 187,
+    reviewUrl: 'https://www.coupang.com/vp/products/8416748095',
+    ranking: 5,
+    thumbnail: '/thumbnails/8416748095.png',
+    coreValues: {
+      temperatureControl: 9,  // 매우 충족 - 24시간 보온, 다양한 온도 설정, 분유 최적화
+      hygiene: 7,             // 충족 - 넓은 입구, 완전 분리형 (단, 바닥 틈새 이물질 우려)
+      material: 8,            // 충족 - 내열강화유리 및 SUS 304 사용 (일부 차망 변색 이슈)
+      usability: 6,           // 보통 - 빠른 가열, 무선 편리성 (단, 보온 시 재가열 소음 및 뚜껑 불편)
+      portability: 1,        // 매우 미달 - 가정용 대용량 유리 포트
+      priceValue: 10,          // 매우 충족 - 3만원 미만의 압도적인 가성비
+      durability: 7,          // 충족 - 장기 사용 후기 부족 (단, 차망 변색 및 바닥 틈새 우려 존재)
+      additionalFeatures: 8   // 충족 - 심플하고 깔끔한 디자인, 분리형 티망 제공
+    }
+  }
+,
+  {
+    id: '8230586318',
+    title: 'DS 휴대용 전기포트 주전자 분유포트 가열식 텀블러',
+    price: 19500,
+    reviewCount: 145,
+    reviewUrl: 'https://www.coupang.com/vp/products/8230586318',
+    ranking: 47,
+    thumbnail: '/thumbnails/8230586318.png',
+    coreValues: {
+      temperatureControl: 3,  // 미달 - 정밀 온도 조절 기능 전무, 보온 기능 불일치
+      hygiene: 8,             // 충족 - 넓은 입구로 세척 용이, 연마제 거의 없음
+      material: 3,            // 미달 - 플라스틱 뚜껑 녹음 및 마감 불량 문제 심각
+      usability: 6,           // 보통 - 빠른 가열 속도, 하지만 작은 용량과 짧은 코드
+      portability: 8,        // 충족 - 매우 가볍고 컴팩트, 여행용으로 최적
+      priceValue: 10,          // 매우 충족 - 압도적인 가성비 (2만원 미만)
+      durability: 3,          // 미달 - 초기 불량 및 뚜껑 녹음 등 QC 문제 다수 보고
+      additionalFeatures: 8   // 충족 - 깔끔한 화이트 디자인, 자동 재가열 기능
+    }
+  }
+,
+  {
+    id: '6484523429',
+    title: '키친아트 쏘렐 프리미엄 더글라스 무선 전기 티포트',
+    price: 41900,
+    reviewCount: 2874,
+    reviewUrl: 'https://www.coupang.com/vp/products/6484523429',
+    ranking: 8,
+    thumbnail: '/thumbnails/6484523429.png',
+    coreValues: {
+      temperatureControl: 9,  // 매우 충족 - 14가지 모드, 24시간 보온, 분유/약탕 등 정밀 온도 설정 가능
+      hygiene: 8,             // 충족 - 넓은 입구로 통세척 용이, 304 스텐 사용 (연마제 제거 필수)
+      material: 4,            // 미달 - 304 스텐이지만 유리 파손 및 녹 발생 보고됨, 뚜껑 결합 불안정
+      usability: 4,           // 미달 - 전원선 매우 짧음, 조작 복잡, 알림음 소리 큼, 물 따를 때 튐/샘
+      portability: 1,        // 매우 미달 - 가정/사무실용 대용량 유리 포트
+      priceValue: 10,          // 매우 충족 - 5만원 미만 가격에 다기능 제공, 압도적인 가성비
+      durability: 2,          // 매우 미달 - 잔고장 및 유리 파손 빈번, A/S 응대 및 처리 매우 불만족
+      additionalFeatures: 9   // 매우 충족 - 14가지 다기능 모드, 계란 트레이, 세련된 유리 디자인
     }
   }
 ];

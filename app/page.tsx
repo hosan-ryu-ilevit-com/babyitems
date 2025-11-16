@@ -143,7 +143,7 @@ export default function Home() {
               </div>
             <div className="flex items-center gap-2 mt-4 text-xs text-gray-500">
 
-              <span>판매량 많은 순</span>
+              <span>판매 많은 순</span>
               <span className="text-gray-400">•</span>
               <span>2025년 11월 16일 기준</span>
             </div>
