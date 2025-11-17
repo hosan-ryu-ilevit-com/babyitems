@@ -128,7 +128,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
             <tr className="border-b border-gray-100">
               <td className="py-3 px-2 text-xs font-semibold text-gray-700">제품명</td>
               {top3.map((rec) => (
-                <td key={rec.product.id} className="py-3 px-2">
+                <td key={rec.product.id} className="py-3 px-2 text-center">
                   <p className="text-xs text-gray-900 leading-tight font-semibold line-clamp-2">
                     {rec.product.title}
                   </p>
@@ -140,7 +140,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
             <tr className="border-b border-gray-100">
               <td className="py-3 px-2 text-xs font-semibold text-gray-700">가격</td>
               {top3.map((rec) => (
-                <td key={rec.product.id} className="py-3 px-2">
+                <td key={rec.product.id} className="py-3 px-2 text-center">
                   <p className="text-sm font-bold text-gray-900">
                     {rec.product.price.toLocaleString()}원
                   </p>
@@ -152,7 +152,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
             <tr className="border-b border-gray-100">
               <td className="py-3 px-2 text-xs font-semibold text-gray-700">적합도</td>
               {top3.map((rec) => (
-                <td key={rec.product.id} className="py-3 px-2">
+                <td key={rec.product.id} className="py-3 px-2 text-center">
                   <p className="text-sm font-bold" style={{ color: '#009896' }}>{rec.finalScore}%</p>
                 </td>
               ))}
@@ -218,11 +218,11 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                   return (
                     <td key={product.id} className="py-3 px-2 align-top">
                       {features.length > 0 ? (
-                        <div className="flex flex-wrap gap-1.5">
+                        <div className="flex flex-wrap gap-1.5 justify-center">
                           {features.map((feature, idx) => (
                             <span
                               key={idx}
-                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold"
+                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold text-left"
                               style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
                             >
                               {feature}
@@ -230,7 +230,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                           ))}
                         </div>
                       ) : (
-                        <p className="text-xs text-gray-400">분석 중...</p>
+                        <p className="text-xs text-gray-400 text-center">분석 중...</p>
                       )}
                     </td>
                   );

@@ -95,6 +95,7 @@ function ProductChatContent() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [typingMessageIndex, setTypingMessageIndex] = useState<number | null>(null);
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const initializedRef = useRef<string | null>(null); // 초기화 추적용
@@ -123,7 +124,7 @@ function ProductChatContent() {
     }
   }, [productId, searchParams]);
 
-  // 제품 로드
+  // 제품 로드 및 대화 내역 복원
   useEffect(() => {
     if (productId && initializedRef.current !== productId) {
       // 이미 초기화된 productId면 스킵
@@ -132,15 +133,36 @@ function ProductChatContent() {
       const foundProduct = products.find((p) => p.id === productId);
       if (foundProduct) {
         setProduct(foundProduct);
-        // 초기 메시지 (사용자가 입력한 것처럼)
-        setMessages([
-          {
-            role: 'user',
-            content: '이 상품에 대해 자세히 설명해줘',
-          },
-        ]);
-        // AI 응답 생성
-        handleInitialResponse(foundProduct);
+
+        // 저장된 대화 내역 확인
+        const savedMessages = sessionStorage.getItem(`product-chat-messages-${productId}`);
+
+        if (savedMessages) {
+          // 저장된 대화 내역이 있으면 복원
+          try {
+            const parsedMessages = JSON.parse(savedMessages);
+            setMessages(parsedMessages);
+          } catch (error) {
+            console.error('Failed to parse saved messages:', error);
+            // 파싱 실패 시 초기 메시지 생성
+            setMessages([
+              {
+                role: 'user',
+                content: '이 상품에 대해 자세히 설명해줘',
+              },
+            ]);
+            handleInitialResponse(foundProduct);
+          }
+        } else {
+          // 저장된 대화 내역이 없으면 초기 메시지 생성
+          setMessages([
+            {
+              role: 'user',
+              content: '이 상품에 대해 자세히 설명해줘',
+            },
+          ]);
+          handleInitialResponse(foundProduct);
+        }
       } else {
         alert('상품을 찾을 수 없습니다.');
         router.back();
@@ -148,6 +170,13 @@ function ProductChatContent() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
+
+  // 대화 내역 저장 (messages 변경 시)
+  useEffect(() => {
+    if (productId && messages.length > 0) {
+      sessionStorage.setItem(`product-chat-messages-${productId}`, JSON.stringify(messages));
+    }
+  }, [messages, productId]);
 
   // 스크롤 자동 이동
   useEffect(() => {
@@ -396,7 +425,12 @@ function ProductChatContent() {
     router.push(`/product-chat?productId=${prod.id}&from=${encodeURIComponent(currentPath)}`);
   };
 
-  // 뒤로가기 처리
+  // 뒤로가기 버튼 클릭 시 모달 표시
+  const handleBackClick = () => {
+    setShowBackConfirmModal(true);
+  };
+
+  // 실제 뒤로가기 처리
   const handleBack = () => {
     if (!productId) {
       router.push('/');
@@ -445,7 +479,7 @@ function ProductChatContent() {
         <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20" style={{ maxWidth: '480px', margin: '0 auto' }}>
           <div className="flex items-center justify-between mb-3">
             <button
-              onClick={handleBack}
+              onClick={handleBackClick}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               <CaretLeft size={24} weight="bold" />
@@ -652,6 +686,55 @@ function ProductChatContent() {
             </button>
           </div>
         </footer>
+
+        {/* 뒤로가기 확인 모달 */}
+        <AnimatePresence>
+          {showBackConfirmModal && (
+            <>
+              {/* 반투명 배경 */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 z-40"
+                onClick={() => setShowBackConfirmModal(false)}
+              />
+
+              {/* 모달 */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="fixed inset-0 flex items-center justify-center z-50 px-4"
+              >
+                <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
+                  <p className="text-m text-gray-800 mb-6 leading-relaxed">
+                    나가시면 다시 이 페이지로 돌아올 수 없어요. 정말 나가시겠어요?
+                  </p>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setShowBackConfirmModal(false)}
+                      className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold rounded-xl transition-colors"
+                    >
+                      취소
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowBackConfirmModal(false);
+                        logButtonClick('뒤로가기 확인 - 나가기', 'product-chat');
+                        handleBack();
+                      }}
+                      className="flex-1 px-4 py-3 text-white font-semibold rounded-xl transition-colors"
+                      style={{ backgroundColor: '#0074F3' }}
+                    >
+                      뒤로가기
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
