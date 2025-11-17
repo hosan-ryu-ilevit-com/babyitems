@@ -59,7 +59,7 @@ export default function Home() {
       {/* 모바일 최적화 컨테이너 */}
       <div className="relative w-full max-w-[480px] bg-white shadow-lg">
         {/* Hero Section */}
-        <section className="px-6 pt-12 pb-8">
+        <section className="px-6 pt-6">
           {/* Character */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -73,8 +73,8 @@ export default function Home() {
               <Image
                 src="/images/mainchartrans.png"
                 alt="AI 추천 도우미"
-                width={180}
-                height={180}
+                width={160}
+                height={10}
                 className="object-contain"
               />
             </div>
@@ -88,7 +88,7 @@ export default function Home() {
             className="text-center mb-8"
             suppressHydrationWarning
           >
-            <h1 className="text-3xl font-extrabold text-gray-900 mb-3 leading-tight">
+            <h1 className="text-2xl font-extrabold text-gray-900 mb-2 leading-tight">
               분유포트, 수천 개를<br />다 비교해 볼 순 없잖아요
             </h1>
             <p className="text-lg text-gray-500 font-semibold leading-6 px-1">
