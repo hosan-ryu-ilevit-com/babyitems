@@ -20,14 +20,34 @@ npm run lint        # Run ESLint
 ## Architecture Overview
 
 ### Page Flow (8 Pages)
-1. **Home** (`/`) → Start button
-2. **Ranking** (`/ranking`) → Product list view
-3. **Priority** (`/priority`) → Single-page priority & budget selection
-4. **Chat** (`/chat`) → Deep-dive conversation on 'high' priority attributes (optional)
-5. **Result** (`/result`) → Top 3 personalized recommendations
+1. **Home** (`/`) → Product ranking list (integrated) + favorites (찜하기) feature
+2. **Priority** (`/priority`) → Single-page priority & budget selection
+3. **Result** (`/result`) → Top 3 personalized recommendations
+4. **Chat** (`/chat`) → Deep-dive conversation for re-recommendation (accessed from Result page)
+5. **Compare** (`/compare`) → Side-by-side comparison of 3 products with AI-generated features
 6. **Product Chat** (`/product-chat`) → Detailed Q&A about specific products
 7. **Admin** (`/admin`) → Log viewer with statistics dashboard
 8. **Admin Upload** (`/admin/upload`) → Product management interface
+
+### User Journey Flow
+```
+Home (/)
+  → Browse products & add favorites (최대 3개)
+  → Click "1분만에 추천받기"
+    ↓
+Priority (/priority)
+  → Set attribute priorities (high/medium/low)
+  → Set budget
+  → Click "바로 추천받기"
+    ↓
+Result (/result)
+  → View Top 3 recommendations
+  → [Optional paths]:
+     • "채팅하고 더 정확히 추천받기" → /chat → /result (re-recommendation)
+     • "비교하기" → /compare (3-product comparison table)
+     • "질문하기" → /product-chat (specific product Q&A)
+     • "찜한 상품 비교하기" (from Home) → /compare
+```
 
 ### Priority Flow (Main User Journey)
 
@@ -55,17 +75,23 @@ npm run lint        # Run ESLint
 - **커스텀 예산 입력**: 주관식 금액 입력 시 자동으로 범위 매핑
 - **필수**: 예산 선택 완료해야 하단 버튼 활성화
 
-#### **User Choice** (Priority 페이지 하단)
-1. **"채팅으로 더 자세히"** → `/chat`
-   - 'high' 속성들에 대해 3~5턴 자유 대화
-   - Phase 0 변형: 특별한 상황 선택적 입력
-   - 각 속성마다 AI가 디테일 질문
-   - Chat2로 전환 (추가 맥락 수집)
-   - 추천 받기
+#### **Priority Page Action**
+**"바로 추천받기"** → `/result`
+- Priority 설정 + 예산만으로 즉시 추천
+- Chat 단계 스킵 (Note: Priority 페이지에서 Chat으로 직접 가지 않음)
 
-2. **"바로 추천받기"** → `/result`
-   - Priority 설정 + 예산만으로 즉시 추천
-   - Chat 단계 스킵
+#### **Result Page Options**
+1. **"채팅하고 더 정확히 추천받기"** → `/chat` → `/result`
+   - Result 페이지에서만 접근 가능
+   - 'high' 속성들에 대해 추가 대화
+   - 재추천 받기 (forceRegenerate flag)
+
+2. **"비교하기"** → `/compare`
+   - Top 3 제품 상세 비교표
+   - AI가 생성한 핵심 특징 태그, 장단점, 한줄 비교
+
+3. **"질문하기"** → `/product-chat`
+   - 특정 제품에 대한 Q&A
 
 ### Chat Flow (Priority 플로우 전용)
 
@@ -174,8 +200,9 @@ interface SessionState {
   budget?: BudgetRange;
   phase0Context?: string; // Phase 0 맥락
   messages: Message[];
-  phase: 'home' | 'ranking' | 'priority' | 'chat1' | 'chat2' | 'result';
+  phase: 'home' | 'priority' | 'chat' | 'result' | 'compare';
   isQuickRecommendation?: boolean; // 바로 추천받기 여부
+  forceRegenerate?: boolean; // Chat 후 재추천 플래그
 }
 
 // 대화 상태 (Chat 페이지)
@@ -244,6 +271,33 @@ Product-specific Q&A endpoint
 - Input: `{ message, productId, conversationHistory }`
 - Output: AI-generated answers about specific product features and details
 - Uses product data and user persona for contextual responses
+
+#### **POST /api/compare**
+Generate pros/cons and comparison summary for 3 products
+- Input: `{ productIds: string[] }` (exactly 3)
+- Output: `{ productDetails: Record<string, { pros: string[], cons: string[], comparison: string }> }`
+- Uses LLM to analyze product markdown and generate concise summaries
+- Temperature: 0.7 for creative comparisons
+
+#### **POST /api/compare-features**
+Generate specific feature tags for 3 products (핵심 특징)
+- Input: `{ productIds: string[] }` (exactly 3)
+- Output: `{ features: Record<string, string[]> }` (4 tags per product)
+- **Important**: Uses product.id as JSON keys (not price!)
+- Tags must be:
+  - Positive features only (no "부재", "약함", etc.)
+  - Specific and quantitative (e.g., "110V/220V 프리볼트", "SUS304 스테인리스")
+  - Unique per product (no duplicates across products)
+  - 2-6 words each
+- Temperature: 0.3 for accurate spec extraction
+- Fallback: Score-based tag generation if LLM fails
+
+#### **POST /api/compare-chat**
+Conversational Q&A about 3 products being compared
+- Input: `{ message, productIds: string[], conversationHistory, userContext? }`
+- Output: `{ response: string, type?: 'general' | 'replace' | 'add' }`
+- Supports product replacement/addition intents
+- Uses user's Priority context if available
 
 #### **GET /api/admin/stats**
 Statistics dashboard endpoint (requires authentication)
@@ -315,10 +369,10 @@ tags: ["스테인리스", "빠른 가열"]
 - `lib/agents/recommendationWriter.ts`: Top 3 추천 이유 생성
 - `lib/agents/reviewAnalyzer.ts`: Admin upload 시 Coupang 리뷰 분석
 
-**DEPRECATED**:
+**DEPRECATED (not used in current flow)**:
 - `lib/ai/intentAnalyzer.ts`: 자연어 의도 분석 (analyzeUserIntent)
-- `lib/utils/messageTemplates.ts`: follow-up 질문 템플릿
 - `lib/utils/contextRelevance.ts`: Phase 0 맥락 연관도 판단
+- `/ranking` page: Integrated into Home page
 
 ### Session & Logging
 
@@ -373,7 +427,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ## Common Gotchas
 
-- **DEPRECATED 파일들**: `lib/workflow/recommendationWorkflow.ts`, intentAnalyzer, contextRelevance 등은 Priority 플로우에서 사용 안 함
+- **DEPRECATED 파일들**: intentAnalyzer, contextRelevance 등은 Priority 플로우에서 사용 안 함
 - **속성 개수 불일치**:
   - `CoreValues` interface: 8개 속성 (durability 포함)
   - `CORE_ATTRIBUTES` array: 7개 (durability 제외, UI용)
@@ -385,6 +439,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 - **Durability 속성**: `CoreValues`에는 존재하지만 UI/대화에서는 사용 안 함
 - **Admin 인증**: Admin 페이지 및 통계 API는 하드코딩된 비밀번호 '1545' 사용 (프로덕션에서는 환경 변수로 이동 권장)
 - **Test IP 필터링**: 통계에서 `['::1', '211.53.92.162']` 자동 제외됨
+- **Compare Features API**: LLM must use product.id (not price) as JSON keys. Prompt includes explicit ID validation.
+- **Favorites Limit**: Maximum 3 products can be favorited (찜하기) from Home page
+- **Chat Access**: Chat page is only accessible from Result page, not from Priority page
 
 ## Migration Notes (기존 플로우 → Priority 플로우)
 
@@ -396,6 +453,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 - 중요도 재평가: Priority 설정이 최종
 - 예산 질문 (Chat 중간): Priority 페이지로 통합
 - `/budget` 페이지: 삭제됨 (Priority 페이지에 통합)
+- `/ranking` 페이지: 삭제됨 (Home 페이지에 통합)
 
 **변경된 것들**:
 - Phase 0: 필수 → 선택적 (특별한 상황만)
@@ -404,13 +462,22 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 - 예산: Chat 중간 → Priority 페이지 (통합, 커스텀 입력 지원)
 - Priority 페이지: 2단계 분리 → 단일 페이지 통합
 - Persona 가중치: 대화 기반 → Priority 설정 기반 (Chat은 선택적 보강)
+- Chat 접근: Priority → Chat → Result에서 Priority → Result → (선택) Chat → Result로 변경
+- 랭킹 표시: 별도 페이지 → Home 페이지 통합 (찜하기 기능 추가)
 
 **유지되는 것들**:
 - Chat2 (오픈 대화)
 - Recommendation Workflow (Persona → Filtering → Evaluation → Top 3)
-- Product 데이터 구조
-- Logging 시스템
-- Admin 페이지
+- Product 데이터 구조 (markdown with frontmatter)
+- Logging 시스템 (Supabase)
+- Admin 페이지 및 통계
+
+**추가된 것들**:
+- `/compare` 페이지: 3개 제품 상세 비교표
+- 찜하기 기능 (Home): 최대 3개 제품 즐겨찾기
+- AI 생성 핵심 특징 태그 (Compare)
+- Product-specific chat (Product Chat 페이지)
+- Result에서 Chat으로 재추천 플로우
 
 ## Debugging & Troubleshooting
 
@@ -439,16 +506,27 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ### Testing Flow
 
 **Quick test of full flow**:
-1. Visit `/` → click start
-2. Visit `/ranking` → view products
+1. Visit `/` → view products (ranking section)
+2. Click "1분만에 추천받기" button
 3. Visit `/priority` → set 1-3 'high' priorities + budget → "바로 추천받기"
 4. Visit `/result` → see recommendations
 
-**Test chat flow**:
-1. Same as above but click "채팅으로 더 자세히"
-2. Chat will ask about each 'high' priority (3-5 turns each)
-3. Then Chat2 phase (2-3 additional questions)
-4. Click "추천 받기" button
+**Test chat flow** (re-recommendation):
+1. Complete quick test flow to reach Result page
+2. Click "채팅하고 더 정확히 추천받기" button
+3. Chat will ask about 'high' priority attributes (3-5 turns each)
+4. Then Chat2 phase (2-3 additional questions)
+5. Click "추천 받기" button → Return to Result with new recommendations
+
+**Test compare flow**:
+1. From Result page, click "비교하기" button → `/compare`
+2. Or from Home page, favorite 3 products → click "찜한 상품 비교하기"
+3. View side-by-side comparison table with:
+   - AI-generated feature tags (핵심 특징)
+   - Pros/Cons
+   - One-line comparison (한줄 비교)
+   - Core attribute scores with color-coded bars
+4. Use compare chat to ask questions about the 3 products
 
 **Admin features**:
 - `/admin` - View logs and statistics dashboard (requires Supabase)

@@ -102,7 +102,7 @@ export default function Home() {
         <section id="ranking-section" className="min-h-screen bg-white px-6 pt-4 pb-8">
           {/* Section Header */}
           <div className="mb-6">
-            <div className="flex items-center gap-3 mt-6 mb-1">
+            <div className="flex items-center gap-3 mt-0 mb-0">
               <h2 className="text-2xl font-bold text-gray-900">
                 실시간 랭킹
               </h2>
@@ -123,29 +123,37 @@ export default function Home() {
                   }}
                   className="relative"
                 >
-                  <div className="bg-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap" style={{ color: '#0074F3' }}>
-                    이 중에서 골라드려요!
+                  <div className="bg-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1.5" style={{ color: '#FF6B6B' }}>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="#FF6B6B"
+                      stroke="#FF6B6B"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    찜하면 바로 상세비교 가능!
                   </div>
                   {/* Speech bubble tail */}
                   <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-100"></div>
                 </motion.div>
               </motion.div>
             </div>
-            <div className="flex items-center gap-1">
-                <span className="text-[10px] text-gray-500">Powered by</span>
-                <Image
-                  src="/images/naverstorelogo.png"
-                  alt="네이버 스토어"
-                  width={60}
-                  height={15}
-                  className="object-contain"
-                />
-              </div>
-            <div className="flex items-center gap-2 mt-4 text-xs text-gray-500">
-
+            <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
+              <Image
+                src="/images/naverstorelogo.png"
+                alt="네이버 스토어"
+                width={60}
+                height={15}
+                className="object-contain"
+              />
               <span>판매 많은 순</span>
               <span className="text-gray-400">•</span>
-              <span>2025년 11월 16일 기준</span>
+              <span>11월 17일 기준</span>
             </div>
           </div>
 
@@ -239,6 +247,12 @@ export default function Home() {
                 style={{ backgroundColor: '#0084FE' }}
               >
                 <span>1분만에 추천받기</span>
+                <span className="px-2 py-0.5 bg-white/20 rounded-md text-xs font-bold flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                  </svg>
+                  <span>AI</span>
+                </span>
               </motion.button>
             </Link>
           </motion.div>
