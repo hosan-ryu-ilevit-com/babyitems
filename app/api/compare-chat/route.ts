@@ -186,28 +186,38 @@ async function suggestAlternativeProducts(
     }
   }
 
+  // 점수를 자연스러운 언어로 변환하는 함수
+  const toNaturalLanguage = (score: number): string => {
+    if (score >= 9) return '매우 우수';
+    if (score >= 8) return '우수';
+    if (score >= 7) return '좋음';
+    if (score >= 6) return '적절함';
+    if (score >= 5) return '평범함';
+    return '보통 이하';
+  };
+
   const prompt = `당신은 육아 제품 추천 전문가입니다.
 ${contextSection}
 **현재 비교 중인 제품들:**
 ${currentProducts.map((p, idx) => `
 ${idx + 1}. ${p.title} (${p.price.toLocaleString()}원)
-   - 온도 조절: ${p.coreValues.temperatureControl}/10
-   - 위생: ${p.coreValues.hygiene}/10
-   - 소재: ${p.coreValues.material}/10
-   - 사용 편의성: ${p.coreValues.usability}/10
-   - 휴대성: ${p.coreValues.portability}/10
-   - 부가 기능: ${p.coreValues.additionalFeatures}/10
+   - 온도 조절: ${toNaturalLanguage(p.coreValues.temperatureControl)}
+   - 위생: ${toNaturalLanguage(p.coreValues.hygiene)}
+   - 소재: ${toNaturalLanguage(p.coreValues.material)}
+   - 사용 편의성: ${toNaturalLanguage(p.coreValues.usability)}
+   - 휴대성: ${toNaturalLanguage(p.coreValues.portability)}
+   - 부가 기능: ${toNaturalLanguage(p.coreValues.additionalFeatures)}
 `).join('\n')}
 
 **사용 가능한 다른 제품들:**
 ${availableProducts.slice(0, 10).map((p, idx) => `
 ${idx + 1}. ${p.title} (${p.price.toLocaleString()}원)
-   - 온도 조절: ${p.coreValues.temperatureControl}/10
-   - 위생: ${p.coreValues.hygiene}/10
-   - 소재: ${p.coreValues.material}/10
-   - 사용 편의성: ${p.coreValues.usability}/10
-   - 휴대성: ${p.coreValues.portability}/10
-   - 부가 기능: ${p.coreValues.additionalFeatures}/10
+   - 온도 조절: ${toNaturalLanguage(p.coreValues.temperatureControl)}
+   - 위생: ${toNaturalLanguage(p.coreValues.hygiene)}
+   - 소재: ${toNaturalLanguage(p.coreValues.material)}
+   - 사용 편의성: ${toNaturalLanguage(p.coreValues.usability)}
+   - 휴대성: ${toNaturalLanguage(p.coreValues.portability)}
+   - 부가 기능: ${toNaturalLanguage(p.coreValues.additionalFeatures)}
 `).join('\n')}
 
 **대화 이력:**
@@ -227,6 +237,7 @@ ${intent.productToReplace ? `- 교체 대상: ${intent.productToReplace}` : ''}
 4. 적절한 대체 제품 1-2개를 추천하세요
 5. 추천 이유를 간결하게 설명하세요 (각 50자 이내)
 6. 사용자에게 친근하고 공감적인 톤으로 답변하세요
+7. **⚠️ 중요: "8점", "9점", "10점" 등 숫자 점수를 절대 언급하지 마세요!** 대신 실제 기능과 특징을 자연스럽게 설명하세요
 
 **출력 형식 (JSON):**
 \`\`\`json
@@ -325,21 +336,33 @@ async function answerGeneralQuestion(
   const prompt = `당신은 육아 제품 비교 전문가입니다. 사용자는 3개의 분유포트를 비교 중이며, 제품명을 직접 언급하면서 질문합니다.
 ${contextSection}
 **현재 비교 중인 제품들:**
-${currentProducts.map((p, idx) => `
+${currentProducts.map((p, idx) => {
+    // 점수를 자연스러운 언어로 변환
+    const toNaturalLanguage = (score: number): string => {
+      if (score >= 9) return '매우 우수';
+      if (score >= 8) return '우수';
+      if (score >= 7) return '좋음';
+      if (score >= 6) return '적절함';
+      if (score >= 5) return '평범함';
+      return '보통 이하';
+    };
+
+    return `
 ${idx + 1}. **${p.product.title}** (${p.product.price.toLocaleString()}원)
 
-   **속성 점수:**
-   - 온도 조절/유지: ${p.product.coreValues.temperatureControl}/10
-   - 위생/세척: ${p.product.coreValues.hygiene}/10
-   - 소재/안전성: ${p.product.coreValues.material}/10
-   - 사용 편의성: ${p.product.coreValues.usability}/10
-   - 휴대성: ${p.product.coreValues.portability}/10
-   - 가격 대비 가치: ${p.product.coreValues.priceValue}/10
-   - 부가 기능: ${p.product.coreValues.additionalFeatures}/10
+   **제품 특징 요약:**
+   - 온도 조절/유지: ${toNaturalLanguage(p.product.coreValues.temperatureControl)}
+   - 위생/세척: ${toNaturalLanguage(p.product.coreValues.hygiene)}
+   - 소재/안전성: ${toNaturalLanguage(p.product.coreValues.material)}
+   - 사용 편의성: ${toNaturalLanguage(p.product.coreValues.usability)}
+   - 휴대성: ${toNaturalLanguage(p.product.coreValues.portability)}
+   - 가격 대비 가치: ${toNaturalLanguage(p.product.coreValues.priceValue)}
+   - 부가 기능: ${toNaturalLanguage(p.product.coreValues.additionalFeatures)}
 
-   **상세 분석:**
-${p.markdown.substring(0, 1500)}...
-`).join('\n\n')}
+   **상세 분석 및 실제 스펙:**
+${p.markdown.substring(0, 2000)}...
+`;
+  }).join('\n\n')}
 
 **대화 이력:**
 ${conversationHistory || '(없음)'}
@@ -353,17 +376,25 @@ ${conversationHistory || '(없음)'}
 3. 사용자가 제품명을 언급하면 (예: "리웨이", "끌리젠", "유베라") 정확히 그 제품을 참조하세요
 4. "이 중에서 가장 ~" 형태의 질문이면 3개 제품을 모두 비교하여 가장 우수한 것을 선정하세요
 5. "A가 B보다 ~?" 형태의 질문이면 두 제품의 차이점을 구체적으로 설명하세요
-6. 답변은 **상세 분석 정보를 반드시 활용**하여 구체적으로 작성하세요
-7. 단순히 점수만 언급하지 말고, 실제 특징과 기능을 설명하세요
+6. 답변은 **상세 분석의 구체적인 스펙과 기능 정보를 반드시 활용**하여 작성하세요
+7. **⚠️ 중요: "8점", "9점", "10점" 등 숫자 점수를 절대 언급하지 마세요!** 대신 실제 기능과 특징을 자연스러운 언어로 설명하세요
 8. 친근하고 공감적인 톤으로 핵심적인 2-3문장 내외로 답변하세요
 9. 필요시 제품명을 직접 언급하여 명확하게 구분하세요
 
-**예시:**
+**답변 예시 (좋은 예):**
 - 질문: "이중에서 가장 소음 적은건?"
-  답변: "소음 측면에서는 리웨이가 가장 조용합니다! 리웨이는 소음 억제 기술이 적용되어 야간에도 조용하게 사용할 수 있어요. 끌리젠은 중간 수준의 소음이 있고, 유베라는 가열 시 약간의 소리가 날 수 있습니다."
+  답변: "소음 측면에서는 **리웨이**가 가장 조용합니다! 리웨이는 소음 억제 기술이 적용되어 야간에도 조용하게 사용할 수 있어요. 끌리젠은 중간 수준의 소음이 있고, 유베라는 가열 시 약간의 소리가 날 수 있습니다."
 
 - 질문: "리웨이가 끌리젠보다 좋은점?"
-  답변: "리웨이는 끌리젠보다 온도 유지력이 우수하고 세척이 더 편리합니다! 특히 분리형 구조로 설계되어 구석구석 깨끗하게 세척할 수 있어요. 또한 보온 성능도 더 뛰어나서 적정 온도를 오래 유지할 수 있습니다."
+  답변: "**리웨이**는 끌리젠보다 온도 유지력이 우수하고 세척이 더 편리합니다! 특히 분리형 구조로 설계되어 구석구석 깨끗하게 세척할 수 있어요. 또한 보온 성능도 더 뛰어나서 적정 온도를 오래 유지할 수 있습니다."
+
+- 질문: "가장 세척하기 편한 제품은?"
+  답변: "세척 편의성은 **끌리젠**이 단연 최고입니다! 분리형 상판과 넓은 입구 덕분에 손이 쉽게 들어가 구석구석 세척할 수 있어요. 스테인리스 소재라 물때도 잘 안 생기고요."
+
+**⚠️ 나쁜 예 (절대 금지):**
+- ❌ "리웨이는 온도 조절이 9점이라 우수합니다"
+- ❌ "끌리젠은 위생 점수가 8점으로 좋아요"
+- ❌ "유베라는 휴대성이 7점으로 적절합니다"
 
 답변:`;
 
