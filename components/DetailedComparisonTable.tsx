@@ -79,14 +79,14 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.6 }}
-      className="comparison-table-section bg-white rounded-2xl p-5 border border-white mb-24"
+      transition={{ duration: 0.5 }}
+      className="comparison-table-section bg-white rounded-2xl p-5 border border-white mb-8"
     >
-      <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한 눈에 비교</h3>
+      {/* <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한 눈에 비교</h3> */}
 
       {/* 가로 스크롤 힌트 */}
       <p className="text-xs text-gray-400 text-center mb-3">
-        ← 좌우로 스크롤해서 확인하세요 →
+        ← 좌우 스크롤 →
       </p>
 
       {/* 모바일 가로 스크롤 테이블 */}

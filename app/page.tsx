@@ -91,9 +91,9 @@ export default function Home() {
             <h1 className="text-3xl font-extrabold text-gray-900 mb-3 leading-tight">
               분유포트, 수천 개를<br />다 비교해 볼 순 없잖아요
             </h1>
-            <p className="text-lg text-gray-600 leading-6 px-2">
-              지금 가장 <strong className="font-bold">사랑받는 제품</strong> 중,<br />
-              나만의 최고를 찾아드려요
+            <p className="text-lg text-gray-500 font-semibold leading-6 px-1">
+            
+              AI 비서가 딱 맞는 제품을 찾아드려요
             </p>
           </motion.div>
         </section>
@@ -103,7 +103,7 @@ export default function Home() {
           {/* Section Header */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mt-0 mb-0">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-xl font-bold text-gray-900">
                 실시간 랭킹
               </h2>
               {/* Speech Bubble */}
@@ -136,21 +136,14 @@ export default function Home() {
                     >
                       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                     </svg>
-                    찜하면 바로 상세비교 가능!
+                    찜하고 바로 상세비교 가능!
                   </div>
                   {/* Speech bubble tail */}
                   <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-100"></div>
                 </motion.div>
               </motion.div>
             </div>
-            <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
-              <Image
-                src="/images/naverstorelogo.png"
-                alt="네이버 스토어"
-                width={60}
-                height={15}
-                className="object-contain"
-              />
+            <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
               <span>판매 많은 순</span>
               <span className="text-gray-400">•</span>
               <span>11월 17일 기준</span>
@@ -170,7 +163,7 @@ export default function Home() {
                 suppressHydrationWarning
               >
                 {/* Thumbnail with Ranking Badge */}
-                <div className="relative aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 mb-2.5 group-hover:border-gray-300 transition-colors">
+                <div className="relative aspect-square bg-gray-50 rounded-xl overflow-hidden border border-gray-100 mb-2.5 group-hover:border-gray-200 transition-colors">
                   <Image
                     src={product.thumbnail}
                     alt={product.title}
@@ -178,25 +171,27 @@ export default function Home() {
                     className="object-cover"
                   />
                   {/* Ranking Badge - Top Left - All Products */}
-                  <div className="absolute top-2 left-2 w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="absolute top-0 left-0 w-7 h-7 bg-gray-900 rounded-tl-md rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center">
                     <span className="text-white font-bold text-sm">
                       {product.ranking}
                     </span>
                   </div>
 
-                  {/* Heart Button - Top Right */}
+                  {/* Heart Button - Bottom Right */}
                   <motion.button
                     onClick={(e) => handleHeartClick(e, product.id)}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors z-10"
+                    className={`absolute bottom-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-colors z-10 ${
+                      isFavorite(product.id) ? 'bg-[#FF6B6B]' : 'bg-black/30'
+                    }`}
                   >
                     <svg
-                      width="18"
-                      height="18"
+                      width="15"
+                      height="15"
                       viewBox="0 0 24 24"
-                      fill={isFavorite(product.id) ? "#FF6B6B" : "none"}
-                      stroke={isFavorite(product.id) ? "#FF6B6B" : "#6B7280"}
+                      fill={isFavorite(product.id) ? "white" : "none"}
+                      stroke="white"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
