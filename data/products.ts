@@ -271,7 +271,7 @@ export const products: Product[] = [
   {
     id: '8720154091',
     title: '어프리비 국민 분유포트 티 커피 무선 전기 포트 주전자',
-    price: 69000,
+    price: 85000,
     reviewCount: 451,
     reviewUrl: 'https://www.coupang.com/vp/products/8720154091',
     ranking: 21,

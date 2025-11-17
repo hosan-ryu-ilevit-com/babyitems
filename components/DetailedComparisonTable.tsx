@@ -98,7 +98,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
               {top3.map((rec) => (
                 <th key={rec.product.id} className="py-3 px-2 text-center" style={{ width: '28%' }}>
                   <div className="flex flex-col items-center gap-2">
-                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
                       {rec.product.thumbnail && (
                         <Image
                           src={rec.product.thumbnail}
@@ -110,14 +110,13 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                           sizes="48px"
                         />
                       )}
+                      {/* 랭킹 배지 - 좌측 상단 */}
+                      <div className="absolute top-0 left-0 w-4 h-4 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
+                        <span className="text-white font-bold text-[10px]">
+                          {rec.rank}
+                        </span>
+                      </div>
                     </div>
-                    <span
-                      className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                        rec.rank === 1 ? 'bg-yellow-400 text-white' : 'bg-gray-600 text-white'
-                      }`}
-                    >
-                      {rec.rank}
-                    </span>
                   </div>
                 </th>
               ))}
@@ -158,7 +157,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
               ))}
             </tr>
 
-            {/* 쿠팡에서 보기 + 이 상품 질문하기 버튼 */}
+            {/* 쿠팡에서 보기 + 최저가 보기 + 이 상품 질문하기 버튼 */}
             <tr className="border-b border-gray-100">
               <td className="py-3 px-2 text-xs font-semibold text-gray-700"></td>
               {top3.map((rec) => (
@@ -183,6 +182,21 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                       onClick={() => {
                         logComparisonProductAction(
                           'result',
+                          'coupang_clicked',
+                          rec.product.id,
+                          rec.product.title,
+                          top3.map(r => r.product.id)
+                        );
+                        window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(rec.product.title)}`, '_blank');
+                      }}
+                      className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                    >
+                      최저가 보기
+                    </button>
+                    <button
+                      onClick={() => {
+                        logComparisonProductAction(
+                          'result',
                           'product_chat_clicked',
                           rec.product.id,
                           rec.product.title,
@@ -201,7 +215,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                       >
                         <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
                       </svg>
-                      이 상품 질문하기
+                      질문하기
                     </button>
                   </div>
                 </td>
@@ -210,7 +224,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
 
             {/* 핵심 특징 (LLM 생성 태그) */}
             {Object.keys(productFeatures).length > 0 && (
-              <tr className="border-b border-gray-100 bg-blue-50/30">
+              <tr className="border-b border-gray-100">
                 <td className="py-3 px-2 text-xs font-semibold text-gray-700 align-top">핵심 특징</td>
                 {selectedProducts.map((product) => {
                   if (!product) return <td key="empty"></td>;
@@ -222,8 +236,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                           {features.map((feature, idx) => (
                             <span
                               key={idx}
-                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold text-left"
-                              style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold text-left bg-gray-100 text-gray-700"
                             >
                               {feature}
                             </span>

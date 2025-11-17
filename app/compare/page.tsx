@@ -354,25 +354,21 @@ function ComparePageContent() {
                       {selectedProducts.map((product) => (
                         <th key={product.id} className="py-3 px-2 text-center" style={{ width: '28%' }}>
                           <div className="flex flex-col items-center gap-2">
-                            <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
+                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
                               <img
                                 src={product.thumbnail}
                                 alt={product.title}
                                 className="w-full h-full object-cover"
                               />
+                              {/* Ranking badge - 좌측 상단 (from result page) */}
+                              {productRanks[product.id] && (
+                                <div className="absolute top-0 left-0 w-4 h-4 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
+                                  <span className="text-white font-bold text-[10px]">
+                                    {productRanks[product.id]}
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            {/* Ranking badge - show below thumbnail (from result page) */}
-                            {productRanks[product.id] && (
-                              <span
-                                className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                                  productRanks[product.id] === 1
-                                    ? 'bg-yellow-400 text-white'
-                                    : 'bg-gray-600 text-white'
-                                }`}
-                              >
-                                {productRanks[product.id]}
-                              </span>
-                            )}
                           </div>
                         </th>
                       ))}
@@ -445,6 +441,22 @@ function ComparePageContent() {
                             >
                               쿠팡에서 보기
                             </button>
+                            {/* 최저가 보기 */}
+                            <button
+                              onClick={() => {
+                                logComparisonProductAction(
+                                  'home',
+                                  'coupang_clicked',
+                                  product.id,
+                                  product.title,
+                                  selectedProducts.map(p => p.id)
+                                );
+                                window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}`, '_blank');
+                              }}
+                              className="w-full py-2 text-xs font-semibold rounded-lg transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
+                            >
+                              최저가 보기
+                            </button>
                             {/* 이 상품 질문하기 */}
                             <button
                               onClick={() => {
@@ -476,7 +488,7 @@ function ComparePageContent() {
 
                     {/* 핵심 특징 (LLM 생성 태그) */}
                     {Object.keys(productFeatures).length > 0 && (
-                      <tr className="border-b border-gray-100 bg-blue-50/30">
+                      <tr className="border-b border-gray-100">
                         <td className="py-3 px-2 text-xs font-semibold text-gray-700 align-top">핵심 특징</td>
                         {selectedProducts.map((product) => {
                           const features = productFeatures[product.id] || [];
@@ -487,8 +499,7 @@ function ComparePageContent() {
                                   {features.map((feature, idx) => (
                                     <span
                                       key={idx}
-                                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold text-left"
-                                      style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold text-left bg-gray-100 text-gray-700"
                                     >
                                       {feature}
                                     </span>

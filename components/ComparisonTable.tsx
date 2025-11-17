@@ -42,7 +42,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
               {top3.map((rec) => (
                 <th key={rec.product.id} className="py-3 px-2 text-center">
                   <div className="flex flex-col items-center gap-2">
-                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
                       {rec.product.thumbnail && (
                         <Image
                           src={rec.product.thumbnail}
@@ -54,14 +54,13 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
                           sizes="48px"
                         />
                       )}
+                      {/* 랭킹 배지 - 좌측 상단 */}
+                      <div className="absolute top-0 left-0 w-4 h-4 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
+                        <span className="text-white font-bold text-[10px]">
+                          {rec.rank}
+                        </span>
+                      </div>
                     </div>
-                    <span
-                      className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                        rec.rank === 1 ? 'bg-yellow-400 text-white' : 'bg-gray-600 text-white'
-                      }`}
-                    >
-                      {rec.rank}
-                    </span>
                   </div>
                 </th>
               ))}
@@ -124,17 +123,25 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
               </tr>
             )}
 
-            {/* 쿠팡에서 보기 버튼 */}
+            {/* 쿠팡에서 보기 + 최저가 보기 버튼 */}
             <tr>
               <td className="py-3 px-2"></td>
               {top3.map((rec) => (
                 <td key={rec.product.id} className="py-3 px-2">
-                  <button
-                    onClick={() => window.open(rec.product.reviewUrl, '_blank')}
-                    className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
-                  >
-                    쿠팡에서 보기
-                  </button>
+                  <div className="space-y-1.5">
+                    <button
+                      onClick={() => window.open(rec.product.reviewUrl, '_blank')}
+                      className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                    >
+                      쿠팡에서 보기
+                    </button>
+                    <button
+                      onClick={() => window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(rec.product.title)}`, '_blank')}
+                      className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                    >
+                      최저가 보기
+                    </button>
+                  </div>
                 </td>
               ))}
             </tr>
