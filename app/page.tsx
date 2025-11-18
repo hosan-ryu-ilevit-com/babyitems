@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { products } from '@/data/products';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import FavoritesBottomSheet from '@/components/FavoritesBottomSheet';
@@ -20,13 +19,11 @@ const playfair = Playfair_Display({
 });
 
 export default function Home() {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<'find' | 'ranking'>('find');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isFavoritesSheetOpen, setIsFavoritesSheetOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
-  const [queryInput, setQueryInput] = useState('');
   const { favorites, toggleFavorite, isFavorite, count } = useFavorites();
 
   // 페이지 뷰 로깅
@@ -73,15 +70,6 @@ export default function Home() {
     setIsGuideOpen(false);
     // Mark guide as viewed
     localStorage.setItem('babyitem_guide_viewed', 'true');
-  };
-
-  const handleQuerySubmit = () => {
-    if (!queryInput.trim()) return;
-
-    logButtonClick('자연어 쿼리 제출', 'home', queryInput);
-
-    // 쿼리를 URL 파라미터로 전달하여 Priority 페이지로 이동
-    router.push(`/priority?query=${encodeURIComponent(queryInput.trim())}`);
   };
 
   const favoriteProducts = products.filter((p) => favorites.includes(p.id));
@@ -344,39 +332,6 @@ export default function Home() {
               </span>
             </button>
           </Link>
-
-          {/* Natural Language Query Input */}
-          <div className="flex gap-2 items-end">
-            <textarea
-              value={queryInput}
-              onChange={(e) => {
-                setQueryInput(e.target.value);
-                // Auto-resize textarea
-                e.target.style.height = 'auto';
-                e.target.style.height = `${Math.min(e.target.scrollHeight, 80)}px`;
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleQuerySubmit();
-                }
-              }}
-              placeholder="어떤 분유포트를 찾고 계신가요?"
-              rows={1}
-              className="flex-1 min-h-12 max-h-[80px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto scrollbar-hide text-gray-900"
-              style={{ fontSize: '16px' }}
-            />
-            <button
-              onClick={handleQuerySubmit}
-              disabled={!queryInput.trim()}
-              className="w-12 h-12 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
-              style={{ backgroundColor: '#0074F3' }}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-              </svg>
-            </button>
-          </div>
         </div>
 
         {/* Favorites Floating Button - Ranking 탭에서만 표시 */}
@@ -389,7 +344,7 @@ export default function Home() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleFavoritesClick}
-              className="fixed bottom-[100px] right-6 px-4 py-3 bg-white rounded-full shadow-lg flex items-center gap-2 border-2 z-40 mb-16"
+              className="fixed bottom-[100px] right-6 px-4 py-3 bg-white rounded-full shadow-lg flex items-center gap-2 border-2 z-40 mb-3"
               style={{
                 maxWidth: '480px',
                 borderColor: '#FF6B6B'

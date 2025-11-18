@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { CaretLeft, Question } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import { PRIORITY_ATTRIBUTES, ATTRIBUTE_ICONS, AttributeInfo } from '@/data/attributes';
@@ -18,6 +18,11 @@ import {
   isPriorityComplete
 } from '@/lib/utils/session';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import { ScoredProduct, calculateQuickTop10, sortByPrice, sortByScore } from '@/lib/filtering/quickScore';
+import { products as ALL_PRODUCTS } from '@/data/products';
+import ProductListItem from '@/components/ProductListItem';
+import ProductBottomSheet from '@/components/ProductBottomSheet';
+import { Product } from '@/types';
 
 // 가장 많이 선택된 조합 (디폴트)
 const DEFAULT_PRIORITY: PrioritySettings = {
@@ -35,7 +40,7 @@ type ChatMessage = {
   id: string;
   role: 'assistant' | 'user' | 'component';
   content: string;
-  componentType?: 'priority-selector' | 'budget-selector';
+  componentType?: 'priority-selector' | 'budget-selector' | 'product-list';
   typing?: boolean;
 };
 
@@ -110,13 +115,11 @@ function TypingMessage({ content, onComplete, onUpdate }: { content: string; onC
 
 function PriorityPageContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // 초기화 추적용 ref
   const isInitializedRef = useRef(false);
-  const queryProcessedRef = useRef<string | null>(null);
 
   // 기본 상태
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -126,13 +129,18 @@ function PriorityPageContent() {
   const [customBudget, setCustomBudget] = useState<string>('');
   const [isCustomBudgetMode, setIsCustomBudgetMode] = useState(false);
   const [input, setInput] = useState('');
-  const [conversationCount, setConversationCount] = useState(0);
-  const [isLoadingQuery, setIsLoadingQuery] = useState(false);
-  const [queryFromUrl, setQueryFromUrl] = useState<string>('');
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [selectedAttribute, setSelectedAttribute] = useState<AttributeInfo | null>(null);
   const [guideBottomSheetOpen, setGuideBottomSheetOpen] = useState(false);
+
+  // Step 3 상태 (상품 리스트 및 추가 입력)
+  const [filteredProducts, setFilteredProducts] = useState<ScoredProduct[]>([]);
+  const [sortType, setSortType] = useState<'score' | 'price'>('score');
+  const [hasUserInput, setHasUserInput] = useState(false);
+  const [additionalInput, setAdditionalInput] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [productBottomSheetOpen, setProductBottomSheetOpen] = useState(false);
 
   // 초기화: Step 1 메시지 추가
   useEffect(() => {
@@ -152,9 +160,6 @@ function PriorityPageContent() {
     setCustomBudget('');
     setIsCustomBudgetMode(false);
     setInput('');
-    setConversationCount(0);
-    setIsLoadingQuery(false);
-    setQueryFromUrl('');
     setTypingMessageId(null);
 
     logPageView('priority');
@@ -165,47 +170,28 @@ function PriorityPageContent() {
       setGuideBottomSheetOpen(true);
     }
 
-    // 쿼리가 없을 때만 초기 메시지 표시
-    const query = searchParams.get('query');
-    if (!query) {
-      // 초기 메시지를 한 번에 설정 (중복 방지)
-      const initialMessages: ChatMessage[] = [
-        {
-          id: `msg-${Date.now()}-1`,
-          role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 구매 기준들의 중요도를 골라주세요!',
-          typing: true,
-        },
-        {
-          id: `msg-${Date.now()}-2`,
-          role: 'assistant',
-          content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
-          typing: true,
-        },
-      ];
-      setMessages(initialMessages);
-
-      // 속성 선택 컴포넌트 추가
-      const timer = setTimeout(() => {
-        setMessages(prev => [
-          ...prev,
-          {
-            id: `msg-${Date.now()}-3`,
-            role: 'component',
-            content: '',
-            componentType: 'priority-selector',
-          },
-        ]);
-      }, 1500);
-
-      // Cleanup - Strict Mode 지원
-      return () => {
-        console.log('🧹 cleanup 실행 - ref 리셋');
-        clearTimeout(timer);
-        // Strict Mode에서 재마운트될 때를 위해 ref 리셋
-        isInitializedRef.current = false;
-      };
-    }
+    // 초기 메시지를 한 번에 설정 (중복 방지)
+    const initialMessages: ChatMessage[] = [
+      {
+        id: `msg-${Date.now()}-1`,
+        role: 'assistant',
+        content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 구매 기준들의 중요도를 골라주세요!',
+        typing: true,
+      },
+      {
+        id: `msg-${Date.now()}-2`,
+        role: 'assistant',
+        content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
+        typing: true,
+      },
+      {
+        id: `msg-${Date.now()}-3`,
+        role: 'component',
+        content: '',
+        componentType: 'priority-selector',
+      },
+    ];
+    setMessages(initialMessages);
 
     // Cleanup - Strict Mode 지원
     return () => {
@@ -215,112 +201,6 @@ function PriorityPageContent() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // URL 쿼리 파라미터 처리
-  useEffect(() => {
-    const query = searchParams.get('query');
-
-    // 이미 처리한 쿼리면 스킵 (중복 방지)
-    if (query && queryProcessedRef.current === query) {
-      console.log('⚠️ 쿼리 이미 처리됨 - 스킵:', query);
-      return;
-    }
-
-    if (query) {
-      console.log('✅ 쿼리 처리 시작:', query);
-      queryProcessedRef.current = query;
-      setQueryFromUrl(query);
-      setInput(query);
-      handleParseQuery(query);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
-
-  // 자연어 쿼리를 Priority 설정으로 변환
-  const handleParseQuery = async (query: string) => {
-    setIsLoadingQuery(true);
-
-    // 1. 사용자 메시지를 가장 먼저 추가
-    addMessage('user', query, false);
-
-    // 2. 분석 중 메시지
-    addMessage('assistant', '입력하신 내용을 분석하고 있어요... 잠시만 기다려주세요!', true);
-
-    try {
-      const response = await fetch('/api/parse-query', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
-      });
-
-      if (response.ok) {
-        const { prioritySettings: parsedSettings, budget: parsedBudget } = await response.json();
-        setPrioritySettings(parsedSettings);
-
-        // 예산이 감지된 경우 자동 반영
-        if (parsedBudget) {
-          setBudget(parsedBudget as BudgetRange);
-        }
-
-        // 3. 중요도 속성과 관련 있는지 판단
-        const highPriorities = Object.entries(parsedSettings)
-          .filter(([, value]) => value === 'high')
-          .map(([key]) => {
-            const attr = PRIORITY_ATTRIBUTES.find(a => a.key === key);
-            return attr?.name;
-          })
-          .filter(Boolean);
-
-        const mediumPriorities = Object.entries(parsedSettings)
-          .filter(([, value]) => value === 'medium')
-          .map(([key]) => {
-            const attr = PRIORITY_ATTRIBUTES.find(a => a.key === key);
-            return attr?.name;
-          })
-          .filter(Boolean);
-
-        const hasRelevantPriorities = highPriorities.length > 0 || mediumPriorities.length > 0;
-
-        if (hasRelevantPriorities) {
-          // 중요도 속성과 관련 있는 경우
-          let message = '✅ 분석 완료! ';
-
-          if (highPriorities.length > 0) {
-            message += `**${highPriorities.join(', ')}**${highPriorities.length > 1 ? '을' : '를'} 중요하게 반영했어요.`;
-          }
-
-          if (mediumPriorities.length > 0) {
-            if (highPriorities.length > 0) {
-              message += ` ${mediumPriorities.join(', ')}${mediumPriorities.length > 1 ? '도' : '도'} 고려했어요.`;
-            } else {
-              message += `**${mediumPriorities.join(', ')}**${mediumPriorities.length > 1 ? '을' : '를'} 고려했어요.`;
-            }
-          }
-
-          message += ' 원하시면 수정하실 수 있어요!';
-          addMessage('assistant', message, true);
-        } else {
-          // 중요도 속성과 관련 없는 경우
-          addMessage('assistant', '✅ 메모리 업데이트 완료!', true);
-        }
-
-        // 중요도 선택 컴포넌트 추가
-        setTimeout(() => {
-          addComponentMessage('priority-selector');
-        }, 500);
-
-        logButtonClick('쿼리 자동 파싱 성공', 'priority', query);
-      } else {
-        addMessage('assistant', '⚠️ 분석에 실패했어요. 직접 중요도를 선택해주세요.', true);
-        logButtonClick('쿼리 자동 파싱 실패', 'priority', query);
-      }
-    } catch (error) {
-      console.error('Parse query error:', error);
-      addMessage('assistant', '⚠️ 분석에 실패했어요. 직접 중요도를 선택해주세요.', true);
-    } finally {
-      setIsLoadingQuery(false);
-    }
-  };
 
   // 메시지 추가 헬퍼
   const addMessage = (role: 'assistant' | 'user', content: string, withTyping = false) => {
@@ -348,16 +228,12 @@ function PriorityPageContent() {
     setMessages((prev) => [...prev, newMessage]);
   };
 
-  // 스크롤 to bottom
+  // 스크롤 to bottom (수동으로만 사용)
   const scrollToBottom = () => {
     setTimeout(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   // 속성 선택 핸들러
   const handlePrioritySelect = (attributeKey: string, level: PriorityLevel) => {
@@ -404,21 +280,10 @@ function PriorityPageContent() {
     // Step 2 메시지 추가
     addMessage('assistant', '좋아요! 이제 예산 범위를 선택해주세요. 💰', true);
 
-    // 예산이 자연어로 이미 설정된 경우 안내 메시지 추가
-    if (budget && queryFromUrl) {
-      setTimeout(() => {
-        const budgetText = budget === '0-50000' ? '5만원 이하'
-          : budget === '50000-100000' ? '5~10만원'
-          : budget === '100000-150000' ? '10~15만원'
-          : budget === '150000+' ? '15만원 이상'
-          : budget;
-
-        addMessage('assistant', `**${budgetText}**로 자동 반영했어요. 변경하고 싶으시면 아래에서 선택해주세요!`, true);
-      }, 600);
-    }
-
     setTimeout(() => {
       addComponentMessage('budget-selector');
+      // 예산 컴포넌트가 나타날 때 스크롤
+      setTimeout(() => scrollToBottom(), 200);
     }, 1000);
   };
 
@@ -432,8 +297,23 @@ function PriorityPageContent() {
     logButtonClick('Step 2 -> Step 3', 'priority');
     setCurrentStep(3);
 
-    // Step 3 메시지 추가
-    addMessage('assistant', '거의 다 왔어요! 추가로 고려할 상황이 있으신가요?\n\n예를 들면 이런 내용들이에요:', true);
+    // 적합도 계산 및 Top 10 필터링
+    const top10 = calculateQuickTop10(ALL_PRODUCTS, prioritySettings, budget);
+    setFilteredProducts(top10);
+    console.log(`✅ Filtered top 10 products for Step 3`);
+
+    // Step 3 메시지 추가 - AI가 조건에 맞는 상품들을 찾았다고 말함
+    addMessage('assistant', '조건에 맞는 상품들을 찾았어요! 🎉', true);
+
+    setTimeout(() => {
+      addMessage('assistant', '마지막으로 구체적으로 말씀해주시면 Top 3를 정확히 뽑아드릴게요.', true);
+
+      // 상품 리스트 컴포넌트 추가
+      setTimeout(() => {
+        addComponentMessage('product-list');
+        setTimeout(() => scrollToBottom(), 200);
+      }, 800);
+    }, 1200);
   };
 
   // 예산 선택
@@ -442,6 +322,19 @@ function PriorityPageContent() {
     setIsCustomBudgetMode(false);
     setCustomBudget('');
     logButtonClick(`예산 선택: ${budgetRange}`, 'priority');
+  };
+
+  // Step 3: 상품 클릭 (제품 정보 바텀시트 열기)
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setProductBottomSheetOpen(true);
+    logButtonClick(`상품 클릭: ${product.title}`, 'priority');
+  };
+
+  // Step 3: 정렬 타입 변경
+  const handleSortChange = (type: 'score' | 'price') => {
+    setSortType(type);
+    logButtonClick(`정렬 변경: ${type === 'score' ? '적합도순' : '낮은가격순'}`, 'priority');
   };
 
   // 주관식 예산 제출
@@ -457,47 +350,29 @@ function PriorityPageContent() {
     logButtonClick(`주관식 예산 입력: ${trimmed}`, 'priority');
   };
 
-  // Step 3: 메시지 전송
+  // Step 3: 메시지 전송 (1회만 가능)
   const handleSendMessage = async () => {
-    if (!input.trim() || conversationCount >= 5) return;
+    if (!input.trim() || hasUserInput) return;
 
     const userInput = input.trim();
     addMessage('user', userInput);
     setInput('');
+    setAdditionalInput(userInput);
+    setHasUserInput(true);
 
-    const newConversationCount = conversationCount + 1;
-    setConversationCount(newConversationCount);
+    // AI 확인 메시지
+    setTimeout(() => {
+      addMessage('assistant', '알겠습니다! 이제 **추천하기** 버튼을 눌러주세요. 😊', true);
+    }, 500);
 
-    // 대화 이력 구성
-    const history = `사용자: ${userInput}`;
+    logButtonClick('추가 입력 제출', 'priority');
+  };
 
-    // AI 질문 생성 (마지막 턴이 아닐 때만)
-    if (newConversationCount < 5) {
-      try {
-        const response = await fetch('/api/generate-contextual-questions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            prioritySettings,
-            budget,
-            conversationHistory: history,
-            currentTurn: newConversationCount + 1,
-          }),
-        });
-
-        if (response.ok) {
-          const { question } = await response.json();
-          addMessage('assistant', question, true);
-        } else {
-          addMessage('assistant', '잘 이해했어요! 추가로 궁금한 점이 있으신가요?', true);
-        }
-      } catch (error) {
-        console.error('Failed to generate question:', error);
-        addMessage('assistant', '잘 이해했어요! 추가로 궁금한 점이 있으신가요?', true);
-      }
-    } else {
-      addMessage('assistant', '충분한 정보를 얻었어요! 이제 **바로 추천받기** 버튼을 눌러주세요. 😊', true);
-    }
+  // Step 3: 없어요 버튼 (추가 입력 스킵)
+  const handleSkip = () => {
+    setHasUserInput(true);
+    addMessage('assistant', '좋아요! 그럼 바로 **추천하기** 버튼을 눌러주세요. 😊', true);
+    logButtonClick('추가 입력 스킵 (없어요)', 'priority');
   };
 
   // 최종 제출
@@ -512,7 +387,7 @@ function PriorityPageContent() {
     let updatedSession: import('@/types').SessionState = {
       ...session,
       messages: [],
-      phase0Context: input || queryFromUrl || undefined,
+      phase0Context: additionalInput || undefined,  // 추가 입력을 phase0Context로 전달
       currentAttribute: 0,
       attributeAssessments: {
         temperatureControl: null,
@@ -528,6 +403,9 @@ function PriorityPageContent() {
       accuracy: 0,
       chatConversations: undefined,
       budget: budget,
+      // Step 3 데이터
+      additionalInput: additionalInput || undefined,
+      top10Products: filteredProducts.length > 0 ? filteredProducts : undefined,
     };
 
     updatedSession = savePrioritySettings(updatedSession, prioritySettings);
@@ -541,8 +419,45 @@ function PriorityPageContent() {
   // 처음부터 다시 시작
   const handleReset = () => {
     if (confirm('처음부터 다시 시작하시겠어요?')) {
-      router.push('/priority');
-      router.refresh();
+      // 상태 초기화
+      setCurrentStep(1);
+      setPrioritySettings(DEFAULT_PRIORITY);
+      setBudget(DEFAULT_BUDGET);
+      setCustomBudget('');
+      setIsCustomBudgetMode(false);
+      setInput('');
+      setTypingMessageId(null);
+
+      // Step 3 상태 초기화
+      setFilteredProducts([]);
+      setSortType('score');
+      setHasUserInput(false);
+      setAdditionalInput('');
+      setSelectedProduct(null);
+      setProductBottomSheetOpen(false);
+
+      // 초기 메시지로 재설정
+      const initialMessages: ChatMessage[] = [
+        {
+          id: `msg-${Date.now()}-1`,
+          role: 'assistant',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 구매 기준들의 중요도를 골라주세요!',
+          typing: true,
+        },
+        {
+          id: `msg-${Date.now()}-2`,
+          role: 'assistant',
+          content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
+          typing: true,
+        },
+        {
+          id: `msg-${Date.now()}-3`,
+          role: 'component',
+          content: '',
+          componentType: 'priority-selector',
+        },
+      ];
+      setMessages(initialMessages);
     }
   };
 
@@ -553,7 +468,7 @@ function PriorityPageContent() {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg flex flex-col">
         {/* Header - Fixed */}
-        <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+        <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-50" style={{ maxWidth: '480px', margin: '0 auto' }}>
           <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
             <CaretLeft size={24} weight="bold" />
           </Link>
@@ -567,7 +482,7 @@ function PriorityPageContent() {
         </header>
 
         {/* Messages Area - Scrollable */}
-        <main className="flex-1 px-6 py-6 overflow-y-auto" style={{ paddingBottom: currentStep === 3 ? '140px' : '100px' }}>
+        <main className="flex-1 px-6 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 3 ? '140px' : '100px' }}>
           <div className="space-y-4">
             {messages.map((message) => {
               // Assistant 메시지
@@ -813,13 +728,67 @@ function PriorityPageContent() {
                     </motion.div>
                   );
                 }
+
+                // Product List (Step 3)
+                if (message.componentType === 'product-list') {
+                  // 정렬된 상품 리스트 가져오기
+                  const sortedProducts = sortType === 'score'
+                    ? sortByScore(filteredProducts)
+                    : sortByPrice(filteredProducts);
+
+                  return (
+                    <motion.div
+                      key={message.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="w-full space-y-3"
+                    >
+                      {/* Sorting Tabs */}
+                      <div className="flex gap-2 bg-gray-50 rounded-xl p-1">
+                        <button
+                          onClick={() => handleSortChange('score')}
+                          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
+                            sortType === 'score'
+                              ? 'bg-white text-gray-900 shadow-sm'
+                              : 'text-gray-500 hover:text-gray-700'
+                          }`}
+                        >
+                          적합도순
+                        </button>
+                        <button
+                          onClick={() => handleSortChange('price')}
+                          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
+                            sortType === 'price'
+                              ? 'bg-white text-gray-900 shadow-sm'
+                              : 'text-gray-500 hover:text-gray-700'
+                          }`}
+                        >
+                          낮은가격순
+                        </button>
+                      </div>
+
+                      {/* Product List */}
+                      <div className="space-y-2">
+                        {sortedProducts.map((product, index) => (
+                          <ProductListItem
+                            key={product.id}
+                            product={product}
+                            index={index}
+                            onClick={handleProductClick}
+                          />
+                        ))}
+                      </div>
+                    </motion.div>
+                  );
+                }
               }
 
               return null;
             })}
 
-            {/* Step 3: 예시 질문 버튼들 */}
-            {currentStep === 3 && conversationCount === 0 && (
+            {/* Step 3: 예시 질문 버튼들 (입력 전에만 표시) */}
+            {currentStep === 3 && !hasUserInput && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -827,16 +796,22 @@ function PriorityPageContent() {
                 className="space-y-2"
               >
                 {[
-                  '쌍둥이라 동시에 분유를 자주 타요',
-                  '외출이 많아서 휴대성이 중요해요',
-                  '새벽 수유가 많아서 조용한 제품이 좋아요',
-                  '좁은 공간에 두려고 해요',
+                  '아기 잘 때 쓸 수 있게, 소리 안 나는 무음 기능 있는 제품 알려줘.',
+                  '밤새 온도가 유지되는 영구 보온 기능 있는 걸로 찾아줘.',
+                  '끓인 물 빨리 식혀주는 냉각팬 달린 제품으로 추천해줘.',
+                  '나중에 티포트로도 쓸 수 있는 활용도 높은 제품 보여줘.',
+                  '손 넣어서 씻기 편하게 입구 넓고, 뚜껑 분리되는 걸로 골라줘.',
                 ].map((example, index) => (
                   <button
                     key={index}
                     onClick={() => {
-                      setInput(example);
-                      setTimeout(() => handleSendMessage(), 100);
+                      addMessage('user', example);
+                      setAdditionalInput(example);
+                      setHasUserInput(true);
+                      setTimeout(() => {
+                        addMessage('assistant', '알겠습니다! 이제 **추천하기** 버튼을 눌러주세요. 😊', true);
+                      }, 500);
+                      logButtonClick(`예시 질문 선택: ${example}`, 'priority');
                     }}
                     className="w-full px-4 py-3 text-left text-sm text-gray-700 bg-white border border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all"
                   >
@@ -881,59 +856,68 @@ function PriorityPageContent() {
             </motion.button>
           )}
 
-          {/* Step 3: 입력 bar + 추천받기 버튼 */}
+          {/* Step 3: 입력 bar + 없어요 버튼 + 추천하기 버튼 */}
           {currentStep === 3 && (
             <div className="space-y-3">
-              {conversationCount < 5 ? (
-                <div className="flex gap-2 items-end">
-                  <textarea
-                    ref={inputRef}
-                    value={input}
-                    onChange={(e) => {
-                      setInput(e.target.value);
-                      e.target.style.height = 'auto';
-                      e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSendMessage();
-                      }
-                    }}
-                    placeholder="추가로 고려할 상황을 입력해주세요"
-                    rows={1}
-                    className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto scrollbar-hide text-gray-900 text-sm"
-                    style={{ fontSize: '16px' }}
-                  />
+              {/* 입력창 + 없어요 버튼 (1회만 표시) */}
+              {!hasUserInput && (
+                <>
+                  <div className="flex gap-2 items-end">
+                    <textarea
+                      ref={inputRef}
+                      value={input}
+                      onChange={(e) => {
+                        setInput(e.target.value);
+                        e.target.style.height = 'auto';
+                        e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
+                      placeholder="추가로 고려할 상황을 입력해주세요"
+                      rows={1}
+                      className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto scrollbar-hide text-gray-900 text-sm"
+                      style={{ fontSize: '16px' }}
+                    />
+                    <button
+                      onClick={handleSendMessage}
+                      disabled={!input.trim()}
+                      className="w-12 h-12 bg-[#0074F3] text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* 없어요 버튼 */}
                   <button
-                    onClick={handleSendMessage}
-                    disabled={!input.trim()}
-                    className="w-12 h-12 bg-[#0074F3] text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    onClick={handleSkip}
+                    className="w-full h-12 bg-gray-100 text-gray-700 rounded-2xl font-medium text-sm hover:bg-gray-200 transition-all"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                    </svg>
+                    없어요
                   </button>
-                </div>
-              ) : (
-                <div className="text-center text-sm text-gray-500 py-2">
-                  충분한 대화가 이루어졌어요! 아래 버튼을 눌러주세요.
-                </div>
+                </>
               )}
 
-              {/* 바로 추천받기 버튼 */}
-              <button
-                onClick={handleFinalSubmit}
-                className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 hover:opacity-90"
-              >
-                <span>바로 추천받기</span>
-                <span className="px-2 py-0.5 bg-white/20 rounded-md text-xs font-bold flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                  </svg>
-                  <span>AI</span>
-                </span>
-              </button>
+              {/* 추천하기 버튼 (입력 후에만 표시) */}
+              {hasUserInput && (
+                <button
+                  onClick={handleFinalSubmit}
+                  className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 hover:opacity-90"
+                >
+                  <span>추천하기</span>
+                  <span className="px-2 py-0.5 bg-white/20 rounded-md text-xs font-bold flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                    <span>AI</span>
+                  </span>
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -953,6 +937,15 @@ function PriorityPageContent() {
             localStorage.setItem('babyitem_guide_viewed', 'true');
           }}
         />
+
+        {/* Product Bottom Sheet (Step 3) */}
+        {selectedProduct && (
+          <ProductBottomSheet
+            isOpen={productBottomSheetOpen}
+            product={selectedProduct}
+            onClose={() => setProductBottomSheetOpen(false)}
+          />
+        )}
       </div>
     </div>
   );
