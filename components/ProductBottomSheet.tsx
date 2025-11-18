@@ -159,7 +159,7 @@ export default function ProductBottomSheet({
                   <button
                     onClick={() => {
                       onAddToFavorites(product.id);
-                      logButtonClick(`찜해놓고 비교하기: ${product.title}`, 'home_bottomsheet');
+                      logButtonClick(`찜하고 비교하기: ${product.title}`, 'home_bottomsheet');
                     }}
                     className="w-full py-3 font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-2"
                     style={{
@@ -180,7 +180,7 @@ export default function ProductBottomSheet({
                     >
                       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                     </svg>
-                    {isFavorite ? '찜 완료' : '찜해놓고 비교하기'}
+                    {isFavorite ? '찜 완료' : '찜하고 비교하기'}
                   </button>
                 )}
 
