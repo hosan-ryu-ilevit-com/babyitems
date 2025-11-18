@@ -116,6 +116,7 @@ function TypingMessage({ content, onComplete, onUpdate }: { content: string; onC
 function PriorityPageContent() {
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const mainScrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // 초기화 추적용 ref
@@ -218,7 +219,7 @@ function PriorityPageContent() {
   };
 
   // 컴포넌트 메시지 추가
-  const addComponentMessage = (componentType: 'priority-selector' | 'budget-selector') => {
+  const addComponentMessage = (componentType: 'priority-selector' | 'budget-selector' | 'product-list') => {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'component',
@@ -311,8 +312,18 @@ function PriorityPageContent() {
       // 상품 리스트 컴포넌트 추가
       setTimeout(() => {
         addComponentMessage('product-list');
-        // 리스트 마지막으로 스크롤
-        setTimeout(() => scrollToBottom(), 500);
+
+        // 조건에 맞는 상품들을 찾았어요 메시지가 헤더 바로 아래 보이도록 스크롤
+        setTimeout(() => {
+          if (mainScrollRef.current) {
+            // 현재 스크롤 위치에서 적당히 아래로 (header 아래에 첫 메시지가 보이도록)
+            const scrollAmount = 250; // 헤더 높이 + 약간의 여유
+            mainScrollRef.current.scrollBy({
+              top: scrollAmount,
+              behavior: 'smooth'
+            });
+          }
+        }, 500);
       }, 800);
     }, 1200);
   };
@@ -483,7 +494,7 @@ function PriorityPageContent() {
         </header>
 
         {/* Messages Area - Scrollable */}
-        <main className="flex-1 px-6 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 3 ? '140px' : '100px' }}>
+        <main ref={mainScrollRef} className="flex-1 px-6 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 3 ? '140px' : '100px' }}>
           <div className="space-y-4">
             {messages.map((message) => {
               // Assistant 메시지
