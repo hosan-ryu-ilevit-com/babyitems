@@ -353,7 +353,7 @@ function ComparePageContent() {
           </div>
 
           {/* Table content */}
-          <div className="p-4 pb-24">
+          <div className="p-4 pb-10">
             <div className="bg-white rounded-xl p-4">
 
               {/* 가로 스크롤 힌트 - 화이트 표 안으로 이동 */}
