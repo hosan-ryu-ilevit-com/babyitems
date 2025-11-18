@@ -348,7 +348,7 @@ export default function Home() {
         {/* Bottom Fixed Container - CTA Button + Input Bar */}
         <div className="fixed bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto', backgroundColor: '#FCFCFC' }}>
           {/* 1분만에 추천받기 Button */}
-          <Link href="/priority">
+          <Link href="/priority?new=true">
             <button
               onClick={() => logButtonClick('1분만에 추천받기', 'home')}
               className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5 mb-3"

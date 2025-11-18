@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { CaretLeft, Question } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import { PRIORITY_ATTRIBUTES, ATTRIBUTE_ICONS, AttributeInfo } from '@/data/attributes';
@@ -116,6 +116,7 @@ function TypingMessage({ content, onComplete, onUpdate }: { content: string; onC
 
 function PriorityPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mainScrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -206,15 +207,23 @@ function PriorityPageContent() {
       setGuideBottomSheetOpen(true);
     }
 
-    // Referrer 체크: 홈에서 온 경우 상태 클리어
-    const referrer = document.referrer;
-    const isFromHome = !referrer ||
-                       referrer.endsWith('/') ||
-                       (!referrer.includes('/priority') && !referrer.includes('/product-chat'));
+    // URL 파라미터 체크: new=true이면 새로 시작
+    const isNewSession = searchParams.get('new') === 'true';
 
-    if (isFromHome) {
-      console.log('🏠 홈에서 진입 - 상태 클리어');
+    if (isNewSession) {
+      console.log('🆕 새 세션 시작 (URL 파라미터) - 상태 클리어');
       clearPriorityState();
+    } else {
+      // Referrer 체크: 홈에서 온 경우 상태 클리어
+      const referrer = document.referrer;
+      const isFromHome = !referrer ||
+                         referrer.endsWith('/') ||
+                         (!referrer.includes('/priority') && !referrer.includes('/product-chat'));
+
+      if (isFromHome) {
+        console.log('🏠 홈에서 진입 (referrer) - 상태 클리어');
+        clearPriorityState();
+      }
     }
 
     // 저장된 상태 복원 시도
@@ -656,7 +665,7 @@ function PriorityPageContent() {
                       transition={{ duration: 0.4 }}
                       className="w-full"
                     >
-                      <div className="bg-white border border-gray-200 rounded-2xl p-4 space-y-4">
+                      <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-4 ${currentStep >= 3 ? 'opacity-50 pointer-events-none' : ''}`}>
                         {PRIORITY_ATTRIBUTES.map((attribute, index) => (
                           <motion.div
                             key={attribute.key}
@@ -728,7 +737,7 @@ function PriorityPageContent() {
                       transition={{ duration: 0.4 }}
                       className="w-full"
                     >
-                      <div className="bg-white border border-gray-200 rounded-2xl p-4 space-y-3">
+                      <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-3 ${currentStep >= 3 ? 'opacity-50 pointer-events-none' : ''}`}>
                         <div className="flex items-center gap-2 mb-4">
                           <span className="text-xl">💰</span>
                           <h3 className="text-sm font-bold text-gray-900">예산</h3>
