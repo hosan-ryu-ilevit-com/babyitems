@@ -186,10 +186,10 @@ export function logComparisonChat(
   });
 }
 
-// 비교표 제품 액션 로깅 (쿠팡, 질문하기)
+// 비교표 제품 액션 로깅 (쿠팡, 최저가, 질문하기)
 export function logComparisonProductAction(
   source: 'home' | 'result',
-  actionType: 'coupang_clicked' | 'product_chat_clicked',
+  actionType: 'coupang_clicked' | 'lowest_price_clicked' | 'product_chat_clicked',
   productId: string,
   productTitle: string,
   productIds?: string[]
