@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import FavoritesBottomSheet from '@/components/FavoritesBottomSheet';
+import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 import { Product } from '@/types';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Playfair_Display } from 'next/font/google';
@@ -22,6 +23,7 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isFavoritesSheetOpen, setIsFavoritesSheetOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const { favorites, toggleFavorite, isFavorite, count } = useFavorites();
 
   // 페이지 뷰 로깅
@@ -59,16 +61,25 @@ export default function Home() {
     logButtonClick('찜 목록 열기', 'home');
   };
 
+  const handleGuideOpen = () => {
+    setIsGuideOpen(true);
+    logButtonClick('분유포트 1분 가이드 열기', 'home');
+  };
+
+  const handleGuideClose = () => {
+    setIsGuideOpen(false);
+    // Mark guide as viewed
+    localStorage.setItem('babyitem_guide_viewed', 'true');
+  };
+
   const favoriteProducts = products.filter((p) => favorites.includes(p.id));
 
   return (
     <div className="flex min-h-screen items-start justify-center bg-gray-100">
       {/* 모바일 최적화 컨테이너 */}
       <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg">
-        {/* Header */}
-        <header className="bg-white">
+        {/* <header className="bg-white">
           <div className="flex items-center gap-1.5 px-4 py-3">
-            {/* Icon */}
             <div className="flex items-center">
               <Image
                 src="/icon.png"
@@ -78,16 +89,18 @@ export default function Home() {
                 className="object-contain rounded-md"
               />
             </div>
-            {/* Service Name */}
-            <div className={`text-sm ${playfair.className}`} style={{ color: '#219CBB' }}>
+            <div
+              className={`text-sm font-semibold tracking-tight ${playfair.className}`}
+              style={{ color: '#219CBB' }}
+            >
               Momfit
             </div>
           </div>
-        </header>
+        </header> */}
 
         {/* Tab Navigation */}
         <nav>
-          <div className="flex items-center justify-center gap-12 py-2">
+          <div className="flex items-center justify-center mt-6 gap-12 py-2">
             <button
               onClick={() => {
                 setActiveTab('find');
@@ -139,6 +152,44 @@ export default function Home() {
                 <span style={{ color: '#0084FE' }}>내게 딱 맞는 하나</span> 찾기
               </h1>
               <p className="text-sm text-gray-500 mt-3">고민하는 시간을 줄여보세요.</p>
+
+              {/* Guide Button with Floating Bubble */}
+              <div className="mt-20 flex flex-col items-center gap-3">
+                {/* Floating Speech Bubble */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.3 }}
+                  className="relative"
+                >
+                  <motion.div
+                    animate={{ y: [0, -4, 0] }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="relative"
+                  >
+                    <div className="bg-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap" style={{ color: '#0084FE' }}>
+                      첫 구매라면 필수!
+                    </div>
+                    {/* Speech bubble tail - pointing down */}
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-gray-100"></div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Guide Button */}
+                <button
+                  onClick={handleGuideOpen}
+                  className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
+                  </svg>
+                  분유포트 1분 가이드
+                </button>
+              </div>
             </motion.div>
           </section>
         )}
@@ -182,7 +233,7 @@ export default function Home() {
                       >
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                       </svg>
-                      찜하고 바로 상세비교 가능!
+                      찜하면 바로 상세비교 가능!
                     </div>
                     {/* Speech bubble tail */}
                     <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-100"></div>
@@ -366,6 +417,12 @@ export default function Home() {
             toggleFavorite(productId);
             logButtonClick(`찜 취소: ${productId}`, 'home');
           }}
+        />
+
+        {/* Guide Bottom Sheet */}
+        <GuideBottomSheet
+          isOpen={isGuideOpen}
+          onClose={handleGuideClose}
         />
       </div>
     </div>

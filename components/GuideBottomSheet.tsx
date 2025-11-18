@@ -102,7 +102,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             {/* Header */}
             <div className="px-6 py-4  bg-gray-50">
               <h2 className="text-m font-bold text-gray-900 text-center">
-                처음 사는 분유포트, 2분이면 충분해요
+                처음 사는 분유포트, 1분이면 충분해요
               </h2>
             </div>
 

@@ -51,11 +51,16 @@ export default function PriorityPage() {
   const [customBudget, setCustomBudget] = useState<string>('');
   const [isCustomBudgetMode, setIsCustomBudgetMode] = useState(false);
   const [additionalRequest, setAdditionalRequest] = useState<string>('');
-  const [guideBottomSheetOpen, setGuideBottomSheetOpen] = useState(true);
+  const [guideBottomSheetOpen, setGuideBottomSheetOpen] = useState(false);
 
-  // 페이지 뷰 로깅
+  // 페이지 뷰 로깅 및 가이드 표시 여부 체크
   useEffect(() => {
     logPageView('priority');
+    // Check if guide has been viewed before
+    const guideViewed = localStorage.getItem('babyitem_guide_viewed');
+    if (!guideViewed) {
+      setGuideBottomSheetOpen(true);
+    }
   }, []);
 
   // 6개 모두 선택되었는지 확인
@@ -599,7 +604,10 @@ export default function PriorityPage() {
         {/* Guide Bottom Sheet */}
         <GuideBottomSheet
           isOpen={guideBottomSheetOpen}
-          onClose={() => setGuideBottomSheetOpen(false)}
+          onClose={() => {
+            setGuideBottomSheetOpen(false);
+            localStorage.setItem('babyitem_guide_viewed', 'true');
+          }}
         />
       </div>
     </div>
