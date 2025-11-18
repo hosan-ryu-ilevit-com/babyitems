@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { CaretLeft, Question } from '@phosphor-icons/react/dist/ssr';
@@ -42,6 +42,7 @@ type ChatMessage = {
   content: string;
   componentType?: 'priority-selector' | 'budget-selector' | 'product-list';
   typing?: boolean;
+  extraMarginTop?: boolean; // Step 구분을 위한 추가 마진
 };
 
 type ChatStep = 1 | 2 | 3; // 1: 중요도, 2: 예산, 3: 대화
@@ -142,8 +143,51 @@ function PriorityPageContent() {
   const [additionalInput, setAdditionalInput] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [productBottomSheetOpen, setProductBottomSheetOpen] = useState(false);
+  const [showFloatingButtons, setShowFloatingButtons] = useState(false);
 
-  // 초기화: Step 1 메시지 추가
+  // Priority 상태 저장 함수
+  const savePriorityState = useCallback(() => {
+    const state = {
+      messages,
+      currentStep,
+      prioritySettings,
+      budget,
+      customBudget,
+      isCustomBudgetMode,
+      filteredProducts,
+      sortType,
+      hasUserInput,
+      additionalInput,
+      showFloatingButtons,
+      scrollPosition: mainScrollRef.current?.scrollTop || 0, // 스크롤 위치 저장
+    };
+    sessionStorage.setItem('babyitem_priority_conversation', JSON.stringify(state));
+    console.log('💾 Priority 상태 저장됨 (스크롤:', state.scrollPosition, ')');
+  }, [messages, currentStep, prioritySettings, budget, customBudget, isCustomBudgetMode, filteredProducts, sortType, hasUserInput, additionalInput, showFloatingButtons]);
+
+  // Priority 상태 복원 함수
+  const loadPriorityState = () => {
+    const saved = sessionStorage.getItem('babyitem_priority_conversation');
+    if (saved) {
+      try {
+        const state = JSON.parse(saved);
+        console.log('📂 Priority 상태 복원됨');
+        return state;
+      } catch (e) {
+        console.error('❌ Priority 상태 복원 실패:', e);
+        return null;
+      }
+    }
+    return null;
+  };
+
+  // Priority 상태 클리어 함수
+  const clearPriorityState = () => {
+    sessionStorage.removeItem('babyitem_priority_conversation');
+    console.log('🗑️ Priority 상태 클리어됨');
+  };
+
+  // 초기화: 저장된 상태 복원 또는 새로 시작
   useEffect(() => {
     // 이미 초기화되었으면 스킵 (Strict Mode 중복 방지)
     if (isInitializedRef.current) {
@@ -154,15 +198,6 @@ function PriorityPageContent() {
     console.log('✅ 초기화 시작');
     isInitializedRef.current = true;
 
-    // 홈에서 진입 시 항상 상태 초기화
-    setCurrentStep(1);
-    setPrioritySettings(DEFAULT_PRIORITY);
-    setBudget(DEFAULT_BUDGET);
-    setCustomBudget('');
-    setIsCustomBudgetMode(false);
-    setInput('');
-    setTypingMessageId(null);
-
     logPageView('priority');
 
     // 가이드 표시 여부 체크
@@ -171,28 +206,79 @@ function PriorityPageContent() {
       setGuideBottomSheetOpen(true);
     }
 
-    // 초기 메시지를 한 번에 설정 (중복 방지)
-    const initialMessages: ChatMessage[] = [
-      {
-        id: `msg-${Date.now()}-1`,
-        role: 'assistant',
-        content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 핵심 구매 기준들의 중요도를 골라주세요!',
-        typing: true,
-      },
-      {
-        id: `msg-${Date.now()}-2`,
-        role: 'assistant',
-        content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
-        typing: true,
-      },
-      {
-        id: `msg-${Date.now()}-3`,
-        role: 'component',
-        content: '',
-        componentType: 'priority-selector',
-      },
-    ];
-    setMessages(initialMessages);
+    // Referrer 체크: 홈에서 온 경우 상태 클리어
+    const referrer = document.referrer;
+    const isFromHome = !referrer ||
+                       referrer.endsWith('/') ||
+                       (!referrer.includes('/priority') && !referrer.includes('/product-chat'));
+
+    if (isFromHome) {
+      console.log('🏠 홈에서 진입 - 상태 클리어');
+      clearPriorityState();
+    }
+
+    // 저장된 상태 복원 시도
+    const savedState = loadPriorityState();
+    if (savedState) {
+      // 상태 복원
+      setMessages(savedState.messages || []);
+      setCurrentStep(savedState.currentStep || 1);
+      setPrioritySettings(savedState.prioritySettings || DEFAULT_PRIORITY);
+      setBudget(savedState.budget || DEFAULT_BUDGET);
+      setCustomBudget(savedState.customBudget || '');
+      setIsCustomBudgetMode(savedState.isCustomBudgetMode || false);
+      setFilteredProducts(savedState.filteredProducts || []);
+      setSortType(savedState.sortType || 'score');
+      setHasUserInput(savedState.hasUserInput || false);
+      setAdditionalInput(savedState.additionalInput || '');
+      setShowFloatingButtons(savedState.showFloatingButtons || false);
+
+      console.log('✅ 저장된 대화 복원 완료');
+
+      // 스크롤 위치 복원 (DOM 렌더링 후)
+      if (savedState.scrollPosition) {
+        setTimeout(() => {
+          if (mainScrollRef.current) {
+            mainScrollRef.current.scrollTop = savedState.scrollPosition;
+            console.log('📜 스크롤 위치 복원:', savedState.scrollPosition);
+          }
+        }, 100);
+      }
+    } else {
+      // 새로 시작 - 초기 상태 설정
+      setCurrentStep(1);
+      setPrioritySettings(DEFAULT_PRIORITY);
+      setBudget(DEFAULT_BUDGET);
+      setCustomBudget('');
+      setIsCustomBudgetMode(false);
+      setInput('');
+      setTypingMessageId(null);
+
+      // 초기 메시지를 한 번에 설정 (중복 방지)
+      const initialMessages: ChatMessage[] = [
+        {
+          id: `msg-${Date.now()}-1`,
+          role: 'assistant',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 핵심 구매 기준들의 중요도를 골라주세요!',
+          typing: true,
+        },
+        {
+          id: `msg-${Date.now()}-2`,
+          role: 'assistant',
+          content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
+          typing: true,
+        },
+        {
+          id: `msg-${Date.now()}-3`,
+          role: 'component',
+          content: '',
+          componentType: 'priority-selector',
+        },
+      ];
+      setMessages(initialMessages);
+
+      console.log('✅ 새로운 대화 시작');
+    }
 
     // Cleanup - Strict Mode 지원
     return () => {
@@ -202,6 +288,14 @@ function PriorityPageContent() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // 상태 자동 저장 (변경 시마다)
+  useEffect(() => {
+    // 초기화 전에는 저장하지 않음
+    if (!isInitializedRef.current || messages.length === 0) return;
+
+    savePriorityState();
+  }, [messages, currentStep, prioritySettings, budget, filteredProducts, hasUserInput, additionalInput, showFloatingButtons]);
 
   // 메시지 추가 헬퍼
   const addMessage = (role: 'assistant' | 'user', content: string, withTyping = false) => {
@@ -278,14 +372,21 @@ function PriorityPageContent() {
     logButtonClick('Step 1 → Step 2', 'priority');
     setCurrentStep(2);
 
-    // Step 2 메시지 추가
-    addMessage('assistant', '좋아요! 이제 예산 범위를 선택해주세요. 💰', true);
+    // Step 2 메시지 + 컴포넌트 동시에 추가 (extraMarginTop 추가)
+    const newMessage: ChatMessage = {
+      id: Date.now().toString() + Math.random(),
+      role: 'assistant',
+      content: '좋아요! 이제 예산 범위를 선택해주세요. 💰',
+      typing: true,
+      extraMarginTop: true, // Step 구분을 위한 추가 마진
+    };
+    setMessages((prev) => [...prev, newMessage]);
+    setTypingMessageId(newMessage.id);
 
-    setTimeout(() => {
-      addComponentMessage('budget-selector');
-      // 예산 컴포넌트가 나타날 때 스크롤
-      setTimeout(() => scrollToBottom(), 200);
-    }, 1000);
+    addComponentMessage('budget-selector');
+
+    // 스크롤만 약간의 딜레이 후에
+    setTimeout(() => scrollToBottom(), 300);
   };
 
   // Step 2 → Step 3
@@ -297,11 +398,13 @@ function PriorityPageContent() {
 
     logButtonClick('Step 2 -> Step 3', 'priority');
     setCurrentStep(3);
+    setShowFloatingButtons(false); // 초기화
 
-    // 적합도 계산 및 Top 10 필터링
+    // 적합도 계산 및 Top 9 필터링 (3페이지 x 3개)
     const top10 = calculateQuickTop10(ALL_PRODUCTS, prioritySettings, budget);
-    setFilteredProducts(top10);
-    console.log(`✅ Filtered top 10 products for Step 3`);
+    const top9 = top10.slice(0, 9);
+    setFilteredProducts(top9);
+    console.log(`✅ Filtered top 9 products for Step 3`);
 
     // Step 3 메시지 추가 - AI가 조건에 맞는 상품들을 찾았다고 말함
     addMessage('assistant', '조건에 맞는 상품들을 찾았어요! 🎉', true);
@@ -312,20 +415,15 @@ function PriorityPageContent() {
       // 상품 리스트 컴포넌트 추가
       setTimeout(() => {
         addComponentMessage('product-list');
+        // Step 2와 동일한 스크롤 방식 사용
+        setTimeout(() => scrollToBottom(), 200);
 
-        // 조건에 맞는 상품들을 찾았어요 메시지가 헤더 바로 아래 보이도록 스크롤
+        // 플로팅 버튼 표시 (product-list 애니메이션 후)
         setTimeout(() => {
-          if (mainScrollRef.current) {
-            // 현재 스크롤 위치에서 적당히 아래로 (header 아래에 첫 메시지가 보이도록)
-            const scrollAmount = 250; // 헤더 높이 + 약간의 여유
-            mainScrollRef.current.scrollBy({
-              top: scrollAmount,
-              behavior: 'smooth'
-            });
-          }
-        }, 500);
+          setShowFloatingButtons(true);
+        }, 600);
       }, 800);
-    }, 1200);
+    }, 600);
   };
 
   // 예산 선택
@@ -374,7 +472,7 @@ function PriorityPageContent() {
 
     // AI 확인 메시지
     setTimeout(() => {
-      addMessage('assistant', '알겠습니다! 이제 **추천하기** 버튼을 눌러주세요. 😊', true);
+      addMessage('assistant', '알겠습니다! 이제 **추천받기** 버튼을 눌러주세요. 😊', true);
     }, 500);
 
     logButtonClick('추가 입력 제출', 'priority');
@@ -383,7 +481,10 @@ function PriorityPageContent() {
   // Step 3: 없어요 버튼 (추가 입력 스킵)
   const handleSkip = () => {
     setHasUserInput(true);
-    addMessage('assistant', '좋아요! 그럼 바로 **추천하기** 버튼을 눌러주세요. 😊', true);
+    addMessage('user', '없어요');
+    setTimeout(() => {
+      addMessage('assistant', '좋아요! 그럼 바로 **추천받기** 버튼을 눌러주세요. 😊', true);
+    }, 300);
     logButtonClick('추가 입력 스킵 (없어요)', 'priority');
   };
 
@@ -431,6 +532,9 @@ function PriorityPageContent() {
   // 처음부터 다시 시작
   const handleReset = () => {
     if (confirm('처음부터 다시 시작하시겠어요?')) {
+      // 저장된 상태 클리어
+      clearPriorityState();
+
       // 상태 초기화
       setCurrentStep(1);
       setPrioritySettings(DEFAULT_PRIORITY);
@@ -447,6 +551,7 @@ function PriorityPageContent() {
       setAdditionalInput('');
       setSelectedProduct(null);
       setProductBottomSheetOpen(false);
+      setShowFloatingButtons(false);
 
       // 초기 메시지로 재설정
       const initialMessages: ChatMessage[] = [
@@ -495,7 +600,7 @@ function PriorityPageContent() {
 
         {/* Messages Area - Scrollable */}
         <main ref={mainScrollRef} className="flex-1 px-6 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 3 ? '140px' : '100px' }}>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {messages.map((message) => {
               // Assistant 메시지
               if (message.role === 'assistant') {
@@ -505,7 +610,7 @@ function PriorityPageContent() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="w-full flex justify-start"
+                    className={`w-full flex justify-start ${message.extraMarginTop ? 'mt-6' : ''}`}
                   >
                     <div className="px-4 py-3 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-sm">
                       {message.typing && typingMessageId === message.id ? (
@@ -786,16 +891,45 @@ function PriorityPageContent() {
                         </button>
                       </div>
 
-                      {/* Product List */}
-                      <div className="space-y-2 pb-16">
-                        {sortedProducts.map((product, index) => (
-                          <ProductListItem
-                            key={product.id}
-                            product={product}
-                            index={index}
-                            onClick={handleProductClick}
-                          />
-                        ))}
+                      {/* Product List - 가로 스크롤 (3개씩 3페이지) */}
+                      <div className="w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-16">
+                        <div className="flex gap-4">
+                          {/* Page 1: 상품 0-2 */}
+                          <div className="w-[85%] flex-shrink-0 snap-center space-y-2">
+                            {sortedProducts.slice(0, 3).map((product, index) => (
+                              <ProductListItem
+                                key={product.id}
+                                product={product}
+                                index={index}
+                                onClick={handleProductClick}
+                              />
+                            ))}
+                          </div>
+
+                          {/* Page 2: 상품 3-5 */}
+                          <div className="w-[85%] flex-shrink-0 snap-center space-y-2">
+                            {sortedProducts.slice(3, 6).map((product, index) => (
+                              <ProductListItem
+                                key={product.id}
+                                product={product}
+                                index={index + 3}
+                                onClick={handleProductClick}
+                              />
+                            ))}
+                          </div>
+
+                          {/* Page 3: 상품 6-8 */}
+                          <div className="w-[85%] flex-shrink-0 snap-center space-y-2">
+                            {sortedProducts.slice(6, 9).map((product, index) => (
+                              <ProductListItem
+                                key={product.id}
+                                product={product}
+                                index={index + 6}
+                                onClick={handleProductClick}
+                              />
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </motion.div>
                   );
@@ -842,7 +976,7 @@ function PriorityPageContent() {
           )}
 
           {/* Step 3: 입력 bar + 없어요 버튼 + 추천하기 버튼 */}
-          {currentStep === 3 && (
+          {currentStep === 3 && showFloatingButtons && (
             <div className="space-y-3">
               {/* 입력창 + 없어요 버튼 (1회만 표시) */}
               {!hasUserInput && (
@@ -876,7 +1010,7 @@ function PriorityPageContent() {
                             setAdditionalInput(example);
                             setHasUserInput(true);
                             setTimeout(() => {
-                              addMessage('assistant', '알겠습니다! 이제 **추천하기** 버튼을 눌러주세요. 😊', true);
+                              addMessage('assistant', '알겠습니다! 이제 **추천받기** 버튼을 눌러주세요. 😊', true);
                             }, 500);
                             logButtonClick(`예시 질문 선택: ${example}`, 'priority');
                           }}
@@ -922,13 +1056,13 @@ function PriorityPageContent() {
                 </>
               )}
 
-              {/* 추천하기 버튼 (입력 후에만 표시) */}
+              {/* 추천받기 버튼 (입력 후에만 표시) */}
               {hasUserInput && (
                 <button
                   onClick={handleFinalSubmit}
                   className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 hover:opacity-90"
                 >
-                  <span>추천하기</span>
+                  <span>추천받기</span>
                   <span className="px-2 py-0.5 bg-white/20 rounded-md text-xs font-bold flex items-center gap-1">
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
@@ -963,6 +1097,7 @@ function PriorityPageContent() {
             isOpen={productBottomSheetOpen}
             product={selectedProduct}
             onClose={() => setProductBottomSheetOpen(false)}
+            fromPage="/priority"
           />
         )}
       </div>

@@ -15,6 +15,7 @@ interface ProductBottomSheetProps {
   isFavorite?: boolean;
   onOpenFavorites?: () => void;
   favoritesCount?: number;
+  fromPage?: string; // 돌아갈 페이지 경로 (기본값: '/')
 }
 
 export default function ProductBottomSheet({
@@ -24,7 +25,8 @@ export default function ProductBottomSheet({
   onAddToFavorites,
   isFavorite = false,
   onOpenFavorites,
-  favoritesCount = 0
+  favoritesCount = 0,
+  fromPage = '/' // 기본값은 홈 페이지
 }: ProductBottomSheetProps) {
   const router = useRouter();
 
@@ -138,7 +140,7 @@ export default function ProductBottomSheet({
                 <button
                   onClick={() => {
                     logButtonClick(`이 상품 질문하기: ${product.title}`, 'home_bottomsheet');
-                    router.push(`/product-chat?productId=${product.id}&from=/`);
+                    router.push(`/product-chat?productId=${product.id}&from=${encodeURIComponent(fromPage)}`);
                     onClose();
                   }}
                   className="w-full py-3 font-semibold rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
