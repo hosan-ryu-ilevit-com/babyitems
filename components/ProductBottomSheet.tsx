@@ -126,7 +126,7 @@ export default function ProductBottomSheet({
                   <button
                     onClick={() => {
                       logButtonClick(`최저가 보기: ${product.title}`, 'home_bottomsheet');
-                      window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}`, '_blank');
+                      window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}&sort=priceASC`, '_blank');
                     }}
                     className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
                   >

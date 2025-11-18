@@ -187,7 +187,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
                           rec.product.title,
                           top3.map(r => r.product.id)
                         );
-                        window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(rec.product.title)}`, '_blank');
+                        window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(rec.product.title)}&sort=priceASC`, '_blank');
                       }}
                       className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
                     >

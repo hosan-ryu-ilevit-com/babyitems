@@ -944,7 +944,7 @@ export default function ResultPage() {
                             <button
                               onClick={() => {
                                 logButtonClick(`최저가 보기: ${rec.product.title}`, 'result');
-                                window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(rec.product.title)}`, '_blank');
+                                window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(rec.product.title)}&sort=priceASC`, '_blank');
                               }}
                               className="flex-1 py-2.5 font-medium text-xs transition-all hover:bg-gray-100 text-gray-500 flex items-center justify-center"
                             >

@@ -451,7 +451,7 @@ function ComparePageContent() {
                                   product.title,
                                   selectedProducts.map(p => p.id)
                                 );
-                                window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}`, '_blank');
+                                window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}&sort=priceASC`, '_blank');
                               }}
                               className="w-full py-2 text-xs font-semibold rounded-lg transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
                             >
