@@ -1200,9 +1200,10 @@ export default function ResultPage() {
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[85vh] overflow-y-auto"
+                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[85vh] flex flex-col"
               >
-                <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between rounded-t-3xl">
+                {/* Header */}
+                <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between rounded-t-3xl shrink-0">
                   <h3 className="text-lg font-bold text-gray-900">상세 정보</h3>
                   <button
                     onClick={() => setIsBottomSheetOpen(false)}
@@ -1214,10 +1215,11 @@ export default function ResultPage() {
                   </button>
                 </div>
 
-                <div className="p-4 space-y-4 pb-6">
+                {/* Scrollable Content */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-6">
                   {/* 제품 정보 요약 */}
                   <div className="pb-4 border-b border-gray-200">
-                    <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-3">
                       <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-100">
                         {selectedRecommendation.product.thumbnail && (
                           <Image
@@ -1239,35 +1241,6 @@ export default function ResultPage() {
                           {selectedRecommendation.product.price.toLocaleString()}<span className="text-xs">원</span>
                         </p>
                       </div>
-                    </div>
-                    {/* 버튼 2개 */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => {
-                          logButtonClick(`바텀시트 쿠팡에서 보기: ${selectedRecommendation.product.title}`, 'result');
-                          window.open(selectedRecommendation.product.reviewUrl, '_blank');
-                        }}
-                        className="py-2.5 font-semibold rounded-lg text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
-                      >
-                        쿠팡에서 보기
-                      </button>
-                      <button
-                        onClick={() => {
-                          logButtonClick(`바텀시트 이 상품 질문하기: ${selectedRecommendation.product.title}`, 'result');
-                          router.push(`/product-chat?productId=${selectedRecommendation.product.id}&from=/result`);
-                        }}
-                        className="py-2.5 font-semibold rounded-lg text-sm transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
-                        style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                        </svg>
-                        질문하기
-                      </button>
                     </div>
                   </div>
 
@@ -1346,6 +1319,50 @@ export default function ResultPage() {
                       </p>
                     </div>
                   )}
+                </div>
+
+                {/* 플로팅 버튼 영역 */}
+                <div className="shrink-0 bg-white border-t border-gray-200 p-4 space-y-2">
+                  {/* 질문하기 버튼 */}
+                  <button
+                    onClick={() => {
+                      logButtonClick(`바텀시트 이 상품 질문하기: ${selectedRecommendation.product.title}`, 'result');
+                      router.push(`/product-chat?productId=${selectedRecommendation.product.id}&from=/result`);
+                    }}
+                    className="w-full py-2.5 font-semibold rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
+                    style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                    질문하기
+                  </button>
+
+                  {/* 쿠팡에서 보기 + 최저가 보기 */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        logButtonClick(`바텀시트 쿠팡에서 보기: ${selectedRecommendation.product.title}`, 'result');
+                        window.open(selectedRecommendation.product.reviewUrl, '_blank');
+                      }}
+                      className="flex-1 py-2 font-semibold rounded-lg text-xs transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
+                    >
+                      쿠팡에서 보기
+                    </button>
+                    <button
+                      onClick={() => {
+                        logButtonClick(`바텀시트 최저가 보기: ${selectedRecommendation.product.title}`, 'result');
+                        window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(selectedRecommendation.product.title)}&sort=priceASC`, '_blank');
+                      }}
+                      className="flex-1 py-2 font-semibold rounded-lg text-xs transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
+                    >
+                      최저가 보기
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             </>

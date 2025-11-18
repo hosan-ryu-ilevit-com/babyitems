@@ -501,22 +501,28 @@ function ProductChatContent() {
                 />
               )}
             </div>
-            <div className="flex-1 min-w-0 flex flex-col justify-between">
+            <div className="flex-1 min-w-0 flex flex-col gap-1.5">
               <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight">
                 {product.title}
               </h3>
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-semibold text-gray-900">
-                  {product.price.toLocaleString()}원
-                </p>
+              <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => {
                     logButtonClick(`쿠팡에서 보기: ${product.title}`, 'product-chat');
                     window.open(product.reviewUrl, '_blank');
                   }}
-                  className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 transition-all whitespace-nowrap"
+                  className="py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all"
                 >
                   쿠팡에서 보기
+                </button>
+                <button
+                  onClick={() => {
+                    logButtonClick(`최저가 보기: ${product.title}`, 'product-chat');
+                    window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}&sort=priceASC`, '_blank');
+                  }}
+                  className="py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all"
+                >
+                  최저가 보기
                 </button>
               </div>
             </div>
@@ -524,7 +530,7 @@ function ProductChatContent() {
         </header>
 
         {/* Spacer for fixed header */}
-        <div className="h-[140px]"></div>
+        <div className="h-[150px]"></div>
 
         {/* Messages */}
         <main className="flex-1 px-4 py-4 overflow-y-auto pb-32">
@@ -577,16 +583,10 @@ function ProductChatContent() {
                           </p>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <button
-                          onClick={() => window.open(message.productRecommendation!.reviewUrl, '_blank')}
-                          className="py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all"
-                        >
-                          쿠팡에서 보기
-                        </button>
+                      <div className="space-y-2">
                         <button
                           onClick={() => handleRecommendedProductClick(message.productRecommendation!)}
-                          className="py-2 text-xs font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-1"
+                          className="w-full py-2 text-xs font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-1"
                           style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
                         >
                           <svg
@@ -598,6 +598,23 @@ function ProductChatContent() {
                           </svg>
                           질문하기
                         </button>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            onClick={() => window.open(message.productRecommendation!.reviewUrl, '_blank')}
+                            className="py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all"
+                          >
+                            쿠팡에서 보기
+                          </button>
+                          <button
+                            onClick={() => {
+                              logButtonClick(`추천상품 최저가 보기: ${message.productRecommendation!.title}`, 'product-chat');
+                              window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(message.productRecommendation!.title)}&sort=priceASC`, '_blank');
+                            }}
+                            className="py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all"
+                          >
+                            최저가 보기
+                          </button>
+                        </div>
                       </div>
                     </div>
                   )}
