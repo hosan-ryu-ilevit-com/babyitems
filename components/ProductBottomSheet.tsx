@@ -81,8 +81,8 @@ export default function ProductBottomSheet({
                     className="object-cover"
                   />
                   {/* Ranking Badge */}
-                  <div className="absolute top-2 left-2 w-6 h-6 bg-gray-900 rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-white font-bold text-xs">
+                  <div className="absolute top-0 left-0 w-7 h-7 bg-gray-900 rounded-tl-md rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">
                       {product.ranking}
                     </span>
                   </div>

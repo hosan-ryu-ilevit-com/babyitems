@@ -175,7 +175,7 @@ function PriorityPageContent() {
       {
         id: `msg-${Date.now()}-1`,
         role: 'assistant',
-        content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 구매 기준들의 중요도를 골라주세요!',
+        content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 핵심 구매 기준들의 중요도를 골라주세요!',
         typing: true,
       },
       {
@@ -306,12 +306,13 @@ function PriorityPageContent() {
     addMessage('assistant', '조건에 맞는 상품들을 찾았어요! 🎉', true);
 
     setTimeout(() => {
-      addMessage('assistant', '마지막으로 구체적으로 말씀해주시면 Top 3를 정확히 뽑아드릴게요.', true);
+      addMessage('assistant', '마지막으로 구체적인 조건을 말씀해주시면 BEST 3를 뽑아드릴게요.', true);
 
       // 상품 리스트 컴포넌트 추가
       setTimeout(() => {
         addComponentMessage('product-list');
-        setTimeout(() => scrollToBottom(), 200);
+        // 리스트 마지막으로 스크롤
+        setTimeout(() => scrollToBottom(), 500);
       }, 800);
     }, 1200);
   };
@@ -441,7 +442,7 @@ function PriorityPageContent() {
         {
           id: `msg-${Date.now()}-1`,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 구매 기준들의 중요도를 골라주세요!',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 핵심 구매 기준들의 중요도를 골라주세요!',
           typing: true,
         },
         {
@@ -745,31 +746,37 @@ function PriorityPageContent() {
                       className="w-full space-y-3"
                     >
                       {/* Sorting Tabs */}
-                      <div className="flex gap-2 bg-gray-50 rounded-xl p-1">
+                      <div className="flex gap-8 justify-center">
                         <button
                           onClick={() => handleSortChange('score')}
-                          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
+                          className={`py-2 text-center relative text-sm ${
                             sortType === 'score'
-                              ? 'bg-white text-gray-900 shadow-sm'
-                              : 'text-gray-500 hover:text-gray-700'
+                              ? 'text-gray-900 font-semibold'
+                              : 'text-gray-400 font-medium'
                           }`}
                         >
                           적합도순
+                          {sortType === 'score' && (
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-gray-900" />
+                          )}
                         </button>
                         <button
                           onClick={() => handleSortChange('price')}
-                          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
+                          className={`py-2 text-center relative text-sm ${
                             sortType === 'price'
-                              ? 'bg-white text-gray-900 shadow-sm'
-                              : 'text-gray-500 hover:text-gray-700'
+                              ? 'text-gray-900 font-semibold'
+                              : 'text-gray-400 font-medium'
                           }`}
                         >
                           낮은가격순
+                          {sortType === 'price' && (
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-gray-900" />
+                          )}
                         </button>
                       </div>
 
                       {/* Product List */}
-                      <div className="space-y-2">
+                      <div className="space-y-2 pb-16">
                         {sortedProducts.map((product, index) => (
                           <ProductListItem
                             key={product.id}
@@ -787,39 +794,6 @@ function PriorityPageContent() {
               return null;
             })}
 
-            {/* Step 3: 예시 질문 버튼들 (입력 전에만 표시) */}
-            {currentStep === 3 && !hasUserInput && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.5 }}
-                className="space-y-2"
-              >
-                {[
-                  '아기 잘 때 쓸 수 있게, 소리 안 나는 무음 기능 있는 제품 알려줘.',
-                  '밤새 온도가 유지되는 영구 보온 기능 있는 걸로 찾아줘.',
-                  '끓인 물 빨리 식혀주는 냉각팬 달린 제품으로 추천해줘.',
-                  '나중에 티포트로도 쓸 수 있는 활용도 높은 제품 보여줘.',
-                  '손 넣어서 씻기 편하게 입구 넓고, 뚜껑 분리되는 걸로 골라줘.',
-                ].map((example, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      addMessage('user', example);
-                      setAdditionalInput(example);
-                      setHasUserInput(true);
-                      setTimeout(() => {
-                        addMessage('assistant', '알겠습니다! 이제 **추천하기** 버튼을 눌러주세요. 😊', true);
-                      }, 500);
-                      logButtonClick(`예시 질문 선택: ${example}`, 'priority');
-                    }}
-                    className="w-full px-4 py-3 text-left text-sm text-gray-700 bg-white border border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all"
-                  >
-                    {example}
-                  </button>
-                ))}
-              </motion.div>
-            )}
 
             <div ref={messagesEndRef} />
           </div>
@@ -862,6 +836,48 @@ function PriorityPageContent() {
               {/* 입력창 + 없어요 버튼 (1회만 표시) */}
               {!hasUserInput && (
                 <>
+                  {/* 플로팅 버튼 영역 (가로 스크롤) */}
+                  <div className="flex gap-2 overflow-x-auto scrollbar-hide p-2">
+                    {/* 없어요 버튼 */}
+                    <button
+                      onClick={handleSkip}
+                      className="flex-shrink-0 h-10 px-5 bg-[#0084FE] text-white rounded-full font-medium text-sm hover:opacity-90 transition-all"
+                    >
+                      없어요
+                    </button>
+
+                    {/* 예시 질문들 - 2줄 그리드, 가로 스크롤 */}
+                    <div className="grid grid-rows-2 grid-flow-col gap-2">
+                      {[
+                        '아기 잘 때 쓸 수 있게, 소리 안 나는 무음 기능 있는 제품 알려줘.',
+                        '밤새 온도가 유지되는 영구 보온 기능 있는 걸로 찾아줘.',
+                        '끓인 물 빨리 식혀주는 냉각팬 달린 제품으로 추천해줘.',
+                        '나중에 티포트로도 쓸 수 있는 활용도 높은 제품 보여줘.',
+                        '손 넣어서 씻기 편하게 입구 넓고, 뚜껑 분리되는 걸로 골라줘.',
+                        '배앓이 방지를 위해 염소 제거 기능 있는 걸로 보여줘.',
+                        '아기가 쓸 거니까, 안전한 의료용 소재쓴 걸로만 알려줘.',
+                        '아기가 만져도 안전하게, 차일드락 기능 있는 제품으로 찾아줘.',
+                      ].map((example, index) => (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            addMessage('user', example);
+                            setAdditionalInput(example);
+                            setHasUserInput(true);
+                            setTimeout(() => {
+                              addMessage('assistant', '알겠습니다! 이제 **추천하기** 버튼을 눌러주세요. 😊', true);
+                            }, 500);
+                            logButtonClick(`예시 질문 선택: ${example}`, 'priority');
+                          }}
+                          className="flex-shrink-0 h-10 px-4 text-left text-xs text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 transition-all whitespace-nowrap font-semibold"
+                        >
+                          {example.length > 40 ? example.substring(0, 40) + '...' : example}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 입력창 */}
                   <div className="flex gap-2 items-end">
                     <textarea
                       ref={inputRef}
@@ -892,14 +908,6 @@ function PriorityPageContent() {
                       </svg>
                     </button>
                   </div>
-
-                  {/* 없어요 버튼 */}
-                  <button
-                    onClick={handleSkip}
-                    className="w-full h-12 bg-gray-100 text-gray-700 rounded-2xl font-medium text-sm hover:bg-gray-200 transition-all"
-                  >
-                    없어요
-                  </button>
                 </>
               )}
 
