@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { products } from '@/data/products';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import FavoritesBottomSheet from '@/components/FavoritesBottomSheet';
@@ -19,11 +20,13 @@ const playfair = Playfair_Display({
 });
 
 export default function Home() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<'find' | 'ranking'>('find');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isFavoritesSheetOpen, setIsFavoritesSheetOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [queryInput, setQueryInput] = useState('');
   const { favorites, toggleFavorite, isFavorite, count } = useFavorites();
 
   // 페이지 뷰 로깅
@@ -70,6 +73,15 @@ export default function Home() {
     setIsGuideOpen(false);
     // Mark guide as viewed
     localStorage.setItem('babyitem_guide_viewed', 'true');
+  };
+
+  const handleQuerySubmit = () => {
+    if (!queryInput.trim()) return;
+
+    logButtonClick('자연어 쿼리 제출', 'home', queryInput);
+
+    // 쿼리를 URL 파라미터로 전달하여 Priority 페이지로 이동
+    router.push(`/priority?query=${encodeURIComponent(queryInput.trim())}`);
   };
 
   const favoriteProducts = products.filter((p) => favorites.includes(p.id));
@@ -138,13 +150,13 @@ export default function Home() {
 
         {/* Tab Content - 찾기 */}
         {activeTab === 'find' && (
-          <section className="flex flex-col items-center justify-center px-6 pt-20 pb-32 min-h-[calc(100vh-180px)]">
+          <section className="flex flex-col items-center justify-center px-6 pt-20 pb-48 min-h-[calc(100vh-180px)]">
             {/* Main Title */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-auto mt-20"
+              className="text-center mb-auto mt-12 w-full"
               suppressHydrationWarning
             >
               <h1 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
@@ -154,12 +166,12 @@ export default function Home() {
               <p className="text-sm text-gray-500 mt-3">고민하는 시간을 줄여보세요.</p>
 
               {/* Guide Button with Floating Bubble */}
-              <div className="mt-20 flex flex-col items-center gap-3">
+              <div className="mt-12 flex flex-col items-center gap-3">
                 {/* Floating Speech Bubble */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: 0.3 }}
+                  transition={{ duration: 0.4, delay: 0.5 }}
                   className="relative"
                 >
                   <motion.div
@@ -199,7 +211,7 @@ export default function Home() {
           <section id="ranking-section" className="min-h-screen bg-white px-6 pt-4 pb-8">
             {/* Section Header */}
             <div className="mb-6">
-              <div className="flex items-center gap-3 mt-0 mb-0">
+              <div className="flex items-center gap-3 mt-2 mb-0">
                 <h2 className="text-xl font-bold text-gray-900">
                   실시간 랭킹
                 </h2>
@@ -221,18 +233,7 @@ export default function Home() {
                     className="relative"
                   >
                     <div className="bg-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1.5" style={{ color: '#FF6B6B' }}>
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="#FF6B6B"
-                        stroke="#FF6B6B"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                      </svg>
+                      
                       찜하면 바로 상세비교 가능!
                     </div>
                     {/* Speech bubble tail */}
@@ -243,7 +244,7 @@ export default function Home() {
               <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
                 <span>판매 많은 순</span>
                 <span className="text-gray-400">•</span>
-                <span>11월 17일 기준</span>
+                <span>11월 18일 기준</span>
               </div>
             </div>
 
@@ -325,12 +326,13 @@ export default function Home() {
           </section>
         )}
 
-        {/* CTA Button - Always Fixed at Bottom */}
-        <div className="fixed bottom-0 left-0 right-0 px-6 py-4 bg-white/95 backdrop-blur-sm border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto' }}>
+        {/* Bottom Fixed Container - CTA Button + Input Bar */}
+        <div className="fixed bottom-0 left-0 right-0 px-4 py-4 bg-white border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto' }}>
+          {/* 1분만에 추천받기 Button */}
           <Link href="/priority">
             <button
               onClick={() => logButtonClick('1분만에 추천받기', 'home')}
-              className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5"
+              className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5 mb-3"
               style={{ backgroundColor: '#0084FE' }}
             >
               <span>1분만에 추천받기</span>
@@ -342,6 +344,39 @@ export default function Home() {
               </span>
             </button>
           </Link>
+
+          {/* Natural Language Query Input */}
+          <div className="flex gap-2 items-end">
+            <textarea
+              value={queryInput}
+              onChange={(e) => {
+                setQueryInput(e.target.value);
+                // Auto-resize textarea
+                e.target.style.height = 'auto';
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 80)}px`;
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleQuerySubmit();
+                }
+              }}
+              placeholder="어떤 분유포트를 찾고 계신가요?"
+              rows={1}
+              className="flex-1 min-h-12 max-h-[80px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto scrollbar-hide text-gray-900"
+              style={{ fontSize: '16px' }}
+            />
+            <button
+              onClick={handleQuerySubmit}
+              disabled={!queryInput.trim()}
+              className="w-12 h-12 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
+              style={{ backgroundColor: '#0074F3' }}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Favorites Floating Button - Ranking 탭에서만 표시 */}
@@ -354,7 +389,7 @@ export default function Home() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleFavoritesClick}
-              className="fixed bottom-[100px] right-6 px-4 py-3 bg-white rounded-full shadow-lg flex items-center gap-2 border-2 z-40"
+              className="fixed bottom-[100px] right-6 px-4 py-3 bg-white rounded-full shadow-lg flex items-center gap-2 border-2 z-40 mb-16"
               style={{
                 maxWidth: '480px',
                 borderColor: '#FF6B6B'
