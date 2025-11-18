@@ -118,6 +118,10 @@ export default function ResultPage() {
   // 탭 상태
   const [activeTab, setActiveTab] = useState<'recommendations' | 'comparison'>('recommendations');
 
+  // 비교표 데이터 캐싱 (탭 전환 시 재생성 방지)
+  const [comparisonFeatures, setComparisonFeatures] = useState<Record<string, string[]>>({});
+  const [comparisonDetails, setComparisonDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
+
   const toggleSection = (key: string) => {
     const newState = !expandedSections[key];
     setExpandedSections((prev) => ({
@@ -556,6 +560,41 @@ export default function ResultPage() {
     fetchRecommendations();
   }, [mounted]);
 
+  // 비교표 데이터 프리페치 (recommendations 로드 시 한 번만)
+  useEffect(() => {
+    if (recommendations.length > 0 && Object.keys(comparisonFeatures).length === 0) {
+      const productIds = recommendations.slice(0, 3).map(rec => rec.product.id);
+
+      console.log('🔄 Prefetching comparison data...');
+
+      // 핵심 특징 가져오기
+      fetch('/api/compare-features', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productIds }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          setComparisonFeatures(data.features);
+          console.log('✅ Comparison features cached');
+        })
+        .catch(err => console.error('Failed to prefetch features:', err));
+
+      // 장단점 가져오기
+      fetch('/api/compare', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productIds }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          setComparisonDetails(data.productDetails);
+          console.log('✅ Comparison details cached');
+        })
+        .catch(err => console.error('Failed to prefetch details:', err));
+    }
+  }, [recommendations, comparisonFeatures]);
+
   if (!mounted) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -983,7 +1022,11 @@ export default function ResultPage() {
                     </button>
 
                     {/* 상세 비교표 (핵심 특징 포함) */}
-                    <DetailedComparisonTable recommendations={recommendations} />
+                    <DetailedComparisonTable
+                      recommendations={recommendations}
+                      cachedFeatures={comparisonFeatures}
+                      cachedDetails={comparisonDetails}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>

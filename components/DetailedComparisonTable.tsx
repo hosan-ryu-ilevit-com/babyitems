@@ -9,10 +9,12 @@ import { logComparisonProductAction } from '@/lib/logging/clientLogger';
 
 interface DetailedComparisonTableProps {
   recommendations: Recommendation[];
+  cachedFeatures?: Record<string, string[]>;
+  cachedDetails?: Record<string, { pros: string[]; cons: string[]; comparison: string }>;
 }
 
-export default function DetailedComparisonTable({ recommendations }: DetailedComparisonTableProps) {
-  const [productFeatures, setProductFeatures] = useState<Record<string, string[]>>({});
+export default function DetailedComparisonTable({ recommendations, cachedFeatures, cachedDetails }: DetailedComparisonTableProps) {
+  const [productFeatures, setProductFeatures] = useState<Record<string, string[]>>(cachedFeatures || {});
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
 
@@ -26,11 +28,35 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
     return '#F15850'; // Poor (4 or less): red
   };
 
+  // 캐시된 데이터 사용 (부모에서 전달받은 경우)
   useEffect(() => {
-    const productIds = top3.map(rec => rec.product.id);
+    if (cachedFeatures && Object.keys(cachedFeatures).length > 0) {
+      console.log('✅ Using cached features from parent');
+      setProductFeatures(cachedFeatures);
+    }
+  }, [cachedFeatures]);
 
-    // Fetch pros/cons from API
+  useEffect(() => {
+    if (cachedDetails && Object.keys(cachedDetails).length > 0) {
+      console.log('✅ Using cached details from parent');
+      setProductDetails(cachedDetails);
+    }
+  }, [cachedDetails]);
+
+  useEffect(() => {
+    // 이미 캐시된 데이터가 있으면 API 호출 건너뛰기
+    if (cachedFeatures && Object.keys(cachedFeatures).length > 0 &&
+        cachedDetails && Object.keys(cachedDetails).length > 0) {
+      console.log('✅ Skipping API calls - using cached data');
+      return;
+    }
+
+    const productIds = recommendations.slice(0, 3).map(rec => rec.product.id);
+
+    // Fetch pros/cons from API (캐시 없을 때만)
     const fetchProductDetails = async () => {
+      if (cachedDetails && Object.keys(cachedDetails).length > 0) return;
+
       setIsLoadingComparison(true);
       try {
         const response = await fetch('/api/compare', {
@@ -50,8 +76,10 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
       }
     };
 
-    // Fetch core features (LLM-generated tags)
+    // Fetch core features (LLM-generated tags) (캐시 없을 때만)
     const fetchProductFeatures = async () => {
+      if (cachedFeatures && Object.keys(cachedFeatures).length > 0) return;
+
       try {
         const response = await fetch('/api/compare-features', {
           method: 'POST',
@@ -71,7 +99,7 @@ export default function DetailedComparisonTable({ recommendations }: DetailedCom
 
     fetchProductDetails();
     fetchProductFeatures();
-  }, [recommendations]);
+  }, [recommendations, cachedFeatures, cachedDetails]);
 
   if (selectedProducts.length === 0) return null;
 
