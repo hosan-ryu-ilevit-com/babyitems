@@ -1243,7 +1243,7 @@ export default function ResultPage() {
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[85vh] flex flex-col"
+                className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl z-50 max-h-[85vh] flex flex-col"
               >
                 {/* Header */}
                 <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between rounded-t-3xl shrink-0">
@@ -1287,9 +1287,9 @@ export default function ResultPage() {
                     </div>
                   </div>
 
-                  {/* 추천 이유 */}
-                  <div className="bg-blue-50 rounded-xl p-4">
-                    <h4 className="text-sm font-bold text-blue-900 mb-3 flex items-center gap-1">
+                  {/* 추천 이�� */}
+                  <div className="rounded-xl p-4" style={{ backgroundColor: '#ECFAF3' }}>
+                    <h4 className="text-sm font-bold mb-3 flex items-center gap-1" style={{ color: '#22C55E' }}>
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
@@ -1298,7 +1298,19 @@ export default function ResultPage() {
                     <ul className="space-y-2">
                       {selectedRecommendation.personalizedReason.strengths.map((strength, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                          <span className="text-green-500 shrink-0 mt-0.5">✓</span>
+                          <svg
+                            className="shrink-0 mt-0.5"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#22C55E"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
                           <span className="leading-relaxed">{parseMarkdownBold(strength)}</span>
                         </li>
                       ))}
@@ -1308,17 +1320,30 @@ export default function ResultPage() {
                   {/* 주의점 */}
                   {selectedRecommendation.personalizedReason.weaknesses &&
                    selectedRecommendation.personalizedReason.weaknesses.length > 0 && (
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <h4 className="text-sm font-bold text-gray-700 mb-2 flex items-center gap-1.5">
-                        <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="rounded-xl p-4" style={{ backgroundColor: '#FFF6EC' }}>
+                      <h4 className="text-sm font-bold mb-2 flex items-center gap-1.5" style={{ color: '#EF4444' }}>
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                         </svg>
                         주의점
                       </h4>
                       <ul className="space-y-1">
                         {selectedRecommendation.personalizedReason.weaknesses.map((weakness, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                            <span className="shrink-0 mt-0.5">•</span>
+                          <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#EF4444"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <line x1="18" y1="6" x2="6" y2="18" />
+                              <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
                             <span>{parseMarkdownBold(weakness)}</span>
                           </li>
                         ))}
