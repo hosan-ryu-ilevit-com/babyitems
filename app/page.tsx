@@ -232,7 +232,7 @@ export default function Home() {
             <div className="mb-6">
               <div className="flex items-center gap-3 mt-2 mb-0">
                 <h2 className="text-xl font-bold text-gray-900">
-                  실시간 랭킹
+                  판매량 랭킹
                 </h2>
                 {/* Speech Bubble */}
                 <motion.div
@@ -253,7 +253,7 @@ export default function Home() {
                   >
                     <div className="bg-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1.5" style={{ color: '#FF6B6B' }}>
                       
-                      찜하면 바로 상세비교 가능!
+                      찜하면 상세비교 가능!
                     </div>
                     {/* Speech bubble tail */}
                     <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-100"></div>
@@ -261,9 +261,7 @@ export default function Home() {
                 </motion.div>
               </div>
               <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
-                <span>판매 많은 순</span>
-                <span className="text-gray-400">•</span>
-                <span>11월 18일 기준</span>
+                <span>네이버 스토어 · 11월 19일 기준</span>
               </div>
             </div>
 
