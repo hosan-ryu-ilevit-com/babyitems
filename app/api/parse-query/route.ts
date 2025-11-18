@@ -5,7 +5,7 @@ import { PRIORITY_ATTRIBUTES } from '@/data/attributes';
 
 const PARSE_QUERY_PROMPT = `당신은 분유포트 제품 추천 전문가입니다.
 
-사용자가 입력한 자연어 쿼리를 분석하여, 6개 속성의 중요도를 판단해주세요.
+사용자가 입력한 자연어 쿼리를 분석하여, 6개 속성의 중요도와 예산을 판단해주세요.
 
 **6가지 속성**:
 ${PRIORITY_ATTRIBUTES.map((attr, i) => `${i + 1}. ${attr.name} (${attr.key}): ${attr.description}`).join('\n')}
@@ -24,15 +24,26 @@ ${PRIORITY_ATTRIBUTES.map((attr, i) => `${i + 1}. ${attr.name} (${attr.key}): ${
    - "세척을 자주 할 거예요" → hygiene: high
    - "조용한 제품" → usability: high, additionalFeatures: medium
 
+**예산 파싱**:
+사용자가 예산을 언급했다면 다음 중 하나로 매핑하세요:
+- "0-50000": 5만원 이하 (예: "5만원 이하", "저렴한", "가성비", "5만원", "50000원 이하")
+- "50000-100000": 5~10만원 (예: "10만원 이하", "7만원", "8만원", "80000원")
+- "100000-150000": 10~15만원 (예: "15만원 이하", "12만원", "13만원", "120000원")
+- "150000+": 15만원 이상 (예: "고급", "프리미엄", "15만원 이상", "20만원")
+- null: 예산 언급 없음
+
 **응답 형식** (JSON):
 \`\`\`json
 {
-  "temperatureControl": "medium",
-  "hygiene": "high",
-  "material": "low",
-  "usability": "high",
-  "portability": "low",
-  "additionalFeatures": "low"
+  "prioritySettings": {
+    "temperatureControl": "medium",
+    "hygiene": "high",
+    "material": "low",
+    "usability": "high",
+    "portability": "low",
+    "additionalFeatures": "low"
+  },
+  "budget": "50000-100000"
 }
 \`\`\`
 
@@ -62,7 +73,9 @@ export async function POST(request: NextRequest) {
     });
 
     // JSON 파싱
-    const prioritySettings = parseJSONResponse<PrioritySettings>(response);
+    const parsed = parseJSONResponse<{ prioritySettings: PrioritySettings; budget: string | null }>(response);
+    const prioritySettings = parsed.prioritySettings;
+    const budget = parsed.budget;
 
     // 유효성 검사
     const keys = Object.keys(prioritySettings);
@@ -95,10 +108,10 @@ export async function POST(request: NextRequest) {
         }
       });
 
-      return NextResponse.json({ prioritySettings: adjusted });
+      return NextResponse.json({ prioritySettings: adjusted, budget });
     }
 
-    return NextResponse.json({ prioritySettings });
+    return NextResponse.json({ prioritySettings, budget });
   } catch (error) {
     console.error('Parse query error:', error);
     return NextResponse.json(

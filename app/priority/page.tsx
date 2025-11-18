@@ -165,40 +165,51 @@ function PriorityPageContent() {
       setGuideBottomSheetOpen(true);
     }
 
-    // 초기 메시지를 한 번에 설정 (중복 방지)
-    const initialMessages: ChatMessage[] = [
-      {
-        id: `msg-${Date.now()}-1`,
-        role: 'assistant',
-        content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 구매 기준들의 중요도를 골라주세요!',
-        typing: true,
-      },
-      {
-        id: `msg-${Date.now()}-2`,
-        role: 'assistant',
-        content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
-        typing: true,
-      },
-    ];
-    setMessages(initialMessages);
-
-    // 속성 선택 컴포넌트 추가
-    const timer = setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
+    // 쿼리가 없을 때만 초기 메시지 표시
+    const query = searchParams.get('query');
+    if (!query) {
+      // 초기 메시지를 한 번에 설정 (중복 방지)
+      const initialMessages: ChatMessage[] = [
         {
-          id: `msg-${Date.now()}-3`,
-          role: 'component',
-          content: '',
-          componentType: 'priority-selector',
+          id: `msg-${Date.now()}-1`,
+          role: 'assistant',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 구매 기준들의 중요도를 골라주세요!',
+          typing: true,
         },
-      ]);
-    }, 1500);
+        {
+          id: `msg-${Date.now()}-2`,
+          role: 'assistant',
+          content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
+          typing: true,
+        },
+      ];
+      setMessages(initialMessages);
+
+      // 속성 선택 컴포넌트 추가
+      const timer = setTimeout(() => {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: `msg-${Date.now()}-3`,
+            role: 'component',
+            content: '',
+            componentType: 'priority-selector',
+          },
+        ]);
+      }, 1500);
+
+      // Cleanup - Strict Mode 지원
+      return () => {
+        console.log('🧹 cleanup 실행 - ref 리셋');
+        clearTimeout(timer);
+        // Strict Mode에서 재마운트될 때를 위해 ref 리셋
+        isInitializedRef.current = false;
+      };
+    }
 
     // Cleanup - Strict Mode 지원
     return () => {
       console.log('🧹 cleanup 실행 - ref 리셋');
-      clearTimeout(timer);
       // Strict Mode에서 재마운트될 때를 위해 ref 리셋
       isInitializedRef.current = false;
     };
@@ -228,6 +239,11 @@ function PriorityPageContent() {
   // 자연어 쿼리를 Priority 설정으로 변환
   const handleParseQuery = async (query: string) => {
     setIsLoadingQuery(true);
+
+    // 1. 사용자 메시지를 가장 먼저 추가
+    addMessage('user', query, false);
+
+    // 2. 분석 중 메시지
     addMessage('assistant', '입력하신 내용을 분석하고 있어요... 잠시만 기다려주세요!', true);
 
     try {
@@ -238,9 +254,61 @@ function PriorityPageContent() {
       });
 
       if (response.ok) {
-        const { prioritySettings: parsedSettings } = await response.json();
+        const { prioritySettings: parsedSettings, budget: parsedBudget } = await response.json();
         setPrioritySettings(parsedSettings);
-        addMessage('assistant', '✅ 분석 완료! 중요도가 자동으로 설정되었어요. 원하시면 수정하실 수 있어요.', true);
+
+        // 예산이 감지된 경우 자동 반영
+        if (parsedBudget) {
+          setBudget(parsedBudget as BudgetRange);
+        }
+
+        // 3. 중요도 속성과 관련 있는지 판단
+        const highPriorities = Object.entries(parsedSettings)
+          .filter(([, value]) => value === 'high')
+          .map(([key]) => {
+            const attr = PRIORITY_ATTRIBUTES.find(a => a.key === key);
+            return attr?.name;
+          })
+          .filter(Boolean);
+
+        const mediumPriorities = Object.entries(parsedSettings)
+          .filter(([, value]) => value === 'medium')
+          .map(([key]) => {
+            const attr = PRIORITY_ATTRIBUTES.find(a => a.key === key);
+            return attr?.name;
+          })
+          .filter(Boolean);
+
+        const hasRelevantPriorities = highPriorities.length > 0 || mediumPriorities.length > 0;
+
+        if (hasRelevantPriorities) {
+          // 중요도 속성과 관련 있는 경우
+          let message = '✅ 분석 완료! ';
+
+          if (highPriorities.length > 0) {
+            message += `**${highPriorities.join(', ')}**${highPriorities.length > 1 ? '을' : '를'} 중요하게 반영했어요.`;
+          }
+
+          if (mediumPriorities.length > 0) {
+            if (highPriorities.length > 0) {
+              message += ` ${mediumPriorities.join(', ')}${mediumPriorities.length > 1 ? '도' : '도'} 고려했어요.`;
+            } else {
+              message += `**${mediumPriorities.join(', ')}**${mediumPriorities.length > 1 ? '을' : '를'} 고려했어요.`;
+            }
+          }
+
+          message += ' 원하시면 수정하실 수 있어요!';
+          addMessage('assistant', message, true);
+        } else {
+          // 중요도 속성과 관련 없는 경우
+          addMessage('assistant', '✅ 메모리 업데이트 완료!', true);
+        }
+
+        // 중요도 선택 컴포넌트 추가
+        setTimeout(() => {
+          addComponentMessage('priority-selector');
+        }, 500);
+
         logButtonClick('쿼리 자동 파싱 성공', 'priority', query);
       } else {
         addMessage('assistant', '⚠️ 분석에 실패했어요. 직접 중요도를 선택해주세요.', true);
@@ -335,6 +403,19 @@ function PriorityPageContent() {
 
     // Step 2 메시지 추가
     addMessage('assistant', '좋아요! 이제 예산 범위를 선택해주세요. 💰', true);
+
+    // 예산이 자연어로 이미 설정된 경우 안내 메시지 추가
+    if (budget && queryFromUrl) {
+      setTimeout(() => {
+        const budgetText = budget === '0-50000' ? '5만원 이하'
+          : budget === '50000-100000' ? '5~10만원'
+          : budget === '100000-150000' ? '10~15만원'
+          : budget === '150000+' ? '15만원 이상'
+          : budget;
+
+        addMessage('assistant', `**${budgetText}**로 자동 반영했어요. 변경하고 싶으시면 아래에서 선택해주세요!`, true);
+      }, 600);
+    }
 
     setTimeout(() => {
       addComponentMessage('budget-selector');
