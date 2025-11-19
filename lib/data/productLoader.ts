@@ -82,21 +82,26 @@ export async function loadProductDetails(id: string): Promise<string | null> {
 }
 
 /**
- * 여러 제품의 상세 정보를 한번에 로드
+ * 여러 제품의 상세 정보를 한번에 로드 (병렬 처리)
  */
 export async function loadMultipleProductDetails(
   ids: string[]
 ): Promise<Record<string, string>> {
   const details: Record<string, string> = {};
 
-  for (const id of ids) {
-    const content = await loadProductDetails(id);
+  // 모든 제품의 상세 정보를 병렬로 로드
+  const detailPromises = ids.map(id => loadProductDetails(id));
+  const results = await Promise.all(detailPromises);
+
+  // 결과를 Record로 변환
+  ids.forEach((id, index) => {
+    const content = results[index];
     if (content) {
       details[id] = content;
     }
-  }
+  });
 
-  console.log(`Loaded detailed markdown for ${Object.keys(details).length}/${ids.length} products`);
+  console.log(`Loaded detailed markdown for ${Object.keys(details).length}/${ids.length} products (parallel)`);
 
   return details;
 }

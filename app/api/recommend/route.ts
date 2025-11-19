@@ -7,7 +7,7 @@ import { loadAllProducts } from '@/lib/data/productLoader';
 import { selectTopProducts, filterByBudget } from '@/lib/filtering/initialFilter';
 import { calculateAndRankProducts, selectTop3 } from '@/lib/filtering/scoreCalculator';
 import { Message, PrioritySettings, BudgetRange, AttributeConversation, UserContextSummary } from '@/types';
-import { generateTagContext } from '@/lib/utils/tagContext';
+import { generateTagContext, convertTagsToContextualNeeds } from '@/lib/utils/tagContext';
 
 /**
  * POST /api/recommend
@@ -101,15 +101,16 @@ export async function POST(request: NextRequest) {
           return;
         }
 
-        // Phase 2: Persona Generation (0-20%)
+        // Phase 2: Persona Generation + Context Summary (병렬 처리) (0-20%)
         sendProgress('persona', 5, '고객님의 니즈를 분석하고 있습니다...');
 
-        console.log('\n=== Phase 2: Persona Generation ===');
+        console.log('\n=== Phase 2: Persona Generation + Context Summary (Parallel) ===');
         console.log('Is Quick Recommendation:', isQuickRecommendation);
         console.log('Has Priority Settings:', !!prioritySettings);
         console.log('Budget:', budget);
 
         let persona;
+        let contextSummary;
         const personaStartTime = Date.now();
 
         // Priority 플로우: Priority 설정 + Chat 이력 (선택적)
@@ -117,21 +118,27 @@ export async function POST(request: NextRequest) {
           console.log('📊 Using Priority-based persona generation (with optional chat enhancement)');
           sendProgress('persona', 10, '선택하신 기준을 분석하고 있습니다...');
 
-          // Chat 이력 + phase0Context + tagContext 준비 (있으면)
+          // 태그를 contextualNeeds로 직접 변환 (LLM 호출 스킵)
+          let tagContextualNeeds: string[] | undefined;
+          if (selectedProsTags && selectedProsTags.length > 0) {
+            tagContextualNeeds = convertTagsToContextualNeeds(
+              selectedProsTags,
+              selectedConsTags || []
+            );
+            console.log('🏷️  Tag-based contextual needs:', tagContextualNeeds.length, 'items');
+          }
+
+          // Chat 이력 + phase0Context 준비 (태그는 제외 - 이미 contextualNeeds로 변환됨)
           let chatHistory: string | undefined;
+
+          // 실제 대화 이력만 포함
           if (messages && messages.length > 0) {
             chatHistory = messages
               .map((msg: Message) => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
               .join('\n\n');
           }
 
-          // 태그 컨텍스트를 chatHistory에 포함 (있으면 맨 앞에 추가)
-          if (selectedProsTags && selectedProsTags.length > 0) {
-            const tagContext = generateTagContext(selectedProsTags, selectedConsTags || []);
-            chatHistory = chatHistory ? `${tagContext}\n\n${chatHistory}` : tagContext;
-          }
-
-          // phase0Context를 chatHistory에 포함 (있으면 맨 앞에 추가)
+          // phase0Context만 chatHistory에 포함 (있으면)
           if (phase0Context) {
             const contextPrefix = `사용자의 추가 요청사항: ${phase0Context}`;
             chatHistory = chatHistory ? `${contextPrefix}\n\n${chatHistory}` : contextPrefix;
@@ -141,9 +148,24 @@ export async function POST(request: NextRequest) {
           console.log('Budget:', budget);
           console.log('Chat history length:', chatHistory?.length || 0);
           console.log('Phase0 context:', phase0Context?.substring(0, 100) || 'none');
+          console.log('Will skip LLM for Persona Profile:', !chatHistory || chatHistory.trim().length <= 50);
 
-          // 통합 함수 사용: Priority 기반 + Chat으로 보강 (있으면)
-          persona = await generatePersonaFromPriorityWithChat(prioritySettings, budget, chatHistory);
+          // Persona와 Context Summary를 병렬로 생성
+          [persona, contextSummary] = await Promise.all([
+            generatePersonaFromPriorityWithChat(prioritySettings, budget, chatHistory, tagContextualNeeds),
+            generateContextSummaryFromPriorityWithChat(
+              prioritySettings,
+              budget,
+              messages,
+              phase0Context,
+              existingContextSummary,
+              {
+                pros: selectedProsTags,
+                cons: selectedConsTags,
+                additional: [] // ADDITIONAL_TAGS는 현재 사용 안 함
+              }
+            )
+          ]);
 
         } else if (attributeAssessments) {
           // DEPRECATED: 기존 플로우 (attributeAssessments 기반)
@@ -155,6 +177,7 @@ export async function POST(request: NextRequest) {
             .join('\n\n');
 
           persona = await generatePersona(chatHistory, attributeAssessments as unknown as import('@/types').AttributeAssessment);
+          // Context Summary는 나중에 생성 (DEPRECATED 플로우에서는 기존 방식 유지)
 
         } else {
           console.error('❌ Missing both prioritySettings and attributeAssessments');
@@ -163,10 +186,13 @@ export async function POST(request: NextRequest) {
           return;
         }
 
-        console.log(`✓ Persona generated in ${Date.now() - personaStartTime}ms`);
+        console.log(`✓ Persona${contextSummary ? ' + Context Summary' : ''} generated in ${Date.now() - personaStartTime}ms`);
         console.log('Summary:', persona.summary);
         console.log('Weights:', persona.coreValueWeights);
         console.log('Budget:', persona.budget);
+        if (contextSummary) {
+          console.log('Context Summary generated in parallel:', contextSummary.priorityAttributes.length, 'attributes');
+        }
 
         sendProgress('persona', 20, '페르소나 생성 완료');
 
@@ -222,25 +248,37 @@ export async function POST(request: NextRequest) {
 
         sendProgress('scoring', 70, 'Top 3 제품 선정 완료');
 
-        // Phase 6: Recommendation Generation & Context Summary (70-100%) - 병렬 처리로 속도 최적화
-        sendProgress('recommendation', 75, 'Top 3 제품에 대한 맞춤 추천 이유를 동시에 작성하고 있습니다...');
+        // Phase 6: Recommendation Generation (70-100%)
+        sendProgress('recommendation', 75, 'Top 3 제품에 대한 맞춤 추천 이유를 작성하고 있습니다...');
 
-        console.log('\n=== Phase 6: Recommendation Generation & Context Summary (Parallel) ===');
+        console.log('\n=== Phase 6: Recommendation Generation ===');
         const finalStartTime = Date.now();
 
-        // 추천 이유 생성과 맥락 요약을 병렬로 처리
-        // Priority 플로우: Priority 설정 + Chat 이력 (선택적) + phase0Context 기반으로 생성
-        // DEPRECATED 플로우: attributeAssessments 기반으로 생성
-        const [recommendations, contextSummary] = await Promise.all([
-          generateTop3Recommendations(top3, persona),
-          prioritySettings
-            ? generateContextSummaryFromPriorityWithChat(prioritySettings, budget, messages, phase0Context, existingContextSummary)
-            : generateContextSummary(messages, attributeAssessments! as unknown as import('@/types').AttributeAssessment)
-        ]);
+        let recommendations;
 
-        console.log(`✓ Recommendations and context summary generated in parallel in ${Date.now() - finalStartTime}ms`);
+        // Priority 플로우: Context Summary는 이미 Phase 2에서 생성됨, Recommendation만 생성
+        if (prioritySettings && contextSummary) {
+          console.log('📊 Priority flow: generating recommendations only (context summary already done)');
+          recommendations = await generateTop3Recommendations(top3, persona);
+
+        } else if (attributeAssessments) {
+          // DEPRECATED 플로우: Recommendation과 Context Summary를 병렬로 생성 (기존 방식)
+          console.log('⚠️  DEPRECATED flow: generating recommendations + context summary in parallel');
+          [recommendations, contextSummary] = await Promise.all([
+            generateTop3Recommendations(top3, persona),
+            generateContextSummary(messages, attributeAssessments as unknown as import('@/types').AttributeAssessment)
+          ]);
+
+        } else {
+          console.error('❌ Invalid flow state');
+          sendError('Invalid flow state');
+          controller.close();
+          return;
+        }
+
+        console.log(`✓ Recommendations generated in ${Date.now() - finalStartTime}ms`);
         console.log('Recommendation count:', recommendations.length);
-        console.log('Context summary priority attributes:', contextSummary.priorityAttributes.length);
+        console.log('Context summary priority attributes:', contextSummary!.priorityAttributes.length);
 
         sendProgress('recommendation', 100, '추천 완료!');
 

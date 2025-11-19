@@ -129,13 +129,19 @@ JSON만 출력하세요.`;
  * @param messages - Chat 대화 이력 (선택적, 바로 추천받기 시 빈 배열)
  * @param phase0Context - Priority 페이지에서 입력한 추가 요청사항 (선택적)
  * @param existingContextSummary - 기존 contextSummary (재추천 시 additionalContext 보존용)
+ * @param selectedTags - 선택된 태그들 (장점/단점/추가 고려사항)
  */
 export async function generateContextSummaryFromPriorityWithChat(
   prioritySettings: PrioritySettings,
   budget: BudgetRange | undefined,
   messages: Message[],
   phase0Context?: string,
-  existingContextSummary?: UserContextSummary
+  existingContextSummary?: UserContextSummary,
+  selectedTags?: {
+    pros?: string[];
+    cons?: string[];
+    additional?: string[];
+  }
 ): Promise<UserContextSummary> {
   console.log('🔍 Generating context summary from Priority + Chat...');
   console.log('  Priority settings:', prioritySettings);
@@ -143,6 +149,7 @@ export async function generateContextSummaryFromPriorityWithChat(
   console.log('  Messages count:', messages?.length || 0);
   console.log('  Phase0 context:', phase0Context?.substring(0, 100) || 'none');
   console.log('  Existing additionalContext:', existingContextSummary?.additionalContext || 'none');
+  console.log('  Selected tags:', selectedTags);
 
   // 속성명 매핑 (Priority 플로우 기준 - 6개)
   const attributeNames: { [key: string]: string } = {
@@ -272,6 +279,84 @@ JSON만 출력하세요.`;
 
     return parseJSONResponse<UserContextSummary>(text);
   });
+
+  // 태그를 additionalContext와 priorityAttributes에 반영 (코드 기반, LLM 없이)
+  if (selectedTags) {
+    const { getTagContextSummary } = await import('@/lib/utils/tagContext');
+    const { ADDITIONAL_TAGS } = await import('@/data/priorityTags');
+
+    const tagSummary = getTagContextSummary(
+      selectedTags.pros || [],
+      selectedTags.cons || [],
+      selectedTags.additional || []
+    );
+
+    // 장점/단점/추가 고려사항 태그를 additionalContext에 추가
+    const tagContexts: string[] = [];
+
+    if (tagSummary.prosTexts.length > 0) {
+      tagContexts.push(...tagSummary.prosTexts);
+    }
+
+    if (tagSummary.consTexts.length > 0) {
+      // 단점 태그는 "회피: " 접두사 추가
+      tagContexts.push(...tagSummary.consTexts.map(text => `회피: ${text}`));
+    }
+
+    if (tagSummary.additionalTexts.length > 0) {
+      tagContexts.push(...tagSummary.additionalTexts);
+    }
+
+    // 기존 additionalContext와 병합 (중복 제거)
+    result.additionalContext = [
+      ...result.additionalContext,
+      ...tagContexts
+    ].filter((v, i, a) => a.indexOf(v) === i);
+
+    // 추가 고려사항 태그가 특정 속성과 관련이 있으면 priorityAttributes에 반영
+    if (selectedTags.additional && selectedTags.additional.length > 0) {
+      selectedTags.additional.forEach(tagId => {
+        const tag = ADDITIONAL_TAGS.find(t => t.id === tagId);
+        if (tag && tag.relatedAttributes.length > 0) {
+          // 주 속성 (weight 1.0)만 처리
+          const mainAttr = tag.relatedAttributes.find(a => a.weight === 1.0);
+          if (mainAttr) {
+            const attrKey = mainAttr.attribute;
+
+            // priorityAttributes에서 해당 속성 찾기
+            const existingAttr = result.priorityAttributes.find(
+              attr => attr.name.includes(getAttributeNameKorean(attrKey))
+            );
+
+            if (existingAttr) {
+              // 기존 reason에 태그 내용 추가
+              existingAttr.reason = `${existingAttr.reason}. 특히 "${tag.text}"`;
+              // level을 최소 '보통'으로 올림 (사용자가 선택한 의도 반영)
+              if (existingAttr.level === '중요하지 않음') {
+                existingAttr.level = '보통';
+              }
+            }
+          }
+        }
+      });
+    }
+
+    console.log('🏷️  Added tags to additionalContext:', tagContexts.length, 'items');
+    console.log('🏷️  Adjusted priorityAttributes for additional tags');
+  }
+
+  // 속성명 한글 매핑 함수
+  function getAttributeNameKorean(key: string): string {
+    const map: Record<string, string> = {
+      temperatureControl: '온도',
+      hygiene: '위생',
+      material: '소재',
+      usability: '사용',
+      portability: '휴대성',
+      additionalFeatures: '부가'
+    };
+    return map[key] || key;
+  }
 
   console.log('✓ Context summary generated');
   console.log('  Priority attributes:', result.priorityAttributes.length);

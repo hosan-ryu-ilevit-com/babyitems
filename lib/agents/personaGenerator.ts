@@ -179,22 +179,34 @@ export async function generatePersona(
  * @param settings - Priority 페이지에서 선택한 6개 속성 중요도
  * @param budget - 선택한 예산 범위
  * @param chatHistory - 대화 기록 (선택적)
+ * @param tagContextualNeeds - 태그에서 변환된 contextualNeeds (선택적, LLM 스킵용)
  * @returns UserPersona
  */
 export async function generatePersonaFromPriorityWithChat(
   settings: PrioritySettings,
   budget?: BudgetRange,
-  chatHistory?: string
+  chatHistory?: string,
+  tagContextualNeeds?: string[]
 ): Promise<UserPersona> {
   console.log('📊 Generating persona from Priority + Chat...');
   console.log('  Priority settings:', settings);
   console.log('  Budget:', budget);
   console.log('  Chat history length:', chatHistory?.length || 0);
+  console.log('  Tag contextual needs:', tagContextualNeeds?.length || 0);
 
   // 1. Priority 설정을 가중치로 변환 (항상 실행, 확정적)
   const basePersona = generatePersonaFromPriority(settings, budget);
 
-  // 2. Chat 이력이 있고 충분히 긴 경우 AI로 보강
+  // 2. 태그 기반 contextualNeeds가 있으면 추가 (LLM 없이)
+  if (tagContextualNeeds && tagContextualNeeds.length > 0) {
+    console.log('🏷️  Adding tag-based contextual needs (no LLM)...');
+    basePersona.contextualNeeds = [
+      ...basePersona.contextualNeeds,
+      ...tagContextualNeeds
+    ].filter((v, i, a) => a.indexOf(v) === i); // 중복 제거
+  }
+
+  // 3. Chat 이력이 있고 충분히 긴 경우 AI로 보강
   if (chatHistory && chatHistory.trim().length > 50) {
     try {
       console.log('🤖 Enhancing persona with AI analysis...');
@@ -215,8 +227,8 @@ export async function generatePersonaFromPriorityWithChat(
     }
   }
 
-  // 3. Chat 이력이 없거나 짧으면 Priority 기반만 사용
-  console.log('ℹ️  No chat history, using Priority-only persona');
+  // 4. Chat 이력이 없거나 짧으면 Priority + 태그 기반만 사용
+  console.log('ℹ️  No chat history, using Priority + tags only (no LLM)');
   return basePersona;
 }
 

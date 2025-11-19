@@ -10,6 +10,10 @@ import UserContextSummaryComponent from '@/components/UserContextSummary';
 // import ComparisonTable from '@/components/ComparisonTable';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import { logPageView, logButtonClick, logComparisonChat } from '@/lib/logging/clientLogger';
+import dynamic from 'next/dynamic';
+
+// Lottie 동적 import (SSR 방지)
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 // 마크다운 볼드 처리 함수 (기존 추천 상세 정보용)
 function parseMarkdownBold(text: string) {
@@ -105,6 +109,7 @@ export default function ResultPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedRecommendation, setSelectedRecommendation] = useState<Recommendation | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [animationData, setAnimationData] = useState<any>(null);
 
   // 채팅 관련 state (비교 질문하기)
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -278,6 +283,14 @@ export default function ResultPage() {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Lottie JSON 파일 로드
+  useEffect(() => {
+    fetch('/animations/character.json')
+      .then((res) => res.json())
+      .then((data) => setAnimationData(data))
+      .catch((err) => console.error('Lottie 파일 로드 실패:', err));
   }, []);
 
   // 페이지 뷰 로깅
@@ -600,15 +613,15 @@ export default function ResultPage() {
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="relative w-full max-w-[480px] min-h-screen bg-gray-50" />
+      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#FCFCFC' }}>
+        <div className="relative w-full max-w-[480px] min-h-screen" style={{ backgroundColor: '#FCFCFC' }} />
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="relative w-full max-w-[480px] min-h-screen bg-gray-50 flex flex-col">
+    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#FCFCFC' }}>
+      <div className="relative w-full max-w-[480px] min-h-screen flex flex-col" style={{ backgroundColor: '#FCFCFC' }}>
         {/* Header */}
         <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
           <div className="flex items-center justify-between">
@@ -640,37 +653,24 @@ export default function ResultPage() {
                 transition={{ duration: 0.3 }}
                 className="flex flex-col items-center justify-center min-h-[calc(100vh-180px)] px-8"
               >
-              {/* 캐릭터 이미지 - 통통 튀는 애니메이션 */}
+              {/* 캐릭터 애니메이션 - Lottie */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
-                animate={{
-                  opacity: 1,
-                  y: [0, -15, 0]
-                }}
-                transition={{
-                  opacity: { duration: 0.5 },
-                  y: {
-                    duration: 1.2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }
-                }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ opacity: { duration: 0.5 } }}
                 className="mb-8"
               >
-                <Image
-                  src="/images/mainchartrans.png"
-                  alt="분석 중"
-                  width={120}
-                  height={120}
-                  className="w-[120px] h-[120px] object-contain"
-                  priority
-                  quality={90}
-                  sizes="120px"
-                />
+                {animationData && (
+                  <Lottie
+                    animationData={animationData}
+                    loop={true}
+                    style={{ width: 120, height: 120 }}
+                  />
+                )}
               </motion.div>
 
               {/* 로딩 퍼센트 */}
-              <div className="mb-4">
+              <div className="mb-2">
                 <p className="text-xl font-medium text-gray-900">
                   {progress}%
                 </p>
@@ -721,11 +721,9 @@ export default function ResultPage() {
               <div id="top3-section" />
               
 
-              {/* 안내 문구 컨테이너 */}
-              <div className="flex flex-col items-center mb-0">
-                {/* 이미지와 말풍선 그룹 */}
+            
+              {/* <div className="flex flex-col items-center mb-0">
                 <div className="relative flex items-center justify-center gap-2">
-                  {/* 캐릭터 이미지 */}
                   <Image
                     src="/images/compairimg-removebg.png"
                     alt="비교 분석"
@@ -737,7 +735,6 @@ export default function ResultPage() {
                     sizes="120px"
                   />
 
-                  {/* 말풍선 */}
                   <motion.div
                     animate={{ y: [0, -4, 0] }}
                     transition={{
@@ -750,14 +747,13 @@ export default function ResultPage() {
                     <div className="bg-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap border" style={{ color: '#71737C', borderColor: '#E5F1FF' }}>
                       광고 아닌 실구매자 리뷰만<br />분석했어요!
                     </div>
-                    {/* 말풍선 꼬리 (왼쪽) */}
                     <div
                       className="absolute -left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-white"
                       style={{ filter: 'drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.05))' }}
                     ></div>
                   </motion.div>
                 </div>
-              </div>
+              </div> */}
 
               {/* 채팅하고 더 정확히 추천받기 버튼 - 주석 처리 (나중에 사용 가능) */}
               {/* <motion.div
@@ -796,21 +792,19 @@ export default function ResultPage() {
 
               {/* 탭 UI */}
               <div className="mb-6">
-                <div className="flex justify-center gap-8 border-b border-gray-200">
+                <div className="flex justify-center gap-8">
                   <button
                     onClick={() => {
                       setActiveTab('recommendations');
                       logButtonClick('추천 제품 탭', 'result');
                     }}
-                    className={`relative pb-3.5 font-bold text-base transition-all flex items-center gap-2 ${
+                    className={`relative pb-2 font-semibold text-base transition-all flex items-center gap-2 ${
                       activeTab === 'recommendations'
                         ? 'text-gray-900'
                         : 'text-gray-400 hover:text-gray-600'
                     }`}
                   >
-                    <svg className="w-5 h-5" fill="#FCD34D" stroke="#F59E0B" strokeWidth="0.5" viewBox="0 0 24 24">
-                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-                    </svg>
+                  
                     BEST 3
                     {activeTab === 'recommendations' && (
                       <motion.div
@@ -825,15 +819,13 @@ export default function ResultPage() {
                       setActiveTab('comparison');
                       logButtonClick('상세 비교 탭', 'result');
                     }}
-                    className={`relative pb-3.5 font-bold text-base transition-all flex items-center gap-2 ${
+                    className={`relative pb-2 font-semibold text-base transition-all flex items-center gap-2 ${
                       activeTab === 'comparison'
                         ? 'text-gray-900'
                         : 'text-gray-400 hover:text-gray-600'
                     }`}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke={activeTab === 'comparison' ? '#3B82F6' : '#9CA3AF'} viewBox="0 0 24 24" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                    </svg>
+                    
                     상세 비교
                     <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1" style={{ backgroundColor: '#4A9EFF', color: '#FFFFFF' }}>
                       <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">

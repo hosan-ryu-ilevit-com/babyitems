@@ -86,3 +86,54 @@ export function getTagContextSummary(
     additionalTexts
   };
 }
+
+/**
+ * 태그를 contextualNeeds로 직접 변환 (LLM 없이)
+ *
+ * 바로 추천받기 플로우에서 LLM 호출을 스킵하기 위해 사용
+ */
+export function convertTagsToContextualNeeds(
+  prosTagIds: string[],
+  consTagIds: string[],
+  additionalTagIds: string[] = []
+): string[] {
+  const contextualNeeds: string[] = [];
+
+  // 장점 태그 → 긍정형 니즈
+  prosTagIds.forEach(id => {
+    const tag = PROS_TAGS.find(t => t.id === id);
+    if (tag) {
+      contextualNeeds.push(tag.text);
+    }
+  });
+
+  // 단점 태그 → 회피형 니즈 (부정을 긍정으로 변환)
+  consTagIds.forEach(id => {
+    const tag = CONS_TAGS.find(t => t.id === id);
+    if (tag) {
+      // 단점을 반대로 변환
+      // 예: "입구가 좁아 세척 불편" → "넓은 입구로 쉬운 세척"
+      const negativeToPositive: Record<string, string> = {
+        'hygiene-narrow': '넓은 입구로 쉬운 세척',
+        'hygiene-gap': '틈새 없는 깔끔한 구조',
+        'usability-noise': '조용한 작동 소음',
+        'usability-heavy': '가벼운 무게',
+        'temp-slow': '빠른 온도 조절',
+        'material-plastic': '안전한 소재 사용',
+        'portability-bulky': '컴팩트한 크기',
+        'price-expensive': '합리적인 가격'
+      };
+      contextualNeeds.push(negativeToPositive[id] || `${tag.text} 회피`);
+    }
+  });
+
+  // 추가 고려사항 태그
+  additionalTagIds.forEach(id => {
+    const tag = ADDITIONAL_TAGS.find(t => t.id === id);
+    if (tag) {
+      contextualNeeds.push(tag.text);
+    }
+  });
+
+  return contextualNeeds;
+}

@@ -281,7 +281,7 @@ function PriorityPageContent() {
         {
           id: `msg-${Date.now()}-1`,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n지금 가장 잘 나가는 국민템의 내돈내산 후기를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n가장 잘 나가는 국민템의 내돈내산 후기를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
           typing: true,
         },
         {
@@ -521,7 +521,7 @@ function PriorityPageContent() {
     console.log('✅ Budget:', budget);
 
     // Step 5 메시지 추가 - 조건 이해 완료
-    addMessage('assistant', '좋아요! 이렇게 사용자님의 조건을 이해했어요.', true);
+    addMessage('assistant', '좋아요! 아래와 같이 사용자님의 조건을 이해했어요.', true);
 
     setTimeout(async () => {
       try {
@@ -612,7 +612,7 @@ function PriorityPageContent() {
     setHasUserInput(true);
     addMessage('user', '없어요');
     setTimeout(() => {
-      addMessage('assistant', '좋아요! 그럼 바로 **추천받기** 버튼을 눌러주세요. 😊', true);
+      addMessage('assistant', '좋아요! 이제 **추천받기** 버튼을 눌러주세요. 😊', true);
     }, 300);
     logButtonClick('추가 입력 스킵 (없어요)', 'priority');
   };
@@ -696,7 +696,7 @@ function PriorityPageContent() {
         {
           id: `msg-${Date.now()}-1`,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n지금 가장 잘 나가는 국민템의 내돈내산 후기를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n가장 잘 나가는 국민템의 내돈내산 후기를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
           typing: true,
         },
         {
@@ -800,7 +800,7 @@ function PriorityPageContent() {
                           .map((tag) => ({
                             id: tag.id,
                             text: tag.text,
-                            popular: POPULAR_TAG_IDS.pros.includes(tag.id)
+                            popular: (POPULAR_TAG_IDS.pros as readonly string[]).includes(tag.id)
                           }));
 
                         const rankingLabel = anchor.type === 'ranking'
@@ -852,7 +852,7 @@ function PriorityPageContent() {
                           .map((tag) => ({
                             id: tag.id,
                             text: tag.text,
-                            popular: POPULAR_TAG_IDS.cons.includes(tag.id)
+                            popular: (POPULAR_TAG_IDS.cons as readonly string[]).includes(tag.id)
                           }));
 
                         const rankingLabel = anchor.type === 'ranking'
