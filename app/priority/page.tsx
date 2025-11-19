@@ -126,6 +126,7 @@ function PriorityPageContent() {
 
   // 초기화 추적용 ref
   const isInitializedRef = useRef(false);
+  const initialMessageIdRef = useRef<string | null>(null);
 
   // 기본 상태
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -274,24 +275,20 @@ function PriorityPageContent() {
       setCustomBudget('');
       setIsCustomBudgetMode(false);
       setInput('');
-      setTypingMessageId(null);
 
-      // 초기 메시지를 한 번에 설정 (중복 방지)
+      // 초기 메시지만 먼저 추가 (중복 방지)
+      const initialMessageId = `msg-${Date.now()}-1`;
       const initialMessages: ChatMessage[] = [
         {
-          id: `msg-${Date.now()}-1`,
+          id: initialMessageId,
           role: 'assistant',
           content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n가장 잘 나가는 국민템의 내돈내산 후기를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
           typing: true,
         },
-        {
-          id: `msg-${Date.now()}-2`,
-          role: 'component',
-          content: '',
-          componentType: 'pros-selector',
-        },
       ];
       setMessages(initialMessages);
+      setTypingMessageId(initialMessageId); // 타이핑 효과 활성화
+      initialMessageIdRef.current = initialMessageId; // 초기 메시지 ID 저장
 
       console.log('✅ 새로운 대화 시작');
     }
@@ -304,6 +301,27 @@ function PriorityPageContent() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // 초기 메시지 타이핑 완료 후 pros-selector 추가
+  useEffect(() => {
+    // 초기 메시지 타이핑이 완료되었을 때만
+    if (
+      initialMessageIdRef.current &&
+      typingMessageId === null &&
+      messages.length === 1 &&
+      messages[0].id === initialMessageIdRef.current &&
+      currentStep === 1
+    ) {
+      console.log('✅ 초기 타이핑 완료 - pros-selector 추가');
+
+      // pros-selector 추가 (약간의 지연 후)
+      setTimeout(() => {
+        addComponentMessage('pros-selector');
+        initialMessageIdRef.current = null; // 한 번만 실행되도록
+        // 스크롤 안 함 - 사용자가 위 메시지를 계속 볼 수 있도록
+      }, 300);
+    }
+  }, [typingMessageId, messages, currentStep]);
 
   // 상태 자동 저장 (변경 시마다)
   useEffect(() => {
@@ -392,6 +410,10 @@ function PriorityPageContent() {
     }
 
     logButtonClick('Step 1 → Step 2 (Pros → Cons)', 'priority');
+
+    // 현재 스크롤 위치 저장
+    const currentScrollTop = mainScrollRef.current?.scrollTop || 0;
+
     setCurrentStep(2);
 
     // Step 2 메시지 + 컴포넌트 동시에 추가 (extraMarginTop 추가)
@@ -405,9 +427,23 @@ function PriorityPageContent() {
     setMessages((prev) => [...prev, newMessage]);
     setTypingMessageId(newMessage.id);
 
+    // 스크롤 위치 복원
+    requestAnimationFrame(() => {
+      if (mainScrollRef.current) {
+        mainScrollRef.current.scrollTop = currentScrollTop;
+      }
+    });
+
     setTimeout(() => {
       addComponentMessage('cons-selector');
-      setTimeout(() => scrollToBottom(), 300);
+      // 스크롤 안 함 - 사용자가 위 메시지를 계속 볼 수 있도록
+
+      // 스크롤 위치 다시 복원 (컴포넌트 추가 후)
+      requestAnimationFrame(() => {
+        if (mainScrollRef.current) {
+          mainScrollRef.current.scrollTop = currentScrollTop;
+        }
+      });
     }, 500);
   };
 
@@ -430,7 +466,7 @@ function PriorityPageContent() {
 
     setTimeout(() => {
       addComponentMessage('additional-selector');
-      setTimeout(() => scrollToBottom(), 300);
+      // 스크롤 안 함 - 사용자가 위 메시지를 계속 볼 수 있도록
     }, 500);
   };
 
@@ -502,7 +538,7 @@ function PriorityPageContent() {
     setTypingMessageId(newMessage.id);
 
     addComponentMessage('budget-selector');
-    setTimeout(() => scrollToBottom(), 300);
+    // 스크롤 안 함 - 사용자가 위 메시지를 계속 볼 수 있도록
   };
 
   // Step 4 (Budget) → Step 5 (User Summary)
@@ -535,7 +571,7 @@ function PriorityPageContent() {
 
         // Summary 컴포넌트 추가 (요약 내용 포함)
         addComponentMessage('summary', summary);
-        setTimeout(() => scrollToBottom(), 200);
+        // 스크롤 안 함 - 사용자가 Summary를 읽을 수 있도록
 
         // "마지막으로 말씀하실 조건이 있으시면 말해주세요!" 메시지 추가
         setTimeout(() => {
