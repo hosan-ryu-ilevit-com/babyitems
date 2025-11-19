@@ -870,7 +870,7 @@ export default function ResultPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: index * 0.2 }}
                         layout
-                        className="relative bg-white rounded-2xl p-5"
+                        className="relative bg-white rounded-2xl p-5 border border-gray-100"
                       >
                         {/* 제품 정보 */}
                         <div className="flex gap-4 mb-3">
@@ -1008,12 +1008,6 @@ export default function ResultPage() {
                       style={{ backgroundColor: '#F0F7FF', color: '#0074F3', borderColor: '#B8DCFF' }}
                     >
                       <span>비교 질문하기</span>
-                      <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1" style={{ backgroundColor: '#4A9EFF', color: '#FFFFFF' }}>
-                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                        </svg>
-                        <span>AI</span>
-                      </span>
                     </button>
 
                     {/* 상세 비교표 (핵심 특징 포함) */}
