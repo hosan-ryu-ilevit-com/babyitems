@@ -113,7 +113,7 @@ export default function Home() {
 
         {/* Tab Navigation */}
         <nav>
-          <div className="flex items-center justify-center mt-6 gap-12 py-2">
+          <div className="flex items-center justify-center mt-5 gap-12">
             <button
               onClick={() => {
                 setActiveTab('find');
@@ -202,23 +202,24 @@ export default function Home() {
                     }}
                     className="relative"
                   >
-                    <div className="bg-gray-100 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap" style={{ color: '#0084FE' }}>
-                      첫 구매라면 필수!
+                    <div className="text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap text-white flex items-center gap-1.5" style={{ backgroundColor: '#4B4B4B' }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="#FCD34D">
+                        <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
+                      </svg>
+                      <span>첫 구매라면 필수!</span>
+                      
                     </div>
                     {/* Speech bubble tail - pointing down */}
-                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-gray-100"></div>
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px]" style={{ borderTopColor: '#4B4B4B' }}></div>
                   </motion.div>
                 </motion.div>
 
                 {/* Guide Button */}
                 <button
                   onClick={handleGuideOpen}
-                  className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
+                  className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
-                  </svg>
-                  분유포트 시작 가이드
+                  분유포트 1분 가이드
                 </button>
               </div>
             </motion.div>
@@ -352,7 +353,7 @@ export default function Home() {
               className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5 mb-3"
               style={{ backgroundColor: '#0084FE' }}
             >
-              <span>1분만에 추천받기</span>
+              <span>바로 추천받기</span>
               <span className="px-2 py-0.5 bg-white/20 rounded-md text-xs font-bold flex items-center gap-1">
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
