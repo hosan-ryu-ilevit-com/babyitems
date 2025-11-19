@@ -23,6 +23,10 @@ import { products as ALL_PRODUCTS } from '@/data/products';
 import ProductListItem from '@/components/ProductListItem';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import { Product } from '@/types';
+import { ANCHOR_PRODUCTS, PROS_TAGS, CONS_TAGS, TAG_SELECTION_LIMITS } from '@/data/priorityTags';
+import { convertTagsToPriority } from '@/lib/utils/tagToPriority';
+import { generateTagContext } from '@/lib/utils/tagContext';
+import ProductTagCard from '@/components/ProductTagCard';
 
 // 가장 많이 선택된 조합 (디폴트)
 const DEFAULT_PRIORITY: PrioritySettings = {
@@ -40,12 +44,12 @@ type ChatMessage = {
   id: string;
   role: 'assistant' | 'user' | 'component';
   content: string;
-  componentType?: 'priority-selector' | 'budget-selector' | 'product-list';
+  componentType?: 'pros-selector' | 'cons-selector' | 'budget-selector' | 'product-list';
   typing?: boolean;
   extraMarginTop?: boolean; // Step 구분을 위한 추가 마진
 };
 
-type ChatStep = 1 | 2 | 3; // 1: 중요도, 2: 예산, 3: 대화
+type ChatStep = 1 | 2 | 3 | 4; // 1: 장점 선택, 2: 단점 선택, 3: 예산, 4: 제품 프리뷰
 
 // 마크다운 볼드 및 리스트 처리 함수 (Chat 페이지에서 가져옴)
 function formatMarkdown(text: string) {
@@ -137,7 +141,12 @@ function PriorityPageContent() {
   const [selectedAttribute, setSelectedAttribute] = useState<AttributeInfo | null>(null);
   const [guideBottomSheetOpen, setGuideBottomSheetOpen] = useState(false);
 
-  // Step 3 상태 (상품 리스트 및 추가 입력)
+  // Tag 선택 상태 (Step 1, 2)
+  const [selectedProsTags, setSelectedProsTags] = useState<string[]>([]);
+  const [selectedConsTags, setSelectedConsTags] = useState<string[]>([]);
+  const [anchorProducts, setAnchorProducts] = useState<Product[]>([]);
+
+  // Step 4 상태 (상품 리스트 및 추가 입력)
   const [filteredProducts, setFilteredProducts] = useState<ScoredProduct[]>([]);
   const [sortType, setSortType] = useState<'score' | 'price'>('score');
   const [hasUserInput, setHasUserInput] = useState(false);
@@ -155,6 +164,8 @@ function PriorityPageContent() {
       budget,
       customBudget,
       isCustomBudgetMode,
+      selectedProsTags,
+      selectedConsTags,
       filteredProducts,
       sortType,
       hasUserInput,
@@ -164,7 +175,7 @@ function PriorityPageContent() {
     };
     sessionStorage.setItem('babyitem_priority_conversation', JSON.stringify(state));
     console.log('💾 Priority 상태 저장됨 (스크롤:', state.scrollPosition, ')');
-  }, [messages, currentStep, prioritySettings, budget, customBudget, isCustomBudgetMode, filteredProducts, sortType, hasUserInput, additionalInput, showFloatingButtons]);
+  }, [messages, currentStep, prioritySettings, budget, customBudget, isCustomBudgetMode, selectedProsTags, selectedConsTags, filteredProducts, sortType, hasUserInput, additionalInput, showFloatingButtons]);
 
   // Priority 상태 복원 함수
   const loadPriorityState = () => {
@@ -207,24 +218,22 @@ function PriorityPageContent() {
       setGuideBottomSheetOpen(true);
     }
 
-    // URL 파라미터 체크: new=true이면 새로 시작
-    const isNewSession = searchParams.get('new') === 'true';
+    // Referrer 체크: 홈에서 온 경우 상태 클리어
+    const referrer = document.referrer;
+    const isFromHome = !referrer ||
+                       referrer.endsWith('/') ||
+                       (!referrer.includes('/priority') && !referrer.includes('/product-chat'));
 
-    if (isNewSession) {
-      console.log('🆕 새 세션 시작 (URL 파라미터) - 상태 클리어');
+    if (isFromHome) {
+      console.log('🏠 홈에서 진입 (referrer) - 상태 클리어');
       clearPriorityState();
-    } else {
-      // Referrer 체크: 홈에서 온 경우 상태 클리어
-      const referrer = document.referrer;
-      const isFromHome = !referrer ||
-                         referrer.endsWith('/') ||
-                         (!referrer.includes('/priority') && !referrer.includes('/product-chat'));
-
-      if (isFromHome) {
-        console.log('🏠 홈에서 진입 (referrer) - 상태 클리어');
-        clearPriorityState();
-      }
     }
+
+    // Anchor products 로드
+    const loadedAnchorProducts = ALL_PRODUCTS.filter(p =>
+      ANCHOR_PRODUCTS.some(anchor => anchor.id === p.id)
+    );
+    setAnchorProducts(loadedAnchorProducts);
 
     // 저장된 상태 복원 시도
     const savedState = loadPriorityState();
@@ -236,6 +245,8 @@ function PriorityPageContent() {
       setBudget(savedState.budget || DEFAULT_BUDGET);
       setCustomBudget(savedState.customBudget || '');
       setIsCustomBudgetMode(savedState.isCustomBudgetMode || false);
+      setSelectedProsTags(savedState.selectedProsTags || []);
+      setSelectedConsTags(savedState.selectedConsTags || []);
       setFilteredProducts(savedState.filteredProducts || []);
       setSortType(savedState.sortType || 'score');
       setHasUserInput(savedState.hasUserInput || false);
@@ -268,20 +279,20 @@ function PriorityPageContent() {
         {
           id: `msg-${Date.now()}-1`,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 핵심 구매 기준들의 중요도를 골라주세요!',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 **포기할 수 없는 장점**을 선택해주세요!',
           typing: true,
         },
         {
           id: `msg-${Date.now()}-2`,
           role: 'assistant',
-          content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
+          content: '최대 5개까지 선택할 수 있어요.',
           typing: true,
         },
         {
           id: `msg-${Date.now()}-3`,
           role: 'component',
           content: '',
-          componentType: 'priority-selector',
+          componentType: 'pros-selector',
         },
       ];
       setMessages(initialMessages);
@@ -304,7 +315,7 @@ function PriorityPageContent() {
     if (!isInitializedRef.current || messages.length === 0) return;
 
     savePriorityState();
-  }, [messages, currentStep, prioritySettings, budget, filteredProducts, hasUserInput, additionalInput, showFloatingButtons]);
+  }, [messages, currentStep, prioritySettings, budget, selectedProsTags, selectedConsTags, filteredProducts, hasUserInput, additionalInput, showFloatingButtons, savePriorityState]);
 
   // 메시지 추가 헬퍼
   const addMessage = (role: 'assistant' | 'user', content: string, withTyping = false) => {
@@ -322,7 +333,7 @@ function PriorityPageContent() {
   };
 
   // 컴포넌트 메시지 추가
-  const addComponentMessage = (componentType: 'priority-selector' | 'budget-selector' | 'product-list') => {
+  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'budget-selector' | 'product-list') => {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'component',
@@ -339,83 +350,113 @@ function PriorityPageContent() {
     }, 100);
   };
 
-  // 속성 선택 핸들러
-  const handlePrioritySelect = (attributeKey: string, level: PriorityLevel) => {
-    const highCount = Object.values(prioritySettings).filter(v => v === 'high').length;
-
-    if (level === 'high' && highCount >= 3 && prioritySettings[attributeKey as keyof PrioritySettings] !== 'high') {
-      return;
-    }
-
-    setPrioritySettings((prev) => ({
-      ...prev,
-      [attributeKey]: level,
-    }));
-
-    const levelText = level === 'high' ? '중요함' : level === 'medium' ? '보통' : '중요하지 않음';
-    logButtonClick(`우선순위 선택: ${levelText}`, 'priority', attributeKey);
+  // Tag 선택 핸들러
+  const handleProsTagToggle = (tagId: string) => {
+    setSelectedProsTags((prev) => {
+      if (prev.includes(tagId)) {
+        return prev.filter((id) => id !== tagId);
+      } else {
+        return [...prev, tagId];
+      }
+    });
+    logButtonClick(`장점 태그 선택: ${tagId}`, 'priority');
   };
 
-  // 교육 바텀시트 열기
-  const openBottomSheet = (attribute: AttributeInfo) => {
-    setSelectedAttribute(attribute);
-    setBottomSheetOpen(true);
-    logButtonClick(`교육 보기: ${attribute.name}`, 'priority');
+  const handleConsTagToggle = (tagId: string) => {
+    setSelectedConsTags((prev) => {
+      if (prev.includes(tagId)) {
+        return prev.filter((id) => id !== tagId);
+      } else {
+        return [...prev, tagId];
+      }
+    });
+    logButtonClick(`단점 태그 선택: ${tagId}`, 'priority');
   };
 
-  // Step 1 → Step 2
+  // Step 1 (Pros) → Step 2 (Cons)
   const handleStep1Next = () => {
-    const allSelected = isPriorityComplete(prioritySettings);
-    const highCount = Object.values(prioritySettings).filter(v => v === 'high').length;
-
-    if (!allSelected) {
-      alert('모든 속성의 중요도를 선택해주세요.');
+    if (selectedProsTags.length < TAG_SELECTION_LIMITS.pros.min) {
+      alert(`최소 ${TAG_SELECTION_LIMITS.pros.min}개의 장점을 선택해주세요.`);
       return;
     }
 
-    if (highCount < 1 || highCount > 3) {
-      alert("'중요함'은 1~3개만 선택할 수 있습니다.");
-      return;
-    }
-
-    logButtonClick('Step 1 → Step 2', 'priority');
+    logButtonClick('Step 1 → Step 2 (Pros → Cons)', 'priority');
     setCurrentStep(2);
 
     // Step 2 메시지 + 컴포넌트 동시에 추가 (extraMarginTop 추가)
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'assistant',
+      content: '좋아요! 이제 **절대 타협할 수 없는 단점**을 선택해주세요.',
+      typing: true,
+      extraMarginTop: true,
+    };
+    setMessages((prev) => [...prev, newMessage]);
+    setTypingMessageId(newMessage.id);
+
+    setTimeout(() => {
+      const newMessage2: ChatMessage = {
+        id: Date.now().toString() + Math.random(),
+        role: 'assistant',
+        content: '최대 4개까지 선택할 수 있어요. 없으면 건너뛰어도 됩니다.',
+        typing: true,
+      };
+      setMessages((prev) => [...prev, newMessage2]);
+      setTypingMessageId(newMessage2.id);
+
+      addComponentMessage('cons-selector');
+      setTimeout(() => scrollToBottom(), 300);
+    }, 500);
+  };
+
+  // Step 2 (Cons) → Step 3 (Budget)
+  const handleStep2Next = () => {
+    // 단점은 선택적이므로 validation 불필요
+    logButtonClick('Step 2 → Step 3 (Cons → Budget)', 'priority');
+    setCurrentStep(3);
+
+    // Priority 설정 자동 변환
+    const convertedPriority = convertTagsToPriority(selectedProsTags, selectedConsTags);
+    setPrioritySettings(convertedPriority);
+    console.log('✅ Priority 자동 변환:', convertedPriority);
+
+    // Step 3 메시지 + 컴포넌트 동시에 추가
+    const newMessage: ChatMessage = {
+      id: Date.now().toString() + Math.random(),
+      role: 'assistant',
       content: '좋아요! 이제 예산 범위를 선택해주세요. 💰',
       typing: true,
-      extraMarginTop: true, // Step 구분을 위한 추가 마진
+      extraMarginTop: true,
     };
     setMessages((prev) => [...prev, newMessage]);
     setTypingMessageId(newMessage.id);
 
     addComponentMessage('budget-selector');
-
-    // 스크롤만 약간의 딜레이 후에
     setTimeout(() => scrollToBottom(), 300);
   };
 
-  // Step 2 → Step 3
-  const handleStep2Next = () => {
+  // Step 3 (Budget) → Step 4 (Product Preview)
+  const handleStep3Next = () => {
     if (!budget) {
       alert('예산 범위를 선택해주세요.');
       return;
     }
 
-    logButtonClick('Step 2 -> Step 3', 'priority');
-    setCurrentStep(3);
+    logButtonClick('Step 3 → Step 4 (Budget → Product Preview)', 'priority');
+    setCurrentStep(4);
     setShowFloatingButtons(false); // 초기화
 
+    // 태그 컨텍스트 생성
+    const tagContext = generateTagContext(selectedProsTags, selectedConsTags);
+
     // 적합도 계산 및 Top 9 필터링 (3페이지 x 3개)
-    const top10 = calculateQuickTop10(ALL_PRODUCTS, prioritySettings, budget);
+    const top10 = calculateQuickTop10(ALL_PRODUCTS, prioritySettings, budget, tagContext);
     const top9 = top10.slice(0, 9);
     setFilteredProducts(top9);
-    console.log(`✅ Filtered top 9 products for Step 3`);
+    console.log(`✅ Filtered top 9 products for Step 4`);
+    console.log('📝 Tag context:', tagContext);
 
-    // Step 3 메시지 추가 - AI가 조건에 맞는 상품들을 찾았다고 말함
+    // Step 4 메시지 추가 - AI가 조건에 맞는 상품들을 찾았다고 말함
     addMessage('assistant', '조건에 맞는 상품들을 찾았어요! 🎉', true);
 
     setTimeout(() => {
@@ -424,7 +465,6 @@ function PriorityPageContent() {
       // 상품 리스트 컴포넌트 추가
       setTimeout(() => {
         addComponentMessage('product-list');
-        // Step 2와 동일한 스크롤 방식 사용
         setTimeout(() => scrollToBottom(), 200);
 
         // 플로팅 버튼 표시 (product-list 애니메이션 후)
@@ -525,7 +565,10 @@ function PriorityPageContent() {
       accuracy: 0,
       chatConversations: undefined,
       budget: budget,
-      // Step 3 데이터
+      // Tag 데이터
+      selectedProsTags: selectedProsTags,
+      selectedConsTags: selectedConsTags,
+      // Step 4 데이터
       additionalInput: additionalInput || undefined,
       top10Products: filteredProducts.length > 0 ? filteredProducts : undefined,
     };
@@ -553,7 +596,11 @@ function PriorityPageContent() {
       setInput('');
       setTypingMessageId(null);
 
-      // Step 3 상태 초기화
+      // Tag 상태 초기화
+      setSelectedProsTags([]);
+      setSelectedConsTags([]);
+
+      // Step 4 상태 초기화
       setFilteredProducts([]);
       setSortType('score');
       setHasUserInput(false);
@@ -567,28 +614,30 @@ function PriorityPageContent() {
         {
           id: `msg-${Date.now()}-1`,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 핵심 구매 기준들의 중요도를 골라주세요!',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n먼저 **포기할 수 없는 장점**을 선택해주세요!',
           typing: true,
         },
         {
           id: `msg-${Date.now()}-2`,
           role: 'assistant',
-          content: '**중요함**은 최대 3개까지 선택할 수 있어요.',
+          content: '최대 5개까지 선택할 수 있어요.',
           typing: true,
         },
         {
           id: `msg-${Date.now()}-3`,
           role: 'component',
           content: '',
-          componentType: 'priority-selector',
+          componentType: 'pros-selector',
         },
       ];
       setMessages(initialMessages);
     }
   };
 
-  const highPriorityCount = Object.values(prioritySettings).filter(v => v === 'high').length;
-  const isStep1Complete = isPriorityComplete(prioritySettings) && highPriorityCount >= 1 && highPriorityCount <= 3;
+  // Step 완료 조건
+  const isStep1Complete = selectedProsTags.length >= TAG_SELECTION_LIMITS.pros.min && selectedProsTags.length <= TAG_SELECTION_LIMITS.pros.max;
+  const isStep2Complete = true; // 단점은 선택적이므로 항상 완료
+  const isStep3Complete = !!budget;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -608,7 +657,7 @@ function PriorityPageContent() {
         </header>
 
         {/* Messages Area - Scrollable */}
-        <main ref={mainScrollRef} className="flex-1 px-6 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 3 ? '140px' : '100px' }}>
+        <main ref={mainScrollRef} className="flex-1 px-6 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 4 ? '140px' : '100px' }}>
           <div className="space-y-2">
             {messages.map((message) => {
               // Assistant 메시지
@@ -655,79 +704,103 @@ function PriorityPageContent() {
 
               // Component 메시지
               if (message.role === 'component') {
-                // Priority Selector (기존 컴포넌트 재사용)
-                if (message.componentType === 'priority-selector') {
+                // Pros Selector (Step 1)
+                if (message.componentType === 'pros-selector') {
                   return (
                     <motion.div
                       key={message.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4 }}
-                      className="w-full"
+                      className="w-full space-y-3"
                     >
-                      <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-4 ${currentStep >= 3 ? 'opacity-50 pointer-events-none' : ''}`}>
-                        {PRIORITY_ATTRIBUTES.map((attribute, index) => (
-                          <motion.div
-                            key={attribute.key}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: index * 0.05 }}
-                            className="bg-gray-50 rounded-2xl p-4"
-                          >
-                            {/* Attribute Header */}
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="flex items-center gap-2 flex-1 min-w-0">
-                                <span className="text-xl shrink-0">{ATTRIBUTE_ICONS[attribute.key]}</span>
-                                <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                                  <h3 className="text-sm font-bold text-gray-900 shrink-0">{attribute.name}</h3>
-                                  {/* 통계 태그 */}
-                                  {attribute.key === 'temperatureControl' && (
-                                    <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold whitespace-nowrap shrink-0" style={{ backgroundColor: '#EAF8F8', color: '#009896' }}>
-                                      87%가 중요함 선택
-                                    </span>
-                                  )}
-                                  {attribute.key === 'hygiene' && (
-                                    <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold whitespace-nowrap shrink-0" style={{ backgroundColor: '#EAF8F8', color: '#009896' }}>
-                                      74%가 중요함 선택
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                              <button
-                                onClick={() => openBottomSheet(attribute)}
-                                className="w-7 h-7 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center shrink-0"
-                              >
-                                <Question size={16} weight="bold" className="text-gray-400" />
-                              </button>
-                            </div>
+                      {ANCHOR_PRODUCTS.map((anchor, index) => {
+                        const product = anchorProducts.find((p) => p.id === anchor.id);
+                        if (!product) return null;
 
-                            {/* Button Group */}
-                            <div className="flex bg-white rounded-xl p-1 gap-1">
-                              <PriorityButton
-                                level="low"
-                                selected={prioritySettings[attribute.key as keyof PrioritySettings] === 'low'}
-                                onClick={() => handlePrioritySelect(attribute.key, 'low')}
-                              />
-                              <PriorityButton
-                                level="medium"
-                                selected={prioritySettings[attribute.key as keyof PrioritySettings] === 'medium'}
-                                onClick={() => handlePrioritySelect(attribute.key, 'medium')}
-                              />
-                              <PriorityButton
-                                level="high"
-                                selected={prioritySettings[attribute.key as keyof PrioritySettings] === 'high'}
-                                onClick={() => handlePrioritySelect(attribute.key, 'high')}
-                                disabled={highPriorityCount >= 3 && prioritySettings[attribute.key as keyof PrioritySettings] !== 'high'}
-                              />
-                            </div>
+                        // 해당 상품의 장점 태그들만 필터링
+                        const productProsTags = PROS_TAGS
+                          .filter((tag) => tag.sourceProduct === anchor.id)
+                          .map((tag) => ({ id: tag.id, text: tag.text }));
+
+                        const rankingLabel = anchor.type === 'ranking'
+                          ? '국민템 1위'
+                          : anchor.type === 'value'
+                          ? '가성비 1위'
+                          : '프리미엄 1위';
+
+                        return (
+                          <motion.div
+                            key={anchor.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.1 }}
+                          >
+                            <ProductTagCard
+                              product={product}
+                              tags={productProsTags}
+                              selectedTagIds={selectedProsTags}
+                              onTagToggle={handleProsTagToggle}
+                              type="pros"
+                              disabled={currentStep >= 2}
+                              label={rankingLabel}
+                            />
                           </motion.div>
-                        ))}
-                      </div>
+                        );
+                      })}
                     </motion.div>
                   );
                 }
 
-                // Budget Selector (기존 컴포넌트 재사용)
+                // Cons Selector (Step 2)
+                if (message.componentType === 'cons-selector') {
+                  return (
+                    <motion.div
+                      key={message.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="w-full space-y-3"
+                    >
+                      {ANCHOR_PRODUCTS.map((anchor, index) => {
+                        const product = anchorProducts.find((p) => p.id === anchor.id);
+                        if (!product) return null;
+
+                        // 해당 상품의 단점 태그들만 필터링
+                        const productConsTags = CONS_TAGS
+                          .filter((tag) => tag.sourceProduct === anchor.id)
+                          .map((tag) => ({ id: tag.id, text: tag.text }));
+
+                        const rankingLabel = anchor.type === 'ranking'
+                          ? '국민템 1위'
+                          : anchor.type === 'value'
+                          ? '가성비 1위'
+                          : '프리미엄 1위';
+
+                        return (
+                          <motion.div
+                            key={anchor.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.1 }}
+                          >
+                            <ProductTagCard
+                              product={product}
+                              tags={productConsTags}
+                              selectedTagIds={selectedConsTags}
+                              onTagToggle={handleConsTagToggle}
+                              type="cons"
+                              disabled={currentStep >= 3}
+                              label={rankingLabel}
+                            />
+                          </motion.div>
+                        );
+                      })}
+                    </motion.div>
+                  );
+                }
+
+                // Budget Selector
                 if (message.componentType === 'budget-selector') {
                   return (
                     <motion.div
@@ -737,7 +810,7 @@ function PriorityPageContent() {
                       transition={{ duration: 0.4 }}
                       className="w-full"
                     >
-                      <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-3 ${currentStep >= 3 ? 'opacity-50 pointer-events-none' : ''}`}>
+                      <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-3 ${currentStep >= 4 ? 'opacity-50 pointer-events-none' : ''}`}>
                         <div className="flex items-center gap-2 mb-4">
                           <span className="text-xl">💰</span>
                           <h3 className="text-sm font-bold text-gray-900">예산</h3>
@@ -955,7 +1028,7 @@ function PriorityPageContent() {
 
         {/* Bottom Area - Fixed */}
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
-          {/* Step 1: 다음 버튼 */}
+          {/* Step 1: Pros 선택 - 다음 버튼 */}
           {currentStep === 1 && (
             <motion.button
               whileHover={isStep1Complete ? { scale: 1.02 } : {}}
@@ -972,8 +1045,8 @@ function PriorityPageContent() {
             </motion.button>
           )}
 
-          {/* Step 2: 다음 버튼 */}
-          {currentStep === 2 && budget && (
+          {/* Step 2: Cons 선택 - 다음 버튼 (항상 활성화) */}
+          {currentStep === 2 && (
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -984,8 +1057,20 @@ function PriorityPageContent() {
             </motion.button>
           )}
 
-          {/* Step 3: 입력 bar + 없어요 버튼 + 추천하기 버튼 */}
-          {currentStep === 3 && showFloatingButtons && (
+          {/* Step 3: Budget 선택 - 다음 버튼 */}
+          {currentStep === 3 && budget && (
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleStep3Next}
+              className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all"
+            >
+              다음
+            </motion.button>
+          )}
+
+          {/* Step 4: 입력 bar + 없어요 버튼 + 추천하기 버튼 */}
+          {currentStep === 4 && showFloatingButtons && (
             <div className="space-y-3">
               {/* 입력창 + 없어요 버튼 (1회만 표시) */}
               {!hasUserInput && (

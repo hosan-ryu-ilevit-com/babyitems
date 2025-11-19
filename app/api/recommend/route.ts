@@ -7,6 +7,7 @@ import { loadAllProducts } from '@/lib/data/productLoader';
 import { selectTopProducts, filterByBudget } from '@/lib/filtering/initialFilter';
 import { calculateAndRankProducts, selectTop3 } from '@/lib/filtering/scoreCalculator';
 import { Message, PrioritySettings, BudgetRange, AttributeConversation, UserContextSummary } from '@/types';
+import { generateTagContext } from '@/lib/utils/tagContext';
 
 /**
  * POST /api/recommend
@@ -28,7 +29,9 @@ export async function POST(request: NextRequest) {
     budget,
     isQuickRecommendation,
     phase0Context,
-    existingContextSummary
+    existingContextSummary,
+    selectedProsTags,
+    selectedConsTags
   } = body as {
     messages: Message[];
     attributeAssessments?: Record<string, string | null>;
@@ -38,6 +41,8 @@ export async function POST(request: NextRequest) {
     chatConversations?: AttributeConversation[];
     phase0Context?: string;
     existingContextSummary?: UserContextSummary;
+    selectedProsTags?: string[];
+    selectedConsTags?: string[];
   };
 
   const encoder = new TextEncoder();
@@ -112,12 +117,18 @@ export async function POST(request: NextRequest) {
           console.log('📊 Using Priority-based persona generation (with optional chat enhancement)');
           sendProgress('persona', 10, '선택하신 기준을 분석하고 있습니다...');
 
-          // Chat 이력 + phase0Context 준비 (있으면)
+          // Chat 이력 + phase0Context + tagContext 준비 (있으면)
           let chatHistory: string | undefined;
           if (messages && messages.length > 0) {
             chatHistory = messages
               .map((msg: Message) => `${msg.role === 'user' ? '사용자' : 'AI'}: ${msg.content}`)
               .join('\n\n');
+          }
+
+          // 태그 컨텍스트를 chatHistory에 포함 (있으면 맨 앞에 추가)
+          if (selectedProsTags && selectedProsTags.length > 0) {
+            const tagContext = generateTagContext(selectedProsTags, selectedConsTags || []);
+            chatHistory = chatHistory ? `${tagContext}\n\n${chatHistory}` : tagContext;
           }
 
           // phase0Context를 chatHistory에 포함 (있으면 맨 앞에 추가)

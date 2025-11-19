@@ -344,6 +344,8 @@ export default function ResultPage() {
           phase0Context: session.phase0Context,
           additionalInput: session.additionalInput, // 추가 입력 전달 (Step 3)
           existingContextSummary: session.contextSummary, // 기존 contextSummary 전달
+          selectedProsTags: session.selectedProsTags, // 선택된 장점 태그
+          selectedConsTags: session.selectedConsTags, // 선택된 단점 태그
         }),
       });
 

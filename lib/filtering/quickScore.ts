@@ -107,12 +107,14 @@ export interface ScoredProduct extends Product {
  * @param allProducts - 전체 제품 리스트
  * @param prioritySettings - 사용자가 선택한 Priority 설정
  * @param budget - 예산 범위
+ * @param tagContext - 선택된 장점/단점 태그 컨텍스트 (optional, 세션 저장용)
  * @returns Top 10 scored products
  */
 export function calculateQuickTop10(
   allProducts: Product[],
   prioritySettings: PrioritySettings,
-  budget: BudgetRange
+  budget: BudgetRange,
+  tagContext?: string
 ): ScoredProduct[] {
   console.log('🚀 Quick Score: Calculating top 10 products...');
   console.log('  Priority settings:', prioritySettings);

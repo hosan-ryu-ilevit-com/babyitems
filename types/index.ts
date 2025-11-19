@@ -89,6 +89,9 @@ export interface UserPersona {
   budget?: number;                // 예산 (optional)
 }
 
+// Core attribute keys type
+export type CoreAttributeKey = keyof CoreValues;
+
 // User context summary for result page display
 export interface UserContextSummary {
   priorityAttributes: {
@@ -192,6 +195,10 @@ export interface SessionState {
   // Step 3 (Product Preview) fields
   additionalInput?: string;             // Step 3에서 사용자가 입력한 추가 정보
   top10Products?: Product[];            // Step 3에서 필터링된 상위 10개 제품
+
+  // Tag-based selection (New Priority flow)
+  selectedProsTags?: string[];          // 선택된 장점 태그 IDs
+  selectedConsTags?: string[];          // 선택된 단점 태그 IDs
 }
 
 // Gemini API request/response types

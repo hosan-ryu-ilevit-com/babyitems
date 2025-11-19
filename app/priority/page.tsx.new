@@ -1,0 +1,466 @@
+'use client';
+
+import { useState, useEffect, Suspense } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { CaretLeft, ArrowRight } from '@phosphor-icons/react/dist/ssr';
+import Link from 'next/link';
+import { PrioritySettings, BudgetRange, Product } from '@/types';
+import {
+  loadSession,
+  saveSession,
+  savePrioritySettings,
+  setQuickRecommendation
+} from '@/lib/utils/session';
+import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import { calculateQuickTop10 } from '@/lib/filtering/quickScore';
+import { products as ALL_PRODUCTS } from '@/data/products';
+import { ANCHOR_PRODUCTS, PROS_TAGS, CONS_TAGS, TAG_SELECTION_LIMITS } from '@/data/priorityTags';
+import { convertTagsToPriority, validateTagSelection } from '@/lib/utils/tagToPriority';
+import { generateTagContext } from '@/lib/utils/tagContext';
+import ProgressSteps from '@/components/ProgressSteps';
+import AnchorProductCard from '@/components/AnchorProductCard';
+import TagSelector from '@/components/TagSelector';
+import ProductListItem from '@/components/ProductListItem';
+import ProductBottomSheet from '@/components/ProductBottomSheet';
+
+type StepNumber = 1 | 2 | 3 | 4;
+
+const BUDGET_OPTIONS: { value: BudgetRange; label: string; description: string }[] = [
+  { value: '0-50000', label: '5만원 이하', description: '기본 보온 기능 중심' },
+  { value: '50000-100000', label: '5~10만원', description: '좋은 소재와 편의 기능' },
+  { value: '100000-150000', label: '10~15만원', description: '프리미엄 기능 및 구성품' },
+  { value: '150000+', label: '15만원 이상', description: '최고급 제품' }
+];
+
+function PriorityPageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isNewSession = searchParams?.get('new') === 'true';
+
+  const [currentStep, setCurrentStep] = useState<StepNumber>(1);
+  const [selectedProsTags, setSelectedProsTags] = useState<string[]>([]);
+  const [selectedConsTags, setSelectedConsTags] = useState<string[]>([]);
+  const [budget, setBudget] = useState<BudgetRange>('50000-100000');
+  const [customBudget, setCustomBudget] = useState('');
+  const [isCustomBudgetMode, setIsCustomBudgetMode] = useState(false);
+  const [additionalInput, setAdditionalInput] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  // 앵커 제품 로드
+  const anchorProducts = ANCHOR_PRODUCTS.map(anchor => {
+    const product = ALL_PRODUCTS.find(p => p.id === anchor.id);
+    return product ? { ...anchor, product } : null;
+  }).filter(Boolean) as Array<typeof ANCHOR_PRODUCTS[0] & { product: Product }>;
+
+  // 페이지 로드 시 세션 복구
+  useEffect(() => {
+    logPageView('priority');
+
+    if (isNewSession) {
+      // 새 세션 시작
+      const session = loadSession();
+      session.phase = 'priority';
+      session.selectedProsTags = [];
+      session.selectedConsTags = [];
+      session.prioritySettings = undefined;
+      session.budget = undefined;
+      session.additionalInput = undefined;
+      session.top10Products = undefined;
+      saveSession(session);
+    } else {
+      // 기존 세션 복구
+      const session = loadSession();
+      if (session.selectedProsTags) {
+        setSelectedProsTags(session.selectedProsTags);
+      }
+      if (session.selectedConsTags) {
+        setSelectedConsTags(session.selectedConsTags);
+      }
+      if (session.budget) {
+        setBudget(session.budget);
+      }
+      if (session.additionalInput) {
+        setAdditionalInput(session.additionalInput);
+      }
+      if (session.top10Products) {
+        setFilteredProducts(session.top10Products);
+      }
+
+      // 진행 상태에 따라 step 복구
+      if (session.top10Products) {
+        setCurrentStep(4);
+      } else if (session.budget) {
+        setCurrentStep(3);
+      } else if (session.selectedConsTags && session.selectedConsTags.length > 0) {
+        setCurrentStep(2);
+      }
+    }
+  }, [isNewSession]);
+
+  // 세션 자동 저장
+  useEffect(() => {
+    const session = loadSession();
+    session.selectedProsTags = selectedProsTags;
+    session.selectedConsTags = selectedConsTags;
+    session.budget = budget;
+    session.additionalInput = additionalInput;
+    session.top10Products = filteredProducts.length > 0 ? filteredProducts : undefined;
+    saveSession(session);
+  }, [selectedProsTags, selectedConsTags, budget, additionalInput, filteredProducts]);
+
+  // Step 1 → 2: 장점 선택 완료
+  const handleStep1Next = () => {
+    if (selectedProsTags.length < TAG_SELECTION_LIMITS.pros.min) {
+      alert(`최소 ${TAG_SELECTION_LIMITS.pros.min}개의 장점을 선택해주세요.`);
+      return;
+    }
+
+    logButtonClick('step1_next', { selectedCount: selectedProsTags.length });
+    setCurrentStep(2);
+  };
+
+  // Step 2 → 3: 단점 선택 완료 (optional)
+  const handleStep2Next = () => {
+    logButtonClick('step2_next', { selectedCount: selectedConsTags.length });
+    setCurrentStep(3);
+  };
+
+  // Step 3 → 4: 예산 선택 완료
+  const handleStep3Next = () => {
+    if (!budget) {
+      alert('예산을 선택해주세요.');
+      return;
+    }
+
+    // 태그를 priority로 변환
+    const prioritySettings = convertTagsToPriority(selectedProsTags, selectedConsTags);
+    savePrioritySettings(prioritySettings);
+
+    // Top 10 계산
+    const tagContext = generateTagContext(selectedProsTags, selectedConsTags);
+    const top10 = calculateQuickTop10(ALL_PRODUCTS, prioritySettings, budget, tagContext);
+    setFilteredProducts(top10.slice(0, 9)); // Top 9만 표시
+
+    logButtonClick('step3_next', { budget });
+    setCurrentStep(4);
+  };
+
+  // Step 4: 추천 받기
+  const handleFinalSubmit = () => {
+    setQuickRecommendation();
+
+    const session = loadSession();
+    session.additionalInput = additionalInput;
+    saveSession(session);
+
+    logButtonClick('quick_recommend_from_priority', {
+      prosCount: selectedProsTags.length,
+      consCount: selectedConsTags.length,
+      budget,
+      hasAdditionalInput: additionalInput.length > 0
+    });
+
+    router.push('/result');
+  };
+
+  // 장점 태그 토글
+  const toggleProsTag = (tagId: string) => {
+    setSelectedProsTags(prev =>
+      prev.includes(tagId)
+        ? prev.filter(id => id !== tagId)
+        : [...prev, tagId]
+    );
+  };
+
+  // 단점 태그 토글
+  const toggleConsTag = (tagId: string) => {
+    setSelectedConsTags(prev =>
+      prev.includes(tagId)
+        ? prev.filter(id => id !== tagId)
+        : [...prev, tagId]
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-white flex flex-col">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div className="max-w-[480px] mx-auto px-4 py-4 flex items-center gap-3">
+          <Link href="/">
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <CaretLeft size={24} weight="bold" />
+            </button>
+          </Link>
+          <h1 className="text-lg font-bold text-gray-800">맞춤 추천 받기</h1>
+        </div>
+      </header>
+
+      {/* Progress Steps */}
+      <div className="fixed top-[72px] left-0 right-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+        <div className="max-w-[480px] mx-auto">
+          <ProgressSteps currentStep={currentStep} />
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="flex-1 max-w-[480px] mx-auto w-full px-4 pb-32" style={{ paddingTop: '180px' }}>
+        <AnimatePresence mode="wait">
+          {/* Step 1: 장점 선택 */}
+          {currentStep === 1 && (
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="space-y-6"
+            >
+              <div className="space-y-2">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  어떤 장점이<br />가장 중요하신가요?
+                </h2>
+                <p className="text-gray-600">
+                  대표 제품들의 장점 중 포기할 수 없는 것을 선택해주세요
+                </p>
+              </div>
+
+              {/* 앵커 제품 소개 */}
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-gray-700">대표 제품 3가지</p>
+                {anchorProducts.map(({ product, type, label, description }) => (
+                  <AnchorProductCard
+                    key={product.id}
+                    product={product}
+                    type={type}
+                    label={label}
+                    description={description}
+                  />
+                ))}
+              </div>
+
+              {/* 장점 태그 선택 */}
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-gray-700">
+                  포기할 수 없는 장점 선택
+                </p>
+                <TagSelector
+                  tags={PROS_TAGS.map(t => ({ id: t.id, text: t.text }))}
+                  selectedIds={selectedProsTags}
+                  onToggle={toggleProsTag}
+                  maxSelection={TAG_SELECTION_LIMITS.pros.max}
+                  minSelection={TAG_SELECTION_LIMITS.pros.min}
+                  type="pros"
+                />
+              </div>
+            </motion.div>
+          )}
+
+          {/* Step 2: 단점 선택 */}
+          {currentStep === 2 && (
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="space-y-6"
+            >
+              <div className="space-y-2">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  절대 타협할 수 없는<br />단점이 있나요?
+                </h2>
+                <p className="text-gray-600">
+                  이런 단점만은 피하고 싶다면 선택해주세요 (선택 안 해도 OK)
+                </p>
+              </div>
+
+              {/* 단점 태그 선택 */}
+              <TagSelector
+                tags={CONS_TAGS.map(t => ({ id: t.id, text: t.text }))}
+                selectedIds={selectedConsTags}
+                onToggle={toggleConsTag}
+                maxSelection={TAG_SELECTION_LIMITS.cons.max}
+                minSelection={TAG_SELECTION_LIMITS.cons.min}
+                type="cons"
+              />
+            </motion.div>
+          )}
+
+          {/* Step 3: 예산 선택 */}
+          {currentStep === 3 && (
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="space-y-6"
+            >
+              <div className="space-y-2">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  생각하신 예산은<br />어느 정도인가요?
+                </h2>
+                <p className="text-gray-600">
+                  예산에 맞는 제품을 추천해드릴게요
+                </p>
+              </div>
+
+              {/* 예산 옵션 */}
+              <div className="space-y-3">
+                {BUDGET_OPTIONS.map((option) => (
+                  <motion.button
+                    key={option.value}
+                    onClick={() => {
+                      setBudget(option.value);
+                      setIsCustomBudgetMode(false);
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`
+                      w-full px-5 py-4 rounded-xl border-2 text-left
+                      transition-all duration-200
+                      ${
+                        budget === option.value && !isCustomBudgetMode
+                          ? 'bg-cyan-500 text-white border-cyan-500'
+                          : 'bg-white text-gray-800 border-gray-300 hover:border-cyan-300'
+                      }
+                    `}
+                  >
+                    <div className="font-bold text-lg mb-1">{option.label}</div>
+                    <div className={`text-sm ${budget === option.value && !isCustomBudgetMode ? 'text-cyan-100' : 'text-gray-500'}`}>
+                      {option.description}
+                    </div>
+                  </motion.button>
+                ))}
+
+                {/* 커스텀 예산 입력 */}
+                <div className="pt-2">
+                  <input
+                    type="number"
+                    placeholder="또는 직접 입력 (예: 75000)"
+                    value={customBudget}
+                    onChange={(e) => {
+                      setCustomBudget(e.target.value);
+                      if (e.target.value) {
+                        setBudget(e.target.value);
+                        setIsCustomBudgetMode(true);
+                      }
+                    }}
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-cyan-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Step 4: 제품 프리뷰 */}
+          {currentStep === 4 && (
+            <motion.div
+              key="step4"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="space-y-6"
+            >
+              <div className="space-y-2">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  이런 제품들이<br />후보에 올랐어요!
+                </h2>
+                <p className="text-gray-600">
+                  선택하신 조건에 맞는 상위 9개 제품이에요
+                </p>
+              </div>
+
+              {/* 제품 그리드 */}
+              <div className="grid grid-cols-3 gap-3">
+                {filteredProducts.map((product, index) => (
+                  <div key={product.id} onClick={() => setSelectedProduct(product)}>
+                    <ProductListItem
+                      product={product}
+                      index={index}
+                      showScore={false}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* 추가 입력 (optional) */}
+              <div className="space-y-3 pt-4">
+                <p className="text-sm font-medium text-gray-700">
+                  추가로 고려할 사항이 있나요? (선택)
+                </p>
+                <textarea
+                  value={additionalInput}
+                  onChange={(e) => setAdditionalInput(e.target.value)}
+                  placeholder="예: 쌍둥이라 용량이 큰 게 좋아요"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-cyan-500 focus:outline-none resize-none"
+                  rows={3}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
+
+      {/* Bottom Button */}
+      <div className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200 p-4">
+        <div className="max-w-[480px] mx-auto flex gap-3">
+          {/* Back Button */}
+          {currentStep > 1 && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              onClick={() => setCurrentStep((prev) => (prev - 1) as StepNumber)}
+              className="px-6 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-bold hover:bg-gray-50 transition-colors"
+            >
+              이전
+            </motion.button>
+          )}
+
+          {/* Next Button */}
+          <motion.button
+            whileTap={{ scale: 0.98 }}
+            onClick={() => {
+              if (currentStep === 1) handleStep1Next();
+              else if (currentStep === 2) handleStep2Next();
+              else if (currentStep === 3) handleStep3Next();
+              else if (currentStep === 4) handleFinalSubmit();
+            }}
+            disabled={
+              (currentStep === 1 && selectedProsTags.length < TAG_SELECTION_LIMITS.pros.min) ||
+              (currentStep === 3 && !budget)
+            }
+            className={`
+              flex-1 px-6 py-4 rounded-xl font-bold
+              flex items-center justify-center gap-2
+              transition-all duration-200
+              ${
+                (currentStep === 1 && selectedProsTags.length < TAG_SELECTION_LIMITS.pros.min) ||
+                (currentStep === 3 && !budget)
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-cyan-500 text-white hover:bg-cyan-600'
+              }
+            `}
+          >
+            {currentStep === 4 ? '추천 받기' : '다음'}
+            <ArrowRight size={20} weight="bold" />
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Product Bottom Sheet */}
+      {selectedProduct && (
+        <ProductBottomSheet
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+export default function PriorityPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PriorityPageContent />
+    </Suspense>
+  );
+}
