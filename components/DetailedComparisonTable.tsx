@@ -108,7 +108,7 @@ export default function DetailedComparisonTable({ recommendations, cachedFeature
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="comparison-table-section bg-white rounded-2xl p-5 border border-white mb-8"
+      className="comparison-table-section bg-white rounded-2xl p-5 border border-gray-100 mb-8"
     >
       {/* <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한 눈에 비교</h3> */}
 

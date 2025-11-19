@@ -60,7 +60,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
       layout
-      className="bg-white rounded-2xl p-4 border border-white"
+      className="bg-white rounded-2xl p-4 border border-gray-100"
     >
       {/* 헤더 - 클릭 가능 */}
       <button
