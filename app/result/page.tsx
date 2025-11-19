@@ -622,24 +622,26 @@ export default function ResultPage() {
   return (
     <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#FCFCFC' }}>
       <div className="relative w-full max-w-[480px] min-h-screen flex flex-col" style={{ backgroundColor: '#FCFCFC' }}>
-        {/* Header */}
-        <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
-          <div className="flex items-center justify-between">
-            <h1 className="text-base font-bold text-gray-900">추천 결과</h1>
-            <button
-              onClick={() => {
-                logButtonClick('다시하기', 'result');
-                clearSession(); // 세션 완전 초기화
-                router.push('/');
-              }}
-              className="text-sm text-gray-600 hover:text-gray-900 font-medium"
-            >
-             처음으로
-            </button>
-          </div>
-        </header>
+        {/* Header - 로딩 중에는 숨김 */}
+        {!loading && (
+          <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
+            <div className="flex items-center justify-between">
+              <h1 className="text-base font-bold text-gray-900">추천 결과</h1>
+              <button
+                onClick={() => {
+                  logButtonClick('다시하기', 'result');
+                  clearSession(); // 세션 완전 초기화
+                  router.push('/');
+                }}
+                className="text-sm text-gray-600 hover:text-gray-900 font-medium"
+              >
+               처음으로
+              </button>
+            </div>
+          </header>
+        )}
 
-      
+
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto px-4">

@@ -67,7 +67,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
         onClick={toggleMainExpanded}
         className="w-full flex items-center justify-between"
       >
-        <h3 className="text-base font-bold text-gray-900">📝 내 구매 기준</h3>
+        <h3 className="text-base font-semibold text-gray-900">내 구매 기준</h3>
         <span className="text-xs font-medium px-2.5 py-2 rounded-full bg-gray-100 text-gray-600">
           {isMainExpanded ? '접기' : '펼치기'}
         </span>

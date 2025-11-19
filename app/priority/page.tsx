@@ -373,7 +373,10 @@ function PriorityPageContent() {
         return [...prev, tagId];
       }
     });
-    logButtonClick(`장점 태그 선택: ${tagId}`, 'priority');
+    // 태그 텍스트 찾아서 로깅
+    const tag = PROS_TAGS.find(t => t.id === tagId);
+    const tagText = tag?.text || tagId;
+    logButtonClick(`장점 태그 선택: ${tagText}`, 'priority');
   };
 
   const handleConsTagToggle = (tagId: string) => {
@@ -384,7 +387,10 @@ function PriorityPageContent() {
         return [...prev, tagId];
       }
     });
-    logButtonClick(`단점 태그 선택: ${tagId}`, 'priority');
+    // 태그 텍스트 찾아서 로깅
+    const tag = CONS_TAGS.find(t => t.id === tagId);
+    const tagText = tag?.text || tagId;
+    logButtonClick(`단점 태그 선택: ${tagText}`, 'priority');
   };
 
   const handleAdditionalTagToggle = (tagId: string) => {
@@ -399,7 +405,10 @@ function PriorityPageContent() {
         return [...prev, tagId];
       }
     });
-    logButtonClick(`추가 고려사항 태그 선택: ${tagId}`, 'priority');
+    // 태그 텍스트 찾아서 로깅
+    const tag = ADDITIONAL_TAGS.find(t => t.id === tagId);
+    const tagText = tag?.text || tagId;
+    logButtonClick(`추가 고려사항 태그 선택: ${tagText}`, 'priority');
   };
 
   // Step 1 (Pros) → Step 2 (Cons)
