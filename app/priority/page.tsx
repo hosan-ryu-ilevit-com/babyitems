@@ -635,7 +635,7 @@ function PriorityPageContent() {
   };
 
   // Step 완료 조건
-  const isStep1Complete = selectedProsTags.length >= TAG_SELECTION_LIMITS.pros.min && selectedProsTags.length <= TAG_SELECTION_LIMITS.pros.max;
+  const isStep1Complete = selectedProsTags.length >= TAG_SELECTION_LIMITS.pros.min; // 최소값만 체크, 최대값은 태그 자체에서 제어
   const isStep2Complete = true; // 단점은 선택적이므로 항상 완료
   const isStep3Complete = !!budget;
 

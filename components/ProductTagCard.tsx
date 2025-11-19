@@ -30,14 +30,20 @@ export default function ProductTagCard({
 }: ProductTagCardProps) {
   const isTagSelected = (tagId: string) => selectedTagIds.includes(tagId);
 
+  // 최대 선택 제한 체크
+  const maxSelections = type === 'pros' ? 5 : 4;
+  const isMaxReached = selectedTagIds.length >= maxSelections;
+
   const tagColors = type === 'pros'
     ? {
-        selected: 'bg-emerald-100 text-emerald-700 border border-emerald-300',
-        unselected: 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+        selected: 'bg-emerald-100 text-emerald-700 border-emerald-300',
+        unselected: 'bg-gray-100 text-gray-400 hover:bg-gray-200 border-transparent',
+        disabled: 'bg-gray-50 text-gray-300 border-transparent opacity-70 cursor-not-allowed'
       }
     : {
-        selected: 'bg-red-100 text-red-700 border border-red-300',
-        unselected: 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+        selected: 'bg-red-100 text-red-700 border-red-300',
+        unselected: 'bg-gray-100 text-gray-400 hover:bg-gray-200 border-transparent',
+        disabled: 'bg-gray-50 text-gray-300 border-transparent opacity-70 cursor-not-allowed'
       };
 
   return (
@@ -57,17 +63,17 @@ export default function ProductTagCard({
             className="object-cover"
             sizes="64px"
           />
-          {/* 랭킹 라벨 */}
-          {label && (
-            <div className="absolute top-1 left-1 bg-black/70 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
-              {label}
-            </div>
-          )}
         </div>
 
         {/* 제품명, 가격, 리뷰수 */}
         <div className="flex-1 min-w-0">
-          <h4 className="text-sm font-semibold text-gray-800 line-clamp-2 mb-1">
+          {/* 랭킹 라벨 */}
+          {label && (
+            <span className="inline-block bg-black/70 text-white text-[9px] font-bold px-1.5 py-0.5 rounded mb-1">
+              {label}
+            </span>
+          )}
+          <h4 className="text-sm font-semibold text-gray-800 line-clamp-1 mb-1">
             {product.title}
           </h4>
           <div className="flex items-baseline gap-2">
@@ -82,17 +88,20 @@ export default function ProductTagCard({
       </div>
 
       {/* 태그 목록 */}
-      <div className="overflow-x-auto scrollbar-hide max-h-[4.5rem]">
-        <div className="flex flex-wrap gap-2">
+      <div className="overflow-x-auto overflow-y-hidden scrollbar-hide">
+        <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-2">
           {tags.map((tag) => {
             const selected = isTagSelected(tag.id);
+            const isDisabled = !selected && isMaxReached;
+
             return (
               <button
                 key={tag.id}
-                onClick={() => onTagToggle(tag.id)}
+                onClick={() => !isDisabled && onTagToggle(tag.id)}
+                disabled={isDisabled}
                 className={`
-                  px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap
-                  ${selected ? tagColors.selected : tagColors.unselected}
+                  px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap border
+                  ${selected ? tagColors.selected : isDisabled ? tagColors.disabled : tagColors.unselected}
                 `}
               >
                 {tag.text}
