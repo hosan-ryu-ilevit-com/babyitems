@@ -56,10 +56,83 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { messages, phase, action, attributeName, phase0Context, attributeDetails, conversationHistory, currentTurn, prioritySettings } = body;
 
-    // Priority 요약 메시지 생성
-    if (action === 'generate_priority_summary' && prioritySettings) {
-      const summary = generatePrioritySummary(prioritySettings, phase0Context);
-      return NextResponse.json({ summary });
+    // Priority 요약 메시지 생성 (신규 태그 기반)
+    if (action === 'generate_priority_summary') {
+      const { prosTexts, consTexts, additionalTexts, budgetText } = body;
+
+      // 태그 기반 요약 생성 (신규)
+      if (prosTexts || consTexts || additionalTexts) {
+        try {
+          const prompt = `사용자가 분유포트를 선택할 때 중요하게 생각하는 조건들을 간결한 리스트로 정리해주세요.
+
+**선택한 장점** (포기할 수 없는 장점):
+${prosTexts && prosTexts.length > 0 ? prosTexts.map((t: string) => `- ${t}`).join('\n') : '(없음)'}
+
+**선택한 단점** (절대 타협할 수 없는 단점):
+${consTexts && consTexts.length > 0 ? consTexts.map((t: string) => `- ${t}`).join('\n') : '(없음)'}
+
+**추가 고려사항**:
+${additionalTexts && additionalTexts.length > 0 ? additionalTexts.map((t: string) => `- ${t}`).join('\n') : '(없음)'}
+
+**예산**: ${budgetText}
+
+요구사항:
+1. 인사말이나 서론 없이 바로 리스트만 출력
+2. "**중요하게 생각하시는 점**"과 "**예산**" 섹션으로 구분
+3. 각 항목은 최대한 짧고 간결하게 (한 줄)
+4. 어려운 용어는 쉽게 풀어서 설명 (예: "정밀한 온도 설정" → "1도 단위로 온도 조절")
+5. ~입니다, ~원하십니다 같은 딱딱한 문체 대신 간결한 표현 사용
+6. 마크다운 리스트 형식 (-)만 사용
+7. 이모지 사용 금지
+
+좋은 예시:
+**주요 구매 조건**
+- 1도 단위로 온도 조절 가능
+- 물 끓이는 소리가 조용함
+- 스테인리스 소재로 안전함
+
+**예산**
+- 5~10만원
+
+나쁜 예시 (이렇게 작성하지 마세요):
+고객님께서 중요하게 생각하시는 점을 정리해드렸습니다!
+- 1도 단위의 정밀한 온도 설정 기능은 필수입니다.
+- 쿨링팬 작동이나 버튼 조작 시 발생하는 소음이 없는 제품을 원하십니다.`;
+
+          const aiResponse = await generateAIResponse(prompt, [
+            {
+              role: 'user',
+              parts: [{ text: prompt }],
+            },
+          ]);
+
+          const summary = aiResponse.trim();
+          return NextResponse.json({ summary });
+        } catch (error) {
+          console.error('LLM 요약 생성 실패:', error);
+          // Fallback: 단순 리스트 생성
+          let fallbackSummary = '**중요하게 생각하시는 점**\n';
+          if (prosTexts && prosTexts.length > 0) {
+            prosTexts.forEach((t: string) => fallbackSummary += `- ${t}\n`);
+          }
+          if (consTexts && consTexts.length > 0) {
+            fallbackSummary += '\n**피하고 싶은 점**\n';
+            consTexts.forEach((t: string) => fallbackSummary += `- ${t}\n`);
+          }
+          if (additionalTexts && additionalTexts.length > 0) {
+            fallbackSummary += '\n**추가 고려사항**\n';
+            additionalTexts.forEach((t: string) => fallbackSummary += `- ${t}\n`);
+          }
+          fallbackSummary += `\n**예산**\n- ${budgetText}`;
+          return NextResponse.json({ summary: fallbackSummary });
+        }
+      }
+
+      // 기존 prioritySettings 기반 요약 (호환성 유지)
+      if (prioritySettings) {
+        const summary = generatePrioritySummary(prioritySettings, phase0Context);
+        return NextResponse.json({ summary });
+      }
     }
 
     // 자연어 예산 파싱

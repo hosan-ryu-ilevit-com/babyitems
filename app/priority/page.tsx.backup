@@ -18,13 +18,14 @@ import {
   isPriorityComplete
 } from '@/lib/utils/session';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
-import { ScoredProduct, sortByPrice, sortByScore } from '@/lib/filtering/quickScore';
+import { ScoredProduct, calculateQuickTop10, sortByPrice, sortByScore } from '@/lib/filtering/quickScore';
 import { products as ALL_PRODUCTS } from '@/data/products';
 import ProductListItem from '@/components/ProductListItem';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import { Product } from '@/types';
 import { ANCHOR_PRODUCTS, PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS, TAG_SELECTION_LIMITS, POPULAR_TAG_IDS } from '@/data/priorityTags';
 import { convertTagsToPriority } from '@/lib/utils/tagToPriority';
+import { generateTagContext } from '@/lib/utils/tagContext';
 import ProductTagCard from '@/components/ProductTagCard';
 
 // 가장 많이 선택된 조합 (디폴트)
@@ -43,7 +44,7 @@ type ChatMessage = {
   id: string;
   role: 'assistant' | 'user' | 'component';
   content: string;
-  componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary';
+  componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list';
   typing?: boolean;
   extraMarginTop?: boolean; // Step 구분을 위한 추가 마진
 };
@@ -71,7 +72,7 @@ function formatMarkdown(text: string) {
 
       return (
         <div key={lineIndex} className="flex items-start gap-2 my-1.5">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-300 mt-2 shrink-0" />
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" />
           <span className="flex-1">{formattedContent}</span>
         </div>
       );
@@ -329,11 +330,11 @@ function PriorityPageContent() {
   };
 
   // 컴포넌트 메시지 추가
-  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary', content?: string) => {
+  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list') => {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'component',
-      content: content || '',
+      content: '',
       componentType,
     };
     setMessages((prev) => [...prev, newMessage]);
@@ -434,51 +435,6 @@ function PriorityPageContent() {
     }, 500);
   };
 
-  // LLM API 호출: 사용자 조건 요약 생성
-  const generatePrioritySummary = async (
-    prosTags: string[],
-    consTags: string[],
-    additionalTags: string[],
-    budgetRange: BudgetRange | string
-  ): Promise<string> => {
-    try {
-      // 태그 ID를 텍스트로 변환
-      const prosTexts = prosTags.map(id => PROS_TAGS.find(t => t.id === id)?.text).filter(Boolean);
-      const consTexts = consTags.map(id => CONS_TAGS.find(t => t.id === id)?.text).filter(Boolean);
-      const additionalTexts = additionalTags.map(id => ADDITIONAL_TAGS.find(t => t.id === id)?.text).filter(Boolean);
-
-      // 예산 텍스트 변환
-      let budgetText = '';
-      if (budgetRange === '0-50000') budgetText = '5만원 이하';
-      else if (budgetRange === '50000-100000') budgetText = '5~10만원';
-      else if (budgetRange === '100000-150000') budgetText = '10~15만원';
-      else if (budgetRange === '150000+') budgetText = '15만원 이상';
-      else budgetText = budgetRange as string;
-
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'generate_priority_summary',
-          prosTexts,
-          consTexts,
-          additionalTexts,
-          budgetText
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Summary 생성 실패');
-      }
-
-      const data = await response.json();
-      return data.summary || '조건을 정리하고 있습니다...';
-    } catch (error) {
-      console.error('Summary 생성 에러:', error);
-      throw error;
-    }
-  };
-
   // Step 3 (Additional) → Step 4 (Budget)
   const handleStep3Next = () => {
     // 추가 고려사항은 선택적이므로 validation 불필요
@@ -505,53 +461,39 @@ function PriorityPageContent() {
     setTimeout(() => scrollToBottom(), 300);
   };
 
-  // Step 4 (Budget) → Step 5 (User Summary)
-  const handleStep4Next = async () => {
+  // Step 4 (Budget) → Step 5 (Product Preview)
+  const handleStep4Next = () => {
     if (!budget) {
       alert('예산 범위를 선택해주세요.');
       return;
     }
 
-    logButtonClick('Step 4 → Step 5 (Budget → Summary)', 'priority');
+    logButtonClick('Step 4 → Step 5 (Budget → Product Preview)', 'priority');
     setCurrentStep(5);
     setShowFloatingButtons(false); // 초기화
 
-    // Priority 설정은 이미 Step 3에서 변환되었음
-    console.log('✅ Priority settings:', prioritySettings);
-    console.log('✅ Budget:', budget);
+    // 태그 컨텍스트 생성 (Pros + Cons + Additional 모두 반영)
+    const tagContext = generateTagContext(selectedProsTags, selectedConsTags, selectedAdditionalTags);
 
-    // Step 5 메시지 추가 - 조건 이해 완료
-    addMessage('assistant', '좋아요! 이렇게 사용자님의 조건을 이해했어요.', true);
+    // 적합도 계산 및 Top 9 필터링 (3페이지 x 3개)
+    const top10 = calculateQuickTop10(ALL_PRODUCTS, prioritySettings, budget, tagContext);
+    const top9 = top10.slice(0, 9);
+    setFilteredProducts(top9);
+    console.log(`✅ Filtered top 9 products for Step 5`);
+    console.log('📝 Tag context:', tagContext);
 
-    setTimeout(async () => {
-      try {
-        // LLM API 호출해서 사용자 조건 요약 생성
-        const summary = await generatePrioritySummary(
-          selectedProsTags,
-          selectedConsTags,
-          selectedAdditionalTags,
-          budget
-        );
+    // Step 5 메시지 추가 - AI가 조건에 맞는 상품들을 찾았다고 말함
+    addMessage('assistant', '조건에 맞는 상품들을 찾았어요! 🎉\n\n마지막으로 구체적인 조건을 말씀해주시면 딱 맞는 제품을 뽑아드릴게요.', true);
 
-        // Summary 컴포넌트 추가 (요약 내용 포함)
-        addComponentMessage('summary', summary);
-        setTimeout(() => scrollToBottom(), 200);
+    setTimeout(() => {
+      // 상품 리스트 컴포넌트 추가
+      addComponentMessage('product-list');
+      setTimeout(() => scrollToBottom(), 200);
 
-        // "마지막으로 말씀하실 조건이 있으시면 말해주세요!" 메시지 추가
-        setTimeout(() => {
-          addMessage('assistant', '마지막으로 말씀하실 조건이 있으시면 말해주세요!', true);
-          setTimeout(() => {
-            scrollToBottom();
-            // 플로팅 버튼 표시
-            setShowFloatingButtons(true);
-          }, 500);
-        }, 800);
-      } catch (error) {
-        console.error('❌ Summary 생성 실패:', error);
-        // 에러 발생 시 기본 메시지 표시
-        addMessage('assistant', '마지막으로 말씀하실 조건이 있으시면 말해주세요!', true);
-        setTimeout(() => setShowFloatingButtons(true), 500);
-      }
+      // 플로팅 버튼 표시 (product-list 애니메이션 후)
+      setTimeout(() => {
+        setShowFloatingButtons(true);
+      }, 600);
     }, 800);
   };
 
@@ -1059,25 +1001,6 @@ function PriorityPageContent() {
                   );
                 }
 
-                // Summary (Step 5)
-                if (message.componentType === 'summary') {
-                  return (
-                    <motion.div
-                      key={message.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4 }}
-                      className="w-full"
-                    >
-                      <div className="bg-blue-50 rounded-2xl p-4">
-                        <div className="text-sm text-gray-900 whitespace-pre-wrap">
-                          {formatMarkdown(message.content)}
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                }
-
                 // Product List (Step 3)
                 if (message.componentType === 'product-list') {
                   // 정렬된 상품 리스트 가져오기
@@ -1237,14 +1160,45 @@ function PriorityPageContent() {
               {/* 입력창 + 없어요 버튼 (1회만 표시) */}
               {!hasUserInput && (
                 <>
-                  {/* 없어요 버튼 */}
-                  <div className="flex justify-start">
+                  {/* 플로팅 버튼 영역 (가로 스크롤) */}
+                  <div className="flex gap-2 overflow-x-auto scrollbar-hide p-2">
+                    {/* 없어요 버튼 */}
                     <button
                       onClick={handleSkip}
-                      className="px-5 py-2 bg-[#0084FE] text-white rounded-full font-bold text-sm hover:opacity-90 transition-all"
+                      className="flex-shrink-0 h-10 px-5 bg-[#0084FE] text-white rounded-full font-medium text-sm hover:opacity-90 transition-all"
                     >
                       없어요
                     </button>
+
+                    {/* 예시 질문들 - 2줄 그리드, 가로 스크롤 */}
+                    <div className="grid grid-rows-2 grid-flow-col gap-2">
+                      {[
+                        '아기 잘 때 쓸 수 있게, 소리 안 나는 무음 기능 있는 제품 알려줘.',
+                        '밤새 온도가 유지되는 영구 보온 기능 있는 걸로 찾아줘.',
+                        '끓인 물 빨리 식혀주는 냉각팬 달린 제품으로 추천해줘.',
+                        '나중에 티포트로도 쓸 수 있는 활용도 높은 제품 보여줘.',
+                        '손 넣어서 씻기 편하게 입구 넓고, 뚜껑 분리되는 걸로 골라줘.',
+                        '배앓이 방지를 위해 염소 제거 기능 있는 걸로 보여줘.',
+                        '아기가 쓸 거니까, 안전한 의료용 소재쓴 걸로만 알려줘.',
+                        '아기가 만져도 안전하게, 차일드락 기능 있는 제품으로 찾아줘.',
+                      ].map((example, index) => (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            addMessage('user', example);
+                            setAdditionalInput(example);
+                            setHasUserInput(true);
+                            setTimeout(() => {
+                              addMessage('assistant', '알겠습니다! 이제 **추천받기** 버튼을 눌러주세요. 😊', true);
+                            }, 500);
+                            logButtonClick(`예시 질문 선택: ${example}`, 'priority');
+                          }}
+                          className="flex-shrink-0 h-10 px-4 text-left text-xs text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 transition-all whitespace-nowrap font-semibold"
+                        >
+                          {example.length > 40 ? example.substring(0, 40) + '...' : example}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   {/* 입력창 */}

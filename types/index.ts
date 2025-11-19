@@ -199,6 +199,7 @@ export interface SessionState {
   // Tag-based selection (New Priority flow)
   selectedProsTags?: string[];          // 선택된 장점 태그 IDs
   selectedConsTags?: string[];          // 선택된 단점 태그 IDs
+  selectedAdditionalTags?: string[];    // 선택된 추가 고려사항 태그 IDs
 }
 
 // Gemini API request/response types

@@ -1,13 +1,14 @@
-import { PROS_TAGS, CONS_TAGS } from '@/data/priorityTags';
+import { PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS } from '@/data/priorityTags';
 
 /**
- * 선택된 장점/단점 태그를 자연어 문맥으로 변환
+ * 선택된 장점/단점/추가 고려사항 태그를 자연어 문맥으로 변환
  *
  * AI 추천 시스템에 전달할 사용자의 선호도 요약 문장을 생성합니다.
  */
 export function generateTagContext(
   prosTagIds: string[],
-  consTagIds: string[]
+  consTagIds: string[],
+  additionalTagIds: string[] = []
 ): string {
   const selectedPros = prosTagIds
     .map(id => PROS_TAGS.find(tag => tag.id === id))
@@ -16,6 +17,11 @@ export function generateTagContext(
 
   const selectedCons = consTagIds
     .map(id => CONS_TAGS.find(tag => tag.id === id))
+    .filter(Boolean)
+    .map(tag => tag!.text);
+
+  const selectedAdditional = additionalTagIds
+    .map(id => ADDITIONAL_TAGS.find(tag => tag.id === id))
     .filter(Boolean)
     .map(tag => tag!.text);
 
@@ -35,6 +41,13 @@ export function generateTagContext(
     parts.push(`사용자가 절대 피하고 싶은 단점: ${consText}`);
   }
 
+  if (selectedAdditional.length > 0) {
+    const additionalText = selectedAdditional
+      .map(text => `"${text}"`)
+      .join(', ');
+    parts.push(`사용자가 추가로 고려하는 부분: ${additionalText}`);
+  }
+
   return parts.join('\n');
 }
 
@@ -44,11 +57,13 @@ export function generateTagContext(
 export interface TagContextSummary {
   prosTexts: string[];  // 선택된 장점 태그 텍스트들
   consTexts: string[];  // 선택된 단점 태그 텍스트들
+  additionalTexts: string[];  // 선택된 추가 고려사항 태그 텍스트들
 }
 
 export function getTagContextSummary(
   prosTagIds: string[],
-  consTagIds: string[]
+  consTagIds: string[],
+  additionalTagIds: string[] = []
 ): TagContextSummary {
   const prosTexts = prosTagIds
     .map(id => PROS_TAGS.find(tag => tag.id === id))
@@ -60,8 +75,14 @@ export function getTagContextSummary(
     .filter(Boolean)
     .map(tag => tag!.text);
 
+  const additionalTexts = additionalTagIds
+    .map(id => ADDITIONAL_TAGS.find(tag => tag.id === id))
+    .filter(Boolean)
+    .map(tag => tag!.text);
+
   return {
     prosTexts,
-    consTexts
+    consTexts,
+    additionalTexts
   };
 }

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 interface Tag {
   id: string;
   text: string;
+  popular?: boolean; // 인기 태그 여부
 }
 
 interface ProductTagCardProps {
@@ -55,7 +56,7 @@ export default function ProductTagCard({
       {/* 상품 정보 */}
       <div className="flex gap-3 mb-3">
         {/* 썸네일 */}
-        <div className="relative w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-200">
+        <div className="relative w-17 h-17 flex-shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-200">
           <Image
             src={product.thumbnail}
             alt={product.title}
@@ -69,20 +70,18 @@ export default function ProductTagCard({
         <div className="flex-1 min-w-0">
           {/* 랭킹 라벨 */}
           {label && (
-            <span className="inline-block bg-black/70 text-white text-[9px] font-bold px-1.5 py-0.5 rounded mb-1">
+            <span className="inline-block bg-black/70 text-white text-[11px] font-bold px-1.5 py-0.5 rounded mb-1">
               {label}
             </span>
           )}
-          <h4 className="text-sm font-semibold text-gray-800 line-clamp-1 mb-1">
+          <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">
             {product.title}
           </h4>
           <div className="flex items-baseline gap-2">
             <span className="text-base font-bold text-gray-900">
-              {product.price.toLocaleString()}<span className="font-bold text-gray-900">원</span>
+              {product.price.toLocaleString()}<span className="text-xs font-bold text-gray-900">원</span>
             </span>
-            <span className="text-[10px] text-gray-400">
-              리뷰 {product.reviewCount.toLocaleString()}개
-            </span>
+           
           </div>
         </div>
       </div>
@@ -104,7 +103,25 @@ export default function ProductTagCard({
                   ${selected ? tagColors.selected : isDisabled ? tagColors.disabled : tagColors.unselected}
                 `}
               >
-                {tag.text}
+                <span className="flex items-center gap-1.5">
+                  <span>{tag.text}</span>
+                  {tag.popular && (
+                    <span
+                      className="text-[10px] px-1.5 py-0.5 rounded-md font-bold"
+                      style={
+                        type === 'pros'
+                          ? (selected
+                            ? { backgroundColor: '#10B981', color: 'white' }     // emerald for selected pros
+                            : { backgroundColor: '#EAF8F8', color: '#009896' })  // teal for unselected pros
+                          : (selected
+                            ? { backgroundColor: '#EF4444', color: 'white' }     // red for selected cons
+                            : { backgroundColor: '#FEE2E2', color: '#DC2626' })  // light red for unselected cons
+                      }
+                    >
+                      인기
+                    </span>
+                  )}
+                </span>
               </button>
             );
           })}
