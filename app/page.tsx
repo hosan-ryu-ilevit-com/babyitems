@@ -151,14 +151,14 @@ export default function Home() {
 
         {/* Tab Content - 찾기 */}
         {activeTab === 'find' && (
-          <section className="flex flex-col items-center justify-center px-6 pt-20 pb-48 min-h-[calc(100vh-180px)]">
-            
+          <section className="flex flex-col items-center justify-center px-6 pt-8 pb-24 min-h-[calc(100vh-180px)]">
+
             {/* Main Title */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-center mb-auto mt-4 w-full"
+              className="text-center mb-auto mt-0 w-full"
               suppressHydrationWarning
             >
               <h1 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
