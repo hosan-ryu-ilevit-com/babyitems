@@ -7,14 +7,16 @@ import { PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS } from '@/data/priorityTags';
  * 개선된 로직:
  * 1. 장점 태그의 relatedAttributes 배열을 순회하며 가중치 적용 (기본 +3점 × weight)
  * 2. 단점 태그의 relatedAttributes 배열을 순회하며 가중치 적용 (기본 -2점 × weight)
- * 3. 추가 고려사항 태그의 relatedAttributes 배열을 순회하며 가중치 적용 (기본 +2점 × weight)
+ * 3. 추가 고려사항 태그의 relatedAttributes 배열을 순회하며 가중치 적용 (기본 +3점 × weight)
  * 4. 속성별 총점 계산
  * 5. 점수에 따라 high(6+), medium(3-5), low(~2) 분류
  *
  * 예시:
- * - "1도 단위 정확 조절" 선택:
+ * - "1도 단위 정확 조절" 장점 선택:
  *   → temperatureControl: +3 × 1.0 = +3
  *   → usability: +3 × 0.3 = +0.9
+ * - "가볍고 컴팩트해서 휴대" 추가 고려사항 선택:
+ *   → portability: +3 × 1.0 = +3 (medium)
  */
 export function convertTagsToPriority(
   prosTagIds: string[],
@@ -67,13 +69,13 @@ export function convertTagsToPriority(
     }
   });
 
-  // 추가 고려사항 태그 집계 (기본 +2점 × weight)
+  // 추가 고려사항 태그 집계 (기본 +3점 × weight - 장점과 동일 가중치)
   additionalTagIds.forEach(tagId => {
     const tag = ADDITIONAL_TAGS.find(t => t.id === tagId);
     if (tag) {
       tag.relatedAttributes.forEach(({ attribute, weight }) => {
         if (priorityAttributes.includes(attribute)) {
-          scores[attribute] += 2 * weight;
+          scores[attribute] += 3 * weight;
         }
       });
     }

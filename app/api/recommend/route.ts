@@ -31,7 +31,8 @@ export async function POST(request: NextRequest) {
     phase0Context,
     existingContextSummary,
     selectedProsTags,
-    selectedConsTags
+    selectedConsTags,
+    selectedAdditionalTags
   } = body as {
     messages: Message[];
     attributeAssessments?: Record<string, string | null>;
@@ -43,6 +44,7 @@ export async function POST(request: NextRequest) {
     existingContextSummary?: UserContextSummary;
     selectedProsTags?: string[];
     selectedConsTags?: string[];
+    selectedAdditionalTags?: string[];
   };
 
   const encoder = new TextEncoder();
@@ -123,7 +125,8 @@ export async function POST(request: NextRequest) {
           if (selectedProsTags && selectedProsTags.length > 0) {
             tagContextualNeeds = convertTagsToContextualNeeds(
               selectedProsTags,
-              selectedConsTags || []
+              selectedConsTags || [],
+              selectedAdditionalTags || []
             );
             console.log('🏷️  Tag-based contextual needs:', tagContextualNeeds.length, 'items');
           }
@@ -162,7 +165,7 @@ export async function POST(request: NextRequest) {
               {
                 pros: selectedProsTags,
                 cons: selectedConsTags,
-                additional: [] // ADDITIONAL_TAGS는 현재 사용 안 함
+                additional: selectedAdditionalTags || []
               }
             )
           ]);

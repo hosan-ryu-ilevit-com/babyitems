@@ -117,9 +117,11 @@ export function convertTagsToContextualNeeds(
         'hygiene-narrow': '넓은 입구로 쉬운 세척',
         'hygiene-gap': '틈새 없는 깔끔한 구조',
         'usability-noise': '조용한 작동 소음',
-        'usability-heavy': '가벼운 무게',
+        'usability-sensitive': '정확하고 안정적인 터치 버튼',
+        'usability-operation': '직관적이고 간단한 조작',
         'temp-slow': '빠른 온도 조절',
-        'material-plastic': '안전한 소재 사용',
+        'material-heavy': '가벼운 무게',
+        'material-quality': '깨끗하고 냄새 없는 소재',
         'portability-bulky': '컴팩트한 크기',
         'price-expensive': '합리적인 가격'
       };

@@ -346,6 +346,7 @@ export default function ResultPage() {
           existingContextSummary: session.contextSummary, // 기존 contextSummary 전달
           selectedProsTags: session.selectedProsTags, // 선택된 장점 태그
           selectedConsTags: session.selectedConsTags, // 선택된 단점 태그
+          selectedAdditionalTags: session.selectedAdditionalTags, // 선택된 추가 고려사항 태그
         }),
       });
 
