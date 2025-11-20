@@ -278,6 +278,8 @@ export default function ResultPage() {
 
   useEffect(() => {
     setMounted(true);
+    // 페이지 진입 시 스크롤을 최상단으로 이동
+    window.scrollTo(0, 0);
   }, []);
 
   // 페이지 뷰 로깅
@@ -308,6 +310,16 @@ export default function ResultPage() {
     }
   }, [progress]);
 
+  // 로딩 완료 시 스크롤을 최상단으로 이동
+  useEffect(() => {
+    if (!loading && recommendations.length > 0) {
+      // 렌더링 완료 후 스크롤 이동 (약간의 딜레이)
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 100);
+    }
+  }, [loading, recommendations]);
+
   const fetchRecommendations = async () => {
     try {
       // 상태 초기화
@@ -316,6 +328,9 @@ export default function ResultPage() {
       setError(null);
       setRecommendations([]);
       setContextSummary(null);
+
+      // 스크롤을 최상단으로 이동 (로딩 시작 시)
+      window.scrollTo(0, 0);
 
       const session = loadSession();
 
