@@ -900,7 +900,7 @@ function PriorityPageContent() {
                     transition={{ duration: 0.3 }}
                     className="w-full flex justify-end"
                   >
-                    <div className="max-w-[90%] px-1 py-1 bg-gray-100 text-gray-900 rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-base">
+                    <div className="max-w-[90%] px-4 py-2.5 bg-gray-100 text-gray-900 rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-base">
                       {message.content}
                     </div>
                   </motion.div>
@@ -917,46 +917,48 @@ function PriorityPageContent() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4 }}
-                      className="w-full space-y-3"
+                      className="w-full"
                     >
-                      {ANCHOR_PRODUCTS.map((anchor, index) => {
-                        const product = anchorProducts.find((p) => p.id === anchor.id);
-                        if (!product) return null;
+                      <div className={`space-y-3 ${currentStep >= 2 ? 'opacity-50 pointer-events-none' : ''}`}>
+                        {ANCHOR_PRODUCTS.map((anchor, index) => {
+                          const product = anchorProducts.find((p) => p.id === anchor.id);
+                          if (!product) return null;
 
-                        // 해당 상품의 장점 태그들만 필터링
-                        const productProsTags = PROS_TAGS
-                          .filter((tag) => tag.sourceProduct === anchor.id)
-                          .map((tag) => ({
-                            id: tag.id,
-                            text: tag.text,
-                            popular: (POPULAR_TAG_IDS.pros as readonly string[]).includes(tag.id)
-                          }));
+                          // 해당 상품의 장점 태그들만 필터링
+                          const productProsTags = PROS_TAGS
+                            .filter((tag) => tag.sourceProduct === anchor.id)
+                            .map((tag) => ({
+                              id: tag.id,
+                              text: tag.text,
+                              popular: (POPULAR_TAG_IDS.pros as readonly string[]).includes(tag.id)
+                            }));
 
-                        const rankingLabel = anchor.type === 'ranking'
-                          ? '국민템 1위'
-                          : anchor.type === 'value'
-                          ? '가성비 1위'
-                          : '프리미엄 1위';
+                          const rankingLabel = anchor.type === 'ranking'
+                            ? '국민템 1위'
+                            : anchor.type === 'value'
+                            ? '가성비 1위'
+                            : '프리미엄 1위';
 
-                        return (
-                          <motion.div
-                            key={anchor.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
-                          >
-                            <ProductTagCard
-                              product={product}
-                              tags={productProsTags}
-                              selectedTagIds={selectedProsTags}
-                              onTagToggle={handleProsTagToggle}
-                              type="pros"
-                              disabled={currentStep >= 2}
-                              label={rankingLabel}
-                            />
-                          </motion.div>
-                        );
-                      })}
+                          return (
+                            <motion.div
+                              key={anchor.id}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: index * 0.1 }}
+                            >
+                              <ProductTagCard
+                                product={product}
+                                tags={productProsTags}
+                                selectedTagIds={selectedProsTags}
+                                onTagToggle={handleProsTagToggle}
+                                type="pros"
+                                disabled={currentStep >= 2}
+                                label={rankingLabel}
+                              />
+                            </motion.div>
+                          );
+                        })}
+                      </div>
                     </motion.div>
                   );
                 }
@@ -969,46 +971,48 @@ function PriorityPageContent() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4 }}
-                      className="w-full space-y-3"
+                      className="w-full"
                     >
-                      {ANCHOR_PRODUCTS.map((anchor, index) => {
-                        const product = anchorProducts.find((p) => p.id === anchor.id);
-                        if (!product) return null;
+                      <div className={`space-y-3 ${currentStep >= 3 ? 'opacity-50 pointer-events-none' : ''}`}>
+                        {ANCHOR_PRODUCTS.map((anchor, index) => {
+                          const product = anchorProducts.find((p) => p.id === anchor.id);
+                          if (!product) return null;
 
-                        // 해당 상품의 단점 태그들만 필터링
-                        const productConsTags = CONS_TAGS
-                          .filter((tag) => tag.sourceProduct === anchor.id)
-                          .map((tag) => ({
-                            id: tag.id,
-                            text: tag.text,
-                            popular: (POPULAR_TAG_IDS.cons as readonly string[]).includes(tag.id)
-                          }));
+                          // 해당 상품의 단점 태그들만 필터링
+                          const productConsTags = CONS_TAGS
+                            .filter((tag) => tag.sourceProduct === anchor.id)
+                            .map((tag) => ({
+                              id: tag.id,
+                              text: tag.text,
+                              popular: (POPULAR_TAG_IDS.cons as readonly string[]).includes(tag.id)
+                            }));
 
-                        const rankingLabel = anchor.type === 'ranking'
-                          ? '국민템 1위'
-                          : anchor.type === 'value'
-                          ? '가성비 1위'
-                          : '프리미엄 1위';
+                          const rankingLabel = anchor.type === 'ranking'
+                            ? '국민템 1위'
+                            : anchor.type === 'value'
+                            ? '가성비 1위'
+                            : '프리미엄 1위';
 
-                        return (
-                          <motion.div
-                            key={anchor.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
-                          >
-                            <ProductTagCard
-                              product={product}
-                              tags={productConsTags}
-                              selectedTagIds={selectedConsTags}
-                              onTagToggle={handleConsTagToggle}
-                              type="cons"
-                              disabled={currentStep >= 4}
-                              label={rankingLabel}
-                            />
-                          </motion.div>
-                        );
-                      })}
+                          return (
+                            <motion.div
+                              key={anchor.id}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: index * 0.1 }}
+                            >
+                              <ProductTagCard
+                                product={product}
+                                tags={productConsTags}
+                                selectedTagIds={selectedConsTags}
+                                onTagToggle={handleConsTagToggle}
+                                type="cons"
+                                disabled={currentStep >= 3}
+                                label={rankingLabel}
+                              />
+                            </motion.div>
+                          );
+                        })}
+                      </div>
                     </motion.div>
                   );
                 }
@@ -1023,7 +1027,7 @@ function PriorityPageContent() {
                       transition={{ duration: 0.4 }}
                       className="w-full"
                     >
-                      <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-3 ${currentStep >= 5 ? 'opacity-50 pointer-events-none' : ''}`}>
+                      <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-3 ${currentStep >= 4 ? 'opacity-50 pointer-events-none' : ''}`}>
                         <div className="flex items-center gap-2 mb-3">
                           <span className="text-lg">💡</span>
                           <h3 className="text-sm font-bold text-gray-900">추가 고려사항</h3>
