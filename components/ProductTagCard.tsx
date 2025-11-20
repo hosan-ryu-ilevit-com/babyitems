@@ -87,8 +87,8 @@ export default function ProductTagCard({
       </div>
 
       {/* 태그 목록 */}
-      <div className="overflow-x-auto overflow-y-hidden scrollbar-hide">
-        <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-2">
+      <div className="overflow-x-auto overflow-y-hidden scrollbar-hide -mx-4">
+        <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-2 px-4">
           {tags.map((tag) => {
             const selected = isTagSelected(tag.id);
             const isDisabled = !selected && isMaxReached;
@@ -99,7 +99,7 @@ export default function ProductTagCard({
                 onClick={() => !isDisabled && onTagToggle(tag.id)}
                 disabled={isDisabled}
                 className={`
-                  px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap border
+                  px-3 py-1.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap border
                   ${selected ? tagColors.selected : isDisabled ? tagColors.disabled : tagColors.unselected}
                 `}
               >
@@ -107,7 +107,7 @@ export default function ProductTagCard({
                   <span>{tag.text}</span>
                   {tag.popular && (
                     <span
-                      className="text-[10px] px-1.5 py-0.5 rounded-md font-bold"
+                      className="text-xs px-1.5 py-0.5 rounded-md font-bold"
                       style={
                         type === 'pros'
                           ? (selected

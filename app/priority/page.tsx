@@ -1034,8 +1034,8 @@ function PriorityPageContent() {
                         </div>
 
                         {/* 추가 태그들을 가로 2줄 스크롤로 표시 */}
-                        <div className="w-full overflow-x-auto scrollbar-hide">
-                          <div className="grid grid-rows-2 grid-flow-col gap-2">
+                        <div className="w-full overflow-x-auto scrollbar-hide -mx-4">
+                          <div className="grid grid-rows-2 grid-flow-col gap-2 px-4">
                             {ADDITIONAL_TAGS.map((tag) => {
                               const isSelected = selectedAdditionalTags.includes(tag.id);
                               const isMaxReached = selectedAdditionalTags.length >= TAG_SELECTION_LIMITS.additional.max && !isSelected;
@@ -1045,7 +1045,7 @@ function PriorityPageContent() {
                                   key={tag.id}
                                   onClick={() => !isMaxReached && handleAdditionalTagToggle(tag.id)}
                                   disabled={isMaxReached}
-                                  className={`flex-shrink-0 w-fit px-3 py-1.5 rounded-lg text-xs font-medium transition-all border whitespace-nowrap ${
+                                  className={`flex-shrink-0 w-fit px-3 py-1.5 rounded-lg text-sm font-medium transition-all border whitespace-nowrap ${
                                     isSelected
                                       ? 'bg-emerald-100 text-emerald-700 border-emerald-300'
                                       : isMaxReached
@@ -1424,7 +1424,7 @@ function PriorityPageContent() {
                   className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 hover:opacity-90"
                 >
                   <span>추천받기</span>
-                  <span className="px-2 py-0.5 bg-white/20 rounded-md text-xs font-bold flex items-center gap-1">
+                  <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1 text-white" style={{ background: 'linear-gradient(135deg, #5855ff, #71c4fd, #5cdcdc)', border: '1.5px solid rgba(255, 255, 255, 0.6)' }}>
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
                     </svg>

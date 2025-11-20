@@ -278,7 +278,7 @@ export const CONS_TAGS: ConsTag[] = [
 export const ADDITIONAL_TAGS: AdditionalTag[] = [
   {
     id: 'portability-light',
-    text: '가볍고 컴팩트해서 여행이나 외출 시 휴대하기 편해요',
+    text: '가볍고 작아서 외출 시 휴대하기 편해요',
     relatedAttributes: [
       { attribute: 'portability', weight: 1.0 },      // 주 속성: 휴대성
       { attribute: 'usability', weight: 0.3 }         // 부 속성: 편의성
