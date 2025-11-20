@@ -904,7 +904,7 @@ function ComparePageContent() {
                             : 'text-gray-900'
                         }`}
                       >
-                        <div className="text-sm">
+                        <div className="text-base">
                           {message.role === 'assistant' && typingMessageId === message.id ? (
                             <TypingMessage
                               content={message.content}

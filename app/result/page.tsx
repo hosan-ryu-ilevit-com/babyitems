@@ -1092,7 +1092,7 @@ export default function ResultPage() {
                               : 'text-gray-900'
                           }`}
                         >
-                          <div className="text-sm whitespace-pre-wrap">
+                          <div className="text-base whitespace-pre-wrap">
                             {message.role === 'assistant' && message.id === typingMessageId ? (
                               <TypingMessage
                                 content={message.content}

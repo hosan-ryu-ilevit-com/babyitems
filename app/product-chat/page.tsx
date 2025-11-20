@@ -544,7 +544,7 @@ function ProductChatContent() {
                 className={`mb-4 w-full flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`${message.role === 'user' ? 'max-w-[90%]' : ''} px-4 py-3 whitespace-pre-wrap ${
+                  className={`${message.role === 'user' ? 'max-w-[90%]' : ''} px-4 py-3 whitespace-pre-wrap text-base ${
                     message.role === 'user'
                       ? 'bg-gray-100 text-gray-900 rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl'
                       : 'text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl'
