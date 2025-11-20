@@ -278,8 +278,6 @@ export default function ResultPage() {
 
   useEffect(() => {
     setMounted(true);
-    // 페이지 진입 시 스크롤을 최상단으로 이동
-    window.scrollTo(0, 0);
   }, []);
 
   // 페이지 뷰 로깅
@@ -310,16 +308,6 @@ export default function ResultPage() {
     }
   }, [progress]);
 
-  // 로딩 완료 시 스크롤을 최상단으로 이동
-  useEffect(() => {
-    if (!loading && recommendations.length > 0) {
-      // 렌더링 완료 후 스크롤 이동 (약간의 딜레이)
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 100);
-    }
-  }, [loading, recommendations]);
-
   const fetchRecommendations = async () => {
     try {
       // 상태 초기화
@@ -328,9 +316,6 @@ export default function ResultPage() {
       setError(null);
       setRecommendations([]);
       setContextSummary(null);
-
-      // 스크롤을 최상단으로 이동 (로딩 시작 시)
-      window.scrollTo(0, 0);
 
       const session = loadSession();
 
@@ -625,24 +610,30 @@ export default function ResultPage() {
   return (
     <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#FCFCFC' }}>
       <div className="relative w-full max-w-[480px] min-h-screen flex flex-col" style={{ backgroundColor: '#FCFCFC' }}>
-        {/* Header - 로딩 중에는 숨김 */}
-        {!loading && (
-          <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-3 py-3 z-20">
-            <div className="flex items-center justify-between">
-              <h1 className="text-base font-bold text-gray-900">추천 결과</h1>
-              <button
-                onClick={() => {
-                  logButtonClick('다시하기', 'result');
-                  clearSession(); // 세션 완전 초기화
-                  router.push('/');
-                }}
-                className="text-sm text-gray-600 hover:text-gray-900 font-medium"
-              >
-               처음으로
-              </button>
-            </div>
-          </header>
-        )}
+        {/* Header - 로딩 중에도 공간 차지하지만 보이지 않음 */}
+        <header
+          className={`sticky top-0 left-0 right-0 px-3 py-3 z-20 transition-colors duration-300 ${
+            loading
+              ? 'bg-[#FCFCFC] border-b border-transparent'
+              : 'bg-white border-b border-gray-200'
+          }`}
+        >
+          <div className={`flex items-center justify-between transition-opacity duration-300 ${
+            loading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}>
+            <h1 className="text-base font-bold text-gray-900">추천 결과</h1>
+            <button
+              onClick={() => {
+                logButtonClick('다시하기', 'result');
+                clearSession(); // 세션 완전 초기화
+                router.push('/');
+              }}
+              className="text-sm text-gray-600 hover:text-gray-900 font-medium"
+            >
+             처음으로
+            </button>
+          </div>
+        </header>
 
 
 
