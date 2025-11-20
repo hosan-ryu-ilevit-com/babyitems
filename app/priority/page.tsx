@@ -614,7 +614,27 @@ function PriorityPageContent() {
     setTimeout(async () => {
       try {
         // 스켈레톤 로딩 추가
-        addComponentMessage('summary-loading');
+        const loadingMessageId = Date.now().toString() + Math.random();
+        const loadingMessage: ChatMessage = {
+          id: loadingMessageId,
+          role: 'component',
+          content: '',
+          componentType: 'summary-loading',
+        };
+        setMessages((prev) => [...prev, loadingMessage]);
+
+        // 스켈레톤을 헤더 아래로 스크롤 (Step 1-4와 동일)
+        setTimeout(() => {
+          const messageElement = document.querySelector(`[data-message-id="${loadingMessageId}"]`) as HTMLElement;
+          if (messageElement && mainScrollRef.current) {
+            const elementTop = messageElement.offsetTop;
+            const headerOffset = 90; // 헤더 높이 + 약간의 여백
+            mainScrollRef.current.scrollTo({
+              top: elementTop - headerOffset,
+              behavior: 'smooth'
+            });
+          }
+        }, 100);
 
         // LLM API 호출해서 사용자 조건 요약 생성
         const summary = await generatePrioritySummary(
@@ -629,7 +649,7 @@ function PriorityPageContent() {
 
         // Summary 컴포넌트 추가 (요약 내용 포함)
         addComponentMessage('summary', summary);
-        // 스크롤 안 함 - 사용자가 Summary를 읽을 수 있도록
+        // 스크롤 유지 - 스켈레톤 위치에서 그대로
 
         // "마지막으로 말씀하실 조건이 있으시면 말해주세요!" 메시지 추가
         setTimeout(() => {
@@ -1173,6 +1193,7 @@ function PriorityPageContent() {
                   return (
                     <motion.div
                       key={message.id}
+                      data-message-id={message.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4 }}
@@ -1197,6 +1218,7 @@ function PriorityPageContent() {
                   return (
                     <motion.div
                       key={message.id}
+                      data-message-id={message.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4 }}
