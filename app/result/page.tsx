@@ -10,6 +10,7 @@ import UserContextSummaryComponent from '@/components/UserContextSummary';
 // import ComparisonTable from '@/components/ComparisonTable';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import { logPageView, logButtonClick, logComparisonChat } from '@/lib/logging/clientLogger';
+import { ChatInputBar } from '@/components/ChatInputBar';
 
 // 마크다운 볼드 처리 함수 (기존 추천 상세 정보용)
 function parseMarkdownBold(text: string) {
@@ -112,7 +113,6 @@ export default function ResultPage() {
   const [inputValue, setInputValue] = useState('');
   const [isLoadingMessage, setIsLoadingMessage] = useState(false);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // 탭 상태
@@ -147,11 +147,6 @@ export default function ResultPage() {
     setMessages((prev) => [...prev, { role: 'user', content: userMessage, id: `user-${messageId}` }]);
     setInputValue('');
     setIsLoadingMessage(true);
-
-    // Reset textarea height
-    if (inputRef.current) {
-      inputRef.current.style.height = 'auto';
-    }
 
     try {
       // Build conversation history
@@ -639,7 +634,7 @@ export default function ResultPage() {
 
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-3">
+        <main className="flex-1 overflow-y-auto px-3 pb-24">
           <AnimatePresence mode="wait">
             {loading ? (
               // 로딩 상태 - 심플한 디자인
@@ -998,18 +993,6 @@ export default function ResultPage() {
                     transition={{ duration: 0.25, ease: 'easeOut' }}
                     className="space-y-4"
                   >
-                    {/* 비교 질문하기 버튼 */}
-                    <button
-                      onClick={() => {
-                        logButtonClick('비교 질문하기 (상세비교 탭)', 'result');
-                        setIsChatOpen(true);
-                      }}
-                      className="w-full h-14 text-base font-bold rounded-2xl transition-all hover:opacity-90 flex items-center justify-center gap-2.5 border-2"
-                      style={{ backgroundColor: '#F0F7FF', color: '#0074F3', borderColor: '#B8DCFF' }}
-                    >
-                      <span>비교 질문하기</span>
-                    </button>
-
                     {/* 상세 비교표 (핵심 특징 포함) */}
                     <DetailedComparisonTable
                       recommendations={recommendations}
@@ -1024,26 +1007,22 @@ export default function ResultPage() {
           </AnimatePresence>
         </main>
 
-        {/* 비교 질문하기 플로팅 버튼 - 주석 처리 (상세 비교 탭 내부로 이동) */}
-        {/* {!loading && !isChatOpen && (
-          <button
-            onClick={() => setIsChatOpen(true)}
-            className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full bg-[#E5F1FF] rounded-t-xl shadow-lg px-6 py-4 flex items-center justify-between hover:bg-[#D0E7FF] transition-colors z-30"
-          >
-            <div className="flex items-center gap-3">
-              <svg className="w-5 h-5 text-[#0074F3]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-              </svg>
-              <div className="flex flex-col items-start">
-                <span className="text-sm font-bold text-gray-900">비교 질문하기</span>
-                <span className="text-xs text-gray-500">3개 제품을 AI와 비교해보세요</span>
-              </div>
-            </div>
-            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-            </svg>
-          </button>
-        )} */}
+        {/* 플로팅 ChatInputBar - 하단 고정 */}
+        {!loading && !isChatOpen && (
+          <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full px-3 py-4 bg-white border-t border-gray-200 z-30">
+            <ChatInputBar
+              value=""
+              onChange={() => {}} // 더미 함수 (실제 입력은 바텀시트에서)
+              onSend={() => {}} // 더미 함수
+              placeholder="제품 비교 질문하기"
+              disabled={false}
+              onFocus={() => {
+                logButtonClick('플로팅 ChatInputBar 탭', 'result');
+                setIsChatOpen(true);
+              }}
+            />
+          </div>
+        )}
 
         {/* 비교 질문하기 채팅 바텀시트 */}
         <AnimatePresence>
@@ -1103,7 +1082,6 @@ export default function ResultPage() {
                 <div className={`flex-1 px-3 py-4 ${messages.length === 0 ? '' : 'overflow-y-auto'}`}>
                   {messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full px-4">
-                      <p className="text-sm text-gray-500 mb-1 text-center">비교하고 싶은 내용을 물어보세요</p>
                     </div>
                   )}
 
@@ -1176,37 +1154,13 @@ export default function ResultPage() {
 
                 {/* Input Area */}
                 <div className="px-3 py-4 bg-white">
-                  <div className="flex gap-2 items-end">
-                    <textarea
-                      ref={inputRef}
-                      value={inputValue}
-                      onChange={(e) => {
-                        setInputValue(e.target.value);
-                        e.target.style.height = 'auto';
-                        e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          handleSendMessage();
-                        }
-                      }}
-                      placeholder="비교하는 질문을 입력해보세요"
-                      disabled={isLoadingMessage}
-                      rows={1}
-                      className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"
-                    />
-                    <button
-                      onClick={handleSendMessage}
-                      disabled={!inputValue.trim() || isLoadingMessage}
-                      className="w-12 h-12 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
-                      style={{ backgroundColor: '#0074F3' }}
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                      </svg>
-                    </button>
-                  </div>
+                  <ChatInputBar
+                    value={inputValue}
+                    onChange={(value) => setInputValue(value)}
+                    onSend={handleSendMessage}
+                    placeholder="비교하는 질문을 입력해보세요"
+                    disabled={isLoadingMessage}
+                  />
                 </div>
               </motion.div>
             </>
