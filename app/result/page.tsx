@@ -308,6 +308,7 @@ export default function ResultPage() {
     }
   }, [progress]);
 
+
   const fetchRecommendations = async () => {
     try {
       // 상태 초기화
@@ -790,7 +791,7 @@ export default function ResultPage() {
               </motion.div> */}
 
               {/* 탭 UI */}
-              <div className="mb-6">
+              <div className="mt-12 mb-6">
                 <div className="flex justify-center gap-8">
                   <button
                     onClick={() => {
