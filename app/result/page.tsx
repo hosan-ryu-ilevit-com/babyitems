@@ -1303,13 +1303,13 @@ export default function ResultPage() {
                   {selectedRecommendation.personalizedReason.weaknesses &&
                    selectedRecommendation.personalizedReason.weaknesses.length > 0 && (
                     <div className="rounded-xl p-4" style={{ backgroundColor: '#FFF6EC' }}>
-                      <h4 className="text-sm font-bold mb-2 flex items-center gap-1.5" style={{ color: '#EF4444' }}>
+                      <h4 className="text-sm font-bold mb-3 flex items-center gap-1.5" style={{ color: '#EF4444' }}>
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                         </svg>
                         주의점
                       </h4>
-                      <ul className="space-y-1">
+                      <ul className="space-y-2">
                         {selectedRecommendation.personalizedReason.weaknesses.map((weakness, i) => (
                           <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                             <svg
@@ -1326,7 +1326,7 @@ export default function ResultPage() {
                               <line x1="18" y1="6" x2="6" y2="18" />
                               <line x1="6" y1="6" x2="18" y2="18" />
                             </svg>
-                            <span>{parseMarkdownBold(weakness)}</span>
+                            <span className="leading-relaxed">{parseMarkdownBold(weakness)}</span>
                           </li>
                         ))}
                       </ul>

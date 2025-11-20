@@ -547,7 +547,7 @@ function PriorityPageContent() {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'assistant',
-      content: '이제 예산을 선택해주세요.',
+      content: '이제 사용 가능한 예산을 선택해주세요.',
       typing: true,
       extraMarginTop: true,
     };
