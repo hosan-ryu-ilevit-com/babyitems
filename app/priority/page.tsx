@@ -721,7 +721,7 @@ function PriorityPageContent() {
       addMessage('assistant', '알겠습니다! 이제 **추천받기** 버튼을 눌러주세요. 😊', true);
     }, 500);
 
-    logButtonClick('추가 입력 제출', 'priority');
+    logButtonClick(`추가 입력 제출: ${userInput}`, 'priority');
   };
 
   // Step 3: 없어요 버튼 (추가 입력 스킵)
