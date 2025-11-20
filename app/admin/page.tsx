@@ -1133,9 +1133,56 @@ export default function AdminPage() {
                                         <p className="font-bold text-purple-900 mb-2 text-sm">
                                           👤 페르소나 요약
                                         </p>
-                                        <p className="text-gray-700 whitespace-pre-wrap bg-white p-2 rounded">
-                                          {event.recommendations.persona || '정보 없음'}
-                                        </p>
+                                        {typeof event.recommendations.persona === 'object' && event.recommendations.persona ? (
+                                          <div className="bg-white p-3 rounded space-y-2">
+                                            {/* Summary */}
+                                            {event.recommendations.persona.summary && (
+                                              <div>
+                                                <p className="text-xs font-semibold text-gray-600 mb-1">요약:</p>
+                                                <p className="text-gray-800 text-xs">{event.recommendations.persona.summary}</p>
+                                              </div>
+                                            )}
+
+                                            {/* Core Value Weights */}
+                                            {event.recommendations.persona.coreValueWeights && (
+                                              <div>
+                                                <p className="text-xs font-semibold text-gray-600 mb-1">속성 가중치:</p>
+                                                <div className="grid grid-cols-2 gap-1">
+                                                  {Object.entries(event.recommendations.persona.coreValueWeights).map(([key, value]) => (
+                                                    <div key={key} className="text-xs text-gray-700">
+                                                      <span className="font-medium">{key}:</span> {value as number}
+                                                    </div>
+                                                  ))}
+                                                </div>
+                                              </div>
+                                            )}
+
+                                            {/* Contextual Needs */}
+                                            {event.recommendations.persona.contextualNeeds && event.recommendations.persona.contextualNeeds.length > 0 && (
+                                              <div>
+                                                <p className="text-xs font-semibold text-gray-600 mb-1">구체적 니즈:</p>
+                                                <ul className="list-disc list-inside text-xs text-gray-700">
+                                                  {event.recommendations.persona.contextualNeeds.map((need: string, i: number) => (
+                                                    <li key={i}>{need}</li>
+                                                  ))}
+                                                </ul>
+                                              </div>
+                                            )}
+
+                                            {/* Budget */}
+                                            {event.recommendations.persona.budget && (
+                                              <div>
+                                                <p className="text-xs font-semibold text-gray-600">
+                                                  예산: <span className="font-normal text-gray-800">{(event.recommendations.persona.budget as number).toLocaleString()}원</span>
+                                                </p>
+                                              </div>
+                                            )}
+                                          </div>
+                                        ) : (
+                                          <p className="text-gray-700 whitespace-pre-wrap bg-white p-2 rounded text-xs">
+                                            {typeof event.recommendations.persona === 'string' ? event.recommendations.persona : '정보 없음'}
+                                          </p>
+                                        )}
                                       </div>
 
                                       {/* 사용자 선택 기준 */}

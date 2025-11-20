@@ -1336,7 +1336,7 @@ function PriorityPageContent() {
         </main>
 
         {/* Bottom Area - Fixed */}
-        <div className="fixed bottom-0 left-0 right-0 px-3 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
+        <div className="fixed bottom-0 bg-white left-0 right-0 px-3 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
           {/* Step 1: Pros 선택 - 다음 버튼 */}
           {currentStep === 1 && (
             <motion.button

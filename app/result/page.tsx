@@ -468,7 +468,7 @@ export default function ResultPage() {
                     eventType: 'recommendation_received',
                     recommendations: {
                       productIds,
-                      persona: data.persona?.summary || '',
+                      persona: data.persona || null, // 전체 persona 객체 저장
                       isQuickRecommendation: updatedSession.isQuickRecommendation || false,
                       fullReport,
                     },
