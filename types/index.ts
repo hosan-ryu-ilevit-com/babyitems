@@ -200,6 +200,9 @@ export interface SessionState {
   selectedProsTags?: string[];          // 선택된 장점 태그 IDs
   selectedConsTags?: string[];          // 선택된 단점 태그 IDs
   selectedAdditionalTags?: string[];    // 선택된 추가 고려사항 태그 IDs
+
+  // Tracking fields
+  phone?: string;                       // URL 파라미터로 전달된 전화번호 (?phone=01012345678)
 }
 
 // Gemini API request/response types

@@ -26,6 +26,22 @@ function getOrCreateSessionId(): string {
   return sessionId;
 }
 
+// sessionStorage에서 phone 가져오기
+function getPhoneFromSession(): string | null {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const sessionData = sessionStorage.getItem('babyitem_session');
+    if (sessionData) {
+      const session = JSON.parse(sessionData);
+      return session.phone || null;
+    }
+  } catch (error) {
+    console.error('Failed to get phone from session:', error);
+  }
+  return null;
+}
+
 // 로그 이벤트 전송
 async function sendLogEvent(
   eventType: LogEventType,
@@ -35,6 +51,8 @@ async function sendLogEvent(
     const sessionId = getOrCreateSessionId();
     if (!sessionId) return;
 
+    const phone = getPhoneFromSession();
+
     await fetch('/api/log', {
       method: 'POST',
       headers: {
@@ -43,6 +61,7 @@ async function sendLogEvent(
       body: JSON.stringify({
         sessionId,
         eventType,
+        phone, // 전화번호 포함
         ...data,
       }),
     });

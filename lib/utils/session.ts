@@ -33,10 +33,14 @@ export const saveSession = (session: SessionState): void => {
       if (e instanceof Error) {
         if (e.name === 'QuotaExceededError') {
           console.error('❌ SessionStorage quota exceeded. Clearing old session...');
-          // Try to clear and save minimal session
+          // Try to clear and save minimal session (phone 보존)
           try {
             sessionStorage.removeItem(SESSION_KEY);
             const minimalSession = createInitialSession();
+            // phone 필드 보존
+            if (session.phone) {
+              minimalSession.phone = session.phone;
+            }
             sessionStorage.setItem(SESSION_KEY, JSON.stringify(minimalSession));
           } catch (retryError) {
             console.error('❌ Failed to save even minimal session:', retryError);
@@ -51,12 +55,18 @@ export const saveSession = (session: SessionState): void => {
 
 // 세션 불러오기
 export const loadSession = (): SessionState => {
+  let existingPhone: string | undefined;
+
   if (typeof window !== 'undefined') {
     try {
       const saved = sessionStorage.getItem(SESSION_KEY);
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
+          // phone 필드 보존 (에러 발생 시 사용)
+          if (parsed && typeof parsed === 'object' && parsed.phone) {
+            existingPhone = parsed.phone;
+          }
           // Basic validation
           if (parsed && typeof parsed === 'object') {
             return parsed as SessionState;
@@ -71,7 +81,13 @@ export const loadSession = (): SessionState => {
       console.error('❌ SessionStorage access failed:', storageError);
     }
   }
-  return createInitialSession();
+
+  // 초기 세션 생성 시 phone 보존
+  const initialSession = createInitialSession();
+  if (existingPhone) {
+    initialSession.phone = existingPhone;
+  }
+  return initialSession;
 };
 
 // 세션 초기화

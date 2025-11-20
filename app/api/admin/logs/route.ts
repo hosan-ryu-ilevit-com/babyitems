@@ -26,6 +26,7 @@ function groupBySession(logs: DailyLog[]): SessionSummary[] {
           firstSeen: event.timestamp,
           lastSeen: event.timestamp,
           ip: event.ip,
+          phone: event.phone, // URL 파라미터로 전달된 전화번호
           events: [],
           journey: [],
           completed: false,
@@ -36,6 +37,11 @@ function groupBySession(logs: DailyLog[]): SessionSummary[] {
       const session = sessionMap.get(event.sessionId)!;
       session.events.push(event);
       session.lastSeen = event.timestamp;
+
+      // phone 업데이트 (이벤트에 phone이 있으면 세션에 반영)
+      if (event.phone && !session.phone) {
+        session.phone = event.phone;
+      }
 
       // 페이지 이동 경로 추적
       if (event.eventType === 'page_view' && event.page) {

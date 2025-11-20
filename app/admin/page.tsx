@@ -884,9 +884,16 @@ export default function AdminPage() {
                         )
                       }
                     >
-                      <p className="font-mono text-sm text-gray-600 mb-1">
-                        Session: {session.sessionId.slice(0, 8)}...
-                      </p>
+                      <div className="flex items-center gap-2 mb-1">
+                        {session.phone && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 font-bold text-sm rounded">
+                            📱 {session.phone}
+                          </span>
+                        )}
+                        <p className="font-mono text-sm text-gray-600">
+                          Session: {session.sessionId.slice(0, 8)}...
+                        </p>
+                      </div>
                       <p className="text-sm text-gray-500 flex items-center gap-2">
                         <span>IP: {formatIpAddress(session.ip)}</span>
                         <span>|</span>

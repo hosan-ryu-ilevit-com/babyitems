@@ -18,6 +18,7 @@ export interface LogEvent {
   timestamp: string; // ISO 8601 format
   ip?: string;
   userAgent?: string;
+  phone?: string; // URL 파라미터로 전달된 전화번호 (?phone=01012345678)
   eventType: LogEventType;
   page?: string; // home, ranking, chat/structured, chat/open, result
   attribute?: string; // 현재 질문 중인 속성 (예: "온도 조절/유지 성능")
@@ -92,6 +93,7 @@ export interface SessionSummary {
   firstSeen: string;
   lastSeen: string;
   ip?: string;
+  phone?: string; // URL 파라미터로 전달된 전화번호
   events: LogEvent[];
   journey: string[]; // 페이지 이동 경로
   completed: boolean; // result 페이지까지 도달 여부
