@@ -778,7 +778,7 @@ function PriorityPageContent() {
         </header>
 
         {/* Messages Area - Scrollable */}
-        <main ref={mainScrollRef} className="flex-1 px-6 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 5 ? '140px' : '100px' }}>
+        <main ref={mainScrollRef} className="flex-1 px-3 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 5 ? '140px' : '100px' }}>
           <div className="space-y-2">
             {messages.map((message) => {
               // Assistant 메시지
@@ -791,7 +791,7 @@ function PriorityPageContent() {
                     transition={{ duration: 0.3 }}
                     className={`w-full flex justify-start ${message.extraMarginTop ? 'mt-6' : ''}`}
                   >
-                    <div className="px-4 py-3 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-sm">
+                    <div className="px-1 py-1 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-base">
                       {message.typing && typingMessageId === message.id ? (
                         <TypingMessage
                           content={message.content}
@@ -816,7 +816,7 @@ function PriorityPageContent() {
                     transition={{ duration: 0.3 }}
                     className="w-full flex justify-end"
                   >
-                    <div className="max-w-[90%] px-4 py-3 bg-gray-100 text-gray-900 rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-sm">
+                    <div className="max-w-[90%] px-1 py-1 bg-gray-100 text-gray-900 rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-base">
                       {message.content}
                     </div>
                   </motion.div>
@@ -1222,7 +1222,7 @@ function PriorityPageContent() {
         </main>
 
         {/* Bottom Area - Fixed */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
+        <div className="fixed bottom-0 left-0 right-0 px-5 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
           {/* Step 1: Pros 선택 - 다음 버튼 */}
           {currentStep === 1 && (
             <motion.button
@@ -1286,7 +1286,7 @@ function PriorityPageContent() {
                   <div className="flex justify-start">
                     <button
                       onClick={handleSkip}
-                      className="px-5 py-2 bg-[#0084FE] text-white rounded-full font-bold text-sm hover:opacity-90 transition-all"
+                      className="px-4 py-2 bg-[#0084FE] text-white rounded-full font-bold text-sm hover:opacity-90 transition-all"
                     >
                       없어요
                     </button>

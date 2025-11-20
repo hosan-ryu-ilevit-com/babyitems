@@ -624,7 +624,7 @@ export default function ResultPage() {
       <div className="relative w-full max-w-[480px] min-h-screen flex flex-col" style={{ backgroundColor: '#FCFCFC' }}>
         {/* Header - 로딩 중에는 숨김 */}
         {!loading && (
-          <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
+          <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-3 py-3 z-20">
             <div className="flex items-center justify-between">
               <h1 className="text-base font-bold text-gray-900">추천 결과</h1>
               <button
@@ -644,7 +644,7 @@ export default function ResultPage() {
 
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-4">
+        <main className="flex-1 overflow-y-auto px-3">
           <AnimatePresence mode="wait">
             {loading ? (
               // 로딩 상태 - 심플한 디자인
@@ -1076,7 +1076,7 @@ export default function ResultPage() {
                 </div>
 
                 {/* Header */}
-                <div className="px-6 py-3 border-b border-gray-200">
+                <div className="px-3 py-3 border-b border-gray-200">
                   <div className="flex items-center justify-between mb-2">
                     <h2 className="text-base font-bold text-gray-900">비교 질문하기</h2>
                     <button
@@ -1102,7 +1102,7 @@ export default function ResultPage() {
                 </div>
 
                 {/* Messages - Scrollable area */}
-                <div className={`flex-1 p-4 ${messages.length === 0 ? '' : 'overflow-y-auto'}`}>
+                <div className={`flex-1 px-3 py-4 ${messages.length === 0 ? '' : 'overflow-y-auto'}`}>
                   {messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full px-4">
                       <p className="text-sm text-gray-500 mb-1 text-center">비교하고 싶은 내용을 물어보세요</p>
@@ -1116,7 +1116,7 @@ export default function ResultPage() {
                         className={`w-full flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                       >
                         <div
-                          className={`max-w-[90%] px-4 py-3 ${
+                          className={`max-w-[90%] px-3 py-3 ${
                             message.role === 'user'
                               ? 'bg-gray-100 text-gray-900 rounded-tl-2xl rounded-tr-md rounded-bl-2xl rounded-br-2xl'
                               : 'text-gray-900'
@@ -1155,7 +1155,7 @@ export default function ResultPage() {
 
                 {/* Guide Chips */}
                 {!isLoadingMessage && messages.length === 0 && (
-                  <div className="px-4 pb-3 border-t border-gray-100 pt-3 bg-white">
+                  <div className="px-3 pb-3 border-t border-gray-100 pt-3 bg-white">
                     <div className="flex flex-wrap gap-2 justify-center">
                       {[
                         "가장 세척하기 편한 제품은?",
@@ -1177,7 +1177,7 @@ export default function ResultPage() {
                 )}
 
                 {/* Input Area */}
-                <div className="p-4 bg-white">
+                <div className="px-3 py-4 bg-white">
                   <div className="flex gap-2 items-end">
                     <textarea
                       ref={inputRef}
@@ -1237,7 +1237,7 @@ export default function ResultPage() {
                 className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl z-50 max-h-[85vh] flex flex-col"
               >
                 {/* Header */}
-                <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between rounded-t-3xl shrink-0">
+                <div className="sticky top-0 bg-white border-b border-gray-200 px-3 py-3 flex items-center justify-between rounded-t-3xl shrink-0">
                   <h3 className="text-lg font-bold text-gray-900">상세 정보</h3>
                   <button
                     onClick={() => setIsBottomSheetOpen(false)}
@@ -1250,7 +1250,7 @@ export default function ResultPage() {
                 </div>
 
                 {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-6">
+                <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4 pb-6">
                   {/* 제품 정보 요약 */}
                   <div className="pb-4 border-b border-gray-200">
                     <div className="flex items-center gap-3">
@@ -1381,7 +1381,7 @@ export default function ResultPage() {
                 </div>
 
                 {/* 플로팅 버튼 영역 */}
-                <div className="shrink-0 bg-white border-t border-gray-200 p-4 space-y-2">
+                <div className="shrink-0 bg-white border-t border-gray-200 px-3 py-4 space-y-2">
                   {/* 질문하기 버튼 */}
                   <button
                     onClick={() => {
