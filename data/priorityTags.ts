@@ -286,7 +286,7 @@ export const ADDITIONAL_TAGS: AdditionalTag[] = [
   },
   {
     id: 'design-aesthetic',
-    text: '세련된 디자인으로 주방 인테리어를 살려줘요',
+    text: '세련된 디자인으로 인테리어를 살려줘요',
     relatedAttributes: [
       { attribute: 'additionalFeatures', weight: 1.0 }  // 주 속성: 디자인
     ]
