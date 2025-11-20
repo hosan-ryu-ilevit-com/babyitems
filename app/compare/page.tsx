@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { products } from '@/data/products';
 import { Product } from '@/types';
 import { logComparisonProductAction, logComparisonChat, logPageView } from '@/lib/logging/clientLogger';
+import { ChatInputBar } from '@/components/ChatInputBar';
 
 // Markdown formatting function (handles bold text and lists)
 function formatMarkdown(text: string) {
@@ -79,7 +80,6 @@ function TypingMessage({ content, onComplete }: { content: string; onComplete?: 
 function ComparePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string; id?: string }>>([]);
@@ -219,11 +219,6 @@ function ComparePageContent() {
     setMessages((prev) => [...prev, { role: 'user', content: userMessage, id: `user-${messageId}` }]);
     setInputValue('');
     setIsLoadingMessage(true);
-
-    // Reset textarea height
-    if (inputRef.current) {
-      inputRef.current.style.height = 'auto';
-    }
 
     try {
       // Build conversation history
@@ -1006,38 +1001,13 @@ function ComparePageContent() {
 
               {/* Input Area */}
               <div className="p-4 bg-white">
-                <div className="flex gap-2 items-end">
-                  <textarea
-                    ref={inputRef}
-                    value={inputValue}
-                    onChange={(e) => {
-                      setInputValue(e.target.value);
-                      // Auto-resize textarea
-                      e.target.style.height = 'auto';
-                      e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
-                    }}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSendMessage();
-                      }
-                    }}
-                    placeholder="비교하는 질문을 입력해보세요"
-                    disabled={isLoadingMessage}
-                    rows={1}
-                    className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"
-                  />
-                  <button
-                    onClick={handleSendMessage}
-                    disabled={!inputValue.trim() || isLoadingMessage}
-                    className="w-12 h-12 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
-                    style={{ backgroundColor: '#0074F3' }}
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                    </svg>
-                  </button>
-                </div>
+                <ChatInputBar
+                  value={inputValue}
+                  onChange={setInputValue}
+                  onSend={handleSendMessage}
+                  placeholder="비교하는 질문을 입력해보세요"
+                  disabled={isLoadingMessage}
+                />
               </div>
             </motion.div>
           </>

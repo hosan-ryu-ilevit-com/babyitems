@@ -28,7 +28,12 @@ export interface LogEvent {
   aiResponse?: string; // AI 응답 텍스트
   recommendations?: {
     productIds: string[];
-    persona?: string; // 간단한 페르소나 요약
+    persona?: string | {
+      summary?: string;
+      coreValueWeights?: Record<string, number>;
+      contextualNeeds?: string[];
+      budget?: number;
+    }; // 페르소나 정보 (문자열 또는 객체)
     isQuickRecommendation?: boolean; // 바로 추천받기 여부
     fullReport?: {
       userContext?: {

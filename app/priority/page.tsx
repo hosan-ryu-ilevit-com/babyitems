@@ -26,6 +26,7 @@ import { Product } from '@/types';
 import { ANCHOR_PRODUCTS, PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS, TAG_SELECTION_LIMITS, POPULAR_TAG_IDS } from '@/data/priorityTags';
 import { convertTagsToPriority } from '@/lib/utils/tagToPriority';
 import ProductTagCard from '@/components/ProductTagCard';
+import { ChatInputBar } from '@/components/ChatInputBar';
 
 // 가장 많이 선택된 조합 (디폴트)
 const DEFAULT_PRIORITY: PrioritySettings = {
@@ -122,7 +123,6 @@ function PriorityPageContent() {
   const searchParams = useSearchParams();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mainScrollRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // 초기화 추적용 ref
   const isInitializedRef = useRef(false);
@@ -1407,36 +1407,13 @@ function PriorityPageContent() {
                   </div>
 
                   {/* 입력창 */}
-                  <div className="flex gap-2 items-end">
-                    <textarea
-                      ref={inputRef}
-                      value={input}
-                      onChange={(e) => {
-                        setInput(e.target.value);
-                        e.target.style.height = 'auto';
-                        e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          handleSendMessage();
-                        }
-                      }}
-                      placeholder="추가로 고려할 상황을 입력해주세요"
-                      rows={1}
-                      className="flex-1 min-h-12 max-h-[120px] px-4 py-3 bg-white border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto scrollbar-hide text-gray-900 text-sm"
-                      style={{ fontSize: '16px' }}
-                    />
-                    <button
-                      onClick={handleSendMessage}
-                      disabled={!input.trim()}
-                      className="w-12 h-12 bg-[#0074F3] text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                      </svg>
-                    </button>
-                  </div>
+                  <ChatInputBar
+                    value={input}
+                    onChange={setInput}
+                    onSend={handleSendMessage}
+                    placeholder="추가로 고려할 상황을 입력해주세요"
+                    disabled={false}
+                  />
                 </>
               )}
 

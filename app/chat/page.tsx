@@ -8,6 +8,7 @@ import { Message, ImportanceLevel, SessionState, UserContextSummary } from '@/ty
 import { CORE_ATTRIBUTES, AttributeInfo } from '@/data/attributes';
 import { AttributeBottomSheet } from '@/components/AttributeBottomSheet';
 import UserContextSummaryComponent from '@/components/UserContextSummary';
+import { ChatInputBar } from '@/components/ChatInputBar';
 import {
   loadSession,
   saveSession,
@@ -142,7 +143,6 @@ export default function ChatPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [filteredAttributes, setFilteredAttributes] = useState<typeof CORE_ATTRIBUTES>(CORE_ATTRIBUTES);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Hydration 에러 방지: 클라이언트에서만 렌더링
   useEffect(() => {
@@ -2158,11 +2158,6 @@ export default function ChatPage() {
                               session = addAssistantMessage(session, promptMsg, 'chat1');
                               setMessages([...session.messages]);
                               saveSession(session);
-
-                              // 입력창 포커스
-                              setTimeout(() => {
-                                inputRef.current?.focus();
-                              }, 100);
                             }}
                             className="w-full px-4 py-3 bg-white hover:bg-gray-50 border-2 border-gray-300 rounded-lg text-gray-600 font-medium text-sm transition-colors text-center"
                           >
@@ -2329,8 +2324,8 @@ export default function ChatPage() {
               </button>
               <button
                 onClick={() => {
-                  inputRef.current?.focus();
-                  inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                  // Scroll to bottom to show input (ChatInputBar handles focus internally)
+                  messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }}
                 className="shrink-0 px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-colors flex items-center gap-1.5"
               >
@@ -2400,38 +2395,13 @@ export default function ChatPage() {
             </motion.button>
           )}
 
-          <div className="flex gap-2 items-end">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                // Auto-resize textarea
-                e.target.style.height = 'auto';
-                e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
-              }}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-              placeholder={phase === 'chat1' ? '대화하듯 편하게 물어보세요' : '더 고려할 점이 있으신가요?'}
-              disabled={isLoading}
-              rows={1}
-              className="flex-1 <min-h-12></min-h-12> max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!input.trim() || isLoading}
-              className="w-12 h-12 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
-              style={{ backgroundColor: '#0074F3' }}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-              </svg>
-            </button>
-          </div>
+          <ChatInputBar
+            value={input}
+            onChange={setInput}
+            onSend={handleSendMessage}
+            placeholder={phase === 'chat1' ? '대화하듯 편하게 물어보세요' : '더 고려할 점이 있으신가요?'}
+            disabled={isLoading}
+          />
         </div>
       </div>
 

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { products } from '@/data/products';
 import { Product } from '@/types';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import { ChatInputBar } from '@/components/ChatInputBar';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -97,7 +98,6 @@ function ProductChatContent() {
   const [typingMessageIndex, setTypingMessageIndex] = useState<number | null>(null);
   const [showBackConfirmModal, setShowBackConfirmModal] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
   const initializedRef = useRef<string | null>(null); // 초기화 추적용
 
   // 페이지 뷰 로깅
@@ -670,38 +670,13 @@ function ProductChatContent() {
         <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4"
           style={{ maxWidth: '480px', margin: '0 auto' }}
         >
-          <div className="flex gap-2 items-end">
-            <textarea
-              ref={inputRef}
-              value={inputValue}
-              onChange={(e) => {
-                setInputValue(e.target.value);
-                // Auto-resize textarea
-                e.target.style.height = 'auto';
-                e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-              placeholder="궁금한 점을 물어보세요..."
-              disabled={isLoading}
-              rows={1}
-              className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-none overflow-y-auto scrollbar-hide text-gray-900"
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputValue.trim() || isLoading}
-              className="w-12 h-12 text-white rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
-              style={{ backgroundColor: '#0074F3' }}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-              </svg>
-            </button>
-          </div>
+          <ChatInputBar
+            value={inputValue}
+            onChange={setInputValue}
+            onSend={handleSendMessage}
+            placeholder="궁금한 점을 물어보세요..."
+            disabled={isLoading}
+          />
         </footer>
 
         {/* 뒤로가기 확인 모달 */}
