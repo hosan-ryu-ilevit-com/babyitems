@@ -12,10 +12,6 @@ import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 import { Product } from '@/types';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Playfair_Display } from 'next/font/google';
-import dynamic from 'next/dynamic';
-
-// Lottie 동적 import (SSR 방지)
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -29,19 +25,10 @@ export default function Home() {
   const [isFavoritesSheetOpen, setIsFavoritesSheetOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const { favorites, toggleFavorite, isFavorite, count } = useFavorites();
-  const [animationData, setAnimationData] = useState<any>(null);
 
   // 페이지 뷰 로깅
   useEffect(() => {
     logPageView('home');
-  }, []);
-
-  // Lottie JSON 파일 로드
-  useEffect(() => {
-    fetch('/animations/character.json')
-      .then((res) => res.json())
-      .then((data) => setAnimationData(data))
-      .catch((err) => console.error('Lottie 파일 로드 실패:', err));
   }, []);
 
   const handleProductClick = (product: Product) => {
@@ -167,21 +154,23 @@ export default function Home() {
               </h1>
               <p className="text-sm text-gray-500 mt-3 mb-8">고민하는 시간을 줄여보세요.</p>
 
-              {/* Lottie Character Animation */}
-            {animationData && Lottie && (
+              {/* Video Character Animation */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
                 className="w-48 h-48 mx-auto"
               >
-                <Lottie
-                  animationData={animationData}
-                  loop={true}
-                  autoplay={true}
-                />
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-contain"
+                >
+                  <source src="/animations/character.mp4" type="video/mp4" />
+                </video>
               </motion.div>
-            )}
 
 
               {/* Guide Button with Floating Bubble */}

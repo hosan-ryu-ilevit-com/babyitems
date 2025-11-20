@@ -43,7 +43,7 @@ type ChatMessage = {
   id: string;
   role: 'assistant' | 'user' | 'component';
   content: string;
-  componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary';
+  componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading';
   typing?: boolean;
   extraMarginTop?: boolean; // Step 구분을 위한 추가 마진
 };
@@ -155,6 +155,7 @@ function PriorityPageContent() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [productBottomSheetOpen, setProductBottomSheetOpen] = useState(false);
   const [showFloatingButtons, setShowFloatingButtons] = useState(false);
+  const [isStep5Complete, setIsStep5Complete] = useState(false); // Step 5 완료 여부 (프로그레스바용)
 
   // Priority 상태 저장 함수
   const savePriorityState = useCallback(() => {
@@ -347,7 +348,7 @@ function PriorityPageContent() {
   };
 
   // 컴포넌트 메시지 추가
-  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary', content?: string) => {
+  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading', content?: string) => {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'component',
@@ -420,9 +421,6 @@ function PriorityPageContent() {
 
     logButtonClick('Step 1 → Step 2 (Pros → Cons)', 'priority');
 
-    // 현재 스크롤 위치 저장
-    const currentScrollTop = mainScrollRef.current?.scrollTop || 0;
-
     setCurrentStep(2);
 
     // Step 2 메시지 + 컴포넌트 동시에 추가 (extraMarginTop 추가)
@@ -436,24 +434,22 @@ function PriorityPageContent() {
     setMessages((prev) => [...prev, newMessage]);
     setTypingMessageId(newMessage.id);
 
-    // 스크롤 위치 복원
-    requestAnimationFrame(() => {
-      if (mainScrollRef.current) {
-        mainScrollRef.current.scrollTop = currentScrollTop;
-      }
-    });
-
     setTimeout(() => {
       addComponentMessage('cons-selector');
-      // 스크롤 안 함 - 사용자가 위 메시지를 계속 볼 수 있도록
-
-      // 스크롤 위치 다시 복원 (컴포넌트 추가 후)
-      requestAnimationFrame(() => {
-        if (mainScrollRef.current) {
-          mainScrollRef.current.scrollTop = currentScrollTop;
-        }
-      });
     }, 500);
+
+    // 새 메시지가 헤더 바로 아래에 오도록 스크롤
+    setTimeout(() => {
+      const messageElement = document.querySelector(`[data-message-id="${newMessage.id}"]`) as HTMLElement;
+      if (messageElement && mainScrollRef.current) {
+        const elementTop = messageElement.offsetTop;
+        const headerOffset = 90; // 헤더 높이 + 약간의 여백
+        mainScrollRef.current.scrollTo({
+          top: elementTop - headerOffset,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   // Step 2 (Cons) → Step 3 (Additional)
@@ -475,8 +471,20 @@ function PriorityPageContent() {
 
     setTimeout(() => {
       addComponentMessage('additional-selector');
-      // 스크롤 안 함 - 사용자가 위 메시지를 계속 볼 수 있도록
     }, 500);
+
+    // 새 메시지가 헤더 바로 아래에 오도록 스크롤
+    setTimeout(() => {
+      const messageElement = document.querySelector(`[data-message-id="${newMessage.id}"]`) as HTMLElement;
+      if (messageElement && mainScrollRef.current) {
+        const elementTop = messageElement.offsetTop;
+        const headerOffset = 90; // 헤더 높이 + 약간의 여백
+        mainScrollRef.current.scrollTo({
+          top: elementTop - headerOffset,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   // LLM API 호출: 사용자 조건 요약 생성
@@ -539,15 +547,29 @@ function PriorityPageContent() {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'assistant',
-      content: '좋아요! 이제 예산 범위를 선택해주세요. 💰',
+      content: '이제 예산을 선택해주세요.',
       typing: true,
       extraMarginTop: true,
     };
     setMessages((prev) => [...prev, newMessage]);
     setTypingMessageId(newMessage.id);
 
-    addComponentMessage('budget-selector');
-    // 스크롤 안 함 - 사용자가 위 메시지를 계속 볼 수 있도록
+    setTimeout(() => {
+      addComponentMessage('budget-selector');
+    }, 500);
+
+    // 새 메시지가 헤더 바로 아래에 오도록 스크롤
+    setTimeout(() => {
+      const messageElement = document.querySelector(`[data-message-id="${newMessage.id}"]`) as HTMLElement;
+      if (messageElement && mainScrollRef.current) {
+        const elementTop = messageElement.offsetTop;
+        const headerOffset = 90; // 헤더 높이 + 약간의 여백
+        mainScrollRef.current.scrollTo({
+          top: elementTop - headerOffset,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   // Step 4 (Budget) → Step 5 (User Summary)
@@ -566,10 +588,34 @@ function PriorityPageContent() {
     console.log('✅ Budget:', budget);
 
     // Step 5 메시지 추가 - 조건 이해 완료
-    addMessage('assistant', '좋아요! 아래와 같이 사용자님의 조건을 이해했어요.', true);
+    const newMessage: ChatMessage = {
+      id: Date.now().toString() + Math.random(),
+      role: 'assistant',
+      content: '좋아요! 아래와 같이 사용자님의 조건을 이해했어요.',
+      typing: true,
+      extraMarginTop: true,
+    };
+    setMessages((prev) => [...prev, newMessage]);
+    setTypingMessageId(newMessage.id);
+
+    // 새 섹션 메시지를 헤더 아래에 위치시키기
+    setTimeout(() => {
+      const messageElement = document.querySelector(`[data-message-id="${newMessage.id}"]`) as HTMLElement;
+      if (messageElement && mainScrollRef.current) {
+        const elementTop = messageElement.offsetTop;
+        const headerOffset = 90; // 헤더 높이 + 약간의 여백
+        mainScrollRef.current.scrollTo({
+          top: elementTop - headerOffset,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
 
     setTimeout(async () => {
       try {
+        // 스켈레톤 로딩 추가
+        addComponentMessage('summary-loading');
+
         // LLM API 호출해서 사용자 조건 요약 생성
         const summary = await generatePrioritySummary(
           selectedProsTags,
@@ -577,6 +623,9 @@ function PriorityPageContent() {
           selectedAdditionalTags,
           budget
         );
+
+        // 로딩 메시지 제거
+        setMessages((prev) => prev.filter((msg) => msg.componentType !== 'summary-loading'));
 
         // Summary 컴포넌트 추가 (요약 내용 포함)
         addComponentMessage('summary', summary);
@@ -593,6 +642,8 @@ function PriorityPageContent() {
         }, 800);
       } catch (error) {
         console.error('❌ Summary 생성 실패:', error);
+        // 로딩 메시지 제거
+        setMessages((prev) => prev.filter((msg) => msg.componentType !== 'summary-loading'));
         // 에러 발생 시 기본 메시지 표시
         addMessage('assistant', '마지막으로 말씀하실 조건이 있으시면 말해주세요!', true);
         setTimeout(() => setShowFloatingButtons(true), 500);
@@ -643,6 +694,7 @@ function PriorityPageContent() {
     setInput('');
     setAdditionalInput(userInput);
     setHasUserInput(true);
+    setIsStep5Complete(true); // Step 5 완료 (프로그레스바 100%)
 
     // AI 확인 메시지
     setTimeout(() => {
@@ -655,6 +707,7 @@ function PriorityPageContent() {
   // Step 3: 없어요 버튼 (추가 입력 스킵)
   const handleSkip = () => {
     setHasUserInput(true);
+    setIsStep5Complete(true); // Step 5 완료 (프로그레스바 100%)
     addMessage('user', '없어요');
     setTimeout(() => {
       addMessage('assistant', '좋아요! 이제 **추천받기** 버튼을 눌러주세요. 😊', true);
@@ -735,6 +788,7 @@ function PriorityPageContent() {
       setSelectedProduct(null);
       setProductBottomSheetOpen(false);
       setShowFloatingButtons(false);
+      setIsStep5Complete(false); // 프로그레스바 초기화
 
       // 초기 메시지로 재설정
       const initialMessages: ChatMessage[] = [
@@ -763,22 +817,31 @@ function PriorityPageContent() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg flex flex-col">
+      <div className="relative w-full max-w-[480px] h-dvh overflow-hidden bg-white shadow-lg flex flex-col">
         {/* Header - Fixed */}
-        <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 px-5 py-3 flex items-center justify-between z-50" style={{ maxWidth: '480px', margin: '0 auto' }}>
-          <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
-            <CaretLeft size={24} weight="bold" />
-          </Link>
-          <button
-            onClick={handleReset}
-            className="text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors px-0 py-1 rounded-lg hover:bg-gray-100"
-          >
-            처음부터
-          </button>
+        <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50" style={{ maxWidth: '480px', margin: '0 auto' }}>
+          <div className="px-5 py-3 flex items-center justify-between">
+            <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
+              <CaretLeft size={24} weight="bold" />
+            </Link>
+            <button
+              onClick={handleReset}
+              className="text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors px-0 py-1 rounded-lg hover:bg-gray-100"
+            >
+              처음부터
+            </button>
+          </div>
+          {/* Progress Bar */}
+          <div className="w-full h-1 bg-gray-200">
+            <div
+              className="h-full bg-[#0074F3] transition-all duration-300"
+              style={{ width: `${isStep5Complete ? 100 : (currentStep - 1) * 20}%` }}
+            />
+          </div>
         </header>
 
         {/* Messages Area - Scrollable */}
-        <main ref={mainScrollRef} className="flex-1 px-3 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 5 ? '140px' : '100px' }}>
+        <main ref={mainScrollRef} className="flex-1 px-3 py-6 overflow-y-auto" style={{ paddingTop: '80px', paddingBottom: currentStep === 5 ? '140px' : '60vh', minHeight: 0 }}>
           <div className="space-y-2">
             {messages.map((message) => {
               // Assistant 메시지
@@ -786,6 +849,7 @@ function PriorityPageContent() {
                 return (
                   <motion.div
                     key={message.id}
+                    data-message-id={message.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
@@ -795,7 +859,7 @@ function PriorityPageContent() {
                       {message.typing && typingMessageId === message.id ? (
                         <TypingMessage
                           content={message.content}
-                          onUpdate={scrollToBottom}
+                          onUpdate={message.extraMarginTop ? undefined : scrollToBottom}
                           onComplete={() => setTypingMessageId(null)}
                         />
                       ) : (
@@ -1104,6 +1168,30 @@ function PriorityPageContent() {
                   );
                 }
 
+                // Summary Loading (Skeleton)
+                if (message.componentType === 'summary-loading') {
+                  return (
+                    <motion.div
+                      key={message.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="w-full"
+                    >
+                      <div className="bg-blue-50 rounded-2xl p-4 space-y-3">
+                        {/* 스켈레톤 라인들 */}
+                        <div className="space-y-2.5">
+                          <div className="h-3.5 bg-blue-200/60 rounded-lg animate-pulse" style={{ width: '85%' }} />
+                          <div className="h-3.5 bg-blue-200/60 rounded-lg animate-pulse" style={{ width: '92%' }} />
+                          <div className="h-3.5 bg-blue-200/60 rounded-lg animate-pulse" style={{ width: '78%' }} />
+                          <div className="h-3.5 bg-blue-200/60 rounded-lg animate-pulse" style={{ width: '88%' }} />
+                          <div className="h-3.5 bg-blue-200/60 rounded-lg animate-pulse" style={{ width: '65%' }} />
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                }
+
                 // Summary (Step 5)
                 if (message.componentType === 'summary') {
                   return (
@@ -1222,7 +1310,7 @@ function PriorityPageContent() {
         </main>
 
         {/* Bottom Area - Fixed */}
-        <div className="fixed bottom-0 left-0 right-0 px-5 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
+        <div className="fixed bottom-0 left-0 right-0 px-3 py-4 z-10" style={{ maxWidth: '480px', margin: '0 auto' }}>
           {/* Step 1: Pros 선택 - 다음 버튼 */}
           {currentStep === 1 && (
             <motion.button
@@ -1310,7 +1398,7 @@ function PriorityPageContent() {
                       }}
                       placeholder="추가로 고려할 상황을 입력해주세요"
                       rows={1}
-                      className="flex-1 min-h-12 max-h-[120px] px-4 py-3 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto scrollbar-hide text-gray-900 text-sm"
+                      className="flex-1 min-h-12 max-h-[120px] px-4 py-3 bg-white border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto scrollbar-hide text-gray-900 text-sm"
                       style={{ fontSize: '16px' }}
                     />
                     <button

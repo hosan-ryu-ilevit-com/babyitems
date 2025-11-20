@@ -10,10 +10,6 @@ import UserContextSummaryComponent from '@/components/UserContextSummary';
 // import ComparisonTable from '@/components/ComparisonTable';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import { logPageView, logButtonClick, logComparisonChat } from '@/lib/logging/clientLogger';
-import dynamic from 'next/dynamic';
-
-// Lottie 동적 import (SSR 방지)
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 // 마크다운 볼드 처리 함수 (기존 추천 상세 정보용)
 function parseMarkdownBold(text: string) {
@@ -109,7 +105,6 @@ export default function ResultPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedRecommendation, setSelectedRecommendation] = useState<Recommendation | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [animationData, setAnimationData] = useState<any>(null);
 
   // 채팅 관련 state (비교 질문하기)
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -283,14 +278,6 @@ export default function ResultPage() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Lottie JSON 파일 로드
-  useEffect(() => {
-    fetch('/animations/character.json')
-      .then((res) => res.json())
-      .then((data) => setAnimationData(data))
-      .catch((err) => console.error('Lottie 파일 로드 실패:', err));
   }, []);
 
   // 페이지 뷰 로깅
@@ -655,20 +642,23 @@ export default function ResultPage() {
                 transition={{ duration: 0.3 }}
                 className="flex flex-col items-center justify-center min-h-[calc(100vh-180px)] px-8"
               >
-              {/* 캐릭터 애니메이션 - Lottie */}
+              {/* 캐릭터 애니메이션 - Video */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ opacity: { duration: 0.5 } }}
                 className="mb-8"
               >
-                {animationData && (
-                  <Lottie
-                    animationData={animationData}
-                    loop={true}
-                    style={{ width: 120, height: 120 }}
-                  />
-                )}
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{ width: 120, height: 120 }}
+                  className="object-contain"
+                >
+                  <source src="/animations/character.mp4" type="video/mp4" />
+                </video>
               </motion.div>
 
               {/* 로딩 퍼센트 */}
