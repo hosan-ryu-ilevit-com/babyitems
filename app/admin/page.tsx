@@ -702,10 +702,10 @@ export default function AdminPage() {
                       <p className="text-3xl font-bold text-blue-600">{currentCampaign.totalSessions}</p>
                     </div>
 
-                    {/* 퍼널 시각화 - 단순화된 3단계 */}
+                    {/* 퍼널 시각화 - 상세 8단계 */}
                     <div className="bg-white border border-gray-200 rounded-lg p-6">
-                      <h3 className="text-base font-bold text-gray-900 mb-4">사용자 여정 퍼널</h3>
-                      <div className="space-y-4">
+                      <h3 className="text-base font-bold text-gray-900 mb-4">사용자 여정 퍼널 (상세)</h3>
+                      <div className="space-y-3">
                         {/* 1. 홈 페이지뷰 */}
                         <div>
                           <div className="flex items-center justify-between mb-2">
@@ -715,8 +715,8 @@ export default function AdminPage() {
                               <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.homePageViews.count}</span>
                             </div>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-4">
-                            <div className="bg-blue-500 h-4 rounded-full transition-all" style={{ width: '100%' }} />
+                          <div className="w-full bg-gray-200 rounded-full h-3">
+                            <div className="bg-blue-500 h-3 rounded-full transition-all" style={{ width: '100%' }} />
                           </div>
                         </div>
 
@@ -729,23 +729,158 @@ export default function AdminPage() {
                               <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.priorityEntry.count}</span>
                             </div>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-4">
-                            <div className="bg-green-500 h-4 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.priorityEntry.percentage}%` }} />
+                          <div className="w-full bg-gray-200 rounded-full h-3">
+                            <div className="bg-green-500 h-3 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.priorityEntry.percentage}%` }} />
                           </div>
                         </div>
 
-                        {/* 3. Best 3 추천 완료 (강조) */}
-                        <div className="border-2 border-purple-300 bg-purple-50 rounded-lg p-4">
+                        {/* 3. Step 1: 장점 태그 선택 */}
+                        <div>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-semibold text-purple-900">3️⃣ 🎯 Best 3 추천 완료</span>
+                            <span className="text-sm font-semibold text-gray-700">3️⃣ Step 1: 장점 태그 선택</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.prosTagsSelected.percentage}%</span>
+                              <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.prosTagsSelected.count}</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-3">
+                            <div className="bg-yellow-500 h-3 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.prosTagsSelected.percentage}%` }} />
+                          </div>
+                        </div>
+
+                        {/* 4. Step 2: 단점 태그 선택 */}
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-gray-700">4️⃣ Step 2: 단점 태그 선택</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.consTagsSelected.percentage}%</span>
+                              <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.consTagsSelected.count}</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-3">
+                            <div className="bg-orange-500 h-3 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.consTagsSelected.percentage}%` }} />
+                          </div>
+                        </div>
+
+                        {/* 5. Step 3: 추가 고려사항 */}
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-gray-700">5️⃣ Step 3: 추가 고려사항</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.additionalSelected.percentage}%</span>
+                              <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.additionalSelected.count}</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-3">
+                            <div className="bg-pink-500 h-3 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.additionalSelected.percentage}%` }} />
+                          </div>
+                        </div>
+
+                        {/* 6. Step 4: 예산 선택 */}
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-gray-700">6️⃣ Step 4: 예산 선택</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.budgetSelected.percentage}%</span>
+                              <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.budgetSelected.count}</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-3">
+                            <div className="bg-indigo-500 h-3 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.budgetSelected.percentage}%` }} />
+                          </div>
+                        </div>
+
+                        {/* 7. Step 5: 최종 입력 완료 */}
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-gray-700">7️⃣ Step 5: 최종 입력 완료</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.finalInputCompleted.percentage}%</span>
+                              <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.finalInputCompleted.count}</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-3">
+                            <div className="bg-teal-500 h-3 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.finalInputCompleted.percentage}%` }} />
+                          </div>
+                        </div>
+
+                        {/* 8. Best 3 추천 완료 (강조) */}
+                        <div className="border-2 border-purple-300 bg-purple-50 rounded-lg p-4 mt-2">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-purple-900">8️⃣ 🎯 Best 3 추천 완료</span>
                             <div className="flex items-center gap-3">
                               <span className="text-xs font-medium text-purple-700">{currentCampaign.funnel.recommendationReceived.percentage}%</span>
                               <span className="text-lg font-bold text-purple-600">{currentCampaign.funnel.recommendationReceived.count}</span>
                             </div>
                           </div>
-                          <div className="w-full bg-purple-200 rounded-full h-4">
-                            <div className="bg-purple-600 h-4 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.recommendationReceived.percentage}%` }} />
+                          <div className="w-full bg-purple-200 rounded-full h-3">
+                            <div className="bg-purple-600 h-3 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.recommendationReceived.percentage}%` }} />
                           </div>
+                        </div>
+
+                        {/* ⚠️ 추천하기 눌렀지만 결과 못 본 사람 */}
+                        {(() => {
+                          const finalInputCount = currentCampaign.funnel.finalInputCompleted.count;
+                          const recommendationCount = currentCampaign.funnel.recommendationReceived.count;
+                          const lostUsers = finalInputCount - recommendationCount;
+                          const lostPercentage = finalInputCount > 0 ? Math.round((lostUsers / finalInputCount) * 100) : 0;
+
+                          if (lostUsers > 0) {
+                            return (
+                              <div className="border-2 border-red-300 bg-red-50 rounded-lg p-4 mt-2">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-semibold text-red-900">⚠️ 추천하기 눌렀지만 결과 못 본 사람</span>
+                                    <span className="text-xs text-red-700 bg-red-100 px-2 py-0.5 rounded">이탈</span>
+                                  </div>
+                                  <div className="flex items-center gap-3">
+                                    <span className="text-xs font-medium text-red-700">{lostPercentage}% 이탈</span>
+                                    <span className="text-lg font-bold text-red-600">{lostUsers}명</span>
+                                  </div>
+                                </div>
+                                <p className="text-xs text-red-700 mt-2">
+                                  Step 5 완료 후 추천 API 로딩 중 이탈 (네트워크 오류, 로딩 타임아웃, 앱 종료 등)
+                                </p>
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()}
+                      </div>
+
+                      {/* 단계별 이탈률 요약 */}
+                      <div className="mt-6 pt-4 border-t border-gray-200">
+                        <h4 className="text-sm font-bold text-gray-800 mb-3">📉 단계별 이탈률 분석</h4>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                          {(() => {
+                            const steps = [
+                              { label: '홈→Priority', from: currentCampaign.funnel.homePageViews.count, to: currentCampaign.funnel.priorityEntry.count },
+                              { label: 'Priority→Step1', from: currentCampaign.funnel.priorityEntry.count, to: currentCampaign.funnel.prosTagsSelected.count },
+                              { label: 'Step1→Step2', from: currentCampaign.funnel.prosTagsSelected.count, to: currentCampaign.funnel.consTagsSelected.count },
+                              { label: 'Step2→Step3', from: currentCampaign.funnel.consTagsSelected.count, to: currentCampaign.funnel.additionalSelected.count },
+                              { label: 'Step3→Step4', from: currentCampaign.funnel.additionalSelected.count, to: currentCampaign.funnel.budgetSelected.count },
+                              { label: 'Step4→Step5', from: currentCampaign.funnel.budgetSelected.count, to: currentCampaign.funnel.finalInputCompleted.count },
+                              { label: 'Step5→결과', from: currentCampaign.funnel.finalInputCompleted.count, to: currentCampaign.funnel.recommendationReceived.count },
+                            ];
+
+                            return steps.map((step, idx) => {
+                              const dropCount = step.from - step.to;
+                              const dropRate = step.from > 0 ? Math.round((dropCount / step.from) * 100) : 0;
+                              const isHighDrop = dropRate >= 30; // 30% 이상 이탈 시 경고
+
+                              return (
+                                <div key={idx} className={`p-2 rounded ${isHighDrop ? 'bg-red-50 border border-red-200' : 'bg-gray-50'}`}>
+                                  <p className={`font-semibold ${isHighDrop ? 'text-red-700' : 'text-gray-700'}`}>
+                                    {step.label}
+                                  </p>
+                                  <p className={`text-lg font-bold ${isHighDrop ? 'text-red-600' : 'text-gray-900'}`}>
+                                    -{dropRate}%
+                                  </p>
+                                  <p className="text-gray-500">({dropCount}명)</p>
+                                </div>
+                              );
+                            });
+                          })()}
                         </div>
                       </div>
                     </div>

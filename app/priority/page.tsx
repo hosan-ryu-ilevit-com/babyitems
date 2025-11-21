@@ -47,6 +47,7 @@ type ChatMessage = {
   componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading';
   typing?: boolean;
   extraMarginTop?: boolean; // Step 구분을 위한 추가 마진
+  stepTag?: string; // Step 태그 (1/4, 2/4, 3/4, 4/4)
 };
 
 type ChatStep = 1 | 2 | 3 | 4 | 5; // 1: 장점 선택, 2: 단점 선택, 3: 추가 고려사항, 4: 예산, 5: 제품 프리뷰
@@ -285,6 +286,7 @@ function PriorityPageContent() {
           role: 'assistant',
           content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n**가장 잘 나가는 국민템의 후기**를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
           typing: true,
+          stepTag: '1/4',
         },
       ];
       setMessages(initialMessages);
@@ -430,6 +432,7 @@ function PriorityPageContent() {
       content: '좋아요! 이제 **절대 타협할 수 없는 단점**을 선택해주세요. (최대 4개, 없으면 건너뛰어도 됩니다)',
       typing: true,
       extraMarginTop: true,
+      stepTag: '2/4',
     };
     setMessages((prev) => [...prev, newMessage]);
     setTypingMessageId(newMessage.id);
@@ -462,9 +465,10 @@ function PriorityPageContent() {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'assistant',
-      content: '혹시 이런 부분도 고려하시나요? 없으면 건너뛰어도 괜찮아요.',
+      content: '혹시 이런 부분도 고려하시나요? **없으면 건너뛰어도 괜찮아요.**',
       typing: true,
       extraMarginTop: true,
+      stepTag: '3/4',
     };
     setMessages((prev) => [...prev, newMessage]);
     setTypingMessageId(newMessage.id);
@@ -547,9 +551,10 @@ function PriorityPageContent() {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'assistant',
-      content: '이제 사용 가능한 예산을 선택해주세요.',
+      content: '마지막이에요! 예산을 선택해주세요.',
       typing: true,
       extraMarginTop: true,
+      stepTag: '4/4',
     };
     setMessages((prev) => [...prev, newMessage]);
     setTypingMessageId(newMessage.id);
@@ -651,12 +656,14 @@ function PriorityPageContent() {
         addComponentMessage('summary', summary);
         // 스크롤 유지 - 스켈레톤 위치에서 그대로
 
-        // "마지막으로 말씀하실 조건이 있으시면 말해주세요!" 메시지 추가
+        // "이제 추천받기 버튼을 눌러주세요" 메시지 추가
         setTimeout(() => {
-          addMessage('assistant', '마지막으로 말씀하실 조건이 있으시면 말해주세요!', true);
+          addMessage('assistant', '이제 **추천받기** 버튼을 눌러주세요! 😊', true);
           setTimeout(() => {
             scrollToBottom();
-            // 플로팅 버튼 표시
+            // Step 5 완료 표시 (프로그레스바 100%)
+            setIsStep5Complete(true);
+            // 플로팅 버튼 표시 (추천받기 버튼만)
             setShowFloatingButtons(true);
           }, 500);
         }, 800);
@@ -665,8 +672,11 @@ function PriorityPageContent() {
         // 로딩 메시지 제거
         setMessages((prev) => prev.filter((msg) => msg.componentType !== 'summary-loading'));
         // 에러 발생 시 기본 메시지 표시
-        addMessage('assistant', '마지막으로 말씀하실 조건이 있으시면 말해주세요!', true);
-        setTimeout(() => setShowFloatingButtons(true), 500);
+        addMessage('assistant', '이제 **추천받기** 버튼을 눌러주세요! 😊', true);
+        setTimeout(() => {
+          setIsStep5Complete(true);
+          setShowFloatingButtons(true);
+        }, 500);
       }
     }, 800);
   };
@@ -817,6 +827,7 @@ function PriorityPageContent() {
           role: 'assistant',
           content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n**가장 잘 나가는 국민템의 후기**를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
           typing: true,
+          stepTag: '1/4',
         },
         {
           id: `msg-${Date.now()}-2`,
@@ -855,7 +866,7 @@ function PriorityPageContent() {
           <div className="w-full h-1 bg-gray-200">
             <div
               className="h-full bg-[#0074F3] transition-all duration-300"
-              style={{ width: `${isStep5Complete ? 100 : (currentStep - 1) * 20}%` }}
+              style={{ width: `${isStep5Complete ? 100 : (currentStep - 1) * 25}%` }}
             />
           </div>
         </header>
@@ -873,18 +884,27 @@ function PriorityPageContent() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={`w-full flex justify-start ${message.extraMarginTop ? 'mt-6' : ''}`}
+                    className={`w-full ${message.extraMarginTop ? 'mt-6' : ''}`}
                   >
-                    <div className="px-1 py-1 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-base">
-                      {message.typing && typingMessageId === message.id ? (
-                        <TypingMessage
-                          content={message.content}
-                          onUpdate={message.extraMarginTop ? undefined : scrollToBottom}
-                          onComplete={() => setTypingMessageId(null)}
-                        />
-                      ) : (
-                        formatMarkdown(message.content)
-                      )}
+                    {/* Step 태그 */}
+                    {message.stepTag && (
+                      <div className="inline-block px-2.5 py-1 bg-gray-100 text-[#0074F3] rounded-lg text-xs font-bold mb-2">
+                        {message.stepTag}
+                      </div>
+                    )}
+                    {/* 메시지 버블 */}
+                    <div className="w-full flex justify-start">
+                      <div className="px-1 py-1 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-base">
+                        {message.typing && typingMessageId === message.id ? (
+                          <TypingMessage
+                            content={message.content}
+                            onUpdate={message.extraMarginTop ? undefined : scrollToBottom}
+                            onComplete={() => setTypingMessageId(null)}
+                          />
+                        ) : (
+                          formatMarkdown(message.content)
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 );
@@ -1390,49 +1410,20 @@ function PriorityPageContent() {
             </motion.button>
           )}
 
-          {/* Step 5: 입력 bar + 없어요 버튼 + 추천하기 버튼 */}
+          {/* Step 5: 추천받기 버튼 */}
           {currentStep === 5 && showFloatingButtons && (
-            <div className="space-y-3">
-              {/* 입력창 + 없어요 버튼 (1회만 표시) */}
-              {!hasUserInput && (
-                <>
-                  {/* 없어요 버튼 */}
-                  <div className="flex justify-start">
-                    <button
-                      onClick={handleSkip}
-                      className="px-4 py-2 bg-[#0084FE] text-white rounded-full font-bold text-sm hover:opacity-90 transition-all"
-                    >
-                      없어요
-                    </button>
-                  </div>
-
-                  {/* 입력창 */}
-                  <ChatInputBar
-                    value={input}
-                    onChange={setInput}
-                    onSend={handleSendMessage}
-                    placeholder="추가로 고려할 상황을 입력해주세요"
-                    disabled={false}
-                  />
-                </>
-              )}
-
-              {/* 추천받기 버튼 (입력 후에만 표시) */}
-              {hasUserInput && (
-                <button
-                  onClick={handleFinalSubmit}
-                  className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 hover:opacity-90"
-                >
-                  <span>추천받기</span>
-                  <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1 text-white" style={{ background: 'linear-gradient(135deg, #5855ff, #71c4fd, #5cdcdc)' }}>
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                    <span>AI</span>
-                  </span>
-                </button>
-              )}
-            </div>
+            <button
+              onClick={handleFinalSubmit}
+              className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2.5 hover:opacity-90"
+            >
+              <span>추천받기</span>
+              <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1 text-white" style={{ background: 'linear-gradient(135deg, #5855ff, #71c4fd, #5cdcdc)' }}>
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
+                <span>AI</span>
+              </span>
+            </button>
           )}
         </div>
 

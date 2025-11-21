@@ -278,7 +278,7 @@ export const CONS_TAGS: ConsTag[] = [
 export const ADDITIONAL_TAGS: AdditionalTag[] = [
   {
     id: 'portability-light',
-    text: '가볍고 작아서 외출 시 휴대하기 편해요',
+    text: '가볍고 휴대 편해요',
     relatedAttributes: [
       { attribute: 'portability', weight: 1.0 },      // 주 속성: 휴대성
       { attribute: 'usability', weight: 0.3 }         // 부 속성: 편의성
@@ -286,14 +286,14 @@ export const ADDITIONAL_TAGS: AdditionalTag[] = [
   },
   {
     id: 'design-aesthetic',
-    text: '세련된 디자인으로 인테리어를 살려줘요',
+    text: '디자인이 예뻐요',
     relatedAttributes: [
       { attribute: 'additionalFeatures', weight: 1.0 }  // 주 속성: 디자인
     ]
   },
   {
     id: 'display-intuitive',
-    text: '직관적인 디스플레이로 온도와 상태를 한눈에 확인할 수 있어요',
+    text: '디스플레이가 보기 좋아요',
     relatedAttributes: [
       { attribute: 'additionalFeatures', weight: 1.0 }, // 주 속성: 디스플레이
       { attribute: 'usability', weight: 0.3 }           // 부 속성: 편의성
