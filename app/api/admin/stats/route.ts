@@ -46,6 +46,8 @@ export async function GET(request: NextRequest) {
             firstSeen: event.timestamp,
             lastSeen: event.timestamp,
             ip: event.ip,
+            phone: event.phone, // URL 파라미터로 전달된 전화번호
+            utmCampaign: event.utmCampaign, // UTM 캠페인 파라미터
             events: [],
             journey: [],
             completed: false,
@@ -56,6 +58,16 @@ export async function GET(request: NextRequest) {
         const session = sessionMap.get(sessionId)!;
         session.events.push(event);
         session.lastSeen = event.timestamp;
+
+        // phone 업데이트 (이벤트에 phone이 있으면 세션에 반영)
+        if (event.phone && !session.phone) {
+          session.phone = event.phone;
+        }
+
+        // utmCampaign 업데이트 (이벤트에 utmCampaign이 있으면 세션에 반영)
+        if (event.utmCampaign && !session.utmCampaign) {
+          session.utmCampaign = event.utmCampaign;
+        }
 
         // 페이지 journey 추적
         if (event.eventType === 'page_view' && event.page) {
