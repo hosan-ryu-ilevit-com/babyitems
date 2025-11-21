@@ -283,7 +283,7 @@ function PriorityPageContent() {
         {
           id: initialMessageId,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n가장 잘 나가는 국민템의 내돈내산 후기를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n**가장 잘 나가는 국민템의 후기**를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
           typing: true,
         },
       ];
@@ -815,7 +815,7 @@ function PriorityPageContent() {
         {
           id: `msg-${Date.now()}-1`,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n가장 잘 나가는 국민템의 내돈내산 후기를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n**가장 잘 나가는 국민템의 후기**를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
           typing: true,
         },
         {
@@ -1034,8 +1034,8 @@ function PriorityPageContent() {
                         </div>
 
                         {/* 추가 태그들을 가로 2줄 스크롤로 표시 */}
-                        <div className="w-full overflow-x-auto scrollbar-hide -mx-4">
-                          <div className="grid grid-rows-2 grid-flow-col gap-2 px-4">
+                        <div className="overflow-x-auto overflow-y-hidden scrollbar-hide -mx-4">
+                          <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-2 px-4">
                             {ADDITIONAL_TAGS.map((tag) => {
                               const isSelected = selectedAdditionalTags.includes(tag.id);
                               const isMaxReached = selectedAdditionalTags.length >= TAG_SELECTION_LIMITS.additional.max && !isSelected;

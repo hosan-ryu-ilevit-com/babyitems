@@ -1,11 +1,9 @@
-// 통계 대시보드 API
+// 새로운 UTM 기반 퍼널 통계 API
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllLogDates, getLogsByDate } from '@/lib/logging/logger';
-import { products } from '@/data/products';
 import type {
-  DashboardStats,
-  ProductClickStats,
-  RecommendationStats,
+  CampaignFunnelStats,
+  FunnelStep,
   SessionSummary
 } from '@/types/logging';
 
@@ -14,6 +12,188 @@ const EXCLUDED_IPS = ['::1', '211.53.92.162'];
 
 function shouldExcludeSession(session: SessionSummary): boolean {
   return EXCLUDED_IPS.includes(session.ip || '');
+}
+
+// 퍼널 단계별 계산
+function calculateFunnelStep(count: number, previousCount: number): FunnelStep {
+  return {
+    count,
+    percentage: previousCount > 0 ? Math.round((count / previousCount) * 100) : 0
+  };
+}
+
+// UTM 캠페인별로 퍼널 통계 계산
+function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string): CampaignFunnelStats {
+  // UTM 필터링 (이미 고유한 세션들)
+  const filteredSessions = sessions.filter(session => {
+    if (utmCampaign === 'all') return true;
+    if (utmCampaign === 'none') return !session.utmCampaign;
+    return session.utmCampaign === utmCampaign;
+  });
+
+  const uniqueSessions = filteredSessions;
+
+  // 퍼널 단계별 카운트
+  const homePageViews = new Set<string>(); // 홈 페이지뷰 세션 ID
+  const priorityEntry = new Set<string>();
+  const prosTagsSelected = new Set<string>();
+  const consTagsSelected = new Set<string>();
+  const additionalSelected = new Set<string>();
+  const budgetSelected = new Set<string>();
+  const finalInputCompleted = new Set<string>();
+  const recommendationReceived = new Set<string>();
+
+  // Post-recommendation actions (총 클릭 횟수)
+  let productChatClickedTotal = 0;
+  let recommendationReasonViewedTotal = 0;
+  let coupangClickedTotal = 0;
+  let lowestPriceClickedTotal = 0;
+  let comparisonTabClickedTotal = 0;
+  let comparisonChatUsedTotal = 0;
+
+  // Post-recommendation actions (유니크 세션)
+  const productChatClickedSessions = new Set<string>();
+  const recommendationReasonViewedSessions = new Set<string>();
+  const coupangClickedSessions = new Set<string>();
+  const lowestPriceClickedSessions = new Set<string>();
+  const comparisonTabClickedSessions = new Set<string>();
+  const comparisonChatUsedSessions = new Set<string>();
+
+  uniqueSessions.forEach(session => {
+    const sessionId = session.sessionId;
+
+    session.events.forEach(event => {
+      const eventType = event.eventType;
+      const page = event.page;
+      const buttonLabel = event.buttonLabel || '';
+
+      // 1. 홈 페이지뷰
+      if (page === 'home' && eventType === 'page_view') {
+        homePageViews.add(sessionId);
+      }
+
+      // 2. Priority 진입
+      if (page === 'priority' && eventType === 'page_view') {
+        priorityEntry.add(sessionId);
+      }
+
+      // 3. 장점 태그 선택 (최소 1개 이상)
+      if (eventType === 'button_click' && buttonLabel.includes('장점 태그 선택')) {
+        prosTagsSelected.add(sessionId);
+      }
+
+      // 4. 단점 태그 선택 (최소 1개 이상, 또는 건너뛰기)
+      if (eventType === 'button_click' && (buttonLabel.includes('단점 태그 선택') || buttonLabel.includes('Step 2 → Step 3'))) {
+        consTagsSelected.add(sessionId);
+      }
+
+      // 5. 추가 고려사항 선택 (최소 1개 이상, 또는 건너뛰기)
+      if (eventType === 'button_click' && (buttonLabel.includes('추가 고려사항 태그 선택') || buttonLabel.includes('Step 3 → Step 4'))) {
+        additionalSelected.add(sessionId);
+      }
+
+      // 6. 예산 선택 (금액 선택 또는 Step 4 → Step 5 버튼 클릭)
+      if (eventType === 'button_click' && (buttonLabel.includes('예산 선택') || buttonLabel.includes('Step 4 → Step 5'))) {
+        budgetSelected.add(sessionId);
+      }
+
+      // 7. 마지막 입력 완료 (Step 5 완료: "없어요" 또는 "추가 입력 제출" 또는 "바로 추천받기")
+      if (eventType === 'button_click' && (
+        buttonLabel.includes('추가 입력 스킵 (없어요)') ||
+        buttonLabel.includes('추가 입력 제출') ||
+        buttonLabel.includes('바로 추천받기 (최종)')
+      )) {
+        finalInputCompleted.add(sessionId);
+      }
+
+      // Post-recommendation actions (Result 페이지)
+      if (page === 'result' && eventType === 'button_click') {
+        if (buttonLabel.includes('이 상품 질문하기') || buttonLabel.includes('바텀시트 이 상품 질문하기')) {
+          productChatClickedTotal++;
+          productChatClickedSessions.add(sessionId);
+        }
+        if (buttonLabel.includes('추천 이유 보기')) {
+          recommendationReasonViewedTotal++;
+          recommendationReasonViewedSessions.add(sessionId);
+        }
+        if (buttonLabel.includes('쿠팡에서 보기') || buttonLabel.includes('바텀시트 쿠팡에서 보기')) {
+          coupangClickedTotal++;
+          coupangClickedSessions.add(sessionId);
+        }
+        if (buttonLabel.includes('최저가 보기') || buttonLabel.includes('바텀시트 최저가 보기')) {
+          lowestPriceClickedTotal++;
+          lowestPriceClickedSessions.add(sessionId);
+        }
+        if (buttonLabel.includes('상세 비교 탭')) {
+          comparisonTabClickedTotal++;
+          comparisonTabClickedSessions.add(sessionId);
+        }
+      }
+
+      // 제품 비교 질문하기 (comparison_chat_message)
+      if (eventType === 'comparison_chat_message' && event.comparisonData?.source === 'result') {
+        comparisonChatUsedTotal++;
+        comparisonChatUsedSessions.add(sessionId);
+      }
+    });
+
+    // 8. Best 3 추천 완료 (초록색 '완료' 태그 = session.completed)
+    // Result 페이지 도달 여부로 판단 (관리자 페이지의 '완료' 태그와 일치)
+    if (session.completed) {
+      recommendationReceived.add(sessionId);
+    }
+  });
+
+  // 퍼널 계산
+  const homeCount = homePageViews.size;
+  const priorityCount = priorityEntry.size;
+  const prosCount = prosTagsSelected.size;
+  const consCount = consTagsSelected.size;
+  const additionalCount = additionalSelected.size;
+  const budgetCount = budgetSelected.size;
+  const finalInputCount = finalInputCompleted.size;
+  const recommendationCount = recommendationReceived.size;
+
+  return {
+    utmCampaign,
+    totalSessions: uniqueSessions.length,
+    funnel: {
+      homePageViews: { count: homeCount, percentage: 100 }, // 기준점
+      priorityEntry: calculateFunnelStep(priorityCount, homeCount),
+      prosTagsSelected: calculateFunnelStep(prosCount, priorityCount),
+      consTagsSelected: calculateFunnelStep(consCount, prosCount),
+      additionalSelected: calculateFunnelStep(additionalCount, consCount),
+      budgetSelected: calculateFunnelStep(budgetCount, additionalCount),
+      finalInputCompleted: calculateFunnelStep(finalInputCount, budgetCount),
+      recommendationReceived: calculateFunnelStep(recommendationCount, homeCount),
+      postRecommendationActions: {
+        productChatClicked: {
+          total: productChatClickedTotal,
+          unique: productChatClickedSessions.size
+        },
+        recommendationReasonViewed: {
+          total: recommendationReasonViewedTotal,
+          unique: recommendationReasonViewedSessions.size
+        },
+        coupangClicked: {
+          total: coupangClickedTotal,
+          unique: coupangClickedSessions.size
+        },
+        lowestPriceClicked: {
+          total: lowestPriceClickedTotal,
+          unique: lowestPriceClickedSessions.size
+        },
+        comparisonTabClicked: {
+          total: comparisonTabClickedTotal,
+          unique: comparisonTabClickedSessions.size
+        },
+        comparisonChatUsed: {
+          total: comparisonChatUsedTotal,
+          unique: comparisonChatUsedSessions.size
+        }
+      }
+    }
+  };
 }
 
 export async function GET(request: NextRequest) {
@@ -27,27 +207,24 @@ export async function GET(request: NextRequest) {
     // 모든 날짜의 로그 가져오기
     const dates = await getAllLogDates();
 
-    // 모든 세션 수집
-    const allSessions: SessionSummary[] = [];
+    // 모든 날짜의 세션을 sessionId 기준으로 병합
+    const globalSessionMap = new Map<string, SessionSummary>();
 
     for (const date of dates) {
       const dailyLog = await getLogsByDate(date);
       if (!dailyLog) continue;
 
-      // 이벤트를 세션별로 그룹화
-      const sessionMap = new Map<string, SessionSummary>();
-
       for (const event of dailyLog.events) {
         const sessionId = event.sessionId;
 
-        if (!sessionMap.has(sessionId)) {
-          sessionMap.set(sessionId, {
+        if (!globalSessionMap.has(sessionId)) {
+          globalSessionMap.set(sessionId, {
             sessionId,
             firstSeen: event.timestamp,
             lastSeen: event.timestamp,
             ip: event.ip,
-            phone: event.phone, // URL 파라미터로 전달된 전화번호
-            utmCampaign: event.utmCampaign, // UTM 캠페인 파라미터
+            phone: event.phone,
+            utmCampaign: event.utmCampaign,
             events: [],
             journey: [],
             completed: false,
@@ -55,16 +232,23 @@ export async function GET(request: NextRequest) {
           });
         }
 
-        const session = sessionMap.get(sessionId)!;
+        const session = globalSessionMap.get(sessionId)!;
         session.events.push(event);
-        session.lastSeen = event.timestamp;
 
-        // phone 업데이트 (이벤트에 phone이 있으면 세션에 반영)
+        // 타임스탬프 업데이트
+        if (event.timestamp < session.firstSeen) {
+          session.firstSeen = event.timestamp;
+        }
+        if (event.timestamp > session.lastSeen) {
+          session.lastSeen = event.timestamp;
+        }
+
+        // phone 업데이트
         if (event.phone && !session.phone) {
           session.phone = event.phone;
         }
 
-        // utmCampaign 업데이트 (이벤트에 utmCampaign이 있으면 세션에 반영)
+        // utmCampaign 업데이트
         if (event.utmCampaign && !session.utmCampaign) {
           session.utmCampaign = event.utmCampaign;
         }
@@ -76,191 +260,46 @@ export async function GET(request: NextRequest) {
           }
         }
 
-        // result 페이지 도달 여부
-        if (event.page === 'result') {
+        // 추천 완료 여부 (recommendation_received 이벤트 기준)
+        if (event.eventType === 'recommendation_received') {
           session.completed = true;
         }
-
-        // 추천 방식 추적
-        if (event.eventType === 'button_click') {
-          if (event.buttonLabel === '바로 추천받기' && !session.recommendationMethods?.includes('quick')) {
-            session.recommendationMethods = session.recommendationMethods || [];
-            session.recommendationMethods.push('quick');
-          }
-          if (event.buttonLabel === '채팅으로 더 자세히 추천받기' && !session.recommendationMethods?.includes('chat')) {
-            session.recommendationMethods = session.recommendationMethods || [];
-            session.recommendationMethods.push('chat');
-          }
-        }
       }
-
-      allSessions.push(...Array.from(sessionMap.values()));
     }
+
+    const allSessions = Array.from(globalSessionMap.values());
 
     // 테스트 IP 제외
     const filteredSessions = allSessions.filter(s => !shouldExcludeSession(s));
 
-    // 통계 계산
-    const stats: DashboardStats = {
-      home: {
-        totalVisits: 0,
-        quickStartClicks: 0,
-        rankingPageClicks: 0,
-      },
-      ranking: {
-        totalVisits: 0,
-        productClicks: [],
-        coupangClicks: 0,
-        chatClicks: 0,
-      },
-      priority: {
-        totalVisits: 0,
-        quickRecommendations: 0,
-        chatRecommendations: 0,
-      },
-      result: {
-        totalVisits: 0,
-        recommendations: [],
-        detailChatClicks: 0,
-        totalCoupangClicks: 0,
-        totalProductChatClicks: 0,
-      },
-    };
+    // UTM 캠페인 목록 추출
+    const utmCampaigns = new Set<string>();
+    utmCampaigns.add('all'); // 전체
+    let hasNone = false;
 
-    // 상품별 통계 맵
-    const rankingProductMap = new Map<string, ProductClickStats>();
-    const recommendationProductMap = new Map<string, RecommendationStats>();
-
-    // 세션별로 이벤트 분석
-    for (const session of filteredSessions) {
-      for (const event of session.events) {
-        const page = event.page;
-        const eventType = event.eventType;
-        const buttonLabel = event.buttonLabel || '';
-
-        // 1. 홈 페이지 통계
-        if (page === 'home') {
-          if (eventType === 'page_view') {
-            stats.home.totalVisits++;
-          }
-          if (eventType === 'button_click') {
-            if (buttonLabel.includes('1분만에 추천받기')) {
-              stats.home.quickStartClicks++;
-            }
-            if (buttonLabel.includes('대표상품 랭킹보기')) {
-              stats.home.rankingPageClicks++;
-            }
-          }
-        }
-
-        // 2. 랭킹 페이지 통계 (홈 바텀시트 포함)
-        if (page === 'ranking' || page === 'home_bottomsheet') {
-          if (eventType === 'page_view' && page === 'ranking') {
-            stats.ranking.totalVisits++;
-          }
-          if (eventType === 'button_click') {
-            // 쿠팡에서 보기
-            if (buttonLabel.includes('쿠팡에서 보기:')) {
-              stats.ranking.coupangClicks++;
-              // 상품명 추출
-              const productTitle = buttonLabel.replace('쿠팡에서 보기: ', '');
-              updateRankingProductStats(rankingProductMap, productTitle, 'coupang');
-            }
-            // 질문하기
-            if (buttonLabel.includes('이 상품 질문하기:')) {
-              stats.ranking.chatClicks++;
-              const productTitle = buttonLabel.replace('이 상품 질문하기: ', '');
-              updateRankingProductStats(rankingProductMap, productTitle, 'chat');
-            }
-          }
-        }
-
-        // 3. Priority 페이지 통계
-        if (page === 'priority') {
-          if (eventType === 'page_view') {
-            stats.priority.totalVisits++;
-          }
-          if (eventType === 'button_click') {
-            if (buttonLabel === '바로 추천받기') {
-              stats.priority.quickRecommendations++;
-            }
-            if (buttonLabel === '채팅으로 더 자세히 추천받기') {
-              stats.priority.chatRecommendations++;
-            }
-          }
-        }
-
-        // 4. Result 페이지 통계
-        if (page === 'result') {
-          if (eventType === 'page_view') {
-            stats.result.totalVisits++;
-          }
-
-          // 추천 결과 수집
-          if (eventType === 'recommendation_received' && event.recommendations) {
-            const productIds = event.recommendations.productIds || [];
-            const fullReport = event.recommendations.fullReport;
-
-            if (fullReport?.recommendations) {
-              for (const rec of fullReport.recommendations) {
-                updateRecommendationStats(
-                  recommendationProductMap,
-                  rec.productId,
-                  rec.productTitle,
-                  rec.rank
-                );
-              }
-            }
-          }
-
-          if (eventType === 'button_click') {
-            // 채팅하고 더 정확히 추천받기 (Result 페이지 전용)
-            if (
-              buttonLabel === '채팅하고 더 정확히 추천받기' ||
-              buttonLabel === '채팅받고 추천받기' ||
-              (buttonLabel.includes('채팅') && buttonLabel.includes('더 정확히'))
-            ) {
-              stats.result.detailChatClicks++;
-            }
-
-            // 쿠팡에서 보기 (Result 페이지)
-            if (buttonLabel.includes('쿠팡에서 보기:') || buttonLabel.includes('바텀시트 쿠팡에서 보기:')) {
-              stats.result.totalCoupangClicks++;
-              const productTitle = buttonLabel
-                .replace('쿠팡에서 보기: ', '')
-                .replace('바텀시트 쿠팡에서 보기: ', '');
-              updateRecommendationClickStats(recommendationProductMap, productTitle, 'coupang');
-            }
-
-            // 질문하기 (Result 페이지)
-            if (buttonLabel.includes('이 상품 질문하기:') || buttonLabel.includes('바텀시트 이 상품 질문하기:')) {
-              stats.result.totalProductChatClicks++;
-              const productTitle = buttonLabel
-                .replace('이 상품 질문하기: ', '')
-                .replace('바텀시트 이 상품 질문하기: ', '');
-              updateRecommendationClickStats(recommendationProductMap, productTitle, 'chat');
-            }
-          }
-        }
+    filteredSessions.forEach(session => {
+      if (session.utmCampaign) {
+        utmCampaigns.add(session.utmCampaign);
+      } else {
+        hasNone = true;
       }
+    });
+
+    if (hasNone) {
+      utmCampaigns.add('none'); // UTM 없음
     }
 
-    // Map을 배열로 변환 및 랭킹 정보 매핑
-    stats.ranking.productClicks = Array.from(rankingProductMap.values())
-      .map(product => {
-        // 실제 상품 데이터에서 랭킹 찾기
-        const actualProduct = products.find(p => p.title === product.productTitle);
-        return {
-          ...product,
-          ranking: actualProduct?.ranking || 0,
-        };
-      })
-      .sort((a, b) => b.totalClicks - a.totalClicks);
+    // UTM별 퍼널 통계 계산
+    const campaignStats: CampaignFunnelStats[] = [];
+    for (const utmCampaign of Array.from(utmCampaigns)) {
+      campaignStats.push(calculateCampaignFunnel(filteredSessions, utmCampaign));
+    }
 
-    stats.result.recommendations = Array.from(recommendationProductMap.values())
-      .sort((a, b) => b.recommendCount - a.recommendCount);
-
-    return NextResponse.json(stats);
+    // 응답 반환
+    return NextResponse.json({
+      campaigns: campaignStats,
+      availableCampaigns: Array.from(utmCampaigns)
+    });
   } catch (error) {
     console.error('Failed to generate stats:', error);
     return NextResponse.json(
@@ -268,88 +307,4 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-// 랭킹 페이지 상품 통계 업데이트
-function updateRankingProductStats(
-  map: Map<string, ProductClickStats>,
-  productTitle: string,
-  type: 'coupang' | 'chat'
-) {
-  // 상품 ID 추출 (간단하게 제목으로 매핑)
-  const productId = extractProductId(productTitle);
-
-  if (!map.has(productId)) {
-    map.set(productId, {
-      productId,
-      productTitle,
-      ranking: 0, // 랭킹은 나중에 매핑
-      totalClicks: 0,
-      coupangClicks: 0,
-      chatClicks: 0,
-    });
-  }
-
-  const stats = map.get(productId)!;
-  stats.totalClicks++;
-  if (type === 'coupang') {
-    stats.coupangClicks++;
-  } else {
-    stats.chatClicks++;
-  }
-}
-
-// 추천 상품 통계 업데이트
-function updateRecommendationStats(
-  map: Map<string, RecommendationStats>,
-  productId: string,
-  productTitle: string,
-  rank: number
-) {
-  if (!map.has(productId)) {
-    map.set(productId, {
-      productId,
-      productTitle,
-      recommendCount: 0,
-      rank1Count: 0,
-      rank2Count: 0,
-      rank3Count: 0,
-      coupangClicks: 0,
-      chatClicks: 0,
-    });
-  }
-
-  const stats = map.get(productId)!;
-  stats.recommendCount++;
-
-  if (rank === 1) stats.rank1Count++;
-  else if (rank === 2) stats.rank2Count++;
-  else if (rank === 3) stats.rank3Count++;
-}
-
-// 추천 상품 클릭 통계 업데이트
-function updateRecommendationClickStats(
-  map: Map<string, RecommendationStats>,
-  productTitle: string,
-  type: 'coupang' | 'chat'
-) {
-  // productTitle로 기존 통계 찾기 (정확히 일치하는 것만)
-  for (const stats of map.values()) {
-    if (stats.productTitle === productTitle) {
-      if (type === 'coupang') {
-        stats.coupangClicks++;
-      } else {
-        stats.chatClicks++;
-      }
-      break; // 첫 번째 매칭만 업데이트
-    }
-  }
-
-  // 매칭되는 상품이 없는 경우는 추천되지 않은 상품이므로 무시
-}
-
-// 상품 ID 추출 (제목 → ID 매핑)
-function extractProductId(productTitle: string): string {
-  // 간단하게 제목을 ID로 사용 (실제로는 제품 데이터와 매칭 필요)
-  return productTitle.split(' ').slice(0, 3).join('-').toLowerCase();
 }

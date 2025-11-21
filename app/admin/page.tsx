@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { SessionSummary, DashboardStats } from '@/types/logging';
+import type { SessionSummary, CampaignFunnelStats } from '@/types/logging';
 import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 
 // 액션 통계 타입
@@ -24,8 +24,17 @@ export default function AdminPage() {
   const [selectedSessions, setSelectedSessions] = useState<Set<string>>(new Set());
   const [isDashboardExpanded, setIsDashboardExpanded] = useState(false);
   const [allSessions, setAllSessions] = useState<SessionSummary[]>([]); // 전체 날짜 세션
-  const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null);
-  const [statsLoading, setStatsLoading] = useState(false);
+
+  // UTM 퍼널 통계
+  const [campaigns, setCampaigns] = useState<CampaignFunnelStats[]>([]);
+  const [availableCampaigns, setAvailableCampaigns] = useState<string[]>([]);
+  const [selectedCampaign, setSelectedCampaign] = useState<string>('all');
+  const [funnelLoading, setFunnelLoading] = useState(false);
+
+  // 액션 로그 필터
+  const [filterUtm, setFilterUtm] = useState<string>('all'); // 'all' | 'none' | 캠페인명
+  const [filterCompleted, setFilterCompleted] = useState<string>('all'); // 'all' | 'completed' | 'incomplete'
+  const [phoneCopied, setPhoneCopied] = useState(false);
 
   // 비밀번호 검증
   const handleLogin = () => {
@@ -49,21 +58,21 @@ export default function AdminPage() {
       const data = await response.json();
       setDates(data.dates || []);
       if (data.dates && data.dates.length > 0) {
-        setSelectedDate(data.dates[0]);
-        fetchLogs(data.dates[0]);
         // 전체 날짜의 로그를 가져와서 누적 통계 계산
-        fetchAllLogs(data.dates);
-        // 통계 대시보드 가져오기
-        fetchDashboardStats();
+        await fetchAllLogs(data.dates);
+        // 초기 선택: 전체 날짜
+        setSelectedDate('all');
+        // UTM 퍼널 통계 가져오기
+        fetchFunnelStats();
       }
     } catch {
       setError('날짜 목록을 불러오는데 실패했습니다.');
     }
   };
 
-  // 통계 대시보드 가져오기
-  const fetchDashboardStats = async () => {
-    setStatsLoading(true);
+  // UTM 퍼널 통계 가져오기
+  const fetchFunnelStats = async () => {
+    setFunnelLoading(true);
     try {
       const response = await fetch('/api/admin/stats', {
         headers: {
@@ -71,11 +80,16 @@ export default function AdminPage() {
         },
       });
       const data = await response.json();
-      setDashboardStats(data);
+
+      if (response.ok) {
+        setCampaigns(data.campaigns || []);
+        setAvailableCampaigns(data.availableCampaigns || []);
+        setSelectedCampaign(data.availableCampaigns?.[0] || 'all');
+      }
     } catch (error) {
-      console.error('Failed to fetch dashboard stats:', error);
+      console.error('Failed to fetch funnel stats:', error);
     } finally {
-      setStatsLoading(false);
+      setFunnelLoading(false);
     }
   };
 
@@ -88,8 +102,59 @@ export default function AdminPage() {
         }).then(res => res.json())
       );
       const results = await Promise.all(promises);
-      const allSessionsData = results.flatMap(data => data.sessions || []);
-      setAllSessions(allSessionsData);
+
+      // sessionId 기준으로 병합 (중복 제거)
+      const sessionMap = new Map<string, SessionSummary>();
+
+      results.forEach(result => {
+        (result.sessions || []).forEach((session: SessionSummary) => {
+          if (!sessionMap.has(session.sessionId)) {
+            sessionMap.set(session.sessionId, session);
+          } else {
+            // 이미 있는 세션이면 이벤트 병합
+            const existing = sessionMap.get(session.sessionId)!;
+            existing.events.push(...session.events);
+
+            // 타임스탬프 업데이트
+            if (session.firstSeen < existing.firstSeen) {
+              existing.firstSeen = session.firstSeen;
+            }
+            if (session.lastSeen > existing.lastSeen) {
+              existing.lastSeen = session.lastSeen;
+            }
+
+            // phone, utmCampaign, completed 업데이트
+            if (session.phone && !existing.phone) {
+              existing.phone = session.phone;
+            }
+            if (session.utmCampaign && !existing.utmCampaign) {
+              existing.utmCampaign = session.utmCampaign;
+            }
+            if (session.completed) {
+              existing.completed = true;
+            }
+
+            // journey 병합 (중복 제거)
+            session.journey.forEach(page => {
+              if (!existing.journey.includes(page)) {
+                existing.journey.push(page);
+              }
+            });
+
+            // recommendationMethods 병합
+            session.recommendationMethods?.forEach(method => {
+              if (!existing.recommendationMethods?.includes(method)) {
+                existing.recommendationMethods = existing.recommendationMethods || [];
+                existing.recommendationMethods.push(method);
+              }
+            });
+          }
+        });
+      });
+
+      const mergedSessions = Array.from(sessionMap.values());
+      setAllSessions(mergedSessions);
+      setSessions(mergedSessions); // 초기 표시는 전체 날짜
     } catch {
       console.error('전체 로그를 불러오는데 실패했습니다.');
     }
@@ -117,7 +182,15 @@ export default function AdminPage() {
   const handleDateChange = (date: string) => {
     setSelectedDate(date);
     setSelectedSessions(new Set()); // 선택 초기화
-    fetchLogs(date);
+    setFilterUtm('all'); // 필터 초기화
+    setFilterCompleted('all');
+    if (date === 'all') {
+      // 전체 날짜 선택 시 allSessions 사용
+      setSessions(allSessions);
+      setLoading(false);
+    } else {
+      fetchLogs(date);
+    }
   };
 
   // 이벤트 타입 한글 변환
@@ -170,15 +243,6 @@ export default function AdminPage() {
       newSelected.add(sessionId);
     }
     setSelectedSessions(newSelected);
-  };
-
-  // 전체 선택/해제
-  const toggleSelectAll = () => {
-    if (selectedSessions.size === sessions.length) {
-      setSelectedSessions(new Set());
-    } else {
-      setSelectedSessions(new Set(sessions.map(s => s.sessionId)));
-    }
   };
 
   // 세션 삭제
@@ -246,8 +310,33 @@ export default function AdminPage() {
 
   // 새로고침
   const handleRefresh = () => {
-    if (selectedDate) {
+    if (selectedDate === 'all') {
+      fetchAllLogs(dates);
+    } else if (selectedDate) {
       fetchLogs(selectedDate);
+    }
+  };
+
+  // 필터된 세션의 phone 번호를 엑셀 컬럼 형식으로 복사
+  const copyPhoneNumbers = async () => {
+    const phoneNumbers = filteredSessions
+      .map(session => session.phone)
+      .filter(Boolean); // phone이 있는 세션만
+
+    if (phoneNumbers.length === 0) {
+      alert('전화번호가 있는 세션이 없습니다.');
+      return;
+    }
+
+    const textToCopy = phoneNumbers.join('\n'); // 줄바꿈으로 구분
+
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setPhoneCopied(true);
+      setTimeout(() => setPhoneCopied(false), 2000); // 2초 후 상태 리셋
+    } catch (error) {
+      console.error('복사 실패:', error);
+      alert('복사에 실패했습니다.');
     }
   };
 
@@ -411,6 +500,47 @@ export default function AdminPage() {
     return <span className="text-blue-600 text-xs">{label}</span>;
   };
 
+  // 테스트 IP 제외 (UTM 퍼널과 동일)
+  const EXCLUDED_IPS = ['::1', '211.53.92.162'];
+  const shouldExcludeSession = (session: SessionSummary): boolean => {
+    return EXCLUDED_IPS.includes(session.ip || '');
+  };
+
+  // 세션 필터링 (AND 조건)
+  const filteredSessions = sessions.filter(session => {
+    // 테스트 IP 제외
+    if (shouldExcludeSession(session)) {
+      return false;
+    }
+
+    // UTM 필터
+    let utmMatch = true;
+    if (filterUtm === 'none') {
+      utmMatch = !session.utmCampaign;
+    } else if (filterUtm !== 'all') {
+      utmMatch = session.utmCampaign === filterUtm;
+    }
+
+    // 완료 상태 필터
+    let completedMatch = true;
+    if (filterCompleted === 'completed') {
+      completedMatch = session.completed === true;
+    } else if (filterCompleted === 'incomplete') {
+      completedMatch = session.completed === false;
+    }
+
+    return utmMatch && completedMatch;
+  });
+
+  // 세션에서 사용 가능한 UTM 캠페인 목록 추출
+  const availableUtmCampaigns = Array.from(
+    new Set(
+      sessions
+        .map(s => s.utmCampaign)
+        .filter(Boolean)
+    )
+  ).sort();
+
   // 액션 통계 계산
   const calculateActionStats = (): ActionStats[] => {
     const today = new Date().toISOString().split('T')[0];
@@ -535,191 +665,139 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* 신규 통계 대시보드 */}
+          {/* UTM 퍼널 분석 */}
           <div className="border-t pt-4 mt-4">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">📊 통계 대시보드</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-800">📊 UTM 퍼널 분석</h2>
+              {/* UTM 캠페인 선택 */}
+              {availableCampaigns.length > 0 && (
+                <select
+                  value={selectedCampaign}
+                  onChange={(e) => setSelectedCampaign(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {availableCampaigns.map(campaign => (
+                    <option key={campaign} value={campaign}>
+                      {campaign === 'all' ? '전체' : campaign === 'none' ? 'UTM 없음' : campaign}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
 
-            {statsLoading ? (
+            {funnelLoading ? (
               <div className="text-center py-8">
-                <p className="text-gray-600">통계 로딩 중...</p>
+                <p className="text-gray-600">퍼널 통계 로딩 중...</p>
               </div>
-            ) : dashboardStats ? (
-              <div className="space-y-6">
-                {/* 1. 홈 페이지 통계 */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    🏠 홈 페이지
-                  </h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">총 방문</p>
-                      <p className="text-2xl font-bold text-gray-900">{dashboardStats.home.totalVisits}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">1분만에 추천받기</p>
-                      <p className="text-2xl font-bold text-blue-600">{dashboardStats.home.quickStartClicks}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">랭킹보기</p>
-                      <p className="text-2xl font-bold text-purple-600">{dashboardStats.home.rankingPageClicks}</p>
-                    </div>
-                  </div>
-                </div>
+            ) : campaigns.length > 0 ? (
+              (() => {
+                const currentCampaign = campaigns.find(c => c.utmCampaign === selectedCampaign);
+                if (!currentCampaign) return null;
 
-                {/* 2. 홈 랭킹 페이지 전체 통계 */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    📊 홈 랭킹 페이지 전체
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">쿠팡 클릭</p>
-                      <p className="text-2xl font-bold text-orange-600">{dashboardStats.ranking.coupangClicks}</p>
+                return (
+                  <div className="space-y-6">
+                    {/* 전체 세션 수 */}
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <p className="text-sm text-gray-600 mb-1">총 세션 수</p>
+                      <p className="text-3xl font-bold text-blue-600">{currentCampaign.totalSessions}</p>
                     </div>
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">질문하기</p>
-                      <p className="text-2xl font-bold text-green-600">{dashboardStats.ranking.chatClicks}</p>
-                    </div>
-                  </div>
 
-                  {/* 상품별 클릭 통계 */}
-                  {dashboardStats.ranking.productClicks.length > 0 && (
-                    <div className="mt-4">
-                      <p className="text-sm font-semibold text-gray-700 mb-2">상품별 클릭 통계</p>
-                      <div className="bg-white rounded-lg overflow-hidden">
-                        <table className="w-full text-xs">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="px-3 py-2 text-center font-semibold">클릭<br/>순위</th>
-                              <th className="px-3 py-2 text-center font-semibold">랭킹</th>
-                              <th className="px-3 py-2 text-left font-semibold">상품명</th>
-                              <th className="px-3 py-2 text-center font-semibold">총 클릭</th>
-                              <th className="px-3 py-2 text-center font-semibold">쿠팡</th>
-                              <th className="px-3 py-2 text-center font-semibold">질문</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-gray-200">
-                            {dashboardStats.ranking.productClicks.slice(0, 10).map((product, idx) => (
-                              <tr key={product.productId} className="hover:bg-gray-50">
-                                <td className="px-3 py-2 text-center">
-                                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold">
-                                    {idx + 1}
-                                  </span>
-                                </td>
-                                <td className="px-3 py-2 text-center">
-                                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold">
-                                    {product.ranking}
-                                  </span>
-                                </td>
-                                <td className="px-3 py-2 text-gray-900 font-medium">{product.productTitle}</td>
-                                <td className="px-3 py-2 text-center">
-                                  <span className="px-2 py-1 bg-gray-100 text-gray-900 rounded-full font-semibold">
-                                    {product.totalClicks}
-                                  </span>
-                                </td>
-                                <td className="px-3 py-2 text-center text-orange-600 font-medium">{product.coupangClicks}</td>
-                                <td className="px-3 py-2 text-center text-green-600 font-medium">{product.chatClicks}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                    {/* 퍼널 시각화 - 단순화된 3단계 */}
+                    <div className="bg-white border border-gray-200 rounded-lg p-6">
+                      <h3 className="text-base font-bold text-gray-900 mb-4">사용자 여정 퍼널</h3>
+                      <div className="space-y-4">
+                        {/* 1. 홈 페이지뷰 */}
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-gray-700">1️⃣ 홈 페이지뷰</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.homePageViews.percentage}%</span>
+                              <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.homePageViews.count}</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-4">
+                            <div className="bg-blue-500 h-4 rounded-full transition-all" style={{ width: '100%' }} />
+                          </div>
+                        </div>
+
+                        {/* 2. Priority 진입 */}
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-gray-700">2️⃣ Priority 진입</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.priorityEntry.percentage}%</span>
+                              <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.priorityEntry.count}</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-4">
+                            <div className="bg-green-500 h-4 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.priorityEntry.percentage}%` }} />
+                          </div>
+                        </div>
+
+                        {/* 3. Best 3 추천 완료 (강조) */}
+                        <div className="border-2 border-purple-300 bg-purple-50 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-purple-900">3️⃣ 🎯 Best 3 추천 완료</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-medium text-purple-700">{currentCampaign.funnel.recommendationReceived.percentage}%</span>
+                              <span className="text-lg font-bold text-purple-600">{currentCampaign.funnel.recommendationReceived.count}</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-purple-200 rounded-full h-4">
+                            <div className="bg-purple-600 h-4 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.recommendationReceived.percentage}%` }} />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  )}
-                </div>
 
-                {/* 3. Priority 페이지 통계 */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    🎯 Priority 페이지
-                  </h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">총 방문</p>
-                      <p className="text-2xl font-bold text-gray-900">{dashboardStats.priority.totalVisits}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">바로 추천받기</p>
-                      <p className="text-2xl font-bold text-yellow-600">{dashboardStats.priority.quickRecommendations}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">채팅으로 추천</p>
-                      <p className="text-2xl font-bold text-blue-600">{dashboardStats.priority.chatRecommendations}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 4. Result 페이지 통계 */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    🏆 Result 페이지
-                  </h3>
-                  <div className="grid grid-cols-4 gap-4 mb-4">
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">총 방문</p>
-                      <p className="text-2xl font-bold text-gray-900">{dashboardStats.result.totalVisits}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">상세 채팅</p>
-                      <p className="text-2xl font-bold text-blue-600">{dashboardStats.result.detailChatClicks}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">쿠팡 클릭</p>
-                      <p className="text-2xl font-bold text-orange-600">{dashboardStats.result.totalCoupangClicks}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 text-center">
-                      <p className="text-xs text-gray-600 mb-1">질문하기</p>
-                      <p className="text-2xl font-bold text-green-600">{dashboardStats.result.totalProductChatClicks}</p>
-                    </div>
-                  </div>
-
-                  {/* 추천 상품 통계 */}
-                  {dashboardStats.result.recommendations.length > 0 && (
-                    <div className="mt-4">
-                      <p className="text-sm font-semibold text-gray-700 mb-2">추천된 상품 통계</p>
-                      <div className="bg-white rounded-lg overflow-hidden">
-                        <table className="w-full text-xs">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="px-3 py-2 text-left font-semibold">상품명</th>
-                              <th className="px-3 py-2 text-center font-semibold">총 추천</th>
-                              <th className="px-3 py-2 text-center font-semibold">1위</th>
-                              <th className="px-3 py-2 text-center font-semibold">2위</th>
-                              <th className="px-3 py-2 text-center font-semibold">3위</th>
-                              <th className="px-3 py-2 text-center font-semibold">쿠팡</th>
-                              <th className="px-3 py-2 text-center font-semibold">질문</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-gray-200">
-                            {dashboardStats.result.recommendations.slice(0, 10).map((product) => (
-                              <tr key={product.productId} className="hover:bg-gray-50">
-                                <td className="px-3 py-2 text-gray-900 font-medium">{product.productTitle}</td>
-                                <td className="px-3 py-2 text-center">
-                                  <span className="px-2 py-1 bg-purple-100 text-purple-900 rounded-full font-semibold">
-                                    {product.recommendCount}
-                                  </span>
-                                </td>
-                                <td className="px-3 py-2 text-center">
-                                  <span className="px-2 py-1 bg-yellow-100 text-yellow-900 rounded-full font-semibold">
-                                    {product.rank1Count}
-                                  </span>
-                                </td>
-                                <td className="px-3 py-2 text-center text-gray-600 font-medium">{product.rank2Count}</td>
-                                <td className="px-3 py-2 text-center text-gray-600 font-medium">{product.rank3Count}</td>
-                                <td className="px-3 py-2 text-center text-orange-600 font-medium">{product.coupangClicks}</td>
-                                <td className="px-3 py-2 text-center text-green-600 font-medium">{product.chatClicks}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                    {/* Post-Recommendation Actions */}
+                    <div className="bg-white border border-gray-200 rounded-lg p-6">
+                      <h3 className="text-base font-bold text-gray-900 mb-4">추천 이후 액션</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">💬</div>
+                          <p className="text-xs text-gray-600 mb-1">제품 질문하기</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.postRecommendationActions.productChatClicked.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.postRecommendationActions.productChatClicked.unique}명</p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">📝</div>
+                          <p className="text-xs text-gray-600 mb-1">추천이유보기</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.postRecommendationActions.recommendationReasonViewed.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.postRecommendationActions.recommendationReasonViewed.unique}명</p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">🛒</div>
+                          <p className="text-xs text-gray-600 mb-1">쿠팡에서보기</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.postRecommendationActions.coupangClicked.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.postRecommendationActions.coupangClicked.unique}명</p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">💰</div>
+                          <p className="text-xs text-gray-600 mb-1">최저가보기</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.postRecommendationActions.lowestPriceClicked.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.postRecommendationActions.lowestPriceClicked.unique}명</p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">📊</div>
+                          <p className="text-xs text-gray-600 mb-1">상세비교표 탭</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.postRecommendationActions.comparisonTabClicked.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.postRecommendationActions.comparisonTabClicked.unique}명</p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">🔍</div>
+                          <p className="text-xs text-gray-600 mb-1">제품 비교질문</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.postRecommendationActions.comparisonChatUsed.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.postRecommendationActions.comparisonChatUsed.unique}명</p>
+                        </div>
                       </div>
                     </div>
-                  )}
-                </div>
-              </div>
+                  </div>
+                );
+              })()
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-600">통계 데이터가 없습니다.</p>
+                <p className="text-gray-600">퍼널 데이터가 없습니다.</p>
               </div>
             )}
           </div>
@@ -784,6 +862,7 @@ export default function AdminPage() {
               onChange={(e) => handleDateChange(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
+              <option value="all">전체 날짜</option>
               {dates.map((date) => (
                 <option key={date} value={date}>
                   {date}
@@ -791,7 +870,7 @@ export default function AdminPage() {
               ))}
             </select>
             <span className="text-gray-600">
-              총 {sessions.length}개 세션
+              총 {sessions.length}개 세션 {selectedDate === 'all' && '(테스트 IP 제외)'}
             </span>
             <button
               onClick={handleRefresh}
@@ -805,17 +884,101 @@ export default function AdminPage() {
             </button>
           </div>
 
+          {/* 필터 컨트롤 */}
+          <div className="flex gap-4 items-center mb-4 pb-4 border-b">
+            <label className="font-semibold">🔍 필터:</label>
+
+            {/* UTM 캠페인 필터 */}
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-gray-600">UTM:</label>
+              <select
+                value={filterUtm}
+                onChange={(e) => setFilterUtm(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">전체</option>
+                <option value="none">UTM 없음</option>
+                {availableUtmCampaigns.map(campaign => (
+                  <option key={campaign} value={campaign}>
+                    {campaign}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* 완료 상태 필터 */}
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-gray-600">완료 여부:</label>
+              <select
+                value={filterCompleted}
+                onChange={(e) => setFilterCompleted(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">전체</option>
+                <option value="completed">완료</option>
+                <option value="incomplete">미완료</option>
+              </select>
+            </div>
+
+            {/* 필터 결과 표시 */}
+            <span className="text-sm text-gray-600">
+              {filteredSessions.length}개 표시 {filteredSessions.length !== sessions.length && `(${sessions.length}개 중)`}
+            </span>
+
+            {/* 필터 초기화 버튼 */}
+            {(filterUtm !== 'all' || filterCompleted !== 'all') && (
+              <button
+                onClick={() => {
+                  setFilterUtm('all');
+                  setFilterCompleted('all');
+                }}
+                className="px-3 py-1.5 text-sm bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                필터 초기화
+              </button>
+            )}
+
+            {/* Phone 복사 버튼 */}
+            <button
+              onClick={copyPhoneNumbers}
+              className="ml-auto px-3 py-1.5 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+              title="필터된 세션의 전화번호를 복사합니다"
+            >
+              {phoneCopied ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  복사완료!
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                  </svg>
+                  📱 Phone 복사
+                </>
+              )}
+            </button>
+          </div>
+
           {/* 일괄 작업 컨트롤 */}
-          {!loading && sessions.length > 0 && (
+          {!loading && filteredSessions.length > 0 && (
             <div className="flex gap-3 items-center pt-4 border-t">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={selectedSessions.size === sessions.length && sessions.length > 0}
-                  onChange={toggleSelectAll}
+                  checked={selectedSessions.size === filteredSessions.length && filteredSessions.length > 0}
+                  onChange={() => {
+                    if (selectedSessions.size === filteredSessions.length) {
+                      setSelectedSessions(new Set());
+                    } else {
+                      setSelectedSessions(new Set(filteredSessions.map(s => s.sessionId)));
+                    }
+                  }}
                   className="w-4 h-4 cursor-pointer"
                 />
-                <span className="text-sm font-medium">전체 선택</span>
+                <span className="text-sm font-medium">전체 선택 (필터된 세션)</span>
               </label>
               {selectedSessions.size > 0 && (
                 <>
@@ -845,15 +1008,30 @@ export default function AdminPage() {
         )}
 
         {/* 세션 목록 */}
+        {!loading && filteredSessions.length === 0 && sessions.length > 0 && (
+          <div className="bg-white rounded-lg p-8 text-center">
+            <p className="text-gray-600">필터 조건에 맞는 세션이 없습니다.</p>
+            <button
+              onClick={() => {
+                setFilterUtm('all');
+                setFilterCompleted('all');
+              }}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              필터 초기화
+            </button>
+          </div>
+        )}
+
         {!loading && sessions.length === 0 && (
           <div className="bg-white rounded-lg p-8 text-center">
             <p className="text-gray-600">해당 날짜에 기록된 로그가 없습니다.</p>
           </div>
         )}
 
-        {!loading && sessions.length > 0 && (
+        {!loading && filteredSessions.length > 0 && (
           <div className="space-y-4">
-            {sessions.map((session) => (
+            {filteredSessions.map((session) => (
               <div
                 key={session.sessionId}
                 className="bg-white rounded-lg overflow-hidden"

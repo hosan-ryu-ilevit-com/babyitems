@@ -160,3 +160,37 @@ export interface RecommendationStats {
   coupangClicks: number; // 쿠팡 링크 클릭 수
   chatClicks: number; // 질문하기 클릭 수
 }
+
+// 새로운 퍼널 통계 (UTM 기반)
+export interface FunnelStep {
+  count: number;
+  percentage: number; // 이전 단계 대비 비율 (%)
+}
+
+export interface PostRecommendationAction {
+  total: number; // 총 클릭 횟수
+  unique: number; // 유니크 세션 수
+}
+
+export interface CampaignFunnelStats {
+  utmCampaign: string; // 'all' | 'none' | 특정 캠페인명 (e.g., 'first')
+  totalSessions: number;
+  funnel: {
+    homePageViews: FunnelStep;
+    priorityEntry: FunnelStep;
+    prosTagsSelected: FunnelStep;
+    consTagsSelected: FunnelStep;
+    additionalSelected: FunnelStep;
+    budgetSelected: FunnelStep;
+    finalInputCompleted: FunnelStep; // "없어요" 포함
+    recommendationReceived: FunnelStep; // Best 3 추천 완료
+    postRecommendationActions: {
+      productChatClicked: PostRecommendationAction; // 제품 질문하기
+      recommendationReasonViewed: PostRecommendationAction; // 추천이유보기
+      coupangClicked: PostRecommendationAction; // 쿠팡에서보기
+      lowestPriceClicked: PostRecommendationAction; // 최저가보기
+      comparisonTabClicked: PostRecommendationAction; // 상세비교표 탭 클릭
+      comparisonChatUsed: PostRecommendationAction; // 제품 비교질문하기 쿼리
+    };
+  };
+}
