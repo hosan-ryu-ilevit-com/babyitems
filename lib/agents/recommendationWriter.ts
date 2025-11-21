@@ -278,6 +278,10 @@ export async function generateRecommendationReason(
 
 /**
  * Top 3 제품에 대한 추천 이유를 일괄 생성 (병렬 처리)
+ *
+ * @param rankedProducts - Top 3 제품 배열
+ * @param persona - 사용자 페르소나
+ * @param cachedMarkdowns - Phase 4에서 이미 로드한 마크다운 데이터 (선택적, 최적화용)
  */
 export async function generateTop3Recommendations(
   rankedProducts: Array<{
@@ -285,17 +289,25 @@ export async function generateTop3Recommendations(
     evaluation: ProductEvaluation;
     finalScore: number;
   }>,
-  persona: UserPersona
+  persona: UserPersona,
+  cachedMarkdowns?: Record<string, string>
 ): Promise<Recommendation[]> {
   console.log(`🔄 Starting parallel recommendation generation for Top 3 products...`);
 
   const top3 = rankedProducts.slice(0, 3);
 
-  // ✅ Step 1: 모든 제품의 마크다운 파일을 병렬로 로드 (성능 최적화)
-  console.log('📖 Loading product markdown files in parallel...');
-  const productIds = top3.map(p => p.product.id);
-  const markdownMap = await loadMultipleProductDetails(productIds);
-  console.log(`✓ Loaded ${Object.keys(markdownMap).length}/${productIds.length} markdown files`);
+  // ✅ Step 1: 마크다운 데이터 준비 (캐시가 있으면 재사용, 없으면 로드)
+  let markdownMap: Record<string, string>;
+
+  if (cachedMarkdowns && Object.keys(cachedMarkdowns).length > 0) {
+    console.log('♻️  Reusing cached markdown data from Phase 4 (optimization)');
+    markdownMap = cachedMarkdowns;
+  } else {
+    console.log('📖 Loading product markdown files in parallel...');
+    const productIds = top3.map(p => p.product.id);
+    markdownMap = await loadMultipleProductDetails(productIds);
+    console.log(`✓ Loaded ${Object.keys(markdownMap).length}/${productIds.length} markdown files`);
+  }
 
   // ✅ Step 2: 각 제품에 대한 추천 이유 생성 (병렬 처리로 속도 개선)
   const recommendationPromises = top3.map(async (current, i) => {

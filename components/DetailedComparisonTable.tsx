@@ -108,7 +108,7 @@ export default function DetailedComparisonTable({ recommendations, cachedFeature
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="comparison-table-section bg-white rounded-2xl p-5 border border-gray-100 mb-8"
+      className="comparison-table-section bg-white rounded-2xl p-5 mb-8"
     >
       {/* <h3 className="text-lg font-bold text-gray-900 mb-4">🔎 한 눈에 비교</h3> */}
 
@@ -126,7 +126,7 @@ export default function DetailedComparisonTable({ recommendations, cachedFeature
               {top3.map((rec) => (
                 <th key={rec.product.id} className="py-3 px-2 text-center" style={{ width: '28%' }}>
                   <div className="flex flex-col items-center gap-2">
-                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
                       {rec.product.thumbnail && (
                         <Image
                           src={rec.product.thumbnail}

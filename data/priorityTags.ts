@@ -274,29 +274,56 @@ export const CONS_TAGS: ConsTag[] = [
 /**
  * 추가 고려사항 태그 (Step 2.5)
  * 앵커 제품 3개에서 다루지 않는 속성들을 보완하여 6개 속성 모두 커버
+ * 장단점 태그와 중복되지 않는 항목만 포함
  */
 export const ADDITIONAL_TAGS: AdditionalTag[] = [
+  // 휴대성 (portability) - 긍정적 측면
   {
     id: 'portability-light',
-    text: '가볍고 휴대 편해요',
+    text: '좋은 휴대성',
     relatedAttributes: [
-      { attribute: 'portability', weight: 1.0 },      // 주 속성: 휴대성
-      { attribute: 'usability', weight: 0.3 }         // 부 속성: 편의성
+      { attribute: 'portability', weight: 1.0 },
+      { attribute: 'usability', weight: 0.3 }
     ]
   },
   {
-    id: 'design-aesthetic',
-    text: '디자인이 예뻐요',
+    id: 'portability-wireless',
+    text: '무선 사용',
     relatedAttributes: [
-      { attribute: 'additionalFeatures', weight: 1.0 }  // 주 속성: 디자인
+      { attribute: 'portability', weight: 1.0 },
+      { attribute: 'usability', weight: 0.3 }
     ]
   },
   {
-    id: 'display-intuitive',
-    text: '디스플레이가 보기 좋아요',
+    id: 'portability-voltage',
+    text: '프리볼트',
     relatedAttributes: [
-      { attribute: 'additionalFeatures', weight: 1.0 }, // 주 속성: 디스플레이
-      { attribute: 'usability', weight: 0.3 }           // 부 속성: 편의성
+      { attribute: 'portability', weight: 1.0 }
+    ]
+  },
+
+  // 사용 편의성 (usability) - 세부 사항
+  {
+    id: 'usability-capacity',
+    text: '큰 용량',
+    relatedAttributes: [
+      { attribute: 'usability', weight: 1.0 }
+    ]
+  },
+
+  // 부가 기능 (additionalFeatures) - 세부 사항
+  {
+    id: 'design-elegant',
+    text: '세련된 디자인',
+    relatedAttributes: [
+      { attribute: 'additionalFeatures', weight: 1.0 }
+    ]
+  },
+  {
+    id: 'features-versatile',
+    text: '다용도 활용',
+    relatedAttributes: [
+      { attribute: 'additionalFeatures', weight: 1.0 }
     ]
   }
 ];
@@ -307,7 +334,7 @@ export const ADDITIONAL_TAGS: AdditionalTag[] = [
 export const TAG_SELECTION_LIMITS = {
   pros: { min: 1, max: 5 },
   cons: { min: 0, max: 4 },
-  additional: { min: 0, max: 3 } // 추가 고려사항은 선택적
+  additional: { min: 0, max: 5 } // 추가 고려사항은 선택적
 } as const;
 
 /**

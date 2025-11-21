@@ -44,7 +44,7 @@ type ChatMessage = {
   id: string;
   role: 'assistant' | 'user' | 'component';
   content: string;
-  componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading';
+  componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading' | 'guide-button';
   typing?: boolean;
   extraMarginTop?: boolean; // Step 구분을 위한 추가 마진
   stepTag?: string; // Step 태그 (1/4, 2/4, 3/4, 4/4)
@@ -284,9 +284,8 @@ function PriorityPageContent() {
         {
           id: initialMessageId,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n**가장 잘 나가는 국민템의 후기**를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊',
           typing: true,
-          stepTag: '1/4',
         },
       ];
       setMessages(initialMessages);
@@ -305,7 +304,7 @@ function PriorityPageContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 초기 메시지 타이핑 완료 후 pros-selector 추가
+  // 초기 메시지 타이핑 완료 후 가이드 버튼 + 두 번째 메시지 + pros-selector 추가
   useEffect(() => {
     // 초기 메시지 타이핑이 완료되었을 때만
     if (
@@ -315,13 +314,49 @@ function PriorityPageContent() {
       messages[0].id === initialMessageIdRef.current &&
       currentStep === 1
     ) {
-      console.log('✅ 초기 타이핑 완료 - pros-selector 추가');
+      console.log('✅ 초기 타이핑 완료 - 가이드 버튼 + 두 번째 메시지 + pros-selector 추가');
 
-      // pros-selector 추가 (약간의 지연 후)
+      // 가이드 버튼 추가 (약간의 지연 후)
+      setTimeout(() => {
+        addComponentMessage('guide-button');
+
+        // 두 번째 메시지 추가 (가이드 버튼 후)
+        setTimeout(() => {
+          const secondMessageId = `msg-${Date.now()}-2`;
+          const secondMessage: ChatMessage = {
+            id: secondMessageId,
+            role: 'assistant',
+            content: '**가장 잘 나가는 국민템의 후기**를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
+            typing: true,
+            stepTag: '1/4',
+          };
+          setMessages((prev) => [...prev, secondMessage]);
+          setTypingMessageId(secondMessageId);
+
+          // 두 번째 메시지 타이핑 완료 후 pros-selector 추가
+          // (이건 별도 useEffect에서 처리하거나 여기서 처리)
+        }, 500);
+
+        initialMessageIdRef.current = null; // 한 번만 실행되도록
+      }, 300);
+    }
+  }, [typingMessageId, messages, currentStep]);
+
+  // 두 번째 메시지 타이핑 완료 후 pros-selector 추가
+  useEffect(() => {
+    // 두 번째 메시지 타이핑 완료 확인
+    if (
+      typingMessageId === null &&
+      messages.length === 3 &&
+      messages[1].componentType === 'guide-button' &&
+      messages[2].stepTag === '1/4' &&
+      currentStep === 1 &&
+      !messages.some(m => m.componentType === 'pros-selector')
+    ) {
+      console.log('✅ 두 번째 메시지 타이핑 완료 - pros-selector 추가');
+
       setTimeout(() => {
         addComponentMessage('pros-selector');
-        initialMessageIdRef.current = null; // 한 번만 실행되도록
-        // 스크롤 안 함 - 사용자가 위 메시지를 계속 볼 수 있도록
       }, 300);
     }
   }, [typingMessageId, messages, currentStep]);
@@ -350,7 +385,7 @@ function PriorityPageContent() {
   };
 
   // 컴포넌트 메시지 추가
-  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading', content?: string) => {
+  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading' | 'guide-button', content?: string) => {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'component',
@@ -429,7 +464,7 @@ function PriorityPageContent() {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'assistant',
-      content: '좋아요! 이제 **절대 타협할 수 없는 단점**을 선택해주세요. (최대 4개, 없으면 건너뛰어도 됩니다)',
+      content: '좋아요! 이제 **절대 타협할 수 없는 단점**을 선택해주세요. (최대 4개, **없으면 \'다음\'을 눌러 건너뛰어도 괜찮아요.**)',
       typing: true,
       extraMarginTop: true,
       stepTag: '2/4',
@@ -465,7 +500,7 @@ function PriorityPageContent() {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'assistant',
-      content: '혹시 이런 부분도 고려하시나요? **없으면 건너뛰어도 괜찮아요.**',
+      content: '혹시 이런 부분도 고려하시나요? **없으면 \'다음\'을 눌러 건너뛰어도 괜찮아요.**',
       typing: true,
       extraMarginTop: true,
       stepTag: '3/4',
@@ -551,7 +586,7 @@ function PriorityPageContent() {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'assistant',
-      content: '마지막이에요! 예산을 선택해주세요.',
+      content: '**마지막이에요!** 예산을 선택해주세요.',
       typing: true,
       extraMarginTop: true,
       stepTag: '4/4',
@@ -790,6 +825,68 @@ function PriorityPageContent() {
     router.push('/result');
   };
 
+  // 이전 단계로 돌아가기
+  const handleStepBack = () => {
+    if (currentStep > 1) {
+      const prevStep = currentStep - 1;
+
+      // 이전 스텝의 마지막 컴포넌트 메시지까지만 유지 (이후 메시지 제거)
+      setMessages((prev) => {
+        const componentTypeByStep: Record<number, string> = {
+          1: 'pros-selector',
+          2: 'cons-selector',
+          3: 'additional-selector',
+          4: 'budget-selector',
+        };
+
+        const targetComponentType = componentTypeByStep[prevStep];
+
+        // 해당 컴포넌트 타입의 마지막 인덱스 찾기
+        let lastTargetIndex = -1;
+        for (let i = prev.length - 1; i >= 0; i--) {
+          if (prev[i].componentType === targetComponentType) {
+            lastTargetIndex = i;
+            break;
+          }
+        }
+
+        // 해당 인덱스까지만 유지 (이후 메시지 제거)
+        if (lastTargetIndex !== -1) {
+          return prev.slice(0, lastTargetIndex + 1);
+        }
+
+        // 못 찾으면 원래 배열 유지
+        return prev;
+      });
+
+      setCurrentStep(prevStep as ChatStep);
+
+      // Step 5에서 돌아오는 경우 플로팅 버튼 및 완료 상태 초기화
+      if (currentStep === 5) {
+        setShowFloatingButtons(false);
+        setIsStep5Complete(false);
+      }
+
+      logButtonClick(`Step ${currentStep} → Step ${prevStep} (이전)`, 'priority');
+
+      // 이전 단계의 메시지 위치로 스크롤
+      setTimeout(() => {
+        const stepMessages = messages.filter(m => m.stepTag === `${prevStep}/4`);
+        if (stepMessages.length > 0 && mainScrollRef.current) {
+          const messageElement = document.querySelector(`[data-message-id="${stepMessages[0].id}"]`) as HTMLElement;
+          if (messageElement) {
+            const elementTop = messageElement.offsetTop;
+            const headerOffset = 90;
+            mainScrollRef.current.scrollTo({
+              top: elementTop - headerOffset,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }, 100);
+    }
+  };
+
   // 처음부터 다시 시작
   const handleReset = () => {
     if (confirm('처음부터 다시 시작하시겠어요?')) {
@@ -821,22 +918,18 @@ function PriorityPageContent() {
       setIsStep5Complete(false); // 프로그레스바 초기화
 
       // 초기 메시지로 재설정
+      const resetMessageId = `msg-${Date.now()}-1`;
       const initialMessages: ChatMessage[] = [
         {
-          id: `msg-${Date.now()}-1`,
+          id: resetMessageId,
           role: 'assistant',
-          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊\n\n\n**가장 잘 나가는 국민템의 후기**를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
+          content: '안녕하세요! 딱 맞는 분유포트를 찾아드릴게요. 😊',
           typing: true,
-          stepTag: '1/4',
-        },
-        {
-          id: `msg-${Date.now()}-2`,
-          role: 'component',
-          content: '',
-          componentType: 'pros-selector',
         },
       ];
       setMessages(initialMessages);
+      setTypingMessageId(resetMessageId);
+      initialMessageIdRef.current = resetMessageId; // 재설정 시에도 가이드 버튼 추가되도록
     }
   };
 
@@ -929,6 +1022,32 @@ function PriorityPageContent() {
 
               // Component 메시지
               if (message.role === 'component') {
+                // Guide Button
+                if (message.componentType === 'guide-button') {
+                  return (
+                    <motion.div
+                      key={message.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full flex justify-start mb-6"
+                    >
+                      <button
+                        onClick={() => {
+                          setGuideBottomSheetOpen(true);
+                          logButtonClick('분유포트 1분 가이드 열기 (Priority)', 'priority');
+                        }}
+                        className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
+                      >
+                        <span>처음이라면? 분유포트 1분 가이드</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                      </button>
+                    </motion.div>
+                  );
+                }
+
                 // Pros Selector (Step 1)
                 if (message.componentType === 'pros-selector') {
                   return (
@@ -1374,40 +1493,76 @@ function PriorityPageContent() {
             </motion.button>
           )}
 
-          {/* Step 2: Cons 선택 - 다음 버튼 (항상 활성화) */}
+          {/* Step 2: Cons 선택 - 이전/다음 버튼 */}
           {currentStep === 2 && (
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleStep2Next}
-              className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all"
-            >
-              다음
-            </motion.button>
+            <div className="flex gap-2">
+              {/* 이전 버튼 (30%) */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleStepBack}
+                className="w-[30%] h-14 bg-gray-200 text-gray-700 rounded-2xl font-semibold text-base hover:bg-gray-300 transition-all"
+              >
+                이전
+              </motion.button>
+              {/* 다음 버튼 (70%) */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleStep2Next}
+                className="flex-1 h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all"
+              >
+                다음
+              </motion.button>
+            </div>
           )}
 
-          {/* Step 3: Additional 선택 - 다음 버튼 (항상 활성화) */}
+          {/* Step 3: Additional 선택 - 이전/다음 버튼 */}
           {currentStep === 3 && (
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleStep3Next}
-              className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all"
-            >
-              다음
-            </motion.button>
+            <div className="flex gap-2">
+              {/* 이전 버튼 (30%) */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleStepBack}
+                className="w-[30%] h-14 bg-gray-200 text-gray-700 rounded-2xl font-semibold text-base hover:bg-gray-300 transition-all"
+              >
+                이전
+              </motion.button>
+              {/* 다음 버튼 (70%) */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleStep3Next}
+                className="flex-1 h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all"
+              >
+                다음
+              </motion.button>
+            </div>
           )}
 
-          {/* Step 4: Budget 선택 - 다음 버튼 */}
+          {/* Step 4: Budget 선택 - 이전/다음 버튼 */}
           {currentStep === 4 && budget && (
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleStep4Next}
-              className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all"
-            >
-              다음
-            </motion.button>
+            <div className="flex gap-2">
+              {/* 이전 버튼 (30%) */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleStepBack}
+                className="w-[30%] h-14 bg-gray-200 text-gray-700 rounded-2xl font-semibold text-base hover:bg-gray-300 transition-all"
+              >
+                이전
+              </motion.button>
+              {/* 다음 버튼 (70%) */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleStep4Next}
+                className="flex-1 h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all"
+              >
+                다음
+              </motion.button>
+            </div>
           )}
 
           {/* Step 5: 추천받기 버튼 */}

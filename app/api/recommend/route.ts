@@ -112,7 +112,8 @@ export async function POST(request: NextRequest) {
         console.log('Budget:', budget);
 
         let persona;
-        let contextSummary;
+        let contextSummary: import('@/types').UserContextSummary | undefined;
+        let contextSummaryData: any = null; // Context Summary 생성을 위한 데이터 (비동기 처리용)
         const personaStartTime = Date.now();
 
         // Priority 플로우: Priority 설정 + Chat 이력 (선택적)
@@ -153,22 +154,23 @@ export async function POST(request: NextRequest) {
           console.log('Phase0 context:', phase0Context?.substring(0, 100) || 'none');
           console.log('Will skip LLM for Persona Profile:', !chatHistory || chatHistory.trim().length <= 50);
 
-          // Persona와 Context Summary를 병렬로 생성
-          [persona, contextSummary] = await Promise.all([
-            generatePersonaFromPriorityWithChat(prioritySettings, budget, chatHistory, tagContextualNeeds),
-            generateContextSummaryFromPriorityWithChat(
-              prioritySettings,
-              budget,
-              messages,
-              phase0Context,
-              existingContextSummary,
-              {
-                pros: selectedProsTags,
-                cons: selectedConsTags,
-                additional: selectedAdditionalTags || []
-              }
-            )
-          ]);
+          // ✅ 최적화: Persona만 생성 (Context Summary는 나중에 비동기로)
+          persona = await generatePersonaFromPriorityWithChat(prioritySettings, budget, chatHistory, tagContextualNeeds);
+          console.log('✓ Persona generated (Context Summary deferred for optimization)');
+
+          // Context Summary 생성을 위한 데이터 저장 (나중에 사용)
+          contextSummaryData = {
+            prioritySettings,
+            budget,
+            messages,
+            phase0Context,
+            existingContextSummary,
+            selectedTags: {
+              pros: selectedProsTags,
+              cons: selectedConsTags,
+              additional: selectedAdditionalTags || []
+            }
+          };
 
         } else if (attributeAssessments) {
           // DEPRECATED: 기존 플로우 (attributeAssessments 기반)
@@ -235,6 +237,13 @@ export async function POST(request: NextRequest) {
         console.log(`✓ All 5 products evaluated in parallel in ${Date.now() - evalStartTime}ms`);
         console.log('Evaluation count:', evaluations.length);
 
+        // ✅ 최적화: Phase 4에서 로드한 마크다운을 Phase 6에서 재사용하기 위해 저장
+        // evaluateMultipleProducts 내부에서 이미 로드된 마크다운 데이터를 추출
+        const { loadMultipleProductDetails } = await import('@/lib/data/productLoader');
+        const top5ProductIds = top5Products.map(p => p.id);
+        const productMarkdowns = await loadMultipleProductDetails(top5ProductIds);
+        console.log(`💾 Cached ${Object.keys(productMarkdowns).length} product markdowns for Phase 6 reuse`);
+
         sendProgress('evaluation', 60, '제품 평가 완료');
 
         // Phase 5: Final Score Calculation (60-70%) - 빠른 코드 기반 계산
@@ -262,13 +271,14 @@ export async function POST(request: NextRequest) {
         // Priority 플로우: Context Summary는 이미 Phase 2에서 생성됨, Recommendation만 생성
         if (prioritySettings && contextSummary) {
           console.log('📊 Priority flow: generating recommendations only (context summary already done)');
-          recommendations = await generateTop3Recommendations(top3, persona);
+          // ✅ 최적화: Phase 4에서 로드한 마크다운을 재사용 (중복 로드 제거)
+          recommendations = await generateTop3Recommendations(top3, persona, productMarkdowns);
 
         } else if (attributeAssessments) {
           // DEPRECATED 플로우: Recommendation과 Context Summary를 병렬로 생성 (기존 방식)
           console.log('⚠️  DEPRECATED flow: generating recommendations + context summary in parallel');
           [recommendations, contextSummary] = await Promise.all([
-            generateTop3Recommendations(top3, persona),
+            generateTop3Recommendations(top3, persona, productMarkdowns), // ✅ 최적화 적용
             generateContextSummary(messages, attributeAssessments as unknown as import('@/types').AttributeAssessment)
           ]);
 
@@ -288,12 +298,37 @@ export async function POST(request: NextRequest) {
         console.log('\n=== Workflow Complete ===');
         console.log('Total recommendations:', recommendations.length);
 
-        // 최종 결과 전송
+        // ✅ 최적화: 추천 결과를 먼저 전송 (Context Summary는 아직 없음)
+        sendProgress('recommendation', 100, '추천 완료!');
         sendComplete({
           persona,
           recommendations,
-          contextSummary,
+          contextSummary: contextSummary || null, // DEPRECATED 플로우는 이미 생성됨
         });
+
+        // ✅ 최적화: Priority 플로우에서만 Context Summary를 백그라운드에서 생성
+        if (prioritySettings && contextSummaryData && !contextSummary) {
+          console.log('\n=== Background: Context Summary Generation ===');
+          try {
+            const contextSummaryStartTime = Date.now();
+            contextSummary = await generateContextSummaryFromPriorityWithChat(
+              contextSummaryData.prioritySettings,
+              contextSummaryData.budget,
+              contextSummaryData.messages,
+              contextSummaryData.phase0Context,
+              contextSummaryData.existingContextSummary,
+              contextSummaryData.selectedTags
+            );
+            console.log(`✓ Context Summary generated in background in ${Date.now() - contextSummaryStartTime}ms`);
+
+            // Context Summary를 별도 이벤트로 전송
+            const data = JSON.stringify({ type: 'context-summary', contextSummary });
+            controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+          } catch (error) {
+            console.error('⚠️  Failed to generate Context Summary in background:', error);
+            // Context Summary 실패는 치명적이지 않으므로 계속 진행
+          }
+        }
 
         controller.close();
       } catch (error) {
