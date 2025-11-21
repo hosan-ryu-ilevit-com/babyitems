@@ -184,9 +184,14 @@ export interface CampaignFunnelStats {
     budgetSelected: FunnelStep;
     finalInputCompleted: FunnelStep; // "없어요" 포함
     recommendationReceived: FunnelStep; // Best 3 추천 완료
+    preRecommendationActions: {
+      guideOpened: PostRecommendationAction; // 분유포트 1분 가이드 열기
+      rankingTabClicked: PostRecommendationAction; // 랭킹 탭 클릭
+    };
     postRecommendationActions: {
       productChatClicked: PostRecommendationAction; // 제품 질문하기
       recommendationReasonViewed: PostRecommendationAction; // 추천이유보기
+      purchaseCriteriaViewed: PostRecommendationAction; // 내 구매 기준 펼쳐보기
       coupangClicked: PostRecommendationAction; // 쿠팡에서보기
       lowestPriceClicked: PostRecommendationAction; // 최저가보기
       comparisonTabClicked: PostRecommendationAction; // 상세비교표 탭 클릭

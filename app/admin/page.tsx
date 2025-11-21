@@ -885,6 +885,25 @@ export default function AdminPage() {
                       </div>
                     </div>
 
+                    {/* Pre-Recommendation Actions */}
+                    <div className="bg-white border border-gray-200 rounded-lg p-6">
+                      <h3 className="text-base font-bold text-gray-900 mb-4">추천 이전 액션</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">📖</div>
+                          <p className="text-xs text-gray-600 mb-1">가이드 열기</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.preRecommendationActions.guideOpened.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.preRecommendationActions.guideOpened.unique}명</p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">📊</div>
+                          <p className="text-xs text-gray-600 mb-1">랭킹 탭 클릭</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.preRecommendationActions.rankingTabClicked.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.preRecommendationActions.rankingTabClicked.unique}명</p>
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Post-Recommendation Actions */}
                     <div className="bg-white border border-gray-200 rounded-lg p-6">
                       <h3 className="text-base font-bold text-gray-900 mb-4">추천 이후 액션</h3>
@@ -900,6 +919,12 @@ export default function AdminPage() {
                           <p className="text-xs text-gray-600 mb-1">추천이유보기</p>
                           <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.postRecommendationActions.recommendationReasonViewed.total}회</p>
                           <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.postRecommendationActions.recommendationReasonViewed.unique}명</p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl mb-2">🎯</div>
+                          <p className="text-xs text-gray-600 mb-1">내 구매기준 보기</p>
+                          <p className="text-2xl font-bold text-gray-900">{currentCampaign.funnel.postRecommendationActions.purchaseCriteriaViewed.total}회</p>
+                          <p className="text-xs text-gray-500 mt-1">유니크 {currentCampaign.funnel.postRecommendationActions.purchaseCriteriaViewed.unique}명</p>
                         </div>
                         <div className="bg-gray-50 rounded-lg p-4 text-center">
                           <div className="text-2xl mb-2">🛒</div>

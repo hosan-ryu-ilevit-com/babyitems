@@ -43,9 +43,18 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
   const finalInputCompleted = new Set<string>();
   const recommendationReceived = new Set<string>();
 
+  // Pre-recommendation actions (총 클릭 횟수)
+  let guideOpenedTotal = 0;
+  let rankingTabClickedTotal = 0;
+
+  // Pre-recommendation actions (유니크 세션)
+  const guideOpenedSessions = new Set<string>();
+  const rankingTabClickedSessions = new Set<string>();
+
   // Post-recommendation actions (총 클릭 횟수)
   let productChatClickedTotal = 0;
   let recommendationReasonViewedTotal = 0;
+  let purchaseCriteriaViewedTotal = 0;
   let coupangClickedTotal = 0;
   let lowestPriceClickedTotal = 0;
   let comparisonTabClickedTotal = 0;
@@ -54,6 +63,7 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
   // Post-recommendation actions (유니크 세션)
   const productChatClickedSessions = new Set<string>();
   const recommendationReasonViewedSessions = new Set<string>();
+  const purchaseCriteriaViewedSessions = new Set<string>();
   const coupangClickedSessions = new Set<string>();
   const lowestPriceClickedSessions = new Set<string>();
   const comparisonTabClickedSessions = new Set<string>();
@@ -106,6 +116,18 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
         finalInputCompleted.add(sessionId);
       }
 
+      // Pre-recommendation actions (Home 페이지)
+      if (page === 'home' && eventType === 'button_click') {
+        if (buttonLabel.includes('분유포트 1분 가이드 열기')) {
+          guideOpenedTotal++;
+          guideOpenedSessions.add(sessionId);
+        }
+        if (buttonLabel.includes('랭킹 탭 클릭')) {
+          rankingTabClickedTotal++;
+          rankingTabClickedSessions.add(sessionId);
+        }
+      }
+
       // Post-recommendation actions (Result 페이지)
       if (page === 'result' && eventType === 'button_click') {
         if (buttonLabel.includes('이 상품 질문하기') || buttonLabel.includes('바텀시트 이 상품 질문하기')) {
@@ -115,6 +137,10 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
         if (buttonLabel.includes('추천 이유 보기')) {
           recommendationReasonViewedTotal++;
           recommendationReasonViewedSessions.add(sessionId);
+        }
+        if (buttonLabel.includes('내 구매 기준 열기')) {
+          purchaseCriteriaViewedTotal++;
+          purchaseCriteriaViewedSessions.add(sessionId);
         }
         if (buttonLabel.includes('쿠팡에서 보기') || buttonLabel.includes('바텀시트 쿠팡에서 보기')) {
           coupangClickedTotal++;
@@ -166,6 +192,16 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
       budgetSelected: calculateFunnelStep(budgetCount, additionalCount),
       finalInputCompleted: calculateFunnelStep(finalInputCount, budgetCount),
       recommendationReceived: calculateFunnelStep(recommendationCount, homeCount),
+      preRecommendationActions: {
+        guideOpened: {
+          total: guideOpenedTotal,
+          unique: guideOpenedSessions.size
+        },
+        rankingTabClicked: {
+          total: rankingTabClickedTotal,
+          unique: rankingTabClickedSessions.size
+        }
+      },
       postRecommendationActions: {
         productChatClicked: {
           total: productChatClickedTotal,
@@ -174,6 +210,10 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
         recommendationReasonViewed: {
           total: recommendationReasonViewedTotal,
           unique: recommendationReasonViewedSessions.size
+        },
+        purchaseCriteriaViewed: {
+          total: purchaseCriteriaViewedTotal,
+          unique: purchaseCriteriaViewedSessions.size
         },
         coupangClicked: {
           total: coupangClickedTotal,

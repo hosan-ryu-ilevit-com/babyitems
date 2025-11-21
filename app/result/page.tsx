@@ -99,7 +99,8 @@ export default function ResultPage() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [contextSummary, setContextSummary] = useState<UserContextSummary | null>(null);
   const [loading, setLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const [targetProgress, setTargetProgress] = useState(0); // 서버에서 받은 목표 진행률
+  const [displayedProgress, setDisplayedProgress] = useState(0); // 화면에 표시되는 진행률
   const [elapsedTime, setElapsedTime] = useState(0);
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
@@ -292,23 +293,42 @@ export default function ResultPage() {
     return () => clearInterval(timer);
   }, [loading]);
 
-  // 상태 메시지 자동 교체 (progress 기반)
+  // 상태 메시지 자동 교체 (displayedProgress 기반)
   useEffect(() => {
-    if (progress < 33) {
+    if (displayedProgress < 33) {
       setCurrentPhaseIndex(0); // 랭킹 상품 확인 중...
-    } else if (progress < 66) {
+    } else if (displayedProgress < 66) {
       setCurrentPhaseIndex(1); // 고객님 선호도 분석 중...
     } else {
       setCurrentPhaseIndex(2); // 꼭 맞는 상품 분석 중...
     }
-  }, [progress]);
+  }, [displayedProgress]);
+
+  // 진행률 부드럽게 증가 (보간 애니메이션)
+  useEffect(() => {
+    if (!loading) return;
+
+    // displayedProgress를 targetProgress에 수렴시킴
+    if (displayedProgress < targetProgress) {
+      const interval = setInterval(() => {
+        setDisplayedProgress((prev) => {
+          const next = prev + 1;
+          // 목표값을 넘지 않도록
+          return next >= targetProgress ? targetProgress : next;
+        });
+      }, 40); // 40ms마다 1%씩 증가 (빠르고 부드러운 애니메이션)
+
+      return () => clearInterval(interval);
+    }
+  }, [loading, displayedProgress, targetProgress]);
 
 
   const fetchRecommendations = async () => {
     try {
       // 상태 초기화
       setLoading(true);
-      setProgress(0);
+      setTargetProgress(0);
+      setDisplayedProgress(0);
       setError(null);
       setRecommendations([]);
       setContextSummary(null);
@@ -492,8 +512,13 @@ export default function ResultPage() {
               if (data.contextSummary) {
                 setContextSummary(data.contextSummary);
               }
-              setProgress(100);
-              setLoading(false);
+              setTargetProgress(100);
+              setDisplayedProgress(100); // 완료 시 즉시 100%로
+
+              // 100% 표시를 사용자가 볼 수 있도록 0.5초 대기 후 로딩 해제
+              setTimeout(() => {
+                setLoading(false);
+              }, 500);
             } else if (data.type === 'context-summary') {
               // ✅ 최적화: Context Summary 별도 수신
               console.log('✅ Context Summary received!');
@@ -510,7 +535,7 @@ export default function ResultPage() {
             } else if (data.progress !== undefined) {
               // 진행 상황 업데이트
               console.log(`📊 Progress: [${data.progress}%] ${data.phase} - ${data.message}`);
-              setProgress(data.progress);
+              setTargetProgress(data.progress);
             }
           }
         }
@@ -680,7 +705,7 @@ export default function ResultPage() {
               {/* 로딩 퍼센트 */}
               <div className="mb-2">
                 <p className="text-xl font-medium text-gray-900">
-                  {progress}%
+                  {displayedProgress}%
                 </p>
               </div>
 
