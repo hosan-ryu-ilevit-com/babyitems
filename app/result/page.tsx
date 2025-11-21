@@ -610,20 +610,20 @@ export default function ResultPage() {
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#FCFCFC' }}>
-        <div className="relative w-full max-w-[480px] min-h-screen" style={{ backgroundColor: '#FCFCFC' }} />
+      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#FBFBFB' }}>
+        <div className="relative w-full max-w-[480px] min-h-screen" style={{ backgroundColor: '#FBFBFB' }} />
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#F2F3F5' }}>
-      <div className="relative w-full max-w-[480px] min-h-screen flex flex-col" style={{ backgroundColor: '#F2F3F5' }}>
+    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: loading ? '#FBFBFB' : '#F2F3F5' }}>
+      <div className="relative w-full max-w-[480px] min-h-screen flex flex-col" style={{ backgroundColor: loading ? '#FBFBFB' : '#F2F3F5' }}>
         {/* Header - 로딩 중에도 공간 차지하지만 보이지 않음 */}
         <header
           className={`sticky top-0 left-0 right-0 px-3 py-3 z-20 transition-colors duration-300 ${
             loading
-              ? 'bg-[#F2F3F5] border-b border-transparent'
+              ? 'bg-[#FBFBFB] border-b border-transparent'
               : 'bg-white border-b border-gray-200'
           }`}
         >

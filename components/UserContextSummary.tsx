@@ -11,11 +11,11 @@ interface UserContextSummaryProps {
 const getLevelStyle = (level: ImportanceLevel) => {
   switch (level) {
     case '중요함':
-      return 'bg-white text-gray-900';
+      return 'bg-white text-gray-900 border border-gray-200';
     case '보통':
-      return 'bg-white text-gray-900';
+      return 'bg-white text-gray-900 border border-gray-200';
     case '중요하지 않음':
-      return 'bg-white text-gray-700';
+      return 'bg-white text-gray-700 border border-gray-200';
   }
 };
 
@@ -144,7 +144,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.2, delay: 0.3 + index * 0.05 }}
-                      className="text-xs bg-white text-gray-700 px-2.5 py-1 rounded-full"
+                      className="text-xs bg-white text-gray-700 px-2.5 py-1 rounded-full border border-gray-200"
                     >
                       {context}
                     </motion.span>
