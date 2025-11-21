@@ -27,6 +27,7 @@ function groupBySession(logs: DailyLog[]): SessionSummary[] {
           lastSeen: event.timestamp,
           ip: event.ip,
           phone: event.phone, // URL 파라미터로 전달된 전화번호
+          utmCampaign: event.utmCampaign, // UTM 캠페인 파라미터
           events: [],
           journey: [],
           completed: false,
@@ -41,6 +42,11 @@ function groupBySession(logs: DailyLog[]): SessionSummary[] {
       // phone 업데이트 (이벤트에 phone이 있으면 세션에 반영)
       if (event.phone && !session.phone) {
         session.phone = event.phone;
+      }
+
+      // utmCampaign 업데이트 (이벤트에 utmCampaign이 있으면 세션에 반영)
+      if (event.utmCampaign && !session.utmCampaign) {
+        session.utmCampaign = event.utmCampaign;
       }
 
       // 페이지 이동 경로 추적

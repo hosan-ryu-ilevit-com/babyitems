@@ -203,6 +203,7 @@ export interface SessionState {
 
   // Tracking fields
   phone?: string;                       // URL 파라미터로 전달된 전화번호 (?phone=01012345678)
+  utmCampaign?: string;                 // UTM 캠페인 파라미터 (?utm_campaign=first)
 }
 
 // Gemini API request/response types

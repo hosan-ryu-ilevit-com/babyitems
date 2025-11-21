@@ -890,6 +890,11 @@ export default function AdminPage() {
                             📱 {session.phone}
                           </span>
                         )}
+                        {session.utmCampaign && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 font-bold text-sm rounded">
+                            🏷️ {session.utmCampaign}
+                          </span>
+                        )}
                         <p className="font-mono text-sm text-gray-600">
                           Session: {session.sessionId.slice(0, 8)}...
                         </p>

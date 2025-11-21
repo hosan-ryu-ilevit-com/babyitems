@@ -26,20 +26,23 @@ function getOrCreateSessionId(): string {
   return sessionId;
 }
 
-// sessionStorage에서 phone 가져오기
-function getPhoneFromSession(): string | null {
-  if (typeof window === 'undefined') return null;
+// sessionStorage에서 tracking 정보 가져오기
+function getTrackingFromSession(): { phone: string | null; utmCampaign: string | null } {
+  if (typeof window === 'undefined') return { phone: null, utmCampaign: null };
 
   try {
     const sessionData = sessionStorage.getItem('babyitem_session');
     if (sessionData) {
       const session = JSON.parse(sessionData);
-      return session.phone || null;
+      return {
+        phone: session.phone || null,
+        utmCampaign: session.utmCampaign || null,
+      };
     }
   } catch (error) {
-    console.error('Failed to get phone from session:', error);
+    console.error('Failed to get tracking info from session:', error);
   }
-  return null;
+  return { phone: null, utmCampaign: null };
 }
 
 // 로그 이벤트 전송
@@ -51,7 +54,7 @@ async function sendLogEvent(
     const sessionId = getOrCreateSessionId();
     if (!sessionId) return;
 
-    const phone = getPhoneFromSession();
+    const { phone, utmCampaign } = getTrackingFromSession();
 
     await fetch('/api/log', {
       method: 'POST',
@@ -62,6 +65,7 @@ async function sendLogEvent(
         sessionId,
         eventType,
         phone, // 전화번호 포함
+        utmCampaign, // UTM 캠페인 포함
         ...data,
       }),
     });

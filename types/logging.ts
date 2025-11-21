@@ -19,6 +19,7 @@ export interface LogEvent {
   ip?: string;
   userAgent?: string;
   phone?: string; // URL 파라미터로 전달된 전화번호 (?phone=01012345678)
+  utmCampaign?: string; // UTM 캠페인 파라미터 (?utm_campaign=first)
   eventType: LogEventType;
   page?: string; // home, ranking, chat/structured, chat/open, result
   attribute?: string; // 현재 질문 중인 속성 (예: "온도 조절/유지 성능")
@@ -99,6 +100,7 @@ export interface SessionSummary {
   lastSeen: string;
   ip?: string;
   phone?: string; // URL 파라미터로 전달된 전화번호
+  utmCampaign?: string; // UTM 캠페인 파라미터
   events: LogEvent[];
   journey: string[]; // 페이지 이동 경로
   completed: boolean; // result 페이지까지 도달 여부
