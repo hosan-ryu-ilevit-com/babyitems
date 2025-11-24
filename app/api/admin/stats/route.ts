@@ -82,8 +82,8 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
         homePageViews.add(sessionId);
       }
 
-      // 2. Priority 진입
-      if (page === 'priority' && eventType === 'page_view') {
+      // 2. Priority 진입 (page === 'priority'인 모든 이벤트)
+      if (page === 'priority') {
         priorityEntry.add(sessionId);
       }
 
