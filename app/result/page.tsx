@@ -123,6 +123,15 @@ export default function ResultPage() {
   // 탭 상태
   const [activeTab, setActiveTab] = useState<'recommendations' | 'comparison'>('recommendations');
 
+  // 채팅 가이드 말풍선 표시 여부 (세션 저장)
+  const [showChatGuide, setShowChatGuide] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('babyitem_chat_guide_dismissed');
+      return saved !== 'true';
+    }
+    return true;
+  });
+
   // 비교표 데이터 캐싱 (탭 전환 시 재생성 방지)
   const [comparisonFeatures, setComparisonFeatures] = useState<Record<string, string[]>>({});
   const [comparisonDetails, setComparisonDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
@@ -1080,23 +1089,72 @@ export default function ResultPage() {
 
         {/* 플로팅 ChatInputBar - 하단 고정 */}
         {!loading && !isChatOpen && !isReRecommendationOpen && (
-          <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full px-3 py-4 bg-white border-t border-gray-200 z-30">
-            <ChatInputBar
-              value=""
-              onChange={() => {}} // 더미 함수 (실제 입력은 바텀시트에서)
-              onSend={() => {}} // 더미 함수
-              placeholder={activeTab === 'recommendations' ? '추가 입력으로 재추천받기' : '제품 비교 질문하기'}
-              disabled={false}
-              onFocus={() => {
-                if (activeTab === 'recommendations') {
-                  logButtonClick('재추천 바텀시트 열기', 'result');
-                  setIsReRecommendationOpen(true);
-                } else {
-                  logButtonClick('플로팅 ChatInputBar 탭', 'result');
-                  setIsChatOpen(true);
-                }
-              }}
-            />
+          <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full z-30">
+            {/* 채팅 가이드 말풍선 - 재추천 탭에서만 표시 */}
+            <AnimatePresence>
+              {showChatGuide && activeTab === 'recommendations' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="px-3 pb-3"
+                >
+                  <div className="relative flex items-center justify-center">
+                    <motion.div
+                      animate={{ y: [0, -4, 0] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                      className="relative"
+                    >
+                      <div
+                        className="text-s font-semibold px-3 py-2 rounded-full whitespace-nowrap text-white flex items-center gap-2"
+                        style={{ backgroundColor: '#4B4B4B' }}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FCD34D">
+                          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                        </svg>
+                        <span>채팅으로 재추천을 받아보세요!</span>
+                      </div>
+                      {/* 아래쪽 화살표 */}
+                      <div
+                        className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px]"
+                        style={{ borderTopColor: '#4B4B4B' }}
+                      ></div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* ChatInputBar */}
+            <div className="px-3 py-4 bg-white border-t border-gray-200">
+              <ChatInputBar
+                value=""
+                onChange={() => {}} // 더미 함수 (실제 입력은 바텀시트에서)
+                onSend={() => {}} // 더미 함수
+                placeholder={activeTab === 'recommendations' ? '추가 입력으로 재추천받기' : '제품 비교 질문하기'}
+                disabled={false}
+                onFocus={() => {
+                  // 가이드 말풍선 숨기기
+                  if (showChatGuide) {
+                    setShowChatGuide(false);
+                    sessionStorage.setItem('babyitem_chat_guide_dismissed', 'true');
+                  }
+
+                  if (activeTab === 'recommendations') {
+                    logButtonClick('재추천 바텀시트 열기', 'result');
+                    setIsReRecommendationOpen(true);
+                  } else {
+                    logButtonClick('플로팅 ChatInputBar 탭', 'result');
+                    setIsChatOpen(true);
+                  }
+                }}
+              />
+            </div>
           </div>
         )}
 
