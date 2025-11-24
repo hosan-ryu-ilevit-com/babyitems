@@ -34,6 +34,7 @@ export default function AdminPage() {
   // 액션 로그 필터
   const [filterUtm, setFilterUtm] = useState<string>('all'); // 'all' | 'none' | 캠페인명
   const [filterCompleted, setFilterCompleted] = useState<string>('all'); // 'all' | 'completed' | 'incomplete'
+  const [filterDetail, setFilterDetail] = useState<string>('all'); // 'all' | 상세 이벤트 텍스트
   const [phoneCopied, setPhoneCopied] = useState(false);
 
   // 추가 입력 섹션 상태
@@ -190,6 +191,7 @@ export default function AdminPage() {
     setSelectedSessions(new Set()); // 선택 초기화
     setFilterUtm('all'); // 필터 초기화
     setFilterCompleted('all');
+    setFilterDetail('all');
     if (date === 'all') {
       // 전체 날짜 선택 시 allSessions 사용
       setSessions(allSessions);
@@ -561,7 +563,21 @@ export default function AdminPage() {
       completedMatch = session.completed === false;
     }
 
-    return utmMatch && completedMatch;
+    // 상세 필터
+    let detailMatch = true;
+    if (filterDetail !== 'all') {
+      detailMatch = session.events.some(event => {
+        const eventTexts = [
+          event.buttonLabel,
+          event.page ? `페이지: ${event.page}` : null,
+          event.eventType ? `이벤트: ${event.eventType}` : null,
+          event.userInput ? `입력: ${event.userInput.slice(0, 30)}...` : null,
+        ].filter(Boolean);
+        return eventTexts.some(text => text === filterDetail);
+      });
+    }
+
+    return utmMatch && completedMatch && detailMatch;
   });
 
   // 세션에서 사용 가능한 UTM 캠페인 목록 추출
@@ -570,6 +586,26 @@ export default function AdminPage() {
       sessions
         .map(s => s.utmCampaign)
         .filter(Boolean)
+    )
+  ).sort();
+
+  // 세션에서 사용 가능한 상세 이벤트 텍스트 목록 추출
+  const availableDetailTexts = Array.from(
+    new Set(
+      sessions.flatMap(session =>
+        session.events.flatMap(event => {
+          const texts: string[] = [];
+          // buttonLabel
+          if (event.buttonLabel) texts.push(event.buttonLabel);
+          // page
+          if (event.page) texts.push(`페이지: ${event.page}`);
+          // eventType
+          if (event.eventType) texts.push(`이벤트: ${event.eventType}`);
+          // userInput
+          if (event.userInput) texts.push(`입력: ${event.userInput.slice(0, 30)}...`);
+          return texts;
+        })
+      )
     )
   ).sort();
 
@@ -1368,17 +1404,35 @@ export default function AdminPage() {
               </select>
             </div>
 
+            {/* 상세 필터 */}
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-gray-600">상세:</label>
+              <select
+                value={filterDetail}
+                onChange={(e) => setFilterDetail(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-xs"
+              >
+                <option value="all">전체</option>
+                {availableDetailTexts.map((text, idx) => (
+                  <option key={idx} value={text}>
+                    {text.length > 40 ? text.slice(0, 40) + '...' : text}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* 필터 결과 표시 */}
             <span className="text-sm text-gray-600">
               {filteredSessions.length}개 표시 {filteredSessions.length !== sessions.length && `(${sessions.length}개 중)`}
             </span>
 
             {/* 필터 초기화 버튼 */}
-            {(filterUtm !== 'all' || filterCompleted !== 'all') && (
+            {(filterUtm !== 'all' || filterCompleted !== 'all' || filterDetail !== 'all') && (
               <button
                 onClick={() => {
                   setFilterUtm('all');
                   setFilterCompleted('all');
+                  setFilterDetail('all');
                 }}
                 className="px-3 py-1.5 text-sm bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
