@@ -476,7 +476,18 @@ function PriorityPageContent() {
       addComponentMessage('cons-selector');
     }, 500);
 
-    // Step 1 → Step 2는 자동 스크롤 제거 (상단 가이드 버튼이 가려지는 문제 방지)
+    // Step 2 메시지가 헤더 바로 아래에 오도록 스크롤
+    setTimeout(() => {
+      const messageElement = document.querySelector(`[data-message-id="${newMessage.id}"]`) as HTMLElement;
+      if (messageElement && mainScrollRef.current) {
+        const elementTop = messageElement.offsetTop;
+        const headerOffset = 90; // 헤더 높이 + 약간의 여백
+        mainScrollRef.current.scrollTo({
+          top: elementTop - headerOffset,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   // Step 2 (Cons) → Step 3 (Additional)
