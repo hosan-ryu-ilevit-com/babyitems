@@ -36,6 +36,9 @@ export default function AdminPage() {
   const [filterCompleted, setFilterCompleted] = useState<string>('all'); // 'all' | 'completed' | 'incomplete'
   const [phoneCopied, setPhoneCopied] = useState(false);
 
+  // 추가 입력 섹션 상태
+  const [isUserInputExpanded, setIsUserInputExpanded] = useState(false);
+
   // 비밀번호 검증
   const handleLogin = () => {
     if (password === '1545') {
@@ -611,6 +614,38 @@ export default function AdminPage() {
       .sort((a, b) => b.totalCount - a.totalCount);
   };
 
+  // 사용자 추가 입력 수집
+  const collectUserInputs = () => {
+    const userInputs: Array<{
+      sessionId: string;
+      timestamp: string;
+      userInput: string;
+      buttonLabel?: string;
+      phone?: string;
+      utmCampaign?: string;
+    }> = [];
+
+    allSessions.forEach(session => {
+      session.events.forEach(event => {
+        if (event.userInput) {
+          userInputs.push({
+            sessionId: session.sessionId,
+            timestamp: event.timestamp,
+            userInput: event.userInput,
+            buttonLabel: event.buttonLabel,
+            phone: session.phone,
+            utmCampaign: session.utmCampaign,
+          });
+        }
+      });
+    });
+
+    // 최신순으로 정렬
+    return userInputs.sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+  };
+
   // 로그인 화면
   if (!isAuthenticated) {
     return (
@@ -1009,6 +1044,84 @@ export default function AdminPage() {
                 </table>
                 {calculateActionStats().length === 0 && (
                   <p className="text-center text-gray-500 py-4">통계 데이터가 없습니다.</p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* 사용자 추가 입력 섹션 */}
+          <div className="border-t pt-4 mt-4">
+            <button
+              onClick={() => setIsUserInputExpanded(!isUserInputExpanded)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-xl">✍️</span>
+                <div className="text-left">
+                  <h2 className="text-lg font-semibold text-gray-800">사용자 추가 입력</h2>
+                  <p className="text-xs text-gray-600">Priority 페이지 Step 5에서 입력한 추가 요청사항</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="px-3 py-1 bg-purple-500 text-white rounded-full text-sm font-medium">
+                  {collectUserInputs().length}건
+                </span>
+                <svg
+                  className={`w-5 h-5 text-gray-600 transition-transform ${isUserInputExpanded ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </button>
+
+            {isUserInputExpanded && (
+              <div className="mt-4 overflow-x-auto">
+                {collectUserInputs().length > 0 ? (
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gray-100">
+                        <th className="px-4 py-3 text-left font-semibold text-gray-700 border">시간</th>
+                        <th className="px-4 py-3 text-left font-semibold text-gray-700 border">입력 내용</th>
+                        <th className="px-4 py-3 text-left font-semibold text-gray-700 border">버튼</th>
+                        <th className="px-4 py-3 text-left font-semibold text-gray-700 border">UTM</th>
+                        <th className="px-4 py-3 text-left font-semibold text-gray-700 border">전화번호</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {collectUserInputs().map((input, idx) => (
+                        <tr key={idx} className="hover:bg-gray-50">
+                          <td className="px-4 py-2 border text-gray-600 whitespace-nowrap">
+                            {formatTime(input.timestamp)}
+                          </td>
+                          <td className="px-4 py-2 border">
+                            <div className="bg-purple-50 border-l-4 border-purple-500 p-2 rounded">
+                              <p className="text-gray-800">{input.userInput}</p>
+                            </div>
+                          </td>
+                          <td className="px-4 py-2 border text-gray-600 text-xs">
+                            {input.buttonLabel || '-'}
+                          </td>
+                          <td className="px-4 py-2 border">
+                            {input.utmCampaign ? (
+                              <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                                {input.utmCampaign}
+                              </span>
+                            ) : (
+                              <span className="text-gray-400 text-xs">-</span>
+                            )}
+                          </td>
+                          <td className="px-4 py-2 border text-gray-600 text-xs">
+                            {input.phone || '-'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p className="text-center text-gray-500 py-8">추가 입력 데이터가 없습니다.</p>
                 )}
               </div>
             )}
