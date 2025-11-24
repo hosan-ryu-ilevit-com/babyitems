@@ -4,7 +4,8 @@ import { getAllLogDates, getLogsByDate } from '@/lib/logging/logger';
 import type {
   CampaignFunnelStats,
   FunnelStep,
-  SessionSummary
+  SessionSummary,
+  ProductRecommendationRanking
 } from '@/types/logging';
 
 // 테스트/내부 IP 필터링
@@ -20,6 +21,57 @@ function calculateFunnelStep(count: number, homeCount: number): FunnelStep {
     count,
     percentage: homeCount > 0 ? Math.round((count / homeCount) * 100) : 0
   };
+}
+
+// 제품별 추천 통계 계산
+function calculateProductRecommendationRankings(sessions: SessionSummary[]): ProductRecommendationRanking[] {
+  const productMap = new Map<string, {
+    productTitle: string;
+    rank1Count: number;
+    rank2Count: number;
+    rank3Count: number;
+  }>();
+
+  sessions.forEach(session => {
+    session.events.forEach(event => {
+      if (event.eventType === 'recommendation_received' && event.recommendations?.fullReport?.recommendations) {
+        const recommendations = event.recommendations.fullReport.recommendations;
+
+        recommendations.forEach(rec => {
+          const { productId, productTitle, rank } = rec;
+
+          if (!productMap.has(productId)) {
+            productMap.set(productId, {
+              productTitle: productTitle || productId,
+              rank1Count: 0,
+              rank2Count: 0,
+              rank3Count: 0,
+            });
+          }
+
+          const stats = productMap.get(productId)!;
+          if (rank === 1) stats.rank1Count++;
+          else if (rank === 2) stats.rank2Count++;
+          else if (rank === 3) stats.rank3Count++;
+        });
+      }
+    });
+  });
+
+  // Map을 배열로 변환하고 총 추천 횟수로 정렬
+  const rankings: ProductRecommendationRanking[] = Array.from(productMap.entries()).map(([productId, stats]) => ({
+    productId,
+    productTitle: stats.productTitle,
+    totalRecommendations: stats.rank1Count + stats.rank2Count + stats.rank3Count,
+    rank1Count: stats.rank1Count,
+    rank2Count: stats.rank2Count,
+    rank3Count: stats.rank3Count,
+  }));
+
+  // 총 추천 횟수로 내림차순 정렬
+  rankings.sort((a, b) => b.totalRecommendations - a.totalRecommendations);
+
+  return rankings;
 }
 
 // UTM 캠페인별로 퍼널 통계 계산
@@ -323,10 +375,14 @@ export async function GET(request: NextRequest) {
       campaignStats.push(calculateCampaignFunnel(filteredSessions, utmCampaign));
     }
 
+    // 제품별 추천 통계 계산
+    const productRecommendationRankings = calculateProductRecommendationRankings(filteredSessions);
+
     // 응답 반환
     return NextResponse.json({
       campaigns: campaignStats,
-      availableCampaigns: Array.from(utmCampaigns)
+      availableCampaigns: Array.from(utmCampaigns),
+      productRecommendationRankings
     });
   } catch (error) {
     console.error('Failed to generate stats:', error);

@@ -161,6 +161,16 @@ export interface RecommendationStats {
   chatClicks: number; // 질문하기 클릭 수
 }
 
+// 제품별 추천 횟수 랭킹
+export interface ProductRecommendationRanking {
+  productId: string;
+  productTitle: string;
+  totalRecommendations: number; // 전체 추천된 횟수 (Top 3 안에 든 총 횟수)
+  rank1Count: number; // 1위로 추천된 횟수
+  rank2Count: number; // 2위로 추천된 횟수
+  rank3Count: number; // 3위로 추천된 횟수
+}
+
 // 새로운 퍼널 통계 (UTM 기반)
 export interface FunnelStep {
   count: number;

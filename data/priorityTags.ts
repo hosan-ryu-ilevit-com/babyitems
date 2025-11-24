@@ -343,14 +343,15 @@ export const TAG_SELECTION_LIMITS = {
  */
 export const POPULAR_TAG_IDS = {
   pros: [
-    'hygiene-thorough',  // 넓은 입구로 손세척 편함 - 위생은 최우선 관심사
-    'material-safe',     // 안전한 소재 - 아기 제품이므로 매우 중요
-    'temp-onetouch',     // 원터치 간편 - 육아맘의 편의성
-    'temp-cooling'       // 쿨링팬 빠른 냉각 - 급할 때 빠른 조유
+    'hygiene-thorough',  // 넓은 입구로 손세척 편함 - 115회
+    'temp-cooling',      // 쿨링팬 빠른 냉각 - 92회
+    'usability-auto',    // 자동 출수 기능 - 76회
+    'temp-precise'       // 1도 단위 정확한 온도 조절 - 74회
   ],
   cons: [
-    'hygiene-gap',       // 틈새 물 고임 - 위생 불안 요소
-    'hygiene-narrow',    // 입구 좁아 세척 불편 - 매우 흔한 불만
-    'usability-noise'    // 소음 - 아기 깨울까 걱정
+    'hygiene-gap',       // 틈새 물 고임 - 99회
+    'hygiene-narrow',    // 입구 좁아 세척 불편 - 74회
+    'usability-noise',   // 소음 - 35회
+    'price-expensive'    // 가격 부담 - 4위
   ]
 } as const;

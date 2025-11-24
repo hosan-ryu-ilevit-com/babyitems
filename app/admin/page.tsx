@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { SessionSummary, CampaignFunnelStats } from '@/types/logging';
+import type { SessionSummary, CampaignFunnelStats, ProductRecommendationRanking } from '@/types/logging';
 import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 
 // 액션 통계 타입
@@ -31,6 +31,10 @@ export default function AdminPage() {
   const [selectedCampaign, setSelectedCampaign] = useState<string>('all');
   const [funnelLoading, setFunnelLoading] = useState(false);
 
+  // 제품 추천 랭킹
+  const [productRecommendationRankings, setProductRecommendationRankings] = useState<ProductRecommendationRanking[]>([]);
+  const [isRecommendationRankingExpanded, setIsRecommendationRankingExpanded] = useState(false);
+
   // 액션 로그 필터
   const [filterUtm, setFilterUtm] = useState<string>('all'); // 'all' | 'none' | 캠페인명
   const [filterCompleted, setFilterCompleted] = useState<string>('all'); // 'all' | 'completed' | 'incomplete'
@@ -42,6 +46,13 @@ export default function AdminPage() {
 
   // 재추천 대화 섹션 상태
   const [isReRecommendationExpanded, setIsReRecommendationExpanded] = useState(false);
+
+  // 태그 클릭 순위
+  const [tagStats, setTagStats] = useState<{
+    pros: Array<{ tag: string; clickCount: number; isPopular: boolean }>;
+    cons: Array<{ tag: string; clickCount: number; isPopular: boolean }>;
+  } | null>(null);
+  const [isTagStatsExpanded, setIsTagStatsExpanded] = useState(false);
 
   // 비밀번호 검증
   const handleLogin = () => {
@@ -71,6 +82,8 @@ export default function AdminPage() {
         setSelectedDate('all');
         // UTM 퍼널 통계 가져오기
         fetchFunnelStats();
+        // 태그 클릭 통계 가져오기
+        fetchTagStats();
       }
     } catch {
       setError('날짜 목록을 불러오는데 실패했습니다.');
@@ -92,11 +105,26 @@ export default function AdminPage() {
         setCampaigns(data.campaigns || []);
         setAvailableCampaigns(data.availableCampaigns || []);
         setSelectedCampaign(data.availableCampaigns?.[0] || 'all');
+        setProductRecommendationRankings(data.productRecommendationRankings || []);
       }
     } catch (error) {
       console.error('Failed to fetch funnel stats:', error);
     } finally {
       setFunnelLoading(false);
+    }
+  };
+
+  // 태그 클릭 통계 가져오기
+  const fetchTagStats = async () => {
+    try {
+      const response = await fetch('/api/tag-stats');
+      const data = await response.json();
+
+      if (response.ok) {
+        setTagStats(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch tag stats:', error);
     }
   };
 
@@ -1119,6 +1147,199 @@ export default function AdminPage() {
             ) : (
               <div className="text-center py-8">
                 <p className="text-gray-600">퍼널 데이터가 없습니다.</p>
+              </div>
+            )}
+          </div>
+
+          {/* 제품 추천 랭킹 */}
+          <div className="border-t pt-4 mt-4">
+            <button
+              onClick={() => setIsRecommendationRankingExpanded(!isRecommendationRankingExpanded)}
+              className="flex items-center gap-2 text-lg font-semibold text-gray-800 hover:text-gray-900 transition-colors"
+            >
+              <svg
+                className={`w-5 h-5 transition-transform ${isRecommendationRankingExpanded ? 'rotate-90' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+              <span>🏅 Best 3 추천 랭킹</span>
+            </button>
+
+            {isRecommendationRankingExpanded && productRecommendationRankings.length > 0 && (
+              <div className="mt-4 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg p-6">
+                <div className="mb-4 flex items-center justify-between">
+                  <p className="text-sm text-gray-600">
+                    총 <span className="font-bold text-amber-600">{productRecommendationRankings.length}개</span> 제품이 추천되었습니다
+                  </p>
+                  <div className="flex gap-2 text-xs">
+                    <span className="px-2 py-1 bg-amber-200 text-amber-800 rounded">🥇 1위</span>
+                    <span className="px-2 py-1 bg-gray-200 text-gray-700 rounded">🥈 2위</span>
+                    <span className="px-2 py-1 bg-orange-200 text-orange-800 rounded">🥉 3위</span>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {productRecommendationRankings.map((product, index) => {
+                    const totalCount = product.totalRecommendations;
+                    const maxCount = productRecommendationRankings[0]?.totalRecommendations || 1;
+                    const percentage = (totalCount / maxCount) * 100;
+
+                    return (
+                      <div
+                        key={product.productId}
+                        className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`text-lg font-bold ${
+                                index === 0 ? 'text-amber-500' :
+                                index === 1 ? 'text-gray-400' :
+                                index === 2 ? 'text-orange-400' :
+                                'text-gray-500'
+                              }`}>
+                                #{index + 1}
+                              </span>
+                              <span className="text-sm font-semibold text-gray-800 line-clamp-2">
+                                {product.productTitle}
+                              </span>
+                            </div>
+                            <p className="text-xs text-gray-500 ml-7">ID: {product.productId}</p>
+                          </div>
+                          <div className="text-right ml-4">
+                            <p className="text-2xl font-bold text-amber-600">{totalCount}</p>
+                            <p className="text-xs text-gray-500">총 추천</p>
+                          </div>
+                        </div>
+
+                        {/* 진행 바 */}
+                        <div className="mb-3">
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-gradient-to-r from-amber-400 to-yellow-500 h-2 rounded-full transition-all"
+                              style={{ width: `${percentage}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* 순위별 상세 통계 */}
+                        <div className="flex gap-2">
+                          <div className="flex-1 bg-amber-50 rounded px-3 py-2 text-center">
+                            <p className="text-xs text-gray-600 mb-1">🥇 1위</p>
+                            <p className="text-lg font-bold text-amber-600">{product.rank1Count}</p>
+                          </div>
+                          <div className="flex-1 bg-gray-50 rounded px-3 py-2 text-center">
+                            <p className="text-xs text-gray-600 mb-1">🥈 2위</p>
+                            <p className="text-lg font-bold text-gray-600">{product.rank2Count}</p>
+                          </div>
+                          <div className="flex-1 bg-orange-50 rounded px-3 py-2 text-center">
+                            <p className="text-xs text-gray-600 mb-1">🥉 3위</p>
+                            <p className="text-lg font-bold text-orange-600">{product.rank3Count}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 태그 클릭 순위 */}
+          <div className="border-t pt-4 mt-4">
+            <button
+              onClick={() => setIsTagStatsExpanded(!isTagStatsExpanded)}
+              className="flex items-center gap-2 text-lg font-semibold text-gray-800 hover:text-gray-900 transition-colors"
+            >
+              <svg
+                className={`w-5 h-5 transition-transform ${isTagStatsExpanded ? 'rotate-90' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+              <span>🏆 태그 클릭 순위 (Priority 페이지)</span>
+            </button>
+
+            {isTagStatsExpanded && tagStats && (
+              <div className="mt-4 grid grid-cols-2 gap-4">
+                {/* 장점 태그 순위 */}
+                <div className="bg-green-50 rounded-lg p-4">
+                  <h3 className="font-bold text-green-800 mb-3 flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    장점 태그 TOP 10
+                  </h3>
+                  <div className="space-y-2">
+                    {tagStats.pros.slice(0, 10).map((stat, index) => (
+                      <div key={stat.tag} className="flex items-center justify-between bg-white rounded px-3 py-2">
+                        <div className="flex items-center gap-2 flex-1">
+                          <span className={`font-bold ${index < 3 ? 'text-green-600' : 'text-gray-400'}`}>
+                            #{index + 1}
+                          </span>
+                          {stat.isPopular && (
+                            <span className="px-1.5 py-0.5 text-xs font-bold bg-green-500 text-white rounded">
+                              인기
+                            </span>
+                          )}
+                          <span className="text-sm text-gray-700 flex-1 line-clamp-2">
+                            {stat.tag}
+                          </span>
+                        </div>
+                        <span className="font-semibold text-green-600 ml-2">
+                          {stat.clickCount}회
+                        </span>
+                      </div>
+                    ))}
+                    {tagStats.pros.length === 0 && (
+                      <p className="text-gray-500 text-sm text-center py-4">
+                        클릭 데이터가 없습니다
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* 단점 태그 순위 */}
+                <div className="bg-orange-50 rounded-lg p-4">
+                  <h3 className="font-bold text-orange-800 mb-3 flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    단점 태그 TOP 10
+                  </h3>
+                  <div className="space-y-2">
+                    {tagStats.cons.slice(0, 10).map((stat, index) => (
+                      <div key={stat.tag} className="flex items-center justify-between bg-white rounded px-3 py-2">
+                        <div className="flex items-center gap-2 flex-1">
+                          <span className={`font-bold ${index < 3 ? 'text-orange-600' : 'text-gray-400'}`}>
+                            #{index + 1}
+                          </span>
+                          {stat.isPopular && (
+                            <span className="px-1.5 py-0.5 text-xs font-bold bg-orange-500 text-white rounded">
+                              인기
+                            </span>
+                          )}
+                          <span className="text-sm text-gray-700 flex-1 line-clamp-2">
+                            {stat.tag}
+                          </span>
+                        </div>
+                        <span className="font-semibold text-orange-600 ml-2">
+                          {stat.clickCount}회
+                        </span>
+                      </div>
+                    ))}
+                    {tagStats.cons.length === 0 && (
+                      <p className="text-gray-500 text-sm text-center py-4">
+                        클릭 데이터가 없습니다
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
           </div>
