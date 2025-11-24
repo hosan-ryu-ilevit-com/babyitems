@@ -476,18 +476,7 @@ function PriorityPageContent() {
       addComponentMessage('cons-selector');
     }, 500);
 
-    // 새 메시지가 헤더 바로 아래에 오도록 스크롤
-    setTimeout(() => {
-      const messageElement = document.querySelector(`[data-message-id="${newMessage.id}"]`) as HTMLElement;
-      if (messageElement && mainScrollRef.current) {
-        const elementTop = messageElement.offsetTop;
-        const headerOffset = 90; // 헤더 높이 + 약간의 여백
-        mainScrollRef.current.scrollTo({
-          top: elementTop - headerOffset,
-          behavior: 'smooth'
-        });
-      }
-    }, 100);
+    // Step 1 → Step 2는 자동 스크롤 제거 (상단 가이드 버튼이 가려지는 문제 방지)
   };
 
   // Step 2 (Cons) → Step 3 (Additional)
@@ -994,7 +983,7 @@ function PriorityPageContent() {
                         {message.typing && typingMessageId === message.id ? (
                           <TypingMessage
                             content={message.content}
-                            onUpdate={message.extraMarginTop ? undefined : scrollToBottom}
+                            onUpdate={message.extraMarginTop || currentStep === 1 ? undefined : scrollToBottom}
                             onComplete={() => setTypingMessageId(null)}
                           />
                         ) : (
@@ -1035,8 +1024,10 @@ function PriorityPageContent() {
                       transition={{ duration: 0.3 }}
                       className="w-full mb-13"
                     >
-                      <div className="space-y-3">
-                        <div className="text-m text-gray-600 mt-3 mb-3 font-medium">💡 추천받기 전에 확인해보세요</div>
+                      {/* 연한 그레이 배경 컨테이너 */}
+                      <div className="bg-gray-100 rounded-2xl p-4">
+                        <div className="space-y-3">
+                          <div className="text-m text-gray-600 font-medium">💡 추천받기 전에 확인해보세요</div>
 
                         {/* 랭킹 보기 버튼 */}
                         <button
@@ -1047,7 +1038,7 @@ function PriorityPageContent() {
                           className="w-full text-left"
                         >
                           <div className="text-xs text-gray-500 mb-1">대표템들이 궁금하다면</div>
-                          <div className="px-4 py-3 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-between">
+                          <div className="px-4 py-3 bg-white text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-between">
                             <span>📊 인기 상품 랭킹</span>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                               <path d="M9 18l6-6-6-6"/>
@@ -1064,14 +1055,15 @@ function PriorityPageContent() {
                           className="w-full text-left"
                         >
                           <div className="text-xs text-gray-500 mb-1">분유포트 구매가 처음이라면</div>
-                          <div className="px-4 py-3 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-between">
+                          <div className="px-4 py-3 bg-white text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-between">
                             <span>📖 구매 1분 가이드</span>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                               <path d="M9 18l6-6-6-6"/>
                             </svg>
                           </div>
                         </button>
-                      </div>
+                        </div> {/* space-y-3 닫기 */}
+                      </div> {/* bg-gray-50 컨테이너 닫기 */}
                     </motion.div>
                   );
                 }

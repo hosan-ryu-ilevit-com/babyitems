@@ -106,9 +106,10 @@ export function ReRecommendationBottomSheet({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [targetProgress, setTargetProgress] = useState(0); // 서버에서 받은 목표 진행률
+  const [displayedProgress, setDisplayedProgress] = useState(0); // 화면에 표시되는 진행률 (1%씩 증가)
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
-  const [userInputText, setUserInputText] = useState(''); // 현재 입력 저장 (설명용)
   const [allUserInputs, setAllUserInputs] = useState<string[]>([]); // 모든 추가 입력 누적
   const [previousContextSummary, setPreviousContextSummary] = useState<string | null>(null); // 초기 조건 저장
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -120,13 +121,12 @@ export function ReRecommendationBottomSheet({
       const stateToSave = {
         messages,
         hasSubmitted,
-        userInputText,
         allUserInputs,
         previousContextSummary,
       };
       sessionStorage.setItem('rerecommendation_state', JSON.stringify(stateToSave));
     }
-  }, [messages, hasSubmitted, userInputText, allUserInputs, previousContextSummary, isOpen]);
+  }, [messages, hasSubmitted, allUserInputs, previousContextSummary, isOpen]);
 
   // Priority 페이지 대화 내역 로드 + 바텀시트 상태 복원
   useEffect(() => {
@@ -140,7 +140,6 @@ export function ReRecommendationBottomSheet({
           const state = JSON.parse(savedState);
           setMessages(state.messages || []);
           setHasSubmitted(state.hasSubmitted || false);
-          setUserInputText(state.userInputText || '');
           setAllUserInputs(state.allUserInputs || []);
           setPreviousContextSummary(state.previousContextSummary || null);
           return; // 복원 성공 시 초기화 스킵
@@ -184,6 +183,24 @@ export function ReRecommendationBottomSheet({
     }
   }, [messages]);
 
+  // 진행률 부드럽게 증가 (1%씩 자연스러운 애니메이션)
+  useEffect(() => {
+    if (!isLoading) return;
+
+    // displayedProgress를 targetProgress에 수렴시킴
+    if (displayedProgress < targetProgress) {
+      const interval = setInterval(() => {
+        setDisplayedProgress((prev) => {
+          const next = prev + 1;
+          // 목표값을 넘지 않도록
+          return next >= targetProgress ? targetProgress : next;
+        });
+      }, 30); // 30ms마다 1%씩 증가 (부드럽고 빠른 애니메이션)
+
+      return () => clearInterval(interval);
+    }
+  }, [isLoading, displayedProgress, targetProgress]);
+
   // 메시지 전송
   const handleSendMessage = async () => {
     if (!input.trim() || isLoading) return; // hasSubmitted 체크 제거 - 계속 재추천 가능해야 함
@@ -198,7 +215,8 @@ export function ReRecommendationBottomSheet({
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
-    setUserInputText(userInput); // 현재 입력 저장 (설명용)
+    setTargetProgress(0); // 목표 진행률 초기화
+    setDisplayedProgress(0); // 표시 진행률 초기화
     setAllUserInputs((prev) => [...prev, userInput]); // 모든 입력 누적
 
     // 첫 재추천인 경우 초기 Summary 저장
@@ -353,6 +371,11 @@ export function ReRecommendationBottomSheet({
                 throw new Error(data.error);
               }
 
+              // 진행률 업데이트 (목표값으로 설정)
+              if (data.progress !== undefined) {
+                setTargetProgress(data.progress);
+              }
+
               // Context Summary 백그라운드 업데이트 처리 (기존 Result 페이지와 동일한 방식)
               if (data.type === 'context-summary' && data.contextSummary) {
                 console.log('📊 Received background Context Summary update');
@@ -386,7 +409,7 @@ export function ReRecommendationBottomSheet({
                 const added = newIds.filter((id: string) => !oldIds.includes(id));
                 const removed = oldIds.filter((id: string) => !newIds.includes(id));
 
-                // 변경사항 분석 및 AI 설명 생성
+                // 변경사항 분석
                 const addedProducts = data.recommendations.filter((r: Recommendation) =>
                   added.includes(r.product.id)
                 );
@@ -394,175 +417,193 @@ export function ReRecommendationBottomSheet({
                   removed.includes(r.product.id)
                 );
 
-                // AI 설명 메시지 생성
-                let explanationContent = '';
-                const requestPrefix = userInputText ? `"**${userInputText}**" 요청사항을 반영하여 ` : '요청사항을 반영하여 ';
-
-                if (addedProducts.length > 0 && removedProducts.length > 0) {
-                  // 변경된 제품 수에 따라 다르게 설명
-                  if (addedProducts.length === 3) {
-                    explanationContent = `${requestPrefix}**추천 제품 3개 모두** 변경했어요! 새 제품들이 요구사항에 더 잘 맞습니다. 😊`;
-                  } else if (addedProducts.length === 2) {
-                    explanationContent = `${requestPrefix}**${removedProducts[0].product.title}**와 **${removedProducts[1].product.title}**가 **${addedProducts[0].product.title}**와 **${addedProducts[1].product.title}**로 변경되었어요!`;
-                  } else {
-                    explanationContent = `${requestPrefix}**${removedProducts[0].product.title}** 대신 **${addedProducts[0].product.title}**로 변경했어요! 새 제품이 요구사항에 더 잘 맞습니다. 😊`;
-                  }
-                } else if (addedProducts.length > 0) {
-                  // 추가만 있는 경우 (순위 변경)
-                  if (addedProducts.length > 1) {
-                    explanationContent = `${requestPrefix}**${addedProducts.map((p: Recommendation) => p.product.title).join('**와 **')}**를 새로 추천드려요!`;
-                  } else {
-                    explanationContent = `${requestPrefix}**${addedProducts[0].product.title}**를 새로 추천드려요!`;
-                  }
-                } else if (removed.length > 0) {
-                  // 제거만 있는 경우
-                  explanationContent = `${requestPrefix}추천 제품을 조정했어요!`;
+                // 변경 유형 결정
+                let changeType: 'all' | 'partial' | 'none';
+                if (addedProducts.length === 3) {
+                  changeType = 'all';
+                } else if (addedProducts.length > 0 || removedProducts.length > 0) {
+                  changeType = 'partial';
                 } else {
-                  // 변경 없음
-                  const requestNote = userInputText ? `"**${userInputText}**" 요청사항을 검토했지만, ` : '';
-                  explanationContent = `${requestNote}현재 추천 제품들이 이미 가장 적합하다고 판단되어 변경하지 않았어요. 다른 요구사항이 있으시면 말씀해주세요! 😊`;
+                  changeType = 'none';
                 }
 
                 // 로딩 종료 및 순차적으로 메시지 추가: Summary → AI 설명 → 추천 컨테이너
-                setTimeout(() => {
-                  setIsLoading(false);
+                setTimeout(async () => {
+                  try {
+                    // 1단계: Summary 컨테이너 새로 추가 (사용자 입력 바로 다음)
+                    const session = loadSession();
+                    const allInputsList = [...allUserInputs, userInput].filter(Boolean);
 
-                  // 1단계: Summary 컨테이너 추가/업데이트
-                  setTimeout(async () => {
+                    // API 호출: update_priority_summary
+                    const summaryResponse = await fetch('/api/chat', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        action: 'update_priority_summary',
+                        previousSummary: previousContextSummary,
+                        userInputs: allInputsList,
+                        prioritySettings: session.prioritySettings,
+                        budget: finalBudget,
+                      }),
+                    });
+
+                    if (!summaryResponse.ok) {
+                      throw new Error('Summary 업데이트 실패');
+                    }
+
+                    const { summary } = await summaryResponse.json();
+
+                    // 1-1단계: 업데이트된 Summary로 AI 설명 메시지 생성 (특징 중심 스마트 요약)
+                    let explanationContent = '';
                     try {
-                      const session = loadSession();
-                      const allInputsList = [...allUserInputs, userInput].filter(Boolean);
-
-                      // API 호출: update_priority_summary
-                      const summaryResponse = await fetch('/api/chat', {
+                      const explanationResponse = await fetch('/api/chat', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                          action: 'update_priority_summary',
-                          previousSummary: previousContextSummary,
-                          userInputs: allInputsList,
-                          prioritySettings: session.prioritySettings,
-                          budget: finalBudget,
+                          action: 'generate_change_explanation',
+                          userInput,
+                          updatedSummary: summary, // 업데이트된 Summary 전달
+                          removedProducts: removedProducts.map(r => ({
+                            title: r.product.title,
+                            price: r.product.price,
+                            coreValues: r.product.coreValues
+                          })),
+                          addedProducts: addedProducts.map((a: Recommendation) => ({
+                            title: a.product.title,
+                            price: a.product.price,
+                            coreValues: a.product.coreValues
+                          })),
+                          changeType
                         }),
                       });
 
-                      if (!summaryResponse.ok) {
-                        throw new Error('Summary 업데이트 실패');
+                      if (explanationResponse.ok) {
+                        const { explanation } = await explanationResponse.json();
+                        explanationContent = explanation;
+                      } else {
+                        throw new Error('설명 생성 실패');
                       }
-
-                      const { summary } = await summaryResponse.json();
-
-                      const newSummaryMessage: ChatMessage = {
-                        id: `new-summary-${Date.now()}`,
-                        role: 'component',
-                        componentType: 'summary',
-                        content: summary,
-                      };
-
-                      // Summary 추가/업데이트
-                      setMessages((prev) => {
-                        const existingIndex = prev.findIndex(m =>
-                          m.id && m.id.startsWith('new-summary-')
-                        );
-
-                        if (existingIndex >= 0) {
-                          const updated = [...prev];
-                          updated[existingIndex] = newSummaryMessage;
-                          return updated;
-                        } else {
-                          return [...prev, newSummaryMessage];
-                        }
-                      });
-
-                      // 2단계: AI 설명 메시지 추가
-                      setTimeout(() => {
-                        const explanationMessage: ChatMessage = {
-                          id: `explanation-${Date.now()}`,
-                          role: 'assistant',
-                          content: explanationContent,
-                        };
-                        setMessages((prev) => [...prev, explanationMessage]);
-                        setTypingMessageId(explanationMessage.id);
-
-                        // 3단계: 추천 컨테이너 추가
-                        setTimeout(() => {
-                          const recommendationMessage: ChatMessage = {
-                            id: `recommendations-${Date.now()}`,
-                            role: 'component',
-                            componentType: 'recommendations',
-                            content: JSON.stringify({
-                              recommendations: data.recommendations,
-                              changes: {
-                                added,
-                                removed,
-                                unchanged: data.recommendations
-                                  .filter((r: Recommendation) => !added.includes(r.product.id))
-                                  .map((r: Recommendation) => r.product.id)
-                              }
-                            }),
-                          };
-                          setMessages((prev) => [...prev, recommendationMessage]);
-                        }, 400);
-                      }, 200);
-
                     } catch (error) {
-                      console.error('❌ Summary 업데이트 실패:', error);
-                      // Fallback: 간단한 Summary
-                      const allInputsList = [...allUserInputs, userInput].filter(Boolean);
-                      const fallbackSummary = `${previousContextSummary}\n\n**추가 요청**\n${allInputsList.map(input => `- ${input}`).join('\n')}`;
-
-                      const newSummaryMessage: ChatMessage = {
-                        id: `new-summary-${Date.now()}`,
-                        role: 'component',
-                        componentType: 'summary',
-                        content: fallbackSummary,
-                      };
-
-                      setMessages((prev) => {
-                        const existingIndex = prev.findIndex(m =>
-                          m.id && m.id.startsWith('new-summary-')
-                        );
-
-                        if (existingIndex >= 0) {
-                          const updated = [...prev];
-                          updated[existingIndex] = newSummaryMessage;
-                          return updated;
-                        } else {
-                          return [...prev, newSummaryMessage];
-                        }
-                      });
-
-                      // Fallback: AI 설명 + 추천 컨테이너도 추가
-                      setTimeout(() => {
-                        const explanationMessage: ChatMessage = {
-                          id: `explanation-${Date.now()}`,
-                          role: 'assistant',
-                          content: explanationContent,
-                        };
-                        setMessages((prev) => [...prev, explanationMessage]);
-                        setTypingMessageId(explanationMessage.id);
-
-                        setTimeout(() => {
-                          const recommendationMessage: ChatMessage = {
-                            id: `recommendations-${Date.now()}`,
-                            role: 'component',
-                            componentType: 'recommendations',
-                            content: JSON.stringify({
-                              recommendations: data.recommendations,
-                              changes: {
-                                added,
-                                removed,
-                                unchanged: data.recommendations
-                                  .filter((r: Recommendation) => !added.includes(r.product.id))
-                                  .map((r: Recommendation) => r.product.id)
-                              }
-                            }),
-                          };
-                          setMessages((prev) => [...prev, recommendationMessage]);
-                        }, 400);
-                      }, 200);
+                      console.error('AI 설명 생성 실패, Fallback 사용:', error);
+                      // Fallback: 간단한 템플릿
+                      if (changeType === 'all') {
+                        explanationContent = `요청하신 조건에 맞춰 추천 제품 3개 모두 새롭게 선정했어요! 😊`;
+                      } else if (changeType === 'partial') {
+                        explanationContent = `조건에 더 잘 맞는 제품들로 일부 교체했어요! 😊`;
+                      } else {
+                        const requestNote = userInput ? `"**${userInput}**" 요청사항을 검토했지만, ` : '';
+                        explanationContent = `${requestNote}현재 추천 제품들이 이미 가장 적합하다고 판단되어 변경하지 않았어요. 다른 요구사항이 있으시면 말씀해주세요! 😊`;
+                      }
                     }
-                  }, 200);
+
+                    const newSummaryMessage: ChatMessage = {
+                      id: `summary-${Date.now()}`,
+                      role: 'component',
+                      componentType: 'summary',
+                      content: summary,
+                    };
+
+                    // Summary 항상 새로 추가 (기존 것 유지, replace 안 함)
+                    setMessages((prev) => [...prev, newSummaryMessage]);
+
+                    // 2단계: AI 설명 메시지 추가
+                    setTimeout(() => {
+                      const explanationMessage: ChatMessage = {
+                        id: `explanation-${Date.now()}`,
+                        role: 'assistant',
+                        content: explanationContent,
+                      };
+                      setMessages((prev) => [...prev, explanationMessage]);
+                      setTypingMessageId(explanationMessage.id);
+
+                      // 3단계: 추천 컨테이너 추가
+                      setTimeout(() => {
+                        const recommendationMessage: ChatMessage = {
+                          id: `recommendations-${Date.now()}`,
+                          role: 'component',
+                          componentType: 'recommendations',
+                          content: JSON.stringify({
+                            recommendations: data.recommendations,
+                            changes: {
+                              added,
+                              removed,
+                              unchanged: data.recommendations
+                                .filter((r: Recommendation) => !added.includes(r.product.id))
+                                .map((r: Recommendation) => r.product.id)
+                            }
+                          }),
+                        };
+                        setMessages((prev) => [...prev, recommendationMessage]);
+
+                        // 모든 메시지 추가 완료 후 로딩 종료
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 100);
+                      }, 400);
+                    }, 200);
+
+                  } catch (error) {
+                    console.error('❌ Summary 업데이트 실패:', error);
+                    // Fallback: 간단한 Summary
+                    const allInputsList = [...allUserInputs, userInput].filter(Boolean);
+                    const fallbackSummary = `${previousContextSummary}\n\n**추가 요청**\n${allInputsList.map(input => `- ${input}`).join('\n')}`;
+
+                    // Fallback: AI 설명도 생성
+                    let fallbackExplanation = '';
+                    if (changeType === 'all') {
+                      fallbackExplanation = `요청하신 조건에 맞춰 추천 제품 3개 모두 새롭게 선정했어요! 😊`;
+                    } else if (changeType === 'partial') {
+                      fallbackExplanation = `조건에 더 잘 맞는 제품들로 일부 교체했어요! 😊`;
+                    } else {
+                      const requestNote = userInput ? `"**${userInput}**" 요청사항을 검토했지만, ` : '';
+                      fallbackExplanation = `${requestNote}현재 추천 제품들이 이미 가장 적합하다고 판단되어 변경하지 않았어요. 다른 요구사항이 있으시면 말씀해주세요! 😊`;
+                    }
+
+                    const newSummaryMessage: ChatMessage = {
+                      id: `summary-${Date.now()}`,
+                      role: 'component',
+                      componentType: 'summary',
+                      content: fallbackSummary,
+                    };
+
+                    // Fallback도 새로 추가
+                    setMessages((prev) => [...prev, newSummaryMessage]);
+
+                    // Fallback: AI 설명 + 추천 컨테이너도 추가
+                    setTimeout(() => {
+                      const explanationMessage: ChatMessage = {
+                        id: `explanation-${Date.now()}`,
+                        role: 'assistant',
+                        content: fallbackExplanation,
+                      };
+                      setMessages((prev) => [...prev, explanationMessage]);
+                      setTypingMessageId(explanationMessage.id);
+
+                      setTimeout(() => {
+                        const recommendationMessage: ChatMessage = {
+                          id: `recommendations-${Date.now()}`,
+                          role: 'component',
+                          componentType: 'recommendations',
+                          content: JSON.stringify({
+                            recommendations: data.recommendations,
+                            changes: {
+                              added,
+                              removed,
+                              unchanged: data.recommendations
+                                .filter((r: Recommendation) => !added.includes(r.product.id))
+                                .map((r: Recommendation) => r.product.id)
+                            }
+                          }),
+                        };
+                        setMessages((prev) => [...prev, recommendationMessage]);
+
+                        // 모든 메시지 추가 완료 후 로딩 종료
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 100);
+                      }, 400);
+                    }, 200);
+                  }
                 }, 500);
 
                 logButtonClick('재추천 완료', 'result');
@@ -623,7 +664,7 @@ export function ReRecommendationBottomSheet({
             {/* Header */}
             <div className="px-3 py-3 border-b border-gray-200 shrink-0">
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-bold text-gray-900">조건 추가 입력하기</h2>
+                <h2 className="text-base font-bold text-gray-900">다시 추천받기</h2>
                 <button
                   onClick={handleClose}
                   className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
@@ -739,23 +780,16 @@ export function ReRecommendationBottomSheet({
                   return null;
                 })}
 
-                {/* 현재 추천 미리보기 (hasSubmitted === false) */}
-                {!hasSubmitted && messages.length > 0 && (
-                  <RecommendationPreview
-                    recommendations={currentRecommendations}
-                    onClick={onClose}
-                  />
-                )}
-
                 {/* 로딩 중 */}
                 {isLoading && (
                   <div className="w-full flex justify-start">
-                    <div className="px-4 py-3">
+                    <div className="px-4 py-3 flex items-center gap-2">
                       <div className="flex items-center gap-1">
                         <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0s_infinite]"></span>
                         <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0.15s_infinite]"></span>
                         <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0.3s_infinite]"></span>
                       </div>
+                      <span className="text-sm text-gray-500">{displayedProgress}%</span>
                     </div>
                   </div>
                 )}

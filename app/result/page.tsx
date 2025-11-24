@@ -308,7 +308,7 @@ export default function ResultPage() {
     }
   }, [displayedProgress]);
 
-  // 진행률 부드럽게 증가 (보간 애니메이션)
+  // 진행률 부드럽게 증가 (1%씩 자연스러운 애니메이션)
   useEffect(() => {
     if (!loading) return;
 
@@ -320,7 +320,7 @@ export default function ResultPage() {
           // 목표값을 넘지 않도록
           return next >= targetProgress ? targetProgress : next;
         });
-      }, 40); // 40ms마다 1%씩 증가 (빠르고 부드러운 애니메이션)
+      }, 40); // 40ms마다 1%씩 증가 (부드럽고 빠른 애니메이션)
 
       return () => clearInterval(interval);
     }
@@ -604,7 +604,7 @@ export default function ResultPage() {
 
   // 비교표 데이터 프리페치 (recommendations 로드 시 한 번만)
   useEffect(() => {
-    if (recommendations.length > 0 && Object.keys(comparisonFeatures).length === 0) {
+    if (recommendations.length > 0 && comparisonFeatures && Object.keys(comparisonFeatures).length === 0) {
       const productIds = recommendations.slice(0, 3).map(rec => rec.product.id);
 
       console.log('🔄 Prefetching comparison data...');

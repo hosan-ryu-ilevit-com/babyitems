@@ -3,6 +3,7 @@ import { generatePersona, generatePersonaFromPriorityWithChat } from '@/lib/agen
 import { evaluateMultipleProducts } from '@/lib/agents/productEvaluator';
 import { generateTop3Recommendations } from '@/lib/agents/recommendationWriter';
 import { generateContextSummary, generateContextSummaryFromPriorityWithChat } from '@/lib/agents/contextSummaryGenerator';
+import { applyContextualFiltering } from '@/lib/agents/contextualFilter';
 import { loadAllProducts } from '@/lib/data/productLoader';
 import { selectTopProducts, filterByBudget } from '@/lib/filtering/initialFilter';
 import { calculateAndRankProducts, selectTop3 } from '@/lib/filtering/scoreCalculator';
@@ -15,9 +16,10 @@ import { generateTagContext, convertTagsToContextualNeeds } from '@/lib/utils/ta
  * 간소화된 추천 워크플로우 (스트리밍 방식)
  * 1. Persona Generation (Reflection 제거)
  * 2. Initial Filtering (Code-based Top 5)
- * 3. Product Evaluation (병렬 처리, Validation 제거)
- * 4. Final Score Calculation (overallScore 반영)
- * 5. Recommendation Generation (병렬 처리)
+ * 3. Contextual Filtering (LLM-based smart filtering) - NEW!
+ * 4. Product Evaluation (병렬 처리, Validation 제거)
+ * 5. Final Score Calculation (overallScore 반영)
+ * 6. Recommendation Generation (병렬 처리)
  */
 export async function POST(request: NextRequest) {
   // request body를 먼저 읽어서 저장 (스트림 시작 전에 읽어야 함)
@@ -201,14 +203,14 @@ export async function POST(request: NextRequest) {
 
         sendProgress('persona', 20, '페르소나 생성 완료');
 
-        // Phase 3: Initial Filtering (20-35%)
-        sendProgress('filtering', 25, '제품 데이터를 불러오고 있습니다...');
+        // Phase 3: Initial Filtering (20-30%)
+        sendProgress('filtering', 22, '제품 데이터를 불러오고 있습니다...');
 
         console.log('\n=== Phase 3: Initial Filtering ===');
         const allProducts = await loadAllProducts();
         console.log(`Loaded ${allProducts.length} products`);
 
-        sendProgress('filtering', 30, '예산에 맞는 제품을 선별하고 있습니다...');
+        sendProgress('filtering', 25, '예산에 맞는 제품을 선별하고 있습니다...');
 
         const budgetFilteredProducts = filterByBudget(allProducts, persona.budget);
         console.log(`After budget filter: ${budgetFilteredProducts.length} products`);
@@ -226,31 +228,59 @@ export async function POST(request: NextRequest) {
         }));
         console.log('✓ Top 5 products selected:', top5Products.map(p => p.title.substring(0, 30)));
 
-        sendProgress('filtering', 35, 'Top 5 후보 선정 완료');
+        sendProgress('filtering', 30, 'Top 5 후보 선정 완료');
 
-        // Phase 4: Product Evaluation (35-60%) - 병렬 처리로 속도 최적화
-        sendProgress('evaluation', 40, 'AI가 5개 제품을 동시에 평가하고 있습니다...');
+        // Phase 3.5: Contextual Filtering (30-40%) - LLM 기반 스마트 필터링 (조건부)
+        // 조건: phase0Context가 있거나, 배제 조건(❌)이 있는 경우에만 실행
+        const hasAdditionalContext = phase0Context && phase0Context.trim().length > 20;
+        const hasExclusionCondition = persona.contextualNeeds.some(need => need.includes('❌'));
+        const needsContextualFiltering = hasAdditionalContext || hasExclusionCondition;
+
+        let filteredProducts;
+
+        if (needsContextualFiltering) {
+          console.log('\n=== Phase 3.5: Contextual Filtering (ENABLED) ===');
+          console.log('Reason:', hasAdditionalContext ? 'Additional context present' : 'Exclusion condition detected');
+          sendProgress('contextual-filtering', 32, '맥락을 고려하여 제품을 선별하고 있습니다...');
+
+          filteredProducts = await applyContextualFiltering(
+            top5Products,
+            budgetFilteredProducts,
+            persona,
+            5 // 최소 5개 유지
+          );
+          console.log(`✓ Contextual filtering complete: ${filteredProducts.length} products remain`);
+          sendProgress('contextual-filtering', 40, '맥락 기반 제품 선별 완료');
+        } else {
+          console.log('\n=== Phase 3.5: Contextual Filtering (SKIPPED) ===');
+          console.log('Reason: No additional context or exclusion conditions');
+          filteredProducts = top5Products;
+          sendProgress('filtering', 40, '제품 선별 완료');
+        }
+
+        // Phase 4: Product Evaluation (40-65%) - 병렬 처리로 속도 최적화
+        sendProgress('evaluation', 45, `AI가 ${filteredProducts.length}개 제품을 동시에 평가하고 있습니다...`);
 
         console.log('\n=== Phase 4: Product Evaluation (Parallel) ===');
         const evalStartTime = Date.now();
-        const evaluations = await evaluateMultipleProducts(top5Products, persona);
-        console.log(`✓ All 5 products evaluated in parallel in ${Date.now() - evalStartTime}ms`);
+        const evaluations = await evaluateMultipleProducts(filteredProducts, persona);
+        console.log(`✓ All ${filteredProducts.length} products evaluated in parallel in ${Date.now() - evalStartTime}ms`);
         console.log('Evaluation count:', evaluations.length);
 
         // ✅ 최적화: Phase 4에서 로드한 마크다운을 Phase 6에서 재사용하기 위해 저장
         // evaluateMultipleProducts 내부에서 이미 로드된 마크다운 데이터를 추출
         const { loadMultipleProductDetails } = await import('@/lib/data/productLoader');
-        const top5ProductIds = top5Products.map(p => p.id);
-        const productMarkdowns = await loadMultipleProductDetails(top5ProductIds);
+        const filteredProductIds = filteredProducts.map(p => p.id);
+        const productMarkdowns = await loadMultipleProductDetails(filteredProductIds);
         console.log(`💾 Cached ${Object.keys(productMarkdowns).length} product markdowns for Phase 6 reuse`);
 
-        sendProgress('evaluation', 60, '제품 평가 완료');
+        sendProgress('evaluation', 65, '제품 평가 완료');
 
-        // Phase 5: Final Score Calculation (60-70%) - 빠른 코드 기반 계산
-        sendProgress('scoring', 65, '최종 점수를 계산하고 있습니다...');
+        // Phase 5: Final Score Calculation (65-75%) - 빠른 코드 기반 계산
+        sendProgress('scoring', 70, '최종 점수를 계산하고 있습니다...');
 
         console.log('\n=== Phase 5: Final Score Calculation (with overallScore) ===');
-        const rankedProducts = calculateAndRankProducts(top5Products, evaluations, persona);
+        const rankedProducts = calculateAndRankProducts(filteredProducts, evaluations, persona);
         const top3 = selectTop3(rankedProducts);
         console.log('✓ Final scores calculated (70% attributes + 30% overallScore)');
         console.log('Top 3:');
@@ -258,10 +288,10 @@ export async function POST(request: NextRequest) {
           console.log(`  ${i + 1}. [${p.finalScore}%] ${p.product.title.substring(0, 40)}`);
         });
 
-        sendProgress('scoring', 70, 'Top 3 제품 선정 완료');
+        sendProgress('scoring', 75, 'Top 3 제품 선정 완료');
 
-        // Phase 6: Recommendation Generation (70-100%)
-        sendProgress('recommendation', 75, 'Top 3 제품에 대한 맞춤 추천 이유를 작성하고 있습니다...');
+        // Phase 6: Recommendation Generation (75-100%)
+        sendProgress('recommendation', 80, 'Top 3 제품에 대한 맞춤 추천 이유를 작성하고 있습니다...');
 
         console.log('\n=== Phase 6: Recommendation Generation ===');
         const finalStartTime = Date.now();
