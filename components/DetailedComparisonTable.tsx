@@ -9,6 +9,7 @@ import { logComparisonProductAction } from '@/lib/logging/clientLogger';
 
 interface DetailedComparisonTableProps {
   recommendations: Recommendation[];
+  cachedFeatures?: Record<string, string[]>;
   cachedDetails?: Record<string, { pros: string[]; cons: string[]; comparison: string }>;
   showRankBadge?: boolean;
   showScore?: boolean;
@@ -16,6 +17,7 @@ interface DetailedComparisonTableProps {
 
 export default function DetailedComparisonTable({
   recommendations,
+  cachedFeatures,
   cachedDetails,
   showRankBadge = true,
   showScore = true
