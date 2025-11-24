@@ -237,6 +237,18 @@ export default function AdminPage() {
     });
   };
 
+  // 날짜+시간 포맷팅
+  const formatDateTime = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    return date.toLocaleString('ko-KR', {
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).replace(/\. /g, '/').replace('.', '');
+  };
+
   // 체크박스 토글
   const toggleSessionSelection = (sessionId: string) => {
     const newSelected = new Set(selectedSessions);
@@ -614,8 +626,11 @@ export default function AdminPage() {
       .sort((a, b) => b.totalCount - a.totalCount);
   };
 
-  // 사용자 추가 입력 수집
+  // 사용자 추가 입력 수집 (테스트 데이터 제외)
   const collectUserInputs = () => {
+    const TEST_IPS = ['::1', '127.0.0.1', '211.53.92.162']; // 로컬 + 레브잇테크
+    const TEST_PHONES = ['01088143142'];
+
     const userInputs: Array<{
       sessionId: string;
       timestamp: string;
@@ -626,6 +641,16 @@ export default function AdminPage() {
     }> = [];
 
     allSessions.forEach(session => {
+      // 테스트 IP 필터링
+      if (session.ip && TEST_IPS.includes(session.ip)) {
+        return;
+      }
+
+      // 테스트 전화번호 필터링
+      if (session.phone && TEST_PHONES.includes(session.phone)) {
+        return;
+      }
+
       session.events.forEach(event => {
         if (event.userInput) {
           userInputs.push({
@@ -1083,7 +1108,7 @@ export default function AdminPage() {
                   <table className="w-full text-sm border-collapse">
                     <thead>
                       <tr className="bg-gray-100">
-                        <th className="px-4 py-3 text-left font-semibold text-gray-700 border">시간</th>
+                        <th className="px-4 py-3 text-left font-semibold text-gray-700 border">날짜/시간</th>
                         <th className="px-4 py-3 text-left font-semibold text-gray-700 border">입력 내용</th>
                         <th className="px-4 py-3 text-left font-semibold text-gray-700 border">버튼</th>
                         <th className="px-4 py-3 text-left font-semibold text-gray-700 border">UTM</th>
@@ -1094,7 +1119,7 @@ export default function AdminPage() {
                       {collectUserInputs().map((input, idx) => (
                         <tr key={idx} className="hover:bg-gray-50">
                           <td className="px-4 py-2 border text-gray-600 whitespace-nowrap">
-                            {formatTime(input.timestamp)}
+                            {formatDateTime(input.timestamp)}
                           </td>
                           <td className="px-4 py-2 border">
                             <div className="bg-purple-50 border-l-4 border-purple-500 p-2 rounded">
