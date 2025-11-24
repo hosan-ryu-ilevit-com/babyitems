@@ -14,11 +14,11 @@ function shouldExcludeSession(session: SessionSummary): boolean {
   return EXCLUDED_IPS.includes(session.ip || '');
 }
 
-// 퍼널 단계별 계산
-function calculateFunnelStep(count: number, previousCount: number): FunnelStep {
+// 퍼널 단계별 계산 (홈 페이지뷰 기준)
+function calculateFunnelStep(count: number, homeCount: number): FunnelStep {
   return {
     count,
-    percentage: previousCount > 0 ? Math.round((count / previousCount) * 100) : 0
+    percentage: homeCount > 0 ? Math.round((count / homeCount) * 100) : 0
   };
 }
 
@@ -40,7 +40,6 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
   const consTagsSelected = new Set<string>();
   const additionalSelected = new Set<string>();
   const budgetSelected = new Set<string>();
-  const finalInputCompleted = new Set<string>();
   const recommendationReceived = new Set<string>();
 
   // Pre-recommendation actions (총 클릭 횟수)
@@ -102,18 +101,9 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
         additionalSelected.add(sessionId);
       }
 
-      // 6. 예산 선택 (금액 선택 또는 Step 4 → Step 5 버튼 클릭)
-      if (eventType === 'button_click' && (buttonLabel.includes('예산 선택') || buttonLabel.includes('Step 4 → Step 5'))) {
+      // 6. 예산 선택 (최종 단계)
+      if (eventType === 'button_click' && buttonLabel.includes('예산 선택')) {
         budgetSelected.add(sessionId);
-      }
-
-      // 7. 마지막 입력 완료 (Step 5 완료: "없어요" 또는 "추가 입력 제출" 또는 "바로 추천받기")
-      if (eventType === 'button_click' && (
-        buttonLabel.includes('추가 입력 스킵 (없어요)') ||
-        buttonLabel.includes('추가 입력 제출') ||
-        buttonLabel.includes('바로 추천받기 (최종)')
-      )) {
-        finalInputCompleted.add(sessionId);
       }
 
       // Pre-recommendation actions (Home 및 Priority 페이지)
@@ -163,7 +153,7 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
       }
     });
 
-    // 8. Best 3 추천 완료 (초록색 '완료' 태그 = session.completed)
+    // 7. Best 3 추천 완료 (초록색 '완료' 태그 = session.completed)
     // Result 페이지 도달 여부로 판단 (관리자 페이지의 '완료' 태그와 일치)
     if (session.completed) {
       recommendationReceived.add(sessionId);
@@ -177,20 +167,18 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
   const consCount = consTagsSelected.size;
   const additionalCount = additionalSelected.size;
   const budgetCount = budgetSelected.size;
-  const finalInputCount = finalInputCompleted.size;
   const recommendationCount = recommendationReceived.size;
 
   return {
     utmCampaign,
     totalSessions: uniqueSessions.length,
     funnel: {
-      homePageViews: { count: homeCount, percentage: 100 }, // 기준점
+      homePageViews: { count: homeCount, percentage: 100 }, // 기준점 (항상 100%)
       priorityEntry: calculateFunnelStep(priorityCount, homeCount),
-      prosTagsSelected: calculateFunnelStep(prosCount, priorityCount),
-      consTagsSelected: calculateFunnelStep(consCount, prosCount),
-      additionalSelected: calculateFunnelStep(additionalCount, consCount),
-      budgetSelected: calculateFunnelStep(budgetCount, additionalCount),
-      finalInputCompleted: calculateFunnelStep(finalInputCount, budgetCount),
+      prosTagsSelected: calculateFunnelStep(prosCount, homeCount),
+      consTagsSelected: calculateFunnelStep(consCount, homeCount),
+      additionalSelected: calculateFunnelStep(additionalCount, homeCount),
+      budgetSelected: calculateFunnelStep(budgetCount, homeCount),
       recommendationReceived: calculateFunnelStep(recommendationCount, homeCount),
       preRecommendationActions: {
         guideOpened: {

@@ -181,8 +181,7 @@ export interface CampaignFunnelStats {
     prosTagsSelected: FunnelStep;
     consTagsSelected: FunnelStep;
     additionalSelected: FunnelStep;
-    budgetSelected: FunnelStep;
-    finalInputCompleted: FunnelStep; // "없어요" 포함
+    budgetSelected: FunnelStep; // 최종 단계
     recommendationReceived: FunnelStep; // Best 3 추천 완료
     preRecommendationActions: {
       guideOpened: PostRecommendationAction; // 분유포트 1분 가이드 열기

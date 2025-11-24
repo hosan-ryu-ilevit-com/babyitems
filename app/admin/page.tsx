@@ -930,24 +930,10 @@ export default function AdminPage() {
                           </div>
                         </div>
 
-                        {/* 7. Step 5: 추천받기 요청 */}
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-semibold text-gray-700">7️⃣ Step 5: 추천받기 요청</span>
-                            <div className="flex items-center gap-3">
-                              <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.finalInputCompleted.percentage}%</span>
-                              <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.finalInputCompleted.count}</span>
-                            </div>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-3">
-                            <div className="bg-teal-500 h-3 rounded-full transition-all" style={{ width: `${currentCampaign.funnel.finalInputCompleted.percentage}%` }} />
-                          </div>
-                        </div>
-
-                        {/* 8. Best 3 추천 완료 (강조) */}
+                        {/* 7. Best 3 추천 완료 (강조) */}
                         <div className="border-2 border-purple-300 bg-purple-50 rounded-lg p-4 mt-2">
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-semibold text-purple-900">8️⃣ 🎯 Best 3 추천 완료</span>
+                            <span className="text-sm font-semibold text-purple-900">7️⃣ 🎯 Best 3 추천 완료</span>
                             <div className="flex items-center gap-3">
                               <span className="text-xs font-medium text-purple-700">{currentCampaign.funnel.recommendationReceived.percentage}%</span>
                               <span className="text-lg font-bold text-purple-600">{currentCampaign.funnel.recommendationReceived.count}</span>
@@ -958,19 +944,19 @@ export default function AdminPage() {
                           </div>
                         </div>
 
-                        {/* ⚠️ 추천하기 눌렀지만 결과 못 본 사람 */}
+                        {/* ⚠️ 예산 선택 후 추천 못 받은 사람 */}
                         {(() => {
-                          const finalInputCount = currentCampaign.funnel.finalInputCompleted.count;
+                          const budgetCount = currentCampaign.funnel.budgetSelected.count;
                           const recommendationCount = currentCampaign.funnel.recommendationReceived.count;
-                          const lostUsers = finalInputCount - recommendationCount;
-                          const lostPercentage = finalInputCount > 0 ? Math.round((lostUsers / finalInputCount) * 100) : 0;
+                          const lostUsers = budgetCount - recommendationCount;
+                          const lostPercentage = budgetCount > 0 ? Math.round((lostUsers / budgetCount) * 100) : 0;
 
                           if (lostUsers > 0) {
                             return (
                               <div className="border-2 border-red-300 bg-red-50 rounded-lg p-4 mt-2">
                                 <div className="flex items-center justify-between mb-2">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-sm font-semibold text-red-900">⚠️ 추천하기 눌렀지만 결과 못 본 사람</span>
+                                    <span className="text-sm font-semibold text-red-900">⚠️ 예산 선택 후 추천 못 받은 사람</span>
                                     <span className="text-xs text-red-700 bg-red-100 px-2 py-0.5 rounded">이탈</span>
                                   </div>
                                   <div className="flex items-center gap-3">
@@ -979,7 +965,7 @@ export default function AdminPage() {
                                   </div>
                                 </div>
                                 <p className="text-xs text-red-700 mt-2">
-                                  Step 5 완료 후 추천 API 로딩 중 이탈 (네트워크 오류, 로딩 타임아웃, 앱 종료 등)
+                                  예산 선택 후 추천 API 로딩 중 이탈 (네트워크 오류, 로딩 타임아웃, 앱 종료 등)
                                 </p>
                               </div>
                             );
@@ -999,8 +985,7 @@ export default function AdminPage() {
                               { label: 'Step1→Step2', from: currentCampaign.funnel.prosTagsSelected.count, to: currentCampaign.funnel.consTagsSelected.count },
                               { label: 'Step2→Step3', from: currentCampaign.funnel.consTagsSelected.count, to: currentCampaign.funnel.additionalSelected.count },
                               { label: 'Step3→Step4', from: currentCampaign.funnel.additionalSelected.count, to: currentCampaign.funnel.budgetSelected.count },
-                              { label: 'Step4→Step5', from: currentCampaign.funnel.budgetSelected.count, to: currentCampaign.funnel.finalInputCompleted.count },
-                              { label: 'Step5→결과', from: currentCampaign.funnel.finalInputCompleted.count, to: currentCampaign.funnel.recommendationReceived.count },
+                              { label: 'Step4→결과', from: currentCampaign.funnel.budgetSelected.count, to: currentCampaign.funnel.recommendationReceived.count },
                             ];
 
                             return steps.map((step, idx) => {
