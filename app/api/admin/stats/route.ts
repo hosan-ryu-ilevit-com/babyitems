@@ -8,7 +8,7 @@ import type {
 } from '@/types/logging';
 
 // 테스트/내부 IP 필터링
-const EXCLUDED_IPS = ['::1', '211.53.92.162'];
+const EXCLUDED_IPS = ['::1', '211.53.92.162', '::ffff:172.16.230.123'];
 
 function shouldExcludeSession(session: SessionSummary): boolean {
   return EXCLUDED_IPS.includes(session.ip || '');
@@ -116,13 +116,13 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
         finalInputCompleted.add(sessionId);
       }
 
-      // Pre-recommendation actions (Home 페이지)
-      if (page === 'home' && eventType === 'button_click') {
-        if (buttonLabel.includes('분유포트 1분 가이드 열기')) {
+      // Pre-recommendation actions (Home 및 Priority 페이지)
+      if ((page === 'home' || page === 'priority') && eventType === 'button_click') {
+        if (buttonLabel.includes('분유포트 1분 가이드 열기') || buttonLabel.includes('구매 1분 가이드')) {
           guideOpenedTotal++;
           guideOpenedSessions.add(sessionId);
         }
-        if (buttonLabel.includes('랭킹 탭 클릭')) {
+        if (buttonLabel.includes('랭킹') && (buttonLabel.includes('클릭') || buttonLabel.includes('보기'))) {
           rankingTabClickedTotal++;
           rankingTabClickedSessions.add(sessionId);
         }

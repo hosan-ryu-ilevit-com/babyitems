@@ -39,6 +39,9 @@ export default function AdminPage() {
   // 추가 입력 섹션 상태
   const [isUserInputExpanded, setIsUserInputExpanded] = useState(false);
 
+  // 재추천 대화 섹션 상태
+  const [isReRecommendationExpanded, setIsReRecommendationExpanded] = useState(false);
+
   // 비밀번호 검증
   const handleLogin = () => {
     if (password === '1545') {
@@ -267,8 +270,18 @@ export default function AdminPage() {
     }
 
     try {
+      // 세션이 속한 날짜 찾기
+      const session = sessions.find(s => s.sessionId === sessionId);
+      if (!session) {
+        setError('세션을 찾을 수 없습니다.');
+        return;
+      }
+
+      // firstSeen에서 날짜 추출 (YYYY-MM-DD)
+      const sessionDate = session.firstSeen.split('T')[0];
+
       const response = await fetch(
-        `/api/admin/logs?date=${selectedDate}&sessionId=${sessionId}`,
+        `/api/admin/logs?date=${sessionDate}&sessionId=${sessionId}`,
         {
           method: 'DELETE',
           headers: {
@@ -279,7 +292,11 @@ export default function AdminPage() {
 
       if (response.ok) {
         // 삭제 성공 시 로그 다시 불러오기
-        fetchLogs(selectedDate);
+        if (selectedDate === 'all') {
+          await fetchAllLogs(dates);
+        } else {
+          await fetchLogs(selectedDate);
+        }
         // 선택 목록에서 제거
         const newSelected = new Set(selectedSessions);
         newSelected.delete(sessionId);
@@ -304,19 +321,30 @@ export default function AdminPage() {
     }
 
     try {
-      const deletePromises = Array.from(selectedSessions).map(sessionId =>
-        fetch(`/api/admin/logs?date=${selectedDate}&sessionId=${sessionId}`, {
+      // 각 세션의 날짜를 찾아서 삭제 요청
+      const deletePromises = Array.from(selectedSessions).map(sessionId => {
+        const session = sessions.find(s => s.sessionId === sessionId);
+        if (!session) return Promise.resolve();
+
+        // firstSeen에서 날짜 추출 (YYYY-MM-DD)
+        const sessionDate = session.firstSeen.split('T')[0];
+
+        return fetch(`/api/admin/logs?date=${sessionDate}&sessionId=${sessionId}`, {
           method: 'DELETE',
           headers: {
             'x-admin-password': '1545',
           },
-        })
-      );
+        });
+      });
 
       await Promise.all(deletePromises);
 
       // 삭제 성공 시 로그 다시 불러오기
-      fetchLogs(selectedDate);
+      if (selectedDate === 'all') {
+        await fetchAllLogs(dates);
+      } else {
+        await fetchLogs(selectedDate);
+      }
       setSelectedSessions(new Set());
     } catch {
       setError('세션 삭제 중 오류가 발생했습니다.');
@@ -365,7 +393,7 @@ export default function AdminPage() {
         </span>
       );
     }
-    if (ip === '::1') {
+    if (ip === '::1' || ip === '::ffff:172.16.230.123') {
       return (
         <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">
           [로컬 테스트]
@@ -515,19 +543,8 @@ export default function AdminPage() {
     return <span className="text-blue-600 text-xs">{label}</span>;
   };
 
-  // 테스트 IP 제외 (UTM 퍼널과 동일)
-  const EXCLUDED_IPS = ['::1', '211.53.92.162'];
-  const shouldExcludeSession = (session: SessionSummary): boolean => {
-    return EXCLUDED_IPS.includes(session.ip || '');
-  };
-
-  // 세션 필터링 (AND 조건)
+  // 세션 필터링 (AND 조건) - 테스트 IP는 필터링하지 않음 (하단 세션 리스트에 표시)
   const filteredSessions = sessions.filter(session => {
-    // 테스트 IP 제외
-    if (shouldExcludeSession(session)) {
-      return false;
-    }
-
     // UTM 필터
     let utmMatch = true;
     if (filterUtm === 'none') {
@@ -628,7 +645,7 @@ export default function AdminPage() {
 
   // 사용자 추가 입력 수집 (테스트 데이터 제외)
   const collectUserInputs = () => {
-    const TEST_IPS = ['::1', '127.0.0.1', '211.53.92.162']; // 로컬 + 레브잇테크
+    const TEST_IPS = ['::1', '127.0.0.1', '211.53.92.162', '::ffff:172.16.230.123']; // 로컬 + 레브잇테크
     const TEST_PHONES = ['01088143142'];
 
     const userInputs: Array<{
@@ -669,6 +686,69 @@ export default function AdminPage() {
     return userInputs.sort((a, b) =>
       new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
+  };
+
+  // 재추천 대화 수집 (Result 페이지에서의 user_input + ai_response 페어링)
+  const collectReRecommendationChats = () => {
+    const TEST_IPS = ['::1', '127.0.0.1', '211.53.92.162', '::ffff:172.16.230.123'];
+    const TEST_PHONES = ['01088143142'];
+
+    interface ChatSession {
+      sessionId: string;
+      phone?: string;
+      utmCampaign?: string;
+      conversations: Array<{
+        userInput: string;
+        aiResponse: string;
+        timestamp: string;
+      }>;
+    }
+
+    const chatSessions = new Map<string, ChatSession>();
+
+    allSessions.forEach(session => {
+      // 테스트 IP/전화번호 필터링
+      if (session.ip && TEST_IPS.includes(session.ip)) return;
+      if (session.phone && TEST_PHONES.includes(session.phone)) return;
+
+      // Result 페이지에서의 user_input과 ai_response 이벤트만 수집
+      const resultEvents = session.events.filter(e => e.page === 'result');
+      const userInputs = resultEvents.filter(e => e.eventType === 'user_input' && e.userInput);
+      const aiResponses = resultEvents.filter(e => e.eventType === 'ai_response' && e.aiResponse);
+
+      if (userInputs.length === 0) return;
+
+      // 세션 데이터 초기화
+      if (!chatSessions.has(session.sessionId)) {
+        chatSessions.set(session.sessionId, {
+          sessionId: session.sessionId,
+          phone: session.phone,
+          utmCampaign: session.utmCampaign,
+          conversations: [],
+        });
+      }
+
+      const chatSession = chatSessions.get(session.sessionId)!;
+
+      // user_input과 ai_response를 페어링
+      userInputs.forEach((userInputEvent, idx) => {
+        const aiResponseEvent = aiResponses[idx]; // 순서대로 매칭
+        if (aiResponseEvent) {
+          chatSession.conversations.push({
+            userInput: userInputEvent.userInput!,
+            aiResponse: aiResponseEvent.aiResponse!,
+            timestamp: userInputEvent.timestamp,
+          });
+        }
+      });
+    });
+
+    // 최신순으로 정렬
+    return Array.from(chatSessions.values()).sort((a, b) => {
+      const aLatest = a.conversations.length > 0 ? new Date(a.conversations[a.conversations.length - 1].timestamp).getTime() : 0;
+      const bLatest = b.conversations.length > 0 ? new Date(b.conversations[b.conversations.length - 1].timestamp).getTime() : 0;
+      return bLatest - aLatest;
+    });
   };
 
   // 로그인 화면
@@ -850,10 +930,10 @@ export default function AdminPage() {
                           </div>
                         </div>
 
-                        {/* 7. Step 5: 최종 입력 완료 */}
+                        {/* 7. Step 5: 추천받기 요청 */}
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-semibold text-gray-700">7️⃣ Step 5: 최종 입력 완료</span>
+                            <span className="text-sm font-semibold text-gray-700">7️⃣ Step 5: 추천받기 요청</span>
                             <div className="flex items-center gap-3">
                               <span className="text-xs font-medium text-gray-500">{currentCampaign.funnel.finalInputCompleted.percentage}%</span>
                               <span className="text-lg font-bold text-gray-900">{currentCampaign.funnel.finalInputCompleted.count}</span>
@@ -1147,6 +1227,91 @@ export default function AdminPage() {
                   </table>
                 ) : (
                   <p className="text-center text-gray-500 py-8">추가 입력 데이터가 없습니다.</p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* 재추천 대화 섹션 */}
+          <div className="border-t pt-4 mt-4">
+            <button
+              onClick={() => setIsReRecommendationExpanded(!isReRecommendationExpanded)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-xl">💬</span>
+                <div className="text-left">
+                  <h2 className="text-lg font-semibold text-gray-800">재추천 대화</h2>
+                  <p className="text-xs text-gray-600">Result 페이지에서 &apos;입력으로 재추천받기&apos;를 통한 대화</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="px-3 py-1 bg-emerald-500 text-white rounded-full text-sm font-medium">
+                  {collectReRecommendationChats().length}건
+                </span>
+                <svg
+                  className={`w-5 h-5 text-gray-600 transition-transform ${isReRecommendationExpanded ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </button>
+
+            {isReRecommendationExpanded && (
+              <div className="mt-4 space-y-4">
+                {collectReRecommendationChats().length > 0 ? (
+                  collectReRecommendationChats().map((chatSession, idx) => (
+                    <div key={idx} className="bg-white border border-gray-200 rounded-lg p-4">
+                      {/* 세션 헤더 */}
+                      <div className="flex items-center justify-between mb-3 pb-3 border-b border-gray-200">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                            {chatSession.sessionId.slice(0, 8)}...
+                          </span>
+                          {chatSession.utmCampaign && (
+                            <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
+                              {chatSession.utmCampaign}
+                            </span>
+                          )}
+                          {chatSession.phone && (
+                            <span className="text-xs text-gray-600">📞 {chatSession.phone}</span>
+                          )}
+                        </div>
+                        <span className="text-xs text-gray-500">
+                          {chatSession.conversations.length}회 대화
+                        </span>
+                      </div>
+
+                      {/* 대화 내역 */}
+                      <div className="space-y-3">
+                        {chatSession.conversations.map((conv, convIdx) => (
+                          <div key={convIdx} className="space-y-2">
+                            {/* 사용자 입력 */}
+                            <div className="flex justify-end">
+                              <div className="max-w-[80%] bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+                                <p className="text-xs text-gray-500 mb-1">
+                                  {formatDateTime(conv.timestamp)}
+                                </p>
+                                <p className="text-sm text-gray-800">{conv.userInput}</p>
+                              </div>
+                            </div>
+
+                            {/* AI 응답 */}
+                            <div className="flex justify-start">
+                              <div className="max-w-[80%] bg-emerald-50 border-l-4 border-emerald-500 p-3 rounded">
+                                <p className="text-sm text-gray-800 whitespace-pre-wrap">{conv.aiResponse}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500 py-8">재추천 대화 데이터가 없습니다.</p>
                 )}
               </div>
             )}

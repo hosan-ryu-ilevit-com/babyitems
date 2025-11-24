@@ -1043,8 +1043,10 @@ function PriorityPageContent() {
                         {/* 랭킹 보기 버튼 */}
                         <button
                           onClick={() => {
-                            router.push('/?tab=ranking&from=priority');
                             logButtonClick('인기 제품 랭킹 보기 (Priority)', 'priority');
+                            setTimeout(() => {
+                              router.push('/?tab=ranking&from=priority');
+                            }, 100); // 로깅 완료 후 페이지 전환
                           }}
                           className="w-full text-left"
                         >

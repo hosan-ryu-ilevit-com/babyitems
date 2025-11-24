@@ -158,6 +158,23 @@ export function logRecommendation(
   });
 }
 
+// 재추천 결과 로깅 (사용자 입력 기반)
+export function logReRecommendation(
+  userInput: string,
+  productIds: string[],
+  previousProductIds?: string[]
+): void {
+  sendLogEvent('recommendation_received', {
+    page: 'result',
+    recommendations: {
+      productIds,
+      previousProductIds,
+      isReRecommendation: true,
+      userInput, // 사용자가 입력한 자연어
+    },
+  });
+}
+
 // sessionId 가져오기 (관리자 페이지 등에서 사용)
 export function getSessionId(): string {
   return getOrCreateSessionId();

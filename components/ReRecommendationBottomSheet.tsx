@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChatInputBar } from './ChatInputBar';
 import { RecommendationPreview } from './RecommendationPreview';
 import { Recommendation, UserContextSummary } from '@/types';
-import { logButtonClick } from '@/lib/logging/clientLogger';
+import { logButtonClick, logUserInput, logAIResponse, logReRecommendation } from '@/lib/logging/clientLogger';
 import { loadSession, saveSession } from '@/lib/utils/session';
 
 interface ChatMessage {
@@ -228,7 +228,8 @@ export function ReRecommendationBottomSheet({
       setHasSubmitted(true);
     }
 
-    logButtonClick('재추천 요청 전송', 'result');
+    // 로깅: 사용자 입력 (자연어)
+    logUserInput(userInput, 'result');
 
     try {
       // 1단계: 입력 검증 - 의미 있는 요청인지 확인 (Top 3 맥락 포함)
@@ -403,9 +404,12 @@ export function ReRecommendationBottomSheet({
                 // Result 페이지 업데이트
                 onNewRecommendations(data.recommendations);
 
-                // 변경사항 분석
+                // 로깅: 재추천 결과 (사용자 입력 + 새로운 추천 제품 리스트)
                 const oldIds = currentRecommendations.map(r => r.product.id);
                 const newIds = data.recommendations.map((r: Recommendation) => r.product.id);
+                logReRecommendation(userInput, newIds, oldIds);
+
+                // 변경사항 분석
                 const added = newIds.filter((id: string) => !oldIds.includes(id));
                 const removed = oldIds.filter((id: string) => !newIds.includes(id));
 
@@ -516,6 +520,9 @@ export function ReRecommendationBottomSheet({
                       setMessages((prev) => [...prev, explanationMessage]);
                       setTypingMessageId(explanationMessage.id);
 
+                      // 로깅: AI 응답
+                      logAIResponse(explanationContent, 'result');
+
                       // 3단계: 추천 컨테이너 추가
                       setTimeout(() => {
                         const recommendationMessage: ChatMessage = {
@@ -578,6 +585,9 @@ export function ReRecommendationBottomSheet({
                       };
                       setMessages((prev) => [...prev, explanationMessage]);
                       setTypingMessageId(explanationMessage.id);
+
+                      // 로깅: AI 응답 (Fallback)
+                      logAIResponse(fallbackExplanation, 'result');
 
                       setTimeout(() => {
                         const recommendationMessage: ChatMessage = {
