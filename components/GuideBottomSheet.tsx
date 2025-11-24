@@ -87,7 +87,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-40"
+            className="fixed inset-0 bg-black/50 z-[60]"
           />
 
           {/* Bottom Sheet */}
@@ -96,7 +96,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-gray-50 rounded-t-3xl z-50 h-[85vh] flex flex-col overflow-hidden"
+            className="fixed bottom-0 left-0 right-0 bg-gray-50 rounded-t-3xl z-[70] h-[85vh] flex flex-col overflow-hidden"
             style={{ maxWidth: '480px', margin: '0 auto' }}
           >
             {/* Header */}

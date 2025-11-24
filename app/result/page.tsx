@@ -11,6 +11,7 @@ import UserContextSummaryComponent from '@/components/UserContextSummary';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import { logPageView, logButtonClick, logComparisonChat } from '@/lib/logging/clientLogger';
 import { ChatInputBar } from '@/components/ChatInputBar';
+import { ReRecommendationBottomSheet } from '@/components/ReRecommendationBottomSheet';
 
 // 마크다운 볼드 처리 함수 (기존 추천 상세 정보용)
 function parseMarkdownBold(text: string) {
@@ -115,6 +116,9 @@ export default function ResultPage() {
   const [isLoadingMessage, setIsLoadingMessage] = useState(false);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // 재추천 바텀시트 state
+  const [isReRecommendationOpen, setIsReRecommendationOpen] = useState(false);
 
   // 탭 상태
   const [activeTab, setActiveTab] = useState<'recommendations' | 'comparison'>('recommendations');
@@ -1075,17 +1079,22 @@ export default function ResultPage() {
         </main>
 
         {/* 플로팅 ChatInputBar - 하단 고정 */}
-        {!loading && !isChatOpen && (
+        {!loading && !isChatOpen && !isReRecommendationOpen && (
           <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full px-3 py-4 bg-white border-t border-gray-200 z-30">
             <ChatInputBar
               value=""
               onChange={() => {}} // 더미 함수 (실제 입력은 바텀시트에서)
               onSend={() => {}} // 더미 함수
-              placeholder="제품 비교 질문하기"
+              placeholder={activeTab === 'recommendations' ? '추가 입력으로 재추천받기' : '제품 비교 질문하기'}
               disabled={false}
               onFocus={() => {
-                logButtonClick('플로팅 ChatInputBar 탭', 'result');
-                setIsChatOpen(true);
+                if (activeTab === 'recommendations') {
+                  logButtonClick('재추천 바텀시트 열기', 'result');
+                  setIsReRecommendationOpen(true);
+                } else {
+                  logButtonClick('플로팅 ChatInputBar 탭', 'result');
+                  setIsChatOpen(true);
+                }
               }}
             />
           </div>
@@ -1233,6 +1242,26 @@ export default function ResultPage() {
             </>
           )}
         </AnimatePresence>
+
+        {/* 재추천 바텀시트 */}
+        <ReRecommendationBottomSheet
+          isOpen={isReRecommendationOpen}
+          onClose={() => setIsReRecommendationOpen(false)}
+          currentRecommendations={recommendations}
+          onNewRecommendations={(newRecs) => {
+            setRecommendations(newRecs);
+            // 비교표 캐시 초기화 (재추천된 제품으로 새로 생성되도록)
+            setComparisonFeatures({});
+            setComparisonDetails({});
+            // 상단으로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onContextSummaryUpdate={(newContextSummary) => {
+            // Context Summary 백그라운드 업데이트 (기존 Result 페이지와 동일한 방식)
+            console.log('🔄 Context Summary updated from background');
+            setContextSummary(newContextSummary);
+          }}
+        />
 
         {/* 추천 이유 바텀시트 */}
         <AnimatePresence>

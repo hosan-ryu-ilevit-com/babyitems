@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { products } from '@/data/products';
 import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import FavoritesBottomSheet from '@/components/FavoritesBottomSheet';
@@ -19,7 +20,15 @@ const playfair = Playfair_Display({
 });
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'find' | 'ranking'>('find');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const fromPriority = searchParams.get('from') === 'priority';
+  const tabParam = searchParams.get('tab');
+
+  // URL 파라미터로 초기 탭 설정
+  const [activeTab, setActiveTab] = useState<'find' | 'ranking'>(() =>
+    tabParam === 'ranking' ? 'ranking' : 'find'
+  );
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isFavoritesSheetOpen, setIsFavoritesSheetOpen] = useState(false);
@@ -218,6 +227,31 @@ export default function Home() {
         {/* Tab Content - 랭킹 */}
         {activeTab === 'ranking' && (
           <section id="ranking-section" className="min-h-screen px-6 pt-4 pb-8" style={{ backgroundColor: '#FCFCFC' }}>
+            {/* Return to Priority Banner */}
+            {fromPriority && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="sticky top-4 z-30 p-4 rounded-xl mb-4 border-2"
+                style={{ backgroundColor: '#E5F1FF', borderColor: '#B8DCFF' }}
+              >
+                <p className="text-sm text-gray-700 mb-2.5 text-center font-medium">
+                  추천받기 페이지로 돌아가시겠어요?
+                </p>
+                <button
+                  onClick={() => {
+                    router.push('/priority');
+                    logButtonClick('추천받기 시작하기 (from ranking)', 'home');
+                  }}
+                  className="w-full px-4 py-2.5 text-white rounded-lg font-semibold text-m transition-colors"
+                  style={{ backgroundColor: '#0084FE' }}
+                >
+                  바로 추천받기 →
+                </button>
+              </motion.div>
+            )}
+
             {/* Section Header */}
             <div className="mb-6">
               <div className="flex items-center gap-3 mt-2 mb-0">

@@ -821,6 +821,9 @@ function PriorityPageContent() {
     updatedSession = setQuickRecommendation(updatedSession, true);
     saveSession(updatedSession);
 
+    // 재추천 내역 초기화 (새로운 추천 세션 시작)
+    sessionStorage.removeItem('rerecommendation_state');
+
     logButtonClick('바로 추천받기 (최종)', 'priority');
     router.push('/result');
   };
@@ -1030,20 +1033,45 @@ function PriorityPageContent() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-full flex justify-start mb-6"
+                      className="w-full mb-13"
                     >
-                      <button
-                        onClick={() => {
-                          setGuideBottomSheetOpen(true);
-                          logButtonClick('분유포트 1분 가이드 열기 (Priority)', 'priority');
-                        }}
-                        className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
-                      >
-                        <span>처음이라면? 분유포트 1분 가이드</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                      </button>
+                      <div className="space-y-3">
+                        <div className="text-m text-gray-600 mt-3 mb-3 font-medium">💡 추천받기 전에 확인해보세요</div>
+
+                        {/* 랭킹 보기 버튼 */}
+                        <button
+                          onClick={() => {
+                            router.push('/?tab=ranking&from=priority');
+                            logButtonClick('인기 제품 랭킹 보기 (Priority)', 'priority');
+                          }}
+                          className="w-full text-left"
+                        >
+                          <div className="text-xs text-gray-500 mb-1">대표템들이 궁금하다면</div>
+                          <div className="px-4 py-3 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-between">
+                            <span>📊 인기 상품 랭킹</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                          </div>
+                        </button>
+
+                        {/* 가이드 보기 버튼 */}
+                        <button
+                          onClick={() => {
+                            setGuideBottomSheetOpen(true);
+                            logButtonClick('분유포트 1분 가이드 열기 (Priority)', 'priority');
+                          }}
+                          className="w-full text-left"
+                        >
+                          <div className="text-xs text-gray-500 mb-1">분유포트 구매가 처음이라면</div>
+                          <div className="px-4 py-3 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-between">
+                            <span>📖 구매 1분 가이드</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                          </div>
+                        </button>
+                      </div>
                     </motion.div>
                   );
                 }

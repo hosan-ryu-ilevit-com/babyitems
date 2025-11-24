@@ -233,7 +233,7 @@ ${chatHistory}
    - ⚠️ **매우 중요**: 추가 요청사항이나 대화에서 실제로 파악된 맥락이 **하나도 없으면** 반드시 **빈 배열 []** 을 반환해야 합니다
    - **절대로** "추가 요청사항 없음", "없음", "해당 없음" 같은 텍스트를 배열에 넣지 마세요
 
-3. **budget**: "${budgetText || 'null'}"
+3. **budget**: ${budgetText ? `"${budgetText}"` : 'null'} (위에 명시된 예산을 그대로 작성)
 
 # 출력 형식 (JSON)
 \`\`\`json
@@ -254,7 +254,7 @@ ${chatHistory}
     "쌍둥이 육아 중",
     "야간 수유 빈번"
   ],
-  "budget": "${budgetText || null}"
+  "budget": ${budgetText ? `"${budgetText}"` : 'null'}
 }
 \`\`\`
 
