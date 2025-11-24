@@ -203,6 +203,23 @@ function PriorityPageContent() {
     console.log('🗑️ Priority 상태 클리어됨');
   };
 
+  // URL 파라미터 처리 및 페이지뷰 로깅 (매번 실행)
+  useEffect(() => {
+    // 1. URL에서 UTM 파라미터 읽어서 세션에 저장 (로깅 전에 실행)
+    const utmCampaign = searchParams.get('utm_campaign');
+    if (utmCampaign) {
+      const session = loadSession();
+      if (!session.utmCampaign) {
+        session.utmCampaign = utmCampaign;
+        saveSession(session);
+        console.log('📊 UTM 캠페인 저장:', utmCampaign);
+      }
+    }
+
+    // 2. 페이지뷰 로깅 (UTM이 세션에 저장된 후)
+    logPageView('priority');
+  }, [searchParams]);
+
   // 초기화: 저장된 상태 복원 또는 새로 시작
   useEffect(() => {
     // 이미 초기화되었으면 스킵 (Strict Mode 중복 방지)
@@ -213,8 +230,6 @@ function PriorityPageContent() {
 
     console.log('✅ 초기화 시작');
     isInitializedRef.current = true;
-
-    logPageView('priority');
 
     // 가이드 표시 여부 체크
     const guideViewed = localStorage.getItem('babyitem_guide_viewed');
