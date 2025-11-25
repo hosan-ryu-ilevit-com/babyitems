@@ -909,12 +909,12 @@ export default function ResultPage() {
                       whileTap={{ scale: 0.98 }}
                     >
                       <div className="flex items-center gap-2">
-                        
-                        <span>📊 상세 비교표 보기</span>
+                        <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-lg">📊</span>
+                        <span>상세 비교표</span>
                       </div>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                      <span className="px-2.5 py-1 rounded-md text-xs font-bold text-white" style={{ backgroundColor: '#0084FE' }}>
+                        보기
+                      </span>
                     </motion.button>
 
                     {/* 추천 상품 3개 */}
@@ -1090,45 +1090,7 @@ export default function ResultPage() {
         {/* 플로팅 ChatInputBar - 하단 고정 */}
         {!loading && !isChatOpen && !isReRecommendationOpen && (
           <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full z-30">
-            {/* 채팅 가이드 말풍선 - 재추천 탭에서만 표시 */}
-            <AnimatePresence>
-              {showChatGuide && activeTab === 'recommendations' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.3 }}
-                  className="px-3 pb-3"
-                >
-                  <div className="relative flex items-center justify-center">
-                    <motion.div
-                      animate={{ y: [0, -4, 0] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                      className="relative"
-                    >
-                      <div
-                        className="text-s font-semibold px-3 py-2 rounded-full whitespace-nowrap text-white flex items-center gap-2"
-                        style={{ backgroundColor: '#4B4B4B' }}
-                      >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FCD34D">
-                          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-                        </svg>
-                        <span>채팅으로 재추천을 받아보세요!</span>
-                      </div>
-                      {/* 아래쪽 화살표 */}
-                      <div
-                        className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px]"
-                        style={{ borderTopColor: '#4B4B4B' }}
-                      ></div>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+           
 
             {/* ChatInputBar */}
             <div className="px-3 py-4 bg-white border-t border-gray-200">

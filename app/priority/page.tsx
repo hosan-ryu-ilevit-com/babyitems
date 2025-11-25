@@ -1052,8 +1052,7 @@ function PriorityPageContent() {
                     >
                       {/* 연한 그레이 배경 컨테이너 */}
                       <div className="bg-gray-100 rounded-2xl p-4">
-                        <div className="space-y-3">
-                          <div className="text-m text-gray-600 font-medium">💡 추천받기 전에 확인해보세요</div>
+                        <div className="space-y-4">
 
                         {/* 랭킹 보기 버튼 */}
                         <button
