@@ -128,8 +128,8 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
       const page = event.page;
       const buttonLabel = event.buttonLabel || '';
 
-      // 1. 홈 페이지뷰
-      if (page === 'home' && eventType === 'page_view') {
+      // 1. 홈 페이지뷰 (이벤트 타입 무관하게 page가 'home'이면 카운트)
+      if (page === 'home') {
         homePageViews.add(sessionId);
       }
 

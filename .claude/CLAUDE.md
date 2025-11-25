@@ -21,7 +21,7 @@ npm run lint        # Run ESLint
 
 ### Page Flow (8 Pages)
 1. **Home** (`/`) → Product ranking list (integrated) + favorites (찜하기) feature
-2. **Priority** (`/priority`) → Single-page priority & budget selection
+2. **Priority** (`/priority`) → Tag-based conversational priority selection
 3. **Result** (`/result`) → Top 3 personalized recommendations
 4. **Chat** (`/chat`) → Deep-dive conversation for re-recommendation (accessed from Result page)
 5. **Compare** (`/compare`) → Side-by-side comparison of 3 products with AI-generated features
@@ -35,9 +35,14 @@ Home (/)
   → Browse products & add favorites (최대 3개)
   → Click "1분만에 추천받기"
     ↓
-Priority (/priority)
-  → Set attribute priorities (high/medium/low)
-  → Set budget
+Priority (/priority) - NEW TAG-BASED SYSTEM
+  → Step 1: View 3 anchor products (국민템/가성비/프리미엄)
+  → Step 2: Select pros tags (장점 태그 선택)
+  → Step 3: Select cons tags (단점 태그 선택, optional skip)
+  → Step 4: Select additional consideration tags (추가 고려사항, optional skip)
+  → Step 5: Select budget
+  → [Step 6: Product preview - filtered results shown]
+  → Natural language input supported at any step
   → Click "바로 추천받기"
     ↓
 Result (/result)
@@ -49,38 +54,97 @@ Result (/result)
      • "찜한 상품 비교하기" (from Home) → /compare
 ```
 
-### Priority Flow (Main User Journey)
+### Priority Flow (Main User Journey) - TAG-BASED SYSTEM
 
-**Priority 페이지는 필수 진입점입니다.** 기존 Phase 0 → Chat1 플로우는 DEPRECATED.
+**IMPORTANT**: The Priority page uses a **conversational, tag-based selection system** instead of simple attribute sliders.
 
-#### **Priority Page** (`/priority`) - Single Scrollable Page
-**Section 1: Attribute Priority Selection**
-- 6개 속성 중요도 설정 (priceValue 제외)
-- 3단계: `low` / `medium` / `high`
-- **제약**: '중요함(high)' 1~3개 필수 선택
-- **속성**:
-  1. 온도 조절/유지 성능
-  2. 위생/세척 편의성
-  3. 소재 (안전성)
-  4. 사용 편의성
-  5. 휴대성
-  6. 부가 기능 및 디자인
+#### **Priority Page** (`/priority`) - Multi-Step Conversational Flow
 
-**Section 2: Budget Selection** (same page, below attributes)
-- 4개 예산 범위 (priceValue 속성 기반):
-  - `0-50000`: 5만원 이하 (기본 보온 기능 중심)
-  - `50000-100000`: 5~10만원 (좋은 소재와 편의 기능 포함)
-  - `100000-150000`: 10~15만원 (프리미엄 기능 및 구성품)
-  - `150000+`: 15만원 이상 (최고급 제품)
-- **커스텀 예산 입력**: 주관식 금액 입력 시 자동으로 범위 매핑
-- **필수**: 예산 선택 완료해야 하단 버튼 활성화
+**Architecture**:
+- Chat-like interface with typing animations
+- Natural language input supported at any step
+- Tag selections automatically converted to `PrioritySettings`
+- State persisted in `sessionStorage` (key: `babyitem_priority_conversation`)
+- Progress tracked through 5 steps (6 including product preview)
 
-#### **Priority Page Action**
-**"바로 추천받기"** → `/result`
-- Priority 설정 + 예산만으로 즉시 추천
-- Chat 단계 스킵 (Note: Priority 페이지에서 Chat으로 직접 가지 않음)
+**Step 1: Anchor Products Display**
+- Shows 3 representative products:
+  1. **국민템 (Ranking)**: 보르르 분유포트 (most popular)
+  2. **가성비 (Value)**: 리웨이 분유포트 (best value)
+  3. **프리미엄 (Premium)**: 베이비부스트 이지 분유포트 (premium features)
+- Each product card shows pros/cons derived from reviews
+- User can view product details via bottom sheet
 
-#### **Result Page Options**
+**Step 2: Pros Tags Selection (장점 태그)**
+- User selects pros tags from anchor products
+- Tags are specific, concrete features (e.g., "1도 단위로 정확하게 온도 조절할 수 있어요")
+- Each tag has `relatedAttributes` with weights:
+  - Primary attribute: `weight: 1.0`
+  - Secondary attributes: `weight: 0.3-0.5`
+- **Validation**: Must select enough tags to create at least 1 'high' priority
+- **Data**: `data/priorityTags.ts` - `PROS_TAGS[]`
+- Popular tags highlighted based on click statistics from `/api/tag-stats`
+
+**Step 3: Cons Tags Selection (단점 태그)**
+- User selects cons tags (concerns/dealbreakers)
+- Tags represent negative aspects to avoid
+- Each tag linked to attributes with weights (reduces priority score)
+- **Optional**: User can skip ("이 부분은 괜찮아요" button)
+- **Data**: `data/priorityTags.ts` - `CONS_TAGS[]`
+
+**Step 4: Additional Consideration Tags (추가 고려사항)**
+- Covers attributes not well-represented in anchor products
+- Examples: portability, compact size, specific use cases
+- **Optional**: User can skip
+- **Data**: `data/priorityTags.ts` - `ADDITIONAL_TAGS[]`
+
+**Step 5: Budget Selection**
+- 4개 예산 범위:
+  - `0-50000`: 5만원 이하
+  - `50000-100000`: 5~10만원
+  - `100000-150000`: 10~15만원
+  - `150000+`: 15만원 이상
+- **커스텀 예산 입력**: Natural language input supported
+- **필수**: Budget must be selected to proceed
+
+**Step 6: Product Preview (Optional Display)**
+- Shows filtered products based on current selections
+- Real-time filtering using `lib/filtering/quickScore.ts`
+- Sortable by score or price
+- User can refine selections or proceed to recommendation
+
+**Natural Language Input**:
+- Supported at any step via `ChatInputBar` component
+- Calls `POST /api/parse-query` to extract priority + budget
+- AI analyzes query using Gemini and maps to priority settings
+- Validation ensures 1-3 'high' priorities
+
+**Tag-to-Priority Conversion** (`lib/utils/tagToPriority.ts`):
+```typescript
+// Scoring system:
+// - Pros tags: +3 points × weight
+// - Cons tags: -2 points × weight
+// - Additional tags: +3 points × weight
+
+// Score → Priority mapping:
+// - high: score >= 6
+// - medium: score >= 3
+// - low: score < 3
+
+convertTagsToPriority(prosTagIds, consTagIds, additionalTagIds) → PrioritySettings
+```
+
+**Priority Page Actions**:
+1. **"바로 추천받기"** → `/result`
+   - Tag selections converted to `PrioritySettings`
+   - Proceeds directly to recommendation (no Chat)
+
+2. **Natural Language Query**
+   - User types free-form query at any step
+   - Parsed via `/api/parse-query`
+   - Automatically sets priorities + budget
+
+#### **Result Page Options** (Unchanged)
 1. **"채팅하고 더 정확히 추천받기"** → `/chat` → `/result`
    - Result 페이지에서만 접근 가능
    - 'high' 속성들에 대해 추가 대화
@@ -88,23 +152,21 @@ Result (/result)
 
 2. **"비교하기"** → `/compare`
    - Top 3 제품 상세 비교표
-   - AI가 생성한 핵심 특징 태그, 장단점, 한줄 비교
 
 3. **"질문하기"** → `/product-chat`
    - 특정 제품에 대한 Q&A
 
-### Chat Flow (Priority 플로우 전용)
+### Chat Flow (Re-recommendation from Result Page)
 
-**전제조건**: Priority 페이지에서 `prioritySettings` + `budget` 설정 완료
+**전제조건**: Priority 페이지에서 태그 선택 → `prioritySettings` + `budget` 이미 설정됨
 
 #### **Phase 0 (변형): Optional Context**
-- 기존: "어떤 상황이든 좋아요"
-- Priority 플로우: "**특별한 상황**(쌍둥이, 외출 많음 등)이 있으시면 알려주세요"
+- "**특별한 상황**(쌍둥이, 외출 많음 등)이 있으시면 알려주세요"
 - "없어요" 버튼으로 스킵 가능
 - `session.phase0Context` 저장
 
 #### **Phase 1: 'high' Attributes Deep-Dive**
-- Priority 페이지에서 'high' 선택한 속성들만 질문
+- Priority 설정에서 'high' 선택된 속성들만 질문
 - **속성별 자유 대화 모드** (`inAttributeConversation: true`)
   - **최소 3턴, 최대 5턴**
   - 턴 1-2: 구체적 상황 파악 질문
@@ -113,29 +175,8 @@ Result (/result)
   - 턴 5 도달 시 **강제 전환**
 
 **API**: `POST /api/chat` with `action: 'generate_attribute_conversation'`
-```typescript
-{
-  action: 'generate_attribute_conversation',
-  attributeName: string,
-  attributeDetails: string[],
-  conversationHistory: string, // 해당 속성 대화 이력
-  phase0Context: string,
-  currentTurn: number // 1~5
-}
-```
-
-**Response**:
-```typescript
-{
-  message: string, // AI 응답
-  shouldTransition: boolean, // 턴 3+ 시 true
-  forceTransition?: boolean // 턴 5 시 true
-}
-```
 
 **전환 의도 분석**: `action: 'analyze_transition_intent'`
-- 사용자가 "네", "좋아요", "넘어가요" 등 입력 시
-- `shouldTransition: true/false` 반환
 
 #### **Phase 2: Chat2 (Open Conversation)**
 - 모든 'high' 속성 대화 완료 후
@@ -143,7 +184,7 @@ Result (/result)
 - `ASSISTANT_CHAT2_PROMPT` 사용
 - "추천 받기" 버튼 표시
 
-### Recommendation Workflow Pipeline
+### Recommendation Workflow Pipeline (Unchanged)
 
 **Entry Point**: `app/api/recommend/route.ts` (SSE streaming)
 
@@ -151,7 +192,7 @@ Result (/result)
 ```typescript
 {
   messages: Message[], // 전체 대화 이력
-  prioritySettings: PrioritySettings, // Priority 페이지 설정
+  prioritySettings: PrioritySettings, // Priority 페이지 설정 (태그 기반 변환)
   budget: BudgetRange // 예산 범위
 }
 ```
@@ -161,30 +202,13 @@ Result (/result)
   - `high` → 10
   - `medium` → 7
   - `low` → 5
-- Chat 이력에서 `contextualNeeds` 추출
-- Output: `UserPersona` with `coreValueWeights` (1-10)
 
-**Phase 2: Initial Filtering** (`lib/filtering/initialFilter.ts`)
-- Budget filter: `filterByBudget()`
-- Weighted scoring: `score = Σ(product.coreValues[i] × persona.weights[i])`
-- Top 5 선택
-
-**Phase 3: AI Evaluation** (`lib/agents/productEvaluator.ts`)
-- Top 5 제품을 Persona 관점에서 평가
-- 속성별 등급: 매우 충족(5) ~ 매우 미흡(1)
-
-**Phase 4: Final Scoring** (`lib/filtering/scoreCalculator.ts`)
-- Formula: `70% weighted scores + 30% overallScore`
-- Top 3 선택
-
-**Phase 5: Recommendation Generation**
-- `generateTop3Recommendations()`: 개인화된 추천 이유
-- `generateContextSummary()`: 사용자 맥락 요약
+**Phase 2-5**: (Same as before - Initial Filtering → AI Evaluation → Final Scoring → Recommendation Generation)
 
 ### Core Data Types (`types/index.ts`)
 
 ```typescript
-// Priority 설정
+// Priority 설정 (unchanged)
 interface PrioritySettings {
   temperatureControl?: 'low' | 'medium' | 'high';
   hygiene?: 'low' | 'medium' | 'high';
@@ -194,215 +218,267 @@ interface PrioritySettings {
   additionalFeatures?: 'low' | 'medium' | 'high';
 }
 
-// 세션 상태
+// 세션 상태 (unchanged)
 interface SessionState {
   prioritySettings?: PrioritySettings;
   budget?: BudgetRange;
-  phase0Context?: string; // Phase 0 맥락
+  phase0Context?: string;
   messages: Message[];
   phase: 'home' | 'priority' | 'chat' | 'result' | 'compare';
-  isQuickRecommendation?: boolean; // 바로 추천받기 여부
-  forceRegenerate?: boolean; // Chat 후 재추천 플래그
+  isQuickRecommendation?: boolean;
+  forceRegenerate?: boolean;
+  utmCampaign?: string; // NEW: UTM campaign tracking
+  phone?: string; // NEW: Phone number tracking
 }
 
-// 대화 상태 (Chat 페이지)
-interface ConversationalState {
-  inAttributeConversation: boolean; // 속성별 대화 모드
-  attributeConversationTurn: number; // 현재 턴 (1~5)
-  waitingForTransitionResponse: boolean; // 전환 의사 대기
+// NEW: Priority 페이지 대화 상태 (별도 저장)
+interface PriorityConversationState {
+  messages: ChatMessage[];
+  currentStep: 1 | 2 | 3 | 4 | 5; // 1: 장점, 2: 단점, 3: 추가, 4: 예산, 5: 프리뷰
+  prioritySettings: PrioritySettings;
+  budget: BudgetRange;
+  selectedProsTags: string[];
+  selectedConsTags: string[];
+  selectedAdditionalTags: string[];
+  customBudget: string;
+  isCustomBudgetMode: boolean;
+  filteredProducts: ScoredProduct[];
+  sortType: 'score' | 'price';
+  hasUserInput: boolean;
+  additionalInput: string;
+  scrollPosition: number;
+  showFloatingButtons: boolean;
 }
 ```
 
-### Core Attributes (`data/attributes.ts`)
+### Priority Tags System (`data/priorityTags.ts`)
+
+**NEW**: Tag-based selection system for Priority page
+
+**ANCHOR_PRODUCTS**: 3 representative products
+```typescript
+[
+  { id: '6962086794', type: 'ranking', label: '국민템' },
+  { id: '7118428974', type: 'value', label: '가성비' },
+  { id: '7647695393', type: 'premium', label: '프리미엄' }
+]
+```
+
+**PROS_TAGS**: Positive feature tags (11 tags)
+- Each tag has:
+  - `id`: Unique identifier
+  - `text`: User-facing description
+  - `relatedAttributes`: Array of `{ attribute, weight }` (weight: 0.3-1.0)
+  - `sourceProduct`: Which anchor product it's from
+
+**CONS_TAGS**: Negative feature tags (9 tags)
+- Same structure as PROS_TAGS
+- Used to reduce attribute priority scores
+
+**ADDITIONAL_TAGS**: Additional consideration tags (covering portability, compact size, etc.)
+
+**TAG_SELECTION_LIMITS**: Validation rules
+- Pros: 1-6 tags
+- Cons: 0-4 tags (optional)
+- Additional: 0-3 tags (optional)
+
+**POPULAR_TAG_IDS**: Most-clicked tag IDs (from `/api/tag-stats`)
+
+### Core Attributes (`data/attributes.ts`) (Unchanged)
 
 **CORE_ATTRIBUTES**: 7개 (UI 및 대화용, durability 제외)
 **PRIORITY_ATTRIBUTES**: 6개 (priceValue 제외)
 **CoreValues interface**: 8개 속성 (durability 포함, 제품 데이터용)
 
-**Note**: `CoreValues` interface has 8 properties including `durability`, but `CORE_ATTRIBUTES` array only has 7 (durability removed from UI). Product data may still have durability scores but they're not displayed or used in conversations.
-
-**The 7 active attributes** (in `CORE_ATTRIBUTES`):
-1. temperatureControl (온도 조절/유지 성능)
-2. hygiene (위생/세척 편의성)
-3. material (소재/안전성)
-4. usability (사용 편의성)
-5. portability (휴대성) - optional
-6. priceValue (가격 대비 가치) - optional
-7. additionalFeatures (부가 기능 및 디자인) - optional
-
-**Priority page uses 6** (excludes priceValue, which is handled via budget selection)
-
-Each attribute:
-- `key`: Property name
-- `name`: 한글 이름
-- `description`: 설명
-- `details`: 세부 사항 배열 (AI 질문 생성에 사용)
-- `conversationalIntro`: 대화형 인트로
-- `importanceExamples`: 중요도별 예시 (DEPRECATED in Priority flow)
-- `isOptional`: 선택적 속성 여부
-
 ### API Endpoints
 
-#### **POST /api/chat**
-Multi-purpose endpoint with `action` parameter:
+#### **POST /api/chat** (Unchanged)
+Multi-purpose endpoint with `action` parameter
 
-**Priority 플로우 전용**:
-- `generate_priority_summary`: Priority 설정 요약 문구 생성
-- `generate_attribute_conversation`: 속성별 자유 대화 (3~5턴)
-- `analyze_transition_intent`: 전환 의사 분석 ("네", "넘어가요" 등)
-- `parse_budget`: 자연어 예산 파싱 (DEPRECATED - Priority 페이지에서 처리)
-
-**공통**:
-- `phase: 'chat2'`: Chat2 오픈 대화
-
-**DEPRECATED (기존 플로우)**:
-- `generate_followup`: Phase 0 맥락 기반 follow-up (Priority에서 사용 안 함)
-- `reassess_importance`: Follow-up 답변 기반 중요도 재평가
-- `phase: 'chat1'`: 7개 속성 순차 질문 (analyzeUserIntent 사용)
-
-#### **POST /api/recommend**
+#### **POST /api/recommend** (Unchanged)
 SSE streaming endpoint
-- Input: `{ messages, prioritySettings, budget }`
-- Output: Progress events (0-100%) + final recommendations
-- Format: `data: {"phase": "...", "progress": ..., "message": "..."}\n\n`
 
-#### **POST /api/product-chat**
+#### **POST /api/product-chat** (Unchanged)
 Product-specific Q&A endpoint
-- Input: `{ message, productId, conversationHistory }`
-- Output: AI-generated answers about specific product features and details
-- Uses product data and user persona for contextual responses
 
-#### **POST /api/compare**
-Generate pros/cons and comparison summary for 3 products
-- Input: `{ productIds: string[] }` (exactly 3)
-- Output: `{ productDetails: Record<string, { pros: string[], cons: string[], comparison: string }> }`
-- Uses LLM to analyze product markdown and generate concise summaries
-- Temperature: 0.7 for creative comparisons
+#### **POST /api/compare** (Unchanged)
+Generate pros/cons for 3 products
 
-#### **POST /api/compare-features**
-Generate specific feature tags for 3 products (핵심 특징)
-- Input: `{ productIds: string[] }` (exactly 3)
-- Output: `{ features: Record<string, string[]> }` (4 tags per product)
-- **Important**: Uses product.id as JSON keys (not price!)
-- Tags must be:
-  - Positive features only (no "부재", "약함", etc.)
-  - Specific and quantitative (e.g., "110V/220V 프리볼트", "SUS304 스테인리스")
-  - Unique per product (no duplicates across products)
-  - 2-6 words each
-- Temperature: 0.3 for accurate spec extraction
-- Fallback: Score-based tag generation if LLM fails
+#### **POST /api/compare-features** (Unchanged)
+Generate feature tags for 3 products
 
-#### **POST /api/compare-chat**
-Conversational Q&A about 3 products being compared
-- Input: `{ message, productIds: string[], conversationHistory, userContext? }`
-- Output: `{ response: string, type?: 'general' | 'replace' | 'add' }`
-- Supports product replacement/addition intents
-- Uses user's Priority context if available
+#### **POST /api/compare-chat** (Unchanged)
+Conversational Q&A about 3 products
 
-#### **GET /api/admin/stats**
-Statistics dashboard endpoint (requires authentication)
+#### **POST /api/log** (NEW)
+Log event saving endpoint
+- Input: `{ sessionId, eventType, ...eventData }`
+- Extracts IP, userAgent from headers
+- Saves to Supabase `daily_logs` table
+- Returns: `{ success: true }`
+
+#### **GET /api/tag-stats** (NEW)
+Tag click statistics endpoint (public, no authentication)
+- Output: `{ pros: TagStats[], cons: TagStats[], lastUpdated: string }`
+- `TagStats`: `{ tag: string, clickCount: number, isPopular: boolean }`
+- `isPopular`: Top 4 most-clicked tags
+- Used to highlight popular tags in Priority page
+
+#### **POST /api/parse-query** (NEW)
+Parse natural language query → priority settings + budget
+- Input: `{ query: string }`
+- Uses Gemini API to analyze user intent
+- Output: `{ prioritySettings: PrioritySettings, budget: BudgetRange | null }`
+- **Validation**: Ensures 1-3 'high' priorities
+- Temperature: 0.3 (classification task)
+
+#### **POST /api/generate-contextual-questions** (NEW)
+Generate contextual questions for conversational flow
+- Input: `{ prioritySettings, budget, conversationHistory, currentTurn: 1-5 }`
+- Uses 'high' priority attributes to generate targeted questions
+- Output: `{ question: string }`
+- Temperature: 0.7 (creative question generation)
+- Used in Chat page for deep-dive conversations
+
+#### **GET /api/admin/stats** (SIGNIFICANTLY UPDATED)
+UTM campaign-based funnel analytics endpoint
 - Auth: `x-admin-password: '1545'` header
-- Output: `DashboardStats` with comprehensive analytics:
-  - Home page visits and button clicks
-  - Ranking page product click statistics
-  - Priority page conversion metrics (quick vs chat recommendations)
-  - Result page recommendation statistics and product performance
-- Excludes test IPs: `['::1', '211.53.92.162']`
-- Aggregates data across all dates in Supabase `daily_logs` table
+- Output: `{ campaigns: CampaignFunnelStats[], availableCampaigns: string[], productRecommendationRankings: ProductRecommendationRanking[] }`
+- **Excludes test IPs**: `['::1', '211.53.92.162', '::ffff:172.16.230.123']`
+- **7-Step Funnel** (per UTM campaign):
+  1. `homePageViews`: Home page visits (100% baseline)
+  2. `priorityEntry`: Priority page entry
+  3. `prosTagsSelected`: Pros tags selected (Step 2)
+  4. `consTagsSelected`: Cons tags selected or skipped (Step 3)
+  5. `additionalSelected`: Additional tags selected or skipped (Step 4)
+  6. `budgetSelected`: Budget selected (Step 5)
+  7. `recommendationReceived`: Recommendation completed (Result page reached)
+- **Pre-recommendation Actions**: `{ total: number, unique: number }`
+  - `guideOpened`: "분유포트 1분 가이드" opened
+  - `rankingTabClicked`: Ranking tab clicked
+- **Post-recommendation Actions**: `{ total: number, unique: number }`
+  - `productChatClicked`: Product Q&A clicked
+  - `recommendationReasonViewed`: "추천이유보기" clicked
+  - `purchaseCriteriaViewed`: "내 구매 기준" opened
+  - `coupangClicked`: Coupang link clicked
+  - `lowestPriceClicked`: Lowest price link clicked
+  - `comparisonTabClicked`: Comparison tab clicked
+  - `comparisonChatUsed`: Comparison chat used
+- **Product Recommendation Rankings**: Which products recommended most (total + by rank)
 
-### AI Integration (`lib/ai/gemini.ts`)
+#### Admin Product Management Endpoints (NEW)
+- `POST /api/admin/analyze-product`: Analyze Coupang product from URL
+- `POST /api/admin/check-duplicate`: Check if product already exists
+- `POST /api/admin/save-product`: Save new product to `data/products/`
+- `POST /api/admin/upload-thumbnail`: Upload product image
+- `GET /api/admin/logs`: Fetch daily logs (requires auth)
+
+### AI Integration (`lib/ai/gemini.ts`) (Unchanged)
 
 **Model**: `gemini-flash-lite-latest`
 **Retry**: `callGeminiWithRetry()` - 3회, 지수 백오프 (1s, 2s, 4s)
-**JSON Parsing**: `parseJSONResponse<T>()` - 마크다운 코드 블록 제거
 
-**Temperature**:
-- 분류 (전환 의사 분석): 0.3
-- 생성 (속성별 대화, Chat2): 0.7
-
-### Product Data Structure
+### Product Data Structure (Unchanged)
 
 **Location**: `data/products/` directory (markdown files with frontmatter)
-
-**Format**:
-```markdown
----
-id: "product-id"
-title: "제품명"
-brand: "브랜드명"
-price: 89000
-ranking: 1
-image: "/images/products/product-image.jpg"
-coupangUrl: "https://link.coupang.com/..."
-coreValues:
-  temperatureControl: 8
-  hygiene: 9
-  material: 8
-  usability: 7
-  portability: 6
-  priceValue: 8
-  additionalFeatures: 7
-  durability: 7  # Not used in UI but kept for data
-tags: ["스테인리스", "빠른 가열"]
----
-
-# 제품 특징 섹션 (마크다운 본문)
-## 장점
-- 특징 1
-- 특징 2
-...
-```
-
-**Loading**: Use `loadAllProducts()` from `lib/data/productLoader.ts`
-- Parses frontmatter using `gray-matter`
-- Sorts by ranking
-- Returns `Product[]` type
-
-### Key Agents
-
-**Priority 플로우 전용**:
-- `lib/agents/personaGenerator.ts`: Priority 설정을 가중치로 변환
-- `lib/agents/contextSummaryGenerator.ts`: 사용자 맥락 요약
-
-**공통**:
-- `lib/agents/productEvaluator.ts`: Top 5 제품 평가
-- `lib/agents/recommendationWriter.ts`: Top 3 추천 이유 생성
-- `lib/agents/reviewAnalyzer.ts`: Admin upload 시 Coupang 리뷰 분석
-
-**DEPRECATED (not used in current flow)**:
-- `lib/ai/intentAnalyzer.ts`: 자연어 의도 분석 (analyzeUserIntent)
-- `lib/utils/contextRelevance.ts`: Phase 0 맥락 연관도 판단
-- `/ranking` page: Integrated into Home page
 
 ### Session & Logging
 
 **Session Management**: Browser `sessionStorage`
-- Key: `babyitem_session`
-- 포함: prioritySettings, budget, messages, phase0Context, phase, etc.
-- Priority 페이지 → Chat → Result 전환 시 유지
+- Key: `babyitem_session` (main session)
+- Key: `babyitem_priority_conversation` (NEW - Priority page state)
+- **NEW Fields**:
+  - `utmCampaign`: UTM campaign parameter from URL (`?utm_campaign=xxx`)
+  - `phone`: Phone number from URL (`?phone=01012345678`)
 
 **Logging** (`lib/logging/`):
 - `logger.ts`: 서버 Supabase 로깅
-- `clientLogger.ts`: 클라이언트 래퍼 (`logPageView`, `logButtonClick`, etc.)
+- `clientLogger.ts`: 클라이언트 래퍼
 - Table: `daily_logs` (date + events array)
-- **Event Types**:
+- **Event Types** (UPDATED):
   - `page_view`: 페이지 방문 추적
-  - `button_click`: 버튼 클릭 추적 (buttonLabel 포함)
-  - `recommendation_received`: 추천 결과 수신 (recommendations 객체 포함)
+  - `button_click`: 버튼 클릭 추적
+  - `recommendation_received`: 추천 결과 수신
   - `message_sent`: 채팅 메시지 전송
   - `priority_set`: Priority 설정 완료
-- **SessionSummary**: 세션별 집계 데이터 (journey, completed, recommendationMethods)
-- **DashboardStats**: 전체 통계 집계 (home, ranking, priority, result 섹션별)
+  - `favorite_added` (NEW): 찜하기 추가
+  - `favorite_removed` (NEW): 찜하기 제거
+  - `favorites_compare_clicked` (NEW): 찜한 상품 비교 클릭
+  - `comparison_chat_message` (NEW): 비교 채팅 메시지
+  - `comparison_product_action` (NEW): 비교 페이지 제품 액션
 
-### UI/UX Guidelines
+**LogEvent fields** (UPDATED):
+```typescript
+interface LogEvent {
+  sessionId: string;
+  timestamp: string;
+  ip?: string;
+  userAgent?: string;
+  phone?: string; // NEW
+  utmCampaign?: string; // NEW
+  eventType: LogEventType;
+  page?: string;
+  buttonLabel?: string;
+  // ... (other fields)
+  favoriteData?: { productId, productTitle, action, currentFavoritesCount }; // NEW
+  comparisonData?: { source, productIds, actionType, userMessage, aiResponse }; // NEW
+}
+```
+
+**SessionSummary** (UPDATED):
+```typescript
+interface SessionSummary {
+  sessionId: string;
+  firstSeen: string;
+  lastSeen: string;
+  ip?: string;
+  phone?: string; // NEW
+  utmCampaign?: string; // NEW
+  events: LogEvent[];
+  journey: string[];
+  completed: boolean; // Result 페이지 도달 여부
+  recommendationMethods?: ('quick' | 'chat')[];
+}
+```
+
+**CampaignFunnelStats** (NEW):
+```typescript
+interface CampaignFunnelStats {
+  utmCampaign: string; // 'all' | 'none' | specific campaign
+  totalSessions: number;
+  funnel: {
+    homePageViews: FunnelStep;
+    priorityEntry: FunnelStep;
+    prosTagsSelected: FunnelStep;
+    consTagsSelected: FunnelStep;
+    additionalSelected: FunnelStep;
+    budgetSelected: FunnelStep;
+    recommendationReceived: FunnelStep;
+    preRecommendationActions: {
+      guideOpened: { total: number, unique: number };
+      rankingTabClicked: { total: number, unique: number };
+    };
+    postRecommendationActions: {
+      productChatClicked: { total: number, unique: number };
+      recommendationReasonViewed: { total: number, unique: number };
+      purchaseCriteriaViewed: { total: number, unique: number };
+      coupangClicked: { total: number, unique: number };
+      lowestPriceClicked: { total: number, unique: number };
+      comparisonTabClicked: { total: number, unique: number };
+      comparisonChatUsed: { total: number, unique: number };
+    };
+  };
+}
+```
+
+### UI/UX Guidelines (Unchanged)
 
 - Max width: 480px (mobile-first)
 - Target: 30-40대 육아맘 (친근하고 공감적인 톤)
 - Min touch area: 44×44px
 - Framer Motion: 페이지 전환, 버튼 애니메이션
-- Priority 페이지: 단일 페이지 (attributes + budget 통합)
 
-### Environment Variables
+### Environment Variables (Unchanged)
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -410,131 +486,133 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-**Note**: Supabase is only used for logging. The app will work without it, but logs won't be saved.
-
 ## Key Implementation Notes
 
-1. **Priority 페이지 필수**: 모든 사용자는 Priority 페이지를 먼저 거침
-2. **예산은 Priority에서**: Chat에서 예산 질문 안 함
-3. **'high' 속성만 대화**: 'medium', 'low'는 Persona 생성 시에만 반영
-4. **3~5턴 제한**: 속성별 대화는 최대 5턴, 3턴 권장, 5턴 시 강제 전환
-5. **Phase 0 선택적**: Priority 플로우에서는 특별한 상황만 물음 (스킵 가능)
-6. **바로 추천받기**: Chat 없이 Priority + Budget만으로 추천 가능
-7. **가중치 매핑**:
+1. **Priority 페이지는 태그 기반 시스템**: 단순한 속성 슬라이더가 아닌 대화형 태그 선택
+2. **앵커 제품 3개**: 국민템, 가성비, 프리미엄 - 각 제품의 장단점에서 태그 생성
+3. **태그 → Priority 변환**: `convertTagsToPriority()` - 점수 기반 변환 (장점 +3, 단점 -2)
+4. **자연어 입력 지원**: Priority 페이지 어느 단계에서든 자유롭게 입력 가능
+5. **5단계 플로우**: 장점 → 단점 → 추가 고려사항 → 예산 → 제품 프리뷰
+6. **상태 분리**: Main session (`babyitem_session`) + Priority conversation (`babyitem_priority_conversation`)
+7. **UTM 추적**: URL 파라미터로 캠페인 추적 (`?utm_campaign=xxx`)
+8. **퍼널 분석**: 7단계 퍼널 (홈 → Priority 진입 → 장점 → 단점 → 추가 → 예산 → 추천 완료)
+9. **가중치 매핑** (unchanged):
    - high → 10
    - medium → 7
    - low → 5
 
 ## Common Gotchas
 
-- **DEPRECATED 파일들**: intentAnalyzer, contextRelevance 등은 Priority 플로우에서 사용 안 함
-- **속성 개수 불일치**:
+- **Priority 페이지는 더 이상 단순한 폼이 아님**: 대화형 인터페이스, 상태 관리 복잡
+- **태그 가중치 시스템**: 각 태그는 여러 속성에 영향 (primary weight 1.0, secondary 0.3-0.5)
+- **점수 임계값**: high ≥ 6, medium ≥ 3, low < 3
+- **단계별 스킵 가능**: 단점, 추가 고려사항은 선택적
+- **자연어 파싱**: `/api/parse-query`는 fallback이 아닌 primary input method
+- **상태 복원**: Priority 페이지는 referrer 체크로 홈에서 오면 초기화
+- **속성 개수 불일치** (unchanged):
   - `CoreValues` interface: 8개 속성 (durability 포함)
   - `CORE_ATTRIBUTES` array: 7개 (durability 제외, UI용)
   - `PRIORITY_ATTRIBUTES` array: 6개 (priceValue 제외, Priority 페이지용)
-- **JSON 파싱**: AI 응답이 ````json\n...\n``` 블록에 감싸져 올 수 있음
-- **턴 카운터**: `attributeConversationTurn`은 1부터 시작 (0이 아님)
-- **강제 전환**: 턴 5 도달 시 사용자 응답 무시하고 다음 속성으로
-- **Phase 0 맥락**: Priority 플로우에서는 "특별한 상황" 중심, 필수 아님
-- **Durability 속성**: `CoreValues`에는 존재하지만 UI/대화에서는 사용 안 함
-- **Admin 인증**: Admin 페이지 및 통계 API는 하드코딩된 비밀번호 '1545' 사용 (프로덕션에서는 환경 변수로 이동 권장)
-- **Test IP 필터링**: 통계에서 `['::1', '211.53.92.162']` 자동 제외됨
-- **Compare Features API**: LLM must use product.id (not price) as JSON keys. Prompt includes explicit ID validation.
-- **Favorites Limit**: Maximum 3 products can be favorited (찜하기) from Home page
-- **Chat Access**: Chat page is only accessible from Result page, not from Priority page
+- **Test IP 필터링**: `['::1', '211.53.92.162', '::ffff:172.16.230.123']`
+- **Tag Stats 캐싱**: Popular tags updated in real-time from Supabase
+- **Step numbering**: Priority page uses 1-5 (not 0-indexed)
 
-## Migration Notes (기존 플로우 → Priority 플로우)
+## Migration Notes (기존 플로우 → Tag-Based 플로우)
 
 **제거된 것들**:
-- Phase 0 워밍업 (기존): "어떤 상황이든 좋아요" → Priority 플로우에서는 선택적
-- 7개 속성 순차 질문: Priority 페이지에서 사전 설정
-- 중요도 버튼 (3개): Priority 페이지에서 처리
-- Follow-up 질문 (연관도 기반): 속성별 자유 대화로 대체
-- 중요도 재평가: Priority 설정이 최종
-- 예산 질문 (Chat 중간): Priority 페이지로 통합
-- `/budget` 페이지: 삭제됨 (Priority 페이지에 통합)
-- `/ranking` 페이지: 삭제됨 (Home 페이지에 통합)
+- 단순한 6개 속성 선택 UI (슬라이더/버튼)
+- 속성별 직접 중요도 선택
+- `/ranking` 페이지 (홈에 통합)
+- `/budget` 페이지 (Priority 페이지에 통합)
+
+**완전히 새로 만들어진 것들**:
+- **Priority 페이지 전체**: 태그 기반 대화형 시스템
+- **앵커 제품 시스템**: 3개 대표 제품 기반 태그 생성
+- **장점/단점/추가 고려사항 태그**: 11개 장점, 9개 단점, 추가 태그들
+- **태그 → Priority 변환 로직**: 가중치 기반 점수 계산
+- **자연어 쿼리 파싱**: `/api/parse-query`
+- **태그 클릭 통계**: `/api/tag-stats` (popular tags 표시)
+- **UTM 캠페인 추적**: URL 파라미터 기반
+- **퍼널 분석**: 7단계 세밀한 추적
 
 **변경된 것들**:
-- Phase 0: 필수 → 선택적 (특별한 상황만)
-- 속성 질문: 7개 전체 → 'high' 선택만
-- 대화 구조: 고정 패턴 → 3~5턴 자유 대화
-- 예산: Chat 중간 → Priority 페이지 (통합, 커스텀 입력 지원)
-- Priority 페이지: 2단계 분리 → 단일 페이지 통합
-- Persona 가중치: 대화 기반 → Priority 설정 기반 (Chat은 선택적 보강)
-- Chat 접근: Priority → Chat → Result에서 Priority → Result → (선택) Chat → Result로 변경
-- 랭킹 표시: 별도 페이지 → Home 페이지 통합 (찜하기 기능 추가)
+- Priority 설정 방식: 직접 선택 → 태그 선택 + 변환
+- 예산 입력: 별도 페이지 → Priority 페이지 Step 5
+- Admin 통계: 기본 통계 → UTM 기반 퍼널 분석
+- 세션 추적: 기본 정보 → UTM, phone 추가
+- 로깅: 페이지/버튼 중심 → 퍼널 단계 중심
 
 **유지되는 것들**:
-- Chat2 (오픈 대화)
-- Recommendation Workflow (Persona → Filtering → Evaluation → Top 3)
-- Product 데이터 구조 (markdown with frontmatter)
-- Logging 시스템 (Supabase)
-- Admin 페이지 및 통계
-
-**추가된 것들**:
-- `/compare` 페이지: 3개 제품 상세 비교표
-- 찜하기 기능 (Home): 최대 3개 제품 즐겨찾기
-- AI 생성 핵심 특징 태그 (Compare)
-- Product-specific chat (Product Chat 페이지)
-- Result에서 Chat으로 재추천 플로우
+- Chat 플로우 (Result에서 재추천용)
+- Recommendation Workflow (Persona → Filtering → Top 3)
+- Product 데이터 구조
+- Compare 페이지
+- Product Chat 페이지
 
 ## Debugging & Troubleshooting
 
 ### Common Issues
 
-**Session not persisting between pages**:
-- Check browser console for `sessionStorage` errors
-- Session key: `babyitem_session`
-- Clear session: `sessionStorage.removeItem('babyitem_session')`
+**Priority conversation not persisting**:
+- Check `sessionStorage` for `babyitem_priority_conversation`
+- Clear state: `sessionStorage.removeItem('babyitem_priority_conversation')`
+- Check referrer: Coming from home clears state
 
-**AI responses failing**:
-- Verify `GEMINI_API_KEY` in `.env.local`
-- Check retry logic in `lib/ai/gemini.ts` (3 attempts with exponential backoff)
-- Look for JSON parsing errors (use `parseJSONResponse()`)
+**Tags not converting to priorities correctly**:
+- Inspect `convertTagsToPriority()` output in console
+- Check tag weights in `data/priorityTags.ts`
+- Verify score thresholds: high ≥ 6, medium ≥ 3, low < 3
 
-**Recommendation workflow timeout**:
-- SSE endpoint has no explicit timeout, but typically completes in 10-30s
-- Check browser Network tab for `/api/recommend` streaming response
-- Verify progress events are being sent (0-100%)
+**Natural language parsing fails**:
+- Check Gemini API key
+- Review `/api/parse-query` response in Network tab
+- Verify 1-3 'high' priorities constraint
 
-**Products not loading**:
-- Product files in `data/products/` are markdown with frontmatter
-- Use `loadAllProducts()` from product loader
-- Check file format: frontmatter + content sections
+**Tag statistics not showing**:
+- Supabase must be available
+- Check `/api/tag-stats` endpoint
+- Verify `daily_logs` table has button_click events with tag labels
+
+**Funnel stats incorrect**:
+- Verify excluded IPs: `['::1', '211.53.92.162', '::ffff:172.16.230.123']`
+- Check UTM campaign parameter in URL
+- Inspect `SessionSummary` objects in admin logs
+- Ensure proper button labels for funnel steps
 
 ### Testing Flow
 
-**Quick test of full flow**:
-1. Visit `/` → view products (ranking section)
+**Quick test of tag-based Priority flow**:
+1. Visit `/` → view ranking products
 2. Click "1분만에 추천받기" button
-3. Visit `/priority` → set 1-3 'high' priorities + budget → "바로 추천받기"
+3. Visit `/priority`:
+   - View 3 anchor products
+   - Select 2-3 pros tags (장점)
+   - Select 1-2 cons tags or skip (단점)
+   - Select 0-1 additional tags or skip (추가 고려사항)
+   - Select budget
+   - View filtered products (optional)
+   - Click "바로 추천받기"
 4. Visit `/result` → see recommendations
 
-**Test chat flow** (re-recommendation):
-1. Complete quick test flow to reach Result page
-2. Click "채팅하고 더 정확히 추천받기" button
-3. Chat will ask about 'high' priority attributes (3-5 turns each)
-4. Then Chat2 phase (2-3 additional questions)
-5. Click "추천 받기" button → Return to Result with new recommendations
+**Test natural language input**:
+1. Visit `/priority`
+2. Type query: "쌍둥이라 분유를 자주 타고, 세척이 편한 게 중요해요. 예산은 10만원 정도요."
+3. Verify priority settings and budget auto-filled
+4. Proceed to recommendation
 
-**Test compare flow**:
-1. From Result page, click "비교하기" button → `/compare`
-2. Or from Home page, favorite 3 products → click "찜한 상품 비교하기"
-3. View side-by-side comparison table with:
-   - AI-generated feature tags (핵심 특징)
-   - Pros/Cons
-   - One-line comparison (한줄 비교)
-   - Core attribute scores with color-coded bars
-4. Use compare chat to ask questions about the 3 products
+**Test UTM tracking**:
+1. Visit `/?utm_campaign=test`
+2. Complete full flow to Result
+3. Check `/api/admin/stats` → filter by 'test' campaign
+4. Verify funnel stats
 
 **Admin features**:
-- `/admin` - View logs and statistics dashboard (requires Supabase)
+- `/admin` - View logs and statistics dashboard
   - Password: `1545`
   - Statistics dashboard shows:
-    - Home/Ranking/Priority/Result page analytics
-    - Product click rankings and conversion rates
-    - Recommendation performance (which products recommended most, click-through rates)
-  - Detailed action logs (expandable section)
+    - **UTM Campaign Selector**: Filter funnel by campaign
+    - **7-Step Funnel**: homePageViews → priorityEntry → pros → cons → additional → budget → recommendation
+    - **Pre/Post Actions**: Total + unique counts
+    - **Product Recommendation Rankings**: Which products recommended most
   - Session tracking with user journey visualization
-- `/admin/upload` - Upload new products from Coupang review URLs
+- `/admin/upload` - Upload new products from Coupang URLs
