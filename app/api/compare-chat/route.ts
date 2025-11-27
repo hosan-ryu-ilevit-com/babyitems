@@ -2,6 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
 import { loadProductById, loadProductDetails } from '@/lib/data/productLoader';
 import { products as allProducts } from '@/data/products';
+import { Product } from '@/types';
+
+interface ProductWithMarkdown {
+  product: Product;
+  markdown: string;
+}
+
+interface IntentAnalysis {
+  type: 'replace' | 'add' | 'answer';
+  productToReplace: string | null;
+  reasoning: string;
+}
+
+interface SuggestedProductItem {
+  id: string;
+  reason: string;
+}
 
 /**
  * POST /api/compare-chat
@@ -22,13 +39,26 @@ export async function POST(req: NextRequest) {
     }
 
     // Load current products with detailed markdown
-    const currentProducts = await Promise.all(
+    const productsWithMarkdown = await Promise.all(
       productIds.map(async (id) => {
         const product = await loadProductById(id);
         const markdown = await loadProductDetails(id);
         return { product, markdown };
       })
     );
+
+    // Filter out null products and ensure markdown is not null
+    const currentProducts = productsWithMarkdown
+      .filter((item): item is { product: Product; markdown: string } =>
+        item.product !== null && item.markdown !== null
+      );
+
+    if (currentProducts.length === 0) {
+      return NextResponse.json({
+        success: false,
+        error: 'No valid products found'
+      });
+    }
 
     // Step 1: Analyze user intent
     const intent = await analyzeIntent(message, currentProducts, conversationHistory);
@@ -78,9 +108,9 @@ export async function POST(req: NextRequest) {
  */
 async function analyzeIntent(
   message: string,
-  currentProducts: any[],
+  currentProducts: ProductWithMarkdown[],
   conversationHistory: string
-) {
+): Promise<IntentAnalysis> {
   const prompt = `당신은 사용자 의도를 분석하는 전문가입니다.
 
 **현재 비교 중인 제품들:**
@@ -142,8 +172,8 @@ ${conversationHistory || '(없음)'}
  */
 async function suggestAlternativeProducts(
   message: string,
-  currentProducts: any[],
-  intent: any,
+  currentProducts: ProductWithMarkdown[],
+  intent: IntentAnalysis,
   conversationHistory: string,
   userContext?: {
     prioritySettings?: Record<string, string>;
@@ -152,7 +182,7 @@ async function suggestAlternativeProducts(
     chatConversations?: Record<string, Array<{ role: string; content: string }>>;
   }
 ) {
-  const currentProductIds = currentProducts.map(p => p.id);
+  const currentProductIds = currentProducts.map(p => p.product.id);
   const availableProducts = allProducts.filter(p => !currentProductIds.includes(p.id));
 
   // Build user context section if available
@@ -200,13 +230,13 @@ async function suggestAlternativeProducts(
 ${contextSection}
 **현재 비교 중인 제품들:**
 ${currentProducts.map((p, idx) => `
-${idx + 1}. ${p.title} (${p.price.toLocaleString()}원)
-   - 온도 조절: ${toNaturalLanguage(p.coreValues.temperatureControl)}
-   - 위생: ${toNaturalLanguage(p.coreValues.hygiene)}
-   - 소재: ${toNaturalLanguage(p.coreValues.material)}
-   - 사용 편의성: ${toNaturalLanguage(p.coreValues.usability)}
-   - 휴대성: ${toNaturalLanguage(p.coreValues.portability)}
-   - 부가 기능: ${toNaturalLanguage(p.coreValues.additionalFeatures)}
+${idx + 1}. ${p.product.title} (${p.product.price.toLocaleString()}원)
+   - 온도 조절: ${toNaturalLanguage(p.product.coreValues.temperatureControl)}
+   - 위생: ${toNaturalLanguage(p.product.coreValues.hygiene)}
+   - 소재: ${toNaturalLanguage(p.product.coreValues.material)}
+   - 사용 편의성: ${toNaturalLanguage(p.product.coreValues.usability)}
+   - 휴대성: ${toNaturalLanguage(p.product.coreValues.portability)}
+   - 부가 기능: ${toNaturalLanguage(p.product.coreValues.additionalFeatures)}
 `).join('\n')}
 
 **사용 가능한 다른 제품들:**
@@ -269,11 +299,11 @@ ${intent.productToReplace ? `- 교체 대상: ${intent.productToReplace}` : ''}
     jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
   }
 
-  const parsed = JSON.parse(jsonStr);
+  const parsed = JSON.parse(jsonStr) as { response: string; products: SuggestedProductItem[] };
 
   // Load full product details
   const productsWithDetails = await Promise.all(
-    parsed.products.map(async (p: any) => {
+    parsed.products.map(async (p: SuggestedProductItem) => {
       const product = await loadProductById(p.id);
       return {
         ...product,
@@ -293,7 +323,7 @@ ${intent.productToReplace ? `- 교체 대상: ${intent.productToReplace}` : ''}
  */
 async function answerGeneralQuestion(
   message: string,
-  currentProducts: any[],
+  currentProducts: ProductWithMarkdown[],
   conversationHistory: string,
   userContext?: {
     prioritySettings?: Record<string, string>;

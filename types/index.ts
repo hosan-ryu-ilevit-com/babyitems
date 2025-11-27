@@ -147,7 +147,7 @@ export interface ValidationResult {
 // Final recommendation
 export interface Recommendation {
   product: Product;
-  rank: 1 | 2 | 3;
+  rank: 1 | 2 | 3 | 4;
   finalScore: number;
   personalizedReason: {
     strengths: string[];

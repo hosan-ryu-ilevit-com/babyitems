@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { loadProductDetails, loadProductById } from '@/lib/data/productLoader';
 import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
+import { Product } from '@/types';
+
+interface ProductWithDetails {
+  id: string;
+  product: Product;
+  markdown: string;
+}
 
 /**
  * POST /api/compare
@@ -10,14 +17,14 @@ export async function POST(req: NextRequest) {
   try {
     const { productIds } = await req.json();
 
-    if (!productIds || !Array.isArray(productIds) || productIds.length !== 3) {
+    if (!productIds || !Array.isArray(productIds) || productIds.length < 3 || productIds.length > 4) {
       return NextResponse.json(
-        { error: 'Exactly 3 product IDs required' },
+        { error: '3-4 product IDs required' },
         { status: 400 }
       );
     }
 
-    // Load product data and markdown for all 3 products
+    // Load product data and markdown for all products (3-4)
     const productsData = await Promise.all(
       productIds.map(async (id) => {
         const product = await loadProductById(id);
@@ -27,11 +34,11 @@ export async function POST(req: NextRequest) {
     );
 
     // Filter out any missing products and cast to correct type
-    const validProducts = productsData.filter((p): p is { id: string; product: any; markdown: string } =>
+    const validProducts = productsData.filter((p): p is ProductWithDetails =>
       p.product !== null && p.markdown !== null
     );
 
-    if (validProducts.length !== 3) {
+    if (validProducts.length !== productIds.length) {
       return NextResponse.json(
         { error: 'Could not load all products' },
         { status: 400 }
@@ -75,8 +82,8 @@ export async function POST(req: NextRequest) {
  * Generate smart, concise pros/cons and comparison using LLM
  */
 async function generateProductSummary(
-  currentProduct: { id: string; product: any; markdown: string },
-  otherProducts: { id: string; product: any; markdown: string }[]
+  currentProduct: ProductWithDetails,
+  otherProducts: ProductWithDetails[]
 ) {
   const cv = currentProduct.product.coreValues;
 

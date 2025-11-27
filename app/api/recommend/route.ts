@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
 
         let persona;
         let contextSummary: import('@/types').UserContextSummary | undefined;
-        let contextSummaryData: any = null; // Context Summary 생성을 위한 데이터 (비동기 처리용)
+        let contextSummaryData: import('@/types').UserContextSummary | null = null; // Context Summary 생성을 위한 데이터 (비동기 처리용)
         const personaStartTime = Date.now();
 
         // Priority 플로우: Priority 설정 + Chat 이력 (선택적)

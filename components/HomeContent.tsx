@@ -70,7 +70,7 @@ export function HomeContent() {
 
   const handleGuideOpen = () => {
     setIsGuideOpen(true);
-    logButtonClick('분유포트 1분 가이드 열기', 'home');
+    logButtonClick('아기용품 1분 가이드 열기', 'home');
   };
 
   const handleGuideClose = () => {
@@ -136,7 +136,7 @@ export function HomeContent() {
               suppressHydrationWarning
             >
               <h1 className="text-2xl font-bold text-gray-900 mt-8 mb-2 leading-tight">
-                수천 개 분유포트 중<br />
+                수천 개 아기용품 중<br />
                 <span style={{ color: '#0084FE' }}>내게 딱 맞는 하나</span> 찾기
               </h1>
               <p className="text-sm text-gray-500 mt-3 mb-8">고민하는 시간을 줄여보세요.</p>
@@ -192,7 +192,7 @@ export function HomeContent() {
                   onClick={handleGuideOpen}
                   className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
                 >
-                  분유포트 1분 가이드
+                  아기용품 1분 가이드
                 </button>
               </div> */}
             </motion.div>
@@ -354,7 +354,7 @@ export function HomeContent() {
         {/* Bottom Fixed Container - CTA Button + Input Bar */}
         <div className="fixed bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto', backgroundColor: '#FCFCFC' }}>
           {/* 1분만에 추천받기 Button */}
-          <Link href="/priority">
+          <Link href="/categories">
             <button
               onClick={() => logButtonClick('1분만에 추천받기', 'home')}
               className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5 mb-3"

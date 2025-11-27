@@ -2,10 +2,12 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { Category, CATEGORY_NAMES } from '@/lib/data';
 
 interface GuideBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
+  category?: Category; // 카테고리별 가이드
 }
 
 // Collapsible Guide Card Component
@@ -75,7 +77,22 @@ function GuideCard({ number, title, content, defaultOpen = false }: { number: st
   );
 }
 
-export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
+export function GuideBottomSheet({ isOpen, onClose, category }: GuideBottomSheetProps) {
+  // 카테고리별 가이드 제목
+  const getGuideTitle = () => {
+    if (!category) return '처음 사는 분유포트, 1분이면 충분해요';
+
+    if (category === 'milk_powder_port') {
+      return '처음 사는 분유포트, 1분이면 충분해요';
+    }
+
+    // 다른 카테고리는 범용 제목
+    return `${CATEGORY_NAMES[category]} 구매 가이드`;
+  };
+
+  // 분유포트 이외 카테고리는 빈 내용
+  const hasContent = category === 'milk_powder_port' || !category;
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -102,12 +119,25 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
             {/* Header */}
             <div className="px-6 py-4  bg-gray-50">
               <h2 className="text-m font-semibold text-gray-900 text-center">
-                처음 사는 분유포트, 1분이면 충분해요
+                {getGuideTitle()}
               </h2>
             </div>
 
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto px-6 py-6">
+              {!hasContent ? (
+                // 빈 내용 (분유포트 이외)
+                <div className="flex flex-col items-center justify-center h-full text-center px-6">
+                  <div className="text-6xl mb-4">📝</div>
+                  <p className="text-lg font-semibold text-gray-900 mb-2">
+                    가이드 준비 중입니다
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {category && CATEGORY_NAMES[category]} 구매 가이드는 곧 제공될 예정입니다
+                  </p>
+                </div>
+              ) : (
+                // 분유포트 가이드 내용
               <div className="space-y-4">
                 {/* Card 1: 왜 필요한가요? */}
                 <GuideCard
@@ -265,6 +295,7 @@ export function GuideBottomSheet({ isOpen, onClose }: GuideBottomSheetProps) {
                   }
                 />
               </div>
+              )}
             </div>
 
             {/* Footer CTA */}

@@ -101,7 +101,7 @@ function ComparePageContent() {
   // Convert to Recommendation[] for DetailedComparisonTable
   const recommendations: Recommendation[] = selectedProducts.map((product, index) => ({
     product,
-    rank: (productRanks[product.id] || (index + 1)) as 1 | 2 | 3,
+    rank: (productRanks[product.id] || (index + 1)) as 1 | 2 | 3 | 4,
     finalScore: productScores[product.id] || 0,
     personalizedReason: { strengths: [], weaknesses: [] },
     comparison: [],
@@ -111,8 +111,8 @@ function ComparePageContent() {
   useEffect(() => {
     const productIds = searchParams.get('products')?.split(',') || [];
 
-    if (productIds.length !== 3) {
-      // Redirect back if not exactly 3 products
+    if (productIds.length < 3 || productIds.length > 4) {
+      // Redirect back if not 3-4 products
       router.push('/');
       return;
     }
@@ -121,7 +121,7 @@ function ComparePageContent() {
       .map((id) => products.find((p) => p.id === id))
       .filter((p): p is Product => p !== undefined);
 
-    if (foundProducts.length !== 3) {
+    if (foundProducts.length < 3 || foundProducts.length > 4) {
       router.push('/');
       return;
     }

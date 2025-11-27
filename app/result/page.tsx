@@ -109,6 +109,15 @@ export default function ResultPage() {
   const [selectedRecommendation, setSelectedRecommendation] = useState<Recommendation | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
+  // Tag-based flow (v2) state
+  const [isTagBasedFlow, setIsTagBasedFlow] = useState(false);
+  const [anchorProduct, setAnchorProduct] = useState<any>(null);
+  const [showAnchorSelector, setShowAnchorSelector] = useState(false);
+  const [availableProducts, setAvailableProducts] = useState<any[]>([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState<string>('');
+
   // 채팅 관련 state (비교 질문하기)
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string; id?: string }>>([]);
@@ -150,6 +159,47 @@ export default function ResultPage() {
     );
   };
 
+  // Anchor change handler
+  const handleAnchorChange = (newAnchor: any) => {
+    setAnchorProduct(newAnchor);
+    setShowAnchorSelector(false);
+    logButtonClick(`기준 제품 변경: ${newAnchor.모델명}`, 'result');
+  };
+
+  // Search products with API call
+  const searchProducts = async (keyword: string) => {
+    if (!currentCategory) return;
+
+    setIsSearching(true);
+    try {
+      const url = keyword
+        ? `/api/anchor-products?category=${currentCategory}&search=${encodeURIComponent(keyword)}`
+        : `/api/anchor-products?category=${currentCategory}&limit=20`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.success) {
+        setAvailableProducts(data.products);
+      }
+    } catch (error) {
+      console.error('Failed to search products:', error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // Debounced search effect
+  useEffect(() => {
+    if (!showAnchorSelector) return;
+
+    const timer = setTimeout(() => {
+      searchProducts(searchKeyword);
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timer);
+  }, [searchKeyword, showAnchorSelector, currentCategory]);
+
   // 채팅 메시지 전송 핸들러
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoadingMessage) return;
@@ -169,7 +219,11 @@ export default function ResultPage() {
         .join('\n');
 
       // Call API
-      const productIds = recommendations.slice(0, 3).map(r => r.product.id);
+      // Tag-based flow: Include anchor product (4 products)
+      // Normal flow: Top 3 recommendations only
+      const productIds = isTagBasedFlow && anchorProduct
+        ? [String(anchorProduct.productId), ...recommendations.slice(0, 3).map(r => r.product.id)]
+        : recommendations.slice(0, 3).map(r => r.product.id);
       const response = await fetch('/api/compare-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -226,7 +280,11 @@ export default function ResultPage() {
     setIsLoadingMessage(true);
 
     try {
-      const productIds = recommendations.slice(0, 3).map(r => r.product.id);
+      // Tag-based flow: Include anchor product (4 products)
+      // Normal flow: Top 3 recommendations only
+      const productIds = isTagBasedFlow && anchorProduct
+        ? [String(anchorProduct.productId), ...recommendations.slice(0, 3).map(r => r.product.id)]
+        : recommendations.slice(0, 3).map(r => r.product.id);
       const response = await fetch('/api/compare-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -560,8 +618,94 @@ export default function ResultPage() {
     }
   };
 
+  // Tag-based recommendations (from anchor + tags flow)
+  const fetchRecommendationsV2 = async (category: string, anchorId: string) => {
+    try {
+      setLoading(true);
+      setError('');
+
+      // Get tag selections from sessionStorage
+      const selectionsJson = sessionStorage.getItem('tag_selections');
+      if (!selectionsJson) {
+        throw new Error('선택 정보를 찾을 수 없습니다');
+      }
+
+      const selections = JSON.parse(selectionsJson);
+
+      const response = await fetch('/api/recommend-v2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          category,
+          anchorId,
+          selectedProsTags: selections.selectedPros,
+          selectedConsTags: selections.selectedCons,
+          budget: selections.budget,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Convert v2 recommendations to match original format
+        const convertedRecommendations: Recommendation[] = data.recommendations.map((rec: any, index: number) => ({
+          product: {
+            id: String(rec.productId),
+            title: rec.모델명,
+            brand: rec.브랜드,
+            price: rec.최저가 || 0,
+            reviewUrl: rec.썸네일 || '',
+            thumbnail: rec.썸네일 || '',
+            reviewCount: rec.reviewCount || 0,
+          },
+          rank: (index + 1) as 1 | 2 | 3,
+          finalScore: rec.fitScore,
+          personalizedReason: {
+            strengths: rec.strengths || [rec.reasoning],
+            weaknesses: rec.weaknesses || [],
+          },
+          comparison: rec.comparison || [],
+          additionalConsiderations: rec.reasoning || '',
+        }));
+
+        setRecommendations(convertedRecommendations);
+        setAnchorProduct(data.anchorProduct);
+        setCurrentCategory(category); // Save category for search
+
+        // Load available products for anchor selection
+        if (category) {
+          const productsResponse = await fetch(`/api/anchor-products?category=${category}&limit=20`);
+          const productsData = await productsResponse.json();
+          if (productsData.success) {
+            setAvailableProducts(productsData.products);
+          }
+        }
+      } else {
+        setError(data.error || '추천 생성 실패');
+      }
+    } catch (err: any) {
+      setError(err.message || '추천을 불러오는 중 오류가 발생했습니다');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!mounted) return;
+
+    // Check for tag-based flow (from Categories → Anchor → Tags)
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    const anchorId = urlParams.get('anchorId');
+    const tagSelectionsJson = sessionStorage.getItem('tag_selections');
+
+    if (category && anchorId && tagSelectionsJson) {
+      console.log('🎯 [Branch 0] Tag-based flow detected - using recommend-v2');
+      setIsTagBasedFlow(true);
+      fetchRecommendationsV2(category, anchorId);
+      return;
+    }
 
     const session = loadSession();
 
@@ -614,9 +758,13 @@ export default function ResultPage() {
   // 비교표 데이터 프리페치 (recommendations 로드 시 한 번만)
   useEffect(() => {
     if (recommendations.length > 0 && comparisonFeatures && Object.keys(comparisonFeatures).length === 0) {
-      const productIds = recommendations.slice(0, 3).map(rec => rec.product.id);
+      // Tag-based flow: Include anchor product (4 products total)
+      // Normal flow: Top 3 recommendations only
+      const productIds = isTagBasedFlow && anchorProduct
+        ? [String(anchorProduct.productId), ...recommendations.slice(0, 3).map(rec => rec.product.id)]
+        : recommendations.slice(0, 3).map(rec => rec.product.id);
 
-      console.log('🔄 Prefetching comparison data...');
+      console.log('🔄 Prefetching comparison data...', { isTagBasedFlow, productCount: productIds.length });
 
       // 핵심 특징 가져오기
       fetch('/api/compare-features', {
@@ -644,7 +792,7 @@ export default function ResultPage() {
         })
         .catch(err => console.error('Failed to prefetch details:', err));
     }
-  }, [recommendations, comparisonFeatures]);
+  }, [recommendations, comparisonFeatures, isTagBasedFlow, anchorProduct]);
 
   if (!mounted) {
     return (
@@ -916,6 +1064,62 @@ export default function ResultPage() {
                         보기
                       </span>
                     </motion.button>
+
+                    {/* Anchor Product (Tag-based flow only) */}
+                    {isTagBasedFlow && anchorProduct && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-white rounded-2xl p-5 border-2 border-gray-300"
+                      >
+                        <div className="text-xs font-semibold text-gray-500 mb-3 text-center">
+                          비교 기준 제품
+                        </div>
+
+                        <div className="flex gap-4 mb-3">
+                          {/* 제품 썸네일 */}
+                          <div className="relative w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100">
+                            {anchorProduct.썸네일 && (
+                              <Image
+                                src={anchorProduct.썸네일}
+                                alt={anchorProduct.모델명}
+                                width={112}
+                                height={112}
+                                className="w-full h-full object-cover"
+                                priority
+                                quality={90}
+                                sizes="112px"
+                              />
+                            )}
+                          </div>
+
+                          {/* 제품 상세 정보 */}
+                          <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
+                            <div className="text-xs text-blue-600 font-medium mb-1">
+                              {anchorProduct.브랜드}
+                            </div>
+                            <h3 className="font-bold text-gray-900 text-base mb-1 leading-tight">
+                              {anchorProduct.모델명}
+                            </h3>
+                            <p className="text-base font-bold text-gray-900">
+                              {anchorProduct.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-sm">원</span>
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* 기준 제품 변경 버튼 */}
+                        <button
+                          onClick={() => {
+                            logButtonClick('기준 제품 변경 열기', 'result');
+                            setSearchKeyword(''); // 검색어 초기화
+                            setShowAnchorSelector(true);
+                          }}
+                          className="w-full py-3 px-3 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-200 transition-colors"
+                        >
+                          기준 제품 변경
+                        </button>
+                      </motion.div>
+                    )}
 
                     {/* 추천 상품 3개 */}
                     {recommendations.map((rec, index) => (
@@ -1489,6 +1693,122 @@ export default function ResultPage() {
                       최저가 보기
                     </button>
                   </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Anchor Selector Bottom Sheet */}
+        <AnimatePresence>
+          {showAnchorSelector && (
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                onClick={() => setShowAnchorSelector(false)}
+                className="fixed inset-0 bg-black/50 z-[60]"
+              />
+
+              {/* Bottom Sheet */}
+              <motion.div
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '100%' }}
+                transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[70] h-[80vh] flex flex-col overflow-hidden"
+                style={{ maxWidth: '480px', margin: '0 auto' }}
+              >
+                {/* Header */}
+                <div className="px-6 py-4 border-b border-gray-200">
+                  <h2 className="text-lg font-bold text-gray-900 text-center mb-3">
+                    비교 기준 제품 변경
+                  </h2>
+                  {/* Search */}
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="제품명 또는 브랜드 검색..."
+                      value={searchKeyword}
+                      onChange={(e) => setSearchKeyword(e.target.value)}
+                      className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    {isSearching && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    💡 검색하면 전체 카테고리에서 찾아요 (리뷰 있는 제품만)
+                  </p>
+                </div>
+
+                {/* Product List */}
+                <div className="flex-1 overflow-y-auto px-4 py-4">
+                  {availableProducts.length === 0 && !isSearching && (
+                    <div className="text-center py-12 text-gray-500">
+                      <p className="text-sm">검색 결과가 없습니다</p>
+                    </div>
+                  )}
+                  <div className="space-y-3">
+                    {availableProducts.map((product) => (
+                      <button
+                        key={product.productId}
+                        onClick={() => handleAnchorChange(product)}
+                        className="w-full bg-white border-2 border-gray-200 rounded-xl p-4 hover:border-blue-500 hover:bg-blue-50 transition-all text-left"
+                      >
+                        <div className="flex items-start gap-3">
+                          {product.썸네일 && (
+                            <Image
+                              src={product.썸네일}
+                              alt={product.모델명}
+                              width={80}
+                              height={80}
+                              className="w-20 h-20 object-contain bg-gray-50 rounded-lg flex-shrink-0"
+                            />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs text-blue-600 font-medium mb-1">
+                              {product.브랜드}
+                            </div>
+                            <h3 className="text-sm font-bold text-gray-900 mb-1 line-clamp-2">
+                              {product.모델명}
+                            </h3>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-xs text-gray-600">
+                                {product.최저가?.toLocaleString() || '가격 정보 없음'}원
+                              </span>
+                              <span className="text-xs text-gray-400">
+                                랭킹 #{product.순위}
+                              </span>
+                              {product.reviewCount > 0 && (
+                                <span className="text-xs text-green-600 font-semibold">
+                                  리뷰 {product.reviewCount}개
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="px-6 py-4 border-t border-gray-200">
+                  <button
+                    onClick={() => {
+                      setShowAnchorSelector(false);
+                      setSearchKeyword(''); // 검색어 초기화
+                    }}
+                    className="w-full py-3 px-6 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors"
+                  >
+                    닫기
+                  </button>
                 </div>
               </motion.div>
             </>

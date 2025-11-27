@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { products } from '@/data/products';
 import { loadProductDetails } from '@/lib/data/productLoader';
 import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
+import { Product } from '@/types';
 
 /**
  * POST /api/compare-features
@@ -14,9 +15,9 @@ export async function POST(request: NextRequest) {
   try {
     const { productIds } = await request.json();
 
-    if (!productIds || !Array.isArray(productIds) || productIds.length !== 3) {
+    if (!productIds || !Array.isArray(productIds) || productIds.length < 3 || productIds.length > 4) {
       return NextResponse.json(
-        { error: 'Exactly 3 product IDs required' },
+        { error: '3-4 product IDs required' },
         { status: 400 }
       );
     }
@@ -24,9 +25,9 @@ export async function POST(request: NextRequest) {
     // 제품 데이터 로드
     const selectedProducts = productIds
       .map((id: string) => products.find((p) => p.id === id))
-      .filter(Boolean);
+      .filter((p): p is Product => p !== undefined);
 
-    if (selectedProducts.length !== 3) {
+    if (selectedProducts.length !== productIds.length) {
       return NextResponse.json(
         { error: 'One or more products not found' },
         { status: 404 }
@@ -45,65 +46,32 @@ export async function POST(request: NextRequest) {
       return acc;
     }, {} as Record<string, string>);
 
-    // LLM으로 핵심 특징 태그 생성 (3개 제품 동시 비교)
+    // LLM으로 핵심 특징 태그 생성 (3-4개 제품 동시 비교)
     const features: Record<string, string[]> = {};
 
-    // 3개 제품을 한 번에 비교 분석
-    const prod1 = selectedProducts[0]!;
-    const prod2 = selectedProducts[1]!;
-    const prod3 = selectedProducts[2]!;
+    // 제품 정보를 동적으로 구성
+    const productSections = selectedProducts.map((prod, index) => `
+## 제품 ${index + 1} (ID: ${prod.id}): ${prod.title}
+**가격:** ${prod.price.toLocaleString()}원
+
+**핵심 속성 점수 (1-10점):**
+- 온도 조절/유지: ${prod.coreValues.temperatureControl}/10
+- 위생/세척: ${prod.coreValues.hygiene}/10
+- 소재/안전성: ${prod.coreValues.material}/10
+- 사용 편의성: ${prod.coreValues.usability}/10
+- 휴대성: ${prod.coreValues.portability}/10
+- 부가 기능: ${prod.coreValues.additionalFeatures}/10
+
+**상세 분석 (여기서 구체적 스펙을 반드시 찾아야 함!):**
+${(productDetailsMap[prod.id] || '').slice(0, 3000)}
+
+---`).join('\n');
 
     const comparisonPrompt = `당신은 분유포트 제품의 **구체적이고 실질적인 스펙**을 비교 분석하는 전문가입니다.
 
-아래 **3개 제품**의 상세 분석(마크다운)을 정밀하게 읽고, 각 제품만의 **차별화된 구체적 장점 특징**을 추출하세요.
+아래 **${selectedProducts.length}개 제품**의 상세 분석(마크다운)을 정밀하게 읽고, 각 제품만의 **차별화된 구체적 장점 특징**을 추출하세요.
 
----
-
-## 제품 1 (ID: ${prod1.id}): ${prod1.title}
-**가격:** ${prod1.price.toLocaleString()}원
-
-**핵심 속성 점수 (1-10점):**
-- 온도 조절/유지: ${prod1.coreValues.temperatureControl}/10
-- 위생/세척: ${prod1.coreValues.hygiene}/10
-- 소재/안전성: ${prod1.coreValues.material}/10
-- 사용 편의성: ${prod1.coreValues.usability}/10
-- 휴대성: ${prod1.coreValues.portability}/10
-- 부가 기능: ${prod1.coreValues.additionalFeatures}/10
-
-**상세 분석 (여기서 구체적 스펙을 반드시 찾아야 함!):**
-${(productDetailsMap[prod1.id] || '').slice(0, 3000)}
-
----
-
-## 제품 2 (ID: ${prod2.id}): ${prod2.title}
-**가격:** ${prod2.price.toLocaleString()}원
-
-**핵심 속성 점수 (1-10점):**
-- 온도 조절/유지: ${prod2.coreValues.temperatureControl}/10
-- 위생/세척: ${prod2.coreValues.hygiene}/10
-- 소재/안전성: ${prod2.coreValues.material}/10
-- 사용 편의성: ${prod2.coreValues.usability}/10
-- 휴대성: ${prod2.coreValues.portability}/10
-- 부가 기능: ${prod2.coreValues.additionalFeatures}/10
-
-**상세 분석 (여기서 구체적 스펙을 반드시 찾아야 함!):**
-${(productDetailsMap[prod2.id] || '').slice(0, 3000)}
-
----
-
-## 제품 3 (ID: ${prod3.id}): ${prod3.title}
-**가격:** ${prod3.price.toLocaleString()}원
-
-**핵심 속성 점수 (1-10점):**
-- 온도 조절/유지: ${prod3.coreValues.temperatureControl}/10
-- 위생/세척: ${prod3.coreValues.hygiene}/10
-- 소재/안전성: ${prod3.coreValues.material}/10
-- 사용 편의성: ${prod3.coreValues.usability}/10
-- 휴대성: ${prod3.coreValues.portability}/10
-- 부가 기능: ${prod3.coreValues.additionalFeatures}/10
-
-**상세 분석 (여기서 구체적 스펙을 반드시 찾아야 함!):**
-${(productDetailsMap[prod3.id] || '').slice(0, 3000)}
+${productSections}
 
 ---
 
@@ -152,36 +120,33 @@ ${(productDetailsMap[prod3.id] || '').slice(0, 3000)}
 반드시 아래 ID를 **정확히 그대로** 사용하세요. 가격이나 다른 값으로 대체하지 마세요!
 
 {
-  "${prod1.id}": ["구체적특징1", "구체적특징2", "구체적특징3", "구체적특징4"],
-  "${prod2.id}": ["구체적특징1", "구체적특징2", "구체적특징3", "구체적특징4"],
-  "${prod3.id}": ["구체적특징1", "구체적특징2", "구체적특징3", "구체적특징4"]
+${selectedProducts.map(prod => `  "${prod.id}": ["구체적특징1", "구체적특징2", "구체적특징3", "구체적특징4"]`).join(',\n')}
 }
 
 **ID 재확인:**
-- 제품 1 ID: ${prod1.id}
-- 제품 2 ID: ${prod2.id}
-- 제품 3 ID: ${prod3.id}
+${selectedProducts.map((prod, index) => `- 제품 ${index + 1} ID: ${prod.id}`).join('\n')}
 
 **최종 체크리스트:**
 ✅ JSON의 키로 위의 ID를 정확히 사용했는가? (가격이나 다른 값 사용 금지!)
 ✅ 각 태그가 긍정적인 장점/특징인가? (단점이나 "~없음", "~부재", "~약함" 금지!)
 ✅ 각 태그에 숫자/온도/소재명/시간/용량 등 정량적 정보가 포함되었는가?
-✅ 3개 제품의 태그가 서로 겹치지 않는가?
+✅ ${selectedProducts.length}개 제품의 태그가 서로 겹치지 않는가?
 ✅ 마크다운 상세 분석을 꼼꼼히 읽고 실제 스펙을 추출했는가?
 ✅ 추상적인 표현("우수", "편리", "좋음")을 피했는가?
 
 다시 한번 강조:
-1. **반드시 제공된 ID(${prod1.id}, ${prod2.id}, ${prod3.id})를 JSON 키로 사용**하세요!
+1. **반드시 제공된 ID(${selectedProducts.map(p => p.id).join(', ')})를 JSON 키로 사용**하세요!
 2. 마크다운 내용을 꼼꼼히 읽고, **숫자/온도/소재/시간/용량/기술명**이 명시된 구체적인 스펙을 태그로 만드세요!
 3. **긍정적인 장점**만 포함하고, 단점이나 부족한 부분은 절대 포함하지 마세요!`;
 
     try {
       console.log('🔍 [Compare Features] Prompt length:', comparisonPrompt.length, 'characters');
-      console.log('🔍 [Compare Features] Product details loaded:', {
-        prod1: productDetailsMap[prod1.id]?.length || 0,
-        prod2: productDetailsMap[prod2.id]?.length || 0,
-        prod3: productDetailsMap[prod3.id]?.length || 0,
-      });
+      console.log('🔍 [Compare Features] Product details loaded:',
+        selectedProducts.reduce((acc, prod, index) => {
+          acc[`prod${index + 1}`] = productDetailsMap[prod.id]?.length || 0;
+          return acc;
+        }, {} as Record<string, number>)
+      );
 
       const response = await callGeminiWithRetry(async () => {
         const model = getModel(0.3); // 더 낮은 temperature로 정확한 스펙 추출
@@ -247,7 +212,7 @@ ${(productDetailsMap[prod3.id] || '').slice(0, 3000)}
  * LLM 실패 시 폴백: 점수 기반 특징 자동 생성
  * (가능한 한 구체적으로, 하지만 마크다운 없이는 한계가 있음)
  */
-function generateFallbackFeatures(product: any): string[] {
+function generateFallbackFeatures(product: Product): string[] {
   const features: string[] = [];
   const cv = product.coreValues;
 
