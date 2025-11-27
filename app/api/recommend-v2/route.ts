@@ -168,9 +168,6 @@ ${reviewsText}
       product,
       fitScore: evaluation.fitScore,
       reasoning: evaluation.reasoning,
-      strengths: evaluation.strengths || [],
-      weaknesses: evaluation.weaknesses || [],
-      comparison: evaluation.comparison || [],
       reviewCount: allReviews.length,
     };
   } catch (error) {
@@ -179,9 +176,6 @@ ${reviewsText}
       product,
       fitScore: 0,
       reasoning: '평가 실패',
-      strengths: [],
-      weaknesses: [],
-      comparison: [],
       reviewCount: 0,
     };
   }
@@ -288,9 +282,6 @@ export async function POST(req: NextRequest) {
         ...e.product,
         fitScore: e.fitScore,
         reasoning: e.reasoning,
-        strengths: e.strengths,
-        weaknesses: e.weaknesses,
-        comparison: e.comparison,
         reviewCount: e.reviewCount,
       })),
       anchorProduct,

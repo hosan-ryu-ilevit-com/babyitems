@@ -13,6 +13,9 @@ interface DetailedComparisonTableProps {
   cachedDetails?: Record<string, { pros: string[]; cons: string[]; comparison: string }>;
   showRankBadge?: boolean;
   showScore?: boolean;
+  anchorProduct?: any; // Tag-based flow에서 앵커 제품 (optional)
+  isTagBasedFlow?: boolean; // Tag-based flow 여부
+  category?: string; // NEW: Category for spec-based products
 }
 
 export default function DetailedComparisonTable({
@@ -20,25 +23,55 @@ export default function DetailedComparisonTable({
   cachedFeatures,
   cachedDetails,
   showRankBadge = true,
-  showScore = true
+  showScore = true,
+  anchorProduct,
+  isTagBasedFlow = false,
+  category
 }: DetailedComparisonTableProps) {
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
 
-  const top3 = recommendations.slice(0, 3);
+  // Tag-based flow: 4개 제품 (앵커 + 추천 3개), Normal flow: 추천 3개
+  const displayProducts = isTagBasedFlow && anchorProduct
+    ? [
+        // 앵커 제품을 Recommendation 형식으로 변환
+        {
+          product: {
+            id: String(anchorProduct.productId),
+            title: anchorProduct.모델명,
+            brand: anchorProduct.브랜드,
+            price: anchorProduct.최저가 || 0,
+            reviewUrl: anchorProduct.썸네일 || '',
+            thumbnail: anchorProduct.썸네일 || '',
+            reviewCount: 0,
+          },
+          rank: 0 as 0, // 앵커는 rank 0으로 표시
+          finalScore: 0,
+          personalizedReason: { strengths: [], weaknesses: [] },
+          comparison: [],
+          additionalConsiderations: '비교 기준 제품',
+        },
+        ...recommendations.slice(0, 3)
+      ]
+    : recommendations.slice(0, 3);
 
-  // 상품 선택 상태 (정확히 2개만 선택 가능) - 디폴트: 랭킹 1, 2번
+  // 상품 선택 상태 (정확히 2개만 선택 가능) - 디폴트: 처음 2개
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>(() => {
-    if (top3.length >= 2) {
-      return [top3[0].product.id, top3[1].product.id];
+    if (displayProducts.length >= 2) {
+      return [displayProducts[0].product.id, displayProducts[1].product.id];
     }
     return [];
   });
-  const allProducts = top3.map(rec => products.find(p => p.id === rec.product.id)).filter(Boolean);
+
+  // Tag-based flow: Use products from specs (no need to look up in products.ts)
+  // Normal flow: Try to find in products.ts, but don't fail if not found
+  const allProducts = isTagBasedFlow
+    ? displayProducts.map(rec => rec.product) // Spec-based products (no coreValues)
+    : displayProducts.map(rec => products.find(p => p.id === rec.product.id) || rec.product).filter(Boolean);
 
   // 선택된 2개 제품만 필터링
   const selectedProducts = allProducts.filter(p => p && selectedProductIds.includes(p.id));
-  const selectedRecommendations = top3.filter(rec => selectedProductIds.includes(rec.product.id));
+  const selectedRecommendations = displayProducts.filter(rec => selectedProductIds.includes(rec.product.id));
 
   // 상품 선택 토글 핸들러
   const toggleProductSelection = (productId: string) => {
@@ -81,7 +114,8 @@ export default function DetailedComparisonTable({
       return;
     }
 
-    const productIds = recommendations.slice(0, 3).map(rec => rec.product.id);
+    // Tag-based flow: 4개 (앵커 + 추천 3개), Normal flow: 추천 3개
+    const productIds = displayProducts.map(rec => rec.product.id);
 
     // Fetch pros/cons from API (캐시 없을 때만)
     const fetchProductDetails = async () => {
@@ -89,15 +123,22 @@ export default function DetailedComparisonTable({
 
       setIsLoadingComparison(true);
       try {
+        console.log('🔄 Fetching comparison data for products:', productIds);
+        console.log('   Category:', category || 'not provided');
+        console.log('   Is tag-based flow:', isTagBasedFlow);
         const response = await fetch('/api/compare', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ productIds }),
+          body: JSON.stringify({ productIds, category }),
         });
 
         if (response.ok) {
           const data = await response.json();
           setProductDetails(data.productDetails);
+          console.log('✅ Comparison data fetched successfully');
+        } else {
+          const errorData = await response.json();
+          console.error('❌ Failed to fetch comparison data:', response.status, errorData);
         }
       } catch (error) {
         console.error('Failed to fetch product details:', error);
@@ -107,7 +148,7 @@ export default function DetailedComparisonTable({
     };
 
     fetchProductDetails();
-  }, [recommendations, cachedDetails]);
+  }, [displayProducts, cachedDetails]);
 
   if (allProducts.length === 0) return null;
 
@@ -120,10 +161,13 @@ export default function DetailedComparisonTable({
     >
       {/* 상품 선택 UI */}
       <div className="bg-white rounded-2xl p-3">
-        <h3 className="text-sm font-bold text-gray-900 mb-3">비교할 상품 2개를 선택하세요</h3>
-        <div className="grid grid-cols-3 gap-3">
-          {top3.map((rec) => {
+        <h3 className="text-sm font-bold text-gray-900 mb-3">
+          비교할 상품 2개를 선택하세요 {isTagBasedFlow && '(앵커 포함 4개)'}
+        </h3>
+        <div className={`grid gap-3 ${isTagBasedFlow ? 'grid-cols-4' : 'grid-cols-3'}`}>
+          {displayProducts.map((rec) => {
             const isSelected = selectedProductIds.includes(rec.product.id);
+            const isAnchor = rec.rank === 0;
             return (
               <button
                 key={rec.product.id}
@@ -147,14 +191,18 @@ export default function DetailedComparisonTable({
                       sizes="64px"
                     />
                   )}
-                  {/* 랭킹 배지 */}
-                  {showRankBadge && (
+                  {/* 랭킹 배지 또는 앵커 표시 */}
+                  {isAnchor ? (
+                    <div className="absolute top-0 left-0 px-1.5 py-0.5 bg-gray-700 rounded-tl-lg rounded-br-md">
+                      <span className="text-white font-bold text-[9px]">기준</span>
+                    </div>
+                  ) : showRankBadge ? (
                     <div className="absolute top-0 left-0 w-5 h-5 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
                       <span className="text-white font-bold text-[10px]">
                         {rec.rank}
                       </span>
                     </div>
-                  )}
+                  ) : null}
                 </div>
 
                 {/* 제품명 - 3줄까지 표시 */}
@@ -590,8 +638,9 @@ export default function DetailedComparisonTable({
               </tr>
             )}
 
-            {/* 속성 점수들 - 좌우 대칭 배치 */}
-            {selectedProducts.length === 2 && selectedProducts[0] && selectedProducts[1] && (() => {
+            {/* 속성 점수들 - 좌우 대칭 배치 (coreValues가 있는 경우만) */}
+            {!isTagBasedFlow && selectedProducts.length === 2 && selectedProducts[0] && selectedProducts[1] &&
+             selectedProducts[0].coreValues && selectedProducts[1].coreValues && (() => {
               const product1 = selectedProducts[0];
               const product2 = selectedProducts[1];
 

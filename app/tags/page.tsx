@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { Category, CATEGORY_NAMES } from '@/lib/data';
 
 interface Tag {
@@ -126,6 +127,14 @@ function TagsPageContent() {
     setStep('budget');
   };
 
+  const handleStepBack = () => {
+    if (step === 'cons') {
+      setStep('pros');
+    } else if (step === 'budget') {
+      setStep('cons');
+    }
+  };
+
   const handleBudgetSelect = (value: string) => {
     setBudget(value);
   };
@@ -161,17 +170,24 @@ function TagsPageContent() {
       <div className="relative w-full max-w-[480px] min-h-screen overflow-hidden bg-white shadow-lg flex flex-col">
         {/* Header - Fixed */}
         <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
-          <div className="px-5 py-4">
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center"
-            >
-              <h1 className="text-xl font-bold text-gray-900 mb-1">
-                {CATEGORY_NAMES[category]} 추천 설정
-              </h1>
-              <p className="text-sm text-gray-600">{productTitle}</p>
-            </motion.div>
+          <div className="px-5 py-3">
+            <div className="flex items-center justify-between mb-2">
+              <button
+                onClick={() => router.push('/')}
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                <CaretLeft size={24} weight="bold" />
+              </button>
+              <div className="absolute left-1/2 -translate-x-1/2">
+                <h1 className="text-lg font-bold text-gray-900">
+                  {CATEGORY_NAMES[category]} 추천
+                </h1>
+              </div>
+              <div className="w-6" /> {/* Spacer for alignment */}
+            </div>
+            {productTitle && (
+              <p className="text-xs text-gray-500 text-center">{productTitle}</p>
+            )}
           </div>
           {/* Progress Bar */}
           <div className="w-full h-1 bg-gray-200">
@@ -272,8 +288,8 @@ function TagsPageContent() {
                       onClick={() => toggleProsTag(tag.id)}
                       className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                         isSelected
-                          ? 'border-emerald-400 bg-emerald-50'
-                          : 'border-gray-200 hover:border-emerald-200 hover:bg-gray-50'
+                          ? 'border-emerald-300 bg-emerald-100'
+                          : 'border-transparent bg-gray-100 hover:bg-gray-200'
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -286,7 +302,9 @@ function TagsPageContent() {
                         >
                           {isSelected ? selectedIndex + 1 : ''}
                         </div>
-                        <span className="text-sm text-gray-900 leading-snug">{tag.text}</span>
+                        <span className={`text-sm leading-snug font-medium ${
+                          isSelected ? 'text-emerald-700' : 'text-gray-400'
+                        }`}>{tag.text}</span>
                       </div>
                     </motion.button>
                   );
@@ -316,9 +334,10 @@ function TagsPageContent() {
                 최대 3개 선택 가능 • 선택하지 않아도 됩니다
               </p>
 
-              <div className="space-y-3 mb-6">
+              <div className="space-y-3 mb-4">
                 {consTags.map((tag, index) => {
                   const isSelected = selectedCons.includes(tag.id);
+                  const selectedIndex = selectedCons.indexOf(tag.id);
 
                   return (
                     <motion.button
@@ -329,29 +348,37 @@ function TagsPageContent() {
                       onClick={() => toggleConsTag(tag.id)}
                       className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                         isSelected
-                          ? 'border-rose-400 bg-rose-50'
-                          : 'border-gray-200 hover:border-rose-200 hover:bg-gray-50'
+                          ? 'border-rose-300 bg-rose-100'
+                          : 'border-transparent bg-gray-100 hover:bg-gray-200'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-7 h-7 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                          className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 ${
                             isSelected
-                              ? 'border-rose-500 bg-rose-500'
-                              : 'border-gray-300'
+                              ? 'border-rose-500 bg-rose-500 text-white'
+                              : 'border-gray-300 text-gray-400'
                           }`}
                         >
-                          {isSelected && (
-                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
+                          {isSelected ? selectedIndex + 1 : ''}
                         </div>
-                        <span className="text-sm text-gray-900 leading-snug">{tag.text}</span>
+                        <span className={`text-sm leading-snug font-medium ${
+                          isSelected ? 'text-rose-700' : 'text-gray-400'
+                        }`}>{tag.text}</span>
                       </div>
                     </motion.button>
                   );
                 })}
+              </div>
+
+              {/* 넘어가기 버튼 */}
+              <div className="text-center mb-6">
+                <button
+                  onClick={handleSkipCons}
+                  className="text-gray-500 text-m font-semibold hover:text-gray-700 transition-colors py-2"
+                >
+                  넘어가기
+                                  </button>
               </div>
             </motion.div>
           )}
@@ -405,8 +432,8 @@ function TagsPageContent() {
         </AnimatePresence>
         </main>
 
-        {/* Bottom Fixed Buttons */}
-        <div className="sticky bottom-0 bg-white border-t border-gray-200 px-4 py-4">
+        {/* Bottom Floating Buttons */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-40" style={{ maxWidth: '480px', margin: '0 auto' }}>
           {/* Step 1: Pros */}
           {step === 'pros' && (
             <motion.button
@@ -426,16 +453,16 @@ function TagsPageContent() {
             </motion.button>
           )}
 
-          {/* Step 2: Cons */}
+          {/* Step 2: Cons - with 이전 button */}
           {step === 'cons' && (
             <div className="flex gap-3">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={handleSkipCons}
-                className="flex-1 h-14 border-2 border-gray-300 text-gray-700 rounded-2xl font-semibold hover:bg-gray-50 transition-all"
+                onClick={handleStepBack}
+                className="w-[30%] h-14 bg-gray-200 text-gray-700 rounded-2xl font-semibold hover:bg-gray-300 transition-all"
               >
-                이 부분은 괜찮아요
+                이전
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -448,26 +475,34 @@ function TagsPageContent() {
             </div>
           )}
 
-          {/* Step 3: Budget */}
+          {/* Step 3: Budget - with 이전 button */}
           {step === 'budget' && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={budget ? { scale: 1.02 } : {}}
-              whileTap={budget ? { scale: 0.98 } : {}}
-              onClick={handleConfirm}
-              disabled={!budget}
-              className={`w-full h-14 rounded-2xl font-semibold text-base transition-all shadow-lg flex items-center justify-center gap-2 ${
-                budget
-                  ? 'bg-[#0084FE] text-white hover:opacity-90'
-                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-              }`}
-            >
-              <span>맞춤 추천 받기</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </motion.button>
+            <div className="flex gap-3">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleStepBack}
+                className="w-[30%] h-14 bg-gray-200 text-gray-700 rounded-2xl font-semibold hover:bg-gray-300 transition-all"
+              >
+                이전
+              </motion.button>
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={budget ? { scale: 1.02 } : {}}
+                whileTap={budget ? { scale: 0.98 } : {}}
+                onClick={handleConfirm}
+                disabled={!budget}
+                className={`flex-1 h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center gap-2 ${
+                  budget
+                    ? 'bg-[#0084FE] text-white hover:opacity-90'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                <span>맞춤 추천 받기</span>
+                
+              </motion.button>
+            </div>
           )}
         </div>
       </div>

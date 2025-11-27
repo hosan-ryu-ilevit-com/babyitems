@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { Category, CATEGORY_NAMES, ProductWithReviews } from '@/lib/data';
 import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 
@@ -82,19 +83,24 @@ function AnchorPageContent() {
       <div className="relative w-full max-w-[480px] min-h-screen overflow-hidden bg-white shadow-lg flex flex-col">
         {/* Header - Fixed */}
         <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
-          <div className="px-5 py-4">
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center"
-            >
-              <h1 className="text-xl font-bold text-gray-900 mb-1">
-                {CATEGORY_NAMES[category]} 기준 제품 선택
-              </h1>
-              <p className="text-sm text-gray-600">
-                가장 인기 있는 제품을 기준으로 추천해드립니다
-              </p>
-            </motion.div>
+          <div className="px-5 py-3">
+            <div className="flex items-center justify-between mb-2">
+              <button
+                onClick={() => router.push('/')}
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                <CaretLeft size={24} weight="bold" />
+              </button>
+              <div className="absolute left-1/2 -translate-x-1/2">
+                <h1 className="text-lg font-bold text-gray-900">
+                  기준 제품 선택
+                </h1>
+              </div>
+              <div className="w-6" /> {/* Spacer for alignment */}
+            </div>
+            <p className="text-xs text-gray-500 text-center">
+              가장 인기 있는 제품을 기준으로 추천해드립니다
+            </p>
           </div>
           {/* Progress Bar */}
           <div className="w-full h-1 bg-gray-200">
@@ -171,9 +177,9 @@ function AnchorPageContent() {
           </motion.div>
         </main>
 
-        {/* Bottom Fixed Button */}
+        {/* Bottom Floating Button */}
         {selectedProduct && !showProductList && (
-          <div className="sticky bottom-0 bg-white border-t border-gray-200 px-4 py-4">
+          <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-40" style={{ maxWidth: '480px', margin: '0 auto' }}>
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

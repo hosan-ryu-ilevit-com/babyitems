@@ -83,6 +83,7 @@ function ComparePageContent() {
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const [category, setCategory] = useState<string | null>(null);
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string; id?: string }>>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoadingMessage, setIsLoadingMessage] = useState(false);
@@ -110,20 +111,39 @@ function ComparePageContent() {
 
   useEffect(() => {
     const productIds = searchParams.get('products')?.split(',') || [];
+    const categoryParam = searchParams.get('category');
 
-    if (productIds.length < 3 || productIds.length > 4) {
-      // Redirect back if not 3-4 products
+    if (productIds.length < 2 || productIds.length > 4) {
+      // Redirect back if not 2-4 products
       router.push('/');
       return;
     }
 
+    // Set category from URL param
+    if (categoryParam) {
+      setCategory(categoryParam);
+      console.log('📦 Category from URL:', categoryParam);
+    }
+
+    // Try to load from products.ts first
     const foundProducts = productIds
       .map((id) => products.find((p) => p.id === id))
       .filter((p): p is Product => p !== undefined);
 
-    if (foundProducts.length < 3 || foundProducts.length > 4) {
-      router.push('/');
-      return;
+    // For tag-based flow, products might not exist in products.ts
+    // In this case, we'll create minimal Product objects for display
+    // The actual comparison data will be loaded from specs by the API
+    if (foundProducts.length < productIds.length) {
+      console.log(`⚠️ Some products not found in products.ts (tag-based flow)`);
+      console.log(`   Found: ${foundProducts.length}/${productIds.length}`);
+
+      // For now, allow comparison to proceed with whatever products we found
+      // The API will handle loading from specs if needed
+      if (foundProducts.length < 2) {
+        console.error('❌ Need at least 2 products for comparison');
+        router.push('/');
+        return;
+      }
     }
 
     setSelectedProducts(foundProducts);
@@ -316,6 +336,7 @@ function ComparePageContent() {
               cachedDetails={productDetails}
               showRankBadge={false}
               showScore={false}
+              category={category || undefined}
             />
           </div>
         </div>

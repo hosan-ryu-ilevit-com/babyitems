@@ -1,11 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CATEGORIES, CATEGORY_NAMES, Category } from '@/lib/data';
+import { CATEGORIES, CATEGORY_NAMES, CATEGORY_THUMBNAILS, Category } from '@/lib/data';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
 
-// Category icons (emoji for MVP, can be replaced with actual icons)
+// Category icons (fallback when no product thumbnail available)
 const CATEGORY_ICONS: Record<Category, string> = {
   baby_bottle: '🍼',
   baby_bottle_sterilizer: '🧼',
@@ -18,18 +19,21 @@ const CATEGORY_ICONS: Record<Category, string> = {
   thermometer: '🌡️',
 };
 
-// Category descriptions
-const CATEGORY_DESCRIPTIONS: Record<Category, string> = {
-  baby_bottle: '수유의 시작, 아이에게 딱 맞는 젖병',
-  baby_bottle_sterilizer: '위생 관리의 핵심, 깨끗한 소독',
-  baby_formula_dispenser: '분유 타기가 편해지는 디스펜서',
-  baby_monitor: '아이의 안전을 지키는 모니터',
-  baby_play_mat: '안전한 놀이 공간, 발달을 돕는 매트',
-  car_seat: '이동 중 안전을 지키는 카시트',
-  milk_powder_port: '따뜻한 물이 필요할 때, 분유포트',
-  nasal_aspirator: '답답한 코를 시원하게, 코흡기',
-  thermometer: '정확한 건강 체크, 체온계',
-};
+// Category groups
+const FEEDING_CATEGORIES: Category[] = [
+  'baby_formula_dispenser',
+  'milk_powder_port',
+  'baby_bottle',
+  'baby_bottle_sterilizer',
+];
+
+const BABY_LIFE_CATEGORIES: Category[] = [
+  'baby_monitor',
+  'baby_play_mat',
+  'car_seat',
+  'nasal_aspirator',
+  'thermometer',
+];
 
 export default function CategoriesPage() {
   const router = useRouter();
@@ -43,102 +47,103 @@ export default function CategoriesPage() {
     }, 200);
   };
 
+  const renderCategoryButton = (category: Category, index: number) => {
+    const isSelected = selectedCategory === category;
+    const thumbnailUrl = CATEGORY_THUMBNAILS[category];
+    const hasThumbnail = !!thumbnailUrl;
+    const [imageError, setImageError] = useState(false);
+
+    return (
+      <motion.button
+        key={category}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: index * 0.05, duration: 0.3 }}
+        whileTap={{ scale: 0.97 }}
+        onClick={() => handleCategorySelect(category)}
+        className={`rounded-2xl p-3 transition-all duration-200 ${
+          isSelected
+            ? 'bg-blue-50 border-2 border-blue-500'
+            : 'bg-white'
+        } relative overflow-hidden`}
+      >
+        <div className="relative z-10 flex flex-col items-center">
+          {/* Thumbnail or Icon */}
+          {hasThumbnail && !imageError ? (
+            <div className="w-16 h-16 mb-2 relative rounded-xl overflow-hidden">
+              <Image
+                src={thumbnailUrl}
+                alt={CATEGORY_NAMES[category]}
+                fill
+                className="object-contain p-1"
+                unoptimized
+                onError={() => setImageError(true)}
+              />
+            </div>
+          ) : (
+            <motion.div
+              className="text-4xl mb-2"
+              animate={isSelected ? { scale: [1, 1.1, 1] } : {}}
+              transition={{ duration: 0.3 }}
+            >
+              {CATEGORY_ICONS[category]}
+            </motion.div>
+          )}
+
+          {/* Category Name */}
+          <div className="text-xs font-semibold text-gray-900">
+            {CATEGORY_NAMES[category]}
+          </div>
+        </div>
+
+        {/* Selection checkmark */}
+        {isSelected && (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="absolute top-2 right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center"
+          >
+            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+            </svg>
+          </motion.div>
+        )}
+      </motion.button>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <div className="max-w-4xl mx-auto px-4 py-8 pb-24">
+    <div className="min-h-screen" style={{ backgroundColor: '#F8F9FB' }}>
+      <div className="max-w-[480px] mx-auto px-4 py-8 pb-24 min-h-screen">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10"
+          className="text-center mb-8"
         >
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">
-            어떤 제품을 찾으시나요?
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            어떤 아기용품을 찾으시나요?
           </h1>
-          <p className="text-base text-gray-600">
-            AI가 실제 사용자 리뷰를 분석해 맞춤 추천해드립니다
+          <p className="text-sm font-regular text-gray-600">
+            AI가 광고 빼고 대신 찾아드려요
           </p>
         </motion.div>
 
-        {/* Category Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {CATEGORIES.map((category, index) => {
-            const isSelected = selectedCategory === category;
-            return (
-              <motion.button
-                key={category}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05, duration: 0.3 }}
-                whileHover={{ scale: 1.03, y: -4 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => handleCategorySelect(category)}
-                className={`bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 ${
-                  isSelected
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-transparent hover:border-blue-300'
-                } relative overflow-hidden group`}
-              >
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                <div className="relative z-10">
-                  <motion.div
-                    className="text-5xl mb-3"
-                    animate={isSelected ? { scale: [1, 1.2, 1] } : {}}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {CATEGORY_ICONS[category]}
-                  </motion.div>
-                  <div className="text-base font-bold text-gray-900 mb-1">
-                    {CATEGORY_NAMES[category]}
-                  </div>
-                  <div className="text-xs text-gray-500 leading-relaxed">
-                    {CATEGORY_DESCRIPTIONS[category]}
-                  </div>
-                </div>
-
-                {/* Selection checkmark */}
-                {isSelected && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute top-2 right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center"
-                  >
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </motion.div>
-                )}
-              </motion.button>
-            );
-          })}
+        {/* Feeding Category Group */}
+        <div className="mb-6">
+          <h2 className="text-sm font-bold text-gray-700 mb-3 px-1">분유/젖병</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {FEEDING_CATEGORIES.map((category, index) => renderCategoryButton(category, index))}
+          </div>
         </div>
 
-        {/* Info */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-12 text-center"
-        >
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-md border border-blue-100">
-            <div className="flex items-center justify-center gap-8 text-sm text-gray-600">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">💡</span>
-                <span>수백 개 제품 분석</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">📊</span>
-                <span>데이터 기반 추천</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🚫</span>
-                <span>광고 없음</span>
-              </div>
-            </div>
+        {/* Baby Life Category Group */}
+        <div>
+          <h2 className="text-sm font-bold text-gray-700 mb-3 px-1">유아생활</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {BABY_LIFE_CATEGORIES.map((category, index) => renderCategoryButton(category, index + FEEDING_CATEGORIES.length))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

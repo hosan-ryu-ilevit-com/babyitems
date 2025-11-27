@@ -1282,6 +1282,8 @@ export default function ResultPage() {
                       recommendations={recommendations}
                       cachedFeatures={comparisonFeatures}
                       cachedDetails={comparisonDetails}
+                      anchorProduct={isTagBasedFlow ? anchorProduct : undefined}
+                      isTagBasedFlow={isTagBasedFlow}
                     />
                   </motion.div>
                 )}
