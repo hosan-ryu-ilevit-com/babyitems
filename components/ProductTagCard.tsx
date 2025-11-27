@@ -56,32 +56,47 @@ export default function ProductTagCard({
       {/* 상품 정보 */}
       <div className="flex gap-3 mb-3">
         {/* 썸네일 */}
-        <div className="relative w-17 h-17 flex-shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-200">
+        <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-200">
           <Image
             src={product.thumbnail}
             alt={product.title}
             fill
             className="object-cover"
-            sizes="64px"
+            sizes="80px"
           />
+          {/* 랭킹 라벨 - 썸네일 내부 좌측 상단 */}
+          {label && (
+            <div className="absolute top-0 left-0 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-tl-xl rounded-br-md">
+              {label}
+            </div>
+          )}
         </div>
 
-        {/* 제품명, 가격, 리뷰수 */}
-        <div className="flex-1 min-w-0">
-          {/* 랭킹 라벨 */}
-          {label && (
-            <span className="inline-block bg-black/70 text-white text-[11px] font-bold px-1.5 py-0.5 rounded mb-1">
-              {label}
-            </span>
+        {/* 제품명, 브랜드, 가격, 리뷰수 */}
+        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+          {/* 브랜드 */}
+          {product.brand && (
+            <div className="text-xs text-gray-500 font-medium mb-0.5">
+              {product.brand}
+            </div>
           )}
-          <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">
+          {/* 제품명 */}
+          <h4 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight">
             {product.title}
           </h4>
-          <div className="flex items-baseline gap-2">
-            <span className="text-base font-bold text-gray-900">
-              {product.price.toLocaleString()}<span className="text-xs font-bold text-gray-900">원</span>
-            </span>
-           
+          {/* 가격 & 리뷰수 */}
+          <div className="space-y-0.5 mt-auto">
+            <p className="text-base font-bold text-gray-900">
+              {product.price.toLocaleString()}<span className="text-sm">원</span>
+            </p>
+            {product.reviewCount > 0 && (
+              <div className="flex items-center gap-1 text-xs text-gray-600">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                </svg>
+                <span className="font-medium">리뷰 {product.reviewCount.toLocaleString()}</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

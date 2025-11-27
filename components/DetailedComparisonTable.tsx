@@ -10,7 +10,7 @@ import { logComparisonProductAction } from '@/lib/logging/clientLogger';
 interface DetailedComparisonTableProps {
   recommendations: Recommendation[];
   cachedFeatures?: Record<string, string[]>;
-  cachedDetails?: Record<string, { pros: string[]; cons: string[]; comparison: string }>;
+  cachedDetails?: Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>;
   showRankBadge?: boolean;
   showScore?: boolean;
   anchorProduct?: any; // Tag-based flow에서 앵커 제품 (optional)
@@ -28,7 +28,7 @@ export default function DetailedComparisonTable({
   isTagBasedFlow = false,
   category
 }: DetailedComparisonTableProps) {
-  const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string }>>({});
+  const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>>({});
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
 
   // Tag-based flow: 4개 제품 (앵커 + 추천 3개), Normal flow: 추천 3개
@@ -649,6 +649,65 @@ export default function DetailedComparisonTable({
                 </td>
               </tr>
             )}
+
+            {/* 스펙 비교 - Tag-based flow에서만 표시 */}
+            {isTagBasedFlow && !isLoadingComparison && Object.keys(productDetails).length > 0 && (() => {
+              const product1 = selectedProducts[0];
+              const product2 = selectedProducts[1];
+              if (!product1 || !product2) return null;
+
+              const specs1 = productDetails[product1.id]?.specs;
+              const specs2 = productDetails[product2.id]?.specs;
+
+              if (!specs1 || !specs2) return null;
+
+              // 공통 스펙 키 추출
+              const allKeys = new Set([...Object.keys(specs1), ...Object.keys(specs2)]);
+              const specKeys = Array.from(allKeys).filter(key => {
+                // 중요한 스펙만 선별 (브랜드, 모델명, 가격 제외)
+                return key !== '브랜드' && key !== '모델명' && key !== '가격';
+              });
+
+              if (specKeys.length === 0) return null;
+
+              return (
+                <tr className="border-b border-gray-100">
+                  <td colSpan={3} className="py-3 px-1.5">
+                    <div className="text-center mb-2">
+                      <span className="text-xs font-medium text-gray-500">상세 스펙</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {specKeys.map((key, idx) => {
+                        const value1 = specs1[key];
+                        const value2 = specs2[key];
+
+                        // 값이 둘 다 없으면 skip
+                        if (!value1 && !value2) return null;
+
+                        return (
+                          <div key={idx} className="flex items-center text-xs">
+                            {/* 왼쪽 값 */}
+                            <div className="flex-1 text-left px-2 py-1.5 rounded bg-gray-50">
+                              <span className="text-gray-700">{value1 || '-'}</span>
+                            </div>
+
+                            {/* 중앙 레이블 */}
+                            <div className="px-3 text-center min-w-[80px]">
+                              <span className="text-gray-500 font-medium">{key}</span>
+                            </div>
+
+                            {/* 오른쪽 값 */}
+                            <div className="flex-1 text-right px-2 py-1.5 rounded bg-gray-50">
+                              <span className="text-gray-700">{value2 || '-'}</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })()}
 
             {/* 속성 점수들 - 좌우 대칭 배치 (coreValues가 있는 경우만) */}
             {!isTagBasedFlow && selectedProducts.length === 2 && selectedProducts[0] && selectedProducts[1] &&

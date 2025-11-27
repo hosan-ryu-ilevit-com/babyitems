@@ -14,6 +14,7 @@ export interface CoreValues {
 export interface Product {
   id: string;                    // 쿠팡 아이디
   title: string;
+  brand?: string;                // 브랜드명 (optional)
   price: number;
   reviewCount: number;
   reviewUrl: string;             // 리뷰 페이지 URL

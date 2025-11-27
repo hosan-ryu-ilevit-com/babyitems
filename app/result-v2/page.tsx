@@ -28,7 +28,9 @@ function ResultPageContent() {
   const [error, setError] = useState('');
   const [showAnchorSelector, setShowAnchorSelector] = useState(false);
   const [availableProducts, setAvailableProducts] = useState<any[]>([]);
+  const [displayedProductCount, setDisplayedProductCount] = useState(20); // Lazy loading
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     if (!category || !anchorId) {
@@ -73,9 +75,9 @@ function ResultPageContent() {
         setError(data.error || '추천 생성 실패');
       }
 
-      // Load available products for anchor selection
+      // Load available products for anchor selection (all products with reviews)
       if (category) {
-        const productsResponse = await fetch(`/api/anchor-products?category=${category}&limit=20`);
+        const productsResponse = await fetch(`/api/anchor-products?category=${category}`);
         const productsData = await productsResponse.json();
         if (productsData.success) {
           setAvailableProducts(productsData.products);
@@ -94,11 +96,34 @@ function ResultPageContent() {
     setShowAnchorSelector(false);
   };
 
-  const filteredProducts = searchKeyword
-    ? availableProducts.filter(p =>
-        `${p.브랜드} ${p.모델명}`.toLowerCase().includes(searchKeyword.toLowerCase())
-      )
-    : availableProducts;
+  // Search products with API call (debounced)
+  useEffect(() => {
+    if (!showAnchorSelector || !category) return;
+
+    const searchProducts = async () => {
+      setIsSearching(true);
+      try {
+        const url = searchKeyword
+          ? `/api/anchor-products?category=${category}&search=${encodeURIComponent(searchKeyword)}`
+          : `/api/anchor-products?category=${category}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.success) {
+          setAvailableProducts(data.products);
+          setDisplayedProductCount(20); // Reset to initial load count
+        }
+      } catch (error) {
+        console.error('Failed to search products:', error);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    const timeoutId = setTimeout(searchProducts, 300); // Debounce 300ms
+    return () => clearTimeout(timeoutId);
+  }, [searchKeyword, showAnchorSelector, category]);
 
   if (!category || !anchorId) {
     return null;
@@ -310,9 +335,23 @@ function ResultPageContent() {
               </div>
 
               {/* Product List */}
-              <div className="flex-1 overflow-y-auto px-4 py-4">
+              <div
+                className="flex-1 overflow-y-auto px-4 py-4"
+                onScroll={(e) => {
+                  const target = e.currentTarget;
+                  const scrolledToBottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 100;
+                  if (scrolledToBottom && displayedProductCount < availableProducts.length) {
+                    setDisplayedProductCount(prev => Math.min(prev + 20, availableProducts.length));
+                  }
+                }}
+              >
+                {availableProducts.length === 0 && !isSearching && (
+                  <div className="text-center py-12 text-gray-500">
+                    <p className="text-sm">검색 결과가 없습니다</p>
+                  </div>
+                )}
                 <div className="space-y-3">
-                  {filteredProducts.map((product) => (
+                  {availableProducts.slice(0, displayedProductCount).map((product) => (
                     <button
                       key={product.productId}
                       onClick={() => handleAnchorChange(product)}
@@ -327,24 +366,40 @@ function ResultPageContent() {
                           />
                         )}
                         <div className="flex-1 min-w-0">
-                          <div className="text-xs text-blue-600 font-medium mb-1">
+                          <div className="text-xs text-gray-500 font-medium mb-1">
                             {product.브랜드}
                           </div>
                           <h3 className="text-sm font-bold text-gray-900 mb-1 line-clamp-2">
                             {product.모델명}
                           </h3>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs text-gray-600">
-                              {product.최저가?.toLocaleString() || '가격 정보 없음'}원
-                            </span>
-                            <span className="text-xs text-gray-400">
-                              랭킹 #{product.순위}
-                            </span>
+                          <div className="space-y-0.5">
+                            <p className="text-sm font-bold text-gray-900">
+                              {product.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-xs">원</span>
+                            </p>
+                            <div className="flex items-center gap-2 flex-wrap text-xs">
+                              <span className="text-gray-400">
+                                랭킹 #{product.순위}
+                              </span>
+                              {product.reviewCount > 0 && (
+                                <span className="text-gray-600 font-medium flex items-center gap-1">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                  </svg>
+                                  리뷰 {product.reviewCount}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </button>
                   ))}
+                  {/* Loading indicator when more products available */}
+                  {displayedProductCount < availableProducts.length && (
+                    <div className="text-center py-4 text-gray-500 text-sm">
+                      스크롤하여 더 보기 ({displayedProductCount}/{availableProducts.length})
+                    </div>
+                  )}
                 </div>
               </div>
 

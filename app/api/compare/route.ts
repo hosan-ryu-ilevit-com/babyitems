@@ -213,7 +213,8 @@ ${otherProductsText}
   return {
     pros: parsed.pros || [],
     cons: parsed.cons || [],
-    comparison: parsed.comparison || ''
+    comparison: parsed.comparison || '',
+    specs: spec.specs || null  // 스펙 데이터 추가
   };
 }
 
@@ -317,7 +318,8 @@ ${otherProductsText}
   return {
     pros: parsed.pros || [],
     cons: parsed.cons || [],
-    comparison: parsed.comparison || ''
+    comparison: parsed.comparison || '',
+    specs: null  // products.ts 제품은 specs 없음
   };
 }
 

@@ -17,6 +17,8 @@ function AnchorPageContent() {
   const [loading, setLoading] = useState(true);
   const [showProductList, setShowProductList] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [displayedProductCount, setDisplayedProductCount] = useState(20); // Lazy loading
+  const [isSearching, setIsSearching] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   useEffect(() => {
@@ -31,7 +33,8 @@ function AnchorPageContent() {
   const loadProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/anchor-products?category=${category}&limit=10`);
+      // Remove limit - load all products with reviews
+      const response = await fetch(`/api/anchor-products?category=${category}`);
       const data = await response.json();
 
       if (data.success) {
@@ -55,11 +58,34 @@ function AnchorPageContent() {
     router.push(`/tags?category=${category}&anchorId=${selectedProduct.productId}`);
   };
 
-  const filteredProducts = searchKeyword
-    ? products.filter(p =>
-        `${p.브랜드} ${p.모델명}`.toLowerCase().includes(searchKeyword.toLowerCase())
-      )
-    : products;
+  // Search products with API call (debounced)
+  useEffect(() => {
+    if (!showProductList || !category) return;
+
+    const searchProducts = async () => {
+      setIsSearching(true);
+      try {
+        const url = searchKeyword
+          ? `/api/anchor-products?category=${category}&search=${encodeURIComponent(searchKeyword)}`
+          : `/api/anchor-products?category=${category}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.success) {
+          setProducts(data.products);
+          setDisplayedProductCount(20); // Reset to initial load count
+        }
+      } catch (error) {
+        console.error('Failed to search products:', error);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    const timeoutId = setTimeout(searchProducts, 300); // Debounce 300ms
+    return () => clearTimeout(timeoutId);
+  }, [searchKeyword, showProductList, category]);
 
   if (!category) {
     return null;
@@ -123,7 +149,7 @@ function AnchorPageContent() {
             >
               <div className="flex items-start gap-4">
                 {selectedProduct.썸네일 && (
-                  <div className="w-28 h-28 rounded-xl bg-gray-50 flex items-center justify-center overflow-hidden">
+                  <div className="w-24 h-24 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden flex-shrink-0">
                     <img
                       src={selectedProduct.썸네일}
                       alt={selectedProduct.모델명}
@@ -131,27 +157,35 @@ function AnchorPageContent() {
                     />
                   </div>
                 )}
-                <div className="flex-1 min-w-0">
-                  <div className="inline-block px-2 py-0.5 bg-blue-50 text-[#0084FE] rounded-md text-xs font-bold mb-2">
+                <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+                  {/* 브랜드 */}
+                  <div className="text-xs text-gray-500 font-medium mb-0.5">
                     {selectedProduct.브랜드}
                   </div>
-                  <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-2">
+                  {/* 제품명 */}
+                  <h3 className="text-base font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">
                     {selectedProduct.모델명}
                   </h3>
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600">
-                    <span className="px-2 py-1 bg-gray-100 rounded-md font-medium">
-                      랭킹 #{selectedProduct.순위}
-                    </span>
-                    {selectedProduct.총점 && (
-                      <span className="px-2 py-1 bg-gray-100 rounded-md font-medium">
-                        ⭐ {selectedProduct.총점.toFixed(1)}
-                      </span>
-                    )}
+                  {/* 가격 & 리뷰수 */}
+                  <div className="space-y-0.5">
                     {selectedProduct.최저가 && (
-                      <span className="px-2 py-1 bg-emerald-50 text-emerald-700 rounded-md font-bold">
-                        {selectedProduct.최저가.toLocaleString()}원
-                      </span>
+                      <p className="text-base font-bold text-gray-900">
+                        {selectedProduct.최저가.toLocaleString()}<span className="text-sm">원</span>
+                      </p>
                     )}
+                    <div className="flex items-center gap-2 flex-wrap text-xs">
+                      <span className="text-gray-400">
+                        랭킹 #{selectedProduct.순위}
+                      </span>
+                      {selectedProduct.reviewCount > 0 && (
+                        <span className="text-gray-600 font-medium flex items-center gap-1">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                          </svg>
+                          리뷰 {selectedProduct.reviewCount}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -235,8 +269,23 @@ function AnchorPageContent() {
                   />
                 </div>
 
-                <div className="overflow-y-auto max-h-[calc(85vh-140px)] p-4">
-                  {filteredProducts.map((product) => (
+                <div
+                  className="overflow-y-auto max-h-[calc(85vh-140px)] p-4"
+                  onScroll={(e) => {
+                    const target = e.currentTarget;
+                    const scrolledToBottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 100;
+                    if (scrolledToBottom && displayedProductCount < products.length) {
+                      setDisplayedProductCount(prev => Math.min(prev + 20, products.length));
+                    }
+                  }}
+                >
+                  {products.length === 0 && !isSearching && (
+                    <div className="text-center py-12 text-gray-500">
+                      <p className="text-sm">검색 결과가 없습니다</p>
+                    </div>
+                  )}
+
+                  {products.slice(0, displayedProductCount).map((product) => (
                     <motion.button
                       key={product.productId}
                       initial={{ opacity: 0, y: 10 }}
@@ -254,7 +303,7 @@ function AnchorPageContent() {
                     >
                       <div className="flex items-start gap-3">
                         {product.썸네일 && (
-                          <div className="w-16 h-16 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden">
+                          <div className="w-20 h-20 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden flex-shrink-0">
                             <img
                               src={product.썸네일}
                               alt={product.모델명}
@@ -263,28 +312,45 @@ function AnchorPageContent() {
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <div className="inline-block px-2 py-0.5 bg-blue-50 text-[#0084FE] rounded text-xs font-bold mb-1">
+                          <div className="text-xs text-gray-500 font-medium mb-0.5">
                             {product.브랜드}
                           </div>
-                          <h4 className="font-semibold text-sm text-gray-900 mb-1.5 line-clamp-2">
+                          <h4 className="font-bold text-sm text-gray-900 mb-1 line-clamp-2 leading-tight">
                             {product.모델명}
                           </h4>
-                          <div className="flex items-center gap-2 text-xs">
-                            <span className="px-2 py-0.5 bg-gray-100 rounded-md font-medium text-gray-600">
-                              #{product.순위}
-                            </span>
+                          <div className="space-y-0.5">
                             {product.최저가 && (
-                              <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md font-bold">
-                                {product.최저가.toLocaleString()}원
-                              </span>
+                              <p className="text-sm font-bold text-gray-900">
+                                {product.최저가.toLocaleString()}<span className="text-xs">원</span>
+                              </p>
                             )}
+                            <div className="flex items-center gap-2 flex-wrap text-xs">
+                              <span className="text-gray-400">
+                                랭킹 #{product.순위}
+                              </span>
+                              {product.reviewCount > 0 && (
+                                <span className="text-gray-600 font-medium flex items-center gap-1">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                  </svg>
+                                  리뷰 {product.reviewCount}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </motion.button>
                   ))}
 
-                  {filteredProducts.length === 0 && (
+                  {/* Loading indicator when more products available */}
+                  {displayedProductCount < products.length && (
+                    <div className="text-center py-4 text-gray-500 text-sm">
+                      스크롤하여 더 보기 ({displayedProductCount}/{products.length})
+                    </div>
+                  )}
+
+                  {products.length === 0 && searchKeyword && (
                     <div className="text-center py-12 text-gray-500">
                       <div className="text-4xl mb-3">🔍</div>
                       <p className="text-sm">검색 결과가 없습니다</p>

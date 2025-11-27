@@ -5,16 +5,18 @@ import { getAllReviewsInCategory } from '@/lib/review/analyzer';
 
 /**
  * GET /api/anchor-products?category=xxx&limit=10&search=keyword
- * Get top anchor products for a category with review counts
+ * Get anchor products for a category with review counts
  * - Filters out products with no reviews
  * - If search param provided, searches entire category (no limit)
- * - Otherwise returns top N by popularity
+ * - If limit param provided, returns top N by popularity
+ * - If no limit or search, returns all products with reviews
  */
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category') as Category;
-    const limit = parseInt(searchParams.get('limit') || '10', 10);
+    const limitParam = searchParams.get('limit');
+    const limit = limitParam ? parseInt(limitParam, 10) : null;
     const searchKeyword = searchParams.get('search')?.toLowerCase() || '';
 
     if (!category) {
@@ -24,7 +26,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    console.log(`🔍 Loading anchor products for category: ${category}, limit: ${limit}, search: "${searchKeyword}"`);
+    console.log(`🔍 Loading anchor products for category: ${category}, limit: ${limit || 'all'}, search: "${searchKeyword}"`);
 
     const specs = await getSpecsByCategory(category);
 
@@ -64,9 +66,12 @@ export async function GET(req: NextRequest) {
         return searchText.includes(searchKeyword);
       });
       console.log(`🔎 Search results: ${results.length} products match "${searchKeyword}"`);
-    } else {
-      // Otherwise get top N by popularity
+    } else if (limit) {
+      // If limit provided, get top N by popularity
       results = getTopByPopularity(productsWithReviews, limit);
+    } else {
+      // Otherwise return all products with reviews (sorted by popularity)
+      results = productsWithReviews.sort((a, b) => (b.순위 || 999) - (a.순위 || 999));
     }
 
     console.log(`✅ Found ${results.length} anchor products`);

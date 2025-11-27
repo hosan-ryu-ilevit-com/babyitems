@@ -114,6 +114,7 @@ export default function ResultPage() {
   const [anchorProduct, setAnchorProduct] = useState<any>(null);
   const [showAnchorSelector, setShowAnchorSelector] = useState(false);
   const [availableProducts, setAvailableProducts] = useState<any[]>([]);
+  const [displayedProductCount, setDisplayedProductCount] = useState(20); // Lazy loading: initially show 20
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<string>('');
@@ -172,15 +173,17 @@ export default function ResultPage() {
 
     setIsSearching(true);
     try {
+      // Remove limit=20 restriction - load all products
       const url = keyword
         ? `/api/anchor-products?category=${currentCategory}&search=${encodeURIComponent(keyword)}`
-        : `/api/anchor-products?category=${currentCategory}&limit=20`;
+        : `/api/anchor-products?category=${currentCategory}`;
 
       const response = await fetch(url);
       const data = await response.json();
 
       if (data.success) {
         setAvailableProducts(data.products);
+        setDisplayedProductCount(20); // Reset to initial load count
       }
     } catch (error) {
       console.error('Failed to search products:', error);
@@ -672,9 +675,9 @@ export default function ResultPage() {
         setAnchorProduct(data.anchorProduct);
         setCurrentCategory(category); // Save category for search
 
-        // Load available products for anchor selection
+        // Load available products for anchor selection (all products with reviews)
         if (category) {
-          const productsResponse = await fetch(`/api/anchor-products?category=${category}&limit=20`);
+          const productsResponse = await fetch(`/api/anchor-products?category=${category}`);
           const productsData = await productsResponse.json();
           if (productsData.success) {
             setAvailableProducts(productsData.products);
@@ -1078,32 +1081,45 @@ export default function ResultPage() {
 
                         <div className="flex gap-4 mb-3">
                           {/* 제품 썸네일 */}
-                          <div className="relative w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100">
+                          <div className="relative w-24 h-24 rounded-xl overflow-hidden shrink-0 bg-gray-100 border border-gray-200">
                             {anchorProduct.썸네일 && (
                               <Image
                                 src={anchorProduct.썸네일}
                                 alt={anchorProduct.모델명}
-                                width={112}
-                                height={112}
+                                width={96}
+                                height={96}
                                 className="w-full h-full object-cover"
                                 priority
                                 quality={90}
-                                sizes="112px"
+                                sizes="96px"
                               />
                             )}
                           </div>
 
                           {/* 제품 상세 정보 */}
                           <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
-                            <div className="text-xs text-blue-600 font-medium mb-1">
+                            {/* 브랜드 */}
+                            <div className="text-xs text-gray-500 font-medium mb-0.5">
                               {anchorProduct.브랜드}
                             </div>
-                            <h3 className="font-bold text-gray-900 text-base mb-1 leading-tight">
+                            {/* 제품명 */}
+                            <h3 className="font-bold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
                               {anchorProduct.모델명}
                             </h3>
-                            <p className="text-base font-bold text-gray-900">
-                              {anchorProduct.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-sm">원</span>
-                            </p>
+                            {/* 가격 & 리뷰수 */}
+                            <div className="space-y-0.5">
+                              <p className="text-base font-bold text-gray-900">
+                                {anchorProduct.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-sm">원</span>
+                              </p>
+                              {anchorProduct.reviewCount > 0 && (
+                                <div className="flex items-center gap-1 text-xs text-gray-600">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                  </svg>
+                                  <span className="font-medium">리뷰 {anchorProduct.reviewCount.toLocaleString()}</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
 
@@ -1751,14 +1767,23 @@ export default function ResultPage() {
                 </div>
 
                 {/* Product List */}
-                <div className="flex-1 overflow-y-auto px-4 py-4">
+                <div
+                  className="flex-1 overflow-y-auto px-4 py-4"
+                  onScroll={(e) => {
+                    const target = e.currentTarget;
+                    const scrolledToBottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 100;
+                    if (scrolledToBottom && displayedProductCount < availableProducts.length) {
+                      setDisplayedProductCount(prev => Math.min(prev + 20, availableProducts.length));
+                    }
+                  }}
+                >
                   {availableProducts.length === 0 && !isSearching && (
                     <div className="text-center py-12 text-gray-500">
                       <p className="text-sm">검색 결과가 없습니다</p>
                     </div>
                   )}
                   <div className="space-y-3">
-                    {availableProducts.map((product) => (
+                    {availableProducts.slice(0, displayedProductCount).map((product) => (
                       <button
                         key={product.productId}
                         onClick={() => handleAnchorChange(product)}
@@ -1775,29 +1800,40 @@ export default function ResultPage() {
                             />
                           )}
                           <div className="flex-1 min-w-0">
-                            <div className="text-xs text-blue-600 font-medium mb-1">
+                            <div className="text-xs text-gray-500 font-medium mb-1">
                               {product.브랜드}
                             </div>
                             <h3 className="text-sm font-bold text-gray-900 mb-1 line-clamp-2">
                               {product.모델명}
                             </h3>
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-xs text-gray-600">
-                                {product.최저가?.toLocaleString() || '가격 정보 없음'}원
-                              </span>
-                              <span className="text-xs text-gray-400">
-                                랭킹 #{product.순위}
-                              </span>
-                              {product.reviewCount > 0 && (
-                                <span className="text-xs text-green-600 font-semibold">
-                                  리뷰 {product.reviewCount}개
+                            <div className="space-y-0.5">
+                              <p className="text-sm font-bold text-gray-900">
+                                {product.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-xs">원</span>
+                              </p>
+                              <div className="flex items-center gap-2 flex-wrap text-xs">
+                                <span className="text-gray-400">
+                                  랭킹 #{product.순위}
                                 </span>
-                              )}
+                                {product.reviewCount > 0 && (
+                                  <span className="text-gray-600 font-medium flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                    </svg>
+                                    리뷰 {product.reviewCount}
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </button>
                     ))}
+                    {/* Loading indicator when more products available */}
+                    {displayedProductCount < availableProducts.length && (
+                      <div className="text-center py-4 text-gray-500 text-sm">
+                        스크롤하여 더 보기 ({displayedProductCount}/{availableProducts.length})
+                      </div>
+                    )}
                   </div>
                 </div>
 
