@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Recommendation } from '@/types';
@@ -32,28 +32,37 @@ export default function DetailedComparisonTable({
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
 
   // Tag-based flow: 4개 제품 (앵커 + 추천 3개), Normal flow: 추천 3개
-  const displayProducts = isTagBasedFlow && anchorProduct
-    ? [
-        // 앵커 제품을 Recommendation 형식으로 변환
-        {
-          product: {
-            id: String(anchorProduct.productId),
-            title: anchorProduct.모델명,
-            brand: anchorProduct.브랜드,
-            price: anchorProduct.최저가 || 0,
-            reviewUrl: anchorProduct.썸네일 || '',
-            thumbnail: anchorProduct.썸네일 || '',
-            reviewCount: 0,
-          },
-          rank: 0 as 0, // 앵커는 rank 0으로 표시
-          finalScore: 0,
-          personalizedReason: { strengths: [], weaknesses: [] },
-          comparison: [],
-          additionalConsiderations: '비교 기준 제품',
+  // useMemo로 메모이제이션하여 무한 루프 방지
+  const displayProducts = useMemo(() => {
+    if (isTagBasedFlow && anchorProduct) {
+      const anchorId = String(anchorProduct.productId);
+      // 앵커 제품을 Recommendation 형식으로 변환
+      const anchorRec = {
+        product: {
+          id: anchorId,
+          title: anchorProduct.모델명,
+          brand: anchorProduct.브랜드,
+          price: anchorProduct.최저가 || 0,
+          reviewUrl: anchorProduct.썸네일 || '',
+          thumbnail: anchorProduct.썸네일 || '',
+          reviewCount: 0,
         },
-        ...recommendations.slice(0, 3)
-      ]
-    : recommendations.slice(0, 3);
+        rank: 0 as const, // 앵커는 rank 0으로 표시
+        finalScore: 0,
+        personalizedReason: { strengths: [], weaknesses: [] },
+        comparison: [],
+        additionalConsiderations: '비교 기준 제품',
+      };
+
+      // 추천 목록에서 앵커 제품 제거 (중복 방지)
+      const filteredRecommendations = recommendations
+        .filter(rec => rec.product.id !== anchorId)
+        .slice(0, 3);
+
+      return [anchorRec, ...filteredRecommendations];
+    }
+    return recommendations.slice(0, 3);
+  }, [isTagBasedFlow, anchorProduct, recommendations]);
 
   // 상품 선택 상태 (정확히 2개만 선택 가능) - 디폴트: 처음 2개
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>(() => {
@@ -107,15 +116,18 @@ export default function DetailedComparisonTable({
     }
   }, [cachedDetails]);
 
+  // productIds를 메모이제이션하여 불필요한 API 호출 방지
+  const productIds = useMemo(
+    () => displayProducts.map(rec => rec.product.id),
+    [displayProducts]
+  );
+
   useEffect(() => {
     // 이미 캐시된 데이터가 있으면 API 호출 건너뛰기
     if (cachedDetails && Object.keys(cachedDetails).length > 0) {
       console.log('✅ Skipping API calls - using cached data');
       return;
     }
-
-    // Tag-based flow: 4개 (앵커 + 추천 3개), Normal flow: 추천 3개
-    const productIds = displayProducts.map(rec => rec.product.id);
 
     // Fetch pros/cons from API (캐시 없을 때만)
     const fetchProductDetails = async () => {
@@ -148,7 +160,7 @@ export default function DetailedComparisonTable({
     };
 
     fetchProductDetails();
-  }, [displayProducts, cachedDetails]);
+  }, [productIds, category, isTagBasedFlow, cachedDetails]);
 
   if (allProducts.length === 0) return null;
 

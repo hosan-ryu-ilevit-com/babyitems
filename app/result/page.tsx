@@ -1284,6 +1284,7 @@ export default function ResultPage() {
                       cachedDetails={comparisonDetails}
                       anchorProduct={isTagBasedFlow ? anchorProduct : undefined}
                       isTagBasedFlow={isTagBasedFlow}
+                      category={currentCategory || undefined}
                     />
                   </motion.div>
                 )}

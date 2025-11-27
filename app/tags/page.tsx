@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
@@ -56,14 +56,8 @@ function TagsPageContent() {
   const [error, setError] = useState('');
   const [showTyping, setShowTyping] = useState(false);
 
-  useEffect(() => {
-    if (!category || !anchorId) {
-      router.push('/categories');
-      return;
-    }
-
-    generateTags();
-  }, [category, anchorId]);
+  // 중복 실행 방지를 위한 ref
+  const hasGeneratedRef = useRef(false);
 
   const generateTags = async () => {
     try {
@@ -93,6 +87,22 @@ function TagsPageContent() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    if (!category || !anchorId) {
+      router.push('/categories');
+      return;
+    }
+
+    // 이미 태그를 생성했으면 스킵
+    if (hasGeneratedRef.current) {
+      return;
+    }
+
+    hasGeneratedRef.current = true;
+    generateTags();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, anchorId]);
 
   const toggleProsTag = (tagId: string) => {
     if (selectedPros.includes(tagId)) {
