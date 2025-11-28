@@ -29,6 +29,51 @@ export function sampleLongestReviews(reviews: Review[], n: number = 50): Sampled
 }
 
 /**
+ * Sample reviews balanced by sentiment (high/low ratings only)
+ * Optimized for parallel processing of pros and cons
+ *
+ * Strategy:
+ * - High ratings (4-5★): 15 longest reviews → Extract pros (parallel)
+ * - Low ratings (1-2★): 10 longest reviews → Extract cons (parallel)
+ * - Mid ratings excluded for speed optimization
+ * - Total: 25 reviews (reduced from 30)
+ *
+ * @param reviews Array of reviews
+ * @returns { high: SampledReview[], low: SampledReview[] } - Separated by sentiment for parallel processing
+ */
+export function sampleBalancedBySentiment(reviews: Review[]): { high: SampledReview[]; low: SampledReview[] } {
+  // Group reviews by sentiment (exclude mid ratings)
+  const highRating = reviews.filter(r => r.custom_metadata.rating >= 4);
+  const lowRating = reviews.filter(r => r.custom_metadata.rating <= 2);
+
+  // Sample longest from each group
+  const sampleLongest = (group: Review[], count: number) =>
+    group
+      .map((review, index) => ({
+        ...review,
+        length: review.text.length,
+        index: index + 1,
+      }))
+      .sort((a, b) => b.length - a.length)
+      .slice(0, Math.min(count, group.length));
+
+  const sampledHigh = sampleLongest(highRating, 15);
+  const sampledLow = sampleLongest(lowRating, 10);
+
+  console.log(`📊 Sampled ${sampledHigh.length + sampledLow.length} reviews for parallel processing`);
+  console.log(`   High ratings (4-5★): ${sampledHigh.length} reviews → Pros extraction`);
+  console.log(`   Low ratings (1-2★): ${sampledLow.length} reviews → Cons extraction`);
+  if (sampledHigh.length > 0) {
+    console.log(`   High avg length: ${Math.round(sampledHigh.reduce((sum, r) => sum + r.length, 0) / sampledHigh.length)} chars`);
+  }
+  if (sampledLow.length > 0) {
+    console.log(`   Low avg length: ${Math.round(sampledLow.reduce((sum, r) => sum + r.length, 0) / sampledLow.length)} chars`);
+  }
+
+  return { high: sampledHigh, low: sampledLow };
+}
+
+/**
  * Sample reviews by rating distribution
  * Ensures balanced sampling across different ratings
  *
@@ -36,7 +81,7 @@ export function sampleLongestReviews(reviews: Review[], n: number = 50): Sampled
  * @param n Number of reviews to sample
  * @returns Sampled reviews
  */
-export function sampleByRatingDistribution(reviews: Review[], n: number = 50): Review[] {
+export function sampleByRatingDistribution(reviews: Review[], n: number = 30): Review[] {
   // Group reviews by rating
   const byRating = new Map<number, Review[]>();
   reviews.forEach((review) => {

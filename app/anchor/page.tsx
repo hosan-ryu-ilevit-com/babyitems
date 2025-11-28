@@ -55,7 +55,14 @@ function AnchorPageContent() {
 
   const handleConfirm = () => {
     if (!selectedProduct) return;
-    router.push(`/tags?category=${category}&anchorId=${selectedProduct.productId}`);
+
+    // 브랜드와 제품명을 안전하게 결합 (fallback 포함)
+    const brand = selectedProduct.브랜드 || '';
+    const productName = selectedProduct.제품명 || '';
+    const fullProductName = `${brand} ${productName}`.trim() || selectedProduct.productId || '제품';
+    const productTitle = encodeURIComponent(fullProductName);
+
+    router.push(`/tags?category=${category}&anchorId=${selectedProduct.productId}&productTitle=${productTitle}`);
   };
 
   // Search products with API call (debounced)
@@ -112,7 +119,7 @@ function AnchorPageContent() {
           <div className="px-5 py-3">
             <div className="flex items-center justify-between mb-2">
               <button
-                onClick={() => router.push('/')}
+                onClick={() => router.push('/categories')}
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <CaretLeft size={24} weight="bold" />
@@ -124,9 +131,7 @@ function AnchorPageContent() {
               </div>
               <div className="w-6" /> {/* Spacer for alignment */}
             </div>
-            <p className="text-xs text-gray-500 text-center">
-              가장 인기 있는 제품을 기준으로 추천해드립니다
-            </p>
+           
           </div>
           {/* Progress Bar */}
           <div className="w-full h-1 bg-gray-200">
@@ -145,11 +150,11 @@ function AnchorPageContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
-              className="bg-white rounded-2xl shadow-md border border-gray-100 p-5 mb-6"
+              className="bg-white rounded-2xl border border-gray-200 p-4 mb-6"
             >
               <div className="flex items-start gap-4">
                 {selectedProduct.썸네일 && (
-                  <div className="w-24 h-24 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  <div className="w-24 h-24 rounded-xl bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0">
                     <img
                       src={selectedProduct.썸네일}
                       alt={selectedProduct.모델명}
@@ -177,7 +182,7 @@ function AnchorPageContent() {
                       <span className="text-gray-400">
                         랭킹 #{selectedProduct.순위}
                       </span>
-                      {selectedProduct.reviewCount > 0 && (
+                      {selectedProduct.reviewCount && selectedProduct.reviewCount > 0 && (
                         <span className="text-gray-600 font-medium flex items-center gap-1">
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
@@ -192,7 +197,7 @@ function AnchorPageContent() {
 
               <button
                 onClick={() => setShowProductList(true)}
-                className="mt-4 w-full py-3 px-4 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all"
+                className="mt-4 w-full py-3 px-4 bg-gray-100 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-200 transition-all"
               >
                 다른 제품으로 변경하기
               </button>
@@ -204,10 +209,10 @@ function AnchorPageContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-6 text-center text-sm text-gray-500"
+            className="mt-6 text-center text-lg font-bold text-gray-700"
           >
-            <p>💡 선택한 제품의 장단점을 분석하여</p>
-            <p>맞춤형 추천을 제공합니다</p>
+            <p>선택하신 제품의 리뷰를 분석해서</p>
+            <p>장단점을 보여드릴게요</p>
           </motion.div>
         </main>
 
@@ -220,12 +225,10 @@ function AnchorPageContent() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleConfirm}
-              className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2"
+              className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all flex items-center justify-center gap-2"
             >
               <span>이 제품으로 추천 받기</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
+             
             </motion.button>
           </div>
         )}
@@ -237,6 +240,7 @@ function AnchorPageContent() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center"
               onClick={() => setShowProductList(false)}
             >
@@ -244,6 +248,7 @@ function AnchorPageContent() {
                 initial={{ y: '100%' }}
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
+                transition={{ type: 'spring', damping: 30, stiffness: 300 }}
                 className="bg-white rounded-t-3xl w-full max-w-[480px] max-h-[85vh] overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -328,7 +333,7 @@ function AnchorPageContent() {
                               <span className="text-gray-400">
                                 랭킹 #{product.순위}
                               </span>
-                              {product.reviewCount > 0 && (
+                              {product.reviewCount && product.reviewCount > 0 && (
                                 <span className="text-gray-600 font-medium flex items-center gap-1">
                                   <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>

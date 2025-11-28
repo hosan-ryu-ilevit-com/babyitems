@@ -341,7 +341,7 @@ function PriorityPageContent() {
           const secondMessage: ChatMessage = {
             id: secondMessageId,
             role: 'assistant',
-            content: '**가장 잘 나가는 국민템의 후기**를 기반으로, 사용자님의 취향을 파악할게요.\n\n먼저 **포기할 수 없는 장점**을 선택해주세요! (최대 5개)',
+            content: '**인기 제품 3개**의 장점을 모아봤어요.\n마음에 드는 걸 골라주시면, 딱 맞는 제품을 찾아드릴게요! (최대 5개)',
             typing: true,
             stepTag: '1/4',
           };

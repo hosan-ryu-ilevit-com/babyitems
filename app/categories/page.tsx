@@ -1,10 +1,11 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CATEGORIES, CATEGORY_NAMES, CATEGORY_THUMBNAILS, Category } from '@/lib/data';
+import { CATEGORY_NAMES, CATEGORY_THUMBNAILS, Category } from '@/lib/data';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Image from 'next/image';
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 
 // Category icons (fallback when no product thumbnail available)
 const CATEGORY_ICONS: Record<Category, string> = {
@@ -35,6 +36,75 @@ const BABY_LIFE_CATEGORIES: Category[] = [
   'thermometer',
 ];
 
+// Category Button Component
+function CategoryButton({
+  category,
+  isSelected,
+  onSelect
+}: {
+  category: Category;
+  isSelected: boolean;
+  onSelect: (category: Category) => void;
+}) {
+  const [imageError, setImageError] = useState(false);
+  const thumbnailUrl = CATEGORY_THUMBNAILS[category];
+  const hasThumbnail = !!thumbnailUrl;
+
+  return (
+    <motion.button
+      whileTap={{ scale: 0.97 }}
+      onClick={() => onSelect(category)}
+      className={`rounded-2xl p-3 transition-all duration-200 ${
+        isSelected
+          ? 'bg-blue-50 border-2 border-blue-500'
+          : 'bg-white'
+      } relative overflow-hidden`}
+    >
+      <div className="relative z-10 flex flex-col items-center">
+        {/* Thumbnail or Icon */}
+        {hasThumbnail && !imageError ? (
+          <div className="w-16 h-16 mb-2 relative rounded-xl overflow-hidden">
+            <Image
+              src={thumbnailUrl}
+              alt={CATEGORY_NAMES[category]}
+              fill
+              className="object-contain p-1"
+              unoptimized
+              onError={() => setImageError(true)}
+            />
+          </div>
+        ) : (
+          <motion.div
+            className="text-4xl mb-2"
+            animate={isSelected ? { scale: [1, 1.1, 1] } : {}}
+            transition={{ duration: 0.3 }}
+          >
+            {CATEGORY_ICONS[category]}
+          </motion.div>
+        )}
+
+        {/* Category Name */}
+        <div className="text-xs font-semibold text-gray-900">
+          {CATEGORY_NAMES[category]}
+        </div>
+      </div>
+
+      {/* Selection checkmark */}
+      {isSelected && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="absolute top-2 right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center"
+        >
+          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+          </svg>
+        </motion.div>
+      )}
+    </motion.button>
+  );
+}
+
 export default function CategoriesPage() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
@@ -47,103 +117,65 @@ export default function CategoriesPage() {
     }, 200);
   };
 
-  const renderCategoryButton = (category: Category, index: number) => {
-    const isSelected = selectedCategory === category;
-    const thumbnailUrl = CATEGORY_THUMBNAILS[category];
-    const hasThumbnail = !!thumbnailUrl;
-    const [imageError, setImageError] = useState(false);
-
-    return (
-      <motion.button
-        key={category}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: index * 0.05, duration: 0.3 }}
-        whileTap={{ scale: 0.97 }}
-        onClick={() => handleCategorySelect(category)}
-        className={`rounded-2xl p-3 transition-all duration-200 ${
-          isSelected
-            ? 'bg-blue-50 border-2 border-blue-500'
-            : 'bg-white'
-        } relative overflow-hidden`}
-      >
-        <div className="relative z-10 flex flex-col items-center">
-          {/* Thumbnail or Icon */}
-          {hasThumbnail && !imageError ? (
-            <div className="w-16 h-16 mb-2 relative rounded-xl overflow-hidden">
-              <Image
-                src={thumbnailUrl}
-                alt={CATEGORY_NAMES[category]}
-                fill
-                className="object-contain p-1"
-                unoptimized
-                onError={() => setImageError(true)}
-              />
-            </div>
-          ) : (
-            <motion.div
-              className="text-4xl mb-2"
-              animate={isSelected ? { scale: [1, 1.1, 1] } : {}}
-              transition={{ duration: 0.3 }}
-            >
-              {CATEGORY_ICONS[category]}
-            </motion.div>
-          )}
-
-          {/* Category Name */}
-          <div className="text-xs font-semibold text-gray-900">
-            {CATEGORY_NAMES[category]}
-          </div>
-        </div>
-
-        {/* Selection checkmark */}
-        {isSelected && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute top-2 right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center"
-          >
-            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-            </svg>
-          </motion.div>
-        )}
-      </motion.button>
-    );
-  };
-
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F8F9FB' }}>
-      <div className="max-w-[480px] mx-auto px-4 py-8 pb-24 min-h-screen">
-        {/* Header */}
+      <div className="max-w-[480px] mx-auto min-h-screen">
+        {/* Top Header with Back Button */}
+        <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
+          <div className="px-5 py-3">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => router.push('/')}
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                <CaretLeft size={24} weight="bold" />
+              </button>
+              <div className="absolute left-1/2 -translate-x-1/2">
+                <h1 className="text-lg font-bold text-gray-900">
+                  카테고리 선택
+                </h1>
+              </div>
+              <div className="w-6" /> {/* Spacer for alignment */}
+            </div>
+          </div>
+        </header>
+
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          className="px-4 py-8 pb-24"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          transition={{ duration: 0.4 }}
         >
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            어떤 아기용품을 찾으시나요?
-          </h1>
-          <p className="text-sm font-regular text-gray-600">
-            AI가 광고 빼고 대신 찾아드려요
-          </p>
+          {/* Feeding Category Group */}
+          <div className="mb-6">
+            <h2 className="text-sm font-bold text-gray-700 mb-3 px-1">분유/젖병</h2>
+            <div className="grid grid-cols-2 gap-3">
+              {FEEDING_CATEGORIES.map((category) => (
+                <CategoryButton
+                  key={category}
+                  category={category}
+                  isSelected={selectedCategory === category}
+                  onSelect={handleCategorySelect}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Baby Life Category Group */}
+          <div>
+            <h2 className="text-sm font-bold text-gray-700 mb-3 px-1">유아생활</h2>
+            <div className="grid grid-cols-2 gap-3">
+              {BABY_LIFE_CATEGORIES.map((category) => (
+                <CategoryButton
+                  key={category}
+                  category={category}
+                  isSelected={selectedCategory === category}
+                  onSelect={handleCategorySelect}
+                />
+              ))}
+            </div>
+          </div>
         </motion.div>
-
-        {/* Feeding Category Group */}
-        <div className="mb-6">
-          <h2 className="text-sm font-bold text-gray-700 mb-3 px-1">분유/젖병</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {FEEDING_CATEGORIES.map((category, index) => renderCategoryButton(category, index))}
-          </div>
-        </div>
-
-        {/* Baby Life Category Group */}
-        <div>
-          <h2 className="text-sm font-bold text-gray-700 mb-3 px-1">유아생활</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {BABY_LIFE_CATEGORIES.map((category, index) => renderCategoryButton(category, index + FEEDING_CATEGORIES.length))}
-          </div>
-        </div>
       </div>
     </div>
   );

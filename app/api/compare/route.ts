@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Try to load from both sources: products.ts AND specs/*.json
-    const productsData: ProductData[] = await Promise.all(
+    const productsDataWithNulls: (ProductData | null)[] = await Promise.all(
       productIds.map(async (id) => {
         // Try products.ts first (old system with coreValues + markdown)
         const product = await loadProductById(id);
@@ -80,11 +80,11 @@ export async function POST(req: NextRequest) {
       })
     );
 
-    // Filter out null values
-    const validProducts = productsData.filter((p): p is ProductData => p !== null);
+    // Filter out nulls
+    const productsData: ProductData[] = productsDataWithNulls.filter((p): p is ProductData => p !== null);
 
-    if (validProducts.length !== productIds.length) {
-      const missingIds = productIds.filter((id: string) => !validProducts.find(p => p.id === id));
+    if (productsData.length !== productIds.length) {
+      const missingIds = productIds.filter((id: string) => !productsData.find(p => p.id === id));
       console.error(`❌ Missing products: ${missingIds.join(', ')}`);
       return NextResponse.json(
         { error: 'Could not load all products', missingIds },
@@ -95,9 +95,9 @@ export async function POST(req: NextRequest) {
     // Generate smart summaries using LLM
     const results: Record<string, { pros: string[]; cons: string[]; comparison: string }> = {};
 
-    for (let i = 0; i < validProducts.length; i++) {
-      const currentProduct = validProducts[i];
-      const otherProducts = validProducts.filter((_, idx) => idx !== i);
+    for (let i = 0; i < productsData.length; i++) {
+      const currentProduct = productsData[i];
+      const otherProducts = productsData.filter((_, idx) => idx !== i);
 
       try {
         const summary = currentProduct.isSpecBased

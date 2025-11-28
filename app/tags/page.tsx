@@ -3,12 +3,12 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { Category, CATEGORY_NAMES } from '@/lib/data';
 
 interface Tag {
   id: string;
   text: string;
+  mentionCount?: number;
 }
 
 type Step = 'loading' | 'pros' | 'cons' | 'budget' | 'done';
@@ -45,6 +45,7 @@ function TagsPageContent() {
   const searchParams = useSearchParams();
   const category = searchParams.get('category') as Category;
   const anchorId = searchParams.get('anchorId');
+  const productTitleFromUrl = searchParams.get('productTitle') || '';
 
   const [step, setStep] = useState<Step>('loading');
   const [prosTags, setProsTags] = useState<Tag[]>([]);
@@ -52,9 +53,10 @@ function TagsPageContent() {
   const [selectedPros, setSelectedPros] = useState<string[]>([]);
   const [selectedCons, setSelectedCons] = useState<string[]>([]);
   const [budget, setBudget] = useState<string>('');
-  const [productTitle, setProductTitle] = useState('');
+  const [productTitle, setProductTitle] = useState(productTitleFromUrl);
   const [error, setError] = useState('');
   const [showTyping, setShowTyping] = useState(false);
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false);
 
   // 중복 실행 방지를 위한 ref
   const hasGeneratedRef = useRef(false);
@@ -67,15 +69,22 @@ function TagsPageContent() {
       const response = await fetch('/api/generate-tags', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category, productId: anchorId, productTitle: '' }),
+        body: JSON.stringify({ category, productId: anchorId, productTitle: productTitleFromUrl }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        setProsTags(data.pros);
-        setConsTags(data.cons);
-        setProductTitle(data.productTitle || '선택한 제품');
+        // Sort by mentionCount (descending)
+        const sortedPros = [...data.pros].sort((a, b) => (b.mentionCount || 0) - (a.mentionCount || 0));
+        const sortedCons = [...data.cons].sort((a, b) => (b.mentionCount || 0) - (a.mentionCount || 0));
+
+        setProsTags(sortedPros);
+        setConsTags(sortedCons);
+        // API에서 받은 productTitle이 있으면 사용, 없으면 URL에서 가져온 값 유지
+        if (data.productTitle && data.productTitle !== productTitleFromUrl) {
+          setProductTitle(data.productTitle);
+        }
         setStep('pros');
         // 타이핑 애니메이션 시작
         setTimeout(() => setShowTyping(true), 300);
@@ -171,6 +180,15 @@ function TagsPageContent() {
     router.push(`/result?category=${category}&anchorId=${anchorId}`);
   };
 
+  const handleBackClick = () => {
+    setShowBackConfirmModal(true);
+  };
+
+  const handleConfirmBack = () => {
+    setShowBackConfirmModal(false);
+    router.push('/');
+  };
+
   if (!category || !anchorId) {
     return null;
   }
@@ -183,20 +201,22 @@ function TagsPageContent() {
           <div className="px-5 py-3">
             <div className="flex items-center justify-between mb-2">
               <button
-                onClick={() => router.push('/')}
-                className="text-gray-600 hover:text-gray-900 transition-colors"
+                onClick={handleBackClick}
+                className="text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors"
               >
-                <CaretLeft size={24} weight="bold" />
+                홈으로
               </button>
               <div className="absolute left-1/2 -translate-x-1/2">
                 <h1 className="text-lg font-bold text-gray-900">
                   {CATEGORY_NAMES[category]} 추천
                 </h1>
               </div>
-              <div className="w-6" /> {/* Spacer for alignment */}
+              <div className="w-12" /> {/* Spacer for alignment */}
             </div>
             {productTitle && (
-              <p className="text-xs text-gray-500 text-center">{productTitle}</p>
+              <p className="text-xs text-gray-500 text-center">
+                <span className="font-medium">선택한 제품:</span> {productTitle}
+              </p>
             )}
           </div>
           {/* Progress Bar */}
@@ -227,13 +247,90 @@ function TagsPageContent() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className="py-8 px-4"
           >
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mb-4"></div>
-            <p className="text-lg text-gray-700 mb-2">리뷰를 분석하고 있습니다...</p>
-            <p className="text-sm text-gray-500">
-              수백 개의 리뷰에서 핵심 특징을 추출하는 중입니다
-            </p>
+            
+            {/* Loading Text */}
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-center mb-8"
+            >
+              <h3 className="text-lg font-bold text-gray-900">
+                내돈내산 리뷰 분석 중...
+              </h3>
+              <p className="text-sm text-gray-500">
+                핵심 장단점을 추출 중이에요
+              </p>
+            </motion.div>
+
+            {/* Skeleton Tags - Pros */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mb-6"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center">
+                  <span className="text-emerald-600 text-xs">✓</span>
+                </div>
+                <span className="text-sm font-semibold text-gray-700">장점 분석 중...</span>
+              </div>
+              <div className="space-y-2">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <motion.div
+                    key={`pros-${i}`}
+                    initial={{ width: '60%', opacity: 0 }}
+                    animate={{
+                      width: ['60%', '90%', '75%'],
+                      opacity: [0.3, 0.6, 0.4]
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.1,
+                      ease: 'easeInOut'
+                    }}
+                    className="h-12 bg-gray-100 rounded-xl"
+                  />
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Skeleton Tags - Cons */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-5 h-5 bg-rose-100 rounded-full flex items-center justify-center">
+                  <span className="text-rose-600 text-xs">!</span>
+                </div>
+                <span className="text-sm font-semibold text-gray-700">단점 분석 중...</span>
+              </div>
+              <div className="space-y-2">
+                {[1, 2, 3, 4].map((i) => (
+                  <motion.div
+                    key={`cons-${i}`}
+                    initial={{ width: '50%', opacity: 0 }}
+                    animate={{
+                      width: ['50%', '85%', '65%'],
+                      opacity: [0.3, 0.6, 0.4]
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.1,
+                      ease: 'easeInOut'
+                    }}
+                    className="h-12 bg-gray-100 rounded-xl"
+                  />
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         )}
 
@@ -288,6 +385,10 @@ function TagsPageContent() {
                 {prosTags.map((tag, index) => {
                   const isSelected = selectedPros.includes(tag.id);
                   const selectedIndex = selectedPros.indexOf(tag.id);
+                  // 상위 4개만 "많이 언급"으로 표시
+                  const sortedByMentions = [...prosTags].sort((a, b) => (b.mentionCount || 0) - (a.mentionCount || 0));
+                  const top4Tags = sortedByMentions.slice(0, 4).map(t => t.id);
+                  const isFrequentlyMentioned = top4Tags.includes(tag.id) && tag.mentionCount && tag.mentionCount > 0;
 
                   return (
                     <motion.button
@@ -304,7 +405,7 @@ function TagsPageContent() {
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 ${
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold shrink-0 ${
                             isSelected
                               ? 'border-emerald-500 bg-emerald-500 text-white'
                               : 'border-gray-300 text-gray-400'
@@ -312,9 +413,25 @@ function TagsPageContent() {
                         >
                           {isSelected ? selectedIndex + 1 : ''}
                         </div>
-                        <span className={`text-sm leading-snug font-medium ${
-                          isSelected ? 'text-emerald-700' : 'text-gray-400'
-                        }`}>{tag.text}</span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className={`text-sm leading-snug font-medium ${
+                              isSelected ? 'text-emerald-700' : 'text-gray-700'
+                            }`}>{tag.text}</span>
+                            {isFrequentlyMentioned && (
+                              <span
+                                className="text-[10px] px-1.5 py-0.5 rounded-md font-bold shrink-0"
+                                style={
+                                  isSelected
+                                    ? { backgroundColor: 'white', color: '#059669' }
+                                    : { backgroundColor: '#EAF8F8', color: '#009896' }
+                                }
+                              >
+                                많이 언급
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </motion.button>
                   );
@@ -344,12 +461,33 @@ function TagsPageContent() {
                 최대 3개 선택 가능 • 선택하지 않아도 됩니다
               </p>
 
-              <div className="space-y-3 mb-4">
-                {consTags.map((tag, index) => {
-                  const isSelected = selectedCons.includes(tag.id);
-                  const selectedIndex = selectedCons.indexOf(tag.id);
+              {consTags.length === 0 ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl p-8 mb-4 text-center"
+                >
+                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-2xl">😊</span>
+                  </div>
+                  <p className="text-sm font-semibold text-gray-700 mb-1">
+                    단점을 언급한 리뷰가 없습니다!
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    이 제품은 저평점 리뷰가 없어요
+                  </p>
+                </motion.div>
+              ) : (
+                <div className="space-y-3 mb-4">
+                  {consTags.map((tag, index) => {
+                    const isSelected = selectedCons.includes(tag.id);
+                    const selectedIndex = selectedCons.indexOf(tag.id);
+                    // 상위 4개만 "많이 언급"으로 표시
+                    const sortedByMentions = [...consTags].sort((a, b) => (b.mentionCount || 0) - (a.mentionCount || 0));
+                    const top4Tags = sortedByMentions.slice(0, 4).map(t => t.id);
+                    const isFrequentlyMentioned = top4Tags.includes(tag.id) && tag.mentionCount && tag.mentionCount > 0;
 
-                  return (
+                    return (
                     <motion.button
                       key={tag.id}
                       initial={{ opacity: 0, y: 10 }}
@@ -364,7 +502,7 @@ function TagsPageContent() {
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 ${
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold shrink-0 ${
                             isSelected
                               ? 'border-rose-500 bg-rose-500 text-white'
                               : 'border-gray-300 text-gray-400'
@@ -372,14 +510,31 @@ function TagsPageContent() {
                         >
                           {isSelected ? selectedIndex + 1 : ''}
                         </div>
-                        <span className={`text-sm leading-snug font-medium ${
-                          isSelected ? 'text-rose-700' : 'text-gray-400'
-                        }`}>{tag.text}</span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className={`text-sm leading-snug font-medium ${
+                              isSelected ? 'text-rose-700' : 'text-gray-700'
+                            }`}>{tag.text}</span>
+                            {isFrequentlyMentioned && (
+                              <span
+                                className="text-[10px] px-1.5 py-0.5 rounded-md font-bold shrink-0"
+                                style={
+                                  isSelected
+                                    ? { backgroundColor: 'white', color: '#E11D48' }
+                                    : { backgroundColor: '#FEE', color: '#DC2626' }
+                                }
+                              >
+                                많이 언급
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </motion.button>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
 
               {/* 넘어가기 버튼 */}
               <div className="text-center mb-6">
@@ -515,6 +670,51 @@ function TagsPageContent() {
             </div>
           )}
         </div>
+
+        {/* Back Confirmation Modal */}
+        <AnimatePresence>
+          {showBackConfirmModal && (
+            <>
+              {/* 반투명 배경 */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 z-40"
+                onClick={() => setShowBackConfirmModal(false)}
+              />
+
+              {/* 모달 */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="fixed inset-0 flex items-center justify-center z-50 px-4"
+              >
+                <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
+                  <p className="text-m text-gray-800 mb-6 leading-relaxed">
+                    나가시면 다시 이 페이지로 돌아올 수 없어요. 정말 나가시겠어요?
+                  </p>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setShowBackConfirmModal(false)}
+                      className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold rounded-xl transition-colors"
+                    >
+                      취소
+                    </button>
+                    <button
+                      onClick={handleConfirmBack}
+                      className="flex-1 px-4 py-3 text-white font-semibold rounded-xl transition-colors"
+                      style={{ backgroundColor: '#0074F3' }}
+                    >
+                      홈으로
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

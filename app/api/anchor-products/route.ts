@@ -61,17 +61,19 @@ export async function GET(req: NextRequest) {
     // If search keyword provided, search entire category
     let results;
     if (searchKeyword) {
-      results = productsWithReviews.filter(product => {
-        const searchText = `${product.브랜드} ${product.모델명}`.toLowerCase();
-        return searchText.includes(searchKeyword);
-      });
+      results = productsWithReviews
+        .filter(product => {
+          const searchText = `${product.브랜드} ${product.모델명}`.toLowerCase();
+          return searchText.includes(searchKeyword);
+        })
+        .sort((a, b) => (a.순위 || 999) - (b.순위 || 999)); // Sort by ranking
       console.log(`🔎 Search results: ${results.length} products match "${searchKeyword}"`);
     } else if (limit) {
       // If limit provided, get top N by popularity
       results = getTopByPopularity(productsWithReviews, limit);
     } else {
-      // Otherwise return all products with reviews (sorted by popularity)
-      results = productsWithReviews.sort((a, b) => (b.순위 || 999) - (a.순위 || 999));
+      // Otherwise return all products with reviews (sorted by ranking - ascending)
+      results = productsWithReviews.sort((a, b) => (a.순위 || 999) - (b.순위 || 999));
     }
 
     console.log(`✅ Found ${results.length} anchor products`);
