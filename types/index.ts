@@ -21,6 +21,7 @@ export interface Product {
   ranking: number;
   thumbnail: string;
   coreValues: CoreValues;
+  averageRating?: number;        // 평균 별점 (optional)
 }
 
 // Chat message

@@ -672,5 +672,7 @@ export const CATEGORY_ATTRIBUTES: Record<Category, CategoryAttribute[]> = {
         "A/S 및 보상 판매 정책"
       ]
     }
-  ]
+  ],
+  "car_seat": [],
+  "milk_powder_port": []
 } as const;

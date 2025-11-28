@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Recommendation } from '@/types';
+import { Recommendation, Product } from '@/types';
 import { products } from '@/data/products';
 import { logComparisonProductAction } from '@/lib/logging/clientLogger';
 
@@ -412,7 +412,7 @@ export default function DetailedComparisonTable({
                           selectedRecommendations[0]?.product.title,
                           selectedProductIds
                         );
-                        window.open(selectedRecommendations[0]?.product.reviewUrl, '_blank');
+                        window.open(`https://www.coupang.com/vp/products/${selectedRecommendations[0]?.product.id}`, '_blank');
                       }}
                       className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
                     >
@@ -471,7 +471,7 @@ export default function DetailedComparisonTable({
                           selectedRecommendations[1]?.product.title,
                           selectedProductIds
                         );
-                        window.open(selectedRecommendations[1]?.product.reviewUrl, '_blank');
+                        window.open(`https://www.coupang.com/vp/products/${selectedRecommendations[1]?.product.id}`, '_blank');
                       }}
                       className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
                     >
@@ -836,9 +836,9 @@ export default function DetailedComparisonTable({
 
             {/* 속성 점수들 - 좌우 대칭 배치 (coreValues가 있는 경우만) */}
             {!isTagBasedFlow && selectedProducts.length === 2 && selectedProducts[0] && selectedProducts[1] &&
-             selectedProducts[0].coreValues && selectedProducts[1].coreValues && (() => {
-              const product1 = selectedProducts[0];
-              const product2 = selectedProducts[1];
+             'coreValues' in selectedProducts[0] && 'coreValues' in selectedProducts[1] && (() => {
+              const product1 = selectedProducts[0] as Product;
+              const product2 = selectedProducts[1] as Product;
 
               const attributes: Array<{ key: keyof typeof product1.coreValues; label: string }> = [
                 { key: 'temperatureControl', label: '온도 조절/유지' },

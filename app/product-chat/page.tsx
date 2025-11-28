@@ -509,7 +509,7 @@ function ProductChatContent() {
                 <button
                   onClick={() => {
                     logButtonClick(`쿠팡에서 보기: ${product.title}`, 'product-chat');
-                    window.open(product.reviewUrl, '_blank');
+                    window.open(`https://www.coupang.com/vp/products/${product.id}`, '_blank');
                   }}
                   className="py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all"
                 >
@@ -600,7 +600,7 @@ function ProductChatContent() {
                         </button>
                         <div className="grid grid-cols-2 gap-2">
                           <button
-                            onClick={() => window.open(message.productRecommendation!.reviewUrl, '_blank')}
+                            onClick={() => window.open(`https://www.coupang.com/vp/products/${message.productRecommendation!.id}`, '_blank')}
                             className="py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all"
                           >
                             쿠팡에서 보기

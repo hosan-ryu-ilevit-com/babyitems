@@ -119,7 +119,7 @@ export default function ProductBottomSheet({
                   <button
                     onClick={() => {
                       logButtonClick(`쿠팡에서 보기: ${product.title}`, 'home_bottomsheet');
-                      window.open(product.reviewUrl, '_blank');
+                      window.open(`https://www.coupang.com/vp/products/${product.id}`, '_blank');
                     }}
                     className="py-3 font-semibold rounded-xl text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
                   >

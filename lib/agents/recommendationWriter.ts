@@ -359,8 +359,8 @@ export async function generateTop3Recommendations(
 
   // 성공한 추천만 필터링
   const recommendations = results
-    .filter((r): r is PromiseFulfilledResult<Recommendation> => r.status === 'fulfilled')
-    .map(r => r.value);
+    .filter((r) => r.status === 'fulfilled')
+    .map(r => (r as PromiseFulfilledResult<Recommendation>).value);
 
   // 실패한 추천 로깅
   const failedCount = results.filter(r => r.status === 'rejected').length;

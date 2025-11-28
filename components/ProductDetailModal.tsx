@@ -1,31 +1,34 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReviewCard from '@/components/ReviewCard';
-import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import { logButtonClick } from '@/lib/logging/clientLogger';
 import type { Review } from '@/lib/review';
 
-interface ProductData {
-  product: {
-    id: string;
-    title: string;
-    brand?: string;
-    price: number;
-    thumbnail: string;
-    reviewUrl?: string;
-    reviewCount: number;
+interface ProductDetailModalProps {
+  productData: {
+    product: {
+      id: string;
+      title: string;
+      brand?: string;
+      price: number;
+      thumbnail: string;
+      reviewUrl?: string;
+      reviewCount: number;
+    };
+    rank: 1 | 2 | 3 | 4;
+    finalScore: number;
+    personalizedReason: {
+      strengths: string[];
+      weaknesses: string[];
+    };
+    comparison: string[];
+    additionalConsiderations: string;
   };
-  rank: 1 | 2 | 3;
-  finalScore: number;
-  personalizedReason: {
-    strengths: string[];
-    weaknesses: string[];
-  };
-  comparison: string[];
-  additionalConsiderations: string;
+  category: string;
+  onClose: () => void;
 }
 
 // 마크다운 볼드 처리
@@ -40,37 +43,23 @@ function parseMarkdownBold(text: string) {
   });
 }
 
-export default function ProductPage() {
-  const router = useRouter();
-  const params = useParams();
-  const searchParams = useSearchParams();
-  const productId = params.id as string;
-  const category = searchParams.get('category');
-
-  const [mounted, setMounted] = useState(false);
+export default function ProductDetailModal({ productData, category, onClose }: ProductDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
-  const [productData, setProductData] = useState<ProductData | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [sortBy, setSortBy] = useState<'rating_desc' | 'rating_asc'>('rating_desc');
-  const [loading, setLoading] = useState(true);
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [averageRating, setAverageRating] = useState<number>(0);
   const [isExiting, setIsExiting] = useState(false);
-  const [comparativeAnalysis, setComparativeAnalysis] = useState<any>(null);
 
-  useEffect(() => {
-    setMounted(true);
-    logPageView('product');
-  }, []);
-
-  // Fetch reviews function with useCallback
+  // Fetch reviews function
   const fetchReviews = useCallback(async () => {
-    if (!category) return;
+    // Use 'milk_powder_port' as fallback if category is not provided
+    const categoryToUse = category || 'milk_powder_port';
 
     setReviewsLoading(true);
     try {
       const response = await fetch(
-        `/api/product-reviews?category=${category}&productId=${productId}&sortBy=${sortBy}`
+        `/api/product-reviews?category=${categoryToUse}&productId=${productData.product.id}&sortBy=${sortBy}`
       );
       const data = await response.json();
 
@@ -84,87 +73,47 @@ export default function ProductPage() {
             0
           );
           const average = total / data.reviews.length;
-          setAverageRating(Math.round(average * 10) / 10); // Round to 1 decimal place
+          setAverageRating(Math.round(average * 10) / 10);
         }
-      } else {
-        console.error('Failed to fetch reviews:', data.error);
       }
     } catch (error) {
       console.error('Failed to fetch reviews:', error);
     } finally {
       setReviewsLoading(false);
     }
-  }, [category, productId, sortBy]);
+  }, [category, productData.product.id, sortBy]);
 
+  // Fetch reviews on mount
   useEffect(() => {
-    if (!mounted) return;
+    fetchReviews();
+  }, [fetchReviews]);
 
-    // Load product data from sessionStorage
-    const storedProduct = sessionStorage.getItem('selected_product');
-    if (storedProduct) {
-      const data = JSON.parse(storedProduct) as ProductData;
-      setProductData(data);
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    // Save original overflow style
+    const originalOverflow = document.body.style.overflow;
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
 
-      // Load comparative analysis from sessionStorage
-      const storedAnalysis = sessionStorage.getItem('comparative_analysis');
-      if (storedAnalysis) {
-        const analysis = JSON.parse(storedAnalysis);
-        setComparativeAnalysis(analysis);
-        console.log('✅ Loaded comparative analysis for PDP:', analysis);
-      }
-
-      setLoading(false);
-
-      // Fetch reviews immediately to calculate average rating
-      if (category) {
-        fetchReviews();
-      }
-    } else {
-      // Fallback: redirect to result page if no data
-      router.push('/result');
-    }
-  }, [mounted, router, category, fetchReviews]);
+    // Restore on unmount
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
 
   const handleSortChange = async (newSortBy: 'rating_desc' | 'rating_asc') => {
     setSortBy(newSortBy);
-    logButtonClick(`리뷰 정렬: ${newSortBy === 'rating_desc' ? '높은순' : '낮은순'}`, 'product');
-
-    if (!category) return;
-
-    setReviewsLoading(true);
-    try {
-      const response = await fetch(
-        `/api/product-reviews?category=${category}&productId=${productId}&sortBy=${newSortBy}`
-      );
-      const data = await response.json();
-
-      if (data.success) {
-        setReviews(data.reviews);
-
-        // Calculate average rating
-        if (data.reviews.length > 0) {
-          const total = data.reviews.reduce(
-            (sum: number, review: Review) => sum + review.custom_metadata.rating,
-            0
-          );
-          const average = total / data.reviews.length;
-          setAverageRating(Math.round(average * 10) / 10); // Round to 1 decimal place
-        }
-      }
-    } catch (error) {
-      console.error('Failed to fetch reviews:', error);
-    } finally {
-      setReviewsLoading(false);
-    }
+    logButtonClick(`리뷰 정렬: ${newSortBy === 'rating_desc' ? '높은순' : '낮은순'}`, 'product-modal');
+    fetchReviews();
   };
 
-  if (!mounted || loading || !productData) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-gray-500">로딩 중...</div>
-      </div>
-    );
-  }
+  const handleClose = () => {
+    setIsExiting(true);
+    // Wait for animation to complete before calling onClose
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  };
 
   return (
     <motion.div
@@ -173,32 +122,24 @@ export default function ProductPage() {
         backgroundColor: isExiting ? 'rgba(0, 0, 0, 0)' : 'rgba(0, 0, 0, 0.08)'
       }}
       transition={{ duration: 0.25 }}
-      className="flex min-h-screen items-center justify-center"
+      className="fixed inset-0 z-50 flex min-h-screen items-center justify-center"
+      onClick={handleClose}
     >
       <motion.div
         initial={{ x: '100%' }}
         animate={{ x: isExiting ? '100%' : 0 }}
         transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-        className="relative w-full max-w-[480px] min-h-screen flex flex-col bg-white"
+        className="relative w-full max-w-[480px] h-screen flex flex-col bg-white ml-auto"
         style={{
           boxShadow: '-4px 0 16px rgba(0, 0, 0, 0.1)'
         }}
-        onAnimationComplete={() => {
-          if (isExiting) {
-            sessionStorage.removeItem('selected_product');
-            sessionStorage.removeItem('result_referrer_url');
-            window.history.back();
-          }
-        }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => {
-                logButtonClick('뒤로가기', 'product');
-                setIsExiting(true);
-              }}
+              onClick={handleClose}
               className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,8 +149,10 @@ export default function ProductPage() {
           </div>
         </header>
 
-        {/* Thumbnail - Full Width Square */}
-        <div className="relative w-full aspect-square bg-gray-100">
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto">
+          {/* Thumbnail */}
+          <div className="relative w-full aspect-square bg-gray-100">
           {productData.product.thumbnail ? (
             <Image
               src={productData.product.thumbnail}
@@ -229,17 +172,12 @@ export default function ProductPage() {
 
         {/* Product Info */}
         <div className="px-4 py-4 border-b border-gray-100">
-          {/* Brand */}
           {productData.product.brand && (
             <div className="text-sm text-gray-500 mb-1">{productData.product.brand}</div>
           )}
-
-          {/* Title */}
           <h2 className="text-lg font-bold text-gray-900 mb-3 leading-snug">
             {productData.product.title}
           </h2>
-
-          {/* Price */}
           <div className="text-2xl font-bold text-gray-900 mb-3">
             {productData.product.price.toLocaleString()}원
           </div>
@@ -269,7 +207,7 @@ export default function ProductPage() {
         <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-y border-blue-100 px-4 py-4">
           <div className="flex items-start gap-2 mb-2">
             <svg className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
+              <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
             </svg>
             <div className="flex-1">
               <h3 className="text-sm font-bold text-gray-900 mb-1">AI 추천 이유</h3>
@@ -286,12 +224,12 @@ export default function ProductPage() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="sticky top-[57px] bg-white border-b border-gray-200 flex z-10">
+          {/* Tabs */}
+          <div className="sticky top-0 bg-white border-b border-gray-200 flex z-10">
           <button
             onClick={() => {
               setActiveTab('description');
-              logButtonClick('설명 탭', 'product');
+              logButtonClick('설명 탭', 'product-modal');
             }}
             className={`flex-1 py-3 font-semibold transition-colors relative ${
               activeTab === 'description'
@@ -313,7 +251,7 @@ export default function ProductPage() {
           <button
             onClick={() => {
               setActiveTab('reviews');
-              logButtonClick('리뷰 탭', 'product');
+              logButtonClick('리뷰 탭', 'product-modal');
             }}
             className={`flex-1 py-3 font-semibold transition-colors relative ${
               activeTab === 'reviews'
@@ -334,8 +272,8 @@ export default function ProductPage() {
           </button>
         </div>
 
-        {/* Tab Content */}
-        <div className="flex-1 overflow-y-auto pb-20">
+          {/* Tab Content */}
+          <div className="pb-20">
           <AnimatePresence mode="wait">
             {activeTab === 'description' ? (
               <motion.div
@@ -346,25 +284,7 @@ export default function ProductPage() {
                 transition={{ duration: 0.2 }}
                 className="px-4 py-5 space-y-6"
               >
-                {/* 1. Overall Summary */}
-                {comparativeAnalysis?.rankComparison && (
-                  <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                    <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                        <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
-                      </svg>
-                      종합 평가
-                    </h3>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {parseMarkdownBold(
-                        comparativeAnalysis.rankComparison[`rank${productData.rank}` as 'rank1' | 'rank2' | 'rank3']?.overallSummary || ''
-                      )}
-                    </p>
-                  </div>
-                )}
-
-                {/* 2. 장점 (통합) */}
+                {/* 장점 */}
                 {productData.personalizedReason.strengths.length > 0 && (
                   <div>
                     <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
@@ -384,7 +304,7 @@ export default function ProductPage() {
                   </div>
                 )}
 
-                {/* 3. 단점 (통합) */}
+                {/* 단점 */}
                 {productData.personalizedReason.weaknesses.length > 0 && (
                   <div>
                     <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
@@ -404,115 +324,18 @@ export default function ProductPage() {
                   </div>
                 )}
 
-                {/* 4. 비교 (통합) */}
-                {comparativeAnalysis?.rankComparison && (() => {
-                  const rankKey = `rank${productData.rank}` as 'rank1' | 'rank2' | 'rank3';
-                  const rankData = comparativeAnalysis.rankComparison[rankKey];
-                  return rankData && (
-                    <div>
-                      <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-                        </svg>
-                        상세 비교
-                      </h3>
-                      <div className="space-y-4">
-                        {/* Key Strengths */}
-                        {rankData.keyStrengths && (
-                          <div className="bg-green-50 rounded-lg p-3 border border-green-100">
-                            <h4 className="text-sm font-bold text-green-800 mb-2">핵심 강점</h4>
-                            <p className="text-sm text-gray-700 leading-relaxed">{parseMarkdownBold(rankData.keyStrengths)}</p>
-                          </div>
-                        )}
-
-                        {/* Key Weaknesses */}
-                        {rankData.keyWeaknesses && (
-                          <div className="bg-amber-50 rounded-lg p-3 border border-amber-100">
-                            <h4 className="text-sm font-bold text-amber-800 mb-2">핵심 약점</h4>
-                            <p className="text-sm text-gray-700 leading-relaxed">{parseMarkdownBold(rankData.keyWeaknesses)}</p>
-                          </div>
-                        )}
-
-                        {/* Comparisons with other ranks */}
-                        {(rankData.vsRank1 || rankData.vsRank2 || rankData.vsRank3) && (
-                          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-                            <h4 className="text-sm font-bold text-gray-800 mb-2">다른 제품과 비교</h4>
-                            <div className="space-y-2">
-                              {rankData.vsRank1 && (
-                                <div className="text-sm text-gray-700">
-                                  <span className="font-semibold">vs 1위:</span> {parseMarkdownBold(rankData.vsRank1)}
-                                </div>
-                              )}
-                              {rankData.vsRank2 && (
-                                <div className="text-sm text-gray-700">
-                                  <span className="font-semibold">vs 2위:</span> {parseMarkdownBold(rankData.vsRank2)}
-                                </div>
-                              )}
-                              {rankData.vsRank3 && (
-                                <div className="text-sm text-gray-700">
-                                  <span className="font-semibold">vs 3위:</span> {parseMarkdownBold(rankData.vsRank3)}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* vs Anchor */}
-                        {rankData.vsAnchor && (
-                          <div className="bg-indigo-50 rounded-lg p-3 border border-indigo-100">
-                            <h4 className="text-sm font-bold text-indigo-800 mb-2">기준 제품과 비교</h4>
-                            <p className="text-sm text-gray-700 leading-relaxed">{parseMarkdownBold(rankData.vsAnchor)}</p>
-                          </div>
-                        )}
-
-                        {/* Best For */}
-                        {rankData.bestFor && (
-                          <div className="bg-blue-50 rounded-lg p-3 border border-blue-100">
-                            <h4 className="text-sm font-bold text-blue-800 mb-2">이런 분께 추천해요</h4>
-                            <p className="text-sm text-gray-700 leading-relaxed">{parseMarkdownBold(rankData.bestFor)}</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })()}
-
-                {/* 5. 구매 조언 */}
+                {/* 추가 고려사항 */}
                 {productData.additionalConsiderations && (
                   <div>
                     <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
                       <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                       </svg>
-                      구매 조언
+                      구매 전 참고하세요
                     </h3>
                     <p className="text-sm text-gray-700 leading-relaxed">
                       {parseMarkdownBold(productData.additionalConsiderations)}
                     </p>
-                  </div>
-                )}
-
-                {/* 6. 상황별 추천 */}
-                {comparativeAnalysis?.useCaseRecommendations && comparativeAnalysis.useCaseRecommendations.length > 0 && (
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                      </svg>
-                      상황별 추천
-                    </h3>
-                    <div className="space-y-3">
-                      {comparativeAnalysis.useCaseRecommendations.map((useCase: any, i: number) => (
-                        <div key={i} className="bg-teal-50 rounded-lg p-3 border border-teal-100">
-                          <h4 className="text-sm font-bold text-teal-900 mb-1">{useCase.useCase}</h4>
-                          <p className="text-sm text-gray-700 leading-relaxed mb-2">
-                            <span className="font-semibold">추천: </span>
-                            {useCase.recommended}
-                          </p>
-                          <p className="text-xs text-teal-700">{useCase.reason}</p>
-                        </div>
-                      ))}
-                    </div>
                   </div>
                 )}
               </motion.div>
@@ -575,6 +398,7 @@ export default function ProductPage() {
               </motion.div>
             )}
           </AnimatePresence>
+          </div>
         </div>
 
         {/* Floating Action Buttons */}
@@ -582,7 +406,7 @@ export default function ProductPage() {
           <div className="flex gap-2">
             <button
               onClick={() => {
-                logButtonClick('최저가 보기', 'product');
+                logButtonClick('최저가 보기', 'product-modal');
                 window.open(
                   `https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(productData.product.title)}&sort=priceASC`,
                   '_blank'
@@ -594,7 +418,7 @@ export default function ProductPage() {
             </button>
             <button
               onClick={() => {
-                logButtonClick('쿠팡에서 보기', 'product');
+                logButtonClick('쿠팡에서 보기', 'product-modal');
                 window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
               }}
               className="flex-[6] py-3 font-semibold rounded-lg text-sm transition-colors bg-blue-600 hover:bg-blue-700 text-white"

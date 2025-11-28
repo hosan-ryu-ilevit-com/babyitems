@@ -130,7 +130,7 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
                 <td key={rec.product.id} className="py-3 px-2">
                   <div className="space-y-1.5">
                     <button
-                      onClick={() => window.open(rec.product.reviewUrl, '_blank')}
+                      onClick={() => window.open(`https://www.coupang.com/vp/products/${rec.product.id}`, '_blank')}
                       className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
                     >
                       쿠팡에서 보기
