@@ -52,13 +52,13 @@ function CategoryButton({
 
   return (
     <motion.button
-      whileTap={{ scale: 0.97 }}
+      whileTap={{ scale: 0.96, opacity: 0.7 }}
+      whileHover={{ scale: 1.02 }}
+      animate={{ scale: isSelected ? 1.03 : 1 }}
       onClick={() => onSelect(category)}
-      className={`rounded-2xl p-3 transition-all duration-200 ${
-        isSelected
-          ? 'bg-blue-50 border-2 border-blue-500'
-          : 'bg-white'
-      } relative overflow-hidden`}
+      className={`rounded-2xl p-3 transition-all duration-200 relative overflow-hidden ${
+        isSelected ? 'bg-gray-100' : 'bg-white hover:bg-gray-50'
+      }`}
     >
       <div className="relative z-10 flex flex-col items-center">
         {/* Thumbnail or Icon */}
@@ -74,13 +74,9 @@ function CategoryButton({
             />
           </div>
         ) : (
-          <motion.div
-            className="text-4xl mb-2"
-            animate={isSelected ? { scale: [1, 1.1, 1] } : {}}
-            transition={{ duration: 0.3 }}
-          >
+          <div className="text-4xl mb-2">
             {CATEGORY_ICONS[category]}
-          </motion.div>
+          </div>
         )}
 
         {/* Category Name */}
@@ -88,19 +84,6 @@ function CategoryButton({
           {CATEGORY_NAMES[category]}
         </div>
       </div>
-
-      {/* Selection checkmark */}
-      {isSelected && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="absolute top-2 right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center"
-        >
-          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-          </svg>
-        </motion.div>
-      )}
     </motion.button>
   );
 }

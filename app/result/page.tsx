@@ -155,7 +155,6 @@ export default function ResultPage() {
     );
   };
 
-
   // 채팅 메시지 전송 핸들러
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoadingMessage) return;
@@ -604,29 +603,82 @@ export default function ResultPage() {
 
       if (data.success) {
         // Convert v2 recommendations to match original format
-        const convertedRecommendations: Recommendation[] = data.recommendations.map((rec: any, index: number) => ({
-          product: {
-            id: String(rec.productId),
-            title: rec.모델명,
-            brand: rec.브랜드,
-            price: rec.최저가 || 0,
-            reviewUrl: rec.썸네일 || '',
-            thumbnail: rec.썸네일 || '',
-            reviewCount: rec.reviewCount || 0,
-          },
-          rank: (index + 1) as 1 | 2 | 3,
-          finalScore: rec.fitScore,
-          personalizedReason: {
-            strengths: rec.strengths || [rec.reasoning],
-            weaknesses: rec.weaknesses || [],
-          },
-          comparison: rec.comparison || [],
-          additionalConsiderations: rec.reasoning || '',
-        }));
+        const convertedRecommendations: Recommendation[] = data.recommendations.map((rec: any, index: number) => {
+          // Combine selectedTagsEvaluation and additionalPros into strengths
+          const tagEvaluationStrengths = (rec.selectedTagsEvaluation || []).map((tagEval: any) => {
+            // Format: "**[태그]** 충족/부분충족 - [evidence]"
+            let strength = `${tagEval.userTag}`;
+            if (tagEval.status === '충족') {
+              strength += ` ✓ ${tagEval.evidence}`;
+            } else if (tagEval.status === '부분충족') {
+              strength += ` △ ${tagEval.evidence}`;
+              if (tagEval.tradeoff) {
+                strength += ` (트레이드오프: ${tagEval.tradeoff})`;
+              }
+            } else if (tagEval.status === '불충족') {
+              strength += ` ✗ ${tagEval.evidence}`;
+              if (tagEval.tradeoff) {
+                strength += ` (트레이드오프: ${tagEval.tradeoff})`;
+              }
+            }
+            return strength;
+          });
+
+          const additionalProsStrengths = (rec.additionalPros || []).map((p: any) =>
+            typeof p === 'string' ? p : p.text
+          );
+
+          const allStrengths = [...tagEvaluationStrengths, ...additionalProsStrengths];
+
+          // Format weaknesses
+          const weaknesses = (rec.cons || []).map((c: any) =>
+            typeof c === 'string' ? c : c.text
+          );
+
+          // Format comparison - include anchor comparison if available
+          const comparison = rec.anchorComparison ? [rec.anchorComparison] : [];
+
+          return {
+            product: {
+              id: String(rec.productId),
+              title: rec.모델명,
+              brand: rec.브랜드,
+              price: rec.최저가 || 0,
+              reviewUrl: rec.썸네일 || '',
+              thumbnail: rec.썸네일 || '',
+              reviewCount: rec.reviewCount || 0,
+            },
+            rank: (index + 1) as 1 | 2 | 3,
+            finalScore: rec.fitScore,
+            personalizedReason: {
+              strengths: allStrengths,
+              weaknesses: weaknesses,
+            },
+            comparison: comparison,
+            additionalConsiderations: rec.purchaseTip || rec.reasoning || '',
+            // NEW: Store detailed citation data for modal (if needed later)
+            citedReviews: rec.citedReviews || [],
+            selectedTagsEvaluation: rec.selectedTagsEvaluation || [], // Store original for future use
+            additionalPros: rec.additionalPros || [], // Store original for future use
+            anchorComparison: rec.anchorComparison || '', // Store original for future use
+            prosCitations: (rec.selectedTagsEvaluation || []).map((t: any) => t.citations || []).concat(
+              (rec.additionalPros || []).map((p: any) => p.citations || [])
+            ),
+            consCitations: (rec.cons || []).map((c: any) => c.citations || []),
+            purchaseTipCitations: rec.purchaseTipCitations || [],
+          };
+        });
 
         setRecommendations(convertedRecommendations);
         setAnchorProduct(data.anchorProduct);
         setCurrentCategory(category); // Save category for search
+
+        // Save to session for caching
+        const session = loadSession();
+        session.recommendations = convertedRecommendations;
+        session.anchorProduct = data.anchorProduct;
+        saveSession(session);
+        console.log('💾 Saved tag-based recommendations to session cache');
       } else {
         setError(data.error || '추천 생성 실패');
       }
@@ -650,6 +702,20 @@ export default function ResultPage() {
     if (category && anchorId && tagSelectionsJson) {
       console.log('🎯 [Branch 0] Tag-based flow detected - using recommend-v2');
       setIsTagBasedFlow(true);
+      setCurrentCategory(category);
+
+      // Check for cached recommendations first
+      const session = loadSession();
+      if (session.recommendations && session.recommendations.length > 0 && session.anchorProduct) {
+        console.log('✓ [Branch 0-Cached] Using cached tag-based recommendations (NO API call)');
+        setRecommendations(session.recommendations);
+        setAnchorProduct(session.anchorProduct);
+        setLoading(false);
+        return;
+      }
+
+      // No cache, fetch new recommendations
+      console.log('🚀 [Branch 0-Fetch] Fetching new tag-based recommendations');
       fetchRecommendationsV2(category, anchorId);
       return;
     }
@@ -1151,8 +1217,13 @@ export default function ResultPage() {
                             <button
                               onClick={() => {
                                 logButtonClick(`추천 이유 보기: ${rec.product.title}`, 'result');
-                                setSelectedRecommendation(rec);
-                                setIsBottomSheetOpen(true);
+                                // Save product data to sessionStorage
+                                sessionStorage.setItem('selected_product', JSON.stringify(rec));
+                                // Save current full URL for back navigation
+                                sessionStorage.setItem('result_referrer_url', window.location.pathname + window.location.search);
+                                // Navigate to product detail page
+                                const categoryParam = currentCategory || isTagBasedFlow ? `?category=${currentCategory}` : '';
+                                router.push(`/product/${rec.product.id}${categoryParam}`);
                               }}
                               className="flex-[6] py-3 font-bold rounded-xl text-sm transition-all hover:opacity-90 text-white flex items-center justify-center gap-1.5"
                               style={{ backgroundColor: '#0084FE' }}
@@ -1527,7 +1598,9 @@ export default function ResultPage() {
                           >
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
-                          <span className="leading-relaxed">{parseMarkdownBold(strength)}</span>
+                          <span className="leading-relaxed">
+                            {parseMarkdownBold(strength)}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -1560,7 +1633,9 @@ export default function ResultPage() {
                               <line x1="18" y1="6" x2="6" y2="18" />
                               <line x1="6" y1="6" x2="18" y2="18" />
                             </svg>
-                            <span className="leading-relaxed">{parseMarkdownBold(weakness)}</span>
+                            <span className="leading-relaxed">
+                              {parseMarkdownBold(weakness)}
+                            </span>
                           </li>
                         ))}
                       </ul>

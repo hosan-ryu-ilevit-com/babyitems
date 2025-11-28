@@ -66,13 +66,9 @@ export default function DetailedComparisonTable({
   }, [isTagBasedFlow, anchorProduct, recommendations]);
 
   // 상품 선택 상태
-  // Tag-based flow: 앵커는 항상 고정, 나머지 추천 중 1개만 선택 가능
-  // Normal flow: 처음 2개 선택
+  // 처음 2개 제품을 기본으로 선택 (자유롭게 변경 가능)
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>(() => {
-    if (isTagBasedFlow && displayProducts.length >= 2) {
-      // 앵커(첫 번째) + 추천1(두 번째) 고정
-      return [displayProducts[0].product.id, displayProducts[1].product.id];
-    } else if (displayProducts.length >= 2) {
+    if (displayProducts.length >= 2) {
       return [displayProducts[0].product.id, displayProducts[1].product.id];
     }
     return [];
@@ -88,32 +84,18 @@ export default function DetailedComparisonTable({
   const selectedProducts = allProducts.filter(p => p && selectedProductIds.includes(p.id));
   const selectedRecommendations = displayProducts.filter(rec => selectedProductIds.includes(rec.product.id));
 
-  // 앵커 제품 ID (Tag-based flow에서만 사용)
-  const anchorProductId = isTagBasedFlow && displayProducts.length > 0 ? displayProducts[0].product.id : null;
-
   // 상품 선택 토글 핸들러
   const toggleProductSelection = (productId: string) => {
-    // Tag-based flow에서 앵커 제품은 선택 불가
-    if (isTagBasedFlow && productId === anchorProductId) {
-      return;
-    }
-
     setSelectedProductIds((prev) => {
       if (prev.includes(productId)) {
         // 이미 선택된 경우 - 선택 해제 불가 (항상 2개 유지)
         return prev;
       } else {
-        // 선택되지 않은 경우
-        if (isTagBasedFlow) {
-          // Tag-based flow: 앵커 고정 + 선택한 제품
-          return [anchorProductId!, productId];
+        // 선택되지 않은 경우 - 가장 오래된 선택 제거하고 새로운 제품 추가
+        if (prev.length >= 2) {
+          return [...prev.slice(1), productId];
         } else {
-          // Normal flow: 기존 로직
-          if (prev.length >= 2) {
-            return [...prev.slice(1), productId];
-          } else {
-            return [...prev, productId];
-          }
+          return [...prev, productId];
         }
       }
     });
@@ -192,23 +174,19 @@ export default function DetailedComparisonTable({
       {/* 상품 선택 UI */}
       <div className="bg-white rounded-2xl p-3">
         <h3 className="text-sm font-bold text-gray-900 mb-3">
-          {isTagBasedFlow ? '비교할 추천 제품 선택' : '상품 2개 선택'}
+          상품 2개 선택
         </h3>
         <div className={`grid gap-3 ${isTagBasedFlow ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {displayProducts.map((rec) => {
             const isSelected = selectedProductIds.includes(rec.product.id);
             const isAnchor = rec.rank === 0;
-            const isAnchorFixed = isTagBasedFlow && isAnchor;
 
             return (
               <button
                 key={rec.product.id}
                 onClick={() => toggleProductSelection(rec.product.id)}
-                disabled={isAnchorFixed}
                 className={`relative flex flex-col items-center gap-2 p-3 rounded-xl transition-all ${
-                  isAnchorFixed
-                    ? 'bg-blue-100 border-2 border-blue-400 cursor-default opacity-90'
-                    : isSelected
+                  isSelected
                     ? 'bg-blue-50 border-2 border-blue-500'
                     : 'bg-gray-50 border-2 border-transparent hover:border-gray-300'
                 }`}
@@ -251,11 +229,7 @@ export default function DetailedComparisonTable({
         </div>
 
         {/* 선택 안내 메시지 */}
-        {isTagBasedFlow ? (
-          <p className="text-xs text-gray-500 text-center mt-3">
-            <span className="font-semibold text-blue-600">기준 제품</span>과 비교할 추천 제품을 선택하세요
-          </p>
-        ) : selectedProductIds.length < 2 ? (
+        {selectedProductIds.length < 2 ? (
           <p className="text-xs text-gray-500 text-center mt-3">
             {selectedProductIds.length === 0
               ? '2개의 상품을 선택해주세요'

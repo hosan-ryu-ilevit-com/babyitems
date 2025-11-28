@@ -156,6 +156,22 @@ export interface Recommendation {
   };
   comparison: string[]; // 리스트 형태로 변경 (2위 vs, 3위 vs)
   additionalConsiderations: string;
+  // NEW: Citation data for displaying source reviews
+  citedReviews?: Array<{ index: number; text: string; rating: number }>;
+  prosCitations?: number[][];  // Array of citation arrays (one per pros item)
+  consCitations?: number[][];  // Array of citation arrays (one per cons item)
+  purchaseTipCitations?: number[];
+  // NEW: v2 API structured data (for future use)
+  selectedTagsEvaluation?: Array<{
+    userTag: string;
+    priority: number;
+    status: '충족' | '부분충족' | '불충족';
+    evidence: string;
+    citations: number[];
+    tradeoff?: string;
+  }>;
+  additionalPros?: Array<{ text: string; citations: number[] }>;
+  anchorComparison?: string;
 }
 
 // Conversational flow state
@@ -201,6 +217,7 @@ export interface SessionState {
   selectedProsTags?: string[];          // 선택된 장점 태그 IDs
   selectedConsTags?: string[];          // 선택된 단점 태그 IDs
   selectedAdditionalTags?: string[];    // 선택된 추가 고려사항 태그 IDs
+  anchorProduct?: any;                  // Tag-based flow의 앵커 제품 (캐싱용)
 
   // Tracking fields
   phone?: string;                       // URL 파라미터로 전달된 전화번호 (?phone=01012345678)

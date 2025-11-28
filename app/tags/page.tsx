@@ -786,7 +786,7 @@ function TagsPageContent() {
                                   className={`text-[10px] px-1.5 py-0.5 rounded-md font-medium ${
                                     isSelected
                                       ? 'bg-white text-rose-600'
-                                      : 'bg-gray-200 text-gray-600'
+                                      : 'bg-white/70 text-gray-500'
                                   }`}
                                 >
                                   {attrName}
@@ -884,8 +884,7 @@ function TagsPageContent() {
                 3/3
               </div>
 
-              <h2 className="text-lg font-bold text-gray-900 mb-2">예산을 선택하세요</h2>
-              <p className="text-sm text-gray-600 mb-6">예산 범위 내에서 최적의 제품을 찾아드립니다</p>
+              <h2 className="text-lg font-bold text-gray-900 mb-2">마지막이에요! <br></br>예산을 선택해주세요</h2>
 
               {/* 미리 정의된 예산 범위 */}
               <div className="grid grid-cols-2 gap-3 mb-4">
@@ -985,14 +984,7 @@ function TagsPageContent() {
                       </motion.div>
                     )}
 
-                    <div className="text-xs text-gray-600 mb-3">
-                      <p className="mb-1 font-semibold">💡 입력 예시:</p>
-                      <ul className="space-y-0.5 text-gray-500">
-                        <li>• &quot;7만 이하&quot; → 7만원까지의 제품 추천</li>
-                        <li>• &quot;10만원 정도&quot; → 9~11만원대 제품 추천</li>
-                        <li>• &quot;15~20만원&quot; → 15~20만원 사이 제품 추천</li>
-                      </ul>
-                    </div>
+                  
 
                     <button
                       onClick={() => {
@@ -1003,7 +995,7 @@ function TagsPageContent() {
                       }}
                       className="text-sm text-gray-600 hover:text-gray-900 underline"
                     >
-                      범위로 다시 선택하기
+                      취소
                     </button>
                   </div>
                 </motion.div>

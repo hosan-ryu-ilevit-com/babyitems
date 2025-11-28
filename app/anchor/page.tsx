@@ -131,14 +131,6 @@ function AnchorPageContent() {
               </div>
               <div className="w-6" /> {/* Spacer for alignment */}
             </div>
-           
-          </div>
-          {/* Progress Bar */}
-          <div className="w-full h-1 bg-gray-200">
-            <div
-              className="h-full bg-[#0084FE] transition-all duration-300"
-              style={{ width: selectedProduct ? '50%' : '25%' }}
-            />
           </div>
         </header>
 
@@ -164,7 +156,7 @@ function AnchorPageContent() {
                 )}
                 <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
                   {/* 브랜드 */}
-                  <div className="text-xs text-gray-500 font-medium mb-0.5">
+                  <div className="text-xs text-gray-700 font-medium mb-0.5">
                     {selectedProduct.브랜드}
                   </div>
                   {/* 제품명 */}
@@ -175,15 +167,15 @@ function AnchorPageContent() {
                   <div className="space-y-0.5">
                     {selectedProduct.최저가 && (
                       <p className="text-base font-bold text-gray-900">
-                        {selectedProduct.최저가.toLocaleString()}<span className="text-sm">원</span>
+                        {selectedProduct.최저가.toLocaleString()}<span className="text-xs">원</span>
                       </p>
                     )}
-                    <div className="flex items-center gap-2 flex-wrap text-xs">
-                      <span className="text-gray-400">
-                        랭킹 #{selectedProduct.순위}
+                    <div className="flex items-center gap-2 flex-wrap text-xs font-semibold">
+                      <span className="text-gray-700">
+                        랭킹 {selectedProduct.순위}위
                       </span>
                       {selectedProduct.reviewCount && selectedProduct.reviewCount > 0 && (
-                        <span className="text-gray-600 font-medium flex items-center gap-1">
+                        <span className="text-gray-500 font-medium flex items-center gap-0.5">
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                           </svg>
@@ -199,7 +191,7 @@ function AnchorPageContent() {
                 onClick={() => setShowProductList(true)}
                 className="mt-4 w-full py-3 px-4 bg-gray-100 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-200 transition-all"
               >
-                다른 제품으로 변경하기
+                제품 변경
               </button>
             </motion.div>
           )}
@@ -211,7 +203,7 @@ function AnchorPageContent() {
             transition={{ delay: 0.3 }}
             className="mt-6 text-center"
           >
-            <p className="text-lg font-bold text-gray-700">인기 제품의 리뷰를 분석해서</p>
+            <p className="text-lg font-bold text-gray-700">실시간 1위 제품의 리뷰를 분석해서</p>
             <p className="text-lg font-bold text-gray-700 mb-6">맞춤형 추천에 활용할게요</p>
 
             {/* Guide Button */}
