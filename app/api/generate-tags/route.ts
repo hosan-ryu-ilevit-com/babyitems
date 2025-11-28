@@ -3,6 +3,7 @@ import { GoogleGenAI } from '@google/genai';
 import { getReviewsForProduct, sampleBalancedBySentiment, formatReviewsForLLM } from '@/lib/review';
 import { Category } from '@/lib/data';
 import { cache, TTL } from '@/lib/cache/simple';
+import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) throw new Error('GEMINI_API_KEY is required');
@@ -13,6 +14,7 @@ interface Tag {
   id: string;
   text: string;
   mentionCount?: number;
+  attributes: Record<string, number>; // NEW: { temperature_control: 1.0, usability: 0.3 }
 }
 
 interface GeneratedTags {
@@ -88,6 +90,18 @@ export async function POST(req: NextRequest) {
     console.log(`   High reviews: ${highReviewsText.length} chars → Pros`);
     console.log(`   Low reviews: ${lowReviewsText.length} chars → Cons`);
 
+    // Build category attributes section for prompt
+    const categoryAttrs = CATEGORY_ATTRIBUTES[category as Category] || [];
+    const attributesSection = categoryAttrs.length > 0
+      ? categoryAttrs.map(attr => `
+**${attr.name} (${attr.key})**
+- 설명: ${attr.description}
+- 중요도: ${attr.importance}
+- 예시: ${attr.examples.join(', ')}`).join('\n')
+      : '(카테고리 속성이 아직 정의되지 않았습니다)';
+
+    console.log(`📊 Category attributes: ${categoryAttrs.length} attributes loaded for ${category}`);
+
     // Generate pros and cons in parallel for 2x speed boost
     console.log(`⏱️  [${Date.now() - startTime}ms] Starting parallel LLM calls...`);
     const analysisStart = Date.now();
@@ -102,6 +116,9 @@ export async function POST(req: NextRequest) {
 
 ${highReviewsText}
 
+**이 카테고리(${category})의 핵심 평가 속성:**
+${attributesSection}
+
 **출력 형식 (반드시 JSON만 출력):**
 
 \`\`\`json
@@ -110,7 +127,11 @@ ${highReviewsText}
     {
       "id": "pros_1",
       "text": "구체적인 장점 설명 (20-40자, 사용자 입장에서 와닿는 문장)",
-      "mentionCount": 5
+      "mentionCount": 5,
+      "attributes": {
+        "primary_attribute_key": 1.0,
+        "secondary_attribute_key": 0.3
+      }
     }
   ]
 }
@@ -122,18 +143,26 @@ ${highReviewsText}
 - 각 특징은 최대한 구체적이고 실용적이어야 함 (예: "온도 조절이 정확해요" → "1도 단위로 정확하게 온도 조절할 수 있어요")
 - 사용자 입장에서 선택하고 싶은 문장으로 작성 (평가가 아닌 설명)
 - 알기 어려운 단어가 포함된다면 쉬운 단어와 병기. PP 소재, S 젖꼭지 등 육아용품 모르는 일반인들은 잘 모를 용어들 설명 필요. (예: ISOFIX → 국제표준인증(ISOFIX))
+- **attributes 필드**: 각 장점이 관련된 속성을 매핑하세요
+  - 주요 속성(primary): weight 1.0
+  - 부차적 속성(secondary): weight 0.3-0.5
+  - 관련 없는 속성은 포함하지 마세요
+  - 속성 key는 위의 "핵심 평가 속성"에서 제공된 key를 사용하세요
 - 반드시 JSON 형식만 출력`,
         config: { temperature: 0.1 },
       }),
 
       // Generate CONS from low-rating reviews
       ai.models.generateContent({
-        model: 'gemini-2.5-flash-lite', 
+        model: 'gemini-2.5-flash-lite',
         contents: `다음은 "${productTitle}" 제품의 **저평점(1-2★) 리뷰**입니다. 이 리뷰들을 분석해서 **단점만** 추출해주세요.
 
 **리뷰 데이터 (총 ${lowReviews.length}개 저평점):**
 
 ${lowReviewsText}
+
+**이 카테고리(${category})의 핵심 평가 속성:**
+${attributesSection}
 
 **출력 형식 (반드시 JSON만 출력):**
 
@@ -143,7 +172,11 @@ ${lowReviewsText}
     {
       "id": "cons_1",
       "text": "구체적인 단점 설명 (20-40자, 사용자 입장에서 와닿는 문장)",
-      "mentionCount": 3
+      "mentionCount": 3,
+      "attributes": {
+        "primary_attribute_key": 1.0,
+        "secondary_attribute_key": 0.3
+      }
     }
   ]
 }
@@ -155,6 +188,11 @@ ${lowReviewsText}
 - 각 특징은 최대한 구체적이고 실용적이어야 함. 추상적이지 않아야 하며(ex: 편리함 극대화) 구체적인 기능(피처)와 대응되어야 함(ex: 원터치 모드)
 - 사용자 입장에서 선택하고 싶은 문장으로 작성 (평가가 아닌 설명)
 - 일상적으로 알기 어려운 단어가 포함된다면 쉬운 단어와 병기
+- **attributes 필드**: 각 단점이 관련된 속성을 매핑하세요
+  - 주요 속성(primary): weight 1.0
+  - 부차적 속성(secondary): weight 0.3-0.5
+  - 관련 없는 속성은 포함하지 마세요
+  - 속성 key는 위의 "핵심 평가 속성"에서 제공된 key를 사용하세요
 - 반드시 JSON 형식만 출력`,
         config: { temperature: 0.1 },
       }),
@@ -216,12 +254,27 @@ ${lowReviewsText}
       );
     }
 
+    // Ensure all tags have attributes field (fallback to empty object if missing)
+    prosData.pros.forEach(tag => {
+      if (!tag.attributes || typeof tag.attributes !== 'object') {
+        tag.attributes = {};
+        console.warn(`⚠️ Tag "${tag.id}" missing attributes field, initialized as empty`);
+      }
+    });
+    consData.cons.forEach(tag => {
+      if (!tag.attributes || typeof tag.attributes !== 'object') {
+        tag.attributes = {};
+        console.warn(`⚠️ Tag "${tag.id}" missing attributes field, initialized as empty`);
+      }
+    });
+
     const tags: GeneratedTags = {
       pros: prosData.pros,
       cons: consData.cons,
     };
 
     console.log(`✅ Generated ${tags.pros.length} pros and ${tags.cons.length} cons in parallel`);
+    console.log(`📊 Attribute mappings: Pros(${tags.pros.filter(t => Object.keys(t.attributes).length > 0).length}/${tags.pros.length}), Cons(${tags.cons.filter(t => Object.keys(t.attributes).length > 0).length}/${tags.cons.length})`);
     console.log(`⏱️  [${Date.now() - startTime}ms] Parsing completed`);
 
     // Cache the result for 24 hours

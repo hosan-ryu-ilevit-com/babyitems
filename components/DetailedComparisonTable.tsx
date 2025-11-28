@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Recommendation } from '@/types';
 import { products } from '@/data/products';
@@ -30,6 +30,7 @@ export default function DetailedComparisonTable({
 }: DetailedComparisonTableProps) {
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>>({});
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
+  const [isSpecsExpanded, setIsSpecsExpanded] = useState(false); // 상세 스펙 펼치기/접기 상태
 
   // Tag-based flow: 4개 제품 (앵커 + 추천 3개), Normal flow: 추천 3개
   // useMemo로 메모이제이션하여 무한 루프 방지
@@ -174,7 +175,7 @@ export default function DetailedComparisonTable({
       {/* 상품 선택 UI */}
       <div className="bg-white rounded-2xl p-3">
         <h3 className="text-sm font-bold text-gray-900 mb-3">
-          비교할 상품 2개를 선택하세요 {isTagBasedFlow && '(앵커 포함 4개)'}
+          상품 2개 선택
         </h3>
         <div className={`grid gap-3 ${isTagBasedFlow ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {displayProducts.map((rec) => {
@@ -205,7 +206,7 @@ export default function DetailedComparisonTable({
                   )}
                   {/* 랭킹 배지 또는 앵커 표시 */}
                   {isAnchor ? (
-                    <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
+                    <div className="absolute top-0 left-0 px-1.5 py-1.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
                       <span className="text-white font-bold text-[9px] leading-none">기준</span>
                     </div>
                   ) : showRankBadge ? (
@@ -217,8 +218,9 @@ export default function DetailedComparisonTable({
                   ) : null}
                 </div>
 
-                {/* 제품명 - 3줄까지 표시 */}
+                {/* 브랜드 + 제품명 - 3줄까지 표시 */}
                 <p className="text-xs text-gray-900 font-semibold text-center line-clamp-3 leading-tight">
+                  {rec.product.brand && <span className="text-gray-600">{rec.product.brand} </span>}
                   {rec.product.title}
                 </p>
               </button>
@@ -309,6 +311,27 @@ export default function DetailedComparisonTable({
               </tr>
             </thead>
           <tbody>
+            {/* 브랜드 */}
+            <tr className="border-b border-gray-100">
+              <td colSpan={3} className="py-2 px-1.5">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-1 text-center">
+                    <p className="text-xs text-gray-700 leading-tight font-semibold">
+                      {selectedRecommendations[0]?.product.brand || '-'}
+                    </p>
+                  </div>
+                  <div className="text-xs font-medium text-gray-500 text-center whitespace-nowrap px-3">
+                    브랜드
+                  </div>
+                  <div className="flex-1 text-center">
+                    <p className="text-xs text-gray-700 leading-tight font-semibold">
+                      {selectedRecommendations[1]?.product.brand || '-'}
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
             {/* 제품명 */}
             <tr className="border-b border-gray-100">
               <td colSpan={3} className="py-2 px-1.5">
@@ -676,7 +699,34 @@ export default function DetailedComparisonTable({
               </tr>
             )}
 
-            {/* 스펙 비교 - Tag-based flow에서만 표시 */}
+            {/* 한줄 비교 정리 */}
+            {!isLoadingComparison && Object.keys(productDetails).length > 0 && selectedProducts.length === 2 && (
+              <tr className="border-b border-gray-100 bg-gray-50">
+                <td colSpan={3} className="py-3 px-3">
+                  <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교 정리</h4>
+                  <div className="space-y-2.5">
+                    {selectedProducts.map((product, index) => {
+                      if (!product) return null;
+                      const details = productDetails[product.id];
+                      if (!details || !details.comparison) return null;
+
+                      return (
+                        <div key={product.id} className="flex items-start gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 text-white text-xs font-bold shrink-0 mt-0.5">
+                            {index + 1}
+                          </span>
+                          <p className="text-xs text-gray-700 leading-relaxed flex-1">
+                            <span className="font-semibold">{product.brand} {product.title}</span>: {details.comparison}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </td>
+              </tr>
+            )}
+
+            {/* 스펙 비교 - Tag-based flow에서만 표시, 접을 수 있음 */}
             {isTagBasedFlow && !isLoadingComparison && Object.keys(productDetails).length > 0 && (() => {
               const product1 = selectedProducts[0];
               const product2 = selectedProducts[1];
@@ -689,49 +739,98 @@ export default function DetailedComparisonTable({
 
               // 공통 스펙 키 추출
               const allKeys = new Set([...Object.keys(specs1), ...Object.keys(specs2)]);
+
+              // 제품명/브랜드/색상 등 메타 정보
+              const metaKeys = ['브랜드', '모델명', '색상', '컬러'];
+              const metaSpecKeys = Array.from(allKeys).filter(key => metaKeys.includes(key));
+
+              // 실제 스펙 정보 (메타 정보와 가격 제외)
               const specKeys = Array.from(allKeys).filter(key => {
-                // 중요한 스펙만 선별 (브랜드, 모델명, 가격 제외)
-                return key !== '브랜드' && key !== '모델명' && key !== '가격';
+                return !metaKeys.includes(key) && key !== '가격';
+              }).filter(key => {
+                // 양쪽이 모두 없거나 '-'인 경우 제외
+                const value1 = specs1[key];
+                const value2 = specs2[key];
+                const isEmpty1 = !value1 || value1 === '-' || value1 === '';
+                const isEmpty2 = !value2 || value2 === '-' || value2 === '';
+                return !(isEmpty1 && isEmpty2);
               });
 
-              if (specKeys.length === 0) return null;
+              if (specKeys.length === 0 && metaSpecKeys.length === 0) return null;
 
               return (
-                <tr className="border-b border-gray-100">
-                  <td colSpan={3} className="py-3 px-1.5">
-                    <div className="text-center mb-2">
-                      <span className="text-xs font-medium text-gray-500">상세 스펙</span>
-                    </div>
-                    <div className="space-y-1.5">
-                      {specKeys.map((key, idx) => {
-                        const value1 = specs1[key];
-                        const value2 = specs2[key];
+                <>
+                  {/* 접기/펼치기 헤더 */}
+                  <tr className="border-b border-gray-100 cursor-pointer hover:bg-gray-50" onClick={() => setIsSpecsExpanded(!isSpecsExpanded)}>
+                    <td colSpan={3} className="py-3 px-3">
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-xs font-semibold text-gray-700">상세 스펙</span>
+                        <svg
+                          className={`w-4 h-4 text-gray-500 transition-transform ${isSpecsExpanded ? 'rotate-180' : ''}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </td>
+                  </tr>
 
-                        // 값이 둘 다 없으면 skip
-                        if (!value1 && !value2) return null;
+                  {/* 펼쳐진 상태일 때만 표시 (애니메이션 적용) */}
+                  <AnimatePresence>
+                    {isSpecsExpanded && (
+                      <tr className="border-b border-gray-100">
+                        <td colSpan={3} className="overflow-hidden">
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            className="py-3 px-3"
+                          >
+                            {/* 통합 스펙 테이블 (메타 정보 + 상세 스펙) */}
+                            {(metaSpecKeys.length > 0 || specKeys.length > 0) && (
+                              <table className="w-full text-xs">
+                                <tbody>
+                                  {/* 메타 정보 */}
+                                  {metaSpecKeys.map((key, idx) => {
+                                    const value1 = specs1[key] || '-';
+                                    const value2 = specs2[key] || '-';
+                                    // 양쪽 모두 비어있으면 skip
+                                    if ((value1 === '-' || !value1) && (value2 === '-' || !value2)) return null;
 
-                        return (
-                          <div key={idx} className="flex items-center text-xs">
-                            {/* 왼쪽 값 */}
-                            <div className="flex-1 text-left px-2 py-1.5 rounded bg-gray-50">
-                              <span className="text-gray-700">{value1 || '-'}</span>
-                            </div>
+                                    return (
+                                      <tr key={`meta-${idx}`} className="border-b border-gray-100">
+                                        <td className="py-2 px-2 text-left text-gray-700 w-[35%]">{value1}</td>
+                                        <td className="py-2 px-2 text-center font-medium text-gray-500 bg-gray-50 w-[30%]">{key}</td>
+                                        <td className="py-2 px-2 text-right text-gray-700 w-[35%]">{value2}</td>
+                                      </tr>
+                                    );
+                                  })}
 
-                            {/* 중앙 레이블 */}
-                            <div className="px-3 text-center min-w-[80px]">
-                              <span className="text-gray-500 font-medium">{key}</span>
-                            </div>
+                                  {/* 상세 스펙 */}
+                                  {specKeys.map((key, idx) => {
+                                    const value1 = specs1[key] || '-';
+                                    const value2 = specs2[key] || '-';
 
-                            {/* 오른쪽 값 */}
-                            <div className="flex-1 text-right px-2 py-1.5 rounded bg-gray-50">
-                              <span className="text-gray-700">{value2 || '-'}</span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </td>
-                </tr>
+                                    return (
+                                      <tr key={`spec-${idx}`} className="border-b border-gray-100 last:border-0">
+                                        <td className="py-2 px-2 text-left text-gray-700 w-[35%]">{value1}</td>
+                                        <td className="py-2 px-2 text-center font-medium text-gray-500 bg-gray-50 w-[30%]">{key}</td>
+                                        <td className="py-2 px-2 text-right text-gray-700 w-[35%]">{value2}</td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            )}
+                          </motion.div>
+                        </td>
+                      </tr>
+                    )}
+                  </AnimatePresence>
+                </>
               );
             })()}
 
@@ -799,31 +898,6 @@ export default function DetailedComparisonTable({
             })()}
           </tbody>
         </table>
-
-        {/* 한줄 비교 정리 - 테이블 아래 별도 섹션 */}
-        {!isLoadingComparison && Object.keys(productDetails).length > 0 && selectedProducts.length === 2 && (
-          <div className="mt-6 p-4 bg-gray-50 rounded-xl">
-            <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교 정리</h4>
-            <div className="space-y-3">
-              {selectedProducts.map((product, index) => {
-                if (!product) return null;
-                const details = productDetails[product.id];
-                if (!details || !details.comparison) return null;
-
-                return (
-                  <div key={product.id} className="flex items-start gap-2">
-                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-gray-900/70 text-white text-[10px] font-bold shrink-0 mt-0.5">
-                      {index + 1}
-                    </span>
-                    <p className="text-sm text-gray-700 leading-relaxed flex-1">
-                      <span className="font-semibold">{product.title}</span>: {details.comparison}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
       )}
     </motion.div>

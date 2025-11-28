@@ -59,6 +59,15 @@
       "이벤트 감지 녹화": "-",
       "녹화 스케줄 설정": "-",
       "기타특징": "스마트폰 3대까지 연결 가능"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 85,
+      "security_privacy": 90,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 65,
+      "storage_recording": 80,
+      "two_way_audio": 80
     }
   },
   {
@@ -121,6 +130,16 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 92,
+      "smart_detection_tracking": 88,
+      "security_privacy": null,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 88,
+      "storage_recording": 75,
+      "two_way_audio": 80,
+      "ip66_waterproof_dustproof": null
     }
   },
   {
@@ -183,6 +202,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 92,
+      "smart_detection_tracking": 88,
+      "security_privacy": 75,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 88,
+      "storage_recording": 65,
+      "two_way_audio": 85
     }
   },
   {
@@ -245,6 +273,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 92,
+      "smart_detection_tracking": 88,
+      "security_privacy": null,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 89,
+      "storage_recording": 75,
+      "two_way_audio": 80
     }
   },
   {
@@ -307,6 +344,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "PC관리 프로그램"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 88,
+      "security_privacy": 75,
+      "connectivity_app_usability": 92,
+      "field_of_view_rotation": 85,
+      "storage_recording": 70,
+      "two_way_audio": 85
     }
   },
   {
@@ -369,6 +415,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "PC관리 프로그램"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 88,
+      "smart_detection_tracking": 75,
+      "security_privacy": 65,
+      "connectivity_app_usability": 80,
+      "field_of_view_rotation": 90,
+      "storage_recording": 40,
+      "two_way_audio": 70
     }
   },
   {
@@ -431,6 +486,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "PC관리 프로그램"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 80,
+      "security_privacy": 85,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 85,
+      "storage_recording": 70,
+      "two_way_audio": 80
     }
   },
   {
@@ -493,6 +557,15 @@
       "이벤트 감지 녹화": "-",
       "녹화 스케줄 설정": "-",
       "기타특징": "NAS연결, 자석스탠드"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 75,
+      "smart_detection_tracking": 70,
+      "security_privacy": null,
+      "connectivity_app_usability": 90,
+      "field_of_view_rotation": 30,
+      "storage_recording": null,
+      "two_way_audio": null
     }
   },
   {
@@ -555,6 +628,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "연질구조 각도 조절, 리모컨 허브"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 85,
+      "smart_detection_tracking": 75,
+      "security_privacy": null,
+      "connectivity_app_usability": 80,
+      "field_of_view_rotation": 40,
+      "storage_recording": 70,
+      "two_way_audio": 70
     }
   },
   {
@@ -617,6 +699,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 85,
+      "security_privacy": 80,
+      "connectivity_app_usability": 88,
+      "field_of_view_rotation": 85,
+      "storage_recording": 75,
+      "two_way_audio": 80
     }
   },
   {
@@ -679,6 +770,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 75,
+      "security_privacy": 95,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 80,
+      "storage_recording": 70,
+      "two_way_audio": 75
     }
   },
   {
@@ -741,6 +841,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "-",
       "기타특징": "영상통화"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 85,
+      "smart_detection_tracking": null,
+      "security_privacy": null,
+      "connectivity_app_usability": 75,
+      "field_of_view_rotation": 80,
+      "storage_recording": null,
+      "two_way_audio": 90
     }
   },
   {
@@ -803,6 +912,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "-",
       "기타특징": "부착 가능"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 75,
+      "smart_detection_tracking": 70,
+      "security_privacy": null,
+      "connectivity_app_usability": 45,
+      "field_of_view_rotation": 60,
+      "storage_recording": 30,
+      "two_way_audio": 70
     }
   },
   {
@@ -865,6 +983,15 @@
       "이벤트 감지 녹화": "-",
       "녹화 스케줄 설정": "-",
       "기타특징": "미홈 앱 사용"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 85,
+      "smart_detection_tracking": 75,
+      "security_privacy": 80,
+      "connectivity_app_usability": 90,
+      "field_of_view_rotation": 70,
+      "storage_recording": 40,
+      "two_way_audio": 70
     }
   },
   {
@@ -927,6 +1054,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": null,
+      "smart_detection_tracking": null,
+      "security_privacy": null,
+      "connectivity_app_usability": 75,
+      "field_of_view_rotation": null,
+      "storage_recording": null,
+      "two_way_audio": null
     }
   },
   {
@@ -989,6 +1125,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 80,
+      "smart_detection_tracking": 75,
+      "security_privacy": 70,
+      "connectivity_app_usability": 65,
+      "field_of_view_rotation": 35,
+      "storage_recording": 70,
+      "two_way_audio": 60
     }
   },
   {
@@ -1051,6 +1196,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 95,
+      "smart_detection_tracking": 90,
+      "security_privacy": 85,
+      "connectivity_app_usability": 90,
+      "field_of_view_rotation": 90,
+      "storage_recording": 75,
+      "two_way_audio": 80
     }
   },
   {
@@ -1113,6 +1267,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 75,
+      "security_privacy": 95,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 60,
+      "storage_recording": 70,
+      "two_way_audio": 80
     }
   },
   {
@@ -1175,6 +1338,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "온도, 습도 확인, 리모컨 허브, 듀얼와이파이"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 85,
+      "smart_detection_tracking": 75,
+      "security_privacy": 90,
+      "connectivity_app_usability": 60,
+      "field_of_view_rotation": 80,
+      "storage_recording": 65,
+      "two_way_audio": 70
     }
   },
   {
@@ -1237,6 +1409,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "자체 경보음"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 80,
+      "smart_detection_tracking": 75,
+      "security_privacy": 70,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 40,
+      "storage_recording": 70,
+      "two_way_audio": 65
     }
   },
   {
@@ -1299,6 +1480,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "자체 경보음"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 78,
+      "smart_detection_tracking": 75,
+      "security_privacy": 70,
+      "connectivity_app_usability": 88,
+      "field_of_view_rotation": 45,
+      "storage_recording": 65,
+      "two_way_audio": 72
     }
   },
   {
@@ -1361,6 +1551,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "자석 설치"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 85,
+      "security_privacy": 95,
+      "connectivity_app_usability": 88,
+      "field_of_view_rotation": 65,
+      "storage_recording": 60,
+      "two_way_audio": 80
     }
   },
   {
@@ -1423,6 +1622,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": null,
+      "smart_detection_tracking": null,
+      "security_privacy": null,
+      "connectivity_app_usability": null,
+      "field_of_view_rotation": 88,
+      "storage_recording": null,
+      "two_way_audio": null
     }
   },
   {
@@ -1485,6 +1693,16 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 85,
+      "security_privacy": 80,
+      "connectivity_app_usability": 88,
+      "field_of_view_rotation": 85,
+      "storage_recording": 75,
+      "two_way_audio": 70,
+      "price_performance_ratio": 95
     }
   },
   {
@@ -1547,6 +1765,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 75,
+      "smart_detection_tracking": 70,
+      "security_privacy": null,
+      "connectivity_app_usability": 80,
+      "field_of_view_rotation": 70,
+      "storage_recording": null,
+      "two_way_audio": 75
     }
   },
   {
@@ -1609,6 +1836,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 85,
+      "security_privacy": 75,
+      "connectivity_app_usability": 80,
+      "field_of_view_rotation": 88,
+      "storage_recording": 65,
+      "two_way_audio": 70
     }
   },
   {
@@ -1671,6 +1907,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 85,
+      "security_privacy": 80,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": 80,
+      "storage_recording": 75,
+      "two_way_audio": 70
     }
   },
   {
@@ -1733,6 +1978,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "나이트비전 2종류 설정 가능"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 88,
+      "security_privacy": 85,
+      "connectivity_app_usability": 80,
+      "field_of_view_rotation": 82,
+      "storage_recording": 75,
+      "two_way_audio": 70
     }
   },
   {
@@ -1795,6 +2049,16 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 95,
+      "smart_detection_tracking": 90,
+      "security_privacy": 80,
+      "connectivity_app_usability": 90,
+      "field_of_view_rotation": 85,
+      "storage_recording": 75,
+      "two_way_audio": 70,
+      "price_performance": 90
     }
   },
   {
@@ -1857,6 +2121,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "자체 경보음"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": null,
+      "smart_detection_tracking": null,
+      "security_privacy": null,
+      "connectivity_app_usability": null,
+      "field_of_view_rotation": null,
+      "storage_recording": null,
+      "two_way_audio": null
     }
   },
   {
@@ -1919,6 +2192,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 75,
+      "smart_detection_tracking": 90,
+      "security_privacy": null,
+      "connectivity_app_usability": 70,
+      "field_of_view_rotation": null,
+      "storage_recording": 30,
+      "two_way_audio": 75
     }
   },
   {
@@ -1981,6 +2263,15 @@
       "이벤트 감지 녹화": "O",
       "녹화 스케줄 설정": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 90,
+      "smart_detection_tracking": 85,
+      "security_privacy": null,
+      "connectivity_app_usability": 75,
+      "field_of_view_rotation": 80,
+      "storage_recording": 85,
+      "two_way_audio": 70
     }
   },
   {
@@ -2043,6 +2334,15 @@
       "이벤트 감지 녹화": "-",
       "녹화 스케줄 설정": "-",
       "기타특징": "PC관리 프로그램, 듀얼밴드"
+    },
+    "attributeScores": {
+      "image_quality_night_vision": 80,
+      "smart_detection_tracking": null,
+      "security_privacy": null,
+      "connectivity_app_usability": 85,
+      "field_of_view_rotation": null,
+      "storage_recording": null,
+      "two_way_audio": null
     }
   }
 ]

@@ -52,6 +52,15 @@
       "연령설정": "-",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 90,
+      "measurement_speed": 95,
+      "night_usability": 80,
+      "hygiene_maintenance": 75,
+      "smart_features": 85,
+      "ease_of_use": 85,
+      "durability_reliability": 80
     }
   },
   {
@@ -107,6 +116,15 @@
       "연령설정": "-",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 90,
+      "measurement_speed": 90,
+      "night_usability": null,
+      "hygiene_maintenance": null,
+      "smart_features": null,
+      "ease_of_use": 85,
+      "durability_reliability": null
     }
   },
   {
@@ -162,6 +180,15 @@
       "연령설정": "-",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 90,
+      "measurement_speed": 95,
+      "night_usability": 90,
+      "hygiene_maintenance": 70,
+      "smart_features": 85,
+      "ease_of_use": 75,
+      "durability_reliability": null
     }
   },
   {
@@ -217,6 +244,15 @@
       "연령설정": "-",
       "측정부라이트": "O",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 50,
+      "measurement_speed": null,
+      "night_usability": null,
+      "hygiene_maintenance": null,
+      "smart_features": null,
+      "ease_of_use": 85,
+      "durability_reliability": null
     }
   },
   {
@@ -272,6 +308,15 @@
       "연령설정": "-",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 95,
+      "measurement_speed": 95,
+      "night_usability": 85,
+      "hygiene_maintenance": 75,
+      "smart_features": 60,
+      "ease_of_use": 90,
+      "durability_reliability": 80
     }
   },
   {
@@ -327,6 +372,15 @@
       "연령설정": "-",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": null,
+      "measurement_speed": null,
+      "night_usability": null,
+      "hygiene_maintenance": null,
+      "smart_features": null,
+      "ease_of_use": null,
+      "durability_reliability": null
     }
   },
   {
@@ -382,6 +436,15 @@
       "연령설정": "O",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 75,
+      "measurement_speed": 85,
+      "night_usability": null,
+      "hygiene_maintenance": 70,
+      "smart_features": 80,
+      "ease_of_use": 80,
+      "durability_reliability": 60
     }
   },
   {
@@ -437,6 +500,15 @@
       "연령설정": "-",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 45,
+      "measurement_speed": 90,
+      "night_usability": 35,
+      "hygiene_maintenance": 75,
+      "smart_features": 70,
+      "ease_of_use": 80,
+      "durability_reliability": 60
     }
   },
   {
@@ -492,6 +564,15 @@
       "연령설정": "-",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 75,
+      "measurement_speed": null,
+      "night_usability": null,
+      "hygiene_maintenance": null,
+      "smart_features": null,
+      "ease_of_use": null,
+      "durability_reliability": null
     }
   },
   {
@@ -547,6 +628,15 @@
       "연령설정": "-",
       "측정부라이트": "-",
       "멜로디": "-"
+    },
+    "attributeScores": {
+      "accuracy_consistency": 65,
+      "measurement_speed": 95,
+      "night_usability": 60,
+      "hygiene_maintenance": 75,
+      "smart_features": 70,
+      "ease_of_use": 85,
+      "durability_reliability": 30
     }
   }
 ]

@@ -23,7 +23,7 @@ import { products as ALL_PRODUCTS } from '@/data/products';
 import ProductListItem from '@/components/ProductListItem';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import { Product } from '@/types';
-import { ANCHOR_PRODUCTS, PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS, TAG_SELECTION_LIMITS, POPULAR_TAG_IDS } from '@/data/priorityTags';
+import { ANCHOR_PRODUCTS, PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS, TAG_SELECTION_LIMITS, POPULAR_TAG_IDS, CustomTag } from '@/data/priorityTags';
 import { convertTagsToPriority } from '@/lib/utils/tagToPriority';
 import ProductTagCard from '@/components/ProductTagCard';
 import { ChatInputBar } from '@/components/ChatInputBar';
@@ -122,6 +122,13 @@ function PriorityPageContent() {
   const [selectedAdditionalTags, setSelectedAdditionalTags] = useState<string[]>([]);
   const [anchorProducts, setAnchorProducts] = useState<Product[]>([]);
 
+  // 커스텀 태그 상태 (사용자 직접 입력)
+  const [customProsTags, setCustomProsTags] = useState<CustomTag[]>([]);
+  const [customConsTags, setCustomConsTags] = useState<CustomTag[]>([]);
+  const [customTagInput, setCustomTagInput] = useState('');
+  const [isAddingCustomTag, setIsAddingCustomTag] = useState<'pros' | 'cons' | null>(null);
+  const [isAnalyzingCustomTag, setIsAnalyzingCustomTag] = useState(false);
+
   // Step 4 상태 (상품 리스트 및 추가 입력)
   const [filteredProducts, setFilteredProducts] = useState<ScoredProduct[]>([]);
   const [sortType, setSortType] = useState<'score' | 'price'>('score');
@@ -144,6 +151,8 @@ function PriorityPageContent() {
       selectedProsTags,
       selectedConsTags,
       selectedAdditionalTags,
+      customProsTags,
+      customConsTags,
       filteredProducts,
       sortType,
       hasUserInput,
@@ -153,7 +162,7 @@ function PriorityPageContent() {
     };
     sessionStorage.setItem('babyitem_priority_conversation', JSON.stringify(state));
     console.log('💾 Priority 상태 저장됨 (스크롤:', state.scrollPosition, ')');
-  }, [messages, currentStep, prioritySettings, budget, customBudget, isCustomBudgetMode, selectedProsTags, selectedConsTags, selectedAdditionalTags, filteredProducts, sortType, hasUserInput, additionalInput, showFloatingButtons]);
+  }, [messages, currentStep, prioritySettings, budget, customBudget, isCustomBudgetMode, selectedProsTags, selectedConsTags, selectedAdditionalTags, customProsTags, customConsTags, filteredProducts, sortType, hasUserInput, additionalInput, showFloatingButtons]);
 
   // Priority 상태 복원 함수
   const loadPriorityState = () => {
@@ -241,6 +250,8 @@ function PriorityPageContent() {
       setSelectedProsTags(savedState.selectedProsTags || []);
       setSelectedConsTags(savedState.selectedConsTags || []);
       setSelectedAdditionalTags(savedState.selectedAdditionalTags || []);
+      setCustomProsTags(savedState.customProsTags || []);
+      setCustomConsTags(savedState.customConsTags || []);
       setFilteredProducts(savedState.filteredProducts || []);
       setSortType(savedState.sortType || 'score');
       setHasUserInput(savedState.hasUserInput || false);
@@ -419,6 +430,101 @@ function PriorityPageContent() {
     logButtonClick(`추가 고려사항 태그 선택: ${tagText}`, 'priority');
   };
 
+  // 커스텀 태그 등록 핸들러
+  const handleAddCustomTag = async (tagType: 'pros' | 'cons') => {
+    const trimmedInput = customTagInput.trim();
+    if (!trimmedInput) {
+      alert('태그 내용을 입력해주세요.');
+      return;
+    }
+
+    setIsAnalyzingCustomTag(true);
+
+    try {
+      // AI 분석 API 호출
+      const response = await fetch('/api/analyze-custom-tag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tagText: trimmedInput,
+          tagType
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('태그 분석에 실패했습니다.');
+      }
+
+      const data = await response.json();
+
+      // 커스텀 태그 생성
+      const newCustomTag: CustomTag = {
+        id: `custom-${tagType}-${Date.now()}`,
+        text: trimmedInput,
+        relatedAttributes: data.relatedAttributes,
+        type: tagType,
+        createdAt: Date.now()
+      };
+
+      // 상태 업데이트
+      if (tagType === 'pros') {
+        setCustomProsTags((prev) => [...prev, newCustomTag]);
+        setSelectedProsTags((prev) => [...prev, newCustomTag.id]);
+      } else {
+        setCustomConsTags((prev) => [...prev, newCustomTag]);
+        setSelectedConsTags((prev) => [...prev, newCustomTag.id]);
+      }
+
+      // 입력 초기화
+      setCustomTagInput('');
+      setIsAddingCustomTag(null);
+
+      // 로깅
+      logButtonClick(`커스텀 태그 등록: ${trimmedInput} (${tagType})`, 'priority');
+
+      console.log('✅ 커스텀 태그 등록 완료:', newCustomTag);
+    } catch (error) {
+      console.error('❌ 커스텀 태그 등록 실패:', error);
+      alert('태그 등록에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsAnalyzingCustomTag(false);
+    }
+  };
+
+  // 커스텀 태그 삭제 핸들러
+  const handleDeleteCustomTag = (tagId: string, tagType: 'pros' | 'cons') => {
+    if (tagType === 'pros') {
+      setCustomProsTags((prev) => prev.filter((tag) => tag.id !== tagId));
+      setSelectedProsTags((prev) => prev.filter((id) => id !== tagId));
+    } else {
+      setCustomConsTags((prev) => prev.filter((tag) => tag.id !== tagId));
+      setSelectedConsTags((prev) => prev.filter((id) => id !== tagId));
+    }
+
+    logButtonClick(`커스텀 태그 삭제: ${tagId} (${tagType})`, 'priority');
+  };
+
+  // 커스텀 태그 토글 핸들러
+  const handleCustomTagToggle = (tagId: string, tagType: 'pros' | 'cons') => {
+    if (tagType === 'pros') {
+      setSelectedProsTags((prev) => {
+        if (prev.includes(tagId)) {
+          return prev.filter((id) => id !== tagId);
+        } else {
+          return [...prev, tagId];
+        }
+      });
+    } else {
+      setSelectedConsTags((prev) => {
+        if (prev.includes(tagId)) {
+          return prev.filter((id) => id !== tagId);
+        } else {
+          return [...prev, tagId];
+        }
+      });
+    }
+  };
+
   // Step 1 (Pros) → Step 2 (Cons)
   const handleStep1Next = () => {
     if (selectedProsTags.length < TAG_SELECTION_LIMITS.pros.min) {
@@ -547,8 +653,14 @@ function PriorityPageContent() {
     logButtonClick('Step 3 → Step 4 (Additional → Budget)', 'priority');
     setCurrentStep(4);
 
-    // Priority 설정 자동 변환 (Pros + Cons + Additional 모두 반영)
-    const convertedPriority = convertTagsToPriority(selectedProsTags, selectedConsTags, selectedAdditionalTags);
+    // Priority 설정 자동 변환 (Pros + Cons + Additional + Custom 모두 반영)
+    const convertedPriority = convertTagsToPriority(
+      selectedProsTags,
+      selectedConsTags,
+      selectedAdditionalTags,
+      customProsTags,
+      customConsTags
+    );
     setPrioritySettings(convertedPriority);
     console.log('✅ Priority 자동 변환:', convertedPriority);
 
@@ -880,6 +992,12 @@ function PriorityPageContent() {
       setSelectedConsTags([]);
       setSelectedAdditionalTags([]);
 
+      // 커스텀 태그 초기화
+      setCustomProsTags([]);
+      setCustomConsTags([]);
+      setCustomTagInput('');
+      setIsAddingCustomTag(null);
+
       // Step 5 상태 초기화
       setFilteredProducts([]);
       setSortType('score');
@@ -1091,6 +1209,93 @@ function PriorityPageContent() {
                             </motion.div>
                           );
                         })}
+
+                        {/* 커스텀 장점 태그 표시 */}
+                        {customProsTags.length > 0 && (
+                          <div className="bg-white border border-gray-200 rounded-2xl p-4">
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-lg">🖊️</span>
+                              <h3 className="text-sm font-bold text-gray-900">내가 추가한 장점</h3>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              {customProsTags.map((tag) => {
+                                const isSelected = selectedProsTags.includes(tag.id);
+                                return (
+                                  <div key={tag.id} className="relative group">
+                                    <button
+                                      onClick={() => handleCustomTagToggle(tag.id, 'pros')}
+                                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all border ${
+                                        isSelected
+                                          ? 'bg-blue-100 text-blue-700 border-blue-300'
+                                          : 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200'
+                                      }`}
+                                    >
+                                      {tag.text}
+                                    </button>
+                                    {/* 삭제 버튼 */}
+                                    <button
+                                      onClick={() => handleDeleteCustomTag(tag.id, 'pros')}
+                                      className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                      ×
+                                    </button>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 직접입력 UI */}
+                        <div className="bg-gray-50 border border-dashed border-gray-300 rounded-2xl p-4">
+                          {isAddingCustomTag === 'pros' ? (
+                            <div className="space-y-3">
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg">✍️</span>
+                                <h3 className="text-sm font-bold text-gray-900">장점 직접 입력</h3>
+                              </div>
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  value={customTagInput}
+                                  onChange={(e) => setCustomTagInput(e.target.value)}
+                                  placeholder="예: 물이 빨리 끓어요"
+                                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                                  autoFocus
+                                  disabled={isAnalyzingCustomTag}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !isAnalyzingCustomTag) {
+                                      handleAddCustomTag('pros');
+                                    }
+                                  }}
+                                />
+                                <button
+                                  onClick={() => handleAddCustomTag('pros')}
+                                  disabled={isAnalyzingCustomTag || !customTagInput.trim()}
+                                  className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed whitespace-nowrap"
+                                >
+                                  {isAnalyzingCustomTag ? '분석 중...' : '등록'}
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setIsAddingCustomTag(null);
+                                    setCustomTagInput('');
+                                  }}
+                                  className="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm hover:bg-gray-300 transition-colors"
+                                >
+                                  취소
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setIsAddingCustomTag('pros')}
+                              className="w-full text-center text-gray-600 font-medium text-sm hover:text-gray-900 transition-colors"
+                            >
+                              + 직접 입력하기
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   );
@@ -1145,6 +1350,93 @@ function PriorityPageContent() {
                             </motion.div>
                           );
                         })}
+
+                        {/* 커스텀 단점 태그 표시 */}
+                        {customConsTags.length > 0 && (
+                          <div className="bg-white border border-gray-200 rounded-2xl p-4">
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-lg">🖊️</span>
+                              <h3 className="text-sm font-bold text-gray-900">내가 추가한 단점</h3>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              {customConsTags.map((tag) => {
+                                const isSelected = selectedConsTags.includes(tag.id);
+                                return (
+                                  <div key={tag.id} className="relative group">
+                                    <button
+                                      onClick={() => handleCustomTagToggle(tag.id, 'cons')}
+                                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all border ${
+                                        isSelected
+                                          ? 'bg-red-100 text-red-700 border-red-300'
+                                          : 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200'
+                                      }`}
+                                    >
+                                      {tag.text}
+                                    </button>
+                                    {/* 삭제 버튼 */}
+                                    <button
+                                      onClick={() => handleDeleteCustomTag(tag.id, 'cons')}
+                                      className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                      ×
+                                    </button>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 직접입력 UI */}
+                        <div className="bg-gray-50 border border-dashed border-gray-300 rounded-2xl p-4">
+                          {isAddingCustomTag === 'cons' ? (
+                            <div className="space-y-3">
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg">✍️</span>
+                                <h3 className="text-sm font-bold text-gray-900">단점 직접 입력</h3>
+                              </div>
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  value={customTagInput}
+                                  onChange={(e) => setCustomTagInput(e.target.value)}
+                                  placeholder="예: 소음이 너무 시끄러워요"
+                                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                                  autoFocus
+                                  disabled={isAnalyzingCustomTag}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !isAnalyzingCustomTag) {
+                                      handleAddCustomTag('cons');
+                                    }
+                                  }}
+                                />
+                                <button
+                                  onClick={() => handleAddCustomTag('cons')}
+                                  disabled={isAnalyzingCustomTag || !customTagInput.trim()}
+                                  className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed whitespace-nowrap"
+                                >
+                                  {isAnalyzingCustomTag ? '분석 중...' : '등록'}
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setIsAddingCustomTag(null);
+                                    setCustomTagInput('');
+                                  }}
+                                  className="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm hover:bg-gray-300 transition-colors"
+                                >
+                                  취소
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setIsAddingCustomTag('cons')}
+                              className="w-full text-center text-gray-600 font-medium text-sm hover:text-gray-900 transition-colors"
+                            >
+                              + 직접 입력하기
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   );

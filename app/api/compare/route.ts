@@ -38,19 +38,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Try to load from both sources: products.ts AND specs/*.json
+    // Try to load from both sources: specs/*.json (priority if category provided) OR products.ts
     const productsDataWithNulls: (ProductData | null)[] = await Promise.all(
       productIds.map(async (id) => {
-        // Try products.ts first (old system with coreValues + markdown)
-        const product = await loadProductById(id);
-        const markdown = await loadProductDetails(id);
-
-        if (product && markdown) {
-          console.log(`✅ Loaded ${id} from products.ts`);
-          return { id, product, markdown, isSpecBased: false as const };
-        }
-
-        // Fallback to specs/*.json (new system with reviews)
+        // If category is provided, try specs/*.json first (for tag-based flow)
         if (category) {
           try {
             const spec = await getProductSpec(category as Category, id);
@@ -75,7 +66,16 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        console.warn(`⚠️ Product ${id} not found in products.ts or specs`);
+        // Fallback to products.ts (old system with coreValues + markdown)
+        const product = await loadProductById(id);
+        const markdown = await loadProductDetails(id);
+
+        if (product && markdown) {
+          console.log(`✅ Loaded ${id} from products.ts`);
+          return { id, product, markdown, isSpecBased: false as const };
+        }
+
+        console.warn(`⚠️ Product ${id} not found in specs or products.ts`);
         return null;
       })
     );

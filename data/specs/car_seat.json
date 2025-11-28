@@ -58,6 +58,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -119,6 +128,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "폴딩 가능"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -180,6 +198,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 85,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 70,
+      "installation_and_portability": 60,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 70,
+      "additional_features": null
     }
   },
   {
@@ -241,6 +268,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "세이프티가드, 가슴패드"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 70,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": 75,
+      "additional_features": null
     }
   },
   {
@@ -302,6 +338,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 88,
+      "comfort_and_reclining": 65,
+      "usability_and_rotation": 75,
+      "installation_and_portability": 92,
+      "adjustability_for_growth": 78,
+      "fabric_and_maintenance": 85,
+      "additional_features": 80
     }
   },
   {
@@ -363,6 +408,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "무상교환서비스"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -424,6 +478,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 85,
+      "comfort_and_reclining": 80,
+      "usability_and_rotation": 95,
+      "installation_and_portability": null,
+      "adjustability_for_growth": 75,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -485,6 +548,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "무상교환서비스"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -546,6 +618,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "부스터 분리 가능"
+    },
+    "attributeScores": {
+      "safety_and_stability": 80,
+      "comfort_and_reclining": 90,
+      "usability_and_rotation": 75,
+      "installation_and_portability": 85,
+      "adjustability_for_growth": 70,
+      "fabric_and_maintenance": 85,
+      "additional_features": 70
     }
   },
   {
@@ -607,6 +688,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": null,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 70,
+      "additional_features": 40
     }
   },
   {
@@ -668,6 +758,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -729,6 +828,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": 85,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -790,6 +898,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 80,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 88,
+      "fabric_and_maintenance": 80,
+      "additional_features": 85
     }
   },
   {
@@ -851,6 +968,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "교통사고발생 시 무상교환"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -912,6 +1038,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -973,6 +1108,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 80,
+      "usability_and_rotation": 85,
+      "installation_and_portability": 60,
+      "adjustability_for_growth": 75,
+      "fabric_and_maintenance": 65,
+      "additional_features": 80
     }
   },
   {
@@ -1034,6 +1178,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "접이 휴대 가능"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 60,
+      "installation_and_portability": 95,
+      "adjustability_for_growth": 70,
+      "fabric_and_maintenance": 65,
+      "additional_features": null
     }
   },
   {
@@ -1095,6 +1248,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": null,
+      "installation_and_portability": 80,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -1156,6 +1318,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -1217,6 +1388,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 75,
+      "comfort_and_reclining": 70,
+      "usability_and_rotation": 65,
+      "installation_and_portability": 80,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": 85
     }
   },
   {
@@ -1278,6 +1458,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 95,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -1339,6 +1528,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 95,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 90,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 70,
+      "additional_features": null
     }
   },
   {
@@ -1400,6 +1598,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "가슴패드, 시큐어가드"
+    },
+    "attributeScores": {
+      "safety_and_stability": 95,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 40,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 85,
+      "additional_features": 30
     }
   },
   {
@@ -1461,6 +1668,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 88,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 65,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": 75,
+      "fabric_and_maintenance": 70,
+      "additional_features": 75
     }
   },
   {
@@ -1522,6 +1738,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 88,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 65,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 55,
+      "additional_features": 78
     }
   },
   {
@@ -1583,6 +1808,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "어댑터 별도 구매로 유모차 호환 가능"
+    },
+    "attributeScores": {
+      "safety_and_stability": 95,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 90,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 85,
+      "additional_features": 70
     }
   },
   {
@@ -1644,6 +1878,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 75,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 50,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": 60,
+      "fabric_and_maintenance": null,
+      "additional_features": 40
     }
   },
   {
@@ -1705,6 +1948,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "무상교환서비스"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": 85,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -1766,6 +2018,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "사이드폴딩 헤드레스트"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": 90,
+      "usability_and_rotation": null,
+      "installation_and_portability": 85,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -1827,6 +2088,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 85,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 90,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": 70,
+      "additional_features": null
     }
   },
   {
@@ -1888,6 +2158,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 88,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 92,
+      "installation_and_portability": 55,
+      "adjustability_for_growth": 75,
+      "fabric_and_maintenance": 78,
+      "additional_features": 82
     }
   },
   {
@@ -1949,6 +2228,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -2010,6 +2298,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "Euro NCAP/교통사고발생 시 무상교환"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 88,
+      "installation_and_portability": 45,
+      "adjustability_for_growth": 75,
+      "fabric_and_maintenance": 70,
+      "additional_features": null
     }
   },
   {
@@ -2071,6 +2368,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 80,
+      "usability_and_rotation": 95,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 70,
+      "fabric_and_maintenance": 75,
+      "additional_features": 85
     }
   },
   {
@@ -2132,6 +2438,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 95,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 80,
+      "additional_features": null
     }
   },
   {
@@ -2193,6 +2508,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 75,
+      "comfort_and_reclining": 70,
+      "usability_and_rotation": 65,
+      "installation_and_portability": 40,
+      "adjustability_for_growth": 70,
+      "fabric_and_maintenance": 75,
+      "additional_features": 50
     }
   },
   {
@@ -2254,6 +2578,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 85,
+      "comfort_and_reclining": 80,
+      "usability_and_rotation": 65,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": 70,
+      "additional_features": 75
     }
   },
   {
@@ -2315,6 +2648,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -2376,6 +2718,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": 90,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -2437,6 +2788,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "유니버셜 레벨 테크놀로지 (시트 각도에 관계 없이 수평 유지)"
+    },
+    "attributeScores": {
+      "safety_and_stability": 95,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 90,
+      "installation_and_portability": 60,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 85,
+      "additional_features": 70
     }
   },
   {
@@ -2498,6 +2858,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "ECE인증"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": null,
+      "installation_and_portability": 85,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -2559,6 +2928,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 85,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": null,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": null,
+      "additional_features": 60
     }
   },
   {
@@ -2620,6 +2998,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 88,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 65,
+      "installation_and_portability": 55,
+      "adjustability_for_growth": 70,
+      "fabric_and_maintenance": null,
+      "additional_features": 80
     }
   },
   {
@@ -2681,6 +3068,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "추가 안전벨트 클립, 등받이 분리 가능"
+    },
+    "attributeScores": {
+      "safety_and_stability": 80,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 55,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": 60,
+      "fabric_and_maintenance": 70,
+      "additional_features": 40
     }
   },
   {
@@ -2742,6 +3138,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "가슴 패드"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 75,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": 60,
+      "fabric_and_maintenance": null,
+      "additional_features": 80
     }
   },
   {
@@ -2803,6 +3208,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "아이 확인창"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 85,
+      "installation_and_portability": 40,
+      "adjustability_for_growth": 70,
+      "fabric_and_maintenance": 75,
+      "additional_features": 30
     }
   },
   {
@@ -2864,6 +3278,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 60,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": 85,
+      "fabric_and_maintenance": 80,
+      "additional_features": 40
     }
   },
   {
@@ -2925,6 +3348,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 75,
+      "comfort_and_reclining": 80,
+      "usability_and_rotation": 65,
+      "installation_and_portability": 70,
+      "adjustability_for_growth": 75,
+      "fabric_and_maintenance": 80,
+      "additional_features": null
     }
   },
   {
@@ -2986,6 +3418,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "전용 보관가방 포함"
+    },
+    "attributeScores": {
+      "safety_and_stability": 80,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 70,
+      "installation_and_portability": 90,
+      "adjustability_for_growth": 70,
+      "fabric_and_maintenance": 70,
+      "additional_features": null
     }
   },
   {
@@ -3047,6 +3488,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "Euro NCAP/교통사고발생 시 무상교환"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 95,
+      "usability_and_rotation": null,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -3108,6 +3558,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": null,
+      "installation_and_portability": 90,
+      "adjustability_for_growth": 60,
+      "fabric_and_maintenance": 85,
+      "additional_features": 40
     }
   },
   {
@@ -3169,6 +3628,15 @@
       "커버 탈착": "-",
       "통풍구조": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 80,
+      "usability_and_rotation": 50,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 85,
+      "fabric_and_maintenance": 85,
+      "additional_features": 70
     }
   },
   {
@@ -3230,6 +3698,15 @@
       "커버 탈착": "O",
       "통풍구조": "O",
       "기타특징": "등받이 분리 가능, 휴대용으로 사용 가능"
+    },
+    "attributeScores": {
+      "safety_and_stability": 88,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": 45,
+      "installation_and_portability": 80,
+      "adjustability_for_growth": 75,
+      "fabric_and_maintenance": 70,
+      "additional_features": 30
     }
   },
   {
@@ -3291,6 +3768,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 85,
+      "usability_and_rotation": null,
+      "installation_and_portability": 75,
+      "adjustability_for_growth": 70,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -3352,6 +3838,15 @@
       "커버 탈착": "O",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 88,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": 55,
+      "installation_and_portability": 78,
+      "adjustability_for_growth": 82,
+      "fabric_and_maintenance": 45,
+      "additional_features": null
     }
   },
   {
@@ -3413,6 +3908,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": null,
+      "comfort_and_reclining": null,
+      "usability_and_rotation": null,
+      "installation_and_portability": null,
+      "adjustability_for_growth": null,
+      "fabric_and_maintenance": null,
+      "additional_features": null
     }
   },
   {
@@ -3474,6 +3978,15 @@
       "커버 탈착": "-",
       "통풍구조": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "safety_and_stability": 90,
+      "comfort_and_reclining": 75,
+      "usability_and_rotation": null,
+      "installation_and_portability": 65,
+      "adjustability_for_growth": 80,
+      "fabric_and_maintenance": 70,
+      "additional_features": 85
     }
   }
 ]

@@ -49,6 +49,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 80,
+      "cleaning_hygiene": null,
+      "noise_vibration": null,
+      "portability_power_source": 60,
+      "tip_quality_variety": 40,
+      "child_friendly_features": null,
+      "price_value": 50
     }
   },
   {
@@ -101,6 +110,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 95,
+      "cleaning_hygiene": 85,
+      "noise_vibration": 60,
+      "portability_power_source": 50,
+      "tip_quality_variety": 75,
+      "child_friendly_features": 65,
+      "price_value": 70
     }
   },
   {
@@ -153,6 +171,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": null,
+      "cleaning_hygiene": null,
+      "noise_vibration": null,
+      "portability_power_source": null,
+      "tip_quality_variety": null,
+      "child_friendly_features": null,
+      "price_value": null
     }
   },
   {
@@ -205,6 +232,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 35,
+      "cleaning_hygiene": 80,
+      "noise_vibration": 40,
+      "portability_power_source": 75,
+      "tip_quality_variety": 30,
+      "child_friendly_features": 60,
+      "price_value": 70
     }
   },
   {
@@ -257,6 +293,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 45,
+      "cleaning_hygiene": 75,
+      "noise_vibration": 60,
+      "portability_power_source": null,
+      "tip_quality_variety": 50,
+      "child_friendly_features": 55,
+      "price_value": 70
     }
   },
   {
@@ -309,6 +354,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 88,
+      "cleaning_hygiene": 75,
+      "noise_vibration": 45,
+      "portability_power_source": 78,
+      "tip_quality_variety": 70,
+      "child_friendly_features": 40,
+      "price_value": 80
     }
   },
   {
@@ -361,6 +415,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 75,
+      "cleaning_hygiene": 80,
+      "noise_vibration": 60,
+      "portability_power_source": 70,
+      "tip_quality_variety": 65,
+      "child_friendly_features": 55,
+      "price_value": 85
     }
   },
   {
@@ -413,6 +476,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 75,
+      "cleaning_hygiene": 65,
+      "noise_vibration": 70,
+      "portability_power_source": 75,
+      "tip_quality_variety": 60,
+      "child_friendly_features": 65,
+      "price_value": 85
     }
   },
   {
@@ -465,6 +537,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 65,
+      "cleaning_hygiene": 75,
+      "noise_vibration": 40,
+      "portability_power_source": null,
+      "tip_quality_variety": 70,
+      "child_friendly_features": 60,
+      "price_value": 70
     }
   },
   {
@@ -517,6 +598,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 40,
+      "cleaning_hygiene": null,
+      "noise_vibration": 75,
+      "portability_power_source": null,
+      "tip_quality_variety": null,
+      "child_friendly_features": 80,
+      "price_value": 70
     }
   },
   {
@@ -569,6 +659,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "O",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 65,
+      "cleaning_hygiene": 45,
+      "noise_vibration": 75,
+      "portability_power_source": 70,
+      "tip_quality_variety": 60,
+      "child_friendly_features": 85,
+      "price_value": 80
     }
   },
   {
@@ -621,6 +720,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "O",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 55,
+      "cleaning_hygiene": 80,
+      "noise_vibration": 65,
+      "portability_power_source": 75,
+      "tip_quality_variety": 70,
+      "child_friendly_features": 60,
+      "price_value": 85
     }
   },
   {
@@ -673,6 +781,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 65,
+      "cleaning_hygiene": 85,
+      "noise_vibration": 75,
+      "portability_power_source": 80,
+      "tip_quality_variety": 70,
+      "child_friendly_features": 60,
+      "price_value": 85
     }
   },
   {
@@ -725,6 +842,15 @@
       "헤드360도회전": "O",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 10,
+      "cleaning_hygiene": null,
+      "noise_vibration": null,
+      "portability_power_source": null,
+      "tip_quality_variety": null,
+      "child_friendly_features": null,
+      "price_value": null
     }
   },
   {
@@ -777,6 +903,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 40,
+      "cleaning_hygiene": 55,
+      "noise_vibration": 45,
+      "portability_power_source": 80,
+      "tip_quality_variety": null,
+      "child_friendly_features": null,
+      "price_value": 75
     }
   },
   {
@@ -829,6 +964,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 90,
+      "cleaning_hygiene": 85,
+      "noise_vibration": 65,
+      "portability_power_source": 90,
+      "tip_quality_variety": null,
+      "child_friendly_features": 85,
+      "price_value": 80
     }
   },
   {
@@ -881,6 +1025,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 65,
+      "cleaning_hygiene": 70,
+      "noise_vibration": 55,
+      "portability_power_source": 75,
+      "tip_quality_variety": 60,
+      "child_friendly_features": 40,
+      "price_value": 70
     }
   },
   {
@@ -933,6 +1086,15 @@
       "헤드360도회전": "O",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 55,
+      "cleaning_hygiene": 80,
+      "noise_vibration": 40,
+      "portability_power_source": 75,
+      "tip_quality_variety": 60,
+      "child_friendly_features": 70,
+      "price_value": 85
     }
   },
   {
@@ -985,6 +1147,15 @@
       "헤드360도회전": "O",
       "LCD표시창": "-",
       "기타기능": "-"
+    },
+    "attributeScores": {
+      "suction_power": 75,
+      "cleaning_hygiene": 65,
+      "noise_vibration": 60,
+      "portability_power_source": 80,
+      "tip_quality_variety": 70,
+      "child_friendly_features": 70,
+      "price_value": 85
     }
   },
   {
@@ -1037,6 +1208,15 @@
       "헤드360도회전": "-",
       "LCD표시창": "-",
       "기타기능": "3단 무드등"
+    },
+    "attributeScores": {
+      "suction_power": null,
+      "cleaning_hygiene": null,
+      "noise_vibration": null,
+      "portability_power_source": null,
+      "tip_quality_variety": null,
+      "child_friendly_features": null,
+      "price_value": null
     }
   }
 ]

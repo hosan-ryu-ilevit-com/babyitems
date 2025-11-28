@@ -33,15 +33,20 @@ export function sampleLongestReviews(reviews: Review[], n: number = 50): Sampled
  * Optimized for parallel processing of pros and cons
  *
  * Strategy:
- * - High ratings (4-5★): 15 longest reviews → Extract pros (parallel)
- * - Low ratings (1-2★): 10 longest reviews → Extract cons (parallel)
+ * - High ratings (4-5★): Custom count or 15 longest reviews → Extract pros (parallel)
+ * - Low ratings (1-2★): Custom count or 10 longest reviews → Extract cons (parallel)
  * - Mid ratings excluded for speed optimization
- * - Total: 25 reviews (reduced from 30)
  *
  * @param reviews Array of reviews
+ * @param highCount Number of high-rating reviews to sample (default: 15)
+ * @param lowCount Number of low-rating reviews to sample (default: 10)
  * @returns { high: SampledReview[], low: SampledReview[] } - Separated by sentiment for parallel processing
  */
-export function sampleBalancedBySentiment(reviews: Review[]): { high: SampledReview[]; low: SampledReview[] } {
+export function sampleBalancedBySentiment(
+  reviews: Review[],
+  highCount: number = 15,
+  lowCount: number = 10
+): { high: SampledReview[]; low: SampledReview[] } {
   // Group reviews by sentiment (exclude mid ratings)
   const highRating = reviews.filter(r => r.custom_metadata.rating >= 4);
   const lowRating = reviews.filter(r => r.custom_metadata.rating <= 2);
@@ -57,8 +62,8 @@ export function sampleBalancedBySentiment(reviews: Review[]): { high: SampledRev
       .sort((a, b) => b.length - a.length)
       .slice(0, Math.min(count, group.length));
 
-  const sampledHigh = sampleLongest(highRating, 15);
-  const sampledLow = sampleLongest(lowRating, 10);
+  const sampledHigh = sampleLongest(highRating, highCount);
+  const sampledLow = sampleLongest(lowRating, lowCount);
 
   console.log(`📊 Sampled ${sampledHigh.length + sampledLow.length} reviews for parallel processing`);
   console.log(`   High ratings (4-5★): ${sampledHigh.length} reviews → Pros extraction`);

@@ -13,17 +13,30 @@ import {
   sampleLongestReviews,
   formatReviewsForLLM,
 } from '@/lib/review';
+import {
+  TagWithAttributes,
+  scoreProducts,
+  getTopNByScore,
+  debugScoringBreakdown,
+} from '@/lib/scoring/tagBasedScoring';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) throw new Error('GEMINI_API_KEY is required');
 
 const ai = new GoogleGenAI({ apiKey });
 
+interface Tag {
+  id: string;
+  text: string;
+  mentionCount?: number;
+  attributes: Record<string, number>;
+}
+
 interface RecommendRequest {
   category: Category;
   anchorId: string;
-  selectedProsTags: string[];
-  selectedConsTags: string[];
+  selectedProsTags: Tag[]; // Full tag objects with attributes
+  selectedConsTags: Tag[]; // Full tag objects with attributes
   budget: string; // "0-50000", "50000-100000", etc.
 }
 
@@ -224,22 +237,57 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ===== STEP 2: Popularity Sorting (Fast, Local JSON) =====
-    console.log(`\n🔥 Step 2: Popularity sorting...`);
-    const topCandidates = getTopByPopularity(budgetFiltered, 20);
+    // ===== STEP 2: Tag-Based Scoring (Fast, Local JSON) =====
+    console.log(`\n🎯 Step 2: Tag-based scoring...`);
 
-    console.log(`   ✅ Top 20 candidates selected`);
+    // Check if products have attributeScores
+    const hasAttributeScores = budgetFiltered.some(p => p.attributeScores && Object.keys(p.attributeScores).length > 0);
+
+    let topCandidates: ProductSpec[];
+
+    if (!hasAttributeScores) {
+      // Fallback: Use popularity sorting if attribute scores not available yet
+      console.warn(`   ⚠️ Products missing attributeScores - falling back to popularity sorting`);
+      topCandidates = getTopByPopularity(budgetFiltered, 10);
+      console.log(`   ✅ Top 10 candidates selected (popularity fallback)`);
+    } else {
+      // Primary method: Tag-based scoring
+      const scoredProducts = scoreProducts(
+        selectedProsTags,
+        selectedConsTags,
+        budgetFiltered as Array<ProductSpec & { attributeScores: Record<string, number> }>
+      );
+
+      topCandidates = getTopNByScore(scoredProducts, 10);
+
+      console.log(`   ✅ Top 10 candidates selected (tag-based scoring)`);
+      console.log(`   📊 Tag scoring stats:`);
+      console.log(`      Selected Pros: ${selectedProsTags.length} tags`);
+      console.log(`      Selected Cons: ${selectedConsTags.length} tags`);
+
+      // Debug: Show top 3 scoring breakdown
+      if (topCandidates.length > 0 && (topCandidates[0] as any).tagScoringResult) {
+        console.log(`\n   🔍 Top product scoring breakdown:`);
+        debugScoringBreakdown(
+          topCandidates[0].productId,
+          (topCandidates[0] as any).tagScoringResult
+        );
+      }
+    }
+
     topCandidates.slice(0, 5).forEach((p, i) => {
-      console.log(`   ${i + 1}. ${p.브랜드} ${p.모델명} (Score: ${p.popularityScore?.toFixed(1)})`);
+      const score = (p as any).tagScore !== undefined
+        ? `Tag Score: ${(p as any).tagScore.toFixed(2)}`
+        : `Popularity: ${p.popularityScore?.toFixed(1)}`;
+      console.log(`   ${i + 1}. ${p.브랜드} ${p.모델명} (${score})`);
     });
 
     // ===== STEP 3: LLM Qualitative Evaluation (Slow, Parallel) =====
     console.log(`\n🤖 Step 3: LLM evaluation (parallel)...`);
 
-    // Get actual tag texts (in real app, fetch from /api/generate-tags result)
-    // For now, use tag IDs as placeholder
-    const prosTexts = selectedProsTags; // TODO: Map tag IDs to actual text
-    const consTexts = selectedConsTags;
+    // Extract tag texts from full tag objects
+    const prosTexts = selectedProsTags.map(tag => tag.text);
+    const consTexts = selectedConsTags.map(tag => tag.text);
 
     // Evaluate all candidates in parallel (batch of 5 to avoid rate limits)
     const batchSize = 5;

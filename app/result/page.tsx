@@ -760,14 +760,14 @@ export default function ResultPage() {
 
   // 비교표 데이터 프리페치 (recommendations 로드 시 한 번만)
   useEffect(() => {
-    if (recommendations.length > 0 && comparisonFeatures && Object.keys(comparisonFeatures).length === 0) {
+    if (recommendations.length > 0 && Object.keys(comparisonFeatures ?? {}).length === 0 && Object.keys(comparisonDetails ?? {}).length === 0) {
       // Tag-based flow: Include anchor product (4 products total)
       // Normal flow: Top 3 recommendations only
       const productIds = isTagBasedFlow && anchorProduct
         ? [String(anchorProduct.productId), ...recommendations.slice(0, 3).map(rec => rec.product.id)]
         : recommendations.slice(0, 3).map(rec => rec.product.id);
 
-      console.log('🔄 Prefetching comparison data...', { isTagBasedFlow, productCount: productIds.length });
+      console.log('🔄 Prefetching comparison data...', { isTagBasedFlow, productCount: productIds.length, category: currentCategory });
 
       // 핵심 특징 가져오기
       fetch('/api/compare-features', {
@@ -786,7 +786,7 @@ export default function ResultPage() {
       fetch('/api/compare', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productIds }),
+        body: JSON.stringify({ productIds, category: currentCategory }),
       })
         .then(res => res.json())
         .then(data => {
@@ -795,7 +795,7 @@ export default function ResultPage() {
         })
         .catch(err => console.error('Failed to prefetch details:', err));
     }
-  }, [recommendations, comparisonFeatures, isTagBasedFlow, anchorProduct]);
+  }, [recommendations, comparisonFeatures, comparisonDetails, isTagBasedFlow, anchorProduct, currentCategory]);
 
   if (!mounted) {
     return (

@@ -52,6 +52,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 95,
+      "hygiene_and_material": 75,
+      "cooling_and_heating_speed": 80,
+      "usability_and_interface": 70,
+      "safety_features": 85,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -107,6 +115,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 88,
+      "hygiene_and_material": 75,
+      "cooling_and_heating_speed": 65,
+      "usability_and_interface": 72,
+      "safety_features": 80,
+      "design_and_physical_specs": 78
     }
   },
   {
@@ -162,6 +178,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 75,
+      "cooling_and_heating_speed": 60,
+      "usability_and_interface": 80,
+      "safety_features": 50,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -217,6 +241,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 75,
+      "cooling_and_heating_speed": 80,
+      "usability_and_interface": 85,
+      "safety_features": 70,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -272,6 +304,14 @@
       "차망": "O(스테인리스)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 92,
+      "hygiene_and_material": 88,
+      "cooling_and_heating_speed": 78,
+      "usability_and_interface": 75,
+      "safety_features": 85,
+      "design_and_physical_specs": 65
     }
   },
   {
@@ -327,6 +367,14 @@
       "차망": "O(SUS316)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 95,
+      "hygiene_and_material": 90,
+      "cooling_and_heating_speed": 85,
+      "usability_and_interface": 75,
+      "safety_features": 80,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -382,6 +430,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": null
     }
   },
   {
@@ -437,6 +493,14 @@
       "차망": "O(SUS316)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 85,
+      "hygiene_and_material": 42,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": 75,
+      "safety_features": null,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -492,6 +556,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "O",
       "기타 구성품": "파우치"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 85,
+      "cooling_and_heating_speed": 75,
+      "usability_and_interface": 70,
+      "safety_features": 70,
+      "design_and_physical_specs": 75
     }
   },
   {
@@ -547,6 +619,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "X",
       "기타 구성품": "파우치"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": 95,
+      "usability_and_interface": 75,
+      "safety_features": null,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -602,6 +682,14 @@
       "차망": "O(SUS316)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": null
     }
   },
   {
@@ -657,6 +745,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 75,
+      "hygiene_and_material": 60,
+      "cooling_and_heating_speed": 40,
+      "usability_and_interface": 70,
+      "safety_features": null,
+      "design_and_physical_specs": 65
     }
   },
   {
@@ -712,6 +808,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 88,
+      "hygiene_and_material": 85,
+      "cooling_and_heating_speed": 45,
+      "usability_and_interface": 65,
+      "safety_features": 75,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -767,6 +871,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 95,
+      "hygiene_and_material": 90,
+      "cooling_and_heating_speed": 85,
+      "usability_and_interface": 75,
+      "safety_features": 80,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -822,6 +934,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": null
     }
   },
   {
@@ -877,6 +997,14 @@
       "차망": "O(SUS316)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 80,
+      "cooling_and_heating_speed": 75,
+      "usability_and_interface": null,
+      "safety_features": 30,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -932,6 +1060,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 95,
+      "cooling_and_heating_speed": 75,
+      "usability_and_interface": 65,
+      "safety_features": 70,
+      "design_and_physical_specs": 80
     }
   },
   {
@@ -987,6 +1123,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 75,
+      "hygiene_and_material": 90,
+      "cooling_and_heating_speed": 65,
+      "usability_and_interface": 40,
+      "safety_features": 35,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -1042,6 +1186,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": 75
     }
   },
   {
@@ -1097,6 +1249,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 80,
+      "hygiene_and_material": 40,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": 75,
+      "safety_features": null,
+      "design_and_physical_specs": 65
     }
   },
   {
@@ -1152,6 +1312,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": null
     }
   },
   {
@@ -1207,6 +1375,14 @@
       "차망": "O(SUS316)",
       "중탕용기": "O",
       "기타 구성품": "유리주전자 2개,보틀워머"
+    },
+    "attributeScores": {
+      "temperature_control": 88,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": null
     }
   },
   {
@@ -1262,6 +1438,14 @@
       "차망": "O(스테인리스)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 92,
+      "hygiene_and_material": 90,
+      "cooling_and_heating_speed": 75,
+      "usability_and_interface": 88,
+      "safety_features": 90,
+      "design_and_physical_specs": 85
     }
   },
   {
@@ -1317,6 +1501,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "X",
       "기타 구성품": "찜기"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": 75,
+      "safety_features": null,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -1372,6 +1564,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 75,
+      "hygiene_and_material": 60,
+      "cooling_and_heating_speed": 70,
+      "usability_and_interface": 70,
+      "safety_features": 55,
+      "design_and_physical_specs": 85
     }
   },
   {
@@ -1427,6 +1627,14 @@
       "차망": "O(스테인리스)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 80,
+      "cooling_and_heating_speed": 65,
+      "usability_and_interface": 75,
+      "safety_features": 85,
+      "design_and_physical_specs": 80
     }
   },
   {
@@ -1482,6 +1690,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": 75,
+      "cooling_and_heating_speed": 65,
+      "usability_and_interface": 80,
+      "safety_features": 70,
+      "design_and_physical_specs": 85
     }
   },
   {
@@ -1537,6 +1753,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "O",
       "기타 구성품": "계란찜틀"
+    },
+    "attributeScores": {
+      "temperature_control": 75,
+      "hygiene_and_material": 85,
+      "cooling_and_heating_speed": 60,
+      "usability_and_interface": 70,
+      "safety_features": null,
+      "design_and_physical_specs": 80
     }
   },
   {
@@ -1592,6 +1816,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": 75
     }
   },
   {
@@ -1647,6 +1879,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": 75,
+      "safety_features": null,
+      "design_and_physical_specs": 85
     }
   },
   {
@@ -1702,6 +1942,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": null
     }
   },
   {
@@ -1757,6 +2005,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 75,
+      "cooling_and_heating_speed": 65,
+      "usability_and_interface": 70,
+      "safety_features": 70,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -1812,6 +2068,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 80,
+      "cooling_and_heating_speed": 65,
+      "usability_and_interface": 75,
+      "safety_features": 85,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -1867,6 +2131,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 88,
+      "hygiene_and_material": 85,
+      "cooling_and_heating_speed": 65,
+      "usability_and_interface": 80,
+      "safety_features": 50,
+      "design_and_physical_specs": 88
     }
   },
   {
@@ -1922,6 +2194,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": 75,
+      "safety_features": null,
+      "design_and_physical_specs": 80
     }
   },
   {
@@ -1977,6 +2257,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 88,
+      "hygiene_and_material": 92,
+      "cooling_and_heating_speed": 55,
+      "usability_and_interface": 75,
+      "safety_features": 70,
+      "design_and_physical_specs": 78
     }
   },
   {
@@ -2032,6 +2320,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": null
     }
   },
   {
@@ -2087,6 +2383,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "O",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": null
     }
   },
   {
@@ -2142,6 +2446,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 95,
+      "hygiene_and_material": 90,
+      "cooling_and_heating_speed": 80,
+      "usability_and_interface": 75,
+      "safety_features": 90,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -2197,6 +2509,14 @@
       "차망": "O(스테인리스)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 90,
+      "hygiene_and_material": 92,
+      "cooling_and_heating_speed": 88,
+      "usability_and_interface": 75,
+      "safety_features": 85,
+      "design_and_physical_specs": 70
     }
   },
   {
@@ -2252,6 +2572,14 @@
       "차망": "O(스테인리스)",
       "중탕용기": "-",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 92,
+      "hygiene_and_material": 88,
+      "cooling_and_heating_speed": 75,
+      "usability_and_interface": 78,
+      "safety_features": 82,
+      "design_and_physical_specs": 80
     }
   },
   {
@@ -2307,6 +2635,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": null,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": 75
     }
   },
   {
@@ -2362,6 +2698,14 @@
       "차망": "O(SUS316)",
       "중탕용기": "X",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 92,
+      "hygiene_and_material": 88,
+      "cooling_and_heating_speed": 65,
+      "usability_and_interface": 85,
+      "safety_features": 75,
+      "design_and_physical_specs": 80
     }
   },
   {
@@ -2417,6 +2761,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "O",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": null,
+      "hygiene_and_material": null,
+      "cooling_and_heating_speed": 88,
+      "usability_and_interface": 45,
+      "safety_features": null,
+      "design_and_physical_specs": 65
     }
   },
   {
@@ -2472,6 +2824,14 @@
       "차망": "O(SUS304)",
       "중탕용기": "O",
       "기타 구성품": "-"
+    },
+    "attributeScores": {
+      "temperature_control": 95,
+      "hygiene_and_material": 85,
+      "cooling_and_heating_speed": 75,
+      "usability_and_interface": 70,
+      "safety_features": 80,
+      "design_and_physical_specs": 65
     }
   },
   {
@@ -2527,6 +2887,14 @@
       "차망": "X",
       "중탕용기": "X",
       "기타 구성품": "리모콘"
+    },
+    "attributeScores": {
+      "temperature_control": 75,
+      "hygiene_and_material": 70,
+      "cooling_and_heating_speed": 40,
+      "usability_and_interface": null,
+      "safety_features": null,
+      "design_and_physical_specs": 85
     }
   }
 ]

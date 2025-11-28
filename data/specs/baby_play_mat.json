@@ -40,6 +40,15 @@
       "항균인증": "X",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 88,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 85,
+      "durability_resilience": 70,
+      "usability_compatibility": 65,
+      "design_aesthetics": 78,
+      "material_sensory": 80
     }
   },
   {
@@ -83,6 +92,15 @@
       "항균인증": "X",
       "소음성적서": "O",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 85,
+      "noise_reduction": null,
+      "cleaning_hygiene": null,
+      "durability_resilience": null,
+      "usability_compatibility": 75,
+      "design_aesthetics": 75,
+      "material_sensory": null
     }
   },
   {
@@ -126,6 +144,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 65,
+      "cleaning_hygiene": 60,
+      "durability_resilience": 70,
+      "usability_compatibility": 65,
+      "design_aesthetics": 85,
+      "material_sensory": 30
     }
   },
   {
@@ -169,6 +196,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "곰팡이 저항 시험"
+    },
+    "attributeScores": {
+      "cushioning_safety": 88,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 92,
+      "durability_resilience": 78,
+      "usability_compatibility": 65,
+      "design_aesthetics": 75,
+      "material_sensory": 80
     }
   },
   {
@@ -212,6 +248,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "유해물질불검출"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 70,
+      "durability_resilience": null,
+      "usability_compatibility": 80,
+      "design_aesthetics": 75,
+      "material_sensory": 65
     }
   },
   {
@@ -255,6 +300,15 @@
       "항균인증": "X",
       "소음성적서": "O",
       "기타인증": "중국CCC/유럽CE"
+    },
+    "attributeScores": {
+      "cushioning_safety": 85,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 60,
+      "durability_resilience": 70,
+      "usability_compatibility": 40,
+      "design_aesthetics": 80,
+      "material_sensory": 55
     }
   },
   {
@@ -298,6 +352,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "유해물질검사/LOHAS"
+    },
+    "attributeScores": {
+      "cushioning_safety": 95,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 90,
+      "durability_resilience": 75,
+      "usability_compatibility": 70,
+      "design_aesthetics": 80,
+      "material_sensory": 65
     }
   },
   {
@@ -341,6 +404,15 @@
       "항균인증": "X",
       "소음성적서": "-",
       "기타인증": "라돈 검사/유해물질불검출"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 80,
+      "cleaning_hygiene": 70,
+      "durability_resilience": 40,
+      "usability_compatibility": 55,
+      "design_aesthetics": 70,
+      "material_sensory": 60
     }
   },
   {
@@ -384,6 +456,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "중국CCC/유럽CE"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 80,
+      "durability_resilience": 70,
+      "usability_compatibility": 75,
+      "design_aesthetics": 85,
+      "material_sensory": 80
     }
   },
   {
@@ -427,6 +508,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "유해물질불검출"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 85,
+      "durability_resilience": 75,
+      "usability_compatibility": 80,
+      "design_aesthetics": 80,
+      "material_sensory": 85
     }
   },
   {
@@ -470,6 +560,15 @@
       "항균인증": "O",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 88,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 75,
+      "durability_resilience": 55,
+      "usability_compatibility": 70,
+      "design_aesthetics": 80,
+      "material_sensory": 60
     }
   },
   {
@@ -513,6 +612,15 @@
       "항균인증": "-",
       "소음성적서": "한국소음진동",
       "기타인증": "유해물질 안정성 검사"
+    },
+    "attributeScores": {
+      "cushioning_safety": 85,
+      "noise_reduction": 80,
+      "cleaning_hygiene": 85,
+      "durability_resilience": 75,
+      "usability_compatibility": 70,
+      "design_aesthetics": 75,
+      "material_sensory": 60
     }
   },
   {
@@ -556,6 +664,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 80,
+      "durability_resilience": 75,
+      "usability_compatibility": 60,
+      "design_aesthetics": 85,
+      "material_sensory": 70
     }
   },
   {
@@ -599,6 +716,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "중국CCC/유럽CE"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 80,
+      "cleaning_hygiene": 85,
+      "durability_resilience": 65,
+      "usability_compatibility": 60,
+      "design_aesthetics": 80,
+      "material_sensory": 50
     }
   },
   {
@@ -642,6 +768,15 @@
       "항균인증": "X",
       "소음성적서": "O",
       "기타인증": "라돈 검사/유해물질불검출"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 70,
+      "cleaning_hygiene": null,
+      "durability_resilience": 40,
+      "usability_compatibility": 35,
+      "design_aesthetics": 65,
+      "material_sensory": null
     }
   },
   {
@@ -685,6 +820,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 80,
+      "durability_resilience": 75,
+      "usability_compatibility": 65,
+      "design_aesthetics": 80,
+      "material_sensory": 70
     }
   },
   {
@@ -728,6 +872,15 @@
       "항균인증": "O",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 80,
+      "noise_reduction": null,
+      "cleaning_hygiene": 75,
+      "durability_resilience": null,
+      "usability_compatibility": null,
+      "design_aesthetics": null,
+      "material_sensory": null
     }
   },
   {
@@ -771,6 +924,15 @@
       "항균인증": "O",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 80,
+      "cleaning_hygiene": 75,
+      "durability_resilience": null,
+      "usability_compatibility": 70,
+      "design_aesthetics": 70,
+      "material_sensory": null
     }
   },
   {
@@ -814,6 +976,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "라돈 검사/토론검사"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 70,
+      "cleaning_hygiene": 35,
+      "durability_resilience": 60,
+      "usability_compatibility": null,
+      "design_aesthetics": 70,
+      "material_sensory": 65
     }
   },
   {
@@ -857,6 +1028,15 @@
       "항균인증": "-",
       "소음성적서": "KCL",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 70,
+      "durability_resilience": 65,
+      "usability_compatibility": 70,
+      "design_aesthetics": 80,
+      "material_sensory": 95
     }
   },
   {
@@ -900,6 +1080,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 85,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 60,
+      "durability_resilience": 70,
+      "usability_compatibility": 65,
+      "design_aesthetics": 80,
+      "material_sensory": 30
     }
   },
   {
@@ -943,6 +1132,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "중국CCC/유럽CE"
+    },
+    "attributeScores": {
+      "cushioning_safety": 95,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 90,
+      "durability_resilience": 75,
+      "usability_compatibility": 85,
+      "design_aesthetics": 80,
+      "material_sensory": 70
     }
   },
   {
@@ -986,6 +1184,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "곰팡이 저항력"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 80,
+      "cleaning_hygiene": 75,
+      "durability_resilience": 70,
+      "usability_compatibility": 50,
+      "design_aesthetics": 75,
+      "material_sensory": 60
     }
   },
   {
@@ -1029,6 +1236,15 @@
       "항균인증": "X",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 75,
+      "durability_resilience": 80,
+      "usability_compatibility": 60,
+      "design_aesthetics": 85,
+      "material_sensory": 70
     }
   },
   {
@@ -1072,6 +1288,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 88,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 78,
+      "durability_resilience": 65,
+      "usability_compatibility": 60,
+      "design_aesthetics": 75,
+      "material_sensory": 30
     }
   },
   {
@@ -1115,6 +1340,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "라돈 검사"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 70,
+      "cleaning_hygiene": 70,
+      "durability_resilience": 35,
+      "usability_compatibility": 40,
+      "design_aesthetics": 60,
+      "material_sensory": 70
     }
   },
   {
@@ -1158,6 +1392,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "라돈 검사"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 80,
+      "cleaning_hygiene": 70,
+      "durability_resilience": 40,
+      "usability_compatibility": 35,
+      "design_aesthetics": 60,
+      "material_sensory": 30
     }
   },
   {
@@ -1201,6 +1444,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 85,
+      "noise_reduction": 85,
+      "cleaning_hygiene": null,
+      "durability_resilience": null,
+      "usability_compatibility": 60,
+      "design_aesthetics": 75,
+      "material_sensory": null
     }
   },
   {
@@ -1244,6 +1496,15 @@
       "항균인증": "O",
       "소음성적서": "KNV(주)한국소음진동",
       "기타인증": "환경부 친환경 인증"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 80,
+      "durability_resilience": 75,
+      "usability_compatibility": 70,
+      "design_aesthetics": 75,
+      "material_sensory": 60
     }
   },
   {
@@ -1287,6 +1548,15 @@
       "항균인증": "X",
       "소음성적서": "O",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 95,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 80,
+      "durability_resilience": 75,
+      "usability_compatibility": 70,
+      "design_aesthetics": 85,
+      "material_sensory": 80
     }
   },
   {
@@ -1330,6 +1600,15 @@
       "항균인증": "-",
       "소음성적서": "KCL",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 80,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 60,
+      "durability_resilience": 55,
+      "usability_compatibility": 65,
+      "design_aesthetics": 70,
+      "material_sensory": null
     }
   },
   {
@@ -1373,6 +1652,15 @@
       "항균인증": "X",
       "소음성적서": "-",
       "기타인증": "유해물질불검출"
+    },
+    "attributeScores": {
+      "cushioning_safety": 95,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 90,
+      "durability_resilience": 85,
+      "usability_compatibility": 75,
+      "design_aesthetics": 80,
+      "material_sensory": 85
     }
   },
   {
@@ -1416,6 +1704,15 @@
       "항균인증": "O",
       "소음성적서": "KNV(주)한국소음진동",
       "기타인증": "환경부 친환경 인증"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 85,
+      "durability_resilience": 75,
+      "usability_compatibility": 60,
+      "design_aesthetics": 70,
+      "material_sensory": 65
     }
   },
   {
@@ -1459,6 +1756,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "중국CCC/유럽CE"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 95,
+      "durability_resilience": 75,
+      "usability_compatibility": 70,
+      "design_aesthetics": 85,
+      "material_sensory": 60
     }
   },
   {
@@ -1502,6 +1808,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "유해물질불검출"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 40,
+      "durability_resilience": 30,
+      "usability_compatibility": 50,
+      "design_aesthetics": 70,
+      "material_sensory": null
     }
   },
   {
@@ -1545,6 +1860,15 @@
       "항균인증": "X",
       "소음성적서": "-",
       "기타인증": "라돈 검사/유해물질불검출"
+    },
+    "attributeScores": {
+      "cushioning_safety": null,
+      "noise_reduction": null,
+      "cleaning_hygiene": null,
+      "durability_resilience": null,
+      "usability_compatibility": null,
+      "design_aesthetics": null,
+      "material_sensory": null
     }
   },
   {
@@ -1588,6 +1912,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 65,
+      "noise_reduction": 55,
+      "cleaning_hygiene": 70,
+      "durability_resilience": 30,
+      "usability_compatibility": 40,
+      "design_aesthetics": 75,
+      "material_sensory": 35
     }
   },
   {
@@ -1631,6 +1964,15 @@
       "항균인증": "X",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 60,
+      "cleaning_hygiene": 40,
+      "durability_resilience": 35,
+      "usability_compatibility": 30,
+      "design_aesthetics": 70,
+      "material_sensory": 45
     }
   },
   {
@@ -1674,6 +2016,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 75,
+      "durability_resilience": 65,
+      "usability_compatibility": 40,
+      "design_aesthetics": 80,
+      "material_sensory": 70
     }
   },
   {
@@ -1717,6 +2068,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 75,
+      "durability_resilience": 70,
+      "usability_compatibility": 60,
+      "design_aesthetics": 70,
+      "material_sensory": 40
     }
   },
   {
@@ -1760,6 +2120,15 @@
       "항균인증": "O",
       "소음성적서": "KNV(주)한국소음진동",
       "기타인증": "환경부 친환경 인증"
+    },
+    "attributeScores": {
+      "cushioning_safety": 85,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 75,
+      "durability_resilience": 70,
+      "usability_compatibility": 60,
+      "design_aesthetics": 70,
+      "material_sensory": 40
     }
   },
   {
@@ -1803,6 +2172,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 80,
+      "durability_resilience": 75,
+      "usability_compatibility": 70,
+      "design_aesthetics": 85,
+      "material_sensory": 70
     }
   },
   {
@@ -1846,6 +2224,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 85,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 55,
+      "durability_resilience": null,
+      "usability_compatibility": 70,
+      "design_aesthetics": 75,
+      "material_sensory": 80
     }
   },
   {
@@ -1889,6 +2276,15 @@
       "항균인증": "O",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 85,
+      "durability_resilience": 75,
+      "usability_compatibility": 70,
+      "design_aesthetics": 70,
+      "material_sensory": 70
     }
   },
   {
@@ -1932,6 +2328,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 65,
+      "cleaning_hygiene": 80,
+      "durability_resilience": 45,
+      "usability_compatibility": 60,
+      "design_aesthetics": 85,
+      "material_sensory": 55
     }
   },
   {
@@ -1975,6 +2380,15 @@
       "항균인증": "-",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 80,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 85,
+      "durability_resilience": 40,
+      "usability_compatibility": 60,
+      "design_aesthetics": 70,
+      "material_sensory": 65
     }
   },
   {
@@ -2018,6 +2432,15 @@
       "항균인증": "O",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 95,
+      "noise_reduction": 90,
+      "cleaning_hygiene": 90,
+      "durability_resilience": 75,
+      "usability_compatibility": 80,
+      "design_aesthetics": 85,
+      "material_sensory": 70
     }
   },
   {
@@ -2061,6 +2484,15 @@
       "항균인증": "O",
       "소음성적서": "O",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 80,
+      "noise_reduction": 75,
+      "cleaning_hygiene": 85,
+      "durability_resilience": 65,
+      "usability_compatibility": 70,
+      "design_aesthetics": 35,
+      "material_sensory": 70
     }
   },
   {
@@ -2104,6 +2536,15 @@
       "항균인증": "O",
       "소음성적서": "-",
       "기타인증": "-"
+    },
+    "attributeScores": {
+      "cushioning_safety": 75,
+      "noise_reduction": 80,
+      "cleaning_hygiene": 40,
+      "durability_resilience": 45,
+      "usability_compatibility": 60,
+      "design_aesthetics": 70,
+      "material_sensory": 35
     }
   },
   {
@@ -2147,6 +2588,15 @@
       "항균인증": "X",
       "소음성적서": "-",
       "기타인증": "유해물질불검출"
+    },
+    "attributeScores": {
+      "cushioning_safety": 90,
+      "noise_reduction": 85,
+      "cleaning_hygiene": 75,
+      "durability_resilience": 60,
+      "usability_compatibility": 55,
+      "design_aesthetics": 70,
+      "material_sensory": 70
     }
   }
 ]

@@ -1,6 +1,20 @@
 import { CoreAttributeKey } from '@/types';
 
 /**
+ * 커스텀 태그 인터페이스 (사용자 직접 입력)
+ */
+export interface CustomTag {
+  id: string; // 고유 ID (예: custom-pros-1234567890)
+  text: string; // 사용자가 입력한 텍스트
+  relatedAttributes: Array<{
+    attribute: CoreAttributeKey;
+    weight: number; // 0.3~1.0
+  }>;
+  type: 'pros' | 'cons'; // 장점/단점 구분
+  createdAt: number; // 생성 시간 (timestamp)
+}
+
+/**
  * 앵커 제품 정의
  * 사용자에게 보여줄 대표 제품 3개
  */

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { Category, CATEGORY_NAMES, ProductWithReviews } from '@/lib/data';
 import { GuideBottomSheet } from '@/components/GuideBottomSheet';
+import { logButtonClick } from '@/lib/logging/clientLogger';
 
 function AnchorPageContent() {
   const router = useRouter();
@@ -103,8 +104,7 @@ function AnchorPageContent() {
       <div className="flex min-h-screen items-center justify-center bg-gray-100">
         <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg flex items-center justify-center">
           <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#0084FE] mb-4"></div>
-            <p className="text-gray-600">제품 정보를 불러오는 중...</p>
+            <p className="text-gray-600">불러오는 중...</p>
           </div>
         </div>
       </div>
@@ -209,10 +209,24 @@ function AnchorPageContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-6 text-center text-lg font-bold text-gray-700"
+            className="mt-6 text-center"
           >
-            <p>인기 제품의 리뷰를 분석해서</p>
-            <p>맞춤형 추천에 활용할게요</p>
+            <p className="text-lg font-bold text-gray-700">인기 제품의 리뷰를 분석해서</p>
+            <p className="text-lg font-bold text-gray-700 mb-6">맞춤형 추천에 활용할게요</p>
+
+            {/* Guide Button */}
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              onClick={() => {
+                logButtonClick(`${CATEGORY_NAMES[category]} 1분 가이드 열기`, 'anchor');
+                setIsGuideOpen(true);
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors mt-20"
+            >
+              <span>⚡️ {CATEGORY_NAMES[category]} 1분 구매 가이드</span>
+            </motion.button>
           </motion.div>
         </main>
 

@@ -50,6 +50,16 @@
       "앱 연동": "X",
       "센서 감지 기능": "물부족, 분유통 미결합, 물통 미결합, 젖병 센서, 깔때기 미결합",
       "부가 기능": "잠금 기능, 조명 기능"
+    },
+    "attributeScores": {
+      "mixing_accuracy_and_consistency": null,
+      "cleaning_and_maintenance": 80,
+      "volume_control_increments": null,
+      "speed_and_ease_of_use": 90,
+      "temperature_control": 95,
+      "formula_compatibility": null,
+      "noise_level": 40,
+      "durability_and_build_quality": 30
     }
   },
   {
@@ -103,6 +113,16 @@
       "앱 연동": "O",
       "센서 감지 기능": "물부족, 분유통 미결합, 물통 미결합, 젖병 센서, 깔때기 미결합",
       "부가 기능": "잠금 기능, 조명 기능"
+    },
+    "attributeScores": {
+      "mixing_accuracy_and_consistency": 75,
+      "cleaning_and_maintenance": 70,
+      "volume_control_increments": 95,
+      "speed_and_ease_of_use": 90,
+      "temperature_control": 85,
+      "formula_compatibility": null,
+      "noise_level": null,
+      "durability_and_build_quality": null
     }
   },
   {
@@ -156,6 +176,16 @@
       "앱 연동": "X",
       "센서 감지 기능": "물부족, 분유통 미결합, 깔때기 미결합",
       "부가 기능": "-"
+    },
+    "attributeScores": {
+      "mixing_accuracy_and_consistency": 92,
+      "cleaning_and_maintenance": 65,
+      "volume_control_increments": 42,
+      "speed_and_ease_of_use": 95,
+      "temperature_control": 88,
+      "formula_compatibility": 80,
+      "noise_level": 70,
+      "durability_and_build_quality": 55
     }
   },
   {
@@ -209,6 +239,16 @@
       "앱 연동": "X",
       "센서 감지 기능": "물부족, 분유통 미결합, 물통 미결합, 젖병 센서, 깔때기 미결합",
       "부가 기능": "-"
+    },
+    "attributeScores": {
+      "mixing_accuracy_and_consistency": 60,
+      "cleaning_and_maintenance": 75,
+      "volume_control_increments": 90,
+      "speed_and_ease_of_use": 85,
+      "temperature_control": null,
+      "formula_compatibility": 80,
+      "noise_level": null,
+      "durability_and_build_quality": 35
     }
   },
   {
@@ -262,6 +302,16 @@
       "앱 연동": "O",
       "센서 감지 기능": "물부족, 분유통 미결합, 물통 미결합, 깔때기 미결합",
       "부가 기능": "조명 기능, 세척 외부 물 사용"
+    },
+    "attributeScores": {
+      "mixing_accuracy_and_consistency": null,
+      "cleaning_and_maintenance": null,
+      "volume_control_increments": null,
+      "speed_and_ease_of_use": null,
+      "temperature_control": null,
+      "formula_compatibility": null,
+      "noise_level": null,
+      "durability_and_build_quality": null
     }
   },
   {
@@ -315,6 +365,16 @@
       "앱 연동": "O",
       "센서 감지 기능": "물부족, 분유통 미결합, 물통 미결합, 젖병 센서, 깔때기 미결합",
       "부가 기능": "조명 기능, 세척 외부 물 사용"
+    },
+    "attributeScores": {
+      "mixing_accuracy_and_consistency": 90,
+      "cleaning_and_maintenance": 85,
+      "volume_control_increments": null,
+      "speed_and_ease_of_use": 95,
+      "temperature_control": null,
+      "formula_compatibility": 90,
+      "noise_level": null,
+      "durability_and_build_quality": null
     }
   }
 ]

@@ -1,5 +1,5 @@
 import { PrioritySettings, PriorityLevel, CoreAttributeKey } from '@/types';
-import { PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS } from '@/data/priorityTags';
+import { PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS, CustomTag } from '@/data/priorityTags';
 
 /**
  * 선택된 장점/단점/추가 고려사항 태그를 PrioritySettings로 변환
@@ -8,8 +8,9 @@ import { PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS } from '@/data/priorityTags';
  * 1. 장점 태그의 relatedAttributes 배열을 순회하며 가중치 적용 (기본 +3점 × weight)
  * 2. 단점 태그의 relatedAttributes 배열을 순회하며 가중치 적용 (기본 -2점 × weight)
  * 3. 추가 고려사항 태그의 relatedAttributes 배열을 순회하며 가중치 적용 (기본 +3점 × weight)
- * 4. 속성별 총점 계산
- * 5. 점수에 따라 high(6+), medium(3-5), low(~2) 분류
+ * 4. 커스텀 태그도 동일한 로직으로 처리 (AI 분석 결과 기반)
+ * 5. 속성별 총점 계산
+ * 6. 점수에 따라 high(6+), medium(3-5), low(~2) 분류
  *
  * 예시:
  * - "1도 단위 정확 조절" 장점 선택:
@@ -17,11 +18,15 @@ import { PROS_TAGS, CONS_TAGS, ADDITIONAL_TAGS } from '@/data/priorityTags';
  *   → usability: +3 × 0.3 = +0.9
  * - "가볍고 컴팩트해서 휴대" 추가 고려사항 선택:
  *   → portability: +3 × 1.0 = +3 (medium)
+ * - "물이 빨리 끓어요" 커스텀 장점 선택:
+ *   → AI 분석 → temperatureControl: +3 × 1.0 = +3
  */
 export function convertTagsToPriority(
   prosTagIds: string[],
   consTagIds: string[],
-  additionalTagIds: string[] = []
+  additionalTagIds: string[] = [],
+  customProsTags: CustomTag[] = [],
+  customConsTags: CustomTag[] = []
 ): PrioritySettings {
   // 6개 우선순위 속성만 점수 계산 (priceValue 제외)
   const priorityAttributes: CoreAttributeKey[] = [
@@ -81,6 +86,30 @@ export function convertTagsToPriority(
     }
   });
 
+  // 커스텀 장점 태그 집계 (AI 분석 결과 기반)
+  customProsTags.forEach(customTag => {
+    // 선택된 커스텀 태그만 처리
+    if (prosTagIds.includes(customTag.id)) {
+      customTag.relatedAttributes.forEach(({ attribute, weight }) => {
+        if (priorityAttributes.includes(attribute)) {
+          scores[attribute] += 3 * weight;
+        }
+      });
+    }
+  });
+
+  // 커스텀 단점 태그 집계 (AI 분석 결과 기반)
+  customConsTags.forEach(customTag => {
+    // 선택된 커스텀 태그만 처리
+    if (consTagIds.includes(customTag.id)) {
+      customTag.relatedAttributes.forEach(({ attribute, weight }) => {
+        if (priorityAttributes.includes(attribute)) {
+          scores[attribute] -= 2 * weight;
+        }
+      });
+    }
+  });
+
   // 점수를 PriorityLevel로 변환
   const scoreToPriority = (score: number): PriorityLevel => {
     if (score >= 6) return 'high';
@@ -102,6 +131,8 @@ export function convertTagsToPriority(
     selectedPros: prosTagIds.length,
     selectedCons: consTagIds.length,
     selectedAdditional: additionalTagIds.length,
+    customPros: customProsTags.length,
+    customCons: customConsTags.length,
     scores: Object.entries(scores)
       .filter(([key]) => priorityAttributes.includes(key as CoreAttributeKey))
       .map(([key, val]) => `${key}: ${val.toFixed(1)}`)
@@ -118,9 +149,11 @@ export function convertTagsToPriority(
 export function validateTagSelection(
   prosTagIds: string[],
   consTagIds: string[],
-  additionalTagIds: string[] = []
+  additionalTagIds: string[] = [],
+  customProsTags: CustomTag[] = [],
+  customConsTags: CustomTag[] = []
 ): { isValid: boolean; message?: string } {
-  const priority = convertTagsToPriority(prosTagIds, consTagIds, additionalTagIds);
+  const priority = convertTagsToPriority(prosTagIds, consTagIds, additionalTagIds, customProsTags, customConsTags);
 
   // high priority 개수 확인
   const highCount = Object.values(priority).filter(level => level === 'high').length;

@@ -44,6 +44,15 @@
       "전자레인지": "O",
       "UV자외선": "-",
       "식기세척기": "-"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 35,
+      "material_safety": 85,
+      "design_usability": 60,
+      "device_compatibility": null
     }
   },
   {
@@ -91,6 +100,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": 85,
+      "design_usability": 75,
+      "device_compatibility": null
     }
   },
   {
@@ -138,6 +156,15 @@
       "전자레인지": "-",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 70,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 30,
+      "material_safety": 85,
+      "design_usability": 65,
+      "device_compatibility": null
     }
   },
   {
@@ -185,6 +212,22 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "배앓이 방지": null,
+      "세척 편의성": 75,
+      "젖꼭지 거부 및 호환성": 60,
+      "샘 현상 및 조립 편의성": 40,
+      "소재 및 안전성": 85,
+      "디자인 및 사용 편의성": 70,
+      "기기 호환성": 70,
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -232,6 +275,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": 90,
+      "design_usability": 75,
+      "device_compatibility": null
     }
   },
   {
@@ -279,6 +331,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 95,
+      "cleaning_convenience": 70,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 40,
+      "material_safety": 90,
+      "design_usability": 60,
+      "device_compatibility": null
     }
   },
   {
@@ -326,6 +387,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": 70,
+      "material_safety": 90,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -373,6 +443,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 80,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": null,
+      "material_safety": 85,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -420,6 +499,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 85,
+      "cleaning_convenience": 65,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": 50,
+      "material_safety": 80,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -467,6 +555,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 40,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": 55,
+      "material_safety": 80,
+      "design_usability": 90,
+      "device_compatibility": null
     }
   },
   {
@@ -514,6 +611,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 40,
+      "material_safety": 70,
+      "design_usability": 60,
+      "device_compatibility": null
     }
   },
   {
@@ -561,6 +667,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "-"
+    },
+    "attributeScores": {
+      "colic_prevention": 80,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": 70,
+      "material_safety": 85,
+      "design_usability": 80,
+      "device_compatibility": null
     }
   },
   {
@@ -608,6 +723,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 70,
+      "material_safety": 90,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -655,6 +779,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -702,6 +835,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 40,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 60,
+      "material_safety": 80,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -749,6 +891,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 85,
+      "cleaning_convenience": 90,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 80,
+      "material_safety": 95,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -796,6 +947,15 @@
       "전자레인지": "X",
       "UV자외선": "O",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 40,
+      "material_safety": 90,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -843,6 +1003,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -890,6 +1059,15 @@
       "전자레인지": "O",
       "UV자외선": "X",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 80,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 65,
+      "leakage_assembly": 35,
+      "material_safety": 70,
+      "design_usability": 60,
+      "device_compatibility": null
     }
   },
   {
@@ -937,6 +1115,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 95,
+      "cleaning_convenience": 70,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": 80,
+      "material_safety": 90,
+      "design_usability": 75,
+      "device_compatibility": null
     }
   },
   {
@@ -984,6 +1171,15 @@
       "전자레인지": "X",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 30,
+      "material_safety": 85,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -1031,6 +1227,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 80,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 70,
+      "material_safety": 90,
+      "design_usability": 75,
+      "device_compatibility": null
     }
   },
   {
@@ -1078,6 +1283,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": 0,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -1125,6 +1339,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 95,
+      "cleaning_convenience": 80,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": 60,
+      "material_safety": 90,
+      "design_usability": 50,
+      "device_compatibility": null
     }
   },
   {
@@ -1172,6 +1395,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": 60,
+      "material_safety": null,
+      "design_usability": 80,
+      "device_compatibility": null
     }
   },
   {
@@ -1219,6 +1451,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 35,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 40,
+      "material_safety": 80,
+      "design_usability": 45,
+      "device_compatibility": 30
     }
   },
   {
@@ -1266,6 +1507,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "△(파손주의)"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 40,
+      "material_safety": 80,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -1313,6 +1563,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "△(파손주의)"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 95,
+      "leakage_assembly": 70,
+      "material_safety": 80,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -1360,6 +1619,15 @@
       "전자레인지": "△",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "△(파손주의)"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": 70,
+      "material_safety": 85,
+      "design_usability": 75,
+      "device_compatibility": null
     }
   },
   {
@@ -1407,6 +1675,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "-"
+    },
+    "attributeScores": {
+      "colic_prevention": 80,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 60,
+      "material_safety": 90,
+      "design_usability": 65,
+      "device_compatibility": null
     }
   },
   {
@@ -1454,6 +1731,15 @@
       "전자레인지": "△",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "△(파손주의)"
+    },
+    "attributeScores": {
+      "colic_prevention": 85,
+      "cleaning_convenience": 80,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": 35,
+      "material_safety": 90,
+      "design_usability": 75,
+      "device_compatibility": 95
     }
   },
   {
@@ -1501,6 +1787,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 85,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": null,
+      "material_safety": null,
+      "design_usability": 80,
+      "device_compatibility": null
     }
   },
   {
@@ -1548,6 +1843,15 @@
       "전자레인지": "△",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "△(파손주의)"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 40,
+      "material_safety": 90,
+      "design_usability": 80,
+      "device_compatibility": 85
     }
   },
   {
@@ -1595,6 +1899,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 70,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 40,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -1642,6 +1955,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 85,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 70,
+      "material_safety": 90,
+      "design_usability": 95,
+      "device_compatibility": null
     }
   },
   {
@@ -1689,6 +2011,15 @@
       "전자레인지": "-",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": null,
+      "material_safety": null,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -1736,6 +2067,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -1783,6 +2123,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "△(파손주의)"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 70,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": 85
     }
   },
   {
@@ -1830,6 +2179,15 @@
       "전자레인지": "△",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "△(파손주의)"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": 70,
+      "material_safety": 70,
+      "design_usability": 80,
+      "device_compatibility": 70
     }
   },
   {
@@ -1877,6 +2235,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 80,
+      "nipple_acceptance_compatibility": 95,
+      "leakage_assembly": 65,
+      "material_safety": 85,
+      "design_usability": 75,
+      "device_compatibility": null
     }
   },
   {
@@ -1924,6 +2291,15 @@
       "전자레인지": "X",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 95,
+      "cleaning_convenience": 40,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 35,
+      "material_safety": 70,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -1971,6 +2347,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -2018,6 +2403,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 88,
+      "leakage_assembly": 80,
+      "material_safety": 95,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -2065,6 +2459,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 95,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 70,
+      "material_safety": 90,
+      "design_usability": 80,
+      "device_compatibility": null
     }
   },
   {
@@ -2112,6 +2515,15 @@
       "전자레인지": "△",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 40,
+      "material_safety": 95,
+      "design_usability": 80,
+      "device_compatibility": null
     }
   },
   {
@@ -2159,6 +2571,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": 70,
+      "material_safety": 80,
+      "design_usability": 95,
+      "device_compatibility": null
     }
   },
   {
@@ -2206,6 +2627,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": 90,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": 75,
+      "material_safety": 90,
+      "design_usability": 80,
+      "device_compatibility": null
     }
   },
   {
@@ -2253,6 +2683,15 @@
       "전자레인지": "X",
       "UV자외선": "O",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 35,
+      "material_safety": 85,
+      "design_usability": 90,
+      "device_compatibility": null
     }
   },
   {
@@ -2300,6 +2739,15 @@
       "전자레인지": "X",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 95,
+      "leakage_assembly": null,
+      "material_safety": 80,
+      "design_usability": 65,
+      "device_compatibility": null
     }
   },
   {
@@ -2347,6 +2795,15 @@
       "전자레인지": "△",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 85,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 75,
+      "material_safety": 95,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -2394,6 +2851,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": null,
+      "material_safety": 75,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -2441,6 +2907,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": null,
+      "material_safety": 85,
+      "design_usability": 75,
+      "device_compatibility": null
     }
   },
   {
@@ -2488,6 +2963,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 65,
+      "nipple_acceptance_compatibility": 70,
+      "leakage_assembly": 40,
+      "material_safety": 80,
+      "design_usability": 60,
+      "device_compatibility": null
     }
   },
   {
@@ -2535,6 +3019,15 @@
       "전자레인지": "-",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 95,
+      "cleaning_convenience": 90,
+      "nipple_acceptance_compatibility": 85,
+      "material_safety": 90,
+      "design_usability": 80,
+      "leakage_assembly": 75,
+      "device_compatibility": null
     }
   },
   {
@@ -2582,6 +3075,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": 85,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -2629,6 +3131,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 85,
+      "cleaning_convenience": 90,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 75,
+      "material_safety": 95,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -2676,6 +3187,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 90,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 65,
+      "material_safety": 95,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -2723,6 +3243,15 @@
       "전자레인지": "O",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 95,
+      "cleaning_convenience": 80,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 40,
+      "material_safety": 90,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -2770,6 +3299,15 @@
       "전자레인지": "O",
       "UV자외선": "O",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 85,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 90,
+      "leakage_assembly": 70,
+      "material_safety": 95,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -2817,6 +3355,15 @@
       "전자레인지": "△",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 85,
+      "cleaning_convenience": 80,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 70,
+      "material_safety": 90,
+      "design_usability": 85,
+      "device_compatibility": null
     }
   },
   {
@@ -2864,6 +3411,15 @@
       "전자레인지": "X",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": null,
+      "cleaning_convenience": null,
+      "nipple_acceptance_compatibility": null,
+      "leakage_assembly": null,
+      "material_safety": null,
+      "design_usability": null,
+      "device_compatibility": null
     }
   },
   {
@@ -2911,6 +3467,15 @@
       "전자레인지": "X",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "-"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 60,
+      "nipple_acceptance_compatibility": 80,
+      "leakage_assembly": 40,
+      "material_safety": 90,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -2958,6 +3523,15 @@
       "전자레인지": "X",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 75,
+      "cleaning_convenience": 70,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": 60,
+      "material_safety": 80,
+      "design_usability": 90,
+      "device_compatibility": null
     }
   },
   {
@@ -3005,6 +3579,15 @@
       "전자레인지": "X",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "X"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 75,
+      "nipple_acceptance_compatibility": 85,
+      "leakage_assembly": 60,
+      "material_safety": 80,
+      "design_usability": 70,
+      "device_compatibility": null
     }
   },
   {
@@ -3052,6 +3635,15 @@
       "전자레인지": "△",
       "UV자외선": "△(변형/변색)",
       "식기세척기": "O"
+    },
+    "attributeScores": {
+      "colic_prevention": 90,
+      "cleaning_convenience": 80,
+      "nipple_acceptance_compatibility": 75,
+      "leakage_assembly": 60,
+      "material_safety": 85,
+      "design_usability": 80,
+      "device_compatibility": null
     }
   }
 ]

@@ -55,6 +55,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "청소알림기능/터보모드"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 80,
+      "capacity_storage": 90,
+      "durability_build_quality": null,
+      "usability_interface": 75,
+      "noise_level": 70,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 85,
+      "portability": null
     }
   },
   {
@@ -113,6 +123,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "발효모드"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 90,
+      "capacity_storage": 75,
+      "durability_build_quality": null,
+      "usability_interface": 85,
+      "noise_level": 80,
+      "maintenance_hygiene": 70,
+      "design_aesthetics": 80,
+      "portability": null
     }
   },
   {
@@ -171,6 +191,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 90,
+      "capacity_storage": 80,
+      "durability_build_quality": 75,
+      "usability_interface": 95,
+      "noise_level": 70,
+      "maintenance_hygiene": 65,
+      "design_aesthetics": 85,
+      "portability": null
     }
   },
   {
@@ -229,6 +259,16 @@
       "음소거모드": "-",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": null,
+      "usability_interface": null,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": null,
+      "portability": null
     }
   },
   {
@@ -287,6 +327,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "볼륨조절/수유등"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 90,
+      "capacity_storage": 85,
+      "durability_build_quality": 75,
+      "usability_interface": 90,
+      "noise_level": 80,
+      "maintenance_hygiene": 70,
+      "design_aesthetics": 85,
+      "portability": null
     }
   },
   {
@@ -345,6 +395,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "터보모드"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": null,
+      "usability_interface": null,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": null,
+      "portability": null
     }
   },
   {
@@ -403,6 +463,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 90,
+      "capacity_storage": 95,
+      "durability_build_quality": null,
+      "usability_interface": 85,
+      "noise_level": 75,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 95,
+      "portability": 0
     }
   },
   {
@@ -461,6 +531,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "어플 연동"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": null,
+      "usability_interface": null,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": null,
+      "portability": null
     }
   },
   {
@@ -519,6 +599,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "터보모드"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 88,
+      "capacity_storage": 65,
+      "durability_build_quality": null,
+      "usability_interface": 92,
+      "noise_level": 85,
+      "maintenance_hygiene": 70,
+      "design_aesthetics": 80,
+      "portability": 85
     }
   },
   {
@@ -577,6 +667,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": null,
+      "usability_interface": null,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": null,
+      "portability": null
     }
   },
   {
@@ -635,6 +735,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "터보모드"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 88,
+      "capacity_storage": 75,
+      "durability_build_quality": 45,
+      "usability_interface": 80,
+      "noise_level": 85,
+      "maintenance_hygiene": 70,
+      "design_aesthetics": 85,
+      "portability": null
     }
   },
   {
@@ -693,6 +803,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "식품건조모드/요거트모드 포함"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 90,
+      "capacity_storage": 75,
+      "durability_build_quality": 60,
+      "usability_interface": 85,
+      "noise_level": 70,
+      "maintenance_hygiene": 80,
+      "design_aesthetics": 85,
+      "portability": null
     }
   },
   {
@@ -751,6 +871,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": null,
+      "usability_interface": null,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": null,
+      "portability": null
     }
   },
   {
@@ -809,6 +939,16 @@
       "음소거모드": "O",
       "이어작동": "O",
       "기타특징": "칫솔걸이 증정"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 85,
+      "capacity_storage": 60,
+      "durability_build_quality": null,
+      "usability_interface": 75,
+      "noise_level": 80,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 70,
+      "portability": null
     }
   },
   {
@@ -867,6 +1007,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "식품건조모드/요거트모드 포함"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 90,
+      "capacity_storage": 75,
+      "durability_build_quality": null,
+      "usability_interface": 90,
+      "noise_level": 85,
+      "maintenance_hygiene": 80,
+      "design_aesthetics": 95,
+      "portability": null
     }
   },
   {
@@ -925,6 +1075,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "환기"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 85,
+      "capacity_storage": null,
+      "durability_build_quality": 42,
+      "usability_interface": 75,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 60,
+      "portability": null
     }
   },
   {
@@ -983,6 +1143,16 @@
       "음소거모드": "X",
       "이어작동": "X",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": 35,
+      "usability_interface": 75,
+      "noise_level": 40,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 70,
+      "portability": null
     }
   },
   {
@@ -1041,6 +1211,16 @@
       "음소거모드": "-",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": 42,
+      "usability_interface": 75,
+      "noise_level": 70,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 80,
+      "portability": null
     }
   },
   {
@@ -1099,6 +1279,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": null,
+      "usability_interface": null,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": null,
+      "portability": null
     }
   },
   {
@@ -1157,6 +1347,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 75,
+      "capacity_storage": 60,
+      "durability_build_quality": 45,
+      "usability_interface": 70,
+      "noise_level": 40,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 85,
+      "portability": null
     }
   },
   {
@@ -1215,6 +1415,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": 85,
+      "durability_build_quality": null,
+      "usability_interface": null,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 75,
+      "portability": null
     }
   },
   {
@@ -1273,6 +1483,16 @@
       "음소거모드": "-",
       "이어작동": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": 42,
+      "usability_interface": 30,
+      "noise_level": 35,
+      "maintenance_hygiene": 70,
+      "design_aesthetics": 80,
+      "portability": null
     }
   },
   {
@@ -1331,6 +1551,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": null,
+      "usability_interface": 85,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": null,
+      "portability": null
     }
   },
   {
@@ -1389,6 +1619,16 @@
       "음소거모드": "X",
       "이어작동": "X",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 88,
+      "capacity_storage": 75,
+      "durability_build_quality": 65,
+      "usability_interface": 78,
+      "noise_level": null,
+      "maintenance_hygiene": 80,
+      "design_aesthetics": 82,
+      "portability": 92
     }
   },
   {
@@ -1447,6 +1687,16 @@
       "음소거모드": "X",
       "이어작동": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": 65,
+      "durability_build_quality": 75,
+      "usability_interface": 70,
+      "noise_level": null,
+      "maintenance_hygiene": 70,
+      "design_aesthetics": 90,
+      "portability": null
     }
   },
   {
@@ -1505,6 +1755,16 @@
       "음소거모드": "X",
       "이어작동": "O",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": null,
+      "capacity_storage": null,
+      "durability_build_quality": null,
+      "usability_interface": 85,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": 85,
+      "portability": 85
     }
   },
   {
@@ -1563,6 +1823,16 @@
       "음소거모드": "O",
       "이어작동": "-",
       "기타특징": "-"
+    },
+    "attributeScores": {
+      "sterilization_drying_performance": 90,
+      "capacity_storage": 85,
+      "durability_build_quality": null,
+      "usability_interface": null,
+      "noise_level": null,
+      "maintenance_hygiene": null,
+      "design_aesthetics": null,
+      "portability": null
     }
   }
 ]
