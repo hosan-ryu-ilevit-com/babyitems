@@ -112,11 +112,6 @@ export default function ResultPage() {
   // Tag-based flow (v2) state
   const [isTagBasedFlow, setIsTagBasedFlow] = useState(false);
   const [anchorProduct, setAnchorProduct] = useState<any>(null);
-  const [showAnchorSelector, setShowAnchorSelector] = useState(false);
-  const [availableProducts, setAvailableProducts] = useState<any[]>([]);
-  const [displayedProductCount, setDisplayedProductCount] = useState(20); // Lazy loading: initially show 20
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<string>('');
 
   // 채팅 관련 state (비교 질문하기)
@@ -160,48 +155,6 @@ export default function ResultPage() {
     );
   };
 
-  // Anchor change handler
-  const handleAnchorChange = (newAnchor: any) => {
-    setAnchorProduct(newAnchor);
-    setShowAnchorSelector(false);
-    logButtonClick(`기준 제품 변경: ${newAnchor.모델명}`, 'result');
-  };
-
-  // Search products with API call
-  const searchProducts = async (keyword: string) => {
-    if (!currentCategory) return;
-
-    setIsSearching(true);
-    try {
-      // Remove limit=20 restriction - load all products
-      const url = keyword
-        ? `/api/anchor-products?category=${currentCategory}&search=${encodeURIComponent(keyword)}`
-        : `/api/anchor-products?category=${currentCategory}`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.success) {
-        setAvailableProducts(data.products);
-        setDisplayedProductCount(20); // Reset to initial load count
-      }
-    } catch (error) {
-      console.error('Failed to search products:', error);
-    } finally {
-      setIsSearching(false);
-    }
-  };
-
-  // Debounced search effect
-  useEffect(() => {
-    if (!showAnchorSelector) return;
-
-    const timer = setTimeout(() => {
-      searchProducts(searchKeyword);
-    }, 300); // 300ms debounce
-
-    return () => clearTimeout(timer);
-  }, [searchKeyword, showAnchorSelector, currentCategory]);
 
   // 채팅 메시지 전송 핸들러
   const handleSendMessage = async () => {
@@ -674,15 +627,6 @@ export default function ResultPage() {
         setRecommendations(convertedRecommendations);
         setAnchorProduct(data.anchorProduct);
         setCurrentCategory(category); // Save category for search
-
-        // Load available products for anchor selection (all products with reviews)
-        if (category) {
-          const productsResponse = await fetch(`/api/anchor-products?category=${category}`);
-          const productsData = await productsResponse.json();
-          if (productsData.success) {
-            setAvailableProducts(productsData.products);
-          }
-        }
       } else {
         setError(data.error || '추천 생성 실패');
       }
@@ -1123,17 +1067,6 @@ export default function ResultPage() {
                           </div>
                         </div>
 
-                        {/* 기준 제품 변경 버튼 */}
-                        <button
-                          onClick={() => {
-                            logButtonClick('기준 제품 변경 열기', 'result');
-                            setSearchKeyword(''); // 검색어 초기화
-                            setShowAnchorSelector(true);
-                          }}
-                          className="w-full py-3 px-3 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-200 transition-colors"
-                        >
-                          기준 제품 변경
-                        </button>
                       </motion.div>
                     )}
 
@@ -1719,141 +1652,6 @@ export default function ResultPage() {
           )}
         </AnimatePresence>
 
-        {/* Anchor Selector Bottom Sheet */}
-        <AnimatePresence>
-          {showAnchorSelector && (
-            <>
-              {/* Backdrop */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                onClick={() => setShowAnchorSelector(false)}
-                className="fixed inset-0 bg-black/50 z-[60]"
-              />
-
-              {/* Bottom Sheet */}
-              <motion.div
-                initial={{ y: '100%' }}
-                animate={{ y: 0 }}
-                exit={{ y: '100%' }}
-                transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[70] h-[80vh] flex flex-col overflow-hidden"
-                style={{ maxWidth: '480px', margin: '0 auto' }}
-              >
-                {/* Header */}
-                <div className="px-6 py-4 border-b border-gray-200">
-                  <h2 className="text-lg font-bold text-gray-900 text-center mb-3">
-                    비교 기준 제품 변경
-                  </h2>
-                  {/* Search */}
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="제품명 또는 브랜드 검색..."
-                      value={searchKeyword}
-                      onChange={(e) => setSearchKeyword(e.target.value)}
-                      className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    {isSearching && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">
-                    💡 검색하면 전체 카테고리에서 찾아요 (리뷰 있는 제품만)
-                  </p>
-                </div>
-
-                {/* Product List */}
-                <div
-                  className="flex-1 overflow-y-auto px-4 py-4"
-                  onScroll={(e) => {
-                    const target = e.currentTarget;
-                    const scrolledToBottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 100;
-                    if (scrolledToBottom && displayedProductCount < availableProducts.length) {
-                      setDisplayedProductCount(prev => Math.min(prev + 20, availableProducts.length));
-                    }
-                  }}
-                >
-                  {availableProducts.length === 0 && !isSearching && (
-                    <div className="text-center py-12 text-gray-500">
-                      <p className="text-sm">검색 결과가 없습니다</p>
-                    </div>
-                  )}
-                  <div className="space-y-3">
-                    {availableProducts.slice(0, displayedProductCount).map((product) => (
-                      <button
-                        key={product.productId}
-                        onClick={() => handleAnchorChange(product)}
-                        className="w-full bg-white border-2 border-gray-200 rounded-xl p-4 hover:border-blue-500 hover:bg-blue-50 transition-all text-left"
-                      >
-                        <div className="flex items-start gap-3">
-                          {product.썸네일 && (
-                            <Image
-                              src={product.썸네일}
-                              alt={product.모델명}
-                              width={80}
-                              height={80}
-                              className="w-20 h-20 object-contain bg-gray-50 rounded-lg flex-shrink-0"
-                            />
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <div className="text-xs text-gray-500 font-medium mb-1">
-                              {product.브랜드}
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-900 mb-1 line-clamp-2">
-                              {product.모델명}
-                            </h3>
-                            <div className="space-y-0.5">
-                              <p className="text-sm font-bold text-gray-900">
-                                {product.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-xs">원</span>
-                              </p>
-                              <div className="flex items-center gap-2 flex-wrap text-xs">
-                                <span className="text-gray-400">
-                                  랭킹 #{product.순위}
-                                </span>
-                                {product.reviewCount > 0 && (
-                                  <span className="text-gray-600 font-medium flex items-center gap-1">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-                                    </svg>
-                                    리뷰 {product.reviewCount}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                    {/* Loading indicator when more products available */}
-                    {displayedProductCount < availableProducts.length && (
-                      <div className="text-center py-4 text-gray-500 text-sm">
-                        스크롤하여 더 보기 ({displayedProductCount}/{availableProducts.length})
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Footer */}
-                <div className="px-6 py-4 border-t border-gray-200">
-                  <button
-                    onClick={() => {
-                      setShowAnchorSelector(false);
-                      setSearchKeyword(''); // 검색어 초기화
-                    }}
-                    className="w-full py-3 px-6 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors"
-                  >
-                    닫기
-                  </button>
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );

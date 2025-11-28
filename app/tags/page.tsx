@@ -4,11 +4,13 @@ import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Category, CATEGORY_NAMES, CATEGORY_BUDGET_OPTIONS, BudgetOption } from '@/lib/data';
+import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
 
 interface Tag {
   id: string;
   text: string;
   mentionCount?: number;
+  attributes: Record<string, number>; // Attribute key → weight (0.3-1.0)
 }
 
 type Step = 'loading' | 'pros' | 'cons' | 'budget' | 'done';
@@ -136,7 +138,8 @@ function TagsPageContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tagText: trimmed,
-          tagType: 'pros'
+          tagType: 'pros',
+          category
         })
       });
 
@@ -144,10 +147,13 @@ function TagsPageContent() {
         throw new Error('태그 분석에 실패했습니다.');
       }
 
+      const data = await response.json();
+
       // 커스텀 태그 생성 (Tag 인터페이스에 맞게)
       const newTag: Tag = {
         id: `custom-pros-${Date.now()}`,
-        text: trimmed
+        text: trimmed,
+        attributes: data.attributes || {} // Empty object if no attributes matched
       };
 
       // 자동으로 선택 상태로 추가
@@ -186,7 +192,8 @@ function TagsPageContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tagText: trimmed,
-          tagType: 'cons'
+          tagType: 'cons',
+          category
         })
       });
 
@@ -194,10 +201,13 @@ function TagsPageContent() {
         throw new Error('태그 분석에 실패했습니다.');
       }
 
+      const data = await response.json();
+
       // 커스텀 태그 생성 (Tag 인터페이스에 맞게)
       const newTag: Tag = {
         id: `custom-cons-${Date.now()}`,
-        text: trimmed
+        text: trimmed,
+        attributes: data.attributes || {} // Empty object if no attributes matched
       };
 
       // 자동으로 선택 상태로 추가
@@ -535,6 +545,13 @@ function TagsPageContent() {
                   const isFrequentlyMentioned = top4Tags.includes(tag.id) && tag.mentionCount && tag.mentionCount > 0;
                   const isCustomTag = tag.id.startsWith('custom-pros-');
 
+                  // Get category attributes for mapping
+                  const categoryAttrs = CATEGORY_ATTRIBUTES[category] || [];
+                  const mappedAttributes = Object.keys(tag.attributes).map(attrKey => {
+                    const attrInfo = categoryAttrs.find(a => a.key === attrKey);
+                    return attrInfo ? attrInfo.name : null;
+                  }).filter(Boolean);
+
                   return (
                     <motion.button
                       key={tag.id}
@@ -548,7 +565,7 @@ function TagsPageContent() {
                           : 'border-transparent bg-gray-100 hover:bg-gray-200'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-start gap-3">
                         <div
                           className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold shrink-0 ${
                             isSelected
@@ -559,24 +576,43 @@ function TagsPageContent() {
                           {isSelected ? selectedIndex + 1 : ''}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
+                          {/* 태그 텍스트 */}
+                          <div className="flex items-center gap-2 mb-1.5">
                             {isCustomTag && <span className="text-sm">🖊️</span>}
                             <span className={`text-sm leading-snug font-medium ${
                               isSelected ? 'text-emerald-700' : 'text-gray-700'
                             }`}>{tag.text}</span>
-                            {isFrequentlyMentioned && (
-                              <span
-                                className="text-[10px] px-1.5 py-0.5 rounded-md font-bold shrink-0"
-                                style={
-                                  isSelected
-                                    ? { backgroundColor: 'white', color: '#059669' }
-                                    : { backgroundColor: '#EAF8F8', color: '#009896' }
-                                }
-                              >
-                                많이 언급
-                              </span>
-                            )}
                           </div>
+
+                          {/* 배지들 (많이 언급 + 매핑된 속성들) */}
+                          {(isFrequentlyMentioned || mappedAttributes.length > 0) && (
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              {isFrequentlyMentioned && (
+                                <span
+                                  className="text-[10px] px-1.5 py-0.5 rounded-md font-bold"
+                                  style={
+                                    isSelected
+                                      ? { backgroundColor: 'white', color: '#059669' }
+                                      : { backgroundColor: '#EAF8F8', color: '#009896' }
+                                  }
+                                >
+                                  많이 언급
+                                </span>
+                              )}
+                              {mappedAttributes.map((attrName, i) => (
+                                <span
+                                  key={i}
+                                  className={`text-[10px] px-1.5 py-0.5 rounded-md font-medium ${
+                                    isSelected
+                                      ? 'bg-white text-emerald-600'
+                                      : 'bg-white/70 text-gray-500'
+                                  }`}
+                                >
+                                  {attrName}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </motion.button>
@@ -673,7 +709,7 @@ function TagsPageContent() {
                     <span className="text-2xl">😊</span>
                   </div>
                   <p className="text-sm font-semibold text-gray-700 mb-1">
-                    단점을 언급한 리뷰가 없습니다!
+                    단점 언급 리뷰 없음!
                   </p>
                   <p className="text-xs text-gray-500">
                     이 제품은 저평점 리뷰가 없어요
@@ -690,6 +726,13 @@ function TagsPageContent() {
                     const isFrequentlyMentioned = top4Tags.includes(tag.id) && tag.mentionCount && tag.mentionCount > 0;
                     const isCustomTag = tag.id.startsWith('custom-cons-');
 
+                    // Get category attributes for mapping
+                    const categoryAttrs = CATEGORY_ATTRIBUTES[category] || [];
+                    const mappedAttributes = Object.keys(tag.attributes).map(attrKey => {
+                      const attrInfo = categoryAttrs.find(a => a.key === attrKey);
+                      return attrInfo ? attrInfo.name : null;
+                    }).filter(Boolean);
+
                     return (
                     <motion.button
                       key={tag.id}
@@ -703,7 +746,7 @@ function TagsPageContent() {
                           : 'border-transparent bg-gray-100 hover:bg-gray-200'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-start gap-3">
                         <div
                           className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold shrink-0 ${
                             isSelected
@@ -714,24 +757,43 @@ function TagsPageContent() {
                           {isSelected ? selectedIndex + 1 : ''}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
+                          {/* 태그 텍스트 */}
+                          <div className="flex items-center gap-2 mb-1.5">
                             {isCustomTag && <span className="text-sm">🖊️</span>}
                             <span className={`text-sm leading-snug font-medium ${
                               isSelected ? 'text-rose-700' : 'text-gray-700'
                             }`}>{tag.text}</span>
-                            {isFrequentlyMentioned && (
-                              <span
-                                className="text-[10px] px-1.5 py-0.5 rounded-md font-bold shrink-0"
-                                style={
-                                  isSelected
-                                    ? { backgroundColor: 'white', color: '#E11D48' }
-                                    : { backgroundColor: '#FEE', color: '#DC2626' }
-                                }
-                              >
-                                많이 언급
-                              </span>
-                            )}
                           </div>
+
+                          {/* 배지들 (많이 언급 + 매핑된 속성들) */}
+                          {(isFrequentlyMentioned || mappedAttributes.length > 0) && (
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              {isFrequentlyMentioned && (
+                                <span
+                                  className="text-[10px] px-1.5 py-0.5 rounded-md font-bold"
+                                  style={
+                                    isSelected
+                                      ? { backgroundColor: 'white', color: '#E11D48' }
+                                      : { backgroundColor: '#FEE', color: '#DC2626' }
+                                  }
+                                >
+                                  많이 언급
+                                </span>
+                              )}
+                              {mappedAttributes.map((attrName, i) => (
+                                <span
+                                  key={i}
+                                  className={`text-[10px] px-1.5 py-0.5 rounded-md font-medium ${
+                                    isSelected
+                                      ? 'bg-white text-rose-600'
+                                      : 'bg-gray-200 text-gray-600'
+                                  }`}
+                                >
+                                  {attrName}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </motion.button>
