@@ -1298,6 +1298,7 @@ export default function ResultPage() {
                       recommendations={recommendations}
                       cachedFeatures={comparisonFeatures}
                       cachedDetails={comparisonDetails}
+                      showScore={false}
                       anchorProduct={isTagBasedFlow ? anchorProduct : undefined}
                       isTagBasedFlow={isTagBasedFlow}
                       category={currentCategory || undefined}

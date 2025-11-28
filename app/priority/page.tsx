@@ -93,32 +93,6 @@ function formatMarkdown(text: string) {
   });
 }
 
-// 타이핑 이펙트 컴포넌트 (Chat 페이지에서 가져옴)
-function TypingMessage({ content, onComplete, onUpdate }: { content: string; onComplete?: () => void; onUpdate?: () => void }) {
-  const [displayedContent, setDisplayedContent] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    if (currentIndex < content.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedContent(content.slice(0, currentIndex + 1));
-        setCurrentIndex(currentIndex + 1);
-        if (onUpdate) {
-          requestAnimationFrame(() => {
-            onUpdate();
-          });
-        }
-      }, 10);
-
-      return () => clearTimeout(timeout);
-    } else if (onComplete) {
-      onComplete();
-    }
-  }, [currentIndex, content, onComplete, onUpdate]);
-
-  return <span>{formatMarkdown(displayedContent)}</span>;
-}
-
 function PriorityPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -342,36 +316,17 @@ function PriorityPageContent() {
             id: secondMessageId,
             role: 'assistant',
             content: '**인기 제품 3개**의 장점을 모아봤어요.\n마음에 드는 걸 골라주시면, 딱 맞는 제품을 찾아드릴게요! (최대 5개)',
-            typing: true,
             stepTag: '1/4',
           };
           setMessages((prev) => [...prev, secondMessage]);
-          setTypingMessageId(secondMessageId);
 
-          // 두 번째 메시지 타이핑 완료 후 pros-selector 추가
-          // (이건 별도 useEffect에서 처리하거나 여기서 처리)
+          // pros-selector 바로 추가
+          setTimeout(() => {
+            addComponentMessage('pros-selector');
+          }, 300);
         }, 500);
 
         initialMessageIdRef.current = null; // 한 번만 실행되도록
-      }, 300);
-    }
-  }, [typingMessageId, messages, currentStep]);
-
-  // 두 번째 메시지 타이핑 완료 후 pros-selector 추가
-  useEffect(() => {
-    // 두 번째 메시지 타이핑 완료 확인
-    if (
-      typingMessageId === null &&
-      messages.length === 3 &&
-      messages[1].componentType === 'guide-button' &&
-      messages[2].stepTag === '1/4' &&
-      currentStep === 1 &&
-      !messages.some(m => m.componentType === 'pros-selector')
-    ) {
-      console.log('✅ 두 번째 메시지 타이핑 완료 - pros-selector 추가');
-
-      setTimeout(() => {
-        addComponentMessage('pros-selector');
       }, 300);
     }
   }, [typingMessageId, messages, currentStep]);
@@ -1006,15 +961,7 @@ function PriorityPageContent() {
                     {/* 메시지 버블 */}
                     <div className="w-full flex justify-start">
                       <div className="px-1 py-1 text-gray-900 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl whitespace-pre-wrap text-base">
-                        {message.typing && typingMessageId === message.id ? (
-                          <TypingMessage
-                            content={message.content}
-                            onUpdate={message.extraMarginTop || currentStep === 1 ? undefined : scrollToBottom}
-                            onComplete={() => setTypingMessageId(null)}
-                          />
-                        ) : (
-                          formatMarkdown(message.content)
-                        )}
+                        {formatMarkdown(message.content)}
                       </div>
                     </div>
                   </motion.div>

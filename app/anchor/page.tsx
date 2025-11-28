@@ -211,8 +211,8 @@ function AnchorPageContent() {
             transition={{ delay: 0.3 }}
             className="mt-6 text-center text-lg font-bold text-gray-700"
           >
-            <p>선택하신 제품의 리뷰를 분석해서</p>
-            <p>장단점을 보여드릴게요</p>
+            <p>인기 제품의 리뷰를 분석해서</p>
+            <p>맞춤형 추천에 활용할게요</p>
           </motion.div>
         </main>
 

@@ -13,26 +13,6 @@ interface Tag {
 
 type Step = 'loading' | 'pros' | 'cons' | 'budget' | 'done';
 
-// 타이핑 애니메이션 컴포넌트
-function TypingText({ text, onComplete }: { text: string; onComplete?: () => void }) {
-  const [displayedText, setDisplayedText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText(text.slice(0, currentIndex + 1));
-        setCurrentIndex(currentIndex + 1);
-      }, 15);
-      return () => clearTimeout(timeout);
-    } else if (onComplete) {
-      onComplete();
-    }
-  }, [currentIndex, text, onComplete]);
-
-  return <span>{displayedText}</span>;
-}
-
 function TagsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -52,7 +32,6 @@ function TagsPageContent() {
   const [parsedBudgetDisplay, setParsedBudgetDisplay] = useState<string>('');
   const [productTitle, setProductTitle] = useState(productTitleFromUrl);
   const [error, setError] = useState('');
-  const [showTyping, setShowTyping] = useState(false);
   const [showBackConfirmModal, setShowBackConfirmModal] = useState(false);
 
   // 중복 실행 방지를 위한 ref
@@ -86,8 +65,6 @@ function TagsPageContent() {
           setProductTitle(data.productTitle);
         }
         setStep('pros');
-        // 타이핑 애니메이션 시작
-        setTimeout(() => setShowTyping(true), 300);
       } else {
         setError(data.error || '태그 생성 실패');
       }
@@ -431,16 +408,9 @@ function TagsPageContent() {
                 1/3
               </div>
 
-              {/* Title with Typing Effect */}
+              {/* Title */}
               <h2 className="text-lg font-bold text-gray-900 mb-2">
-                {showTyping ? (
-                  <TypingText
-                    text="가장 마음에 드는 장점을 선택하세요"
-                    onComplete={() => {}}
-                  />
-                ) : (
-                  "가장 마음에 드는 장점을 선택하세요"
-                )}
+                가장 마음에 드는 장점을 선택하세요
               </h2>
               <p className="text-sm text-gray-600 mb-6">
                 최대 4개 선택 가능 • 선택한 순서대로 우선순위가 적용됩니다
@@ -773,7 +743,7 @@ function TagsPageContent() {
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
-              다음 ({selectedPros.length}/4 선택)
+              다음
             </motion.button>
           )}
 
@@ -794,7 +764,7 @@ function TagsPageContent() {
                 onClick={handleConsNext}
                 className="flex-1 h-14 bg-[#0084FE] text-white rounded-2xl font-semibold hover:opacity-90 transition-all"
               >
-                다음 ({selectedCons.length}/3)
+                다음
               </motion.button>
             </div>
           )}

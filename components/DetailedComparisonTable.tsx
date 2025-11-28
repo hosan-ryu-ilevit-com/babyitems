@@ -205,8 +205,8 @@ export default function DetailedComparisonTable({
                   )}
                   {/* 랭킹 배지 또는 앵커 표시 */}
                   {isAnchor ? (
-                    <div className="absolute top-0 left-0 px-1.5 py-0.5 bg-gray-700 rounded-tl-lg rounded-br-md">
-                      <span className="text-white font-bold text-[9px]">기준</span>
+                    <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
+                      <span className="text-white font-bold text-[9px] leading-none">기준</span>
                     </div>
                   ) : showRankBadge ? (
                     <div className="absolute top-0 left-0 w-5 h-5 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
@@ -258,8 +258,12 @@ export default function DetailedComparisonTable({
                             sizes="48px"
                           />
                         )}
-                        {/* 랭킹 배지 */}
-                        {showRankBadge && (
+                        {/* 랭킹 배지 또는 앵커 표시 */}
+                        {selectedRecommendations[0]?.rank === 0 ? (
+                          <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
+                            <span className="text-white font-bold text-[9px] leading-none">기준</span>
+                          </div>
+                        ) : showRankBadge && (
                           <div className="absolute top-0 left-0 w-4 h-4 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
                             <span className="text-white font-bold text-[10px]">
                               {selectedRecommendations[0]?.rank}
@@ -286,8 +290,12 @@ export default function DetailedComparisonTable({
                             sizes="48px"
                           />
                         )}
-                        {/* 랭킹 배지 */}
-                        {showRankBadge && (
+                        {/* 랭킹 배지 또는 앵커 표시 */}
+                        {selectedRecommendations[1]?.rank === 0 ? (
+                          <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
+                            <span className="text-white font-bold text-[9px] leading-none">기준</span>
+                          </div>
+                        ) : showRankBadge && (
                           <div className="absolute top-0 left-0 w-4 h-4 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
                             <span className="text-white font-bold text-[10px]">
                               {selectedRecommendations[1]?.rank}
@@ -489,7 +497,16 @@ export default function DetailedComparisonTable({
             </tr>
 
             {/* 장점 */}
-            {!isLoadingComparison && Object.keys(productDetails).length > 0 && (
+            {isLoadingComparison ? (
+              <tr className="border-b border-gray-100">
+                <td colSpan={3} className="py-4 px-1.5">
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                    <span className="text-xs text-gray-500">장점 분석 중...</span>
+                  </div>
+                </td>
+              </tr>
+            ) : Object.keys(productDetails).length > 0 && (
               <tr className="border-b border-gray-100">
                 <td colSpan={3} className="py-2 px-1.5">
                   <div className="flex items-start justify-between gap-4">
@@ -569,7 +586,16 @@ export default function DetailedComparisonTable({
             )}
 
             {/* 주의점 */}
-            {!isLoadingComparison && Object.keys(productDetails).length > 0 && (
+            {isLoadingComparison ? (
+              <tr className="border-b border-gray-100">
+                <td colSpan={3} className="py-4 px-1.5">
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
+                    <span className="text-xs text-gray-500">주의점 분석 중...</span>
+                  </div>
+                </td>
+              </tr>
+            ) : Object.keys(productDetails).length > 0 && (
               <tr className="border-b border-gray-100">
                 <td colSpan={3} className="py-2 px-1.5">
                   <div className="flex items-start justify-between gap-4">
