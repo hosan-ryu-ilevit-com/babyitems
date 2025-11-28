@@ -60,3 +60,69 @@ export const CATEGORY_THUMBNAILS: Record<Category, string | null> = {
   nasal_aspirator: 'https://ns-curation.s3.ap-northeast-2.amazonaws.com/watermark/콧물흡입기_조인메디칼_미니돌핀.png',
   thermometer: 'https://ns-curation.s3.ap-northeast-2.amazonaws.com/watermark/체온계_붐케어_BC-05.png',
 };
+
+// 예산 옵션 인터페이스
+export interface BudgetOption {
+  label: string;
+  value: string;
+  desc: string;
+  popular?: boolean;
+}
+
+// 카테고리별 예산 범위 (가격 분포 기반)
+export const CATEGORY_BUDGET_OPTIONS: Record<Category, BudgetOption[]> = {
+  baby_bottle: [
+    { label: '1만원 이하', value: '0-10000', desc: '기본형' },
+    { label: '1~3만원', value: '10000-30000', desc: '인기 제품', popular: true },
+    { label: '3~5만원', value: '30000-50000', desc: '프리미엄' },
+    { label: '5만원 이상', value: '50000+', desc: '최고급' },
+  ],
+  baby_bottle_sterilizer: [
+    { label: '15만원 이하', value: '0-150000', desc: '기본 기능' },
+    { label: '15~25만원', value: '150000-250000', desc: '더 좋은 기능', popular: true },
+    { label: '25~35만원', value: '250000-350000', desc: '프리미엄' },
+    { label: '35만원 이상', value: '350000+', desc: '최고급' },
+  ],
+  baby_formula_dispenser: [
+    { label: '30만원 이하', value: '0-300000', desc: '기본 기능' },
+    { label: '30~45만원', value: '300000-450000', desc: '더 좋은 기능', popular: true },
+    { label: '45~60만원', value: '450000-600000', desc: '프리미엄' },
+    { label: '60만원 이상', value: '600000+', desc: '최고급' },
+  ],
+  baby_monitor: [
+    { label: '3만원 이하', value: '0-30000', desc: '기본 기능' },
+    { label: '3~5만원', value: '30000-50000', desc: '인기 제품', popular: true },
+    { label: '5~7만원', value: '50000-70000', desc: '프리미엄' },
+    { label: '7만원 이상', value: '70000+', desc: '최고급' },
+  ],
+  baby_play_mat: [
+    { label: '5만원 이하', value: '0-50000', desc: '기본형' },
+    { label: '5~15만원', value: '50000-150000', desc: '인기 제품', popular: true },
+    { label: '15~30만원', value: '150000-300000', desc: '프리미엄' },
+    { label: '30만원 이상', value: '300000+', desc: '최고급' },
+  ],
+  car_seat: [
+    { label: '15만원 이하', value: '0-150000', desc: '기본 기능' },
+    { label: '15~40만원', value: '150000-400000', desc: '인기 제품', popular: true },
+    { label: '40~70만원', value: '400000-700000', desc: '프리미엄' },
+    { label: '70만원 이상', value: '700000+', desc: '최고급' },
+  ],
+  milk_powder_port: [
+    { label: '5만원 이하', value: '0-50000', desc: '기본 기능' },
+    { label: '5~10만원', value: '50000-100000', desc: '더 좋은 소재+편의 기능', popular: true },
+    { label: '10~15만원', value: '100000-150000', desc: '프리미엄 기능' },
+    { label: '15만원 이상', value: '150000+', desc: '최고급' },
+  ],
+  nasal_aspirator: [
+    { label: '3만원 이하', value: '0-30000', desc: '기본 기능' },
+    { label: '3~5만원', value: '30000-50000', desc: '인기 제품', popular: true },
+    { label: '5~10만원', value: '50000-100000', desc: '프리미엄' },
+    { label: '10만원 이상', value: '100000+', desc: '최고급' },
+  ],
+  thermometer: [
+    { label: '4만원 이하', value: '0-40000', desc: '기본 기능' },
+    { label: '4~7만원', value: '40000-70000', desc: '인기 제품', popular: true },
+    { label: '7~10만원', value: '70000-100000', desc: '프리미엄' },
+    { label: '10만원 이상', value: '100000+', desc: '최고급' },
+  ],
+};

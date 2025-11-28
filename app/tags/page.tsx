@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Category, CATEGORY_NAMES } from '@/lib/data';
+import { Category, CATEGORY_NAMES, CATEGORY_BUDGET_OPTIONS, BudgetOption } from '@/lib/data';
 
 interface Tag {
   id: string;
@@ -12,13 +12,6 @@ interface Tag {
 }
 
 type Step = 'loading' | 'pros' | 'cons' | 'budget' | 'done';
-
-const BUDGET_OPTIONS = [
-  { label: '5만원 이하', value: '0-50000', desc: '기본 기능' },
-  { label: '5~10만원', value: '50000-100000', desc: '더 좋은 소재+편의 기능', popular: true },
-  { label: '10~15만원', value: '100000-150000', desc: '프리미엄 기능' },
-  { label: '15만원 이상', value: '150000+', desc: '최고급' },
-];
 
 // 타이핑 애니메이션 컴포넌트
 function TypingText({ text, onComplete }: { text: string; onComplete?: () => void }) {
@@ -53,6 +46,10 @@ function TagsPageContent() {
   const [selectedPros, setSelectedPros] = useState<string[]>([]);
   const [selectedCons, setSelectedCons] = useState<string[]>([]);
   const [budget, setBudget] = useState<string>('');
+  const [customBudget, setCustomBudget] = useState<string>('');
+  const [isCustomMode, setIsCustomMode] = useState(false);
+  const [isParsingBudget, setIsParsingBudget] = useState(false);
+  const [parsedBudgetDisplay, setParsedBudgetDisplay] = useState<string>('');
   const [productTitle, setProductTitle] = useState(productTitleFromUrl);
   const [error, setError] = useState('');
   const [showTyping, setShowTyping] = useState(false);
@@ -60,6 +57,9 @@ function TagsPageContent() {
 
   // 중복 실행 방지를 위한 ref
   const hasGeneratedRef = useRef(false);
+
+  // 카테고리별 예산 옵션
+  const budgetOptions: BudgetOption[] = category ? CATEGORY_BUDGET_OPTIONS[category] : [];
 
   const generateTags = async () => {
     try {
@@ -156,6 +156,71 @@ function TagsPageContent() {
 
   const handleBudgetSelect = (value: string) => {
     setBudget(value);
+    setIsCustomMode(false);
+    setCustomBudget('');
+  };
+
+  const handleCustomModeToggle = () => {
+    setIsCustomMode(true);
+    setBudget('');
+    setParsedBudgetDisplay('');
+  };
+
+  const handleCustomBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCustomBudget(value);
+    // 입력이 변경되면 이전 파싱 결과 초기화
+    setParsedBudgetDisplay('');
+    setBudget('');
+  };
+
+  const handleParseBudget = async () => {
+    if (!customBudget.trim()) {
+      alert('예산을 입력해주세요');
+      return;
+    }
+
+    setIsParsingBudget(true);
+    try {
+      const response = await fetch('/api/parse-budget', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: customBudget }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.budgetRange) {
+        setBudget(data.budgetRange);
+        // 파싱된 범위를 사용자 친화적으로 표시
+        const displayText = formatBudgetRangeForDisplay(data.budgetRange);
+        setParsedBudgetDisplay(displayText);
+      } else {
+        alert(data.error || '예산 파싱에 실패했습니다');
+      }
+    } catch (err) {
+      console.error('Budget parsing error:', err);
+      alert('예산 파싱 중 오류가 발생했습니다');
+    } finally {
+      setIsParsingBudget(false);
+    }
+  };
+
+  // 예산 범위를 사용자 친화적으로 표시
+  const formatBudgetRangeForDisplay = (range: string): string => {
+    if (range.endsWith('+')) {
+      const min = parseInt(range.replace('+', ''));
+      return `${(min / 10000).toFixed(0)}만원 이상`;
+    }
+    const [min, max] = range.split('-').map(v => parseInt(v));
+    if (min === 0) {
+      return `${(max / 10000).toFixed(0)}만원 이하`;
+    }
+    if (Math.abs(max - min) <= min * 0.2) {
+      // 범위가 좁으면 "약 N만원"으로 표시
+      return `약 ${((min + max) / 2 / 10000).toFixed(0)}만원`;
+    }
+    return `${(min / 10000).toFixed(0)}~${(max / 10000).toFixed(0)}만원`;
   };
 
   const handleConfirm = () => {
@@ -393,9 +458,9 @@ function TagsPageContent() {
                   return (
                     <motion.button
                       key={tag.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.15, delay: index * 0.02 }}
                       onClick={() => toggleProsTag(tag.id)}
                       className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                         isSelected
@@ -490,9 +555,9 @@ function TagsPageContent() {
                     return (
                     <motion.button
                       key={tag.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.15, delay: index * 0.02 }}
                       onClick={() => toggleConsTag(tag.id)}
                       className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                         isSelected
@@ -565,19 +630,20 @@ function TagsPageContent() {
               <h2 className="text-lg font-bold text-gray-900 mb-2">예산을 선택하세요</h2>
               <p className="text-sm text-gray-600 mb-6">예산 범위 내에서 최적의 제품을 찾아드립니다</p>
 
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                {BUDGET_OPTIONS.map((option) => (
+              {/* 미리 정의된 예산 범위 */}
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {budgetOptions.map((option) => (
                   <button
                     key={option.value}
                     onClick={() => handleBudgetSelect(option.value)}
                     className={`p-4 rounded-xl text-left transition-all border-2 ${
-                      budget === option.value
+                      budget === option.value && !isCustomMode
                         ? 'bg-blue-50 border-blue-300'
                         : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                     }`}
                   >
                     <div className="flex items-start justify-between mb-1">
-                      <span className={`font-semibold text-sm ${budget === option.value ? 'text-[#0084FE]' : 'text-gray-900'}`}>
+                      <span className={`font-semibold text-sm ${budget === option.value && !isCustomMode ? 'text-[#0084FE]' : 'text-gray-900'}`}>
                         {option.label}
                       </span>
                       {option.popular && (
@@ -586,12 +652,105 @@ function TagsPageContent() {
                         </span>
                       )}
                     </div>
-                    <div className={`text-xs ${budget === option.value ? 'text-blue-600' : 'text-gray-500'}`}>
+                    <div className={`text-xs ${budget === option.value && !isCustomMode ? 'text-blue-600' : 'text-gray-500'}`}>
                       {option.desc}
                     </div>
                   </button>
                 ))}
               </div>
+
+              {/* 직접 입력 버튼 */}
+              {!isCustomMode && (
+                <button
+                  onClick={handleCustomModeToggle}
+                  className="w-full p-4 rounded-xl text-center border-2 border-dashed border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all mb-4"
+                >
+                  <span className="text-sm font-semibold text-gray-700">💰 직접 입력하기</span>
+                </button>
+              )}
+
+              {/* 커스텀 예산 입력 필드 */}
+              {isCustomMode && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-4"
+                >
+                  <div className="bg-blue-50 border-2 border-blue-300 rounded-xl p-4">
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      원하는 예산을 입력하세요
+                    </label>
+                    <div className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={customBudget}
+                        onChange={handleCustomBudgetChange}
+                        placeholder="예: 7만 이하, 10만원 정도, 80000"
+                        className="flex-1 px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#0084FE] focus:outline-none text-base"
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            handleParseBudget();
+                          }
+                        }}
+                      />
+                      <button
+                        onClick={handleParseBudget}
+                        disabled={!customBudget.trim() || isParsingBudget}
+                        className={`px-5 py-3 rounded-lg font-semibold text-sm transition-all ${
+                          customBudget.trim() && !isParsingBudget
+                            ? 'bg-[#0084FE] text-white hover:opacity-90'
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        }`}
+                      >
+                        {isParsingBudget ? '분석 중...' : '확인'}
+                      </button>
+                    </div>
+
+                    {/* 파싱 결과 표시 */}
+                    {parsedBudgetDisplay && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-3 p-3 bg-white rounded-lg border border-blue-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">✅</span>
+                          <div>
+                            <p className="text-sm font-semibold text-gray-900">
+                              {parsedBudgetDisplay}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              이 범위로 추천해드릴게요
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    <div className="text-xs text-gray-600 mb-3">
+                      <p className="mb-1 font-semibold">💡 입력 예시:</p>
+                      <ul className="space-y-0.5 text-gray-500">
+                        <li>• &quot;7만 이하&quot; → 7만원까지의 제품 추천</li>
+                        <li>• &quot;10만원 정도&quot; → 9~11만원대 제품 추천</li>
+                        <li>• &quot;15~20만원&quot; → 15~20만원 사이 제품 추천</li>
+                      </ul>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setIsCustomMode(false);
+                        setCustomBudget('');
+                        setBudget('');
+                        setParsedBudgetDisplay('');
+                      }}
+                      className="text-sm text-gray-600 hover:text-gray-900 underline"
+                    >
+                      범위로 다시 선택하기
+                    </button>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
