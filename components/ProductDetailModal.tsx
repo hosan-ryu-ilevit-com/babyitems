@@ -297,7 +297,7 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="px-4 py-5 space-y-6"
+                className="px-4 py-5 space-y-3"
               >
                 {/* 선택하신 기준 충족도 */}
                 {productData.selectedTagsEvaluation && productData.selectedTagsEvaluation.length > 0 && (() => {
@@ -424,16 +424,16 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                   <div className="bg-gray-50 rounded-lg">
                     <button
                       onClick={() => setIsAdditionalProsOpen(!isAdditionalProsOpen)}
-                      className="w-full p-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
+                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
                     >
                       <div className="flex items-center gap-2">
-                        <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                         <h3 className="text-base font-bold text-gray-900">추가로 이런 점도 좋아요</h3>
                       </div>
                       <svg
-                        className={`w-5 h-5 text-gray-500 transition-transform ${isAdditionalProsOpen ? 'rotate-180' : ''}`}
+                        className={`w-5 h-5 text-gray-400 transition-transform ${isAdditionalProsOpen ? 'rotate-180' : ''}`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -441,25 +441,35 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
-                    {isAdditionalProsOpen && (
-                      <div className="px-3 pb-3">
-                        <ul className="space-y-2">
-                          {productData.additionalPros.map((pro, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                              <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
-                              <span className="leading-relaxed">
-                                <TextWithCitations
-                                  text={pro.text}
-                                  citations={pro.citations}
-                                  citedReviews={productData.citedReviews}
-                                  onCitationClick={() => {}}
-                                />
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                    <AnimatePresence>
+                      {isAdditionalProsOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-4 pb-4">
+                            <ul className="space-y-2">
+                              {productData.additionalPros.map((pro, i) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
+                                  <span className="leading-relaxed">
+                                    <TextWithCitations
+                                      text={pro.text}
+                                      citations={pro.citations}
+                                      citedReviews={productData.citedReviews}
+                                      onCitationClick={() => {}}
+                                    />
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
 
@@ -468,16 +478,16 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                   <div className="bg-gray-50 rounded-lg">
                     <button
                       onClick={() => setIsConsOpen(!isConsOpen)}
-                      className="w-full p-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
+                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
                     >
                       <div className="flex items-center gap-2">
-                        <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                         </svg>
                         <h3 className="text-base font-bold text-gray-900">이런 점은 주의하세요</h3>
                       </div>
                       <svg
-                        className={`w-5 h-5 text-gray-500 transition-transform ${isConsOpen ? 'rotate-180' : ''}`}
+                        className={`w-5 h-5 text-gray-400 transition-transform ${isConsOpen ? 'rotate-180' : ''}`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -485,25 +495,35 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
-                    {isConsOpen && (
-                      <div className="px-3 pb-3">
-                        <ul className="space-y-2">
-                          {productData.cons.map((con, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                              <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
-                              <span className="leading-relaxed">
-                                <TextWithCitations
-                                  text={con.text}
-                                  citations={con.citations}
-                                  citedReviews={productData.citedReviews}
-                                  onCitationClick={() => {}}
-                                />
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                    <AnimatePresence>
+                      {isConsOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-4 pb-4">
+                            <ul className="space-y-2">
+                              {productData.cons.map((con, i) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
+                                  <span className="leading-relaxed">
+                                    <TextWithCitations
+                                      text={con.text}
+                                      citations={con.citations}
+                                      citedReviews={productData.citedReviews}
+                                      onCitationClick={() => {}}
+                                    />
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
 
@@ -512,16 +532,16 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                   <div className="bg-gray-50 rounded-lg">
                     <button
                       onClick={() => setIsComparisonOpen(!isComparisonOpen)}
-                      className="w-full p-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
+                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
                     >
                       <div className="flex items-center gap-2">
-                        <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1zm-5 8.274l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L5 10.274zm10 0l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L15 10.274z" clipRule="evenodd" />
                         </svg>
                         <h3 className="text-base font-bold text-gray-900">추천된 다른 상품과 비교해보세요</h3>
                       </div>
                       <svg
-                        className={`w-5 h-5 text-gray-500 transition-transform ${isComparisonOpen ? 'rotate-180' : ''}`}
+                        className={`w-5 h-5 text-gray-400 transition-transform ${isComparisonOpen ? 'rotate-180' : ''}`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -529,25 +549,35 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
-                    {isComparisonOpen && (
-                      <div className="px-3 pb-3">
-                        <ul className="space-y-2">
-                          {productData.anchorComparison.map((item, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                              <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
-                              <span className="leading-relaxed">
-                                <TextWithCitations
-                                  text={item.text}
-                                  citations={item.citations || []}
-                                  citedReviews={productData.citedReviews}
-                                  onCitationClick={() => {}}
-                                />
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                    <AnimatePresence>
+                      {isComparisonOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-4 pb-4">
+                            <ul className="space-y-2">
+                              {productData.anchorComparison.map((item, i) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
+                                  <span className="leading-relaxed">
+                                    <TextWithCitations
+                                      text={item.text}
+                                      citations={item.citations || []}
+                                      citedReviews={productData.citedReviews}
+                                      onCitationClick={() => {}}
+                                    />
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
 
@@ -556,16 +586,16 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                   <div className="bg-gray-50 rounded-lg">
                     <button
                       onClick={() => setIsPurchaseTipOpen(!isPurchaseTipOpen)}
-                      className="w-full p-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
+                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
                     >
                       <div className="flex items-center gap-2">
-                        <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
                         </svg>
                         <h3 className="text-base font-bold text-gray-900">구매 전 확인하세요</h3>
                       </div>
                       <svg
-                        className={`w-5 h-5 text-gray-500 transition-transform ${isPurchaseTipOpen ? 'rotate-180' : ''}`}
+                        className={`w-5 h-5 text-gray-400 transition-transform ${isPurchaseTipOpen ? 'rotate-180' : ''}`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -573,25 +603,35 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
-                    {isPurchaseTipOpen && (
-                      <div className="px-3 pb-3">
-                        <ul className="space-y-2">
-                          {productData.purchaseTip.map((item, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                              <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
-                              <span className="leading-relaxed">
-                                <TextWithCitations
-                                  text={item.text}
-                                  citations={item.citations || []}
-                                  citedReviews={productData.citedReviews}
-                                  onCitationClick={() => {}}
-                                />
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                    <AnimatePresence>
+                      {isPurchaseTipOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-4 pb-4">
+                            <ul className="space-y-2">
+                              {productData.purchaseTip.map((item, i) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
+                                  <span className="leading-relaxed">
+                                    <TextWithCitations
+                                      text={item.text}
+                                      citations={item.citations || []}
+                                      citedReviews={productData.citedReviews}
+                                      onCitationClick={() => {}}
+                                    />
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
               </motion.div>

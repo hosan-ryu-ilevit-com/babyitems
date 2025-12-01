@@ -108,8 +108,8 @@ async function evaluateProduct(
       };
     }
 
-    // Sample 15 high + 15 low reviews (longest first) - More reviews for better analysis
-    const { high, low } = sampleBalancedBySentiment(allReviews, 15, 15);
+    // Sample 10 high + 10 low reviews (optimized for speed)
+    const { high, low } = sampleBalancedBySentiment(allReviews, 10, 10);
 
     // 🔧 Re-index sampled reviews to 1-30 (critical for citation accuracy)
     const reindexedHigh = high.map((r, i) => ({ ...r, index: i + 1 }));
