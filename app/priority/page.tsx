@@ -44,7 +44,7 @@ type ChatMessage = {
   id: string;
   role: 'assistant' | 'user' | 'component';
   content: string;
-  componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading' | 'guide-button';
+  componentType?: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading' | 'guide-button' | 'anchor-products-section';
   typing?: boolean;
   extraMarginTop?: boolean; // Step 구분을 위한 추가 마진
   stepTag?: string; // Step 태그 (1/4, 2/4, 3/4, 4/4)
@@ -366,7 +366,7 @@ function PriorityPageContent() {
   };
 
   // 컴포넌트 메시지 추가
-  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading' | 'guide-button', content?: string) => {
+  const addComponentMessage = (componentType: 'pros-selector' | 'cons-selector' | 'additional-selector' | 'budget-selector' | 'product-list' | 'summary' | 'summary-loading' | 'guide-button' | 'anchor-products-section', content?: string) => {
     const newMessage: ChatMessage = {
       id: Date.now().toString() + Math.random(),
       role: 'component',

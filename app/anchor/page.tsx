@@ -199,24 +199,33 @@ function AnchorPageContent() {
             </div>
           </motion.div>
 
+          {/* 분석 기준 제품 헤더 */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center justify-between mb-3"
+          >
+            <h3 className="text-base font-bold text-gray-900">분석 기준 제품</h3>
+            <button
+              onClick={() => setShowProductList(true)}
+              className="px-3 py-1.5 bg-gray-200 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-300 transition-all"
+            >
+              변경
+            </button>
+          </motion.div>
+
           {/* Selected Product Card - Horizontal Design */}
           {selectedProduct && !showProductList && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
-              className="relative rounded-xl p-3 mb-6"
+              className="rounded-xl p-3 mb-6"
               style={{
                 backgroundColor: '#F8F9FB'
               }}
             >
-              {/* Change Product Button - Top Right */}
-              <button
-                onClick={() => setShowProductList(true)}
-                className="absolute top-2 right-2 z-10 px-2.5 py-1 bg-gray-200 rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-300 transition-all"
-              >
-                변경
-              </button>
 
               {/* Horizontal Layout: Thumbnail + Info */}
               <div className="flex items-start gap-3">

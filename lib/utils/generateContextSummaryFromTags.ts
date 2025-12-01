@@ -1,4 +1,4 @@
-import { UserContextSummary, BudgetRange, PrioritySettings, PriorityLevel } from '@/types';
+import { UserContextSummary, BudgetRange, PrioritySettings, PriorityLevel, ImportanceLevel } from '@/types';
 import { convertTagsToPriority } from './tagToPriority';
 
 /**
@@ -34,7 +34,7 @@ export function generateContextSummaryFromTags(
     additionalFeatures: '부가 기능 및 디자인'
   };
 
-  const levelKorean: Record<PriorityLevel, string> = {
+  const levelKorean: Record<PriorityLevel, ImportanceLevel> = {
     high: '중요함',
     medium: '보통',
     low: '중요하지 않음'
@@ -61,8 +61,8 @@ export function generateContextSummaryFromTags(
   // 4. Convert budget to Korean format
   const budgetKorean = {
     '0-50000': '최대 5만원',
-    '50000-100000': '최대 10만원',
-    '100000-150000': '최대 15만원',
+    '0-100000': '최대 10만원',
+    '0-150000': '최대 15만원',
     '150000+': '15만원 이상'
   }[budget] || budget;
 

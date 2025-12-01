@@ -171,11 +171,11 @@ export interface Recommendation {
   // PDP용: 단점
   cons: Array<{ text: string; citations: number[] }>;
 
-  // PDP용: 비교
-  anchorComparison: string;
+  // PDP용: 비교 (리스트 형태)
+  anchorComparison: Array<{ text: string; citations?: number[] }>;
 
-  // PDP용: 구매 팁 (선택적)
-  purchaseTip?: string;
+  // PDP용: 구매 팁 (리스트 형태, 선택적)
+  purchaseTip?: Array<{ text: string; citations?: number[] }>;
 
   // 리뷰 인용 데이터
   citedReviews: Array<{ index: number; text: string; rating: number }>;
