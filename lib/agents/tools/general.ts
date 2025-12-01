@@ -27,19 +27,9 @@ export async function executeGeneral(
   userInput: string
 ): Promise<GeneralResult> {
   try {
-    console.log(`\n💬 GENERAL: Handling out-of-scope or general question...`);
+    console.log(`\n💬 GENERAL: Handling general question...`);
 
-    // Check if completely out of scope
-    const isCompletelyOutOfScope = await checkCompletelyOutOfScope(userInput);
-
-    if (isCompletelyOutOfScope) {
-      return {
-        success: true,
-        message: generateOutOfScopeMessage(context),
-      };
-    }
-
-    // Generate contextual response for parenting-related questions
+    // Always generate contextual, empathetic response
     const response = await generateContextualResponse(userInput, context);
 
     return {
@@ -48,9 +38,10 @@ export async function executeGeneral(
     };
   } catch (error) {
     console.error('GENERAL failed:', error);
+    // Even on error, try to respond naturally
     return {
       success: true,
-      message: generateOutOfScopeMessage(context),
+      message: generateFallbackResponse(context),
     };
   }
 }
@@ -147,24 +138,26 @@ Response:`;
   });
 
   if (!result.text) {
-    return generateOutOfScopeMessage(context);
+    return generateFallbackResponse(context);
   }
 
   return result.text.trim();
 }
 
 /**
- * Generate out-of-scope message
+ * Generate natural fallback response
  */
-function generateOutOfScopeMessage(context: AgentContext): string {
+function generateFallbackResponse(context: AgentContext): string {
   const categoryName = inferCategoryName(context);
+  const firstProduct = context.currentRecommendations[0]?.product.title || categoryName;
 
   return `육아하시느라 정말 수고 많으세요! 💪\n\n` +
-    `저는 **${categoryName} 추천 전문**이라서, ${categoryName}에 대해서는 자세히 도와드릴 수 있어요. 😊\n\n` +
-    `**이런 질문들 환영해요:**\n` +
-    `• "1번 제품 세척 편해?"\n` +
-    `• "1번이랑 2번 중에 뭐가 더 좋아?"\n` +
-    `• "더 저렴한 걸로 다시 보여줘"`;
+    `저는 **${categoryName} 추천**을 도와드리고 있어요. ` +
+    `추천드린 제품들에 대해 궁금한 점이나 다른 조건으로 다시 찾아보고 싶으시면 편하게 말씀해주세요. 😊\n\n` +
+    `예를 들어 이런 것들이요:\n` +
+    `• "${firstProduct} 세척하기 편한가요?"\n` +
+    `• "더 저렴한 제품으로 다시 보여주세요"\n` +
+    `• "소재가 안전한 걸로 추천해주세요"`;
 }
 
 /**

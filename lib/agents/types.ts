@@ -35,14 +35,14 @@ export interface Intent {
   // Tool-specific arguments
   args?: {
     // REFILTER_WITH_ANCHOR
-    newAnchorProductId?: string;
+    productRank?: number;  // 1, 2, or 3 (from "1번", "2번", "3번" in user input)
+    newAnchorProductId?: string;  // OR direct product ID (if button clicked)
 
     // REFILTER / REFILTER_WITH_ANCHOR
     tagChanges?: TagChanges;
     budgetChange?: BudgetChange;
 
     // PRODUCT_QA
-    productRank?: number;  // 1, 2, or 3
     question?: string;
 
     // COMPARE

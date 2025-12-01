@@ -48,7 +48,7 @@ interface SelectedTagEvaluation {
   userTag: string;
   tagType: 'pros' | 'cons';
   priority: number;
-  status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
+  status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';
   evidence: string;
   citations: number[];
   tradeoff?: string;
@@ -218,6 +218,10 @@ ${formatReviewsForLLM(low, 40000)}
 2. 사용자가 피하고 싶은 단점이 이 제품에도 있는가?
 3. 제품의 특징이 사용자의 요구와 일치하는가?
 4. 전반적인 만족도는 어떤가?
+5. **⚠️ 중요**: 다른 제품들과 비교했을 때 이 제품만의 **독특한 강점**이 무엇인가?
+   - 앵커 제품과의 차이점 (가격, 기능, 디자인 등)
+   - 리뷰에서 반복적으로 언급되는 고유한 특징
+   - recommendationReason에 이 차별점을 반드시 반영하세요
 
 **⚠️ 출력 시 절대 금지 사항:**
 - **속성 점수, 수치, 등급을 절대 언급하지 마세요**
@@ -229,72 +233,34 @@ ${formatReviewsForLLM(low, 40000)}
 \`\`\`json
 {
   "fitScore": 85,
-  "recommendationReason": "**가장 중요하게 생각하시는 온도 조절 정확성**을 완벽히 충족하며, **세척 편의성**도 우수합니다",
+  "recommendationReason": "[제품의 핵심 차별점을 자연스럽게 1-2문장으로]",
   "selectedTagsEvaluation": [
+    // ⚠️ 사용자가 선택한 ${prosTexts.length}개 장점 + ${consTexts.length}개 단점 = 총 ${prosTexts.length + consTexts.length}개만 평가
+    // 장점 태그 예시 (선택한 개수만큼):
     {
-      "userTag": "**1도 단위로 정확한 온도 조절**",
+      "userTag": "[사용자 선택 장점 태그 1]",
       "tagType": "pros",
       "priority": 1,
       "status": "충족",
-      "evidence": "다수의 사용자들이 **정확한 온도 조절**을 강조하며 만족도가 높음"
-    },
-    {
-      "userTag": "**입구 넓어서 세척 편리**",
-      "tagType": "pros",
-      "priority": 2,
-      "status": "부분충족",
-      "evidence": "입구는 넓지만 **패킹 틈새 세척**이 불편하다는 의견이 있음",
-      "tradeoff": "대신 **디자인이 컴팩트**해서 보관과 이동이 편리함"
-    },
-    {
-      "userTag": "**자동 출수 기능**",
-      "tagType": "pros",
-      "priority": 3,
-      "status": "불충족",
-      "evidence": "자동 출수 기능이 없음",
-      "tradeoff": "대신 **버튼 조작이 간단**하고 고장 위험이 낮음"
-    },
-    {
-      "userTag": "**터치 버튼이 너무 예민하거나 반응이 안 좋아요**",
+      "evidence": "구체적 근거..."
+    }
+    // 단점 태그 예시 (선택한 개수만큼, 없으면 생략):
+    ${consTexts.length > 0 ? `{
+      "userTag": "[사용자 선택 단점 태그 1]",
       "tagType": "cons",
       "priority": 1,
-      "status": "회피됨",
-      "evidence": "터치 버튼 반응이 **안정적이고 민감도가 적절**하다는 평가가 많음"
-    },
-    {
-      "userTag": "**입구가 좁아 손이 안 들어가서 세척이 불편해요**",
-      "tagType": "cons",
-      "priority": 2,
-      "status": "부분회피",
-      "evidence": "입구는 넓지만 **패킹 틈새**는 여전히 세척이 불편하다는 의견 있음",
-      "tradeoff": "대신 **전체적인 세척 편의성**은 평균 이상임"
-    },
-    {
-      "userTag": "**유리 재질이라 무겁고 깨질까 봐 불안해요**",
-      "tagType": "cons",
-      "priority": 3,
-      "status": "회피안됨",
-      "evidence": "이 제품도 **유리 재질**로 무게감이 있고 파손 위험 우려가 있음",
-      "tradeoff": "유리 재질의 장점으로 **위생성과 내구성**은 우수함"
-    }
+      "status": "개선됨",
+      "evidence": "구체적 근거..."
+    }` : '// 단점 선택 안 함 - 배열에 추가하지 마세요'}
   ],
   "additionalPros": [
-    {
-      "text": "**붕규산 유리** 재질로 위생적이라는 평가가 많음"
-    }
+    { "text": "**추가로 발견된 장점** (2-3개)" }
   ],
   "cons": [
-    {
-      "text": "**터치 버튼 민감도**가 불규칙하다는 불만이 있음"
-    }
+    { "text": "**제품의 단점** (1-3개)" }
   ],
   "purchaseTip": [
-    {
-      "text": "**자동 출수 기능**은 없으니 수동 조작이 불편하지 않은지 확인하세요"
-    },
-    {
-      "text": "대신 **온도 조절 정확성**은 최상급이므로 정밀한 온도 관리가 필요하다면 추천합니다"
-    }
+    { "text": "**구매 결정 조언** (1-2개)" }
   ]
 }
 \`\`\`
@@ -303,29 +269,48 @@ ${formatReviewsForLLM(low, 40000)}
 - **⚠️ 최우선 규칙: 속성 점수를 출력에 절대 언급하지 마세요** (내부 판단용으로만 사용)
 - fitScore는 0-100 점수 (높을수록 사용자 요구에 부합)
 - 우선순위가 높은 장점(⭐최우선)을 더 중요하게 평가하세요
-- **recommendationReason**: 요약 문구 (최대 2문장)
-  - 2인칭 직접 화법으로 작성 (예: "**가장 중요하게 생각하시는 온도 조절**을 완벽히 충족하며~")
-  - 핵심 키워드는 **키워드** 형식으로 볼드 처리
+- **recommendationReason**: 이 제품만의 핵심 차별점을 강조하는 요약 문구 (1-2문장)
+  - **⚠️ 필수**: 다른 제품과 구별되는 **고유한 특징**을 부각하세요
+  - **⚠️ 제품명/브랜드명 언급 금지**: 기능과 특징만 설명하세요
+  - **⚠️ 불필요한 주어 금지**: "이 제품은", "이 제품을", "해당 제품은" 등으로 시작하지 마세요
+  - **바로 핵심 특징부터 시작**: 기능/특징을 주어로 문장을 시작하세요
+  - **자연스러운 회화체** 사용 - 딱딱한 표현 금지
+    - ❌ "이 제품은 온도 조절이..."
+    - ❌ "~를 충족하며, ~도 만족스럽게 제공합니다"
+    - ❌ "~에 부합하는 제품입니다"
+    - ✅ "**온도 조절 정확성**이 뛰어나고..."
+    - ✅ "**넓은 입구**로 세척이 편하고..."
+    - ✅ "~라서 ~하는 분께 딱이에요"
+  - **차별화 전략** (fitScore에 따라):
+    - fitScore 85+ (1위급): 1순위 장점 완벽 충족 + 추가 강점 강조
+      예: "**온도 조절 정확성**이 뛰어나고, **8시간 보온**으로 밤새 편하게 사용할 수 있어요"
+    - fitScore 70-84 (2위급): 가성비나 특정 강점 부각
+      예: "가격 대비 **세척 편의성**이 훌륭하고, **컴팩트한 디자인**으로 공간 활용도 좋아요"
+    - fitScore 70 미만 (3위급): 특화된 용도나 트레이드오프 설명
+      예: "**초경량 무게**로 외출용으로 최적이지만, 용량은 다소 작은 편이에요"
+  - 핵심 키워드 **볼드** 처리 (1-2개만)
   - **⚠️ 절대 점수 언급 금지**: "8점", "95점", "만점" 등 수치 표현 완전 금지
-  - "사용자가 원하는~" 같은 간접 표현 대신 직접 대화 톤 사용
-- **selectedTagsEvaluation**: 사용자가 선택한 **모든 태그**(장점 + 단점)를 순서대로 평가
+  - **⚠️ 형식적 표현 금지**: "가장 중요하게 생각하시는", "사용자가 원하는" 등 반복 금지
+- **selectedTagsEvaluation**: 사용자가 선택한 **모든 태그**(장점 ${prosTexts.length}개 + 단점 ${consTexts.length}개 = 총 ${prosTexts.length + consTexts.length}개)를 순서대로 평가
+  - **⚠️ CRITICAL**: selectedTagsEvaluation 배열의 길이는 **정확히 ${prosTexts.length + consTexts.length}개**여야 합니다
+  - 사용자가 선택하지 않은 태그는 절대 추가하지 마세요
   - userTag: 사용자가 선택한 원문 그대로 + ** 강조 표시
   - tagType: "pros" (장점 태그) | "cons" (단점 태그)
   - priority: 각 tagType 내에서의 선택 순서 (1이 가장 중요)
   - status:
     - 장점 태그 (pros): "충족" (완벽히 만족) | "부분충족" (일부 만족) | "불충족" (만족 안 함)
-    - 단점 태그 (cons): "회피됨" (단점 없음) | "부분회피" (일부 단점 있음) | "회피안됨" (단점 존재)
+    - 단점 태그 (cons): "개선됨" (단점 없음) | "부분개선" (일부 단점 있음) | "회피안됨" (단점 존재)
   - evidence: 해당 평가의 근거를 자연스럽게 설명, 핵심 키워드는 **키워드**로 볼드
     - 장점 태그 자연스러운 표현 예시:
       - "다수의 사용자들이 **정확한 온도 조절**을 강조하며 만족도가 높음"
       - "실제 구매자들이 **세척 편의성**을 높이 평가함"
       - "자동 출수 기능이 없음"
     - 단점 태그 자연스러운 표현 예시:
-      - "터치 버튼 반응이 **안정적이고 민감도가 적절**하다는 평가가 많음" (회피됨)
-      - "입구는 넓지만 **패킹 틈새**는 여전히 세척이 불편하다는 의견 있음" (부분회피)
+      - "터치 버튼 반응이 **안정적이고 민감도가 적절**하다는 평가가 많음" (개선됨)
+      - "입구는 넓지만 **패킹 틈새**는 여전히 세척이 불편하다는 의견 있음" (부분개선)
       - "이 제품도 **유리 재질**로 무게감이 있고 파손 위험 우려가 있음" (회피안됨)
     - ❌ 피해야 할 표현: "리뷰 1, 3, 5번에서...", "리뷰 번호...", 리뷰 숫자 언급
-  - tradeoff: (선택사항) status가 중간 상태("부분충족", "불충족", "부분회피", "회피안됨")일 때, 대신 얻는 이점이나 보완 설명, 핵심 키워드 볼드
+  - tradeoff: (선택사항) status가 중간 상태("부분충족", "불충족", "부분개선", "회피안됨")일 때, 대신 얻는 이점이나 보완 설명, 핵심 키워드 볼드
   - **⚠️ 장점 평가는 고평점 리뷰(1-${high.length}번), 단점 평가는 저평점 리뷰(${high.length + 1}-${sampledReviews.length}번) 기반, 리뷰 번호는 언급하지 마세요**
   - **중요**: 장점 태그를 모두 나열한 후, 단점 태그를 나열하세요 (tagType별로 그룹화)
 - **additionalPros**: 사용자가 선택하지 않았지만 발견된 장점 (2-3개)
@@ -348,13 +333,28 @@ ${formatReviewsForLLM(low, 40000)}
        예: "**자동 출수 기능**은 없으니 수동 조작이 불편하지 않은지 확인하세요"
     2. selectedTagsEvaluation에 "회피안됨" 단점 태그가 있는 경우 → 피하고 싶은 단점이 여전히 존재한다는 경고
        예: "**유리 재질**로 무게감과 파손 위험이 있으니 주의가 필요합니다"
-    3. "부분충족" 또는 "부분회피" 태그가 있는 경우 → tradeoff를 고려한 주의사항
+    3. "부분충족" 또는 "부분개선" 태그가 있는 경우 → tradeoff를 고려한 주의사항
        예: "입구는 넓지만 **패킹 틈새 세척**이 불편하니 완벽한 세척을 원한다면 고려가 필요합니다"
     4. cons에 치명적 단점(파손 위험, 안전 문제, 내구성 이슈)이 있는 경우 → 해당 리스크 강조
        예: "**터치 버튼 민감도**가 불규칙하다는 불만이 있으니 조작감이 중요하다면 고려하세요"
     5. 위 경우가 모두 해당없으면 → 이 제품이 적합한 사용자 유형이나 사용 시나리오 설명
        예: "새벽 수유가 잦고 **온도 정확성**을 중시한다면 최적의 선택입니다"
   - ⚠️ 타 섹션과 중복 최소화: 구매 결정에 직접 영향을 주는 종합적 조언에 집중
+
+**recommendationReason 작성 예시:**
+✅ 좋은 예시 (자연스럽고 차별화됨):
+- "**1℃ 단위 정밀 온도 조절**이 가능하고, **8시간 장시간 보온**으로 새벽 수유에 최적이에요"
+- "**넓은 입구**로 세척이 편하고, **가격 대비 기능**이 훌륭해서 가성비를 중시하는 분께 추천해요"
+- "**초경량 디자인**으로 휴대가 간편하지만, 보온 시간은 4시간으로 짧은 편이에요"
+- "**스테인리스 재질**로 내구성이 뛰어나고, **자동 세척 기능**까지 갖춰 관리가 쉬워요"
+
+❌ 나쁜 예시 (형식적이고 비슷함):
+- "이 제품은 온도 조절 기능이 뛰어납니다" (불필요한 주어)
+- "가장 중요하게 생각하시는 온도 조절을 완벽히 충족해요" (형식적)
+- "사용자가 원하는 세척 편의성을 만족스럽게 제공합니다" (딱딱함)
+- "요구사항에 부합하는 제품입니다" (차별점 없음)
+- "온도 조절을 충족하며, 세척도 편리합니다" (모든 제품이 비슷하게 들림)
+
 - 반드시 JSON 형식만 출력`;
 
     const result = await ai.models.generateContent({
@@ -386,6 +386,22 @@ ${formatReviewsForLLM(low, 40000)}
       cons: Array<{ text: string; citations: number[] }>;
       purchaseTip: Array<{ text: string; citations?: number[] }>;
     };
+
+    // Validate selectedTagsEvaluation length
+    const expectedLength = prosTexts.length + consTexts.length;
+    if (evaluation.selectedTagsEvaluation.length !== expectedLength) {
+      console.warn(`⚠️ selectedTagsEvaluation length mismatch: expected ${expectedLength}, got ${evaluation.selectedTagsEvaluation.length}`);
+      console.warn(`   Filtering to match user-selected tags only...`);
+
+      // Filter to only include tags that match user-selected tags
+      evaluation.selectedTagsEvaluation = evaluation.selectedTagsEvaluation.filter(tagEval => {
+        const matchesPros = prosTexts.some(prosText => tagEval.userTag.includes(prosText) || prosText.includes(tagEval.userTag.replace(/\*\*/g, '')));
+        const matchesCons = consTexts.some(consText => tagEval.userTag.includes(consText) || consText.includes(tagEval.userTag.replace(/\*\*/g, '')));
+        return matchesPros || matchesCons;
+      });
+
+      console.warn(`   After filtering: ${evaluation.selectedTagsEvaluation.length} tags remain`);
+    }
 
     // Note: Citations removed - LLM generates natural language evidence instead
 
@@ -422,29 +438,24 @@ ${formatReviewsForLLM(low, 40000)}
  */
 
 /**
- * POST /api/recommend-v2
- * 3-stage recommendation engine
+ * Core recommendation logic (extracted for reuse)
+ * Can be called directly from other server-side code
  */
-export async function POST(req: NextRequest) {
-  try {
-    const body: RecommendRequest = await req.json();
-    const { category, anchorId, selectedProsTags, selectedConsTags, budget } = body;
+export async function generateRecommendations(
+  category: Category,
+  anchorId: string,
+  selectedProsTags: Tag[],
+  selectedConsTags: Tag[],
+  budget: string
+) {
+  console.log(`🎯 Recommendation request:`);
+  console.log(`   Category: ${category}`);
+  console.log(`   Anchor: ${anchorId}`);
+  console.log(`   Pros: ${selectedProsTags.length} tags`);
+  console.log(`   Cons: ${selectedConsTags.length} tags`);
+  console.log(`   Budget: ${budget}`);
 
-    if (!category || !anchorId || !selectedProsTags || !budget) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
-    }
-
-    console.log(`🎯 Recommendation request:`);
-    console.log(`   Category: ${category}`);
-    console.log(`   Anchor: ${anchorId}`);
-    console.log(`   Pros: ${selectedProsTags.length} tags`);
-    console.log(`   Cons: ${selectedConsTags.length} tags`);
-    console.log(`   Budget: ${budget}`);
-
-    const startTime = Date.now();
+  const startTime = Date.now();
 
     // ===== STEP 1: Budget Filtering (Fast, Local JSON) =====
     console.log(`\n📊 Step 1: Budget filtering...`);
@@ -614,7 +625,7 @@ export async function POST(req: NextRequest) {
     console.log(`   Step 4 (Context Summary):  ${step4Time}ms (${((step4Time / totalTime) * 100).toFixed(1)}%)`);
     console.log(`   Other overhead:            ${totalTime - step1Time - step2Time - step3Time - step4Time}ms`);
 
-    return NextResponse.json({
+    return {
       success: true,
       category,
       recommendations: top3.map((e) => ({
@@ -634,7 +645,34 @@ export async function POST(req: NextRequest) {
       processingTime: {
         total: totalTime,
       },
-    });
+    };
+}
+
+/**
+ * POST /api/recommend-v2
+ * HTTP endpoint wrapper for generateRecommendations
+ */
+export async function POST(req: NextRequest) {
+  try {
+    const body: RecommendRequest = await req.json();
+    const { category, anchorId, selectedProsTags, selectedConsTags, budget } = body;
+
+    if (!category || !anchorId || !selectedProsTags || !budget) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    const result = await generateRecommendations(
+      category,
+      anchorId,
+      selectedProsTags,
+      selectedConsTags,
+      budget
+    );
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error('Recommend v2 API error:', error);
     return NextResponse.json(

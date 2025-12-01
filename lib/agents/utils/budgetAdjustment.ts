@@ -108,20 +108,33 @@ export function parseBudgetFromNaturalLanguage(input: string): BudgetRange | nul
 
 /**
  * Check if budget input is vague and needs clarification
+ *
+ * IMPORTANT: Only returns true for PURE budget-related vague phrases
+ * Does NOT include quality/feature requests like "더 좋은"
  */
 export function needsBudgetClarification(input: string): boolean {
-  const vaguePhrases = [
+  // Only match BUDGET-specific vague phrases
+  const budgetVaguePhrases = [
     '더 저렴',
     '더 싸',
+    '싼 걸',
+    '싼거',
     '가격 낮',
     '예산 줄',
     '더 비싸',
-    '더 좋은',
+    '비싼 걸',
+    '비싼거',
     '가격 높',
     '예산 늘',
   ];
 
-  return vaguePhrases.some(phrase => input.includes(phrase));
+  // Only return true if:
+  // 1. Contains budget vague phrase
+  // 2. AND does NOT have specific number (7만원, 100000원 etc.)
+  const hasBudgetVague = budgetVaguePhrases.some(phrase => input.includes(phrase));
+  const hasSpecificNumber = /(\d+)만원|(\d{4,})원?/.test(input.replace(/\s+/g, ''));
+
+  return hasBudgetVague && !hasSpecificNumber;
 }
 
 /**

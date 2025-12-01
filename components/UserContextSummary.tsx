@@ -11,13 +11,13 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-white rounded-2xl p-2"
+      className="bg-white rounded-2xl p-2 mb-14"
     >
       {/* 헤더 */}
       <h3 className="text-base font-semibold text-gray-900 mb-3">내 구매 기준</h3>
 
       {/* 하늘색 컨테이너 */}
-      <div className="bg-gray-100 rounded-xl p-4">
+      <div className="bg-gray-50 rounded-xl p-4">
         {/* 장단점 태그들 */}
         {summary.additionalContext.length > 0 && (
           <div className="mb-3">

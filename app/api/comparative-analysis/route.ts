@@ -12,7 +12,7 @@ interface SelectedTagEvaluation {
   userTag: string;
   tagType: 'pros' | 'cons';
   priority: number;
-  status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
+  status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';
   evidence: string;
   citations: number[];
   tradeoff?: string;

@@ -89,6 +89,33 @@ function TagsPageContent() {
       return;
     }
 
+    // 🔥 Clear chat history when starting fresh from anchor page
+    // This ensures previous recommendation conversations don't carry over
+    if (typeof window !== 'undefined') {
+      try {
+        const SESSION_KEY = 'babyitem_session';
+        const savedSession = sessionStorage.getItem(SESSION_KEY);
+
+        if (savedSession) {
+          const session = JSON.parse(savedSession);
+
+          // Clear messages array but preserve other session data (phone, etc.)
+          session.messages = [];
+
+          // Also clear any recommendation-related state
+          delete session.prioritySettings;
+          delete session.budget;
+          delete session.phase0Context;
+          delete session.forceRegenerate;
+
+          sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+          console.log('✅ Chat history cleared - starting fresh flow');
+        }
+      } catch (error) {
+        console.error('❌ Failed to clear chat history:', error);
+      }
+    }
+
     // 이미 태그를 생성했으면 스킵
     if (hasGeneratedRef.current) {
       return;

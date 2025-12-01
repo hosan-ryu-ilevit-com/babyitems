@@ -94,7 +94,18 @@ export async function POST(req: NextRequest) {
 
           case 'REFILTER': {
             // Similar to REFILTER_WITH_ANCHOR but without changing anchor
-            // For now, use same implementation (anchor will be kept)
+            // Keep existing anchor by passing current anchor ID
+            if (!context.currentSession.anchorProduct?.productId) {
+              sendSSE('error', '죄송해요, 기준 제품 정보를 찾을 수 없어요. 처음부터 다시 시작해주세요.');
+              sendSSE('done', {});
+              controller.close();
+              return;
+            }
+
+            // Add current anchor ID to intent args (convert to string)
+            if (!intent.args) intent.args = {};
+            intent.args.newAnchorProductId = String(context.currentSession.anchorProduct.productId);
+
             const result = await executeRefilterWithAnchor(intent, context);
 
             if (!result.success) {

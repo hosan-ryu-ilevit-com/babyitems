@@ -364,8 +364,8 @@ export default function ResultPage() {
 
   // 순차적으로 보여줄 상태 메시지들
   const phaseMessages = [
-    '대표 상품 랭킹 확인 중...',
-    '선호도 분석 중...',
+    '판매량 상위 상품들 확인 중...',
+    '내돈내산 리뷰 분석 중...',
     '딱 맞는 상품 고르는 중...',
   ];
 
@@ -411,30 +411,7 @@ export default function ResultPage() {
     }
   }, [displayedProgress]);
 
-  // 자동 진행률 증가 (시간 기반)
-  useEffect(() => {
-    if (!loading) return;
-
-    // 서버 응답이 없어도 자동으로 증가 (최대 95%까지)
-    const autoProgressInterval = setInterval(() => {
-      setTargetProgress((prev) => {
-        // 이미 서버에서 높은 값을 받았으면 자동 증가 안 함
-        if (prev >= 95) return prev;
-
-        // 시간 경과에 따라 자동 증가 (느리게)
-        // 0-30초: ~60%, 30-60초: ~85%, 60초+: ~95%
-        const elapsed = elapsedTime;
-        if (elapsed < 5) return Math.min(prev + 2, 30);  // 빠른 시작
-        if (elapsed < 15) return Math.min(prev + 1, 60); // 중간 속도
-        if (elapsed < 30) return Math.min(prev + 0.5, 85); // 느린 속도
-        return Math.min(prev + 0.3, 95); // 매우 느린 속도 (95% 이상 안 감)
-      });
-    }, 500); // 500ms마다 체크
-
-    return () => clearInterval(autoProgressInterval);
-  }, [loading, elapsedTime]);
-
-  // 진행률 부드럽게 증가 (1%씩 자연스러운 애니메이션)
+  // 진행률 부드럽게 증가 (displayedProgress가 targetProgress를 따라감)
   useEffect(() => {
     if (!loading) return;
 
@@ -442,11 +419,11 @@ export default function ResultPage() {
     if (displayedProgress < targetProgress) {
       const interval = setInterval(() => {
         setDisplayedProgress((prev) => {
-          const next = prev + 1;
+          const next = prev + 1; // 1%씩 증가 (부드럽게)
           // 목표값을 넘지 않도록
           return next >= targetProgress ? targetProgress : next;
         });
-      }, 40); // 40ms마다 1%씩 증가 (부드럽고 빠른 애니메이션)
+      }, 50); // 50ms마다 1%씩 증가 (1초에 20% 증가)
 
       return () => clearInterval(interval);
     }
@@ -680,8 +657,13 @@ export default function ResultPage() {
 
   // Tag-based recommendations (from anchor + tags flow)
   const fetchRecommendationsV2 = async (category: string, anchorId: string) => {
+    let fakeProgressInterval: NodeJS.Timeout | null = null;
+
     try {
+      // 초기화 - 0%에서 시작
       setLoading(true);
+      setTargetProgress(0);
+      setDisplayedProgress(0);
       setError('');
 
       // Get tag selections from sessionStorage
@@ -692,6 +674,24 @@ export default function ResultPage() {
 
       const selections = JSON.parse(selectionsJson);
 
+      // 단계 1: 0% → 15% (시작)
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setTargetProgress(15);
+
+      // 단계 2: 15% → 65% (데이터 준비 - 길게)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      setTargetProgress(65);
+
+      // 단계 3: API 호출 중 fake progress 시작 (65% → 75%까지 천천히)
+      let currentFakeProgress = 65;
+      fakeProgressInterval = setInterval(() => {
+        if (currentFakeProgress < 75) {
+          currentFakeProgress += 1;
+          setTargetProgress(currentFakeProgress);
+        }
+      }, 500); // 500ms마다 1%씩 증가 (10초 동안 10% 증가)
+
+      // 단계 3: API 호출 시작
       const response = await fetch('/api/recommend-v2', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -704,7 +704,21 @@ export default function ResultPage() {
         }),
       });
 
+      // Fake progress 중지
+      if (fakeProgressInterval) {
+        clearInterval(fakeProgressInterval);
+        fakeProgressInterval = null;
+      }
+
+      // 단계 4: 75% (API 응답 수신)
+      setTargetProgress(75);
+      await new Promise(resolve => setTimeout(resolve, 300));
+
       const data = await response.json();
+
+      // 단계 5: 75% → 85% (데이터 수신 완료)
+      await new Promise(resolve => setTimeout(resolve, 400));
+      setTargetProgress(85);
 
       if (data.success) {
         // Comparative analysis is now loaded lazily in the background
@@ -742,6 +756,10 @@ export default function ResultPage() {
           };
         });
 
+        // 단계 6: 85% → 92% (데이터 변환)
+        await new Promise(resolve => setTimeout(resolve, 350));
+        setTargetProgress(92);
+
         setRecommendations(convertedRecommendations);
         setAnchorProduct(data.anchorProduct);
         setCurrentCategory(category); // Save category for search
@@ -757,8 +775,21 @@ export default function ResultPage() {
         session.recommendations = convertedRecommendations;
         session.anchorProduct = data.anchorProduct;
         session.contextSummary = data.contextSummary;
+        session.selectedProsTags = selections.selectedPros.map((tag: { id: string }) => tag.id);
+        session.selectedConsTags = selections.selectedCons.map((tag: { id: string }) => tag.id);
+        session.budget = selections.budget;
         saveSession(session);
         console.log('💾 Saved tag-based recommendations to session cache');
+
+        // 단계 7: 92% → 100% (완료)
+        await new Promise(resolve => setTimeout(resolve, 400));
+        setTargetProgress(100);
+        setDisplayedProgress(100);
+
+        // 100% 표시를 사용자가 볼 수 있도록 0.5초 대기 후 로딩 해제
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
 
         // Load comparative analysis in the background for better UX
         console.log('⏳ Loading comparative analysis in background...');
@@ -786,11 +817,18 @@ export default function ResultPage() {
           });
       } else {
         setError(data.error || '추천 생성 실패');
+        setLoading(false);
       }
-    } catch (err: any) {
-      setError(err.message || '추천을 불러오는 중 오류가 발생했습니다');
+    } catch (err) {
+      // Cleanup fake progress interval on error
+      if (fakeProgressInterval) {
+        clearInterval(fakeProgressInterval);
+        fakeProgressInterval = null;
+      }
+
+      const errorMessage = err instanceof Error ? err.message : '추천을 불러오는 중 오류가 발생했습니다';
+      setError(errorMessage);
       console.error(err);
-    } finally {
       setLoading(false);
     }
   };
@@ -1187,24 +1225,29 @@ export default function ResultPage() {
                   >
 
                     {/* 점수 설명 섹션 */}
-                    {recommendations.length > 0 && recommendations[0].selectedTagsEvaluation && recommendations[0].selectedTagsEvaluation.length > 0 && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="py-2 px-4 mb-2"
-                      >
-                        <div className="flex items-center gap-6">
-                          <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                            <span className="text-xs font-medium text-gray-700">원하는 장점 충족도</span>
+                    {recommendations.length > 0 && recommendations[0].selectedTagsEvaluation && recommendations[0].selectedTagsEvaluation.length > 0 && (() => {
+                      const hasConsTags = recommendations[0].selectedTagsEvaluation.some(tag => tag.tagType === 'cons');
+                      return (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="py-3 px-3 mb-0"
+                        >
+                          <div className="flex items-center gap-5">
+                            <div className="flex items-center gap-1">
+                              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                              <span className="text-xs font-medium text-gray-700">원하는 장점 충족도</span>
+                            </div>
+                            {hasConsTags && (
+                              <div className="flex items-center gap-1">
+                                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                                <span className="text-xs font-medium text-gray-700">원하는 개선점 반영도</span>
+                              </div>
+                            )}
                           </div>
-                          <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                            <span className="text-xs font-medium text-gray-700">원하는 개선점 반영도</span>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
+                        </motion.div>
+                      );
+                    })()}
 
                     {/* 추천 상품 3개 */}
                     {recommendations.map((rec, index) => (
@@ -1315,10 +1358,10 @@ export default function ResultPage() {
                                     return sum;
                                   }, 0);
 
-                                  // 점수 계산: 회피됨=1.0, 부분회피=0.5, 회피안됨=0.0
+                                  // 점수 계산: 개선됨=1.0, 부분개선=0.5, 회피안됨=0.0
                                   const consScore = consTags.reduce((sum, tag) => {
-                                    if (tag.status === '회피됨') return sum + 1.0;
-                                    if (tag.status === '부분회피') return sum + 0.5;
+                                    if (tag.status === '개선됨') return sum + 1.0;
+                                    if (tag.status === '부분개선') return sum + 0.5;
                                     return sum;
                                   }, 0);
 

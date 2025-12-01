@@ -28,7 +28,7 @@ interface ProductDetailModalProps {
       userTag: string;
       tagType: 'pros' | 'cons';
       priority: number;
-      status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
+      status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';
       evidence: string;
       citations: number[];
       tradeoff?: string;
@@ -431,10 +431,10 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                     return sum;
                   }, 0);
 
-                  // 점수 계산: 회피됨=1.0, 부분회피=0.5, 회피안됨=0.0
+                  // 점수 계산: 개선됨=1.0, 부분개선=0.5, 회피안됨=0.0
                   const consScore = consTags.reduce((sum, tag) => {
-                    if (tag.status === '회피됨') return sum + 1.0;
-                    if (tag.status === '부분회피') return sum + 0.5;
+                    if (tag.status === '개선됨') return sum + 1.0;
+                    if (tag.status === '부분개선') return sum + 0.5;
                     return sum;
                   }, 0);
 
@@ -511,12 +511,12 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                                 let badgeColor = '';
                                 let badgeText = '';
 
-                                if (tagEval.status === '회피됨') {
+                                if (tagEval.status === '개선됨') {
                                   badgeColor = 'bg-green-100 text-green-700';
-                                  badgeText = '회피됨';
-                                } else if (tagEval.status === '부분회피') {
+                                  badgeText = '개선됨';
+                                } else if (tagEval.status === '부분개선') {
                                   badgeColor = 'bg-yellow-100 text-yellow-700';
-                                  badgeText = '부분회피';
+                                  badgeText = '부분개선';
                                 } else if (tagEval.status === '회피안됨') {
                                   badgeColor = 'bg-red-100 text-red-700';
                                   badgeText = '회피안됨';

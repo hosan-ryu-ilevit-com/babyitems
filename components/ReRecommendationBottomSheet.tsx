@@ -820,18 +820,31 @@ export function ReRecommendationBottomSheet({
 
           {/* Bottom Sheet */}
           <motion.div
-            initial={{ y: '100%' }}
-            animate={{ y: isCollapsed ? 'calc(100% - 140px)' : 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className={`fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl z-50 flex flex-col ${
-              isCollapsed ? 'shadow-[0_-4px_12px_rgba(0,0,0,0.1)]' : ''
-            }`}
-            style={{ height: isCollapsed ? '140px' : '85vh' }}
+            initial={{ y: '100%', height: '120px' }}
+            animate={isCollapsed ? "collapsed" : "expanded"}
+            variants={{
+              collapsed: {
+                y: 'calc(100% - 120px)',
+                height: '120px',
+                boxShadow: '0 -4px 12px rgba(0, 0, 0, 0.1)'
+              },
+              expanded: {
+                y: 0,
+                height: '85vh',
+                boxShadow: '0 0 0 rgba(0, 0, 0, 0)'
+              }
+            }}
+            transition={{ type: 'spring', damping: 35, stiffness: 400, mass: 0.8 }}
+            exit={{ y: '100%', transition: { duration: 0.2 } }}
+            className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl z-50 flex flex-col"
             onClick={isCollapsed ? handleToggleCollapse : undefined}
           >
-            {/* Chevron Icon - 항상 표시 */}
-            <div className="flex justify-center pt-2 pb-2">
+            {/* Header - Chevron Icon + Reset Button */}
+            <div className="flex justify-between items-center px-3">
+              {/* Left spacer (for centering chevron) */}
+              <div className="w-8"></div>
+
+              {/* Chevron Icon - 중앙 */}
               <button
                 onClick={!isCollapsed ? handleToggleCollapse : undefined}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -845,6 +858,66 @@ export function ReRecommendationBottomSheet({
                   )}
                 </svg>
               </button>
+
+              {/* Reset Button - 우측 (펼쳐진 상태에서만 표시) */}
+              {!isCollapsed && (
+                <button
+                  onClick={() => {
+                    // 상태 초기화
+                    setHasSubmitted(false);
+                    setAllUserInputs([]);
+                    setTypingMessageId(null);
+
+                    // sessionStorage 클리어
+                    sessionStorage.removeItem('rerecommendation_state');
+
+                    // Priority conversation에서 Summary만 다시 로드
+                    const saved = sessionStorage.getItem('babyitem_priority_conversation');
+                    if (saved) {
+                      try {
+                        const state = JSON.parse(saved);
+                        const filteredMessages = state.messages.filter((msg: ChatMessage) => {
+                          return msg.role === 'component' && msg.componentType === 'summary';
+                        });
+                        setMessages(filteredMessages);
+
+                        // Summary 저장
+                        const summaryMessage = filteredMessages.find((m: ChatMessage) => m.componentType === 'summary');
+                        if (summaryMessage) {
+                          setPreviousContextSummary(summaryMessage.content);
+                        }
+
+                        // AI 첫 메시지 추가
+                        setTimeout(() => {
+                          const initialMessage: ChatMessage = {
+                            id: `initial-${Date.now()}`,
+                            role: 'assistant',
+                            content: '위 조건으로 추천드렸어요! 추가로 말하고 싶은 게 있으시면 자유롭게 말씀해주세요. 😊',
+                          };
+                          setMessages((prev) => [...prev, initialMessage]);
+                          setTypingMessageId(initialMessage.id);
+                        }, 300);
+                      } catch (e) {
+                        console.error('Failed to reload initial state:', e);
+                        setMessages([]);
+                      }
+                    } else {
+                      setMessages([]);
+                    }
+
+                    // 로깅
+                    logButtonClick('재추천 대화 리셋', 'result');
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-600"
+                  aria-label="대화 초기화"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <polyline points="23 20 23 14 17 14"></polyline>
+                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                  </svg>
+                </button>
+              )}
             </div>
 
             {/* Messages - Scrollable */}
@@ -972,7 +1045,7 @@ export function ReRecommendationBottomSheet({
 
             {/* Input Area - 항상 표시 */}
             <div
-              className="px-3 pb-6 pt-2 shrink-0"
+              className="px-3 pb-3 shrink-0"
               onClick={(e) => {
                 // 접혀있을 때 클릭하면 펼치기
                 if (isCollapsed) {

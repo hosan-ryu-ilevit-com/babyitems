@@ -114,30 +114,27 @@ Output JSON only. No extra text.
       }
     }
 
-    // Post-process: Parse budget from natural language if needed
-    if (intent.tool === 'REFILTER' || intent.tool === 'REFILTER_WITH_ANCHOR') {
+    // Post-process: Only parse explicit budget numbers, don't override Gemini's classification
+    // Gemini already handles budget classification correctly in systemPrompt
+    if ((intent.tool === 'REFILTER' || intent.tool === 'REFILTER_WITH_ANCHOR') && !intent.args?.budgetChange) {
+      // Try to extract budget only if Gemini didn't already specify one
       const parsedBudget = parseBudgetFromNaturalLanguage(userInput);
-      const needsClarification = needsBudgetClarification(userInput);
 
-      if (parsedBudget && !needsClarification) {
-        // User provided specific budget - use it!
-        console.log(`   💰 Parsed budget: ${parsedBudget} from "${userInput}"`);
+      if (parsedBudget) {
+        // User provided specific budget number - add it to args
+        console.log(`   💰 Parsed budget from natural language: ${parsedBudget}`);
         if (!intent.args) intent.args = {};
         intent.args.budgetChange = {
           type: 'specific',
           value: parsedBudget,
           rawInput: userInput,
         };
-      } else if (needsClarification) {
-        // Budget is vague - ask for clarification instead
-        console.log(`   ⚠️  Budget is vague, switching to ASK_CLARIFICATION`);
-        intent.tool = 'ASK_CLARIFICATION';
-        intent.args = {
-          clarificationQuestion: `더 저렴한 제품으로 찾아볼게요! 최대 얼마까지 쓸 수 있을까요? (예: 7만원, 10만원)`,
-          clarificationContext: 'budget',
-        };
       }
+      // If no parsedBudget, Gemini already decided correctly - don't override!
     }
+
+    // 🔥 REMOVED: needsBudgetClarification() override logic
+    // Trust Gemini's classification instead of rule-based override
 
     // If clicked anchor but Gemini didn't catch it, force REFILTER_WITH_ANCHOR
     if (clickedAnchorId && intent.tool !== 'REFILTER_WITH_ANCHOR' && intent.tool !== 'ASK_CLARIFICATION') {

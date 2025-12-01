@@ -9,6 +9,7 @@ import type { Recommendation, BudgetRange } from '@/types';
 import { getProductSpec } from '@/lib/data/specLoader';
 import { getFullTagObjects, getTagText } from '../utils/tagHelpers';
 import { parseBudgetFromNaturalLanguage, formatBudgetRange } from '../utils/budgetAdjustment';
+import { generateRecommendations } from '@/app/api/recommend-v2/route';
 
 export interface RefilterResult {
   success: boolean;
@@ -33,25 +34,40 @@ export async function executeRefilterWithAnchor(
   try {
     console.log(`\n🔄 REFILTER_WITH_ANCHOR: Starting...`);
 
-    const { newAnchorProductId, tagChanges, budgetChange } = intent.args || {};
+    const { newAnchorProductId, productRank, tagChanges, budgetChange } = intent.args || {};
 
-    if (!newAnchorProductId) {
-      throw new Error('newAnchorProductId is required');
+    // If productRank is provided, resolve to actual product ID from current recommendations
+    let resolvedAnchorId = newAnchorProductId;
+
+    if (productRank && !resolvedAnchorId) {
+      // Get product from current recommendations by rank (1-based index)
+      const product = context.currentRecommendations[productRank - 1];
+
+      if (product) {
+        resolvedAnchorId = String(product.product.id);
+        console.log(`   ✅ Resolved productRank ${productRank} → ${resolvedAnchorId} (${product.product.title})`);
+      } else {
+        return {
+          success: false,
+          error: '죄송해요, 해당 순위의 제품을 찾을 수 없어요. 현재 추천된 제품은 1-3번까지만 있어요.',
+          message: '제품을 찾을 수 없습니다.',
+        };
+      }
     }
 
-    // Step 1: Load new anchor product
-    console.log(`   Loading new anchor: ${newAnchorProductId}`);
-    const newAnchor = await getProductSpec('milk_powder_port', newAnchorProductId);
-
-    if (!newAnchor) {
-      return {
-        success: false,
-        error: '죄송해요, 선택하신 제품을 찾을 수 없어요. 다시 시도해주세요.',
-        message: '제품을 찾을 수 없습니다.',
-      };
+    if (!resolvedAnchorId) {
+      throw new Error('newAnchorProductId or productRank is required');
     }
 
-    console.log(`   ✅ New anchor: ${newAnchor.title}`);
+    // Step 1: Load new anchor product (optional - for message generation)
+    console.log(`   Using anchor: ${resolvedAnchorId}`);
+    const newAnchor = await getProductSpec('milk_powder_port', resolvedAnchorId);
+
+    if (newAnchor) {
+      console.log(`   ✅ Anchor loaded: ${newAnchor.title}`);
+    } else {
+      console.log(`   ⚠️  Could not load anchor product details, but continuing...`);
+    }
 
     // Step 2: Load current tags
     const currentProsTags = context.currentSession.selectedProsTags || [];
@@ -111,28 +127,16 @@ export async function executeRefilterWithAnchor(
 
     console.log(`   Updated budget: ${updatedBudget}`);
 
-    // Step 5: Call recommend-v2 API
-    console.log(`   Calling recommend-v2...`);
+    // Step 5: Call recommendation logic directly (no HTTP call needed)
+    console.log(`   Generating recommendations...`);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/recommend-v2`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        category: 'milk_powder_port',
-        anchorId: newAnchorProductId,
-        selectedProsTags: getFullTagObjects(updatedProsTags),
-        selectedConsTags: getFullTagObjects(updatedConsTags),
-        budget: updatedBudget,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`   ❌ recommend-v2 failed:`, errorText);
-      throw new Error(`Recommendation API failed: ${response.status}`);
-    }
-
-    const result = await response.json();
+    const result = await generateRecommendations(
+      'milk_powder_port',
+      resolvedAnchorId,
+      getFullTagObjects(updatedProsTags),
+      getFullTagObjects(updatedConsTags),
+      updatedBudget
+    );
 
     if (!result.success || !result.recommendations) {
       throw new Error('No recommendations returned');
@@ -143,7 +147,7 @@ export async function executeRefilterWithAnchor(
     // Step 6: Generate user-friendly message
     const message = generateRefilterMessage({
       oldAnchor: context.currentSession.anchorProduct,
-      newAnchor,
+      newAnchor: newAnchor || { id: resolvedAnchorId, title: '선택하신 제품' },
       oldBudget: currentBudget,
       newBudget: updatedBudget,
       addedProsTagIds: tagChanges?.addProsTags || [],

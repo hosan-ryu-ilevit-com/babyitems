@@ -6,6 +6,8 @@
 
 import { GoogleGenAI } from '@google/genai';
 import type { Intent, AgentContext } from '../types';
+import { getProductSpec } from '@/lib/data/specLoader';
+import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) throw new Error('GEMINI_API_KEY is required');
