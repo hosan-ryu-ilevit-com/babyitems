@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Recommendation, Product } from '@/types';
 import { products } from '@/data/products';
-import { logComparisonProductAction } from '@/lib/logging/clientLogger';
+import { logButtonClick } from '@/lib/logging/clientLogger';
 
 interface DetailedComparisonTableProps {
   recommendations: Recommendation[];
@@ -16,6 +16,7 @@ interface DetailedComparisonTableProps {
   anchorProduct?: any; // Tag-based flow에서 앵커 제품 (optional)
   isTagBasedFlow?: boolean; // Tag-based flow 여부
   category?: string; // NEW: Category for spec-based products
+  onProductClick?: (rec: Recommendation) => void; // NEW: Product click handler for modal
 }
 
 export default function DetailedComparisonTable({
@@ -26,7 +27,8 @@ export default function DetailedComparisonTable({
   showScore = true,
   anchorProduct,
   isTagBasedFlow = false,
-  category
+  category,
+  onProductClick
 }: DetailedComparisonTableProps) {
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>>({});
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
@@ -38,7 +40,7 @@ export default function DetailedComparisonTable({
     if (isTagBasedFlow && anchorProduct) {
       const anchorId = String(anchorProduct.productId);
       // 앵커 제품을 Recommendation 형식으로 변환
-      const anchorRec = {
+      const anchorRec: Recommendation = {
         product: {
           id: anchorId,
           title: anchorProduct.모델명,
@@ -47,12 +49,28 @@ export default function DetailedComparisonTable({
           reviewUrl: anchorProduct.썸네일 || '',
           thumbnail: anchorProduct.썸네일 || '',
           reviewCount: 0,
+          ranking: 0,
+          category: 'milk_powder_port',
+          coreValues: {
+            temperatureControl: 0,
+            hygiene: 0,
+            material: 0,
+            usability: 0,
+            portability: 0,
+            priceValue: 0,
+            durability: 0,
+            additionalFeatures: 0,
+          },
         },
-        rank: 0 as const, // 앵커는 rank 0으로 표시
+        rank: 4 as 1 | 2 | 3 | 4, // 앵커는 임시로 rank 4 (실제로는 기준 제품)
         finalScore: 0,
-        personalizedReason: { strengths: [], weaknesses: [] },
-        comparison: [],
-        additionalConsiderations: '비교 기준 제품',
+        reasoning: '비교 기준 제품',
+        selectedTagsEvaluation: [],
+        additionalPros: [],
+        cons: [],
+        anchorComparison: [],
+        purchaseTip: [{ text: '비교 기준 제품' }],
+        citedReviews: [],
       };
 
       // 추천 목록에서 앵커 제품 제거 (중복 방지)
@@ -179,7 +197,7 @@ export default function DetailedComparisonTable({
         <div className={`grid gap-3 ${isTagBasedFlow ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {displayProducts.map((rec) => {
             const isSelected = selectedProductIds.includes(rec.product.id);
-            const isAnchor = rec.rank === 0;
+            const isAnchor = rec.reasoning === '비교 기준 제품';
 
             return (
               <button
@@ -261,7 +279,7 @@ export default function DetailedComparisonTable({
                           />
                         )}
                         {/* 랭킹 배지 또는 앵커 표시 */}
-                        {selectedRecommendations[0]?.rank === 0 ? (
+                        {selectedRecommendations[0]?.reasoning === '비교 기준 제품' ? (
                           <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
                             <span className="text-white font-bold text-[9px] leading-none">기준</span>
                           </div>
@@ -293,7 +311,7 @@ export default function DetailedComparisonTable({
                           />
                         )}
                         {/* 랭킹 배지 또는 앵커 표시 */}
-                        {selectedRecommendations[1]?.rank === 0 ? (
+                        {selectedRecommendations[1]?.reasoning === '비교 기준 제품' ? (
                           <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
                             <span className="text-white font-bold text-[9px] leading-none">기준</span>
                           </div>
@@ -397,63 +415,26 @@ export default function DetailedComparisonTable({
               </tr>
             )}
 
-            {/* 쿠팡에서 보기 + 최저가 보기 + 이 상품 질문하기 버튼 */}
+            {/* 상세보기 버튼 */}
             <tr className="border-b border-gray-100">
               <td colSpan={3} className="py-2 px-1.5">
                 <div className="flex items-start justify-between gap-4">
                   {/* 왼쪽 제품 버튼 */}
-                  <div className="flex-1 space-y-1.5">
+                  <div className="flex-1">
                     <button
                       onClick={() => {
-                        logComparisonProductAction(
-                          'result',
-                          'coupang_clicked',
-                          selectedRecommendations[0]?.product.id,
-                          selectedRecommendations[0]?.product.title,
-                          selectedProductIds
-                        );
-                        window.open(`https://www.coupang.com/vp/products/${selectedRecommendations[0]?.product.id}`, '_blank');
+                        if (onProductClick && selectedRecommendations[0]) {
+                          logButtonClick(
+                            `비교표 상세보기: ${selectedRecommendations[0].product.title}`,
+                            'result'
+                          );
+                          onProductClick(selectedRecommendations[0]);
+                        }
                       }}
-                      className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                      className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
+                      style={{ backgroundColor: '#0074F3', color: '#FFFFFF' }}
                     >
-                      쿠팡에서 보기
-                    </button>
-                    <button
-                      onClick={() => {
-                        logComparisonProductAction(
-                          'result',
-                          'coupang_clicked',
-                          selectedRecommendations[0]?.product.id,
-                          selectedRecommendations[0]?.product.title,
-                          selectedProductIds
-                        );
-                        window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(selectedRecommendations[0]?.product.title || '')}&sort=priceASC`, '_blank');
-                      }}
-                      className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
-                    >
-                      최저가 보기
-                    </button>
-                    <button
-                      onClick={() => {
-                        logComparisonProductAction(
-                          'result',
-                          'product_chat_clicked',
-                          selectedRecommendations[0]?.product.id,
-                          selectedRecommendations[0]?.product.title,
-                          selectedProductIds
-                        );
-                        window.location.href = `/product-chat?productId=${selectedRecommendations[0]?.product.id}&from=/result`;
-                      }}
-                      className="w-full py-2 text-xs font-semibold rounded-lg transition-colors hover:opacity-90 flex items-center justify-center gap-1.5"
-                      style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
-                    >
-                      <span>질문하기</span>
-                      <span className="px-1.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-0.5 text-white" style={{ background: 'linear-gradient(135deg, #5855ff, #71c4fd, #5cdcdc)' }}>
-                        <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                        </svg>
-                        <span>AI</span>
-                      </span>
+                      상세보기
                     </button>
                   </div>
 
@@ -461,58 +442,21 @@ export default function DetailedComparisonTable({
                   <div className="w-16"></div>
 
                   {/* 오른쪽 제품 버튼 */}
-                  <div className="flex-1 space-y-1.5">
+                  <div className="flex-1">
                     <button
                       onClick={() => {
-                        logComparisonProductAction(
-                          'result',
-                          'coupang_clicked',
-                          selectedRecommendations[1]?.product.id,
-                          selectedRecommendations[1]?.product.title,
-                          selectedProductIds
-                        );
-                        window.open(`https://www.coupang.com/vp/products/${selectedRecommendations[1]?.product.id}`, '_blank');
+                        if (onProductClick && selectedRecommendations[1]) {
+                          logButtonClick(
+                            `비교표 상세보기: ${selectedRecommendations[1].product.title}`,
+                            'result'
+                          );
+                          onProductClick(selectedRecommendations[1]);
+                        }
                       }}
-                      className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                      className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
+                      style={{ backgroundColor: '#0074F3', color: '#FFFFFF' }}
                     >
-                      쿠팡에서 보기
-                    </button>
-                    <button
-                      onClick={() => {
-                        logComparisonProductAction(
-                          'result',
-                          'coupang_clicked',
-                          selectedRecommendations[1]?.product.id,
-                          selectedRecommendations[1]?.product.title,
-                          selectedProductIds
-                        );
-                        window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(selectedRecommendations[1]?.product.title || '')}&sort=priceASC`, '_blank');
-                      }}
-                      className="w-full py-2 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
-                    >
-                      최저가 보기
-                    </button>
-                    <button
-                      onClick={() => {
-                        logComparisonProductAction(
-                          'result',
-                          'product_chat_clicked',
-                          selectedRecommendations[1]?.product.id,
-                          selectedRecommendations[1]?.product.title,
-                          selectedProductIds
-                        );
-                        window.location.href = `/product-chat?productId=${selectedRecommendations[1]?.product.id}&from=/result`;
-                      }}
-                      className="w-full py-2 text-xs font-semibold rounded-lg transition-colors hover:opacity-90 flex items-center justify-center gap-1.5"
-                      style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
-                    >
-                      <span>질문하기</span>
-                      <span className="px-1.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-0.5 text-white" style={{ background: 'linear-gradient(135deg, #5855ff, #71c4fd, #5cdcdc)' }}>
-                        <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                        </svg>
-                        <span>AI</span>
-                      </span>
+                      상세보기
                     </button>
                   </div>
                 </div>
@@ -703,7 +647,7 @@ export default function DetailedComparisonTable({
             {!isLoadingComparison && Object.keys(productDetails).length > 0 && selectedProducts.length === 2 && (
               <tr className="border-b border-gray-100 bg-gray-50">
                 <td colSpan={3} className="py-3 px-3">
-                  <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교 정리</h4>
+                  <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교</h4>
                   <div className="space-y-2.5">
                     {selectedProducts.map((product, index) => {
                       if (!product) return null;

@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReviewCard from '@/components/ReviewCard';
-import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
+import { useFavorites } from '@/hooks/useFavorites';
+import { products } from '@/data/products';
 import type { Review } from '@/lib/review';
 
 interface ProductData {
@@ -43,9 +45,7 @@ function parseMarkdownBold(text: string) {
 export default function ProductPage() {
   const router = useRouter();
   const params = useParams();
-  const searchParams = useSearchParams();
   const productId = params.id as string;
-  const category = searchParams.get('category');
 
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
@@ -57,11 +57,29 @@ export default function ProductPage() {
   const [averageRating, setAverageRating] = useState<number>(0);
   const [isExiting, setIsExiting] = useState(false);
   const [comparativeAnalysis, setComparativeAnalysis] = useState<any>(null);
+  const { toggleFavorite, isFavorite, count } = useFavorites();
+
+  // Get category from products data instead of URL params
+  const product = products.find(p => p.id === productId);
+  const category = product?.category;
 
   useEffect(() => {
     setMounted(true);
     logPageView('product');
   }, []);
+
+  // Handle favorite toggle
+  const handleFavoriteToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!productData) return;
+
+    const wasFavorite = isFavorite(productData.product.id);
+    toggleFavorite(productData.product.id);
+
+    const action = wasFavorite ? 'removed' : 'added';
+    const newCount = wasFavorite ? count - 1 : count + 1;
+    logFavoriteAction(action, productData.product.id, productData.product.title, newCount);
+  };
 
   // Fetch reviews function with useCallback
   const fetchReviews = useCallback(async () => {
@@ -193,7 +211,7 @@ export default function ProductPage() {
       >
         {/* Header */}
         <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between">
             <button
               onClick={() => {
                 logButtonClick('뒤로가기', 'product');
@@ -205,6 +223,28 @@ export default function ProductPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
+
+            {/* Favorite Heart Button */}
+            {productData && (
+              <button
+                onClick={handleFavoriteToggle}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label="찜하기"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill={isFavorite(productData.product.id) ? '#FF6B6B' : 'none'}
+                  stroke="#FF6B6B"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              </button>
+            )}
           </div>
         </header>
 
@@ -578,31 +618,33 @@ export default function ProductPage() {
         </div>
 
         {/* Floating Action Buttons */}
-        <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 px-4 py-3 z-30">
-          <div className="flex gap-2">
-            <button
-              onClick={() => {
-                logButtonClick('최저가 보기', 'product');
-                window.open(
-                  `https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(productData.product.title)}&sort=priceASC`,
-                  '_blank'
-                );
-              }}
-              className="flex-[4] py-3 font-semibold rounded-lg text-sm transition-colors bg-gray-100 hover:bg-gray-200 text-gray-700"
-            >
-              최저가 보기
-            </button>
-            <button
-              onClick={() => {
-                logButtonClick('쿠팡에서 보기', 'product');
-                window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
-              }}
-              className="flex-[6] py-3 font-semibold rounded-lg text-sm transition-colors bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              쿠팡에서 보기
-            </button>
+        {productData && (
+          <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 px-4 py-3 z-30">
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  logButtonClick('최저가 보기', 'product');
+                  window.open(
+                    `https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(productData.product.title)}&sort=priceASC`,
+                    '_blank'
+                  );
+                }}
+                className="flex-1 py-3 font-semibold rounded-lg text-sm transition-colors bg-gray-100 hover:bg-gray-200 text-gray-700"
+              >
+                최저가 보기
+              </button>
+              <button
+                onClick={() => {
+                  logButtonClick('쿠팡에서 보기', 'product');
+                  window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
+                }}
+                className="flex-[1.5] py-3 font-semibold rounded-lg text-sm transition-colors bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                쿠팡에서 보기
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </motion.div>
     </motion.div>
   );

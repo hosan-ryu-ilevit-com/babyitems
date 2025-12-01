@@ -347,8 +347,8 @@ export async function generateTop3Recommendations(
         selectedTagsEvaluation: [], // Old API doesn't have tag evaluation
         additionalPros: reason.strengths.slice(1).map(text => ({ text, citations: [] })), // Rest of strengths as additional pros
         cons: reason.weaknesses.map(text => ({ text, citations: [] })),
-        anchorComparison: reason.comparison.join(' '), // Join comparison array into single string
-        purchaseTip: reason.additionalConsiderations,
+        anchorComparison: reason.comparison.map(text => ({ text, citations: [] })), // Convert to array format
+        purchaseTip: [{ text: reason.additionalConsiderations, citations: [] }], // Convert to array format
         citedReviews: [],
       };
     } catch (error) {

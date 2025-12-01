@@ -206,10 +206,10 @@ function AnchorPageContent() {
             transition={{ delay: 0.3 }}
             className="flex items-center justify-between mb-3"
           >
-            <h3 className="text-base font-bold text-gray-900">분석 기준 제품</h3>
+            <h3 className="text-base font-bold text-gray-900">기준 제품</h3>
             <button
               onClick={() => setShowProductList(true)}
-              className="px-3 py-1.5 bg-gray-200 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-300 transition-all"
+              className="px-3 py-1.5 bg-gray-100 rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-300 transition-all"
             >
               변경
             </button>
@@ -342,7 +342,7 @@ function AnchorPageContent() {
               >
                 <div className="p-5 border-b">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold text-gray-900">제품 선택</h3>
+                    <h3 className="text-lg font-bold text-gray-900">기준 제품을 골라주세요</h3>
                     <button
                       onClick={() => setShowProductList(false)}
                       className="p-1 hover:bg-gray-100 rounded-lg transition-colors"

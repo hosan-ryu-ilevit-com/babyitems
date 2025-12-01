@@ -108,7 +108,7 @@ function ComparePageContent() {
     selectedTagsEvaluation: [],
     additionalPros: [],
     cons: [],
-    anchorComparison: '',
+    anchorComparison: [],
     citedReviews: [],
   }));
 

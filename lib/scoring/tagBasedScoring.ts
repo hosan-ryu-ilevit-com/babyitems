@@ -10,7 +10,9 @@
  *   - 1st selected tag: 1.5x multiplier
  *   - 2nd selected tag: 1.2x multiplier
  *   - 3rd+ tags: 1.0x multiplier
- * - Cons tags: -2 points × attribute weight × (product attribute score / 100)
+ * - Cons tags: -2 points × attribute weight × (1 - product attribute score / 100)
+ *   - Lower attribute score = more penalty (product has the con)
+ *   - Higher attribute score = less penalty (product avoids the con)
  */
 
 export interface TagWithAttributes {
@@ -92,6 +94,8 @@ export function calculateTagScore(
   });
 
   // Process CONS tags (negative impact)
+  // Lower attribute score = more penalty (product has the con)
+  // Higher attribute score = less penalty (product avoids the con)
   selectedConsTags.forEach(tag => {
     Object.entries(tag.attributes).forEach(([attrKey, attributeWeight]) => {
       const productAttributeScore = productAttributeScores[attrKey];
@@ -102,7 +106,7 @@ export function calculateTagScore(
       }
 
       const normalizedScore = productAttributeScore / 100; // 0-1 scale
-      const contribution = -2 * attributeWeight * normalizedScore;
+      const contribution = -2 * attributeWeight * (1 - normalizedScore);
 
       consScore += contribution;
       consDetails.push({

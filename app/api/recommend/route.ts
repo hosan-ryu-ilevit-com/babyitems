@@ -224,7 +224,8 @@ export async function POST(request: NextRequest) {
           reviewUrl: p.reviewUrl,
           ranking: p.ranking,
           thumbnail: p.thumbnail,
-          coreValues: p.coreValues
+          coreValues: p.coreValues,
+          category: p.category
         }));
         console.log('✓ Top 5 products selected:', top5Products.map(p => p.title.substring(0, 30)));
 

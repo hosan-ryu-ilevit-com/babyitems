@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { CaretLeft, Question } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import { PRIORITY_ATTRIBUTES, ATTRIBUTE_ICONS, AttributeInfo } from '@/data/attributes';
-import { PriorityButton } from '@/components/PriorityButton';
 import { AttributeBottomSheet } from '@/components/AttributeBottomSheet';
 import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 import { PrioritySettings, PriorityLevel, BudgetRange } from '@/types';

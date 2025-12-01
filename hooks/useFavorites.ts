@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { FavoritesState } from '@/types';
 
 const FAVORITES_KEY = 'babyitem_favorites';
-const MAX_FAVORITES = 3;
 
 export function useFavorites() {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -44,11 +43,7 @@ export function useFavorites() {
       // Remove from favorites
       saveFavorites(favorites.filter((id) => id !== productId));
     } else {
-      // Add to favorites (max 3)
-      if (favorites.length >= MAX_FAVORITES) {
-        // Optionally show toast message: "최대 3개까지 찜할 수 있습니다"
-        return false;
-      }
+      // Add to favorites (unlimited)
       saveFavorites([...favorites, productId]);
     }
     return true;
@@ -73,7 +68,6 @@ export function useFavorites() {
     removeFavorite,
     clearFavorites,
     isFavorite,
-    canAddMore: favorites.length < MAX_FAVORITES,
     count: favorites.length,
   };
 }

@@ -619,11 +619,8 @@ export default function ResultPage() {
       const data = await response.json();
 
       if (data.success) {
-        // Store comparative analysis
-        if (data.comparativeAnalysis) {
-          setComparativeAnalysis(data.comparativeAnalysis);
-          console.log('✅ Comparative analysis received:', data.comparativeAnalysis);
-        }
+        // Comparative analysis is now loaded lazily in the background
+        // (removed from initial response for faster load time)
 
         // Convert v2 recommendations - 쓸모없는 변환 제거, API 데이터 그대로 전달
         const convertedRecommendations: Recommendation[] = data.recommendations.map((rec: any, index: number) => {
@@ -675,11 +672,30 @@ export default function ResultPage() {
         saveSession(session);
         console.log('💾 Saved tag-based recommendations to session cache');
 
-        // Also save comparative analysis to sessionStorage for PDP access
-        if (data.comparativeAnalysis) {
-          sessionStorage.setItem('comparative_analysis', JSON.stringify(data.comparativeAnalysis));
-          console.log('💾 Saved comparative analysis to sessionStorage');
-        }
+        // Load comparative analysis in the background for better UX
+        console.log('⏳ Loading comparative analysis in background...');
+        fetch('/api/comparative-analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            top3: data.recommendations.slice(0, 3),
+            anchorProduct: data.anchorProduct,
+            category,
+            prosTexts: selections.selectedPros.map((tag: { text: string }) => tag.text),
+            consTexts: selections.selectedCons.map((tag: { text: string }) => tag.text),
+          }),
+        })
+          .then(res => res.json())
+          .then(analysisData => {
+            if (analysisData.success) {
+              sessionStorage.setItem('comparative_analysis', JSON.stringify(analysisData.analysis));
+              setComparativeAnalysis(analysisData.analysis);
+              console.log(`✅ Comparative analysis loaded in ${analysisData.processingTime}ms (background)`);
+            }
+          })
+          .catch(err => {
+            console.warn('⚠️ Failed to load comparative analysis (non-blocking):', err);
+          });
       } else {
         setError(data.error || '추천 생성 실패');
       }
@@ -1052,7 +1068,7 @@ export default function ResultPage() {
                         : 'bg-transparent text-gray-500'
                     }`}
                   >
-                    BEST 3
+                    추천 상품
                   </button>
                   <button
                     onClick={() => {
@@ -1191,6 +1207,13 @@ export default function ResultPage() {
                         }}
                         className="relative bg-white py-5 px-2 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
                       >
+                        {/* 클릭 어포던스 - 우상단 chevron */}
+                        <div className="absolute top-4 right-3 text-gray-400">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+
                         {/* 제품 정보 */}
                         <div className="flex gap-4 mb-3">
                           {/* 제품 썸네일 */}
@@ -1240,37 +1263,72 @@ export default function ResultPage() {
                                 {rec.product.price.toLocaleString()}<span className="text-sm">원</span>
                               </p>
                               {/* 별점 평균 + 리뷰수 - 별 1개만 표시 */}
-                              {rec.product.averageRating && rec.product.averageRating > 0 ? (
-                                <div className="flex items-center gap-1.5 mb-1">
-                                  <svg
-                                    className="w-3 h-3 text-yellow-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                  </svg>
-                                  <span className="text-xs font-semibold text-gray-900">
-                                    {rec.product.averageRating.toFixed(1)}
-                                  </span>
+                              <div className="flex items-center gap-1.5 mb-1">
+                                <svg
+                                  className="w-3 h-3 text-yellow-400"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                {rec.product.averageRating && rec.product.averageRating > 0 ? (
+                                  <>
+                                    <span className="text-xs font-semibold text-gray-900">
+                                      {rec.product.averageRating.toFixed(1)}
+                                    </span>
+                                    <span className="text-xs text-gray-500">
+                                      ({rec.product.reviewCount.toLocaleString()})
+                                    </span>
+                                  </>
+                                ) : (
                                   <span className="text-xs text-gray-500">
                                     ({rec.product.reviewCount.toLocaleString()})
                                   </span>
-                                </div>
-                              ) : (
-                                <div className="text-xs text-gray-500 mb-1">
-                                  리뷰 {rec.product.reviewCount.toLocaleString()}
-                                </div>
-                              )}
+                                )}
+                              </div>
+
+                              {/* 장점 충족/단점 회피 개수 표시 */}
+                              {rec.selectedTagsEvaluation && rec.selectedTagsEvaluation.length > 0 && (() => {
+                                const prosTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros');
+                                const consTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
+
+                                const prosFulfilled = prosTags.filter(tag => tag.status === '충족' || tag.status === '부분충족').length;
+                                const consAvoided = consTags.filter(tag => tag.status === '회피됨' || tag.status === '부분회피').length;
+
+                                return (
+                                  <div className="flex items-center gap-1.5">
+                                    {prosTags.length > 0 && (
+                                      <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-50">
+                                        <span className="text-xs font-bold text-green-700">{prosFulfilled}/{prosTags.length}</span>
+                                        <span className="text-xs text-green-600">원하는 장점</span>
+                                      </div>
+                                    )}
+                                    {consTags.length > 0 && (
+                                      <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-red-50">
+                                        <span className="text-xs font-bold text-red-700">{consAvoided}/{consTags.length}</span>
+                                        <span className="text-xs text-red-600">원하는 개선점</span>
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })()}
                             </div>
                           </div>
                         </div>
 
                         {/* AI 추천 이유 */}
                         <div className="mt-3">
-                          <div className="rounded-xl p-3" style={{ backgroundColor: '#E5F1FF' }}>
+                          <div className="rounded-xl p-3 bg-blue-50">
                             <div className="flex items-start gap-2">
-                              <svg className="w-4 h-4 shrink-0 mt-0.5" fill="#0074F3" viewBox="0 0 24 24">
-                                <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                              <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24">
+                                <defs>
+                                  <linearGradient id="ai-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#5855ff" />
+                                    <stop offset="50%" stopColor="#71c4fd" />
+                                    <stop offset="100%" stopColor="#5cdcdc" />
+                                  </linearGradient>
+                                </defs>
+                                <path fill="url(#ai-gradient)" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
                               </svg>
                               <p className="text-sm text-gray-700 leading-relaxed flex-1">
                                 {parseMarkdownBold(rec.reasoning)}
@@ -1323,6 +1381,10 @@ export default function ResultPage() {
                       anchorProduct={isTagBasedFlow ? anchorProduct : undefined}
                       isTagBasedFlow={isTagBasedFlow}
                       category={currentCategory || undefined}
+                      onProductClick={(rec) => {
+                        setSelectedProductForModal(rec);
+                        window.history.pushState({}, '', `/product/${rec.product.id}`);
+                      }}
                     />
                   </motion.div>
                 )}

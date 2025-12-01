@@ -10,6 +10,18 @@ export interface CoreValues {
   additionalFeatures: number;    // 부가 기능/디자인 (1-10)
 }
 
+// Product category
+export type ProductCategory =
+  | 'milk_powder_port'
+  | 'baby_bottle'
+  | 'baby_bottle_sterilizer'
+  | 'baby_formula_dispenser'
+  | 'baby_monitor'
+  | 'baby_play_mat'
+  | 'car_seat'
+  | 'nasal_aspirator'
+  | 'thermometer';
+
 // Product interface
 export interface Product {
   id: string;                    // 쿠팡 아이디
@@ -22,6 +34,7 @@ export interface Product {
   thumbnail: string;
   coreValues: CoreValues;
   averageRating?: number;        // 평균 별점 (optional)
+  category: ProductCategory;     // 제품 카테고리
 }
 
 // Chat message
@@ -158,8 +171,9 @@ export interface Recommendation {
   // PDP용: 사용자 선택 태그 충족 여부
   selectedTagsEvaluation: Array<{
     userTag: string;
+    tagType: 'pros' | 'cons';
     priority: number;
-    status: '충족' | '부분충족' | '불충족';
+    status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
     evidence: string;
     citations: number[];
     tradeoff?: string;

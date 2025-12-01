@@ -9,6 +9,8 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/6876934040',
     ranking: 2,
     thumbnail: '/thumbnails/6876934040.jpg',
+    category: 'milk_powder_port',
+    averageRating: 4.3,
     coreValues: {
       temperatureControl: 1,  // 매우 미달 - 온도조절 기능 전무
       hygiene: 5,             // 보통 - 넓은 입구지만 실리콘 냄새 배임
@@ -28,6 +30,8 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/6962086794',
     ranking: 1,
     thumbnail: '/thumbnails/6962086794.jpg',
+    category: 'milk_powder_port',
+    averageRating: 4.9,
     coreValues: {
       temperatureControl: 10, // 매우 충족 - 원터치, 영구보온, 1도 조절
       hygiene: 10,            // 매우 충족 - 통세척, 완전분리
@@ -47,6 +51,8 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8025187240',
     ranking: 3,
     thumbnail: '/thumbnails/8025187240.png',
+    category: 'milk_powder_port',
+    averageRating: 4.4,
     coreValues: {
       temperatureControl: 8,  // 충족 - 1도 조절, 빠른 가열, 보온
       hygiene: 5,             // 보통 - 넓은 입구지만 충전부 때문에 통세척 불가
@@ -66,6 +72,8 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8248083200',
     ranking: 6,
     thumbnail: '/thumbnails/8248083200.jpg',
+    category: 'milk_powder_port',
+    averageRating: 4.2,
     coreValues: {
       temperatureControl: 1,  // 매우 미달 - 자동모드 없음, 보온 3-4시간만
       hygiene: 10,            // 매우 충족 - 통세척, 완전분리, 연마제 적음
@@ -85,6 +93,8 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8832134810',
     ranking: 7,
     thumbnail: '/thumbnails/8832134810.jpg',
+    category: 'milk_powder_port',
+    averageRating: 4.3,
     coreValues: {
       temperatureControl: 1,  // 매우 미달 - 온도조절 전무
       hygiene: 5,             // 보통 - 통세척 가능하나 과도한 연마제
@@ -104,7 +114,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/1519776763',
     ranking: 9,
     thumbnail: '/thumbnails/1519776763.jpg',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 8,  // 충족 - 1도 조절, 8시간 보온
       hygiene: 5,             // 보통 - 내부 세척 좋으나 외부 세척 불가
       material: 5,            // 보통 - SUS304, 뚜껑 불안정
@@ -123,7 +135,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7118428974',
     ranking: 10,
     thumbnail: '/thumbnails/7118428974.jpg',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 10, // 매우 충족 - 원터치, 냉각팬, 영구보온
       hygiene: 8,             // 충족 - 통세척 (일부 패킹 문제)
       material: 5,            // 보통 - SUS316이지만 유리 쉽게 깨짐
@@ -142,7 +156,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/6699913168',
     ranking: 11,
     thumbnail: '/thumbnails/6699913168.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 5,  // 보통 - 온도 유지 불완전
       hygiene: 8,             // 충족 - 고온살균 기능
       material: 3,            // 미달 - 유리 파손 위험
@@ -161,7 +177,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8356115729',
     ranking: 12,
     thumbnail: '/thumbnails/8356115729.jpg',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 8,  // 충족 - 분유모드, 12시간 보온
       hygiene: 5,             // 보통 - 통세척 가능하나 QC 문제 (곰팡이)
       material: 8,            // 충족 - SUS316, BPA-Free
@@ -180,7 +198,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8682829959',
     ranking: 13,
     thumbnail: '/thumbnails/8682829959.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 10, // 매우 충족 - 1도 조절, 장시간 유지
       hygiene: 10,            // 매우 충족 - 99.9% 자체 살균
       material: 8,            // 충족 - 의료용 스테인리스, KC 인증
@@ -199,7 +219,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8599323586',
     ranking: 14,
     thumbnail: '/thumbnails/8599323586.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 1,  // 매우 미달 - 일반 전기포트
       hygiene: 10,            // 매우 충족 - 통스텐, 통세척
       material: 8,            // 충족 - 올스텐 SUS304
@@ -218,7 +240,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8950011599',
     ranking: 16,
     thumbnail: '/thumbnails/8950011599.jpg',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.5,    coreValues: {
       temperatureControl: 8,  // 충족 - 최대 55도, 16시간 보온
       hygiene: 5,             // 보통 - 좁은 입구
       material: 8,            // 충족 - SUS316, 이중잠금
@@ -237,7 +261,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8591558719',
     ranking: 17,
     thumbnail: '/thumbnails/8591558719.jpg',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 3,  // 미달 - 보온 약함
       hygiene: 10,            // 매우 충족 - 통세척, 물때 안낌
       material: 1,            // 매우 미달 - 2주만에 녹 발생
@@ -256,7 +282,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8723454926',
     ranking: 20,
     thumbnail: '/thumbnails/8723454926.jpg',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.5,    coreValues: {
       temperatureControl: 3,  // 미달 - 자동모드 없음
       hygiene: 5,             // 보통 - 넓은 입구지만 냄새 배임
       material: 8,            // 충족 - 올스텐 SUS304
@@ -276,7 +304,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8720154091',
     ranking: 21,
     thumbnail: '/thumbnails/8720154091.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 원하는 온도 설정 및 유지, 염소 제거 기능이 완벽함.
       hygiene: 9,             // 매우 충족 - 넓은 입구와 유리 재질, 316 SS로 위생 관리 용이.
       material: 8,            // 충족 - SUS316 스테인리스 및 위생적인 유리 재질 사용.
@@ -296,7 +326,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7550948917',
     ranking: 22,
     thumbnail: '/thumbnails/7550948917.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.0,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 45도~100도 세분화, 24시간 보온, 타이머 기능
       hygiene: 5,             // 보통 - 유리 재질로 세척 용이하나, 바닥 착색 및 화학/고무 냄새 문제 심각
       material: 4,            // 미달 - 유리 강도 매우 약함, 뚜껑 금속 손잡이 발열 위험
@@ -316,7 +348,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8500920656',
     ranking: 23,
     thumbnail: '/thumbnails/8500920656.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 40~90도 정밀 조절, 분유 모드, 자동 보온 기능 탁월
       hygiene: 8,             // 충족 - 유리 바디, 분리형 티망으로 세척 용이하나 초기 연마제 제거 필수
       material: 7,            // 만족 - SUS304 스텐, 내열 강화 유리 사용, 환경호르몬 걱정 없음
@@ -336,7 +370,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7594586358',
     ranking: 24,
     thumbnail: '/thumbnails/7594586358.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.5,    coreValues: {
       temperatureControl: 3,  // 미달 - 정밀 온도 조절 및 자동 꺼짐 기능 전무
       hygiene: 6,             // 보통 - 넓은 입구와 SUS316은 장점, 하지만 코드 일체형 및 부유물 발생 보고됨
       material: 7,            // 충족 - 프리미엄 SUS316 소재, 하지만 손잡이 내구성 및 전기 안전 문제 보고됨
@@ -356,7 +392,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7912705855',
     ranking: 25,
     thumbnail: '/thumbnails/7912705855.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.5,    coreValues: {
       temperatureControl: 9,  // 매우 충족 - 1도 세밀 조절, 최대 25시간 보온, 온도 유지력 탁월
       hygiene: 8,             // 충족 - 99% 살균 기능 탑재, 연마제 적음, 다만 내부 세척 구조는 아쉬움
       material: 9,            // 매우 충족 - 의료용 SUS316, 국산 삼성SDI 배터리 탑재, 안전성 우수
@@ -376,7 +414,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7821923686',
     ranking: 26,
     thumbnail: '/thumbnails/7821923686.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 1,  // 매우 미달 - 온도조절 기능 전무 (기본 끓임 기능만 제공)
       hygiene: 8,             // 충족 - 내부 올스텐, 입구가 넓어 세척 용이
       material: 9,            // 매우 충족 - 이중 구조로 외부 표면이 뜨겁지 않아 안전함
@@ -396,7 +436,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8565802095',
     ranking: 27,
     thumbnail: '/thumbnails/8565802095.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 100℃ 끓임, 쿨링팬, 1도 단위 조절, 자동 보온까지 완벽.
       hygiene: 9,             // 매우 충족 - 유리 포트, 완전 분리 세척, 출수관 잔수 자동 배출 기능.
       material: 9,            // 매우 충족 - 스테인리스 316 재질과 위생적인 유리 포트 사용.
@@ -416,7 +458,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8260978952',
     ranking: 28,
     thumbnail: '/thumbnails/8260978952.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 원터치 분유 모드, 자동 염소 제거, 영구 보온
       hygiene: 8,             // 충족 - 넓은 입구로 통세척 용이 (일부 뚜껑 패킹에 물 고임 문제 제기)
       material: 5,            // 보통 - STS316 고급 소재 사용 (일부 사용자 유리/바닥 얇음 지적)
@@ -436,7 +480,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7865821886',
     ranking: 29,
     thumbnail: '/thumbnails/7865821886.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 9,  // 매우 충족 - 100℃ 끓임 및 40℃ 고정 보온 기능 우수
       hygiene: 7,             // 충족 - 실리콘 재질로 세척 간편, 다만 완전 건조 필수 및 이물질 발생 우려 일부 존재
       material: 8,            // 충족 - 식품용 실리콘 및 스테인리스 사용, 분유용으로 안심하고 사용
@@ -456,7 +502,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8382153223',
     ranking: 30,
     thumbnail: '/thumbnails/8382153223.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.6,    coreValues: {
       temperatureControl: 3,  // 미달 - 정밀 온도 조절 기능 전무, 1/2단 가열 세기 조절만 가능
       hygiene: 8,             // 충족 - 올스텐 재질로 위생적, 초기 연마제 제거 작업 필요
       material: 9,            // 매우 충족 - 304 올스텐 사용, 변색 및 환경호르몬 걱정 없음
@@ -476,7 +524,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7743811249',
     ranking: 31,
     thumbnail: '/thumbnails/7743811249.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.2,    coreValues: {
       temperatureControl: 7,  // 충족 - 1도 조절, 염소 제거 기능 우수하나, 냉각 속도 느리고 12시간 보온 제한.
       hygiene: 9,             // 매우 충족 - 통유리 바닥, 넓은 입구, 완전 분리형 뚜껑으로 위생 관리 최상.
       material: 7,            // 충족 - 붕규산 통유리, SUS304 사용, 연마제 걱정 없으나, 충격에 약해 파손 위험 높음.
@@ -496,7 +546,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8631468812',
     ranking: 32,
     thumbnail: '/thumbnails/8631468812.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.5,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 원터치 분유 모드, 쿨링팬, 24시간 영구 보온
       hygiene: 9,             // 매우 충족 - 염소소독 기능, 316L 스텐, 분리형 포트로 세척 용이
       material: 9,            // 매우 충족 - 의료용 316L 스테인리스와 붕규산 강화유리 사용
@@ -516,7 +568,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7716649665',
     ranking: 33,
     thumbnail: '/thumbnails/7716649665.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.6,    coreValues: {
       temperatureControl: 9,  // 매우 충족 - 5가지 자동 모드, 염소 제거, 8시간 보온 (일부 24시간 보온 미지원 아쉬움)
       hygiene: 8,             // 충족 - 넓은 입구로 통세척 용이, 유리 재질로 위생적
       material: 7,            // 충족 - SUS316 고급 스테인리스 사용, 다만 유리 재질 특성상 파손 주의 필요
@@ -536,7 +590,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7342144886',
     ranking: 34,
     thumbnail: '/thumbnails/7342144886.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.0,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 100℃ 염소 제거, 쾌속 쿨링, 1도 단위 조절
       hygiene: 6,             // 보통 - 살균 기능은 있으나, 구연산 세척 후에도 물때/이물질 발생 보고됨
       material: 3,            // 미달 - 유리병이 작은 충격에도 쉽게 깨지며, 물때/이물질 발생 우려
@@ -556,7 +612,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/1138522184',
     ranking: 35,
     thumbnail: '/thumbnails/1138522184.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 3.9,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 원터치, 냉각팬, 1도 조절, 최대 24시간 보온
       hygiene: 8,             // 충족 - 넓은 입구 통세척 용이, 살균 기능 (일부 뚜껑 패킹 문제)
       material: 5,            // 보통 - SUS304, 붕규산 유리 사용 (유리 파손 위험 높음)
@@ -576,7 +634,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/6133211986',
     ranking: 36,
     thumbnail: '/thumbnails/6133211986.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 3초 직수 가열, 7단계 온도 조절 (18~95℃) 기능 완벽
       hygiene: 7,             // 충족 - 직수 방식이라 청소 불필요, 다만 초기 화학/고무 냄새 지적 다수
       material: 5,            // 보통 - 소재 자체 불만은 적으나, 장기간 지속되는 화학 냄새 문제 제기됨
@@ -596,7 +656,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8856687595',
     ranking: 37,
     thumbnail: '/thumbnails/8856687595.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.5,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 100도 가열, 정밀 온도 조절 및 보온 기능 완벽
       hygiene: 5,             // 보통 - 100도 살균 가능하나, 충전부 방수 문제로 세척이 번거로움
       material: 9,            // 매우 충족 - 내부 SUS316 고급 소재 사용으로 안전성 높음
@@ -616,7 +678,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8852932895',
     ranking: 38,
     thumbnail: '/thumbnails/8852932895.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.5,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 1도 단위 세밀 조절, 24시간 보온, 자동 재가열 기능
       hygiene: 9,             // 매우 충족 - 저온 살균 기능 탑재, SUS316 소재, 연마제 거의 없음
       material: 10,            // 매우 충족 - 의료용 SUS316 스테인리스 사용, 트라이탄 소재 입구
@@ -636,7 +700,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/6598603367',
     ranking: 39,
     thumbnail: '/thumbnails/6598603367.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 4,  // 미달 - 보온 기능 불안정, 설정 온도 유지 실패
       hygiene: 7,             // 보통 - 넓은 입구와 분리형 티망, 뚜껑 개방 각도 제한
       material: 3,            // 미달 - 장기 사용 후 녹 발생 및 누수 보고됨
@@ -656,7 +722,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7368490136',
     ranking: 40,
     thumbnail: '/thumbnails/7368490136.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 3.9,    coreValues: {
       temperatureControl: 8,  // 충족 - 자동 끓임/식힘/보온 기능 우수하나, 일부 제품에서 보온 유지 실패 보고됨.
       hygiene: 7,             // 보통 - 유리 본체로 위생적, 연마제 적음, 하지만 물/플라스틱 냄새 지속 보고됨.
       material: 6,            // 보통 - 유리 본체로 위생적, 스테인리스 등급은 양호하나 냄새 문제 발생.
@@ -676,7 +744,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7517972651',
     ranking: 41,
     thumbnail: '/thumbnails/7517972651.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.9,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 영구보온, 1도 미세조정, 자동 쿨링팬
       hygiene: 8,             // 충족 - 뚜껑 분리 세척 용이, 3분 살균 기능
       material: 8,            // 충족 - SUS 316L 의료용 스텐 사용, 두꺼운 유리
@@ -696,7 +766,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/5065624051',
     ranking: 42,
     thumbnail: '/thumbnails/5065624051.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 24시간 보온, 원하는 온도 설정 및 정확한 유지, 새벽 수유 최적화.
       hygiene: 9,             // 매우 충족 - 넓은 입구와 완전 분리형 뚜껑으로 통세척 용이. (단, 이중 유리 습기 문제는 있음)
       material: 8,            // 충족 - 이중 유리 쿨터치 구조로 안전성 우수. (일부 마감재 품질 및 유리 재질 표기 논란 존재)
@@ -716,7 +788,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7647695393',
     ranking: 43,
     thumbnail: '/thumbnails/7647695393.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.6,    coreValues: {
       temperatureControl: 9,  // 매우 충족 - 1도 단위 세밀 조절, 원터치 분유 모드 제공.
       hygiene: 10,             // 압도적 충족 - 분리형 유리 포트로 통세척 및 위생 관리가 매우 용이함.
       material: 9,            // 매우 충족 - 붕규산 내열 유리 사용으로 쇠맛 우려 해소 및 위생적.
@@ -736,7 +810,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8449192048',
     ranking: 44,
     thumbnail: '/thumbnails/8449192048.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.2,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 정밀 온도 조절, 장시간 보온, 자동 출수량 조절
       hygiene: 8,             // 충족 - 살균 기능, 뚜껑 완전 분리, 의료등급 스텐
       material: 4,            // 미달 - SUS316 사용에도 불구하고 유리 파손 위험
@@ -756,7 +832,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/6804978516',
     ranking: 45,
     thumbnail: '/thumbnails/6804978516.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.4,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 1도 단위 조절, 24시간 보온, 쿨링팬 기능 완벽
       hygiene: 8,             // 충족 - 붕규산 유리 및 SUS316 소재, 넓은 입구로 세척 용이
       material: 5,            // 보통 - 고급 소재 사용에도 불구하고 유리 포트 파손 사례가 빈번함
@@ -776,7 +854,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8008665038',
     ranking: 46,
     thumbnail: '/thumbnails/8008665038.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.9,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 1°C 단위 조절, 자동 염소 제거, 24시간 보온 기능.
       hygiene: 9,             // 매우 충족 - 넓은 입구로 통세척 용이, SUS316 소재, 자동 살균 기능.
       material: 8,            // 충족 - SUS316L 고급 소재 및 봉규산 내열유리 사용.
@@ -796,7 +876,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/7675640984',
     ranking: 4,
     thumbnail: '/thumbnails/7675640984.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 10,  // 매우 충족 - 6가지 멀티 모드, 24시간 분유 온도 유지 기능 제공
       hygiene: 8,             // 충족 - 올스텐, 분리형 구조로 세척 용이하나 가열 본체 세척 시 주의 필요
       material: 9,            // 매우 충족 - SUS304 올 스테인리스 채택으로 위생 및 안전성 확보
@@ -816,7 +898,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8416748095',
     ranking: 5,
     thumbnail: '/thumbnails/8416748095.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.5,    coreValues: {
       temperatureControl: 9,  // 매우 충족 - 24시간 보온, 다양한 온도 설정, 분유 최적화
       hygiene: 7,             // 충족 - 넓은 입구, 완전 분리형 (단, 바닥 틈새 이물질 우려)
       material: 8,            // 충족 - 내열강화유리 및 SUS 304 사용 (일부 차망 변색 이슈)
@@ -836,7 +920,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/8230586318',
     ranking: 47,
     thumbnail: '/thumbnails/8230586318.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 3,  // 미달 - 정밀 온도 조절 기능 전무, 보온 기능 불일치
       hygiene: 8,             // 충족 - 넓은 입구로 세척 용이, 연마제 거의 없음
       material: 3,            // 미달 - 플라스틱 뚜껑 녹음 및 마감 불량 문제 심각
@@ -856,7 +942,9 @@ export const products: Product[] = [
     reviewUrl: 'https://www.coupang.com/vp/products/6484523429',
     ranking: 8,
     thumbnail: '/thumbnails/6484523429.png',
-    coreValues: {
+    category: 'milk_powder_port',
+
+    averageRating: 4.3,    coreValues: {
       temperatureControl: 9,  // 매우 충족 - 14가지 모드, 24시간 보온, 분유/약탕 등 정밀 온도 설정 가능
       hygiene: 8,             // 충족 - 넓은 입구로 통세척 용이, 304 스텐 사용 (연마제 제거 필수)
       material: 4,            // 미달 - 304 스텐이지만 유리 파손 및 녹 발생 보고됨, 뚜껑 결합 불안정
