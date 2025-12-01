@@ -99,6 +99,19 @@ function TagsPageContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, anchorId]);
 
+  // 예산 단계에 진입 시 '인기' 옵션 자동 선택
+  useEffect(() => {
+    if (step === 'budget' && !budget && !isCustomMode && category) {
+      const options = CATEGORY_BUDGET_OPTIONS[category];
+      if (options && options.length > 0) {
+        const popularOption = options.find(option => option.popular);
+        if (popularOption) {
+          setBudget(popularOption.value);
+        }
+      }
+    }
+  }, [step, budget, isCustomMode, category]);
+
   const toggleProsTag = (tag: Tag) => {
     const isSelected = selectedPros.some((t) => t.id === tag.id);
     if (isSelected) {

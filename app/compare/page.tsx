@@ -104,9 +104,12 @@ function ComparePageContent() {
     product,
     rank: (productRanks[product.id] || (index + 1)) as 1 | 2 | 3 | 4,
     finalScore: productScores[product.id] || 0,
-    personalizedReason: { strengths: [], weaknesses: [] },
-    comparison: [],
-    additionalConsiderations: ''
+    reasoning: '',
+    selectedTagsEvaluation: [],
+    additionalPros: [],
+    cons: [],
+    anchorComparison: '',
+    citedReviews: [],
   }));
 
   useEffect(() => {
@@ -307,13 +310,13 @@ function ComparePageContent() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-white">
       {/* Mobile Container */}
       <div className="relative w-full max-w-[480px] bg-white shadow-lg h-screen flex flex-col">
         {/* Comparison Table - Full screen with scrollable content */}
-        <div className="flex-1 overflow-y-auto bg-gray-50">
+        <div className="flex-1 overflow-y-auto bg-white">
           {/* Header - Scrolls with content */}
-          <div className="px-6 py-1 flex items-center justify-between bg-gray-50">
+          <div className="px-6 py-1 flex items-center justify-between bg-white">
             <button
               onClick={() => router.back()}
               className="p-4 hover:bg-gray-100 rounded-full transition-colors"

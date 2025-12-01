@@ -337,16 +337,19 @@ export async function generateTop3Recommendations(
         otherCandidates
       });
 
+      // Convert old structure to new Recommendation structure
       return {
         product: current.product,
         rank,
         finalScore: current.finalScore,
-        personalizedReason: {
-          strengths: reason.strengths,
-          weaknesses: reason.weaknesses
-        },
-        comparison: reason.comparison,
-        additionalConsiderations: reason.additionalConsiderations
+        // New structure fields
+        reasoning: reason.strengths[0] || '이 제품을 추천합니다', // Use first strength as summary
+        selectedTagsEvaluation: [], // Old API doesn't have tag evaluation
+        additionalPros: reason.strengths.slice(1).map(text => ({ text, citations: [] })), // Rest of strengths as additional pros
+        cons: reason.weaknesses.map(text => ({ text, citations: [] })),
+        anchorComparison: reason.comparison.join(' '), // Join comparison array into single string
+        purchaseTip: reason.additionalConsiderations,
+        citedReviews: [],
       };
     } catch (error) {
       console.error(`❌ Failed to generate recommendation for Rank ${rank}:`, error);

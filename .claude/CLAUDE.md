@@ -99,11 +99,11 @@ Result (/result)
 - **Data**: `data/priorityTags.ts` - `ADDITIONAL_TAGS[]`
 
 **Step 5: Budget Selection**
-- 4개 예산 범위:
-  - `0-50000`: 5만원 이하
-  - `50000-100000`: 5~10만원
-  - `100000-150000`: 10~15만원
-  - `150000+`: 15만원 이상
+- 4개 예산 범위 ("Up to X" and "X+" format):
+  - `0-50000`: 최대 5만원 (Up to 50,000원)
+  - `50000-100000`: 최대 10만원 (Up to 100,000원)
+  - `100000-150000`: 최대 15만원 (Up to 150,000원)
+  - `150000+`: 15만원+ (150,000원+)
 - **커스텀 예산 입력**: Natural language input supported
 - **필수**: Budget must be selected to proceed
 

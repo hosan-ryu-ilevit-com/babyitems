@@ -661,17 +661,10 @@ export default function ResultPage() {
         setAnchorProduct(data.anchorProduct);
         setCurrentCategory(category); // Save category for search
 
-        // Set contextSummary if available
-        if (data.contextSummary) {
-          setContextSummary(data.contextSummary);
-          console.log('✅ Context summary received:', data.contextSummary);
-        }
-
         // Save to session for caching
         const session = loadSession();
         session.recommendations = convertedRecommendations;
         session.anchorProduct = data.anchorProduct;
-        session.contextSummary = data.contextSummary;
         saveSession(session);
         console.log('💾 Saved tag-based recommendations to session cache');
 
@@ -711,12 +704,6 @@ export default function ResultPage() {
         console.log('✓ [Branch 0-Cached] Using cached tag-based recommendations (NO API call)');
         setRecommendations(session.recommendations);
         setAnchorProduct(session.anchorProduct);
-
-        // Load cached contextSummary
-        if (session.contextSummary) {
-          setContextSummary(session.contextSummary);
-          console.log('✓ Loaded cached context summary');
-        }
 
         // Load cached comparative analysis
         const cachedAnalysis = sessionStorage.getItem('comparative_analysis');
@@ -861,33 +848,7 @@ export default function ResultPage() {
 
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-2 pb-24">
-          {/* AI 말풍선 - 헤더 바로 아래 */}
-          {!loading && recommendations.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="mt-4 mb-4"
-            >
-              <div className="bg-white rounded-2xl p-1" style={{ borderColor: '#E5F1FF' }}>
-                <div className="flex items-start gap-2">
-                  <div className="shrink-0">
-                    <svg className="w-5 h-5" fill="#0074F3" viewBox="0 0 24 24">
-                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-900 font-medium leading-relaxed">
-                      입력하신 조건에 맞는 제품을 추천해드렸어요!<br />
-                      상세 분석을 확인하고 구매해보세요.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
+        <main className="flex-1 overflow-y-auto px-3 pb-24">
           <AnimatePresence mode="wait">
             {loading ? (
               // 로딩 상태 - 심플한 디자인
@@ -1039,33 +1000,50 @@ export default function ResultPage() {
               </motion.div> */}
 
               {/* 탭 UI */}
-              <div className="mt-6 mb-6">
-                <div className="flex justify-center gap-2 bg-gray-100 p-1 rounded-full max-w-[280px] mx-auto">
+              <div className="mt-12 mb-6">
+                <div className="flex justify-center gap-8">
                   <button
                     onClick={() => {
                       setActiveTab('recommendations');
                       logButtonClick('추천 제품 탭', 'result');
                     }}
-                    className={`flex-1 py-2 px-3 rounded-full font-semibold text-sm transition-all ${
+                    className={`relative pb-2 font-semibold text-base transition-all flex items-center gap-2 ${
                       activeTab === 'recommendations'
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'bg-transparent text-gray-500'
+                        ? 'text-gray-900'
+                        : 'text-gray-400 hover:text-gray-600'
                     }`}
                   >
+                  
                     BEST 3
+                    {activeTab === 'recommendations' && (
+                      <motion.div
+                        layoutId="activeTab"
+                        className="absolute bottom-0 left-0 right-0 h-[3px] bg-black"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
                   </button>
                   <button
                     onClick={() => {
                       setActiveTab('comparison');
                       logButtonClick('상세 비교 탭', 'result');
                     }}
-                    className={`flex-1 py-2 px-3 rounded-full font-semibold text-sm transition-all ${
+                    className={`relative pb-2 font-semibold text-base transition-all flex items-center gap-2 ${
                       activeTab === 'comparison'
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'bg-transparent text-gray-500'
+                        ? 'text-gray-900'
+                        : 'text-gray-400 hover:text-gray-600'
                     }`}
                   >
+                    
                     상세 비교표
+                    
+                    {activeTab === 'comparison' && (
+                      <motion.div
+                        layoutId="activeTab"
+                        className="absolute bottom-0 left-0 right-0 h-[3px] bg-black"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
                   </button>
                 </div>
               </div>
@@ -1082,94 +1060,78 @@ export default function ResultPage() {
                     className="space-y-4 mb-8"
                   >
                     {/* 상세 비교표 보기 버튼 */}
-                    <div className="bg-gray-50 rounded-2xl p-1">
-                      <motion.button
-                        onClick={() => {
-                          setActiveTab('comparison');
-                          logButtonClick('상세 비교표 보기', 'result');
-                          // 부드럽게 스크롤
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                        className="w-full py-4 px-3 font-semibold text-base transition-all hover:bg-gray-100 flex items-center justify-between bg-white rounded-xl"
-                        style={{ color: '#111827' }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-lg">📊</span>
-                          <span>상세 비교표</span>
-                        </div>
-                        <span className="px-2.5 py-1 rounded-md text-xs font-bold text-white" style={{ backgroundColor: '#0084FE' }}>
-                          보기
-                        </span>
-                      </motion.button>
-                    </div>
+                    <motion.button
+                      onClick={() => {
+                        setActiveTab('comparison');
+                        logButtonClick('상세 비교표 보기', 'result');
+                        // 부드럽게 스크롤
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="w-full py-4 px-4 border-b border-gray-200 font-semibold text-base transition-all hover:bg-gray-50 flex items-center justify-between bg-white"
+                      style={{ color: '#111827' }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-lg">📊</span>
+                        <span>상세 비교표</span>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-md text-xs font-bold text-white" style={{ backgroundColor: '#0084FE' }}>
+                        보기
+                      </span>
+                    </motion.button>
 
                     {/* Anchor Product (Tag-based flow only) */}
                     {isTagBasedFlow && anchorProduct && (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-white py-4 px-2 border-b border-gray-200"
+                        className="bg-white p-5 border-b border-gray-200"
                       >
-                        <div className="mb-2">
-                          <span className="inline-block px-2 py-1 rounded-md text-xs font-semibold text-gray-500 bg-gray-100">
-                            기준 제품
-                          </span>
+                        <div className="text-xs font-semibold text-gray-500 mb-3 text-center">
+                          비교 기준 제품
                         </div>
 
-                        <div className="flex gap-3">
-                          {/* 제품 썸네일 - 크기 축소 */}
-                          <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-100 border border-gray-200">
+                        <div className="flex gap-4 mb-3">
+                          {/* 제품 썸네일 */}
+                          <div className="relative w-24 h-24 rounded-xl overflow-hidden shrink-0 bg-gray-100 border border-gray-200">
                             {anchorProduct.썸네일 && (
                               <Image
                                 src={anchorProduct.썸네일}
                                 alt={anchorProduct.모델명}
-                                width={64}
-                                height={64}
+                                width={96}
+                                height={96}
                                 className="w-full h-full object-cover"
                                 priority
                                 quality={90}
-                                sizes="64px"
+                                sizes="96px"
                               />
                             )}
                           </div>
 
                           {/* 제품 상세 정보 */}
-                          <div className="flex-1 min-w-0 flex flex-col justify-center">
+                          <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
                             {/* 브랜드 */}
                             <div className="text-xs text-gray-500 font-medium mb-0.5">
                               {anchorProduct.브랜드}
                             </div>
                             {/* 제품명 */}
-                            <h3 className="font-bold text-gray-900 text-sm mb-1 leading-tight line-clamp-1">
+                            <h3 className="font-bold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
                               {anchorProduct.모델명}
                             </h3>
-                            {/* 가격 */}
-                            <p className="text-sm font-bold text-gray-900 mb-1">
-                              {anchorProduct.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-xs">원</span>
-                            </p>
-                            {/* 별점 평균 + 리뷰수 - 별 1개만 표시 */}
-                            {anchorProduct.평균별점 && anchorProduct.평균별점 > 0 ? (
-                              <div className="flex items-center gap-1.5">
-                                <svg
-                                  className="w-3 h-3 text-yellow-400"
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span className="text-xs font-semibold text-gray-900">
-                                  {anchorProduct.평균별점.toFixed(1)}
-                                </span>
-                                <span className="text-xs text-gray-500">
-                                  ({anchorProduct.reviewCount.toLocaleString()})
-                                </span>
-                              </div>
-                            ) : anchorProduct.reviewCount > 0 ? (
-                              <div className="text-xs text-gray-500">
-                                리뷰 {anchorProduct.reviewCount.toLocaleString()}
-                              </div>
-                            ) : null}
+                            {/* 가격 & 리뷰수 */}
+                            <div className="space-y-0.5">
+                              <p className="text-base font-bold text-gray-900">
+                                {anchorProduct.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-sm">원</span>
+                              </p>
+                              {anchorProduct.reviewCount > 0 && (
+                                <div className="flex items-center gap-1 text-xs text-gray-600">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                  </svg>
+                                  <span className="font-medium">리뷰 {anchorProduct.reviewCount.toLocaleString()}</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
 
@@ -1189,7 +1151,7 @@ export default function ResultPage() {
                           setSelectedProductForModal(rec);
                           window.history.pushState({}, '', `/product/${rec.product.id}`);
                         }}
-                        className="relative bg-white py-5 px-2 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="relative bg-white p-5 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
                       >
                         {/* 제품 정보 */}
                         <div className="flex gap-4 mb-3">
@@ -1214,12 +1176,9 @@ export default function ResultPage() {
                               </div>
                             )}
                             {/* 랭킹 배지 - 좌측 상단 */}
-                            <div className="absolute top-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-xl rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center gap-0.5">
-                              <span className="text-white font-semibold text-sm">
+                            <div className="absolute top-0 left-0 w-7 h-7 bg-gray-900 rounded-tl-xl rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center">
+                              <span className="text-white font-bold text-sm">
                                 {rec.rank}
-                              </span>
-                              <span className="text-white font-semibold text-sm">
-                                위
                               </span>
                             </div>
                           </div>
@@ -1239,43 +1198,59 @@ export default function ResultPage() {
                               <p className="text-base font-bold text-gray-900">
                                 {rec.product.price.toLocaleString()}<span className="text-sm">원</span>
                               </p>
-                              {/* 별점 평균 + 리뷰수 - 별 1개만 표시 */}
+                              {/* 별점 평균 + 리뷰수 */}
                               {rec.product.averageRating && rec.product.averageRating > 0 ? (
                                 <div className="flex items-center gap-1.5 mb-1">
-                                  <svg
-                                    className="w-3 h-3 text-yellow-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                  </svg>
+                                  <div className="flex items-center gap-0.5">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                      <svg
+                                        key={star}
+                                        className={`w-3 h-3 ${
+                                          star <= Math.floor(rec.product.averageRating || 0)
+                                            ? 'text-yellow-400'
+                                            : 'text-gray-300'
+                                        }`}
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                      </svg>
+                                    ))}
+                                  </div>
                                   <span className="text-xs font-semibold text-gray-900">
                                     {rec.product.averageRating.toFixed(1)}
                                   </span>
                                   <span className="text-xs text-gray-500">
-                                    ({rec.product.reviewCount.toLocaleString()})
+                                    ({rec.product.reviewCount.toLocaleString()}개 리뷰)
                                   </span>
                                 </div>
                               ) : (
                                 <div className="text-xs text-gray-500 mb-1">
-                                  리뷰 {rec.product.reviewCount.toLocaleString()}
+                                  리뷰 {rec.product.reviewCount.toLocaleString()}개
                                 </div>
                               )}
+                              {/* 적합도 */}
+                              <div>
+                                <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: '#EAF8F8', color: '#009896' }}>
+                                  적합도 {rec.finalScore}%
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
 
                         {/* AI 추천 이유 */}
-                        <div className="mt-3">
+                        <div className="mt-3 pt-3 border-t border-gray-100">
                           <div className="rounded-xl p-3" style={{ backgroundColor: '#E5F1FF' }}>
-                            <div className="flex items-start gap-2">
-                              <svg className="w-4 h-4 shrink-0 mt-0.5" fill="#0074F3" viewBox="0 0 24 24">
+                            <h4 className="text-xs font-semibold mb-2 flex items-center gap-1" style={{ color: '#0074F3' }}>
+                              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
                               </svg>
-                              <p className="text-sm text-gray-700 leading-relaxed flex-1">
-                                {parseMarkdownBold(rec.reasoning)}
-                              </p>
-                            </div>
+                              AI 추천 이유
+                            </h4>
+                            <p className="text-sm text-gray-700 leading-relaxed">
+                              {parseMarkdownBold(rec.reasoning)}
+                            </p>
                           </div>
                         </div>
                       </motion.div>
@@ -1528,6 +1503,221 @@ export default function ResultPage() {
           }}
         />
 
+        {/* 추천 이유 바텀시트 */}
+        <AnimatePresence>
+          {isBottomSheetOpen && selectedRecommendation && (
+            <>
+              {/* 배경 오버레이 */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsBottomSheetOpen(false)}
+                className="fixed inset-0 bg-black/50 z-40"
+              />
+
+              {/* 바텀시트 */}
+              <motion.div
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '100%' }}
+                transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+                className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl z-50 max-h-[85vh] flex flex-col"
+              >
+                {/* Header */}
+                <div className="sticky top-0 bg-white border-b border-gray-200 px-3 py-3 flex items-center justify-between rounded-t-3xl shrink-0">
+                  <h3 className="text-lg font-bold text-gray-900">상세 정보</h3>
+                  <button
+                    onClick={() => setIsBottomSheetOpen(false)}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Scrollable Content */}
+                <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4 pb-6">
+                  {/* 제품 정보 요약 */}
+                  <div className="pb-4 border-b border-gray-200">
+                    <div className="flex items-center gap-3">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                        {selectedRecommendation.product.thumbnail && (
+                          <Image
+                            src={selectedRecommendation.product.thumbnail}
+                            alt={selectedRecommendation.product.title}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-cover"
+                            quality={85}
+                            sizes="64px"
+                          />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-gray-900 text-sm mb-1 leading-tight">
+                          {selectedRecommendation.product.title}
+                        </h4>
+                        <p className="text-sm font-bold text-gray-900">
+                          {selectedRecommendation.product.price.toLocaleString()}<span className="text-xs">원</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 추천 이�� */}
+                  <div className="rounded-xl p-4" style={{ backgroundColor: '#ECFAF3' }}>
+                    <h4 className="text-sm font-bold mb-3 flex items-center gap-1" style={{ color: '#22C55E' }}>
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      추천 이유
+                    </h4>
+                    <ul className="space-y-2">
+                      {selectedRecommendation.personalizedReason.strengths.map((strength, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                          <svg
+                            className="shrink-0 mt-0.5"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#22C55E"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span className="leading-relaxed">
+                            {parseMarkdownBold(strength)}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* 주의점 */}
+                  {selectedRecommendation.personalizedReason.weaknesses &&
+                   selectedRecommendation.personalizedReason.weaknesses.length > 0 && (
+                    <div className="rounded-xl p-4" style={{ backgroundColor: '#FFF6EC' }}>
+                      <h4 className="text-sm font-bold mb-3 flex items-center gap-1.5" style={{ color: '#EF4444' }}>
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                        주의점
+                      </h4>
+                      <ul className="space-y-2">
+                        {selectedRecommendation.personalizedReason.weaknesses.map((weakness, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#EF4444"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <line x1="18" y1="6" x2="6" y2="18" />
+                              <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                            <span className="leading-relaxed">
+                              {parseMarkdownBold(weakness)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* 비교하기 */}
+                  {selectedRecommendation.comparison && selectedRecommendation.comparison.length > 0 && (
+                    <div className="bg-gray-50 rounded-xl p-4">
+                      <h4 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
+                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                        </svg>
+                        비교하기
+                      </h4>
+                      <ul className="space-y-2">
+                        {selectedRecommendation.comparison.map((item, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-1.5 shrink-0" />
+                            <span className="text-sm text-gray-600 leading-relaxed flex-1">
+                              {parseMarkdownBold(item)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* 구매 Tip */}
+                  {selectedRecommendation.additionalConsiderations && (
+                    <div className="bg-gray-50 rounded-xl p-4">
+                      <h4 className="text-sm font-bold text-gray-700 mb-2 flex items-center gap-1.5">
+                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                        </svg>
+                        구매 Tip
+                      </h4>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        {parseMarkdownBold(selectedRecommendation.additionalConsiderations)}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* 플로팅 버튼 영역 */}
+                <div className="shrink-0 bg-white border-t border-gray-200 px-3 py-4 space-y-2">
+                  {/* 질문하기 버튼 */}
+                  <button
+                    onClick={() => {
+                      logButtonClick(`바텀시트 이 상품 질문하기: ${selectedRecommendation.product.title}`, 'result');
+                      router.push(`/product-chat?productId=${selectedRecommendation.product.id}&from=/result`);
+                    }}
+                    className="w-full py-2.5 font-semibold rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-2"
+                    style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
+                  >
+                    질문하기
+                    <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1 text-white" style={{ background: 'linear-gradient(135deg, #5855ff, #71c4fd, #5cdcdc)' }}>
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                      </svg>
+                      <span>AI</span>
+                    </span>
+                  </button>
+
+                  {/* 쿠팡에서 보기 + 최저가 보기 */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        logButtonClick(`바텀시트 쿠팡에서 보기: ${selectedRecommendation.product.title}`, 'result');
+                        window.open(`https://www.coupang.com/vp/products/${selectedRecommendation.product.id}`, '_blank');
+                      }}
+                      className="flex-1 py-2 font-semibold rounded-lg text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
+                    >
+                      쿠팡에서 보기
+                    </button>
+                    <button
+                      onClick={() => {
+                        logButtonClick(`바텀시트 최저가 보기: ${selectedRecommendation.product.title}`, 'result');
+                        window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(selectedRecommendation.product.title)}&sort=priceASC`, '_blank');
+                      }}
+                      className="flex-1 py-2 font-semibold rounded-lg text-sm transition-all bg-gray-100 hover:bg-gray-200 text-gray-700"
+                    >
+                      최저가 보기
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
 
         {/* Product Detail Modal */}
         <AnimatePresence>

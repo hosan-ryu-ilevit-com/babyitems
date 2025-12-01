@@ -1862,10 +1862,10 @@ export default function ChatPage() {
 
     // 예산 선택 사용자 메시지
     const budgetText = {
-      '0-50000': '5만원 이하',
-      '50000-100000': '5~10만원',
-      '100000-150000': '10~15만원',
-      '150000+': '15만원 이상'
+      '0-50000': '최대 5만원',
+      '50000-100000': '최대 10만원',
+      '100000-150000': '최대 15만원',
+      '150000+': '15만원+'
     }[budget];
 
     updatedSession = addMessage(updatedSession, 'user', budgetText || budget, 'chat1');
@@ -2126,25 +2126,25 @@ export default function ChatPage() {
                             onClick={() => handleBudgetSelect('0-50000')}
                             className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
                           >
-                            5만원 이하
+                            최대 5만원
                           </button>
                           <button
                             onClick={() => handleBudgetSelect('50000-100000')}
                             className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
                           >
-                            5~10만원
+                            최대 10만원
                           </button>
                           <button
                             onClick={() => handleBudgetSelect('100000-150000')}
                             className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
                           >
-                            10~15만원
+                            최대 15만원
                           </button>
                           <button
                             onClick={() => handleBudgetSelect('150000+')}
                             className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
                           >
-                            15만원 이상
+                            15만원+
                           </button>
                           <button
                             onClick={() => {

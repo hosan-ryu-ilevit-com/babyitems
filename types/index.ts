@@ -151,19 +151,12 @@ export interface Recommendation {
   product: Product;
   rank: 1 | 2 | 3 | 4;
   finalScore: number;
-  personalizedReason: {
-    strengths: string[];
-    weaknesses: string[];
-  };
-  comparison: string[]; // 리스트 형태로 변경 (2위 vs, 3위 vs)
-  additionalConsiderations: string;
-  // NEW: Citation data for displaying source reviews
-  citedReviews?: Array<{ index: number; text: string; rating: number }>;
-  prosCitations?: number[][];  // Array of citation arrays (one per pros item)
-  consCitations?: number[][];  // Array of citation arrays (one per cons item)
-  purchaseTipCitations?: number[];
-  // NEW: v2 API structured data (for future use)
-  selectedTagsEvaluation?: Array<{
+
+  // PLP용: 한 줄 요약
+  reasoning: string;
+
+  // PDP용: 사용자 선택 태그 충족 여부
+  selectedTagsEvaluation: Array<{
     userTag: string;
     priority: number;
     status: '충족' | '부분충족' | '불충족';
@@ -171,8 +164,21 @@ export interface Recommendation {
     citations: number[];
     tradeoff?: string;
   }>;
-  additionalPros?: Array<{ text: string; citations: number[] }>;
-  anchorComparison?: string;
+
+  // PDP용: 추가 장점
+  additionalPros: Array<{ text: string; citations: number[] }>;
+
+  // PDP용: 단점
+  cons: Array<{ text: string; citations: number[] }>;
+
+  // PDP용: 비교
+  anchorComparison: string;
+
+  // PDP용: 구매 팁 (선택적)
+  purchaseTip?: string;
+
+  // 리뷰 인용 데이터
+  citedReviews: Array<{ index: number; text: string; rating: number }>;
 }
 
 // Conversational flow state

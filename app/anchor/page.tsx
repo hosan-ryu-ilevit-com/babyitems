@@ -126,7 +126,7 @@ function AnchorPageContent() {
               </button>
               <div className="absolute left-1/2 -translate-x-1/2">
                 <h1 className="text-lg font-bold text-gray-900">
-                  기준 제품 선택
+                  {CATEGORY_NAMES[category]} 추천받기
                 </h1>
               </div>
               <div className="w-6" /> {/* Spacer for alignment */}
@@ -135,90 +135,163 @@ function AnchorPageContent() {
         </header>
 
         {/* Main Content - Scrollable */}
-        <main className="flex-1 px-4 py-6 overflow-y-auto">
-          {/* Selected Product Card */}
+        <main className="flex-1 px-5 py-6 overflow-y-auto pb-24">
+          {/* Process Infographic */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="space-y-4 mb-6"
+          >
+            <h2 className="text-base font-bold text-gray-900 mb-4">
+              인기 제품을 기준으로 삼아<br></br> 내게 딱 맞는 제품을 찾아보세요
+            </h2>
+
+            {/* Step 1 */}
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
+                <span className="text-gray-900 text-xs font-bold">1</span>
+              </div>
+              <div className="flex-1 pt-0.5">
+                <p className="text-sm font-semibold text-gray-900 mb-0.5">
+                  인기 제품 리뷰 분석
+                </p>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  기준이 되는 인기 제품의 리뷰를 분석해요
+                </p>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="ml-3.5 w-0.5 h-4 bg-gray-100"></div>
+
+            {/* Step 2 */}
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
+                <span className="text-gray-900 text-xs font-bold">2</span>
+              </div>
+              <div className="flex-1 pt-0.5">
+                <p className="text-sm font-semibold text-gray-900 mb-0.5">
+                  장단점 선택
+                </p>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  뽑힌 장단점 중 내게 가장 중요한 기준들을 골라요
+                </p>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="ml-3.5 w-0.5 h-4 bg-gray-100"></div>
+
+            {/* Step 3 */}
+            <div className="flex items-start gap-3 mb-10">
+              <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
+                <span className="text-gray-900 text-xs font-bold">3</span>
+              </div>
+              <div className="flex-1 pt-0.5">
+                <p className="text-sm font-semibold text-gray-900 mb-0.5">
+                  맞춤 제품 추천
+                </p>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  선택 기준에 딱 맞는 제품을 추천받아요
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Selected Product Card - Horizontal Design */}
           {selectedProduct && !showProductList && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
-              className="bg-white rounded-2xl border border-gray-200 p-4 mb-6"
+              className="relative rounded-xl p-3 mb-6"
+              style={{
+                backgroundColor: '#F8F9FB'
+              }}
             >
-              <div className="flex items-start gap-4">
+              {/* Change Product Button - Top Right */}
+              <button
+                onClick={() => setShowProductList(true)}
+                className="absolute top-2 right-2 z-10 px-2.5 py-1 bg-gray-200 rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-300 transition-all"
+              >
+                변경
+              </button>
+
+              {/* Horizontal Layout: Thumbnail + Info */}
+              <div className="flex items-start gap-3">
+                {/* Thumbnail - Left Side */}
                 {selectedProduct.썸네일 && (
-                  <div className="w-24 h-24 rounded-xl bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  <div className="w-20 h-20 rounded-lg bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
                     <img
                       src={selectedProduct.썸네일}
                       alt={selectedProduct.모델명}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain p-2"
                     />
                   </div>
                 )}
-                <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-                  {/* 브랜드 */}
-                  <div className="text-xs text-gray-700 font-medium mb-0.5">
+
+                {/* Product Info - Right Side */}
+                <div className="flex-1 min-w-0 pr-8">
+                  {/* Brand */}
+                  <div className="text-xs text-gray-500 font-medium mb-0.5">
                     {selectedProduct.브랜드}
                   </div>
-                  {/* 제품명 */}
-                  <h3 className="text-base font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">
+
+                  {/* Product Name */}
+                  <h3 className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 mb-1">
                     {selectedProduct.모델명}
                   </h3>
-                  {/* 가격 & 리뷰수 */}
-                  <div className="space-y-0.5">
-                    {selectedProduct.최저가 && (
-                      <p className="text-base font-bold text-gray-900">
-                        {selectedProduct.최저가.toLocaleString()}<span className="text-xs">원</span>
-                      </p>
-                    )}
-                    <div className="flex items-center gap-2 flex-wrap text-xs font-semibold">
-                      <span className="text-gray-700">
-                        랭킹 {selectedProduct.순위}위
+
+                  {/* Price */}
+                  {selectedProduct.최저가 && (
+                    <p className="text-base font-bold text-gray-900 mb-1">
+                      {selectedProduct.최저가.toLocaleString()}
+                      <span className="text-xs text-gray-600 ml-0.5">원</span>
+                    </p>
+                  )}
+
+                  {/* Ranking & Rating */}
+                  <div className="flex items-center gap-2 text-xs flex-wrap">
+                    <div className="px-2 py-0.5 bg-blue-50 rounded">
+                      <span className="font-semibold text-blue-600">
+                        판매 랭킹 {selectedProduct.순위}위
                       </span>
-                      {selectedProduct.reviewCount && selectedProduct.reviewCount > 0 && (
-                        <span className="text-gray-500 font-medium flex items-center gap-0.5">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-                          </svg>
-                          리뷰 {selectedProduct.reviewCount}
-                        </span>
-                      )}
                     </div>
+                    {selectedProduct.reviewCount && selectedProduct.reviewCount > 0 && (
+                      <div className="flex items-center gap-0.5 text-gray-600 font-medium">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                        </svg>
+                        {selectedProduct.avgRating && (
+                          <span>{selectedProduct.avgRating.toFixed(1)}</span>
+                        )}
+                        <span className="text-gray-400">({selectedProduct.reviewCount.toLocaleString()})</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-
-              <button
-                onClick={() => setShowProductList(true)}
-                className="mt-4 w-full py-3 px-4 bg-gray-100 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-200 transition-all"
-              >
-                제품 변경
-              </button>
             </motion.div>
           )}
 
-          {/* Info */}
+          {/* Guide Button */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="mt-6 text-center"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex justify-center"
           >
-            <p className="text-lg font-bold text-gray-700">실시간 1위 제품의 리뷰를 분석해서</p>
-            <p className="text-lg font-bold text-gray-700 mb-6">맞춤형 추천에 활용할게요</p>
-
-            {/* Guide Button */}
-            <motion.button
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+            <button
               onClick={() => {
                 logButtonClick(`${CATEGORY_NAMES[category]} 1분 가이드 열기`, 'anchor');
                 setIsGuideOpen(true);
               }}
-              className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors mt-20"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-50 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-100 transition-colors border border-gray-200 mb-6"
             >
-              <span>⚡️ {CATEGORY_NAMES[category]} 1분 구매 가이드</span>
-            </motion.button>
+              <span>💡</span>
+              <span>{CATEGORY_NAMES[category]} 구매 가이드</span>
+            </button>
           </motion.div>
         </main>
 
@@ -233,8 +306,8 @@ function AnchorPageContent() {
               onClick={handleConfirm}
               className="w-full h-14 bg-[#0084FE] text-white rounded-2xl font-semibold text-base hover:opacity-90 transition-all flex items-center justify-center gap-2"
             >
-              <span>이 제품으로 추천 받기</span>
-             
+              <span>시작하기</span>
+
             </motion.button>
           </div>
         )}

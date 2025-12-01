@@ -169,10 +169,10 @@ export default function DetailedComparisonTable({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="comparison-table-section space-y-4 mb-8"
+      className="comparison-table-section space-y-0 mb-8"
     >
       {/* 상품 선택 UI */}
-      <div className="bg-white rounded-2xl p-3">
+      <div className="bg-white border-b border-gray-200 py-3 px-0">
         <h3 className="text-sm font-bold text-gray-900 mb-3">
           상품 2개 선택
         </h3>
@@ -240,7 +240,7 @@ export default function DetailedComparisonTable({
 
       {/* 비교표 - 2개 선택 시에만 표시 */}
       {selectedProductIds.length === 2 && selectedProducts.length === 2 && (
-        <div className="bg-white rounded-2xl p-1">
+        <div className="bg-white py-3 px-0">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-200">

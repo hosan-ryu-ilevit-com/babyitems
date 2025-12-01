@@ -104,16 +104,14 @@ export default function ComparisonTable({ recommendations }: ComparisonTableProp
             
 
             {/* 비교 분석 */}
-            {top3.some((rec) => rec.comparison) && (
+            {top3.some((rec) => rec.anchorComparison) && (
               <tr>
-                <td className="py-3 px-2 text-xs font-semibold text-gray-700 align-top">비교 분석</td>
+                <td className="py-3 px-2 text-xs font-semibold text-gray-700 align-top">앵커 대비</td>
                 {top3.map((rec) => (
                   <td key={rec.product.id} className="py-3 px-2 align-top">
-                    {rec.comparison && rec.comparison.length > 0 ? (
-                      <div className="text-xs text-gray-600 leading-relaxed space-y-1">
-                        {rec.comparison.map((item, idx) => (
-                          <p key={idx}>{parseMarkdownBold(item)}</p>
-                        ))}
+                    {rec.anchorComparison ? (
+                      <div className="text-xs text-gray-600 leading-relaxed">
+                        {parseMarkdownBold(rec.anchorComparison)}
                       </div>
                     ) : (
                       <p className="text-xs text-gray-400">-</p>

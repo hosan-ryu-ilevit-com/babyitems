@@ -77,10 +77,10 @@ export async function POST(request: NextRequest) {
 
     // 예산 텍스트로 변환
     const budgetText = typeof budget === 'string' && (budget === '0-50000' || budget === '50000-100000' || budget === '100000-150000' || budget === '150000+')
-      ? budget === '0-50000' ? '5만원 이하'
-        : budget === '50000-100000' ? '5~10만원'
-        : budget === '100000-150000' ? '10~15만원'
-        : '15만원 이상'
+      ? budget === '0-50000' ? '최대 5만원'
+        : budget === '50000-100000' ? '최대 10만원'
+        : budget === '100000-150000' ? '최대 15만원'
+        : '15만원+'
       : budget;
 
     // 대화 이력 텍스트로 변환

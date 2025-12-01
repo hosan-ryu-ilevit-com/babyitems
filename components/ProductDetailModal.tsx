@@ -20,12 +20,19 @@ interface ProductDetailModalProps {
     };
     rank: 1 | 2 | 3 | 4;
     finalScore: number;
-    personalizedReason: {
-      strengths: string[];
-      weaknesses: string[];
-    };
-    comparison: string[];
-    additionalConsiderations: string;
+    reasoning: string;
+    selectedTagsEvaluation: Array<{
+      userTag: string;
+      priority: number;
+      status: '충족' | '부분충족' | '불충족';
+      evidence: string;
+      citations: number[];
+      tradeoff?: string;
+    }>;
+    additionalPros: Array<{ text: string; citations: number[] }>;
+    cons: Array<{ text: string; citations: number[] }>;
+    anchorComparison: string;
+    purchaseTip?: string;
   };
   category: string;
   onClose: () => void;
@@ -204,23 +211,14 @@ export default function ProductDetailModal({ productData, category, onClose }: P
         </div>
 
         {/* Recommendation Reasoning Container */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-y border-blue-100 px-4 py-4">
-          <div className="flex items-start gap-2 mb-2">
+        <div className="px-4 pt-4">
+          <div className="bg-blue-50 rounded-2xl px-4 py-3 flex items-start gap-2">
             <svg className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
             </svg>
-            <div className="flex-1">
-              <h3 className="text-sm font-bold text-gray-900 mb-1">AI 추천 이유</h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                {productData.personalizedReason.strengths.length > 0
-                  ? parseMarkdownBold(productData.personalizedReason.strengths[0])
-                  : '고객님의 선택 기준에 맞는 제품입니다.'}
-              </p>
-            </div>
-            <div className="text-right shrink-0">
-              <div className="text-xs text-gray-500">맞춤 점수</div>
-              <div className="text-lg font-bold text-blue-600">{productData.finalScore}</div>
-            </div>
+            <p className="text-sm text-gray-700 leading-relaxed flex-1">
+              {parseMarkdownBold(productData.reasoning)}
+            </p>
           </div>
         </div>
 
@@ -284,28 +282,70 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                 transition={{ duration: 0.2 }}
                 className="px-4 py-5 space-y-6"
               >
-                {/* 장점 */}
-                {productData.personalizedReason.strengths.length > 0 && (
+                {/* 선택하신 기준 충족도 */}
+                {productData.selectedTagsEvaluation && productData.selectedTagsEvaluation.length > 0 && (
                   <div>
                     <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                      이런 점이 좋아요
+                      선택하신 기준을 얼마나 충족할까요?
                     </h3>
-                    <ul className="space-y-3">
-                      {productData.personalizedReason.strengths.map((strength, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                          <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 mt-2 shrink-0" />
-                          <span className="leading-relaxed">{parseMarkdownBold(strength)}</span>
-                        </li>
+                    <div className="space-y-4">
+                      {productData.selectedTagsEvaluation.map((tagEval, i) => (
+                        <div key={i} className="bg-gray-50 rounded-lg p-3">
+                          <div className="flex items-start gap-2 mb-2">
+                            <strong className="text-sm font-bold text-gray-900 flex-1">
+                              {parseMarkdownBold(tagEval.userTag)}
+                            </strong>
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-bold shrink-0 ${
+                              tagEval.status === '충족' ? 'bg-green-100 text-green-700' :
+                              tagEval.status === '부분충족' ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-red-100 text-red-700'
+                            }`}>
+                              {tagEval.status === '충족' ? '✓ 충족' :
+                               tagEval.status === '부분충족' ? '△ 부분충족' :
+                               '✗ 불충족'}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-700 leading-relaxed mb-1">
+                            {tagEval.evidence}
+                          </p>
+                          {tagEval.tradeoff && (
+                            <p className="text-sm text-blue-700 leading-relaxed bg-blue-50 rounded p-2 mt-2">
+                              💡 {tagEval.tradeoff}
+                            </p>
+                          )}
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 )}
 
-                {/* 단점 */}
-                {productData.personalizedReason.weaknesses.length > 0 && (
+                {/* 추가 장점 */}
+                {productData.additionalPros && productData.additionalPros.length > 0 && (
+                  <div>
+                    <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      추가로 이런 점도 좋아요
+                    </h3>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <ul className="space-y-2">
+                        {productData.additionalPros.map((pro, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 mt-2 shrink-0" />
+                            <span className="leading-relaxed">{pro.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* 주의점 */}
+                {productData.cons && productData.cons.length > 0 && (
                   <div>
                     <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
                       <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
@@ -313,29 +353,50 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                       </svg>
                       이런 점은 주의하세요
                     </h3>
-                    <ul className="space-y-3">
-                      {productData.personalizedReason.weaknesses.map((weakness, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                          <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 shrink-0" />
-                          <span className="leading-relaxed">{parseMarkdownBold(weakness)}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <ul className="space-y-2">
+                        {productData.cons.map((con, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 shrink-0" />
+                            <span className="leading-relaxed">{con.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 )}
 
-                {/* 추가 고려사항 */}
-                {productData.additionalConsiderations && (
+                {/* 다른 제품과의 비교 */}
+                {productData.anchorComparison && (
                   <div>
                     <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1zm-5 8.274l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L5 10.274zm10 0l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L15 10.274z" clipRule="evenodd" />
                       </svg>
-                      구매 전 참고하세요
+                      추천된 다른 상품과 비교해보세요
                     </h3>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {parseMarkdownBold(productData.additionalConsiderations)}
-                    </p>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        {parseMarkdownBold(productData.anchorComparison)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* 구매 팁 (선택적) */}
+                {productData.purchaseTip && (
+                  <div>
+                    <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                      <svg className="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
+                      </svg>
+                      구매 전 확인하세요
+                    </h3>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        {parseMarkdownBold(productData.purchaseTip)}
+                      </p>
+                    </div>
                   </div>
                 )}
               </motion.div>

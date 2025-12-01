@@ -617,10 +617,10 @@ function PriorityPageContent() {
 
       // 예산 텍스트 변환
       let budgetText = '';
-      if (budgetRange === '0-50000') budgetText = '5만원 이하';
-      else if (budgetRange === '50000-100000') budgetText = '5~10만원';
-      else if (budgetRange === '100000-150000') budgetText = '10~15만원';
-      else if (budgetRange === '150000+') budgetText = '15만원 이상';
+      if (budgetRange === '0-50000') budgetText = '최대 5만원';
+      else if (budgetRange === '50000-100000') budgetText = '최대 10만원';
+      else if (budgetRange === '100000-150000') budgetText = '최대 15만원';
+      else if (budgetRange === '150000+') budgetText = '15만원+';
       else budgetText = budgetRange as string;
 
       const response = await fetch('/api/chat', {
@@ -1516,7 +1516,7 @@ function PriorityPageContent() {
                             }`}
                             style={budget === '0-50000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#B8DCFF' } : {}}
                           >
-                            <div className="font-semibold text-sm mb-0.5">5만원 이하</div>
+                            <div className="font-semibold text-sm mb-0.5">최대 5만원</div>
                             <div className={`text-xs ${budget === '0-50000' ? 'opacity-70' : 'text-gray-500'}`}>
                               기본 기능
                             </div>
@@ -1532,7 +1532,7 @@ function PriorityPageContent() {
                             style={budget === '50000-100000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#B8DCFF' } : {}}
                           >
                             <div className="flex items-center gap-1 mb-0.5">
-                              <span className="font-semibold text-sm">5~10만원</span>
+                              <span className="font-semibold text-sm">최대 10만원</span>
                               <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${budget === '50000-100000' ? 'bg-white text-gray-900' : ''}`} style={budget !== '50000-100000' ? { backgroundColor: '#EAF8F8', color: '#009896' } : {}}>
                                 인기
                               </span>
@@ -1551,7 +1551,7 @@ function PriorityPageContent() {
                             }`}
                             style={budget === '100000-150000' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#B8DCFF' } : {}}
                           >
-                            <div className="font-semibold text-sm mb-0.5">10~15만원</div>
+                            <div className="font-semibold text-sm mb-0.5">최대 15만원</div>
                             <div className={`text-xs ${budget === '100000-150000' ? 'opacity-70' : 'text-gray-500'}`}>
                               프리미엄 기능
                             </div>
@@ -1566,7 +1566,7 @@ function PriorityPageContent() {
                             }`}
                             style={budget === '150000+' ? { backgroundColor: '#E5F1FF', color: '#0074F3', borderColor: '#B8DCFF' } : {}}
                           >
-                            <div className="font-semibold text-sm mb-0.5">15만원 이상</div>
+                            <div className="font-semibold text-sm mb-0.5">15만원+</div>
                             <div className={`text-xs ${budget === '150000+' ? 'opacity-70' : 'text-gray-500'}`}>
                               최고급
                             </div>

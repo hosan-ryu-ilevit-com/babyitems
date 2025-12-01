@@ -37,23 +37,39 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Get all reviews and count by productId
+    // Get all reviews and count by productId + calculate average rating
     const allReviews = await getAllReviewsInCategory(category);
     const reviewCountMap = new Map<string, number>();
+    const reviewRatingMap = new Map<string, number[]>();
 
     allReviews.forEach(review => {
       const productId = review.custom_metadata?.productId;
+      const rating = review.custom_metadata?.rating;
       if (productId) {
         reviewCountMap.set(productId, (reviewCountMap.get(productId) || 0) + 1);
+        if (rating !== undefined && rating !== null) {
+          const ratings = reviewRatingMap.get(productId) || [];
+          ratings.push(rating);
+          reviewRatingMap.set(productId, ratings);
+        }
       }
     });
 
-    // Add review count to each product and filter out products with no reviews
+    // Add review count and average rating to each product and filter out products with no reviews
     const productsWithReviews = specs
-      .map(product => ({
-        ...product,
-        reviewCount: reviewCountMap.get(String(product.productId)) || 0,
-      }))
+      .map(product => {
+        const productIdStr = String(product.productId);
+        const ratings = reviewRatingMap.get(productIdStr) || [];
+        const avgRating = ratings.length > 0
+          ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length
+          : undefined;
+
+        return {
+          ...product,
+          reviewCount: reviewCountMap.get(productIdStr) || 0,
+          avgRating,
+        };
+      })
       .filter(product => product.reviewCount > 0); // 리뷰 없는 제품 제외
 
     console.log(`📊 Products with reviews: ${productsWithReviews.length}/${specs.length}`);

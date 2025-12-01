@@ -21,6 +21,8 @@ import {
   debugScoringBreakdown,
 } from '@/lib/scoring/tagBasedScoring';
 import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
+import { generateContextSummaryFromTags } from '@/lib/utils/generateContextSummaryFromTags';
+import type { BudgetRange, UserContextSummary } from '@/types';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) throw new Error('GEMINI_API_KEY is required');
@@ -284,9 +286,9 @@ ${formatReviewsForLLM(low, 40000)}
       "citations": [11, 13, 16]
     }
   ],
-  "anchorComparison": "앵커 제품(${anchorProduct.브랜드} ${anchorProduct.모델명}) 대비 온도 조절 7점 향상, 세척 편의성 비슷, 가격 1만원 높음",
-  "purchaseTip": "온도 조절 정확성을 최우선으로 한다면 추천하지만, 자동 출수 기능은 없으니 참고하세요",
-  "purchaseTipCitations": [1, 3]
+  "anchorComparison": "${anchorProduct.브랜드} 대비 온도 조절이 더 정확하고, 세척 편의성은 비슷한 수준입니다",
+  "purchaseTip": "자동 출수 기능은 없으니 수동 조작이 불편하지 않은지 확인하세요. 대신 온도 조절 정확성은 최상급입니다",
+  "purchaseTipCitations": [1, 3, 8]
 }
 \`\`\`
 
@@ -301,12 +303,27 @@ ${formatReviewsForLLM(low, 40000)}
   - citations: 근거 리뷰 번호 (1부터 시작)
   - tradeoff: (선택사항) status가 "부분충족"이나 "불충족"일 때, 대신 얻는 이점 설명
   - **⚠️ 장점 평가는 반드시 고평점 리뷰(1-${high.length}번)만 인용!**
-- **additionalPros**: 사용자가 선택하지 않았지만 발견된 장점 (2-3개)
+- **additionalPros**: 사용자가 선택하지 않았지만 발견된 장점 (2-3개), 속성과 점수를 직접적으로 언급하지 말고 자연스럽게, 구체적인 기능 단위의 문장을 생성할 것
   - **⚠️ 고평점 리뷰(1-${high.length}번)만 인용!**
 - **cons**: 단점 1-3개
   - **⚠️ 주로 저평점 리뷰(${high.length + 1}-${sampledReviews.length}번) 인용**
-- **anchorComparison**: 앵커 제품 대비 비교 (속성 점수 차이, 가격 차이 포함)
-- **purchaseTip**: 구매 시 참고할 조언 1-2문장
+- **anchorComparison**: 선택하신 앵커 제품 대비 비교 (1-2문장)
+  - 앵커 제품은 브랜드명만 간략히 언급 (예: "${anchorProduct.브랜드} 대비")
+  - 속성 점수를 직접 언급하지 말고 자연스러운 문장으로 표현
+    예시: "온도 조절 7점 향상" (X) → "온도 조절이 더 정확함" (O)
+  - 가격 차이는 제외 (사용자가 이미 확인 가능)
+  - 핵심 차이점 2-3개만 간결하게 서술
+- **purchaseTip**: 구매 결정에 도움이 되는 핵심 조언 1-2문장
+  - 다음 우선순위로 작성 (높은 순서부터 확인):
+    1. selectedTagsEvaluation에 "불충족" 태그가 있는 경우 → 누락된 핵심 기능 경고
+       예: "자동 출수 기능은 없으니, 수동 조작이 불편하지 않은지 확인하세요"
+    2. "부분충족" 태그가 있는 경우 → tradeoff를 고려한 주의사항
+       예: "입구는 넓지만 패킹 틈새 세척이 불편하니, 완벽한 세척을 원한다면 고려가 필요합니다"
+    3. cons에 치명적 단점(파손 위험, 안전 문제, 내구성 이슈)이 있는 경우 → 해당 리스크 강조
+       예: "유리 파손 위험이 있으니, 어린 아이가 있는 가정에서는 각별히 주의하세요"
+    4. 위 경우가 모두 해당없으면 → 이 제품이 적합한 사용자 유형이나 사용 시나리오 설명
+       예: "새벽 수유가 잦고 온도 정확성을 중시한다면 최적의 선택입니다"
+  - ⚠️ 타 섹션과 중복 최소화: selectedTagsEvaluation, additionalPros, cons에서 이미 상세히 다룬 내용을 그대로 반복하지 말고, 구매 결정에 직접 영향을 주는 종합적 조언에 집중
 - 반드시 JSON 형식만 출력`;
 
     const result = await ai.models.generateContent({
@@ -772,6 +789,19 @@ export async function POST(req: NextRequest) {
       consTexts
     );
 
+    // ===== STEP 4: Context Summary Generation (Code-based, No LLM) =====
+    console.log(`\n📝 Step 4: Generating context summary...`);
+    const contextSummaryStartTime = Date.now();
+
+    // Generate contextSummary from tags (code-based, instant)
+    const contextSummary: UserContextSummary = generateContextSummaryFromTags(
+      selectedProsTags,
+      selectedConsTags,
+      budget as BudgetRange
+    );
+
+    console.log(`✓ Context summary generated in ${Date.now() - contextSummaryStartTime}ms (code-based)`);
+
     const totalTime = Date.now() - startTime;
     console.log(`\n✅ Total processing time: ${totalTime}ms`);
 
@@ -793,6 +823,7 @@ export async function POST(req: NextRequest) {
       })),
       comparativeAnalysis,
       anchorProduct,
+      contextSummary,
       processingTime: {
         total: totalTime,
       },
