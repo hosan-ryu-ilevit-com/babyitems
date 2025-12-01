@@ -95,6 +95,55 @@ function TypingMessage({ content, onComplete }: { content: string; onComplete?: 
   return <span className="whitespace-pre-wrap">{formatMarkdown(displayedContent)}</span>;
 }
 
+// 원형 프로그레스 바 컴포넌트
+function CircularProgress({ score, total, color, size = 52 }: { score: number; total: number; color: 'green' | 'blue'; size?: number }) {
+  const percentage = total > 0 ? (score / total) * 100 : 0;
+  const radius = (size - 8) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+
+  const colorClasses = {
+    green: { bg: 'text-green-100', fg: 'text-green-500' },
+    blue: { bg: 'text-blue-100', fg: 'text-blue-500' },
+  };
+
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="transform -rotate-90">
+        {/* Background circle */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="5"
+          className={colorClasses[color].bg}
+        />
+        {/* Progress circle */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          className={`${colorClasses[color].fg} transition-all duration-500`}
+        />
+      </svg>
+      {/* Score text */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className={`text-[11px] font-bold leading-none ${color === 'green' ? 'text-green-700' : 'text-blue-700'}`}>
+          {score % 1 === 0 ? Math.round(score) : score.toFixed(1)}/{Math.round(total)}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export default function ResultPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -126,19 +175,10 @@ export default function ResultPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // 재추천 바텀시트 state
-  const [isReRecommendationOpen, setIsReRecommendationOpen] = useState(false);
+  const [pdpRecommendInput, setPdpRecommendInput] = useState<{ productId: string; userInput: string; productTitle: string } | null>(null);
 
   // 탭 상태
   const [activeTab, setActiveTab] = useState<'recommendations' | 'comparison'>('recommendations');
-
-  // 채팅 가이드 말풍선 표시 여부 (세션 저장)
-  const [showChatGuide, setShowChatGuide] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('babyitem_chat_guide_dismissed');
-      return saved !== 'true';
-    }
-    return true;
-  });
 
   // 비교표 데이터 캐싱 (탭 전환 시 재생성 방지)
   const [comparisonFeatures, setComparisonFeatures] = useState<Record<string, string[]>>({});
@@ -159,6 +199,31 @@ export default function ResultPage() {
       newState ? `섹션 열기: ${key}` : `섹션 닫기: ${key}`,
       'result'
     );
+  };
+
+  // PDP Modal에서 "이 상품 기반으로 재추천" 핸들러
+  const handlePDPReRecommend = async (productId: string, userInput: string) => {
+    console.log(`🤖 PDP Re-recommend: Product ${productId}, Input: "${userInput}"`);
+
+    // Find product title from current recommendations
+    const product = recommendations.find(r => r.product.id === productId);
+    const productTitle = product ? product.product.title : '선택한 제품';
+
+    // Set PDP input data
+    setPdpRecommendInput({
+      productId,
+      userInput,
+      productTitle
+    });
+
+    // Close PDP modal
+    setSelectedProductForModal(null);
+
+    // Re-recommendation bottom sheet is always open, so just set the PDP input
+    // (바텀시트가 항상 열려있으므로 PDP input만 설정)
+
+    // Log
+    logButtonClick('PDP 재추천 시작', 'result');
   };
 
   // 채팅 메시지 전송 핸들러
@@ -345,6 +410,29 @@ export default function ResultPage() {
       setCurrentPhaseIndex(2); // 꼭 맞는 상품 분석 중...
     }
   }, [displayedProgress]);
+
+  // 자동 진행률 증가 (시간 기반)
+  useEffect(() => {
+    if (!loading) return;
+
+    // 서버 응답이 없어도 자동으로 증가 (최대 95%까지)
+    const autoProgressInterval = setInterval(() => {
+      setTargetProgress((prev) => {
+        // 이미 서버에서 높은 값을 받았으면 자동 증가 안 함
+        if (prev >= 95) return prev;
+
+        // 시간 경과에 따라 자동 증가 (느리게)
+        // 0-30초: ~60%, 30-60초: ~85%, 60초+: ~95%
+        const elapsed = elapsedTime;
+        if (elapsed < 5) return Math.min(prev + 2, 30);  // 빠른 시작
+        if (elapsed < 15) return Math.min(prev + 1, 60); // 중간 속도
+        if (elapsed < 30) return Math.min(prev + 0.5, 85); // 느린 속도
+        return Math.min(prev + 0.3, 95); // 매우 느린 속도 (95% 이상 안 감)
+      });
+    }, 500); // 500ms마다 체크
+
+    return () => clearInterval(autoProgressInterval);
+  }, [loading, elapsedTime]);
 
   // 진행률 부드럽게 증가 (1%씩 자연스러운 애니메이션)
   useEffect(() => {
@@ -847,13 +935,13 @@ export default function ResultPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white">
-      <div className="relative w-full max-w-[480px] min-h-screen flex flex-col bg-white">
+    <div className={`flex min-h-screen items-center justify-center ${loading ? 'bg-[#FBFCFC]' : 'bg-white'}`}>
+      <div className={`relative w-full max-w-[480px] min-h-screen flex flex-col ${loading ? 'bg-[#FBFCFC]' : 'bg-white'}`}>
         {/* Header - 로딩 중에도 공간 차지하지만 보이지 않음 */}
         <header
           className={`sticky top-0 left-0 right-0 px-3 py-3 z-20 transition-colors duration-300 ${
             loading
-              ? 'bg-white border-b border-transparent'
+              ? 'bg-[#FBFCFC] border-b border-transparent'
               : 'bg-white border-b border-gray-200'
           }`}
         >
@@ -1097,98 +1185,24 @@ export default function ResultPage() {
                     transition={{ duration: 0.25, ease: 'easeOut' }}
                     className="space-y-4 mb-8"
                   >
-                    {/* 상세 비교표 보기 버튼 */}
-                    <div className="bg-gray-50 rounded-2xl p-1">
-                      <motion.button
-                        onClick={() => {
-                          setActiveTab('comparison');
-                          logButtonClick('상세 비교표 보기', 'result');
-                          // 부드럽게 스크롤
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                        className="w-full py-4 px-3 font-semibold text-base transition-all hover:bg-gray-100 flex items-center justify-between bg-white rounded-xl"
-                        style={{ color: '#111827' }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-lg">📊</span>
-                          <span>상세 비교표</span>
-                        </div>
-                        <span className="px-2.5 py-1 rounded-md text-xs font-bold text-white" style={{ backgroundColor: '#0084FE' }}>
-                          보기
-                        </span>
-                      </motion.button>
-                    </div>
 
-                    {/* Anchor Product (Tag-based flow only) */}
-                    {isTagBasedFlow && anchorProduct && (
+                    {/* 점수 설명 섹션 */}
+                    {recommendations.length > 0 && recommendations[0].selectedTagsEvaluation && recommendations[0].selectedTagsEvaluation.length > 0 && (
                       <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="bg-white py-4 px-2 border-b border-gray-200"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="py-2 px-4 mb-2"
                       >
-                        <div className="mb-2">
-                          <span className="inline-block px-2 py-1 rounded-md text-xs font-semibold text-gray-500 bg-gray-100">
-                            기준 제품
-                          </span>
-                        </div>
-
-                        <div className="flex gap-3">
-                          {/* 제품 썸네일 - 크기 축소 */}
-                          <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-100 border border-gray-200">
-                            {anchorProduct.썸네일 && (
-                              <Image
-                                src={anchorProduct.썸네일}
-                                alt={anchorProduct.모델명}
-                                width={64}
-                                height={64}
-                                className="w-full h-full object-cover"
-                                priority
-                                quality={90}
-                                sizes="64px"
-                              />
-                            )}
+                        <div className="flex items-center gap-6">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span className="text-xs font-medium text-gray-700">원하는 장점 충족도</span>
                           </div>
-
-                          {/* 제품 상세 정보 */}
-                          <div className="flex-1 min-w-0 flex flex-col justify-center">
-                            {/* 브랜드 */}
-                            <div className="text-xs text-gray-500 font-medium mb-0.5">
-                              {anchorProduct.브랜드}
-                            </div>
-                            {/* 제품명 */}
-                            <h3 className="font-bold text-gray-900 text-sm mb-1 leading-tight line-clamp-1">
-                              {anchorProduct.모델명}
-                            </h3>
-                            {/* 가격 */}
-                            <p className="text-sm font-bold text-gray-900 mb-1">
-                              {anchorProduct.최저가?.toLocaleString() || '가격 정보 없음'}<span className="text-xs">원</span>
-                            </p>
-                            {/* 별점 평균 + 리뷰수 - 별 1개만 표시 */}
-                            {anchorProduct.평균별점 && anchorProduct.평균별점 > 0 ? (
-                              <div className="flex items-center gap-1.5">
-                                <svg
-                                  className="w-3 h-3 text-yellow-400"
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span className="text-xs font-semibold text-gray-900">
-                                  {anchorProduct.평균별점.toFixed(1)}
-                                </span>
-                                <span className="text-xs text-gray-500">
-                                  ({anchorProduct.reviewCount.toLocaleString()})
-                                </span>
-                              </div>
-                            ) : anchorProduct.reviewCount > 0 ? (
-                              <div className="text-xs text-gray-500">
-                                리뷰 {anchorProduct.reviewCount.toLocaleString()}
-                              </div>
-                            ) : null}
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                            <span className="text-xs font-medium text-gray-700">원하는 개선점 반영도</span>
                           </div>
                         </div>
-
                       </motion.div>
                     )}
 
@@ -1262,63 +1276,74 @@ export default function ResultPage() {
                               <p className="text-base font-bold text-gray-900">
                                 {rec.product.price.toLocaleString()}<span className="text-sm">원</span>
                               </p>
-                              {/* 별점 평균 + 리뷰수 - 별 1개만 표시 */}
-                              <div className="flex items-center gap-1.5 mb-1">
-                                <svg
-                                  className="w-3 h-3 text-yellow-400"
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                {rec.product.averageRating && rec.product.averageRating > 0 ? (
-                                  <>
-                                    <span className="text-xs font-semibold text-gray-900">
-                                      {rec.product.averageRating.toFixed(1)}
-                                    </span>
+                              {/* 별점 평균 + 리뷰수 + 원형 프로그레스바 */}
+                              <div className="flex items-center justify-between gap-2">
+                                {/* 별점 평균 + 리뷰수 */}
+                                <div className="flex items-center gap-1.5">
+                                  <svg
+                                    className="w-3 h-3 text-yellow-400"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                  </svg>
+                                  {rec.product.averageRating && rec.product.averageRating > 0 ? (
+                                    <>
+                                      <span className="text-xs font-semibold text-gray-900">
+                                        {rec.product.averageRating.toFixed(1)}
+                                      </span>
+                                      <span className="text-xs text-gray-500">
+                                        ({rec.product.reviewCount.toLocaleString()})
+                                      </span>
+                                    </>
+                                  ) : (
                                     <span className="text-xs text-gray-500">
                                       ({rec.product.reviewCount.toLocaleString()})
                                     </span>
-                                  </>
-                                ) : (
-                                  <span className="text-xs text-gray-500">
-                                    ({rec.product.reviewCount.toLocaleString()})
-                                  </span>
-                                )}
+                                  )}
+                                </div>
+
+                                {/* 원형 프로그레스바 */}
+                                {rec.selectedTagsEvaluation && rec.selectedTagsEvaluation.length > 0 && (() => {
+                                  const prosTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros');
+                                  const consTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
+
+                                  // 점수 계산: 충족=1.0, 부분충족=0.5, 불충족=0.0
+                                  const prosScore = prosTags.reduce((sum, tag) => {
+                                    if (tag.status === '충족') return sum + 1.0;
+                                    if (tag.status === '부분충족') return sum + 0.5;
+                                    return sum;
+                                  }, 0);
+
+                                  // 점수 계산: 회피됨=1.0, 부분회피=0.5, 회피안됨=0.0
+                                  const consScore = consTags.reduce((sum, tag) => {
+                                    if (tag.status === '회피됨') return sum + 1.0;
+                                    if (tag.status === '부분회피') return sum + 0.5;
+                                    return sum;
+                                  }, 0);
+
+                                  const prosTotal = prosTags.length;
+                                  const consTotal = consTags.length;
+
+                                  return (
+                                    <div className="flex items-center gap-2">
+                                      {prosTags.length > 0 && (
+                                        <CircularProgress score={prosScore} total={prosTotal} color="green" />
+                                      )}
+                                      {consTags.length > 0 && (
+                                        <CircularProgress score={consScore} total={consTotal} color="blue" />
+                                      )}
+                                    </div>
+                                  );
+                                })()}
                               </div>
-
-                              {/* 장점 충족/단점 회피 개수 표시 */}
-                              {rec.selectedTagsEvaluation && rec.selectedTagsEvaluation.length > 0 && (() => {
-                                const prosTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros');
-                                const consTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
-
-                                const prosFulfilled = prosTags.filter(tag => tag.status === '충족' || tag.status === '부분충족').length;
-                                const consAvoided = consTags.filter(tag => tag.status === '회피됨' || tag.status === '부분회피').length;
-
-                                return (
-                                  <div className="flex items-center gap-1.5">
-                                    {prosTags.length > 0 && (
-                                      <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-50">
-                                        <span className="text-xs font-bold text-green-700">{prosFulfilled}/{prosTags.length}</span>
-                                        <span className="text-xs text-green-600">원하는 장점</span>
-                                      </div>
-                                    )}
-                                    {consTags.length > 0 && (
-                                      <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-red-50">
-                                        <span className="text-xs font-bold text-red-700">{consAvoided}/{consTags.length}</span>
-                                        <span className="text-xs text-red-600">원하는 개선점</span>
-                                      </div>
-                                    )}
-                                  </div>
-                                );
-                              })()}
                             </div>
                           </div>
                         </div>
 
                         {/* AI 추천 이유 */}
                         <div className="mt-3">
-                          <div className="rounded-xl p-3 bg-blue-50">
+                          <div className="rounded-xl p-3 bg-linear-to-br from-green-50 to-blue-50">
                             <div className="flex items-start gap-2">
                               <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24">
                                 <defs>
@@ -1394,38 +1419,7 @@ export default function ResultPage() {
           </AnimatePresence>
         </main>
 
-        {/* 플로팅 ChatInputBar - 하단 고정 */}
-        {!loading && !isChatOpen && !isReRecommendationOpen && (
-          <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full z-30">
-           
-
-            {/* ChatInputBar */}
-            <div className="px-3 py-4 bg-white border-t border-gray-200">
-              <ChatInputBar
-                value=""
-                onChange={() => {}} // 더미 함수 (실제 입력은 바텀시트에서)
-                onSend={() => {}} // 더미 함수
-                placeholder={activeTab === 'recommendations' ? '추가 입력으로 재추천받기' : '제품 비교 질문하기'}
-                disabled={false}
-                onFocus={() => {
-                  // 가이드 말풍선 숨기기
-                  if (showChatGuide) {
-                    setShowChatGuide(false);
-                    sessionStorage.setItem('babyitem_chat_guide_dismissed', 'true');
-                  }
-
-                  if (activeTab === 'recommendations') {
-                    logButtonClick('재추천 바텀시트 열기', 'result');
-                    setIsReRecommendationOpen(true);
-                  } else {
-                    logButtonClick('플로팅 ChatInputBar 탭', 'result');
-                    setIsChatOpen(true);
-                  }
-                }}
-              />
-            </div>
-          </div>
-        )}
+        {/* 플로팅 ChatInputBar 제거 - ReRecommendationBottomSheet가 항상 표시됨 */}
 
         {/* 비교 질문하기 채팅 바텀시트 */}
         <AnimatePresence>
@@ -1570,11 +1564,12 @@ export default function ResultPage() {
           )}
         </AnimatePresence>
 
-        {/* 재추천 바텀시트 */}
+        {/* 재추천 바텀시트 - 항상 표시 (collapsed 상태로 시작) */}
         <ReRecommendationBottomSheet
-          isOpen={isReRecommendationOpen}
-          onClose={() => setIsReRecommendationOpen(false)}
+          isOpen={!loading && recommendations.length > 0}
+          onClose={() => {}} // 닫기 비활성화 (항상 표시)
           currentRecommendations={recommendations}
+          pdpInput={pdpRecommendInput}
           onNewRecommendations={(newRecs) => {
             setRecommendations(newRecs);
             // 비교표 캐시 초기화 (재추천된 제품으로 새로 생성되도록)
@@ -1596,11 +1591,17 @@ export default function ResultPage() {
           {selectedProductForModal && (
             <ProductDetailModal
               productData={selectedProductForModal}
+              productComparisons={
+                comparativeAnalysis?.productComparisons
+                  ? comparativeAnalysis.productComparisons[`rank${selectedProductForModal.rank}` as 'rank1' | 'rank2' | 'rank3']
+                  : undefined
+              }
               category={currentCategory || 'milk_powder_port'}
               onClose={() => {
                 setSelectedProductForModal(null);
                 window.history.back();
               }}
+              // onReRecommend={handlePDPReRecommend} // Temporarily disabled for testing
             />
           )}
         </AnimatePresence>

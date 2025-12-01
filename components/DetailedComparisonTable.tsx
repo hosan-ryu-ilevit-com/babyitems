@@ -3,7 +3,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Recommendation, Product } from '@/types';
+import { useSearchParams } from 'next/navigation';
+import { Recommendation } from '@/types';
 import { products } from '@/data/products';
 import { logButtonClick } from '@/lib/logging/clientLogger';
 
@@ -30,6 +31,9 @@ export default function DetailedComparisonTable({
   category,
   onProductClick
 }: DetailedComparisonTableProps) {
+  const searchParams = useSearchParams();
+  const fromFavorites = searchParams.get('fromFavorites') === 'true';
+
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>>({});
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
   const [isSpecsExpanded, setIsSpecsExpanded] = useState(false); // 상세 스펙 펼치기/접기 상태
@@ -117,13 +121,6 @@ export default function DetailedComparisonTable({
         }
       }
     });
-  };
-
-  // Absolute evaluation color system
-  const getColorForScore = (value: number): string => {
-    if (value >= 8) return '#49CDCB'; // Excellent (8-10): cyan
-    if (value >= 5) return '#F9B73B'; // Good (5-7): yellow
-    return '#F15850'; // Poor (4 or less): red
   };
 
   // 캐시된 데이터 사용 (부모에서 전달받은 경우)
@@ -415,53 +412,67 @@ export default function DetailedComparisonTable({
               </tr>
             )}
 
-            {/* 상세보기 버튼 */}
-            <tr className="border-b border-gray-100">
-              <td colSpan={3} className="py-2 px-1.5">
-                <div className="flex items-start justify-between gap-4">
-                  {/* 왼쪽 제품 버튼 */}
-                  <div className="flex-1">
-                    <button
-                      onClick={() => {
-                        if (onProductClick && selectedRecommendations[0]) {
-                          logButtonClick(
-                            `비교표 상세보기: ${selectedRecommendations[0].product.title}`,
-                            'result'
-                          );
-                          onProductClick(selectedRecommendations[0]);
-                        }
-                      }}
-                      className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
-                      style={{ backgroundColor: '#0074F3', color: '#FFFFFF' }}
-                    >
-                      상세보기
-                    </button>
-                  </div>
+            {/* 상세보기 버튼 - 찜한 상품에서 온 경우 숨기기 */}
+            {!fromFavorites && (
+              <tr className="border-b border-gray-100">
+                <td colSpan={3} className="py-2 px-1.5">
+                  <div className="flex items-start justify-between gap-4">
+                    {/* 왼쪽 제품 버튼 */}
+                    <div className="flex-1">
+                      {selectedRecommendations[0]?.reasoning !== '비교 기준 제품' ? (
+                        <button
+                          onClick={() => {
+                            if (onProductClick && selectedRecommendations[0]) {
+                              logButtonClick(
+                                `비교표 상세보기: ${selectedRecommendations[0].product.title}`,
+                                'result'
+                              );
+                              onProductClick(selectedRecommendations[0]);
+                            }
+                          }}
+                          className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
+                          style={{ backgroundColor: '#0074F3', color: '#FFFFFF' }}
+                        >
+                          상세보기
+                        </button>
+                      ) : (
+                        <div className="w-full py-2.5 text-xs text-center text-gray-400">
+                          기준 제품
+                        </div>
+                      )}
+                    </div>
 
-                  {/* 중앙 빈 공간 */}
-                  <div className="w-16"></div>
+                    {/* 중앙 빈 공간 */}
+                    <div className="w-16"></div>
 
-                  {/* 오른쪽 제품 버튼 */}
-                  <div className="flex-1">
-                    <button
-                      onClick={() => {
-                        if (onProductClick && selectedRecommendations[1]) {
-                          logButtonClick(
-                            `비교표 상세보기: ${selectedRecommendations[1].product.title}`,
-                            'result'
-                          );
-                          onProductClick(selectedRecommendations[1]);
-                        }
-                      }}
-                      className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
-                      style={{ backgroundColor: '#0074F3', color: '#FFFFFF' }}
-                    >
-                      상세보기
-                    </button>
+                    {/* 오른쪽 제품 버튼 */}
+                    <div className="flex-1">
+                      {selectedRecommendations[1]?.reasoning !== '비교 기준 제품' ? (
+                        <button
+                          onClick={() => {
+                            if (onProductClick && selectedRecommendations[1]) {
+                              logButtonClick(
+                                `비교표 상세보기: ${selectedRecommendations[1].product.title}`,
+                                'result'
+                              );
+                              onProductClick(selectedRecommendations[1]);
+                            }
+                          }}
+                          className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
+                          style={{ backgroundColor: '#0074F3', color: '#FFFFFF' }}
+                        >
+                          상세보기
+                        </button>
+                      ) : (
+                        <div className="w-full py-2.5 text-xs text-center text-gray-400">
+                          기준 제품
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
+            )}
 
             {/* 장점 */}
             {isLoadingComparison ? (
@@ -670,8 +681,8 @@ export default function DetailedComparisonTable({
               </tr>
             )}
 
-            {/* 스펙 비교 - Tag-based flow에서만 표시, 접을 수 있음 */}
-            {isTagBasedFlow && !isLoadingComparison && Object.keys(productDetails).length > 0 && (() => {
+            {/* 스펙 비교 - 접을 수 있음 */}
+            {!isLoadingComparison && Object.keys(productDetails).length > 0 && (() => {
               const product1 = selectedProducts[0];
               const product2 = selectedProducts[1];
               if (!product1 || !product2) return null;
@@ -778,68 +789,6 @@ export default function DetailedComparisonTable({
               );
             })()}
 
-            {/* 속성 점수들 - 좌우 대칭 배치 (coreValues가 있는 경우만) */}
-            {!isTagBasedFlow && selectedProducts.length === 2 && selectedProducts[0] && selectedProducts[1] &&
-             'coreValues' in selectedProducts[0] && 'coreValues' in selectedProducts[1] && (() => {
-              const product1 = selectedProducts[0] as Product;
-              const product2 = selectedProducts[1] as Product;
-
-              const attributes: Array<{ key: keyof typeof product1.coreValues; label: string }> = [
-                { key: 'temperatureControl', label: '온도 조절/유지' },
-                { key: 'hygiene', label: '위생/세척' },
-                { key: 'material', label: '소재/안전성' },
-                { key: 'usability', label: '사용 편의성' },
-                { key: 'portability', label: '휴대성' },
-                { key: 'priceValue', label: '가격 대비 가치' },
-                { key: 'additionalFeatures', label: '부가 기능/디자인' },
-              ];
-
-              return attributes.map((attr) => {
-                const value1 = product1.coreValues[attr.key];
-                const value2 = product2.coreValues[attr.key];
-                const color1 = getColorForScore(value1);
-                const color2 = getColorForScore(value2);
-
-                return (
-                  <tr key={attr.key} className="border-b border-gray-100">
-                    <td colSpan={3} className="py-2 px-1.5">
-                      <div className="flex items-center justify-between gap-4">
-                        {/* 왼쪽 제품 - 왼쪽 정렬 */}
-                        <div className="flex items-center gap-2 flex-1">
-                          <span className="text-xs font-bold whitespace-nowrap" style={{ color: color1 }}>
-                            {value1}/10
-                          </span>
-                          <div className="flex-1 max-w-[80px] h-2 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className="h-full transition-all"
-                              style={{ width: `${(value1 / 10) * 100}%`, backgroundColor: color1 }}
-                            />
-                          </div>
-                        </div>
-
-                        {/* 중앙 속성명 */}
-                        <div className="text-xs font-medium text-gray-500 text-center whitespace-nowrap px-3">
-                          {attr.label}
-                        </div>
-
-                        {/* 오른쪽 제품 - 오른쪽 정렬 */}
-                        <div className="flex items-center gap-2 flex-1 justify-end">
-                          <div className="flex-1 max-w-[80px] h-2 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className="h-full transition-all"
-                              style={{ width: `${(value2 / 10) * 100}%`, backgroundColor: color2 }}
-                            />
-                          </div>
-                          <span className="text-xs font-bold whitespace-nowrap" style={{ color: color2 }}>
-                            {value2}/10
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              });
-            })()}
           </tbody>
         </table>
       </div>

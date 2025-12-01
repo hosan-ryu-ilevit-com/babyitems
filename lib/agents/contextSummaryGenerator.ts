@@ -183,8 +183,8 @@ export async function generateContextSummaryFromPriorityWithChat(
   const budgetText = budget
     ? {
         '0-50000': '최대 5만원',
-        '50000-100000': '최대 10만원',
-        '100000-150000': '최대 15만원',
+        '0-100000': '최대 10만원',
+        '0-150000': '최대 15만원',
         '150000+': '15만원+'
       }[budget] || budget
     : undefined;

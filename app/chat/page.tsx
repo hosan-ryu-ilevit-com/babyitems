@@ -1863,8 +1863,8 @@ export default function ChatPage() {
     // 예산 선택 사용자 메시지
     const budgetText = {
       '0-50000': '최대 5만원',
-      '50000-100000': '최대 10만원',
-      '100000-150000': '최대 15만원',
+      '0-100000': '최대 10만원',
+      '0-150000': '최대 15만원',
       '150000+': '15만원+'
     }[budget];
 
@@ -2129,13 +2129,13 @@ export default function ChatPage() {
                             최대 5만원
                           </button>
                           <button
-                            onClick={() => handleBudgetSelect('50000-100000')}
+                            onClick={() => handleBudgetSelect('0-100000')}
                             className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
                           >
                             최대 10만원
                           </button>
                           <button
-                            onClick={() => handleBudgetSelect('100000-150000')}
+                            onClick={() => handleBudgetSelect('0-150000')}
                             className="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium text-sm transition-colors text-left"
                           >
                             최대 15만원

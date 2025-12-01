@@ -1,13 +1,50 @@
 'use client';
 
-import { useEffect, useState, useRef, Suspense } from 'react';
+import { useEffect, useState, useRef, Suspense, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { products } from '@/data/products';
-import { Product, Recommendation } from '@/types';
+import { Product, Recommendation, ProductCategory } from '@/types';
 import { logComparisonChat, logPageView } from '@/lib/logging/clientLogger';
 import { ChatInputBar } from '@/components/ChatInputBar';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
+
+// Import all category specs
+import babyBottleSpecs from '@/data/specs/baby_bottle.json';
+import babySterilizerSpecs from '@/data/specs/baby_bottle_sterilizer.json';
+import babyDispenserSpecs from '@/data/specs/baby_formula_dispenser.json';
+import babyMonitorSpecs from '@/data/specs/baby_monitor.json';
+import babyPlayMatSpecs from '@/data/specs/baby_play_mat.json';
+import carSeatSpecs from '@/data/specs/car_seat.json';
+import milkPowderPortSpecs from '@/data/specs/milk_powder_port.json';
+import nasalAspiratorSpecs from '@/data/specs/nasal_aspirator.json';
+import thermometerSpecs from '@/data/specs/thermometer.json';
+
+// Convert spec to Product format
+function specToProduct(spec: Record<string, unknown>, category: ProductCategory): Product {
+  return {
+    id: String(spec.productId),
+    title: (spec.모델명 as string) || (spec.제품명 as string) || '',
+    brand: (spec.브랜드 as string) || '',
+    price: (spec.최저가 as number) || 0,
+    reviewCount: 0,
+    reviewUrl: '',
+    ranking: (spec.순위 as number) || 0,
+    thumbnail: (spec.썸네일 as string) || '',
+    category: category,
+    averageRating: 0,
+    coreValues: {
+      temperatureControl: 0,
+      hygiene: 0,
+      material: 0,
+      usability: 0,
+      portability: 0,
+      priceValue: 0,
+      durability: 0,
+      additionalFeatures: 0,
+    },
+  };
+}
 
 // Markdown formatting function (handles bold text and lists)
 function formatMarkdown(text: string) {
@@ -99,6 +136,39 @@ function ComparePageContent() {
   const [productScores, setProductScores] = useState<Record<string, number>>({});
   const [productRanks, setProductRanks] = useState<Record<string, number>>({});
 
+  // Combine all specs into a single lookup map
+  const allProductsMap = useMemo(() => {
+    const map = new Map<string, Product>();
+
+    // Add products from data/products.ts (milk powder ports with coreValues)
+    products.forEach(p => map.set(p.id, p));
+
+    // Add products from specs (other categories)
+    const specsByCategory: Record<ProductCategory, Record<string, unknown>[]> = {
+      baby_bottle: babyBottleSpecs as Record<string, unknown>[],
+      baby_bottle_sterilizer: babySterilizerSpecs as Record<string, unknown>[],
+      baby_formula_dispenser: babyDispenserSpecs as Record<string, unknown>[],
+      baby_monitor: babyMonitorSpecs as Record<string, unknown>[],
+      baby_play_mat: babyPlayMatSpecs as Record<string, unknown>[],
+      car_seat: carSeatSpecs as Record<string, unknown>[],
+      milk_powder_port: milkPowderPortSpecs as Record<string, unknown>[],
+      nasal_aspirator: nasalAspiratorSpecs as Record<string, unknown>[],
+      thermometer: thermometerSpecs as Record<string, unknown>[],
+    };
+
+    Object.entries(specsByCategory).forEach(([category, specs]) => {
+      specs.forEach((spec) => {
+        const productId = String(spec.productId);
+        // Only add if not already in map (products.ts takes precedence)
+        if (!map.has(productId)) {
+          map.set(productId, specToProduct(spec, category as ProductCategory));
+        }
+      });
+    });
+
+    return map;
+  }, []);
+
   // Convert to Recommendation[] for DetailedComparisonTable
   const recommendations: Recommendation[] = selectedProducts.map((product, index) => ({
     product,
@@ -128,25 +198,20 @@ function ComparePageContent() {
       console.log('📦 Category from URL:', categoryParam);
     }
 
-    // Try to load from products.ts first
+    // Load products from allProductsMap (includes all categories)
     const foundProducts = productIds
-      .map((id) => products.find((p) => p.id === id))
+      .map((id) => allProductsMap.get(id))
       .filter((p): p is Product => p !== undefined);
 
-    // For tag-based flow, products might not exist in products.ts
-    // In this case, we'll create minimal Product objects for display
-    // The actual comparison data will be loaded from specs by the API
-    if (foundProducts.length < productIds.length) {
-      console.log(`⚠️ Some products not found in products.ts (tag-based flow)`);
-      console.log(`   Found: ${foundProducts.length}/${productIds.length}`);
+    if (foundProducts.length < 2) {
+      console.error('❌ Need at least 2 products for comparison');
+      console.error(`   Found: ${foundProducts.length}/${productIds.length}`);
+      router.push('/');
+      return;
+    }
 
-      // For now, allow comparison to proceed with whatever products we found
-      // The API will handle loading from specs if needed
-      if (foundProducts.length < 2) {
-        console.error('❌ Need at least 2 products for comparison');
-        router.push('/');
-        return;
-      }
+    if (foundProducts.length < productIds.length) {
+      console.log(`⚠️ Some products not found: ${foundProducts.length}/${productIds.length}`);
     }
 
     setSelectedProducts(foundProducts);
@@ -209,7 +274,7 @@ function ComparePageContent() {
     };
 
     fetchProductDetails();
-  }, [searchParams, router]);
+  }, [searchParams, router, allProductsMap]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoadingMessage) return;
@@ -343,22 +408,6 @@ function ComparePageContent() {
             />
           </div>
         </div>
-
-        {/* 플로팅 ChatInputBar - 하단 고정 */}
-        {!isChatOpen && (
-          <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto w-full px-3 py-4 bg-white border-t border-gray-200 z-30">
-            <ChatInputBar
-              value=""
-              onChange={() => {}} // 더미 함수 (실제 입력은 바텀시트에서)
-              onSend={() => {}} // 더미 함수
-              placeholder="제품 비교 질문하기"
-              disabled={false}
-              onFocus={() => {
-                setIsChatOpen(true);
-              }}
-            />
-          </div>
-        )}
 
         {/* Chat Bottom Sheet - Expanded state */}
         <AnimatePresence>

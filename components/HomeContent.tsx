@@ -5,20 +5,57 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { products } from '@/data/products';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import FavoritesBottomSheet from '@/components/FavoritesBottomSheet';
 import { GuideBottomSheet } from '@/components/GuideBottomSheet';
-import { Product } from '@/types';
+import { Product, ProductCategory } from '@/types';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Playfair_Display } from 'next/font/google';
+
+// Import all category specs
+import babyBottleSpecs from '@/data/specs/baby_bottle.json';
+import babySterilizerSpecs from '@/data/specs/baby_bottle_sterilizer.json';
+import babyDispenserSpecs from '@/data/specs/baby_formula_dispenser.json';
+import babyMonitorSpecs from '@/data/specs/baby_monitor.json';
+import babyPlayMatSpecs from '@/data/specs/baby_play_mat.json';
+import carSeatSpecs from '@/data/specs/car_seat.json';
+import milkPowderPortSpecs from '@/data/specs/milk_powder_port.json';
+import nasalAspiratorSpecs from '@/data/specs/nasal_aspirator.json';
+import thermometerSpecs from '@/data/specs/thermometer.json';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
   weight: ['600'],
 });
+
+// Convert spec to Product format
+function specToProduct(spec: Record<string, unknown>, category: ProductCategory): Product {
+  return {
+    id: String(spec.productId),
+    title: (spec.모델명 as string) || (spec.제품명 as string) || '',
+    brand: (spec.브랜드 as string) || '',
+    price: (spec.최저가 as number) || 0,
+    reviewCount: 0,
+    reviewUrl: '',
+    ranking: (spec.순위 as number) || 0,
+    thumbnail: (spec.썸네일 as string) || '',
+    category: category,
+    averageRating: 0,
+    coreValues: {
+      temperatureControl: 0,
+      hygiene: 0,
+      material: 0,
+      usability: 0,
+      portability: 0,
+      priceValue: 0,
+      durability: 0,
+      additionalFeatures: 0,
+    },
+  };
+}
 
 export function HomeContent() {
   const router = useRouter();
@@ -30,6 +67,39 @@ export function HomeContent() {
   const [isFavoritesSheetOpen, setIsFavoritesSheetOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const { favorites, toggleFavorite, isFavorite, count } = useFavorites();
+
+  // Combine all specs into a single lookup map
+  const allProductsMap = useMemo(() => {
+    const map = new Map<string, Product>();
+
+    // Add products from data/products.ts (milk powder ports with coreValues)
+    products.forEach(p => map.set(p.id, p));
+
+    // Add products from specs (other categories)
+    const specsByCategory: Record<ProductCategory, Record<string, unknown>[]> = {
+      baby_bottle: babyBottleSpecs as Record<string, unknown>[],
+      baby_bottle_sterilizer: babySterilizerSpecs as Record<string, unknown>[],
+      baby_formula_dispenser: babyDispenserSpecs as Record<string, unknown>[],
+      baby_monitor: babyMonitorSpecs as Record<string, unknown>[],
+      baby_play_mat: babyPlayMatSpecs as Record<string, unknown>[],
+      car_seat: carSeatSpecs as Record<string, unknown>[],
+      milk_powder_port: milkPowderPortSpecs as Record<string, unknown>[],
+      nasal_aspirator: nasalAspiratorSpecs as Record<string, unknown>[],
+      thermometer: thermometerSpecs as Record<string, unknown>[],
+    };
+
+    Object.entries(specsByCategory).forEach(([category, specs]) => {
+      specs.forEach((spec) => {
+        const productId = String(spec.productId);
+        // Only add if not already in map (products.ts takes precedence)
+        if (!map.has(productId)) {
+          map.set(productId, specToProduct(spec, category as ProductCategory));
+        }
+      });
+    });
+
+    return map;
+  }, []);
 
   // 페이지 뷰 로깅
   useEffect(() => {
@@ -48,7 +118,7 @@ export function HomeContent() {
     toggleFavorite(productId);
 
     // Log favorite action
-    const product = products.find(p => p.id === productId);
+    const product = allProductsMap.get(productId);
     if (product) {
       const action = wasFavorite ? 'removed' : 'added';
       const newCount = wasFavorite ? count - 1 : count + 1;
@@ -72,7 +142,9 @@ export function HomeContent() {
     localStorage.setItem('babyitem_guide_viewed', 'true');
   };
 
-  const favoriteProducts = products.filter((p) => favorites.includes(p.id));
+  const favoriteProducts = favorites
+    .map(id => allProductsMap.get(id))
+    .filter((p): p is Product => p !== undefined);
 
   return (
     <div className="flex min-h-screen items-start justify-center bg-gray-100">
@@ -86,7 +158,7 @@ export function HomeContent() {
               router.push('/favorites');
               logButtonClick('찜한거 보기 아이콘 클릭', 'home');
             }}
-            className="relative p-2"
+            className="relative p-1"
           >
             <svg
               width="20"
@@ -100,11 +172,7 @@ export function HomeContent() {
             >
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
-            {count > 0 && (
-              <div className="absolute -top-1 -right-1 w-5 h-5 bg-[#FF6B6B] rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-bold">{count}</span>
-              </div>
-            )}
+            
           </button>
         </header>
 
@@ -182,36 +250,7 @@ export function HomeContent() {
             </motion.div>
         </section>
 
-        <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.4 }}
-            className="fixed left-0 right-0 flex justify-center"
-            style={{
-              bottom: '100px',
-              maxWidth: '480px',
-              margin: '0 auto',
-              pointerEvents: 'none',
-              zIndex: 100
-            }}
-          >
-            <motion.div
-              animate={{ y: [0, -4, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="relative"
-            >
-              <div className="text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap text-white" style={{ backgroundColor: '#4B4B4B' }}>
-                AI가 대신 발품 파는, <span style={{ color: '#FCD34D' }}>광고 없는</span> 구매 가이드
-              </div>
-              {/* Speech bubble tail pointing down */}
-              <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px]" style={{ borderTopColor: '#4B4B4B' }}></div>
-            </motion.div>
-        </motion.div>
+       
 
         {/* Bottom Fixed Container - CTA Button + Input Bar */}
         <div className="fixed bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto', backgroundColor: '#FCFCFC' }}>

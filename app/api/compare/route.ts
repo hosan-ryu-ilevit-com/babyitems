@@ -66,6 +66,45 @@ export async function POST(req: NextRequest) {
           }
         }
 
+        // Try all categories if no category specified or category lookup failed
+        if (!category) {
+          const categories: Category[] = [
+            'milk_powder_port',
+            'baby_bottle',
+            'baby_bottle_sterilizer',
+            'baby_formula_dispenser',
+            'baby_monitor',
+            'baby_play_mat',
+            'car_seat',
+            'nasal_aspirator',
+            'thermometer'
+          ];
+
+          for (const cat of categories) {
+            try {
+              const spec = await getProductSpec(cat, id);
+              if (spec) {
+                console.log(`✅ Loaded ${id} from specs/${cat}.json`);
+                // Load reviews for this product
+                const allReviews = await getReviewsForProduct(cat, String(spec.productId));
+                const sampledReviews = allReviews.length > 0 ? sampleLongestReviews(allReviews, 20) : [];
+                const reviewsText = sampledReviews.length > 0
+                  ? formatReviewsForLLM(sampledReviews, 30000)
+                  : '리뷰 없음';
+
+                return {
+                  id,
+                  spec,
+                  reviews: reviewsText,
+                  isSpecBased: true as const
+                };
+              }
+            } catch (error) {
+              // Continue to next category
+            }
+          }
+        }
+
         // Fallback to products.ts (old system with coreValues + markdown)
         const product = await loadProductById(id);
         const markdown = await loadProductDetails(id);

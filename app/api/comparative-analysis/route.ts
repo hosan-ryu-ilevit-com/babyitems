@@ -25,7 +25,6 @@ interface ProductEvaluation {
   selectedTagsEvaluation: SelectedTagEvaluation[];
   additionalPros: Array<{ text: string; citations: number[] }>;
   cons: Array<{ text: string; citations: number[] }>;
-  anchorComparison: Array<{ text: string; citations?: number[] }>;
   purchaseTip: Array<{ text: string; citations?: number[] }>;
   reviewCount: number;
   citedReviews: Array<{ index: number; text: string; rating: number }>;
@@ -110,7 +109,6 @@ ${index + 1}위: ${product.브랜드} ${product.모델명}
 - fitScore: ${evaluation.fitScore}
 - 속성 점수: ${attributeScoresStr}
 - 사용자 선택 태그 충족도: ${selectedTagsStatus}
-- 선택하신 제품 대비: ${evaluation.anchorComparison.map(item => item.text).join(', ')}
       `.trim();
     });
 
@@ -139,27 +137,27 @@ ${consTexts.length > 0 ? consTexts.map((t, i) => `${i + 1}. ${t}`).join('\n') : 
   "overallSummary": "1위는 온도 조절 정확성 최우선 고객에게, 2위는 가성비 중시 고객에게, 3위는 편의성 극대화 원하는 고객에게 추천합니다",
   "rankComparison": {
     "rank1": {
-      "keyStrengths": "온도 조절 정확성(85점), 위생성(78점)에서 3개 중 최고",
+      "keyStrengths": "온도 조절 정확성과 위생성이 3개 중 가장 우수함",
       "keyWeaknesses": "가격이 가장 높음, 자동 출수 기능 없음",
-      "vsRank2": "2위 대비 온도 조절 7점 높지만, 가격 1만원 비쌈",
-      "vsRank3": "3위 대비 가성비는 낮지만 온도 정확도는 우수",
-      "vsAnchor": "선택하신 제품 대비 온도 조절 7점 향상, 가격 1만원 높음",
+      "vsRank2": "2위 대비 온도 조절이 더 정확하지만, 가격은 약간 비쌈",
+      "vsRank3": "3위 대비 가성비는 낮지만 온도 정확도는 훨씬 우수함",
+      "vsAnchor": "선택하신 제품 대비 온도 조절이 더 정확하며, 가격은 약간 높음",
       "bestFor": "온도 조절 정확성을 최우선으로 하는 고객"
     },
     "rank2": {
       "keyStrengths": "가성비 최고, 쿨링팬으로 빠른 냉각",
       "keyWeaknesses": "온도 조절 정확도는 1위보다 낮음",
-      "vsRank1": "1위 대비 가격 1만원 저렴하지만 온도 정확도 낮음",
-      "vsRank3": "3위 대비 가격 2만원 저렴, 쿨링팬 속도 빠름",
-      "vsAnchor": "선택하신 제품과 가격 동일, 쿨링팬 성능 향상",
+      "vsRank1": "1위 대비 가격은 저렴하지만 온도 정확도는 낮음",
+      "vsRank3": "3위 대비 가격이 저렴하고, 쿨링팬 속도가 빠름",
+      "vsAnchor": "선택하신 제품과 가격 비슷하며, 쿨링팬 성능이 향상됨",
       "bestFor": "가성비와 빠른 냉각을 원하는 고객"
     },
     "rank3": {
       "keyStrengths": "자동 출수, 무음 모드로 편의성 최고",
       "keyWeaknesses": "가격 가장 높음, 무게 무거움",
-      "vsRank1": "1위 대비 자동 출수 있지만 온도 정확도는 낮음",
-      "vsRank2": "2위 대비 편의 기능 많지만 가격 높음",
-      "vsAnchor": "선택하신 제품 대비 자동 출수+무음 추가, 가격 높음",
+      "vsRank1": "1위 대비 자동 출수가 있지만 온도 정확도는 낮음",
+      "vsRank2": "2위 대비 편의 기능이 많지만 가격은 높음",
+      "vsAnchor": "선택하신 제품 대비 자동 출수와 무음 기능이 추가되며, 가격은 높음",
       "bestFor": "편의성과 프리미엄 기능을 원하는 고객"
     }
   },
@@ -198,7 +196,9 @@ ${consTexts.length > 0 ? consTexts.map((t, i) => `${i + 1}. ${t}`).join('\n') : 
 
 **중요:**
 - 각 제품의 핵심 강점/약점을 명확히 구분하세요
-- 제품 간 비교는 구체적인 차이점 위주로 서술 (점수 언급 금지)
+- **⚠️ 절대 점수 언급 금지**: 속성 점수, "7점 높음", "85점 vs 78점", "95점" 등 모든 수치 표현 완전 금지
+- 자연스러운 비교 표현만 사용: "더 정확함", "우수함", "뛰어남", "낮음", "부족함" 등
+- 제품 간 비교는 구체적인 차이점과 특징 위주로 서술
 - 상황별 추천은 실제 사용 시나리오 기반으로 작성
 - 반드시 JSON 형식만 출력하세요`;
 

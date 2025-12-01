@@ -32,9 +32,9 @@ function budgetToMaxPrice(budget: BudgetRange): number | null {
   switch (budget) {
     case '0-50000':
       return 50000;
-    case '50000-100000':
+    case '0-100000':
       return 100000;
-    case '100000-150000':
+    case '0-150000':
       return 150000;
     case '150000+':
       return null; // no limit

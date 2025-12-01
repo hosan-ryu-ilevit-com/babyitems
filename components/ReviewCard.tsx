@@ -13,7 +13,7 @@ interface ReviewCardProps {
 // 별점 표시 컴포넌트
 function StarRating({ rating }: { rating: number }) {
   return (
-    <div className="flex items-center gap-0.5">
+    <div className="flex items-center gap-0">
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}

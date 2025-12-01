@@ -356,8 +356,8 @@ export function generatePersonaFromPriority(
     // 사전 정의된 범위 처리
     const budgetMap: Record<string, number> = {
       '0-50000': 50000,
-      '50000-100000': 100000,
-      '100000-150000': 150000,
+      '0-100000': 100000,
+      '0-150000': 150000,
       '150000+': 200000  // 상한선을 200000으로 설정
     };
 

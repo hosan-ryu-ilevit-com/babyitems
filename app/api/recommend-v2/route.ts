@@ -61,7 +61,6 @@ interface ProductEvaluation {
   selectedTagsEvaluation: SelectedTagEvaluation[];
   additionalPros: Array<{ text: string; citations: number[] }>;
   cons: Array<{ text: string; citations: number[] }>;
-  anchorComparison: Array<{ text: string; citations?: number[] }>;
   purchaseTip: Array<{ text: string; citations?: number[] }>;
   reviewCount: number;
   citedReviews: Array<{ index: number; text: string; rating: number }>;
@@ -101,7 +100,6 @@ async function evaluateProduct(
         selectedTagsEvaluation: [],
         additionalPros: [],
         cons: [],
-        anchorComparison: [{ text: '리뷰 없음' }],
         purchaseTip: [],
         reviewCount: 0,
         citedReviews: [],
@@ -218,8 +216,13 @@ ${formatReviewsForLLM(low, 40000)}
 **평가 기준:**
 1. 사용자가 원하는 장점이 실제 리뷰와 스펙에서 확인되는가? (⭐표시가 있는 항목에 더 큰 가중치)
 2. 사용자가 피하고 싶은 단점이 이 제품에도 있는가?
-3. 속성 점수가 사용자의 요구와 일치하는가?
+3. 제품의 특징이 사용자의 요구와 일치하는가?
 4. 전반적인 만족도는 어떤가?
+
+**⚠️ 출력 시 절대 금지 사항:**
+- **속성 점수, 수치, 등급을 절대 언급하지 마세요**
+- "8점", "95점", "온도 조절 점수", "위생 점수가 낮다", "85점 vs 78점" 등 모든 점수 표현 금지
+- 속성 점수는 **내부 판단용**으로만 사용하고, 출력에는 "우수하다", "뛰어나다", "부족하다" 등 자연어로만 표현
 
 **출력 형식 (반드시 JSON만 출력):**
 
@@ -285,14 +288,6 @@ ${formatReviewsForLLM(low, 40000)}
       "text": "**터치 버튼 민감도**가 불규칙하다는 불만이 있음"
     }
   ],
-  "anchorComparison": [
-    {
-      "text": "${anchorProduct.브랜드} 대비 **온도 조절**이 더 정확함"
-    },
-    {
-      "text": "**세척 편의성**은 비슷한 수준"
-    }
-  ],
   "purchaseTip": [
     {
       "text": "**자동 출수 기능**은 없으니 수동 조작이 불편하지 않은지 확인하세요"
@@ -305,11 +300,13 @@ ${formatReviewsForLLM(low, 40000)}
 \`\`\`
 
 **중요:**
+- **⚠️ 최우선 규칙: 속성 점수를 출력에 절대 언급하지 마세요** (내부 판단용으로만 사용)
 - fitScore는 0-100 점수 (높을수록 사용자 요구에 부합)
 - 우선순위가 높은 장점(⭐최우선)을 더 중요하게 평가하세요
 - **recommendationReason**: 요약 문구 (최대 2문장)
   - 2인칭 직접 화법으로 작성 (예: "**가장 중요하게 생각하시는 온도 조절**을 완벽히 충족하며~")
   - 핵심 키워드는 **키워드** 형식으로 볼드 처리
+  - **⚠️ 절대 점수 언급 금지**: "8점", "95점", "만점" 등 수치 표현 완전 금지
   - "사용자가 원하는~" 같은 간접 표현 대신 직접 대화 톤 사용
 - **selectedTagsEvaluation**: 사용자가 선택한 **모든 태그**(장점 + 단점)를 순서대로 평가
   - userTag: 사용자가 선택한 원문 그대로 + ** 강조 표시
@@ -333,22 +330,16 @@ ${formatReviewsForLLM(low, 40000)}
   - **중요**: 장점 태그를 모두 나열한 후, 단점 태그를 나열하세요 (tagType별로 그룹화)
 - **additionalPros**: 사용자가 선택하지 않았지만 발견된 장점 (2-3개)
   - text: 구체적인 기능에 대한 평가를 자연스럽게 작성, 핵심 키워드는 **키워드**로 볼드
-  - 속성과 점수를 직접적으로 언급하지 말고 자연스럽게
+  - **⚠️ 절대 점수 언급 금지**: 속성 점수, "95점", "8/10", "A등급" 등 수치 표현 완전 금지
+  - 자연스러운 표현만 사용: "우수하다", "매우 좋다", "뛰어나다" 등
   - 예시: "**붕규산 유리** 재질로 위생적이라는 평가가 많음", "**빠른 냉각 속도**에 만족하는 사용자가 많음"
   - **⚠️ 고평점 리뷰(1-${high.length}번) 내용 기반, 리뷰 번호 언급 금지**
 - **cons**: 단점 1-3개
   - text: 단점을 자연스럽게 설명, 핵심 키워드는 **키워드**로 볼드
+  - **⚠️ 절대 점수 언급 금지**: "3점", "낮은 점수", "5/10" 등 수치 표현 완전 금지
+  - 자연스러운 표현만 사용: "부족하다", "아쉽다", "개선이 필요하다" 등
   - 예시: "**터치 버튼 민감도**가 불규칙하다는 불만이 있음", "**유리 파손 위험**을 경험한 사용자들이 있음"
   - **⚠️ 주로 저평점 리뷰(${high.length + 1}-${sampledReviews.length}번) 기반, 리뷰 번호 언급 금지**
-- **anchorComparison**: 선택하신 기준 제품 대비 비교 (리스트 형태, 2-3개 항목)
-  - 각 항목은 { text } 형태
-  - text: 비교 내용 1문장, 핵심 키워드는 **키워드**로 볼드
-  - 선택하신 제품은 브랜드명만 간략히 언급 (예: "${anchorProduct.브랜드} 대비")
-  - **⚠️ 절대 점수 언급 금지**: 속성 점수, "95점", "vs", "85점 vs 78점", "리뷰 기반" 등 수치 표현 완전 금지
-  - 자연스러운 비교 표현만 사용
-    예시: "온도 조절 7점 향상" (X), "95점 vs 95점" (X) → "**온도 조절**이 더 정확함" (O)
-  - 가격 차이는 제외 (사용자가 이미 확인 가능)
-  - 핵심 차이점만 간결하게 서술
 - **purchaseTip**: 구매 결정에 도움이 되는 핵심 조언 (리스트 형태, 1-2개 항목)
   - 각 항목은 { text } 형태
   - text: 조언 1문장, 핵심 키워드는 **키워드**로 볼드
@@ -393,7 +384,6 @@ ${formatReviewsForLLM(low, 40000)}
       selectedTagsEvaluation: SelectedTagEvaluation[];
       additionalPros: Array<{ text: string; citations: number[] }>;
       cons: Array<{ text: string; citations: number[] }>;
-      anchorComparison: Array<{ text: string; citations?: number[] }>;
       purchaseTip: Array<{ text: string; citations?: number[] }>;
     };
 
@@ -406,7 +396,6 @@ ${formatReviewsForLLM(low, 40000)}
       selectedTagsEvaluation: evaluation.selectedTagsEvaluation,
       additionalPros: evaluation.additionalPros,
       cons: evaluation.cons,
-      anchorComparison: evaluation.anchorComparison,
       purchaseTip: evaluation.purchaseTip,
       reviewCount: allReviews.length,
       citedReviews: [], // Citations removed - natural language evidence used instead
@@ -420,7 +409,6 @@ ${formatReviewsForLLM(low, 40000)}
       selectedTagsEvaluation: [],
       additionalPros: [],
       cons: [],
-      anchorComparison: [{ text: '평가 실패' }],
       purchaseTip: [],
       reviewCount: 0,
       citedReviews: [],
@@ -636,7 +624,6 @@ export async function POST(req: NextRequest) {
         selectedTagsEvaluation: e.selectedTagsEvaluation,
         additionalPros: e.additionalPros,
         cons: e.cons,
-        anchorComparison: e.anchorComparison,
         purchaseTip: e.purchaseTip,
         reviewCount: e.reviewCount,
         citedReviews: e.citedReviews,

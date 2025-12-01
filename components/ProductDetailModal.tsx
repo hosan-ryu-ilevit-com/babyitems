@@ -4,9 +4,11 @@ import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReviewCard from '@/components/ReviewCard';
-import { logButtonClick } from '@/lib/logging/clientLogger';
+import { logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 import type { Review } from '@/lib/review';
 import { TextWithCitations } from '@/components/ReviewCitationButton';
+import { useFavorites } from '@/hooks/useFavorites';
+import Toast from '@/components/Toast';
 
 interface ProductDetailModalProps {
   productData: {
@@ -33,12 +35,13 @@ interface ProductDetailModalProps {
     }>;
     additionalPros: Array<{ text: string; citations: number[] }>;
     cons: Array<{ text: string; citations: number[] }>;
-    anchorComparison: Array<{ text: string; citations?: number[] }>;
     purchaseTip?: Array<{ text: string; citations?: number[] }>;
     citedReviews: Array<{ index: number; text: string; rating: number }>;
   };
+  productComparisons?: Array<{ text: string }>; // NEW: 다른 추천 제품들과의 비교
   category: string;
   onClose: () => void;
+  onReRecommend?: (productId: string, userInput: string) => Promise<void>; // NEW: Callback for re-recommendation
 }
 
 // 마크다운 볼드 처리
@@ -53,7 +56,56 @@ function parseMarkdownBold(text: string) {
   });
 }
 
-export default function ProductDetailModal({ productData, category, onClose }: ProductDetailModalProps) {
+// 원형 프로그레스 바 컴포넌트
+function CircularProgress({ score, total, color, size = 40 }: { score: number; total: number; color: 'green' | 'blue'; size?: number }) {
+  const percentage = total > 0 ? (score / total) * 100 : 0;
+  const radius = (size - 6) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+
+  const colorClasses = {
+    green: { bg: 'text-green-100', fg: 'text-green-500' },
+    blue: { bg: 'text-blue-100', fg: 'text-blue-500' },
+  };
+
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="transform -rotate-90">
+        {/* Background circle */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="4"
+          className={colorClasses[color].bg}
+        />
+        {/* Progress circle */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          className={`${colorClasses[color].fg} transition-all duration-500`}
+        />
+      </svg>
+      {/* Score text */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className={`text-[9px] font-bold leading-none ${color === 'green' ? 'text-green-700' : 'text-blue-700'}`}>
+          {score % 1 === 0 ? Math.round(score) : score.toFixed(1)}/{Math.round(total)}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+export default function ProductDetailModal({ productData, productComparisons, category, onClose, onReRecommend }: ProductDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
   const [reviews, setReviews] = useState<Review[]>([]);
   const [sortBy, setSortBy] = useState<'rating_desc' | 'rating_asc'>('rating_desc');
@@ -66,6 +118,17 @@ export default function ProductDetailModal({ productData, category, onClose }: P
   const [isConsOpen, setIsConsOpen] = useState(false);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const [isPurchaseTipOpen, setIsPurchaseTipOpen] = useState(false);
+
+  // NEW: Chat input for re-recommendation
+  const [showChatInput, setShowChatInput] = useState(false);
+  const [chatInput, setChatInput] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // Favorites management
+  const { toggleFavorite, isFavorite, count } = useFavorites();
+
+  // Toast for favorite notification
+  const [showToast, setShowToast] = useState(false);
 
   // Fetch reviews function
   const fetchReviews = useCallback(async () => {
@@ -120,7 +183,7 @@ export default function ProductDetailModal({ productData, category, onClose }: P
   const handleSortChange = async (newSortBy: 'rating_desc' | 'rating_asc') => {
     setSortBy(newSortBy);
     logButtonClick(`리뷰 정렬: ${newSortBy === 'rating_desc' ? '높은순' : '낮은순'}`, 'product-modal');
-    fetchReviews();
+    // fetchReviews will be triggered automatically by useEffect when sortBy changes
   };
 
   const handleClose = () => {
@@ -135,11 +198,11 @@ export default function ProductDetailModal({ productData, category, onClose }: P
     <motion.div
       initial={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
       animate={{
-        backgroundColor: isExiting ? 'rgba(0, 0, 0, 0)' : 'rgba(0, 0, 0, 0.08)'
+        backgroundColor: isExiting ? 'rgba(0, 0, 0, 0)' : (showChatInput ? 'rgba(0, 0, 0, 0.6)' : 'rgba(0, 0, 0, 0.08)')
       }}
       transition={{ duration: 0.25 }}
       className="fixed inset-0 z-50 flex min-h-screen items-center justify-center"
-      onClick={handleClose}
+      onClick={showChatInput ? undefined : handleClose}
     >
       <motion.div
         initial={{ x: '100%' }}
@@ -169,6 +232,7 @@ export default function ProductDetailModal({ productData, category, onClose }: P
         <div className="flex-1 overflow-y-auto">
           {/* Thumbnail */}
           <div className="relative w-full aspect-square bg-gray-100">
+          {/* Background image with optional overlay when chat is shown */}
           {productData.product.thumbnail ? (
             <Image
               src={productData.product.thumbnail}
@@ -183,6 +247,61 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
+          )}
+
+          {/* Black overlay when chat input is shown - removed, will use full modal overlay */}
+
+          {/* NEW: "이 상품 기반으로 재추천" button (bottom-left) */}
+          {!showChatInput && onReRecommend && (
+            <button
+              onClick={() => {
+                setShowChatInput(true);
+                logButtonClick('이 상품 기반으로 재추천', 'product-modal');
+              }}
+              className="absolute bottom-4 left-4 px-4 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition-all flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              이 상품 기반으로 재추천
+            </button>
+          )}
+
+          {/* Favorite button (bottom-right) */}
+          {!showChatInput && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const wasFavorite = isFavorite(productData.product.id);
+                toggleFavorite(productData.product.id);
+
+                // Log favorite action
+                const action = wasFavorite ? 'removed' : 'added';
+                const newCount = wasFavorite ? count - 1 : count + 1;
+                logFavoriteAction(action, productData.product.id, productData.product.title, newCount);
+                logButtonClick(wasFavorite ? '찜 취소' : '찜하기', 'product-modal');
+
+                // Show toast only when adding to favorites (not removing)
+                if (!wasFavorite) {
+                  setShowToast(true);
+                }
+              }}
+              className="absolute bottom-4 right-4 w-10 h-10 flex items-center justify-center rounded-full transition-all"
+              style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill={isFavorite(productData.product.id) ? '#FF6B6B' : 'none'}
+                stroke={isFavorite(productData.product.id) ? '#FF6B6B' : '#FFFFFF'}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            </button>
           )}
         </div>
 
@@ -222,7 +341,7 @@ export default function ProductDetailModal({ productData, category, onClose }: P
 
         {/* Recommendation Reasoning Container */}
         <div className="px-4 pt-4">
-          <div className="bg-blue-50 rounded-2xl px-4 py-3 flex items-start gap-2">
+          <div className="bg-linear-to-br from-green-50 to-blue-50 rounded-2xl px-4 py-3 flex items-start gap-2">
             <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 24 24">
               <defs>
                 <linearGradient id="ai-gradient-pdp" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -305,20 +424,33 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                   const prosTags = productData.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros');
                   const consTags = productData.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
 
+                  // 점수 계산: 충족=1.0, 부분충족=0.5, 불충족=0.0
+                  const prosScore = prosTags.reduce((sum, tag) => {
+                    if (tag.status === '충족') return sum + 1.0;
+                    if (tag.status === '부분충족') return sum + 0.5;
+                    return sum;
+                  }, 0);
+
+                  // 점수 계산: 회피됨=1.0, 부분회피=0.5, 회피안됨=0.0
+                  const consScore = consTags.reduce((sum, tag) => {
+                    if (tag.status === '회피됨') return sum + 1.0;
+                    if (tag.status === '부분회피') return sum + 0.5;
+                    return sum;
+                  }, 0);
+
                   return (
                     <div>
-                      <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        선택하신 기준을 얼마나 충족할까요?
-                      </h3>
-
+                    
                       <div className="space-y-4">
                         {/* 장점 태그 섹션 */}
                         {prosTags.length > 0 && (
                           <div className="bg-green-50 rounded-xl p-4">
-                            <h4 className="text-sm font-bold text-green-900 mb-3">원하는 장점</h4>
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="text-base font-bold text-green-900 leading-tight">
+                                원하는<br />장점
+                              </h4>
+                              <CircularProgress score={prosScore} total={prosTags.length} color="green" />
+                            </div>
                             <div className="space-y-3">
                               {prosTags.map((tagEval, i) => {
                                 let badgeColor = '';
@@ -367,8 +499,13 @@ export default function ProductDetailModal({ productData, category, onClose }: P
 
                         {/* 단점 태그 섹션 */}
                         {consTags.length > 0 && (
-                          <div className="bg-red-50 rounded-xl p-4">
-                            <h4 className="text-sm font-bold text-red-900 mb-3">원하는 개선점</h4>
+                          <div className="bg-blue-50 rounded-xl p-4">
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="text-base font-bold text-blue-900 leading-tight">
+                                원하는<br />개선점
+                              </h4>
+                              <CircularProgress score={consScore} total={consTags.length} color="blue" />
+                            </div>
                             <div className="space-y-3">
                               {consTags.map((tagEval, i) => {
                                 let badgeColor = '';
@@ -528,7 +665,7 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                 )}
 
                 {/* 다른 제품과의 비교 */}
-                {productData.anchorComparison && productData.anchorComparison.length > 0 && (
+                {productComparisons && productComparisons.length > 0 && (
                   <div className="bg-gray-50 rounded-lg">
                     <button
                       onClick={() => setIsComparisonOpen(!isComparisonOpen)}
@@ -560,16 +697,11 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                         >
                           <div className="px-4 pb-4">
                             <ul className="space-y-2">
-                              {productData.anchorComparison.map((item, i) => (
+                              {productComparisons.map((item, i) => (
                                 <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
                                   <span className="leading-relaxed">
-                                    <TextWithCitations
-                                      text={item.text}
-                                      citations={item.citations || []}
-                                      citedReviews={productData.citedReviews}
-                                      onCitationClick={() => {}}
-                                    />
+                                    {parseMarkdownBold(item.text)}
                                   </span>
                                 </li>
                               ))}
@@ -650,7 +782,7 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                       onClick={() => handleSortChange('rating_desc')}
                       className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                         sortBy === 'rating_desc'
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-gray-900 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                     >
@@ -660,7 +792,7 @@ export default function ProductDetailModal({ productData, category, onClose }: P
                       onClick={() => handleSortChange('rating_asc')}
                       className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                         sortBy === 'rating_asc'
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-gray-900 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                     >
@@ -698,32 +830,115 @@ export default function ProductDetailModal({ productData, category, onClose }: P
         </div>
 
         {/* Floating Action Buttons */}
-        <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 px-4 py-3 z-30">
-          <div className="flex gap-2">
-            <button
-              onClick={() => {
-                logButtonClick('최저가 보기', 'product-modal');
-                window.open(
-                  `https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(productData.product.title)}&sort=priceASC`,
-                  '_blank'
-                );
-              }}
-              className="flex-[4] py-3 font-semibold rounded-lg text-sm transition-colors bg-gray-100 hover:bg-gray-200 text-gray-700"
-            >
-              최저가 보기
-            </button>
-            <button
-              onClick={() => {
-                logButtonClick('쿠팡에서 보기', 'product-modal');
-                window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
-              }}
-              className="flex-[6] py-3 font-semibold rounded-lg text-sm transition-colors bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              쿠팡에서 보기
-            </button>
+        {!showChatInput && (
+          <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 px-4 py-3 z-30">
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  logButtonClick('최저가 보기', 'product-modal');
+                  window.open(
+                    `https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(productData.product.title)}&sort=priceASC`,
+                    '_blank'
+                  );
+                }}
+                className="flex-[4] h-14 font-semibold rounded-2xl text-base transition-colors bg-gray-100 hover:bg-gray-200 text-gray-700"
+              >
+                최저가 보기
+              </button>
+              <button
+                onClick={() => {
+                  logButtonClick('쿠팡에서 보기', 'product-modal');
+                  window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
+                }}
+                className="flex-[6] h-14 font-semibold rounded-2xl text-base transition-colors bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                쿠팡에서 보기
+              </button>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* NEW: Chat Input Bar (keyboard-aware positioning) */}
+        <AnimatePresence>
+          {showChatInput && (
+            <motion.div
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="fixed left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 px-4 py-4 shadow-lg z-[60]"
+              style={{ bottom: 'max(env(safe-area-inset-bottom), 0px)' }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <button
+                  onClick={() => {
+                    setShowChatInput(false);
+                    setChatInput('');
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  disabled={isProcessing}
+                >
+                  <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <div className="text-sm font-semibold text-gray-700 flex-1">
+                  이 제품 기준으로 어떤 제품을 찾고 싶으신가요?
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !isProcessing && chatInput.trim()) {
+                      handleReRecommend();
+                    }
+                  }}
+                  placeholder="예: 더 저렴한 걸로, 조용한 제품으로"
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  autoFocus
+                  disabled={isProcessing}
+                />
+                <button
+                  onClick={handleReRecommend}
+                  disabled={!chatInput.trim() || isProcessing}
+                  className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed text-sm"
+                >
+                  전송
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Toast notification */}
+        <Toast
+          message="메인 홈에서 찜한 상품들을 확인하실 수 있어요!"
+          isVisible={showToast}
+          onClose={() => setShowToast(false)}
+          duration={2000}
+        />
       </motion.div>
     </motion.div>
   );
+
+  // Handler for re-recommendation
+  async function handleReRecommend() {
+    if (!chatInput.trim() || !onReRecommend) return;
+
+    setIsProcessing(true);
+
+    try {
+      // Call parent handler - will close modal and open bottom sheet
+      await onReRecommend(productData.product.id, chatInput);
+      // Parent will handle everything (close modal, open bottom sheet, etc.)
+    } catch (error) {
+      console.error('Re-recommendation failed:', error);
+      alert('추천 실패. 다시 시도해주세요.');
+      setIsProcessing(false);
+    }
+  }
 }

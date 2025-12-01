@@ -17,7 +17,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
       <h3 className="text-base font-semibold text-gray-900 mb-3">내 구매 기준</h3>
 
       {/* 하늘색 컨테이너 */}
-      <div className="bg-blue-50 rounded-xl p-4">
+      <div className="bg-gray-100 rounded-xl p-4">
         {/* 장단점 태그들 */}
         {summary.additionalContext.length > 0 && (
           <div className="mb-3">
@@ -39,7 +39,7 @@ export default function UserContextSummaryComponent({ summary }: UserContextSumm
 
         {/* 예산 */}
         {summary.budget && (
-          <div className={summary.additionalContext.length > 0 ? 'pt-3 border-t border-blue-100' : ''}>
+          <div className={summary.additionalContext.length > 0 ? 'pt-3 border-t border-gray-200' : ''}>
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-gray-700 flex items-center gap-1.5">
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
