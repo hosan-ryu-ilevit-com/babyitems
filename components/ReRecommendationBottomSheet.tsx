@@ -160,21 +160,21 @@ export function ReRecommendationBottomSheet({
             return msg.role === 'component' && msg.componentType === 'summary';
           });
           setMessages(filteredMessages);
-
-          // AI 첫 메시지 추가 (약간의 딜레이 후)
-          setTimeout(() => {
-            const initialMessage: ChatMessage = {
-              id: `initial-${Date.now()}`,
-              role: 'assistant',
-              content: '위 조건으로 추천드렸어요! 추가로 말하고 싶은 게 있으시면 자유롭게 말씀해주세요. 😊',
-            };
-            setMessages((prev) => [...prev, initialMessage]);
-            setTypingMessageId(initialMessage.id);
-          }, 300);
         } catch (e) {
           console.error('Failed to load priority conversation:', e);
         }
       }
+
+      // AI 첫 메시지 추가 (약간의 딜레이 후) - 항상 표시
+      setTimeout(() => {
+        const initialMessage: ChatMessage = {
+          id: `initial-${Date.now()}`,
+          role: 'assistant',
+          content: '입력하신 조건에 맞는 제품을 추천해드렸어요!\n\n조건을 바꿔서 다시 추천 받고 싶으시거나, 제품들에 대해 질문이 있으시면 자유롭게 물어보세요!',
+        };
+        setMessages((prev) => [...prev, initialMessage]);
+        setTypingMessageId(initialMessage.id);
+      }, 300);
     }
   }, [isOpen]);
 
@@ -691,8 +691,10 @@ export function ReRecommendationBottomSheet({
                 </svg>
               </button>
 
-              {/* Reset Button - 우측 (펼쳐진 상태에서만 표시) */}
-              {!isCollapsed && (
+              {/* Reset Button - 우측 (펼쳐진 상태에서만 표시) / Right spacer for centering */}
+              {isCollapsed ? (
+                <div className="w-8"></div>
+              ) : (
                 <button
                   onClick={() => {
                     // 상태 초기화
@@ -859,13 +861,10 @@ export function ReRecommendationBottomSheet({
                 {/* 로딩 중 */}
                 {isLoading && (
                   <div className="w-full flex justify-start">
-                    <div className="px-4 py-3 flex items-center gap-2">
-                      <div className="flex items-center gap-1">
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0s_infinite]"></span>
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0.15s_infinite]"></span>
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0.3s_infinite]"></span>
+                    <div className="px-4 py-3">
+                      <div className="shimmer-text text-base">
+                        생각하는 중...
                       </div>
-                      <span className="text-sm text-gray-500">처리 중...</span>
                     </div>
                   </div>
                 )}

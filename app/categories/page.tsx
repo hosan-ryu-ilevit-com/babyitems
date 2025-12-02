@@ -96,7 +96,7 @@ export default function CategoriesPage() {
     setSelectedCategory(category);
     // 약간의 delay 후 이동 (선택 feedback)
     setTimeout(() => {
-      router.push(`/anchor?category=${category}`);
+      router.push(`/tags?category=${category}`);
     }, 200);
   };
 
@@ -104,17 +104,17 @@ export default function CategoriesPage() {
     <div className="min-h-screen" style={{ backgroundColor: '#F8F9FB' }}>
       <div className="max-w-[480px] mx-auto min-h-screen">
         {/* Top Header with Back Button */}
-        <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
+        <header className="sticky top-0 bg-gray-50 z-50">
           <div className="px-5 py-3">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => router.push('/')}
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                <CaretLeft size={24} weight="bold" />
+                <CaretLeft size={20} weight="bold" />
               </button>
               <div className="absolute left-1/2 -translate-x-1/2">
-                <h1 className="text-lg font-bold text-gray-900">
+                <h1 className="text-m font-semibold text-gray-900">
                   카테고리 선택
                 </h1>
               </div>

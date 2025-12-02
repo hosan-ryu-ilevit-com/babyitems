@@ -39,11 +39,23 @@ export default function DetailedComparisonTable({
   const [isSpecsExpanded, setIsSpecsExpanded] = useState(false); // 상세 스펙 펼치기/접기 상태
 
   // Tag-based flow: 4개 제품 (앵커 + 추천 3개), Normal flow: 추천 3개
+  // 단, 앵커 제품이 Top 3에 포함된 경우 앵커를 숨김 (중복 방지)
   // useMemo로 메모이제이션하여 무한 루프 방지
   const displayProducts = useMemo(() => {
     if (isTagBasedFlow && anchorProduct) {
       const anchorId = String(anchorProduct.productId);
-      // 앵커 제품을 Recommendation 형식으로 변환
+
+      // 앵커 제품이 Top 3에 포함되어 있는지 확인
+      const isAnchorInTop3 = recommendations.some(rec => rec.product.id === anchorId);
+
+      if (isAnchorInTop3) {
+        // 앵커가 Top 3에 포함됨 → 앵커를 숨기고 추천 제품만 표시
+        console.log('🎯 Anchor product is in Top 3 - hiding anchor in comparison selector');
+        return recommendations.slice(0, 3);
+      }
+
+      // 앵커가 Top 3에 없음 → 기존 로직 (앵커 + 추천 3개)
+      console.log('📌 Anchor product not in Top 3 - showing anchor as reference');
       const anchorRec: Recommendation = {
         product: {
           id: anchorId,
@@ -191,7 +203,7 @@ export default function DetailedComparisonTable({
         <h3 className="text-sm font-bold text-gray-900 mb-3">
           상품 2개 선택
         </h3>
-        <div className={`grid gap-3 ${isTagBasedFlow ? 'grid-cols-4' : 'grid-cols-3'}`}>
+        <div className={`grid gap-3 ${displayProducts.length >= 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {displayProducts.map((rec) => {
             const isSelected = selectedProductIds.includes(rec.product.id);
             const isAnchor = rec.reasoning === '비교 기준 제품';

@@ -623,6 +623,9 @@ export default function ResultPage() {
               setTargetProgress(100);
               setDisplayedProgress(100); // 완료 시 즉시 100%로
 
+              // 재추천 바텀시트 채팅 내역 초기화 (새로운 추천 세션 시작)
+              sessionStorage.removeItem('rerecommendation_state');
+
               // 100% 표시를 사용자가 볼 수 있도록 0.5초 대기 후 로딩 해제
               setTimeout(() => {
                 setLoading(false);
@@ -726,11 +729,6 @@ export default function ResultPage() {
 
         // Convert v2 recommendations - 쓸모없는 변환 제거, API 데이터 그대로 전달
         const convertedRecommendations: Recommendation[] = data.recommendations.map((rec: any, index: number) => {
-          // Calculate average rating from cited reviews
-          const averageRating = rec.citedReviews && rec.citedReviews.length > 0
-            ? rec.citedReviews.reduce((sum: number, review: any) => sum + review.rating, 0) / rec.citedReviews.length
-            : 0;
-
           return {
             product: {
               id: String(rec.productId),
@@ -740,7 +738,7 @@ export default function ResultPage() {
               reviewUrl: rec.썸네일 || '',
               thumbnail: rec.썸네일 || '',
               reviewCount: rec.reviewCount || 0,
-              averageRating: Math.round(averageRating * 10) / 10,
+              averageRating: rec.averageRating || 0, // From API response (same as PDP modal logic)
               ranking: rec.순위 || (index + 1),
               category: category as ProductCategory, // Add category from URL param
               coreValues: {
@@ -793,6 +791,9 @@ export default function ResultPage() {
         session.budget = selections.budget;
         saveSession(session);
         console.log('💾 Saved tag-based recommendations to session cache');
+
+        // 재추천 바텀시트 채팅 내역 초기화 (새로운 추천 세션 시작)
+        sessionStorage.removeItem('rerecommendation_state');
 
         // 단계 7: 92% → 100% (완료)
         await new Promise(resolve => setTimeout(resolve, 400));
@@ -1321,11 +1322,11 @@ export default function ResultPage() {
                           <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
                             {/* 브랜드 */}
                             {rec.product.brand && (
-                              <div className="text-xs text-gray-500 font-medium mb-0.5">
+                              <div className="text-sm text-gray-500 font-medium mb-0.5">
                                 {rec.product.brand}
                               </div>
                             )}
-                            <h3 className="font-bold text-gray-900 text-base mb-1 leading-tight">
+                            <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight">
                               {rec.product.title}
                             </h3>
                             <div className="space-y-1">
@@ -1335,28 +1336,20 @@ export default function ResultPage() {
                               {/* 별점 평균 + 리뷰수 + 원형 프로그레스바 */}
                               <div className="flex items-center justify-between gap-2">
                                 {/* 별점 평균 + 리뷰수 */}
-                                <div className="flex items-center gap-1.5">
+                                <div className="flex items-center gap-0.5">
                                   <svg
-                                    className="w-3 h-3 text-yellow-400"
+                                    className="w-4 h-4 text-yellow-400"
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                   >
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                   </svg>
-                                  {rec.product.averageRating && rec.product.averageRating > 0 ? (
-                                    <>
-                                      <span className="text-xs font-semibold text-gray-900">
-                                        {rec.product.averageRating.toFixed(1)}
-                                      </span>
-                                      <span className="text-xs text-gray-500">
-                                        ({rec.product.reviewCount.toLocaleString()})
-                                      </span>
-                                    </>
-                                  ) : (
-                                    <span className="text-xs text-gray-500">
-                                      ({rec.product.reviewCount.toLocaleString()})
-                                    </span>
-                                  )}
+                                  <span className="text-sm font-semibold text-gray-900">
+                                    {(rec.product.averageRating ?? 0) > 0 ? rec.product.averageRating!.toFixed(1) : '—'}
+                                  </span>
+                                  <span className="text-sm text-gray-500">
+                                    ({rec.product.reviewCount.toLocaleString()})
+                                  </span>
                                 </div>
 
                                 {/* 원형 프로그레스바 */}
@@ -1569,10 +1562,8 @@ export default function ResultPage() {
                     {isLoadingMessage && (
                       <div className="w-full flex justify-start">
                         <div className="px-4 py-3">
-                          <div className="flex items-center gap-1">
-                            <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0s_infinite]"></span>
-                            <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0.15s_infinite]"></span>
-                            <span className="w-2 h-2 bg-gray-400 rounded-full animate-[bounce_1s_ease-in-out_0.3s_infinite]"></span>
+                          <div className="shimmer-text text-base">
+                            생각하는 중...
                           </div>
                         </div>
                       </div>

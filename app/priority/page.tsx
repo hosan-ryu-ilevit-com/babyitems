@@ -1505,11 +1505,7 @@ function PriorityPageContent() {
                       className="w-full"
                     >
                       <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-3 ${currentStep >= 5 ? 'opacity-50 pointer-events-none' : ''}`}>
-                        <div className="flex items-center gap-2 mb-4">
-                          <span className="text-xl">💰</span>
-                          <h3 className="text-sm font-bold text-gray-900">예산</h3>
-                        </div>
-
+               
                         {/* 2x2 Grid for budget buttons */}
                         <div className="grid grid-cols-2 gap-2 mb-3">
                           <button

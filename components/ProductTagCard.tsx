@@ -76,12 +76,12 @@ export default function ProductTagCard({
         <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
           {/* 브랜드 */}
           {product.brand && (
-            <div className="text-xs text-gray-500 font-medium mb-0.5">
+            <div className="text-sm text-gray-500 font-medium mb-0.5">
               {product.brand}
             </div>
           )}
           {/* 제품명 */}
-          <h4 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight">
+          <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight">
             {product.title}
           </h4>
           {/* 가격 & 리뷰수 */}
@@ -90,8 +90,8 @@ export default function ProductTagCard({
               {product.price.toLocaleString()}<span className="text-sm">원</span>
             </p>
             {product.reviewCount > 0 && (
-              <div className="flex items-center gap-1 text-xs text-gray-600">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
+              <div className="flex items-center gap-0.5 text-sm text-gray-600">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                 </svg>
                 <span className="font-medium">리뷰 {product.reviewCount.toLocaleString()}</span>

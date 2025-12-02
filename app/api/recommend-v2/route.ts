@@ -63,6 +63,7 @@ interface ProductEvaluation {
   cons: Array<{ text: string; citations: number[] }>;
   purchaseTip: Array<{ text: string; citations?: number[] }>;
   reviewCount: number;
+  averageRating: number; // Average rating from all reviews
   citedReviews: Array<{ index: number; text: string; rating: number }>;
 }
 
@@ -102,9 +103,14 @@ async function evaluateProduct(
         cons: [],
         purchaseTip: [],
         reviewCount: 0,
+        averageRating: 0,
         citedReviews: [],
       };
     }
+
+    // Calculate average rating from all reviews (same as PDP modal)
+    const totalRating = allReviews.reduce((sum, review) => sum + review.custom_metadata.rating, 0);
+    const averageRating = Math.round((totalRating / allReviews.length) * 10) / 10;
 
     // Sample 10 high + 10 low reviews (optimized for speed)
     const { high, low } = sampleBalancedBySentiment(allReviews, 10, 10);
@@ -414,6 +420,7 @@ ${formatReviewsForLLM(low, 40000)}
       cons: evaluation.cons,
       purchaseTip: evaluation.purchaseTip,
       reviewCount: allReviews.length,
+      averageRating, // Average rating from all reviews
       citedReviews: [], // Citations removed - natural language evidence used instead
     };
   } catch (error) {
@@ -427,6 +434,7 @@ ${formatReviewsForLLM(low, 40000)}
       cons: [],
       purchaseTip: [],
       reviewCount: 0,
+      averageRating: 0,
       citedReviews: [],
     };
   }
@@ -587,14 +595,42 @@ export async function generateRecommendations(
     const avgEvalTime = individualEvalTimes.reduce((a, b) => a + b, 0) / individualEvalTimes.length;
     console.log(`   ⏱️  Step 3-1 total: ${step3Time}ms (avg per product: ${Math.round(avgEvalTime)}ms)`);
 
-    // Sort by fitScore and take top 3
-    evaluations.sort((a, b) => b.fitScore - a.fitScore);
+    // Calculate tag fulfillment score for each product
+    const calculateTagFulfillmentScore = (evaluation: ProductEvaluation): number => {
+      const prosTags = evaluation.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros');
+      const consTags = evaluation.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
+
+      // 장점 점수: 충족=1.0, 부분충족=0.5, 불충족=0.0
+      const prosScore = prosTags.reduce((sum, tag) => {
+        if (tag.status === '충족') return sum + 1.0;
+        if (tag.status === '부분충족') return sum + 0.5;
+        return sum;
+      }, 0);
+
+      // 단점 점수: 개선됨=1.0, 부분개선=0.5, 회피안됨=0.0
+      const consScore = consTags.reduce((sum, tag) => {
+        if (tag.status === '개선됨') return sum + 1.0;
+        if (tag.status === '부분개선') return sum + 0.5;
+        return sum;
+      }, 0);
+
+      // 총 충족도 점수 (장점 + 단점)
+      return prosScore + consScore;
+    };
+
+    // Sort by tag fulfillment score (NOT fitScore) and take top 3
+    evaluations.sort((a, b) => {
+      const scoreA = calculateTagFulfillmentScore(a);
+      const scoreB = calculateTagFulfillmentScore(b);
+      return scoreB - scoreA;
+    });
     const top3 = evaluations.slice(0, 3);
 
-    console.log(`\n🏆 Top 3 recommendations:`);
+    console.log(`\n🏆 Top 3 recommendations (sorted by tag fulfillment score):`);
     top3.forEach((e, i) => {
+      const fulfillmentScore = calculateTagFulfillmentScore(e);
       console.log(`   ${i + 1}. ${e.product.브랜드} ${e.product.모델명}`);
-      console.log(`      Fit Score: ${e.fitScore} | Reviews: ${e.reviewCount}`);
+      console.log(`      Tag Fulfillment Score: ${fulfillmentScore.toFixed(1)} | Fit Score: ${e.fitScore} | Reviews: ${e.reviewCount}`);
       console.log(`      ${e.reasoning}`);
     });
 
@@ -637,6 +673,7 @@ export async function generateRecommendations(
         cons: e.cons,
         purchaseTip: e.purchaseTip,
         reviewCount: e.reviewCount,
+        averageRating: e.averageRating, // Include average rating in response
         citedReviews: e.citedReviews,
       })),
       // comparativeAnalysis removed - now loaded lazily via /api/comparative-analysis

@@ -123,7 +123,9 @@ async function main() {
     'baby_monitor',
     'baby_play_mat',
     'nasal_aspirator',
-    'thermometer'
+    'thermometer',
+    'car_seat',           // ✅ 추가
+    'milk_powder_port'    // ✅ 추가
   ];
   const results: Record<Category, CategoryAttribute[]> = {} as any;
 
