@@ -666,7 +666,7 @@ function TagsPageContent() {
           {
             id: initialMessageId,
             role: 'assistant',
-            content: `${CATEGORY_NAMES[category]} 판매 1위 제품의\n리뷰를 분석하고 있어요...`,
+            content: `${CATEGORY_NAMES[category]} 판매 1위 제품의 리뷰를 분석하고 있어요.\n잠시만 기다려주세요...`,
             typing: true,
           },
         ];
@@ -819,12 +819,7 @@ function TagsPageContent() {
                         }`}
                       >
                         {message.typing && message.content.includes('분석하고 있어요')
-                          ? (
-                            <div className="flex items-end gap-2">
-                              <span>{message.content}</span>
-                              <div className="inline-block w-3.5 h-3.5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin shrink-0"></div>
-                            </div>
-                          )
+                          ? message.content
                           : formatMarkdown(message.content)}
                       </div>
                     </div>
