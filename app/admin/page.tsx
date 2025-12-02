@@ -458,6 +458,22 @@ export default function AdminPage() {
 
   // 추천받은 상품 표시 (Main Flow + V2 Flow 모두 지원)
   const renderRecommendedProducts = (session: SessionSummary) => {
+    // 디버깅: recommendation_received 이벤트 확인
+    const allRecEvents = session.events.filter(e => e.eventType === 'recommendation_received');
+    if (allRecEvents.length > 0) {
+      console.log('🔍 Session has recommendation_received events:', {
+        sessionId: session.sessionId.slice(0, 8),
+        count: allRecEvents.length,
+        firstEvent: {
+          hasRecommendations: !!allRecEvents[0].recommendations,
+          hasFullReport: !!allRecEvents[0].recommendations?.fullReport,
+          hasArray: !!allRecEvents[0].recommendations?.fullReport?.recommendations,
+          arrayLength: allRecEvents[0].recommendations?.fullReport?.recommendations?.length,
+          fullStructure: JSON.stringify(allRecEvents[0].recommendations, null, 2)
+        }
+      });
+    }
+
     // Main Flow: recommendation_received 이벤트 찾기
     const mainFlowEvent = session.events.find(
       event => event.eventType === 'recommendation_received' && event.recommendations?.fullReport?.recommendations

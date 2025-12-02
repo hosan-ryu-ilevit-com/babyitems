@@ -70,8 +70,8 @@ function groupBySession(logs: DailyLog[]): SessionSummary[] {
         }
       }
 
-      // result 페이지 도달 여부 추적
-      if (event.eventType === 'recommendation_received') {
+      // result 페이지 도달 여부 추적 (recommendation_received 또는 result_v2_received)
+      if (event.eventType === 'recommendation_received' || event.eventType === 'result_v2_received') {
         session.completed = true;
       }
     }
