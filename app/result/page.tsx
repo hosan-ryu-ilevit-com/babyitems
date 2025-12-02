@@ -1245,7 +1245,7 @@ export default function ResultPage() {
                         <motion.div
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="py-3 px-3 mb-0"
+                          className="py-3 px-2 mb-0"
                         >
                           <div className="flex items-center gap-5">
                             <div className="flex items-center gap-1">
@@ -1276,10 +1276,10 @@ export default function ResultPage() {
                           setSelectedProductForModal(rec);
                           window.history.pushState({}, '', `/product/${rec.product.id}`);
                         }}
-                        className="relative bg-white py-5 px-2 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="relative bg-white py-4 px-1 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
                       >
                         {/* 클릭 어포던스 - 우상단 chevron */}
-                        <div className="absolute top-4 right-3 text-gray-400">
+                        <div className="absolute top-4 right-3 text-gray-500">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                           </svg>
@@ -1322,19 +1322,20 @@ export default function ResultPage() {
                           <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
                             {/* 브랜드 */}
                             {rec.product.brand && (
-                              <div className="text-sm text-gray-500 font-medium mb-0.5">
+                              <div className="text-sm text-gray-500 font-medium mb-0">
                                 {rec.product.brand}
                               </div>
                             )}
-                            <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight">
+                            <h3 className="font-semibold text-gray-900 text-base mb-2 leading-tight">
                               {rec.product.title}
                             </h3>
-                            <div className="space-y-1">
-                              <p className="text-base font-bold text-gray-900">
-                                {rec.product.price.toLocaleString()}<span className="text-sm">원</span>
-                              </p>
-                              {/* 별점 평균 + 리뷰수 + 원형 프로그레스바 */}
-                              <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-start justify-between gap-2">
+                              {/* 왼쪽 컬럼: 가격 + 별점 */}
+                              <div className="space-y-1">
+                                <p className="text-lg font-bold text-gray-900">
+                                  {rec.product.price.toLocaleString()}<span className="text-sm">원</span>
+                                </p>
+
                                 {/* 별점 평균 + 리뷰수 */}
                                 <div className="flex items-center gap-0.5">
                                   <svg
@@ -1351,41 +1352,41 @@ export default function ResultPage() {
                                     ({rec.product.reviewCount.toLocaleString()})
                                   </span>
                                 </div>
-
-                                {/* 원형 프로그레스바 */}
-                                {rec.selectedTagsEvaluation && rec.selectedTagsEvaluation.length > 0 && (() => {
-                                  const prosTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros');
-                                  const consTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
-
-                                  // 점수 계산: 충족=1.0, 부분충족=0.5, 불충족=0.0
-                                  const prosScore = prosTags.reduce((sum, tag) => {
-                                    if (tag.status === '충족') return sum + 1.0;
-                                    if (tag.status === '부분충족') return sum + 0.5;
-                                    return sum;
-                                  }, 0);
-
-                                  // 점수 계산: 개선됨=1.0, 부분개선=0.5, 회피안됨=0.0
-                                  const consScore = consTags.reduce((sum, tag) => {
-                                    if (tag.status === '개선됨') return sum + 1.0;
-                                    if (tag.status === '부분개선') return sum + 0.5;
-                                    return sum;
-                                  }, 0);
-
-                                  const prosTotal = prosTags.length;
-                                  const consTotal = consTags.length;
-
-                                  return (
-                                    <div className="flex items-center gap-2">
-                                      {prosTags.length > 0 && (
-                                        <CircularProgress score={prosScore} total={prosTotal} color="green" />
-                                      )}
-                                      {consTags.length > 0 && (
-                                        <CircularProgress score={consScore} total={consTotal} color="blue" />
-                                      )}
-                                    </div>
-                                  );
-                                })()}
                               </div>
+
+                              {/* 오른쪽: 원형 프로그레스바 */}
+                              {rec.selectedTagsEvaluation && rec.selectedTagsEvaluation.length > 0 && (() => {
+                                const prosTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros');
+                                const consTags = rec.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
+
+                                // 점수 계산: 충족=1.0, 부분충족=0.5, 불충족=0.0
+                                const prosScore = prosTags.reduce((sum, tag) => {
+                                  if (tag.status === '충족') return sum + 1.0;
+                                  if (tag.status === '부분충족') return sum + 0.5;
+                                  return sum;
+                                }, 0);
+
+                                // 점수 계산: 개선됨=1.0, 부분개선=0.5, 회피안됨=0.0
+                                const consScore = consTags.reduce((sum, tag) => {
+                                  if (tag.status === '개선됨') return sum + 1.0;
+                                  if (tag.status === '부분개선') return sum + 0.5;
+                                  return sum;
+                                }, 0);
+
+                                const prosTotal = prosTags.length;
+                                const consTotal = consTags.length;
+
+                                return (
+                                  <div className="flex items-center gap-2">
+                                    {prosTags.length > 0 && (
+                                      <CircularProgress score={prosScore} total={prosTotal} color="green" />
+                                    )}
+                                    {consTags.length > 0 && (
+                                      <CircularProgress score={consScore} total={consTotal} color="blue" />
+                                    )}
+                                  </div>
+                                );
+                              })()}
                             </div>
                           </div>
                         </div>
