@@ -326,7 +326,7 @@ export function ReRecommendationBottomSheet({
                       }
 
                       if (data.type === 'recommendations') {
-                        const { recommendations: newRecs, updatedSession } = data.data;
+                        const { recommendations: newRecs, updatedSession, contextSummary } = data.data;
 
                         // Update session
                         const updatedSessionData = loadSession();
@@ -335,108 +335,36 @@ export function ReRecommendationBottomSheet({
                         if (updatedSession.selectedConsTags) updatedSessionData.selectedConsTags = updatedSession.selectedConsTags;
                         if (updatedSession.budget) updatedSessionData.budget = updatedSession.budget;
                         if (updatedSession.anchorProduct) updatedSessionData.anchorProduct = updatedSession.anchorProduct;
+                        if (contextSummary) updatedSessionData.contextSummary = contextSummary;
                         saveSession(updatedSessionData);
 
-                        // Update Result page
+                        // Update Result page (가장 중요 - 새 추천 상품 표시)
                         onNewRecommendations(newRecs);
+                        if (contextSummary && onContextSummaryUpdate) {
+                          onContextSummaryUpdate(contextSummary);
+                        }
 
                         // Log
                         const oldIds = currentRecommendations.map(r => r.product.id);
                         const newIds = newRecs.map((r: Recommendation) => r.product.id);
                         logReRecommendation(pdpInput.userInput, newIds, oldIds);
 
-                        // Analyze changes
-                        const added = newIds.filter((id: string) => !oldIds.includes(id));
-                        const removed = oldIds.filter((id: string) => !newIds.includes(id));
+                        // 간단한 완료 메시지
+                        const completionMessage: ChatMessage = {
+                          id: `completion-${Date.now()}`,
+                          role: 'assistant',
+                          content: '재추천이 완료되었습니다! 새로운 추천 상품을 확인해보세요.',
+                        };
+                        setMessages((prev) => [...prev, completionMessage]);
+                        setTypingMessageId(completionMessage.id);
 
-                        // Add summary and recommendation messages
-                        setTimeout(async () => {
-                          try {
-                            const summaryResponse = await fetch('/api/chat', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({
-                                action: 'update_priority_summary',
-                                previousSummary: previousContextSummary,
-                                userInputs: [pdpInput.userInput],
-                                prioritySettings: updatedSessionData.prioritySettings,
-                                budget: updatedSessionData.budget,
-                              }),
-                            });
-
-                            if (!summaryResponse.ok) throw new Error('Summary update failed');
-
-                            const { summary } = await summaryResponse.json();
-
-                            const newSummaryMessage: ChatMessage = {
-                              id: `summary-${Date.now()}`,
-                              role: 'component',
-                              componentType: 'summary',
-                              content: summary,
-                            };
-
-                            setMessages((prev) => [...prev, newSummaryMessage]);
-
-                            setTimeout(() => {
-                              const recommendationMessage: ChatMessage = {
-                                id: `recommendations-${Date.now()}`,
-                                role: 'component',
-                                componentType: 'recommendations',
-                                content: JSON.stringify({
-                                  recommendations: newRecs,
-                                  changes: {
-                                    added,
-                                    removed,
-                                    unchanged: newRecs
-                                      .filter((r: Recommendation) => !added.includes(r.product.id))
-                                      .map((r: Recommendation) => r.product.id)
-                                  }
-                                }),
-                              };
-                              setMessages((prev) => [...prev, recommendationMessage]);
-
-                              setTimeout(() => {
-                                setIsLoading(false);
-                              }, 100);
-                            }, 300);
-
-                          } catch (error) {
-                            console.error('Summary update failed:', error);
-                            const fallbackSummary = `${previousContextSummary}\n\n**추가 요청**\n- ${pdpInput.userInput}`;
-
-                            const newSummaryMessage: ChatMessage = {
-                              id: `summary-${Date.now()}`,
-                              role: 'component',
-                              componentType: 'summary',
-                              content: fallbackSummary,
-                            };
-
-                            setMessages((prev) => [...prev, newSummaryMessage]);
-
-                            setTimeout(() => {
-                              const recommendationMessage: ChatMessage = {
-                                id: `recommendations-${Date.now()}`,
-                                role: 'component',
-                                componentType: 'recommendations',
-                                content: JSON.stringify({
-                                  recommendations: newRecs,
-                                  changes: {
-                                    added,
-                                    removed,
-                                    unchanged: newRecs
-                                      .filter((r: Recommendation) => !added.includes(r.product.id))
-                                      .map((r: Recommendation) => r.product.id)
-                                  }
-                                }),
-                              };
-                              setMessages((prev) => [...prev, recommendationMessage]);
-
-                              setTimeout(() => {
-                                setIsLoading(false);
-                              }, 100);
-                            }, 300);
-                          }
-                        }, 300);
+                        // 바텀시트 접기 (collapse)
+                        setTimeout(() => {
+                          setIsLoading(false);
+                          setTimeout(() => {
+                            setIsCollapsed(true); // 바텀시트 접기
+                          }, 1000);
+                        }, 500);
 
                         logButtonClick('재추천 완료', 'result');
                       }
@@ -619,7 +547,7 @@ export function ReRecommendationBottomSheet({
 
               if (data.type === 'recommendations') {
                 // New recommendations received!
-                const { recommendations: newRecs, updatedSession } = data.data;
+                const { recommendations: newRecs, updatedSession, contextSummary } = data.data;
 
                 // 세션 업데이트
                 const updatedSessionData = loadSession();
@@ -628,132 +556,36 @@ export function ReRecommendationBottomSheet({
                 if (updatedSession.selectedConsTags) updatedSessionData.selectedConsTags = updatedSession.selectedConsTags;
                 if (updatedSession.budget) updatedSessionData.budget = updatedSession.budget;
                 if (updatedSession.anchorProduct) updatedSessionData.anchorProduct = updatedSession.anchorProduct;
+                if (contextSummary) updatedSessionData.contextSummary = contextSummary;
                 saveSession(updatedSessionData);
 
-                // Result 페이지 업데이트
+                // Result 페이지 업데이트 (가장 중요 - 새 추천 상품 표시)
                 onNewRecommendations(newRecs);
+                if (contextSummary && onContextSummaryUpdate) {
+                  onContextSummaryUpdate(contextSummary);
+                }
 
                 // 로깅: 재추천 결과
                 const oldIds = currentRecommendations.map(r => r.product.id);
                 const newIds = newRecs.map((r: Recommendation) => r.product.id);
                 logReRecommendation(userInput, newIds, oldIds);
 
-                // 변경사항 분석
-                const added = newIds.filter((id: string) => !oldIds.includes(id));
-                const removed = oldIds.filter((id: string) => !newIds.includes(id));
+                // 간단한 완료 메시지
+                const completionMessage: ChatMessage = {
+                  id: `completion-${Date.now()}`,
+                  role: 'assistant',
+                  content: '재추천이 완료되었습니다! 새로운 추천 상품을 확인해보세요.',
+                };
+                setMessages((prev) => [...prev, completionMessage]);
+                setTypingMessageId(completionMessage.id);
 
-                const addedProducts = newRecs.filter((r: Recommendation) =>
-                  added.includes(r.product.id)
-                );
-                const removedProducts = currentRecommendations.filter(r =>
-                  removed.includes(r.product.id)
-                );
-
-                let changeType: 'all' | 'partial' | 'none';
-                if (addedProducts.length === 3) {
-                  changeType = 'all';
-                } else if (addedProducts.length > 0 || removedProducts.length > 0) {
-                  changeType = 'partial';
-                } else {
-                  changeType = 'none';
-                }
-
-                // Summary 컨테이너 + 추천 컨테이너 추가
-                setTimeout(async () => {
-                  try {
-                    const allInputsList = [...allUserInputs, userInput].filter(Boolean);
-
-                    // API 호출: update_priority_summary
-                    const summaryResponse = await fetch('/api/chat', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        action: 'update_priority_summary',
-                        previousSummary: previousContextSummary,
-                        userInputs: allInputsList,
-                        prioritySettings: updatedSessionData.prioritySettings,
-                        budget: updatedSessionData.budget,
-                      }),
-                    });
-
-                    if (!summaryResponse.ok) {
-                      throw new Error('Summary 업데이트 실패');
-                    }
-
-                    const { summary } = await summaryResponse.json();
-
-                    const newSummaryMessage: ChatMessage = {
-                      id: `summary-${Date.now()}`,
-                      role: 'component',
-                      componentType: 'summary',
-                      content: summary,
-                    };
-
-                    setMessages((prev) => [...prev, newSummaryMessage]);
-
-                    // 추천 컨테이너 추가
-                    setTimeout(() => {
-                      const recommendationMessage: ChatMessage = {
-                        id: `recommendations-${Date.now()}`,
-                        role: 'component',
-                        componentType: 'recommendations',
-                        content: JSON.stringify({
-                          recommendations: newRecs,
-                          changes: {
-                            added,
-                            removed,
-                            unchanged: newRecs
-                              .filter((r: Recommendation) => !added.includes(r.product.id))
-                              .map((r: Recommendation) => r.product.id)
-                          }
-                        }),
-                      };
-                      setMessages((prev) => [...prev, recommendationMessage]);
-
-                      setTimeout(() => {
-                        setIsLoading(false);
-                      }, 100);
-                    }, 300);
-
-                  } catch (error) {
-                    console.error('❌ Summary 업데이트 실패:', error);
-                    // Fallback: 간단한 Summary
-                    const allInputsList = [...allUserInputs, userInput].filter(Boolean);
-                    const fallbackSummary = `${previousContextSummary}\n\n**추가 요청**\n${allInputsList.map(input => `- ${input}`).join('\n')}`;
-
-                    const newSummaryMessage: ChatMessage = {
-                      id: `summary-${Date.now()}`,
-                      role: 'component',
-                      componentType: 'summary',
-                      content: fallbackSummary,
-                    };
-
-                    setMessages((prev) => [...prev, newSummaryMessage]);
-
-                    setTimeout(() => {
-                      const recommendationMessage: ChatMessage = {
-                        id: `recommendations-${Date.now()}`,
-                        role: 'component',
-                        componentType: 'recommendations',
-                        content: JSON.stringify({
-                          recommendations: newRecs,
-                          changes: {
-                            added,
-                            removed,
-                            unchanged: newRecs
-                              .filter((r: Recommendation) => !added.includes(r.product.id))
-                              .map((r: Recommendation) => r.product.id)
-                          }
-                        }),
-                      };
-                      setMessages((prev) => [...prev, recommendationMessage]);
-
-                      setTimeout(() => {
-                        setIsLoading(false);
-                      }, 100);
-                    }, 300);
-                  }
-                }, 300);
+                // 바텀시트 접기 (collapse)
+                setTimeout(() => {
+                  setIsLoading(false);
+                  setTimeout(() => {
+                    setIsCollapsed(true); // 바텀시트 접기
+                  }, 1000);
+                }, 500);
 
                 logButtonClick('재추천 완료', 'result');
               }

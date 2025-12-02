@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { loadSession, saveSession, clearSession } from '@/lib/utils/session';
-import { Recommendation, UserContextSummary } from '@/types';
+import { Recommendation, UserContextSummary, ProductCategory } from '@/types';
 import UserContextSummaryComponent from '@/components/UserContextSummary';
 // import ComparisonTable from '@/components/ComparisonTable';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
@@ -741,6 +741,18 @@ export default function ResultPage() {
               thumbnail: rec.썸네일 || '',
               reviewCount: rec.reviewCount || 0,
               averageRating: Math.round(averageRating * 10) / 10,
+              ranking: rec.순위 || (index + 1),
+              category: category as ProductCategory, // Add category from URL param
+              coreValues: {
+                temperatureControl: 0,
+                hygiene: 0,
+                material: 0,
+                usability: 0,
+                portability: 0,
+                priceValue: 0,
+                durability: 0,
+                additionalFeatures: 0,
+              },
             },
             rank: (index + 1) as 1 | 2 | 3,
             finalScore: rec.fitScore,
@@ -775,8 +787,9 @@ export default function ResultPage() {
         session.recommendations = convertedRecommendations;
         session.anchorProduct = data.anchorProduct;
         session.contextSummary = data.contextSummary;
-        session.selectedProsTags = selections.selectedPros.map((tag: { id: string }) => tag.id);
-        session.selectedConsTags = selections.selectedCons.map((tag: { id: string }) => tag.id);
+        // Save full tag objects (not just IDs) to preserve attributes for re-filtering
+        session.selectedProsTags = selections.selectedPros;
+        session.selectedConsTags = selections.selectedCons;
         session.budget = selections.budget;
         saveSession(session);
         console.log('💾 Saved tag-based recommendations to session cache');

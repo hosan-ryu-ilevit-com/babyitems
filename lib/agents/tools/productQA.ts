@@ -9,6 +9,7 @@ import type { Intent, AgentContext } from '../types';
 import { getReviewsForProduct, sampleBalancedBySentiment, formatReviewsForLLM } from '@/lib/review';
 import { getProductSpec } from '@/lib/data/specLoader';
 import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
+import { detectCategoryFromContext } from '../utils/contextHelpers';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) throw new Error('GEMINI_API_KEY is required');
@@ -35,6 +36,9 @@ export async function executeProductQA(
   try {
     console.log(`\n💬 PRODUCT_QA: Starting...`);
 
+    // Detect category from context
+    const category = detectCategoryFromContext(context);
+
     const { productRank, question } = intent.args || {};
 
     if (!productRank || !question) {
@@ -57,7 +61,7 @@ export async function executeProductQA(
     console.log(`   Question: "${question}"`);
 
     // Load full product specs
-    const fullProductSpec = await getProductSpec('milk_powder_port', String(product.product.id));
+    const fullProductSpec = await getProductSpec(category, String(product.product.id));
 
     if (!fullProductSpec) {
       console.warn(`   ⚠️ Could not load full specs for product ${product.product.id}`);
@@ -66,12 +70,12 @@ export async function executeProductQA(
     }
 
     // Load reviews for this product (limit to 15 high + 15 low for performance)
-    const allReviews = await getReviewsForProduct('milk_powder_port', String(product.product.id));
+    const allReviews = await getReviewsForProduct(category, String(product.product.id));
 
     if (allReviews.length === 0) {
       // Even without reviews, we can answer based on specs
       if (fullProductSpec) {
-        const productContext = buildProductContext(product, fullProductSpec);
+        const productContext = buildProductContext(product, fullProductSpec, category);
 
         const prompt = `
 You are a helpful product assistant. Answer the user's question about this specific product based on the provided specs.
@@ -122,7 +126,7 @@ Answer:`;
     console.log(`   Loaded ${sampledReviews.length} reviews (${high.length} high + ${low.length} low)`);
 
     // Build context with full specs
-    const productContext = buildProductContext(product, fullProductSpec);
+    const productContext = buildProductContext(product, fullProductSpec, category);
     const reviewContext = formatReviewsForLLM(sampledReviews, 30000);
 
     // Generate answer using Gemini
@@ -185,7 +189,7 @@ Answer:`;
 /**
  * Build product context summary with full specs
  */
-function buildProductContext(recommendation: any, fullProductSpec?: any): string {
+function buildProductContext(recommendation: any, fullProductSpec: any | undefined, category: string): string {
   const product = recommendation.product;
 
   let context = `**${product.title}**\n`;
@@ -211,9 +215,9 @@ function buildProductContext(recommendation: any, fullProductSpec?: any): string
     });
     context += `\n`;
 
-    // Attribute scores with Korean names
+    // Attribute scores with Korean names (use dynamic category)
     if (fullProductSpec.attributeScores && Object.keys(fullProductSpec.attributeScores).length > 0) {
-      const categoryAttributes = CATEGORY_ATTRIBUTES['milk_powder_port'] || [];
+      const categoryAttributes = CATEGORY_ATTRIBUTES[category as keyof typeof CATEGORY_ATTRIBUTES] || [];
       context += `**속성 평가 (리뷰 기반):**\n`;
       Object.entries(fullProductSpec.attributeScores).forEach(([attrKey, score]) => {
         const attrInfo = categoryAttributes.find(a => a.key === attrKey);

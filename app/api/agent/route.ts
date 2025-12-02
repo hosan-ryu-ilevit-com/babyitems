@@ -72,6 +72,14 @@ export async function POST(req: NextRequest) {
             const result = await executeRefilterWithAnchor(intent, context);
 
             if (!result.success) {
+              // Check if it's a budget clarification request
+              if (result.error === 'Budget clarification needed') {
+                sendSSE('clarification', result.message || '예산을 구체적으로 알려주세요. (예: 7만원, 10만원 이하)');
+                sendSSE('done', {});
+                controller.close();
+                return;
+              }
+
               sendSSE('error', result.error || 'Failed to refilter');
               sendSSE('done', {});
               controller.close();
@@ -86,6 +94,7 @@ export async function POST(req: NextRequest) {
               sendSSE('recommendations', {
                 recommendations: result.recommendations,
                 updatedSession: result.updatedSession,
+                contextSummary: result.contextSummary,
               });
             }
 
@@ -109,6 +118,14 @@ export async function POST(req: NextRequest) {
             const result = await executeRefilterWithAnchor(intent, context);
 
             if (!result.success) {
+              // Check if it's a budget clarification request
+              if (result.error === 'Budget clarification needed') {
+                sendSSE('clarification', result.message || '예산을 구체적으로 알려주세요. (예: 7만원, 10만원 이하)');
+                sendSSE('done', {});
+                controller.close();
+                return;
+              }
+
               sendSSE('error', result.error || 'Failed to refilter');
               sendSSE('done', {});
               controller.close();
@@ -121,6 +138,7 @@ export async function POST(req: NextRequest) {
               sendSSE('recommendations', {
                 recommendations: result.recommendations,
                 updatedSession: result.updatedSession,
+                contextSummary: result.contextSummary,
               });
             }
 

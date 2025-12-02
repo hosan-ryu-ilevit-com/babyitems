@@ -4,12 +4,30 @@
  * Re-recommend products using a specific product as new anchor
  */
 
-import type { Intent, AgentContext } from '../types';
-import type { Recommendation, BudgetRange } from '@/types';
+import type { Intent, AgentContext, AttributeRequest } from '../types';
+import type { Recommendation, BudgetRange, UserContextSummary } from '@/types';
 import { getProductSpec } from '@/lib/data/specLoader';
 import { getFullTagObjects, getTagText } from '../utils/tagHelpers';
 import { parseBudgetFromNaturalLanguage, formatBudgetRange } from '../utils/budgetAdjustment';
+import { detectCategoryFromContext } from '../utils/contextHelpers';
 import { generateRecommendations } from '@/app/api/recommend-v2/route';
+import { generateContextSummaryFromTags } from '@/lib/utils/generateContextSummaryFromTags';
+import { NextResponse } from 'next/server';
+
+/**
+ * Convert AttributeRequest[] to Tag[] format for V2 route
+ */
+function convertAttributeRequestsToTags(attributes: AttributeRequest[]): Array<{
+  id: string;
+  text: string;
+  attributes: Record<string, number>;
+}> {
+  return attributes.map((attr, index) => ({
+    id: `user-req-${attr.key}-${index + 1}`,
+    text: attr.userText,
+    attributes: { [attr.key]: attr.weight },
+  }));
+}
 
 export interface RefilterResult {
   success: boolean;
@@ -17,10 +35,11 @@ export interface RefilterResult {
   recommendations?: Recommendation[];
   updatedSession?: {
     anchorProduct: any;
-    selectedProsTags: string[];
-    selectedConsTags: string[];
+    selectedProsTags: Array<{ id: string; text: string; attributes: Record<string, number> }>;
+    selectedConsTags: Array<{ id: string; text: string; attributes: Record<string, number> }>;
     budget: BudgetRange;
   };
+  contextSummary?: UserContextSummary;
   error?: string;
 }
 
@@ -34,7 +53,10 @@ export async function executeRefilterWithAnchor(
   try {
     console.log(`\n🔄 REFILTER_WITH_ANCHOR: Starting...`);
 
-    const { newAnchorProductId, productRank, tagChanges, budgetChange } = intent.args || {};
+    // Step 0: Detect category from context
+    const category = detectCategoryFromContext(context);
+
+    const { newAnchorProductId, productRank, tagChanges, attributeChanges, budgetChange } = intent.args || {};
 
     // If productRank is provided, resolve to actual product ID from current recommendations
     let resolvedAnchorId = newAnchorProductId;
@@ -60,16 +82,17 @@ export async function executeRefilterWithAnchor(
     }
 
     // Step 1: Load new anchor product (optional - for message generation)
-    console.log(`   Using anchor: ${resolvedAnchorId}`);
-    const newAnchor = await getProductSpec('milk_powder_port', resolvedAnchorId);
+    console.log(`   Using anchor: ${resolvedAnchorId} (category: ${category})`);
+    const newAnchor = await getProductSpec(category, resolvedAnchorId);
 
     if (newAnchor) {
-      console.log(`   ✅ Anchor loaded: ${newAnchor.title}`);
+      const anchorTitle = newAnchor.모델명 || newAnchor.제품명 || newAnchor.브랜드 || '선택하신 제품';
+      console.log(`   ✅ Anchor loaded: ${anchorTitle}`);
     } else {
       console.log(`   ⚠️  Could not load anchor product details, but continuing...`);
     }
 
-    // Step 2: Load current tags
+    // Step 2: Load current tags/attributes
     const currentProsTags = context.currentSession.selectedProsTags || [];
     const currentConsTags = context.currentSession.selectedConsTags || [];
     const currentBudget = context.currentSession.budget || '0-150000';
@@ -77,37 +100,83 @@ export async function executeRefilterWithAnchor(
     console.log(`   Current tags - Pros: ${currentProsTags.length}, Cons: ${currentConsTags.length}`);
     console.log(`   Current budget: ${currentBudget}`);
 
-    // Step 3: Apply tag changes (preserve existing tags by default)
-    let updatedProsTags = [...currentProsTags];
-    let updatedConsTags = [...currentConsTags];
+    // Step 3: Apply changes - NEW attribute-based path or LEGACY tag-based path
+    let finalProsTags: Array<{ id: string; text: string; attributes: Record<string, number> }> = [];
+    let finalConsTags: Array<{ id: string; text: string; attributes: Record<string, number> }> = [];
 
-    if (tagChanges) {
-      // Add new tags
+    if (attributeChanges) {
+      // NEW: Attribute-based system
+      console.log(`   Using NEW attribute-based system`);
+
+      // Start with existing tags (already full tag objects with attributes)
+      finalProsTags = currentProsTags || [];
+      finalConsTags = currentConsTags || [];
+      console.log(`   Loaded ${finalProsTags.length} existing pros tags, ${finalConsTags.length} cons tags`);
+
+      // Add new attribute requests
+      if (attributeChanges.addProsAttributes && attributeChanges.addProsAttributes.length > 0) {
+        const newProsTags = convertAttributeRequestsToTags(attributeChanges.addProsAttributes);
+        finalProsTags.push(...newProsTags);
+        console.log(`   Added ${newProsTags.length} pros attributes`);
+      }
+
+      if (attributeChanges.addConsAttributes && attributeChanges.addConsAttributes.length > 0) {
+        const newConsTags = convertAttributeRequestsToTags(attributeChanges.addConsAttributes);
+        finalConsTags.push(...newConsTags);
+        console.log(`   Added ${newConsTags.length} cons attributes`);
+      }
+
+      // Remove attributes (filter out tags with matching attribute keys)
+      if (attributeChanges.removeProsAttributes && attributeChanges.removeProsAttributes.length > 0) {
+        finalProsTags = finalProsTags.filter(tag =>
+          !attributeChanges.removeProsAttributes!.some(key => key in tag.attributes)
+        );
+      }
+
+      if (attributeChanges.removeConsAttributes && attributeChanges.removeConsAttributes.length > 0) {
+        finalConsTags = finalConsTags.filter(tag =>
+          !attributeChanges.removeConsAttributes!.some(key => key in tag.attributes)
+        );
+      }
+    } else if (tagChanges) {
+      // LEGACY: Tag-based system (backward compatibility)
+      console.log(`   Using LEGACY tag-based system`);
+
+      finalProsTags = [...(currentProsTags || [])];
+      finalConsTags = [...(currentConsTags || [])];
+
+      // Add new tags (convert tag IDs to tag objects using getFullTagObjects)
       if (tagChanges.addProsTags) {
-        tagChanges.addProsTags.forEach(id => {
-          if (!updatedProsTags.includes(id)) {
-            updatedProsTags.push(id);
+        const newTags = getFullTagObjects(tagChanges.addProsTags);
+        newTags.forEach(tag => {
+          if (!finalProsTags.some(t => t.id === tag.id)) {
+            finalProsTags.push(tag);
           }
         });
       }
       if (tagChanges.addConsTags) {
-        tagChanges.addConsTags.forEach(id => {
-          if (!updatedConsTags.includes(id)) {
-            updatedConsTags.push(id);
+        const newTags = getFullTagObjects(tagChanges.addConsTags);
+        newTags.forEach(tag => {
+          if (!finalConsTags.some(t => t.id === tag.id)) {
+            finalConsTags.push(tag);
           }
         });
       }
 
-      // Remove tags (only if explicitly requested)
+      // Remove tags
       if (tagChanges.removeProsTags) {
-        updatedProsTags = updatedProsTags.filter(id => !tagChanges.removeProsTags!.includes(id));
+        finalProsTags = finalProsTags.filter(tag => !tagChanges.removeProsTags!.includes(tag.id));
       }
       if (tagChanges.removeConsTags) {
-        updatedConsTags = updatedConsTags.filter(id => !tagChanges.removeConsTags!.includes(id));
+        finalConsTags = finalConsTags.filter(tag => !tagChanges.removeConsTags!.includes(tag.id));
       }
+    } else {
+      // No changes, keep existing tags
+      finalProsTags = currentProsTags || [];
+      finalConsTags = currentConsTags || [];
     }
 
-    console.log(`   Updated tags - Pros: ${updatedProsTags.length}, Cons: ${updatedConsTags.length}`);
+    console.log(`   Final tags - Pros: ${finalProsTags.length}, Cons: ${finalConsTags.length}`);
 
     // Step 4: Update budget
     let updatedBudget = currentBudget;
@@ -116,10 +185,10 @@ export async function executeRefilterWithAnchor(
       if (budgetChange.type === 'specific' && budgetChange.value) {
         updatedBudget = budgetChange.value as BudgetRange;
       } else if (budgetChange.type === 'clarification_needed') {
-        // Need to ask user for clarification - should be handled by router
+        // Need to ask user for budget clarification
         return {
           success: false,
-          message: '예산을 구체적으로 알려주세요.',
+          message: '예산을 구체적으로 알려주시면 더 정확하게 찾아드릴 수 있어요! 예를 들어 "7만원 이하", "최대 10만원" 같이 말씀해주세요.',
           error: 'Budget clarification needed',
         };
       }
@@ -131,12 +200,17 @@ export async function executeRefilterWithAnchor(
     console.log(`   Generating recommendations...`);
 
     const result = await generateRecommendations(
-      'milk_powder_port',
+      category,
       resolvedAnchorId,
-      getFullTagObjects(updatedProsTags),
-      getFullTagObjects(updatedConsTags),
+      finalProsTags,  // Already in Tag[] format
+      finalConsTags,  // Already in Tag[] format
       updatedBudget
     );
+
+    // Check if result is a NextResponse (error case)
+    if (result instanceof NextResponse) {
+      throw new Error('Failed to generate recommendations');
+    }
 
     if (!result.success || !result.recommendations) {
       throw new Error('No recommendations returned');
@@ -144,30 +218,91 @@ export async function executeRefilterWithAnchor(
 
     console.log(`   ✅ Got ${result.recommendations.length} recommendations`);
 
-    // Step 6: Generate user-friendly message
+    // Step 6: Transform V2 recommendations to match Recommendation interface
+    const transformedRecommendations: Recommendation[] = result.recommendations.map((rec: any, index: number) => ({
+      product: {
+        id: String(rec.productId),
+        title: rec.모델명 || rec.제품명 || rec.브랜드 || 'Unknown',
+        brand: rec.브랜드,
+        price: rec.최저가,
+        reviewCount: rec.reviewCount || 0,
+        reviewUrl: rec.썸네일 || '',
+        ranking: rec.순위 || index + 1,
+        thumbnail: rec.썸네일 || '',
+        coreValues: {
+          temperatureControl: 0,
+          hygiene: 0,
+          material: 0,
+          usability: 0,
+          portability: 0,
+          priceValue: 0,
+          durability: 0,
+          additionalFeatures: 0,
+        },
+        category: category as any,
+      },
+      rank: (index + 1) as 1 | 2 | 3 | 4,
+      finalScore: rec.fitScore,
+      reasoning: rec.reasoning,
+      selectedTagsEvaluation: rec.selectedTagsEvaluation || [],
+      additionalPros: rec.additionalPros || [],
+      cons: rec.cons || [],
+      anchorComparison: [],
+      citedReviews: rec.citedReviews || [],
+    }));
+
+    // Step 7: Collect added tag texts for message generation
+    const addedProsTexts: string[] = [];
+    const addedConsTexts: string[] = [];
+
+    if (attributeChanges) {
+      // NEW system: get texts from attribute requests
+      addedProsTexts.push(...(attributeChanges.addProsAttributes?.map(a => a.userText) || []));
+      addedConsTexts.push(...(attributeChanges.addConsAttributes?.map(a => a.userText) || []));
+    } else if (tagChanges) {
+      // LEGACY system: get texts from tag IDs
+      addedProsTexts.push(...(tagChanges.addProsTags?.map(id => getTagText(id)) || []));
+      addedConsTexts.push(...(tagChanges.addConsTags?.map(id => getTagText(id)) || []));
+    }
+
+    // Step 8: Generate user-friendly message
+    const anchorTitle = newAnchor?.모델명 || newAnchor?.제품명 || newAnchor?.브랜드 || '선택하신 제품';
+
     const message = generateRefilterMessage({
       oldAnchor: context.currentSession.anchorProduct,
-      newAnchor: newAnchor || { id: resolvedAnchorId, title: '선택하신 제품' },
+      newAnchor: {
+        productId: newAnchor?.productId || resolvedAnchorId,
+        title: anchorTitle,
+      },
       oldBudget: currentBudget,
       newBudget: updatedBudget,
-      addedProsTagIds: tagChanges?.addProsTags || [],
-      addedConsTagIds: tagChanges?.addConsTags || [],
-      recommendations: result.recommendations,
+      addedProsTexts,
+      addedConsTexts,
+      recommendations: transformedRecommendations,
     });
 
+    // Step 9: Generate updated context summary for "내 구매기준" component
+    const updatedContextSummary = generateContextSummaryFromTags(
+      finalProsTags,
+      finalConsTags,
+      updatedBudget
+    );
+
+    // Step 10: Return full tag objects for session storage (preserves attributes for future re-filtering)
     return {
       success: true,
       message,
-      recommendations: result.recommendations,
+      recommendations: transformedRecommendations,
       updatedSession: {
         anchorProduct: {
-          productId: newAnchor.id,
-          title: newAnchor.title,
+          productId: newAnchor?.productId || resolvedAnchorId,
+          title: anchorTitle,
         },
-        selectedProsTags: updatedProsTags,
-        selectedConsTags: updatedConsTags,
+        selectedProsTags: finalProsTags,
+        selectedConsTags: finalConsTags,
         budget: updatedBudget,
       },
+      contextSummary: updatedContextSummary,
     };
   } catch (error) {
     console.error('REFILTER_WITH_ANCHOR failed:', error);
@@ -180,55 +315,36 @@ export async function executeRefilterWithAnchor(
 }
 
 /**
- * Generate user-friendly message for refilter result
+ * Generate user-friendly message for refilter result (simplified)
  */
 function generateRefilterMessage(params: {
   oldAnchor?: any;
   newAnchor: any;
   oldBudget: BudgetRange;
   newBudget: BudgetRange;
-  addedProsTagIds: string[];
-  addedConsTagIds: string[];
+  addedProsTexts: string[];
+  addedConsTexts: string[];
   recommendations: Recommendation[];
 }): string {
-  const { oldAnchor, newAnchor, oldBudget, newBudget, addedProsTagIds, addedConsTagIds, recommendations } = params;
+  const { oldAnchor, newAnchor, oldBudget, newBudget, addedProsTexts, addedConsTexts, recommendations } = params;
 
-  let message = `**${newAnchor.title}**을 기준으로 다시 찾아봤어요!\n\n`;
+  // Simple intro
+  let message = ``;
 
-  // Anchor change
-  if (oldAnchor && oldAnchor.productId !== newAnchor.id) {
-    message += `📍 **기준 제품 변경**: ${oldAnchor.title} → ${newAnchor.title}\n`;
+  // Only show changes that actually happened
+  const hasAnchorChange = oldAnchor && oldAnchor.productId !== (newAnchor.productId || newAnchor.id);
+  const hasBudgetChange = oldBudget !== newBudget;
+  const hasAttributeChanges = addedProsTexts.length > 0 || addedConsTexts.length > 0;
+
+  if (hasAnchorChange) {
+    message += `**${newAnchor.title}**을 기준으로 다시 찾아봤어요!\n`;
+  } else if (hasBudgetChange) {
+    message += `**${formatBudgetRange(newBudget)}** 예산으로 다시 찾아봤어요!\n`;
+  } else if (hasAttributeChanges) {
+    message += `조건을 반영해서 다시 찾아봤어요!\n`;
+  } else {
+    message += `다시 찾아봤어요!\n`;
   }
-
-  // Budget change
-  if (oldBudget !== newBudget) {
-    const comparison = compareBudgetRanges(oldBudget, newBudget);
-    if (comparison === 'lower') {
-      message += `💰 **예산 조정**: ${formatBudgetRange(oldBudget)} → ${formatBudgetRange(newBudget)} (더 합리적인 가격대)\n`;
-    } else if (comparison === 'higher') {
-      message += `💰 **예산 조정**: ${formatBudgetRange(oldBudget)} → ${formatBudgetRange(newBudget)} (더 프리미엄 제품 포함)\n`;
-    }
-  }
-
-  // Added tags
-  if (addedProsTagIds.length > 0) {
-    const tagTexts = addedProsTagIds.map(id => getTagText(id)).join(', ');
-    message += `✨ **추가된 중요 기능**: ${tagTexts}\n`;
-  }
-
-  if (addedConsTagIds.length > 0) {
-    const tagTexts = addedConsTagIds.map(id => getTagText(id)).join(', ');
-    message += `⚠️ **추가로 피하고 싶은 단점**: ${tagTexts}\n`;
-  }
-
-  message += `\n---\n\n`;
-  message += `### 🎯 새로운 Top 3 추천\n\n`;
-
-  recommendations.slice(0, 3).forEach((rec, i) => {
-    message += `**${i + 1}. ${rec.product.title}** (${rec.finalScore}점)\n`;
-    message += `   ${rec.reasoning}\n`;
-    message += `   💰 ${rec.product.price?.toLocaleString()}원\n\n`;
-  });
 
   return message;
 }

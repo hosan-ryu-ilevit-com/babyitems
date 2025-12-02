@@ -889,9 +889,15 @@ function PriorityPageContent() {
       accuracy: 0,
       chatConversations: undefined,
       budget: budget,
-      // Tag 데이터 (Pros + Cons + Additional 모두 포함)
-      selectedProsTags: selectedProsTags,
-      selectedConsTags: selectedConsTags,
+      // Tag 데이터 (Pros + Cons + Additional 모두 포함) - Convert IDs to full tag objects
+      selectedProsTags: selectedProsTags.map(id => {
+        const tag = PROS_TAGS.find(t => t.id === id);
+        return tag ? { id: tag.id, text: tag.text, attributes: Object.fromEntries(tag.relatedAttributes.map(ra => [ra.attribute, ra.weight])) } : null;
+      }).filter(Boolean) as Array<{ id: string; text: string; attributes: Record<string, number> }>,
+      selectedConsTags: selectedConsTags.map(id => {
+        const tag = CONS_TAGS.find(t => t.id === id);
+        return tag ? { id: tag.id, text: tag.text, attributes: Object.fromEntries(tag.relatedAttributes.map(ra => [ra.attribute, ra.weight])) } : null;
+      }).filter(Boolean) as Array<{ id: string; text: string; attributes: Record<string, number> }>,
       selectedAdditionalTags: selectedAdditionalTags,
       // Step 5 데이터
       additionalInput: additionalInput || undefined,

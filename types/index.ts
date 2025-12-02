@@ -235,8 +235,8 @@ export interface SessionState {
   top10Products?: Product[];            // Step 3에서 필터링된 상위 10개 제품
 
   // Tag-based selection (New Priority flow)
-  selectedProsTags?: string[];          // 선택된 장점 태그 IDs
-  selectedConsTags?: string[];          // 선택된 단점 태그 IDs
+  selectedProsTags?: Array<{ id: string; text: string; attributes: Record<string, number> }>;  // 선택된 장점 태그 (full objects)
+  selectedConsTags?: Array<{ id: string; text: string; attributes: Record<string, number> }>;  // 선택된 단점 태그 (full objects)
   selectedAdditionalTags?: string[];    // 선택된 추가 고려사항 태그 IDs
   anchorProduct?: any;                  // Tag-based flow의 앵커 제품 (캐싱용)
 

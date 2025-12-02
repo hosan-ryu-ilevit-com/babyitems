@@ -2,13 +2,15 @@
  * Intent Router
  *
  * Classifies user input into one of 5 tool types using Gemini API
+ * Uses CONVERSATIONAL_AGENT_PROMPT (V2) - 패션 AI 구조 참고
  */
 
 import { GoogleGenAI } from '@google/genai';
-import { AGENT_SYSTEM_PROMPT } from './systemPrompt';
+import { CONVERSATIONAL_AGENT_PROMPT } from './conversationalSystemPrompt';
 import type { Intent, AgentContext } from './types';
-import { PROS_TAGS, CONS_TAGS } from '@/data/priorityTags';
+import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
 import { parseBudgetFromNaturalLanguage, needsBudgetClarification } from './utils/budgetAdjustment';
+import { detectCategoryFromContext, getCategoryDisplayName } from './utils/contextHelpers';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) throw new Error('GEMINI_API_KEY is required');
@@ -28,12 +30,20 @@ export async function classifyIntent(
     console.log(`   Input: "${userInput}"`);
     console.log(`   Clicked Anchor: ${clickedAnchorId || 'none'}`);
 
+    // Detect category from context
+    const category = detectCategoryFromContext(context);
+    const categoryName = getCategoryDisplayName(category);
+    console.log(`   Category: ${category} (${categoryName})`);
+
+    // Get category-specific attributes
+    const categoryAttributes = CATEGORY_ATTRIBUTES[category as keyof typeof CATEGORY_ATTRIBUTES] || [];
+
     // Build context summary
     const contextSummary = buildContextSummary(context);
 
-    // Gemini prompt
+    // Gemini prompt with new conversational system prompt
     const prompt = `
-${AGENT_SYSTEM_PROMPT}
+${CONVERSATIONAL_AGENT_PROMPT}
 
 **Current Context:**
 ${contextSummary}
@@ -42,37 +52,24 @@ ${contextSummary}
 
 ${clickedAnchorId ? `**Important:** User clicked "이 상품 기반으로 재추천" button on product ID ${clickedAnchorId}. This means they want REFILTER_WITH_ANCHOR with this product as new anchor.` : ''}
 
+**Current Product Category:** ${categoryName} (${category})
+
+**Available Attributes for ${categoryName}:**
+${categoryAttributes.map(attr => `- **${attr.key}** (${attr.name}): ${attr.description}`).join('\n')}
+
+**Instructions for tagChanges:**
+When user mentions features, map them to attribute keys above with appropriate weights (0.3-1.0):
+- Primary feature mentioned → weight: 1.0
+- Secondary/related feature → weight: 0.5
+- Minor/tangential feature → weight: 0.3
+
+For example, if user says "세척 편한 걸로" (easy to clean):
+- Map to attribute key: "cleaning_convenience" with weight 1.0
+- Generate tag ID like: "user-req-cleaning-1"
+- Tag text: "세척 편한 걸로"
+
 **Your Task:**
 Analyze the user input and output a JSON object with the tool to use and its arguments.
-
-**Available PROS_TAGS (for tagChanges):**
-${PROS_TAGS.map(t => `- ${t.id}: "${t.text}"`).join('\n')}
-
-**Available CONS_TAGS (for tagChanges):**
-${CONS_TAGS.map(t => `- ${t.id}: "${t.text}"`).join('\n')}
-
-**Output Format (JSON only):**
-\`\`\`json
-{
-  "tool": "REFILTER_WITH_ANCHOR" | "REFILTER" | "PRODUCT_QA" | "COMPARE" | "ASK_CLARIFICATION" | "GENERAL",
-  "confidence": 85,
-  "needsClarification": false,
-  "args": {
-    // See TOOL DEFINITIONS in system prompt for required args per tool
-  },
-  "reasoning": "Brief explanation of why this tool was chosen"
-}
-\`\`\`
-
-**Critical Rules:**
-1. **Budget Classification**:
-   - SPECIFIC budget (use REFILTER, NOT clarification): "10만원", "7만원 이하", "50000원", "15만원 정도", "100000원 아래"
-   - VAGUE budget (use ASK_CLARIFICATION): "더 저렴한 걸로", "가격 낮춰서", "싼 걸로", "비싼 걸로" (no specific amount)
-   - If user provides ANY specific number with currency (만원, 원), it is SPECIFIC - extract it immediately!
-2. If user mentions a feature, map it to specific tag IDs from PROS_TAGS/CONS_TAGS
-3. If clickedAnchorId is provided, you MUST use REFILTER_WITH_ANCHOR (not REFILTER)
-4. Product numbers like "1번", "2번" map to productRank 1, 2, 3
-5. For out-of-scope questions (e.g., "육아 힘들다"), use GENERAL tool
 
 Output JSON only. No extra text.
 `;
@@ -186,21 +183,15 @@ function buildContextSummary(context: AgentContext): string {
 
   summary += `\n**Current Budget:** ${currentSession.budget || 'Not set'}\n`;
 
-  summary += `\n**Selected Tags:**\n`;
-  summary += `- Pros: ${currentSession.selectedProsTags?.length || 0} tags\n`;
+  summary += `\n**Current User Preferences:**\n`;
+  summary += `- Desired features (Pros): ${currentSession.selectedProsTags?.length || 0}\n`;
   if (currentSession.selectedProsTags && currentSession.selectedProsTags.length > 0) {
-    currentSession.selectedProsTags.forEach(id => {
-      const tag = PROS_TAGS.find(t => t.id === id);
-      if (tag) summary += `  • ${id}: "${tag.text}"\n`;
-    });
+    summary += `  ${currentSession.selectedProsTags.map(t => t.text).join(', ')}\n`;
   }
 
-  summary += `- Cons: ${currentSession.selectedConsTags?.length || 0} tags\n`;
+  summary += `- Features to avoid (Cons): ${currentSession.selectedConsTags?.length || 0}\n`;
   if (currentSession.selectedConsTags && currentSession.selectedConsTags.length > 0) {
-    currentSession.selectedConsTags.forEach(id => {
-      const tag = CONS_TAGS.find(t => t.id === id);
-      if (tag) summary += `  • ${id}: "${tag.text}"\n`;
-    });
+    summary += `  ${currentSession.selectedConsTags.map(t => t.text).join(', ')}\n`;
   }
 
   return summary;

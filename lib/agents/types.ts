@@ -21,6 +21,19 @@ export interface TagChanges {
   removeConsTags?: string[];
 }
 
+export interface AttributeRequest {
+  key: string;  // Attribute key (e.g., "cleaning_convenience")
+  weight: number;  // Weight 0.3-1.0
+  userText: string;  // Original user text (e.g., "세척 편한 걸로")
+}
+
+export interface AttributeChanges {
+  addProsAttributes?: AttributeRequest[];
+  removeProsAttributes?: string[];  // Attribute keys to remove
+  addConsAttributes?: AttributeRequest[];
+  removeConsAttributes?: string[];  // Attribute keys to remove
+}
+
 export interface BudgetChange {
   type: 'specific' | 'clarification_needed' | 'none';
   value?: string;  // Budget range string (e.g., "0-70000")
@@ -39,7 +52,8 @@ export interface Intent {
     newAnchorProductId?: string;  // OR direct product ID (if button clicked)
 
     // REFILTER / REFILTER_WITH_ANCHOR
-    tagChanges?: TagChanges;
+    tagChanges?: TagChanges;  // Legacy format (will be deprecated)
+    attributeChanges?: AttributeChanges;  // New attribute-based format
     budgetChange?: BudgetChange;
 
     // PRODUCT_QA
@@ -65,8 +79,8 @@ export interface Intent {
 export interface AgentContext {
   currentRecommendations: Recommendation[];
   currentSession: {
-    selectedProsTags?: string[];
-    selectedConsTags?: string[];
+    selectedProsTags?: Array<{ id: string; text: string; attributes: Record<string, number> }>;
+    selectedConsTags?: Array<{ id: string; text: string; attributes: Record<string, number> }>;
     budget?: BudgetRange;
     anchorProduct?: {
       productId: string;

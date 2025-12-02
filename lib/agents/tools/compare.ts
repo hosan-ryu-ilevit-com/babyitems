@@ -8,6 +8,7 @@ import { GoogleGenAI } from '@google/genai';
 import type { Intent, AgentContext } from '../types';
 import { getProductSpec } from '@/lib/data/specLoader';
 import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
+import { detectCategoryFromContext } from '../utils/contextHelpers';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) throw new Error('GEMINI_API_KEY is required');
@@ -34,6 +35,9 @@ export async function executeCompare(
   try {
     console.log(`\n🔍 COMPARE: Starting...`);
 
+    // Detect category from context
+    const category = detectCategoryFromContext(context);
+
     const { productRanks, aspect, specificAspect } = intent.args || {};
 
     if (!productRanks || productRanks.length < 2) {
@@ -59,9 +63,16 @@ export async function executeCompare(
       console.log(`   ${productRanks[i]}. ${p.product.title}`);
     });
 
-    // Build comparison context
+    // Load full specs for all products
+    const fullSpecs = await Promise.all(
+      products.map((p: any) => getProductSpec(category, String(p.product.id)))
+    );
+
+    console.log(`   ✅ Loaded specs for ${fullSpecs.filter(Boolean).length}/${products.length} products`);
+
+    // Build comparison context with full specs
     const comparisonContext = products
-      .map((p: any, i: number) => buildProductSummary(p, productRanks[i]))
+      .map((p: any, i: number) => buildProductSummary(p, productRanks[i], fullSpecs[i], category))
       .join('\n\n---\n\n');
 
     // Determine focus
@@ -133,15 +144,51 @@ Comparison:`;
 }
 
 /**
- * Build product summary for comparison
+ * Build product summary for comparison with full specs
  */
-function buildProductSummary(recommendation: any, rank: number): string {
+function buildProductSummary(recommendation: any, rank: number, fullProductSpec: any | undefined, category: string): string {
   const product = recommendation.product;
 
-  let summary = `**${product.title}**\n`;
+  let summary = `**제품 ${rank}: ${product.title}**\n`;
+  summary += `- 브랜드: ${product.brand || fullProductSpec?.브랜드 || '정보 없음'}\n`;
   summary += `- 가격: ${product.price?.toLocaleString()}원\n`;
   summary += `- Fit Score: ${recommendation.finalScore}\n`;
   summary += `- 추천 이유: ${recommendation.reasoning}\n\n`;
+
+  // Full product specs (key specs only for comparison)
+  if (fullProductSpec) {
+    summary += `**주요 스펙:**\n`;
+
+    const keySpecFields = [
+      '용량', '온도조절범위', '온도조절단위', '보온시간', '재질',
+      '무게', '크기', '전력', '소비전력', '자동온도조절', '세척편의성'
+    ];
+
+    let hasSpecs = false;
+    keySpecFields.forEach(field => {
+      if (fullProductSpec[field] !== null && fullProductSpec[field] !== undefined) {
+        summary += `- ${field}: ${fullProductSpec[field]}\n`;
+        hasSpecs = true;
+      }
+    });
+
+    if (hasSpecs) {
+      summary += `\n`;
+    }
+
+    // Attribute scores (optional, for technical comparison) - use dynamic category
+    if (fullProductSpec.attributeScores && Object.keys(fullProductSpec.attributeScores).length > 0) {
+      const categoryAttributes = CATEGORY_ATTRIBUTES[category as keyof typeof CATEGORY_ATTRIBUTES] || [];
+      summary += `**속성 평가 (리뷰 기반):**\n`;
+      Object.entries(fullProductSpec.attributeScores).forEach(([attrKey, score]) => {
+        const attrInfo = categoryAttributes.find(a => a.key === attrKey);
+        const attrName = attrInfo ? attrInfo.name : attrKey;
+        const scoreDisplay = score !== null ? `${score}점` : 'N/A';
+        summary += `- ${attrName}: ${scoreDisplay}\n`;
+      });
+      summary += `\n`;
+    }
+  }
 
   // Key pros
   if (recommendation.selectedTagsEvaluation) {
@@ -150,16 +197,17 @@ function buildProductSummary(recommendation: any, rank: number): string {
       .slice(0, 3);
 
     if (pros.length > 0) {
-      summary += `**장점:**\n`;
+      summary += `**충족한 장점:**\n`;
       pros.forEach((tag: any) => {
         summary += `- ${tag.userTag}: ${tag.evidence}\n`;
       });
+      summary += `\n`;
     }
   }
 
   // Key cons
   if (recommendation.cons && recommendation.cons.length > 0) {
-    summary += `\n**단점:**\n`;
+    summary += `**단점:**\n`;
     recommendation.cons.slice(0, 2).forEach((con: any) => {
       summary += `- ${con.text}\n`;
     });
