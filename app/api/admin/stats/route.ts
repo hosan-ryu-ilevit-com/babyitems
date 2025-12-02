@@ -707,8 +707,8 @@ export async function GET(request: NextRequest) {
           }
         }
 
-        // 추천 완료 여부 (recommendation_received 이벤트 기준)
-        if (event.eventType === 'recommendation_received') {
+        // 추천 완료 여부 (recommendation_received 또는 result_v2_received 이벤트 기준)
+        if (event.eventType === 'recommendation_received' || event.eventType === 'result_v2_received') {
           session.completed = true;
         }
       }

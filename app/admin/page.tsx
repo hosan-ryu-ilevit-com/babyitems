@@ -456,6 +456,71 @@ export default function AdminPage() {
     );
   };
 
+  // 추천받은 상품 표시 (Main Flow + V2 Flow 모두 지원)
+  const renderRecommendedProducts = (session: SessionSummary) => {
+    // Main Flow: recommendation_received 이벤트 찾기
+    const mainFlowEvent = session.events.find(
+      event => event.eventType === 'recommendation_received' && event.recommendations?.fullReport?.recommendations
+    );
+
+    // V2 Flow: result_v2_received 이벤트 찾기
+    const v2FlowEvent = session.events.find(
+      event => event.eventType === 'result_v2_received' && event.resultV2Data?.recommendedProductIds
+    );
+
+    let products: Array<{ id: string; title?: string }> = [];
+    let flowType: 'main' | 'v2' | null = null;
+
+    if (mainFlowEvent?.recommendations?.fullReport?.recommendations) {
+      // Main Flow
+      const recommendations = mainFlowEvent.recommendations.fullReport.recommendations;
+      products = recommendations.map((rec: any) => ({
+        id: rec.productId,
+        title: rec.productTitle
+      }));
+      flowType = 'main';
+    } else if (v2FlowEvent?.resultV2Data?.recommendedProductIds) {
+      // V2 Flow
+      const productIds = v2FlowEvent.resultV2Data.recommendedProductIds;
+      products = productIds.map((id: string) => ({
+        id,
+        title: undefined // V2 Flow는 제품 ID만 있음
+      }));
+      flowType = 'v2';
+    }
+
+    if (products.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="mt-3 pt-3 border-t border-gray-200">
+        <p className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+          🎯 추천받은 상품:
+          <span className="text-xs font-normal text-gray-500">
+            ({flowType === 'main' ? 'Priority' : 'Category'})
+          </span>
+        </p>
+        <div className="space-y-1.5">
+          {products.map((product, idx) => (
+            <div key={idx} className="flex items-start gap-2 text-sm">
+              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full flex-shrink-0 ${
+                idx === 0 ? 'bg-yellow-100 text-yellow-800' :
+                idx === 1 ? 'bg-gray-100 text-gray-700' :
+                'bg-orange-100 text-orange-700'
+              } font-bold text-xs`}>
+                {idx + 1}
+              </span>
+              <span className="text-gray-700 leading-tight flex-1 font-mono text-xs">
+                {product.title || product.id}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   // 버튼 라벨 포맷팅 (실제 채팅 디자인 반영)
   const formatButtonLabel = (label: string) => {
     // 중요도 버튼
@@ -1749,19 +1814,20 @@ export default function AdminPage() {
                           {session.journey.map(getPageLabel).join(' → ')}
                         </p>
                       </div>
+                      {renderRecommendedProducts(session)}
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="text-right">
                         <div className="flex items-center gap-2 justify-end">
                           {renderRecommendationTags(session)}
                           <span
-                            className={`inline-block px-3 py-1 rounded-full text-sm ${
+                            className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
                               session.completed
                                 ? 'bg-green-100 text-green-700'
                                 : 'bg-yellow-100 text-yellow-700'
                             }`}
                           >
-                            {session.completed ? '완료' : '미완료'}
+                            {session.completed ? '✅ 완료' : '⏳ 미완료'}
                           </span>
                         </div>
                         <p className="text-sm text-gray-500 mt-1">
