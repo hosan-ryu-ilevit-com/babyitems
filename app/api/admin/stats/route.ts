@@ -707,9 +707,44 @@ export async function GET(request: NextRequest) {
           }
         }
 
-        // 추천 완료 여부 (recommendation_received 또는 result_v2_received 이벤트 기준)
-        if (event.eventType === 'recommendation_received' || event.eventType === 'result_v2_received') {
-          session.completed = true;
+        // 추천 완료 여부: result 또는 result-v2 페이지 도달 시
+        if (event.eventType === 'page_view') {
+          if (event.page === 'result') {
+            session.completed = true;
+
+            // V2 플로우 여부 판단: category_selected 또는 tag_selected 이벤트가 있으면 V2
+            const hasV2Events = session.events.some(e =>
+              e.eventType === 'category_selected' ||
+              e.eventType === 'tag_selected' ||
+              e.eventType === 'anchor_product_selected'
+            );
+
+            if (hasV2Events) {
+              // V2 Flow (카테고리 기반)
+              if (!session.recommendationMethods.includes('v2')) {
+                session.recommendationMethods.push('v2');
+              }
+            } else {
+              // Main Flow (Priority 기반)
+              if (session.recommendationMethods.length === 0) {
+                session.recommendationMethods.push('quick');
+              }
+            }
+          } else if (event.page === 'result-v2') {
+            session.completed = true;
+            // V2 Flow (별도 result-v2 페이지 사용하는 경우)
+            if (!session.recommendationMethods.includes('v2')) {
+              session.recommendationMethods.push('v2');
+            }
+          }
+        }
+
+        // 추가: 이벤트 기반으로 추천 방식 세분화 (선택적)
+        if (event.eventType === 'recommendation_received' && event.recommendations?.isQuickRecommendation) {
+          // 바로 추천받기로 명시된 경우
+          if (!session.recommendationMethods.includes('quick')) {
+            session.recommendationMethods.push('quick');
+          }
         }
       }
     }

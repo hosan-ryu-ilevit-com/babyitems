@@ -792,6 +792,49 @@ export default function ResultPage() {
         saveSession(session);
         console.log('💾 Saved tag-based recommendations to session cache');
 
+        // ✨ V2 플로우 추천 결과 로깅
+        if (convertedRecommendations && convertedRecommendations.length > 0) {
+          const productIds = convertedRecommendations.map(r => r.product.id);
+          const fullReport = {
+            userContext: data.contextSummary ? {
+              priorityAttributes: data.contextSummary.priorityAttributes,
+              additionalContext: data.contextSummary.additionalContext,
+              budget: data.contextSummary.budget,
+            } : undefined,
+            recommendations: convertedRecommendations.map(r => ({
+              rank: r.rank,
+              productId: r.product.id,
+              productTitle: r.product.title,
+              price: r.product.price,
+              finalScore: r.finalScore,
+              strengths: r.additionalPros?.map(p => p.text) || [],
+              weaknesses: r.cons?.map(c => c.text) || [],
+              comparison: r.anchorComparison ? [r.anchorComparison] : [],
+              additionalConsiderations: r.purchaseTip?.map(tip => tip.text).join('; ') || '',
+            })),
+          };
+
+          // V2 플로우 추천 결과 로깅
+          fetch('/api/log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              sessionId: localStorage.getItem('baby_item_session_id'),
+              eventType: 'recommendation_received',
+              page: 'result',
+              recommendations: {
+                productIds,
+                fullReport,
+                isV2Flow: true, // V2 플로우임을 표시
+                category: category,
+                anchorProductId: data.anchorProduct?.productId,
+              },
+            }),
+          }).catch(console.error);
+
+          console.log('📊 V2 추천 결과 로깅 완료:', productIds);
+        }
+
         // 재추천 바텀시트 채팅 내역 초기화 (새로운 추천 세션 시작)
         sessionStorage.removeItem('rerecommendation_state');
 

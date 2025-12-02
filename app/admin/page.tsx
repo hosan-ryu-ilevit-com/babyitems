@@ -452,6 +452,14 @@ export default function AdminPage() {
             채팅하고 추천받기
           </span>
         )}
+        {methods.includes('v2') && (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm bg-indigo-600 text-white font-medium">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+            </svg>
+            카테고리 추천
+          </span>
+        )}
       </>
     );
   };
@@ -505,7 +513,49 @@ export default function AdminPage() {
       flowType = 'v2';
     }
 
+    // 백업: result_v2_received 이벤트가 없어도 result-v2 페이지뷰가 있으면 최소 정보 표시
     if (products.length === 0) {
+      const hasResultV2PageView = session.events.some(e => e.eventType === 'page_view' && e.page === 'result-v2');
+
+      if (hasResultV2PageView) {
+        // V2 플로우를 시도했지만 result_v2_received 이벤트가 없는 경우
+        // 태그 선택 이벤트에서 정보 추출
+        const tagEvents = session.events.filter(e => e.eventType === 'tag_selected' && e.tagData);
+        const categoryEvent = session.events.find(e => e.eventType === 'category_selected' && e.categoryData);
+
+        if (tagEvents.length > 0 || categoryEvent) {
+          return (
+            <div className="mt-3 pt-3 border-t border-gray-200">
+              <p className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                🔍 V2 플로우 시도됨
+                <span className="text-xs font-normal text-yellow-600">(추천 결과 미로깅)</span>
+              </p>
+              {categoryEvent && (
+                <div className="text-xs text-gray-600 mb-2">
+                  📂 카테고리: <span className="font-medium">{categoryEvent.categoryData?.categoryLabel}</span>
+                </div>
+              )}
+              {tagEvents.length > 0 && (
+                <div className="text-xs text-gray-600">
+                  <p className="font-medium mb-1">선택한 태그 ({tagEvents.length}개):</p>
+                  <ul className="space-y-0.5 pl-3">
+                    {tagEvents.slice(0, 5).map((event, idx) => (
+                      <li key={idx} className="text-gray-500">
+                        • {event.tagData?.tagText?.substring(0, 50)}
+                        {event.tagData?.tagText && event.tagData.tagText.length > 50 ? '...' : ''}
+                      </li>
+                    ))}
+                    {tagEvents.length > 5 && (
+                      <li className="text-gray-400 italic">+ {tagEvents.length - 5}개 더</li>
+                    )}
+                  </ul>
+                </div>
+              )}
+            </div>
+          );
+        }
+      }
+
       return null;
     }
 
