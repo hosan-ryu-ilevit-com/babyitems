@@ -1431,7 +1431,16 @@ function TagsPageContent() {
                   // 단점 선택 컴포넌트 추가
                   setTimeout(() => {
                     addComponentMessage('cons-selector');
-                    scrollToBottom();
+                    // 장점 컴포넌트의 '직접입력' 버튼을 상단으로 스크롤
+                    setTimeout(() => {
+                      const prosSelector = document.querySelector('[data-component="pros-selector"]');
+                      if (prosSelector) {
+                        const directInputSection = prosSelector.querySelector('.bg-gray-50.border-2.border-dashed');
+                        if (directInputSection) {
+                          directInputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }
+                    }, 100);
                   }, 800);
                 }, 300);
               }}
