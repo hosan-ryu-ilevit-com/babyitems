@@ -1027,7 +1027,7 @@ function TagsPageContent() {
                         })}
 
                         {/* 직접입력 UI */}
-                        <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl p-4">
+                        <div className="bg-gray-50 border-2 border-gray-300 rounded-xl p-4">
                           {isAddingCustomPros ? (
                             <div className="space-y-3">
                               <div className="flex items-center gap-2 mb-2">
@@ -1198,7 +1198,7 @@ function TagsPageContent() {
                             })}
 
                             {/* 직접입력 UI */}
-                            <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl p-4">
+                            <div className="bg-gray-50 border-2 border-gray-300 rounded-xl p-4">
                               {isAddingCustomCons ? (
                                 <div className="space-y-3">
                                   <div className="flex items-center gap-2 mb-2">
@@ -1438,7 +1438,7 @@ function TagsPageContent() {
                     setTimeout(() => {
                       const prosSelector = document.querySelector('[data-component="pros-selector"]');
                       if (prosSelector) {
-                        const directInputSection = prosSelector.querySelector('.bg-gray-50.border-2.border-dashed');
+                        const directInputSection = prosSelector.querySelector('.bg-gray-50.border-2.border-gray-300');
                         if (directInputSection) {
                           directInputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }

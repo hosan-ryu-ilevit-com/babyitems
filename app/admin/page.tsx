@@ -40,6 +40,7 @@ export default function AdminPage() {
   const [filterUtm, setFilterUtm] = useState<string>('all'); // 'all' | 'none' | 캠페인명
   const [filterCompleted, setFilterCompleted] = useState<string>('all'); // 'all' | 'completed' | 'incomplete'
   const [filterDetail, setFilterDetail] = useState<string>('all'); // 'all' | 상세 이벤트 텍스트
+  const [filterPage, setFilterPage] = useState<string>('all'); // 'all' | 페이지명 (home, result, etc.)
   const [phoneCopied, setPhoneCopied] = useState(false);
 
   // 추가 입력 섹션 상태
@@ -207,6 +208,7 @@ export default function AdminPage() {
     setFilterUtm('all'); // 필터 초기화
     setFilterCompleted('all');
     setFilterDetail('all');
+    setFilterPage('all');
     if (date === 'all') {
       // 전체 날짜 선택 시 allSessions 사용
       setSessions(allSessions);
@@ -736,7 +738,13 @@ export default function AdminPage() {
       });
     }
 
-    return utmMatch && completedMatch && detailMatch;
+    // 페이지 필터
+    let pageMatch = true;
+    if (filterPage !== 'all') {
+      pageMatch = session.journey.includes(filterPage);
+    }
+
+    return utmMatch && completedMatch && detailMatch && pageMatch;
   });
 
   // 세션에서 사용 가능한 UTM 캠페인 목록 추출
@@ -745,6 +753,13 @@ export default function AdminPage() {
       sessions
         .map(s => s.utmCampaign)
         .filter(Boolean)
+    )
+  ).sort();
+
+  // 세션에서 사용 가능한 페이지 목록 추출
+  const availablePages = Array.from(
+    new Set(
+      sessions.flatMap(s => s.journey)
     )
   ).sort();
 
@@ -1707,18 +1722,36 @@ export default function AdminPage() {
               </select>
             </div>
 
+            {/* 페이지 필터 */}
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-gray-600">페이지:</label>
+              <select
+                value={filterPage}
+                onChange={(e) => setFilterPage(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">전체</option>
+                {availablePages.map((page, idx) => (
+                  <option key={idx} value={page}>
+                    {page}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* 필터 결과 표시 */}
             <span className="text-sm text-gray-600">
               {filteredSessions.length}개 표시 {filteredSessions.length !== sessions.length && `(${sessions.length}개 중)`}
             </span>
 
             {/* 필터 초기화 버튼 */}
-            {(filterUtm !== 'all' || filterCompleted !== 'all' || filterDetail !== 'all') && (
+            {(filterUtm !== 'all' || filterCompleted !== 'all' || filterDetail !== 'all' || filterPage !== 'all') && (
               <button
                 onClick={() => {
                   setFilterUtm('all');
                   setFilterCompleted('all');
                   setFilterDetail('all');
+                  setFilterPage('all');
                 }}
                 className="px-3 py-1.5 text-sm bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
@@ -1803,6 +1836,8 @@ export default function AdminPage() {
               onClick={() => {
                 setFilterUtm('all');
                 setFilterCompleted('all');
+                setFilterDetail('all');
+                setFilterPage('all');
               }}
               className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >

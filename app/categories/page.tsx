@@ -42,14 +42,17 @@ function CategoryButton({
   category,
   isSelected,
   onSelect,
-  thumbnailUrl
+  thumbnailUrl,
+  isLoading
 }: {
   category: Category;
   isSelected: boolean;
   onSelect: (category: Category) => void;
   thumbnailUrl: string | null;
+  isLoading: boolean;
 }) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const hasThumbnail = !!thumbnailUrl;
 
   return (
@@ -63,15 +66,22 @@ function CategoryButton({
       }`}
     >
       <div className="relative z-10 flex flex-col items-center">
-        {/* Thumbnail or Icon */}
-        {hasThumbnail && !imageError ? (
+        {/* Thumbnail, Loading Skeleton, or Icon */}
+        {isLoading ? (
+          // Show loading skeleton while fetching thumbnails
+          <div className="w-16 h-16 mb-2 rounded-xl bg-gray-200 animate-pulse" />
+        ) : hasThumbnail && !imageError ? (
           <div className="w-16 h-16 mb-2 relative rounded-xl overflow-hidden">
+            {!imageLoaded && (
+              <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+            )}
             <Image
               src={thumbnailUrl}
               alt={CATEGORY_NAMES[category]}
               fill
               className="object-contain p-1"
               unoptimized
+              onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
             />
           </div>
@@ -171,6 +181,7 @@ export default function CategoriesPage() {
                   isSelected={selectedCategory === category}
                   onSelect={handleCategorySelect}
                   thumbnailUrl={thumbnails[category] || null}
+                  isLoading={isLoading}
                 />
               ))}
             </div>
@@ -187,6 +198,7 @@ export default function CategoriesPage() {
                   isSelected={selectedCategory === category}
                   onSelect={handleCategorySelect}
                   thumbnailUrl={thumbnails[category] || null}
+                  isLoading={isLoading}
                 />
               ))}
             </div>
