@@ -738,7 +738,8 @@ function TagsPageContent() {
 
   // 타이핑 애니메이션 완료 처리
   useEffect(() => {
-    if (typingMessageId) {
+    // 초기 로딩 메시지는 자동으로 끄지 않음 (태그 생성 완료 시 수동으로 제거)
+    if (typingMessageId && typingMessageId !== initialMessageIdRef.current) {
       const timer = setTimeout(() => {
         setMessages((prev) =>
           prev.map((msg) =>
@@ -817,7 +818,14 @@ function TagsPageContent() {
                             : 'text-gray-900'
                         }`}
                       >
-                        {formatMarkdown(message.content)}
+                        {message.typing && message.content.includes('분석하고 있어요')
+                          ? (
+                            <div className="flex items-end gap-2">
+                              <span>{message.content}</span>
+                              <div className="inline-block w-3.5 h-3.5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin shrink-0"></div>
+                            </div>
+                          )
+                          : formatMarkdown(message.content)}
                       </div>
                     </div>
                   </motion.div>
@@ -921,7 +929,7 @@ function TagsPageContent() {
                               logButtonClick('다른 제품 보기', 'tags');
                               setShowProductChangeModal(true);
                             }}
-                            className="text-sm text-gray-500 hover:text-gray-700 underline font-medium"
+                            className="text-sm text-gray-400 hover:text-gray-700 font-medium"
                           >
                             다른 제품 고르기
                           </button>
