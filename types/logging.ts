@@ -11,7 +11,15 @@ export type LogEventType =
   | 'favorite_removed'
   | 'favorites_compare_clicked'
   | 'comparison_chat_message'
-  | 'comparison_product_action';
+  | 'comparison_product_action'
+  // V2 Flow specific events
+  | 'category_selected'
+  | 'anchor_product_selected'
+  | 'anchor_product_changed'
+  | 'tag_selected'
+  | 'custom_tag_created'
+  | 'result_v2_received'
+  | 'result_v2_regenerated';
 
 export interface LogEvent {
   sessionId: string;
@@ -85,6 +93,45 @@ export interface LogEvent {
     productTitle?: string;
     userMessage?: string; // 비교 채팅 메시지
     aiResponse?: string; // AI 응답
+  };
+  // V2 Flow specific data
+  categoryData?: {
+    category: string; // Selected category name
+    categoryLabel: string; // Korean label (e.g., "분유포트")
+  };
+  anchorData?: {
+    productId: string;
+    productTitle: string;
+    category: string;
+    ranking: number; // Product ranking in category
+    brand?: string;
+    model?: string;
+    action?: 'selected' | 'changed' | 'search_used'; // Action type
+    searchKeyword?: string; // If search was used
+  };
+  tagData?: {
+    tagId?: string; // For predefined tags
+    tagText: string;
+    tagType: 'pros' | 'cons';
+    step: 1 | 2 | 3; // Which step in tags flow (1: pros, 2: cons, 3: budget)
+    mentionCount?: number; // How many reviews mentioned this tag
+    isCustom?: boolean; // User-created custom tag
+    category: string;
+    relatedAttributes?: Array<{
+      attribute: string;
+      weight: number;
+    }>;
+  };
+  resultV2Data?: {
+    category: string;
+    anchorProductId: string;
+    recommendedProductIds: string[];
+    selectedProsTags: string[];
+    selectedConsTags: string[];
+    budget: string;
+    fitScores?: number[]; // Fit scores for top 3
+    isRegeneration?: boolean; // Was this a regeneration with different anchor?
+    previousAnchorId?: string; // If regeneration, what was the previous anchor
   };
   metadata?: Record<string, unknown>; // 추가 정보
 }
@@ -207,4 +254,71 @@ export interface CampaignFunnelStats {
       comparisonChatUsed: PostRecommendationAction; // 제품 비교질문하기 쿼리
     };
   };
+}
+
+// V2 Flow Funnel Stats (Category-based flow)
+export interface V2FunnelStats {
+  utmCampaign: string; // 'all' | 'none' | specific campaign
+  totalSessions: number;
+  funnel: {
+    homePageViews: FunnelStep; // Home page visits
+    categoriesEntry: FunnelStep; // Categories page entry
+    anchorSelected: FunnelStep; // Anchor product selected
+    prosTagsSelected: FunnelStep; // Pros tags selected (step 1)
+    consTagsSelected: FunnelStep; // Cons tags selected or skipped (step 2)
+    budgetSelected: FunnelStep; // Budget selected (step 3)
+    resultV2Received: FunnelStep; // Result-v2 recommendation received
+    preRecommendationActions: {
+      anchorGuideOpened: PostRecommendationAction; // "구매 1분 가이드" opened
+      anchorSearchUsed: PostRecommendationAction; // Product search used
+    };
+    postRecommendationActions: {
+      coupangClicked: PostRecommendationAction; // Coupang link clicked
+      anchorRegenerated: PostRecommendationAction; // Changed anchor and regenerated
+      comparisonViewed: PostRecommendationAction; // Viewed comparison (if implemented)
+    };
+  };
+}
+
+// Category-specific analytics
+export interface CategoryAnalytics {
+  category: string;
+  categoryLabel: string;
+  totalSessions: number;
+  completionRate: number; // % that reached result-v2
+  avgTimeToCompletion?: number; // Average time in seconds
+  popularAnchorProducts: Array<{
+    productId: string;
+    productTitle: string;
+    selectionCount: number;
+    percentage: number;
+  }>;
+  popularProsTags: Array<{
+    tagText: string;
+    selectionCount: number;
+    percentage: number;
+  }>;
+  popularConsTags: Array<{
+    tagText: string;
+    selectionCount: number;
+    percentage: number;
+  }>;
+  budgetDistribution: Array<{
+    budgetRange: string;
+    count: number;
+    percentage: number;
+  }>;
+  customTagCreationRate: number; // % of sessions that created custom tags
+}
+
+// V2 Product recommendation rankings (by category)
+export interface V2ProductRecommendationRanking {
+  category: string;
+  productId: string;
+  productTitle: string;
+  totalRecommendations: number;
+  rank1Count: number;
+  rank2Count: number;
+  rank3Count: number;
+  avgFitScore?: number;
 }

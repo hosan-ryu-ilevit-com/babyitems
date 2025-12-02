@@ -226,6 +226,7 @@ export async function executeRefilterWithAnchor(
         brand: rec.브랜드,
         price: rec.최저가,
         reviewCount: rec.reviewCount || 0,
+        averageRating: rec.averageRating || 0,
         reviewUrl: rec.썸네일 || '',
         ranking: rec.순위 || index + 1,
         thumbnail: rec.썸네일 || '',

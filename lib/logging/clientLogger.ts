@@ -244,3 +244,161 @@ export function logComparisonProductAction(
     },
   });
 }
+
+// ============ V2 Flow Logging Functions ============
+
+// 카테고리 선택 로깅
+export function logCategorySelection(
+  category: string,
+  categoryLabel: string
+): void {
+  sendLogEvent('category_selected', {
+    page: 'categories',
+    categoryData: {
+      category,
+      categoryLabel,
+    },
+  });
+}
+
+// 앵커 제품 선택 로깅
+export function logAnchorProductSelection(
+  productId: string,
+  productTitle: string,
+  category: string,
+  ranking: number,
+  brand?: string,
+  model?: string
+): void {
+  sendLogEvent('anchor_product_selected', {
+    page: 'anchor',
+    anchorData: {
+      productId,
+      productTitle,
+      category,
+      ranking,
+      brand,
+      model,
+      action: 'selected',
+    },
+  });
+}
+
+// 앵커 제품 변경 로깅
+export function logAnchorProductChange(
+  productId: string,
+  productTitle: string,
+  category: string,
+  ranking: number,
+  searchKeyword?: string
+): void {
+  sendLogEvent('anchor_product_changed', {
+    page: 'anchor',
+    anchorData: {
+      productId,
+      productTitle,
+      category,
+      ranking,
+      action: searchKeyword ? 'search_used' : 'changed',
+      searchKeyword,
+    },
+  });
+}
+
+// 태그 선택 로깅
+export function logTagSelection(
+  tagText: string,
+  tagType: 'pros' | 'cons',
+  step: 1 | 2 | 3,
+  category: string,
+  tagId?: string,
+  mentionCount?: number,
+  isCustom?: boolean,
+  relatedAttributes?: Array<{ attribute: string; weight: number }>
+): void {
+  sendLogEvent('tag_selected', {
+    page: 'tags',
+    tagData: {
+      tagId,
+      tagText,
+      tagType,
+      step,
+      mentionCount,
+      isCustom,
+      category,
+      relatedAttributes,
+    },
+  });
+}
+
+// 커스텀 태그 생성 로깅
+export function logCustomTagCreation(
+  tagText: string,
+  tagType: 'pros' | 'cons',
+  category: string,
+  relatedAttributes: Array<{ attribute: string; weight: number }>
+): void {
+  sendLogEvent('custom_tag_created', {
+    page: 'tags',
+    tagData: {
+      tagText,
+      tagType,
+      step: tagType === 'pros' ? 1 : 2,
+      isCustom: true,
+      category,
+      relatedAttributes,
+    },
+  });
+}
+
+// V2 추천 결과 수신 로깅
+export function logResultV2Received(
+  category: string,
+  anchorProductId: string,
+  recommendedProductIds: string[],
+  selectedProsTags: string[],
+  selectedConsTags: string[],
+  budget: string,
+  fitScores?: number[]
+): void {
+  sendLogEvent('result_v2_received', {
+    page: 'result-v2',
+    resultV2Data: {
+      category,
+      anchorProductId,
+      recommendedProductIds,
+      selectedProsTags,
+      selectedConsTags,
+      budget,
+      fitScores,
+      isRegeneration: false,
+    },
+  });
+}
+
+// V2 추천 재생성 로깅 (앵커 변경)
+export function logResultV2Regeneration(
+  category: string,
+  newAnchorProductId: string,
+  previousAnchorId: string,
+  recommendedProductIds: string[],
+  selectedProsTags: string[],
+  selectedConsTags: string[],
+  budget: string,
+  fitScores?: number[]
+): void {
+  sendLogEvent('result_v2_regenerated', {
+    page: 'result-v2',
+    resultV2Data: {
+      category,
+      anchorProductId: newAnchorProductId,
+      recommendedProductIds,
+      selectedProsTags,
+      selectedConsTags,
+      budget,
+      fitScores,
+      isRegeneration: true,
+      previousAnchorId,
+    },
+  });
+}

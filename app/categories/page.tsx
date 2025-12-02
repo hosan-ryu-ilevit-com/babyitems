@@ -1,11 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CATEGORY_NAMES, CATEGORY_THUMBNAILS, Category } from '@/lib/data';
+import { CATEGORY_NAMES, Category } from '@/lib/data';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
+import { logPageView, logCategorySelection } from '@/lib/logging/clientLogger';
 
 // Category icons (fallback when no product thumbnail available)
 const CATEGORY_ICONS: Record<Category, string> = {
@@ -22,7 +23,7 @@ const CATEGORY_ICONS: Record<Category, string> = {
 
 // Category groups
 const FEEDING_CATEGORIES: Category[] = [
-  'baby_formula_dispenser',
+  // 'baby_formula_dispenser', // 현재 상품 부족으로 임시 숨김
   'milk_powder_port',
   'baby_bottle',
   'baby_bottle_sterilizer',
@@ -40,14 +41,15 @@ const BABY_LIFE_CATEGORIES: Category[] = [
 function CategoryButton({
   category,
   isSelected,
-  onSelect
+  onSelect,
+  thumbnailUrl
 }: {
   category: Category;
   isSelected: boolean;
   onSelect: (category: Category) => void;
+  thumbnailUrl: string | null;
 }) {
   const [imageError, setImageError] = useState(false);
-  const thumbnailUrl = CATEGORY_THUMBNAILS[category];
   const hasThumbnail = !!thumbnailUrl;
 
   return (
@@ -91,9 +93,38 @@ function CategoryButton({
 export default function CategoriesPage() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [thumbnails, setThumbnails] = useState<Record<Category, string | null>>({} as Record<Category, string | null>);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 페이지뷰 로깅 및 썸네일 로드
+  useEffect(() => {
+    logPageView('categories');
+
+    // 카테고리 썸네일 로드
+    async function loadThumbnails() {
+      try {
+        const response = await fetch('/api/category-thumbnails');
+        const data = await response.json();
+
+        if (data.success && data.thumbnails) {
+          setThumbnails(data.thumbnails);
+        }
+      } catch (error) {
+        console.error('Failed to load category thumbnails:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadThumbnails();
+  }, []);
 
   const handleCategorySelect = (category: Category) => {
     setSelectedCategory(category);
+
+    // 카테고리 선택 로깅
+    logCategorySelection(category, CATEGORY_NAMES[category]);
+
     // 약간의 delay 후 이동 (선택 feedback)
     setTimeout(() => {
       router.push(`/tags?category=${category}`);
@@ -139,6 +170,7 @@ export default function CategoriesPage() {
                   category={category}
                   isSelected={selectedCategory === category}
                   onSelect={handleCategorySelect}
+                  thumbnailUrl={thumbnails[category] || null}
                 />
               ))}
             </div>
@@ -154,6 +186,7 @@ export default function CategoriesPage() {
                   category={category}
                   isSelected={selectedCategory === category}
                   onSelect={handleCategorySelect}
+                  thumbnailUrl={thumbnails[category] || null}
                 />
               ))}
             </div>

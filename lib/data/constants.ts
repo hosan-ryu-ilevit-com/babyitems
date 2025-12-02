@@ -37,28 +37,28 @@ export const CATEGORY_NAMES: Record<Category, string> = {
 
 // 각 카테고리의 랭킹 1위 제품 ID (썸네일 표시용)
 export const CATEGORY_TOP_PRODUCTS: Record<Category, string | null> = {
-  baby_bottle: '8590005724', // 올뉴 젖병 젖꼭지 세트
-  baby_bottle_sterilizer: '9053463293', // 폴레드 픽셀 (순위 2위)
+  baby_bottle: '8590005724', // 스펙트라 PA 160ml 젖병 젖꼭지 (랭킹 1위)
+  baby_bottle_sterilizer: '8438035154', // 유팡 UP920A (랭킹 1위)
   baby_formula_dispenser: '4795877375', // 분유제조기 랭킹 1위
-  baby_monitor: '8163417199', // 홈카메라 랭킹 1위
+  baby_monitor: '8083010877', // 헤이홈 GKW-MC059 (랭킹 1위)
   baby_play_mat: '4928070388', // 놀이매트 랭킹 1위
   car_seat: '7368344482', // 카시트 랭킹 1위
-  milk_powder_port: '7716649665', // 베베보다 분유포트 (랭킹 1위)
-  nasal_aspirator: '8375044116', // 콧물흡입기 랭킹 1위
-  thermometer: '6653231366', // 귀 적외선 체온계 (랭킹 1위)
+  milk_powder_port: '6962086794', // 보르르 B17-505 (랭킹 1위)
+  nasal_aspirator: '8212428751', // 노시부 프로 (랭킹 1위)
+  thermometer: '8308688637', // 브라운 IRT6030 (랭킹 1위)
 };
 
 // 각 카테고리의 랭킹 1위 제품 썸네일 URL
 export const CATEGORY_THUMBNAILS: Record<Category, string | null> = {
-  baby_bottle: 'https://crawl-cdn.nosearch.com/image/withoutBgRemove/2023/500000_310_656_img_7656310_1.jpg',
-  baby_bottle_sterilizer: 'https://ns-curation.s3.ap-northeast-2.amazonaws.com/watermark/젖병소독기_폴레드_PXUVS01.png',
+  baby_bottle: 'https://crawl-cdn.nosearch.com/image/withoutBgRemove/2023/PA 160ml ì ë³ ì ê¼­ì§ (2ê°)_1687313858363.png',
+  baby_bottle_sterilizer: 'https://crawl-cdn.nosearch.com/image/withBgRemove/2024/1723770438477_ì í¡_1723770441158.png',
   baby_formula_dispenser: 'https://crawl-cdn.nosearch.com/image/withoutBgRemove/2023/BRZFRP-1A_1687315181649.png',
-  baby_monitor: 'https://crawl-cdn.nosearch.com/image/withBgRemove/2023/500000_792_483_img_29483792_1_jpg',
+  baby_monitor: 'https://ns-curation.s3.ap-northeast-2.amazonaws.com/watermark/홈캠_고퀄_GKW-MC059.png',
   baby_play_mat: 'https://d21x3meyyr2jva.cloudfront.net/backoffice/image/티지오매트_방방 놀이매트_놀이방매트.jpg',
   car_seat: 'https://crawl-cdn.nosearch.com/image/withBgRemove/2025/500000_309_468_img_26468309_1_k5.jpg',
-  milk_powder_port: 'https://crawl-cdn.nosearch.com/image/withBgRemove/2023/500000_948_098_img_30098948_1_jpg',
-  nasal_aspirator: 'https://ns-curation.s3.ap-northeast-2.amazonaws.com/watermark/콧물흡입기_조인메디칼_미니돌핀.png',
-  thermometer: 'https://ns-curation.s3.ap-northeast-2.amazonaws.com/watermark/체온계_붐케어_BC-05.png',
+  milk_powder_port: 'https://crawl-cdn.nosearch.com/image/withoutBgRemove/2023/ë³´ë¥´ë¥´_1687235909109.png',
+  nasal_aspirator: 'https://crawl-cdn.nosearch.com/image/withoutBgRemove/2023/ë¸ìë¶íë¡_1687164059407.png',
+  thermometer: 'https://ns-curation.s3.ap-northeast-2.amazonaws.com/watermark/체온계_브라운_IRT6030|0.png',
 };
 
 // 예산 옵션 인터페이스

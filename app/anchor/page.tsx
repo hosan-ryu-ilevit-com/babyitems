@@ -6,7 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { Category, CATEGORY_NAMES, ProductWithReviews } from '@/lib/data';
 import { GuideBottomSheet } from '@/components/GuideBottomSheet';
-import { logButtonClick } from '@/lib/logging/clientLogger';
+import {
+  logButtonClick,
+  logPageView,
+  logAnchorProductSelection,
+  logAnchorProductChange
+} from '@/lib/logging/clientLogger';
 
 function AnchorPageContent() {
   const router = useRouter();
@@ -28,6 +33,9 @@ function AnchorPageContent() {
       return;
     }
 
+    // 페이지뷰 로깅
+    logPageView('anchor');
+
     loadProducts();
   }, [category]);
 
@@ -42,7 +50,18 @@ function AnchorPageContent() {
         setProducts(data.products);
         // Auto-select the top product
         if (data.products.length > 0) {
-          setSelectedProduct(data.products[0]);
+          const topProduct = data.products[0];
+          setSelectedProduct(topProduct);
+
+          // 앵커 제품 초기 선택 로깅
+          logAnchorProductSelection(
+            String(topProduct.productId),
+            `${topProduct.브랜드} ${topProduct.모델명}`,
+            category,
+            topProduct.순위 || 1,
+            topProduct.브랜드,
+            topProduct.모델명
+          );
         }
         // Auto-open guide after loading
         setTimeout(() => setIsGuideOpen(true), 500);
@@ -62,6 +81,9 @@ function AnchorPageContent() {
     const productName = selectedProduct.제품명 || '';
     const fullProductName = `${brand} ${productName}`.trim() || selectedProduct.productId || '제품';
     const productTitle = encodeURIComponent(fullProductName);
+
+    // "시작하기" 버튼 클릭 로깅
+    logButtonClick('시작하기', 'anchor');
 
     router.push(`/tags?category=${category}&anchorId=${selectedProduct.productId}&productTitle=${productTitle}`);
   };
@@ -384,6 +406,15 @@ function AnchorPageContent() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       onClick={() => {
+                        // 앵커 제품 변경 로깅
+                        logAnchorProductChange(
+                          String(product.productId),
+                          `${product.브랜드} ${product.모델명}`,
+                          category,
+                          product.순위 || 0,
+                          searchKeyword || undefined
+                        );
+
                         setSelectedProduct(product);
                         setShowProductList(false);
                         setSearchKeyword('');

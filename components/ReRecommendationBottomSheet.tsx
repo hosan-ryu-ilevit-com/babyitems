@@ -631,7 +631,11 @@ export function ReRecommendationBottomSheet({
 
   // 바텀시트 접기/펼치기 토글
   const handleToggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
+    const newState = !isCollapsed;
+    setIsCollapsed(newState);
+
+    // 바텀시트 열기/닫기 로깅
+    logButtonClick(newState ? '재추천 바텀시트 접기' : '재추천 바텀시트 펼치기', 'result');
   };
 
   return (

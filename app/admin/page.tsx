@@ -1,15 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import type { SessionSummary, CampaignFunnelStats, ProductRecommendationRanking } from '@/types/logging';
+import type { SessionSummary, CampaignFunnelStats, ProductRecommendationRanking, V2FunnelStats, CategoryAnalytics, V2ProductRecommendationRanking } from '@/types/logging';
 import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
-
-// 액션 통계 타입
-interface ActionStats {
-  action: string;
-  todayCount: number;
-  totalCount: number;
-}
 
 export default function AdminPage() {
   const [password, setPassword] = useState('');
@@ -22,16 +15,24 @@ export default function AdminPage() {
   const [expandedSession, setExpandedSession] = useState<string | null>(null);
   const [expandedRecommendation, setExpandedRecommendation] = useState<string | null>(null);
   const [selectedSessions, setSelectedSessions] = useState<Set<string>>(new Set());
-  const [isDashboardExpanded, setIsDashboardExpanded] = useState(false);
   const [allSessions, setAllSessions] = useState<SessionSummary[]>([]); // 전체 날짜 세션
 
-  // UTM 퍼널 통계
+  // Main Flow (Priority) 퍼널 통계
   const [campaigns, setCampaigns] = useState<CampaignFunnelStats[]>([]);
   const [availableCampaigns, setAvailableCampaigns] = useState<string[]>([]);
   const [selectedCampaign, setSelectedCampaign] = useState<string>('all');
   const [funnelLoading, setFunnelLoading] = useState(false);
 
-  // 제품 추천 랭킹
+  // V2 Flow (Category) 퍼널 통계
+  const [v2Campaigns, setV2Campaigns] = useState<V2FunnelStats[]>([]);
+  const [selectedV2Campaign, setSelectedV2Campaign] = useState<string>('all');
+  const [categoryAnalytics, setCategoryAnalytics] = useState<CategoryAnalytics[]>([]);
+  const [v2ProductRankings, setV2ProductRankings] = useState<V2ProductRecommendationRanking[]>([]);
+
+  // Flow 선택 (V2가 메인)
+  const [selectedFlow, setSelectedFlow] = useState<'v2' | 'main'>('v2');
+
+  // 제품 추천 랭킹 (Main Flow)
   const [productRecommendationRankings, setProductRecommendationRankings] = useState<ProductRecommendationRanking[]>([]);
   const [isRecommendationRankingExpanded, setIsRecommendationRankingExpanded] = useState(false);
 
@@ -46,13 +47,6 @@ export default function AdminPage() {
 
   // 재추천 대화 섹션 상태
   const [isReRecommendationExpanded, setIsReRecommendationExpanded] = useState(false);
-
-  // 태그 클릭 순위
-  const [tagStats, setTagStats] = useState<{
-    pros: Array<{ tag: string; clickCount: number; isPopular: boolean }>;
-    cons: Array<{ tag: string; clickCount: number; isPopular: boolean }>;
-  } | null>(null);
-  const [isTagStatsExpanded, setIsTagStatsExpanded] = useState(false);
 
   // 비밀번호 검증
   const handleLogin = () => {
@@ -82,8 +76,6 @@ export default function AdminPage() {
         setSelectedDate('all');
         // UTM 퍼널 통계 가져오기
         fetchFunnelStats();
-        // 태그 클릭 통계 가져오기
-        fetchTagStats();
       }
     } catch {
       setError('날짜 목록을 불러오는데 실패했습니다.');
@@ -102,29 +94,24 @@ export default function AdminPage() {
       const data = await response.json();
 
       if (response.ok) {
-        setCampaigns(data.campaigns || []);
+        // Main Flow data
+        setCampaigns(data.mainFlow?.campaigns || []);
+        setProductRecommendationRankings(data.mainFlow?.productRecommendationRankings || []);
+
+        // V2 Flow data
+        setV2Campaigns(data.v2Flow?.campaigns || []);
+        setCategoryAnalytics(data.v2Flow?.categoryAnalytics || []);
+        setV2ProductRankings(data.v2Flow?.productRecommendationRankings || []);
+
+        // Available campaigns (shared)
         setAvailableCampaigns(data.availableCampaigns || []);
         setSelectedCampaign(data.availableCampaigns?.[0] || 'all');
-        setProductRecommendationRankings(data.productRecommendationRankings || []);
+        setSelectedV2Campaign(data.availableCampaigns?.[0] || 'all');
       }
     } catch (error) {
       console.error('Failed to fetch funnel stats:', error);
     } finally {
       setFunnelLoading(false);
-    }
-  };
-
-  // 태그 클릭 통계 가져오기
-  const fetchTagStats = async () => {
-    try {
-      const response = await fetch('/api/tag-stats');
-      const data = await response.json();
-
-      if (response.ok) {
-        setTagStats(data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch tag stats:', error);
     }
   };
 
@@ -243,6 +230,14 @@ export default function AdminPage() {
       favorites_compare_clicked: '찜 비교하기',
       comparison_chat_message: '비교 채팅',
       comparison_product_action: '비교표 액션',
+      // V2 Flow events
+      category_selected: '카테고리 선택',
+      anchor_product_selected: '앵커 제품 선택',
+      anchor_product_changed: '앵커 제품 변경',
+      tag_selected: '태그 선택',
+      custom_tag_created: '커스텀 태그 생성',
+      result_v2_received: 'V2 추천 결과',
+      result_v2_regenerated: 'V2 재추천',
     };
     return labels[type] || type;
   };
@@ -256,6 +251,11 @@ export default function AdminPage() {
       'chat/open': '자유 챗',
       result: '결과',
       compare: '비교',
+      // V2 Flow pages
+      categories: '카테고리',
+      anchor: '앵커 선택',
+      tags: '태그 선택',
+      'result-v2': 'V2 결과',
     };
     return page ? labels[page] || page : '-';
   };
@@ -637,76 +637,6 @@ export default function AdminPage() {
     )
   ).sort();
 
-  // 액션 통계 계산
-  const calculateActionStats = (): ActionStats[] => {
-    const today = new Date().toISOString().split('T')[0];
-    const actionMap = new Map<string, { today: number; total: number }>();
-
-    // 오늘 날짜의 세션들
-    const todaySessions = sessions.filter(s =>
-      s.firstSeen.startsWith(today)
-    );
-
-    // 전체 세션에서 통계 수집
-    allSessions.forEach(session => {
-      const isToday = session.firstSeen.startsWith(today);
-
-      session.events.forEach(event => {
-        let actionKey = '';
-
-        // 버튼 클릭 이벤트
-        if (event.eventType === 'button_click' && event.buttonLabel) {
-          actionKey = event.buttonLabel;
-        }
-        // 페이지 뷰
-        else if (event.eventType === 'page_view' && event.page) {
-          actionKey = `페이지 방문: ${event.page}`;
-        }
-
-        if (actionKey) {
-          const current = actionMap.get(actionKey) || { today: 0, total: 0 };
-          actionMap.set(actionKey, {
-            today: isToday ? current.today + 1 : current.today,
-            total: current.total + 1,
-          });
-        }
-      });
-    });
-
-    // 오늘 날짜 세션들도 체크 (혹시 전체에 포함 안된 경우 대비)
-    todaySessions.forEach(session => {
-      session.events.forEach(event => {
-        let actionKey = '';
-
-        if (event.eventType === 'button_click' && event.buttonLabel) {
-          actionKey = event.buttonLabel;
-        } else if (event.eventType === 'page_view' && event.page) {
-          actionKey = `페이지 방문: ${event.page}`;
-        }
-
-        if (actionKey) {
-          const current = actionMap.get(actionKey) || { today: 0, total: 0 };
-          // 전체 세션에 이미 카운트되지 않았다면 추가
-          if (!allSessions.some(s => s.sessionId === session.sessionId)) {
-            actionMap.set(actionKey, {
-              today: current.today + 1,
-              total: current.total + 1,
-            });
-          }
-        }
-      });
-    });
-
-    // 배열로 변환하고 총 횟수 기준 정렬
-    return Array.from(actionMap.entries())
-      .map(([action, counts]) => ({
-        action,
-        todayCount: counts.today,
-        totalCount: counts.total,
-      }))
-      .sort((a, b) => b.totalCount - a.totalCount);
-  };
-
   // 사용자 추가 입력 수집 (테스트 데이터 제외)
   const collectUserInputs = () => {
     const TEST_IPS = ['::1', '127.0.0.1', '211.53.92.162', '::ffff:172.16.230.123']; // 로컬 + 레브잇테크
@@ -873,27 +803,179 @@ export default function AdminPage() {
           <div className="border-t pt-4 mt-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-800">📊 UTM 퍼널 분석</h2>
-              {/* UTM 캠페인 선택 */}
-              {availableCampaigns.length > 0 && (
-                <select
-                  value={selectedCampaign}
-                  onChange={(e) => setSelectedCampaign(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  {availableCampaigns.map(campaign => (
-                    <option key={campaign} value={campaign}>
-                      {campaign === 'all' ? '전체' : campaign === 'none' ? 'UTM 없음' : campaign}
-                    </option>
-                  ))}
-                </select>
-              )}
+              <div className="flex items-center gap-4">
+                {/* Flow 선택 (V2가 기본) */}
+                <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                  <button
+                    onClick={() => setSelectedFlow('v2')}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      selectedFlow === 'v2'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    V2 Flow (카테고리)
+                  </button>
+                  <button
+                    onClick={() => setSelectedFlow('main')}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      selectedFlow === 'main'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    Main Flow (Priority)
+                  </button>
+                </div>
+                {/* UTM 캠페인 선택 */}
+                {availableCampaigns.length > 0 && (
+                  <select
+                    value={selectedFlow === 'v2' ? selectedV2Campaign : selectedCampaign}
+                    onChange={(e) => selectedFlow === 'v2' ? setSelectedV2Campaign(e.target.value) : setSelectedCampaign(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {availableCampaigns.map(campaign => (
+                      <option key={campaign} value={campaign}>
+                        {campaign === 'all' ? '전체' : campaign === 'none' ? 'UTM 없음' : campaign}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
             </div>
 
             {funnelLoading ? (
               <div className="text-center py-8">
                 <p className="text-gray-600">퍼널 통계 로딩 중...</p>
               </div>
+            ) : selectedFlow === 'v2' ? (
+              // V2 Flow (Category-based) Display
+              v2Campaigns.length > 0 ? (
+                (() => {
+                  const currentV2Campaign = v2Campaigns.find(c => c.utmCampaign === selectedV2Campaign);
+                  if (!currentV2Campaign) return null;
+
+                  return (
+                    <div className="space-y-6">
+                      {/* 전체 세션 수 */}
+                      <div className="bg-indigo-50 rounded-lg p-4">
+                        <p className="text-sm text-gray-600 mb-1">총 세션 수</p>
+                        <p className="text-3xl font-bold text-indigo-600">{currentV2Campaign.totalSessions}</p>
+                      </div>
+
+                      {/* V2 퍼널 시각화 - 7단계 */}
+                      <div className="bg-white border border-gray-200 rounded-lg p-6">
+                        <h3 className="text-base font-bold text-gray-900 mb-4">V2 사용자 여정 퍼널 (카테고리 기반)</h3>
+                        <div className="space-y-3">
+                          {/* 1. 홈 페이지뷰 */}
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-semibold text-gray-700">1️⃣ 홈 페이지뷰</span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.homePageViews.percentage}%</span>
+                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.homePageViews.count}</span>
+                              </div>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-3">
+                              <div className="bg-blue-500 h-3 rounded-full transition-all" style={{ width: '100%' }} />
+                            </div>
+                          </div>
+
+                          {/* 2. 카테고리 선택 */}
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-semibold text-gray-700">2️⃣ 카테고리 진입</span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.categoriesEntry.percentage}%</span>
+                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.categoriesEntry.count}</span>
+                              </div>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-3">
+                              <div className="bg-indigo-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.categoriesEntry.percentage}%` }} />
+                            </div>
+                          </div>
+
+                          {/* 3. 앵커 제품 선택 */}
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-semibold text-gray-700">3️⃣ 앵커 제품 선택</span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.anchorSelected.percentage}%</span>
+                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.anchorSelected.count}</span>
+                              </div>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-3">
+                              <div className="bg-teal-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.anchorSelected.percentage}%` }} />
+                            </div>
+                          </div>
+
+                          {/* 4. 장점 태그 선택 */}
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-semibold text-gray-700">4️⃣ 장점 태그 선택</span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.prosTagsSelected.percentage}%</span>
+                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.prosTagsSelected.count}</span>
+                              </div>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-3">
+                              <div className="bg-green-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.prosTagsSelected.percentage}%` }} />
+                            </div>
+                          </div>
+
+                          {/* 5. 단점 태그 선택 */}
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-semibold text-gray-700">5️⃣ 단점 태그 선택/스킵</span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.consTagsSelected.percentage}%</span>
+                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.consTagsSelected.count}</span>
+                              </div>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-3">
+                              <div className="bg-red-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.consTagsSelected.percentage}%` }} />
+                            </div>
+                          </div>
+
+                          {/* 6. 예산 선택 */}
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-semibold text-gray-700">6️⃣ 예산 선택</span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.budgetSelected.percentage}%</span>
+                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.budgetSelected.count}</span>
+                              </div>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-3">
+                              <div className="bg-purple-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.budgetSelected.percentage}%` }} />
+                            </div>
+                          </div>
+
+                          {/* 7. V2 추천 결과 수신 */}
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-semibold text-gray-700">7️⃣ V2 추천 결과 수신</span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.resultV2Received.percentage}%</span>
+                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.resultV2Received.count}</span>
+                              </div>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-3">
+                              <div className="bg-pink-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.resultV2Received.percentage}%` }} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-600">V2 퍼널 데이터가 없습니다.</p>
+                </div>
+              )
             ) : campaigns.length > 0 ? (
+              // Main Flow (Priority-based) Display
               (() => {
                 const currentCampaign = campaigns.find(c => c.utmCampaign === selectedCampaign);
                 if (!currentCampaign) return null;
@@ -1244,154 +1326,6 @@ export default function AdminPage() {
                     );
                   })}
                 </div>
-              </div>
-            )}
-          </div>
-
-          {/* 태그 클릭 순위 */}
-          <div className="border-t pt-4 mt-4">
-            <button
-              onClick={() => setIsTagStatsExpanded(!isTagStatsExpanded)}
-              className="flex items-center gap-2 text-lg font-semibold text-gray-800 hover:text-gray-900 transition-colors"
-            >
-              <svg
-                className={`w-5 h-5 transition-transform ${isTagStatsExpanded ? 'rotate-90' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-              <span>🏆 태그 클릭 순위 (Priority 페이지)</span>
-            </button>
-
-            {isTagStatsExpanded && tagStats && (
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                {/* 장점 태그 순위 */}
-                <div className="bg-green-50 rounded-lg p-4">
-                  <h3 className="font-bold text-green-800 mb-3 flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    장점 태그 TOP 10
-                  </h3>
-                  <div className="space-y-2">
-                    {tagStats.pros.slice(0, 10).map((stat, index) => (
-                      <div key={stat.tag} className="flex items-center justify-between bg-white rounded px-3 py-2">
-                        <div className="flex items-center gap-2 flex-1">
-                          <span className={`font-bold ${index < 3 ? 'text-green-600' : 'text-gray-400'}`}>
-                            #{index + 1}
-                          </span>
-                          {stat.isPopular && (
-                            <span className="px-1.5 py-0.5 text-xs font-bold bg-green-500 text-white rounded">
-                              인기
-                            </span>
-                          )}
-                          <span className="text-sm text-gray-700 flex-1 line-clamp-2">
-                            {stat.tag}
-                          </span>
-                        </div>
-                        <span className="font-semibold text-green-600 ml-2">
-                          {stat.clickCount}회
-                        </span>
-                      </div>
-                    ))}
-                    {tagStats.pros.length === 0 && (
-                      <p className="text-gray-500 text-sm text-center py-4">
-                        클릭 데이터가 없습니다
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* 단점 태그 순위 */}
-                <div className="bg-orange-50 rounded-lg p-4">
-                  <h3 className="font-bold text-orange-800 mb-3 flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    단점 태그 TOP 10
-                  </h3>
-                  <div className="space-y-2">
-                    {tagStats.cons.slice(0, 10).map((stat, index) => (
-                      <div key={stat.tag} className="flex items-center justify-between bg-white rounded px-3 py-2">
-                        <div className="flex items-center gap-2 flex-1">
-                          <span className={`font-bold ${index < 3 ? 'text-orange-600' : 'text-gray-400'}`}>
-                            #{index + 1}
-                          </span>
-                          {stat.isPopular && (
-                            <span className="px-1.5 py-0.5 text-xs font-bold bg-orange-500 text-white rounded">
-                              인기
-                            </span>
-                          )}
-                          <span className="text-sm text-gray-700 flex-1 line-clamp-2">
-                            {stat.tag}
-                          </span>
-                        </div>
-                        <span className="font-semibold text-orange-600 ml-2">
-                          {stat.clickCount}회
-                        </span>
-                      </div>
-                    ))}
-                    {tagStats.cons.length === 0 && (
-                      <p className="text-gray-500 text-sm text-center py-4">
-                        클릭 데이터가 없습니다
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* 기존 액션 통계 대시보드 */}
-          <div className="border-t pt-4 mt-4">
-            <button
-              onClick={() => setIsDashboardExpanded(!isDashboardExpanded)}
-              className="flex items-center gap-2 text-lg font-semibold text-gray-800 hover:text-gray-900 transition-colors"
-            >
-              <svg
-                className={`w-5 h-5 transition-transform ${isDashboardExpanded ? 'rotate-90' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-              <span>📋 상세 액션 로그</span>
-            </button>
-
-            {isDashboardExpanded && (
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full text-sm border-collapse">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="px-4 py-3 text-left font-semibold text-gray-700 border">액션</th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700 border">오늘</th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700 border">누적</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {calculateActionStats().map((stat, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50">
-                        <td className="px-4 py-2 border text-gray-800">{stat.action}</td>
-                        <td className="px-4 py-2 border text-center">
-                          <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
-                            {stat.todayCount}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2 border text-center">
-                          <span className="inline-block px-3 py-1 bg-gray-100 text-gray-800 rounded-full font-medium">
-                            {stat.totalCount}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {calculateActionStats().length === 0 && (
-                  <p className="text-center text-gray-500 py-4">통계 데이터가 없습니다.</p>
-                )}
               </div>
             )}
           </div>
@@ -2016,7 +1950,125 @@ export default function AdminPage() {
                                   <p className="text-gray-500 text-xs">상품 ID: {event.comparisonData.productId}</p>
                                 </div>
                               )}
-                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && !event.chatData && !event.favoriteData && !event.comparisonData && event.eventType !== 'page_view' && (
+                              {/* V2 Flow Events */}
+                              {event.eventType === 'category_selected' && 'categoryData' in event && event.categoryData && (
+                                <div className="bg-indigo-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-indigo-700 mb-1">
+                                    📂 카테고리 선택: {event.categoryData.categoryLabel}
+                                  </p>
+                                  <p className="text-gray-600">카테고리 ID: {event.categoryData.category}</p>
+                                </div>
+                              )}
+                              {(event.eventType === 'anchor_product_selected' || event.eventType === 'anchor_product_changed') && 'anchorData' in event && event.anchorData && (
+                                <div className="bg-teal-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-teal-700 mb-1">
+                                    {event.eventType === 'anchor_product_selected' && '⚓ 앵커 제품 선택'}
+                                    {event.eventType === 'anchor_product_changed' && '🔄 앵커 제품 변경'}
+                                    {event.anchorData.action === 'search_used' && ' (검색 사용)'}
+                                  </p>
+                                  <p className="text-gray-700 font-medium">{event.anchorData.brand} {event.anchorData.model || event.anchorData.productTitle}</p>
+                                  <p className="text-gray-600">카테고리: {event.anchorData.category}</p>
+                                  <p className="text-gray-600">랭킹: {event.anchorData.ranking}위</p>
+                                  {event.anchorData.searchKeyword && (
+                                    <p className="text-gray-500 mt-1">검색어: "{event.anchorData.searchKeyword}"</p>
+                                  )}
+                                </div>
+                              )}
+                              {(event.eventType === 'tag_selected' || event.eventType === 'custom_tag_created') && 'tagData' in event && event.tagData && (
+                                <div className={`p-2 rounded text-xs ${
+                                  event.tagData.tagType === 'cons' ? 'bg-red-50' : 'bg-green-50'
+                                }`}>
+                                  <p className={`font-semibold mb-1 ${
+                                    event.tagData.tagType === 'cons' ? 'text-red-700' : 'text-green-700'
+                                  }`}>
+                                    {event.eventType === 'tag_selected' && '🏷️ 태그 선택'}
+                                    {event.eventType === 'custom_tag_created' && '✨ 커스텀 태그 생성'}
+                                    {event.tagData.isCustom && ' (커스텀)'}
+                                  </p>
+                                  <p className="text-gray-700 font-medium">"{event.tagData.tagText}"</p>
+                                  <p className="text-gray-600">
+                                    {event.tagData.tagType === 'pros' ? '장점' : '단점'} 태그 (Step {event.tagData.step})
+                                  </p>
+                                  {event.tagData.mentionCount && (
+                                    <p className="text-gray-500">언급 횟수: {event.tagData.mentionCount}회</p>
+                                  )}
+                                  {event.tagData.relatedAttributes && event.tagData.relatedAttributes.length > 0 && (
+                                    <div className="mt-2 bg-white p-2 rounded">
+                                      <p className="text-gray-600 font-medium mb-1">관련 속성:</p>
+                                      {event.tagData.relatedAttributes.map((attr, i) => (
+                                        <p key={i} className="text-gray-700 text-xs">
+                                          • {attr.attribute}: {attr.weight}
+                                        </p>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              {(event.eventType === 'result_v2_received' || event.eventType === 'result_v2_regenerated') && 'resultV2Data' in event && event.resultV2Data && (
+                                <div className="space-y-1">
+                                  <button
+                                    onClick={() => {
+                                      const key = `v2-${session.sessionId}-${idx}`;
+                                      setExpandedRecommendation(
+                                        expandedRecommendation === key ? null : key
+                                      );
+                                    }}
+                                    className="text-indigo-600 hover:text-indigo-800 underline text-left font-medium"
+                                  >
+                                    📋 V2 추천 결과 펼쳐보기 ({event.resultV2Data.recommendedProductIds.length}개 제품)
+                                    {event.resultV2Data.isRegeneration && ' (재생성)'}
+                                  </button>
+                                  {expandedRecommendation === `v2-${session.sessionId}-${idx}` && (
+                                    <div className="mt-2 p-4 bg-indigo-50 rounded-lg text-xs space-y-4">
+                                      {/* 기본 정보 */}
+                                      <div className="bg-white p-3 rounded space-y-2">
+                                        <p className="font-bold text-indigo-900">📂 카테고리: {event.resultV2Data.category}</p>
+                                        <p className="text-gray-700">⚓ 앵커 제품: {event.resultV2Data.anchorProductId}</p>
+                                        {event.resultV2Data.isRegeneration && event.resultV2Data.previousAnchorId && (
+                                          <p className="text-gray-600">이전 앵커: {event.resultV2Data.previousAnchorId}</p>
+                                        )}
+                                        <p className="text-gray-700">💰 예산: {event.resultV2Data.budget}</p>
+                                      </div>
+
+                                      {/* 선택된 태그 */}
+                                      <div className="bg-white p-3 rounded space-y-2">
+                                        <p className="font-bold text-green-700">✅ 선택한 장점 태그 ({event.resultV2Data.selectedProsTags.length}개)</p>
+                                        <div className="space-y-1">
+                                          {event.resultV2Data.selectedProsTags.map((tag, i) => (
+                                            <p key={i} className="text-gray-700">• {tag}</p>
+                                          ))}
+                                        </div>
+                                        {event.resultV2Data.selectedConsTags.length > 0 && (
+                                          <>
+                                            <p className="font-bold text-red-700 mt-2">❌ 선택한 단점 태그 ({event.resultV2Data.selectedConsTags.length}개)</p>
+                                            <div className="space-y-1">
+                                              {event.resultV2Data.selectedConsTags.map((tag, i) => (
+                                                <p key={i} className="text-gray-700">• {tag}</p>
+                                              ))}
+                                            </div>
+                                          </>
+                                        )}
+                                      </div>
+
+                                      {/* 추천 결과 */}
+                                      <div className="bg-white p-3 rounded space-y-2">
+                                        <p className="font-bold text-purple-900">🎯 추천된 제품</p>
+                                        {event.resultV2Data.recommendedProductIds.map((productId, i) => (
+                                          <div key={i} className="border-l-4 border-purple-500 pl-3 py-1">
+                                            <p className="font-semibold text-gray-800">
+                                              #{i + 1} {productId}
+                                            </p>
+                                            {event.resultV2Data?.fitScores && event.resultV2Data.fitScores[i] !== undefined && (
+                                              <p className="text-gray-600">Fit Score: {event.resultV2Data.fitScores[i]}점</p>
+                                            )}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && !event.chatData && !event.favoriteData && !event.comparisonData && !event.categoryData && !event.anchorData && !event.tagData && !event.resultV2Data && event.eventType !== 'page_view' && (
                                 <span className="text-xs text-gray-400">-</span>
                               )}
                               {event.recommendations && (

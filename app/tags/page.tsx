@@ -6,7 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { Category, CATEGORY_NAMES, CATEGORY_BUDGET_OPTIONS, BudgetOption, ProductWithReviews } from '@/lib/data';
 import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
-import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import {
+  logPageView,
+  logButtonClick,
+  logTagSelection,
+  logCustomTagCreation
+} from '@/lib/logging/clientLogger';
 import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 
 interface Tag {
@@ -286,6 +291,22 @@ function TagsPageContent() {
       setSelectedPros(selectedPros.filter((t) => t.id !== tag.id));
     } else if (selectedPros.length < 4) {
       setSelectedPros([...selectedPros, tag]);
+
+      // 장점 태그 선택 로깅
+      const relatedAttributes = Object.entries(tag.attributes || {}).map(([attr, weight]) => ({
+        attribute: attr,
+        weight: weight
+      }));
+      logTagSelection(
+        tag.text,
+        'pros',
+        1, // Step 1: 장점 선택
+        category,
+        tag.id,
+        tag.mentionCount,
+        tag.id.startsWith('custom-'),
+        relatedAttributes
+      );
     }
   };
 
@@ -295,6 +316,22 @@ function TagsPageContent() {
       setSelectedCons(selectedCons.filter((t) => t.id !== tag.id));
     } else if (selectedCons.length < 3) {
       setSelectedCons([...selectedCons, tag]);
+
+      // 단점 태그 선택 로깅
+      const relatedAttributes = Object.entries(tag.attributes || {}).map(([attr, weight]) => ({
+        attribute: attr,
+        weight: weight
+      }));
+      logTagSelection(
+        tag.text,
+        'cons',
+        2, // Step 2: 단점 선택
+        category,
+        tag.id,
+        tag.mentionCount,
+        tag.id.startsWith('custom-'),
+        relatedAttributes
+      );
     }
   };
 
@@ -342,6 +379,18 @@ function TagsPageContent() {
       setSelectedPros((prev) => [...prev, newTag]);
       setCustomProsInput('');
       setIsAddingCustomPros(false);
+
+      // 커스텀 장점 태그 생성 로깅
+      const relatedAttributes = Object.entries(data.attributes || {}).map(([attr, weight]) => ({
+        attribute: attr,
+        weight: weight as number
+      }));
+      logCustomTagCreation(
+        trimmed,
+        'pros',
+        category,
+        relatedAttributes
+      );
 
       console.log('✅ 커스텀 장점 태그 추가:', newTag);
     } catch (error) {
@@ -395,6 +444,18 @@ function TagsPageContent() {
       setCustomConsInput('');
       setIsAddingCustomCons(false);
 
+      // 커스텀 단점 태그 생성 로깅
+      const relatedAttributes = Object.entries(data.attributes || {}).map(([attr, weight]) => ({
+        attribute: attr,
+        weight: weight as number
+      }));
+      logCustomTagCreation(
+        trimmed,
+        'cons',
+        category,
+        relatedAttributes
+      );
+
       console.log('✅ 커스텀 단점 태그 추가:', newTag);
     } catch (error) {
       console.error('❌ 커스텀 태그 추가 실패:', error);
@@ -446,6 +507,19 @@ function TagsPageContent() {
 
   // 추천받기 버튼 클릭 핸들러
   const handleRecommendation = () => {
+    // 예산이 없으면 디폴트 예산(인기 옵션) 자동 설정
+    let finalBudget = budget || parsedBudgetDisplay;
+    if (!finalBudget) {
+      const popularOption = budgetOptions.find(opt => opt.popular);
+      if (popularOption) {
+        finalBudget = popularOption.value;
+        setBudget(finalBudget);
+        // 디폴트 예산 사용 로깅
+        logButtonClick(`예산_디폴트_선택_${popularOption.label}`, 'tags');
+        console.log('✅ 디폴트 예산 자동 선택:', popularOption.label);
+      }
+    }
+
     // 세션에 데이터 저장
     const sessionKey = 'babyitem_session';
     const existingSession = sessionStorage.getItem(sessionKey);
@@ -456,13 +530,13 @@ function TagsPageContent() {
     const tagBasedPriority = {
       selectedProsTags: selectedPros,
       selectedConsTags: selectedCons,
-      budget: budget,
+      budget: finalBudget,
       anchorProductId: anchorId,
       category: category
     };
 
     session.tagBasedPriority = tagBasedPriority;
-    session.budget = budget;
+    session.budget = finalBudget;
     session.phase = 'result';
 
     sessionStorage.setItem(sessionKey, JSON.stringify(session));
@@ -471,7 +545,7 @@ function TagsPageContent() {
     const tagSelections = {
       selectedPros: selectedPros,
       selectedCons: selectedCons,
-      budget: budget,
+      budget: finalBudget,
     };
     sessionStorage.setItem('tag_selections', JSON.stringify(tagSelections));
 
@@ -624,7 +698,7 @@ function TagsPageContent() {
               {
                 id: introMessageId,
                 role: 'assistant',
-                content: `맞춤형 추천을 위해 ${CATEGORY_NAMES[category]} 판매 1위 제품의\n내돈내산 리뷰를 분석했어요! 📊`,
+                content: `대표 인기템 ${CATEGORY_NAMES[category]}, 우리 집에도 맞을까요?\n광고 뺀 후기 분석으로 딱 맞는 제품을 찾아드릴게요.`,
                 typing: true,
                 stepTag: '1/3',
               },
@@ -637,7 +711,7 @@ function TagsPageContent() {
 
               // 장점 선택 메시지 추가
               setTimeout(() => {
-                addMessage('assistant', '이 제품의 어떤 점이\n가장 마음에 드시나요?', true);
+                addMessage('assistant', '어떤 점이 가장 기대되시나요?\n마음에 드는 순서대로 최대 4가지만 골라주세요.', true);
 
                 // 장점 선택 컴포넌트 추가
                 setTimeout(() => {
@@ -869,11 +943,6 @@ function TagsPageContent() {
                       data-component="pros-selector"
                     >
                       <div className={`space-y-3 ${currentStep >= 2 ? 'opacity-50 pointer-events-none' : ''}`}>
-                        {/* 설명 텍스트 */}
-                        <p className="text-sm text-gray-600 mb-4">
-                          최대 4개 선택 가능 • 선택한 순서대로 우선순위가 적용됩니다
-                        </p>
-
                         {/* 장점 태그 리스트 */}
                         {prosTags.map((tag, index) => {
                           const isSelected = selectedPros.some(t => t.id === tag.id);
@@ -896,7 +965,7 @@ function TagsPageContent() {
                               animate={{ opacity: 1 }}
                               transition={{ duration: 0.15, delay: index * 0.02 }}
                               onClick={() => toggleProsTag(tag)}
-                              className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                              className={`w-full px-4 py-2.5 rounded-xl border-2 text-left transition-all ${
                                 isSelected
                                   ? 'border-emerald-300 bg-emerald-100'
                                   : 'border-transparent bg-gray-100 hover:bg-gray-200'
@@ -1026,11 +1095,6 @@ function TagsPageContent() {
                       data-component="cons-selector"
                     >
                       <div className={`space-y-3 ${currentStep >= 3 ? 'opacity-50 pointer-events-none' : ''}`}>
-                        {/* 설명 텍스트 */}
-                        <p className="text-sm text-gray-600 mb-4">
-                          최대 3개 선택 가능 • 선택하지 않아도 됩니다
-                        </p>
-
                         {consTags.length === 0 ? (
                           /* 단점 없을 때 */
                           <motion.div
@@ -1072,7 +1136,7 @@ function TagsPageContent() {
                                   animate={{ opacity: 1 }}
                                   transition={{ duration: 0.15, delay: index * 0.02 }}
                                   onClick={() => toggleConsTag(tag)}
-                                  className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                                  className={`w-full px-4 py-2.5 rounded-xl border-2 text-left transition-all ${
                                     isSelected
                                       ? 'border-rose-300 bg-rose-100'
                                       : 'border-transparent bg-gray-100 hover:bg-gray-200'
@@ -1198,7 +1262,7 @@ function TagsPageContent() {
                               setSelectedCons([]);
 
                               setTimeout(() => {
-                                addMessage('assistant', '마지막이에요!\n예산을 선택해주세요', true);
+                                addMessage('assistant', '마지막이에요.\n생각해 둔 예산이 있나요?', true);
 
                                 setTimeout(() => {
                                   addComponentMessage('budget-selector');
@@ -1236,10 +1300,7 @@ function TagsPageContent() {
                       data-component="budget-selector"
                     >
                       <div className={`bg-white border border-gray-200 rounded-2xl p-4 space-y-3 ${currentStep >= 4 ? 'opacity-50 pointer-events-none' : ''}`}>
-                        <div className="flex items-center gap-2 mb-4">
-                          <span className="text-xl">💰</span>
-                          <h3 className="text-sm font-bold text-gray-900">예산</h3>
-                        </div>
+                       
 
                         {/* 2x2 Grid for budget buttons */}
                         <div className="grid grid-cols-2 gap-2 mb-3">
@@ -1365,7 +1426,7 @@ function TagsPageContent() {
 
                 // 단점 선택 메시지 추가
                 setTimeout(() => {
-                  addMessage('assistant', '절대 타협할 수 없는 단점이 있나요?', true);
+                  addMessage('assistant', '이것만큼은 절대 안 된다!\n꼭 피하고 싶은 단점이 있나요? (선택)', true);
 
                   // 단점 선택 컴포넌트 추가
                   setTimeout(() => {
@@ -1426,7 +1487,7 @@ function TagsPageContent() {
 
                   // 예산 선택 메시지 추가
                   setTimeout(() => {
-                    addMessage('assistant', '마지막이에요!\n예산을 선택해주세요', true);
+                    addMessage('assistant', '마지막이에요.\n생각해 둔 예산이 있나요?', true);
 
                     // 예산 선택 컴포넌트 추가
                     setTimeout(() => {
@@ -1481,20 +1542,13 @@ function TagsPageContent() {
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                whileHover={(budget || parsedBudgetDisplay) ? { scale: 1.02 } : {}}
-                whileTap={(budget || parsedBudgetDisplay) ? { scale: 0.98 } : {}}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  if (!budget && !parsedBudgetDisplay) return;
-
                   logButtonClick('추천받기', 'tags');
                   handleRecommendation();
                 }}
-                disabled={!budget && !parsedBudgetDisplay}
-                className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
-                  (budget || parsedBudgetDisplay)
-                    ? 'bg-[#0084FE] text-white hover:opacity-90'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                }`}
+                className="flex-[3] h-14 rounded-2xl font-semibold text-base transition-all bg-[#0084FE] text-white hover:opacity-90"
               >
                 추천받기
               </motion.button>
@@ -1576,7 +1630,7 @@ function TagsPageContent() {
               >
                 <div className="p-5 border-b">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold text-gray-900">기준 제품을 골라주세요</h3>
+                    <h3 className="text-lg font-bold text-gray-900">리뷰 분석 제품 고르기</h3>
                     <button
                       onClick={() => setShowProductChangeModal(false)}
                       className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
@@ -1656,6 +1710,10 @@ function TagsPageContent() {
                         setAnchorId(newProductId);
                         setAnchorProduct(product);
                         setProductTitle(product.모델명 || product.제품명);
+
+                        // 제품 선택 로깅 (상세 정보 포함)
+                        logButtonClick(`태그_제품변경_${product.브랜드}_${product.모델명}_랭킹${product.순위}`, 'tags');
+
                         setShowProductChangeModal(false);
                         setSearchKeyword('');
 
@@ -1693,7 +1751,7 @@ function TagsPageContent() {
                               {
                                 id: introMessageId,
                                 role: 'assistant',
-                                content: `맞춤형 추천을 위해 ${CATEGORY_NAMES[category]} ${product.순위}위 제품의\n내돈내산 리뷰를 분석했어요! 📊`,
+                                content: `대표 인기템 ${CATEGORY_NAMES[category]}, 우리 집에도 맞을까요?\n광고 뺀 후기 분석으로 딱 맞는 제품을 찾아드릴게요.`,
                                 typing: true,
                                 stepTag: '1/3',
                               },
@@ -1703,7 +1761,7 @@ function TagsPageContent() {
                             setTimeout(() => {
                               addComponentMessage('anchor-product-card');
                               setTimeout(() => {
-                                addMessage('assistant', '이 제품의 어떤 점이\n가장 마음에 드시나요?', true);
+                                addMessage('assistant', '어떤 점이 가장 기대되시나요?\n마음에 드는 순서대로 최대 4가지만 골라주세요.', true);
                                 setTimeout(() => {
                                   addComponentMessage('pros-selector');
                                   // 첫 번째 장점 선택은 스크롤 하지 않음 (사용자가 위 내용을 읽어야 함)

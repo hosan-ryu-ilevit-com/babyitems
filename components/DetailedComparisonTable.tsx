@@ -126,6 +126,15 @@ export default function DetailedComparisonTable({
         return prev;
       } else {
         // 선택되지 않은 경우 - 가장 오래된 선택 제거하고 새로운 제품 추가
+        // 제품 선택 로깅
+        const selectedProduct = displayProducts.find(rec => rec.product.id === productId);
+        if (selectedProduct) {
+          logButtonClick(
+            `비교표_제품선택_${selectedProduct.product.brand}_${selectedProduct.product.title}`,
+            'compare'
+          );
+        }
+
         if (prev.length >= 2) {
           return [...prev.slice(1), productId];
         } else {
@@ -728,7 +737,12 @@ export default function DetailedComparisonTable({
               return (
                 <>
                   {/* 접기/펼치기 헤더 */}
-                  <tr className="border-b border-gray-100 cursor-pointer hover:bg-gray-50" onClick={() => setIsSpecsExpanded(!isSpecsExpanded)}>
+                  <tr className="border-b border-gray-100 cursor-pointer hover:bg-gray-50" onClick={() => {
+                    const newState = !isSpecsExpanded;
+                    setIsSpecsExpanded(newState);
+                    // 상세 스펙 펼쳐보기 로깅
+                    logButtonClick(newState ? '상세스팩_펼치기' : '상세스팩_접기', 'compare');
+                  }}>
                     <td colSpan={3} className="py-3 px-3">
                       <div className="flex items-center justify-center gap-2">
                         <span className="text-xs font-semibold text-gray-700">상세 스펙</span>

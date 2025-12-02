@@ -221,6 +221,7 @@ export async function POST(request: NextRequest) {
           title: p.title,
           price: p.price,
           reviewCount: p.reviewCount,
+          averageRating: p.averageRating,
           reviewUrl: p.reviewUrl,
           ranking: p.ranking,
           thumbnail: p.thumbnail,
