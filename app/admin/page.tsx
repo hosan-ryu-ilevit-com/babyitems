@@ -50,32 +50,39 @@ export default function AdminPage() {
     if (password === '1545') {
       setIsAuthenticated(true);
       setError('');
-      fetchDates();
+      // 퍼널 통계 및 상세 로그 가져오기
+      fetchFunnelStats();
+      fetchDetailedLogs(30); // 최근 30일
     } else {
       setError('비밀번호가 올바르지 않습니다.');
     }
   };
 
-  // 날짜 목록 가져오기
-  const fetchDates = async () => {
+  // 상세 로그 가져오기 (event_logs 테이블 사용)
+  const fetchDetailedLogs = async (days: number = 30) => {
+    setLoading(true);
     try {
-      const response = await fetch('/api/admin/logs', {
+      console.log(`[Admin] Fetching detailed logs (${days} days)`);
+      const response = await fetch(`/api/admin/logs?days=${days}`, {
         headers: {
           'x-admin-password': '1545',
         },
       });
       const data = await response.json();
-      setDates(data.dates || []);
-      if (data.dates && data.dates.length > 0) {
-        // 전체 날짜의 로그를 가져와서 누적 통계 계산
-        await fetchAllLogs(data.dates);
-        // 초기 선택: 전체 날짜
-        setSelectedDate('all');
-        // UTM 퍼널 통계 가져오기
-        fetchFunnelStats();
+
+      if (response.ok) {
+        console.log(`[Admin] Loaded ${data.totalSessions} sessions, ${data.totalEvents} events`);
+        setSessions(data.sessions || []);
+        setAllSessions(data.sessions || []); // 필터링용 원본 데이터
+        setSelectedDate('all'); // 전체 보기로 초기화
+      } else {
+        setError('로그를 불러오는데 실패했습니다.');
       }
-    } catch {
-      setError('날짜 목록을 불러오는데 실패했습니다.');
+    } catch (error) {
+      console.error('[Admin] Failed to fetch logs:', error);
+      setError('로그를 불러오는데 실패했습니다.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,106 +118,10 @@ export default function AdminPage() {
     }
   };
 
-  // 전체 날짜의 로그 가져오기 (누적 통계용)
-  const fetchAllLogs = async (dates: string[]) => {
-    try {
-      const promises = dates.map(date =>
-        fetch(`/api/admin/logs?date=${date}`, {
-          headers: { 'x-admin-password': '1545' },
-        }).then(res => res.json())
-      );
-      const results = await Promise.all(promises);
 
-      // sessionId 기준으로 병합 (중복 제거)
-      const sessionMap = new Map<string, SessionSummary>();
-
-      results.forEach(result => {
-        (result.sessions || []).forEach((session: SessionSummary) => {
-          if (!sessionMap.has(session.sessionId)) {
-            sessionMap.set(session.sessionId, session);
-          } else {
-            // 이미 있는 세션이면 이벤트 병합
-            const existing = sessionMap.get(session.sessionId)!;
-            existing.events.push(...session.events);
-
-            // 타임스탬프 업데이트
-            if (session.firstSeen < existing.firstSeen) {
-              existing.firstSeen = session.firstSeen;
-            }
-            if (session.lastSeen > existing.lastSeen) {
-              existing.lastSeen = session.lastSeen;
-            }
-
-            // phone, utmCampaign, completed 업데이트
-            if (session.phone && !existing.phone) {
-              existing.phone = session.phone;
-            }
-            if (session.utmCampaign && !existing.utmCampaign) {
-              existing.utmCampaign = session.utmCampaign;
-            }
-            if (session.completed) {
-              existing.completed = true;
-            }
-
-            // journey 병합 (중복 제거)
-            session.journey.forEach(page => {
-              if (!existing.journey.includes(page)) {
-                existing.journey.push(page);
-              }
-            });
-
-            // recommendationMethods 병합
-            session.recommendationMethods?.forEach(method => {
-              if (!existing.recommendationMethods?.includes(method)) {
-                existing.recommendationMethods = existing.recommendationMethods || [];
-                existing.recommendationMethods.push(method);
-              }
-            });
-          }
-        });
-      });
-
-      const mergedSessions = Array.from(sessionMap.values());
-      setAllSessions(mergedSessions);
-      setSessions(mergedSessions); // 초기 표시는 전체 날짜
-    } catch {
-      console.error('전체 로그를 불러오는데 실패했습니다.');
-    }
-  };
-
-  // 특정 날짜의 로그 가져오기
-  const fetchLogs = async (date: string) => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/admin/logs?date=${date}`, {
-        headers: {
-          'x-admin-password': '1545',
-        },
-      });
-      const data = await response.json();
-      setSessions(data.sessions || []);
-    } catch {
-      setError('로그를 불러오는데 실패했습니다.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 날짜 선택 시
-  const handleDateChange = (date: string) => {
-    setSelectedDate(date);
-    setSelectedSessions(new Set()); // 선택 초기화
-    setFilterUtm('all'); // 필터 초기화
-    setFilterCompleted('all');
-    setFilterDetail('all');
-    setFilterPage('all');
-    if (date === 'all') {
-      // 전체 날짜 선택 시 allSessions 사용
-      setSessions(allSessions);
-      setLoading(false);
-    } else {
-      fetchLogs(date);
-    }
+  // 로그 새로고침
+  const handleRefreshLogs = () => {
+    fetchDetailedLogs(30); // 최근 30일 다시 로드
   };
 
   // 이벤트 타입 한글 변환
@@ -297,18 +208,10 @@ export default function AdminPage() {
     }
 
     try {
-      // 세션이 속한 날짜 찾기
-      const session = sessions.find(s => s.sessionId === sessionId);
-      if (!session) {
-        setError('세션을 찾을 수 없습니다.');
-        return;
-      }
-
-      // firstSeen에서 날짜 추출 (YYYY-MM-DD)
-      const sessionDate = session.firstSeen.split('T')[0];
+      console.log(`[Admin] Deleting session: ${sessionId}`);
 
       const response = await fetch(
-        `/api/admin/logs?date=${sessionDate}&sessionId=${sessionId}`,
+        `/api/admin/logs?sessionId=${sessionId}`,
         {
           method: 'DELETE',
           headers: {
@@ -318,12 +221,12 @@ export default function AdminPage() {
       );
 
       if (response.ok) {
+        const data = await response.json();
+        console.log(`[Admin] Deleted ${data.deletedCount} events`);
+
         // 삭제 성공 시 로그 다시 불러오기
-        if (selectedDate === 'all') {
-          await fetchAllLogs(dates);
-        } else {
-          await fetchLogs(selectedDate);
-        }
+        await fetchDetailedLogs(30);
+
         // 선택 목록에서 제거
         const newSelected = new Set(selectedSessions);
         newSelected.delete(sessionId);
@@ -331,7 +234,8 @@ export default function AdminPage() {
       } else {
         setError('세션 삭제에 실패했습니다.');
       }
-    } catch {
+    } catch (error) {
+      console.error('[Admin] Delete error:', error);
       setError('세션 삭제 중 오류가 발생했습니다.');
     }
   };
@@ -348,15 +252,11 @@ export default function AdminPage() {
     }
 
     try {
-      // 각 세션의 날짜를 찾아서 삭제 요청
+      console.log(`[Admin] Batch deleting ${selectedSessions.size} sessions`);
+
+      // 각 세션 삭제 요청
       const deletePromises = Array.from(selectedSessions).map(sessionId => {
-        const session = sessions.find(s => s.sessionId === sessionId);
-        if (!session) return Promise.resolve();
-
-        // firstSeen에서 날짜 추출 (YYYY-MM-DD)
-        const sessionDate = session.firstSeen.split('T')[0];
-
-        return fetch(`/api/admin/logs?date=${sessionDate}&sessionId=${sessionId}`, {
+        return fetch(`/api/admin/logs?sessionId=${sessionId}`, {
           method: 'DELETE',
           headers: {
             'x-admin-password': '1545',
@@ -365,25 +265,14 @@ export default function AdminPage() {
       });
 
       await Promise.all(deletePromises);
+      console.log('[Admin] Batch delete completed');
 
       // 삭제 성공 시 로그 다시 불러오기
-      if (selectedDate === 'all') {
-        await fetchAllLogs(dates);
-      } else {
-        await fetchLogs(selectedDate);
-      }
+      await fetchDetailedLogs(30);
       setSelectedSessions(new Set());
-    } catch {
+    } catch (error) {
+      console.error('[Admin] Batch delete error:', error);
       setError('세션 삭제 중 오류가 발생했습니다.');
-    }
-  };
-
-  // 새로고침
-  const handleRefresh = () => {
-    if (selectedDate === 'all') {
-      fetchAllLogs(dates);
-    } else if (selectedDate) {
-      fetchLogs(selectedDate);
     }
   };
 
@@ -1488,26 +1377,14 @@ export default function AdminPage() {
             )}
           </div>
 
-          {/* 날짜 선택 및 새로고침 */}
+          {/* 로그 헤더 및 새로고침 */}
           <div className="flex gap-4 items-center mb-4">
-            <label className="font-semibold">날짜:</label>
-            <select
-              value={selectedDate}
-              onChange={(e) => handleDateChange(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">전체 날짜</option>
-              {dates.map((date) => (
-                <option key={date} value={date}>
-                  {date}
-                </option>
-              ))}
-            </select>
+            <span className="font-semibold">상세 로그</span>
             <span className="text-gray-600">
-              총 {sessions.length}개 세션 {selectedDate === 'all' && '(테스트 IP 제외)'}
+              총 {sessions.length}개 세션 (최근 30일)
             </span>
             <button
-              onClick={handleRefresh}
+              onClick={handleRefreshLogs}
               disabled={loading}
               className="ml-auto px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
             >

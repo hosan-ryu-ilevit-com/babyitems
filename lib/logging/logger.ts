@@ -7,56 +7,53 @@ function getTodayDate(): string {
   return new Date().toISOString().split('T')[0];
 }
 
-// 로그 이벤트 저장
+// 로그 이벤트 저장 (개별 row 방식 - 안정적)
 export async function saveLogEvent(event: LogEvent): Promise<void> {
   // Supabase 사용 불가능하면 조용히 종료
   if (!isSupabaseAvailable() || !supabase) {
-    console.debug('Logging skipped (Supabase not available)');
+    console.warn('[Logger] ⚠️ Logging skipped - Supabase not available');
     return;
   }
 
   try {
-    const today = getTodayDate();
+    console.log(`[Logger] Saving event: ${event.eventType} for session ${event.sessionId.substring(0, 8)}...`);
 
-    // 오늘 날짜의 로그 조회
-    const { data: existingLog, error: fetchError } = await supabase
-      .from('daily_logs')
-      .select('*')
-      .eq('date', today)
-      .single();
+    // 각 이벤트를 개별 row로 저장 (확장 가능하고 안정적)
+    const { data, error } = await supabase
+      .from('event_logs')
+      .insert({
+        session_id: event.sessionId,
+        event_type: event.eventType,
+        timestamp: event.timestamp,
+        page: event.page,
+        button_label: event.buttonLabel,
+        ip: event.ip,
+        user_agent: event.userAgent,
+        phone: event.phone,
+        utm_campaign: event.utmCampaign,
+        event_data: {
+          // 나머지 이벤트 데이터는 JSONB로 저장
+          recommendations: event.recommendations,
+          chatData: event.chatData,
+          priorityData: event.priorityData,
+          favoriteData: event.favoriteData,
+          comparisonData: event.comparisonData,
+          categoryData: event.categoryData,
+          anchorData: event.anchorData,
+          tagData: event.tagData,
+          resultV2Data: event.resultV2Data,
+        }
+      })
+      .select();
 
-    if (fetchError && fetchError.code !== 'PGRST116') {
-      // PGRST116은 "no rows returned" 에러 (정상)
-      console.error('Failed to fetch log:', fetchError);
-      return;
-    }
-
-    if (existingLog) {
-      // 기존 로그에 이벤트 추가
-      const updatedEvents = [...(existingLog.events as LogEvent[]), event];
-      const { error: updateError } = await supabase
-        .from('daily_logs')
-        .update({ events: updatedEvents })
-        .eq('date', today);
-
-      if (updateError) {
-        console.error('Failed to update log:', updateError);
-      }
+    if (error) {
+      console.error('[Logger] ❌ Failed to save log event:', error);
+      console.error('[Logger] Error details:', JSON.stringify(error, null, 2));
     } else {
-      // 새 로그 생성
-      const { error: insertError } = await supabase
-        .from('daily_logs')
-        .insert({
-          date: today,
-          events: [event],
-        });
-
-      if (insertError) {
-        console.error('Failed to insert log:', insertError);
-      }
+      console.log('[Logger] ✅ Event saved successfully');
     }
   } catch (error) {
-    console.error('Failed to save log event:', error);
+    console.error('[Logger] ❌ Exception while saving log event:', error);
   }
 }
 
@@ -68,7 +65,7 @@ export async function getLogsByDate(date: string): Promise<DailyLog | null> {
 
   try {
     const { data, error } = await supabase
-      .from('daily_logs')
+      .from('daily_logs_v2')
       .select('*')
       .eq('date', date)
       .single();
@@ -100,7 +97,7 @@ export async function getAllLogDates(): Promise<string[]> {
 
   try {
     const { data, error } = await supabase
-      .from('daily_logs')
+      .from('daily_logs_v2')
       .select('date')
       .order('date', { ascending: false });
 
@@ -127,7 +124,7 @@ export async function getLogsByDateRange(
 
   try {
     const { data, error } = await supabase
-      .from('daily_logs')
+      .from('daily_logs_v2')
       .select('*')
       .gte('date', startDate)
       .lte('date', endDate)
@@ -172,7 +169,7 @@ export async function deleteSessionFromDate(
     if (filteredEvents.length > 0) {
       // 이벤트가 남아있으면 업데이트
       const { error } = await supabase
-        .from('daily_logs')
+        .from('daily_logs_v2')
         .update({ events: filteredEvents })
         .eq('date', date);
 
@@ -183,7 +180,7 @@ export async function deleteSessionFromDate(
     } else {
       // 모든 이벤트가 삭제되면 해당 날짜 로그 삭제
       const { error } = await supabase
-        .from('daily_logs')
+        .from('daily_logs_v2')
         .delete()
         .eq('date', date);
 

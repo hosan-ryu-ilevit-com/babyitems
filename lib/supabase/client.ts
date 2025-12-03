@@ -6,7 +6,10 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 // Supabase는 선택적 - 로깅에만 사용되며 없어도 앱 작동
 let supabaseClient: SupabaseClient | null = null;
 
-if (supabaseUrl && supabaseKey) {
+// 🚨 임시 비활성화 - Supabase 복구 후 이 부분 제거
+const SUPABASE_DISABLED = false; // 다시 활성화해서 데이터 확인
+
+if (!SUPABASE_DISABLED && supabaseUrl && supabaseKey) {
   try {
     supabaseClient = createClient(supabaseUrl, supabaseKey);
     console.log('✅ Supabase client initialized');
@@ -14,7 +17,7 @@ if (supabaseUrl && supabaseKey) {
     console.warn('⚠️  Supabase initialization failed (logging will be disabled):', error);
   }
 } else {
-  console.warn('⚠️  Supabase credentials not found (logging will be disabled)');
+  console.warn('⚠️  Supabase temporarily disabled (logging off)');
 }
 
 export const supabase = supabaseClient;

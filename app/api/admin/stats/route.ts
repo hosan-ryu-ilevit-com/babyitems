@@ -1,6 +1,6 @@
 // 새로운 UTM 기반 퍼널 통계 API
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllLogDates, getLogsByDate } from '@/lib/logging/logger';
+import { getRecentEvents, groupEventsBySession } from '@/lib/logging/query';
 import type {
   CampaignFunnelStats,
   FunnelStep,
@@ -633,114 +633,27 @@ function calculateCampaignFunnel(sessions: SessionSummary[], utmCampaign: string
 
 export async function GET(request: NextRequest) {
   try {
+    console.log('[Stats API] Request received');
+
     // 비밀번호 검증
     const password = request.headers.get('x-admin-password');
     if (password !== '1545') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // 모든 날짜의 로그 가져오기
-    const dates = await getAllLogDates();
+    console.log('[Stats API] Auth passed, fetching events...');
 
-    // 모든 날짜의 세션을 sessionId 기준으로 병합
-    const globalSessionMap = new Map<string, SessionSummary>();
+    // 최근 30일 이벤트 가져오기 (새로운 구조)
+    const events = await getRecentEvents(30);
+    console.log(`[Stats API] Found ${events.length} events`);
 
-    for (const date of dates) {
-      const dailyLog = await getLogsByDate(date);
-      if (!dailyLog) continue;
+    // 이벤트를 세션별로 그룹화
+    const allSessions = groupEventsBySession(events);
+    console.log(`[Stats API] Total sessions: ${allSessions.length}`);
 
-      for (const event of dailyLog.events) {
-        const sessionId = event.sessionId;
-
-        if (!globalSessionMap.has(sessionId)) {
-          globalSessionMap.set(sessionId, {
-            sessionId,
-            firstSeen: event.timestamp,
-            lastSeen: event.timestamp,
-            ip: event.ip,
-            phone: event.phone,
-            utmCampaign: event.utmCampaign,
-            events: [],
-            journey: [],
-            completed: false,
-            recommendationMethods: [],
-          });
-        }
-
-        const session = globalSessionMap.get(sessionId)!;
-        session.events.push(event);
-
-        // 타임스탬프 업데이트
-        if (event.timestamp < session.firstSeen) {
-          session.firstSeen = event.timestamp;
-        }
-        if (event.timestamp > session.lastSeen) {
-          session.lastSeen = event.timestamp;
-        }
-
-        // phone 업데이트
-        if (event.phone && !session.phone) {
-          session.phone = event.phone;
-        }
-
-        // utmCampaign 업데이트
-        if (event.utmCampaign && !session.utmCampaign) {
-          session.utmCampaign = event.utmCampaign;
-        }
-
-        // 페이지 journey 추적
-        if (event.eventType === 'page_view' && event.page) {
-          if (!session.journey.includes(event.page)) {
-            session.journey.push(event.page);
-          }
-        }
-
-        // 추천 완료 여부: result 또는 result-v2 페이지 도달 시
-        if (event.eventType === 'page_view') {
-          if (event.page === 'result') {
-            session.completed = true;
-
-            // V2 플로우 여부 판단: category_selected 또는 tag_selected 이벤트가 있으면 V2
-            const hasV2Events = session.events.some(e =>
-              e.eventType === 'category_selected' ||
-              e.eventType === 'tag_selected' ||
-              e.eventType === 'anchor_product_selected'
-            );
-
-            if (hasV2Events) {
-              // V2 Flow (카테고리 기반)
-              if (!session.recommendationMethods.includes('v2')) {
-                session.recommendationMethods.push('v2');
-              }
-            } else {
-              // Main Flow (Priority 기반)
-              if (session.recommendationMethods.length === 0) {
-                session.recommendationMethods.push('quick');
-              }
-            }
-          } else if (event.page === 'result-v2') {
-            session.completed = true;
-            // V2 Flow (별도 result-v2 페이지 사용하는 경우)
-            if (!session.recommendationMethods.includes('v2')) {
-              session.recommendationMethods.push('v2');
-            }
-          }
-        }
-
-        // 추가: 이벤트 기반으로 추천 방식 세분화 (선택적)
-        if (event.eventType === 'recommendation_received' && event.recommendations?.isQuickRecommendation) {
-          // 바로 추천받기로 명시된 경우
-          if (!session.recommendationMethods.includes('quick')) {
-            session.recommendationMethods.push('quick');
-          }
-        }
-      }
-    }
-
-    const allSessions = Array.from(globalSessionMap.values());
-
-    // 테스트 IP 제외
+    // 테스트 IP/Phone 제외
     const filteredSessions = allSessions.filter(s => !shouldExcludeSession(s));
+    console.log(`[Stats API] Filtered sessions (excluding test): ${filteredSessions.length}`);
 
     // UTM 캠페인 목록 추출
     const utmCampaigns = new Set<string>();

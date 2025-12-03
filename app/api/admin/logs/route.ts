@@ -1,90 +1,22 @@
-// GET /api/admin/logs - 관리자 로그 조회 API
+// GET /api/admin/logs - 관리자 로그 조회 API (event_logs 테이블 사용)
 // DELETE /api/admin/logs - 세션 삭제 API
 import { NextRequest, NextResponse } from 'next/server';
 import {
-  getAllLogDates,
-  getLogsByDate,
-  getLogsByDateRange,
-  deleteSessionFromDate,
-} from '@/lib/logging/logger';
-import type { SessionSummary, DailyLog } from '@/types/logging';
+  getEventsByDateRange,
+  groupEventsBySession,
+  getRecentEvents,
+} from '@/lib/logging/query';
+import type { SessionSummary } from '@/types/logging';
 
 // 비밀번호 검증
 function validatePassword(password: string): boolean {
   return password === '1545';
 }
 
-// 세션별로 로그 그룹화
-function groupBySession(logs: DailyLog[]): SessionSummary[] {
-  const sessionMap = new Map<string, SessionSummary>();
-
-  for (const dailyLog of logs) {
-    for (const event of dailyLog.events) {
-      if (!sessionMap.has(event.sessionId)) {
-        sessionMap.set(event.sessionId, {
-          sessionId: event.sessionId,
-          firstSeen: event.timestamp,
-          lastSeen: event.timestamp,
-          ip: event.ip,
-          phone: event.phone, // URL 파라미터로 전달된 전화번호
-          utmCampaign: event.utmCampaign, // UTM 캠페인 파라미터
-          events: [],
-          journey: [],
-          completed: false,
-          recommendationMethods: [],
-        });
-      }
-
-      const session = sessionMap.get(event.sessionId)!;
-      session.events.push(event);
-      session.lastSeen = event.timestamp;
-
-      // phone 업데이트 (이벤트에 phone이 있으면 세션에 반영)
-      if (event.phone && !session.phone) {
-        session.phone = event.phone;
-      }
-
-      // utmCampaign 업데이트 (이벤트에 utmCampaign이 있으면 세션에 반영)
-      if (event.utmCampaign && !session.utmCampaign) {
-        session.utmCampaign = event.utmCampaign;
-      }
-
-      // 페이지 이동 경로 추적
-      if (event.eventType === 'page_view' && event.page) {
-        if (!session.journey.includes(event.page)) {
-          session.journey.push(event.page);
-        }
-      }
-
-      // 추천 버튼 클릭 추적
-      if (event.eventType === 'button_click' && event.buttonLabel) {
-        // Priority 페이지: '바로 추천받기' 버튼 → quick
-        if (event.buttonLabel === '바로 추천받기' && !session.recommendationMethods?.includes('quick')) {
-          session.recommendationMethods = session.recommendationMethods || [];
-          session.recommendationMethods.push('quick');
-        }
-        // Chat 페이지: '추천 받기' 버튼 → chat
-        else if (event.buttonLabel === '추천 받기' && !session.recommendationMethods?.includes('chat')) {
-          session.recommendationMethods = session.recommendationMethods || [];
-          session.recommendationMethods.push('chat');
-        }
-      }
-
-      // result 페이지 도달 여부 추적 (recommendation_received 또는 result_v2_received)
-      if (event.eventType === 'recommendation_received' || event.eventType === 'result_v2_received') {
-        session.completed = true;
-      }
-    }
-  }
-
-  // 최신 세션이 위로 오도록 정렬
-  return Array.from(sessionMap.values()).sort(
-    (a, b) => new Date(b.firstSeen).getTime() - new Date(a.firstSeen).getTime()
-  );
-}
-
 export async function GET(request: NextRequest) {
   try {
+    console.log('[Logs API] Request received');
+
     // 비밀번호 검증
     const password = request.headers.get('x-admin-password');
     if (!password || !validatePassword(password)) {
@@ -92,33 +24,47 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const date = searchParams.get('date');
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
+    const days = searchParams.get('days'); // 최근 N일
 
-    // 특정 날짜 조회
-    if (date) {
-      const logs = await getLogsByDate(date);
-      if (!logs) {
-        return NextResponse.json({ error: 'No logs found' }, { status: 404 });
-      }
-      const sessions = groupBySession([logs]);
-      return NextResponse.json({ date, sessions, totalEvents: logs.events.length });
-    }
+    let events;
 
     // 날짜 범위 조회
     if (startDate && endDate) {
-      const logs = await getLogsByDateRange(startDate, endDate);
-      const sessions = groupBySession(logs);
-      const totalEvents = logs.reduce((sum, log) => sum + log.events.length, 0);
-      return NextResponse.json({ startDate, endDate, sessions, totalEvents });
+      console.log(`[Logs API] Fetching events from ${startDate} to ${endDate}`);
+      events = await getEventsByDateRange(startDate, endDate);
+    }
+    // 최근 N일 조회
+    else if (days) {
+      const daysNum = parseInt(days, 10);
+      console.log(`[Logs API] Fetching recent ${daysNum} days`);
+      events = await getRecentEvents(daysNum);
+    }
+    // 기본값: 최근 30일
+    else {
+      console.log('[Logs API] Fetching recent 30 days (default)');
+      events = await getRecentEvents(30);
     }
 
-    // 모든 날짜 목록 조회
-    const dates = await getAllLogDates();
-    return NextResponse.json({ dates });
+    console.log(`[Logs API] Found ${events.length} events`);
+
+    // 이벤트를 세션별로 그룹화
+    const sessions = groupEventsBySession(events);
+    console.log(`[Logs API] Grouped into ${sessions.length} sessions`);
+
+    // 최신 세션이 위로 오도록 정렬
+    const sortedSessions = sessions.sort(
+      (a, b) => new Date(b.firstSeen).getTime() - new Date(a.firstSeen).getTime()
+    );
+
+    return NextResponse.json({
+      sessions: sortedSessions,
+      totalEvents: events.length,
+      totalSessions: sessions.length,
+    });
   } catch (error) {
-    console.error('Error fetching logs:', error);
+    console.error('[Logs API] Error fetching logs:', error);
     return NextResponse.json(
       { error: 'Failed to fetch logs' },
       { status: 500 }
@@ -128,6 +74,8 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    console.log('[Logs API] DELETE request received');
+
     // 비밀번호 검증
     const password = request.headers.get('x-admin-password');
     if (!password || !validatePassword(password)) {
@@ -135,28 +83,49 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const date = searchParams.get('date');
     const sessionId = searchParams.get('sessionId');
 
-    if (!date || !sessionId) {
+    if (!sessionId) {
       return NextResponse.json(
-        { error: 'date and sessionId are required' },
+        { error: 'sessionId is required' },
         { status: 400 }
       );
     }
 
-    const success = await deleteSessionFromDate(date, sessionId);
+    console.log(`[Logs API] Deleting session: ${sessionId}`);
 
-    if (success) {
-      return NextResponse.json({ success: true, message: 'Session deleted' });
-    } else {
+    // Delete all events for this session from event_logs table
+    const { supabase } = await import('@/lib/supabase/client');
+
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Supabase not available' },
+        { status: 503 }
+      );
+    }
+
+    const { error, count } = await supabase
+      .from('event_logs')
+      .delete({ count: 'exact' })
+      .eq('session_id', sessionId);
+
+    if (error) {
+      console.error('[Logs API] Delete failed:', error);
       return NextResponse.json(
         { error: 'Failed to delete session' },
         { status: 500 }
       );
     }
+
+    console.log(`[Logs API] Deleted ${count} events for session ${sessionId}`);
+
+    return NextResponse.json({
+      success: true,
+      message: 'Session deleted',
+      deletedCount: count || 0,
+    });
   } catch (error) {
-    console.error('Error deleting session:', error);
+    console.error('[Logs API] Error deleting session:', error);
     return NextResponse.json(
       { error: 'Failed to delete session' },
       { status: 500 }
