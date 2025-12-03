@@ -2,11 +2,6 @@
 import { supabase, isSupabaseAvailable } from '@/lib/supabase/client';
 import type { LogEvent, DailyLog } from '@/types/logging';
 
-// 오늘 날짜 문자열 생성 (YYYY-MM-DD)
-function getTodayDate(): string {
-  return new Date().toISOString().split('T')[0];
-}
-
 // 로그 이벤트 저장 (개별 row 방식 - 안정적)
 export async function saveLogEvent(event: LogEvent): Promise<void> {
   // Supabase 사용 불가능하면 조용히 종료
@@ -19,7 +14,7 @@ export async function saveLogEvent(event: LogEvent): Promise<void> {
     console.log(`[Logger] Saving event: ${event.eventType} for session ${event.sessionId.substring(0, 8)}...`);
 
     // 각 이벤트를 개별 row로 저장 (확장 가능하고 안정적)
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('event_logs')
       .insert({
         session_id: event.sessionId,
@@ -35,7 +30,6 @@ export async function saveLogEvent(event: LogEvent): Promise<void> {
           // 나머지 이벤트 데이터는 JSONB로 저장
           recommendations: event.recommendations,
           chatData: event.chatData,
-          priorityData: event.priorityData,
           favoriteData: event.favoriteData,
           comparisonData: event.comparisonData,
           categoryData: event.categoryData,
