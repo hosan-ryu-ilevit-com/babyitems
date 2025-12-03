@@ -900,7 +900,7 @@ export function ReRecommendationBottomSheet({
                   }
                 }}
                 onSend={handleSendMessage}
-                placeholder={hasSubmitted ? "계속 추가 요청하실 수 있어요" : "제품 질문, 조건 변경 등 편하게 말씀해주세요"}
+                placeholder={hasSubmitted ? "계속 추가 요청하실 수 있어요" : "제품 질문, 조건 변경 등 무엇이든 말씀해주세요"}
                 disabled={isLoading}
               />
             </div>
