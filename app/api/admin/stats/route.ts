@@ -11,11 +11,14 @@ import type {
   V2ProductRecommendationRanking
 } from '@/types/logging';
 
-// 테스트/내부 IP 필터링
+// 테스트/내부 IP 및 Phone 필터링
 const EXCLUDED_IPS = ['::1', '211.53.92.162', '::ffff:172.16.230.123'];
+const EXCLUDED_PHONES = ['01088143142'];
 
 function shouldExcludeSession(session: SessionSummary): boolean {
-  return EXCLUDED_IPS.includes(session.ip || '');
+  const isExcludedIp = EXCLUDED_IPS.includes(session.ip || '');
+  const isExcludedPhone = EXCLUDED_PHONES.includes(session.phone || '');
+  return isExcludedIp || isExcludedPhone;
 }
 
 // 퍼널 단계별 계산 (홈 페이지뷰 기준)
@@ -77,7 +80,7 @@ function calculateProductRecommendationRankings(sessions: SessionSummary[]): Pro
   return rankings;
 }
 
-// V2 Flow: UTM 캠페인별로 퍼널 통계 계산
+// V2 Flow: UTM 캠페인별로 퍼널 통계 계산 (페이지 방문 필터 기준)
 function calculateV2CampaignFunnel(sessions: SessionSummary[], utmCampaign: string): V2FunnelStats {
   // UTM 필터링
   const filteredSessions = sessions.filter(session => {
@@ -86,14 +89,11 @@ function calculateV2CampaignFunnel(sessions: SessionSummary[], utmCampaign: stri
     return session.utmCampaign === utmCampaign;
   });
 
-  // 퍼널 단계별 카운트
-  const homePageViews = new Set<string>();
-  const categoriesEntry = new Set<string>();
-  const anchorSelected = new Set<string>();
-  const prosTagsSelected = new Set<string>();
-  const consTagsSelected = new Set<string>();
-  const budgetSelected = new Set<string>();
-  const resultV2Received = new Set<string>();
+  // 퍼널 단계별 카운트 (페이지 방문 기준 = journey 포함 여부)
+  const homePageViews = new Set<string>(); // 전체 세션 (baseline)
+  const categoriesEntry = new Set<string>(); // journey에 'categories' 포함
+  const tagsEntry = new Set<string>(); // journey에 'tags' 포함
+  const resultV2Received = new Set<string>(); // journey에 'result-v2' 또는 'result' 포함
 
   // Pre-recommendation actions
   let anchorGuideOpenedTotal = 0;
@@ -110,37 +110,28 @@ function calculateV2CampaignFunnel(sessions: SessionSummary[], utmCampaign: stri
   const comparisonViewedSessions = new Set<string>();
 
   filteredSessions.forEach(session => {
-    // V2 Flow의 baseline: 모든 세션을 홈 페이지뷰로 간주 (UTM 필터링된 세션)
     const sid = session.sessionId;
+
+    // 홈 뷰: 모든 세션 (baseline = 100%)
     homePageViews.add(sid);
 
+    // 카테고리뷰: journey에 'categories' 포함
+    if (session.journey.includes('categories')) {
+      categoriesEntry.add(sid);
+    }
+
+    // 추천 뷰 (태그 선택): journey에 'tags' 포함
+    if (session.journey.includes('tags')) {
+      tagsEntry.add(sid);
+    }
+
+    // 완료 뷰: journey에 'result-v2' 또는 'result' 포함
+    if (session.journey.includes('result-v2') || session.journey.includes('result')) {
+      resultV2Received.add(sid);
+    }
+
+    // Pre/Post recommendation actions (기존 로직 유지)
     session.events.forEach(event => {
-      // Page views
-      if (event.eventType === 'page_view') {
-        if (event.page === 'categories') categoriesEntry.add(sid);
-      }
-
-      // Anchor product selected
-      if (event.eventType === 'anchor_product_selected') {
-        anchorSelected.add(sid);
-      }
-
-      // Tag selections
-      if (event.eventType === 'tag_selected') {
-        if (event.tagData?.tagType === 'pros') prosTagsSelected.add(sid);
-        if (event.tagData?.tagType === 'cons') consTagsSelected.add(sid);
-      }
-
-      // Budget selected (추천받기 버튼 클릭)
-      if (event.eventType === 'button_click' && event.page === 'tags' && event.buttonLabel?.includes('추천받기')) {
-        budgetSelected.add(sid);
-      }
-
-      // Result v2 received
-      if (event.eventType === 'result_v2_received') {
-        resultV2Received.add(sid);
-      }
-
       // Pre-recommendation actions
       if (event.eventType === 'button_click' && event.page === 'anchor') {
         if (event.buttonLabel?.includes('가이드')) {
@@ -177,10 +168,7 @@ function calculateV2CampaignFunnel(sessions: SessionSummary[], utmCampaign: stri
     funnel: {
       homePageViews: { count: homeCount, percentage: 100 },
       categoriesEntry: calculateFunnelStep(categoriesEntry.size, homeCount),
-      anchorSelected: calculateFunnelStep(anchorSelected.size, homeCount),
-      prosTagsSelected: calculateFunnelStep(prosTagsSelected.size, homeCount),
-      consTagsSelected: calculateFunnelStep(consTagsSelected.size, homeCount),
-      budgetSelected: calculateFunnelStep(budgetSelected.size, homeCount),
+      tagsEntry: calculateFunnelStep(tagsEntry.size, homeCount),
       resultV2Received: calculateFunnelStep(resultV2Received.size, homeCount),
       preRecommendationActions: {
         anchorGuideOpened: {

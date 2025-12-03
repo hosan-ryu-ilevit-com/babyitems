@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { SessionSummary, CampaignFunnelStats, ProductRecommendationRanking, V2FunnelStats, CategoryAnalytics, V2ProductRecommendationRanking } from '@/types/logging';
+import type { SessionSummary, CampaignFunnelStats, V2FunnelStats, CategoryAnalytics, V2ProductRecommendationRanking } from '@/types/logging';
 import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 
 export default function AdminPage() {
@@ -32,14 +32,10 @@ export default function AdminPage() {
   // Flow 선택 (V2가 메인)
   const [selectedFlow, setSelectedFlow] = useState<'v2' | 'main'>('v2');
 
-  // 제품 추천 랭킹 (Main Flow)
-  const [productRecommendationRankings, setProductRecommendationRankings] = useState<ProductRecommendationRanking[]>([]);
-  const [isRecommendationRankingExpanded, setIsRecommendationRankingExpanded] = useState(false);
-
   // 액션 로그 필터
   const [filterUtm, setFilterUtm] = useState<string>('all'); // 'all' | 'none' | 캠페인명
   const [filterCompleted, setFilterCompleted] = useState<string>('all'); // 'all' | 'completed' | 'incomplete'
-  const [filterDetail, setFilterDetail] = useState<string>('all'); // 'all' | 상세 이벤트 텍스트
+  const [filterDetail, setFilterDetail] = useState<string>(''); // 자연어 검색 필터
   const [filterPage, setFilterPage] = useState<string>('all'); // 'all' | 페이지명 (home, result, etc.)
   const [phoneCopied, setPhoneCopied] = useState(false);
 
@@ -97,7 +93,6 @@ export default function AdminPage() {
       if (response.ok) {
         // Main Flow data
         setCampaigns(data.mainFlow?.campaigns || []);
-        setProductRecommendationRankings(data.mainFlow?.productRecommendationRankings || []);
 
         // V2 Flow data
         setV2Campaigns(data.v2Flow?.campaigns || []);
@@ -486,10 +481,14 @@ export default function AdminPage() {
 
     // Main Flow: recommendation_received 이벤트 찾기
     const mainFlowEvent = session.events.find(
-      event => event.eventType === 'recommendation_received' && event.recommendations?.fullReport?.recommendations
+      event => event.eventType === 'recommendation_received' && event.recommendations?.fullReport?.recommendations && !event.recommendations?.isV2Flow
     );
 
-    // V2 Flow: result_v2_received 이벤트 찾기
+    // V2 Flow (통합): recommendation_received 이벤트에서 isV2Flow 체크 OR result_v2_received 이벤트 찾기
+    const v2FlowEventFromResult = session.events.find(
+      event => event.eventType === 'recommendation_received' && event.recommendations?.isV2Flow && event.recommendations?.fullReport?.recommendations
+    );
+
     const v2FlowEvent = session.events.find(
       event => event.eventType === 'result_v2_received' && event.resultV2Data?.recommendedProductIds
     );
@@ -498,15 +497,23 @@ export default function AdminPage() {
     let flowType: 'main' | 'v2' | null = null;
 
     if (mainFlowEvent?.recommendations?.fullReport?.recommendations) {
-      // Main Flow
+      // Main Flow (Priority 기반)
       const recommendations = mainFlowEvent.recommendations.fullReport.recommendations;
       products = recommendations.map((rec: any) => ({
         id: rec.productId,
         title: rec.productTitle
       }));
       flowType = 'main';
+    } else if (v2FlowEventFromResult?.recommendations?.fullReport?.recommendations) {
+      // V2 Flow (/result 페이지 사용, recommendation_received 이벤트)
+      const recommendations = v2FlowEventFromResult.recommendations.fullReport.recommendations;
+      products = recommendations.map((rec: any) => ({
+        id: rec.productId,
+        title: rec.productTitle
+      }));
+      flowType = 'v2';
     } else if (v2FlowEvent?.resultV2Data?.recommendedProductIds) {
-      // V2 Flow
+      // V2 Flow (/result-v2 페이지 사용, result_v2_received 이벤트)
       const productIds = v2FlowEvent.resultV2Data.recommendedProductIds;
       products = productIds.map((id: string) => ({
         id,
@@ -724,9 +731,10 @@ export default function AdminPage() {
       completedMatch = session.completed === false;
     }
 
-    // 상세 필터
+    // 상세 필터 (자연어 검색)
     let detailMatch = true;
-    if (filterDetail !== 'all') {
+    if (filterDetail.trim() !== '') {
+      const searchTerm = filterDetail.toLowerCase().trim();
       detailMatch = session.events.some(event => {
         const eventTexts = [
           event.buttonLabel,
@@ -734,7 +742,7 @@ export default function AdminPage() {
           event.eventType ? `이벤트: ${event.eventType}` : null,
           event.userInput ? `입력: ${event.userInput.slice(0, 30)}...` : null,
         ].filter(Boolean);
-        return eventTexts.some(text => text === filterDetail);
+        return eventTexts.some(text => text && text.toLowerCase().includes(searchTerm));
       });
     }
 
@@ -760,26 +768,6 @@ export default function AdminPage() {
   const availablePages = Array.from(
     new Set(
       sessions.flatMap(s => s.journey)
-    )
-  ).sort();
-
-  // 세션에서 사용 가능한 상세 이벤트 텍스트 목록 추출
-  const availableDetailTexts = Array.from(
-    new Set(
-      sessions.flatMap(session =>
-        session.events.flatMap(event => {
-          const texts: string[] = [];
-          // buttonLabel
-          if (event.buttonLabel) texts.push(event.buttonLabel);
-          // page
-          if (event.page) texts.push(`페이지: ${event.page}`);
-          // eventType
-          if (event.eventType) texts.push(`이벤트: ${event.eventType}`);
-          // userInput
-          if (event.userInput) texts.push(`입력: ${event.userInput.slice(0, 30)}...`);
-          return texts;
-        })
-      )
     )
   ).sort();
 
@@ -1041,66 +1029,24 @@ export default function AdminPage() {
                             </div>
                           </div>
 
-                          {/* 3. 앵커 제품 선택 */}
+                          {/* 3. 태그 선택 페이지 */}
                           <div>
                             <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm font-semibold text-gray-700">3️⃣ 앵커 제품 선택</span>
+                              <span className="text-sm font-semibold text-gray-700">3️⃣ 태그 선택 (추천)</span>
                               <div className="flex items-center gap-3">
-                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.anchorSelected.percentage}%</span>
-                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.anchorSelected.count}</span>
+                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.tagsEntry.percentage}%</span>
+                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.tagsEntry.count}</span>
                               </div>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-3">
-                              <div className="bg-teal-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.anchorSelected.percentage}%` }} />
+                              <div className="bg-green-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.tagsEntry.percentage}%` }} />
                             </div>
                           </div>
 
-                          {/* 4. 장점 태그 선택 */}
+                          {/* 4. V2 추천 결과 수신 (완료) */}
                           <div>
                             <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm font-semibold text-gray-700">4️⃣ 장점 태그 선택</span>
-                              <div className="flex items-center gap-3">
-                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.prosTagsSelected.percentage}%</span>
-                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.prosTagsSelected.count}</span>
-                              </div>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-3">
-                              <div className="bg-green-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.prosTagsSelected.percentage}%` }} />
-                            </div>
-                          </div>
-
-                          {/* 5. 단점 태그 선택 */}
-                          <div>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm font-semibold text-gray-700">5️⃣ 단점 태그 선택/스킵</span>
-                              <div className="flex items-center gap-3">
-                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.consTagsSelected.percentage}%</span>
-                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.consTagsSelected.count}</span>
-                              </div>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-3">
-                              <div className="bg-red-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.consTagsSelected.percentage}%` }} />
-                            </div>
-                          </div>
-
-                          {/* 6. 예산 선택 */}
-                          <div>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm font-semibold text-gray-700">6️⃣ 예산 선택</span>
-                              <div className="flex items-center gap-3">
-                                <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.budgetSelected.percentage}%</span>
-                                <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.budgetSelected.count}</span>
-                              </div>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-3">
-                              <div className="bg-purple-500 h-3 rounded-full transition-all" style={{ width: `${currentV2Campaign.funnel.budgetSelected.percentage}%` }} />
-                            </div>
-                          </div>
-
-                          {/* 7. V2 추천 결과 수신 */}
-                          <div>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm font-semibold text-gray-700">7️⃣ V2 추천 결과 수신</span>
+                              <span className="text-sm font-semibold text-gray-700">4️⃣ 추천 완료</span>
                               <div className="flex items-center gap-3">
                                 <span className="text-xs font-medium text-gray-500">{currentV2Campaign.funnel.resultV2Received.percentage}%</span>
                                 <span className="text-lg font-bold text-gray-900">{currentV2Campaign.funnel.resultV2Received.count}</span>
@@ -1379,103 +1325,6 @@ export default function AdminPage() {
             )}
           </div>
 
-          {/* 제품 추천 랭킹 */}
-          <div className="border-t pt-4 mt-4">
-            <button
-              onClick={() => setIsRecommendationRankingExpanded(!isRecommendationRankingExpanded)}
-              className="flex items-center gap-2 text-lg font-semibold text-gray-800 hover:text-gray-900 transition-colors"
-            >
-              <svg
-                className={`w-5 h-5 transition-transform ${isRecommendationRankingExpanded ? 'rotate-90' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-              <span>🏅 Best 3 추천 랭킹</span>
-            </button>
-
-            {isRecommendationRankingExpanded && productRecommendationRankings.length > 0 && (
-              <div className="mt-4 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm text-gray-600">
-                    총 <span className="font-bold text-amber-600">{productRecommendationRankings.length}개</span> 제품이 추천되었습니다
-                  </p>
-                  <div className="flex gap-2 text-xs">
-                    <span className="px-2 py-1 bg-amber-200 text-amber-800 rounded">🥇 1위</span>
-                    <span className="px-2 py-1 bg-gray-200 text-gray-700 rounded">🥈 2위</span>
-                    <span className="px-2 py-1 bg-orange-200 text-orange-800 rounded">🥉 3위</span>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  {productRecommendationRankings.map((product, index) => {
-                    const totalCount = product.totalRecommendations;
-                    const maxCount = productRecommendationRankings[0]?.totalRecommendations || 1;
-                    const percentage = (totalCount / maxCount) * 100;
-
-                    return (
-                      <div
-                        key={product.productId}
-                        className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className={`text-lg font-bold ${
-                                index === 0 ? 'text-amber-500' :
-                                index === 1 ? 'text-gray-400' :
-                                index === 2 ? 'text-orange-400' :
-                                'text-gray-500'
-                              }`}>
-                                #{index + 1}
-                              </span>
-                              <span className="text-sm font-semibold text-gray-800 line-clamp-2">
-                                {product.productTitle}
-                              </span>
-                            </div>
-                            <p className="text-xs text-gray-500 ml-7">ID: {product.productId}</p>
-                          </div>
-                          <div className="text-right ml-4">
-                            <p className="text-2xl font-bold text-amber-600">{totalCount}</p>
-                            <p className="text-xs text-gray-500">총 추천</p>
-                          </div>
-                        </div>
-
-                        {/* 진행 바 */}
-                        <div className="mb-3">
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-gradient-to-r from-amber-400 to-yellow-500 h-2 rounded-full transition-all"
-                              style={{ width: `${percentage}%` }}
-                            />
-                          </div>
-                        </div>
-
-                        {/* 순위별 상세 통계 */}
-                        <div className="flex gap-2">
-                          <div className="flex-1 bg-amber-50 rounded px-3 py-2 text-center">
-                            <p className="text-xs text-gray-600 mb-1">🥇 1위</p>
-                            <p className="text-lg font-bold text-amber-600">{product.rank1Count}</p>
-                          </div>
-                          <div className="flex-1 bg-gray-50 rounded px-3 py-2 text-center">
-                            <p className="text-xs text-gray-600 mb-1">🥈 2위</p>
-                            <p className="text-lg font-bold text-gray-600">{product.rank2Count}</p>
-                          </div>
-                          <div className="flex-1 bg-orange-50 rounded px-3 py-2 text-center">
-                            <p className="text-xs text-gray-600 mb-1">🥉 3위</p>
-                            <p className="text-lg font-bold text-orange-600">{product.rank3Count}</p>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* 사용자 추가 입력 섹션 */}
           <div className="border-t pt-4 mt-4">
             <button
@@ -1705,21 +1554,16 @@ export default function AdminPage() {
               </select>
             </div>
 
-            {/* 상세 필터 */}
+            {/* 상세 필터 (자연어 검색) */}
             <div className="flex items-center gap-2">
-              <label className="text-sm text-gray-600">상세:</label>
-              <select
+              <label className="text-sm text-gray-600">검색:</label>
+              <input
+                type="text"
                 value={filterDetail}
                 onChange={(e) => setFilterDetail(e.target.value)}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-xs"
-              >
-                <option value="all">전체</option>
-                {availableDetailTexts.map((text, idx) => (
-                  <option key={idx} value={text}>
-                    {text.length > 40 ? text.slice(0, 40) + '...' : text}
-                  </option>
-                ))}
-              </select>
+                placeholder="예: 제품 카드 클릭"
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-48"
+              />
             </div>
 
             {/* 페이지 필터 */}
@@ -1745,12 +1589,12 @@ export default function AdminPage() {
             </span>
 
             {/* 필터 초기화 버튼 */}
-            {(filterUtm !== 'all' || filterCompleted !== 'all' || filterDetail !== 'all' || filterPage !== 'all') && (
+            {(filterUtm !== 'all' || filterCompleted !== 'all' || filterDetail !== '' || filterPage !== 'all') && (
               <button
                 onClick={() => {
                   setFilterUtm('all');
                   setFilterCompleted('all');
-                  setFilterDetail('all');
+                  setFilterDetail('');
                   setFilterPage('all');
                 }}
                 className="px-3 py-1.5 text-sm bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"

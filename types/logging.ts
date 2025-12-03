@@ -44,6 +44,7 @@ export interface LogEvent {
       budget?: number;
     }; // 페르소나 정보 (문자열 또는 객체)
     isQuickRecommendation?: boolean; // 바로 추천받기 여부
+    isV2Flow?: boolean; // V2 플로우 여부 (카테고리 기반)
     fullReport?: {
       userContext?: {
         priorityAttributes?: Array<{
@@ -256,18 +257,15 @@ export interface CampaignFunnelStats {
   };
 }
 
-// V2 Flow Funnel Stats (Category-based flow)
+// V2 Flow Funnel Stats (Category-based flow) - Simplified page visit tracking
 export interface V2FunnelStats {
   utmCampaign: string; // 'all' | 'none' | specific campaign
   totalSessions: number;
   funnel: {
-    homePageViews: FunnelStep; // Home page visits
-    categoriesEntry: FunnelStep; // Categories page entry
-    anchorSelected: FunnelStep; // Anchor product selected
-    prosTagsSelected: FunnelStep; // Pros tags selected (step 1)
-    consTagsSelected: FunnelStep; // Cons tags selected or skipped (step 2)
-    budgetSelected: FunnelStep; // Budget selected (step 3)
-    resultV2Received: FunnelStep; // Result-v2 recommendation received
+    homePageViews: FunnelStep; // Home page visits (baseline = 100%)
+    categoriesEntry: FunnelStep; // Categories page visited (journey includes 'categories')
+    tagsEntry: FunnelStep; // Tags page visited (journey includes 'tags')
+    resultV2Received: FunnelStep; // Result page visited (journey includes 'result-v2' or 'result')
     preRecommendationActions: {
       anchorGuideOpened: PostRecommendationAction; // "구매 1분 가이드" opened
       anchorSearchUsed: PostRecommendationAction; // Product search used
