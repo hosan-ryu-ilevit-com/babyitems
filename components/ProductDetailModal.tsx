@@ -919,7 +919,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
           message="메인 홈에서 찜한 상품들을 확인하실 수 있어요!"
           isVisible={showToast}
           onClose={() => setShowToast(false)}
-          duration={2000}
+          duration={3000}
         />
       </motion.div>
     </motion.div>

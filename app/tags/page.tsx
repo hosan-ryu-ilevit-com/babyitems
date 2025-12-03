@@ -153,21 +153,6 @@ function TagsPageContent() {
     console.log('🗑️ Tags 대화 상태 클리어됨');
   };
 
-  // 메시지 추가 헬퍼
-  const addMessage = (role: 'assistant' | 'user', content: string, withTyping = false) => {
-    const newMessage: ChatMessage = {
-      id: Date.now().toString() + Math.random(),
-      role,
-      content,
-      typing: withTyping,
-    };
-    setMessages((prev) => [...prev, newMessage]);
-
-    if (withTyping) {
-      setTypingMessageId(newMessage.id);
-    }
-  };
-
   // 컴포넌트 메시지 추가
   const addComponentMessage = (componentType: ChatMessage['componentType'], content?: string) => {
     const newMessage: ChatMessage = {
@@ -700,7 +685,6 @@ function TagsPageContent() {
                 role: 'assistant',
                 content: `대표 인기템 ${CATEGORY_NAMES[category]}, 우리 집에도 맞을까요?\n광고 뺀 후기 분석으로 딱 맞는 제품을 찾아드릴게요.`,
                 typing: true,
-                stepTag: '1/3',
               },
             ]);
             setTypingMessageId(introMessageId);
@@ -711,7 +695,18 @@ function TagsPageContent() {
 
               // 장점 선택 메시지 추가
               setTimeout(() => {
-                addMessage('assistant', '어떤 점이 가장 기대되시나요?\n마음에 드는 순서대로 최대 4가지만 골라주세요.', true);
+                const prosMessageId = `msg-${Date.now()}-3`;
+                setMessages((prev) => [
+                  ...prev,
+                  {
+                    id: prosMessageId,
+                    role: 'assistant',
+                    content: '어떤 점이 가장 기대되시나요?\n마음에 드는 순서대로 최대 4가지만 골라주세요.',
+                    typing: true,
+                    stepTag: '1/3',
+                  },
+                ]);
+                setTypingMessageId(prosMessageId);
 
                 // 장점 선택 컴포넌트 추가
                 setTimeout(() => {
@@ -1265,7 +1260,18 @@ function TagsPageContent() {
                               setSelectedCons([]);
 
                               setTimeout(() => {
-                                addMessage('assistant', '마지막이에요.\n생각해 둔 예산이 있나요?', true);
+                                const budgetMessageId = `msg-${Date.now()}-5`;
+                                setMessages((prev) => [
+                                  ...prev,
+                                  {
+                                    id: budgetMessageId,
+                                    role: 'assistant',
+                                    content: '마지막이에요.\n생각해 둔 예산이 있나요?',
+                                    typing: true,
+                                    stepTag: '3/3',
+                                  },
+                                ]);
+                                setTypingMessageId(budgetMessageId);
 
                                 setTimeout(() => {
                                   addComponentMessage('budget-selector');
@@ -1429,7 +1435,18 @@ function TagsPageContent() {
 
                 // 단점 선택 메시지 추가
                 setTimeout(() => {
-                  addMessage('assistant', '이것만큼은 절대 안 된다!\n꼭 피하고 싶은 단점이 있나요? (선택)', true);
+                  const consMessageId = `msg-${Date.now()}-4`;
+                  setMessages((prev) => [
+                    ...prev,
+                    {
+                      id: consMessageId,
+                      role: 'assistant',
+                      content: '이것만큼은 절대 안 된다!\n꼭 피하고 싶은 단점이 있나요? (선택)',
+                      typing: true,
+                      stepTag: '2/3',
+                    },
+                  ]);
+                  setTypingMessageId(consMessageId);
 
                   // 단점 선택 컴포넌트 추가
                   setTimeout(() => {
@@ -1499,7 +1516,18 @@ function TagsPageContent() {
 
                   // 예산 선택 메시지 추가
                   setTimeout(() => {
-                    addMessage('assistant', '마지막이에요.\n생각해 둔 예산이 있나요?', true);
+                    const budgetMessageId = `msg-${Date.now()}-5`;
+                    setMessages((prev) => [
+                      ...prev,
+                      {
+                        id: budgetMessageId,
+                        role: 'assistant',
+                        content: '마지막이에요.\n생각해 둔 예산이 있나요?',
+                        typing: true,
+                        stepTag: '3/3',
+                      },
+                    ]);
+                    setTypingMessageId(budgetMessageId);
 
                     // 예산 선택 컴포넌트 추가
                     setTimeout(() => {
@@ -1587,7 +1615,7 @@ function TagsPageContent() {
               >
                 <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
                   <p className="text-m text-gray-800 mb-6 leading-relaxed">
-                    나가시면 다시 이 페이지로 돌아올 수 없어요. 정말 나가시겠어요?
+                    카테고리 선택 페이지로 돌아가시겠어요?
                   </p>
                   <div className="flex gap-3">
                     <button
@@ -1600,12 +1628,12 @@ function TagsPageContent() {
                       onClick={() => {
                         setShowBackConfirmModal(false);
                         clearConversationState();
-                        router.push('/');
+                        router.push('/categories');
                       }}
                       className="flex-1 px-4 py-3 text-white font-semibold rounded-xl transition-colors"
                       style={{ backgroundColor: '#0074F3' }}
                     >
-                      홈으로
+                      돌아가기
                     </button>
                   </div>
                 </div>
@@ -1765,7 +1793,6 @@ function TagsPageContent() {
                                 role: 'assistant',
                                 content: `대표 인기템 ${CATEGORY_NAMES[category]}, 우리 집에도 맞을까요?\n광고 뺀 후기 분석으로 딱 맞는 제품을 찾아드릴게요.`,
                                 typing: true,
-                                stepTag: '1/3',
                               },
                             ]);
                             setTypingMessageId(introMessageId);
@@ -1773,7 +1800,18 @@ function TagsPageContent() {
                             setTimeout(() => {
                               addComponentMessage('anchor-product-card');
                               setTimeout(() => {
-                                addMessage('assistant', '어떤 점이 가장 기대되시나요?\n마음에 드는 순서대로 최대 4가지만 골라주세요.', true);
+                                const prosMessageId = `msg-${Date.now()}-3`;
+                                setMessages((prev) => [
+                                  ...prev,
+                                  {
+                                    id: prosMessageId,
+                                    role: 'assistant',
+                                    content: '어떤 점이 가장 기대되시나요?\n마음에 드는 순서대로 최대 4가지만 골라주세요.',
+                                    typing: true,
+                                    stepTag: '1/3',
+                                  },
+                                ]);
+                                setTypingMessageId(prosMessageId);
                                 setTimeout(() => {
                                   addComponentMessage('pros-selector');
                                   // 첫 번째 장점 선택은 스크롤 하지 않음 (사용자가 위 내용을 읽어야 함)

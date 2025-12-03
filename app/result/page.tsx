@@ -1137,7 +1137,7 @@ export default function ResultPage() {
                 transition={{ duration: 0.5 }}
                 className="text-center"
               >
-                <p className="text-base font-medium text-gray-700">
+                <p className="text-base font-medium shimmer-text">
                   {phaseMessages[currentPhaseIndex]}
                 </p>
               </motion.div>

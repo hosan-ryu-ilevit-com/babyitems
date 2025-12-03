@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useState, useMemo } from 'react';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -30,12 +30,12 @@ function specToProduct(spec: Record<string, unknown>, category: ProductCategory)
     title: (spec.모델명 as string) || (spec.제품명 as string) || '',
     brand: (spec.브랜드 as string) || '',
     price: (spec.최저가 as number) || 0,
-    reviewCount: (spec.리뷰수 as number) || 0,
+    reviewCount: (spec.reviewCount as number) || 0,
     reviewUrl: (spec.쿠팡URL as string) || '',
     ranking: (spec.순위 as number) || 0,
     thumbnail: (spec.썸네일 as string) || '',
     category: category,
-    averageRating: (spec.평점 as number) || 0,
+    averageRating: (spec.averageRating as number) || 0,
     coreValues: {
       temperatureControl: 0,
       hygiene: 0,
@@ -135,7 +135,15 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
     const categoryLabel = CATEGORY_LABELS[selectedCategory];
 
     return (
-      <section className="min-h-screen px-6 pt-4 pb-24 max-w-[480px] mx-auto" style={{ backgroundColor: '#FCFCFC' }}>
+      <AnimatePresence mode="wait">
+        <motion.section
+          key={`category-${selectedCategory}`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="min-h-screen px-6 pt-4 pb-24 max-w-[480px] mx-auto bg-white"
+        >
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -158,16 +166,14 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
 
         {/* Info Text */}
         <div className="mb-4 px-4 py-3 bg-blue-50 rounded-lg">
-          <p className="text-sm text-blue-900 font-medium">2~4개 선택해서 바로 비교해보세요</p>
+          <p className="text-sm text-blue-900 font-medium">2~4개 선택해서 바로 비교하실 수 있어요!</p>
         </div>
 
         {/* Product List */}
         <div className="space-y-3">
           {categoryProducts.map((product) => (
-            <motion.div
+            <div
               key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
               onClick={() => handleCheckboxToggle(product.id)}
               className={`bg-white rounded-2xl p-4 border-2 relative cursor-pointer transition-all ${
                 selectedProducts.includes(product.id)
@@ -254,7 +260,7 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
                   </a>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -308,13 +314,20 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
             </motion.div>
           </div>
         )}
-      </section>
+      </motion.section>
+      </AnimatePresence>
     );
   }
 
   if (favorites.length === 0) {
     return (
-      <section className="min-h-screen px-6 pt-4 pb-24 max-w-[480px] mx-auto" style={{ backgroundColor: '#FCFCFC' }}>
+      <motion.section
+        key="empty-favorites"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="min-h-screen px-6 pt-4 pb-24 max-w-[480px] mx-auto bg-white"
+      >
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900">찜한 상품</h2>
@@ -333,12 +346,18 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
           <h3 className="text-lg font-semibold text-gray-700 mb-2">찜한 상품이 없어요</h3>
           <p className="text-sm text-gray-500">마음에 드는 상품을 찜해보세요</p>
         </div>
-      </section>
+      </motion.section>
     );
   }
 
   return (
-    <section className="min-h-screen px-6 pt-4 pb-24 max-w-[480px] mx-auto" style={{ backgroundColor: '#FCFCFC' }}>
+    <motion.section
+      key="folder-grid"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen px-6 pt-4 pb-24 max-w-[480px] mx-auto bg-white"
+    >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900">
@@ -367,10 +386,10 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
               className="cursor-pointer transition-colors"
             >
               {/* Folder Icon Container with 2x2 Thumbnails */}
-              <div className="aspect-square bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-3 mb-2 relative overflow-hidden">
-                {/* 2x2 Thumbnail Grid */}
-                <div className="grid grid-cols-2 gap-1.5 h-full">
-                  {categoryProducts.slice(0, 4).map((product, idx) => (
+              <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl mb-2 relative overflow-hidden">
+                {/* 2x2 Thumbnail Grid - Using absolute positioning to avoid padding issues */}
+                <div className="absolute inset-3 grid grid-cols-2 gap-1.5">
+                  {categoryProducts.slice(0, 4).map((product) => (
                     <div key={product.id} className="relative rounded-md overflow-hidden bg-white">
                       <Image
                         src={product.thumbnail}
@@ -388,16 +407,19 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
                 </div>
               </div>
 
-              {/* Category Label - Single Line */}
-              <div className="text-center">
-                <p className="text-sm text-gray-900">
-                  {categoryLabel} <span className="font-bold" style={{ color: '#0084FE' }}>{categoryProducts.length}</span>
+              {/* Category Label - Two Lines */}
+              <div className="text-left">
+                <p className="text-sm font-medium text-gray-900">
+                  {categoryLabel}
+                </p>
+                <p className="text-sm font-medium text-gray-400">
+                  저장된 항목 {categoryProducts.length}개
                 </p>
               </div>
             </motion.div>
           );
         })}
       </div>
-    </section>
+    </motion.section>
   );
 }
