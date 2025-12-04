@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { Recommendation } from '@/types';
 import { products } from '@/data/products';
 import { logButtonClick } from '@/lib/logging/clientLogger';
+import AnchorProductChangeBottomSheet from './AnchorProductChangeBottomSheet';
 
 interface DetailedComparisonTableProps {
   recommendations: Recommendation[];
@@ -18,6 +19,7 @@ interface DetailedComparisonTableProps {
   isTagBasedFlow?: boolean; // Tag-based flow 여부
   category?: string; // NEW: Category for spec-based products
   onProductClick?: (rec: Recommendation) => void; // NEW: Product click handler for modal
+  onAnchorChange?: (newAnchorProduct: any) => void; // NEW: Anchor product change handler
 }
 
 export default function DetailedComparisonTable({
@@ -29,7 +31,8 @@ export default function DetailedComparisonTable({
   anchorProduct,
   isTagBasedFlow = false,
   category,
-  onProductClick
+  onProductClick,
+  onAnchorChange
 }: DetailedComparisonTableProps) {
   const searchParams = useSearchParams();
   const fromFavorites = searchParams.get('fromFavorites') === 'true';
@@ -37,6 +40,7 @@ export default function DetailedComparisonTable({
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>>({});
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
   const [isSpecsExpanded, setIsSpecsExpanded] = useState(false); // 상세 스펙 펼치기/접기 상태
+  const [isChangeAnchorOpen, setIsChangeAnchorOpen] = useState(false); // 기준제품 변경 바텀시트
 
   // Tag-based flow: 4개 제품 (앵커 + 추천 3개), Normal flow: 추천 3개
   // 단, 앵커 제품이 Top 3에 포함된 경우 앵커를 숨김 (중복 방지)
@@ -107,6 +111,23 @@ export default function DetailedComparisonTable({
     }
     return [];
   });
+
+  // 앵커 제품이 변경될 때 선택 상태 업데이트
+  useEffect(() => {
+    if (displayProducts.length >= 2) {
+      const currentDisplayIds = displayProducts.map(p => p.product.id);
+
+      // 현재 선택된 ID들이 새로운 displayProducts에 유효한지 확인
+      const validSelectedIds = selectedProductIds.filter(id => currentDisplayIds.includes(id));
+
+      // 유효하지 않은 선택이거나 2개 미만이면 자동으로 처음 2개 선택
+      if (validSelectedIds.length < 2) {
+        const newSelection = [displayProducts[0].product.id, displayProducts[1].product.id];
+        setSelectedProductIds(newSelection);
+        console.log('🔄 Product selection updated (auto):', newSelection);
+      }
+    }
+  }, [displayProducts, selectedProductIds]);
 
   // Tag-based flow: Use products from specs (no need to look up in products.ts)
   // Normal flow: Try to find in products.ts, but don't fail if not found
@@ -209,8 +230,8 @@ export default function DetailedComparisonTable({
     >
       {/* 상품 선택 UI */}
       <div className="bg-white border-b border-gray-200 py-3 px-0">
-        <h3 className="text-sm font-bold text-gray-900 mb-3">
-          상품 2개 선택
+        <h3 className="text-base font-bold text-gray-900 mb-3">
+          2개씩 선택해서 비교해보세요!
         </h3>
         <div className={`grid gap-3 ${displayProducts.length >= 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {displayProducts.map((rec) => {
@@ -457,9 +478,16 @@ export default function DetailedComparisonTable({
                           상세보기
                         </button>
                       ) : (
-                        <div className="w-full py-2.5 text-xs text-center text-gray-400">
-                          기준 제품
-                        </div>
+                        <button
+                          onClick={() => {
+                            logButtonClick('기준제품_변경하기_버튼_클릭', 'compare');
+                            setIsChangeAnchorOpen(true);
+                          }}
+                          className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors"
+                          style={{ backgroundColor: '#F0F7FF', color: '#0074F3' }}
+                        >
+                          기준제품 변경하기
+                        </button>
                       )}
                     </div>
 
@@ -485,9 +513,16 @@ export default function DetailedComparisonTable({
                           상세보기
                         </button>
                       ) : (
-                        <div className="w-full py-2.5 text-xs text-center text-gray-400">
-                          기준 제품
-                        </div>
+                        <button
+                          onClick={() => {
+                            logButtonClick('기준제품_변경하기_버튼_클릭', 'compare');
+                            setIsChangeAnchorOpen(true);
+                          }}
+                          className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors"
+                          style={{ backgroundColor: '#F0F7FF', color: '#0074F3' }}
+                        >
+                          기준제품 변경하기
+                        </button>
                       )}
                     </div>
                   </div>
@@ -818,6 +853,23 @@ export default function DetailedComparisonTable({
           </tbody>
         </table>
       </div>
+      )}
+
+      {/* 기준제품 변경 바텀시트 */}
+      {isTagBasedFlow && anchorProduct && category && (
+        <AnchorProductChangeBottomSheet
+          isOpen={isChangeAnchorOpen}
+          onClose={() => setIsChangeAnchorOpen(false)}
+          currentCategory={category}
+          currentAnchorProductId={anchorProduct.productId}
+          onSelectProduct={(newProduct) => {
+            if (onAnchorChange) {
+              setIsLoadingComparison(true);
+              setProductDetails({}); // 기존 비교 데이터 초기화
+              onAnchorChange(newProduct);
+            }
+          }}
+        />
       )}
     </motion.div>
   );

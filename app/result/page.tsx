@@ -177,8 +177,8 @@ export default function ResultPage() {
   // 재추천 바텀시트 state
   const [pdpRecommendInput, setPdpRecommendInput] = useState<{ productId: string; userInput: string; productTitle: string } | null>(null);
 
-  // 탭 상태
-  const [activeTab, setActiveTab] = useState<'recommendations' | 'comparison'>('recommendations');
+  // 탭 상태 (제거됨 - 단일 페이지로 통합)
+  // const [activeTab, setActiveTab] = useState<'recommendations' | 'comparison'>('recommendations');
 
   // 비교표 데이터 캐싱 (탭 전환 시 재생성 방지)
   const [comparisonFeatures, setComparisonFeatures] = useState<Record<string, string[]>>({});
@@ -359,6 +359,15 @@ export default function ResultPage() {
     const top3Element = document.getElementById('top3-section');
     if (top3Element) {
       top3Element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // 상세 비교표 섹션으로 스크롤
+  const scrollToComparison = () => {
+    const comparisonElement = document.getElementById('comparison-section');
+    if (comparisonElement) {
+      comparisonElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      logButtonClick('상세 비교표 스크롤', 'result');
     }
   };
 
@@ -1052,7 +1061,7 @@ export default function ResultPage() {
               }}
               className="text-sm text-gray-600 hover:text-gray-900 font-medium"
             >
-             처음으로
+              처음으로
             </button>
           </div>
         </header>
@@ -1060,7 +1069,7 @@ export default function ResultPage() {
 
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-2 pb-24">
+        <main className="flex-1 overflow-y-auto px-2 pb-8">
           {/* AI 말풍선 - 헤더 바로 아래 */}
           {!loading && recommendations.length > 0 && (
             <motion.div
@@ -1083,6 +1092,19 @@ export default function ResultPage() {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              {/* 상세비교표 보기 버튼 */}
+              <div className="flex justify-center mt-3">
+                <button
+                  onClick={scrollToComparison}
+                  className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-full transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  상세비교표 보기
+                </button>
               </div>
             </motion.div>
           )}
@@ -1237,49 +1259,8 @@ export default function ResultPage() {
                 </button>
               </motion.div> */}
 
-              {/* 탭 UI */}
-              <div className="mt-6 mb-6">
-                <div className="flex justify-center gap-2 bg-gray-100 p-1 rounded-full max-w-[280px] mx-auto">
-                  <button
-                    onClick={() => {
-                      setActiveTab('recommendations');
-                      logButtonClick('추천 제품 탭', 'result');
-                    }}
-                    className={`flex-1 py-2 px-3 rounded-full font-semibold text-sm transition-all ${
-                      activeTab === 'recommendations'
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'bg-transparent text-gray-500'
-                    }`}
-                  >
-                    추천 상품
-                  </button>
-                  <button
-                    onClick={() => {
-                      setActiveTab('comparison');
-                      logButtonClick('상세 비교 탭', 'result');
-                    }}
-                    className={`flex-1 py-2 px-3 rounded-full font-semibold text-sm transition-all ${
-                      activeTab === 'comparison'
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'bg-transparent text-gray-500'
-                    }`}
-                  >
-                    상세 비교표
-                  </button>
-                </div>
-              </div>
-
-              {/* 탭 컨텐츠 */}
-              <AnimatePresence mode="wait">
-                {activeTab === 'recommendations' ? (
-                  <motion.div
-                    key="recommendations"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="space-y-4 mb-8"
-                  >
+              {/* 통합된 컨텐츠 - 탭 제거 */}
+              <div className="space-y-4 mb-8">
 
                     {/* 점수 설명 섹션 */}
                     {recommendations.length > 0 && recommendations[0].selectedTagsEvaluation && recommendations[0].selectedTagsEvaluation.length > 0 && (() => {
@@ -1457,56 +1438,68 @@ export default function ResultPage() {
                       </motion.div>
                     ))}
 
-                    {/* 사용자 맥락 요약 - Top 3 아래로 이동 */}
-                    <div className="mt-6">
-                      {contextSummary ? (
-                        <UserContextSummaryComponent summary={contextSummary} />
-                      ) : (
-                        /* ✅ 최적화: Context Summary 로딩 스켈레톤 */
-                        <motion.div
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.4 }}
-                          className="bg-white rounded-2xl p-4"
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="h-5 w-28 bg-gray-200 rounded-md animate-pulse" />
-                            <div className="h-7 w-14 bg-gray-100 rounded-full animate-pulse" />
-                          </div>
-                          <div className="mt-3 space-y-2">
-                            <div className="h-3 w-full bg-gray-100 rounded animate-pulse" />
-                            <div className="h-3 w-2/3 bg-gray-100 rounded animate-pulse" />
-                          </div>
-                        </motion.div>
-                      )}
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="comparison"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="space-y-4"
-                  >
-                    {/* 상세 비교표 (핵심 특징 포함) */}
-                    <DetailedComparisonTable
-                      recommendations={recommendations}
-                      cachedFeatures={comparisonFeatures}
-                      cachedDetails={comparisonDetails}
-                      showScore={false}
-                      anchorProduct={isTagBasedFlow ? anchorProduct : undefined}
-                      isTagBasedFlow={isTagBasedFlow}
-                      category={currentCategory || undefined}
-                      onProductClick={(rec) => {
-                        setSelectedProductForModal(rec);
-                        window.history.pushState({}, '', `/product/${rec.product.id}`);
-                      }}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                {/* 상세 비교표 - 스크롤 타겟 */}
+                <div id="comparison-section" className="mt-8">
+                  <DetailedComparisonTable
+                    recommendations={recommendations}
+                    cachedFeatures={comparisonFeatures}
+                    cachedDetails={comparisonDetails}
+                    showScore={false}
+                    anchorProduct={isTagBasedFlow ? anchorProduct : undefined}
+                    isTagBasedFlow={isTagBasedFlow}
+                    category={currentCategory || undefined}
+                    onProductClick={(rec) => {
+                      setSelectedProductForModal(rec);
+                      window.history.pushState({}, '', `/product/${rec.product.id}`);
+                    }}
+                    onAnchorChange={(newAnchorProduct) => {
+                      console.log('🔄 Anchor product changed:', newAnchorProduct);
+
+                      // 앵커 제품 상태 업데이트
+                      setAnchorProduct(newAnchorProduct);
+
+                      // 비교표 캐시 초기화 (새로운 앵커로 재생성되도록)
+                      setComparisonFeatures({});
+                      setComparisonDetails({});
+
+                      // 세션 스토리지에 저장
+                      const sessionData = sessionStorage.getItem('babyitem_session');
+                      if (sessionData) {
+                        const session = JSON.parse(sessionData);
+                        session.anchorProduct = newAnchorProduct;
+                        sessionStorage.setItem('babyitem_session', JSON.stringify(session));
+                      }
+
+                      // 로깅
+                      logButtonClick(`기준제품_변경완료_${newAnchorProduct.브랜드}_${newAnchorProduct.모델명}`, 'result');
+                    }}
+                  />
+                </div>
+
+                {/* 사용자 맥락 요약 - 상세 비교표 아래로 이동 */}
+                <div className="mt-3">
+                  {contextSummary ? (
+                    <UserContextSummaryComponent summary={contextSummary} />
+                  ) : (
+                    /* ✅ 최적화: Context Summary 로딩 스켈레톤 */
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="bg-white rounded-2xl p-4"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="h-5 w-28 bg-gray-200 rounded-md animate-pulse" />
+                        <div className="h-7 w-14 bg-gray-100 rounded-full animate-pulse" />
+                      </div>
+                      <div className="mt-3 space-y-2">
+                        <div className="h-3 w-full bg-gray-100 rounded animate-pulse" />
+                        <div className="h-3 w-2/3 bg-gray-100 rounded animate-pulse" />
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
           </AnimatePresence>
@@ -1514,11 +1507,10 @@ export default function ResultPage() {
 
         {/* 플로팅 ChatInputBar 제거 - ReRecommendationBottomSheet가 항상 표시됨 */}
 
-        {/* 비교 질문하기 채팅 바텀시트 */}
-        <AnimatePresence>
+        {/* 비교 질문하기 채팅 바텀시트 - 주석 처리 (사용률 낮음) */}
+        {/* <AnimatePresence>
           {isChatOpen && (
             <>
-              {/* Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -1528,7 +1520,6 @@ export default function ResultPage() {
                 onClick={() => setIsChatOpen(false)}
               />
 
-              {/* Bottom Sheet */}
               <motion.div
                 initial={{ y: '100%' }}
                 animate={{ y: 0 }}
@@ -1537,12 +1528,10 @@ export default function ResultPage() {
                 className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl z-50 flex flex-col"
                 style={{ height: '85vh' }}
               >
-                {/* Handle Bar */}
                 <div className="flex justify-center pt-4 pb-2">
                   <div className="w-12 h-1 bg-gray-300 rounded-full" />
                 </div>
 
-                {/* Header */}
                 <div className="px-3 py-3 border-b border-gray-200">
                   <div className="flex items-center justify-between mb-2">
                     <h2 className="text-base font-bold text-gray-900">비교 질문하기</h2>
@@ -1557,7 +1546,6 @@ export default function ResultPage() {
                     </button>
                   </div>
 
-                  {/* Product Info */}
                   <div className="flex items-center gap-2 text-xs">
                     {recommendations.slice(0, 3).map((rec) => (
                       <div key={rec.product.id} className="flex flex-col flex-1 bg-gray-50 rounded-lg p-2.5">
@@ -1568,7 +1556,6 @@ export default function ResultPage() {
                   </div>
                 </div>
 
-                {/* Messages - Scrollable area */}
                 <div className={`flex-1 px-3 py-4 ${messages.length === 0 ? '' : 'overflow-y-auto'}`}>
                   {messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full px-4">
@@ -1602,7 +1589,6 @@ export default function ResultPage() {
                       </div>
                     ))}
 
-                    {/* Loading indicator */}
                     {isLoadingMessage && (
                       <div className="w-full flex justify-start">
                         <div className="px-4 py-3">
@@ -1617,7 +1603,6 @@ export default function ResultPage() {
                   </div>
                 </div>
 
-                {/* Guide Chips */}
                 {!isLoadingMessage && messages.length === 0 && (
                   <div className="px-3 pb-3 border-t border-gray-100 pt-3 bg-white">
                     <div className="flex flex-wrap gap-2 justify-center">
@@ -1640,7 +1625,6 @@ export default function ResultPage() {
                   </div>
                 )}
 
-                {/* Input Area */}
                 <div className="px-3 py-4 bg-white">
                   <ChatInputBar
                     value={inputValue}
@@ -1653,28 +1637,25 @@ export default function ResultPage() {
               </motion.div>
             </>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
 
-        {/* 재추천 바텀시트 - 항상 표시 (collapsed 상태로 시작) */}
-        <ReRecommendationBottomSheet
+        {/* 재추천 바텀시트 - 주석 처리 (사용률 낮음) */}
+        {/* <ReRecommendationBottomSheet
           isOpen={!loading && recommendations.length > 0}
-          onClose={() => {}} // 닫기 비활성화 (항상 표시)
+          onClose={() => {}}
           currentRecommendations={recommendations}
           pdpInput={pdpRecommendInput}
           onNewRecommendations={(newRecs) => {
             setRecommendations(newRecs);
-            // 비교표 캐시 초기화 (재추천된 제품으로 새로 생성되도록)
             setComparisonFeatures({});
             setComparisonDetails({});
-            // 상단으로 스크롤
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           onContextSummaryUpdate={(newContextSummary) => {
-            // Context Summary 백그라운드 업데이트 (기존 Result 페이지와 동일한 방식)
             console.log('🔄 Context Summary updated from background');
             setContextSummary(newContextSummary);
           }}
-        />
+        /> */}
 
 
         {/* Product Detail Modal */}
