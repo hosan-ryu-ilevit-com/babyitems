@@ -38,6 +38,8 @@ export default function AdminPage() {
   const [filterDetail, setFilterDetail] = useState<string>(''); // 자연어 검색 필터
   const [filterPage, setFilterPage] = useState<string>('all'); // 'all' | 페이지명 (home, result, etc.)
   const [phoneCopied, setPhoneCopied] = useState(false);
+  const [phoneWithCountCopied, setPhoneWithCountCopied] = useState(false);
+  const [sortBy, setSortBy] = useState<'time' | 'eventCount'>('time'); // 정렬 기준
 
   // 추가 입력 섹션 상태
   const [isUserInputExpanded, setIsUserInputExpanded] = useState(false);
@@ -276,9 +278,14 @@ export default function AdminPage() {
     }
   };
 
-  // 필터된 세션의 phone 번호를 엑셀 컬럼 형식으로 복사
+  // 선택된 세션의 phone 번호를 엑셀 컬럼 형식으로 복사
   const copyPhoneNumbers = async () => {
-    const phoneNumbers = filteredSessions
+    // 선택된 세션이 있으면 선택된 것만, 없으면 필터된 전체
+    const targetSessions = selectedSessions.size > 0
+      ? filteredSessions.filter(s => selectedSessions.has(s.sessionId))
+      : filteredSessions;
+
+    const phoneNumbers = targetSessions
       .map(session => session.phone)
       .filter(Boolean); // phone이 있는 세션만
 
@@ -293,6 +300,35 @@ export default function AdminPage() {
       await navigator.clipboard.writeText(textToCopy);
       setPhoneCopied(true);
       setTimeout(() => setPhoneCopied(false), 2000); // 2초 후 상태 리셋
+    } catch (error) {
+      console.error('복사 실패:', error);
+      alert('복사에 실패했습니다.');
+    }
+  };
+
+  // 선택된 세션의 phone + 이벤트 개수를 CSV 형식으로 복사
+  const copyPhoneWithEventCount = async () => {
+    // 선택된 세션이 있으면 선택된 것만, 없으면 필터된 전체
+    const targetSessions = selectedSessions.size > 0
+      ? filteredSessions.filter(s => selectedSessions.has(s.sessionId))
+      : filteredSessions;
+
+    const sessionsWithPhone = targetSessions.filter(s => s.phone); // phone이 있는 세션만
+
+    if (sessionsWithPhone.length === 0) {
+      alert('전화번호가 있는 세션이 없습니다.');
+      return;
+    }
+
+    // phone + 탭 + 이벤트 개수 형식으로 변환
+    const textToCopy = sessionsWithPhone
+      .map(session => `${session.phone}\t${session.events.length}`)
+      .join('\n');
+
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setPhoneWithCountCopied(true);
+      setTimeout(() => setPhoneWithCountCopied(false), 2000); // 2초 후 상태 리셋
     } catch (error) {
       console.error('복사 실패:', error);
       alert('복사에 실패했습니다.');
@@ -642,6 +678,15 @@ export default function AdminPage() {
     }
 
     return utmMatch && completedMatch && detailMatch && pageMatch;
+  }).sort((a, b) => {
+    // 정렬 적용
+    if (sortBy === 'eventCount') {
+      // 이벤트 개수 내림차순 (많은 것부터)
+      return b.events.length - a.events.length;
+    } else {
+      // 시간순 내림차순 (최신이 위) - 기본값
+      return new Date(b.lastSeen).getTime() - new Date(a.lastSeen).getTime();
+    }
   });
 
   // 세션에서 사용 가능한 UTM 캠페인 목록 추출
@@ -1460,6 +1505,19 @@ export default function AdminPage() {
               </select>
             </div>
 
+            {/* 정렬 선택 */}
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-gray-600">정렬:</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'time' | 'eventCount')}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="time">시간순 (최신)</option>
+                <option value="eventCount">이벤트 개수순</option>
+              </select>
+            </div>
+
             {/* 필터 결과 표시 */}
             <span className="text-sm text-gray-600">
               {filteredSessions.length}개 표시 {filteredSessions.length !== sessions.length && `(${sessions.length}개 중)`}
@@ -1484,7 +1542,7 @@ export default function AdminPage() {
             <button
               onClick={copyPhoneNumbers}
               className="ml-auto px-3 py-1.5 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
-              title="필터된 세션의 전화번호를 복사합니다"
+              title={selectedSessions.size > 0 ? "선택된 세션의 전화번호를 복사합니다" : "필터된 세션의 전화번호를 복사합니다"}
             >
               {phoneCopied ? (
                 <>
@@ -1498,7 +1556,30 @@ export default function AdminPage() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                   </svg>
-                  📱 Phone 복사
+                  📱 Phone 복사 {selectedSessions.size > 0 && `(${selectedSessions.size}개)`}
+                </>
+              )}
+            </button>
+
+            {/* Phone + 이벤트 개수 복사 버튼 */}
+            <button
+              onClick={copyPhoneWithEventCount}
+              className="px-3 py-1.5 text-sm bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2"
+              title={selectedSessions.size > 0 ? "선택된 세션의 전화번호와 이벤트 개수를 복사합니다 (CSV)" : "필터된 세션의 전화번호와 이벤트 개수를 복사합니다 (CSV)"}
+            >
+              {phoneWithCountCopied ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  복사완료!
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v8a2 2 0 01-2 2h-2a2 2 0 01-2-2V9a2 2 0 012-2z" />
+                  </svg>
+                  📊 Phone + 개수 {selectedSessions.size > 0 && `(${selectedSessions.size}개)`}
                 </>
               )}
             </button>

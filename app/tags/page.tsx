@@ -524,6 +524,11 @@ function TagsPageContent() {
     session.budget = finalBudget;
     session.phase = 'result';
 
+    // 🔥 CRITICAL: Clear cached recommendations to force fresh generation
+    session.recommendations = null;
+    session.anchorProduct = null;
+    session.contextSummary = null;
+
     sessionStorage.setItem(sessionKey, JSON.stringify(session));
 
     // IMPORTANT: Save to tag_selections for result page (v2 tag-based flow)

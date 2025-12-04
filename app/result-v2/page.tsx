@@ -27,6 +27,7 @@ function ResultPageContent() {
   const searchParams = useSearchParams();
   const category = searchParams.get('category') as Category;
   const anchorId = searchParams.get('anchorId');
+  const timestamp = searchParams.get('t'); // 추천 재생성 트리거용 timestamp
 
   const [loading, setLoading] = useState(true);
   const [recommendations, setRecommendations] = useState<ProductRecommendation[]>([]);
@@ -50,7 +51,7 @@ function ResultPageContent() {
     logPageView('result-v2');
 
     loadRecommendations();
-  }, [category, anchorId]);
+  }, [category, anchorId, timestamp]); // timestamp 추가로 매번 새로운 추천 생성
 
   const loadRecommendations = async () => {
     try {
