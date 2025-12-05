@@ -1,28 +1,14 @@
 import { NextResponse } from 'next/server';
-import { getSpecsByCategory } from '@/lib/data/specLoader';
-import { CATEGORIES, Category } from '@/lib/data';
+import { CATEGORIES } from '@/lib/data';
 
 export async function GET() {
   try {
     const thumbnails: Record<string, string | null> = {};
 
-    // 각 카테고리별로 1위 상품의 썸네일 가져오기
+    // 각 카테고리별로 public/categoryThumbnails/ 폴더의 이미지 경로 반환
     for (const category of CATEGORIES) {
-      try {
-        const specs = await getSpecsByCategory(category);
-
-        // 순위 1위 상품 찾기
-        const rank1Product = specs.find(product => product['순위'] === 1);
-
-        if (rank1Product && rank1Product['썸네일']) {
-          thumbnails[category] = rank1Product['썸네일'];
-        } else {
-          thumbnails[category] = null;
-        }
-      } catch (error) {
-        console.error(`Error loading thumbnail for ${category}:`, error);
-        thumbnails[category] = null;
-      }
+      // 카테고리별 썸네일 파일 경로 (파일명은 카테고리명과 동일)
+      thumbnails[category] = `/categoryThumbnails/${category}.png`;
     }
 
     return NextResponse.json({

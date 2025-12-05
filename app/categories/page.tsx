@@ -62,16 +62,20 @@ function CategoryButton({
       animate={{ scale: isSelected ? 1.03 : 1 }}
       onClick={() => onSelect(category)}
       className={`rounded-2xl p-3 transition-all duration-200 relative overflow-hidden ${
-        isSelected ? 'bg-gray-100' : 'bg-white hover:bg-gray-50'
+        isSelected
+          ? 'bg-white ring-4 ring-inset ring-[#93C5FD]'
+          : 'bg-white hover:bg-gray-50'
       }`}
     >
       <div className="relative z-10 flex flex-col items-center">
         {/* Thumbnail, Loading Skeleton, or Icon */}
         {isLoading ? (
           // Show loading skeleton while fetching thumbnails
-          <div className="w-16 h-16 mb-2 rounded-xl bg-gray-200 animate-pulse" />
+          <div className="w-20 h-20 mb-2 rounded-xl bg-gray-200 animate-pulse" />
         ) : hasThumbnail && !imageError ? (
-          <div className="w-16 h-16 mb-2 relative rounded-xl overflow-hidden">
+          <div className={`w-20 h-20 mb-2 relative rounded-xl overflow-hidden bg-white transition-all duration-200 ${
+            isSelected ? 'scale-95' : 'scale-100'
+          }`}>
             {!imageLoaded && (
               <div className="absolute inset-0 bg-gray-200 animate-pulse" />
             )}
@@ -79,7 +83,7 @@ function CategoryButton({
               src={thumbnailUrl}
               alt={CATEGORY_NAMES[category]}
               fill
-              className="object-contain p-1"
+              className="object-cover"
               unoptimized
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
