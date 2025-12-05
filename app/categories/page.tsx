@@ -38,7 +38,7 @@ const FEEDING_CATEGORIES: Category[] = [
 
 const BABY_LIFE_CATEGORIES: Category[] = [
   'baby_monitor',
-  'baby_play_mat',
+  // 'baby_play_mat', // 임시 숨김
   'car_seat',
   'nasal_aspirator',
   'thermometer',
