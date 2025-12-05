@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { logButtonClick } from '@/lib/logging/clientLogger';
+import { LoadingSpinner } from './LoadingSpinner';
 
 interface Product {
   productId: string;
@@ -140,7 +141,7 @@ export default function AnchorProductChangeBottomSheet({
             <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 py-3">
               {isLoading ? (
                 <div className="flex items-center justify-center h-40">
-                  <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
+                  <LoadingSpinner size="sm" />
                 </div>
               ) : filteredProducts.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-40 text-gray-500">

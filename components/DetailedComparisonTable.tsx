@@ -228,10 +228,13 @@ export default function DetailedComparisonTable({
       transition={{ duration: 0.5 }}
       className="comparison-table-section space-y-0 mb-8"
     >
+      {/* 섹션 구분 디바이더 */}
+      <div className="h-4 bg-gray-100 -mx-2 mb-4"></div>
+
       {/* 상품 선택 UI */}
-      <div className="bg-white border-b border-gray-200 py-3 px-0">
+      <div className="bg-white py-3 px-0">
         <h3 className="text-base font-bold text-gray-900 mb-3">
-          2개씩 선택해서 비교해보세요!
+          2개씩 상세 비교하기
         </h3>
         <div className={`grid gap-3 ${displayProducts.length >= 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {displayProducts.map((rec) => {
@@ -771,24 +774,29 @@ export default function DetailedComparisonTable({
 
               return (
                 <>
-                  {/* 접기/펼치기 헤더 */}
-                  <tr className="border-b border-gray-100 cursor-pointer hover:bg-gray-50" onClick={() => {
-                    const newState = !isSpecsExpanded;
-                    setIsSpecsExpanded(newState);
-                    // 상세 스펙 펼쳐보기 로깅
-                    logButtonClick(newState ? '상세스팩_펼치기' : '상세스팩_접기', 'compare');
-                  }}>
+                  {/* 접기/펼치기 헤더 - 그레이 버튼 스타일 */}
+                  <tr>
                     <td colSpan={3} className="py-3 px-3">
-                      <div className="flex items-center justify-center gap-2">
-                        <span className="text-xs font-semibold text-gray-700">상세 스펙</span>
-                        <svg
-                          className={`w-4 h-4 text-gray-500 transition-transform ${isSpecsExpanded ? 'rotate-180' : ''}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                      <div className="flex justify-center">
+                        <button
+                          onClick={() => {
+                            const newState = !isSpecsExpanded;
+                            setIsSpecsExpanded(newState);
+                            // 상세 스펙 펼쳐보기 로깅
+                            logButtonClick(newState ? '상세스팩_펼치기' : '상세스팩_접기', 'compare');
+                          }}
+                          className="py-2.5 px-5 bg-black/70 hover:bg-black/80 text-white text-sm font-semibold rounded-full transition-colors flex items-center gap-2"
                         >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
+                          <span>상세 스펙 펼쳐보기</span>
+                          <svg
+                            className={`w-4 h-4 transition-transform ${isSpecsExpanded ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
                       </div>
                     </td>
                   </tr>

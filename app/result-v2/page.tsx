@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Category, CATEGORY_NAMES } from '@/lib/data';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 import {
   logPageView,
   logButtonClick,
@@ -214,8 +215,8 @@ function ResultPageContent() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center">
         <div className="text-center max-w-md px-4">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mb-6"></div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
+          <LoadingSpinner size="lg" />
+          <h2 className="text-xl font-bold text-gray-900 mb-2 mt-6">
             맞춤 추천을 생성하고 있습니다
           </h2>
           <p className="text-sm text-gray-600 mb-4">
@@ -639,7 +640,7 @@ export default function ResultV2Page() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <LoadingSpinner size="lg" />
         </div>
       }
     >

@@ -42,18 +42,16 @@ function CategoryButton({
   category,
   isSelected,
   onSelect,
-  thumbnailUrl,
-  isLoading
+  isPriority
 }: {
   category: Category;
   isSelected: boolean;
   onSelect: (category: Category) => void;
-  thumbnailUrl: string | null;
-  isLoading: boolean;
+  isPriority?: boolean;
 }) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const hasThumbnail = !!thumbnailUrl;
+  const thumbnailUrl = `/categoryThumbnails/${category}.png`;
 
   return (
     <motion.button
@@ -68,11 +66,8 @@ function CategoryButton({
       }`}
     >
       <div className="relative z-10 flex flex-col items-center">
-        {/* Thumbnail, Loading Skeleton, or Icon */}
-        {isLoading ? (
-          // Show loading skeleton while fetching thumbnails
-          <div className="w-20 h-20 mb-2 rounded-xl bg-gray-200 animate-pulse" />
-        ) : hasThumbnail && !imageError ? (
+        {/* Thumbnail or Icon */}
+        {!imageError ? (
           <div className={`w-20 h-20 mb-2 relative rounded-xl overflow-hidden bg-white transition-all duration-200 ${
             isSelected ? 'scale-95' : 'scale-100'
           }`}>
@@ -83,8 +78,9 @@ function CategoryButton({
               src={thumbnailUrl}
               alt={CATEGORY_NAMES[category]}
               fill
+              sizes="80px"
               className="object-cover"
-              unoptimized
+              priority={isPriority}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
             />
@@ -107,30 +103,10 @@ function CategoryButton({
 export default function CategoriesPage() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const [thumbnails, setThumbnails] = useState<Record<Category, string | null>>({} as Record<Category, string | null>);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // 페이지뷰 로깅 및 썸네일 로드
+  // 페이지뷰 로깅
   useEffect(() => {
     logPageView('categories');
-
-    // 카테고리 썸네일 로드
-    async function loadThumbnails() {
-      try {
-        const response = await fetch('/api/category-thumbnails');
-        const data = await response.json();
-
-        if (data.success && data.thumbnails) {
-          setThumbnails(data.thumbnails);
-        }
-      } catch (error) {
-        console.error('Failed to load category thumbnails:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    loadThumbnails();
   }, []);
 
   const handleCategorySelect = (category: Category) => {
@@ -160,7 +136,7 @@ export default function CategoriesPage() {
               </button>
               <div className="absolute left-1/2 -translate-x-1/2">
                 <h1 className="text-m font-semibold text-gray-900">
-                  카테고리 선택
+                  추천받을 상품 선택
                 </h1>
               </div>
               <div className="w-6" /> {/* Spacer for alignment */}
@@ -178,14 +154,13 @@ export default function CategoriesPage() {
           <div className="mb-6">
             <h2 className="text-sm font-bold text-gray-700 mb-3 px-1">분유/젖병</h2>
             <div className="grid grid-cols-2 gap-3">
-              {FEEDING_CATEGORIES.map((category) => (
+              {FEEDING_CATEGORIES.map((category, index) => (
                 <CategoryButton
                   key={category}
                   category={category}
                   isSelected={selectedCategory === category}
                   onSelect={handleCategorySelect}
-                  thumbnailUrl={thumbnails[category] || null}
-                  isLoading={isLoading}
+                  isPriority={index < 2}
                 />
               ))}
             </div>
@@ -201,8 +176,6 @@ export default function CategoriesPage() {
                   category={category}
                   isSelected={selectedCategory === category}
                   onSelect={handleCategorySelect}
-                  thumbnailUrl={thumbnails[category] || null}
-                  isLoading={isLoading}
                 />
               ))}
             </div>

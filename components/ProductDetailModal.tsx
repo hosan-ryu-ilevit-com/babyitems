@@ -341,18 +341,18 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
         {/* Recommendation Reasoning Container */}
         <div className="px-4 pt-4">
-          <div className="bg-linear-to-br from-green-50 to-blue-50 rounded-2xl px-4 py-3 flex items-start gap-2">
+          <div className="bg-[#F3E6FD] rounded-2xl px-4 py-3 flex items-start gap-2">
             <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 24 24">
               <defs>
-                <linearGradient id="ai-gradient-pdp" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#5855ff" />
-                  <stop offset="50%" stopColor="#71c4fd" />
-                  <stop offset="100%" stopColor="#5cdcdc" />
+                <linearGradient id="sparkle-gradient-pdp" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#9325FC" />
+                  <stop offset="50%" stopColor="#C750FF" />
+                  <stop offset="100%" stopColor="#C878F7" />
                 </linearGradient>
               </defs>
-              <path fill="url(#ai-gradient-pdp)" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+              <path fill="url(#sparkle-gradient-pdp)" d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
             </svg>
-            <p className="text-sm text-gray-700 leading-relaxed flex-1">
+            <p className="text-sm text-gray-700 leading-normal flex-1">
               {parseMarkdownBold(productData.reasoning)}
             </p>
           </div>
@@ -407,7 +407,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
         </div>
 
           {/* Tab Content */}
-          <div className="pb-20">
+          <div className="pb-28">
           <AnimatePresence mode="wait">
             {activeTab === 'description' ? (
               <motion.div
@@ -444,8 +444,8 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                       <div className="space-y-4">
                         {/* 장점 태그 섹션 */}
                         {prosTags.length > 0 && (
-                          <div className="bg-green-50 rounded-xl p-4">
-                            <div className="flex items-center justify-between mb-3">
+                          <div className="bg-gray-50 rounded-xl p-4">
+                            <div className="flex items-center justify-between mb-4">
                               <h4 className="text-base font-bold text-green-900 leading-tight">
                                 원하는<br />장점
                               </h4>
@@ -468,7 +468,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                                 }
 
                                 return (
-                                  <div key={i} className="bg-white rounded-lg p-3">
+                                  <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
                                     <div className="flex items-start gap-2 mb-2">
                                       <strong className="text-sm font-bold text-gray-900 flex-1">
                                         {parseMarkdownBold(tagEval.userTag)}
@@ -486,7 +486,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                                       />
                                     </p>
                                     {tagEval.tradeoff && (
-                                      <p className="text-xs text-gray-600 leading-relaxed bg-gray-100 rounded p-2 mt-2">
+                                      <p className="text-xs text-gray-600 leading-relaxed bg-white rounded p-2 mt-2">
                                         {parseMarkdownBold(tagEval.tradeoff)}
                                       </p>
                                     )}
@@ -499,8 +499,8 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                         {/* 단점 태그 섹션 */}
                         {consTags.length > 0 && (
-                          <div className="bg-blue-50 rounded-xl p-4">
-                            <div className="flex items-center justify-between mb-3">
+                          <div className="bg-gray-50 rounded-xl p-4">
+                            <div className="flex items-center justify-between mb-4">
                               <h4 className="text-base font-bold text-blue-900 leading-tight">
                                 원하는<br />개선점
                               </h4>
@@ -523,7 +523,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                                 }
 
                                 return (
-                                  <div key={i} className="bg-white rounded-lg p-3">
+                                  <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
                                     <div className="flex items-start gap-2 mb-2">
                                       <strong className="text-sm font-bold text-gray-900 flex-1">
                                         {parseMarkdownBold(tagEval.userTag)}
@@ -541,7 +541,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                                       />
                                     </p>
                                     {tagEval.tradeoff && (
-                                      <p className="text-xs text-gray-600 leading-relaxed bg-gray-100 rounded p-2 mt-2">
+                                      <p className="text-xs text-gray-600 leading-relaxed bg-white rounded p-2 mt-2">
                                         {parseMarkdownBold(tagEval.tradeoff)}
                                       </p>
                                     )}

@@ -173,6 +173,7 @@ export default function ResultPage() {
   const [isLoadingMessage, setIsLoadingMessage] = useState(false);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null); // Main element ref for scroll control
 
   // 재추천 바텀시트 state
   const [pdpRecommendInput, setPdpRecommendInput] = useState<{ productId: string; userInput: string; productTitle: string } | null>(null);
@@ -186,6 +187,9 @@ export default function ResultPage() {
 
   // 제품 상세 모달 state
   const [selectedProductForModal, setSelectedProductForModal] = useState<Recommendation | null>(null);
+
+  // 나가기 확인 모달 state
+  const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
 
   const toggleSection = (key: string) => {
     const newState = !expandedSections[key];
@@ -380,6 +384,35 @@ export default function ResultPage() {
 
   useEffect(() => {
     setMounted(true);
+
+    // 페이지 로딩 시 스크롤을 맨 위로 리셋 (브라우저의 스크롤 복원 방지)
+    // 여러 방법을 동시에 시도하여 확실하게 스크롤 리셋
+    const resetScroll = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      // Main element의 스크롤도 리셋 (핵심!)
+      if (mainRef.current) {
+        mainRef.current.scrollTop = 0;
+      }
+    };
+
+    // 즉시 실행
+    resetScroll();
+
+    // 브라우저의 자동 스크롤 복원보다 늦게 실행
+    setTimeout(resetScroll, 0);
+
+    // 애니메이션 프레임 후 실행 (렌더링 완료 후)
+    requestAnimationFrame(() => {
+      resetScroll();
+      // 한 번 더 보험
+      requestAnimationFrame(resetScroll);
+    });
+
+    // 약간 더 지연 (레이아웃이 완전히 정착된 후)
+    setTimeout(resetScroll, 100);
   }, []);
 
   // 페이지 뷰 로깅
@@ -387,6 +420,21 @@ export default function ResultPage() {
     if (!mounted) return;
     logPageView('result');
   }, [mounted]);
+
+  // 로딩 완료 후 스크롤 리셋 (로딩 → 컨텐츠 전환 시)
+  useEffect(() => {
+    if (!loading && mainRef.current) {
+      // 로딩이 끝나고 실제 컨텐츠가 렌더링될 때 main 스크롤 리셋
+      mainRef.current.scrollTop = 0;
+
+      // 애니메이션 완료 후 한 번 더 리셋
+      setTimeout(() => {
+        if (mainRef.current) {
+          mainRef.current.scrollTop = 0;
+        }
+      }, 500); // 애니메이션 duration (0.4s) + 여유
+    }
+  }, [loading]);
 
   // Handle browser back button for modal
   useEffect(() => {
@@ -1069,7 +1117,7 @@ export default function ResultPage() {
 
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-2 pb-8">
+        <main ref={mainRef} className="flex-1 overflow-y-auto px-2 pb-14">
           {/* AI 말풍선 - 헤더 바로 아래 */}
           {!loading && recommendations.length > 0 && (
             <motion.div
@@ -1080,13 +1128,9 @@ export default function ResultPage() {
             >
               <div className="bg-white rounded-2xl p-1" style={{ borderColor: '#E5F1FF' }}>
                 <div className="flex items-start gap-2">
-                  <div className="shrink-0">
-                    <svg className="w-5 h-5" fill="#0074F3" viewBox="0 0 24 24">
-                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                  </div>
+                
                   <div className="flex-1">
-                    <p className="text-sm text-gray-900 font-medium leading-relaxed">
+                    <p className="text-sm text-gray-900 font-medium leading-normal">
                       입력하신 조건에 맞는 제품을 추천해드렸어요!<br />
                       상세 분석을 확인하고 구매해보세요.
                     </p>
@@ -1098,11 +1142,8 @@ export default function ResultPage() {
               <div className="flex justify-center mt-3">
                 <button
                   onClick={scrollToComparison}
-                  className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-full transition-colors flex items-center gap-2"
+                  className="px-5 py-2.5 bg-black/70 hover:bg-black/80 text-white text-sm font-semibold rounded-full transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  </svg>
                   상세비교표 보기
                 </button>
               </div>
@@ -1177,7 +1218,10 @@ export default function ResultPage() {
                 다시 시도해 주세요.
               </p>
               <button
-                onClick={fetchRecommendations}
+                onClick={() => {
+                  logButtonClick('추천 다시 시도하기', 'result');
+                  fetchRecommendations();
+                }}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors font-semibold"
               >
                 다시 시도하기
@@ -1273,13 +1317,13 @@ export default function ResultPage() {
                         >
                           <div className="flex items-center gap-5">
                             <div className="flex items-center gap-1">
-                              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                              <span className="text-xs font-medium text-gray-700">원하는 장점 충족도</span>
+                              <span className="text-xs font-medium text-gray-500">장점 충족도</span>
+                              <div className="w-4 h-4 rounded-full border-2 border-green-500"></div>
                             </div>
                             {hasConsTags && (
                               <div className="flex items-center gap-1">
-                                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                                <span className="text-xs font-medium text-gray-700">원하는 개선점 반영도</span>
+                                <span className="text-xs font-medium text-gray-500">개선점 반영도</span>
+                                <div className="w-4 h-4 rounded-full border-2 border-blue-500"></div>
                               </div>
                             )}
                           </div>
@@ -1300,7 +1344,7 @@ export default function ResultPage() {
                           setSelectedProductForModal(rec);
                           window.history.pushState({}, '', `/product/${rec.product.id}`);
                         }}
-                        className="relative bg-white py-4 px-1 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
                       >
                         {/* 클릭 어포던스 - 우상단 chevron */}
                         <div className="absolute top-4 right-3 text-gray-500">
@@ -1310,7 +1354,7 @@ export default function ResultPage() {
                         </div>
 
                         {/* 제품 정보 */}
-                        <div className="flex gap-4 mb-3">
+                        <div className="flex gap-3 mb-0">
                           {/* 제품 썸네일 */}
                           <div className="relative w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100">
                             {rec.product.thumbnail ? (
@@ -1332,12 +1376,9 @@ export default function ResultPage() {
                               </div>
                             )}
                             {/* 랭킹 배지 - 좌측 상단 */}
-                            <div className="absolute top-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-xl rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center gap-0.5">
-                              <span className="text-white font-semibold text-sm">
+                            <div className="absolute top-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-xl rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center">
+                              <span className="text-white font-semibold text-xs">
                                 {rec.rank}
-                              </span>
-                              <span className="text-white font-semibold text-sm">
-                                위
                               </span>
                             </div>
                           </div>
@@ -1350,7 +1391,7 @@ export default function ResultPage() {
                                 {rec.product.brand}
                               </div>
                             )}
-                            <h3 className="font-semibold text-gray-900 text-base mb-2 leading-tight">
+                            <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight">
                               {rec.product.title}
                             </h3>
                             <div className="flex items-start justify-between gap-2">
@@ -1417,19 +1458,19 @@ export default function ResultPage() {
 
                         {/* AI 추천 이유 */}
                         <div className="mt-3">
-                          <div className="rounded-xl p-3 bg-linear-to-br from-green-50 to-blue-50">
+                          <div className="rounded-xl p-3 bg-[#F3E6FD]">
                             <div className="flex items-start gap-2">
                               <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24">
                                 <defs>
-                                  <linearGradient id="ai-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#5855ff" />
-                                    <stop offset="50%" stopColor="#71c4fd" />
-                                    <stop offset="100%" stopColor="#5cdcdc" />
+                                  <linearGradient id="sparkle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#9325FC" />
+                                    <stop offset="50%" stopColor="#C750FF" />
+                                    <stop offset="100%" stopColor="#C878F7" />
                                   </linearGradient>
                                 </defs>
-                                <path fill="url(#ai-gradient)" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                                <path fill="url(#sparkle-gradient)" d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
                               </svg>
-                              <p className="text-sm text-gray-700 leading-relaxed flex-1">
+                              <p className="text-sm text-gray-700 leading-normal flex-1">
                                 {parseMarkdownBold(rec.reasoning)}
                               </p>
                             </div>
@@ -1478,6 +1519,9 @@ export default function ResultPage() {
 
                 {/* 사용자 맥락 요약 - 상세 비교표 아래로 이동 */}
                 <div className="mt-3">
+                  {/* 섹션 구분 디바이더 */}
+                  <div className="h-4 bg-gray-100 -mx-2 mb-4"></div>
+
                   {contextSummary ? (
                     <UserContextSummaryComponent summary={contextSummary} />
                   ) : (
@@ -1657,6 +1701,83 @@ export default function ResultPage() {
           }}
         /> */}
 
+
+        {/* 다시 추천받기 플로팅 버튼 */}
+        {!loading && recommendations.length > 0 && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+            onClick={() => {
+              logButtonClick('다시 추천받기 클릭', 'result');
+              setShowExitConfirmModal(true);
+            }}
+            className="fixed bottom-6 right-6 px-7 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center gap-2 transition-all hover:scale-105 z-30"
+            style={{ maxWidth: '480px', marginLeft: 'auto', marginRight: 'auto' }}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span className="text-m font-bold whitespace-nowrap">다시 추천받기</span>
+          </motion.button>
+        )}
+
+        {/* 나가기 확인 모달 */}
+        <AnimatePresence>
+          {showExitConfirmModal && (
+            <>
+              {/* 배경 오버레이 */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 bg-black/50 z-50"
+                onClick={() => {
+                  setShowExitConfirmModal(false);
+                  logButtonClick('나가기 모달 배경 클릭', 'result');
+                }}
+              />
+              {/* 모달 컨텐츠 */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 flex items-center justify-center z-50 px-4 pointer-events-none"
+              >
+                <div
+                  className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto pointer-events-auto"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <p className="text-base text-gray-800 mb-6 leading-relaxed">
+                    이 추천 페이지를 나가고, 새로운 추천을 다시 받으시겠어요?
+                  </p>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        setShowExitConfirmModal(false);
+                        logButtonClick('나가기 모달 취소', 'result');
+                      }}
+                      className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold rounded-xl transition-colors"
+                    >
+                      취소
+                    </button>
+                    <button
+                      onClick={() => {
+                        logButtonClick('나가기 확인', 'result');
+                        router.push('/categories');
+                      }}
+                      className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
+                    >
+                      나가기
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
 
         {/* Product Detail Modal */}
         <AnimatePresence>

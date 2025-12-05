@@ -868,6 +868,11 @@ function PriorityPageContent() {
       return;
     }
 
+    // 페이지 전환 전에 스크롤을 맨 위로 리셋 (result 페이지 스크롤 문제 방지)
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
     const session = loadSession();
 
     let updatedSession: import('@/types').SessionState = {

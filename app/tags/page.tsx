@@ -13,6 +13,7 @@ import {
   logCustomTagCreation
 } from '@/lib/logging/clientLogger';
 import { GuideBottomSheet } from '@/components/GuideBottomSheet';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 interface Tag {
   id: string;
@@ -1915,10 +1916,7 @@ export default function TagsPage() {
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
           <div className="relative w-full max-w-[480px] min-h-screen bg-white shadow-lg flex items-center justify-center">
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#0084FE] mb-4"></div>
-              <p className="text-gray-600">로딩 중...</p>
-            </div>
+            <LoadingSpinner size="lg" message="로딩 중..." />
           </div>
         </div>
       }
