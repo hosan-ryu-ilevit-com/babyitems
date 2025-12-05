@@ -59,6 +59,22 @@ export default function ProductPage() {
   const [comparativeAnalysis, setComparativeAnalysis] = useState<any>(null);
   const { toggleFavorite, isFavorite, count } = useFavorites();
 
+  // 다나와 가격 정보 state
+  const [danawaData, setDanawaData] = useState<{
+    lowestPrice: number | null;
+    lowestMall: string | null;
+    productName: string | null;
+    prices: Array<{ mall: string; price: number; delivery: string; link?: string }>;
+    loading: boolean;
+  }>({
+    lowestPrice: null,
+    lowestMall: null,
+    productName: null,
+    prices: [],
+    loading: false,
+  });
+  const [showPriceComparison, setShowPriceComparison] = useState(false);
+
   // Get category from products data instead of URL params
   const product = products.find(p => p.id === productId);
   const category = product?.category;
@@ -137,6 +153,44 @@ export default function ProductPage() {
       if (category) {
         fetchReviews();
       }
+
+      // 다나와 가격 정보 백그라운드 로딩
+      // 브랜드 + 제목 (띄어쓰기 기준 최대 5개 단어)
+      // 제목에 이미 브랜드가 포함되어 있으면 중복 방지
+      let titleForQuery = data.product.title;
+      if (data.product.brand && data.product.title.toLowerCase().startsWith(data.product.brand.toLowerCase())) {
+        titleForQuery = data.product.title.substring(data.product.brand.length).trim();
+      }
+      const titleWords = titleForQuery.split(' ').slice(0, 5).join(' ');
+      const query = data.product.brand ? `${data.product.brand} ${titleWords}` : titleWords;
+      console.log(`🔍 [Danawa Query] ${data.product.title} → "${query}"`);
+      setDanawaData(prev => ({ ...prev, loading: true }));
+
+      fetch('/api/danawa/fetch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      })
+        .then(res => res.json())
+        .then(apiData => {
+          if (apiData.success && apiData.data) {
+            setDanawaData({
+              lowestPrice: apiData.data.lowestPrice,
+              lowestMall: apiData.data.lowestMall,
+              productName: apiData.data.name,
+              prices: apiData.data.prices || [],
+              loading: false,
+            });
+            console.log(`✅ Danawa data fetched for PDP: ${apiData.data.lowestPrice?.toLocaleString()}원`);
+          } else {
+            setDanawaData(prev => ({ ...prev, loading: false }));
+            console.warn('⚠️ Failed to fetch Danawa data for PDP');
+          }
+        })
+        .catch(error => {
+          console.error('Failed to fetch Danawa data:', error);
+          setDanawaData(prev => ({ ...prev, loading: false }));
+        });
     } else {
       // Fallback: redirect to result page if no data
       router.push('/result');
@@ -280,9 +334,27 @@ export default function ProductPage() {
           </h2>
 
           {/* Price */}
-          <div className="text-2xl font-bold text-gray-900 mb-3">
+          <div className="text-2xl font-bold text-gray-900 mb-2">
             {productData.product.price.toLocaleString()}원
           </div>
+
+          {/* 다나와 최저가 배지 */}
+          {danawaData.loading ? (
+            <div className="flex items-center gap-1 text-xs text-gray-400 mb-3">
+              <div className="w-3 h-3 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+              <span>최저가 확인 중...</span>
+            </div>
+          ) : danawaData.lowestPrice && danawaData.lowestPrice > 0 ? (
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-700 text-sm rounded-full mb-3 font-medium">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              <span className="font-semibold">최저 {danawaData.lowestPrice.toLocaleString()}원</span>
+              <span className="text-red-600">({danawaData.lowestMall})</span>
+            </div>
+          ) : (
+            <div className="mb-3" />
+          )}
 
           {/* Rating & Reviews */}
           <div className="flex items-center gap-1.5">
@@ -553,6 +625,95 @@ export default function ProductPage() {
                         </div>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {/* 7. 가격 비교 */}
+                {!danawaData.loading && danawaData.prices.length > 0 && (
+                  <div>
+                    <button
+                      onClick={() => {
+                        setShowPriceComparison(!showPriceComparison);
+                        logButtonClick(showPriceComparison ? '가격 비교 닫기' : '가격 비교 열기', 'product');
+                      }}
+                      className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 hover:from-blue-100 hover:to-indigo-100 transition-colors"
+                    >
+                      <div className="flex items-center gap-2">
+                        <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
+                        </svg>
+                        <div className="text-left">
+                          <h3 className="text-base font-bold text-gray-900">가격 비교 ({danawaData.prices.length}개 쇼핑몰)</h3>
+                          <p className="text-xs text-gray-600 line-clamp-1">{danawaData.productName || '다나와에서 제공하는 실시간 가격 정보'}</p>
+                        </div>
+                      </div>
+                      <svg
+                        className={`w-5 h-5 text-gray-600 transition-transform ${showPriceComparison ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {/* 가격 비교 리스트 (토글) */}
+                    <AnimatePresence>
+                      {showPriceComparison && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="mt-3 bg-white rounded-xl border border-gray-200">
+                            {danawaData.prices.slice(0, 10).map((priceInfo, index) => (
+                              <div
+                                key={index}
+                                className={`flex items-center justify-between p-4 ${
+                                  index !== danawaData.prices.slice(0, 10).length - 1 ? 'border-b border-gray-100' : ''
+                                }`}
+                              >
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="font-semibold text-gray-900">{priceInfo.mall}</span>
+                                    {index === 0 && (
+                                      <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-bold rounded">
+                                        최저가
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-gray-500">{priceInfo.delivery}</p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <span className="text-lg font-bold text-gray-900">
+                                    {priceInfo.price.toLocaleString()}원
+                                  </span>
+                                  {priceInfo.link && (
+                                    <a
+                                      href={priceInfo.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={() => logButtonClick(`${priceInfo.mall} 바로가기`, 'product')}
+                                      className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                                    >
+                                      바로가기
+                                    </a>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          {danawaData.prices.length > 10 && (
+                            <p className="text-xs text-gray-500 text-center mt-2">
+                              + {danawaData.prices.length - 10}개 쇼핑몰 더보기
+                            </p>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
               </motion.div>

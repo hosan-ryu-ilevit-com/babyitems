@@ -135,6 +135,7 @@ function ComparePageContent() {
   } | null>(null);
   const [productScores, setProductScores] = useState<Record<string, number>>({});
   const [productRanks, setProductRanks] = useState<Record<string, number>>({});
+  const [danawaSpecs, setDanawaSpecs] = useState<Record<string, Record<string, string>>>({});
 
   // Combine all specs into a single lookup map
   const allProductsMap = useMemo(() => {
@@ -273,7 +274,63 @@ function ComparePageContent() {
       }
     };
 
+    // Fetch Danawa specs for each product in parallel
+    const fetchDanawaSpecs = async () => {
+      console.log('💰 Fetching Danawa specs in parallel...');
+
+      await Promise.all(
+        foundProducts.map(async (product) => {
+          try {
+            // Use brand + first 5 words of title as query
+            // Remove brand from title if it's already there to avoid duplication
+            let titleForQuery = product.title;
+            if (product.brand && product.title.toLowerCase().startsWith(product.brand.toLowerCase())) {
+              titleForQuery = product.title.substring(product.brand.length).trim();
+            }
+            const titleWords = titleForQuery.split(' ').slice(0, 5).join(' ');
+            const query = product.brand ? `${product.brand} ${titleWords}` : titleWords;
+            console.log(`🔍 [Danawa Query] ${product.title} → "${query}"`);
+
+            const response = await fetch('/api/danawa/fetch', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ query }),
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              console.log(`📊 [Danawa Specs] ${product.title}:`, {
+                success: data.success,
+                hasData: !!data.data,
+                hasSpecs: !!data.data?.specs,
+                specsCount: data.data?.specs ? Object.keys(data.data.specs).length : 0,
+                firstFewSpecs: data.data?.specs ? Object.keys(data.data.specs).slice(0, 3) : []
+              });
+
+              if (data.success && data.data?.specs) {
+                const specsCount = Object.keys(data.data.specs).length;
+                setDanawaSpecs((prev) => ({
+                  ...prev,
+                  [product.id]: data.data.specs,
+                }));
+                console.log(`✅ Danawa specs saved for ${product.title} (${specsCount}개)`);
+              } else {
+                console.warn(`⚠️ No specs found for ${product.title}`);
+              }
+            } else {
+              console.error(`❌ Failed to fetch Danawa data for ${product.title}: ${response.status}`);
+            }
+          } catch (error) {
+            console.error(`Failed to fetch Danawa specs for ${product.id}:`, error);
+          }
+        })
+      );
+
+      console.log('✅ All Danawa specs fetched in parallel');
+    };
+
     fetchProductDetails();
+    fetchDanawaSpecs();
   }, [searchParams, router, allProductsMap]);
 
   const handleSendMessage = async () => {
@@ -405,6 +462,7 @@ function ComparePageContent() {
               showRankBadge={false}
               showScore={false}
               category={category || undefined}
+              danawaSpecs={danawaSpecs}
             />
           </div>
         </div>

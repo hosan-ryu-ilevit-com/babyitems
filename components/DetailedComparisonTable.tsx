@@ -20,6 +20,7 @@ interface DetailedComparisonTableProps {
   category?: string; // NEW: Category for spec-based products
   onProductClick?: (rec: Recommendation) => void; // NEW: Product click handler for modal
   onAnchorChange?: (newAnchorProduct: any) => void; // NEW: Anchor product change handler
+  danawaSpecs?: Record<string, Record<string, string>>; // NEW: Danawa specs data
 }
 
 export default function DetailedComparisonTable({
@@ -32,7 +33,8 @@ export default function DetailedComparisonTable({
   isTagBasedFlow = false,
   category,
   onProductClick,
-  onAnchorChange
+  onAnchorChange,
+  danawaSpecs = {}
 }: DetailedComparisonTableProps) {
   const searchParams = useSearchParams();
   const fromFavorites = searchParams.get('fromFavorites') === 'true';
@@ -722,10 +724,18 @@ export default function DetailedComparisonTable({
               const product2 = selectedProducts[1];
               if (!product1 || !product2) return null;
 
-              const specs1 = productDetails[product1.id]?.specs;
-              const specs2 = productDetails[product2.id]?.specs;
+              // 기존 스펙과 다나와 스펙 병합 (다나와 스펙 우선)
+              const baseSpecs1 = productDetails[product1.id]?.specs || {};
+              const baseSpecs2 = productDetails[product2.id]?.specs || {};
+              const danawaSpecs1 = danawaSpecs[product1.id] || {};
+              const danawaSpecs2 = danawaSpecs[product2.id] || {};
 
-              if (!specs1 || !specs2) return null;
+              // 다나와 스펙이 있으면 우선 사용, 없으면 기존 스펙 사용
+              const specs1 = { ...baseSpecs1, ...danawaSpecs1 };
+              const specs2 = { ...baseSpecs2, ...danawaSpecs2 };
+
+              // 스펙이 하나도 없으면 표시 안 함
+              if (Object.keys(specs1).length === 0 && Object.keys(specs2).length === 0) return null;
 
               // 공통 스펙 키 추출
               const allKeys = new Set([...Object.keys(specs1), ...Object.keys(specs2)]);
