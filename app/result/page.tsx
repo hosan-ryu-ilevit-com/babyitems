@@ -1154,7 +1154,7 @@ export default function ResultPage() {
                   onClick={scrollToComparison}
                   className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5"
                 >
-                  📊 상세비교표 보기
+                  📊 상세 비교표 보기
                 </button>
                 <button
                   onClick={scrollToUserContext}

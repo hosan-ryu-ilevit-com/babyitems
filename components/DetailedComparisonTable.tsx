@@ -234,7 +234,7 @@ export default function DetailedComparisonTable({
       {/* 상품 선택 UI */}
       <div className="bg-white py-3 px-0">
         <h3 className="text-base font-bold text-gray-900 mb-3">
-          2개씩 상세 비교하기
+          상세 비교표
         </h3>
         <div className={`grid gap-3 ${displayProducts.length >= 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {displayProducts.map((rec) => {
@@ -371,92 +371,6 @@ export default function DetailedComparisonTable({
               </tr>
             </thead>
           <tbody>
-            {/* 브랜드 */}
-            <tr className="border-b border-gray-100">
-              <td colSpan={3} className="py-2 px-1.5">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex-1 text-center">
-                    <p className="text-xs text-gray-700 leading-tight font-semibold">
-                      {selectedRecommendations[0]?.product.brand || '-'}
-                    </p>
-                  </div>
-                  <div className="text-xs font-medium text-gray-500 text-center whitespace-nowrap px-3">
-                    브랜드
-                  </div>
-                  <div className="flex-1 text-center">
-                    <p className="text-xs text-gray-700 leading-tight font-semibold">
-                      {selectedRecommendations[1]?.product.brand || '-'}
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-
-            {/* 제품명 */}
-            <tr className="border-b border-gray-100">
-              <td colSpan={3} className="py-2 px-1.5">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 text-center">
-                    <p className="text-xs text-gray-900 leading-tight font-semibold">
-                      {selectedRecommendations[0]?.product.title}
-                    </p>
-                  </div>
-                  <div className="text-xs font-medium text-gray-500 text-center whitespace-nowrap px-3 self-center">
-                    제품명
-                  </div>
-                  <div className="flex-1 text-center">
-                    <p className="text-xs text-gray-900 leading-tight font-semibold">
-                      {selectedRecommendations[1]?.product.title}
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-
-            {/* 가격 */}
-            <tr className="border-b border-gray-100">
-              <td colSpan={3} className="py-2 px-1.5">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex-1 text-center">
-                    <p className="text-sm font-bold text-gray-900">
-                      {selectedRecommendations[0]?.product.price.toLocaleString()}원
-                    </p>
-                  </div>
-                  <div className="text-xs font-medium text-gray-500 text-center whitespace-nowrap px-3">
-                    가격
-                  </div>
-                  <div className="flex-1 text-center">
-                    <p className="text-sm font-bold text-gray-900">
-                      {selectedRecommendations[1]?.product.price.toLocaleString()}원
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-
-            {/* 적합도 */}
-            {showScore && (
-              <tr className="border-b border-gray-100">
-                <td colSpan={3} className="py-2 px-1.5">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex-1 text-center">
-                      <p className="text-sm font-bold" style={{ color: '#009896' }}>
-                        {selectedRecommendations[0]?.finalScore}%
-                      </p>
-                    </div>
-                    <div className="text-xs font-medium text-gray-500 text-center whitespace-nowrap px-3">
-                      적합도
-                    </div>
-                    <div className="flex-1 text-center">
-                      <p className="text-sm font-bold" style={{ color: '#009896' }}>
-                        {selectedRecommendations[1]?.finalScore}%
-                      </p>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            )}
-
             {/* 상세보기 버튼 - 찜한 상품에서 온 경우 숨기기 */}
             {!fromFavorites && (
               <tr className="border-b border-gray-100">
@@ -533,10 +447,80 @@ export default function DetailedComparisonTable({
               </tr>
             )}
 
+            {/* 브랜드 */}
+            <tr className="border-b border-gray-100">
+              <td className="py-2 px-2 text-center w-[40%]">
+                <p className="text-xs text-gray-700 leading-tight font-semibold">
+                  {selectedRecommendations[0]?.product.brand || '-'}
+                </p>
+              </td>
+              <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                브랜드
+              </td>
+              <td className="py-2 px-2 text-center w-[40%]">
+                <p className="text-xs text-gray-700 leading-tight font-semibold">
+                  {selectedRecommendations[1]?.product.brand || '-'}
+                </p>
+              </td>
+            </tr>
+
+            {/* 제품명 */}
+            <tr className="border-b border-gray-100">
+              <td className="py-2 px-2 text-center w-[40%]">
+                <p className="text-xs text-gray-900 leading-tight font-semibold">
+                  {selectedRecommendations[0]?.product.title}
+                </p>
+              </td>
+              <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                제품명
+              </td>
+              <td className="py-2 px-2 text-center w-[40%]">
+                <p className="text-xs text-gray-900 leading-tight font-semibold">
+                  {selectedRecommendations[1]?.product.title}
+                </p>
+              </td>
+            </tr>
+
+            {/* 가격 */}
+            <tr className="border-b border-gray-100">
+              <td className="py-2 px-2 text-center w-[40%]">
+                <p className="text-sm font-bold text-gray-900">
+                  {selectedRecommendations[0]?.product.price.toLocaleString()}원
+                </p>
+              </td>
+              <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                가격
+              </td>
+              <td className="py-2 px-2 text-center w-[40%]">
+                <p className="text-sm font-bold text-gray-900">
+                  {selectedRecommendations[1]?.product.price.toLocaleString()}원
+                </p>
+              </td>
+            </tr>
+
+            {/* 적합도 */}
+            {showScore && (
+              <tr className="border-b border-gray-100">
+                <td className="py-2 px-2 text-center w-[40%]">
+                  <p className="text-sm font-bold" style={{ color: '#009896' }}>
+                    {selectedRecommendations[0]?.finalScore}%
+                  </p>
+                </td>
+                <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                  적합도
+                </td>
+                <td className="py-2 px-2 text-center w-[40%]">
+                  <p className="text-sm font-bold" style={{ color: '#009896' }}>
+                    {selectedRecommendations[1]?.finalScore}%
+                  </p>
+                </td>
+              </tr>
+            )}
+
             {/* 장점 */}
             {isLoadingComparison ? (
               <tr className="border-b border-gray-100">
-                <td colSpan={3} className="py-4 px-1.5">
+                <td colSpan={3} className="py-4 px-2 text-center">
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
                     <span className="text-xs text-gray-500">장점 분석 중...</span>
@@ -545,79 +529,75 @@ export default function DetailedComparisonTable({
               </tr>
             ) : Object.keys(productDetails).length > 0 && (
               <tr className="border-b border-gray-100">
-                <td colSpan={3} className="py-2 px-1.5">
-                  <div className="flex items-start justify-between gap-4">
-                    {/* 왼쪽 제품 */}
-                    <div className="flex-1">
-                      {(() => {
-                        const product = selectedProducts[0];
-                        if (!product) return null;
-                        const details = productDetails[product.id];
-                        return details && details.pros.length > 0 ? (
-                          <div className="rounded-lg p-2.5 space-y-1.5" style={{ backgroundColor: '#ECFAF3' }}>
-                            {details.pros.slice(0, 3).map((pro, idx) => (
-                              <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                                <svg
-                                  className="shrink-0 mt-0.5"
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="#22C55E"
-                                  strokeWidth="3"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                                <span>{pro}</span>
-                              </div>
-                            ))}
+                {/* 왼쪽 제품 */}
+                <td className="py-2 px-2 text-center w-[40%]">
+                  {(() => {
+                    const product = selectedProducts[0];
+                    if (!product) return null;
+                    const details = productDetails[product.id];
+                    return details && details.pros.length > 0 ? (
+                      <div className="space-y-1.5">
+                        {details.pros.slice(0, 3).map((pro, idx) => (
+                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#22C55E"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            <span>{pro}</span>
                           </div>
-                        ) : (
-                          <p className="text-xs text-gray-400 text-center">-</p>
-                        );
-                      })()}
-                    </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 text-center">-</p>
+                    );
+                  })()}
+                </td>
 
-                    {/* 중앙 레이블 */}
-                    <div className="text-xs font-medium text-gray-500 text-center whitespace-nowrap px-3 self-center">
-                      장점
-                    </div>
+                {/* 중앙 레이블 */}
+                <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                  장점
+                </td>
 
-                    {/* 오른쪽 제품 */}
-                    <div className="flex-1">
-                      {(() => {
-                        const product = selectedProducts[1];
-                        if (!product) return null;
-                        const details = productDetails[product.id];
-                        return details && details.pros.length > 0 ? (
-                          <div className="rounded-lg p-2.5 space-y-1.5" style={{ backgroundColor: '#ECFAF3' }}>
-                            {details.pros.slice(0, 3).map((pro, idx) => (
-                              <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                                <svg
-                                  className="shrink-0 mt-0.5"
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="#22C55E"
-                                  strokeWidth="3"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                                <span>{pro}</span>
-                              </div>
-                            ))}
+                {/* 오른쪽 제품 */}
+                <td className="py-2 px-2 text-center w-[40%]">
+                  {(() => {
+                    const product = selectedProducts[1];
+                    if (!product) return null;
+                    const details = productDetails[product.id];
+                    return details && details.pros.length > 0 ? (
+                      <div className="space-y-1.5">
+                        {details.pros.slice(0, 3).map((pro, idx) => (
+                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#22C55E"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            <span>{pro}</span>
                           </div>
-                        ) : (
-                          <p className="text-xs text-gray-400 text-center">-</p>
-                        );
-                      })()}
-                    </div>
-                  </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 text-center">-</p>
+                    );
+                  })()}
                 </td>
               </tr>
             )}
@@ -625,7 +605,7 @@ export default function DetailedComparisonTable({
             {/* 주의점 */}
             {isLoadingComparison ? (
               <tr className="border-b border-gray-100">
-                <td colSpan={3} className="py-4 px-1.5">
+                <td colSpan={3} className="py-4 px-2 text-center">
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
                     <span className="text-xs text-gray-500">주의점 분석 중...</span>
@@ -634,81 +614,77 @@ export default function DetailedComparisonTable({
               </tr>
             ) : Object.keys(productDetails).length > 0 && (
               <tr className="border-b border-gray-100">
-                <td colSpan={3} className="py-2 px-1.5">
-                  <div className="flex items-start justify-between gap-4">
-                    {/* 왼쪽 제품 */}
-                    <div className="flex-1">
-                      {(() => {
-                        const product = selectedProducts[0];
-                        if (!product) return null;
-                        const details = productDetails[product.id];
-                        return details && details.cons.length > 0 ? (
-                          <div className="rounded-lg p-2.5 space-y-1.5" style={{ backgroundColor: '#FFF6EC' }}>
-                            {details.cons.slice(0, 3).map((con, idx) => (
-                              <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                                <svg
-                                  className="shrink-0 mt-0.5"
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="#EF4444"
-                                  strokeWidth="3"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <line x1="18" y1="6" x2="6" y2="18" />
-                                  <line x1="6" y1="6" x2="18" y2="18" />
-                                </svg>
-                                <span>{con}</span>
-                              </div>
-                            ))}
+                {/* 왼쪽 제품 */}
+                <td className="py-2 px-2 text-center w-[40%]">
+                  {(() => {
+                    const product = selectedProducts[0];
+                    if (!product) return null;
+                    const details = productDetails[product.id];
+                    return details && details.cons.length > 0 ? (
+                      <div className="space-y-1.5">
+                        {details.cons.slice(0, 3).map((con, idx) => (
+                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#EF4444"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <line x1="18" y1="6" x2="6" y2="18" />
+                              <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                            <span>{con}</span>
                           </div>
-                        ) : (
-                          <p className="text-xs text-gray-400 text-center">-</p>
-                        );
-                      })()}
-                    </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 text-center">-</p>
+                    );
+                  })()}
+                </td>
 
-                    {/* 중앙 레이블 */}
-                    <div className="text-xs font-medium text-gray-500 text-center whitespace-nowrap px-3 self-center">
-                      주의점
-                    </div>
+                {/* 중앙 레이블 */}
+                <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                  주의점
+                </td>
 
-                    {/* 오른쪽 제품 */}
-                    <div className="flex-1">
-                      {(() => {
-                        const product = selectedProducts[1];
-                        if (!product) return null;
-                        const details = productDetails[product.id];
-                        return details && details.cons.length > 0 ? (
-                          <div className="rounded-lg p-2.5 space-y-1.5" style={{ backgroundColor: '#FFF6EC' }}>
-                            {details.cons.slice(0, 3).map((con, idx) => (
-                              <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                                <svg
-                                  className="shrink-0 mt-0.5"
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="#EF4444"
-                                  strokeWidth="3"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <line x1="18" y1="6" x2="6" y2="18" />
-                                  <line x1="6" y1="6" x2="18" y2="18" />
-                                </svg>
-                                <span>{con}</span>
-                              </div>
-                            ))}
+                {/* 오른쪽 제품 */}
+                <td className="py-2 px-2 text-center w-[40%]">
+                  {(() => {
+                    const product = selectedProducts[1];
+                    if (!product) return null;
+                    const details = productDetails[product.id];
+                    return details && details.cons.length > 0 ? (
+                      <div className="space-y-1.5">
+                        {details.cons.slice(0, 3).map((con, idx) => (
+                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#EF4444"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <line x1="18" y1="6" x2="6" y2="18" />
+                              <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                            <span>{con}</span>
                           </div>
-                        ) : (
-                          <p className="text-xs text-gray-400 text-center">-</p>
-                        );
-                      })()}
-                    </div>
-                  </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 text-center">-</p>
+                    );
+                  })()}
                 </td>
               </tr>
             )}
@@ -826,9 +802,9 @@ export default function DetailedComparisonTable({
 
                                     return (
                                       <tr key={`meta-${idx}`} className="border-b border-gray-100">
-                                        <td className="py-2 px-2 text-left text-gray-700 w-[35%]">{value1}</td>
-                                        <td className="py-2 px-2 text-center font-medium text-gray-500 bg-gray-50 w-[30%]">{key}</td>
-                                        <td className="py-2 px-2 text-right text-gray-700 w-[35%]">{value2}</td>
+                                        <td className="py-2 px-2 text-left text-gray-700 w-[40%]">{value1}</td>
+                                        <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">{key}</td>
+                                        <td className="py-2 px-2 text-right text-gray-700 w-[40%]">{value2}</td>
                                       </tr>
                                     );
                                   })}
@@ -840,9 +816,9 @@ export default function DetailedComparisonTable({
 
                                     return (
                                       <tr key={`spec-${idx}`} className="border-b border-gray-100 last:border-0">
-                                        <td className="py-2 px-2 text-left text-gray-700 w-[35%]">{value1}</td>
-                                        <td className="py-2 px-2 text-center font-medium text-gray-500 bg-gray-50 w-[30%]">{key}</td>
-                                        <td className="py-2 px-2 text-right text-gray-700 w-[35%]">{value2}</td>
+                                        <td className="py-2 px-2 text-left text-gray-700 w-[40%]">{value1}</td>
+                                        <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">{key}</td>
+                                        <td className="py-2 px-2 text-right text-gray-700 w-[40%]">{value2}</td>
                                       </tr>
                                     );
                                   })}
