@@ -1101,7 +1101,7 @@ export default function ResultPage() {
       <div className={`relative w-full max-w-[480px] min-h-screen flex flex-col ${loading ? 'bg-[#FBFCFC]' : 'bg-white'}`}>
         {/* Header - 로딩 중에도 공간 차지하지만 보이지 않음 */}
         <header
-          className={`sticky top-0 left-0 right-0 px-3 py-3 z-20 transition-colors duration-300 ${
+          className={`px-3 py-3 transition-colors duration-300 ${
             loading
               ? 'bg-[#FBFCFC] border-b border-transparent'
               : 'bg-white border-b border-gray-200'
