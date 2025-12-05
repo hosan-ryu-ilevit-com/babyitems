@@ -8,6 +8,13 @@ import Image from 'next/image';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { logPageView, logCategorySelection } from '@/lib/logging/clientLogger';
 
+// Popular categories (인기 뱃지 표시)
+const POPULAR_CATEGORIES: Category[] = [
+  'milk_powder_port',
+  'baby_bottle',
+  'baby_monitor',
+];
+
 // Category icons (fallback when no product thumbnail available)
 const CATEGORY_ICONS: Record<Category, string> = {
   baby_bottle: '🍼',
@@ -53,6 +60,8 @@ function CategoryButton({
   const [imageLoaded, setImageLoaded] = useState(false);
   const thumbnailUrl = `/categoryThumbnails/${category}.png`;
 
+  const isPopular = POPULAR_CATEGORIES.includes(category);
+
   return (
     <motion.button
       whileTap={{ scale: 0.96, opacity: 0.7 }}
@@ -65,6 +74,21 @@ function CategoryButton({
           : 'bg-white hover:bg-gray-50'
       }`}
     >
+      {/* Popular Badge */}
+      {isPopular && (
+        <div className="absolute top-2 right-2 z-20 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center shadow-sm">
+          <svg
+            width="11"
+            height="11"
+            viewBox="0 0 24 24"
+            fill="white"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+          </svg>
+        </div>
+      )}
+
       <div className="relative z-10 flex flex-col items-center">
         {/* Thumbnail or Icon */}
         {!imageError ? (

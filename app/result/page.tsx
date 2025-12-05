@@ -13,6 +13,7 @@ import { logPageView, logButtonClick, logComparisonChat } from '@/lib/logging/cl
 import { ChatInputBar } from '@/components/ChatInputBar';
 import { ReRecommendationBottomSheet } from '@/components/ReRecommendationBottomSheet';
 import ProductDetailModal from '@/components/ProductDetailModal';
+import { CATEGORY_NAMES } from '@/lib/data';
 
 // 마크다운 볼드 처리 함수 (기존 추천 상세 정보용)
 function parseMarkdownBold(text: string) {
@@ -372,6 +373,15 @@ export default function ResultPage() {
     if (comparisonElement) {
       comparisonElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       logButtonClick('상세 비교표 스크롤', 'result');
+    }
+  };
+
+  // 사용자 맥락 요약 섹션으로 스크롤
+  const scrollToUserContext = () => {
+    const userContextElement = document.getElementById('user-context-section');
+    if (userContextElement) {
+      userContextElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      logButtonClick('내 구매 기준 스크롤', 'result');
     }
   };
 
@@ -1138,13 +1148,19 @@ export default function ResultPage() {
                 </div>
               </div>
 
-              {/* 상세비교표 보기 버튼 */}
-              <div className="flex justify-center mt-3">
+              {/* 스크롤 버튼들 */}
+              <div className="flex gap-2 mt-3">
                 <button
                   onClick={scrollToComparison}
-                  className="px-5 py-2.5 bg-black/70 hover:bg-black/80 text-white text-sm font-semibold rounded-full transition-colors"
+                  className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5"
                 >
-                  상세비교표 보기
+                  📊 상세비교표 보기
+                </button>
+                <button
+                  onClick={scrollToUserContext}
+                  className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5"
+                >
+                  📋 내 구매 기준 보기
                 </button>
               </div>
             </motion.div>
@@ -1518,7 +1534,7 @@ export default function ResultPage() {
                 </div>
 
                 {/* 사용자 맥락 요약 - 상세 비교표 아래로 이동 */}
-                <div className="mt-3">
+                <div id="user-context-section" className="mt-3">
                   {/* 섹션 구분 디바이더 */}
                   <div className="h-4 bg-gray-100 -mx-2 mb-4"></div>
 
@@ -1702,82 +1718,204 @@ export default function ResultPage() {
         /> */}
 
 
-        {/* 다시 추천받기 플로팅 버튼 */}
+        {/* 다시 추천받기 버튼들 */}
         {!loading && recommendations.length > 0 && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.5 }}
-            onClick={() => {
-              logButtonClick('다시 추천받기 클릭', 'result');
-              setShowExitConfirmModal(true);
-            }}
-            className="fixed bottom-6 right-6 px-7 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center gap-2 transition-all hover:scale-105 z-30"
-            style={{ maxWidth: '480px', marginLeft: 'auto', marginRight: 'auto' }}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            <span className="text-m font-bold whitespace-nowrap">다시 추천받기</span>
-          </motion.button>
-        )}
+          <>
+            {/* 회전하는 그라데이션 테두리 스타일 */}
+            <style jsx>{`
+              @property --angle {
+                syntax: '<angle>';
+                initial-value: 0deg;
+                inherits: false;
+              }
 
-        {/* 나가기 확인 모달 */}
-        <AnimatePresence>
-          {showExitConfirmModal && (
-            <>
-              {/* 배경 오버레이 */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-black/50 z-50"
-                onClick={() => {
-                  setShowExitConfirmModal(false);
-                  logButtonClick('나가기 모달 배경 클릭', 'result');
-                }}
-              />
-              {/* 모달 컨텐츠 */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 flex items-center justify-center z-50 px-4 pointer-events-none"
-              >
-                <div
-                  className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto pointer-events-auto"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <p className="text-base text-gray-800 mb-6 leading-relaxed">
-                    이 추천 페이지를 나가고, 새로운 추천을 다시 받으시겠어요?
-                  </p>
-                  <div className="flex gap-3">
-                    <button
+              @keyframes rotate {
+                to {
+                  --angle: 360deg;
+                }
+              }
+
+              .gradient-border-button {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem 2rem;
+                border-radius: 9999px;
+                background: white;
+                overflow: hidden;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+              }
+
+              .gradient-border-button::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 9999px;
+                padding: 2px;
+                background: conic-gradient(
+                  from var(--angle),
+                  #5855ff,
+                  #5cdcdc,
+                  #71c4fd,
+                  #5855ff
+                );
+                -webkit-mask:
+                  linear-gradient(#fff 0 0) content-box,
+                  linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                animation: rotate 2s linear infinite;
+                pointer-events: none;
+                opacity: 0.5;
+              }
+
+              .gradient-border-button-inner {
+                position: relative;
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                font-weight: 700;
+                font-size: 1rem;
+                color: #111827;
+              }
+            `}</style>
+
+            {/* 배경 오버레이 */}
+            <AnimatePresence>
+              {showExitConfirmModal && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-40"
+                  onClick={() => {
+                    logButtonClick('배경 클릭 - 다시 추천받기 닫기', 'result');
+                    setShowExitConfirmModal(false);
+                  }}
+                />
+              )}
+            </AnimatePresence>
+
+            <div className="fixed bottom-6 left-0 right-0 flex flex-col items-center gap-3 z-50 px-4">
+              <AnimatePresence>
+                {showExitConfirmModal && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                    className="w-full max-w-[480px] flex flex-col gap-3"
+                  >
+                    {/* 다른 카테고리 추천받기 버튼 */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => {
-                        setShowExitConfirmModal(false);
-                        logButtonClick('나가기 모달 취소', 'result');
-                      }}
-                      className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold rounded-xl transition-colors"
-                    >
-                      취소
-                    </button>
-                    <button
-                      onClick={() => {
-                        logButtonClick('나가기 확인', 'result');
+                        logButtonClick('다른 카테고리 추천받기', 'result');
+                        // 세션 클리어
+                        sessionStorage.removeItem('tag_selections');
+                        sessionStorage.removeItem('tag_conversation_state');
+                        sessionStorage.removeItem('comparative_analysis');
+                        clearSession();
                         router.push('/categories');
                       }}
-                      className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
+                      className="w-full py-4 bg-white hover:bg-gray-50 text-gray-900 rounded-full shadow-lg font-semibold transition-colors"
                     >
-                      나가기
+                      다른 카테고리 추천받기
+                    </motion.button>
+
+                    {/* 현재 카테고리 다시 추천받기 버튼 */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => {
+                        const categoryName = currentCategory && CATEGORY_NAMES[currentCategory as ProductCategory]
+                          ? CATEGORY_NAMES[currentCategory as ProductCategory]
+                          : '현재 카테고리';
+
+                        logButtonClick(`${categoryName} 다시 추천받기`, 'result');
+
+                        // 세션 클리어 (새로운 선택 시작)
+                        sessionStorage.removeItem('tag_selections');
+                        sessionStorage.removeItem('tag_conversation_state');
+                        sessionStorage.removeItem('comparative_analysis');
+
+                        // Tags 페이지로 이동 (skipGuide=true)
+                        router.push(`/tags?category=${currentCategory}&skipGuide=true`);
+                      }}
+                      className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-colors"
+                      style={{ boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.15)' }}
+                    >
+                      {currentCategory && CATEGORY_NAMES[currentCategory as ProductCategory]
+                        ? `${CATEGORY_NAMES[currentCategory as ProductCategory]} 다시 추천받기`
+                        : '다시 추천받기'}
+                    </motion.button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* 메인 버튼 - 다시 추천받기 (회전하는 그라데이션 테두리) */}
+              {!showExitConfirmModal && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  transition={{
+                    duration: 0.1,
+                    ease: 'easeInOut'
+                  }}
+                  className="w-full max-w-[480px]"
+                >
+                  <div className="gradient-border-button">
+                    <button
+                      onClick={() => {
+                        logButtonClick('다시 추천받기 열기', 'result');
+                        setShowExitConfirmModal(true);
+                      }}
+                      className="gradient-border-button-inner"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                      </svg>
+                      <span>다시 추천받기</span>
                     </button>
                   </div>
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
+                </motion.div>
+              )}
+
+              {/* 뒤로 버튼 (modal 열렸을 때) */}
+              {showExitConfirmModal && (
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.2,
+                    ease: 'easeOut'
+                  }}
+                  onClick={() => {
+                    logButtonClick('뒤로가기', 'result');
+                    setShowExitConfirmModal(false);
+                  }}
+                  className="text-white text-sm font-medium underline underline-offset-4 hover:text-gray-100 transition-colors my-4"
+                >
+                  뒤로
+                </motion.button>
+              )}
+            </div>
+          </>
+        )}
 
         {/* Product Detail Modal */}
         <AnimatePresence>

@@ -173,7 +173,7 @@ function TagsPageContent() {
   };
 
   // 전체 제품 로드 (카테고리별)
-  const loadAllProducts = async () => {
+  const loadAllProducts = async (skipGuide: boolean = false) => {
     try {
       setLoading(true);
       console.log('🔍 전체 제품 로딩 시작:', category);
@@ -192,8 +192,13 @@ function TagsPageContent() {
           setProductTitle(topProduct.모델명 || topProduct.제품명);
           console.log('✅ 랭킹 1위 제품 자동 선택:', topProduct.모델명);
 
-          // 가이드 자동 표시 (500ms 후)
-          setTimeout(() => setIsGuideOpen(true), 500);
+          // 가이드 자동 표시 (500ms 후) - skipGuide가 false일 때만
+          if (!skipGuide) {
+            setTimeout(() => setIsGuideOpen(true), 500);
+            console.log('✅ 가이드 자동 표시 예약');
+          } else {
+            console.log('⏭️  가이드 표시 건너뜀 (skipGuide=true)');
+          }
 
           return topProduct.productId;
         }
@@ -602,9 +607,12 @@ function TagsPageContent() {
       let productIdToUse = anchorIdFromUrl;
       let productTitleToUse = productTitleFromUrl;
 
+      // skipGuide 파라미터 확인
+      const skipGuide = searchParams.get('skipGuide') === 'true';
+
       if (!anchorIdFromUrl) {
         console.log('🔄 Anchor ID 없음 - 전체 제품 로드 후 1위 선택');
-        const selectedProductId = await loadAllProducts();
+        const selectedProductId = await loadAllProducts(skipGuide);
 
         if (!selectedProductId) {
           console.error('❌ 제품을 찾을 수 없습니다');
@@ -616,7 +624,8 @@ function TagsPageContent() {
         productTitleToUse = anchorProduct?.모델명 || anchorProduct?.제품명 || '';
       } else {
         // anchorId가 있으면 전체 제품 리스트도 로드 (제품 변경 모달용)
-        loadAllProducts();
+        // skipGuide는 전달하지 않음 (가이드 표시 안 함)
+        loadAllProducts(true);
       }
 
       // 저장된 상태 복원 시도
