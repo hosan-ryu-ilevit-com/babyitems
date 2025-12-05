@@ -160,7 +160,7 @@ export default function CategoriesPage() {
               </button>
               <div className="absolute left-1/2 -translate-x-1/2">
                 <h1 className="text-m font-semibold text-gray-900">
-                  추천받을 상품 선택
+                  구매하실 상품을 골라주세요
                 </h1>
               </div>
               <div className="w-6" /> {/* Spacer for alignment */}
