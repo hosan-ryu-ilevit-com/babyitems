@@ -1372,7 +1372,7 @@ export default function ResultPage() {
                         {/* 제품 정보 */}
                         <div className="flex gap-3 mb-0">
                           {/* 제품 썸네일 */}
-                          <div className="relative w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100">
+                          <div className="relative w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100 border border-gray-200">
                             {rec.product.thumbnail ? (
                               <Image
                                 src={rec.product.thumbnail}
@@ -1742,7 +1742,7 @@ export default function ResultPage() {
                 justify-content: center;
                 padding: 1rem 2rem;
                 border-radius: 9999px;
-                background: white;
+                background: #111827;
                 overflow: hidden;
                 box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
               }
@@ -1752,7 +1752,7 @@ export default function ResultPage() {
                 position: absolute;
                 inset: 0;
                 border-radius: 9999px;
-                padding: 2px;
+                padding: 3px;
                 background: conic-gradient(
                   from var(--angle),
                   #5855ff,
@@ -1782,7 +1782,7 @@ export default function ResultPage() {
                 cursor: pointer;
                 font-weight: 700;
                 font-size: 1rem;
-                color: #111827;
+                color: white;
               }
             `}</style>
 
@@ -1803,7 +1803,7 @@ export default function ResultPage() {
               )}
             </AnimatePresence>
 
-            <div className="fixed bottom-6 left-0 right-0 flex flex-col items-center gap-3 z-50 px-4">
+            <div className="fixed bottom-6 left-0 right-0 flex flex-col items-end gap-3 z-50 px-4">
               <AnimatePresence>
                 {showExitConfirmModal && (
                   <motion.div
@@ -1811,7 +1811,7 @@ export default function ResultPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
                     transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                    className="w-full max-w-[480px] flex flex-col gap-3"
+                    className="flex flex-col gap-3"
                   >
                     {/* 다른 카테고리 추천받기 버튼 */}
                     <motion.button
@@ -1826,9 +1826,12 @@ export default function ResultPage() {
                         clearSession();
                         router.push('/categories');
                       }}
-                      className="w-full py-4 bg-white hover:bg-gray-50 text-gray-900 rounded-full shadow-lg font-semibold transition-colors"
+                      className="py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-full shadow-lg font-semibold transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
                     >
-                      다른 카테고리 추천받기
+                      <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                      </svg>
+                      <span>다른 카테고리 추천받기</span>
                     </motion.button>
 
                     {/* 현재 카테고리 다시 추천받기 버튼 */}
@@ -1850,12 +1853,29 @@ export default function ResultPage() {
                         // Tags 페이지로 이동 (skipGuide=true)
                         router.push(`/tags?category=${currentCategory}&skipGuide=true`);
                       }}
-                      className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-colors"
-                      style={{ boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.15)' }}
+                      className="py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-full shadow-lg font-semibold transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
                     >
-                      {currentCategory && CATEGORY_NAMES[currentCategory as ProductCategory]
-                        ? `${CATEGORY_NAMES[currentCategory as ProductCategory]} 다시 추천받기`
-                        : '다시 추천받기'}
+                      <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      <span>
+                        {currentCategory && CATEGORY_NAMES[currentCategory as ProductCategory]
+                          ? `${CATEGORY_NAMES[currentCategory as ProductCategory]} 다시 추천받기`
+                          : '다시 추천받기'}
+                      </span>
+                    </motion.button>
+
+                    {/* 취소 버튼 */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => {
+                        logButtonClick('취소', 'result');
+                        setShowExitConfirmModal(false);
+                      }}
+                      className="py-4 px-6 bg-gray-900 hover:bg-gray-800 text-white rounded-full shadow-lg font-semibold transition-colors whitespace-nowrap"
+                    >
+                      취소
                     </motion.button>
                   </motion.div>
                 )}
@@ -1873,7 +1893,7 @@ export default function ResultPage() {
                     duration: 0.1,
                     ease: 'easeInOut'
                   }}
-                  className="w-full max-w-[480px]"
+                  className="max-w-[440px]"
                 >
                   <div className="gradient-border-button">
                     <button
@@ -1890,28 +1910,6 @@ export default function ResultPage() {
                     </button>
                   </div>
                 </motion.div>
-              )}
-
-              {/* 뒤로 버튼 (modal 열렸을 때) */}
-              {showExitConfirmModal && (
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                    ease: 'easeOut'
-                  }}
-                  onClick={() => {
-                    logButtonClick('뒤로가기', 'result');
-                    setShowExitConfirmModal(false);
-                  }}
-                  className="text-white text-sm font-medium underline underline-offset-4 hover:text-gray-100 transition-colors my-4"
-                >
-                  뒤로
-                </motion.button>
               )}
             </div>
           </>

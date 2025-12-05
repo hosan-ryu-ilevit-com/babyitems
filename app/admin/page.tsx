@@ -634,6 +634,28 @@ export default function AdminPage() {
       );
     }
 
+    // 다른 카테고리 추천받기 버튼 (Result 페이지)
+    if (label === '다른 카테고리 추천받기') {
+      return (
+        <span className="inline-flex items-center gap-2">
+          <span className="px-4 py-2 bg-white border border-gray-300 text-gray-900 text-xs font-semibold rounded-xl shadow-sm">
+            다른 카테고리 추천받기
+          </span>
+        </span>
+      );
+    }
+
+    // {카테고리명} 다시 추천받기 버튼 (Result 페이지)
+    if (label.includes('다시 추천받기')) {
+      return (
+        <span className="inline-flex items-center gap-2">
+          <span className="px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-xl shadow-md">
+            {label}
+          </span>
+        </span>
+      );
+    }
+
     // 기타 버튼
     return <span className="text-blue-600 text-xs">{label}</span>;
   };
