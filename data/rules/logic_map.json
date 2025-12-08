@@ -1,0 +1,921 @@
+{
+  "baby_bottle": {
+    "category_name": "젖병",
+    "target_categories": ["16349219"],
+    "rules": {
+      "체감속성_배앓이_철벽방어": {
+        "description": "수유 중 공기 흡입을 최소화하여 배앓이를 방지하는 기능이 있나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "배앓이", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "통기시스템", "score": 8 },
+          { "target": "spec.features", "operator": "contains", "value": "에어밸브", "score": 5 },
+          { "target": "brand", "operator": "eq", "value": "닥터브라운", "score": 10 }
+        ]
+      },
+      "체감속성_손목보호_가벼움": {
+        "description": "하루에도 수십 번 수유하는 엄마의 손목을 위해 가벼운가요?",
+        "logic": [
+          { "target": "spec.재질", "operator": "eq", "value": "PPSU", "score": 10 },
+          { "target": "spec.재질", "operator": "eq", "value": "PA", "score": 8 },
+          { "target": "spec.재질", "operator": "eq", "value": "PP", "score": 7 },
+          { "target": "spec.재질", "operator": "eq", "value": "유리", "score": -10 }
+        ]
+      },
+      "체감속성_미세플라스틱_제로": {
+        "description": "스크래치나 미세플라스틱 걱정 없이 영구적으로 안전한가요?",
+        "logic": [
+          { "target": "spec.재질", "operator": "eq", "value": "유리", "score": 10 },
+          { "target": "spec.재질", "operator": "eq", "value": "실리콘", "score": 8 },
+          { "target": "title", "operator": "contains", "value": "안심코팅", "score": 5 }
+        ]
+      },
+      "체감속성_설거지_해방_식세기": {
+        "description": "육아퇴근을 앞당겨줄 식기세척기 사용이 가능한가요?",
+        "logic": [
+          { "target": "spec.사용가능", "operator": "contains", "value": "식기세척기", "score": 10 },
+          { "target": "spec.재질", "operator": "eq", "value": "PPSU", "score": 5 },
+          { "target": "spec.재질", "operator": "eq", "value": "유리", "score": 5 }
+        ]
+      },
+      "체감속성_세척솔_필요없는_와이드": {
+        "description": "입구가 넓어 세척솔 없이도 닦기 편하고 분유 넣기 쉬운가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "와이드넥", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "와이드", "score": 5 },
+          { "target": "brand", "operator": "eq", "value": "헤겐", "score": 8 }
+        ]
+      },
+      "체감속성_유두혼동_최소화": {
+        "description": "모유수유와 병행해도 거부감이 적은 촉감인가요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "모유실감", "score": 10 },
+          { "target": "spec.젖꼭지재질", "operator": "eq", "value": "실리콘", "score": 3 },
+          { "target": "spec.features", "operator": "contains", "value": "모유수유전용", "score": 8 }
+        ]
+      },
+      "체감속성_여행용_간편함": {
+        "description": "여행 갈 때 짐을 확 줄여주는 일회용인가요?",
+        "logic": [
+          { "target": "filter_attrs.품목", "operator": "contains", "value": "일회용", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "일회용", "score": 10 }
+        ]
+      }
+    }
+  },
+  "formula_pot": {
+    "category_name": "분유포트",
+    "target_categories": ["16330960"],
+    "rules": {
+      "체감속성_새벽수유_1초완성": {
+        "description": "원하는 온도로 계속 유지되어 눈 비비며 바로 탈 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "영구보온", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "24시간보온", "score": 8 },
+          { "target": "spec.features", "operator": "contains", "value": "보온기능", "score": 5 }
+        ]
+      },
+      "체감속성_배고픈아기_급속냉각": {
+        "description": "끓인 물을 식히는 시간을 획기적으로 줄여주나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "쿨링팬", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "급속쿨링", "score": 10 }
+        ]
+      },
+      "체감속성_손목보호_자동출수": {
+        "description": "무거운 물통을 들 필요 없이 버튼 하나로 물이 나오나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "자동급수", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "출수형", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "원터치출수", "score": 8 }
+        ]
+      },
+      "체감속성_위생적인_통유리": {
+        "description": "물때나 녹 걱정 없이 내부가 훤히 보이는 유리 재질인가요?",
+        "logic": [
+          { "target": "spec.재질", "operator": "eq", "value": "유리", "score": 10 },
+          { "target": "spec.재질", "operator": "contains", "value": "내열강화유리", "score": 10 }
+        ]
+      },
+      "체감속성_내구성_스테인리스": {
+        "description": "깨질 염려 없이 튼튼하고 위생적인 스테인리스인가요?",
+        "logic": [
+          { "target": "spec.재질", "operator": "eq", "value": "스테인리스", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "316스테인리스", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "통주물", "score": 5 }
+        ]
+      },
+      "체감속성_수돗물_안심제거": {
+        "description": "수돗물의 염소 성분을 날려주어 안심하고 먹일 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "염소배출기능", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "안심살균", "score": 5 }
+        ]
+      },
+      "체감속성_밤중수유_무드등": {
+        "description": "어두운 밤에 불을 켜지 않고도 분유를 탈 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "수유등", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "LED조명", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "야간조명", "score": 8 }
+        ]
+      }
+    }
+  },
+  "diaper": {
+    "category_name": "기저귀",
+    "target_categories": ["16349108", "16349109", "16349110", "16356038", "16356040", "16356042"],
+    "rules": {
+      "체감속성_여름철_땀띠_해방": {
+        "description": "통기성이 좋아 무더위에도 엉덩이가 짓무르지 않나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "썸머", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "쿨", "score": 8 },
+          { "target": "spec.features", "operator": "contains", "value": "에어홀", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "통기성", "score": 5 }
+        ]
+      },
+      "체감속성_밤샘_이불빨래_끝": {
+        "description": "흡수력이 뛰어나 밤새 한 번도 갈지 않아도 되나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "통잠", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "나이트", "score": 8 },
+          { "target": "spec.features", "operator": "contains", "value": "최대흡수", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "샘방지", "score": 5 }
+        ]
+      },
+      "체감속성_활동적인_아기_팬티": {
+        "description": "뒤집고 기어 다니는 아이에게 입히기 편한가요?",
+        "logic": [
+          { "target": "filter_attrs.형태", "operator": "eq", "value": "팬티형", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "신축성", "score": 3 }
+        ]
+      },
+      "체감속성_예민보스_피부보호": {
+        "description": "화학성분 없이 자연 유래 소재로 피부 자극을 줄였나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "오가닉", "score": 8 },
+          { "target": "spec.features", "operator": "contains", "value": "무표백", "score": 8 },
+          { "target": "spec.features", "operator": "contains", "value": "천연코튼", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "더마테스트", "score": 5 }
+        ]
+      },
+      "체감속성_신생아_배꼽케어": {
+        "description": "탯줄이 떨어지지 않은 신생아 배꼽을 자극하지 않나요?",
+        "logic": [
+          { "target": "filter_attrs.형태", "operator": "eq", "value": "밴드형", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "배꼽케어", "score": 10 },
+          { "target": "filter_attrs.단계", "operator": "eq", "value": "1단계", "score": 5 }
+        ]
+      },
+      "체감속성_가성비_대량구매": {
+        "description": "매일 쓰는 기저귀, 장당 가격이 합리적인가요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "박스", "score": 5 },
+          { "target": "title", "operator": "contains", "value": "팩", "score": 3 }
+        ]
+      },
+      "체감속성_물놀이_전용": {
+        "description": "물속에서도 부풀어 오르지 않는 수영장 전용인가요?",
+        "logic": [
+          { "target": "spec.type", "operator": "contains", "value": "수영장", "score": 20 },
+          { "target": "spec.features", "operator": "contains", "value": "방수", "score": 10 }
+        ]
+      }
+    }
+  },
+  "stroller": {
+    "category_name": "유모차",
+    "target_categories": ["16349368", "16349193", "16349195", "16349196"],
+    "rules": {
+      "체감속성_나홀로_원터치_폴딩": {
+        "description": "아이를 안고 한 손으로 1초 만에 접을 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "오토폴딩", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "원핸드폴딩", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "접이식", "score": 5 }
+        ]
+      },
+      "체감속성_비행기_기내반입": {
+        "description": "여행 갈 때 짐칸에 맡길 필요 없이 바로 들고 탈 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "기내반입가능", "score": 20 },
+          { "target": "spec.type", "operator": "eq", "value": "휴대용", "score": 5 },
+          { "target": "spec.유모차무게", "operator": "lte", "value": 6.5, "score": 5 }
+        ]
+      },
+      "체감속성_신생아_흔들림_제로": {
+        "description": "울퉁불퉁한 길에서도 아이 머리가 흔들리지 않는 안정감이 있나요?",
+        "logic": [
+          { "target": "spec.type", "operator": "eq", "value": "디럭스형", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "서스펜션", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "볼베어링", "score": 3 },
+          { "target": "spec.유모차무게", "operator": "gte", "value": 9, "score": 5 }
+        ]
+      },
+      "체감속성_양대면_아이컨택": {
+        "description": "주행 중에 아이와 눈을 맞추며 정서적 교감을 할 수 있나요?",
+        "logic": [
+          { "target": "spec.양대면전환", "operator": "contains", "value": "시트", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "양대면", "score": 10 }
+        ]
+      },
+      "체감속성_초경량_깃털무게": {
+        "description": "계단을 오르내릴 때 엄마 혼자 들 수 있을 만큼 가벼운가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "초경량", "score": 10 },
+          { "target": "spec.유모차무게", "operator": "lte", "value": 5, "score": 15 },
+          { "target": "spec.유모차무게", "operator": "lte", "value": 7, "score": 8 }
+        ]
+      },
+      "체감속성_오래쓰는_튼튼함": {
+        "description": "아이가 커서도 계속 태울 수 있게 허용 하중이 넉넉한가요?",
+        "logic": [
+          { "target": "spec.허용무게", "operator": "contains", "value": "22kg", "score": 10 },
+          { "target": "spec.허용무게", "operator": "contains", "value": "25kg", "score": 15 }
+        ]
+      },
+      "체감속성_쌍둥이_다둥이": {
+        "description": "두 아이를 한 번에 태우고 이동할 수 있나요?",
+        "logic": [
+          { "target": "spec.type", "operator": "contains", "value": "쌍둥이", "score": 20 },
+          { "target": "spec.features", "operator": "contains", "value": "나란히형", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "앞뒤형", "score": 5 }
+        ]
+      }
+    }
+  },
+  "car_seat": {
+    "category_name": "카시트",
+    "target_categories": ["16349200", "16349201", "16349202", "16353763"],
+    "rules": {
+      "체감속성_허리보호_360회전": {
+        "description": "좁은 차 안에서 아이를 태우고 내릴 때 허리 굽힐 필요가 없나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "360º 회전", "score": 20 },
+          { "target": "spec.features", "operator": "contains", "value": "회전형", "score": 15 }
+        ]
+      },
+      "체감속성_유럽안전인증_iSize": {
+        "description": "가장 까다로운 최신 유럽 안전 기준을 통과했나요?",
+        "logic": [
+          { "target": "spec.안전인증", "operator": "contains", "value": "아이사이즈", "score": 20 },
+          { "target": "title", "operator": "contains", "value": "i-size", "score": 10 }
+        ]
+      },
+      "체감속성_신생아_바구니": {
+        "description": "잠든 신생아를 깨우지 않고 차에서 집까지 이동할 수 있나요?",
+        "logic": [
+          { "target": "spec.type", "operator": "eq", "value": "바구니형", "score": 20 },
+          { "target": "spec.사용대상", "operator": "contains", "value": "신생아", "score": 5 }
+        ]
+      },
+      "체감속성_주니어_오래사용": {
+        "description": "아이가 초등학생이 될 때까지 넉넉하게 쓸 수 있나요?",
+        "logic": [
+          { "target": "spec.사용대상", "operator": "contains", "value": "12세", "score": 10 },
+          { "target": "spec.허용무게", "operator": "contains", "value": "36kg", "score": 10 },
+          { "target": "spec.type", "operator": "contains", "value": "부스터", "score": 5 }
+        ]
+      },
+      "체감속성_안전고정_ISOFIX": {
+        "description": "흔들림 없이 차체에 단단하게 고정되나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "ISOFIX", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "서포트레그", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "탑테더", "score": 3 }
+        ]
+      },
+      "체감속성_측면충돌_보호": {
+        "description": "측면에서 오는 충격으로부터 아이의 머리를 보호해주나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "측면충돌보호", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "SIP", "score": 8 }
+        ]
+      },
+      "체감속성_편안한_다리공간": {
+        "description": "아이가 컸을 때 다리가 좁지 않도록 공간 확보가 되나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "리바운드스토퍼", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "레그룸", "score": 8 }
+        ]
+      }
+    }
+  },
+  "baby_wipes": {
+    "category_name": "아기물티슈",
+    "target_categories": ["16349119"],
+    "rules": {
+      "체감속성_도톰한_평량": {
+        "description": "한 장으로도 충분히 닦이는 두툼한 두께감인가요?",
+        "logic": [
+          { "target": "spec.평량", "operator": "gte", "value": "70gsm", "score": 15 },
+          { "target": "spec.평량", "operator": "gte", "value": "60gsm", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "엠보싱", "score": 5 }
+        ]
+      },
+      "체감속성_성분안전_저자극": {
+        "description": "신생아 입가에 닿아도 안심할 수 있는 성분인가요?",
+        "logic": [
+          { "target": "spec.인증", "operator": "contains", "value": "더마테스트", "score": 5 },
+          { "target": "spec.인증", "operator": "contains", "value": "EWG 그린", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "유해성분 무첨가", "score": 5 }
+        ]
+      },
+      "체감속성_수분_마름방지_캡": {
+        "description": "다 쓸 때까지 촉촉하게 유지해주는 캡형인가요?",
+        "logic": [
+          { "target": "filter_attrs.형태", "operator": "eq", "value": "캡형", "score": 10 }
+        ]
+      },
+      "체감속성_외출용_휴대간편": {
+        "description": "기저귀 가방에 쏙 들어가는 가벼운 휴대용인가요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "휴대", "score": 15 },
+          { "target": "spec.type", "operator": "contains", "value": "20매", "score": 10 }
+        ]
+      },
+      "체감속성_깨끗한_정수": {
+        "description": "먹는 물만큼 꼼꼼하게 정수된 물을 사용했나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "10단계", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "7단계", "score": 5 }
+        ]
+      },
+      "체감속성_자연분해_친환경": {
+        "description": "아이의 미래 환경까지 생각한 생분해 원단인가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "생분해", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "친환경", "score": 5 }
+        ]
+      },
+      "체감속성_경제적_리필형": {
+        "description": "집에서 막 쓰기 좋은 가성비 리필형인가요?",
+        "logic": [
+          { "target": "filter_attrs.형태", "operator": "eq", "value": "리필형", "score": 10 }
+        ]
+      }
+    }
+  },
+  "formula": {
+    "category_name": "분유",
+    "target_categories": ["16249091"],
+    "rules": {
+      "체감속성_황금변_소화잘됨": {
+        "description": "배앓이 없이 소화가 잘 되고 황금변을 보게 해주나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "소화불량방지", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "산양분유", "score": 8 },
+          { "target": "spec.features", "operator": "contains", "value": "A2", "score": 5 },
+          { "target": "spec.알레르기성분", "operator": "contains", "value": "우유", "score": -5 }
+        ]
+      },
+      "체감속성_토함방지_특수분유": {
+        "description": "자주 게워내는 아기를 위한 특수 설계가 되어있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "토방지", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "특수분유", "score": 5 },
+          { "target": "title", "operator": "contains", "value": "AR", "score": 10 }
+        ]
+      },
+      "체감속성_외출_액상간편": {
+        "description": "물 끓일 필요 없이 바로 수유 가능한 액상형인가요?",
+        "logic": [
+          { "target": "filter_attrs.형태", "operator": "eq", "value": "액상", "score": 20 },
+          { "target": "spec.features", "operator": "contains", "value": "액상", "score": 20 }
+        ]
+      },
+      "체감속성_알레르기_케어": {
+        "description": "유당불내증이나 알레르기가 있는 아기도 먹을 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "알레르기방지", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "유당불내증", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "HA", "score": 10 }
+        ]
+      },
+      "체감속성_프리미엄_유기농": {
+        "description": "엄선된 유기농 원료로 만들어 믿을 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "유기농", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "무항생제", "score": 5 }
+        ]
+      },
+      "체감속성_휴대성_스틱형": {
+        "description": "여행갈 때 계량 필요 없이 한 포씩 챙기기 좋나요?",
+        "logic": [
+          { "target": "filter_attrs.형태", "operator": "contains", "value": "스틱", "score": 15 },
+          { "target": "title", "operator": "contains", "value": "스틱", "score": 15 }
+        ]
+      },
+      "체감속성_성장기_영양보충": {
+        "description": "돌 이후 아이의 부족한 영양을 채워주나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "초유성분", "score": 5 },
+          { "target": "spec.type", "operator": "contains", "value": "종합균형영양식", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "킨더밀쉬", "score": 10 }
+        ]
+      }
+    }
+  },
+  "thermometer": {
+    "category_name": "체온계",
+    "target_categories": ["17325941"],
+    "rules": {
+      "체감속성_비접촉_위생": {
+        "description": "피부에 닿지 않아 여러 명이 써도 위생적인가요?",
+        "logic": [
+          { "target": "spec.방식", "operator": "contains", "value": "비접촉", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "비접촉", "score": 15 }
+        ]
+      },
+      "체감속성_정확도_병원급": {
+        "description": "병원에서 쓰는 것처럼 정확도가 높은 귀 체온계인가요?",
+        "logic": [
+          { "target": "spec.type", "operator": "contains", "value": "귀체온계", "score": 10 },
+          { "target": "brand", "operator": "eq", "value": "브라운", "score": 5 }
+        ]
+      },
+      "체감속성_밤중_몰래측정": {
+        "description": "자는 아이 깨우지 않고 조용히 열을 잴 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "무음", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "조명", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "야간", "score": 5 }
+        ]
+      },
+      "체감속성_빠른_1초측정": {
+        "description": "가만히 있지 못하는 아이의 체온을 순식간에 재나요?",
+        "logic": [
+          { "target": "spec.측정시간", "operator": "contains", "value": "1초", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "빠른측정", "score": 8 }
+        ]
+      },
+      "체감속성_필터교체_위생": {
+        "description": "매번 필터를 갈아끼워 교차 감염 걱정이 없나요?",
+        "logic": [
+          { "target": "spec.필터", "operator": "contains", "value": "필터사용", "score": 10 }
+        ]
+      },
+      "체감속성_생활온도_겸용": {
+        "description": "목욕물이나 분유 온도까지 잴 수 있어 실용적인가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "생활온도", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "사물온도", "score": 10 }
+        ]
+      },
+      "체감속성_스마트_기록관리": {
+        "description": "체온 변화를 자동으로 저장하거나 앱으로 관리하나요?",
+        "logic": [
+          { "target": "spec.저장횟수", "operator": "gte", "value": "1", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "메모리", "score": 5 }
+        ]
+      }
+    }
+  },
+  "formula_maker": {
+    "category_name": "분유제조기",
+    "target_categories": ["16349381"],
+    "rules": {
+      "체감속성_새벽수유_구세주": {
+        "description": "버튼 한 번으로 농도와 온도를 맞춰 10초 만에 조유하나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "자동급수", "score": 10 },
+          { "target": "brand", "operator": "eq", "value": "베이비브레짜", "score": 5 }
+        ]
+      },
+      "체감속성_스마트_원격제어": {
+        "description": "침대에 누워서 스마트폰으로 분유를 내릴 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "스마트폰제어", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "App", "score": 10 }
+        ]
+      },
+      "체감속성_위생_자동세척": {
+        "description": "노즐 세척 번거로움 없이 알아서 고온 살균하나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "자동세척", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "고온세척", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "UV살균", "score": 8 }
+        ]
+      },
+      "체감속성_미세조절_맞춤": {
+        "description": "물 양과 온도를 1단위로 섬세하게 조절할 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "1℃단위", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "출수량설정", "score": 8 }
+        ]
+      },
+      "체감속성_올인원_포트겸용": {
+        "description": "분유 제조뿐만 아니라 티포트 기능까지 한 번에 되나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "분유포트겸용", "score": 15 }
+        ]
+      },
+      "체감속성_안전소재": {
+        "description": "환경호르몬 걱정 없는 유리나 스테인리스 소재인가요?",
+        "logic": [
+          { "target": "spec.재질", "operator": "eq", "value": "유리", "score": 10 },
+          { "target": "spec.재질", "operator": "eq", "value": "스테인리스", "score": 8 }
+        ]
+      },
+      "체감속성_대용량_물탱크": {
+        "description": "하루 종일 먹을 물을 한 번에 담을 수 있나요?",
+        "logic": [
+          { "target": "spec.용량", "operator": "gte", "value": "1.5L", "score": 10 }
+        ]
+      }
+    }
+  },
+  "pacifier": {
+    "category_name": "쪽쪽이/노리개",
+    "target_categories": ["16349351"],
+    "rules": {
+      "체감속성_위생적인_올실리콘": {
+        "description": "틈새가 없어 세척이 쉽고 열탕 소독이 가능한가요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "올실리콘", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "일체형", "score": 5 }
+        ]
+      },
+      "체감속성_밤중_야광": {
+        "description": "캄캄한 밤에 쪽쪽이가 떨어져도 쉽게 찾을 수 있나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "야광", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "야광", "score": 15 }
+        ]
+      },
+      "체감속성_피부자극_최소화": {
+        "description": "침독 예방을 위해 통기성이 좋고 피부 닿는 면적이 적나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "에어", "score": 5 },
+          { "target": "spec.features", "operator": "contains", "value": "통기", "score": 5 },
+          { "target": "title", "operator": "contains", "value": "침독예방", "score": 10 }
+        ]
+      },
+      "체감속성_가벼운_초경량": {
+        "description": "신생아가 물어도 입에서 잘 빠지지 않는 가벼움인가요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "초경량", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "가벼운", "score": 5 }
+        ]
+      },
+      "체감속성_세트구성_가성비": {
+        "description": "여러 개를 한 번에 구매해서 잃어버려도 안심인가요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "세트", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "2개", "score": 5 }
+        ]
+      },
+      "체감속성_보관_케이스": {
+        "description": "외출 시 위생적으로 보관할 수 있는 케이스가 포함되나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "케이스", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "케이스", "score": 10 }
+        ]
+      },
+      "체감속성_치아발달_고려": {
+        "description": "아기 치아와 턱 발달을 고려한 디자인인가요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "치아", "score": 10 },
+          { "target": "brand", "operator": "eq", "value": "덴티스타", "score": 5 }
+        ]
+      }
+    }
+  },
+  "baby_bed": {
+    "category_name": "유아침대",
+    "target_categories": ["16338152"],
+    "rules": {
+      "체감속성_낙상방지_범퍼": {
+        "description": "아기가 굴러다녀도 부딪히거나 떨어질 걱정이 없나요?",
+        "logic": [
+          { "target": "spec.type", "operator": "eq", "value": "범퍼형", "score": 20 },
+          { "target": "spec.features", "operator": "contains", "value": "하이가드", "score": 10 }
+        ]
+      },
+      "체감속성_오래쓰는_변형": {
+        "description": "침대에서 놀이매트나 소파로 변신해 오래 쓸 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "변형가능", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "놀이매트", "score": 10 }
+        ]
+      },
+      "체감속성_이동식_바퀴": {
+        "description": "거실과 안방을 오가며 아기를 케어할 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "바퀴포함", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "휴대가능", "score": 5 }
+        ]
+      },
+      "체감속성_부모침대_연결": {
+        "description": "어른 침대 옆에 붙여서 밤중 케어가 편한가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "높이조절", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "사이드", "score": 5 }
+        ]
+      },
+      "체감속성_청결_방수": {
+        "description": "기저귀가 새거나 우유를 흘려도 슥 닦으면 되나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "방수", "score": 15 },
+          { "target": "spec.재질", "operator": "contains", "value": "인조가죽", "score": 5 }
+        ]
+      },
+      "체감속성_여행용_접이식": {
+        "description": "접어서 보관하거나 여행 갈 때 가져갈 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "접이식", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "휴대가능", "score": 10 }
+        ]
+      },
+      "체감속성_튼튼한_원목": {
+        "description": "인테리어를 해치지 않는 감성적인 원목 소재인가요?",
+        "logic": [
+          { "target": "spec.재질", "operator": "contains", "value": "원목", "score": 15 },
+          { "target": "spec.재질", "operator": "contains", "value": "나무", "score": 10 }
+        ]
+      }
+    }
+  },
+  "high_chair": {
+    "category_name": "유아의자/식탁의자",
+    "target_categories": ["16338154", "16338153"],
+    "rules": {
+      "체감속성_바른자세_발받침": {
+        "description": "아이가 안정적으로 식사할 수 있게 발판 조절이 되나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "발걸이포함", "score": 10 },
+          { "target": "spec.발판높이조절", "operator": "gte", "value": "1", "score": 10 }
+        ]
+      },
+      "체감속성_쉬운_뒷정리": {
+        "description": "식판을 떼어서 물로 씻거나 닦기 편한 소재인가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "식판탈부착", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "방수", "score": 5 },
+          { "target": "spec.좌판", "operator": "contains", "value": "플라스틱", "score": 5 }
+        ]
+      },
+      "체감속성_성장맞춤_조절": {
+        "description": "신생아부터 어린이까지 키에 맞춰 오래 쓸 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "높이조절", "score": 10 },
+          { "target": "spec.좌판높이조절", "operator": "gte", "value": "3", "score": 5 }
+        ]
+      },
+      "체감속성_안전_원목": {
+        "description": "흔들림 없이 튼튼하고 인테리어에 예쁜 원목인가요?",
+        "logic": [
+          { "target": "spec.프레임", "operator": "contains", "value": "원목", "score": 15 },
+          { "target": "brand", "operator": "eq", "value": "스토케", "score": 5 }
+        ]
+      },
+      "체감속성_이동_접이식": {
+        "description": "안 쓸 때는 접어두거나 바퀴로 이동하기 편한가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "접이식", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "바퀴포함", "score": 10 }
+        ]
+      },
+      "체감속성_편안한_리클라이닝": {
+        "description": "밥 먹다 잠들어도 편하게 눕힐 수 있나요?",
+        "logic": [
+          { "target": "spec.등판각도조절", "operator": "gte", "value": "1", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "바운서변형", "score": 10 }
+        ]
+      },
+      "체감속성_안전벨트": {
+        "description": "아이가 일어서거나 떨어지지 않게 꽉 잡아주나요?",
+        "logic": [
+          { "target": "spec.벨트", "operator": "contains", "value": "5점식", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "안전가드", "score": 5 }
+        ]
+      }
+    }
+  },
+  "baby_sofa": {
+    "category_name": "유아소파",
+    "target_categories": ["16338155"],
+    "rules": {
+      "체감속성_관리편한_가죽": {
+        "description": "음료를 쏟아도 물티슈로 슥 닦으면 되나요?",
+        "logic": [
+          { "target": "spec.커버 재질", "operator": "contains", "value": "인조가죽", "score": 15 },
+          { "target": "spec.커버 재질", "operator": "contains", "value": "PU", "score": 15 }
+        ]
+      },
+      "체감속성_바른자세_설계": {
+        "description": "아이의 척추 건강을 고려한 인체공학적 디자인인가요?",
+        "logic": [
+          { "target": "brand", "operator": "eq", "value": "일룸", "score": 5 },
+          { "target": "brand", "operator": "eq", "value": "디자인스킨", "score": 5 }
+        ]
+      },
+      "체감속성_귀여운_캐릭터": {
+        "description": "아이가 좋아하는 동물이나 캐릭터 모양인가요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "뽀로로", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "베어", "score": 5 },
+          { "target": "title", "operator": "contains", "value": "디노", "score": 5 },
+          { "target": "title", "operator": "contains", "value": "버니", "score": 5 }
+        ]
+      },
+      "체감속성_다용도_변신": {
+        "description": "소파뿐만 아니라 책상이나 놀이공간으로 변신하나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "테이블", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "2in1", "score": 10 }
+        ]
+      },
+      "체감속성_형제자매_2인용": {
+        "description": "둘이서 같이 앉을 수 있는 넉넉한 사이즈인가요?",
+        "logic": [
+          { "target": "spec.사용인원", "operator": "contains", "value": "2인용", "score": 20 }
+        ]
+      },
+      "체감속성_안전한_소재": {
+        "description": "유해 물질 걱정 없는 친환경 소재를 사용했나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "E0", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "친환경", "score": 5 }
+        ]
+      },
+      "체감속성_포근한_패브릭": {
+        "description": "따뜻하고 부드러운 감촉의 패브릭 소재인가요?",
+        "logic": [
+          { "target": "spec.커버 재질", "operator": "contains", "value": "패브릭", "score": 15 },
+          { "target": "spec.커버 재질", "operator": "contains", "value": "면", "score": 10 }
+        ]
+      }
+    }
+  },
+  "baby_desk": {
+    "category_name": "유아책상",
+    "target_categories": ["16338156"],
+    "rules": {
+      "체감속성_성장맞춤_높이조절": {
+        "description": "아이가 자라도 계속 쓸 수 있게 높이 조절이 되나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "높이조절", "score": 15 }
+        ]
+      },
+      "체감속성_안전_모서리": {
+        "description": "부딪혀도 다치지 않게 모서리가 둥글게 처리되었나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "모서리라운드처리", "score": 15 }
+        ]
+      },
+      "체감속성_세트구성_가성비": {
+        "description": "의자까지 포함된 실속 있는 세트 구성인가요?",
+        "logic": [
+          { "target": "spec.세트구성", "operator": "contains", "value": "의자", "score": 15 }
+        ]
+      },
+      "체감속성_수납_정리정돈": {
+        "description": "장난감이나 책을 정리할 수 있는 수납공간이 있나요?",
+        "logic": [
+          { "target": "spec.기본포함", "operator": "contains", "value": "서랍", "score": 10 },
+          { "target": "spec.기본포함", "operator": "contains", "value": "선반", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "전면책장", "score": 10 }
+        ]
+      },
+      "체감속성_친환경_자재": {
+        "description": "포름알데히드 걱정 없는 E0 등급 이상의 자재인가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "E0", "score": 10 },
+          { "target": "spec.features", "operator": "contains", "value": "원목", "score": 5 }
+        ]
+      },
+      "체감속성_놀이_레고호환": {
+        "description": "블록 놀이를 할 수 있는 레고 판이 호환되나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "레고", "score": 15 },
+          { "target": "title", "operator": "contains", "value": "블럭", "score": 10 }
+        ]
+      },
+      "체감속성_공간활용_접이식": {
+        "description": "안 쓸 때는 접어서 보관할 수 있는 공부상인가요?",
+        "logic": [
+          { "target": "spec.type", "operator": "contains", "value": "접이식", "score": 15 },
+          { "target": "spec.features", "operator": "contains", "value": "접이식", "score": 10 }
+        ]
+      }
+    }
+  },
+  "nasal_aspirator": {
+    "category_name": "코흡입기",
+    "target_categories": ["16349248"],
+    "rules": {
+      "체감속성_강력흡입_전동식": {
+        "description": "버튼 하나로 꽉 막힌 코를 시원하게 뚫어주나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "전동", "score": 15 },
+          { "target": "title", "operator": "contains", "value": "노시부", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "휴비딕", "score": 5 }
+        ]
+      },
+      "체감속성_휴대간편_수동식": {
+        "description": "소음 없이 조용하고 어디든 들고 다닐 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "입으로빠는", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "뻥코", "score": 5 },
+          { "target": "title", "operator": "contains", "value": "뺑코", "score": 5 }
+        ]
+      },
+      "체감속성_부드러운_실리콘팁": {
+        "description": "연약한 아기 코 점막에 상처를 주지 않나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "실리콘", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "노스클린", "score": 5 }
+        ]
+      },
+      "체감속성_위생_세척용이": {
+        "description": "부품 분리가 쉬워 콧물 찌꺼기 없이 씻을 수 있나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "세척", "score": 5 },
+          { "target": "title", "operator": "contains", "value": "필터", "score": 3 }
+        ]
+      },
+      "체감속성_다기능_올인원": {
+        "description": "콧물 흡입뿐만 아니라 네블라이저 기능도 있나요?",
+        "logic": [
+          { "target": "title", "operator": "contains", "value": "다기능", "score": 10 },
+          { "target": "title", "operator": "contains", "value": "올인원", "score": 10 }
+        ]
+      },
+      "체감속성_약먹이기_투약기": {
+        "description": "쓴 약도 거부감 없이 쉽게 먹일 수 있는 도구인가요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "투약기", "score": 15 },
+          { "target": "title", "operator": "contains", "value": "투약기", "score": 15 }
+        ]
+      },
+       "체감속성_소모품_호환성": {
+        "description": "필터나 팁 같은 소모품을 쉽게 구할 수 있나요?",
+        "logic": [
+           { "target": "title", "operator": "contains", "value": "소모품", "score": 10 },
+           { "target": "title", "operator": "contains", "value": "리필", "score": 10 },
+           { "target": "title", "operator": "contains", "value": "연결구", "score": 5 }
+        ]
+      }
+    }
+  },
+  "ip_camera": {
+    "category_name": "홈캠/IP카메라",
+    "target_categories": ["11427546"],
+    "rules": {
+      "체감속성_선명한_화질": {
+        "description": "아이의 표정까지 또렷하게 보이는 고화질인가요?",
+        "logic": [
+          { "target": "spec.영상사양", "operator": "contains", "value": "500만", "score": 15 },
+          { "target": "spec.영상사양", "operator": "contains", "value": "400만", "score": 10 },
+          { "target": "spec.영상사양", "operator": "contains", "value": "QHD", "score": 8 }
+        ]
+      },
+      "체감속성_밤샘_지킴이": {
+        "description": "불 꺼진 깜깜한 밤에도 아이 모습을 잘 볼 수 있나요?",
+        "logic": [
+          { "target": "spec.부가기능", "operator": "contains", "value": "야간(주간)자동전환", "score": 10 },
+          { "target": "spec.부가기능", "operator": "contains", "value": "적외선LED", "score": 8 }
+        ]
+      },
+      "체감속성_양방향_소통": {
+        "description": "카메라 너머로 엄마 목소리를 들려줄 수 있나요?",
+        "logic": [
+          { "target": "spec.부가기능", "operator": "contains", "value": "양방향통화", "score": 15 },
+          { "target": "spec.전원/사양", "operator": "contains", "value": "마이크", "score": 5 }
+        ]
+      },
+      "체감속성_사각지대_제로": {
+        "description": "카메라가 회전하여 방 전체를 둘러볼 수 있나요?",
+        "logic": [
+          { "target": "spec.영상사양", "operator": "contains", "value": "360˚", "score": 15 },
+          { "target": "spec.영상사양", "operator": "contains", "value": "팬(좌우)", "score": 10 },
+          { "target": "spec.부가기능", "operator": "contains", "value": "원격각도조정", "score": 10 }
+        ]
+      },
+      "체감속성_움직임_감지알림": {
+        "description": "아이가 깨거나 움직이면 폰으로 바로 알려주나요?",
+        "logic": [
+          { "target": "spec.부가기능", "operator": "contains", "value": "동작감지", "score": 10 },
+          { "target": "spec.부가기능", "operator": "contains", "value": "소리감지", "score": 10 },
+          { "target": "spec.부가기능", "operator": "contains", "value": "스마트폰모니터링", "score": 5 }
+        ]
+      },
+      "체감속성_해킹안심_보안": {
+        "description": "사생활 유출 걱정 없이 안전하게 쓸 수 있나요?",
+        "logic": [
+          { "target": "spec.부가기능", "operator": "contains", "value": "프라이버시 모드", "score": 15 },
+          { "target": "spec.전원/사양", "operator": "contains", "value": "물리적 렌즈 차단", "score": 15 }
+        ]
+      },
+      "체감속성_설치_간편함": {
+        "description": "선 연결 없이 와이파이로 쉽게 설치할 수 있나요?",
+        "logic": [
+          { "target": "spec.features", "operator": "contains", "value": "Wi-Fi", "score": 10 },
+          { "target": "spec.type", "operator": "contains", "value": "스탠드형", "score": 5 }
+        ]
+      }
+    }
+  }
+}
+  

@@ -28,9 +28,17 @@ interface CoupangProduct {
   url: string;
 }
 
+interface DanawaCategory {
+  category_code: string;
+  category_name: string;
+  group_id: string;
+  crawled_product_count: number;
+}
+
 interface CategoryGroup {
   id: string;
   name: string;
+  categories: DanawaCategory[];
 }
 
 interface PreloadedResult {
@@ -41,23 +49,21 @@ interface PreloadedResult {
   error?: string;
 }
 
-const CATEGORY_GROUPS: CategoryGroup[] = [
-  { id: 'stroller', name: '유모차' },
-  { id: 'car_seat', name: '카시트' },
-  { id: 'diaper', name: '기저귀' },
-  { id: 'baby_bottle', name: '젖병' },
-  { id: 'formula_pot', name: '분유포트' },
-  { id: 'baby_monitor', name: '베이비모니터' },
-  { id: 'thermometer', name: '체온계' },
-  { id: 'nasal_aspirator', name: '코흡입기' },
-];
-
 const PRELOAD_COUNT = 5; // 미리 로딩할 개수
+
+// 다나와 썸네일 URL 수정 (잘못된 &_v= → ?_v= 변환)
+const fixThumbnailUrl = (url: string | null): string | null => {
+  if (!url) return null;
+  // &_v= 를 ?_v= 로 수정 (URL 형식 오류 수정)
+  return url.replace('&_v=', '?_v=');
+};
 
 export default function CoupangMappingPage() {
   const [products, setProducts] = useState<DanawaProduct[]>([]);
   const [loading, setLoading] = useState(false);
-  const [category, setCategory] = useState<string>('');
+  const [categoryGroups, setCategoryGroups] = useState<CategoryGroup[]>([]);
+  const [selectedGroup, setSelectedGroup] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [onlyUnmapped, setOnlyUnmapped] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -73,6 +79,23 @@ export default function CoupangMappingPage() {
   // 로딩 중인 인덱스 추적
   const loadingIndexRef = useRef<Set<number>>(new Set());
 
+  // 카테고리 목록 가져오기
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/admin/danawa-categories');
+        const data = await res.json();
+        setCategoryGroups(data.groups || []);
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // 선택된 그룹의 카테고리 목록
+  const currentGroupCategories = categoryGroups.find(g => g.id === selectedGroup)?.categories || [];
+
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
@@ -81,8 +104,10 @@ export default function CoupangMappingPage() {
         limit: '50', // 프로세스 모드를 위해 더 많이 가져옴
         unmapped: onlyUnmapped.toString(),
       });
-      if (category) {
-        params.set('category', category);
+      if (selectedCategory) {
+        params.set('category', selectedCategory);
+      } else if (selectedGroup) {
+        params.set('group', selectedGroup);
       }
 
       const res = await fetch(`/api/admin/danawa-products?${params}`);
@@ -101,7 +126,7 @@ export default function CoupangMappingPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, category, onlyUnmapped]);
+  }, [page, selectedGroup, selectedCategory, onlyUnmapped]);
 
   useEffect(() => {
     fetchProducts();
@@ -111,7 +136,7 @@ export default function CoupangMappingPage() {
   const searchCoupang = async (product: DanawaProduct): Promise<CoupangProduct[]> => {
     try {
       const query = product.title;
-      const res = await fetch(`/api/admin/coupang-search?q=${encodeURIComponent(query)}&limit=6`);
+      const res = await fetch(`/api/admin/coupang-search?q=${encodeURIComponent(query)}&limit=12`);
       const data = await res.json();
       return data.products || [];
     } catch (error) {
@@ -236,21 +261,32 @@ export default function CoupangMappingPage() {
   const currentProduct = products[currentIndex];
   const currentResult = currentProduct ? preloadedResults.get(currentProduct.pcode) : null;
 
-  // 키보드 단축키
+  // 키보드 단축키 (1-9, 0=10, q=11, w=12)
   useEffect(() => {
     if (!processMode || !currentResult || currentResult.loading) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      const key = e.key;
+      const key = e.key.toLowerCase();
       
-      if (key >= '1' && key <= '6') {
-        const idx = parseInt(key) - 1;
+      let idx = -1;
+      if (key >= '1' && key <= '9') {
+        idx = parseInt(key) - 1;
+      } else if (key === '0') {
+        idx = 9; // 10번째
+      } else if (key === 'q') {
+        idx = 10; // 11번째
+      } else if (key === 'w') {
+        idx = 11; // 12번째
+      } else if (key === 's' || key === 'Escape') {
+        skipCurrent();
+        return;
+      }
+
+      if (idx >= 0) {
         const cp = currentResult.coupangProducts[idx];
         if (cp?.product_id && currentProduct) {
           selectCoupangProduct(currentProduct.pcode, cp);
         }
-      } else if (key === 's' || key === 'S' || key === 'Escape') {
-        skipCurrent();
       }
     };
 
@@ -279,14 +315,38 @@ export default function CoupangMappingPage() {
 
             {/* 필터 */}
             <div className="flex flex-wrap gap-4 items-center mb-6">
+              {/* 그룹 선택 */}
               <select
-                value={category}
-                onChange={(e) => { setCategory(e.target.value); setPage(1); }}
+                value={selectedGroup}
+                onChange={(e) => { 
+                  setSelectedGroup(e.target.value); 
+                  setSelectedCategory(''); 
+                  setPage(1); 
+                }}
                 className="border rounded-lg px-4 py-2 bg-white"
               >
-                <option value="">전체 카테고리</option>
-                {CATEGORY_GROUPS.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                <option value="">전체 그룹</option>
+                {categoryGroups.map(group => (
+                  <option key={group.id} value={group.id}>
+                    {group.name} ({group.categories?.reduce((sum, c) => sum + (c.crawled_product_count || 0), 0)})
+                  </option>
+                ))}
+              </select>
+
+              {/* 상세 카테고리 선택 */}
+              <select
+                value={selectedCategory}
+                onChange={(e) => { setSelectedCategory(e.target.value); setPage(1); }}
+                className="border rounded-lg px-4 py-2 bg-white"
+                disabled={!selectedGroup}
+              >
+                <option value="">
+                  {selectedGroup ? '전체 (그룹 내)' : '그룹 먼저 선택'}
+                </option>
+                {currentGroupCategories.map(cat => (
+                  <option key={cat.category_code} value={cat.category_code}>
+                    {cat.category_name} ({cat.crawled_product_count || 0})
+                  </option>
                 ))}
               </select>
 
@@ -393,14 +453,13 @@ export default function CoupangMappingPage() {
         <div className="bg-gray-800 rounded-lg p-3 mb-6 text-center">
           <span className="text-gray-400 text-sm">
             ⌨️ 단축키: 
-            <kbd className="bg-gray-700 text-white px-2 py-1 rounded mx-1">1</kbd>
-            <kbd className="bg-gray-700 text-white px-2 py-1 rounded mx-1">2</kbd>
-            <kbd className="bg-gray-700 text-white px-2 py-1 rounded mx-1">3</kbd>
-            <kbd className="bg-gray-700 text-white px-2 py-1 rounded mx-1">4</kbd>
-            <kbd className="bg-gray-700 text-white px-2 py-1 rounded mx-1">5</kbd>
-            <kbd className="bg-gray-700 text-white px-2 py-1 rounded mx-1">6</kbd>
-            선택 | 
-            <kbd className="bg-gray-700 text-white px-2 py-1 rounded mx-1">S</kbd> 스킵
+            <kbd className="bg-gray-700 text-white px-1.5 py-0.5 rounded mx-0.5 text-xs">1</kbd>-
+            <kbd className="bg-gray-700 text-white px-1.5 py-0.5 rounded mx-0.5 text-xs">9</kbd>
+            <kbd className="bg-gray-700 text-white px-1.5 py-0.5 rounded mx-0.5 text-xs">0</kbd>=10
+            <kbd className="bg-gray-700 text-white px-1.5 py-0.5 rounded mx-0.5 text-xs">Q</kbd>=11
+            <kbd className="bg-gray-700 text-white px-1.5 py-0.5 rounded mx-0.5 text-xs">W</kbd>=12
+            | 
+            <kbd className="bg-gray-700 text-white px-1.5 py-0.5 rounded mx-0.5 text-xs">S</kbd> 스킵
           </span>
         </div>
 
@@ -410,9 +469,10 @@ export default function CoupangMappingPage() {
             <div className="flex items-center gap-6">
               {currentProduct.thumbnail && (
                 <img
-                  src={currentProduct.thumbnail}
+                  src={fixThumbnailUrl(currentProduct.thumbnail) || ''}
                   alt={currentProduct.title}
                   className="w-32 h-32 object-contain bg-white rounded-lg"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                 />
               )}
               <div className="flex-1">
@@ -440,19 +500,23 @@ export default function CoupangMappingPage() {
             <p className="mt-4 text-gray-400">쿠팡 검색 중...</p>
           </div>
         ) : currentResult?.coupangProducts && currentResult.coupangProducts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-            {currentResult.coupangProducts.map((cp, idx) => (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
+            {currentResult.coupangProducts.map((cp, idx) => {
+              // 단축키 표시 (1-9, 0, Q, W)
+              const keyLabel = idx < 9 ? String(idx + 1) : idx === 9 ? '0' : idx === 10 ? 'Q' : 'W';
+              
+              return (
               <div
                 key={cp.index}
                 onClick={() => cp.product_id && currentProduct && selectCoupangProduct(currentProduct.pcode, cp)}
-                className="bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 hover:border-orange-500 rounded-xl p-4 cursor-pointer transition-all group"
+                className="bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 hover:border-orange-500 rounded-xl p-3 cursor-pointer transition-all group"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold">
-                    {idx + 1}
+                <div className="flex items-center justify-between mb-2">
+                  <span className="w-7 h-7 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {keyLabel}
                   </span>
                   <span className="text-xs text-gray-500 group-hover:text-orange-400">
-                    {idx + 1}키로 선택
+                    {keyLabel}키
                   </span>
                 </div>
                 {cp.thumbnail && (
@@ -475,7 +539,8 @@ export default function CoupangMappingPage() {
                   </span>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-16 text-gray-500">

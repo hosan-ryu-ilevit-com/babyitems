@@ -12,7 +12,8 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const category = searchParams.get('category');
+  const groupId = searchParams.get('group'); // 그룹 ID (stroller, car_seat 등)
+  const categoryCode = searchParams.get('category'); // 상세 카테고리 코드
   const onlyUnmapped = searchParams.get('unmapped') === 'true';
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '20');
@@ -32,9 +33,11 @@ export async function GET(request: NextRequest) {
         danawa_categories!inner(category_name, group_id)
       `, { count: 'exact' });
 
-    // 필터링
-    if (category) {
-      query = query.eq('danawa_categories.group_id', category);
+    // 필터링 - 상세 카테고리 우선, 없으면 그룹
+    if (categoryCode) {
+      query = query.eq('category_code', categoryCode);
+    } else if (groupId) {
+      query = query.eq('danawa_categories.group_id', groupId);
     }
 
     if (onlyUnmapped) {

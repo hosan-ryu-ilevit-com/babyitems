@@ -1,0 +1,196 @@
+{
+    "filters": {
+      "baby_bottle": {
+        "category_name": "젖병",
+        "options": [
+          { "id": "neg_bottle_01", "label": "손목 아파요! 무거운 유리/도자기 싫어요", "target_rule_key": "체감속성_손목보호_가벼움", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bottle_02", "label": "미세플라스틱/스크래치 걱정되는 소재 제외", "target_rule_key": "체감속성_미세플라스틱_제로", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bottle_03", "label": "배앓이 방지(에어밸브) 기능 없는 건 불안해요", "target_rule_key": "체감속성_배앓이_철벽방어", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bottle_04", "label": "식기세척기 사용 불가능하면 안 사요", "target_rule_key": "체감속성_설거지_해방_식세기", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bottle_05", "label": "입구가 좁아서 분유 넣고 닦기 힘든 건 NO", "target_rule_key": "체감속성_세척솔_필요없는_와이드", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bottle_06", "label": "유두 혼동 올까 봐 걱정돼요 (모유실감 아닌 것)", "target_rule_key": "체감속성_유두혼동_최소화", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bottle_07", "label": "여행 갈 건데 부피 큰 젖병은 싫어요", "target_rule_key": "체감속성_여행용_간편함", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "formula_pot": {
+        "category_name": "분유포트",
+        "options": [
+          { "id": "neg_pot_01", "label": "물 식히느라 1시간 기다리기 싫어요 (급속냉각)", "target_rule_key": "체감속성_배고픈아기_급속냉각", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pot_02", "label": "매번 온도 다시 맞추기 귀찮아요 (영구보온)", "target_rule_key": "체감속성_새벽수유_1초완성", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pot_03", "label": "무거운 물통 들기 힘들어요 (자동출수)", "target_rule_key": "체감속성_손목보호_자동출수", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pot_04", "label": "내부 안 보이는 불투명 소재 찝찝해요", "target_rule_key": "체감속성_위생적인_통유리", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pot_05", "label": "깨질까 봐 불안한 유리 소재 싫어요", "target_rule_key": "체감속성_내구성_스테인리스", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pot_06", "label": "수돗물 냄새/염소 제거 안 되는 건 제외", "target_rule_key": "체감속성_수돗물_안심제거", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pot_07", "label": "밤에 불 켜기 싫어요 (무드등 없는 것)", "target_rule_key": "체감속성_밤중수유_무드등", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "diaper": {
+        "category_name": "기저귀",
+        "options": [
+          { "id": "neg_diaper_01", "label": "여름인데 땀띠 날까 걱정돼요 (통기성)", "target_rule_key": "체감속성_여름철_땀띠_해방", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_diaper_02", "label": "밤에 이불 빨래하기 싫어요 (흡수력)", "target_rule_key": "체감속성_밤샘_이불빨래_끝", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_diaper_03", "label": "입히기 힘든 밴드형은 싫어요 (팬티형 선호)", "target_rule_key": "체감속성_활동적인_아기_팬티", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_diaper_04", "label": "화학 성분/피부 자극 걱정돼요", "target_rule_key": "체감속성_예민보스_피부보호", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_diaper_05", "label": "신생아 배꼽 닿아서 아플까 봐 걱정돼요", "target_rule_key": "체감속성_신생아_배꼽케어", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_diaper_06", "label": "장당 가격 비싼 건 부담스러워요", "target_rule_key": "체감속성_가성비_대량구매", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_diaper_07", "label": "물놀이 갈 건데 일반 기저귀는 안돼요", "target_rule_key": "체감속성_물놀이_전용", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "stroller": {
+        "category_name": "유모차",
+        "options": [
+          { "id": "neg_stroller_01", "label": "엄마 혼자 못 드는 무거운 거 딱 질색!", "target_rule_key": "체감속성_초경량_깃털무게", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_stroller_02", "label": "접고 펴는 게 복잡하면 안 사요 (오토폴딩)", "target_rule_key": "체감속성_나홀로_원터치_폴딩", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_stroller_03", "label": "머리 흔들림 심한 휴대용은 불안해요", "target_rule_key": "체감속성_신생아_흔들림_제로", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_stroller_04", "label": "비행기 기내 반입 안 되면 불편해요", "target_rule_key": "체감속성_비행기_기내반입", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_stroller_05", "label": "아기 얼굴 못 보는(앞보기 전용) 건 싫어요", "target_rule_key": "체감속성_양대면_아이컨택", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_stroller_06", "label": "금방 작아져서 못 쓰는 건 아까워요", "target_rule_key": "체감속성_오래쓰는_튼튼함", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_stroller_07", "label": "쌍둥이인데 따로 태우기 힘들어요", "target_rule_key": "체감속성_쌍둥이_다둥이", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "car_seat": {
+        "category_name": "카시트",
+        "options": [
+          { "id": "neg_carseat_01", "label": "태울 때 허리 끊어져요 (비회전 제외)", "target_rule_key": "체감속성_허리보호_360회전", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_carseat_02", "label": "최신 유럽 안전 인증(i-Size) 없으면 불안해요", "target_rule_key": "체감속성_유럽안전인증_iSize", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_carseat_03", "label": "신생아 깨우기 싫어요 (바구니형 선호)", "target_rule_key": "체감속성_신생아_바구니", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_carseat_04", "label": "오래 못 쓰고 또 사야 하는 건 부담돼요", "target_rule_key": "체감속성_주니어_오래사용", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_carseat_05", "label": "설치가 어렵거나 흔들리는 건 NO (ISOFIX)", "target_rule_key": "체감속성_안전고정_ISOFIX", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_carseat_06", "label": "측면 충돌 보호 기능 없는 건 제외", "target_rule_key": "체감속성_측면충돌_보호", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_carseat_07", "label": "다리가 좁아서 아이가 불편해하는 건 싫어요", "target_rule_key": "체감속성_편안한_다리공간", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "baby_wipes": {
+        "category_name": "아기물티슈",
+        "options": [
+          { "id": "neg_wipes_01", "label": "너무 얇아서 여러 장 뽑히는 거 싫어요", "target_rule_key": "체감속성_도톰한_평량", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_wipes_02", "label": "성분/자극 걱정돼요 (저자극 인증 필수)", "target_rule_key": "체감속성_성분안전_저자극", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_wipes_03", "label": "캡이 없어서 금방 마르는 건 제외", "target_rule_key": "체감속성_수분_마름방지_캡", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_wipes_04", "label": "무거워서 들고 다니기 힘들어요", "target_rule_key": "체감속성_외출용_휴대간편", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_wipes_05", "label": "정수 시스템 확인 안 된 물은 찝찝해요", "target_rule_key": "체감속성_깨끗한_정수", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_wipes_06", "label": "환경 오염되는 플라스틱 원단 싫어요", "target_rule_key": "체감속성_자연분해_친환경", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_wipes_07", "label": "가격 비싼 캡형 대신 리필 쓸래요", "target_rule_key": "체감속성_경제적_리필형", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "formula": {
+        "category_name": "분유",
+        "options": [
+          { "id": "neg_formula_01", "label": "배앓이/변비 생기는 분유 절대 NO", "target_rule_key": "체감속성_황금변_소화잘됨", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_formula_02", "label": "자주 토하는 아기라 일반 분유는 걱정돼요", "target_rule_key": "체감속성_토함방지_특수분유", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_formula_03", "label": "외출해서 물 끓이고 식히기 귀찮아요", "target_rule_key": "체감속성_외출_액상간편", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_formula_04", "label": "우유 알레르기/유당불내증 걱정돼요", "target_rule_key": "체감속성_알레르기_케어", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_formula_05", "label": "농약/항생제 걱정 없는 유기농 원해요", "target_rule_key": "체감속성_프리미엄_유기농", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_formula_06", "label": "큰 통 들고 다니기 힘들어요 (스틱형 선호)", "target_rule_key": "체감속성_휴대성_스틱형", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_formula_07", "label": "돌 지난 아기 영양 부족할까 봐 걱정돼요", "target_rule_key": "체감속성_성장기_영양보충", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "thermometer": {
+        "category_name": "체온계",
+        "options": [
+          { "id": "neg_therm_01", "label": "피부 닿는 건 교차 감염 찝찝해요 (비접촉)", "target_rule_key": "체감속성_비접촉_위생", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_therm_02", "label": "체온 정확하지 않으면 의미 없어요 (병원급)", "target_rule_key": "체감속성_정확도_병원급", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_therm_03", "label": "밤에 소리 나서 아기 깨우는 건 싫어요", "target_rule_key": "체감속성_밤중_몰래측정", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_therm_04", "label": "체온 재는 데 오래 걸리면 아기가 울어요", "target_rule_key": "체감속성_빠른_1초측정", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_therm_05", "label": "필터 매번 갈아끼우기 귀찮아요", "target_rule_key": "체감속성_필터교체_위생", "exclude_mode": "drop_if_has" }, 
+          { "id": "neg_therm_06", "label": "체온 말고 목욕물 온도는 못 재나요?", "target_rule_key": "체감속성_생활온도_겸용", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_therm_07", "label": "기록 일일이 적기 귀찮아요 (앱 연동)", "target_rule_key": "체감속성_스마트_기록관리", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "formula_maker": {
+        "category_name": "분유제조기",
+        "options": [
+          { "id": "neg_maker_01", "label": "새벽에 분유 타느라 잠 설치기 싫어요", "target_rule_key": "체감속성_새벽수유_구세주", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_maker_02", "label": "침대에서 못 움직이겠어요 (원격제어)", "target_rule_key": "체감속성_스마트_원격제어", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_maker_03", "label": "노즐 청소하는 게 더 일이에요 (자동세척)", "target_rule_key": "체감속성_위생_자동세척", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_maker_04", "label": "물 온도/양 조절 안 되면 불편해요", "target_rule_key": "체감속성_미세조절_맞춤", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_maker_05", "label": "분유 포트 따로 사기 돈 아까워요", "target_rule_key": "체감속성_올인원_포트겸용", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_maker_06", "label": "뜨거운 물 닿는데 플라스틱은 찝찝해요", "target_rule_key": "체감속성_안전소재", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_maker_07", "label": "물 자주 채우기 귀찮아요 (대용량)", "target_rule_key": "체감속성_대용량_물탱크", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "pacifier": {
+        "category_name": "쪽쪽이",
+        "options": [
+          { "id": "neg_pacifier_01", "label": "틈새에 물 고여서 곰팡이 생기는 건 NO", "target_rule_key": "체감속성_위생적인_올실리콘", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pacifier_02", "label": "밤에 쪽쪽이 찾느라 더듬거리기 싫어요", "target_rule_key": "체감속성_밤중_야광", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pacifier_03", "label": "침독 올라서 입 주변 빨개지는 건 싫어요", "target_rule_key": "체감속성_피부자극_최소화", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pacifier_04", "label": "무거워서 아기 입에서 자꾸 빠져요", "target_rule_key": "체감속성_가벼운_초경량", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pacifier_05", "label": "한두 개로는 부족해요 (세트 구성)", "target_rule_key": "체감속성_세트구성_가성비", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pacifier_06", "label": "보관할 곳 없어서 먼지 묻는 건 찝찝해요", "target_rule_key": "체감속성_보관_케이스", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_pacifier_07", "label": "치아 배열 망가질까 봐 걱정돼요", "target_rule_key": "체감속성_치아발달_고려", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "baby_bed": {
+        "category_name": "유아침대",
+        "options": [
+          { "id": "neg_bed_01", "label": "아기 떨어질까 봐 불안해요 (범퍼형)", "target_rule_key": "체감속성_낙상방지_범퍼", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bed_02", "label": "잠깐 쓰고 버리는 가구는 아까워요", "target_rule_key": "체감속성_오래쓰는_변형", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bed_03", "label": "무거워서 청소할 때 이동 못 하면 불편해요", "target_rule_key": "체감속성_이동식_바퀴", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bed_04", "label": "엄마 침대랑 떨어져 있으면 케어 힘들어요", "target_rule_key": "체감속성_부모침대_연결", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bed_05", "label": "기저귀 갈다 흘렸을 때 세탁 힘들면 NO", "target_rule_key": "체감속성_청결_방수", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bed_06", "label": "여행/친정 갈 때 못 가져가면 불편해요", "target_rule_key": "체감속성_여행용_접이식", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_bed_07", "label": "인테리어 해치는 디자인은 싫어요 (원목)", "target_rule_key": "체감속성_튼튼한_원목", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "high_chair": {
+        "category_name": "유아의자/식탁의자",
+        "options": [
+          { "id": "neg_highchair_01", "label": "발이 공중에 떠서 자세 망가지는 건 싫어요", "target_rule_key": "체감속성_바른자세_발받침", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_highchair_02", "label": "음식물 끼고 닦기 힘든 건 딱 질색!", "target_rule_key": "체감속성_쉬운_뒷정리", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_highchair_03", "label": "금방 작아져서 못 쓰는 건 아까워요", "target_rule_key": "체감속성_성장맞춤_조절", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_highchair_04", "label": "플라스틱 말고 튼튼한 원목이 좋아요", "target_rule_key": "체감속성_안전_원목", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_highchair_05", "label": "자리 차지해서 안 쓸 땐 접어두고 싶어요", "target_rule_key": "체감속성_이동_접이식", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_highchair_06", "label": "먹다가 잠들었을 때 눕힐 수 있어야 해요", "target_rule_key": "체감속성_편안한_리클라이닝", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_highchair_07", "label": "아이가 일어서다 떨어질까 봐 불안해요", "target_rule_key": "체감속성_안전벨트", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "baby_sofa": {
+        "category_name": "유아소파",
+        "options": [
+          { "id": "neg_sofa_01", "label": "낙서나 오염 안 지워지는 건 싫어요", "target_rule_key": "체감속성_관리편한_가죽", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_sofa_02", "label": "자세 구부정해지는 푹신한 소파는 NO", "target_rule_key": "체감속성_바른자세_설계", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_sofa_03", "label": "아이가 안 앉으려고 하면 소용없어요", "target_rule_key": "체감속성_귀여운_캐릭터", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_sofa_04", "label": "소파로만 쓰기엔 공간이 아까워요 (변신)", "target_rule_key": "체감속성_다용도_변신", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_sofa_05", "label": "둘이 앉을 수 없어서 싸우면 곤란해요", "target_rule_key": "체감속성_형제자매_2인용", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_sofa_06", "label": "유해 물질 걱정되는 소재는 싫어요", "target_rule_key": "체감속성_안전한_소재", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_sofa_07", "label": "차가운 가죽 느낌보다는 패브릭이 좋아요", "target_rule_key": "체감속성_포근한_패브릭", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "baby_desk": {
+        "category_name": "유아책상",
+        "options": [
+          { "id": "neg_desk_01", "label": "키 크면 못 쓰는 건 아까워요", "target_rule_key": "체감속성_성장맞춤_높이조절", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_desk_02", "label": "모서리가 뾰족하면 다칠까 봐 불안해요", "target_rule_key": "체감속성_안전_모서리", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_desk_03", "label": "의자 따로 사기 번거롭고 비싸요", "target_rule_key": "체감속성_세트구성_가성비", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_desk_04", "label": "장난감이랑 책 굴러다니는 건 못 봐요", "target_rule_key": "체감속성_수납_정리정돈", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_desk_05", "label": "본드 냄새 나는 저가 자재는 싫어요", "target_rule_key": "체감속성_친환경_자재", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_desk_06", "label": "공부만 하는 책상은 지루해할 것 같아요", "target_rule_key": "체감속성_놀이_레고호환", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_desk_07", "label": "방 좁은데 계속 펼쳐두긴 부담돼요", "target_rule_key": "체감속성_공간활용_접이식", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "nasal_aspirator": {
+        "category_name": "코흡입기",
+        "options": [
+          { "id": "neg_nasal_01", "label": "흡입력 약해서 코 안 나오면 답답해요", "target_rule_key": "체감속성_강력흡입_전동식", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_nasal_02", "label": "시끄러워서 아기가 놀라는 건 싫어요 (수동)", "target_rule_key": "체감속성_휴대간편_수동식", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_nasal_03", "label": "딱딱한 팁 때문에 코 피날까 봐 무서워요", "target_rule_key": "체감속성_부드러운_실리콘팁", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_nasal_04", "label": "콧물 찌꺼기 껴서 세척 힘든 건 NO", "target_rule_key": "체감속성_위생_세척용이", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_nasal_05", "label": "기능 하나밖에 없는 건 가성비 떨어져요", "target_rule_key": "체감속성_다기능_올인원", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_nasal_06", "label": "약 먹일 때마다 전쟁 치르기 싫어요", "target_rule_key": "체감속성_약먹이기_투약기", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_nasal_07", "label": "소모품 구하기 힘든 건 안 살래요", "target_rule_key": "체감속성_소모품_호환성", "exclude_mode": "drop_if_lacks" }
+        ]
+      },
+      "ip_camera": {
+        "category_name": "홈캠",
+        "options": [
+          { "id": "neg_cam_01", "label": "화질 흐릿해서 표정 안 보이는 건 답답해요", "target_rule_key": "체감속성_선명한_화질", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_cam_02", "label": "밤에 아기 잘 자는지 안 보이면 불안해요", "target_rule_key": "체감속성_밤샘_지킴이", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_cam_03", "label": "듣기만 하고 말 걸 수 없는 건 아쉬워요", "target_rule_key": "체감속성_양방향_소통", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_cam_04", "label": "카메라 안 돌아가서 사각지대 생기면 NO", "target_rule_key": "체감속성_사각지대_제로", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_cam_05", "label": "아기 깼는데 알림 안 오면 소용없어요", "target_rule_key": "체감속성_움직임_감지알림", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_cam_06", "label": "해킹/사생활 유출될까 봐 너무 무서워요", "target_rule_key": "체감속성_해킹안심_보안", "exclude_mode": "drop_if_lacks" },
+          { "id": "neg_cam_07", "label": "설치 복잡하고 선 주렁주렁한 건 싫어요", "target_rule_key": "체감속성_설치_간편함", "exclude_mode": "drop_if_lacks" }
+        ]
+      }
+    }
+  }

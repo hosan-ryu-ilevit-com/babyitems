@@ -1,0 +1,409 @@
+ {
+  "scenarios": {
+    "baby_bottle": {
+      "category_name": "젖병",
+      "questions": [
+        {
+          "id": "bg_bottle_01",
+          "title": "엄마의 손목 vs 아기의 안전",
+          "option_A": { "text": "손목 너덜너덜해지기 싫어요! 무조건 가벼운 거", "target_rule_key": "체감속성_손목보호_가벼움" },
+          "option_B": { "text": "무거워도 안심! 미세플라스틱 걱정 없는 소재", "target_rule_key": "체감속성_미세플라스틱_제로" }
+        },
+        {
+          "id": "bg_bottle_02",
+          "title": "설거지 스타일",
+          "option_A": { "text": "육아는 장비빨! 식기세척기 이모님께 맡길래요", "target_rule_key": "체감속성_설거지_해방_식세기" },
+          "option_B": { "text": "직접 닦을래요! 솔이 쑥쑥 들어가는 넓은 입구", "target_rule_key": "체감속성_세척솔_필요없는_와이드" }
+        },
+        {
+          "id": "bg_bottle_03",
+          "title": "수유 우선순위",
+          "option_A": { "text": "배앓이 때문에 우는 건 못 봐요 (공기 차단)", "target_rule_key": "체감속성_배앓이_철벽방어" },
+          "option_B": { "text": "모유랑 느낌이 다르면 안 돼요 (유두혼동 방지)", "target_rule_key": "체감속성_유두혼동_최소화" }
+        },
+        {
+          "id": "bg_bottle_04",
+          "title": "여행 준비",
+          "option_A": { "text": "짐 줄이는 게 최고! 쓰고 버리는 일회용", "target_rule_key": "체감속성_여행용_간편함" },
+          "option_B": { "text": "어디서든 평소 쓰던 젖병으로 먹일래요", "target_rule_key": "체감속성_배앓이_철벽방어" }
+        }
+      ]
+    },
+    "formula_pot": {
+      "category_name": "분유포트",
+      "questions": [
+        {
+          "id": "bg_pot_01",
+          "title": "새벽 수유 전쟁",
+          "option_A": { "text": "1초라도 빨리! 눈 비비며 바로 타는 '영구보온'", "target_rule_key": "체감속성_새벽수유_1초완성" },
+          "option_B": { "text": "끓인 물 빨리 식혀주는 게 더 중요해요 '급속쿨링'", "target_rule_key": "체감속성_배고픈아기_급속냉각" }
+        },
+        {
+          "id": "bg_pot_02",
+          "title": "편의성 vs 위생",
+          "option_A": { "text": "무거운 물통 들기 싫어요! 버튼만 누르면 쪼르륵", "target_rule_key": "체감속성_손목보호_자동출수" },
+          "option_B": { "text": "구조가 단순해서 팍팍 씻기 편한 게 최고", "target_rule_key": "체감속성_위생적인_통유리" }
+        },
+        {
+          "id": "bg_pot_03",
+          "title": "소재 선택",
+          "option_A": { "text": "물때 끼는지 눈으로 봐야 안심 (유리)", "target_rule_key": "체감속성_위생적인_통유리" },
+          "option_B": { "text": "깨질 걱정 없이 평생 쓰는 (스테인리스)", "target_rule_key": "체감속성_내구성_스테인리스" }
+        },
+        {
+          "id": "bg_pot_04",
+          "title": "디테일 기능",
+          "option_A": { "text": "수돗물 냄새(염소) 날려주는 안심 기능 필수", "target_rule_key": "체감속성_수돗물_안심제거" },
+          "option_B": { "text": "밤에 불 켜서 아기 깨우기 싫어요 (수유등)", "target_rule_key": "체감속성_밤중수유_무드등" }
+        }
+      ]
+    },
+    "diaper": {
+      "category_name": "기저귀",
+      "questions": [
+        {
+          "id": "bg_diaper_01",
+          "title": "계절과 상황",
+          "option_A": { "text": "땀 많은 여름! 짓무르지 않는 통기성", "target_rule_key": "체감속성_여름철_땀띠_해방" },
+          "option_B": { "text": "밤샘용! 이불 빨래 걱정 없는 흡수력", "target_rule_key": "체감속성_밤샘_이불빨래_끝" }
+        },
+        {
+          "id": "bg_diaper_02",
+          "title": "아이의 성장 단계",
+          "option_A": { "text": "누워만 있는 신생아, 배꼽 자극 없게 (밴드형)", "target_rule_key": "체감속성_신생아_배꼽케어" },
+          "option_B": { "text": "뒤집고 기어 다니면 입히기 편한 게 최고 (팬티형)", "target_rule_key": "체감속성_활동적인_아기_팬티" }
+        },
+        {
+          "id": "bg_diaper_03",
+          "title": "성분 vs 가성비",
+          "option_A": { "text": "피부가 예민해요! 유기농/무표백 천연 소재", "target_rule_key": "체감속성_예민보스_피부보호" },
+          "option_B": { "text": "하루 10장씩 쓰는데... 장당 가격이 중요해요", "target_rule_key": "체감속성_가성비_대량구매" }
+        },
+        {
+          "id": "bg_diaper_04",
+          "title": "특별한 날",
+          "option_A": { "text": "물놀이 갈 때 빵빵하게 부풀지 않는 전용 기저귀", "target_rule_key": "체감속성_물놀이_전용" },
+          "option_B": { "text": "평소에도 입히기 편한 데일리 기저귀", "target_rule_key": "체감속성_활동적인_아기_팬티" }
+        }
+      ]
+    },
+    "stroller": {
+      "category_name": "유모차",
+      "questions": [
+        {
+          "id": "bg_stroller_01",
+          "title": "무게 vs 안정감",
+          "option_A": { "text": "엄마 혼자 들 수 있어야 해요 (초경량 휴대용)", "target_rule_key": "체감속성_초경량_깃털무게" },
+          "option_B": { "text": "지진이 나도 모를 편안함 (디럭스/절충형)", "target_rule_key": "체감속성_신생아_흔들림_제로" }
+        },
+        {
+          "id": "bg_stroller_02",
+          "title": "폴딩의 순간",
+          "option_A": { "text": "아기 안고 한 손으로 1초 만에 착! (오토폴딩)", "target_rule_key": "체감속성_나홀로_원터치_폴딩" },
+          "option_B": { "text": "비행기 짐칸에도 쏙 들어가는 콤팩트함", "target_rule_key": "체감속성_비행기_기내반입" }
+        },
+        {
+          "id": "bg_stroller_03",
+          "title": "주행 중 시선",
+          "option_A": { "text": "아기랑 눈 맞추며 가고 싶어요 (양대면)", "target_rule_key": "체감속성_양대면_아이컨택" },
+          "option_B": { "text": "아이가 세상 구경하게 앞보기면 충분해요", "target_rule_key": "체감속성_오래쓰는_튼튼함" }
+        },
+        {
+          "id": "bg_stroller_04",
+          "title": "탑승 인원",
+          "option_A": { "text": "아이 한 명만 편안하게 태울래요", "target_rule_key": "체감속성_신생아_흔들림_제로" },
+          "option_B": { "text": "쌍둥이/연년생 한 번에 태워야 해요", "target_rule_key": "체감속성_쌍둥이_다둥이" }
+        }
+      ]
+    },
+    "car_seat": {
+      "category_name": "카시트",
+      "questions": [
+        {
+          "id": "bg_carseat_01",
+          "title": "탑승 편의성",
+          "option_A": { "text": "허리 숙이지 않고 돌려서 태우기 (360도 회전)", "target_rule_key": "체감속성_허리보호_360회전" },
+          "option_B": { "text": "잠든 신생아 깨우지 않고 바구니째 이동", "target_rule_key": "체감속성_신생아_바구니" }
+        },
+        {
+          "id": "bg_carseat_02",
+          "title": "안전 기준",
+          "option_A": { "text": "유럽 최신 기준 i-Size 인증 필수", "target_rule_key": "체감속성_유럽안전인증_iSize" },
+          "option_B": { "text": "측면 충돌까지 막아주는지 확인", "target_rule_key": "체감속성_측면충돌_보호" }
+        },
+        {
+          "id": "bg_carseat_03",
+          "title": "사용 기간",
+          "option_A": { "text": "신생아 때 딱 맞는 거 쓰고 나중에 바꿀래요", "target_rule_key": "체감속성_신생아_바구니" },
+          "option_B": { "text": "초등학생 될 때까지 하나로 끝낼래요 (올인원)", "target_rule_key": "체감속성_주니어_오래사용" }
+        },
+        {
+          "id": "bg_carseat_04",
+          "title": "장착 방식",
+          "option_A": { "text": "흔들림 없이 차체에 꽉 고정 (ISOFIX)", "target_rule_key": "체감속성_안전고정_ISOFIX" },
+          "option_B": { "text": "다리가 길어져도 편안한 공간 확보", "target_rule_key": "체감속성_편안한_다리공간" }
+        }
+      ]
+    },
+    "baby_wipes": {
+      "category_name": "아기물티슈",
+      "questions": [
+        {
+          "id": "bg_wipes_01",
+          "title": "두께 vs 휴대",
+          "option_A": { "text": "한 장으로 충분해! 도톰한 엠보싱", "target_rule_key": "체감속성_도톰한_평량" },
+          "option_B": { "text": "기저귀 가방 가볍게! 휴대용 사이즈", "target_rule_key": "체감속성_외출용_휴대간편" }
+        },
+        {
+          "id": "bg_wipes_02",
+          "title": "성분 체크",
+          "option_A": { "text": "입 닦아도 되는 먹는 물 수준 정수", "target_rule_key": "체감속성_깨끗한_정수" },
+          "option_B": { "text": "피부 자극 없는 착한 성분/더마테스트", "target_rule_key": "체감속성_성분안전_저자극" }
+        },
+        {
+          "id": "bg_wipes_03",
+          "title": "환경 vs 편의",
+          "option_A": { "text": "다 쓸 때까지 촉촉하게 (캡형)", "target_rule_key": "체감속성_수분_마름방지_캡" },
+          "option_B": { "text": "아이의 미래를 위해 썩는 원단 (생분해)", "target_rule_key": "체감속성_자연분해_친환경" }
+        }
+      ]
+    },
+    "formula": {
+      "category_name": "분유",
+      "questions": [
+        {
+          "id": "bg_formula_01",
+          "title": "소화 vs 영양",
+          "option_A": { "text": "황금변 보고 싶어요! 소화 잘 되는 성분", "target_rule_key": "체감속성_황금변_소화잘됨" },
+          "option_B": { "text": "돌 지난 아이, 부족한 영양 채워주기", "target_rule_key": "체감속성_성장기_영양보충" }
+        },
+        {
+          "id": "bg_formula_02",
+          "title": "특수 상황",
+          "option_A": { "text": "자주 게워내는 아기라 걱정돼요 (토함방지)", "target_rule_key": "체감속성_토함방지_특수분유" },
+          "option_B": { "text": "우유 알레르기/유당불내증이 있어요", "target_rule_key": "체감속성_알레르기_케어" }
+        },
+        {
+          "id": "bg_formula_03",
+          "title": "외출 시 선호",
+          "option_A": { "text": "물 끓일 필요 없이 바로 수유 (액상)", "target_rule_key": "체감속성_외출_액상간편" },
+          "option_B": { "text": "가볍게 한 포씩 챙기는 (스틱형)", "target_rule_key": "체감속성_휴대성_스틱형" }
+        },
+        {
+          "id": "bg_formula_04",
+          "title": "원료 선택",
+          "option_A": { "text": "엄선된 프리미엄 유기농 원료", "target_rule_key": "체감속성_프리미엄_유기농" },
+          "option_B": { "text": "모유와 가장 유사한 성분 배합", "target_rule_key": "체감속성_황금변_소화잘됨" }
+        }
+      ]
+    },
+    "thermometer": {
+      "category_name": "체온계",
+      "questions": [
+        {
+          "id": "bg_therm_01",
+          "title": "정확도 vs 편의",
+          "option_A": { "text": "병원에서 쓰는 그 제품! 정확도가 생명", "target_rule_key": "체감속성_정확도_병원급" },
+          "option_B": { "text": "피부에 닿지 않아 위생적이고 간편하게", "target_rule_key": "체감속성_비접촉_위생" }
+        },
+        {
+          "id": "bg_therm_02",
+          "title": "측정 상황",
+          "option_A": { "text": "자는데 깨우면 안 돼요! 무음/야간모드", "target_rule_key": "체감속성_밤중_몰래측정" },
+          "option_B": { "text": "가만히 안 있는 아기, 1초 만에 측정", "target_rule_key": "체감속성_빠른_1초측정" }
+        },
+        {
+          "id": "bg_therm_03",
+          "title": "활용도",
+          "option_A": { "text": "목욕물, 분유 온도까지 재고 싶어요", "target_rule_key": "체감속성_생활온도_겸용" },
+          "option_B": { "text": "열나요 앱이랑 연동해서 기록할래요", "target_rule_key": "체감속성_스마트_기록관리" }
+        }
+      ]
+    },
+    "formula_maker": {
+      "category_name": "분유제조기",
+      "questions": [
+        {
+          "id": "bg_maker_01",
+          "title": "편의 vs 위생",
+          "option_A": { "text": "침대에서 폰으로 조유! 스마트 원격제어", "target_rule_key": "체감속성_스마트_원격제어" },
+          "option_B": { "text": "노즐 청소 귀찮아.. 알아서 씻는 자동세척", "target_rule_key": "체감속성_위생_자동세척" }
+        },
+        {
+          "id": "bg_maker_02",
+          "title": "디테일 설정",
+          "option_A": { "text": "물 온도/양 1단위로 섬세하게 맞춤", "target_rule_key": "체감속성_미세조절_맞춤" },
+          "option_B": { "text": "티포트로도 쓸 수 있는 올인원", "target_rule_key": "체감속성_올인원_포트겸용" }
+        },
+        {
+          "id": "bg_maker_03",
+          "title": "기본기",
+          "option_A": { "text": "하루 종일 먹을 물 한 번에 (대용량)", "target_rule_key": "체감속성_대용량_물탱크" },
+          "option_B": { "text": "환경호르몬 걱정 없는 안심 소재", "target_rule_key": "체감속성_안전소재" }
+        }
+      ]
+    },
+    "pacifier": {
+      "category_name": "쪽쪽이",
+      "questions": [
+        {
+          "id": "bg_pacifier_01",
+          "title": "위생 vs 디자인",
+          "option_A": { "text": "물 고임/곰팡이 걱정 없는 올실리콘", "target_rule_key": "체감속성_위생적인_올실리콘" },
+          "option_B": { "text": "우리 아기 인생샷 남겨줄 감성 디자인", "target_rule_key": "체감속성_치아발달_고려" }
+        },
+        {
+          "id": "bg_pacifier_02",
+          "title": "실용성",
+          "option_A": { "text": "밤에 떨어뜨려도 바로 찾는 야광", "target_rule_key": "체감속성_밤중_야광" },
+          "option_B": { "text": "침독 오르지 않게 통기성 좋은 것", "target_rule_key": "체감속성_피부자극_최소화" }
+        },
+        {
+          "id": "bg_pacifier_03",
+          "title": "구성",
+          "option_A": { "text": "자주 잃어버리니 여러 개 세트로!", "target_rule_key": "체감속성_세트구성_가성비" },
+          "option_B": { "text": "입에서 자꾸 빠지지 않는 초경량", "target_rule_key": "체감속성_가벼운_초경량" }
+        }
+      ]
+    },
+    "baby_bed": {
+      "category_name": "유아침대",
+      "questions": [
+        {
+          "id": "bg_bed_01",
+          "title": "안전 vs 감성",
+          "option_A": { "text": "굴러다녀도 쿵! 안 하는 안전한 범퍼형", "target_rule_key": "체감속성_낙상방지_범퍼" },
+          "option_B": { "text": "인테리어의 완성은 따뜻한 원목 침대", "target_rule_key": "체감속성_튼튼한_원목" }
+        },
+        {
+          "id": "bg_bed_02",
+          "title": "케어 방식",
+          "option_A": { "text": "엄마 침대 옆에 붙여서 밤중 케어", "target_rule_key": "체감속성_부모침대_연결" },
+          "option_B": { "text": "거실-안방 오가며 지켜볼래요 (바퀴)", "target_rule_key": "체감속성_이동식_바퀴" }
+        },
+        {
+          "id": "bg_bed_03",
+          "title": "활용도",
+          "option_A": { "text": "나중에 놀이매트나 소파로 변신!", "target_rule_key": "체감속성_오래쓰는_변형" },
+          "option_B": { "text": "여행 갈 때도 가져갈래요 (접이식)", "target_rule_key": "체감속성_여행용_접이식" }
+        }
+      ]
+    },
+    "high_chair": {
+      "category_name": "유아의자/식탁의자",
+      "questions": [
+        {
+          "id": "bg_highchair_01",
+          "title": "관리 vs 디자인",
+          "option_A": { "text": "밥풀 흘려도 물티슈로 슥~ (쉬운 청소)", "target_rule_key": "체감속성_쉬운_뒷정리" },
+          "option_B": { "text": "주방 인테리어에 어울리는 원목", "target_rule_key": "체감속성_안전_원목" }
+        },
+        {
+          "id": "bg_highchair_02",
+          "title": "자세 교정",
+          "option_A": { "text": "발이 닿아야 씹는 힘이 생긴대요 (발받침)", "target_rule_key": "체감속성_바른자세_발받침" },
+          "option_B": { "text": "먹다가 잠들면 눕혀줄래요 (리클라이닝)", "target_rule_key": "체감속성_편안한_리클라이닝" }
+        },
+        {
+          "id": "bg_highchair_03",
+          "title": "공간 활용",
+          "option_A": { "text": "안 쓸 땐 접어서 구석에 보관", "target_rule_key": "체감속성_이동_접이식" },
+          "option_B": { "text": "어른 될 때까지 평생 쓰는 의자", "target_rule_key": "체감속성_성장맞춤_조절" }
+        }
+      ]
+    },
+    "baby_sofa": {
+      "category_name": "유아소파",
+      "questions": [
+        {
+          "id": "bg_sofa_01",
+          "title": "소재 취향",
+          "option_A": { "text": "낙서해도 지워지는 가죽(PU) 소재", "target_rule_key": "체감속성_관리편한_가죽" },
+          "option_B": { "text": "피부에 닿는 느낌이 부드러운 패브릭", "target_rule_key": "체감속성_포근한_패브릭" }
+        },
+        {
+          "id": "bg_sofa_02",
+          "title": "아이의 반응",
+          "option_A": { "text": "최애 캐릭터여야 앉아요 (뽀로로 등)", "target_rule_key": "체감속성_귀여운_캐릭터" },
+          "option_B": { "text": "척추 건강을 위한 바른 자세 설계", "target_rule_key": "체감속성_바른자세_설계" }
+        },
+        {
+          "id": "bg_sofa_03",
+          "title": "활용도",
+          "option_A": { "text": "펼치면 매트나 책상으로 변신!", "target_rule_key": "체감속성_다용도_변신" },
+          "option_B": { "text": "형제자매랑 같이 앉을래요 (2인용)", "target_rule_key": "체감속성_형제자매_2인용" }
+        }
+      ]
+    },
+    "baby_desk": {
+      "category_name": "유아책상",
+      "questions": [
+        {
+          "id": "bg_desk_01",
+          "title": "성장 vs 공간",
+          "option_A": { "text": "키 커도 계속 쓰는 높이 조절 책상", "target_rule_key": "체감속성_성장맞춤_높이조절" },
+          "option_B": { "text": "좁은 방, 안 쓸 땐 접어두기", "target_rule_key": "체감속성_공간활용_접이식" }
+        },
+        {
+          "id": "bg_desk_02",
+          "title": "안전과 정리",
+          "option_A": { "text": "부딪혀도 안 아픈 둥근 모서리", "target_rule_key": "체감속성_안전_모서리" },
+          "option_B": { "text": "스스로 정리하는 습관 (수납함)", "target_rule_key": "체감속성_수납_정리정돈" }
+        },
+        {
+          "id": "bg_desk_03",
+          "title": "놀이 확장",
+          "option_A": { "text": "레고 판이 있어서 블록 놀이도 가능!", "target_rule_key": "체감속성_놀이_레고호환" },
+          "option_B": { "text": "의자까지 포함된 가성비 세트", "target_rule_key": "체감속성_세트구성_가성비" }
+        }
+      ]
+    },
+    "nasal_aspirator": {
+      "category_name": "코흡입기",
+      "questions": [
+        {
+          "id": "bg_nasal_01",
+          "title": "성능 vs 휴대",
+          "option_A": { "text": "꽉 막힌 코 뻥! 뚫어주는 전동식", "target_rule_key": "체감속성_강력흡입_전동식" },
+          "option_B": { "text": "소음 없이 조용하고 여행용으로 딱 (수동)", "target_rule_key": "체감속성_휴대간편_수동식" }
+        },
+        {
+          "id": "bg_nasal_02",
+          "title": "사용 편의",
+          "option_A": { "text": "코 점막 안 다치게 부드러운 팁", "target_rule_key": "체감속성_부드러운_실리콘팁" },
+          "option_B": { "text": "부품 분리해서 팍팍 씻기 편한 것", "target_rule_key": "체감속성_위생_세척용이" }
+        },
+        {
+          "id": "bg_nasal_03",
+          "title": "기능 확장",
+          "option_A": { "text": "네블라이저(호흡기 치료) 기능까지 한번에", "target_rule_key": "체감속성_다기능_올인원" },
+          "option_B": { "text": "약 먹이기 쉬운 투약기 포함", "target_rule_key": "체감속성_약먹이기_투약기" }
+        }
+      ]
+    },
+    "ip_camera": {
+      "category_name": "홈캠",
+      "questions": [
+        {
+          "id": "bg_cam_01",
+          "title": "보안 vs 화질",
+          "option_A": { "text": "해킹 절대 안 돼! 물리적 차단/보안 모드", "target_rule_key": "체감속성_해킹안심_보안" },
+          "option_B": { "text": "표정까지 보이는 초고화질 QHD/4K", "target_rule_key": "체감속성_선명한_화질" }
+        },
+        {
+          "id": "bg_cam_02",
+          "title": "감지 기능",
+          "option_A": { "text": "아기 울음소리나 움직임 바로 알림", "target_rule_key": "체감속성_움직임_감지알림" },
+          "option_B": { "text": "불 꺼진 밤에도 잘 보여야 해요", "target_rule_key": "체감속성_밤샘_지킴이" }
+        },
+        {
+          "id": "bg_cam_03",
+          "title": "소통과 각도",
+          "option_A": { "text": "회사에서도 아기한테 말 걸어줄래요", "target_rule_key": "체감속성_양방향_소통" },
+          "option_B": { "text": "사각지대 없이 방 전체 둘러보기 (회전)", "target_rule_key": "체감속성_사각지대_제로" }
+        }
+      ]
+    }
+  }
+}
+  

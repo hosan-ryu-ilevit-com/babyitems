@@ -9,20 +9,20 @@
       "브랜드별",
       "품목"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349119",
     "category_name": "아기물티슈",
-    "total_product_count": 191,
-    "crawled_product_count": 210,
+    "total_product_count": 190,
+    "crawled_product_count": 190,
     "filter_count": 3,
     "filter_names": [
       "브랜드별",
       "형태",
       "한팩당"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16249091",
@@ -37,7 +37,7 @@
       "특수분유",
       "형태"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349381",
@@ -48,7 +48,7 @@
     "filter_names": [
       "브랜드별"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349351",
@@ -60,13 +60,27 @@
       "브랜드별",
       "품목"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
+  },
+  {
+    "category_code": "16330960",
+    "category_name": "분유포트",
+    "total_product_count": 203,
+    "crawled_product_count": 203,
+    "filter_count": 4,
+    "filter_names": [
+      "제조사별",
+      "재질",
+      "뚜껑",
+      "안전기능"
+    ],
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16338152",
     "category_name": "유아침대",
     "total_product_count": 86,
-    "crawled_product_count": 90,
+    "crawled_product_count": 86,
     "filter_count": 5,
     "filter_names": [
       "브랜드별",
@@ -75,27 +89,13 @@
       "특징",
       "프레임재질"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
-  },
-  {
-    "category_code": "16330960",
-    "category_name": "분유포트",
-    "total_product_count": 203,
-    "crawled_product_count": 210,
-    "filter_count": 4,
-    "filter_names": [
-      "제조사별",
-      "재질",
-      "뚜껑",
-      "안전기능"
-    ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16338153",
     "category_name": "유아의자",
     "total_product_count": 31,
-    "crawled_product_count": 60,
+    "crawled_product_count": 31,
     "filter_count": 4,
     "filter_names": [
       "브랜드별",
@@ -103,13 +103,13 @@
       "좌판소재",
       "색상계열"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16338154",
     "category_name": "유아식탁의자",
     "total_product_count": 65,
-    "crawled_product_count": 90,
+    "crawled_product_count": 65,
     "filter_count": 7,
     "filter_names": [
       "브랜드별",
@@ -120,13 +120,13 @@
       "벨트",
       "구성"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16338155",
     "category_name": "유아소파",
     "total_product_count": 52,
-    "crawled_product_count": 60,
+    "crawled_product_count": 52,
     "filter_count": 4,
     "filter_names": [
       "브랜드별",
@@ -134,7 +134,7 @@
       "커버 재질",
       "색상계열"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349368",
@@ -146,19 +146,35 @@
       "브랜드별",
       "출시년도"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349193",
     "category_name": "디럭스형",
     "total_product_count": 31,
-    "crawled_product_count": 60,
+    "crawled_product_count": 31,
     "filter_count": 2,
     "filter_names": [
       "브랜드별",
       "출시년도"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
+  },
+  {
+    "category_code": "16338156",
+    "category_name": "유아책상",
+    "total_product_count": 118,
+    "crawled_product_count": 63,
+    "filter_count": 6,
+    "filter_names": [
+      "브랜드별",
+      "분류",
+      "가로",
+      "상판깊이",
+      "재질",
+      "색상계열"
+    ],
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349196",
@@ -170,23 +186,7 @@
       "브랜드별",
       "출시년도"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
-  },
-  {
-    "category_code": "16338156",
-    "category_name": "유아책상",
-    "total_product_count": 118,
-    "crawled_product_count": 120,
-    "filter_count": 6,
-    "filter_names": [
-      "브랜드별",
-      "분류",
-      "가로",
-      "상판깊이",
-      "재질",
-      "색상계열"
-    ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349201",
@@ -200,7 +200,33 @@
       "허용무게",
       "벨트타입"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
+  },
+  {
+    "category_code": "16349195",
+    "category_name": "휴대용/트라이크",
+    "total_product_count": 74,
+    "crawled_product_count": 74,
+    "filter_count": 2,
+    "filter_names": [
+      "브랜드별",
+      "출시년도"
+    ],
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
+  },
+  {
+    "category_code": "16349200",
+    "category_name": "일체형",
+    "total_product_count": 64,
+    "crawled_product_count": 64,
+    "filter_count": 4,
+    "filter_names": [
+      "브랜드별",
+      "대상연령",
+      "허용무게",
+      "벨트타입"
+    ],
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349202",
@@ -214,19 +240,7 @@
       "허용무게",
       "벨트타입"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
-  },
-  {
-    "category_code": "16349195",
-    "category_name": "휴대용/트라이크",
-    "total_product_count": 74,
-    "crawled_product_count": 90,
-    "filter_count": 2,
-    "filter_names": [
-      "브랜드별",
-      "출시년도"
-    ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16353763",
@@ -239,21 +253,7 @@
       "대상연령",
       "허용무게"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
-  },
-  {
-    "category_code": "16349200",
-    "category_name": "일체형",
-    "total_product_count": 64,
-    "crawled_product_count": 90,
-    "filter_count": 4,
-    "filter_names": [
-      "브랜드별",
-      "대상연령",
-      "허용무게",
-      "벨트타입"
-    ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "11427546",
@@ -264,37 +264,37 @@
     "filter_names": [
       "제조사별"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "17325941",
     "category_name": "귀 체온계",
     "total_product_count": 38,
-    "crawled_product_count": 60,
+    "crawled_product_count": 38,
     "filter_count": 3,
     "filter_names": [
       "제조사별",
       "전원",
       "방식"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349248",
     "category_name": "코흡입/투약기",
     "total_product_count": 61,
-    "crawled_product_count": 90,
+    "crawled_product_count": 61,
     "filter_count": 1,
     "filter_names": [
       "브랜드별"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349110",
     "category_name": "보솜이",
     "total_product_count": 59,
-    "crawled_product_count": 60,
+    "crawled_product_count": 59,
     "filter_count": 4,
     "filter_names": [
       "형태",
@@ -302,27 +302,13 @@
       "성별",
       "총수량"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
-  },
-  {
-    "category_code": "16356038",
-    "category_name": "마미포코",
-    "total_product_count": 77,
-    "crawled_product_count": 90,
-    "filter_count": 4,
-    "filter_names": [
-      "형태",
-      "단계",
-      "성별",
-      "총수량"
-    ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349109",
     "category_name": "팸퍼스",
     "total_product_count": 127,
-    "crawled_product_count": 150,
+    "crawled_product_count": 127,
     "filter_count": 4,
     "filter_names": [
       "형태",
@@ -330,12 +316,40 @@
       "성별",
       "총수량"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
+  },
+  {
+    "category_code": "16356038",
+    "category_name": "마미포코",
+    "total_product_count": 77,
+    "crawled_product_count": 77,
+    "filter_count": 4,
+    "filter_names": [
+      "형태",
+      "단계",
+      "성별",
+      "총수량"
+    ],
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
+  },
+  {
+    "category_code": "16356040",
+    "category_name": "나비잠",
+    "total_product_count": 40,
+    "crawled_product_count": 40,
+    "filter_count": 4,
+    "filter_names": [
+      "형태",
+      "단계",
+      "성별",
+      "총수량"
+    ],
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16349108",
     "category_name": "하기스",
-    "total_product_count": 488,
+    "total_product_count": 490,
     "crawled_product_count": 210,
     "filter_count": 4,
     "filter_names": [
@@ -344,21 +358,7 @@
       "성별",
       "총수량"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
-  },
-  {
-    "category_code": "16356040",
-    "category_name": "나비잠",
-    "total_product_count": 40,
-    "crawled_product_count": 60,
-    "filter_count": 4,
-    "filter_names": [
-      "형태",
-      "단계",
-      "성별",
-      "총수량"
-    ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {
     "category_code": "16356042",
@@ -373,6 +373,6 @@
       "성별",
       "총수량"
     ],
-    "crawled_at": "2025-12-08T06:31:12.490287Z"
+    "crawled_at": "2025-12-08T11:39:06.709447Z"
   }
 ]
