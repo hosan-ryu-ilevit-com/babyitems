@@ -309,11 +309,16 @@ function ComparePageContent() {
 
               if (data.success && data.data?.specs) {
                 const specsCount = Object.keys(data.data.specs).length;
-                setDanawaSpecs((prev) => ({
-                  ...prev,
-                  [product.id]: data.data.specs,
-                }));
-                console.log(`✅ Danawa specs saved for ${product.title} (${specsCount}개)`);
+                setDanawaSpecs((prev) => {
+                  const newState = {
+                    ...prev,
+                    [product.id]: data.data.specs,
+                  };
+                  console.log(`✅ Danawa specs saved for ${product.title} (${specsCount}개)`);
+                  console.log(`📦 [STATE UPDATE] danawaSpecs for ${product.id}:`, data.data.specs);
+                  console.log(`📦 [STATE UPDATE] Full danawaSpecs state:`, newState);
+                  return newState;
+                });
               } else {
                 console.warn(`⚠️ No specs found for ${product.title}`);
               }
@@ -332,6 +337,17 @@ function ComparePageContent() {
     fetchProductDetails();
     fetchDanawaSpecs();
   }, [searchParams, router, allProductsMap]);
+
+  // Log danawaSpecs state changes
+  useEffect(() => {
+    console.log(`🔄 [STATE CHANGED] danawaSpecs updated:`, {
+      productIds: Object.keys(danawaSpecs),
+      specsPerProduct: Object.fromEntries(
+        Object.entries(danawaSpecs).map(([id, specs]) => [id, Object.keys(specs).length])
+      ),
+      fullData: danawaSpecs
+    });
+  }, [danawaSpecs]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoadingMessage) return;

@@ -44,6 +44,17 @@ export default function DetailedComparisonTable({
   const [isSpecsExpanded, setIsSpecsExpanded] = useState(false); // 상세 스펙 펼치기/접기 상태
   const [isChangeAnchorOpen, setIsChangeAnchorOpen] = useState(false); // 기준제품 변경 바텀시트
 
+  // Log danawaSpecs prop received
+  useEffect(() => {
+    console.log(`🎁 [PROPS RECEIVED] DetailedComparisonTable received danawaSpecs:`, {
+      productIds: Object.keys(danawaSpecs),
+      specsPerProduct: Object.fromEntries(
+        Object.entries(danawaSpecs).map(([id, specs]) => [id, Object.keys(specs).length])
+      ),
+      fullData: danawaSpecs
+    });
+  }, [danawaSpecs]);
+
   // Tag-based flow: 4개 제품 (앵커 + 추천 3개), Normal flow: 추천 3개
   // 단, 앵커 제품이 Top 3에 포함된 경우 앵커를 숨김 (중복 방지)
   // useMemo로 메모이제이션하여 무한 루프 방지
@@ -730,9 +741,31 @@ export default function DetailedComparisonTable({
               const danawaSpecs1 = danawaSpecs[product1.id] || {};
               const danawaSpecs2 = danawaSpecs[product2.id] || {};
 
+              console.log(`🔀 [MERGE] Merging specs for ${product1.id}:`, {
+                baseSpecsCount: Object.keys(baseSpecs1).length,
+                danawaSpecsCount: Object.keys(danawaSpecs1).length,
+                baseSpecs: baseSpecs1,
+                danawaSpecs: danawaSpecs1
+              });
+              console.log(`🔀 [MERGE] Merging specs for ${product2.id}:`, {
+                baseSpecsCount: Object.keys(baseSpecs2).length,
+                danawaSpecsCount: Object.keys(danawaSpecs2).length,
+                baseSpecs: baseSpecs2,
+                danawaSpecs: danawaSpecs2
+              });
+
               // 다나와 스펙이 있으면 우선 사용, 없으면 기존 스펙 사용
               const specs1 = { ...baseSpecs1, ...danawaSpecs1 };
               const specs2 = { ...baseSpecs2, ...danawaSpecs2 };
+
+              console.log(`✅ [MERGE RESULT] Product ${product1.id} merged specs:`, {
+                totalCount: Object.keys(specs1).length,
+                specs: specs1
+              });
+              console.log(`✅ [MERGE RESULT] Product ${product2.id} merged specs:`, {
+                totalCount: Object.keys(specs2).length,
+                specs: specs2
+              });
 
               // 스펙이 하나도 없으면 표시 안 함
               if (Object.keys(specs1).length === 0 && Object.keys(specs2).length === 0) return null;
@@ -756,7 +789,18 @@ export default function DetailedComparisonTable({
                 return !(isEmpty1 && isEmpty2);
               });
 
-              if (specKeys.length === 0 && metaSpecKeys.length === 0) return null;
+              if (specKeys.length === 0 && metaSpecKeys.length === 0) {
+                console.log(`⚠️ [RENDER] No specs to display - both specKeys and metaSpecKeys are empty`);
+                return null;
+              }
+
+              console.log(`🎨 [RENDER] About to render specs section:`, {
+                metaSpecKeysCount: metaSpecKeys.length,
+                specKeysCount: specKeys.length,
+                metaSpecKeys,
+                specKeys,
+                isSpecsExpanded
+              });
 
               return (
                 <>
