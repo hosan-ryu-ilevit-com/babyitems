@@ -128,6 +128,8 @@ export default function RecommendV2Page() {
   // Results
   const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [selectionReason, setSelectionReason] = useState<string>('');
+  const [generatedBy, setGeneratedBy] = useState<'llm' | 'fallback'>('fallback');
 
   // UI
   const [showBackModal, setShowBackModal] = useState(false);
@@ -271,43 +273,20 @@ export default function RecommendV2Page() {
 
     setShowScanAnimation(false);
 
-    // Add guide cards message
+    // Add guide cards message with intro message (Step 0: 가이드 카드만 표시)
     if (hardFilterConfig) {
       addMessage({
         role: 'system',
         content: '',
         componentType: 'guide-cards',
-        componentData: hardFilterConfig.guide,
+        componentData: {
+          ...hardFilterConfig.guide,
+          introMessage: '복잡한 용어, 스펙 비교는 제가 이미 끝냈어요.\n고객님의 상황만 편하게 알려주세요. 딱 맞는 제품을 찾아드릴게요.',
+        },
         stepTag: '0/5',
       });
-
-      // Add CTA message
-      setTimeout(() => {
-        addMessage({
-          role: 'assistant',
-          content: '복잡한 용어, 스펙 비교는 제가 이미 끝냈어요.\n**고객님의 상황만 편하게 알려주세요.**\n딱 맞는 제품을 찾아드릴게요.',
-        });
-
-        // If sub-category selection is required, show the selector
-        if (requiresSubCategory && subCategoryConfig) {
-          setTimeout(() => {
-            setShowSubCategorySelector(true);
-            addMessage({
-              role: 'system',
-              content: '',
-              componentType: 'sub-category' as ComponentType,
-              componentData: {
-                categoryName: subCategoryConfig.category_name,
-                subCategories: subCategoryConfig.sub_categories,
-                selectedCode: selectedSubCategoryCode,
-              },
-            });
-            scrollToBottom();
-          }, 500);
-        } else {
-          scrollToBottom();
-        }
-      }, 500);
+      // 가이드 카드의 "시작하기" 버튼 클릭 시 다음 단계로 진행 (onNext 콜백에서 처리)
+      setTimeout(() => scrollToBottom(), 300);
     }
   }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, selectedSubCategoryCode, addMessage, scrollToBottom]);
 
@@ -790,7 +769,7 @@ export default function RecommendV2Page() {
     setIsCalculating(true);
 
     try {
-      // Calculate scores for all filtered products
+      // 1단계: 기존 점수 계산 (후보 선정용)
       const scored: ScoredProduct[] = filteredProducts.map(product => {
         const { score: baseScore, matchedRules } = calculateBalanceScore(
           product,
@@ -814,19 +793,55 @@ export default function RecommendV2Page() {
         };
       });
 
-      // Filter by budget
+      // 예산 필터링
       const budgetFiltered = scored.filter(p => {
         if (!p.price) return true;
         return p.price >= budget.min && p.price <= budget.max;
       });
 
-      // Sort by score and get top 3
+      // 점수 기준 정렬
       const sorted = budgetFiltered.sort((a, b) => b.totalScore - a.totalScore);
-      const top3 = sorted.slice(0, 3);
+
+      // 2단계: LLM 기반 최종 추천 API 호출 (상위 15개 후보로)
+      const candidateProducts = sorted.slice(0, 15);
+
+      let top3 = candidateProducts.slice(0, 3);
+      let finalSelectionReason = '';
+      let finalGeneratedBy: 'llm' | 'fallback' = 'fallback';
+
+      try {
+        const recommendResponse = await fetch('/api/v2/recommend-final', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            candidateProducts,
+            userContext: {
+              hardFilterAnswers,
+              balanceSelections: Array.from(balanceSelections),
+              negativeSelections,
+            },
+            budget,
+          }),
+        });
+
+        const recommendResult = await recommendResponse.json();
+
+        if (recommendResult.success && recommendResult.data) {
+          top3 = recommendResult.data.top3Products;
+          finalSelectionReason = recommendResult.data.selectionReason || '';
+          finalGeneratedBy = recommendResult.data.generated_by || 'fallback';
+          console.log(`✅ LLM recommendation: ${finalGeneratedBy}`, top3.map((p: ScoredProduct) => p.title));
+        }
+      } catch (llmError) {
+        console.warn('LLM recommendation failed, using score-based fallback:', llmError);
+      }
 
       setScoredProducts(top3);
+      setSelectionReason(finalSelectionReason);
+      setGeneratedBy(finalGeneratedBy);
 
-      // Add result message inline (not navigating to separate page)
+      // 결과 메시지 추가
       addMessage({
         role: 'system',
         content: '',
@@ -836,10 +851,12 @@ export default function RecommendV2Page() {
           categoryName,
           conditions: conditionSummary,
           categoryKey,
+          selectionReason: finalSelectionReason,
+          generatedBy: finalGeneratedBy,
         },
       });
 
-      // 예산 컴포넌트 바로 아래로 스크롤 (맨 아래가 아닌)
+      // 예산 컴포넌트 바로 아래로 스크롤
       setTimeout(() => {
         budgetSliderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
@@ -852,7 +869,7 @@ export default function RecommendV2Page() {
     } finally {
       setIsCalculating(false);
     }
-  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, conditionSummary, categoryKey, addMessage, scrollToBottom]);
+  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, conditionSummary, categoryKey, hardFilterAnswers, addMessage]);
 
   // ===================================================
   // Render Message
@@ -881,7 +898,41 @@ export default function RecommendV2Page() {
               }`}
             >
               <GuideCards
-                data={message.componentData as { title: string; points: string[]; trend: string }}
+                data={message.componentData as { title: string; summary?: string; points: string[]; trend: string }}
+                introMessage={(message.componentData as { introMessage?: string })?.introMessage}
+                onNext={() => {
+                  // 가이드 카드 완료 후 다음 단계로 진행 (스크롤 + 다음 스텝 표시)
+                  if (requiresSubCategory && subCategoryConfig && !selectedSubCategoryCode) {
+                    // 세부 카테고리 선택이 필요한 경우
+                    setShowSubCategorySelector(true);
+                    addMessage({
+                      role: 'system',
+                      content: '',
+                      componentType: 'sub-category' as ComponentType,
+                      componentData: {
+                        categoryName: subCategoryConfig.category_name,
+                        subCategories: subCategoryConfig.sub_categories,
+                        selectedCode: selectedSubCategoryCode,
+                      },
+                    });
+                    setTimeout(() => scrollToBottom(), 100);
+                  } else if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
+                    // 하드 필터 질문 시작
+                    setCurrentStep(1);
+                    addMessage({
+                      role: 'system',
+                      content: '',
+                      componentType: 'hard-filter',
+                      componentData: {
+                        question: hardFilterConfig.questions[0],
+                        currentIndex: 0,
+                        totalCount: hardFilterConfig.questions.length,
+                      },
+                      stepTag: '1/5',
+                    });
+                    setTimeout(() => scrollToBottom(), 100);
+                  }
+                }}
               />
             </div>
           );
@@ -904,6 +955,10 @@ export default function RecommendV2Page() {
                 subCategories={subCatData.subCategories}
                 selectedCode={selectedSubCategoryCode}
                 onSelect={handleSubCategorySelect}
+                products={products}
+                showProductCounts={true}
+                filterBy={subCategoryConfig?.filter_by || 'category_code'}
+                filterKey={subCategoryConfig?.filter_key}
               />
             </div>
           );
@@ -1018,6 +1073,8 @@ export default function RecommendV2Page() {
             categoryName?: string;
             conditions?: Array<{ label: string; value: string }>;
             categoryKey?: string;
+            selectionReason?: string;
+            generatedBy?: 'llm' | 'fallback';
           } | undefined;
           return (
             <ResultCards
@@ -1026,6 +1083,13 @@ export default function RecommendV2Page() {
               categoryName={resultData?.categoryName || categoryName}
               conditions={resultData?.conditions}
               categoryKey={resultData?.categoryKey || categoryKey}
+              selectionReason={resultData?.selectionReason || selectionReason}
+              generatedBy={resultData?.generatedBy || generatedBy}
+              userContext={{
+                hardFilterAnswers: hardFilterAnswers,
+                balanceSelections: Array.from(balanceSelections),
+                negativeSelections: negativeSelections,
+              }}
             />
           );
 

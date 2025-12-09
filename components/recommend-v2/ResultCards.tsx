@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import type { ScoredProduct, DanawaPriceData } from '@/types/recommend-v2';
@@ -9,11 +9,35 @@ import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
 import { logButtonClick } from '@/lib/logging/clientLogger';
 
+// Extended product type with LLM recommendation reason
+interface RecommendedProduct extends ScoredProduct {
+  recommendationReason?: string;
+  matchedPreferences?: string[];
+}
+
+// Product analysis data from LLM
+interface ProductAnalysisData {
+  pcode: string;
+  additionalPros: Array<{ text: string; citations: number[] }>;
+  cons: Array<{ text: string; citations: number[] }>;
+  purchaseTip: Array<{ text: string; citations: number[] }>;
+}
+
+// User context for API calls
+interface UserContext {
+  hardFilterAnswers?: Record<string, string[]>;
+  balanceSelections?: string[];
+  negativeSelections?: string[];
+}
+
 interface ResultCardsProps {
-  products: ScoredProduct[];
+  products: RecommendedProduct[];
   categoryName: string;
   conditions?: Array<{ label: string; value: string }>;
   categoryKey?: string;
+  selectionReason?: string;  // LLM이 생성한 전체 선정 기준
+  generatedBy?: 'llm' | 'fallback';  // 생성 방식
+  userContext?: UserContext;  // 사용자 선택 컨텍스트 (API용)
 }
 
 /**
@@ -22,8 +46,9 @@ interface ResultCardsProps {
  * - 다나와 최저가
  * - 상세 모달
  * - 비교표 + AI 장단점
+ * - 백그라운드 LLM 분석 (PDP 모달 + 비교표)
  */
-export function ResultCards({ products, categoryName, conditions, categoryKey }: ResultCardsProps) {
+export function ResultCards({ products, categoryName, conditions, categoryKey, selectionReason, generatedBy, userContext }: ResultCardsProps) {
   // Danawa price data
   const [danawaData, setDanawaData] = useState<Record<string, DanawaPriceData>>({});
   const [danawaSpecs, setDanawaSpecs] = useState<Record<string, Record<string, string>>>({});
@@ -33,6 +58,12 @@ export function ResultCards({ products, categoryName, conditions, categoryKey }:
   // Comparison table states
   const [comparisonFeatures, setComparisonFeatures] = useState<Record<string, string[]>>({});
   const [comparisonDetails, setComparisonDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> | null }>>({});
+
+  // Background LLM analysis states
+  const [productAnalysisData, setProductAnalysisData] = useState<Record<string, ProductAnalysisData>>({});
+  const [isAnalysisLoading, setIsAnalysisLoading] = useState(true);
+  const [isComparisonLoading, setIsComparisonLoading] = useState(true);
+  const analysisCalledRef = useRef(false);
 
   // Product detail modal
   const [selectedProduct, setSelectedProduct] = useState<Recommendation | null>(null);
@@ -133,47 +164,125 @@ export function ResultCards({ products, categoryName, conditions, categoryKey }:
     fetchPrices();
   }, [products]);
 
-  // Convert ScoredProduct to Recommendation for DetailedComparisonTable
-  const recommendations: Recommendation[] = useMemo(() => {
-    return products.map((p, index) => ({
-      product: {
-        id: p.pcode,
+  // Background LLM analysis (product analysis + comparison analysis)
+  useEffect(() => {
+    if (products.length === 0 || !categoryKey || analysisCalledRef.current) return;
+
+    analysisCalledRef.current = true;
+
+    const fetchBackgroundAnalysis = async () => {
+      // Prepare product info for API calls
+      const productInfos = products.slice(0, 3).map(p => ({
+        pcode: p.pcode,
         title: p.title,
-        brand: p.brand || undefined,
-        price: p.price || 0,
-        reviewUrl: '',
-        thumbnail: p.thumbnail || '',
-        reviewCount: 0,
-        ranking: index + 1,
-        category: 'milk_powder_port' as const,
-        coreValues: {
-          temperatureControl: 0,
-          hygiene: 0,
-          material: 0,
-          usability: 0,
-          portability: 0,
-          priceValue: 0,
-          durability: 0,
-          additionalFeatures: 0,
+        brand: p.brand,
+        price: p.price,
+        spec: p.spec,
+        rank: p.rank,
+      }));
+
+      // Call both APIs in parallel
+      const [productAnalysisPromise, comparisonAnalysisPromise] = [
+        // Product analysis API (additionalPros, cons, purchaseTip)
+        fetch('/api/v2/product-analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            products: productInfos,
+            userContext: userContext || {},
+          }),
+        }).then(res => res.json()).catch(err => {
+          console.error('[ResultCards] Product analysis API error:', err);
+          return { success: false };
+        }),
+
+        // Comparison analysis API (pros, cons, comparison for comparison table)
+        fetch('/api/v2/comparison-analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            products: productInfos,
+          }),
+        }).then(res => res.json()).catch(err => {
+          console.error('[ResultCards] Comparison analysis API error:', err);
+          return { success: false };
+        }),
+      ];
+
+      // Wait for product analysis
+      const productAnalysisResult = await productAnalysisPromise;
+      if (productAnalysisResult.success && productAnalysisResult.data?.analyses) {
+        const analysisMap: Record<string, ProductAnalysisData> = {};
+        productAnalysisResult.data.analyses.forEach((analysis: ProductAnalysisData) => {
+          analysisMap[analysis.pcode] = analysis;
+        });
+        setProductAnalysisData(analysisMap);
+        console.log(`✅ [ResultCards] Product analysis loaded (${productAnalysisResult.data.generated_by}):`, Object.keys(analysisMap).length, 'products');
+      }
+      setIsAnalysisLoading(false);
+
+      // Wait for comparison analysis
+      const comparisonAnalysisResult = await comparisonAnalysisPromise;
+      if (comparisonAnalysisResult.success && comparisonAnalysisResult.data?.productDetails) {
+        setComparisonDetails(comparisonAnalysisResult.data.productDetails);
+        console.log(`✅ [ResultCards] Comparison analysis loaded (${comparisonAnalysisResult.data.generated_by}):`, Object.keys(comparisonAnalysisResult.data.productDetails).length, 'products');
+      }
+      setIsComparisonLoading(false);
+    };
+
+    fetchBackgroundAnalysis();
+  }, [products, categoryKey, userContext]);
+
+  // Convert ScoredProduct to Recommendation for DetailedComparisonTable
+  // Include analysis data from background LLM calls
+  const recommendations: Recommendation[] = useMemo(() => {
+    return products.map((p, index) => {
+      const analysis = productAnalysisData[p.pcode];
+      return {
+        product: {
+          id: p.pcode,
+          title: p.title,
+          brand: p.brand || undefined,
+          price: p.price || 0,
+          reviewUrl: '',
+          thumbnail: p.thumbnail || '',
+          reviewCount: reviewData[p.pcode]?.reviewCount || 0,
+          ranking: index + 1,
+          category: 'milk_powder_port' as const,
+          coreValues: {
+            temperatureControl: 0,
+            hygiene: 0,
+            material: 0,
+            usability: 0,
+            portability: 0,
+            priceValue: 0,
+            durability: 0,
+            additionalFeatures: 0,
+          },
         },
-      },
-      rank: (index + 1) as 1 | 2 | 3,
-      finalScore: p.totalScore,
-      reasoning: '',
-      selectedTagsEvaluation: [],
-      additionalPros: [],
-      cons: [],
-      anchorComparison: [],
-      purchaseTip: [],
-      citedReviews: [],
-    }));
-  }, [products]);
+        rank: (index + 1) as 1 | 2 | 3,
+        finalScore: p.totalScore,
+        reasoning: (p as RecommendedProduct).recommendationReason || '',
+        selectedTagsEvaluation: [],
+        additionalPros: analysis?.additionalPros || [],
+        cons: analysis?.cons || [],
+        anchorComparison: [],
+        purchaseTip: analysis?.purchaseTip || [],
+        citedReviews: [],
+      };
+    });
+  }, [products, productAnalysisData, reviewData]);
 
   // Handle product click
   const handleProductClick = (product: ScoredProduct, index: number) => {
     logButtonClick(`제품카드_클릭_${product.brand}_${product.title}`, 'v2-result');
 
-    // Convert to Recommendation for modal
+    // Get analysis data for this product
+    const analysis = productAnalysisData[product.pcode];
+
+    // Convert to Recommendation for modal (include analysis data)
     const rec: Recommendation = {
       product: {
         id: product.pcode,
@@ -182,7 +291,7 @@ export function ResultCards({ products, categoryName, conditions, categoryKey }:
         price: product.price || 0,
         reviewUrl: '',
         thumbnail: product.thumbnail || '',
-        reviewCount: 0,
+        reviewCount: reviewData[product.pcode]?.reviewCount || 0,
         ranking: index + 1,
         category: (categoryKey || 'milk_powder_port') as 'milk_powder_port',
         coreValues: {
@@ -198,12 +307,12 @@ export function ResultCards({ products, categoryName, conditions, categoryKey }:
       },
       rank: (index + 1) as 1 | 2 | 3,
       finalScore: product.totalScore,
-      reasoning: '',
+      reasoning: (product as RecommendedProduct).recommendationReason || '',
       selectedTagsEvaluation: [],
-      additionalPros: [],
-      cons: [],
+      additionalPros: analysis?.additionalPros || [],
+      cons: analysis?.cons || [],
       anchorComparison: [],
-      purchaseTip: [],
+      purchaseTip: analysis?.purchaseTip || [],
       citedReviews: [],
     };
     setSelectedProduct(rec);
@@ -258,7 +367,36 @@ export function ResultCards({ products, categoryName, conditions, categoryKey }:
         <p className="text-sm text-gray-500 mt-1">
           당신의 조건에 가장 잘 맞는 제품이에요
         </p>
+        {/* AI 생성 뱃지 */}
+        {generatedBy === 'llm' && (
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100"
+          >
+            <span className="text-xs">✨</span>
+            <span className="text-xs font-medium text-purple-700">AI가 선정한 맞춤 추천</span>
+          </motion.div>
+        )}
       </div>
+
+      {/* LLM 선정 기준 요약 */}
+      {selectionReason && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="mb-4 p-3 rounded-xl bg-blue-50 border border-blue-100"
+        >
+          <div className="flex items-start gap-2">
+            <span className="text-base">🤖</span>
+            <p className="text-xs text-blue-800 leading-relaxed">
+              {selectionReason}
+            </p>
+          </div>
+        </motion.div>
+      )}
 
       {/* 선택한 조건 태그 */}
       {conditions && conditions.length > 0 && (
@@ -420,8 +558,20 @@ export function ResultCards({ products, categoryName, conditions, categoryKey }:
                 </div>
               )}
 
-              {/* 밸런스 게임 매칭 규칙 태그 */}
-              {product.matchedRules && product.matchedRules.length > 0 && (
+              {/* LLM 추천 이유 (있는 경우) */}
+              {product.recommendationReason && (
+                <div className="mt-3 pt-3 border-t border-gray-100">
+                  <div className="flex items-start gap-2">
+                    <span className="text-lg mt-0.5">💡</span>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      {product.recommendationReason}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* 밸런스 게임 매칭 규칙 태그 (추천 이유가 없을 때만 표시) */}
+              {!product.recommendationReason && product.matchedRules && product.matchedRules.length > 0 && (
                 <div className="flex flex-wrap gap-1 mt-2">
                   {product.matchedRules.slice(0, 3).map((rule, i) => {
                     const displayName = rule
@@ -442,6 +592,20 @@ export function ResultCards({ products, categoryName, conditions, categoryKey }:
                       +{product.matchedRules.length - 3}
                     </span>
                   )}
+                </div>
+              )}
+
+              {/* 매칭된 선호 항목 태그 */}
+              {product.matchedPreferences && product.matchedPreferences.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {product.matchedPreferences.slice(0, 4).map((pref, i) => (
+                    <span
+                      key={i}
+                      className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-700"
+                    >
+                      {pref}
+                    </span>
+                  ))}
                 </div>
               )}
             </div>
@@ -497,6 +661,7 @@ export function ResultCards({ products, categoryName, conditions, categoryKey }:
           }}
           category={categoryKey || 'milk_powder_port'}
           danawaData={selectedProductDanawa}
+          isAnalysisLoading={isAnalysisLoading}
         />
       )}
     </motion.div>

@@ -1,6 +1,8 @@
 /**
  * v2 룰맵 API - 카테고리별 상세 조회
  * GET /api/v2/rules/[categoryKey]
+ *
+ * category-insights 데이터를 우선 사용하여 가이드 정보를 제공합니다.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -9,6 +11,7 @@ import balanceGameData from '@/data/rules/balance_game.json';
 import negativeFilterData from '@/data/rules/negative_filter.json';
 import hardFiltersData from '@/data/rules/hard_filters.json';
 import { generateHardFiltersForCategory } from '@/lib/recommend-v2/danawaFilters';
+import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
 import type {
   CategoryLogicMap,
   CategoryBalanceGame,
@@ -36,7 +39,7 @@ interface CategoryRulesResponse {
   balance_game: BalanceQuestion[];
   negative_filter: NegativeFilterOption[];
   hard_filters: {
-    guide: { title: string; points: string[]; trend: string };
+    guide: { title: string; summary?: string; points: string[]; trend: string };
     questions: HardFilterQuestion[];
   };
 }
@@ -73,8 +76,28 @@ export async function GET(
     const categoryBalance = balanceGame.scenarios[categoryKey];
     const categoryNegative = negativeFilter.filters[categoryKey];
 
-    // 가이드 정보 (hard_filters.json에서 guide만 사용)
+    // 가이드 정보: category-insights 우선, hard_filters.json fallback
+    const insights = await loadCategoryInsights(categoryKey);
     const hardFilterGuide = (hardFiltersData as Record<string, HardFilterGuide>)[categoryKey];
+
+    // category-insights의 guide 데이터 변환
+    let guideData: { title: string; summary?: string; points: string[]; trend: string };
+    if (insights?.guide) {
+      guideData = {
+        title: insights.guide.title,
+        summary: insights.guide.summary || undefined,
+        points: insights.guide.key_points || [],
+        trend: insights.guide.trend || '',
+      };
+    } else if (hardFilterGuide?.guide) {
+      guideData = hardFilterGuide.guide;
+    } else {
+      guideData = {
+        title: `${categoryLogic.category_name} 선택 가이드`,
+        points: [],
+        trend: '',
+      };
+    }
 
     // 하드필터 질문: 다나와 필터 기반 동적 생성 + manual fallback
     // (hard_filters.json의 questions는 제거됨 - 다나와 필터와 중복 방지)
@@ -90,11 +113,7 @@ export async function GET(
       balance_game: categoryBalance?.questions || [],
       negative_filter: categoryNegative?.options || [],
       hard_filters: {
-        guide: hardFilterGuide?.guide || {
-          title: `${categoryLogic.category_name} 선택 가이드`,
-          points: [],
-          trend: '',
-        },
+        guide: guideData,
         questions: dynamicQuestions.slice(0, 5), // 최대 5개 질문
       },
     };

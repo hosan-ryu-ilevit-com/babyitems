@@ -21,6 +21,8 @@ import {
   DotsThree
 } from '@phosphor-icons/react';
 
+import type { ProductItem } from '@/types/recommend-v2';
+
 interface SubCategory {
   code: string;
   name: string;
@@ -33,6 +35,32 @@ interface SubCategorySelectorProps {
   subCategories: SubCategory[];
   selectedCode: string | null;
   onSelect: (code: string) => void;
+  // 디버깅용: 옵션별 제품 개수 표시
+  products?: ProductItem[];
+  showProductCounts?: boolean;
+  filterBy?: string;
+  filterKey?: string;
+}
+
+/**
+ * 하위 카테고리별 제품 개수 계산
+ */
+function countProductsForSubCategory(
+  products: ProductItem[],
+  subCategoryCode: string,
+  filterBy: string,
+  filterKey?: string
+): number {
+  return products.filter(product => {
+    if (filterBy === 'category_code') {
+      return product.category_code === subCategoryCode;
+    } else if (filterKey && product.filter_attrs) {
+      // filter_attrs 기반 필터링
+      const attrValue = product.filter_attrs[filterKey];
+      return String(attrValue) === subCategoryCode;
+    }
+    return false;
+  }).length;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,6 +95,10 @@ export function SubCategorySelector({
   subCategories,
   selectedCode,
   onSelect,
+  products,
+  showProductCounts = false,
+  filterBy = 'category_code',
+  filterKey,
 }: SubCategorySelectorProps) {
   return (
     <motion.div
@@ -92,6 +124,11 @@ export function SubCategorySelector({
         {subCategories.map((sub, index) => {
           const isSelected = selectedCode === sub.code;
           const IconComponent = ICON_MAP[sub.icon] || Package;
+
+          // 디버깅용: 옵션별 제품 개수 계산
+          const productCount = showProductCounts && products
+            ? countProductsForSubCategory(products, sub.code, filterBy, filterKey)
+            : null;
 
           return (
             <motion.button
@@ -135,6 +172,19 @@ export function SubCategorySelector({
                 >
                   {sub.description}
                 </span>
+
+                {/* 디버깅용: 제품 개수 표시 */}
+                {productCount !== null && (
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${
+                    productCount === 0
+                      ? 'bg-red-100 text-red-600'
+                      : productCount < 5
+                      ? 'bg-yellow-100 text-yellow-700'
+                      : 'bg-green-100 text-green-700'
+                  }`}>
+                    {productCount}개
+                  </span>
+                )}
 
                 {/* 선택 표시 */}
                 {isSelected && (

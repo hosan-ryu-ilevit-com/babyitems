@@ -193,6 +193,7 @@ export interface RecommendV2State {
 
 export interface GuideCardsData {
   title: string;
+  summary?: string;  // category-insights에서 제공하는 핵심 요약
   points: string[];
   trend: string;
 }
@@ -375,4 +376,65 @@ export interface V2ResultApiResponse {
       filter_attrs: Record<string, unknown>;
     }>;
   };
+}
+
+// ===================================================
+// V2 최종 추천 API 관련 타입 (LLM 기반)
+// ===================================================
+
+export interface RecommendedProduct extends ScoredProduct {
+  recommendationReason: string;  // LLM이 생성한 개인화된 추천 이유
+  matchedPreferences: string[];  // 매칭된 사용자 선호 항목들
+}
+
+export interface RecommendFinalApiRequest {
+  categoryKey: string;
+  candidateProducts: ScoredProduct[];
+  userContext?: {
+    hardFilterAnswers?: Record<string, string[]>;
+    balanceSelections?: string[];   // 선택한 밸런스 게임 rule_key
+    negativeSelections?: string[];  // 선택한 단점 필터 rule_key
+  };
+  budget?: { min: number; max: number };
+}
+
+export interface RecommendFinalApiResponse {
+  success: boolean;
+  data?: {
+    categoryKey: string;
+    categoryName: string;
+    top3Products: RecommendedProduct[];
+    selectionReason: string;      // 전체 선정 기준 설명
+    generated_by: 'llm' | 'fallback';
+    totalCandidates: number;
+  };
+  error?: string;
+}
+
+// ===================================================
+// V2 동적 질문 생성 API 관련 타입
+// ===================================================
+
+export interface GenerateQuestionsApiRequest {
+  categoryKey: string;
+  hardFilterAnswers?: Record<string, string[]>;
+  filteredProductCount?: number;
+}
+
+export interface GenerateQuestionsApiResponse {
+  success: boolean;
+  data?: {
+    category_key: string;
+    category_name: string;
+    guide: {
+      title: string;
+      summary: string;
+      key_points: string[];
+      trend: string;
+    };
+    balance_questions: BalanceQuestion[];
+    negative_filter_options: NegativeFilterOption[];
+    generated_by: 'llm' | 'fallback';
+  };
+  error?: string;
 }
