@@ -768,34 +768,7 @@ export default function DetailedComparisonTable({
               </tr>
             )}
 
-            {/* 한줄 비교 정리 */}
-            {!isLoadingComparison && Object.keys(productDetails).length > 0 && selectedProducts.length === 2 && (
-              <tr className="border-b border-gray-100 bg-gray-50">
-                <td colSpan={3} className="py-3 px-3">
-                  <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교</h4>
-                  <div className="space-y-2.5">
-                    {selectedProducts.map((product, index) => {
-                      if (!product) return null;
-                      const details = productDetails[product.id];
-                      if (!details || !details.comparison) return null;
-
-                      return (
-                        <div key={product.id} className="flex items-start gap-2">
-                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 text-white text-xs font-bold shrink-0 mt-0.5">
-                            {index + 1}
-                          </span>
-                          <p className="text-xs text-gray-700 leading-relaxed flex-1">
-                            <span className="font-semibold">{product.brand} {product.title}</span>: {details.comparison}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </td>
-              </tr>
-            )}
-
-            {/* 스펙 비교 - 접을 수 있음 */}
+            {/* 스펙 비교 */}
             {/* danawaSpecs가 있거나 productDetails가 있으면 스펙 섹션 표시 */}
             {!isLoadingComparison && (Object.keys(productDetails).length > 0 || Object.keys(danawaSpecs).length > 0) && (() => {
               const product1 = selectedProducts[0];
@@ -972,6 +945,33 @@ export default function DetailedComparisonTable({
                 </>
               );
             })()}
+
+            {/* 한줄 비교 정리 - 맨 아래 배치 */}
+            {!isLoadingComparison && Object.keys(productDetails).length > 0 && selectedProducts.length === 2 && (
+              <tr className="border-b border-gray-100 bg-gray-50">
+                <td colSpan={3} className="py-3 px-3">
+                  <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교</h4>
+                  <div className="space-y-2.5">
+                    {selectedProducts.map((product, index) => {
+                      if (!product) return null;
+                      const details = productDetails[product.id];
+                      if (!details || !details.comparison) return null;
+
+                      return (
+                        <div key={product.id} className="flex items-start gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 text-white text-xs font-bold shrink-0 mt-0.5">
+                            {index + 1}
+                          </span>
+                          <p className="text-xs text-gray-700 leading-relaxed flex-1">
+                            <span className="font-semibold">{product.brand} {product.title}</span>: {details.comparison}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </td>
+              </tr>
+            )}
 
           </tbody>
         </table>

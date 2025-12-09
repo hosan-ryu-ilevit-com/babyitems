@@ -137,7 +137,8 @@ function formatProductForPrompt(product: CandidateProduct, index: number): strin
     ? product.matchedRules.map(r => r.replace('체감속성_', '').replace(/_/g, ' ')).join(', ')
     : '없음';
 
-  return `[${index + 1}] ${product.title}
+  return `[상품 ${index + 1}] pcode: ${product.pcode}
+- 제품명: ${product.title}
 - 브랜드: ${product.brand || '미상'}
 - 가격: ${product.price ? `${product.price.toLocaleString()}원` : '가격 미정'}
 - 인기순위: ${product.rank || '미정'}위
@@ -219,16 +220,18 @@ ${candidatesStr}
 3. 피하고 싶다고 한 단점이 없는 제품 우선
 4. 예산 범위 내에서 가성비 고려
 ## 응답 JSON 형식
+⚠️ 중요: pcode는 반드시 **숫자 문자열** (예: "11354604")을 사용하세요. 제품명이 아닙니다!
+
 {
   "top3": [
     {
-      "pcode": "선정된 상품의 pcode",
+      "pcode": "11354604",  // ← 위 목록의 "pcode: XXXXXXXX" 값을 그대로 사용
       "rank": 1,
       "recommendationReason": "사용자의 선택과 연결된 추천 이유 (1-2문장)",
       "matchedPreferences": ["매칭된 사용자 선호 항목들"]
     },
-    { "pcode": "...", "rank": 2, "recommendationReason": "...", "matchedPreferences": ["..."] },
-    { "pcode": "...", "rank": 3, "recommendationReason": "...", "matchedPreferences": ["..."] }
+    { "pcode": "숫자pcode", "rank": 2, "recommendationReason": "...", "matchedPreferences": ["..."] },
+    { "pcode": "숫자pcode", "rank": 3, "recommendationReason": "...", "matchedPreferences": ["..."] }
   ],
   "selectionReason": "전체 선정 기준 요약 (1~2문장, 한국어로)"
 }
@@ -264,7 +267,8 @@ ${candidatesStr}
   const responseText = result.response.text();
 
   // 디버그: LLM 원본 응답 로그
-  console.log(`[recommend-final] 📝 LLM raw response (first 500 chars):`, responseText.slice(0, 500));
+  console.log(`[recommend-final] 📝 LLM raw response (first 800 chars):`, responseText.slice(0, 800));
+  console.log(`[recommend-final] 🎯 userContext:`, JSON.stringify(userContext, null, 2));
 
   const parsed = parseJSONResponse(responseText) as {
     top3?: Array<{
@@ -455,6 +459,10 @@ function generateFallbackReason(
   userContext?: UserContext
 ): string {
   const reasons: string[] = [];
+
+  // 디버그: fallback 진입 시 데이터 확인
+  console.log(`[fallback] 🔍 product.matchedRules:`, product.matchedRules);
+  console.log(`[fallback] 🔍 userContext.balanceSelections:`, userContext?.balanceSelections);
 
   // 1. 매칭된 밸런스 선택과 연결
   if (product.matchedRules && product.matchedRules.length > 0) {

@@ -1,31 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadProductDetails, loadProductById } from '@/lib/data/productLoader';
+import { createClient } from '@supabase/supabase-js';
 import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
-import { Product } from '@/types';
-import { getProductSpec } from '@/lib/data/specLoader';
-import { getReviewsForProduct, sampleLongestReviews, formatReviewsForLLM } from '@/lib/review';
-import type { Category, ProductSpec } from '@/lib/data';
 
-interface ProductWithDetails {
-  id: string;
-  product: Product;
-  markdown: string;
-  isSpecBased?: false;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Supabase에서 가져온 제품 데이터 타입
+interface SupabaseProductData {
+  pcode: string;
+  spec: Record<string, unknown> | null;
+  filter_attrs: Record<string, unknown> | null;
+  review_count: number | null;
+  average_rating: number | null;
+  lowest_price: number | null;
+  lowest_mall: string | null;
+  lowest_link: string | null;
 }
-
-interface SpecProductWithDetails {
-  id: string;
-  spec: ProductSpec;
-  reviews: string;
-  isSpecBased: true;
-}
-
-type ProductData = ProductWithDetails | SpecProductWithDetails;
 
 /**
  * POST /api/compare
- * Use LLM to generate smart, concise pros/cons and comparisons
- * Supports both products.ts (with coreValues) and specs/*.json (without coreValues)
+ * Supabase 기반 제품 비교 API
+ * LLM을 사용하여 장점/주의점/한줄비교 생성
  */
 export async function POST(req: NextRequest) {
   try {
@@ -38,115 +34,72 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Try to load from both sources: specs/*.json (priority if category provided) OR products.ts
-    const productsDataWithNulls: (ProductData | null)[] = await Promise.all(
-      productIds.map(async (id) => {
-        // If category is provided, try specs/*.json first (for tag-based flow)
-        if (category) {
-          try {
-            const spec = await getProductSpec(category as Category, id);
-            if (spec) {
-              console.log(`✅ Loaded ${id} from specs/${category}.json`);
-              // Load reviews for this product
-              const allReviews = await getReviewsForProduct(category as Category, String(spec.productId));
-              const sampledReviews = allReviews.length > 0 ? sampleLongestReviews(allReviews, 20) : [];
-              const reviewsText = sampledReviews.length > 0
-                ? formatReviewsForLLM(sampledReviews, 30000)
-                : '리뷰 없음';
+    console.log(`📊 [Compare API] Fetching ${productIds.length} products from Supabase`);
 
-              return {
-                id,
-                spec,
-                reviews: reviewsText,
-                isSpecBased: true as const
-              };
-            }
-          } catch (error) {
-            console.error(`Failed to load spec for ${id}:`, error);
-          }
-        }
+    // Supabase에서 제품 데이터 + 가격 정보 조회
+    const [productsResult, pricesResult] = await Promise.all([
+      supabase
+        .from('danawa_products')
+        .select('pcode, spec, filter_attrs, review_count, average_rating')
+        .in('pcode', productIds),
+      supabase
+        .from('danawa_prices')
+        .select('pcode, lowest_price, lowest_mall, lowest_link')
+        .in('pcode', productIds),
+    ]);
 
-        // Try all categories if no category specified or category lookup failed
-        if (!category) {
-          const categories: Category[] = [
-            'milk_powder_port',
-            'baby_bottle',
-            'baby_bottle_sterilizer',
-            'baby_formula_dispenser',
-            'baby_monitor',
-            'baby_play_mat',
-            'car_seat',
-            'nasal_aspirator',
-            'thermometer'
-          ];
-
-          for (const cat of categories) {
-            try {
-              const spec = await getProductSpec(cat, id);
-              if (spec) {
-                console.log(`✅ Loaded ${id} from specs/${cat}.json`);
-                // Load reviews for this product
-                const allReviews = await getReviewsForProduct(cat, String(spec.productId));
-                const sampledReviews = allReviews.length > 0 ? sampleLongestReviews(allReviews, 20) : [];
-                const reviewsText = sampledReviews.length > 0
-                  ? formatReviewsForLLM(sampledReviews, 30000)
-                  : '리뷰 없음';
-
-                return {
-                  id,
-                  spec,
-                  reviews: reviewsText,
-                  isSpecBased: true as const
-                };
-              }
-            } catch (error) {
-              // Continue to next category
-            }
-          }
-        }
-
-        // Fallback to products.ts (old system with coreValues + markdown)
-        const product = await loadProductById(id);
-        const markdown = await loadProductDetails(id);
-
-        if (product && markdown) {
-          console.log(`✅ Loaded ${id} from products.ts`);
-          return { id, product, markdown, isSpecBased: false as const };
-        }
-
-        console.warn(`⚠️ Product ${id} not found in specs or products.ts`);
-        return null;
-      })
-    );
-
-    // Filter out nulls
-    const productsData: ProductData[] = productsDataWithNulls.filter((p): p is ProductData => p !== null);
-
-    if (productsData.length !== productIds.length) {
-      const missingIds = productIds.filter((id: string) => !productsData.find(p => p.id === id));
-      console.error(`❌ Missing products: ${missingIds.join(', ')}`);
+    if (productsResult.error) {
+      console.error('❌ Products fetch error:', productsResult.error);
       return NextResponse.json(
-        { error: 'Could not load all products', missingIds },
-        { status: 400 }
+        { error: 'Failed to fetch products', details: productsResult.error.message },
+        { status: 500 }
       );
     }
 
-    // Generate smart summaries using LLM
-    const results: Record<string, { pros: string[]; cons: string[]; comparison: string }> = {};
+    const products = productsResult.data || [];
+    const prices = pricesResult.data || [];
+
+    // 가격 정보를 pcode로 매핑
+    const priceMap = new Map(prices.map(p => [p.pcode, p]));
+
+    // 제품 데이터 병합
+    const productsData: SupabaseProductData[] = products.map(product => ({
+      ...product,
+      lowest_price: priceMap.get(product.pcode)?.lowest_price || null,
+      lowest_mall: priceMap.get(product.pcode)?.lowest_mall || null,
+      lowest_link: priceMap.get(product.pcode)?.lowest_link || null,
+    }));
+
+    // 누락된 제품 확인
+    const foundIds = new Set(productsData.map(p => p.pcode));
+    const missingIds = productIds.filter((id: string) => !foundIds.has(id));
+
+    if (missingIds.length > 0) {
+      console.warn(`⚠️ Missing products: ${missingIds.join(', ')}`);
+      // 일부 제품이 없어도 있는 것들로 진행
+      if (productsData.length < 2) {
+        return NextResponse.json(
+          { error: 'Not enough products found', missingIds },
+          { status: 400 }
+        );
+      }
+    }
+
+    console.log(`✅ [Compare API] Loaded ${productsData.length} products`);
+
+    // LLM으로 각 제품의 장점/주의점/한줄비교 생성
+    const results: Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> | null }> = {};
 
     for (let i = 0; i < productsData.length; i++) {
       const currentProduct = productsData[i];
       const otherProducts = productsData.filter((_, idx) => idx !== i);
 
       try {
-        const summary = currentProduct.isSpecBased
-          ? await generateSpecBasedSummary(currentProduct, otherProducts)
-          : await generateProductSummary(currentProduct, otherProducts);
-
-        results[currentProduct.id] = summary;
+        const summary = await generateSupabaseSummary(currentProduct, otherProducts, category);
+        results[currentProduct.pcode] = summary;
       } catch (error) {
-        console.error(`Failed to generate summary for ${currentProduct.id}:`, error);
-        results[currentProduct.id] = {
+        console.error(`❌ Failed to generate summary for ${currentProduct.pcode}:`, error);
+        results[currentProduct.pcode] = {
           pros: [],
           cons: [],
           comparison: ''
@@ -165,41 +118,85 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * Generate smart, concise pros/cons and comparison using LLM (for spec-based products)
+ * Supabase 데이터 기반 LLM 요약 생성
  */
-async function generateSpecBasedSummary(
-  currentProduct: SpecProductWithDetails,
-  otherProducts: ProductData[]
-) {
-  const spec = currentProduct.spec;
+async function generateSupabaseSummary(
+  currentProduct: SupabaseProductData,
+  otherProducts: SupabaseProductData[],
+  category?: string
+): Promise<{ pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> | null }> {
+  const spec = currentProduct.spec || {};
 
-  // Format other products for comparison
+  // 제품명 추출 (spec에서 여러 가능한 필드 확인)
+  const productName = (spec as Record<string, string>)['제품명']
+    || (spec as Record<string, string>)['모델명']
+    || (spec as Record<string, string>)['상품명']
+    || `제품 ${currentProduct.pcode}`;
+
+  const brand = (spec as Record<string, string>)['브랜드']
+    || (spec as Record<string, string>)['제조사']
+    || '미상';
+
+  // 스펙 정보를 문자열로 포맷팅
+  const specText = Object.entries(spec)
+    .filter(([key, value]) =>
+      value !== null &&
+      value !== undefined &&
+      value !== '' &&
+      !['제품명', '모델명', '상품명', '브랜드', '제조사'].includes(key)
+    )
+    .slice(0, 20)
+    .map(([key, value]) => `- ${key}: ${value}`)
+    .join('\n') || '스펙 정보 없음';
+
+  // filter_attrs 정보도 포함
+  const filterAttrsText = currentProduct.filter_attrs
+    ? Object.entries(currentProduct.filter_attrs)
+        .filter(([_, value]) => value !== null && value !== undefined)
+        .slice(0, 10)
+        .map(([key, value]) => `- ${key}: ${value}`)
+        .join('\n')
+    : '';
+
+  // 다른 제품들 정보 포맷팅
   const otherProductsText = otherProducts.map((p, idx) => {
-    if (p.isSpecBased) {
-      const s = p.spec;
-      return `${idx + 1}. ${s.브랜드} ${s.모델명} (${s.최저가?.toLocaleString() || '가격정보없음'}원)
-   - 총점: ${s.총점 || 'N/A'}/10
-   - 순위: ${s.순위}/${s.총제품수}
-${p.reviews.substring(0, 1000)}...`;
-    } else {
-      const prod = p.product;
-      return `${idx + 1}. ${prod.title} (${prod.price.toLocaleString()}원)
-   - 온도: ${prod.coreValues.temperatureControl}/10, 위생: ${prod.coreValues.hygiene}/10
-${p.markdown.substring(0, 1000)}...`;
-    }
+    const pSpec = p.spec || {};
+    const pName = (pSpec as Record<string, string>)['제품명']
+      || (pSpec as Record<string, string>)['모델명']
+      || `제품 ${p.pcode}`;
+    const pBrand = (pSpec as Record<string, string>)['브랜드'] || '미상';
+
+    const pSpecText = Object.entries(pSpec)
+      .filter(([key, value]) =>
+        value !== null &&
+        value !== undefined &&
+        !['제품명', '모델명', '상품명', '브랜드', '제조사'].includes(key)
+      )
+      .slice(0, 10)
+      .map(([key, value]) => `  - ${key}: ${value}`)
+      .join('\n');
+
+    return `${idx + 1}. ${pBrand} ${pName}
+   - 가격: ${p.lowest_price?.toLocaleString() || '가격정보없음'}원
+   - 리뷰: ${p.review_count || 0}개 (평점: ${p.average_rating || 'N/A'})
+   - 주요 스펙:
+${pSpecText}`;
   }).join('\n\n');
 
-  const prompt = `당신은 ${spec.카테고리} 제품 비교 전문가입니다. ${otherProducts.length + 1}개의 제품을 비교하는 표를 작성 중입니다.
+  const categoryName = getCategoryName(category);
+
+  const prompt = `당신은 ${categoryName} 제품 비교 전문가입니다. ${otherProducts.length + 1}개의 제품을 비교하는 표를 작성 중입니다.
 
 **현재 제품:**
-- 브랜드: ${spec.브랜드}
-- 모델명: ${spec.모델명}
-- 가격: ${spec.최저가?.toLocaleString() || '가격정보없음'}원
-- 총점: ${spec.총점 || 'N/A'}/10
-- 순위: ${spec.순위}/${spec.총제품수}
+- 브랜드: ${brand}
+- 제품명: ${productName}
+- 가격: ${currentProduct.lowest_price?.toLocaleString() || '가격정보없음'}원
+- 리뷰: ${currentProduct.review_count || 0}개 (평점: ${currentProduct.average_rating || 'N/A'})
 
-**실제 사용자 리뷰:**
-${currentProduct.reviews}
+**주요 스펙:**
+${specText}
+
+${filterAttrsText ? `**필터 속성:**\n${filterAttrsText}` : ''}
 
 **비교 대상 제품들:**
 ${otherProductsText}
@@ -207,19 +204,24 @@ ${otherProductsText}
 **요청사항:**
 1. **장점 3개** (각 35자 이내):
    - 반드시 **구체적인 기능, 스펙, 소재명**을 명시하세요!
-   - **실제 리뷰**에서 언급된 내용만 추출하세요!
+   - **위 스펙 정보**에서 실제로 언급된 내용만 추출하세요!
    - ✅ 좋은 예: "43℃ 자동 냉각 기능", "SUS304 스테인리스 내부", "분리형 뚜껑으로 세척 간편", "24시간 보온 가능"
    - ❌ 절대 금지: "온도 조절 우수", "휴대성 높음", "위생 점수 8/10", "세척 편리", "사용 간편"
    - **"높음", "낮음", "우수", "미흡", "점수", "/10" 같은 표현 사용 시 0점 처리됩니다!**
 
 2. **주의점 3개** (각 35자 이내):
    - 구체적인 **문제점, 제약사항**만 명시하세요
+   - 스펙에서 부족하거나 없는 기능을 언급하세요
    - ✅ 좋은 예: "2시간 이상 보온 시 온도 하락", "분리 세척 불가", "220V 전용 (프리볼트 미지원)"
    - ❌ 절대 금지: "휴대성 낮음 (1/10)", "온도 조절 부족", "가격이 비쌈", "무거움"
 
 3. **한 줄 비교** (70자 이내):
    - 자연스러운 한국어 서술체로 다른 제품들과 비교
    - ✅ 예: "A보다 가격이 저렴하고 휴대가 간편하나, B만큼 온도 조절 기능은 다양하지 않음"
+
+**⚠️ 주의:**
+- 스펙 정보가 부족해도 있는 정보 내에서 최선의 분석을 제공하세요
+- 장점/주의점이 3개 미만이면 그대로 출력하세요. 억지로 채우지 마세요!
 
 **출력 형식 (JSON만):**
 \`\`\`json
@@ -239,7 +241,7 @@ ${otherProductsText}
     3
   );
 
-  // Parse JSON
+  // JSON 파싱
   let jsonStr = response.trim();
   if (jsonStr.includes('```json')) {
     jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
@@ -247,118 +249,39 @@ ${otherProductsText}
     jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
   }
 
-  const parsed = JSON.parse(jsonStr);
-
-  return {
-    pros: parsed.pros || [],
-    cons: parsed.cons || [],
-    comparison: parsed.comparison || '',
-    specs: spec.specs || null  // 스펙 데이터 추가
-  };
+  try {
+    const parsed = JSON.parse(jsonStr);
+    return {
+      pros: parsed.pros || [],
+      cons: parsed.cons || [],
+      comparison: parsed.comparison || '',
+      specs: currentProduct.spec
+    };
+  } catch (parseError) {
+    console.error('❌ JSON parse error:', parseError, 'Response:', jsonStr);
+    return {
+      pros: [],
+      cons: [],
+      comparison: '',
+      specs: currentProduct.spec
+    };
+  }
 }
 
 /**
- * Generate smart, concise pros/cons and comparison using LLM (for products.ts products)
+ * 카테고리 한글 이름 변환
  */
-async function generateProductSummary(
-  currentProduct: ProductWithDetails,
-  otherProducts: ProductData[]
-) {
-  const cv = currentProduct.product.coreValues;
-
-  // Format other products for comparison (handle both types)
-  const otherProductsText = otherProducts.map((p, idx) => {
-    if (p.isSpecBased) {
-      const s = p.spec;
-      return `${idx + 1}. ${s.브랜드} ${s.모델명} (${s.최저가?.toLocaleString() || '가격정보없음'}원)
-   - 총점: ${s.총점 || 'N/A'}/10
-   - 순위: ${s.순위}/${s.총제품수}
-${p.reviews.substring(0, 1000)}...`;
-    } else {
-      return `${idx + 1}. ${p.product.title} (${p.product.price.toLocaleString()}원)
-   - 온도: ${p.product.coreValues.temperatureControl}/10, 위생: ${p.product.coreValues.hygiene}/10
-   - 소재: ${p.product.coreValues.material}/10, 편의성: ${p.product.coreValues.usability}/10
-${p.markdown.substring(0, 1000)}...`;
-    }
-  }).join('\n\n');
-
-  const prompt = `당신은 분유포트 제품 비교 전문가입니다. ${otherProducts.length + 1}개의 제품을 비교하는 표를 작성 중입니다.
-
-**현재 제품:**
-- 이름: ${currentProduct.product.title}
-- 가격: ${currentProduct.product.price.toLocaleString()}원
-
-**핵심 속성 점수 (1-10점):**
-- 온도 조절/유지: ${cv.temperatureControl}/10
-- 위생/세척: ${cv.hygiene}/10
-- 소재/안전성: ${cv.material}/10
-- 사용 편의성: ${cv.usability}/10
-- 휴대성: ${cv.portability}/10
-- 부가 기능: ${cv.additionalFeatures}/10
-
-**상세 분석 (여기서 구체적 스펙을 추출하세요!):**
-${currentProduct.markdown}
-
-**비교 대상 제품들:**
-${otherProductsText}
-
-**요청사항:**
-1. **장점 3개** (각 35자 이내):
-   - 반드시 **구체적인 기능, 스펙, 소재명**을 명시하세요!
-   - **마크다운 상세 분석**에서 실제로 언급된 내용만 추출하세요!
-   - ✅ 좋은 예: "43℃ 자동 냉각 기능", "SUS304 스테인리스 내부", "분리형 뚜껑으로 세척 간편", "24시간 보온 가능"
-   - ❌ 절대 금지: "온도 조절 우수", "휴대성 높음", "위생 점수 8/10", "세척 편리", "사용 간편"
-   - **"높음", "낮음", "우수", "미흡", "점수", "/10" 같은 표현 사용 시 0점 처리됩니다!**
-
-2. **주의점 3개** (각 35자 이내):
-   - 구체적인 **문제점, 제약사항**만 명시하세요
-   - ✅ 좋은 예: "2시간 이상 보온 시 온도 하락", "분리 세척 불가", "220V 전용 (프리볼트 미지원)"
-   - ❌ 절대 금지: "휴대성 낮음 (1/10)", "온도 조절 부족", "가격이 비쌈", "무거움"
-   - **추상적 표현("낮음", "부족", "비쌈") 사용 금지! 구체적 문제만 서술!**
-
-3. **한 줄 비교** (70자 이내):
-   - 자연스러운 한국어 서술체로 2개 제품과 비교
-   - ✅ 예: "A보다 가격이 저렴하고 휴대가 간편하나, B만큼 온도 조절 기능은 다양하지 않음"
-
-**⚠️ 치명적 실수 방지:**
-- "휴대성 낮음", "온도 조절 높음" → ❌ 즉시 탈락
-- "8/10", "점수", "높음", "낮음" → ❌ 즉시 탈락
-- 마크다운에 없는 내용 지어내기 → ❌ 즉시 탈락
-- **장점/주의점이 3개 미만이면 그대로 출력하세요. 억지로 4개 채우지 마세요!**
-
-**출력 형식 (JSON만):**
-\`\`\`json
-{
-  "pros": ["장점1", "장점2", "장점3"],
-  "cons": ["주의점1", "주의점2", "주의점3"],
-  "comparison": "한 줄 비교"
-}
-\`\`\``;
-
-  const response = await callGeminiWithRetry(
-    async () => {
-      const model = getModel(0.5); // 0.7 → 0.5: 더 정확한 스펙 추출
-      const result = await model.generateContent(prompt);
-      return result.response.text();
-    },
-    3  // maxRetries
-  );
-
-  // Parse JSON from markdown code block if present
-  let jsonStr = response.trim();
-  if (jsonStr.includes('```json')) {
-    jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
-  } else if (jsonStr.includes('```')) {
-    jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
-  }
-
-  const parsed = JSON.parse(jsonStr);
-
-  return {
-    pros: parsed.pros || [],
-    cons: parsed.cons || [],
-    comparison: parsed.comparison || '',
-    specs: null  // products.ts 제품은 specs 없음
+function getCategoryName(category?: string): string {
+  const categoryNames: Record<string, string> = {
+    'milk_powder_port': '분유포트',
+    'baby_bottle': '젖병',
+    'baby_bottle_sterilizer': '젖병소독기',
+    'baby_formula_dispenser': '분유케이스',
+    'baby_monitor': '베이비모니터',
+    'baby_play_mat': '아기매트',
+    'car_seat': '카시트',
+    'nasal_aspirator': '코흡입기',
+    'thermometer': '체온계',
   };
+  return categoryNames[category || ''] || '육아용품';
 }
-

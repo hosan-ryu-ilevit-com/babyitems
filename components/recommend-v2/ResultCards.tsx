@@ -409,7 +409,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         </motion.div>
       )}
 
-      {/* 제품 카드 목록 */}
+      {/* 제품 카드 목록 - result 페이지 스타일 */}
       {products.map((product, index) => {
         const danawa = danawaData[product.pcode];
         const hasLowestPrice = danawa && danawa.lowest_price && danawa.lowest_price > 0;
@@ -423,163 +423,173 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 + index * 0.15 }}
             onClick={() => handleProductClick(product, index)}
-            className={`relative bg-white rounded-2xl border-2 overflow-hidden cursor-pointer hover:shadow-md transition-all ${
-              index === 0
-                ? 'border-yellow-400 shadow-lg'
-                : index === 1
-                ? 'border-gray-300'
-                : 'border-amber-200'
-            }`}
+            className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
           >
-            {/* 순위 뱃지 */}
-            <div
-              className={`absolute top-0 left-0 px-3 py-1 rounded-br-xl font-bold text-sm z-10 ${
-                index === 0
-                  ? 'bg-yellow-400 text-yellow-900'
-                  : index === 1
-                  ? 'bg-gray-300 text-gray-700'
-                  : 'bg-amber-600 text-white'
-              }`}
-            >
-              {index + 1}위
-            </div>
-
-            {/* 클릭 어포던스 */}
-            <div className="absolute top-3 right-3 text-gray-400">
+            {/* 클릭 어포던스 - 우상단 chevron */}
+            <div className="absolute top-4 right-3 text-gray-400">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </div>
 
-            {/* 카드 내용 */}
-            <div className="p-4 pt-8">
-              <div className="flex gap-3">
-                {/* 썸네일 */}
-                <div className="w-24 h-24 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden border border-gray-200">
-                  {product.thumbnail ? (
-                    <Image
-                      src={product.thumbnail}
-                      alt={product.title}
-                      width={96}
-                      height={96}
-                      className="w-full h-full object-contain p-2"
-                      quality={85}
-                      sizes="96px"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <svg className="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-
-                {/* 정보 */}
-                <div className="flex-1 min-w-0 flex flex-col">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    {product.brand && (
-                      <p className="text-xs text-gray-500 font-medium">
-                        {product.brand}
-                      </p>
-                    )}
-                    {/* 별점 & 리뷰 수 */}
-                    {hasReview && (
-                      <div className="flex items-center gap-1 text-xs">
-                        <svg className="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <span className="text-gray-600 font-medium">{review.averageRating.toFixed(1)}</span>
-                        <span className="text-gray-400">({review.reviewCount.toLocaleString()})</span>
-                      </div>
-                    )}
+            {/* 제품 정보 */}
+            <div className="flex gap-3 mb-0">
+              {/* 제품 썸네일 */}
+              <div className="relative w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100 border border-gray-200">
+                {product.thumbnail ? (
+                  <Image
+                    src={product.thumbnail}
+                    alt={product.title}
+                    width={112}
+                    height={112}
+                    className="w-full h-full object-cover"
+                    priority={index === 0}
+                    quality={90}
+                    sizes="112px"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-linear-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                    <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
                   </div>
-                  <h4 className="text-sm font-bold text-gray-900 line-clamp-2 mb-1.5 leading-tight">
-                    {product.title}
-                  </h4>
-                  <div className="mt-auto">
-                    {product.price && (
-                      <p className="text-lg font-bold text-gray-900">
-                        {product.price.toLocaleString()}
-                        <span className="text-xs text-gray-500 ml-0.5">원</span>
-                      </p>
-                    )}
-
-                    {/* 다나와 최저가 */}
-                    {loadingPrices ? (
-                      <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
-                        <div className="w-3 h-3 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-                        <span>최저가 확인 중...</span>
-                      </div>
-                    ) : hasLowestPrice ? (
-                      <div className="flex items-center gap-1 mt-0.5">
-                        <span className="text-xs text-red-600 font-medium">최저</span>
-                        <span className="text-xs text-red-600 font-bold">
-                          {danawa.lowest_price!.toLocaleString()}원
-                        </span>
-                        {danawa.lowest_mall && (
-                          <span className="text-[10px] text-gray-400">
-                            ({danawa.lowest_mall})
-                          </span>
-                        )}
-                      </div>
-                    ) : null}
-                  </div>
+                )}
+                {/* 랭킹 배지 - 좌측 상단 */}
+                <div className="absolute top-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-xl rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center">
+                  <span className="text-white font-semibold text-xs">
+                    {index + 1}
+                  </span>
                 </div>
               </div>
 
-              {/* LLM 추천 이유 (있는 경우) */}
-              {product.recommendationReason && (
-                <div className="mt-3 pt-3 border-t border-gray-100">
+              {/* 제품 상세 정보 */}
+              <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
+                {/* 브랜드 */}
+                {product.brand && (
+                  <div className="text-sm text-gray-500 font-medium mb-0">
+                    {product.brand}
+                  </div>
+                )}
+                {/* 제품명 */}
+                <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
+                  {product.title}
+                </h3>
+                {/* 가격 정보 */}
+                <div className="space-y-0">
+                  {product.price && (
+                    <p className="text-lg font-bold text-gray-900">
+                      {product.price.toLocaleString()}<span className="text-sm">원</span>
+                    </p>
+                  )}
+                  {/* 다나와 최저가 */}
+                  {loadingPrices ? (
+                    <div className="flex items-center gap-1 text-xs text-gray-400">
+                      <div className="w-3 h-3 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                      <span>최저가 확인 중...</span>
+                    </div>
+                  ) : hasLowestPrice ? (
+                    <div className="flex items-center gap-1 text-xs">
+                      <span className="text-red-600 font-medium">최저</span>
+                      <span className="text-red-600 font-medium">{danawa.lowest_price!.toLocaleString()}원</span>
+                      {danawa.lowest_mall && (
+                        <span className="text-gray-400">({danawa.lowest_mall})</span>
+                      )}
+                    </div>
+                  ) : null}
+                  {/* 별점 & 리뷰 수 */}
+                  {hasReview && (
+                    <div className="flex items-center gap-0.5">
+                      <svg className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      <span className="text-xs font-semibold text-gray-900">{review.averageRating.toFixed(1)}</span>
+                      <span className="text-xs text-gray-500">({review.reviewCount.toLocaleString()})</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* LLM 추천 이유 - result 페이지 스타일 */}
+            {product.recommendationReason && (
+              <div className="mt-3">
+                <div className="rounded-xl p-3 bg-[#F3E6FD]">
                   <div className="flex items-start gap-2">
-                    <span className="text-lg mt-0.5">💡</span>
-                    <p className="text-sm text-gray-700 font-medium leading-relaxed">
+                    <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24">
+                      <defs>
+                        <linearGradient id={`sparkle-gradient-${product.pcode}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#9325FC" />
+                          <stop offset="50%" stopColor="#C750FF" />
+                          <stop offset="100%" stopColor="#C878F7" />
+                        </linearGradient>
+                      </defs>
+                      <path fill={`url(#sparkle-gradient-${product.pcode})`} d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                    </svg>
+                    <p className="text-sm text-gray-700 leading-normal flex-1">
                       {product.recommendationReason}
                     </p>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* 상품 속성 태그 (filter_attrs 기반) */}
-              {product.filter_attrs && Object.keys(product.filter_attrs).length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100">
-                  {Object.entries(product.filter_attrs)
-                    .filter(([key, value]) => value && String(value) !== '-' && key !== '제조사별' && key !== '브랜드별')
-                    .slice(0, 5)
-                    .map(([, value], i) => (
-                      <span
-                        key={i}
-                        className="text-[10px] px-2 py-1 rounded-full bg-gray-100 text-gray-700 font-medium"
-                      >
-                        {String(value)}
-                      </span>
-                    ))}
+            {/* 하드 필터 조건 매칭 - 파란색 박스 */}
+            {userContext?.hardFilterAnswers && Object.keys(userContext.hardFilterAnswers).length > 0 && (
+              <div className="mt-2">
+                <div className="rounded-xl p-3 bg-blue-50 border border-blue-100">
+                  <div className="flex items-start gap-2">
+                    <svg className="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <div className="flex flex-wrap gap-1.5 flex-1">
+                      {Object.entries(userContext.hardFilterAnswers)
+                        .flatMap(([, values]) => values as string[])
+                        .slice(0, 4)
+                        .map((value, i) => (
+                          <span
+                            key={i}
+                            className="text-xs px-2 py-0.5 rounded-full bg-white text-blue-700 font-medium"
+                          >
+                            {value}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* 매칭된 선호 조건 태그 (밸런스 게임 매칭) */}
-              {((product.matchedPreferences && product.matchedPreferences.length > 0) ||
-                (product.matchedRules && product.matchedRules.length > 0)) && (
-                <div className="flex flex-wrap gap-1.5 mt-2">
-                  {(product.matchedPreferences && product.matchedPreferences.length > 0
-                    ? product.matchedPreferences
-                    : product.matchedRules || []
-                  ).slice(0, 3).map((item, i) => {
-                    const displayName = item
-                      .replace('체감속성_', '')
-                      .replace(/_/g, ' ');
-                    return (
-                      <span
-                        key={i}
-                        className="text-[10px] px-2 py-1 rounded-full bg-blue-50 text-blue-700 font-medium"
-                      >
-                        ✓ {displayName}
-                      </span>
-                    );
-                  })}
+            {/* 매칭된 선호 조건 태그 (밸런스 게임 매칭) - 초록색 박스 */}
+            {((product.matchedPreferences && product.matchedPreferences.length > 0) ||
+              (product.matchedRules && product.matchedRules.length > 0)) && (
+              <div className="mt-2">
+                <div className="rounded-xl p-3 bg-emerald-50 border border-emerald-100">
+                  <div className="flex items-start gap-2">
+                    <svg className="w-4 h-4 shrink-0 mt-0.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <div className="flex flex-wrap gap-1.5 flex-1">
+                      {(product.matchedPreferences && product.matchedPreferences.length > 0
+                        ? product.matchedPreferences
+                        : product.matchedRules || []
+                      ).slice(0, 4).map((item, i) => {
+                        const displayName = item
+                          .replace('체감속성_', '')
+                          .replace(/_/g, ' ');
+                        return (
+                          <span
+                            key={i}
+                            className="text-xs px-2 py-0.5 rounded-full bg-white text-emerald-700 font-medium"
+                          >
+                            {displayName}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </motion.div>
         );
       })}
