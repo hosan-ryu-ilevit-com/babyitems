@@ -19,6 +19,7 @@ import type {
   ScoredProduct,
   CheckpointData,
   NegativeFilterData,
+  GuideCardsData,
 } from '@/types/recommend-v2';
 import { STEP_LABELS, CATEGORY_BUDGET_RANGES } from '@/types/recommend-v2';
 
@@ -29,7 +30,6 @@ import {
   GuideCards,
   HardFilterQuestion as HardFilterQuestionComponent,
   CheckpointVisual,
-  NaturalLanguageInput,
   BalanceGameCarousel,
   NegativeFilterList,
   BudgetSlider,
@@ -51,7 +51,7 @@ import {
 // Data
 import hardFiltersData from '@/data/rules/hard_filters.json';
 import subCategoriesData from '@/data/rules/sub_categories.json';
-import { requiresSubCategorySelection } from '@/lib/recommend-v2/danawaFilters';
+import { requiresSubCategorySelection } from '@/lib/recommend-v2/categoryUtils';
 
 // Sub-category types
 interface SubCategory {
@@ -82,6 +82,9 @@ function generateId(): string {
 // =====================================================
 
 export default function RecommendV2Page() {
+  // DEBUG: Version check - if you don't see this in console, clear browser cache (Ctrl+Shift+R)
+  console.log('🏠 RecommendV2Page LOADED - v2.1 (dynamic questions debug)');
+
   const router = useRouter();
   const params = useParams();
   const categoryKey = params.categoryKey as string;
@@ -89,6 +92,9 @@ export default function RecommendV2Page() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const budgetSliderRef = useRef<HTMLDivElement>(null);
+
+  // Ref to always hold the latest products (to avoid closure issues in callbacks)
+  const productsRef = useRef<ProductItem[]>([]);
 
   // ===================================================
   // State
@@ -140,6 +146,9 @@ export default function RecommendV2Page() {
   const [subCategoryConfig, setSubCategoryConfig] = useState<SubCategoryConfig | null>(null);
   const [selectedSubCategoryCode, setSelectedSubCategoryCode] = useState<string | null>(null);
   const [showSubCategorySelector, setShowSubCategorySelector] = useState(false);
+
+  // Ref to hold handleHardFiltersComplete for circular dependency resolution
+  const handleHardFiltersCompleteRef = useRef<(answers: Record<string, string[]>, productsOverride?: ProductItem[]) => Promise<void>>(undefined);
 
   // ===================================================
   // Scroll to bottom
@@ -221,20 +230,23 @@ export default function RecommendV2Page() {
           setHardFilterConfig(config || null);
         }
 
-        // Load products (limit 제거 - 실제 전체 개수 로드)
-        // sub-category가 필요한 카테고리는 나중에 다시 로드하므로 여기서는 스킵
-        if (!needsSubCategory) {
-          const productsRes = await fetch('/api/v2/products', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ categoryKey, limit: 500 }),
-          });
-          const productsJson = await productsRes.json();
+        // Load products - 모든 카테고리에서 초기 로드 필요
+        // (sub-category 카테고리도 하위 카테고리별 개수 표시를 위해 필요)
+        console.log('📦 [Products] Loading for:', categoryKey);
+        const productsRes = await fetch('/api/v2/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ categoryKey, limit: 500 }),
+        });
+        const productsJson = await productsRes.json();
+        console.log('📦 [Products] Response:', productsJson.success, 'count:', productsJson.data?.count);
 
-          if (productsJson.success) {
-            setProducts(productsJson.data.products);
-            setFilteredProducts(productsJson.data.products);
-          }
+        if (productsJson.success && productsJson.data?.products) {
+          setProducts(productsJson.data.products);
+          setFilteredProducts(productsJson.data.products);
+          console.log('📦 [Products] Loaded:', productsJson.data.products.length);
+        } else {
+          console.error('📦 [Products] Failed:', productsJson.error);
         }
 
         // Set default budget range
@@ -251,6 +263,11 @@ export default function RecommendV2Page() {
     loadData();
   }, [categoryKey, router]);
 
+  // Keep productsRef in sync with products state (to avoid closure issues)
+  useEffect(() => {
+    productsRef.current = products;
+  }, [products]);
+
   // DEBUG: Track state changes
   useEffect(() => {
     console.log('📊 DEBUG State Changed:');
@@ -259,6 +276,13 @@ export default function RecommendV2Page() {
     console.log('  - balanceQuestions:', balanceQuestions.length);
     console.log('  - products:', products.length);
   }, [isLoading, hardFilterConfig, balanceQuestions, products]);
+
+  // DEBUG: Track dynamic questions state
+  useEffect(() => {
+    console.log('🔄 DEBUG Dynamic Questions Updated:');
+    console.log('  - dynamicBalanceQuestions:', dynamicBalanceQuestions.length, dynamicBalanceQuestions.map(q => q.id));
+    console.log('  - dynamicNegativeOptions:', dynamicNegativeOptions.length, dynamicNegativeOptions.map(o => o.id));
+  }, [dynamicBalanceQuestions, dynamicNegativeOptions]);
 
   // ===================================================
   // Step 0: Scan Animation Complete
@@ -303,8 +327,9 @@ export default function RecommendV2Page() {
     const filterBy = subCategoryConfig?.filter_by || 'category_code';
     const filterKey = subCategoryConfig?.filter_key;
 
-    // Store the loaded config for auto-proceed
+    // Store the loaded config and products for auto-proceed
     let loadedHardFilterConfig: HardFilterConfig | null = null;
+    let loadedProducts: ProductItem[] = [];
 
     // Reload hard filters for this specific sub-category
     try {
@@ -349,9 +374,10 @@ export default function RecommendV2Page() {
       const productsJson = await productsRes.json();
 
       if (productsJson.success) {
-        setProducts(productsJson.data.products);
-        setFilteredProducts(productsJson.data.products);
-        console.log('📦 Products loaded for sub-category:', productsJson.data.products.length);
+        loadedProducts = productsJson.data.products;
+        setProducts(loadedProducts);
+        setFilteredProducts(loadedProducts);
+        console.log('📦 Products loaded for sub-category:', loadedProducts.length);
       }
     } catch (error) {
       console.error('Sub-category load error:', error);
@@ -360,18 +386,19 @@ export default function RecommendV2Page() {
     scrollToBottom();
 
     // Auto-proceed to hard filters after sub-category selection
-    setTimeout(() => {
-      setCurrentStep(1);
+    const questions = loadedHardFilterConfig?.questions || [];
 
-      addMessage({
-        role: 'assistant',
-        content: '간단한 질문 몇 가지만 할게요.',
-        stepTag: '1/5',
-      });
+    if (questions.length > 0) {
+      // Hard filter questions exist - show them
+      setTimeout(() => {
+        setCurrentStep(1);
 
-      // Add first hard filter question
-      const questions = loadedHardFilterConfig?.questions || [];
-      if (questions.length > 0) {
+        addMessage({
+          role: 'assistant',
+          content: '간단한 질문 몇 가지만 할게요.',
+          stepTag: '1/5',
+        });
+
         setTimeout(() => {
           addMessage({
             role: 'system',
@@ -386,8 +413,16 @@ export default function RecommendV2Page() {
           });
           scrollToBottom();
         }, 300);
-      }
-    }, 500);
+      }, 500);
+    } else {
+      // No hard filter questions - skip directly to step 2 with loaded products
+      console.log('📦 No hard filter questions, skipping to step 2 with', loadedProducts.length, 'products');
+      // 약간의 딜레이 후 handleHardFiltersComplete 호출 (UI 업데이트 보장)
+      // ref를 사용하여 순환 의존성 해결
+      setTimeout(() => {
+        handleHardFiltersCompleteRef.current?.({}, loadedProducts);
+      }, 300);
+    }
   }, [categoryKey, subCategoryConfig, addMessage, scrollToBottom]);
 
   // ===================================================
@@ -425,7 +460,11 @@ export default function RecommendV2Page() {
       }, 300);
     } else {
       // No hard filter questions, skip to step 2
-      handleHardFiltersComplete({});
+      // Use setTimeout to ensure state updates have propagated
+      // ref를 사용하여 순환 의존성 해결
+      setTimeout(() => {
+        handleHardFiltersCompleteRef.current?.({});
+      }, 100);
     }
   }, [hardFilterConfig, addMessage, scrollToBottom]);
 
@@ -460,44 +499,70 @@ export default function RecommendV2Page() {
   // Step 1 Complete → Step 2
   // ===================================================
 
-  const handleHardFiltersComplete = useCallback(async (answers: Record<string, string[]>) => {
+  const handleHardFiltersComplete = useCallback(async (
+    answers: Record<string, string[]>,
+    productsOverride?: ProductItem[]  // 선택적: state 대신 직접 전달된 products 사용
+  ) => {
     setCurrentStep(2);
 
     // Apply filters to products
+    // 우선순위: 1) productsOverride (직접 전달) 2) productsRef.current (최신 상태)
+    // Note: productsRef.current 사용으로 closure 문제 해결 (콜백에서 stale products 방지)
+    const productsToUse = productsOverride || productsRef.current;
     const questions = hardFilterConfig?.questions || [];
-    const filtered = applyHardFilters(products, answers, questions);
+    const filtered = applyHardFilters(productsToUse, answers, questions);
     setFilteredProducts(filtered);
 
     // Generate condition summary
     const conditions = generateConditionSummary(answers, questions);
     setConditionSummary(conditions);
 
-    // Calculate relevant rule keys for dynamic questions
-    const relevantKeys = filterRelevantRuleKeys(filtered, logicMap);
-
-    // DEBUG: Log for troubleshooting
-    console.log('🔍 DEBUG handleHardFiltersComplete:');
-    console.log('  - products:', products.length);
+    console.log('🔍 handleHardFiltersComplete:');
+    console.log('  - productsOverride provided:', !!productsOverride);
+    console.log('  - productsRef.current:', productsRef.current.length);
+    console.log('  - products:', productsToUse.length);
     console.log('  - filtered:', filtered.length);
-    console.log('  - logicMap keys:', Object.keys(logicMap));
-    console.log('  - relevantKeys:', relevantKeys);
-    console.log('  - balanceQuestions:', balanceQuestions.length);
 
-    // Generate dynamic balance questions
-    const dynamicBalance = generateDynamicBalanceQuestions(
-      relevantKeys,
-      balanceQuestions,
-      categoryKey
-    );
-    console.log('  - dynamicBalance:', dynamicBalance.length, dynamicBalance.map(q => q.id));
-    setDynamicBalanceQuestions(dynamicBalance);
+    // ========================================
+    // 동적 질문 생성 (category-insights 기반 LLM)
+    // ========================================
+    console.log('🚀 [Dynamic Questions] Starting API call...');
+    console.log('  - categoryKey:', categoryKey);
+    console.log('  - filteredProducts count:', filtered.length);
 
-    // Generate dynamic negative options
-    const dynamicNegative = generateDynamicNegativeOptions(
-      relevantKeys,
-      negativeOptions
-    );
-    setDynamicNegativeOptions(dynamicNegative);
+    try {
+      // 후보군 상품 정보를 포함하여 API 호출
+      const generateResponse = await fetch('/api/v2/generate-questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryKey,
+          hardFilterAnswers: answers,
+          filteredProducts: filtered.slice(0, 50), // 상위 50개만 전달 (payload 크기 제한)
+        }),
+      });
+      const generateJson = await generateResponse.json();
+
+      if (generateJson.success && generateJson.data) {
+        const { balance_questions, negative_filter_options, generated_by } = generateJson.data;
+        console.log(`  - Dynamic questions generated (${generated_by}):`, balance_questions?.length, negative_filter_options?.length);
+
+        setDynamicBalanceQuestions(balance_questions || []);
+        setDynamicNegativeOptions(negative_filter_options || []);
+      } else {
+        console.warn('  - Dynamic question generation failed, using fallback');
+        // Fallback: 기존 정적 방식
+        const relevantKeys = filterRelevantRuleKeys(filtered, logicMap);
+        setDynamicBalanceQuestions(generateDynamicBalanceQuestions(relevantKeys, balanceQuestions, categoryKey));
+        setDynamicNegativeOptions(generateDynamicNegativeOptions(relevantKeys, negativeOptions));
+      }
+    } catch (error) {
+      console.error('Dynamic question generation error:', error);
+      // Fallback: 기존 정적 방식
+      const relevantKeys = filterRelevantRuleKeys(filtered, logicMap);
+      setDynamicBalanceQuestions(generateDynamicBalanceQuestions(relevantKeys, balanceQuestions, categoryKey));
+      setDynamicNegativeOptions(generateDynamicNegativeOptions(relevantKeys, negativeOptions));
+    }
 
     // Generate AI summary message based on hard filter selections
     let aiSummary = '';
@@ -510,7 +575,7 @@ export default function RecommendV2Page() {
             categoryKey,
             categoryName,
             conditions,
-            productCount: products.length,
+            productCount: productsToUse.length,
             filteredCount: filtered.length,
           }),
         });
@@ -524,7 +589,7 @@ export default function RecommendV2Page() {
     }
 
     // Add checkpoint message with actual product count
-    const summaryMessage = aiSummary || `전체 **${products.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
+    const summaryMessage = aiSummary || `전체 **${productsToUse.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
     addMessage({
       role: 'assistant',
       content: summaryMessage,
@@ -537,7 +602,7 @@ export default function RecommendV2Page() {
         content: '',
         componentType: 'checkpoint',
         componentData: {
-          totalProducts: products.length,
+          totalProducts: productsToUse.length,
           filteredCount: filtered.length,
           conditions,
         } as CheckpointData,
@@ -553,7 +618,12 @@ export default function RecommendV2Page() {
         scrollToBottom();
       }, 300);
     }, 500);
-  }, [products, hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToBottom]);
+  }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToBottom]);
+
+  // Update ref to the latest handleHardFiltersComplete
+  useEffect(() => {
+    handleHardFiltersCompleteRef.current = handleHardFiltersComplete;
+  }, [handleHardFiltersComplete]);
 
   // "다음" 버튼 클릭 시 다음 질문으로 이동
   const handleHardFilterNext = useCallback(() => {
@@ -585,56 +655,14 @@ export default function RecommendV2Page() {
   }, [hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, addMessage, scrollToBottom, handleHardFiltersComplete]);
 
   // ===================================================
-  // Step 2: Natural Language Input
-  // ===================================================
-
-  const handleNaturalLanguageSubmit = useCallback(async (text: string) => {
-    try {
-      // Call parse API
-      const response = await fetch('/api/v2/parse-conditions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          query: text,
-          categoryKey,
-          currentAnswers: hardFilterAnswers,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (result.success && result.data.parsedConditions) {
-        // Update answers and re-filter
-        const newAnswers = { ...hardFilterAnswers, ...result.data.parsedConditions };
-        setHardFilterAnswers(newAnswers);
-
-        addMessage({
-          role: 'assistant',
-          content: result.data.message || '조건을 업데이트했어요.',
-        });
-
-        // Re-apply filters
-        handleHardFiltersComplete(newAnswers);
-      } else {
-        addMessage({
-          role: 'assistant',
-          content: '죄송해요, 조건을 이해하지 못했어요. 다시 말씀해주시겠어요?',
-        });
-      }
-    } catch {
-      addMessage({
-        role: 'assistant',
-        content: '오류가 발생했어요. 다시 시도해주세요.',
-      });
-    }
-    scrollToBottom();
-  }, [categoryKey, hardFilterAnswers, addMessage, scrollToBottom, handleHardFiltersComplete]);
-
-  // ===================================================
   // Step 2 → Step 3: Start Balance Game
   // ===================================================
 
   const handleStartBalanceGame = useCallback(() => {
+    console.log('🎮 [Step 3] handleStartBalanceGame called');
+    console.log('  - dynamicBalanceQuestions:', dynamicBalanceQuestions.length, dynamicBalanceQuestions.map(q => q.id));
+    console.log('  - balanceQuestions (static):', balanceQuestions.length);
+
     setCurrentStep(3);
     setCurrentBalanceIndex(0);
 
@@ -667,6 +695,11 @@ export default function RecommendV2Page() {
   // ===================================================
 
   const handleBalanceGameComplete = useCallback((selections: Set<string>) => {
+    console.log('🚫 [Step 4] handleBalanceGameComplete called');
+    console.log('  - selections:', Array.from(selections));
+    console.log('  - dynamicNegativeOptions:', dynamicNegativeOptions.length, dynamicNegativeOptions.map(o => o.id));
+    console.log('  - negativeOptions (static):', negativeOptions.length);
+
     // 선택된 rule keys 저장
     setBalanceSelections(selections);
     setCurrentStep(4);
@@ -898,7 +931,7 @@ export default function RecommendV2Page() {
               }`}
             >
               <GuideCards
-                data={message.componentData as { title: string; summary?: string; points: string[]; trend: string }}
+                data={message.componentData as GuideCardsData & { introMessage?: string }}
                 introMessage={(message.componentData as { introMessage?: string })?.introMessage}
                 onNext={() => {
                   // 가이드 카드 완료 후 다음 단계로 진행 (스크롤 + 다음 스텝 표시)
@@ -992,21 +1025,6 @@ export default function RecommendV2Page() {
             >
               <CheckpointVisual
                 data={message.componentData as CheckpointData}
-              />
-            </div>
-          );
-
-        case 'natural-input':
-          return (
-            <div
-              key={message.id}
-              className={`transition-all duration-300 ${
-                currentStep > 2 ? 'opacity-50 pointer-events-none' : ''
-              }`}
-            >
-              <NaturalLanguageInput
-                onSubmit={handleNaturalLanguageSubmit}
-                disabled={currentStep > 2}
               />
             </div>
           );
@@ -1170,8 +1188,9 @@ export default function RecommendV2Page() {
 
     // Step 0: 시작하기
     if (currentStep === 0 && !showScanAnimation) {
-      // If sub-category required but not yet selected, don't show button
-      if (requiresSubCategory && showSubCategorySelector && !selectedSubCategoryCode) {
+      // If sub-category required but not yet selected, don't show start button
+      // (sub-category selector에서 선택해야 함)
+      if (requiresSubCategory && !selectedSubCategoryCode) {
         return null;
       }
 
@@ -1438,10 +1457,6 @@ export default function RecommendV2Page() {
 
           {/* Progress Bar */}
           <div className="px-5 pb-3">
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
-              <span>{currentStep}/5</span>
-              <span>{STEP_LABELS[currentStep]}</span>
-            </div>
             <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-blue-500 rounded-full"

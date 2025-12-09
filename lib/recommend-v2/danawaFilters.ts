@@ -7,6 +7,7 @@
 
 import type { HardFilterQuestion, HardFilterOption } from '@/types/recommend-v2';
 import manualQuestionsData from '@/data/rules/manual_hard_questions.json';
+import { CATEGORY_CODE_MAP } from './categoryUtils';
 
 // 다나와 필터 원본 타입
 interface DanawaFilter {
@@ -29,26 +30,6 @@ interface ManualQuestionConfig {
     }>;
   }>;
 }
-
-// 카테고리 키 → 다나와 카테고리 코드 매핑
-export const CATEGORY_CODE_MAP: Record<string, string[]> = {
-  stroller: ['16349368', '16349193', '16349195', '16349196'],
-  car_seat: ['16349200', '16349201', '16349202', '16353763'],
-  formula: ['16249091'],
-  formula_maker: ['16349381'],
-  formula_pot: ['16330960'],
-  baby_bottle: ['16349219'],
-  pacifier: ['16349351'],
-  diaper: ['16349108', '16349109', '16356038', '16349110', '16356040', '16356042'],
-  baby_wipes: ['16349119'],
-  thermometer: ['17325941'],
-  nasal_aspirator: ['16349248'],
-  ip_camera: ['11427546'],
-  baby_bed: ['16338152'],
-  high_chair: ['16338153', '16338154'],
-  baby_sofa: ['16338155'],
-  baby_desk: ['16338156'],
-};
 
 // 필터 이름 → 한글 질문 텍스트 매핑
 const FILTER_QUESTION_MAP: Record<string, string> = {
@@ -76,8 +57,20 @@ const FILTER_QUESTION_MAP: Record<string, string> = {
 // 중요도가 높은 필터 (먼저 표시)
 const HIGH_PRIORITY_FILTERS = ['재질', '타입', '종류', '품목', '형태', '용량', '사용연령', '대상연령', '뚜껑', '단계', '허용무게'];
 
-// 제외할 필터 (너무 많거나 불필요)
-const EXCLUDED_FILTERS = ['제조사별', '브랜드별', '색상계열', '출시년도'];
+// 제외할 필터 (카테고리별로 다르게 적용)
+// 기본값: 브랜드/출시년도 제외 (대부분의 카테고리에서 불필요)
+const DEFAULT_EXCLUDED_FILTERS = ['제조사별', '브랜드별', '색상계열', '출시년도'];
+
+// 카테고리별 제외 필터 (해당 카테고리에서는 이 필터들만 제외)
+// 유모차/카시트: 브랜드/출시년도가 유의미한 필터일 수 있음
+const CATEGORY_EXCLUDED_FILTERS: Record<string, string[]> = {
+  stroller: ['색상계열'],  // 브랜드, 출시년도 포함
+  car_seat: ['색상계열'],  // 브랜드, 출시년도 포함
+};
+
+function getExcludedFilters(categoryKey: string): string[] {
+  return CATEGORY_EXCLUDED_FILTERS[categoryKey] || DEFAULT_EXCLUDED_FILTERS;
+}
 
 // 세부 카테고리 선택 후 제외할 필터 (이미 선택했으므로 중복)
 // 단, 타입 기반 sub-category를 가진 카테고리에만 적용 (유모차, 카시트)
@@ -85,11 +78,13 @@ const EXCLUDED_FILTERS = ['제조사별', '브랜드별', '색상계열', '출�
 const SUB_CATEGORY_TYPE_FILTERS = ['타입', '형태', '종류', '품목'];
 const TYPE_BASED_SUB_CATEGORY_KEYS = ['stroller', 'car_seat'];  // 브랜드가 아닌 타입으로 sub-category 구분하는 카테고리
 
-// features 배열에 포함되는 필터들 (contains 연산 필요)
+// features 배열에 포함되는 필터들 (spec.features에서 contains 연산 필요)
+// 이 필터들만 spec.features를 사용하고, 나머지는 모두 filter_attrs 사용
 const FEATURES_ARRAY_FILTERS = ['안전기능', '기능', '특징', '부가기능'];
 
-// filter_attrs 기반 필터 (다나와 필터 옵션과 1:1 매칭)
-const FILTER_ATTRS_FILTERS = ['재질', '뚜껑', '안전기능', '품목', '형태', '단계', '종류', '대상연령', '허용무게', '벨트타입'];
+// NOTE: 기존 FILTER_ATTRS_FILTERS 리스트는 제거됨
+// 모든 다나와 필터는 기본적으로 filter_attrs에 저장되므로,
+// FEATURES_ARRAY_FILTERS에 해당하지 않는 모든 필터는 filter_attrs.X 경로 사용
 
 /**
  * 다나와 필터를 하드필터 질문으로 변환
@@ -114,9 +109,10 @@ export function convertDanawaFiltersToHardFilters(
   const isSubCategorySelected = targetCategoryCodes && targetCategoryCodes.length === 1;
   const shouldExcludeTypeFilters = isSubCategorySelected && TYPE_BASED_SUB_CATEGORY_KEYS.includes(categoryKey);
 
+  const excludedFilters = getExcludedFilters(categoryKey);
   const uniqueFilters = new Map<string, DanawaFilter>();
   for (const filter of relevantFilters) {
-    if (EXCLUDED_FILTERS.includes(filter.filter_name)) continue;
+    if (excludedFilters.includes(filter.filter_name)) continue;
 
     // 타입 기반 sub-category 선택 후에는 타입/형태 필터 제외 (유모차, 카시트만)
     if (shouldExcludeTypeFilters && SUB_CATEGORY_TYPE_FILTERS.includes(filter.filter_name)) continue;
@@ -166,8 +162,9 @@ function convertFilterToQuestion(
   const displayOptions = filter.options.slice(0, maxOptions);
 
   // 필터링 방식 결정
+  // - FEATURES_ARRAY_FILTERS: spec.features 배열에서 contains 검색
+  // - 그 외 모든 필터: filter_attrs.X에서 정확히 매칭 (다나와 필터 데이터 위치)
   const isFeatureFilter = FEATURES_ARRAY_FILTERS.includes(filter.filter_name);
-  const isFilterAttrsFilter = FILTER_ATTRS_FILTERS.includes(filter.filter_name);
 
   const options: HardFilterOption[] = displayOptions.map(opt => ({
     label: opt,
@@ -177,14 +174,9 @@ function convertFilterToQuestion(
           // features 배열에서 contains로 검색
           'spec.features': { contains: opt },
         }
-      : isFilterAttrsFilter
-      ? {
-          // filter_attrs에서 정확히 매칭 (가장 정확)
-          [`filter_attrs.${filter.filter_name}`]: opt,
-        }
       : {
-          // spec 필드에서 정확히 매칭
-          [`spec.${filter.filter_name}`]: opt,
+          // filter_attrs에서 정확히 매칭 (다나와 필터 데이터 기본 위치)
+          [`filter_attrs.${filter.filter_name}`]: opt,
         },
   }));
 
@@ -244,47 +236,136 @@ export async function loadDanawaFilters(): Promise<DanawaFilter[]> {
   }
 }
 
+// 제품 데이터 타입 (간소화)
+interface DanawaProduct {
+  category_code: string;
+  filter_attrs?: Record<string, string>;
+  spec?: {
+    features?: string[];
+    [key: string]: unknown;
+  };
+}
+
+/**
+ * 다나와 제품 JSON 파일 로드
+ */
+export async function loadDanawaProducts(): Promise<DanawaProduct[]> {
+  try {
+    const fs = await import('fs/promises');
+    const path = await import('path');
+
+    const filePath = path.join(process.cwd(), 'danawaproduct_1208/danawa_products_20251209_025019.json');
+    const data = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Failed to load danawa products:', error);
+    return [];
+  }
+}
+
+/**
+ * 필터 옵션에 매칭되는 제품 수 계산
+ */
+function countProductsForFilterOption(
+  products: DanawaProduct[],
+  filterName: string,
+  optionValue: string,
+  isFeatureFilter: boolean
+): number {
+  return products.filter(product => {
+    if (isFeatureFilter) {
+      // spec.features 배열에서 contains 검색
+      const features = product.spec?.features || [];
+      return features.some(f => f.toLowerCase().includes(optionValue.toLowerCase()));
+    } else {
+      // filter_attrs에서 정확히 매칭
+      const attrValue = product.filter_attrs?.[filterName];
+      return attrValue === optionValue;
+    }
+  }).length;
+}
+
+/**
+ * 필터 질문이 유효한지 확인
+ * - 최소 2개 이상의 옵션에 매칭되는 제품이 있어야 함 (필터링 의미가 있어야 함)
+ * - 1개 옵션만 있으면 모든 제품이 같은 값이므로 필터링 의미 없음
+ */
+function isValidFilterQuestion(
+  question: HardFilterQuestion,
+  products: DanawaProduct[],
+  filterName: string
+): boolean {
+  const isFeatureFilter = FEATURES_ARRAY_FILTERS.includes(filterName);
+
+  // "상관없어요" 제외한 옵션들 중 매칭되는 제품이 있는 옵션 수 계산
+  const validOptionCount = question.options.filter(opt => {
+    if (opt.value === 'any' || opt.label === '상관없어요') return false;
+    const count = countProductsForFilterOption(products, filterName, opt.label, isFeatureFilter);
+    return count > 0;
+  }).length;
+
+  // 최소 2개 이상의 옵션에 제품이 있어야 필터링 의미가 있음
+  return validOptionCount >= 2;
+}
+
 /**
  * 카테고리별 하드필터 질문 생성 (통합)
  * - 다나와 필터 기반 동적 생성
+ * - 실제 제품 데이터가 있는 필터만 포함
  * - 부족할 경우 수동 정의 질문으로 보충
  */
 export async function generateHardFiltersForCategory(
   categoryKey: string,
   targetCategoryCodes?: string[]
 ): Promise<HardFilterQuestion[]> {
-  // 1. 다나와 필터 기반 동적 생성
-  const danawaFilters = await loadDanawaFilters();
+  // 1. 다나와 필터 및 제품 데이터 로드
+  const [danawaFilters, allProducts] = await Promise.all([
+    loadDanawaFilters(),
+    loadDanawaProducts(),
+  ]);
+
+  // 해당 카테고리의 제품만 필터링
+  const categoryCodes = targetCategoryCodes || CATEGORY_CODE_MAP[categoryKey] || [];
+  const categoryProducts = allProducts.filter(p => categoryCodes.includes(p.category_code));
+
+  // 2. 다나와 필터 기반 동적 생성 (더 많이 생성해서 유효성 검사 후 필터링)
   const dynamicQuestions = convertDanawaFiltersToHardFilters(
     danawaFilters,
     categoryKey,
     targetCategoryCodes,
-    4
+    10  // 더 많이 생성 (유효성 검사 후 필터링됨)
   );
 
-  // 2. 수동 정의 질문 로드
+  // 3. 유효한 질문만 필터링 (실제 제품 데이터가 있는 필터만)
+  const validQuestions = dynamicQuestions.filter(question => {
+    // question.id에서 filter_name 추출 (hf_categoryKey_filterName_index 형식)
+    const parts = question.id.split('_');
+    // categoryKey가 underscore 포함 가능하므로 마지막 2개를 제외하고 중간 부분이 filterName
+    const filterName = parts.slice(2, -1).join('_').replace(/_/g, ' ').trim() || parts[2];
+
+    // 원본 필터 이름 찾기 (ID에서 공백이 _로 변환되었으므로)
+    const originalFilterName = Object.keys(FILTER_QUESTION_MAP).find(name =>
+      name.replace(/\s+/g, '_') === parts.slice(2, -1).join('_')
+    ) || filterName;
+
+    return isValidFilterQuestion(question, categoryProducts, originalFilterName);
+  });
+
+  console.log(`[danawaFilters] ${categoryKey}: ${dynamicQuestions.length} generated, ${validQuestions.length} valid`);
+
+  // 4. 수동 정의 질문 로드
   const manualQuestions = getManualQuestions(categoryKey);
 
-  // 3. 동적 질문이 2개 미만이면 수동 질문으로 보충
-  if (dynamicQuestions.length < 2) {
-    // 수동 질문 우선, 중복 ID 제거
-    const existingIds = new Set(dynamicQuestions.map(q => q.id));
+  // 5. 유효한 동적 질문이 2개 미만이면 수동 질문으로 보충
+  if (validQuestions.length < 2) {
+    const existingIds = new Set(validQuestions.map(q => q.id));
     const additionalQuestions = manualQuestions.filter(q => !existingIds.has(q.id));
 
-    return [...dynamicQuestions, ...additionalQuestions].slice(0, 5);
+    return [...validQuestions, ...additionalQuestions].slice(0, 5);
   }
 
-  // 4. 동적 질문이 충분하면 그대로 반환 (최대 5개)
-  return dynamicQuestions.slice(0, 5);
+  // 6. 유효한 동적 질문이 충분하면 그대로 반환 (최대 5개)
+  return validQuestions.slice(0, 5);
 }
 
-/**
- * 세부 카테고리 선택이 필요한지 확인
- * - 유모차: 디럭스형/절충형/휴대용/쌍둥이용 (category_code로 필터)
- * - 카시트: 일체형/분리형/바구니형/부스터형 (category_code로 필터)
- * - 기저귀: 밴드형/팬티형 (filter_attrs.타입으로 필터)
- */
-export function requiresSubCategorySelection(categoryKey: string): boolean {
-  const categoriesWithSubCategories = ['stroller', 'car_seat', 'diaper'];
-  return categoriesWithSubCategories.includes(categoryKey);
-}
+// requiresSubCategorySelection은 categoryUtils.ts로 이동됨

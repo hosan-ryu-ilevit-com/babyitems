@@ -31,6 +31,19 @@ interface HardFilterGuide {
   };
 }
 
+// 가이드 카드용 타입
+interface GuideProConItem {
+  text: string;
+  mentionRate?: number;
+  dealBreakerFor?: string;
+}
+
+interface GuideTradeoff {
+  title: string;
+  optionA: string;
+  optionB: string;
+}
+
 interface CategoryRulesResponse {
   category_key: string;
   category_name: string;
@@ -39,7 +52,16 @@ interface CategoryRulesResponse {
   balance_game: BalanceQuestion[];
   negative_filter: NegativeFilterOption[];
   hard_filters: {
-    guide: { title: string; summary?: string; points: string[]; trend: string };
+    guide: {
+      title: string;
+      summary?: string;
+      points: string[];
+      trend: string;
+      // 새로운 초보 부모 친화적 데이터
+      topPros?: GuideProConItem[];
+      topCons?: GuideProConItem[];
+      keyTradeoff?: GuideTradeoff;
+    };
     questions: HardFilterQuestion[];
   };
 }
@@ -80,15 +102,56 @@ export async function GET(
     const insights = await loadCategoryInsights(categoryKey);
     const hardFilterGuide = (hardFiltersData as Record<string, HardFilterGuide>)[categoryKey];
 
-    // category-insights의 guide 데이터 변환
-    let guideData: { title: string; summary?: string; points: string[]; trend: string };
+    // category-insights의 guide 데이터 변환 (초보 부모 친화적 구조 포함)
+    let guideData: {
+      title: string;
+      summary?: string;
+      points: string[];
+      trend: string;
+      topPros?: GuideProConItem[];
+      topCons?: GuideProConItem[];
+      keyTradeoff?: GuideTradeoff;
+    };
+
     if (insights?.guide) {
+      // 기본 가이드 데이터
       guideData = {
         title: insights.guide.title,
         summary: insights.guide.summary || undefined,
         points: insights.guide.key_points || [],
         trend: insights.guide.trend || '',
       };
+
+      // 초보 부모 친화적 데이터 추가 (인사이트에서 추출)
+      // Top 3 장점 (mention_rate 높은 순)
+      if (insights.pros && insights.pros.length > 0) {
+        guideData.topPros = insights.pros.slice(0, 3).map(pro => ({
+          text: pro.text,
+          mentionRate: pro.mention_rate,
+        }));
+      }
+
+      // Top 3 단점 (deal_breaker_for가 있는 것 우선)
+      if (insights.cons && insights.cons.length > 0) {
+        const consWithDealBreaker = insights.cons
+          .filter(con => con.deal_breaker_for)
+          .slice(0, 3);
+        guideData.topCons = consWithDealBreaker.map(con => ({
+          text: con.text,
+          mentionRate: con.mention_rate,
+          dealBreakerFor: con.deal_breaker_for,
+        }));
+      }
+
+      // 핵심 트레이드오프 (첫 번째)
+      if (insights.tradeoffs && insights.tradeoffs.length > 0) {
+        const firstTradeoff = insights.tradeoffs[0];
+        guideData.keyTradeoff = {
+          title: firstTradeoff.title,
+          optionA: firstTradeoff.option_a.text,
+          optionB: firstTradeoff.option_b.text,
+        };
+      }
     } else if (hardFilterGuide?.guide) {
       guideData = hardFilterGuide.guide;
     } else {

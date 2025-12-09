@@ -8,6 +8,13 @@ import type { CategoryInsights } from '@/types/category-insights';
 import * as fs from 'fs';
 import * as path from 'path';
 
+// 앱 카테고리 키 → insights 파일명 매핑
+// (앱에서 사용하는 키와 insights 파일명이 다른 경우)
+const CATEGORY_KEY_TO_INSIGHTS_FILE: Record<string, string> = {
+  formula_pot: 'milk_powder_port',  // 분유포트
+  // 나머지는 동일한 키 사용
+};
+
 // 캐시 (서버 사이드에서 파일을 반복 로드하지 않도록)
 const insightsCache: Record<string, CategoryInsights> = {};
 
@@ -20,8 +27,11 @@ export async function loadCategoryInsights(categoryKey: string): Promise<Categor
     return insightsCache[categoryKey];
   }
 
+  // 매핑된 파일명 사용 (없으면 원래 키 사용)
+  const insightsFileName = CATEGORY_KEY_TO_INSIGHTS_FILE[categoryKey] || categoryKey;
+
   try {
-    const filePath = path.join(process.cwd(), 'data', 'category-insights', `${categoryKey}.json`);
+    const filePath = path.join(process.cwd(), 'data', 'category-insights', `${insightsFileName}.json`);
 
     // 파일 존재 확인
     if (!fs.existsSync(filePath)) {

@@ -211,10 +211,15 @@ export function HardFilterQuestion({
           const isSkipOption = SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없');
           const isDisabled = isSkipSelected && !isSkipOption;
 
-          // 디버깅용: 옵션별 제품 개수 계산
+          // 옵션별 제품 개수 계산
           const productCount = showProductCounts && products
             ? countProductsForOption(products, option)
             : null;
+
+          // 0개인 옵션은 숨김 (단, "상관없어요" 같은 skip 옵션은 항상 표시)
+          if (productCount === 0 && !isSkipOption) {
+            return null;
+          }
 
           return (
             <motion.button

@@ -191,11 +191,30 @@ export interface RecommendV2State {
 // 컴포넌트 Props 타입
 // ===================================================
 
-export interface GuideCardsData {
+// 가이드 카드용 장점/단점 아이템
+export interface GuideProConItem {
+  text: string;
+  mentionRate?: number;  // 리뷰 언급률 (%)
+  dealBreakerFor?: string;  // 단점의 경우: 누구에게 치명적인지
+}
+
+// 가이드 카드용 트레이드오프
+export interface GuideTradeoff {
   title: string;
-  summary?: string;  // category-insights에서 제공하는 핵심 요약
+  optionA: string;
+  optionB: string;
+}
+
+export interface GuideCardsData {
+  // 기존 (fallback용)
+  title: string;
+  summary?: string;
   points: string[];
   trend: string;
+  // 새로운 구조 (초보 부모 친화적)
+  topPros?: GuideProConItem[];      // "이건 꼭 확인하세요!" - 실구매자 top 장점
+  topCons?: GuideProConItem[];      // "이건 피하세요!" - deal_breaker 단점
+  keyTradeoff?: GuideTradeoff;      // "고민되시죠?" - 핵심 트레이드오프
 }
 
 export interface HardFilterData {
