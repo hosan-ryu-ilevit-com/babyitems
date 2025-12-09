@@ -79,11 +79,22 @@ async function generateComparisons(
   const categoryPros = insights.pros.slice(0, 4).map(p => `- ${p.text}`).join('\n');
   const categoryCons = insights.cons.slice(0, 4).map(c => `- ${c.text}`).join('\n');
 
+  // 제품명 축약 정보 (한 줄 비교용)
+  const productShortNames = products.map(p => {
+    // 브랜드 + 모델명 앞부분으로 축약 (예: "보르르 분유포트" → "보르르")
+    const brand = p.brand || '';
+    const titleFirstWord = p.title.split(' ')[0] || '';
+    return brand || titleFirstWord;
+  });
+
   const prompt = `당신은 ${categoryName} 제품 비교 전문가입니다.
 아래 ${products.length}개의 추천 제품을 비교해주세요.
 
 ## 추천 제품 목록
 ${productsText}
+
+## 제품 축약명 (비교 시 사용)
+${products.map((p, i) => `${i + 1}위: "${productShortNames[i]}"`).join(', ')}
 
 ## 이 카테고리의 일반적인 장점 (참고용)
 ${categoryPros}
@@ -103,10 +114,13 @@ ${categoryCons}
    - 구체적인 **문제점, 제약사항** 명시
    - ✅ 예: "무게 1.5kg으로 무거움", "분리 세척 불가", "220V 전용"
    - ❌ 금지: "휴대성 낮음", "가격 비쌈"
+   - ❌ 금지: "리뷰/평점 없음", "후기 부족", "평점 확인 필요" 등 리뷰 관련 언급 (대부분의 제품이 현재 리뷰가 없음)
 
 3. **한 줄 비교** (70자 이내):
    - 다른 추천 제품들과 비교하여 이 제품의 특징을 한 줄로 요약
-   - ✅ 예: "1위보다 저렴하지만 흡입력은 살짝 낮음"
+   - 다른 제품 언급 시 **제품 코드(pcode) 대신 위의 축약명**을 사용
+   - ✅ 예: "${productShortNames[0] || '1위'}보다 저렴하지만 흡입력은 살짝 낮음"
+   - ❌ 금지: "제품 1234567 대비", pcode 직접 언급
 
 ## 응답 JSON 형식
 {

@@ -13,6 +13,8 @@ interface Product {
   최저가: number;
   썸네일: string;
   리뷰수?: number;
+  평균평점?: number;
+  순위?: number;
 }
 
 interface AnchorProductChangeBottomSheetProps {
@@ -21,6 +23,7 @@ interface AnchorProductChangeBottomSheetProps {
   currentCategory: string;
   currentAnchorProductId: string;
   onSelectProduct: (product: Product) => void;
+  useV2Api?: boolean; // v2 Supabase API 사용 여부
 }
 
 export default function AnchorProductChangeBottomSheet({
@@ -29,6 +32,7 @@ export default function AnchorProductChangeBottomSheet({
   currentCategory,
   currentAnchorProductId,
   onSelectProduct,
+  useV2Api = false,
 }: AnchorProductChangeBottomSheetProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,12 +44,18 @@ export default function AnchorProductChangeBottomSheet({
     if (isOpen) {
       loadProducts();
     }
-  }, [isOpen, currentCategory]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, currentCategory, useV2Api]);
 
   const loadProducts = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/anchor-products?category=${currentCategory}&limit=50`);
+      // v2 API 또는 기존 API 호출
+      const apiUrl = useV2Api
+        ? `/api/v2/anchor-products?categoryKey=${currentCategory}&limit=50`
+        : `/api/anchor-products?category=${currentCategory}&limit=50`;
+
+      const response = await fetch(apiUrl);
       if (response.ok) {
         const data = await response.json();
         setProducts(data.products || []);
@@ -175,6 +185,12 @@ export default function AnchorProductChangeBottomSheet({
                               quality={85}
                             />
                           )}
+                          {/* 순위 배지 */}
+                          {product.순위 && !isCurrentAnchor && (
+                            <div className="absolute top-0 left-0 w-5 h-5 bg-gray-900 rounded-tl-lg rounded-br-md flex items-center justify-center">
+                              <span className="text-white font-bold text-[10px]">{product.순위}</span>
+                            </div>
+                          )}
                           {isCurrentAnchor && (
                             <div className="absolute inset-0 bg-blue-500/20 flex items-center justify-center">
                               <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
@@ -190,13 +206,21 @@ export default function AnchorProductChangeBottomSheet({
                           <p className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
                             {product.모델명}
                           </p>
-                          <div className="flex items-center gap-2">
-                            {product.최저가 && (
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {product.최저가 > 0 && (
                               <p className="text-sm font-bold text-gray-900">
                                 {product.최저가.toLocaleString()}원
                               </p>
                             )}
-                            {product.리뷰수 && (
+                            {product.평균평점 != null && product.평균평점 > 0 && (
+                              <div className="flex items-center gap-0.5">
+                                <svg className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span className="text-xs text-gray-600 font-medium">{product.평균평점.toFixed(1)}</span>
+                              </div>
+                            )}
+                            {product.리뷰수 != null && product.리뷰수 > 0 && (
                               <p className="text-xs text-gray-500">
                                 리뷰 {product.리뷰수.toLocaleString()}
                               </p>

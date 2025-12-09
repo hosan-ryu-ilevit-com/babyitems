@@ -47,11 +47,7 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
         <span className="px-2.5 py-1 bg-rose-100 text-rose-600 rounded-full text-xs font-bold">
           단점 필터
         </span>
-        {selectedKeys.length > 0 && (
-          <span className="text-xs text-rose-500 font-medium">
-            {selectedKeys.length}개 선택됨
-          </span>
-        )}
+        
       </div>
 
       {/* 설명 */}

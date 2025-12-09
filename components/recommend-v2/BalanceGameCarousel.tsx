@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { BalanceQuestion } from '@/types/recommend-v2';
 
 export interface BalanceGameCarouselRef {
@@ -20,6 +20,7 @@ interface BalanceGameCarouselProps {
     canGoPrevious: boolean;
     canGoNext: boolean;
     totalQuestions: number;
+    currentQuestionAnswered: boolean;
   }) => void;
 }
 
@@ -29,39 +30,65 @@ interface BalanceGameCarouselProps {
  * - 선택 시 다음 질문이 아래에 추가됨
  * - 이전 버튼으로 이전 질문으로 이동 가능
  */
+// 슬라이드 애니메이션 variants
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 100 : -100,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -100 : 100,
+    opacity: 0,
+  }),
+};
+
 export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGameCarouselProps>(
   function BalanceGameCarousel({ questions, onComplete, onStateChange }, ref) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selections, setSelections] = useState<Map<string, string>>(new Map());
     const [skipped, setSkipped] = useState<Set<string>>(new Set());
+    const [direction, setDirection] = useState(1); // 1: next, -1: previous
 
     const currentQuestion = questions[currentIndex];
     const isLastQuestion = currentIndex >= questions.length - 1;
+    const isCurrentSkipped = skipped.has(currentQuestion?.id);
+
+    // 인덱스 변경 함수 (방향을 먼저 설정하여 애니메이션 방향 보장)
+    const goToIndex = (newIndex: number) => {
+      if (newIndex === currentIndex) return;
+      setDirection(newIndex > currentIndex ? 1 : -1);
+      setCurrentIndex(newIndex);
+    };
 
     // 외부에서 호출 가능한 메서드 노출
     useImperativeHandle(ref, () => ({
       goToPrevious: () => {
         if (currentIndex > 0) {
-          setCurrentIndex(prev => prev - 1);
+          goToIndex(currentIndex - 1);
           return true;
         }
         return false;
       },
       goToNext: () => {
         if (currentIndex < questions.length - 1) {
-          setCurrentIndex(prev => prev + 1);
+          goToIndex(currentIndex + 1);
           return true;
         }
         return false;
       },
-    }), [currentIndex, questions.length]);
+    }), [currentIndex, questions.length, goToIndex]);
 
-    // 선택 처리 (토글 방식)
+    // 선택 처리 (토글 방식 + 자동 다음 이동)
     const handleSelect = (questionId: string, ruleKey: string) => {
       const newSelections = new Map(selections);
+      const wasAlreadySelected = selections.get(questionId) === ruleKey;
 
       // 이미 같은 값이 선택되어 있으면 선택 해제
-      if (selections.get(questionId) === ruleKey) {
+      if (wasAlreadySelected) {
         newSelections.delete(questionId);
       } else {
         newSelections.set(questionId, ruleKey);
@@ -73,6 +100,13 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
       const newSkipped = new Set(skipped);
       newSkipped.delete(questionId);
       setSkipped(newSkipped);
+
+      // 새로 선택한 경우에만 자동으로 다음 문제로 이동 (마지막이 아닌 경우)
+      if (!wasAlreadySelected && !isLastQuestion) {
+        setTimeout(() => {
+          goToIndex(currentIndex + 1);
+        }, 350);
+      }
     };
 
     // 스킵 처리 (스킵하면 다음 질문으로 이동)
@@ -94,7 +128,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
         // 다음 질문으로 자동 이동 (마지막이 아닌 경우)
         if (!isLastQuestion) {
-          setCurrentIndex(prev => prev + 1);
+          goToIndex(currentIndex + 1);
         }
       }
     };
@@ -109,6 +143,9 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
     // 상태 변경 시 부모에 알림
     useEffect(() => {
       const selectedRuleKeys = new Set(selections.values());
+      const currentQuestionId = questions[currentIndex]?.id;
+      const currentQuestionAnswered = currentQuestionId ? isAnswered(currentQuestionId) : false;
+
       onStateChange?.({
         selectionsCount: selections.size,
         allAnswered,
@@ -117,8 +154,9 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
         canGoPrevious: currentIndex > 0,
         canGoNext: currentIndex < questions.length - 1,
         totalQuestions: questions.length,
+        currentQuestionAnswered,
       });
-    }, [selections, allAnswered, currentIndex, questions.length, onStateChange]);
+    }, [selections, skipped, allAnswered, currentIndex, questions, onStateChange]);
 
     if (questions.length === 0) return null;
 
@@ -138,134 +176,194 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
           </span>
         </div>
 
-        {/* 질문 제목 */}
-        <h3 className="text-base font-bold text-gray-900 leading-snug">
-          {currentQuestion.title}
-        </h3>
+        {/* 질문 영역 - 슬라이드 애니메이션 */}
+        <div className="overflow-hidden">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={currentQuestion.id}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+            >
+              {/* 질문 제목 */}
+              <h3 className="text-base font-bold text-gray-900 leading-snug mb-3">
+                {currentQuestion.title}
+              </h3>
 
-        {/* 선택지 - VS 포함 */}
-        <div className="space-y-2">
-          {/* Option A */}
-          <motion.button
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_A.target_rule_key)}
-            className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
-              selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                ? 'border-emerald-400 bg-emerald-50'
-                : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+              {/* 선택지 - VS 포함 */}
+              <div className={`space-y-2 transition-opacity ${isCurrentSkipped ? 'opacity-40' : ''}`}>
+                {/* Option A */}
+                <motion.button
+                  whileTap={isCurrentSkipped ? undefined : { scale: 0.98 }}
+                  onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_A.target_rule_key)}
+                  className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                    isCurrentSkipped
+                      ? 'border-gray-200 bg-gray-50 cursor-default'
+                      : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                      ? 'border-emerald-400 bg-emerald-50'
+                      : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    {/* 체크박스 스타일 */}
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                        isCurrentSkipped
+                          ? 'border-gray-300 bg-white'
+                          : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                          ? 'border-emerald-500 bg-emerald-500'
+                          : 'border-gray-300 bg-white'
+                      }`}
+                    >
+                      {!isCurrentSkipped && selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key && (
+                        <motion.svg
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="w-3 h-3 text-white"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </motion.svg>
+                      )}
+                    </div>
+                    <span className={`text-sm font-medium leading-snug ${
+                      isCurrentSkipped
+                        ? 'text-gray-400'
+                        : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                        ? 'text-emerald-700'
+                        : 'text-gray-700'
+                    }`}>
+                      {currentQuestion.option_A.text}
+                    </span>
+                  </div>
+                </motion.button>
+
+                {/* VS 구분선 */}
+                <div className="flex items-center justify-center py-1">
+                  <div className="flex-1 h-px bg-gray-200" />
+                  <span className="px-3 text-xs font-bold text-gray-400">VS</span>
+                  <div className="flex-1 h-px bg-gray-200" />
+                </div>
+
+                {/* Option B */}
+                <motion.button
+                  whileTap={isCurrentSkipped ? undefined : { scale: 0.98 }}
+                  onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_B.target_rule_key)}
+                  className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                    isCurrentSkipped
+                      ? 'border-gray-200 bg-gray-50 cursor-default'
+                      : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                      ? 'border-emerald-400 bg-emerald-50'
+                      : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    {/* 체크박스 스타일 */}
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                        isCurrentSkipped
+                          ? 'border-gray-300 bg-white'
+                          : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                          ? 'border-emerald-500 bg-emerald-500'
+                          : 'border-gray-300 bg-white'
+                      }`}
+                    >
+                      {!isCurrentSkipped && selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key && (
+                        <motion.svg
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="w-3 h-3 text-white"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </motion.svg>
+                      )}
+                    </div>
+                    <span className={`text-sm font-medium leading-snug ${
+                      isCurrentSkipped
+                        ? 'text-gray-400'
+                        : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                        ? 'text-emerald-700'
+                        : 'text-gray-700'
+                    }`}>
+                      {currentQuestion.option_B.text}
+                    </span>
+                  </div>
+                </motion.button>
+              </div>
+
+              {/* 스킵 버튼 */}
+              <div className="text-center pt-3">
+                <button
+                  onClick={() => handleSkip(currentQuestion.id)}
+                  className={`text-sm transition-colors py-2 px-4 rounded-lg hover:bg-gray-100 ${
+                    skipped.has(currentQuestion.id)
+                      ? 'text-gray-600 font-medium bg-gray-100'
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  {skipped.has(currentQuestion.id) ? '건너뜀' : '상관없어요'}
+                </button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* 진행률 인디케이터 (dots) + 좌우 화살표 */}
+        <div className="flex items-center justify-center gap-3 pt-2">
+          {/* 이전 화살표 */}
+          <button
+            onClick={() => currentIndex > 0 && goToIndex(currentIndex - 1)}
+            disabled={currentIndex === 0}
+            className={`p-1.5 rounded-full transition-all ${
+              currentIndex === 0
+                ? 'text-gray-300 cursor-not-allowed'
+                : 'text-gray-500 hover:text-emerald-600 hover:bg-emerald-50'
             }`}
           >
-            <div className="flex items-center gap-3">
-              {/* 체크박스 스타일 */}
-              <div
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                  selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                    ? 'border-emerald-500 bg-emerald-500'
-                    : 'border-gray-300 bg-white'
-                }`}
-              >
-                {selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key && (
-                  <motion.svg
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="w-3 h-3 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </motion.svg>
-                )}
-              </div>
-              <span className={`text-sm font-medium leading-snug ${
-                selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                  ? 'text-emerald-700'
-                  : 'text-gray-700'
-              }`}>
-                {currentQuestion.option_A.text}
-              </span>
-            </div>
-          </motion.button>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
 
-          {/* VS 구분선 */}
-          <div className="flex items-center justify-center py-1">
-            <div className="flex-1 h-px bg-gray-200" />
-            <span className="px-3 text-xs font-bold text-gray-400">VS</span>
-            <div className="flex-1 h-px bg-gray-200" />
+          {/* Dots */}
+          <div className="flex gap-2">
+            {questions.map((q, idx) => (
+              <button
+                key={q.id}
+                onClick={() => goToIndex(idx)}
+                className={`h-1.5 rounded-full transition-all ${
+                  idx === currentIndex
+                    ? 'w-6 bg-emerald-500'
+                    : isAnswered(q.id)
+                    ? 'w-1.5 bg-emerald-300'
+                    : 'w-1.5 bg-gray-300'
+                }`}
+              />
+            ))}
           </div>
 
-          {/* Option B */}
-          <motion.button
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_B.target_rule_key)}
-            className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
-              selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                ? 'border-emerald-400 bg-emerald-50'
-                : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              {/* 체크박스 스타일 */}
-              <div
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                  selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                    ? 'border-emerald-500 bg-emerald-500'
-                    : 'border-gray-300 bg-white'
-                }`}
-              >
-                {selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key && (
-                  <motion.svg
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="w-3 h-3 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </motion.svg>
-                )}
-              </div>
-              <span className={`text-sm font-medium leading-snug ${
-                selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                  ? 'text-emerald-700'
-                  : 'text-gray-700'
-              }`}>
-                {currentQuestion.option_B.text}
-              </span>
-            </div>
-          </motion.button>
-        </div>
-
-        {/* 스킵 버튼 */}
-        <div className="text-center pt-1">
+          {/* 다음 화살표 */}
           <button
-            onClick={() => handleSkip(currentQuestion.id)}
-            className={`text-sm transition-colors py-2 px-4 rounded-lg hover:bg-gray-100 ${
-              skipped.has(currentQuestion.id)
-                ? 'text-gray-600 font-medium bg-gray-100'
-                : 'text-gray-400 hover:text-gray-600'
+            onClick={() => currentIndex < questions.length - 1 && goToIndex(currentIndex + 1)}
+            disabled={currentIndex >= questions.length - 1}
+            className={`p-1.5 rounded-full transition-all ${
+              currentIndex >= questions.length - 1
+                ? 'text-gray-300 cursor-not-allowed'
+                : 'text-gray-500 hover:text-emerald-600 hover:bg-emerald-50'
             }`}
           >
-            {skipped.has(currentQuestion.id) ? '건너뜀' : '상관없어요'}
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
           </button>
-        </div>
-
-        {/* 진행률 인디케이터 (dots) */}
-        <div className="flex justify-center gap-2 pt-2">
-          {questions.map((q, idx) => (
-            <button
-              key={q.id}
-              onClick={() => setCurrentIndex(idx)}
-              className={`h-1.5 rounded-full transition-all ${
-                idx === currentIndex
-                  ? 'w-6 bg-emerald-500'
-                  : isAnswered(q.id)
-                  ? 'w-1.5 bg-emerald-300'
-                  : 'w-1.5 bg-gray-300'
-              }`}
-            />
-          ))}
         </div>
       </motion.div>
     );

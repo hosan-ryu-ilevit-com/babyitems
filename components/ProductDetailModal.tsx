@@ -123,15 +123,16 @@ function parseMarkdownBold(text: string) {
 }
 
 // 원형 프로그레스 바 컴포넌트
-function CircularProgress({ score, total, color, size = 40 }: { score: number; total: number; color: 'green' | 'blue'; size?: number }) {
+function CircularProgress({ score, total, color, size = 40 }: { score: number; total: number; color: 'green' | 'blue' | 'rose'; size?: number }) {
   const percentage = total > 0 ? (score / total) * 100 : 0;
   const radius = (size - 6) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   const colorClasses = {
-    green: { bg: 'text-green-100', fg: 'text-green-500' },
-    blue: { bg: 'text-blue-100', fg: 'text-blue-500' },
+    green: { bg: 'text-green-100', fg: 'text-green-500', text: 'text-green-700' },
+    blue: { bg: 'text-blue-100', fg: 'text-blue-500', text: 'text-blue-700' },
+    rose: { bg: 'text-rose-100', fg: 'text-rose-500', text: 'text-rose-700' },
   };
 
   return (
@@ -163,7 +164,7 @@ function CircularProgress({ score, total, color, size = 40 }: { score: number; t
       </svg>
       {/* Score text */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className={`text-[9px] font-bold leading-none ${color === 'green' ? 'text-green-700' : 'text-blue-700'}`}>
+        <span className={`text-[9px] font-bold leading-none ${colorClasses[color].text}`}>
           {score % 1 === 0 ? Math.round(score) : score.toFixed(1)}/{Math.round(total)}
         </span>
       </div>
@@ -171,12 +172,12 @@ function CircularProgress({ score, total, color, size = 40 }: { score: number; t
   );
 }
 
-export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating }: ProductDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
   const [reviews, setReviews] = useState<Review[]>([]);
   const [sortBy, setSortBy] = useState<'rating_desc' | 'rating_asc'>('rating_desc');
   const [reviewsLoading, setReviewsLoading] = useState(false);
-  const [averageRating, setAverageRating] = useState<number>(0);
+  const [averageRating, setAverageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
 
   // 섹션 접기/펼치기 상태
@@ -337,42 +338,6 @@ export default function ProductDetailModal({ productData, productComparisons, ca
             </button>
           )}
 
-          {/* Favorite button (bottom-right) */}
-          {!showChatInput && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                const wasFavorite = isFavorite(productData.product.id);
-                toggleFavorite(productData.product.id);
-
-                // Log favorite action
-                const action = wasFavorite ? 'removed' : 'added';
-                const newCount = wasFavorite ? count - 1 : count + 1;
-                logFavoriteAction(action, productData.product.id, productData.product.title, newCount);
-                logButtonClick(wasFavorite ? '찜 취소' : '찜하기', 'product-modal');
-
-                // Show toast only when adding to favorites (not removing)
-                if (!wasFavorite) {
-                  setShowToast(true);
-                }
-              }}
-              className="absolute bottom-4 right-4 w-10 h-10 flex items-center justify-center rounded-full transition-all"
-              style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
-            >
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill={isFavorite(productData.product.id) ? '#FF6B6B' : 'none'}
-                stroke={isFavorite(productData.product.id) ? '#FF6B6B' : '#FFFFFF'}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-            </button>
-          )}
             </div>
           </div>
 
@@ -402,16 +367,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
           <div className="text-2xl font-bold text-gray-900 mb-2">
             {productData.product.price.toLocaleString()}원
           </div>
-          {/* Danawa 최저가 배지 */}
-          {danawaData && danawaData.lowestPrice > 0 && (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-700 text-sm rounded-full font-medium mb-3">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span className="font-semibold">최저 {danawaData.lowestPrice.toLocaleString()}원</span>
-              <span className="text-red-600">({danawaData.lowestMall})</span>
-            </div>
-          )}
+          
 
           {/* 가격 비교 */}
           {danawaData && danawaData.prices.length > 0 && (
@@ -427,7 +383,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                   className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors"
                 >
                   {/* 쇼핑몰 아이콘 */}
-                  <div className="w-7 h-7 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+                  <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
                     {getMallLogoPath(priceInfo.mall) ? (
                       <Image
                         src={getMallLogoPath(priceInfo.mall)!}
@@ -485,7 +441,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                         className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors"
                       >
                         {/* 쇼핑몰 아이콘 */}
-                        <div className="w-7 h-7 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+                        <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
                           {getMallLogoPath(priceInfo.mall) ? (
                             <Image
                               src={getMallLogoPath(priceInfo.mall)!}
@@ -563,54 +519,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
           </div>
         </div>
 
-          {/* Tabs */}
-          <div className="sticky top-0 bg-white border-b border-gray-200 flex z-10">
-          <button
-            onClick={() => {
-              setActiveTab('description');
-              logButtonClick('설명 탭', 'product-modal');
-            }}
-            className={`flex-1 py-3 font-semibold transition-colors relative ${
-              activeTab === 'description'
-                ? 'text-gray-900'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            설명
-            {activeTab === 'description' && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900"
-              />
-            )}
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab('reviews');
-              logButtonClick('리뷰 탭', 'product-modal');
-            }}
-            className={`flex-1 py-3 font-semibold transition-colors relative ${
-              activeTab === 'reviews'
-                ? 'text-gray-900'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            리뷰 ({productData.product.reviewCount})
-            {activeTab === 'reviews' && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900"
-              />
-            )}
-          </button>
-        </div>
-
+         
           {/* Tab Content */}
           <div className="pb-28">
           <AnimatePresence mode="wait">
@@ -943,12 +852,12 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                       {/* 피하고 싶은 단점 */}
                       {negativeConditions.length > 0 && (
-                        <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="bg-rose-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-base font-bold text-gray-700 leading-tight">
+                            <h4 className="text-base font-bold text-rose-900 leading-tight">
                               피하고 싶은<br />단점
                             </h4>
-                            <CircularProgress score={negativeScore} total={negativeConditions.length} color="blue" />
+                            <CircularProgress score={negativeScore} total={negativeConditions.length} color="rose" />
                           </div>
                           <div className="space-y-3">
                             {negativeConditions.map((cond, i) => {
@@ -967,7 +876,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                               }
 
                               return (
-                                <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
+                                <div key={i} className="pb-3 border-b border-rose-100 last:border-b-0 last:pb-0">
                                   <div className="flex items-start gap-2 mb-2">
                                     <strong className="text-sm font-bold text-gray-900 flex-1">
                                       {cond.condition}
@@ -1286,26 +1195,50 @@ export default function ProductDetailModal({ productData, productComparisons, ca
         {!showChatInput && (
           <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 px-4 py-3 z-30">
             <div className="flex gap-2">
+              {/* 찜하기 버튼 */}
               <button
-                onClick={() => {
-                  logButtonClick('최저가 보기', 'product-modal');
-                  window.open(
-                    `https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(productData.product.title)}&sort=priceASC`,
-                    '_blank'
-                  );
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const wasFavorite = isFavorite(productData.product.id);
+                  toggleFavorite(productData.product.id);
+                  const action = wasFavorite ? 'removed' : 'added';
+                  const newCount = wasFavorite ? count - 1 : count + 1;
+                  logFavoriteAction(action, productData.product.id, productData.product.title, newCount);
+                  logButtonClick(wasFavorite ? '찜 취소' : '찜하기', 'product-modal');
+                  if (!wasFavorite) {
+                    setShowToast(true);
+                  }
                 }}
-                className="flex-[4] h-14 font-semibold rounded-2xl text-base transition-colors bg-gray-100 hover:bg-gray-200 text-gray-700"
+                className="w-14 h-14 flex items-center justify-center rounded-2xl bg-gray-100 hover:bg-gray-200 transition-colors"
               >
-                최저가 보기
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill={isFavorite(productData.product.id) ? '#FF6B6B' : 'none'}
+                  stroke={isFavorite(productData.product.id) ? '#FF6B6B' : '#6B7280'}
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
               </button>
+              {/* 최저가로 구매하기 버튼 */}
               <button
                 onClick={() => {
-                  logButtonClick('쿠팡에서 보기', 'product-modal');
-                  window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
+                  logButtonClick('최저가로 구매하기', 'product-modal');
+                  // 다나와 최저가 링크가 있으면 사용, 없으면 쿠팡 링크로 fallback
+                  const lowestPriceLink = danawaData?.prices?.[0]?.link;
+                  if (lowestPriceLink) {
+                    window.open(lowestPriceLink, '_blank');
+                  } else {
+                    window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
+                  }
                 }}
-                className="flex-[6] h-14 font-semibold rounded-2xl text-base transition-colors bg-blue-600 hover:bg-blue-700 text-white"
+                className="flex-1 h-14 font-semibold rounded-2xl text-base transition-colors bg-blue-600 hover:bg-blue-700 text-white"
               >
-                쿠팡에서 보기
+                최저가로 구매하기
               </button>
             </div>
           </div>

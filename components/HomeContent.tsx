@@ -252,28 +252,12 @@ export function HomeContent() {
 
        
 
-        {/* Bottom Fixed Container - CTA Button + Input Bar */}
+        {/* Bottom Fixed Container - CTA Button */}
         <div className="fixed bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto', backgroundColor: '#FCFCFC' }}>
-          {/* 추천받기 v2 Button (Supabase 연동 테스트용) */}
+          {/* 바로 추천받기 Button → categories-v2로 이동 */}
           <Link href="/categories-v2">
             <button
-              onClick={() => logButtonClick('추천받기 v2', 'home')}
-              className="w-full h-12 text-gray-700 text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2 mb-3 border-2 border-dashed border-purple-300 bg-purple-50 hover:bg-purple-100"
-            >
-              <span>추천받기 v2</span>
-              <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1 text-white" style={{ background: 'linear-gradient(135deg, #9325FC, #C750FF, #C878F7)' }}>
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                </svg>
-                <span>DB</span>
-              </span>
-            </button>
-          </Link>
-          
-          {/* 1분만에 추천받기 Button */}
-          <Link href="/categories">
-            <button
-              onClick={() => logButtonClick('1분만에 추천받기', 'home')}
+              onClick={() => logButtonClick('바로 추천받기', 'home')}
               className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5 mb-3"
               style={{ backgroundColor: '#0084FE' }}
             >

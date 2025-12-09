@@ -245,19 +245,10 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
                       window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}&sort=priceASC`, '_blank');
                     }}
                     className="flex-1 py-2.5 text-center text-sm font-semibold rounded-lg transition-colors"
-                    style={{ backgroundColor: '#F0F0F0', color: '#333' }}
-                  >
-                    최저가 보기
-                  </button>
-                  <a
-                    href={product.reviewUrl || `https://www.coupang.com/vp/products/${product.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 py-2.5 text-center text-sm font-semibold rounded-lg transition-colors"
                     style={{ backgroundColor: '#0084FE', color: '#FFFFFF' }}
                   >
-                    쿠팡에서 보기
-                  </a>
+                    최저가로 구매하기
+                  </button>
                 </div>
               </div>
             </div>

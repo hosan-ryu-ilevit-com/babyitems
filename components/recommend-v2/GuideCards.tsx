@@ -229,7 +229,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
           transition={{ duration: 0.2 }}
           className="mb-4"
         >
-          <p className="text-base leading-relaxed text-gray-900">
+          <p className="text-base font-medium leading-[1.4] text-gray-900">
             {enableTyping ? (
               <StreamingText
                 content={introMessage}

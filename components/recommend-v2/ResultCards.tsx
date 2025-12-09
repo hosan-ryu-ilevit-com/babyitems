@@ -236,9 +236,36 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     최저가: number | null;
     썸네일: string | null;
   } | null>(null);
+  const anchorFetchedRef = useRef(false);
 
-  // 기준제품은 자동 설정하지 않음 - 사용자가 선택하도록 함
-  // 또는 카테고리 #1 제품을 별도 API로 가져와서 설정할 수 있음
+  // 디폴트 기준제품 자동 설정 (rank 1위 상품)
+  useEffect(() => {
+    if (!categoryKey || anchorProduct || anchorFetchedRef.current) return;
+
+    const fetchDefaultAnchor = async () => {
+      anchorFetchedRef.current = true;
+      try {
+        const response = await fetch(`/api/v2/anchor-products?categoryKey=${categoryKey}&limit=1`);
+        const data = await response.json();
+
+        if (data.success && data.products && data.products.length > 0) {
+          const topProduct = data.products[0];
+          setAnchorProduct({
+            productId: topProduct.productId,
+            브랜드: topProduct.브랜드,
+            모델명: topProduct.모델명,
+            최저가: topProduct.최저가,
+            썸네일: topProduct.썸네일,
+          });
+          console.log('✅ [ResultCards] Default anchor set:', topProduct.브랜드, topProduct.모델명);
+        }
+      } catch (error) {
+        console.error('[ResultCards] Failed to fetch default anchor:', error);
+      }
+    };
+
+    fetchDefaultAnchor();
+  }, [categoryKey, anchorProduct]);
 
   // Handle anchor product change
   const handleAnchorChange = (newAnchor: typeof anchorProduct) => {
@@ -520,7 +547,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             <StreamingText content="맞춤 추천 완료" speed={30} />
           </h3>
         </div>
-        <p className="text-base text-gray-700 font-medium leading-relaxed">
+        <p className="text-base text-gray-700 font-medium leading-[1.4]">
           <StreamingText content={`${categoryName} TOP 제품을 찾았어요!`} speed={20} />
         </p>
       </motion.div>
@@ -533,7 +560,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           transition={{ delay: 0.15 }}
           className="mb-4 p-4 rounded-2xl bg-blue-50"
         >
-          <p className="text-sm text-blue-800 font-medium leading-relaxed">
+          <p className="text-sm text-blue-800 font-medium leading-[1.4]">
             <StreamingText content={selectionReason} speed={10} />
           </p>
         </motion.div>
@@ -640,9 +667,55 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               </div>
             </div>
 
+            {/* 합쳐진 특징 태그 (하드필터 + 밸런스 조건) - AI 요약 위에 배치 */}
+            {(() => {
+              // 하드 필터 매칭 태그
+              const matchedFilters = userContext?.hardFilterAnswers && userContext?.hardFilterDefinitions
+                ? getMatchedHardFilters(product, userContext.hardFilterAnswers, userContext.hardFilterDefinitions)
+                : [];
+
+              // 밸런스 게임 매칭 태그
+              const balanceTags = product.matchedPreferences && product.matchedPreferences.length > 0
+                ? product.matchedPreferences
+                : product.matchedRules || [];
+
+              // 레이블로 변환하고 합집합 (중복 제거)
+              const allLabels = new Set<string>();
+
+              // 하드 필터 레이블 추가
+              matchedFilters.forEach(value => {
+                const displayLabel = userContext?.hardFilterLabels?.[value] || value;
+                allLabels.add(displayLabel);
+              });
+
+              // 밸런스 게임 레이블 추가
+              balanceTags.forEach(item => {
+                const displayName = userContext?.balanceLabels?.[item]
+                  || item.replace('체감속성_', '').replace(/_/g, ' ');
+                allLabels.add(displayName);
+              });
+
+              const combinedTags = Array.from(allLabels);
+
+              if (combinedTags.length === 0) return null;
+
+              return (
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {combinedTags.map((label, i) => (
+                    <span
+                      key={i}
+                      className="text-xs px-2 py-1 rounded-xl bg-gray-100 text-gray-500 font-semibold"
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              );
+            })()}
+
             {/* LLM 추천 이유 - result 페이지 스타일 */}
             {product.recommendationReason && (
-              <div className="mt-3">
+              <div className="mt-2">
                 <div className="rounded-xl p-3 bg-[#F3E6FD]">
                   <div className="flex items-start gap-2">
                     <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24">
@@ -658,74 +731,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     <p className="text-sm text-gray-700 leading-normal flex-1">
                       {product.recommendationReason}
                     </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* 하드 필터 조건 매칭 - 파란색 박스 (상품별 매칭되는 조건만 표시) */}
-            {(() => {
-              // Calculate matched filters for this specific product
-              const matchedFilters = userContext?.hardFilterAnswers && userContext?.hardFilterDefinitions
-                ? getMatchedHardFilters(product, userContext.hardFilterAnswers, userContext.hardFilterDefinitions)
-                : [];
-
-              if (matchedFilters.length === 0) return null;
-
-              return (
-                <div className="mt-2">
-                  <div className="rounded-xl p-3 bg-blue-50 border border-blue-100">
-                    <div className="flex items-start gap-2">
-                      <svg className="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <div className="flex flex-wrap gap-1.5 flex-1">
-                        {matchedFilters.slice(0, 4).map((value, i) => {
-                          // Use Korean label from mapping if available
-                          const displayLabel = userContext?.hardFilterLabels?.[value] || value;
-                          return (
-                            <span
-                              key={i}
-                              className="text-xs px-2 py-0.5 rounded-full bg-white text-blue-700 font-medium"
-                            >
-                              {displayLabel}
-                            </span>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* 매칭된 선호 조건 태그 (밸런스 게임 매칭) - 초록색 박스 */}
-            {((product.matchedPreferences && product.matchedPreferences.length > 0) ||
-              (product.matchedRules && product.matchedRules.length > 0)) && (
-              <div className="mt-2">
-                <div className="rounded-xl p-3 bg-emerald-50 border border-emerald-100">
-                  <div className="flex items-start gap-2">
-                    <svg className="w-4 h-4 shrink-0 mt-0.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <div className="flex flex-wrap gap-1.5 flex-1">
-                      {(product.matchedPreferences && product.matchedPreferences.length > 0
-                        ? product.matchedPreferences
-                        : product.matchedRules || []
-                      ).slice(0, 4).map((item, i) => {
-                        // Use Korean label from mapping if available
-                        const displayName = userContext?.balanceLabels?.[item]
-                          || item.replace('체감속성_', '').replace(/_/g, ' ');
-                        return (
-                          <span
-                            key={i}
-                            className="text-xs px-2 py-0.5 rounded-full bg-white text-emerald-700 font-medium"
-                          >
-                            {displayName}
-                          </span>
-                        );
-                      })}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -784,6 +789,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           danawaData={selectedProductDanawa}
           isAnalysisLoading={isAnalysisLoading}
           selectedConditionsEvaluation={productAnalysisData[selectedProduct.product.id]?.selectedConditionsEvaluation}
+          initialAverageRating={reviewData[selectedProduct.product.id]?.averageRating}
         />
       )}
     </motion.div>

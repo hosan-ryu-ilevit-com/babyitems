@@ -243,78 +243,12 @@ export default function DetailedComparisonTable({
       {/* 섹션 구분 디바이더 */}
       <div className="h-4 bg-gray-100 -mx-2 mb-4"></div>
 
-      {/* 기준제품 선택 UI (isTagBasedFlow && !anchorProduct인 경우) */}
-      {isTagBasedFlow && !anchorProduct && category && (
-        <div className="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-100">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-blue-900">기준제품을 선택하세요</p>
-              <p className="text-xs text-blue-600 mt-0.5">다른 제품과 비교할 기준이 되는 제품이에요</p>
-            </div>
-            <button
-              onClick={() => {
-                logButtonClick('기준제품_선택하기_버튼_클릭', 'compare');
-                setIsChangeAnchorOpen(true);
-              }}
-              className="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              기준제품 선택
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* 기준제품 정보 표시 (선택된 경우) */}
-      {isTagBasedFlow && anchorProduct && (
-        <div className="bg-gray-50 rounded-xl p-3 mb-4 border border-gray-200">
-          <div className="flex items-center gap-3">
-            {/* 기준제품 썸네일 */}
-            <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-white border border-gray-200 shrink-0">
-              {anchorProduct.썸네일 && (
-                <Image
-                  src={anchorProduct.썸네일}
-                  alt={anchorProduct.모델명}
-                  width={56}
-                  height={56}
-                  className="w-full h-full object-cover"
-                  quality={85}
-                  sizes="56px"
-                />
-              )}
-              <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
-                <span className="text-white font-bold text-[8px] leading-none">기준</span>
-              </div>
-            </div>
-
-            {/* 기준제품 정보 */}
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] text-gray-500 mb-0.5">{anchorProduct.브랜드}</p>
-              <p className="text-xs font-semibold text-gray-900 line-clamp-2 leading-tight">{anchorProduct.모델명}</p>
-              {anchorProduct.최저가 && (
-                <p className="text-xs font-bold text-gray-700 mt-0.5">{anchorProduct.최저가.toLocaleString()}원</p>
-              )}
-            </div>
-
-            {/* 변경 버튼 */}
-            <button
-              onClick={() => {
-                logButtonClick('기준제품_변경하기_버튼_클릭', 'compare');
-                setIsChangeAnchorOpen(true);
-              }}
-              className="px-3 py-2 text-xs font-semibold rounded-lg transition-colors shrink-0"
-              style={{ backgroundColor: '#F0F7FF', color: '#0074F3' }}
-            >
-              변경
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* 상품 선택 UI */}
       <div className="bg-white py-3 px-0">
-        <h3 className="text-base font-bold text-gray-900 mb-3">
+        <h3 className="text-base font-bold text-gray-900 mb-1">
           {isTagBasedFlow && anchorProduct ? '추천 제품 비교' : '상세 비교표'}
         </h3>
+        <p className="text-xs text-gray-500 mb-3">2개를 선택해서 비교해보세요</p>
         <div className={`grid gap-3 ${displayProducts.length >= 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {displayProducts.map((rec) => {
             const isSelected = selectedProductIds.includes(rec.product.id);
@@ -852,8 +786,10 @@ export default function DetailedComparisonTable({
                                 <tbody>
                                   {/* 메타 정보 */}
                                   {metaSpecKeys.map((key, idx) => {
-                                    const value1 = specs1[key] || '-';
-                                    const value2 = specs2[key] || '-';
+                                    const rawVal1 = specs1[key];
+                                    const rawVal2 = specs2[key];
+                                    const value1 = rawVal1 != null ? String(rawVal1) : '-';
+                                    const value2 = rawVal2 != null ? String(rawVal2) : '-';
                                     // 양쪽 모두 비어있으면 skip
                                     if ((value1 === '-' || !value1) && (value2 === '-' || !value2)) return null;
 
@@ -868,13 +804,16 @@ export default function DetailedComparisonTable({
 
                                   {/* 상세 스펙 - 콤마로 구분된 값은 개별 row로 분리 */}
                                   {specKeys.flatMap((key, idx) => {
-                                    const value1 = specs1[key] || '-';
-                                    const value2 = specs2[key] || '-';
+                                    // 값을 문자열로 변환 (number, object 등 처리)
+                                    const rawValue1 = specs1[key];
+                                    const rawValue2 = specs2[key];
+                                    const value1 = rawValue1 != null ? String(rawValue1) : '-';
+                                    const value2 = rawValue2 != null ? String(rawValue2) : '-';
 
                                     // 콤마로 구분된 값 감지 (특징, 부가기능 등)
                                     // 단, 숫자+단위 형태 (예: 37~95℃, 72cm) 나 크기(가로x세로) 패턴은 분리하지 않음
                                     const isFeatureList = (val: string) => {
-                                      if (!val || val === '-') return false;
+                                      if (!val || val === '-' || typeof val !== 'string') return false;
                                       // 콤마가 3개 이상이고, 숫자+단위 패턴이 아닌 경우
                                       const commaCount = (val.match(/,/g) || []).length;
                                       if (commaCount < 3) return false;
@@ -887,8 +826,8 @@ export default function DetailedComparisonTable({
 
                                     if (shouldSplit) {
                                       // 콤마로 분리하여 개별 row 생성
-                                      const items1 = value1 !== '-' ? value1.split(',').map((s: string) => s.trim()).filter(Boolean) : [];
-                                      const items2 = value2 !== '-' ? value2.split(',').map((s: string) => s.trim()).filter(Boolean) : [];
+                                      const items1 = value1 !== '-' ? String(value1).split(',').map((s: string) => s.trim()).filter(Boolean) : [];
+                                      const items2 = value2 !== '-' ? String(value2).split(',').map((s: string) => s.trim()).filter(Boolean) : [];
                                       const maxLen = Math.max(items1.length, items2.length);
 
                                       return Array.from({ length: maxLen }).map((_, i) => (
@@ -948,8 +887,8 @@ export default function DetailedComparisonTable({
 
             {/* 한줄 비교 정리 - 맨 아래 배치 */}
             {!isLoadingComparison && Object.keys(productDetails).length > 0 && selectedProducts.length === 2 && (
-              <tr className="border-b border-gray-100 bg-gray-50">
-                <td colSpan={3} className="py-3 px-3">
+              <tr className="bg-gray-50">
+                <td colSpan={3} className="py-3 px-3 rounded-b-xl">
                   <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교</h4>
                   <div className="space-y-2.5">
                     {selectedProducts.map((product, index) => {
@@ -992,6 +931,7 @@ export default function DetailedComparisonTable({
               onAnchorChange(newProduct);
             }
           }}
+          useV2Api={isTagBasedFlow}
         />
       )}
     </motion.div>
