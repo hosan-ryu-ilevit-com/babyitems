@@ -1652,8 +1652,8 @@ export default function RecommendV2Page() {
         {/* Content */}
         <main
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto px-4 py-6"
-          style={{ paddingBottom: '120px' }}
+          className="flex-1 overflow-y-auto px-4 py-6 bg-white overscroll-contain"
+          style={{ paddingBottom: currentStep === 5 && scoredProducts.length > 0 ? '100px' : '120px' }}
         >
           <AnimatePresence mode="wait">
             {/* Step 0: Scan Animation */}
@@ -1722,10 +1722,14 @@ export default function RecommendV2Page() {
                 align-items: center;
                 justify-content: center;
                 padding: 1rem 2rem;
-                border-radius: 9999px;
+                border-radius: 1rem;
                 background: #111827;
                 overflow: hidden;
                 box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+              }
+
+              .gradient-border-button.w-full {
+                width: 100%;
               }
 
               .gradient-border-button::before {
@@ -1781,15 +1785,16 @@ export default function RecommendV2Page() {
               )}
             </AnimatePresence>
 
-            <div className="fixed bottom-6 left-0 right-0 flex flex-col items-end gap-3 z-50 px-4">
-              <AnimatePresence>
-                {showReRecommendModal && (
+            {/* 모달 옵션 버튼들 */}
+            <AnimatePresence>
+              {showReRecommendModal && (
+                <div className="fixed bottom-20 left-0 right-0 flex flex-col items-end gap-3 z-50 px-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
                     transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                    className="flex flex-col gap-3"
+                    className="flex flex-col gap-3 w-full"
                   >
                     {/* 다른 카테고리 추천받기 버튼 */}
                     <motion.button
@@ -1798,7 +1803,7 @@ export default function RecommendV2Page() {
                       onClick={() => {
                         router.push('/categories-v2');
                       }}
-                      className="py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-full shadow-lg font-semibold transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
+                      className="w-full py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-2xl shadow-lg font-semibold transition-colors flex items-center justify-center gap-2"
                     >
                       <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -1828,7 +1833,7 @@ export default function RecommendV2Page() {
                           setShowSubCategorySelector(false);
                         }
                       }}
-                      className="py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-full shadow-lg font-semibold transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
+                      className="w-full py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-2xl shadow-lg font-semibold transition-colors flex items-center justify-center gap-2"
                     >
                       <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -1841,35 +1846,38 @@ export default function RecommendV2Page() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setShowReRecommendModal(false)}
-                      className="py-4 px-6 bg-gray-900 hover:bg-gray-800 text-white rounded-full shadow-lg font-semibold transition-colors whitespace-nowrap"
+                      className="w-full py-4 px-6 bg-gray-900 hover:bg-gray-800 text-white rounded-2xl shadow-lg font-semibold transition-colors"
                     >
                       취소
                     </motion.button>
                   </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* 메인 버튼 - 다시 추천받기 (회전하는 그라데이션 테두리) */}
-              {!showReRecommendModal && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.1, ease: 'easeInOut' }}
-                  className="max-w-[440px]"
-                >
-                  <div className="gradient-border-button">
-                    <button
-                      onClick={() => setShowReRecommendModal(true)}
-                      className="gradient-border-button-inner"
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                      </svg>
-                      <span>다시 추천받기</span>
-                    </button>
-                  </div>
-                </motion.div>
+                </div>
               )}
+            </AnimatePresence>
+
+            {/* 메인 버튼 - 다시 추천받기 (흰색 컨테이너 + 풀 width) */}
+            <div
+              className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-40"
+              style={{ maxWidth: '480px', margin: '0 auto' }}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="w-full"
+              >
+                <div className="gradient-border-button w-full">
+                  <button
+                    onClick={() => setShowReRecommendModal(true)}
+                    className="gradient-border-button-inner w-full"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                    <span>다시 추천받기</span>
+                  </button>
+                </div>
+              </motion.div>
             </div>
           </>
         )}
