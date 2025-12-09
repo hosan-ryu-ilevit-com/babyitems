@@ -63,9 +63,11 @@ const DEFAULT_EXCLUDED_FILTERS = ['제조사별', '브랜드별', '색상계열'
 
 // 카테고리별 제외 필터 (해당 카테고리에서는 이 필터들만 제외)
 // 유모차/카시트: 브랜드/출시년도가 유의미한 필터일 수 있음
+// baby_desk: filter_attrs가 부족해서 색상계열이라도 포함
 const CATEGORY_EXCLUDED_FILTERS: Record<string, string[]> = {
   stroller: ['색상계열'],  // 브랜드, 출시년도 포함
   car_seat: ['색상계열'],  // 브랜드, 출시년도 포함
+  baby_desk: ['제조사별', '브랜드별', '출시년도'],  // 색상계열 포함 (유일한 filter_attrs)
 };
 
 function getExcludedFilters(categoryKey: string): string[] {
@@ -235,7 +237,7 @@ function convertFilterToQuestion(
   index: number,
   products?: DanawaProduct[]
 ): HardFilterQuestion | null {
-  const questionText = FILTER_QUESTION_MAP[filter.filter_name] || `${filter.filter_name}을 선택해주세요`;
+  const questionText = FILTER_QUESTION_MAP[filter.filter_name] || `${filter.filter_name}을(를) 선택해주세요`;
 
   // 옵션 값 결정: 제품 데이터 우선, 없으면 다나와 필터 사용
   let displayOptions: string[];
@@ -444,8 +446,8 @@ export async function generateHardFiltersForCategory(
     return isValidFilterQuestion(question, categoryProducts, originalFilterName);
   });
 
-  // 4. 브랜드 필터 추가 (stroller, car_seat: brand 필드가 filter_attrs가 아닌 별도 필드)
-  const BRAND_FILTER_CATEGORIES = ['stroller', 'car_seat'];
+  // 4. 브랜드 필터 추가 (brand 필드가 filter_attrs가 아닌 별도 필드인 카테고리)
+  const BRAND_FILTER_CATEGORIES = ['stroller', 'car_seat', 'baby_desk', 'baby_wipes'];
   if (BRAND_FILTER_CATEGORIES.includes(categoryKey)) {
     const brandQuestion = createBrandQuestion(categoryKey, categoryProducts, validQuestions.length);
     if (brandQuestion) {

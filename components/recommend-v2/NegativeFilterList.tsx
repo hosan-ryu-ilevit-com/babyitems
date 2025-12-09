@@ -4,10 +4,18 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { NegativeFilterData } from '@/types/recommend-v2';
 
+interface CustomNegativeOption {
+  id: string;
+  label: string;
+  target_rule_key: string;
+  isCustom: true;
+}
+
 interface NegativeFilterListProps {
   data: NegativeFilterData;
   onToggle: (ruleKey: string) => void;
   onSkip?: () => void;
+  onCustomAdd?: (customText: string) => void;
 }
 
 /**
@@ -16,10 +24,11 @@ interface NegativeFilterListProps {
  * - 체크 애니메이션
  * - 스킵 가능
  */
-export function NegativeFilterList({ data, onToggle, onSkip }: NegativeFilterListProps) {
+export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: NegativeFilterListProps) {
   const { options, selectedKeys } = data;
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [customInput, setCustomInput] = useState('');
+  const [customOptions, setCustomOptions] = useState<CustomNegativeOption[]>([]);
 
   // 선택된 순서 계산
   const getSelectedIndex = (ruleKey: string) => {
@@ -56,6 +65,7 @@ export function NegativeFilterList({ data, onToggle, onSkip }: NegativeFilterLis
 
       {/* 옵션 목록 */}
       <div className="space-y-2">
+        {/* 기본 옵션 */}
         {options.map((option, index) => {
           const isSelected = selectedKeys.includes(option.target_rule_key);
           const selectedIndex = getSelectedIndex(option.target_rule_key);
@@ -105,6 +115,58 @@ export function NegativeFilterList({ data, onToggle, onSkip }: NegativeFilterLis
           );
         })}
 
+        {/* 커스텀 옵션 (사용자가 직접 입력한 것) */}
+        {customOptions.map((option) => {
+          const isSelected = selectedKeys.includes(option.target_rule_key);
+          const selectedIndex = getSelectedIndex(option.target_rule_key);
+
+          return (
+            <motion.button
+              key={option.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              onClick={() => onToggle(option.target_rule_key)}
+              className={`w-full p-3.5 rounded-xl border-2 text-left transition-all ${
+                isSelected
+                  ? 'border-rose-300 bg-rose-100'
+                  : 'border-transparent bg-gray-100 hover:bg-gray-200'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                {/* 선택 순서 표시 */}
+                <div
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold shrink-0 transition-all ${
+                    isSelected
+                      ? 'border-rose-500 bg-rose-500 text-white'
+                      : 'border-gray-300 bg-white text-gray-400'
+                  }`}
+                >
+                  {isSelected ? (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                    >
+                      {selectedIndex + 1}
+                    </motion.span>
+                  ) : null}
+                </div>
+
+                {/* 옵션 텍스트 + 직접입력 표시 */}
+                <span
+                  className={`text-sm font-medium leading-snug flex-1 ${
+                    isSelected ? 'text-rose-700' : 'text-gray-700'
+                  }`}
+                >
+                  {option.label}
+                </span>
+                <span className="text-xs text-gray-400 px-2 py-0.5 bg-gray-200 rounded-full">
+                  직접입력
+                </span>
+              </div>
+            </motion.button>
+          );
+        })}
+
         {/* 직접 입력 섹션 */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -136,7 +198,25 @@ export function NegativeFilterList({ data, onToggle, onSkip }: NegativeFilterLis
                 <button
                   onClick={() => {
                     if (customInput.trim()) {
-                      // TODO: 커스텀 단점 처리
+                      // 커스텀 단점 옵션 생성
+                      const customRuleKey = `custom_negative_${Date.now()}`;
+                      const newCustomOption: CustomNegativeOption = {
+                        id: customRuleKey,
+                        label: customInput.trim(),
+                        target_rule_key: customRuleKey,
+                        isCustom: true,
+                      };
+
+                      // 커스텀 옵션 목록에 추가
+                      setCustomOptions(prev => [...prev, newCustomOption]);
+
+                      // 선택된 상태로 추가
+                      onToggle(customRuleKey);
+
+                      // 부모에게 커스텀 추가 알림 (필요시)
+                      onCustomAdd?.(customInput.trim());
+
+                      // 입력 초기화
                       setCustomInput('');
                       setShowCustomInput(false);
                     }

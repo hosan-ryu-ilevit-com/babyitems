@@ -137,11 +137,16 @@ export default function RecommendV2Page() {
   const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
   const [selectionReason, setSelectionReason] = useState<string>('');
-  const [generatedBy, setGeneratedBy] = useState<'llm' | 'fallback'>('fallback');
+
+  // Balance game state (for bottom button)
+  const [balanceGameState, setBalanceGameState] = useState<{ selectionsCount: number; allAnswered: boolean; currentSelections: Set<string> }>({ selectionsCount: 0, allAnswered: false, currentSelections: new Set() });
 
   // UI
   const [showBackModal, setShowBackModal] = useState(false);
   const [showScanAnimation, setShowScanAnimation] = useState(true);
+
+  // Typing animation state
+  const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
 
   // Sub-category state (for stroller, car_seat, diaper)
   const [requiresSubCategory, setRequiresSubCategory] = useState(false);
@@ -163,16 +168,39 @@ export default function RecommendV2Page() {
   }, []);
 
   // ===================================================
+  // Typing animation completion
+  // ===================================================
+
+  useEffect(() => {
+    if (typingMessageId) {
+      const timer = setTimeout(() => {
+        setMessages(prev =>
+          prev.map(msg =>
+            msg.id === typingMessageId ? { ...msg, typing: false } : msg
+          )
+        );
+        setTypingMessageId(null);
+      }, 1000); // 1초 후 타이핑 효과 종료
+
+      return () => clearTimeout(timer);
+    }
+  }, [typingMessageId]);
+
+  // ===================================================
   // Add message helper
   // ===================================================
 
-  const addMessage = useCallback((message: Omit<ChatMessage, 'id' | 'timestamp'>) => {
+  const addMessage = useCallback((message: Omit<ChatMessage, 'id' | 'timestamp'>, withTyping = false) => {
     const newMessage: ChatMessage = {
       ...message,
       id: generateId(),
       timestamp: Date.now(),
+      typing: withTyping,
     };
     setMessages(prev => [...prev, newMessage]);
+    if (withTyping) {
+      setTypingMessageId(newMessage.id);
+    }
     return newMessage.id;
   }, []);
 
@@ -443,7 +471,7 @@ export default function RecommendV2Page() {
       role: 'assistant',
       content: '간단한 질문 몇 가지만 할게요.',
       stepTag: '1/5',
-    });
+    }, true);
 
     // Add first hard filter question
     const questions = hardFilterConfig?.questions || [];
@@ -526,7 +554,14 @@ export default function RecommendV2Page() {
     console.log('  - products:', productsToUse.length);
     console.log('  - filtered:', filtered.length);
 
-    // 먼저 로딩 상태 메시지 추가
+    // stepTag를 먼저 추가 (checkpoint 위에 위치)
+    addMessage({
+      role: 'assistant',
+      content: '조건에 맞는 후보를 찾고 있어요.',
+      stepTag: '2/5',
+    }, true);
+
+    // 로딩 상태 메시지 추가
     const loadingMsgId = addMessage({
       role: 'system',
       content: '',
@@ -620,14 +655,13 @@ export default function RecommendV2Page() {
         : msg
     ));
 
-    // Add AI summary message
+    // Add AI summary message (stepTag 없음 - 위에서 이미 추가됨)
     const summaryMessage = aiSummary || `전체 **${productsToUse.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
     setTimeout(() => {
       addMessage({
         role: 'assistant',
         content: summaryMessage,
-        stepTag: '2/5',
-      });
+      }, true);
       scrollToBottom();
     }, 300);
   }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToBottom]);
@@ -682,7 +716,7 @@ export default function RecommendV2Page() {
       role: 'assistant',
       content: '이제 남은 후보들 중에서 최적의 제품을 골라볼게요.\n**어떤 게 더 끌리세요?**',
       stepTag: '3/5',
-    });
+    }, true);
 
     if (dynamicBalanceQuestions.length > 0) {
       setTimeout(() => {
@@ -720,14 +754,14 @@ export default function RecommendV2Page() {
       addMessage({
         role: 'assistant',
         content: `**${selections.size}개** 선호 항목을 반영할게요!`,
-      });
+      }, true);
     }
 
     addMessage({
       role: 'assistant',
       content: '후보들의 실제 리뷰에서 단점을 분석했어요.',
       stepTag: '4/5',
-    });
+    }, true);
 
     if (dynamicNegativeOptions.length > 0) {
       setTimeout(() => {
@@ -783,14 +817,14 @@ export default function RecommendV2Page() {
       addMessage({
         role: 'assistant',
         content: `알겠어요, **${negativeSelections.length}개** 단점을 피해서 찾아볼게요.`,
-      });
+      }, true);
     }
 
     addMessage({
       role: 'assistant',
       content: '마지막이에요!',
       stepTag: '5/5',
-    });
+    }, true);
 
     setTimeout(() => {
       addMessage({
@@ -884,7 +918,6 @@ export default function RecommendV2Page() {
 
       setScoredProducts(top3);
       setSelectionReason(finalSelectionReason);
-      setGeneratedBy(finalGeneratedBy);
 
       // 결과 메시지 추가
       addMessage({
@@ -894,10 +927,8 @@ export default function RecommendV2Page() {
         componentData: {
           products: top3,
           categoryName,
-          conditions: conditionSummary,
           categoryKey,
           selectionReason: finalSelectionReason,
-          generatedBy: finalGeneratedBy,
         },
       });
 
@@ -927,6 +958,7 @@ export default function RecommendV2Page() {
           key={message.id}
           content={message.content}
           stepTag={message.stepTag}
+          typing={message.typing}
         />
       );
     }
@@ -945,7 +977,7 @@ export default function RecommendV2Page() {
               <GuideCards
                 data={message.componentData as GuideCardsData & { introMessage?: string }}
                 introMessage={(message.componentData as { introMessage?: string })?.introMessage}
-                isActive={currentStep === 0}
+                isActive={currentStep === 0 && !showSubCategorySelector}
                 onNext={() => {
                   // 가이드 카드 완료 후 다음 단계로 진행 (스크롤 + 다음 스텝 표시)
                   if (requiresSubCategory && subCategoryConfig && !selectedSubCategoryCode) {
@@ -1056,6 +1088,7 @@ export default function RecommendV2Page() {
               <BalanceGameCarousel
                 questions={carouselData.questions}
                 onComplete={handleBalanceGameComplete}
+                onStateChange={setBalanceGameState}
               />
             </div>
           );
@@ -1104,20 +1137,16 @@ export default function RecommendV2Page() {
           const resultData = message.componentData as {
             products?: ScoredProduct[];
             categoryName?: string;
-            conditions?: Array<{ label: string; value: string }>;
             categoryKey?: string;
             selectionReason?: string;
-            generatedBy?: 'llm' | 'fallback';
           } | undefined;
           return (
             <ResultCards
               key={message.id}
               products={resultData?.products || scoredProducts}
               categoryName={resultData?.categoryName || categoryName}
-              conditions={resultData?.conditions}
               categoryKey={resultData?.categoryKey || categoryKey}
               selectionReason={resultData?.selectionReason || selectionReason}
-              generatedBy={resultData?.generatedBy || generatedBy}
               userContext={{
                 hardFilterAnswers: hardFilterAnswers,
                 balanceSelections: Array.from(balanceSelections),
@@ -1284,6 +1313,41 @@ export default function RecommendV2Page() {
             className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-emerald-500 text-white hover:bg-emerald-600 transition-all"
           >
             다음
+          </motion.button>
+        </div>
+      );
+    }
+
+    // Step 3: 밸런스 게임 (AB 테스트) with prev/next
+    if (currentStep === 3) {
+      return (
+        <div className="flex gap-2">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={() => {
+              setCurrentStep(2);
+              // Remove balance carousel related messages
+              setMessages(prev => prev.filter(msg =>
+                msg.componentType !== 'balance-carousel' &&
+                !(msg.stepTag === '3/5')
+              ));
+              // Reset balance game state
+              setBalanceGameState({ selectionsCount: 0, allAnswered: false, currentSelections: new Set() });
+            }}
+            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+          >
+            이전
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={() => handleBalanceGameComplete(balanceGameState.currentSelections)}
+            className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-emerald-500 text-white hover:bg-emerald-600 transition-all"
+          >
+            {balanceGameState.selectionsCount > 0
+              ? `다음으로 (${balanceGameState.selectionsCount}개 선택됨)`
+              : '상관없어요'}
           </motion.button>
         </div>
       );
@@ -1505,15 +1569,27 @@ export default function RecommendV2Page() {
             {messages.map(renderMessage)}
           </div>
 
-          {/* Calculating indicator */}
+          {/* Calculating indicator - 토끼 애니메이션 */}
           {isCalculating && (
-            <div className="flex items-center justify-center py-8">
-              <div className="flex gap-1">
-                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" />
-                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-              </div>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center justify-center py-8"
+            >
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{ width: 80, height: 80 }}
+                className="object-contain mb-3"
+              >
+                <source src="/animations/character.mp4" type="video/mp4" />
+              </video>
+              <p className="text-sm font-medium text-gray-600 shimmer-text">
+                맞춤 추천 분석 중...
+              </p>
+            </motion.div>
           )}
 
           <div ref={messagesEndRef} />

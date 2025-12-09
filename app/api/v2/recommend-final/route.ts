@@ -34,6 +34,7 @@ interface CandidateProduct {
   rank?: number | null;
   thumbnail?: string | null;
   spec?: Record<string, unknown>;
+  filter_attrs?: Record<string, string>;  // 상품 필터 속성 (재질, 타입 등)
   baseScore?: number;
   negativeScore?: number;
   totalScore?: number;
@@ -104,23 +105,45 @@ function formatNegativeSelections(selections: string[]): string {
 }
 
 /**
- * 상품 정보를 LLM 프롬프트용 문자열로 변환
+ * 상품 정보를 LLM 프롬프트용 문자열로 변환 (스펙 데이터 강화)
  */
 function formatProductForPrompt(product: CandidateProduct, index: number): string {
-  const specStr = product.spec
-    ? Object.entries(product.spec)
-        .filter(([_, v]) => v !== null && v !== undefined && v !== '')
-        .slice(0, 10) // 상위 10개 스펙만
-        .map(([k, v]) => `${k}: ${v}`)
-        .join(', ')
-    : '스펙 정보 없음';
+  // 스펙 정보 포맷팅 (중요한 항목 우선)
+  let specStr = '스펙 정보 없음';
+  if (product.spec) {
+    const priorityKeys = ['용량', '무게', '재질', '크기', '온도', '기능', '타입', '소비전력'];
+    const prioritySpecs: string[] = [];
+    const otherSpecs: string[] = [];
+
+    Object.entries(product.spec).forEach(([k, v]) => {
+      if (!v || v === '' || v === '-') return;
+      const isPriority = priorityKeys.some(pk => k.includes(pk));
+      const specItem = `${k}: ${v}`;
+      if (isPriority) {
+        prioritySpecs.push(specItem);
+      } else {
+        otherSpecs.push(specItem);
+      }
+    });
+
+    const allSpecs = [...prioritySpecs.slice(0, 6), ...otherSpecs.slice(0, 4)];
+    if (allSpecs.length > 0) {
+      specStr = allSpecs.join(', ');
+    }
+  }
+
+  // 매칭 규칙 포맷팅
+  const matchedRulesStr = product.matchedRules && product.matchedRules.length > 0
+    ? product.matchedRules.map(r => r.replace('체감속성_', '').replace(/_/g, ' ')).join(', ')
+    : '없음';
 
   return `[${index + 1}] ${product.title}
 - 브랜드: ${product.brand || '미상'}
 - 가격: ${product.price ? `${product.price.toLocaleString()}원` : '가격 미정'}
 - 인기순위: ${product.rank || '미정'}위
-- 현재점수: ${product.totalScore || 0}점
-- 주요스펙: ${specStr}`;
+- 선호도점수: ${product.totalScore || 0}점
+- 매칭된 선호조건: ${matchedRulesStr}
+- 상세스펙: ${specStr}`;
 }
 
 /**
@@ -195,40 +218,54 @@ ${candidatesStr}
 2. 밸런스 게임에서 선택한 선호 특성을 가진 제품 우선
 3. 피하고 싶다고 한 단점이 없는 제품 우선
 4. 예산 범위 내에서 가성비 고려
-5. 단순히 점수만 보지 말고, 사용자 상황에 맞는 제품인지 종합 판단
-
 ## 응답 JSON 형식
 {
   "top3": [
     {
       "pcode": "선정된 상품의 pcode",
       "rank": 1,
-      "recommendationReason": "이 사용자에게 이 제품을 1위로 추천하는 구체적인 이유 (2-3문장, 사용자 선택과 연결지어 설명)",
+      "recommendationReason": "사용자의 선택과 연결된 추천 이유 (1-2문장)",
       "matchedPreferences": ["매칭된 사용자 선호 항목들"]
     },
-    {
-      "pcode": "...",
-      "rank": 2,
-      "recommendationReason": "2위 추천 이유",
-      "matchedPreferences": ["..."]
-    },
-    {
-      "pcode": "...",
-      "rank": 3,
-      "recommendationReason": "3위 추천 이유",
-      "matchedPreferences": ["..."]
-    }
+    { "pcode": "...", "rank": 2, "recommendationReason": "...", "matchedPreferences": ["..."] },
+    { "pcode": "...", "rank": 3, "recommendationReason": "...", "matchedPreferences": ["..."] }
   ],
-  "selectionReason": "전체적인 선정 기준과 3개 제품의 특징 요약 (1-2문장)"
+  "selectionReason": "전체 선정 기준 요약 (1~2문장, 한국어로)"
 }
 
-중요:
-- pcode는 후보 목록에 있는 실제 상품의 pcode만 사용
-- 추천 이유는 "이 제품은..."으로 시작하지 말고, 사용자 관점에서 작성 (예: "소음에 민감하다고 하셨는데, 이 제품은 저소음 설계로...")
+## 추천 이유 작성 가이드 (매우 중요!)
+추천 이유는 반드시 **사용자가 선택한 조건**과 **이 제품이 그 조건을 어떻게 충족하는지**를 연결해야 합니다.
+
+※ 영어 조건명(예: rule_bottle_lightweight)은 반드시 한국어로 풀어서 작성하세요.
+※ recommendationReason은 1~2문장, selectionReason도 1~2문장으로 간결하게 작성하세요. 
+
+
+### 좋은 예시 (사용자 선택 → 제품 특성 연결)
+- "빠른 가열을 원하셨는데, 300W 고출력으로 2분 내 데울 수 있어요"
+- "세척 편의성을 중시하셨죠. 분리형 구조라 세척이 간편해요"
+- "소음이 걱정되셨는데, 저소음 모터로 40dB 이하예요"
+- "휴대성을 원하셔서, 850g으로 가볍고 콤팩트해요"
+
+### 나쁜 예시 (사용하지 마세요)
+- ❌ "크기: 86.6 x 85 x117.7 mm 스펙으로 실용적인 선택이에요" (스펙 나열만)
+- ❌ "인기순위 5위로 많은 분들이 선택한 제품이에요" (사용자 선택과 무관)
+- ❌ "좋은 제품이에요" (너무 추상적)
+
+### 작성 원칙
+1. 사용자가 밸런스 게임에서 선택한 항목 → 제품이 어떻게 충족하는지
+2. 사용자가 피하고 싶다고 한 단점 → 이 제품에 그 단점이 없는 이유
+3. 구체적인 스펙 수치는 사용자 선택을 뒷받침할 때만 언급
+4. 일반적인 내용이 아닌 **이 제품에 특화된 내용**으로 작성
+5. 사용자 관점에서 **실용적인 정보** 위주로 작성
+
 - JSON만 응답`;
 
   const result = await model.generateContent(prompt);
   const responseText = result.response.text();
+
+  // 디버그: LLM 원본 응답 로그
+  console.log(`[recommend-final] 📝 LLM raw response (first 500 chars):`, responseText.slice(0, 500));
+
   const parsed = parseJSONResponse(responseText) as {
     top3?: Array<{
       pcode: string;
@@ -245,11 +282,21 @@ ${candidatesStr}
   for (const item of parsed.top3 || []) {
     const candidate = candidates.find(c => c.pcode === item.pcode);
     if (candidate) {
+      // LLM이 matchedPreferences를 제공하지 않으면 matchedRules 사용
+      const preferences = (item.matchedPreferences && item.matchedPreferences.length > 0)
+        ? item.matchedPreferences
+        : candidate.matchedRules || [];
+
+      const useFallback = !item.recommendationReason;
+      if (useFallback) {
+        console.log(`[recommend-final] ⚠️ Using fallback for pcode ${item.pcode}: LLM returned empty recommendationReason`);
+      }
+
       top3Products.push({
         ...candidate,
         rank: item.rank,
-        recommendationReason: item.recommendationReason || '',
-        matchedPreferences: item.matchedPreferences || [],
+        recommendationReason: item.recommendationReason || generateFallbackReason(candidate, item.rank, userContext),
+        matchedPreferences: preferences,
       });
     }
   }
@@ -265,7 +312,7 @@ ${candidatesStr}
       top3Products.push({
         ...p,
         rank: top3Products.length + 1,
-        recommendationReason: '점수 기반 추천 제품입니다.',
+        recommendationReason: generateFallbackReason(p, top3Products.length + 1, userContext),
         matchedPreferences: p.matchedRules || [],
       });
     }
@@ -281,7 +328,8 @@ ${candidatesStr}
  * Fallback: 점수 기준 Top 3 반환
  */
 function selectTop3Fallback(
-  candidates: CandidateProduct[]
+  candidates: CandidateProduct[],
+  userContext?: UserContext
 ): {
   top3Products: RecommendedProduct[];
   selectionReason: string;
@@ -292,42 +340,170 @@ function selectTop3Fallback(
   const top3Products: RecommendedProduct[] = top3.map((p, index) => ({
     ...p,
     rank: index + 1,
-    recommendationReason: generateFallbackReason(p, index + 1),
+    recommendationReason: generateFallbackReason(p, index + 1, userContext),
     matchedPreferences: p.matchedRules || [],
   }));
 
   return {
     top3Products,
-    selectionReason: '선호도 점수를 기반으로 가장 적합한 제품을 선정했습니다.',
+    selectionReason: '선택하신 조건에 맞춰 가장 적합한 제품을 선정했습니다.',
   };
 }
 
 /**
- * Fallback용 추천 이유 생성
+ * 밸런스 선택 키에서 사용자 친화적 텍스트 추출
+ * 실제 키 형태: "체감속성_손목보호_가벼움", "체감속성_새벽수유_1초완성" 등
  */
-function generateFallbackReason(product: CandidateProduct, rank: number): string {
-  const parts: string[] = [];
+function getBalanceSelectionText(ruleKey: string): string {
+  // 한국어 체감속성 키 → 사용자 친화적 텍스트
+  const koreanMapping: Record<string, string> = {
+    // 젖병
+    '손목보호_가벼움': '가벼운 무게',
+    '미세플라스틱_제로': '미세플라스틱 걱정 없는 소재',
+    '설거지_해방_식세기': '식기세척기 사용',
+    '세척솔_필요없는_와이드': '넓은 입구로 세척 편의',
+    '배앓이_철벽방어': '배앓이 방지 기능',
+    '유두혼동_최소화': '유두혼동 방지',
+    '여행용_간편함': '여행용 휴대 편의',
 
-  if (product.matchedRules && product.matchedRules.length > 0) {
-    const positiveRules = product.matchedRules.filter(r => !r.startsWith('❌'));
-    if (positiveRules.length > 0) {
-      parts.push(`선호하신 조건 ${positiveRules.length}개가 매칭되었습니다`);
+    // 분유포트
+    '새벽수유_1초완성': '빠른 가열/영구보온',
+    '배고픈아기_급속냉각': '급속 냉각 기능',
+    '손목보호_자동출수': '자동 출수 기능',
+    '위생적인_통유리': '통유리로 위생적',
+    '내구성_스테인리스': '스테인리스 내구성',
+    '수돗물_안심제거': '수돗물 염소 제거',
+    '밤중수유_무드등': '밤중 수유등',
+
+    // 유모차
+    '초경량_깃털무게': '초경량 무게',
+    '나홀로_원터치_폴딩': '원터치 폴딩',
+    '신생아_흔들림_제로': '신생아 안정감',
+    '비행기_기내반입': '기내 반입 가능',
+    '양대면_아이컨택': '양대면 시선 교환',
+    '오래쓰는_튼튼함': '튼튼한 내구성',
+    '쌍둥이_다둥이': '쌍둥이/연년생용',
+
+    // 카시트
+    '허리보호_360회전': '360도 회전',
+    '유럽안전인증_iSize': 'i-Size 안전 인증',
+    '신생아_바구니': '바구니형 이동',
+    '주니어_오래사용': '주니어까지 사용',
+    '안전고정_ISOFIX': 'ISOFIX 안전 고정',
+    '측면충돌_보호': '측면 충돌 보호',
+    '편안한_다리공간': '넓은 다리 공간',
+
+    // 기저귀
+    '여름철_땀띠_해방': '통기성 좋음',
+    '밤샘_이불빨래_끝': '높은 흡수력',
+    '활동적인_아기_팬티': '팬티형 편의',
+    '예민보스_피부보호': '피부 저자극',
+    '신생아_배꼽케어': '배꼽 보호',
+    '가성비_대량구매': '가성비 좋음',
+    '물놀이_전용': '물놀이 전용',
+
+    // 체온계
+    '정확도_병원급': '병원급 정확도',
+    '비접촉_위생': '비접촉 측정',
+    '밤중_몰래측정': '무음/야간 모드',
+    '빠른_1초측정': '1초 빠른 측정',
+    '생활온도_겸용': '다용도 온도 측정',
+    '스마트_기록관리': '앱 연동 기록',
+
+    // 코흡입기
+    '강력흡입_전동식': '전동식 강력 흡입',
+    '휴대간편_수동식': '수동식 휴대 간편',
+    '부드러운_실리콘팁': '부드러운 실리콘',
+    '위생_세척용이': '세척 용이',
+
+    // 베이비모니터
+    '해킹안심_보안': '해킹 방지 보안',
+    '선명한_화질': '선명한 화질',
+    '움직임_감지알림': '움직임 감지 알림',
+    '밤샘_지킴이': '야간 모드',
+    '양방향_소통': '양방향 대화',
+    '사각지대_제로': '360도 회전',
+
+    // 분유제조기
+    '스마트_원격제어': '스마트 원격 제어',
+    '위생_자동세척': '자동 세척 기능',
+    '미세조절_맞춤': '정밀 온도/양 조절',
+    '올인원_포트겸용': '포트 겸용',
+    '대용량_물탱크': '대용량',
+    '안전소재': '안전한 소재',
+  };
+
+  // 체감속성_ 접두사 제거 후 매핑 검색
+  const cleanKey = ruleKey.replace('체감속성_', '');
+
+  for (const [key, text] of Object.entries(koreanMapping)) {
+    if (cleanKey.includes(key) || ruleKey.includes(key)) {
+      return text;
     }
   }
 
-  if (product.totalScore && product.totalScore > 0) {
-    parts.push(`선호도 점수 ${product.totalScore}점으로 높은 적합도를 보입니다`);
+  // 기본 변환: 언더스코어를 공백으로, 체감속성_ 제거
+  return cleanKey.replace(/_/g, ' ');
+}
+
+/**
+ * Fallback용 추천 이유 생성 (사용자 선택 연결)
+ */
+function generateFallbackReason(
+  product: CandidateProduct,
+  rank: number,
+  userContext?: UserContext
+): string {
+  const reasons: string[] = [];
+
+  // 1. 매칭된 밸런스 선택과 연결
+  if (product.matchedRules && product.matchedRules.length > 0) {
+    const positiveRules = product.matchedRules.filter(r => !r.startsWith('❌'));
+    if (positiveRules.length > 0) {
+      const topPreference = getBalanceSelectionText(positiveRules[0]);
+      // 영어가 그대로 나오는 경우 (매핑 실패) 일반 메시지로 대체
+      if (/^[a-zA-Z\s]+$/.test(topPreference)) {
+        reasons.push('선택하신 조건에 잘 맞는 제품이에요');
+      } else {
+        reasons.push(`${topPreference}을(를) 원하셨는데, 이 조건에 잘 맞는 제품이에요`);
+      }
+    }
   }
 
-  if (product.rank && product.rank <= 10) {
-    parts.push(`인기순위 ${product.rank}위의 검증된 제품입니다`);
+  // 2. 사용자가 선택한 밸런스 게임 항목 기반 (userContext 활용)
+  if (reasons.length === 0 && userContext?.balanceSelections && userContext.balanceSelections.length > 0) {
+    const userPreference = getBalanceSelectionText(userContext.balanceSelections[0]);
+    // 영어가 그대로 나오는 경우 (매핑 실패) 일반 메시지로 대체
+    if (/^[a-zA-Z\s]+$/.test(userPreference)) {
+      reasons.push('선택하신 선호 조건에 잘 맞는 제품이에요');
+    } else {
+      reasons.push(`${userPreference}을(를) 중시하시는 분께 적합한 제품이에요`);
+    }
   }
 
-  if (parts.length === 0) {
-    parts.push(`종합적인 분석 결과 ${rank}위로 추천드립니다`);
+  // 3. 피하고 싶은 단점이 없음을 강조
+  if (userContext?.negativeSelections && userContext.negativeSelections.length > 0) {
+    const avoidedIssue = getBalanceSelectionText(userContext.negativeSelections[0]);
+    // 영어가 그대로 나오는 경우 (매핑 실패) 일반 메시지로 대체
+    if (/^[a-zA-Z\s]+$/.test(avoidedIssue)) {
+      reasons.push('걱정하셨던 단점이 없는 제품이에요');
+    } else {
+      reasons.push(`걱정하셨던 ${avoidedIssue} 문제가 없어요`);
+    }
   }
 
-  return parts.join('. ') + '.';
+  // 4. 기본 fallback
+  if (reasons.length === 0) {
+    if (rank === 1) {
+      reasons.push('선택하신 조건들을 종합 분석한 결과 가장 적합한 제품이에요');
+    } else if (rank === 2) {
+      reasons.push('1위와 비슷한 조건을 충족하면서 다른 장점이 있는 제품이에요');
+    } else {
+      reasons.push('선택하신 조건에 맞는 좋은 대안 제품이에요');
+    }
+  }
+
+  return reasons[0];
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse<RecommendFinalResponse>> {
@@ -385,14 +561,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<Recommend
         console.log(`[recommend-final] LLM selected Top 3 for ${categoryKey}: ${top3Products.map(p => p.pcode).join(', ')}`);
       } catch (llmError) {
         console.error('[recommend-final] LLM failed, using fallback:', llmError);
-        const fallbackResult = selectTop3Fallback(candidateProducts);
+        const fallbackResult = selectTop3Fallback(candidateProducts, userContext);
         top3Products = fallbackResult.top3Products;
         selectionReason = fallbackResult.selectionReason;
       }
     } else {
       // LLM 없을 때 fallback
       console.log(`[recommend-final] LLM not available, using fallback for ${categoryKey}`);
-      const fallbackResult = selectTop3Fallback(candidateProducts);
+      const fallbackResult = selectTop3Fallback(candidateProducts, userContext);
       top3Products = fallbackResult.top3Products;
       selectionReason = fallbackResult.selectionReason;
     }

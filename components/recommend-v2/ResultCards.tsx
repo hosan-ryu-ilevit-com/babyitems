@@ -33,22 +33,46 @@ interface UserContext {
 interface ResultCardsProps {
   products: RecommendedProduct[];
   categoryName: string;
-  conditions?: Array<{ label: string; value: string }>;
   categoryKey?: string;
   selectionReason?: string;  // LLM이 생성한 전체 선정 기준
-  generatedBy?: 'llm' | 'fallback';  // 생성 방식
   userContext?: UserContext;  // 사용자 선택 컨텍스트 (API용)
 }
 
 /**
  * TOP 3 추천 결과 카드 컴포넌트 (개선 버전)
- * - 하드 필터 조건 태그
+ * - 상품별 매칭된 선호 항목 태그
  * - 다나와 최저가
  * - 상세 모달
  * - 비교표 + AI 장단점
  * - 백그라운드 LLM 분석 (PDP 모달 + 비교표)
  */
-export function ResultCards({ products, categoryName, conditions, categoryKey, selectionReason, generatedBy, userContext }: ResultCardsProps) {
+// 스트리밍 텍스트 컴포넌트 (글자가 하나씩 나타남)
+function StreamingText({ content, speed = 15, onComplete }: { content: string; speed?: number; onComplete?: () => void }) {
+  const [displayedContent, setDisplayedContent] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!content) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    if (currentIndex < content.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedContent(content.slice(0, currentIndex + 1));
+        setCurrentIndex(currentIndex + 1);
+      }, speed);
+
+      return () => clearTimeout(timeout);
+    } else if (onComplete) {
+      onComplete();
+    }
+  }, [currentIndex, content, speed, onComplete]);
+
+  return <span className="whitespace-pre-wrap">{displayedContent}</span>;
+}
+
+export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext }: ResultCardsProps) {
   // Danawa price data
   const [danawaData, setDanawaData] = useState<Record<string, DanawaPriceData>>({});
   const [danawaSpecs, setDanawaSpecs] = useState<Record<string, Record<string, string>>>({});
@@ -351,72 +375,37 @@ export function ResultCards({ products, categoryName, conditions, categoryKey, s
       transition={{ duration: 0.4 }}
       className="space-y-4"
     >
-      {/* 헤더 */}
-      <div className="text-center mb-4">
-        <motion.span
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', delay: 0.2 }}
-          className="text-4xl"
-        >
-          🎉
-        </motion.span>
-        <h3 className="text-lg font-bold text-gray-900 mt-2">
-          {categoryName} 추천 TOP 3
-        </h3>
-        <p className="text-sm text-gray-500 mt-1">
-          당신의 조건에 가장 잘 맞는 제품이에요
+      {/* 헤더 - 강조된 완료 메시지 */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="bg-white rounded-2xl p-2 mt-10 mb-2"
+      >
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+            <span className="text-green-600 text-lg">✓</span>
+          </div>
+          <h3 className="font-bold text-gray-900 text-lg">
+            <StreamingText content="맞춤 추천 완료" speed={30} />
+          </h3>
+        </div>
+        <p className="text-base text-gray-700 font-medium leading-relaxed">
+          <StreamingText content={`${categoryName} TOP 3 제품을 찾았어요!`} speed={20} />
         </p>
-        {/* AI 생성 뱃지 */}
-        {generatedBy === 'llm' && (
-          <motion.div
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100"
-          >
-            <span className="text-xs">✨</span>
-            <span className="text-xs font-medium text-purple-700">AI가 선정한 맞춤 추천</span>
-          </motion.div>
-        )}
-      </div>
+      </motion.div>
 
-      {/* LLM 선정 기준 요약 */}
+      {/* 선정 기준 요약 */}
       {selectionReason && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="mb-4 p-3 rounded-xl bg-blue-50 border border-blue-100"
+          className="mb-4 p-4 rounded-2xl bg-blue-50"
         >
-          <div className="flex items-start gap-2">
-            <span className="text-base">🤖</span>
-            <p className="text-xs text-blue-800 leading-relaxed">
-              {selectionReason}
-            </p>
-          </div>
-        </motion.div>
-      )}
-
-      {/* 선택한 조건 태그 */}
-      {conditions && conditions.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-4"
-        >
-          <p className="text-xs text-gray-500 mb-2">선택한 조건</p>
-          <div className="flex flex-wrap gap-2">
-            {conditions.map((cond, i) => (
-              <span
-                key={i}
-                className="text-xs px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 font-medium"
-              >
-                {cond.value}
-              </span>
-            ))}
-          </div>
+          <p className="text-sm text-blue-800 font-medium leading-relaxed">
+            <StreamingText content={selectionReason} speed={10} />
+          </p>
         </motion.div>
       )}
 
@@ -539,73 +528,55 @@ export function ResultCards({ products, categoryName, conditions, categoryKey, s
                 </div>
               </div>
 
-              {/* 하드 필터 조건 태그 */}
-              {conditions && conditions.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100">
-                  {conditions.slice(0, 4).map((cond, i) => (
-                    <span
-                      key={i}
-                      className="text-[10px] px-2 py-1 rounded-full bg-blue-50 text-blue-700 font-medium"
-                    >
-                      {cond.value}
-                    </span>
-                  ))}
-                  {conditions.length > 4 && (
-                    <span className="text-[10px] px-2 py-1 rounded-full bg-gray-100 text-gray-500">
-                      +{conditions.length - 4}
-                    </span>
-                  )}
-                </div>
-              )}
-
               {/* LLM 추천 이유 (있는 경우) */}
               {product.recommendationReason && (
                 <div className="mt-3 pt-3 border-t border-gray-100">
                   <div className="flex items-start gap-2">
                     <span className="text-lg mt-0.5">💡</span>
-                    <p className="text-xs text-gray-600 leading-relaxed">
+                    <p className="text-sm text-gray-700 font-medium leading-relaxed">
                       {product.recommendationReason}
                     </p>
                   </div>
                 </div>
               )}
 
-              {/* 밸런스 게임 매칭 규칙 태그 (추천 이유가 없을 때만 표시) */}
-              {!product.recommendationReason && product.matchedRules && product.matchedRules.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {product.matchedRules.slice(0, 3).map((rule, i) => {
-                    const displayName = rule
-                      .replace('체감속성_', '')
-                      .replace(/_/g, ' ');
-
-                    return (
+              {/* 상품 속성 태그 (filter_attrs 기반) */}
+              {product.filter_attrs && Object.keys(product.filter_attrs).length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100">
+                  {Object.entries(product.filter_attrs)
+                    .filter(([key, value]) => value && String(value) !== '-' && key !== '제조사별' && key !== '브랜드별')
+                    .slice(0, 5)
+                    .map(([, value], i) => (
                       <span
                         key={i}
-                        className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700"
+                        className="text-[10px] px-2 py-1 rounded-full bg-gray-100 text-gray-700 font-medium"
                       >
-                        {displayName}
+                        {String(value)}
                       </span>
-                    );
-                  })}
-                  {product.matchedRules.length > 3 && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">
-                      +{product.matchedRules.length - 3}
-                    </span>
-                  )}
+                    ))}
                 </div>
               )}
 
-              {/* 매칭된 선호 항목 태그 */}
-              {product.matchedPreferences && product.matchedPreferences.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {product.matchedPreferences.slice(0, 4).map((pref, i) => (
-                    <span
-                      key={i}
-                      className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-700"
-                    >
-                      {pref}
-                    </span>
-                  ))}
+              {/* 매칭된 선호 조건 태그 (밸런스 게임 매칭) */}
+              {((product.matchedPreferences && product.matchedPreferences.length > 0) ||
+                (product.matchedRules && product.matchedRules.length > 0)) && (
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {(product.matchedPreferences && product.matchedPreferences.length > 0
+                    ? product.matchedPreferences
+                    : product.matchedRules || []
+                  ).slice(0, 3).map((item, i) => {
+                    const displayName = item
+                      .replace('체감속성_', '')
+                      .replace(/_/g, ' ');
+                    return (
+                      <span
+                        key={i}
+                        className="text-[10px] px-2 py-1 rounded-full bg-blue-50 text-blue-700 font-medium"
+                      >
+                        ✓ {displayName}
+                      </span>
+                    );
+                  })}
                 </div>
               )}
             </div>

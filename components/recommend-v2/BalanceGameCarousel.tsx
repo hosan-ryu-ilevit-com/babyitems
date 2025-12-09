@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { BalanceQuestion } from '@/types/recommend-v2';
 
 interface BalanceGameCarouselProps {
   questions: BalanceQuestion[];
   onComplete: (selections: Set<string>) => void;
+  onStateChange?: (state: { selectionsCount: number; allAnswered: boolean; currentSelections: Set<string> }) => void;
 }
 
 /**
@@ -18,6 +19,7 @@ interface BalanceGameCarouselProps {
 export function BalanceGameCarousel({
   questions,
   onComplete,
+  onStateChange,
 }: BalanceGameCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selections, setSelections] = useState<Map<string, string>>(new Map());
@@ -65,6 +67,16 @@ export function BalanceGameCarousel({
   };
 
   const allAnswered = questions.every(q => isAnswered(q.id));
+
+  // 상태 변경 시 부모에 알림
+  useEffect(() => {
+    const selectedRuleKeys = new Set(selections.values());
+    onStateChange?.({
+      selectionsCount: selections.size,
+      allAnswered,
+      currentSelections: selectedRuleKeys,
+    });
+  }, [selections, allAnswered, onStateChange]);
 
   if (questions.length === 0) return null;
 
@@ -219,37 +231,6 @@ export function BalanceGameCarousel({
         ))}
       </div>
 
-      {/* 완료 버튼 */}
-      {allAnswered && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="pt-2"
-        >
-          <button
-            onClick={handleComplete}
-            className="w-full py-3.5 bg-emerald-500 text-white font-semibold rounded-xl hover:bg-emerald-600 transition-colors"
-          >
-            다음으로 ({selections.size}개 선택됨)
-          </button>
-        </motion.div>
-      )}
-
-      {/* 부분 완료 시 계속 버튼 */}
-      {!allAnswered && currentIndex === questions.length - 1 && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="pt-2"
-        >
-          <button
-            onClick={handleComplete}
-            className="w-full py-3.5 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors"
-          >
-            여기까지만 할게요
-          </button>
-        </motion.div>
-      )}
     </motion.div>
   );
 }

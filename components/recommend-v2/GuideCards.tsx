@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import type { GuideCardsData, GuideProConItem, GuideTradeoff } from '@/types/recommend-v2';
 
@@ -9,6 +9,7 @@ interface GuideCardsProps {
   introMessage?: string;
   onNext?: () => void;
   isActive?: boolean; // 활성 상태일 때만 플로팅 버튼 표시
+  enableTyping?: boolean; // 타이핑 애니메이션 활성화 여부
 }
 
 interface CardData {
@@ -25,9 +26,36 @@ interface CardData {
  * - 최대 높이 제한 + 스크롤
  * - 플로팅 다음 버튼
  */
-export function GuideCards({ data, introMessage, onNext, isActive = true }: GuideCardsProps) {
+// 스트리밍 텍스트 컴포넌트 (글자가 하나씩 나타남)
+function StreamingText({ content, speed = 15, onComplete }: { content: string; speed?: number; onComplete?: () => void }) {
+  const [displayedContent, setDisplayedContent] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!content) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    if (currentIndex < content.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedContent(content.slice(0, currentIndex + 1));
+        setCurrentIndex(currentIndex + 1);
+      }, speed);
+
+      return () => clearTimeout(timeout);
+    } else if (onComplete) {
+      onComplete();
+    }
+  }, [currentIndex, content, speed, onComplete]);
+
+  return <span className="whitespace-pre-wrap">{displayedContent}</span>;
+}
+
+export function GuideCards({ data, introMessage, onNext, isActive = true, enableTyping = true }: GuideCardsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isTypingComplete, setIsTypingComplete] = useState(!enableTyping);
 
   // 탭 형식: 만족 포인트 / 주의점 두 개만
   const [activeTab, setActiveTab] = useState<'pros' | 'cons'>('pros');
@@ -201,8 +229,16 @@ export function GuideCards({ data, introMessage, onNext, isActive = true }: Guid
           transition={{ duration: 0.2 }}
           className="mb-4"
         >
-          <p className="text-gray-900 text-base leading-relaxed whitespace-pre-wrap">
-            {introMessage}
+          <p className="text-base leading-relaxed text-gray-900">
+            {enableTyping ? (
+              <StreamingText
+                content={introMessage}
+                speed={15}
+                onComplete={() => setIsTypingComplete(true)}
+              />
+            ) : (
+              introMessage
+            )}
           </p>
         </motion.div>
       )}

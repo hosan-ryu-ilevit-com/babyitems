@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
@@ -41,6 +41,128 @@ interface DisplayGroup {
   name: string;
   categories: UnifiedCategory[];
 }
+
+// 연령대 필터 정의
+interface AgeFilter {
+  id: string;
+  label: string;
+  emoji: string;
+  description: string;
+  categoryIds: string[]; // 해당 연령대에 표시할 카테고리 ID들
+  groups: {
+    name: string;
+    description?: string;
+    categoryIds: string[];
+  }[];
+}
+
+const AGE_FILTERS: AgeFilter[] = [
+  {
+    id: 'all',
+    label: '모두',
+    emoji: '👶',
+    description: '',
+    categoryIds: [],
+    groups: [],
+  },
+  {
+    id: 'prenatal',
+    label: '출산전',
+    emoji: '🤰',
+    description: '미리 준비 안 해두면 급해져요',
+    categoryIds: ['stroller', 'car_seat', 'baby_bottle', 'formula_pot', 'diaper', 'baby_wipes', 'thermometer', 'ip_camera', 'baby_bed'],
+    groups: [
+      { name: '이동수단', description: '유모차랑 카시트는 미리 준비해두세요', categoryIds: ['stroller', 'car_seat'] },
+      { name: '수유용품', description: '젖병이랑 분유포트는 필수예요', categoryIds: ['baby_bottle', 'formula_pot'] },
+      { name: '기저귀/위생', description: '신생아용 기저귀랑 물티슈 챙기세요', categoryIds: ['diaper', 'baby_wipes'] },
+      { name: '건강/안전', description: '체온계는 꼭 챙기시고, 홈캠도 있으면 안심돼요', categoryIds: ['thermometer', 'ip_camera'] },
+      { name: '유아가구', description: '아기 침대 미리 봐두세요', categoryIds: ['baby_bed'] },
+    ],
+  },
+  {
+    id: '0-3m',
+    label: '0~3개월',
+    emoji: '👶',
+    description: '육아템이 본격적으로 필요한 시기예요',
+    categoryIds: ['formula', 'formula_maker', 'pacifier', 'nasal_aspirator', 'diaper', 'baby_wipes'],
+    groups: [
+      { name: '수유용품', description: '분유랑 분유제조기 있으면 편해요. 쪽쪽이도 수면에 도움돼요', categoryIds: ['formula', 'formula_maker', 'pacifier'] },
+      { name: '건강/안전', description: '코막힘 있을 때 코흡입기가 유용해요', categoryIds: ['nasal_aspirator'] },
+      { name: '기저귀/위생', description: '기저귀가 2단계로 올라가요', categoryIds: ['diaper', 'baby_wipes'] },
+    ],
+  },
+  {
+    id: '4-6m',
+    label: '4~6개월',
+    emoji: '🥣',
+    description: '이유식 시작하면서 많은 게 바뀌어요',
+    categoryIds: ['high_chair', 'baby_bottle', 'diaper', 'baby_wipes'],
+    groups: [
+      { name: '유아가구', description: '이유식 시작하면 식탁의자가 필수예요', categoryIds: ['high_chair'] },
+      { name: '수유용품', description: '젖꼭지 단계를 올려줄 때예요', categoryIds: ['baby_bottle'] },
+      { name: '기저귀/위생', description: '뒤집기 시작하면 팬티형도 고려해보세요', categoryIds: ['diaper', 'baby_wipes'] },
+    ],
+  },
+  {
+    id: '7-12m',
+    label: '7~12개월',
+    emoji: '🏃',
+    description: '움직임이 많아지면서 바꿀 게 생겨요',
+    categoryIds: ['stroller', 'car_seat', 'baby_sofa', 'formula', 'pacifier', 'diaper', 'baby_wipes'],
+    groups: [
+      { name: '이동수단', description: '휴대용 유모차가 필요해지는 시기예요. 카시트도 토들러용으로 바꿔요', categoryIds: ['stroller', 'car_seat'] },
+      { name: '유아가구', description: '서고 앉기 시작하면 유아소파가 좋아요', categoryIds: ['baby_sofa'] },
+      { name: '수유용품', description: '분유 단계를 올리고, 이앓이 대비 쪽쪽이도 교체해요', categoryIds: ['formula', 'pacifier'] },
+      { name: '기저귀/위생', description: '팬티형 기저귀로 정착하는 시기예요', categoryIds: ['diaper', 'baby_wipes'] },
+    ],
+  },
+  {
+    id: '13-24m',
+    label: '13~24개월',
+    emoji: '🐥',
+    description: '혼자 하려고 하고, 젖병도 슬슬 졸업해요',
+    categoryIds: ['baby_desk', 'baby_sofa', 'formula', 'baby_bottle', 'diaper', 'baby_wipes'],
+    groups: [
+      { name: '유아가구', description: '그림 그리기 시작하면 책상이랑 소파가 있으면 좋아요', categoryIds: ['baby_desk', 'baby_sofa'] },
+      { name: '수유용품', description: '생우유로 바꾸는 시기고, 빨대컵으로 넘어가요', categoryIds: ['formula', 'baby_bottle'] },
+      { name: '기저귀/위생', description: '기저귀 사이즈가 대형/특대형으로 올라가요', categoryIds: ['diaper', 'baby_wipes'] },
+    ],
+  },
+  {
+    id: '3-4y',
+    label: '3~4세',
+    emoji: '🎒',
+    description: '기저귀 졸업하고 놀이 학습을 시작해요',
+    categoryIds: ['car_seat', 'baby_desk', 'high_chair', 'diaper', 'baby_wipes'],
+    groups: [
+      { name: '이동수단', description: '주니어용 카시트로 바꿀 때예요', categoryIds: ['car_seat'] },
+      { name: '유아가구', description: '미술놀이 시작하면 책상이랑 의자가 필요해요', categoryIds: ['baby_desk', 'high_chair'] },
+      { name: '기저귀/위생', description: '밤기저귀만 남거나 배변훈련 팬티를 사용해요', categoryIds: ['diaper', 'baby_wipes'] },
+    ],
+  },
+  {
+    id: '5-7y',
+    label: '5~7세',
+    emoji: '🎨',
+    description: '키가 크면서 가구도 바꿔줄 때예요',
+    categoryIds: ['baby_desk', 'high_chair', 'car_seat', 'thermometer'],
+    groups: [
+      { name: '유아가구', description: '높이 조절되는 책상이랑 바른 자세 의자가 좋아요', categoryIds: ['baby_desk', 'high_chair'] },
+      { name: '이동수단', description: '주니어 카시트는 아직 필수예요', categoryIds: ['car_seat'] },
+      { name: '건강/안전', description: '체온계는 계속 필요해요', categoryIds: ['thermometer'] },
+    ],
+  },
+  {
+    id: '7y+',
+    label: '7세이상',
+    emoji: '🏫',
+    description: '유아용품을 거의 졸업하는 시기예요',
+    categoryIds: ['baby_desk'],
+    groups: [
+      { name: '유아가구', description: '초등 입학 전에 책상을 마지막으로 바꿔주세요', categoryIds: ['baby_desk'] },
+    ],
+  },
+];
 
 // 카테고리 그룹핑 설정 (id는 logic_map의 category_key와 일치해야 함)
 const CATEGORY_GROUPS: DisplayGroup[] = [
@@ -115,7 +237,40 @@ function getCategoryProductCount(
   }, 0);
 }
 
-// Category Card Component
+// Age Filter Bar Component - 선택된 것만 pill, 나머지는 텍스트만
+function AgeFilterBar({
+  selectedAgeId,
+  onSelect,
+}: {
+  selectedAgeId: string;
+  onSelect: (ageId: string) => void;
+}) {
+  return (
+    <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+      <div className="flex items-center gap-1 pb-2" style={{ minWidth: 'max-content' }}>
+        {AGE_FILTERS.map((filter) => {
+          const isSelected = selectedAgeId === filter.id;
+          return (
+            <motion.button
+              key={filter.id}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onSelect(filter.id)}
+              className={`py-2 px-4 text-sm font-bold whitespace-nowrap transition-all ${
+                isSelected
+                  ? 'bg-blue-50 text-blue-600 rounded-full'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              {filter.label}
+            </motion.button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Category Card Component - v2 스타일 (그림자 없음, 보더 스타일)
 function CategoryCard({
   category,
   productCount,
@@ -129,34 +284,30 @@ function CategoryCard({
 }) {
   return (
     <motion.button
-      whileTap={{ scale: 0.96, opacity: 0.7 }}
-      whileHover={{ scale: 1.02 }}
-      animate={{ scale: isSelected ? 1.03 : 1 }}
+      whileTap={{ scale: 0.97 }}
       onClick={() => onSelect(category)}
-      className={`rounded-2xl p-4 transition-all duration-200 relative overflow-hidden text-left ${
+      className={`rounded-2xl p-4 transition-all duration-200 text-left border ${
         isSelected
-          ? 'bg-white ring-4 ring-inset ring-[#93C5FD]'
-          : 'bg-white hover:bg-gray-50 shadow-sm'
+          ? 'bg-blue-50 border-transparent'
+          : 'bg-gray-50 border-transparent hover:bg-gray-100'
       }`}
     >
-      {/* 상품 수 뱃지 */}
-      {productCount > 0 && (
-        <div className="absolute top-2 right-2 z-20 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-[10px] font-semibold">
-          {productCount}개
-        </div>
-      )}
-
-      <div className="relative z-10">
-        {/* Category Name */}
-        <div className="text-sm font-semibold text-gray-900 leading-snug">
+      {/* Category Name + 상품 수 (세로 가운데 정렬) */}
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-semibold text-gray-900">
           {category.name}
-        </div>
+        </span>
+        {productCount > 0 && (
+          <span className="text-xs text-gray-400">
+            {productCount}개
+          </span>
+        )}
       </div>
     </motion.button>
   );
 }
 
-// Group Section Component
+// Group Section Component (for "모두" filter)
 function GroupSection({
   group,
   allCategories,
@@ -172,11 +323,72 @@ function GroupSection({
 
   return (
     <div className="mb-6">
-      <h2 className="text-sm font-bold text-gray-700 mb-3 px-1">
-        {group.name}
-      </h2>
+      {/* 그룹 타이틀 - 태그 스타일 (초록색) */}
+      <div className="mb-3">
+        <span className="inline-block px-3 py-1.5 bg-green-50 text-green-600 text-xs font-semibold rounded-full">
+          {group.name}
+        </span>
+      </div>
       <div className="grid grid-cols-2 gap-3">
         {group.categories.map((category) => {
+          const productCount = getCategoryProductCount(category, allCategories);
+          return (
+            <CategoryCard
+              key={category.id}
+              category={category}
+              productCount={productCount}
+              isSelected={selectedCategory?.id === category.id}
+              onSelect={onCategorySelect}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Age Group Section Component (for age-specific filters)
+function AgeGroupSection({
+  groupName,
+  description,
+  categoryIds,
+  allCategories,
+  selectedCategory,
+  onCategorySelect,
+}: {
+  groupName: string;
+  description?: string;
+  categoryIds: string[];
+  allCategories: DanawaCategory[];
+  selectedCategory: UnifiedCategory | null;
+  onCategorySelect: (category: UnifiedCategory) => void;
+}) {
+  // Find matching UnifiedCategories from CATEGORY_GROUPS
+  const categories = categoryIds
+    .map((id) => {
+      for (const group of CATEGORY_GROUPS) {
+        const found = group.categories.find((c) => c.id === id);
+        if (found) return found;
+      }
+      return null;
+    })
+    .filter((c): c is UnifiedCategory => c !== null);
+
+  if (categories.length === 0) return null;
+
+  return (
+    <div className="mb-6">
+      {/* 그룹 타이틀 - 태그 스타일 (초록색) */}
+      <div className="mb-3">
+        <span className="inline-block px-3 py-1.5 bg-green-50 text-green-600 text-xs font-medium rounded-full">
+          {groupName}
+        </span>
+        {description && (
+          <p className="text-sm text-gray-500 mt-2 ml-2">{description}</p>
+        )}
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        {categories.map((category) => {
           const productCount = getCategoryProductCount(category, allCategories);
           return (
             <CategoryCard
@@ -199,6 +411,10 @@ export default function CategoriesV2Page() {
   const [allCategories, setAllCategories] = useState<DanawaCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedAgeId, setSelectedAgeId] = useState<string>('all');
+
+  // 현재 선택된 연령대 필터
+  const selectedAgeFilter = AGE_FILTERS.find((f) => f.id === selectedAgeId) || AGE_FILTERS[0];
 
   // 페이지뷰 로깅
   useEffect(() => {
@@ -240,11 +456,6 @@ export default function CategoriesV2Page() {
     fetchCategories();
   }, []);
 
-  // 총 상품 수 계산
-  const totalProducts = useMemo(() => {
-    return allCategories.reduce((sum, cat) => sum + (cat.crawled_product_count || 0), 0);
-  }, [allCategories]);
-
   const handleCategorySelect = (category: UnifiedCategory) => {
     setSelectedCategory(category);
 
@@ -260,7 +471,7 @@ export default function CategoriesV2Page() {
   // 로딩 상태
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F8F9FB' }}>
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="max-w-[480px] w-full">
           <LoadingSpinner size="lg" message="카테고리 불러오는 중..." />
         </div>
@@ -271,7 +482,7 @@ export default function CategoriesV2Page() {
   // 에러 상태
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F8F9FB' }}>
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="max-w-[480px] w-full px-6 text-center">
           <div className="text-red-500 mb-4">⚠️</div>
           <p className="text-gray-700 font-medium">{error}</p>
@@ -287,11 +498,11 @@ export default function CategoriesV2Page() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F8F9FB' }}>
+    <div className="min-h-screen bg-white">
       <div className="max-w-[480px] mx-auto min-h-screen">
         {/* Top Header with Back Button */}
-        <header className="sticky top-0 bg-gray-50 z-50">
-          <div className="px-5 py-3">
+        <header className="sticky top-0 bg-white z-50 border-b border-gray-100">
+          <div className="px-5 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => router.push('/')}
@@ -300,19 +511,12 @@ export default function CategoriesV2Page() {
                 <CaretLeft size={20} weight="bold" />
               </button>
               <div className="absolute left-1/2 -translate-x-1/2">
-                <h1 className="text-m font-semibold text-gray-900">
+                <h1 className="text-base font-semibold text-gray-900">
                   추천받을 상품을 골라주세요
                 </h1>
               </div>
-              <div className="w-6" /> {/* Spacer for alignment */}
+              <div className="w-6" />
             </div>
-          </div>
-          
-          {/* V2 뱃지 */}
-          <div className="px-5 pb-2">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
-              v2 테스트
-            </span>
           </div>
         </header>
 
@@ -322,21 +526,55 @@ export default function CategoriesV2Page() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          {/* 데이터 요약 */}
-          <div className="mb-6 p-3 bg-blue-50 rounded-xl text-sm text-blue-800">
-            총 <strong>{totalProducts.toLocaleString()}</strong>개 상품
+          {/* 연령대 필터 */}
+          <div className="mb-4">
+            <AgeFilterBar
+              selectedAgeId={selectedAgeId}
+              onSelect={setSelectedAgeId}
+            />
           </div>
 
+          {/* 연령대별 설명 카드 - CheckpointVisual 스타일 */}
+          {selectedAgeFilter.id !== 'all' && selectedAgeFilter.description && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 bg-white rounded-2xl border border-blue-100 p-5"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-2xl">{selectedAgeFilter.emoji}</span>
+                <h3 className="font-bold text-gray-900 text-[15px]">{selectedAgeFilter.label}</h3>
+              </div>
+              <p className="text-[15px] text-gray-600 leading-relaxed">{selectedAgeFilter.description}</p>
+            </motion.div>
+          )}
+
           {/* 그룹별 카테고리 표시 */}
-          {CATEGORY_GROUPS.map((group) => (
-            <GroupSection
-              key={group.id}
-              group={group}
-              allCategories={allCategories}
-              selectedCategory={selectedCategory}
-              onCategorySelect={handleCategorySelect}
-            />
-          ))}
+          {selectedAgeFilter.id === 'all' ? (
+            // "모두" 선택 시 기존 그룹핑
+            CATEGORY_GROUPS.map((group) => (
+              <GroupSection
+                key={group.id}
+                group={group}
+                allCategories={allCategories}
+                selectedCategory={selectedCategory}
+                onCategorySelect={handleCategorySelect}
+              />
+            ))
+          ) : (
+            // 연령대 선택 시 해당 연령대의 그룹핑
+            selectedAgeFilter.groups.map((group, idx) => (
+              <AgeGroupSection
+                key={`${selectedAgeFilter.id}-${idx}`}
+                groupName={group.name}
+                description={group.description}
+                categoryIds={group.categoryIds}
+                allCategories={allCategories}
+                selectedCategory={selectedCategory}
+                onCategorySelect={handleCategorySelect}
+              />
+            ))
+          )}
 
           {/* 빈 상태 */}
           {allCategories.length === 0 && !loading && (
