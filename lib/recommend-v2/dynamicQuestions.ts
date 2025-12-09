@@ -218,13 +218,14 @@ interface FilterCondition {
 }
 
 /**
- * 하드 필터 조건을 상품 목록에 적용
- * - 기본: AND 로직 (모든 조건 만족)
+ * 하드 필터 조건을 상품 목록에 적용 (다중 선택 지원)
+ * - 기본: AND 로직 (모든 질문에 대해 조건 만족)
+ * - 같은 질문 내 다중 선택은 OR 로직 (선택한 것 중 하나라도 만족)
  * - Fallback: AND 결과가 너무 적으면(5개 미만) OR 로직으로 전환
  */
 export function applyHardFilters(
   products: ProductItem[],
-  answers: Record<string, string>,
+  answers: Record<string, string[]>,
   questions: Array<{
     id: string;
     options: Array<{
@@ -240,8 +241,25 @@ export function applyHardFilters(
     return [...products];
   }
 
+  // "상관없어요" 등 skip 옵션은 필터링에서 제외
+  const SKIP_VALUES = ['skip', 'any', '상관없어요', 'none', 'all'];
+  const filteredAnswers: Record<string, string[]> = {};
+  for (const [questionId, values] of Object.entries(answers)) {
+    const nonSkipValues = values.filter(v =>
+      !SKIP_VALUES.includes(v.toLowerCase()) && !v.includes('상관없')
+    );
+    if (nonSkipValues.length > 0) {
+      filteredAnswers[questionId] = nonSkipValues;
+    }
+  }
+
+  // 필터할 조건이 없으면 전체 반환
+  if (Object.keys(filteredAnswers).length === 0) {
+    return [...products];
+  }
+
   // 1. 먼저 AND 로직 시도
-  const andFiltered = applyHardFiltersAND(products, answers, questions);
+  const andFiltered = applyHardFiltersAND(products, filteredAnswers, questions);
 
   // 2. AND 결과가 충분하면 반환
   if (andFiltered.length >= minResultThreshold) {
@@ -251,7 +269,7 @@ export function applyHardFilters(
 
   // 3. AND 결과가 부족하면 OR 로직으로 fallback
   console.log(`⚠️ AND filter result too few (${andFiltered.length}), falling back to OR logic`);
-  const orFiltered = applyHardFiltersOR(products, answers, questions);
+  const orFiltered = applyHardFiltersOR(products, filteredAnswers, questions);
 
   // 4. OR 결과도 없으면 AND 결과라도 반환 (0개여도)
   if (orFiltered.length === 0) {
@@ -264,11 +282,12 @@ export function applyHardFilters(
 }
 
 /**
- * AND 로직: 모든 조건을 만족하는 상품만 반환
+ * AND 로직: 모든 질문에 대해 조건을 만족하는 상품만 반환
+ * - 같은 질문 내 다중 선택은 OR (선택한 것 중 하나라도 만족)
  */
 function applyHardFiltersAND(
   products: ProductItem[],
-  answers: Record<string, string>,
+  answers: Record<string, string[]>,
   questions: Array<{
     id: string;
     options: Array<{
@@ -280,24 +299,42 @@ function applyHardFiltersAND(
 ): ProductItem[] {
   let filtered = [...products];
 
-  for (const [questionId, answerValue] of Object.entries(answers)) {
+  for (const [questionId, answerValues] of Object.entries(answers)) {
     const question = questions.find(q => q.id === questionId);
     if (!question) continue;
+    if (answerValues.length === 0) continue;
 
-    const selectedOption = question.options.find(o => o.value === answerValue);
-    if (!selectedOption) continue;
+    // 선택된 옵션들의 조건을 수집
+    const selectedOptions = answerValues
+      .map(v => question.options.find(o => o.value === v))
+      .filter(Boolean) as Array<{
+        value: string;
+        filter?: FilterCondition;
+        category_code?: string;
+      }>;
 
-    // category_code 필터
-    if (selectedOption.category_code) {
-      filtered = filtered.filter(p =>
-        p.category_code === selectedOption.category_code
-      );
-    }
+    if (selectedOptions.length === 0) continue;
 
-    // spec 필터
-    if (selectedOption.filter && Object.keys(selectedOption.filter).length > 0) {
-      filtered = applySpecFilter(filtered, selectedOption.filter);
-    }
+    // 같은 질문 내 다중 선택은 OR: 하나라도 만족하면 통과
+    filtered = filtered.filter(product => {
+      return selectedOptions.some(option => {
+        // category_code 필터
+        if (option.category_code) {
+          if (product.category_code !== option.category_code) {
+            return false;
+          }
+        }
+
+        // spec 필터
+        if (option.filter && Object.keys(option.filter).length > 0) {
+          if (!productMatchesSpecFilter(product, option.filter)) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    });
   }
 
   return filtered;
@@ -310,7 +347,7 @@ function applyHardFiltersAND(
  */
 function applyHardFiltersOR(
   products: ProductItem[],
-  answers: Record<string, string>,
+  answers: Record<string, string[]>,
   questions: Array<{
     id: string;
     options: Array<{
@@ -324,24 +361,26 @@ function applyHardFiltersOR(
   const scoredProducts = products.map(product => {
     let matchScore = 0;
 
-    for (const [questionId, answerValue] of Object.entries(answers)) {
+    for (const [questionId, answerValues] of Object.entries(answers)) {
       const question = questions.find(q => q.id === questionId);
       if (!question) continue;
 
-      const selectedOption = question.options.find(o => o.value === answerValue);
-      if (!selectedOption) continue;
+      for (const answerValue of answerValues) {
+        const selectedOption = question.options.find(o => o.value === answerValue);
+        if (!selectedOption) continue;
 
-      // category_code 매칭 체크
-      if (selectedOption.category_code) {
-        if (product.category_code === selectedOption.category_code) {
-          matchScore += 1;
+        // category_code 매칭 체크
+        if (selectedOption.category_code) {
+          if (product.category_code === selectedOption.category_code) {
+            matchScore += 1;
+          }
         }
-      }
 
-      // spec 필터 매칭 체크
-      if (selectedOption.filter && Object.keys(selectedOption.filter).length > 0) {
-        if (productMatchesSpecFilter(product, selectedOption.filter)) {
-          matchScore += 1;
+        // spec 필터 매칭 체크
+        if (selectedOption.filter && Object.keys(selectedOption.filter).length > 0) {
+          if (productMatchesSpecFilter(product, selectedOption.filter)) {
+            matchScore += 1;
+          }
         }
       }
     }
@@ -560,10 +599,10 @@ export interface ConditionSummary {
 }
 
 /**
- * 하드 필터 답변을 사람이 읽을 수 있는 조건 요약으로 변환
+ * 하드 필터 답변을 사람이 읽을 수 있는 조건 요약으로 변환 (다중 선택 지원)
  */
 export function generateConditionSummary(
-  answers: Record<string, string>,
+  answers: Record<string, string[]>,
   questions: Array<{
     id: string;
     question: string;
@@ -575,21 +614,36 @@ export function generateConditionSummary(
 ): ConditionSummary[] {
   const summaries: ConditionSummary[] = [];
 
-  for (const [questionId, answerValue] of Object.entries(answers)) {
+  for (const [questionId, answerValues] of Object.entries(answers)) {
     const question = questions.find(q => q.id === questionId);
     if (!question) continue;
+    if (!answerValues || answerValues.length === 0) continue;
 
-    const option = question.options.find(o => o.value === answerValue);
-    if (!option) continue;
+    // 선택된 옵션들의 레이블 수집
+    const selectedLabels = answerValues
+      .map(v => {
+        // 커스텀 입력인 경우 "custom:" 프리픽스 제거
+        if (v.startsWith('custom:')) {
+          return v.replace('custom:', '');
+        }
+        const option = question.options.find(o => o.value === v);
+        return option?.label;
+      })
+      .filter(Boolean) as string[];
+
+    if (selectedLabels.length === 0) continue;
 
     // 질문에서 키워드 추출 (예: "아기 월령이 어떻게 되나요?" → "월령")
     const labelMatch = question.question.match(/(.+?)이?가?\s*(어떻게|있나요|뭔가요)/);
     const label = labelMatch ? labelMatch[1].trim() : question.question.slice(0, 10);
 
-    summaries.push({
-      label,
-      value: option.label,
-    });
+    // 다중 선택인 경우 각각 별도의 조건으로 추가
+    for (const selectedLabel of selectedLabels) {
+      summaries.push({
+        label,
+        value: selectedLabel,
+      });
+    }
   }
 
   return summaries;

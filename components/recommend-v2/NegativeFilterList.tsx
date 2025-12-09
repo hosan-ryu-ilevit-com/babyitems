@@ -69,8 +69,8 @@ export function NegativeFilterList({ data, onToggle, onSkip }: NegativeFilterLis
               onClick={() => onToggle(option.target_rule_key)}
               className={`w-full p-3.5 rounded-xl border-2 text-left transition-all ${
                 isSelected
-                  ? 'border-rose-300 bg-rose-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  ? 'border-rose-300 bg-rose-100'
+                  : 'border-transparent bg-gray-100 hover:bg-gray-200'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -100,17 +100,6 @@ export function NegativeFilterList({ data, onToggle, onSkip }: NegativeFilterLis
                 >
                   {option.label}
                 </span>
-
-                {/* 선택됨 표시 */}
-                {isSelected && (
-                  <motion.span
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-xs text-rose-500 font-medium"
-                  >
-                    선택됨
-                  </motion.span>
-                )}
               </div>
             </motion.button>
           );

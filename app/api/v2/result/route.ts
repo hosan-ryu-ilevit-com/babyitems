@@ -31,10 +31,10 @@ export async function POST(req: NextRequest) {
         .select('pcode, lowest_price, lowest_mall, lowest_link, mall_prices')
         .in('pcode', pcodes),
 
-      // 2. 제품 스펙 정보
+      // 2. 제품 스펙 + 리뷰 정보
       supabase
         .from('danawa_products')
-        .select('pcode, spec, filter_attrs')
+        .select('pcode, spec, filter_attrs, review_count, average_rating')
         .in('pcode', pcodes),
     ]);
 

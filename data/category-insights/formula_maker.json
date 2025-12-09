@@ -1,0 +1,232 @@
+{
+  "category_key": "formula_maker",
+  "category_name": "분유제조기",
+  "guide": {
+    "title": "분유제조기 선택 가이드",
+    "summary": "빠른 분유 제조와 세척 편의성이 가장 중요한 선택 기준입니다.",
+    "key_points": [
+      "버튼 한 번으로 1분 이내 분유 완성",
+      "정확한 농도와 온도 유지",
+      "세척 부품 수와 관리 편의성 확인",
+      "앱 연동 원격 제어 기능"
+    ],
+    "trend": "베이비브레짜, 브라비 플러스, 버들맘마가 인기이며, 자동 세척 기능이 있는 고급 모델이 주목받고 있습니다."
+  },
+  "pros": [
+    {
+      "id": "pro_1",
+      "rank": 1,
+      "mention_rate": 68,
+      "text": "빠르고 편리한 분유 제조로 밤중 수유 시간을 획기적으로 단축시켜요",
+      "keywords": ["빠른제조", "밤중수유", "시간단축", "편리함"],
+      "related_products": []
+    },
+    {
+      "id": "pro_2",
+      "rank": 2,
+      "mention_rate": 62,
+      "text": "정확한 농도와 온도로 일정한 품질의 분유를 만들어요",
+      "keywords": ["정확한농도", "일정한온도", "품질일관성"],
+      "related_products": []
+    },
+    {
+      "id": "pro_3",
+      "rank": 3,
+      "mention_rate": 58,
+      "text": "워킹맘의 시간을 아껴줘 퇴근 후 육아 부담이 줄어들어요",
+      "keywords": ["시간절약", "워킹맘", "육아부담감소"],
+      "related_products": []
+    },
+    {
+      "id": "pro_4",
+      "rank": 4,
+      "mention_rate": 52,
+      "text": "손목 부담이 없어 육아 신체 피로가 줄어들어요",
+      "keywords": ["손목보호", "신체피로감소", "편리함"],
+      "related_products": []
+    },
+    {
+      "id": "pro_5",
+      "rank": 5,
+      "mention_rate": 48,
+      "text": "부품이 크고 분리하기 쉬워 기본 세척이 간단해요",
+      "keywords": ["세척간편", "부품분리", "관리용이"],
+      "related_products": ["보르르", "분유포트"]
+    },
+    {
+      "id": "pro_6",
+      "rank": 6,
+      "mention_rate": 45,
+      "text": "앱과 원격 연동으로 미리 분유를 준비할 수 있어 편리해요",
+      "keywords": ["앱연동", "원격제어", "미리준비"],
+      "related_products": ["브라비", "버들맘마"]
+    },
+    {
+      "id": "pro_7",
+      "rank": 7,
+      "mention_rate": 42,
+      "text": "세밀한 용량 조절로 아이 성장에 맞춰 분유량을 조정하기 쉬워요",
+      "keywords": ["용량조절", "10ml단위", "성장맞춤"],
+      "related_products": ["버들맘마", "리하스"]
+    },
+    {
+      "id": "pro_8",
+      "rank": 8,
+      "mention_rate": 38,
+      "text": "자동 세척 및 UV 살균 기능으로 위생 관리가 편리해요",
+      "keywords": ["자동세척", "UV살균", "위생관리"],
+      "related_products": ["버들맘마"]
+    },
+    {
+      "id": "pro_9",
+      "rank": 9,
+      "mention_rate": 35,
+      "text": "온도 미세 조절로 아기 입맛에 정확하게 맞출 수 있어요",
+      "keywords": ["온도미세조절", "1도단위", "맞춤온도"],
+      "related_products": ["브라비", "보르르"]
+    },
+    {
+      "id": "pro_10",
+      "rank": 10,
+      "mention_rate": 32,
+      "text": "위생적인 물 끓임 과정으로 염소 제거가 가능해요",
+      "keywords": ["염소제거", "물끓임", "위생"],
+      "related_products": ["보르르", "끌리오"]
+    }
+  ],
+  "cons": [
+    {
+      "id": "con_1",
+      "rank": 1,
+      "mention_rate": 52,
+      "text": "초기 구매 비용이 높아서 망설이게 돼요",
+      "keywords": ["고가", "높은가격", "진입장벽"],
+      "deal_breaker_for": "예산이 제한된 부모"
+    },
+    {
+      "id": "con_2",
+      "rank": 2,
+      "mention_rate": 48,
+      "text": "세척할 부품이 많아 관리가 번거롭고 시간이 걸려요",
+      "keywords": ["부품많음", "세척번거로움", "관리시간"],
+      "deal_breaker_for": "간편한 관리를 원하는 경우"
+    },
+    {
+      "id": "con_3",
+      "rank": 3,
+      "mention_rate": 44,
+      "text": "분유 농도가 설정값보다 묽게 나와 조절이 어려워요",
+      "keywords": ["농도불일치", "묽은분유", "조절어려움"],
+      "deal_breaker_for": "정확한 농도가 중요한 경우"
+    },
+    {
+      "id": "con_4",
+      "rank": 4,
+      "mention_rate": 40,
+      "text": "냉각 기능이 없어 물이 식히는 데 1-2시간 이상 걸려요",
+      "keywords": ["냉각없음", "긴대기시간", "물식히기"],
+      "deal_breaker_for": "즉시 사용이 필요한 경우"
+    },
+    {
+      "id": "con_5",
+      "rank": 5,
+      "mention_rate": 37,
+      "text": "물통이 작아 자주 물을 갈아야 하고 관리가 번거로워요",
+      "keywords": ["작은물통", "잦은물갈이", "번거로움"],
+      "deal_breaker_for": "편리한 사용을 원하는 경우"
+    },
+    {
+      "id": "con_6",
+      "rank": 6,
+      "mention_rate": 35,
+      "text": "분유통 용량이 작아 하루에도 여러 번 분유를 채워야 해요",
+      "keywords": ["작은분유통", "잦은채움", "용량부족"],
+      "deal_breaker_for": "수유량이 많은 아기"
+    },
+    {
+      "id": "con_7",
+      "rank": 7,
+      "mention_rate": 33,
+      "text": "분유 제조 시간이 1분 이상 걸려 아기가 울고 있을 때 답답해요",
+      "keywords": ["제조시간", "대기시간", "답답함"],
+      "deal_breaker_for": "빠른 대응이 필요한 경우"
+    },
+    {
+      "id": "con_8",
+      "rank": 8,
+      "mention_rate": 31,
+      "text": "국내 분유와 호환되지 않거나 용량이 정확하지 않아요",
+      "keywords": ["호환성", "국내분유", "용량불일치"],
+      "deal_breaker_for": "국내 분유 사용자"
+    },
+    {
+      "id": "con_9",
+      "rank": 9,
+      "mention_rate": 28,
+      "text": "출수구에 물이 고여 세균 증식이 우려돼요",
+      "keywords": ["물고임", "세균증식", "위생우려"],
+      "deal_breaker_for": "위생을 최우선으로 생각하는 부모"
+    }
+  ],
+  "tradeoffs": [
+    {
+      "id": "trade_1",
+      "title": "편의 vs 위생",
+      "description": "기능 우선순위 선택",
+      "option_a": {
+        "text": "침대에서 폰으로 조유! 스마트 원격제어",
+        "keywords": ["원격제어", "스마트", "앱연동"]
+      },
+      "option_b": {
+        "text": "노즐 청소 귀찮아.. 알아서 씻는 자동세척",
+        "keywords": ["자동세척", "위생", "편리"]
+      }
+    },
+    {
+      "id": "trade_2",
+      "title": "디테일 설정",
+      "description": "기능 확장 선택",
+      "option_a": {
+        "text": "물 온도/양 1단위로 섬세하게 맞춤",
+        "keywords": ["미세조절", "1단위", "정밀"]
+      },
+      "option_b": {
+        "text": "티포트로도 쓸 수 있는 올인원",
+        "keywords": ["올인원", "포트겸용", "다용도"]
+      }
+    },
+    {
+      "id": "trade_3",
+      "title": "기본기",
+      "description": "용량 vs 소재",
+      "option_a": {
+        "text": "하루 종일 먹을 물 한 번에 (대용량)",
+        "keywords": ["대용량", "물탱크", "편리"]
+      },
+      "option_b": {
+        "text": "환경호르몬 걱정 없는 안심 소재",
+        "keywords": ["안전소재", "환경호르몬없음", "안심"]
+      }
+    }
+  ],
+  "question_context": {
+    "typical_use_cases": [
+      "새벽 수유 시 빠른 분유 준비",
+      "맞벌이 부부의 효율적 육아",
+      "정확한 농도 유지가 필요한 경우"
+    ],
+    "common_concerns": [
+      "높은 초기 비용",
+      "복잡한 세척과 관리",
+      "농도와 온도 정확성",
+      "국내 분유 호환성"
+    ],
+    "decision_factors": [
+      "가격대",
+      "세척 편의성",
+      "앱 연동 기능",
+      "자동 세척 유무",
+      "물통/분유통 용량"
+    ]
+  }
+}

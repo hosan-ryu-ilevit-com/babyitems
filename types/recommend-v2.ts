@@ -201,7 +201,9 @@ export interface HardFilterData {
   question: HardFilterQuestion;
   currentIndex: number;
   totalCount: number;
-  selectedValue?: string;
+  selectedValue?: string;           // deprecated: use selectedValues for multi-select
+  selectedValues?: string[];        // 다중 선택 지원
+  onNext?: () => void;              // 다음 버튼 클릭 핸들러
 }
 
 export interface CheckpointData {

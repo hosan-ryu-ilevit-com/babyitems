@@ -86,7 +86,7 @@ export function BalanceGameCarousel({
         >
           {/* 헤더 */}
           <div className="flex items-center justify-between">
-            <span className="px-2.5 py-1 bg-violet-100 text-violet-600 rounded-full text-xs font-bold">
+            <span className="px-2.5 py-1 bg-emerald-100 text-emerald-600 rounded-full text-xs font-bold">
               취향 선택
             </span>
             <span className="text-xs text-gray-400">
@@ -107,16 +107,16 @@ export function BalanceGameCarousel({
               onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_A.target_rule_key)}
               className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                 selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                  ? 'border-violet-400 bg-violet-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  ? 'border-emerald-300 bg-emerald-100'
+                  : 'border-transparent bg-gray-100 hover:bg-gray-200'
               }`}
             >
               <div className="flex items-center gap-3">
                 {/* 체크박스 스타일 */}
                 <div
-                  className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 transition-all ${
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                     selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                      ? 'border-violet-500 bg-violet-500'
+                      ? 'border-emerald-500 bg-emerald-500'
                       : 'border-gray-300 bg-white'
                   }`}
                 >
@@ -135,20 +135,11 @@ export function BalanceGameCarousel({
                 </div>
                 <span className={`text-sm font-medium leading-snug ${
                   selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                    ? 'text-violet-700'
+                    ? 'text-emerald-700'
                     : 'text-gray-700'
                 }`}>
                   {currentQuestion.option_A.text}
                 </span>
-                {selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key && (
-                  <motion.span
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="ml-auto text-xs text-violet-500 font-medium"
-                  >
-                    선택됨
-                  </motion.span>
-                )}
               </div>
             </motion.button>
 
@@ -158,16 +149,16 @@ export function BalanceGameCarousel({
               onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_B.target_rule_key)}
               className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                 selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                  ? 'border-violet-400 bg-violet-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  ? 'border-emerald-300 bg-emerald-100'
+                  : 'border-transparent bg-gray-100 hover:bg-gray-200'
               }`}
             >
               <div className="flex items-center gap-3">
                 {/* 체크박스 스타일 */}
                 <div
-                  className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 transition-all ${
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                     selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                      ? 'border-violet-500 bg-violet-500'
+                      ? 'border-emerald-500 bg-emerald-500'
                       : 'border-gray-300 bg-white'
                   }`}
                 >
@@ -186,20 +177,11 @@ export function BalanceGameCarousel({
                 </div>
                 <span className={`text-sm font-medium leading-snug ${
                   selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                    ? 'text-violet-700'
+                    ? 'text-emerald-700'
                     : 'text-gray-700'
                 }`}>
                   {currentQuestion.option_B.text}
                 </span>
-                {selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key && (
-                  <motion.span
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="ml-auto text-xs text-violet-500 font-medium"
-                  >
-                    선택됨
-                  </motion.span>
-                )}
               </div>
             </motion.button>
           </div>
@@ -228,9 +210,9 @@ export function BalanceGameCarousel({
             onClick={() => setCurrentIndex(idx)}
             className={`h-1.5 rounded-full transition-all ${
               idx === currentIndex
-                ? 'w-6 bg-violet-500'
+                ? 'w-6 bg-emerald-500'
                 : isAnswered(q.id)
-                ? 'w-1.5 bg-violet-300'
+                ? 'w-1.5 bg-emerald-300'
                 : 'w-1.5 bg-gray-300'
             }`}
           />
@@ -246,7 +228,7 @@ export function BalanceGameCarousel({
         >
           <button
             onClick={handleComplete}
-            className="w-full py-3.5 bg-violet-500 text-white font-semibold rounded-xl hover:bg-violet-600 transition-colors"
+            className="w-full py-3.5 bg-emerald-500 text-white font-semibold rounded-xl hover:bg-emerald-600 transition-colors"
           >
             다음으로 ({selections.size}개 선택됨)
           </button>

@@ -177,10 +177,10 @@
     "filter_name": "형태",
     "options": [
       "캡형",
-      "리필형",
-      "캡형+리필형"
+      "리필형"
+   
     ],
-    "option_count": 3,
+    "option_count": 2,
     "crawled_at": "2025-12-08T11:39:06.709447Z"
   },
   {

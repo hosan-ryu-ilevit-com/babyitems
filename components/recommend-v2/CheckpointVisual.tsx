@@ -26,7 +26,7 @@ export function CheckpointVisual({ data }: CheckpointVisualProps) {
       className="space-y-4"
     >
       {/* 메인 카드 */}
-      <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-4 border border-emerald-100">
+      <div className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-2xl p-4 border border-blue-100">
         {/* 헤더 */}
         <div className="flex items-center gap-2 mb-4">
           <span className="text-lg">✅</span>
@@ -39,7 +39,7 @@ export function CheckpointVisual({ data }: CheckpointVisualProps) {
             {conditions.map((condition, index) => (
               <span
                 key={index}
-                className="px-2.5 py-1 bg-white rounded-full text-xs text-emerald-700 border border-emerald-200"
+                className="px-2.5 py-1 bg-white rounded-full text-xs text-blue-700 border border-blue-200"
               >
                 #{condition.value}
               </span>
@@ -62,7 +62,7 @@ export function CheckpointVisual({ data }: CheckpointVisualProps) {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.3, type: 'spring' }}
-              className="text-xl text-emerald-500"
+              className="text-xl text-blue-500"
             >
               →
             </motion.div>
@@ -72,7 +72,7 @@ export function CheckpointVisual({ data }: CheckpointVisualProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="text-2xl font-bold text-emerald-600"
+                className="text-2xl font-bold text-blue-600"
               >
                 {filteredCount}
               </motion.p>
@@ -86,7 +86,7 @@ export function CheckpointVisual({ data }: CheckpointVisualProps) {
               initial={{ width: '100%' }}
               animate={{ width: `${100 - filterRate}%` }}
               transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
-              className="absolute left-0 top-0 h-full bg-emerald-500 rounded-full"
+              className="absolute left-0 top-0 h-full bg-blue-500 rounded-full"
             />
           </div>
 

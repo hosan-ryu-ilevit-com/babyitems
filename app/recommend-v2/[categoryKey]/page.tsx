@@ -88,6 +88,7 @@ export default function RecommendV2Page() {
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const budgetSliderRef = useRef<HTMLDivElement>(null);
 
   // ===================================================
   // State
@@ -113,13 +114,16 @@ export default function RecommendV2Page() {
   const [dynamicBalanceQuestions, setDynamicBalanceQuestions] = useState<BalanceQuestion[]>([]);
   const [dynamicNegativeOptions, setDynamicNegativeOptions] = useState<NegativeFilterOption[]>([]);
 
-  // User selections
-  const [hardFilterAnswers, setHardFilterAnswers] = useState<Record<string, string>>({});
+  // User selections (다중 선택 지원)
+  const [hardFilterAnswers, setHardFilterAnswers] = useState<Record<string, string[]>>({});
   const [currentHardFilterIndex, setCurrentHardFilterIndex] = useState(0);
   const [balanceSelections, setBalanceSelections] = useState<Set<string>>(new Set());
   const [currentBalanceIndex, setCurrentBalanceIndex] = useState(0);
   const [negativeSelections, setNegativeSelections] = useState<string[]>([]);
   const [budget, setBudget] = useState<{ min: number; max: number }>({ min: 0, max: 0 });
+
+  // Condition summary (for result page)
+  const [conditionSummary, setConditionSummary] = useState<Array<{ label: string; value: string }>>([]);
 
   // Results
   const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]);
@@ -447,60 +451,37 @@ export default function RecommendV2Page() {
   }, [hardFilterConfig, addMessage, scrollToBottom]);
 
   // ===================================================
-  // Step 1: Hard Filter Selection
+  // Step 1: Hard Filter Selection (다중 선택 지원)
   // ===================================================
 
-  const handleHardFilterSelect = useCallback((questionId: string, value: string) => {
-    const newAnswers = { ...hardFilterAnswers, [questionId]: value };
+  // 선택만 업데이트 (자동 진행 없음)
+  const handleHardFilterSelect = useCallback((questionId: string, values: string[]) => {
+    const newAnswers = { ...hardFilterAnswers, [questionId]: values };
     setHardFilterAnswers(newAnswers);
 
-    const questions = hardFilterConfig?.questions || [];
-    const nextIndex = currentHardFilterIndex + 1;
-
-    // Update current question's selected value in messages (for visual feedback)
+    // Update current question's selected values in messages (for visual feedback)
     setMessages(prev => prev.map(msg => {
       if (msg.componentType === 'hard-filter') {
-        const hfData = msg.componentData as { question: HardFilterQuestion; currentIndex: number; totalCount: number; selectedValue?: string };
+        const hfData = msg.componentData as { question: HardFilterQuestion; currentIndex: number; totalCount: number; selectedValues?: string[] };
         if (hfData.question.id === questionId) {
           return {
             ...msg,
             componentData: {
               ...hfData,
-              selectedValue: value,
+              selectedValues: values,
             },
           };
         }
       }
       return msg;
     }));
-
-    if (nextIndex < questions.length) {
-      // Show next question
-      setCurrentHardFilterIndex(nextIndex);
-
-      setTimeout(() => {
-        addMessage({
-          role: 'system',
-          content: '',
-          componentType: 'hard-filter',
-          componentData: {
-            question: questions[nextIndex],
-            currentIndex: nextIndex,
-            totalCount: questions.length,
-            selectedValue: newAnswers[questions[nextIndex].id],
-          },
-        });
-        scrollToBottom();
-      }, 300);
-    }
-    // Don't auto-proceed after last question - wait for user to click "다음"
-  }, [hardFilterAnswers, hardFilterConfig, currentHardFilterIndex, addMessage, scrollToBottom]);
+  }, [hardFilterAnswers]);
 
   // ===================================================
   // Step 1 Complete → Step 2
   // ===================================================
 
-  const handleHardFiltersComplete = useCallback(async (answers: Record<string, string>) => {
+  const handleHardFiltersComplete = useCallback(async (answers: Record<string, string[]>) => {
     setCurrentStep(2);
 
     // Apply filters to products
@@ -510,6 +491,7 @@ export default function RecommendV2Page() {
 
     // Generate condition summary
     const conditions = generateConditionSummary(answers, questions);
+    setConditionSummary(conditions);
 
     // Calculate relevant rule keys for dynamic questions
     const relevantKeys = filterRelevantRuleKeys(filtered, logicMap);
@@ -593,6 +575,35 @@ export default function RecommendV2Page() {
       }, 300);
     }, 500);
   }, [products, hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToBottom]);
+
+  // "다음" 버튼 클릭 시 다음 질문으로 이동
+  const handleHardFilterNext = useCallback(() => {
+    const questions = hardFilterConfig?.questions || [];
+    const nextIndex = currentHardFilterIndex + 1;
+
+    if (nextIndex < questions.length) {
+      // Show next question
+      setCurrentHardFilterIndex(nextIndex);
+
+      setTimeout(() => {
+        addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'hard-filter',
+          componentData: {
+            question: questions[nextIndex],
+            currentIndex: nextIndex,
+            totalCount: questions.length,
+            selectedValues: hardFilterAnswers[questions[nextIndex].id] || [],
+          },
+        });
+        scrollToBottom();
+      }, 300);
+    } else {
+      // 마지막 질문 완료 - Step 2로 이동
+      handleHardFiltersComplete(hardFilterAnswers);
+    }
+  }, [hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, addMessage, scrollToBottom, handleHardFiltersComplete]);
 
   // ===================================================
   // Step 2: Natural Language Input
@@ -815,7 +826,7 @@ export default function RecommendV2Page() {
 
       setScoredProducts(top3);
 
-      // Add result message
+      // Add result message inline (not navigating to separate page)
       addMessage({
         role: 'system',
         content: '',
@@ -823,10 +834,15 @@ export default function RecommendV2Page() {
         componentData: {
           products: top3,
           categoryName,
+          conditions: conditionSummary,
+          categoryKey,
         },
       });
 
-      scrollToBottom();
+      // 예산 컴포넌트 바로 아래로 스크롤 (맨 아래가 아닌)
+      setTimeout(() => {
+        budgetSliderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     } catch (error) {
       console.error('Score calculation error:', error);
       addMessage({
@@ -836,7 +852,7 @@ export default function RecommendV2Page() {
     } finally {
       setIsCalculating(false);
     }
-  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, addMessage, scrollToBottom]);
+  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, conditionSummary, categoryKey, addMessage, scrollToBottom]);
 
   // ===================================================
   // Render Message
@@ -893,7 +909,7 @@ export default function RecommendV2Page() {
           );
 
         case 'hard-filter':
-          const hfData = message.componentData as { question: HardFilterQuestion; currentIndex: number; totalCount: number; selectedValue?: string };
+          const hfData = message.componentData as { question: HardFilterQuestion; currentIndex: number; totalCount: number; selectedValues?: string[] };
           const isPastQuestion = hfData.currentIndex < currentHardFilterIndex;
           return (
             <div
@@ -905,6 +921,8 @@ export default function RecommendV2Page() {
               <HardFilterQuestionComponent
                 data={hfData}
                 onSelect={handleHardFilterSelect}
+                products={products}
+                showProductCounts={true}
               />
             </div>
           );
@@ -977,6 +995,7 @@ export default function RecommendV2Page() {
           return (
             <div
               key={message.id}
+              ref={budgetSliderRef}
               className={`transition-all duration-300 ${
                 scoredProducts.length > 0 ? 'opacity-50 pointer-events-none' : ''
               }`}
@@ -988,16 +1007,25 @@ export default function RecommendV2Page() {
                 initialMin={budget.min}
                 initialMax={budget.max}
                 onChange={handleBudgetChange}
+                products={filteredProducts}
               />
             </div>
           );
 
         case 'result-cards':
+          const resultData = message.componentData as {
+            products?: ScoredProduct[];
+            categoryName?: string;
+            conditions?: Array<{ label: string; value: string }>;
+            categoryKey?: string;
+          } | undefined;
           return (
             <ResultCards
               key={message.id}
-              products={scoredProducts}
-              categoryName={categoryName}
+              products={resultData?.products || scoredProducts}
+              categoryName={resultData?.categoryName || categoryName}
+              conditions={resultData?.conditions}
+              categoryKey={resultData?.categoryKey || categoryKey}
             />
           );
 
@@ -1072,8 +1100,9 @@ export default function RecommendV2Page() {
 
   const renderBottomButton = () => {
     const questions = hardFilterConfig?.questions || [];
+    // 다중 선택: 모든 질문에 최소 1개 이상 답변했는지 확인
     const allQuestionsAnswered = questions.length > 0 &&
-      questions.every(q => hardFilterAnswers[q.id] !== undefined);
+      questions.every(q => hardFilterAnswers[q.id]?.length > 0);
 
     // Step 0: 시작하기
     if (currentStep === 0 && !showScanAnimation) {
@@ -1095,9 +1124,13 @@ export default function RecommendV2Page() {
       );
     }
 
-    // Step 1: Hard Filter - prev/next navigation
+    // Step 1: Hard Filter - prev/next navigation (질문별 진행)
     if (currentStep === 1) {
-      const canGoNext = allQuestionsAnswered;
+      const questions = hardFilterConfig?.questions || [];
+      const currentQuestion = questions[currentHardFilterIndex];
+      const currentQuestionAnswered = currentQuestion &&
+        hardFilterAnswers[currentQuestion.id]?.length > 0;
+      const isLastQuestion = currentHardFilterIndex >= questions.length - 1;
 
       return (
         <div className="flex gap-2">
@@ -1112,15 +1145,15 @@ export default function RecommendV2Page() {
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            onClick={() => handleHardFiltersComplete(hardFilterAnswers)}
-            disabled={!canGoNext}
+            onClick={handleHardFilterNext}
+            disabled={!currentQuestionAnswered}
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
-              canGoNext
+              currentQuestionAnswered
                 ? 'bg-blue-500 text-white hover:bg-blue-600'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }`}
           >
-            다음
+            {isLastQuestion ? '필터 완료' : '다음'}
           </motion.button>
         </div>
       );
@@ -1223,17 +1256,53 @@ export default function RecommendV2Page() {
       );
     }
 
-    // Step 5: 결과 후 다른 카테고리
+    // Step 5: 결과 후 - 다시 추천받기 / 다른 카테고리
     if (currentStep === 5 && scoredProducts.length > 0) {
       return (
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          onClick={() => router.push('/categories-v2')}
-          className="w-full h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
-        >
-          다른 카테고리 추천받기
-        </motion.button>
+        <div className="flex flex-col gap-2">
+          {/* 다시 추천받기 버튼 */}
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={() => {
+              // 상태 초기화
+              setCurrentStep(0);
+              setCurrentHardFilterIndex(0);
+              setHardFilterAnswers({});
+              setBalanceSelections(new Set());
+              setNegativeSelections([]);
+              setScoredProducts([]);
+              setConditionSummary([]);
+
+              // 메시지 초기화 (가이드 카드부터 다시 시작)
+              setMessages([]);
+              setShowScanAnimation(true);
+
+              // 서브 카테고리 필요시 리셋
+              if (requiresSubCategory) {
+                setSelectedSubCategoryCode(null);
+                setShowSubCategorySelector(false);
+              }
+            }}
+            className="w-full h-14 rounded-2xl font-semibold text-base bg-blue-500 text-white hover:bg-blue-600 transition-all flex items-center justify-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            {categoryName} 다시 추천받기
+          </motion.button>
+
+          {/* 다른 카테고리 버튼 */}
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            onClick={() => router.push('/categories-v2')}
+            className="w-full h-12 rounded-2xl font-semibold text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+          >
+            다른 카테고리 추천받기
+          </motion.button>
+        </div>
       );
     }
 
@@ -1277,7 +1346,30 @@ export default function RecommendV2Page() {
             <h1 className="text-lg font-bold text-gray-900">
               {categoryName} 추천
             </h1>
-            <div className="w-6" />
+            {/* 처음부터 버튼 */}
+            {currentStep > 0 && !showScanAnimation && (
+              <button
+                onClick={() => {
+                  setCurrentStep(0);
+                  setCurrentHardFilterIndex(0);
+                  setHardFilterAnswers({});
+                  setBalanceSelections(new Set());
+                  setNegativeSelections([]);
+                  setScoredProducts([]);
+                  setConditionSummary([]);
+                  setMessages([]);
+                  setShowScanAnimation(true);
+                  if (requiresSubCategory) {
+                    setSelectedSubCategoryCode(null);
+                    setShowSubCategorySelector(false);
+                  }
+                }}
+                className="text-xs text-gray-500 hover:text-blue-600 transition-colors"
+              >
+                처음부터
+              </button>
+            )}
+            {(currentStep === 0 || showScanAnimation) && <div className="w-12" />}
           </div>
 
           {/* Progress Bar */}
