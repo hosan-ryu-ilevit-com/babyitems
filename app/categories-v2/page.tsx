@@ -38,7 +38,7 @@ interface DisplayGroup {
   categories: UnifiedCategory[];
 }
 
-// 카테고리 그룹핑 설정
+// 카테고리 그룹핑 설정 (id는 logic_map의 category_key와 일치해야 함)
 const CATEGORY_GROUPS: DisplayGroup[] = [
   {
     id: 'mobility',
@@ -47,12 +47,12 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
       {
         id: 'stroller',
         name: '유모차',
-        subCategoryCodes: ['16349368', '16349193', '16349195', '16349196'], // 절충형, 디럭스형, 휴대용/트라이크, 쌍둥이용
+        subCategoryCodes: ['16349368', '16349193', '16349195', '16349196'],
       },
       {
         id: 'car_seat',
         name: '카시트',
-        subCategoryCodes: ['16349200', '16349201', '16349202', '16353763'], // 일체형, 분리형, 바구니형, 부스터형
+        subCategoryCodes: ['16349200', '16349201', '16349202', '16353763'],
       },
     ],
   },
@@ -63,8 +63,8 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
       { id: 'formula', name: '분유', subCategoryCodes: ['16249091'] },
       { id: 'formula_maker', name: '분유제조기', subCategoryCodes: ['16349381'] },
       { id: 'formula_pot', name: '분유포트', subCategoryCodes: ['16330960'] },
-      { id: 'bottle', name: '젖병', subCategoryCodes: ['16349219'] },
-      { id: 'nipple', name: '젖꼭지/노리개', subCategoryCodes: ['16349351'] },
+      { id: 'baby_bottle', name: '젖병', subCategoryCodes: ['16349219'] },
+      { id: 'pacifier', name: '쪽쪽이/노리개', subCategoryCodes: ['16349351'] },
     ],
   },
   {
@@ -74,9 +74,9 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
       {
         id: 'diaper',
         name: '기저귀',
-        subCategoryCodes: ['16349108', '16349109', '16356038', '16349110', '16356040', '16356042'], // 하기스, 팸퍼스, 마미포코, 보솜이, 나비잠, 그외
+        subCategoryCodes: ['16349108', '16349109', '16356038', '16349110', '16356040', '16356042'],
       },
-      { id: 'wet_tissue', name: '아기물티슈', subCategoryCodes: ['16349119'] },
+      { id: 'baby_wipes', name: '아기물티슈', subCategoryCodes: ['16349119'] },
     ],
   },
   {
@@ -84,19 +84,18 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
     name: '건강/안전',
     categories: [
       { id: 'thermometer', name: '체온계', subCategoryCodes: ['17325941'] },
-      { id: 'nasal', name: '코흡입/투약기', subCategoryCodes: ['16349248'] },
-      { id: 'monitor', name: '베이비모니터', subCategoryCodes: ['11427546'] },
+      { id: 'nasal_aspirator', name: '코흡입기', subCategoryCodes: ['16349248'] },
+      { id: 'ip_camera', name: '홈캠', subCategoryCodes: ['11427546'] },
     ],
   },
   {
     id: 'furniture',
     name: '유아가구',
     categories: [
-      { id: 'bed', name: '유아침대', subCategoryCodes: ['16338152'] },
-      { id: 'chair', name: '유아의자', subCategoryCodes: ['16338153'] },
-      { id: 'high_chair', name: '유아식탁의자', subCategoryCodes: ['16338154'] },
-      { id: 'sofa', name: '유아소파', subCategoryCodes: ['16338155'] },
-      { id: 'desk', name: '유아책상', subCategoryCodes: ['16338156'] },
+      { id: 'baby_bed', name: '유아침대', subCategoryCodes: ['16338152'] },
+      { id: 'high_chair', name: '유아의자/식탁의자', subCategoryCodes: ['16338153', '16338154'] },
+      { id: 'baby_sofa', name: '유아소파', subCategoryCodes: ['16338155'] },
+      { id: 'baby_desk', name: '유아책상', subCategoryCodes: ['16338156'] },
     ],
   },
 ];
@@ -248,12 +247,9 @@ export default function CategoriesV2Page() {
     // 카테고리 선택 로깅
     logButtonClick(`카테고리 v2 선택: ${category.name}`, 'categories-v2');
 
-    // 약간의 delay 후 이동 (선택 feedback)
-    // TODO: 다음 단계 페이지로 이동 (예: /tags-v2?category=xxx)
+    // 약간의 delay 후 추천 페이지로 이동
     setTimeout(() => {
-      const productCount = getCategoryProductCount(category, allCategories);
-      // 임시로 알림 표시 (추후 다음 단계 구현 시 이동)
-      alert(`선택된 카테고리: ${category.name}\n상품 수: ${productCount}개\n포함 코드: ${category.subCategoryCodes.join(', ')}\n\n다음 단계는 추후 구현 예정입니다.`);
+      router.push(`/recommend-v2/${category.id}`);
     }, 200);
   };
 
