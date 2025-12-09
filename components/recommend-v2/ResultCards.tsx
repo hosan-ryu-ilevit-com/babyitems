@@ -52,6 +52,7 @@ interface ResultCardsProps {
   categoryKey?: string;
   selectionReason?: string;  // LLM이 생성한 전체 선정 기준
   userContext?: UserContext;  // 사용자 선택 컨텍스트 (API용)
+  onModalOpenChange?: (isOpen: boolean) => void;  // 상품 모달 열림/닫힘 상태 콜백
 }
 
 /**
@@ -202,7 +203,7 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
   return <span className="whitespace-pre-wrap">{displayedContent}</span>;
 }
 
-export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext }: ResultCardsProps) {
+export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext, onModalOpenChange }: ResultCardsProps) {
   // Danawa price data
   const [danawaData, setDanawaData] = useState<Record<string, DanawaPriceData>>({});
   const [danawaSpecs, setDanawaSpecs] = useState<Record<string, Record<string, string>>>({});
@@ -497,6 +498,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       citedReviews: [],
     };
     setSelectedProduct(rec);
+    onModalOpenChange?.(true);
 
     // Convert DanawaPriceData to modal format
     const danawa = danawaData[product.pcode];
@@ -755,6 +757,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             onProductClick={(rec) => {
               logButtonClick(`비교표_상세보기_${rec.product.title}`, 'v2-result');
               setSelectedProduct(rec);
+              onModalOpenChange?.(true);
               // Convert DanawaPriceData to modal format for clicked product
               const danawa = danawaData[rec.product.id];
               if (danawa && danawa.lowest_price) {
@@ -784,6 +787,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           onClose={() => {
             setSelectedProduct(null);
             setSelectedProductDanawa(undefined);
+            onModalOpenChange?.(false);
           }}
           category={categoryKey || 'milk_powder_port'}
           danawaData={selectedProductDanawa}

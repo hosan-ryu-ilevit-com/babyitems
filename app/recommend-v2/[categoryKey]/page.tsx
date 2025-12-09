@@ -163,6 +163,7 @@ export default function RecommendV2Page() {
   const [showBackModal, setShowBackModal] = useState(false);
   const [showScanAnimation, setShowScanAnimation] = useState(true);
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
 
   // Typing animation state
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
@@ -1279,6 +1280,7 @@ export default function RecommendV2Page() {
                 hardFilterLabels: hardFilterLabels,
                 hardFilterDefinitions: hardFilterDefinitions,
               }}
+              onModalOpenChange={setIsProductModalOpen}
             />
           );
 
@@ -1701,8 +1703,8 @@ export default function RecommendV2Page() {
           </div>
         )}
 
-        {/* 다시 추천받기 플로팅 버튼 (Step 5에서만 표시) */}
-        {currentStep === 5 && scoredProducts.length > 0 && (
+        {/* 다시 추천받기 플로팅 버튼 (Step 5에서만 표시, 상품 모달 열림 시 숨김) */}
+        {currentStep === 5 && scoredProducts.length > 0 && !isProductModalOpen && (
           <>
             {/* 회전하는 그라데이션 테두리 스타일 */}
             <style jsx>{`
