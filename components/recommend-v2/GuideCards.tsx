@@ -8,6 +8,7 @@ interface GuideCardsProps {
   data: GuideCardsData;
   introMessage?: string;
   onNext?: () => void;
+  isActive?: boolean; // 활성 상태일 때만 플로팅 버튼 표시
 }
 
 interface CardData {
@@ -24,7 +25,7 @@ interface CardData {
  * - 최대 높이 제한 + 스크롤
  * - 플로팅 다음 버튼
  */
-export function GuideCards({ data, introMessage, onNext }: GuideCardsProps) {
+export function GuideCards({ data, introMessage, onNext, isActive = true }: GuideCardsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -187,16 +188,16 @@ export function GuideCards({ data, introMessage, onNext }: GuideCardsProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       className="pb-24"
     >
       {/* 인트로 메시지 */}
       {introMessage && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
           className="mb-4"
         >
@@ -213,7 +214,7 @@ export function GuideCards({ data, introMessage, onNext }: GuideCardsProps) {
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => setActiveTab('pros')}
-              className={`flex-1 py-2.5 px-4 rounded-full text-sm font-medium transition-all ${
+              className={`py-2 px-4 rounded-full text-sm font-medium transition-all ${
                 activeTab === 'pros'
                   ? 'bg-gray-900 text-white'
                   : 'bg-gray-100 text-gray-600'
@@ -223,7 +224,7 @@ export function GuideCards({ data, introMessage, onNext }: GuideCardsProps) {
             </button>
             <button
               onClick={() => setActiveTab('cons')}
-              className={`flex-1 py-2.5 px-4 rounded-full text-sm font-medium transition-all ${
+              className={`py-2 px-4 rounded-full text-sm font-medium transition-all ${
                 activeTab === 'cons'
                   ? 'bg-gray-900 text-white'
                   : 'bg-gray-100 text-gray-600'
@@ -248,12 +249,12 @@ export function GuideCards({ data, introMessage, onNext }: GuideCardsProps) {
                   <div className="space-y-4">
                     {prosItems.map((item, i) => (
                       <div key={i} className="flex items-start gap-3">
-                        <span className="text-green-500 mt-0.5">✓</span>
+                        <span className="text-green-500 font-bold mt-0.5">✓</span>
                         <div className="flex-1">
-                          <p className="text-gray-800 text-[15px] leading-relaxed">{item.text}</p>
+                          <p className="text-gray-800 font-medium text-[15px] leading-relaxed">{item.text}</p>
                           {item.mentionRate && (
-                            <span className="inline-flex items-center mt-2 px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-medium">
-                              {item.mentionRate}% 만족
+                            <span className="inline-flex items-center mt-2 px-2.5 py-1 rounded-full bg-green-50 text-green-600 text-xs font-medium">
+                              {item.mentionRate}% 고객들이 만족했어요
                             </span>
                           )}
                         </div>
@@ -267,12 +268,12 @@ export function GuideCards({ data, introMessage, onNext }: GuideCardsProps) {
                   <div className="space-y-4">
                     {consItems.map((item, i) => (
                       <div key={i} className="flex items-start gap-3">
-                        <span className="text-rose-400 mt-0.5">!</span>
+                        <span className="text-rose-400 font-bold mt-0.5">!</span>
                         <div className="flex-1">
-                          <p className="text-gray-800 text-[15px] leading-relaxed">{item.text}</p>
+                          <p className="text-gray-800 font-medium text-[15px] leading-relaxed">{item.text}</p>
                           {item.dealBreakerFor && (
                             <span className="inline-flex items-center mt-2 px-2.5 py-1 rounded-full bg-rose-50 text-rose-500 text-xs font-medium">
-                              {item.dealBreakerFor}
+                              {item.dealBreakerFor} 주의
                             </span>
                           )}
                         </div>
@@ -369,17 +370,19 @@ export function GuideCards({ data, introMessage, onNext }: GuideCardsProps) {
         </>
       )}
 
-      {/* 플로팅 다음 버튼 */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-linear-to-t from-white via-white to-transparent z-50">
-        <div className="max-w-md mx-auto">
-          <button
-            onClick={() => onNext?.()}
-            className="w-full py-4 rounded-2xl bg-[#0084FE] text-white font-semibold text-base hover:bg-[#0074E0] active:scale-[0.98] transition-all shadow-lg shadow-[#0084FE]/25"
-          >
-            시작하기
-          </button>
+      {/* 플로팅 다음 버튼 - 활성 상태일 때만 표시 */}
+      {isActive && (
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-linear-to-t from-white via-white to-transparent z-50">
+          <div className="max-w-md mx-auto">
+            <button
+              onClick={() => onNext?.()}
+              className="w-full py-4 rounded-2xl bg-[#0084FE] text-white font-semibold text-base hover:bg-[#0074E0] active:scale-[0.98] transition-all shadow-lg shadow-[#0084FE]/25"
+            >
+              시작하기
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </motion.div>
   );
 }

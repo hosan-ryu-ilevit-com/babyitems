@@ -5,95 +5,74 @@ import type { CheckpointData } from '@/types/recommend-v2';
 
 interface CheckpointVisualProps {
   data: CheckpointData;
+  isLoading?: boolean;
 }
 
 /**
  * 중간 점검 시각화 컴포넌트
- * - 후보군 압축 시각화 (150개 → 42개)
- * - 조건 요약 태그
+ * - GuideCards와 일관된 디자인 언어
+ * - 심플한 후보군 수 표시
  */
-export function CheckpointVisual({ data }: CheckpointVisualProps) {
-  const { totalProducts, filteredCount, conditions } = data;
-  const filterRate = Math.round(
-    ((totalProducts - filteredCount) / totalProducts) * 100
-  );
+export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualProps) {
+  const { totalProducts, filteredCount } = data;
+
+  // 로딩 중일 때 shimmer 효과
+  if (isLoading) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2 }}
+        className="bg-white rounded-2xl border border-blue-100 p-5"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 rounded-full border-2 border-gray-200 border-t-gray-400 animate-spin" />
+          <p className="text-[15px] text-gray-600 animate-pulse">
+            선택 분석하는중...
+          </p>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="space-y-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
     >
-      {/* 메인 카드 */}
-      <div className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-2xl p-4 border border-blue-100">
+      {/* 메인 카드 - GuideCards 디자인 언어 */}
+      <div className="bg-white rounded-2xl border border-blue-100 p-5">
         {/* 헤더 */}
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-lg">✅</span>
-          <h3 className="font-bold text-gray-900 text-sm">조건 분석 완료</h3>
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-green-500 font-bold">✓</span>
+          <h3 className="font-medium text-gray-900 text-[15px]">조건 분석 완료</h3>
         </div>
 
-        {/* 조건 태그 */}
-        {conditions.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {conditions.map((condition, index) => (
-              <span
-                key={index}
-                className="px-2.5 py-1 bg-white rounded-full text-xs text-blue-700 border border-blue-200"
-              >
-                #{condition.value}
-              </span>
-            ))}
-          </div>
-        )}
+        {/* 후보군 수 표시 - 심플하게 */}
+        <div className="flex items-baseline gap-1">
+          <span className="text-gray-500 text-sm">전체</span>
+          <span className="text-gray-400 text-lg font-medium">{totalProducts}개</span>
+          <span className="text-gray-500 text-sm mx-1">중</span>
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-900 text-2xl font-bold"
+          >
+            {filteredCount}개
+          </motion.span>
+          <span className="text-gray-700 text-sm">후보</span>
+        </div>
 
-        {/* 후보군 압축 시각화 */}
-        <div className="bg-white rounded-xl p-4">
-          {/* 숫자 비교 */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-gray-300 line-through">
-                {totalProducts}
-              </p>
-              <p className="text-xs text-gray-400">전체 상품</p>
-            </div>
-
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: 'spring' }}
-              className="text-xl text-blue-500"
-            >
-              →
-            </motion.div>
-
-            <div className="text-center">
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-2xl font-bold text-blue-600"
-              >
-                {filteredCount}
-              </motion.p>
-              <p className="text-xs text-gray-500">후보군</p>
-            </div>
-          </div>
-
-          {/* 진행바 */}
-          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ width: '100%' }}
-              animate={{ width: `${100 - filterRate}%` }}
-              transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
-              className="absolute left-0 top-0 h-full bg-blue-500 rounded-full"
-            />
-          </div>
-
-          {/* 필터율 */}
-          <p className="text-xs text-gray-500 text-center mt-2">
-            {filterRate}% 제외됨
-          </p>
+        {/* 프로그레스 바 */}
+        <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-gray-900 rounded-full"
+            initial={{ width: '100%' }}
+            animate={{ width: `${(filteredCount / totalProducts) * 100}%` }}
+            transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
+          />
         </div>
       </div>
     </motion.div>

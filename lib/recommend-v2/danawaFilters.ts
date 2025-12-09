@@ -88,12 +88,15 @@ const FEATURES_ARRAY_FILTERS = ['안전기능', '기능', '특징', '부가기�
 
 /**
  * 다나와 필터를 하드필터 질문으로 변환
+ * - products가 제공되면 제품 데이터에서 옵션 값 추출 (권장)
+ * - products가 없으면 다나와 필터 옵션 사용 (fallback)
  */
 export function convertDanawaFiltersToHardFilters(
   danawaFilters: DanawaFilter[],
   categoryKey: string,
   targetCategoryCodes?: string[],
-  maxQuestions: number = 4
+  maxQuestions: number = 4,
+  products?: DanawaProduct[]
 ): HardFilterQuestion[] {
   // 특정 세부 카테고리가 지정된 경우 해당 코드만 사용
   const categoryCodes = targetCategoryCodes || CATEGORY_CODE_MAP[categoryKey] || [];
@@ -138,7 +141,7 @@ export function convertDanawaFiltersToHardFilters(
   const questions: HardFilterQuestion[] = [];
 
   for (const filter of sortedFilters.slice(0, maxQuestions)) {
-    const question = convertFilterToQuestion(filter, categoryKey, questions.length);
+    const question = convertFilterToQuestion(filter, categoryKey, questions.length, products);
     if (question) {
       questions.push(question);
     }
@@ -148,22 +151,109 @@ export function convertDanawaFiltersToHardFilters(
 }
 
 /**
+ * 제품 데이터에서 특정 필터의 고유 값 추출
+ */
+function extractUniqueFilterValues(
+  products: DanawaProduct[],
+  filterName: string
+): string[] {
+  const valueCounts = new Map<string, number>();
+  products.forEach(product => {
+    const value = product.filter_attrs?.[filterName];
+    if (value && typeof value === 'string') {
+      valueCounts.set(value, (valueCounts.get(value) || 0) + 1);
+    }
+  });
+  // 제품 수가 많은 순으로 정렬
+  return Array.from(valueCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .map(([value]) => value);
+}
+
+/**
+ * 제품 데이터에서 브랜드 고유 값 추출 (brand 필드 사용)
+ */
+function extractUniqueBrands(products: DanawaProduct[]): string[] {
+  const brandCounts = new Map<string, number>();
+  products.forEach(product => {
+    const brand = (product as { brand?: string }).brand;
+    if (brand && typeof brand === 'string') {
+      brandCounts.set(brand, (brandCounts.get(brand) || 0) + 1);
+    }
+  });
+  // 제품 수가 많은 순으로 정렬
+  return Array.from(brandCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .map(([brand]) => brand);
+}
+
+/**
+ * 브랜드 하드필터 질문 생성
+ */
+function createBrandQuestion(
+  categoryKey: string,
+  products: DanawaProduct[],
+  index: number
+): HardFilterQuestion | null {
+  const brands = extractUniqueBrands(products);
+
+  if (brands.length < 2) {
+    return null;
+  }
+
+  // 상위 6개 브랜드만 표시
+  const displayBrands = brands.slice(0, 6);
+
+  const options: HardFilterOption[] = displayBrands.map(brand => ({
+    label: brand,
+    value: brand.toLowerCase().replace(/\s+/g, '_'),
+    filter: { brand },
+  }));
+
+  options.push({
+    label: '상관없어요',
+    value: 'any',
+    filter: {},
+  });
+
+  return {
+    id: `hf_${categoryKey}_브랜드_${index}`,
+    type: 'single',
+    question: '선호하는 브랜드가 있나요?',
+    options,
+  };
+}
+
+/**
  * 단일 다나와 필터를 하드필터 질문으로 변환
+ * - products가 제공되면 제품 데이터에서 옵션 값 추출 (권장)
+ * - products가 없으면 다나와 필터 옵션 사용 (fallback)
  */
 function convertFilterToQuestion(
   filter: DanawaFilter,
   categoryKey: string,
-  index: number
+  index: number,
+  products?: DanawaProduct[]
 ): HardFilterQuestion | null {
   const questionText = FILTER_QUESTION_MAP[filter.filter_name] || `${filter.filter_name}을 선택해주세요`;
 
-  // 옵션이 너무 많으면 상위 6개만 + "상관없어요"
-  const maxOptions = 6;
-  const displayOptions = filter.options.slice(0, maxOptions);
+  // 옵션 값 결정: 제품 데이터 우선, 없으면 다나와 필터 사용
+  let displayOptions: string[];
+
+  if (products && products.length > 0) {
+    // 제품 데이터에서 실제 값 추출 (권장)
+    const uniqueValues = extractUniqueFilterValues(products, filter.filter_name);
+    if (uniqueValues.length < 2) {
+      // 값이 2개 미만이면 필터링 의미 없음
+      return null;
+    }
+    displayOptions = uniqueValues.slice(0, 6); // 상위 6개
+  } else {
+    // 다나와 필터 옵션 사용 (fallback)
+    displayOptions = filter.options.slice(0, 6);
+  }
 
   // 필터링 방식 결정
-  // - FEATURES_ARRAY_FILTERS: spec.features 배열에서 contains 검색
-  // - 그 외 모든 필터: filter_attrs.X에서 정확히 매칭 (다나와 필터 데이터 위치)
   const isFeatureFilter = FEATURES_ARRAY_FILTERS.includes(filter.filter_name);
 
   const options: HardFilterOption[] = displayOptions.map(opt => ({
@@ -175,7 +265,7 @@ function convertFilterToQuestion(
           'spec.features': { contains: opt },
         }
       : {
-          // filter_attrs에서 정확히 매칭 (다나와 필터 데이터 기본 위치)
+          // filter_attrs에서 정확히 매칭
           [`filter_attrs.${filter.filter_name}`]: opt,
         },
   }));
@@ -328,35 +418,47 @@ export async function generateHardFiltersForCategory(
   const categoryCodes = targetCategoryCodes || CATEGORY_CODE_MAP[categoryKey] || [];
   const categoryProducts = allProducts.filter(p => categoryCodes.includes(p.category_code));
 
-  // 2. 다나와 필터 기반 동적 생성 (더 많이 생성해서 유효성 검사 후 필터링)
+  // 2. 다나와 필터 기반 동적 생성 (제품 데이터에서 옵션 값 추출)
   const dynamicQuestions = convertDanawaFiltersToHardFilters(
     danawaFilters,
     categoryKey,
     targetCategoryCodes,
-    10  // 더 많이 생성 (유효성 검사 후 필터링됨)
+    10,  // 더 많이 생성 (유효성 검사 후 필터링됨)
+    categoryProducts  // 제품 데이터 전달 → 옵션 값을 실제 데이터에서 추출
   );
 
   // 3. 유효한 질문만 필터링 (실제 제품 데이터가 있는 필터만)
   const validQuestions = dynamicQuestions.filter(question => {
     // question.id에서 filter_name 추출 (hf_categoryKey_filterName_index 형식)
-    const parts = question.id.split('_');
-    // categoryKey가 underscore 포함 가능하므로 마지막 2개를 제외하고 중간 부분이 filterName
-    const filterName = parts.slice(2, -1).join('_').replace(/_/g, ' ').trim() || parts[2];
+    // categoryKey가 underscore를 포함할 수 있으므로 prefix로 정확히 제거
+    const prefix = `hf_${categoryKey}_`;
+    const idWithoutPrefix = question.id.slice(prefix.length); // 'filterName_index'
+    const lastUnderscoreIdx = idWithoutPrefix.lastIndexOf('_');
+    const filterNameFromId = idWithoutPrefix.slice(0, lastUnderscoreIdx).replace(/_/g, ' ');
 
     // 원본 필터 이름 찾기 (ID에서 공백이 _로 변환되었으므로)
     const originalFilterName = Object.keys(FILTER_QUESTION_MAP).find(name =>
-      name.replace(/\s+/g, '_') === parts.slice(2, -1).join('_')
-    ) || filterName;
+      name.replace(/\s+/g, '_') === idWithoutPrefix.slice(0, lastUnderscoreIdx)
+    ) || filterNameFromId;
 
     return isValidFilterQuestion(question, categoryProducts, originalFilterName);
   });
 
+  // 4. 브랜드 필터 추가 (stroller, car_seat: brand 필드가 filter_attrs가 아닌 별도 필드)
+  const BRAND_FILTER_CATEGORIES = ['stroller', 'car_seat'];
+  if (BRAND_FILTER_CATEGORIES.includes(categoryKey)) {
+    const brandQuestion = createBrandQuestion(categoryKey, categoryProducts, validQuestions.length);
+    if (brandQuestion) {
+      validQuestions.unshift(brandQuestion);  // 브랜드 질문을 맨 앞에 추가
+    }
+  }
+
   console.log(`[danawaFilters] ${categoryKey}: ${dynamicQuestions.length} generated, ${validQuestions.length} valid`);
 
-  // 4. 수동 정의 질문 로드
+  // 5. 수동 정의 질문 로드
   const manualQuestions = getManualQuestions(categoryKey);
 
-  // 5. 유효한 동적 질문이 2개 미만이면 수동 질문으로 보충
+  // 6. 유효한 동적 질문이 2개 미만이면 수동 질문으로 보충
   if (validQuestions.length < 2) {
     const existingIds = new Set(validQuestions.map(q => q.id));
     const additionalQuestions = manualQuestions.filter(q => !existingIds.has(q.id));
@@ -364,7 +466,7 @@ export async function generateHardFiltersForCategory(
     return [...validQuestions, ...additionalQuestions].slice(0, 5);
   }
 
-  // 6. 유효한 동적 질문이 충분하면 그대로 반환 (최대 5개)
+  // 7. 유효한 동적 질문이 충분하면 그대로 반환 (최대 5개)
   return validQuestions.slice(0, 5);
 }
 

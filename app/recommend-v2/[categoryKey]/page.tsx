@@ -115,6 +115,8 @@ export default function RecommendV2Page() {
   // Products
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductItem[]>([]);
+  // 서브카테고리 선택 후에도 개수 표시용으로 초기 전체 제품 유지
+  const [allCategoryProducts, setAllCategoryProducts] = useState<ProductItem[]>([]);
 
   // Dynamic questions
   const [dynamicBalanceQuestions, setDynamicBalanceQuestions] = useState<BalanceQuestion[]>([]);
@@ -244,6 +246,7 @@ export default function RecommendV2Page() {
         if (productsJson.success && productsJson.data?.products) {
           setProducts(productsJson.data.products);
           setFilteredProducts(productsJson.data.products);
+          setAllCategoryProducts(productsJson.data.products); // 서브카테고리 개수 표시용
           console.log('📦 [Products] Loaded:', productsJson.data.products.length);
         } else {
           console.error('📦 [Products] Failed:', productsJson.error);
@@ -523,6 +526,20 @@ export default function RecommendV2Page() {
     console.log('  - products:', productsToUse.length);
     console.log('  - filtered:', filtered.length);
 
+    // 먼저 로딩 상태 메시지 추가
+    const loadingMsgId = addMessage({
+      role: 'system',
+      content: '',
+      componentType: 'checkpoint',
+      componentData: {
+        totalProducts: productsToUse.length,
+        filteredCount: filtered.length,
+        conditions,
+        isLoading: true,
+      } as CheckpointData & { isLoading: boolean },
+    });
+    scrollToBottom();
+
     // ========================================
     // 동적 질문 생성 (category-insights 기반 LLM)
     // ========================================
@@ -588,36 +605,31 @@ export default function RecommendV2Page() {
       }
     }
 
-    // Add checkpoint message with actual product count
-    const summaryMessage = aiSummary || `전체 **${productsToUse.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
-    addMessage({
-      role: 'assistant',
-      content: summaryMessage,
-      stepTag: '2/5',
-    });
+    // 로딩 메시지를 완료 상태로 업데이트
+    setMessages(prev => prev.map(msg =>
+      msg.id === loadingMsgId
+        ? {
+            ...msg,
+            componentData: {
+              totalProducts: productsToUse.length,
+              filteredCount: filtered.length,
+              conditions,
+              isLoading: false,
+            } as CheckpointData & { isLoading: boolean },
+          }
+        : msg
+    ));
 
+    // Add AI summary message
+    const summaryMessage = aiSummary || `전체 **${productsToUse.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
     setTimeout(() => {
       addMessage({
-        role: 'system',
-        content: '',
-        componentType: 'checkpoint',
-        componentData: {
-          totalProducts: productsToUse.length,
-          filteredCount: filtered.length,
-          conditions,
-        } as CheckpointData,
+        role: 'assistant',
+        content: summaryMessage,
+        stepTag: '2/5',
       });
-
-      // Add natural language input option
-      setTimeout(() => {
-        addMessage({
-          role: 'system',
-          content: '',
-          componentType: 'natural-input',
-        });
-        scrollToBottom();
-      }, 300);
-    }, 500);
+      scrollToBottom();
+    }, 300);
   }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToBottom]);
 
   // Update ref to the latest handleHardFiltersComplete
@@ -933,6 +945,7 @@ export default function RecommendV2Page() {
               <GuideCards
                 data={message.componentData as GuideCardsData & { introMessage?: string }}
                 introMessage={(message.componentData as { introMessage?: string })?.introMessage}
+                isActive={currentStep === 0}
                 onNext={() => {
                   // 가이드 카드 완료 후 다음 단계로 진행 (스크롤 + 다음 스텝 표시)
                   if (requiresSubCategory && subCategoryConfig && !selectedSubCategoryCode) {
@@ -988,7 +1001,7 @@ export default function RecommendV2Page() {
                 subCategories={subCatData.subCategories}
                 selectedCode={selectedSubCategoryCode}
                 onSelect={handleSubCategorySelect}
-                products={products}
+                products={allCategoryProducts}
                 showProductCounts={true}
                 filterBy={subCategoryConfig?.filter_by || 'category_code'}
                 filterKey={subCategoryConfig?.filter_key}
@@ -1016,6 +1029,7 @@ export default function RecommendV2Page() {
           );
 
         case 'checkpoint':
+          const checkpointData = message.componentData as CheckpointData & { isLoading?: boolean };
           return (
             <div
               key={message.id}
@@ -1024,7 +1038,8 @@ export default function RecommendV2Page() {
               }`}
             >
               <CheckpointVisual
-                data={message.componentData as CheckpointData}
+                data={checkpointData}
+                isLoading={checkpointData.isLoading}
               />
             </div>
           );
