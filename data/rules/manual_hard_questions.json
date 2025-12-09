@@ -1,0 +1,316 @@
+{
+  "ip_camera": {
+    "questions": [
+      {
+        "id": "ipcam_resolution",
+        "type": "single",
+        "question": "화질이 얼마나 중요하세요?",
+        "options": [
+          {
+            "label": "500만 화소 이상 (가장 선명)",
+            "value": "500mp",
+            "filter": { "spec.features": { "contains": "500만" } }
+          },
+          {
+            "label": "400만 화소면 충분해요",
+            "value": "400mp",
+            "filter": { "spec.features": { "contains": "400만" } }
+          },
+          {
+            "label": "상관없어요",
+            "value": "any",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "ipcam_rotation",
+        "type": "single",
+        "question": "360도 회전 기능이 필요하세요?",
+        "options": [
+          {
+            "label": "네, 방 전체를 볼 수 있어야 해요",
+            "value": "rotation_yes",
+            "filter": { "spec.features": { "contains": "360" } }
+          },
+          {
+            "label": "아니요, 한 방향만 봐도 돼요",
+            "value": "rotation_no",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "ipcam_twoway",
+        "type": "single",
+        "question": "양방향 대화 기능이 필요하세요?",
+        "options": [
+          {
+            "label": "네, 아이에게 말 걸고 싶어요",
+            "value": "twoway_yes",
+            "filter": { "spec.features": { "contains": "양방향통화" } }
+          },
+          {
+            "label": "아니요, 모니터링만 하면 돼요",
+            "value": "twoway_no",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "ipcam_nightvision",
+        "type": "single",
+        "question": "야간 촬영이 중요하세요?",
+        "options": [
+          {
+            "label": "네, 밤에 아이 보는 게 주 목적이에요",
+            "value": "night_yes",
+            "filter": { "spec.features": { "contains": "적외선" } }
+          },
+          {
+            "label": "상관없어요",
+            "value": "night_any",
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "pacifier": {
+    "questions": [
+      {
+        "id": "pacifier_type",
+        "type": "single",
+        "question": "어떤 타입을 찾으세요?",
+        "options": [
+          {
+            "label": "올실리콘 (세척 편함, 위생적)",
+            "value": "all_silicone",
+            "filter": { "title": { "contains": "올실리콘" } }
+          },
+          {
+            "label": "일반 노리개젖꼭지",
+            "value": "normal",
+            "filter": { "spec.type": "노리개젖꼭지" }
+          },
+          {
+            "label": "상관없어요",
+            "value": "any",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "pacifier_glow",
+        "type": "single",
+        "question": "야광 기능이 필요하세요?",
+        "options": [
+          {
+            "label": "네, 밤에 찾기 쉬워야 해요",
+            "value": "glow_yes",
+            "filter": { "title": { "contains": "야광" } }
+          },
+          {
+            "label": "아니요, 없어도 돼요",
+            "value": "glow_no",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "pacifier_set",
+        "type": "single",
+        "question": "세트 구성을 원하세요?",
+        "options": [
+          {
+            "label": "네, 여러 개 세트로 구매할래요",
+            "value": "set_yes",
+            "filter": { "title": { "contains": "세트" } }
+          },
+          {
+            "label": "단품으로 하나만 살래요",
+            "value": "set_no",
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "thermometer": {
+    "questions": [
+      {
+        "id": "thermo_type",
+        "type": "single",
+        "question": "어떤 타입을 원하세요?",
+        "options": [
+          {
+            "label": "비접촉식 (이마에 대지 않고)",
+            "value": "non_contact",
+            "filter": { "spec.features": { "contains": "비접촉" } }
+          },
+          {
+            "label": "귀 체온계 (정확도 높음)",
+            "value": "ear",
+            "filter": { "spec.type": { "contains": "귀체온계" } }
+          },
+          {
+            "label": "상관없어요",
+            "value": "any",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "thermo_brand",
+        "type": "single",
+        "question": "브랜드 선호도가 있으세요?",
+        "options": [
+          {
+            "label": "브라운 (병원급 정확도)",
+            "value": "braun",
+            "filter": { "brand": "브라운" }
+          },
+          {
+            "label": "상관없어요",
+            "value": "any",
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "nasal_aspirator": {
+    "questions": [
+      {
+        "id": "nasal_type",
+        "type": "single",
+        "question": "어떤 방식을 원하세요?",
+        "options": [
+          {
+            "label": "전동식 (강력 흡입)",
+            "value": "electric",
+            "filter": { "title": { "contains": "전동" } }
+          },
+          {
+            "label": "수동식 (휴대 간편)",
+            "value": "manual",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "nasal_brand",
+        "type": "single",
+        "question": "브랜드 선호도가 있으세요?",
+        "options": [
+          {
+            "label": "노시부 (병원 사용)",
+            "value": "nosiboo",
+            "filter": { "title": { "contains": "노시부" } }
+          },
+          {
+            "label": "휴비딕",
+            "value": "hubdic",
+            "filter": { "title": { "contains": "휴비딕" } }
+          },
+          {
+            "label": "상관없어요",
+            "value": "any",
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "baby_bottle": {
+    "questions": [
+      {
+        "id": "bottle_material",
+        "type": "single",
+        "question": "어떤 재질을 선호하세요?",
+        "options": [
+          {
+            "label": "PPSU (가볍고 내구성 좋음)",
+            "value": "ppsu",
+            "filter": { "spec.재질": "PPSU" }
+          },
+          {
+            "label": "유리 (미세플라스틱 걱정 없음)",
+            "value": "glass",
+            "filter": { "spec.재질": "유리" }
+          },
+          {
+            "label": "실리콘 (부드럽고 안전)",
+            "value": "silicone",
+            "filter": { "spec.재질": "실리콘" }
+          },
+          {
+            "label": "상관없어요",
+            "value": "any",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "bottle_sterilize",
+        "type": "single",
+        "question": "식기세척기 사용 가능해야 하나요?",
+        "options": [
+          {
+            "label": "네, 꼭 필요해요",
+            "value": "dishwasher_yes",
+            "filter": { "spec.사용가능": { "contains": "식기세척기" } }
+          },
+          {
+            "label": "아니요, 상관없어요",
+            "value": "dishwasher_no",
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "formula_maker": {
+    "questions": [
+      {
+        "id": "maker_auto",
+        "type": "single",
+        "question": "자동 조유 기능이 필요하세요?",
+        "options": [
+          {
+            "label": "네, 버튼 하나로 분유까지",
+            "value": "auto_yes",
+            "filter": { "spec.features": { "contains": "자동급수" } }
+          },
+          {
+            "label": "아니요, 물만 나오면 돼요",
+            "value": "auto_no",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "maker_material",
+        "type": "single",
+        "question": "재질이 중요하세요?",
+        "options": [
+          {
+            "label": "유리 (환경호르몬 걱정 없음)",
+            "value": "glass",
+            "filter": { "spec.재질": "유리" }
+          },
+          {
+            "label": "스테인리스 (튼튼함)",
+            "value": "stainless",
+            "filter": { "spec.재질": "스테인리스" }
+          },
+          {
+            "label": "상관없어요",
+            "value": "any",
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  }
+}

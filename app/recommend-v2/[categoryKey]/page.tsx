@@ -4,59 +4,81 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
-import type { BalanceQuestion, NegativeFilterOption, ProductScore } from '@/types/rules';
-import hardFiltersData from '@/data/rules/hard_filters.json';
 
-// =====================================================
 // Types
+import type {
+  ChatMessage,
+  FlowStep,
+  ComponentType,
+  HardFilterConfig,
+  HardFilterQuestion,
+  BalanceQuestion,
+  NegativeFilterOption,
+  RuleDefinition,
+  ProductItem,
+  ScoredProduct,
+  CheckpointData,
+  NegativeFilterData,
+} from '@/types/recommend-v2';
+import { STEP_LABELS, CATEGORY_BUDGET_RANGES } from '@/types/recommend-v2';
+
+// Components
+import {
+  AssistantMessage,
+  ScanAnimation,
+  GuideCards,
+  HardFilterQuestion as HardFilterQuestionComponent,
+  CheckpointVisual,
+  NaturalLanguageInput,
+  BalanceGameCarousel,
+  NegativeFilterList,
+  BudgetSlider,
+  ResultCards,
+} from '@/components/recommend-v2';
+import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
+
+// Utils
+import {
+  filterRelevantRuleKeys,
+  generateDynamicBalanceQuestions,
+  generateDynamicNegativeOptions,
+  applyHardFilters,
+  calculateBalanceScore,
+  calculateNegativeScore,
+  generateConditionSummary,
+} from '@/lib/recommend-v2/dynamicQuestions';
+
+// Data
+import hardFiltersData from '@/data/rules/hard_filters.json';
+import subCategoriesData from '@/data/rules/sub_categories.json';
+import { requiresSubCategorySelection } from '@/lib/recommend-v2/danawaFilters';
+
+// Sub-category types
+interface SubCategory {
+  code: string;
+  name: string;
+  description: string;
+  icon: string;
+}
+
+interface SubCategoryConfig {
+  category_name: string;
+  require_sub_category: boolean;
+  filter_by: 'category_code' | 'attribute';
+  filter_key?: string;  // attribute 필터일 때 사용 (예: '타입')
+  sub_categories: SubCategory[];
+}
+
+// =====================================================
+// Helper Functions
 // =====================================================
 
-interface HardFilterQuestion {
-  id: string;
-  type: 'single' | 'multi';
-  question: string;
-  options: Array<{
-    label: string;
-    value: string;
-    filter?: Record<string, unknown>;
-    category_code?: string;
-  }>;
+function generateId(): string {
+  return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
-
-interface HardFilterConfig {
-  category_name: string;
-  guide: {
-    title: string;
-    points: string[];
-    trend: string;
-  };
-  sub_categories?: Array<{ label: string; code: string }>;
-  questions: HardFilterQuestion[];
-}
-
-interface CategoryRulesData {
-  category_key: string;
-  category_name: string;
-  target_categories: string[];
-  logic_map: Record<string, unknown>;
-  balance_game: BalanceQuestion[];
-  negative_filter: NegativeFilterOption[];
-}
-
-interface ProductItem {
-  pcode: string;
-  title: string;
-  brand: string | null;
-  price: number | null;
-  rank: number | null;
-  thumbnail: string | null;
-  spec: Record<string, unknown>;
-}
-
-type FlowStep = 0 | 1 | 2 | 3 | 4 | 5;
 
 // =====================================================
-// Component
+// Main Component
 // =====================================================
 
 export default function RecommendV2Page() {
@@ -64,55 +86,82 @@ export default function RecommendV2Page() {
   const params = useParams();
   const categoryKey = params.categoryKey as string;
 
-  const mainScrollRef = useRef<HTMLDivElement>(null);
-  const contentEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // ===================================================
+  // State
+  // ===================================================
 
   // Flow state
   const [currentStep, setCurrentStep] = useState<FlowStep>(0);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Data
-  const [rulesData, setRulesData] = useState<CategoryRulesData | null>(null);
+  const [categoryName, setCategoryName] = useState('');
   const [hardFilterConfig, setHardFilterConfig] = useState<HardFilterConfig | null>(null);
+  const [logicMap, setLogicMap] = useState<Record<string, RuleDefinition>>({});
+  const [balanceQuestions, setBalanceQuestions] = useState<BalanceQuestion[]>([]);
+  const [negativeOptions, setNegativeOptions] = useState<NegativeFilterOption[]>([]);
+
+  // Products
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductItem[]>([]);
 
-  // Step 0: Guide
-  const [scanProgress, setScanProgress] = useState(0);
-  const [showGuide, setShowGuide] = useState(false);
+  // Dynamic questions
+  const [dynamicBalanceQuestions, setDynamicBalanceQuestions] = useState<BalanceQuestion[]>([]);
+  const [dynamicNegativeOptions, setDynamicNegativeOptions] = useState<NegativeFilterOption[]>([]);
 
-  // Step 1: Hard Filters
+  // User selections
   const [hardFilterAnswers, setHardFilterAnswers] = useState<Record<string, string>>({});
   const [currentHardFilterIndex, setCurrentHardFilterIndex] = useState(0);
-
-  // Step 3: Balance Game
+  const [balanceSelections, setBalanceSelections] = useState<Set<string>>(new Set());
   const [currentBalanceIndex, setCurrentBalanceIndex] = useState(0);
-  const [balanceSelections, setBalanceSelections] = useState<string[]>([]);
-
-  // Step 4: Negative Filter
   const [negativeSelections, setNegativeSelections] = useState<string[]>([]);
+  const [budget, setBudget] = useState<{ min: number; max: number }>({ min: 0, max: 0 });
 
-  // Step 5: Budget & Result
-  const [budget, setBudget] = useState<string>('');
-  const [scoredProducts, setScoredProducts] = useState<ProductScore[]>([]);
+  // Results
+  const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
 
   // UI
   const [showBackModal, setShowBackModal] = useState(false);
+  const [showScanAnimation, setShowScanAnimation] = useState(true);
 
-  // =====================================================
-  // Helpers
-  // =====================================================
+  // Sub-category state (for stroller, car_seat, diaper)
+  const [requiresSubCategory, setRequiresSubCategory] = useState(false);
+  const [subCategoryConfig, setSubCategoryConfig] = useState<SubCategoryConfig | null>(null);
+  const [selectedSubCategoryCode, setSelectedSubCategoryCode] = useState<string | null>(null);
+  const [showSubCategorySelector, setShowSubCategorySelector] = useState(false);
+
+  // ===================================================
+  // Scroll to bottom
+  // ===================================================
 
   const scrollToBottom = useCallback(() => {
     setTimeout(() => {
-      contentEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   }, []);
 
-  // =====================================================
+  // ===================================================
+  // Add message helper
+  // ===================================================
+
+  const addMessage = useCallback((message: Omit<ChatMessage, 'id' | 'timestamp'>) => {
+    const newMessage: ChatMessage = {
+      ...message,
+      id: generateId(),
+      timestamp: Date.now(),
+    };
+    setMessages(prev => [...prev, newMessage]);
+    return newMessage.id;
+  }, []);
+
+  // ===================================================
   // Data Loading
-  // =====================================================
+  // ===================================================
 
   useEffect(() => {
     if (!categoryKey) return;
@@ -121,7 +170,16 @@ export default function RecommendV2Page() {
       setIsLoading(true);
 
       try {
-        // Load rules
+        // Check if sub-category selection is required
+        const needsSubCategory = requiresSubCategorySelection(categoryKey);
+        setRequiresSubCategory(needsSubCategory);
+
+        if (needsSubCategory) {
+          const subConfig = (subCategoriesData as Record<string, SubCategoryConfig>)[categoryKey];
+          setSubCategoryConfig(subConfig || null);
+        }
+
+        // Load rules from API
         const rulesRes = await fetch(`/api/v2/rules/${categoryKey}`);
         const rulesJson = await rulesRes.json();
 
@@ -129,27 +187,53 @@ export default function RecommendV2Page() {
           router.push('/categories-v2');
           return;
         }
-        setRulesData(rulesJson.data);
 
-        // Load hard filter config
-        const config = (hardFiltersData as Record<string, HardFilterConfig>)[categoryKey];
-        setHardFilterConfig(config || null);
+        const { category_name, logic_map, balance_game, negative_filter, hard_filters } = rulesJson.data;
+        setCategoryName(category_name);
+        setLogicMap(logic_map);
+        setBalanceQuestions(balance_game);
+        setNegativeOptions(negative_filter);
 
-        // Load products
-        const productsRes = await fetch('/api/v2/products', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ categoryKey, limit: 100 }),
-        });
-        const productsJson = await productsRes.json();
+        // DEBUG: Log loaded data
+        console.log('🚀 DEBUG Data Loaded:');
+        console.log('  - category_name:', category_name);
+        console.log('  - logic_map keys:', Object.keys(logic_map));
+        console.log('  - balance_game:', balance_game?.length, balance_game?.map((q: BalanceQuestion) => q.id));
+        console.log('  - negative_filter:', negative_filter?.length);
+        console.log('  - hard_filters:', hard_filters?.questions?.length, 'questions');
 
-        if (productsJson.success) {
-          setProducts(productsJson.data.products);
-          setFilteredProducts(productsJson.data.products);
+        // API에서 받은 하드필터 설정 사용 (다나와 필터 기반 동적 생성)
+        if (hard_filters) {
+          setHardFilterConfig({
+            category_name: category_name,
+            guide: hard_filters.guide,
+            questions: hard_filters.questions,
+          });
+        } else {
+          // fallback: 기존 JSON에서 로드
+          const config = (hardFiltersData as Record<string, HardFilterConfig>)[categoryKey];
+          setHardFilterConfig(config || null);
         }
 
-        // Start Step 0 animation
-        startScanAnimation();
+        // Load products (limit 제거 - 실제 전체 개수 로드)
+        // sub-category가 필요한 카테고리는 나중에 다시 로드하므로 여기서는 스킵
+        if (!needsSubCategory) {
+          const productsRes = await fetch('/api/v2/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ categoryKey, limit: 500 }),
+          });
+          const productsJson = await productsRes.json();
+
+          if (productsJson.success) {
+            setProducts(productsJson.data.products);
+            setFilteredProducts(productsJson.data.products);
+          }
+        }
+
+        // Set default budget range
+        const budgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000 };
+        setBudget({ min: budgetRange.min, max: budgetRange.max });
 
       } catch (error) {
         console.error('Data load error:', error);
@@ -161,654 +245,1004 @@ export default function RecommendV2Page() {
     loadData();
   }, [categoryKey, router]);
 
-  // =====================================================
-  // Step 0: Scan Animation
-  // =====================================================
+  // DEBUG: Track state changes
+  useEffect(() => {
+    console.log('📊 DEBUG State Changed:');
+    console.log('  - isLoading:', isLoading);
+    console.log('  - hardFilterConfig:', !!hardFilterConfig);
+    console.log('  - balanceQuestions:', balanceQuestions.length);
+    console.log('  - products:', products.length);
+  }, [isLoading, hardFilterConfig, balanceQuestions, products]);
 
-  const startScanAnimation = () => {
-    setScanProgress(0);
-    const interval = setInterval(() => {
-      setScanProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => setShowGuide(true), 300);
-          return 100;
-        }
-        return prev + 2;
+  // ===================================================
+  // Step 0: Scan Animation Complete
+  // ===================================================
+
+  const handleScanComplete = useCallback(() => {
+    console.log('✨ DEBUG handleScanComplete called');
+    console.log('  - hardFilterConfig:', !!hardFilterConfig);
+    console.log('  - categoryName:', categoryName);
+    console.log('  - requiresSubCategory:', requiresSubCategory);
+    console.log('  - subCategoryConfig:', !!subCategoryConfig);
+
+    setShowScanAnimation(false);
+
+    // Add guide cards message
+    if (hardFilterConfig) {
+      addMessage({
+        role: 'system',
+        content: '',
+        componentType: 'guide-cards',
+        componentData: hardFilterConfig.guide,
+        stepTag: '0/5',
       });
-    }, 40);
-  };
 
-  const handleGuideComplete = () => {
-    setCurrentStep(1);
+      // Add CTA message
+      setTimeout(() => {
+        addMessage({
+          role: 'assistant',
+          content: '복잡한 용어, 스펙 비교는 제가 이미 끝냈어요.\n**고객님의 상황만 편하게 알려주세요.**\n딱 맞는 제품을 찾아드릴게요.',
+        });
+
+        // If sub-category selection is required, show the selector
+        if (requiresSubCategory && subCategoryConfig) {
+          setTimeout(() => {
+            setShowSubCategorySelector(true);
+            addMessage({
+              role: 'system',
+              content: '',
+              componentType: 'sub-category' as ComponentType,
+              componentData: {
+                categoryName: subCategoryConfig.category_name,
+                subCategories: subCategoryConfig.sub_categories,
+                selectedCode: selectedSubCategoryCode,
+              },
+            });
+            scrollToBottom();
+          }, 500);
+        } else {
+          scrollToBottom();
+        }
+      }, 500);
+    }
+  }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, selectedSubCategoryCode, addMessage, scrollToBottom]);
+
+  // ===================================================
+  // Sub-Category Selection Handler
+  // ===================================================
+
+  const handleSubCategorySelect = useCallback(async (code: string) => {
+    setSelectedSubCategoryCode(code);
+    setShowSubCategorySelector(false);
+
+    // Find the selected sub-category name
+    const selectedSub = subCategoryConfig?.sub_categories.find(s => s.code === code);
+    const filterBy = subCategoryConfig?.filter_by || 'category_code';
+    const filterKey = subCategoryConfig?.filter_key;
+
+    // Store the loaded config for auto-proceed
+    let loadedHardFilterConfig: HardFilterConfig | null = null;
+
+    // Reload hard filters for this specific sub-category
+    try {
+      // category_code 필터일 때만 subCategoryCode 전달
+      const rulesUrl = filterBy === 'category_code'
+        ? `/api/v2/rules/${categoryKey}?subCategoryCode=${code}`
+        : `/api/v2/rules/${categoryKey}`;
+      const rulesRes = await fetch(rulesUrl);
+      const rulesJson = await rulesRes.json();
+
+      if (rulesJson.success && rulesJson.data.hard_filters) {
+        loadedHardFilterConfig = {
+          category_name: rulesJson.data.category_name,
+          guide: rulesJson.data.hard_filters.guide,
+          questions: rulesJson.data.hard_filters.questions,
+        };
+        setHardFilterConfig(loadedHardFilterConfig);
+      }
+
+      // Reload products for this sub-category
+      // filter_by에 따라 다른 필터링 방식 사용
+      const productsBody = filterBy === 'category_code'
+        ? {
+            categoryKey,
+            limit: 500,  // 충분히 큰 값으로 실제 개수 로드
+            targetCategoryCodes: [code],
+          }
+        : {
+            categoryKey,
+            limit: 500,
+            filterAttribute: {
+              key: filterKey,
+              value: code,
+            },
+          };
+
+      const productsRes = await fetch('/api/v2/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(productsBody),
+      });
+      const productsJson = await productsRes.json();
+
+      if (productsJson.success) {
+        setProducts(productsJson.data.products);
+        setFilteredProducts(productsJson.data.products);
+        console.log('📦 Products loaded for sub-category:', productsJson.data.products.length);
+      }
+    } catch (error) {
+      console.error('Sub-category load error:', error);
+    }
+
     scrollToBottom();
-  };
 
-  // =====================================================
-  // Step 1: Hard Filter
-  // =====================================================
+    // Auto-proceed to hard filters after sub-category selection
+    setTimeout(() => {
+      setCurrentStep(1);
 
-  const handleHardFilterSelect = (questionId: string, value: string) => {
-    setHardFilterAnswers(prev => ({ ...prev, [questionId]: value }));
+      addMessage({
+        role: 'assistant',
+        content: '간단한 질문 몇 가지만 할게요.',
+        stepTag: '1/5',
+      });
+
+      // Add first hard filter question
+      const questions = loadedHardFilterConfig?.questions || [];
+      if (questions.length > 0) {
+        setTimeout(() => {
+          addMessage({
+            role: 'system',
+            content: '',
+            componentType: 'hard-filter',
+            componentData: {
+              question: questions[0],
+              currentIndex: 0,
+              totalCount: questions.length,
+              selectedValue: undefined,
+            },
+          });
+          scrollToBottom();
+        }, 300);
+      }
+    }, 500);
+  }, [categoryKey, subCategoryConfig, addMessage, scrollToBottom]);
+
+  // ===================================================
+  // Step 0 → Step 1: Start Hard Filters
+  // ===================================================
+
+  const handleStartHardFilters = useCallback(() => {
+    console.log('🎯 DEBUG handleStartHardFilters called');
+    console.log('  - hardFilterConfig:', hardFilterConfig);
+    console.log('  - questions:', hardFilterConfig?.questions?.length);
+
+    setCurrentStep(1);
+
+    addMessage({
+      role: 'assistant',
+      content: '간단한 질문 몇 가지만 할게요.',
+      stepTag: '1/5',
+    });
+
+    // Add first hard filter question
+    const questions = hardFilterConfig?.questions || [];
+    if (questions.length > 0) {
+      setTimeout(() => {
+        addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'hard-filter',
+          componentData: {
+            question: questions[0],
+            currentIndex: 0,
+            totalCount: questions.length,
+          },
+        });
+        scrollToBottom();
+      }, 300);
+    } else {
+      // No hard filter questions, skip to step 2
+      handleHardFiltersComplete({});
+    }
+  }, [hardFilterConfig, addMessage, scrollToBottom]);
+
+  // ===================================================
+  // Step 1: Hard Filter Selection
+  // ===================================================
+
+  const handleHardFilterSelect = useCallback((questionId: string, value: string) => {
+    const newAnswers = { ...hardFilterAnswers, [questionId]: value };
+    setHardFilterAnswers(newAnswers);
 
     const questions = hardFilterConfig?.questions || [];
     const nextIndex = currentHardFilterIndex + 1;
 
+    // Update current question's selected value in messages (for visual feedback)
+    setMessages(prev => prev.map(msg => {
+      if (msg.componentType === 'hard-filter') {
+        const hfData = msg.componentData as { question: HardFilterQuestion; currentIndex: number; totalCount: number; selectedValue?: string };
+        if (hfData.question.id === questionId) {
+          return {
+            ...msg,
+            componentData: {
+              ...hfData,
+              selectedValue: value,
+            },
+          };
+        }
+      }
+      return msg;
+    }));
+
     if (nextIndex < questions.length) {
+      // Show next question
       setCurrentHardFilterIndex(nextIndex);
-    } else {
-      // Move to Step 2
+
       setTimeout(() => {
-        applyHardFilters();
-        setCurrentStep(2);
+        addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'hard-filter',
+          componentData: {
+            question: questions[nextIndex],
+            currentIndex: nextIndex,
+            totalCount: questions.length,
+            selectedValue: newAnswers[questions[nextIndex].id],
+          },
+        });
         scrollToBottom();
       }, 300);
     }
-  };
+    // Don't auto-proceed after last question - wait for user to click "다음"
+  }, [hardFilterAnswers, hardFilterConfig, currentHardFilterIndex, addMessage, scrollToBottom]);
 
-  const applyHardFilters = () => {
-    // Simple filtering logic (can be enhanced)
-    let filtered = [...products];
-    
-    // Apply category_code filter if sub-category selected
-    const subCatAnswer = Object.entries(hardFilterAnswers).find(([key]) => 
-      key.includes('type')
+  // ===================================================
+  // Step 1 Complete → Step 2
+  // ===================================================
+
+  const handleHardFiltersComplete = useCallback(async (answers: Record<string, string>) => {
+    setCurrentStep(2);
+
+    // Apply filters to products
+    const questions = hardFilterConfig?.questions || [];
+    const filtered = applyHardFilters(products, answers, questions);
+    setFilteredProducts(filtered);
+
+    // Generate condition summary
+    const conditions = generateConditionSummary(answers, questions);
+
+    // Calculate relevant rule keys for dynamic questions
+    const relevantKeys = filterRelevantRuleKeys(filtered, logicMap);
+
+    // DEBUG: Log for troubleshooting
+    console.log('🔍 DEBUG handleHardFiltersComplete:');
+    console.log('  - products:', products.length);
+    console.log('  - filtered:', filtered.length);
+    console.log('  - logicMap keys:', Object.keys(logicMap));
+    console.log('  - relevantKeys:', relevantKeys);
+    console.log('  - balanceQuestions:', balanceQuestions.length);
+
+    // Generate dynamic balance questions
+    const dynamicBalance = generateDynamicBalanceQuestions(
+      relevantKeys,
+      balanceQuestions,
+      categoryKey
     );
-    
-    if (subCatAnswer) {
-      const option = hardFilterConfig?.questions
-        .find(q => q.id === subCatAnswer[0])?.options
-        .find(o => o.value === subCatAnswer[1]);
-      
-      if (option?.category_code) {
-        filtered = filtered.filter(p => 
-          (p as unknown as { category_code: string }).category_code === option.category_code
-        );
+    console.log('  - dynamicBalance:', dynamicBalance.length, dynamicBalance.map(q => q.id));
+    setDynamicBalanceQuestions(dynamicBalance);
+
+    // Generate dynamic negative options
+    const dynamicNegative = generateDynamicNegativeOptions(
+      relevantKeys,
+      negativeOptions
+    );
+    setDynamicNegativeOptions(dynamicNegative);
+
+    // Generate AI summary message based on hard filter selections
+    let aiSummary = '';
+    if (Object.keys(answers).length > 0) {
+      try {
+        const summaryResponse = await fetch('/api/v2/generate-summary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            categoryName,
+            conditions,
+            productCount: products.length,
+            filteredCount: filtered.length,
+          }),
+        });
+        const summaryJson = await summaryResponse.json();
+        if (summaryJson.success && summaryJson.data?.summary) {
+          aiSummary = summaryJson.data.summary;
+        }
+      } catch (error) {
+        console.error('AI summary generation error:', error);
       }
     }
 
-    setFilteredProducts(filtered.length > 0 ? filtered : products);
-  };
+    // Add checkpoint message with actual product count
+    const summaryMessage = aiSummary || `전체 **${products.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
+    addMessage({
+      role: 'assistant',
+      content: summaryMessage,
+      stepTag: '2/5',
+    });
 
-  // =====================================================
-  // Step 2: Checkpoint
-  // =====================================================
+    setTimeout(() => {
+      addMessage({
+        role: 'system',
+        content: '',
+        componentType: 'checkpoint',
+        componentData: {
+          totalProducts: products.length,
+          filteredCount: filtered.length,
+          conditions,
+        } as CheckpointData,
+      });
 
-  const handleCheckpointConfirm = () => {
-    setCurrentStep(3);
-    scrollToBottom();
-  };
-
-  // =====================================================
-  // Step 3: Balance Game
-  // =====================================================
-
-  const handleBalanceSelect = (ruleKey: string) => {
-    setBalanceSelections(prev => [...prev, ruleKey]);
-
-    const questions = rulesData?.balance_game || [];
-    const nextIndex = currentBalanceIndex + 1;
-
-    if (nextIndex < questions.length) {
-      setCurrentBalanceIndex(nextIndex);
-    } else {
+      // Add natural language input option
       setTimeout(() => {
-        setCurrentStep(4);
+        addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'natural-input',
+        });
         scrollToBottom();
       }, 300);
-    }
-  };
+    }, 500);
+  }, [products, hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToBottom]);
 
-  // =====================================================
-  // Step 4: Negative Filter
-  // =====================================================
+  // ===================================================
+  // Step 2: Natural Language Input
+  // ===================================================
 
-  const handleNegativeToggle = (ruleKey: string) => {
-    setNegativeSelections(prev =>
-      prev.includes(ruleKey)
-        ? prev.filter(k => k !== ruleKey)
-        : [...prev, ruleKey]
-    );
-  };
-
-  const handleNegativeComplete = () => {
-    setCurrentStep(5);
-    scrollToBottom();
-  };
-
-  // =====================================================
-  // Step 5: Budget & Result
-  // =====================================================
-
-  const budgetOptions = [
-    { label: '5만원 이하', value: '0-50000', desc: '가성비' },
-    { label: '5~10만원', value: '50000-100000', desc: '적정가', popular: true },
-    { label: '10~20만원', value: '100000-200000', desc: '프리미엄' },
-    { label: '20만원 이상', value: '200000-', desc: '최고급' },
-  ];
-
-  const handleBudgetSelect = (value: string) => {
-    setBudget(value);
-  };
-
-  const handleGetRecommendation = async () => {
-    if (!rulesData || filteredProducts.length === 0) return;
-
-    setIsCalculating(true);
-
+  const handleNaturalLanguageSubmit = useCallback(async (text: string) => {
     try {
-      const response = await fetch('/api/v2/score', {
+      // Call parse API
+      const response = await fetch('/api/v2/parse-conditions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          query: text,
           categoryKey,
-          products: filteredProducts.map(p => ({
-            pcode: p.pcode,
-            title: p.title,
-            brand: p.brand,
-            price: p.price,
-            rank: p.rank,
-            thumbnail: p.thumbnail,
-            spec: p.spec,
-          })),
-          balanceSelections,
-          negativeSelections,
+          currentAnswers: hardFilterAnswers,
         }),
       });
 
       const result = await response.json();
 
-      if (result.success) {
-        // Apply budget filter
-        let top = result.data.scoredProducts;
-        if (budget) {
-          const [min, max] = budget.split('-').map(v => v ? parseInt(v) : null);
-          top = top.filter((p: ProductScore) => {
-            if (!p.price) return true;
-            if (min && p.price < min) return false;
-            if (max && p.price > max) return false;
-            return true;
-          });
-        }
-        setScoredProducts(top.slice(0, 3));
+      if (result.success && result.data.parsedConditions) {
+        // Update answers and re-filter
+        const newAnswers = { ...hardFilterAnswers, ...result.data.parsedConditions };
+        setHardFilterAnswers(newAnswers);
+
+        addMessage({
+          role: 'assistant',
+          content: result.data.message || '조건을 업데이트했어요.',
+        });
+
+        // Re-apply filters
+        handleHardFiltersComplete(newAnswers);
+      } else {
+        addMessage({
+          role: 'assistant',
+          content: '죄송해요, 조건을 이해하지 못했어요. 다시 말씀해주시겠어요?',
+        });
       }
+    } catch {
+      addMessage({
+        role: 'assistant',
+        content: '오류가 발생했어요. 다시 시도해주세요.',
+      });
+    }
+    scrollToBottom();
+  }, [categoryKey, hardFilterAnswers, addMessage, scrollToBottom, handleHardFiltersComplete]);
+
+  // ===================================================
+  // Step 2 → Step 3: Start Balance Game
+  // ===================================================
+
+  const handleStartBalanceGame = useCallback(() => {
+    setCurrentStep(3);
+    setCurrentBalanceIndex(0);
+
+    addMessage({
+      role: 'assistant',
+      content: '이제 남은 후보들 중에서 최적의 제품을 골라볼게요.\n**어떤 게 더 끌리세요?**',
+      stepTag: '3/5',
+    });
+
+    if (dynamicBalanceQuestions.length > 0) {
+      setTimeout(() => {
+        addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'balance-carousel',
+          componentData: {
+            questions: dynamicBalanceQuestions,
+          },
+        });
+        scrollToBottom();
+      }, 300);
+    } else {
+      // No balance questions, skip to step 4
+      handleBalanceGameComplete(new Set());
+    }
+  }, [dynamicBalanceQuestions, addMessage, scrollToBottom]);
+
+  // ===================================================
+  // Step 3: Balance Game Complete (캐러셀에서 호출됨)
+  // ===================================================
+
+  const handleBalanceGameComplete = useCallback((selections: Set<string>) => {
+    // 선택된 rule keys 저장
+    setBalanceSelections(selections);
+    setCurrentStep(4);
+
+    if (selections.size > 0) {
+      addMessage({
+        role: 'assistant',
+        content: `**${selections.size}개** 선호 항목을 반영할게요!`,
+      });
+    }
+
+    addMessage({
+      role: 'assistant',
+      content: '후보들의 실제 리뷰에서 단점을 분석했어요.',
+      stepTag: '4/5',
+    });
+
+    if (dynamicNegativeOptions.length > 0) {
+      setTimeout(() => {
+        addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'negative-filter',
+          componentData: {
+            options: dynamicNegativeOptions,
+            selectedKeys: negativeSelections,
+          } as NegativeFilterData,
+        });
+        scrollToBottom();
+      }, 300);
+    } else {
+      // No negative options, skip to step 5
+      handleNegativeComplete();
+    }
+  }, [dynamicNegativeOptions, negativeSelections, addMessage, scrollToBottom]);
+
+  // ===================================================
+  // Step 4: Negative Filter
+  // ===================================================
+
+  const handleNegativeToggle = useCallback((ruleKey: string) => {
+    setNegativeSelections(prev =>
+      prev.includes(ruleKey)
+        ? prev.filter(k => k !== ruleKey)
+        : [...prev, ruleKey]
+    );
+
+    // Update the component data
+    setMessages(prev => prev.map(msg => {
+      if (msg.componentType === 'negative-filter') {
+        return {
+          ...msg,
+          componentData: {
+            ...msg.componentData as NegativeFilterData,
+            selectedKeys: negativeSelections.includes(ruleKey)
+              ? negativeSelections.filter(k => k !== ruleKey)
+              : [...negativeSelections, ruleKey],
+          },
+        };
+      }
+      return msg;
+    }));
+  }, [negativeSelections]);
+
+  const handleNegativeComplete = useCallback(() => {
+    setCurrentStep(5);
+
+    if (negativeSelections.length > 0) {
+      addMessage({
+        role: 'assistant',
+        content: `알겠어요, **${negativeSelections.length}개** 단점을 피해서 찾아볼게요.`,
+      });
+    }
+
+    addMessage({
+      role: 'assistant',
+      content: '마지막이에요!',
+      stepTag: '5/5',
+    });
+
+    setTimeout(() => {
+      addMessage({
+        role: 'system',
+        content: '',
+        componentType: 'budget-slider',
+      });
+      scrollToBottom();
+    }, 300);
+  }, [negativeSelections, addMessage, scrollToBottom]);
+
+  // ===================================================
+  // Step 5: Budget & Results
+  // ===================================================
+
+  const handleBudgetChange = useCallback((values: { min: number; max: number }) => {
+    setBudget(values);
+  }, []);
+
+  const handleGetRecommendation = useCallback(async () => {
+    setIsCalculating(true);
+
+    try {
+      // Calculate scores for all filtered products
+      const scored: ScoredProduct[] = filteredProducts.map(product => {
+        const { score: baseScore, matchedRules } = calculateBalanceScore(
+          product,
+          balanceSelections,
+          logicMap
+        );
+
+        const negativeScore = calculateNegativeScore(
+          product,
+          negativeSelections,
+          dynamicNegativeOptions,
+          logicMap
+        );
+
+        return {
+          ...product,
+          baseScore,
+          negativeScore,
+          totalScore: baseScore + negativeScore,
+          matchedRules,
+        };
+      });
+
+      // Filter by budget
+      const budgetFiltered = scored.filter(p => {
+        if (!p.price) return true;
+        return p.price >= budget.min && p.price <= budget.max;
+      });
+
+      // Sort by score and get top 3
+      const sorted = budgetFiltered.sort((a, b) => b.totalScore - a.totalScore);
+      const top3 = sorted.slice(0, 3);
+
+      setScoredProducts(top3);
+
+      // Add result message
+      addMessage({
+        role: 'system',
+        content: '',
+        componentType: 'result-cards',
+        componentData: {
+          products: top3,
+          categoryName,
+        },
+      });
+
+      scrollToBottom();
     } catch (error) {
-      console.error('Score error:', error);
+      console.error('Score calculation error:', error);
+      addMessage({
+        role: 'assistant',
+        content: '추천 계산 중 오류가 발생했어요. 다시 시도해주세요.',
+      });
     } finally {
       setIsCalculating(false);
-      scrollToBottom();
     }
-  };
+  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, addMessage, scrollToBottom]);
 
-  // =====================================================
-  // Render Functions
-  // =====================================================
+  // ===================================================
+  // Render Message
+  // ===================================================
 
-  const renderStep0 = () => (
-    <div className="space-y-6">
-      {/* Scan Animation */}
-      {!showGuide && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center py-12"
-        >
-          <div className="relative w-24 h-24 mx-auto mb-6">
-            <div className="absolute inset-0 rounded-full border-4 border-gray-200" />
-            <div 
-              className="absolute inset-0 rounded-full border-4 border-blue-500 border-t-transparent animate-spin"
-              style={{ animationDuration: '1s' }}
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-2xl font-bold text-blue-500">{scanProgress}%</span>
-            </div>
-          </div>
-          <p className="text-gray-600 text-sm leading-relaxed">
-            최근 3개월간 맘카페, 블로그 등의<br />
-            <strong className="text-gray-900">{hardFilterConfig?.category_name || categoryKey}</strong> 실제 사용기를 분석 중입니다...
-          </p>
-        </motion.div>
-      )}
-
-      {/* Guide Cards */}
-      {showGuide && hardFilterConfig && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-4"
-        >
-          {/* Guide Card */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-5 border border-blue-100">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-xl">📋</span>
-              <h3 className="font-bold text-gray-900">{hardFilterConfig.guide.title}</h3>
-            </div>
-            <ul className="space-y-2">
-              {hardFilterConfig.guide.points.map((point, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                  <span className="text-blue-500 mt-0.5">•</span>
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Trend Card */}
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-5 border border-purple-100">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xl">🔥</span>
-              <h3 className="font-bold text-gray-900">트렌드</h3>
-            </div>
-            <p className="text-sm text-gray-700">{hardFilterConfig.guide.trend}</p>
-          </div>
-
-          {/* CTA Message */}
-          <div className="bg-gray-50 rounded-2xl p-4 text-center">
-            <p className="text-sm text-gray-600 leading-relaxed">
-              복잡한 용어, 스펙 비교는 제가 이미 끝냈어요.<br />
-              <strong className="text-gray-900">고객님의 상황만 편하게 알려주세요.</strong><br />
-              딱 맞는 제품을 찾아드릴게요.
-            </p>
-          </div>
-        </motion.div>
-      )}
-    </div>
-  );
-
-  const renderStep1 = () => {
-    if (!hardFilterConfig) return null;
-
-    const questions = hardFilterConfig.questions;
-    if (questions.length === 0) {
-      // No hard filter questions, skip to step 2
-      setTimeout(() => {
-        setCurrentStep(2);
-        scrollToBottom();
-      }, 100);
-      return null;
+  const renderMessage = (message: ChatMessage) => {
+    if (message.role === 'assistant') {
+      return (
+        <AssistantMessage
+          key={message.id}
+          content={message.content}
+          stepTag={message.stepTag}
+        />
+      );
     }
 
-    const currentQuestion = questions[currentHardFilterIndex];
-    if (!currentQuestion) return null;
-
-    return (
-      <motion.div
-        key={currentQuestion.id}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="space-y-4"
-      >
-        {/* Question Header */}
-        <div className="flex items-center justify-between">
-          <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">
-            Q. {currentQuestion.question.split('?')[0].slice(0, 10)}...
-          </span>
-          <span className="text-xs text-gray-500">
-            {currentHardFilterIndex + 1} / {questions.length}
-          </span>
-        </div>
-
-        <h3 className="text-lg font-bold text-gray-900">{currentQuestion.question}</h3>
-
-        {/* Options */}
-        <div className="space-y-2">
-          {currentQuestion.options.map((option) => {
-            const isSelected = hardFilterAnswers[currentQuestion.id] === option.value;
-            return (
-              <motion.button
-                key={option.value}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => handleHardFilterSelect(currentQuestion.id, option.value)}
-                className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
-                  isSelected
-                    ? 'border-blue-400 bg-blue-50'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                    isSelected ? 'border-blue-500 bg-blue-500' : 'border-gray-300'
-                  }`}>
-                    {isSelected && (
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    )}
-                  </div>
-                  <span className={`font-medium ${isSelected ? 'text-blue-700' : 'text-gray-700'}`}>
-                    {option.label}
-                  </span>
-                </div>
-              </motion.button>
-            );
-          })}
-        </div>
-      </motion.div>
-    );
-  };
-
-  const renderStep2 = () => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-4"
-    >
-      {/* Summary */}
-      <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-5 border border-emerald-100">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-xl">✅</span>
-          <h3 className="font-bold text-gray-900">조건 분석 완료</h3>
-        </div>
-
-        {/* Condition Pills */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {Object.entries(hardFilterAnswers).map(([key, value]) => {
-            const question = hardFilterConfig?.questions.find(q => q.id === key);
-            const option = question?.options.find(o => o.value === value);
-            return (
-              <span key={key} className="px-3 py-1 bg-white rounded-full text-sm text-emerald-700 border border-emerald-200">
-                {option?.label || value}
-              </span>
-            );
-          })}
-        </div>
-
-        {/* Stats */}
-        <div className="flex items-center justify-between p-3 bg-white rounded-xl">
-          <div className="text-center">
-            <p className="text-2xl font-bold text-gray-400 line-through">{products.length}</p>
-            <p className="text-xs text-gray-500">전체 상품</p>
-          </div>
-          <div className="text-2xl">→</div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-emerald-600">{filteredProducts.length}</p>
-            <p className="text-xs text-gray-500">후보군</p>
-          </div>
-        </div>
-      </div>
-
-      <p className="text-sm text-gray-600 text-center">
-        상황에 맞는 상위 <strong className="text-gray-900">{filteredProducts.length}개</strong> 후보군을 추렸어요.<br />
-        이제 남은 후보들 중에서 최적의 제품을 골라봐요.
-      </p>
-    </motion.div>
-  );
-
-  const renderStep3 = () => {
-    const questions = rulesData?.balance_game || [];
-    if (questions.length === 0) {
-      setTimeout(() => {
-        setCurrentStep(4);
-        scrollToBottom();
-      }, 100);
-      return null;
-    }
-
-    const currentQuestion = questions[currentBalanceIndex];
-    if (!currentQuestion) return null;
-
-    return (
-      <motion.div
-        key={currentQuestion.id}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="space-y-4"
-      >
-        <div className="flex items-center justify-between">
-          <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-bold">
-            Q. 취향 선택
-          </span>
-          <span className="text-xs text-gray-500">
-            {currentBalanceIndex + 1} / {questions.length}
-          </span>
-        </div>
-
-        <h3 className="text-lg font-bold text-gray-900 text-center">{currentQuestion.title}</h3>
-
-        <div className="space-y-3">
-          {/* Option A */}
-          <motion.button
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleBalanceSelect(currentQuestion.option_A.target_rule_key)}
-            className="w-full p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 text-left hover:border-blue-400 transition-all"
-          >
-            <span className="text-sm font-medium text-gray-800">{currentQuestion.option_A.text}</span>
-          </motion.button>
-
-          <p className="text-center text-gray-400 text-xs font-bold">VS</p>
-
-          {/* Option B */}
-          <motion.button
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleBalanceSelect(currentQuestion.option_B.target_rule_key)}
-            className="w-full p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-purple-100 border-2 border-purple-200 text-left hover:border-purple-400 transition-all"
-          >
-            <span className="text-sm font-medium text-gray-800">{currentQuestion.option_B.text}</span>
-          </motion.button>
-        </div>
-
-        {/* Skip */}
-        <div className="text-center pt-2">
-          <button
-            onClick={() => {
-              const nextIndex = currentBalanceIndex + 1;
-              if (nextIndex < questions.length) {
-                setCurrentBalanceIndex(nextIndex);
-              } else {
-                setCurrentStep(4);
-                scrollToBottom();
-              }
-            }}
-            className="text-sm text-gray-400 hover:text-gray-600"
-          >
-            건너뛰기
-          </button>
-        </div>
-      </motion.div>
-    );
-  };
-
-  const renderStep4 = () => {
-    const options = rulesData?.negative_filter || [];
-
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="space-y-4"
-      >
-        <div className="mb-2">
-          <span className="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-xs font-bold">
-            Q. 단점 필터
-          </span>
-        </div>
-
-        <h3 className="text-lg font-bold text-gray-900">
-          실제 리뷰에서 발견된 주요 단점들이에요.<br />
-          <span className="text-rose-500">&apos;이것만큼은 절대 참을 수 없다&apos;</span> 하는 것을 골라주세요.
-        </h3>
-
-        <div className="space-y-2 max-h-[300px] overflow-y-auto">
-          {options.map((option) => {
-            const isSelected = negativeSelections.includes(option.target_rule_key);
-            return (
-              <button
-                key={option.id}
-                onClick={() => handleNegativeToggle(option.target_rule_key)}
-                className={`w-full p-3 rounded-xl border-2 text-left transition-all ${
-                  isSelected
-                    ? 'border-rose-300 bg-rose-50'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                    isSelected ? 'border-rose-500 bg-rose-500' : 'border-gray-300'
-                  }`}>
-                    {isSelected && (
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    )}
-                  </div>
-                  <span className={`text-sm font-medium ${isSelected ? 'text-rose-700' : 'text-gray-700'}`}>
-                    {option.label}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </motion.div>
-    );
-  };
-
-  const renderStep5 = () => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-4"
-    >
-      {/* Budget Selection */}
-      {scoredProducts.length === 0 && (
-        <>
-          <div className="mb-2">
-            <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold">
-              마지막 단계
-            </span>
-          </div>
-
-          <h3 className="text-lg font-bold text-gray-900">생각해 둔 예산이 있나요?</h3>
-
-          <div className="grid grid-cols-2 gap-2">
-            {budgetOptions.map((option) => {
-              const isSelected = budget === option.value;
-              return (
-                <button
-                  key={option.value}
-                  onClick={() => handleBudgetSelect(option.value)}
-                  className={`p-3 rounded-xl text-left transition-all border ${
-                    isSelected
-                      ? 'bg-amber-50 border-amber-300'
-                      : 'bg-white border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <div className="flex items-center gap-1 mb-0.5">
-                    <span className={`font-semibold text-sm ${isSelected ? 'text-amber-700' : 'text-gray-900'}`}>
-                      {option.label}
-                    </span>
-                    {option.popular && (
-                      <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold bg-emerald-100 text-emerald-700">
-                        인기
-                      </span>
-                    )}
-                  </div>
-                  <p className={`text-xs ${isSelected ? 'text-amber-600' : 'text-gray-500'}`}>
-                    {option.desc}
-                  </p>
-                </button>
-              );
-            })}
-          </div>
-        </>
-      )}
-
-      {/* Results */}
-      {scoredProducts.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-4"
-        >
-          <div className="text-center mb-4">
-            <span className="text-3xl">🎉</span>
-            <h3 className="text-lg font-bold text-gray-900 mt-2">
-              {rulesData?.category_name} 추천 TOP 3
-            </h3>
-            <p className="text-sm text-gray-500">당신의 조건에 가장 잘 맞는 제품이에요</p>
-          </div>
-
-          {scoredProducts.map((product, index) => (
-            <motion.div
-              key={product.pcode}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.15 }}
-              className={`relative bg-white rounded-2xl border-2 overflow-hidden ${
-                index === 0 ? 'border-yellow-400 shadow-lg' : 'border-gray-200'
+    // System messages with components
+    if (message.componentType) {
+      switch (message.componentType) {
+        case 'guide-cards':
+          return (
+            <div
+              key={message.id}
+              className={`transition-all duration-300 ${
+                currentStep > 0 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
-              <div className={`absolute top-0 left-0 px-3 py-1 rounded-br-xl font-bold text-sm ${
-                index === 0 ? 'bg-yellow-400 text-yellow-900' :
-                index === 1 ? 'bg-gray-300 text-gray-700' :
-                'bg-amber-700 text-white'
-              }`}>
-                {index + 1}위
-              </div>
+              <GuideCards
+                data={message.componentData as { title: string; points: string[]; trend: string }}
+              />
+            </div>
+          );
 
-              <div className="p-4 pt-8">
-                <div className="flex gap-3">
-                  {product.thumbnail && (
-                    <div className="w-20 h-20 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
-                      <img src={product.thumbnail} alt={product.title} className="w-full h-full object-contain p-2" />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-gray-500 font-medium">{product.brand}</p>
-                    <h4 className="text-sm font-bold text-gray-900 line-clamp-2 mb-1">{product.title}</h4>
-                    {product.price && (
-                      <p className="text-base font-bold text-gray-900">
-                        {product.price.toLocaleString()}<span className="text-xs text-gray-500 ml-0.5">원</span>
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {product.matchedRules.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-3 pt-3 border-t border-gray-100">
-                    {product.matchedRules.slice(0, 3).map((rule, i) => (
-                      <span
-                        key={i}
-                        className={`text-[10px] px-2 py-0.5 rounded-full ${
-                          rule.startsWith('❌')
-                            ? 'bg-rose-100 text-rose-600'
-                            : 'bg-emerald-100 text-emerald-700'
-                        }`}
-                      >
-                        {rule.replace('체감속성_', '').replace(/_/g, ' ')}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          ))}
-
-          <div className="text-center pt-4">
-            <button
-              onClick={() => router.push('/categories-v2')}
-              className="text-sm text-gray-500 hover:text-gray-700 font-medium"
+        case 'sub-category':
+          const subCatData = message.componentData as {
+            categoryName: string;
+            subCategories: SubCategory[];
+            selectedCode: string | null;
+          };
+          return (
+            <div
+              key={message.id}
+              className={`transition-all duration-300 ${
+                currentStep > 0 ? 'opacity-50 pointer-events-none' : ''
+              }`}
             >
-              다른 카테고리 추천받기 →
-            </button>
-          </div>
-        </motion.div>
-      )}
+              <SubCategorySelector
+                categoryName={subCatData.categoryName}
+                subCategories={subCatData.subCategories}
+                selectedCode={selectedSubCategoryCode}
+                onSelect={handleSubCategorySelect}
+              />
+            </div>
+          );
 
-      {/* Calculating */}
-      {isCalculating && (
-        <div className="flex items-center justify-center py-8">
-          <div className="flex gap-1">
-            <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-            <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-            <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-          </div>
+        case 'hard-filter':
+          const hfData = message.componentData as { question: HardFilterQuestion; currentIndex: number; totalCount: number; selectedValue?: string };
+          const isPastQuestion = hfData.currentIndex < currentHardFilterIndex;
+          return (
+            <div
+              key={message.id}
+              className={`transition-all duration-300 ${
+                isPastQuestion ? 'opacity-50 pointer-events-none' : ''
+              }`}
+            >
+              <HardFilterQuestionComponent
+                data={hfData}
+                onSelect={handleHardFilterSelect}
+              />
+            </div>
+          );
+
+        case 'checkpoint':
+          return (
+            <div
+              key={message.id}
+              className={`transition-all duration-300 ${
+                currentStep > 2 ? 'opacity-50 pointer-events-none' : ''
+              }`}
+            >
+              <CheckpointVisual
+                data={message.componentData as CheckpointData}
+              />
+            </div>
+          );
+
+        case 'natural-input':
+          return (
+            <div
+              key={message.id}
+              className={`transition-all duration-300 ${
+                currentStep > 2 ? 'opacity-50 pointer-events-none' : ''
+              }`}
+            >
+              <NaturalLanguageInput
+                onSubmit={handleNaturalLanguageSubmit}
+                disabled={currentStep > 2}
+              />
+            </div>
+          );
+
+        case 'balance-carousel':
+          const carouselData = message.componentData as { questions: BalanceQuestion[] };
+          return (
+            <div
+              key={message.id}
+              className={`transition-all duration-300 ${
+                currentStep > 3 ? 'opacity-50 pointer-events-none' : ''
+              }`}
+            >
+              <BalanceGameCarousel
+                questions={carouselData.questions}
+                onComplete={handleBalanceGameComplete}
+              />
+            </div>
+          );
+
+        case 'negative-filter':
+          return (
+            <div
+              key={message.id}
+              className={`transition-all duration-300 ${
+                currentStep > 4 ? 'opacity-50 pointer-events-none' : ''
+              }`}
+            >
+              <NegativeFilterList
+                data={{
+                  options: dynamicNegativeOptions,
+                  selectedKeys: negativeSelections,
+                }}
+                onToggle={handleNegativeToggle}
+              />
+            </div>
+          );
+
+        case 'budget-slider':
+          const budgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000, step: 10000 };
+          return (
+            <div
+              key={message.id}
+              className={`transition-all duration-300 ${
+                scoredProducts.length > 0 ? 'opacity-50 pointer-events-none' : ''
+              }`}
+            >
+              <BudgetSlider
+                min={budgetRange.min}
+                max={budgetRange.max}
+                step={budgetRange.step}
+                initialMin={budget.min}
+                initialMax={budget.max}
+                onChange={handleBudgetChange}
+              />
+            </div>
+          );
+
+        case 'result-cards':
+          return (
+            <ResultCards
+              key={message.id}
+              products={scoredProducts}
+              categoryName={categoryName}
+            />
+          );
+
+        default:
+          return null;
+      }
+    }
+
+    return null;
+  };
+
+  // ===================================================
+  // Navigation Handlers
+  // ===================================================
+
+  const handleGoToPreviousHardFilter = useCallback(() => {
+    if (currentHardFilterIndex > 0) {
+      const prevIndex = currentHardFilterIndex - 1;
+      setCurrentHardFilterIndex(prevIndex);
+
+      // Remove the current question message from messages
+      setMessages(prev => {
+        const filtered = prev.filter(msg => {
+          if (msg.componentType === 'hard-filter') {
+            const hfData = msg.componentData as { currentIndex: number };
+            return hfData.currentIndex < currentHardFilterIndex;
+          }
+          return true;
+        });
+        return filtered;
+      });
+      scrollToBottom();
+    } else {
+      // Go back to step 0 (sub-category or guide)
+      setCurrentStep(0);
+      setCurrentHardFilterIndex(0);
+      // Clear messages after guide/sub-category
+      setMessages(prev => {
+        // Keep only guide and sub-category related messages
+        return prev.filter(msg =>
+          msg.componentType === 'guide-cards' ||
+          msg.componentType === 'sub-category' ||
+          (msg.role === 'assistant' && !msg.stepTag)
+        );
+      });
+      if (requiresSubCategory) {
+        setShowSubCategorySelector(true);
+      }
+    }
+  }, [currentHardFilterIndex, requiresSubCategory, scrollToBottom]);
+
+  const handleGoToStep0 = useCallback(() => {
+    setCurrentStep(0);
+    setCurrentHardFilterIndex(0);
+    setHardFilterAnswers({});
+    // Clear messages after guide/sub-category
+    setMessages(prev => {
+      return prev.filter(msg =>
+        msg.componentType === 'guide-cards' ||
+        msg.componentType === 'sub-category' ||
+        (msg.role === 'assistant' && !msg.stepTag)
+      );
+    });
+    if (requiresSubCategory) {
+      setShowSubCategorySelector(true);
+    }
+  }, [requiresSubCategory]);
+
+  // ===================================================
+  // Bottom Button
+  // ===================================================
+
+  const renderBottomButton = () => {
+    const questions = hardFilterConfig?.questions || [];
+    const allQuestionsAnswered = questions.length > 0 &&
+      questions.every(q => hardFilterAnswers[q.id] !== undefined);
+
+    // Step 0: 시작하기
+    if (currentStep === 0 && !showScanAnimation) {
+      // If sub-category required but not yet selected, don't show button
+      if (requiresSubCategory && showSubCategorySelector && !selectedSubCategoryCode) {
+        return null;
+      }
+
+      // If sub-category is selected or not required, show start button
+      return (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          onClick={handleStartHardFilters}
+          className="w-full h-14 rounded-2xl font-semibold text-base bg-blue-500 text-white hover:bg-blue-600 transition-all"
+        >
+          시작하기
+        </motion.button>
+      );
+    }
+
+    // Step 1: Hard Filter - prev/next navigation
+    if (currentStep === 1) {
+      const canGoNext = allQuestionsAnswered;
+
+      return (
+        <div className="flex gap-2">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={handleGoToPreviousHardFilter}
+            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+          >
+            이전
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={() => handleHardFiltersComplete(hardFilterAnswers)}
+            disabled={!canGoNext}
+            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+              canGoNext
+                ? 'bg-blue-500 text-white hover:bg-blue-600'
+                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+            }`}
+          >
+            다음
+          </motion.button>
         </div>
-      )}
-    </motion.div>
-  );
+      );
+    }
 
-  // =====================================================
-  // Main Render
-  // =====================================================
+    // Step 2: 계속하기 with prev/next
+    if (currentStep === 2) {
+      return (
+        <div className="flex gap-2">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={() => {
+              setCurrentStep(1);
+              // Remove checkpoint related messages
+              setMessages(prev => prev.filter(msg =>
+                msg.componentType !== 'checkpoint' &&
+                msg.componentType !== 'natural-input' &&
+                !(msg.stepTag === '2/5')
+              ));
+            }}
+            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+          >
+            이전
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={handleStartBalanceGame}
+            className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-emerald-500 text-white hover:bg-emerald-600 transition-all"
+          >
+            다음
+          </motion.button>
+        </div>
+      );
+    }
+
+    // Step 4: 단점 필터 완료 with prev/next
+    if (currentStep === 4) {
+      return (
+        <div className="flex gap-2">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={() => {
+              setCurrentStep(3);
+              // Remove negative filter related messages
+              setMessages(prev => prev.filter(msg =>
+                msg.componentType !== 'negative-filter' &&
+                !(msg.stepTag === '4/5')
+              ));
+            }}
+            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+          >
+            이전
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={handleNegativeComplete}
+            className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-rose-500 text-white hover:bg-rose-600 transition-all"
+          >
+            {negativeSelections.length > 0
+              ? `${negativeSelections.length}개 제외하고 다음`
+              : '다 괜찮아요'}
+          </motion.button>
+        </div>
+      );
+    }
+
+    // Step 5: 추천받기 with prev/next
+    if (currentStep === 5 && scoredProducts.length === 0) {
+      return (
+        <div className="flex gap-2">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={() => {
+              setCurrentStep(4);
+              // Remove budget slider related messages
+              setMessages(prev => prev.filter(msg =>
+                msg.componentType !== 'budget-slider' &&
+                !(msg.stepTag === '5/5')
+              ));
+            }}
+            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+          >
+            이전
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={handleGetRecommendation}
+            disabled={isCalculating}
+            className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-amber-500 text-white hover:bg-amber-600 transition-all disabled:bg-gray-300"
+          >
+            {isCalculating ? '분석 중...' : '추천받기'}
+          </motion.button>
+        </div>
+      );
+    }
+
+    // Step 5: 결과 후 다른 카테고리
+    if (currentStep === 5 && scoredProducts.length > 0) {
+      return (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          onClick={() => router.push('/categories-v2')}
+          className="w-full h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+        >
+          다른 카테고리 추천받기
+        </motion.button>
+      );
+    }
+
+    return null;
+  };
+
+  // ===================================================
+  // Loading State
+  // ===================================================
 
   if (isLoading) {
     return (
@@ -824,7 +1258,9 @@ export default function RecommendV2Page() {
     );
   }
 
-  const stepLabels = ['가이드', '환경 체크', '후보 분석', '취향 선택', '단점 필터', '예산 & 추천'];
+  // ===================================================
+  // Main Render
+  // ===================================================
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -832,88 +1268,77 @@ export default function RecommendV2Page() {
         {/* Header */}
         <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
           <div className="px-5 py-3 flex items-center justify-between">
-            <button onClick={() => setShowBackModal(true)} className="text-gray-600 hover:text-gray-900">
+            <button
+              onClick={() => setShowBackModal(true)}
+              className="text-gray-600 hover:text-gray-900"
+            >
               <CaretLeft size={24} weight="bold" />
             </button>
             <h1 className="text-lg font-bold text-gray-900">
-              {rulesData?.category_name || ''} 추천
+              {categoryName} 추천
             </h1>
             <div className="w-6" />
           </div>
-          {/* Progress */}
+
+          {/* Progress Bar */}
           <div className="px-5 pb-3">
             <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
               <span>{currentStep}/5</span>
-              <span>{stepLabels[currentStep]}</span>
+              <span>{STEP_LABELS[currentStep]}</span>
             </div>
             <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-blue-500 transition-all duration-300 rounded-full"
-                style={{ width: `${(currentStep / 5) * 100}%` }}
+              <motion.div
+                className="h-full bg-blue-500 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${(currentStep / 5) * 100}%` }}
+                transition={{ duration: 0.3 }}
               />
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <main ref={mainScrollRef} className="flex-1 overflow-y-auto px-4 py-6" style={{ paddingBottom: '120px' }}>
+        <main
+          ref={scrollContainerRef}
+          className="flex-1 overflow-y-auto px-4 py-6"
+          style={{ paddingBottom: '120px' }}
+        >
           <AnimatePresence mode="wait">
-            {currentStep === 0 && <div key="step0">{renderStep0()}</div>}
-            {currentStep === 1 && <div key="step1">{renderStep1()}</div>}
-            {currentStep === 2 && <div key="step2">{renderStep2()}</div>}
-            {currentStep === 3 && <div key="step3">{renderStep3()}</div>}
-            {currentStep === 4 && <div key="step4">{renderStep4()}</div>}
-            {currentStep === 5 && <div key="step5">{renderStep5()}</div>}
+            {/* Step 0: Scan Animation */}
+            {currentStep === 0 && showScanAnimation && (
+              <ScanAnimation
+                categoryName={categoryName}
+                onComplete={handleScanComplete}
+                duration={2000}
+              />
+            )}
           </AnimatePresence>
-          <div ref={contentEndRef} />
+
+          {/* Messages */}
+          <div className="space-y-4">
+            {messages.map(renderMessage)}
+          </div>
+
+          {/* Calculating indicator */}
+          {isCalculating && (
+            <div className="flex items-center justify-center py-8">
+              <div className="flex gap-1">
+                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
         </main>
 
         {/* Bottom Button */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-40" style={{ maxWidth: '480px', margin: '0 auto' }}>
-          {currentStep === 0 && showGuide && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              onClick={handleGuideComplete}
-              className="w-full h-14 rounded-2xl font-semibold text-base bg-blue-500 text-white hover:bg-blue-600 transition-all"
-            >
-              시작하기
-            </motion.button>
-          )}
-
-          {currentStep === 2 && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              onClick={handleCheckpointConfirm}
-              className="w-full h-14 rounded-2xl font-semibold text-base bg-emerald-500 text-white hover:bg-emerald-600 transition-all"
-            >
-              계속하기
-            </motion.button>
-          )}
-
-          {currentStep === 4 && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              onClick={handleNegativeComplete}
-              className="w-full h-14 rounded-2xl font-semibold text-base bg-rose-500 text-white hover:bg-rose-600 transition-all"
-            >
-              {negativeSelections.length > 0 ? `${negativeSelections.length}개 제외하고 다음` : '다음'}
-            </motion.button>
-          )}
-
-          {currentStep === 5 && scoredProducts.length === 0 && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              onClick={handleGetRecommendation}
-              disabled={isCalculating}
-              className="w-full h-14 rounded-2xl font-semibold text-base bg-amber-500 text-white hover:bg-amber-600 transition-all disabled:bg-gray-300"
-            >
-              {isCalculating ? '분석 중...' : '추천받기'}
-            </motion.button>
-          )}
+        <div
+          className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-40"
+          style={{ maxWidth: '480px', margin: '0 auto' }}
+        >
+          {renderBottomButton()}
         </div>
 
         {/* Back Modal */}
@@ -934,7 +1359,9 @@ export default function RecommendV2Page() {
                 className="fixed inset-0 flex items-center justify-center z-50 px-4"
               >
                 <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
-                  <p className="text-base text-gray-800 mb-6">카테고리 선택으로 돌아가시겠어요?</p>
+                  <p className="text-base text-gray-800 mb-6">
+                    카테고리 선택으로 돌아가시겠어요?
+                  </p>
                   <div className="flex gap-3">
                     <button
                       onClick={() => setShowBackModal(false)}

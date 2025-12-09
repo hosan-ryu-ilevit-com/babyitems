@@ -16,8 +16,12 @@ interface DanawaCategory {
   crawled_product_count: number;
 }
 
+interface CategoryGroup {
+  categories?: DanawaCategory[];
+}
+
 interface CategoriesResponse {
-  groups: unknown[];
+  groups: CategoryGroup[];
   uncategorized: DanawaCategory[];
   totalGroups: number;
   totalCategories: number;
@@ -214,7 +218,7 @@ export default function CategoriesV2Page() {
         // 모든 카테고리를 하나의 배열로 합침
         const categories: DanawaCategory[] = [];
         if (json.groups) {
-          json.groups.forEach((group: { categories?: DanawaCategory[] }) => {
+          json.groups.forEach((group) => {
             if (group.categories) {
               categories.push(...group.categories);
             }

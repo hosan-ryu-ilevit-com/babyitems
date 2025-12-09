@@ -48,7 +48,7 @@ async function fetchWithProxy(url: string): Promise<string | null> {
 
 function extractJsonLd(html: string): CoupangProduct[] {
   // ItemList가 포함된 JSON-LD 찾기
-  const pattern = /"itemListElement"\s*:\s*\[(.*?)\]\s*\}/s;
+  const pattern = new RegExp('"itemListElement"\\s*:\\s*\\[([\\s\\S]*?)\\]\\s*\\}');
   const match = html.match(pattern);
 
   if (!match) {

@@ -25,6 +25,11 @@ interface ProductsRequest {
   priceMax?: number;
   brands?: string[];
   limit?: number;
+  targetCategoryCodes?: string[];  // For sub-category specific queries (category_code 필터)
+  filterAttribute?: {              // For attribute-based filtering (filter_attrs 필터)
+    key: string;
+    value: string;
+  };
 }
 
 export interface ProductItem {
@@ -36,12 +41,13 @@ export interface ProductItem {
   thumbnail: string | null;
   spec: Record<string, unknown>;
   category_code: string;
+  filter_attrs?: Record<string, unknown>;
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body: ProductsRequest = await request.json();
-    const { categoryKey, priceMin, priceMax, brands, limit = 100 } = body;
+    const { categoryKey, priceMin, priceMax, brands, limit = 100, targetCategoryCodes, filterAttribute } = body;
 
     if (!categoryKey) {
       return NextResponse.json(
@@ -56,8 +62,8 @@ export async function POST(request: NextRequest) {
 
     if (!categoryLogic) {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: `Category '${categoryKey}' not found`,
           availableCategories: Object.keys(logicMap)
         },
@@ -65,12 +71,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const targetCategories = categoryLogic.target_categories;
+    // Use provided targetCategoryCodes (sub-category) or default from logic_map
+    const targetCategories = targetCategoryCodes || categoryLogic.target_categories;
 
     // 2. Supabase 쿼리 구성
     let query = supabase
       .from('danawa_products')
-      .select('pcode, title, brand, price, rank, thumbnail, spec, category_code')
+      .select('pcode, title, brand, price, rank, thumbnail, spec, category_code, filter_attrs')
       .in('category_code', targetCategories)
       .order('rank', { ascending: true, nullsFirst: false })
       .limit(limit);
@@ -89,7 +96,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. 쿼리 실행
-    const { data: products, error } = await query;
+    let { data: products, error } = await query;
 
     if (error) {
       console.error('Supabase query error:', error);
@@ -99,7 +106,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4. 응답
+    // 4. 속성 필터 (filter_attrs 기반) - Supabase JSONB 필터링 대신 JS에서 필터링
+    // (Supabase JSONB 필터링은 복잡하므로 클라이언트 사이드에서 처리)
+    if (filterAttribute && products) {
+      const { key, value } = filterAttribute;
+      products = products.filter(product => {
+        const filterAttrs = product.filter_attrs as Record<string, unknown> | null;
+        if (!filterAttrs) return false;
+
+        const attrValue = filterAttrs[key];
+        if (attrValue === undefined || attrValue === null) return false;
+
+        // 문자열 비교 (대소문자 무시)
+        return String(attrValue).toLowerCase() === value.toLowerCase();
+      });
+    }
+
+    // 5. 응답
     return NextResponse.json({
       success: true,
       data: {

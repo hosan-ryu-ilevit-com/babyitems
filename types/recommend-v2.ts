@@ -1,0 +1,376 @@
+// V2 추천 플로우 타입 정의
+
+// ===================================================
+// 채팅 메시지 타입
+// ===================================================
+
+export type ComponentType =
+  | 'scan-animation'     // 스캔 애니메이션
+  | 'guide-cards'        // 가이드 카드들
+  | 'sub-category'       // 세부 카테고리 선택 (유모차/카시트/기저귀)
+  | 'hard-filter'        // 하드 필터 질문
+  | 'checkpoint'         // 중간 점검 시각화
+  | 'natural-input'      // 자연어 수정 입력
+  | 'balance-game'       // 밸런스 게임 A vs B (deprecated)
+  | 'balance-carousel'   // 밸런스 게임 캐러셀
+  | 'negative-filter'    // 단점 필터 체크박스
+  | 'budget-slider'      // 예산 슬라이더
+  | 'result-cards';      // 추천 결과
+
+export interface ChatMessage {
+  id: string;
+  role: 'assistant' | 'system';
+  content: string;
+  componentType?: ComponentType;
+  componentData?: unknown;
+  typing?: boolean;
+  stepTag?: string;         // "0/5", "1/5" 등
+  timestamp?: number;
+}
+
+// ===================================================
+// 플로우 Step 타입
+// ===================================================
+
+export type FlowStep = 0 | 1 | 2 | 3 | 4 | 5;
+
+export const STEP_LABELS: Record<FlowStep, string> = {
+  0: '트렌드 브리핑',
+  1: '환경 체크',
+  2: '후보 분석',
+  3: '취향 선택',
+  4: '단점 필터',
+  5: '예산 & 추천',
+};
+
+// ===================================================
+// 하드 필터 관련 타입
+// ===================================================
+
+export interface HardFilterOption {
+  label: string;
+  value: string;
+  filter?: Record<string, unknown>;
+  category_code?: string;
+}
+
+export interface HardFilterQuestion {
+  id: string;
+  type: 'single' | 'multi';
+  question: string;
+  options: HardFilterOption[];
+}
+
+export interface HardFilterConfig {
+  category_name?: string;
+  guide?: {
+    title: string;
+    points: string[];
+    trend: string;
+  };
+  sub_categories?: Array<{ label: string; code: string }>;
+  questions?: HardFilterQuestion[];  // optional - hard_filters.json에서 제거됨
+}
+
+// ===================================================
+// 밸런스 게임 관련 타입
+// ===================================================
+
+export interface BalanceOption {
+  text: string;
+  target_rule_key: string;
+}
+
+export interface BalanceQuestion {
+  id: string;
+  title: string;
+  option_A: BalanceOption;
+  option_B: BalanceOption;
+}
+
+// ===================================================
+// 단점 필터 관련 타입
+// ===================================================
+
+export interface NegativeFilterOption {
+  id: string;
+  label: string;
+  target_rule_key: string;
+  exclude_mode: 'drop_if_lacks' | 'drop_if_has';
+}
+
+// ===================================================
+// Logic Map 관련 타입
+// ===================================================
+
+export interface RuleLogic {
+  target: string;           // "spec.재질", "title", "brand" 등
+  operator: 'eq' | 'contains' | 'lt' | 'lte' | 'gt' | 'gte';
+  value: string | number;
+  score: number;
+}
+
+export interface RuleDefinition {
+  description: string;
+  logic: RuleLogic[];
+}
+
+export interface CategoryRules {
+  category_name: string;
+  target_categories: string[];
+  rules: Record<string, RuleDefinition>;
+}
+
+// ===================================================
+// 상품 관련 타입
+// ===================================================
+
+export interface ProductItem {
+  pcode: string;
+  title: string;
+  brand: string | null;
+  price: number | null;
+  rank: number | null;
+  thumbnail: string | null;
+  spec: Record<string, unknown>;
+  category_code?: string;
+  filter_attrs?: Record<string, unknown>;
+}
+
+export interface ScoredProduct extends ProductItem {
+  baseScore: number;
+  negativeScore: number;
+  totalScore: number;
+  matchedRules: string[];
+}
+
+// ===================================================
+// 전체 상태 타입
+// ===================================================
+
+export interface RecommendV2State {
+  // 플로우 상태
+  currentStep: FlowStep;
+  messages: ChatMessage[];
+  typingMessageId: string | null;
+
+  // 데이터
+  categoryKey: string;
+  categoryName: string;
+  products: ProductItem[];
+  filteredProducts: ProductItem[];
+
+  // 규칙 데이터
+  hardFilterConfig: HardFilterConfig | null;
+  logicMap: Record<string, RuleDefinition>;
+  balanceQuestions: BalanceQuestion[];
+  negativeOptions: NegativeFilterOption[];
+
+  // 동적 생성 데이터
+  dynamicBalanceQuestions: BalanceQuestion[];
+  dynamicNegativeOptions: NegativeFilterOption[];
+  relevantRuleKeys: string[];
+
+  // 사용자 선택
+  hardFilterAnswers: Record<string, string>;
+  balanceSelections: Set<string>;  // 중복 방지를 위해 Set 사용
+  negativeSelections: string[];
+  budget: { min: number; max: number };
+
+  // 추천 결과
+  scoredProducts: ScoredProduct[];
+  top3Products: ScoredProduct[];
+
+  // UI 상태
+  isLoading: boolean;
+  isCalculating: boolean;
+  error: string | null;
+}
+
+// ===================================================
+// 컴포넌트 Props 타입
+// ===================================================
+
+export interface GuideCardsData {
+  title: string;
+  points: string[];
+  trend: string;
+}
+
+export interface HardFilterData {
+  question: HardFilterQuestion;
+  currentIndex: number;
+  totalCount: number;
+  selectedValue?: string;
+}
+
+export interface CheckpointData {
+  totalProducts: number;
+  filteredCount: number;
+  conditions: Array<{ label: string; value: string }>;
+}
+
+export interface BalanceGameData {
+  question: BalanceQuestion;
+  currentIndex: number;
+  totalCount: number;
+}
+
+export interface NegativeFilterData {
+  options: NegativeFilterOption[];
+  selectedKeys: string[];
+}
+
+export interface BudgetSliderData {
+  min: number;
+  max: number;
+  currentMin: number;
+  currentMax: number;
+  step: number;
+}
+
+export interface ResultCardsData {
+  products: ScoredProduct[];
+  categoryName: string;
+}
+
+// ===================================================
+// API 응답 타입
+// ===================================================
+
+export interface RulesApiResponse {
+  success: boolean;
+  data: {
+    category_key: string;
+    category_name: string;
+    target_categories: string[];
+    logic_map: Record<string, RuleDefinition>;
+    balance_game: BalanceQuestion[];
+    negative_filter: NegativeFilterOption[];
+  };
+}
+
+export interface ProductsApiResponse {
+  success: boolean;
+  data: {
+    categoryKey: string;
+    categoryName: string;
+    targetCategories: string[];
+    products: ProductItem[];
+    count: number;
+  };
+}
+
+export interface ScoreApiResponse {
+  success: boolean;
+  data: {
+    categoryKey: string;
+    categoryName: string;
+    scoredProducts: ScoredProduct[];
+    top3: ScoredProduct[];
+    stats: {
+      totalCount: number;
+      filteredCount: number;
+      appliedBalanceKeys: string[];
+      appliedNegativeKeys: string[];
+    };
+  };
+}
+
+export interface ParseConditionsApiResponse {
+  success: boolean;
+  data: {
+    parsedConditions: Record<string, string>;
+    confidence: number;
+    message: string;
+  };
+}
+
+// ===================================================
+// 카테고리별 예산 범위
+// ===================================================
+
+export const CATEGORY_BUDGET_RANGES: Record<string, { min: number; max: number; step: number }> = {
+  baby_bottle: { min: 5000, max: 100000, step: 5000 },
+  formula_pot: { min: 30000, max: 300000, step: 10000 },
+  stroller: { min: 100000, max: 2000000, step: 50000 },
+  car_seat: { min: 100000, max: 1500000, step: 50000 },
+  diaper: { min: 10000, max: 100000, step: 5000 },
+  high_chair: { min: 50000, max: 500000, step: 10000 },
+  baby_bed: { min: 100000, max: 1000000, step: 50000 },
+  thermometer: { min: 10000, max: 100000, step: 5000 },
+  baby_wipes: { min: 5000, max: 50000, step: 1000 },
+  formula: { min: 20000, max: 100000, step: 5000 },
+  formula_maker: { min: 100000, max: 500000, step: 10000 },
+  pacifier: { min: 5000, max: 50000, step: 1000 },
+  baby_sofa: { min: 50000, max: 300000, step: 10000 },
+  baby_desk: { min: 50000, max: 500000, step: 10000 },
+  nasal_aspirator: { min: 10000, max: 200000, step: 10000 },
+  ip_camera: { min: 30000, max: 300000, step: 10000 },
+};
+
+// ===================================================
+// 카테고리별 기본 밸런스 질문 ID (최소 보장용)
+// ===================================================
+
+export const DEFAULT_BALANCE_QUESTIONS: Record<string, string[]> = {
+  baby_bottle: ['bg_bottle_01', 'bg_bottle_03'],      // 가벼움 vs 안전, 배앓이 vs 모유실감
+  formula_pot: ['bg_pot_01', 'bg_pot_02'],            // 보온 vs 냉각, 편의 vs 위생
+  stroller: ['bg_stroller_01', 'bg_stroller_02'],     // 무게 vs 안정, 폴딩
+  car_seat: ['bg_carseat_01', 'bg_carseat_02'],       // 회전 vs 바구니, 안전기준
+  diaper: ['bg_diaper_01', 'bg_diaper_03'],           // 통기성 vs 흡수력, 성분 vs 가성비
+  baby_wipes: ['bg_wipes_01', 'bg_wipes_02'],         // 두께 vs 휴대, 성분
+  formula: ['bg_formula_01', 'bg_formula_03'],        // 소화 vs 영양, 외출
+  thermometer: ['bg_therm_01', 'bg_therm_02'],        // 비접촉 vs 정확, 빠름
+  high_chair: ['bg_highchair_01', 'bg_highchair_02'], // 발받침, 청소
+};
+
+// ===================================================
+// V2 결과 페이지 관련 타입
+// ===================================================
+
+export interface DanawaPriceData {
+  pcode: string;
+  lowest_price: number | null;
+  lowest_mall: string | null;
+  lowest_link: string | null;
+  mall_prices: Array<{
+    mall: string;
+    price: number;
+    delivery: string;
+    seller: string;
+    link: string;
+  }>;
+}
+
+export interface V2ResultProduct extends ScoredProduct {
+  // 다나와 가격 정보
+  danawaPrice?: DanawaPriceData | null;
+  // 매칭된 하드 필터 조건 (표시용)
+  matchedHardFilters?: Array<{
+    label: string;
+    value: string;
+  }>;
+}
+
+export interface V2ResultPageState {
+  products: V2ResultProduct[];
+  categoryKey: string;
+  categoryName: string;
+  conditions: Array<{ label: string; value: string }>;
+  budget: { min: number; max: number };
+  isLoading: boolean;
+  error: string | null;
+}
+
+export interface V2ResultApiResponse {
+  success: boolean;
+  data: {
+    prices: DanawaPriceData[];
+    specs: Array<{
+      pcode: string;
+      spec: Record<string, unknown>;
+      filter_attrs: Record<string, unknown>;
+    }>;
+  };
+}

@@ -9,30 +9,7 @@
         "젖꼭지 호환: 브랜드별로 다르니 미리 체크"
       ],
       "trend": "2024년 트렌드는 '모유실감' 젖꼭지와 PPSU 소재입니다"
-    },
-    "questions": [
-      {
-        "id": "hf_bottle_age",
-        "type": "single",
-        "question": "아기 월령이 어떻게 되나요?",
-        "options": [
-          { "label": "신생아 (0~3개월)", "value": "newborn", "filter": { "spec.용량": { "lte": 160 } } },
-          { "label": "초기 (4~6개월)", "value": "early", "filter": {} },
-          { "label": "중기 이상 (7개월~)", "value": "mid", "filter": { "spec.용량": { "gte": 200 } } }
-        ]
-      },
-      {
-        "id": "hf_bottle_material",
-        "type": "single",
-        "question": "선호하는 재질이 있나요?",
-        "options": [
-          { "label": "PPSU (가볍고 안전)", "value": "ppsu", "filter": { "spec.재질": "PPSU" } },
-          { "label": "유리 (열탕소독 OK)", "value": "glass", "filter": { "spec.재질": "유리" } },
-          { "label": "실리콘 (부드러움)", "value": "silicone", "filter": { "spec.재질": "실리콘" } },
-          { "label": "상관없어요", "value": "any", "filter": {} }
-        ]
-      }
-    ]
+    }
   },
   "stroller": {
     "category_name": "유모차",
@@ -44,46 +21,7 @@
         "휴대용: 가볍고 폴딩 간편, 6개월 이후 추천"
       ],
       "trend": "2024년 트렌드는 '원터치 폴딩'과 '양대면' 기능입니다"
-    },
-    "sub_categories": [
-      { "label": "디럭스형", "code": "16349193" },
-      { "label": "절충형", "code": "16349368" },
-      { "label": "휴대용", "code": "16349195" },
-      { "label": "쌍둥이/다인승", "code": "16349196" }
-    ],
-    "questions": [
-      {
-        "id": "hf_stroller_type",
-        "type": "single",
-        "question": "어떤 유형의 유모차를 찾으세요?",
-        "options": [
-          { "label": "디럭스형 (신생아부터, 안정감)", "value": "deluxe", "category_code": "16349193" },
-          { "label": "절충형 (가성비, 다용도)", "value": "compact", "category_code": "16349368" },
-          { "label": "휴대용 (가볍고 폴딩 간편)", "value": "portable", "category_code": "16349195" },
-          { "label": "쌍둥이/다인승", "value": "twin", "category_code": "16349196" }
-        ]
-      },
-      {
-        "id": "hf_stroller_age",
-        "type": "single",
-        "question": "아기 월령이 어떻게 되나요?",
-        "options": [
-          { "label": "신생아 (0~3개월)", "value": "newborn", "filter": {} },
-          { "label": "초기 (4~6개월)", "value": "early", "filter": {} },
-          { "label": "중기 이상 (7개월~)", "value": "mid", "filter": {} }
-        ]
-      },
-      {
-        "id": "hf_stroller_env",
-        "type": "single",
-        "question": "주로 어디서 사용하실 건가요?",
-        "options": [
-          { "label": "아파트 (엘리베이터 있음)", "value": "apt", "filter": {} },
-          { "label": "빌라/주택 (계단 있음)", "value": "house", "filter": { "weight_priority": true } },
-          { "label": "외출/여행 많음", "value": "travel", "filter": { "folding_priority": true } }
-        ]
-      }
-    ]
+    }
   },
   "car_seat": {
     "category_name": "카시트",
@@ -95,37 +33,7 @@
         "부스터형: 36개월 이후, 보조용"
       ],
       "trend": "2024년 트렌드는 '360도 회전'과 'i-Size 인증'입니다"
-    },
-    "sub_categories": [
-      { "label": "일체형 (회전형 포함)", "code": "16349200" },
-      { "label": "분리형 (컨버터블)", "code": "16349201" },
-      { "label": "바구니형 (신생아용)", "code": "16349202" },
-      { "label": "부스터형", "code": "16353763" }
-    ],
-    "questions": [
-      {
-        "id": "hf_carseat_type",
-        "type": "single",
-        "question": "어떤 유형의 카시트를 찾으세요?",
-        "options": [
-          { "label": "일체형 (회전형 포함)", "value": "integrated", "category_code": "16349200" },
-          { "label": "분리형 (컨버터블)", "value": "convertible", "category_code": "16349201" },
-          { "label": "바구니형 (신생아용)", "value": "infant", "category_code": "16349202" },
-          { "label": "부스터형 (36개월~)", "value": "booster", "category_code": "16353763" }
-        ]
-      },
-      {
-        "id": "hf_carseat_age",
-        "type": "single",
-        "question": "아기 월령이 어떻게 되나요?",
-        "options": [
-          { "label": "신생아 (0~6개월)", "value": "newborn", "filter": {} },
-          { "label": "영아 (7~18개월)", "value": "infant", "filter": {} },
-          { "label": "유아 (19~36개월)", "value": "toddler", "filter": {} },
-          { "label": "36개월 이상", "value": "child", "filter": {} }
-        ]
-      }
-    ]
+    }
   },
   "diaper": {
     "category_name": "기저귀",
@@ -137,31 +45,7 @@
         "사이즈: 몸무게 기준으로 선택"
       ],
       "trend": "2024년 트렌드는 '유기농 순면'과 '밤샘용 고흡수'입니다"
-    },
-    "questions": [
-      {
-        "id": "hf_diaper_type",
-        "type": "single",
-        "question": "어떤 유형의 기저귀를 찾으세요?",
-        "options": [
-          { "label": "밴드형 (신생아~누워있을 때)", "value": "band", "filter": { "title_contains": "밴드" } },
-          { "label": "팬티형 (기어다닐 때~)", "value": "pants", "filter": { "title_contains": "팬티" } },
-          { "label": "둘 다 필요해요", "value": "both", "filter": {} }
-        ]
-      },
-      {
-        "id": "hf_diaper_size",
-        "type": "single",
-        "question": "아기 몸무게가 어떻게 되나요?",
-        "options": [
-          { "label": "~5kg (신생아)", "value": "nb", "filter": {} },
-          { "label": "4~8kg (소형)", "value": "s", "filter": {} },
-          { "label": "6~11kg (중형)", "value": "m", "filter": {} },
-          { "label": "9~14kg (대형)", "value": "l", "filter": {} },
-          { "label": "12kg~ (특대형)", "value": "xl", "filter": {} }
-        ]
-      }
-    ]
+    }
   },
   "formula_pot": {
     "category_name": "분유포트",
@@ -173,19 +57,7 @@
         "용량: 0.8L~1.5L, 가족 수에 맞게"
       ],
       "trend": "2024년 트렌드는 '자동출수'와 '염소제거 필터'입니다"
-    },
-    "questions": [
-      {
-        "id": "hf_pot_priority",
-        "type": "single",
-        "question": "가장 중요한 기능은 뭔가요?",
-        "options": [
-          { "label": "항상 따뜻하게 (보온)", "value": "warm", "filter": {} },
-          { "label": "빠르게 식히기 (급속냉각)", "value": "cool", "filter": {} },
-          { "label": "둘 다 중요해요", "value": "both", "filter": {} }
-        ]
-      }
-    ]
+    }
   },
   "high_chair": {
     "category_name": "유아의자/식탁의자",
@@ -197,19 +69,7 @@
         "발받침: 바른 자세에 필수"
       ],
       "trend": "2024년 트렌드는 '성장형 높이조절'과 '발받침 포함'입니다"
-    },
-    "questions": [
-      {
-        "id": "hf_chair_type",
-        "type": "single",
-        "question": "어떤 유형을 찾으세요?",
-        "options": [
-          { "label": "하이체어 (독립형)", "value": "high", "filter": {} },
-          { "label": "부스터 (의자에 부착)", "value": "booster", "filter": {} },
-          { "label": "성장형 (오래 사용)", "value": "growth", "filter": {} }
-        ]
-      }
-    ]
+    }
   },
   "thermometer": {
     "category_name": "체온계",
@@ -221,19 +81,7 @@
         "겨드랑이: 가장 정확, 측정 시간 김"
       ],
       "trend": "2024년 트렌드는 '1초 측정'과 '앱 연동'입니다"
-    },
-    "questions": [
-      {
-        "id": "hf_therm_type",
-        "type": "single",
-        "question": "어떤 유형을 선호하세요?",
-        "options": [
-          { "label": "비접촉식 (이마)", "value": "non_contact", "filter": {} },
-          { "label": "귀체온계", "value": "ear", "filter": {} },
-          { "label": "상관없어요", "value": "any", "filter": {} }
-        ]
-      }
-    ]
+    }
   },
   "baby_wipes": {
     "category_name": "아기물티슈",
@@ -245,19 +93,7 @@
         "성분: 무향, 무알코올 확인"
       ],
       "trend": "2024년 트렌드는 '생분해 원단'과 '더마테스트 인증'입니다"
-    },
-    "questions": [
-      {
-        "id": "hf_wipes_use",
-        "type": "single",
-        "question": "주 사용 용도가 뭔가요?",
-        "options": [
-          { "label": "기저귀 교체용 (도톰한 것)", "value": "diaper", "filter": {} },
-          { "label": "외출용 (휴대 간편)", "value": "travel", "filter": {} },
-          { "label": "손/입 닦기 (순한 성분)", "value": "face", "filter": {} }
-        ]
-      }
-    ]
+    }
   },
   "formula": {
     "category_name": "분유",
@@ -269,19 +105,7 @@
         "액상분유: 외출 시 편리"
       ],
       "trend": "2024년 트렌드는 'HMO 함유'와 '유기농 인증'입니다"
-    },
-    "questions": [
-      {
-        "id": "hf_formula_stage",
-        "type": "single",
-        "question": "아기 월령이 어떻게 되나요?",
-        "options": [
-          { "label": "0~6개월 (1단계)", "value": "stage1", "filter": {} },
-          { "label": "6~12개월 (2단계)", "value": "stage2", "filter": {} },
-          { "label": "12개월 이상 (3단계)", "value": "stage3", "filter": {} }
-        ]
-      }
-    ]
+    }
   },
   "formula_maker": {
     "category_name": "분유제조기",
@@ -293,8 +117,7 @@
         "용량: 1회 조유량 체크"
       ],
       "trend": "2024년 트렌드는 '원격 조유'와 '자동 살균'입니다"
-    },
-    "questions": []
+    }
   },
   "pacifier": {
     "category_name": "쪽쪽이/노리개",
@@ -306,8 +129,7 @@
         "형태: 올실리콘은 통세척 가능"
       ],
       "trend": "2024년 트렌드는 '올실리콘 원피스'와 '야광 기능'입니다"
-    },
-    "questions": []
+    }
   },
   "baby_bed": {
     "category_name": "유아침대",
@@ -319,8 +141,7 @@
         "접이식: 여행/이동 편리"
       ],
       "trend": "2024년 트렌드는 '맘침대 연결'과 '성장형 변환'입니다"
-    },
-    "questions": []
+    }
   },
   "baby_sofa": {
     "category_name": "유아소파",
@@ -332,8 +153,7 @@
         "변신: 매트로 펼쳐지는 타입"
       ],
       "trend": "2024년 트렌드는 '항균 소재'와 '캐릭터 디자인'입니다"
-    },
-    "questions": []
+    }
   },
   "baby_desk": {
     "category_name": "유아책상",
@@ -345,8 +165,7 @@
         "수납: 정리정돈 습관 형성"
       ],
       "trend": "2024년 트렌드는 '레고판 포함'과 '접이식'입니다"
-    },
-    "questions": []
+    }
   },
   "nasal_aspirator": {
     "category_name": "코흡입기",
@@ -358,8 +177,7 @@
         "팁: 실리콘 팁이 부드러움"
       ],
       "trend": "2024년 트렌드는 '다단계 흡입력 조절'과 '세척 간편'입니다"
-    },
-    "questions": []
+    }
   },
   "ip_camera": {
     "category_name": "홈캠/IP카메라",
@@ -371,7 +189,6 @@
         "양방향통화: 아기에게 말 걸기"
       ],
       "trend": "2024년 트렌드는 '울음감지 AI'와 '개인정보 보안'입니다"
-    },
-    "questions": []
+    }
   }
 }

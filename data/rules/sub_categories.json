@@ -1,0 +1,107 @@
+{
+  "stroller": {
+    "category_name": "유모차",
+    "require_sub_category": true,
+    "filter_by": "category_code",
+    "sub_categories": [
+      {
+        "code": "16349368",
+        "name": "절충형",
+        "description": "가장 무난한 선택, 다용도",
+        "icon": "package"
+      },
+      {
+        "code": "16349193",
+        "name": "디럭스형",
+        "description": "신생아용, 안정감 최고",
+        "icon": "crown"
+      },
+      {
+        "code": "16349195",
+        "name": "휴대용",
+        "description": "가볍고 접기 편한",
+        "icon": "backpack"
+      },
+      {
+        "code": "16349196",
+        "name": "쌍둥이용",
+        "description": "두 아이 동시에",
+        "icon": "users"
+      }
+    ]
+  },
+  "car_seat": {
+    "category_name": "카시트",
+    "require_sub_category": true,
+    "filter_by": "category_code",
+    "sub_categories": [
+      {
+        "code": "16349200",
+        "name": "일체형",
+        "description": "신생아~유아까지 통합",
+        "icon": "shield"
+      },
+      {
+        "code": "16349201",
+        "name": "분리형",
+        "description": "바구니 분리 가능",
+        "icon": "layers"
+      },
+      {
+        "code": "16349202",
+        "name": "바구니형",
+        "description": "신생아 전용, 이동 편리",
+        "icon": "shopping-basket"
+      },
+      {
+        "code": "16353763",
+        "name": "부스터형",
+        "description": "유아~주니어용",
+        "icon": "arrow-up"
+      }
+    ]
+  },
+  "diaper": {
+    "category_name": "기저귀",
+    "require_sub_category": true,
+    "filter_by": "category_code",
+    "sub_categories": [
+      {
+        "code": "16349108",
+        "name": "하기스",
+        "description": "국민 기저귀, 다양한 라인업",
+        "icon": "star"
+      },
+      {
+        "code": "16349109",
+        "name": "팸퍼스",
+        "description": "글로벌 브랜드, 부드러운 촉감",
+        "icon": "heart"
+      },
+      {
+        "code": "16356038",
+        "name": "마미포코",
+        "description": "가성비 좋은 선택",
+        "icon": "coin"
+      },
+      {
+        "code": "16349110",
+        "name": "보솜이",
+        "description": "순한 소재, 민감성 피부",
+        "icon": "leaf"
+      },
+      {
+        "code": "16356040",
+        "name": "나비잠",
+        "description": "밤새 보송보송",
+        "icon": "moon"
+      },
+      {
+        "code": "16356042",
+        "name": "기타 브랜드",
+        "description": "다양한 브랜드 탐색",
+        "icon": "dots-three"
+      }
+    ]
+  }
+}
