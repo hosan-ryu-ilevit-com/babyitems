@@ -55,10 +55,10 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
       </div>
 
       {/* 설명 */}
-      <h3 className="text-base font-bold text-gray-900 leading-snug">
-        이것만큼은 절대 안 된다!
+      <h3 className="text-base font-bold text-gray-900 leading-6">
+        이것만큼은 절대 안 된다! 
         <br />
-        <span className="text-rose-500 font-normal text-sm">
+        <span className="text-gray-500 font-normal text-sm mt-2">
           꼭 피하고 싶은 단점이 있나요?
         </span>
       </h3>
@@ -77,10 +77,10 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.03 }}
               onClick={() => onToggle(option.target_rule_key)}
-              className={`w-full p-3.5 rounded-xl border-2 text-left transition-all ${
+              className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                 isSelected
-                  ? 'border-rose-300 bg-rose-100'
-                  : 'border-transparent bg-gray-100 hover:bg-gray-200'
+                  ? 'border-rose-400 bg-rose-50'
+                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -126,10 +126,10 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               onClick={() => onToggle(option.target_rule_key)}
-              className={`w-full p-3.5 rounded-xl border-2 text-left transition-all ${
+              className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                 isSelected
-                  ? 'border-rose-300 bg-rose-100'
-                  : 'border-transparent bg-gray-100 hover:bg-gray-200'
+                  ? 'border-rose-400 bg-rose-50'
+                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -177,7 +177,7 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
           {!showCustomInput ? (
             <button
               onClick={() => setShowCustomInput(true)}
-              className="w-full p-3 rounded-xl border-2 border-dashed border-gray-300 text-gray-500 hover:border-gray-400 hover:text-gray-600 transition-all text-sm flex items-center justify-center gap-2"
+              className="w-full p-4 rounded-xl border-2 border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-600 transition-all text-sm flex items-center justify-center gap-2"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />

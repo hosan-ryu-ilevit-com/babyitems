@@ -26,7 +26,7 @@ export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualPr
         className="bg-white rounded-2xl border border-blue-100 p-5"
       >
         <p className="text-[15px] text-gray-600 font-medium animate-pulse">
-          선택 분석하는중...
+          조건을 분석하는 중입니다...
         </p>
       </motion.div>
     );

@@ -10,6 +10,16 @@ import { TextWithCitations } from '@/components/ReviewCitationButton';
 import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
 
+// V2 조건 충족도 평가 타입
+interface V2ConditionEvaluation {
+  condition: string;
+  conditionType: 'hardFilter' | 'balance' | 'negative';
+  status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';
+  evidence: string;
+  tradeoff?: string;
+  questionId?: string;  // 하드필터 질문 ID (같은 질문 내 옵션 그룹화용)
+}
+
 interface ProductDetailModalProps {
   productData: {
     product: {
@@ -49,6 +59,55 @@ interface ProductDetailModalProps {
   onClose: () => void;
   onReRecommend?: (productId: string, userInput: string) => Promise<void>; // NEW: Callback for re-recommendation
   isAnalysisLoading?: boolean; // NEW: 백그라운드 분석 로딩 상태
+  // V2 조건 충족도 평가 (recommend-v2 플로우용)
+  selectedConditionsEvaluation?: V2ConditionEvaluation[];
+  // 초기 평균 별점 (PLP에서 전달받음)
+  initialAverageRating?: number;
+}
+
+// 쇼핑몰 이름 → 로고 파일 매핑
+const MALL_LOGO_MAP: Record<string, string> = {
+  'G마켓': 'gmarket',
+  '지마켓': 'gmarket',
+  '옥션': 'auction',
+  '쿠팡': 'coupang',
+  '11번가': '11',
+  '네이버': 'naver',
+  '네이버쇼핑': 'naver',
+  'SSG': 'ssg',
+  'SSG닷컴': 'ssg',
+  '쓱닷컴': 'ssg',
+  '롯데ON': 'lotteon',
+  '롯데온': 'lotteon',
+  '이마트': 'emart',
+  '이마트몰': 'emart',
+  '하이마트': 'himart',
+  '현대Hmall': 'hmall',
+  'Hmall': 'hmall',
+  '오늘의집': 'bucketplace',
+  'LG전자': 'lg',
+  'LG': 'lg',
+  '삼성전자': 'samsung',
+  '삼성': 'samsung',
+  '신세계몰': 'shinsegaemall',
+  'NS홈쇼핑': 'nsmall',
+  'NS몰': 'nsmall',
+  'SK스토아': 'skstoa',
+  '홈쇼핑': 'homeshopping',
+};
+
+function getMallLogoPath(mallName: string): string | null {
+  // 정확한 매칭 먼저 시도
+  if (MALL_LOGO_MAP[mallName]) {
+    return `/icons/malls/name=${MALL_LOGO_MAP[mallName]}.png`;
+  }
+  // 부분 매칭 시도
+  for (const [key, value] of Object.entries(MALL_LOGO_MAP)) {
+    if (mallName.includes(key) || key.includes(mallName)) {
+      return `/icons/malls/name=${value}.png`;
+    }
+  }
+  return null;
 }
 
 // 마크다운 볼드 처리
@@ -112,7 +171,7 @@ function CircularProgress({ score, total, color, size = 40 }: { score: number; t
   );
 }
 
-export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation }: ProductDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
   const [reviews, setReviews] = useState<Review[]>([]);
   const [sortBy, setSortBy] = useState<'rating_desc' | 'rating_asc'>('rating_desc');
@@ -241,7 +300,8 @@ export default function ProductDetailModal({ productData, productComparisons, ca
         {/* Scrollable Content Area */}
         <div className="flex-1 overflow-y-auto">
           {/* Thumbnail */}
-          <div className="relative w-full aspect-square bg-gray-100">
+          <div className="px-4 pt-4">
+            <div className="relative w-full aspect-square bg-gray-100 rounded-xl overflow-hidden">
           {/* Background image with optional overlay when chat is shown */}
           {productData.product.thumbnail ? (
             <Image
@@ -313,7 +373,8 @@ export default function ProductDetailModal({ productData, productComparisons, ca
               </svg>
             </button>
           )}
-        </div>
+            </div>
+          </div>
 
         {/* Product Info */}
         <div className="px-4 py-4 border-b border-gray-100">
@@ -322,24 +383,18 @@ export default function ProductDetailModal({ productData, productComparisons, ca
             {productData.product.brand && (
               <div className="text-sm text-gray-500">{productData.product.brand}</div>
             )}
-            <div className="flex items-center gap-1.5">
-              <div className="flex items-center">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <svg
-                    key={star}
-                    className={`w-4 h-4 ${star <= Math.floor(averageRating) ? 'text-yellow-400' : 'text-gray-300'}`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
+            {/* 평균별점 또는 리뷰개수가 있을 때만 표시 */}
+            {(averageRating > 0 || productData.product.reviewCount > 0) && (
+              <div className="flex items-center gap-1">
+                <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span className="text-sm font-semibold text-gray-900">
+                  {averageRating > 0 ? averageRating.toFixed(1) : '—'}
+                </span>
+                <span className="text-sm text-gray-500">({productData.product.reviewCount.toLocaleString()})</span>
               </div>
-              <span className="text-sm font-semibold text-gray-900">
-                {averageRating > 0 ? averageRating.toFixed(1) : '—'}
-              </span>
-              <span className="text-sm text-gray-500">({productData.product.reviewCount.toLocaleString()})</span>
-            </div>
+            )}
           </div>
           <h2 className="text-lg font-bold text-gray-900 mb-3 leading-snug">
             {productData.product.title}
@@ -358,94 +413,133 @@ export default function ProductDetailModal({ productData, productComparisons, ca
             </div>
           )}
 
-          {/* 가격 비교 토글 */}
+          {/* 가격 비교 */}
           {danawaData && danawaData.prices.length > 0 && (
-            <div className="bg-gray-50 rounded-lg">
-              <button
-                onClick={() => {
-                  setShowPriceComparison(!showPriceComparison);
-                  logButtonClick(showPriceComparison ? '가격 비교 닫기' : '가격 비교 열기', 'product-modal');
-                }}
-                className="w-full py-3 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
-              >
-                <div className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
-                  </svg>
-                  <div className="text-left">
-                    <h3 className="text-sm font-bold text-gray-900">가격 비교 ({danawaData.prices.length}개 쇼핑몰)</h3>
-                    <p className="text-xs text-gray-500 line-clamp-1">{danawaData.productName || '다나와 실시간 가격'}</p>
-                  </div>
-                </div>
-                <svg
-                  className={`w-4 h-4 text-gray-600 transition-transform ${showPriceComparison ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            <div className="space-y-2">
+              {/* 기본 3개 표시 */}
+              {danawaData.prices.slice(0, 3).map((priceInfo, index) => (
+                <a
+                  key={index}
+                  href={priceInfo.link || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal')}
+                  className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+                  {/* 쇼핑몰 아이콘 */}
+                  <div className="w-7 h-7 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+                    {getMallLogoPath(priceInfo.mall) ? (
+                      <Image
+                        src={getMallLogoPath(priceInfo.mall)!}
+                        alt={priceInfo.mall}
+                        width={28}
+                        height={28}
+                        className="object-contain"
+                      />
+                    ) : (
+                      <span className="text-xs font-bold text-gray-500">
+                        {priceInfo.mall.slice(0, 2)}
+                      </span>
+                    )}
+                  </div>
 
-              {/* 가격 비교 리스트 (토글) */}
-              <AnimatePresence>
+                  {/* 쇼핑몰 정보 */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-sm text-gray-900">{priceInfo.mall}</span>
+                      <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
+                    </div>
+                  </div>
+
+                  {/* 가격 + 화살표 */}
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className={`text-m font-bold ${index === 0 ? 'text-red-500' : 'text-gray-900'}`}>
+                      {priceInfo.price.toLocaleString()}원
+                    </span>
+                    <div className="w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center">
+                      <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              ))}
+
+              {/* 추가 판매처 (애니메이션) */}
+              <AnimatePresence initial={false}>
                 {showPriceComparison && (
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="space-y-2 overflow-hidden"
                   >
-                    <div className="px-3 pb-3">
-                      <div className="bg-white rounded-xl border border-gray-200">
-                        {danawaData.prices.slice(0, 10).map((priceInfo, index) => (
-                          <div
-                            key={index}
-                            className={`flex items-center justify-between p-3 ${
-                              index !== danawaData.prices.slice(0, 10).length - 1 ? 'border-b border-gray-100' : ''
-                            }`}
-                          >
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="font-semibold text-sm text-gray-900">{priceInfo.mall}</span>
-                                {index === 0 && (
-                                  <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-bold rounded">
-                                    최저가
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-xs text-gray-500">{priceInfo.delivery}</p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-base font-bold text-gray-900">
-                                {priceInfo.price.toLocaleString()}원
-                              </span>
-                              {priceInfo.link && (
-                                <a
-                                  href={priceInfo.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={() => logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal')}
-                                  className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors"
-                                >
-                                  바로가기
-                                </a>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      {danawaData.prices.length > 10 && (
-                        <div className="text-center pt-2 text-xs text-gray-500">
-                          상위 10개 쇼핑몰만 표시됩니다
+                    {danawaData.prices.slice(3, 10).map((priceInfo, index) => (
+                      <a
+                        key={index + 3}
+                        href={priceInfo.link || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal')}
+                        className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors"
+                      >
+                        {/* 쇼핑몰 아이콘 */}
+                        <div className="w-7 h-7 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+                          {getMallLogoPath(priceInfo.mall) ? (
+                            <Image
+                              src={getMallLogoPath(priceInfo.mall)!}
+                              alt={priceInfo.mall}
+                              width={28}
+                              height={28}
+                              className="object-contain"
+                            />
+                          ) : (
+                            <span className="text-xs font-bold text-gray-500">
+                              {priceInfo.mall.slice(0, 2)}
+                            </span>
+                          )}
                         </div>
-                      )}
-                    </div>
+
+                        {/* 쇼핑몰 정보 */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-sm text-gray-900">{priceInfo.mall}</span>
+                            <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
+                          </div>
+                        </div>
+
+                        {/* 가격 + 화살표 */}
+                        <div className="flex items-center gap-3 shrink-0">
+                          <span className="text-m font-bold text-gray-900">
+                            {priceInfo.price.toLocaleString()}원
+                          </span>
+                          <div className="w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center">
+                            <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              {/* 판매처 더보기 버튼 */}
+              {danawaData.prices.length > 3 && (
+                <div className="flex justify-center pt-2">
+                  <button
+                    onClick={() => {
+                      setShowPriceComparison(!showPriceComparison);
+                      logButtonClick(showPriceComparison ? '판매처 접기' : '판매처 더보기', 'product-modal');
+                    }}
+                    className="px-5 py-2 bg-black/60 rounded-full text-sm font-medium text-white hover:bg-gray-600 transition-colors"
+                  >
+                    {showPriceComparison ? '판매처 접기' : '판매처 더보기'}
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -663,6 +757,239 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                           </div>
                         )}
                       </div>
+                    </div>
+                  );
+                })()}
+
+                {/* V2 조건 충족도 평가 (recommend-v2 플로우용) - 로딩 중이거나 데이터가 있을 때 표시 */}
+                {(isAnalysisLoading || (selectedConditionsEvaluation && selectedConditionsEvaluation.length > 0)) && (() => {
+                  // 로딩 중이면 로딩 인디케이터 표시
+                  if (isAnalysisLoading && (!selectedConditionsEvaluation || selectedConditionsEvaluation.length === 0)) {
+                    return (
+                      <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                          <span className="text-sm text-gray-600 font-medium">조건 충족도 분석 중...</span>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (!selectedConditionsEvaluation || selectedConditionsEvaluation.length === 0) {
+                    return null;
+                  }
+                  // 조건 타입별 분리
+                  const hardFilterConditionsRaw = selectedConditionsEvaluation.filter(c => c.conditionType === 'hardFilter');
+                  const balanceConditions = selectedConditionsEvaluation.filter(c => c.conditionType === 'balance');
+                  const negativeConditions = selectedConditionsEvaluation.filter(c => c.conditionType === 'negative');
+
+                  // 하드 필터: 같은 questionId를 가진 조건들 중 충족된 것만 표시
+                  // (OR 조건이므로 하나라도 충족하면 나머지 불충족은 표시 안 함)
+                  const hardFilterConditions = (() => {
+                    // questionId가 없는 조건들은 그대로 유지
+                    const withoutQuestionId = hardFilterConditionsRaw.filter(c => !c.questionId);
+
+                    // questionId가 있는 조건들을 그룹화
+                    const groupedByQuestion = new Map<string, typeof hardFilterConditionsRaw>();
+                    hardFilterConditionsRaw
+                      .filter(c => c.questionId)
+                      .forEach(c => {
+                        const group = groupedByQuestion.get(c.questionId!) || [];
+                        group.push(c);
+                        groupedByQuestion.set(c.questionId!, group);
+                      });
+
+                    // 각 그룹에서 조건 선택: 충족된 것이 있으면 그것만, 없으면 가장 좋은 상태 하나만
+                    const fromGroups: typeof hardFilterConditionsRaw = [];
+                    groupedByQuestion.forEach(group => {
+                      const satisfied = group.filter(c => c.status === '충족');
+                      if (satisfied.length > 0) {
+                        // 충족된 것만 표시 (불충족은 표시 안 함)
+                        fromGroups.push(...satisfied);
+                      } else {
+                        // 충족된 게 없으면 부분충족이나 불충족 중 하나만 표시
+                        const partial = group.filter(c => c.status === '부분충족');
+                        if (partial.length > 0) {
+                          fromGroups.push(partial[0]);
+                        } else {
+                          fromGroups.push(group[0]);
+                        }
+                      }
+                    });
+
+                    return [...withoutQuestionId, ...fromGroups];
+                  })();
+
+                  // 점수 계산
+                  const hardFilterScore = hardFilterConditions.reduce((sum, c) => {
+                    if (c.status === '충족') return sum + 1.0;
+                    if (c.status === '부분충족') return sum + 0.5;
+                    return sum;
+                  }, 0);
+
+                  const balanceScore = balanceConditions.reduce((sum, c) => {
+                    if (c.status === '충족') return sum + 1.0;
+                    if (c.status === '부분충족') return sum + 0.5;
+                    return sum;
+                  }, 0);
+
+                  const negativeScore = negativeConditions.reduce((sum, c) => {
+                    if (c.status === '개선됨') return sum + 1.0;
+                    if (c.status === '부분개선') return sum + 0.5;
+                    return sum;
+                  }, 0);
+
+                  return (
+                    <div className="space-y-4">
+                      {/* 필수 조건 (하드 필터) */}
+                      {hardFilterConditions.length > 0 && (
+                        <div className="bg-blue-50 rounded-xl p-4">
+                          <div className="flex items-center justify-between mb-4">
+                            <h4 className="text-base font-bold text-blue-900 leading-tight">
+                              필수<br />조건
+                            </h4>
+                            <CircularProgress score={hardFilterScore} total={hardFilterConditions.length} color="blue" />
+                          </div>
+                          <div className="space-y-3">
+                            {hardFilterConditions.map((cond, i) => {
+                              let badgeColor = '';
+                              let badgeText = '';
+
+                              if (cond.status === '충족') {
+                                badgeColor = 'bg-green-100 text-green-700';
+                                badgeText = '충족';
+                              } else if (cond.status === '부분충족') {
+                                badgeColor = 'bg-yellow-100 text-yellow-700';
+                                badgeText = '부분충족';
+                              } else {
+                                badgeColor = 'bg-red-100 text-red-700';
+                                badgeText = '불충족';
+                              }
+
+                              return (
+                                <div key={i} className="pb-3 border-b border-blue-100 last:border-b-0 last:pb-0">
+                                  <div className="flex items-start gap-2 mb-2">
+                                    <strong className="text-sm font-bold text-gray-900 flex-1">
+                                      {cond.condition}
+                                    </strong>
+                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold shrink-0 ${badgeColor}`}>
+                                      {badgeText}
+                                    </span>
+                                  </div>
+                                  <p className="text-sm text-gray-700 leading-relaxed">
+                                    {parseMarkdownBold(cond.evidence)}
+                                  </p>
+                                  {cond.tradeoff && (
+                                    <p className="text-xs text-gray-600 leading-relaxed bg-white rounded p-2 mt-2">
+                                      {parseMarkdownBold(cond.tradeoff)}
+                                    </p>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 선호 속성 (밸런스 게임) */}
+                      {balanceConditions.length > 0 && (
+                        <div className="bg-emerald-50 rounded-xl p-4">
+                          <div className="flex items-center justify-between mb-4">
+                            <h4 className="text-base font-bold text-emerald-900 leading-tight">
+                              선호<br />속성
+                            </h4>
+                            <CircularProgress score={balanceScore} total={balanceConditions.length} color="green" />
+                          </div>
+                          <div className="space-y-3">
+                            {balanceConditions.map((cond, i) => {
+                              let badgeColor = '';
+                              let badgeText = '';
+
+                              if (cond.status === '충족') {
+                                badgeColor = 'bg-green-100 text-green-700';
+                                badgeText = '충족';
+                              } else if (cond.status === '부분충족') {
+                                badgeColor = 'bg-yellow-100 text-yellow-700';
+                                badgeText = '부분충족';
+                              } else {
+                                badgeColor = 'bg-red-100 text-red-700';
+                                badgeText = '불충족';
+                              }
+
+                              return (
+                                <div key={i} className="pb-3 border-b border-emerald-100 last:border-b-0 last:pb-0">
+                                  <div className="flex items-start gap-2 mb-2">
+                                    <strong className="text-sm font-bold text-gray-900 flex-1">
+                                      {cond.condition}
+                                    </strong>
+                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold shrink-0 ${badgeColor}`}>
+                                      {badgeText}
+                                    </span>
+                                  </div>
+                                  <p className="text-sm text-gray-700 leading-relaxed">
+                                    {parseMarkdownBold(cond.evidence)}
+                                  </p>
+                                  {cond.tradeoff && (
+                                    <p className="text-xs text-gray-600 leading-relaxed bg-white rounded p-2 mt-2">
+                                      {parseMarkdownBold(cond.tradeoff)}
+                                    </p>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 피하고 싶은 단점 */}
+                      {negativeConditions.length > 0 && (
+                        <div className="bg-gray-50 rounded-xl p-4">
+                          <div className="flex items-center justify-between mb-4">
+                            <h4 className="text-base font-bold text-gray-700 leading-tight">
+                              피하고 싶은<br />단점
+                            </h4>
+                            <CircularProgress score={negativeScore} total={negativeConditions.length} color="blue" />
+                          </div>
+                          <div className="space-y-3">
+                            {negativeConditions.map((cond, i) => {
+                              let badgeColor = '';
+                              let badgeText = '';
+
+                              if (cond.status === '개선됨') {
+                                badgeColor = 'bg-green-100 text-green-700';
+                                badgeText = '개선됨';
+                              } else if (cond.status === '부분개선') {
+                                badgeColor = 'bg-yellow-100 text-yellow-700';
+                                badgeText = '부분개선';
+                              } else {
+                                badgeColor = 'bg-red-100 text-red-700';
+                                badgeText = '회피안됨';
+                              }
+
+                              return (
+                                <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
+                                  <div className="flex items-start gap-2 mb-2">
+                                    <strong className="text-sm font-bold text-gray-900 flex-1">
+                                      {cond.condition}
+                                    </strong>
+                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold shrink-0 ${badgeColor}`}>
+                                      {badgeText}
+                                    </span>
+                                  </div>
+                                  <p className="text-sm text-gray-700 leading-relaxed">
+                                    {parseMarkdownBold(cond.evidence)}
+                                  </p>
+                                  {cond.tradeoff && (
+                                    <p className="text-xs text-gray-600 leading-relaxed bg-white rounded p-2 mt-2">
+                                      {parseMarkdownBold(cond.tradeoff)}
+                                    </p>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   );
                 })()}

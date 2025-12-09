@@ -49,6 +49,7 @@ export const STEP_LABELS: Record<FlowStep, string> = {
 
 export interface HardFilterOption {
   label: string;
+  displayLabel?: string;  // 결과 페이지용 레이블 (맥락 포함)
   value: string;
   filter?: Record<string, unknown>;
   category_code?: string;
@@ -58,6 +59,7 @@ export interface HardFilterQuestion {
   id: string;
   type: 'single' | 'multi';
   question: string;
+  tip?: string;  // 질문에 대한 도움말 (사용자 이해를 돕는 짧은 설명)
   options: HardFilterOption[];
 }
 
@@ -373,6 +375,8 @@ export interface V2ResultProduct extends ScoredProduct {
     label: string;
     value: string;
   }>;
+  // LLM 생성 추천 이유 (선택적)
+  recommendationReason?: string;
 }
 
 export interface V2ResultPageState {

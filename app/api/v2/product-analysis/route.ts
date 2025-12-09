@@ -29,6 +29,10 @@ interface UserContext {
   hardFilterAnswers?: Record<string, string[]>;
   balanceSelections?: string[];
   negativeSelections?: string[];
+  // Rule key / value → Korean label mappings
+  balanceLabels?: Record<string, string>;
+  negativeLabels?: Record<string, string>;
+  hardFilterLabels?: Record<string, string>;
 }
 
 // 요청 타입
@@ -38,12 +42,23 @@ interface ProductAnalysisRequest {
   userContext?: UserContext;
 }
 
+// 조건 충족도 평가 항목 타입
+interface ConditionEvaluation {
+  condition: string;           // 원본 조건 텍스트
+  conditionType: 'hardFilter' | 'balance' | 'negative';  // 조건 유형
+  status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';  // 평가 상태
+  evidence: string;            // 평가 근거
+  tradeoff?: string;           // 트레이드오프 설명 (선택)
+  questionId?: string;         // 하드필터 질문 ID (같은 질문 내 옵션 그룹화용)
+}
+
 // 제품 분석 결과 타입
 interface ProductAnalysis {
   pcode: string;
   additionalPros: Array<{ text: string; citations: number[] }>;
   cons: Array<{ text: string; citations: number[] }>;
   purchaseTip: Array<{ text: string; citations: number[] }>;
+  selectedConditionsEvaluation?: ConditionEvaluation[];  // V2 조건 충족도 평가
 }
 
 // 응답 타입
@@ -80,13 +95,86 @@ async function analyzeProduct(
   const categoryPros = insights.pros.slice(0, 5).map(p => p.text).join('\n');
   const categoryCons = insights.cons.slice(0, 5).map(c => `${c.text}${c.deal_breaker_for ? ` (치명적: ${c.deal_breaker_for})` : ''}`).join('\n');
 
-  // 사용자 선택 요약
-  const userPrefs = userContext.balanceSelections?.length
-    ? `사용자 선호: ${userContext.balanceSelections.join(', ')}`
-    : '';
-  const userAvoid = userContext.negativeSelections?.length
-    ? `사용자가 피하고 싶은 것: ${userContext.negativeSelections.join(', ')}`
-    : '';
+  // 사용자 선택 조건들 준비 (한국어 레이블 사용, 'any' 제외)
+  // questionId를 포함하여 같은 질문 내 옵션들을 그룹화할 수 있게 함
+  const hardFilterLabels = userContext.hardFilterLabels || {};
+  const hardFilterConditions: Array<{ questionId: string; label: string }> = [];
+  if (userContext.hardFilterAnswers) {
+    Object.entries(userContext.hardFilterAnswers).forEach(([questionId, values]) => {
+      if (Array.isArray(values)) {
+        values.forEach(v => {
+          // Skip 'any' (상관없어요) - 실제 필터링 조건이 아님
+          if (v === 'any') return;
+          // Use Korean label from mapping if available
+          const label = hardFilterLabels[v] || v;
+          hardFilterConditions.push({ questionId, label });
+        });
+      } else if (typeof values === 'string') {
+        // Skip 'any' (상관없어요)
+        if (values === 'any') return;
+        const label = hardFilterLabels[values] || values;
+        hardFilterConditions.push({ questionId, label });
+      }
+    });
+  }
+
+  // Convert rule_keys to Korean labels using the mappings
+  const balanceLabels = userContext.balanceLabels || {};
+  const negativeLabels = userContext.negativeLabels || {};
+
+  const balanceConditions = (userContext.balanceSelections || []).map(
+    ruleKey => balanceLabels[ruleKey] || ruleKey.replace('체감속성_', '').replace(/_/g, ' ')
+  );
+  const negativeConditions = (userContext.negativeSelections || []).map(
+    ruleKey => negativeLabels[ruleKey] || ruleKey.replace(/_/g, ' ')
+  );
+
+  const hasUserConditions = hardFilterConditions.length > 0 || balanceConditions.length > 0 || negativeConditions.length > 0;
+
+  // 조건 평가 섹션 (조건이 있을 때만)
+  const conditionEvaluationSection = hasUserConditions ? `
+## 사용자 선택 조건
+${hardFilterConditions.length > 0 ? `### 필수 조건 (하드 필터)
+${hardFilterConditions.map((c, i) => `${i + 1}. ${c.label}`).join('\n')}` : ''}
+
+${balanceConditions.length > 0 ? `### 선호 속성 (밸런스 게임 선택)
+${balanceConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
+
+${negativeConditions.length > 0 ? `### 피하고 싶은 단점
+${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
+
+## 조건 충족도 평가 요청
+위 사용자 조건들에 대해 이 제품이 얼마나 충족하는지 평가해주세요:
+- **필수 조건/선호 속성**: "충족" (완벽히 만족) | "부분충족" (일부 만족) | "불충족" (만족 안 함)
+- **피하고 싶은 단점**: "개선됨" (단점 없음) | "부분개선" (일부 단점 있음) | "회피안됨" (단점 존재)
+` : '';
+
+  const conditionEvaluationFormat = hasUserConditions ? `
+  "selectedConditionsEvaluation": [
+    // 필수 조건 평가 (${hardFilterConditions.length}개)
+    ${hardFilterConditions.map(c => `{
+      "condition": "${c.label}",
+      "conditionType": "hardFilter",
+      "questionId": "${c.questionId}",
+      "status": "충족|부분충족|불충족",
+      "evidence": "구체적 근거..."
+    }`).join(',\n    ')}${hardFilterConditions.length > 0 && balanceConditions.length > 0 ? ',' : ''}
+    // 선호 속성 평가 (${balanceConditions.length}개)
+    ${balanceConditions.map(c => `{
+      "condition": "${c}",
+      "conditionType": "balance",
+      "status": "충족|부분충족|불충족",
+      "evidence": "구체적 근거..."
+    }`).join(',\n    ')}${(hardFilterConditions.length > 0 || balanceConditions.length > 0) && negativeConditions.length > 0 ? ',' : ''}
+    // 피하고 싶은 단점 평가 (${negativeConditions.length}개)
+    ${negativeConditions.map(c => `{
+      "condition": "${c}",
+      "conditionType": "negative",
+      "status": "개선됨|부분개선|회피안됨",
+      "evidence": "구체적 근거...",
+      "tradeoff": "(선택) 트레이드오프 설명"
+    }`).join(',\n    ')}
+  ],` : '';
 
   const prompt = `당신은 ${categoryName} 전문 리뷰어입니다.
 아래 제품에 대해 실제 사용자 관점에서 분석해주세요.
@@ -103,19 +191,16 @@ ${categoryPros}
 
 ## 이 카테고리의 주요 단점/우려사항
 ${categoryCons}
-
-${userPrefs}
-${userAvoid}
-
+${conditionEvaluationSection}
 ## 분석 요청
 제품 스펙과 카테고리 특성을 고려하여 다음을 작성해주세요:
 
-1. **추가 장점 (additionalPros)**: 스펙에서 유추할 수 있는 이 제품만의 추가 장점 2-3개
-2. **주의점 (cons)**: 이 제품 사용 시 주의해야 할 점 2-3개 (스펙 기반 추론)
-3. **구매 팁 (purchaseTip)**: 구매 전 확인해야 할 사항 1-2개
+${hasUserConditions ? '1. **조건 충족도 평가 (selectedConditionsEvaluation)**: 사용자가 선택한 조건들에 대한 충족 여부 평가\n' : ''}${hasUserConditions ? '2' : '1'}. **추가 장점 (additionalPros)**: 스펙에서 유추할 수 있는 이 제품만의 추가 장점 2-3개
+${hasUserConditions ? '3' : '2'}. **주의점 (cons)**: 이 제품 사용 시 주의해야 할 점 2-3개 (스펙 기반 추론)
+${hasUserConditions ? '4' : '3'}. **구매 팁 (purchaseTip)**: 구매 전 확인해야 할 사항 1-2개
 
 ## 응답 JSON 형식
-{
+{${conditionEvaluationFormat}
   "additionalPros": [
     { "text": "장점 설명 (구체적으로)", "citations": [] }
   ],
@@ -132,6 +217,10 @@ ${userAvoid}
 - 일반적인 내용이 아닌 이 제품에 특화된 내용으로
 - 사용자 관점에서 실용적인 정보 위주로
 - citations는 빈 배열로 (리뷰 인용 없음)
+${hasUserConditions ? `- selectedConditionsEvaluation은 사용자가 선택한 조건 총 ${hardFilterConditions.length + balanceConditions.length + negativeConditions.length}개를 모두 평가해야 합니다
+- evidence에는 핵심 키워드를 **볼드** 처리해주세요
+- 필수 조건/선호 속성: status는 "충족", "부분충족", "불충족" 중 하나
+- 피하고 싶은 단점: status는 "개선됨", "부분개선", "회피안됨" 중 하나` : ''}
 
 JSON만 응답하세요.`;
 
@@ -142,6 +231,7 @@ JSON만 응답하세요.`;
       additionalPros?: Array<{ text: string; citations: number[] }>;
       cons?: Array<{ text: string; citations: number[] }>;
       purchaseTip?: Array<{ text: string; citations: number[] }>;
+      selectedConditionsEvaluation?: ConditionEvaluation[];
     };
 
     return {
@@ -149,18 +239,19 @@ JSON만 응답하세요.`;
       additionalPros: parsed.additionalPros || [],
       cons: parsed.cons || [],
       purchaseTip: parsed.purchaseTip || [],
+      selectedConditionsEvaluation: parsed.selectedConditionsEvaluation || [],
     };
   } catch (error) {
     console.error(`[product-analysis] Failed to analyze ${product.pcode}:`, error);
     // Fallback: 카테고리 인사이트 기반 기본 응답
-    return generateFallbackAnalysis(product, insights);
+    return generateFallbackAnalysis(product, insights, userContext);
   }
 }
 
 /**
  * Fallback 분석 생성
  */
-function generateFallbackAnalysis(product: ProductInfo, insights: CategoryInsights): ProductAnalysis {
+function generateFallbackAnalysis(product: ProductInfo, insights: CategoryInsights, userContext: UserContext = {}): ProductAnalysis {
   // 카테고리 장점에서 랜덤하게 2개 선택
   const additionalPros = insights.pros.slice(0, 2).map(p => ({
     text: p.text,
@@ -178,11 +269,59 @@ function generateFallbackAnalysis(product: ProductInfo, insights: CategoryInsigh
     { text: '구매 전 실제 사용 리뷰를 확인해보세요.', citations: [] },
   ];
 
+  // Fallback 조건 평가 생성
+  const selectedConditionsEvaluation: ConditionEvaluation[] = [];
+
+  // 하드 필터 조건 (한국어 레이블 사용, 'any' 제외)
+  const hardFilterLabels = userContext.hardFilterLabels || {};
+  if (userContext.hardFilterAnswers) {
+    Object.entries(userContext.hardFilterAnswers).forEach(([questionId, values]) => {
+      const conditionValues = Array.isArray(values) ? values : [values];
+      conditionValues.forEach(v => {
+        // Skip 'any' (상관없어요) - 실제 필터링 조건이 아님
+        if (v === 'any') return;
+        const label = hardFilterLabels[v] || v;
+        selectedConditionsEvaluation.push({
+          condition: label,
+          conditionType: 'hardFilter',
+          questionId,  // 같은 질문 내 옵션 그룹화용
+          status: '부분충족',
+          evidence: '스펙 정보로 정확한 확인이 어렵습니다. 상세 스펙을 확인해주세요.',
+        });
+      });
+    });
+  }
+
+  // 밸런스 게임 선택 (한국어 레이블 사용)
+  const balanceLabels = userContext.balanceLabels || {};
+  userContext.balanceSelections?.forEach(ruleKey => {
+    const label = balanceLabels[ruleKey] || ruleKey.replace('체감속성_', '').replace(/_/g, ' ');
+    selectedConditionsEvaluation.push({
+      condition: label,
+      conditionType: 'balance',
+      status: '부분충족',
+      evidence: '스펙 정보로 정확한 확인이 어렵습니다. 상세 스펙을 확인해주세요.',
+    });
+  });
+
+  // 피하고 싶은 단점 (한국어 레이블 사용)
+  const negativeLabels = userContext.negativeLabels || {};
+  userContext.negativeSelections?.forEach(ruleKey => {
+    const label = negativeLabels[ruleKey] || ruleKey.replace(/_/g, ' ');
+    selectedConditionsEvaluation.push({
+      condition: label,
+      conditionType: 'negative',
+      status: '부분개선',
+      evidence: '스펙 정보로 정확한 확인이 어렵습니다. 상세 스펙을 확인해주세요.',
+    });
+  });
+
   return {
     pcode: product.pcode,
     additionalPros,
     cons,
     purchaseTip,
+    selectedConditionsEvaluation,
   };
 }
 

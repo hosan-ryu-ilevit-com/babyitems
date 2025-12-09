@@ -199,10 +199,12 @@ export function HardFilterQuestion({
         {question.question}
       </h3>
 
-      {/* 다중 선택 안내 */}
-      <p className="text-xs text-gray-500">
-        복수 선택 가능해요
-      </p>
+      {/* 도움말 팁 */}
+      {question.tip && (
+        <p className="text-sm text-gray-500 -mt-2">
+          {question.tip}
+        </p>
+      )}
 
       {/* 선택지 */}
       <div className="space-y-2">

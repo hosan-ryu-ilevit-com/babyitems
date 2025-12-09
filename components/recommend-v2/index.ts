@@ -7,6 +7,7 @@ export { CheckpointVisual } from './CheckpointVisual';
 export { NaturalLanguageInput } from './NaturalLanguageInput';
 export { BalanceGameCard } from './BalanceGameCard';
 export { BalanceGameCarousel } from './BalanceGameCarousel';
+export type { BalanceGameCarouselRef } from './BalanceGameCarousel';
 export { NegativeFilterList } from './NegativeFilterList';
 export { BudgetSlider } from './BudgetSlider';
 export { ResultCards } from './ResultCards';

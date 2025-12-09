@@ -5,19 +5,23 @@
         "id": "ipcam_resolution",
         "type": "single",
         "question": "화질이 얼마나 중요하세요?",
+        "tip": "500만 화소면 아기 눈 뜬 것까지 선명하게 보여요",
         "options": [
           {
             "label": "500만 화소 이상 (가장 선명)",
+            "displayLabel": "500만 화소 이상",
             "value": "500mp",
             "filter": { "spec.features": { "contains": "500만" } }
           },
           {
             "label": "400만 화소면 충분해요",
+            "displayLabel": "400만 화소",
             "value": "400mp",
             "filter": { "spec.features": { "contains": "400만" } }
           },
           {
             "label": "상관없어요",
+            "displayLabel": "화질 무관",
             "value": "any",
             "filter": {}
           }
@@ -27,14 +31,17 @@
         "id": "ipcam_rotation",
         "type": "single",
         "question": "360도 회전 기능이 필요하세요?",
+        "tip": "아기가 뒤척여도 카메라가 따라가며 놓치지 않아요",
         "options": [
           {
             "label": "네, 방 전체를 볼 수 있어야 해요",
+            "displayLabel": "360도 회전 필요",
             "value": "rotation_yes",
             "filter": { "spec.features": { "contains": "360" } }
           },
           {
             "label": "아니요, 한 방향만 봐도 돼요",
+            "displayLabel": "회전 불필요",
             "value": "rotation_no",
             "filter": {}
           }
@@ -44,14 +51,17 @@
         "id": "ipcam_twoway",
         "type": "single",
         "question": "양방향 대화 기능이 필요하세요?",
+        "tip": "설거지 중에도 아기에게 목소리를 들려줄 수 있어요",
         "options": [
           {
             "label": "네, 아이에게 말 걸고 싶어요",
+            "displayLabel": "양방향 대화 필요",
             "value": "twoway_yes",
             "filter": { "spec.features": { "contains": "양방향통화" } }
           },
           {
             "label": "아니요, 모니터링만 하면 돼요",
+            "displayLabel": "모니터링만",
             "value": "twoway_no",
             "filter": {}
           }
@@ -61,14 +71,17 @@
         "id": "ipcam_nightvision",
         "type": "single",
         "question": "야간 촬영이 중요하세요?",
+        "tip": "적외선 모드로 암막 커튼 상태에서도 아기 호흡이 보여요",
         "options": [
           {
             "label": "네, 밤에 아이 보는 게 주 목적이에요",
+            "displayLabel": "야간 촬영 중요",
             "value": "night_yes",
             "filter": { "spec.features": { "contains": "적외선" } }
           },
           {
             "label": "상관없어요",
+            "displayLabel": "야간 촬영 무관",
             "value": "night_any",
             "filter": {}
           }
@@ -82,19 +95,23 @@
         "id": "pacifier_type",
         "type": "single",
         "question": "어떤 타입을 찾으세요?",
+        "tip": "올실리콘은 물고임 없이 위생적이고, 일반형은 가볍고 저렴해요",
         "options": [
           {
             "label": "올실리콘 (세척 편함, 위생적)",
+            "displayLabel": "올실리콘",
             "value": "all_silicone",
             "filter": { "title": { "contains": "올실리콘" } }
           },
           {
             "label": "일반 노리개젖꼭지",
+            "displayLabel": "일반형",
             "value": "normal",
             "filter": { "spec.type": "노리개젖꼭지" }
           },
           {
             "label": "상관없어요",
+            "displayLabel": "타입 무관",
             "value": "any",
             "filter": {}
           }
@@ -104,14 +121,17 @@
         "id": "pacifier_glow",
         "type": "single",
         "question": "야광 기능이 필요하세요?",
+        "tip": "밤중에 떨어뜨려도 바로 찾을 수 있어 편해요",
         "options": [
           {
             "label": "네, 밤에 찾기 쉬워야 해요",
+            "displayLabel": "야광 기능 필요",
             "value": "glow_yes",
             "filter": { "title": { "contains": "야광" } }
           },
           {
             "label": "아니요, 없어도 돼요",
+            "displayLabel": "야광 불필요",
             "value": "glow_no",
             "filter": {}
           }
@@ -121,14 +141,17 @@
         "id": "pacifier_set",
         "type": "single",
         "question": "세트 구성을 원하세요?",
+        "tip": "자주 잃어버리니 여유 있게 준비해두면 편해요",
         "options": [
           {
             "label": "네, 여러 개 세트로 구매할래요",
+            "displayLabel": "세트 구성",
             "value": "set_yes",
             "filter": { "title": { "contains": "세트" } }
           },
           {
             "label": "단품으로 하나만 살래요",
+            "displayLabel": "단품",
             "value": "set_no",
             "filter": {}
           }
@@ -142,19 +165,23 @@
         "id": "thermo_type",
         "type": "single",
         "question": "어떤 타입을 원하세요?",
+        "tip": "비접촉식은 빠르고 편해요. 귀 체온계는 정확도가 더 높아요",
         "options": [
           {
             "label": "비접촉식 (이마에 대지 않고)",
+            "displayLabel": "비접촉식",
             "value": "non_contact",
             "filter": { "spec.features": { "contains": "비접촉" } }
           },
           {
             "label": "귀 체온계 (정확도 높음)",
+            "displayLabel": "귀 체온계",
             "value": "ear",
             "filter": { "spec.type": { "contains": "귀체온계" } }
           },
           {
             "label": "상관없어요",
+            "displayLabel": "타입 무관",
             "value": "any",
             "filter": {}
           }
@@ -164,14 +191,17 @@
         "id": "thermo_brand",
         "type": "single",
         "question": "브랜드 선호도가 있으세요?",
+        "tip": "브라운은 병원에서도 많이 쓰는 신뢰도 높은 브랜드예요",
         "options": [
           {
             "label": "브라운 (병원급 정확도)",
+            "displayLabel": "브라운",
             "value": "braun",
             "filter": { "brand": "브라운" }
           },
           {
             "label": "상관없어요",
+            "displayLabel": "브랜드 무관",
             "value": "any",
             "filter": {}
           }
@@ -185,14 +215,17 @@
         "id": "nasal_type",
         "type": "single",
         "question": "어떤 방식을 원하세요?",
+        "tip": "전동식은 버튼만 누르면 되고, 수동식은 힘 조절이 자유로워요",
         "options": [
           {
             "label": "전동식 (강력 흡입)",
+            "displayLabel": "전동식",
             "value": "electric",
             "filter": { "title": { "contains": "전동" } }
           },
           {
             "label": "수동식 (휴대 간편)",
+            "displayLabel": "수동식",
             "value": "manual",
             "filter": {}
           }
@@ -202,19 +235,23 @@
         "id": "nasal_brand",
         "type": "single",
         "question": "브랜드 선호도가 있으세요?",
+        "tip": "노시부는 병원 수준의 프리미엄, 휴비딕은 가성비 좋아요",
         "options": [
           {
             "label": "노시부 (병원 사용)",
+            "displayLabel": "노시부",
             "value": "nosiboo",
             "filter": { "title": { "contains": "노시부" } }
           },
           {
             "label": "휴비딕",
+            "displayLabel": "휴비딕",
             "value": "hubdic",
             "filter": { "title": { "contains": "휴비딕" } }
           },
           {
             "label": "상관없어요",
+            "displayLabel": "브랜드 무관",
             "value": "any",
             "filter": {}
           }
@@ -228,24 +265,29 @@
         "id": "bottle_material",
         "type": "single",
         "question": "어떤 재질을 선호하세요?",
+        "tip": "PPSU는 가볍고 튼튼해요. 유리는 미세플라스틱 걱정이 없어요",
         "options": [
           {
             "label": "PPSU (가볍고 내구성 좋음)",
+            "displayLabel": "PPSU 재질",
             "value": "ppsu",
             "filter": { "spec.재질": "PPSU" }
           },
           {
             "label": "유리 (미세플라스틱 걱정 없음)",
+            "displayLabel": "유리 재질",
             "value": "glass",
             "filter": { "spec.재질": "유리" }
           },
           {
             "label": "실리콘 (부드럽고 안전)",
+            "displayLabel": "실리콘 재질",
             "value": "silicone",
             "filter": { "spec.재질": "실리콘" }
           },
           {
             "label": "상관없어요",
+            "displayLabel": "재질 무관",
             "value": "any",
             "filter": {}
           }
@@ -255,14 +297,17 @@
         "id": "bottle_sterilize",
         "type": "single",
         "question": "식기세척기 사용 가능해야 하나요?",
+        "tip": "식기세척기 사용 가능하면 세척이 훨씬 편해요",
         "options": [
           {
             "label": "네, 꼭 필요해요",
+            "displayLabel": "식기세척기 필요",
             "value": "dishwasher_yes",
             "filter": { "spec.사용가능": { "contains": "식기세척기" } }
           },
           {
             "label": "아니요, 상관없어요",
+            "displayLabel": "식기세척기 무관",
             "value": "dishwasher_no",
             "filter": {}
           }
@@ -276,14 +321,17 @@
         "id": "maker_auto",
         "type": "single",
         "question": "자동 조유 기능이 필요하세요?",
+        "tip": "버튼 하나로 분유가 완성되면 새벽 수유가 훨씬 편해져요",
         "options": [
           {
             "label": "네, 버튼 하나로 분유까지",
+            "displayLabel": "자동조유 필요",
             "value": "auto_yes",
             "filter": { "spec.features": { "contains": "자동급수" } }
           },
           {
-            "label": "아니요, 물만 나오면 돼요",
+            "label": "아니요, 직접 할 수 있어요",
+            "displayLabel": "자동조유 불필요",
             "value": "auto_no",
             "filter": {}
           }
@@ -293,19 +341,23 @@
         "id": "maker_material",
         "type": "single",
         "question": "재질이 중요하세요?",
+        "tip": "유리는 환경호르몬 걱정 없이 안심이에요",
         "options": [
           {
             "label": "유리 (환경호르몬 걱정 없음)",
+            "displayLabel": "유리 재질",
             "value": "glass",
             "filter": { "spec.재질": "유리" }
           },
           {
             "label": "스테인리스 (튼튼함)",
+            "displayLabel": "스테인리스 재질",
             "value": "stainless",
             "filter": { "spec.재질": "스테인리스" }
           },
           {
             "label": "상관없어요",
+            "displayLabel": "재질 무관",
             "value": "any",
             "filter": {}
           }

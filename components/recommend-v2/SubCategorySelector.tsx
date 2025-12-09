@@ -115,8 +115,8 @@ export function SubCategorySelector({
       </div>
 
       {/* 질문 텍스트 */}
-      <h3 className="text-base font-bold text-gray-900 leading-snug">
-        어떤 종류의 {categoryName}를 찾으세요?
+      <h3 className="text-base font-medium text-gray-900 leading-snug">
+        어떤 {categoryName}를 찾으세요?
       </h3>
 
       {/* 선택지 그리드 */}
@@ -140,7 +140,7 @@ export function SubCategorySelector({
               className={`p-4 rounded-xl border-2 text-left transition-all ${
                 isSelected
                   ? 'border-emerald-400 bg-emerald-50 shadow-sm'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
               }`}
             >
               <div className="flex flex-col items-center text-center gap-2">

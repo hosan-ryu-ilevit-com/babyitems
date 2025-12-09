@@ -15,12 +15,22 @@ interface RecommendedProduct extends ScoredProduct {
   matchedPreferences?: string[];
 }
 
+// V2 조건 충족도 평가 항목 타입
+interface ConditionEvaluation {
+  condition: string;
+  conditionType: 'hardFilter' | 'balance' | 'negative';
+  status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';
+  evidence: string;
+  tradeoff?: string;
+}
+
 // Product analysis data from LLM
 interface ProductAnalysisData {
   pcode: string;
   additionalPros: Array<{ text: string; citations: number[] }>;
   cons: Array<{ text: string; citations: number[] }>;
   purchaseTip: Array<{ text: string; citations: number[] }>;
+  selectedConditionsEvaluation?: ConditionEvaluation[];  // V2 조건 충족도 평가
 }
 
 // User context for API calls
@@ -28,6 +38,12 @@ interface UserContext {
   hardFilterAnswers?: Record<string, string[]>;
   balanceSelections?: string[];
   negativeSelections?: string[];
+  // Rule key / value → Korean label mappings (for display)
+  balanceLabels?: Record<string, string>;
+  negativeLabels?: Record<string, string>;
+  hardFilterLabels?: Record<string, string>;
+  // Filter conditions for product-specific matching
+  hardFilterDefinitions?: Record<string, Record<string, unknown>>;
 }
 
 interface ResultCardsProps {
@@ -36,6 +52,120 @@ interface ResultCardsProps {
   categoryKey?: string;
   selectionReason?: string;  // LLM이 생성한 전체 선정 기준
   userContext?: UserContext;  // 사용자 선택 컨텍스트 (API용)
+}
+
+/**
+ * 상품이 특정 필터 조건을 만족하는지 확인
+ * @param product - 상품 데이터
+ * @param filterConditions - 필터 조건 (e.g., { "filter_attrs.제조사별": "삼성" } or { "spec.features": { "contains": "500만" } })
+ * @returns 매칭 여부
+ */
+function checkProductMatchesFilter(
+  product: ScoredProduct,
+  filterConditions: Record<string, unknown>
+): boolean {
+  // Empty filter means no specific condition (matches all) - but we filter 'any' values elsewhere
+  if (!filterConditions || Object.keys(filterConditions).length === 0) {
+    return true;
+  }
+
+  // Check each condition
+  for (const [path, condition] of Object.entries(filterConditions)) {
+    // Get value from product based on path
+    let productValue: unknown;
+
+    if (path.startsWith('filter_attrs.')) {
+      const attrKey = path.replace('filter_attrs.', '');
+      productValue = (product as ScoredProduct & { filter_attrs?: Record<string, unknown> }).filter_attrs?.[attrKey];
+    } else if (path.startsWith('spec.')) {
+      const specKey = path.replace('spec.', '');
+      productValue = product.spec?.[specKey];
+    } else if (path === 'brand') {
+      productValue = product.brand;
+    } else {
+      // Direct access
+      productValue = (product as unknown as Record<string, unknown>)[path];
+    }
+
+    // Check condition type
+    if (typeof condition === 'object' && condition !== null) {
+      const condObj = condition as { contains?: string; eq?: string | number; gte?: number; lte?: number };
+
+      // Contains check (for arrays like spec.features)
+      if (condObj.contains !== undefined) {
+        if (Array.isArray(productValue)) {
+          const found = productValue.some(v =>
+            String(v).toLowerCase().includes(String(condObj.contains).toLowerCase())
+          );
+          if (!found) return false;
+        } else if (typeof productValue === 'string') {
+          if (!productValue.toLowerCase().includes(String(condObj.contains).toLowerCase())) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+
+      // Equality check
+      if (condObj.eq !== undefined) {
+        if (String(productValue) !== String(condObj.eq)) return false;
+      }
+
+      // Numeric comparisons
+      if (condObj.gte !== undefined) {
+        if (typeof productValue !== 'number' || productValue < condObj.gte) return false;
+      }
+      if (condObj.lte !== undefined) {
+        if (typeof productValue !== 'number' || productValue > condObj.lte) return false;
+      }
+    } else {
+      // Simple equality check
+      if (String(productValue) !== String(condition)) return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * 상품에 매칭되는 하드 필터 값들을 반환
+ * @param product - 상품 데이터
+ * @param hardFilterAnswers - 사용자가 선택한 필터 값들
+ * @param hardFilterDefinitions - 각 필터 값의 조건 정의
+ * @returns 매칭되는 필터 값 배열
+ */
+function getMatchedHardFilters(
+  product: ScoredProduct,
+  hardFilterAnswers: Record<string, string[]>,
+  hardFilterDefinitions: Record<string, Record<string, unknown>>
+): string[] {
+  const matchedValues: string[] = [];
+
+  // Flatten all selected values
+  const allSelectedValues = Object.values(hardFilterAnswers).flat();
+
+  for (const value of allSelectedValues) {
+    // Skip 'any' values
+    if (value === 'any') continue;
+
+    const filterConditions = hardFilterDefinitions[value];
+
+    // If no conditions defined, or empty conditions, consider it matched
+    // (this handles cases like "rotation_no" with empty filter - user preference, not product attribute)
+    if (!filterConditions || Object.keys(filterConditions).length === 0) {
+      // Empty filter = user preference that doesn't require product matching
+      // Don't show these as "matched" - they're not product attributes
+      continue;
+    }
+
+    // Check if product matches this filter's conditions
+    if (checkProductMatchesFilter(product, filterConditions)) {
+      matchedValues.push(value);
+    }
+  }
+
+  return matchedValues;
 }
 
 /**
@@ -391,7 +521,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           </h3>
         </div>
         <p className="text-base text-gray-700 font-medium leading-relaxed">
-          <StreamingText content={`${categoryName} TOP 3 제품을 찾았어요!`} speed={20} />
+          <StreamingText content={`${categoryName} TOP 제품을 찾았어요!`} speed={20} />
         </p>
       </motion.div>
 
@@ -533,31 +663,41 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               </div>
             )}
 
-            {/* 하드 필터 조건 매칭 - 파란색 박스 */}
-            {userContext?.hardFilterAnswers && Object.keys(userContext.hardFilterAnswers).length > 0 && (
-              <div className="mt-2">
-                <div className="rounded-xl p-3 bg-blue-50 border border-blue-100">
-                  <div className="flex items-start gap-2">
-                    <svg className="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <div className="flex flex-wrap gap-1.5 flex-1">
-                      {Object.entries(userContext.hardFilterAnswers)
-                        .flatMap(([, values]) => values as string[])
-                        .slice(0, 4)
-                        .map((value, i) => (
-                          <span
-                            key={i}
-                            className="text-xs px-2 py-0.5 rounded-full bg-white text-blue-700 font-medium"
-                          >
-                            {value}
-                          </span>
-                        ))}
+            {/* 하드 필터 조건 매칭 - 파란색 박스 (상품별 매칭되는 조건만 표시) */}
+            {(() => {
+              // Calculate matched filters for this specific product
+              const matchedFilters = userContext?.hardFilterAnswers && userContext?.hardFilterDefinitions
+                ? getMatchedHardFilters(product, userContext.hardFilterAnswers, userContext.hardFilterDefinitions)
+                : [];
+
+              if (matchedFilters.length === 0) return null;
+
+              return (
+                <div className="mt-2">
+                  <div className="rounded-xl p-3 bg-blue-50 border border-blue-100">
+                    <div className="flex items-start gap-2">
+                      <svg className="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <div className="flex flex-wrap gap-1.5 flex-1">
+                        {matchedFilters.slice(0, 4).map((value, i) => {
+                          // Use Korean label from mapping if available
+                          const displayLabel = userContext?.hardFilterLabels?.[value] || value;
+                          return (
+                            <span
+                              key={i}
+                              className="text-xs px-2 py-0.5 rounded-full bg-white text-blue-700 font-medium"
+                            >
+                              {displayLabel}
+                            </span>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* 매칭된 선호 조건 태그 (밸런스 게임 매칭) - 초록색 박스 */}
             {((product.matchedPreferences && product.matchedPreferences.length > 0) ||
@@ -573,9 +713,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                         ? product.matchedPreferences
                         : product.matchedRules || []
                       ).slice(0, 4).map((item, i) => {
-                        const displayName = item
-                          .replace('체감속성_', '')
-                          .replace(/_/g, ' ');
+                        // Use Korean label from mapping if available
+                        const displayName = userContext?.balanceLabels?.[item]
+                          || item.replace('체감속성_', '').replace(/_/g, ' ');
                         return (
                           <span
                             key={i}
@@ -643,6 +783,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           category={categoryKey || 'milk_powder_port'}
           danawaData={selectedProductDanawa}
           isAnalysisLoading={isAnalysisLoading}
+          selectedConditionsEvaluation={productAnalysisData[selectedProduct.product.id]?.selectedConditionsEvaluation}
         />
       )}
     </motion.div>

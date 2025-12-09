@@ -256,7 +256,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                   : 'bg-gray-100 text-gray-600'
               }`}
             >
-              만족 포인트
+              주요 구매 포인트
             </button>
             <button
               onClick={() => setActiveTab('cons')}
@@ -266,7 +266,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                   : 'bg-gray-100 text-gray-600'
               }`}
             >
-              주의점
+              주요 불만 포인트
             </button>
           </div>
 
@@ -290,7 +290,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                           <p className="text-gray-800 font-medium text-[15px] leading-relaxed">{item.text}</p>
                           {item.mentionRate && (
                             <span className="inline-flex items-center mt-2 px-2.5 py-1 rounded-full bg-green-50 text-green-600 text-xs font-medium">
-                              {item.mentionRate}% 고객들이 만족했어요
+                              {item.mentionRate}% 고객들이 만족한 특징이에요
                             </span>
                           )}
                         </div>
@@ -309,7 +309,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                           <p className="text-gray-800 font-medium text-[15px] leading-relaxed">{item.text}</p>
                           {item.dealBreakerFor && (
                             <span className="inline-flex items-center mt-2 px-2.5 py-1 rounded-full bg-rose-50 text-rose-500 text-xs font-medium">
-                              {item.dealBreakerFor} 주의
+                              {item.dealBreakerFor} 주의가 필요해요
                             </span>
                           )}
                         </div>

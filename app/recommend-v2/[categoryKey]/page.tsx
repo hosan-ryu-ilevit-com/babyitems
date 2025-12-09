@@ -35,6 +35,7 @@ import {
   BudgetSlider,
   ResultCards,
 } from '@/components/recommend-v2';
+import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
 
 // Utils
@@ -92,6 +93,7 @@ export default function RecommendV2Page() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const budgetSliderRef = useRef<HTMLDivElement>(null);
+  const balanceGameRef = useRef<BalanceGameCarouselRef>(null);
 
   // Ref to always hold the latest products (to avoid closure issues in callbacks)
   const productsRef = useRef<ProductItem[]>([]);
@@ -138,8 +140,23 @@ export default function RecommendV2Page() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [selectionReason, setSelectionReason] = useState<string>('');
 
+  // Rule key / value → Korean label mappings (for display)
+  const [balanceLabels, setBalanceLabels] = useState<Record<string, string>>({});
+  const [negativeLabels, setNegativeLabels] = useState<Record<string, string>>({});
+  const [hardFilterLabels, setHardFilterLabels] = useState<Record<string, string>>({});
+  // Hard filter value → filter conditions mapping (for product-specific matching)
+  const [hardFilterDefinitions, setHardFilterDefinitions] = useState<Record<string, Record<string, unknown>>>({});
+
   // Balance game state (for bottom button)
-  const [balanceGameState, setBalanceGameState] = useState<{ selectionsCount: number; allAnswered: boolean; currentSelections: Set<string> }>({ selectionsCount: 0, allAnswered: false, currentSelections: new Set() });
+  const [balanceGameState, setBalanceGameState] = useState<{
+    selectionsCount: number;
+    allAnswered: boolean;
+    currentSelections: Set<string>;
+    currentIndex: number;
+    canGoPrevious: boolean;
+    canGoNext: boolean;
+    totalQuestions: number;
+  }>({ selectionsCount: 0, allAnswered: false, currentSelections: new Set(), currentIndex: 0, canGoPrevious: false, canGoNext: false, totalQuestions: 0 });
 
   // UI
   const [showBackModal, setShowBackModal] = useState(false);
@@ -254,10 +271,49 @@ export default function RecommendV2Page() {
             guide: hard_filters.guide,
             questions: hard_filters.questions,
           });
+
+          // Generate value → label mapping and filter definitions for hard filters
+          const hfLabelMap: Record<string, string> = {};
+          const hfDefinitions: Record<string, Record<string, unknown>> = {};
+          (hard_filters.questions || []).forEach((q: HardFilterQuestion) => {
+            q.options?.forEach((opt) => {
+              if (opt.value) {
+                if (opt.displayLabel || opt.label) {
+                  hfLabelMap[opt.value] = opt.displayLabel || opt.label;
+                }
+                // Store filter conditions for product matching
+                if (opt.filter) {
+                  hfDefinitions[opt.value] = opt.filter as Record<string, unknown>;
+                }
+              }
+            });
+          });
+          setHardFilterLabels(hfLabelMap);
+          setHardFilterDefinitions(hfDefinitions);
         } else {
           // fallback: 기존 JSON에서 로드
           const config = (hardFiltersData as Record<string, HardFilterConfig>)[categoryKey];
           setHardFilterConfig(config || null);
+
+          // Generate label mapping and filter definitions from fallback config
+          if (config?.questions) {
+            const hfLabelMap: Record<string, string> = {};
+            const hfDefinitions: Record<string, Record<string, unknown>> = {};
+            config.questions.forEach((q) => {
+              q.options?.forEach((opt) => {
+                if (opt.value) {
+                  if (opt.displayLabel || opt.label) {
+                    hfLabelMap[opt.value] = opt.displayLabel || opt.label;
+                  }
+                  if (opt.filter) {
+                    hfDefinitions[opt.value] = opt.filter as Record<string, unknown>;
+                  }
+                }
+              });
+            });
+            setHardFilterLabels(hfLabelMap);
+            setHardFilterDefinitions(hfDefinitions);
+          }
         }
 
         // Load products - 모든 카테고리에서 초기 로드 필요
@@ -426,7 +482,7 @@ export default function RecommendV2Page() {
 
         addMessage({
           role: 'assistant',
-          content: '간단한 질문 몇 가지만 할게요.',
+          content: '간단한 질문 몇 가지만 드릴게요.',
           stepTag: '1/5',
         });
 
@@ -469,7 +525,7 @@ export default function RecommendV2Page() {
 
     addMessage({
       role: 'assistant',
-      content: '간단한 질문 몇 가지만 할게요.',
+      content: '간단한 질문 몇 가지만 드릴게요.',
       stepTag: '1/5',
     }, true);
 
@@ -601,19 +657,83 @@ export default function RecommendV2Page() {
 
         setDynamicBalanceQuestions(balance_questions || []);
         setDynamicNegativeOptions(negative_filter_options || []);
+
+        // Generate rule_key → Korean label mappings
+        const balanceMap: Record<string, string> = {};
+        (balance_questions || []).forEach((q: BalanceQuestion) => {
+          if (q.option_A?.target_rule_key && q.option_A?.text) {
+            balanceMap[q.option_A.target_rule_key] = q.option_A.text;
+          }
+          if (q.option_B?.target_rule_key && q.option_B?.text) {
+            balanceMap[q.option_B.target_rule_key] = q.option_B.text;
+          }
+        });
+        setBalanceLabels(balanceMap);
+
+        const negativeMap: Record<string, string> = {};
+        (negative_filter_options || []).forEach((opt: NegativeFilterOption) => {
+          if (opt.target_rule_key && opt.label) {
+            negativeMap[opt.target_rule_key] = opt.label;
+          }
+        });
+        setNegativeLabels(negativeMap);
       } else {
         console.warn('  - Dynamic question generation failed, using fallback');
         // Fallback: 기존 정적 방식
         const relevantKeys = filterRelevantRuleKeys(filtered, logicMap);
-        setDynamicBalanceQuestions(generateDynamicBalanceQuestions(relevantKeys, balanceQuestions, categoryKey));
-        setDynamicNegativeOptions(generateDynamicNegativeOptions(relevantKeys, negativeOptions));
+        const fallbackBalanceQuestions = generateDynamicBalanceQuestions(relevantKeys, balanceQuestions, categoryKey);
+        const fallbackNegativeOptions = generateDynamicNegativeOptions(relevantKeys, negativeOptions);
+        setDynamicBalanceQuestions(fallbackBalanceQuestions);
+        setDynamicNegativeOptions(fallbackNegativeOptions);
+
+        // Generate label mappings from fallback data
+        const balanceMap: Record<string, string> = {};
+        fallbackBalanceQuestions.forEach((q: BalanceQuestion) => {
+          if (q.option_A?.target_rule_key && q.option_A?.text) {
+            balanceMap[q.option_A.target_rule_key] = q.option_A.text;
+          }
+          if (q.option_B?.target_rule_key && q.option_B?.text) {
+            balanceMap[q.option_B.target_rule_key] = q.option_B.text;
+          }
+        });
+        setBalanceLabels(balanceMap);
+
+        const negativeMap: Record<string, string> = {};
+        fallbackNegativeOptions.forEach((opt: NegativeFilterOption) => {
+          if (opt.target_rule_key && opt.label) {
+            negativeMap[opt.target_rule_key] = opt.label;
+          }
+        });
+        setNegativeLabels(negativeMap);
       }
     } catch (error) {
       console.error('Dynamic question generation error:', error);
       // Fallback: 기존 정적 방식
       const relevantKeys = filterRelevantRuleKeys(filtered, logicMap);
-      setDynamicBalanceQuestions(generateDynamicBalanceQuestions(relevantKeys, balanceQuestions, categoryKey));
-      setDynamicNegativeOptions(generateDynamicNegativeOptions(relevantKeys, negativeOptions));
+      const fallbackBalanceQuestions = generateDynamicBalanceQuestions(relevantKeys, balanceQuestions, categoryKey);
+      const fallbackNegativeOptions = generateDynamicNegativeOptions(relevantKeys, negativeOptions);
+      setDynamicBalanceQuestions(fallbackBalanceQuestions);
+      setDynamicNegativeOptions(fallbackNegativeOptions);
+
+      // Generate label mappings from fallback data
+      const balanceMap: Record<string, string> = {};
+      fallbackBalanceQuestions.forEach((q: BalanceQuestion) => {
+        if (q.option_A?.target_rule_key && q.option_A?.text) {
+          balanceMap[q.option_A.target_rule_key] = q.option_A.text;
+        }
+        if (q.option_B?.target_rule_key && q.option_B?.text) {
+          balanceMap[q.option_B.target_rule_key] = q.option_B.text;
+        }
+      });
+      setBalanceLabels(balanceMap);
+
+      const negativeMap: Record<string, string> = {};
+      fallbackNegativeOptions.forEach((opt: NegativeFilterOption) => {
+        if (opt.target_rule_key && opt.label) {
+          negativeMap[opt.target_rule_key] = opt.label;
+        }
+      });
+      setNegativeLabels(negativeMap);
     }
 
     // Generate AI summary message based on hard filter selections
@@ -714,7 +834,7 @@ export default function RecommendV2Page() {
 
     addMessage({
       role: 'assistant',
-      content: '이제 남은 후보들 중에서 최적의 제품을 골라볼게요.\n**어떤 게 더 끌리세요?**',
+      content: '남은 후보들 중에서 최적의 제품을 고르기 위한 질문을 드릴게요. **더 중요한 쪽을 골라주세요!**',
       stepTag: '3/5',
     }, true);
 
@@ -1086,6 +1206,7 @@ export default function RecommendV2Page() {
               }`}
             >
               <BalanceGameCarousel
+                ref={balanceGameRef}
                 questions={carouselData.questions}
                 onComplete={handleBalanceGameComplete}
                 onStateChange={setBalanceGameState}
@@ -1151,6 +1272,10 @@ export default function RecommendV2Page() {
                 hardFilterAnswers: hardFilterAnswers,
                 balanceSelections: Array.from(balanceSelections),
                 negativeSelections: negativeSelections,
+                balanceLabels: balanceLabels,
+                negativeLabels: negativeLabels,
+                hardFilterLabels: hardFilterLabels,
+                hardFilterDefinitions: hardFilterDefinitions,
               }}
             />
           );
@@ -1320,20 +1445,26 @@ export default function RecommendV2Page() {
 
     // Step 3: 밸런스 게임 (AB 테스트) with prev/next
     if (currentStep === 3) {
+      const isLastBalanceQuestion = !balanceGameState.canGoNext;
+
       return (
         <div className="flex gap-2">
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={() => {
-              setCurrentStep(2);
-              // Remove balance carousel related messages
-              setMessages(prev => prev.filter(msg =>
-                msg.componentType !== 'balance-carousel' &&
-                !(msg.stepTag === '3/5')
-              ));
-              // Reset balance game state
-              setBalanceGameState({ selectionsCount: 0, allAnswered: false, currentSelections: new Set() });
+              // 밸런스 게임 내에서 이전 질문이 있으면 그리로 이동
+              if (balanceGameState.canGoPrevious) {
+                balanceGameRef.current?.goToPrevious();
+              } else {
+                // 첫 질문이면 Step 2로 돌아가기
+                setCurrentStep(2);
+                setMessages(prev => prev.filter(msg =>
+                  msg.componentType !== 'balance-carousel' &&
+                  !(msg.stepTag === '3/5')
+                ));
+                setBalanceGameState({ selectionsCount: 0, allAnswered: false, currentSelections: new Set(), currentIndex: 0, canGoPrevious: false, canGoNext: false, totalQuestions: 0 });
+              }
             }}
             className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
           >
@@ -1342,12 +1473,19 @@ export default function RecommendV2Page() {
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            onClick={() => handleBalanceGameComplete(balanceGameState.currentSelections)}
+            onClick={() => {
+              // 마지막 질문이면 완료 처리, 아니면 다음 질문으로
+              if (isLastBalanceQuestion) {
+                handleBalanceGameComplete(balanceGameState.currentSelections);
+              } else {
+                balanceGameRef.current?.goToNext();
+              }
+            }}
             className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-emerald-500 text-white hover:bg-emerald-600 transition-all"
           >
-            {balanceGameState.selectionsCount > 0
-              ? `다음으로 (${balanceGameState.selectionsCount}개 선택됨)`
-              : '상관없어요'}
+            {isLastBalanceQuestion
+              ? (balanceGameState.selectionsCount > 0 ? `완료 (${balanceGameState.selectionsCount}개 선택됨)` : '넘어가기')
+              : '다음'}
           </motion.button>
         </div>
       );
@@ -1380,7 +1518,7 @@ export default function RecommendV2Page() {
           >
             {negativeSelections.length > 0
               ? `${negativeSelections.length}개 제외하고 다음`
-              : '다 괜찮아요'}
+              : '넘어가기'}
           </motion.button>
         </div>
       );
