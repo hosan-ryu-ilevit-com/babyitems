@@ -11,6 +11,7 @@ interface GuideCardsProps {
   isActive?: boolean; // 활성 상태일 때만 플로팅 버튼 표시
   enableTyping?: boolean; // 타이핑 애니메이션 활성화 여부
   onTabChange?: (tab: 'pros' | 'cons', tabLabel: string) => void; // 탭 변경 시 콜백 (로깅용)
+  disabled?: boolean; // 버튼 비활성화 (로딩 중 클릭 방지)
 }
 
 interface CardData {
@@ -53,7 +54,7 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
   return <span className="whitespace-pre-wrap">{displayedContent}</span>;
 }
 
-export function GuideCards({ data, introMessage, onNext, isActive = true, enableTyping = true, onTabChange }: GuideCardsProps) {
+export function GuideCards({ data, introMessage, onNext, isActive = true, enableTyping = true, onTabChange, disabled = false }: GuideCardsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isTypingComplete, setIsTypingComplete] = useState(!enableTyping);
@@ -442,10 +443,15 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
             {/* 흰색 플로팅바 배경 */}
             <div className="bg-white border-t border-gray-200 px-4 py-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
               <button
-                onClick={() => onNext?.()}
-                className="w-full py-4 rounded-2xl bg-[#0084FE] text-white font-semibold text-base hover:bg-[#0074E0] active:scale-[0.98] transition-all"
+                onClick={() => !disabled && onNext?.()}
+                disabled={disabled}
+                className={`w-full py-4 rounded-2xl font-semibold text-base transition-all ${
+                  disabled
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-[#0084FE] text-white hover:bg-[#0074E0] active:scale-[0.98]'
+                }`}
               >
-                시작하기
+                {disabled ? '로딩 중...' : '시작하기'}
               </button>
             </div>
           </motion.div>

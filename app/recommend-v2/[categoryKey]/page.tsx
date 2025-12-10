@@ -162,6 +162,7 @@ export default function RecommendV2Page() {
   // Results
   const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false); // 버튼 중복 클릭 방지
   const [selectionReason, setSelectionReason] = useState<string>('');
 
   // Rule key / value → Korean label mappings (for display)
@@ -432,19 +433,20 @@ export default function RecommendV2Page() {
     setShowScanAnimation(false);
 
     // Add guide cards message with intro message (Step 0: 가이드 카드만 표시)
+    // ScanAnimation exit 애니메이션(0.2s) 완료 후 메시지 추가하여 레이아웃 점프 방지
     if (hardFilterConfig) {
-      addMessage({
-        role: 'system',
-        content: '',
-        componentType: 'guide-cards',
-        componentData: {
-          ...hardFilterConfig.guide,
-          introMessage: '복잡한 용어, 스펙 비교는 제가 이미 끝냈어요.\n고객님의 상황만 편하게 알려주세요. 딱 맞는 제품을 찾아드릴게요.',
-        },
-        stepTag: '0/5',
-      });
-      // Step 0에서는 이미 상단에 있으므로 스크롤 불필요
-      // (스트리밍 텍스트 높이 변화로 인한 스크롤 떨림 방지)
+      setTimeout(() => {
+        addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'guide-cards',
+          componentData: {
+            ...hardFilterConfig.guide,
+            introMessage: '복잡한 용어, 스펙 비교는 제가 이미 끝냈어요.\n고객님의 상황만 편하게 알려주세요. 딱 맞는 제품을 찾아드릴게요.',
+          },
+          stepTag: '0/5',
+        });
+      }, 250);
     }
   }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, addMessage]);
 
@@ -460,7 +462,8 @@ export default function RecommendV2Page() {
 
   // 하위 카테고리 확정 후 다음 단계로 진행
   const handleSubCategoryConfirm = useCallback(async () => {
-    if (!selectedSubCategoryCode) return;
+    if (!selectedSubCategoryCode || isTransitioning) return;
+    setIsTransitioning(true);
 
     const code = selectedSubCategoryCode;
     setShowSubCategorySelector(false);
@@ -529,6 +532,8 @@ export default function RecommendV2Page() {
       }
     } catch (error) {
       console.error('Sub-category load error:', error);
+      setIsTransitioning(false);
+      return;
     }
 
     // Auto-proceed to hard filters after sub-category selection
@@ -558,6 +563,7 @@ export default function RecommendV2Page() {
             },
           });
           scrollToMessage(msgId);
+          setIsTransitioning(false);
         }, 300);
       }, 500);
     } else {
@@ -567,9 +573,10 @@ export default function RecommendV2Page() {
       // ref를 사용하여 순환 의존성 해결
       setTimeout(() => {
         handleHardFiltersCompleteRef.current?.({}, loadedProducts);
+        setIsTransitioning(false);
       }, 300);
     }
-  }, [selectedSubCategoryCode, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage]);
+  }, [selectedSubCategoryCode, isTransitioning, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 1: Hard Filter Selection (다중 선택 지원)
@@ -816,6 +823,9 @@ export default function RecommendV2Page() {
 
   // "다음" 버튼 클릭 시 다음 질문으로 이동
   const handleHardFilterNext = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+
     const questions = hardFilterConfig?.questions || [];
 
     // Log current question answer
@@ -854,18 +864,23 @@ export default function RecommendV2Page() {
           },
         });
         scrollToMessage(msgId);
+        setIsTransitioning(false);
       }, 300);
     } else {
       // 마지막 질문 완료 - Step 2로 이동
       handleHardFiltersComplete(hardFilterAnswers);
+      setIsTransitioning(false);
     }
-  }, [hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, hardFilterLabels, categoryKey, categoryName, addMessage, scrollToMessage, handleHardFiltersComplete]);
+  }, [isTransitioning, hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, hardFilterLabels, categoryKey, categoryName, addMessage, scrollToMessage, handleHardFiltersComplete]);
 
   // ===================================================
   // Step 2 → Step 3: Start Balance Game
   // ===================================================
 
   const handleStartBalanceGame = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+
     console.log('🎮 [Step 3] handleStartBalanceGame called');
     console.log('  - dynamicBalanceQuestions:', dynamicBalanceQuestions.length, dynamicBalanceQuestions.map(q => q.id));
     console.log('  - balanceQuestions (static):', balanceQuestions.length);
@@ -892,19 +907,24 @@ export default function RecommendV2Page() {
             questions: dynamicBalanceQuestions,
           },
         });
+        setIsTransitioning(false);
       }, 300);
     } else {
       // No balance questions, skip to step 4
       handleBalanceGameComplete(new Set());
+      setIsTransitioning(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dynamicBalanceQuestions, addMessage, scrollToMessage]);
+  }, [isTransitioning, dynamicBalanceQuestions, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 3: Balance Game Complete (캐러셀에서 호출됨)
   // ===================================================
 
   const handleBalanceGameComplete = useCallback(async (selections: Set<string>) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+
     console.log('🚫 [Step 4] handleBalanceGameComplete called');
     console.log('  - selections:', Array.from(selections));
     console.log('  - dynamicNegativeOptions:', dynamicNegativeOptions.length, dynamicNegativeOptions.map(o => o.id));
@@ -1011,13 +1031,15 @@ export default function RecommendV2Page() {
             selectedKeys: negativeSelections,
           } as NegativeFilterData,
         });
+        setIsTransitioning(false);
       }, 300);
     } else {
       // No negative options, skip to step 5
       handleNegativeComplete();
+      setIsTransitioning(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dynamicNegativeOptions, dynamicBalanceQuestions, negativeSelections, negativeOptions.length, categoryKey, hardFilterAnswers, filteredProducts, addMessage, scrollToMessage]);
+  }, [isTransitioning, dynamicNegativeOptions, dynamicBalanceQuestions, negativeSelections, negativeOptions.length, categoryKey, hardFilterAnswers, filteredProducts, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 4: Negative Filter
@@ -1048,6 +1070,9 @@ export default function RecommendV2Page() {
   }, [negativeSelections]);
 
   const handleNegativeComplete = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+
     // Log negative selection completion
     const selectedLabels = negativeSelections.map(key => negativeLabels[key] || key);
     logV2NegativeCompleted(categoryKey, categoryName, negativeSelections, selectedLabels);
@@ -1069,8 +1094,9 @@ export default function RecommendV2Page() {
         content: '',
         componentType: 'budget-slider',
       });
+      setIsTransitioning(false);
     }, 300);
-  }, [negativeSelections, negativeLabels, categoryKey, categoryName, addMessage, scrollToMessage]);
+  }, [isTransitioning, negativeSelections, negativeLabels, categoryKey, categoryName, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 5: Budget & Results
@@ -1232,10 +1258,14 @@ export default function RecommendV2Page() {
                 data={message.componentData as GuideCardsData & { introMessage?: string }}
                 introMessage={(message.componentData as { introMessage?: string })?.introMessage}
                 isActive={currentStep === 0 && !showSubCategorySelector && (!requiresSubCategory || !selectedSubCategoryCode)}
+                disabled={isTransitioning}
                 onTabChange={(tab, tabLabel) => {
                   logGuideCardTabSelection(categoryKey, categoryName, tab, tabLabel);
                 }}
                 onNext={() => {
+                  if (isTransitioning) return;
+                  setIsTransitioning(true);
+
                   // 가이드 카드 완료 후 다음 단계로 진행 (스크롤 + 다음 스텝 표시)
                   if (requiresSubCategory && subCategoryConfig && !selectedSubCategoryCode) {
                     // 세부 카테고리 선택이 필요한 경우
@@ -1250,7 +1280,10 @@ export default function RecommendV2Page() {
                         selectedCode: selectedSubCategoryCode,
                       },
                     });
-                    setTimeout(() => scrollToMessage(msgId), 100);
+                    setTimeout(() => {
+                      scrollToMessage(msgId);
+                      setIsTransitioning(false);
+                    }, 100);
                   } else if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
                     // 하드 필터 질문 시작
                     setCurrentStep(1);
@@ -1265,7 +1298,12 @@ export default function RecommendV2Page() {
                       },
                       stepTag: '1/5',
                     });
-                    setTimeout(() => scrollToMessage(msgId), 100);
+                    setTimeout(() => {
+                      scrollToMessage(msgId);
+                      setIsTransitioning(false);
+                    }, 100);
+                  } else {
+                    setIsTransitioning(false);
                   }
                 }}
               />
@@ -1483,6 +1521,9 @@ export default function RecommendV2Page() {
   // ===================================================
 
   const handleGoToPreviousHardFilter = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+
     if (currentHardFilterIndex > 0) {
       const prevIndex = currentHardFilterIndex - 1;
 
@@ -1515,6 +1556,7 @@ export default function RecommendV2Page() {
           if (targetMsgId) {
             scrollToMessage(targetMsgId);
           }
+          setIsTransitioning(false);
         });
       });
     } else {
@@ -1548,6 +1590,7 @@ export default function RecommendV2Page() {
           } else {
             scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
           }
+          setIsTransitioning(false);
         });
       });
 
@@ -1555,7 +1598,7 @@ export default function RecommendV2Page() {
         setShowSubCategorySelector(true);
       }
     }
-  }, [currentHardFilterIndex, requiresSubCategory, categoryKey, categoryName, scrollToMessage]);
+  }, [isTransitioning, currentHardFilterIndex, requiresSubCategory, categoryKey, categoryName, scrollToMessage]);
 
   const handleGoToStep0 = useCallback(() => {
     logV2StepBack(categoryKey, categoryName, currentStep, 0);
@@ -1605,9 +1648,14 @@ export default function RecommendV2Page() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={handleSubCategoryConfirm}
-          className="w-full h-14 rounded-2xl font-semibold text-base bg-blue-500 text-white hover:bg-blue-600 transition-all"
+          disabled={isTransitioning}
+          className={`w-full h-14 rounded-2xl font-semibold text-base transition-all ${
+            isTransitioning
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-blue-500 text-white hover:bg-blue-600'
+          }`}
         >
-          다음
+          {isTransitioning ? '로딩 중...' : '다음'}
         </motion.button>
       );
     }
@@ -1626,7 +1674,12 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleGoToPreviousHardFilter}
-            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+            disabled={isTransitioning}
+            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+              isTransitioning
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
           >
             이전
           </motion.button>
@@ -1634,9 +1687,9 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleHardFilterNext}
-            disabled={!currentQuestionAnswered}
+            disabled={!currentQuestionAnswered || isTransitioning}
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
-              currentQuestionAnswered
+              currentQuestionAnswered && !isTransitioning
                 ? 'bg-blue-500 text-white hover:bg-blue-600'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }`}
@@ -1649,12 +1702,21 @@ export default function RecommendV2Page() {
 
     // Step 2: 계속하기 with prev/next
     if (currentStep === 2) {
+      // 체크포인트 로딩 상태 확인
+      const checkpointMsg = messages.find(msg => msg.componentType === 'checkpoint');
+      const isCheckpointLoading = checkpointMsg?.componentData
+        ? Boolean((checkpointMsg.componentData as { isLoading?: boolean }).isLoading)
+        : false;
+      const isStep2Disabled = isTransitioning || isCheckpointLoading;
+
       return (
         <div className="flex gap-2">
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            disabled={isStep2Disabled}
             onClick={() => {
+              if (isStep2Disabled) return;
               logV2StepBack(categoryKey, categoryName, 2, 1);
               setCurrentStep(1);
 
@@ -1683,7 +1745,11 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+              isStep2Disabled
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
           >
             이전
           </motion.button>
@@ -1691,7 +1757,12 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleStartBalanceGame}
-            className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-emerald-500 text-white hover:bg-emerald-600 transition-all"
+            disabled={isStep2Disabled}
+            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+              isStep2Disabled
+                ? 'bg-emerald-300 text-emerald-100 cursor-not-allowed'
+                : 'bg-emerald-500 text-white hover:bg-emerald-600'
+            }`}
           >
             다음
           </motion.button>
@@ -1704,14 +1775,16 @@ export default function RecommendV2Page() {
       const isLastBalanceQuestion = !balanceGameState.canGoNext;
       // 마지막 질문이 아니면 항상 비활성화 (자동 넘어감 기능 사용)
       // 마지막 질문에서는 모든 질문이 답변되었을 때만 활성화 (전환 중 깜빡임 방지)
-      const isNextDisabled = !isLastBalanceQuestion || !balanceGameState.allAnswered;
+      const isNextDisabled = !isLastBalanceQuestion || !balanceGameState.allAnswered || isTransitioning;
 
       return (
         <div className="flex gap-2">
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            disabled={isTransitioning}
             onClick={() => {
+              if (isTransitioning) return;
               // 밸런스 게임 내에서 이전 질문이 있으면 그리로 이동
               if (balanceGameState.canGoPrevious) {
                 balanceGameRef.current?.goToPrevious();
@@ -1745,7 +1818,11 @@ export default function RecommendV2Page() {
                 });
               }
             }}
-            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+              isTransitioning
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
           >
             이전
           </motion.button>
@@ -1753,6 +1830,7 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={() => {
+              if (isTransitioning) return;
               // 마지막 질문이면 완료 처리, 아니면 다음 질문으로
               if (isLastBalanceQuestion) {
                 handleBalanceGameComplete(balanceGameState.currentSelections);
@@ -1782,7 +1860,9 @@ export default function RecommendV2Page() {
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            disabled={isTransitioning}
             onClick={() => {
+              if (isTransitioning) return;
               logV2StepBack(categoryKey, categoryName, 4, 3);
               setCurrentStep(3);
 
@@ -1810,7 +1890,11 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+              isTransitioning
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
           >
             이전
           </motion.button>
@@ -1818,7 +1902,12 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleNegativeComplete}
-            className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-rose-500 text-white hover:bg-rose-600 transition-all"
+            disabled={isTransitioning}
+            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+              isTransitioning
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-rose-500 text-white hover:bg-rose-600'
+            }`}
           >
             {negativeSelections.length > 0
               ? `${negativeSelections.length}개 제외하고 다음`
@@ -1835,7 +1924,9 @@ export default function RecommendV2Page() {
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            disabled={isTransitioning || isCalculating}
             onClick={() => {
+              if (isTransitioning || isCalculating) return;
               logV2StepBack(categoryKey, categoryName, 5, 4);
               setCurrentStep(4);
 
@@ -1863,7 +1954,11 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+              isTransitioning || isCalculating
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
           >
             이전
           </motion.button>
@@ -1871,8 +1966,12 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleGetRecommendation}
-            disabled={isCalculating}
-            className="flex-[3] h-14 rounded-2xl font-semibold text-base bg-amber-500 text-white hover:bg-amber-600 transition-all disabled:bg-gray-300"
+            disabled={isCalculating || isTransitioning}
+            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+              isCalculating || isTransitioning
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-amber-500 text-white hover:bg-amber-600'
+            }`}
           >
             {isCalculating ? '분석 중...' : '추천받기'}
           </motion.button>
@@ -2218,14 +2317,14 @@ export default function RecommendV2Page() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 z-[100]"
+                className="fixed inset-0 bg-black/50 z-[200]"
                 onClick={() => setShowBackModal(false)}
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="fixed inset-0 flex items-center justify-center z-[110] px-4"
+                className="fixed inset-0 flex items-center justify-center z-[210] px-4"
               >
                 <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
                   <p className="text-base text-gray-800 mb-6">
