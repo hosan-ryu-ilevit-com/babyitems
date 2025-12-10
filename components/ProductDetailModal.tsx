@@ -285,7 +285,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <header className="sticky top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
+        <header className="shrink-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
           <div className="flex items-center gap-3">
             <button
               onClick={handleClose}

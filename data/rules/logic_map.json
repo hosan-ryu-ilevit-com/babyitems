@@ -808,7 +808,7 @@
       "체감속성_강력흡입_전동식": {
         "description": "버튼 하나로 꽉 막힌 코를 시원하게 뚫어주나요?",
         "logic": [
-          { "target": "title", "operator": "contains", "value": "전동", "score": 15 },
+          { "target": "spec.타입", "operator": "contains", "value": "선", "score": 15 },
           { "target": "title", "operator": "contains", "value": "노시부", "score": 10 },
           { "target": "title", "operator": "contains", "value": "휴비딕", "score": 5 }
         ]
@@ -816,7 +816,7 @@
       "체감속성_휴대간편_수동식": {
         "description": "소음 없이 조용하고 어디든 들고 다닐 수 있나요?",
         "logic": [
-          { "target": "spec.features", "operator": "contains", "value": "입으로빠는", "score": 10 },
+          { "target": "spec.타입", "operator": "eq", "value": "수동", "score": 15 },
           { "target": "title", "operator": "contains", "value": "뻥코", "score": 5 },
           { "target": "title", "operator": "contains", "value": "뺑코", "score": 5 }
         ]

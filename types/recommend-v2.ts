@@ -15,7 +15,8 @@ export type ComponentType =
   | 'balance-carousel'   // 밸런스 게임 캐러셀
   | 'negative-filter'    // 단점 필터 체크박스
   | 'budget-slider'      // 예산 슬라이더
-  | 'result-cards';      // 추천 결과
+  | 'result-cards'       // 추천 결과
+  | 'loading-text';      // 로딩 텍스트 (shimmer 효과)
 
 export interface ChatMessage {
   id: string;

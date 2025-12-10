@@ -353,13 +353,14 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     analysisCalledRef.current = true;
 
     const fetchBackgroundAnalysis = async () => {
-      // Prepare product info for API calls
+      // Prepare product info for API calls (spec + filter_attrs 포함)
       const productInfos = products.slice(0, 3).map(p => ({
         pcode: p.pcode,
         title: p.title,
         brand: p.brand,
         price: p.price,
         spec: p.spec,
+        filter_attrs: (p as ScoredProduct & { filter_attrs?: Record<string, unknown> }).filter_attrs,
         rank: p.rank,
       }));
 
@@ -416,6 +417,53 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
     fetchBackgroundAnalysis();
   }, [products, categoryKey, userContext]);
+
+  // Fetch comparison data for anchor product (if not in Top 3)
+  useEffect(() => {
+    if (!anchorProduct || !categoryKey) return;
+
+    const anchorId = String(anchorProduct.productId);
+
+    // 앵커가 Top 3에 포함되어 있으면 이미 comparison 데이터가 있음
+    const isAnchorInTop3 = products.slice(0, 3).some(p => p.pcode === anchorId);
+    if (isAnchorInTop3) return;
+
+    // 이미 comparison 데이터가 있으면 skip
+    if (comparisonDetails[anchorId]) return;
+
+    console.log('📌 [ResultCards] Fetching comparison data for anchor product:', anchorId);
+
+    const fetchAnchorComparison = async () => {
+      try {
+        // 비교를 위해 Top 3 중 하나와 함께 요청
+        const top3Ids = products.slice(0, 3).map(p => p.pcode);
+        const compareIds = [anchorId, ...top3Ids.slice(0, 1)];
+
+        const response = await fetch('/api/v2/comparison-analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            productIds: compareIds,
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success && result.data?.productDetails) {
+          // 앵커 데이터만 추가 (기존 데이터 유지)
+          setComparisonDetails(prev => ({
+            ...prev,
+            ...result.data.productDetails,
+          }));
+          console.log('✅ [ResultCards] Anchor comparison loaded:', anchorId);
+        }
+      } catch (error) {
+        console.error('[ResultCards] Failed to fetch anchor comparison:', error);
+      }
+    };
+
+    fetchAnchorComparison();
+  }, [anchorProduct, categoryKey, products, comparisonDetails]);
 
   // Convert ScoredProduct to Recommendation for DetailedComparisonTable
   // Include analysis data from background LLM calls

@@ -994,7 +994,7 @@
     "컬러": null,
     "검색어": "메디톡 휴대용 신생아 콧물흡입기 수동 의료용 아기 코뻥",
     "productId": 8884929692,
-    "specs": {},
+    "specs": { "타입": "수동" },
     "reviewCount": 107,
     "averageRating": 4.9,
     "attributeScores": {
@@ -1026,7 +1026,7 @@
     "컬러": null,
     "검색어": "VN 유아용 콧물흡입기 코끼리 뺑코III 플러스+케이스포함",
     "productId": 7632887295,
-    "specs": {},
+    "specs": { "타입": "수동" },
     "reviewCount": 16,
     "averageRating": 4.8,
     "attributeScores": {
@@ -1058,7 +1058,7 @@
     "컬러": null,
     "검색어": "/하이비 실리콘 콧물흡입기1P +케이스 아기콧물흡입기",
     "productId": 7154007876,
-    "specs": {},
+    "specs": { "타입": "수동" },
     "reviewCount": 192,
     "averageRating": 4.3,
     "attributeScores": {

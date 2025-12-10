@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -40,8 +40,15 @@ export default function DetailedComparisonTable({
   const fromFavorites = searchParams.get('fromFavorites') === 'true';
 
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>>({});
-  const [isLoadingComparison, setIsLoadingComparison] = useState(false);
+  const [loadingProductIds, setLoadingProductIds] = useState<Set<string>>(new Set()); // 로딩 중인 제품 ID들
   const [isChangeAnchorOpen, setIsChangeAnchorOpen] = useState(false); // 기준제품 변경 바텀시트
+
+  // productDetails를 ref로도 추적 (useEffect에서 의존성 없이 참조하기 위함)
+  const productDetailsRef = useRef(productDetails);
+  productDetailsRef.current = productDetails;
+
+  // 전체 로딩 상태 (하위 호환용)
+  const isLoadingComparison = loadingProductIds.size > 0;
 
   // Log danawaSpecs prop received
   useEffect(() => {
@@ -65,9 +72,17 @@ export default function DetailedComparisonTable({
       const isAnchorInTop3 = recommendations.some(rec => rec.product.id === anchorId);
 
       if (isAnchorInTop3) {
-        // 앵커가 Top 3에 포함됨 → 앵커를 숨기고 추천 제품만 표시
-        console.log('🎯 Anchor product is in Top 3 - hiding anchor in comparison selector');
-        return recommendations.slice(0, 3);
+        // 앵커가 Top 3에 포함됨 → 해당 제품에 기준 표시 추가 (중복 카드 생성 안 함)
+        console.log('🎯 Anchor product is in Top 3 - marking as anchor in recommendations');
+        return recommendations.slice(0, 3).map(rec => {
+          if (rec.product.id === anchorId) {
+            return {
+              ...rec,
+              reasoning: '비교 기준 제품', // 기준 배지 표시를 위해 reasoning 변경
+            };
+          }
+          return rec;
+        });
       }
 
       // 앵커가 Top 3에 없음 → 기존 로직 (앵커 + 추천 3개)
@@ -191,44 +206,116 @@ export default function DetailedComparisonTable({
     [displayProducts]
   );
 
+  // v2 API로 통일 - /api/v2/comparison-analysis 사용
+  // 앵커 제품이 TOP 3에 없으면 해당 제품만 별도로 API 호출
   useEffect(() => {
-    // 이미 캐시된 데이터가 있으면 API 호출 건너뛰기
-    if (cachedDetails && Object.keys(cachedDetails).length > 0) {
-      console.log('✅ Skipping API calls - using cached data');
+    // v1 flow: /api/v2/comparison-analysis로 통일 (productIds로 요청)
+    if (!isTagBasedFlow) {
+      const fetchProductDetails = async () => {
+        setLoadingProductIds(new Set(productIds)); // 모든 제품 로딩 시작
+        try {
+          console.log('🔄 Fetching comparison data for products (v1 flow → v2 API):', productIds);
+          const response = await fetch('/api/v2/comparison-analysis', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              categoryKey: category || 'milk_powder_port',
+              productIds,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.data?.productDetails) {
+              setProductDetails(data.data.productDetails);
+              console.log('✅ Comparison data fetched successfully (v2 API)');
+            }
+          } else {
+            const errorData = await response.json();
+            console.error('❌ Failed to fetch comparison data:', response.status, errorData);
+          }
+        } catch (error) {
+          console.error('Failed to fetch product details:', error);
+        } finally {
+          setLoadingProductIds(new Set()); // 로딩 완료
+        }
+      };
+      fetchProductDetails();
       return;
     }
 
-    // Fetch pros/cons from API (캐시 없을 때만)
-    const fetchProductDetails = async () => {
-      if (cachedDetails && Object.keys(cachedDetails).length > 0) return;
+    // v2 flow: cachedDetails + 내부 productDetails 확인 후 필요시 직접 API 호출
+    // 캐시에 없는 제품 확인 (앵커 변경 또는 초기 로딩)
+    const cachedIds = cachedDetails ? Object.keys(cachedDetails) : [];
+    const existingIds = Object.keys(productDetailsRef.current); // ref로 현재 상태 참조 (의존성 회피)
+    const allAvailableIds = new Set([...cachedIds, ...existingIds]);
+    const missingProductIds = productIds.filter(id => !allAvailableIds.has(id));
 
-      setIsLoadingComparison(true);
+    console.log('🔍 Checking comparison data:', {
+      productIds,
+      cachedIds,
+      existingIds,
+      missingProductIds
+    });
+
+    // 모든 제품이 캐시나 내부 상태에 있으면 사용
+    if (missingProductIds.length === 0 && allAvailableIds.size > 0) {
+      console.log('✅ Using cached/existing comparison data');
+      setLoadingProductIds(new Set()); // 로딩 완료
+      return;
+    }
+
+    // 누락된 제품만 API 호출
+    const fetchComparisonData = async () => {
+      // 실제로 없는 제품만 fetch
+      const idsToFetch = missingProductIds;
+      console.log('📌 Fetching comparison data for missing products:', { idsToFetch });
+
+      if (idsToFetch.length === 0) {
+        setLoadingProductIds(new Set()); // 로딩 완료
+        return;
+      }
+
+      // 로딩 중인 제품 ID만 설정 (누락된 제품만)
+      setLoadingProductIds(new Set(idsToFetch));
       try {
-        console.log('🔄 Fetching comparison data for products:', productIds);
-        console.log('   Category:', category || 'not provided');
-        console.log('   Is tag-based flow:', isTagBasedFlow);
-        const response = await fetch('/api/compare', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ productIds, category }),
-        });
+        // 비교를 위해 최소 2개 필요 - 부분 요청 시 기존 캐시 제품 1개 추가
+        let compareIds = idsToFetch;
+        if (idsToFetch.length === 1 && cachedIds.length > 0) {
+          compareIds = [...idsToFetch, cachedIds[0]];
+        }
 
-        if (response.ok) {
-          const data = await response.json();
-          setProductDetails(data.productDetails);
-          console.log('✅ Comparison data fetched successfully');
-        } else {
-          const errorData = await response.json();
-          console.error('❌ Failed to fetch comparison data:', response.status, errorData);
+        if (compareIds.length >= 1) {
+          // v2 API 사용 - productIds로 요청하면 Supabase에서 조회
+          const response = await fetch('/api/v2/comparison-analysis', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              categoryKey: category,
+              productIds: compareIds,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.data?.productDetails) {
+              // 기존 캐시 + 새로 가져온 데이터 병합
+              setProductDetails(prev => ({
+                ...prev,
+                ...data.data.productDetails,
+              }));
+              console.log('✅ Comparison data fetched (v2 API):', Object.keys(data.data.productDetails));
+            }
+          }
         }
       } catch (error) {
-        console.error('Failed to fetch product details:', error);
+        console.error('Failed to fetch comparison data:', error);
       } finally {
-        setIsLoadingComparison(false);
+        setLoadingProductIds(new Set()); // 로딩 완료
       }
     };
 
-    fetchProductDetails();
+    fetchComparisonData();
   }, [productIds, category, isTagBasedFlow, cachedDetails]);
 
   if (allProducts.length === 0) return null;
@@ -531,176 +618,190 @@ export default function DetailedComparisonTable({
             )}
 
             {/* 장점 */}
-            {isLoadingComparison ? (
-              <tr className="border-b border-gray-100">
-                <td colSpan={3} className="py-4 px-2 text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-                    <span className="text-xs text-gray-500">장점 분석 중...</span>
-                  </div>
-                </td>
-              </tr>
-            ) : Object.keys(productDetails).length > 0 && (
-              <tr className="border-b border-gray-100">
-                {/* 왼쪽 제품 */}
-                <td className="py-2 px-2 text-center w-[40%]">
-                  {(() => {
-                    const product = selectedProducts[0];
-                    if (!product) return null;
-                    const details = productDetails[product.id];
-                    return details && details.pros.length > 0 ? (
-                      <div className="space-y-1.5">
-                        {details.pros.slice(0, 3).map((pro, idx) => (
-                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                            <svg
-                              className="shrink-0 mt-0.5"
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="#22C55E"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                            <span>{pro}</span>
-                          </div>
-                        ))}
+            <tr className="border-b border-gray-100">
+              {/* 왼쪽 제품 */}
+              <td className="py-2 px-2 text-center w-[40%]">
+                {(() => {
+                  const product = selectedProducts[0];
+                  if (!product) return null;
+                  const isLoading = loadingProductIds.has(product.id);
+                  if (isLoading) {
+                    return (
+                      <div className="flex items-center justify-center gap-2 py-2">
+                        <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                        <span className="text-xs text-gray-500">분석 중...</span>
                       </div>
-                    ) : (
-                      <p className="text-xs text-gray-400 text-center">-</p>
                     );
-                  })()}
-                </td>
+                  }
+                  const details = productDetails[product.id];
+                  return details && details.pros.length > 0 ? (
+                    <div className="space-y-1.5">
+                      {details.pros.slice(0, 3).map((pro, idx) => (
+                        <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                          <svg
+                            className="shrink-0 mt-0.5"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#22C55E"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span>{pro}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 text-center">-</p>
+                  );
+                })()}
+              </td>
 
-                {/* 중앙 레이블 */}
-                <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
-                  장점
-                </td>
+              {/* 중앙 레이블 */}
+              <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                장점
+              </td>
 
-                {/* 오른쪽 제품 */}
-                <td className="py-2 px-2 text-center w-[40%]">
-                  {(() => {
-                    const product = selectedProducts[1];
-                    if (!product) return null;
-                    const details = productDetails[product.id];
-                    return details && details.pros.length > 0 ? (
-                      <div className="space-y-1.5">
-                        {details.pros.slice(0, 3).map((pro, idx) => (
-                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                            <svg
-                              className="shrink-0 mt-0.5"
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="#22C55E"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                            <span>{pro}</span>
-                          </div>
-                        ))}
+              {/* 오른쪽 제품 */}
+              <td className="py-2 px-2 text-center w-[40%]">
+                {(() => {
+                  const product = selectedProducts[1];
+                  if (!product) return null;
+                  const isLoading = loadingProductIds.has(product.id);
+                  if (isLoading) {
+                    return (
+                      <div className="flex items-center justify-center gap-2 py-2">
+                        <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                        <span className="text-xs text-gray-500">분석 중...</span>
                       </div>
-                    ) : (
-                      <p className="text-xs text-gray-400 text-center">-</p>
                     );
-                  })()}
-                </td>
-              </tr>
-            )}
+                  }
+                  const details = productDetails[product.id];
+                  return details && details.pros.length > 0 ? (
+                    <div className="space-y-1.5">
+                      {details.pros.slice(0, 3).map((pro, idx) => (
+                        <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                          <svg
+                            className="shrink-0 mt-0.5"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#22C55E"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span>{pro}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 text-center">-</p>
+                  );
+                })()}
+              </td>
+            </tr>
 
             {/* 주의점 */}
-            {isLoadingComparison ? (
-              <tr className="border-b border-gray-100">
-                <td colSpan={3} className="py-4 px-2 text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
-                    <span className="text-xs text-gray-500">주의점 분석 중...</span>
-                  </div>
-                </td>
-              </tr>
-            ) : Object.keys(productDetails).length > 0 && (
-              <tr className="border-b border-gray-100">
-                {/* 왼쪽 제품 */}
-                <td className="py-2 px-2 text-center w-[40%]">
-                  {(() => {
-                    const product = selectedProducts[0];
-                    if (!product) return null;
-                    const details = productDetails[product.id];
-                    return details && details.cons.length > 0 ? (
-                      <div className="space-y-1.5">
-                        {details.cons.slice(0, 3).map((con, idx) => (
-                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                            <svg
-                              className="shrink-0 mt-0.5"
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="#EF4444"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <line x1="18" y1="6" x2="6" y2="18" />
-                              <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                            <span>{con}</span>
-                          </div>
-                        ))}
+            <tr className="border-b border-gray-100">
+              {/* 왼쪽 제품 */}
+              <td className="py-2 px-2 text-center w-[40%]">
+                {(() => {
+                  const product = selectedProducts[0];
+                  if (!product) return null;
+                  const isLoading = loadingProductIds.has(product.id);
+                  if (isLoading) {
+                    return (
+                      <div className="flex items-center justify-center gap-2 py-2">
+                        <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
+                        <span className="text-xs text-gray-500">분석 중...</span>
                       </div>
-                    ) : (
-                      <p className="text-xs text-gray-400 text-center">-</p>
                     );
-                  })()}
-                </td>
+                  }
+                  const details = productDetails[product.id];
+                  return details && details.cons.length > 0 ? (
+                    <div className="space-y-1.5">
+                      {details.cons.slice(0, 3).map((con, idx) => (
+                        <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                          <svg
+                            className="shrink-0 mt-0.5"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#EF4444"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                          <span>{con}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 text-center">-</p>
+                  );
+                })()}
+              </td>
 
-                {/* 중앙 레이블 */}
-                <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
-                  주의점
-                </td>
+              {/* 중앙 레이블 */}
+              <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                주의점
+              </td>
 
-                {/* 오른쪽 제품 */}
-                <td className="py-2 px-2 text-center w-[40%]">
-                  {(() => {
-                    const product = selectedProducts[1];
-                    if (!product) return null;
-                    const details = productDetails[product.id];
-                    return details && details.cons.length > 0 ? (
-                      <div className="space-y-1.5">
-                        {details.cons.slice(0, 3).map((con, idx) => (
-                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                            <svg
-                              className="shrink-0 mt-0.5"
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="#EF4444"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <line x1="18" y1="6" x2="6" y2="18" />
-                              <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                            <span>{con}</span>
-                          </div>
-                        ))}
+              {/* 오른쪽 제품 */}
+              <td className="py-2 px-2 text-center w-[40%]">
+                {(() => {
+                  const product = selectedProducts[1];
+                  if (!product) return null;
+                  const isLoading = loadingProductIds.has(product.id);
+                  if (isLoading) {
+                    return (
+                      <div className="flex items-center justify-center gap-2 py-2">
+                        <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
+                        <span className="text-xs text-gray-500">분석 중...</span>
                       </div>
-                    ) : (
-                      <p className="text-xs text-gray-400 text-center">-</p>
                     );
-                  })()}
-                </td>
-              </tr>
-            )}
+                  }
+                  const details = productDetails[product.id];
+                  return details && details.cons.length > 0 ? (
+                    <div className="space-y-1.5">
+                      {details.cons.slice(0, 3).map((con, idx) => (
+                        <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                          <svg
+                            className="shrink-0 mt-0.5"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#EF4444"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                          <span>{con}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 text-center">-</p>
+                  );
+                })()}
+              </td>
+            </tr>
 
             {/* 스펙 비교 */}
             {/* danawaSpecs가 있거나 productDetails가 있으면 스펙 섹션 표시 */}
@@ -811,15 +912,11 @@ export default function DetailedComparisonTable({
                                     const value2 = rawValue2 != null ? String(rawValue2) : '-';
 
                                     // 콤마로 구분된 값 감지 (특징, 부가기능 등)
-                                    // 단, 숫자+단위 형태 (예: 37~95℃, 72cm) 나 크기(가로x세로) 패턴은 분리하지 않음
                                     const isFeatureList = (val: string) => {
                                       if (!val || val === '-' || typeof val !== 'string') return false;
-                                      // 콤마가 3개 이상이고, 숫자+단위 패턴이 아닌 경우
+                                      // 콤마가 3개 이상이면 분리 (크기 정보가 포함되어 있어도 분리)
                                       const commaCount = (val.match(/,/g) || []).length;
-                                      if (commaCount < 3) return false;
-                                      // 크기/치수 패턴이면 분리하지 않음
-                                      if (/\d+[x×]\d+/i.test(val)) return false;
-                                      return true;
+                                      return commaCount >= 3;
                                     };
 
                                     const shouldSplit = isFeatureList(value1) || isFeatureList(value2);
@@ -926,8 +1023,15 @@ export default function DetailedComparisonTable({
           currentAnchorProductId={anchorProduct?.productId || ''}
           onSelectProduct={(newProduct) => {
             if (onAnchorChange) {
-              setIsLoadingComparison(true);
-              setProductDetails({}); // 기존 비교 데이터 초기화
+              const newAnchorId = String(newProduct.productId);
+              // 새 앵커 제품 ID만 로딩 상태로 설정
+              setLoadingProductIds(new Set([newAnchorId]));
+              // 기존 비교 데이터에서 새 앵커 제품만 제거 (다른 제품 데이터는 유지)
+              setProductDetails(prev => {
+                const updated = { ...prev };
+                delete updated[newAnchorId];
+                return updated;
+              });
               onAnchorChange(newProduct);
             }
           }}

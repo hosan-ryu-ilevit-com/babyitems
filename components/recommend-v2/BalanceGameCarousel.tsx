@@ -309,7 +309,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
-                  {skipped.has(currentQuestion.id) ? '건너뜀' : '상관없어요'}
+                  {skipped.has(currentQuestion.id) ? '건너뜀' : '잘 모르겠어요'}
                 </button>
               </div>
             </motion.div>

@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useFavorites } from '@/hooks/useFavorites';
 import { products } from '@/data/products';
 import { CATEGORY_LABELS } from '@/data/categories';
@@ -21,6 +21,59 @@ import thermometerSpecs from '@/data/specs/thermometer.json';
 
 interface FavoritesViewProps {
   onClose: () => void;
+}
+
+// Supabase에서 가져온 제품 타입
+interface SupabaseProduct {
+  pcode: string;
+  title: string;
+  brand: string | null;
+  price: number | null;
+  thumbnail: string | null;
+  category_code: string;
+  review_count?: number;
+  average_rating?: number;
+  danawa_price?: {
+    lowest_price: number;
+    lowest_mall: string;
+    lowest_link: string;
+    mall_prices: Array<{ mall: string; price: number; delivery: string; link?: string }>;
+  } | null;
+}
+
+
+// category_code를 ProductCategory로 매핑
+function mapCategoryCodeToCategory(categoryCode: string): ProductCategory {
+  const mapping: Record<string, ProductCategory> = {
+    // 젖병 관련
+    '104051003': 'baby_bottle',
+    '104051': 'baby_bottle',
+    // 젖병소독기
+    '104051007': 'baby_bottle_sterilizer',
+    // 분유케이스
+    '104051010': 'baby_formula_dispenser',
+    // 베이비모니터
+    '104047': 'baby_monitor',
+    '104047003': 'baby_monitor',
+    // 플레이매트
+    '104045': 'baby_play_mat',
+    '104045001': 'baby_play_mat',
+    // 카시트
+    '104052': 'car_seat',
+    '104052001': 'car_seat',
+    '104052002': 'car_seat',
+    '104052003': 'car_seat',
+    // 분유포트
+    '1041033': 'milk_powder_port',
+    '10410331': 'milk_powder_port',
+    // 코흡입기
+    '104051022': 'nasal_aspirator',
+    // 체온계
+    '104046': 'thermometer',
+    '104046001': 'thermometer',
+    '104046002': 'thermometer',
+  };
+  return mapping[categoryCode] || 'milk_powder_port';
 }
 
 // Convert spec to Product format
@@ -49,14 +102,45 @@ function specToProduct(spec: Record<string, unknown>, category: ProductCategory)
   };
 }
 
+// Convert Supabase product to Product format
+function supabaseToProduct(item: SupabaseProduct): Product {
+  return {
+    id: item.pcode,
+    title: item.title,
+    brand: item.brand || '',
+    price: item.price || 0,
+    reviewCount: item.review_count || 0,
+    reviewUrl: '',
+    ranking: 0,
+    thumbnail: item.thumbnail || '',
+    category: mapCategoryCodeToCategory(item.category_code),
+    averageRating: item.average_rating || 0,
+    coreValues: {
+      temperatureControl: 0,
+      hygiene: 0,
+      material: 0,
+      usability: 0,
+      portability: 0,
+      priceValue: 0,
+      durability: 0,
+      additionalFeatures: 0,
+    },
+  };
+}
+
 export function FavoritesView({ onClose }: FavoritesViewProps) {
   const { favorites, toggleFavorite } = useFavorites();
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | null>(null);
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [productToDelete, setProductToDelete] = useState<{ id: string; title: string } | null>(null);
 
-  // Combine all specs into a single lookup map
-  const allProductsMap = useMemo(() => {
+  // Supabase에서 가져온 제품들
+  const [supabaseProducts, setSupabaseProducts] = useState<Map<string, Product>>(new Map());
+  const [isLoadingSupabase, setIsLoadingSupabase] = useState(false);
+  // 다나와 최저가 링크 정보 (productId -> link)
+  const [danawaLinks, setDanawaLinks] = useState<Map<string, string>>(new Map());
+
+  // Combine all specs into a single lookup map (로컬 데이터만)
+  const localProductsMap = useMemo(() => {
     const map = new Map<string, Product>();
 
     // Add products from data/products.ts (milk powder ports with coreValues)
@@ -88,6 +172,63 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
     return map;
   }, []);
 
+  // 로컬에서 찾지 못한 제품들을 Supabase에서 가져오기
+  useEffect(() => {
+    const missingIds = favorites.filter(id => !localProductsMap.has(id));
+
+    if (missingIds.length === 0) {
+      setSupabaseProducts(new Map());
+      setDanawaLinks(new Map());
+      return;
+    }
+
+    const fetchMissingProducts = async () => {
+      setIsLoadingSupabase(true);
+      try {
+        const response = await fetch('/api/v2/products-by-ids', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pcodes: missingIds }),
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.products) {
+          const productMap = new Map<string, Product>();
+          const linkMap = new Map<string, string>();
+
+          data.products.forEach((item: SupabaseProduct) => {
+            productMap.set(item.pcode, supabaseToProduct(item));
+            // 다나와 최저가 링크 저장
+            if (item.danawa_price?.lowest_link) {
+              linkMap.set(item.pcode, item.danawa_price.lowest_link);
+            }
+          });
+
+          setSupabaseProducts(productMap);
+          setDanawaLinks(linkMap);
+        }
+      } catch (error) {
+        console.error('Failed to fetch products from Supabase:', error);
+      } finally {
+        setIsLoadingSupabase(false);
+      }
+    };
+
+    fetchMissingProducts();
+  }, [favorites, localProductsMap]);
+
+  // 로컬 + Supabase 데이터 합치기
+  const allProductsMap = useMemo(() => {
+    const combined = new Map(localProductsMap);
+    supabaseProducts.forEach((product, id) => {
+      if (!combined.has(id)) {
+        combined.set(id, product);
+      }
+    });
+    return combined;
+  }, [localProductsMap, supabaseProducts]);
+
   // Group favorites by category
   const favoritesByCategory = favorites.reduce((acc, productId) => {
     const product = allProductsMap.get(productId);
@@ -103,30 +244,9 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
   // Get categories that have favorites
   const categoriesWithFavorites = Object.keys(favoritesByCategory) as ProductCategory[];
 
-  // Handle checkbox toggle (2-4 items)
-  const handleCheckboxToggle = (productId: string) => {
-    setSelectedProducts(prev => {
-      if (prev.includes(productId)) {
-        return prev.filter(id => id !== productId);
-      } else if (prev.length < 4) {
-        return [...prev, productId];
-      }
-      return prev;
-    });
-  };
-
-  // Handle compare button click
-  const handleCompare = () => {
-    if (selectedProducts.length >= 2) {
-      const productIds = selectedProducts.join(',');
-      window.location.href = `/compare?products=${productIds}&fromFavorites=true`;
-    }
-  };
-
   // Handle back from category detail
   const handleBackToFolders = () => {
     setSelectedCategory(null);
-    setSelectedProducts([]);
   };
 
   // If viewing a specific category, show product list
@@ -164,40 +284,16 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
           </button>
         </div>
 
-        {/* Info Text */}
-        <div className="mb-4 px-4 py-3 bg-blue-50 rounded-lg">
-          <p className="text-sm text-blue-900 font-medium">2~4개 선택해서 바로 비교하실 수 있어요!</p>
-        </div>
-
         {/* Product List */}
         <div className="space-y-3">
           {categoryProducts.map((product) => (
             <div
               key={product.id}
-              onClick={() => handleCheckboxToggle(product.id)}
-              className={`bg-white rounded-2xl p-4 border-2 relative cursor-pointer transition-all ${
-                selectedProducts.includes(product.id)
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-100'
-              } ${!selectedProducts.includes(product.id) && selectedProducts.length >= 4 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className="bg-white rounded-2xl p-4 border-2 border-gray-100 relative"
             >
-              {/* Checkbox */}
-              <div className="absolute top-4 left-4 z-10" onClick={(e) => e.stopPropagation()}>
-                <input
-                  type="checkbox"
-                  checked={selectedProducts.includes(product.id)}
-                  onChange={() => handleCheckboxToggle(product.id)}
-                  disabled={!selectedProducts.includes(product.id) && selectedProducts.length >= 4}
-                  className="w-5 h-5 rounded border-gray-200 text-blue-600 focus:ring-blue-500 cursor-pointer"
-                />
-              </div>
-
               {/* Delete Icon (Remove from Favorites) */}
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setProductToDelete({ id: product.id, title: product.title });
-                }}
+                onClick={() => setProductToDelete({ id: product.id, title: product.title })}
                 className="absolute top-3 right-3 z-10 w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -206,7 +302,7 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
                 </svg>
               </button>
 
-              <div className="flex flex-col gap-3 pl-7">
+              <div className="flex flex-col gap-3">
                 <div className="flex gap-4">
                   {/* Product Image */}
                   <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
@@ -239,10 +335,16 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
                 </div>
 
                 {/* Buttons */}
-                <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                <div className="flex gap-2">
                   <button
                     onClick={() => {
-                      window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}&sort=priceASC`, '_blank');
+                      // Supabase에서 가져온 다나와 최저가 링크가 있으면 사용, 없으면 다나와 검색
+                      const lowestLink = danawaLinks.get(product.id);
+                      if (lowestLink) {
+                        window.open(lowestLink, '_blank');
+                      } else {
+                        window.open(`https://search.danawa.com/mobile/dsearch.php?keyword=${encodeURIComponent(product.title)}&sort=priceASC`, '_blank');
+                      }
                     }}
                     className="flex-1 py-2.5 text-center text-sm font-semibold rounded-lg transition-colors"
                     style={{ backgroundColor: '#0084FE', color: '#FFFFFF' }}
@@ -254,24 +356,6 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
             </div>
           ))}
         </div>
-
-        {/* Floating Compare Button - Bottom Right */}
-        {selectedProducts.length >= 2 && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={handleCompare}
-            className="fixed bottom-6 right-6 px-6 py-4 text-white text-base font-semibold rounded-full shadow-lg z-40 flex items-center gap-2"
-            style={{ backgroundColor: '#0084FE', maxWidth: '480px' }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 11l3 3L22 4"></path>
-              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-            </svg>
-            <span>{selectedProducts.length}개 비교하기</span>
-          </motion.button>
-        )}
 
         {/* Delete Confirmation Modal */}
         {productToDelete && (
@@ -307,6 +391,39 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
         )}
       </motion.section>
       </AnimatePresence>
+    );
+  }
+
+  // 로딩 중일 때 (찜한 상품은 있지만 Supabase에서 가져오는 중)
+  if (isLoadingSupabase && favorites.length > 0 && categoriesWithFavorites.length === 0) {
+    return (
+      <motion.section
+        key="loading-favorites"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="min-h-screen px-6 pt-4 pb-24 max-w-[480px] mx-auto bg-white"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-gray-900">찜한 상품</h2>
+          <button onClick={onClose} className="p-2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <div className="flex gap-1 mb-4">
+            <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" />
+            <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+            <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+          </div>
+          <p className="text-sm text-gray-500">찜한 상품을 불러오는 중...</p>
+        </div>
+      </motion.section>
     );
   }
 

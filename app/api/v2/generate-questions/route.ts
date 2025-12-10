@@ -35,12 +35,23 @@ interface ProductSpecSummary {
   brandDistribution: Record<string, number>;
 }
 
+// 밸런스 게임 선택 정보
+interface BalanceSelection {
+  questionId: string;
+  questionTitle: string;
+  selectedOption: 'A' | 'B';
+  selectedText: string;       // 선택한 옵션의 텍스트
+  rejectedText: string;       // 선택하지 않은 옵션의 텍스트
+  targetRuleKey: string;      // 선택한 옵션의 rule key
+}
+
 // Request body type
 interface GenerateQuestionsRequest {
   categoryKey: string;
   hardFilterAnswers?: Record<string, string[]>;
   filteredProducts?: ProductItem[];  // 후보군 상품 (스펙 분석용)
   filteredProductCount?: number;  // deprecated, filteredProducts.length 사용
+  balanceSelections?: BalanceSelection[];  // 밸런스 게임 선택값 (단점 필터 충돌 방지용)
 }
 
 // Response type
@@ -235,11 +246,13 @@ function conToNegativeFilter(con: ConInsight, index: number, categoryKey: string
  * 핵심: 후보군 스펙 분포를 분석하여 "의미있는" 질문만 생성
  * - 후보군 내에서 실제로 차이가 나는 트레이드오프
  * - 일부 제품에만 해당하는 단점 (전체 해당이면 필터 의미없음)
+ * - 밸런스 게임에서 선택한 옵션과 충돌하는 단점은 제외
  */
 async function generateQuestionsWithLLM(
   insights: CategoryInsights,
   hardFilterAnswers: Record<string, string[]>,
-  filteredProducts: ProductItem[]
+  filteredProducts: ProductItem[],
+  balanceSelections: BalanceSelection[] = []
 ): Promise<{
   balance_questions: BalanceQuestion[];
   negative_filter_options: NegativeFilterOption[];
@@ -253,6 +266,13 @@ async function generateQuestionsWithLLM(
   const userContextText = Object.entries(hardFilterAnswers)
     .map(([key, values]) => `- ${key}: ${values.join(', ')}`)
     .join('\n') || '(선택된 조건 없음)';
+
+  // 밸런스 게임 선택 결과 문자열 생성
+  const balanceSelectionsText = balanceSelections.length > 0
+    ? balanceSelections.map(sel =>
+        `- "${sel.questionTitle}": ✅ "${sel.selectedText}" 선택 / ❌ "${sel.rejectedText}" 거부`
+      ).join('\n')
+    : '(아직 선택 없음)';
 
   // Tradeoffs를 상세하게 포맷
   const tradeoffsText = insights.tradeoffs
@@ -279,6 +299,11 @@ async function generateQuestionsWithLLM(
 👤 사용자가 이미 선택한 조건 (하드필터)
 ═══════════════════════════════════════
 ${userContextText}
+
+═══════════════════════════════════════
+🎮 사용자가 밸런스 게임에서 선택한 결과 
+═══════════════════════════════════════
+${balanceSelectionsText}
 
 ═══════════════════════════════════════
 📦 현재 후보군 상품 (하드필터 통과)
@@ -322,6 +347,12 @@ ${consText}
 후보군 상품들을 분석해서, **일부 제품에만 해당하는 단점**만 필터로 제시하세요.
 전체 후보군이 다 해당하는 단점은 필터링 의미가 없으니 제외!
 
+⚠️ **충돌 방지 규칙 (매우 중요!)**:
+- 위 "밸런스 게임 선택 결과"에서 사용자가 ✅ 선택한 옵션과 **반대되는 단점은 절대 생성 금지**
+- 예시: 사용자가 "2단계 기저귀" 선택 → "2단계는 싫어요" 단점 생성 ❌
+- 예시: 사용자가 "가벼운 제품" 선택 → "가벼우면 불안해요" 단점 생성 ❌
+- 대신, 사용자가 ❌ 거부한 옵션 관련 단점은 생성 가능 (이미 거부했으니 보강용)
+
 형식 요구사항:
 - label: **구체적인 상황이 담긴 문장** (25~40자)
   예시: "세척할 때 손이 안 들어가서 구석구석 닦기 어려운 건 싫어요"
@@ -363,7 +394,7 @@ JSON만 응답하세요. 마크다운 코드블록 없이 순수 JSON만.`;
 export async function POST(request: NextRequest): Promise<NextResponse<GenerateQuestionsResponse>> {
   try {
     const body: GenerateQuestionsRequest = await request.json();
-    const { categoryKey, hardFilterAnswers = {}, filteredProducts = [] } = body;
+    const { categoryKey, hardFilterAnswers = {}, filteredProducts = [], balanceSelections = [] } = body;
 
     if (!categoryKey) {
       return NextResponse.json(
@@ -390,10 +421,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<GenerateQ
 
     if (hasProducts && isGeminiAvailable()) {
       try {
-        console.log(`[generate-questions] Generating with LLM for ${categoryKey}, ${filteredProducts.length} products`);
+        console.log(`[generate-questions] Generating with LLM for ${categoryKey}, ${filteredProducts.length} products, ${balanceSelections.length} balance selections`);
 
         const llmResult = await callGeminiWithRetry(
-          () => generateQuestionsWithLLM(insights, hardFilterAnswers, filteredProducts),
+          () => generateQuestionsWithLLM(insights, hardFilterAnswers, filteredProducts, balanceSelections),
           2, // 최대 2번 재시도
           1000
         );

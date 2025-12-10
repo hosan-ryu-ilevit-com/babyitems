@@ -221,13 +221,13 @@
             "label": "전동식 (강력 흡입)",
             "displayLabel": "전동식",
             "value": "electric",
-            "filter": { "title": { "contains": "전동" } }
+            "filter": { "spec.타입": { "contains": "선" } }
           },
           {
             "label": "수동식 (휴대 간편)",
             "displayLabel": "수동식",
             "value": "manual",
-            "filter": {}
+            "filter": { "spec.타입": "수동" }
           }
         ]
       },

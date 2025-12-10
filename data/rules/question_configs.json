@@ -1,0 +1,199 @@
+{
+  "diaper": {
+    "hf_diaper_형태_0": {
+      "hidden": false,
+      "order": 0
+    },
+    "hf_diaper_단계_1": {
+      "hidden": false,
+      "order": 1,
+      "optionOrder": [
+        "0단계",
+        "1단계",
+        "2단계",
+        "3단계",
+        "4단계",
+        "5단계",
+        "6단계",
+        "7단계",
+        "8단계",
+        "any"
+      ]
+    },
+    "hf_diaper_성별_2": {
+      "hidden": false,
+      "order": 2
+    }
+  },
+  "high_chair": {
+    "hf_high_chair_등판소재_0": {
+      "hidden": false,
+      "order": 0
+    },
+    "hf_high_chair_좌판소재_1": {
+      "hidden": false,
+      "order": 1
+    },
+    "hf_high_chair_프레임_2": {
+      "hidden": false,
+      "order": 2
+    },
+    "hf_high_chair_좌판_3": {
+      "hidden": true,
+      "order": 3
+    },
+    "hf_high_chair_특징_4": {
+      "hidden": false,
+      "order": 4,
+      "optionOrder": [
+        "높이조절,",
+        "접이식,",
+        "발걸이포함",
+        "미끄럼방지",
+        "높이조절",
+        "높이조절,_접이식,",
+        "접이식",
+        "탈부착시트",
+        "식판깊이조절",
+        "식판탈부착",
+        "접이식,_방수,",
+        "높이조절,_방수,",
+        "높이조절,_접이식,_방수,",
+        "any"
+      ]
+    }
+  },
+  "stroller": {
+    "hf_stroller_브랜드_1": {
+      "hidden": false,
+      "order": 0
+    },
+    "hf_stroller_출시년도_0": {
+      "hidden": false,
+      "order": 1,
+      "optionOrder": [
+        "2019년_이전",
+        "2019년",
+        "2020년",
+        "2021년",
+        "2022년",
+        "2023년",
+        "2024년",
+        "2025년",
+        "any"
+      ]
+    }
+  },
+  "car_seat": {
+    "hf_car_seat_브랜드_2": {
+      "hidden": false,
+      "order": 0
+    },
+    "hf_car_seat_허용무게_0": {
+      "hidden": false,
+      "order": 1,
+      "optionOrder": [
+        "9~18kg까지",
+        "15~36kg",
+        "15~25kg까지",
+        "15~36kg까지",
+        "~18kg",
+        "~18kg까지",
+        "~25kg",
+        "~36kg",
+        "~13kg",
+        "15~50kg",
+        "~19kg까지",
+        "25kg까지",
+        "18kg까지",
+        "12.5kg",
+        "13kg까지",
+        "0~13kg",
+        "~13kg까지",
+        "~20kg까지",
+        "~19kg",
+        "36kg까지",
+        "~36kg까지",
+        "9~25kg",
+        "9~25kg까지",
+        "9~36kg",
+        "25kg",
+        "~34kg",
+        "~23kg",
+        "~25kg까지",
+        "any"
+      ]
+    },
+    "hf_car_seat_벨트타입_1": {
+      "hidden": false,
+      "order": 2,
+      "optionOrder": [
+        "3점식벨트",
+        "5점식벨트",
+        "any"
+      ]
+    }
+  },
+  "formula": {
+    "hf_formula_종류_0": {
+      "hidden": false,
+      "order": 0
+    },
+    "hf_formula_형태_1": {
+      "hidden": false,
+      "order": 1
+    },
+    "hf_formula_단계_2": {
+      "hidden": false,
+      "order": 2,
+      "optionOrder": [
+        "1단계",
+        "1.2단계",
+        "2단계",
+        "3단계",
+        "4단계",
+        "5단계",
+        "any"
+      ]
+    },
+    "hf_formula_특수분유_3": {
+      "hidden": false,
+      "order": 3
+    }
+  },
+  "baby_bottle": {
+    "hf_baby_bottle_품목_0": {
+      "hidden": false,
+      "order": 0,
+      "optionOrder": [
+        "젖병",
+        "젖병+젖꼭지",
+        "노꼭지_젖병",
+        "노꼭지세트",
+        "any"
+      ]
+    },
+    "bottle_material": {
+      "hidden": false,
+      "order": 1
+    },
+    "bottle_sterilize": {
+      "hidden": false,
+      "order": 2
+    }
+  },
+  "thermometer": {
+    "hf_thermometer_방식_0": {
+      "hidden": false,
+      "order": 0
+    },
+    "thermo_type": {
+      "hidden": true,
+      "order": 1
+    },
+    "thermo_brand": {
+      "hidden": false,
+      "order": 2
+    }
+  }
+}

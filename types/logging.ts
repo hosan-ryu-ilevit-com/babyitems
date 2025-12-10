@@ -12,14 +12,36 @@ export type LogEventType =
   | 'favorites_compare_clicked'
   | 'comparison_chat_message'
   | 'comparison_product_action'
-  // V2 Flow specific events
+  // V2 Flow specific events (legacy - category/anchor/tags flow)
   | 'category_selected'
   | 'anchor_product_selected'
   | 'anchor_product_changed'
   | 'tag_selected'
   | 'custom_tag_created'
   | 'result_v2_received'
-  | 'result_v2_regenerated';
+  | 'result_v2_regenerated'
+  // V2 New Flow events (recommend-v2 with hard filters, balance game, etc.)
+  | 'v2_page_view'           // recommend-v2 페이지 진입 (카테고리 정보 포함)
+  | 'v2_guide_start'         // 가이드 카드 '시작하기' 클릭
+  | 'v2_subcategory_selected' // 하위 카테고리 선택
+  | 'v2_hard_filter_answer'  // 하드필터 개별 질문 답변
+  | 'v2_hard_filter_completed' // 하드필터 전체 완료
+  | 'v2_hard_filter_custom_input' // 하드필터 직접 입력
+  | 'v2_checkpoint_viewed'   // 조건 분석 완료 화면
+  | 'v2_balance_selection'   // 밸런스 게임 개별 선택
+  | 'v2_balance_completed'   // 밸런스 게임 완료
+  | 'v2_negative_toggle'     // 단점 개별 토글
+  | 'v2_negative_completed'  // 단점 선택 완료
+  | 'v2_budget_changed'      // 예산 슬라이더/입력 변경
+  | 'v2_budget_preset_clicked' // 예산 프리셋 버튼 클릭
+  | 'v2_recommendation_requested' // 추천받기 버튼 클릭
+  | 'v2_recommendation_received' // 추천 결과 수신
+  | 'v2_product_modal_opened' // 제품 상세 모달 열기
+  | 'v2_danawa_price_clicked' // 다나와 가격 링크 클릭
+  | 'v2_sellers_toggle'      // 판매처 더보기/접기
+  | 'v2_favorite_toggled'    // 찜하기 토글
+  | 'v2_lowest_price_clicked' // 최저가로 구매하기 클릭
+  | 'v2_step_back'           // 이전 단계로 돌아가기;
 
 export interface LogEvent {
   sessionId: string;

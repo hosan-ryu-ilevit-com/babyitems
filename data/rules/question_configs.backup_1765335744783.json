@@ -1,0 +1,16 @@
+{
+  "diaper": {
+    "hf_diaper_형태_0": {
+      "hidden": false,
+      "order": 0
+    },
+    "hf_diaper_단계_1": {
+      "hidden": false,
+      "order": 1
+    },
+    "hf_diaper_성별_2": {
+      "hidden": false,
+      "order": 2
+    }
+  }
+}
