@@ -36,6 +36,12 @@ export async function saveLogEvent(event: LogEvent): Promise<void> {
           anchorData: event.anchorData,
           tagData: event.tagData,
           resultV2Data: event.resultV2Data,
+          v2FlowData: event.v2FlowData, // V2 새 플로우 데이터 (하드필터, 밸런스, 단점, 예산, 추천 등)
+          purchaseData: event.purchaseData, // 구매 링크 클릭 데이터
+          productData: event.productData, // 제품 상세 데이터
+          metadata: event.metadata, // 추가 메타데이터
+          userInput: event.userInput, // 사용자 입력
+          aiResponse: event.aiResponse, // AI 응답
         }
       })
       .select();
