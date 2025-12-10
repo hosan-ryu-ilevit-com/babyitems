@@ -14,7 +14,7 @@ import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 import { Product, ProductCategory } from '@/types';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Playfair_Display } from 'next/font/google';
-import { CategoryMarquee } from '@/components/CategoryMarquee';
+import { CategoryMarquee, type CategoryClickData } from '@/components/CategoryMarquee';
 
 // Import all category specs
 import babyBottleSpecs from '@/data/specs/baby_bottle.json';
@@ -143,9 +143,14 @@ export function HomeContent() {
     localStorage.setItem('babyitem_guide_viewed', 'true');
   };
 
-  const handleCategoryClick = (categoryId: string) => {
-    logButtonClick(`카테고리 캐러셀: ${categoryId}`, 'home');
-    router.push(`/recommend-v2/${categoryId}`);
+  const handleCategoryClick = (data: CategoryClickData) => {
+    // 상세 로깅: 카테고리ID, 한글명, 인기여부, Row위치
+    const popularTag = data.isPopular ? '[인기]' : '';
+    logButtonClick(
+      `카테고리_캐러셀_클릭: ${popularTag}${data.name}(${data.id}) Row${data.row}`,
+      'home'
+    );
+    router.push(`/recommend-v2/${data.id}`);
   };
 
   const favoriteProducts = favorites

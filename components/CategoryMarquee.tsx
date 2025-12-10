@@ -34,20 +34,35 @@ const ALL_CATEGORIES: CategoryItem[] = [
 const ROW1_ITEMS = ALL_CATEGORIES.slice(0, 8);
 const ROW2_ITEMS = ALL_CATEGORIES.slice(8);
 
+// 클릭 이벤트에 전달되는 상세 정보
+export interface CategoryClickData {
+  id: string;
+  name: string;
+  isPopular: boolean;
+  row: 1 | 2;
+}
+
 interface CategoryMarqueeProps {
-  onCategoryClick: (categoryId: string) => void;
+  onCategoryClick: (data: CategoryClickData) => void;
 }
 
 function CategoryCard({
   item,
+  row,
   onClick
 }: {
   item: CategoryItem;
-  onClick: (id: string) => void;
+  row: 1 | 2;
+  onClick: (data: CategoryClickData) => void;
 }) {
   return (
     <button
-      onClick={() => onClick(item.id)}
+      onClick={() => onClick({
+        id: item.id,
+        name: item.name,
+        isPopular: item.isPopular ?? false,
+        row,
+      })}
       className={`shrink-0 mx-1.5 px-3.5 py-2 rounded-xl border transition-all duration-200
                  flex items-center gap-2 active:scale-95
                  ${item.isPopular
@@ -80,12 +95,14 @@ function MarqueeRow({
   items,
   direction,
   speed = 0.4,
+  row,
   onCategoryClick,
 }: {
   items: CategoryItem[];
   direction: 'left' | 'right';
   speed?: number;
-  onCategoryClick: (id: string) => void;
+  row: 1 | 2;
+  onCategoryClick: (data: CategoryClickData) => void;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isPausedRef = useRef(false);
@@ -184,6 +201,7 @@ function MarqueeRow({
           <CategoryCard
             key={`${item.id}-${idx}`}
             item={item}
+            row={row}
             onClick={onCategoryClick}
           />
         ))}
@@ -196,9 +214,9 @@ export function CategoryMarquee({ onCategoryClick }: CategoryMarqueeProps) {
   return (
     <div className="mt-8 mb-4 w-full -mx-6" style={{ width: 'calc(100% + 48px)' }}>
       <div className="mb-2.5">
-        <MarqueeRow items={ROW1_ITEMS} direction="left" speed={0.4} onCategoryClick={onCategoryClick} />
+        <MarqueeRow items={ROW1_ITEMS} direction="left" speed={0.4} row={1} onCategoryClick={onCategoryClick} />
       </div>
-      <MarqueeRow items={ROW2_ITEMS} direction="right" speed={0.4} onCategoryClick={onCategoryClick} />
+      <MarqueeRow items={ROW2_ITEMS} direction="right" speed={0.4} row={2} onCategoryClick={onCategoryClick} />
     </div>
   );
 }
