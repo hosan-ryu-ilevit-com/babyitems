@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 interface ScanAnimationProps {
   categoryName: string;
   onComplete: () => void;
-  duration?: number; // ms
 }
 
 /**
@@ -17,11 +16,15 @@ interface ScanAnimationProps {
 export function ScanAnimation({
   categoryName,
   onComplete,
-  duration = 2500,
 }: ScanAnimationProps) {
   const [progress, setProgress] = useState(0);
   const onCompleteRef = useRef(onComplete);
   const hasCompletedRef = useRef(false);
+
+  // 랜덤 duration (1900~2300ms)
+  const actualDurationRef = useRef(
+    Math.floor(Math.random() * (2300 - 1900 + 1)) + 1900
+  );
 
   // 최신 onComplete 콜백 참조 유지
   useEffect(() => {
@@ -29,12 +32,17 @@ export function ScanAnimation({
   }, [onComplete]);
 
   useEffect(() => {
-    const interval = 30; // 30ms마다 업데이트 (더 부드러움)
-    const step = (100 * interval) / duration;
+    const actualDuration = actualDurationRef.current;
+    const interval = 30; // 30ms마다 업데이트
+    const baseStep = (100 * interval) / actualDuration;
 
     const timer = setInterval(() => {
       setProgress(prev => {
-        const next = prev + step;
+        // 랜덤 step: baseStep의 0.5~1.5배 사이 변동
+        const randomMultiplier = 0.5 + Math.random();
+        const randomStep = baseStep * randomMultiplier;
+
+        const next = prev + randomStep;
         if (next >= 100) {
           clearInterval(timer);
           if (!hasCompletedRef.current) {
@@ -48,7 +56,7 @@ export function ScanAnimation({
     }, interval);
 
     return () => clearInterval(timer);
-  }, [duration]);
+  }, []);
 
   // 단계별 메시지
   const getStageMessage = () => {

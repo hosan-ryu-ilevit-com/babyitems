@@ -7,7 +7,7 @@ import type { ScoredProduct, DanawaPriceData } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
-import { logButtonClick } from '@/lib/logging/clientLogger';
+import { logButtonClick, logV2ProductModalOpened } from '@/lib/logging/clientLogger';
 
 // Extended product type with LLM recommendation reason
 interface RecommendedProduct extends ScoredProduct {
@@ -508,6 +508,18 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   // Handle product click
   const handleProductClick = (product: ScoredProduct, index: number) => {
     logButtonClick(`제품카드_클릭_${product.brand}_${product.title}`, 'v2-result');
+
+    // V2 specific logging
+    if (categoryKey) {
+      logV2ProductModalOpened(
+        categoryKey,
+        categoryName,
+        product.pcode,
+        product.title,
+        product.brand || undefined,
+        index + 1
+      );
+    }
 
     // Get analysis data for this product
     const analysis = productAnalysisData[product.pcode];

@@ -156,6 +156,97 @@ export interface LogEvent {
     isRegeneration?: boolean; // Was this a regeneration with different anchor?
     previousAnchorId?: string; // If regeneration, what was the previous anchor
   };
+  // V2 New Flow data (recommend-v2 페이지)
+  v2FlowData?: {
+    category: string;
+    categoryName: string;
+    step?: number; // 0-5 (현재 단계)
+    // 하드필터 관련
+    hardFilter?: {
+      questionId: string;
+      questionText: string;
+      questionIndex: number;
+      totalQuestions: number;
+      selectedValues: string[];
+      selectedLabels: string[];
+      productCountAfterFilter?: number;
+      isCustomInput?: boolean;
+      customInputText?: string;
+    };
+    // 서브카테고리 관련
+    subCategory?: {
+      code: string;
+      name: string;
+    };
+    // 밸런스 게임 관련
+    balance?: {
+      questionId: string;
+      questionIndex: number;
+      totalQuestions: number;
+      selectedOption: 'A' | 'B';
+      optionALabel: string;
+      optionBLabel: string;
+      selectedLabel: string;
+      ruleKey: string;
+    };
+    // 단점 선택 관련
+    negative?: {
+      ruleKey: string;
+      label: string;
+      isSelected: boolean;
+      totalSelected: number;
+    };
+    // 예산 관련
+    budget?: {
+      min: number;
+      max: number;
+      preset?: string; // 가성비/적정가/프리미엄/전체
+      isDirectInput?: boolean;
+      productsInRange?: number;
+    };
+    // 추천 결과 관련
+    recommendation?: {
+      recommendedProducts: Array<{
+        pcode: string;
+        title: string;
+        brand?: string;
+        rank: number;
+        price?: number;
+        score?: number;
+      }>;
+      selectionReason?: string;
+      totalCandidates: number;
+      processingTimeMs?: number;
+    };
+    // 상품 모달 관련
+    productModal?: {
+      pcode: string;
+      title: string;
+      brand?: string;
+      rank: number;
+    };
+    // 다나와 가격 클릭
+    danawaClick?: {
+      pcode: string;
+      mall: string;
+      price: number;
+      isLowestPrice: boolean;
+    };
+    // 찜하기
+    favorite?: {
+      pcode: string;
+      title: string;
+      action: 'add' | 'remove';
+    };
+    // 단계 이동
+    stepTransition?: {
+      fromStep: number;
+      toStep: number;
+      direction: 'forward' | 'back';
+    };
+    // 소요 시간 (ms)
+    elapsedTimeMs?: number;
+  };
   metadata?: Record<string, unknown>; // 추가 정보
 }
 
@@ -279,7 +370,7 @@ export interface CampaignFunnelStats {
   };
 }
 
-// V2 Flow Funnel Stats (Category-based flow) - Simplified page visit tracking
+// V2 Flow Funnel Stats (Category-based flow) - Simplified page visit tracking (LEGACY)
 export interface V2FunnelStats {
   utmCampaign: string; // 'all' | 'none' | specific campaign
   totalSessions: number;
@@ -298,6 +389,115 @@ export interface V2FunnelStats {
       comparisonViewed: PostRecommendationAction; // Viewed comparison (if implemented)
     };
   };
+}
+
+// V2 New Flow Funnel Stats (recommend-v2 페이지 - 11단계 퍼널)
+export interface V2NewFlowFunnelStats {
+  utmCampaign: string;
+  totalSessions: number;
+  funnel: {
+    // 11단계 퍼널
+    homePageViews: FunnelStep;           // Step 1: 홈 페이지 방문
+    categoriesV2Entry: FunnelStep;       // Step 2: categories-v2 페이지 방문
+    recommendV2Entry: FunnelStep;        // Step 3: recommend-v2 페이지 진입
+    guideStartClicked: FunnelStep;       // Step 4: 가이드 카드 '시작하기' 클릭
+    subCategorySelected: FunnelStep;     // Step 5: 하위 카테고리 선택 (해당 시)
+    hardFilterCompleted: FunnelStep;     // Step 6: 하드필터 완료
+    checkpointViewed: FunnelStep;        // Step 7: 조건 분석 완료 화면
+    balanceCompleted: FunnelStep;        // Step 8: 밸런스 게임 완료
+    negativeCompleted: FunnelStep;       // Step 9: 단점 선택 완료
+    budgetConfirmed: FunnelStep;         // Step 10: 예산 설정 완료
+    recommendationReceived: FunnelStep;  // Step 11: 추천 결과 수신
+  };
+  // 하드필터 질문별 이탈률
+  hardFilterDropoff: Array<{
+    questionIndex: number;
+    questionId: string;
+    questionText: string;
+    enteredCount: number;
+    completedCount: number;
+    dropoffRate: number; // %
+  }>;
+  // 단계별 평균 소요 시간 (초)
+  avgTimePerStep: {
+    guideToHardFilter: number;
+    hardFilterToCheckpoint: number;
+    checkpointToBalance: number;
+    balanceToNegative: number;
+    negativeTobudget: number;
+    budgetToResult: number;
+    totalTime: number;
+  };
+  // 결과 페이지 상세 액션
+  resultPageActions: {
+    productModalOpened: PostRecommendationAction;
+    danawaPriceClicked: PostRecommendationAction;
+    sellersToggled: PostRecommendationAction;
+    favoriteToggled: PostRecommendationAction;
+    lowestPriceClicked: PostRecommendationAction;
+  };
+  // 직접 입력 사용률
+  customInputUsage: {
+    hardFilterCustomInput: PostRecommendationAction;
+    budgetDirectInput: PostRecommendationAction;
+  };
+}
+
+// 카테고리별 V2 New Flow 분석
+export interface V2NewFlowCategoryAnalytics {
+  category: string;
+  categoryName: string;
+  totalSessions: number;
+  completionRate: number; // 추천 결과까지 도달한 비율 (%)
+  avgTotalTimeSeconds: number; // 평균 총 소요 시간
+  // 단계별 이탈률
+  stepDropoffRates: {
+    guideStart: number;
+    subCategory: number;
+    hardFilter: number;
+    checkpoint: number;
+    balance: number;
+    negative: number;
+    budget: number;
+  };
+  // 인기 선택지
+  popularSelections: {
+    hardFilters: Array<{
+      questionId: string;
+      value: string;
+      label: string;
+      count: number;
+      percentage: number;
+    }>;
+    balanceChoices: Array<{
+      questionId: string;
+      selectedOption: 'A' | 'B';
+      label: string;
+      count: number;
+      percentage: number;
+    }>;
+    negativeChoices: Array<{
+      ruleKey: string;
+      label: string;
+      count: number;
+      percentage: number;
+    }>;
+    budgetPresets: Array<{
+      preset: string;
+      count: number;
+      percentage: number;
+    }>;
+  };
+  // 추천된 상품 랭킹
+  recommendedProducts: Array<{
+    pcode: string;
+    title: string;
+    brand?: string;
+    totalRecommendations: number;
+    rank1Count: number;
+    rank2Count: number;
+    rank3Count: number;
+  }>;
 }
 
 // Category-specific analytics

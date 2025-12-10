@@ -8,7 +8,10 @@ import type {
   ProductRecommendationRanking,
   V2FunnelStats,
   CategoryAnalytics,
-  V2ProductRecommendationRanking
+  V2ProductRecommendationRanking,
+  V2NewFlowFunnelStats,
+  V2NewFlowCategoryAnalytics,
+  PostRecommendationAction
 } from '@/types/logging';
 
 // 테스트/내부 IP 및 Phone 필터링
@@ -361,6 +364,565 @@ function calculateCategoryAnalytics(sessions: SessionSummary[]): CategoryAnalyti
   return analytics;
 }
 
+// ============================================================
+// V2 NEW FLOW (recommend-v2 with hard filters, balance game)
+// ============================================================
+
+// V2 New Flow: 퍼널 통계 계산
+function calculateV2NewFlowFunnel(sessions: SessionSummary[], utmCampaign: string): V2NewFlowFunnelStats {
+  // UTM 필터링
+  const filteredSessions = sessions.filter(session => {
+    if (utmCampaign === 'all') return true;
+    if (utmCampaign === 'none') return !session.utmCampaign;
+    return session.utmCampaign === utmCampaign;
+  });
+
+  // 퍼널 단계별 세션 Set
+  const homePageViews = new Set<string>();
+  const categoriesV2Entry = new Set<string>();
+  const recommendV2Entry = new Set<string>();
+  const guideStartClicked = new Set<string>();
+  const subCategorySelected = new Set<string>();
+  const hardFilterCompleted = new Set<string>();
+  const checkpointViewed = new Set<string>();
+  const balanceCompleted = new Set<string>();
+  const negativeCompleted = new Set<string>();
+  const budgetConfirmed = new Set<string>();
+  const recommendationReceived = new Set<string>();
+
+  // 하드필터 질문별 이탈 추적
+  const hardFilterQuestionStats = new Map<string, {
+    questionText: string;
+    enteredSessions: Set<string>;
+    completedSessions: Set<string>;
+  }>();
+
+  // 단계별 타임스탬프 (소요시간 계산용)
+  const sessionTimestamps = new Map<string, {
+    guideStart?: number;
+    hardFilterComplete?: number;
+    checkpointView?: number;
+    balanceComplete?: number;
+    negativeComplete?: number;
+    budgetConfirm?: number;
+    recommendationReceive?: number;
+  }>();
+
+  // 결과 페이지 액션
+  let productModalOpenedTotal = 0;
+  let danawaPriceClickedTotal = 0;
+  let sellersToggledTotal = 0;
+  let favoriteToggledTotal = 0;
+  let lowestPriceClickedTotal = 0;
+  const productModalOpenedSessions = new Set<string>();
+  const danawaPriceClickedSessions = new Set<string>();
+  const sellersToggledSessions = new Set<string>();
+  const favoriteToggledSessions = new Set<string>();
+  const lowestPriceClickedSessions = new Set<string>();
+
+  // 직접 입력 사용률
+  let hardFilterCustomInputTotal = 0;
+  let budgetDirectInputTotal = 0;
+  const hardFilterCustomInputSessions = new Set<string>();
+  const budgetDirectInputSessions = new Set<string>();
+
+  filteredSessions.forEach(session => {
+    const sid = session.sessionId;
+    const timestamps: typeof sessionTimestamps extends Map<string, infer T> ? T : never = {};
+
+    // 모든 세션은 홈 방문으로 간주
+    homePageViews.add(sid);
+
+    session.events.forEach(event => {
+      const eventType = event.eventType;
+      const v2Data = event.v2FlowData;
+      const ts = new Date(event.timestamp).getTime();
+
+      // Step 2: categories-v2 페이지 방문 (page_view 이벤트)
+      if (eventType === 'page_view' && event.page === 'categories-v2') {
+        categoriesV2Entry.add(sid);
+      }
+
+      // Step 3: recommend-v2 페이지 진입
+      if (eventType === 'v2_page_view' && v2Data) {
+        recommendV2Entry.add(sid);
+      }
+
+      // Step 4: 가이드 카드 '시작하기' 클릭
+      if (eventType === 'v2_guide_start') {
+        guideStartClicked.add(sid);
+        timestamps.guideStart = ts;
+      }
+
+      // Step 5: 하위 카테고리 선택
+      if (eventType === 'v2_subcategory_selected') {
+        subCategorySelected.add(sid);
+      }
+
+      // 하드필터 개별 질문 답변 (이탈 추적용)
+      if (eventType === 'v2_hard_filter_answer' && v2Data?.hardFilter) {
+        const { questionId, questionText } = v2Data.hardFilter;
+        if (!hardFilterQuestionStats.has(questionId)) {
+          hardFilterQuestionStats.set(questionId, {
+            questionText: questionText || questionId,
+            enteredSessions: new Set(),
+            completedSessions: new Set(),
+          });
+        }
+        const stats = hardFilterQuestionStats.get(questionId)!;
+        stats.enteredSessions.add(sid);
+        stats.completedSessions.add(sid); // 답변하면 완료
+      }
+
+      // Step 6: 하드필터 완료
+      if (eventType === 'v2_hard_filter_completed') {
+        hardFilterCompleted.add(sid);
+        timestamps.hardFilterComplete = ts;
+      }
+
+      // Step 7: 조건 분석 완료 화면
+      if (eventType === 'v2_checkpoint_viewed') {
+        checkpointViewed.add(sid);
+        timestamps.checkpointView = ts;
+      }
+
+      // Step 8: 밸런스 게임 완료
+      if (eventType === 'v2_balance_completed') {
+        balanceCompleted.add(sid);
+        timestamps.balanceComplete = ts;
+      }
+
+      // Step 9: 단점 선택 완료
+      if (eventType === 'v2_negative_completed') {
+        negativeCompleted.add(sid);
+        timestamps.negativeComplete = ts;
+      }
+
+      // Step 10: 예산 설정 완료 (추천받기 클릭)
+      if (eventType === 'v2_recommendation_requested') {
+        budgetConfirmed.add(sid);
+        timestamps.budgetConfirm = ts;
+      }
+
+      // Step 11: 추천 결과 수신
+      if (eventType === 'v2_recommendation_received') {
+        recommendationReceived.add(sid);
+        timestamps.recommendationReceive = ts;
+      }
+
+      // 결과 페이지 액션
+      if (eventType === 'v2_product_modal_opened') {
+        productModalOpenedTotal++;
+        productModalOpenedSessions.add(sid);
+      }
+      if (eventType === 'v2_danawa_price_clicked') {
+        danawaPriceClickedTotal++;
+        danawaPriceClickedSessions.add(sid);
+      }
+      if (eventType === 'v2_sellers_toggle') {
+        sellersToggledTotal++;
+        sellersToggledSessions.add(sid);
+      }
+      if (eventType === 'v2_favorite_toggled') {
+        favoriteToggledTotal++;
+        favoriteToggledSessions.add(sid);
+      }
+      if (eventType === 'v2_lowest_price_clicked') {
+        lowestPriceClickedTotal++;
+        lowestPriceClickedSessions.add(sid);
+      }
+      // Also track from button_click events in product-modal
+      if (eventType === 'button_click' && event.page === 'product-modal') {
+        const label = event.buttonLabel || '';
+        if (label.includes('바로가기') || label.includes('최저가')) {
+          danawaPriceClickedTotal++;
+          danawaPriceClickedSessions.add(sid);
+        }
+        if (label.includes('판매처 더보기') || label.includes('판매처 접기')) {
+          sellersToggledTotal++;
+          sellersToggledSessions.add(sid);
+        }
+        if (label.includes('찜하기') || label.includes('찜 취소')) {
+          favoriteToggledTotal++;
+          favoriteToggledSessions.add(sid);
+        }
+        if (label.includes('최저가로 구매하기')) {
+          lowestPriceClickedTotal++;
+          lowestPriceClickedSessions.add(sid);
+        }
+      }
+
+      // 직접 입력 사용
+      if (eventType === 'v2_hard_filter_custom_input') {
+        hardFilterCustomInputTotal++;
+        hardFilterCustomInputSessions.add(sid);
+      }
+      if (eventType === 'v2_budget_changed' && v2Data?.budget?.isDirectInput) {
+        budgetDirectInputTotal++;
+        budgetDirectInputSessions.add(sid);
+      }
+    });
+
+    sessionTimestamps.set(sid, timestamps);
+  });
+
+  const homeCount = homePageViews.size;
+
+  // 하드필터 질문별 이탈률 계산
+  const hardFilterDropoff = Array.from(hardFilterQuestionStats.entries())
+    .map(([questionId, stats], index) => ({
+      questionIndex: index,
+      questionId,
+      questionText: stats.questionText,
+      enteredCount: stats.enteredSessions.size,
+      completedCount: stats.completedSessions.size,
+      dropoffRate: stats.enteredSessions.size > 0
+        ? Math.round((1 - stats.completedSessions.size / stats.enteredSessions.size) * 100)
+        : 0
+    }));
+
+  // 단계별 평균 소요 시간 계산
+  const timeDiffs = {
+    guideToHardFilter: [] as number[],
+    hardFilterToCheckpoint: [] as number[],
+    checkpointToBalance: [] as number[],
+    balanceToNegative: [] as number[],
+    negativeTobudget: [] as number[],
+    budgetToResult: [] as number[],
+    total: [] as number[],
+  };
+
+  sessionTimestamps.forEach(ts => {
+    if (ts.guideStart && ts.hardFilterComplete) {
+      timeDiffs.guideToHardFilter.push((ts.hardFilterComplete - ts.guideStart) / 1000);
+    }
+    if (ts.hardFilterComplete && ts.checkpointView) {
+      timeDiffs.hardFilterToCheckpoint.push((ts.checkpointView - ts.hardFilterComplete) / 1000);
+    }
+    if (ts.checkpointView && ts.balanceComplete) {
+      timeDiffs.checkpointToBalance.push((ts.balanceComplete - ts.checkpointView) / 1000);
+    }
+    if (ts.balanceComplete && ts.negativeComplete) {
+      timeDiffs.balanceToNegative.push((ts.negativeComplete - ts.balanceComplete) / 1000);
+    }
+    if (ts.negativeComplete && ts.budgetConfirm) {
+      timeDiffs.negativeTobudget.push((ts.budgetConfirm - ts.negativeComplete) / 1000);
+    }
+    if (ts.budgetConfirm && ts.recommendationReceive) {
+      timeDiffs.budgetToResult.push((ts.recommendationReceive - ts.budgetConfirm) / 1000);
+    }
+    if (ts.guideStart && ts.recommendationReceive) {
+      timeDiffs.total.push((ts.recommendationReceive - ts.guideStart) / 1000);
+    }
+  });
+
+  const avgTime = (arr: number[]) => arr.length > 0 ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : 0;
+
+  return {
+    utmCampaign,
+    totalSessions: filteredSessions.length,
+    funnel: {
+      homePageViews: { count: homeCount, percentage: 100 },
+      categoriesV2Entry: calculateFunnelStep(categoriesV2Entry.size, homeCount),
+      recommendV2Entry: calculateFunnelStep(recommendV2Entry.size, homeCount),
+      guideStartClicked: calculateFunnelStep(guideStartClicked.size, homeCount),
+      subCategorySelected: calculateFunnelStep(subCategorySelected.size, homeCount),
+      hardFilterCompleted: calculateFunnelStep(hardFilterCompleted.size, homeCount),
+      checkpointViewed: calculateFunnelStep(checkpointViewed.size, homeCount),
+      balanceCompleted: calculateFunnelStep(balanceCompleted.size, homeCount),
+      negativeCompleted: calculateFunnelStep(negativeCompleted.size, homeCount),
+      budgetConfirmed: calculateFunnelStep(budgetConfirmed.size, homeCount),
+      recommendationReceived: calculateFunnelStep(recommendationReceived.size, homeCount),
+    },
+    hardFilterDropoff,
+    avgTimePerStep: {
+      guideToHardFilter: avgTime(timeDiffs.guideToHardFilter),
+      hardFilterToCheckpoint: avgTime(timeDiffs.hardFilterToCheckpoint),
+      checkpointToBalance: avgTime(timeDiffs.checkpointToBalance),
+      balanceToNegative: avgTime(timeDiffs.balanceToNegative),
+      negativeTobudget: avgTime(timeDiffs.negativeTobudget),
+      budgetToResult: avgTime(timeDiffs.budgetToResult),
+      totalTime: avgTime(timeDiffs.total),
+    },
+    resultPageActions: {
+      productModalOpened: { total: productModalOpenedTotal, unique: productModalOpenedSessions.size },
+      danawaPriceClicked: { total: danawaPriceClickedTotal, unique: danawaPriceClickedSessions.size },
+      sellersToggled: { total: sellersToggledTotal, unique: sellersToggledSessions.size },
+      favoriteToggled: { total: favoriteToggledTotal, unique: favoriteToggledSessions.size },
+      lowestPriceClicked: { total: lowestPriceClickedTotal, unique: lowestPriceClickedSessions.size },
+    },
+    customInputUsage: {
+      hardFilterCustomInput: { total: hardFilterCustomInputTotal, unique: hardFilterCustomInputSessions.size },
+      budgetDirectInput: { total: budgetDirectInputTotal, unique: budgetDirectInputSessions.size },
+    },
+  };
+}
+
+// V2 New Flow: 카테고리별 분석
+function calculateV2NewFlowCategoryAnalytics(sessions: SessionSummary[]): V2NewFlowCategoryAnalytics[] {
+  const categoryMap = new Map<string, {
+    categoryName: string;
+    sessions: Set<string>;
+    completedSessions: Set<string>;
+    timestamps: Map<string, { start?: number; end?: number }>;
+    stepReached: Map<string, number>; // step name -> count
+    hardFilterSelections: Map<string, Map<string, { label: string; count: number }>>; // questionId -> value -> {label, count}
+    balanceSelections: Map<string, Map<'A' | 'B', { label: string; count: number }>>; // questionId -> A/B -> {label, count}
+    negativeSelections: Map<string, { label: string; count: number }>; // ruleKey -> {label, count}
+    budgetPresets: Map<string, number>; // preset -> count
+    recommendedProducts: Map<string, { title: string; brand?: string; rank1Count: number; rank2Count: number; rank3Count: number }>; // pcode -> stats
+  }>();
+
+  sessions.forEach(session => {
+    const sid = session.sessionId;
+
+    session.events.forEach(event => {
+      const eventType = event.eventType;
+      const v2Data = event.v2FlowData;
+      const ts = new Date(event.timestamp).getTime();
+
+      // recommend-v2 페이지 진입 시 카테고리 추적 시작
+      if (eventType === 'v2_page_view' && v2Data?.category) {
+        const { category, categoryName } = v2Data;
+        if (!categoryMap.has(category)) {
+          categoryMap.set(category, {
+            categoryName: categoryName || category,
+            sessions: new Set(),
+            completedSessions: new Set(),
+            timestamps: new Map(),
+            stepReached: new Map(),
+            hardFilterSelections: new Map(),
+            balanceSelections: new Map(),
+            negativeSelections: new Map(),
+            budgetPresets: new Map(),
+            recommendedProducts: new Map(),
+          });
+        }
+        const data = categoryMap.get(category)!;
+        data.sessions.add(sid);
+        data.timestamps.set(sid, { start: ts });
+      }
+
+      // 각 이벤트에서 카테고리 정보가 있으면 해당 카테고리 통계 업데이트
+      if (v2Data?.category) {
+        const data = categoryMap.get(v2Data.category);
+        if (!data) return;
+
+        // 단계별 도달 추적
+        if (eventType === 'v2_guide_start') {
+          data.stepReached.set('guideStart', (data.stepReached.get('guideStart') || 0) + 1);
+        }
+        if (eventType === 'v2_subcategory_selected') {
+          data.stepReached.set('subCategory', (data.stepReached.get('subCategory') || 0) + 1);
+        }
+        if (eventType === 'v2_hard_filter_completed') {
+          data.stepReached.set('hardFilter', (data.stepReached.get('hardFilter') || 0) + 1);
+        }
+        if (eventType === 'v2_checkpoint_viewed') {
+          data.stepReached.set('checkpoint', (data.stepReached.get('checkpoint') || 0) + 1);
+        }
+        if (eventType === 'v2_balance_completed') {
+          data.stepReached.set('balance', (data.stepReached.get('balance') || 0) + 1);
+        }
+        if (eventType === 'v2_negative_completed') {
+          data.stepReached.set('negative', (data.stepReached.get('negative') || 0) + 1);
+        }
+        if (eventType === 'v2_recommendation_requested') {
+          data.stepReached.set('budget', (data.stepReached.get('budget') || 0) + 1);
+        }
+
+        // 하드필터 선택 통계
+        if (eventType === 'v2_hard_filter_answer' && v2Data.hardFilter) {
+          const { questionId, selectedValues, selectedLabels } = v2Data.hardFilter;
+          if (!data.hardFilterSelections.has(questionId)) {
+            data.hardFilterSelections.set(questionId, new Map());
+          }
+          const questionStats = data.hardFilterSelections.get(questionId)!;
+          selectedValues?.forEach((value, i) => {
+            const label = selectedLabels?.[i] || value;
+            const existing = questionStats.get(value) || { label, count: 0 };
+            existing.count++;
+            questionStats.set(value, existing);
+          });
+        }
+
+        // 밸런스 게임 선택 통계
+        if (eventType === 'v2_balance_selection' && v2Data.balance) {
+          const { questionId, selectedOption, optionALabel, optionBLabel } = v2Data.balance;
+          if (!data.balanceSelections.has(questionId)) {
+            data.balanceSelections.set(questionId, new Map());
+          }
+          const questionStats = data.balanceSelections.get(questionId)!;
+          const label = selectedOption === 'A' ? optionALabel : optionBLabel;
+          const existing = questionStats.get(selectedOption) || { label: label || '', count: 0 };
+          existing.count++;
+          questionStats.set(selectedOption, existing);
+        }
+
+        // 단점 선택 통계
+        if (eventType === 'v2_negative_toggle' && v2Data.negative) {
+          const { ruleKey, label, isSelected } = v2Data.negative;
+          if (isSelected) {
+            const existing = data.negativeSelections.get(ruleKey) || { label: label || ruleKey, count: 0 };
+            existing.count++;
+            data.negativeSelections.set(ruleKey, existing);
+          }
+        }
+
+        // 예산 프리셋 통계
+        if (eventType === 'v2_budget_preset_clicked' && v2Data.budget) {
+          const { preset } = v2Data.budget;
+          if (preset) {
+            data.budgetPresets.set(preset, (data.budgetPresets.get(preset) || 0) + 1);
+          }
+        }
+
+        // 완료 추적 및 추천 상품 통계
+        if (eventType === 'v2_recommendation_received' && v2Data.recommendation) {
+          data.completedSessions.add(sid);
+          const timestamp = data.timestamps.get(sid);
+          if (timestamp) {
+            timestamp.end = ts;
+          }
+
+          // 추천 상품 통계
+          v2Data.recommendation.recommendedProducts?.forEach((p) => {
+            const existing = data.recommendedProducts.get(p.pcode) || {
+              title: p.title,
+              brand: p.brand,
+              rank1Count: 0,
+              rank2Count: 0,
+              rank3Count: 0,
+            };
+            if (p.rank === 1) existing.rank1Count++;
+            else if (p.rank === 2) existing.rank2Count++;
+            else if (p.rank === 3) existing.rank3Count++;
+            data.recommendedProducts.set(p.pcode, existing);
+          });
+        }
+      }
+    });
+  });
+
+  // 분석 결과 생성
+  const analytics: V2NewFlowCategoryAnalytics[] = [];
+
+  categoryMap.forEach((data, category) => {
+    const totalSessions = data.sessions.size;
+    const completedSessions = data.completedSessions.size;
+
+    // 평균 소요 시간 계산
+    let totalTime = 0;
+    let completedCount = 0;
+    data.timestamps.forEach(ts => {
+      if (ts.start && ts.end) {
+        totalTime += (ts.end - ts.start) / 1000;
+        completedCount++;
+      }
+    });
+    const avgTime = completedCount > 0 ? Math.round(totalTime / completedCount) : 0;
+
+    // 단계별 이탈률 계산
+    const getDropoff = (step: string, prevCount: number) => {
+      const count = data.stepReached.get(step) || 0;
+      return prevCount > 0 ? Math.round((1 - count / prevCount) * 100) : 0;
+    };
+
+    // 인기 하드필터 선택
+    const popularHardFilters: V2NewFlowCategoryAnalytics['popularSelections']['hardFilters'] = [];
+    data.hardFilterSelections.forEach((valueMap, questionId) => {
+      valueMap.forEach((stats, value) => {
+        popularHardFilters.push({
+          questionId,
+          value,
+          label: stats.label,
+          count: stats.count,
+          percentage: totalSessions > 0 ? Math.round((stats.count / totalSessions) * 100) : 0,
+        });
+      });
+    });
+    popularHardFilters.sort((a, b) => b.count - a.count);
+
+    // 인기 밸런스 선택
+    const popularBalanceChoices: V2NewFlowCategoryAnalytics['popularSelections']['balanceChoices'] = [];
+    data.balanceSelections.forEach((optionMap, questionId) => {
+      optionMap.forEach((stats, option) => {
+        popularBalanceChoices.push({
+          questionId,
+          selectedOption: option,
+          label: stats.label,
+          count: stats.count,
+          percentage: totalSessions > 0 ? Math.round((stats.count / totalSessions) * 100) : 0,
+        });
+      });
+    });
+    popularBalanceChoices.sort((a, b) => b.count - a.count);
+
+    // 인기 단점 선택
+    const popularNegativeChoices: V2NewFlowCategoryAnalytics['popularSelections']['negativeChoices'] = [];
+    data.negativeSelections.forEach((stats, ruleKey) => {
+      popularNegativeChoices.push({
+        ruleKey,
+        label: stats.label,
+        count: stats.count,
+        percentage: totalSessions > 0 ? Math.round((stats.count / totalSessions) * 100) : 0,
+      });
+    });
+    popularNegativeChoices.sort((a, b) => b.count - a.count);
+
+    // 예산 프리셋 분포
+    const budgetPresets: V2NewFlowCategoryAnalytics['popularSelections']['budgetPresets'] = [];
+    data.budgetPresets.forEach((count, preset) => {
+      budgetPresets.push({
+        preset,
+        count,
+        percentage: totalSessions > 0 ? Math.round((count / totalSessions) * 100) : 0,
+      });
+    });
+    budgetPresets.sort((a, b) => b.count - a.count);
+
+    analytics.push({
+      category,
+      categoryName: data.categoryName,
+      totalSessions,
+      completionRate: totalSessions > 0 ? Math.round((completedSessions / totalSessions) * 100) : 0,
+      avgTotalTimeSeconds: avgTime,
+      stepDropoffRates: {
+        guideStart: getDropoff('guideStart', totalSessions),
+        subCategory: getDropoff('subCategory', data.stepReached.get('guideStart') || totalSessions),
+        hardFilter: getDropoff('hardFilter', data.stepReached.get('subCategory') || data.stepReached.get('guideStart') || totalSessions),
+        checkpoint: getDropoff('checkpoint', data.stepReached.get('hardFilter') || totalSessions),
+        balance: getDropoff('balance', data.stepReached.get('checkpoint') || totalSessions),
+        negative: getDropoff('negative', data.stepReached.get('balance') || totalSessions),
+        budget: getDropoff('budget', data.stepReached.get('negative') || totalSessions),
+      },
+      popularSelections: {
+        hardFilters: popularHardFilters.slice(0, 15),
+        balanceChoices: popularBalanceChoices.slice(0, 10),
+        negativeChoices: popularNegativeChoices.slice(0, 10),
+        budgetPresets,
+      },
+      recommendedProducts: Array.from(data.recommendedProducts.entries())
+        .map(([pcode, stats]) => ({
+          pcode,
+          title: stats.title,
+          brand: stats.brand,
+          totalRecommendations: stats.rank1Count + stats.rank2Count + stats.rank3Count,
+          rank1Count: stats.rank1Count,
+          rank2Count: stats.rank2Count,
+          rank3Count: stats.rank3Count,
+        }))
+        .sort((a, b) => b.totalRecommendations - a.totalRecommendations)
+        .slice(0, 20),
+    });
+  });
+
+  // 세션 수로 정렬
+  analytics.sort((a, b) => b.totalSessions - a.totalSessions);
+
+  return analytics;
+}
+
 // V2 Flow: 제품별 추천 통계
 function calculateV2ProductRankings(sessions: SessionSummary[]): V2ProductRecommendationRanking[] {
   const productMap = new Map<string, {
@@ -690,6 +1252,13 @@ export async function GET(request: NextRequest) {
     const categoryAnalytics = calculateCategoryAnalytics(filteredSessions);
     const v2ProductRankings = calculateV2ProductRankings(filteredSessions);
 
+    // V2 New Flow (recommend-v2 with hard filters, balance game)
+    const v2NewFlowCampaignStats: V2NewFlowFunnelStats[] = [];
+    for (const utmCampaign of Array.from(utmCampaigns)) {
+      v2NewFlowCampaignStats.push(calculateV2NewFlowFunnel(filteredSessions, utmCampaign));
+    }
+    const v2NewFlowCategoryAnalytics = calculateV2NewFlowCategoryAnalytics(filteredSessions);
+
     // 응답 반환
     return NextResponse.json({
       // Main Flow (Priority-based)
@@ -697,11 +1266,16 @@ export async function GET(request: NextRequest) {
         campaigns: campaignStats,
         productRecommendationRankings
       },
-      // V2 Flow (Category-based)
+      // V2 Flow (Category-based, old anchor flow)
       v2Flow: {
         campaigns: v2CampaignStats,
         categoryAnalytics,
         productRecommendationRankings: v2ProductRankings
+      },
+      // V2 New Flow (recommend-v2 with hard filters, balance game)
+      v2NewFlow: {
+        campaigns: v2NewFlowCampaignStats,
+        categoryAnalytics: v2NewFlowCategoryAnalytics,
       },
       availableCampaigns: Array.from(utmCampaigns)
     });

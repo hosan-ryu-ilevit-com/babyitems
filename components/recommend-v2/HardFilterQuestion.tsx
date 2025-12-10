@@ -13,6 +13,8 @@ interface HardFilterQuestionProps {
   // 디버깅용: 옵션별 제품 개수 표시
   products?: ProductItem[];
   showProductCounts?: boolean;
+  // 로깅 콜백
+  onCustomInputSubmit?: (questionId: string, customText: string) => void;
 }
 
 /**
@@ -111,6 +113,7 @@ export function HardFilterQuestion({
   onSelect,
   products,
   showProductCounts = false,
+  onCustomInputSubmit,
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
 
@@ -170,6 +173,8 @@ export function HardFilterQuestion({
       const newValues = [...localSelectedValues.filter(v => !v.startsWith('custom:')), customValue];
       setLocalSelectedValues(newValues);
       onSelect(question.id, newValues);
+      // 로깅 콜백 호출
+      onCustomInputSubmit?.(question.id, customInput.trim());
       setShowCustomInput(false);
       setCustomInput('');
     }

@@ -265,23 +265,17 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
           className="min-h-screen px-6 pt-4 pb-24 max-w-[480px] mx-auto bg-white"
         >
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <button onClick={handleBackToFolders} className="p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div className="flex items-center mb-6">
+          <div className="flex items-center gap-2">
+            <button onClick={handleBackToFolders} className="p-1">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-base font-bold text-gray-900">
               {categoryLabel} <span className="font-bold" style={{ color: '#0084FE' }}>{categoryProducts.length}</span>
             </h2>
           </div>
-          <button onClick={onClose} className="p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
         </div>
 
         {/* Product List */}
@@ -322,15 +316,22 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
                     )}
                     <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2">{product.title}</h3>
                     <p className="text-lg font-bold text-gray-900 mb-1">{product.price.toLocaleString()}원</p>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFC107" stroke="#FFC107" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                        </svg>
-                        <span>{product.averageRating || 4.5}</span>
+                    {/* 리뷰 개수나 평균 별점이 있을 때만 표시 */}
+                    {((product.averageRating ?? 0) > 0 || product.reviewCount > 0) && (
+                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                        {(product.averageRating ?? 0) > 0 && (
+                          <div className="flex items-center gap-1">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFC107" stroke="#FFC107" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg>
+                            <span>{(product.averageRating ?? 0).toFixed(1)}</span>
+                          </div>
+                        )}
+                        {product.reviewCount > 0 && (
+                          <span>리뷰 {product.reviewCount.toLocaleString()}</span>
+                        )}
                       </div>
-                      <span>리뷰 {product.reviewCount.toLocaleString()}</span>
-                    </div>
+                    )}
                   </div>
                 </div>
 
@@ -406,7 +407,7 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900">찜한 상품</h2>
+          <h2 className="text-sm font-bold text-gray-900">찜한 상품</h2>
           <button onClick={onClose} className="p-2">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -438,9 +439,9 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900">찜한 상품</h2>
+          <h2 className="text-m font-bold text-gray-900">찜한 상품</h2>
           <button onClick={onClose} className="p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -448,11 +449,11 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
         </div>
 
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-4">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-4">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
           <h3 className="text-lg font-semibold text-gray-700 mb-2">찜한 상품이 없어요</h3>
-          <p className="text-sm text-gray-500">마음에 드는 상품을 찜해보세요</p>
+          <p className="text-sm text-gray-500">AI 추천 받고 마음에 드는 상품을 찜해보세요</p>
         </div>
       </motion.section>
     );

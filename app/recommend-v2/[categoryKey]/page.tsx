@@ -54,6 +54,26 @@ import hardFiltersData from '@/data/rules/hard_filters.json';
 import subCategoriesData from '@/data/rules/sub_categories.json';
 import { requiresSubCategorySelection } from '@/lib/recommend-v2/categoryUtils';
 
+// Logging
+import {
+  logV2PageView,
+  logV2GuideStart,
+  logV2SubCategorySelected,
+  logV2HardFilterAnswer,
+  logV2HardFilterCustomInput,
+  logV2HardFilterCompleted,
+  logV2CheckpointViewed,
+  logV2BalanceSelection,
+  logV2BalanceCompleted,
+  logV2NegativeToggle,
+  logV2NegativeCompleted,
+  logV2BudgetPresetClicked,
+  logV2BudgetChanged,
+  logV2RecommendationRequested,
+  logV2RecommendationReceived,
+  logV2StepBack,
+} from '@/lib/logging/clientLogger';
+
 // Sub-category types
 interface SubCategory {
   code: string;
@@ -361,6 +381,9 @@ export default function RecommendV2Page() {
         const budgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000 };
         setBudget({ min: budgetRange.min, max: budgetRange.max });
 
+        // Log page view
+        logV2PageView(categoryKey, category_name);
+
       } catch (error) {
         console.error('Data load error:', error);
       } finally {
@@ -441,6 +464,11 @@ export default function RecommendV2Page() {
 
     // Find the selected sub-category name
     const selectedSub = subCategoryConfig?.sub_categories.find(s => s.code === code);
+
+    // Log sub-category selection
+    if (selectedSub) {
+      logV2SubCategorySelected(categoryKey, categoryName, code, selectedSub.name);
+    }
     const filterBy = subCategoryConfig?.filter_by || 'category_code';
     const filterKey = subCategoryConfig?.filter_key;
 
@@ -538,7 +566,7 @@ export default function RecommendV2Page() {
         handleHardFiltersCompleteRef.current?.({}, loadedProducts);
       }, 300);
     }
-  }, [selectedSubCategoryCode, categoryKey, subCategoryConfig, addMessage, scrollToMessage]);
+  }, [selectedSubCategoryCode, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 0 → Step 1: Start Hard Filters
@@ -548,6 +576,9 @@ export default function RecommendV2Page() {
     console.log('🎯 DEBUG handleStartHardFilters called');
     console.log('  - hardFilterConfig:', hardFilterConfig);
     console.log('  - questions:', hardFilterConfig?.questions?.length);
+
+    // Log guide start
+    logV2GuideStart(categoryKey, categoryName);
 
     setCurrentStep(1);
 
@@ -581,7 +612,7 @@ export default function RecommendV2Page() {
         handleHardFiltersCompleteRef.current?.({});
       }, 100);
     }
-  }, [hardFilterConfig, addMessage, scrollToMessage]);
+  }, [hardFilterConfig, addMessage, scrollToMessage, categoryKey, categoryName]);
 
   // ===================================================
   // Step 1: Hard Filter Selection (다중 선택 지원)
@@ -619,6 +650,10 @@ export default function RecommendV2Page() {
     productsOverride?: ProductItem[]  // 선택적: state 대신 직접 전달된 products 사용
   ) => {
     setCurrentStep(2);
+
+    // Log hard filter completion
+    const totalQuestions = hardFilterConfig?.questions?.length || 0;
+    logV2HardFilterCompleted(categoryKey, categoryName, totalQuestions, productsOverride?.length || productsRef.current.length);
 
     // Apply filters to products
     // 우선순위: 1) productsOverride (직접 전달) 2) productsRef.current (최신 상태)
@@ -803,6 +838,9 @@ export default function RecommendV2Page() {
         : msg
     ));
 
+    // Log checkpoint viewed
+    logV2CheckpointViewed(categoryKey, categoryName, filtered.length);
+
     // Add AI summary message (stepTag 없음 - 위에서 이미 추가됨, 스크롤 없이 그 아래에 렌더링)
     const summaryMessage = aiSummary || `전체 **${productsToUse.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
     setTimeout(() => {
@@ -822,6 +860,24 @@ export default function RecommendV2Page() {
   // "다음" 버튼 클릭 시 다음 질문으로 이동
   const handleHardFilterNext = useCallback(() => {
     const questions = hardFilterConfig?.questions || [];
+
+    // Log current question answer
+    const currentQuestion = questions[currentHardFilterIndex];
+    if (currentQuestion && hardFilterAnswers[currentQuestion.id]?.length > 0) {
+      const selectedValues = hardFilterAnswers[currentQuestion.id];
+      const selectedLabels = selectedValues.map(v => hardFilterLabels[v] || v);
+      logV2HardFilterAnswer(
+        categoryKey,
+        categoryName,
+        currentQuestion.id,
+        currentQuestion.question,
+        currentHardFilterIndex,
+        questions.length,
+        selectedValues,
+        selectedLabels
+      );
+    }
+
     const nextIndex = currentHardFilterIndex + 1;
 
     if (nextIndex < questions.length) {
@@ -846,7 +902,7 @@ export default function RecommendV2Page() {
       // 마지막 질문 완료 - Step 2로 이동
       handleHardFiltersComplete(hardFilterAnswers);
     }
-  }, [hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, addMessage, scrollToMessage, handleHardFiltersComplete]);
+  }, [hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, hardFilterLabels, categoryKey, categoryName, addMessage, scrollToMessage, handleHardFiltersComplete]);
 
   // ===================================================
   // Step 2 → Step 3: Start Balance Game
@@ -896,6 +952,9 @@ export default function RecommendV2Page() {
     console.log('  - selections:', Array.from(selections));
     console.log('  - dynamicNegativeOptions:', dynamicNegativeOptions.length, dynamicNegativeOptions.map(o => o.id));
     console.log('  - negativeOptions (static):', negativeOptions.length);
+
+    // Log balance game completion
+    logV2BalanceCompleted(categoryKey, categoryName, selections.size, Array.from(selections));
 
     // 선택된 rule keys 저장
     setBalanceSelections(selections);
@@ -1032,9 +1091,11 @@ export default function RecommendV2Page() {
   }, [negativeSelections]);
 
   const handleNegativeComplete = useCallback(() => {
-    setCurrentStep(5);
+    // Log negative selection completion
+    const selectedLabels = negativeSelections.map(key => negativeLabels[key] || key);
+    logV2NegativeCompleted(categoryKey, categoryName, negativeSelections, selectedLabels);
 
-  
+    setCurrentStep(5);
 
     // stepTag 메시지로 스크롤
     const stepMsgId = addMessage({
@@ -1052,7 +1113,7 @@ export default function RecommendV2Page() {
         componentType: 'budget-slider',
       });
     }, 300);
-  }, [negativeSelections, addMessage, scrollToMessage]);
+  }, [negativeSelections, negativeLabels, categoryKey, categoryName, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 5: Budget & Results
@@ -1064,6 +1125,9 @@ export default function RecommendV2Page() {
 
   const handleGetRecommendation = useCallback(async () => {
     setIsCalculating(true);
+
+    // Log recommendation requested
+    logV2RecommendationRequested(categoryKey, categoryName, budget.min, budget.max, filteredProducts.length);
 
     try {
       // 1단계: 기존 점수 계산 (후보 선정용)
@@ -1136,6 +1200,22 @@ export default function RecommendV2Page() {
 
       setScoredProducts(top3);
       setSelectionReason(finalSelectionReason);
+
+      // Log recommendation received
+      logV2RecommendationReceived(
+        categoryKey,
+        categoryName,
+        top3.map((p: ScoredProduct, index: number) => ({
+          pcode: p.pcode,
+          title: p.title,
+          brand: p.brand || undefined,
+          rank: index + 1,
+          price: p.price || undefined,
+          score: p.totalScore,
+        })),
+        finalSelectionReason,
+        budgetFiltered.length
+      );
 
       // 결과 메시지 추가 + 스크롤 (맞춤 추천 완료 헤더 아래로)
       const resultMsgId = addMessage({
@@ -1274,6 +1354,17 @@ export default function RecommendV2Page() {
                 onSelect={handleHardFilterSelect}
                 products={products}
                 showProductCounts={true}
+                onCustomInputSubmit={(questionId, customText) => {
+                  logV2HardFilterCustomInput(
+                    categoryKey,
+                    categoryName,
+                    questionId,
+                    hfData.question.question,
+                    hfData.currentIndex,
+                    hfData.totalCount,
+                    customText
+                  );
+                }}
               />
             </div>
           );
@@ -1310,6 +1401,19 @@ export default function RecommendV2Page() {
                 questions={carouselData.questions}
                 onComplete={handleBalanceGameComplete}
                 onStateChange={setBalanceGameState}
+                onSelectionMade={(params) => {
+                  logV2BalanceSelection(
+                    categoryKey,
+                    categoryName,
+                    params.questionId,
+                    params.questionIndex,
+                    params.totalQuestions,
+                    params.selectedOption,
+                    params.optionALabel,
+                    params.optionBLabel,
+                    params.ruleKey
+                  );
+                }}
               />
             </div>
           );
@@ -1329,6 +1433,9 @@ export default function RecommendV2Page() {
                   selectedKeys: negativeSelections,
                 }}
                 onToggle={handleNegativeToggle}
+                onToggleWithLabel={(ruleKey, label, isSelected, totalSelected) => {
+                  logV2NegativeToggle(categoryKey, categoryName, ruleKey, label, isSelected, totalSelected);
+                }}
               />
             </div>
           );
@@ -1352,6 +1459,12 @@ export default function RecommendV2Page() {
                 initialMax={budget.max}
                 onChange={handleBudgetChange}
                 products={filteredProducts}
+                onPresetClick={(preset, min, max, productsInRange) => {
+                  logV2BudgetPresetClicked(categoryKey, categoryName, preset, min, max, productsInRange);
+                }}
+                onDirectInput={(min, max, productsInRange) => {
+                  logV2BudgetChanged(categoryKey, categoryName, min, max, true, productsInRange);
+                }}
               />
             </div>
           );
@@ -1411,6 +1524,10 @@ export default function RecommendV2Page() {
   const handleGoToPreviousHardFilter = useCallback(() => {
     if (currentHardFilterIndex > 0) {
       const prevIndex = currentHardFilterIndex - 1;
+
+      // Log step back within hard filters
+      logV2StepBack(categoryKey, categoryName, 1, 1);
+
       setCurrentHardFilterIndex(prevIndex);
 
       // Remove the current question message from messages
@@ -1427,6 +1544,8 @@ export default function RecommendV2Page() {
       scrollToBottom();
     } else {
       // Go back to step 0 (sub-category or guide)
+      logV2StepBack(categoryKey, categoryName, 1, 0);
+
       setCurrentStep(0);
       setCurrentHardFilterIndex(0);
       // Clear messages after guide/sub-category
@@ -1442,9 +1561,11 @@ export default function RecommendV2Page() {
         setShowSubCategorySelector(true);
       }
     }
-  }, [currentHardFilterIndex, requiresSubCategory, scrollToBottom]);
+  }, [currentHardFilterIndex, requiresSubCategory, scrollToBottom, categoryKey, categoryName]);
 
   const handleGoToStep0 = useCallback(() => {
+    logV2StepBack(categoryKey, categoryName, currentStep, 0);
+
     setCurrentStep(0);
     setCurrentHardFilterIndex(0);
     setHardFilterAnswers({});
@@ -1459,7 +1580,7 @@ export default function RecommendV2Page() {
     if (requiresSubCategory) {
       setShowSubCategorySelector(true);
     }
-  }, [requiresSubCategory]);
+  }, [requiresSubCategory, categoryKey, categoryName, currentStep]);
 
   // ===================================================
   // Bottom Button
@@ -1538,6 +1659,7 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={() => {
+              logV2StepBack(categoryKey, categoryName, 2, 1);
               setCurrentStep(1);
               // Remove checkpoint related messages
               setMessages(prev => prev.filter(msg =>
@@ -1580,6 +1702,7 @@ export default function RecommendV2Page() {
                 balanceGameRef.current?.goToPrevious();
               } else {
                 // 첫 질문이면 Step 2로 돌아가기
+                logV2StepBack(categoryKey, categoryName, 3, 2);
                 setCurrentStep(2);
                 setMessages(prev => prev.filter(msg =>
                   msg.componentType !== 'balance-carousel' &&
@@ -1626,6 +1749,7 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={() => {
+              logV2StepBack(categoryKey, categoryName, 4, 3);
               setCurrentStep(3);
               // Remove negative filter related messages
               setMessages(prev => prev.filter(msg =>
@@ -1659,6 +1783,7 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={() => {
+              logV2StepBack(categoryKey, categoryName, 5, 4);
               setCurrentStep(4);
               // Remove budget slider related messages
               setMessages(prev => prev.filter(msg =>
@@ -1769,7 +1894,6 @@ export default function RecommendV2Page() {
               <ScanAnimation
                 categoryName={categoryName}
                 onComplete={handleScanComplete}
-                duration={2000}
               />
             )}
           </AnimatePresence>

@@ -22,6 +22,16 @@ interface BalanceGameCarouselProps {
     totalQuestions: number;
     currentQuestionAnswered: boolean;
   }) => void;
+  // 로깅 콜백: 개별 선택 시 호출
+  onSelectionMade?: (params: {
+    questionId: string;
+    questionIndex: number;
+    totalQuestions: number;
+    selectedOption: 'A' | 'B';
+    optionALabel: string;
+    optionBLabel: string;
+    ruleKey: string;
+  }) => void;
 }
 
 /**
@@ -47,7 +57,7 @@ const slideVariants = {
 };
 
 export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGameCarouselProps>(
-  function BalanceGameCarousel({ questions, onComplete, onStateChange }, ref) {
+  function BalanceGameCarousel({ questions, onComplete, onStateChange, onSelectionMade }, ref) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selections, setSelections] = useState<Map<string, string>>(new Map());
     const [skipped, setSkipped] = useState<Set<string>>(new Set());
@@ -92,6 +102,21 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
         newSelections.delete(questionId);
       } else {
         newSelections.set(questionId, ruleKey);
+
+        // 로깅 콜백 호출 (새로 선택한 경우에만)
+        const question = questions.find(q => q.id === questionId);
+        if (question && onSelectionMade) {
+          const isOptionA = ruleKey === question.option_A.target_rule_key;
+          onSelectionMade({
+            questionId,
+            questionIndex: currentIndex,
+            totalQuestions: questions.length,
+            selectedOption: isOptionA ? 'A' : 'B',
+            optionALabel: question.option_A.text,
+            optionBLabel: question.option_B.text,
+            ruleKey,
+          });
+        }
       }
 
       setSelections(newSelections);

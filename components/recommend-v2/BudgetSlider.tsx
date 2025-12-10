@@ -14,6 +14,9 @@ interface BudgetSliderProps {
   formatValue?: (value: number) => string;
   // 히스토그램용: 상품 목록
   products?: ProductItem[];
+  // 로깅 콜백
+  onPresetClick?: (preset: string, min: number, max: number, productsInRange: number) => void;
+  onDirectInput?: (min: number, max: number, productsInRange: number) => void;
 }
 
 // 히스토그램 막대 개수
@@ -35,6 +38,8 @@ export function BudgetSlider({
   onChange,
   formatValue = (v) => `${(v / 10000).toFixed(0)}만원`,
   products = [],
+  onPresetClick,
+  onDirectInput,
 }: BudgetSliderProps) {
   const [minValue, setMinValue] = useState(initialMin ?? min);
   const [maxValue, setMaxValue] = useState(initialMax ?? max);
@@ -187,6 +192,9 @@ export function BudgetSlider({
       const newMin = snapToStep(Math.max(min, Math.min(parsed, maxValue - step)));
       setMinValue(newMin);
       onChange({ min: newMin, max: maxValue });
+      // 로깅 콜백 호출
+      const productsCount = products.filter(p => p.price && p.price >= newMin && p.price <= maxValue).length;
+      onDirectInput?.(newMin, maxValue, productsCount);
     }
   };
 
@@ -198,6 +206,9 @@ export function BudgetSlider({
       const newMax = snapToStep(Math.min(max, Math.max(parsed, minValue + step)));
       setMaxValue(newMax);
       onChange({ min: minValue, max: newMax });
+      // 로깅 콜백 호출
+      const productsCount = products.filter(p => p.price && p.price >= minValue && p.price <= newMax).length;
+      onDirectInput?.(minValue, newMax, productsCount);
     }
   };
 
@@ -397,6 +408,9 @@ export function BudgetSlider({
                 setMinValue(option.min);
                 setMaxValue(option.max);
                 onChange({ min: option.min, max: option.max });
+                // 로깅 콜백 호출
+                const productsCount = products.filter(p => p.price && p.price >= option.min && p.price <= option.max).length;
+                onPresetClick?.(option.label, option.min, option.max, productsCount);
               }}
               className={`px-4 py-2 rounded-full text-sm font-medium border-2 transition-all ${
                 isSelected

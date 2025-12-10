@@ -402,3 +402,512 @@ export function logResultV2Regeneration(
     },
   });
 }
+
+// ============ V2 New Flow Logging Functions (recommend-v2 페이지) ============
+
+// recommend-v2 페이지 진입 로깅
+export function logV2PageView(
+  category: string,
+  categoryName: string
+): void {
+  sendLogEvent('v2_page_view', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+    },
+  });
+}
+
+// 가이드 카드 '시작하기' 클릭
+export function logV2GuideStart(
+  category: string,
+  categoryName: string
+): void {
+  sendLogEvent('v2_guide_start', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 0,
+    },
+  });
+}
+
+// 하위 카테고리 선택
+export function logV2SubCategorySelected(
+  category: string,
+  categoryName: string,
+  subCategoryCode: string,
+  subCategoryName: string
+): void {
+  sendLogEvent('v2_subcategory_selected', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 1,
+      subCategory: {
+        code: subCategoryCode,
+        name: subCategoryName,
+      },
+    },
+  });
+}
+
+// 하드필터 개별 질문 답변
+export function logV2HardFilterAnswer(
+  category: string,
+  categoryName: string,
+  questionId: string,
+  questionText: string,
+  questionIndex: number,
+  totalQuestions: number,
+  selectedValues: string[],
+  selectedLabels: string[],
+  productCountAfterFilter?: number
+): void {
+  sendLogEvent('v2_hard_filter_answer', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 1,
+      hardFilter: {
+        questionId,
+        questionText,
+        questionIndex,
+        totalQuestions,
+        selectedValues,
+        selectedLabels,
+        productCountAfterFilter,
+      },
+    },
+  });
+}
+
+// 하드필터 직접 입력
+export function logV2HardFilterCustomInput(
+  category: string,
+  categoryName: string,
+  questionId: string,
+  questionText: string,
+  questionIndex: number,
+  totalQuestions: number,
+  customInputText: string
+): void {
+  sendLogEvent('v2_hard_filter_custom_input', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 1,
+      hardFilter: {
+        questionId,
+        questionText,
+        questionIndex,
+        totalQuestions,
+        selectedValues: [],
+        selectedLabels: [],
+        isCustomInput: true,
+        customInputText,
+      },
+    },
+  });
+}
+
+// 하드필터 전체 완료
+export function logV2HardFilterCompleted(
+  category: string,
+  categoryName: string,
+  totalQuestions: number,
+  totalProductsFiltered: number,
+  elapsedTimeMs?: number
+): void {
+  sendLogEvent('v2_hard_filter_completed', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 1,
+      hardFilter: {
+        questionId: 'all',
+        questionText: 'completed',
+        questionIndex: totalQuestions,
+        totalQuestions,
+        selectedValues: [],
+        selectedLabels: [],
+        productCountAfterFilter: totalProductsFiltered,
+      },
+      elapsedTimeMs,
+    },
+  });
+}
+
+// 조건 분석 완료 화면 조회
+export function logV2CheckpointViewed(
+  category: string,
+  categoryName: string,
+  filteredProductCount: number,
+  elapsedTimeMs?: number
+): void {
+  sendLogEvent('v2_checkpoint_viewed', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 2,
+      elapsedTimeMs,
+    },
+    metadata: {
+      filteredProductCount,
+    },
+  });
+}
+
+// 밸런스 게임 개별 선택
+export function logV2BalanceSelection(
+  category: string,
+  categoryName: string,
+  questionId: string,
+  questionIndex: number,
+  totalQuestions: number,
+  selectedOption: 'A' | 'B',
+  optionALabel: string,
+  optionBLabel: string,
+  ruleKey: string
+): void {
+  sendLogEvent('v2_balance_selection', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 3,
+      balance: {
+        questionId,
+        questionIndex,
+        totalQuestions,
+        selectedOption,
+        optionALabel,
+        optionBLabel,
+        selectedLabel: selectedOption === 'A' ? optionALabel : optionBLabel,
+        ruleKey,
+      },
+    },
+  });
+}
+
+// 밸런스 게임 완료
+export function logV2BalanceCompleted(
+  category: string,
+  categoryName: string,
+  totalSelections: number,
+  selectedRuleKeys: string[],
+  elapsedTimeMs?: number
+): void {
+  sendLogEvent('v2_balance_completed', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 3,
+      elapsedTimeMs,
+    },
+    metadata: {
+      totalSelections,
+      selectedRuleKeys,
+    },
+  });
+}
+
+// 단점 개별 토글
+export function logV2NegativeToggle(
+  category: string,
+  categoryName: string,
+  ruleKey: string,
+  label: string,
+  isSelected: boolean,
+  totalSelected: number
+): void {
+  sendLogEvent('v2_negative_toggle', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 4,
+      negative: {
+        ruleKey,
+        label,
+        isSelected,
+        totalSelected,
+      },
+    },
+  });
+}
+
+// 단점 선택 완료
+export function logV2NegativeCompleted(
+  category: string,
+  categoryName: string,
+  selectedRuleKeys: string[],
+  selectedLabels: string[],
+  elapsedTimeMs?: number
+): void {
+  sendLogEvent('v2_negative_completed', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 4,
+      elapsedTimeMs,
+    },
+    metadata: {
+      selectedCount: selectedRuleKeys.length,
+      selectedRuleKeys,
+      selectedLabels,
+    },
+  });
+}
+
+// 예산 변경 (슬라이더/입력)
+export function logV2BudgetChanged(
+  category: string,
+  categoryName: string,
+  min: number,
+  max: number,
+  isDirectInput: boolean,
+  productsInRange?: number
+): void {
+  sendLogEvent('v2_budget_changed', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+      budget: {
+        min,
+        max,
+        isDirectInput,
+        productsInRange,
+      },
+    },
+  });
+}
+
+// 예산 프리셋 버튼 클릭
+export function logV2BudgetPresetClicked(
+  category: string,
+  categoryName: string,
+  preset: string, // 가성비/적정가/프리미엄/전체
+  min: number,
+  max: number,
+  productsInRange?: number
+): void {
+  sendLogEvent('v2_budget_preset_clicked', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+      budget: {
+        min,
+        max,
+        preset,
+        productsInRange,
+      },
+    },
+  });
+}
+
+// 추천받기 버튼 클릭
+export function logV2RecommendationRequested(
+  category: string,
+  categoryName: string,
+  budgetMin: number,
+  budgetMax: number,
+  candidateCount: number,
+  elapsedTimeMs?: number
+): void {
+  sendLogEvent('v2_recommendation_requested', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+      budget: {
+        min: budgetMin,
+        max: budgetMax,
+      },
+      elapsedTimeMs,
+    },
+    metadata: {
+      candidateCount,
+    },
+  });
+}
+
+// 추천 결과 수신
+export function logV2RecommendationReceived(
+  category: string,
+  categoryName: string,
+  recommendedProducts: Array<{
+    pcode: string;
+    title: string;
+    brand?: string;
+    rank: number;
+    price?: number;
+    score?: number;
+  }>,
+  selectionReason: string | undefined,
+  totalCandidates: number,
+  processingTimeMs?: number
+): void {
+  sendLogEvent('v2_recommendation_received', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+      recommendation: {
+        recommendedProducts,
+        selectionReason,
+        totalCandidates,
+        processingTimeMs,
+      },
+    },
+  });
+}
+
+// 제품 상세 모달 열기
+export function logV2ProductModalOpened(
+  category: string,
+  categoryName: string,
+  pcode: string,
+  title: string,
+  brand: string | undefined,
+  rank: number
+): void {
+  sendLogEvent('v2_product_modal_opened', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      productModal: {
+        pcode,
+        title,
+        brand,
+        rank,
+      },
+    },
+  });
+}
+
+// 다나와 가격 링크 클릭
+export function logV2DanawaPriceClicked(
+  category: string,
+  categoryName: string,
+  pcode: string,
+  mall: string,
+  price: number,
+  isLowestPrice: boolean
+): void {
+  sendLogEvent('v2_danawa_price_clicked', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      danawaClick: {
+        pcode,
+        mall,
+        price,
+        isLowestPrice,
+      },
+    },
+  });
+}
+
+// 판매처 더보기/접기
+export function logV2SellersToggle(
+  category: string,
+  categoryName: string,
+  pcode: string,
+  action: 'expand' | 'collapse'
+): void {
+  sendLogEvent('v2_sellers_toggle', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+    },
+    metadata: {
+      pcode,
+      action,
+    },
+  });
+}
+
+// 찜하기 토글
+export function logV2FavoriteToggled(
+  category: string,
+  categoryName: string,
+  pcode: string,
+  title: string,
+  action: 'add' | 'remove'
+): void {
+  sendLogEvent('v2_favorite_toggled', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      favorite: {
+        pcode,
+        title,
+        action,
+      },
+    },
+  });
+}
+
+// 최저가로 구매하기 클릭
+export function logV2LowestPriceClicked(
+  category: string,
+  categoryName: string,
+  pcode: string,
+  mall: string,
+  price: number
+): void {
+  sendLogEvent('v2_lowest_price_clicked', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      danawaClick: {
+        pcode,
+        mall,
+        price,
+        isLowestPrice: true,
+      },
+    },
+  });
+}
+
+// 이전 단계로 돌아가기
+export function logV2StepBack(
+  category: string,
+  categoryName: string,
+  fromStep: number,
+  toStep: number
+): void {
+  sendLogEvent('v2_step_back', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      stepTransition: {
+        fromStep,
+        toStep,
+        direction: 'back',
+      },
+    },
+  });
+}

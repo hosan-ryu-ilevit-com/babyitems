@@ -16,6 +16,8 @@ interface NegativeFilterListProps {
   onToggle: (ruleKey: string) => void;
   onSkip?: () => void;
   onCustomAdd?: (customText: string) => void;
+  // 로깅 콜백: 개별 토글 시 호출 (label 포함)
+  onToggleWithLabel?: (ruleKey: string, label: string, isSelected: boolean, totalSelected: number) => void;
 }
 
 /**
@@ -24,7 +26,7 @@ interface NegativeFilterListProps {
  * - 체크 애니메이션
  * - 스킵 가능
  */
-export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: NegativeFilterListProps) {
+export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd, onToggleWithLabel }: NegativeFilterListProps) {
   const { options, selectedKeys } = data;
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [customInput, setCustomInput] = useState('');
@@ -72,7 +74,12 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.03 }}
-              onClick={() => onToggle(option.target_rule_key)}
+              onClick={() => {
+                const willBeSelected = !selectedKeys.includes(option.target_rule_key);
+                const newTotalSelected = willBeSelected ? selectedKeys.length + 1 : selectedKeys.length - 1;
+                onToggle(option.target_rule_key);
+                onToggleWithLabel?.(option.target_rule_key, option.label, willBeSelected, newTotalSelected);
+              }}
               className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                 isSelected
                   ? 'border-rose-400 bg-rose-50'
@@ -121,7 +128,12 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
               key={option.id}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              onClick={() => onToggle(option.target_rule_key)}
+              onClick={() => {
+                const willBeSelected = !selectedKeys.includes(option.target_rule_key);
+                const newTotalSelected = willBeSelected ? selectedKeys.length + 1 : selectedKeys.length - 1;
+                onToggle(option.target_rule_key);
+                onToggleWithLabel?.(option.target_rule_key, option.label, willBeSelected, newTotalSelected);
+              }}
               className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                 isSelected
                   ? 'border-rose-400 bg-rose-50'
