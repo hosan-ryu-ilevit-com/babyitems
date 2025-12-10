@@ -9,6 +9,8 @@ import type { Review } from '@/lib/review';
 import { TextWithCitations } from '@/components/ReviewCitationButton';
 import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
+import OptionSelector from '@/components/ui/OptionSelector';
+import type { ProductVariant } from '@/types/recommend-v2';
 
 // V2 조건 충족도 평가 타입
 interface V2ConditionEvaluation {
@@ -63,6 +65,10 @@ interface ProductDetailModalProps {
   selectedConditionsEvaluation?: V2ConditionEvaluation[];
   // 초기 평균 별점 (PLP에서 전달받음)
   initialAverageRating?: number;
+  // 제품 옵션/변형 (그룹핑된 제품의 다른 옵션들)
+  variants?: ProductVariant[];
+  // 옵션 선택 시 콜백
+  onVariantSelect?: (variant: ProductVariant) => void;
 }
 
 // 쇼핑몰 이름 → 로고 파일 매핑
@@ -172,7 +178,7 @@ function CircularProgress({ score, total, color, size = 40 }: { score: number; t
   );
 }
 
-export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect }: ProductDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
   const [reviews, setReviews] = useState<Review[]>([]);
   const [sortBy, setSortBy] = useState<'rating_desc' | 'rating_asc'>('rating_desc');
@@ -340,6 +346,17 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
             </div>
           </div>
+
+          {/* 옵션 선택 (variants가 있을 때만 표시) */}
+          {variants && variants.length > 1 && onVariantSelect && (
+            <div className="px-4 pt-4">
+              <OptionSelector
+                variants={variants}
+                selectedPcode={productData.product.id}
+                onSelect={onVariantSelect}
+              />
+            </div>
+          )}
 
         {/* Product Info */}
         <div className="px-4 py-4 border-b border-gray-100">

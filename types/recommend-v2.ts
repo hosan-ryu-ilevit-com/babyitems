@@ -462,3 +462,57 @@ export interface GenerateQuestionsApiResponse {
   };
   error?: string;
 }
+
+// ===================================================
+// 제품 옵션/변형 관련 타입 (그룹핑용)
+// ===================================================
+
+/**
+ * 제품 변형 (옵션) 정보
+ * 같은 제품의 다른 용량/개수/연도 버전
+ */
+export interface ProductVariant {
+  pcode: string;
+  title: string;
+  optionLabel: string;  // "150ml", "2개입", "2024년" 등
+  price: number | null;
+  rank: number | null;
+}
+
+/**
+ * 옵션 정보가 포함된 추천 제품
+ */
+export interface RecommendedProductWithVariants extends RecommendedProduct {
+  variants: ProductVariant[];  // 같은 그룹의 다른 옵션들 (가격 오름차순)
+  optionCount: number;         // 총 옵션 수 (1이면 옵션 없음)
+  priceRange: {
+    min: number | null;
+    max: number | null;
+  };
+}
+
+/**
+ * V2 결과 제품 (옵션 포함)
+ */
+export interface V2ResultProductWithVariants extends V2ResultProduct {
+  variants: ProductVariant[];
+  optionCount: number;
+  priceRange: {
+    min: number | null;
+    max: number | null;
+  };
+}
+
+/**
+ * 옵션 선택 시 가격 조회 응답
+ */
+export interface VariantPriceResponse {
+  success: boolean;
+  data?: {
+    pcode: string;
+    title: string;
+    price: number | null;
+    danawaPrice: DanawaPriceData | null;
+  };
+  error?: string;
+}

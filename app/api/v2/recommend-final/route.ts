@@ -24,6 +24,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
 import { getModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
 import type { CategoryInsights } from '@/types/category-insights';
+import {
+  normalizeTitle,
+  extractOptionLabel,
+  deduplicateProducts,
+  type ProductVariant,
+} from '@/lib/utils/productGrouping';
 
 // 후보 상품 타입
 interface CandidateProduct {
@@ -61,6 +67,13 @@ interface RecommendedProduct extends CandidateProduct {
   recommendationReason: string;
   matchedPreferences: string[];
   rank: number;
+  // 옵션/변형 정보
+  variants: ProductVariant[];
+  optionCount: number;
+  priceRange: {
+    min: number | null;
+    max: number | null;
+  };
 }
 
 // 응답 타입
@@ -75,6 +88,56 @@ interface RecommendFinalResponse {
     totalCandidates: number;
   };
   error?: string;
+}
+
+/**
+ * 제품에 variants 정보 추가
+ * 같은 그룹(정규화된 타이틀)의 다른 제품들을 variants로 포함
+ */
+function enrichWithVariants(
+  product: CandidateProduct,
+  allCandidates: CandidateProduct[],
+  recommendationReason: string,
+  matchedPreferences: string[],
+  rank: number
+): RecommendedProduct {
+  const groupKey = normalizeTitle(product.title);
+
+  // 같은 그룹의 제품들 찾기
+  const groupProducts = allCandidates.filter(
+    p => normalizeTitle(p.title) === groupKey
+  );
+
+  // variants 생성 (가격 오름차순)
+  const variants: ProductVariant[] = groupProducts
+    .sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity))
+    .map(p => ({
+      pcode: p.pcode,
+      title: p.title,
+      optionLabel: extractOptionLabel(p.title),
+      price: p.price ?? null,
+      rank: p.rank ?? null,
+    }));
+
+  // 가격 범위 계산
+  const prices = groupProducts
+    .map(p => p.price)
+    .filter((p): p is number => p != null && p > 0);
+
+  const priceRange = {
+    min: prices.length > 0 ? Math.min(...prices) : null,
+    max: prices.length > 0 ? Math.max(...prices) : null,
+  };
+
+  return {
+    ...product,
+    recommendationReason,
+    matchedPreferences,
+    rank,
+    variants,
+    optionCount: variants.length,
+    priceRange,
+  };
 }
 
 /**
@@ -287,12 +350,21 @@ ${candidatesStr}
     selectionReason?: string;
   };
 
-  // 결과를 RecommendedProduct 형태로 변환
+  // 결과를 RecommendedProduct 형태로 변환 (중복 제거 + variants 추가)
   const top3Products: RecommendedProduct[] = [];
+  const usedGroupKeys = new Set<string>();  // 중복 그룹 체크용
 
   for (const item of parsed.top3 || []) {
     const candidate = candidates.find(c => c.pcode === item.pcode);
     if (candidate) {
+      // 중복 그룹 체크
+      const groupKey = normalizeTitle(candidate.title);
+      if (usedGroupKeys.has(groupKey)) {
+        console.log(`[recommend-final] ⚠️ Skipping duplicate group: ${groupKey}`);
+        continue;
+      }
+      usedGroupKeys.add(groupKey);
+
       // LLM이 matchedPreferences를 제공하지 않으면 matchedRules 사용
       const preferences = (item.matchedPreferences && item.matchedPreferences.length > 0)
         ? item.matchedPreferences
@@ -303,29 +375,25 @@ ${candidatesStr}
         console.log(`[recommend-final] ⚠️ Using fallback for pcode ${item.pcode}: LLM returned empty recommendationReason`);
       }
 
-      top3Products.push({
-        ...candidate,
-        rank: item.rank,
-        recommendationReason: item.recommendationReason || generateFallbackReason(candidate, item.rank, userContext),
-        matchedPreferences: preferences,
-      });
+      const reason = item.recommendationReason || generateFallbackReason(candidate, item.rank, userContext);
+      top3Products.push(enrichWithVariants(candidate, candidates, reason, preferences, item.rank));
     }
   }
 
-  // 만약 3개 미만이면 기존 점수 기준으로 채우기
+  // 만약 3개 미만이면 기존 점수 기준으로 채우기 (중복 제거 적용)
   if (top3Products.length < 3) {
     const selectedPcodes = new Set(top3Products.map(p => p.pcode));
-    const remaining = candidates
-      .filter(c => !selectedPcodes.has(c.pcode))
+
+    // 중복 제거된 후보에서 선택
+    const deduped = deduplicateProducts(candidates);
+    const remaining = deduped
+      .filter(c => !selectedPcodes.has(c.pcode) && !usedGroupKeys.has(normalizeTitle(c.title)))
       .slice(0, 3 - top3Products.length);
 
     for (const p of remaining) {
-      top3Products.push({
-        ...p,
-        rank: top3Products.length + 1,
-        recommendationReason: generateFallbackReason(p, top3Products.length + 1, userContext),
-        matchedPreferences: p.matchedRules || [],
-      });
+      const newRank = top3Products.length + 1;
+      const reason = generateFallbackReason(p, newRank, userContext);
+      top3Products.push(enrichWithVariants(p, candidates, reason, p.matchedRules || [], newRank));
     }
   }
 
@@ -336,7 +404,7 @@ ${candidatesStr}
 }
 
 /**
- * Fallback: 점수 기준 Top 3 반환
+ * Fallback: 점수 기준 Top 3 반환 (중복 제거 + variants 포함)
  */
 function selectTop3Fallback(
   candidates: CandidateProduct[],
@@ -345,15 +413,15 @@ function selectTop3Fallback(
   top3Products: RecommendedProduct[];
   selectionReason: string;
 } {
+  // 점수 순 정렬 후 중복 제거
   const sorted = [...candidates].sort((a, b) => (b.totalScore || 0) - (a.totalScore || 0));
-  const top3 = sorted.slice(0, 3);
+  const dedupedTop3 = deduplicateProducts(sorted, 3);
 
-  const top3Products: RecommendedProduct[] = top3.map((p, index) => ({
-    ...p,
-    rank: index + 1,
-    recommendationReason: generateFallbackReason(p, index + 1, userContext),
-    matchedPreferences: p.matchedRules || [],
-  }));
+  const top3Products: RecommendedProduct[] = dedupedTop3.map((p, index) => {
+    const rank = index + 1;
+    const reason = generateFallbackReason(p, rank, userContext);
+    return enrichWithVariants(p, candidates, reason, p.matchedRules || [], rank);
+  });
 
   return {
     top3Products,

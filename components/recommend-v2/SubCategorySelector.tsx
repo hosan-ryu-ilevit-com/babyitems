@@ -218,7 +218,6 @@ export function SubCategorySelector({
 
       {/* 안내 텍스트 */}
       <p className="text-xs text-gray-400 text-center pt-1">
-        선택하신 종류에 맞는 상품을 추천해 드릴게요
       </p>
     </motion.div>
   );

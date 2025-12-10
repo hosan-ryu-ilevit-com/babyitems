@@ -3,16 +3,23 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import type { ScoredProduct, DanawaPriceData } from '@/types/recommend-v2';
+import type { ScoredProduct, DanawaPriceData, ProductVariant } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
 import { logButtonClick, logV2ProductModalOpened } from '@/lib/logging/clientLogger';
 
-// Extended product type with LLM recommendation reason
+// Extended product type with LLM recommendation reason + variants
 interface RecommendedProduct extends ScoredProduct {
   recommendationReason?: string;
   matchedPreferences?: string[];
+  // 옵션/변형 정보 (그룹핑)
+  variants?: ProductVariant[];
+  optionCount?: number;
+  priceRange?: {
+    min: number | null;
+    max: number | null;
+  };
 }
 
 // V2 조건 충족도 평가 항목 타입
@@ -211,7 +218,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   const [loadingPrices, setLoadingPrices] = useState(true);
 
   // Comparison table states
-  const [comparisonFeatures, setComparisonFeatures] = useState<Record<string, string[]>>({});
+  // NOTE: setComparisonFeatures 비활성화 - 기준제품 기능 비활성화로 미사용
+  const [comparisonFeatures] = useState<Record<string, string[]>>({});
   const [comparisonDetails, setComparisonDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> | null }>>({});
 
   // Background LLM analysis states
@@ -222,6 +230,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
   // Product detail modal
   const [selectedProduct, setSelectedProduct] = useState<Recommendation | null>(null);
+  const [selectedProductVariants, setSelectedProductVariants] = useState<ProductVariant[]>([]);
   const [selectedProductDanawa, setSelectedProductDanawa] = useState<{
     lowestPrice: number;
     lowestMall: string;
@@ -268,25 +277,26 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     fetchDefaultAnchor();
   }, [categoryKey, anchorProduct]);
 
+  // NOTE: 기준제품 기능 임시 비활성화 (버그 많음)
   // Handle anchor product change
-  const handleAnchorChange = (newAnchor: typeof anchorProduct) => {
-    if (newAnchor) {
-      setAnchorProduct(newAnchor);
-      // 새 앵커 제품 데이터만 제거 (기존 TOP 3 데이터는 유지)
-      const newAnchorId = String(newAnchor.productId);
-      setComparisonDetails(prev => {
-        const updated = { ...prev };
-        delete updated[newAnchorId];
-        return updated;
-      });
-      setComparisonFeatures(prev => {
-        const updated = { ...prev };
-        delete updated[newAnchorId];
-        return updated;
-      });
-      logButtonClick(`기준제품_변경완료_${newAnchor.브랜드}_${newAnchor.모델명}`, 'v2-result');
-    }
-  };
+  // const handleAnchorChange = (newAnchor: typeof anchorProduct) => {
+  //   if (newAnchor) {
+  //     setAnchorProduct(newAnchor);
+  //     // 새 앵커 제품 데이터만 제거 (기존 TOP 3 데이터는 유지)
+  //     const newAnchorId = String(newAnchor.productId);
+  //     setComparisonDetails(prev => {
+  //       const updated = { ...prev };
+  //       delete updated[newAnchorId];
+  //       return updated;
+  //     });
+  //     setComparisonFeatures(prev => {
+  //       const updated = { ...prev };
+  //       delete updated[newAnchorId];
+  //       return updated;
+  //     });
+  //     logButtonClick(`기준제품_변경완료_${newAnchor.브랜드}_${newAnchor.모델명}`, 'v2-result');
+  //   }
+  // };
 
   // Fetch danawa prices
   useEffect(() => {
@@ -567,6 +577,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       citedReviews: [],
     };
     setSelectedProduct(rec);
+    // variants 정보 저장 (RecommendedProduct에서 가져옴)
+    const recommendedProduct = product as RecommendedProduct;
+    setSelectedProductVariants(recommendedProduct.variants || []);
     onModalOpenChange?.(true);
 
     // Convert DanawaPriceData to modal format
@@ -692,19 +705,34 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
               {/* 제품 상세 정보 */}
               <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
-                {/* 브랜드 */}
-                {product.brand && (
-                  <div className="text-sm text-gray-500 font-medium mb-0">
-                    {product.brand}
-                  </div>
-                )}
+                {/* 브랜드 + 옵션 태그 */}
+                <div className="flex items-center gap-2 mb-0">
+                  {product.brand && (
+                    <span className="text-sm text-gray-500 font-medium">
+                      {product.brand}
+                    </span>
+                  )}
+                  {/* 옵션 태그 (2개 이상일 때만 표시) */}
+                  {product.optionCount && product.optionCount > 1 && (
+                    <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-gray-100 text-gray-600 rounded">
+                      옵션 {product.optionCount}개
+                    </span>
+                  )}
+                </div>
                 {/* 제품명 */}
                 <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
                   {product.title}
                 </h3>
                 {/* 가격 정보 */}
                 <div className="space-y-0">
-                  {product.price && (
+                  {/* 옵션이 여러 개면 가격 범위, 아니면 단일 가격 */}
+                  {product.optionCount && product.optionCount > 1 && product.priceRange?.min && product.priceRange?.max ? (
+                    <p className="text-lg font-bold text-gray-900">
+                      {product.priceRange.min.toLocaleString()}<span className="text-sm">원</span>
+                      <span className="text-gray-400 mx-1">~</span>
+                      {product.priceRange.max.toLocaleString()}<span className="text-sm">원</span>
+                    </p>
+                  ) : product.price && (
                     <p className="text-lg font-bold text-gray-900">
                       {product.price.toLocaleString()}<span className="text-sm">원</span>
                     </p>
@@ -821,8 +849,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             isTagBasedFlow={true}
             category={categoryKey}
             danawaSpecs={danawaSpecs}
-            anchorProduct={anchorProduct}
-            onAnchorChange={handleAnchorChange}
+            // NOTE: 기준제품 기능 임시 비활성화 (버그 많음)
+            // anchorProduct={anchorProduct}
+            // onAnchorChange={handleAnchorChange}
             onProductClick={(rec) => {
               logButtonClick(`비교표_상세보기_${rec.product.title}`, 'v2-result');
               setSelectedProduct(rec);
@@ -855,6 +884,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           productData={selectedProduct}
           onClose={() => {
             setSelectedProduct(null);
+            setSelectedProductVariants([]);
             setSelectedProductDanawa(undefined);
             onModalOpenChange?.(false);
           }}
@@ -863,6 +893,70 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           isAnalysisLoading={isAnalysisLoading}
           selectedConditionsEvaluation={productAnalysisData[selectedProduct.product.id]?.selectedConditionsEvaluation}
           initialAverageRating={reviewData[selectedProduct.product.id]?.averageRating}
+          variants={selectedProductVariants}
+          onVariantSelect={async (variant) => {
+            // 새 옵션 선택 시 해당 제품의 가격 정보 조회
+            console.log('[ResultCards] onVariantSelect called:', variant);
+            logButtonClick(`옵션변경_${variant.optionLabel}`, 'product-modal');
+
+            // 다나와 가격 정보 조회
+            try {
+              console.log('[ResultCards] Fetching price for pcode:', variant.pcode);
+              const res = await fetch('/api/v2/products-by-ids', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pcodes: [variant.pcode] }),
+              });
+              const data = await res.json();
+              console.log('[ResultCards] API response:', data);
+
+              if (data.success && data.products?.length > 0) {
+                const newProduct = data.products[0];
+                // API 응답 필드명 확인 (danawaPrice 또는 danawa_price)
+                const newDanawa = newProduct.danawaPrice || newProduct.danawa_price;
+                console.log('[ResultCards] Updating product info:', newProduct);
+                console.log('[ResultCards] newDanawa:', newDanawa);
+
+                // 제품 정보 업데이트
+                setSelectedProduct(prev => {
+                  console.log('[ResultCards] setSelectedProduct prev:', prev?.product.id, '-> new:', variant.pcode);
+                  return prev ? {
+                    ...prev,
+                    product: {
+                      ...prev.product,
+                      id: variant.pcode,
+                      title: variant.title,
+                      price: variant.price || prev.product.price,
+                    }
+                  } : null;
+                });
+
+                // 다나와 가격 정보 업데이트
+                if (newDanawa?.lowest_price) {
+                  console.log('[ResultCards] Updating danawa price:', newDanawa);
+                  setSelectedProductDanawa({
+                    lowestPrice: newDanawa.lowest_price,
+                    lowestMall: newDanawa.lowest_mall || '',
+                    productName: variant.title,
+                    prices: (newDanawa.mall_prices || []).map((mp: { mall: string; price: number; delivery: string; link?: string }) => ({
+                      mall: mp.mall,
+                      price: mp.price,
+                      delivery: mp.delivery || '',
+                      link: mp.link,
+                    })),
+                  });
+                } else {
+                  console.log('[ResultCards] No danawa price found, clearing danawa data');
+                  // 다나와 가격 없으면 기존 데이터 유지하거나 클리어
+                  setSelectedProductDanawa(undefined);
+                }
+              } else {
+                console.log('[ResultCards] API returned no data or failed:', data);
+              }
+            } catch (error) {
+              console.error('[ResultCards] Failed to fetch variant price:', error);
+            }
+          }}
         />
       )}
     </motion.div>

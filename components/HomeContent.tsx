@@ -14,6 +14,7 @@ import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 import { Product, ProductCategory } from '@/types';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Playfair_Display } from 'next/font/google';
+import { CategoryMarquee } from '@/components/CategoryMarquee';
 
 // Import all category specs
 import babyBottleSpecs from '@/data/specs/baby_bottle.json';
@@ -142,6 +143,11 @@ export function HomeContent() {
     localStorage.setItem('babyitem_guide_viewed', 'true');
   };
 
+  const handleCategoryClick = (categoryId: string) => {
+    logButtonClick(`카테고리 캐러셀: ${categoryId}`, 'home');
+    router.push(`/recommend-v2/${categoryId}`);
+  };
+
   const favoriteProducts = favorites
     .map(id => allProductsMap.get(id))
     .filter((p): p is Product => p !== undefined);
@@ -177,7 +183,7 @@ export function HomeContent() {
         </header>
 
         {/* Main Content */}
-        <section className="flex flex-col items-center justify-center px-6 pt-8 pb-24 min-h-[calc(100vh-180px)]">
+        <section className="flex flex-col items-center justify-center px-6 pt-1 pb-24 min-h-[calc(100vh-180px)]">
 
             {/* Main Title */}
             <motion.div
@@ -211,6 +217,8 @@ export function HomeContent() {
                 </video>
               </motion.div>
 
+              {/* Category Carousel */}
+              <CategoryMarquee onCategoryClick={handleCategoryClick} />
 
               {/* Guide Button with Floating Bubble */}
               {/* <div className="mt-12 flex flex-col items-center gap-3">
@@ -254,14 +262,14 @@ export function HomeContent() {
 
         {/* Bottom Fixed Container - CTA Button */}
         <div className="fixed bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto', backgroundColor: '#FCFCFC' }}>
-          {/* 바로 추천받기 Button → categories-v2로 이동 */}
+          {/* 1분만에 추천받기 Button → categories-v2로 이동 */}
           <Link href="/categories-v2">
             <button
-              onClick={() => logButtonClick('바로 추천받기', 'home')}
+              onClick={() => logButtonClick('1분만에 추천받기', 'home')}
               className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5 mb-3"
               style={{ backgroundColor: '#0084FE' }}
             >
-              <span>바로 추천받기</span>
+              <span>1분만에 추천받기</span>
               <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1 text-white" style={{ background: 'linear-gradient(135deg, #9325FC, #C750FF, #C878F7)' }}>
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
