@@ -356,7 +356,7 @@ export function HardFilterQuestion({
                     value={customInput}
                     onChange={(e) => setCustomInput(e.target.value)}
                     placeholder="원하는 조건을 입력해주세요"
-                    className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="flex-1 min-w-0 px-3 py-2 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') handleCustomSubmit();
                     }}
@@ -364,7 +364,7 @@ export function HardFilterQuestion({
                   <button
                     onClick={handleCustomSubmit}
                     disabled={!customInput.trim()}
-                    className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                    className="shrink-0 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                   >
                     확인
                   </button>

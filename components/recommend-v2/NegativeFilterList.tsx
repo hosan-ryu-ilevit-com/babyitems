@@ -188,7 +188,7 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
                   value={customInput}
                   onChange={(e) => setCustomInput(e.target.value)}
                   placeholder="피하고 싶은 단점을 입력해주세요"
-                  className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent"
+                  className="flex-1 min-w-0 px-3 py-2 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent"
                   autoFocus
                 />
                 <button
@@ -218,7 +218,7 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd }: Nega
                     }
                   }}
                   disabled={!customInput.trim()}
-                  className="px-4 py-2 bg-rose-500 text-white text-sm font-medium rounded-lg hover:bg-rose-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                  className="shrink-0 px-4 py-2 bg-rose-500 text-white text-sm font-medium rounded-lg hover:bg-rose-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                 >
                   확인
                 </button>
