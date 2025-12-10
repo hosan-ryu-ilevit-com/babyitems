@@ -32,6 +32,7 @@ interface CategoriesResponse {
 interface UnifiedCategory {
   id: string;
   name: string;
+  emoji: string;
   subCategoryCodes: string[]; // 포함될 다나와 카테고리 코드들
 }
 
@@ -173,11 +174,13 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
       {
         id: 'stroller',
         name: '유모차',
+        emoji: '🚼',
         subCategoryCodes: ['16349368', '16349193', '16349195', '16349196'],
       },
       {
         id: 'car_seat',
         name: '카시트',
+        emoji: '🚗',
         subCategoryCodes: ['16349200', '16349201', '16349202', '16353763'],
       },
     ],
@@ -186,11 +189,11 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
     id: 'feeding',
     name: '수유용품',
     categories: [
-      { id: 'formula', name: '분유', subCategoryCodes: ['16249091'] },
-      { id: 'formula_maker', name: '분유제조기', subCategoryCodes: ['16349381'] },
-      { id: 'formula_pot', name: '분유포트', subCategoryCodes: ['16330960'] },
-      { id: 'baby_bottle', name: '젖병', subCategoryCodes: ['16349219'] },
-      { id: 'pacifier', name: '쪽쪽이/노리개', subCategoryCodes: ['16349351'] },
+      { id: 'formula', name: '분유', emoji: '🥛', subCategoryCodes: ['16249091'] },
+      { id: 'formula_maker', name: '분유제조기', emoji: '⚙️', subCategoryCodes: ['16349381'] },
+      { id: 'formula_pot', name: '분유포트', emoji: '🫖', subCategoryCodes: ['16330960'] },
+      { id: 'baby_bottle', name: '젖병', emoji: '🍼', subCategoryCodes: ['16349219'] },
+      { id: 'pacifier', name: '쪽쪽이/노리개', emoji: '😊', subCategoryCodes: ['16349351'] },
     ],
   },
   {
@@ -200,42 +203,32 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
       {
         id: 'diaper',
         name: '기저귀',
+        emoji: '🧒',
         subCategoryCodes: ['16349108', '16349109', '16356038', '16349110', '16356040', '16356042'],
       },
-      { id: 'baby_wipes', name: '아기물티슈', subCategoryCodes: ['16349119'] },
+      { id: 'baby_wipes', name: '아기물티슈', emoji: '🧻', subCategoryCodes: ['16349119'] },
     ],
   },
   {
     id: 'health',
     name: '건강/안전',
     categories: [
-      { id: 'thermometer', name: '체온계', subCategoryCodes: ['17325941'] },
-      { id: 'nasal_aspirator', name: '코흡입기', subCategoryCodes: ['16349248'] },
-      { id: 'ip_camera', name: '홈캠', subCategoryCodes: ['11427546'] },
+      { id: 'thermometer', name: '체온계', emoji: '🌡️', subCategoryCodes: ['17325941'] },
+      { id: 'nasal_aspirator', name: '코흡입기', emoji: '👃', subCategoryCodes: ['16349248'] },
+      { id: 'ip_camera', name: '홈캠', emoji: '📹', subCategoryCodes: ['11427546'] },
     ],
   },
   {
     id: 'furniture',
     name: '유아가구',
     categories: [
-      { id: 'baby_bed', name: '유아침대', subCategoryCodes: ['16338152'] },
-      { id: 'high_chair', name: '유아의자/식탁의자', subCategoryCodes: ['16338153', '16338154'] },
-      { id: 'baby_sofa', name: '유아소파', subCategoryCodes: ['16338155'] },
-      { id: 'baby_desk', name: '유아책상', subCategoryCodes: ['16338156'] },
+      { id: 'baby_bed', name: '유아침대', emoji: '🛏️', subCategoryCodes: ['16338152'] },
+      { id: 'high_chair', name: '유아의자/식탁의자', emoji: '🪑', subCategoryCodes: ['16338153', '16338154'] },
+      { id: 'baby_sofa', name: '유아소파', emoji: '🛋️', subCategoryCodes: ['16338155'] },
+      { id: 'baby_desk', name: '유아책상', emoji: '📝', subCategoryCodes: ['16338156'] },
     ],
   },
 ];
-
-// 카테고리별 상품 수 계산
-function getCategoryProductCount(
-  unifiedCategory: UnifiedCategory,
-  allCategories: DanawaCategory[]
-): number {
-  return unifiedCategory.subCategoryCodes.reduce((sum, code) => {
-    const cat = allCategories.find(c => c.category_code === code);
-    return sum + (cat?.crawled_product_count || 0);
-  }, 0);
-}
 
 // Age Filter Bar Component - 선택된 것만 pill, 나머지는 텍스트만
 function AgeFilterBar({
@@ -273,12 +266,10 @@ function AgeFilterBar({
 // Category Card Component - v2 스타일 (그림자 없음, 보더 스타일)
 function CategoryCard({
   category,
-  productCount,
   isSelected,
   onSelect,
 }: {
   category: UnifiedCategory;
-  productCount: number;
   isSelected: boolean;
   onSelect: (category: UnifiedCategory) => void;
 }) {
@@ -292,16 +283,12 @@ function CategoryCard({
           : 'bg-gray-50 border-transparent hover:bg-gray-100'
       }`}
     >
-      {/* Category Name + 상품 수 (세로 가운데 정렬) */}
-      <div className="flex items-center justify-between">
+      {/* Emoji + Category Name */}
+      <div className="flex items-center gap-2">
+        <span className="text-base">{category.emoji}</span>
         <span className="text-sm font-semibold text-gray-900">
           {category.name}
         </span>
-        {productCount > 0 && (
-          <span className="text-xs text-gray-400">
-            {productCount}개
-          </span>
-        )}
       </div>
     </motion.button>
   );
@@ -310,38 +297,32 @@ function CategoryCard({
 // Group Section Component (for "모두" filter)
 function GroupSection({
   group,
-  allCategories,
   selectedCategory,
   onCategorySelect,
 }: {
   group: DisplayGroup;
-  allCategories: DanawaCategory[];
   selectedCategory: UnifiedCategory | null;
   onCategorySelect: (category: UnifiedCategory) => void;
 }) {
   if (group.categories.length === 0) return null;
 
   return (
-    <div className="mb-6">
-      {/* 그룹 타이틀 - 태그 스타일 (초록색) */}
+    <div className="mb-6 mt-2">
+      {/* 그룹 타이틀 */}
       <div className="mb-3">
-        <span className="inline-block px-3 py-1.5 bg-green-50 text-green-600 text-xs font-semibold rounded-full">
+        <span className="inline-block px-3 py-1.5 bg-green-50 text-green-600 text-sm font-semibold rounded-full">
           {group.name}
         </span>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        {group.categories.map((category) => {
-          const productCount = getCategoryProductCount(category, allCategories);
-          return (
-            <CategoryCard
-              key={category.id}
-              category={category}
-              productCount={productCount}
-              isSelected={selectedCategory?.id === category.id}
-              onSelect={onCategorySelect}
-            />
-          );
-        })}
+        {group.categories.map((category) => (
+          <CategoryCard
+            key={category.id}
+            category={category}
+            isSelected={selectedCategory?.id === category.id}
+            onSelect={onCategorySelect}
+          />
+        ))}
       </div>
     </div>
   );
@@ -352,14 +333,12 @@ function AgeGroupSection({
   groupName,
   description,
   categoryIds,
-  allCategories,
   selectedCategory,
   onCategorySelect,
 }: {
   groupName: string;
   description?: string;
   categoryIds: string[];
-  allCategories: DanawaCategory[];
   selectedCategory: UnifiedCategory | null;
   onCategorySelect: (category: UnifiedCategory) => void;
 }) {
@@ -377,29 +356,25 @@ function AgeGroupSection({
   if (categories.length === 0) return null;
 
   return (
-    <div className="mb-6">
-      {/* 그룹 타이틀 - 태그 스타일 (초록색) */}
+    <div className="mb-6 mt-8">
+      {/* 그룹 타이틀 */}
       <div className="mb-3">
-        <span className="inline-block px-3 py-1.5 bg-green-50 text-green-600 text-xs font-medium rounded-full">
+        <span className="inline-block px-3 py-1.5 bg-green-50 text-green-600 text-sm font-semibold rounded-full">
           {groupName}
         </span>
         {description && (
-          <p className="text-sm text-gray-500 mt-2 ml-2">{description}</p>
+          <p className="text-xs text-gray-500 mt-2 ml-1">{description}</p>
         )}
       </div>
       <div className="grid grid-cols-2 gap-3">
-        {categories.map((category) => {
-          const productCount = getCategoryProductCount(category, allCategories);
-          return (
-            <CategoryCard
-              key={category.id}
-              category={category}
-              productCount={productCount}
-              isSelected={selectedCategory?.id === category.id}
-              onSelect={onCategorySelect}
-            />
-          );
-        })}
+        {categories.map((category) => (
+          <CategoryCard
+            key={category.id}
+            category={category}
+            isSelected={selectedCategory?.id === category.id}
+            onSelect={onCategorySelect}
+          />
+        ))}
       </div>
     </div>
   );
@@ -541,12 +516,17 @@ export default function CategoriesV2Page() {
             />
           </div>
 
-          {/* 연령대별 설명 카드 - CheckpointVisual 스타일 */}
+          {/* 디바이더 */}
+          <div className="border-b border-gray-100 mb-6 -mx-4" />
+
+          {/* 연령대별 설명 카드 */}
           {selectedAgeFilter.id !== 'all' && selectedAgeFilter.description && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6 bg-white rounded-2xl border border-blue-100 p-5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mb-6 bg-blue-50 rounded-2xl p-5"
             >
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-2xl">{selectedAgeFilter.emoji}</span>
@@ -563,7 +543,6 @@ export default function CategoriesV2Page() {
               <GroupSection
                 key={group.id}
                 group={group}
-                allCategories={allCategories}
                 selectedCategory={selectedCategory}
                 onCategorySelect={handleCategorySelect}
               />
@@ -576,7 +555,6 @@ export default function CategoriesV2Page() {
                 groupName={group.name}
                 description={group.description}
                 categoryIds={group.categoryIds}
-                allCategories={allCategories}
                 selectedCategory={selectedCategory}
                 onCategorySelect={handleCategorySelect}
               />

@@ -11,7 +11,7 @@ interface CategoryItem {
 
 // 인기 카테고리: 기저귀, 분유, 젖병, 분유제조기, 분유포트, 유모차, 카시트
 const ALL_CATEGORIES: CategoryItem[] = [
-  // Row 1 - 인기 카테고리 위주
+  // Row 1 - 인기 카테고리만
   { id: 'diaper', name: '기저귀', emoji: '🧒', isPopular: true },
   { id: 'formula', name: '분유', emoji: '🥛', isPopular: true },
   { id: 'baby_bottle', name: '젖병', emoji: '🍼', isPopular: true },
@@ -19,8 +19,8 @@ const ALL_CATEGORIES: CategoryItem[] = [
   { id: 'formula_pot', name: '분유포트', emoji: '🫖', isPopular: true },
   { id: 'stroller', name: '유모차', emoji: '🚼', isPopular: true },
   { id: 'car_seat', name: '카시트', emoji: '🚗', isPopular: true },
-  { id: 'pacifier', name: '쪽쪽이', emoji: '😊' },
   // Row 2 - 기타 카테고리
+  { id: 'pacifier', name: '쪽쪽이', emoji: '😊' },
   { id: 'baby_wipes', name: '아기물티슈', emoji: '🧻' },
   { id: 'thermometer', name: '체온계', emoji: '🌡️' },
   { id: 'nasal_aspirator', name: '코흡입기', emoji: '👃' },
@@ -31,8 +31,8 @@ const ALL_CATEGORIES: CategoryItem[] = [
   { id: 'baby_desk', name: '유아책상', emoji: '📝' },
 ];
 
-const ROW1_ITEMS = ALL_CATEGORIES.slice(0, 8);
-const ROW2_ITEMS = ALL_CATEGORIES.slice(8);
+const ROW1_ITEMS = ALL_CATEGORIES.slice(0, 7);  // 인기 카테고리 7개만
+const ROW2_ITEMS = ALL_CATEGORIES.slice(7);     // 쪽쪽이 + 기타 카테고리
 
 // 클릭 이벤트에 전달되는 상세 정보
 export interface CategoryClickData {

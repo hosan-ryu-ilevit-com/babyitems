@@ -380,6 +380,7 @@ function calculateV2NewFlowFunnel(sessions: SessionSummary[], utmCampaign: strin
   // 퍼널 단계별 세션 Set
   const homePageViews = new Set<string>();
   const categoriesV2Entry = new Set<string>();
+  const carouselDirectEntry = new Set<string>(); // 캐러셀에서 직접 recommend-v2 진입
   const recommendV2Entry = new Set<string>();
   const guideStartClicked = new Set<string>();
   const subCategorySelected = new Set<string>();
@@ -438,12 +439,17 @@ function calculateV2NewFlowFunnel(sessions: SessionSummary[], utmCampaign: strin
       const v2Data = event.v2FlowData;
       const ts = new Date(event.timestamp).getTime();
 
-      // Step 2: categories-v2 페이지 방문 (page_view 이벤트)
+      // Step 2a: categories-v2 페이지 방문 (버튼 클릭 → categories-v2)
       if (eventType === 'page_view' && event.page === 'categories-v2') {
         categoriesV2Entry.add(sid);
       }
 
-      // Step 3: recommend-v2 페이지 진입
+      // Step 2b: 캐러셀에서 직접 recommend-v2 진입 (홈에서 카테고리 캐러셀 클릭)
+      if (eventType === 'button_click' && event.page === 'home' && event.buttonLabel?.includes('카테고리_캐러셀_클릭')) {
+        carouselDirectEntry.add(sid);
+      }
+
+      // Step 3: recommend-v2 페이지 진입 (총합)
       if (eventType === 'v2_page_view' && v2Data) {
         recommendV2Entry.add(sid);
       }
@@ -624,6 +630,7 @@ function calculateV2NewFlowFunnel(sessions: SessionSummary[], utmCampaign: strin
     funnel: {
       homePageViews: { count: homeCount, percentage: 100 },
       categoriesV2Entry: calculateFunnelStep(categoriesV2Entry.size, homeCount),
+      carouselDirectEntry: calculateFunnelStep(carouselDirectEntry.size, homeCount),
       recommendV2Entry: calculateFunnelStep(recommendV2Entry.size, homeCount),
       guideStartClicked: calculateFunnelStep(guideStartClicked.size, homeCount),
       subCategorySelected: calculateFunnelStep(subCategorySelected.size, homeCount),

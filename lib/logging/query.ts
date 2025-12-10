@@ -146,6 +146,12 @@ export function groupEventsBySession(events: LogEvent[]): SessionSummary[] {
     }
 
     // 추천 완료 여부
+    if (event.eventType === 'v2_recommendation_received') {
+      session.completed = true;
+      if (!session.recommendationMethods.includes('v2')) {
+        session.recommendationMethods.push('v2');
+      }
+    }
     if (event.eventType === 'page_view') {
       if (event.page === 'result' || event.page === 'result-v2') {
         session.completed = true;

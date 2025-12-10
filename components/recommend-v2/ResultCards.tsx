@@ -714,7 +714,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   )}
                   {/* 옵션 태그 (2개 이상일 때만 표시) */}
                   {product.optionCount && product.optionCount > 1 && (
-                    <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-gray-100 text-gray-600 rounded">
+                    <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium bg-green-50 text-green-600 rounded">
                       옵션 {product.optionCount}개
                     </span>
                   )}

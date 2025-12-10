@@ -879,7 +879,7 @@ export default function AdminPage() {
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-lg p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">아기용품 MVP - 사용자 로그 (v0.4: 13일 18시 배포)</h1>
+            <h1 className="text-2xl font-bold">아기용품 어드민</h1>
             <div className="flex gap-3">
               <button
                 onClick={() => window.location.href = '/admin/upload'}
@@ -971,10 +971,9 @@ export default function AdminPage() {
 
                   const funnelSteps = [
                     { label: '홈 페이지뷰', data: currentCampaign.funnel.homePageViews, color: 'bg-blue-500' },
-                    { label: 'categories-v2 진입', data: currentCampaign.funnel.categoriesV2Entry, color: 'bg-blue-400' },
-                    { label: 'recommend-v2 진입', data: currentCampaign.funnel.recommendV2Entry, color: 'bg-indigo-500' },
-                    { label: '가이드 시작', data: currentCampaign.funnel.guideStartClicked, color: 'bg-indigo-400' },
-                    { label: '하위 카테고리 선택', data: currentCampaign.funnel.subCategorySelected, color: 'bg-purple-500' },
+                    { label: '📋 버튼 → categories-v2', data: currentCampaign.funnel.categoriesV2Entry, color: 'bg-blue-400', isEntryPath: true },
+                    { label: '🎠 캐러셀 → 직접 진입', data: currentCampaign.funnel.carouselDirectEntry, color: 'bg-cyan-400', isEntryPath: true },
+                    { label: 'recommend-v2 진입 (총합)', data: currentCampaign.funnel.recommendV2Entry, color: 'bg-indigo-500' },
                     { label: '하드필터 완료', data: currentCampaign.funnel.hardFilterCompleted, color: 'bg-purple-400' },
                     { label: '체크포인트 확인', data: currentCampaign.funnel.checkpointViewed, color: 'bg-pink-500' },
                     { label: '밸런스 게임 완료', data: currentCampaign.funnel.balanceCompleted, color: 'bg-pink-400' },
@@ -991,9 +990,9 @@ export default function AdminPage() {
                         <p className="text-3xl font-bold text-emerald-600">{currentCampaign.totalSessions}</p>
                       </div>
 
-                      {/* 11단계 퍼널 시각화 */}
+                      {/* 10단계 퍼널 시각화 (진입경로 분리) */}
                       <div className="bg-white border border-gray-200 rounded-lg p-6">
-                        <h3 className="text-base font-bold text-gray-900 mb-4">V2 New 사용자 여정 퍼널 (11단계)</h3>
+                        <h3 className="text-base font-bold text-gray-900 mb-4">V2 New 사용자 여정 퍼널 (10단계)</h3>
                         <div className="space-y-3">
                           {funnelSteps.map((step, index) => (
                             <div key={index}>

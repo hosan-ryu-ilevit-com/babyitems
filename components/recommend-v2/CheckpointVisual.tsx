@@ -25,7 +25,7 @@ export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualPr
         transition={{ duration: 0.2 }}
         className="bg-white rounded-2xl border border-blue-100 p-5"
       >
-        <p className="text-[15px] text-gray-600 font-medium animate-pulse">
+        <p className="text-base font-medium shimmer-text">
           조건을 분석하는 중입니다...
         </p>
       </motion.div>

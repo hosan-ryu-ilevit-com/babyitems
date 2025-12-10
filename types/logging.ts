@@ -438,23 +438,27 @@ export interface V2FunnelStats {
   };
 }
 
-// V2 New Flow Funnel Stats (recommend-v2 페이지 - 11단계 퍼널)
+// V2 New Flow Funnel Stats (recommend-v2 페이지 - 간소화 퍼널)
 export interface V2NewFlowFunnelStats {
   utmCampaign: string;
   totalSessions: number;
   funnel: {
-    // 11단계 퍼널
+    // 핵심 퍼널 단계
     homePageViews: FunnelStep;           // Step 1: 홈 페이지 방문
-    categoriesV2Entry: FunnelStep;       // Step 2: categories-v2 페이지 방문
-    recommendV2Entry: FunnelStep;        // Step 3: recommend-v2 페이지 진입
-    guideStartClicked: FunnelStep;       // Step 4: 가이드 카드 '시작하기' 클릭
-    subCategorySelected: FunnelStep;     // Step 5: 하위 카테고리 선택 (해당 시)
-    hardFilterCompleted: FunnelStep;     // Step 6: 하드필터 완료
-    checkpointViewed: FunnelStep;        // Step 7: 조건 분석 완료 화면
-    balanceCompleted: FunnelStep;        // Step 8: 밸런스 게임 완료
-    negativeCompleted: FunnelStep;       // Step 9: 단점 선택 완료
-    budgetConfirmed: FunnelStep;         // Step 10: 예산 설정 완료
-    recommendationReceived: FunnelStep;  // Step 11: 추천 결과 수신
+    // 진입 경로별 분기 (categories-v2 또는 캐러셀 직접 진입)
+    categoriesV2Entry: FunnelStep;       // Step 2a: categories-v2 페이지 방문 (버튼 클릭)
+    carouselDirectEntry: FunnelStep;     // Step 2b: 캐러셀에서 직접 recommend-v2 진입
+    recommendV2Entry: FunnelStep;        // Step 3: recommend-v2 페이지 진입 (총합)
+    // (내부 추적용 - 퍼널 UI에는 미표시)
+    guideStartClicked: FunnelStep;       // 가이드 카드 '시작하기' 클릭
+    subCategorySelected: FunnelStep;     // 하위 카테고리 선택 (해당 시)
+    // 메인 퍼널 단계
+    hardFilterCompleted: FunnelStep;     // Step 4: 하드필터 완료
+    checkpointViewed: FunnelStep;        // Step 5: 조건 분석 완료 화면
+    balanceCompleted: FunnelStep;        // Step 6: 밸런스 게임 완료
+    negativeCompleted: FunnelStep;       // Step 7: 단점 선택 완료
+    budgetConfirmed: FunnelStep;         // Step 8: 예산 설정 완료
+    recommendationReceived: FunnelStep;  // Step 9: 추천 결과 수신
   };
   // 하드필터 질문별 이탈률
   hardFilterDropoff: Array<{

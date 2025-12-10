@@ -443,7 +443,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
             <div className="bg-white border-t border-gray-200 px-4 py-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
               <button
                 onClick={() => onNext?.()}
-                className="w-full py-4 rounded-2xl bg-[#0084FE] text-white font-semibold text-base hover:bg-[#0074E0] active:scale-[0.98] transition-all shadow-lg shadow-[#0084FE]/25"
+                className="w-full py-4 rounded-2xl bg-[#0084FE] text-white font-semibold text-base hover:bg-[#0074E0] active:scale-[0.98] transition-all"
               >
                 시작하기
               </button>

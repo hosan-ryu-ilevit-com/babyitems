@@ -57,7 +57,6 @@ import { requiresSubCategorySelection } from '@/lib/recommend-v2/categoryUtils';
 // Logging
 import {
   logV2PageView,
-  logV2GuideStart,
   logV2SubCategorySelected,
   logV2HardFilterAnswer,
   logV2HardFilterCustomInput,
@@ -571,52 +570,6 @@ export default function RecommendV2Page() {
       }, 300);
     }
   }, [selectedSubCategoryCode, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage]);
-
-  // ===================================================
-  // Step 0 → Step 1: Start Hard Filters
-  // ===================================================
-
-  const handleStartHardFilters = useCallback(() => {
-    console.log('🎯 DEBUG handleStartHardFilters called');
-    console.log('  - hardFilterConfig:', hardFilterConfig);
-    console.log('  - questions:', hardFilterConfig?.questions?.length);
-
-    // Log guide start
-    logV2GuideStart(categoryKey, categoryName);
-
-    setCurrentStep(1);
-
-    addMessage({
-      role: 'assistant',
-      content: '간단한 질문 몇 가지만 드릴게요.',
-      stepTag: '1/5',
-    }, true);
-
-    // Add first hard filter question
-    const questions = hardFilterConfig?.questions || [];
-    if (questions.length > 0) {
-      setTimeout(() => {
-        const msgId = addMessage({
-          role: 'system',
-          content: '',
-          componentType: 'hard-filter',
-          componentData: {
-            question: questions[0],
-            currentIndex: 0,
-            totalCount: questions.length,
-          },
-        });
-        scrollToMessage(msgId);
-      }, 300);
-    } else {
-      // No hard filter questions, skip to step 2
-      // Use setTimeout to ensure state updates have propagated
-      // ref를 사용하여 순환 의존성 해결
-      setTimeout(() => {
-        handleHardFiltersCompleteRef.current?.({});
-      }, 100);
-    }
-  }, [hardFilterConfig, addMessage, scrollToMessage, categoryKey, categoryName]);
 
   // ===================================================
   // Step 1: Hard Filter Selection (다중 선택 지원)
@@ -1633,23 +1586,25 @@ export default function RecommendV2Page() {
     const allQuestionsAnswered = questions.length > 0 &&
       questions.every(q => hardFilterAnswers[q.id]?.length > 0);
 
-    // Step 0: 다음 (하위 카테고리 선택 후 또는 하위 카테고리 불필요 시)
+    // Step 0: 다음 (하위 카테고리 선택 완료 후에만 표시)
     if (currentStep === 0 && !showScanAnimation) {
-      // If sub-category required but not yet selected, don't show button
+      // 가이드 카드가 활성화된 상태면 하단 버튼 숨김 (GuideCards의 "시작하기" 버튼 사용)
+      const isGuideCardsActive = !showSubCategorySelector && (!requiresSubCategory || !selectedSubCategoryCode);
+      if (isGuideCardsActive) {
+        return null;
+      }
+
+      // 하위 카테고리 필요하지만 아직 선택 안 됐으면 버튼 숨김
       if (requiresSubCategory && !selectedSubCategoryCode) {
         return null;
       }
 
-      // If sub-category is selected, call confirm handler; otherwise start hard filters
-      const handleNext = requiresSubCategory && selectedSubCategoryCode
-        ? handleSubCategoryConfirm
-        : handleStartHardFilters;
-
+      // 하위 카테고리 선택 완료 후 "다음" 버튼 표시
       return (
         <motion.button
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          onClick={handleNext}
+          onClick={handleSubCategoryConfirm}
           className="w-full h-14 rounded-2xl font-semibold text-base bg-blue-500 text-white hover:bg-blue-600 transition-all"
         >
           다음
@@ -2134,7 +2089,7 @@ export default function RecommendV2Page() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25, ease: 'easeInOut' }}
-                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-55"
+                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[100]"
                   onClick={() => setShowReRecommendModal(false)}
                 />
               )}
@@ -2143,7 +2098,7 @@ export default function RecommendV2Page() {
             {/* 모달 옵션 버튼들 */}
             <AnimatePresence>
               {showReRecommendModal && (
-                <div className="fixed bottom-24 left-0 right-0 flex flex-col items-end gap-3 z-60 px-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
+                <div className="fixed bottom-24 left-0 right-0 flex flex-col items-center gap-3 z-[110] px-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -2214,7 +2169,9 @@ export default function RecommendV2Page() {
 
             {/* 메인 버튼 - 다시 추천받기 / 취소 (흰색 컨테이너 + 풀 width) */}
             <div
-              className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-60"
+              className={`fixed bottom-0 left-0 right-0 px-4 py-4 z-[110] transition-colors ${
+                showReRecommendModal ? 'bg-transparent' : 'bg-white border-t border-gray-200'
+              }`}
               style={{ maxWidth: '480px', margin: '0 auto' }}
             >
               <motion.div
@@ -2261,14 +2218,14 @@ export default function RecommendV2Page() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 z-40"
+                className="fixed inset-0 bg-black/50 z-[100]"
                 onClick={() => setShowBackModal(false)}
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="fixed inset-0 flex items-center justify-center z-50 px-4"
+                className="fixed inset-0 flex items-center justify-center z-[110] px-4"
               >
                 <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
                   <p className="text-base text-gray-800 mb-6">
