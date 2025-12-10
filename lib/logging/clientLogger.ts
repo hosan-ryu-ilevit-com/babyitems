@@ -757,6 +757,7 @@ export function logV2RecommendationReceived(
     rank: number;
     price?: number;
     score?: number;
+    tags?: string[]; // 매칭된 규칙들 (matchedRules)
   }>,
   selectionReason: string | undefined,
   totalCandidates: number,
@@ -907,6 +908,208 @@ export function logV2StepBack(
         fromStep,
         toStep,
         direction: 'back',
+      },
+    },
+  });
+}
+
+// ============ 추가 상세 로깅 함수들 ============
+
+// 찜하기 페이지에서 '최저가로 구매하기' 클릭
+export function logFavoriteLowestPriceClick(
+  productId: string,
+  productTitle: string,
+  brand: string | undefined,
+  price: number,
+  mall: string
+): void {
+  sendLogEvent('favorite_lowest_price_clicked', {
+    page: 'favorites',
+    favoriteData: {
+      productId,
+      productTitle,
+      brand,
+      action: 'lowest_price_click',
+    },
+    purchaseData: {
+      price,
+      mall,
+    },
+  });
+}
+
+// 카테고리 페이지 연령대 태그 선택
+export function logAgeBadgeSelection(
+  ageBadge: string,
+  category: string
+): void {
+  sendLogEvent('age_badge_selected', {
+    page: 'categories-v2',
+    categoryData: {
+      ageBadge,
+      category,
+    },
+  });
+}
+
+// 가이드 카드 탭 선택 (주요 구매포인트/불만포인트)
+export function logGuideCardTabSelection(
+  category: string,
+  categoryName: string,
+  tab: 'pros' | 'cons',
+  tabLabel: string
+): void {
+  sendLogEvent('guide_card_tab_selected', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      guideCard: {
+        selectedTab: tab,
+        tabLabel,
+      },
+    },
+  });
+}
+
+// 체크포인트 상세 로깅 (후보 개수, 해설 텍스트)
+export function logV2CheckpointViewedDetailed(
+  category: string,
+  categoryName: string,
+  totalProductCount: number,
+  filteredProductCount: number,
+  summaryText: string,
+  conditions: Array<{ label: string; value: string }>,
+  elapsedTimeMs?: number
+): void {
+  sendLogEvent('v2_checkpoint_viewed', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 2,
+      checkpoint: {
+        totalProductCount,
+        filteredProductCount,
+        summaryText,
+        conditions,
+      },
+      elapsedTimeMs,
+    },
+  });
+}
+
+// 프로덕트 모달에서 쇼핑몰 링크 클릭 (가격 포함)
+export function logProductModalPurchaseClick(
+  productId: string,
+  productTitle: string,
+  mall: string,
+  price: number,
+  isLowestPrice: boolean,
+  page: string
+): void {
+  sendLogEvent('product_modal_purchase_clicked', {
+    page,
+    productData: {
+      productId,
+      productTitle,
+    },
+    purchaseData: {
+      mall,
+      price,
+      isLowestPrice,
+    },
+  });
+}
+
+// 비교표 상세보기 클릭 (상세 정보 포함)
+export function logComparisonDetailViewClick(
+  productId: string,
+  productTitle: string,
+  brand: string | undefined,
+  rank: number,
+  page: string
+): void {
+  sendLogEvent('comparison_detail_view_clicked', {
+    page,
+    productData: {
+      productId,
+      productTitle,
+      brand,
+      rank,
+    },
+  });
+}
+
+// 추천 결과 상세 로깅 (개별 상품 태그, 설명 포함)
+export function logV2RecommendationReceivedDetailed(
+  category: string,
+  categoryName: string,
+  recommendedProducts: Array<{
+    pcode: string;
+    title: string;
+    brand?: string;
+    rank: number;
+    price?: number;
+    score?: number;
+    tags?: string[];
+    reason?: string;
+    matchedRules?: string[];
+  }>,
+  selectionReason: string | undefined,
+  totalCandidates: number,
+  budgetFiltered: number,
+  userSelections: {
+    hardFilterAnswers?: Record<string, string[]>;
+    balanceSelections?: string[];
+    negativeSelections?: string[];
+    budget?: { min: number; max: number };
+  },
+  processingTimeMs?: number
+): void {
+  sendLogEvent('v2_recommendation_received', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+      recommendation: {
+        recommendedProducts,
+        selectionReason,
+        totalCandidates,
+        budgetFiltered,
+        processingTimeMs,
+      },
+    },
+    userSelections,
+  });
+}
+
+// 밸런스 게임 스킵 로깅
+export function logV2BalanceSkipped(
+  category: string,
+  categoryName: string,
+  questionId: string,
+  questionIndex: number,
+  totalQuestions: number,
+  optionALabel: string,
+  optionBLabel: string
+): void {
+  sendLogEvent('v2_balance_skipped', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 3,
+      balance: {
+        questionId,
+        questionIndex,
+        totalQuestions,
+        selectedOption: 'skipped',
+        optionALabel,
+        optionBLabel,
+        selectedLabel: '잘 모르겠어요',
+        ruleKey: '',
       },
     },
   });

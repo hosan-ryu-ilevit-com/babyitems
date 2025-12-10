@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReviewCard from '@/components/ReviewCard';
-import { logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
+import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick } from '@/lib/logging/clientLogger';
 import type { Review } from '@/lib/review';
 import { TextWithCitations } from '@/components/ReviewCitationButton';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -379,7 +379,17 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                   href={priceInfo.link || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal')}
+                  onClick={() => {
+                    logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal');
+                    logProductModalPurchaseClick(
+                      productData.product.id,
+                      productData.product.title,
+                      priceInfo.mall,
+                      priceInfo.price,
+                      index === 0,
+                      'product-modal'
+                    );
+                  }}
                   className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors"
                 >
                   {/* 쇼핑몰 아이콘 */}
@@ -437,7 +447,17 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                         href={priceInfo.link || '#'}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal')}
+                        onClick={() => {
+                          logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal');
+                          logProductModalPurchaseClick(
+                            productData.product.id,
+                            productData.product.title,
+                            priceInfo.mall,
+                            priceInfo.price,
+                            false, // expanded prices are never lowest
+                            'product-modal'
+                          );
+                        }}
                         className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors"
                       >
                         {/* 쇼핑몰 아이콘 */}
@@ -1230,6 +1250,19 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                   logButtonClick('최저가로 구매하기', 'product-modal');
                   // 다나와 최저가 링크가 있으면 사용, 없으면 쿠팡 링크로 fallback
                   const lowestPriceLink = danawaData?.prices?.[0]?.link;
+                  const lowestPrice = danawaData?.prices?.[0]?.price;
+                  const lowestMall = danawaData?.prices?.[0]?.mall || '쿠팡';
+
+                  // 가격 정보 로깅
+                  logProductModalPurchaseClick(
+                    productData.product.id,
+                    productData.product.title,
+                    lowestMall,
+                    lowestPrice || productData.product.price,
+                    true, // 최저가 버튼이므로 항상 true
+                    'product-modal'
+                  );
+
                   if (lowestPriceLink) {
                     window.open(lowestPriceLink, '_blank');
                   } else {

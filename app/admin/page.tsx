@@ -2291,7 +2291,244 @@ export default function AdminPage() {
                                   )}
                                 </div>
                               )}
-                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && !event.chatData && !event.favoriteData && !event.comparisonData && !event.categoryData && !event.anchorData && !event.tagData && !event.resultV2Data && event.eventType !== 'page_view' && (
+                              {/* V2 New Flow Events - 하드필터, 밸런스, 단점, 예산, 추천 */}
+                              {'v2FlowData' in event && event.v2FlowData && (
+                                <>
+                                  {/* 하드필터 답변 */}
+                                  {event.eventType === 'v2_hard_filter_answer' && event.v2FlowData.hardFilter && (
+                                    <div className="bg-blue-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-blue-700 mb-1">
+                                        🔍 하드필터 Q{event.v2FlowData.hardFilter.questionIndex + 1}/{event.v2FlowData.hardFilter.totalQuestions}
+                                      </p>
+                                      <p className="text-gray-700 font-medium mb-1">"{event.v2FlowData.hardFilter.questionText}"</p>
+                                      <div className="bg-white p-2 rounded mt-1">
+                                        <p className="text-gray-600">선택: {event.v2FlowData.hardFilter.selectedLabels?.join(', ') || '-'}</p>
+                                        {event.v2FlowData.hardFilter.productCountAfterFilter !== undefined && (
+                                          <p className="text-gray-500 mt-1">필터 후 남은 제품: {event.v2FlowData.hardFilter.productCountAfterFilter}개</p>
+                                        )}
+                                      </div>
+                                    </div>
+                                  )}
+                                  {/* 하드필터 직접 입력 */}
+                                  {event.eventType === 'v2_hard_filter_custom_input' && event.v2FlowData.hardFilter && (
+                                    <div className="bg-yellow-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-yellow-700 mb-1">
+                                        ✏️ 하드필터 직접입력 Q{event.v2FlowData.hardFilter.questionIndex + 1}/{event.v2FlowData.hardFilter.totalQuestions}
+                                      </p>
+                                      <p className="text-gray-700 font-medium mb-1">"{event.v2FlowData.hardFilter.questionText}"</p>
+                                      <div className="bg-white p-2 rounded mt-1">
+                                        <p className="text-gray-600">입력: "{event.v2FlowData.hardFilter.customInputText}"</p>
+                                      </div>
+                                    </div>
+                                  )}
+                                  {/* 체크포인트 조회 */}
+                                  {event.eventType === 'v2_checkpoint_viewed' && (
+                                    <div className="bg-emerald-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-emerald-700 mb-1">📊 조건 분석 완료</p>
+                                      {event.v2FlowData.checkpoint ? (
+                                        <div className="bg-white p-2 rounded mt-1 space-y-1">
+                                          <p className="text-gray-700 font-medium">{event.v2FlowData.checkpoint.totalProductCount}개 중 {event.v2FlowData.checkpoint.filteredProductCount}개 후보</p>
+                                          {event.v2FlowData.checkpoint.summaryText && (
+                                            <p className="text-gray-600">"{event.v2FlowData.checkpoint.summaryText}"</p>
+                                          )}
+                                          {event.v2FlowData.checkpoint.conditions?.length > 0 && (
+                                            <div className="mt-1 pt-1 border-t">
+                                              {event.v2FlowData.checkpoint.conditions.map((cond: { label: string; value: string }, ci: number) => (
+                                                <p key={ci} className="text-gray-500">• {cond.label}: {cond.value}</p>
+                                              ))}
+                                            </div>
+                                          )}
+                                        </div>
+                                      ) : (
+                                        <p className="text-gray-600">필터 결과 확인</p>
+                                      )}
+                                    </div>
+                                  )}
+                                  {/* 밸런스 게임 선택 */}
+                                  {event.eventType === 'v2_balance_selection' && event.v2FlowData.balance && (
+                                    <div className="bg-violet-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-violet-700 mb-1">
+                                        ⚖️ 밸런스 Q{event.v2FlowData.balance.questionIndex + 1}/{event.v2FlowData.balance.totalQuestions}
+                                      </p>
+                                      <div className="bg-white p-2 rounded mt-1">
+                                        <div className="flex gap-2 items-center">
+                                          <span className={`px-2 py-0.5 rounded ${event.v2FlowData.balance.selectedOption === 'A' ? 'bg-violet-200 font-bold' : 'bg-gray-100'}`}>
+                                            A: {event.v2FlowData.balance.optionALabel}
+                                          </span>
+                                          <span className="text-gray-400">vs</span>
+                                          <span className={`px-2 py-0.5 rounded ${event.v2FlowData.balance.selectedOption === 'B' ? 'bg-violet-200 font-bold' : 'bg-gray-100'}`}>
+                                            B: {event.v2FlowData.balance.optionBLabel}
+                                          </span>
+                                        </div>
+                                        <p className="text-gray-600 mt-1">선택: {event.v2FlowData.balance.selectedLabel}</p>
+                                      </div>
+                                    </div>
+                                  )}
+                                  {/* 밸런스 게임 스킵 */}
+                                  {event.eventType === 'v2_balance_skipped' && event.v2FlowData.balance && (
+                                    <div className="bg-gray-100 p-2 rounded text-xs">
+                                      <p className="font-semibold text-gray-600 mb-1">
+                                        ⏭️ 밸런스 스킵 Q{event.v2FlowData.balance.questionIndex + 1}/{event.v2FlowData.balance.totalQuestions}
+                                      </p>
+                                      <div className="bg-white p-2 rounded mt-1">
+                                        <p className="text-gray-500">A: {event.v2FlowData.balance.optionALabel}</p>
+                                        <p className="text-gray-500">B: {event.v2FlowData.balance.optionBLabel}</p>
+                                        <p className="text-gray-400 mt-1">→ "잘 모르겠어요" 선택</p>
+                                      </div>
+                                    </div>
+                                  )}
+                                  {/* 단점 토글 */}
+                                  {event.eventType === 'v2_negative_toggle' && event.v2FlowData.negative && (
+                                    <div className={`p-2 rounded text-xs ${event.v2FlowData.negative.isSelected ? 'bg-red-50' : 'bg-gray-50'}`}>
+                                      <p className={`font-semibold mb-1 ${event.v2FlowData.negative.isSelected ? 'text-red-700' : 'text-gray-600'}`}>
+                                        {event.v2FlowData.negative.isSelected ? '❌ 단점 선택' : '✓ 단점 해제'}
+                                      </p>
+                                      <p className="text-gray-700">"{event.v2FlowData.negative.label}"</p>
+                                      <p className="text-gray-500 mt-1">현재 선택: {event.v2FlowData.negative.totalSelected}개</p>
+                                    </div>
+                                  )}
+                                  {/* 단점 선택 완료 */}
+                                  {event.eventType === 'v2_negative_completed' && event.metadata && (
+                                    <div className="bg-red-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-red-700 mb-1">
+                                        🚫 단점 선택 완료 ({(event.metadata as { selectedCount?: number; selectedLabels?: string[] }).selectedCount || 0}개)
+                                      </p>
+                                      {((event.metadata as { selectedLabels?: string[] }).selectedLabels || []).length > 0 && (
+                                        <div className="bg-white p-2 rounded mt-1">
+                                          {((event.metadata as { selectedLabels?: string[] }).selectedLabels || []).map((label: string, li: number) => (
+                                            <p key={li} className="text-gray-700">• {label}</p>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                  {/* 예산 변경 */}
+                                  {event.eventType === 'v2_budget_changed' && event.v2FlowData.budget && (
+                                    <div className="bg-amber-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-amber-700 mb-1">
+                                        💰 예산 변경 {event.v2FlowData.budget.isDirectInput ? '(직접입력)' : '(슬라이더)'}
+                                      </p>
+                                      <div className="bg-white p-2 rounded mt-1">
+                                        <p className="text-gray-700">{event.v2FlowData.budget.min?.toLocaleString()}원 ~ {event.v2FlowData.budget.max?.toLocaleString()}원</p>
+                                        {event.v2FlowData.budget.productsInRange !== undefined && (
+                                          <p className="text-gray-500 mt-1">범위 내 제품: {event.v2FlowData.budget.productsInRange}개</p>
+                                        )}
+                                      </div>
+                                    </div>
+                                  )}
+                                  {/* 예산 프리셋 클릭 */}
+                                  {event.eventType === 'v2_budget_preset_clicked' && event.v2FlowData.budget && (
+                                    <div className="bg-amber-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-amber-700 mb-1">
+                                        📍 예산 프리셋: {event.v2FlowData.budget.preset}
+                                      </p>
+                                      <div className="bg-white p-2 rounded mt-1">
+                                        <p className="text-gray-700">{event.v2FlowData.budget.min?.toLocaleString()}원 ~ {event.v2FlowData.budget.max?.toLocaleString()}원</p>
+                                        {event.v2FlowData.budget.productsInRange !== undefined && (
+                                          <p className="text-gray-500 mt-1">범위 내 제품: {event.v2FlowData.budget.productsInRange}개</p>
+                                        )}
+                                      </div>
+                                    </div>
+                                  )}
+                                  {/* V2 추천 결과 수신 */}
+                                  {event.eventType === 'v2_recommendation_received' && event.v2FlowData.recommendation && (
+                                    <div className="space-y-1">
+                                      <button
+                                        onClick={() => {
+                                          const key = `v2rec-${session.sessionId}-${idx}`;
+                                          setExpandedRecommendation(
+                                            expandedRecommendation === key ? null : key
+                                          );
+                                        }}
+                                        className="text-purple-600 hover:text-purple-800 underline text-left font-medium"
+                                      >
+                                        🎯 추천 결과 상세 ({event.v2FlowData.recommendation.recommendedProducts?.length || 0}개 제품)
+                                      </button>
+                                      {expandedRecommendation === `v2rec-${session.sessionId}-${idx}` && (
+                                        <div className="mt-2 p-3 bg-purple-50 rounded-lg text-xs space-y-3">
+                                          <div className="bg-white p-2 rounded">
+                                            <p className="font-bold text-purple-900">📂 {event.v2FlowData.categoryName}</p>
+                                            <p className="text-gray-600">전체 후보: {event.v2FlowData.recommendation.totalCandidates}개</p>
+                                            {event.v2FlowData.recommendation.processingTimeMs && (
+                                              <p className="text-gray-500">처리 시간: {event.v2FlowData.recommendation.processingTimeMs}ms</p>
+                                            )}
+                                          </div>
+                                          {event.v2FlowData.recommendation.selectionReason && (
+                                            <div className="bg-white p-2 rounded">
+                                              <p className="font-semibold text-gray-700 mb-1">AI 선정 이유:</p>
+                                              <p className="text-gray-600 whitespace-pre-wrap">{event.v2FlowData.recommendation.selectionReason}</p>
+                                            </div>
+                                          )}
+                                          {event.v2FlowData.recommendation.recommendedProducts?.map((prod: { pcode: string; title: string; brand?: string; rank: number; price?: number; score?: number; tags?: string[]; reason?: string; }, pi: number) => (
+                                            <div key={pi} className="bg-white p-2 rounded border-l-4 border-purple-400">
+                                              <p className="font-bold text-gray-800">#{prod.rank} {prod.brand} {prod.title}</p>
+                                              <p className="text-gray-600">가격: {prod.price?.toLocaleString()}원 | 점수: {prod.score}점</p>
+                                              {prod.tags && prod.tags.length > 0 && (
+                                                <div className="flex flex-wrap gap-1 mt-1">
+                                                  {prod.tags.map((tag: string, ti: number) => (
+                                                    <span key={ti} className="px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">{tag}</span>
+                                                  ))}
+                                                </div>
+                                              )}
+                                              {prod.reason && (
+                                                <p className="text-gray-500 mt-1">{prod.reason}</p>
+                                              )}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                  {/* 가이드 카드 탭 선택 */}
+                                  {event.eventType === 'guide_card_tab_selected' && event.v2FlowData.guideCard && (
+                                    <div className="bg-teal-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-teal-700 mb-1">
+                                        📋 가이드 탭: {event.v2FlowData.guideCard.tabLabel}
+                                      </p>
+                                      <p className="text-gray-600">{event.v2FlowData.categoryName}</p>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                              {/* 구매 관련 이벤트 */}
+                              {event.eventType === 'product_modal_purchase_clicked' && 'purchaseData' in event && event.purchaseData && (
+                                <div className="bg-green-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-green-700 mb-1">
+                                    🛒 구매 링크 클릭 {event.purchaseData.isLowestPrice && '(최저가)'}
+                                  </p>
+                                  {'productData' in event && event.productData && (
+                                    <p className="text-gray-700">{event.productData.productTitle}</p>
+                                  )}
+                                  <p className="text-gray-600">{event.purchaseData.mall}: {event.purchaseData.price?.toLocaleString()}원</p>
+                                </div>
+                              )}
+                              {event.eventType === 'comparison_detail_view_clicked' && 'productData' in event && event.productData && (
+                                <div className="bg-indigo-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-indigo-700 mb-1">
+                                    🔍 비교표 상세보기
+                                  </p>
+                                  <p className="text-gray-700">{event.productData.brand} {event.productData.productTitle}</p>
+                                  <p className="text-gray-500">순위: {event.productData.rank}위</p>
+                                </div>
+                              )}
+                              {event.eventType === 'favorite_lowest_price_clicked' && 'favoriteData' in event && event.favoriteData && 'purchaseData' in event && event.purchaseData && (
+                                <div className="bg-pink-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-pink-700 mb-1">
+                                    💗 찜 최저가 구매
+                                  </p>
+                                  <p className="text-gray-700">{event.favoriteData.productTitle}</p>
+                                  <p className="text-gray-600">{event.purchaseData.mall}: {event.purchaseData.price?.toLocaleString()}원</p>
+                                </div>
+                              )}
+                              {event.eventType === 'age_badge_selected' && 'categoryData' in event && event.categoryData && (
+                                <div className="bg-cyan-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-cyan-700 mb-1">
+                                    👶 연령대 선택
+                                  </p>
+                                  <p className="text-gray-700">{event.categoryData.ageBadge}</p>
+                                </div>
+                              )}
+                              {!event.buttonLabel && !event.userInput && !event.aiResponse && !event.recommendations && !event.chatData && !event.favoriteData && !event.comparisonData && !event.categoryData && !event.anchorData && !event.tagData && !event.resultV2Data && !('v2FlowData' in event && event.v2FlowData) && !('purchaseData' in event && event.purchaseData) && !('productData' in event && event.productData) && event.eventType !== 'page_view' && (
                                 <span className="text-xs text-gray-400">-</span>
                               )}
                               {event.recommendations && (

@@ -72,6 +72,7 @@ import {
   logV2RecommendationRequested,
   logV2RecommendationReceived,
   logV2StepBack,
+  logGuideCardTabSelection,
 } from '@/lib/logging/clientLogger';
 
 // Sub-category types
@@ -1201,7 +1202,7 @@ export default function RecommendV2Page() {
       setScoredProducts(top3);
       setSelectionReason(finalSelectionReason);
 
-      // Log recommendation received
+      // Log recommendation received (with matchedRules as tags)
       logV2RecommendationReceived(
         categoryKey,
         categoryName,
@@ -1212,6 +1213,7 @@ export default function RecommendV2Page() {
           rank: index + 1,
           price: p.price || undefined,
           score: p.totalScore,
+          tags: p.matchedRules, // 매칭된 규칙들
         })),
         finalSelectionReason,
         budgetFiltered.length
@@ -1274,6 +1276,9 @@ export default function RecommendV2Page() {
                 data={message.componentData as GuideCardsData & { introMessage?: string }}
                 introMessage={(message.componentData as { introMessage?: string })?.introMessage}
                 isActive={currentStep === 0 && !showSubCategorySelector && (!requiresSubCategory || !selectedSubCategoryCode)}
+                onTabChange={(tab, tabLabel) => {
+                  logGuideCardTabSelection(categoryKey, categoryName, tab, tabLabel);
+                }}
                 onNext={() => {
                   // 가이드 카드 완료 후 다음 단계로 진행 (스크롤 + 다음 스텝 표시)
                   if (requiresSubCategory && subCategoryConfig && !selectedSubCategoryCode) {
@@ -1530,6 +1535,9 @@ export default function RecommendV2Page() {
 
       setCurrentHardFilterIndex(prevIndex);
 
+      // 이전 hard-filter 메시지 ID를 찾아서 저장
+      let targetMsgId: string | undefined;
+
       // Remove the current question message from messages
       setMessages(prev => {
         const filtered = prev.filter(msg => {
@@ -1539,29 +1547,59 @@ export default function RecommendV2Page() {
           }
           return true;
         });
+        // 이전 hard-filter 메시지 찾기
+        const prevMsg = filtered.findLast(msg => msg.componentType === 'hard-filter');
+        targetMsgId = prevMsg?.id;
         return filtered;
       });
-      scrollToBottom();
+
+      // DOM 업데이트 후 해당 메시지로 스크롤
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (targetMsgId) {
+            scrollToMessage(targetMsgId);
+          }
+        });
+      });
     } else {
       // Go back to step 0 (sub-category or guide)
       logV2StepBack(categoryKey, categoryName, 1, 0);
 
       setCurrentStep(0);
       setCurrentHardFilterIndex(0);
+
+      // guide-cards 메시지 ID 찾기
+      let targetMsgId: string | undefined;
+
       // Clear messages after guide/sub-category
       setMessages(prev => {
-        // Keep only guide and sub-category related messages
-        return prev.filter(msg =>
+        const filtered = prev.filter(msg =>
           msg.componentType === 'guide-cards' ||
           msg.componentType === 'sub-category' ||
           (msg.role === 'assistant' && !msg.stepTag)
         );
+        // guide-cards 메시지 찾기
+        const guideMsg = filtered.find(msg => msg.componentType === 'guide-cards');
+        targetMsgId = guideMsg?.id;
+        return filtered;
       });
+
+      // DOM 업데이트 후 해당 메시지로 스크롤
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (targetMsgId) {
+            scrollToMessage(targetMsgId);
+          } else {
+            scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      });
+
       if (requiresSubCategory) {
         setShowSubCategorySelector(true);
       }
     }
-  }, [currentHardFilterIndex, requiresSubCategory, scrollToBottom, categoryKey, categoryName]);
+  }, [currentHardFilterIndex, requiresSubCategory, categoryKey, categoryName, scrollToMessage]);
 
   const handleGoToStep0 = useCallback(() => {
     logV2StepBack(categoryKey, categoryName, currentStep, 0);
@@ -1661,12 +1699,31 @@ export default function RecommendV2Page() {
             onClick={() => {
               logV2StepBack(categoryKey, categoryName, 2, 1);
               setCurrentStep(1);
+
+              // 마지막 hard-filter 메시지 ID 찾기
+              let targetMsgId: string | undefined;
+
               // Remove checkpoint related messages
-              setMessages(prev => prev.filter(msg =>
-                msg.componentType !== 'checkpoint' &&
-                msg.componentType !== 'natural-input' &&
-                !(msg.stepTag === '2/5')
-              ));
+              setMessages(prev => {
+                const filtered = prev.filter(msg =>
+                  msg.componentType !== 'checkpoint' &&
+                  msg.componentType !== 'natural-input' &&
+                  !(msg.stepTag === '2/5')
+                );
+                // 마지막 hard-filter 메시지 찾기
+                const lastHardFilter = filtered.findLast(msg => msg.componentType === 'hard-filter');
+                targetMsgId = lastHardFilter?.id;
+                return filtered;
+              });
+
+              // DOM 업데이트 후 해당 메시지로 스크롤
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  if (targetMsgId) {
+                    scrollToMessage(targetMsgId);
+                  }
+                });
+              });
             }}
             className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
           >
@@ -1704,11 +1761,30 @@ export default function RecommendV2Page() {
                 // 첫 질문이면 Step 2로 돌아가기
                 logV2StepBack(categoryKey, categoryName, 3, 2);
                 setCurrentStep(2);
-                setMessages(prev => prev.filter(msg =>
-                  msg.componentType !== 'balance-carousel' &&
-                  !(msg.stepTag === '3/5')
-                ));
+
+                // checkpoint 메시지 ID 찾기
+                let targetMsgId: string | undefined;
+
+                setMessages(prev => {
+                  const filtered = prev.filter(msg =>
+                    msg.componentType !== 'balance-carousel' &&
+                    !(msg.stepTag === '3/5')
+                  );
+                  // checkpoint 메시지 찾기
+                  const checkpointMsg = filtered.findLast(msg => msg.componentType === 'checkpoint');
+                  targetMsgId = checkpointMsg?.id;
+                  return filtered;
+                });
                 setBalanceGameState({ selectionsCount: 0, allAnswered: false, currentSelections: new Set(), currentIndex: 0, canGoPrevious: false, canGoNext: false, totalQuestions: 0, currentQuestionAnswered: false });
+
+                // DOM 업데이트 후 해당 메시지로 스크롤
+                requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                    if (targetMsgId) {
+                      scrollToMessage(targetMsgId);
+                    }
+                  });
+                });
               }
             }}
             className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
@@ -1751,11 +1827,30 @@ export default function RecommendV2Page() {
             onClick={() => {
               logV2StepBack(categoryKey, categoryName, 4, 3);
               setCurrentStep(3);
+
+              // balance-carousel 메시지 ID 찾기
+              let targetMsgId: string | undefined;
+
               // Remove negative filter related messages
-              setMessages(prev => prev.filter(msg =>
-                msg.componentType !== 'negative-filter' &&
-                !(msg.stepTag === '4/5')
-              ));
+              setMessages(prev => {
+                const filtered = prev.filter(msg =>
+                  msg.componentType !== 'negative-filter' &&
+                  !(msg.stepTag === '4/5')
+                );
+                // balance-carousel 메시지 찾기
+                const balanceMsg = filtered.findLast(msg => msg.componentType === 'balance-carousel');
+                targetMsgId = balanceMsg?.id;
+                return filtered;
+              });
+
+              // DOM 업데이트 후 해당 메시지로 스크롤
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  if (targetMsgId) {
+                    scrollToMessage(targetMsgId);
+                  }
+                });
+              });
             }}
             className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
           >
@@ -1785,11 +1880,30 @@ export default function RecommendV2Page() {
             onClick={() => {
               logV2StepBack(categoryKey, categoryName, 5, 4);
               setCurrentStep(4);
+
+              // negative-filter 메시지 ID 찾기
+              let targetMsgId: string | undefined;
+
               // Remove budget slider related messages
-              setMessages(prev => prev.filter(msg =>
-                msg.componentType !== 'budget-slider' &&
-                !(msg.stepTag === '5/5')
-              ));
+              setMessages(prev => {
+                const filtered = prev.filter(msg =>
+                  msg.componentType !== 'budget-slider' &&
+                  !(msg.stepTag === '5/5')
+                );
+                // negative-filter 메시지 찾기
+                const negativeMsg = filtered.findLast(msg => msg.componentType === 'negative-filter');
+                targetMsgId = negativeMsg?.id;
+                return filtered;
+              });
+
+              // DOM 업데이트 후 해당 메시지로 스크롤
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  if (targetMsgId) {
+                    scrollToMessage(targetMsgId);
+                  }
+                });
+              });
             }}
             className="flex-[2] h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
           >
@@ -1859,7 +1973,7 @@ export default function RecommendV2Page() {
                 onClick={() => {
                   router.push('/');
                 }}
-                className="text-xs text-gray-500 hover:text-blue-600 transition-colors"
+                className="text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors"
               >
                 홈으로
               </button>
@@ -2070,6 +2184,13 @@ export default function RecommendV2Page() {
                           setSelectedSubCategoryCode(null);
                           setShowSubCategorySelector(false);
                         }
+
+                        // DOM 업데이트 후 스크롤 맨 위로 초기화
+                        requestAnimationFrame(() => {
+                          requestAnimationFrame(() => {
+                            scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+                          });
+                        });
                       }}
                       className="w-full py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-2xl shadow-lg font-semibold transition-colors flex items-center justify-center gap-2"
                     >

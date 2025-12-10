@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
-import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
+import { logPageView, logButtonClick, logAgeBadgeSelection } from '@/lib/logging/clientLogger';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 // API Response Types
@@ -530,7 +530,14 @@ export default function CategoriesV2Page() {
           <div className="mb-4">
             <AgeFilterBar
               selectedAgeId={selectedAgeId}
-              onSelect={setSelectedAgeId}
+              onSelect={(ageId) => {
+                setSelectedAgeId(ageId);
+                // 연령대 필터 선택 로깅
+                const ageFilter = AGE_FILTERS.find(f => f.id === ageId);
+                if (ageFilter) {
+                  logAgeBadgeSelection(ageFilter.label, ageId);
+                }
+              }}
             />
           </div>
 

@@ -134,7 +134,7 @@ export default function AnchorProductChangeBottomSheet({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="제품명 또는 브랜드 검색"
-                  className="w-full px-4 py-2.5 pr-10 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 text-sm"
+                  className="w-full px-4 py-2.5 pr-10 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 text-base"
                 />
                 <svg
                   className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"

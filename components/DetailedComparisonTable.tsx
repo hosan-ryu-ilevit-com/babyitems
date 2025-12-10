@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { Recommendation } from '@/types';
 import { products } from '@/data/products';
-import { logButtonClick } from '@/lib/logging/clientLogger';
+import { logButtonClick, logComparisonDetailViewClick } from '@/lib/logging/clientLogger';
 import AnchorProductChangeBottomSheet from './AnchorProductChangeBottomSheet';
 
 interface DetailedComparisonTableProps {
@@ -486,6 +486,13 @@ export default function DetailedComparisonTable({
                                 `비교표 상세보기: ${selectedRecommendations[0].product.title}`,
                                 'result'
                               );
+                              logComparisonDetailViewClick(
+                                selectedRecommendations[0].product.id,
+                                selectedRecommendations[0].product.title,
+                                selectedRecommendations[0].product.brand,
+                                selectedRecommendations[0].rank,
+                                'compare'
+                              );
                               onProductClick(selectedRecommendations[0]);
                             }
                           }}
@@ -520,6 +527,13 @@ export default function DetailedComparisonTable({
                               logButtonClick(
                                 `비교표 상세보기: ${selectedRecommendations[1].product.title}`,
                                 'result'
+                              );
+                              logComparisonDetailViewClick(
+                                selectedRecommendations[1].product.id,
+                                selectedRecommendations[1].product.title,
+                                selectedRecommendations[1].product.brand,
+                                selectedRecommendations[1].rank,
+                                'compare'
                               );
                               onProductClick(selectedRecommendations[1]);
                             }

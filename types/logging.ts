@@ -30,6 +30,7 @@ export type LogEventType =
   | 'v2_checkpoint_viewed'   // 조건 분석 완료 화면
   | 'v2_balance_selection'   // 밸런스 게임 개별 선택
   | 'v2_balance_completed'   // 밸런스 게임 완료
+  | 'v2_balance_skipped'     // 밸런스 게임 스킵
   | 'v2_negative_toggle'     // 단점 개별 토글
   | 'v2_negative_completed'  // 단점 선택 완료
   | 'v2_budget_changed'      // 예산 슬라이더/입력 변경
@@ -41,7 +42,13 @@ export type LogEventType =
   | 'v2_sellers_toggle'      // 판매처 더보기/접기
   | 'v2_favorite_toggled'    // 찜하기 토글
   | 'v2_lowest_price_clicked' // 최저가로 구매하기 클릭
-  | 'v2_step_back'           // 이전 단계로 돌아가기;
+  | 'v2_step_back'           // 이전 단계로 돌아가기
+  // 추가 상세 로깅 이벤트
+  | 'favorite_lowest_price_clicked' // 찜하기 페이지 최저가 구매 클릭
+  | 'age_badge_selected'     // 카테고리 페이지 연령대 선택
+  | 'guide_card_tab_selected' // 가이드 카드 탭 선택
+  | 'product_modal_purchase_clicked' // 상품 모달 구매 링크 클릭
+  | 'comparison_detail_view_clicked'; // 비교표 상세보기 클릭
 
 export interface LogEvent {
   sessionId: string;
@@ -105,8 +112,20 @@ export interface LogEvent {
   favoriteData?: {
     productId: string;
     productTitle: string;
-    action: 'added' | 'removed';
-    currentFavoritesCount: number;
+    brand?: string;
+    action: 'added' | 'removed' | 'lowest_price_click';
+    currentFavoritesCount?: number;
+  };
+  purchaseData?: {
+    price: number;
+    mall: string;
+    isLowestPrice?: boolean;
+  };
+  productData?: {
+    productId: string;
+    productTitle: string;
+    brand?: string;
+    rank?: number;
   };
   comparisonData?: {
     source: 'home' | 'result'; // 어디서 진입했는지
@@ -121,6 +140,7 @@ export interface LogEvent {
   categoryData?: {
     category: string; // Selected category name
     categoryLabel: string; // Korean label (e.g., "분유포트")
+    ageBadge?: string; // 연령대 배지 (e.g., "0~6개월")
   };
   anchorData?: {
     productId: string;
@@ -213,9 +233,12 @@ export interface LogEvent {
         rank: number;
         price?: number;
         score?: number;
+        tags?: string[]; // 매칭된 규칙들 (matchedRules)
+        reason?: string; // 개별 제품 추천 이유
       }>;
       selectionReason?: string;
       totalCandidates: number;
+      budgetFiltered?: number;
       processingTimeMs?: number;
     };
     // 상품 모달 관련
@@ -231,6 +254,18 @@ export interface LogEvent {
       mall: string;
       price: number;
       isLowestPrice: boolean;
+    };
+    // 가이드 카드 탭 선택
+    guideCard?: {
+      selectedTab: 'pros' | 'cons';
+      tabLabel: string;
+    };
+    // 체크포인트 상세 정보
+    checkpoint?: {
+      totalProductCount: number;
+      filteredProductCount: number;
+      summaryText: string;
+      conditions: Array<{ label: string; value: string }>;
     };
     // 찜하기
     favorite?: {

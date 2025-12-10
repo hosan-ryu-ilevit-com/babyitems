@@ -7,6 +7,7 @@ import { useFavorites } from '@/hooks/useFavorites';
 import { products } from '@/data/products';
 import { CATEGORY_LABELS } from '@/data/categories';
 import { ProductCategory, Product } from '@/types';
+import { logFavoriteLowestPriceClick } from '@/lib/logging/clientLogger';
 
 // Import all category specs
 import babyBottleSpecs from '@/data/specs/baby_bottle.json';
@@ -42,36 +43,49 @@ interface SupabaseProduct {
 }
 
 
-// category_code를 ProductCategory로 매핑
+// category_code를 ProductCategory로 매핑 (실제 다나와 카테고리 코드 사용)
+// 참고: data/rules/logic_map.json의 target_categories 참조
 function mapCategoryCodeToCategory(categoryCode: string): ProductCategory {
   const mapping: Record<string, ProductCategory> = {
-    // 젖병 관련
-    '104051003': 'baby_bottle',
-    '104051': 'baby_bottle',
-    // 젖병소독기
-    '104051007': 'baby_bottle_sterilizer',
-    // 분유케이스
-    '104051010': 'baby_formula_dispenser',
-    // 베이비모니터
-    '104047': 'baby_monitor',
-    '104047003': 'baby_monitor',
-    // 플레이매트
-    '104045': 'baby_play_mat',
-    '104045001': 'baby_play_mat',
-    // 카시트
-    '104052': 'car_seat',
-    '104052001': 'car_seat',
-    '104052002': 'car_seat',
-    '104052003': 'car_seat',
+    // 젖병
+    '16349219': 'baby_bottle',
+    // 분유제조기
+    '16349381': 'baby_formula_dispenser',
+    // 베이비모니터 (홈 IP 카메라)
+    '11427546': 'baby_monitor',
+    // 카시트 (4개)
+    '16349200': 'car_seat',  // 일체형
+    '16349201': 'car_seat',  // 분리형
+    '16349202': 'car_seat',  // 바구니형
+    '16353763': 'car_seat',  // 부스터형
     // 분유포트
-    '1041033': 'milk_powder_port',
-    '10410331': 'milk_powder_port',
+    '16330960': 'milk_powder_port',
     // 코흡입기
-    '104051022': 'nasal_aspirator',
-    // 체온계
-    '104046': 'thermometer',
-    '104046001': 'thermometer',
-    '104046002': 'thermometer',
+    '16349248': 'nasal_aspirator',
+    // 체온계 (귀 체온계)
+    '17325941': 'thermometer',
+    // 유아가구 → baby_play_mat으로 매핑
+    '16338152': 'baby_play_mat',  // 유아침대
+    '16338153': 'baby_play_mat',  // 유아의자
+    '16338154': 'baby_play_mat',  // 유아식탁의자
+    '16338155': 'baby_play_mat',  // 유아소파
+    '16338156': 'baby_play_mat',  // 유아책상
+    // 유모차 (4개) - ProductCategory에 stroller 없으므로 car_seat로 임시 매핑
+    '16349193': 'car_seat',  // 디럭스형
+    '16349368': 'car_seat',  // 절충형
+    '16349195': 'car_seat',  // 휴대용/트라이크
+    '16349196': 'car_seat',  // 쌍둥이용
+    // 기저귀 관련 (ProductCategory에 없으므로 milk_powder_port로 fallback)
+    '16349108': 'milk_powder_port',  // 하기스
+    '16349109': 'milk_powder_port',  // 팸퍼스
+    '16349110': 'milk_powder_port',  // 보솜이
+    '16356038': 'milk_powder_port',  // 마미포코
+    '16356040': 'milk_powder_port',  // 나비잠
+    '16356042': 'milk_powder_port',  // 그외 브랜드
+    // 기타 카테고리
+    '16349119': 'milk_powder_port',  // 아기물티슈
+    '16249091': 'milk_powder_port',  // 분유
+    '16349351': 'milk_powder_port',  // 쪽쪽이/노리개
   };
   return mapping[categoryCode] || 'milk_powder_port';
 }
@@ -172,23 +186,21 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
     return map;
   }, []);
 
-  // 로컬에서 찾지 못한 제품들을 Supabase에서 가져오기
+  // 모든 찜한 제품을 Supabase에서 가져오기 (카테고리 정보를 위해 Supabase 우선)
   useEffect(() => {
-    const missingIds = favorites.filter(id => !localProductsMap.has(id));
-
-    if (missingIds.length === 0) {
+    if (favorites.length === 0) {
       setSupabaseProducts(new Map());
       setDanawaLinks(new Map());
       return;
     }
 
-    const fetchMissingProducts = async () => {
+    const fetchAllProducts = async () => {
       setIsLoadingSupabase(true);
       try {
         const response = await fetch('/api/v2/products-by-ids', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pcodes: missingIds }),
+          body: JSON.stringify({ pcodes: favorites }),
         });
 
         const data = await response.json();
@@ -215,16 +227,15 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
       }
     };
 
-    fetchMissingProducts();
-  }, [favorites, localProductsMap]);
+    fetchAllProducts();
+  }, [favorites]);
 
-  // 로컬 + Supabase 데이터 합치기
+  // Supabase + 로컬 데이터 합치기 (Supabase 데이터 우선 - 카테고리 정보가 정확함)
   const allProductsMap = useMemo(() => {
     const combined = new Map(localProductsMap);
+    // Supabase 데이터로 덮어쓰기 (카테고리 정보가 최신)
     supabaseProducts.forEach((product, id) => {
-      if (!combined.has(id)) {
-        combined.set(id, product);
-      }
+      combined.set(id, product);
     });
     return combined;
   }, [localProductsMap, supabaseProducts]);
@@ -341,6 +352,16 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
                     onClick={() => {
                       // Supabase에서 가져온 다나와 최저가 링크가 있으면 사용, 없으면 다나와 검색
                       const lowestLink = danawaLinks.get(product.id);
+
+                      // 로깅: 제품명, 브랜드, 가격, 쇼핑몰 정보
+                      logFavoriteLowestPriceClick(
+                        product.id,
+                        product.title,
+                        product.brand || undefined,
+                        product.price,
+                        lowestLink ? '다나와 최저가' : '다나와 검색'
+                      );
+
                       if (lowestLink) {
                         window.open(lowestLink, '_blank');
                       } else {

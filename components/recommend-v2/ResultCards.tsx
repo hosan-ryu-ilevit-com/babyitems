@@ -272,9 +272,18 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   const handleAnchorChange = (newAnchor: typeof anchorProduct) => {
     if (newAnchor) {
       setAnchorProduct(newAnchor);
-      // Clear comparison cache to force refetch
-      setComparisonDetails({});
-      setComparisonFeatures({});
+      // 새 앵커 제품 데이터만 제거 (기존 TOP 3 데이터는 유지)
+      const newAnchorId = String(newAnchor.productId);
+      setComparisonDetails(prev => {
+        const updated = { ...prev };
+        delete updated[newAnchorId];
+        return updated;
+      });
+      setComparisonFeatures(prev => {
+        const updated = { ...prev };
+        delete updated[newAnchorId];
+        return updated;
+      });
       logButtonClick(`기준제품_변경완료_${newAnchor.브랜드}_${newAnchor.모델명}`, 'v2-result');
     }
   };
