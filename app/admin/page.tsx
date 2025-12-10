@@ -2488,6 +2488,33 @@ export default function AdminPage() {
                                       <p className="text-gray-600">{event.v2FlowData.categoryName}</p>
                                     </div>
                                   )}
+                                  {/* 다시 추천받기 모달 열기 */}
+                                  {event.eventType === 'v2_re_recommend_modal_opened' && event.v2FlowData.reRecommend && (
+                                    <div className="bg-violet-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-violet-700 mb-1">
+                                        🔄 다시 추천받기 모달 열기
+                                      </p>
+                                      <p className="text-gray-600">{event.v2FlowData.categoryName}</p>
+                                    </div>
+                                  )}
+                                  {/* 같은 카테고리 다시 추천받기 */}
+                                  {event.eventType === 'v2_re_recommend_same_category' && event.v2FlowData.reRecommend && (
+                                    <div className="bg-violet-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-violet-700 mb-1">
+                                        🔁 같은 카테고리 다시 추천
+                                      </p>
+                                      <p className="text-gray-700">{event.v2FlowData.reRecommend.targetCategoryName}</p>
+                                    </div>
+                                  )}
+                                  {/* 다른 카테고리 추천받기 */}
+                                  {event.eventType === 'v2_re_recommend_different_category' && event.v2FlowData.reRecommend && (
+                                    <div className="bg-violet-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-violet-700 mb-1">
+                                        ➡️ 다른 카테고리로 이동
+                                      </p>
+                                      <p className="text-gray-600">이전: {event.v2FlowData.reRecommend.fromCategoryName}</p>
+                                    </div>
+                                  )}
                                 </>
                               )}
                               {/* 구매 관련 이벤트 */}

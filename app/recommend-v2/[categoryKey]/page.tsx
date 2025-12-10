@@ -73,6 +73,9 @@ import {
   logV2RecommendationReceived,
   logV2StepBack,
   logGuideCardTabSelection,
+  logV2ReRecommendModalOpened,
+  logV2ReRecommendSameCategory,
+  logV2ReRecommendDifferentCategory,
 } from '@/lib/logging/clientLogger';
 
 // Sub-category types
@@ -2153,6 +2156,7 @@ export default function RecommendV2Page() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => {
+                        logV2ReRecommendDifferentCategory(categoryKey, categoryName);
                         router.push('/categories-v2');
                       }}
                       className="w-full py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-2xl shadow-lg font-semibold transition-colors flex items-center justify-center gap-2"
@@ -2168,6 +2172,9 @@ export default function RecommendV2Page() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => {
+                        // 로깅
+                        logV2ReRecommendSameCategory(categoryKey, categoryName);
+
                         // 상태 초기화
                         setCurrentStep(0);
                         setCurrentHardFilterIndex(0);
@@ -2228,7 +2235,10 @@ export default function RecommendV2Page() {
                   /* 다시 추천받기 버튼 */
                   <div className="gradient-border-button w-full">
                     <button
-                      onClick={() => setShowReRecommendModal(true)}
+                      onClick={() => {
+                        logV2ReRecommendModalOpened(categoryKey, categoryName);
+                        setShowReRecommendModal(true);
+                      }}
                       className="gradient-border-button-inner w-full"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

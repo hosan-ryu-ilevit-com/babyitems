@@ -48,7 +48,11 @@ export type LogEventType =
   | 'age_badge_selected'     // 카테고리 페이지 연령대 선택
   | 'guide_card_tab_selected' // 가이드 카드 탭 선택
   | 'product_modal_purchase_clicked' // 상품 모달 구매 링크 클릭
-  | 'comparison_detail_view_clicked'; // 비교표 상세보기 클릭
+  | 'comparison_detail_view_clicked' // 비교표 상세보기 클릭
+  // 다시 추천받기 이벤트
+  | 'v2_re_recommend_modal_opened' // 다시 추천받기 모달 열기
+  | 'v2_re_recommend_same_category' // 같은 카테고리 다시 추천받기
+  | 'v2_re_recommend_different_category'; // 다른 카테고리 추천받기
 
 export interface LogEvent {
   sessionId: string;
@@ -281,6 +285,14 @@ export interface LogEvent {
     };
     // 소요 시간 (ms)
     elapsedTimeMs?: number;
+    // 다시 추천받기
+    reRecommend?: {
+      action: 'modal_opened' | 'same_category' | 'different_category';
+      targetCategory?: string;
+      targetCategoryName?: string;
+      fromCategory?: string;
+      fromCategoryName?: string;
+    };
   };
   metadata?: Record<string, unknown>; // 추가 정보
 }

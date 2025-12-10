@@ -1114,3 +1114,64 @@ export function logV2BalanceSkipped(
     },
   });
 }
+
+// 다시 추천받기 모달 열기 로깅
+export function logV2ReRecommendModalOpened(
+  category: string,
+  categoryName: string
+): void {
+  sendLogEvent('v2_re_recommend_modal_opened', {
+    page: 'recommend-v2',
+    buttonLabel: '다시 추천받기',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+      reRecommend: {
+        action: 'modal_opened',
+      },
+    },
+  });
+}
+
+// 같은 카테고리 다시 추천받기 로깅
+export function logV2ReRecommendSameCategory(
+  category: string,
+  categoryName: string
+): void {
+  sendLogEvent('v2_re_recommend_same_category', {
+    page: 'recommend-v2',
+    buttonLabel: `${categoryName} 다시 추천받기`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+      reRecommend: {
+        action: 'same_category',
+        targetCategory: category,
+        targetCategoryName: categoryName,
+      },
+    },
+  });
+}
+
+// 다른 카테고리 추천받기 로깅
+export function logV2ReRecommendDifferentCategory(
+  fromCategory: string,
+  fromCategoryName: string
+): void {
+  sendLogEvent('v2_re_recommend_different_category', {
+    page: 'recommend-v2',
+    buttonLabel: '다른 카테고리 추천받기',
+    v2FlowData: {
+      category: fromCategory,
+      categoryName: fromCategoryName,
+      step: 5,
+      reRecommend: {
+        action: 'different_category',
+        fromCategory,
+        fromCategoryName,
+      },
+    },
+  });
+}
