@@ -14,7 +14,6 @@ import { GuideBottomSheet } from '@/components/GuideBottomSheet';
 import { Product, ProductCategory } from '@/types';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Playfair_Display } from 'next/font/google';
-import { CategoryMarquee, type CategoryClickData } from '@/components/CategoryMarquee';
 
 // Import all category specs
 import babyBottleSpecs from '@/data/specs/baby_bottle.json';
@@ -143,16 +142,6 @@ export function HomeContent() {
     localStorage.setItem('babyitem_guide_viewed', 'true');
   };
 
-  const handleCategoryClick = (data: CategoryClickData) => {
-    // 상세 로깅: 카테고리ID, 한글명, 인기여부, Row위치
-    const popularTag = data.isPopular ? '[인기]' : '';
-    logButtonClick(
-      `카테고리_캐러셀_클릭: ${popularTag}${data.name}(${data.id}) Row${data.row}`,
-      'home'
-    );
-    router.push(`/recommend-v2/${data.id}`);
-  };
-
   const favoriteProducts = favorites
     .map(id => allProductsMap.get(id))
     .filter((p): p is Product => p !== undefined);
@@ -198,7 +187,7 @@ export function HomeContent() {
               className="text-center mb-auto mt-0 w-full"
               suppressHydrationWarning
             >
-              <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-tight">
+              <h1 className="text-2xl font-bold text-gray-900 mb-6 mt-6 leading-tight">
                 수천 개 아기용품 중<br />
                 <span style={{ color: '#0084FE' }}>내게 딱 맞는 하나</span> 찾기
               </h1>
@@ -221,8 +210,6 @@ export function HomeContent() {
                 </video>
               </motion.div>
 
-              {/* Category Carousel */}
-              <CategoryMarquee onCategoryClick={handleCategoryClick} />
 
               {/* Guide Button with Floating Bubble */}
               {/* <div className="mt-12 flex flex-col items-center gap-3">
