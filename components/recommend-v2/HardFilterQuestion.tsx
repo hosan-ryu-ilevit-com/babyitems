@@ -7,6 +7,14 @@ import type { HardFilterData, ProductItem } from '@/types/recommend-v2';
 // "상관없어요" 옵션 값 (이 값을 가진 옵션이 선택되면 다른 옵션 비활성화)
 const SKIP_VALUES = ['skip', 'any', '상관없어요', 'none', 'all'];
 
+// 인기 옵션 정보
+interface PopularOption {
+  questionId: string;
+  value: string;
+  percentage: number; // 선택 비율 (%)
+  isPopular: boolean;
+}
+
 interface HardFilterQuestionProps {
   data: HardFilterData;
   onSelect: (questionId: string, values: string[]) => void;
@@ -15,6 +23,8 @@ interface HardFilterQuestionProps {
   showProductCounts?: boolean;
   // 로깅 콜백
   onCustomInputSubmit?: (questionId: string, customText: string) => void;
+  // 인기 옵션 (상위 3개)
+  popularOptions?: PopularOption[];
 }
 
 /**
@@ -114,6 +124,7 @@ export function HardFilterQuestion({
   products,
   showProductCounts = false,
   onCustomInputSubmit,
+  popularOptions = [],
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
 
@@ -218,6 +229,12 @@ export function HardFilterQuestion({
           const isSkipOption = SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없');
           const isDisabled = isSkipSelected && !isSkipOption;
 
+          // 인기 옵션인지 확인 (해당 질문의 상위 3개)
+          const popularOption = popularOptions.find(
+            po => po.questionId === question.id && po.value === option.value && po.isPopular
+          );
+          const isPopular = !!popularOption;
+
           // 옵션별 제품 개수 계산
           const productCount = showProductCounts && products
             ? countProductsForOption(products, option)
@@ -282,16 +299,10 @@ export function HardFilterQuestion({
                   {option.label}
                 </span>
 
-                {/* 디버깅용: 제품 개수 표시 */}
-                {productCount !== null && (
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${
-                    productCount === 0
-                      ? 'bg-red-100 text-red-600'
-                      : productCount < 5
-                      ? 'bg-yellow-100 text-yellow-700'
-                      : 'bg-green-100 text-green-700'
-                  }`}>
-                    {productCount}개
+                {/* 많이 선택 뱃지 */}
+                {isPopular && !isSkipOption && popularOption && (
+                  <span className="px-2 py-0.5 bg-green-100 text-green-600 text-[10px] font-semibold rounded-full">
+                    {popularOption.percentage}% 선택
                   </span>
                 )}
               </div>

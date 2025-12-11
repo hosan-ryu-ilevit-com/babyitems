@@ -155,6 +155,8 @@ export default function RecommendV2Page() {
   // User selections (다중 선택 지원)
   const [hardFilterAnswers, setHardFilterAnswers] = useState<Record<string, string[]>>({});
   const [currentHardFilterIndex, setCurrentHardFilterIndex] = useState(0);
+  // 인기 하드필터 옵션 (통계 기반)
+  const [popularHardFilterOptions, setPopularHardFilterOptions] = useState<Array<{ questionId: string; value: string; percentage: number; isPopular: boolean }>>([]);
   const [balanceSelections, setBalanceSelections] = useState<Set<string>>(new Set());
   const [currentBalanceIndex, setCurrentBalanceIndex] = useState(0);
   const [negativeSelections, setNegativeSelections] = useState<string[]>([]);
@@ -192,7 +194,7 @@ export default function RecommendV2Page() {
 
   // UI
   const [showBackModal, setShowBackModal] = useState(false);
-  const [showScanAnimation, setShowScanAnimation] = useState(true);
+  const [showScanAnimation, setShowScanAnimation] = useState(false);
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [showFavoritesModal, setShowFavoritesModal] = useState(false);
@@ -494,6 +496,25 @@ export default function RecommendV2Page() {
     loadData();
   }, [categoryKey, router, isRestoredFromStorage]);
 
+  // 인기 하드필터 옵션 로딩 (통계 기반)
+  useEffect(() => {
+    if (!categoryKey) return;
+
+    const loadPopularOptions = async () => {
+      try {
+        const res = await fetch(`/api/v2/hard-filter-stats?category=${categoryKey}`);
+        if (res.ok) {
+          const data = await res.json();
+          setPopularHardFilterOptions(data.options || []);
+        }
+      } catch (error) {
+        console.warn('Failed to load popular hard filter options:', error);
+      }
+    };
+
+    loadPopularOptions();
+  }, [categoryKey]);
+
   // Keep productsRef in sync with products state (to avoid closure issues)
   useEffect(() => {
     productsRef.current = products;
@@ -572,6 +593,20 @@ export default function RecommendV2Page() {
       }, 250);
     }
   }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, addMessage]);
+
+  // ===================================================
+  // Auto-trigger guide cards when data is ready (스캔 애니메이션 스킵)
+  // ===================================================
+  const hasTriggeredGuideRef = useRef(false);
+  useEffect(() => {
+    // 이미 트리거됐거나, 로딩 중이거나, 설정이 없으면 스킵
+    if (hasTriggeredGuideRef.current || isLoading || !hardFilterConfig) return;
+    // sessionStorage에서 복원된 경우 스킵 (이미 결과 화면)
+    if (isRestoredFromStorage) return;
+
+    hasTriggeredGuideRef.current = true;
+    handleScanComplete();
+  }, [isLoading, hardFilterConfig, isRestoredFromStorage, handleScanComplete]);
 
   // ===================================================
   // Sub-Category Selection Handler (분리: 선택만 / 확정 후 진행)
@@ -1503,6 +1538,7 @@ export default function RecommendV2Page() {
                 introMessage={(message.componentData as { introMessage?: string })?.introMessage}
                 isActive={currentStep === 0 && !showSubCategorySelector && (!requiresSubCategory || !selectedSubCategoryCode)}
                 disabled={isTransitioning}
+                enableTyping={true}
                 onTabChange={(tab, tabLabel) => {
                   logGuideCardTabSelection(categoryKey, categoryName, tab, tabLabel);
                 }}
@@ -1611,6 +1647,7 @@ export default function RecommendV2Page() {
                     customText
                   );
                 }}
+                popularOptions={popularHardFilterOptions}
               />
             </div>
           );
@@ -2565,8 +2602,10 @@ export default function RecommendV2Page() {
                         setScoredProducts([]);
                         setConditionSummary([]);
                         setMessages([]);
-                        setShowScanAnimation(true);
                         setShowReRecommendModal(false);
+
+                        // 스캔 애니메이션 없이 바로 가이드 카드 표시
+                        handleScanComplete();
 
                         if (requiresSubCategory) {
                           setSelectedSubCategoryCode(null);

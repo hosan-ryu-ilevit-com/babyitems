@@ -111,9 +111,42 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
   const [direction, setDirection] = useState(0);
   const [isTypingComplete, setIsTypingComplete] = useState(!enableTyping);
 
+  // 순차적 애니메이션 상태
+  const [showThumbnails, setShowThumbnails] = useState(false);
+  const [showProsToggle, setShowProsToggle] = useState(false);
+  const [showConsToggle, setShowConsToggle] = useState(false);
+  const [showFloatingButton, setShowFloatingButton] = useState(false);
+
   // 토글 형식: 각각 독립적으로 열고 닫을 수 있음 (기본: 접힘)
   const [isProsOpen, setIsProsOpen] = useState(false);
   const [isConsOpen, setIsConsOpen] = useState(false);
+
+  // 순차적 애니메이션 트리거 (더 느린 타이밍)
+  useEffect(() => {
+    if (!isTypingComplete) return;
+
+    // 타이핑 완료 후 → 썸네일 표시 (0.5초 후)
+    const thumbnailTimer = setTimeout(() => {
+      setShowThumbnails(true);
+    }, 500);
+
+    // 썸네일 후 → 구매/불만 포인트 토글 동시 표시 (1.0초 후)
+    const toggleTimer = setTimeout(() => {
+      setShowProsToggle(true);
+      setShowConsToggle(true);
+    }, 1000);
+
+    // 토글 후 → 플로팅 버튼 표시 (1.5초 후)
+    const buttonTimer = setTimeout(() => {
+      setShowFloatingButton(true);
+    }, 1500);
+
+    return () => {
+      clearTimeout(thumbnailTimer);
+      clearTimeout(toggleTimer);
+      clearTimeout(buttonTimer);
+    };
+  }, [isTypingComplete]);
 
   const hasPros = data.topPros && data.topPros.length > 0;
   const hasCons = data.topCons && data.topCons.length > 0;
@@ -276,196 +309,198 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
       transition={{ duration: 0.3 }}
       className="pb-24"
     >
-      {/* 인트로 메시지 */}
+      {/* 인트로 메시지 - AssistantMessage 스타일과 동일하게 (스트리밍) */}
       {introMessage && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
-          className="mb-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="w-full mb-4"
         >
-          <p className="text-base font-medium leading-[1.4] text-gray-900">
-            {enableTyping ? (
-              <StreamingText
-                content={introMessage}
-                speed={15}
-                onComplete={() => setIsTypingComplete(true)}
-              />
-            ) : (
-              introMessage
-            )}
-          </p>
+          <div className="w-full flex justify-start">
+            <div className="px-1 py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4]">
+              {enableTyping ? (
+                <StreamingText
+                  content={introMessage}
+                  speed={20}
+                  onComplete={() => setIsTypingComplete(true)}
+                />
+              ) : (
+                introMessage
+              )}
+            </div>
+          </div>
         </motion.div>
       )}
 
-      {/* 토글 UI (topPros/topCons 데이터가 있을 때) - 타이핑 완료 후 페이드인 */}
+      {/* 토글 UI (topPros/topCons 데이터가 있을 때) - 순차적 페이드인 */}
       {hasTabData && (
-        <AnimatePresence>
-          {isTypingComplete && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="flex flex-col gap-3"
-            >
-              {/* 썸네일 + 분석 완료 태그 */}
-              {(data.productThumbnails && data.productThumbnails.length > 0) && (
-                <div className="flex items-center gap-3 mb-1">
-                  {/* 겹쳐진 원형 썸네일 (로딩 완료 순 배치) */}
-                  <ThumbnailGroup thumbnails={data.productThumbnails.slice(0, 5)} />
-                  {/* 분석 완료 태그 */}
-                  {data.analyzedReviewCount && (
-                    <span className="px-2.5 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full">
-                      {data.analyzedReviewCount.toLocaleString()}개 상품 분석 완료
-                    </span>
-                  )}
-                </div>
-              )}
-
-              {/* 주요 구매/불만 포인트 토글 - 썸네일 후 0.2초 딜레이 */}
+        <div className="flex flex-col gap-3">
+          {/* 썸네일 + 분석 완료 태그 */}
+          <AnimatePresence>
+            {showThumbnails && data.productThumbnails && data.productThumbnails.length > 0 && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.3 }}
-                className="flex flex-col gap-3"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex items-center gap-3 mb-1"
               >
-              {/* 주요 구매 포인트 토글 */}
-              {hasPros && (
-                <div>
-                  <button
-                    onClick={() => {
-                      const newState = !isProsOpen;
-                      setIsProsOpen(newState);
-                      onToggle?.('pros', newState);
-                      onTabChange?.('pros', '주요 구매 포인트');
-                    }}
-                    className={`w-full px-4 py-3 rounded-xl border-2 transition-all text-left ${
-                      isProsOpen
-                        ? 'border-green-400 bg-green-50'
-                        : 'border-gray-100 bg-white hover:border-gray-200'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-green-500 font-bold">✓</span>
-                        <span className={`text-sm font-semibold ${isProsOpen ? 'text-green-700' : 'text-gray-700'}`}>
-                          주요 구매 포인트
-                        </span>
-                      </div>
-                      <motion.svg
-                        animate={{ rotate: isProsOpen ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                        className={`w-4 h-4 ${isProsOpen ? 'text-green-500' : 'text-gray-400'}`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </motion.svg>
-                    </div>
-                  </button>
-                  <AnimatePresence>
-                    {isProsOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-2 p-4 bg-white rounded-xl border border-gray-100">
-                          <div className="space-y-3">
-                            {prosItems.map((item, i) => (
-                              <div key={i} className="flex items-start gap-2">
-                                <span className="text-green-500 text-sm mt-0.5">✓</span>
-                                <div className="flex-1">
-                                  <p className="text-gray-800 text-sm leading-relaxed">{item.text}</p>
-                                  {item.mentionRate && (
-                                    <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full bg-green-100 text-green-600 text-xs">
-                                      {item.mentionRate}% 만족
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )}
-
-              {/* 주요 불만 포인트 토글 */}
-              {hasCons && (
-                <div>
-                  <button
-                    onClick={() => {
-                      const newState = !isConsOpen;
-                      setIsConsOpen(newState);
-                      onToggle?.('cons', newState);
-                      onTabChange?.('cons', '주요 불만 포인트');
-                    }}
-                    className={`w-full px-4 py-3 rounded-xl border-2 transition-all text-left ${
-                      isConsOpen
-                        ? 'border-rose-400 bg-rose-50'
-                        : 'border-gray-100 bg-white hover:border-gray-200'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-rose-400 font-bold">!</span>
-                        <span className={`text-sm font-semibold ${isConsOpen ? 'text-rose-700' : 'text-gray-700'}`}>
-                          주요 불만 포인트
-                        </span>
-                      </div>
-                      <motion.svg
-                        animate={{ rotate: isConsOpen ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                        className={`w-4 h-4 ${isConsOpen ? 'text-rose-500' : 'text-gray-400'}`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </motion.svg>
-                    </div>
-                  </button>
-                  <AnimatePresence>
-                    {isConsOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-2 p-4 bg-white rounded-xl border border-gray-100">
-                          <div className="space-y-3">
-                            {consItems.map((item, i) => (
-                              <div key={i} className="flex items-start gap-2">
-                                <span className="text-rose-400 text-sm mt-0.5">!</span>
-                                <div className="flex-1">
-                                  <p className="text-gray-800 text-sm leading-relaxed">{item.text}</p>
-                                  {item.dealBreakerFor && (
-                                    <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full bg-rose-100 text-rose-500 text-xs">
-                                      {item.dealBreakerFor} 주의
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )}
+                <ThumbnailGroup thumbnails={data.productThumbnails.slice(0, 5)} />
+                {data.analyzedReviewCount && (
+                  <span className="px-2.5 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full">
+                    {data.analyzedReviewCount.toLocaleString()}개 상품 분석 완료
+                  </span>
+                )}
               </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
+
+          {/* 주요 구매 포인트 토글 */}
+          <AnimatePresence>
+            {showProsToggle && hasPros && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              >
+                <button
+                  onClick={() => {
+                    const newState = !isProsOpen;
+                    setIsProsOpen(newState);
+                    onToggle?.('pros', newState);
+                    onTabChange?.('pros', '주요 구매 포인트');
+                  }}
+                  className={`w-full px-4 py-3 rounded-xl border-2 transition-all text-left ${
+                    isProsOpen
+                      ? 'border-green-400 bg-green-50'
+                      : 'border-gray-100 bg-white hover:border-gray-200'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-green-500 font-bold">✓</span>
+                      <span className={`text-sm font-semibold ${isProsOpen ? 'text-green-700' : 'text-gray-700'}`}>
+                        주요 구매 포인트
+                      </span>
+                    </div>
+                    <motion.svg
+                      animate={{ rotate: isProsOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`w-4 h-4 ${isProsOpen ? 'text-green-500' : 'text-gray-400'}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </motion.svg>
+                  </div>
+                </button>
+                <AnimatePresence>
+                  {isProsOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-2 p-4 bg-white rounded-xl border border-gray-100">
+                        <div className="space-y-3">
+                          {prosItems.map((item, i) => (
+                            <div key={i} className="flex items-start gap-2">
+                              <span className="text-green-500 text-sm mt-0.5">✓</span>
+                              <div className="flex-1">
+                                <p className="text-gray-800 text-sm leading-relaxed">{item.text}</p>
+                                {item.mentionRate && (
+                                  <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full bg-green-100 text-green-600 text-xs">
+                                    {item.mentionRate}% 만족
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* 주요 불만 포인트 토글 */}
+          <AnimatePresence>
+            {showConsToggle && hasCons && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              >
+                <button
+                  onClick={() => {
+                    const newState = !isConsOpen;
+                    setIsConsOpen(newState);
+                    onToggle?.('cons', newState);
+                    onTabChange?.('cons', '주요 불만 포인트');
+                  }}
+                  className={`w-full px-4 py-3 rounded-xl border-2 transition-all text-left ${
+                    isConsOpen
+                      ? 'border-rose-400 bg-rose-50'
+                      : 'border-gray-100 bg-white hover:border-gray-200'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-rose-400 font-bold">!</span>
+                      <span className={`text-sm font-semibold ${isConsOpen ? 'text-rose-700' : 'text-gray-700'}`}>
+                        주요 불만 포인트
+                      </span>
+                    </div>
+                    <motion.svg
+                      animate={{ rotate: isConsOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`w-4 h-4 ${isConsOpen ? 'text-rose-500' : 'text-gray-400'}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </motion.svg>
+                  </div>
+                </button>
+                <AnimatePresence>
+                  {isConsOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-2 p-4 bg-white rounded-xl border border-gray-100">
+                        <div className="space-y-3">
+                          {consItems.map((item, i) => (
+                            <div key={i} className="flex items-start gap-2">
+                              <span className="text-rose-400 text-sm mt-0.5">!</span>
+                              <div className="flex-1">
+                                <p className="text-gray-800 text-sm leading-relaxed">{item.text}</p>
+                                {item.dealBreakerFor && (
+                                  <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-full bg-rose-100 text-rose-500 text-xs">
+                                    {item.dealBreakerFor} 주의
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       )}
 
       {/* Fallback 카드 UI (탭 데이터 없을 때만) - 타이핑 완료 후 페이드인 */}
@@ -556,14 +591,14 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
         </AnimatePresence>
       )}
 
-      {/* 플로팅 다음 버튼 - 활성 상태 + 타이핑 완료 후에만 표시 */}
+      {/* 플로팅 다음 버튼 - 순차적 애니메이션 완료 후 표시 */}
       <AnimatePresence>
-        {isActive && isTypingComplete && (
+        {isActive && showFloatingButton && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
             className="fixed bottom-0 left-0 right-0 z-50"
           >
             {/* 흰색 플로팅바 배경 */}
