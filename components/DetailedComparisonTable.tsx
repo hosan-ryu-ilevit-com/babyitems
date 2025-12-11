@@ -385,9 +385,6 @@ export default function DetailedComparisonTable({
       transition={{ duration: 0.5 }}
       className="comparison-table-section space-y-0 mb-8"
     >
-      {/* 섹션 구분 디바이더 */}
-      <div className="h-4 bg-gray-100 -mx-2 mb-4"></div>
-
       {/* 상품 선택 UI */}
       <div className="bg-white py-3 px-0">
         <h3 className="text-base font-bold text-gray-900 mb-1">

@@ -288,15 +288,12 @@ export function HomeContent() {
           <Link href="/categories-v2">
             <button
               onClick={() => logButtonClick('1분만에 추천받기', 'home')}
-              className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center gap-2.5 mb-3"
+              className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center mb-3"
               style={{ backgroundColor: '#0084FE' }}
             >
-              <span>1분만에 추천받기</span>
-              <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1 text-white" style={{ background: 'linear-gradient(135deg, #9325FC, #C750FF, #C878F7)' }}>
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                </svg>
-                <span>AI</span>
+              <span className="flex items-baseline gap-2.5">
+                <span>1분만에 추천받기</span>
+                <span className="text-xs font-light text-white/80">with AI</span>
               </span>
             </button>
           </Link>

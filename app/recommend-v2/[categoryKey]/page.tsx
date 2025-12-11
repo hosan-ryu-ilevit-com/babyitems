@@ -2417,15 +2417,19 @@ export default function RecommendV2Page() {
           <div ref={messagesEndRef} />
         </main>
 
-        {/* Bottom Button (Step 5 결과 화면에서는 숨김) */}
-        {!(currentStep === 5 && scoredProducts.length > 0) && (
-          <div
-            className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-40"
-            style={{ maxWidth: '480px', margin: '0 auto' }}
-          >
-            {renderBottomButton()}
-          </div>
-        )}
+        {/* Bottom Button (버튼이 있을 때만 컨테이너 표시) */}
+        {(() => {
+          const bottomButton = renderBottomButton();
+          if (!bottomButton) return null;
+          return (
+            <div
+              className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-40"
+              style={{ maxWidth: '480px', margin: '0 auto' }}
+            >
+              {bottomButton}
+            </div>
+          );
+        })()}
 
         {/* 다시 추천받기 플로팅 버튼 (Step 5에서만 표시, 상품 모달 열림 시 숨김) */}
         {currentStep === 5 && scoredProducts.length > 0 && !isProductModalOpen && (

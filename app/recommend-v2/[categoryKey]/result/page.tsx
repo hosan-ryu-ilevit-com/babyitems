@@ -322,9 +322,6 @@ export default function V2ResultPage() {
               transition={{ delay: 0.3 }}
               className="mt-6"
             >
-              {/* Divider */}
-              <div className="h-4 bg-gray-100 -mx-3 mb-4"></div>
-
               <div className="bg-white rounded-2xl p-4">
                 <h3 className="text-base font-bold text-gray-900 mb-3">내 구매 기준</h3>
                 <div className="space-y-2">
