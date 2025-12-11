@@ -202,6 +202,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
   // Toast for favorite notification
   const [showToast, setShowToast] = useState(false);
+  const [toastType, setToastType] = useState<'add' | 'remove'>('add');
 
   // 가격 비교 토글 상태
   const [showPriceComparison, setShowPriceComparison] = useState(false);
@@ -381,8 +382,9 @@ export default function ProductDetailModal({ productData, productComparisons, ca
           <h2 className="text-lg font-bold text-gray-900 mb-3 leading-snug">
             {productData.product.title}
           </h2>
+          {/* 가격 - 다나와 최저가 우선, 없으면 product.price */}
           <div className="text-2xl font-bold text-gray-900 mb-2">
-            {productData.product.price.toLocaleString()}원
+            {(danawaData?.lowestPrice || productData.product.price).toLocaleString()}원
           </div>
           
 
@@ -539,18 +541,11 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
         {/* Recommendation Reasoning Container */}
         <div className="px-4 pt-4">
-          <div className="bg-[#F3E6FD] rounded-2xl px-4 py-3 flex items-start gap-2">
-            <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 24 24">
-              <defs>
-                <linearGradient id="sparkle-gradient-pdp" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#9325FC" />
-                  <stop offset="50%" stopColor="#C750FF" />
-                  <stop offset="100%" stopColor="#C878F7" />
-                </linearGradient>
-              </defs>
-              <path fill="url(#sparkle-gradient-pdp)" d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+          <div className="bg-[#E8E6FD] border border-[#D6D3FC] rounded-2xl px-4 py-3 flex items-start gap-2">
+            <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="#4E43E1">
+              <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
             </svg>
-            <p className="text-sm text-gray-700 leading-normal flex-1">
+            <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
               {parseMarkdownBold(productData.reasoning)}
             </p>
           </div>
@@ -789,9 +784,9 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                     <div className="space-y-4">
                       {/* 필수 조건 (하드 필터) */}
                       {hardFilterConditions.length > 0 && (
-                        <div className="bg-blue-50 rounded-xl p-4">
+                        <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-base font-bold text-blue-900 leading-tight">
+                            <h4 className="text-base font-bold text-gray-900 leading-tight">
                               필수<br />조건
                             </h4>
                             <CircularProgress score={hardFilterScore} total={hardFilterConditions.length} color="blue" />
@@ -813,7 +808,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                               }
 
                               return (
-                                <div key={i} className="pb-3 border-b border-blue-100 last:border-b-0 last:pb-0">
+                                <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
                                   <div className="flex items-start gap-2 mb-2">
                                     <strong className="text-sm font-bold text-gray-900 flex-1">
                                       {cond.condition}
@@ -839,9 +834,9 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                       {/* 선호 속성 (밸런스 게임) */}
                       {balanceConditions.length > 0 && (
-                        <div className="bg-emerald-50 rounded-xl p-4">
+                        <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-base font-bold text-emerald-900 leading-tight">
+                            <h4 className="text-base font-bold text-gray-900 leading-tight">
                               선호<br />속성
                             </h4>
                             <CircularProgress score={balanceScore} total={balanceConditions.length} color="green" />
@@ -863,7 +858,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                               }
 
                               return (
-                                <div key={i} className="pb-3 border-b border-emerald-100 last:border-b-0 last:pb-0">
+                                <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
                                   <div className="flex items-start gap-2 mb-2">
                                     <strong className="text-sm font-bold text-gray-900 flex-1">
                                       {cond.condition}
@@ -889,9 +884,9 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                       {/* 피하고 싶은 단점 */}
                       {negativeConditions.length > 0 && (
-                        <div className="bg-rose-50 rounded-xl p-4">
+                        <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-base font-bold text-rose-900 leading-tight">
+                            <h4 className="text-base font-bold text-gray-900 leading-tight">
                               피하고 싶은<br />단점
                             </h4>
                             <CircularProgress score={negativeScore} total={negativeConditions.length} color="rose" />
@@ -913,7 +908,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                               }
 
                               return (
-                                <div key={i} className="pb-3 border-b border-rose-100 last:border-b-0 last:pb-0">
+                                <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
                                   <div className="flex items-start gap-2 mb-2">
                                     <strong className="text-sm font-bold text-gray-900 flex-1">
                                       {cond.condition}
@@ -942,16 +937,14 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                 {/* 추가 장점 - 로딩 중이거나 데이터가 있을 때 표시 */}
                 {(isAnalysisLoading || (productData.additionalPros && productData.additionalPros.length > 0)) && (
-                  <div className="bg-gray-50 rounded-lg">
+                  <div className="bg-white border border-gray-200 rounded-xl">
                     <button
                       onClick={() => !isAnalysisLoading && setIsAdditionalProsOpen(!isAdditionalProsOpen)}
-                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
+                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-50 transition-colors rounded-xl"
                     >
                       <div className="flex items-center gap-2">
-                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <h3 className="text-base font-bold text-gray-900">추가로 이런 점도 좋아요</h3>
+                        
+                        <h3 className="text-base font-bold text-[#4E43E1]">추가로 이런 점도 좋아요</h3>
                         {isAnalysisLoading && (
                           <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin ml-2"></div>
                         )}
@@ -1001,16 +994,14 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                 {/* 주의점 - 로딩 중이거나 데이터가 있을 때 표시 */}
                 {(isAnalysisLoading || (productData.cons && productData.cons.length > 0)) && (
-                  <div className="bg-gray-50 rounded-lg">
+                  <div className="bg-white border border-gray-200 rounded-xl">
                     <button
                       onClick={() => !isAnalysisLoading && setIsConsOpen(!isConsOpen)}
-                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
+                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-50 transition-colors rounded-xl"
                     >
                       <div className="flex items-center gap-2">
-                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                        </svg>
-                        <h3 className="text-base font-bold text-gray-900">이런 점은 주의하세요</h3>
+                       
+                        <h3 className="text-base font-bold text-[#4E43E1]">이런 점은 주의하세요</h3>
                         {isAnalysisLoading && (
                           <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin ml-2"></div>
                         )}
@@ -1109,16 +1100,14 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                 {/* 구매 팁 (선택적) - 로딩 중이거나 데이터가 있을 때 표시 */}
                 {(isAnalysisLoading || (productData.purchaseTip && productData.purchaseTip.length > 0)) && (
-                  <div className="bg-gray-50 rounded-lg">
+                  <div className="bg-white border border-gray-200 rounded-xl">
                     <button
                       onClick={() => !isAnalysisLoading && setIsPurchaseTipOpen(!isPurchaseTipOpen)}
-                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
+                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-50 transition-colors rounded-xl"
                     >
                       <div className="flex items-center gap-2">
-                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
-                        </svg>
-                        <h3 className="text-base font-bold text-gray-900">구매 전 확인하세요</h3>
+                        
+                        <h3 className="text-base font-bold text-[#4E43E1]">구매 전 확인하세요</h3>
                         {isAnalysisLoading && (
                           <div className="w-4 h-4 border-2 border-gray-300 border-t-yellow-500 rounded-full animate-spin ml-2"></div>
                         )}
@@ -1242,9 +1231,8 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                   const newCount = wasFavorite ? count - 1 : count + 1;
                   logFavoriteAction(action, productData.product.id, productData.product.title, newCount);
                   logButtonClick(wasFavorite ? '찜 취소' : '찜하기', 'product-modal');
-                  if (!wasFavorite) {
-                    setShowToast(true);
-                  }
+                  setToastType(wasFavorite ? 'remove' : 'add');
+                  setShowToast(true);
                 }}
                 className="w-14 h-14 flex items-center justify-center rounded-2xl bg-gray-100 hover:bg-gray-200 transition-colors"
               >
@@ -1352,10 +1340,10 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
         {/* Toast notification */}
         <Toast
-          message="메인 홈에서 찜한 상품들을 확인하실 수 있어요!"
           isVisible={showToast}
           onClose={() => setShowToast(false)}
-          duration={3000}
+          duration={2000}
+          type={toastType}
         />
       </motion.div>
     </motion.div>

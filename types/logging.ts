@@ -47,6 +47,7 @@ export type LogEventType =
   | 'favorite_lowest_price_clicked' // 찜하기 페이지 최저가 구매 클릭
   | 'age_badge_selected'     // 카테고리 페이지 연령대 선택
   | 'guide_card_tab_selected' // 가이드 카드 탭 선택
+  | 'guide_card_toggle'      // 가이드 카드 토글 열기/닫기
   | 'product_modal_purchase_clicked' // 상품 모달 구매 링크 클릭
   | 'comparison_detail_view_clicked' // 비교표 상세보기 클릭
   // 다시 추천받기 이벤트

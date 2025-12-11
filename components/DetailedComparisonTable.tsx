@@ -13,7 +13,6 @@ interface DetailedComparisonTableProps {
   recommendations: Recommendation[];
   cachedFeatures?: Record<string, string[]>;
   cachedDetails?: Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>;
-  showRankBadge?: boolean;
   showScore?: boolean;
   anchorProduct?: any; // Tag-based flow에서 앵커 제품 (optional)
   isTagBasedFlow?: boolean; // Tag-based flow 여부
@@ -27,7 +26,6 @@ export default function DetailedComparisonTable({
   recommendations,
   cachedFeatures,
   cachedDetails,
-  showRankBadge = true,
   showScore = true,
   anchorProduct,
   isTagBasedFlow = false,
@@ -47,8 +45,18 @@ export default function DetailedComparisonTable({
   const productDetailsRef = useRef(productDetails);
   productDetailsRef.current = productDetails;
 
+  // API 호출 중복 방지를 위한 ref
+  const fetchingRef = useRef(false);
+  // 이미 fetch한 productIds 추적 (재호출 방지)
+  const fetchedIdsRef = useRef<Set<string>>(new Set());
+
   // 전체 로딩 상태 (하위 호환용)
   const isLoadingComparison = loadingProductIds.size > 0;
+
+  // v2 flow 초기 로딩 상태 (cachedDetails 대기 중)
+  const isWaitingForCache = isTagBasedFlow &&
+    Object.keys(productDetails).length === 0 &&
+    (!cachedDetails || Object.keys(cachedDetails).length === 0);
 
   // Log danawaSpecs prop received
   useEffect(() => {
@@ -193,10 +201,23 @@ export default function DetailedComparisonTable({
   };
 
   // 캐시된 데이터 사용 (부모에서 전달받은 경우)
+  // cachedDetails가 업데이트되면 productDetails를 동기화하고 fetchedIdsRef도 업데이트
   useEffect(() => {
     if (cachedDetails && Object.keys(cachedDetails).length > 0) {
-      console.log('✅ Using cached details from parent');
-      setProductDetails(cachedDetails);
+      const cachedIds = Object.keys(cachedDetails);
+      console.log('✅ Using cached details from parent:', cachedIds.length, 'products');
+
+      // productDetails 업데이트 (기존 데이터와 병합)
+      setProductDetails(prev => ({
+        ...prev,
+        ...cachedDetails,
+      }));
+
+      // fetchedIdsRef 업데이트 (중복 API 호출 방지)
+      cachedIds.forEach(id => fetchedIdsRef.current.add(id));
+
+      // 로딩 상태 해제
+      setLoadingProductIds(new Set());
     }
   }, [cachedDetails]);
 
@@ -209,9 +230,23 @@ export default function DetailedComparisonTable({
   // v2 API로 통일 - /api/v2/comparison-analysis 사용
   // 앵커 제품이 TOP 3에 없으면 해당 제품만 별도로 API 호출
   useEffect(() => {
+    // 이미 fetch 중이면 skip
+    if (fetchingRef.current) {
+      console.log('⏭️ [comparison] Already fetching, skipping...');
+      return;
+    }
+
     // v1 flow: /api/v2/comparison-analysis로 통일 (productIds로 요청)
     if (!isTagBasedFlow) {
+      // 이미 모든 제품 데이터를 가져왔으면 skip
+      const allFetched = productIds.every(id => fetchedIdsRef.current.has(id));
+      if (allFetched && Object.keys(productDetailsRef.current).length > 0) {
+        console.log('✅ [v1 flow] All products already fetched, skipping API call');
+        return;
+      }
+
       const fetchProductDetails = async () => {
+        fetchingRef.current = true;
         setLoadingProductIds(new Set(productIds)); // 모든 제품 로딩 시작
         try {
           console.log('🔄 Fetching comparison data for products (v1 flow → v2 API):', productIds);
@@ -228,6 +263,8 @@ export default function DetailedComparisonTable({
             const data = await response.json();
             if (data.success && data.data?.productDetails) {
               setProductDetails(data.data.productDetails);
+              // fetch 완료된 ID 기록
+              productIds.forEach(id => fetchedIdsRef.current.add(id));
               console.log('✅ Comparison data fetched successfully (v2 API)');
             }
           } else {
@@ -238,41 +275,58 @@ export default function DetailedComparisonTable({
           console.error('Failed to fetch product details:', error);
         } finally {
           setLoadingProductIds(new Set()); // 로딩 완료
+          fetchingRef.current = false;
         }
       };
       fetchProductDetails();
       return;
     }
 
-    // v2 flow: cachedDetails + 내부 productDetails 확인 후 필요시 직접 API 호출
-    // 캐시에 없는 제품 확인 (앵커 변경 또는 초기 로딩)
+    // v2 flow: ResultCards에서 이미 API를 호출하므로 cachedDetails를 우선 사용
+    // cachedDetails가 비어있으면 ResultCards의 API 호출을 기다림 (초기 로딩 상태)
     const cachedIds = cachedDetails ? Object.keys(cachedDetails) : [];
-    const existingIds = Object.keys(productDetailsRef.current); // ref로 현재 상태 참조 (의존성 회피)
-    const allAvailableIds = new Set([...cachedIds, ...existingIds]);
+    const existingIds = Object.keys(productDetailsRef.current);
+    const alreadyFetchedIds = Array.from(fetchedIdsRef.current);
+    const allAvailableIds = new Set([...cachedIds, ...existingIds, ...alreadyFetchedIds]);
+
+    // Top 3 제품 ID (ResultCards에서 호출하는 제품들)
+    const top3Ids = productIds.slice(0, 3);
     const missingProductIds = productIds.filter(id => !allAvailableIds.has(id));
 
-    console.log('🔍 Checking comparison data:', {
+    console.log('🔍 [v2 flow] Checking comparison data:', {
       productIds,
-      cachedIds,
-      existingIds,
+      cachedIds: cachedIds.length,
+      existingIds: existingIds.length,
+      alreadyFetchedIds: alreadyFetchedIds.length,
       missingProductIds
     });
 
     // 모든 제품이 캐시나 내부 상태에 있으면 사용
-    if (missingProductIds.length === 0 && allAvailableIds.size > 0) {
+    if (missingProductIds.length === 0) {
       console.log('✅ Using cached/existing comparison data');
       setLoadingProductIds(new Set()); // 로딩 완료
       return;
     }
 
+    // Top 3 제품은 ResultCards에서 API 호출 중이므로 기다림 (중복 호출 방지)
+    // 단, 앵커 제품 등 추가 제품만 직접 호출
+    const top3Missing = missingProductIds.filter(id => top3Ids.includes(id));
+    if (top3Missing.length > 0 && cachedIds.length === 0 && alreadyFetchedIds.length === 0) {
+      console.log('⏳ [v2 flow] Waiting for ResultCards to fetch Top 3 comparison data...');
+      // ResultCards의 API 호출을 기다림 (cachedDetails가 업데이트되면 다시 체크됨)
+      return;
+    }
+
     // 누락된 제품만 API 호출
     const fetchComparisonData = async () => {
+      fetchingRef.current = true;
       // 실제로 없는 제품만 fetch
       const idsToFetch = missingProductIds;
       console.log('📌 Fetching comparison data for missing products:', { idsToFetch });
 
       if (idsToFetch.length === 0) {
         setLoadingProductIds(new Set()); // 로딩 완료
+        fetchingRef.current = false;
         return;
       }
 
@@ -304,6 +358,8 @@ export default function DetailedComparisonTable({
                 ...prev,
                 ...data.data.productDetails,
               }));
+              // fetch 완료된 ID 기록
+              compareIds.forEach(id => fetchedIdsRef.current.add(id));
               console.log('✅ Comparison data fetched (v2 API):', Object.keys(data.data.productDetails));
             }
           }
@@ -312,11 +368,13 @@ export default function DetailedComparisonTable({
         console.error('Failed to fetch comparison data:', error);
       } finally {
         setLoadingProductIds(new Set()); // 로딩 완료
+        fetchingRef.current = false;
       }
     };
 
     fetchComparisonData();
-  }, [productIds, category, isTagBasedFlow, cachedDetails]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productIds, category, isTagBasedFlow]); // cachedDetails 의존성 제거 - 별도 useEffect에서 동기화
 
   if (allProducts.length === 0) return null;
 
@@ -364,18 +422,12 @@ export default function DetailedComparisonTable({
                       sizes="64px"
                     />
                   )}
-                  {/* 랭킹 배지 또는 앵커 표시 */}
-                  {isAnchor ? (
+                  {/* 앵커 표시 (랭킹 뱃지 제거) */}
+                  {isAnchor && (
                     <div className="absolute top-0 left-0 px-1.5 py-1.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
                       <span className="text-white font-bold text-[9px] leading-none">기준</span>
                     </div>
-                  ) : showRankBadge ? (
-                    <div className="absolute top-0 left-0 w-5 h-5 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
-                      <span className="text-white font-bold text-[10px]">
-                        {rec.rank}
-                      </span>
-                    </div>
-                  ) : null}
+                  )}
                 </div>
 
                 {/* 브랜드 + 제품명 - 3줄까지 표시 */}
@@ -420,16 +472,10 @@ export default function DetailedComparisonTable({
                             sizes="48px"
                           />
                         )}
-                        {/* 랭킹 배지 또는 앵커 표시 */}
-                        {selectedRecommendations[0]?.reasoning === '비교 기준 제품' ? (
+                        {/* 앵커 표시 (랭킹 뱃지 제거) */}
+                        {selectedRecommendations[0]?.reasoning === '비교 기준 제품' && (
                           <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
                             <span className="text-white font-bold text-[9px] leading-none">기준</span>
-                          </div>
-                        ) : showRankBadge && (
-                          <div className="absolute top-0 left-0 w-4 h-4 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
-                            <span className="text-white font-bold text-[10px]">
-                              {selectedRecommendations[0]?.rank}
-                            </span>
                           </div>
                         )}
                       </div>
@@ -452,16 +498,10 @@ export default function DetailedComparisonTable({
                             sizes="48px"
                           />
                         )}
-                        {/* 랭킹 배지 또는 앵커 표시 */}
-                        {selectedRecommendations[1]?.reasoning === '비교 기준 제품' ? (
+                        {/* 앵커 표시 (랭킹 뱃지 제거) */}
+                        {selectedRecommendations[1]?.reasoning === '비교 기준 제품' && (
                           <div className="absolute top-0 left-0 px-1.5 py-0.5 rounded-tl-lg rounded-br-md flex items-center justify-center" style={{ backgroundColor: '#0074F3' }}>
                             <span className="text-white font-bold text-[9px] leading-none">기준</span>
-                          </div>
-                        ) : showRankBadge && (
-                          <div className="absolute top-0 left-0 w-4 h-4 bg-gray-900 rounded-tl-lg rounded-tr-none rounded-bl-none rounded-br-sm flex items-center justify-center">
-                            <span className="text-white font-bold text-[10px]">
-                              {selectedRecommendations[1]?.rank}
-                            </span>
                           </div>
                         )}
                       </div>
@@ -496,8 +536,7 @@ export default function DetailedComparisonTable({
                               onProductClick(selectedRecommendations[0]);
                             }
                           }}
-                          className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
-                          style={{ backgroundColor: '#0074F3', color: '#FFFFFF' }}
+                          className="w-full py-2.5 text-sm font-semibold text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors"
                         >
                           상세보기
                         </button>
@@ -538,8 +577,7 @@ export default function DetailedComparisonTable({
                               onProductClick(selectedRecommendations[1]);
                             }
                           }}
-                          className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
-                          style={{ backgroundColor: '#0074F3', color: '#FFFFFF' }}
+                          className="w-full py-2.5 text-sm font-semibold text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors"
                         >
                           상세보기
                         </button>
@@ -631,191 +669,189 @@ export default function DetailedComparisonTable({
               </tr>
             )}
 
-            {/* 장점 */}
-            <tr className="border-b border-gray-100">
-              {/* 왼쪽 제품 */}
-              <td className="py-2 px-2 text-center w-[40%]">
-                {(() => {
-                  const product = selectedProducts[0];
-                  if (!product) return null;
-                  const isLoading = loadingProductIds.has(product.id);
-                  if (isLoading) {
-                    return (
+            {/* 장점 - 로딩 중이거나 둘 다 빈 배열이 아닐 때만 표시 */}
+            {(() => {
+              const product1 = selectedProducts[0];
+              const product2 = selectedProducts[1];
+              const details1 = product1 ? productDetails[product1.id] : null;
+              const details2 = product2 ? productDetails[product2.id] : null;
+              const isLoading1 = product1 && (loadingProductIds.has(product1.id) || isWaitingForCache);
+              const isLoading2 = product2 && (loadingProductIds.has(product2.id) || isWaitingForCache);
+              const hasPros1 = details1?.pros && details1.pros.length > 0;
+              const hasPros2 = details2?.pros && details2.pros.length > 0;
+
+              // 로딩 중이거나, 둘 중 하나라도 장점이 있으면 표시
+              const shouldShow = isLoading1 || isLoading2 || hasPros1 || hasPros2;
+              if (!shouldShow) return null;
+
+              return (
+                <tr className="border-b border-gray-100">
+                  {/* 왼쪽 제품 */}
+                  <td className="py-2 px-2 text-center w-[40%]">
+                    {isLoading1 ? (
                       <div className="flex items-center justify-center gap-2 py-2">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
                         <span className="text-xs text-gray-500">분석 중...</span>
                       </div>
-                    );
-                  }
-                  const details = productDetails[product.id];
-                  return details && details.pros.length > 0 ? (
-                    <div className="space-y-1.5">
-                      {details.pros.slice(0, 3).map((pro, idx) => (
-                        <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                          <svg
-                            className="shrink-0 mt-0.5"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#22C55E"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                          <span>{pro}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-gray-400 text-center">-</p>
-                  );
-                })()}
-              </td>
+                    ) : hasPros1 ? (
+                      <div className="space-y-1.5">
+                        {details1!.pros.slice(0, 3).map((pro, idx) => (
+                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#22C55E"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            <span>{pro}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 text-center">-</p>
+                    )}
+                  </td>
 
-              {/* 중앙 레이블 */}
-              <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
-                장점
-              </td>
+                  {/* 중앙 레이블 */}
+                  <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                    장점
+                  </td>
 
-              {/* 오른쪽 제품 */}
-              <td className="py-2 px-2 text-center w-[40%]">
-                {(() => {
-                  const product = selectedProducts[1];
-                  if (!product) return null;
-                  const isLoading = loadingProductIds.has(product.id);
-                  if (isLoading) {
-                    return (
+                  {/* 오른쪽 제품 */}
+                  <td className="py-2 px-2 text-center w-[40%]">
+                    {isLoading2 ? (
                       <div className="flex items-center justify-center gap-2 py-2">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
                         <span className="text-xs text-gray-500">분석 중...</span>
                       </div>
-                    );
-                  }
-                  const details = productDetails[product.id];
-                  return details && details.pros.length > 0 ? (
-                    <div className="space-y-1.5">
-                      {details.pros.slice(0, 3).map((pro, idx) => (
-                        <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                          <svg
-                            className="shrink-0 mt-0.5"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#22C55E"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                          <span>{pro}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-gray-400 text-center">-</p>
-                  );
-                })()}
-              </td>
-            </tr>
+                    ) : hasPros2 ? (
+                      <div className="space-y-1.5">
+                        {details2!.pros.slice(0, 3).map((pro, idx) => (
+                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#22C55E"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            <span>{pro}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 text-center">-</p>
+                    )}
+                  </td>
+                </tr>
+              );
+            })()}
 
-            {/* 주의점 */}
-            <tr className="border-b border-gray-100">
-              {/* 왼쪽 제품 */}
-              <td className="py-2 px-2 text-center w-[40%]">
-                {(() => {
-                  const product = selectedProducts[0];
-                  if (!product) return null;
-                  const isLoading = loadingProductIds.has(product.id);
-                  if (isLoading) {
-                    return (
+            {/* 주의점 - 로딩 중이거나 둘 다 빈 배열이 아닐 때만 표시 */}
+            {(() => {
+              const product1 = selectedProducts[0];
+              const product2 = selectedProducts[1];
+              const details1 = product1 ? productDetails[product1.id] : null;
+              const details2 = product2 ? productDetails[product2.id] : null;
+              const isLoading1 = product1 && (loadingProductIds.has(product1.id) || isWaitingForCache);
+              const isLoading2 = product2 && (loadingProductIds.has(product2.id) || isWaitingForCache);
+              const hasCons1 = details1?.cons && details1.cons.length > 0;
+              const hasCons2 = details2?.cons && details2.cons.length > 0;
+
+              // 로딩 중이거나, 둘 중 하나라도 주의점이 있으면 표시
+              const shouldShow = isLoading1 || isLoading2 || hasCons1 || hasCons2;
+              if (!shouldShow) return null;
+
+              return (
+                <tr className="border-b border-gray-100">
+                  {/* 왼쪽 제품 */}
+                  <td className="py-2 px-2 text-center w-[40%]">
+                    {isLoading1 ? (
                       <div className="flex items-center justify-center gap-2 py-2">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
                         <span className="text-xs text-gray-500">분석 중...</span>
                       </div>
-                    );
-                  }
-                  const details = productDetails[product.id];
-                  return details && details.cons.length > 0 ? (
-                    <div className="space-y-1.5">
-                      {details.cons.slice(0, 3).map((con, idx) => (
-                        <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                          <svg
-                            className="shrink-0 mt-0.5"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#EF4444"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <line x1="18" y1="6" x2="6" y2="18" />
-                            <line x1="6" y1="6" x2="18" y2="18" />
-                          </svg>
-                          <span>{con}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-gray-400 text-center">-</p>
-                  );
-                })()}
-              </td>
+                    ) : hasCons1 ? (
+                      <div className="space-y-1.5">
+                        {details1!.cons.slice(0, 3).map((con, idx) => (
+                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#EF4444"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <line x1="18" y1="6" x2="6" y2="18" />
+                              <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                            <span>{con}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 text-center">-</p>
+                    )}
+                  </td>
 
-              {/* 중앙 레이블 */}
-              <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
-                주의점
-              </td>
+                  {/* 중앙 레이블 */}
+                  <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                    주의점
+                  </td>
 
-              {/* 오른쪽 제품 */}
-              <td className="py-2 px-2 text-center w-[40%]">
-                {(() => {
-                  const product = selectedProducts[1];
-                  if (!product) return null;
-                  const isLoading = loadingProductIds.has(product.id);
-                  if (isLoading) {
-                    return (
+                  {/* 오른쪽 제품 */}
+                  <td className="py-2 px-2 text-center w-[40%]">
+                    {isLoading2 ? (
                       <div className="flex items-center justify-center gap-2 py-2">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
                         <span className="text-xs text-gray-500">분석 중...</span>
                       </div>
-                    );
-                  }
-                  const details = productDetails[product.id];
-                  return details && details.cons.length > 0 ? (
-                    <div className="space-y-1.5">
-                      {details.cons.slice(0, 3).map((con, idx) => (
-                        <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
-                          <svg
-                            className="shrink-0 mt-0.5"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#EF4444"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <line x1="18" y1="6" x2="6" y2="18" />
-                            <line x1="6" y1="6" x2="18" y2="18" />
-                          </svg>
-                          <span>{con}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-gray-400 text-center">-</p>
-                  );
-                })()}
-              </td>
-            </tr>
+                    ) : hasCons2 ? (
+                      <div className="space-y-1.5">
+                        {details2!.cons.slice(0, 3).map((con, idx) => (
+                          <div key={idx} className="text-xs leading-snug flex items-start gap-1.5 text-gray-700">
+                            <svg
+                              className="shrink-0 mt-0.5"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#EF4444"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <line x1="18" y1="6" x2="6" y2="18" />
+                              <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                            <span>{con}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 text-center">-</p>
+                    )}
+                  </td>
+                </tr>
+              );
+            })()}
 
             {/* 스펙 비교 */}
             {/* danawaSpecs가 있거나 productDetails가 있으면 스펙 섹션 표시 */}
@@ -996,32 +1032,48 @@ export default function DetailedComparisonTable({
               );
             })()}
 
-            {/* 한줄 비교 정리 - 맨 아래 배치 */}
-            {!isLoadingComparison && Object.keys(productDetails).length > 0 && selectedProducts.length === 2 && (
-              <tr className="bg-gray-50">
-                <td colSpan={3} className="py-3 px-3 rounded-b-xl">
-                  <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교</h4>
-                  <div className="space-y-2.5">
-                    {selectedProducts.map((product, index) => {
-                      if (!product) return null;
-                      const details = productDetails[product.id];
-                      if (!details || !details.comparison) return null;
+            {/* 한줄 비교 정리 - 맨 아래 배치, 둘 다 비어있으면 숨김 */}
+            {(() => {
+              // 로딩 중이면 표시하지 않음
+              if (isLoadingComparison || isWaitingForCache) return null;
+              if (selectedProducts.length !== 2) return null;
 
-                      return (
-                        <div key={product.id} className="flex items-start gap-2">
-                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 text-white text-xs font-bold shrink-0 mt-0.5">
-                            {index + 1}
-                          </span>
-                          <p className="text-xs text-gray-700 leading-relaxed flex-1">
-                            <span className="font-semibold">{product.brand} {product.title}</span>: {details.comparison}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </td>
-              </tr>
-            )}
+              const product1 = selectedProducts[0];
+              const product2 = selectedProducts[1];
+              const details1 = product1 ? productDetails[product1.id] : null;
+              const details2 = product2 ? productDetails[product2.id] : null;
+              const hasComparison1 = details1?.comparison && details1.comparison.trim().length > 0;
+              const hasComparison2 = details2?.comparison && details2.comparison.trim().length > 0;
+
+              // 둘 다 비어있으면 숨김
+              if (!hasComparison1 && !hasComparison2) return null;
+
+              return (
+                <tr className="bg-gray-50">
+                  <td colSpan={3} className="py-3 px-3 rounded-b-xl">
+                    <h4 className="text-sm font-bold text-gray-900 mb-3">📊 한줄 비교</h4>
+                    <div className="space-y-2.5">
+                      {selectedProducts.map((product, index) => {
+                        if (!product) return null;
+                        const details = productDetails[product.id];
+                        if (!details || !details.comparison || details.comparison.trim().length === 0) return null;
+
+                        return (
+                          <div key={product.id} className="flex items-start gap-2">
+                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 text-white text-xs font-bold shrink-0 mt-0.5">
+                              {index + 1}
+                            </span>
+                            <p className="text-xs text-gray-700 leading-relaxed flex-1">
+                              <span className="font-semibold">{product.brand} {product.title}</span>: {details.comparison}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })()}
 
           </tbody>
         </table>

@@ -37,6 +37,7 @@ export interface ProductItem {
   title: string;
   brand: string | null;
   price: number | null;
+  lowestPrice: number | null;  // 다나와 최저가 (우선 사용)
   rank: number | null;
   thumbnail: string | null;
   spec: Record<string, unknown>;
@@ -106,7 +107,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4. 속성 필터 (filter_attrs 기반) - Supabase JSONB 필터링 대신 JS에서 필터링
+    // 4. 다나와 최저가 조회 및 병합
+    if (products && products.length > 0) {
+      const pcodes = products.map(p => p.pcode);
+      const { data: pricesData } = await supabase
+        .from('danawa_prices')
+        .select('pcode, lowest_price')
+        .in('pcode', pcodes);
+
+      if (pricesData && pricesData.length > 0) {
+        const priceMap = new Map(pricesData.map(p => [p.pcode, p.lowest_price]));
+        products = products.map(product => ({
+          ...product,
+          lowestPrice: priceMap.get(product.pcode) || null,
+        }));
+      } else {
+        // 최저가 데이터가 없으면 lowestPrice를 null로 설정
+        products = products.map(product => ({
+          ...product,
+          lowestPrice: null,
+        }));
+      }
+    }
+
+    // 5. 속성 필터 (filter_attrs 기반) - Supabase JSONB 필터링 대신 JS에서 필터링
     // (Supabase JSONB 필터링은 복잡하므로 클라이언트 사이드에서 처리)
     if (filterAttribute && products) {
       const { key, value } = filterAttribute;
@@ -122,7 +146,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 5. 응답
+    // 6. 응답
     return NextResponse.json({
       success: true,
       data: {

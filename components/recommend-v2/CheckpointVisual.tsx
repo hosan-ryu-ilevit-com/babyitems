@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { CheckpointData } from '@/types/recommend-v2';
 
@@ -15,6 +16,18 @@ interface CheckpointVisualProps {
  */
 export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualProps) {
   const { totalProducts, filteredCount } = data;
+  const [isShrinkComplete, setIsShrinkComplete] = useState(false);
+  const finalPercent = (filteredCount / totalProducts) * 100;
+
+  // 프로그레스 바 줄어드는 애니메이션 완료 후 색상 변경 (delay 0.3s + duration 0.8s = 1.1s 후)
+  useEffect(() => {
+    if (!isLoading) {
+      const timer = setTimeout(() => {
+        setIsShrinkComplete(true);
+      }, 1150); // 애니메이션 완료 직후
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   // 로딩 중일 때 shimmer 효과
   if (isLoading) {
@@ -64,13 +77,19 @@ export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualPr
           <span className="text-gray-700 text-sm">후보</span>
         </div>
 
-        {/* 프로그레스 바 - 왼쪽에서 오른쪽으로 차오름 */}
+        {/* 프로그레스 바 - 100%에서 시작해서 오른쪽에서 왼쪽으로 줄어듦, 완료 후 초록색으로 페이드 */}
         <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-gray-900 rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${(filteredCount / totalProducts) * 100}%` }}
-            transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
+            className="h-full rounded-full"
+            initial={{ width: '100%', backgroundColor: '#111827' }}
+            animate={{
+              width: `${finalPercent}%`,
+              backgroundColor: isShrinkComplete ? '#22c55e' : '#111827',
+            }}
+            transition={{
+              width: { delay: 0.3, duration: 0.8, ease: 'easeInOut' },
+              backgroundColor: { duration: 0.4, ease: 'easeOut' },
+            }}
           />
         </div>
       </div>

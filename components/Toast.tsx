@@ -9,9 +9,11 @@ interface ToastProps {
   isVisible: boolean;
   onClose: () => void;
   duration?: number; // milliseconds
+  type?: 'add' | 'remove'; // 찜하기 or 찜 해제
+  onViewFavorites?: () => void; // 모달로 열기 위한 콜백 (없으면 페이지 이동)
 }
 
-export default function Toast({ isVisible, onClose, duration = 2000 }: ToastProps) {
+export default function Toast({ isVisible, onClose, duration = 2000, type = 'add', onViewFavorites }: ToastProps) {
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +29,11 @@ export default function Toast({ isVisible, onClose, duration = 2000 }: ToastProp
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onClose();
-    router.push('/favorites');
+    if (onViewFavorites) {
+      onViewFavorites();
+    } else {
+      router.push('/favorites');
+    }
   };
 
   return (
@@ -38,7 +44,7 @@ export default function Toast({ isVisible, onClose, duration = 2000 }: ToastProp
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed top-20 left-1/2 -translate-x-1/2 z-100 w-[calc(100%-2rem)] max-w-md"
+          className="fixed top-14 left-1/2 -translate-x-1/2 z-100 w-[calc(100%-2rem)] max-w-md"
         >
           <div
             className="px-5 py-3.5 text-white text-sm font-medium flex items-center justify-between gap-3"
@@ -47,33 +53,39 @@ export default function Toast({ isVisible, onClose, duration = 2000 }: ToastProp
               borderRadius: '12px',
             }}
           >
-            {/* Left side: Heart icon + Text */}
-            <div className="flex items-center gap-2.5 flex-1">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="#FF6B6B"
-                stroke="#FF6B6B"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-              <span className="text-white">상품을 찜했어요</span>
-            </div>
+            {type === 'add' ? (
+              <>
+                {/* Left side: Heart icon + Text */}
+                <div className="flex items-center gap-2.5 flex-1">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#FF6B6B"
+                    stroke="#FF6B6B"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  </svg>
+                  <span className="text-white">상품을 찜했어요</span>
+                </div>
 
-            {/* Right side: Action link */}
-            <button
-              onClick={handleActionClick}
-              className="font-semibold text-sm transition-opacity shrink-0 hover:opacity-80"
-              style={{
-                color: '#5AB1FF',
-              }}
-            >
-              보러가기
-            </button>
+                {/* Right side: Action link */}
+                <button
+                  onClick={handleActionClick}
+                  className="font-semibold text-sm transition-opacity shrink-0 hover:opacity-80"
+                  style={{
+                    color: '#5AB1FF',
+                  }}
+                >
+                  보러가기
+                </button>
+              </>
+            ) : (
+              <span className="text-white">찜을 취소했어요</span>
+            )}
           </div>
         </motion.div>
       )}

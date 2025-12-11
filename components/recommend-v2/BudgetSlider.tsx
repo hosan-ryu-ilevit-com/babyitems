@@ -22,6 +22,11 @@ interface BudgetSliderProps {
 // 히스토그램 막대 개수
 const HISTOGRAM_BARS = 30;
 
+// 상품의 유효 가격 반환 (lowestPrice 우선, 없으면 price)
+function getEffectivePrice(product: ProductItem): number | null {
+  return product.lowestPrice ?? product.price;
+}
+
 /**
  * 에어비앤비 스타일 예산 슬라이더
  * - 가격 분포 히스토그램
@@ -70,9 +75,10 @@ export function BudgetSlider({
     const counts = Array(HISTOGRAM_BARS).fill(0);
 
     products.forEach(product => {
-      if (product.price && product.price >= min && product.price <= max) {
+      const effectivePrice = getEffectivePrice(product);
+      if (effectivePrice && effectivePrice >= min && effectivePrice <= max) {
         const barIndex = Math.min(
-          Math.floor((product.price - min) / barWidth),
+          Math.floor((effectivePrice - min) / barWidth),
           HISTOGRAM_BARS - 1
         );
         counts[barIndex]++;
@@ -193,7 +199,10 @@ export function BudgetSlider({
       setMinValue(newMin);
       onChange({ min: newMin, max: maxValue });
       // 로깅 콜백 호출
-      const productsCount = products.filter(p => p.price && p.price >= newMin && p.price <= maxValue).length;
+      const productsCount = products.filter(p => {
+        const ep = getEffectivePrice(p);
+        return ep && ep >= newMin && ep <= maxValue;
+      }).length;
       onDirectInput?.(newMin, maxValue, productsCount);
     }
   };
@@ -207,7 +216,10 @@ export function BudgetSlider({
       setMaxValue(newMax);
       onChange({ min: minValue, max: newMax });
       // 로깅 콜백 호출
-      const productsCount = products.filter(p => p.price && p.price >= minValue && p.price <= newMax).length;
+      const productsCount = products.filter(p => {
+        const ep = getEffectivePrice(p);
+        return ep && ep >= minValue && ep <= newMax;
+      }).length;
       onDirectInput?.(minValue, newMax, productsCount);
     }
   };
@@ -239,7 +251,10 @@ export function BudgetSlider({
 
   // 현재 범위 내 상품 개수
   const productsInRange = useMemo(() => {
-    return products.filter(p => p.price && p.price >= minValue && p.price <= maxValue).length;
+    return products.filter(p => {
+      const ep = getEffectivePrice(p);
+      return ep && ep >= minValue && ep <= maxValue;
+    }).length;
   }, [products, minValue, maxValue]);
 
   return (
@@ -409,7 +424,10 @@ export function BudgetSlider({
                 setMaxValue(option.max);
                 onChange({ min: option.min, max: option.max });
                 // 로깅 콜백 호출
-                const productsCount = products.filter(p => p.price && p.price >= option.min && p.price <= option.max).length;
+                const productsCount = products.filter(p => {
+                  const ep = getEffectivePrice(p);
+                  return ep && ep >= option.min && ep <= option.max;
+                }).length;
                 onPresetClick?.(option.label, option.min, option.max, productsCount);
               }}
               className={`px-4 py-2 rounded-full text-sm font-medium border-2 transition-all ${

@@ -133,6 +133,7 @@ export interface ProductItem {
   title: string;
   brand: string | null;
   price: number | null;
+  lowestPrice?: number | null;  // 다나와 최저가 (우선 사용)
   rank: number | null;
   thumbnail: string | null;
   spec: Record<string, unknown>;
@@ -218,6 +219,9 @@ export interface GuideCardsData {
   topPros?: GuideProConItem[];      // "이건 꼭 확인하세요!" - 실구매자 top 장점
   topCons?: GuideProConItem[];      // "이건 피하세요!" - deal_breaker 단점
   keyTradeoff?: GuideTradeoff;      // "고민되시죠?" - 핵심 트레이드오프
+  // 리뷰 분석 시각화용
+  productThumbnails?: string[];     // 상위 제품 썸네일 URL (최대 5개)
+  analyzedReviewCount?: number;     // 분석된 리뷰 개수
 }
 
 export interface HardFilterData {

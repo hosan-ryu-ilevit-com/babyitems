@@ -12,7 +12,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
-import { getModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
+import { getProModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
 import type { CategoryInsights } from '@/types/category-insights';
 
 // 제품 정보 타입
@@ -80,7 +80,7 @@ async function analyzeProduct(
   insights: CategoryInsights,
   userContext: UserContext
 ): Promise<ProductAnalysis> {
-  const model = getModel(0.5);
+  const model = getProModel(0.5);
 
   // 스펙 정보 문자열화
   const specStr = product.spec

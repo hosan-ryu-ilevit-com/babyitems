@@ -61,10 +61,10 @@ export function V2ResultProductCard({
               </svg>
             </div>
           )}
-          {/* 랭킹 배지 - 좌측 상단 */}
-          <div className="absolute top-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-xl rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center">
+          {/* 랭킹 배지 - 좌측 하단 */}
+          <div className="absolute bottom-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-none rounded-tr-xl rounded-bl-xl rounded-br-none flex items-center justify-center">
             <span className="text-white font-semibold text-xs">
-              {rank}
+              {rank}위
             </span>
           </div>
         </div>
@@ -81,24 +81,20 @@ export function V2ResultProductCard({
           <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
             {product.title}
           </h3>
-          {/* 가격 정보 */}
-          <div className="space-y-0">
-            {product.price && (
-              <p className="text-lg font-bold text-gray-900">
-                {product.price.toLocaleString()}<span className="text-sm">원</span>
-              </p>
-            )}
-            {/* 다나와 최저가 */}
-            {hasLowestPrice && (
-              <div className="flex items-center gap-1 text-xs">
-                <span className="text-red-600 font-medium">최저</span>
-                <span className="text-red-600 font-medium">{danawaPrice.lowest_price!.toLocaleString()}원</span>
-                {danawaPrice.lowest_mall && (
-                  <span className="text-gray-400">({danawaPrice.lowest_mall})</span>
+          {/* 가격 정보 - 다나와 최저가 우선, 없으면 product.price */}
+          {(hasLowestPrice || product.price) && (
+            <div className="space-y-0">
+              <div className="flex items-center gap-1.5">
+                <p className={`text-lg font-bold ${hasLowestPrice ? 'text-red-500' : 'text-gray-900'}`}>
+                  {hasLowestPrice && <span className="text-sm font-semibold">최저가 </span>}
+                  {(hasLowestPrice ? danawaPrice!.lowest_price! : product.price!).toLocaleString()}<span className="text-sm">원</span>
+                </p>
+                {hasLowestPrice && danawaPrice!.mall_prices && danawaPrice!.mall_prices.length > 0 && (
+                  <span className="text-xs text-gray-400">(판매처 {danawaPrice!.mall_prices.length}개)</span>
                 )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -169,19 +165,12 @@ export function V2ResultProductCard({
       {/* 추천 이유 (recommendationReason이 있는 경우) */}
       {product.recommendationReason && (
         <div className="mt-3">
-          <div className="rounded-xl p-3 bg-[#F3E6FD]">
+          <div className="rounded-xl p-3 bg-[#E8E6FD] border border-[#D6D3FC]">
             <div className="flex items-start gap-2">
-              <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24">
-                <defs>
-                  <linearGradient id="sparkle-gradient-purple" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#9325FC" />
-                    <stop offset="50%" stopColor="#C750FF" />
-                    <stop offset="100%" stopColor="#C878F7" />
-                  </linearGradient>
-                </defs>
-                <path fill="url(#sparkle-gradient-purple)" d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+              <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="#4E43E1">
+                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
               </svg>
-              <p className="text-sm text-gray-700 leading-normal flex-1">
+              <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
                 {product.recommendationReason}
               </p>
             </div>

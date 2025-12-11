@@ -6,5 +6,5 @@ import { useRouter } from 'next/navigation';
 export default function FavoritesPage() {
   const router = useRouter();
 
-  return <FavoritesView onClose={() => router.push('/')} />;
+  return <FavoritesView onClose={() => router.back()} />;
 }

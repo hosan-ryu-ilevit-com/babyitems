@@ -972,6 +972,29 @@ export function logGuideCardTabSelection(
   });
 }
 
+// 가이드 카드 토글 열기/닫기
+export function logGuideCardToggle(
+  category: string,
+  categoryName: string,
+  toggleType: 'pros' | 'cons',
+  isOpen: boolean
+): void {
+  const toggleLabel = toggleType === 'pros' ? '구매 포인트' : '불만 포인트';
+  sendLogEvent('guide_card_toggle', {
+    page: 'recommend-v2',
+    v2FlowData: {
+      category,
+      categoryName,
+      guideCard: {
+        toggleType,
+        toggleLabel,
+        isOpen,
+        action: isOpen ? 'expand' : 'collapse',
+      },
+    },
+  });
+}
+
 // 체크포인트 상세 로깅 (후보 개수, 해설 텍스트)
 export function logV2CheckpointViewedDetailed(
   category: string,

@@ -268,25 +268,39 @@ function CategoryCard({
   category,
   isSelected,
   onSelect,
+  isLoading,
 }: {
   category: UnifiedCategory;
   isSelected: boolean;
   onSelect: (category: UnifiedCategory) => void;
+  isLoading: boolean;
 }) {
   return (
     <motion.button
       whileTap={{ scale: 0.97 }}
       onClick={() => onSelect(category)}
+      disabled={isLoading}
       className={`rounded-2xl p-4 transition-all duration-200 text-left border ${
-        isSelected
-          ? 'bg-blue-50 border-transparent'
-          : 'bg-gray-50 border-transparent hover:bg-gray-100'
+        isLoading
+          ? 'bg-blue-100 border-blue-200 animate-pulse'
+          : isSelected
+            ? 'bg-blue-50 border-transparent'
+            : 'bg-gray-50 border-transparent hover:bg-gray-100 active:bg-gray-200 active:opacity-70'
       }`}
     >
-      {/* Emoji + Category Name */}
+      {/* Emoji/Spinner + Category Name */}
       <div className="flex items-center gap-2">
-        <span className="text-base">{category.emoji}</span>
-        <span className="text-sm font-semibold text-gray-900">
+        <span className="text-base w-5 h-5 flex items-center justify-center">
+          {isLoading ? (
+            <svg className="w-4 h-4 animate-spin text-blue-500" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+          ) : (
+            category.emoji
+          )}
+        </span>
+        <span className={`text-sm font-semibold ${isLoading ? 'text-blue-600' : 'text-gray-900'}`}>
           {category.name}
         </span>
       </div>
@@ -299,10 +313,12 @@ function GroupSection({
   group,
   selectedCategory,
   onCategorySelect,
+  loadingCategoryId,
 }: {
   group: DisplayGroup;
   selectedCategory: UnifiedCategory | null;
   onCategorySelect: (category: UnifiedCategory) => void;
+  loadingCategoryId: string | null;
 }) {
   if (group.categories.length === 0) return null;
 
@@ -321,6 +337,7 @@ function GroupSection({
             category={category}
             isSelected={selectedCategory?.id === category.id}
             onSelect={onCategorySelect}
+            isLoading={loadingCategoryId === category.id}
           />
         ))}
       </div>
@@ -335,12 +352,14 @@ function AgeGroupSection({
   categoryIds,
   selectedCategory,
   onCategorySelect,
+  loadingCategoryId,
 }: {
   groupName: string;
   description?: string;
   categoryIds: string[];
   selectedCategory: UnifiedCategory | null;
   onCategorySelect: (category: UnifiedCategory) => void;
+  loadingCategoryId: string | null;
 }) {
   // Find matching UnifiedCategories from CATEGORY_GROUPS
   const categories = categoryIds
@@ -373,6 +392,7 @@ function AgeGroupSection({
             category={category}
             isSelected={selectedCategory?.id === category.id}
             onSelect={onCategorySelect}
+            isLoading={loadingCategoryId === category.id}
           />
         ))}
       </div>
@@ -387,6 +407,7 @@ export default function CategoriesV2Page() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedAgeId, setSelectedAgeId] = useState<string>('all');
+  const [loadingCategoryId, setLoadingCategoryId] = useState<string | null>(null);
 
   // 현재 선택된 연령대 필터
   const selectedAgeFilter = AGE_FILTERS.find((f) => f.id === selectedAgeId) || AGE_FILTERS[0];
@@ -433,14 +454,13 @@ export default function CategoriesV2Page() {
 
   const handleCategorySelect = (category: UnifiedCategory) => {
     setSelectedCategory(category);
+    setLoadingCategoryId(category.id);
 
     // 카테고리 선택 로깅
     logButtonClick(`카테고리 v2 선택: ${category.name}`, 'categories-v2');
 
-    // 약간의 delay 후 추천 페이지로 이동
-    setTimeout(() => {
-      router.push(`/recommend-v2/${category.id}`);
-    }, 200);
+    // 페이지 이동
+    router.push(`/recommend-v2/${category.id}`);
   };
 
   // 로딩 상태
@@ -545,6 +565,7 @@ export default function CategoriesV2Page() {
                 group={group}
                 selectedCategory={selectedCategory}
                 onCategorySelect={handleCategorySelect}
+                loadingCategoryId={loadingCategoryId}
               />
             ))
           ) : (
@@ -557,6 +578,7 @@ export default function CategoriesV2Page() {
                 categoryIds={group.categoryIds}
                 selectedCategory={selectedCategory}
                 onCategorySelect={handleCategorySelect}
+                loadingCategoryId={loadingCategoryId}
               />
             ))
           )}

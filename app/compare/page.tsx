@@ -475,7 +475,6 @@ function ComparePageContent() {
             <DetailedComparisonTable
               recommendations={recommendations}
               cachedDetails={productDetails}
-              showRankBadge={false}
               showScore={false}
               category={category || undefined}
               danawaSpecs={danawaSpecs}

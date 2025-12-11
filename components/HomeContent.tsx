@@ -198,11 +198,10 @@ export function HomeContent() {
               className="text-center mb-auto mt-0 w-full"
               suppressHydrationWarning
             >
-              <h1 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+              <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-tight">
                 수천 개 아기용품 중<br />
                 <span style={{ color: '#0084FE' }}>내게 딱 맞는 하나</span> 찾기
               </h1>
-              <p className="text-sm text-gray-500 mt-3 mb-8">고민하는 시간을 줄여보세요.</p>
 
               {/* Video Character Animation */}
               <motion.div
@@ -264,6 +263,24 @@ export function HomeContent() {
         </section>
 
        
+
+        {/* Speech bubble tooltip - positioned above the floating bar */}
+        <div className="fixed bottom-24 left-0 right-0 flex justify-center z-50 pointer-events-none" style={{ maxWidth: '480px', margin: '0 auto' }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, y: [0, -3, 0] }}
+            transition={{
+              opacity: { duration: 0.3, delay: 0.5 },
+              y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            }}
+            className="relative"
+          >
+            <div className="text-xs font-medium px-3 py-1.5 rounded-full whitespace-nowrap" style={{ backgroundColor: '#4B4B4B', color: '#F9E000' }}>
+              카테고리 전체보기
+            </div>
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px]" style={{ borderTopColor: '#4B4B4B' }}></div>
+          </motion.div>
+        </div>
 
         {/* Bottom Fixed Container - CTA Button */}
         <div className="fixed bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto', backgroundColor: '#FCFCFC' }}>

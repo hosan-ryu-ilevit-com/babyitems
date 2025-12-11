@@ -22,7 +22,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
-import { getModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
+import { getProModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
 import type { CategoryInsights } from '@/types/category-insights';
 import {
   normalizeTitle,
@@ -224,7 +224,7 @@ async function selectTop3WithLLM(
   top3Products: RecommendedProduct[];
   selectionReason: string;
 }> {
-  const model = getModel(0.4); // 낮은 temperature로 일관된 결과
+  const model = getProModel(0.4); // 낮은 temperature로 일관된 결과
 
   // 사용자 선택 요약
   const hardFilterSummary = userContext.hardFilterAnswers
@@ -247,7 +247,7 @@ async function selectTop3WithLLM(
 
   // 후보 상품 목록
   const candidatesStr = candidates
-    .slice(0, 15) // 최대 15개 후보
+    .slice(0, 10) // 최대 10개 후보
     .map((p, i) => formatProductForPrompt(p, i))
     .join('\n\n');
 
@@ -290,20 +290,20 @@ ${candidatesStr}
     {
       "pcode": "11354604",  // ← 위 목록의 "pcode: XXXXXXXX" 값을 그대로 사용
       "rank": 1,
-      "recommendationReason": "사용자의 선택과 연결된 추천 이유 (1-2문장)",
+      "recommendationReason": "사용자의 선택과 연결된 추천 이유",
       "matchedPreferences": ["매칭된 사용자 선호 항목들"]
     },
     { "pcode": "숫자pcode", "rank": 2, "recommendationReason": "...", "matchedPreferences": ["..."] },
     { "pcode": "숫자pcode", "rank": 3, "recommendationReason": "...", "matchedPreferences": ["..."] }
   ],
-  "selectionReason": "전체 선정 기준 요약 (1~2문장, 한국어로)"
+  "selectionReason": "전체 선정 기준 요약 (1~2문장, 한국어로). 영어 변수명/속성명 절대 사용 금지. 사용해야 한다면, 자연스러운 한국어로 풀어서 사용해야 함"
 }
 
 ## 추천 이유 작성 가이드 (매우 중요!)
 추천 이유는 반드시 **사용자가 선택한 조건**과 **이 제품이 그 조건을 어떻게 충족하는지**를 연결해야 합니다.
 
 ### ⚠️ 절대 금지 사항
-- 영어 변수명/속성명 절대 사용 금지 (예: rule_bottle_lightweight, hard_filter, balance_selection 등)
+- 영어 변수명/속성명 절대 사용 금지. 사용해야 한다면, 자연스러운 한국어로 풀어서 사용해야 함
 - 시스템 용어 절대 사용 금지 (예: 하드필터, 밸런스게임, 필터 조건 등)
 - 반드시 자연스러운 한국어로 풀어서 작성하세요
 

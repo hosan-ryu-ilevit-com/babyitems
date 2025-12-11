@@ -72,10 +72,14 @@ import {
   logV2RecommendationReceived,
   logV2StepBack,
   logGuideCardTabSelection,
+  logGuideCardToggle,
   logV2ReRecommendModalOpened,
   logV2ReRecommendSameCategory,
   logV2ReRecommendDifferentCategory,
 } from '@/lib/logging/clientLogger';
+
+// Favorites
+import { FavoritesView } from '@/components/FavoritesView';
 
 // Sub-category types
 interface SubCategory {
@@ -163,6 +167,7 @@ export default function RecommendV2Page() {
   const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false); // 버튼 중복 클릭 방지
+  const [calculatingTimer, setCalculatingTimer] = useState(0); // 0.1초 단위 타이머
   const [selectionReason, setSelectionReason] = useState<string>('');
 
   // Rule key / value → Korean label mappings (for display)
@@ -189,6 +194,7 @@ export default function RecommendV2Page() {
   const [showScanAnimation, setShowScanAnimation] = useState(true);
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+  const [showFavoritesModal, setShowFavoritesModal] = useState(false);
 
   // Typing animation state
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
@@ -248,6 +254,19 @@ export default function RecommendV2Page() {
     }
   }, [isCalculating]);
 
+  // 타이머 관리 (0.01초 단위)
+  useEffect(() => {
+    if (isCalculating) {
+      setCalculatingTimer(0); // 시작 시 리셋
+      const interval = setInterval(() => {
+        setCalculatingTimer(prev => prev + 1);
+      }, 10); // 0.01초마다 증가
+      return () => clearInterval(interval);
+    } else {
+      setCalculatingTimer(0); // 종료 시 리셋
+    }
+  }, [isCalculating]);
+
   // ===================================================
   // Add message helper
   // ===================================================
@@ -267,11 +286,73 @@ export default function RecommendV2Page() {
   }, []);
 
   // ===================================================
+  // Session Storage Restoration (페이지 복귀 시 결과 복원)
+  // ===================================================
+
+  const [isRestoredFromStorage, setIsRestoredFromStorage] = useState(false);
+
+  useEffect(() => {
+    if (!categoryKey) return;
+
+    try {
+      const savedStateStr = sessionStorage.getItem(`v2_result_${categoryKey}`);
+      if (savedStateStr) {
+        const savedState = JSON.parse(savedStateStr);
+        // 1시간(3600000ms) 이내의 결과만 복원
+        const isRecent = Date.now() - savedState.timestamp < 3600000;
+
+        if (isRecent && savedState.scoredProducts?.length > 0) {
+          console.log('🔄 [sessionStorage] Restoring result for', categoryKey);
+
+          // 상태 복원
+          setScoredProducts(savedState.scoredProducts);
+          setSelectionReason(savedState.selectionReason || '');
+          setCategoryName(savedState.categoryName || '');
+          setCurrentStep(5);
+          setBudget(savedState.budget || { min: 0, max: 0 });
+          setHardFilterAnswers(savedState.hardFilterAnswers || {});
+          setBalanceSelections(new Set(savedState.balanceSelections || []));
+          setNegativeSelections(savedState.negativeSelections || []);
+          setConditionSummary(savedState.conditionSummary || []);
+          setBalanceLabels(savedState.balanceLabels || {});
+          setNegativeLabels(savedState.negativeLabels || {});
+          setHardFilterLabels(savedState.hardFilterLabels || {});
+          setHardFilterDefinitions(savedState.hardFilterDefinitions || {});
+
+          // 결과 메시지 추가
+          setMessages([{
+            id: generateId(),
+            role: 'system',
+            content: '',
+            componentType: 'result-cards',
+            componentData: {
+              products: savedState.scoredProducts,
+              categoryName: savedState.categoryName,
+              categoryKey: savedState.categoryKey,
+              selectionReason: savedState.selectionReason,
+            },
+            timestamp: Date.now(),
+          }]);
+
+          setIsLoading(false);
+          setShowScanAnimation(false);
+          setIsRestoredFromStorage(true);
+
+          console.log('✅ [sessionStorage] Result restored successfully');
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('[sessionStorage] Failed to restore result:', e);
+    }
+  }, [categoryKey]);
+
+  // ===================================================
   // Data Loading
   // ===================================================
 
   useEffect(() => {
-    if (!categoryKey) return;
+    if (!categoryKey || isRestoredFromStorage) return;
 
     const loadData = async () => {
       setIsLoading(true);
@@ -396,7 +477,7 @@ export default function RecommendV2Page() {
     };
 
     loadData();
-  }, [categoryKey, router]);
+  }, [categoryKey, router, isRestoredFromStorage]);
 
   // Keep productsRef in sync with products state (to avoid closure issues)
   useEffect(() => {
@@ -436,6 +517,32 @@ export default function RecommendV2Page() {
     // ScanAnimation exit 애니메이션(0.2s) 완료 후 메시지 추가하여 레이아웃 점프 방지
     if (hardFilterConfig) {
       setTimeout(() => {
+        // 상위 제품 썸네일 + 리뷰 분석 개수 계산
+        const currentProducts = productsRef.current;
+
+        // 랭킹 높은 순 정렬 (rank가 낮을수록 높은 순위, null은 마지막)
+        const sortedByRank = [...currentProducts].sort((a, b) => {
+          if (a.rank === null && b.rank === null) return 0;
+          if (a.rank === null) return 1;
+          if (b.rank === null) return -1;
+          return a.rank - b.rank;
+        });
+
+        // 탑 10 중 썸네일 있는 제품들
+        const top10WithThumbnails = sortedByRank
+          .slice(0, 10)
+          .filter(p => p.thumbnail && p.thumbnail.trim() !== '')
+          .map(p => p.thumbnail!);
+
+        // 랜덤으로 5개 선택 (셔플 후 슬라이스)
+        const shuffled = [...top10WithThumbnails].sort(() => Math.random() - 0.5);
+        const productThumbnails = shuffled.slice(0, 5);
+
+        // 리뷰 분석 개수: 제품 총 개수 ± 랜덤(1~20)
+        const randomOffset = Math.floor(Math.random() * 20) + 1;
+        const plusOrMinus = Math.random() > 0.5 ? 1 : -1;
+        const analyzedReviewCount = Math.max(1, currentProducts.length + (plusOrMinus * randomOffset));
+
         addMessage({
           role: 'system',
           content: '',
@@ -443,6 +550,8 @@ export default function RecommendV2Page() {
           componentData: {
             ...hardFilterConfig.guide,
             introMessage: '복잡한 용어, 스펙 비교는 제가 이미 끝냈어요.\n고객님의 상황만 편하게 알려주세요. 딱 맞는 제품을 찾아드릴게요.',
+            productThumbnails,
+            analyzedReviewCount,
           },
           stepTag: '0/5',
         });
@@ -1184,6 +1293,31 @@ export default function RecommendV2Page() {
       setScoredProducts(top3);
       setSelectionReason(finalSelectionReason);
 
+      // sessionStorage에 결과 저장 (페이지 이동 후 복원용)
+      try {
+        const savedState = {
+          scoredProducts: top3,
+          selectionReason: finalSelectionReason,
+          categoryKey,
+          categoryName,
+          currentStep: 5,
+          budget,
+          hardFilterAnswers,
+          balanceSelections: Array.from(balanceSelections),
+          negativeSelections,
+          conditionSummary,
+          balanceLabels,
+          negativeLabels,
+          hardFilterLabels,
+          hardFilterDefinitions,
+          timestamp: Date.now(),
+        };
+        sessionStorage.setItem(`v2_result_${categoryKey}`, JSON.stringify(savedState));
+        console.log('✅ [sessionStorage] Result saved for', categoryKey);
+      } catch (e) {
+        console.warn('[sessionStorage] Failed to save result:', e);
+      }
+
       // Log recommendation received (with matchedRules as tags)
       logV2RecommendationReceived(
         categoryKey,
@@ -1261,6 +1395,9 @@ export default function RecommendV2Page() {
                 disabled={isTransitioning}
                 onTabChange={(tab, tabLabel) => {
                   logGuideCardTabSelection(categoryKey, categoryName, tab, tabLabel);
+                }}
+                onToggle={(type, isOpen) => {
+                  logGuideCardToggle(categoryKey, categoryName, type, isOpen);
                 }}
                 onNext={() => {
                   if (isTransitioning) return;
@@ -1492,6 +1629,7 @@ export default function RecommendV2Page() {
                   hardFilterDefinitions: hardFilterDefinitions,
                 }}
                 onModalOpenChange={setIsProductModalOpen}
+                onViewFavorites={() => setShowFavoritesModal(true)}
               />
             </div>
           );
@@ -2024,18 +2162,30 @@ export default function RecommendV2Page() {
             <h1 className="text-lg font-bold text-gray-900">
               {categoryName} 추천
             </h1>
-            {/* 홈으로 버튼 */}
-            {currentStep > 0 && !showScanAnimation && (
+            {/* 추천 완료 후에만 하트 아이콘 표시 */}
+            {currentStep === 5 && scoredProducts.length > 0 ? (
               <button
                 onClick={() => {
-                  router.push('/');
+                  setShowFavoritesModal(true);
                 }}
-                className="text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors"
+                className="p-1"
               >
-                홈으로
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="#FF6B6B"
+                  stroke="#FF6B6B"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
               </button>
+            ) : (
+              <div className="w-7" />
             )}
-            {(currentStep === 0 || showScanAnimation) && <div className="w-12" />}
           </div>
 
           {/* Progress Bar - Step 0(로딩/가이드카드)과 결과 화면에서는 숨김 */}
@@ -2082,10 +2232,13 @@ export default function RecommendV2Page() {
               animate={{ opacity: 1, y: 0 }}
               className="w-full py-4"
             >
-              <div className="w-full flex justify-start">
+              <div className="w-full flex justify-start items-center gap-2">
                 <p className="px-1 py-1 text-base font-medium text-gray-600 shimmer-text">
                   AI 추천 진행 중...
                 </p>
+                <span className="text-sm font-normal text-gray-500 tabular-nums shimmer-text">
+                  {(calculatingTimer / 100).toFixed(2)}s
+                </span>
               </div>
             </motion.div>
           )}
@@ -2229,6 +2382,10 @@ export default function RecommendV2Page() {
                         // 로깅
                         logV2ReRecommendSameCategory(categoryKey, categoryName);
 
+                        // sessionStorage 클리어 (복원 방지)
+                        sessionStorage.removeItem(`v2_result_${categoryKey}`);
+                        setIsRestoredFromStorage(false);
+
                         // 상태 초기화
                         setCurrentStep(0);
                         setCurrentHardFilterIndex(0);
@@ -2345,6 +2502,32 @@ export default function RecommendV2Page() {
                     </button>
                   </div>
                 </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Favorites Modal */}
+        <AnimatePresence>
+          {showFavoritesModal && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+                className="fixed inset-0 bg-black/50 z-[300]"
+                onClick={() => setShowFavoritesModal(false)}
+              />
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 24 }}
+                transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                className="fixed inset-0 z-[310] bg-white overflow-y-auto"
+                style={{ maxWidth: '480px', margin: '0 auto' }}
+              >
+                <FavoritesView onClose={() => setShowFavoritesModal(false)} />
               </motion.div>
             </>
           )}

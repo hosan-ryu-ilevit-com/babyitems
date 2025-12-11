@@ -7,7 +7,9 @@ import type { ScoredProduct, DanawaPriceData, ProductVariant } from '@/types/rec
 import type { Recommendation } from '@/types';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
-import { logButtonClick, logV2ProductModalOpened } from '@/lib/logging/clientLogger';
+import { logButtonClick, logV2ProductModalOpened, logFavoriteAction } from '@/lib/logging/clientLogger';
+import { useFavorites } from '@/hooks/useFavorites';
+import Toast from '@/components/Toast';
 
 // Extended product type with LLM recommendation reason + variants
 interface RecommendedProduct extends ScoredProduct {
@@ -60,6 +62,7 @@ interface ResultCardsProps {
   selectionReason?: string;  // LLM이 생성한 전체 선정 기준
   userContext?: UserContext;  // 사용자 선택 컨텍스트 (API용)
   onModalOpenChange?: (isOpen: boolean) => void;  // 상품 모달 열림/닫힘 상태 콜백
+  onViewFavorites?: () => void;  // 찜 목록 모달로 열기 위한 콜백
 }
 
 /**
@@ -210,7 +213,12 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
   return <span className="whitespace-pre-wrap">{displayedContent}</span>;
 }
 
-export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext, onModalOpenChange }: ResultCardsProps) {
+export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext, onModalOpenChange, onViewFavorites }: ResultCardsProps) {
+  // Favorites management
+  const { toggleFavorite, isFavorite, count: favoritesCount } = useFavorites();
+  const [showToast, setShowToast] = useState(false);
+  const [toastType, setToastType] = useState<'add' | 'remove'>('add');
+
   // Danawa price data
   const [danawaData, setDanawaData] = useState<Record<string, DanawaPriceData>>({});
   const [danawaSpecs, setDanawaSpecs] = useState<Record<string, Record<string, string>>>({});
@@ -247,6 +255,38 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     썸네일: string | null;
   } | null>(null);
   const anchorFetchedRef = useRef(false);
+  const preloadedImagesRef = useRef<Set<string>>(new Set());
+
+  // PDP용 이미지 Preload (PLP → PDP 전환 시 로딩 최적화)
+  useEffect(() => {
+    if (products.length === 0) return;
+
+    const addedLinks: HTMLLinkElement[] = [];
+
+    // TOP 3 제품의 원본 이미지를 미리 로드
+    products.slice(0, 3).forEach(product => {
+      if (product.thumbnail && !preloadedImagesRef.current.has(product.thumbnail)) {
+        preloadedImagesRef.current.add(product.thumbnail);
+
+        // 방법 1: link preload (브라우저 우선순위 높음)
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = product.thumbnail;
+        document.head.appendChild(link);
+        addedLinks.push(link);
+
+        // 방법 2: Image 객체로 캐시에 로드 (fallback)
+        const img = new window.Image();
+        img.src = product.thumbnail;
+      }
+    });
+
+    // Cleanup: 컴포넌트 언마운트 시 preload link 제거
+    return () => {
+      addedLinks.forEach(link => link.remove());
+    };
+  }, [products]);
 
   // 디폴트 기준제품 자동 설정 (rank 1위 상품)
   useEffect(() => {
@@ -666,12 +706,31 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             onClick={() => handleProductClick(product, index)}
             className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
           >
-            {/* 클릭 어포던스 - 우상단 chevron */}
-            <div className="absolute top-4 right-3 text-gray-400">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            {/* 찜하기 버튼 - 우상단 */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const wasFavorite = isFavorite(product.pcode);
+                toggleFavorite(product.pcode);
+                const action = wasFavorite ? 'removed' : 'added';
+                const newCount = wasFavorite ? favoritesCount - 1 : favoritesCount + 1;
+                logFavoriteAction(action, product.pcode, product.title, newCount);
+                logButtonClick(wasFavorite ? '찜취소_PLP' : '찜하기_PLP', 'v2-result');
+                setToastType(wasFavorite ? 'remove' : 'add');
+                setShowToast(true);
+              }}
+              className="absolute top-4 right-3 p-1 z-10"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill={isFavorite(product.pcode) ? '#FF6B6B' : '#D1D5DB'}
+                stroke="none"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
               </svg>
-            </div>
+            </button>
 
             {/* 제품 정보 */}
             <div className="flex gap-3 mb-0">
@@ -695,10 +754,10 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     </svg>
                   </div>
                 )}
-                {/* 랭킹 배지 - 좌측 상단 */}
-                <div className="absolute top-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-xl rounded-tr-none rounded-bl-none rounded-br-md flex items-center justify-center">
+                {/* 랭킹 배지 - 좌측 하단 */}
+                <div className="absolute bottom-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-none rounded-tr-xl rounded-bl-xl rounded-br-none flex items-center justify-center">
                   <span className="text-white font-semibold text-xs">
-                    {index + 1}
+                    {index + 1}위
                   </span>
                 </div>
               </div>
@@ -727,14 +786,22 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                 <div className="space-y-0">
                   {/* 옵션이 여러 개면 가격 범위, 아니면 단일 가격 */}
                   {product.optionCount && product.optionCount > 1 && product.priceRange?.min && product.priceRange?.max ? (
-                    <p className="text-lg font-bold text-gray-900">
-                      {product.priceRange.min.toLocaleString()}<span className="text-sm">원</span>
-                      <span className="text-gray-400 mx-1">~</span>
-                      {product.priceRange.max.toLocaleString()}<span className="text-sm">원</span>
+                    <p className="text-lg font-bold text-gray-900 flex items-baseline gap-1.5">
+                      <span>
+                        {product.priceRange.min.toLocaleString()}<span className="text-sm">원</span>
+                        <span className="text-gray-400 mx-1">~</span>
+                        {product.priceRange.max.toLocaleString()}<span className="text-sm">원</span>
+                      </span>
+                      {!loadingPrices && hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
+                        <span className="text-xs font-medium text-gray-400">(판매처 {danawa.mall_prices.length})</span>
+                      )}
                     </p>
                   ) : product.price && (
-                    <p className="text-lg font-bold text-gray-900">
-                      {product.price.toLocaleString()}<span className="text-sm">원</span>
+                    <p className="text-lg font-bold text-gray-900 flex items-baseline gap-1.5">
+                      <span>{product.price.toLocaleString()}<span className="text-sm">원</span></span>
+                      {!loadingPrices && hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
+                        <span className="text-xs font-medium text-gray-400">(판매처 {danawa.mall_prices.length})</span>
+                      )}
                     </p>
                   )}
                   {/* 다나와 최저가 */}
@@ -745,11 +812,11 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     </div>
                   ) : hasLowestPrice ? (
                     <div className="flex items-center gap-1 text-xs">
-                      <span className="text-red-600 font-medium">최저</span>
+                      <span className="text-red-600 font-medium">최저가</span>
                       <span className="text-red-600 font-medium">{danawa.lowest_price!.toLocaleString()}원</span>
-                      {danawa.lowest_mall && (
-                        <span className="text-gray-400">({danawa.lowest_mall})</span>
-                      )}
+                      <svg className="w-3 h-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
                     </div>
                   ) : null}
                   {/* 별점 & 리뷰 수 */}
@@ -766,7 +833,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               </div>
             </div>
 
-            {/* 합쳐진 특징 태그 (하드필터 + 밸런스 조건) - AI 요약 위에 배치 */}
+            {/* 합쳐진 특징 태그 (하드필터 + 밸런스 조건) */}
             {(() => {
               // 하드 필터 매칭 태그
               const matchedFilters = userContext?.hardFilterAnswers && userContext?.hardFilterDefinitions
@@ -803,7 +870,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   {combinedTags.map((label, i) => (
                     <span
                       key={i}
-                      className="text-xs px-2 py-1 rounded-xl bg-gray-100 text-gray-500 font-semibold"
+                      className="text-xs px-2 py-1 rounded-xl bg-gray-100 text-gray-600 font-semibold"
                     >
                       {label}
                     </span>
@@ -812,26 +879,33 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               );
             })()}
 
-            {/* LLM 추천 이유 - result 페이지 스타일 */}
+            {/* LLM 추천 이유 */}
             {product.recommendationReason && (
               <div className="mt-2">
-                <div className="rounded-xl p-3 bg-[#F3E6FD]">
+                <div className="rounded-xl p-3 bg-[#E8E6FD] border border-[#D6D3FC]">
                   <div className="flex items-start gap-2">
-                    <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24">
-                      <defs>
-                        <linearGradient id={`sparkle-gradient-${product.pcode}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#9325FC" />
-                          <stop offset="50%" stopColor="#C750FF" />
-                          <stop offset="100%" stopColor="#C878F7" />
-                        </linearGradient>
-                      </defs>
-                      <path fill={`url(#sparkle-gradient-${product.pcode})`} d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                    <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="#4E43E1">
+                      <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
                     </svg>
-                    <p className="text-sm text-gray-700 leading-normal flex-1">
+                    <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
                       {product.recommendationReason}
                     </p>
                   </div>
                 </div>
+                {/* 상세 분석 보기 버튼 */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleProductClick(product, index);
+                    logButtonClick('상세분석보기_PLP', 'v2-result');
+                  }}
+                  className="mt-2 w-full py-2.5 text-sm font-medium text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
+                >
+                  상세 분석 보기
+                  <svg className="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
               </div>
             )}
           </motion.div>
@@ -959,6 +1033,15 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           }}
         />
       )}
+
+      {/* Toast notification for favorites */}
+      <Toast
+        isVisible={showToast}
+        onClose={() => setShowToast(false)}
+        duration={2000}
+        type={toastType}
+        onViewFavorites={onViewFavorites}
+      />
     </motion.div>
   );
 }

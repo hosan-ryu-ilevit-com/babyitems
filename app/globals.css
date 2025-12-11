@@ -65,6 +65,11 @@ body {
   animation: shimmer 1s infinite linear;
 }
 
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+
 /* Marquee animations for category carousel */
 @keyframes marquee-left {
   0% {

@@ -13,7 +13,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
-import { getModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
+import { getProModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
 import type { CategoryInsights } from '@/types/category-insights';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -69,7 +69,7 @@ async function generateComparisons(
   categoryName: string,
   insights: CategoryInsights
 ): Promise<ProductComparison[]> {
-  const model = getModel(0.5);
+  const model = getProModel(0.5);
 
   // 제품 목록 문자열화 (스펙 + 필터 속성을 더 상세히 포함)
   const productsText = products.map((p, i) => {
