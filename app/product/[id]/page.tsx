@@ -154,41 +154,38 @@ export default function ProductPage() {
         fetchReviews();
       }
 
-      // 다나와 가격 정보 백그라운드 로딩
-      // 브랜드 + 제목 (띄어쓰기 기준 최대 5개 단어)
-      // 제목에 이미 브랜드가 포함되어 있으면 중복 방지
-      let titleForQuery = data.product.title;
-      if (data.product.brand && data.product.title.toLowerCase().startsWith(data.product.brand.toLowerCase())) {
-        titleForQuery = data.product.title.substring(data.product.brand.length).trim();
-      }
-      const titleWords = titleForQuery.split(' ').slice(0, 5).join(' ');
-      const query = data.product.brand ? `${data.product.brand} ${titleWords}` : titleWords;
-      console.log(`🔍 [Danawa Query] ${data.product.title} → "${query}"`);
+      // 다나와 가격 정보 로딩 - Supabase 캐시 우선 사용 (웹 크롤링 대신)
       setDanawaData(prev => ({ ...prev, loading: true }));
+      const pcode = data.product.id;
 
-      fetch('/api/danawa/fetch', {
+      // 1단계: Supabase에서 캐시된 가격 정보 조회 (빠름, 200-500ms)
+      fetch('/api/v2/result', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ pcodes: [pcode] }),
       })
         .then(res => res.json())
         .then(apiData => {
-          if (apiData.success && apiData.data) {
-            setDanawaData({
-              lowestPrice: apiData.data.lowestPrice,
-              lowestMall: apiData.data.lowestMall,
-              productName: apiData.data.name,
-              prices: apiData.data.prices || [],
-              loading: false,
-            });
-            console.log(`✅ Danawa data fetched for PDP: ${apiData.data.lowestPrice?.toLocaleString()}원`);
-          } else {
-            setDanawaData(prev => ({ ...prev, loading: false }));
-            console.warn('⚠️ Failed to fetch Danawa data for PDP');
+          if (apiData.success && apiData.data?.prices?.length > 0) {
+            const priceData = apiData.data.prices[0];
+            if (priceData.lowest_price) {
+              setDanawaData({
+                lowestPrice: priceData.lowest_price,
+                lowestMall: priceData.lowest_mall,
+                productName: data.product.title,
+                prices: priceData.mall_prices || [],
+                loading: false,
+              });
+              console.log(`✅ Danawa data from Supabase cache: ${priceData.lowest_price?.toLocaleString()}원`);
+              return; // 캐시에서 찾음, 종료
+            }
           }
+          // 캐시에 없으면 로딩 종료 (크롤링 생략 - 성능 우선)
+          console.log(`⚠️ No cached Danawa data for pcode: ${pcode}, skipping crawl`);
+          setDanawaData(prev => ({ ...prev, loading: false }));
         })
         .catch(error => {
-          console.error('Failed to fetch Danawa data:', error);
+          console.error('Failed to fetch Danawa data from cache:', error);
           setDanawaData(prev => ({ ...prev, loading: false }));
         });
     } else {

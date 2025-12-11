@@ -4,11 +4,12 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import type { ScoredProduct, DanawaPriceData, V2ResultProduct } from '@/types/recommend-v2';
+import type { ScoredProduct, V2ResultProduct } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
 import { V2ResultProductCard } from '@/components/recommend-v2/V2ResultProductCard';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import { logButtonClick } from '@/lib/logging/clientLogger';
+import { useDanawaPrices } from '@/hooks/useDanawaPrices';
 
 // SessionStorage 키
 const V2_RESULT_KEY = 'v2_recommendation_result';
@@ -30,9 +31,12 @@ export default function V2ResultPage() {
   // States
   const [resultData, setResultData] = useState<V2ResultData | null>(null);
   const [products, setProducts] = useState<V2ResultProduct[]>([]);
-  const [danawaData, setDanawaData] = useState<Record<string, DanawaPriceData>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Danawa prices (공통 훅 사용)
+  const pcodes = useMemo(() => products.map(p => p.pcode), [products]);
+  const { danawaData } = useDanawaPrices(pcodes);
 
   // Comparison table states
   const [comparisonFeatures, setComparisonFeatures] = useState<Record<string, string[]>>({});
@@ -79,8 +83,8 @@ export default function V2ResultPage() {
         });
       }
 
-      // Fetch danawa prices from Supabase
-      fetchDanawaPrices(data.products.map(p => p.pcode));
+      // 즉시 렌더링 (비블로킹) - 다나와 가격은 useDanawaPrices 훅에서 자동 로드
+      setLoading(false);
     } catch (e) {
       console.error('Failed to parse result data:', e);
       setError('데이터를 불러오는 중 오류가 발생했습니다.');
@@ -88,39 +92,17 @@ export default function V2ResultPage() {
     }
   }, []);
 
-  // Fetch danawa prices from Supabase
-  const fetchDanawaPrices = async (pcodes: string[]) => {
-    try {
-      const response = await fetch('/api/v2/result', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pcodes }),
-      });
+  // danawaData가 로드되면 products에 병합
+  useEffect(() => {
+    if (Object.keys(danawaData).length === 0) return;
 
-      const data = await response.json();
+    setProducts(prev => prev.map(p => ({
+      ...p,
+      danawaPrice: danawaData[p.pcode] || null,
+    })));
 
-      if (data.success) {
-        // Map prices by pcode
-        const priceMap: Record<string, DanawaPriceData> = {};
-        data.data.prices.forEach((price: DanawaPriceData) => {
-          priceMap[price.pcode] = price;
-        });
-        setDanawaData(priceMap);
-
-        // Update products with danawa data
-        setProducts(prev => prev.map(p => ({
-          ...p,
-          danawaPrice: priceMap[p.pcode] || null,
-        })));
-
-        console.log(`✅ Loaded danawa prices for ${data.data.prices.length} products`);
-      }
-    } catch (e) {
-      console.error('Failed to fetch danawa prices:', e);
-    } finally {
-      setLoading(false);
-    }
-  };
+    console.log(`✅ [V2ResultPage] Merged danawa prices for ${Object.keys(danawaData).length} products`);
+  }, [danawaData]);
 
   // Convert V2ResultProduct to Recommendation for DetailedComparisonTable
   const recommendations: Recommendation[] = useMemo(() => {

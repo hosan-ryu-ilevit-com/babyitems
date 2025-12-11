@@ -37,6 +37,7 @@ interface CandidateProduct {
   title: string;
   brand?: string | null;
   price?: number | null;
+  lowestPrice?: number | null;  // 다나와 최저가 (우선 사용)
   rank?: number | null;
   thumbnail?: string | null;
   spec?: Record<string, unknown>;
@@ -200,10 +201,14 @@ function formatProductForPrompt(product: CandidateProduct, index: number): strin
     ? product.matchedRules.map(r => r.replace('체감속성_', '').replace(/_/g, ' ')).join(', ')
     : '없음';
 
+  // 가격: 다나와 최저가 우선 사용
+  const effectivePrice = product.lowestPrice ?? product.price;
+  const priceStr = effectivePrice ? `${effectivePrice.toLocaleString()}원` : '가격 미정';
+
   return `[상품 ${index + 1}] pcode: ${product.pcode}
 - 제품명: ${product.title}
 - 브랜드: ${product.brand || '미상'}
-- 가격: ${product.price ? `${product.price.toLocaleString()}원` : '가격 미정'}
+- 가격: ${priceStr}
 - 인기순위: ${product.rank || '미정'}위
 - 선호도점수: ${product.totalScore || 0}점
 - 매칭된 선호조건: ${matchedRulesStr}

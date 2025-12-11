@@ -50,9 +50,10 @@ export function V2ResultProductCard({
               width={112}
               height={112}
               className="w-full h-full object-cover"
-              priority={rank === 1}
+              priority={rank <= 3}
               quality={90}
               sizes="112px"
+              fetchPriority="high"
             />
           ) : (
             <div className="w-full h-full bg-linear-to-br from-gray-100 to-gray-200 flex items-center justify-center">
@@ -81,12 +82,12 @@ export function V2ResultProductCard({
           <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
             {product.title}
           </h3>
-          {/* 가격 정보 - 다나와 최저가 우선, 없으면 product.price */}
+          {/* 가격 정보 - 다나와 최저가 우선 사용 */}
           {(hasLowestPrice || product.price) && (
             <div className="space-y-0">
               <div className="flex items-center gap-1.5">
-                <p className={`text-lg font-bold ${hasLowestPrice ? 'text-red-500' : 'text-gray-900'}`}>
-                  {hasLowestPrice && <span className="text-sm font-semibold">최저가 </span>}
+                <p className="text-lg font-bold text-gray-900">
+                  {/* 다나와 최저가가 있으면 해당 가격 사용, 없으면 product.price */}
                   {(hasLowestPrice ? danawaPrice!.lowest_price! : product.price!).toLocaleString()}<span className="text-sm">원</span>
                 </p>
                 {hasLowestPrice && danawaPrice!.mall_prices && danawaPrice!.mall_prices.length > 0 && (

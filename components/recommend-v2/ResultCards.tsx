@@ -3,18 +3,26 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import type { ScoredProduct, DanawaPriceData, ProductVariant } from '@/types/recommend-v2';
+import type { ScoredProduct, ProductVariant } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
 import { logButtonClick, logV2ProductModalOpened, logFavoriteAction } from '@/lib/logging/clientLogger';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useDanawaPrices } from '@/hooks/useDanawaPrices';
 import Toast from '@/components/Toast';
+
+// SessionStorage 키 prefix (비교표 분석 데이터 캐싱용)
+// NOTE: 카테고리별로 별도 캐시를 유지하기 위해 categoryKey를 포함한 키 사용
+const V2_COMPARISON_CACHE_PREFIX = 'v2_comparison_analysis';
+const V2_PRODUCT_ANALYSIS_CACHE_PREFIX = 'v2_product_analysis';
 
 // Extended product type with LLM recommendation reason + variants
 interface RecommendedProduct extends ScoredProduct {
   recommendationReason?: string;
   matchedPreferences?: string[];
+  // LLM 정제된 태그 (refine-tags API 결과)
+  refinedTags?: string[];
   // 옵션/변형 정보 (그룹핑)
   variants?: ProductVariant[];
   optionCount?: number;
@@ -219,11 +227,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState<'add' | 'remove'>('add');
 
-  // Danawa price data
-  const [danawaData, setDanawaData] = useState<Record<string, DanawaPriceData>>({});
-  const [danawaSpecs, setDanawaSpecs] = useState<Record<string, Record<string, string>>>({});
-  const [reviewData, setReviewData] = useState<Record<string, { reviewCount: number; averageRating: number }>>({});
-  const [loadingPrices, setLoadingPrices] = useState(true);
+  // Danawa price/spec/review data (공통 훅 사용)
+  const pcodes = useMemo(() => products.map(p => p.pcode), [products]);
+  const { danawaData, danawaSpecs, reviewData } = useDanawaPrices(pcodes);
 
   // Comparison table states
   // NOTE: setComparisonFeatures 비활성화 - 기준제품 기능 비활성화로 미사용
@@ -338,80 +344,89 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   //   }
   // };
 
-  // Fetch danawa prices
+  // NOTE: Danawa prices/specs/review는 useDanawaPrices 훅에서 자동 로드
+
+  // 캐시 키 생성 함수 (메모이제이션)
+  const getCacheKey = useMemo(() => {
+    if (products.length === 0 || !categoryKey) return null;
+    const productIds = products.slice(0, 3).map(p => p.pcode).sort().join('_');
+    return `${categoryKey}_${productIds}`;
+  }, [products, categoryKey]);
+
+  // 이전 캐시키 저장 (카테고리/제품 변경 감지용)
+  const prevCacheKeyRef = useRef<string | null>(null);
+
+  // 카테고리 또는 제품이 변경되면 refs 리셋
   useEffect(() => {
-    if (products.length === 0) return;
+    const currentCacheKey = getCacheKey;
+    if (prevCacheKeyRef.current !== null && prevCacheKeyRef.current !== currentCacheKey) {
+      // 캐시 키가 변경됨 → refs 리셋
+      console.log('🔄 [ResultCards] Cache key changed, resetting refs:', prevCacheKeyRef.current, '→', currentCacheKey);
+      analysisCalledRef.current = false;
+      // 상태도 리셋
+      setProductAnalysisData({});
+      setComparisonDetails({});
+      setIsAnalysisLoading(true);
+      setIsComparisonLoading(true);
+    }
+    prevCacheKeyRef.current = currentCacheKey;
+  }, [getCacheKey]);
 
-    const fetchPrices = async () => {
-      try {
-        const pcodes = products.map(p => p.pcode);
-        const response = await fetch('/api/v2/result', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pcodes }),
-        });
+  // Background LLM analysis (product analysis + comparison analysis) with sessionStorage caching
+  useEffect(() => {
+    // getCacheKey가 null이면 products.length === 0 || !categoryKey 중 하나
+    if (!getCacheKey || analysisCalledRef.current) return;
 
-        const data = await response.json();
-        if (data.success) {
-          // 가격 데이터 저장
-          const priceMap: Record<string, DanawaPriceData> = {};
-          data.data.prices.forEach((price: DanawaPriceData) => {
-            priceMap[price.pcode] = price;
-          });
-          setDanawaData(priceMap);
-          console.log(`✅ Loaded danawa prices for ${data.data.prices.length} products`);
+    const cacheKey = getCacheKey;
 
-          // 스펙 데이터 + 리뷰 데이터 저장
-          const specsMap: Record<string, Record<string, string>> = {};
-          const reviewMap: Record<string, { reviewCount: number; averageRating: number }> = {};
+    // 캐시 확인 (매번 체크 - sessionStorage 읽기는 동기적이고 빠름)
+    // NOTE: cacheCheckedRef 제거 - React StrictMode/re-render 시 캐시 스킵 버그 수정
+    let cachedComparison: Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> | null }> | null = null;
+    let cachedProductAnalysis: Record<string, ProductAnalysisData> | null = null;
 
-          data.data.specs?.forEach((item: {
-            pcode: string;
-            spec: Record<string, unknown>;
-            filter_attrs: Record<string, unknown>;
-            review_count?: number;
-            average_rating?: number;
-          }) => {
-            // 스펙 데이터
-            if (item.spec) {
-              const specStrings: Record<string, string> = {};
-              Object.entries(item.spec).forEach(([key, value]) => {
-                if (value !== null && value !== undefined && value !== '') {
-                  specStrings[key] = String(value);
-                }
-              });
-              specsMap[item.pcode] = specStrings;
-            }
-
-            // 리뷰 데이터
-            reviewMap[item.pcode] = {
-              reviewCount: item.review_count || 0,
-              averageRating: item.average_rating || 0,
-            };
-          });
-
-          setDanawaSpecs(specsMap);
-          setReviewData(reviewMap);
-          console.log(`✅ Loaded danawa specs for ${Object.keys(specsMap).length} products`);
-          console.log(`✅ Loaded review data for ${Object.keys(reviewMap).length} products`);
+    try {
+      // 카테고리별 캐시 키 사용 (다른 카테고리 캐시와 충돌 방지)
+      const comparisonStorageKey = `${V2_COMPARISON_CACHE_PREFIX}_${cacheKey}`;
+      const comparisonCache = sessionStorage.getItem(comparisonStorageKey);
+      if (comparisonCache) {
+        const parsed = JSON.parse(comparisonCache);
+        if (parsed.data) {
+          cachedComparison = parsed.data;
+          console.log('✅ [ResultCards] Comparison analysis loaded from cache:', comparisonStorageKey);
         }
-      } catch (e) {
-        console.error('Failed to fetch danawa prices:', e);
-      } finally {
-        setLoadingPrices(false);
       }
-    };
 
-    fetchPrices();
-  }, [products]);
+      const productAnalysisStorageKey = `${V2_PRODUCT_ANALYSIS_CACHE_PREFIX}_${cacheKey}`;
+      const productAnalysisCache = sessionStorage.getItem(productAnalysisStorageKey);
+      if (productAnalysisCache) {
+        const parsed = JSON.parse(productAnalysisCache);
+        if (parsed.data) {
+          cachedProductAnalysis = parsed.data;
+          console.log('✅ [ResultCards] Product analysis loaded from cache:', productAnalysisStorageKey);
+        }
+      }
+    } catch (e) {
+      console.warn('[ResultCards] Failed to load from cache:', e);
+    }
 
-  // Background LLM analysis (product analysis + comparison analysis)
-  useEffect(() => {
-    if (products.length === 0 || !categoryKey || analysisCalledRef.current) return;
+    // 둘 다 캐시가 있으면 API 호출 스킵
+    if (cachedComparison && cachedProductAnalysis) {
+      setComparisonDetails(cachedComparison);
+      setProductAnalysisData(cachedProductAnalysis);
+      setIsComparisonLoading(false);
+      setIsAnalysisLoading(false);
+      analysisCalledRef.current = true;
+      console.log('💾 [ResultCards] Both analyses loaded from cache, skipping API');
+      return;
+    }
 
-    analysisCalledRef.current = true;
+    // NOTE: analysisCalledRef.current는 fetchBackgroundAnalysis 내부에서 설정
+    // setTimeout이 cleanup되면 API가 호출되지 않으므로, ref는 실제 실행 시에만 true로 설정
 
     const fetchBackgroundAnalysis = async () => {
+      // API 실제 호출 시점에 ref 설정 (cleanup으로 인한 미호출 방지)
+      analysisCalledRef.current = true;
+      console.log('🔄 [ResultCards] Fetching analysis from API (cache miss)');
       // Prepare product info for API calls (spec + filter_attrs 포함)
       const productInfos = products.slice(0, 3).map(p => ({
         pcode: p.pcode,
@@ -423,59 +438,120 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         rank: p.rank,
       }));
 
-      // Call both APIs in parallel
-      const [productAnalysisPromise, comparisonAnalysisPromise] = [
-        // Product analysis API (additionalPros, cons, purchaseTip)
-        fetch('/api/v2/product-analysis', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            categoryKey,
-            products: productInfos,
-            userContext: userContext || {},
-          }),
-        }).then(res => res.json()).catch(err => {
-          console.error('[ResultCards] Product analysis API error:', err);
-          return { success: false };
-        }),
+      // Call APIs only for missing data
+      const promises: Promise<unknown>[] = [];
 
-        // Comparison analysis API (pros, cons, comparison for comparison table)
-        fetch('/api/v2/comparison-analysis', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            categoryKey,
-            products: productInfos,
-          }),
-        }).then(res => res.json()).catch(err => {
-          console.error('[ResultCards] Comparison analysis API error:', err);
-          return { success: false };
-        }),
-      ];
-
-      // Wait for product analysis
-      const productAnalysisResult = await productAnalysisPromise;
-      if (productAnalysisResult.success && productAnalysisResult.data?.analyses) {
-        const analysisMap: Record<string, ProductAnalysisData> = {};
-        productAnalysisResult.data.analyses.forEach((analysis: ProductAnalysisData) => {
-          analysisMap[analysis.pcode] = analysis;
-        });
-        setProductAnalysisData(analysisMap);
-        console.log(`✅ [ResultCards] Product analysis loaded (${productAnalysisResult.data.generated_by}):`, Object.keys(analysisMap).length, 'products');
+      // Product analysis API (if not cached)
+      if (!cachedProductAnalysis) {
+        promises.push(
+          fetch('/api/v2/product-analysis', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              categoryKey,
+              products: productInfos,
+              userContext: userContext || {},
+            }),
+          }).then(res => res.json()).catch(err => {
+            console.error('[ResultCards] Product analysis API error:', err);
+            return { success: false, type: 'product' };
+          }).then(result => ({ ...result, type: 'product' }))
+        );
+      } else {
+        // 캐시된 데이터 사용
+        setProductAnalysisData(cachedProductAnalysis);
+        setIsAnalysisLoading(false);
       }
+
+      // Comparison analysis API (if not cached)
+      if (!cachedComparison) {
+        promises.push(
+          fetch('/api/v2/comparison-analysis', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              categoryKey,
+              products: productInfos,
+            }),
+          }).then(res => res.json()).catch(err => {
+            console.error('[ResultCards] Comparison analysis API error:', err);
+            return { success: false, type: 'comparison' };
+          }).then(result => ({ ...result, type: 'comparison' }))
+        );
+      } else {
+        // 캐시된 데이터 사용
+        setComparisonDetails(cachedComparison);
+        setIsComparisonLoading(false);
+      }
+
+      if (promises.length === 0) return;
+
+      // Wait for all APIs
+      const results = await Promise.all(promises);
+
+      for (const result of results) {
+        const typedResult = result as { success: boolean; type: string; data?: unknown };
+
+        if (typedResult.type === 'product' && typedResult.success) {
+          const data = typedResult.data as { analyses: ProductAnalysisData[]; generated_by: string };
+          if (data?.analyses) {
+            const analysisMap: Record<string, ProductAnalysisData> = {};
+            data.analyses.forEach((analysis: ProductAnalysisData) => {
+              analysisMap[analysis.pcode] = analysis;
+            });
+            setProductAnalysisData(analysisMap);
+
+            // SessionStorage에 캐싱 (카테고리별 별도 키 사용)
+            try {
+              const productAnalysisStorageKey = `${V2_PRODUCT_ANALYSIS_CACHE_PREFIX}_${cacheKey}`;
+              sessionStorage.setItem(productAnalysisStorageKey, JSON.stringify({
+                data: analysisMap,
+                timestamp: Date.now(),
+              }));
+              console.log('💾 [ResultCards] Product analysis saved to cache:', productAnalysisStorageKey);
+            } catch (e) {
+              console.warn('[ResultCards] Failed to cache product analysis:', e);
+            }
+
+            console.log(`✅ [ResultCards] Product analysis loaded (${data.generated_by}):`, Object.keys(analysisMap).length, 'products');
+          }
+          setIsAnalysisLoading(false);
+        }
+
+        if (typedResult.type === 'comparison' && typedResult.success) {
+          const data = typedResult.data as { productDetails: Record<string, { pros: string[]; cons: string[]; comparison: string }>; generated_by: string };
+          if (data?.productDetails) {
+            setComparisonDetails(data.productDetails);
+
+            // SessionStorage에 캐싱 (카테고리별 별도 키 사용)
+            try {
+              const comparisonStorageKey = `${V2_COMPARISON_CACHE_PREFIX}_${cacheKey}`;
+              sessionStorage.setItem(comparisonStorageKey, JSON.stringify({
+                data: data.productDetails,
+                timestamp: Date.now(),
+              }));
+              console.log('💾 [ResultCards] Comparison analysis saved to cache:', comparisonStorageKey);
+            } catch (e) {
+              console.warn('[ResultCards] Failed to cache comparison analysis:', e);
+            }
+
+            console.log(`✅ [ResultCards] Comparison analysis loaded (${data.generated_by}):`, Object.keys(data.productDetails).length, 'products');
+          }
+          setIsComparisonLoading(false);
+        }
+      }
+
+      // API 호출 후에도 결과가 없으면 로딩 상태 해제
       setIsAnalysisLoading(false);
-
-      // Wait for comparison analysis
-      const comparisonAnalysisResult = await comparisonAnalysisPromise;
-      if (comparisonAnalysisResult.success && comparisonAnalysisResult.data?.productDetails) {
-        setComparisonDetails(comparisonAnalysisResult.data.productDetails);
-        console.log(`✅ [ResultCards] Comparison analysis loaded (${comparisonAnalysisResult.data.generated_by}):`, Object.keys(comparisonAnalysisResult.data.productDetails).length, 'products');
-      }
       setIsComparisonLoading(false);
     };
 
-    fetchBackgroundAnalysis();
-  }, [products, categoryKey, userContext]);
+    // LLM 분석은 이미지 로딩보다 우선순위가 낮으므로 300ms 지연
+    // (캐시가 있으면 이미 위에서 return되었으므로 API 호출 시에만 지연됨)
+    const timeoutId = setTimeout(fetchBackgroundAnalysis, 300);
+    return () => clearTimeout(timeoutId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getCacheKey, userContext]);
 
   // Fetch comparison data for anchor product (if not in Top 3)
   useEffect(() => {
@@ -641,6 +717,14 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     }
   };
 
+  // DEBUG: 썸네일 상태 확인 로그
+  console.log('📸 [ResultCards] products thumbnail check:', products.map(p => ({
+    pcode: p.pcode,
+    title: p.title?.slice(0, 30),
+    thumbnail: p.thumbnail,
+    hasThumbnail: !!p.thumbnail,
+  })));
+
   if (products.length === 0) {
     return (
       <div className="text-center py-8">
@@ -743,9 +827,10 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     width={112}
                     height={112}
                     className="w-full h-full object-cover"
-                    priority={index === 0}
+                    priority={index < 3}
                     quality={90}
                     sizes="112px"
+                    fetchPriority="high"
                   />
                 ) : (
                   <div className="w-full h-full bg-linear-to-br from-gray-100 to-gray-200 flex items-center justify-center">
@@ -782,43 +867,33 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                 <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
                   {product.title}
                 </h3>
-                {/* 가격 정보 */}
+                {/* 가격 정보 - 다나와 최저가 우선 사용 */}
                 <div className="space-y-0">
                   {/* 옵션이 여러 개면 가격 범위, 아니면 단일 가격 */}
                   {product.optionCount && product.optionCount > 1 && product.priceRange?.min && product.priceRange?.max ? (
-                    <p className="text-lg font-bold text-gray-900 flex items-baseline gap-1.5">
-                      <span>
+                    <>
+                      <p className="text-lg font-bold text-gray-900">
                         {product.priceRange.min.toLocaleString()}<span className="text-sm">원</span>
                         <span className="text-gray-400 mx-1">~</span>
                         {product.priceRange.max.toLocaleString()}<span className="text-sm">원</span>
-                      </span>
-                      {!loadingPrices && hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
-                        <span className="text-xs font-medium text-gray-400">(판매처 {danawa.mall_prices.length})</span>
+                      </p>
+                      {hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
+                        <p className="text-xs font-medium text-gray-400">(판매처 {danawa.mall_prices.length})</p>
                       )}
-                    </p>
-                  ) : product.price && (
+                    </>
+                  ) : (
                     <p className="text-lg font-bold text-gray-900 flex items-baseline gap-1.5">
-                      <span>{product.price.toLocaleString()}<span className="text-sm">원</span></span>
-                      {!loadingPrices && hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
+                      {/* 다나와 최저가가 있으면 해당 가격 사용, 없으면 product.price */}
+                      <span>
+                        {(hasLowestPrice ? danawa.lowest_price! : (product.lowestPrice || product.price || 0)).toLocaleString()}
+                        <span className="text-sm">원</span>
+                      </span>
+                      {hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
                         <span className="text-xs font-medium text-gray-400">(판매처 {danawa.mall_prices.length})</span>
                       )}
                     </p>
                   )}
-                  {/* 다나와 최저가 */}
-                  {loadingPrices ? (
-                    <div className="flex items-center gap-1 text-xs text-gray-400">
-                      <div className="w-3 h-3 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-                      <span>최저가 확인 중...</span>
-                    </div>
-                  ) : hasLowestPrice ? (
-                    <div className="flex items-center gap-1 text-xs">
-                      <span className="text-red-600 font-medium">최저가</span>
-                      <span className="text-red-600 font-medium">{danawa.lowest_price!.toLocaleString()}원</span>
-                      <svg className="w-3 h-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  ) : null}
+                  {/* 최저가 로딩 UI 제거 - Supabase 캐시로 빠르게 로드됨 */}
                   {/* 별점 & 리뷰 수 */}
                   {hasReview && (
                     <div className="flex items-center gap-0.5">
@@ -833,32 +908,44 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               </div>
             </div>
 
-            {/* 합쳐진 특징 태그 (하드필터 + 밸런스 조건) */}
+            {/* 합쳐진 특징 태그 (LLM 정제 태그 우선, 없으면 fallback) */}
             {(() => {
-              // 하드 필터 매칭 태그
+              // 1. refinedTags가 있으면 우선 사용 (LLM이 정제한 태그)
+              if (product.refinedTags && product.refinedTags.length > 0) {
+                return (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {product.refinedTags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="text-xs px-2 py-1 rounded-xl bg-gray-100 text-gray-600 font-semibold"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                );
+              }
+
+              // 2. Fallback: 기존 로직 (하드필터 + 밸런스 조건 매핑)
               const matchedFilters = userContext?.hardFilterAnswers && userContext?.hardFilterDefinitions
                 ? getMatchedHardFilters(product, userContext.hardFilterAnswers, userContext.hardFilterDefinitions)
                 : [];
 
-              // 밸런스 게임 매칭 태그
-              const balanceTags = product.matchedPreferences && product.matchedPreferences.length > 0
-                ? product.matchedPreferences
-                : product.matchedRules || [];
-
-              // 레이블로 변환하고 합집합 (중복 제거)
+              const balanceTags = product.matchedRules || [];
               const allLabels = new Set<string>();
 
-              // 하드 필터 레이블 추가
               matchedFilters.forEach(value => {
-                const displayLabel = userContext?.hardFilterLabels?.[value] || value;
-                allLabels.add(displayLabel);
+                const displayLabel = userContext?.hardFilterLabels?.[value];
+                if (displayLabel) {
+                  allLabels.add(displayLabel);
+                }
               });
 
-              // 밸런스 게임 레이블 추가
               balanceTags.forEach(item => {
-                const displayName = userContext?.balanceLabels?.[item]
-                  || item.replace('체감속성_', '').replace(/_/g, ' ');
-                allLabels.add(displayName);
+                const displayName = userContext?.balanceLabels?.[item];
+                if (displayName) {
+                  allLabels.add(displayName);
+                }
               });
 
               const combinedTags = Array.from(allLabels);
@@ -953,9 +1040,18 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       )}
 
       {/* 제품 상세 모달 */}
-      {selectedProduct && (
+      {selectedProduct && (() => {
+        // 동적으로 분석 데이터 주입 (캐시 로딩 후에도 최신 데이터 표시)
+        const analysis = productAnalysisData[selectedProduct.product.id];
+        const dynamicProductData = {
+          ...selectedProduct,
+          additionalPros: analysis?.additionalPros || selectedProduct.additionalPros,
+          cons: analysis?.cons || selectedProduct.cons,
+          purchaseTip: analysis?.purchaseTip || selectedProduct.purchaseTip,
+        };
+        return (
         <ProductDetailModal
-          productData={selectedProduct}
+          productData={dynamicProductData}
           onClose={() => {
             setSelectedProduct(null);
             setSelectedProductVariants([]);
@@ -1032,7 +1128,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             }
           }}
         />
-      )}
+        );
+      })()}
 
       {/* Toast notification for favorites */}
       <Toast

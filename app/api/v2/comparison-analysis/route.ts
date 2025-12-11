@@ -206,25 +206,63 @@ JSON만 응답하세요.`;
 }
 
 /**
- * Fallback: 카테고리 인사이트 기반
+ * Fallback: 카테고리 인사이트 기반 + 제품 스펙 기반 생성
  */
 function generateFallbackComparisons(
   products: ProductInfo[],
   insights: CategoryInsights
 ): ProductComparison[] {
   return products.map((p, i) => {
-    // 카테고리 장단점에서 순환하여 선택
-    const prosOffset = i % insights.pros.length;
-    const consOffset = i % insights.cons.length;
+    // 1. 스펙 기반 장점 생성 시도
+    const specBasedPros: string[] = [];
+    const specBasedCons: string[] = [];
+
+    if (p.spec) {
+      const spec = p.spec as Record<string, unknown>;
+
+      // 일반적인 장점 스펙 키워드 매핑
+      if (spec['용량']) specBasedPros.push(`${spec['용량']} 용량`);
+      if (spec['무게'] && typeof spec['무게'] === 'string' && spec['무게'].includes('g')) {
+        const weight = parseFloat(spec['무게'].toString());
+        if (weight < 1000) specBasedPros.push(`${spec['무게']} 가벼운 무게`);
+      }
+      if (spec['재질']) specBasedPros.push(`${spec['재질']} 재질`);
+      if (spec['기능'] || spec['부가기능']) {
+        const features = (spec['기능'] || spec['부가기능']) as string;
+        if (features.includes('보온')) specBasedPros.push('보온 기능 지원');
+        if (features.includes('분리')) specBasedPros.push('분리 세척 가능');
+        if (features.includes('무선')) specBasedPros.push('무선 사용 가능');
+      }
+
+      // 주의점: 정보 부족 시 일반적인 주의점
+      if (!spec['AS'] && !spec['보증기간']) specBasedCons.push('AS 정보 확인 필요');
+    }
+
+    // 2. 카테고리 인사이트에서 보충
+    const prosOffset = i % Math.max(1, insights.pros.length);
+    const consOffset = i % Math.max(1, insights.cons.length);
+
+    const insightPros = insights.pros.slice(prosOffset, prosOffset + 3).map(pro =>
+      pro.text.length > 35 ? pro.text.substring(0, 32) + '...' : pro.text
+    );
+    const insightCons = insights.cons.slice(consOffset, consOffset + 3).map(con =>
+      con.text.length > 35 ? con.text.substring(0, 32) + '...' : con.text
+    );
+
+    // 3. 스펙 기반 + 인사이트 기반 합쳐서 최대 3개
+    const finalPros = [...specBasedPros, ...insightPros].slice(0, 3);
+    const finalCons = [...specBasedCons, ...insightCons].slice(0, 3);
+
+    // 4. 비어있으면 기본값 제공
+    if (finalPros.length === 0) {
+      finalPros.push('추천 순위에 오른 제품입니다');
+    }
+    // 주의점이 없으면 빈 배열 유지 (일부러 생성하지 않음)
 
     return {
       pcode: p.pcode,
-      pros: insights.pros.slice(prosOffset, prosOffset + 3).map(pro =>
-        pro.text.length > 35 ? pro.text.substring(0, 32) + '...' : pro.text
-      ),
-      cons: insights.cons.slice(consOffset, consOffset + 3).map(con =>
-        con.text.length > 35 ? con.text.substring(0, 32) + '...' : con.text
-      ),
+      pros: finalPros,
+      cons: finalCons,
       comparison: i === 0
         ? '가장 종합적으로 높은 평가를 받은 제품입니다.'
         : `${i + 1}위 추천 제품입니다.`,
@@ -329,6 +367,21 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
 
     // Record 형태로 변환 (기존 API 호환 + 스펙 정보 포함)
     const productDetails: Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> }> = {};
+
+    // 잘못된 값 필터링 함수 (LLM이 "[]", "없음", 빈 문자열 등을 반환하는 경우)
+    const filterInvalidItems = (items: string[]): string[] => {
+      if (!Array.isArray(items)) return [];
+      return items.filter(item => {
+        if (!item || typeof item !== 'string') return false;
+        const trimmed = item.trim();
+        // 빈 문자열, "[]", "없음", "-" 등 무효한 값 제거
+        if (!trimmed) return false;
+        if (trimmed === '[]' || trimmed === '[ ]') return false;
+        if (trimmed === '없음' || trimmed === '-' || trimmed === 'N/A') return false;
+        return true;
+      });
+    };
+
     for (const comp of comparisons) {
       // 해당 제품의 스펙 정보 찾기
       const productData = products.find(p => p.pcode === comp.pcode);
@@ -337,8 +390,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
         : undefined;
 
       productDetails[comp.pcode] = {
-        pros: comp.pros,
-        cons: comp.cons,
+        pros: filterInvalidItems(comp.pros),
+        cons: filterInvalidItems(comp.cons),
         comparison: comp.comparison,
         specs: mergedSpecs,
       };

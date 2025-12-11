@@ -37,7 +37,7 @@ export interface ProductGroup<T extends ProductLike> {
 }
 
 /**
- * 타이틀 정규화 - 연도, 수량, 용량 등 제거
+ * 타이틀 정규화 - 연도, 수량, 용량, 단계 등 제거
  */
 export function normalizeTitle(title: string): string {
   let base = title;
@@ -45,14 +45,17 @@ export function normalizeTitle(title: string): string {
   // 1. 연도 제거: 2020, 2021, 2022, 2023, 2024, 2025 등
   base = base.replace(/20\d{2}\s*/g, '');
 
-  // 2. 수량/용량 제거: 60ml, 2개입, 150g, 3팩 등
+  // 2. 단계 제거: 1단계, 2단계, 3단계 등 (분유/이유식 연령별 단계)
+  base = base.replace(/\d+\s*단계\s*/g, '');
+
+  // 3. 수량/용량 제거: 60ml, 2개입, 150g, 3팩 등
   base = base.replace(/\d+\s*(ml|ML|g|kg|KG|매|개|팩|장|입|p|P|ea|EA)/gi, '');
 
-  // 3. [숫자...], (숫자...) 패턴 제거: [132매], (3개입) 등
+  // 4. [숫자...], (숫자...) 패턴 제거: [132매], (3개입) 등
   base = base.replace(/\[\d+[^\]]*\]/g, '');
   base = base.replace(/\(\d+[^)]*\)/g, '');
 
-  // 4. 연속 공백 정리
+  // 5. 연속 공백 정리
   base = base.replace(/\s+/g, ' ').trim();
 
   return base;
@@ -61,9 +64,16 @@ export function normalizeTitle(title: string): string {
 /**
  * 옵션 라벨 추출 - 정규화 전후 차이에서 옵션 정보 추출
  * 예: "헤겐 애착젖병 PPSU 150ml" → "150ml"
+ * 예: "앱솔루트 분유 1단계 800g" → "1단계 800g"
  */
 export function extractOptionLabel(title: string): string {
   const labels: string[] = [];
+
+  // 단계 추출 (분유/이유식 연령별)
+  const stageMatch = title.match(/(\d+)\s*단계/);
+  if (stageMatch) {
+    labels.push(`${stageMatch[1]}단계`);
+  }
 
   // 연도 추출
   const yearMatch = title.match(/20(\d{2})/);

@@ -167,7 +167,8 @@ export default function RecommendV2Page() {
   const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false); // 버튼 중복 클릭 방지
-  const [calculatingTimer, setCalculatingTimer] = useState(0); // 0.1초 단위 타이머
+  const [progress, setProgress] = useState(0); // 0~100 프로그레스
+  const [thinkingIndex, setThinkingIndex] = useState(0); // thinking 메시지 인덱스
   const [selectionReason, setSelectionReason] = useState<string>('');
 
   // Rule key / value → Korean label mappings (for display)
@@ -254,16 +255,30 @@ export default function RecommendV2Page() {
     }
   }, [isCalculating]);
 
-  // 타이머 관리 (0.01초 단위)
+  // 프로그레스 및 thinking 메시지 관리
   useEffect(() => {
     if (isCalculating) {
-      setCalculatingTimer(0); // 시작 시 리셋
+      setProgress(0);
+      setThinkingIndex(0);
+      let tickCount = 0;
+
       const interval = setInterval(() => {
-        setCalculatingTimer(prev => prev + 1);
-      }, 10); // 0.01초마다 증가
+        tickCount++;
+        // 프로그레스: 0.1초(10틱)마다 1% 증가, 95%까지 (API 완료 시 100%로 점프)
+        if (tickCount % 10 === 0) {
+          setProgress((prev: number) => {
+            if (prev < 95) {
+              return prev + 1;
+            }
+            return prev;
+          });
+        }
+        // thinking 메시지: 1.5초(150틱)마다 변경
+        if (tickCount % 150 === 0) {
+          setThinkingIndex((prev: number) => prev + 1);
+        }
+      }, 10); // 0.01초마다 (10ms)
       return () => clearInterval(interval);
-    } else {
-      setCalculatingTimer(0); // 종료 시 리셋
     }
   }, [isCalculating]);
 
@@ -538,10 +553,9 @@ export default function RecommendV2Page() {
         const shuffled = [...top10WithThumbnails].sort(() => Math.random() - 0.5);
         const productThumbnails = shuffled.slice(0, 5);
 
-        // 리뷰 분석 개수: 제품 총 개수 ± 랜덤(1~20)
+        // 리뷰 분석 개수: 제품 총 개수 + 랜덤(1~20)
         const randomOffset = Math.floor(Math.random() * 20) + 1;
-        const plusOrMinus = Math.random() > 0.5 ? 1 : -1;
-        const analyzedReviewCount = Math.max(1, currentProducts.length + (plusOrMinus * randomOffset));
+        const analyzedReviewCount = currentProducts.length + randomOffset;
 
         addMessage({
           role: 'system',
@@ -1246,10 +1260,11 @@ export default function RecommendV2Page() {
         };
       });
 
-      // 예산 필터링
+      // 예산 필터링 (다나와 최저가 우선 사용)
       const budgetFiltered = scored.filter(p => {
-        if (!p.price) return true;
-        return p.price >= budget.min && p.price <= budget.max;
+        const effectivePrice = p.lowestPrice ?? p.price;
+        if (!effectivePrice) return true;
+        return effectivePrice >= budget.min && effectivePrice <= budget.max;
       });
 
       // 점수 기준 정렬
@@ -1289,6 +1304,101 @@ export default function RecommendV2Page() {
       } catch (llmError) {
         console.warn('LLM recommendation failed, using score-based fallback:', llmError);
       }
+
+      // 3단계: 태그 정제 API 호출 (flash-lite로 중복제거, 한글화)
+      try {
+        // raw 태그 수집 (matchedRules 레이블 + 하드필터 매칭 레이블)
+        const productsWithRawTags = top3.map((p: ScoredProduct) => {
+          const rawTags: string[] = [];
+
+          // 1. matchedRules에서 balanceLabels 레이블 추가
+          (p.matchedRules || []).forEach((ruleKey: string) => {
+            const label = balanceLabels[ruleKey];
+            if (label) rawTags.push(label);
+          });
+
+          // 2. 하드필터: 사용자가 선택한 값 중 상품이 실제로 매칭하는 것만 추가
+          const allSelectedValues = Object.values(hardFilterAnswers).flat();
+          for (const value of allSelectedValues) {
+            if (value === 'any') continue;
+
+            const filterConditions = hardFilterDefinitions[value];
+            // 빈 조건이면 스킵 (사용자 선호이지 상품 속성 아님)
+            if (!filterConditions || Object.keys(filterConditions).length === 0) continue;
+
+            // 상품이 해당 조건을 만족하는지 확인
+            let matches = true;
+            for (const [path, condition] of Object.entries(filterConditions)) {
+              let productValue: unknown;
+
+              if (path.startsWith('filter_attrs.')) {
+                const attrKey = path.replace('filter_attrs.', '');
+                productValue = (p as ScoredProduct & { filter_attrs?: Record<string, unknown> }).filter_attrs?.[attrKey];
+              } else if (path.startsWith('spec.')) {
+                const specKey = path.replace('spec.', '');
+                productValue = p.spec?.[specKey];
+              } else if (path === 'brand') {
+                productValue = p.brand;
+              }
+
+              // 조건 체크
+              if (typeof condition === 'string') {
+                if (String(productValue) !== condition) {
+                  matches = false;
+                  break;
+                }
+              } else if (typeof condition === 'object' && condition !== null) {
+                const condObj = condition as { contains?: string; eq?: string | number };
+                if (condObj.contains !== undefined) {
+                  const strValue = String(productValue || '').toLowerCase();
+                  if (!strValue.includes(String(condObj.contains).toLowerCase())) {
+                    matches = false;
+                    break;
+                  }
+                }
+                if (condObj.eq !== undefined) {
+                  if (String(productValue) !== String(condObj.eq)) {
+                    matches = false;
+                    break;
+                  }
+                }
+              }
+            }
+
+            // 매칭되면 레이블 추가
+            if (matches) {
+              const label = hardFilterLabels[value];
+              if (label) rawTags.push(label);
+            }
+          }
+
+          return { pcode: p.pcode, rawTags };
+        });
+
+        const refineResponse = await fetch('/api/v2/refine-tags', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            products: productsWithRawTags,
+            categoryName,
+          }),
+        });
+
+        const refineResult = await refineResponse.json();
+
+        if (refineResult.success && refineResult.data?.refinedTags) {
+          top3 = top3.map((p: ScoredProduct) => ({
+            ...p,
+            refinedTags: refineResult.data.refinedTags[p.pcode] || [],
+          }));
+          console.log(`✅ Tags refined (${refineResult.data.generated_by})`);
+        }
+      } catch (refineError) {
+        console.warn('Tag refinement failed, using raw tags:', refineError);
+      }
+
+      setProgress(100); // 최종 완료
+      await new Promise(resolve => setTimeout(resolve, 500)); // 100% 표시를 위한 딜레이
 
       setScoredProducts(top3);
       setSelectionReason(finalSelectionReason);
@@ -2224,24 +2334,80 @@ export default function RecommendV2Page() {
             {messages.map(renderMessage)}
           </div>
 
-          {/* Calculating indicator - AI 말풍선과 동일한 왼쪽 정렬 */}
-          {isCalculating && (
-            <motion.div
-              ref={calculatingRef}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="w-full py-4"
-            >
-              <div className="w-full flex justify-start items-center gap-2">
-                <p className="px-1 py-1 text-base font-medium text-gray-600 shimmer-text">
-                  AI 추천 진행 중...
-                </p>
-                <span className="text-sm font-normal text-gray-500 tabular-nums shimmer-text">
-                  {(calculatingTimer / 100).toFixed(2)}s
+          {/* Calculating indicator - 중앙 정렬 + 비디오 + 프로그레스 */}
+          {isCalculating && (() => {
+            const thinkingMessages = [
+              `${categoryName} 제품 데이터 수집 중...`,
+              '인기 제품 순위 분석 중...',
+              '선택하신 조건과 매칭 중...',
+              '가격 대비 성능 비교 중...',
+              `${categoryName} 실사용 리뷰 분석 중...`,
+              '최적의 제품 조합 탐색 중...',
+              '추천 순위 계산 중...',
+              '최종 결과 검토 중...',
+            ];
+            const currentMessage = thinkingMessages[thinkingIndex % thinkingMessages.length];
+
+            return (
+              <motion.div
+                ref={calculatingRef}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full py-8 flex flex-col items-center justify-center"
+              >
+                {/* 캐릭터 비디오 */}
+                <div className="mb-4 rounded-2xl overflow-hidden bg-white">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{ width: 100, height: 100 }}
+                    className="object-contain"
+                  >
+                    <source src="/animations/character.mp4" type="video/mp4" />
+                  </video>
+                </div>
+
+                {/* 프로그레스 % */}
+                <span className="text-base font-medium text-gray-600 tabular-nums">
+                  {progress}%
                 </span>
-              </div>
-            </motion.div>
-          )}
+
+                {/* thinking 메시지 - 아래에서 위로 올라오는 애니메이션 */}
+                <div className="mt-3 h-6 overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={thinkingIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3, ease: 'easeOut' }}
+                      className="flex items-center gap-1.5 shimmer-text"
+                    >
+                      {/* 돋보기 아이콘 */}
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                      <span className="text-sm font-normal text-gray-400">
+                        {currentMessage}
+                      </span>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            );
+          })()}
 
           {/* 스페이서: 새 컴포넌트가 헤더 바로 아래로 스크롤될 수 있는 여백 (추천 완료 후 숨김) */}
           {scoredProducts.length === 0 && (

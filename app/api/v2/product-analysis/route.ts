@@ -234,11 +234,25 @@ JSON만 응답하세요.`;
       selectedConditionsEvaluation?: ConditionEvaluation[];
     };
 
+    // 잘못된 값 필터링 함수 (LLM이 "[]", "없음", 빈 문자열 등을 반환하는 경우)
+    const filterInvalidTextItems = <T extends { text: string }>(items: T[] | undefined): T[] => {
+      if (!Array.isArray(items)) return [];
+      return items.filter(item => {
+        if (!item || typeof item.text !== 'string') return false;
+        const trimmed = item.text.trim();
+        // 빈 문자열, "[]", "없음", "-" 등 무효한 값 제거
+        if (!trimmed) return false;
+        if (trimmed === '[]' || trimmed === '[ ]') return false;
+        if (trimmed === '없음' || trimmed === '-' || trimmed === 'N/A') return false;
+        return true;
+      });
+    };
+
     return {
       pcode: product.pcode,
-      additionalPros: parsed.additionalPros || [],
-      cons: parsed.cons || [],
-      purchaseTip: parsed.purchaseTip || [],
+      additionalPros: filterInvalidTextItems(parsed.additionalPros),
+      cons: filterInvalidTextItems(parsed.cons),
+      purchaseTip: filterInvalidTextItems(parsed.purchaseTip),
       selectedConditionsEvaluation: parsed.selectedConditionsEvaluation || [],
     };
   } catch (error) {

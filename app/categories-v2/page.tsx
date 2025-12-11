@@ -269,11 +269,13 @@ function CategoryCard({
   isSelected,
   onSelect,
   isLoading,
+  hasCompletedRecommendation,
 }: {
   category: UnifiedCategory;
   isSelected: boolean;
   onSelect: (category: UnifiedCategory) => void;
   isLoading: boolean;
+  hasCompletedRecommendation?: boolean;
 }) {
   return (
     <motion.button
@@ -304,6 +306,14 @@ function CategoryCard({
           {category.name}
         </span>
       </div>
+      {/* 추천 완료 태그 - 텍스트 아래 배치 */}
+      {hasCompletedRecommendation && !isLoading && (
+        <div className="mt-1 ml-7">
+          <span className="px-2 py-0.5 bg-white text-gray-500 text-[10px] font-medium rounded-full border border-gray-200">
+            추천 완료
+          </span>
+        </div>
+      )}
     </motion.button>
   );
 }
@@ -314,11 +324,13 @@ function GroupSection({
   selectedCategory,
   onCategorySelect,
   loadingCategoryId,
+  completedCategories,
 }: {
   group: DisplayGroup;
   selectedCategory: UnifiedCategory | null;
   onCategorySelect: (category: UnifiedCategory) => void;
   loadingCategoryId: string | null;
+  completedCategories: Set<string>;
 }) {
   if (group.categories.length === 0) return null;
 
@@ -338,6 +350,7 @@ function GroupSection({
             isSelected={selectedCategory?.id === category.id}
             onSelect={onCategorySelect}
             isLoading={loadingCategoryId === category.id}
+            hasCompletedRecommendation={completedCategories.has(category.id)}
           />
         ))}
       </div>
@@ -353,6 +366,7 @@ function AgeGroupSection({
   selectedCategory,
   onCategorySelect,
   loadingCategoryId,
+  completedCategories,
 }: {
   groupName: string;
   description?: string;
@@ -360,6 +374,7 @@ function AgeGroupSection({
   selectedCategory: UnifiedCategory | null;
   onCategorySelect: (category: UnifiedCategory) => void;
   loadingCategoryId: string | null;
+  completedCategories: Set<string>;
 }) {
   // Find matching UnifiedCategories from CATEGORY_GROUPS
   const categories = categoryIds
@@ -393,6 +408,7 @@ function AgeGroupSection({
             isSelected={selectedCategory?.id === category.id}
             onSelect={onCategorySelect}
             isLoading={loadingCategoryId === category.id}
+            hasCompletedRecommendation={completedCategories.has(category.id)}
           />
         ))}
       </div>
@@ -408,6 +424,7 @@ export default function CategoriesV2Page() {
   const [error, setError] = useState<string | null>(null);
   const [selectedAgeId, setSelectedAgeId] = useState<string>('all');
   const [loadingCategoryId, setLoadingCategoryId] = useState<string | null>(null);
+  const [completedCategories, setCompletedCategories] = useState<Set<string>>(new Set());
 
   // 현재 선택된 연령대 필터
   const selectedAgeFilter = AGE_FILTERS.find((f) => f.id === selectedAgeId) || AGE_FILTERS[0];
@@ -415,6 +432,24 @@ export default function CategoriesV2Page() {
   // 페이지뷰 로깅
   useEffect(() => {
     logPageView('categories-v2');
+  }, []);
+
+  // 세션 스토리지에서 추천 완료된 카테고리 확인
+  useEffect(() => {
+    const completed = new Set<string>();
+
+    // 모든 카테고리 ID를 순회하며 세션 스토리지에 결과가 있는지 확인
+    CATEGORY_GROUPS.forEach((group) => {
+      group.categories.forEach((category) => {
+        const resultKey = `v2_result_${category.id}`;
+        const hasResult = sessionStorage.getItem(resultKey);
+        if (hasResult) {
+          completed.add(category.id);
+        }
+      });
+    });
+
+    setCompletedCategories(completed);
   }, []);
 
   // Supabase 카테고리 데이터 로드
@@ -566,6 +601,7 @@ export default function CategoriesV2Page() {
                 selectedCategory={selectedCategory}
                 onCategorySelect={handleCategorySelect}
                 loadingCategoryId={loadingCategoryId}
+                completedCategories={completedCategories}
               />
             ))
           ) : (
@@ -579,6 +615,7 @@ export default function CategoriesV2Page() {
                 selectedCategory={selectedCategory}
                 onCategorySelect={handleCategorySelect}
                 loadingCategoryId={loadingCategoryId}
+                completedCategories={completedCategories}
               />
             ))
           )}
