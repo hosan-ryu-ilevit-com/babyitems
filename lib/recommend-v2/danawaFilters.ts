@@ -214,7 +214,7 @@ function createBrandQuestion(
   }));
 
   options.push({
-    label: '상관없어요',
+    label: '전부 좋아요 👍',
     displayLabel: '브랜드 무관',
     value: 'any',
     filter: {},
@@ -278,9 +278,9 @@ function convertFilterToQuestion(
         },
   }));
 
-  // "상관없어요" 옵션 추가 (displayLabel에 맥락 포함)
+  // "전부 좋아요" 옵션 추가 (displayLabel에 맥락 포함)
   options.push({
-    label: '상관없어요',
+    label: '전부 좋아요 👍',
     displayLabel: `${filter.filter_name} 무관`,
     value: 'any',
     filter: {},
@@ -402,9 +402,9 @@ function isValidFilterQuestion(
 ): boolean {
   const isFeatureFilter = FEATURES_ARRAY_FILTERS.includes(filterName);
 
-  // "상관없어요" 제외한 옵션들 중 매칭되는 제품이 있는 옵션 수 계산
+  // "전부 좋아요" 제외한 옵션들 중 매칭되는 제품이 있는 옵션 수 계산
   const validOptionCount = question.options.filter(opt => {
-    if (opt.value === 'any' || opt.label === '상관없어요') return false;
+    if (opt.value === 'any' || opt.label.includes('전부 좋아요') || opt.label === '상관없어요') return false;
     const count = countProductsForFilterOption(products, filterName, opt.label, isFeatureFilter);
     return count > 0;
   }).length;

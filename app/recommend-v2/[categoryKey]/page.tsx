@@ -618,19 +618,27 @@ export default function RecommendV2Page() {
     // 선택만 하고 다음 단계로 진행하지 않음
   }, []);
 
+  // "전부 좋아요" 클릭 시 - 전체 선택 (필터링 없이 진행)
+  const handleSubCategorySelectAll = useCallback(() => {
+    setSelectedSubCategoryCode('__all__');
+  }, []);
+
   // 하위 카테고리 확정 후 다음 단계로 진행
   const handleSubCategoryConfirm = useCallback(async () => {
     if (!selectedSubCategoryCode || isTransitioning) return;
     setIsTransitioning(true);
 
     const code = selectedSubCategoryCode;
+    const isSelectAll = code === '__all__';
     setShowSubCategorySelector(false);
 
     // Find the selected sub-category name
     const selectedSub = subCategoryConfig?.sub_categories.find(s => s.code === code);
 
     // Log sub-category selection
-    if (selectedSub) {
+    if (isSelectAll) {
+      logV2SubCategorySelected(categoryKey, categoryName, '__all__', '전체');
+    } else if (selectedSub) {
       logV2SubCategorySelected(categoryKey, categoryName, code, selectedSub.name);
     }
     const filterBy = subCategoryConfig?.filter_by || 'category_code';
@@ -642,10 +650,12 @@ export default function RecommendV2Page() {
 
     // Reload hard filters for this specific sub-category
     try {
-      // category_code 필터일 때만 subCategoryCode 전달
-      const rulesUrl = filterBy === 'category_code'
-        ? `/api/v2/rules/${categoryKey}?subCategoryCode=${code}`
-        : `/api/v2/rules/${categoryKey}`;
+      // "전부 좋아요" 선택 시 필터 없이 전체 로드
+      const rulesUrl = isSelectAll
+        ? `/api/v2/rules/${categoryKey}`
+        : filterBy === 'category_code'
+          ? `/api/v2/rules/${categoryKey}?subCategoryCode=${code}`
+          : `/api/v2/rules/${categoryKey}`;
       const rulesRes = await fetch(rulesUrl);
       const rulesJson = await rulesRes.json();
 
@@ -658,35 +668,43 @@ export default function RecommendV2Page() {
         setHardFilterConfig(loadedHardFilterConfig);
       }
 
-      // Reload products for this sub-category
-      // filter_by에 따라 다른 필터링 방식 사용
-      const productsBody = filterBy === 'category_code'
-        ? {
-            categoryKey,
-            limit: 500,  // 충분히 큰 값으로 실제 개수 로드
-            targetCategoryCodes: [code],
-          }
-        : {
-            categoryKey,
-            limit: 500,
-            filterAttribute: {
-              key: filterKey,
-              value: code,
-            },
-          };
-
-      const productsRes = await fetch('/api/v2/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(productsBody),
-      });
-      const productsJson = await productsRes.json();
-
-      if (productsJson.success) {
-        loadedProducts = productsJson.data.products;
+      // "전부 좋아요" 선택 시 이미 로드된 전체 제품 사용
+      if (isSelectAll) {
+        loadedProducts = allCategoryProducts;
         setProducts(loadedProducts);
         setFilteredProducts(loadedProducts);
-        console.log('📦 Products loaded for sub-category:', loadedProducts.length);
+        console.log('📦 All products loaded (no subcategory filter):', loadedProducts.length);
+      } else {
+        // Reload products for this sub-category
+        // filter_by에 따라 다른 필터링 방식 사용
+        const productsBody = filterBy === 'category_code'
+          ? {
+              categoryKey,
+              limit: 500,  // 충분히 큰 값으로 실제 개수 로드
+              targetCategoryCodes: [code],
+            }
+          : {
+              categoryKey,
+              limit: 500,
+              filterAttribute: {
+                key: filterKey,
+                value: code,
+              },
+            };
+
+        const productsRes = await fetch('/api/v2/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productsBody),
+        });
+        const productsJson = await productsRes.json();
+
+        if (productsJson.success) {
+          loadedProducts = productsJson.data.products;
+          setProducts(loadedProducts);
+          setFilteredProducts(loadedProducts);
+          console.log('📦 Products loaded for sub-category:', loadedProducts.length);
+        }
       }
     } catch (error) {
       console.error('Sub-category load error:', error);
@@ -734,7 +752,7 @@ export default function RecommendV2Page() {
         setIsTransitioning(false);
       }, 300);
     }
-  }, [selectedSubCategoryCode, isTransitioning, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage]);
+  }, [selectedSubCategoryCode, isTransitioning, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage, allCategoryProducts]);
 
   // ===================================================
   // Step 1: Hard Filter Selection (다중 선택 지원)
@@ -1612,10 +1630,7 @@ export default function RecommendV2Page() {
                 subCategories={subCatData.subCategories}
                 selectedCode={selectedSubCategoryCode}
                 onSelect={handleSubCategoryClick}
-                products={allCategoryProducts}
-                showProductCounts={true}
-                filterBy={subCategoryConfig?.filter_by || 'category_code'}
-                filterKey={subCategoryConfig?.filter_key}
+                onSelectAll={handleSubCategorySelectAll}
               />
             </div>
           );

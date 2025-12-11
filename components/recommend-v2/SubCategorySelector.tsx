@@ -2,8 +2,6 @@
 
 import { motion } from 'framer-motion';
 
-import type { ProductItem } from '@/types/recommend-v2';
-
 interface SubCategory {
   code: string;
   name: string;
@@ -16,30 +14,7 @@ interface SubCategorySelectorProps {
   subCategories: SubCategory[];
   selectedCode: string | null;
   onSelect: (code: string) => void;
-  products?: ProductItem[];
-  showProductCounts?: boolean;
-  filterBy?: string;
-  filterKey?: string;
-}
-
-/**
- * 하위 카테고리별 제품 개수 계산
- */
-function countProductsForSubCategory(
-  products: ProductItem[],
-  subCategoryCode: string,
-  filterBy: string,
-  filterKey?: string
-): number {
-  return products.filter(product => {
-    if (filterBy === 'category_code') {
-      return product.category_code === subCategoryCode;
-    } else if (filterKey && product.filter_attrs) {
-      const attrValue = product.filter_attrs[filterKey];
-      return String(attrValue) === subCategoryCode;
-    }
-    return false;
-  }).length;
+  onSelectAll?: () => void;
 }
 
 /**
@@ -51,11 +26,9 @@ export function SubCategorySelector({
   subCategories,
   selectedCode,
   onSelect,
-  products,
-  showProductCounts = false,
-  filterBy = 'category_code',
-  filterKey,
+  onSelectAll,
 }: SubCategorySelectorProps) {
+  const isAllSelected = selectedCode === '__all__';
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -78,11 +51,7 @@ export function SubCategorySelector({
       {/* 선택지 그리드 */}
       <div className="grid grid-cols-2 gap-3">
         {subCategories.map((sub, index) => {
-          const isSelected = selectedCode === sub.code;
-
-          const productCount = showProductCounts && products
-            ? countProductsForSubCategory(products, sub.code, filterBy, filterKey)
-            : null;
+          const isSelected = selectedCode === sub.code && !isAllSelected;
 
           return (
             <motion.button
@@ -97,29 +66,44 @@ export function SubCategorySelector({
                   : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
               }`}
             >
-              <div className="flex items-center justify-between">
-                {/* 이름 */}
-                <span
-                  className={`text-sm font-semibold ${
-                    isSelected ? 'text-emerald-700' : 'text-gray-800'
-                  }`}
-                >
-                  {sub.name}
-                </span>
-
-                {/* 제품 개수 */}
-                {productCount !== null && (
-                  <span className={`text-xs font-medium ${
-                    isSelected ? 'text-emerald-500' : 'text-gray-400'
-                  }`}>
-                    {productCount}개
-                  </span>
-                )}
-              </div>
+              <span
+                className={`text-sm font-semibold ${
+                  isSelected ? 'text-emerald-700' : 'text-gray-800'
+                }`}
+              >
+                {sub.name}
+              </span>
             </motion.button>
           );
         })}
       </div>
+
+      {/* 전부 좋아요 버튼 */}
+      {onSelectAll && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: subCategories.length * 0.05 + 0.1 }}
+          className="flex justify-center mt-1"
+        >
+          <button
+            onClick={onSelectAll}
+            className={`px-4 py-3 rounded-xl border-2 transition-all ${
+              isAllSelected
+                ? 'border-emerald-400 bg-emerald-50'
+                : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
+            }`}
+          >
+            <span
+              className={`text-sm font-semibold ${
+                isAllSelected ? 'text-emerald-700' : 'text-gray-800'
+              }`}
+            >
+              전부 좋아요 👍
+            </span>
+          </button>
+        </motion.div>
+      )}
     </motion.div>
   );
 }

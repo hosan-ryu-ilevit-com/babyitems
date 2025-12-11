@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { HardFilterData, ProductItem } from '@/types/recommend-v2';
 
-// "상관없어요" 옵션 값 (이 값을 가진 옵션이 선택되면 다른 옵션 비활성화)
-const SKIP_VALUES = ['skip', 'any', '상관없어요', 'none', 'all'];
+// "전부 좋아요" 옵션 값 (이 값을 가진 옵션이 선택되면 다른 옵션 비활성화)
+const SKIP_VALUES = ['skip', 'any', '상관없어요', '전부 좋아요', 'none', 'all'];
 
 // 인기 옵션 정보
 interface PopularOption {
@@ -34,8 +34,8 @@ function countProductsForOption(
   products: ProductItem[],
   option: { value: string; filter?: Record<string, unknown>; category_code?: string }
 ): number {
-  // "상관없어요" 옵션은 전체 개수 반환
-  if (SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없')) {
+  // "전부 좋아요" 옵션은 전체 개수 반환
+  if (SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없') || option.value.includes('전부 좋아요')) {
     return products.length;
   }
 
@@ -115,7 +115,7 @@ function countProductsForOption(
 /**
  * 하드 필터 질문 컴포넌트 (다중 선택 지원)
  * - 복수 선택 가능
- * - "상관없어요" 선택 시 다른 옵션 비활성화
+ * - "전부 좋아요" 선택 시 다른 옵션 비활성화
  * - 플로팅 버튼으로 이전/다음 진행 (내부 버튼 제거됨)
  */
 export function HardFilterQuestion({
@@ -140,19 +140,19 @@ export function HardFilterQuestion({
     }
   }, [initialValues]);
 
-  // "상관없어요" 옵션이 선택되었는지 확인
+  // "전부 좋아요" 옵션이 선택되었는지 확인
   const isSkipSelected = localSelectedValues.some(v =>
-    SKIP_VALUES.includes(v.toLowerCase()) || v.includes('상관없')
+    SKIP_VALUES.includes(v.toLowerCase()) || v.includes('상관없') || v.includes('전부 좋아요')
   );
 
   // 옵션 클릭 핸들러
   const handleOptionClick = (optionValue: string) => {
-    const isSkipOption = SKIP_VALUES.includes(optionValue.toLowerCase()) || optionValue.includes('상관없');
+    const isSkipOption = SKIP_VALUES.includes(optionValue.toLowerCase()) || optionValue.includes('상관없') || optionValue.includes('전부 좋아요');
 
     let newValues: string[];
 
     if (isSkipOption) {
-      // "상관없어요" 클릭: 토글 (선택 시 다른 모든 선택 해제)
+      // "전부 좋아요" 클릭: 토글 (선택 시 다른 모든 선택 해제)
       if (localSelectedValues.includes(optionValue)) {
         newValues = []; // 이미 선택되어 있으면 해제
       } else {
@@ -161,7 +161,7 @@ export function HardFilterQuestion({
     } else {
       // 일반 옵션 클릭
       if (isSkipSelected) {
-        // "상관없어요"가 선택된 상태면 무시 (비활성화)
+        // "전부 좋아요"가 선택된 상태면 무시 (비활성화)
         return;
       }
 
@@ -226,7 +226,7 @@ export function HardFilterQuestion({
       <div className="space-y-2">
         {question.options.map((option, index) => {
           const isSelected = localSelectedValues.includes(option.value);
-          const isSkipOption = SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없');
+          const isSkipOption = SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없') || option.value.includes('전부 좋아요');
           const isDisabled = isSkipSelected && !isSkipOption;
 
           // 인기 옵션인지 확인 (해당 질문의 상위 3개)
@@ -240,7 +240,7 @@ export function HardFilterQuestion({
             ? countProductsForOption(products, option)
             : null;
 
-          // 0개인 옵션은 숨김 (단, "상관없어요" 같은 skip 옵션은 항상 표시)
+          // 0개인 옵션은 숨김 (단, "전부 좋아요" 같은 skip 옵션은 항상 표시)
           if (productCount === 0 && !isSkipOption) {
             return null;
           }
