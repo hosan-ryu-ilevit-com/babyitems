@@ -98,8 +98,7 @@ export function convertDanawaFiltersToHardFilters(
   categoryKey: string,
   targetCategoryCodes?: string[],
   maxQuestions: number = 4,
-  products?: DanawaProduct[],
-  forAdmin?: boolean
+  products?: DanawaProduct[]
 ): HardFilterQuestion[] {
   // 특정 세부 카테고리가 지정된 경우 해당 코드만 사용
   const categoryCodes = targetCategoryCodes || CATEGORY_CODE_MAP[categoryKey] || [];
@@ -144,7 +143,7 @@ export function convertDanawaFiltersToHardFilters(
   const questions: HardFilterQuestion[] = [];
 
   for (const filter of sortedFilters.slice(0, maxQuestions)) {
-    const question = convertFilterToQuestion(filter, categoryKey, questions.length, products, forAdmin);
+    const question = convertFilterToQuestion(filter, categoryKey, questions.length, products);
     if (question) {
       questions.push(question);
     }
@@ -204,8 +203,8 @@ function createBrandQuestion(
     return null;
   }
 
-  // 상위 6개 브랜드만 표시
-  const displayBrands = brands.slice(0, 6);
+  // 모든 브랜드 표시
+  const displayBrands = brands;
 
   const options: HardFilterOption[] = displayBrands.map(brand => ({
     label: brand,
@@ -233,14 +232,12 @@ function createBrandQuestion(
  * 단일 다나와 필터를 하드필터 질문으로 변환
  * - products가 제공되면 제품 데이터에서 옵션 값 추출 (권장)
  * - products가 없으면 다나와 필터 옵션 사용 (fallback)
- * - forAdmin이 true면 모든 옵션 표시 (제한 없음)
  */
 function convertFilterToQuestion(
   filter: DanawaFilter,
   categoryKey: string,
   index: number,
-  products?: DanawaProduct[],
-  forAdmin?: boolean
+  products?: DanawaProduct[]
 ): HardFilterQuestion | null {
   const questionText = FILTER_QUESTION_MAP[filter.filter_name] || `${filter.filter_name}을(를) 선택해주세요`;
 
@@ -254,11 +251,11 @@ function convertFilterToQuestion(
       // 값이 2개 미만이면 필터링 의미 없음
       return null;
     }
-    // 어드민에서는 모든 옵션, 일반에서는 상위 6개만
-    displayOptions = forAdmin ? uniqueValues : uniqueValues.slice(0, 6);
+    // 모든 옵션 표시
+    displayOptions = uniqueValues;
   } else {
     // 다나와 필터 옵션 사용 (fallback)
-    displayOptions = forAdmin ? filter.options : filter.options.slice(0, 6);
+    displayOptions = filter.options;
   }
 
   // 필터링 방식 결정
@@ -470,8 +467,7 @@ export async function generateHardFiltersForCategory(
     categoryKey,
     targetCategoryCodes,
     10,  // 더 많이 생성 (유효성 검사 후 필터링됨)
-    categoryProducts,  // 제품 데이터 전달 → 옵션 값을 실제 데이터에서 추출
-    forAdmin  // 어드민에서는 모든 옵션 표시
+    categoryProducts  // 제품 데이터 전달 → 옵션 값을 실제 데이터에서 추출
   );
 
   // 3. 유효한 질문만 필터링 (실제 제품 데이터가 있는 필터만)

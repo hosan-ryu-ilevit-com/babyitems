@@ -59,7 +59,6 @@ import {
   logV2PageView,
   logV2SubCategorySelected,
   logV2HardFilterAnswer,
-  logV2HardFilterCustomInput,
   logV2HardFilterCompleted,
   logV2CheckpointViewed,
   logV2BalanceSelection,
@@ -1673,17 +1672,6 @@ export default function RecommendV2Page() {
                 onSelect={handleHardFilterSelect}
                 products={products}
                 showProductCounts={true}
-                onCustomInputSubmit={(questionId, customText) => {
-                  logV2HardFilterCustomInput(
-                    categoryKey,
-                    categoryName,
-                    questionId,
-                    hfData.question.question,
-                    hfData.currentIndex,
-                    hfData.totalCount,
-                    customText
-                  );
-                }}
                 popularOptions={popularHardFilterOptions}
               />
             </div>
@@ -2470,7 +2458,7 @@ export default function RecommendV2Page() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.4, ease: 'easeOut' }}
-                        className="text-sm font-medium text-gray-500 block"
+                        className="text-sm font-semibold text-gray-500 block"
                       >
                         {currentMessage}
                       </motion.span>
