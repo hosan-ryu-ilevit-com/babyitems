@@ -279,8 +279,8 @@ export function HomeContent() {
               style={{ backgroundColor: '#0084FE' }}
             >
               <span className="flex items-baseline gap-2.5">
-                <span>1분만에 추천받기</span>
-                <span className="text-xs font-light text-white/80">with AI</span>
+                <span>1분 만에 추천받기</span>
+                <span className="text-xs font-light text-white/90">AI</span>
               </span>
             </button>
           </Link>

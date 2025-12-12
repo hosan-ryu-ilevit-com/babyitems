@@ -519,7 +519,7 @@ export async function generateHardFiltersForCategory(
   if (BRAND_FILTER_CATEGORIES.includes(categoryKey)) {
     const brandQuestion = createBrandQuestion(categoryKey, categoryProducts, validQuestions.length);
     if (brandQuestion) {
-      validQuestions.unshift(brandQuestion);  // 브랜드 질문을 맨 앞에 추가
+      validQuestions.push(brandQuestion);  // 브랜드 질문을 맨 뒤에 추가
     }
   }
 

@@ -64,13 +64,9 @@
     }
   },
   "stroller": {
-    "hf_stroller_브랜드_1": {
-      "hidden": false,
-      "order": 0
-    },
     "hf_stroller_출시년도_0": {
       "hidden": false,
-      "order": 1,
+      "order": 0,
       "optionOrder": [
         "2019년_이전",
         "2019년",
@@ -82,16 +78,16 @@
         "2025년",
         "any"
       ]
+    },
+    "hf_stroller_브랜드_1": {
+      "hidden": false,
+      "order": 99
     }
   },
   "car_seat": {
-    "hf_car_seat_브랜드_2": {
-      "hidden": false,
-      "order": 0
-    },
     "hf_car_seat_허용무게_0": {
       "hidden": false,
-      "order": 1,
+      "order": 0,
       "optionOrder": [
         "9~18kg까지",
         "15~36kg",
@@ -126,12 +122,16 @@
     },
     "hf_car_seat_벨트타입_1": {
       "hidden": false,
-      "order": 2,
+      "order": 1,
       "optionOrder": [
         "3점식벨트",
         "5점식벨트",
         "any"
       ]
+    },
+    "hf_car_seat_브랜드_2": {
+      "hidden": false,
+      "order": 99
     }
   },
   "formula": {
