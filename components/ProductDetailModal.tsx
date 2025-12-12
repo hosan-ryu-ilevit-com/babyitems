@@ -384,6 +384,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
           </h2>
           {/* 가격 - 다나와 최저가 우선, 없으면 product.price */}
           <div className="text-2xl font-bold text-gray-900 mb-2">
+            <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
             {(danawaData?.lowestPrice || productData.product.price).toLocaleString()}원
           </div>
           
@@ -460,7 +461,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                     transition={{ duration: 0.25, ease: 'easeInOut' }}
                     className="space-y-2 overflow-hidden"
                   >
-                    {danawaData.prices.slice(3, 10).map((priceInfo, index) => (
+                    {danawaData.prices.slice(3).map((priceInfo, index) => (
                       <a
                         key={index + 3}
                         href={priceInfo.link || '#'}

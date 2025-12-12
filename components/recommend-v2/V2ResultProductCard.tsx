@@ -88,10 +88,16 @@ export function V2ResultProductCard({
               <div className="flex items-center gap-1.5">
                 <p className="text-lg font-bold text-gray-900">
                   {/* 다나와 최저가가 있으면 해당 가격 사용, 없으면 product.price */}
+                  <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
                   {(hasLowestPrice ? danawaPrice!.lowest_price! : product.price!).toLocaleString()}<span className="text-sm">원</span>
                 </p>
                 {hasLowestPrice && danawaPrice!.mall_prices && danawaPrice!.mall_prices.length > 0 && (
-                  <span className="text-xs text-gray-400">(판매처 {danawaPrice!.mall_prices.length}개)</span>
+                  <span className="inline-flex items-center text-xs font-semibold text-red-500">
+                    가격비교 ({danawaPrice!.mall_prices.length})
+                    <svg className="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
                 )}
               </div>
             </div>

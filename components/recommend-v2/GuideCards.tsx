@@ -14,6 +14,7 @@ interface GuideCardsProps {
   onTabChange?: (tab: 'pros' | 'cons', tabLabel: string) => void; // 탭 변경 시 콜백 (로깅용)
   onToggle?: (type: 'pros' | 'cons', isOpen: boolean) => void; // 토글 열기/닫기 시 콜백 (로깅용)
   disabled?: boolean; // 버튼 비활성화 (로딩 중 클릭 방지)
+  categoryName?: string; // 카테고리 이름 (토글 제목에 표시)
 }
 
 interface CardData {
@@ -106,7 +107,7 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
   return <span className="whitespace-pre-wrap">{displayedContent}</span>;
 }
 
-export function GuideCards({ data, introMessage, onNext, isActive = true, enableTyping = true, onTabChange, onToggle, disabled = false }: GuideCardsProps) {
+export function GuideCards({ data, introMessage, onNext, isActive = true, enableTyping = true, onTabChange, onToggle, disabled = false, categoryName }: GuideCardsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isTypingComplete, setIsTypingComplete] = useState(!enableTyping);
@@ -368,7 +369,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                     const newState = !isProsOpen;
                     setIsProsOpen(newState);
                     onToggle?.('pros', newState);
-                    onTabChange?.('pros', '주요 구매 포인트');
+                    onTabChange?.('pros', `${categoryName || ''} 주요 만족 포인트`);
                   }}
                   className={`w-full px-4 py-3 rounded-xl border-2 transition-all text-left ${
                     isProsOpen
@@ -378,9 +379,9 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-green-500 font-bold">✓</span>
+                      <span className="text-green-500 font-bold w-4 text-center">✓</span>
                       <span className={`text-sm font-semibold ${isProsOpen ? 'text-green-700' : 'text-gray-700'}`}>
-                        주요 구매 포인트
+                        {categoryName && <span className="font-bold">{categoryName}</span>} 주요 만족 포인트
                       </span>
                     </div>
                     <motion.svg
@@ -441,7 +442,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                     const newState = !isConsOpen;
                     setIsConsOpen(newState);
                     onToggle?.('cons', newState);
-                    onTabChange?.('cons', '주요 불만 포인트');
+                    onTabChange?.('cons', `${categoryName || ''} 주요 불만 포인트`);
                   }}
                   className={`w-full px-4 py-3 rounded-xl border-2 transition-all text-left ${
                     isConsOpen
@@ -451,9 +452,9 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-rose-400 font-bold">!</span>
+                      <span className="text-rose-400 font-bold w-4 text-center">!</span>
                       <span className={`text-sm font-semibold ${isConsOpen ? 'text-rose-700' : 'text-gray-700'}`}>
-                        주요 불만 포인트
+                        {categoryName && <span className="font-bold">{categoryName}</span>} 주요 불만 포인트
                       </span>
                     </div>
                     <motion.svg

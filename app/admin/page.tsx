@@ -972,7 +972,6 @@ export default function AdminPage() {
                   const funnelSteps = [
                     { label: '홈 페이지뷰', data: currentCampaign.funnel.homePageViews, color: 'bg-blue-500' },
                     { label: '📋 버튼 → categories-v2', data: currentCampaign.funnel.categoriesV2Entry, color: 'bg-blue-400', isEntryPath: true },
-                    { label: '🎠 캐러셀 → 직접 진입', data: currentCampaign.funnel.carouselDirectEntry, color: 'bg-cyan-400', isEntryPath: true },
                     { label: 'recommend-v2 진입 (총합)', data: currentCampaign.funnel.recommendV2Entry, color: 'bg-indigo-500' },
                     { label: '하드필터 완료', data: currentCampaign.funnel.hardFilterCompleted, color: 'bg-purple-400' },
                     { label: '체크포인트 확인', data: currentCampaign.funnel.checkpointViewed, color: 'bg-pink-500' },
@@ -990,9 +989,9 @@ export default function AdminPage() {
                         <p className="text-3xl font-bold text-emerald-600">{currentCampaign.totalSessions}</p>
                       </div>
 
-                      {/* 10단계 퍼널 시각화 (진입경로 분리) */}
+                      {/* 9단계 퍼널 시각화 (진입경로 분리) */}
                       <div className="bg-white border border-gray-200 rounded-lg p-6">
-                        <h3 className="text-base font-bold text-gray-900 mb-4">V2 New 사용자 여정 퍼널 (10단계)</h3>
+                        <h3 className="text-base font-bold text-gray-900 mb-4">V2 New 사용자 여정 퍼널 (9단계)</h3>
                         <div className="space-y-3">
                           {funnelSteps.map((step, index) => (
                             <div key={index}>
@@ -1010,26 +1009,6 @@ export default function AdminPage() {
                           ))}
                         </div>
                       </div>
-
-                      {/* 하드필터 질문별 이탈률 */}
-                      {currentCampaign.hardFilterDropoff && currentCampaign.hardFilterDropoff.length > 0 && (
-                        <div className="bg-white border border-gray-200 rounded-lg p-6">
-                          <h3 className="text-base font-bold text-gray-900 mb-4">하드필터 질문별 이탈률</h3>
-                          <div className="space-y-2">
-                            {currentCampaign.hardFilterDropoff.map((item, index) => (
-                              <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                                <span className="text-sm text-gray-700">Q{item.questionIndex + 1}: {item.questionText}</span>
-                                <div className="flex items-center gap-4">
-                                  <span className="text-xs text-gray-500">{item.enteredCount} → {item.completedCount}</span>
-                                  <span className={`text-sm font-medium ${item.dropoffRate > 30 ? 'text-red-600' : item.dropoffRate > 15 ? 'text-yellow-600' : 'text-green-600'}`}>
-                                    -{item.dropoffRate}%
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
 
                       {/* 단계별 소요 시간 */}
                       {currentCampaign.avgTimePerStep && (

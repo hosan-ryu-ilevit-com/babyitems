@@ -170,7 +170,6 @@ export default function RecommendV2Page() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false); // 버튼 중복 클릭 방지
   const [progress, setProgress] = useState(0); // 0~100 프로그레스
-  const [thinkingIndex, setThinkingIndex] = useState(0); // thinking 메시지 인덱스
   const [selectionReason, setSelectionReason] = useState<string>('');
 
   // Rule key / value → Korean label mappings (for display)
@@ -257,29 +256,31 @@ export default function RecommendV2Page() {
     }
   }, [isCalculating]);
 
-  // 프로그레스 및 thinking 메시지 관리
+  // 프로그레스는 항상 증가만 (뒤로 가지 않음)
+  const setProgressSafe = useCallback((value: number) => {
+    setProgress((prev: number) => Math.max(prev, value));
+  }, []);
+
+  // 프로그레스 관리: 시간 기반으로 1%씩 계속 증가 (99%까지)
+  // 단계별 점프는 handleGetRecommendation에서 setProgressSafe()로 직접 설정
   useEffect(() => {
     if (isCalculating) {
+      // 시작 시 0으로 초기화
       setProgress(0);
-      setThinkingIndex(0);
       let tickCount = 0;
 
       const interval = setInterval(() => {
         tickCount++;
-        // 프로그레스: 0.1초(10틱)마다 1% 증가, 95%까지 (API 완료 시 100%로 점프)
+        // 프로그레스: 0.1초(10틱)마다 1% 증가, 99%까지 (총 ~10초)
         if (tickCount % 10 === 0) {
           setProgress((prev: number) => {
-            if (prev < 95) {
+            if (prev < 99) {
               return prev + 1;
             }
             return prev;
           });
         }
-        // thinking 메시지: 1.5초(150틱)마다 변경
-        if (tickCount % 150 === 0) {
-          setThinkingIndex((prev: number) => prev + 1);
-        }
-      }, 10); // 0.01초마다 (10ms)
+      }, 10); // 10ms마다
       return () => clearInterval(interval);
     }
   }, [isCalculating]);
@@ -1284,11 +1285,19 @@ export default function RecommendV2Page() {
 
   const handleGetRecommendation = useCallback(async () => {
     setIsCalculating(true);
+    // progress는 useEffect에서 0으로 초기화됨
 
     // Log recommendation requested
     logV2RecommendationRequested(categoryKey, categoryName, budget.min, budget.max, filteredProducts.length);
 
     try {
+      // 단계별 딜레이로 자연스러운 프로그레스 표시 (초반은 낮게, API 구간은 넓게)
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setProgressSafe(3); // 데이터 준비 시작
+
+      await new Promise(resolve => setTimeout(resolve, 300));
+      setProgressSafe(8); // 점수 계산 시작
+
       // 1단계: 기존 점수 계산 (후보 선정용)
       const scored: ScoredProduct[] = filteredProducts.map(product => {
         const { score: baseScore, matchedRules } = calculateBalanceScore(
@@ -1323,8 +1332,14 @@ export default function RecommendV2Page() {
       // 점수 기준 정렬
       const sorted = budgetFiltered.sort((a, b) => b.totalScore - a.totalScore);
 
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setProgressSafe(12); // 1단계 완료: 점수 계산 완료
+
       // 2단계: LLM 기반 최종 추천 API 호출 (상위 15개 후보로)
       const candidateProducts = sorted.slice(0, 15);
+
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setProgressSafe(15); // LLM API 호출 시작
 
       let top3 = candidateProducts.slice(0, 3);
       let finalSelectionReason = '';
@@ -1358,7 +1373,10 @@ export default function RecommendV2Page() {
         console.warn('LLM recommendation failed, using score-based fallback:', llmError);
       }
 
+      setProgressSafe(55); // 2단계 완료: LLM 추천 완료
+
       // 3단계: 태그 정제 API 호출 (flash-lite로 중복제거, 한글화)
+      setProgressSafe(60); // 태그 정제 시작
       try {
         // raw 태그 수집 (matchedRules 레이블 + 하드필터 매칭 레이블)
         const productsWithRawTags = top3.map((p: ScoredProduct) => {
@@ -1450,8 +1468,11 @@ export default function RecommendV2Page() {
         console.warn('Tag refinement failed, using raw tags:', refineError);
       }
 
-      setProgress(100); // 최종 완료
-      await new Promise(resolve => setTimeout(resolve, 500)); // 100% 표시를 위한 딜레이
+      setProgressSafe(95); // 3단계 완료: 태그 정제 완료
+      await new Promise(resolve => setTimeout(resolve, 400)); // 95% 표시를 위한 딜레이
+
+      setProgressSafe(100); // 최종 완료
+      await new Promise(resolve => setTimeout(resolve, 800)); // 100% 표시를 위한 충분한 딜레이
 
       setScoredProducts(top3);
       setSelectionReason(finalSelectionReason);
@@ -1557,6 +1578,7 @@ export default function RecommendV2Page() {
                 isActive={currentStep === 0 && !showSubCategorySelector && (!requiresSubCategory || !selectedSubCategoryCode)}
                 disabled={isTransitioning}
                 enableTyping={true}
+                categoryName={categoryName}
                 onTabChange={(tab, tabLabel) => {
                   logGuideCardTabSelection(categoryKey, categoryName, tab, tabLabel);
                 }}
@@ -2386,76 +2408,74 @@ export default function RecommendV2Page() {
             {messages.map(renderMessage)}
           </div>
 
-          {/* Calculating indicator - 중앙 정렬 + 비디오 + 프로그레스 */}
+          {/* Calculating indicator - 왼쪽 정렬 + 비디오 + 프로그레스 */}
           {isCalculating && (() => {
-            const thinkingMessages = [
-              `${categoryName} 제품 데이터 수집 중...`,
-              '인기 제품 순위 분석 중...',
-              '선택하신 조건과 매칭 중...',
-              '가격 대비 성능 비교 중...',
-              `${categoryName} 실사용 리뷰 분석 중...`,
-              '최적의 제품 조합 탐색 중...',
-              '추천 순위 계산 중...',
-              '최종 결과 검토 중...',
-            ];
-            const currentMessage = thinkingMessages[thinkingIndex % thinkingMessages.length];
+            // 단계별 메시지 (progress 값에 따라 - 초반은 빠르게, API 구간은 넓게)
+            const getStageMessage = () => {
+              if (progress < 3) return '상품 데이터 준비 중...';
+              if (progress < 8) return '상품 데이터 분석 중...';
+              if (progress < 12) return '적합도 점수 계산 중...';
+              if (progress < 15) return '후보 선정 중...';
+              if (progress < 55) return '최적의 제품 분석 중...';
+              if (progress < 95) return '추천 이유 정리 중...';
+              return '최종 결과 준비 중...';
+            };
+            const currentMessage = getStageMessage();
+
+            // 단계 번호 계산 (메시지 변경 시 애니메이션용)
+            const getStageIndex = () => {
+              if (progress < 3) return 0;
+              if (progress < 8) return 1;
+              if (progress < 12) return 2;
+              if (progress < 15) return 3;
+              if (progress < 55) return 4;
+              if (progress < 95) return 5;
+              return 6;
+            };
 
             return (
               <motion.div
                 ref={calculatingRef}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full py-8 flex flex-col items-center justify-center"
+                className="w-full py-8 flex items-start gap-4"
               >
                 {/* 캐릭터 비디오 */}
-                <div className="mb-4 rounded-2xl overflow-hidden bg-white">
+                <div className="rounded-2xl overflow-hidden bg-white shrink-0">
                   <video
                     autoPlay
                     loop
                     muted
                     playsInline
-                    style={{ width: 100, height: 100 }}
+                    style={{ width: 80, height: 80 }}
                     className="object-contain"
                   >
                     <source src="/animations/character.mp4" type="video/mp4" />
                   </video>
                 </div>
 
-                {/* 프로그레스 % */}
-                <span className="text-base font-medium text-gray-600 tabular-nums">
-                  {progress}%
-                </span>
+                {/* 프로그레스 + thinking 메시지 */}
+                <div className="flex flex-col justify-center pt-2">
+                  {/* 프로그레스 % */}
+                  <span className="text-base font-semibold text-gray-700 tabular-nums">
+                    {progress}%
+                  </span>
 
-                {/* thinking 메시지 - 아래에서 위로 올라오는 애니메이션 */}
-                <div className="mt-3 h-6 overflow-hidden">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={thinkingIndex}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3, ease: 'easeOut' }}
-                      className="flex items-center gap-1.5 shimmer-text"
-                    >
-                      {/* 돋보기 아이콘 */}
-                      <svg
-                        className="w-4 h-4 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                  {/* 단계별 메시지 - 가운데 정렬, 단계 변경 시 애니메이션 */}
+                  <div className="mt-1 h-6 overflow-hidden">
+                    <AnimatePresence mode="wait">
+                      <motion.span
+                        key={getStageIndex()}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                        className="text-sm font-medium text-gray-500 block"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                      <span className="text-sm font-normal text-gray-400">
                         {currentMessage}
-                      </span>
-                    </motion.div>
-                  </AnimatePresence>
+                      </motion.span>
+                    </AnimatePresence>
+                  </div>
                 </div>
               </motion.div>
             );

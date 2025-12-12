@@ -873,23 +873,35 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   {product.optionCount && product.optionCount > 1 && product.priceRange?.min && product.priceRange?.max ? (
                     <>
                       <p className="text-lg font-bold text-gray-900">
+                        <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
                         {product.priceRange.min.toLocaleString()}<span className="text-sm">원</span>
                         <span className="text-gray-400 mx-1">~</span>
                         {product.priceRange.max.toLocaleString()}<span className="text-sm">원</span>
                       </p>
                       {hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
-                        <p className="text-xs font-medium text-gray-400">(판매처 {danawa.mall_prices.length})</p>
+                        <span className="inline-flex items-center text-xs font-medium text-red-500">
+                          가격비교 ({danawa.mall_prices.length})
+                          <svg className="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </span>
                       )}
                     </>
                   ) : (
                     <p className="text-lg font-bold text-gray-900 flex items-baseline gap-1.5">
                       {/* 다나와 최저가가 있으면 해당 가격 사용, 없으면 product.price */}
                       <span>
+                        <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
                         {(hasLowestPrice ? danawa.lowest_price! : (product.lowestPrice || product.price || 0)).toLocaleString()}
                         <span className="text-sm">원</span>
                       </span>
                       {hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
-                        <span className="text-xs font-medium text-gray-400">(판매처 {danawa.mall_prices.length})</span>
+                        <span className="inline-flex items-center text-xs font-semibold text-red-500">
+                          가격비교 ({danawa.mall_prices.length})
+                          <svg className="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </span>
                       )}
                     </p>
                   )}
@@ -986,7 +998,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     handleProductClick(product, index);
                     logButtonClick('상세분석보기_PLP', 'v2-result');
                   }}
-                  className="mt-2 w-full py-2.5 text-sm font-medium text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
+                  className="mt-2 w-full py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
                 >
                   상세 분석 보기
                   <svg className="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
