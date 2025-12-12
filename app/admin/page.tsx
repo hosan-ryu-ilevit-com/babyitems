@@ -158,6 +158,23 @@ export default function AdminPage() {
       custom_tag_created: '커스텀 태그 생성',
       result_v2_received: 'V2 추천 결과',
       result_v2_regenerated: 'V2 재추천',
+      // V2 Flow (new) events
+      v2_page_view: 'V2 페이지뷰',
+      v2_subcategory_selected: '하위카테고리 선택',
+      v2_hard_filter_answer: '하드필터 답변',
+      v2_hard_filter_custom_input: '하드필터 직접입력',
+      v2_hard_filter_completed: '하드필터 완료',
+      v2_checkpoint_viewed: '체크포인트',
+      v2_balance_selection: '밸런스 선택',
+      v2_balance_skipped: '밸런스 스킵',
+      v2_balance_completed: '밸런스 완료',
+      v2_negative_toggle: '단점 선택',
+      v2_negative_completed: '단점 완료',
+      v2_budget_changed: '예산 변경',
+      v2_budget_preset_clicked: '예산 프리셋',
+      v2_recommendation_requested: '추천 요청',
+      v2_recommendation_received: 'V2 추천 결과',
+      v2_step_back: '이전 단계',
     };
     return labels[type] || type;
   };
@@ -2272,6 +2289,21 @@ export default function AdminPage() {
                               {/* V2 New Flow Events - 하드필터, 밸런스, 단점, 예산, 추천 */}
                               {'v2FlowData' in event && event.v2FlowData && (
                                 <>
+                                  {/* 하위 카테고리 선택 */}
+                                  {event.eventType === 'v2_subcategory_selected' && event.v2FlowData.subCategory && (
+                                    <div className="bg-purple-50 p-2 rounded text-xs">
+                                      <p className="font-semibold text-purple-700 mb-1">
+                                        📁 하위 카테고리 선택
+                                      </p>
+                                      <p className="text-gray-700 font-medium">
+                                        {event.v2FlowData.subCategory.name}
+                                        {event.v2FlowData.subCategory.code === '__all__' && ' (전체)'}
+                                      </p>
+                                      {event.v2FlowData.subCategory.code !== '__all__' && (
+                                        <p className="text-gray-500 mt-1">코드: {event.v2FlowData.subCategory.code}</p>
+                                      )}
+                                    </div>
+                                  )}
                                   {/* 하드필터 답변 */}
                                   {event.eventType === 'v2_hard_filter_answer' && event.v2FlowData.hardFilter && (
                                     <div className="bg-blue-50 p-2 rounded text-xs">
