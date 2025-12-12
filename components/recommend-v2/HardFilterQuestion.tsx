@@ -71,6 +71,15 @@ function countProductsForOption(
         if (typeof condition === 'object' && condition !== null) {
           const condObj = condition as Record<string, unknown>;
 
+          // anyOf: aliases 중 하나라도 매칭 (정규화된 값 필터링용)
+          if ('anyOf' in condObj && Array.isArray(condObj.anyOf)) {
+            const aliases = condObj.anyOf as string[];
+            const strValue = String(value);
+            if (!aliases.includes(strValue)) {
+              return false;
+            }
+          }
+
           if ('contains' in condObj && typeof condObj.contains === 'string') {
             const searchValue = condObj.contains.toLowerCase();
             if (Array.isArray(value)) {

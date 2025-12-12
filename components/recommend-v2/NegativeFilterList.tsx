@@ -57,7 +57,7 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd, onTogg
         이것만큼은 절대 안 된다! 
         <br />
         <span className="text-gray-500 font-normal text-sm mt-2">
-          꼭 피하고 싶은 단점이 있나요?
+          피하고 싶은 단점이 있나요? 없으면 바로 넘어가기를 눌러주세요.
         </span>
       </h3>
 

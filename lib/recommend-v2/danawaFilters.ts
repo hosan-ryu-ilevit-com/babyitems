@@ -10,6 +10,7 @@ import manualQuestionsData from '@/data/rules/manual_hard_questions.json';
 import filterQuestionsData from '@/data/rules/filter_questions.json';
 import filterTipsData from '@/data/rules/filter_tips.json';
 import { CATEGORY_CODE_MAP } from './categoryUtils';
+import { normalizeFilterValue, normalizeAndDeduplicateValues } from './labelNormalizer';
 
 // 다나와 필터 원본 타입
 interface DanawaFilter {
@@ -153,23 +154,29 @@ export function convertDanawaFiltersToHardFilters(
 }
 
 /**
- * 제품 데이터에서 특정 필터의 고유 값 추출
+ * 제품 데이터에서 특정 필터의 고유 값 추출 (정규화 적용)
+ * - Type A(동의어 매핑) + Type B(전처리) 모두 적용
+ * - 정규화 후 같아지는 값들을 하나로 병합
+ * - 원본 값들(aliases)도 함께 반환하여 필터링 시 사용
  */
 function extractUniqueFilterValues(
   products: DanawaProduct[],
   filterName: string
-): string[] {
-  const valueCounts = new Map<string, number>();
+): { normalized: string; aliases: string[]; count: number }[] {
+  // 모든 원본 값 수집
+  const allValues: string[] = [];
   products.forEach(product => {
     const value = product.filter_attrs?.[filterName];
     if (value && typeof value === 'string') {
-      valueCounts.set(value, (valueCounts.get(value) || 0) + 1);
+      allValues.push(value);
     }
   });
+
+  // 정규화 및 중복 제거 (filterName 전달하여 Type A도 적용)
+  const normalized = normalizeAndDeduplicateValues(allValues, filterName);
+
   // 제품 수가 많은 순으로 정렬
-  return Array.from(valueCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .map(([value]) => value);
+  return normalized.sort((a, b) => b.count - a.count);
 }
 
 /**
@@ -230,7 +237,7 @@ function createBrandQuestion(
 
 /**
  * 단일 다나와 필터를 하드필터 질문으로 변환
- * - products가 제공되면 제품 데이터에서 옵션 값 추출 (권장)
+ * - products가 제공되면 제품 데이터에서 옵션 값 추출 (권장, 정규화 적용)
  * - products가 없으면 다나와 필터 옵션 사용 (fallback)
  */
 function convertFilterToQuestion(
@@ -241,39 +248,59 @@ function convertFilterToQuestion(
 ): HardFilterQuestion | null {
   const questionText = FILTER_QUESTION_MAP[filter.filter_name] || `${filter.filter_name}을(를) 선택해주세요`;
 
-  // 옵션 값 결정: 제품 데이터 우선, 없으면 다나와 필터 사용
-  let displayOptions: string[];
-
-  if (products && products.length > 0) {
-    // 제품 데이터에서 실제 값 추출 (권장)
-    const uniqueValues = extractUniqueFilterValues(products, filter.filter_name);
-    if (uniqueValues.length < 2) {
-      // 값이 2개 미만이면 필터링 의미 없음
-      return null;
-    }
-    // 모든 옵션 표시
-    displayOptions = uniqueValues;
-  } else {
-    // 다나와 필터 옵션 사용 (fallback)
-    displayOptions = filter.options;
-  }
-
   // 필터링 방식 결정
   const isFeatureFilter = FEATURES_ARRAY_FILTERS.includes(filter.filter_name);
 
-  const options: HardFilterOption[] = displayOptions.map(opt => ({
-    label: opt,
-    value: opt.toLowerCase().replace(/\s+/g, '_'),
-    filter: isFeatureFilter
-      ? {
-          // features 배열에서 contains로 검색
-          'spec.features': { contains: opt },
-        }
-      : {
-          // filter_attrs에서 정확히 매칭
-          [`filter_attrs.${filter.filter_name}`]: opt,
-        },
-  }));
+  let options: HardFilterOption[];
+
+  if (products && products.length > 0) {
+    // 제품 데이터에서 실제 값 추출 (정규화 적용)
+    const normalizedValues = extractUniqueFilterValues(products, filter.filter_name);
+    if (normalizedValues.length < 2) {
+      // 값이 2개 미만이면 필터링 의미 없음
+      return null;
+    }
+
+    // 정규화된 값을 label로, 원본 값들을 aliases로 저장
+    options = normalizedValues.map(({ normalized, aliases }) => ({
+      label: normalized,
+      value: normalized.toLowerCase().replace(/\s+/g, '_'),
+      aliases,  // 원본 값들 저장 (필터링 시 사용)
+      filter: isFeatureFilter
+        ? {
+            // features 배열에서 contains로 검색
+            'spec.features': { contains: normalized },
+          }
+        : {
+            // filter_attrs에서 aliases 중 하나라도 매칭 (anyOf)
+            [`filter_attrs.${filter.filter_name}`]: aliases.length > 1 ? { anyOf: aliases } : normalized,
+          },
+    }));
+  } else {
+    // 다나와 필터 옵션 사용 (fallback, 정규화 적용)
+    const normalizedOptions = filter.options.map(opt => ({
+      original: opt,
+      normalized: normalizeFilterValue(opt),
+    }));
+
+    // 정규화 후 중복 제거
+    const uniqueNormalized = new Map<string, string[]>();
+    for (const { original, normalized } of normalizedOptions) {
+      if (!uniqueNormalized.has(normalized)) {
+        uniqueNormalized.set(normalized, []);
+      }
+      uniqueNormalized.get(normalized)!.push(original);
+    }
+
+    options = Array.from(uniqueNormalized.entries()).map(([normalized, aliases]) => ({
+      label: normalized,
+      value: normalized.toLowerCase().replace(/\s+/g, '_'),
+      aliases,
+      filter: isFeatureFilter
+        ? { 'spec.features': { contains: normalized } }
+        : { [`filter_attrs.${filter.filter_name}`]: aliases.length > 1 ? { anyOf: aliases } : normalized },
+    }));
+  }
 
   // "전부 좋아요" 옵션 추가 (displayLabel에 맥락 포함)
   options.push({

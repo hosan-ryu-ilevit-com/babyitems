@@ -763,13 +763,13 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       {/* 선정 기준 요약 */}
       {selectionReason && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
+          transition={{ delay: 0.4, duration: 0.5, ease: 'easeOut' }}
           className="mb-4 p-4 rounded-2xl bg-blue-50"
         >
           <p className="text-sm text-blue-800 font-medium leading-[1.4]">
-            <StreamingText content={selectionReason} speed={10} />
+            {selectionReason}
           </p>
         </motion.div>
       )}
@@ -784,9 +784,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         return (
           <motion.div
             key={product.pcode}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 + index * 0.15 }}
+            transition={{ delay: 1.5 + index * 0.4, duration: 0.5, ease: 'easeOut' }}
             onClick={() => handleProductClick(product, index)}
             className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
           >
@@ -1013,7 +1013,12 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
       {/* 상세 비교표 */}
       {recommendations.length > 0 && (
-        <div className="mt-6">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2.6, duration: 0.5, ease: 'easeOut' }}
+          className="mt-6"
+        >
           <DetailedComparisonTable
             recommendations={recommendations}
             cachedFeatures={comparisonFeatures}
@@ -1048,7 +1053,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               }
             }}
           />
-        </div>
+        </motion.div>
       )}
 
       {/* 제품 상세 모달 */}

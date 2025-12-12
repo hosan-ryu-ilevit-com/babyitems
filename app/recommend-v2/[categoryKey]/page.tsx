@@ -2422,50 +2422,145 @@ export default function RecommendV2Page() {
             };
 
             return (
-              <motion.div
-                ref={calculatingRef}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="w-full py-8 flex items-start gap-4"
-              >
-                {/* 캐릭터 비디오 */}
-                <div className="rounded-2xl overflow-hidden bg-white shrink-0">
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    style={{ width: 80, height: 80 }}
-                    className="object-contain"
-                  >
-                    <source src="/animations/character.mp4" type="video/mp4" />
-                  </video>
-                </div>
-
-                {/* 프로그레스 + thinking 메시지 */}
-                <div className="flex flex-col justify-center pt-2">
-                  {/* 프로그레스 % */}
-                  <span className="text-base font-semibold text-gray-700 tabular-nums">
-                    {progress}%
-                  </span>
-
-                  {/* 단계별 메시지 - 가운데 정렬, 단계 변경 시 애니메이션 */}
-                  <div className="mt-1 h-6 overflow-hidden">
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={getStageIndex()}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.4, ease: 'easeOut' }}
-                        className="text-sm font-semibold text-gray-500 block"
-                      >
-                        {currentMessage}
-                      </motion.span>
-                    </AnimatePresence>
+              <div className="w-full">
+                <motion.div
+                  ref={calculatingRef}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="w-full py-8 flex items-start gap-4"
+                >
+                  {/* 캐릭터 비디오 */}
+                  <div className="rounded-2xl overflow-hidden bg-white shrink-0">
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      style={{ width: 80, height: 80 }}
+                      className="object-contain"
+                    >
+                      <source src="/animations/character.mp4" type="video/mp4" />
+                    </video>
                   </div>
-                </div>
-              </motion.div>
+
+                  {/* 프로그레스 + thinking 메시지 */}
+                  <div className="flex flex-col justify-center pt-2">
+                    {/* 프로그레스 % */}
+                    <span className="text-base font-semibold text-gray-700 tabular-nums">
+                      {progress}%
+                    </span>
+
+                    {/* 단계별 메시지 - 가운데 정렬, 단계 변경 시 애니메이션 */}
+                    <div className="mt-1 h-6 overflow-hidden">
+                      <AnimatePresence mode="wait">
+                        <motion.span
+                          key={getStageIndex()}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.4, ease: 'easeOut' }}
+                          className="text-sm font-semibold text-gray-500 block"
+                        >
+                          {currentMessage}
+                        </motion.span>
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* PLP 스켈레톤 로딩 UI */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  className="mt-4 space-y-4"
+                >
+                  {/* Shimmer 애니메이션 스타일 */}
+                  <style jsx>{`
+                    @keyframes shimmer {
+                      0% {
+                        background-position: -100% 0;
+                      }
+                      100% {
+                        background-position: 100% 0;
+                      }
+                    }
+                    .skeleton-shimmer {
+                      background: linear-gradient(
+                        90deg,
+                        #e5e7eb 0%,
+                        #f0f1f3 50%,
+                        #e5e7eb 100%
+                      );
+                      background-size: 200% 100%;
+                      animation: shimmer 1.8s ease-in-out infinite;
+                    }
+                    .skeleton-shimmer-blue {
+                      background: linear-gradient(
+                        90deg,
+                        #dbeafe 0%,
+                        #eff6ff 50%,
+                        #dbeafe 100%
+                      );
+                      background-size: 200% 100%;
+                      animation: shimmer 1.8s ease-in-out infinite;
+                    }
+                  `}</style>
+
+                  {/* 전체 추천이유 스켈레톤 */}
+                  <div className="p-4 rounded-2xl bg-blue-50">
+                    <div className="h-4 skeleton-shimmer-blue rounded w-3/4 mb-2" />
+                    <div className="h-4 skeleton-shimmer-blue rounded w-1/2" />
+                  </div>
+
+                  {/* 제품 카드 스켈레톤 3개 */}
+                  {[1, 2, 3].map((_, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 + index * 0.15, duration: 0.4 }}
+                      className="bg-white py-4 px-1"
+                    >
+                      <div className="flex gap-3">
+                        {/* 썸네일 스켈레톤 */}
+                        <div className="relative w-28 h-28 rounded-xl skeleton-shimmer shrink-0 overflow-hidden">
+                          {/* 랭킹 배지 스켈레톤 */}
+                          <div className="absolute bottom-0 left-0 h-7 w-10 bg-gray-300 rounded-tr-xl rounded-bl-xl" />
+                        </div>
+                        {/* 제품 정보 스켈레톤 */}
+                        <div className="flex-1 flex flex-col justify-between py-1">
+                          <div className="h-3 skeleton-shimmer rounded w-16 mb-2" />
+                          <div className="h-5 skeleton-shimmer rounded w-full mb-1" />
+                          <div className="h-5 skeleton-shimmer rounded w-2/3 mb-2" />
+                          <div className="h-6 skeleton-shimmer rounded w-24" />
+                        </div>
+                      </div>
+                      {/* 태그 스켈레톤 */}
+                      <div className="mt-3 flex gap-1.5">
+                        <div className="h-6 skeleton-shimmer rounded-xl w-16" />
+                        <div className="h-6 skeleton-shimmer rounded-xl w-20" />
+                        <div className="h-6 skeleton-shimmer rounded-xl w-14" />
+                      </div>
+                    </motion.div>
+                  ))}
+
+                  {/* 비교표 스켈레톤 */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.85, duration: 0.4 }}
+                    className="mt-6 bg-white rounded-2xl p-4"
+                  >
+                    <div className="h-5 skeleton-shimmer rounded w-24 mb-4" />
+                    <div className="space-y-3">
+                      <div className="h-8 skeleton-shimmer rounded" />
+                      <div className="h-8 skeleton-shimmer rounded" />
+                      <div className="h-8 skeleton-shimmer rounded" />
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </div>
             );
           })()}
 
@@ -2626,6 +2721,9 @@ export default function RecommendV2Page() {
                         setConditionSummary([]);
                         setMessages([]);
                         setShowReRecommendModal(false);
+
+                        // useEffect 중복 호출 방지 (sessionStorage 복원 후 다시 추천받기 시)
+                        hasTriggeredGuideRef.current = true;
 
                         // 스캔 애니메이션 없이 바로 가이드 카드 표시
                         handleScanComplete();

@@ -60,12 +60,14 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
   function BalanceGameCarousel({ questions, onComplete, onStateChange, onSelectionMade }, ref) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selections, setSelections] = useState<Map<string, string>>(new Map());
+    const [bothSelections, setBothSelections] = useState<Map<string, [string, string]>>(new Map()); // "둘 다 중요해요" 선택
     const [skipped, setSkipped] = useState<Set<string>>(new Set());
     const [direction, setDirection] = useState(1); // 1: next, -1: previous
 
     const currentQuestion = questions[currentIndex];
     const isLastQuestion = currentIndex >= questions.length - 1;
     const isCurrentSkipped = skipped.has(currentQuestion?.id);
+    const isCurrentBoth = bothSelections.has(currentQuestion?.id);
 
     // 인덱스 변경 함수 (방향을 먼저 설정하여 애니메이션 방향 보장)
     const goToIndex = (newIndex: number) => {
@@ -121,6 +123,11 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
       setSelections(newSelections);
 
+      // "둘 다" 선택 해제 (단일 선택했으므로)
+      const newBothSelections = new Map(bothSelections);
+      newBothSelections.delete(questionId);
+      setBothSelections(newBothSelections);
+
       // 스킵 해제 (선택했으므로)
       const newSkipped = new Set(skipped);
       newSkipped.delete(questionId);
@@ -149,6 +156,10 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
         const newSelections = new Map(selections);
         newSelections.delete(questionId);
         setSelections(newSelections);
+        // both 선택도 해제
+        const newBothSelections = new Map(bothSelections);
+        newBothSelections.delete(questionId);
+        setBothSelections(newBothSelections);
         setSkipped(newSkipped);
 
         // 다음 질문으로 자동 이동 (마지막이 아닌 경우)
@@ -158,21 +169,64 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
       }
     };
 
+    // "둘 다 중요해요" 선택 처리 (priority 타입용)
+    const handleSelectBoth = (questionId: string) => {
+      const question = questions.find(q => q.id === questionId);
+      if (!question) return;
+
+      const newBothSelections = new Map(bothSelections);
+      const wasAlreadyBoth = bothSelections.has(questionId);
+
+      if (wasAlreadyBoth) {
+        // 이미 "둘 다" 선택된 상태면 해제
+        newBothSelections.delete(questionId);
+      } else {
+        // "둘 다" 선택
+        newBothSelections.set(questionId, [
+          question.option_A.target_rule_key,
+          question.option_B.target_rule_key,
+        ]);
+        // 단일 선택은 해제
+        const newSelections = new Map(selections);
+        newSelections.delete(questionId);
+        setSelections(newSelections);
+      }
+
+      setBothSelections(newBothSelections);
+
+      // 스킵 해제
+      const newSkipped = new Set(skipped);
+      newSkipped.delete(questionId);
+      setSkipped(newSkipped);
+
+      // 새로 선택한 경우에만 자동으로 다음 문제로 이동
+      if (!wasAlreadyBoth && !isLastQuestion) {
+        setTimeout(() => {
+          goToIndex(currentIndex + 1);
+        }, 350);
+      }
+    };
+
     // 답변 상태 확인
     const isAnswered = (questionId: string) => {
-      return selections.has(questionId) || skipped.has(questionId);
+      return selections.has(questionId) || bothSelections.has(questionId) || skipped.has(questionId);
     };
 
     const allAnswered = questions.every(q => isAnswered(q.id));
 
     // 상태 변경 시 부모에 알림
     useEffect(() => {
+      // 단일 선택 + "둘 다" 선택 모두 포함
       const selectedRuleKeys = new Set(selections.values());
+      bothSelections.forEach(([keyA, keyB]) => {
+        selectedRuleKeys.add(keyA);
+        selectedRuleKeys.add(keyB);
+      });
       const currentQuestionId = questions[currentIndex]?.id;
       const currentQuestionAnswered = currentQuestionId ? isAnswered(currentQuestionId) : false;
 
       onStateChange?.({
-        selectionsCount: selections.size,
+        selectionsCount: selections.size + bothSelections.size,
         allAnswered,
         currentSelections: selectedRuleKeys,
         currentIndex,
@@ -181,7 +235,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
         totalQuestions: questions.length,
         currentQuestionAnswered,
       });
-    }, [selections, skipped, allAnswered, currentIndex, questions, onStateChange]);
+    }, [selections, bothSelections, skipped, allAnswered, currentIndex, questions, onStateChange]);
 
     if (questions.length === 0) return null;
 
@@ -227,7 +281,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                   className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                     isCurrentSkipped
                       ? 'border-gray-200 bg-gray-50 cursor-default'
-                      : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                      : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
                       ? 'border-emerald-400 bg-emerald-50'
                       : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                   }`}
@@ -238,12 +292,12 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                         isCurrentSkipped
                           ? 'border-gray-300 bg-white'
-                          : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                          : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
                           ? 'border-emerald-500 bg-emerald-500'
                           : 'border-gray-300 bg-white'
                       }`}
                     >
-                      {!isCurrentSkipped && selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key && (
+                      {!isCurrentSkipped && (isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key) && (
                         <motion.svg
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
@@ -259,7 +313,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                     <span className={`text-sm font-medium leading-snug ${
                       isCurrentSkipped
                         ? 'text-gray-400'
-                        : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                        : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
                         ? 'text-emerald-700'
                         : 'text-gray-700'
                     }`}>
@@ -282,7 +336,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                   className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                     isCurrentSkipped
                       ? 'border-gray-200 bg-gray-50 cursor-default'
-                      : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                      : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
                       ? 'border-emerald-400 bg-emerald-50'
                       : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                   }`}
@@ -293,12 +347,12 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                         isCurrentSkipped
                           ? 'border-gray-300 bg-white'
-                          : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                          : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
                           ? 'border-emerald-500 bg-emerald-500'
                           : 'border-gray-300 bg-white'
                       }`}
                     >
-                      {!isCurrentSkipped && selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key && (
+                      {!isCurrentSkipped && (isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key) && (
                         <motion.svg
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
@@ -314,7 +368,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                     <span className={`text-sm font-medium leading-snug ${
                       isCurrentSkipped
                         ? 'text-gray-400'
-                        : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                        : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
                         ? 'text-emerald-700'
                         : 'text-gray-700'
                     }`}>
@@ -324,17 +378,17 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                 </motion.button>
               </div>
 
-              {/* 스킵 버튼 */}
+              {/* 하단 버튼 영역 - 모든 질문에 동일하게 표시 */}
               <div className="text-center pt-3">
                 <button
-                  onClick={() => handleSkip(currentQuestion.id)}
+                  onClick={() => handleSelectBoth(currentQuestion.id)}
                   className={`text-sm transition-colors py-2 px-4 rounded-lg hover:bg-gray-100 ${
-                    skipped.has(currentQuestion.id)
-                      ? 'text-gray-600 font-medium bg-gray-100'
-                      : 'text-gray-400 hover:text-gray-600'
+                    isCurrentBoth
+                      ? 'text-gray-700 font-semibold bg-gray-100'
+                      : 'text-gray-400 font-semibold hover:text-gray-600'
                   }`}
                 >
-                  {skipped.has(currentQuestion.id) ? '건너뜀' : '잘 모르겠어요'}
+                  {isCurrentBoth ? '둘 다 중요해요 (스킵) ✓' : '둘 다 중요해요 (스킵)'}
                 </button>
               </div>
             </motion.div>

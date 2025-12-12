@@ -54,6 +54,7 @@ export interface HardFilterOption {
   value: string;
   filter?: Record<string, unknown>;
   category_code?: string;
+  aliases?: string[];     // 정규화 전 원본 값들 (필터링 시 모두 매칭)
 }
 
 export interface HardFilterQuestion {
@@ -84,8 +85,11 @@ export interface BalanceOption {
   target_rule_key: string;
 }
 
+export type BalanceQuestionType = 'tradeoff' | 'priority';
+
 export interface BalanceQuestion {
   id: string;
+  type?: BalanceQuestionType; // 질문 유형: tradeoff(상반 관계) | priority(우선순위)
   title: string;
   option_A: BalanceOption;
   option_B: BalanceOption;

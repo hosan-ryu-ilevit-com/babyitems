@@ -42,8 +42,11 @@ export interface BalanceOption {
   target_rule_key: string;  // 연결된 체감속성 키
 }
 
+export type BalanceQuestionType = 'tradeoff' | 'priority';
+
 export interface BalanceQuestion {
   id: string;               // 질문 ID (예: "bg_bottle_01")
+  type?: BalanceQuestionType; // 질문 유형: tradeoff(상반 관계) | priority(우선순위)
   title: string;            // 질문 제목
   option_A: BalanceOption;  // A 선택지
   option_B: BalanceOption;  // B 선택지

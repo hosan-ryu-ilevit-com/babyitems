@@ -8,18 +8,20 @@ interface BalanceGameCardProps {
   onSelectA: () => void;
   onSelectB: () => void;
   onSkip: () => void;
+  onSelectBoth?: () => void;  // "둘 다 중요해요" 선택 (priority 타입용)
 }
 
 /**
  * 밸런스 게임 A vs B 카드 컴포넌트
- * - 두 가지 선택지 중 하나 선택
- * - 스킵 가능
+ * - tradeoff 타입: 상반 관계, 반드시 하나 선택 (스킵 가능)
+ * - priority 타입: 우선순위 파악, "둘 다 중요해요" 선택 가능
  */
 export function BalanceGameCard({
   data,
   onSelectA,
   onSelectB,
   onSkip,
+  onSelectBoth,
 }: BalanceGameCardProps) {
   const { question, currentIndex, totalCount } = data;
 
@@ -89,14 +91,16 @@ export function BalanceGameCard({
         </motion.button>
       </div>
 
-      {/* 스킵 버튼 */}
+      {/* 하단 버튼 영역 - 모든 질문에 동일하게 표시 */}
       <div className="text-center pt-1">
-        <button
-          onClick={onSkip}
-          className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
-        >
-          건너뛰기
-        </button>
+        {onSelectBoth && (
+          <button
+            onClick={onSelectBoth}
+            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            둘 다 중요해요
+          </button>
+        )}
       </div>
     </motion.div>
   );
