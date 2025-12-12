@@ -571,9 +571,6 @@ export default function CategoriesV2Page() {
             />
           </div>
 
-          {/* 디바이더 */}
-          <div className="border-b border-gray-100 mb-6 -mx-4" />
-
           {/* 연령대별 설명 카드 */}
           {selectedAgeFilter.id !== 'all' && selectedAgeFilter.description && (
             <motion.div
@@ -581,7 +578,7 @@ export default function CategoriesV2Page() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="mb-6 bg-blue-50 rounded-2xl p-5"
+              className="mb-4 bg-blue-50 rounded-2xl p-5"
             >
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-2xl">{selectedAgeFilter.emoji}</span>
@@ -590,6 +587,9 @@ export default function CategoriesV2Page() {
               <p className="text-[15px] text-gray-600 leading-relaxed">{selectedAgeFilter.description}</p>
             </motion.div>
           )}
+
+          {/* 디바이더 */}
+          <div className="border-b border-gray-100 mb-6 -mx-4" />
 
           {/* 그룹별 카테고리 표시 */}
           {selectedAgeFilter.id === 'all' ? (
