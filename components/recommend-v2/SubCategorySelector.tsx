@@ -15,6 +15,8 @@ interface SubCategorySelectorProps {
   selectedCode: string | null;
   onSelect: (code: string) => void;
   onSelectAll?: () => void;
+  // LLM 생성 동적 팁
+  dynamicTip?: string;
 }
 
 /**
@@ -27,6 +29,7 @@ export function SubCategorySelector({
   selectedCode,
   onSelect,
   onSelectAll,
+  dynamicTip,
 }: SubCategorySelectorProps) {
   const isAllSelected = selectedCode === '__all__';
   return (
@@ -47,6 +50,13 @@ export function SubCategorySelector({
       <h3 className="text-base font-medium text-gray-900 leading-snug">
         어떤 {categoryName}를 찾으세요?
       </h3>
+
+      {/* 도움말 팁 */}
+      {dynamicTip && (
+        <p className="text-sm text-gray-500 -mt-2">
+          {dynamicTip}
+        </p>
+      )}
 
       {/* 선택지 그리드 */}
       <div className="grid grid-cols-2 gap-3">

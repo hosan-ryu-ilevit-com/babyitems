@@ -46,6 +46,12 @@ interface ProductComparison {
   comparison: string;
 }
 
+// 정규화된 스펙 row 타입
+interface NormalizedSpecRow {
+  key: string;  // 정규화된 스펙 이름 (예: "용량", "재질")
+  values: Record<string, string | null>;  // pcode -> value 매핑
+}
+
 // 응답 타입
 interface ComparisonAnalysisResponse {
   success: boolean;
@@ -56,6 +62,7 @@ interface ComparisonAnalysisResponse {
       comparison: string;
       specs?: Record<string, unknown>;  // 추가: 스펙 정보
     }>;
+    normalizedSpecs?: NormalizedSpecRow[];  // 추가: 정규화된 스펙 비교표
     generated_by: 'llm' | 'fallback';
   };
   error?: string;
@@ -270,6 +277,160 @@ function generateFallbackComparisons(
   });
 }
 
+/**
+ * 스펙 정규화 함수 - LLM을 사용해 여러 제품의 스펙을 비교표 형식으로 정규화
+ */
+async function normalizeSpecsForComparison(
+  products: ProductInfo[],
+  categoryName: string
+): Promise<NormalizedSpecRow[]> {
+  const model = getModel(0.3);  // 분류 작업이므로 낮은 temperature
+
+  // 각 제품의 스펙 정보를 텍스트로 변환
+  const productsSpecText = products.map((p) => {
+    const allSpecs = { ...(p.spec || {}), ...(p.filter_attrs || {}) };
+    const specEntries = Object.entries(allSpecs)
+      .filter(([key, v]) => {
+        if (v === null || v === undefined || v === '' || v === '-') return false;
+        // 메타 정보 제외
+        if (['브랜드', '모델명', '제품명', '상품명', '제조사', '색상', '컬러', '가격'].includes(key)) return false;
+        return true;
+      })
+      .map(([k, v]) => `  - ${k}: ${v}`)
+      .join('\n');
+
+    return `### 제품 ${p.pcode} (${p.brand || ''} ${p.title})
+${specEntries || '  - (스펙 정보 없음)'}`;
+  }).join('\n\n');
+
+  const pcodes = products.map(p => p.pcode);
+
+  const prompt = `당신은 ${categoryName} 스펙 비교 전문가입니다.
+아래 ${products.length}개 제품의 스펙 정보를 **비교표 형식**으로 정규화해주세요.
+
+## 제품별 스펙 정보
+${productsSpecText}
+
+## 정규화 규칙
+
+### 1. 동일 의미 스펙 키 통일 (가장 중요!)
+같은 의미의 스펙은 하나의 표준 키로 통일하세요:
+- "용량", "물통 용량", "물통용량", "저장 용량" → **"용량"**
+- "재질", "내부 재질", "본체 재질", "소재" → **"재질"**
+- "무게", "중량", "본체 무게" → **"무게"**
+- "크기", "사이즈", "외형치수", "본체 크기" → **"크기"**
+- "소비전력", "전력", "정격전력" → **"소비전력"**
+- "온도 범위", "온도범위", "설정온도" → **"온도 범위"**
+- "보증기간", "AS", "A/S" → **"보증기간"**
+
+### 2. "features", "기능", "부가기능" 같은 복합 값 분리 (중요!)
+콤마로 구분된 여러 기능이 하나의 키에 들어있으면 **개별 스펙으로 분리**하세요:
+- 예: "features: 적외선식,무음모드,생활온도측정,발열상태표시"
+  → "측정 방식: 적외선식", "무음 모드: O", "생활온도 측정: O", "발열상태 표시: O"
+- 예: "기능: ISOFIX,360도회전,리클라이닝"
+  → "ISOFIX: O", "360도 회전: O", "리클라이닝: O"
+- 기능이 있으면 "O", 없으면 null로 표시
+- "features"라는 키 자체는 사용하지 마세요!
+
+### 3. 비교에 유용한 스펙 선별 (개수 제한 없음)
+- ✅ 포함: 용량, 재질, 무게, 크기, 소비전력, 온도 관련, 기능, 제조국, 보증기간 등 모든 유의미한 스펙
+- ❌ 제외: 이미 필터링된 메타 정보만 제외
+
+### 4. 중요도 순서로 정렬
+구매 결정에 중요한 스펙이 위로 오도록:
+1. 용량/크기/무게 (기본 스펙)
+2. 재질/소재 (품질 관련)
+3. 기능/성능 (핵심 기능)
+4. 온도/전력 (사용성)
+5. 제조국/보증 (부가 정보)
+
+### 5. 값 정규화
+- 한쪽에만 있는 스펙도 포함 (없는 쪽은 null)
+- 값이 동일해도 포함 (비교 시 유용)
+- 값은 원본 그대로 유지 (단위 포함)
+
+## 응답 JSON 형식
+\`\`\`json
+{
+  "normalizedSpecs": [
+    {
+      "key": "용량",
+      "values": {
+        "${pcodes[0] || 'pcode1'}": "500ml",
+        "${pcodes[1] || 'pcode2'}": "600ml"${pcodes[2] ? `,\n        "${pcodes[2]}": "450ml"` : ''}
+      }
+    },
+    {
+      "key": "재질",
+      "values": {
+        "${pcodes[0] || 'pcode1'}": "스테인리스",
+        "${pcodes[1] || 'pcode2'}": "트라이탄"${pcodes[2] ? `,\n        "${pcodes[2]}": "PP"` : ''}
+      }
+    }
+  ]
+}
+\`\`\`
+
+JSON만 응답하세요.`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+    const parsed = parseJSONResponse(responseText) as { normalizedSpecs?: NormalizedSpecRow[] };
+
+    if (parsed.normalizedSpecs && Array.isArray(parsed.normalizedSpecs)) {
+      console.log(`[comparison-analysis] Normalized ${parsed.normalizedSpecs.length} spec rows`);
+      return parsed.normalizedSpecs;
+    }
+  } catch (error) {
+    console.error('[comparison-analysis] Spec normalization failed:', error);
+  }
+
+  // Fallback: 단순 union 방식 (기존 방식)
+  return generateFallbackNormalizedSpecs(products);
+}
+
+/**
+ * Fallback 스펙 정규화 - LLM 실패 시 단순 union 방식
+ */
+function generateFallbackNormalizedSpecs(products: ProductInfo[]): NormalizedSpecRow[] {
+  // 모든 스펙 키 수집
+  const allKeysSet = new Set<string>();
+  const productSpecs: Record<string, Record<string, string>> = {};
+
+  for (const p of products) {
+    const allSpecs = { ...(p.spec || {}), ...(p.filter_attrs || {}) };
+    productSpecs[p.pcode] = {};
+
+    for (const [key, value] of Object.entries(allSpecs)) {
+      if (value === null || value === undefined || value === '' || value === '-') continue;
+      if (['브랜드', '모델명', '제품명', '상품명', '제조사', '색상', '컬러', '가격'].includes(key)) continue;
+
+      allKeysSet.add(key);
+      productSpecs[p.pcode][key] = String(value);
+    }
+  }
+
+  // 중요 스펙 우선 정렬 (개수 제한 없음)
+  const priorityKeys = ['용량', '무게', '크기', '사이즈', '재질', '소재', '소비전력', '온도', '제조국', '보증기간'];
+  const sortedKeys = Array.from(allKeysSet).sort((a, b) => {
+    const aIdx = priorityKeys.findIndex(k => a.includes(k));
+    const bIdx = priorityKeys.findIndex(k => b.includes(k));
+    if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+    if (aIdx !== -1) return -1;
+    if (bIdx !== -1) return 1;
+    return 0;
+  });
+
+  // NormalizedSpecRow 형태로 변환
+  return sortedKeys.map(key => ({
+    key,
+    values: Object.fromEntries(
+      products.map(p => [p.pcode, productSpecs[p.pcode]?.[key] || null])
+    ),
+  }));
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse<ComparisonAnalysisResponse>> {
   try {
     const body: ComparisonAnalysisRequest = await request.json();
@@ -335,34 +496,50 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
     const categoryName = insights?.category_name || categoryKey;
 
     let comparisons: ProductComparison[] = [];
+    let normalizedSpecs: NormalizedSpecRow[] = [];
     let generated_by: 'llm' | 'fallback' = 'fallback';
+
+    const productsToProcess = products.slice(0, 3);
 
     if (isGeminiAvailable() && insights) {
       try {
-        comparisons = await callGeminiWithRetry(
-          () => generateComparisons(products.slice(0, 3), categoryName, insights),
-          2,
-          1500
-        );
+        // 비교 분석과 스펙 정규화를 병렬로 실행
+        const [comparisonsResult, normalizedSpecsResult] = await Promise.all([
+          callGeminiWithRetry(
+            () => generateComparisons(productsToProcess, categoryName, insights),
+            2,
+            1500
+          ),
+          callGeminiWithRetry(
+            () => normalizeSpecsForComparison(productsToProcess, categoryName),
+            2,
+            1500
+          ),
+        ]);
+
+        comparisons = comparisonsResult;
+        normalizedSpecs = normalizedSpecsResult;
         generated_by = 'llm';
 
-        console.log(`[comparison-analysis] LLM generated comparisons for ${comparisons.length} products`);
+        console.log(`[comparison-analysis] LLM generated comparisons for ${comparisons.length} products, ${normalizedSpecs.length} normalized spec rows`);
       } catch (llmError) {
         console.error('[comparison-analysis] LLM failed, using fallback:', llmError);
-        comparisons = generateFallbackComparisons(products.slice(0, 3), insights);
+        comparisons = generateFallbackComparisons(productsToProcess, insights);
+        normalizedSpecs = generateFallbackNormalizedSpecs(productsToProcess);
       }
     } else {
       console.log(`[comparison-analysis] LLM not available, using fallback for ${categoryKey}`);
       if (insights) {
-        comparisons = generateFallbackComparisons(products.slice(0, 3), insights);
+        comparisons = generateFallbackComparisons(productsToProcess, insights);
       } else {
-        comparisons = products.slice(0, 3).map(p => ({
+        comparisons = productsToProcess.map(p => ({
           pcode: p.pcode,
           pros: ['추천 제품입니다'],
           cons: ['자세한 정보를 확인하세요'],
           comparison: '추천 순위에 오른 제품입니다.',
         }));
       }
+      normalizedSpecs = generateFallbackNormalizedSpecs(productsToProcess);
     }
 
     // Record 형태로 변환 (기존 API 호환 + 스펙 정보 포함)
@@ -401,6 +578,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
       success: true,
       data: {
         productDetails,
+        normalizedSpecs,
         generated_by,
       },
     });

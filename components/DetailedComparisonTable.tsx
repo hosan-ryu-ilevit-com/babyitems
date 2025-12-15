@@ -9,6 +9,12 @@ import { products } from '@/data/products';
 import { logButtonClick, logComparisonDetailViewClick } from '@/lib/logging/clientLogger';
 import AnchorProductChangeBottomSheet from './AnchorProductChangeBottomSheet';
 
+// 정규화된 스펙 row 타입 (API 응답과 동일)
+interface NormalizedSpecRow {
+  key: string;  // 정규화된 스펙 이름 (예: "용량", "재질")
+  values: Record<string, string | null>;  // pcode -> value 매핑
+}
+
 interface DetailedComparisonTableProps {
   recommendations: Recommendation[];
   cachedFeatures?: Record<string, string[]>;
@@ -20,6 +26,7 @@ interface DetailedComparisonTableProps {
   onProductClick?: (rec: Recommendation) => void; // NEW: Product click handler for modal
   onAnchorChange?: (newAnchorProduct: any) => void; // NEW: Anchor product change handler
   danawaSpecs?: Record<string, Record<string, string>>; // NEW: Danawa specs data
+  normalizedSpecs?: NormalizedSpecRow[]; // NEW: 정규화된 스펙 비교표 데이터
 }
 
 export default function DetailedComparisonTable({
@@ -32,7 +39,8 @@ export default function DetailedComparisonTable({
   category,
   onProductClick,
   onAnchorChange,
-  danawaSpecs = {}
+  danawaSpecs = {},
+  normalizedSpecs = []
 }: DetailedComparisonTableProps) {
   const searchParams = useSearchParams();
   const fromFavorites = searchParams.get('fromFavorites') === 'true';
@@ -684,7 +692,7 @@ export default function DetailedComparisonTable({
               return (
                 <tr className="border-b border-gray-100">
                   {/* 왼쪽 제품 */}
-                  <td className="py-2 px-2 text-center w-[40%]">
+                  <td className="py-2 px-2 align-top w-[40%]">
                     {isLoading1 ? (
                       <div className="flex items-center justify-center gap-2 py-2">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
@@ -712,17 +720,17 @@ export default function DetailedComparisonTable({
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-gray-400 text-center">-</p>
+                      <p className="text-xs text-gray-400">-</p>
                     )}
                   </td>
 
                   {/* 중앙 레이블 */}
-                  <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                  <td className="py-2 px-2 text-center align-top text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
                     장점
                   </td>
 
                   {/* 오른쪽 제품 */}
-                  <td className="py-2 px-2 text-center w-[40%]">
+                  <td className="py-2 px-2 align-top w-[40%]">
                     {isLoading2 ? (
                       <div className="flex items-center justify-center gap-2 py-2">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
@@ -750,7 +758,7 @@ export default function DetailedComparisonTable({
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-gray-400 text-center">-</p>
+                      <p className="text-xs text-gray-400">-</p>
                     )}
                   </td>
                 </tr>
@@ -775,7 +783,7 @@ export default function DetailedComparisonTable({
               return (
                 <tr className="border-b border-gray-100">
                   {/* 왼쪽 제품 */}
-                  <td className="py-2 px-2 text-center w-[40%]">
+                  <td className="py-2 px-2 align-top w-[40%]">
                     {isLoading1 ? (
                       <div className="flex items-center justify-center gap-2 py-2">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
@@ -804,17 +812,17 @@ export default function DetailedComparisonTable({
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-gray-400 text-center">-</p>
+                      <p className="text-xs text-gray-400">-</p>
                     )}
                   </td>
 
                   {/* 중앙 레이블 */}
-                  <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
+                  <td className="py-2 px-2 text-center align-top text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">
                     주의점
                   </td>
 
                   {/* 오른쪽 제품 */}
-                  <td className="py-2 px-2 text-center w-[40%]">
+                  <td className="py-2 px-2 align-top w-[40%]">
                     {isLoading2 ? (
                       <div className="flex items-center justify-center gap-2 py-2">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
@@ -843,7 +851,7 @@ export default function DetailedComparisonTable({
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-gray-400 text-center">-</p>
+                      <p className="text-xs text-gray-400">-</p>
                     )}
                   </td>
                 </tr>
@@ -851,43 +859,71 @@ export default function DetailedComparisonTable({
             })()}
 
             {/* 스펙 비교 */}
-            {/* danawaSpecs가 있거나 productDetails가 있으면 스펙 섹션 표시 */}
-            {!isLoadingComparison && (Object.keys(productDetails).length > 0 || Object.keys(danawaSpecs).length > 0) && (() => {
+            {/* normalizedSpecs 또는 danawaSpecs/productDetails가 있으면 스펙 섹션 표시 */}
+            {!isLoadingComparison && (normalizedSpecs.length > 0 || Object.keys(productDetails).length > 0 || Object.keys(danawaSpecs).length > 0) && (() => {
               const product1 = selectedProducts[0];
               const product2 = selectedProducts[1];
               if (!product1 || !product2) return null;
 
+              // normalizedSpecs가 있으면 해당 데이터 사용 (LLM이 정규화한 스펙)
+              if (normalizedSpecs.length > 0) {
+                console.log(`🎯 [NORMALIZED SPECS] Using ${normalizedSpecs.length} normalized spec rows`);
+
+                // 선택된 두 제품에 대한 값만 필터링
+                const filteredSpecs = normalizedSpecs.filter(row => {
+                  const val1 = row.values[product1.id];
+                  const val2 = row.values[product2.id];
+                  // 양쪽 모두 null이거나 빈 값이면 제외
+                  const isEmpty1 = !val1 || val1 === '-' || val1 === '';
+                  const isEmpty2 = !val2 || val2 === '-' || val2 === '';
+                  return !(isEmpty1 && isEmpty2);
+                });
+
+                if (filteredSpecs.length === 0) return null;
+
+                return (
+                  <>
+                    {filteredSpecs.map((row, idx) => {
+                      const rawVal1 = row.values[product1.id];
+                      const rawVal2 = row.values[product2.id];
+
+                      // null, "null", undefined, 빈문자열 처리
+                      const isEmpty = (v: string | null | undefined) =>
+                        v === null || v === undefined || v === '' || v === 'null' || v === '-';
+
+                      const isEmpty1 = isEmpty(rawVal1);
+                      const isEmpty2 = isEmpty(rawVal2);
+
+                      // 양쪽 다 비어있으면 row 숨김
+                      if (isEmpty1 && isEmpty2) return null;
+
+                      const value1 = isEmpty1 ? '정보없음' : rawVal1!;
+                      const value2 = isEmpty2 ? '정보없음' : rawVal2!;
+
+                      return (
+                        <tr key={`normalized-${idx}`} className="border-b border-gray-100">
+                          <td className={`py-2 px-2 text-center text-xs w-[40%] ${isEmpty1 ? 'text-gray-400' : 'text-gray-700'}`}>{value1}</td>
+                          <td className="py-2 px-2 text-center text-xs font-medium text-gray-500 bg-gray-50 w-[20%]">{row.key}</td>
+                          <td className={`py-2 px-2 text-center text-xs w-[40%] ${isEmpty2 ? 'text-gray-400' : 'text-gray-700'}`}>{value2}</td>
+                        </tr>
+                      );
+                    })}
+                  </>
+                );
+              }
+
+              // Fallback: 기존 방식 (normalizedSpecs가 없는 경우)
               // 기존 스펙과 다나와 스펙 병합 (다나와 스펙 우선)
               const baseSpecs1 = productDetails[product1.id]?.specs || {};
               const baseSpecs2 = productDetails[product2.id]?.specs || {};
               const danawaSpecs1 = danawaSpecs[product1.id] || {};
               const danawaSpecs2 = danawaSpecs[product2.id] || {};
 
-              console.log(`🔀 [MERGE] Merging specs for ${product1.id}:`, {
-                baseSpecsCount: Object.keys(baseSpecs1).length,
-                danawaSpecsCount: Object.keys(danawaSpecs1).length,
-                baseSpecs: baseSpecs1,
-                danawaSpecs: danawaSpecs1
-              });
-              console.log(`🔀 [MERGE] Merging specs for ${product2.id}:`, {
-                baseSpecsCount: Object.keys(baseSpecs2).length,
-                danawaSpecsCount: Object.keys(danawaSpecs2).length,
-                baseSpecs: baseSpecs2,
-                danawaSpecs: danawaSpecs2
-              });
+              console.log(`🔀 [FALLBACK] Using legacy spec merge for ${product1.id}, ${product2.id}`);
 
               // 다나와 스펙이 있으면 우선 사용, 없으면 기존 스펙 사용
               const specs1 = { ...baseSpecs1, ...danawaSpecs1 };
               const specs2 = { ...baseSpecs2, ...danawaSpecs2 };
-
-              console.log(`✅ [MERGE RESULT] Product ${product1.id} merged specs:`, {
-                totalCount: Object.keys(specs1).length,
-                specs: specs1
-              });
-              console.log(`✅ [MERGE RESULT] Product ${product2.id} merged specs:`, {
-                totalCount: Object.keys(specs2).length,
-                specs: specs2
-              });
 
               // 스펙이 하나도 없으면 표시 안 함
               if (Object.keys(specs1).length === 0 && Object.keys(specs2).length === 0) return null;
@@ -915,13 +951,6 @@ export default function DetailedComparisonTable({
                 console.log(`⚠️ [RENDER] No specs to display - both specKeys and metaSpecKeys are empty`);
                 return null;
               }
-
-              console.log(`🎨 [RENDER] About to render specs section:`, {
-                metaSpecKeysCount: metaSpecKeys.length,
-                specKeysCount: specKeys.length,
-                metaSpecKeys,
-                specKeys
-              });
 
               return (
                 <>

@@ -155,7 +155,11 @@ export default function RecommendV2Page() {
   const [hardFilterAnswers, setHardFilterAnswers] = useState<Record<string, string[]>>({});
   const [currentHardFilterIndex, setCurrentHardFilterIndex] = useState(0);
   // 인기 하드필터 옵션 (통계 기반)
-  const [popularHardFilterOptions, setPopularHardFilterOptions] = useState<Array<{ questionId: string; value: string; percentage: number; isPopular: boolean }>>([]);
+  const [popularHardFilterOptions, setPopularHardFilterOptions] = useState<Array<{ questionId: string; value: string; label: string; percentage: number; isPopular: boolean }>>([]);
+  // 동적 생성 팁 (LLM 기반)
+  const [dynamicTips, setDynamicTips] = useState<Record<string, string>>({});
+  // 하위 카테고리 선택용 동적 팁
+  const [subCategoryTip, setSubCategoryTip] = useState<string>('');
   const [balanceSelections, setBalanceSelections] = useState<Set<string>>(new Set());
   const [currentBalanceIndex, setCurrentBalanceIndex] = useState(0);
   const [negativeSelections, setNegativeSelections] = useState<string[]>([]);
@@ -260,26 +264,34 @@ export default function RecommendV2Page() {
     setProgress((prev: number) => Math.max(prev, value));
   }, []);
 
-  // 프로그레스 관리: 시간 기반으로 1%씩 계속 증가 (99%까지)
-  // 단계별 점프는 handleGetRecommendation에서 setProgressSafe()로 직접 설정
+  // 프로그레스 관리: 95%까지 빠르게 (100ms당 1%), 95% 이후 느리게 (1초당 1%, 99%까지)
+  // API 완료 시 100%로 빠르게 애니메이션
   useEffect(() => {
     if (isCalculating) {
-      // 시작 시 0으로 초기화
       setProgress(0);
       let tickCount = 0;
+      let slowModeStartTick = 0;
 
       const interval = setInterval(() => {
         tickCount++;
-        // 프로그레스: 0.1초(10틱)마다 1% 증가, 99%까지 (총 ~10초)
-        if (tickCount % 10 === 0) {
-          setProgress((prev: number) => {
-            if (prev < 99) {
-              return prev + 1;
-            }
-            return prev;
-          });
-        }
-      }, 10); // 10ms마다
+
+        setProgress((prev: number) => {
+          // API가 이미 100%로 설정했으면 유지
+          if (prev >= 99) return prev;
+
+          if (prev < 95) {
+            // 95%까지: 100ms(10틱)마다 1% 증가
+            if (tickCount % 10 === 0) return prev + 1;
+          } else {
+            // 95% 도달 시 슬로우 모드 시작점 기록
+            if (slowModeStartTick === 0) slowModeStartTick = tickCount;
+            // 95~99%: 1초(100틱)마다 1% 증가
+            const slowTicks = tickCount - slowModeStartTick;
+            if (slowTicks > 0 && slowTicks % 100 === 0) return prev + 1;
+          }
+          return prev;
+        });
+      }, 10);
       return () => clearInterval(interval);
     }
   }, [isCalculating]);
@@ -514,6 +526,96 @@ export default function RecommendV2Page() {
 
     loadPopularOptions();
   }, [categoryKey]);
+
+  // 동적 팁 로딩 (LLM 기반) - 질문과 인기 옵션이 로드된 후 실행
+  useEffect(() => {
+    if (!categoryKey || !hardFilterConfig?.questions?.length) return;
+    // popularHardFilterOptions가 로드될 때까지 대기 (빈 배열도 허용)
+    if (popularHardFilterOptions === undefined) return;
+
+    const loadDynamicTips = async () => {
+      const questions = hardFilterConfig.questions!;
+
+      // 각 질문에 대해 병렬로 tip 생성 요청
+      const tipPromises = questions.map(async (q) => {
+        try {
+          // 해당 질문의 인기 옵션 필터링
+          const questionPopularOptions = popularHardFilterOptions
+            .filter(po => po.questionId === q.id && po.isPopular)
+            .map(po => ({
+              value: po.value,
+              label: po.label || po.value,
+              percentage: po.percentage,
+            }));
+
+          const res = await fetch('/api/v2/generate-tip', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              categoryKey,
+              questionId: q.id,
+              questionText: q.question,
+              options: q.options.map(o => ({ value: o.value, label: o.label })),
+              popularOptions: questionPopularOptions,
+            }),
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            return { questionId: q.id, tip: data.tip };
+          }
+        } catch (error) {
+          console.warn(`Failed to load dynamic tip for ${q.id}:`, error);
+        }
+        return null;
+      });
+
+      const results = await Promise.all(tipPromises);
+      const tips: Record<string, string> = {};
+      results.forEach(r => {
+        if (r?.tip) tips[r.questionId] = r.tip;
+      });
+
+      setDynamicTips(tips);
+    };
+
+    loadDynamicTips();
+  }, [categoryKey, hardFilterConfig?.questions, popularHardFilterOptions]);
+
+  // 하위 카테고리 선택용 동적 팁 로딩
+  useEffect(() => {
+    if (!categoryKey || !requiresSubCategory || !subCategoryConfig) return;
+
+    const loadSubCategoryTip = async () => {
+      try {
+        const res = await fetch('/api/v2/generate-tip', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            questionId: 'sub_category',
+            questionText: `어떤 ${subCategoryConfig.category_name}를 찾으세요?`,
+            options: subCategoryConfig.sub_categories.map(sc => ({
+              value: sc.code,
+              label: sc.name,
+            })),
+            popularOptions: [], // 하위 카테고리는 인기 통계 없음
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.tip) {
+            setSubCategoryTip(data.tip);
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to load sub-category tip:', error);
+      }
+    };
+
+    loadSubCategoryTip();
+  }, [categoryKey, requiresSubCategory, subCategoryConfig]);
 
   // Keep productsRef in sync with products state (to avoid closure issues)
   useEffect(() => {
@@ -1467,11 +1569,12 @@ export default function RecommendV2Page() {
         console.warn('Tag refinement failed, using raw tags:', refineError);
       }
 
-      setProgressSafe(95); // 3단계 완료: 태그 정제 완료
-      await new Promise(resolve => setTimeout(resolve, 400)); // 95% 표시를 위한 딜레이
-
-      setProgressSafe(100); // 최종 완료
-      await new Promise(resolve => setTimeout(resolve, 800)); // 100% 표시를 위한 충분한 딜레이
+      // 95% → 100% 빠르게 애니메이션 (50ms 간격으로 1%씩)
+      for (let i = 95; i <= 100; i++) {
+        setProgressSafe(i);
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      await new Promise(resolve => setTimeout(resolve, 300)); // 100% 표시 후 잠시 대기
 
       setScoredProducts(top3);
       setSelectionReason(finalSelectionReason);
@@ -1652,6 +1755,7 @@ export default function RecommendV2Page() {
                 selectedCode={selectedSubCategoryCode}
                 onSelect={handleSubCategoryClick}
                 onSelectAll={handleSubCategorySelectAll}
+                dynamicTip={subCategoryTip}
               />
             </div>
           );
@@ -1673,6 +1777,7 @@ export default function RecommendV2Page() {
                 products={products}
                 showProductCounts={true}
                 popularOptions={popularHardFilterOptions}
+                dynamicTip={dynamicTips[hfData.question.id]}
               />
             </div>
           );
@@ -2429,14 +2534,14 @@ export default function RecommendV2Page() {
                   animate={{ opacity: 1, y: 0 }}
                   className="w-full py-8 flex flex-col items-center"
                 >
-                  {/* 로딩 비디오 - 상단, 거의 전체 너비 */}
-                  <div className="w-full max-w-[360px] rounded-2xl overflow-hidden bg-white mb-6">
+                  {/* 로딩 비디오 - 정사각형, 작게 */}
+                  <div className="w-[130px] h-[130px] rounded-2xl overflow-hidden bg-white mb-6">
                     <video
                       autoPlay
                       loop
                       muted
                       playsInline
-                      className="w-full h-auto object-contain"
+                      className="w-full h-full object-cover"
                     >
                       <source src="/animations/recommendloading.MP4" type="video/mp4" />
                     </video>

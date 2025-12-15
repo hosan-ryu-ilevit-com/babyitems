@@ -253,6 +253,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   // NOTE: setComparisonFeatures 비활성화 - 기준제품 기능 비활성화로 미사용
   const [comparisonFeatures] = useState<Record<string, string[]>>({});
   const [comparisonDetails, setComparisonDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> | null }>>({});
+  const [normalizedSpecs, setNormalizedSpecs] = useState<Array<{ key: string; values: Record<string, string | null> }>>([]);
 
   // Background LLM analysis states
   const [productAnalysisData, setProductAnalysisData] = useState<Record<string, ProductAnalysisData>>({});
@@ -400,6 +401,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     // 캐시 확인 (매번 체크 - sessionStorage 읽기는 동기적이고 빠름)
     // NOTE: cacheCheckedRef 제거 - React StrictMode/re-render 시 캐시 스킵 버그 수정
     let cachedComparison: Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> | null }> | null = null;
+    let cachedNormalizedSpecs: Array<{ key: string; values: Record<string, string | null> }> | null = null;
     let cachedProductAnalysis: Record<string, ProductAnalysisData> | null = null;
 
     try {
@@ -410,7 +412,11 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         const parsed = JSON.parse(comparisonCache);
         if (parsed.data) {
           cachedComparison = parsed.data;
+          cachedNormalizedSpecs = parsed.normalizedSpecs || null;
           console.log('✅ [ResultCards] Comparison analysis loaded from cache:', comparisonStorageKey);
+          if (cachedNormalizedSpecs) {
+            console.log(`🎯 [ResultCards] Normalized specs loaded from cache: ${cachedNormalizedSpecs.length} rows`);
+          }
         }
       }
 
@@ -430,6 +436,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     // 둘 다 캐시가 있으면 API 호출 스킵
     if (cachedComparison && cachedProductAnalysis) {
       setComparisonDetails(cachedComparison);
+      if (cachedNormalizedSpecs) {
+        setNormalizedSpecs(cachedNormalizedSpecs);
+      }
       setProductAnalysisData(cachedProductAnalysis);
       setIsComparisonLoading(false);
       setIsAnalysisLoading(false);
@@ -537,15 +546,26 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         }
 
         if (typedResult.type === 'comparison' && typedResult.success) {
-          const data = typedResult.data as { productDetails: Record<string, { pros: string[]; cons: string[]; comparison: string }>; generated_by: string };
+          const data = typedResult.data as {
+            productDetails: Record<string, { pros: string[]; cons: string[]; comparison: string }>;
+            normalizedSpecs?: Array<{ key: string; values: Record<string, string | null> }>;
+            generated_by: string;
+          };
           if (data?.productDetails) {
             setComparisonDetails(data.productDetails);
+
+            // normalizedSpecs가 있으면 저장
+            if (data.normalizedSpecs && data.normalizedSpecs.length > 0) {
+              setNormalizedSpecs(data.normalizedSpecs);
+              console.log(`🎯 [ResultCards] Normalized specs loaded: ${data.normalizedSpecs.length} rows`);
+            }
 
             // SessionStorage에 캐싱 (카테고리별 별도 키 사용)
             try {
               const comparisonStorageKey = `${V2_COMPARISON_CACHE_PREFIX}_${cacheKey}`;
               sessionStorage.setItem(comparisonStorageKey, JSON.stringify({
                 data: data.productDetails,
+                normalizedSpecs: data.normalizedSpecs || [],
                 timestamp: Date.now(),
               }));
               console.log('💾 [ResultCards] Comparison analysis saved to cache:', comparisonStorageKey);
@@ -1060,6 +1080,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             isTagBasedFlow={true}
             category={categoryKey}
             danawaSpecs={danawaSpecs}
+            normalizedSpecs={normalizedSpecs}
             // NOTE: 기준제품 기능 임시 비활성화 (버그 많음)
             // anchorProduct={anchorProduct}
             // onAnchorChange={handleAnchorChange}

@@ -23,6 +23,8 @@ interface HardFilterQuestionProps {
   showProductCounts?: boolean;
   // 인기 옵션 (상위 3개)
   popularOptions?: PopularOption[];
+  // LLM 생성 동적 팁 (question.tip보다 우선)
+  dynamicTip?: string;
 }
 
 /**
@@ -131,8 +133,12 @@ export function HardFilterQuestion({
   products,
   showProductCounts = false,
   popularOptions = [],
+  dynamicTip,
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
+
+  // dynamicTip이 있으면 우선 사용, 없으면 question.tip 사용
+  const tipText = dynamicTip || data.dynamicTip || question.tip;
 
   // 로컬 선택 상태 (부모에서 전달받은 값으로 초기화)
   const [localSelectedValues, setLocalSelectedValues] = useState<string[]>(initialValues || []);
@@ -206,10 +212,10 @@ export function HardFilterQuestion({
         {question.question}
       </h3>
 
-      {/* 도움말 팁 */}
-      {question.tip && (
+      {/* 도움말 팁 (dynamicTip 우선) */}
+      {tipText && (
         <p className="text-sm text-gray-500 -mt-2">
-          {question.tip}
+          {tipText}
         </p>
       )}
 
