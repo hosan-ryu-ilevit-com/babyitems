@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { BalanceGameData } from '@/types/recommend-v2';
+import { AIHelperButton } from './AIHelperButton';
+import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
 interface BalanceGameCardProps {
   data: BalanceGameData;
@@ -9,6 +12,10 @@ interface BalanceGameCardProps {
   onSelectB: () => void;
   onSkip: () => void;
   onSelectBoth?: () => void;  // "둘 다 중요해요" 선택 (priority 타입용)
+  // AI 도움 기능
+  showAIHelper?: boolean;
+  category?: string;
+  categoryName?: string;
 }
 
 /**
@@ -22,8 +29,26 @@ export function BalanceGameCard({
   onSelectB,
   onSkip,
   onSelectBoth,
+  showAIHelper = false,
+  category = '',
+  categoryName = '',
 }: BalanceGameCardProps) {
   const { question, currentIndex, totalCount } = data;
+
+  // AI 도움 바텀시트 상태
+  const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+
+  // AI 추천 결과 처리
+  const handleAISelectOptions = (selectedOptions: string[]) => {
+    const selected = selectedOptions[0];
+    if (selected === 'A') {
+      onSelectA();
+    } else if (selected === 'B') {
+      onSelectB();
+    } else if (selected === 'both' && onSelectBoth) {
+      onSelectBoth();
+    }
+  };
 
   return (
     <motion.div
@@ -48,6 +73,11 @@ export function BalanceGameCard({
       <h3 className="text-base font-bold text-gray-900 text-center leading-snug">
         {question.title}
       </h3>
+
+      {/* AI 도움받기 버튼 */}
+      {showAIHelper && (
+        <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+      )}
 
       {/* A vs B 선택 */}
       <div className="space-y-3">
@@ -102,6 +132,24 @@ export function BalanceGameCard({
           </button>
         )}
       </div>
+
+      {/* AI 도움 바텀시트 */}
+      {showAIHelper && (
+        <AIHelperBottomSheet
+          isOpen={isAIHelperOpen}
+          onClose={() => setIsAIHelperOpen(false)}
+          questionType="balance_game"
+          questionId={question.id}
+          questionText={question.title}
+          options={{
+            A: { text: question.option_A.text, target_rule_key: question.option_A.target_rule_key },
+            B: { text: question.option_B.text, target_rule_key: question.option_B.target_rule_key },
+          }}
+          category={category}
+          categoryName={categoryName}
+          onSelectOptions={handleAISelectOptions}
+        />
+      )}
     </motion.div>
   );
 }

@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import ReviewCard from '@/components/ReviewCard';
+import DanawaReviewTab from '@/components/DanawaReviewTab';
 import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick } from '@/lib/logging/clientLogger';
-import type { Review } from '@/lib/review';
 import { TextWithCitations } from '@/components/ReviewCitationButton';
 import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
@@ -180,12 +179,9 @@ function CircularProgress({ score, total, color, size = 40 }: { score: number; t
   );
 }
 
-export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData }: ProductDetailModalProps) {
-  const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [sortBy, setSortBy] = useState<'rating_desc' | 'rating_asc'>('rating_desc');
-  const [reviewsLoading, setReviewsLoading] = useState(false);
-  const [averageRating, setAverageRating] = useState<number>(initialAverageRating || 0);
+export default function ProductDetailModal({ productData, productComparisons, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData }: ProductDetailModalProps) {
+  const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>('price');
+  const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
 
   // 섹션 접기/펼치기 상태
@@ -209,43 +205,6 @@ export default function ProductDetailModal({ productData, productComparisons, ca
   // 가격 비교 토글 상태
   const [showPriceComparison, setShowPriceComparison] = useState(false);
 
-  // Fetch reviews function
-  const fetchReviews = useCallback(async () => {
-    // Use 'milk_powder_port' as fallback if category is not provided
-    const categoryToUse = category || 'milk_powder_port';
-
-    setReviewsLoading(true);
-    try {
-      const response = await fetch(
-        `/api/product-reviews?category=${categoryToUse}&productId=${productData.product.id}&sortBy=${sortBy}`
-      );
-      const data = await response.json();
-
-      if (data.success) {
-        setReviews(data.reviews);
-
-        // Calculate average rating
-        if (data.reviews.length > 0) {
-          const total = data.reviews.reduce(
-            (sum: number, review: Review) => sum + review.custom_metadata.rating,
-            0
-          );
-          const average = total / data.reviews.length;
-          setAverageRating(Math.round(average * 10) / 10);
-        }
-      }
-    } catch (error) {
-      console.error('Failed to fetch reviews:', error);
-    } finally {
-      setReviewsLoading(false);
-    }
-  }, [category, productData.product.id, sortBy]);
-
-  // Fetch reviews on mount
-  useEffect(() => {
-    fetchReviews();
-  }, [fetchReviews]);
-
   // Prevent body scroll when modal is open
   useEffect(() => {
     // Save original overflow style
@@ -258,12 +217,6 @@ export default function ProductDetailModal({ productData, productComparisons, ca
       document.body.style.overflow = originalOverflow;
     };
   }, []);
-
-  const handleSortChange = async (newSortBy: 'rating_desc' | 'rating_asc') => {
-    setSortBy(newSortBy);
-    logButtonClick(`리뷰 정렬: ${newSortBy === 'rating_desc' ? '높은순' : '낮은순'}`, 'product-modal');
-    // fetchReviews will be triggered automatically by useEffect when sortBy changes
-  };
 
   const handleClose = () => {
     setIsExiting(true);
@@ -386,87 +339,63 @@ export default function ProductDetailModal({ productData, productComparisons, ca
             {productData.product.title}
           </h2>
           {/* 가격 - 다나와 최저가 우선, 없으면 product.price */}
-          <div className="text-2xl font-bold text-gray-900 mb-2">
+          <div className="text-2xl font-bold text-gray-900">
             <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
             {(danawaData?.lowestPrice || productData.product.price).toLocaleString()}원
           </div>
-          
+        </div>
 
-          {/* 가격 비교 */}
-          {danawaData && danawaData.prices.length > 0 && (
-            <div className="space-y-2">
-              {/* 기본 3개 표시 */}
-              {danawaData.prices.slice(0, 3).map((priceInfo, index) => (
-                <a
-                  key={index}
-                  href={priceInfo.link || '#'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal');
-                    logProductModalPurchaseClick(
-                      productData.product.id,
-                      productData.product.title,
-                      priceInfo.mall,
-                      priceInfo.price,
-                      index === 0,
-                      'product-modal'
-                    );
-                  }}
-                  className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors"
-                >
-                  {/* 쇼핑몰 아이콘 */}
-                  <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
-                    {getMallLogoPath(priceInfo.mall) ? (
-                      <Image
-                        src={getMallLogoPath(priceInfo.mall)!}
-                        alt={priceInfo.mall}
-                        width={28}
-                        height={28}
-                        className="object-contain"
-                      />
-                    ) : (
-                      <span className="text-xs font-bold text-gray-500">
-                        {priceInfo.mall.slice(0, 2)}
-                      </span>
-                    )}
-                  </div>
+        {/* 상품정보 | 상품리뷰 탭 (전체 너비) */}
+        <div>
+          <div className="flex">
+            <button
+              onClick={() => {
+                setPriceTab('price');
+                logButtonClick('상품정보 탭', 'product-modal');
+              }}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                priceTab === 'price'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              상품정보
+            </button>
+            <button
+              onClick={() => {
+                setPriceTab('danawa_reviews');
+                logButtonClick('상품 리뷰 탭', 'product-modal');
+              }}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                priceTab === 'danawa_reviews'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              상품리뷰
+            </button>
+          </div>
+        </div>
 
-                  {/* 쇼핑몰 정보 */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium text-sm text-gray-900">{priceInfo.mall}</span>
-                      <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
-                    </div>
-                  </div>
-
-                  {/* 가격 + 화살표 */}
-                  <div className="flex items-center gap-3 shrink-0">
-                    <span className={`text-m font-bold ${index === 0 ? 'text-red-500' : 'text-gray-900'}`}>
-                      {priceInfo.price.toLocaleString()}원
-                    </span>
-                    <div className="w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center">
-                      <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-                </a>
-              ))}
-
-              {/* 추가 판매처 (애니메이션) */}
-              <AnimatePresence initial={false}>
-                {showPriceComparison && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.25, ease: 'easeInOut' }}
-                    className="space-y-2 overflow-hidden"
-                  >
-                    {danawaData.prices.slice(3).map((priceInfo, index) => (
+        {/* 탭 콘텐츠 */}
+        <AnimatePresence mode="wait">
+          {priceTab === 'price' ? (
+            <motion.div
+              key="product-info-tab"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="pb-28"
+            >
+              {/* 가격 비교 */}
+              <div className="px-4 py-4">
+                {danawaData && danawaData.prices.length > 0 ? (
+                  <div className="space-y-2">
+                    {/* 기본 3개 표시 */}
+                    {danawaData.prices.slice(0, 3).map((priceInfo, index) => (
                       <a
-                        key={index + 3}
+                        key={index}
                         href={priceInfo.link || '#'}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -477,7 +406,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                             productData.product.title,
                             priceInfo.mall,
                             priceInfo.price,
-                            false, // expanded prices are never lowest
+                            index === 0,
                             'product-modal'
                           );
                         }}
@@ -510,7 +439,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                         {/* 가격 + 화살표 */}
                         <div className="flex items-center gap-3 shrink-0">
-                          <span className="text-m font-bold text-gray-900">
+                          <span className={`text-m font-bold ${index === 0 ? 'text-red-500' : 'text-gray-900'}`}>
                             {priceInfo.price.toLocaleString()}원
                           </span>
                           <div className="w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center">
@@ -521,53 +450,114 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                         </div>
                       </a>
                     ))}
-                  </motion.div>
+
+                    {/* 추가 판매처 (애니메이션) */}
+                    <AnimatePresence initial={false}>
+                      {showPriceComparison && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25, ease: 'easeInOut' }}
+                          className="space-y-2 overflow-hidden"
+                        >
+                          {danawaData.prices.slice(3).map((priceInfo, index) => (
+                            <a
+                              key={index + 3}
+                              href={priceInfo.link || '#'}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => {
+                                logButtonClick(`${priceInfo.mall} 바로가기`, 'product-modal');
+                                logProductModalPurchaseClick(
+                                  productData.product.id,
+                                  productData.product.title,
+                                  priceInfo.mall,
+                                  priceInfo.price,
+                                  false,
+                                  'product-modal'
+                                );
+                              }}
+                              className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors"
+                            >
+                              {/* 쇼핑몰 아이콘 */}
+                              <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+                                {getMallLogoPath(priceInfo.mall) ? (
+                                  <Image
+                                    src={getMallLogoPath(priceInfo.mall)!}
+                                    alt={priceInfo.mall}
+                                    width={28}
+                                    height={28}
+                                    className="object-contain"
+                                  />
+                                ) : (
+                                  <span className="text-xs font-bold text-gray-500">
+                                    {priceInfo.mall.slice(0, 2)}
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* 쇼핑몰 정보 */}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-medium text-sm text-gray-900">{priceInfo.mall}</span>
+                                  <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
+                                </div>
+                              </div>
+
+                              {/* 가격 + 화살표 */}
+                              <div className="flex items-center gap-3 shrink-0">
+                                <span className="text-m font-bold text-gray-900">
+                                  {priceInfo.price.toLocaleString()}원
+                                </span>
+                                <div className="w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center">
+                                  <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                  </svg>
+                                </div>
+                              </div>
+                            </a>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* 판매처 더보기 버튼 */}
+                    {danawaData.prices.length > 3 && (
+                      <div className="flex justify-center pt-2">
+                        <button
+                          onClick={() => {
+                            setShowPriceComparison(!showPriceComparison);
+                            logButtonClick(showPriceComparison ? '판매처 접기' : '판매처 더보기', 'product-modal');
+                          }}
+                          className="px-5 py-2 bg-black/60 rounded-full text-sm font-medium text-white hover:bg-gray-600 transition-colors"
+                        >
+                          {showPriceComparison ? '판매처 접기' : '판매처 더보기'}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-8">
+                    <div className="text-gray-400 text-sm">가격 정보가 없습니다</div>
+                  </div>
                 )}
-              </AnimatePresence>
+              </div>
 
-              {/* 판매처 더보기 버튼 */}
-              {danawaData.prices.length > 3 && (
-                <div className="flex justify-center pt-2">
-                  <button
-                    onClick={() => {
-                      setShowPriceComparison(!showPriceComparison);
-                      logButtonClick(showPriceComparison ? '판매처 접기' : '판매처 더보기', 'product-modal');
-                    }}
-                    className="px-5 py-2 bg-black/60 rounded-full text-sm font-medium text-white hover:bg-gray-600 transition-colors"
-                  >
-                    {showPriceComparison ? '판매처 접기' : '판매처 더보기'}
-                  </button>
+              {/* Recommendation Reasoning Container */}
+              <div className="px-4 pt-4">
+                <div className="bg-[#E8E6FD] border border-[#D6D3FC] rounded-2xl px-4 py-3 flex items-start gap-2">
+                  <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="#4E43E1">
+                    <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                  </svg>
+                  <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
+                    {parseMarkdownBold(productData.reasoning)}
+                  </p>
                 </div>
-              )}
-            </div>
-          )}
-        </div>
+              </div>
 
-        {/* Recommendation Reasoning Container */}
-        <div className="px-4 pt-4">
-          <div className="bg-[#E8E6FD] border border-[#D6D3FC] rounded-2xl px-4 py-3 flex items-start gap-2">
-            <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="#4E43E1">
-              <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-            </svg>
-            <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
-              {parseMarkdownBold(productData.reasoning)}
-            </p>
-          </div>
-        </div>
-
-         
-          {/* Tab Content */}
-          <div className="pb-28">
-          <AnimatePresence mode="wait">
-            {activeTab === 'description' ? (
-              <motion.div
-                key="description"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="px-4 py-5 space-y-3"
-              >
+              {/* 상품 정보 콘텐츠 */}
+              <div className="px-4 py-5 space-y-3">
                 {/* 선택하신 기준 충족도 */}
                 {productData.selectedTagsEvaluation && productData.selectedTagsEvaluation.length > 0 && (() => {
                   // 장점 태그와 단점 태그 분리
@@ -1137,67 +1127,21 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                     </AnimatePresence>
                   </div>
                 )}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="reviews"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                {/* Sort Filter */}
-                <div className="bg-white border-b border-gray-100 px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleSortChange('rating_desc')}
-                      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                        sortBy === 'rating_desc'
-                          ? 'bg-gray-900 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      별점 높은순
-                    </button>
-                    <button
-                      onClick={() => handleSortChange('rating_asc')}
-                      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                        sortBy === 'rating_asc'
-                          ? 'bg-gray-900 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      별점 낮은순
-                    </button>
-                  </div>
-                </div>
-
-                {/* Reviews List */}
-                {reviewsLoading ? (
-                  <div className="flex items-center justify-center py-20">
-                    <div className="text-gray-500">리뷰를 불러오는 중...</div>
-                  </div>
-                ) : reviews.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-20">
-                    <div className="text-4xl mb-3">📝</div>
-                    <div className="text-gray-500 text-sm">아직 리뷰가 없습니다</div>
-                  </div>
-                ) : (
-                  <div>
-                    {reviews.map((review, index) => (
-                      <ReviewCard
-                        key={index}
-                        text={review.text}
-                        rating={review.custom_metadata.rating}
-                        nickname={`user${index + 1}`}
-                      />
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-          </div>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="danawa-reviews-tab"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="pb-28"
+            >
+              <DanawaReviewTab pcode={productData.product.id} fullHeight={true} />
+            </motion.div>
+          )}
+        </AnimatePresence>
         </div>
 
         {/* Floating Action Buttons */}

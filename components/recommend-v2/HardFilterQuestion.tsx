@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { HardFilterData, ProductItem } from '@/types/recommend-v2';
+import { AIHelperButton } from './AIHelperButton';
+import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
 // "전부 좋아요" 옵션 값 (이 값을 가진 옵션이 선택되면 다른 옵션 비활성화)
 const SKIP_VALUES = ['skip', 'any', '상관없어요', '전부 좋아요', 'none', 'all'];
@@ -25,6 +27,10 @@ interface HardFilterQuestionProps {
   popularOptions?: PopularOption[];
   // LLM 생성 동적 팁 (question.tip보다 우선)
   dynamicTip?: string;
+  // AI 도움 기능
+  showAIHelper?: boolean;
+  category?: string;
+  categoryName?: string;
 }
 
 /**
@@ -134,6 +140,9 @@ export function HardFilterQuestion({
   showProductCounts = false,
   popularOptions = [],
   dynamicTip,
+  showAIHelper = false,
+  category = '',
+  categoryName = '',
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
 
@@ -142,6 +151,9 @@ export function HardFilterQuestion({
 
   // 로컬 선택 상태 (부모에서 전달받은 값으로 초기화)
   const [localSelectedValues, setLocalSelectedValues] = useState<string[]>(initialValues || []);
+
+  // AI 도움 바텀시트 상태
+  const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
 
   // 부모에서 전달받은 값이 변경되면 동기화
   useEffect(() => {
@@ -217,6 +229,11 @@ export function HardFilterQuestion({
         <p className="text-sm text-gray-500 -mt-2">
           {tipText}
         </p>
+      )}
+
+      {/* AI 도움받기 버튼 - tipText가 있을 때만 표시 */}
+      {showAIHelper && tipText && (
+        <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
       )}
 
       {/* 선택지 - 6개 초과 시 2열 그리드 */}
@@ -317,6 +334,25 @@ export function HardFilterQuestion({
           );
         })}
       </div>
+
+      {/* AI 도움 바텀시트 - tipText가 있을 때만 렌더 */}
+      {showAIHelper && tipText && (
+        <AIHelperBottomSheet
+          isOpen={isAIHelperOpen}
+          onClose={() => setIsAIHelperOpen(false)}
+          questionType="hard_filter"
+          questionId={question.id}
+          questionText={question.question}
+          options={question.options.map(o => ({ value: o.value, label: o.label }))}
+          category={category}
+          categoryName={categoryName}
+          tipText={tipText}
+          onSelectOptions={(selectedOptions) => {
+            setLocalSelectedValues(selectedOptions);
+            onSelect(question.id, selectedOptions);
+          }}
+        />
+      )}
     </motion.div>
   );
 }

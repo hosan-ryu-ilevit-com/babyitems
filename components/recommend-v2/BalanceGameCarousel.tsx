@@ -3,6 +3,8 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { BalanceQuestion } from '@/types/recommend-v2';
+import { AIHelperButton } from './AIHelperButton';
+import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
 export interface BalanceGameCarouselRef {
   goToPrevious: () => boolean; // returns true if moved, false if already at first
@@ -32,6 +34,10 @@ interface BalanceGameCarouselProps {
     optionBLabel: string;
     ruleKey: string;
   }) => void;
+  // AI 도움 기능
+  showAIHelper?: boolean;
+  category?: string;
+  categoryName?: string;
 }
 
 /**
@@ -57,12 +63,13 @@ const slideVariants = {
 };
 
 export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGameCarouselProps>(
-  function BalanceGameCarousel({ questions, onComplete, onStateChange, onSelectionMade }, ref) {
+  function BalanceGameCarousel({ questions, onComplete, onStateChange, onSelectionMade, showAIHelper = false, category = '', categoryName = '' }, ref) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selections, setSelections] = useState<Map<string, string>>(new Map());
     const [bothSelections, setBothSelections] = useState<Map<string, [string, string]>>(new Map()); // "둘 다 중요해요" 선택
     const [skipped, setSkipped] = useState<Set<string>>(new Set());
     const [direction, setDirection] = useState(1); // 1: next, -1: previous
+    const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
 
     const currentQuestion = questions[currentIndex];
     const isLastQuestion = currentIndex >= questions.length - 1;
@@ -214,6 +221,18 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
     const allAnswered = questions.every(q => isAnswered(q.id));
 
+    // AI 추천 결과 처리
+    const handleAISelectOptions = (selectedOptions: string[]) => {
+      const selected = selectedOptions[0];
+      if (selected === 'A') {
+        handleSelect(currentQuestion.id, currentQuestion.option_A.target_rule_key);
+      } else if (selected === 'B') {
+        handleSelect(currentQuestion.id, currentQuestion.option_B.target_rule_key);
+      } else if (selected === 'both') {
+        handleSelectBoth(currentQuestion.id);
+      }
+    };
+
     // 상태 변경 시 부모에 알림
     useEffect(() => {
       // 단일 선택 + "둘 다" 선택 모두 포함
@@ -271,6 +290,13 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
               <h3 className="text-base font-bold text-gray-900 leading-snug mb-3">
                 {currentQuestion.title}
               </h3>
+
+              {/* AI 도움받기 버튼 */}
+              {showAIHelper && (
+                <div className="mb-3">
+                  <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+                </div>
+              )}
 
               {/* 선택지 - VS 포함 */}
               <div className={`space-y-2 transition-opacity ${isCurrentSkipped ? 'opacity-40' : ''}`}>
@@ -444,6 +470,24 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             </svg>
           </button>
         </div>
+
+        {/* AI 도움 바텀시트 */}
+        {showAIHelper && currentQuestion && (
+          <AIHelperBottomSheet
+            isOpen={isAIHelperOpen}
+            onClose={() => setIsAIHelperOpen(false)}
+            questionType="balance_game"
+            questionId={currentQuestion.id}
+            questionText={currentQuestion.title}
+            options={{
+              A: { text: currentQuestion.option_A.text, target_rule_key: currentQuestion.option_A.target_rule_key },
+              B: { text: currentQuestion.option_B.text, target_rule_key: currentQuestion.option_B.target_rule_key },
+            }}
+            category={category}
+            categoryName={categoryName}
+            onSelectOptions={handleAISelectOptions}
+          />
+        )}
       </motion.div>
     );
   }

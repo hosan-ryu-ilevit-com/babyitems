@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReviewCard from '@/components/ReviewCard';
+import DanawaReviewTab from '@/components/DanawaReviewTab';
 import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/clientLogger';
 import { useFavorites } from '@/hooks/useFavorites';
 import { products } from '@/data/products';
@@ -49,6 +50,7 @@ export default function ProductPage() {
 
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
+  const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>('price');
   const [productData, setProductData] = useState<ProductData | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [sortBy, setSortBy] = useState<'rating_desc' | 'rating_asc'>('rating_desc');
@@ -373,6 +375,126 @@ export default function ProductPage() {
             <span className="text-sm text-gray-500">({productData.product.reviewCount.toLocaleString()})</span>
           </div>
         </div>
+
+        {/* 가격정보 | 리뷰 탭 */}
+        <div className="border-b border-gray-200">
+          <div className="flex">
+            <button
+              onClick={() => {
+                setPriceTab('price');
+                logButtonClick('가격정보 탭', 'product');
+              }}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                priceTab === 'price'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              가격정보
+            </button>
+            <button
+              onClick={() => {
+                setPriceTab('danawa_reviews');
+                logButtonClick('리뷰 탭 (다나와)', 'product');
+              }}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                priceTab === 'danawa_reviews'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              리뷰
+            </button>
+          </div>
+        </div>
+
+        {/* 가격정보/리뷰 탭 콘텐츠 */}
+        <AnimatePresence mode="wait">
+          {priceTab === 'price' ? (
+            <motion.div
+              key="price-tab"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="bg-white"
+            >
+              {/* 다나와 가격 리스트 (상위 3개) */}
+              {danawaData.loading ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                    <span className="text-sm">가격 정보를 불러오는 중...</span>
+                  </div>
+                </div>
+              ) : danawaData.prices.length > 0 ? (
+                <div className="divide-y divide-gray-100">
+                  {danawaData.prices.slice(0, 3).map((priceInfo, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between px-4 py-3"
+                    >
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="font-semibold text-gray-900">{priceInfo.mall}</span>
+                          {index === 0 && (
+                            <span className="px-1.5 py-0.5 bg-red-100 text-red-700 text-xs font-bold rounded">
+                              최저가
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500">{priceInfo.delivery}</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg font-bold text-gray-900">
+                          {priceInfo.price.toLocaleString()}원
+                        </span>
+                        {priceInfo.link && (
+                          <a
+                            href={priceInfo.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => logButtonClick(`${priceInfo.mall} 바로가기`, 'product')}
+                            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors"
+                          >
+                            바로가기
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                  {danawaData.prices.length > 3 && (
+                    <button
+                      onClick={() => {
+                        setShowPriceComparison(true);
+                        setActiveTab('description');
+                        logButtonClick('더 많은 가격 보기', 'product');
+                      }}
+                      className="w-full py-3 text-sm font-medium text-blue-600 hover:bg-blue-50 transition-colors"
+                    >
+                      +{danawaData.prices.length - 3}개 쇼핑몰 더보기
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <div className="text-gray-400 text-sm">가격 정보가 없습니다</div>
+                </div>
+              )}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="danawa-reviews-tab"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="bg-white max-h-[400px] overflow-y-auto"
+            >
+              <DanawaReviewTab pcode={productData.product.id} />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Recommendation Reasoning Container */}
         <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-y border-blue-100 px-4 py-4">

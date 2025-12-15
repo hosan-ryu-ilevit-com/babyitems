@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { ProductItem } from '@/types/recommend-v2';
+import { BudgetAIHelperBottomSheet } from './BudgetAIHelperBottomSheet';
 
 interface BudgetSliderProps {
   min: number;
@@ -17,6 +18,10 @@ interface BudgetSliderProps {
   // 로깅 콜백
   onPresetClick?: (preset: string, min: number, max: number, productsInRange: number) => void;
   onDirectInput?: (min: number, max: number, productsInRange: number) => void;
+  // AI 도움 관련
+  showAIHelper?: boolean;
+  category?: string;
+  categoryName?: string;
 }
 
 // 히스토그램 막대 개수
@@ -45,6 +50,9 @@ export function BudgetSlider({
   products = [],
   onPresetClick,
   onDirectInput,
+  showAIHelper = false,
+  category = '',
+  categoryName = '',
 }: BudgetSliderProps) {
   const [minValue, setMinValue] = useState(initialMin ?? min);
   const [maxValue, setMaxValue] = useState(initialMax ?? max);
@@ -54,6 +62,7 @@ export function BudgetSlider({
   const [isEditingMax, setIsEditingMax] = useState(false);
   const [minInputValue, setMinInputValue] = useState('');
   const [maxInputValue, setMaxInputValue] = useState('');
+  const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const minInputRef = useRef<HTMLInputElement>(null);
   const maxInputRef = useRef<HTMLInputElement>(null);
@@ -257,6 +266,46 @@ export function BudgetSlider({
     }).length;
   }, [products, minValue, maxValue]);
 
+  // AI 도움을 위한 가격대별 상품 분포 정보
+  const priceRangeInfo = useMemo(() => {
+    if (products.length === 0) return [];
+
+    const ranges: { range: string; min: number; max: number; count: number }[] = [];
+    const priceRange = max - min;
+    const numRanges = 5; // 5개 구간으로 나눔
+    const rangeSize = priceRange / numRanges;
+
+    for (let i = 0; i < numRanges; i++) {
+      const rangeMin = min + i * rangeSize;
+      const rangeMax = i === numRanges - 1 ? max : min + (i + 1) * rangeSize;
+      const count = products.filter(p => {
+        const ep = getEffectivePrice(p);
+        return ep && ep >= rangeMin && ep <= rangeMax;
+      }).length;
+
+      const formatPrice = (v: number) => {
+        if (v >= 10000) return `${Math.round(v / 10000)}만원`;
+        return `${v.toLocaleString()}원`;
+      };
+
+      ranges.push({
+        range: `${formatPrice(rangeMin)} ~ ${formatPrice(rangeMax)}`,
+        min: rangeMin,
+        max: rangeMax,
+        count,
+      });
+    }
+
+    return ranges;
+  }, [products, min, max]);
+
+  // AI 추천 예산 적용
+  const handleAIBudgetSelect = (aiMin: number, aiMax: number) => {
+    setMinValue(aiMin);
+    setMaxValue(aiMax);
+    onChange({ min: aiMin, max: aiMax });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -278,6 +327,27 @@ export function BudgetSlider({
       <h3 className="text-base font-bold text-gray-900">
         생각해 둔 예산이 있나요?
       </h3>
+
+      {/* AI 도움 버튼 */}
+      {showAIHelper && (
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          onClick={() => setIsAIHelperOpen(true)}
+          className="flex items-center gap-2 px-3 py-2 bg-purple-50 hover:bg-purple-100 border border-purple-200 hover:border-purple-300 rounded-xl transition-all"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="#8B5CF6">
+            <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+          </svg>
+          <span className="text-sm font-medium text-purple-700">
+            어떤 예산이 좋은지 모르겠어요
+          </span>
+          <span className="px-1.5 py-0.5 bg-purple-500 text-white text-[10px] font-bold rounded">
+            AI
+          </span>
+        </motion.button>
+      )}
 
       {/* 히스토그램 + 슬라이더 */}
       <div className="relative pt-2">
@@ -441,6 +511,23 @@ export function BudgetSlider({
           );
         })}
       </div>
+
+      {/* AI 예산 도움 바텀시트 */}
+      {showAIHelper && (
+        <BudgetAIHelperBottomSheet
+          isOpen={isAIHelperOpen}
+          onClose={() => setIsAIHelperOpen(false)}
+          category={category}
+          categoryName={categoryName}
+          priceRangeInfo={priceRangeInfo}
+          totalProducts={products.length}
+          currentMin={minValue}
+          currentMax={maxValue}
+          sliderMin={min}
+          sliderMax={max}
+          onSelectBudget={handleAIBudgetSelect}
+        />
+      )}
     </motion.div>
   );
 }

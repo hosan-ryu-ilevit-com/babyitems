@@ -1,0 +1,284 @@
+/**
+ * 다나와 리뷰 크롤링 + DB 저장 스크립트
+ *
+ * 실행 방법:
+ *   npx tsx scripts/saveDanawaReviews.ts --pcode 10371804           # 특정 상품
+ *   npx tsx scripts/saveDanawaReviews.ts --pcode 10371804 --pages 5 # 최대 5페이지
+ *   npx tsx scripts/saveDanawaReviews.ts --dry-run --pcode 10371804 # DB 저장 없이 테스트
+ */
+
+import 'dotenv/config';
+import * as dotenv from 'dotenv';
+import path from 'path';
+
+// .env.local 로드
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+
+import { createClient } from '@supabase/supabase-js';
+import { fetchDanawaReviews, DanawaReviewResult, Review } from '../lib/danawa/review-crawler';
+
+// =====================================================
+// 환경 설정
+// =====================================================
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ Missing environment variables:');
+  console.error('   - NEXT_PUBLIC_SUPABASE_URL');
+  console.error('   - SUPABASE_SERVICE_ROLE_KEY');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+// =====================================================
+// CLI 인자 파싱
+// =====================================================
+
+interface Options {
+  pcode: string;
+  maxPages: number;
+  dryRun: boolean;
+}
+
+function parseArgs(): Options {
+  const args = process.argv.slice(2);
+  const options: Options = {
+    pcode: '',
+    maxPages: 5,
+    dryRun: false,
+  };
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--pcode' && args[i + 1]) {
+      options.pcode = args[i + 1];
+      i++;
+    } else if (args[i] === '--pages' && args[i + 1]) {
+      options.maxPages = parseInt(args[i + 1], 10);
+      i++;
+    } else if (args[i] === '--dry-run') {
+      options.dryRun = true;
+    }
+  }
+
+  if (!options.pcode) {
+    console.error('❌ --pcode 파라미터가 필요합니다.');
+    console.error('   예: npx tsx scripts/saveDanawaReviews.ts --pcode 10371804');
+    process.exit(1);
+  }
+
+  return options;
+}
+
+// =====================================================
+// DB 저장 함수
+// =====================================================
+
+interface ReviewInsertData {
+  pcode: string;
+  source: string;
+  rating: number;
+  content: string;
+  author: string | null;
+  review_date: string | null;
+  helpful_count: number;
+  images: { thumbnail: string; original?: string }[];
+  mall_name: string | null;
+  external_review_id: string | null;
+  crawled_at: string;
+}
+
+function parseReviewDate(dateStr?: string): string | null {
+  if (!dateStr) return null;
+
+  // "2020.05.05." 형식 파싱
+  const match = dateStr.match(/(\d{4})\.(\d{2})\.(\d{2})/);
+  if (match) {
+    return `${match[1]}-${match[2]}-${match[3]}`;
+  }
+  return null;
+}
+
+async function saveReviewsToDb(
+  pcode: string,
+  reviews: Review[],
+  dryRun: boolean
+): Promise<{ inserted: number; skipped: number; errors: number }> {
+  const stats = { inserted: 0, skipped: 0, errors: 0 };
+
+  if (reviews.length === 0) {
+    return stats;
+  }
+
+  const crawledAt = new Date().toISOString();
+
+  for (const review of reviews) {
+    const reviewData: ReviewInsertData = {
+      pcode,
+      source: 'danawa',
+      rating: review.rating,
+      content: review.content,
+      author: review.author || null,
+      review_date: parseReviewDate(review.date),
+      helpful_count: review.helpful || 0,
+      images: review.images || [],
+      mall_name: review.mallName || null,
+      external_review_id: review.reviewId || null,
+      crawled_at: crawledAt,
+    };
+
+    if (dryRun) {
+      console.log(`   [DRY-RUN] Would insert: ${review.content.substring(0, 50)}...`);
+      stats.inserted++;
+      continue;
+    }
+
+    try {
+      // external_review_id가 있으면 먼저 중복 체크
+      if (review.reviewId) {
+        const { data: existing } = await supabase
+          .from('danawa_reviews')
+          .select('id')
+          .eq('pcode', pcode)
+          .eq('external_review_id', review.reviewId)
+          .maybeSingle();
+
+        if (existing) {
+          stats.skipped++;
+          continue;
+        }
+      }
+
+      // 일반 insert
+      const { error } = await supabase
+        .from('danawa_reviews')
+        .insert(reviewData);
+
+      if (error) {
+        // 중복 에러면 스킵
+        if (error.code === '23505') {
+          stats.skipped++;
+        } else {
+          console.error(`   ❌ Error inserting review: ${error.message}`);
+          stats.errors++;
+        }
+      } else {
+        stats.inserted++;
+      }
+    } catch (err) {
+      console.error(`   ❌ Exception:`, err);
+      stats.errors++;
+    }
+  }
+
+  return stats;
+}
+
+async function updateProductReviewStats(
+  pcode: string,
+  reviewCount: number,
+  averageRating: number | null,
+  dryRun: boolean
+): Promise<void> {
+  if (dryRun) {
+    console.log(`   [DRY-RUN] Would update product: reviewCount=${reviewCount}, avgRating=${averageRating}`);
+    return;
+  }
+
+  const { error } = await supabase
+    .from('danawa_products')
+    .update({
+      review_count: reviewCount,
+      average_rating: averageRating,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('pcode', pcode);
+
+  if (error) {
+    console.error(`   ⚠️ Failed to update product stats: ${error.message}`);
+  }
+}
+
+// =====================================================
+// 메인 실행
+// =====================================================
+
+async function main(): Promise<void> {
+  const options = parseArgs();
+
+  console.log('\n========================================');
+  console.log('🚀 다나와 리뷰 크롤링 + DB 저장');
+  console.log('========================================\n');
+
+  console.log('⚙️ 설정:');
+  console.log(`   - 상품 코드: ${options.pcode}`);
+  console.log(`   - 최대 페이지: ${options.maxPages}`);
+  console.log(`   - Dry Run: ${options.dryRun}`);
+
+  if (options.dryRun) {
+    console.log('\n⚠️ DRY-RUN 모드: DB에 저장하지 않습니다.\n');
+  }
+
+  // 1. 리뷰 크롤링
+  console.log('\n📡 리뷰 크롤링 시작...');
+  const startTime = Date.now();
+
+  const result: DanawaReviewResult = await fetchDanawaReviews(options.pcode, options.maxPages);
+
+  const crawlTime = ((Date.now() - startTime) / 1000).toFixed(1);
+  console.log(`\n⏱️ 크롤링 완료 (${crawlTime}초)`);
+
+  // 2. 결과 출력
+  console.log('\n📊 크롤링 결과:');
+  console.log(`   - 총 리뷰 수 (메타): ${result.reviewCount}개`);
+  console.log(`   - 평균 별점: ${result.averageRating ?? 'N/A'}점`);
+  console.log(`   - 크롤링한 리뷰: ${result.reviews.length}개`);
+
+  if (!result.success) {
+    console.error(`\n❌ 크롤링 실패: ${result.error}`);
+    process.exit(1);
+  }
+
+  if (result.reviews.length === 0) {
+    console.log('\n⚠️ 저장할 리뷰가 없습니다.');
+    process.exit(0);
+  }
+
+  // 이미지 통계
+  const reviewsWithImages = result.reviews.filter(r => r.images.length > 0);
+  const totalImages = result.reviews.reduce((sum, r) => sum + r.images.length, 0);
+  console.log(`   - 이미지 포함 리뷰: ${reviewsWithImages.length}개`);
+  console.log(`   - 총 이미지 수: ${totalImages}개`);
+
+  // 3. DB 저장
+  console.log('\n💾 DB 저장 시작...');
+
+  const saveStats = await saveReviewsToDb(options.pcode, result.reviews, options.dryRun);
+
+  console.log('\n📈 저장 결과:');
+  console.log(`   - 저장됨: ${saveStats.inserted}개`);
+  console.log(`   - 스킵 (중복): ${saveStats.skipped}개`);
+  console.log(`   - 오류: ${saveStats.errors}개`);
+
+  // 4. 제품 통계 업데이트
+  console.log('\n📝 제품 통계 업데이트...');
+  await updateProductReviewStats(
+    options.pcode,
+    result.reviewCount,
+    result.averageRating,
+    options.dryRun
+  );
+
+  console.log('\n========================================');
+  console.log('✅ 완료!');
+  console.log('========================================\n');
+
+  process.exit(0);
+}
+
+main().catch((error) => {
+  console.error('\n❌ 치명적 오류:', error);
+  process.exit(1);
+});

@@ -204,10 +204,10 @@ export default function RecommendV2Page() {
   // Typing animation state
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
 
-  // Sub-category state (for stroller, car_seat, diaper)
+  // Sub-category state (for stroller, car_seat, diaper) - 다중 선택 지원
   const [requiresSubCategory, setRequiresSubCategory] = useState(false);
   const [subCategoryConfig, setSubCategoryConfig] = useState<SubCategoryConfig | null>(null);
-  const [selectedSubCategoryCode, setSelectedSubCategoryCode] = useState<string | null>(null);
+  const [selectedSubCategoryCodes, setSelectedSubCategoryCodes] = useState<string[]>([]);
   const [showSubCategorySelector, setShowSubCategorySelector] = useState(false);
 
   // Ref to hold handleHardFiltersComplete for circular dependency resolution
@@ -711,38 +711,37 @@ export default function RecommendV2Page() {
   }, [isLoading, hardFilterConfig, isRestoredFromStorage, handleScanComplete]);
 
   // ===================================================
-  // Sub-Category Selection Handler (분리: 선택만 / 확정 후 진행)
+  // Sub-Category Selection Handler (다중 선택 지원)
   // ===================================================
 
-  // 하위 카테고리 클릭 시 선택만 (자동 진행 없음)
-  const handleSubCategoryClick = useCallback((code: string) => {
-    setSelectedSubCategoryCode(code);
-    // 선택만 하고 다음 단계로 진행하지 않음
-  }, []);
-
-  // "전부 좋아요" 클릭 시 - 전체 선택 (필터링 없이 진행)
-  const handleSubCategorySelectAll = useCallback(() => {
-    setSelectedSubCategoryCode('__all__');
+  // 하위 카테고리 클릭 시 토글 (다중 선택)
+  const handleSubCategoryToggle = useCallback((code: string) => {
+    setSelectedSubCategoryCodes(prev => {
+      if (prev.includes(code)) {
+        return prev.filter(c => c !== code);
+      } else {
+        return [...prev, code];
+      }
+    });
   }, []);
 
   // 하위 카테고리 확정 후 다음 단계로 진행
   const handleSubCategoryConfirm = useCallback(async () => {
-    if (!selectedSubCategoryCode || isTransitioning) return;
+    if (selectedSubCategoryCodes.length === 0 || isTransitioning) return;
     setIsTransitioning(true);
 
-    const code = selectedSubCategoryCode;
-    const isSelectAll = code === '__all__';
+    const codes = selectedSubCategoryCodes;
     setShowSubCategorySelector(false);
 
-    // Find the selected sub-category name
-    const selectedSub = subCategoryConfig?.sub_categories.find(s => s.code === code);
+    // Find the selected sub-category names for logging
+    const selectedSubs = codes.map(code =>
+      subCategoryConfig?.sub_categories.find(s => s.code === code)
+    ).filter(Boolean);
 
-    // Log sub-category selection
-    if (isSelectAll) {
-      logV2SubCategorySelected(categoryKey, categoryName, '__all__', '전체');
-    } else if (selectedSub) {
-      logV2SubCategorySelected(categoryKey, categoryName, code, selectedSub.name);
-    }
+    // Log sub-category selection (다중 선택)
+    const selectedNames = selectedSubs.map(s => s?.name).join(', ');
+    logV2SubCategorySelected(categoryKey, categoryName, codes.join(','), selectedNames);
+
     const filterBy = subCategoryConfig?.filter_by || 'category_code';
     const filterKey = subCategoryConfig?.filter_key;
 
@@ -750,14 +749,12 @@ export default function RecommendV2Page() {
     let loadedHardFilterConfig: HardFilterConfig | null = null;
     let loadedProducts: ProductItem[] = [];
 
-    // Reload hard filters for this specific sub-category
+    // Reload hard filters for selected sub-categories
     try {
-      // "전부 좋아요" 선택 시 필터 없이 전체 로드
-      const rulesUrl = isSelectAll
-        ? `/api/v2/rules/${categoryKey}`
-        : filterBy === 'category_code'
-          ? `/api/v2/rules/${categoryKey}?subCategoryCode=${code}`
-          : `/api/v2/rules/${categoryKey}`;
+      // 첫 번째 서브카테고리 기준으로 rules 로드 (rules는 카테고리 전체 공통)
+      const rulesUrl = filterBy === 'category_code'
+        ? `/api/v2/rules/${categoryKey}?subCategoryCode=${codes[0]}`
+        : `/api/v2/rules/${categoryKey}`;
       const rulesRes = await fetch(rulesUrl);
       const rulesJson = await rulesRes.json();
 
@@ -770,44 +767,55 @@ export default function RecommendV2Page() {
         setHardFilterConfig(loadedHardFilterConfig);
       }
 
-      // "전부 좋아요" 선택 시 이미 로드된 전체 제품 사용
-      if (isSelectAll) {
-        loadedProducts = allCategoryProducts;
-        setProducts(loadedProducts);
-        setFilteredProducts(loadedProducts);
-        console.log('📦 All products loaded (no subcategory filter):', loadedProducts.length);
+      // 다중 서브카테고리 필터링: 선택된 모든 서브카테고리의 제품 로드
+      if (filterBy === 'category_code') {
+        // category_code 기반: targetCategoryCodes에 다중 코드 전달
+        const productsRes = await fetch('/api/v2/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            limit: 500,
+            targetCategoryCodes: codes,
+          }),
+        });
+        const productsJson = await productsRes.json();
+
+        if (productsJson.success) {
+          loadedProducts = productsJson.data.products;
+        }
       } else {
-        // Reload products for this sub-category
-        // filter_by에 따라 다른 필터링 방식 사용
-        const productsBody = filterBy === 'category_code'
-          ? {
-              categoryKey,
-              limit: 500,  // 충분히 큰 값으로 실제 개수 로드
-              targetCategoryCodes: [code],
-            }
-          : {
+        // attribute 기반: 각 코드에 대해 개별 로드 후 병합
+        const allProductsMap = new Map<string, ProductItem>();
+
+        for (const code of codes) {
+          const productsRes = await fetch('/api/v2/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
               categoryKey,
               limit: 500,
               filterAttribute: {
                 key: filterKey,
                 value: code,
               },
-            };
+            }),
+          });
+          const productsJson = await productsRes.json();
 
-        const productsRes = await fetch('/api/v2/products', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(productsBody),
-        });
-        const productsJson = await productsRes.json();
-
-        if (productsJson.success) {
-          loadedProducts = productsJson.data.products;
-          setProducts(loadedProducts);
-          setFilteredProducts(loadedProducts);
-          console.log('📦 Products loaded for sub-category:', loadedProducts.length);
+          if (productsJson.success) {
+            for (const product of productsJson.data.products) {
+              allProductsMap.set(product.id, product);
+            }
+          }
         }
+
+        loadedProducts = Array.from(allProductsMap.values());
       }
+
+      setProducts(loadedProducts);
+      setFilteredProducts(loadedProducts);
+      console.log('📦 Products loaded for sub-categories:', codes, 'count:', loadedProducts.length);
     } catch (error) {
       console.error('Sub-category load error:', error);
       setIsTransitioning(false);
@@ -847,14 +855,12 @@ export default function RecommendV2Page() {
     } else {
       // No hard filter questions - skip directly to step 2 with loaded products
       console.log('📦 No hard filter questions, skipping to step 2 with', loadedProducts.length, 'products');
-      // 약간의 딜레이 후 handleHardFiltersComplete 호출 (UI 업데이트 보장)
-      // ref를 사용하여 순환 의존성 해결
       setTimeout(() => {
         handleHardFiltersCompleteRef.current?.({}, loadedProducts);
         setIsTransitioning(false);
       }, 300);
     }
-  }, [selectedSubCategoryCode, isTransitioning, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage, allCategoryProducts]);
+  }, [selectedSubCategoryCodes, isTransitioning, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 1: Hard Filter Selection (다중 선택 지원)
@@ -1677,7 +1683,7 @@ export default function RecommendV2Page() {
               <GuideCards
                 data={message.componentData as GuideCardsData & { introMessage?: string }}
                 introMessage={(message.componentData as { introMessage?: string })?.introMessage}
-                isActive={currentStep === 0 && !showSubCategorySelector && (!requiresSubCategory || !selectedSubCategoryCode)}
+                isActive={currentStep === 0 && !showSubCategorySelector && (!requiresSubCategory || selectedSubCategoryCodes.length === 0)}
                 disabled={isTransitioning}
                 enableTyping={true}
                 categoryName={categoryName}
@@ -1692,7 +1698,7 @@ export default function RecommendV2Page() {
                   setIsTransitioning(true);
 
                   // 가이드 카드 완료 후 다음 단계로 진행 (스크롤 + 다음 스텝 표시)
-                  if (requiresSubCategory && subCategoryConfig && !selectedSubCategoryCode) {
+                  if (requiresSubCategory && subCategoryConfig && selectedSubCategoryCodes.length === 0) {
                     // 세부 카테고리 선택이 필요한 경우
                     setShowSubCategorySelector(true);
                     const msgId = addMessage({
@@ -1702,7 +1708,6 @@ export default function RecommendV2Page() {
                       componentData: {
                         categoryName: subCategoryConfig.category_name,
                         subCategories: subCategoryConfig.sub_categories,
-                        selectedCode: selectedSubCategoryCode,
                       },
                     });
                     setTimeout(() => {
@@ -1739,7 +1744,6 @@ export default function RecommendV2Page() {
           const subCatData = message.componentData as {
             categoryName: string;
             subCategories: SubCategory[];
-            selectedCode: string | null;
           };
           return (
             <div
@@ -1752,10 +1756,11 @@ export default function RecommendV2Page() {
               <SubCategorySelector
                 categoryName={subCatData.categoryName}
                 subCategories={subCatData.subCategories}
-                selectedCode={selectedSubCategoryCode}
-                onSelect={handleSubCategoryClick}
-                onSelectAll={handleSubCategorySelectAll}
+                selectedCodes={selectedSubCategoryCodes}
+                onToggle={handleSubCategoryToggle}
                 dynamicTip={subCategoryTip}
+                showAIHelper={true}
+                category={categoryKey}
               />
             </div>
           );
@@ -1778,6 +1783,9 @@ export default function RecommendV2Page() {
                 showProductCounts={true}
                 popularOptions={popularHardFilterOptions}
                 dynamicTip={dynamicTips[hfData.question.id]}
+                showAIHelper={true}
+                category={categoryKey}
+                categoryName={categoryName}
               />
             </div>
           );
@@ -1827,6 +1835,9 @@ export default function RecommendV2Page() {
                     params.ruleKey
                   );
                 }}
+                showAIHelper={true}
+                category={categoryKey}
+                categoryName={categoryName}
               />
             </div>
           );
@@ -1878,6 +1889,9 @@ export default function RecommendV2Page() {
                 onDirectInput={(min, max, productsInRange) => {
                   logV2BudgetChanged(categoryKey, categoryName, min, max, true, productsInRange);
                 }}
+                showAIHelper={true}
+                category={categoryKey}
+                categoryName={categoryName}
               />
             </div>
           );
@@ -2047,13 +2061,13 @@ export default function RecommendV2Page() {
     // Step 0: 다음 (하위 카테고리 선택 완료 후에만 표시)
     if (currentStep === 0 && !showScanAnimation) {
       // 가이드 카드가 활성화된 상태면 하단 버튼 숨김 (GuideCards의 "시작하기" 버튼 사용)
-      const isGuideCardsActive = !showSubCategorySelector && (!requiresSubCategory || !selectedSubCategoryCode);
+      const isGuideCardsActive = !showSubCategorySelector && (!requiresSubCategory || selectedSubCategoryCodes.length === 0);
       if (isGuideCardsActive) {
         return null;
       }
 
       // 하위 카테고리 필요하지만 아직 선택 안 됐으면 버튼 숨김
-      if (requiresSubCategory && !selectedSubCategoryCode) {
+      if (requiresSubCategory && selectedSubCategoryCodes.length === 0) {
         return null;
       }
 
@@ -2833,7 +2847,7 @@ export default function RecommendV2Page() {
                         handleScanComplete();
 
                         if (requiresSubCategory) {
-                          setSelectedSubCategoryCode(null);
+                          setSelectedSubCategoryCodes([]);
                           setShowSubCategorySelector(false);
                         }
 

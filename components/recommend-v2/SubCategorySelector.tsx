@@ -1,6 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { AIHelperButton } from './AIHelperButton';
+import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
 interface SubCategory {
   code: string;
@@ -12,11 +15,13 @@ interface SubCategory {
 interface SubCategorySelectorProps {
   categoryName: string;
   subCategories: SubCategory[];
-  selectedCode: string | null;
-  onSelect: (code: string) => void;
-  onSelectAll?: () => void;
+  selectedCodes: string[];
+  onToggle: (code: string) => void;
   // LLM 생성 동적 팁
   dynamicTip?: string;
+  // AI 도움 기능
+  showAIHelper?: boolean;
+  category?: string;
 }
 
 /**
@@ -26,12 +31,24 @@ interface SubCategorySelectorProps {
 export function SubCategorySelector({
   categoryName,
   subCategories,
-  selectedCode,
-  onSelect,
-  onSelectAll,
+  selectedCodes,
+  onToggle,
   dynamicTip,
+  showAIHelper = false,
+  category = '',
 }: SubCategorySelectorProps) {
-  const isAllSelected = selectedCode === '__all__';
+  const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+
+  // AI 추천 결과 처리 (다중 선택 지원)
+  const handleAISelectOptions = (selectedOptions: string[]) => {
+    // 선택된 옵션들을 토글
+    selectedOptions.forEach(option => {
+      if (!selectedCodes.includes(option)) {
+        onToggle(option);
+      }
+    });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -58,10 +75,15 @@ export function SubCategorySelector({
         </p>
       )}
 
-      {/* 선택지 그리드 */}
+      {/* AI 도움받기 버튼 - dynamicTip이 있을 때만 표시 */}
+      {showAIHelper && dynamicTip && (
+        <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+      )}
+
+      {/* 선택지 그리드 (다중 선택 가능) */}
       <div className="grid grid-cols-2 gap-3">
         {subCategories.map((sub, index) => {
-          const isSelected = selectedCode === sub.code && !isAllSelected;
+          const isSelected = selectedCodes.includes(sub.code);
 
           return (
             <motion.button
@@ -69,7 +91,7 @@ export function SubCategorySelector({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
-              onClick={() => onSelect(sub.code)}
+              onClick={() => onToggle(sub.code)}
               className={`px-4 py-3 rounded-xl border-2 transition-all ${
                 isSelected
                   ? 'border-emerald-400 bg-emerald-50'
@@ -88,31 +110,20 @@ export function SubCategorySelector({
         })}
       </div>
 
-      {/* 전부 좋아요 버튼 */}
-      {onSelectAll && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: subCategories.length * 0.05 + 0.1 }}
-          className="flex justify-center mt-1"
-        >
-          <button
-            onClick={onSelectAll}
-            className={`px-4 py-3 rounded-xl border-2 transition-all ${
-              isAllSelected
-                ? 'border-emerald-400 bg-emerald-50'
-                : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            <span
-              className={`text-sm font-semibold ${
-                isAllSelected ? 'text-emerald-700' : 'text-gray-800'
-              }`}
-            >
-              전부 좋아요 👍
-            </span>
-          </button>
-        </motion.div>
+      {/* AI 도움 바텀시트 - dynamicTip이 있을 때만 렌더 */}
+      {showAIHelper && dynamicTip && (
+        <AIHelperBottomSheet
+          isOpen={isAIHelperOpen}
+          onClose={() => setIsAIHelperOpen(false)}
+          questionType="hard_filter"
+          questionId={`subcategory_${category}`}
+          questionText={`어떤 ${categoryName}를 찾으세요?`}
+          options={subCategories.map(sc => ({ value: sc.code, label: sc.name }))}
+          category={category}
+          categoryName={categoryName}
+          tipText={dynamicTip}
+          onSelectOptions={handleAISelectOptions}
+        />
       )}
     </motion.div>
   );
