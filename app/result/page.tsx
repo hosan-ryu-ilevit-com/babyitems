@@ -1548,10 +1548,10 @@ export default function ResultPage() {
                                   return sum;
                                 }, 0);
 
-                                // 점수 계산: 개선됨=1.0, 부분개선=0.5, 회피안됨=0.0
+                                // 점수 계산: 회피됨=1.0, 부분회피=0.5, 회피안됨=0.0
                                 const consScore = consTags.reduce((sum, tag) => {
-                                  if (tag.status === '개선됨') return sum + 1.0;
-                                  if (tag.status === '부분개선') return sum + 0.5;
+                                  if (tag.status === '회피됨') return sum + 1.0;
+                                  if (tag.status === '부분회피') return sum + 0.5;
                                   return sum;
                                 }, 0);
 

@@ -16,7 +16,7 @@ import type { ProductVariant } from '@/types/recommend-v2';
 interface V2ConditionEvaluation {
   condition: string;
   conditionType: 'hardFilter' | 'balance' | 'negative';
-  status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';
+  status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
   evidence: string;
   tradeoff?: string;
   questionId?: string;  // 하드필터 질문 ID (같은 질문 내 옵션 그룹화용)
@@ -40,7 +40,7 @@ interface ProductDetailModalProps {
       userTag: string;
       tagType: 'pros' | 'cons';
       priority: number;
-      status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';
+      status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
       evidence: string;
       citations: number[];
       tradeoff?: string;
@@ -69,6 +69,8 @@ interface ProductDetailModalProps {
   variants?: ProductVariant[];
   // 옵션 선택 시 콜백
   onVariantSelect?: (variant: ProductVariant) => void;
+  // 옵션별 다나와 최저가 (pcode -> lowest_price)
+  variantDanawaData?: Record<string, number>;
 }
 
 // 쇼핑몰 이름 → 로고 파일 매핑
@@ -178,7 +180,7 @@ function CircularProgress({ score, total, color, size = 40 }: { score: number; t
   );
 }
 
-export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, productComparisons, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData }: ProductDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
   const [reviews, setReviews] = useState<Review[]>([]);
   const [sortBy, setSortBy] = useState<'rating_desc' | 'rating_asc'>('rating_desc');
@@ -355,6 +357,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                 variants={variants}
                 selectedPcode={productData.product.id}
                 onSelect={onVariantSelect}
+                danawaLowestPrices={variantDanawaData}
               />
             </div>
           )}
@@ -578,10 +581,10 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                     return sum;
                   }, 0);
 
-                  // 점수 계산: 개선됨=1.0, 부분개선=0.5, 회피안됨=0.0
+                  // 점수 계산: 회피됨=1.0, 부분회피=0.5, 회피안됨=0.0
                   const consScore = consTags.reduce((sum, tag) => {
-                    if (tag.status === '개선됨') return sum + 1.0;
-                    if (tag.status === '부분개선') return sum + 0.5;
+                    if (tag.status === '회피됨') return sum + 1.0;
+                    if (tag.status === '부분회피') return sum + 0.5;
                     return sum;
                   }, 0);
 
@@ -658,12 +661,12 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                                 let badgeColor = '';
                                 let badgeText = '';
 
-                                if (tagEval.status === '개선됨') {
+                                if (tagEval.status === '회피됨') {
                                   badgeColor = 'bg-green-100 text-green-700';
-                                  badgeText = '개선됨';
-                                } else if (tagEval.status === '부분개선') {
+                                  badgeText = '회피됨';
+                                } else if (tagEval.status === '부분회피') {
                                   badgeColor = 'bg-yellow-100 text-yellow-700';
-                                  badgeText = '부분개선';
+                                  badgeText = '부분회피';
                                 } else if (tagEval.status === '회피안됨') {
                                   badgeColor = 'bg-red-100 text-red-700';
                                   badgeText = '회피안됨';
@@ -722,8 +725,18 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                   }
                   // 조건 타입별 분리
                   const hardFilterConditionsRaw = selectedConditionsEvaluation.filter(c => c.conditionType === 'hardFilter');
-                  const balanceConditions = selectedConditionsEvaluation.filter(c => c.conditionType === 'balance');
-                  const negativeConditions = selectedConditionsEvaluation.filter(c => c.conditionType === 'negative');
+
+                  // 선호속성: 충족 → 부분충족 → 불충족 순서로 정렬
+                  const balanceStatusOrder: Record<string, number> = { '충족': 0, '부분충족': 1, '불충족': 2 };
+                  const balanceConditions = selectedConditionsEvaluation
+                    .filter(c => c.conditionType === 'balance')
+                    .sort((a, b) => (balanceStatusOrder[a.status] ?? 3) - (balanceStatusOrder[b.status] ?? 3));
+
+                  // 피하고 싶은 단점: 회피됨 → 부분회피 → 회피안됨 순서로 정렬
+                  const negativeStatusOrder: Record<string, number> = { '회피됨': 0, '부분회피': 1, '회피안됨': 2 };
+                  const negativeConditions = selectedConditionsEvaluation
+                    .filter(c => c.conditionType === 'negative')
+                    .sort((a, b) => (negativeStatusOrder[a.status] ?? 3) - (negativeStatusOrder[b.status] ?? 3));
 
                   // 하드 필터: 같은 questionId를 가진 조건들 중 충족된 것만 표시
                   // (OR 조건이므로 하나라도 충족하면 나머지 불충족은 표시 안 함)
@@ -772,8 +785,8 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                   }, 0);
 
                   const negativeScore = negativeConditions.reduce((sum, c) => {
-                    if (c.status === '개선됨') return sum + 1.0;
-                    if (c.status === '부분개선') return sum + 0.5;
+                    if (c.status === '회피됨') return sum + 1.0;
+                    if (c.status === '부분회피') return sum + 0.5;
                     return sum;
                   }, 0);
 
@@ -782,28 +795,30 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                       {/* 필수 조건 (하드 필터) - 태그 기반 표시 */}
                       {hardFilterConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4">
-                          <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center justify-between mb-3">
                             <h4 className="text-base font-bold text-black leading-tight">
                               필수<br />조건
                             </h4>
                             <CircularProgress score={hardFilterScore} total={hardFilterConditions.length} color="blue" />
                           </div>
-                          <div className="flex flex-wrap gap-2">
-                            {hardFilterConditions.map((cond, i) => {
-                              const isSatisfied = cond.status === '충족';
-                              return (
-                                <span
-                                  key={i}
-                                  className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-                                    isSatisfied
-                                      ? 'bg-blue-100 text-blue-700'
-                                      : 'bg-gray-100 text-gray-400 opacity-50'
-                                  }`}
-                                >
-                                  {cond.condition}
-                                </span>
-                              );
-                            })}
+                          <div className="border-t border-gray-200 pt-3">
+                            <div className="flex flex-wrap gap-2">
+                              {hardFilterConditions.map((cond, i) => {
+                                const isSatisfied = cond.status === '충족';
+                                return (
+                                  <span
+                                    key={i}
+                                    className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                                      isSatisfied
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'bg-gray-100 text-gray-400 opacity-50'
+                                    }`}
+                                  >
+                                    {cond.condition}
+                                  </span>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
                       )}
@@ -811,49 +826,45 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                       {/* 선호 속성 (밸런스 게임) */}
                       {balanceConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4">
-                          <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center justify-between mb-3">
                             <h4 className="text-base font-bold text-gray-900 leading-tight">
                               선호<br />속성
                             </h4>
                             <CircularProgress score={balanceScore} total={balanceConditions.length} color="green" />
                           </div>
-                          <div className="space-y-3">
-                            {balanceConditions.map((cond, i) => {
-                              let badgeColor = '';
-                              let badgeText = '';
+                          <div className="border-t border-gray-200 pt-3">
+                            <div className="space-y-4">
+                              {balanceConditions.map((cond, i) => {
+                                let badgeColor = '';
+                                let badgeText = '';
 
-                              if (cond.status === '충족') {
-                                badgeColor = 'bg-green-100 text-green-700';
-                                badgeText = '충족';
-                              } else if (cond.status === '부분충족') {
-                                badgeColor = 'bg-yellow-100 text-yellow-700';
-                                badgeText = '부분충족';
-                              } else {
-                                badgeColor = 'bg-red-100 text-red-700';
-                                badgeText = '불충족';
-                              }
+                                if (cond.status === '충족') {
+                                  badgeColor = 'bg-green-100 text-green-700';
+                                  badgeText = '충족';
+                                } else if (cond.status === '부분충족') {
+                                  badgeColor = 'bg-yellow-100 text-yellow-700';
+                                  badgeText = '부분충족';
+                                } else {
+                                  badgeColor = 'bg-red-100 text-red-700';
+                                  badgeText = '불충족';
+                                }
 
-                              return (
-                                <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
-                                  <div className="flex items-start gap-2 mb-2">
-                                    <strong className="text-sm font-bold text-gray-900 flex-1">
-                                      {cond.condition}
-                                    </strong>
-                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold shrink-0 ${badgeColor}`}>
+                                return (
+                                  <div key={i}>
+                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold inline-block mb-1.5 -ml-0.5 ${badgeColor}`}>
                                       {badgeText}
                                     </span>
-                                  </div>
-                                  <p className="text-sm text-gray-700 leading-relaxed">
-                                    {parseMarkdownBold(cond.evidence)}
-                                  </p>
-                                  {cond.tradeoff && (
-                                    <p className="text-xs text-gray-600 leading-relaxed bg-white rounded p-2 mt-2">
-                                      {parseMarkdownBold(cond.tradeoff)}
+                                    <strong className="text-sm font-bold text-gray-900 block mb-1">
+                                      {cond.condition}
+                                    </strong>
+                                    <p className="text-sm text-gray-500 leading-relaxed flex items-start gap-1.5">
+                                      <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-2 shrink-0" />
+                                      <span>{parseMarkdownBold(cond.evidence)}</span>
                                     </p>
-                                  )}
-                                </div>
-                              );
-                            })}
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
                       )}
@@ -861,49 +872,45 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                       {/* 피하고 싶은 단점 */}
                       {negativeConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4">
-                          <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center justify-between mb-3">
                             <h4 className="text-base font-bold text-gray-900 leading-tight">
                               피하고 싶은<br />단점
                             </h4>
                             <CircularProgress score={negativeScore} total={negativeConditions.length} color="rose" />
                           </div>
-                          <div className="space-y-3">
-                            {negativeConditions.map((cond, i) => {
-                              let badgeColor = '';
-                              let badgeText = '';
+                          <div className="border-t border-gray-200 pt-3">
+                            <div className="space-y-4">
+                              {negativeConditions.map((cond, i) => {
+                                let badgeColor = '';
+                                let badgeText = '';
 
-                              if (cond.status === '개선됨') {
-                                badgeColor = 'bg-green-100 text-green-700';
-                                badgeText = '개선됨';
-                              } else if (cond.status === '부분개선') {
-                                badgeColor = 'bg-yellow-100 text-yellow-700';
-                                badgeText = '부분개선';
-                              } else {
-                                badgeColor = 'bg-red-100 text-red-700';
-                                badgeText = '회피안됨';
-                              }
+                                if (cond.status === '회피됨') {
+                                  badgeColor = 'bg-green-100 text-green-700';
+                                  badgeText = '회피됨';
+                                } else if (cond.status === '부분회피') {
+                                  badgeColor = 'bg-yellow-100 text-yellow-700';
+                                  badgeText = '부분회피';
+                                } else {
+                                  badgeColor = 'bg-red-100 text-red-700';
+                                  badgeText = '회피안됨';
+                                }
 
-                              return (
-                                <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
-                                  <div className="flex items-start gap-2 mb-2">
-                                    <strong className="text-sm font-bold text-gray-900 flex-1">
-                                      {cond.condition}
-                                    </strong>
-                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold shrink-0 ${badgeColor}`}>
+                                return (
+                                  <div key={i}>
+                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold inline-block mb-1.5 -ml-0.5 ${badgeColor}`}>
                                       {badgeText}
                                     </span>
-                                  </div>
-                                  <p className="text-sm text-gray-700 leading-relaxed">
-                                    {parseMarkdownBold(cond.evidence)}
-                                  </p>
-                                  {cond.tradeoff && (
-                                    <p className="text-xs text-gray-600 leading-relaxed bg-white rounded p-2 mt-2">
-                                      {parseMarkdownBold(cond.tradeoff)}
+                                    <strong className="text-sm font-bold text-gray-900 block mb-1">
+                                      {cond.condition}
+                                    </strong>
+                                    <p className="text-sm text-gray-500 leading-relaxed flex items-start gap-1.5">
+                                      <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-2 shrink-0" />
+                                      <span>{parseMarkdownBold(cond.evidence)}</span>
                                     </p>
-                                  )}
-                                </div>
-                              );
-                            })}
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
                       )}

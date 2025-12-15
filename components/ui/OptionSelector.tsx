@@ -9,6 +9,8 @@ interface OptionSelectorProps {
   selectedPcode: string;
   onSelect: (variant: ProductVariant) => void;
   disabled?: boolean;
+  // 다나와 최저가 데이터 (pcode -> lowest_price)
+  danawaLowestPrices?: Record<string, number>;
 }
 
 /**
@@ -20,6 +22,7 @@ export default function OptionSelector({
   selectedPcode,
   onSelect,
   disabled = false,
+  danawaLowestPrices = {},
 }: OptionSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -82,11 +85,15 @@ export default function OptionSelector({
           <div className="text-sm text-gray-900 truncate">
             {selectedVariant?.optionLabel || '옵션 선택'}
           </div>
-          {selectedVariant?.price && (
-            <div className="text-sm font-semibold text-gray-900 mt-0.5">
-              {selectedVariant.price.toLocaleString()}원
-            </div>
-          )}
+          {(() => {
+            const danawaPrice = selectedVariant ? danawaLowestPrices[selectedVariant.pcode] : undefined;
+            const displayPrice = danawaPrice || selectedVariant?.price;
+            return displayPrice ? (
+              <div className="text-sm font-semibold text-gray-900 mt-0.5">
+                {displayPrice.toLocaleString()}원
+              </div>
+            ) : null;
+          })()}
         </div>
 
         {/* 화살표 아이콘 */}
@@ -151,11 +158,15 @@ export default function OptionSelector({
                     </div>
 
                     <div className="flex items-center ml-3">
-                      {variant.price && (
-                        <span className={`text-sm font-medium ${isSelected ? 'text-blue-700' : 'text-gray-900'}`}>
-                          {variant.price.toLocaleString()}원
-                        </span>
-                      )}
+                      {(() => {
+                        const danawaPrice = danawaLowestPrices[variant.pcode];
+                        const displayPrice = danawaPrice || variant.price;
+                        return displayPrice ? (
+                          <span className={`text-sm font-medium ${isSelected ? 'text-blue-700' : 'text-gray-900'}`}>
+                            {displayPrice.toLocaleString()}원
+                          </span>
+                        ) : null;
+                      })()}
                     </div>
                   </button>
                 );

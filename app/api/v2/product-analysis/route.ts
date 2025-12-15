@@ -46,7 +46,7 @@ interface ProductAnalysisRequest {
 interface ConditionEvaluation {
   condition: string;           // 원본 조건 텍스트
   conditionType: 'hardFilter' | 'balance' | 'negative';  // 조건 유형
-  status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';  // 평가 상태
+  status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';  // 평가 상태
   evidence: string;            // 평가 근거
   tradeoff?: string;           // 트레이드오프 설명 (선택)
   questionId?: string;         // 하드필터 질문 ID (같은 질문 내 옵션 그룹화용)
@@ -146,7 +146,7 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 ## 조건 충족도 평가 요청
 위 사용자 조건들에 대해 이 제품이 얼마나 충족하는지 평가해주세요:
 - **필수 조건/선호 속성**: "충족" (완벽히 만족) | "부분충족" (일부 만족) | "불충족" (만족 안 함)
-- **피하고 싶은 단점**: "개선됨" (단점 없음) | "부분개선" (일부 단점 있음) | "회피안됨" (단점 존재)
+- **피하고 싶은 단점**: "회피됨" (단점 없음) | "부분회피" (일부 단점 있음) | "회피안됨" (단점 존재)
 ` : '';
 
   const conditionEvaluationFormat = hasUserConditions ? `
@@ -169,9 +169,8 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
     ${negativeConditions.map(c => `{
       "condition": "${c}",
       "conditionType": "negative",
-      "status": "개선됨|부분개선|회피안됨",
-      "evidence": "구체적 근거...",
-      "tradeoff": "(선택) 트레이드오프 설명"
+      "status": "회피됨|부분회피|회피안됨",
+      "evidence": "구체적 근거..."
     }`).join(',\n    ')}
   ],` : '';
 
@@ -219,7 +218,7 @@ ${hasUserConditions ? '4' : '3'}. **구매 팁 (purchaseTip)**: 구매 전 확�
 ${hasUserConditions ? `- selectedConditionsEvaluation은 사용자가 선택한 조건 총 ${hardFilterConditions.length + balanceConditions.length + negativeConditions.length}개를 모두 평가해야 합니다
 - 필수 조건(hardFilter): status는 "충족" 또는 "불충족"만 사용, evidence 필드 없음
 - 선호 속성(balance): status는 "충족", "부분충족", "불충족" 중 하나, evidence에 핵심 키워드 **볼드** 처리
-- 피하고 싶은 단점(negative): status는 "개선됨", "부분개선", "회피안됨" 중 하나, evidence에 핵심 키워드 **볼드** 처리` : ''}
+- 피하고 싶은 단점(negative): status는 "회피됨", "부분회피", "회피안됨" 중 하나, evidence에 핵심 키워드 **볼드** 처리` : ''}
 
 JSON만 응답하세요.`;
 
@@ -324,7 +323,7 @@ function generateFallbackAnalysis(product: ProductInfo, insights: CategoryInsigh
     selectedConditionsEvaluation.push({
       condition: label,
       conditionType: 'negative',
-      status: '부분개선',
+      status: '부분회피',
       evidence: '스펙 정보로 정확한 확인이 어렵습니다. 상세 스펙을 확인해주세요.',
     });
   });

@@ -36,7 +36,7 @@ interface RecommendedProduct extends ScoredProduct {
 interface ConditionEvaluation {
   condition: string;
   conditionType: 'hardFilter' | 'balance' | 'negative';
-  status: '충족' | '부분충족' | '불충족' | '개선됨' | '부분개선' | '회피안됨';
+  status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
   evidence: string;
   tradeoff?: string;
 }
@@ -228,8 +228,26 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   const [toastType, setToastType] = useState<'add' | 'remove'>('add');
 
   // Danawa price/spec/review data (공통 훅 사용)
-  const pcodes = useMemo(() => products.map(p => p.pcode), [products]);
+  // variant pcodes도 포함하여 옵션 드롭다운에서 다나와 최저가 표시 가능하게 함
+  const pcodes = useMemo(() => {
+    const mainPcodes = products.map(p => p.pcode);
+    const variantPcodes = products.flatMap(p =>
+      (p as RecommendedProduct).variants?.map(v => v.pcode) || []
+    );
+    return [...new Set([...mainPcodes, ...variantPcodes])];
+  }, [products]);
   const { danawaData, danawaSpecs, reviewData } = useDanawaPrices(pcodes);
+
+  // 옵션 드롭다운용 다나와 최저가 매핑 (pcode -> lowest_price)
+  const variantDanawaLowestPrices = useMemo(() => {
+    const mapping: Record<string, number> = {};
+    for (const [pcode, data] of Object.entries(danawaData)) {
+      if (data?.lowest_price && data.lowest_price > 0) {
+        mapping[pcode] = data.lowest_price;
+      }
+    }
+    return mapping;
+  }, [danawaData]);
 
   // Comparison table states
   // NOTE: setComparisonFeatures 비활성화 - 기준제품 기능 비활성화로 미사용
@@ -869,24 +887,40 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                 {/* 가격 정보 - 다나와 최저가 우선 사용 */}
                 <div className="space-y-0">
                   {/* 옵션이 여러 개면 가격 범위, 아니면 단일 가격 */}
-                  {product.optionCount && product.optionCount > 1 && product.priceRange?.min && product.priceRange?.max ? (
-                    <>
-                      <p className="text-lg font-bold text-gray-900">
-                        <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
-                        {product.priceRange.min.toLocaleString()}<span className="text-sm">원</span>
-                        <span className="text-gray-400 mx-1">~</span>
-                        {product.priceRange.max.toLocaleString()}<span className="text-sm">원</span>
-                      </p>
-                      {hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
-                        <span className="inline-flex items-center text-xs font-medium text-red-500">
-                          가격비교 ({danawa.mall_prices.length})
-                          <svg className="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                          </svg>
-                        </span>
-                      )}
-                    </>
-                  ) : (
+                  {(() => {
+                    // 옵션이 여러 개인 경우 다나와 최저가 기반으로 가격 범위 재계산
+                    const recommendedProduct = product as RecommendedProduct;
+                    if (recommendedProduct.optionCount && recommendedProduct.optionCount > 1 && recommendedProduct.variants) {
+                      const prices = recommendedProduct.variants
+                        .map(v => variantDanawaLowestPrices[v.pcode] || v.price)
+                        .filter((p): p is number => p !== null && p > 0);
+
+                      if (prices.length > 0) {
+                        const minPrice = Math.min(...prices);
+                        const maxPrice = Math.max(...prices);
+
+                        return (
+                          <>
+                            <p className="text-lg font-bold text-gray-900">
+                              <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
+                              {minPrice.toLocaleString()}<span className="text-sm">원</span>
+                              <span className="text-gray-400 mx-1">~</span>
+                              {maxPrice.toLocaleString()}<span className="text-sm">원</span>
+                            </p>
+                            {hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
+                              <span className="inline-flex items-center text-xs font-medium text-red-500">
+                                가격비교 ({danawa.mall_prices.length})
+                                <svg className="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                </svg>
+                              </span>
+                            )}
+                          </>
+                        );
+                      }
+                    }
+                    return null;
+                  })() || (
                     <p className="text-lg font-bold text-gray-900 flex items-baseline gap-1.5">
                       {/* 다나와 최저가가 있으면 해당 가격 사용, 없으면 product.price */}
                       <span>
@@ -1080,6 +1114,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           selectedConditionsEvaluation={productAnalysisData[selectedProduct.product.id]?.selectedConditionsEvaluation}
           initialAverageRating={reviewData[selectedProduct.product.id]?.averageRating}
           variants={selectedProductVariants}
+          variantDanawaData={variantDanawaLowestPrices}
           onVariantSelect={async (variant) => {
             // 새 옵션 선택 시 해당 제품의 가격 정보 조회
             console.log('[ResultCards] onVariantSelect called:', variant);
