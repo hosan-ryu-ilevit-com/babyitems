@@ -170,14 +170,19 @@ ${categoryCons}
   * "휴대성 낮음", "가격 비쌈", "무겁다" (구체적 수치 없이)
 - 주의점을 찾기 어려우면 **빈 배열 []**로 출력하세요. 억지로 채우지 마세요!
 
-### 3. 한 줄 비교 (70자 이내)
-다른 추천 제품들과 비교하여 이 제품의 특징을 자연스러운 한국어로 요약하세요.
-- **다른 제품 언급 시 반드시 위의 "제품 간략명"을 사용** (브랜드+모델명 조합)
-- ✅ 좋은 예시: "${productShortNames[0] || ''}보다 20% 저렴하면서 보온력은 비슷함"
+### 3. 한 줄 비교 (70자 이내, 반드시 한 문장)
+**핵심 차별점 하나만 압축적으로!** 모든 특징을 나열하지 마세요.
+- 일반적인 장점(세척 편리, 사용 간편 등)은 생략
+- **설명이 필요한 특이점, 독특한 기능, 수치적 차이**만 언급
+- ✅ 좋은 예시:
+  * "${productShortNames[0] || ''}보다 20% 저렴하면서 보온력은 비슷"
+  * "유일하게 분리세척 + 무선 둘 다 지원"
+  * "3제품 중 가장 가볍고(800g) 휴대용 파우치 포함"
 - ❌ 절대 금지:
+  * 두 문장 이상 작성
   * "제품 1234567 대비", "pcode", 제품 코드 언급
-  * "비교제품 1", "비교제품 2", "1번 제품", "2번 제품"
-  * "1위 제품", "2위 제품"과 같은 순위 기반 표현
+  * "비교제품 1", "1번 제품", "1위 제품" 등 순위/번호 표현
+  * "종합적으로", "전반적으로" 같은 모호한 표현
 
 ## 응답 JSON 형식
 {
@@ -545,6 +550,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
     // Record 형태로 변환 (기존 API 호환 + 스펙 정보 포함)
     const productDetails: Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, unknown> }> = {};
 
+    // 한 줄 비교 정리 함수 (마침표+공백 이후 추가 문장 제거)
+    const sanitizeComparison = (text: string): string => {
+      if (!text) return text;
+      const sentenceEnd = text.indexOf('. ');
+      if (sentenceEnd !== -1) {
+        return text.substring(0, sentenceEnd + 1);
+      }
+      return text;
+    };
+
     // 잘못된 값 필터링 함수 (LLM이 "[]", "없음", 빈 문자열 등을 반환하는 경우)
     const filterInvalidItems = (items: string[]): string[] => {
       if (!Array.isArray(items)) return [];
@@ -569,7 +584,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
       productDetails[comp.pcode] = {
         pros: filterInvalidItems(comp.pros),
         cons: filterInvalidItems(comp.cons),
-        comparison: comp.comparison,
+        comparison: sanitizeComparison(comp.comparison),
         specs: mergedSpecs,
       };
     }
