@@ -763,11 +763,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                   })();
 
                   // 점수 계산
-                  const hardFilterScore = hardFilterConditions.reduce((sum, c) => {
-                    if (c.status === '충족') return sum + 1.0;
-                    if (c.status === '부분충족') return sum + 0.5;
-                    return sum;
-                  }, 0);
+                  const hardFilterScore = hardFilterConditions.filter(c => c.status === '충족').length;
 
                   const balanceScore = balanceConditions.reduce((sum, c) => {
                     if (c.status === '충족') return sum + 1.0;
@@ -783,50 +779,29 @@ export default function ProductDetailModal({ productData, productComparisons, ca
 
                   return (
                     <div className="space-y-4">
-                      {/* 필수 조건 (하드 필터) */}
+                      {/* 필수 조건 (하드 필터) - 태그 기반 표시 */}
                       {hardFilterConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-base font-bold text-gray-900 leading-tight">
+                            <h4 className="text-base font-bold text-black leading-tight">
                               필수<br />조건
                             </h4>
                             <CircularProgress score={hardFilterScore} total={hardFilterConditions.length} color="blue" />
                           </div>
-                          <div className="space-y-3">
+                          <div className="flex flex-wrap gap-2">
                             {hardFilterConditions.map((cond, i) => {
-                              let badgeColor = '';
-                              let badgeText = '';
-
-                              if (cond.status === '충족') {
-                                badgeColor = 'bg-green-100 text-green-700';
-                                badgeText = '충족';
-                              } else if (cond.status === '부분충족') {
-                                badgeColor = 'bg-yellow-100 text-yellow-700';
-                                badgeText = '부분충족';
-                              } else {
-                                badgeColor = 'bg-red-100 text-red-700';
-                                badgeText = '불충족';
-                              }
-
+                              const isSatisfied = cond.status === '충족';
                               return (
-                                <div key={i} className="pb-3 border-b border-gray-200 last:border-b-0 last:pb-0">
-                                  <div className="flex items-start gap-2 mb-2">
-                                    <strong className="text-sm font-bold text-gray-900 flex-1">
-                                      {cond.condition}
-                                    </strong>
-                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold shrink-0 ${badgeColor}`}>
-                                      {badgeText}
-                                    </span>
-                                  </div>
-                                  <p className="text-sm text-gray-700 leading-relaxed">
-                                    {parseMarkdownBold(cond.evidence)}
-                                  </p>
-                                  {cond.tradeoff && (
-                                    <p className="text-xs text-gray-600 leading-relaxed bg-white rounded p-2 mt-2">
-                                      {parseMarkdownBold(cond.tradeoff)}
-                                    </p>
-                                  )}
-                                </div>
+                                <span
+                                  key={i}
+                                  className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                                    isSatisfied
+                                      ? 'bg-blue-100 text-blue-700'
+                                      : 'bg-gray-100 text-gray-400 opacity-50'
+                                  }`}
+                                >
+                                  {cond.condition}
+                                </span>
                               );
                             })}
                           </div>

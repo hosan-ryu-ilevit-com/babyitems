@@ -546,10 +546,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       setIsComparisonLoading(false);
     };
 
-    // LLM 분석은 이미지 로딩보다 우선순위가 낮으므로 300ms 지연
-    // (캐시가 있으면 이미 위에서 return되었으므로 API 호출 시에만 지연됨)
-    const timeoutId = setTimeout(fetchBackgroundAnalysis, 300);
-    return () => clearTimeout(timeoutId);
+    // 추천 완료 즉시 백그라운드 분석 시작 (지연 없음)
+    // (캐시가 있으면 이미 위에서 return되었으므로 API 호출 시에만 실행됨)
+    fetchBackgroundAnalysis();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCacheKey, userContext]);
 

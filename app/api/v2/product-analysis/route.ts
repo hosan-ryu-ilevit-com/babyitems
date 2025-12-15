@@ -151,13 +151,12 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 
   const conditionEvaluationFormat = hasUserConditions ? `
   "selectedConditionsEvaluation": [
-    // 필수 조건 평가 (${hardFilterConditions.length}개)
+    // 필수 조건 평가 (${hardFilterConditions.length}개) - 태그만 반환, evidence 불필요
     ${hardFilterConditions.map(c => `{
       "condition": "${c.label}",
       "conditionType": "hardFilter",
       "questionId": "${c.questionId}",
-      "status": "충족|부분충족|불충족",
-      "evidence": "구체적 근거..."
+      "status": "충족|불충족"
     }`).join(',\n    ')}${hardFilterConditions.length > 0 && balanceConditions.length > 0 ? ',' : ''}
     // 선호 속성 평가 (${balanceConditions.length}개)
     ${balanceConditions.map(c => `{
@@ -218,9 +217,9 @@ ${hasUserConditions ? '4' : '3'}. **구매 팁 (purchaseTip)**: 구매 전 확�
 - 사용자 관점에서 실용적인 정보 위주로
 - citations는 빈 배열로 (리뷰 인용 없음)
 ${hasUserConditions ? `- selectedConditionsEvaluation은 사용자가 선택한 조건 총 ${hardFilterConditions.length + balanceConditions.length + negativeConditions.length}개를 모두 평가해야 합니다
-- evidence에는 핵심 키워드를 **볼드** 처리해주세요
-- 필수 조건/선호 속성: status는 "충족", "부분충족", "불충족" 중 하나
-- 피하고 싶은 단점: status는 "개선됨", "부분개선", "회피안됨" 중 하나` : ''}
+- 필수 조건(hardFilter): status는 "충족" 또는 "불충족"만 사용, evidence 필드 없음
+- 선호 속성(balance): status는 "충족", "부분충족", "불충족" 중 하나, evidence에 핵심 키워드 **볼드** 처리
+- 피하고 싶은 단점(negative): status는 "개선됨", "부분개선", "회피안됨" 중 하나, evidence에 핵심 키워드 **볼드** 처리` : ''}
 
 JSON만 응답하세요.`;
 
