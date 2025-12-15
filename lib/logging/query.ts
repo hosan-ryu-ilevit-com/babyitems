@@ -34,6 +34,8 @@ export async function getEventsByDateRange(
     const pages = Math.ceil(totalCount / pageSize);
     console.log(`[Query] Fetching ${pages} pages (${pageSize} rows each)`);
 
+    // Database rows have snake_case fields, will be converted to LogEvent later
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const allRows: any[] = [];
 
     for (let page = 0; page < pages; page++) {

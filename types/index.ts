@@ -238,7 +238,7 @@ export interface SessionState {
   selectedProsTags?: Array<{ id: string; text: string; attributes: Record<string, number> }>;  // 선택된 장점 태그 (full objects)
   selectedConsTags?: Array<{ id: string; text: string; attributes: Record<string, number> }>;  // 선택된 단점 태그 (full objects)
   selectedAdditionalTags?: string[];    // 선택된 추가 고려사항 태그 IDs
-  anchorProduct?: any;                  // Tag-based flow의 앵커 제품 (캐싱용)
+  anchorProduct?: Product;              // Tag-based flow의 앵커 제품 (캐싱용)
 
   // Tracking fields
   phone?: string;                       // URL 파라미터로 전달된 전화번호 (?phone=01012345678)

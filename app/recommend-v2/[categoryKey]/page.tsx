@@ -2427,31 +2427,30 @@ export default function RecommendV2Page() {
                   ref={calculatingRef}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="w-full py-8 flex items-start gap-4"
+                  className="w-full py-8 flex flex-col items-center"
                 >
-                  {/* 캐릭터 비디오 */}
-                  <div className="rounded-2xl overflow-hidden bg-white shrink-0">
+                  {/* 로딩 비디오 - 상단, 거의 전체 너비 */}
+                  <div className="w-full max-w-[360px] rounded-2xl overflow-hidden bg-white mb-6">
                     <video
                       autoPlay
                       loop
                       muted
                       playsInline
-                      style={{ width: 80, height: 80 }}
-                      className="object-contain"
+                      className="w-full h-auto object-contain"
                     >
-                      <source src="/animations/character.mp4" type="video/mp4" />
+                      <source src="/animations/recommendloading.MP4" type="video/mp4" />
                     </video>
                   </div>
 
-                  {/* 프로그레스 + thinking 메시지 */}
-                  <div className="flex flex-col justify-center pt-2">
+                  {/* 프로그레스 + thinking 메시지 - 가운데 정렬 */}
+                  <div className="flex flex-col items-center">
                     {/* 프로그레스 % */}
-                    <span className="text-base font-semibold text-gray-700 tabular-nums">
+                    <span className="text-xl font-semibold text-gray-700 tabular-nums">
                       {progress}%
                     </span>
 
                     {/* 단계별 메시지 - 가운데 정렬, 단계 변경 시 애니메이션 */}
-                    <div className="mt-1 h-6 overflow-hidden">
+                    <div className="mt-2 h-6 overflow-hidden">
                       <AnimatePresence mode="wait">
                         <motion.span
                           key={getStageIndex()}
@@ -2459,7 +2458,7 @@ export default function RecommendV2Page() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
                           transition={{ duration: 0.4, ease: 'easeOut' }}
-                          className="text-sm font-semibold text-gray-500 block"
+                          className="text-sm font-semibold text-gray-500 block text-center"
                         >
                           {currentMessage}
                         </motion.span>

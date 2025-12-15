@@ -6,6 +6,8 @@
 
 import { GoogleGenAI } from '@google/genai';
 import type { Intent, AgentContext } from '../types';
+import type { Recommendation } from '@/types';
+import type { ProductSpec } from '@/lib/data';
 import { getReviewsForProduct, sampleBalancedBySentiment, formatReviewsForLLM } from '@/lib/review';
 import { getProductSpec } from '@/lib/data/specLoader';
 import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
@@ -189,7 +191,7 @@ Answer:`;
 /**
  * Build product context summary with full specs
  */
-function buildProductContext(recommendation: any, fullProductSpec: any | undefined, category: string): string {
+function buildProductContext(recommendation: Recommendation, fullProductSpec: ProductSpec | null, category: string): string {
   const product = recommendation.product;
 
   let context = `**${product.title}**\n`;

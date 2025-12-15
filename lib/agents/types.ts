@@ -104,6 +104,6 @@ export interface AgentRequest {
 
 export interface AgentResponse {
   type: 'intent' | 'thinking' | 'message' | 'clarification' | 'recommendations' | 'done' | 'error';
-  data?: any;
+  data?: unknown;
   intent?: Intent;
 }

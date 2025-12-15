@@ -110,7 +110,7 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentAttributeIndex, setCurrentAttributeIndex] = useState(0);
   const [phase, setPhase] = useState<'chat1' | 'chat2'>('chat1');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const [isPhase0Complete, setIsPhase0Complete] = useState(false);
   const [contextSummary, setContextSummary] = useState<UserContextSummary | null>(null);
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);

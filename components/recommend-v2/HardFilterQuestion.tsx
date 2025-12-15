@@ -140,6 +140,7 @@ export function HardFilterQuestion({
   // 부모에서 전달받은 값이 변경되면 동기화
   useEffect(() => {
     if (initialValues) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLocalSelectedValues(initialValues);
     }
   }, [initialValues]);

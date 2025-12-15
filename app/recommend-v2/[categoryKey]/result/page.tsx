@@ -55,6 +55,7 @@ export default function V2ResultPage() {
   useEffect(() => {
     const stored = sessionStorage.getItem(V2_RESULT_KEY);
     if (!stored) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setError('추천 결과를 찾을 수 없습니다. 다시 시도해주세요.');
       setLoading(false);
       return;
@@ -96,6 +97,7 @@ export default function V2ResultPage() {
   useEffect(() => {
     if (Object.keys(danawaData).length === 0) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setProducts(prev => prev.map(p => ({
       ...p,
       danawaPrice: danawaData[p.pcode] || null,

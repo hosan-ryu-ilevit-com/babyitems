@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     console.log(`🔍 [v2/anchor-products] Loading for: ${categoryKey}, limit: ${limit}, search: "${searchKeyword}"`);
 
     // 2. Supabase 쿼리 - rank 기준 정렬
-    let query = supabase
+    const query = supabase
       .from('danawa_products')
       .select('pcode, title, brand, price, rank, thumbnail, spec, category_code, review_count, average_rating')
       .in('category_code', targetCategories)

@@ -21,6 +21,7 @@ export interface ProductSpec {
   검색어: string;
   productId: number;
   // Additional fields may vary by category
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 

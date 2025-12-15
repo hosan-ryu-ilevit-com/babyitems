@@ -8,6 +8,11 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 import { load } from 'cheerio';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Cheerio element types - using any to avoid package version conflicts
+type CheerioElement = any;
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 // =====================================================
 // 타입 정의
 // =====================================================
@@ -63,10 +68,11 @@ async function createBrowser(): Promise<Browser> {
 /**
  * 가격 행에서 정보 추출
  */
-function parsePriceRow($row: any, $: ReturnType<typeof load>): MallPrice | null {
+function parsePriceRow($row: CheerioElement, $: ReturnType<typeof load>): MallPrice | null {
   let mall: string | null = null;
 
   // 1. 이미지 alt/title에서 쇼핑몰명
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   $row.find('img').each((_: number, img: any) => {
     const alt = $(img).attr('alt')?.trim();
     const title = $(img).attr('title')?.trim();
@@ -189,7 +195,7 @@ async function extractPrices(page: Page): Promise<{
 
     // 쇼핑몰별 가격 목록 추출
     const priceRows = $('.mall_list tbody tr, .diff_item, .ProductList tr');
-    priceRows.each((_: number, row: any) => {
+    priceRows.each((_, row) => {
       const priceInfo = parsePriceRow($(row), $);
       if (priceInfo && priceInfo.price) {
         mallPrices.push(priceInfo);
@@ -199,7 +205,7 @@ async function extractPrices(page: Page): Promise<{
     // Alternative format
     if (mallPrices.length === 0) {
       const altRows = $('.product_list .prod_item, .price_sect .item');
-      altRows.each((_: number, row: any) => {
+      altRows.each((_, row) => {
         const priceInfo = parsePriceRow($(row), $);
         if (priceInfo && priceInfo.price) {
           mallPrices.push(priceInfo);

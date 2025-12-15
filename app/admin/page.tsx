@@ -8,8 +8,10 @@ export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [sessions, setSessions] = useState<SessionSummary[]>([]);
-  const [dates, setDates] = useState<string[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string>('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_dates, _setDates] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_selectedDate, setSelectedDate] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [expandedSession, setExpandedSession] = useState<string | null>(null);
@@ -26,8 +28,10 @@ export default function AdminPage() {
   // V2 Flow (Category) 퍼널 통계 - Legacy
   const [v2Campaigns, setV2Campaigns] = useState<V2FunnelStats[]>([]);
   const [selectedV2Campaign, setSelectedV2Campaign] = useState<string>('all');
-  const [categoryAnalytics, setCategoryAnalytics] = useState<CategoryAnalytics[]>([]);
-  const [v2ProductRankings, setV2ProductRankings] = useState<V2ProductRecommendationRanking[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_categoryAnalytics, setCategoryAnalytics] = useState<CategoryAnalytics[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_v2ProductRankings, setV2ProductRankings] = useState<V2ProductRecommendationRanking[]>([]);
 
   // V2 New Flow (recommend-v2 with hard filters, balance game)
   const [v2NewFlowCampaigns, setV2NewFlowCampaigns] = useState<V2NewFlowFunnelStats[]>([]);
@@ -451,7 +455,7 @@ export default function AdminPage() {
     if (mainFlowEvent?.recommendations?.fullReport?.recommendations) {
       // Main Flow (Priority 기반)
       const recommendations = mainFlowEvent.recommendations.fullReport.recommendations;
-      products = recommendations.map((rec: any) => ({
+      products = recommendations.map((rec: { productId: string; productTitle?: string }) => ({
         id: rec.productId,
         title: rec.productTitle
       }));
@@ -459,7 +463,7 @@ export default function AdminPage() {
     } else if (v2FlowEventFromResult?.recommendations?.fullReport?.recommendations) {
       // V2 Flow (/result 페이지 사용, recommendation_received 이벤트)
       const recommendations = v2FlowEventFromResult.recommendations.fullReport.recommendations;
-      products = recommendations.map((rec: any) => ({
+      products = recommendations.map((rec: { productId: string; productTitle?: string }) => ({
         id: rec.productId,
         title: rec.productTitle
       }));
@@ -2188,7 +2192,7 @@ export default function AdminPage() {
                                   <p className="text-gray-600">카테고리: {event.anchorData.category}</p>
                                   <p className="text-gray-600">랭킹: {event.anchorData.ranking}위</p>
                                   {event.anchorData.searchKeyword && (
-                                    <p className="text-gray-500 mt-1">검색어: "{event.anchorData.searchKeyword}"</p>
+                                    <p className="text-gray-500 mt-1">검색어: &quot;{event.anchorData.searchKeyword}&quot;</p>
                                   )}
                                 </div>
                               )}
@@ -2203,7 +2207,7 @@ export default function AdminPage() {
                                     {event.eventType === 'custom_tag_created' && '✨ 커스텀 태그 생성'}
                                     {event.tagData.isCustom && ' (커스텀)'}
                                   </p>
-                                  <p className="text-gray-700 font-medium">"{event.tagData.tagText}"</p>
+                                  <p className="text-gray-700 font-medium">&quot;{event.tagData.tagText}&quot;</p>
                                   <p className="text-gray-600">
                                     {event.tagData.tagType === 'pros' ? '장점' : '단점'} 태그 (Step {event.tagData.step})
                                   </p>
@@ -2310,7 +2314,7 @@ export default function AdminPage() {
                                       <p className="font-semibold text-blue-700 mb-1">
                                         🔍 하드필터 Q{event.v2FlowData.hardFilter.questionIndex + 1}/{event.v2FlowData.hardFilter.totalQuestions}
                                       </p>
-                                      <p className="text-gray-700 font-medium mb-1">"{event.v2FlowData.hardFilter.questionText}"</p>
+                                      <p className="text-gray-700 font-medium mb-1">&quot;{event.v2FlowData.hardFilter.questionText}&quot;</p>
                                       <div className="bg-white p-2 rounded mt-1">
                                         <p className="text-gray-600">선택: {event.v2FlowData.hardFilter.selectedLabels?.join(', ') || '-'}</p>
                                         {event.v2FlowData.hardFilter.productCountAfterFilter !== undefined && (
@@ -2325,9 +2329,9 @@ export default function AdminPage() {
                                       <p className="font-semibold text-yellow-700 mb-1">
                                         ✏️ 하드필터 직접입력 Q{event.v2FlowData.hardFilter.questionIndex + 1}/{event.v2FlowData.hardFilter.totalQuestions}
                                       </p>
-                                      <p className="text-gray-700 font-medium mb-1">"{event.v2FlowData.hardFilter.questionText}"</p>
+                                      <p className="text-gray-700 font-medium mb-1">&quot;{event.v2FlowData.hardFilter.questionText}&quot;</p>
                                       <div className="bg-white p-2 rounded mt-1">
-                                        <p className="text-gray-600">입력: "{event.v2FlowData.hardFilter.customInputText}"</p>
+                                        <p className="text-gray-600">입력: &quot;{event.v2FlowData.hardFilter.customInputText}&quot;</p>
                                       </div>
                                     </div>
                                   )}
@@ -2339,7 +2343,7 @@ export default function AdminPage() {
                                         <div className="bg-white p-2 rounded mt-1 space-y-1">
                                           <p className="text-gray-700 font-medium">{event.v2FlowData.checkpoint.totalProductCount}개 중 {event.v2FlowData.checkpoint.filteredProductCount}개 후보</p>
                                           {event.v2FlowData.checkpoint.summaryText && (
-                                            <p className="text-gray-600">"{event.v2FlowData.checkpoint.summaryText}"</p>
+                                            <p className="text-gray-600">&quot;{event.v2FlowData.checkpoint.summaryText}&quot;</p>
                                           )}
                                           {event.v2FlowData.checkpoint.conditions?.length > 0 && (
                                             <div className="mt-1 pt-1 border-t">
@@ -2383,7 +2387,7 @@ export default function AdminPage() {
                                       <div className="bg-white p-2 rounded mt-1">
                                         <p className="text-gray-500">A: {event.v2FlowData.balance.optionALabel}</p>
                                         <p className="text-gray-500">B: {event.v2FlowData.balance.optionBLabel}</p>
-                                        <p className="text-gray-400 mt-1">→ "잘 모르겠어요" 선택</p>
+                                        <p className="text-gray-400 mt-1">→ &quot;잘 모르겠어요&quot; 선택</p>
                                       </div>
                                     </div>
                                   )}
@@ -2393,7 +2397,7 @@ export default function AdminPage() {
                                       <p className={`font-semibold mb-1 ${event.v2FlowData.negative.isSelected ? 'text-red-700' : 'text-gray-600'}`}>
                                         {event.v2FlowData.negative.isSelected ? '❌ 단점 선택' : '✓ 단점 해제'}
                                       </p>
-                                      <p className="text-gray-700">"{event.v2FlowData.negative.label}"</p>
+                                      <p className="text-gray-700">&quot;{event.v2FlowData.negative.label}&quot;</p>
                                       <p className="text-gray-500 mt-1">현재 선택: {event.v2FlowData.negative.totalSelected}개</p>
                                     </div>
                                   )}

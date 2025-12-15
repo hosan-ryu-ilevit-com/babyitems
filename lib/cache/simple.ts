@@ -9,7 +9,7 @@ interface CacheEntry<T> {
 }
 
 class SimpleCache {
-  private cache: Map<string, CacheEntry<any>>;
+  private cache: Map<string, CacheEntry<unknown>>;
 
   constructor() {
     this.cache = new Map();

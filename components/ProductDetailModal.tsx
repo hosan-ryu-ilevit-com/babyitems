@@ -876,7 +876,7 @@ export default function ProductDetailModal({ productData, productComparisons, ca
                             <h4 className="text-base font-bold text-gray-900 leading-tight">
                               피하고 싶은<br />단점
                             </h4>
-                            <CircularProgress score={negativeScore} total={negativeConditions.length} color="rose" />
+                            <CircularProgress score={negativeScore} total={negativeConditions.length} color="green" />
                           </div>
                           <div className="border-t border-gray-200 pt-3">
                             <div className="space-y-4">

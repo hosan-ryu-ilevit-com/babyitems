@@ -59,20 +59,20 @@ export async function executeCompare(
     }
 
     console.log(`   Comparing ${products.length} products:`);
-    products.forEach((p: any, i: number) => {
+    products.forEach((p, i: number) => {
       console.log(`   ${productRanks[i]}. ${p.product.title}`);
     });
 
     // Load full specs for all products
     const fullSpecs = await Promise.all(
-      products.map((p: any) => getProductSpec(category, String(p.product.id)))
+      products.map((p) => getProductSpec(category, String(p.product.id)))
     );
 
     console.log(`   ✅ Loaded specs for ${fullSpecs.filter(Boolean).length}/${products.length} products`);
 
     // Build comparison context with full specs
     const comparisonContext = products
-      .map((p: any, i: number) => buildProductSummary(p, productRanks[i], fullSpecs[i], category))
+      .map((p, i: number) => buildProductSummary(p, productRanks[i], fullSpecs[i], category))
       .join('\n\n---\n\n');
 
     // Determine focus
@@ -127,7 +127,7 @@ Comparison:`;
     return {
       success: true,
       comparison,
-      products: products.map((p: any, i: number) => ({
+      products: products.map((p, i: number) => ({
         rank: productRanks[i],
         title: p.product.title,
       })),

@@ -300,7 +300,7 @@ function PriorityPageContent() {
       // Strict Mode에서 재마운트될 때를 위해 ref 리셋
       isInitializedRef.current = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
 
   // 초기 메시지 타이핑 완료 후 가이드 버튼 + 두 번째 메시지 + pros-selector 추가

@@ -11,6 +11,12 @@ import puppeteer, { Browser, Page } from 'puppeteer';
 import { load } from 'cheerio';
 import type { DanawaProductData, DanawaPriceInfo } from '@/types/danawa';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Cheerio element types - using any to avoid package version conflicts
+type CheerioElement = any;
+type CheerioCallback = (index: number, element: any) => void;
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 /**
  * 브라우저 인스턴스 생성 (매번 새로 생성 - 안정성 우선)
  */
@@ -167,7 +173,7 @@ function extractManufacturerAndDate($: ReturnType<typeof load>): {
   }
 
   // 등록일 - spec 영역에서
-  $('.spec_list li').each((_: number, el: any) => {
+  $('.spec_list li').each((_, el) => {
     const text = $(el).text().trim();
     if (text.includes('등록') || text.includes('출시')) {
       const match = text.match(/(\d{4}[.\-년]\s*\d{1,2})/);
@@ -195,7 +201,7 @@ function extractCategory($: ReturnType<typeof load>): string | null {
   }
 
   // 2. 스펙 테이블에서 카테고리 찾기
-  $('th').each((_: number, el: any) => {
+  $('th').each((_, el) => {
     if ($(el).text().includes('카테고리')) {
       const td = $(el).next('td');
       if (td.length) {
@@ -243,7 +249,7 @@ function extractSpecs($: ReturnType<typeof load>): Record<string, string> {
   // 1. 상단 요약 스펙
   const specList1 = $('.spec_list li, .prod_spec li');
   console.log(`   Selector 1 (.spec_list li, .prod_spec li): ${specList1.length} elements`);
-  specList1.each((_: number, el: any) => {
+  specList1.each((_, el) => {
     const text = $(el).text().trim();
     if (text.includes(':')) {
       const [key, val] = text.split(':', 2);
@@ -276,7 +282,7 @@ function extractSpecs($: ReturnType<typeof load>): Record<string, string> {
     if (rows.length > 0) {
       console.log(`   Selector 2 (${selector}): ${rows.length} rows`);
 
-      rows.each((_: number, el: any) => {
+      rows.each((_, el) => {
         const ths = $(el).find('th');
         const tds = $(el).find('td');
 
@@ -307,9 +313,9 @@ function extractSpecs($: ReturnType<typeof load>): Record<string, string> {
     const allTables = $('table');
     console.log(`   Found ${allTables.length} tables in total`);
 
-    allTables.each((_: number, table: any) => {
+    allTables.each((_, table) => {
       const rows = $(table).find('tr');
-      rows.each((_: number, row: any) => {
+      rows.each((_, row) => {
         const ths = $(row).find('th');
         const tds = $(row).find('td');
 
@@ -338,11 +344,11 @@ function extractSpecs($: ReturnType<typeof load>): Record<string, string> {
     if (dls.length > 0) {
       console.log(`   Selector 3 (${selector}): ${dls.length} elements`);
 
-      dls.each((_: number, dl: any) => {
+      dls.each((_, dl) => {
         const dts = $(dl).find('dt');
         const dds = $(dl).find('dd');
 
-        dts.each((i: number, dt: any) => {
+        dts.each((i, dt) => {
           const key = $(dt).text().trim();
           const dd = $(dds[i]);
           if (dd.length) {
@@ -367,7 +373,8 @@ function extractSpecs($: ReturnType<typeof load>): Record<string, string> {
  */
 async function extractPrices(
   page: Page,
-  $: ReturnType<typeof load>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _$: ReturnType<typeof load>
 ): Promise<{
   lowestPrice: number | null;
   lowestMall: string | null;
@@ -450,7 +457,7 @@ async function extractPrices(
     const priceRows = $updated('.mall_list tbody tr, .diff_item, .ProductList tr');
     console.log(`   Found ${priceRows.length} price rows`);
 
-    priceRows.each((_: number, row: any) => {
+    priceRows.each((_, row) => {
       const priceInfo = parsePriceRow($updated(row), $updated);
       if (priceInfo && priceInfo.price) {
         prices.push(priceInfo);
@@ -463,7 +470,7 @@ async function extractPrices(
       const altRows = $updated('.product_list .prod_item, .price_sect .item');
       console.log(`   Found ${altRows.length} alternative rows`);
 
-      altRows.each((_: number, row: any) => {
+      altRows.each((_, row) => {
         const priceInfo = parsePriceRow($updated(row), $updated);
         if (priceInfo && priceInfo.price) {
           prices.push(priceInfo);
@@ -492,10 +499,11 @@ async function extractPrices(
 /**
  * 가격 행 파싱
  */
-function parsePriceRow($row: any, $: ReturnType<typeof load>): DanawaPriceInfo | null {
+function parsePriceRow($row: CheerioElement, $: ReturnType<typeof load>): DanawaPriceInfo | null {
   let mall: string | null = null;
 
   // 1. 이미지 alt/title
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   $row.find('img').each((_: number, img: any) => {
     const alt = $(img).attr('alt')?.trim();
     const title = $(img).attr('title')?.trim();

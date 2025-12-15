@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
-import type { Category, ProductSpec, ProductWithReviews } from '@/lib/data';
+import type { Category, ProductSpec } from '@/lib/data';
 import {
   getSpecsByCategory,
   filterByBudget,
@@ -9,8 +9,6 @@ import {
 } from '@/lib/data/specLoader';
 import {
   getReviewsForProduct,
-  getReviewsForMultipleProducts,
-  sampleLongestReviews,
   sampleBalancedBySentiment,
   formatReviewsForLLM,
 } from '@/lib/review';

@@ -488,7 +488,8 @@ export default function AdminFiltersPage() {
     });
   };
 
-  // Guide change handlers
+  // Guide change handlers (reserved for future UI)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleGuideChange = (category: string, field: 'title' | 'trend', value: string) => {
     setEditedGuides(prev => ({
       ...prev,
@@ -504,6 +505,7 @@ export default function AdminFiltersPage() {
     }));
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleGuidePointChange = (category: string, pointIndex: number, value: string) => {
     setEditedGuides(prev => {
       const guide = prev[category]?.guide || { title: '', points: [], trend: '' };
@@ -519,6 +521,7 @@ export default function AdminFiltersPage() {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const addGuidePoint = (category: string) => {
     setEditedGuides(prev => {
       const guide = prev[category]?.guide || { title: '', points: [], trend: '' };
@@ -532,6 +535,7 @@ export default function AdminFiltersPage() {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const removeGuidePoint = (category: string, pointIndex: number) => {
     setEditedGuides(prev => {
       const guide = prev[category]?.guide || { title: '', points: [], trend: '' };

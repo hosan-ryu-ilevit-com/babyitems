@@ -34,7 +34,7 @@ export interface RefilterResult {
   message: string;
   recommendations?: Recommendation[];
   updatedSession?: {
-    anchorProduct: any;
+    anchorProduct: { productId: string; title: string };
     selectedProsTags: Array<{ id: string; text: string; attributes: Record<string, number> }>;
     selectedConsTags: Array<{ id: string; text: string; attributes: Record<string, number> }>;
     budget: BudgetRange;
@@ -296,7 +296,7 @@ export async function executeRefilterWithAnchor(
       recommendations: transformedRecommendations,
       updatedSession: {
         anchorProduct: {
-          productId: newAnchor?.productId || resolvedAnchorId,
+          productId: String(newAnchor?.productId || resolvedAnchorId),
           title: anchorTitle,
         },
         selectedProsTags: finalProsTags,

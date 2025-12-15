@@ -1,234 +1,189 @@
-# 홈 화면 카테고리 캐러셀 구현 계획
+# 하드필터 질문 동적 설명(Tip) 생성 기능 구현 계획
 
-## 요구사항 정리
+## 현재 상태
 
-- **위치**: MP4 영상 아래
-- **형태**: 두 줄 무한 루프 캐러셀
-- **내용**: 카테고리 이름 + 해당 카테고리 랭킹 1위 상품 썸네일
-- **디자인**: 하늘색 배경 컨테이너
-- **인터랙션**:
-  - 자동으로 계속 흘러가는 애니메이션
-  - 손으로 스크롤 가능 (터치/드래그)
-  - 클릭 시 해당 카테고리 추천 플로우 시작
+### Static Tip 구조
+- **위치**: `data/rules/filter_tips.json`
+- **형식**: `{ "formula_pot": { "재질": "유리는 환경호르몬 걱정 없고...", ... }, "_default": { ... } }`
+- **렌더링**: `HardFilterQuestion.tsx`에서 `question.tip`으로 표시
+
+### 활용 가능한 데이터
+1. **선택 % 통계**: `/api/v2/hard-filter-stats` API (14일간 집계, 1시간 TTL 캐시)
+2. **카테고리 인사이트**: `data/category-insights/*.json` (pros, cons, trend, guide)
+3. **질문 + 옵션**: `HardFilterQuestion` 타입 (`question`, `options[]`)
 
 ---
 
 ## 구현 계획
 
-### 1단계: CategoryMarquee 컴포넌트 생성
+### Step 1: API 엔드포인트 생성
+**파일**: `app/api/v2/generate-tip/route.ts`
 
-**파일**: `components/CategoryMarquee.tsx`
-
-**기능**:
-- 두 줄의 마키(흘러가는) 애니메이션
-- Row 1: 왼쪽 → 오른쪽 방향
-- Row 2: 오른쪽 → 왼쪽 방향 (시각적 다이나믹)
-- 각 카드: 썸네일 이미지 + 카테고리 이름
-
-**카드 디자인**:
-```
-┌─────────────────┐
-│  [썸네일 이미지]  │  하늘색 배경 (#E0F2FE)
-│   카테고리 이름   │  rounded-xl
-└─────────────────┘
-```
-
-### 2단계: 카테고리-상품 데이터 매핑
-
-**사용 가능한 카테고리** (specs 데이터 있음):
-1. milk_powder_port (분유포트)
-2. baby_bottle (젖병)
-3. baby_bottle_sterilizer (젖병 소독기)
-4. baby_formula_dispenser (분유 디스펜서)
-5. baby_monitor (아기 모니터)
-6. baby_play_mat (놀이 매트)
-7. car_seat (카시트)
-8. nasal_aspirator (코흡입기)
-9. thermometer (체온계)
-
-**데이터 구조**:
 ```typescript
-interface CategoryItem {
-  id: string;           // category key (e.g., 'milk_powder_port')
-  name: string;         // 한글 이름 (e.g., '분유포트')
-  thumbnail: string;    // 랭킹 1위 상품 썸네일 URL
-  targetUrl: string;    // 클릭 시 이동할 URL
+// Input
+{
+  categoryKey: string;           // "baby_bottle"
+  questionId: string;            // "brand"
+  questionText: string;          // "어떤 브랜드를 선호하세요?"
+  options: Array<{               // 선택지 목록
+    value: string;
+    label: string;
+  }>;
+  popularOptions?: Array<{       // 선택 % 통계 (상위 N개)
+    value: string;
+    label: string;
+    percentage: number;
+  }>;
+}
+
+// Output
+{
+  tip: string;                   // "더블하트가 52%로 가장 인기 있어요..."
+  cached: boolean;               // 캐시 hit 여부
 }
 ```
 
-**구현 방식**:
-- 각 카테고리 JSON에서 `순위: 1` 상품의 `썸네일` 추출
-- 빌드 타임에 정적으로 매핑 (성능 최적화)
+### Step 2: 프롬프트 설계
+```
+당신은 육아용품 전문가입니다. 사용자가 {category_name}을(를) 선택할 때 도움이 되는 짧은 팁을 작성해주세요.
 
-### 3단계: 마키 애니메이션 구현
+[질문]
+{question_text}
 
-**기술 선택**: CSS `@keyframes` + Tailwind
+[선택지]
+{options_list}
 
-**이유**:
-- Framer Motion보다 가볍고 부드러움
-- 무한 루프에 최적화
-- 터치 스크롤과 충돌 없음
+[인기 선택 통계]
+{popular_stats}  // "더블하트: 52%, 모윰: 28%, 코멧: 12%"
 
-**구현 방식**:
-```css
-@keyframes marquee-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+[카테고리 인사이트]
+{category_guide_summary}
+{relevant_pros_cons}
 
-@keyframes marquee-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
+위 정보를 바탕으로 1-2문장의 간결한 팁을 작성해주세요.
+- 인기 선택지가 있다면 언급하되, 단순 나열이 아닌 의미 있는 인사이트 제공
+- 초보 부모가 이해하기 쉬운 친근한 어투
+- 특정 브랜드/옵션을 강요하지 않고 정보 제공 위주
 ```
 
-**무한 루프 트릭**:
-- 아이템을 2배로 복제 (A, B, C → A, B, C, A, B, C)
-- 50% 이동 후 즉시 리셋 → 이음새 없는 무한 루프
+### Step 3: 캐싱 전략
+**방식**: 파일 시스템 캐시 + 메모리 캐시 (2단계)
 
-### 4단계: HomeContent에 통합
+1. **메모리 캐시** (1차): 빠른 응답, 서버 재시작 시 초기화
+2. **파일 캐시** (2차): `data/cache/tips/{categoryKey}_{questionId}.json`
+   - 선택 % 변동이 크지 않으므로 **24시간 TTL**
+   - 캐시 키: `${categoryKey}_${questionId}`
 
-**위치**: 영상(`</motion.div>`) 바로 다음, CTA 버튼 전
-
-**코드 위치** (HomeContent.tsx):
-```tsx
-{/* Video Character Animation */}
-<motion.div>...</motion.div>
-
-{/* 여기에 추가 */}
-<CategoryMarquee onCategoryClick={handleCategoryClick} />
-```
-
-**클릭 핸들러**:
 ```typescript
-const handleCategoryClick = (categoryId: string) => {
-  logButtonClick(`카테고리 캐러셀: ${categoryId}`, 'home');
-  router.push(`/recommend-v2/${categoryId}`);
-};
+// 캐시 구조
+interface CachedTip {
+  tip: string;
+  generatedAt: string;        // ISO timestamp
+  inputs: {                   // 캐시 무효화 판단용
+    popularOptionsHash: string;
+  };
+}
 ```
+
+### Step 4: 페이지에서 동적 tip 로드
+**파일**: `app/recommend-v2/[categoryKey]/page.tsx`
+
+```typescript
+// 질문 로드 시 동적 tip도 함께 로드
+const [dynamicTips, setDynamicTips] = useState<Record<string, string>>({});
+
+// 각 질문에 대해 tip 생성 요청 (병렬 호출)
+useEffect(() => {
+  const fetchTips = async () => {
+    const tipPromises = questions.map(q =>
+      fetch('/api/v2/generate-tip', {
+        method: 'POST',
+        body: JSON.stringify({
+          categoryKey,
+          questionId: q.id,
+          questionText: q.question,
+          options: q.options.map(o => ({ value: o.value, label: o.label })),
+          popularOptions: popularHardFilterOptions
+            .filter(p => p.questionId === q.id && p.isPopular)
+            .map(p => ({ value: p.value, label: p.label, percentage: p.percentage }))
+        })
+      }).then(r => r.json())
+    );
+
+    const results = await Promise.all(tipPromises);
+    const tips: Record<string, string> = {};
+    results.forEach((r, i) => {
+      if (r.tip) tips[questions[i].id] = r.tip;
+    });
+    setDynamicTips(tips);
+  };
+
+  if (questions.length > 0) fetchTips();
+}, [questions, popularHardFilterOptions]);
+```
+
+### Step 5: HardFilterQuestion에 동적 tip 전달
+**파일**: `components/recommend-v2/HardFilterQuestion.tsx`
+
+기존 `question.tip`을 `dynamicTip || question.tip`으로 교체하거나,
+`HardFilterData` 인터페이스에 `dynamicTip?: string` 추가
 
 ---
 
 ## 파일 변경 목록
 
-| 파일 | 변경 내용 |
-|------|----------|
-| `components/CategoryMarquee.tsx` | 신규 생성 - 캐러셀 컴포넌트 |
-| `app/globals.css` | 마키 keyframes 애니메이션 추가 |
-| `components/HomeContent.tsx` | CategoryMarquee 컴포넌트 추가 |
+| 작업 | 파일 | 설명 |
+|------|------|------|
+| **신규** | `app/api/v2/generate-tip/route.ts` | LLM tip 생성 API |
+| **수정** | `lib/cache/simple.ts` | Tip 캐싱 로직 추가 (기존 캐시 모듈 활용) |
+| **수정** | `app/recommend-v2/[categoryKey]/page.tsx` | 동적 tip 로드 로직 추가 |
+| **수정** | `components/recommend-v2/HardFilterQuestion.tsx` | dynamicTip 표시 |
+| **수정** | `types/recommend-v2.ts` | HardFilterData에 dynamicTip 추가 |
+| **신규** | `data/cache/tips/` | 캐시 파일 디렉토리 |
+| **수정** | `.gitignore` | 캐시 디렉토리 추가 |
 
 ---
 
-## 상세 구현 사항
+## 고려사항
 
-### CategoryMarquee.tsx 구조
+### 성능
+- 질문당 1회 LLM 호출 (flash-lite: 빠르고 저렴)
+- 캐시 hit 시 LLM 호출 없음
+- 병렬 요청으로 latency 최소화
 
-```tsx
-'use client';
+### 캐시 무효화
+- **24시간 TTL**: 선택 % 통계가 크게 변하지 않으므로 충분
+- **수동 무효화**: Admin에서 캐시 클리어 기능 추가 (선택적)
 
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-
-// 카테고리별 랭킹 1위 상품 정보 (정적 매핑)
-const CATEGORY_ITEMS: CategoryItem[] = [
-  { id: 'milk_powder_port', name: '분유포트', thumbnail: '...', targetUrl: '/recommend-v2/formula_pot' },
-  // ... 9개 카테고리
-];
-
-export function CategoryMarquee({ onCategoryClick }: Props) {
-  // Row 1: 5개 카테고리
-  // Row 2: 4개 카테고리 (다른 조합)
-
-  return (
-    <div className="mt-8 mb-4 overflow-hidden">
-      {/* Row 1 - 왼쪽으로 흐름 */}
-      <div className="flex animate-marquee-left hover:pause">
-        {[...row1Items, ...row1Items].map((item, idx) => (
-          <CategoryCard key={`r1-${idx}`} item={item} onClick={onCategoryClick} />
-        ))}
-      </div>
-
-      {/* Row 2 - 오른쪽으로 흐름 */}
-      <div className="flex animate-marquee-right hover:pause mt-3">
-        {[...row2Items, ...row2Items].map((item, idx) => (
-          <CategoryCard key={`r2-${idx}`} item={item} onClick={onCategoryClick} />
-        ))}
-      </div>
-    </div>
-  );
-}
-```
-
-### CategoryCard 디자인
-
-```tsx
-function CategoryCard({ item, onClick }: CardProps) {
-  return (
-    <button
-      onClick={() => onClick(item.id)}
-      className="flex-shrink-0 mx-2 px-3 py-2 rounded-xl bg-sky-50 hover:bg-sky-100
-                 transition-colors flex items-center gap-2"
-    >
-      <div className="w-10 h-10 rounded-lg overflow-hidden bg-white">
-        <Image
-          src={item.thumbnail}
-          alt={item.name}
-          width={40}
-          height={40}
-          className="object-cover"
-        />
-      </div>
-      <span className="text-sm font-medium text-gray-700 whitespace-nowrap">
-        {item.name}
-      </span>
-    </button>
-  );
-}
-```
+### Fallback
+- LLM 호출 실패 시 → 기존 static tip 사용 (`filter_tips.json`)
+- 캐시 읽기 실패 시 → LLM 재생성
 
 ---
 
-## 카테고리 → recommend-v2 URL 매핑
+## 예상 결과
 
-| specs 카테고리 | recommend-v2 URL |
-|---------------|------------------|
-| milk_powder_port | `/recommend-v2/formula_pot` |
-| baby_bottle | `/recommend-v2/baby_bottle` |
-| baby_bottle_sterilizer | 없음 (추가 필요) |
-| baby_formula_dispenser | 없음 (추가 필요) |
-| baby_monitor | 없음 (추가 필요) |
-| baby_play_mat | 없음 (추가 필요) |
-| car_seat | `/recommend-v2/car_seat` |
-| nasal_aspirator | `/recommend-v2/nasal_aspirator` |
-| thermometer | `/recommend-v2/thermometer` |
-
-**참고**: categories-v2의 CATEGORY_GROUPS에 정의된 카테고리만 recommend-v2 플로우 지원
-- 현재 지원: stroller, car_seat, formula, formula_maker, formula_pot, baby_bottle, pacifier, diaper, baby_wipes, thermometer, nasal_aspirator, ip_camera, baby_bed, high_chair, baby_sofa, baby_desk
-
----
-
-## 예상 결과물
-
+**Before (Static)**:
 ```
-┌────────────────────────────────────────────────┐
-│                    홈 화면                      │
-├────────────────────────────────────────────────┤
-│     수천 개 아기용품 중 내게 딱 맞는 하나 찾기      │
-│                                                │
-│            [캐릭터 영상 MP4]                     │
-│                                                │
-│ ← [분유포트] [젖병] [카시트] [체온계] [분유포트]... →  │  (Row 1: 왼쪽 흐름)
-│ → [놀이매트] [코흡입기] [소독기] [놀이매트]... ←     │  (Row 2: 오른쪽 흐름)
-│                                                │
-│          [    바로 추천받기 AI    ]              │
-└────────────────────────────────────────────────┘
+질문: 어떤 브랜드를 선호하세요?
+팁: "아기 피부에 닿는 제품은 브랜드 신뢰도가 중요해요"
+```
+
+**After (Dynamic)**:
+```
+질문: 어떤 브랜드를 선호하세요?
+팁: "더블하트가 52%로 가장 많이 선택됐어요. 모유실감 젖꼭지로 유두혼동 걱정이 적은 게 인기 비결이에요."
 ```
 
 ---
 
 ## 구현 순서
 
-1. **globals.css**: marquee 애니메이션 keyframes 추가
-2. **CategoryMarquee.tsx**: 컴포넌트 생성 + 정적 데이터 매핑
-3. **HomeContent.tsx**: 컴포넌트 import 및 배치
-4. **테스트**: 애니메이션 속도, 터치 스크롤, 클릭 동작 확인
+1. [x] 현재 구조 파악 완료
+2. [ ] `app/api/v2/generate-tip/route.ts` - API 엔드포인트 구현
+3. [ ] `lib/cache/simple.ts` - Tip 캐싱 로직 추가
+4. [ ] `types/recommend-v2.ts` - HardFilterData 타입 수정
+5. [ ] `app/recommend-v2/[categoryKey]/page.tsx` - 동적 tip 로드 로직
+6. [ ] `components/recommend-v2/HardFilterQuestion.tsx` - dynamicTip 표시
+7. [ ] `.gitignore` - 캐시 디렉토리 추가
+8. [ ] 테스트 및 검증
