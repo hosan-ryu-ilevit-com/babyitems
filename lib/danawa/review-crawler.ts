@@ -61,7 +61,10 @@ export interface DanawaReviewResult {
 // 브라우저 설정
 // =====================================================
 
-async function createBrowser(): Promise<Browser> {
+/**
+ * 브라우저 인스턴스 생성 (외부에서 재사용 가능하도록 export)
+ */
+export async function createBrowser(): Promise<Browser> {
   return await puppeteer.launch({
     headless: true,
     args: [
@@ -70,10 +73,8 @@ async function createBrowser(): Promise<Browser> {
       '--disable-dev-shm-usage',
       '--disable-gpu',
       '--no-first-run',
-      '--no-zygote',
-      '--single-process',
-      '--disable-web-security',
       '--disable-blink-features=AutomationControlled',
+      // --single-process, --no-zygote 제거: 병렬 처리 시 연결 끊김 발생
     ],
   });
 }
@@ -213,9 +214,18 @@ function parseReview($review: CheerioSelection, $: CheerioAPI): Review | null {
 
 /**
  * 페이지에서 리뷰 목록 추출
+ * @param page Puppeteer 페이지
+ * @param maxPages 최대 페이지 수
+ * @param fastMode 빠른 모드 (딜레이 축소)
  */
-async function extractReviews(page: Page, maxPages: number = 3): Promise<Review[]> {
+async function extractReviews(page: Page, maxPages: number = 3, fastMode: boolean = false): Promise<Review[]> {
   const allReviews: Review[] = [];
+
+  // 딜레이 설정 (fastMode: 축소된 딜레이)
+  const scrollDelay = fastMode ? 800 : 2000;
+  const tabClickDelay = fastMode ? 800 : 2000;
+  const pageLoadDelay = fastMode ? 600 : 1500;
+  const nextPageDelay = fastMode ? 800 : 2000;
 
   try {
     // 리뷰 영역으로 스크롤
@@ -227,7 +237,7 @@ async function extractReviews(page: Page, maxPages: number = 3): Promise<Review[
         window.scrollTo(0, 1000);
       }
     });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, scrollDelay));
 
     // "쇼핑몰 상품리뷰" 탭 클릭 (실제 리뷰가 있는 탭)
     await page.evaluate(() => {
@@ -236,11 +246,11 @@ async function extractReviews(page: Page, maxPages: number = 3): Promise<Review[
         (companyReviewTab as HTMLElement).click();
       }
     });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, tabClickDelay));
 
     // 페이지네이션 처리
     for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, pageLoadDelay));
 
       const html = await page.content();
       const $ = load(html);
@@ -329,7 +339,7 @@ async function extractReviews(page: Page, maxPages: number = 3): Promise<Review[
           break;
         }
 
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, nextPageDelay));
       }
     }
   } catch (error) {
@@ -344,14 +354,18 @@ async function extractReviews(page: Page, maxPages: number = 3): Promise<Review[
 // =====================================================
 
 /**
- * 다나와 상품 리뷰 정보 크롤링
+ * 다나와 상품 리뷰 정보 크롤링 (브라우저 재사용 버전)
  * @param pcode 다나와 상품 코드
  * @param maxPages 최대 크롤링할 페이지 수 (기본 3)
+ * @param sharedBrowser 재사용할 브라우저 인스턴스 (없으면 새로 생성)
+ * @param fastMode 빠른 모드 (딜레이 축소)
  * @returns 리뷰 정보
  */
 export async function fetchDanawaReviews(
   pcode: string,
-  maxPages: number = 3
+  maxPages: number = 3,
+  sharedBrowser?: Browser,
+  fastMode: boolean = false
 ): Promise<DanawaReviewResult> {
   const result: DanawaReviewResult = {
     pcode,
@@ -363,9 +377,10 @@ export async function fetchDanawaReviews(
   };
 
   let browser: Browser | null = null;
+  const ownBrowser = !sharedBrowser;
 
   try {
-    browser = await createBrowser();
+    browser = sharedBrowser || await createBrowser();
     const page = await browser.newPage();
 
     // 이미지는 로드 (리뷰 이미지 필요)
@@ -396,7 +411,7 @@ export async function fetchDanawaReviews(
 
     // 리뷰 목록 추출
     if (reviewCount > 0) {
-      result.reviews = await extractReviews(page, maxPages);
+      result.reviews = await extractReviews(page, maxPages, fastMode);
     }
 
     result.success = true;
@@ -406,7 +421,8 @@ export async function fetchDanawaReviews(
     result.error = error instanceof Error ? error.message : 'Unknown error';
     console.error(`❌ [${pcode}] Review crawl failed:`, result.error);
   } finally {
-    if (browser) {
+    // 자체 생성한 브라우저만 닫음
+    if (ownBrowser && browser) {
       try {
         await browser.close();
       } catch {

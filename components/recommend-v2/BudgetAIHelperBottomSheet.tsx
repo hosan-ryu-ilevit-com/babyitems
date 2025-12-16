@@ -10,6 +10,11 @@ interface PriceRangeInfo {
   count: number;
 }
 
+interface UserSelections {
+  hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
+  balanceGames?: Array<{ title: string; selectedOption: string }>;
+}
+
 interface BudgetAIHelperBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
@@ -22,6 +27,7 @@ interface BudgetAIHelperBottomSheetProps {
   sliderMin: number;
   sliderMax: number;
   onSelectBudget: (min: number, max: number) => void;
+  userSelections?: UserSelections;
 }
 
 interface AIResponse {
@@ -32,6 +38,17 @@ interface AIResponse {
   };
   reasoning: string;
   alternatives?: string | null;
+}
+
+// **bold** 마크다운을 실제 볼드로 변환
+function renderWithBold(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
 }
 
 export function BudgetAIHelperBottomSheet({
@@ -46,6 +63,7 @@ export function BudgetAIHelperBottomSheet({
   sliderMin,
   sliderMax,
   onSelectBudget,
+  userSelections,
 }: BudgetAIHelperBottomSheetProps) {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -64,6 +82,7 @@ export function BudgetAIHelperBottomSheet({
       setError(null);
       generateExamples();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   // AI 응답 또는 로딩 시작하면 스크롤
@@ -81,13 +100,27 @@ export function BudgetAIHelperBottomSheet({
   const generateExamples = async () => {
     setIsLoadingExamples(true);
     try {
-      // 카테고리에 맞는 예시 생성
-      const defaultExamples = [
+      const res = await fetch('/api/ai-selection-helper/budget/generate-examples', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          category,
+          categoryName,
+          userSelections,
+        }),
+      });
+      const data = await res.json();
+      setExamples(data.examples || [
         '첫째 아이라 좋은 거 사주고 싶어요',
         '가성비 좋은 제품이면 충분해요',
         '오래 쓸 거라 투자할 생각이에요',
-      ];
-      setExamples(defaultExamples);
+      ]);
+    } catch {
+      setExamples([
+        '첫째 아이라 좋은 거 사주고 싶어요',
+        '가성비 좋은 제품이면 충분해요',
+        '오래 쓸 거라 투자할 생각이에요',
+      ]);
     } finally {
       setIsLoadingExamples(false);
     }
@@ -136,7 +169,7 @@ export function BudgetAIHelperBottomSheet({
 
   const handleExampleClick = (example: string) => {
     setUserInput(example);
-    inputRef.current?.focus();
+    // 모바일에서 키보드가 불필요하게 올라오지 않도록 focus 안 함
   };
 
   const formatPrice = (price: number) => {
@@ -228,7 +261,7 @@ export function BudgetAIHelperBottomSheet({
                     value={userInput}
                     onChange={e => setUserInput(e.target.value)}
                     placeholder="예산에 대한 고민을 자유롭게 적어주세요"
-                    className="w-full p-3 border border-gray-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent disabled:bg-gray-50"
+                    className="w-full p-3 border border-gray-200 rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent disabled:bg-gray-50"
                     rows={3}
                     disabled={isLoading || !!aiResponse}
                   />
@@ -314,8 +347,8 @@ export function BudgetAIHelperBottomSheet({
                       <p className="text-sm text-amber-600 font-medium mb-2">
                         이 범위에 {aiResponse.recommendation.productsInRange}개 상품이 있어요
                       </p>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        {aiResponse.reasoning}
+                      <p className="text-sm text-gray-600 leading-snug">
+                        {renderWithBold(aiResponse.reasoning)}
                       </p>
                       {aiResponse.alternatives && (
                         <p className="text-xs text-gray-500 mt-2 pt-2 border-t border-amber-100">

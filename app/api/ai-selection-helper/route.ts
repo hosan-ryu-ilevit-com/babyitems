@@ -1,7 +1,7 @@
 'use server';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getProModel, callGeminiWithRetry, parseJSONResponse } from '@/lib/ai/gemini';
+import { getModel, callGeminiWithRetry, parseJSONResponse } from '@/lib/ai/gemini';
 import fs from 'fs';
 import path from 'path';
 
@@ -87,6 +87,7 @@ export async function POST(request: NextRequest) {
 4. 추천 이유는 반드시 사용자의 상황과 연결해서 설명하세요
 5. 대안이 있다면 언급하세요
 6. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요. 옵션을 언급할 때는 영어 value가 아닌 한글 label을 사용하세요.**
+7. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요.**
 
 ${insightsContext}`;
 
@@ -123,6 +124,7 @@ ${tipText ? `**팁:** ${tipText}` : ''}
 3. 추천 이유는 반드시 사용자의 상황과 연결해서 설명하세요
 4. 확신이 낮으면 "both"보다는 더 중요한 하나를 선택하세요
 5. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요. 옵션을 언급할 때는 "A", "B" 대신 해당 옵션의 한글 설명을 사용하세요.**
+6. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요.**
 
 ${insightsContext}`;
 
@@ -147,7 +149,7 @@ B: ${balanceOptions.B.text}
 }`;
     }
 
-    const model = getProModel(0.3);
+    const model = getModel(0.3);
 
     const response = await callGeminiWithRetry(async () => {
       const result = await model.generateContent([

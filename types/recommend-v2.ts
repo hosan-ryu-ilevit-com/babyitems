@@ -242,6 +242,7 @@ export interface CheckpointData {
   totalProducts: number;
   filteredCount: number;
   conditions: Array<{ label: string; value: string }>;
+  productThumbnails?: string[];  // 필터링된 상품 썸네일 (최대 5개)
 }
 
 export interface BalanceGameData {

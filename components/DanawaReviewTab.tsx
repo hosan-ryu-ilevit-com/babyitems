@@ -36,6 +36,7 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
   const [expandedImages, setExpandedImages] = useState<{reviewId: number; images: DanawaReviewImage[]; currentIndex: number} | null>(null);
   const [visibleCount, setVisibleCount] = useState(5);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [sortOrder, setSortOrder] = useState<'high' | 'low'>('high');
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -183,6 +184,14 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
   const maxCount = Math.max(...Object.values(ratingDistribution), 1);
   const totalReviews = reviews.length || 1;
 
+  // 정렬된 리뷰
+  const sortedReviews = [...reviews].sort((a, b) => {
+    if (sortOrder === 'high') {
+      return b.rating - a.rating;
+    }
+    return a.rating - b.rating;
+  });
+
   return (
     <div className="pb-4">
       {/* 리뷰 요약 - 새로운 디자인 */}
@@ -190,13 +199,11 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
         {/* 상품리뷰 헤더 */}
         <div className="flex items-center gap-1.5 mb-4">
           <h3 className="text-base font-bold text-gray-900">상품리뷰</h3>
-          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+          
         </div>
 
         {/* 평점 + 분포 차트 */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center justify-center gap-8">
           {/* 평균 별점 */}
           <div className="text-center">
             <div className="text-4xl font-bold text-gray-900 mb-1">
@@ -218,7 +225,7 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
           </div>
 
           {/* 별점 분포 차트 */}
-          <div className="flex-1 flex items-end justify-center gap-2 h-24">
+          <div className="flex items-end justify-center gap-2 h-24">
             {[5, 4, 3, 2, 1].map((rating) => {
               const count = ratingDistribution[rating] || 0;
               const percentage = Math.round((count / totalReviews) * 100);
@@ -254,9 +261,40 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
         </div>
       </div>
 
+      {/* 리뷰 개수 + 정렬 필터 */}
+      <div className="px-4 py-3 flex items-center justify-between border-b border-gray-100">
+        {/* 리뷰 개수 */}
+        <span className="text-sm text-gray-500">
+          리뷰 <span className="font-semibold text-blue-600">{reviewCount.toLocaleString()}건</span>
+        </span>
+        {/* 정렬 셀렉터 */}
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setSortOrder('high')}
+            className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${
+              sortOrder === 'high'
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-500 hover:bg-gray-100'
+            }`}
+          >
+            별점 높은순
+          </button>
+          <button
+            onClick={() => setSortOrder('low')}
+            className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${
+              sortOrder === 'low'
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-500 hover:bg-gray-100'
+            }`}
+          >
+            별점 낮은순
+          </button>
+        </div>
+      </div>
+
       {/* 리뷰 목록 */}
       <div className="divide-y divide-gray-100">
-        {reviews.slice(0, visibleCount).map((review) => (
+        {sortedReviews.slice(0, visibleCount).map((review) => (
           <div key={review.id} className="px-4 py-4">
             {/* 헤더: 별점 + 쇼핑몰 */}
             <div className="flex items-center justify-between mb-2">

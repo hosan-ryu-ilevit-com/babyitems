@@ -5,6 +5,11 @@ import { motion } from 'framer-motion';
 import type { ProductItem } from '@/types/recommend-v2';
 import { BudgetAIHelperBottomSheet } from './BudgetAIHelperBottomSheet';
 
+interface UserSelections {
+  hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
+  balanceGames?: Array<{ title: string; selectedOption: string }>;
+}
+
 interface BudgetSliderProps {
   min: number;
   max: number;
@@ -22,6 +27,7 @@ interface BudgetSliderProps {
   showAIHelper?: boolean;
   category?: string;
   categoryName?: string;
+  userSelections?: UserSelections;
 }
 
 // 히스토그램 막대 개수
@@ -53,9 +59,14 @@ export function BudgetSlider({
   showAIHelper = false,
   category = '',
   categoryName = '',
+  userSelections,
 }: BudgetSliderProps) {
-  const [minValue, setMinValue] = useState(initialMin ?? min);
-  const [maxValue, setMaxValue] = useState(initialMax ?? max);
+  // 디폴트를 '적정가' 범위로 설정 (전체 범위의 1/4 ~ 2/4 구간)
+  const defaultMin = initialMin ?? Math.round(min + (max - min) / 4);
+  const defaultMax = initialMax ?? Math.round(min + (max - min) / 2);
+
+  const [minValue, setMinValue] = useState(defaultMin);
+  const [maxValue, setMaxValue] = useState(defaultMax);
   const [isDraggingMin, setIsDraggingMin] = useState(false);
   const [isDraggingMax, setIsDraggingMax] = useState(false);
   const [isEditingMin, setIsEditingMin] = useState(false);
@@ -526,6 +537,7 @@ export function BudgetSlider({
           sliderMin={min}
           sliderMax={max}
           onSelectBudget={handleAIBudgetSelect}
+          userSelections={userSelections}
         />
       )}
     </motion.div>

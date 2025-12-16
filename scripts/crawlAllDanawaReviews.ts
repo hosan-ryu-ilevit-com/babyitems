@@ -1,12 +1,14 @@
 /**
- * 모든 다나와 제품 리뷰 크롤링 스크립트
+ * 모든 다나와 제품 리뷰 크롤링 스크립트 (최적화 버전)
  *
  * 실행 방법:
  *   npx tsx scripts/crawlAllDanawaReviews.ts                    # 전체 크롤링
  *   npx tsx scripts/crawlAllDanawaReviews.ts --pages 10         # 상품당 최대 10페이지
- *   npx tsx scripts/crawlAllDanawaReviews.ts --delay 5000       # 5초 딜레이
+ *   npx tsx scripts/crawlAllDanawaReviews.ts --delay 2000       # 2초 딜레이
  *   npx tsx scripts/crawlAllDanawaReviews.ts --dry-run          # DB 저장 없이 테스트
  *   npx tsx scripts/crawlAllDanawaReviews.ts --skip-existing    # 이미 리뷰 있는 제품 스킵
+ *   npx tsx scripts/crawlAllDanawaReviews.ts --fast             # 빠른 모드 (딜레이 축소)
+ *   npx tsx scripts/crawlAllDanawaReviews.ts --concurrency 3    # 병렬 처리 수 (기본 2)
  */
 
 import 'dotenv/config';
@@ -17,7 +19,8 @@ import path from 'path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 import { createClient } from '@supabase/supabase-js';
-import { fetchDanawaReviews, Review } from '../lib/danawa/review-crawler';
+import { fetchDanawaReviews, createBrowser, Review } from '../lib/danawa/review-crawler';
+import type { Browser } from 'puppeteer';
 
 // =====================================================
 // 환경 설정
@@ -44,15 +47,19 @@ interface Options {
   delayMs: number;
   dryRun: boolean;
   skipExisting: boolean;
+  fastMode: boolean;
+  concurrency: number;
 }
 
 function parseArgs(): Options {
   const args = process.argv.slice(2);
   const options: Options = {
     maxPages: 5,
-    delayMs: 4000,
+    delayMs: 2000,      // 기본값 축소 (4초 → 2초)
     dryRun: false,
     skipExisting: false,
+    fastMode: false,
+    concurrency: 2,     // 기본 병렬 처리 수
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -66,6 +73,12 @@ function parseArgs(): Options {
       options.dryRun = true;
     } else if (args[i] === '--skip-existing') {
       options.skipExisting = true;
+    } else if (args[i] === '--fast') {
+      options.fastMode = true;
+      options.delayMs = 1000; // fast 모드면 딜레이 더 축소
+    } else if (args[i] === '--concurrency' && args[i + 1]) {
+      options.concurrency = Math.min(Math.max(parseInt(args[i + 1], 10), 1), 5); // 1~5 사이
+      i++;
     }
   }
 
@@ -255,6 +268,59 @@ async function updateProductReviewStats(
 }
 
 // =====================================================
+// 병렬 처리 워커
+// =====================================================
+
+interface WorkerResult {
+  success: boolean;
+  reviews: number;
+  inserted: number;
+  skipped: number;
+  errors: number;
+}
+
+async function processProduct(
+  product: DanawaProduct,
+  browser: Browser,
+  options: Options
+): Promise<WorkerResult> {
+  try {
+    // 리뷰 크롤링 (브라우저 재사용, fastMode 적용)
+    const result = await fetchDanawaReviews(
+      product.pcode,
+      options.maxPages,
+      browser,
+      options.fastMode
+    );
+
+    if (result.success) {
+      // DB 저장
+      const saveStats = await saveReviewsToDb(product.pcode, result.reviews, options.dryRun);
+
+      // 제품 통계 업데이트
+      await updateProductReviewStats(
+        product.pcode,
+        result.reviewCount,
+        result.averageRating,
+        options.dryRun
+      );
+
+      return {
+        success: true,
+        reviews: result.reviews.length,
+        inserted: saveStats.inserted,
+        skipped: saveStats.skipped,
+        errors: saveStats.errors,
+      };
+    } else {
+      return { success: false, reviews: 0, inserted: 0, skipped: 0, errors: 0 };
+    }
+  } catch {
+    return { success: false, reviews: 0, inserted: 0, skipped: 0, errors: 0 };
+  }
+}
+
+// =====================================================
 // 메인 실행
 // =====================================================
 
@@ -262,12 +328,14 @@ async function main(): Promise<void> {
   const options = parseArgs();
 
   console.log('\n========================================');
-  console.log('🚀 다나와 전체 제품 리뷰 크롤링');
+  console.log('🚀 다나와 전체 제품 리뷰 크롤링 (최적화 버전)');
   console.log('========================================\n');
 
   console.log('⚙️ 설정:');
   console.log(`   - 상품당 최대 페이지: ${options.maxPages}`);
   console.log(`   - 요청 간 딜레이: ${options.delayMs}ms`);
+  console.log(`   - 병렬 처리 수: ${options.concurrency}`);
+  console.log(`   - Fast Mode: ${options.fastMode}`);
   console.log(`   - Dry Run: ${options.dryRun}`);
   console.log(`   - Skip Existing: ${options.skipExisting}`);
 
@@ -296,7 +364,16 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
-  // 3. 크롤링 시작
+  // 3. 브라우저 인스턴스 생성 (병렬 처리 수만큼)
+  console.log(`\n🌐 브라우저 ${options.concurrency}개 생성 중...`);
+  const browsers: Browser[] = [];
+  for (let i = 0; i < options.concurrency; i++) {
+    const browser = await createBrowser();
+    browsers.push(browser);
+    console.log(`   ✅ 브라우저 #${i + 1} 생성 완료`);
+  }
+
+  // 4. 크롤링 시작 (병렬 처리)
   console.log('\n📡 크롤링 시작...\n');
   const startTime = Date.now();
 
@@ -309,67 +386,65 @@ async function main(): Promise<void> {
     totalErrors: 0,
   };
 
-  for (let i = 0; i < productsToProcess.length; i++) {
-    const product = productsToProcess[i];
-    const progress = `[${i + 1}/${productsToProcess.length}]`;
+  let currentIndex = 0;
+  const total = productsToProcess.length;
 
-    console.log(`${progress} 📦 ${product.title}`);
-    console.log(`       pcode: ${product.pcode}`);
+  // 워커 함수: 각 브라우저가 순차적으로 제품을 처리
+  async function worker(workerId: number, browser: Browser): Promise<void> {
+    while (true) {
+      // 다음 처리할 제품 인덱스 가져오기 (atomic하게)
+      const idx = currentIndex++;
+      if (idx >= total) break;
 
-    try {
-      // 리뷰 크롤링
-      const result = await fetchDanawaReviews(product.pcode, options.maxPages);
+      const product = productsToProcess[idx];
+      const progress = `[${idx + 1}/${total}]`;
+
+      console.log(`🔄 W${workerId} ${progress} ${product.title.substring(0, 30)}...`);
+
+      const result = await processProduct(product, browser, options);
 
       if (result.success) {
-        console.log(`       ✅ 메타: ${result.reviewCount}개 리뷰, 평균 ${result.averageRating}점`);
-        console.log(`       📥 크롤링: ${result.reviews.length}개`);
-
-        // 이미지 통계
-        const withImages = result.reviews.filter(r => r.images.length > 0).length;
-        if (withImages > 0) {
-          console.log(`       📷 이미지 포함: ${withImages}개`);
-        }
-
-        // DB 저장
-        const saveStats = await saveReviewsToDb(product.pcode, result.reviews, options.dryRun);
-        console.log(`       💾 저장: ${saveStats.inserted}개, 스킵: ${saveStats.skipped}개`);
-
-        // 제품 통계 업데이트
-        await updateProductReviewStats(
-          product.pcode,
-          result.reviewCount,
-          result.averageRating,
-          options.dryRun
-        );
-
+        console.log(`   ✅ W${workerId} ${progress} 크롤링: ${result.reviews}개, 저장: ${result.inserted}개`);
         totalStats.success++;
-        totalStats.totalReviews += result.reviews.length;
-        totalStats.totalInserted += saveStats.inserted;
-        totalStats.totalSkipped += saveStats.skipped;
-        totalStats.totalErrors += saveStats.errors;
+        totalStats.totalReviews += result.reviews;
+        totalStats.totalInserted += result.inserted;
+        totalStats.totalSkipped += result.skipped;
+        totalStats.totalErrors += result.errors;
       } else {
-        console.log(`       ❌ 실패: ${result.error}`);
+        console.log(`   ❌ W${workerId} ${progress} 실패`);
         totalStats.failed++;
       }
-    } catch (error) {
-      console.log(`       ❌ 예외: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      totalStats.failed++;
-    }
 
-    // 딜레이 (마지막 제외)
-    if (i < productsToProcess.length - 1) {
-      console.log(`       ⏳ ${options.delayMs / 1000}초 대기...\n`);
-      await new Promise(resolve => setTimeout(resolve, options.delayMs));
+      // 딜레이 (rate limit 방지)
+      if (idx < total - 1) {
+        await new Promise(resolve => setTimeout(resolve, options.delayMs));
+      }
     }
   }
 
-  // 4. 최종 결과
+  // 모든 워커 병렬 실행
+  const workerPromises = browsers.map((browser, idx) => worker(idx + 1, browser));
+  await Promise.all(workerPromises);
+
+  // 5. 브라우저 종료
+  console.log('\n🧹 브라우저 종료 중...');
+  for (const browser of browsers) {
+    try {
+      await browser.close();
+    } catch {
+      // 무시
+    }
+  }
+
+  // 6. 최종 결과
   const elapsed = ((Date.now() - startTime) / 1000 / 60).toFixed(1);
+  const avgPerProduct = ((Date.now() - startTime) / 1000 / totalStats.success).toFixed(1);
 
   console.log('\n========================================');
   console.log('📊 최종 결과');
   console.log('========================================');
   console.log(`   - 소요 시간: ${elapsed}분`);
+  console.log(`   - 평균 처리 시간: ${avgPerProduct}초/제품`);
   console.log(`   - 성공: ${totalStats.success}개 제품`);
   console.log(`   - 실패: ${totalStats.failed}개 제품`);
   console.log(`   - 총 크롤링 리뷰: ${totalStats.totalReviews}개`);

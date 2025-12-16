@@ -1,7 +1,7 @@
 'use server';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getProModel, callGeminiWithRetry, parseJSONResponse } from '@/lib/ai/gemini';
+import { getModel, callGeminiWithRetry, parseJSONResponse } from '@/lib/ai/gemini';
 
 interface PriceRangeInfo {
   range: string;
@@ -90,7 +90,7 @@ ${priceDistribution}
 
 위 상황을 고려해서 적절한 예산 범위를 추천해주세요. 반드시 해당 범위에 3개 이상의 상품이 있어야 합니다.`;
 
-    const model = getProModel(0.3);
+    const model = getModel(0.3);
 
     const response = await callGeminiWithRetry(async () => {
       const result = await model.generateContent([

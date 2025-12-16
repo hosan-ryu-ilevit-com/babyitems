@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
@@ -491,9 +491,12 @@ export default function RecommendV2Page() {
           console.error('📦 [Products] Failed:', productsJson.error);
         }
 
-        // Set default budget range
+        // Set default budget range to '적정가' (1/4 ~ 2/4 of total range)
         const budgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000 };
-        setBudget({ min: budgetRange.min, max: budgetRange.max });
+        const range = budgetRange.max - budgetRange.min;
+        const defaultMin = Math.round(budgetRange.min + range / 4);
+        const defaultMax = Math.round(budgetRange.min + range / 2);
+        setBudget({ min: defaultMin, max: defaultMax });
 
         // Log page view
         logV2PageView(categoryKey, category_name);
@@ -651,6 +654,42 @@ export default function RecommendV2Page() {
 
     setShowScanAnimation(false);
 
+    // [SKIP GUIDE CARDS] 가이드 카드 단계 스킵 - 바로 첫 질문으로 이동
+    if (hardFilterConfig) {
+      setTimeout(() => {
+        // 세부 카테고리 선택이 필요한 경우
+        if (requiresSubCategory && subCategoryConfig) {
+          setShowSubCategorySelector(true);
+          addMessage({
+            role: 'system',
+            content: '',
+            componentType: 'sub-category' as ComponentType,
+            componentData: {
+              categoryName: subCategoryConfig.category_name,
+              subCategories: subCategoryConfig.sub_categories,
+            },
+          });
+          // 스크롤 제거 - 첫 화면이므로 스크롤 불필요
+        } else if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
+          // 하드 필터 질문 바로 시작
+          setCurrentStep(1);
+          addMessage({
+            role: 'system',
+            content: '',
+            componentType: 'hard-filter',
+            componentData: {
+              question: hardFilterConfig.questions[0],
+              currentIndex: 0,
+              totalCount: hardFilterConfig.questions.length,
+            },
+            stepTag: '1/5',
+          });
+          // 스크롤 제거 - 첫 화면이므로 스크롤 불필요
+        }
+      }, 250);
+    }
+
+    /* [ORIGINAL GUIDE CARDS CODE - COMMENTED OUT]
     // Add guide cards message with intro message (Step 0: 가이드 카드만 표시)
     // ScanAnimation exit 애니메이션(0.2s) 완료 후 메시지 추가하여 레이아웃 점프 방지
     if (hardFilterConfig) {
@@ -694,6 +733,7 @@ export default function RecommendV2Page() {
         });
       }, 250);
     }
+    */
   }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, addMessage]);
 
   // ===================================================
@@ -929,6 +969,12 @@ export default function RecommendV2Page() {
     }, true);
     scrollToMessage(stepMsgId);
 
+    // 필터링된 상품 썸네일 추출 (상위 5개)
+    const productThumbnails = filtered
+      .filter(p => p.thumbnail)
+      .slice(0, 5)
+      .map(p => p.thumbnail as string);
+
     // 로딩 상태 메시지 추가 (스크롤 없이 그 아래에 렌더링)
     const loadingMsgId = addMessage({
       role: 'system',
@@ -938,6 +984,7 @@ export default function RecommendV2Page() {
         totalProducts: productsToUse.length,
         filteredCount: filtered.length,
         conditions,
+        productThumbnails,
         isLoading: true,
       } as CheckpointData & { isLoading: boolean },
     });
@@ -1080,6 +1127,7 @@ export default function RecommendV2Page() {
               totalProducts: productsToUse.length,
               filteredCount: filtered.length,
               conditions,
+              productThumbnails,
               isLoading: false,
             } as CheckpointData & { isLoading: boolean },
           }
@@ -1389,6 +1437,49 @@ export default function RecommendV2Page() {
   const handleBudgetChange = useCallback((values: { min: number; max: number }) => {
     setBudget(values);
   }, []);
+
+  // AI 예산 추천용 사용자 선택 정보
+  const budgetUserSelections = useMemo(() => {
+    const result: {
+      hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
+      balanceGames?: Array<{ title: string; selectedOption: string }>;
+    } = {};
+
+    // 하드필터 선택 정보
+    if (hardFilterConfig?.questions && Object.keys(hardFilterAnswers).length > 0) {
+      result.hardFilters = hardFilterConfig.questions
+        .filter(q => hardFilterAnswers[q.id]?.length > 0)
+        .map(q => ({
+          questionText: q.question,
+          selectedLabels: hardFilterAnswers[q.id]
+            .map(v => q.options.find(o => o.value === v)?.label || v)
+            .filter(Boolean),
+        }));
+    }
+
+    // 밸런스게임 선택 정보
+    if (balanceQuestions.length > 0 && balanceSelections.size > 0) {
+      result.balanceGames = balanceQuestions
+        .filter(q =>
+          balanceSelections.has(q.option_A.target_rule_key) ||
+          balanceSelections.has(q.option_B.target_rule_key)
+        )
+        .map(q => {
+          const selectedA = balanceSelections.has(q.option_A.target_rule_key);
+          const selectedB = balanceSelections.has(q.option_B.target_rule_key);
+          return {
+            title: q.title,
+            selectedOption: selectedA && selectedB
+              ? '둘 다 중요'
+              : selectedA
+                ? q.option_A.text
+                : q.option_B.text,
+          };
+        });
+    }
+
+    return result;
+  }, [hardFilterConfig, hardFilterAnswers, balanceQuestions, balanceSelections]);
 
   const handleGetRecommendation = useCallback(async () => {
     setIsCalculating(true);
@@ -1892,6 +1983,7 @@ export default function RecommendV2Page() {
                 showAIHelper={true}
                 category={categoryKey}
                 categoryName={categoryName}
+                userSelections={budgetUserSelections}
               />
             </div>
           );
@@ -2348,62 +2440,82 @@ export default function RecommendV2Page() {
 
     // Step 5: 추천받기 with prev/next
     if (currentStep === 5 && scoredProducts.length === 0) {
+      // 예산 범위 내 상품 개수 계산
+      const budgetProductsCount = filteredProducts.filter(p => {
+        const effectivePrice = p.lowestPrice ?? p.price;
+        if (!effectivePrice) return true;
+        return effectivePrice >= budget.min && effectivePrice <= budget.max;
+      }).length;
+      const isTooFewProducts = budgetProductsCount < 3;
+
       return (
-        <div className="flex gap-2">
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            disabled={isTransitioning || isCalculating}
-            onClick={() => {
-              if (isTransitioning || isCalculating) return;
-              logV2StepBack(categoryKey, categoryName, 5, 4);
-              setCurrentStep(4);
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2">
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              disabled={isTransitioning || isCalculating}
+              onClick={() => {
+                if (isTransitioning || isCalculating) return;
+                logV2StepBack(categoryKey, categoryName, 5, 4);
+                setCurrentStep(4);
 
-              // negative-filter 메시지 ID 찾기
-              let targetMsgId: string | undefined;
+                // negative-filter 메시지 ID 찾기
+                let targetMsgId: string | undefined;
 
-              // Remove budget slider related messages
-              setMessages(prev => {
-                const filtered = prev.filter(msg =>
-                  msg.componentType !== 'budget-slider' &&
-                  !(msg.stepTag === '5/5')
-                );
-                // negative-filter 메시지 찾기
-                const negativeMsg = filtered.findLast(msg => msg.componentType === 'negative-filter');
-                targetMsgId = negativeMsg?.id;
-                return filtered;
-              });
-
-              // DOM 업데이트 후 해당 메시지로 스크롤
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  if (targetMsgId) {
-                    scrollToMessage(targetMsgId);
-                  }
+                // Remove budget slider related messages
+                setMessages(prev => {
+                  const filtered = prev.filter(msg =>
+                    msg.componentType !== 'budget-slider' &&
+                    !(msg.stepTag === '5/5')
+                  );
+                  // negative-filter 메시지 찾기
+                  const negativeMsg = filtered.findLast(msg => msg.componentType === 'negative-filter');
+                  targetMsgId = negativeMsg?.id;
+                  return filtered;
                 });
-              });
-            }}
-            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
-              isTransitioning || isCalculating
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            이전
-          </motion.button>
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            onClick={handleGetRecommendation}
-            disabled={isCalculating || isTransitioning}
-            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
-              isCalculating || isTransitioning
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-amber-500 text-white hover:bg-amber-600'
-            }`}
-          >
-            {isCalculating ? '분석 중...' : '추천받기'}
-          </motion.button>
+
+                // DOM 업데이트 후 해당 메시지로 스크롤
+                requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                    if (targetMsgId) {
+                      scrollToMessage(targetMsgId);
+                    }
+                  });
+                });
+              }}
+              className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+                isTransitioning || isCalculating
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              이전
+            </motion.button>
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              onClick={handleGetRecommendation}
+              disabled={isCalculating || isTransitioning || isTooFewProducts}
+              className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+                isCalculating || isTransitioning || isTooFewProducts
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-amber-500 text-white hover:bg-amber-600'
+              }`}
+            >
+              {isCalculating ? '분석 중...' : '추천받기'}
+            </motion.button>
+          </div>
+          {/* 상품 부족 경고 */}
+          {isTooFewProducts && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center text-sm text-red-500 font-medium"
+            >
+              조건에 맞는 상품이 {budgetProductsCount}개뿐이에요. 예산 범위를 넓혀보세요!
+            </motion.p>
+          )}
         </div>
       );
     }

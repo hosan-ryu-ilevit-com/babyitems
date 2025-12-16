@@ -35,6 +35,17 @@ interface AIResponse {
   alternatives?: string | null;
 }
 
+// **bold** 마크다운을 실제 볼드로 변환
+function renderWithBold(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+}
+
 export function AIHelperBottomSheet({
   isOpen,
   onClose,
@@ -78,6 +89,8 @@ export function AIHelperBottomSheet({
     }
   }, [aiResponse, isLoading]);
 
+  const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 선택하는게 뭔가요?';
+
   const generateExamples = async () => {
     setIsLoadingExamples(true);
     try {
@@ -92,12 +105,14 @@ export function AIHelperBottomSheet({
         }),
       });
       const data = await res.json();
-      setExamples(data.examples || []);
+      // 첫 번째는 고정, 나머지 2개는 API에서
+      const apiExamples = (data.examples || []).slice(0, 2);
+      setExamples([FIXED_FIRST_EXAMPLE, ...apiExamples]);
     } catch {
       setExamples([
+        FIXED_FIRST_EXAMPLE,
         '쌍둥이라 자주 사용해요',
         '맞벌이라 시간이 부족해요',
-        '아이가 예민한 편이에요',
       ]);
     } finally {
       setIsLoadingExamples(false);
@@ -153,26 +168,25 @@ export function AIHelperBottomSheet({
 
   const handleExampleClick = (example: string) => {
     setUserInput(example);
-    inputRef.current?.focus();
+    // 모바일에서 키보드가 불필요하게 올라오지 않도록 focus 안 함
   };
 
-  const getRecommendationLabel = () => {
-    if (!aiResponse) return '';
+  const getRecommendationLabels = (): string[] => {
+    if (!aiResponse) return [];
 
     if (questionType === 'balance_game') {
       const selected = aiResponse.recommendation.selectedOptions[0];
-      if (selected === 'both') return '둘 다 중요해요';
+      if (selected === 'both') return ['둘 다 중요해요'];
       if (selected === 'A') {
-        return `A: ${(options as { A: BalanceGameOption; B: BalanceGameOption }).A.text}`;
+        return [`A: ${(options as { A: BalanceGameOption; B: BalanceGameOption }).A.text}`];
       }
-      return `B: ${(options as { A: BalanceGameOption; B: BalanceGameOption }).B.text}`;
+      return [`B: ${(options as { A: BalanceGameOption; B: BalanceGameOption }).B.text}`];
     }
 
     // hard_filter
     const optionList = options as HardFilterOption[];
     return aiResponse.recommendation.selectedOptions
-      .map(v => optionList.find(o => o.value === v)?.label || v)
-      .join(', ');
+      .map(v => optionList.find(o => o.value === v)?.label || v);
   };
 
   const getConfidenceColor = (confidence: string) => {
@@ -243,10 +257,9 @@ export function AIHelperBottomSheet({
               {/* 입력 영역 - 결과 나오면 비활성화 */}
               <div className={`transition-all duration-300 ${aiResponse ? 'opacity-40 pointer-events-none' : ''}`}>
                 {/* 질문 표시 */}
-                <div className="mb-4 p-3 bg-gray-50 rounded-xl">
-                  <p className="text-xs text-gray-500 mb-1">현재 질문</p>
-                  <p className="text-sm font-medium text-gray-800">{questionText}</p>
-                </div>
+                <h3 className="text-base font-bold text-gray-900 leading-snug mb-1">
+                  {questionText}
+                </h3>
 
                 {/* 안내 메시지 */}
                 <p className="text-sm text-gray-600 mb-4">
@@ -256,24 +269,41 @@ export function AIHelperBottomSheet({
                 {/* 예시 버튼들 */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {isLoadingExamples ? (
-                    <div className="flex gap-2">
+                    <>
                       {[1, 2, 3].map(i => (
                         <div
                           key={i}
-                          className="h-8 w-24 bg-gray-100 rounded-full animate-pulse"
+                          className="h-8 rounded-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
+                          style={{
+                            width: `${70 + i * 15}px`,
+                            animationDelay: `${i * 0.15}s`
+                          }}
                         />
                       ))}
-                    </div>
+                      <style jsx>{`
+                        @keyframes shimmer {
+                          0% { background-position: 200% 0; }
+                          100% { background-position: -200% 0; }
+                        }
+                      `}</style>
+                    </>
                   ) : (
                     examples.map((example, idx) => (
-                      <button
+                      <motion.button
                         key={idx}
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: idx * 0.1,
+                          ease: [0.25, 0.1, 0.25, 1]
+                        }}
                         onClick={() => handleExampleClick(example)}
                         disabled={isLoading || !!aiResponse}
                         className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed"
                       >
                         {example}
-                      </button>
+                      </motion.button>
                     ))
                   )}
                 </div>
@@ -285,7 +315,7 @@ export function AIHelperBottomSheet({
                     value={userInput}
                     onChange={e => setUserInput(e.target.value)}
                     placeholder="위 질문과 관련된 육아 상황을 알려주세요"
-                    className="w-full p-3 border border-gray-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent disabled:bg-gray-50"
+                    className="w-full p-3 border border-gray-200 rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent disabled:bg-gray-50"
                     rows={3}
                     disabled={isLoading || !!aiResponse}
                   />
@@ -361,21 +391,32 @@ export function AIHelperBottomSheet({
                     className="space-y-3"
                   >
                     {/* 추천 결과 */}
-                    <div className="p-4 bg-blue-50 rounded-xl">
+                    <div className="p-4 bg-purple-50 rounded-xl">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-blue-500 font-bold text-sm">추천</span>
+                        <span className="text-purple-500 font-bold text-sm">추천</span>
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getConfidenceColor(aiResponse.recommendation.confidence)}`}>
                           {getConfidenceLabel(aiResponse.recommendation.confidence)}
                         </span>
                       </div>
-                      <p className="text-sm font-semibold text-gray-800 mb-2">
-                        {getRecommendationLabel()}
-                      </p>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        {aiResponse.reasoning}
+                      <div className="flex flex-wrap gap-2 my-3">
+                        {getRecommendationLabels().map((label, idx) => (
+                          <span
+                            key={idx}
+                            className={`px-3 py-1.5 text-sm font-medium rounded-lg border ${
+                              questionType === 'balance_game'
+                                ? 'text-emerald-700 bg-emerald-50 border-emerald-400'
+                                : 'text-blue-700 bg-blue-50 border-blue-400'
+                            }`}
+                          >
+                            {label}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-600 leading-snug">
+                        {renderWithBold(aiResponse.reasoning)}
                       </p>
                       {aiResponse.alternatives && (
-                        <p className="text-xs text-gray-500 mt-2 pt-2 border-t border-blue-100">
+                        <p className="text-xs text-gray-500 mt-2 pt-2 border-t border-purple-100">
                           <span className="font-semibold">TIP:</span> {aiResponse.alternatives}
                         </p>
                       )}
@@ -393,13 +434,13 @@ export function AIHelperBottomSheet({
                             inputRef.current?.focus();
                           }, 150);
                         }}
-                        className="flex-1 py-3 rounded-xl font-medium text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
+                        className="flex-1 py-3.5 rounded-xl font-medium text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
                       >
                         다시 물어볼래요
                       </button>
                       <button
                         onClick={handleSelectRecommendation}
-                        className="flex-1 py-3 rounded-xl font-semibold text-sm text-white bg-blue-500 hover:bg-blue-600 active:scale-[0.98] transition-all"
+                        className="flex-1 py-3.5 rounded-xl font-semibold text-sm text-white bg-purple-500 hover:bg-purple-600 active:scale-[0.98] transition-all"
                       >
                         이걸로 선택할게요
                       </button>
