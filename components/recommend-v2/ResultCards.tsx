@@ -420,10 +420,13 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
     // 사용자가 선택한 하드필터 값에서 criteriaId 추출
     const selectedCriteriaIds: string[] = [];
+    console.log('🔍 [ReviewInsights] hardFilterAnswers:', userContext?.hardFilterAnswers);
     if (userContext?.hardFilterAnswers) {
-      for (const values of Object.values(userContext.hardFilterAnswers)) {
+      for (const [questionId, values] of Object.entries(userContext.hardFilterAnswers)) {
+        console.log(`🔍 [ReviewInsights] Question ${questionId}:`, values);
         for (const value of values) {
           const criteriaId = HARDFILTER_TO_CRITERIA[value];
+          console.log(`🔍 [ReviewInsights] Value "${value}" → criteriaId:`, criteriaId);
           if (criteriaId && !selectedCriteriaIds.includes(criteriaId)) {
             selectedCriteriaIds.push(criteriaId);
           }
@@ -431,14 +434,21 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       }
     }
 
+    console.log('🔍 [ReviewInsights] selectedCriteriaIds:', selectedCriteriaIds);
+
     // 선택된 체감속성이 없으면 fetch 안 함
-    if (selectedCriteriaIds.length === 0) return;
+    if (selectedCriteriaIds.length === 0) {
+      console.log('⚠️ [ReviewInsights] No matching criteriaIds, skipping fetch');
+      return;
+    }
 
     reviewInsightsFetchedRef.current = true;
 
     const fetchReviewInsights = async () => {
       try {
         const pcodeList = products.slice(0, 3).map(p => p.pcode);
+        console.log('🔄 [ReviewInsights] Fetching for', categoryKey, pcodeList, 'criteria:', selectedCriteriaIds);
+        
         const response = await fetch('/api/v2/review-keywords', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -450,12 +460,16 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         });
 
         const result = await response.json();
-        if (result.success && result.data) {
+        console.log('📦 [ReviewInsights] API response:', result);
+        
+        if (result.success && result.data && Object.keys(result.data).length > 0) {
           setReviewInsights(result.data);
           console.log('✅ [ResultCards] Review insights loaded:', Object.keys(result.data).length, 'products');
 
           // 백그라운드로 LLM 하이라이팅 API 호출 (병렬 처리)
           fetchHighlightedReviews(result.data);
+        } else {
+          console.log('⚠️ [ReviewInsights] No data returned or empty');
         }
       } catch (error) {
         console.error('[ResultCards] Failed to fetch review insights:', error);
@@ -506,12 +520,13 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
         const result = await response.json();
         if (result.success && result.data) {
-          // 결과를 캐시에 저장 (pcode_criteriaId → highlightedText)
+          // 결과를 캐시에 저장 (pcode_criteriaId → excerpt)
           const newHighlights: Record<string, string> = {};
-          result.data.forEach((item: { criteriaId: string; highlightedText: string }, idx: number) => {
+          result.data.forEach((item: { criteriaId: string; excerpt: string }, idx: number) => {
             const original = reviewsToHighlight[idx];
             const cacheKey = `${original.pcode}_${item.criteriaId}`;
-            newHighlights[cacheKey] = item.highlightedText;
+            // excerpt가 발췌된 핵심 문장 (앞뒤 컨텍스트 포함, 볼드 마크다운)
+            newHighlights[cacheKey] = item.excerpt;
           });
           setHighlightedReviews(newHighlights);
           console.log('✅ [ResultCards] LLM highlights loaded:', Object.keys(newHighlights).length, 'reviews');

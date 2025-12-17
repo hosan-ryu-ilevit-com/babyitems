@@ -21,6 +21,50 @@ import {
   type ProductReviewSample,
 } from '@/lib/review/supabase-analyzer';
 
+/**
+ * 제품명 정규화 (브랜드 + 핵심 모델명만 추출)
+ */
+function normalizeProductTitle(title: string): string {
+  return title
+    .replace(/\s*(분유제조기|분유포트|유모차|카시트|젖병|체온계|코흡입기|베이비모니터)\s*/gi, ' ')
+    .replace(/\s*\d+(\.\d+)?\s*(ml|l|리터|㎖|ℓ)\s*/gi, ' ')
+    .replace(/\s*(화이트|블랙|핑크|그레이|아이보리|베이지|블루|레드|그린)\s*/gi, ' ')
+    .replace(/[^\w\sㄱ-ㅎㅏ-ㅣ가-힣-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+/**
+ * 두 제품의 spec 병합 (에누리 spec이 더 풍부하면 우선 사용)
+ */
+function mergeSpecs(
+  danawaSpec: Record<string, unknown> | null,
+  enuriSpec: Record<string, unknown> | null
+): Record<string, unknown> {
+  const merged: Record<string, unknown> = {};
+  
+  if (danawaSpec) {
+    Object.entries(danawaSpec).forEach(([k, v]) => {
+      if (v !== null && v !== undefined && v !== '' && v !== '-') {
+        merged[k] = v;
+      }
+    });
+  }
+  
+  if (enuriSpec) {
+    Object.entries(enuriSpec).forEach(([k, v]) => {
+      if (v !== null && v !== undefined && v !== '' && v !== '-') {
+        if (!merged[k] || merged[k] === '' || merged[k] === '-') {
+          merged[k] = v;
+        }
+      }
+    });
+  }
+  
+  return merged;
+}
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -462,27 +506,18 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
     // products 또는 productIds 중 하나는 필수
     let products: ProductInfo[] = inputProducts || [];
 
-    // productIds로 요청한 경우 Supabase에서 제품 정보 조회 (다나와 + 에누리)
+    // productIds로 요청한 경우 Supabase에서 제품 정보 조회 (다나와 + 에누리, 스펙 병합 포함)
     if ((!products || products.length === 0) && productIds && productIds.length > 0) {
       console.log(`[comparison-analysis] Fetching products from Supabase: ${productIds.join(', ')}`);
 
-      // 다나와와 에누리 병렬 조회
-      const [danawaResult, enuriResult] = await Promise.all([
-        supabase
-          .from('danawa_products')
-          .select('pcode, title, brand, price, rank, spec, filter_attrs')
-          .in('pcode', productIds),
-        supabase
-          .from('enuri_products')
-          .select('model_no, title, brand, price, rank, spec, filter_attrs')
-          .in('model_no', productIds),
-      ]);
+      // 1. 다나와 제품 조회
+      const danawaResult = await supabase
+        .from('danawa_products')
+        .select('pcode, title, brand, price, rank, spec, filter_attrs')
+        .in('pcode', productIds);
 
       if (danawaResult.error) {
         console.error('[comparison-analysis] Danawa error:', danawaResult.error);
-      }
-      if (enuriResult.error) {
-        console.error('[comparison-analysis] Enuri error:', enuriResult.error);
       }
 
       // 다나와 데이터
@@ -496,8 +531,81 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
         rank: p.rank,
       }));
 
-      // 에누리 데이터 (model_no를 pcode로 매핑)
-      const enuriProducts = (enuriResult.data || []).map(p => ({
+      // 2. 다나와 제품의 브랜드를 기반으로 에누리에서 매칭 제품 조회 (스펙 병합용)
+      let specMergedCount = 0;
+      let mergedDanawaProducts = danawaProducts;
+
+      if (danawaProducts.length > 0) {
+        // 다나와 제품의 브랜드 목록
+        const brands = [...new Set(danawaProducts.map(p => p.brand).filter(Boolean))];
+        
+        if (brands.length > 0) {
+          // 같은 브랜드의 에누리 제품 조회
+          const enuriResult = await supabase
+            .from('enuri_products')
+            .select('model_no, title, brand, price, rank, spec, filter_attrs')
+            .in('brand', brands);
+
+          if (!enuriResult.error && enuriResult.data && enuriResult.data.length > 0) {
+            // 에누리 제품을 정규화된 title로 매핑
+            const enuriByNormalizedTitle = new Map<string, {
+              pcode: string;
+              title: string;
+              brand: string | null;
+              price: number | null;
+              spec: Record<string, unknown>;
+              filter_attrs: Record<string, unknown>;
+              rank: number | null;
+            }>();
+
+            enuriResult.data.forEach(p => {
+              const normalizedTitle = normalizeProductTitle(p.title);
+              const existing = enuriByNormalizedTitle.get(normalizedTitle);
+              const spec = p.spec as Record<string, unknown> || {};
+              if (!existing || Object.keys(spec).length > Object.keys(existing.spec || {}).length) {
+                enuriByNormalizedTitle.set(normalizedTitle, {
+                  pcode: p.model_no,
+                  title: p.title,
+                  brand: p.brand,
+                  price: p.price,
+                  spec,
+                  filter_attrs: p.filter_attrs as Record<string, unknown> || {},
+                  rank: p.rank,
+                });
+              }
+            });
+
+            // 다나와 제품에 에누리 spec 병합
+            mergedDanawaProducts = danawaProducts.map(danawaProduct => {
+              const normalizedTitle = normalizeProductTitle(danawaProduct.title);
+              const matchingEnuri = enuriByNormalizedTitle.get(normalizedTitle);
+              
+              if (matchingEnuri) {
+                const danawaSpecCount = Object.keys(danawaProduct.spec || {}).length;
+                const enuriSpecCount = Object.keys(matchingEnuri.spec || {}).length;
+                
+                if (enuriSpecCount > danawaSpecCount) {
+                  specMergedCount++;
+                  console.log(`[comparison-analysis] Merging spec for ${danawaProduct.title}: ${danawaSpecCount} -> ${danawaSpecCount + enuriSpecCount - Object.keys(mergeSpecs(danawaProduct.spec, matchingEnuri.spec)).length + Object.keys(mergeSpecs(danawaProduct.spec, matchingEnuri.spec)).length}`);
+                  return {
+                    ...danawaProduct,
+                    spec: mergeSpecs(danawaProduct.spec, matchingEnuri.spec),
+                  };
+                }
+              }
+              return danawaProduct;
+            });
+          }
+        }
+      }
+
+      // 3. 에누리 전용 제품 조회 (productIds가 에누리 model_no인 경우)
+      const enuriDirectResult = await supabase
+        .from('enuri_products')
+        .select('model_no, title, brand, price, rank, spec, filter_attrs')
+        .in('model_no', productIds);
+
+      const enuriDirectProducts = (enuriDirectResult.data || []).map(p => ({
         pcode: p.model_no,
         title: p.title || `${p.brand || ''} 제품`,
         brand: p.brand,
@@ -507,12 +615,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
         rank: p.rank,
       }));
 
-      // 다나와 우선, 에누리 보충 (중복 제거)
-      const danawaPcodeSet = new Set(danawaProducts.map(p => p.pcode));
-      products = [
-        ...danawaProducts,
-        ...enuriProducts.filter(p => !danawaPcodeSet.has(p.pcode)),
-      ];
+      // 다나와에 없는 에누리 제품만 추가
+      const danawaPcodeSet = new Set(mergedDanawaProducts.map(p => p.pcode));
+      const uniqueEnuriProducts = enuriDirectProducts.filter(p => !danawaPcodeSet.has(p.pcode));
+
+      products = [...mergedDanawaProducts, ...uniqueEnuriProducts];
 
       if (products.length === 0) {
         return NextResponse.json(
@@ -521,7 +628,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
         );
       }
 
-      console.log(`[comparison-analysis] Loaded ${products.length} products (danawa: ${danawaProducts.length}, enuri: ${enuriProducts.filter(p => !danawaPcodeSet.has(p.pcode)).length})`);
+      console.log(`[comparison-analysis] Loaded ${products.length} products (danawa: ${danawaProducts.length}, enuri unique: ${uniqueEnuriProducts.length}, spec merged: ${specMergedCount})`);
     }
 
     if (!products || products.length === 0) {

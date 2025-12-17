@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { callGeminiWithRetry } from '@/lib/ai/gemini';
+import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
 
 interface HighlightRequest {
   reviews: Array<{
@@ -33,34 +33,32 @@ export async function POST(request: NextRequest) {
     }
 
     // 배치로 처리 (여러 리뷰를 한 번에)
-    const prompt = `당신은 리뷰에서 특정 속성과 관련된 핵심 문장을 발췌하는 전문가입니다.
+    const prompt = `리뷰에서 특정 속성과 관련된 **핵심 문장만** 발췌하세요.
 
-각 리뷰에서 지정된 속성과 **직접적으로 관련된 핵심 문장**을 찾아 발췌해주세요.
+## 규칙
+1. 해당 속성과 **직접 관련된 문장 1개**를 찾으세요 (문장 = 마침표/느낌표/물음표로 끝나는 단위)
+2. 핵심 문장 앞뒤로 각 1문장씩 포함해서 발췌 (총 2-3문장)
+3. 앞뒤에 "..."를 붙여 생략 표시
+4. **핵심 문장 전체**를 볼드로 감싸세요 (단어가 아닌 문장!)
+5. 관련 내용이 없으면 가장 연관된 부분 발췌
 
-규칙:
-1. 해당 속성과 직결되는 핵심 문장 1-2개를 찾으세요
-2. 핵심 문장의 앞뒤로 문장 1개씩 포함해서 자연스럽게 발췌
-3. 발췌문 앞뒤에 "..."를 붙여 생략되었음을 표시
-4. 핵심 문장은 **볼드**로 감싸주세요
-5. 관련 내용이 없으면 가장 관련 있는 부분을 발췌
-6. 발췌문은 최대 2-3문장으로 간결하게
+## 예시
+- 원본: "배송 빨랐어요. 세척이 정말 편해서 좋아요. 매일 쓰는데 귀찮지 않아요. 디자인도 예뻐요."
+- 속성: "세척 편리성"
+- 발췌: "...**세척이 정말 편해서 좋아요. 매일 쓰는데 귀찮지 않아요.**..."
 
-입력:
+## 입력
 ${reviews.map((r, i) => `[${i + 1}] 속성: "${r.criteriaName}"
 리뷰: "${r.reviewText}"`).join('\n\n')}
 
-출력 형식 (JSON 배열):
-[
-  {"index": 1, "excerpt": "...**핵심 문장**이 포함된 발췌문..."},
-  {"index": 2, "excerpt": "...**핵심 문장**이 포함된 발췌문..."}
-]
+## 출력 (JSON만)
+[{"index": 1, "excerpt": "...발췌문..."}]`;
 
-JSON 배열만 출력하세요.`;
-
-    const response = await callGeminiWithRetry(prompt, {
-      temperature: 0.2,
-      maxOutputTokens: 1024,
-    });
+    const response = await callGeminiWithRetry(async () => {
+      const model = getModel(0.2); // 낮은 temperature로 일관된 발췌
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    }, 2, 1000);
 
     // JSON 파싱
     let results: Array<{ index: number; excerpt: string }> = [];
