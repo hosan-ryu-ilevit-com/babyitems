@@ -364,5 +364,55 @@
         ]
       }
     ]
+  },
+  "baby_formula_dispenser": {
+    "questions": [
+      {
+        "id": "dispenser_auto",
+        "type": "single",
+        "question": "자동 조유 기능이 필요하세요?",
+        "tip": "버튼 하나로 분유가 완성되면 새벽 수유가 훨씬 편해져요",
+        "options": [
+          {
+            "label": "네, 버튼 하나로 분유까지",
+            "displayLabel": "자동조유 필요",
+            "value": "auto_yes",
+            "filter": { "specs.부가 기능": { "contains": "자동" } }
+          },
+          {
+            "label": "아니요, 직접 할 수 있어요",
+            "displayLabel": "자동조유 불필요",
+            "value": "auto_no",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "id": "dispenser_material",
+        "type": "single",
+        "question": "물통 재질이 중요하세요?",
+        "tip": "유리는 환경호르몬 걱정 없이 안심이에요",
+        "options": [
+          {
+            "label": "유리 (환경호르몬 걱정 없음)",
+            "displayLabel": "유리 재질",
+            "value": "glass",
+            "filter": { "specs.물통 재질": { "contains": "유리" } }
+          },
+          {
+            "label": "트라이탄/플라스틱",
+            "displayLabel": "트라이탄 재질",
+            "value": "tritan",
+            "filter": { "specs.물통 재질": { "contains": "트라이탄" } }
+          },
+          {
+            "label": "상관없어요",
+            "displayLabel": "재질 무관",
+            "value": "any",
+            "filter": {}
+          }
+        ]
+      }
+    ]
   }
 }

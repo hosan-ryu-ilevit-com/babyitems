@@ -846,5 +846,152 @@ export const CATEGORY_ATTRIBUTES: Record<Category, CategoryAttribute[]> = {
         "이유식 데우기"
       ]
     }
+  ],
+  "stroller": [
+    {
+      "key": "folding_convenience",
+      "name": "접이식 편의성",
+      "description": "한 손으로 쉽게 접을 수 있는지, 접었을 때 자립 가능한지 여부",
+      "importance": "high",
+      "examples": [
+        "원핸드 폴딩",
+        "오토폴딩",
+        "셀프스탠딩",
+        "1초 폴딩"
+      ]
+    },
+    {
+      "key": "weight_portability",
+      "name": "무게 및 휴대성",
+      "description": "유모차의 전체 무게와 대중교통, 기내 반입 가능 여부",
+      "importance": "high",
+      "examples": [
+        "7kg 이하 경량",
+        "기내 반입 가능",
+        "어깨끈 포함",
+        "캐리백 제공"
+      ]
+    },
+    {
+      "key": "suspension_ride",
+      "name": "서스펜션 및 승차감",
+      "description": "노면 충격을 흡수하여 아이에게 편안한 승차감을 제공하는지 여부",
+      "importance": "high",
+      "examples": [
+        "4륜 서스펜션",
+        "에어타이어",
+        "충격흡수 시스템",
+        "부드러운 주행감"
+      ]
+    },
+    {
+      "key": "canopy_coverage",
+      "name": "캐노피 커버리지",
+      "description": "햇빛, 바람, 비로부터 아이를 보호하는 캐노피의 범위와 기능",
+      "importance": "medium",
+      "examples": [
+        "풀 캐노피",
+        "UPF 50+",
+        "환기창",
+        "자석 픽어부"
+      ]
+    },
+    {
+      "key": "storage_basket",
+      "name": "수납공간",
+      "description": "하단 바스켓이나 수납 포켓의 크기와 접근성",
+      "importance": "medium",
+      "examples": [
+        "XL 바스켓",
+        "후면 접근 가능",
+        "컵홀더",
+        "포켓 수납"
+      ]
+    },
+    {
+      "key": "handlebar_adjustment",
+      "name": "핸들바 조절",
+      "description": "부모의 키에 맞게 핸들바 높이를 조절하거나 양대면 전환이 가능한지",
+      "importance": "medium",
+      "examples": [
+        "높이 조절",
+        "양대면 전환",
+        "360도 회전",
+        "인체공학적 그립"
+      ]
+    }
+  ],
+  "diaper": [
+    {
+      "key": "absorbency",
+      "name": "흡수력",
+      "description": "소변과 대변을 빠르게 흡수하고 역류를 방지하는 능력",
+      "importance": "high",
+      "examples": [
+        "12시간 흡수 유지",
+        "슈퍼 흡수체",
+        "순간 흡수",
+        "고속 흡수 트랙"
+      ]
+    },
+    {
+      "key": "leak_prevention",
+      "name": "샘방지",
+      "description": "옆샘, 뒷샘을 방지하는 구조와 밀착력",
+      "importance": "high",
+      "examples": [
+        "앞뒤 샘방지",
+        "3중 흡수 채널",
+        "역류 방지",
+        "허벅지 밀착"
+      ]
+    },
+    {
+      "key": "skin_gentleness",
+      "name": "피부 자극",
+      "description": "아기 피부에 자극 없이 부드러운 소재 사용 여부",
+      "importance": "high",
+      "examples": [
+        "순면 촉감",
+        "무향",
+        "저자극",
+        "천연 식물성 커버"
+      ]
+    },
+    {
+      "key": "fit_comfort",
+      "name": "착용감",
+      "description": "아이의 움직임에 편안하게 맞는 신축성과 밴드 구조",
+      "importance": "medium",
+      "examples": [
+        "360도 허리밴드",
+        "소프트 메쉬",
+        "슬림 핏",
+        "3D 입체 설계"
+      ]
+    },
+    {
+      "key": "wetness_indicator",
+      "name": "소변선 표시",
+      "description": "기저귀 교체 시기를 알려주는 소변선 색상 변화 기능",
+      "importance": "medium",
+      "examples": [
+        "소변선 표시",
+        "색상 변화",
+        "교체 시기 알림"
+      ]
+    },
+    {
+      "key": "breathability",
+      "name": "통기성",
+      "description": "습기 배출과 공기 순환으로 엉덩이 짓무름을 방지하는 기능",
+      "importance": "medium",
+      "examples": [
+        "에어홀",
+        "통기홀",
+        "쿨케어 시스템",
+        "메쉬 커버"
+      ]
+    }
   ]
 } as const;

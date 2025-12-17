@@ -4,6 +4,18 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import type { V2ResultProduct } from '@/types/recommend-v2';
 
+// 마크다운 볼드 처리
+function parseMarkdownBold(text: string) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const boldText = part.slice(2, -2);
+      return <strong key={index} className="font-bold">{boldText}</strong>;
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
 interface V2ResultProductCardProps {
   product: V2ResultProduct;
   rank: number;
@@ -178,7 +190,7 @@ export function V2ResultProductCard({
                 <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
               </svg>
               <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
-                {product.recommendationReason}
+                {parseMarkdownBold(product.recommendationReason)}
               </p>
             </div>
           </div>

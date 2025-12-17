@@ -3,15 +3,17 @@
  */
 
 // 카테고리 키 → 다나와 카테고리 코드 매핑
+// 에누리 데이터는 category_code가 categoryKey 자체이므로 카테고리 키도 포함
 export const CATEGORY_CODE_MAP: Record<string, string[]> = {
-  stroller: ['16349368', '16349193', '16349195', '16349196'],
-  car_seat: ['16349200', '16349201', '16349202', '16353763'],
+  stroller: ['16349368', '16349193', '16349195', '16349196', 'stroller'],
+  car_seat: ['16349200', '16349201', '16349202', '16353763', 'car_seat'],
   formula: ['16249091'],
-  formula_maker: ['16349381'],
+  formula_maker: ['16349381', 'formula_maker'],
+  baby_formula_dispenser: ['16349381', 'baby_formula_dispenser'],  // formula_maker와 동일 (에누리 데이터 호환)
   formula_pot: ['16330960'],
   baby_bottle: ['16349219'],
   pacifier: ['16349351'],
-  diaper: ['16349108', '16349109', '16356038', '16349110', '16356040', '16356042'],
+  diaper: ['16349108', '16349109', '16356038', '16349110', '16356040', '16356042', 'diaper'],
   baby_wipes: ['16349119'],
   thermometer: ['17325941'],
   nasal_aspirator: ['16349248'],

@@ -103,7 +103,8 @@ const MALL_LOGO_MAP: Record<string, string> = {
   '홈쇼핑': 'homeshopping',
 };
 
-function getMallLogoPath(mallName: string): string | null {
+function getMallLogoPath(mallName: string | undefined): string | null {
+  if (!mallName) return null;
   // 정확한 매칭 먼저 시도
   if (MALL_LOGO_MAP[mallName]) {
     return `/icons/malls/name=${MALL_LOGO_MAP[mallName]}.png`;
@@ -417,14 +418,14 @@ export default function ProductDetailModal({ productData, productComparisons, da
                           {getMallLogoPath(priceInfo.mall) ? (
                             <Image
                               src={getMallLogoPath(priceInfo.mall)!}
-                              alt={priceInfo.mall}
+                              alt={priceInfo.mall || '쇼핑몰'}
                               width={28}
                               height={28}
                               className="object-contain"
                             />
                           ) : (
                             <span className="text-xs font-bold text-gray-500">
-                              {priceInfo.mall.slice(0, 2)}
+                              {priceInfo.mall?.slice(0, 2) || '?'}
                             </span>
                           )}
                         </div>
@@ -432,7 +433,7 @@ export default function ProductDetailModal({ productData, productComparisons, da
                         {/* 쇼핑몰 정보 */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="font-medium text-sm text-gray-900">{priceInfo.mall}</span>
+                            <span className="font-medium text-sm text-gray-900">{priceInfo.mall || '알 수 없음'}</span>
                             <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
                           </div>
                         </div>
@@ -485,14 +486,14 @@ export default function ProductDetailModal({ productData, productComparisons, da
                                 {getMallLogoPath(priceInfo.mall) ? (
                                   <Image
                                     src={getMallLogoPath(priceInfo.mall)!}
-                                    alt={priceInfo.mall}
+                                    alt={priceInfo.mall || '쇼핑몰'}
                                     width={28}
                                     height={28}
                                     className="object-contain"
                                   />
                                 ) : (
                                   <span className="text-xs font-bold text-gray-500">
-                                    {priceInfo.mall.slice(0, 2)}
+                                    {priceInfo.mall?.slice(0, 2) || '?'}
                                   </span>
                                 )}
                               </div>
@@ -500,7 +501,7 @@ export default function ProductDetailModal({ productData, productComparisons, da
                               {/* 쇼핑몰 정보 */}
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-medium text-sm text-gray-900">{priceInfo.mall}</span>
+                                  <span className="font-medium text-sm text-gray-900">{priceInfo.mall || '알 수 없음'}</span>
                                   <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
                                 </div>
                               </div>

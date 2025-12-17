@@ -8,7 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 /**
  * V2 결과 페이지용 Supabase 데이터 조회 API
  * - 다나와 가격 정보 (danawa_prices)
- * - 제품 스펙 정보 (danawa_products.spec)
+ * - 제품 스펙/리뷰 정보 (danawa_products)
  */
 export async function POST(req: NextRequest) {
   try {
@@ -23,30 +23,30 @@ export async function POST(req: NextRequest) {
 
     console.log(`📊 [V2 Result API] Fetching data for ${pcodes.length} products`);
 
-    // 병렬로 가격 정보와 스펙 정보 조회
-    const [pricesResult, specsResult] = await Promise.all([
+    // 병렬로 다나와 데이터 조회
+    const [danawaPricesResult, danawaSpecsResult] = await Promise.all([
       // 1. 다나와 가격 정보
       supabase
         .from('danawa_prices')
         .select('pcode, lowest_price, lowest_mall, lowest_link, mall_prices')
         .in('pcode', pcodes),
 
-      // 2. 제품 스펙 + 리뷰 정보
+      // 2. 다나와 제품 스펙 + 리뷰 정보
       supabase
         .from('danawa_products')
         .select('pcode, spec, filter_attrs, review_count, average_rating')
         .in('pcode', pcodes),
     ]);
 
-    if (pricesResult.error) {
-      console.error('❌ Price fetch error:', pricesResult.error);
+    if (danawaPricesResult.error) {
+      console.error('❌ Danawa price fetch error:', danawaPricesResult.error);
     }
-    if (specsResult.error) {
-      console.error('❌ Specs fetch error:', specsResult.error);
+    if (danawaSpecsResult.error) {
+      console.error('❌ Danawa specs fetch error:', danawaSpecsResult.error);
     }
 
-    const prices = pricesResult.data || [];
-    const specs = specsResult.data || [];
+    const prices = danawaPricesResult.data || [];
+    const specs = danawaSpecsResult.data || [];
 
     console.log(`✅ [V2 Result API] Fetched ${prices.length} prices, ${specs.length} specs`);
 

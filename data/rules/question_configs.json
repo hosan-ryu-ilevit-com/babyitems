@@ -195,5 +195,11 @@
       "hidden": false,
       "order": 2
     }
+  },
+  "formula_maker": {
+    "hf_formula_maker_브랜드_0": {
+      "hidden": false,
+      "order": 0
+    }
   }
 }

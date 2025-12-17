@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import type { ScoredProduct, ProductVariant } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
@@ -11,6 +11,18 @@ import { logButtonClick, logV2ProductModalOpened, logFavoriteAction } from '@/li
 import { useFavorites } from '@/hooks/useFavorites';
 import { useDanawaPrices } from '@/hooks/useDanawaPrices';
 import Toast from '@/components/Toast';
+
+// 마크다운 볼드 처리
+function parseMarkdownBold(text: string) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const boldText = part.slice(2, -2);
+      return <strong key={index} className="font-bold">{boldText}</strong>;
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
 
 // SessionStorage 키 prefix (비교표 분석 데이터 캐싱용)
 // NOTE: 카테고리별로 별도 캐시를 유지하기 위해 categoryKey를 포함한 키 사용
@@ -260,6 +272,26 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   const [isAnalysisLoading, setIsAnalysisLoading] = useState(true);
   const [isComparisonLoading, setIsComparisonLoading] = useState(true);
   const analysisCalledRef = useRef(false);
+
+  // Real reviews state (Gemini Grounding)
+  const [realReviewsLoading, setRealReviewsLoading] = useState<Record<string, boolean>>({});
+  const [realReviewsData, setRealReviewsData] = useState<Record<string, {
+    content: string;
+    sources: Array<{
+      title: string;
+      uri: string;
+      og?: {
+        title?: string;
+        description?: string;
+        image?: string;
+        siteName?: string;
+      };
+    }>;
+    elapsed: number;
+    lowQuality?: boolean;
+  }>>({});
+  const [showRealReviewsModal, setShowRealReviewsModal] = useState(false);
+  const [selectedRealReviewPcode, setSelectedRealReviewPcode] = useState<string | null>(null);
 
   // Product detail modal
   const [selectedProduct, setSelectedProduct] = useState<Recommendation | null>(null);
@@ -590,6 +622,48 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCacheKey, userContext]);
 
+  // Prefetch real-reviews for TOP 3 products (background, immediate)
+  const realReviewsPrefetchedRef = useRef(false);
+  useEffect(() => {
+    if (products.length === 0 || realReviewsPrefetchedRef.current) return;
+    realReviewsPrefetchedRef.current = true;
+
+    console.log('🔄 [ResultCards] Prefetching real-reviews for TOP 3...');
+
+    // TOP 3 제품에 대해 병렬로 prefetch
+    products.slice(0, 3).forEach(async (product) => {
+      // 이미 캐시된 경우 skip
+      if (realReviewsData[product.pcode]) {
+        console.log(`💾 [Prefetch] Real reviews already cached: ${product.title.slice(0, 20)}...`);
+        return;
+      }
+
+      try {
+        setRealReviewsLoading(prev => ({ ...prev, [product.pcode]: true }));
+
+        const response = await fetch('/api/v2/real-reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productTitle: product.title }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          setRealReviewsData(prev => ({
+            ...prev,
+            [product.pcode]: result.data,
+          }));
+          console.log(`✅ [Prefetch] Real reviews cached: ${product.title.slice(0, 20)}...`);
+        }
+      } catch (error) {
+        console.warn(`[Prefetch] Failed for ${product.title.slice(0, 20)}...:`, error);
+      } finally {
+        setRealReviewsLoading(prev => ({ ...prev, [product.pcode]: false }));
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [products]);
+
   // Fetch comparison data for anchor product (if not in Top 3)
   useEffect(() => {
     if (!anchorProduct || !categoryKey) return;
@@ -676,6 +750,52 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       };
     });
   }, [products, productAnalysisData, reviewData]);
+
+  // Handle real reviews fetch (Gemini Grounding)
+  const handleFetchRealReviews = async (product: ScoredProduct) => {
+    const pcode = product.pcode;
+
+    // 이미 로딩 중이면 무시
+    if (realReviewsLoading[pcode]) return;
+
+    // 이미 데이터가 있으면 모달만 열기
+    if (realReviewsData[pcode]) {
+      setSelectedRealReviewPcode(pcode);
+      setShowRealReviewsModal(true);
+      onModalOpenChange?.(true);  // 부모에게 모달 열림 알림
+      return;
+    }
+
+    // 로딩 시작
+    setRealReviewsLoading(prev => ({ ...prev, [pcode]: true }));
+    setSelectedRealReviewPcode(pcode);
+    setShowRealReviewsModal(true);
+    onModalOpenChange?.(true);  // 부모에게 모달 열림 알림
+
+    try {
+      const response = await fetch('/api/v2/real-reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productTitle: product.title }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setRealReviewsData(prev => ({
+          ...prev,
+          [pcode]: result.data,
+        }));
+        console.log(`✅ [RealReviews] Loaded for ${product.title} (${result.data.elapsed}ms)`);
+      } else {
+        console.error('[RealReviews] API error:', result.error);
+      }
+    } catch (error) {
+      console.error('[RealReviews] Fetch error:', error);
+    } finally {
+      setRealReviewsLoading(prev => ({ ...prev, [pcode]: false }));
+    }
+  };
 
   // Handle product click
   const handleProductClick = (product: ScoredProduct, index: number) => {
@@ -784,7 +904,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         transition={{ duration: 0.3 }}
         className="bg-white rounded-2xl p-2 mt-10 mb-2"
       >
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
             <span className="text-green-600 text-lg">✓</span>
           </div>
@@ -792,9 +912,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             <StreamingText content="맞춤 추천 완료" speed={30} />
           </h3>
         </div>
-        <p className="text-base text-gray-700 font-medium leading-[1.4]">
-          <StreamingText content={`${categoryName} TOP 제품을 찾았어요!`} speed={20} />
-        </p>
+       
       </motion.div>
 
       {/* 선정 기준 요약 */}
@@ -815,8 +933,12 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       {products.map((product, index) => {
         const danawa = danawaData[product.pcode];
         const hasLowestPrice = danawa && danawa.lowest_price && danawa.lowest_price > 0;
-        const review = reviewData[product.pcode];
-        const hasReview = review && (review.reviewCount > 0 || review.averageRating > 0);
+        // 리뷰 데이터: API 응답 우선, 없으면 product 필드에서 fallback
+        const review = reviewData[product.pcode] || {
+          reviewCount: product.reviewCount || 0,
+          averageRating: product.averageRating || 0,
+        };
+        const hasReview = review.reviewCount > 0 || review.averageRating > 0;
 
         return (
           <motion.div
@@ -1040,7 +1162,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                       <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
                     </svg>
                     <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
-                      {product.recommendationReason}
+                      {parseMarkdownBold(product.recommendationReason)}
                     </p>
                   </div>
                 </div>
@@ -1057,6 +1179,36 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   <svg className="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
+                </button>
+                {/* 실시간 장단점 분석하기 버튼 (Gemini Grounding) */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleFetchRealReviews(product);
+                    logButtonClick('실시간장단점분석_PLP', 'v2-result');
+                  }}
+                  disabled={realReviewsLoading[product.pcode]}
+                  className="mt-2 w-full py-2.5 text-sm font-medium text-violet-600 bg-violet-50 border border-violet-200 hover:bg-violet-100 rounded-xl transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
+                >
+                  {realReviewsLoading[product.pcode] ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      실시간 검색 중...
+                    </>
+                  ) : realReviewsData[product.pcode] ? (
+                    <>
+                      <span className="px-1.5 py-0.5 text-[10px] font-bold bg-violet-600 text-white rounded">AI</span>
+                      실시간 장단점 보기
+                    </>
+                  ) : (
+                    <>
+                      <span className="px-1.5 py-0.5 text-[10px] font-bold bg-violet-600 text-white rounded">AI</span>
+                      실시간 장단점 분석하기
+                    </>
+                  )}
                 </button>
               </div>
             )}
@@ -1202,6 +1354,312 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         />
         );
       })()}
+
+      {/* Real Reviews Bottom Sheet Modal (Gemini Grounding) */}
+      <AnimatePresence>
+        {showRealReviewsModal && selectedRealReviewPcode && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => {
+                setShowRealReviewsModal(false);
+                onModalOpenChange?.(false);
+              }}
+              className="fixed inset-0 bg-black/50 z-[60]"
+            />
+            {/* Modal Content */}
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[70] max-h-[85vh] overflow-hidden flex flex-col"
+              style={{ maxWidth: '480px', margin: '0 auto' }}
+            >
+            {/* Header */}
+            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                {/* Purple Sparkle Icon */}
+                <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#7C3AED" />
+                </svg>
+                <h3 className="text-lg font-bold text-gray-900">실시간 장단점 분석</h3>
+                {realReviewsData[selectedRealReviewPcode]?.lowQuality && (
+                  <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-700 rounded-full">
+                    검색 결과 부족
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={() => {
+                  setShowRealReviewsModal(false);
+                  onModalOpenChange?.(false);
+                }}
+                className="p-2 -mr-2 text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="overflow-y-auto p-4" style={{ maxHeight: 'calc(85vh - 60px)' }}>
+              {realReviewsLoading[selectedRealReviewPcode] ? (
+                <div className="space-y-3">
+                  {/* 로딩 메시지 */}
+                  <div className="text-center py-2">
+                    <p className="text-sm text-gray-500 animate-pulse">잠시만 기다려주세요...</p>
+                  </div>
+                  {/* 장점 스켈레톤 */}
+                  <div className="rounded-xl p-4 bg-gray-50 border border-gray-100">
+                    <div className="h-5 w-16 bg-gray-200 rounded animate-pulse mb-3" />
+                    <div className="border-t border-gray-200 pt-3 space-y-3">
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
+                        <div className="flex-1 space-y-1.5">
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-4/5" />
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
+                        <div className="flex-1 space-y-1.5">
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-3/5" />
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
+                        <div className="flex-1 space-y-1.5">
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-2/3" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* 단점 스켈레톤 */}
+                  <div className="rounded-xl p-4 bg-gray-50 border border-gray-100">
+                    <div className="h-5 w-16 bg-gray-200 rounded animate-pulse mb-3" />
+                    <div className="border-t border-gray-200 pt-3 space-y-3">
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
+                        <div className="flex-1 space-y-1.5">
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
+                        <div className="flex-1 space-y-1.5">
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : realReviewsData[selectedRealReviewPcode] ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="space-y-3"
+                >
+                  {/* 섹션별 파싱 및 렌더링 */}
+                  {(() => {
+                    const content = realReviewsData[selectedRealReviewPcode].content;
+                    const sources = realReviewsData[selectedRealReviewPcode].sources;
+
+                    // 텍스트를 인용 링크로 변환하는 헬퍼
+                    const renderTextWithCitations = (text: string) => {
+                      // 볼드 처리 (**text**)
+                      const boldParts = text.split(/(\*\*.*?\*\*)/g);
+                      return boldParts.map((part, i) => {
+                        if (part.startsWith('**') && part.endsWith('**')) {
+                          const boldText = part.slice(2, -2);
+                          // 볼드 내부에서도 인용 처리
+                          const citationParts = boldText.split(/(\[\d+\])/g);
+                          return (
+                            <strong key={i} className="font-semibold text-gray-900">
+                              {citationParts.map((cp, j) => {
+                                const match = cp.match(/\[(\d+)\]/);
+                                if (match) {
+                                  const idx = parseInt(match[1]) - 1;
+                                  const source = sources[idx];
+                                  if (source?.uri) {
+                                    return (
+                                      <a key={j} href={source.uri} target="_blank" rel="noopener noreferrer"
+                                        className="text-violet-600 hover:text-violet-700 text-xs font-semibold"
+                                        title={source.title}>{cp}</a>
+                                    );
+                                  }
+                                }
+                                return <span key={j}>{cp}</span>;
+                              })}
+                            </strong>
+                          );
+                        }
+                        // 일반 텍스트에서 인용 처리
+                        const citationParts = part.split(/(\[\d+\])/g);
+                        return citationParts.map((cp, j) => {
+                          const match = cp.match(/\[(\d+)\]/);
+                          if (match) {
+                            const idx = parseInt(match[1]) - 1;
+                            const source = sources[idx];
+                            if (source?.uri) {
+                              return (
+                                <a key={`${i}-${j}`} href={source.uri} target="_blank" rel="noopener noreferrer"
+                                  className="text-violet-600 hover:text-violet-700 text-xs font-semibold"
+                                  title={source.title}>{cp}</a>
+                              );
+                            }
+                          }
+                          return <span key={`${i}-${j}`}>{cp}</span>;
+                        });
+                      });
+                    };
+
+                    // 섹션별로 분리 (장점/단점만)
+                    const sections: Array<{ title: string; type: 'pros' | 'cons'; lines: string[] }> = [];
+                    let currentSection: typeof sections[0] | null = null;
+
+                    content.split('\n').forEach(line => {
+                      const trimmed = line.trim();
+                      if (trimmed.startsWith('## ') || trimmed.startsWith('### ')) {
+                        const title = trimmed.replace(/^#+ /, '');
+                        let type: 'pros' | 'cons' | null = null;
+                        if (title.includes('장점')) type = 'pros';
+                        else if (title.includes('단점')) type = 'cons';
+
+                        if (type) {
+                          currentSection = { title, type, lines: [] };
+                          sections.push(currentSection);
+                        } else {
+                          currentSection = null; // 장점/단점 외 섹션은 무시
+                        }
+                      } else if (currentSection && trimmed) {
+                        currentSection.lines.push(trimmed);
+                      }
+                    });
+
+                    const sectionStyles = {
+                      pros: { bg: 'bg-gray-50', border: 'border-gray-100', icon: '👍', titleColor: 'text-blue-600', dividerColor: 'border-gray-200' },
+                      cons: { bg: 'bg-gray-50', border: 'border-gray-100', icon: '👎', titleColor: 'text-red-600', dividerColor: 'border-gray-200' },
+                    };
+
+                    return sections.map((section, idx) => {
+                      const style = sectionStyles[section.type];
+                      return (
+                        <div key={idx} className={`rounded-xl p-4 ${style.bg} border ${style.border}`}>
+                          <h4 className={`text-base font-bold ${style.titleColor} pb-2 mb-3 flex items-center gap-1.5 border-b ${style.dividerColor}`}>
+                            <span>{style.icon}</span>
+                            {section.title}
+                          </h4>
+                          <ul className="space-y-2">
+                            {section.lines.map((line, lineIdx) => {
+                              // * 또는 - 로 시작하는 리스트 항목 처리
+                              const listItem = line.replace(/^[*\-•]\s*/, '');
+                              return (
+                                <li key={lineIdx} className="text-[15px] text-gray-800 leading-relaxed flex items-start gap-2">
+                                  <span className="text-gray-400 mt-1 shrink-0">•</span>
+                                  <span>{renderTextWithCitations(listItem)}</span>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      );
+                    });
+                  })()}
+
+                  {/* Sources with OG Preview */}
+                  {realReviewsData[selectedRealReviewPcode].sources.length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <h5 className="text-sm font-semibold text-gray-700 mb-3">📚 출처</h5>
+                      <div className="space-y-2">
+                        {realReviewsData[selectedRealReviewPcode].sources.map((source, i) => (
+                          <a
+                            key={i}
+                            href={source.uri}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block border border-gray-200 rounded-lg overflow-hidden hover:border-violet-300 hover:shadow-sm transition-all"
+                          >
+                            {source.og?.image ? (
+                              // OG 이미지가 있는 경우 - 카드형 미리보기
+                              <div className="flex gap-3 p-2">
+                                <div className="w-16 h-16 shrink-0 bg-gray-100 rounded overflow-hidden">
+                                  <img
+                                    src={source.og.image}
+                                    alt=""
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-medium text-gray-800 line-clamp-1">
+                                    {source.og.title || source.title || '출처 보기'}
+                                  </p>
+                                  {source.og.description && (
+                                    <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">
+                                      {source.og.description}
+                                    </p>
+                                  )}
+                                  <p className="text-[10px] text-gray-400 mt-1 truncate">
+                                    {source.og.siteName || new URL(source.uri).hostname}
+                                  </p>
+                                </div>
+                              </div>
+                            ) : (
+                              // OG 이미지가 없는 경우 - 심플 링크
+                              <div className="flex items-center gap-2 p-2.5">
+                                <span className="w-5 h-5 flex items-center justify-center bg-violet-100 text-violet-600 text-[10px] font-bold rounded shrink-0">
+                                  {i + 1}
+                                </span>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs text-gray-700 line-clamp-1">
+                                    {source.og?.title || source.title || source.uri}
+                                  </p>
+                                  {source.og?.description && (
+                                    <p className="text-[10px] text-gray-500 line-clamp-1 mt-0.5">
+                                      {source.og.description}
+                                    </p>
+                                  )}
+                                </div>
+                                <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                              </div>
+                            )}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Elapsed Time */}
+                  <div className="text-xs text-gray-400 text-right mt-2">
+                    검색 소요 시간: {(realReviewsData[selectedRealReviewPcode].elapsed / 1000).toFixed(1)}초
+                  </div>
+                </motion.div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  데이터를 불러올 수 없습니다.
+                </div>
+              )}
+            </div>
+
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Toast notification for favorites */}
       <Toast

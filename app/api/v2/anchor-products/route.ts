@@ -1,5 +1,5 @@
 /**
- * v2 기준제품 조회 API - Supabase에서 rank 기준 정렬
+ * v2 기준제품 조회 API - Supabase danawa_products에서 조회
  * GET /api/v2/anchor-products?categoryKey=xxx&limit=50&search=keyword
  */
 
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // 1. logic_map에서 target_categories 가져오기
+    // logic_map에서 카테고리 정보 가져오기
     const logicMap = logicMapData as Record<string, CategoryLogicMap>;
     const categoryLogic = logicMap[categoryKey];
 
@@ -42,11 +42,12 @@ export async function GET(request: NextRequest) {
 
     console.log(`🔍 [v2/anchor-products] Loading for: ${categoryKey}, limit: ${limit}, search: "${searchKeyword}"`);
 
-    // 2. Supabase 쿼리 - rank 기준 정렬
+    // Supabase 쿼리
     const query = supabase
       .from('danawa_products')
       .select('pcode, title, brand, price, rank, thumbnail, spec, category_code, review_count, average_rating')
       .in('category_code', targetCategories)
+      .gt('review_count', 0)
       .order('rank', { ascending: true, nullsFirst: false })
       .limit(limit);
 
@@ -60,7 +61,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // 3. 검색 필터 (클라이언트 사이드)
+    // 검색 필터
     let filteredProducts = products || [];
     if (searchKeyword) {
       filteredProducts = filteredProducts.filter(product => {
@@ -69,7 +70,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // 4. 응답 형식 변환 (AnchorProductChangeBottomSheet와 호환)
+    // 응답 형식 변환
     const formattedProducts = filteredProducts.map(product => ({
       productId: product.pcode,
       모델명: product.title,
@@ -79,6 +80,7 @@ export async function GET(request: NextRequest) {
       리뷰수: product.review_count || 0,
       평균평점: product.average_rating || 0,
       순위: product.rank,
+      dataSource: 'supabase',
     }));
 
     console.log(`✅ [v2/anchor-products] Found ${formattedProducts.length} products`);

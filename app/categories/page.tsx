@@ -23,8 +23,10 @@ const CATEGORY_ICONS: Record<Category, string> = {
   baby_monitor: '📹',
   baby_play_mat: '🧸',
   car_seat: '🚗',
+  diaper: '🧷',
   milk_powder_port: '☕',
   nasal_aspirator: '👃',
+  stroller: '🚼',
   thermometer: '🌡️',
 };
 
@@ -40,6 +42,8 @@ const BABY_LIFE_CATEGORIES: Category[] = [
   'baby_monitor',
   // 'baby_play_mat', // 임시 숨김
   'car_seat',
+  'stroller',
+  'diaper',
   'nasal_aspirator',
   'thermometer',
 ];

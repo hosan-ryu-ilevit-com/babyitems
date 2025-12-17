@@ -365,8 +365,11 @@ export async function loadDanawaFilters(): Promise<DanawaFilter[]> {
   }
 }
 
-// 제품 데이터 타입 (간소화)
+// 제품 데이터 타입
 interface DanawaProduct {
+  pcode?: string;
+  title?: string;
+  brand?: string;
   category_code: string;
   filter_attrs?: Record<string, string>;
   spec?: {
@@ -376,16 +379,53 @@ interface DanawaProduct {
 }
 
 /**
- * 다나와 제품 JSON 파일 로드
+ * 다나와 제품 JSON 파일 로드 + 로컬 spec 파일 (에누리 데이터 포함)
  */
 export async function loadDanawaProducts(): Promise<DanawaProduct[]> {
   try {
     const fs = await import('fs/promises');
     const path = await import('path');
 
-    const filePath = path.join(process.cwd(), 'danawaproduct_1208/danawa_products_20251209_025019.json');
-    const data = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(data);
+    const products: DanawaProduct[] = [];
+
+    // 1. 다나와 제품 JSON 파일 로드
+    try {
+      const danawaFilePath = path.join(process.cwd(), 'danawaproduct_1208/danawa_products_20251209_025019.json');
+      const danawaData = await fs.readFile(danawaFilePath, 'utf-8');
+      products.push(...JSON.parse(danawaData));
+    } catch {
+      console.log('[loadDanawaProducts] Danawa products file not found, continuing...');
+    }
+
+    // 2. 로컬 spec 파일에서 에누리 데이터 로드 (stroller, diaper, car_seat, formula_maker, baby_formula_dispenser)
+    const enuriCategories = ['stroller', 'diaper', 'car_seat', 'formula_maker', 'baby_formula_dispenser'];
+    for (const categoryKey of enuriCategories) {
+      try {
+        const specFilePath = path.join(process.cwd(), 'data', 'specs', `${categoryKey}.json`);
+        const specData = await fs.readFile(specFilePath, 'utf-8');
+        const localProducts = JSON.parse(specData);
+
+        // 로컬 spec 형식을 DanawaProduct 형식으로 변환
+        // category_code는 항상 categoryKey 사용 (CATEGORY_CODE_MAP 매칭을 위해)
+        for (const p of localProducts) {
+          products.push({
+            pcode: String(p.productId),
+            title: p.모델명,
+            brand: p.브랜드,
+            category_code: categoryKey,  // 에누리 데이터는 categoryKey 사용
+            filter_attrs: p.filter_attrs || {},
+            spec: {
+              features: p.specs?.특징 || [],
+              ...p.specs,
+            },
+          });
+        }
+      } catch {
+        // 파일이 없으면 스킵
+      }
+    }
+
+    return products;
   } catch (error) {
     console.error('Failed to load danawa products:', error);
     return [];

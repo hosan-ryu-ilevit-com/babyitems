@@ -137,12 +137,17 @@ export interface ProductItem {
   title: string;
   brand: string | null;
   price: number | null;
-  lowestPrice?: number | null;  // 다나와 최저가 (우선 사용)
+  lowestPrice?: number | null;  // 다나와/에누리 최저가
+  lowestMall?: string | null;   // 최저가 판매처
+  lowestLink?: string | null;   // 최저가 링크
   rank: number | null;
   thumbnail: string | null;
   spec: Record<string, unknown>;
   category_code?: string;
   filter_attrs?: Record<string, unknown>;
+  averageRating?: number | null;  // 평균 별점 (5점 만점)
+  reviewCount?: number | null;    // 리뷰 개수
+  dataSource?: string;            // 'danawa' | 'enuri' | 'local'
 }
 
 export interface ScoredProduct extends ProductItem {

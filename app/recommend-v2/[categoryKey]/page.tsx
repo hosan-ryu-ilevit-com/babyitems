@@ -530,11 +530,12 @@ export default function RecommendV2Page() {
     loadPopularOptions();
   }, [categoryKey]);
 
-  // 동적 팁 로딩 (LLM 기반) - 질문과 인기 옵션이 로드된 후 실행
+  // 동적 팁 로딩 (LLM 기반) - 질문이 로드된 후 한 번만 실행
   useEffect(() => {
     if (!categoryKey || !hardFilterConfig?.questions?.length) return;
-    // popularHardFilterOptions가 로드될 때까지 대기 (빈 배열도 허용)
-    if (popularHardFilterOptions === undefined) return;
+    // 이미 해당 카테고리의 팁을 로딩 중이거나 완료된 경우 스킵
+    if (tipsLoadingRef.current === categoryKey) return;
+    tipsLoadingRef.current = categoryKey;
 
     const loadDynamicTips = async () => {
       const questions = hardFilterConfig.questions!;
@@ -542,15 +543,6 @@ export default function RecommendV2Page() {
       // 각 질문에 대해 병렬로 tip 생성 요청
       const tipPromises = questions.map(async (q) => {
         try {
-          // 해당 질문의 인기 옵션 필터링
-          const questionPopularOptions = popularHardFilterOptions
-            .filter(po => po.questionId === q.id && po.isPopular)
-            .map(po => ({
-              value: po.value,
-              label: po.label || po.value,
-              percentage: po.percentage,
-            }));
-
           const res = await fetch('/api/v2/generate-tip', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -559,7 +551,6 @@ export default function RecommendV2Page() {
               questionId: q.id,
               questionText: q.question,
               options: q.options.map(o => ({ value: o.value, label: o.label })),
-              popularOptions: questionPopularOptions,
             }),
           });
 
@@ -583,11 +574,14 @@ export default function RecommendV2Page() {
     };
 
     loadDynamicTips();
-  }, [categoryKey, hardFilterConfig?.questions, popularHardFilterOptions]);
+  }, [categoryKey, hardFilterConfig?.questions]);
 
   // 하위 카테고리 선택용 동적 팁 로딩
   useEffect(() => {
     if (!categoryKey || !requiresSubCategory || !subCategoryConfig) return;
+    // 이미 해당 카테고리의 서브카테고리 팁을 로딩 완료한 경우 스킵
+    if (subCategoryTipLoadedRef.current === categoryKey) return;
+    subCategoryTipLoadedRef.current = categoryKey;
 
     const loadSubCategoryTip = async () => {
       try {
@@ -602,7 +596,6 @@ export default function RecommendV2Page() {
               value: sc.code,
               label: sc.name,
             })),
-            popularOptions: [], // 하위 카테고리는 인기 통계 없음
           }),
         });
 
@@ -740,6 +733,9 @@ export default function RecommendV2Page() {
   // Auto-trigger guide cards when data is ready (스캔 애니메이션 스킵)
   // ===================================================
   const hasTriggeredGuideRef = useRef(false);
+  // 팁 로딩 중복 방지 ref (categoryKey별로 추적)
+  const tipsLoadingRef = useRef<string | null>(null);
+  const subCategoryTipLoadedRef = useRef<string | null>(null);
   useEffect(() => {
     // 이미 트리거됐거나, 로딩 중이거나, 설정이 없으면 스킵
     if (hasTriggeredGuideRef.current || isLoading || !hardFilterConfig) return;

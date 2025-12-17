@@ -71,12 +71,12 @@ const AGE_FILTERS: AgeFilter[] = [
     label: '출산전',
     emoji: '🤰',
     description: '미리 준비 안 해두면 급해져요',
-    categoryIds: ['stroller', 'car_seat', 'baby_bottle', 'formula_pot', 'diaper', 'baby_wipes', 'thermometer', 'ip_camera', 'baby_bed'],
+    categoryIds: ['stroller', 'car_seat', 'baby_bottle', 'formula_pot', 'diaper', 'baby_wipes', 'thermometer', 'baby_bed'],
     groups: [
       { name: '이동수단', description: '유모차랑 카시트는 미리 준비해두세요', categoryIds: ['stroller', 'car_seat'] },
       { name: '수유용품', description: '젖병이랑 분유포트는 필수예요', categoryIds: ['baby_bottle', 'formula_pot'] },
       { name: '기저귀/위생', description: '신생아용 기저귀랑 물티슈 챙기세요', categoryIds: ['diaper', 'baby_wipes'] },
-      { name: '건강/안전', description: '체온계는 꼭 챙기시고, 홈캠도 있으면 안심돼요', categoryIds: ['thermometer', 'ip_camera'] },
+      { name: '건강/안전', description: '체온계는 꼭 챙기세요', categoryIds: ['thermometer'] },
       { name: '유아가구', description: '아기 침대 미리 봐두세요', categoryIds: ['baby_bed'] },
     ],
   },
@@ -215,7 +215,7 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
     categories: [
       { id: 'thermometer', name: '체온계', emoji: '🌡️', subCategoryCodes: ['17325941'] },
       { id: 'nasal_aspirator', name: '코흡입기', emoji: '👃', subCategoryCodes: ['16349248'] },
-      { id: 'ip_camera', name: '홈캠', emoji: '📹', subCategoryCodes: ['11427546'] },
+      // ip_camera 숨김 (리뷰 크롤링 불가 - 다나와 페이지 구조 상이)
     ],
   },
   {
