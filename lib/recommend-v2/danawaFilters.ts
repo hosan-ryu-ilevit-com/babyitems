@@ -579,31 +579,36 @@ export async function generateHardFiltersForCategory(
 
   // 5. 수동 정의 질문 로드
   const manualQuestions = getManualQuestions(categoryKey);
+  
+  // review_priorities 질문 분리 (항상 맨 앞에 와야 함)
+  const reviewPriorityQuestions = manualQuestions.filter(q => q.type === 'review_priorities');
+  const otherManualQuestions = manualQuestions.filter(q => q.type !== 'review_priorities');
 
   // 6. 수동 질문을 먼저 포함하고, 동적 질문으로 보충
   // 수동 질문이 우선순위 높음 (직접 정의한 질문이므로)
-  let finalQuestions: HardFilterQuestion[];
   const existingIds = new Set(manualQuestions.map(q => q.id));
   const additionalDynamicQuestions = validQuestions.filter(q => !existingIds.has(q.id));
-  finalQuestions = [...manualQuestions, ...additionalDynamicQuestions].slice(0, 5);
+  
+  // 동적 질문 + 기타 수동 질문 합침 (review_priorities 제외)
+  let nonReviewQuestions = [...otherManualQuestions, ...additionalDynamicQuestions];
 
   // 7. 저장된 질문 설정 적용 (숨기기, 순서, 옵션 순서)
   const categoryConfigs = questionConfigs[categoryKey] || {};
   if (Object.keys(categoryConfigs).length > 0) {
     // 숨긴 질문 제외 (어드민 모드가 아닌 경우에만)
     if (!forAdmin) {
-      finalQuestions = finalQuestions.filter(q => !categoryConfigs[q.id]?.hidden);
+      nonReviewQuestions = nonReviewQuestions.filter(q => !categoryConfigs[q.id]?.hidden);
     }
 
     // 순서 재정렬
-    finalQuestions.sort((a, b) => {
+    nonReviewQuestions.sort((a, b) => {
       const orderA = categoryConfigs[a.id]?.order ?? 999;
       const orderB = categoryConfigs[b.id]?.order ?? 999;
       return orderA - orderB;
     });
 
     // 옵션 순서 적용
-    finalQuestions = finalQuestions.map(q => {
+    nonReviewQuestions = nonReviewQuestions.map(q => {
       const config = categoryConfigs[q.id];
       if (config?.optionOrder && config.optionOrder.length > 0) {
         const sortedOptions = [...q.options].sort((a, b) => {
@@ -616,9 +621,13 @@ export async function generateHardFiltersForCategory(
       }
       return q;
     });
-
-    console.log(`[danawaFilters] ${categoryKey}: Applied saved configs, ${finalQuestions.length} questions after filtering`);
   }
+
+  // 8. review_priorities를 맨 앞에, 나머지 질문은 최대 4개로 제한 (총 5개)
+  const maxOtherQuestions = reviewPriorityQuestions.length > 0 ? 4 : 5;
+  const finalQuestions = [...reviewPriorityQuestions, ...nonReviewQuestions.slice(0, maxOtherQuestions)];
+  
+  console.log(`[danawaFilters] ${categoryKey}: ${reviewPriorityQuestions.length} review_priorities + ${nonReviewQuestions.length} other questions → ${finalQuestions.length} final`);
 
   return finalQuestions;
 }

@@ -1,0 +1,213 @@
+{
+  "categoryKey": "baby_sofa",
+  "hiddenCriteria": [
+    {
+      "id": "safety_against_tipping",
+      "name": "넘어짐 방지 안정성",
+      "description": "아기가 소파에 앉거나 오르내릴 때 쉽게 넘어지지 않는 안정성이 중요합니다. 특히 활동적인 아기일수록 더욱 중요하며, 소파 자체의 무게, 미끄럼 방지 기능, 디자인 등이 영향을 미칩니다.",
+      "importance": "high",
+      "mentionCount": 10,
+      "sentiment": "negative",
+      "keywords": [
+        "미끄러움",
+        "밀림",
+        "넘어짐",
+        "가벼움",
+        "안전"
+      ],
+      "sampleEvidence": [
+        "단점이자 장점이  너무 가벼워서   애기가 스톨은 끌고 쇼파는 질질 끌고 다녀요",
+        "매트위에두었더니 엄청 잘밀려요..",
+        "아기가 앉을때 계속 뒤로 밀려요"
+      ],
+      "questionForUser": "아이가 활동적인 편인가요? 소파가 쉽게 움직이거나 넘어지지 않는 것이 중요한가요?",
+      "filterOptions": [
+        "매우 중요",
+        "중요",
+        "보통"
+      ]
+    },
+    {
+      "id": "actual_size_vs_age",
+      "name": "실제 사이즈 적합성",
+      "description": "제조사에서 제시하는 권장 연령과 실제 아기의 성장 속도, 체형에 따라 소파의 크기가 적절한지 여부가 중요합니다. 너무 작거나 커서 불편함을 느끼는 경우가 발생할 수 있습니다.",
+      "importance": "high",
+      "mentionCount": 8,
+      "sentiment": "negative",
+      "keywords": [
+        "사이즈",
+        "크기",
+        "작다",
+        "높이",
+        "넉넉함"
+      ],
+      "sampleEvidence": [
+        "12개월부터~ 라고 되어있는데9kg 14개월아기한테 약간 작은 느낌?",
+        "앉는부분이 좁아보이긴 해서 언제까지 쓸 수 있을진 모르겠지만",
+        "15개월인데 성인도 앉을수 있을정도로 크기가 넉넉해서오래쓸듯"
+      ],
+      "questionForUser": "아기의 현재 키와 몸무게는 어느 정도인가요? 앞으로 얼마나 오래 사용할 계획인가요?",
+      "filterOptions": [
+        "6개월 미만",
+        "6개월-12개월",
+        "12개월 이상"
+      ]
+    },
+    {
+      "id": "material_durability_and_cleanability",
+      "name": "재질 내구성과 세척 용이성",
+      "description": "아기가 자주 사용하는 제품이므로 오염에 강하고 세척이 용이한 재질인지가 중요합니다. 또한, 오래 사용할 수 있도록 내구성이 좋은 재질인지도 고려해야 합니다.",
+      "importance": "high",
+      "mentionCount": 12,
+      "sentiment": "positive",
+      "keywords": [
+        "생활방수",
+        "오염",
+        "세척",
+        "물티슈",
+        "내구성",
+        "갈라짐",
+        "꺼짐"
+      ],
+      "sampleEvidence": [
+        "음식 물 국 쥬스 과일 흘렸는데  쓱쓱 닦여요",
+        "6세까지  쓸수있다고 하니  오래되어도 쇼파갈라짐이나 꺼짐은 없어보이네요",
+        "물 쏟아도 물티슈로 슥슥 과일 묻어도 물티슈로 슥슥"
+      ],
+      "questionForUser": "음료나 음식물을 자주 흘리는 아기인가요? 세척 및 관리가 얼마나 용이해야 할까요?",
+      "filterOptions": [
+        "세척 용이성이 매우 중요",
+        "세척 용이성이 중요",
+        "내구성이 중요",
+        "상관없음"
+      ]
+    },
+    {
+      "id": "actual_usefulness_of_transformations",
+      "name": "변형 기능의 실용성",
+      "description": "소파에서 책상, 미끄럼틀 등으로 변형되는 기능이 실제로 아기에게 유용한지, 변형 과정이 얼마나 간편한지가 중요합니다. 변형 후 안정성도 고려해야 합니다.",
+      "importance": "medium",
+      "mentionCount": 7,
+      "sentiment": "negative",
+      "keywords": [
+        "변형",
+        "미끄럼틀",
+        "책상",
+        "활용",
+        "불편",
+        "높이"
+      ],
+      "sampleEvidence": [
+        "테이블 의자 형태로 쓰는건 테이블이 엄청 높아서 유아들이 써야할것 같아요 ㅋㅋ",
+        "아직은 책상이 높긴하지만 앉혀놓구 스티커북 꺼내주면집중해서 뜯고 한참잘놀아서 좋아요!ㅎㅎㅎ",
+        "쇼파부분이 접혀다 폈다할수있어서 구매했는데..접힌상태에서 아이들이 앉긴에 많이 불편하고 불안해보입니다"
+      ],
+      "questionForUser": "다양한 형태로 변형되는 기능이 얼마나 필요하신가요? 변형의 용이성이 중요한가요?",
+      "filterOptions": [
+        "매우 중요",
+        "중요",
+        "있으면 좋고 없어도 무방"
+      ]
+    },
+    {
+      "id": "odor_and_initial_quality",
+      "name": "냄새 및 초기 품질",
+      "description": "새 제품에서 나는 냄새가 아기에게 유해하지 않은지, 마감이나 바느질 상태 등 초기 품질이 양호한지 확인하는 것이 중요합니다. ",
+      "importance": "medium",
+      "mentionCount": 4,
+      "sentiment": "negative",
+      "keywords": [
+        "냄새",
+        "마감",
+        "불량",
+        "까짐",
+        "갈라짐"
+      ],
+      "sampleEvidence": [
+        "냄새도거의없고 물티슈로 한번 쓱닦아 말려서쓰려구요~",
+        "근데 뒷부분보니 까져서왔네요 후",
+        "그렇다는 글만봤었는데 진짜 쇼파한쪽에 색이바랬네요"
+      ],
+      "questionForUser": "새 제품 냄새에 민감한 편인가요? 꼼꼼한 마감 상태를 중요하게 생각하시나요?",
+      "filterOptions": [
+        "매우 중요",
+        "중요",
+        "보통"
+      ]
+    },
+    {
+      "id": "color_fading",
+      "name": "색상 변색",
+      "description": "소파의 특정 부위만 색이 바래는 경우가 있습니다. 이는 전체적인 외관을 해치고 제품의 수명을 단축시키는 요인이 될 수 있습니다.",
+      "importance": "low",
+      "mentionCount": 2,
+      "sentiment": "negative",
+      "keywords": [
+        "색",
+        "바램",
+        "변색"
+      ],
+      "sampleEvidence": [
+        "등받이쪽은 다른 평에서도 본듯한데..원래 그런건지 다른쪽과 다르게 약간 노란빛이도네요..",
+        "그렇다는 글만봤었는데 진짜 쇼파한쪽에 색이바랬네요"
+      ],
+      "questionForUser": "소파 색상에 민감한 편인가요?",
+      "filterOptions": [
+        "매우 중요",
+        "중요",
+        "상관없음"
+      ]
+    },
+    {
+      "id": "delivery_period",
+      "name": "배송 기간",
+      "description": "주문제작 상품의 경우 배송이 오래 걸리는 경우가 많아, 실제 배송 기간을 확인하는 것이 중요합니다.",
+      "importance": "low",
+      "mentionCount": 4,
+      "sentiment": "negative",
+      "keywords": [
+        "배송",
+        "지연",
+        "오래",
+        "주문제작"
+      ],
+      "sampleEvidence": [
+        "다만, 주문 제작이라 배송이 좀 걸리니 느긋하게 주문해야 될 것 같아요. 전 넘 조급증이나서 힘들었어요ㅠㅠ",
+        "설연휴가 껴서인지 배송은 조금 느렷어요...."
+      ],
+      "questionForUser": "배송 기간에 얼마나 민감하신가요?",
+      "filterOptions": [
+        "빠른 배송이 중요",
+        "보통",
+        "상관없음"
+      ]
+    }
+  ],
+  "specVsRealityGaps": [
+    {
+      "specClaim": "폴더형 소파 접힘 기능",
+      "realityFromReviews": "접었을 때 끝부분이 뜨거나, 경사가 져서 아이가 불편해함",
+      "mentionCount": 4
+    }
+  ],
+  "unexpectedUseCases": [
+    {
+      "useCase": "강아지 사용",
+      "mentionCount": 1,
+      "quote": "심지어는 강아지까지  올라가기도 한답니다."
+    },
+    {
+      "useCase": "운동 능력 향상",
+      "mentionCount": 2,
+      "quote": "아기 대근육 발달에 너무 좋은거같아요!"
+    },
+    {
+      "useCase": "터널 놀이",
+      "mentionCount": 1,
+      "quote": "아래쪽 하중 받쳐주는 의자로 바뀌는 쿠션을 빼주면 터널놀이도 가능하더라구요~ 장난감을 앞에두고 통과하게 해주니 새로운 놀이가되서 좋아요!!"
+    }
+  ],
+  "categoryName": "아기소파",
+  "analyzedAt": "2025-12-17T08:41:20.237Z",
+  "reviewCount": 42
+}

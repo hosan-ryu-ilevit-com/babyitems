@@ -47,25 +47,107 @@ interface ProductReviewInsights {
 }
 
 // 하드필터 선택값 → criteriaId 매핑 (체감속성 분석 결과 기반)
+// NOTE: 값이 곧 criteriaId인 경우 (review_priorities 타입) 자동 매핑
 const HARDFILTER_TO_CRITERIA: Record<string, string> = {
-  // baby_formula_dispenser (기존)
+  // formula_maker / baby_formula_dispenser
   cleaning_easy: 'cleaning_frequency',
   cleaning_ok: 'cleaning_frequency',
-  // formula_maker review_priorities (신규 - 값이 곧 criteriaId)
   cleaning_frequency: 'cleaning_frequency',
   accuracy: 'accuracy',
   noise: 'noise',
   durability_parts: 'durability_parts',
   ease_of_use: 'ease_of_use',
+  
+  // stroller (유모차)
+  actual_folding_and_unfolding_ease: 'actual_folding_and_unfolding_ease',
+  actual_seat_angle_and_comfort: 'actual_seat_angle_and_comfort',
+  durability_of_materials: 'durability_of_materials',
+  actual_weight_vs_perceived_weight: 'actual_weight_vs_perceived_weight',
+  maneuverability_on_various_terrains: 'maneuverability_on_various_terrains',
+  customer_service_and_quality_control: 'customer_service_and_quality_control',
+  
+  // car_seat (카시트)
+  ease_of_seatbelt_buckling: 'ease_of_seatbelt_buckling',
+  portability_for_multiple_vehicles: 'portability_for_multiple_vehicles',
+  seat_width_and_comfort_for_older_children: 'seat_width_and_comfort_for_older_children',
+  headrest_stability_and_adjustability: 'headrest_stability_and_adjustability',
+  isofix_installation_stability: 'isofix_installation_stability',
+  leg_support_design_for_booster_seats: 'leg_support_design_for_booster_seats',
+  fabric_breathability: 'fabric_breathability',
+  potential_damage_to_vehicle_seat: 'potential_damage_to_vehicle_seat',
+  
+  // baby_bottle (젖병)
+  ease_of_cleaning: 'ease_of_cleaning',
+  nipple_acceptance: 'nipple_acceptance',
+  anti_colic_performance: 'anti_colic_performance',
+  leak_proof_function: 'leak_proof_function',
+  durability_and_material_safety: 'durability_and_material_safety',
+  versatility_and_scalability: 'versatility_and_scalability',
+  design_and_grip: 'design_and_grip',
+  spare_parts_availability: 'spare_parts_availability',
+  
+  // milk_powder_port (분유포트)
+  temperature_accuracy: 'temperature_accuracy',
+  cleaning_easiness: 'cleaning_easiness',
+  noise_level: 'noise_level',
+  durability: 'durability',
+  package_condition: 'package_condition',
+  heating_speed: 'heating_speed',
+  plastic_smell: 'plastic_smell',
+  on_off_switch: 'on_off_switch',
+  
+  // nasal_aspirator (코흡입기)
+  suction_power_control: 'suction_power_control',
+  portability: 'portability',
+  cleaning_ease: 'cleaning_ease',
+  tip_shape_and_material: 'tip_shape_and_material',
+  price_effectiveness: 'price_effectiveness',
+  child_acceptance: 'child_acceptance',
+  
+  // thermometer (체온계)
+  accuracy_reliability: 'accuracy_reliability',
+  durability_and_reliability_of_brand: 'durability_and_reliability_of_brand',
+  measurement_method_preference: 'measurement_method_preference',
+  packaging_and_customer_service: 'packaging_and_customer_service',
+  initial_product_condition: 'initial_product_condition',
 };
 
-// criteriaId별 하이라이트 키워드 (리뷰에서 해당 키워드를 강조)
+// criteriaId별 하이라이트 키워드 (리뷰에서 해당 키워드를 강조 - fallback용)
 const CRITERIA_KEYWORDS: Record<string, string[]> = {
+  // formula_maker
   cleaning_frequency: ['세척', '청소', '깔때기', '분유통', '위생', '귀찮', '번거'],
   accuracy: ['농도', '용량', '정확', '오차', '일정'],
   noise: ['소음', '시끄럽', '조용', '새벽', '소리'],
   durability_parts: ['깔때기', '플라스틱', '마모', '파손', '고장', '교체', '내구'],
   ease_of_use: ['조립', '뻑뻑', '힘듦', '어려움', '사용법', '설정', '버튼'],
+  
+  // stroller
+  actual_folding_and_unfolding_ease: ['폴딩', '접이', '펼치', '한손', '요령', '접기'],
+  actual_seat_angle_and_comfort: ['시트', '등받이', '각도', '90도', '착석', '편안'],
+  durability_of_materials: ['손잡이', '안전바', '마감', '재질', '내구'],
+  actual_weight_vs_perceived_weight: ['무게', '무겁', '가볍', '들기', '휴대'],
+  maneuverability_on_various_terrains: ['요철', '턱', '핸들링', '주행', '바퀴'],
+  
+  // car_seat
+  ease_of_seatbelt_buckling: ['버클', '채결', '안전벨트', '잠금'],
+  isofix_installation_stability: ['아이소픽스', 'ISOFIX', '설치', '장착', '고정'],
+  fabric_breathability: ['통풍', '땀', '시원', '메쉬', '쿨링'],
+  
+  // baby_bottle
+  ease_of_cleaning: ['세척', '씻기', '분해', '깨끗'],
+  nipple_acceptance: ['젖꼭지', '물림', '거부', '적응'],
+  anti_colic_performance: ['배앓이', '공기', '가스', '소화'],
+  
+  // milk_powder_port
+  temperature_accuracy: ['온도', '정확', '보온', '유지'],
+  heating_speed: ['가열', '끓이', '빠르'],
+  
+  // nasal_aspirator
+  suction_power_control: ['흡입', '세기', '조절'],
+  child_acceptance: ['거부', '무섭', '울음'],
+  
+  // thermometer
+  accuracy_reliability: ['정확', '오차', '체온', '신뢰'],
 };
 
 // LLM 하이라이팅 결과 파싱 (마크다운 볼드 → 하이라이트 스타일)

@@ -1,0 +1,229 @@
+{
+  "categoryKey": "baby_wipes",
+  "hiddenCriteria": [
+    {
+      "id": "thickness_and_feel",
+      "name": "두께감과 촉감",
+      "description": "물티슈의 두께감과 촉감은 단순한 스펙을 넘어 실제 사용 편의성과 만족도에 큰 영향을 미칩니다. 너무 얇으면 여러 장을 사용해야 하고, 너무 거칠면 아기 피부에 자극을 줄 수 있습니다. 적절한 두께와 부드러운 촉감은 효율적인 사용과 피부 자극 최소화에 중요합니다.",
+      "importance": "high",
+      "mentionCount": 15,
+      "sentiment": "positive",
+      "keywords": [
+        "도톰",
+        "두께감",
+        "부드러움",
+        "촉촉",
+        "탄탄"
+      ],
+      "sampleEvidence": [
+        "정말이지 두께감이 다른 물티슈들이랑 비교 불가네요",
+        "도톰하고 만족스러운 제품입니다.",
+        "부드럽고 촉촉해서 잘닦이는것같네요",
+        "두께도 도톰하고 잘 닦여서 항상 만족하고 있어요"
+      ],
+      "questionForUser": "선호하는 물티슈의 두께감은 어느 정도인가요?",
+      "filterOptions": [
+        "얇음",
+        "적당함",
+        "두꺼움",
+        "상관없음"
+      ]
+    },
+    {
+      "id": "portability",
+      "name": "휴대성",
+      "description": "물티슈의 휴대성은 외출 시 사용 편의성을 결정하는 중요한 요소입니다. 가방에 넣고 다니기 좋은 사이즈와 무게, 그리고 캡의 안정성 등이 휴대성에 영향을 미칩니다.",
+      "importance": "high",
+      "mentionCount": 7,
+      "sentiment": "positive",
+      "keywords": [
+        "휴대",
+        "외출",
+        "여행",
+        "가방",
+        "주머니",
+        "사이즈",
+        "작다"
+      ],
+      "sampleEvidence": [
+        "가방 앞주머니에서 휙 잡아서 빼기 좋은 사이즈에..",
+        "외출시 또는 여행갈때 가방에 가지고 넣고 다니기 좋아요~",
+        "작아서 공간을 많이 차지 하는것도 아니고 물티슈 없이 못사는 저에겐 꼭 맞는 필수품"
+      ],
+      "questionForUser": "주로 어떤 용도로 물티슈를 사용하시나요?",
+      "filterOptions": [
+        "집",
+        "외출",
+        "여행",
+        "모두"
+      ]
+    },
+    {
+      "id": "sheet_size",
+      "name": "시트 크기",
+      "description": "물티슈 한 장의 크기는 사용량에 직접적인 영향을 미칩니다. 시트가 너무 작으면 여러 장을 사용하게 되어 비효율적입니다. 적당한 크기의 시트는 한 장으로도 충분한 면적을 닦을 수 있어 경제적입니다.",
+      "importance": "medium",
+      "mentionCount": 2,
+      "sentiment": "positive",
+      "keywords": [
+        "사이즈",
+        "넉넉"
+      ],
+      "sampleEvidence": [
+        "사이즈넉넉하고",
+        "넉넉한 사이즈와 두께감이 너무 마음에 들어요"
+      ],
+      "questionForUser": "물티슈 한 장의 크기에 대해 중요하게 생각하는 부분이 있나요?",
+      "filterOptions": [
+        "크기가 클수록 좋다",
+        "적당한 크기가 좋다",
+        "상관없다"
+      ]
+    },
+    {
+      "id": "packaging_design",
+      "name": "포장 디자인",
+      "description": "물티슈의 포장 디자인은 심미적인 만족감을 줄 뿐만 아니라, 사용 편의성에도 영향을 미칩니다. 예쁜 디자인은 소비자의 구매 욕구를 자극하고, 편리한 포장은 사용 경험을 향상시킵니다.",
+      "importance": "medium",
+      "mentionCount": 4,
+      "sentiment": "positive",
+      "keywords": [
+        "디자인",
+        "예쁘다",
+        "패키지"
+      ],
+      "sampleEvidence": [
+        "사진상으로 봤을때 세자린이 젤 이뻐보여서 샀는데 역시 실물이 더 이뻐요",
+        "바뀐 디자인부터 정말 예뻐서 맘에 쏙ㅎㅎ 마치 겨울왕국 생각나네요~",
+        "초창기 디자인이 너무 예뻤는데, 중간에 디자인이 별로라 사용하기 꺼려져서 사용안하다가 작년 ? 재작년? 부터 다시 패키지디자인이 예뻐져서 구매합니다."
+      ],
+      "questionForUser": "물티슈 구매 시 디자인이 얼마나 중요한가요?",
+      "filterOptions": [
+        "매우 중요",
+        "중요",
+        "보통",
+        "중요하지 않음"
+      ]
+    },
+    {
+      "id": "fragrance",
+      "name": "향",
+      "description": "물티슈의 향은 개인의 선호도에 따라 만족도를 크게 좌우합니다. 무향을 선호하는 사람도 있고, 특정 향을 선호하는 사람도 있습니다. 아기가 사용하는 제품인 만큼, 인공적인 향보다는 천연 성분의 은은한 향을 선호하는 경향이 있습니다.",
+      "importance": "medium",
+      "mentionCount": 3,
+      "sentiment": "positive",
+      "keywords": [
+        "무향",
+        "향기"
+      ],
+      "sampleEvidence": [
+        "향기있는 제품을 별로 선호하지 않는 편이라서 무향 제품이라서 더 좋은 거 같아요",
+        "허프같은 향이 나길래 보니녹차추출물이 있었네요 !"
+      ],
+      "questionForUser": "물티슈에 향이 있는 것을 선호하시나요?",
+      "filterOptions": [
+        "무향",
+        "은은한 향",
+        "상관없음"
+      ]
+    },
+    {
+      "id": "cap_stability",
+      "name": "캡의 안정성",
+      "description": "물티슈 캡의 안정성은 물티슈의 건조를 막고 위생적으로 사용할 수 있도록 하는 중요한 요소입니다. 캡이 쉽게 열리거나 제대로 닫히지 않으면 물티슈가 건조해지거나 오염될 수 있습니다.",
+      "importance": "medium",
+      "mentionCount": 2,
+      "sentiment": "positive",
+      "keywords": [
+        "캡",
+        "위생적"
+      ],
+      "sampleEvidence": [
+        "캡이라서 더 위생적인것 같고"
+      ],
+      "questionForUser": "물티슈 캡의 중요도는?",
+      "filterOptions": [
+        "매우 중요",
+        "중요",
+        "보통",
+        "중요하지 않음"
+      ]
+    },
+    {
+      "id": "repurposing",
+      "name": "재활용 가능성",
+      "description": "물티슈를 사용 후 버리는 대신, 청소용으로 재활용하는 경우가 있습니다. 튼튼한 물티슈는 한 번 헹궈서 걸레 대용으로 사용해도 될 만큼 내구성이 좋습니다.",
+      "importance": "low",
+      "mentionCount": 1,
+      "sentiment": "positive",
+      "keywords": [
+        "재활용",
+        "걸레",
+        "청소"
+      ],
+      "sampleEvidence": [
+        "쓰고 깨끗한 건 한 번 헹구고 걸레대용으로 사용하고 버려도 될 정도로 탄탄합니다."
+      ],
+      "questionForUser": "물티슈를 사용 후 재활용하는 편인가요?",
+      "filterOptions": [
+        "자주",
+        "가끔",
+        "거의 없음"
+      ]
+    },
+    {
+      "id": "expiration_date",
+      "name": "유통기한",
+      "description": "물티슈는 개봉 후 비교적 빠르게 사용하므로 유통기한이 중요합니다. 대량 구매 시 유통기한을 꼼꼼히 확인해야 하며, 특히 아기 피부에 사용하는 제품은 더욱 신경 써야 합니다.",
+      "importance": "medium",
+      "mentionCount": 1,
+      "sentiment": "negative",
+      "keywords": [
+        "유통기한",
+        "보관"
+      ],
+      "sampleEvidence": [
+        "도톰하고 만족스러운 제품입니다. 20개씩 두 박스 주문했는데 유통기한이 달라 서운했습니다."
+      ],
+      "questionForUser": "물티슈 구매 시 유통기한을 얼마나 중요하게 생각하시나요?",
+      "filterOptions": [
+        "매우 중요",
+        "중요",
+        "보통",
+        "중요하지 않음"
+      ]
+    }
+  ],
+  "specVsRealityGaps": [
+    {
+      "specClaim": "휴대용 물티슈",
+      "realityFromReviews": "휴대용 물티슈가 생각보다 두꺼워서 작은 가방에 넣기 불편할 수 있음",
+      "mentionCount": 1
+    },
+    {
+      "specClaim": "리뉴얼된 제품",
+      "realityFromReviews": "리뉴얼 전 디자인이 더 좋았다는 의견이 있음",
+      "mentionCount": 1
+    },
+    {
+      "specClaim": "저렴한 가격",
+      "realityFromReviews": "휴대용 물티슈는 가격이 비싸다는 의견이 있음",
+      "mentionCount": 1
+    }
+  ],
+  "unexpectedUseCases": [
+    {
+      "useCase": "강아지 용품",
+      "mentionCount": 1,
+      "quote": "강아지 때문에 샀는데 부드럽고 촉촉해서 잘닦이는것같네요"
+    },
+    {
+      "useCase": "청소용",
+      "mentionCount": 2,
+      "quote": "아기한테도 쓰고 청소할때도 써요 ㅎㅎㅎ"
+    }
+  ],
+  "categoryName": "물티슈",
+  "analyzedAt": "2025-12-17T08:40:24.834Z",
+  "reviewCount": 31
+}
