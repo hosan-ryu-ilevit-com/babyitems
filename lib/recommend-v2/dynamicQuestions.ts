@@ -397,11 +397,22 @@ function applyHardFiltersOR(
 
 /**
  * 상품이 spec 필터 조건을 만족하는지 체크 (단일 상품용)
+ * - 필터 조건의 필드가 없는 경우 (에누리 등): 기본 통과 (true)
+ * - 필드가 있고 조건 만족: true
+ * - 필드가 있고 조건 불만족: false
  */
 function productMatchesSpecFilter(
   product: ProductItem,
   filter: FilterCondition
 ): boolean {
+  // 필터 조건이 비어있으면 무조건 통과
+  if (Object.keys(filter).length === 0) {
+    return true;
+  }
+
+  let hasAnyField = false;  // 필터 조건 중 하나라도 해당 필드가 있는지
+  let anyMatch = false;     // 조건 매칭 여부
+
   for (const [path, condition] of Object.entries(filter)) {
     // filter_attrs 경로인 경우 직접 접근
     let value: unknown;
@@ -411,6 +422,13 @@ function productMatchesSpecFilter(
     } else {
       value = getNestedValue(product as unknown as Record<string, unknown>, path);
     }
+
+    // 해당 필드가 없으면 이 조건은 건너뜀
+    if (value === undefined || value === null) {
+      continue;
+    }
+
+    hasAnyField = true;
 
     // condition이 객체인 경우 (lte, gte, contains 등)
     if (typeof condition === 'object' && condition !== null) {
@@ -424,32 +442,55 @@ function productMatchesSpecFilter(
           const found = value.some(item =>
             String(item).toLowerCase().includes(searchValue)
           );
-          if (found) return true;
+          if (found) {
+            anyMatch = true;
+            break;
+          }
         } else if (typeof value === 'string') {
-          if (value.toLowerCase().includes(searchValue)) return true;
+          if (value.toLowerCase().includes(searchValue)) {
+            anyMatch = true;
+            break;
+          }
         }
       }
 
       // 숫자 비교 연산
       const numValue = parseNumericValue(value);
       if ('lte' in condObj && typeof condObj.lte === 'number') {
-        if (!isNaN(numValue) && numValue <= condObj.lte) return true;
+        if (!isNaN(numValue) && numValue <= condObj.lte) {
+          anyMatch = true;
+          break;
+        }
       }
       if ('gte' in condObj && typeof condObj.gte === 'number') {
-        if (!isNaN(numValue) && numValue >= condObj.gte) return true;
+        if (!isNaN(numValue) && numValue >= condObj.gte) {
+          anyMatch = true;
+          break;
+        }
       }
     }
     // condition이 문자열인 경우 (eq)
     else if (typeof condition === 'string') {
       if (path.startsWith('filter_attrs.')) {
-        if (String(value) === condition) return true;
+        if (String(value) === condition) {
+          anyMatch = true;
+          break;
+        }
       } else {
-        if (String(value).toLowerCase() === condition.toLowerCase()) return true;
+        if (String(value).toLowerCase() === condition.toLowerCase()) {
+          anyMatch = true;
+          break;
+        }
       }
     }
   }
 
-  return false;
+  // 필터 조건의 필드가 하나도 없으면 (에누리 등) 기본 통과
+  if (!hasAnyField) {
+    return true;
+  }
+
+  return anyMatch;
 }
 
 /**

@@ -491,12 +491,9 @@ export default function RecommendV2Page() {
           console.error('📦 [Products] Failed:', productsJson.error);
         }
 
-        // Set default budget range to '적정가' (1/4 ~ 2/4 of total range)
+        // Set default budget range to '전체' (full range)
         const budgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000 };
-        const range = budgetRange.max - budgetRange.min;
-        const defaultMin = Math.round(budgetRange.min + range / 4);
-        const defaultMax = Math.round(budgetRange.min + range / 2);
-        setBudget({ min: defaultMin, max: defaultMax });
+        setBudget({ min: budgetRange.min, max: budgetRange.max });
 
         // Log page view
         logV2PageView(categoryKey, category_name);

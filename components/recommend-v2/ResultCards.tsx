@@ -1559,7 +1559,20 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                       cons: { bg: 'bg-gray-50', border: 'border-gray-100', icon: '👎', titleColor: 'text-red-600', dividerColor: 'border-gray-200' },
                     };
 
-                    return sections.map((section, idx) => {
+                    // 내용이 있는 섹션만 필터링
+                    const validSections = sections.filter(s => s.lines.length > 0);
+
+                    // 장점/단점 둘 다 없으면 안내 메시지
+                    if (validSections.length === 0) {
+                      return (
+                        <div className="text-center py-6 text-gray-500">
+                          <p>이 제품에 대한 구체적인 후기 정보를 찾지 못했습니다.</p>
+                          <p className="text-sm mt-1">아래 출처에서 직접 확인해보세요.</p>
+                        </div>
+                      );
+                    }
+
+                    return validSections.map((section, idx) => {
                       const style = sectionStyles[section.type];
                       return (
                         <div key={idx} className={`rounded-xl p-4 ${style.bg} border ${style.border}`}>

@@ -71,11 +71,11 @@ async function fetchAllOGMetadata(sources: Array<{ title: string; uri: string }>
 
 async function searchWithGrounding(prompt: string): Promise<SearchResult> {
   const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-2.5-flash-lite',
     contents: prompt,
     config: {
       tools: [{ googleSearch: {} }],
-      temperature: 0.2,
+      temperature: 0.1,  // 더 낮춰서 hallucination 방지
     },
   });
 
@@ -91,22 +91,22 @@ async function searchWithGrounding(prompt: string): Promise<SearchResult> {
   };
 }
 
-// 2차 처리: 포맷팅 정리 (인용 번호 제거) - lite 모델로 충분
+// 2차 처리: 포맷 정리 (인용 번호 제거)
 async function cleanupFormatting(rawText: string): Promise<string> {
-  // 먼저 기존 인용 번호 제거 [1], [2], [1][2] 등
+  // 인용 번호 제거 [1], [2], [1][2] 등
   const textWithoutCitations = rawText.replace(/\s*\[\d+\](\[\d+\])*/g, '');
 
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash-lite',
-    contents: `아래 텍스트를 깔끔한 마크다운 형식으로 정리해주세요.
+    contents: `아래 텍스트를 정리해주세요.
 
-규칙:
-1. 반드시 ## 장점, ## 단점 2개 섹션만 (추천대상/비추천대상 제외)
-2. 각 항목은 "- **핵심 키워드**: 설명" 형식 (볼드는 2-3단어 핵심만)
-3. 장단점 각각 2-4개만 (공통적으로 많이 언급된 것만)
-4. [1], [2] 등 인용 번호는 모두 제거 (출처는 별도 표시됨)
-5. 서론/맺음말 없이 바로 ## 장점부터 시작
-6. 줄바꿈 최소화
+[필수 규칙]
+1. ## 장점, ## 단점 섹션만 유지 (내용 없으면 해당 섹션 생략)
+2. 각 항목은 "- 구체적 내용" 형식
+3. 장점 최대 3개, 단점 최대 3개
+4. 서론/맺음말 제거, 원본 내용 유지
+5. 원본에 없는 내용 추가 금지
+6. 구체적인 수치/체감 표현은 반드시 유지
 
 원본:
 ${textWithoutCitations}`,
@@ -131,36 +131,38 @@ export async function POST(request: NextRequest) {
 
     const startTime = Date.now();
 
-    // 1차: 검색 + 정보 수집 (내돈내산 우선, 할루시네이션 방지 프롬프트)
+    // 1차: 검색 + 정보 수집 (구체적인 내용 + 정확한 출처)
     const result = await searchWithGrounding(
-      `"${productTitle}" 제품의 실제 사용자 후기를 검색해주세요.
+      `"${productTitle}" 제품의 실제 구매 후기를 검색하세요.
 
-[중요 규칙]
-- 검색된 출처에 명시적으로 작성된 내용만 사용하세요
-- 추론, 추측, 일반화 절대 금지
-- 출처에서 직접 인용하거나 요약만 허용
-- 확인되지 않은 내용은 절대 작성하지 마세요
+[필수 규칙]
+1. 검색 결과에서 **직접 인용**한 내용만 작성 (추론/추측 절대 금지)
+2. 후기에서 찾을 수 없는 내용은 작성하지 마세요
+3. 구체적인 사용 경험을 포함해주세요
 
-[검색 우선순위]
-1. 네이버 블로그/카페의 "내돈내산", "솔직후기", "실사용" 후기 (가장 중요!)
-2. 쿠팡/11번가/G마켓 등 쇼핑몰의 실구매 리뷰
-3. 다나와/에누리 사용자 리뷰
-※ 광고성/협찬 글 제외, 실제 구매 후기만. 최근 1년 이내 작성된 후기 우선.
+[검색 대상]
+- 네이버 블로그/카페 "내돈내산", "솔직후기", "실사용"
+- 쿠팡/11번가 실구매 리뷰
+- 광고/협찬 글 제외
 
+[출력 형식]
 ## 장점
-여러 "내돈내산" 후기에서 공통적으로 언급된 장점 (2-4개)
-- 출처에 명시된 구체적인 사용 경험만 작성
+- 구체적인 장점 (예: "무게가 5kg으로 가벼워 휴대 편리", "온도 유지력 8시간 이상")
+- 실제 사용 경험 기반으로 작성
 
-## 단점
-여러 "내돈내산" 후기에서 공통적으로 언급된 단점 (2-4개)
-- 출처에 명시된 구체적인 불만사항만 작성`
+## 단점  
+- 구체적인 단점 (예: "AS 응대 느림", "버튼 조작감 뻑뻑함")
+- 실제 사용 경험 기반으로 작성
+
+각 항목은 구체적으로 작성 (수치, 비교, 체감 포함). 장점 1-3개, 단점 1-3개.
+후기에서 장점이나 단점을 찾을 수 없으면 해당 섹션 생략.`
     );
 
     const searchElapsed = Date.now() - startTime;
 
-    // Validation: 결과 품질 체크
+    // Validation: 결과 품질 체크 (간결한 출력에 맞게 기준 조정)
     const hasNoSources = result.sources.length === 0;
-    const textTooShort = result.text.length < 100;
+    const textTooShort = result.text.length < 50;  // 간결한 출력이므로 기준 완화
     const noSubstantiveContent = !result.text.includes('장점') && !result.text.includes('단점');
 
     // 결과가 없거나 품질이 낮은 경우

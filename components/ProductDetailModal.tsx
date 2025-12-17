@@ -55,8 +55,8 @@ interface ProductDetailModalProps {
     lowestPrice: number;
     lowestMall: string;
     productName: string;
-    prices: Array<{ mall: string; price: number; delivery: string; link?: string }>;
-  }; // NEW: Danawa price data from Result page
+    prices: Array<{ mall: string; price: number; delivery: string; link?: string; mallLogo?: string }>;
+  }; // NEW: Danawa/Enuri price data from Result page
   onClose: () => void;
   onReRecommend?: (productId: string, userInput: string) => Promise<void>; // NEW: Callback for re-recommendation
   isAnalysisLoading?: boolean; // NEW: 백그라운드 분석 로딩 상태
@@ -415,13 +415,14 @@ export default function ProductDetailModal({ productData, productComparisons, da
                       >
                         {/* 쇼핑몰 아이콘 */}
                         <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
-                          {getMallLogoPath(priceInfo.mall) ? (
+                          {(priceInfo.mallLogo || getMallLogoPath(priceInfo.mall)) ? (
                             <Image
-                              src={getMallLogoPath(priceInfo.mall)!}
+                              src={priceInfo.mallLogo || getMallLogoPath(priceInfo.mall)!}
                               alt={priceInfo.mall || '쇼핑몰'}
                               width={28}
                               height={28}
                               className="object-contain"
+                              unoptimized={!!priceInfo.mallLogo}
                             />
                           ) : (
                             <span className="text-xs font-bold text-gray-500">
@@ -434,14 +435,16 @@ export default function ProductDetailModal({ productData, productComparisons, da
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="font-medium text-sm text-gray-900">{priceInfo.mall || '알 수 없음'}</span>
-                            <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
+                            {priceInfo.delivery && (
+                              <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
+                            )}
                           </div>
                         </div>
 
                         {/* 가격 + 화살표 */}
                         <div className="flex items-center gap-3 shrink-0">
                           <span className={`text-m font-bold ${index === 0 ? 'text-red-500' : 'text-gray-900'}`}>
-                            {priceInfo.price.toLocaleString()}원
+                            {priceInfo.price?.toLocaleString() || 0}원
                           </span>
                           <div className="w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center">
                             <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -483,13 +486,14 @@ export default function ProductDetailModal({ productData, productComparisons, da
                             >
                               {/* 쇼핑몰 아이콘 */}
                               <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
-                                {getMallLogoPath(priceInfo.mall) ? (
+                                {(priceInfo.mallLogo || getMallLogoPath(priceInfo.mall)) ? (
                                   <Image
-                                    src={getMallLogoPath(priceInfo.mall)!}
+                                    src={priceInfo.mallLogo || getMallLogoPath(priceInfo.mall)!}
                                     alt={priceInfo.mall || '쇼핑몰'}
                                     width={28}
                                     height={28}
                                     className="object-contain"
+                                    unoptimized={!!priceInfo.mallLogo}
                                   />
                                 ) : (
                                   <span className="text-xs font-bold text-gray-500">
@@ -502,14 +506,16 @@ export default function ProductDetailModal({ productData, productComparisons, da
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2">
                                   <span className="font-medium text-sm text-gray-900">{priceInfo.mall || '알 수 없음'}</span>
-                                  <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
+                                  {priceInfo.delivery && (
+                                    <span className="text-xs font-medium text-blue-500">{priceInfo.delivery.replace(/[()]/g, '')}</span>
+                                  )}
                                 </div>
                               </div>
 
                               {/* 가격 + 화살표 */}
                               <div className="flex items-center gap-3 shrink-0">
                                 <span className="text-m font-bold text-gray-900">
-                                  {priceInfo.price.toLocaleString()}원
+                                  {priceInfo.price?.toLocaleString() || 0}원
                                 </span>
                                 <div className="w-5 h-5 rounded-full bg-gray-50 flex items-center justify-center">
                                   <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

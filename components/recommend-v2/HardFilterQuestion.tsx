@@ -254,8 +254,10 @@ export function HardFilterQuestion({
             ? countProductsForOption(products, option)
             : null;
 
-          // 0개인 옵션은 숨김 (단, "전부 좋아요" 같은 skip 옵션은 항상 표시)
-          if (productCount === 0 && !isSkipOption) {
+          // 0개인 옵션은 숨김 (단, skip 옵션이거나 수동 정의 질문은 항상 표시)
+          // 수동 정의 질문: id가 "hf_"로 시작하지 않는 경우 (동적 생성은 hf_로 시작)
+          const isManualQuestion = !question.id.startsWith('hf_');
+          if (productCount === 0 && !isSkipOption && !isManualQuestion) {
             return null;
           }
 
