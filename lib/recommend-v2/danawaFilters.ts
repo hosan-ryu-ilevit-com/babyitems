@@ -24,14 +24,20 @@ interface DanawaFilter {
 interface ManualQuestionConfig {
   questions: Array<{
     id: string;
-    type: string;
+    type: string;  // 'single' | 'multi' | 'review_priorities'
     question: string;
     tip?: string;  // 질문에 대한 도움말
+    source?: string;  // 질문 출처: 'review_analysis' | 'spec' | 'manual'
     options: Array<{
       label: string;
       displayLabel?: string;  // 결과 페이지용 레이블
       value: string;
       filter: Record<string, unknown>;
+      // review_priorities 타입 전용 필드
+      mentionCount?: number;      // 리뷰 언급 횟수
+      sentiment?: string;         // 'positive' | 'negative' | 'neutral'
+      sampleReview?: string;      // 대표 리뷰 샘플
+      reviewKeywords?: string[];  // 관련 키워드
     }>;
   }>;
 }
@@ -335,14 +341,20 @@ export function getManualQuestions(categoryKey: string): HardFilterQuestion[] {
 
   return config.questions.map((q) => ({
     id: q.id,
-    type: q.type as 'single' | 'multi',
+    type: q.type as HardFilterQuestion['type'],  // 'single' | 'multi' | 'review_priorities'
     question: q.question,
     tip: q.tip,  // JSON에서 tip 가져오기
+    source: q.source as HardFilterQuestion['source'],  // 질문 출처
     options: q.options.map(opt => ({
       label: opt.label,
       displayLabel: opt.displayLabel,  // 결과 페이지용 레이블
       value: opt.value,
       filter: opt.filter as Record<string, unknown>,
+      // review_priorities 타입 전용 필드
+      mentionCount: opt.mentionCount,
+      sentiment: opt.sentiment as HardFilterOption['sentiment'],
+      sampleReview: opt.sampleReview,
+      reviewKeywords: opt.reviewKeywords,
     })),
   }));
 }

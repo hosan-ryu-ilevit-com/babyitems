@@ -1,0 +1,1314 @@
+{
+  "7342144886": {
+    "productId": "7342144886",
+    "reviewCount": 8,
+    "criteriaMatches": [
+      {
+        "criteriaId": "cleaning_frequency",
+        "criteriaName": "세척 빈도 및 편리성",
+        "totalMentions": 4,
+        "positiveRatio": 0.5,
+        "keywordMatches": [
+          {
+            "keyword": "세척",
+            "count": 3,
+            "positiveCount": 1,
+            "negativeCount": 2,
+            "samples": [
+              {
+                "text": "리모컨이나 앱까지 연동되는 기계는 부담스러운데 이건 그렇게 복잡하지 않아서 좋아요\n\n또 위생적으로도 뚜껑 분리가 가능하고 세척할 부분이 비교적 쉽다는 점이 맘에 들었어요",
+                "rating": 5
+              },
+              {
+                "text": "세척 후 식기건조대에 올려놓다가 코펠 그릇이랑 부딪혔는데 바로 깨졌어요… 한 달만에…",
+                "rating": 1
+              }
+            ]
+          },
+          {
+            "keyword": "위생",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "리모컨이나 앱까지 연동되는 기계는 부담스러운데 이건 그렇게 복잡하지 않아서 좋아요\n\n또 위생적으로도 뚜껑 분리가 가능하고 세척할 부분이 비교적 쉽다는 점이 맘에 들었어요",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "리모컨이나 앱까지 연동되는 기계는 부담스러운데 이건 그렇게 복잡하지 않아서 좋아요\n\n또 위생적으로도 뚜껑 분리가 가능하고 세척할 부분이 비교적 ",
+          "리모컨이나 앱까지 연동되는 기계는 부담스러운데 이건 그렇게 복잡하지 않아서 좋아요\n\n또 위생적으로도 뚜껑 분리가 가능하고 세척할 부분이 비교적 "
+        ],
+        "topNegativeSamples": [
+          "세척 후 식기건조대에 올려놓다가 코펠 그릇이랑 부딪혔는데 바로 깨졌어요… 한 달만에…",
+          "제목: \n내용: 구연산으로 세척을 깨끗하게 해도 반나절도 안되어서 이렇게 되는데\n\n교환해주시나요\n\n애기가 마시는건데 찝찝합니다"
+        ]
+      },
+      {
+        "criteriaId": "accuracy",
+        "criteriaName": "분유 농도 및 용량 정확도",
+        "totalMentions": 3,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "용량",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "￼\n\n\n\n⸻\n\n\n\n 장점\n\n\t•\t수유 매번 할 때마다 물 끓이거나 기다릴 필요 없어서 진짜 효율적이에요\n\n\t•\t온도 설정이 세밀해서 아기 체온, 수유 방식에 맞춰서 조절 가능\n\n\t",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "진",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "진짜",
+                "rating": 5
+              },
+              {
+                "text": "제목: \n내용: 브라비 스마트 분유포트기 후기\n\n육아템 중 사고 나서 “와, 이건 진짜 사길 잘했구나” 했던 제품이에요\n\n저는 밤 수유가 잦아서 준비 시간이 조금이라도 길면 진짜 ",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "￼\n\n\n\n⸻\n\n\n\n 장점\n\n\t•\t수유 매번 할 때마다 물 끓이거나 기다릴 필요 없어서 진짜 효율적이에요\n\n\t•\t온도 설정이 세밀해서 아기 체온,",
+          "진짜",
+          "제목: \n내용: 브라비 스마트 분유포트기 후기\n\n육아템 중 사고 나서 “와, 이건 진짜 사길 잘했구나” 했던 제품이에요\n\n저는 밤 수유가 잦아서"
+        ],
+        "topNegativeSamples": []
+      },
+      {
+        "criteriaId": "noise",
+        "criteriaName": "작동 소음",
+        "totalMentions": 1,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "소음",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "첫째때 잘 사용하고, 둘째 잘 사용하고있었는데\n\n놀러갈때 들고갔다가 부주의로 깨져버렸어요 ㅜㅜ\n\n그래서 고민없이 다시 이 제품으로 구매했어요\n\n\n\n첫째부터 쭉- 이 제품만 사용해서",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "첫째때 잘 사용하고, 둘째 잘 사용하고있었는데\n\n놀러갈때 들고갔다가 부주의로 깨져버렸어요 ㅜㅜ\n\n그래서 고민없이 다시 이 제품으로 구매했어요\n\n"
+        ],
+        "topNegativeSamples": []
+      }
+    ],
+    "lastUpdated": "2025-12-17T06:59:13.875Z"
+  },
+  "8523979235": {
+    "productId": "8523979235",
+    "reviewCount": 18,
+    "criteriaMatches": [
+      {
+        "criteriaId": "cleaning_frequency",
+        "criteriaName": "세척 빈도 및 편리성",
+        "totalMentions": 14,
+        "positiveRatio": 0.8571428571428571,
+        "keywordMatches": [
+          {
+            "keyword": "세척",
+            "count": 5,
+            "positiveCount": 4,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "내용: 저는 완분을 결정 한 상태였고 친구가 출산 선물로 분유제조기 선물해줘서 받게 되었는데 세척이 힘들다고들 하는데 그것보다 정말 밤수유가 너무 편해서 세척은 별거아니네요ㅎㅎ 아",
+                "rating": 5
+              },
+              {
+                "text": "세척하기 번거롭지만 그만큼 편해요",
+                "rating": 3
+              }
+            ]
+          },
+          {
+            "keyword": "깔때기",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "깔때기랑 노즐도 한 개씩만 더 있으면 충분히 편할거같아요",
+                "rating": 5
+              },
+              {
+                "text": "분유 파우더가 속에서 뭉친건지 덩어리로 나와서 깔때기가 막힌 적도 있습니다",
+                "rating": 4
+              }
+            ]
+          },
+          {
+            "keyword": "분유통",
+            "count": 5,
+            "positiveCount": 4,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "저는 분유통도 하나더 사두고 돌려쓰려고요 세척을 잘 해줘야 된다고 하더라구용 그래서 그런지 세척 생각 많이 안해도되서 편해요 그리고 무엇보다 분유존이 너무 이뻐졌어요",
+                "rating": 5
+              },
+              {
+                "text": "다만 문제가 있었어요,\n\n\n\n어느날 먹이다보니 아가가 배고픔을 빨리 느끼길래\n\n보니 물량이 안맞아서 상담후에 조절해서 사용했어요\n\n(그전에도 육안으로 보기에도 묽은적이있었는데 분유",
+                "rating": 3
+              }
+            ]
+          },
+          {
+            "keyword": "위생",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "구매전에도 제조기 종류가 여러가지라서이것저것 다 비교해봤는데 브라비만의 장점은 \n\n-아기가 울때 빠르게 조유하여 수유가 가능하다\n\n-온도가 1도씩 조절이 가능하다\n\n-브라비가 10",
+                "rating": 5
+              },
+              {
+                "text": "제목: 브라비 자동분유제조기 좋아요\n내용: 분유제조기중에서 요즘 선호도가 높다는 브라비를 출산을 앞 둔 언니에게 선물했습니다 \n\n일단 물양을 10미리 단위로 조절할 수 있어서 타사",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "내용: 저는 완분을 결정 한 상태였고 친구가 출산 선물로 분유제조기 선물해줘서 받게 되었는데 세척이 힘들다고들 하는데 그것보다 정말 밤수유가 너",
+          "제목: 브라비 자동분유제조기 좋아요\n내용: 분유제조기중에서 요즘 선호도가 높다는 브라비를 출산을 앞 둔 언니에게 선물했습니다 \n\n일단 물양을 1",
+          "(1단계 분유가 제일 좋다고 해서 밥 잘 안먹는 아이라 1일1회 앱솔루트 산양분유 1단계 먹고있어요^^)\n\n세척도 생각했던것보다는 수월하고 사용"
+        ],
+        "topNegativeSamples": []
+      },
+      {
+        "criteriaId": "accuracy",
+        "criteriaName": "분유 농도 및 용량 정확도",
+        "totalMentions": 13,
+        "positiveRatio": 0.7692307692307693,
+        "keywordMatches": [
+          {
+            "keyword": "농도",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "ㅎㅎ 가끔 분유 농도가 다르다고하는데 하루 써봤지만 아직 그런건 모르겠어요 아기도 손으로 타줄때는 조금만 농도가 짙으면 대변을 조금만 싸서 변비인가 걱정도 많이 했는데 하루썼지만 ",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "정확",
+            "count": 4,
+            "positiveCount": 3,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: 신속하게 정확한 양으로 분유를 제조할 수 있어서 편해요\n내용: 자동분유제조기를 살지 말지 많이 고민해봤는데 지인으로부터 브라비 제품 소개받고 구매해 봤습니다",
+                "rating": 5
+              },
+              {
+                "text": "물양도 정확한데 이상해서 \n\nC/S 상담을 여러번을 받았는데 분명 친절하게 상담은 해주시지만 결국 답변은 “제품이상은 없다”\n\n오히려 손으로 제조할시에 오차범위가 더 넓기에 기계가",
+                "rating": 3
+              }
+            ]
+          },
+          {
+            "keyword": "오차",
+            "count": 1,
+            "positiveCount": 0,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "물양도 정확한데 이상해서 \n\nC/S 상담을 여러번을 받았는데 분명 친절하게 상담은 해주시지만 결국 답변은 “제품이상은 없다”\n\n오히려 손으로 제조할시에 오차범위가 더 넓기에 기계가",
+                "rating": 3
+              }
+            ]
+          },
+          {
+            "keyword": "일정",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "저희아이가 10월2일 출생 하였으면 조리원에 있는동안 배송이 3~4일정도 걸뢰서 미리미리 구매를 하였습니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "묽",
+            "count": 2,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "다만 문제가 있었어요,\n\n\n\n어느날 먹이다보니 아가가 배고픔을 빨리 느끼길래\n\n보니 물량이 안맞아서 상담후에 조절해서 사용했어요\n\n(그전에도 육안으로 보기에도 묽은적이있었는데 분유",
+                "rating": 3
+              },
+              {
+                "text": "한번은 분유 파우더가 충분했는데도 너무 묽게 나오는 경우가 있었고 애기가 제대로 안 먹더라고요",
+                "rating": 4
+              }
+            ]
+          },
+          {
+            "keyword": "진",
+            "count": 4,
+            "positiveCount": 4,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: 진짜 너무 만족해요 감사합니다",
+                "rating": 5
+              },
+              {
+                "text": "조유가 정확하게 되고 있는건지는 모르겠으나 아직까진 아기가 힘들어하지",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "ㅎㅎ 가끔 분유 농도가 다르다고하는데 하루 써봤지만 아직 그런건 모르겠어요 아기도 손으로 타줄때는 조금만 농도가 짙으면 대변을 조금만 싸서 변비",
+          "제목: 신속하게 정확한 양으로 분유를 제조할 수 있어서 편해요\n내용: 자동분유제조기를 살지 말지 많이 고민해봤는데 지인으로부터 브라비 제품 소개",
+          "조유가 정확하게 되고 있는건지는 모르겠으나 아직까진 아기가 힘들어하지"
+        ],
+        "topNegativeSamples": []
+      },
+      {
+        "criteriaId": "noise",
+        "criteriaName": "작동 소음",
+        "totalMentions": 1,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "새벽",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "새벽에 일어나서 물양 맞추고 분유 스푼 계량하고 넘 힘들었는데 브라비 덕분에 편합니다",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "새벽에 일어나서 물양 맞추고 분유 스푼 계량하고 넘 힘들었는데 브라비 덕분에 편합니다"
+        ],
+        "topNegativeSamples": []
+      },
+      {
+        "criteriaId": "durability_parts",
+        "criteriaName": "부품 내구성",
+        "totalMentions": 3,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "깔때기",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "깔때기랑 노즐도 한 개씩만 더 있으면 충분히 편할거같아요",
+                "rating": 5
+              },
+              {
+                "text": "분유 파우더가 속에서 뭉친건지 덩어리로 나와서 깔때기가 막힌 적도 있습니다",
+                "rating": 4
+              }
+            ]
+          },
+          {
+            "keyword": "고장",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: \n내용: 1달간 써보고 편하긴 한데 led 한쪽이 고장났어요",
+                "rating": 4
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "깔때기랑 노즐도 한 개씩만 더 있으면 충분히 편할거같아요",
+          "분유 파우더가 속에서 뭉친건지 덩어리로 나와서 깔때기가 막힌 적도 있습니다",
+          "제목: \n내용: 1달간 써보고 편하긴 한데 led 한쪽이 고장났어요"
+        ],
+        "topNegativeSamples": []
+      },
+      {
+        "criteriaId": "ease_of_use",
+        "criteriaName": "조립 및 사용 편의성",
+        "totalMentions": 3,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "어려움",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: 브라비 자동분유제조기 좋아요\n내용: 분유제조기중에서 요즘 선호도가 높다는 브라비를 출산을 앞 둔 언니에게 선물했습니다 \n\n일단 물양을 10미리 단위로 조절할 수 있어서 타사",
+                "rating": 5
+              },
+              {
+                "text": "제목: 브라비 이모님 좋아용\n내용: 단유하고 완분하기로 결정한 순간 부터 분유제조기 사야겠다고 결심했는데 타 브랜드 제품들과 비교하다 보니 브라비가 출수량도 10ml단위로 조절이 ",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "편리",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: 브라비 자동분유제조기 좋아요\n내용: 분유제조기중에서 요즘 선호도가 높다는 브라비를 출산을 앞 둔 언니에게 선물했습니다 \n\n일단 물양을 10미리 단위로 조절할 수 있어서 타사",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "제목: 브라비 자동분유제조기 좋아요\n내용: 분유제조기중에서 요즘 선호도가 높다는 브라비를 출산을 앞 둔 언니에게 선물했습니다 \n\n일단 물양을 1",
+          "제목: 브라비 이모님 좋아용\n내용: 단유하고 완분하기로 결정한 순간 부터 분유제조기 사야겠다고 결심했는데 타 브랜드 제품들과 비교하다 보니 브라",
+          "제목: 브라비 자동분유제조기 좋아요\n내용: 분유제조기중에서 요즘 선호도가 높다는 브라비를 출산을 앞 둔 언니에게 선물했습니다 \n\n일단 물양을 1"
+        ],
+        "topNegativeSamples": []
+      }
+    ],
+    "lastUpdated": "2025-12-17T06:59:13.876Z"
+  },
+  "4795877375": {
+    "productId": "4795877375",
+    "reviewCount": 139,
+    "criteriaMatches": [
+      {
+        "criteriaId": "cleaning_frequency",
+        "criteriaName": "세척 빈도 및 편리성",
+        "totalMentions": 127,
+        "positiveRatio": 0.9448818897637795,
+        "keywordMatches": [
+          {
+            "keyword": "세척",
+            "count": 50,
+            "positiveCount": 47,
+            "negativeCount": 2,
+            "samples": [
+              {
+                "text": "➡️단점 : \n\n-자동으로 세척되는 기계는 아닙니다",
+                "rating": 5
+              },
+              {
+                "text": "아쉬운 점 (단점)\n\n비교적 잦은 세척: 위생을 위해 주기적으로 부품들을 세척해줘야 합니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "깔때기",
+            "count": 19,
+            "positiveCount": 17,
+            "negativeCount": 2,
+            "samples": [
+              {
+                "text": "물탱크 분리 세척이 간단하고, 깔때기와 투입구를 분유가루가 막지 않도록 자주 털어내면 문제 없이 돌아갑니다",
+                "rating": 5
+              },
+              {
+                "text": "청소도 생각보다 어렵지 않았고, 깔때기 여분 하나 더 구비해두니 위생 관리도 더 수월해서 완전 만족",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "분유통",
+            "count": 10,
+            "positiveCount": 10,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "저는 하루에 한 번 깔때기, 일주일에 한 번 물탱크와 분유통을 따로 세척하는 루틴을 잡았고, 한 달에 한 번은 구연산으로 스케일 제거를 했어요",
+                "rating": 5
+              },
+              {
+                "text": "위생 관리\n\n처음엔 위생 관리가 걱정됐는데, 분유통이나 물통, 유량 조절 부품까지 모두 분리 세척이 가능해요",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "청소",
+            "count": 15,
+            "positiveCount": 14,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "그래서 분리해서 주기적으로 청소는 해줘야하지만, \n\n어떠한 기계든 다 관리는 해줘야하니, \n\n청소하면서 분유제조기 관리도 해줄겸해서,, \n\n요정도는 괜찮습니다",
+                "rating": 5
+              },
+              {
+                "text": "분유 세팅과 청소 주기를 소홀히 하면 농도 편차나 막힘이 생길 수 있어요",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "번거로움",
+            "count": 5,
+            "positiveCount": 4,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "비록 주기적인 세척과 초기 설정의 번거로움, 그리고 비용적인 부담이 있을 수 있지만, 이 모든 단점을 상쇄할 만한 극강의 편리함을 선사합니다",
+                "rating": 5
+              },
+              {
+                "text": "- 다른 분들이 세척을 해야한다는 번거로움이 단점이라고 생각하신다는데 일주일~이주일에 한번 세척하는게 힘들다고 이 편리한걸 안쓴다는게 말이 안됩니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "귀찮",
+            "count": 19,
+            "positiveCount": 19,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "쪼매 귀찮아요",
+                "rating": 4
+              },
+              {
+                "text": "4번 정도 사용하면 세척해줘야해요 \n\n은근 귀찮고 특히 새벽 수유 때 세척 뜨면 짜증나서 잠깹니다 \n\n물도",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "위생",
+            "count": 9,
+            "positiveCount": 9,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "아쉬운 점 (단점)\n\n비교적 잦은 세척: 위생을 위해 주기적으로 부품들을 세척해줘야 합니다",
+                "rating": 5
+              },
+              {
+                "text": "이 루틴만 지키면 위생 걱정이 줄어듭니다",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "➡️단점 : \n\n-자동으로 세척되는 기계는 아닙니다",
+          "아쉬운 점 (단점)\n\n비교적 잦은 세척: 위생을 위해 주기적으로 부품들을 세척해줘야 합니다",
+          "물탱크 분리 세척이 간단하고, 깔때기와 투입구를 분유가루가 막지 않도록 자주 털어내면 문제 없이 돌아갑니다"
+        ],
+        "topNegativeSamples": [
+          "를 수시로 갈아주고 세척해줘야하는데 해당 부분을 세척하려고 봤더니\n\n플라스틱이 다 갈려있다는부분을요 출산선물로 미리 구매를 했고 \n\n실사용은 출",
+          "세척 매우 번거로움",
+          "출산선물로 선물했는데 지인에게 연락을 받았어요\n\n부속품인 깔때기"
+        ]
+      },
+      {
+        "criteriaId": "accuracy",
+        "criteriaName": "분유 농도 및 용량 정확도",
+        "totalMentions": 69,
+        "positiveRatio": 0.9710144927536232,
+        "keywordMatches": [
+          {
+            "keyword": "농도",
+            "count": 7,
+            "positiveCount": 7,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "미리 물과 분유를 채워두면 버튼 하나로 원하는 온도의 분유를 정확한 농도로 만들어 줍니다",
+                "rating": 5
+              },
+              {
+                "text": "제목: 짱짱\n내용: 새벽수유에 너무좋아요 버튼 한 번으로 온도와 농도를 맞춰주니 허둥대는 시간이 줄더라고요",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "용량",
+            "count": 11,
+            "positiveCount": 11,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "가장 만족한 부분은 온도와 용량의 일관성입니다",
+                "rating": 5
+              },
+              {
+                "text": "이런식으로 30ml  단위이고 또 이게 분유+물이 아니라 물 용량 기준입니다",
+                "rating": 4
+              }
+            ]
+          },
+          {
+            "keyword": "정확",
+            "count": 10,
+            "positiveCount": 10,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "미리 물과 분유를 채워두면 버튼 하나로 원하는 온도의 분유를 정확한 농도로 만들어 줍니다",
+                "rating": 5
+              },
+              {
+                "text": "실사용 팁을 정리해 드립니다\n\n첫 설치 후 물만 2~3회 통과시켜 내부를 깨끗이 비우세요\n\n브랜드별 권장 세팅표를 먼저 적용하고 첫 며칠은 눈으로 농도 확인을 병행하세요\n\n깔때기와",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "일정",
+            "count": 6,
+            "positiveCount": 6,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "베이비브레짜는 분유 가루와 물의 비율을 정확하게 맞춰주기 때문에 언제나 일정한 농도의 분유를 먹일 수 있습니다",
+                "rating": 5
+              },
+              {
+                "text": "실사용 팁을 정리해 드립니다\n\n첫 설치 후 물만 2~3회 통과시켜 내부를 깨끗이 비우세요\n\n브랜드별 권장 세팅표를 먼저 적용하고 첫 며칠은 눈으로 농도 확인을 병행하세요\n\n깔때기와",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "묽",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "분유 거의 다 썼을 때 기계는 가루 부족한 지 모르고 묽게 만들어졌어요",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "진",
+            "count": 34,
+            "positiveCount": 32,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "또한 초기 비용이 가볍진 않아서 수유 횟수가 적은 가정이라면 가성비가 애매할 수 있습니다",
+                "rating": 5
+              },
+              {
+                "text": "특히 밤중 수유할 때 진가를 발휘합니다",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "미리 물과 분유를 채워두면 버튼 하나로 원하는 온도의 분유를 정확한 농도로 만들어 줍니다",
+          "제목: 짱짱\n내용: 새벽수유에 너무좋아요 버튼 한 번으로 온도와 농도를 맞춰주니 허둥대는 시간이 줄더라고요",
+          "그리고 분유가 조금 들어있을 땐 농도가 안맞게 나옴"
+        ],
+        "topNegativeSamples": [
+          "제목: 취급 안 주의\n내용: 취급 주의라도 써놨어도 문 앞에 박스를 던진 흔적 뿐입니다"
+        ]
+      },
+      {
+        "criteriaId": "noise",
+        "criteriaName": "작동 소음",
+        "totalMentions": 57,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "소음",
+            "count": 15,
+            "positiveCount": 15,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "➡️소음 \n\n-애기 예민정도에 따라 다르겟지만, \n\n주변에서 사용후기들로 \n\n애기가 깬다거나 그럴정도의 소음이 없습니다",
+                "rating": 5
+              },
+              {
+                "text": "소음 발생: 분유를 제조할 때 약간의 모터 소음이 발생합니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "조용",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "아주 크지는 않지만, 조용한 밤에는 신경 쓰일 수도 있는 수준입니다",
+                "rating": 5
+              },
+              {
+                "text": "̆̈ ( ⁼̴̤̆◡̶͂⁼̴̤̆ )\n\n근데 새벽에는 아무래도 조용하니까 소리가 좀 크다고 했는데 다른 가족은 안들렸다고 괜찮다고 했어요",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "새벽",
+            "count": 35,
+            "positiveCount": 35,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: 짱짱\n내용: 새벽수유에 너무좋아요 버튼 한 번으로 온도와 농도를 맞춰주니 허둥대는 시간이 줄더라고요",
+                "rating": 5
+              },
+              {
+                "text": "(파블로프의 댕댕이)\n\n\n\n아침에도 좋지만 특히 새벽에",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "커피머신",
+            "count": 5,
+            "positiveCount": 5,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "➡️크기 \n\n-크기가 일반적인 \n\n돌체구스토캡슐형 커피머신정도라고 보시면 됩니다",
+                "rating": 5
+              },
+              {
+                "text": "커피머신 정도의 소음인데, 아기 옆방에서 써도 깨지 않을 정도입니다",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "➡️소음 \n\n-애기 예민정도에 따라 다르겟지만, \n\n주변에서 사용후기들로 \n\n애기가 깬다거나 그럴정도의 소음이 없습니다",
+          "소음 발생: 분유를 제조할 때 약간의 모터 소음이 발생합니다",
+          "소음은 팬과 모터 소리가 은은한 편이라 밤에도 크게 신경 쓰이지 않았습니다"
+        ],
+        "topNegativeSamples": []
+      },
+      {
+        "criteriaId": "durability_parts",
+        "criteriaName": "부품 내구성",
+        "totalMentions": 25,
+        "positiveRatio": 0.88,
+        "keywordMatches": [
+          {
+            "keyword": "깔때기",
+            "count": 19,
+            "positiveCount": 17,
+            "negativeCount": 2,
+            "samples": [
+              {
+                "text": "물탱크 분리 세척이 간단하고, 깔때기와 투입구를 분유가루가 막지 않도록 자주 털어내면 문제 없이 돌아갑니다",
+                "rating": 5
+              },
+              {
+                "text": "청소도 생각보다 어렵지 않았고, 깔때기 여분 하나 더 구비해두니 위생 관리도 더 수월해서 완전 만족",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "플라스틱",
+            "count": 2,
+            "positiveCount": 1,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "실제 기계를 꺼냈을 때도, 재질이 플라스틱",
+                "rating": 5
+              },
+              {
+                "text": "를 수시로 갈아주고 세척해줘야하는데 해당 부분을 세척하려고 봤더니\n\n플라스틱이 다 갈려있다는부분을요 출산선물로 미리 구매를 했고 \n\n실사용은 출산 후 조리원 다녀온 후 7월부터 사",
+                "rating": 1
+              }
+            ]
+          },
+          {
+            "keyword": "고장",
+            "count": 4,
+            "positiveCount": 4,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: \n내용: 집에 신생아가 있어요 분유를먹고있어서\n\n두시간마다 맘마를 줘야해요\n\n새벽에 졸린데 너무 편리해요\n\n사용법도 간단하고 버튼만 누르고 미리수 만큼 나오니편해요\n\n그치만",
+                "rating": 5
+              },
+              {
+                "text": "저는 보르르 분유포트랑 같이 사용하고 있는데 우리아이의 면역력을 위해 끓인물을 50도 이하로 식힌 다음 넣어주어야하는데 뜨거운물을 바로 넣으면 온도 센서가 고장날 수 있다고 해요",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "물탱크 분리 세척이 간단하고, 깔때기와 투입구를 분유가루가 막지 않도록 자주 털어내면 문제 없이 돌아갑니다",
+          "청소도 생각보다 어렵지 않았고, 깔때기 여분 하나 더 구비해두니 위생 관리도 더 수월해서 완전 만족",
+          "장점:\n\n아이 안고 있는 상태로 분유 제조하기 수월 (분유병 놓고 버튼 클릭)\n\n\n\n단점:\n\n주기적으로 세척해줘야 함 (특히 깔때기는 네 번 수"
+        ],
+        "topNegativeSamples": [
+          "출산선물로 선물했는데 지인에게 연락을 받았어요\n\n부속품인 깔때기",
+          "(깔때기 세척도 피로를 보태는 데 한몫한다",
+          "를 수시로 갈아주고 세척해줘야하는데 해당 부분을 세척하려고 봤더니\n\n플라스틱이 다 갈려있다는부분을요 출산선물로 미리 구매를 했고 \n\n실사용은 출"
+        ]
+      },
+      {
+        "criteriaId": "ease_of_use",
+        "criteriaName": "조립 및 사용 편의성",
+        "totalMentions": 42,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "조립",
+            "count": 4,
+            "positiveCount": 4,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "조립도 쉽고 자리 차지도 안돼서 좋아요",
+                "rating": 5
+              },
+              {
+                "text": "세척\n\n-분유가루통은 조금 남았을때 분유통에 다시 넣고 씻고 말리고 다시조립하기 사알짝 귀찮아요",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "어려움",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "(라떼는 말이야 물 뜨거우면 개수대에서 흔들어가며 식히고 떨어뜨려서 뜨거운지 먹어보고~~ ㅋㅋ)\n\n\n\n\n\n◆처음 사용할때는 출산하고 정신도 없기도 했고 세척을 해야한다는 어려움이 ",
+                "rating": 5
+              },
+              {
+                "text": "- 물을 끓이고 식혀서 물통에 넣어야 함\n\n- 물통 뺄때 손 조금이라도 미끄러우면 빼기 어려움 (이제 요령을 터득해서 사진 첨부해두었어요",
+                "rating": 4
+              }
+            ]
+          },
+          {
+            "keyword": "사용법",
+            "count": 5,
+            "positiveCount": 5,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "분유 뭉침도 거의 없고 아이도 잘 먹네요ㅎ\n\n\n\n✅ 사용법 쉬움: 버튼 몇 번만 누르면 끝",
+                "rating": 5
+              },
+              {
+                "text": "제목: \n내용: 집에 신생아가 있어요 분유를먹고있어서\n\n두시간마다 맘마를 줘야해요\n\n새벽에 졸린데 너무 편리해요\n\n사용법도 간단하고 버튼만 누르고 미리수 만큼 나오니편해요\n\n그치만",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "편리",
+            "count": 24,
+            "positiveCount": 24,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: 손목에 무리없이 편리하게 자동으로 분유제조 할수있어요\n내용: ➡️구매동기\n\n-친구가 출산을 앞둬서 \n\n친구 출산선물로 구매하게되었습니다",
+                "rating": 5
+              },
+              {
+                "text": "칭찬할 점 (장점)\n\n극강의 편리함: 이 제품의 가장 큰 장점은 단연 편리함입니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "간단",
+            "count": 7,
+            "positiveCount": 7,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "물탱크 분리 세척이 간단하고, 깔때기와 투입구를 분유가루가 막지 않도록 자주 털어내면 문제 없이 돌아갑니다",
+                "rating": 5
+              },
+              {
+                "text": "설명서대로 1~2일에 한 번씩 부품만 간단히 씻어주면 되니 생각보다 관리가 어렵지 않았습니다",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "조립도 쉽고 자리 차지도 안돼서 좋아요",
+          "세척\n\n-분유가루통은 조금 남았을때 분유통에 다시 넣고 씻고 말리고 다시조립하기 사알짝 귀찮아요",
+          "제목: \n내용: 집에 신생아가 있어요 분유를먹고있어서\n\n두시간마다 맘마를 줘야해요\n\n새벽에 졸린데 너무 편리해요\n\n사용법도 간단하고 버튼만 누르"
+        ],
+        "topNegativeSamples": []
+      }
+    ],
+    "lastUpdated": "2025-12-17T06:59:13.879Z"
+  },
+  "6971765743": {
+    "productId": "6971765743",
+    "reviewCount": 22,
+    "criteriaMatches": [
+      {
+        "criteriaId": "cleaning_frequency",
+        "criteriaName": "세척 빈도 및 편리성",
+        "totalMentions": 15,
+        "positiveRatio": 0.9333333333333333,
+        "keywordMatches": [
+          {
+            "keyword": "세척",
+            "count": 7,
+            "positiveCount": 7,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "부품만 세척해주면 손으로 타는것보다 깨끗해요\n\n(요건 또 직수관 설계라 물이 안고여있도록 청결하게 유지되는 시스템이라네요)\n\n생각지도 못한 부분까지도 깨끗하게 사용할 수 있다는 점",
+                "rating": 5
+              },
+              {
+                "text": "제목: 작동방법이 간단하고 분해세척도 생각보다 쉬워요\n내용: 이제 태어난지 두달쯤 된 아이의 아빠입니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "깔때기",
+            "count": 3,
+            "positiveCount": 3,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "시간들여서 포트 물 안끓여도 되는것도 정말 너무 편합니다(5도 단위 조절되서 알아서 나와요)\n\n\n\n단점을 꼽자면\n\n깔때기랑 노즐 자주 세척 해야함\n\n사용 전에 고객센터 물어보니 분",
+                "rating": 5
+              },
+              {
+                "text": "또, 자주 세척해야 하는 깔때기는 하나 더 포함되어 있으니 \n\n하루에 한번씩 교체하며 UV소독기에 넣어두며 사용한답니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "분유통",
+            "count": 4,
+            "positiveCount": 3,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "(분유통 장착후 나비모양을 돌려주면 홈이 맞춰진다네요ㅋㅋ 그다음 분유 가루 넣어주면 되구요 맞지않을경우 분유통들뜸현상이 있는거래요)",
+                "rating": 5
+              },
+              {
+                "text": "내용: 노즐 조립하고 분유통을 본체에 다시 끼우는데 이가 안맞아서\n\n손으로 돌리면 분유통에 분유 다 쏟아지네요",
+                "rating": 1
+              }
+            ]
+          },
+          {
+            "keyword": "귀찮",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "뭐 그런거라고 해서 더 안전하다고 하더라구요\n\n우리 애기 먹는건데 아무거나 막 살 순 없잖아요\n\n\n\n육아 시간 줄여주는데는 이만한게 없는거같아요 사실 젖병이나 다른것도 다 세척 해",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "부품만 세척해주면 손으로 타는것보다 깨끗해요\n\n(요건 또 직수관 설계라 물이 안고여있도록 청결하게 유지되는 시스템이라네요)\n\n생각지도 못한 부분",
+          "제목: 작동방법이 간단하고 분해세척도 생각보다 쉬워요\n내용: 이제 태어난지 두달쯤 된 아이의 아빠입니다",
+          "제목: \n내용: 생후 2개월 분유제조기 사용후기에요^^\n\n\n\n유축수유를 하다가 완분의 길을 가게되어 급히 알아보며 수개월 여러 브랜드 따져본결과"
+        ],
+        "topNegativeSamples": [
+          "내용: 노즐 조립하고 분유통을 본체에 다시 끼우는데 이가 안맞아서\n\n손으로 돌리면 분유통에 분유 다 쏟아지네요"
+        ]
+      },
+      {
+        "criteriaId": "accuracy",
+        "criteriaName": "분유 농도 및 용량 정확도",
+        "totalMentions": 15,
+        "positiveRatio": 0.8666666666666667,
+        "keywordMatches": [
+          {
+            "keyword": "농도",
+            "count": 3,
+            "positiveCount": 2,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "■ 분유 농도, TYPE값만 알면 쉬워요",
+                "rating": 5
+              },
+              {
+                "text": "분유 농도 셋팅값대로 했는데 실제 나오는 양은 더 많이 나오고 이거에 대한 설명은 하나도 없고 \n\n고객센터는 아무리 연락해도 계속 안 받고\n\n테스트 하다가 분유만 계속 버렸네요",
+                "rating": 1
+              }
+            ]
+          },
+          {
+            "keyword": "용량",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "분유 조금 타야할때도 물용량 알아서 맞춰서 타줘서 너무 편해요(남편이 더 이상 안물어봄)\n\n4",
+                "rating": 5
+              },
+              {
+                "text": "제목: \n내용: 분유용량이 쫌 많이나오네요\n\n90ml 누르면 120ml정도 나와요\n\n그리고 분유통이랑 깔때기 처음엔 씻어서 소독기 돌려서 썼는데 소독기돌리지 말라고 되어있네요",
+                "rating": 4
+              }
+            ]
+          },
+          {
+            "keyword": "정확",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "어느정도의 오차는 있지만 손으로 만들때도 정확할 순 없으니 \n\n이정돈 감안하고 사용할 수 있을 것 같아요",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "오차",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "조금씩 오차가 있어요",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "일정",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "태어난건 두달이 되었지만 한달가량은 병원에 있었기에 \n\n집에 온지 이제 약 15일정도 되었고 아직 초보엄마와 \n\n초보아빠가 열심히 케어해주려고 노력중이랍니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "진",
+            "count": 7,
+            "positiveCount": 6,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": ") 계셨으면 해서 남편과 고민끝에 구매 후 바로 사용해봤는데 저도 남편도 울 가족 모두 대만족입니다~ 너무 편해요 진짜",
+                "rating": 5
+              },
+              {
+                "text": "처음엔 뭔가 \n\n촌스러워 보였는데 막상 집에와서 보니 저희집 싱크대에 올려진 \n\n젖병소독기 색상과 너무 잘 어울려요 ㅎㅎ\n\n\n\n내돈내산으로 직접 구매하여 사용하고 있는 제품인만큼 ",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "■ 분유 농도, TYPE값만 알면 쉬워요",
+          "분유농도나 더 세밀한 부분은 추후에 아기 낳고 사용해보고 다시 리뷰 남길게요",
+          "분유 조금 타야할때도 물용량 알아서 맞춰서 타줘서 너무 편해요(남편이 더 이상 안물어봄)\n\n4"
+        ],
+        "topNegativeSamples": [
+          "분유 농도 셋팅값대로 했는데 실제 나오는 양은 더 많이 나오고 이거에 대한 설명은 하나도 없고 \n\n고객센터는 아무리 연락해도 계속 안 받고\n\n테",
+          "가지가지 하네요 진짜"
+        ]
+      },
+      {
+        "criteriaId": "noise",
+        "criteriaName": "작동 소음",
+        "totalMentions": 3,
+        "positiveRatio": 0.6666666666666666,
+        "keywordMatches": [
+          {
+            "keyword": "새벽",
+            "count": 3,
+            "positiveCount": 2,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "다른 것 보다 새벽 다섯시에 분유먹을 시간이 되어 \n\n잠을 깨고 기저귀를 갈아주고 한손으로 아기를 안고 \n\n분유를 타고 있으면 정말 이러지도 저러지도 못하는데 \n\n아기는 배고프다고",
+                "rating": 5
+              },
+              {
+                "text": "근데 새벽시간",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "다른 것 보다 새벽 다섯시에 분유먹을 시간이 되어 \n\n잠을 깨고 기저귀를 갈아주고 한손으로 아기를 안고 \n\n분유를 타고 있으면 정말 이러지도 저",
+          "근데 새벽시간"
+        ],
+        "topNegativeSamples": [
+          "새벽에 애기 깨서 배고프다고 울고 난린데\n\n 1"
+        ]
+      },
+      {
+        "criteriaId": "durability_parts",
+        "criteriaName": "부품 내구성",
+        "totalMentions": 5,
+        "positiveRatio": 0.8,
+        "keywordMatches": [
+          {
+            "keyword": "깔때기",
+            "count": 3,
+            "positiveCount": 3,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "시간들여서 포트 물 안끓여도 되는것도 정말 너무 편합니다(5도 단위 조절되서 알아서 나와요)\n\n\n\n단점을 꼽자면\n\n깔때기랑 노즐 자주 세척 해야함\n\n사용 전에 고객센터 물어보니 분",
+                "rating": 5
+              },
+              {
+                "text": "또, 자주 세척해야 하는 깔때기는 하나 더 포함되어 있으니 \n\n하루에 한번씩 교체하며 UV소독기에 넣어두며 사용한답니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "플라스틱",
+            "count": 1,
+            "positiveCount": 0,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "물통은 조잡한 플라스틱으로 만들어서 \n\n약해질 대로 약해져 있는 산모가 다루기에는 너무 뻑뻑하네요",
+                "rating": 1
+              }
+            ]
+          },
+          {
+            "keyword": "고장",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "만약 사용하다가 고장이 나면 제품 수리받는 동안 \n\n작동가능한 동일 모델 제품을 보내주기 때문에 \n\n제품이 고장나더라도 우리 아이 분유 걱정은 노노~",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "시간들여서 포트 물 안끓여도 되는것도 정말 너무 편합니다(5도 단위 조절되서 알아서 나와요)\n\n\n\n단점을 꼽자면\n\n깔때기랑 노즐 자주 세척 해야",
+          "또, 자주 세척해야 하는 깔때기는 하나 더 포함되어 있으니 \n\n하루에 한번씩 교체하며 UV소독기에 넣어두며 사용한답니다",
+          "제목: \n내용: 분유용량이 쫌 많이나오네요\n\n90ml 누르면 120ml정도 나와요\n\n그리고 분유통이랑 깔때기 처음엔 씻어서 소독기 돌려서 썼는데"
+        ],
+        "topNegativeSamples": [
+          "물통은 조잡한 플라스틱으로 만들어서 \n\n약해질 대로 약해져 있는 산모가 다루기에는 너무 뻑뻑하네요"
+        ]
+      },
+      {
+        "criteriaId": "ease_of_use",
+        "criteriaName": "조립 및 사용 편의성",
+        "totalMentions": 9,
+        "positiveRatio": 0.7777777777777778,
+        "keywordMatches": [
+          {
+            "keyword": "조립",
+            "count": 3,
+            "positiveCount": 2,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "신세계라고 하죠\n\n잘 삿다생각합니다 세척도 편하고 조립도 쉬워요",
+                "rating": 5
+              },
+              {
+                "text": "내용: 노즐 조립하고 분유통을 본체에 다시 끼우는데 이가 안맞아서\n\n손으로 돌리면 분유통에 분유 다 쏟아지네요",
+                "rating": 1
+              }
+            ]
+          },
+          {
+            "keyword": "뻑뻑",
+            "count": 2,
+            "positiveCount": 1,
+            "negativeCount": 1,
+            "samples": [
+              {
+                "text": "□ 물통, 분해할 때 너무 뻑뻑해요",
+                "rating": 5
+              },
+              {
+                "text": "물통은 조잡한 플라스틱으로 만들어서 \n\n약해질 대로 약해져 있는 산모가 다루기에는 너무 뻑뻑하네요",
+                "rating": 1
+              }
+            ]
+          },
+          {
+            "keyword": "편리",
+            "count": 3,
+            "positiveCount": 3,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "깔때기는 추가사은품으로 더 주고, 노즐도 리뷰이벤트로 하나 더 받을 수 있어요\n\n이것도 편리하게 잘 해놓으신듯",
+                "rating": 5
+              },
+              {
+                "text": "제목: 내돈내산 편리함\n내용: 세상편리합니다",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "간단",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: 작동방법이 간단하고 분해세척도 생각보다 쉬워요\n내용: 이제 태어난지 두달쯤 된 아이의 아빠입니다",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "신세계라고 하죠\n\n잘 삿다생각합니다 세척도 편하고 조립도 쉬워요",
+          "내용: 어제 배송되어서 바로 세척하고 조립하고 건조하고\n\n오늘 써보는데 분유통이 자꾸 뜨네요",
+          "□ 물통, 분해할 때 너무 뻑뻑해요"
+        ],
+        "topNegativeSamples": [
+          "내용: 노즐 조립하고 분유통을 본체에 다시 끼우는데 이가 안맞아서\n\n손으로 돌리면 분유통에 분유 다 쏟아지네요",
+          "물통은 조잡한 플라스틱으로 만들어서 \n\n약해질 대로 약해져 있는 산모가 다루기에는 너무 뻑뻑하네요"
+        ]
+      }
+    ],
+    "lastUpdated": "2025-12-17T06:59:13.880Z"
+  },
+  "7643106320": {
+    "productId": "7643106320",
+    "reviewCount": 2,
+    "criteriaMatches": [
+      {
+        "criteriaId": "cleaning_frequency",
+        "criteriaName": "세척 빈도 및 편리성",
+        "totalMentions": 2,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "세척",
+            "count": 2,
+            "positiveCount": 2,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "안쪽에 있는 물통은 끓여서 식힌 물로 보충을 하는데(분유만드는 물)\n\n세척을 하는 물은 호스로 연결해서 밖에다가 놔둘 수 있어요",
+                "rating": 5
+              },
+              {
+                "text": "제목: \n내용: 처음에 물건 받으시면 내부 구성품 세척 꼭 해주시고 특히 분유 제어판 위치가 바뀌지 않도록 재 설치 잘 해주시면 쓰시는데 너무 편리하니 참고하시면 되겠습니다~ 그리",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "안쪽에 있는 물통은 끓여서 식힌 물로 보충을 하는데(분유만드는 물)\n\n세척을 하는 물은 호스로 연결해서 밖에다가 놔둘 수 있어요",
+          "제목: \n내용: 처음에 물건 받으시면 내부 구성품 세척 꼭 해주시고 특히 분유 제어판 위치가 바뀌지 않도록 재 설치 잘 해주시면 쓰시는데 너무 "
+        ],
+        "topNegativeSamples": []
+      },
+      {
+        "criteriaId": "ease_of_use",
+        "criteriaName": "조립 및 사용 편의성",
+        "totalMentions": 2,
+        "positiveRatio": 1,
+        "keywordMatches": [
+          {
+            "keyword": "조립",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "사용자 입장에선 며칠에 한번꼴로 구성품을 전부 해체해서 세척,건조만 해주면 되고 조립도 간편합니다~",
+                "rating": 5
+              }
+            ]
+          },
+          {
+            "keyword": "편리",
+            "count": 1,
+            "positiveCount": 1,
+            "negativeCount": 0,
+            "samples": [
+              {
+                "text": "제목: \n내용: 처음에 물건 받으시면 내부 구성품 세척 꼭 해주시고 특히 분유 제어판 위치가 바뀌지 않도록 재 설치 잘 해주시면 쓰시는데 너무 편리하니 참고하시면 되겠습니다~ 그리",
+                "rating": 5
+              }
+            ]
+          }
+        ],
+        "topPositiveSamples": [
+          "사용자 입장에선 며칠에 한번꼴로 구성품을 전부 해체해서 세척,건조만 해주면 되고 조립도 간편합니다~",
+          "제목: \n내용: 처음에 물건 받으시면 내부 구성품 세척 꼭 해주시고 특히 분유 제어판 위치가 바뀌지 않도록 재 설치 잘 해주시면 쓰시는데 너무 "
+        ],
+        "topNegativeSamples": []
+      }
+    ],
+    "lastUpdated": "2025-12-17T06:59:13.880Z"
+  }
+}

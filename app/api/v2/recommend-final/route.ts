@@ -30,6 +30,11 @@ import {
   deduplicateProducts,
   type ProductVariant,
 } from '@/lib/utils/productGrouping';
+import {
+  getSampledReviewsFromSupabase,
+  formatReviewsForPrompt,
+  type ProductReviewSample,
+} from '@/lib/review/supabase-analyzer';
 
 // 후보 상품 타입
 interface CandidateProduct {
@@ -169,9 +174,13 @@ function formatNegativeSelections(selections: string[]): string {
 }
 
 /**
- * 상품 정보를 LLM 프롬프트용 문자열로 변환 (스펙 데이터 강화)
+ * 상품 정보를 LLM 프롬프트용 문자열로 변환 (스펙 + 리뷰 데이터 포함)
  */
-function formatProductForPrompt(product: CandidateProduct, index: number): string {
+function formatProductForPrompt(
+  product: CandidateProduct,
+  index: number,
+  reviewSample?: ProductReviewSample
+): string {
   // 스펙 정보 포맷팅 (중요한 항목 우선)
   let specStr = '스펙 정보 없음';
   if (product.spec) {
@@ -205,6 +214,9 @@ function formatProductForPrompt(product: CandidateProduct, index: number): strin
   const effectivePrice = product.lowestPrice ?? product.price;
   const priceStr = effectivePrice ? `${effectivePrice.toLocaleString()}원` : '가격 미정';
 
+  // 리뷰 정보 포맷팅
+  const reviewStr = reviewSample ? formatReviewsForPrompt(reviewSample) : '- 리뷰: 없음';
+
   return `[상품 ${index + 1}] pcode: ${product.pcode}
 - 제품명: ${product.title}
 - 브랜드: ${product.brand || '미상'}
@@ -212,7 +224,8 @@ function formatProductForPrompt(product: CandidateProduct, index: number): strin
 - 인기순위: ${product.rank || '미정'}위
 - 선호도점수: ${product.totalScore || 0}점
 - 매칭된 선호조건: ${matchedRulesStr}
-- 상세스펙: ${specStr}`;
+- 상세스펙: ${specStr}
+${reviewStr}`;
 }
 
 /**
@@ -250,10 +263,23 @@ async function selectTop3WithLLM(
   const topPros = insights.pros.slice(0, 5).map(p => `- ${p.text}`).join('\n');
   const topCons = insights.cons.slice(0, 5).map(c => `- ${c.text}`).join('\n');
 
-  // 후보 상품 목록
-  const candidatesStr = candidates
-    .slice(0, 10) // 최대 10개 후보
-    .map((p, i) => formatProductForPrompt(p, i))
+  // 후보 상품 리뷰 로드 (상위 10개에 대해)
+  const top10Candidates = candidates.slice(0, 10);
+  const productIds = top10Candidates.map(p => p.pcode);
+
+  let reviewsMap = new Map<string, ProductReviewSample>();
+  try {
+    console.log(`[recommend-final] Loading reviews for ${productIds.length} products from Supabase`);
+    reviewsMap = await getSampledReviewsFromSupabase(productIds, 10, 10);
+    const reviewCounts = Array.from(reviewsMap.values()).map(r => r.totalCount);
+    console.log(`[recommend-final] Reviews loaded: ${reviewCounts.filter(c => c > 0).length}/${productIds.length} products have reviews`);
+  } catch (err) {
+    console.log(`[recommend-final] Failed to load reviews, proceeding without: ${err}`);
+  }
+
+  // 후보 상품 목록 (리뷰 포함)
+  const candidatesStr = top10Candidates
+    .map((p, i) => formatProductForPrompt(p, i, reviewsMap.get(p.pcode)))
     .join('\n\n');
 
   const prompt = `당신은 ${categoryName} 전문 큐레이터입니다.
@@ -289,8 +315,11 @@ ${candidatesStr}
 ## 선정 기준
 1. 사용자가 꼭 원한다고 선택한 필수 조건을 모두 만족해야 함
 2. 선호한다고 선택한 특성을 가진 제품 우선
-3. 피하고 싶다고 한 단점이 없는 제품 우선
+3. 피하고 싶다고 한 단점이 없는 제품 우선 (리뷰에서 해당 단점 언급이 적은 제품 우선)
 4. 예산 범위 내에서 가성비 고려
+5. **실제 사용자 리뷰를 참고하여 스펙과 실사용 경험이 일치하는지 확인**
+   - 높은평점 리뷰: 실제로 어떤 점이 좋은지 확인
+   - 낮은평점 리뷰: 실제 사용 시 어떤 단점/불만이 있는지 확인
 ## 응답 JSON 형식
 ⚠️ 중요: pcode는 반드시 **숫자 문자열** (예: "11354604")을 사용하세요. 제품명이 아닙니다!
 
@@ -315,10 +344,10 @@ ${candidatesStr}
 
 ※ recommendationReason은 1~2문장, selectionReason도 1~2문장으로 간결하게 작성하세요.
 
-### 좋은 예시 (사용자 선택 → 제품 특성 연결)
-- "빠른 가열을 원하셨는데, 300W 고출력으로 2분 내 데울 수 있어요"
-- "세척이 편해야 한다고 하셨죠. 분리형 구조라 세척이 간편해요"
-- "소음이 걱정되셨는데, 저소음 모터로 40dB 이하예요"
+### 좋은 예시 (사용자 선택 → 제품 특성 + 리뷰 근거)
+- "빠른 가열을 원하셨는데, 300W 고출력으로 2분 내 데울 수 있어요. 실제로 '새벽 수유 때 빨리 데워져서 좋다'는 리뷰가 많아요"
+- "세척이 편해야 한다고 하셨죠. 분리형 구조라 세척이 간편하고, 리뷰에서도 세척 편의성을 많이 칭찬해요"
+- "소음이 걱정되셨는데, 리뷰를 보니 '조용해서 아기가 안 깬다'는 평이 많아요"
 - "가볍고 휴대하기 좋은 걸 원하셔서, 850g으로 콤팩트해요"
 - "신생아부터 사용하고 싶다고 하셨는데, 0개월부터 사용 가능해요"
 
@@ -331,11 +360,12 @@ ${candidatesStr}
 
 ### 작성 원칙
 1. 사용자가 선택한 선호 항목 → 제품이 어떻게 충족하는지 자연스럽게 연결
-2. 사용자가 피하고 싶다고 한 단점 → 이 제품에 그 단점이 없는 이유
+2. 사용자가 피하고 싶다고 한 단점 → 이 제품에 그 단점이 없는 이유 (리뷰에서 확인)
 3. 구체적인 스펙 수치는 사용자 선택을 뒷받침할 때만 언급
 4. 일반적인 내용이 아닌 **이 제품에 특화된 내용**으로 작성
 5. 사용자 관점에서 **실용적인 정보** 위주로 작성
 6. 모든 내용은 **자연스러운 대화체 한국어**로 작성
+7. **리뷰가 있는 경우, 실제 사용자 의견을 근거로 활용** (단, 리뷰 인용은 간결하게)
 
 - JSON만 응답`;
 

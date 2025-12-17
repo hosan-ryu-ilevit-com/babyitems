@@ -244,7 +244,7 @@ export async function POST(request: NextRequest) {
         categoryKey,
         categoryName: categoryLogic.category_name,
         targetCategories,
-        products: products as ProductItem[],
+        products: products as unknown as ProductItem[],
         count: products?.length || 0,
         filters: {
           priceMin,

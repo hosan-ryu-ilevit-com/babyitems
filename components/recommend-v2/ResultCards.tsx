@@ -31,6 +31,74 @@ function parseMarkdownBold(text: string) {
 const V2_COMPARISON_CACHE_PREFIX = 'v2_comparison_analysis';
 const V2_PRODUCT_ANALYSIS_CACHE_PREFIX = 'v2_product_analysis';
 
+// 리뷰 키워드 인사이트 타입
+interface ReviewInsight {
+  criteriaId: string;
+  criteriaName: string;
+  totalMentions: number;
+  positiveRatio: number;
+  sentiment: 'positive' | 'neutral' | 'negative';
+  topSample: string | null;
+}
+
+interface ProductReviewInsights {
+  reviewCount: number;
+  insights: ReviewInsight[];
+}
+
+// 하드필터 선택값 → criteriaId 매핑 (체감속성 분석 결과 기반)
+const HARDFILTER_TO_CRITERIA: Record<string, string> = {
+  // baby_formula_dispenser (기존)
+  cleaning_easy: 'cleaning_frequency',
+  cleaning_ok: 'cleaning_frequency',
+  // formula_maker review_priorities (신규 - 값이 곧 criteriaId)
+  cleaning_frequency: 'cleaning_frequency',
+  accuracy: 'accuracy',
+  noise: 'noise',
+  durability_parts: 'durability_parts',
+  ease_of_use: 'ease_of_use',
+};
+
+// criteriaId별 하이라이트 키워드 (리뷰에서 해당 키워드를 강조)
+const CRITERIA_KEYWORDS: Record<string, string[]> = {
+  cleaning_frequency: ['세척', '청소', '깔때기', '분유통', '위생', '귀찮', '번거'],
+  accuracy: ['농도', '용량', '정확', '오차', '일정'],
+  noise: ['소음', '시끄럽', '조용', '새벽', '소리'],
+  durability_parts: ['깔때기', '플라스틱', '마모', '파손', '고장', '교체', '내구'],
+  ease_of_use: ['조립', '뻑뻑', '힘듦', '어려움', '사용법', '설정', '버튼'],
+};
+
+// LLM 하이라이팅 결과 파싱 (마크다운 볼드 → 하이라이트 스타일)
+function parseHighlightedReview(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const boldText = part.slice(2, -2);
+      return <strong key={index} className="text-amber-900 font-bold">{boldText}</strong>;
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
+// 리뷰 텍스트에서 키워드를 하이라이트하는 함수 (fallback용)
+function highlightKeywords(text: string, criteriaId: string): React.ReactNode {
+  const keywords = CRITERIA_KEYWORDS[criteriaId] || [];
+  if (keywords.length === 0) return text;
+
+  // 키워드를 정규식 패턴으로 변환 (대소문자 무시)
+  const pattern = new RegExp(`(${keywords.join('|')})`, 'gi');
+  const parts = text.split(pattern);
+
+  return parts.map((part, index) => {
+    const isKeyword = keywords.some(k => part.toLowerCase().includes(k.toLowerCase()));
+    return isKeyword ? (
+      <strong key={index} className="text-amber-900 font-bold">{part}</strong>
+    ) : (
+      <span key={index}>{part}</span>
+    );
+  });
+}
+
 // Extended product type with LLM recommendation reason + variants
 interface RecommendedProduct extends ScoredProduct {
   recommendationReason?: string;
@@ -307,6 +375,14 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   const anchorFetchedRef = useRef(false);
   const preloadedImagesRef = useRef<Set<string>>(new Set());
 
+  // 리뷰 키워드 인사이트 상태 (체감속성 기반)
+  const [reviewInsights, setReviewInsights] = useState<Record<string, ProductReviewInsights>>({});
+  const reviewInsightsFetchedRef = useRef(false);
+
+  // LLM 하이라이팅 결과 캐시 (pcode_criteriaId → highlightedText)
+  const [highlightedReviews, setHighlightedReviews] = useState<Record<string, string>>({});
+  const highlightFetchedRef = useRef(false);
+
   // PDP용 이미지 Preload (PLP → PDP 전환 시 로딩 최적화)
   useEffect(() => {
     if (products.length === 0) return;
@@ -337,6 +413,117 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       addedLinks.forEach(link => link.remove());
     };
   }, [products]);
+
+  // 리뷰 키워드 인사이트 fetch (체감속성 기반)
+  useEffect(() => {
+    if (!categoryKey || products.length === 0 || reviewInsightsFetchedRef.current) return;
+
+    // 사용자가 선택한 하드필터 값에서 criteriaId 추출
+    const selectedCriteriaIds: string[] = [];
+    if (userContext?.hardFilterAnswers) {
+      for (const values of Object.values(userContext.hardFilterAnswers)) {
+        for (const value of values) {
+          const criteriaId = HARDFILTER_TO_CRITERIA[value];
+          if (criteriaId && !selectedCriteriaIds.includes(criteriaId)) {
+            selectedCriteriaIds.push(criteriaId);
+          }
+        }
+      }
+    }
+
+    // 선택된 체감속성이 없으면 fetch 안 함
+    if (selectedCriteriaIds.length === 0) return;
+
+    reviewInsightsFetchedRef.current = true;
+
+    const fetchReviewInsights = async () => {
+      try {
+        const pcodeList = products.slice(0, 3).map(p => p.pcode);
+        const response = await fetch('/api/v2/review-keywords', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            pcodes: pcodeList,
+            criteriaIds: selectedCriteriaIds,
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success && result.data) {
+          setReviewInsights(result.data);
+          console.log('✅ [ResultCards] Review insights loaded:', Object.keys(result.data).length, 'products');
+
+          // 백그라운드로 LLM 하이라이팅 API 호출 (병렬 처리)
+          fetchHighlightedReviews(result.data);
+        }
+      } catch (error) {
+        console.error('[ResultCards] Failed to fetch review insights:', error);
+      }
+    };
+
+    // LLM 하이라이팅 백그라운드 fetch
+    const fetchHighlightedReviews = async (insightsData: Record<string, ProductReviewInsights>) => {
+      if (highlightFetchedRef.current) return;
+      highlightFetchedRef.current = true;
+
+      // 모든 리뷰 샘플 수집
+      const reviewsToHighlight: Array<{
+        pcode: string;
+        reviewText: string;
+        criteriaName: string;
+        criteriaId: string;
+      }> = [];
+
+      for (const [pcode, productInsights] of Object.entries(insightsData)) {
+        for (const insight of productInsights.insights.slice(0, 2)) {
+          if (insight.topSample) {
+            reviewsToHighlight.push({
+              pcode,
+              reviewText: insight.topSample,
+              criteriaName: insight.criteriaName,
+              criteriaId: insight.criteriaId,
+            });
+          }
+        }
+      }
+
+      if (reviewsToHighlight.length === 0) return;
+
+      try {
+        console.log('🔄 [ResultCards] Fetching LLM highlights for', reviewsToHighlight.length, 'reviews...');
+        const response = await fetch('/api/v2/highlight-review', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            reviews: reviewsToHighlight.map(r => ({
+              reviewText: r.reviewText,
+              criteriaName: r.criteriaName,
+              criteriaId: r.criteriaId,
+            })),
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success && result.data) {
+          // 결과를 캐시에 저장 (pcode_criteriaId → highlightedText)
+          const newHighlights: Record<string, string> = {};
+          result.data.forEach((item: { criteriaId: string; highlightedText: string }, idx: number) => {
+            const original = reviewsToHighlight[idx];
+            const cacheKey = `${original.pcode}_${item.criteriaId}`;
+            newHighlights[cacheKey] = item.highlightedText;
+          });
+          setHighlightedReviews(newHighlights);
+          console.log('✅ [ResultCards] LLM highlights loaded:', Object.keys(newHighlights).length, 'reviews');
+        }
+      } catch (error) {
+        console.error('[ResultCards] Failed to fetch LLM highlights:', error);
+        // 실패해도 UI는 원본 텍스트로 표시되므로 무시
+      }
+    };
+
+    fetchReviewInsights();
+  }, [categoryKey, products, userContext?.hardFilterAnswers]);
 
   // 디폴트 기준제품 자동 설정 (rank 1위 상품)
   useEffect(() => {
@@ -1113,6 +1300,74 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     </p>
                   </div>
                 </div>
+
+                {/* 리뷰 기반 인사이트 (체감속성) */}
+                {reviewInsights[product.pcode]?.insights?.length > 0 && (
+                  <div className="mt-2 rounded-xl p-3 bg-amber-50 border border-amber-200">
+                    {/* 헤더 */}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-1.5">
+                        <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-xs font-semibold text-amber-700">실구매 리뷰</span>
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // PDP 열기 + 리뷰 탭으로 이동
+                          handleProductClick(product, index);
+                          // 약간의 딜레이 후 리뷰 탭 선택 이벤트 발생
+                          setTimeout(() => {
+                            window.dispatchEvent(new CustomEvent('openReviewTab'));
+                          }, 100);
+                          logButtonClick('리뷰모두보기_PLP', 'v2-result');
+                        }}
+                        className="text-[11px] font-medium text-amber-600 hover:text-amber-800 flex items-center gap-0.5"
+                      >
+                        리뷰 모두보기
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                    {/* 태그 + 리뷰 샘플 (태그별로 묶음) */}
+                    <div className="space-y-2.5">
+                      {reviewInsights[product.pcode].insights.slice(0, 2).map((insight, i) => (
+                        <div key={i}>
+                          {/* 태그 */}
+                          <span
+                            className={`inline-flex items-center px-2 py-1 rounded-lg text-[11px] font-semibold mb-1 ${
+                              insight.sentiment === 'positive'
+                                ? 'bg-green-100 text-green-700'
+                                : insight.sentiment === 'negative'
+                                ? 'bg-red-100 text-red-700'
+                                : 'bg-gray-100 text-gray-700'
+                            }`}
+                          >
+                            {insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
+                            {' '}{insight.criteriaName}
+                          </span>
+                          {/* 리뷰 샘플 (LLM 하이라이트 우선, fallback으로 키워드 매칭) */}
+                          {insight.topSample && (() => {
+                            const cacheKey = `${product.pcode}_${insight.criteriaId}`;
+                            const highlighted = highlightedReviews[cacheKey];
+
+                            return (
+                              <p className="text-xs text-amber-800 leading-relaxed mt-1">
+                                &ldquo;{highlighted
+                                  ? parseHighlightedReview(highlighted)
+                                  : highlightKeywords(insight.topSample, insight.criteriaId)
+                                }&rdquo;
+                              </p>
+                            );
+                          })()}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* 상세 분석 보기 버튼 */}
                 <button
                   onClick={(e) => {

@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
 
     // Helper: 에누리 조회
     async function fetchEnuri() {
-      const enuriCategoryCode = ENURI_CATEGORY_CODES[categoryKey];
+      const enuriCategoryCode = ENURI_CATEGORY_CODES[categoryKey as string];
       const result = await supabase
         .from('enuri_products')
         .select('model_no, title, brand, price, rank, thumbnail, spec, category_code, review_count, average_rating')

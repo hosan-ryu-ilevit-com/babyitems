@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import DanawaReviewTab from '@/components/DanawaReviewTab';
@@ -206,6 +206,9 @@ export default function ProductDetailModal({ productData, productComparisons, da
   // 가격 비교 토글 상태
   const [showPriceComparison, setShowPriceComparison] = useState(false);
 
+  // 리뷰 탭 영역 ref (스크롤용)
+  const reviewTabRef = useRef<HTMLDivElement>(null);
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     // Save original overflow style
@@ -216,6 +219,22 @@ export default function ProductDetailModal({ productData, productComparisons, da
     // Restore on unmount
     return () => {
       document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
+  // 리뷰 탭 열기 이벤트 리스너 (PLP에서 "리뷰 모두보기" 클릭 시)
+  useEffect(() => {
+    const handleOpenReviewTab = () => {
+      setPriceTab('danawa_reviews');
+      // 약간의 딜레이 후 리뷰 탭으로 스크롤
+      setTimeout(() => {
+        reviewTabRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    };
+
+    window.addEventListener('openReviewTab', handleOpenReviewTab);
+    return () => {
+      window.removeEventListener('openReviewTab', handleOpenReviewTab);
     };
   }, []);
 
@@ -347,7 +366,7 @@ export default function ProductDetailModal({ productData, productComparisons, da
         </div>
 
         {/* 상품정보 | 상품리뷰 탭 (전체 너비) */}
-        <div>
+        <div ref={reviewTabRef}>
           <div className="flex">
             <button
               onClick={() => {

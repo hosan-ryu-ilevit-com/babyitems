@@ -136,10 +136,12 @@ async function resolveVertexUrl(url: string): Promise<string> {
 function simplifyProductTitle(title: string): string {
   return title
     // 용량 제거: 1.2L, 800ml, 600ML, 1L 등
-    .replace(/\s*\d+(\.\d+)?\s*(ml|l|리터|㎖|ℓ)\b/gi, '')
-    // 색상 제거: 화이트, 블랙, 핑크, 그레이, White 등
-    .replace(/\s*(화이트|블랙|핑크|그레이|아이보리|베이지|블루|레드|그린|옐로우|white|black|pink|gray|grey|ivory|beige|blue|red|green|yellow)\b/gi, '')
-    // 사이즈/규격 제거: (대), [소], 대용량, 미니 등 (단, 제품명 핵심 단어는 유지)
+    .replace(/\s*\d+(\.\d+)?\s*(ml|l|리터|㎖|ℓ)(?:\s|$)/gi, ' ')
+    // 색상 제거: 화이트, 블랙, 핑크, 그레이, White 등 (한글 word boundary 대신 공백/끝 확인)
+    .replace(/\s+(화이트|블랙|핑크|그레이|아이보리|베이지|블루|레드|그린|옐로우|실버|골드|브라운|네이비)(?:\s|$)/gi, ' ')
+    // 영문 색상 제거 (word boundary 사용 가능)
+    .replace(/\s+(white|black|pink|gray|grey|ivory|beige|blue|red|green|yellow|silver|gold|brown|navy)\b/gi, ' ')
+    // 사이즈/규격 제거: (대), [소], 대용량, 미니 등
     .replace(/\s*[\(\[](대|중|소|특대|미니)[\)\]]/g, '')
     // 버전/세대 제거: 2세대, 3rd, v2 등
     .replace(/\s*\d+(세대|nd|rd|th|st)\b/gi, '')
@@ -167,27 +169,21 @@ function buildSearchTermVariations(productTitle: string, brand?: string): string
   // 1. 풀 타이틀
   addVariation(productTitle);
 
-  // 2. 브랜드 + 타이틀 (브랜드가 타이틀에 없는 경우)
-  if (brand && !productTitle.toLowerCase().includes(brand.toLowerCase())) {
-    addVariation(`${brand} ${productTitle}`);
-  }
-
-  // 3. 간소화된 타이틀 (용량, 색상 등 제거)
+  // 2. 간소화된 타이틀 (용량, 색상 등 제거)
   const simplified = simplifyProductTitle(productTitle);
   if (simplified !== productTitle) {
     addVariation(simplified);
   }
 
-  // 4. 브랜드 + 간소화된 타이틀
-  if (brand && simplified) {
-    const brandSimplified = `${brand} ${simplified}`;
-    addVariation(brandSimplified);
+  // 3. 브랜드 + 간소화된 타이틀 (브랜드가 간소화된 타이틀에 없는 경우만)
+  if (brand && simplified && !simplified.toLowerCase().includes(brand.toLowerCase())) {
+    addVariation(`${brand} ${simplified}`);
   }
 
-  // 5. 핵심 키워드만 (브랜드 + 모델명 추정)
+  // 4. 핵심 키워드만 (브랜드 + 모델명 추정)
   // 타이틀에서 첫 2-3단어만 추출
   const words = productTitle.split(/\s+/).slice(0, 3).join(' ');
-  if (words !== productTitle && words.length > 5) {
+  if (words !== productTitle && words !== simplified && words.length > 5) {
     addVariation(words);
   }
 

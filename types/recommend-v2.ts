@@ -55,13 +55,21 @@ export interface HardFilterOption {
   filter?: Record<string, unknown>;
   category_code?: string;
   aliases?: string[];     // 정규화 전 원본 값들 (필터링 시 모두 매칭)
+  // review_priorities 타입 전용 필드
+  mentionCount?: number;      // 리뷰 언급 횟수
+  sentiment?: 'positive' | 'negative' | 'neutral';  // 리뷰 감정
+  sampleReview?: string;      // 대표 리뷰 샘플
+  reviewKeywords?: string[];  // 관련 키워드
 }
+
+export type HardFilterQuestionType = 'single' | 'multi' | 'review_priorities';
 
 export interface HardFilterQuestion {
   id: string;
-  type: 'single' | 'multi';
+  type: HardFilterQuestionType;
   question: string;
   tip?: string;  // 질문에 대한 도움말 (사용자 이해를 돕는 짧은 설명)
+  source?: 'review_analysis' | 'spec' | 'manual';  // 질문 출처
   options: HardFilterOption[];
 }
 

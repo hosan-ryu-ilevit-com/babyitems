@@ -1,0 +1,172 @@
+{
+  "categoryKey": "baby_formula_dispenser",
+  "hiddenCriteria": [
+    {
+      "id": "cleaning_frequency",
+      "name": "세척 빈도 및 편리성",
+      "description": "실제 사용 시 세척 빈도가 얼마나 잦고, 세척 과정이 얼마나 번거로운지",
+      "importance": "high",
+      "mentionCount": 25,
+      "sentiment": "negative",
+      "keywords": [
+        "세척",
+        "깔때기",
+        "분유통",
+        "청소",
+        "번거로움",
+        "귀찮",
+        "위생"
+      ],
+      "sampleEvidence": [
+        "세척 매우 번거로움",
+        "깔대기는 4번마다 교체해야해서 꼭 두개사야",
+        "세척 알림이 떠요",
+        "내부 세척 기능도 있어서 청소 스트레스 덜함!",
+        "일주일에 한번 세척하는데 왜 이렇게 일주일이 빨리 지나가는지..."
+      ],
+      "questionForUser": "세척 빈도와 편리성이 중요한가요?",
+      "filterOptions": [
+        "세척 용이",
+        "세척 빈도 적음",
+        "상관없음"
+      ]
+    },
+    {
+      "id": "accuracy",
+      "name": "분유 농도 및 용량 정확도",
+      "description": "제조 시 분유 농도와 용량이 정확하게 맞춰지는지, 오차가 발생하는지",
+      "importance": "high",
+      "mentionCount": 15,
+      "sentiment": "negative",
+      "keywords": [
+        "농도",
+        "용량",
+        "정확",
+        "오차",
+        "일정",
+        "묽",
+        "진"
+      ],
+      "sampleEvidence": [
+        "분유 농도 셋팅값대로 했는데 실제 나오는 양은 더 많이 나오고",
+        "설정 조유량보다 더 제조됨",
+        "분유 가루와 물의 비율을 정확하게 맞춰주기 때문에 언제나 일정한 농도의 분유를 먹일 수 있습니다.",
+        "90해놨는데 왜 계속 100-110 나오는건가요?",
+        "분유 거의 다 썼을 때 기계는 가루 부족한 지 모르고 묽게 만들어졌어요."
+      ],
+      "questionForUser": "분유 농도와 용량의 정확도가 중요한가요?",
+      "filterOptions": [
+        "정확도 높음",
+        "오차 감안",
+        "상관없음"
+      ]
+    },
+    {
+      "id": "noise",
+      "name": "작동 소음",
+      "description": "기기 작동 시 발생하는 소음의 정도",
+      "importance": "medium",
+      "mentionCount": 8,
+      "sentiment": "negative",
+      "keywords": [
+        "소음",
+        "시끄럽",
+        "조용",
+        "새벽",
+        "깸",
+        "커피머신"
+      ],
+      "sampleEvidence": [
+        "작동 소음도 좀 있는데, 크기는 헤어드라이기 소음의 절반 정도 된다고 봅니다.",
+        "새벽에는 아무래도 조용하니까 소리가 좀 크다고",
+        "소리도 생각보다 크지 않아서 새벽에 타도 부담없네요. 커피머신 소리보다는 훨씬 작아요.",
+        "애기 예민정도에 따라 다르겟지만, 주변에서 사용후기들로 애기가 깬다거나 그럴정도의 소음이 없습니다."
+      ],
+      "questionForUser": "작동 소음이 아기 수면에 영향을 줄까 걱정되시나요?",
+      "filterOptions": [
+        "저소음",
+        "소음 적음",
+        "상관없음"
+      ]
+    },
+    {
+      "id": "durability_parts",
+      "name": "부품 내구성",
+      "description": "기기 부품(특히 깔때기, 물통)의 내구성이 얼마나 좋은지, 쉽게 파손되거나 마모되는지",
+      "importance": "medium",
+      "mentionCount": 5,
+      "sentiment": "negative",
+      "keywords": [
+        "깔때기",
+        "플라스틱",
+        "마모",
+        "파손",
+        "고장",
+        "갈림"
+      ],
+      "sampleEvidence": [
+        "부속품인 깔때기를 수시로 갈아줘야하는데 플라스틱이 다 갈려있다는부분을요",
+        "플라스틱이 다 갈려있다는부분을요",
+        "물통은 조잡한 플라스틱으로 만들어서 약해질 대로 약해져 있는 산모가 다루기에는 너무 뻑뻑하네요."
+      ],
+      "questionForUser": "부품 내구성이 중요한가요?",
+      "filterOptions": [
+        "내구성 강한 부품",
+        "튼튼한 재질",
+        "상관없음"
+      ]
+    },
+    {
+      "id": "ease_of_use",
+      "name": "조립 및 사용 편의성",
+      "description": "기기 조립 및 사용 방법이 얼마나 직관적이고 편리한지, 특히 산모가 혼자 사용하기에 용이한지",
+      "importance": "medium",
+      "mentionCount": 5,
+      "sentiment": "negative",
+      "keywords": [
+        "조립",
+        "뻑뻑",
+        "힘듦",
+        "어려움",
+        "사용법",
+        "편리",
+        "간단"
+      ],
+      "sampleEvidence": [
+        "물넣는부분 통끼우기가 넘힘들어요",
+        "물통은 조잡한 플라스틱으로 만들어서 약해질 대로 약해져 있는 산모가 다루기에는 너무 뻑뻑하네요.",
+        "조립도 쉽고 자리 차지도 안돼서 좋아요."
+      ],
+      "questionForUser": "조립 및 사용이 쉬운 제품을 찾으시나요?",
+      "filterOptions": [
+        "조작 간편",
+        "원터치",
+        "상관없음"
+      ]
+    }
+  ],
+  "specVsRealityGaps": [
+    {
+      "specClaim": "7초 조유",
+      "realityFromReviews": "실제로는 10초 이상 걸리는 경우 있음",
+      "mentionCount": 5
+    },
+    {
+      "specClaim": "빠른 쾌속 쿨링",
+      "realityFromReviews": "쾌속 쿨링에 1~2시간 소요",
+      "mentionCount": 2
+    }
+  ],
+  "unexpectedUseCases": [
+    {
+      "useCase": "분유 퐁당퐁당(분유 갈아타기) 시 유용",
+      "mentionCount": 3,
+      "quote": "분유 갈아타기. 7대3 5대5 3대7 브레짜가 빛을 발휘하는 순간!"
+    },
+    {
+      "useCase": "이유식, 라면 등 다른 용도로 활용",
+      "mentionCount": 2,
+      "quote": "브라비 물 덕분에 이유식도 만들고 아기 물도 주고 분유도 주고 해주고 있어요. 제가 급하게 컵라면이 먹고 싶을때도 브라비끓인 물로 해서 먹기도 해요"
+    }
+  ]
+}

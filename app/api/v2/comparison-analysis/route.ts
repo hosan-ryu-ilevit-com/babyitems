@@ -15,6 +15,11 @@ import { createClient } from '@supabase/supabase-js';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
 import { getModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
 import type { CategoryInsights } from '@/types/category-insights';
+import {
+  getSampledReviewsFromSupabase,
+  formatReviewsForPrompt,
+  type ProductReviewSample,
+} from '@/lib/review/supabase-analyzer';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -74,11 +79,12 @@ interface ComparisonAnalysisResponse {
 async function generateComparisons(
   products: ProductInfo[],
   categoryName: string,
-  insights: CategoryInsights
+  insights: CategoryInsights,
+  reviewsMap: Map<string, ProductReviewSample>
 ): Promise<ProductComparison[]> {
   const model = getModel(0.5);
 
-  // 제품 목록 문자열화 (스펙 + 필터 속성을 더 상세히 포함)
+  // 제품 목록 문자열화 (스펙 + 필터 속성 + 리뷰)
   const productsText = products.map((p, i) => {
     // 스펙 정보 포맷팅
     const specStr = p.spec
@@ -104,11 +110,16 @@ async function generateComparisons(
           .join('\n  - ')
       : '';
 
+    // 리뷰 정보 포맷팅
+    const reviewSample = reviewsMap.get(p.pcode);
+    const reviewStr = reviewSample ? formatReviewsForPrompt(reviewSample) : '- 리뷰: 없음';
+
     return `### ${p.brand || ''} ${p.title}
 - 순위: ${i + 1}위
 - 가격: ${p.price ? `${p.price.toLocaleString()}원` : '가격 미정'}
 - 주요 스펙:
-  - ${specStr}${filterAttrsStr ? `\n- 필터 속성:\n  - ${filterAttrsStr}` : ''}`;
+  - ${specStr}${filterAttrsStr ? `\n- 필터 속성:\n  - ${filterAttrsStr}` : ''}
+${reviewStr}`;
   }).join('\n\n');
 
   // 카테고리 인사이트
@@ -140,15 +151,15 @@ ${categoryPros}
 ${categoryCons}
 
 ## 요청사항
-각 제품별로 다음을 작성해주세요:
+각 제품별로 **스펙 + 실제 사용자 리뷰**를 종합하여 다음을 작성해주세요:
 
 ### 1. 장점 3개 (각 35자 이내)
-**반드시 위 스펙 정보에서 확인된 구체적인 기능, 수치, 소재명을 명시하세요!**
+**스펙에서 확인된 기능 + 리뷰에서 칭찬받은 내용을 조합하세요!**
 - ✅ 좋은 예시:
   * "43℃~100℃ 1도 단위 온도 조절"
   * "SUS304 스테인리스 스틸 내부"
-  * "분리형 뚜껑으로 세척 간편"
-  * "24시간 보온 유지 기능"
+  * "분리형 뚜껑으로 세척 간편 (리뷰 호평)"
+  * "24시간 보온 유지, 리뷰에서 만족도 높음"
   * "무선 사용 최대 8시간"
   * "800ml 대용량"
 - ❌ 절대 금지 (추상적 표현):
@@ -156,13 +167,13 @@ ${categoryCons}
   * "점수 8/10", "위생적", "안전함", "품질 좋음"
 
 ### 2. 주의점 3개 (각 35자 이내)
-**실사용 관점의 구체적인 단점만 명시! 스펙에서 확인된 제약사항 위주로 작성하세요.**
+**스펙 제약 + 리뷰에서 언급된 실사용 단점 위주로 작성하세요.**
 - ✅ 좋은 예시:
   * "무게 1.5kg으로 휴대 시 무거움"
-  * "뚜껑 분리 세척 불가"
+  * "뚜껑 분리 세척 불가 (리뷰 불만)"
   * "220V 전용 (프리볼트 미지원)"
-  * "용량 500ml로 쌍둥이 사용 시 부족"
-  * "보온 2시간 후 온도 하락"
+  * "용량 500ml, 리뷰에서 부족하다는 의견"
+  * "보온 2시간 후 온도 하락 (리뷰 언급)"
   * "전용 파우치 미포함"
 - ❌ 절대 금지:
   * **"리뷰 없음", "리뷰 부족", "리뷰 적음", "후기 부족", "평점 미확인"** → 0점 처리!
@@ -530,12 +541,24 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
 
     const productsToProcess = products.slice(0, 3);
 
+    // 리뷰 로드 (상위 3개 제품에 대해)
+    const pcodesForReviews = productsToProcess.map(p => p.pcode);
+    let reviewsMap = new Map<string, ProductReviewSample>();
+    try {
+      console.log(`[comparison-analysis] Loading reviews for ${pcodesForReviews.length} products from Supabase`);
+      reviewsMap = await getSampledReviewsFromSupabase(pcodesForReviews, 10, 10);
+      const reviewCounts = Array.from(reviewsMap.values()).map(r => r.totalCount);
+      console.log(`[comparison-analysis] Reviews loaded: ${reviewCounts.filter(c => c > 0).length}/${pcodesForReviews.length} products have reviews`);
+    } catch (err) {
+      console.log(`[comparison-analysis] Failed to load reviews, proceeding without: ${err}`);
+    }
+
     if (isGeminiAvailable() && insights) {
       try {
         // 비교 분석과 스펙 정규화를 병렬로 실행
         const [comparisonsResult, normalizedSpecsResult] = await Promise.all([
           callGeminiWithRetry(
-            () => generateComparisons(productsToProcess, categoryName, insights),
+            () => generateComparisons(productsToProcess, categoryName, insights, reviewsMap),
             2,
             1500
           ),

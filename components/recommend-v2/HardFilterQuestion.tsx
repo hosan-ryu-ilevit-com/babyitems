@@ -1,13 +1,213 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import type { HardFilterData, ProductItem } from '@/types/recommend-v2';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { HardFilterData, ProductItem, HardFilterOption } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
 // "전부 좋아요" 옵션 값 (이 값을 가진 옵션이 선택되면 다른 옵션 비활성화)
 const SKIP_VALUES = ['skip', 'any', '상관없어요', '전부 좋아요', 'none', 'all'];
+
+/**
+ * 리뷰 기반 우선순위 태그 컴포넌트 (review_priorities 타입)
+ */
+function ReviewPriorityTags({
+  question,
+  selectedValues,
+  onSelect,
+  currentIndex,
+  totalCount,
+}: {
+  question: HardFilterData['question'];
+  selectedValues: string[];
+  onSelect: (values: string[]) => void;
+  currentIndex: number;
+  totalCount: number;
+}) {
+  const [expandedTag, setExpandedTag] = useState<string | null>(null);
+
+  const handleTagClick = (optionValue: string) => {
+    const newValues = selectedValues.includes(optionValue)
+      ? selectedValues.filter(v => v !== optionValue)
+      : [...selectedValues, optionValue];
+    onSelect(newValues);
+  };
+
+  // 감정에 따른 아이콘
+  const getSentimentIcon = (sentiment?: HardFilterOption['sentiment']) => {
+    switch (sentiment) {
+      case 'positive':
+        return '👍';
+      case 'negative':
+        return '⚠️';
+      default:
+        return '💡';
+    }
+  };
+
+  // 총 리뷰 언급 수 계산
+  const totalMentions = question.options.reduce((sum, opt) => sum + (opt.mentionCount || 0), 0);
+
+  return (
+    <motion.div
+      key={question.id}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-4"
+    >
+      {/* 특별한 헤더 - 리뷰 기반임을 강조 */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="px-2.5 py-1 bg-violet-100 text-violet-600 rounded-full text-xs font-bold flex items-center gap-1">
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+            </svg>
+            실제 리뷰
+          </span>
+          <span className="text-xs text-gray-400">
+            {totalMentions}건의 리뷰 분석
+          </span>
+        </div>
+        <span className="text-xs text-gray-400">
+          {currentIndex + 1} / {totalCount}
+        </span>
+      </div>
+
+      {/* 메인 질문 */}
+      <div className="space-y-1">
+        <h3 className="text-lg font-bold text-gray-900 leading-snug">
+          {question.question}
+        </h3>
+        {question.tip && (
+          <p className="text-sm text-violet-600 font-medium">
+            ✨ {question.tip}
+          </p>
+        )}
+      </div>
+
+      {/* 태그 형식 옵션들 */}
+      <div className="flex flex-wrap gap-2">
+        {question.options.map((option, index) => {
+          const isSelected = selectedValues.includes(option.value);
+          const isExpanded = expandedTag === option.value;
+
+          return (
+            <motion.div
+              key={option.value}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.05 }}
+              className="relative"
+            >
+              <button
+                onClick={() => handleTagClick(option.value)}
+                onMouseEnter={() => setExpandedTag(option.value)}
+                onMouseLeave={() => setExpandedTag(null)}
+                className={`
+                  px-4 py-2.5 rounded-full text-sm font-medium
+                  transition-all duration-200 transform
+                  ${isSelected
+                    ? 'bg-violet-500 text-white shadow-lg shadow-violet-200 scale-105'
+                    : 'bg-gray-100 text-gray-700 hover:bg-violet-100 hover:text-violet-700'
+                  }
+                `}
+              >
+                <span className="flex items-center gap-2">
+                  {/* 레이블 */}
+                  <span>{option.displayLabel || option.label}</span>
+
+                  {/* 언급 횟수 배지 */}
+                  {option.mentionCount && (
+                    <span className={`
+                      px-1.5 py-0.5 rounded-full text-[10px] font-bold
+                      ${isSelected
+                        ? 'bg-white/20 text-white'
+                        : 'bg-violet-200 text-violet-700'
+                      }
+                    `}>
+                      {option.mentionCount}건
+                    </span>
+                  )}
+                </span>
+              </button>
+
+              {/* 호버 시 샘플 리뷰 툴팁 */}
+              <AnimatePresence>
+                {isExpanded && option.sampleReview && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    className="absolute z-10 top-full mt-2 left-0 right-0 min-w-[200px] max-w-[280px]"
+                  >
+                    <div className="bg-gray-800 text-white text-xs p-3 rounded-lg shadow-xl">
+                      <div className="flex items-start gap-2">
+                        <span className="text-base shrink-0">{getSentimentIcon(option.sentiment)}</span>
+                        <p className="leading-relaxed">&ldquo;{option.sampleReview}&rdquo;</p>
+                      </div>
+                      {/* 화살표 */}
+                      <div className="absolute -top-1.5 left-6 w-3 h-3 bg-gray-800 transform rotate-45" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* 선택된 항목에 대한 대표 리뷰 표시 */}
+      <AnimatePresence>
+        {selectedValues.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-4 space-y-2"
+          >
+            <p className="text-xs text-gray-500 font-medium">
+              선택한 항목의 실제 후기:
+            </p>
+            <div className="space-y-2">
+              {selectedValues.map(value => {
+                const option = question.options.find(o => o.value === value);
+                if (!option?.sampleReview) return null;
+                return (
+                  <motion.div
+                    key={value}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-start gap-2 p-3 bg-violet-50 rounded-lg border border-violet-100"
+                  >
+                    <span className="text-base shrink-0">{getSentimentIcon(option.sentiment)}</span>
+                    <div>
+                      <p className="text-xs font-semibold text-violet-700 mb-1">
+                        {option.displayLabel || option.label}
+                      </p>
+                      <p className="text-xs text-gray-600 leading-relaxed">
+                        &ldquo;{option.sampleReview}&rdquo;
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 선택 힌트 */}
+      {selectedValues.length === 0 && (
+        <p className="text-xs text-gray-400 text-center">
+          중요하게 생각하는 항목을 터치해주세요 (복수 선택 가능)
+        </p>
+      )}
+    </motion.div>
+  );
+}
 
 // 인기 옵션 정보
 interface PopularOption {
@@ -199,6 +399,22 @@ export function HardFilterQuestion({
     setLocalSelectedValues(newValues);
     onSelect(question.id, newValues);
   };
+
+  // review_priorities 타입은 별도의 태그 스타일 UI로 렌더링
+  if (question.type === 'review_priorities') {
+    return (
+      <ReviewPriorityTags
+        question={question}
+        selectedValues={localSelectedValues}
+        onSelect={(values) => {
+          setLocalSelectedValues(values);
+          onSelect(question.id, values);
+        }}
+        currentIndex={currentIndex}
+        totalCount={totalCount}
+      />
+    );
+  }
 
   return (
     <motion.div

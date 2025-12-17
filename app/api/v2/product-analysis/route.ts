@@ -14,6 +14,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
 import { getModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
 import type { CategoryInsights } from '@/types/category-insights';
+import {
+  getSampledReviewsFromSupabase,
+  formatReviewsForPrompt,
+  type ProductReviewSample,
+} from '@/lib/review/supabase-analyzer';
 
 // 제품 정보 타입
 interface ProductInfo {
@@ -78,7 +83,8 @@ async function analyzeProduct(
   product: ProductInfo,
   categoryName: string,
   insights: CategoryInsights,
-  userContext: UserContext
+  userContext: UserContext,
+  reviewSample?: ProductReviewSample
 ): Promise<ProductAnalysis> {
   const model = getModel(0.5);
 
@@ -90,6 +96,9 @@ async function analyzeProduct(
         .map(([k, v]) => `${k}: ${v}`)
         .join('\n')
     : '스펙 정보 없음';
+
+  // 리뷰 정보 문자열화
+  const reviewStr = reviewSample ? formatReviewsForPrompt(reviewSample) : '리뷰 데이터 없음';
 
   // 카테고리 인사이트에서 관련 정보 추출
   const categoryPros = insights.pros.slice(0, 5).map(p => p.text).join('\n');
@@ -184,6 +193,9 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 - 주요 스펙:
 ${specStr}
 
+## 실제 사용자 리뷰
+${reviewStr}
+
 ## 이 카테고리의 일반적인 장점들
 ${categoryPros}
 
@@ -191,10 +203,10 @@ ${categoryPros}
 ${categoryCons}
 ${conditionEvaluationSection}
 ## 분석 요청
-제품 스펙과 카테고리 특성을 고려하여 다음을 작성해주세요:
+제품 스펙과 **실제 사용자 리뷰**를 종합하여 다음을 작성해주세요:
 
-${hasUserConditions ? '1. **조건 충족도 평가 (selectedConditionsEvaluation)**: 사용자가 선택한 조건들에 대한 충족 여부 평가\n' : ''}${hasUserConditions ? '2' : '1'}. **추가 장점 (additionalPros)**: 스펙에서 유추할 수 있는 이 제품만의 추가 장점 2-3개
-${hasUserConditions ? '3' : '2'}. **주의점 (cons)**: 이 제품 사용 시 주의해야 할 점 2-3개 (스펙 기반 추론)
+${hasUserConditions ? '1. **조건 충족도 평가 (selectedConditionsEvaluation)**: 사용자가 선택한 조건들에 대한 충족 여부 평가 (리뷰에서 언급된 내용 우선 참고)\n' : ''}${hasUserConditions ? '2' : '1'}. **추가 장점 (additionalPros)**: 스펙 + 리뷰에서 확인된 이 제품만의 추가 장점 2-3개
+${hasUserConditions ? '3' : '2'}. **주의점 (cons)**: 이 제품 사용 시 주의해야 할 점 2-3개 (리뷰에서 언급된 실사용 단점 우선)
 ${hasUserConditions ? '4' : '3'}. **구매 팁 (purchaseTip)**: 구매 전 확인해야 할 사항 1-2개
 
 ## 응답 JSON 형식
@@ -211,10 +223,11 @@ ${hasUserConditions ? '4' : '3'}. **구매 팁 (purchaseTip)**: 구매 전 확�
 }
 
 중요:
-- 스펙 정보를 기반으로 구체적으로 작성
+- 스펙 정보와 **실제 리뷰**를 기반으로 구체적으로 작성
+- 리뷰가 있으면 실제 사용자 의견을 근거로 활용 (예: "리뷰에서 '세척이 편하다'는 평이 많음")
 - 일반적인 내용이 아닌 이 제품에 특화된 내용으로
 - 사용자 관점에서 실용적인 정보 위주로
-- citations는 빈 배열로 (리뷰 인용 없음)
+- citations는 빈 배열로
 ${hasUserConditions ? `- selectedConditionsEvaluation은 사용자가 선택한 조건 총 ${hardFilterConditions.length + balanceConditions.length + negativeConditions.length}개를 모두 평가해야 합니다
 - 필수 조건(hardFilter): status는 "충족" 또는 "불충족"만 사용, evidence 필드 없음
 - 선호 속성(balance): status는 "충족", "부분충족", "불충족" 중 하나, evidence에 핵심 키워드 **볼드** 처리
@@ -360,15 +373,29 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductAn
     const insights = await loadCategoryInsights(categoryKey);
     const categoryName = insights?.category_name || categoryKey;
 
+    // 리뷰 로드 (상위 3개 제품에 대해)
+    const productsToAnalyze = products.slice(0, 3);
+    const productIds = productsToAnalyze.map(p => p.pcode);
+
+    let reviewsMap = new Map<string, ProductReviewSample>();
+    try {
+      console.log(`[product-analysis] Loading reviews for ${productIds.length} products from Supabase`);
+      reviewsMap = await getSampledReviewsFromSupabase(productIds, 10, 10);
+      const reviewCounts = Array.from(reviewsMap.values()).map(r => r.totalCount);
+      console.log(`[product-analysis] Reviews loaded: ${reviewCounts.filter(c => c > 0).length}/${productIds.length} products have reviews`);
+    } catch (err) {
+      console.log(`[product-analysis] Failed to load reviews, proceeding without: ${err}`);
+    }
+
     let analyses: ProductAnalysis[] = [];
     let generated_by: 'llm' | 'fallback' = 'fallback';
 
     if (isGeminiAvailable() && insights) {
       try {
-        // 병렬로 3개 제품 분석
-        const analysisPromises = products.slice(0, 3).map(product =>
+        // 병렬로 3개 제품 분석 (리뷰 포함)
+        const analysisPromises = productsToAnalyze.map(product =>
           callGeminiWithRetry(
-            () => analyzeProduct(product, categoryName, insights, userContext),
+            () => analyzeProduct(product, categoryName, insights, userContext, reviewsMap.get(product.pcode)),
             2,
             1000
           )
@@ -380,15 +407,15 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductAn
         console.log(`[product-analysis] LLM analyzed ${analyses.length} products for ${categoryKey}`);
       } catch (llmError) {
         console.error('[product-analysis] LLM failed, using fallback:', llmError);
-        analyses = products.slice(0, 3).map(p => generateFallbackAnalysis(p, insights));
+        analyses = productsToAnalyze.map(p => generateFallbackAnalysis(p, insights));
       }
     } else {
       console.log(`[product-analysis] LLM not available, using fallback for ${categoryKey}`);
       if (insights) {
-        analyses = products.slice(0, 3).map(p => generateFallbackAnalysis(p, insights));
+        analyses = productsToAnalyze.map(p => generateFallbackAnalysis(p, insights));
       } else {
         // insights도 없으면 빈 분석 반환
-        analyses = products.slice(0, 3).map(p => ({
+        analyses = productsToAnalyze.map(p => ({
           pcode: p.pcode,
           additionalPros: [],
           cons: [],
