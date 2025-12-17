@@ -77,6 +77,7 @@ export function useDanawaPrices(pcodes: string[]): UseDanawaPricesResult {
         // 스펙 + 리뷰 데이터 매핑
         const specsMap: DanawaSpecs = {};
         const reviewMap: ReviewData = {};
+        const pcodesNeedingRating: string[] = [];
 
         data.data.specs?.forEach((item: {
           pcode: string;
@@ -101,12 +102,47 @@ export function useDanawaPrices(pcodes: string[]): UseDanawaPricesResult {
             reviewCount: item.review_count || 0,
             averageRating: item.average_rating || 0,
           };
+
+          // 평균별점이 없고 리뷰가 있는 제품 추적
+          if ((!item.average_rating || item.average_rating === 0) && item.review_count && item.review_count > 0) {
+            pcodesNeedingRating.push(item.pcode);
+          }
         });
 
         setDanawaSpecs(specsMap);
         setReviewData(reviewMap);
         console.log(`✅ [useDanawaPrices] Loaded specs for ${Object.keys(specsMap).length} products`);
         console.log(`✅ [useDanawaPrices] Loaded reviews for ${Object.keys(reviewMap).length} products`);
+
+        // 평균별점이 없는 제품 실시간 계산 (백그라운드)
+        if (pcodesNeedingRating.length > 0) {
+          console.log(`🔄 [useDanawaPrices] Calculating ratings for ${pcodesNeedingRating.length} products`);
+          fetch('/api/v2/calculate-rating', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pcodes: pcodesNeedingRating }),
+          })
+            .then(res => res.json())
+            .then(ratingData => {
+              if (ratingData.success && ratingData.data) {
+                // 계산된 평균별점으로 reviewData 업데이트
+                const updatedReviewMap = { ...reviewMap };
+                ratingData.data.forEach((item: { pcode: string; average_rating: number | null; review_count: number }) => {
+                  if (item.average_rating && item.average_rating > 0) {
+                    updatedReviewMap[item.pcode] = {
+                      reviewCount: item.review_count || updatedReviewMap[item.pcode]?.reviewCount || 0,
+                      averageRating: item.average_rating,
+                    };
+                  }
+                });
+                setReviewData(updatedReviewMap);
+                console.log(`✅ [useDanawaPrices] Updated ratings for ${ratingData.data.filter((r: { source: string }) => r.source === 'calculated').length} products`);
+              }
+            })
+            .catch(err => {
+              console.warn('[useDanawaPrices] Rating calculation failed:', err);
+            });
+        }
       } else {
         console.error('❌ [useDanawaPrices] API returned success: false', data);
         setError('Failed to load price data');

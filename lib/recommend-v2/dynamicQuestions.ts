@@ -12,6 +12,7 @@ import type {
   NegativeFilterOption,
 } from '@/types/recommend-v2';
 import { DEFAULT_BALANCE_QUESTIONS } from '@/types/recommend-v2';
+import { matchesSubCategory, ENURI_CATEGORY_CODES } from '@/lib/dataSourceConfig';
 
 // ===================================================
 // 규칙 평가 함수
@@ -318,10 +319,23 @@ function applyHardFiltersAND(
     // 같은 질문 내 다중 선택은 OR: 하나라도 만족하면 통과
     filtered = filtered.filter(product => {
       return selectedOptions.some(option => {
-        // category_code 필터
+        // category_code 필터 (에누리 제품은 spec.하위카테고리로 매칭)
         if (option.category_code) {
-          if (product.category_code !== option.category_code) {
-            return false;
+          const isEnuriProduct = Object.values(ENURI_CATEGORY_CODES).includes(product.category_code || '');
+          
+          if (isEnuriProduct) {
+            // 에누리 제품: spec.하위카테고리로 매칭
+            const enuriSubCategory = (product.spec as Record<string, unknown>)?.하위카테고리 as string | undefined;
+            // categoryKey 추출 (에누리 category_code가 곧 categoryKey)
+            const categoryKey = product.category_code || '';
+            if (!matchesSubCategory(categoryKey, option.category_code, enuriSubCategory)) {
+              return false;
+            }
+          } else {
+            // 다나와 제품: 기존 category_code 필터
+            if (product.category_code !== option.category_code) {
+              return false;
+            }
           }
         }
 
@@ -369,10 +383,22 @@ function applyHardFiltersOR(
         const selectedOption = question.options.find(o => o.value === answerValue);
         if (!selectedOption) continue;
 
-        // category_code 매칭 체크
+        // category_code 매칭 체크 (에누리 제품은 spec.하위카테고리로 매칭)
         if (selectedOption.category_code) {
-          if (product.category_code === selectedOption.category_code) {
-            matchScore += 1;
+          const isEnuriProduct = Object.values(ENURI_CATEGORY_CODES).includes(product.category_code || '');
+          
+          if (isEnuriProduct) {
+            // 에누리 제품: spec.하위카테고리로 매칭
+            const enuriSubCategory = (product.spec as Record<string, unknown>)?.하위카테고리 as string | undefined;
+            const categoryKey = product.category_code || '';
+            if (matchesSubCategory(categoryKey, selectedOption.category_code, enuriSubCategory)) {
+              matchScore += 1;
+            }
+          } else {
+            // 다나와 제품: 기존 category_code 필터
+            if (product.category_code === selectedOption.category_code) {
+              matchScore += 1;
+            }
           }
         }
 

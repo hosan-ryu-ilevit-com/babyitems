@@ -7,9 +7,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 /**
  * V2 결과 페이지용 Supabase 데이터 조회 API
- * - 다나와 가격 정보 (danawa_prices)
- * - 에누리 가격 정보 (enuri_prices) - 다나와에 없는 경우
- * - 제품 스펙/리뷰 정보 (danawa_products, enuri_products)
+ * - 다나와 가격 정보 (danawa_prices) + 에누리 가격 정보 (enuri_prices)
+ * - 제품 스펙 정보 (danawa_products + enuri_products)
  */
 export async function POST(req: NextRequest) {
   try {
@@ -43,7 +42,7 @@ export async function POST(req: NextRequest) {
         .select('pcode, spec, filter_attrs, review_count, average_rating')
         .in('pcode', pcodes),
 
-      // 3. 에누리 가격 정보 (model_no = pcode)
+      // 3. 에누리 가격 정보 (model_no = pcode로 변환된 상태)
       supabase
         .from('enuri_prices')
         .select('model_no, lowest_price, lowest_mall, lowest_link, mall_prices')
@@ -52,7 +51,7 @@ export async function POST(req: NextRequest) {
       // 4. 에누리 제품 스펙 + 리뷰 정보
       supabase
         .from('enuri_products')
-        .select('model_no, spec, filter_attrs, review_count, average_rating')
+        .select('model_no, spec, filter_attrs, review_count, average_rating, price')
         .in('model_no', pcodes),
     ]);
 
@@ -66,10 +65,9 @@ export async function POST(req: NextRequest) {
     // 다나와 데이터
     const danawaPrices = danawaPricesResult.data || [];
     const danawaSpecs = danawaSpecsResult.data || [];
-    
-    // 에누리 데이터 (pcode 형식으로 변환 + mall_prices 형식 통일)
+
+    // 에누리 가격 데이터 (pcode 형식으로 변환 + mall_prices 형식 통일)
     const enuriPrices = (enuriPricesResult.data || []).map(p => {
-      // 에누리 mall_prices를 다나와 형식으로 변환
       const convertedMallPrices = (p.mall_prices || []).map((mp: {
         mallName?: string;
         mallLogo?: string;
@@ -81,7 +79,7 @@ export async function POST(req: NextRequest) {
         price: mp.price || 0,
         delivery: mp.deliveryFee === 0 ? '(무료배송)' : `(${(mp.deliveryFee || 0).toLocaleString()}원)`,
         link: mp.productUrl || '',
-        mallLogo: mp.mallLogo,  // 에누리는 로고 URL 있음
+        mallLogo: mp.mallLogo,
       }));
 
       return {
@@ -92,7 +90,19 @@ export async function POST(req: NextRequest) {
         mall_prices: convertedMallPrices,
       };
     });
-    
+
+    // enuri_prices가 없는 에누리 제품 → enuri_products.price fallback
+    const enuriPricesSet = new Set(enuriPrices.map(p => p.pcode));
+    const enuriPricesFallback = (enuriSpecsResult.data || [])
+      .filter(p => !enuriPricesSet.has(p.model_no) && p.price)
+      .map(p => ({
+        pcode: p.model_no,
+        lowest_price: p.price,
+        lowest_mall: '에누리',
+        lowest_link: null,
+        mall_prices: [],
+      }));
+
     const enuriSpecs = (enuriSpecsResult.data || []).map(p => ({
       pcode: p.model_no,
       spec: p.spec,
@@ -104,18 +114,19 @@ export async function POST(req: NextRequest) {
     // 다나와 우선, 에누리 보충 (중복 제거)
     const danawaPcodeSet = new Set(danawaPrices.map(p => p.pcode));
     const danawaSpecPcodeSet = new Set(danawaSpecs.map(p => p.pcode));
-    
+
     const prices = [
       ...danawaPrices,
       ...enuriPrices.filter(p => !danawaPcodeSet.has(p.pcode)),
+      ...enuriPricesFallback.filter(p => !danawaPcodeSet.has(p.pcode) && !enuriPricesSet.has(p.pcode)),
     ];
-    
+
     const specs = [
       ...danawaSpecs,
       ...enuriSpecs.filter(p => !danawaSpecPcodeSet.has(p.pcode)),
     ];
 
-    console.log(`✅ [V2 Result API] Fetched ${prices.length} prices (danawa: ${danawaPrices.length}, enuri: ${enuriPrices.length}), ${specs.length} specs`);
+    console.log(`✅ [V2 Result API] Fetched ${prices.length} prices (danawa: ${danawaPrices.length}, enuri: ${enuriPrices.length + enuriPricesFallback.length}), ${specs.length} specs`);
 
     return NextResponse.json({
       success: true,

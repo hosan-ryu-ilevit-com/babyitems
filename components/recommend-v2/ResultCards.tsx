@@ -28,6 +28,7 @@ function parseMarkdownBold(text: string) {
 // NOTE: 카테고리별로 별도 캐시를 유지하기 위해 categoryKey를 포함한 키 사용
 const V2_COMPARISON_CACHE_PREFIX = 'v2_comparison_analysis';
 const V2_PRODUCT_ANALYSIS_CACHE_PREFIX = 'v2_product_analysis';
+const V2_REAL_REVIEWS_CACHE_PREFIX = 'v2_real_reviews';  // 실시간 검색 캐싱용
 
 // Extended product type with LLM recommendation reason + variants
 interface RecommendedProduct extends ScoredProduct {
@@ -289,9 +290,40 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     }>;
     elapsed: number;
     lowQuality?: boolean;
+    timestamp?: number;  // 검색 시점 타임스탬프
   }>>({});
   const [showRealReviewsModal, setShowRealReviewsModal] = useState(false);
   const [selectedRealReviewPcode, setSelectedRealReviewPcode] = useState<string | null>(null);
+
+  // 마운트 시 세션 스토리지에서 real reviews 캐시 로드
+  useEffect(() => {
+    if (products.length === 0) return;
+
+    const cachedData: Record<string, typeof realReviewsData[string]> = {};
+    let loadedCount = 0;
+
+    products.forEach((product) => {
+      const cacheKey = `${V2_REAL_REVIEWS_CACHE_PREFIX}_${product.pcode}`;
+      try {
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          const parsedCache = JSON.parse(cached);
+          // 캐시 유효성 검사 (24시간 이내)
+          if (parsedCache.timestamp && Date.now() - parsedCache.timestamp < 24 * 60 * 60 * 1000) {
+            cachedData[product.pcode] = parsedCache;
+            loadedCount++;
+          }
+        }
+      } catch (e) {
+        console.warn('[RealReviews] Cache load error:', e);
+      }
+    });
+
+    if (loadedCount > 0) {
+      setRealReviewsData(prev => ({ ...prev, ...cachedData }));
+      console.log(`✅ [RealReviews] Loaded ${loadedCount} cached reviews from sessionStorage`);
+    }
+  }, [products]);
 
   // Product detail modal
   const [selectedProduct, setSelectedProduct] = useState<Recommendation | null>(null);
@@ -625,7 +657,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCacheKey, userContext]);
 
-  // Prefetch real-reviews for TOP 3 products (background, immediate)
+  // Prefetch real-reviews for TOP 3 products (background, immediate) with sessionStorage caching
   const realReviewsPrefetchedRef = useRef(false);
   useEffect(() => {
     if (products.length === 0 || realReviewsPrefetchedRef.current) return;
@@ -635,14 +667,34 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
     // TOP 3 제품에 대해 병렬로 prefetch
     products.slice(0, 3).forEach(async (product) => {
-      // 이미 캐시된 경우 skip
-      if (realReviewsData[product.pcode]) {
-        console.log(`💾 [Prefetch] Real reviews already cached: ${product.title.slice(0, 20)}...`);
+      const pcode = product.pcode;
+      const cacheKey = `${V2_REAL_REVIEWS_CACHE_PREFIX}_${pcode}`;
+
+      // 이미 state에 캐시된 경우 skip
+      if (realReviewsData[pcode]) {
+        console.log(`💾 [Prefetch] Real reviews already in state: ${product.title.slice(0, 20)}...`);
         return;
       }
 
+      // 세션 스토리지에서 캐시 확인
       try {
-        setRealReviewsLoading(prev => ({ ...prev, [product.pcode]: true }));
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          const parsedCache = JSON.parse(cached);
+          // 캐시 유효성 검사 (24시간 이내)
+          if (parsedCache.timestamp && Date.now() - parsedCache.timestamp < 24 * 60 * 60 * 1000) {
+            setRealReviewsData(prev => ({ ...prev, [pcode]: parsedCache }));
+            console.log(`✅ [Prefetch] Real reviews loaded from sessionStorage: ${product.title.slice(0, 20)}...`);
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('[Prefetch] Cache read error:', e);
+      }
+
+      // 세션 스토리지에도 없으면 API 호출
+      try {
+        setRealReviewsLoading(prev => ({ ...prev, [pcode]: true }));
 
         const response = await fetch('/api/v2/real-reviews', {
           method: 'POST',
@@ -652,16 +704,23 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
         const result = await response.json();
         if (result.success) {
-          setRealReviewsData(prev => ({
-            ...prev,
-            [product.pcode]: result.data,
-          }));
-          console.log(`✅ [Prefetch] Real reviews cached: ${product.title.slice(0, 20)}...`);
+          const dataWithTimestamp = { ...result.data, timestamp: Date.now() };
+          
+          // State 업데이트
+          setRealReviewsData(prev => ({ ...prev, [pcode]: dataWithTimestamp }));
+          
+          // 세션 스토리지에 저장
+          try {
+            sessionStorage.setItem(cacheKey, JSON.stringify(dataWithTimestamp));
+            console.log(`💾 [Prefetch] Real reviews saved to sessionStorage: ${product.title.slice(0, 20)}...`);
+          } catch (e) {
+            console.warn('[Prefetch] Cache save error:', e);
+          }
         }
       } catch (error) {
         console.warn(`[Prefetch] Failed for ${product.title.slice(0, 20)}...:`, error);
       } finally {
-        setRealReviewsLoading(prev => ({ ...prev, [product.pcode]: false }));
+        setRealReviewsLoading(prev => ({ ...prev, [pcode]: false }));
       }
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -758,26 +817,46 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     });
   }, [products, productAnalysisData, reviewData]);
 
-  // Handle real reviews fetch (Gemini Grounding)
+  // Handle real reviews fetch (Gemini Grounding) with sessionStorage caching
   const handleFetchRealReviews = async (product: ScoredProduct) => {
     const pcode = product.pcode;
+    const cacheKey = `${V2_REAL_REVIEWS_CACHE_PREFIX}_${pcode}`;
 
     // 이미 로딩 중이면 무시
     if (realReviewsLoading[pcode]) return;
 
-    // 이미 데이터가 있으면 모달만 열기
+    // 이미 state에 데이터가 있으면 모달만 열기
     if (realReviewsData[pcode]) {
       setSelectedRealReviewPcode(pcode);
       setShowRealReviewsModal(true);
-      onModalOpenChange?.(true);  // 부모에게 모달 열림 알림
+      onModalOpenChange?.(true);
       return;
+    }
+
+    // 세션 스토리지에서 캐시 확인
+    try {
+      const cached = sessionStorage.getItem(cacheKey);
+      if (cached) {
+        const parsedCache = JSON.parse(cached);
+        // 캐시 유효성 검사 (24시간 이내)
+        if (parsedCache.timestamp && Date.now() - parsedCache.timestamp < 24 * 60 * 60 * 1000) {
+          setRealReviewsData(prev => ({ ...prev, [pcode]: parsedCache }));
+          setSelectedRealReviewPcode(pcode);
+          setShowRealReviewsModal(true);
+          onModalOpenChange?.(true);
+          console.log(`✅ [RealReviews] Loaded from sessionStorage: ${product.title.slice(0, 20)}...`);
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('[RealReviews] Cache read error:', e);
     }
 
     // 로딩 시작
     setRealReviewsLoading(prev => ({ ...prev, [pcode]: true }));
     setSelectedRealReviewPcode(pcode);
     setShowRealReviewsModal(true);
-    onModalOpenChange?.(true);  // 부모에게 모달 열림 알림
+    onModalOpenChange?.(true);
 
     try {
       const response = await fetch('/api/v2/real-reviews', {
@@ -789,10 +868,19 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       const result = await response.json();
 
       if (result.success) {
-        setRealReviewsData(prev => ({
-          ...prev,
-          [pcode]: result.data,
-        }));
+        const dataWithTimestamp = { ...result.data, timestamp: Date.now() };
+        
+        // State 업데이트
+        setRealReviewsData(prev => ({ ...prev, [pcode]: dataWithTimestamp }));
+        
+        // 세션 스토리지에 저장
+        try {
+          sessionStorage.setItem(cacheKey, JSON.stringify(dataWithTimestamp));
+          console.log(`💾 [RealReviews] Saved to sessionStorage: ${product.title.slice(0, 20)}...`);
+        } catch (e) {
+          console.warn('[RealReviews] Cache save error:', e);
+        }
+        
         console.log(`✅ [RealReviews] Loaded for ${product.title} (${result.data.elapsed}ms)`);
       } else {
         console.error('[RealReviews] API error:', result.error);
@@ -1477,6 +1565,29 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   transition={{ duration: 0.4, ease: 'easeOut' }}
                   className="space-y-3"
                 >
+                  {/* 검색 시점 타임스탬프 + 소요시간 + 주의 문구 */}
+                  <div className="text-xs text-gray-400 mb-3 space-y-1">
+                    <div>
+                      {(() => {
+                        const data = realReviewsData[selectedRealReviewPcode];
+                        const timestamp = data.timestamp ? new Date(data.timestamp) : new Date();
+                        const dateStr = timestamp.toLocaleDateString('ko-KR', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        });
+                        const timeStr = timestamp.toLocaleTimeString('ko-KR', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        });
+                        return `${dateStr} ${timeStr} 검색 · ${(data.elapsed / 1000).toFixed(1)}초 소요`;
+                      })()}
+                    </div>
+                    <div className="text-gray-400">
+                      *AI는 잘못된 정보를 가져올 수 있습니다. 참고로만 활용하세요
+                    </div>
+                  </div>
+
                   {/* 섹션별 파싱 및 렌더링 */}
                   {(() => {
                     const content = realReviewsData[selectedRealReviewPcode].content;
@@ -1567,7 +1678,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                       return (
                         <div className="text-center py-6 text-gray-500">
                           <p>이 제품에 대한 구체적인 후기 정보를 찾지 못했습니다.</p>
-                          <p className="text-sm mt-1">아래 출처에서 직접 확인해보세요.</p>
                         </div>
                       );
                     }
@@ -1580,14 +1690,14 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                             <span>{style.icon}</span>
                             {section.title}
                           </h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-2.5">
                             {section.lines.map((line, lineIdx) => {
                               // * 또는 - 로 시작하는 리스트 항목 처리
                               const listItem = line.replace(/^[*\-•]\s*/, '');
                               return (
-                                <li key={lineIdx} className="text-[15px] text-gray-800 leading-relaxed flex items-start gap-2">
-                                  <span className="text-gray-400 mt-1 shrink-0">•</span>
-                                  <span>{renderTextWithCitations(listItem)}</span>
+                                <li key={lineIdx} className="text-[15px] text-gray-800 leading-relaxed flex gap-2">
+                                  <span className="text-gray-400 shrink-0 leading-relaxed">•</span>
+                                  <span className="flex-1">{renderTextWithCitations(listItem)}</span>
                                 </li>
                               );
                             })}
@@ -1610,64 +1720,96 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                             rel="noopener noreferrer"
                             className="block border border-gray-200 rounded-lg overflow-hidden hover:border-violet-300 hover:shadow-sm transition-all"
                           >
-                            {source.og?.image ? (
-                              // OG 이미지가 있는 경우 - 카드형 미리보기
-                              <div className="flex gap-3 p-2">
-                                <div className="w-16 h-16 shrink-0 bg-gray-100 rounded overflow-hidden">
-                                  <img
-                                    src={source.og.image}
-                                    alt=""
-                                    className="w-full h-full object-cover"
-                                    onError={(e) => {
-                                      (e.target as HTMLImageElement).style.display = 'none';
-                                    }}
-                                  />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-xs font-medium text-gray-800 line-clamp-1">
-                                    {source.og.title || source.title || '출처 보기'}
-                                  </p>
-                                  {source.og.description && (
-                                    <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">
-                                      {source.og.description}
+                            {(() => {
+                              const ogImage = source.og?.image;
+                              const isFavicon = ogImage?.includes('google.com/s2/favicons');
+                              const hasLargeImage = ogImage && !isFavicon;
+                              
+                              // 큰 OG 이미지가 있는 경우 - 카드형 미리보기
+                              if (hasLargeImage) {
+                                return (
+                                  <div className="flex gap-3 p-2.5">
+                                    <div className="w-16 h-16 shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+                                      <img
+                                        src={ogImage}
+                                        alt=""
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                          (e.target as HTMLImageElement).style.display = 'none';
+                                        }}
+                                      />
+                                    </div>
+                                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                                      <p className="text-sm font-medium text-gray-800 line-clamp-1">
+                                        {source.og?.title || source.title || '출처 보기'}
+                                      </p>
+                                      {source.og?.description && (
+                                        <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">
+                                          {source.og.description}
+                                        </p>
+                                      )}
+                                      <p className="text-[11px] text-gray-400 mt-1">
+                                        {source.og?.siteName || (() => { try { return new URL(source.uri).hostname; } catch { return ''; } })()}
+                                      </p>
+                                    </div>
+                                  </div>
+                                );
+                              }
+                              
+                              // favicon 또는 이미지 없는 경우 - 컴팩트 카드
+                              return (
+                                <div className="flex items-center gap-3 p-2.5">
+                                  {/* Favicon 또는 사이트 아이콘 */}
+                                  <div className="w-10 h-10 shrink-0 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
+                                    {isFavicon ? (
+                                      <img
+                                        src={ogImage}
+                                        alt=""
+                                        className="w-6 h-6"
+                                        onError={(e) => {
+                                          (e.target as HTMLImageElement).style.display = 'none';
+                                          const parent = (e.target as HTMLImageElement).parentElement;
+                                          if (parent) {
+                                            parent.innerHTML = `<span class="text-violet-600 text-sm font-bold">${(i + 1)}</span>`;
+                                          }
+                                        }}
+                                      />
+                                    ) : (
+                                      <span className="text-violet-600 text-sm font-bold">{i + 1}</span>
+                                    )}
+                                  </div>
+                                  {/* 텍스트 영역 */}
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="text-[11px] font-medium text-violet-600 bg-violet-50 px-1.5 py-0.5 rounded">
+                                        {source.og?.siteName || (() => { 
+                                          try { 
+                                            const hostname = new URL(source.uri).hostname.replace('www.', '');
+                                            if (hostname.includes('blog.naver')) return '네이버 블로그';
+                                            if (hostname.includes('cafe.naver')) return '네이버 카페';
+                                            if (hostname.includes('coupang')) return '쿠팡';
+                                            return hostname.split('.')[0];
+                                          } catch { return '출처'; } 
+                                        })()}
+                                      </span>
+                                    </div>
+                                    <p className="text-sm text-gray-700 line-clamp-1 mt-1">
+                                      {source.og?.title || source.title || '후기 보기'}
                                     </p>
-                                  )}
-                                  <p className="text-[10px] text-gray-400 mt-1 truncate">
-                                    {source.og.siteName || new URL(source.uri).hostname}
-                                  </p>
+                                  </div>
+                                  {/* 화살표 */}
+                                  <svg className="w-4 h-4 text-gray-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                  </svg>
                                 </div>
-                              </div>
-                            ) : (
-                              // OG 이미지가 없는 경우 - 심플 링크
-                              <div className="flex items-center gap-2 p-2.5">
-                                <span className="w-5 h-5 flex items-center justify-center bg-violet-100 text-violet-600 text-[10px] font-bold rounded shrink-0">
-                                  {i + 1}
-                                </span>
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-xs text-gray-700 line-clamp-1">
-                                    {source.og?.title || source.title || source.uri}
-                                  </p>
-                                  {source.og?.description && (
-                                    <p className="text-[10px] text-gray-500 line-clamp-1 mt-0.5">
-                                      {source.og.description}
-                                    </p>
-                                  )}
-                                </div>
-                                <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                              </div>
-                            )}
+                              );
+                            })()}
                           </a>
                         ))}
                       </div>
                     </div>
                   )}
 
-                  {/* Elapsed Time */}
-                  <div className="text-xs text-gray-400 text-right mt-2">
-                    검색 소요 시간: {(realReviewsData[selectedRealReviewPcode].elapsed / 1000).toFixed(1)}초
-                  </div>
                 </motion.div>
               ) : (
                 <div className="text-center py-8 text-gray-500">

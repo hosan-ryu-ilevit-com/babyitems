@@ -76,17 +76,16 @@ export async function POST(request: NextRequest) {
     // Use provided targetCategoryCodes (sub-category) or default from logic_map
     const targetCategories = targetCategoryCodes || categoryLogic.target_categories;
 
-    // 데이터 소스 확인 (다나와, 에누리, 또는 둘 다)
+    // 데이터 소스 확인
     const dataSource = getDataSource(categoryKey);
-    
     let products: Array<Record<string, unknown>> | null = null;
-    let error: Error | null = null;
 
     // Helper: 에누리 데이터 조회
     async function fetchEnuriProducts() {
       const enuriCategoryCode = ENURI_CATEGORY_CODES[categoryKey];
+      if (!enuriCategoryCode) return [];
       
-      let query = supabase
+      let enuriQuery = supabase
         .from('enuri_products')
         .select('model_no, title, brand, price, rank, thumbnail, spec, category_code, filter_attrs, review_count, average_rating')
         .eq('category_code', enuriCategoryCode)
@@ -94,15 +93,17 @@ export async function POST(request: NextRequest) {
         .order('review_count', { ascending: false })
         .limit(limit);
 
-      if (priceMin !== undefined) query = query.gte('price', priceMin);
-      if (priceMax !== undefined) query = query.lte('price', priceMax);
-      if (brands && brands.length > 0) query = query.in('brand', brands);
+      if (priceMin !== undefined) enuriQuery = enuriQuery.gte('price', priceMin);
+      if (priceMax !== undefined) enuriQuery = enuriQuery.lte('price', priceMax);
+      if (brands && brands.length > 0) enuriQuery = enuriQuery.in('brand', brands);
 
-      const result = await query;
-      if (result.error) return { data: null, error: result.error };
+      const enuriResult = await enuriQuery;
+      if (enuriResult.error) {
+        console.error('[v2/products] Enuri error:', enuriResult.error);
+        return [];
+      }
 
-      // 에누리 형식 → 공통 형식 변환
-      let enuriProducts = (result.data || []).map(p => ({
+      let enuriProducts = (enuriResult.data || []).map(p => ({
         pcode: p.model_no,
         title: p.title,
         brand: p.brand,
@@ -112,9 +113,10 @@ export async function POST(request: NextRequest) {
         spec: p.spec,
         category_code: p.category_code,
         filter_attrs: p.filter_attrs,
-        review_count: p.review_count,
-        average_rating: p.average_rating,
+        reviewCount: p.review_count,      // snake_case → camelCase
+        averageRating: p.average_rating,  // snake_case → camelCase
         dataSource: 'enuri' as const,
+        lowestPrice: null as number | null,
       }));
 
       // 에누리 최저가 조회
@@ -125,18 +127,14 @@ export async function POST(request: NextRequest) {
           .select('model_no, lowest_price')
           .in('model_no', modelNos);
 
-        if (pricesData && pricesData.length > 0) {
-          const priceMap = new Map(pricesData.map(p => [p.model_no, p.lowest_price]));
-          enuriProducts = enuriProducts.map(product => ({
-            ...product,
-            lowestPrice: priceMap.get(product.pcode) || null,
-          }));
-        } else {
-          enuriProducts = enuriProducts.map(product => ({ ...product, lowestPrice: null }));
-        }
+        const priceMap = new Map(pricesData?.map(p => [p.model_no, p.lowest_price]) || []);
+        enuriProducts = enuriProducts.map(product => ({
+          ...product,
+          lowestPrice: priceMap.get(product.pcode) || product.price || null,
+        }));
       }
 
-      return { data: enuriProducts, error: null };
+      return enuriProducts;
     }
 
     // Helper: 다나와 데이터 조회
@@ -153,11 +151,24 @@ export async function POST(request: NextRequest) {
       if (priceMax !== undefined) query = query.lte('price', priceMax);
       if (brands && brands.length > 0) query = query.in('brand', brands);
 
-      const result = await query;
-      if (result.error) return { data: null, error: result.error };
+      const danawaResult = await query;
+      if (danawaResult.error) {
+        console.error('[v2/products] Danawa error:', danawaResult.error);
+        return [];
+      }
 
-      let danawaProducts = (result.data || []).map(p => ({
-        ...p,
+      let danawaProducts = (danawaResult.data || []).map(p => ({
+        pcode: p.pcode,
+        title: p.title,
+        brand: p.brand,
+        price: p.price,
+        rank: p.rank,
+        thumbnail: p.thumbnail,
+        spec: p.spec,
+        category_code: p.category_code,
+        filter_attrs: p.filter_attrs,
+        reviewCount: p.review_count,      // snake_case → camelCase
+        averageRating: p.average_rating,  // snake_case → camelCase
         dataSource: 'danawa' as const,
         lowestPrice: null as number | null,
       }));
@@ -179,26 +190,16 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      return { data: danawaProducts, error: null };
+      return danawaProducts;
     }
 
     // 데이터 소스별 조회
     if (dataSource === 'both') {
       // ===== 다나와 + 에누리 합산 =====
-      const [danawaResult, enuriResult] = await Promise.all([
+      const [danawaProducts, enuriProducts] = await Promise.all([
         fetchDanawaProducts(),
         fetchEnuriProducts(),
       ]);
-
-      if (danawaResult.error) {
-        console.error('[v2/products] Danawa error:', danawaResult.error);
-      }
-      if (enuriResult.error) {
-        console.error('[v2/products] Enuri error:', enuriResult.error);
-      }
-
-      const danawaProducts = danawaResult.data || [];
-      const enuriProducts = enuriResult.data || [];
 
       // 다나와 pcode Set (중복 제거용)
       const danawaPcodeSet = new Set(danawaProducts.map(p => p.pcode));
@@ -206,32 +207,18 @@ export async function POST(request: NextRequest) {
       // 에누리에서 다나와와 중복되지 않는 제품만 추가
       const uniqueEnuriProducts = enuriProducts.filter(p => !danawaPcodeSet.has(p.pcode));
 
-      // 합산 (다나와 먼저, 에누리 추가)
       products = [...danawaProducts, ...uniqueEnuriProducts];
-
       console.log(`[v2/products] Category: ${categoryKey} (BOTH), Danawa: ${danawaProducts.length}, Enuri: ${uniqueEnuriProducts.length}, Total: ${products.length}`);
 
     } else if (dataSource === 'enuri') {
       // ===== 에누리만 =====
-      const result = await fetchEnuriProducts();
-      error = result.error as Error | null;
-      products = result.data;
+      products = await fetchEnuriProducts();
       console.log(`[v2/products] Category: ${categoryKey} (ENURI), Products: ${products?.length || 0}`);
 
     } else {
       // ===== 다나와만 (기본) =====
-      const result = await fetchDanawaProducts();
-      error = result.error as Error | null;
-      products = result.data;
+      products = await fetchDanawaProducts();
       console.log(`[v2/products] Category: ${categoryKey} (DANAWA), Products: ${products?.length || 0}`);
-    }
-
-    if (error) {
-      console.error('Supabase query error:', error);
-      return NextResponse.json(
-        { success: false, error: error.message },
-        { status: 500 }
-      );
     }
 
     // 5. 속성 필터 (filter_attrs 기반) - Supabase JSONB 필터링 대신 JS에서 필터링

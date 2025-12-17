@@ -451,32 +451,31 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
     // products 또는 productIds 중 하나는 필수
     let products: ProductInfo[] = inputProducts || [];
 
-    // productIds로 요청한 경우 Supabase에서 제품 정보 조회
+    // productIds로 요청한 경우 Supabase에서 제품 정보 조회 (다나와 + 에누리)
     if ((!products || products.length === 0) && productIds && productIds.length > 0) {
       console.log(`[comparison-analysis] Fetching products from Supabase: ${productIds.join(', ')}`);
 
-      const { data: supabaseProducts, error } = await supabase
-        .from('danawa_products')
-        .select('pcode, title, brand, price, rank, spec, filter_attrs')
-        .in('pcode', productIds);
+      // 다나와와 에누리 병렬 조회
+      const [danawaResult, enuriResult] = await Promise.all([
+        supabase
+          .from('danawa_products')
+          .select('pcode, title, brand, price, rank, spec, filter_attrs')
+          .in('pcode', productIds),
+        supabase
+          .from('enuri_products')
+          .select('model_no, title, brand, price, rank, spec, filter_attrs')
+          .in('model_no', productIds),
+      ]);
 
-      if (error) {
-        console.error('[comparison-analysis] Supabase error:', error);
-        return NextResponse.json(
-          { success: false, error: 'Failed to fetch products from database' },
-          { status: 500 }
-        );
+      if (danawaResult.error) {
+        console.error('[comparison-analysis] Danawa error:', danawaResult.error);
+      }
+      if (enuriResult.error) {
+        console.error('[comparison-analysis] Enuri error:', enuriResult.error);
       }
 
-      if (!supabaseProducts || supabaseProducts.length === 0) {
-        return NextResponse.json(
-          { success: false, error: 'No products found' },
-          { status: 404 }
-        );
-      }
-
-      // Supabase 데이터를 ProductInfo 형태로 변환
-      products = supabaseProducts.map(p => ({
+      // 다나와 데이터
+      const danawaProducts = (danawaResult.data || []).map(p => ({
         pcode: p.pcode,
         title: p.title || `${p.brand || ''} 제품`,
         brand: p.brand,
@@ -486,7 +485,32 @@ export async function POST(request: NextRequest): Promise<NextResponse<Compariso
         rank: p.rank,
       }));
 
-      console.log(`[comparison-analysis] Loaded ${products.length} products from Supabase`);
+      // 에누리 데이터 (model_no를 pcode로 매핑)
+      const enuriProducts = (enuriResult.data || []).map(p => ({
+        pcode: p.model_no,
+        title: p.title || `${p.brand || ''} 제품`,
+        brand: p.brand,
+        price: p.price,
+        spec: p.spec as Record<string, unknown> || {},
+        filter_attrs: p.filter_attrs as Record<string, unknown> || {},
+        rank: p.rank,
+      }));
+
+      // 다나와 우선, 에누리 보충 (중복 제거)
+      const danawaPcodeSet = new Set(danawaProducts.map(p => p.pcode));
+      products = [
+        ...danawaProducts,
+        ...enuriProducts.filter(p => !danawaPcodeSet.has(p.pcode)),
+      ];
+
+      if (products.length === 0) {
+        return NextResponse.json(
+          { success: false, error: 'No products found' },
+          { status: 404 }
+        );
+      }
+
+      console.log(`[comparison-analysis] Loaded ${products.length} products (danawa: ${danawaProducts.length}, enuri: ${enuriProducts.filter(p => !danawaPcodeSet.has(p.pcode)).length})`);
     }
 
     if (!products || products.length === 0) {
