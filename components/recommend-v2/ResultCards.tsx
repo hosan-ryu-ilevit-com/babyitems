@@ -10,6 +10,8 @@ import ProductDetailModal from '@/components/ProductDetailModal';
 import { logButtonClick, logV2ProductModalOpened, logFavoriteAction } from '@/lib/logging/clientLogger';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useDanawaPrices } from '@/hooks/useDanawaPrices';
+import { useRealReviewsCache } from '@/hooks/useRealReviewsCache';
+import { RealReviewsContent } from './RealReviewsContent';
 import Toast from '@/components/Toast';
 
 // 마크다운 볼드 처리
@@ -28,7 +30,6 @@ function parseMarkdownBold(text: string) {
 // NOTE: 카테고리별로 별도 캐시를 유지하기 위해 categoryKey를 포함한 키 사용
 const V2_COMPARISON_CACHE_PREFIX = 'v2_comparison_analysis';
 const V2_PRODUCT_ANALYSIS_CACHE_PREFIX = 'v2_product_analysis';
-const V2_REAL_REVIEWS_CACHE_PREFIX = 'v2_real_reviews';  // 실시간 검색 캐싱용
 
 // Extended product type with LLM recommendation reason + variants
 interface RecommendedProduct extends ScoredProduct {
@@ -274,56 +275,16 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   const [isComparisonLoading, setIsComparisonLoading] = useState(true);
   const analysisCalledRef = useRef(false);
 
-  // Real reviews state (Gemini Grounding)
-  const [realReviewsLoading, setRealReviewsLoading] = useState<Record<string, boolean>>({});
-  const [realReviewsData, setRealReviewsData] = useState<Record<string, {
-    content: string;
-    sources: Array<{
-      title: string;
-      uri: string;
-      og?: {
-        title?: string;
-        description?: string;
-        image?: string;
-        siteName?: string;
-      };
-    }>;
-    elapsed: number;
-    lowQuality?: boolean;
-    timestamp?: number;  // 검색 시점 타임스탬프
-  }>>({});
+  // Real reviews (Gemini Grounding) - 캐시 훅 사용
+  const {
+    data: realReviewsData,
+    fetchReviews: fetchRealReviews,
+    refetch: refetchRealReviews,
+    prefetch: prefetchRealReviews,
+    isLoading: isReviewsLoading,
+  } = useRealReviewsCache();
   const [showRealReviewsModal, setShowRealReviewsModal] = useState(false);
   const [selectedRealReviewPcode, setSelectedRealReviewPcode] = useState<string | null>(null);
-
-  // 마운트 시 세션 스토리지에서 real reviews 캐시 로드
-  useEffect(() => {
-    if (products.length === 0) return;
-
-    const cachedData: Record<string, typeof realReviewsData[string]> = {};
-    let loadedCount = 0;
-
-    products.forEach((product) => {
-      const cacheKey = `${V2_REAL_REVIEWS_CACHE_PREFIX}_${product.pcode}`;
-      try {
-        const cached = sessionStorage.getItem(cacheKey);
-        if (cached) {
-          const parsedCache = JSON.parse(cached);
-          // 캐시 유효성 검사 (24시간 이내)
-          if (parsedCache.timestamp && Date.now() - parsedCache.timestamp < 24 * 60 * 60 * 1000) {
-            cachedData[product.pcode] = parsedCache;
-            loadedCount++;
-          }
-        }
-      } catch (e) {
-        console.warn('[RealReviews] Cache load error:', e);
-      }
-    });
-
-    if (loadedCount > 0) {
-      setRealReviewsData(prev => ({ ...prev, ...cachedData }));
-      console.log(`✅ [RealReviews] Loaded ${loadedCount} cached reviews from sessionStorage`);
-    }
-  }, [products]);
 
   // Product detail modal
   const [selectedProduct, setSelectedProduct] = useState<Recommendation | null>(null);
@@ -657,74 +618,21 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCacheKey, userContext]);
 
-  // Prefetch real-reviews for TOP 3 products (background, immediate) with sessionStorage caching
+  // Prefetch real-reviews for TOP 3 products (background)
   const realReviewsPrefetchedRef = useRef(false);
   useEffect(() => {
     if (products.length === 0 || realReviewsPrefetchedRef.current) return;
     realReviewsPrefetchedRef.current = true;
 
     console.log('🔄 [ResultCards] Prefetching real-reviews for TOP 3...');
-
-    // TOP 3 제품에 대해 병렬로 prefetch
-    products.slice(0, 3).forEach(async (product) => {
-      const pcode = product.pcode;
-      const cacheKey = `${V2_REAL_REVIEWS_CACHE_PREFIX}_${pcode}`;
-
-      // 이미 state에 캐시된 경우 skip
-      if (realReviewsData[pcode]) {
-        console.log(`💾 [Prefetch] Real reviews already in state: ${product.title.slice(0, 20)}...`);
-        return;
-      }
-
-      // 세션 스토리지에서 캐시 확인
-      try {
-        const cached = sessionStorage.getItem(cacheKey);
-        if (cached) {
-          const parsedCache = JSON.parse(cached);
-          // 캐시 유효성 검사 (24시간 이내)
-          if (parsedCache.timestamp && Date.now() - parsedCache.timestamp < 24 * 60 * 60 * 1000) {
-            setRealReviewsData(prev => ({ ...prev, [pcode]: parsedCache }));
-            console.log(`✅ [Prefetch] Real reviews loaded from sessionStorage: ${product.title.slice(0, 20)}...`);
-            return;
-          }
-        }
-      } catch (e) {
-        console.warn('[Prefetch] Cache read error:', e);
-      }
-
-      // 세션 스토리지에도 없으면 API 호출
-      try {
-        setRealReviewsLoading(prev => ({ ...prev, [pcode]: true }));
-
-        const response = await fetch('/api/v2/real-reviews', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ productTitle: product.title }),
-        });
-
-        const result = await response.json();
-        if (result.success) {
-          const dataWithTimestamp = { ...result.data, timestamp: Date.now() };
-          
-          // State 업데이트
-          setRealReviewsData(prev => ({ ...prev, [pcode]: dataWithTimestamp }));
-          
-          // 세션 스토리지에 저장
-          try {
-            sessionStorage.setItem(cacheKey, JSON.stringify(dataWithTimestamp));
-            console.log(`💾 [Prefetch] Real reviews saved to sessionStorage: ${product.title.slice(0, 20)}...`);
-          } catch (e) {
-            console.warn('[Prefetch] Cache save error:', e);
-          }
-        }
-      } catch (error) {
-        console.warn(`[Prefetch] Failed for ${product.title.slice(0, 20)}...:`, error);
-      } finally {
-        setRealReviewsLoading(prev => ({ ...prev, [pcode]: false }));
-      }
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products]);
+    prefetchRealReviews(
+      products.slice(0, 3).map(p => ({
+        pcode: p.pcode,
+        title: p.title,
+        brand: p.brand || undefined,
+      }))
+    );
+  }, [products, prefetchRealReviews]);
 
   // Fetch comparison data for anchor product (if not in Top 3)
   useEffect(() => {
@@ -817,78 +725,22 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     });
   }, [products, productAnalysisData, reviewData]);
 
-  // Handle real reviews fetch (Gemini Grounding) with sessionStorage caching
+  // Handle real reviews fetch (using cache hook)
   const handleFetchRealReviews = async (product: ScoredProduct) => {
     const pcode = product.pcode;
-    const cacheKey = `${V2_REAL_REVIEWS_CACHE_PREFIX}_${pcode}`;
 
-    // 이미 로딩 중이면 무시
-    if (realReviewsLoading[pcode]) return;
-
-    // 이미 state에 데이터가 있으면 모달만 열기
-    if (realReviewsData[pcode]) {
-      setSelectedRealReviewPcode(pcode);
-      setShowRealReviewsModal(true);
-      onModalOpenChange?.(true);
-      return;
-    }
-
-    // 세션 스토리지에서 캐시 확인
-    try {
-      const cached = sessionStorage.getItem(cacheKey);
-      if (cached) {
-        const parsedCache = JSON.parse(cached);
-        // 캐시 유효성 검사 (24시간 이내)
-        if (parsedCache.timestamp && Date.now() - parsedCache.timestamp < 24 * 60 * 60 * 1000) {
-          setRealReviewsData(prev => ({ ...prev, [pcode]: parsedCache }));
-          setSelectedRealReviewPcode(pcode);
-          setShowRealReviewsModal(true);
-          onModalOpenChange?.(true);
-          console.log(`✅ [RealReviews] Loaded from sessionStorage: ${product.title.slice(0, 20)}...`);
-          return;
-        }
-      }
-    } catch (e) {
-      console.warn('[RealReviews] Cache read error:', e);
-    }
-
-    // 로딩 시작
-    setRealReviewsLoading(prev => ({ ...prev, [pcode]: true }));
+    // 모달 열기
     setSelectedRealReviewPcode(pcode);
     setShowRealReviewsModal(true);
     onModalOpenChange?.(true);
 
-    try {
-      const response = await fetch('/api/v2/real-reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productTitle: product.title }),
+    // 캐시가 있으면 바로 표시, 없으면 fetch (훅에서 처리)
+    if (!realReviewsData[pcode]) {
+      await fetchRealReviews({
+        pcode,
+        title: product.title,
+        brand: product.brand || undefined,
       });
-
-      const result = await response.json();
-
-      if (result.success) {
-        const dataWithTimestamp = { ...result.data, timestamp: Date.now() };
-        
-        // State 업데이트
-        setRealReviewsData(prev => ({ ...prev, [pcode]: dataWithTimestamp }));
-        
-        // 세션 스토리지에 저장
-        try {
-          sessionStorage.setItem(cacheKey, JSON.stringify(dataWithTimestamp));
-          console.log(`💾 [RealReviews] Saved to sessionStorage: ${product.title.slice(0, 20)}...`);
-        } catch (e) {
-          console.warn('[RealReviews] Cache save error:', e);
-        }
-        
-        console.log(`✅ [RealReviews] Loaded for ${product.title} (${result.data.elapsed}ms)`);
-      } else {
-        console.error('[RealReviews] API error:', result.error);
-      }
-    } catch (error) {
-      console.error('[RealReviews] Fetch error:', error);
-    } finally {
-      setRealReviewsLoading(prev => ({ ...prev, [pcode]: false }));
     }
   };
 
@@ -1282,10 +1134,10 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     handleFetchRealReviews(product);
                     logButtonClick('실시간장단점분석_PLP', 'v2-result');
                   }}
-                  disabled={realReviewsLoading[product.pcode]}
+                  disabled={isReviewsLoading(product.pcode)}
                   className="mt-2 w-full py-2.5 text-sm font-medium text-violet-600 bg-violet-50 border border-violet-200 hover:bg-violet-100 rounded-xl transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
                 >
-                  {realReviewsLoading[product.pcode] ? (
+                  {isReviewsLoading(product.pcode) ? (
                     <>
                       <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -1296,7 +1148,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   ) : realReviewsData[product.pcode] ? (
                     <>
                       <span className="px-1.5 py-0.5 text-[10px] font-bold bg-violet-600 text-white rounded">AI</span>
-                      실시간 장단점 보기
+                      실시간 장단점
                     </>
                   ) : (
                     <>
@@ -1482,335 +1334,67 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                 <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none">
                   <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#7C3AED" />
                 </svg>
-                <h3 className="text-lg font-bold text-gray-900">실시간 장단점 분석</h3>
+                <h3 className="text-lg font-bold text-gray-900">실시간 장단점</h3>
                 {realReviewsData[selectedRealReviewPcode]?.lowQuality && (
                   <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-700 rounded-full">
                     검색 결과 부족
                   </span>
                 )}
               </div>
-              <button
-                onClick={() => {
-                  setShowRealReviewsModal(false);
-                  onModalOpenChange?.(false);
-                }}
-                className="p-2 -mr-2 text-gray-400 hover:text-gray-600"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-1">
+                {/* Refresh Button (디버깅용) */}
+                <button
+                  onClick={() => {
+                    const product = products.find(p => p.pcode === selectedRealReviewPcode);
+                    if (product) {
+                      refetchRealReviews({
+                        pcode: product.pcode,
+                        title: product.title,
+                        brand: product.brand || undefined,
+                      });
+                    }
+                  }}
+                  disabled={isReviewsLoading(selectedRealReviewPcode || '')}
+                  className="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="새로고침"
+                >
+                  <svg
+                    className={`w-5 h-5 ${isReviewsLoading(selectedRealReviewPcode || '') ? 'animate-spin' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </button>
+                {/* Close Button */}
+                <button
+                  onClick={() => {
+                    setShowRealReviewsModal(false);
+                    onModalOpenChange?.(false);
+                  }}
+                  className="p-2 -mr-2 text-gray-400 hover:text-gray-600"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             {/* Content */}
             <div className="overflow-y-auto p-4" style={{ maxHeight: 'calc(85vh - 60px)' }}>
-              {realReviewsLoading[selectedRealReviewPcode] ? (
-                <div className="space-y-3">
-                  {/* 로딩 메시지 */}
-                  <div className="text-center py-2">
-                    <p className="text-sm text-gray-500 animate-pulse">잠시만 기다려주세요...</p>
-                  </div>
-                  {/* 장점 스켈레톤 */}
-                  <div className="rounded-xl p-4 bg-gray-50 border border-gray-100">
-                    <div className="h-5 w-16 bg-gray-200 rounded animate-pulse mb-3" />
-                    <div className="border-t border-gray-200 pt-3 space-y-3">
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
-                        <div className="flex-1 space-y-1.5">
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-4/5" />
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
-                        <div className="flex-1 space-y-1.5">
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-3/5" />
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
-                        <div className="flex-1 space-y-1.5">
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-2/3" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* 단점 스켈레톤 */}
-                  <div className="rounded-xl p-4 bg-gray-50 border border-gray-100">
-                    <div className="h-5 w-16 bg-gray-200 rounded animate-pulse mb-3" />
-                    <div className="border-t border-gray-200 pt-3 space-y-3">
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
-                        <div className="flex-1 space-y-1.5">
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 mt-2 bg-gray-200 rounded-full animate-pulse" />
-                        <div className="flex-1 space-y-1.5">
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
-                          <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : realReviewsData[selectedRealReviewPcode] ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
-                  className="space-y-3"
-                >
-                  {/* 검색 시점 타임스탬프 + 소요시간 + 주의 문구 */}
-                  <div className="text-xs text-gray-400 mb-3 space-y-1">
-                    <div>
-                      {(() => {
-                        const data = realReviewsData[selectedRealReviewPcode];
-                        const timestamp = data.timestamp ? new Date(data.timestamp) : new Date();
-                        const dateStr = timestamp.toLocaleDateString('ko-KR', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        });
-                        const timeStr = timestamp.toLocaleTimeString('ko-KR', {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        });
-                        return `${dateStr} ${timeStr} 검색 · ${(data.elapsed / 1000).toFixed(1)}초 소요`;
-                      })()}
-                    </div>
-                    <div className="text-gray-400">
-                      *AI는 잘못된 정보를 가져올 수 있습니다. 참고로만 활용하세요
-                    </div>
-                  </div>
-
-                  {/* 섹션별 파싱 및 렌더링 */}
-                  {(() => {
-                    const content = realReviewsData[selectedRealReviewPcode].content;
-                    const sources = realReviewsData[selectedRealReviewPcode].sources;
-
-                    // 텍스트를 인용 링크로 변환하는 헬퍼
-                    const renderTextWithCitations = (text: string) => {
-                      // 볼드 처리 (**text**)
-                      const boldParts = text.split(/(\*\*.*?\*\*)/g);
-                      return boldParts.map((part, i) => {
-                        if (part.startsWith('**') && part.endsWith('**')) {
-                          const boldText = part.slice(2, -2);
-                          // 볼드 내부에서도 인용 처리
-                          const citationParts = boldText.split(/(\[\d+\])/g);
-                          return (
-                            <strong key={i} className="font-semibold text-gray-900">
-                              {citationParts.map((cp, j) => {
-                                const match = cp.match(/\[(\d+)\]/);
-                                if (match) {
-                                  const idx = parseInt(match[1]) - 1;
-                                  const source = sources[idx];
-                                  if (source?.uri) {
-                                    return (
-                                      <a key={j} href={source.uri} target="_blank" rel="noopener noreferrer"
-                                        className="text-violet-600 hover:text-violet-700 text-xs font-semibold"
-                                        title={source.title}>{cp}</a>
-                                    );
-                                  }
-                                }
-                                return <span key={j}>{cp}</span>;
-                              })}
-                            </strong>
-                          );
-                        }
-                        // 일반 텍스트에서 인용 처리
-                        const citationParts = part.split(/(\[\d+\])/g);
-                        return citationParts.map((cp, j) => {
-                          const match = cp.match(/\[(\d+)\]/);
-                          if (match) {
-                            const idx = parseInt(match[1]) - 1;
-                            const source = sources[idx];
-                            if (source?.uri) {
-                              return (
-                                <a key={`${i}-${j}`} href={source.uri} target="_blank" rel="noopener noreferrer"
-                                  className="text-violet-600 hover:text-violet-700 text-xs font-semibold"
-                                  title={source.title}>{cp}</a>
-                              );
-                            }
-                          }
-                          return <span key={`${i}-${j}`}>{cp}</span>;
-                        });
-                      });
-                    };
-
-                    // 섹션별로 분리 (장점/단점만)
-                    const sections: Array<{ title: string; type: 'pros' | 'cons'; lines: string[] }> = [];
-                    let currentSection: typeof sections[0] | null = null;
-
-                    content.split('\n').forEach(line => {
-                      const trimmed = line.trim();
-                      if (trimmed.startsWith('## ') || trimmed.startsWith('### ')) {
-                        const title = trimmed.replace(/^#+ /, '');
-                        let type: 'pros' | 'cons' | null = null;
-                        if (title.includes('장점')) type = 'pros';
-                        else if (title.includes('단점')) type = 'cons';
-
-                        if (type) {
-                          currentSection = { title, type, lines: [] };
-                          sections.push(currentSection);
-                        } else {
-                          currentSection = null; // 장점/단점 외 섹션은 무시
-                        }
-                      } else if (currentSection && trimmed) {
-                        currentSection.lines.push(trimmed);
-                      }
-                    });
-
-                    const sectionStyles = {
-                      pros: { bg: 'bg-gray-50', border: 'border-gray-100', icon: '👍', titleColor: 'text-blue-600', dividerColor: 'border-gray-200' },
-                      cons: { bg: 'bg-gray-50', border: 'border-gray-100', icon: '👎', titleColor: 'text-red-600', dividerColor: 'border-gray-200' },
-                    };
-
-                    // 내용이 있는 섹션만 필터링
-                    const validSections = sections.filter(s => s.lines.length > 0);
-
-                    // 장점/단점 둘 다 없으면 안내 메시지
-                    if (validSections.length === 0) {
-                      return (
-                        <div className="text-center py-6 text-gray-500">
-                          <p>이 제품에 대한 구체적인 후기 정보를 찾지 못했습니다.</p>
-                        </div>
-                      );
-                    }
-
-                    return validSections.map((section, idx) => {
-                      const style = sectionStyles[section.type];
-                      return (
-                        <div key={idx} className={`rounded-xl p-4 ${style.bg} border ${style.border}`}>
-                          <h4 className={`text-base font-bold ${style.titleColor} pb-2 mb-3 flex items-center gap-1.5 border-b ${style.dividerColor}`}>
-                            <span>{style.icon}</span>
-                            {section.title}
-                          </h4>
-                          <ul className="space-y-2.5">
-                            {section.lines.map((line, lineIdx) => {
-                              // * 또는 - 로 시작하는 리스트 항목 처리
-                              const listItem = line.replace(/^[*\-•]\s*/, '');
-                              return (
-                                <li key={lineIdx} className="text-[15px] text-gray-800 leading-relaxed flex gap-2">
-                                  <span className="text-gray-400 shrink-0 leading-relaxed">•</span>
-                                  <span className="flex-1">{renderTextWithCitations(listItem)}</span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      );
-                    });
-                  })()}
-
-                  {/* Sources with OG Preview */}
-                  {realReviewsData[selectedRealReviewPcode].sources.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <h5 className="text-sm font-semibold text-gray-700 mb-3">📚 출처</h5>
-                      <div className="space-y-2">
-                        {realReviewsData[selectedRealReviewPcode].sources.map((source, i) => (
-                          <a
-                            key={i}
-                            href={source.uri}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block border border-gray-200 rounded-lg overflow-hidden hover:border-violet-300 hover:shadow-sm transition-all"
-                          >
-                            {(() => {
-                              const ogImage = source.og?.image;
-                              const isFavicon = ogImage?.includes('google.com/s2/favicons');
-                              const hasLargeImage = ogImage && !isFavicon;
-                              
-                              // 큰 OG 이미지가 있는 경우 - 카드형 미리보기
-                              if (hasLargeImage) {
-                                return (
-                                  <div className="flex gap-3 p-2.5">
-                                    <div className="w-16 h-16 shrink-0 bg-gray-100 rounded-lg overflow-hidden">
-                                      <img
-                                        src={ogImage}
-                                        alt=""
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => {
-                                          (e.target as HTMLImageElement).style.display = 'none';
-                                        }}
-                                      />
-                                    </div>
-                                    <div className="flex-1 min-w-0 flex flex-col justify-center">
-                                      <p className="text-sm font-medium text-gray-800 line-clamp-1">
-                                        {source.og?.title || source.title || '출처 보기'}
-                                      </p>
-                                      {source.og?.description && (
-                                        <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">
-                                          {source.og.description}
-                                        </p>
-                                      )}
-                                      <p className="text-[11px] text-gray-400 mt-1">
-                                        {source.og?.siteName || (() => { try { return new URL(source.uri).hostname; } catch { return ''; } })()}
-                                      </p>
-                                    </div>
-                                  </div>
-                                );
-                              }
-                              
-                              // favicon 또는 이미지 없는 경우 - 컴팩트 카드
-                              return (
-                                <div className="flex items-center gap-3 p-2.5">
-                                  {/* Favicon 또는 사이트 아이콘 */}
-                                  <div className="w-10 h-10 shrink-0 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
-                                    {isFavicon ? (
-                                      <img
-                                        src={ogImage}
-                                        alt=""
-                                        className="w-6 h-6"
-                                        onError={(e) => {
-                                          (e.target as HTMLImageElement).style.display = 'none';
-                                          const parent = (e.target as HTMLImageElement).parentElement;
-                                          if (parent) {
-                                            parent.innerHTML = `<span class="text-violet-600 text-sm font-bold">${(i + 1)}</span>`;
-                                          }
-                                        }}
-                                      />
-                                    ) : (
-                                      <span className="text-violet-600 text-sm font-bold">{i + 1}</span>
-                                    )}
-                                  </div>
-                                  {/* 텍스트 영역 */}
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-1.5">
-                                      <span className="text-[11px] font-medium text-violet-600 bg-violet-50 px-1.5 py-0.5 rounded">
-                                        {source.og?.siteName || (() => { 
-                                          try { 
-                                            const hostname = new URL(source.uri).hostname.replace('www.', '');
-                                            if (hostname.includes('blog.naver')) return '네이버 블로그';
-                                            if (hostname.includes('cafe.naver')) return '네이버 카페';
-                                            if (hostname.includes('coupang')) return '쿠팡';
-                                            return hostname.split('.')[0];
-                                          } catch { return '출처'; } 
-                                        })()}
-                                      </span>
-                                    </div>
-                                    <p className="text-sm text-gray-700 line-clamp-1 mt-1">
-                                      {source.og?.title || source.title || '후기 보기'}
-                                    </p>
-                                  </div>
-                                  {/* 화살표 */}
-                                  <svg className="w-4 h-4 text-gray-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                  </svg>
-                                </div>
-                              );
-                            })()}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                </motion.div>
+              {realReviewsData[selectedRealReviewPcode] ? (
+                <RealReviewsContent
+                  data={realReviewsData[selectedRealReviewPcode]}
+                  isLoading={isReviewsLoading(selectedRealReviewPcode)}
+                />
+              ) : isReviewsLoading(selectedRealReviewPcode) ? (
+                <RealReviewsContent
+                  data={{ content: '', sources: [], elapsed: 0, lowQuality: false }}
+                  isLoading={true}
+                />
               ) : (
                 <div className="text-center py-8 text-gray-500">
                   데이터를 불러올 수 없습니다.
