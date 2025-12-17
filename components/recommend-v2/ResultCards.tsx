@@ -507,7 +507,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       for (const [questionId, values] of Object.entries(userContext.hardFilterAnswers)) {
         console.log(`🔍 [ReviewInsights] Question ${questionId}:`, values);
         for (const value of values) {
-          const criteriaId = HARDFILTER_TO_CRITERIA[value];
+          // review_priorities 타입의 경우 value 자체가 criteriaId이므로 자동 매핑
+          const criteriaId = HARDFILTER_TO_CRITERIA[value] || value;
           console.log(`🔍 [ReviewInsights] Value "${value}" → criteriaId:`, criteriaId);
           if (criteriaId && !selectedCriteriaIds.includes(criteriaId)) {
             selectedCriteriaIds.push(criteriaId);

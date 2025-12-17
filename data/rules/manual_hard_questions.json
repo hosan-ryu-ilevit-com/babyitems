@@ -124,7 +124,7 @@
             "value": "nipple_shape_and_size",
             "mentionCount": 15,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "젖꼭지가 얇고 길어요 두달된 아기가 사용하는데도 젖꼭지 넣으면 가끔 헛구역질 하고 무엇보다 아이가 빨지 않아요",
             "filter": {},
             "reviewKeywords": [
               "모양",
@@ -140,7 +140,7 @@
             "value": "nipple_softness",
             "mentionCount": 12,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "다른 젖병의 젖꼭지와 비교했을때 제일 부드러운것 같아요.",
             "filter": {},
             "reviewKeywords": [
               "부드러운",
@@ -156,7 +156,7 @@
             "value": "flow_rate_by_stage",
             "mentionCount": 8,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "단계별 젖꼭지 유속이 아기의 성장 속도와 맞는지 확인하는 것이 중요. 유속이 너무 빠르면 사레가 들릴 수 있고, 너무 느리면 아기가 답답해 할 수 있음.",
             "filter": {},
             "reviewKeywords": [
               "유속",
@@ -172,7 +172,7 @@
             "value": "product_manufacturing_date",
             "mentionCount": 3,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "1단계2단계시켰는데1단계제조일자가 너무오래됐어요~좀 그렇네요~2016년도라니",
             "filter": {},
             "reviewKeywords": [
               "제조일자",
@@ -187,7 +187,7 @@
             "value": "air_ventilation_effectiveness",
             "mentionCount": 7,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "울아가 젖꼭지 교체기간 3갤 다 되서 새로 구입했는데 평소에 유미젖병 넘 만족하며 쓰고있답니다 배앓이 방지 링이 있어서 늘 안심하고 맘마 먹이고있답니다 ",
             "filter": {},
             "reviewKeywords": [
               "배앓이",
@@ -203,7 +203,7 @@
             "value": "cleaning_ease_and_water_retention",
             "mentionCount": 4,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "신생아때부터 쓰던 공갈노리개라 쭉 사용하고 있어요. 울 아들은 거부반응 없이 잘 물고 다닙니다. 단점이라면 공기 구멍이 있어서 세척후 아무리 건조 소독을 해도 사이로 물이 들어가 물때가 끼더라구요 ㅜㅜ",
             "filter": {},
             "reviewKeywords": [
               "세척",
@@ -312,7 +312,7 @@
             "value": "accuracy_reliability",
             "mentionCount": 25,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "싸구려 체온계를 샀더니 열이 있어도 열이 없는 걸로 나오더라구요.",
             "filter": {},
             "reviewKeywords": [
               "정확도",
@@ -328,7 +328,7 @@
             "value": "ease_of_use",
             "mentionCount": 10,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "체온측정도 쉽고 무엇보다 숫자가 크게 잘보이기도하고 열이나면 색으로도 알수있으니 약 복용하거나 병원을 방문하기도 편하실듯하고 나이드신분들도 쉽게 사용하실수 있을거 같아 알아보다가",
             "filter": {},
             "reviewKeywords": [
               "간편",
@@ -344,7 +344,7 @@
             "value": "durability_and_reliability_of_brand",
             "mentionCount": 12,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "기존에 쓰던 10년된 브*운이 고장나서 신형 브*운을 하나 더 샀더랬죠~",
             "filter": {},
             "reviewKeywords": [
               "고장",
@@ -360,7 +360,7 @@
             "value": "initial_product_condition",
             "mentionCount": 10,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "배송이 빠르고 타사이트에 비해 저렴한 점 좋았습니다.제품도 작동 잘 되고 괜찮은데, 사용된 것 처럼 미세한 얼룩이나 찍힘, 전면 스티커 부착 등이 있긴합니다.",
             "filter": {},
             "reviewKeywords": [
               "스크래치",
@@ -376,7 +376,7 @@
             "value": "measurement_method_preference",
             "mentionCount": 8,
             "sentiment": "neutral",
-            "sampleReview": "",
+            "sampleReview": "녹십자 체온계가 체온오류가 많아서 비접촉체온계를 찾던중 요 제품이 후기도 많고 국산제품이라 구매했습니다.",
             "filter": {},
             "reviewKeywords": [
               "비접촉",
@@ -392,7 +392,7 @@
             "value": "packaging_and_customer_service",
             "mentionCount": 7,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "박스에도 내가 요청사항에 적은것을 다시한번 배달 기사님이 쉽게 볼수있게 손수적어주시고작은손편지와 같이 동봉한거에 글을남깁니다. (감동ㅠ)",
             "filter": {},
             "reviewKeywords": [
               "포장",
@@ -477,7 +477,7 @@
             "value": "suction_power_control",
             "mentionCount": 15,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "제가 흡입하는 힘을 조절하며 사용할 수 있어서 더 좋은 것 같아요.",
             "filter": {},
             "reviewKeywords": [
               "흡입력 조절",
@@ -493,7 +493,7 @@
             "value": "tip_shape_and_material",
             "mentionCount": 7,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "신형 뻥코는  흡입구 부분에 미니 튜브가 있어 탈부착 가능해서 신생아에게도 사용이 쉽게끔 되어있네요",
             "filter": {},
             "reviewKeywords": [
               "실리콘",
@@ -509,7 +509,7 @@
             "value": "price_effectiveness",
             "mentionCount": 7,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "약국에서 사면 더 비싼거 아시죠? 택배비가 있기는하나 쿠폰쓰시면 택배비만큼 거의 차감되실꺼구요",
             "filter": {},
             "reviewKeywords": [
               "가격",
@@ -525,7 +525,7 @@
             "value": "cleaning_ease",
             "mentionCount": 6,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "세척도 간편하고 싶게 역류하거나 하지도 않더라구요.",
             "filter": {},
             "reviewKeywords": [
               "세척",
@@ -540,7 +540,7 @@
             "value": "child_acceptance",
             "mentionCount": 5,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "아이가 너무 싫어하고 소리만 들어도 겁을 내더라구요.",
             "filter": {},
             "reviewKeywords": [
               "싫어",
@@ -555,7 +555,7 @@
             "value": "durability",
             "mentionCount": 3,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "제품 품절때문에 배송지연된다는 연락도 주문 3일 후엔가 오고",
             "filter": {},
             "reviewKeywords": [
               "고장",
@@ -643,7 +643,7 @@
             "value": "ease_of_cleaning",
             "mentionCount": 15,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "손이 쑥 들어가서 무엇보다 세척이 편하고 넓은 입구로 분유제조기와도 찰떡.",
             "filter": {},
             "reviewKeywords": [
               "세척",
@@ -659,7 +659,7 @@
             "value": "nipple_acceptance",
             "mentionCount": 12,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "아기가 모유처럼 느끼는 이상적인 수유를 할 수 있는 모유실감 ppsu 젖병입니다.",
             "filter": {},
             "reviewKeywords": [
               "젖꼭지",
@@ -675,7 +675,7 @@
             "value": "anti_colic_performance",
             "mentionCount": 8,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "배앓이로 8개월까지 닥브를 사용하다가 이제 일반 젖병으로 돌아오려는데",
             "filter": {},
             "reviewKeywords": [
               "배앓이",
@@ -691,7 +691,7 @@
             "value": "durability_and_material_safety",
             "mentionCount": 8,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "ppsu 재질로 내열성이 우수하고 환경호르몬도 없어 안전합니다.",
             "filter": {},
             "reviewKeywords": [
               "ppsu",
@@ -707,7 +707,7 @@
             "value": "versatility_and_scalability",
             "mentionCount": 5,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "모윰 젖병은 빨대컵으로도 추후 사용가능해서 빨대만 추가로 구매하면 분유먹이는 시기가 끝나도 쓸수 있어서 좋은거 같아요",
             "filter": {},
             "reviewKeywords": [
               "빨대컵",
@@ -723,7 +723,7 @@
             "value": "leak_proof_function",
             "mentionCount": 4,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "우선, 새지 않는 기능! 이거 정말 중요하죠.",
             "filter": {},
             "reviewKeywords": [
               "새는",
@@ -1051,7 +1051,7 @@
             "value": "size_real_vs_spec",
             "mentionCount": 12,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "이너에 쿠션가드가 설치되어있어 실제 내부사이즈가 180cm은 안됩니다.",
             "filter": {},
             "reviewKeywords": [
               "사이즈",
@@ -1067,7 +1067,7 @@
             "value": "material_quality_and_durability",
             "mentionCount": 7,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "물건이 견고하고 튼튼함- 베이비룸 설치하면서 하나하나 만져봤는데 까슬거림없이 마감이 훌륭합니다.",
             "filter": {},
             "reviewKeywords": [
               "재질",
@@ -1083,7 +1083,7 @@
             "value": "cleaning_ease",
             "mentionCount": 5,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "쿠션가드도 커버 분리가 가능하고, 패드도 세탁기로 세탁 가능하고, 매트도 접히는 틈새 부분이 바닥 쪽이라 매트 위는 이물질이 끼지 않고 클린하게 사용할 수 있어요!",
             "filter": {},
             "reviewKeywords": [
               "세탁",
@@ -1099,7 +1099,7 @@
             "value": "smell_and_offgassing",
             "mentionCount": 1,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "냄새도 안나서 바로 그냥 살짝 물티슈로 닦고 소독약 뿌려서 사용했어요 너무 맘에드네요! 잘 써보겠습니다~",
             "filter": {},
             "reviewKeywords": [
               "냄새"
@@ -1111,7 +1111,7 @@
             "value": "delivery_and_customer_service",
             "mentionCount": 10,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "발송 확인 후 오늘 도착까지 확인해서 쓰던 아기 침대정리하고 배송되기만을 기다렸는데 순면패드만 온게 너무 당황스럽고 화나내요",
             "filter": {},
             "reviewKeywords": [
               "배송",
@@ -1127,7 +1127,7 @@
             "value": "assembly_difficulty",
             "mentionCount": 8,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "설명서가 어렵다구 하던데 상세히 적히지 않아서 유튜브 영상보구 산모인 제가 직접 조립했습니당^^ 한시간 넘게 걸리긴 했지만 하구나니 엄청 뿌듯해여♡",
             "filter": {},
             "reviewKeywords": [
               "조립",
@@ -1156,7 +1156,7 @@
             "value": "size_appropriateness",
             "mentionCount": 15,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "16개월 아기인데 큰 편이라서 혹시 작지는 않을까 걱정했는데 여유롭네요. 오래 쓸 수 있겠어요.",
             "filter": {},
             "reviewKeywords": [
               "높이",
@@ -1172,7 +1172,7 @@
             "value": "stability_and_safety",
             "mentionCount": 12,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "책상도 무게감이 있어서 아기가 올라타도 한쪽으로 기울지 않아서 좋아요.",
             "filter": {},
             "reviewKeywords": [
               "흔들림",
@@ -1188,7 +1188,7 @@
             "value": "material_durability",
             "mentionCount": 8,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "아이가 크레파스로 그어놔서 지워봤는데..물티슈로 지우고 지우개로 지우니 자국이 없어져요..",
             "filter": {},
             "reviewKeywords": [
               "스크래치",
@@ -1204,7 +1204,7 @@
             "value": "delivery_and_installation",
             "mentionCount": 7,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "핫딜때 구매해서 배송은 2주정도 걸렸는데 워낙 친절하게 전화해주시고 배송 날짜 정하고 기사님이 오셔서 후딱 설치해주시고 가셨어요.",
             "filter": {},
             "reviewKeywords": [
               "배송",
@@ -1220,7 +1220,7 @@
             "value": "design_and_color",
             "mentionCount": 6,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "디자인도 꽤 예뻐서 저희집 인테리어와도 맞는다는거예요. 저는 핑크로했는데 화면보다 더 연한 딸기 우유빛나는 핑크라서 실물이 훨씬 만족스러웠어요.",
             "filter": {},
             "reviewKeywords": [
               "디자인",
@@ -1236,7 +1236,7 @@
             "value": "pencil_holder_design_flaws",
             "mentionCount": 2,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "그런데 책상 연필꽂는부분이 별로네요 연필꽂이통말고 책상구멍을 내고 마감한다고 플라스틱으로 마감했는데 이플라스틱이 고정이안되네요.",
             "filter": {},
             "reviewKeywords": [
               "연필꽂이",
@@ -1265,7 +1265,7 @@
             "value": "material_durability_and_cleanability",
             "mentionCount": 12,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "음식 물 국 쥬스 과일 흘렸는데  쓱쓱 닦여요",
             "filter": {},
             "reviewKeywords": [
               "생활방수",
@@ -1281,7 +1281,7 @@
             "value": "safety_against_tipping",
             "mentionCount": 10,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "단점이자 장점이  너무 가벼워서   애기가 스톨은 끌고 쇼파는 질질 끌고 다녀요",
             "filter": {},
             "reviewKeywords": [
               "미끄러움",
@@ -1297,7 +1297,7 @@
             "value": "actual_size_vs_age",
             "mentionCount": 8,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "12개월부터~ 라고 되어있는데9kg 14개월아기한테 약간 작은 느낌?",
             "filter": {},
             "reviewKeywords": [
               "사이즈",
@@ -1313,7 +1313,7 @@
             "value": "actual_usefulness_of_transformations",
             "mentionCount": 7,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "테이블 의자 형태로 쓰는건 테이블이 엄청 높아서 유아들이 써야할것 같아요 ㅋㅋ",
             "filter": {},
             "reviewKeywords": [
               "변형",
@@ -1329,7 +1329,7 @@
             "value": "odor_and_initial_quality",
             "mentionCount": 4,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "냄새도거의없고 물티슈로 한번 쓱닦아 말려서쓰려구요~",
             "filter": {},
             "reviewKeywords": [
               "냄새",
@@ -1345,7 +1345,7 @@
             "value": "delivery_period",
             "mentionCount": 4,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "다만, 주문 제작이라 배송이 좀 걸리니 느긋하게 주문해야 될 것 같아요. 전 넘 조급증이나서 힘들었어요ㅠㅠ",
             "filter": {},
             "reviewKeywords": [
               "배송",
@@ -1373,7 +1373,7 @@
             "value": "thickness_and_feel",
             "mentionCount": 15,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "정말이지 두께감이 다른 물티슈들이랑 비교 불가네요",
             "filter": {},
             "reviewKeywords": [
               "도톰",
@@ -1389,7 +1389,7 @@
             "value": "portability",
             "mentionCount": 7,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "가방 앞주머니에서 휙 잡아서 빼기 좋은 사이즈에..",
             "filter": {},
             "reviewKeywords": [
               "휴대",
@@ -1405,7 +1405,7 @@
             "value": "packaging_design",
             "mentionCount": 4,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "사진상으로 봤을때 세자린이 젤 이뻐보여서 샀는데 역시 실물이 더 이뻐요",
             "filter": {},
             "reviewKeywords": [
               "디자인",
@@ -1419,7 +1419,7 @@
             "value": "fragrance",
             "mentionCount": 3,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "향기있는 제품을 별로 선호하지 않는 편이라서 무향 제품이라서 더 좋은 거 같아요",
             "filter": {},
             "reviewKeywords": [
               "무향",
@@ -1432,7 +1432,7 @@
             "value": "sheet_size",
             "mentionCount": 2,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "사이즈넉넉하고",
             "filter": {},
             "reviewKeywords": [
               "사이즈",
@@ -1445,7 +1445,7 @@
             "value": "cap_stability",
             "mentionCount": 2,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "캡이라서 더 위생적인것 같고",
             "filter": {},
             "reviewKeywords": [
               "캡",
@@ -1471,7 +1471,7 @@
             "value": "portability_for_multiple_vehicles",
             "mentionCount": 7,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "엄마, 아빠, 할머니, 할아버지 등 여러대의 차를 이용하는 가족",
             "filter": {},
             "reviewKeywords": [
               "휴대",
@@ -1487,7 +1487,7 @@
             "value": "seat_width_and_comfort_for_older_children",
             "mentionCount": 4,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "아무리 휴대용이라도 시트가 좁으면 아이가 성장하고도 다리나 엉덩이이런데가 자꾸 시트밖으로 벗어나면서 불편할거 같단 생각이 들어서 값을 더 주더라도 넓은걸로 맘이 가더라고요.",
             "filter": {},
             "reviewKeywords": [
               "좌석",
@@ -1503,7 +1503,7 @@
             "value": "ease_of_seatbelt_buckling",
             "mentionCount": 3,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "ㅍoo 브랜드는 안전벨트 채우기 그지같았거든요아구를 정교하게 안맞추먼 채우질 못해서 정신없는 와중에 개짜증 유발..그러나 다이치는 벨트 채우기 너무나 쉽죠~~이래서 다이치씁니당",
             "filter": {},
             "reviewKeywords": [
               "안전벨트",
@@ -1519,7 +1519,7 @@
             "value": "fabric_breathability",
             "mentionCount": 3,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "그리고 최적의 통기성을 자랑하는 3D 메쉬 패브릭이 선택의 두번째 이유였어요. 우리아이는 땀이 많이 나는 체질이라 환기와 통기가 잘되는 재질이 필요했는데 싸이벡스제품이 그러했어요.",
             "filter": {},
             "reviewKeywords": [
               "통풍",
@@ -1535,7 +1535,7 @@
             "value": "headrest_stability_and_adjustability",
             "mentionCount": 2,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "헤드레스트역시 마찬가지로 원가절감으로 느껴집니다 설명서에도 설치시 힘을 줘 밀어넣도록 나오는데 넣는데 쓰는 힘에 비해 허무하게 빠집니다 이동시 생각없이 해드레스트 잡았다 툭 떨어지는 시틀보고 좀 당황했습니다",
             "filter": {},
             "reviewKeywords": [
               "헤드레스트",
@@ -1551,7 +1551,7 @@
             "value": "isofix_installation_stability",
             "mentionCount": 2,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "순* 빌* 카시트도  아이소픽스 지원하지만 실제로 설치해보니 다이치가 더 단단하게 고정되고 밀착감이 뛰어나 흔들림이 거의 없더라구요.",
             "filter": {},
             "reviewKeywords": [
               "ISOFIX",
@@ -1580,7 +1580,7 @@
             "value": "absorbency_speed_and_capacity",
             "mentionCount": 18,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "얇으면서도 흡수력이 좋은 기저귀를 찾던 중에 입소문난 에코씽씽기저귀를 구매하게됐어요. 일단 엄청 얇아요. 이렇게 얇은데 다 새면 어떡하나 걱정했는데, 괜한 걱정이였어요 ㅋㅋㅋㅋㅋ",
             "filter": {},
             "reviewKeywords": [
               "흡수력",
@@ -1596,7 +1596,7 @@
             "value": "breathability",
             "mentionCount": 15,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "저희 아이는 열과 땀이 많아서 요즘같이 더울때는 쉽게 짓무르고 빨갛게 땀띠가 올라와요.",
             "filter": {},
             "reviewKeywords": [
               "통기성",
@@ -1612,7 +1612,7 @@
             "value": "softness",
             "mentionCount": 12,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "네이처 메이드가 부드러워서 항상 써왔는데요 팬티형으로 넘어오면서 옆밴드 찍찍이가 아이에게 꺼끌거리는 느낌이라서 바꾸고 싶었는데 이제품으로 정착 할까해요",
             "filter": {},
             "reviewKeywords": [
               "부드러움",
@@ -1628,7 +1628,7 @@
             "value": "sizing_and_fit",
             "mentionCount": 10,
             "sentiment": "neutral",
-            "sampleReview": "",
+            "sampleReview": "하기스는 팬티형으로 입힐때 아기가 움직일때마다 다리가 계속 빠지는데 신기하데 모모래빗은 그런현상이 거의 없네요",
             "filter": {},
             "reviewKeywords": [
               "사이즈",
@@ -1644,7 +1644,7 @@
             "value": "material_quality_and_durability",
             "mentionCount": 5,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "그리고 단점이라면 벗길때 팬티형은 찢자나요 그게 찢기 힘든 느낌? 이쁘게 안찢기는 느낌이에요 그거 말고는 아직 단점은 없는거 같아요",
             "filter": {},
             "reviewKeywords": [
               "보풀",
@@ -1659,7 +1659,7 @@
             "value": "chemical_odor",
             "mentionCount": 3,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "얇고 화학냄새없고 디자인 예쁜데 뭉침없이 흡수력도 좋고 결정적으로 가격도 적당해서 넘 맘에 드네요♡",
             "filter": {},
             "reviewKeywords": [
               "냄새",
@@ -1687,7 +1687,7 @@
             "value": "stability_and_anti_tipping",
             "mentionCount": 15,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "의자가 되게 무겁고 묵직해서 안정감 있고 튼튼해 보여요",
             "filter": {},
             "reviewKeywords": [
               "안정감",
@@ -1703,7 +1703,7 @@
             "value": "ease_of_cleaning",
             "mentionCount": 10,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "일단  하이체어는  매일 아기가 밥을 먹는곳이기때문에  청결유지 중요합니다",
             "filter": {},
             "reviewKeywords": [
               "청소",
@@ -1719,7 +1719,7 @@
             "value": "product_condition_upon_arrival",
             "mentionCount": 9,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "배송을 받았는데 …. 상품이 파손되어서 왔어요….",
             "filter": {},
             "reviewKeywords": [
               "파손",
@@ -1735,7 +1735,7 @@
             "value": "ease_of_assembly",
             "mentionCount": 7,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "조립은 남편이 금방 한 걸 보니 어렵지 않았나봐요",
             "filter": {},
             "reviewKeywords": [
               "조립",
@@ -1751,7 +1751,7 @@
             "value": "accurate_height_adjustment",
             "mentionCount": 5,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "시트 높이조절이 한손으로 가능",
             "filter": {},
             "reviewKeywords": [
               "높이조절",
@@ -1767,7 +1767,7 @@
             "value": "suitability_for_infants_size",
             "mentionCount": 5,
             "sentiment": "positive",
-            "sampleReview": "",
+            "sampleReview": "확실히 이너시트를 얹고 앉히니 안정적이고 안전하기도 하네요",
             "filter": {},
             "reviewKeywords": [
               "이너시트",
@@ -1796,7 +1796,7 @@
             "value": "temperature_accuracy",
             "mentionCount": 8,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "40도가 너무 뜨거움. 혓바닥 입천장 화상 입을 정도임.",
             "filter": {},
             "reviewKeywords": [
               "온도",
@@ -1812,7 +1812,7 @@
             "value": "cleaning_easiness",
             "mentionCount": 7,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "뚜껑이 분리되서 세척하기 편하고 뚜껑이 꽉 덮혀서 물이 새지않아서 좋아요.",
             "filter": {},
             "reviewKeywords": [
               "세척",
@@ -1828,7 +1828,7 @@
             "value": "durability",
             "mentionCount": 6,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "구입 후 50일쯤 되었는데 밑바닥과 테두리 부분에 녹이 생겼습니다ㅜㅜ 아이에게 주는 물인데",
             "filter": {},
             "reviewKeywords": [
               "고장",
@@ -1844,7 +1844,7 @@
             "value": "plastic_smell",
             "mentionCount": 2,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "그리고, 물을 몇 번 끓여내도 플라스틱 냄새가 조금씩 남아있어요.",
             "filter": {},
             "reviewKeywords": [
               "플라스틱",
@@ -1858,7 +1858,7 @@
             "value": "ease_of_use",
             "mentionCount": 5,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "온도 설정때 마다 몇 차례씩 버튼을 눌러야 하고, 구식의 터치 타입이라 좀 그렇더라구요(눈에 확 들어오는 불편해 할 개발자의 촉이랄까요..)",
             "filter": {},
             "reviewKeywords": [
               "버튼",
@@ -1874,7 +1874,7 @@
             "value": "noise_level",
             "mentionCount": 3,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "설정온도 유지가 잘되고 온도편차 거의 없는데 조용하기까지 하네요.",
             "filter": {},
             "reviewKeywords": [
               "소음",
@@ -1902,7 +1902,7 @@
             "value": "customer_service_and_quality_control",
             "mentionCount": 14,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "오늘받았어요근데 녹슨유모차를주시고 뭐하자는거에요 한두푼도아니고 가격이있는데.",
             "filter": {},
             "reviewKeywords": [
               "불량",
@@ -1918,7 +1918,7 @@
             "value": "actual_folding_and_unfolding_ease",
             "mentionCount": 12,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "펼땐 확 펴지는건 아니라서 완전히 탁 걸릴때 까지 손을 좀 봐줘야합니다.",
             "filter": {},
             "reviewKeywords": [
               "폴딩",
@@ -1934,7 +1934,7 @@
             "value": "actual_seat_angle_and_comfort",
             "mentionCount": 9,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "등받이 각도가 제일 세워도 120도 정도밖에 안세워져서 아이가 허리 세우고 앉았으려고 할때 어깨 벨트에 묶여서  90도로 앉지를 못해서 불편해합니다.",
             "filter": {},
             "reviewKeywords": [
               "등받이",
@@ -1950,7 +1950,7 @@
             "value": "durability_of_materials",
             "mentionCount": 8,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "핸들부분은 스펀지라 뜯어지거나 땀 벨까봐 기존에 있던 유모차에서 쓰던 핸들커버 씌워줬어요",
             "filter": {},
             "reviewKeywords": [
               "손잡이",
@@ -1966,7 +1966,7 @@
             "value": "actual_weight_vs_perceived_weight",
             "mentionCount": 6,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "요즘 많이 거론되는 휴대형 제품에 비해 이 제품이 한 일키로 정도는 적네요. 배송받고 들어보니 와 이것도 꽤 무거운데 이것 보다 일키로 이상 무거우면 그건 휴대용이라 하기 어럽지 않나싶네요.",
             "filter": {},
             "reviewKeywords": [
               "무게",
@@ -1982,7 +1982,7 @@
             "value": "maneuverability_on_various_terrains",
             "mentionCount": 6,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "디럭스에 비해 바퀴가 작아 턱에는 걸리지만 핸들링 아주 좋고 차체가 가벼우니 미는 것도 수월해요 디럭스 쓰면서 이동시에만 이거 쓸랬는데 오히려 이게 더 가벼워 잘 밀리니 자주 쓸것 같아요 그리고 턱에 걸려도 지지대 삼을 수 있게 브레이크 라인이 있어요",
             "filter": {},
             "reviewKeywords": [
               "핸들링",

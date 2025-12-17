@@ -89,7 +89,7 @@ interface HiddenCriteria {
   importance: string;
   mentionCount: number;
   sentiment?: string;
-  representativeReview?: string;
+  sampleEvidence?: string[];  // 실제 분석 파일은 배열로 되어 있음
 }
 
 interface CategoryAnalysis {
@@ -126,7 +126,10 @@ function generateReviewPriorityOptions(analysis: CategoryAnalysis): Array<{
     value: criteria.id,
     mentionCount: criteria.mentionCount,
     sentiment: criteria.sentiment || 'neutral',
-    sampleReview: criteria.representativeReview || '',
+    // sampleEvidence 배열의 첫 번째 항목을 사용 (최대 150자로 제한)
+    sampleReview: criteria.sampleEvidence && criteria.sampleEvidence.length > 0
+      ? criteria.sampleEvidence[0].substring(0, 150)
+      : '',
     filter: {},
     reviewKeywords: criteria.keywords.slice(0, 5),
   }));
