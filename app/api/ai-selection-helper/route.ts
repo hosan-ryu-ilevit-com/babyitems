@@ -29,14 +29,25 @@ interface BalanceGameOption {
   target_rule_key: string;
 }
 
+interface NegativeFilterOption {
+  id: string;
+  label: string;
+  target_rule_key: string;
+}
+
 interface AISelectionRequest {
-  questionType: 'hard_filter' | 'balance_game';
+  questionType: 'hard_filter' | 'balance_game' | 'negative_filter';
   questionId: string;
   questionText: string;
-  options: HardFilterOption[] | { A: BalanceGameOption; B: BalanceGameOption };
+  options: HardFilterOption[] | { A: BalanceGameOption; B: BalanceGameOption } | NegativeFilterOption[];
   userContext: string;
   category: string;
   tipText?: string;
+  // negative_filter용 추가 컨텍스트
+  userSelections?: {
+    hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
+    balanceGames?: Array<{ title: string; selectedOption: string }>;
+  };
 }
 
 interface AISelectionResponse {
@@ -51,7 +62,7 @@ interface AISelectionResponse {
 export async function POST(request: NextRequest) {
   try {
     const body: AISelectionRequest = await request.json();
-    const { questionType, questionId, questionText, options, userContext, category, tipText } = body;
+    const { questionType, questionId, questionText, options, userContext, category, tipText, userSelections } = body;
 
     if (!userContext || userContext.trim().length < 2) {
       return NextResponse.json(
@@ -73,7 +84,66 @@ export async function POST(request: NextRequest) {
     let systemPrompt: string;
     let userPrompt: string;
 
-    if (questionType === 'hard_filter') {
+    if (questionType === 'negative_filter') {
+      // negative_filter 처리
+      const negativeOptions = options as NegativeFilterOption[];
+      const optionsList = negativeOptions
+        .map(o => `- "${o.target_rule_key}": ${o.label}`)
+        .join('\n');
+
+      // 이전 선택 컨텍스트 구성
+      let previousSelectionsContext = '';
+      if (userSelections) {
+        if (userSelections.hardFilters && userSelections.hardFilters.length > 0) {
+          previousSelectionsContext += '\n**사용자의 이전 선택 (환경 체크):**\n';
+          userSelections.hardFilters.forEach(hf => {
+            previousSelectionsContext += `- ${hf.questionText}: ${hf.selectedLabels.join(', ')}\n`;
+          });
+        }
+        if (userSelections.balanceGames && userSelections.balanceGames.length > 0) {
+          previousSelectionsContext += '\n**사용자의 이전 선택 (취향 선택):**\n';
+          userSelections.balanceGames.forEach(bg => {
+            previousSelectionsContext += `- ${bg.title}: ${bg.selectedOption}\n`;
+          });
+        }
+      }
+
+      systemPrompt = `당신은 육아용품 전문 상담사입니다. 사용자의 상황을 듣고 "피하고 싶은 단점"을 추천해주세요.
+
+**중요 규칙:**
+1. 반드시 제공된 단점 옵션의 "target_rule_key" 값만 selectedOptions에 넣으세요 (label이 아닌 target_rule_key)
+2. 사용자 상황에 맞는 0-3개의 단점을 추천하세요
+3. 정말 피해야 하는 단점만 선택하세요. 모호한 경우 선택하지 마세요
+4. 사용자의 이전 선택(환경 체크, 취향 선택)과 일관성 있게 추천하세요
+5. 추천 이유는 반드시 사용자의 상황과 연결해서 설명하세요
+6. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요. 옵션을 언급할 때는 target_rule_key가 아닌 한글 label을 사용하세요.**
+7. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요.**
+8. 사용자가 특별히 피해야 할 단점이 없어 보이면 빈 배열 []을 selectedOptions에 넣으세요
+
+${insightsContext}`;
+
+      userPrompt = `**현재 질문:**
+${questionText}
+
+**피할 수 있는 단점 옵션들:**
+${optionsList}
+${previousSelectionsContext}
+${tipText ? `**팁:** ${tipText}` : ''}
+
+**사용자 상황:**
+"${userContext}"
+
+**응답 형식 (JSON):**
+{
+  "recommendation": {
+    "selectedOptions": ["target_rule_key1", "target_rule_key2"] 또는 [] (피해야 할 단점이 없으면),
+    "confidence": "high" | "medium" | "low"
+  },
+  "reasoning": "추천 이유 (2-3문장, 사용자 상황과 연결)",
+  "alternatives": "다른 선택이 더 나을 수 있는 경우 (없으면 null)"
+}`;
+
+    } else if (questionType === 'hard_filter') {
       const optionsList = (options as HardFilterOption[])
         .map(o => `- "${o.value}": ${o.label}`)
         .join('\n');
@@ -167,6 +237,13 @@ B: ${balanceOptions.B.text}
       parsed.recommendation.selectedOptions = parsed.recommendation.selectedOptions.filter(
         opt => validValues.includes(opt)
       );
+    } else if (questionType === 'negative_filter') {
+      // negative_filter는 target_rule_key 값들만 허용
+      const validKeys = (options as NegativeFilterOption[]).map(o => o.target_rule_key);
+      parsed.recommendation.selectedOptions = parsed.recommendation.selectedOptions.filter(
+        opt => validKeys.includes(opt)
+      );
+      // 빈 배열도 유효 (피해야 할 단점이 없는 경우)
     } else {
       // balance_game은 A, B, both만 허용
       const validOptions = ['A', 'B', 'both'];

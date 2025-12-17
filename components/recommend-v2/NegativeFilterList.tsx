@@ -3,12 +3,19 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { NegativeFilterData } from '@/types/recommend-v2';
+import { AIHelperButton } from './AIHelperButton';
+import { NegativeFilterAIHelperBottomSheet } from './NegativeFilterAIHelperBottomSheet';
 
 interface CustomNegativeOption {
   id: string;
   label: string;
   target_rule_key: string;
   isCustom: true;
+}
+
+interface UserSelections {
+  hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
+  balanceGames?: Array<{ title: string; selectedOption: string }>;
 }
 
 interface NegativeFilterListProps {
@@ -18,6 +25,11 @@ interface NegativeFilterListProps {
   onCustomAdd?: (customText: string) => void;
   // 로깅 콜백: 개별 토글 시 호출 (label 포함)
   onToggleWithLabel?: (ruleKey: string, label: string, isSelected: boolean, totalSelected: number) => void;
+  // AI 도움받기 관련
+  showAIHelper?: boolean;
+  category?: string;
+  categoryName?: string;
+  userSelections?: UserSelections;
 }
 
 /**
@@ -25,17 +37,24 @@ interface NegativeFilterListProps {
  * - 선택 순서 표시
  * - 체크 애니메이션
  * - 스킵 가능
+ * - AI 도움받기 버튼 추가
  */
-export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd, onToggleWithLabel }: NegativeFilterListProps) {
+export function NegativeFilterList({ 
+  data, 
+  onToggle, 
+  onSkip, 
+  onCustomAdd, 
+  onToggleWithLabel,
+  showAIHelper = false,
+  category = '',
+  categoryName = '',
+  userSelections,
+}: NegativeFilterListProps) {
   const { options, selectedKeys } = data;
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [customInput, setCustomInput] = useState('');
   const [customOptions, setCustomOptions] = useState<CustomNegativeOption[]>([]);
-
-  // 선택된 순서 계산
-  const getSelectedIndex = (ruleKey: string) => {
-    return selectedKeys.indexOf(ruleKey);
-  };
+  const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
 
   return (
     <motion.div
@@ -61,12 +80,16 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd, onTogg
         </span>
       </h3>
 
+      {/* AI 도움받기 버튼 */}
+      {showAIHelper && (
+        <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+      )}
+
       {/* 옵션 목록 */}
       <div className="space-y-2">
         {/* 기본 옵션 */}
         {options.map((option, index) => {
           const isSelected = selectedKeys.includes(option.target_rule_key);
-          const selectedIndex = getSelectedIndex(option.target_rule_key);
 
           return (
             <motion.button
@@ -87,22 +110,26 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd, onTogg
               }`}
             >
               <div className="flex items-center gap-3">
-                {/* 선택 순서 표시 */}
+                {/* 체크박스 */}
                 <div
-                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold shrink-0 transition-all ${
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                     isSelected
-                      ? 'border-rose-500 bg-rose-500 text-white'
-                      : 'border-gray-300 bg-white text-gray-400'
+                      ? 'border-rose-500 bg-rose-500'
+                      : 'border-gray-300 bg-white'
                   }`}
                 >
-                  {isSelected ? (
-                    <motion.span
+                  {isSelected && (
+                    <motion.svg
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
+                      className="w-3 h-3 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      {selectedIndex + 1}
-                    </motion.span>
-                  ) : null}
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </motion.svg>
+                  )}
                 </div>
 
                 {/* 옵션 텍스트 */}
@@ -121,7 +148,6 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd, onTogg
         {/* 커스텀 옵션 (사용자가 직접 입력한 것) */}
         {customOptions.map((option) => {
           const isSelected = selectedKeys.includes(option.target_rule_key);
-          const selectedIndex = getSelectedIndex(option.target_rule_key);
 
           return (
             <motion.button
@@ -141,22 +167,26 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd, onTogg
               }`}
             >
               <div className="flex items-center gap-3">
-                {/* 선택 순서 표시 */}
+                {/* 체크박스 */}
                 <div
-                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold shrink-0 transition-all ${
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                     isSelected
-                      ? 'border-rose-500 bg-rose-500 text-white'
-                      : 'border-gray-300 bg-white text-gray-400'
+                      ? 'border-rose-500 bg-rose-500'
+                      : 'border-gray-300 bg-white'
                   }`}
                 >
-                  {isSelected ? (
-                    <motion.span
+                  {isSelected && (
+                    <motion.svg
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
+                      className="w-3 h-3 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      {selectedIndex + 1}
-                    </motion.span>
-                  ) : null}
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </motion.svg>
+                  )}
                 </div>
 
                 {/* 옵션 텍스트 + 직접입력 표시 */}
@@ -259,6 +289,37 @@ export function NegativeFilterList({ data, onToggle, onSkip, onCustomAdd, onTogg
             다 괜찮아요, 넘어가기
           </button>
         </div>
+      )}
+
+      {/* AI 도움받기 바텀시트 */}
+      {showAIHelper && (
+        <NegativeFilterAIHelperBottomSheet
+          isOpen={isAIHelperOpen}
+          onClose={() => setIsAIHelperOpen(false)}
+          options={options}
+          category={category}
+          categoryName={categoryName}
+          userSelections={userSelections}
+          onSelectOptions={(selectedRuleKeys) => {
+            // 먼저 현재 선택된 것들을 모두 해제
+            selectedKeys.forEach(key => {
+              if (!selectedRuleKeys.includes(key)) {
+                onToggle(key);
+              }
+            });
+            // AI가 추천한 것들을 선택 (아직 선택되지 않은 것만)
+            selectedRuleKeys.forEach(ruleKey => {
+              if (!selectedKeys.includes(ruleKey)) {
+                onToggle(ruleKey);
+                // 로깅 콜백 호출
+                const option = options.find(o => o.target_rule_key === ruleKey);
+                if (option && onToggleWithLabel) {
+                  onToggleWithLabel(ruleKey, option.label, true, selectedRuleKeys.length);
+                }
+              }
+            });
+          }}
+        />
       )}
     </motion.div>
   );

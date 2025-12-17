@@ -76,10 +76,12 @@ export async function POST(request: NextRequest) {
     const targetCategories = targetCategoryCodes || categoryLogic.target_categories;
 
     // 2. Supabase 쿼리 구성
+    // 리뷰 0개인 제품은 제외 (review_count > 0)
     let query = supabase
       .from('danawa_products')
-      .select('pcode, title, brand, price, rank, thumbnail, spec, category_code, filter_attrs')
+      .select('pcode, title, brand, price, rank, thumbnail, spec, category_code, filter_attrs, review_count')
       .in('category_code', targetCategories)
+      .gt('review_count', 0)  // 리뷰가 1개 이상인 제품만
       .order('rank', { ascending: true, nullsFirst: false })
       .limit(limit);
 
@@ -106,6 +108,8 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    console.log(`[v2/products] Category: ${categoryKey}, Products with reviews: ${products?.length || 0}`);
 
     // 4. 다나와 최저가 조회 및 병합
     if (products && products.length > 0) {

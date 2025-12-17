@@ -406,6 +406,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
   // 이전 캐시키 저장 (카테고리/제품 변경 감지용)
   const prevCacheKeyRef = useRef<string | null>(null);
+  // anchor comparison API 호출 중복 방지용 ref
+  const anchorComparisonCalledRef = useRef<string | null>(null);
 
   // 카테고리 또는 제품이 변경되면 refs 리셋
   useEffect(() => {
@@ -414,6 +416,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       // 캐시 키가 변경됨 → refs 리셋
       console.log('🔄 [ResultCards] Cache key changed, resetting refs:', prevCacheKeyRef.current, '→', currentCacheKey);
       analysisCalledRef.current = false;
+      anchorComparisonCalledRef.current = null;  // anchor comparison ref도 리셋
       // 상태도 리셋
       setProductAnalysisData({});
       setComparisonDetails({});
@@ -674,10 +677,11 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     const isAnchorInTop3 = products.slice(0, 3).some(p => p.pcode === anchorId);
     if (isAnchorInTop3) return;
 
-    // 이미 comparison 데이터가 있으면 skip
-    if (comparisonDetails[anchorId]) return;
+    // 이미 이 앵커에 대해 API 호출했으면 skip (ref 기반 중복 방지)
+    if (anchorComparisonCalledRef.current === anchorId) return;
 
     console.log('📌 [ResultCards] Fetching comparison data for anchor product:', anchorId);
+    anchorComparisonCalledRef.current = anchorId;
 
     const fetchAnchorComparison = async () => {
       try {
@@ -705,11 +709,14 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         }
       } catch (error) {
         console.error('[ResultCards] Failed to fetch anchor comparison:', error);
+        // 실패 시 다시 시도할 수 있도록 ref 리셋
+        anchorComparisonCalledRef.current = null;
       }
     };
 
     fetchAnchorComparison();
-  }, [anchorProduct, categoryKey, products, comparisonDetails]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anchorProduct, categoryKey, products]);  // comparisonDetails 제거!
 
   // Convert ScoredProduct to Recommendation for DetailedComparisonTable
   // Include analysis data from background LLM calls

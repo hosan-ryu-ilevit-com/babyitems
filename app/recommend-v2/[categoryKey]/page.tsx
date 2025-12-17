@@ -1947,6 +1947,10 @@ export default function RecommendV2Page() {
                 onToggleWithLabel={(ruleKey, label, isSelected, totalSelected) => {
                   logV2NegativeToggle(categoryKey, categoryName, ruleKey, label, isSelected, totalSelected);
                 }}
+                showAIHelper={true}
+                category={categoryKey}
+                categoryName={categoryName}
+                userSelections={budgetUserSelections}
               />
             </div>
           );
