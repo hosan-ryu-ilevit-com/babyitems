@@ -11,6 +11,15 @@ import filterQuestionsData from '@/data/rules/filter_questions.json';
 import filterTipsData from '@/data/rules/filter_tips.json';
 import { CATEGORY_CODE_MAP } from './categoryUtils';
 import { normalizeFilterValue, normalizeAndDeduplicateValues } from './labelNormalizer';
+import { createClient } from '@supabase/supabase-js';
+import { getDataSource, ENURI_CATEGORY_CODES } from '@/lib/dataSourceConfig';
+
+// Supabase 클라이언트 (하드필터 생성용)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
 // 다나와 필터 원본 타입
 interface DanawaFilter {
@@ -391,9 +400,83 @@ interface DanawaProduct {
 }
 
 /**
- * 다나와 제품 JSON 파일 로드 + 로컬 spec 파일 (에누리 데이터 포함)
+ * Supabase에서 제품 데이터 로드 (하드필터 생성용)
+ * - UI의 제품 카운트와 동일한 데이터 소스 사용
+ * - review_count > 0 조건 적용 (실제 서비스와 동일)
  */
 export async function loadDanawaProducts(): Promise<DanawaProduct[]> {
+  // Supabase가 없으면 로컬 파일 fallback
+  if (!supabase) {
+    console.log('[loadDanawaProducts] Supabase not available, falling back to local files...');
+    return loadDanawaProductsFromLocalFiles();
+  }
+
+  try {
+    const products: DanawaProduct[] = [];
+
+    // 1. 다나와 제품 로드 (review_count > 0)
+    const { data: danawaData, error: danawaError } = await supabase
+      .from('danawa_products')
+      .select('pcode, title, brand, category_code, filter_attrs, spec')
+      .gt('review_count', 0)
+      .order('rank', { ascending: true });
+
+    if (danawaError) {
+      console.error('[loadDanawaProducts] Danawa error:', danawaError);
+    } else if (danawaData) {
+      for (const p of danawaData) {
+        products.push({
+          pcode: p.pcode,
+          title: p.title,
+          brand: p.brand,
+          category_code: String(p.category_code),  // 타입 통일
+          filter_attrs: p.filter_attrs || {},
+          spec: p.spec || {},
+        });
+      }
+      console.log(`[loadDanawaProducts] Loaded ${danawaData.length} products from Supabase danawa_products`);
+    }
+
+    // 2. 에누리 제품 로드 (formula_maker, baby_formula_dispenser)
+    const enuriCategoryKeys = Object.keys(ENURI_CATEGORY_CODES);
+    for (const categoryKey of enuriCategoryKeys) {
+      const enuriCategoryCode = ENURI_CATEGORY_CODES[categoryKey];
+      const { data: enuriData, error: enuriError } = await supabase
+        .from('enuri_products')
+        .select('model_no, title, brand, category_code, filter_attrs, spec')
+        .eq('category_code', enuriCategoryCode)
+        .gt('review_count', 0);
+
+      if (enuriError) {
+        console.error(`[loadDanawaProducts] Enuri error for ${categoryKey}:`, enuriError);
+      } else if (enuriData) {
+        for (const p of enuriData) {
+          products.push({
+            pcode: p.model_no,
+            title: p.title,
+            brand: p.brand,
+            category_code: categoryKey,  // categoryKey 사용 (CATEGORY_CODE_MAP 매칭용)
+            filter_attrs: p.filter_attrs || {},
+            spec: p.spec || {},
+          });
+        }
+        console.log(`[loadDanawaProducts] Loaded ${enuriData.length} products from Supabase enuri_products (${categoryKey})`);
+      }
+    }
+
+    console.log(`[loadDanawaProducts] Total: ${products.length} products from Supabase`);
+    return products;
+
+  } catch (error) {
+    console.error('[loadDanawaProducts] Failed to load from Supabase:', error);
+    return loadDanawaProductsFromLocalFiles();
+  }
+}
+
+/**
+ * 로컬 파일에서 제품 로드 (Supabase 불가 시 fallback)
+ */
+async function loadDanawaProductsFromLocalFiles(): Promise<DanawaProduct[]> {
   try {
     const fs = await import('fs/promises');
     const path = await import('path');
@@ -409,7 +492,7 @@ export async function loadDanawaProducts(): Promise<DanawaProduct[]> {
       console.log('[loadDanawaProducts] Danawa products file not found, continuing...');
     }
 
-    // 2. 로컬 spec 파일에서 에누리 데이터 로드 (stroller, diaper, car_seat, formula_maker, baby_formula_dispenser)
+    // 2. 로컬 spec 파일에서 에누리 데이터 로드
     const enuriCategories = ['stroller', 'diaper', 'car_seat', 'formula_maker', 'baby_formula_dispenser'];
     for (const categoryKey of enuriCategories) {
       try {
@@ -417,14 +500,12 @@ export async function loadDanawaProducts(): Promise<DanawaProduct[]> {
         const specData = await fs.readFile(specFilePath, 'utf-8');
         const localProducts = JSON.parse(specData);
 
-        // 로컬 spec 형식을 DanawaProduct 형식으로 변환
-        // category_code는 항상 categoryKey 사용 (CATEGORY_CODE_MAP 매칭을 위해)
         for (const p of localProducts) {
           products.push({
             pcode: String(p.productId),
             title: p.모델명,
             brand: p.브랜드,
-            category_code: categoryKey,  // 에누리 데이터는 categoryKey 사용
+            category_code: categoryKey,
             filter_attrs: p.filter_attrs || {},
             spec: {
               features: p.specs?.특징 || [],
@@ -439,7 +520,7 @@ export async function loadDanawaProducts(): Promise<DanawaProduct[]> {
 
     return products;
   } catch (error) {
-    console.error('Failed to load danawa products:', error);
+    console.error('Failed to load danawa products from local files:', error);
     return [];
   }
 }
@@ -536,9 +617,11 @@ export async function generateHardFiltersForCategory(
     loadQuestionConfigs(),
   ]);
 
-  // 해당 카테고리의 제품만 필터링
+  // 해당 카테고리의 제품만 필터링 (category_code 타입 통일)
   const categoryCodes = targetCategoryCodes || CATEGORY_CODE_MAP[categoryKey] || [];
-  const categoryProducts = allProducts.filter(p => categoryCodes.includes(p.category_code));
+  const categoryProducts = allProducts.filter(p => 
+    categoryCodes.includes(String(p.category_code))
+  );
 
   // 2. 다나와 필터 기반 동적 생성 (제품 데이터에서 옵션 값 추출)
   const dynamicQuestions = convertDanawaFiltersToHardFilters(

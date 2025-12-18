@@ -1756,7 +1756,7 @@ export default function RecommendV2Page() {
         console.warn('[sessionStorage] Failed to save result:', e);
       }
 
-      // Log recommendation received (with matchedRules as tags)
+      // Log recommendation received (with matchedRules as tags + recommendationReason)
       logV2RecommendationReceived(
         categoryKey,
         categoryName,
@@ -1768,6 +1768,7 @@ export default function RecommendV2Page() {
           price: p.price || undefined,
           score: p.totalScore,
           tags: p.matchedRules, // 매칭된 규칙들
+          reason: (p as { recommendationReason?: string }).recommendationReason, // 제품별 추천 이유
         })),
         finalSelectionReason,
         budgetFiltered.length
@@ -1834,13 +1835,22 @@ export default function RecommendV2Page() {
           const validHighlights = highlightedReviews.filter((h): h is NonNullable<typeof h> => h !== null);
 
           if (validHighlights.length > 0) {
-            // highlightedReviews만 포함한 추가 로깅
+            // 제품 정보 + highlightedReviews 함께 로깅 (어드민에서 매칭 용이하도록)
             logV2RecommendationReceived(
               categoryKey,
               categoryName,
-              [], // 제품 목록은 이미 로깅됨
-              undefined,
-              0,
+              top3.map((p: ScoredProduct, index: number) => ({
+                pcode: p.pcode,
+                title: p.title,
+                brand: p.brand || undefined,
+                rank: index + 1,
+                price: p.price || undefined,
+                score: p.totalScore,
+                tags: p.matchedRules,
+                reason: (p as { recommendationReason?: string }).recommendationReason,
+              })),
+              finalSelectionReason,
+              budgetFiltered.length,
               undefined,
               validHighlights
             );

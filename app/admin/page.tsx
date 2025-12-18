@@ -2638,26 +2638,113 @@ export default function AdminPage() {
                                           </div>
                                           {event.v2FlowData.recommendation.selectionReason && (
                                             <div className="bg-white p-2 rounded">
-                                              <p className="font-semibold text-gray-700 mb-1">AI 선정 이유:</p>
+                                              <p className="font-semibold text-gray-700 mb-1">🤖 AI 전체 선정 이유:</p>
                                               <p className="text-gray-600 whitespace-pre-wrap">{event.v2FlowData.recommendation.selectionReason}</p>
                                             </div>
                                           )}
-                                          {event.v2FlowData.recommendation.recommendedProducts?.map((prod: { pcode: string; title: string; brand?: string; rank: number; price?: number; score?: number; tags?: string[]; reason?: string; }, pi: number) => (
-                                            <div key={pi} className="bg-white p-2 rounded border-l-4 border-purple-400">
-                                              <p className="font-bold text-gray-800">#{prod.rank} {prod.brand} {prod.title}</p>
-                                              <p className="text-gray-600">가격: {prod.price?.toLocaleString()}원 | 점수: {prod.score}점</p>
-                                              {prod.tags && prod.tags.length > 0 && (
-                                                <div className="flex flex-wrap gap-1 mt-1">
-                                                  {prod.tags.map((tag: string, ti: number) => (
-                                                    <span key={ti} className="px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">{tag}</span>
-                                                  ))}
+                                          {/* 각 제품별 상세 정보 */}
+                                          {(() => {
+                                            // 🔍 세션 내 모든 highlightedReviews 데이터 병합 (현재 이벤트 + 다른 이벤트)
+                                            type HighlightReview = { criteriaId: string; criteriaName: string; originalText: string; excerpt: string };
+                                            type ProductHighlight = { pcode: string; productTitle: string; rank: number; reviews: HighlightReview[] };
+                                            
+                                            const allHighlightedReviews: ProductHighlight[] = [];
+                                            
+                                            // 현재 이벤트에 highlightedReviews가 있으면 추가
+                                            if (event.v2FlowData.recommendation.highlightedReviews) {
+                                              allHighlightedReviews.push(...event.v2FlowData.recommendation.highlightedReviews);
+                                            }
+                                            
+                                            // 다른 이벤트에서도 highlightedReviews 찾기
+                                            session.events.forEach((e: { eventType: string; v2FlowData?: { recommendation?: { highlightedReviews?: ProductHighlight[] } } }) => {
+                                              if (e !== event && 
+                                                  e.eventType === 'v2_recommendation_received' && 
+                                                  e.v2FlowData?.recommendation?.highlightedReviews) {
+                                                e.v2FlowData.recommendation.highlightedReviews.forEach((h: ProductHighlight) => {
+                                                  // 중복 방지
+                                                  if (!allHighlightedReviews.some(existing => existing.pcode === h.pcode)) {
+                                                    allHighlightedReviews.push(h);
+                                                  }
+                                                });
+                                              }
+                                            });
+                                            
+                                            return event.v2FlowData.recommendation.recommendedProducts?.map((prod: { pcode: string; title: string; brand?: string; rank: number; price?: number; score?: number; tags?: string[]; reason?: string; }, pi: number) => {
+                                            // 해당 제품의 하이라이트 리뷰 찾기
+                                            const productHighlights = allHighlightedReviews.find(
+                                              (h: ProductHighlight) => h.pcode === prod.pcode
+                                            );
+                                            
+                                            // 마크다운 볼드 파싱 함수
+                                            const parseMarkdownBold = (text: string) => {
+                                              const parts = text.split(/(\*\*.*?\*\*)/g);
+                                              return parts.map((part: string, partIdx: number) => {
+                                                if (part.startsWith('**') && part.endsWith('**')) {
+                                                  const boldText = part.slice(2, -2);
+                                                  return (
+                                                    <strong key={partIdx} className="bg-amber-200 text-amber-900 px-0.5 rounded">
+                                                      {boldText}
+                                                    </strong>
+                                                  );
+                                                }
+                                                return <span key={partIdx}>{part}</span>;
+                                              });
+                                            };
+                                            
+                                            return (
+                                              <div key={pi} className="bg-white p-3 rounded border-l-4 border-purple-400 space-y-2">
+                                                {/* 제품 기본 정보 */}
+                                                <div>
+                                                  <p className="font-bold text-gray-800">#{prod.rank} {prod.brand} {prod.title}</p>
+                                                  <p className="text-gray-600">가격: {prod.price?.toLocaleString()}원 | 점수: {prod.score}점</p>
+                                                  {prod.tags && prod.tags.length > 0 && (
+                                                    <div className="flex flex-wrap gap-1 mt-1">
+                                                      {prod.tags.map((tag: string, ti: number) => (
+                                                        <span key={ti} className="px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">{tag}</span>
+                                                      ))}
+                                                    </div>
+                                                  )}
                                                 </div>
-                                              )}
-                                              {prod.reason && (
-                                                <p className="text-gray-500 mt-1">{prod.reason}</p>
-                                              )}
-                                            </div>
-                                          ))}
+                                                
+                                                {/* 💜 제품별 추천 이유 (보라색 컨테이너) */}
+                                                {prod.reason && (
+                                                  <div className="bg-purple-100 border border-purple-300 rounded-lg p-2">
+                                                    <p className="font-semibold text-purple-800 mb-1 text-xs flex items-center gap-1">
+                                                      💜 제품별 추천 이유
+                                                    </p>
+                                                    <p className="text-purple-700 text-xs leading-relaxed">{prod.reason}</p>
+                                                  </div>
+                                                )}
+                                                
+                                                {/* 🟡 리뷰 하이라이트 (노란색 컨테이너) */}
+                                                {productHighlights && productHighlights.reviews && productHighlights.reviews.length > 0 && (
+                                                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-2">
+                                                    <p className="font-semibold text-amber-800 mb-1 text-xs flex items-center gap-1">
+                                                      ✨ 리뷰 하이라이트 ({productHighlights.reviews.length}개)
+                                                    </p>
+                                                    <div className="space-y-1.5">
+                                                      {productHighlights.reviews.slice(0, 3).map((review: { criteriaId: string; criteriaName: string; originalText: string; excerpt: string }, rIdx: number) => (
+                                                        <div key={rIdx} className="bg-white rounded p-1.5 border border-amber-100">
+                                                          <div className="text-amber-700 font-medium text-[10px] mb-0.5">
+                                                            {review.criteriaName}
+                                                          </div>
+                                                          <div className="text-gray-700 text-[10px] leading-relaxed">
+                                                            {parseMarkdownBold(review.excerpt)}
+                                                          </div>
+                                                        </div>
+                                                      ))}
+                                                      {productHighlights.reviews.length > 3 && (
+                                                        <p className="text-[10px] text-amber-600 italic">
+                                                          + {productHighlights.reviews.length - 3}개 더
+                                                        </p>
+                                                      )}
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </div>
+                                            );
+                                          });
+                                          })()}
                                         </div>
                                       )}
                                     </div>

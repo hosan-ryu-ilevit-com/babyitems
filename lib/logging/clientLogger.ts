@@ -758,6 +758,7 @@ export function logV2RecommendationReceived(
     price?: number;
     score?: number;
     tags?: string[]; // 매칭된 규칙들 (matchedRules)
+    reason?: string; // 제품별 추천 이유 (recommendationReason)
   }>,
   selectionReason: string | undefined,
   totalCandidates: number,
