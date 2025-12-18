@@ -398,10 +398,28 @@ export default function RecommendV2Page() {
           setSubCategoryConfig(subConfig || null);
         }
 
-        // Load rules from API
-        const rulesRes = await fetch(`/api/v2/rules/${categoryKey}`);
-        const rulesJson = await rulesRes.json();
+        // 🚀 병렬 로드: rules API + products API 동시 호출
+        console.log('📦 [Parallel Load] Starting for:', categoryKey);
+        const loadStartTime = performance.now();
 
+        const [rulesRes, productsRes] = await Promise.all([
+          fetch(`/api/v2/rules/${categoryKey}`),
+          fetch('/api/v2/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ categoryKey, limit: 500 }),
+          }),
+        ]);
+
+        const [rulesJson, productsJson] = await Promise.all([
+          rulesRes.json(),
+          productsRes.json(),
+        ]);
+
+        const loadEndTime = performance.now();
+        console.log(`📦 [Parallel Load] Completed in ${(loadEndTime - loadStartTime).toFixed(0)}ms`);
+
+        // Rules 처리
         if (!rulesJson.success) {
           router.push('/categories-v2');
           return;
@@ -473,17 +491,7 @@ export default function RecommendV2Page() {
           }
         }
 
-        // Load products - 모든 카테고리에서 초기 로드 필요
-        // (sub-category 카테고리도 하위 카테고리별 개수 표시를 위해 필요)
-        console.log('📦 [Products] Loading for:', categoryKey);
-        const productsRes = await fetch('/api/v2/products', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ categoryKey, limit: 500 }),
-        });
-        const productsJson = await productsRes.json();
-        console.log('📦 [Products] Response:', productsJson.success, 'count:', productsJson.data?.count);
-
+        // Products 처리
         if (productsJson.success && productsJson.data?.products) {
           setProducts(productsJson.data.products);
           setFilteredProducts(productsJson.data.products);
