@@ -43,8 +43,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 1. Supabase에서 리뷰 로드 (고평점 10개 + 저평점 5개)
-    const reviewsMap = await getSampledReviewsFromSupabase(pcodes, 10, 5);
+    // 1. Supabase에서 리뷰 로드 (고평점 20개 + 저평점 5개)
+    const reviewsMap = await getSampledReviewsFromSupabase(pcodes, 20, 5);
     console.log(`[review-keywords-llm] Loaded reviews for ${reviewsMap.size} products`);
 
     // 2. 각 제품-체감속성 조합에 대해 LLM으로 발췌
@@ -160,7 +160,7 @@ async function extractRelevantExcerpt(
    - 더 짧아도 OK
 
 3. **볼드 처리 필수**:
-   - "${criteriaName}"와 가장 관련 깊은 핵심 문장을 **볼드**로 감싸세요
+   - "${criteriaName}"와 관련 깊은 핵심 문장을 **볼드**로 감싸세요
    - 예: "...괜찮아요. **온도가 정말 정확해서 만족합니다.** 추천해요."
 
 4. **생략 표시**: 앞뒤에 "..." 붙이기

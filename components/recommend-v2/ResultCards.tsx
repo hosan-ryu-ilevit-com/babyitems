@@ -7,7 +7,7 @@ import type { ScoredProduct, ProductVariant } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
-import { logButtonClick, logV2ProductModalOpened, logFavoriteAction } from '@/lib/logging/clientLogger';
+import { logButtonClick, logV2ProductModalOpened, logFavoriteAction, logV2RecommendationReceived } from '@/lib/logging/clientLogger';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useDanawaPrices } from '@/hooks/useDanawaPrices';
 import { useRealReviewsCache } from '@/hooks/useRealReviewsCache';
@@ -431,7 +431,56 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           }
 
           console.log('✅ [ResultCards] Review insights loaded (LLM-based):', Object.keys(result.data).length, 'products');
-          // topSample에 이미 LLM 하이라이팅이 포함되어 있으므로 별도 fetch 불필요
+          
+          // 🆕 어드민용 리뷰 하이라이트 로깅 (reviewInsights를 highlightedReviews 형식으로 변환)
+          try {
+            const highlightedReviews = products.slice(0, 3).map((product, index) => {
+              const productInsights = result.data[product.pcode];
+              if (!productInsights?.insights || productInsights.insights.length === 0) {
+                return null;
+              }
+              return {
+                pcode: product.pcode,
+                productTitle: product.title,
+                rank: index + 1,
+                reviews: productInsights.insights.slice(0, 3).map((insight: { criteriaId: string; criteriaName: string; topSample: string | null }) => ({
+                  criteriaId: insight.criteriaId,
+                  criteriaName: insight.criteriaName,
+                  originalText: insight.topSample || '',
+                  excerpt: insight.topSample || '',
+                })),
+              };
+            }).filter(Boolean) as Array<{
+              pcode: string;
+              productTitle: string;
+              rank: number;
+              reviews: Array<{ criteriaId: string; criteriaName: string; originalText: string; excerpt: string }>;
+            }>;
+
+            if (highlightedReviews.length > 0 && categoryKey) {
+              logV2RecommendationReceived(
+                categoryKey,
+                categoryName,
+                products.slice(0, 3).map((p, i) => ({
+                  pcode: p.pcode,
+                  title: p.title,
+                  brand: p.brand || undefined,
+                  rank: i + 1,
+                  price: p.price || undefined,
+                  score: p.totalScore,
+                  tags: p.matchedRules,
+                  reason: (p as { recommendationReason?: string }).recommendationReason,
+                })),
+                undefined, // selectionReason은 이미 로깅됨
+                0,
+                undefined,
+                highlightedReviews
+              );
+              console.log('✅ [ReviewInsights] Logged highlightedReviews for admin:', highlightedReviews.length, 'products');
+            }
+          } catch (logError) {
+            console.warn('[ReviewInsights] Failed to log highlightedReviews:', logError);
+          }
         } else {
           console.log('⚠️ [ReviewInsights] No data returned or empty');
         }
