@@ -1,1652 +1,3231 @@
 [
   {
-    "productId": "125892666",
-    "브랜드": "조이",
-    "모델명": "조이  아이스핀 360 아이사이즈 회전형 카시트 (ISOFIX)",
-    "최저가": 565440,
-    "최저가몰": "이마트몰",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=374&modelno=125892666&pl_no=25924980376&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=608000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/19933700000/19933780000/19933780254.jpg",
-    "순위": 1,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(베이스형)",
-        "360º 회전",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "신생아~5세",
-      "출시년도": "2019년",
-      "허용무게": "~19kg까지",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 68,
-        "fabric_and_maintenance": 77,
-        "usability_and_rotation": 98,
-        "adjustability_for_growth": 95,
-        "installation_and_portability": 76
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "~19kg까지",
-      "벨트타입": "5점식벨트",
-      "브랜드": "조이"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "46256330",
-    "브랜드": "순성산업",
-    "모델명": "순성산업  듀클 빌리 휴대용 카시트",
-    "최저가": 189050,
-    "최저가몰": "CJ온스타일",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=806&modelno=46256330&pl_no=5545213720&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=199000&buycnt=1&referrer=",
-    "썸네일": "https://photo3.enuri.info/data/images/service/middle/46256000/46256330.jpg",
-    "순위": 2,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(벨트형)"
-      ],
-      "사용대상": "12개월~7세",
-      "출시년도": "2020년",
-      "허용무게": "9~25kg까지",
-      "attributeScores": {
-        "additional_features": 72,
-        "safety_and_stability": 96,
-        "comfort_and_reclining": 73,
-        "fabric_and_maintenance": 76,
-        "usability_and_rotation": 73,
-        "adjustability_for_growth": 97,
-        "installation_and_portability": 98
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "9~25kg까지",
-      "벨트타입": "5점식벨트",
-      "브랜드": "순성산업"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "17624088",
-    "브랜드": "조이",
-    "모델명": "조이  듀알로 주니어 카시트 (ISOFIX)",
-    "최저가": 184140,
-    "최저가몰": "신세계몰",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=47&modelno=17624088&pl_no=21651624915&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=198000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/5998900000/5998940000/5998940917",
-    "순위": 3,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "ISOFIX(고정형)"
-      ],
-      "사용대상": "4~12세",
-      "출시년도": "2019년 이전",
-      "허용무게": "15~36kg까지",
-      "attributeScores": {
-        "additional_features": 75,
-        "safety_and_stability": 84,
-        "comfort_and_reclining": 72,
-        "fabric_and_maintenance": 69,
-        "usability_and_rotation": 77,
-        "adjustability_for_growth": 92,
-        "installation_and_portability": 68
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg까지",
-      "브랜드": "조이"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "12373253",
-    "브랜드": "순성산업",
-    "모델명": "순성산업  데일리 오가닉 카시트 (ISOFIX)",
-    "최저가": 315900,
-    "최저가몰": "GS SHOP",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=75&modelno=12373253&pl_no=2181341454&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=351000&buycnt=1&referrer=",
-    "썸네일": "https://photo3.enuri.info/data/images/service/middle/12373000/12373253.jpg",
-    "순위": 4,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 4,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(벨트형)"
-      ],
-      "사용대상": "신생아~7세",
-      "출시년도": "2019년 이전",
-      "허용무게": "25kg까지",
-      "attributeScores": {
-        "additional_features": 74,
-        "safety_and_stability": 99,
-        "comfort_and_reclining": 71,
-        "fabric_and_maintenance": 69,
-        "usability_and_rotation": 75,
-        "adjustability_for_growth": 95,
-        "installation_and_portability": 75
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "25kg까지",
-      "벨트타입": "5점식벨트",
-      "브랜드": "순성산업"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "134615566",
-    "브랜드": "폴레드",
-    "모델명": "폴레드  볼픽스 프로 컴포트 주니어 카시트(ISOFIX)",
-    "최저가": 313500,
-    "최저가몰": "CJ온스타일",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=806&modelno=134615566&pl_no=24294832369&cate=10040202&urltype=0&coupon=0&from=detail&showPrice=330000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/25454700000/25454720000/25454726017",
-    "순위": 5,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/분리형",
-    "specs": {
-      "특징": [
-        "ISOFIX(고정형)"
-      ],
-      "사용대상": "3~12세",
-      "출시년도": "2019년",
-      "허용무게": "15~36kg까지",
-      "attributeScores": {
-        "additional_features": 65,
-        "safety_and_stability": 81,
-        "comfort_and_reclining": 68,
-        "fabric_and_maintenance": 64,
-        "usability_and_rotation": 64,
-        "adjustability_for_growth": 72,
-        "installation_and_portability": 69
-      },
-      "하위카테고리": "카시트/분리형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg까지",
-      "브랜드": "폴레드"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "132349424",
-    "브랜드": "조이",
-    "모델명": "조이  뉴 스핀360 아이소픽스 회전형 신생아 카시트 ISOFIX",
-    "최저가": 482500,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/18417900000/18417900000/18417902811.jpg",
-    "순위": 6,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX",
-        "360º 회전"
-      ],
-      "사용대상": "0~5세",
-      "허용무게": "~18kg",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 89,
-        "comfort_and_reclining": 72,
-        "fabric_and_maintenance": 68,
-        "usability_and_rotation": 96,
-        "adjustability_for_growth": 63,
-        "installation_and_portability": 69
-      },
-      "하위카테고리": "카시트"
-    },
-    "filter_attrs": {
-      "허용무게": "~18kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "조이"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "120746555",
-    "브랜드": "브라이텍스",
-    "모델명": "브라이텍스  NEW 하이포인트 주니어 카시트 (ISOFIX)",
-    "최저가": 206480,
-    "최저가몰": "롯데홈쇼핑",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=663&modelno=120746555&pl_no=5161013882&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=217350&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/5162500000/5162560000/5162560189",
-    "순위": 7,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "3점식벨트",
-        "ISOFIX(고정형)"
-      ],
-      "사용대상": "36개월~12세",
-      "출시년도": "2023년",
-      "허용무게": "15~36kg",
-      "attributeScores": {
-        "additional_features": 71,
-        "safety_and_stability": 86,
-        "comfort_and_reclining": 72,
-        "fabric_and_maintenance": 68,
-        "usability_and_rotation": 67,
-        "adjustability_for_growth": 83,
-        "installation_and_portability": 66
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg",
-      "벨트타입": "3점식벨트",
-      "브랜드": "브라이텍스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "120683098",
-    "브랜드": "브라이텍스",
-    "모델명": "브라이텍스  어드밴스픽스 프로 아이사이즈 토들러 주니어 카시트 (ISOFIX)",
-    "최저가": 609150,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=120683098&pl_no=28639624172&cate=10040201&urltype=0&coupon=7&from=detail&showPrice=655000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/15590100000/15590190000/15590198316",
-    "순위": 8,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(고정형)",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "15개월~12세",
-      "출시년도": "2024년",
-      "허용무게": "~36kg",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 67,
-        "fabric_and_maintenance": 70,
-        "usability_and_rotation": 64,
-        "adjustability_for_growth": 83,
-        "installation_and_portability": 68
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "~36kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "브라이텍스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "134614769",
-    "브랜드": "토드비",
-    "모델명": "토드비  코쿤 엠플러스 부스터 ISOFIX 카시트",
-    "최저가": 98555,
-    "최저가몰": "SSG.COM",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=6665&modelno=134614769&pl_no=10259812836&cate=10040204&urltype=0&coupon=5&from=detail&showPrice=105973&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/10968000000/10968080000/10968089227.jpg",
-    "순위": 9,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 11,
-    "하위카테고리": "카시트/분리형,부스터형",
-    "specs": {
-      "특징": [
-        "ISOFIX(고정형)"
-      ],
-      "사용대상": "4~12세",
-      "출시년도": "2021년",
-      "허용무게": "15~36kg",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 82,
-        "comfort_and_reclining": 70,
-        "fabric_and_maintenance": 71,
-        "usability_and_rotation": 70,
-        "adjustability_for_growth": 69,
-        "installation_and_portability": 67
-      },
-      "하위카테고리": "카시트/분리형,부스터형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg",
-      "브랜드": "토드비"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "42947452",
-    "브랜드": "브라이텍스",
-    "모델명": "브라이텍스  하이포인트 주니어 카시트 (ISOFIX)",
-    "최저가": 212410,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=42947452&pl_no=5160588533&cate=10040201&urltype=0&coupon=8&from=detail&showPrice=228390&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/15732900000/15732910000/15732913688.jpg",
-    "순위": 10,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "3점식벨트",
-        "ISOFIX(벨트형)"
-      ],
-      "사용대상": "3개월~12세",
-      "출시년도": "2020년",
-      "허용무게": "~36kg까지",
-      "attributeScores": {
-        "additional_features": 67,
-        "safety_and_stability": 87,
-        "comfort_and_reclining": 64,
-        "fabric_and_maintenance": 63,
-        "usability_and_rotation": 68,
-        "adjustability_for_growth": 90,
-        "installation_and_portability": 67
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "~36kg까지",
-      "벨트타입": "3점식벨트",
-      "브랜드": "브라이텍스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "120746399",
-    "브랜드": "브라이텍스",
-    "모델명": "브라이텍스  키드픽스 아이사이즈 일체형 주니어 카시트",
-    "최저가": 483600,
-    "최저가몰": "SSG.COM",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=6665&modelno=120746399&pl_no=12527842224&cate=10040201&urltype=0&coupon=5&from=detail&showPrice=520000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/16078400000/16078460000/16078461035",
-    "순위": 11,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "3점식벨트",
-        "ISOFIX(고정형)",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "36개월~12세",
-      "출시년도": "2022년",
-      "허용무게": "~36kg",
-      "attributeScores": {
-        "additional_features": 69,
-        "safety_and_stability": 99,
-        "comfort_and_reclining": 70,
-        "fabric_and_maintenance": 67,
-        "usability_and_rotation": 63,
-        "adjustability_for_growth": 84,
-        "installation_and_portability": 65
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "~36kg",
-      "벨트타입": "3점식벨트",
-      "브랜드": "브라이텍스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "132007422",
-    "브랜드": "브라이텍스",
-    "모델명": "브라이텍스  듀얼픽스 플러스 아이사이즈 신생아 회전형 카시트",
-    "최저가": 641700,
-    "최저가몰": "SSG.COM",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=6665&modelno=132007422&pl_no=23099288743&cate=10040201&urltype=0&coupon=5&from=detail&showPrice=690000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/23114800000/23114850000/23114856590.jpg",
-    "순위": 12,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(고정형)",
-        "360º 회전",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "신생아~5세",
-      "출시년도": "2023년",
-      "허용무게": "~20kg까지",
-      "attributeScores": {
-        "additional_features": 68,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 68,
-        "fabric_and_maintenance": 66,
-        "usability_and_rotation": 91,
-        "adjustability_for_growth": 92,
-        "installation_and_portability": 64
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "~20kg까지",
-      "벨트타입": "5점식벨트",
-      "브랜드": "브라이텍스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "113369693",
-    "브랜드": "싸이벡스",
-    "모델명": "싸이벡스  솔루션 티 플러스 아이사이즈 주니어 카시트",
-    "최저가": 595200,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=113369693&pl_no=18433023121&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=640000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/18433000000/18433020000/18433023121.jpg",
-    "순위": 13,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 11,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "ISOFIX(고정형)",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "3~12세",
-      "출시년도": "2023년",
-      "허용무게": "15~50kg",
-      "attributeScores": {
-        "additional_features": 66,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 68,
-        "fabric_and_maintenance": 65,
-        "usability_and_rotation": 67,
-        "adjustability_for_growth": 87,
-        "installation_and_portability": 68
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~50kg",
-      "브랜드": "싸이벡스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "132002999",
-    "브랜드": "싸이벡스",
-    "모델명": "싸이벡스  솔루션 티 컴포트 아이사이즈 주니어 카시트",
-    "최저가": 500000,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/24752400000/24752480000/24752482380.jpg",
-    "순위": 14,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "ISOFIX(래치형)",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "3세~12세",
-      "출시년도": "2024년",
-      "허용무게": "15~50kg",
-      "attributeScores": {
-        "additional_features": 67,
-        "safety_and_stability": 99,
-        "comfort_and_reclining": 65,
-        "fabric_and_maintenance": 67,
-        "usability_and_rotation": 69,
-        "adjustability_for_growth": 90,
-        "installation_and_portability": 68
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~50kg",
-      "브랜드": "싸이벡스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "39474534",
-    "브랜드": "조이",
-    "모델명": "조이  듀알로 시그니처 주니어 카시트 (ISOFIX)",
-    "최저가": 251100,
-    "최저가몰": "이마트몰",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=374&modelno=39474534&pl_no=25924977419&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=270000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/10002000000/10002000000/10002006003.jpg",
-    "순위": 15,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "ISOFIX(고정형)"
-      ],
-      "사용대상": "4~12세",
-      "출시년도": "2019년",
-      "허용무게": "15~36kg까지",
-      "attributeScores": {
-        "additional_features": 66,
-        "safety_and_stability": 84,
-        "comfort_and_reclining": 63,
-        "fabric_and_maintenance": 71,
-        "usability_and_rotation": 64,
-        "adjustability_for_growth": 89,
-        "installation_and_portability": 70
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg까지",
-      "브랜드": "조이"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "17623983",
-    "브랜드": "도노비",
-    "모델명": "파파앤코 도노비 팬텀 주니어 카시트",
-    "최저가": 280000,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/14978300000/14978380000/14978384123.jpg",
-    "순위": 16,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 0,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [],
-      "사용대상": "3~12세",
-      "출시년도": "2019년 이전",
-      "허용무게": "15~36kg까지",
-      "attributeScores": {
-        "additional_features": 72,
-        "safety_and_stability": 63,
-        "comfort_and_reclining": 65,
-        "fabric_and_maintenance": 63,
-        "usability_and_rotation": 72,
-        "adjustability_for_growth": 87,
-        "installation_and_portability": 65
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg까지",
-      "브랜드": "도노비"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "122716940",
-    "브랜드": "브라이텍스",
-    "모델명": "브라이텍스  듀얼픽스 프로 아이사이즈 신생아 카시트",
-    "최저가": 884260,
-    "최저가몰": "CJ온스타일",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=806&modelno=122716940&pl_no=26619631498&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=930800&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/21319200000/21319220000/21319229525",
-    "순위": 17,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(고정형)",
-        "360º 회전",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "신생아~4세",
-      "출시년도": "2024년",
-      "허용무게": "~19kg",
-      "attributeScores": {
-        "additional_features": 72,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 67,
-        "fabric_and_maintenance": 64,
-        "usability_and_rotation": 89,
-        "adjustability_for_growth": 87,
-        "installation_and_portability": 63
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "~19kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "브라이텍스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "134140414",
-    "브랜드": "조이",
-    "모델명": "조이  아이스핀 360 메쉬 아이사이즈 회전형 카시트 (ISOFIX)",
-    "최저가": 649140,
-    "최저가몰": "SSG.COM",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=6665&modelno=134140414&pl_no=23668183685&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=698000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/23824800000/23824860000/23824860431",
-    "순위": 18,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(베이스형)",
-        "360º 회전",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "신생아~5세",
-      "출시년도": "2019년",
-      "허용무게": "~19kg까지",
-      "attributeScores": {
-        "additional_features": 72,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 67,
-        "fabric_and_maintenance": 64,
-        "usability_and_rotation": 95,
-        "adjustability_for_growth": 85,
-        "installation_and_portability": 65
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "~19kg까지",
-      "벨트타입": "5점식벨트",
-      "브랜드": "조이"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "120629807",
-    "브랜드": "SEEC",
-    "모델명": "SEEC  아이 폴드 아이사이즈 주니어 휴대용 카시트",
-    "최저가": 233198,
-    "최저가몰": "신세계몰",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=47&modelno=120629807&pl_no=20341759007&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=250750&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/20380800000/20380810000/20380810652.jpg",
-    "순위": 19,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 12,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "3점식벨트",
-        "ISOFIX(고정형)",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "36개월~12세",
-      "출시년도": "2024년",
-      "허용무게": "15~36kg까지",
-      "attributeScores": {
-        "additional_features": 64,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 68,
-        "fabric_and_maintenance": 71,
-        "usability_and_rotation": 66,
-        "adjustability_for_growth": 85,
-        "installation_and_portability": 92
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg까지",
-      "벨트타입": "3점식벨트",
-      "브랜드": "SEEC"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "39474482",
-    "브랜드": "에어보스",
-    "모델명": "에어보스  록키 휴대용 부스터 카시트 (ISOFIX)",
-    "최저가": 78200,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/12628600000/12628650000/12628658117.jpg",
-    "순위": 20,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 10,
-    "하위카테고리": "카시트/부스터형",
-    "specs": {
-      "특징": [
-        "ISOFIX(고정형)"
-      ],
-      "사용대상": "3~12세",
-      "출시년도": "2019년",
-      "허용무게": "15~36kg까지",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 79,
-        "comfort_and_reclining": 72,
-        "fabric_and_maintenance": 72,
-        "usability_and_rotation": 70,
-        "adjustability_for_growth": 69,
-        "installation_and_portability": 88
-      },
-      "하위카테고리": "카시트/부스터형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg까지",
-      "브랜드": "에어보스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "120683289",
-    "브랜드": "브라이텍스",
-    "모델명": "브라이텍스  키드픽스 M 아이사이즈 주니어 카시트 (ISOFIX)",
-    "최저가": 296670,
-    "최저가몰": "SSG.COM",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=6665&modelno=120683289&pl_no=17082446094&cate=10040201&urltype=0&coupon=5&from=detail&showPrice=319000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/18901700000/18901720000/18901727102.jpg",
-    "순위": 21,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "3점식벨트",
-        "ISOFIX(고정형)",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "36개월~12세",
-      "출시년도": "2021년",
-      "허용무게": "15~36kg까지",
-      "attributeScores": {
-        "additional_features": 65,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 64,
-        "fabric_and_maintenance": 72,
-        "usability_and_rotation": 67,
-        "adjustability_for_growth": 87,
-        "installation_and_portability": 64
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg까지",
-      "벨트타입": "3점식벨트",
-      "브랜드": "브라이텍스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "64489105",
-    "브랜드": "포브",
-    "모델명": "동인기연 포브 보네떼 토들러 주니어 카시트",
-    "최저가": 363090,
-    "최저가몰": "롯데홈쇼핑",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=663&modelno=64489105&pl_no=10188056027&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=382200&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/10188000000/10188050000/10188056027.jpg",
-    "순위": 22,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(벨트형)"
-      ],
-      "사용대상": "10개월~",
-      "출시년도": "2020년",
-      "허용무게": "25kg",
-      "attributeScores": {
-        "additional_features": 68,
-        "safety_and_stability": 95,
-        "comfort_and_reclining": 63,
-        "fabric_and_maintenance": 71,
-        "usability_and_rotation": 72,
-        "adjustability_for_growth": 92,
-        "installation_and_portability": 65
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "25kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "포브"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "113490397",
-    "브랜드": "싸이벡스",
-    "모델명": "싸이벡스  제로나 티 베이스 신생아 카시트",
-    "최저가": 1106700,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=113490397&pl_no=18433022971&cate=10040202&urltype=0&coupon=0&from=detail&showPrice=1190000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/18433000000/18433020000/18433022971.jpg",
-    "순위": 23,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 8,
-    "하위카테고리": "카시트",
-    "specs": {
-      "특징": [
-        "ISOFIX(베이스형)",
-        "360º 회전"
-      ],
-      "사용대상": "신생아~48개월",
-      "출시년도": "2023년",
-      "허용무게": "~18kg",
-      "attributeScores": {
-        "additional_features": 66,
-        "safety_and_stability": 86,
-        "comfort_and_reclining": 68,
-        "fabric_and_maintenance": 63,
-        "usability_and_rotation": 89,
-        "adjustability_for_growth": 71,
-        "installation_and_portability": 64
-      },
-      "하위카테고리": "카시트"
-    },
-    "filter_attrs": {
-      "허용무게": "~18kg",
-      "브랜드": "싸이벡스"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "132528506",
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
     "브랜드": "다이치",
-    "모델명": "다이치  이지캐리3 휴대용 카시트",
-    "최저가": 258400,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/24359200000/24359280000/24359281743.jpg",
-    "순위": 24,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
+    "제품명": "원픽스 360 리우 ISOFIX 카시트 분리형 + 선바이저 세트",
+    "모델명": "다이치 원픽스 360 리우 ISOFIX 카시트 분리형 + 선바이저 세트",
+    "최저가": 460000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/404/163/img/56163404_1.jpg&_v=20250830045430",
+    "픽타입": "none",
+    "총점": 99,
+    "순위": 1,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 원픽스 360 리우 ISOFIX 카시트 분리형 + 선바이저 세트",
+    "productId": 56163404,
+    "filter_attrs": {
+      "허용무게": "~18kg"
+    },
     "specs": {
-      "특징": [
+      "type": "카시트",
+      "사용대상": "신생아부터",
+      "허용무게": "~18kg",
+      "출시년도": "2023년",
+      "features": [
+        "분리형",
+        "ISOFIX(고정형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "리드 i-Size 바구니 카시트",
+    "모델명": "다이치 리드 i-Size 바구니 카시트",
+    "최저가": 178000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/975/162/img/56162975_1.jpg&_v=20250830045428",
+    "픽타입": "none",
+    "총점": 99,
+    "순위": 1,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 리드 i-Size 바구니 카시트",
+    "productId": 56162975,
+    "filter_attrs": {
+      "허용무게": "~13kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아부터",
+      "허용무게": "~13kg",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "바구니형",
+        "3점식벨트",
+        "ISOFIX(베이스형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "블리바 360 프로 i-size + 선바이저 세트",
+    "모델명": "다이치 블리바 360 프로 i-size + 선바이저 세트",
+    "최저가": 298350,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/282/926/img/39926282_1.jpg&_v=20250415141734",
+    "픽타입": "none",
+    "총점": 99,
+    "순위": 1,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 블리바 360 프로 i-size + 선바이저 세트",
+    "productId": 39926282,
+    "filter_attrs": {
+      "허용무게": "~25kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~7세",
+      "허용무게": "~25kg",
+      "출시년도": "2024년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "이노픽스 부스터 카시트",
+    "모델명": "다이치 이노픽스 부스터 카시트",
+    "최저가": 109000,
+    "가격범위": "10~15만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/365/163/img/56163365_1.jpg&_v=20250830045429",
+    "픽타입": "none",
+    "총점": 99,
+    "순위": 1,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 이노픽스 부스터 카시트",
+    "productId": 56163365,
+    "filter_attrs": {
+      "허용무게": "15~36kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2020년",
+      "features": [
+        "부스터형"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "싸이벡스",
+    "제품명": "제로나 티 베이스 신생아 카시트",
+    "모델명": "싸이벡스 제로나 티 베이스 신생아 카시트",
+    "최저가": 1071000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/176/625/img/29625176_1.jpg&_v=20250415142039",
+    "픽타입": "none",
+    "총점": 98,
+    "순위": 2,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "싸이벡스 제로나 티 베이스 신생아 카시트",
+    "productId": 29625176,
+    "filter_attrs": {
+      "허용무게": "~18kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~48개월",
+      "허용무게": "~18kg",
+      "출시년도": "2023년",
+      "features": [
+        "ISOFIX(베이스형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "리안",
+    "제품명": "2024 스핀 로얄 인펀트 카시트",
+    "모델명": "리안 2024 스핀 로얄 인펀트 카시트",
+    "최저가": 118000,
+    "가격범위": "10~15만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/405/817/img/64817405_1.jpg&_v=20250830045423",
+    "픽타입": "none",
+    "총점": 98,
+    "순위": 2,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "리안 2024 스핀 로얄 인펀트 카시트",
+    "productId": 64817405,
+    "filter_attrs": {
+      "허용무게": "13kg까지",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~12개월",
+      "허용무게": "13kg까지",
+      "출시년도": "2024년",
+      "features": [
+        "바구니형",
+        "3점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "브라이텍스",
+    "제품명": "듀얼픽스 플러스 아이사이즈 신생아 회전형 카시트",
+    "모델명": "브라이텍스 듀얼픽스 플러스 아이사이즈 신생아 회전형 카시트",
+    "최저가": 680560,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/188/625/img/29625188_1.jpg&_v=20250415141901",
+    "픽타입": "none",
+    "총점": 98,
+    "순위": 2,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "브라이텍스 듀얼픽스 플러스 아이사이즈 신생아 회전형 카시트",
+    "productId": 29625188,
+    "filter_attrs": {
+      "허용무게": "~20kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~5세",
+      "허용무게": "~20kg까지",
+      "출시년도": "2023년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "에어보스",
+    "제품명": "록키 휴대용 부스터 카시트 (ISOFIX)",
+    "모델명": "에어보스 록키 휴대용 부스터 카시트 (ISOFIX)",
+    "최저가": 69000,
+    "가격범위": "5~10만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/456/191/img/21191456_1.jpg&_v=20250415142029",
+    "픽타입": "none",
+    "총점": 98,
+    "순위": 2,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "에어보스 록키 휴대용 부스터 카시트 (ISOFIX)",
+    "productId": 21191456,
+    "filter_attrs": {
+      "허용무게": "15~36kg까지"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~36kg까지",
+      "출시년도": "2019년",
+      "features": [
+        "부스터형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "토드비",
+    "제품명": "세이피 그룹1 어린이 통학차량 안전벨트 평가인증카시트",
+    "모델명": "토드비 세이피 그룹1 어린이 통학차량 안전벨트 평가인증카시트",
+    "최저가": 140000,
+    "가격범위": "10~15만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/800/823/img/20823800_1.jpg&_v=20251023045202",
+    "픽타입": "none",
+    "총점": 97,
+    "순위": 3,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "토드비 세이피 그룹1 어린이 통학차량 안전벨트 평가인증카시트",
+    "productId": 20823800,
+    "filter_attrs": {
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "9개월~5세(9~18kg까지)",
+      "출시년도": "2020년",
+      "features": [
+        "분리형",
+        "3점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "싸이벡스",
+    "제품명": "클라우드 티 베이스 바구니 카시트",
+    "모델명": "싸이벡스 클라우드 티 베이스 바구니 카시트",
+    "최저가": 693000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/348/270/img/41270348_1.jpg&_v=20250415141800",
+    "픽타입": "none",
+    "총점": 97,
+    "순위": 3,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "싸이벡스 클라우드 티 베이스 바구니 카시트",
+    "productId": 41270348,
+    "filter_attrs": {
+      "허용무게": "~13kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~24개월",
+      "허용무게": "~13kg",
+      "출시년도": "2023년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "바구니형"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "브라이텍스",
+    "제품명": "키드픽스 아이사이즈 일체형 주니어 카시트",
+    "모델명": "브라이텍스 키드픽스 아이사이즈 일체형 주니어 카시트",
+    "최저가": 563720,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/599/777/img/39777599_1.jpg&_v=20250415141935",
+    "픽타입": "none",
+    "총점": 97,
+    "순위": 3,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "브라이텍스 키드픽스 아이사이즈 일체형 주니어 카시트",
+    "productId": 39777599,
+    "filter_attrs": {
+      "허용무게": "~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "36개월~12세",
+      "허용무게": "~36kg",
+      "출시년도": "2022년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "리안",
+    "제품명": "주니어 부스터 카시트",
+    "모델명": "리안 주니어 부스터 카시트",
+    "최저가": 30000,
+    "가격범위": "0~5만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/570/786/img/20786570_1.jpg&_v=20250415141930",
+    "픽타입": "none",
+    "총점": 97,
+    "순위": 3,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "리안 주니어 부스터 카시트",
+    "productId": 20786570,
+    "filter_attrs": {
+      "대상연령": "주니어용"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용연령": "3세~12세",
+      "사용체중": "15~36kg",
+      "중량": "1kg",
+      "크기(가로x세로x높이)": "40x34x18cm",
+      "색상": "더블블랙,빅토리아블루,탈리아레드",
+      "features": [
+        "부스터형",
+        "주니어용",
+        "[안전]",
+        "안전벨트고정",
+        "[사양]"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "비세이프",
+    "제품명": "스트레치 B 카시트",
+    "모델명": "비세이프 스트레치 B 카시트",
+    "최저가": 1030000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/824/696/img/21696824_1.jpg&_v=20251201045430",
+    "픽타입": "none",
+    "총점": 96,
+    "순위": 4,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "비세이프 스트레치 B 카시트",
+    "productId": 21696824,
+    "filter_attrs": {
+      "허용무게": "12.5kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "0~7세",
+      "허용무게": "12.5kg",
+      "출시년도": "2023년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "분리형",
         "5점식벨트",
         "ISOFIX(고정형)"
-      ],
-      "사용대상": "12개월~7세",
-      "출시년도": "2024년",
-      "허용무게": "~25kg",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 95,
-        "comfort_and_reclining": 72,
-        "fabric_and_maintenance": 71,
-        "usability_and_rotation": 66,
-        "adjustability_for_growth": 88,
-        "installation_and_portability": 97
-      },
-      "하위카테고리": "카시트/일체형"
+      ]
     },
-    "filter_attrs": {
-      "허용무게": "~25kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "다이치"
-    },
-    "dataSource": "enuri"
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
   },
   {
-    "productId": "78045714",
-    "브랜드": "순성산업",
-    "모델명": "순성산업  제나 주니어 플러스 ISOFIX 카시트",
-    "최저가": 265000,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://photo3.enuri.info/data/images/service/middle/78045000/78045714.jpg",
-    "순위": 25,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 11,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "3점식벨트",
-        "ISOFIX(고정형)"
-      ],
-      "사용대상": "4세~12세",
-      "출시년도": "2021년",
-      "허용무게": "15~36kg",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 84,
-        "comfort_and_reclining": 63,
-        "fabric_and_maintenance": 69,
-        "usability_and_rotation": 63,
-        "adjustability_for_growth": 92,
-        "installation_and_portability": 63
-      },
-      "하위카테고리": "카시트/일체형"
-    },
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "에어보스",
+    "제품명": "신생아 다기능 인펜트 바구니 카시트",
+    "모델명": "에어보스 신생아 다기능 인펜트 바구니 카시트",
+    "최저가": 79800,
+    "가격범위": "5~10만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/772/484/img/48484772_1.jpg&_v=20250830045428",
+    "픽타입": "none",
+    "총점": 96,
+    "순위": 4,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "에어보스 신생아 다기능 인펜트 바구니 카시트",
+    "productId": 48484772,
     "filter_attrs": {
-      "허용무게": "15~36kg",
-      "벨트타입": "3점식벨트",
-      "브랜드": "순성산업"
+      "허용무게": "0~13kg",
+      "벨트타입": "3점식벨트"
     },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "104120591",
-    "브랜드": "토드비",
-    "모델명": "토드비  코쿤 엠플러스 ISOFIX 주니어 부스터카시트+헤드레스트 SET",
-    "최저가": 114837,
-    "최저가몰": "SSG.COM",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=6665&modelno=104120591&pl_no=25925076472&cate=10040201&urltype=0&coupon=5&from=detail&showPrice=123481&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/17227900000/17227990000/17227993433.jpg",
-    "순위": 26,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트/일체형",
     "specs": {
-      "특징": [
-        "3점식벨트",
-        "ISOFIX(고정형)"
-      ],
-      "출시년도": "2021년",
-      "허용무게": "15~36kg",
-      "attributeScores": {
-        "additional_features": 65,
-        "safety_and_stability": 82,
-        "comfort_and_reclining": 64,
-        "fabric_and_maintenance": 71,
-        "usability_and_rotation": 70,
-        "adjustability_for_growth": 92,
-        "installation_and_portability": 72
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg",
-      "벨트타입": "3점식벨트",
-      "브랜드": "토드비"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "57050039",
-    "브랜드": "미상",
-    "모델명": "몽구 W2 카시트",
-    "최저가": 78540,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/7312400000/7312430000/7312432821",
-    "순위": 27,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 10,
-    "하위카테고리": "카시트",
-    "specs": {
-      "특징": [
+      "type": "바구니형",
+      "사용대상": "신생아~3세",
+      "허용무게": "0~13kg",
+      "features": [
         "3점식벨트"
-      ],
-      "허용무게": "9~18kg까지",
-      "attributeScores": {
-        "additional_features": 68,
-        "safety_and_stability": 72,
-        "comfort_and_reclining": 72,
-        "fabric_and_maintenance": 69,
-        "usability_and_rotation": 71,
-        "adjustability_for_growth": 69,
-        "installation_and_portability": 63
-      },
-      "하위카테고리": "카시트"
+      ]
     },
-    "filter_attrs": {
-      "허용무게": "9~18kg까지",
-      "벨트타입": "3점식벨트",
-      "브랜드": "미상"
-    },
-    "dataSource": "enuri"
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
   },
   {
-    "productId": "101929741",
-    "브랜드": "클렉",
-    "모델명": "클렉  올리 부스터 ISOFIX 카시트",
-    "최저가": 140060,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/13372200000/13372220000/13372229100",
-    "순위": 28,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 12,
-    "하위카테고리": "카시트/부스터형/주니어용/차량용/ISOFIX(고정형)",
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "이지캐리3 휴대용 카시트",
+    "모델명": "다이치 이지캐리3 휴대용 카시트",
+    "최저가": 249000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/133/284/img/77284133_1.jpg&_v=20251101060245",
+    "픽타입": "none",
+    "총점": 96,
+    "순위": 4,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 이지캐리3 휴대용 카시트",
+    "productId": 77284133,
+    "filter_attrs": {
+      "허용무게": "~25kg",
+      "벨트타입": "5점식벨트"
+    },
     "specs": {
-      "특징": [
+      "type": "카시트",
+      "사용대상": "12개월~7세",
+      "허용무게": "~25kg",
+      "출시년도": "2024년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "토드비",
+    "제품명": "코쿤 엠플러스 부스터 ISOFIX 카시트",
+    "모델명": "토드비 코쿤 엠플러스 부스터 ISOFIX 카시트",
+    "최저가": 96750,
+    "가격범위": "5~10만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/063/810/img/20810063_1.jpg&_v=20250509045439",
+    "픽타입": "none",
+    "총점": 96,
+    "순위": 4,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "토드비 코쿤 엠플러스 부스터 ISOFIX 카시트",
+    "productId": 20810063,
+    "filter_attrs": {
+      "허용무게": "15~36kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "4~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2021년",
+      "features": [
+        "분리형",
+        "부스터형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "폴레드",
+    "제품명": "볼픽스 프로 컴포트 주니어 카시트(ISOFIX)",
+    "모델명": "폴레드 볼픽스 프로 컴포트 주니어 카시트(ISOFIX)",
+    "최저가": 330000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/761/835/img/20835761_1.jpg&_v=20250415142031",
+    "픽타입": "none",
+    "총점": 95,
+    "순위": 5,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "폴레드 볼픽스 프로 컴포트 주니어 카시트(ISOFIX)",
+    "productId": 20835761,
+    "filter_attrs": {
+      "허용무게": "15~36kg까지"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~36kg까지",
+      "출시년도": "2019년",
+      "features": [
+        "분리형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "순성산업",
+    "제품명": "듀클 캐리 신생아 카시트",
+    "모델명": "순성산업 듀클 캐리 신생아 카시트",
+    "최저가": 169000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/100/815/img/20815100_1.jpg&_v=20250415142022",
+    "픽타입": "none",
+    "총점": 95,
+    "순위": 5,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "순성산업 듀클 캐리 신생아 카시트",
+    "productId": 20815100,
+    "filter_attrs": {
+      "허용무게": "~13kg까지",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아부터",
+      "허용무게": "~13kg까지",
+      "출시년도": "2020년",
+      "features": [
+        "바구니형",
+        "3점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "브라이텍스",
+    "제품명": "듀얼픽스 프로 아이사이즈 신생아 카시트",
+    "모델명": "브라이텍스 듀얼픽스 프로 아이사이즈 신생아 카시트",
+    "최저가": 1148360,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/784/224/img/44224784_1.jpg&_v=20250520045529",
+    "픽타입": "none",
+    "총점": 95,
+    "순위": 5,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "브라이텍스 듀얼픽스 프로 아이사이즈 신생아 카시트",
+    "productId": 44224784,
+    "filter_attrs": {
+      "허용무게": "~19kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~4세",
+      "허용무게": "~19kg",
+      "출시년도": "2024년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "클렉",
+    "제품명": "올리 부스터 ISOFIX 카시트",
+    "모델명": "클렉 올리 부스터 ISOFIX 카시트",
+    "최저가": 140060,
+    "가격범위": "10~15만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/266/787/img/20787266_1.jpg&_v=20250415141936",
+    "픽타입": "none",
+    "총점": 95,
+    "순위": 5,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "클렉 올리 부스터 ISOFIX 카시트",
+    "productId": 20787266,
+    "filter_attrs": {
+      "대상연령": "주니어용"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용연령": "4~12세",
+      "사용체중": "15~36kg",
+      "features": [
+        "부스터형",
+        "주니어용",
+        "[안전]",
+        "차량용",
+        "ISOFIX(고정형)",
         "수납홀더",
         "[사양]",
         "중량:2.2kg",
         "크기(가로x세로x높이):43.5x36x22.5cm",
         "색상:썬더,섀도우,탱크,플라밍고"
-      ],
-      "사용연령": "4~12세",
-      "사용체중": "15~36kg",
-      "attributeScores": {
-        "additional_features": 64,
-        "safety_and_stability": 69,
-        "comfort_and_reclining": 69,
-        "fabric_and_maintenance": 66,
-        "usability_and_rotation": 70,
-        "adjustability_for_growth": 68,
-        "installation_and_portability": 63
-      },
-      "하위카테고리": "카시트/부스터형/주니어용/차량용/ISOFIX(고정형)"
+      ]
     },
-    "filter_attrs": {
-      "브랜드": "클렉"
-    },
-    "dataSource": "enuri"
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
   },
   {
-    "productId": "132341740",
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
     "브랜드": "폴레드",
-    "모델명": "폴레드  올에이지360 카시트",
-    "최저가": 387903,
-    "최저가몰": "이마트몰",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=374&modelno=132341740&pl_no=18350335878&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=417100&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/18350300000/18350330000/18350335878.jpg",
-    "순위": 29,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 12,
-    "하위카테고리": "카시트/일체형",
+    "제품명": "휴대용카시트 레이서",
+    "모델명": "폴레드 휴대용카시트 레이서",
+    "최저가": 208390,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/293/510/img/27510293_1.jpg&_v=20250415141633",
+    "픽타입": "none",
+    "총점": 94,
+    "순위": 6,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "폴레드 휴대용카시트 레이서",
+    "productId": 27510293,
+    "filter_attrs": {},
     "specs": {
-      "특징": [
+      "type": "카시트"
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "올인원 360 아이사이즈 카시트",
+    "모델명": "다이치 올인원 360 아이사이즈 카시트",
+    "최저가": 660000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/368/163/img/56163368_1.jpg&_v=20250830045438",
+    "픽타입": "none",
+    "총점": 94,
+    "순위": 6,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 올인원 360 아이사이즈 카시트",
+    "productId": 56163368,
+    "filter_attrs": {
+      "허용무게": "~36kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아부터",
+      "허용무게": "~36kg",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
         "5점식벨트",
         "ISOFIX",
         "360º 회전"
-      ],
-      "출시년도": "2021년",
-      "허용무게": "36kg까지",
-      "attributeScores": {
-        "additional_features": 68,
-        "safety_and_stability": 88,
-        "comfort_and_reclining": 71,
-        "fabric_and_maintenance": 63,
-        "usability_and_rotation": 91,
-        "adjustability_for_growth": 86,
-        "installation_and_portability": 70
-      },
-      "하위카테고리": "카시트/일체형"
+      ]
     },
-    "filter_attrs": {
-      "허용무게": "36kg까지",
-      "벨트타입": "5점식벨트",
-      "브랜드": "폴레드"
-    },
-    "dataSource": "enuri"
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
   },
   {
-    "productId": "121042343",
-    "브랜드": "싸이벡스",
-    "모델명": "싸이벡스  클라우드 티 베이스 바구니 카시트",
-    "최저가": 716100,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=121042343&pl_no=18433022933&cate=10040203&urltype=0&coupon=0&from=detail&showPrice=770000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/21443900000/21443980000/21443985292.jpg",
-    "순위": 30,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 9,
-    "하위카테고리": "카시트/바구니형",
-    "specs": {
-      "특징": [
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "신생아~24개월",
-      "출시년도": "2023년",
-      "허용무게": "~13kg",
-      "attributeScores": {
-        "additional_features": 64,
-        "safety_and_stability": 87,
-        "comfort_and_reclining": 64,
-        "fabric_and_maintenance": 72,
-        "usability_and_rotation": 67,
-        "adjustability_for_growth": 70,
-        "installation_and_portability": 64
-      },
-      "하위카테고리": "카시트/바구니형"
-    },
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "브라이텍스",
+    "제품명": "어드밴스픽스 프로 아이사이즈 토들러 주니어 카시트 (ISOFIX)",
+    "모델명": "브라이텍스 어드밴스픽스 프로 아이사이즈 토들러 주니어 카시트 (ISOFIX)",
+    "최저가": 595000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/208/075/img/76075208_1.jpg&_v=20250415141906",
+    "픽타입": "none",
+    "총점": 94,
+    "순위": 6,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "브라이텍스 어드밴스픽스 프로 아이사이즈 토들러 주니어 카시트 (ISOFIX)",
+    "productId": 76075208,
     "filter_attrs": {
-      "허용무게": "~13kg",
-      "브랜드": "싸이벡스"
+      "허용무게": "~36kg",
+      "벨트타입": "5점식벨트"
     },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "122612862",
-    "브랜드": "맥시코시",
-    "모델명": "도렐 맥시코시 미카 프로 에코 아이사이즈 360 회전형 카시트",
-    "최저가": 781300,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=122612862&pl_no=14654545643&cate=10040201&urltype=0&coupon=5&from=detail&showPrice=840100&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/19470200000/19470280000/19470281104",
-    "순위": 31,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트",
     "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(고정형)",
-        "360º 회전",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "신생아부터",
-      "출시년도": "2022년",
-      "허용무게": "~18kg",
-      "attributeScores": {
-        "additional_features": 69,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 63,
-        "fabric_and_maintenance": 63,
-        "usability_and_rotation": 90,
-        "adjustability_for_growth": 70,
-        "installation_and_portability": 67
-      },
-      "하위카테고리": "카시트"
-    },
-    "filter_attrs": {
-      "허용무게": "~18kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "맥시코시"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "109505318",
-    "브랜드": "폴레드",
-    "모델명": "폴레드  휴대용카시트 레이서",
-    "최저가": 193810,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=109505318&pl_no=17117157098&cate=10040202&urltype=0&coupon=9&from=detail&showPrice=208390&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/17190500000/17190540000/17190549680.jpg",
-    "순위": 32,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 13,
-    "하위카테고리": "카시트",
-    "specs": {
-      "특징": [],
-      "attributeScores": {
-        "additional_features": 65,
-        "safety_and_stability": 67,
-        "comfort_and_reclining": 66,
-        "fabric_and_maintenance": 71,
-        "usability_and_rotation": 67,
-        "adjustability_for_growth": 72,
-        "installation_and_portability": 90
-      },
-      "하위카테고리": "카시트"
-    },
-    "filter_attrs": {
-      "브랜드": "폴레드"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "84011899",
-    "브랜드": "토드비",
-    "모델명": "토드비  세이피 그룹1 어린이 통학차량 안전벨트 평가인증카시트",
-    "최저가": 138000,
-    "최저가몰": "옥션",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=4027&modelno=84011899&pl_no=11206509026&cate=10040202&urltype=0&coupon=0&from=detail&showPrice=140000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/8356500000/8356590000/8356599706.jpg",
-    "순위": 33,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 6,
-    "하위카테고리": "카시트/분리형",
-    "specs": {
-      "특징": [
-        "3점식벨트"
-      ],
-      "사용대상": "9개월~5세(9~18kg까지)",
-      "출시년도": "2020년",
-      "attributeScores": {
-        "additional_features": 64,
-        "safety_and_stability": 70,
-        "comfort_and_reclining": 68,
-        "fabric_and_maintenance": 67,
-        "usability_and_rotation": 66,
-        "adjustability_for_growth": 64,
-        "installation_and_portability": 65
-      },
-      "하위카테고리": "카시트/분리형"
-    },
-    "filter_attrs": {
-      "벨트타입": "3점식벨트",
-      "브랜드": "토드비"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "27687806",
-    "브랜드": "제일산업",
-    "모델명": "제일산업  W2 몽구 컴팩트 카시트",
-    "최저가": 79900,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/2988100000/2988150000/2988159182.jpg",
-    "순위": 34,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 0,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트"
-      ],
-      "사용대상": "유아~주니어",
-      "출시년도": "2019년 이전",
-      "허용무게": "9~18kg까지",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 77,
-        "comfort_and_reclining": 63,
-        "fabric_and_maintenance": 66,
-        "usability_and_rotation": 66,
-        "adjustability_for_growth": 88,
-        "installation_and_portability": 68
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "9~18kg까지",
-      "벨트타입": "5점식벨트",
-      "브랜드": "제일산업"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "132528657",
-    "브랜드": "순성산업",
-    "모델명": "순성산업  순성 우노 에어 올인원 아이사이즈",
-    "최저가": 646000,
-    "최저가몰": "CJ온스타일",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=806&modelno=132528657&pl_no=22615318274&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=680000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/21042600000/21042630000/21042637998.jpg",
-    "순위": 35,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 9,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(고정형)",
-        "360º 회전",
-        "안전인증:아이사이즈(i-size)"
-      ],
+      "type": "카시트",
+      "사용대상": "15개월~12세",
+      "허용무게": "~36kg",
       "출시년도": "2024년",
-      "허용무게": "~36kg",
-      "attributeScores": {
-        "additional_features": 63,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 67,
-        "fabric_and_maintenance": 63,
-        "usability_and_rotation": 97,
-        "adjustability_for_growth": 86,
-        "installation_and_portability": 68
-      },
-      "하위카테고리": "카시트/일체형"
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)"
+      ]
     },
-    "filter_attrs": {
-      "허용무게": "~36kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "순성산업"
-    },
-    "dataSource": "enuri"
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
   },
   {
-    "productId": "132341710",
-    "브랜드": "스완두",
-    "모델명": "스완두  2025 찰리 아이사이즈 주니어 카시트",
-    "최저가": 547770,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=132341710&pl_no=25321553745&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=589000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/25321500000/25321550000/25321553745.jpg",
-    "순위": 36,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 9,
-    "하위카테고리": "카시트/일체형",
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "세경사",
+    "제품명": "마블 휴대용카시트 간편슬림형",
+    "모델명": "세경사 마블 휴대용카시트 간편슬림형",
+    "최저가": 59710,
+    "가격범위": "5~10만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/788/823/img/20823788_1.jpg&_v=20250415141916",
+    "픽타입": "none",
+    "총점": 93,
+    "순위": 7,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "세경사 마블 휴대용카시트 간편슬림형",
+    "productId": 20823788,
+    "filter_attrs": {
+      "허용무게": "15~25kg까지",
+      "벨트타입": "3점식벨트"
+    },
     "specs": {
-      "특징": [
+      "type": "카시트",
+      "허용무게": "15~25kg까지",
+      "출시년도": "2019년 이전",
+      "features": [
+        "3점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "블리바 이노픽스 주니어 (ISOFIX)",
+    "모델명": "다이치 블리바 이노픽스 주니어 (ISOFIX)",
+    "최저가": 88000,
+    "가격범위": "5~10만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/936/162/img/56162936_1.jpg&_v=20250830045436",
+    "픽타입": "none",
+    "총점": 93,
+    "순위": 7,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 블리바 이노픽스 주니어 (ISOFIX)",
+    "productId": 56162936,
+    "filter_attrs": {
+      "허용무게": "15~36kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3세~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "브이가드 주니어 ISOFIX 시즌2 프리미엄",
+    "모델명": "다이치 브이가드 주니어 ISOFIX 시즌2 프리미엄",
+    "최저가": 249900,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/331/450/img/31450331_1.jpg&_v=20250415141937",
+    "픽타입": "none",
+    "총점": 92,
+    "순위": 8,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 브이가드 주니어 ISOFIX 시즌2 프리미엄",
+    "productId": 31450331,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "싸이벡스",
+    "제품명": "솔루션 티 플러스 아이사이즈 주니어 카시트",
+    "모델명": "싸이벡스 솔루션 티 플러스 아이사이즈 주니어 카시트",
+    "최저가": 576000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/466/497/img/29497466_1.jpg&_v=20250415141903",
+    "픽타입": "none",
+    "총점": 91,
+    "순위": 9,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "싸이벡스 솔루션 티 플러스 아이사이즈 주니어 카시트",
+    "productId": 29497466,
+    "filter_attrs": {
+      "허용무게": "15~50kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~50kg",
+      "출시년도": "2023년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "브라이텍스",
+    "제품명": "NEW 하이포인트 주니어 카시트 (ISOFIX)",
+    "모델명": "브라이텍스 NEW 하이포인트 주니어 카시트 (ISOFIX)",
+    "최저가": 217350,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/605/777/img/39777605_1.jpg&_v=20250415142043",
+    "픽타입": "none",
+    "총점": 90,
+    "순위": 10,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "브라이텍스 NEW 하이포인트 주니어 카시트 (ISOFIX)",
+    "productId": 39777605,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "36개월~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2023년",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "맥시코시",
+    "제품명": "타이탄프로 아이사이즈 토들러 카시트",
+    "모델명": "맥시코시 타이탄프로 아이사이즈 토들러 카시트",
+    "최저가": 571000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/105/786/img/53786105_1.jpg&_v=20250415141937",
+    "픽타입": "none",
+    "총점": 89,
+    "순위": 11,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "맥시코시 타이탄프로 아이사이즈 토들러 카시트",
+    "productId": 53786105,
+    "filter_attrs": {
+      "허용무게": "~36kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "9개월~12세",
+      "허용무게": "~36kg",
+      "출시년도": "2020년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "조이",
+    "제품명": "아이트래버 시그니처 주니어 ISOFIX 카시트",
+    "모델명": "조이 아이트래버 시그니처 주니어 ISOFIX 카시트",
+    "최저가": 268000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/899/696/img/21696899_1.jpg&_v=20250415141935",
+    "픽타입": "none",
+    "총점": 88,
+    "순위": 12,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "조이 아이트래버 시그니처 주니어 ISOFIX 카시트",
+    "productId": 21696899,
+    "filter_attrs": {},
+    "specs": {
+      "type": "카시트",
+      "사용대상": "4~12세",
+      "features": [
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "조이",
+    "제품명": "듀알로 주니어 카시트 (ISOFIX)",
+    "모델명": "조이 듀알로 주니어 카시트 (ISOFIX)",
+    "최저가": 168000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/805/809/img/20809805_1.jpg&_v=20250415141643",
+    "픽타입": "none",
+    "총점": 87,
+    "순위": 13,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "조이 듀알로 주니어 카시트 (ISOFIX)",
+    "productId": 20809805,
+    "filter_attrs": {
+      "허용무게": "15~36kg까지"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "4~12세",
+      "허용무게": "15~36kg까지",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "토드비",
+    "제품명": "코쿤 엠플러스 ISOFIX 주니어 부스터카시트+헤드레스트 SET",
+    "모델명": "토드비 코쿤 엠플러스 ISOFIX 주니어 부스터카시트+헤드레스트 SET",
+    "최저가": 115188,
+    "가격범위": "10~15만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/467/463/img/26463467_1.jpg&_v=20250509045443",
+    "픽타입": "none",
+    "총점": 86,
+    "순위": 14,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "토드비 코쿤 엠플러스 ISOFIX 주니어 부스터카시트+헤드레스트 SET",
+    "productId": 26463467,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "허용무게": "15~36kg",
+      "출시년도": "2021년",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "SEEC",
+    "제품명": "아이 폴드 아이사이즈 주니어 휴대용 카시트",
+    "모델명": "SEEC 아이 폴드 아이사이즈 주니어 휴대용 카시트",
+    "최저가": 250750,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/362/111/img/39111362_1.jpg&_v=20251121055050",
+    "픽타입": "none",
+    "총점": 85,
+    "순위": 15,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "SEEC 아이 폴드 아이사이즈 주니어 휴대용 카시트",
+    "productId": 39111362,
+    "filter_attrs": {
+      "허용무게": "15~36kg까지",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "36개월~12세",
+      "허용무게": "15~36kg까지",
+      "출시년도": "2024년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "폴레드",
+    "제품명": "올에이지360 카시트",
+    "모델명": "폴레드 올에이지360 카시트",
+    "최저가": 630000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/701/878/img/76878701_1.jpg&_v=20250830045428",
+    "픽타입": "none",
+    "총점": 84,
+    "순위": 16,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "폴레드 올에이지360 카시트",
+    "productId": 76878701,
+    "filter_attrs": {
+      "허용무게": "36kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "허용무게": "36kg까지",
+      "출시년도": "2021년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "조이",
+    "제품명": "아이스핀 360 아이사이즈 회전형 카시트 (ISOFIX)",
+    "모델명": "조이 아이스핀 360 아이사이즈 회전형 카시트 (ISOFIX)",
+    "최저가": 708000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/205/120/img/58120205_1.jpg&_v=20250415141743",
+    "픽타입": "none",
+    "총점": 83,
+    "순위": 17,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "조이 아이스핀 360 아이사이즈 회전형 카시트 (ISOFIX)",
+    "productId": 58120205,
+    "filter_attrs": {
+      "허용무게": "~19kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~5세",
+      "허용무게": "~19kg까지",
+      "출시년도": "2019년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(베이스형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "순성산업",
+    "제품명": "제나 주니어 플러스 ISOFIX 카시트",
+    "모델명": "순성산업 제나 주니어 플러스 ISOFIX 카시트",
+    "최저가": 265000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/554/811/img/20811554_1.jpg&_v=20250415141929",
+    "픽타입": "none",
+    "총점": 82,
+    "순위": 18,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "순성산업 제나 주니어 플러스 ISOFIX 카시트",
+    "productId": 20811554,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "4세~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2021년",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "조이",
+    "제품명": "아이트릴로 FX 아이사이즈 주니어 카시트",
+    "모델명": "조이 아이트릴로 FX 아이사이즈 주니어 카시트",
+    "최저가": 167840,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/018/164/img/90164018_1.jpg&_v=20250509045531",
+    "픽타입": "none",
+    "총점": 81,
+    "순위": 19,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "조이 아이트릴로 FX 아이사이즈 주니어 카시트",
+    "productId": 90164018,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "4~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2024년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "브라이텍스",
+    "제품명": "하이포인트 주니어 카시트 (ISOFIX)",
+    "모델명": "브라이텍스 하이포인트 주니어 카시트 (ISOFIX)",
+    "최저가": 228390,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/388/842/img/20842388_1.jpg&_v=20250415142040",
+    "픽타입": "none",
+    "총점": 80,
+    "순위": 20,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "브라이텍스 하이포인트 주니어 카시트 (ISOFIX)",
+    "productId": 20842388,
+    "filter_attrs": {
+      "허용무게": "~36kg까지",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3개월~12세",
+      "허용무게": "~36kg까지",
+      "출시년도": "2020년",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(벨트형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "2025 원픽스 360 시즌2 레그룸 카시트",
+    "모델명": "다이치 2025 원픽스 360 시즌2 레그룸 카시트",
+    "최저가": 559300,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/203/086/img/94086203_1.jpg&_v=20251113045204",
+    "픽타입": "none",
+    "총점": 79,
+    "순위": 21,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 2025 원픽스 360 시즌2 레그룸 카시트",
+    "productId": 94086203,
+    "filter_attrs": {
+      "허용무게": "~18kg까지"
+    },
+    "specs": {
+      "type": "카시트",
+      "허용무게": "~18kg까지",
+      "출시년도": "2025년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "브이가드 ISOFIX 토들러 시즌2 프리미엄 카시트",
+    "모델명": "다이치 브이가드 ISOFIX 토들러 시즌2 프리미엄 카시트",
+    "최저가": 350000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/343/428/img/26428343_1.jpg&_v=20250830045416",
+    "픽타입": "none",
+    "총점": 78,
+    "순위": 22,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 브이가드 ISOFIX 토들러 시즌2 프리미엄 카시트",
+    "productId": 26428343,
+    "filter_attrs": {
+      "허용무게": "9~25kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "1~12세",
+      "허용무게": "9~25kg",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "순성산업",
+    "제품명": "듀클 빌리 휴대용 카시트",
+    "모델명": "순성산업 듀클 빌리 휴대용 카시트",
+    "최저가": 199000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/248/847/img/20847248_1.jpg&_v=20250415141625",
+    "픽타입": "none",
+    "총점": 77,
+    "순위": 23,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "순성산업 듀클 빌리 휴대용 카시트",
+    "productId": 20847248,
+    "filter_attrs": {
+      "허용무게": "9~25kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "12개월~7세",
+      "허용무게": "9~25kg까지",
+      "출시년도": "2020년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(벨트형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "2018 퍼스트세븐 플러스 (ISOFIX)",
+    "모델명": "다이치 2018 퍼스트세븐 플러스 (ISOFIX)",
+    "최저가": 293950,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/344/823/img/20823344_1.jpg&_v=20250830045436",
+    "픽타입": "none",
+    "총점": 76,
+    "순위": 24,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 2018 퍼스트세븐 플러스 (ISOFIX)",
+    "productId": 20823344,
+    "filter_attrs": {
+      "허용무게": "25kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~7세",
+      "허용무게": "25kg까지",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(베이스형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "브라이텍스",
+    "제품명": "키드픽스 M 아이사이즈 주니어 카시트 (ISOFIX)",
+    "모델명": "브라이텍스 키드픽스 M 아이사이즈 주니어 카시트 (ISOFIX)",
+    "최저가": 318970,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/845/261/img/39261845_1.jpg&_v=20250415141929",
+    "픽타입": "none",
+    "총점": 75,
+    "순위": 25,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "브라이텍스 키드픽스 M 아이사이즈 주니어 카시트 (ISOFIX)",
+    "productId": 39261845,
+    "filter_attrs": {
+      "허용무게": "15~36kg까지",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "36개월~12세",
+      "허용무게": "15~36kg까지",
+      "출시년도": "2021년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "브라이텍스",
+    "제품명": "듀얼픽스2 카시트 (ISOFIX)",
+    "모델명": "브라이텍스 듀얼픽스2 카시트 (ISOFIX)",
+    "최저가": 1150000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/866/832/img/20832866_1.jpg&_v=20250701045442",
+    "픽타입": "none",
+    "총점": 74,
+    "순위": 26,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "브라이텍스 듀얼픽스2 카시트 (ISOFIX)",
+    "productId": 20832866,
+    "filter_attrs": {
+      "허용무게": "~18kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "0~5세",
+      "허용무게": "~18kg까지",
+      "출시년도": "2020년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(베이스형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "스완두",
+    "제품명": "2025 찰리 아이사이즈 주니어 카시트",
+    "모델명": "스완두 2025 찰리 아이사이즈 주니어 카시트",
+    "최저가": 589000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/711/871/img/76871711_1.jpg&_v=20251201045430",
+    "픽타입": "none",
+    "총점": 73,
+    "순위": 27,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "스완두 2025 찰리 아이사이즈 주니어 카시트",
+    "productId": 76871711,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3세~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2025년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "조이",
+    "제품명": "아이스핀 360 메쉬 아이사이즈 회전형 카시트 (ISOFIX)",
+    "모델명": "조이 아이스핀 360 메쉬 아이사이즈 회전형 카시트 (ISOFIX)",
+    "최저가": 698000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/614/112/img/86112614_1.jpg&_v=20250422085648",
+    "픽타입": "none",
+    "총점": 72,
+    "순위": 28,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "조이 아이스핀 360 메쉬 아이사이즈 회전형 카시트 (ISOFIX)",
+    "productId": 86112614,
+    "filter_attrs": {
+      "허용무게": "~19kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~5세",
+      "허용무게": "~19kg까지",
+      "출시년도": "2019년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(베이스형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "브이가드 리우 토들러 카시트 + 선바이저 + 컵홀더 세트",
+    "모델명": "다이치 브이가드 리우 토들러 카시트 + 선바이저 + 컵홀더 세트",
+    "최저가": 339150,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/305/163/img/56163305_1.jpg&_v=20251113045203",
+    "픽타입": "none",
+    "총점": 71,
+    "순위": 29,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 브이가드 리우 토들러 카시트 + 선바이저 + 컵홀더 세트",
+    "productId": 56163305,
+    "filter_attrs": {
+      "허용무게": "9~36kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "1~12세",
+      "허용무게": "9~36kg",
+      "출시년도": "2023년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "브이가드 주니어 리우 ISOFIX + 선바이저 + 컵홀더 세트",
+    "모델명": "다이치 브이가드 주니어 리우 ISOFIX + 선바이저 + 컵홀더 세트",
+    "최저가": 299200,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/116/249/img/60249116_1.jpg&_v=20251113045205",
+    "픽타입": "none",
+    "총점": 70,
+    "순위": 30,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 브이가드 주니어 리우 ISOFIX + 선바이저 + 컵홀더 세트",
+    "productId": 60249116,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2023년",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "조이",
+    "제품명": "듀알로 시그니처 주니어 카시트 (ISOFIX)",
+    "모델명": "조이 듀알로 시그니처 주니어 카시트 (ISOFIX)",
+    "최저가": 268000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/468/191/img/21191468_1.jpg&_v=20250415141934",
+    "픽타입": "none",
+    "총점": 69,
+    "순위": 31,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "조이 듀알로 시그니처 주니어 카시트 (ISOFIX)",
+    "productId": 21191468,
+    "filter_attrs": {
+      "허용무게": "15~36kg까지"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "4~12세",
+      "허용무게": "15~36kg까지",
+      "출시년도": "2019년",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "도렐",
+    "제품명": "맥시코시 코어 프로 아이사이즈 주니어 카시트",
+    "모델명": "도렐 맥시코시 코어 프로 아이사이즈 주니어 카시트",
+    "최저가": 293000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/183/786/img/53786183_1.jpg&_v=20250830045434",
+    "픽타입": "none",
+    "총점": 68,
+    "순위": 32,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "도렐 맥시코시 코어 프로 아이사이즈 주니어 카시트",
+    "productId": 53786183,
+    "filter_attrs": {
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3세~12세",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(베이스형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "순성산업",
+    "제품명": "데일리 오가닉 카시트 (ISOFIX)",
+    "모델명": "순성산업 데일리 오가닉 카시트 (ISOFIX)",
+    "최저가": 230000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/695/802/img/20802695_1.jpg&_v=20250415142034",
+    "픽타입": "none",
+    "총점": 67,
+    "순위": 33,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "순성산업 데일리 오가닉 카시트 (ISOFIX)",
+    "productId": 20802695,
+    "filter_attrs": {
+      "허용무게": "25kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~7세",
+      "허용무게": "25kg까지",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(벨트형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "이지캐리2 휴대용 카시트 + 목베개 세트",
+    "모델명": "다이치 이지캐리2 휴대용 카시트 + 목베개 세트",
+    "최저가": 199750,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/845/898/img/44898845_1.jpg&_v=20250830045422",
+    "픽타입": "none",
+    "총점": 66,
+    "순위": 34,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 이지캐리2 휴대용 카시트 + 목베개 세트",
+    "productId": 44898845,
+    "filter_attrs": {
+      "허용무게": "~18kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "12개월~5세",
+      "허용무게": "~18kg",
+      "출시년도": "2023년",
+      "features": [
+        "일체형",
+        "5점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "악스키드",
+    "제품명": "스핀키드 아이사이즈 스웨디시 카시트",
+    "모델명": "악스키드 스핀키드 아이사이즈 스웨디시 카시트",
+    "최저가": 950000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/928/785/img/53785928_1.jpg&_v=20250415141935",
+    "픽타입": "none",
+    "총점": 65,
+    "순위": 35,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "악스키드 스핀키드 아이사이즈 스웨디시 카시트",
+    "productId": 53785928,
+    "filter_attrs": {
+      "허용무게": "~18kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~5세",
+      "허용무게": "~18kg",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "순성산업",
+    "제품명": "순성 우노 에어 올인원 아이사이즈",
+    "모델명": "순성산업 순성 우노 에어 올인원 아이사이즈",
+    "최저가": 680000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/226/284/img/77284226_1.jpg&_v=20250415141814",
+    "픽타입": "none",
+    "총점": 64,
+    "순위": 36,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "순성산업 순성 우노 에어 올인원 아이사이즈",
+    "productId": 77284226,
+    "filter_attrs": {
+      "허용무게": "~36kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "허용무게": "~36kg",
+      "출시년도": "2024년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "도렐",
+    "제품명": "맥시코시 미카 프로 에코 아이사이즈 360 회전형 카시트",
+    "모델명": "도렐 맥시코시 미카 프로 에코 아이사이즈 360 회전형 카시트",
+    "최저가": 840100,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/879/324/img/47324879_1.jpg&_v=20250415141922",
+    "픽타입": "none",
+    "총점": 63,
+    "순위": 37,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "도렐 맥시코시 미카 프로 에코 아이사이즈 360 회전형 카시트",
+    "productId": 47324879,
+    "filter_attrs": {
+      "허용무게": "~18kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아부터",
+      "허용무게": "~18kg",
+      "출시년도": "2022년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "5점식벨트",
+        "ISOFIX(고정형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "2019 듀웰S 카시트 (ISOFIX)",
+    "모델명": "다이치 2019 듀웰S 카시트 (ISOFIX)",
+    "최저가": 425990,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/668/829/img/20829668_1.jpg&_v=20250830045436",
+    "픽타입": "none",
+    "총점": 62,
+    "순위": 38,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 2019 듀웰S 카시트 (ISOFIX)",
+    "productId": 20829668,
+    "filter_attrs": {
+      "허용무게": "~18kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "0~5세",
+      "허용무게": "~18kg까지",
+      "출시년도": "2019년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(벨트형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "원픽스 360 시즌2 카시트",
+    "모델명": "다이치 원픽스 360 시즌2 카시트",
+    "최저가": 490000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/887/696/img/21696887_1.jpg&_v=20250830045429",
+    "픽타입": "none",
+    "총점": 61,
+    "순위": 39,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 원픽스 360 시즌2 카시트",
+    "productId": 21696887,
+    "filter_attrs": {
+      "허용무게": "~18kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~5세",
+      "허용무게": "~18kg",
+      "출시년도": "2023년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "ISOFIX",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "토드비",
+    "제품명": "코쿤 G7 ISOFIX 주니어카시트",
+    "모델명": "토드비 코쿤 G7 ISOFIX 주니어카시트",
+    "최저가": 168260,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/337/354/img/37354337_1.jpg&_v=20250415141733",
+    "픽타입": "none",
+    "총점": 60,
+    "순위": 40,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "토드비 코쿤 G7 ISOFIX 주니어카시트",
+    "productId": 37354337,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "4~12세",
+      "허용무게": "15~36kg",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "싸이벡스",
+    "제품명": "솔루션 티 컴포트 아이사이즈 주니어 카시트",
+    "모델명": "싸이벡스 솔루션 티 컴포트 아이사이즈 주니어 카시트",
+    "최저가": 500000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/879/076/img/76076879_1.jpg&_v=20251201045440",
+    "픽타입": "none",
+    "총점": 59,
+    "순위": 41,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "싸이벡스 솔루션 티 컴포트 아이사이즈 주니어 카시트",
+    "productId": 76076879,
+    "filter_attrs": {
+      "허용무게": "15~50kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3세~12세",
+      "허용무게": "15~50kg",
+      "출시년도": "2024년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "ISOFIX(래치형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "원픽스 360 시즌2 레그룸 카시트",
+    "모델명": "다이치 원픽스 360 시즌2 레그룸 카시트",
+    "최저가": 679000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/218/283/img/77283218_1.jpg&_v=20250830045434",
+    "픽타입": "none",
+    "총점": 58,
+    "순위": 42,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 원픽스 360 시즌2 레그룸 카시트",
+    "productId": 77283218,
+    "filter_attrs": {
+      "허용무게": "~18kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "허용무게": "~18kg",
+      "출시년도": "2024년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "V가드 주니어 카시트 (ISOFIX)",
+    "모델명": "다이치 V가드 주니어 카시트 (ISOFIX)",
+    "최저가": 241670,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/496/830/img/20830496_1.jpg&_v=20250829045317",
+    "픽타입": "none",
+    "총점": 57,
+    "순위": 43,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 V가드 주니어 카시트 (ISOFIX)",
+    "productId": 20830496,
+    "filter_attrs": {
+      "허용무게": "15~36kg까지"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~36kg까지",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "포브",
+    "제품명": "보네떼 토들러 주니어 카시트",
+    "모델명": "포브 보네떼 토들러 주니어 카시트",
+    "최저가": 382200,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/658/788/img/20788658_1.jpg&_v=20250415141927",
+    "픽타입": "none",
+    "총점": 56,
+    "순위": 44,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "포브 보네떼 토들러 주니어 카시트",
+    "productId": 20788658,
+    "filter_attrs": {
+      "허용무게": "25kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "10개월~",
+      "허용무게": "25kg",
+      "출시년도": "2020년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(벨트형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "퍼스트세븐 플러스 카시트 + 썬바이저 세트",
+    "모델명": "다이치 퍼스트세븐 플러스 카시트 + 썬바이저 세트",
+    "최저가": 545990,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/722/777/img/39777722_1.jpg&_v=20250830045421",
+    "픽타입": "none",
+    "총점": 55,
+    "순위": 45,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 퍼스트세븐 플러스 카시트 + 썬바이저 세트",
+    "productId": 39777722,
+    "filter_attrs": {
+      "허용무게": "~25kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~7세",
+      "허용무게": "~25kg",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "제일산업",
+    "제품명": "촘촘애 W2 몽구 컴팩트 카시트",
+    "모델명": "제일산업 촘촘애 W2 몽구 컴팩트 카시트",
+    "최저가": 79900,
+    "가격범위": "5~10만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/110/691/img/29691110_1.jpg&_v=20250415142035",
+    "픽타입": "none",
+    "총점": 54,
+    "순위": 46,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "제일산업 촘촘애 W2 몽구 컴팩트 카시트",
+    "productId": 29691110,
+    "filter_attrs": {
+      "허용무게": "9~18kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "유아~주니어",
+      "허용무게": "9~18kg까지",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "5점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "조이",
+    "제품명": "뉴 스핀360 클래식 아이소픽스 회전형 신생아카시트",
+    "모델명": "조이 뉴 스핀360 클래식 아이소픽스 회전형 신생아카시트",
+    "최저가": 497910,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/908/733/img/89733908_1.jpg&_v=20250502045328",
+    "픽타입": "none",
+    "총점": 53,
+    "순위": 47,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "조이 뉴 스핀360 클래식 아이소픽스 회전형 신생아카시트",
+    "productId": 89733908,
+    "filter_attrs": {
+      "허용무게": "~18kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "0~5세",
+      "허용무게": "~18kg",
+      "features": [
+        "5점식벨트",
+        "ISOFIX",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "조이",
+    "제품명": "뉴 스핀360 아이소픽스 회전형 신생아 카시트 ISOFIX",
+    "모델명": "조이 뉴 스핀360 아이소픽스 회전형 신생아 카시트 ISOFIX",
+    "최저가": 438640,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/764/878/img/76878764_1.jpg&_v=20250415141729",
+    "픽타입": "none",
+    "총점": 52,
+    "순위": 48,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "조이 뉴 스핀360 아이소픽스 회전형 신생아 카시트 ISOFIX",
+    "productId": 76878764,
+    "filter_attrs": {
+      "허용무게": "~18kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "0~5세",
+      "허용무게": "~18kg",
+      "features": [
+        "5점식벨트",
+        "ISOFIX",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "SEEC",
+    "제품명": "NEW 익스텐션 프로픽스2 주니어 카시트",
+    "모델명": "SEEC NEW 익스텐션 프로픽스2 주니어 카시트",
+    "최저가": 198000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/473/111/img/39111473_1.jpg&_v=20250829045311",
+    "픽타입": "none",
+    "총점": 51,
+    "순위": 49,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "SEEC NEW 익스텐션 프로픽스2 주니어 카시트",
+    "productId": 39111473,
+    "filter_attrs": {
+      "허용무게": "~34kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "~34kg",
+      "출시년도": "2023년",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "실버크로스",
+    "제품명": "모션 360 I-size 카시트",
+    "모델명": "실버크로스 모션 360 I-size 카시트",
+    "최저가": 637250,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/514/162/img/52162514_1.jpg&_v=20250830045436",
+    "픽타입": "none",
+    "총점": 50,
+    "순위": 50,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "실버크로스 모션 360 I-size 카시트",
+    "productId": 52162514,
+    "filter_attrs": {
+      "허용무게": "~18kg"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~4세",
+      "허용무게": "~18kg",
+      "출시년도": "2021년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "ISOFIX(래치형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "바론",
+    "제품명": "원더 주니어 카시트 (ISOFIX)",
+    "모델명": "바론 원더 주니어 카시트 (ISOFIX)",
+    "최저가": 241090,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/088/818/img/20818088_1.jpg&_v=20250830045434",
+    "픽타입": "none",
+    "총점": 49,
+    "순위": 51,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "바론 원더 주니어 카시트 (ISOFIX)",
+    "productId": 20818088,
+    "filter_attrs": {
+      "허용무게": "15~36kg까지"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~36kg까지",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "콩코드",
+    "제품명": "루미 익스플로어5 아이사이즈 블랙에디션 카시트 (ISOFIX)",
+    "모델명": "콩코드 루미 익스플로어5 아이사이즈 블랙에디션 카시트 (ISOFIX)",
+    "최저가": 399000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/963/789/img/20789963_1.jpg&_v=20250415142034",
+    "픽타입": "none",
+    "총점": 48,
+    "순위": 52,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "콩코드 루미 익스플로어5 아이사이즈 블랙에디션 카시트 (ISOFIX)",
+    "productId": 20789963,
+    "filter_attrs": {
+      "허용무게": "18kg까지",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~5세",
+      "허용무게": "18kg까지",
+      "출시년도": "2019년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(베이스형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "이지캐리 휴대용 카시트",
+    "모델명": "다이치 이지캐리 휴대용 카시트",
+    "최저가": 209000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/299/793/img/20793299_1.jpg&_v=20250830045437",
+    "픽타입": "none",
+    "총점": 47,
+    "순위": 53,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 이지캐리 휴대용 카시트",
+    "productId": 20793299,
+    "filter_attrs": {
+      "허용무게": "9~18kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "12개월~5세",
+      "허용무게": "9~18kg까지",
+      "출시년도": "2020년",
+      "features": [
+        "일체형",
+        "5점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "제일산업",
+    "제품명": "촘촘애 몽구 아동 보조벨트",
+    "모델명": "제일산업 촘촘애 몽구 아동 보조벨트",
+    "최저가": 32730,
+    "가격범위": "0~5만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/907/812/img/20812907_1.jpg&_v=20250415141917",
+    "픽타입": "none",
+    "총점": 46,
+    "순위": 54,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "제일산업 촘촘애 몽구 아동 보조벨트",
+    "productId": 20812907,
+    "filter_attrs": {
+      "허용무게": "15~25kg까지"
+    },
+    "specs": {
+      "type": "카시트",
+      "허용무게": "15~25kg까지",
+      "출시년도": "2019년 이전",
+      "features": [
+        "일체형"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "악스키드",
+    "제품명": "원플러스 아이사이즈 스웨디시 카시트",
+    "모델명": "악스키드 원플러스 아이사이즈 스웨디시 카시트",
+    "최저가": 1377400,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/243/786/img/53786243_1.jpg&_v=20250415141939",
+    "픽타입": "none",
+    "총점": 45,
+    "순위": 55,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "악스키드 원플러스 아이사이즈 스웨디시 카시트",
+    "productId": 53786243,
+    "filter_attrs": {
+      "허용무게": "~23kg",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~7세",
+      "허용무게": "~23kg",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "도렐",
+    "제품명": "맥시코시 맥시코시 로디픽스 프로 아이사이즈 주니어 카시트",
+    "모델명": "도렐 맥시코시 맥시코시 로디픽스 프로 아이사이즈 주니어 카시트",
+    "최저가": 443970,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/264/786/img/53786264_1.jpg&_v=20250415141933",
+    "픽타입": "none",
+    "총점": 44,
+    "순위": 56,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "도렐 맥시코시 맥시코시 로디픽스 프로 아이사이즈 주니어 카시트",
+    "productId": 53786264,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "4~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2023년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
+        "3점식벨트",
+        "ISOFIX(고정형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "리클라이닝 멀티 아이사이즈 주니어 카시트",
+    "모델명": "다이치 리클라이닝 멀티 아이사이즈 주니어 카시트",
+    "최저가": 320000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/603/481/img/52481603_1.jpg&_v=20250830045428",
+    "픽타입": "none",
+    "총점": 43,
+    "순위": 57,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 리클라이닝 멀티 아이사이즈 주니어 카시트",
+    "productId": 52481603,
+    "filter_attrs": {
+      "허용무게": "15~36kg",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "3~12세",
+      "허용무게": "15~36kg",
+      "출시년도": "2023년",
+      "안전인증": "아이사이즈(i-size)",
+      "features": [
+        "일체형",
         "3점식벨트",
         "ISOFIX",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "3세~12세",
-      "출시년도": "2025년",
-      "허용무게": "15~36kg",
-      "attributeScores": {
-        "additional_features": 64,
-        "safety_and_stability": 98,
-        "comfort_and_reclining": 68,
-        "fabric_and_maintenance": 72,
-        "usability_and_rotation": 71,
-        "adjustability_for_growth": 87,
-        "installation_and_portability": 72
-      },
-      "하위카테고리": "카시트/일체형"
+        "360º 회전"
+      ]
     },
-    "filter_attrs": {
-      "허용무게": "15~36kg",
-      "벨트타입": "3점식벨트",
-      "브랜드": "스완두"
-    },
-    "dataSource": "enuri"
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
   },
   {
-    "productId": "84010703",
-    "브랜드": "세경사",
-    "모델명": "세경사  마블 휴대용카시트 간편슬림형",
-    "최저가": 57340,
-    "최저가몰": "롯데홈쇼핑",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=663&modelno=84010703&pl_no=10252732547&cate=10040202&urltype=0&coupon=0&from=detail&showPrice=60360&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/10258800000/10258870000/10258876628.jpg",
-    "순위": 37,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 6,
-    "하위카테고리": "카시트",
-    "specs": {
-      "특징": [
-        "3점식벨트"
-      ],
-      "출시년도": "2019년 이전",
-      "허용무게": "15~25kg까지",
-      "attributeScores": {
-        "additional_features": 68,
-        "safety_and_stability": 64,
-        "comfort_and_reclining": 65,
-        "fabric_and_maintenance": 65,
-        "usability_and_rotation": 68,
-        "adjustability_for_growth": 64,
-        "installation_and_portability": 97
-      },
-      "하위카테고리": "카시트"
-    },
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "파파앤코",
+    "제품명": "도노비 팬텀 주니어 카시트",
+    "모델명": "파파앤코 도노비 팬텀 주니어 카시트",
+    "최저가": 280000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/817/809/img/20809817_1.jpg&_v=20250415141910",
+    "픽타입": "none",
+    "총점": 42,
+    "순위": 58,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "파파앤코 도노비 팬텀 주니어 카시트",
+    "productId": 20809817,
     "filter_attrs": {
-      "허용무게": "15~25kg까지",
-      "벨트타입": "3점식벨트",
-      "브랜드": "세경사"
+      "허용무게": "15~36kg까지"
     },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "50366997",
-    "브랜드": "순성산업",
-    "모델명": "순성산업  듀클 캐리 신생아 카시트",
-    "최저가": 158100,
-    "최저가몰": "옥션",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=4027&modelno=50366997&pl_no=26054145717&cate=10040203&urltype=0&coupon=15&from=detail&showPrice=170000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/6228500000/6228550000/6228555621",
-    "순위": 38,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 4,
-    "하위카테고리": "카시트/바구니형",
     "specs": {
-      "특징": [
-        "3점식벨트"
-      ],
-      "사용대상": "신생아부터",
-      "출시년도": "2020년",
-      "허용무게": "~13kg까지",
-      "attributeScores": {
-        "additional_features": 69,
-        "safety_and_stability": 66,
-        "comfort_and_reclining": 70,
-        "fabric_and_maintenance": 67,
-        "usability_and_rotation": 71,
-        "adjustability_for_growth": 72,
-        "installation_and_portability": 66
-      },
-      "하위카테고리": "카시트/바구니형"
-    },
-    "filter_attrs": {
-      "허용무게": "~13kg까지",
-      "벨트타입": "3점식벨트",
-      "브랜드": "순성산업"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "134615551",
-    "브랜드": "조이",
-    "모델명": "조이  아이트릴로 FX 아이사이즈 주니어 카시트",
-    "최저가": 184140,
-    "최저가몰": "SSG.COM",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=6665&modelno=134615551&pl_no=21619267394&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=198000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/21619200000/21619260000/21619267394.jpg",
-    "순위": 39,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 6,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트",
-        "ISOFIX(고정형)",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "4~12세",
-      "출시년도": "2024년",
-      "허용무게": "15~36kg",
-      "attributeScores": {
-        "additional_features": 64,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 70,
-        "fabric_and_maintenance": 68,
-        "usability_and_rotation": 67,
-        "adjustability_for_growth": 91,
-        "installation_and_portability": 63
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "15~36kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "조이"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "108217513",
-    "브랜드": "조이",
-    "모델명": "조이  아이트래버 시그니처 주니어 ISOFIX 카시트",
-    "최저가": 269700,
-    "최저가몰": "이마트몰",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=374&modelno=108217513&pl_no=16328704201&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=290000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/15716400000/15716450000/15716454131.jpg",
-    "순위": 40,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 2,
-    "하위카테고리": "카시트",
-    "specs": {
-      "특징": [
-        "ISOFIX(고정형)"
-      ],
-      "사용대상": "4~12세",
-      "attributeScores": {
-        "additional_features": 70,
-        "safety_and_stability": 87,
-        "comfort_and_reclining": 64,
-        "fabric_and_maintenance": 67,
-        "usability_and_rotation": 65,
-        "adjustability_for_growth": 72,
-        "installation_and_portability": 66
-      },
-      "하위카테고리": "카시트"
-    },
-    "filter_attrs": {
-      "브랜드": "조이"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "121876364",
-    "브랜드": "다이치",
-    "모델명": "다이치  이지캐리2 휴대용 카시트 + 목베개 세트",
-    "최저가": 195300,
-    "최저가몰": "현대Hmall",
-    "최저가링크": "https://www.enuri.com/move/Redirect.jsp?cmd=move_link&vcode=57&modelno=121876364&pl_no=18265152354&cate=10040201&urltype=0&coupon=0&from=detail&showPrice=210000&buycnt=1&referrer=",
-    "썸네일": "https://image.enuri.info/webimage_300/21317100000/21317120000/21317125149.jpg",
-    "순위": 41,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 4,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "5점식벨트"
-      ],
-      "사용대상": "12개월~5세",
-      "출시년도": "2023년",
-      "허용무게": "~18kg",
-      "attributeScores": {
-        "additional_features": 69,
-        "safety_and_stability": 78,
-        "comfort_and_reclining": 70,
-        "fabric_and_maintenance": 64,
-        "usability_and_rotation": 69,
-        "adjustability_for_growth": 88,
-        "installation_and_portability": 97
-      },
-      "하위카테고리": "카시트/일체형"
-    },
-    "filter_attrs": {
-      "허용무게": "~18kg",
-      "벨트타입": "5점식벨트",
-      "브랜드": "다이치"
-    },
-    "dataSource": "enuri"
-  },
-  {
-    "productId": "117009261",
-    "브랜드": "다이치",
-    "모델명": "다이치  브이가드 주니어 ISOFIX 시즌2 프리미엄",
-    "최저가": 249900,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/18265100000/18265150000/18265152276.jpg",
-    "순위": 42,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 2,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "3점식벨트",
-        "ISOFIX(고정형)"
-      ],
+      "type": "카시트",
       "사용대상": "3~12세",
+      "허용무게": "15~36kg까지",
       "출시년도": "2019년 이전",
-      "허용무게": "15~36kg",
-      "attributeScores": {
-        "additional_features": 63,
-        "safety_and_stability": 82,
-        "comfort_and_reclining": 66,
-        "fabric_and_maintenance": 63,
-        "usability_and_rotation": 65,
-        "adjustability_for_growth": 89,
-        "installation_and_portability": 63
-      },
-      "하위카테고리": "카시트/일체형"
+      "features": [
+        "일체형"
+      ]
     },
-    "filter_attrs": {
-      "허용무게": "15~36kg",
-      "벨트타입": "3점식벨트",
-      "브랜드": "다이치"
-    },
-    "dataSource": "enuri"
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
   },
   {
-    "productId": "120805929",
-    "브랜드": "다이치",
-    "모델명": "다이치  블리바 360 프로 i-size + 선바이저 세트",
-    "최저가": 500000,
-    "최저가몰": null,
-    "최저가링크": null,
-    "썸네일": "https://image.enuri.info/webimage_300/20337500000/20337570000/20337573709.jpg",
-    "순위": 43,
-    "총점": null,
-    "평균별점": null,
-    "리뷰수": 2,
-    "하위카테고리": "카시트/일체형",
-    "specs": {
-      "특징": [
-        "ISOFIX(고정형)",
-        "360º 회전",
-        "안전인증:아이사이즈(i-size)"
-      ],
-      "사용대상": "신생아~7세",
-      "출시년도": "2024년",
-      "허용무게": "~25kg",
-      "attributeScores": {
-        "additional_features": 68,
-        "safety_and_stability": 100,
-        "comfort_and_reclining": 65,
-        "fabric_and_maintenance": 64,
-        "usability_and_rotation": 88,
-        "adjustability_for_growth": 86,
-        "installation_and_portability": 68
-      },
-      "하위카테고리": "카시트/일체형"
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "하이폴드",
+    "제품명": "트랜스포밍 주니어 카시트",
+    "모델명": "하이폴드 트랜스포밍 주니어 카시트",
+    "최저가": 99000,
+    "가격범위": "5~10만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/894/656/img/21656894_1.jpg&_v=20250830045428",
+    "픽타입": "none",
+    "총점": 41,
+    "순위": 59,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "하이폴드 트랜스포밍 주니어 카시트",
+    "productId": 21656894,
+    "filter_attrs": {
+      "벨트타입": "3점식벨트"
     },
+    "specs": {
+      "type": "카시트",
+      "출시년도": "2022년",
+      "features": [
+        "일체형",
+        "3점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "순성산업",
+    "제품명": "2019 데일리 카시트 (ISOFIX)",
+    "모델명": "순성산업 2019 데일리 카시트 (ISOFIX)",
+    "최저가": 219000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/788/835/img/20835788_1.jpg&_v=20250415142031",
+    "픽타입": "none",
+    "총점": 40,
+    "순위": 60,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "순성산업 2019 데일리 카시트 (ISOFIX)",
+    "productId": 20835788,
+    "filter_attrs": {
+      "허용무게": "~25kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~7세",
+      "허용무게": "~25kg까지",
+      "출시년도": "2019년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(벨트형)"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "엘츠",
+    "제품명": "360 회전형 유아 카시트 (ISOFIX)",
+    "모델명": "엘츠 360 회전형 유아 카시트 (ISOFIX)",
+    "최저가": 461380,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/265/800/img/20800265_1.jpg&_v=20250415141922",
+    "픽타입": "none",
+    "총점": 39,
+    "순위": 61,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "엘츠 360 회전형 유아 카시트 (ISOFIX)",
+    "productId": 20800265,
+    "filter_attrs": {
+      "허용무게": "~18kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~4세",
+      "허용무게": "~18kg까지",
+      "출시년도": "2019년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX(베이스형)",
+        "360º 회전"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "다이치",
+    "제품명": "퍼스트세븐 플러스 ISOFIX 프리미엄 썬바이저",
+    "모델명": "다이치 퍼스트세븐 플러스 ISOFIX 프리미엄 썬바이저",
+    "최저가": 783000,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/855/450/img/26450855_1.jpg&_v=20250830045433",
+    "픽타입": "none",
+    "총점": 38,
+    "순위": 62,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "다이치 퍼스트세븐 플러스 ISOFIX 프리미엄 썬바이저",
+    "productId": 26450855,
     "filter_attrs": {
       "허용무게": "~25kg",
-      "브랜드": "다이치"
+      "벨트타입": "5점식벨트"
     },
-    "dataSource": "enuri"
+    "specs": {
+      "type": "카시트",
+      "사용대상": "0~7세",
+      "허용무게": "~25kg",
+      "출시년도": "2020년",
+      "features": [
+        "일체형",
+        "5점식벨트",
+        "ISOFIX"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "몽구",
+    "제품명": "W2 카시트",
+    "모델명": "몽구 W2 카시트",
+    "최저가": 78540,
+    "가격범위": "5~10만원",
+    "썸네일": "https://img.danawa.com/prod_img/500000/963/831/img/20831963_1.jpg&_v=20250415141937",
+    "픽타입": "none",
+    "총점": 37,
+    "순위": 63,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "몽구 W2 카시트",
+    "productId": 20831963,
+    "filter_attrs": {
+      "허용무게": "9~18kg까지",
+      "벨트타입": "3점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "허용무게": "9~18kg까지",
+      "features": [
+        "3점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
+  },
+  {
+    "카테고리": "카시트",
+    "카테고리키": "car_seat",
+    "브랜드": "치코",
+    "제품명": "컨버터블 엘레타 카시트",
+    "모델명": "치코 컨버터블 엘레타 카시트",
+    "최저가": 274550,
+    "가격범위": "15만원+",
+    "썸네일": "https://img.danawa.com/prod_img/500000/611/811/img/20811611_1.jpg&_v=20251130050308",
+    "픽타입": "none",
+    "총점": 36,
+    "순위": 64,
+    "총제품수": 82,
+    "요약": null,
+    "검색어": "치코 컨버터블 엘레타 카시트",
+    "productId": 20811611,
+    "filter_attrs": {
+      "허용무게": "18kg까지",
+      "벨트타입": "5점식벨트"
+    },
+    "specs": {
+      "type": "카시트",
+      "사용대상": "신생아~4세",
+      "허용무게": "18kg까지",
+      "출시년도": "2019년",
+      "features": [
+        "일체형",
+        "5점식벨트"
+      ]
+    },
+    "attributeScores": {
+      "safety_stability": 70,
+      "comfort_recline": 70,
+      "boarding_convenience": 70,
+      "installation_portability": 70,
+      "fabric_hygiene": 70,
+      "adjustability_growth": 70
+    }
   }
 ]

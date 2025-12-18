@@ -2857,6 +2857,24 @@ export default function AdminPage() {
                                         </div>
                                       )}
 
+                                      {/* 전체 추천 이유 */}
+                                      {(() => {
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                        const recData = (event as any).recommendationData;
+                                        return recData?.selectionReason ? (
+                                          <div>
+                                            <p className="font-bold text-purple-900 mb-2 text-sm">
+                                              💬 전체 추천 이유
+                                            </p>
+                                            <div className="bg-white p-3 rounded">
+                                              <p className="text-gray-700 text-xs whitespace-pre-wrap">
+                                                {recData.selectionReason}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        ) : null;
+                                      })()}
+
                                       {/* 추천 제품 Top 3 */}
                                       {event.recommendations.fullReport.recommendations && (
                                         <div>
@@ -2914,12 +2932,70 @@ export default function AdminPage() {
                                                       <p className="text-gray-700 text-xs">{rec.additionalConsiderations}</p>
                                                     </div>
                                                   )}
+
+                                                  {/* 개별 제품 추천 이유 (recommendationData) */}
+                                                  {(() => {
+                                                    /* eslint-disable @typescript-eslint/no-explicit-any */
+                                                    const recData = (event as any).recommendationData;
+                                                    if (!recData?.topProducts) return null;
+                                                    const productReason = recData.topProducts.find(
+                                                      (p: any) => p.pcode === rec.productId && p.rank === rec.rank
+                                                    );
+                                                    /* eslint-enable @typescript-eslint/no-explicit-any */
+                                                    return productReason?.reason ? (
+                                                      <div className="pt-2 border-t border-gray-200">
+                                                        <p className="font-semibold text-purple-700 text-xs mb-1">📝 추천 이유</p>
+                                                        <p className="text-gray-700 text-xs whitespace-pre-wrap">{productReason.reason}</p>
+                                                      </div>
+                                                    ) : null;
+                                                  })()}
                                                 </div>
                                               </div>
                                             ))}
                                           </div>
                                         </div>
                                       )}
+
+                                      {/* 리뷰 하이라이팅 (각 제품별) */}
+                                      {(() => {
+                                        /* eslint-disable @typescript-eslint/no-explicit-any */
+                                        const recData = (event as any).recommendationData;
+                                        const highlights = recData?.highlightedReviews;
+                                        if (!highlights || highlights.length === 0) return null;
+
+                                        return (
+                                          <div>
+                                            <p className="font-bold text-purple-900 mb-2 text-sm">
+                                              ✨ 리뷰 하이라이팅
+                                            </p>
+                                            <div className="space-y-3">
+                                              {highlights.map((product: any, pi: number) => (
+                                                <div key={pi} className="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                                  <p className="font-bold text-gray-900 mb-2">
+                                                    #{product.rank} {product.productTitle}
+                                                  </p>
+                                                  <div className="space-y-2">
+                                                    {product.reviews.map((review: any, ri: number) => (
+                                                      <div key={ri} className="bg-white p-2 rounded">
+                                                        <p className="font-semibold text-yellow-700 text-xs mb-1">
+                                                          {review.criteriaName}
+                                                        </p>
+                                                        <p className="text-gray-700 text-xs leading-relaxed">
+                                                          {review.excerpt}
+                                                        </p>
+                                                        <p className="text-gray-400 text-xs mt-1 pt-1 border-t border-gray-100">
+                                                          원본: {review.originalText.substring(0, 50)}...
+                                                        </p>
+                                                      </div>
+                                                    ))}
+                                                  </div>
+                                                </div>
+                                              ))}
+                                            </div>
+                                          </div>
+                                        );
+                                        /* eslint-enable @typescript-eslint/no-explicit-any */
+                                      })()}
                                     </div>
                                   )}
                                 </div>

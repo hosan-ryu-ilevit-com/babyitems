@@ -1,7 +1,7 @@
 [
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-WH17KP",
     "모델명": "신일전자 SEP-WH17KP",
@@ -39,20 +39,11 @@
         "크기(가로x세로x깊이): 212x268x150mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보아르",
     "제품명": "이지 전기포트C VPEP-003IV",
     "모델명": "보아르 이지 전기포트C VPEP-003IV",
@@ -92,20 +83,11 @@
         "최대크기(가로x세로x깊이): 188x173x138mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "테팔",
     "제품명": "인퓨자 BJ800D",
     "모델명": "테팔 인퓨자 BJ800D",
@@ -145,20 +127,11 @@
         "크기(가로x세로x깊이): 276x274x228mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "키친아트",
     "제품명": "KSJ-1800DTP",
     "모델명": "키친아트 KSJ-1800DTP",
@@ -197,20 +170,11 @@
         "크기(가로x세로x깊이): 165x235x220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보르르",
     "제품명": "B17-505",
     "모델명": "보르르 B17-505",
@@ -252,20 +216,11 @@
         "크기(가로x세로x깊이): 180x265x212mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보랄",
     "제품명": "BR-P30L",
     "모델명": "보랄 BR-P30L",
@@ -304,20 +259,11 @@
         "크기(가로x세로x깊이): 240x300x305mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "쿠비녹스",
     "제품명": "CX-247DS",
     "모델명": "쿠비녹스 CX-247DS",
@@ -354,20 +300,11 @@
         "크기(가로x세로x깊이): 212x70~160x110mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보아르",
     "제품명": "VHEP-003WH",
     "모델명": "보아르 VHEP-003WH",
@@ -406,20 +343,11 @@
         "크기(가로x세로x깊이): 173x217x138mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "키친아트",
     "제품명": "소렐 KIA-EK15",
     "모델명": "키친아트 소렐 KIA-EK15",
@@ -461,20 +389,11 @@
         "크기(가로x세로x깊이): 193x246x243mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보랄",
     "제품명": "BR-T25WJ",
     "모델명": "보랄 BR-T25WJ",
@@ -510,20 +429,11 @@
         "크기(가로x세로x깊이): 190x345~423x233mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "스위스밀리터리",
     "제품명": "SMA-MP1000L",
     "모델명": "스위스밀리터리 SMA-MP1000L",
@@ -560,20 +470,11 @@
         "크기(가로x세로x깊이): 175x145~195x175mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "LINSHU",
     "제품명": "SY-618",
     "모델명": "LINSHU SY-618",
@@ -609,20 +510,11 @@
         "크기(가로x세로x깊이): 80x230x80mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "락앤락",
     "제품명": "EJC723",
     "모델명": "락앤락 EJC723",
@@ -655,20 +547,11 @@
         "크기(가로x세로x깊이): 72x217x72mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "클래파",
     "제품명": "BEK-120P",
     "모델명": "클래파 BEK-120P",
@@ -704,20 +587,11 @@
         "크기(가로x세로x깊이): 190x125~173x190mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "바이마르",
     "제품명": "케어존 VMK-1911TG",
     "모델명": "바이마르 케어존 VMK-1911TG",
@@ -751,20 +625,11 @@
         "크기(가로x세로x깊이): 183x243x204mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "델리팬",
     "제품명": "DEL-KT61A",
     "모델명": "델리팬 DEL-KT61A",
@@ -802,20 +667,11 @@
         "최대크기(가로x세로x깊이): 200x208x200mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "플랜잇",
     "제품명": "KS-BMP800",
     "모델명": "플랜잇 KS-BMP800",
@@ -856,20 +712,11 @@
         "크기(가로x세로x깊이): 180x270x185mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-RD17KP",
     "모델명": "신일전자 SEP-RD17KP",
@@ -907,20 +754,11 @@
         "크기(가로x세로x깊이): 212x268x150mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "남양키친플라워",
     "제품명": "KEK-JP750WH",
     "모델명": "남양키친플라워 KEK-JP750WH",
@@ -962,20 +800,11 @@
         "크기(가로x세로x깊이): 290x335x226mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "테팔",
     "제품명": "테이스티 BJ551BKR",
     "모델명": "테팔 테이스티 BJ551BKR",
@@ -1015,20 +844,11 @@
         "크기(가로x세로x깊이): 276x284x228mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "휴롬",
     "제품명": "TM-B22",
     "모델명": "휴롬 TM-B22",
@@ -1063,20 +883,11 @@
         "크기(가로x세로x깊이): 218x267x215mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-K1300KP",
     "모델명": "신일전자 SEP-K1300KP",
@@ -1114,20 +925,11 @@
         "크기(가로x세로x깊이): 215x297x250mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "부스트랩",
     "제품명": "라비킷 LV23-BP01",
     "모델명": "부스트랩 라비킷 LV23-BP01",
@@ -1172,20 +974,11 @@
         "크기(가로x세로x깊이): 160x230x300mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보랄",
     "제품명": "EKA-3.8K2",
     "모델명": "보랄 EKA-3.8K2",
@@ -1226,20 +1019,11 @@
         "크기(가로x세로x깊이): 220x290x300mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "하트만",
     "제품명": "HMF-M0803ABK",
     "모델명": "하트만 HMF-M0803ABK",
@@ -1278,20 +1062,11 @@
         "크기(가로x세로x깊이): 270x205x210mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "코넘",
     "제품명": "휴대용 분유포트",
     "모델명": "코넘 휴대용 분유포트",
@@ -1331,20 +1106,11 @@
         "크기(가로x세로x깊이): 95x250x95mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보국전자",
     "제품명": "BKP-4125",
     "모델명": "보국전자 BKP-4125",
@@ -1384,20 +1150,11 @@
         "크기(가로x세로x깊이): 192x283x243mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "퀸센스",
     "제품명": "QSKT-3000",
     "모델명": "퀸센스 QSKT-3000",
@@ -1435,20 +1192,11 @@
         "크기(가로x세로x깊이): 190x263x220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "리웨이",
     "제품명": "허그 분유포트 전기 티포트",
     "모델명": "리웨이 허그 분유포트 전기 티포트",
@@ -1492,20 +1240,11 @@
         "크기(가로x세로x깊이): 235x251x217mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "휴롬",
     "제품명": "TM-HB2FWH",
     "모델명": "휴롬 TM-HB2FWH",
@@ -1543,20 +1282,11 @@
         "크기(가로x세로x깊이): 154x235x210mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "진온",
     "제품명": "브라비 스마트 분유포트",
     "모델명": "진온 브라비 스마트 분유포트",
@@ -1602,20 +1332,11 @@
         "크기(가로x세로x깊이): 237x191x248mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "키친아트",
     "제품명": "DWTM-5199",
     "모델명": "키친아트 DWTM-5199",
@@ -1653,20 +1374,11 @@
         "크기(가로x세로x깊이): 230x250x240mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-D800WSN",
     "모델명": "신일전자 SEP-D800WSN",
@@ -1708,20 +1420,11 @@
         "크기(가로x세로x깊이): 203x238x207mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오아",
     "제품명": "보아르 아가맘마 퓨어 분유포트",
     "모델명": "오아 보아르 아가맘마 퓨어 분유포트",
@@ -1764,20 +1467,11 @@
         "크기(가로x세로x깊이): 223x256x174mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "묘한",
     "제품명": "2in1 보온 티포트 가습기",
     "모델명": "묘한 2in1 보온 티포트 가습기",
@@ -1810,20 +1504,11 @@
         "크기(가로x세로x깊이): 183x208x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오아",
     "제품명": "보아르 더온리제로 VPT-001WH",
     "모델명": "오아 보아르 더온리제로 VPT-001WH",
@@ -1858,20 +1543,11 @@
         "크기(가로x세로x깊이): 72x126x194mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "마이어",
     "제품명": "ME-820",
     "모델명": "마이어 ME-820",
@@ -1908,20 +1584,11 @@
         "크기(가로x세로x깊이): 200x250x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오아",
     "제품명": "보아르 이지 전기포트 C",
     "모델명": "오아 보아르 이지 전기포트 C",
@@ -1957,20 +1624,11 @@
         "크기(가로x세로x깊이): 188x138~173x134mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일",
     "제품명": "SEP-C300KS",
     "모델명": "신일 SEP-C300KS",
@@ -2008,20 +1666,11 @@
         "크기(가로x세로x깊이): 203x207x238mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "풀무원건강생활",
     "제품명": "바른 분유포트 PC13DWCT",
     "모델명": "풀무원건강생활 바른 분유포트 PC13DWCT",
@@ -2059,20 +1708,11 @@
         "크기(가로x세로x깊이): 235x251x217mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-IV17CH",
     "모델명": "신일전자 SEP-IV17CH",
@@ -2110,20 +1750,11 @@
         "크기(가로x세로x깊이): 215x265x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "에브리빙",
     "제품명": "Lime-1212T",
     "모델명": "에브리빙 Lime-1212T",
@@ -2159,20 +1790,11 @@
         "크기(가로x세로x깊이): 180x240x150mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "모리츠",
     "제품명": "MEP-D1800SJ",
     "모델명": "모리츠 MEP-D1800SJ",
@@ -2211,20 +1833,11 @@
         "크기(가로x세로x깊이): 165x235x220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "베이비부스트",
     "제품명": "이지 분유포트 BBE1002A",
     "모델명": "베이비부스트 이지 분유포트 BBE1002A",
@@ -2264,20 +1877,11 @@
         "크기(가로x세로x깊이): 201x295x290mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-S16LKP",
     "모델명": "신일전자 SEP-S16LKP",
@@ -2318,20 +1922,11 @@
         "크기(가로x세로x깊이): 220x270x220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "PN풍년",
     "제품명": "PEKKA-1950",
     "모델명": "PN풍년 PEKKA-1950",
@@ -2367,20 +1962,11 @@
         "원터치뚜껑열림"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "샤오미",
     "제품명": "미지아 MJBXJRYSJ01",
     "모델명": "샤오미 미지아 MJBXJRYSJ01",
@@ -2412,20 +1998,11 @@
         "크기(가로x세로x깊이): 80x214x80mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "에버튼하우스",
     "제품명": "EHGF-K41A",
     "모델명": "에버튼하우스 EHGF-K41A",
@@ -2466,20 +2043,11 @@
         "크기(가로x세로x깊이): 215x265x150mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "엘프슈타펠",
     "제품명": "BNB-7500W",
     "모델명": "엘프슈타펠 BNB-7500W",
@@ -2518,20 +2086,11 @@
         "크기(가로x세로x깊이): 175x280x200mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "도무스",
     "제품명": "DNP-D504",
     "모델명": "도무스 DNP-D504",
@@ -2567,20 +2126,11 @@
         "자동전원차단"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보랄",
     "제품명": "BR-T95WK",
     "모델명": "보랄 BR-T95WK",
@@ -2614,20 +2164,11 @@
         "크기(가로x세로x깊이): 230x290x240mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "데일리룸",
     "제품명": "문라이즈 DRGK-2212",
     "모델명": "데일리룸 문라이즈 DRGK-2212",
@@ -2666,20 +2207,11 @@
         "크기(가로x세로x깊이): 175x220x205mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "코코엔젤",
     "제품명": "퓨어원 MT501C",
     "모델명": "코코엔젤 퓨어원 MT501C",
@@ -2711,20 +2243,11 @@
         "염소배출기능"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "나리몽",
     "제품명": "출수형 주전자형 분유포트",
     "모델명": "나리몽 출수형 주전자형 분유포트",
@@ -2758,20 +2281,11 @@
         "크기(가로x세로x깊이): 160x287x282mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "휴롬",
     "제품명": "TM-B04FSS",
     "모델명": "휴롬 TM-B04FSS",
@@ -2818,20 +2332,11 @@
         "크기(가로x세로x깊이): 220x263x223mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "라이트컴",
     "제품명": "COMS BD2000",
     "모델명": "라이트컴 COMS BD2000",
@@ -2871,20 +2376,11 @@
         "크기(가로x세로x깊이): 209x244x235mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보랄",
     "제품명": "HNZ-FP2100Y",
     "모델명": "보랄 HNZ-FP2100Y",
@@ -2925,20 +2421,11 @@
         "크기(가로x세로x깊이): 220x360x300mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "키친아트",
     "제품명": "소렐 EIA-E15",
     "모델명": "키친아트 소렐 EIA-E15",
@@ -2972,20 +2459,11 @@
         "크기(가로x세로x깊이): 193x246x243mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "대웅모닝컴",
     "제품명": "DWM-2285CY",
     "모델명": "대웅모닝컴 DWM-2285CY",
@@ -3021,20 +2499,11 @@
         "온도센서"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "로얄슈미츠",
     "제품명": "ROYAL-EK17L",
     "모델명": "로얄슈미츠 ROYAL-EK17L",
@@ -3071,20 +2540,11 @@
         "크기(가로x세로x깊이): 215x240x155mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "이거",
     "제품명": "휴대용 분유포트",
     "모델명": "이거 휴대용 분유포트",
@@ -3116,20 +2576,11 @@
         "크기(가로x세로x깊이): 80x230x80mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "허밍베베",
     "제품명": "올인원 분유포트 HBMP-2401W",
     "모델명": "허밍베베 올인원 분유포트 HBMP-2401W",
@@ -3165,20 +2616,11 @@
         "트윈패널"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "모리츠",
     "제품명": "SJC-MO9BS (MO-09BS)",
     "모델명": "모리츠 SJC-MO9BS (MO-09BS)",
@@ -3217,20 +2659,11 @@
         "크기(가로x세로x깊이): 244x275x207mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "엔뚜마노",
     "제품명": "GLOC2308A",
     "모델명": "엔뚜마노 GLOC2308A",
@@ -3268,20 +2701,11 @@
         "크기(가로x세로x깊이): 166x240x130mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "셰프라인",
     "제품명": "MCGF-K121A",
     "모델명": "셰프라인 MCGF-K121A",
@@ -3320,20 +2744,11 @@
         "크기(가로x세로x깊이): 210x244x150mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "러셀홉스",
     "제품명": "26200-70",
     "모델명": "러셀홉스 26200-70",
@@ -3370,20 +2785,11 @@
         "크기(가로x세로x깊이): 241x259x181mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "락앤락",
     "제품명": "EJK814WHT",
     "모델명": "락앤락 EJK814WHT",
@@ -3417,20 +2823,11 @@
         "크기(가로x세로x깊이): 173x184x127mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "라이녹스",
     "제품명": "티엠포 RXMX-T25D",
     "모델명": "라이녹스 티엠포 RXMX-T25D",
@@ -3468,20 +2865,11 @@
         "크기(가로x세로x깊이): 250x230x150mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "AGK",
     "제품명": "NORDIC 베베아 AGK-BK1300",
     "모델명": "AGK NORDIC 베베아 AGK-BK1300",
@@ -3516,20 +2904,11 @@
         "크기(가로x세로x깊이): 170x233x150mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "자일렉",
     "제품명": "ZL-228M",
     "모델명": "자일렉 ZL-228M",
@@ -3567,20 +2946,11 @@
         "크기(가로x세로x깊이): 175x250x115mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "네오메타",
     "제품명": "NEM-E1700BG",
     "모델명": "네오메타 NEM-E1700BG",
@@ -3618,20 +2988,11 @@
         "크기(가로x세로x깊이): 226x260x158mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오아",
     "제품명": "보아르 다이닝 VHEP-005IV",
     "모델명": "오아 보아르 다이닝 VHEP-005IV",
@@ -3670,20 +3031,11 @@
         "크기(가로x세로x깊이): 200x235x156mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "델리팬",
     "제품명": "DEL-KW17",
     "모델명": "델리팬 DEL-KW17",
@@ -3722,20 +3074,11 @@
         "크기(가로x세로x깊이): 176x261x155mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-43HKT",
     "모델명": "신일전자 SEP-43HKT",
@@ -3772,20 +3115,11 @@
         "크기(가로x세로x깊이): 85x270x85mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "벤하임코리아",
     "제품명": "BMT-04-001",
     "모델명": "벤하임코리아 BMT-04-001",
@@ -3823,20 +3157,11 @@
         "크기(가로x세로x깊이): 200x235x240mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "매직쉐프",
     "제품명": "LMEK-KP1700WH",
     "모델명": "매직쉐프 LMEK-KP1700WH",
@@ -3876,20 +3201,11 @@
         "크기(가로x세로x깊이): 220x255x135mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "라이녹스",
     "제품명": "스마트 멀티포트",
     "모델명": "라이녹스 스마트 멀티포트",
@@ -3927,20 +3243,11 @@
         "크기(가로x세로x깊이): 220x292x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "락앤락",
     "제품명": "EJK426",
     "모델명": "락앤락 EJK426",
@@ -3973,20 +3280,11 @@
         "크기(가로x세로x깊이): 210x257x165mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "클래파",
     "제품명": "CEK-S220",
     "모델명": "클래파 CEK-S220",
@@ -4022,20 +3320,11 @@
         "크기(가로x세로x깊이): 190x125~173x190mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "요플레이",
     "제품명": "분유포트 YEK01",
     "모델명": "요플레이 분유포트 YEK01",
@@ -4073,20 +3362,11 @@
         "크기(가로x세로x깊이): 230x200x210mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오쿠",
     "제품명": "OCP-TP130W",
     "모델명": "오쿠 OCP-TP130W",
@@ -4125,20 +3405,11 @@
         "크기(가로x세로x깊이): 175x245x110mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "한일전기",
     "제품명": "HWP-1000",
     "모델명": "한일전기 HWP-1000",
@@ -4176,20 +3447,11 @@
         "크기(가로x세로x깊이): 212x248x149mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "키친플라워",
     "제품명": "쿠킨 KEK-GF1700EDGCP",
     "모델명": "키친플라워 쿠킨 KEK-GF1700EDGCP",
@@ -4228,20 +3490,11 @@
         "크기(가로x세로x깊이): 220x222x155mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "매직쉐프",
     "제품명": "MEK-S700DB",
     "모델명": "매직쉐프 MEK-S700DB",
@@ -4277,20 +3530,11 @@
         "크기(가로x세로x깊이): 172x224x120mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "레벤호프",
     "제품명": "캔디 전기 포트 1.5L",
     "모델명": "레벤호프 캔디 전기 포트 1.5L",
@@ -4327,20 +3571,11 @@
         "크기(가로x세로x깊이): 195x275x130mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "락앤락",
     "제품명": "EJK813PUP",
     "모델명": "락앤락 EJK813PUP",
@@ -4373,20 +3608,11 @@
         "크기(가로x세로x깊이): 173x184x127mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "도무스",
     "제품명": "DK-HF018",
     "모델명": "도무스 DK-HF018",
@@ -4429,20 +3655,11 @@
         "크기(가로x세로x깊이): 210x220x173mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "유니맥스",
     "제품명": "UMP-1030W",
     "모델명": "유니맥스 UMP-1030W",
@@ -4481,20 +3698,11 @@
         "크기(가로x세로x깊이): 200x190x140mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "SMANG",
     "제품명": "전기포트",
     "모델명": "SMANG 전기포트",
@@ -4533,20 +3741,11 @@
         "크기(가로x세로x깊이): 160x240x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "허밍",
     "제품명": "HMK-GP2206",
     "모델명": "허밍 HMK-GP2206",
@@ -4587,20 +3786,11 @@
         "크기(가로x세로x깊이): 213x230x140mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "쿡셀",
     "제품명": "EPK-CS500B",
     "모델명": "쿡셀 EPK-CS500B",
@@ -4638,20 +3828,11 @@
         "크기(가로x세로x깊이): 338x365x290mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "라이브박스",
     "제품명": "TK22710",
     "모델명": "라이브박스 TK22710",
@@ -4690,20 +3871,11 @@
         "크기(가로x세로x깊이): 231x256x180mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "톨튼",
     "제품명": "톨튼 분유포트",
     "모델명": "톨튼 톨튼 분유포트",
@@ -4742,20 +3914,11 @@
         "크기(가로x세로x깊이): 218x235x177mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "도무스",
     "제품명": "DDP-GP3001",
     "모델명": "도무스 DDP-GP3001",
@@ -4794,20 +3957,11 @@
         "크기(가로x세로x깊이): 260x370x217mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보다조은",
     "제품명": "BDJA-301",
     "모델명": "보다조은 BDJA-301",
@@ -4843,20 +3997,11 @@
         "크기(가로x세로x깊이): 148x259x148mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "올디렉",
     "제품명": "ALD-1700B",
     "모델명": "올디렉 ALD-1700B",
@@ -4890,20 +4035,11 @@
         "24시간보온"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오아",
     "제품명": "보아르 이지 전기포트 S",
     "모델명": "오아 보아르 이지 전기포트 S",
@@ -4939,20 +4075,11 @@
         "크기(가로x세로x깊이): 115x115~170x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "홈비즈",
     "제품명": "BNB-2500A",
     "모델명": "홈비즈 BNB-2500A",
@@ -4985,20 +4112,11 @@
         "크기(가로x세로x깊이): 180x270x185mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보랄",
     "제품명": "BR-103DD",
     "모델명": "보랄 BR-103DD",
@@ -5036,20 +4154,11 @@
         "크기(가로x세로x깊이): 170x205x300mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "한경희생활과학",
     "제품명": "HEK-B176",
     "모델명": "한경희생활과학 HEK-B176",
@@ -5086,20 +4195,11 @@
         "크기(가로x세로x깊이): 218x626x157mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "테팔",
     "제품명": "스마티 BJ814D",
     "모델명": "테팔 스마티 BJ814D",
@@ -5140,20 +4240,11 @@
         "크기(가로x세로x깊이): 260x294x296mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "맘앤리틀",
     "제품명": "에르제 S1.5 BMM-3802",
     "모델명": "맘앤리틀 에르제 S1.5 BMM-3802",
@@ -5193,20 +4284,11 @@
         "크기(가로x세로x깊이): 150x280x207mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "레티",
     "제품명": "YSH-C08T1",
     "모델명": "레티 YSH-C08T1",
@@ -5242,20 +4324,11 @@
         "크기(가로x세로x깊이): 181x218x132mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "Anygate88",
     "제품명": "",
     "모델명": "Anygate88",
@@ -5294,20 +4367,11 @@
         "크기(가로x세로x깊이): 209x244x235mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "베베코지",
     "제품명": "휴대용 분유포트",
     "모델명": "베베코지 휴대용 분유포트",
@@ -5336,20 +4400,11 @@
         "온도조절"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "슈맥스",
     "제품명": "SMK-2518TG",
     "모델명": "슈맥스 SMK-2518TG",
@@ -5387,20 +4442,11 @@
         "크기(가로x세로x깊이): 160x280x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "스칸디노티아",
     "제품명": "SCN-23TP",
     "모델명": "스칸디노티아 SCN-23TP",
@@ -5436,20 +4482,11 @@
         "버튼잠금"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보아르",
     "제품명": "VHEP-004WH",
     "모델명": "보아르 VHEP-004WH",
@@ -5488,20 +4525,11 @@
         "크기(가로x세로x깊이): 196x264x139mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "하우스웰",
     "제품명": "GTK-P480R",
     "모델명": "하우스웰 GTK-P480R",
@@ -5540,20 +4568,11 @@
         "버튼잠금"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "OLAYKS",
     "제품명": "OLK-PW01",
     "모델명": "OLAYKS OLK-PW01",
@@ -5587,20 +4606,11 @@
         "크기(가로x세로x깊이): 80x220x80mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "아가드",
     "제품명": "휴대용 분유포트 0.5L",
     "모델명": "아가드 휴대용 분유포트 0.5L",
@@ -5637,20 +4647,11 @@
         "크기(가로x세로x깊이): 80x260x80mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "키친아트",
     "제품명": "소렐 KIA-M1000",
     "모델명": "키친아트 소렐 KIA-M1000",
@@ -5689,20 +4690,11 @@
         "크기(가로x세로x깊이): 180x270x210mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "앱코",
     "제품명": "오엘라 OI-MP01",
     "모델명": "앱코 오엘라 OI-MP01",
@@ -5739,20 +4731,11 @@
         "크기(가로x세로x깊이): 208x254x191mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "단미",
     "제품명": "DA-KET02",
     "모델명": "단미 DA-KET02",
@@ -5788,20 +4771,11 @@
         "크기(가로x세로x깊이): 190x264x141mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "슈맥스",
     "제품명": "SMK-2518TW",
     "모델명": "슈맥스 SMK-2518TW",
@@ -5839,20 +4813,11 @@
         "크기(가로x세로x깊이): 160x280x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "웰베노",
     "제품명": "WB310",
     "모델명": "웰베노 WB310",
@@ -5895,20 +4860,11 @@
         "크기(가로x세로x깊이): 240x190x200mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "리빙크리에이터",
     "제품명": "ZT-DK10",
     "모델명": "리빙크리에이터 ZT-DK10",
@@ -5943,20 +4899,11 @@
         "크기(가로x세로x깊이): 190x225x130mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "비스카",
     "제품명": "VK-405SK",
     "모델명": "비스카 VK-405SK",
@@ -5988,20 +4935,11 @@
         "크기(가로x세로x깊이): 190x95~185x155mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "김포파주인삼농협",
     "제품명": "정심 OTO-23007TE",
     "모델명": "김포파주인삼농협 정심 OTO-23007TE",
@@ -6038,20 +4976,11 @@
         "자동전원차단"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "비스카",
     "제품명": "VK-B200GK",
     "모델명": "비스카 VK-B200GK",
@@ -6088,20 +5017,11 @@
         "크기(가로x세로x깊이): 167x330x167mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "도무스",
     "제품명": "DNP-D501",
     "모델명": "도무스 DNP-D501",
@@ -6137,20 +5057,11 @@
         "자동전원차단"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "도무스",
     "제품명": "DNP-D503",
     "모델명": "도무스 DNP-D503",
@@ -6186,20 +5097,11 @@
         "자동전원차단"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "도무스",
     "제품명": "DNP-D502",
     "모델명": "도무스 DNP-D502",
@@ -6235,20 +5137,11 @@
         "자동전원차단"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "샤이닝하우스",
     "제품명": "SNJS001",
     "모델명": "샤이닝하우스 SNJS001",
@@ -6285,20 +5178,11 @@
         "멸균유리"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보멜로",
     "제품명": "휴대용 분유포트",
     "모델명": "보멜로 휴대용 분유포트",
@@ -6332,20 +5216,11 @@
         "버튼잠금"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "이스타",
     "제품명": "ESK-DT700",
     "모델명": "이스타 ESK-DT700",
@@ -6374,20 +5249,11 @@
         "염소배출기능"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "홀리",
     "제품명": "WLY-301",
     "모델명": "홀리 WLY-301",
@@ -6417,20 +5283,11 @@
         "염소배출기능"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "밀룩스USA",
     "제품명": "HF055",
     "모델명": "밀룩스USA HF055",
@@ -6460,20 +5317,11 @@
         "보온기능"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "윈텍",
     "제품명": "윈세프 WTK-2111",
     "모델명": "윈텍 윈세프 WTK-2111",
@@ -6509,20 +5357,11 @@
         "크기(가로x세로x깊이): 133x193x114mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "보아르",
     "제품명": "VEPT-002IV",
     "모델명": "보아르 VEPT-002IV",
@@ -6556,20 +5395,11 @@
         "크기(가로x세로x깊이): 167x130x155mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "시크벨",
     "제품명": "BM-DH10(2)",
     "모델명": "시크벨 BM-DH10(2)",
@@ -6602,20 +5432,11 @@
         "염소배출기능"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "온휴",
     "제품명": "OHA-EK4SW",
     "모델명": "온휴 OHA-EK4SW",
@@ -6653,20 +5474,11 @@
         "크기(가로x세로x깊이): 220x255x1220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "온휴",
     "제품명": "OHA-EK4SR",
     "모델명": "온휴 OHA-EK4SR",
@@ -6704,20 +5516,11 @@
         "크기(가로x세로x깊이): 220x255x1220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "온휴",
     "제품명": "OHA-EK4SB",
     "모델명": "온휴 OHA-EK4SB",
@@ -6755,20 +5558,11 @@
         "크기(가로x세로x깊이): 220x255x1220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "한일전기",
     "제품명": "HWP-1500",
     "모델명": "한일전기 HWP-1500",
@@ -6806,20 +5600,11 @@
         "크기(가로x세로x깊이): 212x248x149mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "데아트",
     "제품명": "DAT-500",
     "모델명": "데아트 DAT-500",
@@ -6857,20 +5642,11 @@
         "크기(가로x세로x깊이): 210x260x170mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "베어샤오슝",
     "제품명": "YSH-C08T1",
     "모델명": "베어샤오슝 YSH-C08T1",
@@ -6904,20 +5680,11 @@
         "크기(가로x세로x깊이): 181x218x132mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "베어샤오슝",
     "제품명": "YSH-E15F5",
     "모델명": "베어샤오슝 YSH-E15F5",
@@ -6953,20 +5720,11 @@
         "크기(가로x세로x깊이): 221x245x229mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "어프리비",
     "제품명": "HJ-A07",
     "모델명": "어프리비 HJ-A07",
@@ -7003,20 +5761,11 @@
         "크기(가로x세로x깊이): 165x260x175mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "단미",
     "제품명": "DA-KET02 + DA-EGS01",
     "모델명": "단미 DA-KET02 + DA-EGS01",
@@ -7051,20 +5800,11 @@
         "구성: 전기포트, 전기찜기"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "OLAYKS",
     "제품명": "OLK-YSB600C",
     "모델명": "OLAYKS OLK-YSB600C",
@@ -7097,20 +5837,11 @@
         "크기(가로x세로x깊이): 161x212x106mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "봄봄",
     "제품명": "HL-5073",
     "모델명": "봄봄 HL-5073",
@@ -7142,20 +5873,11 @@
         "크기(가로x세로x깊이): 85x235x85mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "데아트",
     "제품명": "휴대용 가열 보온 분유포트 0.5L",
     "모델명": "데아트 휴대용 가열 보온 분유포트 0.5L",
@@ -7192,20 +5914,11 @@
         "크기(가로x세로x깊이): 82x223x82mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "레이나",
     "제품명": "RP-P2805",
     "모델명": "레이나 RP-P2805",
@@ -7242,20 +5955,11 @@
         "크기(가로x세로x깊이): 215x245x230mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "매직쉐프",
     "제품명": "LMEK-KP1700BK",
     "모델명": "매직쉐프 LMEK-KP1700BK",
@@ -7295,20 +5999,11 @@
         "크기(가로x세로x깊이): 220x255x135mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "아렌도",
     "제품명": "BRONZO",
     "모델명": "아렌도 BRONZO",
@@ -7339,20 +6034,11 @@
         "전원표시램프"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-480KHD",
     "모델명": "신일전자 SEP-480KHD",
@@ -7389,20 +6075,11 @@
         "크기(가로x세로x깊이): 85x270x85mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "우놀드",
     "제품명": "18415",
     "모델명": "우놀드 18415",
@@ -7440,20 +6117,11 @@
         "크기(가로x세로x깊이): 200x250x165mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "ADE",
     "제품명": "KG2100-2",
     "모델명": "ADE KG2100-2",
@@ -7487,20 +6155,11 @@
         "표면열차단"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "ADE",
     "제품명": "KG2100-3",
     "모델명": "ADE KG2100-3",
@@ -7534,20 +6193,11 @@
         "표면열차단"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "아렌도",
     "제품명": "722304306722",
     "모델명": "아렌도 722304306722",
@@ -7575,20 +6225,11 @@
         "온도조절"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "아렌도",
     "제품명": "722305640722",
     "모델명": "아렌도 722305640722",
@@ -7624,20 +6265,11 @@
         "크기(가로x세로x깊이): 235x245x160mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "리웨이",
     "제품명": "LWT-150",
     "모델명": "리웨이 LWT-150",
@@ -7673,20 +6305,11 @@
         "크기(가로x세로x깊이): 220x235x156mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "베어샤오슝",
     "제품명": "ZCQ-A08T1",
     "모델명": "베어샤오슝 ZCQ-A08T1",
@@ -7717,20 +6340,11 @@
         "크기(가로x세로x깊이): 184x216x142mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오쿠",
     "제품명": "OCS-TP160G",
     "모델명": "오쿠 OCS-TP160G",
@@ -7768,20 +6382,11 @@
         "크기(가로x세로x깊이): 197x235x140mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "하리오",
     "제품명": "EKA-65-KEX",
     "모델명": "하리오 EKA-65-KEX",
@@ -7817,20 +6422,11 @@
         "크기(가로x세로x깊이): 280x220x180mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "크룹스",
     "제품명": "BW801810",
     "모델명": "크룹스 BW801810",
@@ -7867,20 +6463,11 @@
         "크기(가로x세로x깊이): 175x275x175mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "아렌도",
     "제품명": "722304300722",
     "모델명": "아렌도 722304300722",
@@ -7914,20 +6501,11 @@
         "전원표시램프"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "자일렉",
     "제품명": "ZL-242DK",
     "모델명": "자일렉 ZL-242DK",
@@ -7963,20 +6541,11 @@
         "크기(가로x세로x깊이): 158x235x140mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "모피리처드",
     "제품명": "MR6061",
     "모델명": "모피리처드 MR6061",
@@ -8009,20 +6578,11 @@
         "크기(가로x세로x깊이): 135x263x120mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "클라슈타인",
     "제품명": "GARCON KETTLE",
     "모델명": "클라슈타인 GARCON KETTLE",
@@ -8054,20 +6614,11 @@
         "크기(가로x세로x깊이): 160x240x145mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "JENMV",
     "제품명": "LW-K07",
     "모델명": "JENMV LW-K07",
@@ -8103,20 +6654,11 @@
         "크기(가로x세로x깊이): 75x230x75mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "브루노",
     "제품명": "BTP-2321",
     "모델명": "브루노 BTP-2321",
@@ -8150,20 +6692,11 @@
         "크기(가로x세로x깊이): 205x220x215mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "L-YSH800A",
     "제품명": "",
     "모델명": "L-YSH800A",
@@ -8196,20 +6729,11 @@
         "크기(가로x세로x깊이): 209x240x163mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "끌리젠",
     "제품명": "KLZ-EP01",
     "모델명": "끌리젠 KLZ-EP01",
@@ -8244,20 +6768,11 @@
         "크기(가로x세로x깊이): 179x85~193x125mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "퍼펙션",
     "제품명": "올인원 분유포트 스팀소독기 KW205",
     "모델명": "퍼펙션 올인원 분유포트 스팀소독기 KW205",
@@ -8291,20 +6806,11 @@
         "스팀소독기일체형"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "테팔",
     "제품명": "KO854830",
     "모델명": "테팔 KO854830",
@@ -8335,20 +6841,11 @@
         "전원표시램프"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "마키나랩",
     "제품명": "스마트 분유포트 MKGB_BMM3801_WT",
     "모델명": "마키나랩 스마트 분유포트 MKGB_BMM3801_WT",
@@ -8383,20 +6880,11 @@
         "온도범위: 38~85℃"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "워너홈",
     "제품명": "휴대용 분유히팅기",
     "모델명": "워너홈 휴대용 분유히팅기",
@@ -8429,20 +6917,11 @@
         "크기(가로x세로x깊이): 92x225x70mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "박스즈",
     "제품명": "1026I-K",
     "모델명": "박스즈 1026I-K",
@@ -8478,20 +6957,11 @@
         "크기(가로x세로x깊이): 180x76~182x128mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "신일전자",
     "제품명": "SEP-GL800KP",
     "모델명": "신일전자 SEP-GL800KP",
@@ -8532,20 +7002,11 @@
         "크기(가로x세로x깊이): 220x270x220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "한경희생활과학",
     "제품명": "HEP-2010TW",
     "모델명": "한경희생활과학 HEP-2010TW",
@@ -8583,20 +7044,11 @@
         "크기(가로x세로x깊이): 150x240x215mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "라이녹스",
     "제품명": "RXHK-PM801A",
     "모델명": "라이녹스 RXHK-PM801A",
@@ -8637,20 +7089,11 @@
         "크기(가로x세로x깊이): 160x292x220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "맘코니",
     "제품명": "접이식 전기포트 MKN0614",
     "모델명": "맘코니 접이식 전기포트 MKN0614",
@@ -8688,20 +7131,11 @@
         "크기(가로x세로x깊이): 180x76~182x128mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "썸잇",
     "제품명": "ST-2000",
     "모델명": "썸잇 ST-2000",
@@ -8742,20 +7176,11 @@
         "크기(가로x세로x깊이): 115x115~165x115mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "업킵",
     "제품명": "멀티 분유 티포트",
     "모델명": "업킵 멀티 분유 티포트",
@@ -8792,20 +7217,11 @@
         "크기(가로x세로x깊이): 244x209x235mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "꿈비",
     "제품명": "GI23-008",
     "모델명": "꿈비 GI23-008",
@@ -8849,20 +7265,11 @@
         "크기(가로x세로x깊이): 180x270x280mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "리큅",
     "제품명": "LKT-EG1505",
     "모델명": "리큅 LKT-EG1505",
@@ -8904,20 +7311,11 @@
         "크기(가로x세로x깊이): 175x270x230mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "미엘루",
     "제품명": "AI-GN2202B",
     "모델명": "미엘루 AI-GN2202B",
@@ -8960,20 +7358,11 @@
         "크기(가로x세로x깊이): 225x268x180mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오아",
     "제품명": "보아르 아가맘마 멀티분유포트",
     "모델명": "오아 보아르 아가맘마 멀티분유포트",
@@ -9008,20 +7397,11 @@
         "크기(가로x세로x깊이): 400x230x355mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "청호나이스",
     "제품명": "HK-13B505W0",
     "모델명": "청호나이스 HK-13B505W0",
@@ -9058,20 +7438,11 @@
         "크기(가로x세로x깊이): 243x255x181mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "이오맘",
     "제품명": "EOM-DWM01",
     "모델명": "이오맘 EOM-DWM01",
@@ -9117,20 +7488,11 @@
         "크기(가로x세로x깊이): 165x298x281mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "피티코퍼레이션",
     "제품명": "도깨비방망이 TEP2200",
     "모델명": "피티코퍼레이션 도깨비방망이 TEP2200",
@@ -9167,20 +7529,11 @@
         "크기(가로x세로x깊이): 228x194x143mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "엘피스",
     "제품명": "ELP-2218T",
     "모델명": "엘피스 ELP-2218T",
@@ -9218,20 +7571,11 @@
         "크기(가로x세로x깊이): 210x245x235mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "루미닉",
     "제품명": "LMC-BW21C",
     "모델명": "루미닉 LMC-BW21C",
@@ -9272,20 +7616,11 @@
         "전자저울탑재"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "오뜨로닉",
     "제품명": "MXTP-1008F",
     "모델명": "오뜨로닉 MXTP-1008F",
@@ -9320,20 +7655,11 @@
         "크기(가로x세로x깊이): 220x250x220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "델리아트",
     "제품명": "DA-MP01",
     "모델명": "델리아트 DA-MP01",
@@ -9371,20 +7697,11 @@
         "24시간보온"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "햄튼",
     "제품명": "HTP-T2201",
     "모델명": "햄튼 HTP-T2201",
@@ -9422,20 +7739,11 @@
         "크기(가로x세로x깊이): 220x210x230mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "델루체",
     "제품명": "DLP-PB611",
     "모델명": "델루체 DLP-PB611",
@@ -9474,20 +7782,11 @@
         "크기(가로x세로x깊이): 235x251x217mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "허즐릭",
     "제품명": "MJ-EK150",
     "모델명": "허즐릭 MJ-EK150",
@@ -9525,20 +7824,11 @@
         "크기(가로x세로x깊이): 200x190x140mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "쿠팡",
     "제품명": "홈플래닛 YSH-C18R6",
     "모델명": "쿠팡 홈플래닛 YSH-C18R6",
@@ -9579,20 +7869,11 @@
         "크기(가로x세로x깊이): 230x245x180mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "델루체",
     "제품명": "스마트 분유포트 DLP-BP500",
     "모델명": "델루체 스마트 분유포트 DLP-BP500",
@@ -9632,20 +7913,11 @@
         "크기(가로x세로x깊이): 235x251x217mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "올리",
     "제품명": "OLMK14W",
     "모델명": "올리 OLMK14W",
@@ -9681,20 +7953,11 @@
         "크기(가로x세로x깊이): 165x230x170mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "리하스",
     "제품명": "TEK-7200",
     "모델명": "리하스 TEK-7200",
@@ -9731,20 +7994,11 @@
         "크기(가로x세로x깊이): 110x192x110mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "모리츠",
     "제품명": "SJC-M180BS",
     "모델명": "모리츠 SJC-M180BS",
@@ -9781,20 +8035,11 @@
         "크기(가로x세로x깊이): 210x240x170mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "맘앤리틀",
     "제품명": "에르제 S1.0 BMM-3801",
     "모델명": "맘앤리틀 에르제 S1.0 BMM-3801",
@@ -9833,20 +8078,11 @@
         "크기(가로x세로x깊이): 135x255x220mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "PN풍년",
     "제품명": "꾸노 베이비케틀 QBKKA-1200",
     "모델명": "PN풍년 꾸노 베이비케틀 QBKKA-1200",
@@ -9887,20 +8123,11 @@
         "크기(가로x세로x깊이): 220x275x185mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "키친아트",
     "제품명": "라팔 WMEK-A1771GF",
     "모델명": "키친아트 라팔 WMEK-A1771GF",
@@ -9939,20 +8166,11 @@
         "크기(가로x세로x깊이): 236x277x155mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "매직쉐프",
     "제품명": "MEKT-W220B 스마트 순간포트",
     "모델명": "매직쉐프 MEKT-W220B 스마트 순간포트",
@@ -9990,20 +8208,11 @@
         "크기(가로x세로x깊이): 165x298x270mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   },
   {
     "카테고리": "분유포트",
-    "카테고리키": "milk_powder_port",
+    "카테고리키": "formula_pot",
     "브랜드": "매직쉐프",
     "제품명": "MEKD-W22B 스마트 순간포트",
     "모델명": "매직쉐프 MEKD-W22B 스마트 순간포트",
@@ -10042,15 +8251,6 @@
         "크기(가로x세로x깊이): 165x298x270mm"
       ]
     },
-    "attributeScores": {
-      "temperature_control_preservation": 70,
-      "cooling_speed": 70,
-      "material_safety": 70,
-      "hygiene_maintenance": 70,
-      "chlorine_removal": 70,
-      "night_usability": 70,
-      "capacity_ergonomics": 70,
-      "versatility": 70
-    }
+    "attributeScores": {}
   }
 ]
