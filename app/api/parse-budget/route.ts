@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
 - 금액은 항상 원 단위 (예: 70000, 100000)`;
 
     const result = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-lite', // 가장 빠르고 저렴한 모델
+      model: 'gemini-3-flash-preview', // 가장 빠르고 저렴한 모델
       contents: prompt,
       config: {
         temperature: 0.1, // 일관성 있는 파싱을 위해 낮은 temperature

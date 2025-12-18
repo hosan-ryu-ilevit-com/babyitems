@@ -29,7 +29,7 @@
         }
       ]
     },
-    "formula_pot": {
+    "milk_powder_port": {
       "category_name": "분유포트",
       "questions": [
         {
@@ -220,7 +220,7 @@
         }
       ]
     },
-    "formula_maker": {
+    "baby_formula_dispenser": {
       "category_name": "분유제조기",
       "questions": [
         {

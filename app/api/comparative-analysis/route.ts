@@ -203,7 +203,7 @@ ${consTexts.length > 0 ? consTexts.map((t, i) => `${i + 1}. ${t}`).join('\n') : 
 - 반드시 JSON 형식만 출력하세요`;
 
     const result = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-lite',
+      model: 'gemini-3-flash-preview',
       contents: query,
       config: {
         temperature: 0.4,

@@ -16,55 +16,59 @@ import * as path from 'path';
 // 카테고리별 질문 텍스트
 const CATEGORY_QUESTION_TEXT: Record<string, { question: string; tip: string }> = {
   stroller: {
-    question: '유모차 선택 시 가장 중요한 점은?',
+    question: '유모차 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   car_seat: {
-    question: '카시트 선택 시 가장 중요한 점은?',
+    question: '카시트 구매 시 가장 중요한 조건을 분석했어요',
+    tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
+  },
+  formula: {
+    question: '분유 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   baby_bottle: {
-    question: '젖병 선택 시 가장 중요한 점은?',
+    question: '젖병 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   milk_powder_port: {
-    question: '분유포트 선택 시 가장 중요한 점은?',
+    question: '분유포트 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   nasal_aspirator: {
-    question: '코흡입기 선택 시 가장 중요한 점은?',
+    question: '코흡입기 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   thermometer: {
-    question: '체온계 선택 시 가장 중요한 점은?',
+    question: '체온계 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   diaper: {
-    question: '기저귀 선택 시 가장 중요한 점은?',
+    question: '기저귀 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   high_chair: {
-    question: '하이체어 선택 시 가장 중요한 점은?',
+    question: '하이체어 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   baby_bed: {
-    question: '아기침대 선택 시 가장 중요한 점은?',
+    question: '아기침대 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   baby_wipes: {
-    question: '물티슈 선택 시 가장 중요한 점은?',
+    question: '물티슈 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   pacifier: {
-    question: '공갈젖꼭지 선택 시 가장 중요한 점은?',
+    question: '공갈젖꼭지 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   baby_desk: {
-    question: '아기책상 선택 시 가장 중요한 점은?',
+    question: '아기책상 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
   baby_sofa: {
-    question: '아기소파 선택 시 가장 중요한 점은?',
+    question: '아기소파 구매 시 가장 중요한 조건을 분석했어요',
     tip: '실제 구매자 리뷰를 분석해서 뽑은 핵심 포인트예요',
   },
 };

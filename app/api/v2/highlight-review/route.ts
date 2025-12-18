@@ -4,7 +4,12 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
+import { callGeminiWithRetry } from '@/lib/ai/gemini';
+import { GoogleGenAI } from '@google/genai';
+
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) throw new Error('GEMINI_API_KEY is required');
+const ai = new GoogleGenAI({ apiKey });
 
 interface HighlightRequest {
   reviews: Array<{
@@ -55,9 +60,15 @@ ${reviews.map((r, i) => `[${i + 1}] 속성: "${r.criteriaName}"
 [{"index": 1, "excerpt": "...발췌문..."}]`;
 
     const response = await callGeminiWithRetry(async () => {
-      const model = getModel(0.2); // 낮은 temperature로 일관된 발췌
-      const result = await model.generateContent(prompt);
-      return result.response.text();
+      // Use Gemini 3 Flash for better highlighting quality
+      const result = await ai.models.generateContent({
+        model: 'gemini-3-flash-preview',
+        contents: prompt,
+        config: {
+          temperature: 0.2, // 낮은 temperature로 일관된 발췌
+        },
+      });
+      return result.text || '';
     }, 2, 1000);
 
     // JSON 파싱

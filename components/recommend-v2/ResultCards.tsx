@@ -30,6 +30,7 @@ function parseMarkdownBold(text: string) {
 // NOTE: 카테고리별로 별도 캐시를 유지하기 위해 categoryKey를 포함한 키 사용
 const V2_COMPARISON_CACHE_PREFIX = 'v2_comparison_analysis';
 const V2_PRODUCT_ANALYSIS_CACHE_PREFIX = 'v2_product_analysis';
+const V2_REVIEW_INSIGHTS_CACHE_PREFIX = 'v2_review_insights';
 
 // 리뷰 키워드 인사이트 타입
 interface ReviewInsight {
@@ -46,71 +47,17 @@ interface ProductReviewInsights {
   insights: ReviewInsight[];
 }
 
-// 하드필터 선택값 → criteriaId 매핑 (체감속성 분석 결과 기반)
-// NOTE: 값이 곧 criteriaId인 경우 (review_priorities 타입) 자동 매핑
-const HARDFILTER_TO_CRITERIA: Record<string, string> = {
-  // formula_maker / baby_formula_dispenser
-  cleaning_easy: 'cleaning_frequency',
-  cleaning_ok: 'cleaning_frequency',
-  cleaning_frequency: 'cleaning_frequency',
-  accuracy: 'accuracy',
-  noise: 'noise',
-  durability_parts: 'durability_parts',
-  ease_of_use: 'ease_of_use',
-  
-  // stroller (유모차)
-  actual_folding_and_unfolding_ease: 'actual_folding_and_unfolding_ease',
-  actual_seat_angle_and_comfort: 'actual_seat_angle_and_comfort',
-  durability_of_materials: 'durability_of_materials',
-  actual_weight_vs_perceived_weight: 'actual_weight_vs_perceived_weight',
-  maneuverability_on_various_terrains: 'maneuverability_on_various_terrains',
-  customer_service_and_quality_control: 'customer_service_and_quality_control',
-  
-  // car_seat (카시트)
-  ease_of_seatbelt_buckling: 'ease_of_seatbelt_buckling',
-  portability_for_multiple_vehicles: 'portability_for_multiple_vehicles',
-  seat_width_and_comfort_for_older_children: 'seat_width_and_comfort_for_older_children',
-  headrest_stability_and_adjustability: 'headrest_stability_and_adjustability',
-  isofix_installation_stability: 'isofix_installation_stability',
-  leg_support_design_for_booster_seats: 'leg_support_design_for_booster_seats',
-  fabric_breathability: 'fabric_breathability',
-  potential_damage_to_vehicle_seat: 'potential_damage_to_vehicle_seat',
-  
-  // baby_bottle (젖병)
-  ease_of_cleaning: 'ease_of_cleaning',
-  nipple_acceptance: 'nipple_acceptance',
-  anti_colic_performance: 'anti_colic_performance',
-  leak_proof_function: 'leak_proof_function',
-  durability_and_material_safety: 'durability_and_material_safety',
-  versatility_and_scalability: 'versatility_and_scalability',
-  design_and_grip: 'design_and_grip',
-  spare_parts_availability: 'spare_parts_availability',
-  
-  // milk_powder_port (분유포트)
-  temperature_accuracy: 'temperature_accuracy',
-  cleaning_easiness: 'cleaning_easiness',
-  noise_level: 'noise_level',
-  durability: 'durability',
-  package_condition: 'package_condition',
-  heating_speed: 'heating_speed',
-  plastic_smell: 'plastic_smell',
-  on_off_switch: 'on_off_switch',
-  
-  // nasal_aspirator (코흡입기)
-  suction_power_control: 'suction_power_control',
-  portability: 'portability',
-  cleaning_ease: 'cleaning_ease',
-  tip_shape_and_material: 'tip_shape_and_material',
-  price_effectiveness: 'price_effectiveness',
-  child_acceptance: 'child_acceptance',
-  
-  // thermometer (체온계)
-  accuracy_reliability: 'accuracy_reliability',
-  durability_and_reliability_of_brand: 'durability_and_reliability_of_brand',
-  measurement_method_preference: 'measurement_method_preference',
-  packaging_and_customer_service: 'packaging_and_customer_service',
-  initial_product_condition: 'initial_product_condition',
-};
+// LLM 평가 결과 타입 (현재 미사용 - reviewInsights 시스템으로 대체됨)
+// interface SelectedTagEvaluation {
+//   userTag: string;
+//   tagType: 'pros' | 'cons';
+//   priority: number;
+//   status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
+//   evidence: string;
+//   citations: number[];
+//   tradeoff?: string;
+// }
+
 
 // criteriaId별 하이라이트 키워드 (리뷰에서 해당 키워드를 강조 - fallback용)
 const CRITERIA_KEYWORDS: Record<string, string[]> = {
@@ -225,6 +172,15 @@ interface UserContext {
   hardFilterLabels?: Record<string, string>;
   // Filter conditions for product-specific matching
   hardFilterDefinitions?: Record<string, Record<string, unknown>>;
+  // Hard filter questions config (for filtering review_priorities type)
+  hardFilterConfig?: {
+    questions: Array<{
+      id: string;
+      type: 'single' | 'multi' | 'review_priorities';
+      question: string;
+      options: Array<{ id: string; text: string; [key: string]: unknown }>;
+    }>;
+  };
 }
 
 interface ResultCardsProps {
@@ -235,120 +191,6 @@ interface ResultCardsProps {
   userContext?: UserContext;  // 사용자 선택 컨텍스트 (API용)
   onModalOpenChange?: (isOpen: boolean) => void;  // 상품 모달 열림/닫힘 상태 콜백
   onViewFavorites?: () => void;  // 찜 목록 모달로 열기 위한 콜백
-}
-
-/**
- * 상품이 특정 필터 조건을 만족하는지 확인
- * @param product - 상품 데이터
- * @param filterConditions - 필터 조건 (e.g., { "filter_attrs.제조사별": "삼성" } or { "spec.features": { "contains": "500만" } })
- * @returns 매칭 여부
- */
-function checkProductMatchesFilter(
-  product: ScoredProduct,
-  filterConditions: Record<string, unknown>
-): boolean {
-  // Empty filter means no specific condition (matches all) - but we filter 'any' values elsewhere
-  if (!filterConditions || Object.keys(filterConditions).length === 0) {
-    return true;
-  }
-
-  // Check each condition
-  for (const [path, condition] of Object.entries(filterConditions)) {
-    // Get value from product based on path
-    let productValue: unknown;
-
-    if (path.startsWith('filter_attrs.')) {
-      const attrKey = path.replace('filter_attrs.', '');
-      productValue = (product as ScoredProduct & { filter_attrs?: Record<string, unknown> }).filter_attrs?.[attrKey];
-    } else if (path.startsWith('spec.')) {
-      const specKey = path.replace('spec.', '');
-      productValue = product.spec?.[specKey];
-    } else if (path === 'brand') {
-      productValue = product.brand;
-    } else {
-      // Direct access
-      productValue = (product as unknown as Record<string, unknown>)[path];
-    }
-
-    // Check condition type
-    if (typeof condition === 'object' && condition !== null) {
-      const condObj = condition as { contains?: string; eq?: string | number; gte?: number; lte?: number };
-
-      // Contains check (for arrays like spec.features)
-      if (condObj.contains !== undefined) {
-        if (Array.isArray(productValue)) {
-          const found = productValue.some(v =>
-            String(v).toLowerCase().includes(String(condObj.contains).toLowerCase())
-          );
-          if (!found) return false;
-        } else if (typeof productValue === 'string') {
-          if (!productValue.toLowerCase().includes(String(condObj.contains).toLowerCase())) {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      }
-
-      // Equality check
-      if (condObj.eq !== undefined) {
-        if (String(productValue) !== String(condObj.eq)) return false;
-      }
-
-      // Numeric comparisons
-      if (condObj.gte !== undefined) {
-        if (typeof productValue !== 'number' || productValue < condObj.gte) return false;
-      }
-      if (condObj.lte !== undefined) {
-        if (typeof productValue !== 'number' || productValue > condObj.lte) return false;
-      }
-    } else {
-      // Simple equality check
-      if (String(productValue) !== String(condition)) return false;
-    }
-  }
-
-  return true;
-}
-
-/**
- * 상품에 매칭되는 하드 필터 값들을 반환
- * @param product - 상품 데이터
- * @param hardFilterAnswers - 사용자가 선택한 필터 값들
- * @param hardFilterDefinitions - 각 필터 값의 조건 정의
- * @returns 매칭되는 필터 값 배열
- */
-function getMatchedHardFilters(
-  product: ScoredProduct,
-  hardFilterAnswers: Record<string, string[]>,
-  hardFilterDefinitions: Record<string, Record<string, unknown>>
-): string[] {
-  const matchedValues: string[] = [];
-
-  // Flatten all selected values
-  const allSelectedValues = Object.values(hardFilterAnswers).flat();
-
-  for (const value of allSelectedValues) {
-    // Skip 'any' values
-    if (value === 'any') continue;
-
-    const filterConditions = hardFilterDefinitions[value];
-
-    // If no conditions defined, or empty conditions, consider it matched
-    // (this handles cases like "rotation_no" with empty filter - user preference, not product attribute)
-    if (!filterConditions || Object.keys(filterConditions).length === 0) {
-      // Empty filter = user preference that doesn't require product matching
-      // Don't show these as "matched" - they're not product attributes
-      continue;
-    }
-
-    // Check if product matches this filter's conditions
-    if (checkProductMatchesFilter(product, filterConditions)) {
-      matchedValues.push(value);
-    }
-  }
-
-  return matchedValues;
 }
 
 /**
@@ -459,11 +301,10 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
   // 리뷰 키워드 인사이트 상태 (체감속성 기반)
   const [reviewInsights, setReviewInsights] = useState<Record<string, ProductReviewInsights>>({});
+  const [isReviewInsightsLoading, setIsReviewInsightsLoading] = useState(false);
   const reviewInsightsFetchedRef = useRef(false);
 
-  // LLM 하이라이팅 결과 캐시 (pcode_criteriaId → highlightedText)
-  const [highlightedReviews, setHighlightedReviews] = useState<Record<string, string>>({});
-  const highlightFetchedRef = useRef(false);
+  // LLM 하이라이팅은 이제 /api/v2/review-keywords에서 topSample에 포함되어 반환됨
 
   // PDP용 이미지 Preload (PLP → PDP 전환 시 로딩 최적화)
   useEffect(() => {
@@ -500,123 +341,104 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   useEffect(() => {
     if (!categoryKey || products.length === 0 || reviewInsightsFetchedRef.current) return;
 
-    // 사용자가 선택한 하드필터 값에서 criteriaId 추출
-    const selectedCriteriaIds: string[] = [];
+    // 체감속성(review_priorities 타입)만 필터링하고 criteriaId와 레이블 추출
+    const selectedCriteria: Array<{ id: string; label: string }> = [];
+    console.log('🔍 [ReviewInsights] hardFilterConfig:', userContext?.hardFilterConfig);
     console.log('🔍 [ReviewInsights] hardFilterAnswers:', userContext?.hardFilterAnswers);
-    if (userContext?.hardFilterAnswers) {
-      for (const [questionId, values] of Object.entries(userContext.hardFilterAnswers)) {
-        console.log(`🔍 [ReviewInsights] Question ${questionId}:`, values);
-        for (const value of values) {
-          // review_priorities 타입의 경우 value 자체가 criteriaId이므로 자동 매핑
-          const criteriaId = HARDFILTER_TO_CRITERIA[value] || value;
-          console.log(`🔍 [ReviewInsights] Value "${value}" → criteriaId:`, criteriaId);
-          if (criteriaId && !selectedCriteriaIds.includes(criteriaId)) {
-            selectedCriteriaIds.push(criteriaId);
+
+    if (userContext?.hardFilterAnswers && userContext?.hardFilterConfig?.questions) {
+      // review_priorities 타입 질문만 필터링
+      const reviewPriorityQuestions = userContext.hardFilterConfig.questions.filter(
+        q => q.type === 'review_priorities'
+      );
+
+      console.log('🔍 [ReviewInsights] reviewPriorityQuestions:', reviewPriorityQuestions.map(q => q.id));
+
+      for (const question of reviewPriorityQuestions) {
+        const selectedValues = userContext.hardFilterAnswers[question.id];
+        if (selectedValues && selectedValues.length > 0) {
+          for (const value of selectedValues) {
+            const label = userContext.hardFilterLabels?.[value] || value;
+            console.log(`🔍 [ReviewInsights] Question ${question.id}, Value "${value}" → label: "${label}"`);
+            selectedCriteria.push({ id: value, label });
           }
         }
       }
     }
 
-    console.log('🔍 [ReviewInsights] selectedCriteriaIds:', selectedCriteriaIds);
+    console.log('🔍 [ReviewInsights] selectedCriteria:', selectedCriteria);
 
     // 선택된 체감속성이 없으면 fetch 안 함
-    if (selectedCriteriaIds.length === 0) {
-      console.log('⚠️ [ReviewInsights] No matching criteriaIds, skipping fetch');
+    if (selectedCriteria.length === 0) {
+      console.log('⚠️ [ReviewInsights] No review_priorities selected, skipping fetch');
       return;
     }
 
     reviewInsightsFetchedRef.current = true;
 
     const fetchReviewInsights = async () => {
+      setIsReviewInsightsLoading(true);
       try {
         const pcodeList = products.slice(0, 3).map(p => p.pcode);
-        console.log('🔄 [ReviewInsights] Fetching for', categoryKey, pcodeList, 'criteria:', selectedCriteriaIds);
-        
+        const criteriaIds = selectedCriteria.map(c => c.id).sort();
+
+        // 캐시 키 생성 (categoryKey + pcodes + criteriaIds)
+        const cacheKey = `${V2_REVIEW_INSIGHTS_CACHE_PREFIX}_${categoryKey}_${pcodeList.sort().join('_')}_${criteriaIds.join('_')}`;
+
+        // 캐시 확인
+        try {
+          const cached = sessionStorage.getItem(cacheKey);
+          if (cached) {
+            const parsed = JSON.parse(cached);
+            if (parsed.data) {
+              setReviewInsights(parsed.data);
+              setIsReviewInsightsLoading(false);
+              console.log('✅ [ReviewInsights] Loaded from cache:', cacheKey);
+              return;
+            }
+          }
+        } catch (e) {
+          console.warn('[ReviewInsights] Failed to load from cache:', e);
+        }
+
+        console.log('🔄 [ReviewInsights] Fetching from API for', categoryKey, pcodeList, 'criteria:', selectedCriteria);
+
         const response = await fetch('/api/v2/review-keywords', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             categoryKey,
             pcodes: pcodeList,
-            criteriaIds: selectedCriteriaIds,
+            criteria: selectedCriteria, // { id, label } 배열
           }),
         });
 
         const result = await response.json();
         console.log('📦 [ReviewInsights] API response:', result);
-        
+
         if (result.success && result.data && Object.keys(result.data).length > 0) {
           setReviewInsights(result.data);
-          console.log('✅ [ResultCards] Review insights loaded:', Object.keys(result.data).length, 'products');
 
-          // 백그라운드로 LLM 하이라이팅 API 호출 (병렬 처리)
-          fetchHighlightedReviews(result.data);
+          // 캐시에 저장
+          try {
+            sessionStorage.setItem(cacheKey, JSON.stringify({
+              data: result.data,
+              timestamp: Date.now(),
+            }));
+            console.log('💾 [ReviewInsights] Saved to cache:', cacheKey);
+          } catch (e) {
+            console.warn('[ReviewInsights] Failed to save to cache:', e);
+          }
+
+          console.log('✅ [ResultCards] Review insights loaded (LLM-based):', Object.keys(result.data).length, 'products');
+          // topSample에 이미 LLM 하이라이팅이 포함되어 있으므로 별도 fetch 불필요
         } else {
           console.log('⚠️ [ReviewInsights] No data returned or empty');
         }
       } catch (error) {
         console.error('[ResultCards] Failed to fetch review insights:', error);
-      }
-    };
-
-    // LLM 하이라이팅 백그라운드 fetch
-    const fetchHighlightedReviews = async (insightsData: Record<string, ProductReviewInsights>) => {
-      if (highlightFetchedRef.current) return;
-      highlightFetchedRef.current = true;
-
-      // 모든 리뷰 샘플 수집
-      const reviewsToHighlight: Array<{
-        pcode: string;
-        reviewText: string;
-        criteriaName: string;
-        criteriaId: string;
-      }> = [];
-
-      for (const [pcode, productInsights] of Object.entries(insightsData)) {
-        for (const insight of productInsights.insights.slice(0, 2)) {
-          if (insight.topSample) {
-            reviewsToHighlight.push({
-              pcode,
-              reviewText: insight.topSample,
-              criteriaName: insight.criteriaName,
-              criteriaId: insight.criteriaId,
-            });
-          }
-        }
-      }
-
-      if (reviewsToHighlight.length === 0) return;
-
-      try {
-        console.log('🔄 [ResultCards] Fetching LLM highlights for', reviewsToHighlight.length, 'reviews...');
-        const response = await fetch('/api/v2/highlight-review', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            reviews: reviewsToHighlight.map(r => ({
-              reviewText: r.reviewText,
-              criteriaName: r.criteriaName,
-              criteriaId: r.criteriaId,
-            })),
-          }),
-        });
-
-        const result = await response.json();
-        if (result.success && result.data) {
-          // 결과를 캐시에 저장 (pcode_criteriaId → excerpt)
-          const newHighlights: Record<string, string> = {};
-          result.data.forEach((item: { criteriaId: string; excerpt: string }, idx: number) => {
-            const original = reviewsToHighlight[idx];
-            const cacheKey = `${original.pcode}_${item.criteriaId}`;
-            // excerpt가 발췌된 핵심 문장 (앞뒤 컨텍스트 포함, 볼드 마크다운)
-            newHighlights[cacheKey] = item.excerpt;
-          });
-          setHighlightedReviews(newHighlights);
-          console.log('✅ [ResultCards] LLM highlights loaded:', Object.keys(newHighlights).length, 'reviews');
-        }
-      } catch (error) {
-        console.error('[ResultCards] Failed to fetch LLM highlights:', error);
-        // 실패해도 UI는 원본 텍스트로 표시되므로 무시
+      } finally {
+        setIsReviewInsightsLoading(false);
       }
     };
 
@@ -1010,25 +832,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     });
   }, [products, productAnalysisData, reviewData]);
 
-  // Handle real reviews fetch (using cache hook)
-  const handleFetchRealReviews = async (product: ScoredProduct) => {
-    const pcode = product.pcode;
-
-    // 모달 열기
-    setSelectedRealReviewPcode(pcode);
-    setShowRealReviewsModal(true);
-    onModalOpenChange?.(true);
-
-    // 캐시가 있으면 바로 표시, 없으면 fetch (훅에서 처리)
-    if (!realReviewsData[pcode]) {
-      await fetchRealReviews({
-        pcode,
-        title: product.title,
-        brand: product.brand || undefined,
-      });
-    }
-  };
-
   // Handle product click
   const handleProductClick = (product: ScoredProduct, index: number) => {
     logButtonClick(`제품카드_클릭_${product.brand}_${product.title}`, 'v2-result');
@@ -1281,14 +1084,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                               <span className="text-gray-400 mx-1">~</span>
                               {maxPrice.toLocaleString()}<span className="text-sm">원</span>
                             </p>
-                            {hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
-                              <span className="inline-flex items-center text-xs font-medium text-red-500">
-                                가격비교 ({danawa.mall_prices.length})
-                                <svg className="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                </svg>
-                              </span>
-                            )}
                           </>
                         );
                       }
@@ -1302,14 +1097,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                         {(hasLowestPrice ? danawa.lowest_price! : (product.lowestPrice || product.price || 0)).toLocaleString()}
                         <span className="text-sm">원</span>
                       </span>
-                      {hasLowestPrice && danawa.mall_prices && danawa.mall_prices.length > 0 && (
-                        <span className="inline-flex items-center text-xs font-semibold text-red-500">
-                          가격비교 ({danawa.mall_prices.length})
-                          <svg className="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                          </svg>
-                        </span>
-                      )}
                     </p>
                   )}
                   {/* 최저가 로딩 UI 제거 - Supabase 캐시로 빠르게 로드됨 */}
@@ -1327,64 +1114,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               </div>
             </div>
 
-            {/* 합쳐진 특징 태그 (LLM 정제 태그 우선, 없으면 fallback) */}
-            {(() => {
-              // 1. refinedTags가 있으면 우선 사용 (LLM이 정제한 태그)
-              if (product.refinedTags && product.refinedTags.length > 0) {
-                return (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {product.refinedTags.map((tag, i) => (
-                      <span
-                        key={i}
-                        className="text-xs px-2 py-1 rounded-xl bg-gray-100 text-gray-600 font-semibold"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                );
-              }
-
-              // 2. Fallback: 기존 로직 (하드필터 + 밸런스 조건 매핑)
-              const matchedFilters = userContext?.hardFilterAnswers && userContext?.hardFilterDefinitions
-                ? getMatchedHardFilters(product, userContext.hardFilterAnswers, userContext.hardFilterDefinitions)
-                : [];
-
-              const balanceTags = product.matchedRules || [];
-              const allLabels = new Set<string>();
-
-              matchedFilters.forEach(value => {
-                const displayLabel = userContext?.hardFilterLabels?.[value];
-                if (displayLabel) {
-                  allLabels.add(displayLabel);
-                }
-              });
-
-              balanceTags.forEach(item => {
-                const displayName = userContext?.balanceLabels?.[item];
-                if (displayName) {
-                  allLabels.add(displayName);
-                }
-              });
-
-              const combinedTags = Array.from(allLabels);
-
-              if (combinedTags.length === 0) return null;
-
-              return (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {combinedTags.map((label, i) => (
-                    <span
-                      key={i}
-                      className="text-xs px-2 py-1 rounded-xl bg-gray-100 text-gray-600 font-semibold"
-                    >
-                      {label}
-                    </span>
-                  ))}
-                </div>
-              );
-            })()}
-
             {/* LLM 추천 이유 */}
             {product.recommendationReason && (
               <div className="mt-2">
@@ -1399,8 +1128,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   </div>
                 </div>
 
-                {/* 리뷰 기반 인사이트 (체감속성) */}
-                {reviewInsights[product.pcode]?.insights?.length > 0 && (
+                {/* 리뷰 기반 인사이트 (체감속성 기반) - 로딩 또는 데이터 */}
+                {(isReviewInsightsLoading || (reviewInsights[product.pcode]?.insights && reviewInsights[product.pcode].insights.length > 0)) && (
                   <div className="mt-2 rounded-xl p-3 bg-amber-50 border border-amber-200">
                     {/* 헤더 */}
                     <div className="flex items-center justify-between mb-2">
@@ -1410,59 +1139,68 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                         </svg>
                         <span className="text-xs font-semibold text-amber-700">실구매 리뷰</span>
                       </div>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // PDP 열기 + 리뷰 탭으로 이동
-                          handleProductClick(product, index);
-                          // 약간의 딜레이 후 리뷰 탭 선택 이벤트 발생
-                          setTimeout(() => {
-                            window.dispatchEvent(new CustomEvent('openReviewTab'));
-                          }, 100);
-                          logButtonClick('리뷰모두보기_PLP', 'v2-result');
-                        }}
-                        className="text-[11px] font-medium text-amber-600 hover:text-amber-800 flex items-center gap-0.5"
-                      >
-                        리뷰 모두보기
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
+                      {!isReviewInsightsLoading && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // PDP 열기 + 리뷰 탭으로 이동
+                            handleProductClick(product, index);
+                            // 약간의 딜레이 후 리뷰 탭 선택 이벤트 발생
+                            setTimeout(() => {
+                              window.dispatchEvent(new CustomEvent('openReviewTab'));
+                            }, 100);
+                            logButtonClick('리뷰모두보기_PLP', 'v2-result');
+                          }}
+                          className="text-[11px] font-medium text-amber-600 hover:text-amber-800 flex items-center gap-0.5"
+                        >
+                          리뷰 모두보기
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      )}
                     </div>
-                    {/* 태그 + 리뷰 샘플 (태그별로 묶음) */}
-                    <div className="space-y-2.5">
-                      {reviewInsights[product.pcode].insights.slice(0, 2).map((insight, i) => (
-                        <div key={i}>
-                          {/* 태그 */}
-                          <span
-                            className={`inline-flex items-center px-2 py-1 rounded-lg text-[11px] font-semibold mb-1 ${
-                              insight.sentiment === 'positive'
-                                ? 'bg-green-100 text-green-700'
-                                : insight.sentiment === 'negative'
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-gray-100 text-gray-700'
-                            }`}
-                          >
-                            {insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
-                            {' '}{insight.criteriaName}
-                          </span>
-                          {/* 리뷰 샘플 (LLM 하이라이트 우선, fallback으로 키워드 매칭) */}
-                          {insight.topSample && (() => {
-                            const cacheKey = `${product.pcode}_${insight.criteriaId}`;
-                            const highlighted = highlightedReviews[cacheKey];
-
-                            return (
-                              <p className="text-xs text-amber-800 leading-relaxed mt-1">
-                                &ldquo;{highlighted
-                                  ? parseHighlightedReview(highlighted)
-                                  : highlightKeywords(insight.topSample, insight.criteriaId)
-                                }&rdquo;
-                              </p>
-                            );
-                          })()}
-                        </div>
-                      ))}
-                    </div>
+                    {/* 로딩 스켈레톤 */}
+                    {isReviewInsightsLoading ? (
+                      <div className="space-y-2.5 animate-pulse">
+                        {[1, 2].map((i) => (
+                          <div key={i}>
+                            {/* 태그 스켈레톤 */}
+                            <div className="h-6 w-24 bg-amber-200/50 rounded-lg mb-1"></div>
+                            {/* 텍스트 스켈레톤 */}
+                            <div className="space-y-1.5">
+                              <div className="h-3 bg-amber-200/50 rounded w-full"></div>
+                              <div className="h-3 bg-amber-200/50 rounded w-4/5"></div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      /* 리뷰 인사이트 표시 */
+                      <div className="space-y-2.5">
+                        {reviewInsights[product.pcode].insights.slice(0, 2).map((insight, i) => (
+                          <div key={i}>
+                            {/* 체감속성 태그 */}
+                            <span
+                              className={`inline-flex items-center px-2 py-1 rounded-lg text-[11px] font-semibold mb-1 ${
+                                insight.sentiment === 'positive'
+                                  ? 'bg-green-100 text-green-700'
+                                  : insight.sentiment === 'negative'
+                                  ? 'bg-red-100 text-red-700'
+                                  : 'bg-gray-100 text-gray-700'
+                              }`}
+                            >
+                              {insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
+                              {' '}{insight.criteriaName}
+                            </span>
+                            {/* LLM 하이라이팅된 리뷰 텍스트 (topSample에 이미 포함) */}
+                            <p className="text-xs text-amber-800 leading-relaxed mt-1">
+                              {parseHighlightedReview(insight.topSample || '')}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -1479,36 +1217,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   <svg className="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
-                </button>
-                {/* 실시간 장단점 분석하기 버튼 (Gemini Grounding) */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleFetchRealReviews(product);
-                    logButtonClick('실시간장단점분석_PLP', 'v2-result');
-                  }}
-                  disabled={isReviewsLoading(product.pcode)}
-                  className="mt-2 w-full py-2.5 text-sm font-medium text-violet-600 bg-violet-50 border border-violet-200 hover:bg-violet-100 rounded-xl transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
-                >
-                  {isReviewsLoading(product.pcode) ? (
-                    <>
-                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
-                      실시간 검색 중...
-                    </>
-                  ) : realReviewsData[product.pcode] ? (
-                    <>
-                      <span className="px-1.5 py-0.5 text-[10px] font-bold bg-violet-600 text-white rounded">AI</span>
-                      실시간 장단점
-                    </>
-                  ) : (
-                    <>
-                      <span className="px-1.5 py-0.5 text-[10px] font-bold bg-violet-600 text-white rounded">AI</span>
-                      실시간 장단점 분석하기
-                    </>
-                  )}
                 </button>
               </div>
             )}
@@ -1588,6 +1296,20 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           initialAverageRating={reviewData[selectedProduct.product.id]?.averageRating}
           variants={selectedProductVariants}
           variantDanawaData={variantDanawaLowestPrices}
+          onRealReviewsClick={() => {
+            const pcode = selectedProduct.product.id;
+            setSelectedRealReviewPcode(pcode);
+            setShowRealReviewsModal(true);
+            onModalOpenChange?.(true);
+            if (!realReviewsData[pcode]) {
+              fetchRealReviews({
+                pcode,
+                title: selectedProduct.product.title,
+                brand: selectedProduct.product.brand || undefined,
+              });
+            }
+          }}
+          isRealReviewsLoading={isReviewsLoading(selectedProduct.product.id)}
           onVariantSelect={async (variant) => {
             // 새 옵션 선택 시 해당 제품의 가격 정보 조회
             console.log('[ResultCards] onVariantSelect called:', variant);

@@ -645,15 +645,91 @@ export function calculateNegativeScore(
     const hasFeature = evaluateRule(product, ruleDef.logic) > 0;
 
     if (option.exclude_mode === 'drop_if_lacks' && !hasFeature) {
-      // 해당 기능이 없으면 큰 감점
-      negativeScore -= 100;
+      // 해당 기능이 없으면 감점 (하드컷은 아님)
+      negativeScore -= 30; // -100 → -30 (체감속성/하드필터와 균형)
     } else if (option.exclude_mode === 'drop_if_has' && hasFeature) {
-      // 해당 기능이 있으면 큰 감점
-      negativeScore -= 100;
+      // 해당 기능이 있으면 감점 (하드컷은 아님)
+      negativeScore -= 30; // -100 → -30 (체감속성/하드필터와 균형)
     }
   }
 
   return negativeScore;
+}
+
+/**
+ * 하드필터 충족도 기반 점수 계산 (체감속성 + 일반 하드필터)
+ */
+export function calculateHardFilterScore(
+  product: ProductItem,
+  hardFilterAnswers: Record<string, string[]>,
+  hardFilterConfig: { questions?: Array<{
+    id: string;
+    type?: 'single' | 'multi' | 'review_priorities';
+    options: Array<{
+      value: string;
+      filter?: Record<string, unknown>;
+      category_code?: string;
+    }>;
+  }> } | null
+): { score: number; matchedRules: string[] } {
+  let score = 0;
+  const matchedRules: string[] = [];
+
+  if (!hardFilterConfig?.questions) {
+    return { score: 0, matchedRules: [] };
+  }
+
+  // Skip 값 정의
+  const SKIP_VALUES = ['skip', 'any', '상관없어요', 'none', 'all'];
+
+  for (const [questionId, selectedValues] of Object.entries(hardFilterAnswers)) {
+    const question = hardFilterConfig.questions.find(q => q.id === questionId);
+    if (!question || selectedValues.length === 0) continue;
+
+    // Skip 값 제외
+    const validValues = selectedValues.filter(v =>
+      !SKIP_VALUES.includes(v.toLowerCase()) && !v.includes('상관없')
+    );
+    if (validValues.length === 0) continue;
+
+    // 선택한 옵션 중 하나라도 매칭되는지 확인
+    const matched = validValues.some(value => {
+      const option = question.options.find(opt => opt.value === value);
+      if (!option) return false;
+
+      // category_code 매칭
+      if (option.category_code) {
+        const isEnuriProduct = Object.values(ENURI_CATEGORY_CODES).includes(product.category_code || '');
+
+        if (isEnuriProduct) {
+          // 에누리 제품: spec.하위카테고리로 매칭
+          const enuriSubCategory = (product.spec as Record<string, unknown>)?.하위카테고리 as string | undefined;
+          const categoryKey = product.category_code || '';
+          return matchesSubCategory(categoryKey, option.category_code, enuriSubCategory);
+        } else {
+          // 다나와 제품: category_code 직접 매칭
+          return product.category_code === option.category_code;
+        }
+      }
+
+      // filter 조건 매칭
+      if (option.filter && Object.keys(option.filter).length > 0) {
+        return productMatchesSpecFilter(product, option.filter);
+      }
+
+      return false;
+    });
+
+    if (matched) {
+      // 체감속성과 하드필터 균형 조정 (각각 30-40% 목표)
+      const isExperientialTag = question.type === 'review_priorities';
+      const scoreIncrement = isExperientialTag ? 25 : 40; // 체감속성 35%, 하드필터 40%
+      score += scoreIncrement;
+      matchedRules.push(`하드필터_${questionId}`);
+    }
+  }
+
+  return { score, matchedRules };
 }
 
 // ===================================================

@@ -9,7 +9,7 @@ import { Recommendation, UserContextSummary, ProductCategory } from '@/types';
 import UserContextSummaryComponent from '@/components/UserContextSummary';
 // import ComparisonTable from '@/components/ComparisonTable';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
-import { logPageView, logButtonClick, logComparisonChat } from '@/lib/logging/clientLogger';
+import { logPageView, logButtonClick, logComparisonChat, logPurchaseCriteriaExpanded } from '@/lib/logging/clientLogger';
 import { ChatInputBar } from '@/components/ChatInputBar';
 import { ReRecommendationBottomSheet } from '@/components/ReRecommendationBottomSheet';
 import ProductDetailModal from '@/components/ProductDetailModal';
@@ -390,7 +390,28 @@ export default function ResultPage() {
     const userContextElement = document.getElementById('user-context-section');
     if (userContextElement) {
       userContextElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      logButtonClick('내 구매 기준 스크롤', 'result');
+
+      // 상세 로깅: 구매 기준 펼쳐보기
+      if (contextSummary) {
+        const criteriaCount =
+          (contextSummary.priorityAttributes?.length || 0) +
+          (contextSummary.additionalContext?.length || 0) +
+          (contextSummary.budget ? 1 : 0);
+
+        const expandedCriteria = [
+          ...(contextSummary.priorityAttributes?.map(attr => attr.name) || []),
+          ...(contextSummary.additionalContext || []),
+          ...(contextSummary.budget ? ['예산: ' + contextSummary.budget] : []),
+        ];
+
+        logPurchaseCriteriaExpanded(
+          'result',
+          criteriaCount,
+          true,
+          'priority',
+          expandedCriteria
+        );
+      }
     }
   };
 
@@ -2021,11 +2042,6 @@ export default function ResultPage() {
           {selectedProductForModal && (
             <ProductDetailModal
               productData={selectedProductForModal}
-              productComparisons={
-                comparativeAnalysis?.productComparisons
-                  ? comparativeAnalysis.productComparisons[`rank${selectedProductForModal.rank}` as 'rank1' | 'rank2' | 'rank3']
-                  : undefined
-              }
               category={currentCategory || 'milk_powder_port'}
               danawaData={
                 danawaData[selectedProductForModal.product.id] && !danawaData[selectedProductForModal.product.id].loading

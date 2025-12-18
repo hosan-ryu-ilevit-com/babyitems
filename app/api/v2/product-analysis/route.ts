@@ -12,13 +12,18 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
-import { getModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
+import { callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { CategoryInsights } from '@/types/category-insights';
 import {
   getSampledReviewsFromSupabase,
   formatReviewsForPrompt,
   type ProductReviewSample,
 } from '@/lib/review/supabase-analyzer';
+
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) throw new Error('GEMINI_API_KEY is required');
+const genAI = new GoogleGenerativeAI(apiKey);
 
 // 제품 정보 타입
 interface ProductInfo {
@@ -86,7 +91,16 @@ async function analyzeProduct(
   userContext: UserContext,
   reviewSample?: ProductReviewSample
 ): Promise<ProductAnalysis> {
-  const model = getModel(0.5);
+  // Use Gemini Flash Lite for fast product analysis (speed matters)
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-flash-lite-latest',
+    generationConfig: {
+      temperature: 0.5,
+      topK: 40,
+      topP: 0.95,
+      maxOutputTokens: 8192,
+    },
+  });
 
   // 스펙 정보 문자열화
   const specStr = product.spec
@@ -160,26 +174,26 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 
   const conditionEvaluationFormat = hasUserConditions ? `
   "selectedConditionsEvaluation": [
-    // 필수 조건 평가 (${hardFilterConditions.length}개) - 태그만 반환, evidence 불필요
+    // 필수 조건 평가 (${hardFilterConditions.length}개) - status는 "충족" 또는 "불충족" 중 하나만 선택
     ${hardFilterConditions.map(c => `{
       "condition": "${c.label}",
       "conditionType": "hardFilter",
       "questionId": "${c.questionId}",
-      "status": "충족|불충족"
+      "status": "충족 또는 불충족 중 하나"
     }`).join(',\n    ')}${hardFilterConditions.length > 0 && balanceConditions.length > 0 ? ',' : ''}
-    // 선호 속성 평가 (${balanceConditions.length}개)
+    // 선호 속성 평가 (${balanceConditions.length}개) - status는 "충족", "부분충족", "불충족" 중 하나만 선택
     ${balanceConditions.map(c => `{
       "condition": "${c}",
       "conditionType": "balance",
-      "status": "충족|부분충족|불충족",
-      "evidence": "구체적 근거..."
+      "status": "충족, 부분충족, 불충족 중 하나",
+      "evidence": "구체적 근거 1-2문장"
     }`).join(',\n    ')}${(hardFilterConditions.length > 0 || balanceConditions.length > 0) && negativeConditions.length > 0 ? ',' : ''}
-    // 피하고 싶은 단점 평가 (${negativeConditions.length}개)
+    // 피하고 싶은 단점 평가 (${negativeConditions.length}개) - status는 "회피됨", "부분회피", "회피안됨" 중 하나만 선택
     ${negativeConditions.map(c => `{
       "condition": "${c}",
       "conditionType": "negative",
-      "status": "회피됨|부분회피|회피안됨",
-      "evidence": "구체적 근거..."
+      "status": "회피됨, 부분회피, 회피안됨 중 하나",
+      "evidence": "구체적 근거 1-2문장"
     }`).join(',\n    ')}
   ],` : '';
 
@@ -228,10 +242,33 @@ ${hasUserConditions ? '4' : '3'}. **구매 팁 (purchaseTip)**: 구매 전 확�
 - 일반적인 내용이 아닌 이 제품에 특화된 내용으로
 - 사용자 관점에서 실용적인 정보 위주로
 - citations는 빈 배열로
-${hasUserConditions ? `- selectedConditionsEvaluation은 사용자가 선택한 조건 총 ${hardFilterConditions.length + balanceConditions.length + negativeConditions.length}개를 모두 평가해야 합니다
-- 필수 조건(hardFilter): status는 "충족" 또는 "불충족"만 사용, evidence 필드 없음
-- 선호 속성(balance): status는 "충족", "부분충족", "불충족" 중 하나, evidence에 핵심 키워드 **볼드** 처리
-- 피하고 싶은 단점(negative): status는 "회피됨", "부분회피", "회피안됨" 중 하나, evidence에 핵심 키워드 **볼드** 처리` : ''}
+${hasUserConditions ? `
+- selectedConditionsEvaluation은 사용자가 선택한 조건 총 ${hardFilterConditions.length + balanceConditions.length + negativeConditions.length}개를 모두 평가해야 합니다
+
+## ⚠️ status 값 중요 (정확히 아래 값만 사용):
+- 필수 조건(hardFilter): "충족" 또는 "불충족" (이 두 값 중 하나만)
+- 선호 속성(balance): "충족" 또는 "부분충족" 또는 "불충족" (이 세 값 중 하나만)
+- 피하고 싶은 단점(negative): "회피됨" 또는 "부분회피" 또는 "회피안됨" (이 세 값 중 하나만)
+
+status 예시 (반드시 이 형식으로):
+{
+  "condition": "ISOFIX 지원",
+  "conditionType": "hardFilter",
+  "questionId": "q1",
+  "status": "충족"
+}
+{
+  "condition": "세척 편리성",
+  "conditionType": "balance",
+  "status": "부분충족",
+  "evidence": "분리형 구조라 **세척은 편하지만** 건조 시간이 필요해요"
+}
+{
+  "condition": "무거운 무게",
+  "conditionType": "negative",
+  "status": "회피됨",
+  "evidence": "**가벼운 소재**로 되어 있어 휴대가 편해요"
+}` : ''}
 
 JSON만 응답하세요.`;
 
@@ -259,12 +296,80 @@ JSON만 응답하세요.`;
       });
     };
 
+    // 🔧 하드필터 검증: 같은 questionId에서 중복 충족 제거
+    // 각 질문당 하나의 충족/불충족만 유지 (첫 번째 충족 또는 모두 불충족 시 첫 번째만)
+    let validatedEvaluations = parsed.selectedConditionsEvaluation || [];
+
+    if (validatedEvaluations.length > 0) {
+      const seenQuestions = new Set<string>();
+      const deduplicatedEvaluations: ConditionEvaluation[] = [];
+
+      // 하드필터만 그룹화 (balance, negative는 그대로 유지)
+      const hardFilterEvals = validatedEvaluations.filter(e => e.conditionType === 'hardFilter');
+      const otherEvals = validatedEvaluations.filter(e => e.conditionType !== 'hardFilter');
+
+      // 각 questionId별로 첫 번째 충족 조건만 유지
+      for (const evaluation of hardFilterEvals) {
+        const qid = evaluation.questionId || 'unknown';
+
+        // 이미 이 질문에서 충족된 조건이 있으면 스킵
+        if (seenQuestions.has(qid)) {
+          console.log(`[product-analysis] Skipping duplicate hardFilter evaluation for question ${qid}: ${evaluation.condition}`);
+          continue;
+        }
+
+        // 충족된 조건이면 추가하고 질문 ID 기록
+        if (evaluation.status === '충족') {
+          deduplicatedEvaluations.push(evaluation);
+          seenQuestions.add(qid);
+        } else {
+          // 불충족 조건은 나중에 처리 (충족 조건이 없을 때만 추가)
+          deduplicatedEvaluations.push(evaluation);
+        }
+      }
+
+      // 중복 제거: 각 questionId별로 충족이 있으면 불충족 제거
+      const finalHardFilterEvals: ConditionEvaluation[] = [];
+      const questionsWithMatch = new Set(
+        deduplicatedEvaluations
+          .filter(e => e.status === '충족')
+          .map(e => e.questionId)
+          .filter((id): id is string => id !== undefined)
+      );
+
+      for (const evaluation of deduplicatedEvaluations) {
+        const qid = evaluation.questionId;
+        if (!qid) {
+          finalHardFilterEvals.push(evaluation);
+          continue;
+        }
+
+        // 이 질문에 충족 조건이 있으면, 불충족 조건은 제외
+        if (questionsWithMatch.has(qid)) {
+          if (evaluation.status === '충족') {
+            finalHardFilterEvals.push(evaluation);
+          }
+          // 불충족은 스킵
+        } else {
+          // 충족 조건이 없으면 첫 번째 불충족만 유지
+          if (!seenQuestions.has(`${qid}_unmatched`)) {
+            finalHardFilterEvals.push(evaluation);
+            seenQuestions.add(`${qid}_unmatched`);
+          }
+        }
+      }
+
+      validatedEvaluations = [...finalHardFilterEvals, ...otherEvals];
+
+      console.log(`[product-analysis] Validated ${product.pcode}: ${hardFilterEvals.length} -> ${finalHardFilterEvals.length} hardFilter evaluations`);
+    }
+
     return {
       pcode: product.pcode,
       additionalPros: filterInvalidTextItems(parsed.additionalPros),
       cons: filterInvalidTextItems(parsed.cons),
       purchaseTip: filterInvalidTextItems(parsed.purchaseTip),
-      selectedConditionsEvaluation: parsed.selectedConditionsEvaluation || [],
+      selectedConditionsEvaluation: validatedEvaluations,
     };
   } catch (error) {
     console.error(`[product-analysis] Failed to analyze ${product.pcode}:`, error);

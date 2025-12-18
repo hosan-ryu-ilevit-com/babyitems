@@ -761,7 +761,18 @@ export function logV2RecommendationReceived(
   }>,
   selectionReason: string | undefined,
   totalCandidates: number,
-  processingTimeMs?: number
+  processingTimeMs?: number,
+  highlightedReviews?: Array<{
+    pcode: string;
+    productTitle: string;
+    rank: number;
+    reviews: Array<{
+      criteriaId: string;
+      criteriaName: string;
+      originalText: string;
+      excerpt: string;
+    }>;
+  }>
 ): void {
   sendLogEvent('v2_recommendation_received', {
     page: 'recommend-v2',
@@ -774,6 +785,7 @@ export function logV2RecommendationReceived(
         selectionReason,
         totalCandidates,
         processingTimeMs,
+        highlightedReviews,
       },
     },
   });
@@ -1195,6 +1207,207 @@ export function logV2ReRecommendDifferentCategory(
         fromCategory,
         fromCategoryName,
       },
+    },
+  });
+}
+
+// ============================================
+// 새로운 기능 로깅 함수들
+// ============================================
+
+// 1. AI 헬퍼 버튼 클릭 ("뭘 골라야 할지 모르겠어요")
+export function logAIHelperButtonClicked(
+  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget',
+  questionId: string,
+  questionText: string,
+  category: string,
+  categoryName: string,
+  step?: number
+): void {
+  // 질문 텍스트 길이 제한
+  const shortQuestion = questionText.length > 30 ? questionText.substring(0, 30) + '...' : questionText;
+
+  sendLogEvent('ai_helper_clicked', {
+    page: 'recommend-v2',
+    buttonLabel: `💜 AI 도움: "${shortQuestion}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step,
+    },
+    aiHelperData: {
+      questionType,
+      questionId,
+      questionText,
+    },
+  });
+}
+
+// 2. 예시 질문 클릭
+export function logExampleQuestionClicked(
+  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget',
+  questionId: string,
+  exampleText: string,
+  exampleIndex: number,
+  category: string,
+  categoryName: string
+): void {
+  // 예시 텍스트 길이 제한 (상세 컬럼에 표시용)
+  const shortText = exampleText.length > 40 ? exampleText.substring(0, 40) + '...' : exampleText;
+
+  sendLogEvent('example_question_clicked', {
+    page: 'recommend-v2',
+    buttonLabel: `예시 질문: "${shortText}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+    },
+    aiHelperData: {
+      questionType,
+      questionId,
+      questionText: '',
+      exampleText,
+    },
+  });
+}
+
+// 3. 예시 질문 적용
+export function logExampleQuestionApplied(
+  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget',
+  questionId: string,
+  exampleText: string,
+  selectedOptions: string[],
+  selectedLabels: string[],
+  category: string,
+  categoryName: string
+): void {
+  // 선택된 옵션들을 상세 컬럼에 표시
+  const labelsText = selectedLabels.slice(0, 3).join(', ') + (selectedLabels.length > 3 ? '...' : '');
+
+  sendLogEvent('example_question_applied', {
+    page: 'recommend-v2',
+    buttonLabel: `AI 추천 적용: ${labelsText} (${selectedLabels.length}개)`,
+    v2FlowData: {
+      category,
+      categoryName,
+    },
+    aiHelperData: {
+      questionType,
+      questionId,
+      questionText: '',
+      exampleText,
+      selectedOptions,
+      selectedLabels,
+    },
+  });
+}
+
+// 4. 리뷰 탭 열기
+export function logReviewTabOpened(
+  pcode: string,
+  productTitle: string,
+  tabType: 'reviews' | 'insights' | 'real_reviews',
+  category: string,
+  categoryName: string,
+  brand?: string,
+  rank?: number,
+  page?: string
+): void {
+  sendLogEvent('review_tab_opened', {
+    page: page || 'recommend-v2',
+    buttonLabel: `리뷰 탭: ${tabType}`,
+    v2FlowData: {
+      category,
+      categoryName,
+    },
+    reviewData: {
+      pcode,
+      productTitle,
+      brand,
+      tabType,
+      rank,
+    },
+  });
+}
+
+// 5. 체감속성 상세 보기
+export function logCriteriaDetailViewed(
+  criteriaId: string,
+  criteriaName: string,
+  pcode: string,
+  productTitle: string,
+  mentionCount: number,
+  category: string,
+  categoryName: string
+): void {
+  sendLogEvent('criteria_detail_viewed', {
+    page: 'recommend-v2',
+    buttonLabel: `체감속성 상세: ${criteriaName}`,
+    v2FlowData: {
+      category,
+      categoryName,
+    },
+    reviewData: {
+      pcode,
+      productTitle,
+      tabType: 'insights',
+      criteriaId,
+      criteriaName,
+      mentionCount,
+    },
+  });
+}
+
+// 6. 구매 기준 펼치기/접기
+export function logPurchaseCriteriaExpanded(
+  page: 'result' | 'result-v2',
+  criteriaCount: number,
+  isExpanded: boolean,
+  criteriaType: 'priority' | 'reason',
+  expandedCriteria?: string[]
+): void {
+  sendLogEvent('criteria_detail_viewed', {
+    page,
+    buttonLabel: isExpanded ? '내 구매 기준 펼치기' : '내 구매 기준 접기',
+    purchaseCriteriaData: {
+      page,
+      criteriaCount,
+      isExpanded,
+      criteriaType,
+      expandedCriteria,
+    },
+  });
+}
+
+// 7. 자연어 입력 로깅
+export function logNaturalLanguageInput(
+  page: 'priority' | 'tags' | 'recommend-v2',
+  currentStep: number,
+  userInput: string,
+  parsedResult?: {
+    prioritySettings?: Record<string, string>;
+    budget?: { min: number; max: number };
+    selectedTags?: string[];
+  },
+  category?: string,
+  categoryName?: string
+): void {
+  // 입력 내용 길이 제한
+  const shortInput = userInput.length > 40 ? userInput.substring(0, 40) + '...' : userInput;
+
+  sendLogEvent('user_input', {
+    page,
+    userInput,
+    buttonLabel: `자연어 입력: "${shortInput}"`,
+    v2FlowData: category ? {
+      category,
+      categoryName: categoryName || '',
+      step: currentStep,
+    } : undefined,
+    metadata: {
+      parsedResult,
+      inputLength: userInput.length,
+      currentStep,
     },
   });
 }

@@ -15,6 +15,7 @@ export type DataSource = 'danawa' | 'enuri' | 'both';
 export const CATEGORY_DATA_SOURCE: Record<string, DataSource> = {
   // 분유제조기: 다나와 + 에누리 합집합
   formula_maker: 'both',
+  baby_formula_dispenser: 'both',
   // 나머지는 다나와만 사용 (기본값)
   // stroller: 'danawa',
   // car_seat: 'danawa',
@@ -37,6 +38,7 @@ export function getDataSource(categoryKey: string): DataSource {
  */
 export const ENURI_CATEGORY_CODES: Record<string, string> = {
   formula_maker: 'formula_maker',
+  baby_formula_dispenser: 'baby_formula_dispenser',
   // 아래 카테고리들은 다나와만 사용 (에누리 통합 보류)
   // stroller: 'stroller',
   // car_seat: 'car_seat',

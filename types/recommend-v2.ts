@@ -163,6 +163,25 @@ export interface ScoredProduct extends ProductItem {
   negativeScore: number;
   totalScore: number;
   matchedRules: string[];
+  // LLM evaluation fields (from /api/recommend-v2)
+  fitScore?: number;
+  reasoning?: string;
+  selectedTagsEvaluation?: Array<{
+    userTag: string;
+    tagType: 'pros' | 'cons';
+    priority: number;
+    status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
+    evidence: string;
+    citations: number[];
+    tradeoff?: string;
+  }>;
+  additionalPros?: Array<{ text: string; citations: number[] }>;
+  cons?: Array<{ text: string; citations: number[] }>;
+  purchaseTip?: Array<{ text: string; citations: number[] }>;
+  citedReviews?: Array<{ index: number; text: string; rating: number }>;
+  // Optional fields for enhanced display
+  refinedTags?: string[];  // LLM-refined display tags
+  recommendationReason?: string;  // Short reason for recommendation
 }
 
 // ===================================================
@@ -538,4 +557,51 @@ export interface VariantPriceResponse {
     danawaPrice: DanawaPriceData | null;
   };
   error?: string;
+}
+
+// ===================================================
+// 사용자 컨텍스트 타입 (추천 로직용)
+// ===================================================
+
+/**
+ * 밸런스 게임 선택 정보
+ */
+export interface BalanceGameChoice {
+  questionId: string;
+  choice: string;           // 선택한 옵션의 target_rule_key
+  description: string;      // 자연어 설명 (예: "세척 편리성 > 온도 정확성")
+}
+
+/**
+ * 자연어 입력 정보
+ */
+export interface NaturalLanguageInput {
+  stage: string;            // 어느 단계에서 입력했는지 ('experiential_tags', 'hard_filters', 'balance_game', etc.)
+  timestamp: string;        // 입력 시각
+  input: string;            // 사용자 입력 원문
+}
+
+/**
+ * 사용자 컨텍스트 (추천 로직에 전달되는 모든 정보)
+ */
+export interface UserContext {
+  // 기본 정보
+  categoryKey: string;
+  anchorProduct?: ProductItem;
+  budget?: string;
+
+  // 하드필터 답변 (기존)
+  hardFilterAnswers?: Record<string, string[]>;
+
+  // 체감속성 태그 (첫 번째 질문, review_priorities 타입)
+  experientialTags?: string[];
+
+  // 밸런스 게임 선택
+  balanceGameChoices?: BalanceGameChoice[];
+
+  // 단점 회피 태그
+  negativeTagAvoidances?: string[];
+
+  // 자연어 입력 (모든 단계)
+  naturalLanguageInputs?: NaturalLanguageInput[];
 }

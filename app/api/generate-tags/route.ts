@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
     const [prosResult, consResult] = await Promise.all([
       // Generate PROS from high-rating reviews
       ai.models.generateContent({
-        model: 'gemini-2.5-flash-lite', // Fast and cheap model
+        model: 'gemini-3-flash-preview', // Fast and cheap model
         contents: `다음은 "${productTitle}" 제품의 **고평점(4-5★) 리뷰**입니다. 이 리뷰들을 분석해서 **장점만** 추출해주세요.
 
 **리뷰 데이터 (총 ${highReviews.length}개 고평점):**
@@ -154,7 +154,7 @@ ${attributesSection}
 
       // Generate CONS from low-rating reviews
       ai.models.generateContent({
-        model: 'gemini-2.5-flash-lite',
+        model: 'gemini-3-flash-preview',
         contents: `다음은 "${productTitle}" 제품의 **저평점(1-2★) 리뷰**입니다. 이 리뷰들을 분석해서 **단점만** 추출해주세요.
 
 **리뷰 데이터 (총 ${lowReviews.length}개 저평점):**

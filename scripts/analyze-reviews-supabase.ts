@@ -38,6 +38,7 @@ const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const CATEGORY_CODE_MAP: Record<string, string[]> = {
   stroller: ['16349368', '16349193', '16349195', '16349196', 'stroller'],
   car_seat: ['16349200', '16349201', '16349202', '16353763', 'car_seat'],
+  formula: ['16249091', 'formula'],
   formula_maker: ['16349381', 'formula_maker'],
   baby_formula_dispenser: ['16349381', 'baby_formula_dispenser'],
   baby_bottle: ['16349219'],
@@ -58,6 +59,7 @@ const CATEGORY_CODE_MAP: Record<string, string[]> = {
 const CATEGORY_NAMES: Record<string, string> = {
   stroller: '유모차',
   car_seat: '카시트',
+  formula: '분유',
   formula_maker: '분유제조기',
   baby_formula_dispenser: '분유제조기',
   baby_bottle: '젖병',

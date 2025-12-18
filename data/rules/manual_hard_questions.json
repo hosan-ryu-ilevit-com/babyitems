@@ -114,7 +114,7 @@
       {
         "id": "pacifier_review_priorities",
         "type": "review_priorities",
-        "question": "공갈젖꼭지 선택 시 가장 중요한 점은?",
+        "question": "쪽쪽이/젖꼭지 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
@@ -302,13 +302,13 @@
       {
         "id": "thermometer_review_priorities",
         "type": "review_priorities",
-        "question": "체온계 선택 시 가장 중요한 점은?",
+        "question": "체온계 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "체온 정확도 , 신뢰성",
-            "displayLabel": "체온 정확도 , 신뢰성",
+            "displayLabel": "정확도 높음",
             "value": "accuracy_reliability",
             "mentionCount": 25,
             "sentiment": "negative",
@@ -324,7 +324,7 @@
           },
           {
             "label": "사용 편의성",
-            "displayLabel": "사용 편의성",
+            "displayLabel": "사용이 편해요",
             "value": "ease_of_use",
             "mentionCount": 10,
             "sentiment": "positive",
@@ -355,8 +355,8 @@
             ]
           },
           {
-            "label": "초기 제품 상태",
-            "displayLabel": "초기 제품 상태",
+            "label": "제품 상태가 깨끗해요",
+            "displayLabel": "제품 상태 깨끗함",
             "value": "initial_product_condition",
             "mentionCount": 10,
             "sentiment": "negative",
@@ -387,8 +387,8 @@
             ]
           },
           {
-            "label": "포장 상태 , 고객 서비스",
-            "displayLabel": "포장 상태 , 고객 서비스",
+            "label": "포장이 꼼꼼해요",
+            "displayLabel": "포장 꼼꼼함",
             "value": "packaging_and_customer_service",
             "mentionCount": 7,
             "sentiment": "positive",
@@ -467,13 +467,13 @@
       {
         "id": "nasal_aspirator_review_priorities",
         "type": "review_priorities",
-        "question": "코흡입기 선택 시 가장 중요한 점은?",
+        "question": "코흡입기 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "흡입력 조절 용이성",
-            "displayLabel": "흡입력 조절 용이성",
+            "displayLabel": "흡입력 조절이 쉬워요",
             "value": "suction_power_control",
             "mentionCount": 15,
             "sentiment": "positive",
@@ -505,7 +505,7 @@
           },
           {
             "label": "가격 대비 성능",
-            "displayLabel": "가격 대비 성능",
+            "displayLabel": "가성비 좋음",
             "value": "price_effectiveness",
             "mentionCount": 7,
             "sentiment": "positive",
@@ -521,7 +521,7 @@
           },
           {
             "label": "세척 용이성",
-            "displayLabel": "세척 용이성",
+            "displayLabel": "세척이 쉬워요",
             "value": "cleaning_ease",
             "mentionCount": 6,
             "sentiment": "positive",
@@ -551,7 +551,7 @@
           },
           {
             "label": "내구성",
-            "displayLabel": "내구성",
+            "displayLabel": "내구성 높음",
             "value": "durability",
             "mentionCount": 3,
             "sentiment": "negative",
@@ -633,13 +633,13 @@
       {
         "id": "baby_bottle_review_priorities",
         "type": "review_priorities",
-        "question": "젖병 선택 시 가장 중요한 점은?",
+        "question": "젖병 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "세척 용이성",
-            "displayLabel": "세척 용이성",
+            "displayLabel": "세척이 쉬워요",
             "value": "ease_of_cleaning",
             "mentionCount": 15,
             "sentiment": "positive",
@@ -687,7 +687,7 @@
           },
           {
             "label": "내구성과 재질 안전성",
-            "displayLabel": "내구성과 재질 안전성",
+            "displayLabel": "내구성 높고 안전해요",
             "value": "durability_and_material_safety",
             "mentionCount": 8,
             "sentiment": "positive",
@@ -703,7 +703,7 @@
           },
           {
             "label": "다용도 활용성",
-            "displayLabel": "다용도 활용성",
+            "displayLabel": "다용도로 활용 가능",
             "value": "versatility_and_scalability",
             "mentionCount": 5,
             "sentiment": "positive",
@@ -798,18 +798,18 @@
       }
     ]
   },
-  "formula_maker": {
+  "baby_formula_dispenser": {
     "questions": [
       {
-        "id": "maker_review_priorities",
+        "id": "baby_formula_dispenser_review_priorities",
         "type": "review_priorities",
-        "question": "어떤 점이 가장 중요하세요?",
+        "question": "분유제조기 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 58건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "세척이 편해야 해요",
-            "displayLabel": "세척 편의성",
+            "displayLabel": "세척이 편해요",
             "value": "cleaning_frequency",
             "mentionCount": 25,
             "sentiment": "negative",
@@ -825,7 +825,7 @@
           },
           {
             "label": "농도/용량이 정확해야 해요",
-            "displayLabel": "정확도",
+            "displayLabel": "정확도 높음",
             "value": "accuracy",
             "mentionCount": 15,
             "sentiment": "negative",
@@ -857,7 +857,7 @@
           },
           {
             "label": "부품이 튼튼해야 해요",
-            "displayLabel": "내구성",
+            "displayLabel": "내구성 높음",
             "value": "durability_parts",
             "mentionCount": 5,
             "sentiment": "negative",
@@ -873,7 +873,7 @@
           },
           {
             "label": "조작이 간편해야 해요",
-            "displayLabel": "사용 편의",
+            "displayLabel": "사용이 편해요",
             "value": "ease_of_use",
             "mentionCount": 5,
             "sentiment": "negative",
@@ -889,64 +889,6 @@
           }
         ]
       },
-      {
-        "id": "maker_auto",
-        "type": "single",
-        "question": "자동 조유 기능이 필요하세요?",
-        "tip": "버튼 하나로 분유가 완성되면 새벽 수유가 훨씬 편해져요",
-        "options": [
-          {
-            "label": "네, 버튼 하나로 분유까지",
-            "displayLabel": "자동조유 필요",
-            "value": "auto_yes",
-            "filter": {
-              "spec.features": {
-                "contains": "자동급수"
-              }
-            }
-          },
-          {
-            "label": "아니요, 직접 할 수 있어요",
-            "displayLabel": "자동조유 불필요",
-            "value": "auto_no",
-            "filter": {}
-          }
-        ]
-      },
-      {
-        "id": "maker_material",
-        "type": "single",
-        "question": "재질이 중요하세요?",
-        "tip": "유리는 환경호르몬 걱정 없이 안심이에요",
-        "options": [
-          {
-            "label": "유리 (환경호르몬 걱정 없음)",
-            "displayLabel": "유리 재질",
-            "value": "glass",
-            "filter": {
-              "spec.재질": "유리"
-            }
-          },
-          {
-            "label": "스테인리스 (튼튼함)",
-            "displayLabel": "스테인리스 재질",
-            "value": "stainless",
-            "filter": {
-              "spec.재질": "스테인리스"
-            }
-          },
-          {
-            "label": "상관없어요",
-            "displayLabel": "재질 무관",
-            "value": "any",
-            "filter": {}
-          }
-        ]
-      }
-    ]
-  },
-  "baby_formula_dispenser": {
-    "questions": [
       {
         "id": "dispenser_cleaning",
         "type": "single",
@@ -1041,13 +983,13 @@
       {
         "id": "baby_bed_review_priorities",
         "type": "review_priorities",
-        "question": "아기침대 선택 시 가장 중요한 점은?",
+        "question": "아기침대 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "사용 가능한 내부 크기",
-            "displayLabel": "사용 가능한 내부 크기",
+            "displayLabel": "내부 공간 넉넉해요",
             "value": "size_real_vs_spec",
             "mentionCount": 12,
             "sentiment": "negative",
@@ -1063,7 +1005,7 @@
           },
           {
             "label": "재질의 품질 , 내구성",
-            "displayLabel": "재질의 품질 , 내구성",
+            "displayLabel": "재질 품질 좋음",
             "value": "material_quality_and_durability",
             "mentionCount": 7,
             "sentiment": "negative",
@@ -1079,7 +1021,7 @@
           },
           {
             "label": "세척 , 관리 용이성",
-            "displayLabel": "세척 , 관리 용이성",
+            "displayLabel": "세척/관리가 쉬워요",
             "value": "cleaning_ease",
             "mentionCount": 5,
             "sentiment": "positive",
@@ -1094,8 +1036,8 @@
             ]
           },
           {
-            "label": "냄새 , 유해물질 방출 여부",
-            "displayLabel": "냄새 , 유해물질 방출 여부",
+            "label": "냄새가 없어요",
+            "displayLabel": "무취/무독성",
             "value": "smell_and_offgassing",
             "mentionCount": 1,
             "sentiment": "positive",
@@ -1106,8 +1048,8 @@
             ]
           },
           {
-            "label": "배송 , 고객 서비스 품질",
-            "displayLabel": "배송 , 고객 서비스 품질",
+            "label": "배송이 빨라요",
+            "displayLabel": "배송 빠름",
             "value": "delivery_and_customer_service",
             "mentionCount": 10,
             "sentiment": "negative",
@@ -1123,7 +1065,7 @@
           },
           {
             "label": "조립 난이도 , 설명서의 명확성",
-            "displayLabel": "조립 난이도 , 설명서의 명확성",
+            "displayLabel": "조립이 쉬워요",
             "value": "assembly_difficulty",
             "mentionCount": 8,
             "sentiment": "negative",
@@ -1146,7 +1088,7 @@
       {
         "id": "baby_desk_review_priorities",
         "type": "review_priorities",
-        "question": "아기책상 선택 시 가장 중요한 점은?",
+        "question": "아기책상 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
@@ -1168,7 +1110,7 @@
           },
           {
             "label": "안정성과 안전성",
-            "displayLabel": "안정성과 안전성",
+            "displayLabel": "안정성 높음",
             "value": "stability_and_safety",
             "mentionCount": 12,
             "sentiment": "positive",
@@ -1184,7 +1126,7 @@
           },
           {
             "label": "재질 내구성과 오염 관리",
-            "displayLabel": "재질 내구성과 오염 관리",
+            "displayLabel": "재질 튼튼하고 관리 쉬움",
             "value": "material_durability",
             "mentionCount": 8,
             "sentiment": "negative",
@@ -1200,7 +1142,7 @@
           },
           {
             "label": "배송 , 설치 용이성",
-            "displayLabel": "배송 , 설치 용이성",
+            "displayLabel": "배송/설치가 빨라요",
             "value": "delivery_and_installation",
             "mentionCount": 7,
             "sentiment": "negative",
@@ -1216,7 +1158,7 @@
           },
           {
             "label": "디자인과 색상 만족도",
-            "displayLabel": "디자인과 색상 만족도",
+            "displayLabel": "디자인 예뻐요",
             "value": "design_and_color",
             "mentionCount": 6,
             "sentiment": "positive",
@@ -1255,13 +1197,13 @@
       {
         "id": "baby_sofa_review_priorities",
         "type": "review_priorities",
-        "question": "아기소파 선택 시 가장 중요한 점은?",
+        "question": "아기소파 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "재질 내구성과 세척 용이성",
-            "displayLabel": "재질 내구성과 세척 용이성",
+            "displayLabel": "재질 튼튼하고 세척 쉬움",
             "value": "material_durability_and_cleanability",
             "mentionCount": 12,
             "sentiment": "positive",
@@ -1277,7 +1219,7 @@
           },
           {
             "label": "넘어짐 방지 안정성",
-            "displayLabel": "넘어짐 방지 안정성",
+            "displayLabel": "넘어짐 방지 기능",
             "value": "safety_against_tipping",
             "mentionCount": 10,
             "sentiment": "negative",
@@ -1293,7 +1235,7 @@
           },
           {
             "label": "사이즈 적합성",
-            "displayLabel": "사이즈 적합성",
+            "displayLabel": "사이즈 딱 맞아요",
             "value": "actual_size_vs_age",
             "mentionCount": 8,
             "sentiment": "negative",
@@ -1309,7 +1251,7 @@
           },
           {
             "label": "변형 기능의 실용성",
-            "displayLabel": "변형 기능의 실용성",
+            "displayLabel": "변형 기능 실용적",
             "value": "actual_usefulness_of_transformations",
             "mentionCount": 7,
             "sentiment": "negative",
@@ -1324,8 +1266,8 @@
             ]
           },
           {
-            "label": "냄새 , 초기 품질",
-            "displayLabel": "냄새 , 초기 품질",
+            "label": "냄새가 없어요",
+            "displayLabel": "무취/품질 좋음",
             "value": "odor_and_initial_quality",
             "mentionCount": 4,
             "sentiment": "negative",
@@ -1340,8 +1282,8 @@
             ]
           },
           {
-            "label": "배송 기간",
-            "displayLabel": "배송 기간",
+            "label": "배송이 빨라요",
+            "displayLabel": "배송 빠름",
             "value": "delivery_period",
             "mentionCount": 4,
             "sentiment": "negative",
@@ -1363,13 +1305,13 @@
       {
         "id": "baby_wipes_review_priorities",
         "type": "review_priorities",
-        "question": "물티슈 선택 시 가장 중요한 점은?",
+        "question": "물티슈 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "두께감과 촉감",
-            "displayLabel": "두께감과 촉감",
+            "displayLabel": "두께감과 촉감 좋음",
             "value": "thickness_and_feel",
             "mentionCount": 15,
             "sentiment": "positive",
@@ -1385,7 +1327,7 @@
           },
           {
             "label": "휴대성",
-            "displayLabel": "휴대성",
+            "displayLabel": "휴대성 좋음",
             "value": "portability",
             "mentionCount": 7,
             "sentiment": "positive",
@@ -1401,7 +1343,7 @@
           },
           {
             "label": "포장 디자인",
-            "displayLabel": "포장 디자인",
+            "displayLabel": "포장 예뻐요",
             "value": "packaging_design",
             "mentionCount": 4,
             "sentiment": "positive",
@@ -1415,7 +1357,7 @@
           },
           {
             "label": "향",
-            "displayLabel": "향",
+            "displayLabel": "향이 좋아요",
             "value": "fragrance",
             "mentionCount": 3,
             "sentiment": "positive",
@@ -1428,7 +1370,7 @@
           },
           {
             "label": "시트 크기",
-            "displayLabel": "시트 크기",
+            "displayLabel": "시트가 넉넉해요",
             "value": "sheet_size",
             "mentionCount": 2,
             "sentiment": "positive",
@@ -1441,7 +1383,7 @@
           },
           {
             "label": "캡의 안정성",
-            "displayLabel": "캡의 안정성",
+            "displayLabel": "캡이 튼튼해요",
             "value": "cap_stability",
             "mentionCount": 2,
             "sentiment": "positive",
@@ -1461,7 +1403,7 @@
       {
         "id": "car_seat_review_priorities",
         "type": "review_priorities",
-        "question": "카시트 선택 시 가장 중요한 점은?",
+        "question": "카시트 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
@@ -1483,7 +1425,7 @@
           },
           {
             "label": "큰 아이를 위한 좌석 너비 , 편안함",
-            "displayLabel": "큰 아이를 위한 좌석 너비 , 편안함",
+            "displayLabel": "좌석이 넓고 편안해요",
             "value": "seat_width_and_comfort_for_older_children",
             "mentionCount": 4,
             "sentiment": "positive",
@@ -1499,7 +1441,7 @@
           },
           {
             "label": "안전벨트 버클 채결 용이성",
-            "displayLabel": "안전벨트 버클 채결 용이성",
+            "displayLabel": "벨트 채결이 쉬워요",
             "value": "ease_of_seatbelt_buckling",
             "mentionCount": 3,
             "sentiment": "positive",
@@ -1531,7 +1473,7 @@
           },
           {
             "label": "헤드레스트 안정성 , 조절 용이성",
-            "displayLabel": "헤드레스트 안정성 , 조절 용이성",
+            "displayLabel": "헤드레스트 조절이 쉬워요",
             "value": "headrest_stability_and_adjustability",
             "mentionCount": 2,
             "sentiment": "negative",
@@ -1547,7 +1489,7 @@
           },
           {
             "label": "ISOFIX 설치 안정감",
-            "displayLabel": "ISOFIX 설치 안정감",
+            "displayLabel": "ISOFIX 설치 안정적",
             "value": "isofix_installation_stability",
             "mentionCount": 2,
             "sentiment": "positive",
@@ -1570,13 +1512,13 @@
       {
         "id": "diaper_review_priorities",
         "type": "review_priorities",
-        "question": "기저귀 선택 시 가장 중요한 점은?",
+        "question": "기저귀 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "흡수력 , 흡수 속도",
-            "displayLabel": "흡수력 , 흡수 속도",
+            "displayLabel": "흡수력 좋음",
             "value": "absorbency_speed_and_capacity",
             "mentionCount": 18,
             "sentiment": "positive",
@@ -1592,7 +1534,7 @@
           },
           {
             "label": "통기성",
-            "displayLabel": "통기성",
+            "displayLabel": "통기성 좋음",
             "value": "breathability",
             "mentionCount": 15,
             "sentiment": "positive",
@@ -1608,7 +1550,7 @@
           },
           {
             "label": "기저귀 재질의 부드러움",
-            "displayLabel": "기저귀 재질의 부드러움",
+            "displayLabel": "재질이 부드러워요",
             "value": "softness",
             "mentionCount": 12,
             "sentiment": "positive",
@@ -1623,8 +1565,8 @@
             ]
           },
           {
-            "label": "사이즈 , 착용감",
-            "displayLabel": "사이즈 , 착용감",
+            "label": "사이즈가 딱 맞아요",
+            "displayLabel": "사이즈/착용감 좋음",
             "value": "sizing_and_fit",
             "mentionCount": 10,
             "sentiment": "neutral",
@@ -1639,8 +1581,8 @@
             ]
           },
           {
-            "label": "재질 내구성",
-            "displayLabel": "재질 내구성",
+            "label": "재질이 튼튼해요",
+            "displayLabel": "재질 튼튼함",
             "value": "material_quality_and_durability",
             "mentionCount": 5,
             "sentiment": "negative",
@@ -1654,8 +1596,8 @@
             ]
           },
           {
-            "label": "화학 냄새 유무",
-            "displayLabel": "화학 냄새 유무",
+            "label": "화학 냄새가 없어요",
+            "displayLabel": "무화학 냄새",
             "value": "chemical_odor",
             "mentionCount": 3,
             "sentiment": "negative",
@@ -1677,13 +1619,13 @@
       {
         "id": "high_chair_review_priorities",
         "type": "review_priorities",
-        "question": "하이체어 선택 시 가장 중요한 점은?",
+        "question": "하이체어 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "안정성과 넘어짐 방지",
-            "displayLabel": "안정성과 넘어짐 방지",
+            "displayLabel": "안정성 높음",
             "value": "stability_and_anti_tipping",
             "mentionCount": 15,
             "sentiment": "positive",
@@ -1699,7 +1641,7 @@
           },
           {
             "label": "세척 , 관리 용이성",
-            "displayLabel": "세척 , 관리 용이성",
+            "displayLabel": "세척/관리가 쉬워요",
             "value": "ease_of_cleaning",
             "mentionCount": 10,
             "sentiment": "positive",
@@ -1714,8 +1656,8 @@
             ]
           },
           {
-            "label": "배송 중 파손 , 상품 상태",
-            "displayLabel": "배송 중 파손 , 상품 상태",
+            "label": "배송 상태가 좋아요",
+            "displayLabel": "배송 상태 양호",
             "value": "product_condition_upon_arrival",
             "mentionCount": 9,
             "sentiment": "negative",
@@ -1731,7 +1673,7 @@
           },
           {
             "label": "조립 용이성",
-            "displayLabel": "조립 용이성",
+            "displayLabel": "조립이 쉬워요",
             "value": "ease_of_assembly",
             "mentionCount": 7,
             "sentiment": "positive",
@@ -1747,7 +1689,7 @@
           },
           {
             "label": "높이 조절의 정확성과 편리성",
-            "displayLabel": "높이 조절의 정확성과 편리성",
+            "displayLabel": "높이 조절이 쉬워요",
             "value": "accurate_height_adjustment",
             "mentionCount": 5,
             "sentiment": "positive",
@@ -1763,7 +1705,7 @@
           },
           {
             "label": "아이 체형에 맞는 착좌감",
-            "displayLabel": "아이 체형에 맞는 착좌감",
+            "displayLabel": "체형에 딱 맞아요",
             "value": "suitability_for_infants_size",
             "mentionCount": 5,
             "sentiment": "positive",
@@ -1786,13 +1728,13 @@
       {
         "id": "milk_powder_port_review_priorities",
         "type": "review_priorities",
-        "question": "분유포트 선택 시 가장 중요한 점은?",
+        "question": "분유포트 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
             "label": "온도 정확도",
-            "displayLabel": "온도 정확도",
+            "displayLabel": "온도 정확도 높음",
             "value": "temperature_accuracy",
             "mentionCount": 8,
             "sentiment": "negative",
@@ -1808,7 +1750,7 @@
           },
           {
             "label": "세척 용이성",
-            "displayLabel": "세척 용이성",
+            "displayLabel": "세척이 쉬워요",
             "value": "cleaning_easiness",
             "mentionCount": 7,
             "sentiment": "negative",
@@ -1824,7 +1766,7 @@
           },
           {
             "label": "내구성",
-            "displayLabel": "내구성",
+            "displayLabel": "내구성 높음",
             "value": "durability",
             "mentionCount": 6,
             "sentiment": "negative",
@@ -1839,8 +1781,8 @@
             ]
           },
           {
-            "label": "플라스틱 냄새",
-            "displayLabel": "플라스틱 냄새",
+            "label": "플라스틱 냄새가 없어요",
+            "displayLabel": "무플라스틱 냄새",
             "value": "plastic_smell",
             "mentionCount": 2,
             "sentiment": "negative",
@@ -1854,7 +1796,7 @@
           },
           {
             "label": "사용 편의성",
-            "displayLabel": "사용 편의성",
+            "displayLabel": "사용이 편해요",
             "value": "ease_of_use",
             "mentionCount": 5,
             "sentiment": "negative",
@@ -1870,7 +1812,7 @@
           },
           {
             "label": "소음 정도",
-            "displayLabel": "소음 정도",
+            "displayLabel": "저소음",
             "value": "noise_level",
             "mentionCount": 3,
             "sentiment": "negative",
@@ -1892,7 +1834,7 @@
       {
         "id": "stroller_review_priorities",
         "type": "review_priorities",
-        "question": "유모차 선택 시 가장 중요한 점은?",
+        "question": "유모차 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
@@ -1914,7 +1856,7 @@
           },
           {
             "label": "폴딩/언폴딩 편의성",
-            "displayLabel": "폴딩/언폴딩 편의성",
+            "displayLabel": "폴딩이 쉬워요",
             "value": "actual_folding_and_unfolding_ease",
             "mentionCount": 12,
             "sentiment": "negative",
@@ -1930,7 +1872,7 @@
           },
           {
             "label": "시트 각도 , 편안함",
-            "displayLabel": "시트 각도 , 편안함",
+            "displayLabel": "시트 각도 조절 쉬움",
             "value": "actual_seat_angle_and_comfort",
             "mentionCount": 9,
             "sentiment": "negative",
@@ -1946,7 +1888,7 @@
           },
           {
             "label": "재질 내구성 , 마감",
-            "displayLabel": "재질 내구성 , 마감",
+            "displayLabel": "재질 튼튼하고 마감 좋음",
             "value": "durability_of_materials",
             "mentionCount": 8,
             "sentiment": "negative",
@@ -1962,7 +1904,7 @@
           },
           {
             "label": "체감 무게",
-            "displayLabel": "체감 무게",
+            "displayLabel": "가벼워요",
             "value": "actual_weight_vs_perceived_weight",
             "mentionCount": 6,
             "sentiment": "negative",
@@ -1978,7 +1920,7 @@
           },
           {
             "label": "다양한 지형에서의 핸들링",
-            "displayLabel": "다양한 지형에서의 핸들링",
+            "displayLabel": "핸들링이 좋아요",
             "value": "maneuverability_on_various_terrains",
             "mentionCount": 6,
             "sentiment": "negative",
@@ -1996,106 +1938,109 @@
       }
     ]
   },
-  "formula_pot": {
+  "formula": {
     "questions": [
       {
-        "id": "formula_pot_review_priorities",
+        "id": "formula_review_priorities",
         "type": "review_priorities",
-        "question": "분유포트 선택 시 가장 중요한 점은?",
+        "question": "분유 구매 시 가장 중요한 조건을 분석했어요",
         "tip": "실제 구매자 50건의 리뷰를 분석해서 뽑은 핵심 포인트예요",
         "source": "review_analysis",
         "options": [
           {
-            "label": "온도 정확도",
-            "displayLabel": "온도 정확도",
-            "value": "temperature_accuracy",
+            "label": "소화 용이성 , 변 상태",
+            "displayLabel": "소화가 잘 돼요",
+            "value": "digestibility_and_stool_quality",
+            "mentionCount": 25,
+            "sentiment": "negative",
+            "sampleReview": "우리 아가 신생아 졸업한 뒤로 계속 변비였어요.",
+            "filter": {},
+            "reviewKeywords": [
+              "변비",
+              "설사",
+              "녹변",
+              "배앓이",
+              "황금변"
+            ]
+          },
+          {
+            "label": "아기의 맛 선호도",
+            "displayLabel": "아기의 맛 선호도",
+            "value": "taste_preference",
+            "mentionCount": 10,
+            "sentiment": "negative",
+            "sampleReview": "평소에 먹는 분유 랑 다른 제품이라서 적응 기간이 따로 필요한지 혹시나 안 먹으면 어쩌나 걱정을 했는데요.",
+            "filter": {},
+            "reviewKeywords": [
+              "잘 먹는다",
+              "안 먹는다",
+              "거부",
+              "밍밍",
+              "달달"
+            ]
+          },
+          {
+            "label": "유통기한이 넉넉해요",
+            "displayLabel": "유통기한 넉넉함",
+            "value": "expiration_date",
             "mentionCount": 8,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "9월 20일쯤인가 1만 9천 얼마에 할인하길래 집에 3박스 친정에 3박스 주문했는데요.유통기한 11월 10일까지인 상품으로 6박스 받았어요.",
             "filter": {},
             "reviewKeywords": [
-              "온도",
-              "40도",
-              "뜨거움",
-              "편차",
-              "미지근"
+              "유통기한",
+              "기한",
+              "임박",
+              "할인",
+              "짧다"
             ]
           },
           {
-            "label": "세척 용이성",
-            "displayLabel": "세척 용이성",
-            "value": "cleaning_easiness",
+            "label": "배송 상태가 좋아요",
+            "displayLabel": "배송 상태 양호",
+            "value": "package_condition_upon_arrival",
+            "mentionCount": 15,
+            "sentiment": "negative",
+            "sampleReview": "리뷰에 깡통이 찌그러져서 왔다는 글을 보고 싼맛에 마음 비우고 기다렸는데 깨끗하게 잘 배송되서 왔어요^^",
+            "filter": {},
+            "reviewKeywords": [
+              "찌그러짐",
+              "파손",
+              "배송",
+              "포장",
+              "불량"
+            ]
+          },
+          {
+            "label": "분유 용해 용이성",
+            "displayLabel": "분유가 잘 녹아요",
+            "value": "ease_of_dissolving",
             "mentionCount": 7,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "산양 작은 사이즈로 먹여보니 물에 잘 녹고 아가도 잘 먹고 해서 산양으로 당분간 먹여보려고요.",
             "filter": {},
             "reviewKeywords": [
-              "세척",
-              "분리",
-              "내부",
-              "물때",
-              "뚜껑"
+              "잘 녹는다",
+              "안 녹는다",
+              "덩어리",
+              "찌꺼기",
+              "섞이다"
             ]
           },
           {
-            "label": "내구성",
-            "displayLabel": "내구성",
-            "value": "durability",
+            "label": "판매자 응대가 친절해요",
+            "displayLabel": "판매자 응대 친절",
+            "value": "customer_service_and_return_policy",
             "mentionCount": 6,
             "sentiment": "negative",
-            "sampleReview": "",
+            "sampleReview": "**별 한개도 아깝고,판매자 대처가 너무 최악입니다!!!!",
             "filter": {},
             "reviewKeywords": [
-              "고장",
-              "녹",
-              "버튼",
-              "수명",
-              "견고"
-            ]
-          },
-          {
-            "label": "플라스틱 냄새",
-            "displayLabel": "플라스틱 냄새",
-            "value": "plastic_smell",
-            "mentionCount": 2,
-            "sentiment": "negative",
-            "sampleReview": "",
-            "filter": {},
-            "reviewKeywords": [
-              "플라스틱",
-              "냄새",
-              "끓여내도"
-            ]
-          },
-          {
-            "label": "사용 편의성",
-            "displayLabel": "사용 편의성",
-            "value": "ease_of_use",
-            "mentionCount": 5,
-            "sentiment": "negative",
-            "sampleReview": "",
-            "filter": {},
-            "reviewKeywords": [
-              "버튼",
-              "조작",
-              "설정",
-              "터치",
-              "다이얼"
-            ]
-          },
-          {
-            "label": "소음 정도",
-            "displayLabel": "소음 정도",
-            "value": "noise_level",
-            "mentionCount": 3,
-            "sentiment": "negative",
-            "sampleReview": "",
-            "filter": {},
-            "reviewKeywords": [
-              "소음",
-              "조용",
-              "시끄럽고",
-              "자글자글"
+              "판매자",
+              "응대",
+              "반품",
+              "교환",
+              "고객센터"
             ]
           }
         ]

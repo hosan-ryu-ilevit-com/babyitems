@@ -53,7 +53,13 @@ export type LogEventType =
   // 다시 추천받기 이벤트
   | 'v2_re_recommend_modal_opened' // 다시 추천받기 모달 열기
   | 'v2_re_recommend_same_category' // 같은 카테고리 다시 추천받기
-  | 'v2_re_recommend_different_category'; // 다른 카테고리 추천받기
+  | 'v2_re_recommend_different_category' // 다른 카테고리 추천받기
+  // 새로운 기능 로깅 이벤트
+  | 'ai_helper_clicked' // "뭘 골라야 할지 모르겠어요" 버튼 클릭
+  | 'example_question_clicked' // AI 헬퍼 바텀시트 예시 질문 클릭
+  | 'example_question_applied' // 예시 질문 선택 후 적용
+  | 'review_tab_opened' // 제품 리뷰 탭 열기
+  | 'criteria_detail_viewed'; // 체감속성/구매 기준 상세 보기
 
 export interface LogEvent {
   sessionId: string;
@@ -245,6 +251,18 @@ export interface LogEvent {
       totalCandidates: number;
       budgetFiltered?: number;
       processingTimeMs?: number;
+      // 하이라이트된 리뷰 (어드민 추천 리포트용)
+      highlightedReviews?: Array<{
+        pcode: string;
+        productTitle: string;
+        rank: number;
+        reviews: Array<{
+          criteriaId: string;
+          criteriaName: string;
+          originalText: string;
+          excerpt: string;
+        }>;
+      }>;
     };
     // 상품 모달 관련
     productModal?: {
@@ -295,6 +313,44 @@ export interface LogEvent {
       fromCategoryName?: string;
     };
   };
+  // 새로운 기능 로깅 데이터 필드
+  aiHelperData?: {
+    questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget';
+    questionId: string;
+    questionText: string;
+    exampleText?: string; // 선택한 예시 질문
+    selectedOptions?: string[]; // 적용 후 선택한 옵션들
+    selectedLabels?: string[]; // 라벨명
+  };
+  reviewData?: {
+    pcode: string;
+    productTitle: string;
+    brand?: string;
+    tabType: 'reviews' | 'insights' | 'real_reviews';
+    criteriaId?: string; // 체감속성 ID
+    criteriaName?: string; // 체감속성명
+    mentionCount?: number; // 언급 횟수
+    rank?: number; // 추천 순위 (1, 2, 3)
+  };
+  purchaseCriteriaData?: {
+    page: 'result' | 'result-v2';
+    criteriaCount: number; // 총 기준 개수
+    isExpanded: boolean; // 펼쳐짐/접힘
+    expandedCriteria?: string[]; // 펼친 기준들
+    criteriaType?: 'priority' | 'reason'; // 우선순위 vs 추천이유
+  };
+  highlightedReviews?: Array<{
+    pcode: string;
+    productTitle: string;
+    rank: number; // 1, 2, 3위
+    reviews: Array<{
+      criteriaId: string; // 예: 'cleaning_frequency'
+      criteriaName: string; // 예: '세척 편리성'
+      originalText: string; // 원본 리뷰
+      excerpt: string; // 하이라이트된 발췌문 (마크다운 볼드 포함)
+      reviewIndex?: number; // citedReviews 배열 인덱스
+    }>;
+  }>;
   metadata?: Record<string, unknown>; // 추가 정보
 }
 

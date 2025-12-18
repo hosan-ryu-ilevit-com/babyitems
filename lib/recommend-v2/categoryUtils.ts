@@ -11,6 +11,7 @@ export const CATEGORY_CODE_MAP: Record<string, string[]> = {
   formula_maker: ['16349381', 'formula_maker'],
   baby_formula_dispenser: ['16349381', 'baby_formula_dispenser'],  // formula_maker와 동일 (에누리 데이터 호환)
   formula_pot: ['16330960'],
+  milk_powder_port: ['16330960'],  // formula_pot과 동일 (분유포트)
   baby_bottle: ['16349219'],
   pacifier: ['16349351'],
   diaper: ['16349108', '16349109', '16356038', '16349110', '16356040', '16356042', 'diaper'],

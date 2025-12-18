@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { flushSync } from 'react-dom';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
@@ -46,6 +47,7 @@ import {
   applyHardFilters,
   calculateBalanceScore,
   calculateNegativeScore,
+  calculateHardFilterScore,
   generateConditionSummary,
 } from '@/lib/recommend-v2/dynamicQuestions';
 
@@ -647,21 +649,8 @@ export default function RecommendV2Page() {
     // [SKIP GUIDE CARDS] 가이드 카드 단계 스킵 - 바로 첫 질문으로 이동
     if (hardFilterConfig) {
       setTimeout(() => {
-        // 세부 카테고리 선택이 필요한 경우
-        if (requiresSubCategory && subCategoryConfig) {
-          setShowSubCategorySelector(true);
-          addMessage({
-            role: 'system',
-            content: '',
-            componentType: 'sub-category' as ComponentType,
-            componentData: {
-              categoryName: subCategoryConfig.category_name,
-              subCategories: subCategoryConfig.sub_categories,
-            },
-          });
-          // 스크롤 제거 - 첫 화면이므로 스크롤 불필요
-        } else if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
-          // 하드 필터 질문 바로 시작
+        // 하드 필터 질문 바로 시작 (하위 카테고리는 첫 번째 질문 후 표시)
+        if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
           setCurrentStep(1);
           addMessage({
             role: 'system',
@@ -766,6 +755,16 @@ export default function RecommendV2Page() {
     const codes = selectedSubCategoryCodes;
     setShowSubCategorySelector(false);
 
+    // 하위 카테고리 선택이 첫 번째 하드 필터 질문 후에 나타난 경우
+    // currentHardFilterIndex는 0에서 유지되어 있으므로 다음 질문(index 1)으로 진행
+    const shouldContinueHardFilters = hardFilterConfig?.questions && currentHardFilterIndex === 0;
+
+    console.log('🔍 [handleSubCategoryConfirm] Check:', {
+      hasHardFilterConfig: !!hardFilterConfig?.questions,
+      currentHardFilterIndex,
+      shouldContinueHardFilters
+    });
+
     // Find the selected sub-category names for logging
     const selectedSubs = codes.map(code =>
       subCategoryConfig?.sub_categories.find(s => s.code === code)
@@ -858,8 +857,31 @@ export default function RecommendV2Page() {
     // Auto-proceed to hard filters after sub-category selection
     const questions = loadedHardFilterConfig?.questions || [];
 
-    if (questions.length > 0) {
-      // Hard filter questions exist - show them
+    if (shouldContinueHardFilters && questions.length > 1) {
+      // 첫 번째 질문(review_priorities)을 이미 완료했으므로 두 번째 질문(index 1)으로 진행
+      setTimeout(() => {
+        // Use flushSync to ensure state updates complete before adding the next message
+        flushSync(() => {
+          setCurrentHardFilterIndex(1);
+          setCurrentStep(1);
+        });
+
+        const msgId = addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'hard-filter',
+          componentData: {
+            question: questions[1],
+            currentIndex: 1,
+            totalCount: questions.length,
+            selectedValues: [],
+          },
+        });
+        scrollToMessage(msgId);
+        setIsTransitioning(false);
+      }, 300);
+    } else if (questions.length > 0 && !shouldContinueHardFilters) {
+      // 가이드 카드 직후 하위 카테고리 선택한 경우 - 첫 번째 질문부터 시작
       setTimeout(() => {
         setCurrentStep(1);
 
@@ -893,7 +915,7 @@ export default function RecommendV2Page() {
         setIsTransitioning(false);
       }, 300);
     }
-  }, [selectedSubCategoryCodes, isTransitioning, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage]);
+  }, [selectedSubCategoryCodes, isTransitioning, categoryKey, categoryName, subCategoryConfig, addMessage, scrollToMessage, currentHardFilterIndex, hardFilterConfig?.questions]);
 
   // ===================================================
   // Step 1: Hard Filter Selection (다중 선택 지원)
@@ -1170,6 +1192,37 @@ export default function RecommendV2Page() {
       );
     }
 
+    // 첫 번째 질문(review_priorities) 완료 후 하위 카테고리 선택 필요한지 확인
+    const isFirstQuestion = currentHardFilterIndex === 0;
+    const needsSubCategoryNow = isFirstQuestion && requiresSubCategory && subCategoryConfig && selectedSubCategoryCodes.length === 0;
+
+    console.log('🔍 [handleHardFilterAnswer] Sub-category check:', {
+      isFirstQuestion,
+      requiresSubCategory,
+      hasSubCategoryConfig: !!subCategoryConfig,
+      selectedSubCategoryCodes: selectedSubCategoryCodes.length,
+      needsSubCategoryNow
+    });
+
+    if (needsSubCategoryNow) {
+      // 첫 번째 질문 완료 후 하위 카테고리 선택 표시 (currentHardFilterIndex는 유지)
+      setShowSubCategorySelector(true);
+      setTimeout(() => {
+        const msgId = addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'sub-category',
+          componentData: {
+            categoryName: subCategoryConfig.category_name,
+            subCategories: subCategoryConfig.sub_categories,
+          },
+        });
+        scrollToMessage(msgId);
+        setIsTransitioning(false);
+      }, 300);
+      return;
+    }
+
     const nextIndex = currentHardFilterIndex + 1;
 
     if (nextIndex < questions.length) {
@@ -1196,7 +1249,7 @@ export default function RecommendV2Page() {
       handleHardFiltersComplete(hardFilterAnswers);
       setIsTransitioning(false);
     }
-  }, [isTransitioning, hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, hardFilterLabels, categoryKey, categoryName, addMessage, scrollToMessage, handleHardFiltersComplete]);
+  }, [isTransitioning, hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, hardFilterLabels, categoryKey, categoryName, addMessage, scrollToMessage, handleHardFiltersComplete, requiresSubCategory, subCategoryConfig, selectedSubCategoryCodes]);
 
   // ===================================================
   // Step 2 → Step 3: Start Balance Game
@@ -1491,12 +1544,21 @@ export default function RecommendV2Page() {
 
       // 1단계: 기존 점수 계산 (후보 선정용)
       const scored: ScoredProduct[] = filteredProducts.map(product => {
+        // 하드필터 점수 계산 (체감속성 + 일반 하드필터)
+        const { score: hardFilterScore, matchedRules: hardFilterMatches } = calculateHardFilterScore(
+          product,
+          hardFilterAnswers,
+          hardFilterConfig
+        );
+
+        // 밸런스 게임 점수 계산
         const { score: baseScore, matchedRules } = calculateBalanceScore(
           product,
           balanceSelections,
           logicMap
         );
 
+        // 단점 필터 점수 계산
         const negativeScore = calculateNegativeScore(
           product,
           negativeSelections,
@@ -1508,8 +1570,8 @@ export default function RecommendV2Page() {
           ...product,
           baseScore,
           negativeScore,
-          totalScore: baseScore + negativeScore,
-          matchedRules,
+          totalScore: hardFilterScore + baseScore + negativeScore,
+          matchedRules: [...hardFilterMatches, ...matchedRules],
         };
       });
 
@@ -1711,6 +1773,84 @@ export default function RecommendV2Page() {
         budgetFiltered.length
       );
 
+      // 🆕 하이라이트 리뷰 생성 (비동기, 사용자 대기 없이)
+      (async () => {
+        try {
+          const highlightedReviews = await Promise.all(
+            top3.map(async (product: ScoredProduct, index: number) => {
+              // citedReviews가 없으면 스킵
+              if (!product.citedReviews || product.citedReviews.length === 0) {
+                return null;
+              }
+
+              // selectedTagsEvaluation에서 체감속성별로 리뷰 추출 (최대 5개)
+              const reviewsForHighlight = product.selectedTagsEvaluation
+                ?.filter(tag => tag.citations && tag.citations.length > 0)
+                .slice(0, 5) // 최대 5개 속성
+                .map(tag => {
+                  const citationIdx = tag.citations[0]; // 첫 번째 인용 리뷰
+                  const citedReview = product.citedReviews?.[citationIdx];
+                  return citedReview ? {
+                    reviewText: citedReview.text,
+                    criteriaName: tag.userTag,
+                    criteriaId: tag.userTag, // userTag를 ID로 사용
+                  } : null;
+                })
+                .filter(Boolean) as Array<{
+                  reviewText: string;
+                  criteriaName: string;
+                  criteriaId: string;
+                }>;
+
+              if (reviewsForHighlight.length === 0) return null;
+
+              // Highlight API 호출
+              const response = await fetch('/api/v2/highlight-review', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reviews: reviewsForHighlight }),
+              });
+
+              if (!response.ok) return null;
+
+              const result = await response.json();
+              if (!result.success || !result.data) return null;
+
+              return {
+                pcode: product.pcode,
+                productTitle: product.title,
+                rank: index + 1,
+                reviews: result.data.map((item: { criteriaId: string; originalText: string; excerpt: string }) => ({
+                  criteriaId: item.criteriaId,
+                  criteriaName: item.criteriaId, // criteriaName과 동일
+                  originalText: item.originalText,
+                  excerpt: item.excerpt,
+                })),
+              };
+            })
+          );
+
+          // null 제거
+          const validHighlights = highlightedReviews.filter((h): h is NonNullable<typeof h> => h !== null);
+
+          if (validHighlights.length > 0) {
+            // highlightedReviews만 포함한 추가 로깅
+            logV2RecommendationReceived(
+              categoryKey,
+              categoryName,
+              [], // 제품 목록은 이미 로깅됨
+              undefined,
+              0,
+              undefined,
+              validHighlights
+            );
+            console.log('✅ [Highlight Reviews] Logged successfully:', validHighlights.length, 'products');
+          }
+        } catch (error) {
+          console.error('[Highlight Reviews] Failed to generate:', error);
+        }
+      })();
+
       // 결과 메시지 추가 + 스크롤 (맞춤 추천 완료 헤더 아래로)
       const resultMsgId = addMessage({
         role: 'system',
@@ -1781,24 +1921,8 @@ export default function RecommendV2Page() {
                   if (isTransitioning) return;
                   setIsTransitioning(true);
 
-                  // 가이드 카드 완료 후 다음 단계로 진행 (스크롤 + 다음 스텝 표시)
-                  if (requiresSubCategory && subCategoryConfig && selectedSubCategoryCodes.length === 0) {
-                    // 세부 카테고리 선택이 필요한 경우
-                    setShowSubCategorySelector(true);
-                    const msgId = addMessage({
-                      role: 'system',
-                      content: '',
-                      componentType: 'sub-category' as ComponentType,
-                      componentData: {
-                        categoryName: subCategoryConfig.category_name,
-                        subCategories: subCategoryConfig.sub_categories,
-                      },
-                    });
-                    setTimeout(() => {
-                      scrollToMessage(msgId);
-                      setIsTransitioning(false);
-                    }, 100);
-                  } else if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
+                  // 가이드 카드 완료 후 하드 필터 질문으로 진행 (하위 카테고리는 첫 번째 질문 후 표시)
+                  if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
                     // 하드 필터 질문 시작
                     setCurrentStep(1);
                     const msgId = addMessage({
@@ -1834,7 +1958,7 @@ export default function RecommendV2Page() {
               key={message.id}
               data-message-id={message.id}
               className={`transition-all duration-300 ${
-                currentStep > 0 ? 'opacity-50 pointer-events-none' : ''
+                currentStep > 1 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
               <SubCategorySelector
@@ -1870,6 +1994,11 @@ export default function RecommendV2Page() {
                 showAIHelper={true}
                 category={categoryKey}
                 categoryName={categoryName}
+                thumbnailProducts={products.slice(0, 5).map(p => ({
+                  id: p.pcode,
+                  title: p.title,
+                  thumbnail: p.thumbnail || undefined
+                }))}
               />
             </div>
           );
@@ -2007,6 +2136,18 @@ export default function RecommendV2Page() {
                   negativeLabels: negativeLabels,
                   hardFilterLabels: hardFilterLabels,
                   hardFilterDefinitions: hardFilterDefinitions,
+                  hardFilterConfig: hardFilterConfig?.questions ? {
+                    questions: hardFilterConfig.questions.map(q => ({
+                      id: q.id,
+                      type: q.type,
+                      question: q.question,
+                      options: q.options.map(opt => ({
+                        ...opt,
+                        id: opt.value,
+                        text: opt.displayLabel || opt.label,
+                      })),
+                    }))
+                  } : undefined, // 질문 타입 정보 포함
                 }}
                 onModalOpenChange={setIsProductModalOpen}
                 onViewFavorites={() => setShowFavoritesModal(true)}

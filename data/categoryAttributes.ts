@@ -993,5 +993,6 @@ export const CATEGORY_ATTRIBUTES: Record<Category, CategoryAttribute[]> = {
         "메쉬 커버"
       ]
     }
-  ]
+  ],
+  "formula": []
 } as const;

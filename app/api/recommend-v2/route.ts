@@ -21,6 +21,7 @@ import {
 import { CATEGORY_ATTRIBUTES } from '@/data/categoryAttributes';
 import { generateContextSummaryFromTags } from '@/lib/utils/generateContextSummaryFromTags';
 import type { BudgetRange, UserContextSummary } from '@/types';
+import type { UserContext } from '@/types/recommend-v2';
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) throw new Error('GEMINI_API_KEY is required');
@@ -40,6 +41,7 @@ interface RecommendRequest {
   selectedProsTags: Tag[]; // Full tag objects with attributes
   selectedConsTags: Tag[]; // Full tag objects with attributes
   budget: string; // "0-50000", "50000-100000", etc.
+  userContext?: UserContext; // 전체 사용자 컨텍스트 (자연어 입력, 밸런스게임, 단점 태그 등)
 }
 
 interface SelectedTagEvaluation {
@@ -85,7 +87,8 @@ async function evaluateProduct(
   anchorProduct: ProductSpec,
   category: Category,
   prosTexts: string[],
-  consTexts: string[]
+  consTexts: string[],
+  userContext?: UserContext  // 전체 사용자 컨텍스트
 ): Promise<ProductEvaluation> {
   try {
     // Get reviews for this product
@@ -181,6 +184,35 @@ async function evaluateProduct(
         ? consTexts.map((t, i) => `${i + 1}. ${t}`).join('\n')
         : '(없음)';
 
+    // 사용자 컨텍스트 정보 생성
+    let userContextSection = '';
+
+    if (userContext) {
+      // 자연어 입력 정보
+      if (userContext.naturalLanguageInputs && userContext.naturalLanguageInputs.length > 0) {
+        const nlInputs = userContext.naturalLanguageInputs
+          .map((input, i) => `${i + 1}. [${input.stage}] "${input.input}"`)
+          .join('\n');
+        userContextSection += `\n**사용자가 직접 말씀하신 상황:**\n${nlInputs}\n`;
+      }
+
+      // 밸런스 게임 선택 정보
+      if (userContext.balanceGameChoices && userContext.balanceGameChoices.length > 0) {
+        const balanceChoices = userContext.balanceGameChoices
+          .map((choice, i) => `${i + 1}. ${choice.description}`)
+          .join('\n');
+        userContextSection += `\n**사용자가 중요하게 생각하는 우선순위:**\n${balanceChoices}\n`;
+      }
+
+      // 단점 회피 태그
+      if (userContext.negativeTagAvoidances && userContext.negativeTagAvoidances.length > 0) {
+        const avoidances = userContext.negativeTagAvoidances
+          .map((tag, i) => `${i + 1}. ${tag}`)
+          .join('\n');
+        userContextSection += `\n**사용자가 특히 피하고 싶은 문제:**\n${avoidances}\n`;
+      }
+    }
+
     const query = `다음 제품이 사용자의 요구사항을 얼마나 잘 충족하는지 평가해주세요.
 
 **사용자가 선택하신 기준 제품:**
@@ -202,7 +234,7 @@ ${specsEntries || '(스펙 정보 없음)'}
 
 **제품 속성 점수 (0-100점, 실제 리뷰 기반 평가):**
 ${attributeScoresSection}
-
+${userContextSection}
 **사용자가 원하는 장점 (우선순위순 - 위에 있을수록 중요):**
 ${prosRequirements}
 
@@ -375,7 +407,7 @@ ${formatReviewsForLLM(low, 40000)}
 - 반드시 JSON 형식만 출력`;
 
     const result = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-lite',
+      model: 'gemini-flash-lite-latest',
       contents: query,
       config: {
         temperature: 0.3,
@@ -465,7 +497,8 @@ export async function generateRecommendations(
   anchorId: string,
   selectedProsTags: Tag[],
   selectedConsTags: Tag[],
-  budget: string
+  budget: string,
+  userContext?: UserContext  // 전체 사용자 컨텍스트
 ) {
   console.log(`🎯 Recommendation request:`);
   console.log(`   Category: ${category}`);
@@ -588,7 +621,7 @@ export async function generateRecommendations(
       const batchEvaluations = await Promise.all(
         batch.map(async (product) => {
           const evalStart = Date.now();
-          const result = await evaluateProduct(product, anchorProduct, category, prosTexts, consTexts);
+          const result = await evaluateProduct(product, anchorProduct, category, prosTexts, consTexts, userContext);
           const evalTime = Date.now() - evalStart;
           individualEvalTimes.push(evalTime);
           console.log(`      ⏱️  ${product.브랜드} ${product.모델명}: ${evalTime}ms`);
@@ -719,7 +752,7 @@ export async function generateRecommendations(
 export async function POST(req: NextRequest) {
   try {
     const body: RecommendRequest = await req.json();
-    const { category, anchorId, selectedProsTags, selectedConsTags, budget } = body;
+    const { category, anchorId, selectedProsTags, selectedConsTags, budget, userContext } = body;
 
     if (!category || !anchorId || !selectedProsTags || !budget) {
       return NextResponse.json(
@@ -733,7 +766,8 @@ export async function POST(req: NextRequest) {
       anchorId,
       selectedProsTags,
       selectedConsTags,
-      budget
+      budget,
+      userContext
     );
 
     return NextResponse.json(result);

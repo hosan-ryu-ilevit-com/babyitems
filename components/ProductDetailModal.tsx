@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import DanawaReviewTab from '@/components/DanawaReviewTab';
-import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick } from '@/lib/logging/clientLogger';
+import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick, logReviewTabOpened } from '@/lib/logging/clientLogger';
 import { TextWithCitations } from '@/components/ReviewCitationButton';
 import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
@@ -49,17 +49,16 @@ interface ProductDetailModalProps {
     purchaseTip?: Array<{ text: string; citations?: number[] }>;
     citedReviews: Array<{ index: number; text: string; rating: number }>;
   };
-  productComparisons?: Array<{ text: string }>; // NEW: 다른 추천 제품들과의 비교
   category: string;
   danawaData?: {
     lowestPrice: number;
     lowestMall: string;
     productName: string;
     prices: Array<{ mall: string; price: number; delivery: string; link?: string; mallLogo?: string }>;
-  }; // NEW: Danawa/Enuri price data from Result page
+  };
   onClose: () => void;
-  onReRecommend?: (productId: string, userInput: string) => Promise<void>; // NEW: Callback for re-recommendation
-  isAnalysisLoading?: boolean; // NEW: 백그라운드 분석 로딩 상태
+  onReRecommend?: (productId: string, userInput: string) => Promise<void>;
+  isAnalysisLoading?: boolean;
   // V2 조건 충족도 평가 (recommend-v2 플로우용)
   selectedConditionsEvaluation?: V2ConditionEvaluation[];
   // 초기 평균 별점 (PLP에서 전달받음)
@@ -70,6 +69,9 @@ interface ProductDetailModalProps {
   onVariantSelect?: (variant: ProductVariant) => void;
   // 옵션별 다나와 최저가 (pcode -> lowest_price)
   variantDanawaData?: Record<string, number>;
+  // AI 실시간 장단점 분석 관련
+  onRealReviewsClick?: () => void;
+  isRealReviewsLoading?: boolean;
 }
 
 // 쇼핑몰 이름 → 로고 파일 매핑
@@ -130,66 +132,62 @@ function parseMarkdownBold(text: string) {
   });
 }
 
-// 원형 프로그레스 바 컴포넌트
-function CircularProgress({ score, total, color, size = 40 }: { score: number; total: number; color: 'green' | 'blue' | 'rose'; size?: number }) {
-  const percentage = total > 0 ? (score / total) * 100 : 0;
-  const radius = (size - 6) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+// 원형 프로그레스 바 컴포넌트 (주석처리 - 사용 안 함)
+// function CircularProgress({ score, total, color, size = 40 }: { score: number; total: number; color: 'green' | 'blue' | 'rose'; size?: number }) {
+//   const percentage = total > 0 ? (score / total) * 100 : 0;
+//   const radius = (size - 6) / 2;
+//   const circumference = 2 * Math.PI * radius;
+//   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
-  const colorClasses = {
-    green: { bg: 'text-green-100', fg: 'text-green-500', text: 'text-green-700' },
-    blue: { bg: 'text-blue-100', fg: 'text-blue-500', text: 'text-blue-700' },
-    rose: { bg: 'text-rose-100', fg: 'text-rose-500', text: 'text-rose-700' },
-  };
+//   const colorClasses = {
+//     green: { bg: 'text-green-100', fg: 'text-green-500', text: 'text-green-700' },
+//     blue: { bg: 'text-blue-100', fg: 'text-blue-500', text: 'text-blue-700' },
+//     rose: { bg: 'text-rose-100', fg: 'text-rose-500', text: 'text-rose-700' },
+//   };
 
-  return (
-    <div className="relative" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="transform -rotate-90">
-        {/* Background circle */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="4"
-          className={colorClasses[color].bg}
-        />
-        {/* Progress circle */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          className={`${colorClasses[color].fg} transition-all duration-500`}
-        />
-      </svg>
-      {/* Score text */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className={`text-[9px] font-bold leading-none ${colorClasses[color].text}`}>
-          {score % 1 === 0 ? Math.round(score) : score.toFixed(1)}/{Math.round(total)}
-        </span>
-      </div>
-    </div>
-  );
-}
+//   return (
+//     <div className="relative" style={{ width: size, height: size }}>
+//       <svg width={size} height={size} className="transform -rotate-90">
+//         {/* Background circle */}
+//         <circle
+//           cx={size / 2}
+//           cy={size / 2}
+//           r={radius}
+//           fill="none"
+//           stroke="currentColor"
+//           strokeWidth="4"
+//           className={colorClasses[color].bg}
+//         />
+//         {/* Progress circle */}
+//         <circle
+//           cx={size / 2}
+//           cy={size / 2}
+//           r={radius}
+//           fill="none"
+//           stroke="currentColor"
+//           strokeWidth="4"
+//           strokeLinecap="round"
+//           strokeDasharray={circumference}
+//           strokeDashoffset={strokeDashoffset}
+//           className={`${colorClasses[color].fg} transition-all duration-500`}
+//         />
+//       </svg>
+//       {/* Score text */}
+//       <div className="absolute inset-0 flex items-center justify-center">
+//         <span className={`text-[9px] font-bold leading-none ${colorClasses[color].text}`}>
+//           {score % 1 === 0 ? Math.round(score) : score.toFixed(1)}/{Math.round(total)}
+//         </span>
+//       </div>
+//     </div>
+//   );
+// }
 
-export default function ProductDetailModal({ productData, productComparisons, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData }: ProductDetailModalProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false }: ProductDetailModalProps) {
   const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>('price');
   const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
 
-  // 섹션 접기/펼치기 상태
-  const [isAdditionalProsOpen, setIsAdditionalProsOpen] = useState(false);
-  const [isConsOpen, setIsConsOpen] = useState(false);
-  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
-  const [isPurchaseTipOpen, setIsPurchaseTipOpen] = useState(false);
 
   // NEW: Chat input for re-recommendation
   const [showChatInput, setShowChatInput] = useState(false);
@@ -384,7 +382,19 @@ export default function ProductDetailModal({ productData, productComparisons, da
             <button
               onClick={() => {
                 setPriceTab('danawa_reviews');
+                // 기존 로깅 유지
                 logButtonClick('상품 리뷰 탭', 'product-modal');
+                // 상세 로깅 추가
+                logReviewTabOpened(
+                  productData.product.id,
+                  productData.product.title,
+                  'reviews',
+                  category,
+                  category, // categoryName으로 category 사용
+                  productData.product.brand,
+                  productData.rank,
+                  'product-modal'
+                );
               }}
               className={`flex-1 py-3 text-sm font-semibold transition-colors ${
                 priceTab === 'danawa_reviews'
@@ -591,18 +601,18 @@ export default function ProductDetailModal({ productData, productComparisons, da
                   const consTags = productData.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
 
                   // 점수 계산: 충족=1.0, 부분충족=0.5, 불충족=0.0
-                  const prosScore = prosTags.reduce((sum, tag) => {
-                    if (tag.status === '충족') return sum + 1.0;
-                    if (tag.status === '부분충족') return sum + 0.5;
-                    return sum;
-                  }, 0);
+                  // const prosScore = prosTags.reduce((sum, tag) => {
+                  //   if (tag.status === '충족') return sum + 1.0;
+                  //   if (tag.status === '부분충족') return sum + 0.5;
+                  //   return sum;
+                  // }, 0);
 
                   // 점수 계산: 회피됨=1.0, 부분회피=0.5, 회피안됨=0.0
-                  const consScore = consTags.reduce((sum, tag) => {
-                    if (tag.status === '회피됨') return sum + 1.0;
-                    if (tag.status === '부분회피') return sum + 0.5;
-                    return sum;
-                  }, 0);
+                  // const consScore = consTags.reduce((sum, tag) => {
+                  //   if (tag.status === '회피됨') return sum + 1.0;
+                  //   if (tag.status === '부분회피') return sum + 0.5;
+                  //   return sum;
+                  // }, 0);
 
                   return (
                     <div>
@@ -613,9 +623,9 @@ export default function ProductDetailModal({ productData, productComparisons, da
                           <div className="bg-gray-50 rounded-xl p-4">
                             <div className="flex items-center justify-between mb-4">
                               <h4 className="text-base font-bold text-green-900 leading-tight">
-                                원하는<br />장점
+                                원하는 장점
                               </h4>
-                              <CircularProgress score={prosScore} total={prosTags.length} color="green" />
+                              {/* <CircularProgress score={prosScore} total={prosTags.length} color="green" /> */}
                             </div>
                             <div className="space-y-3">
                               {prosTags.map((tagEval, i) => {
@@ -668,9 +678,9 @@ export default function ProductDetailModal({ productData, productComparisons, da
                           <div className="bg-gray-50 rounded-xl p-4">
                             <div className="flex items-center justify-between mb-4">
                               <h4 className="text-base font-bold text-blue-900 leading-tight">
-                                원하는<br />개선점
+                                원하는 개선점
                               </h4>
-                              <CircularProgress score={consScore} total={consTags.length} color="blue" />
+                              {/* <CircularProgress score={consScore} total={consTags.length} color="blue" /> */}
                             </div>
                             <div className="space-y-3">
                               {consTags.map((tagEval, i) => {
@@ -792,19 +802,19 @@ export default function ProductDetailModal({ productData, productComparisons, da
                   })();
 
                   // 점수 계산
-                  const hardFilterScore = hardFilterConditions.filter(c => c.status === '충족').length;
+                  // const hardFilterScore = hardFilterConditions.filter(c => c.status === '충족').length;
 
-                  const balanceScore = balanceConditions.reduce((sum, c) => {
-                    if (c.status === '충족') return sum + 1.0;
-                    if (c.status === '부분충족') return sum + 0.5;
-                    return sum;
-                  }, 0);
+                  // const balanceScore = balanceConditions.reduce((sum, c) => {
+                  //   if (c.status === '충족') return sum + 1.0;
+                  //   if (c.status === '부분충족') return sum + 0.5;
+                  //   return sum;
+                  // }, 0);
 
-                  const negativeScore = negativeConditions.reduce((sum, c) => {
-                    if (c.status === '회피됨') return sum + 1.0;
-                    if (c.status === '부분회피') return sum + 0.5;
-                    return sum;
-                  }, 0);
+                  // const negativeScore = negativeConditions.reduce((sum, c) => {
+                  //   if (c.status === '회피됨') return sum + 1.0;
+                  //   if (c.status === '부분회피') return sum + 0.5;
+                  //   return sum;
+                  // }, 0);
 
                   return (
                     <div className="space-y-4">
@@ -812,10 +822,15 @@ export default function ProductDetailModal({ productData, productComparisons, da
                       {hardFilterConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="text-base font-bold text-black leading-tight">
-                              필수<br />조건
-                            </h4>
-                            <CircularProgress score={hardFilterScore} total={hardFilterConditions.length} color="blue" />
+                            <div className="flex items-center gap-2">
+                              <svg className="w-4 h-4 text-[#4E43E1]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                              </svg>
+                              <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
+                                필수 조건
+                              </h4>
+                            </div>
+                            {/* <CircularProgress score={hardFilterScore} total={hardFilterConditions.length} color="blue" /> */}
                           </div>
                           <div className="border-t border-gray-200 pt-3">
                             <div className="flex flex-wrap gap-2">
@@ -843,10 +858,15 @@ export default function ProductDetailModal({ productData, productComparisons, da
                       {balanceConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="text-base font-bold text-gray-900 leading-tight">
-                              선호<br />속성
-                            </h4>
-                            <CircularProgress score={balanceScore} total={balanceConditions.length} color="green" />
+                            <div className="flex items-center gap-2">
+                              <svg className="w-4 h-4 text-[#4E43E1]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                              </svg>
+                              <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
+                                선호 속성
+                              </h4>
+                            </div>
+                            {/* <CircularProgress score={balanceScore} total={balanceConditions.length} color="green" /> */}
                           </div>
                           <div className="border-t border-gray-200 pt-3">
                             <div className="space-y-4">
@@ -867,15 +887,16 @@ export default function ProductDetailModal({ productData, productComparisons, da
 
                                 return (
                                   <div key={i}>
-                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold inline-block mb-1.5 -ml-0.5 ${badgeColor}`}>
-                                      {badgeText}
-                                    </span>
-                                    <strong className="text-sm font-bold text-gray-900 block mb-1">
-                                      {cond.condition}
-                                    </strong>
-                                    <p className="text-sm text-gray-500 leading-relaxed flex items-start gap-1.5">
-                                      <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-2 shrink-0" />
-                                      <span>{parseMarkdownBold(cond.evidence)}</span>
+                                    <div className="flex items-start justify-between mb-2 gap-2">
+                                      <strong className="text-sm font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
+                                        {cond.condition}
+                                      </strong>
+                                      <span className={`px-2.5 py-1 rounded-md text-sm font-semibold shrink-0 ${badgeColor}`}>
+                                        {badgeText}
+                                      </span>
+                                    </div>
+                                    <p className="text-sm text-gray-500 leading-relaxed">
+                                      {parseMarkdownBold(cond.evidence)}
                                     </p>
                                   </div>
                                 );
@@ -889,10 +910,15 @@ export default function ProductDetailModal({ productData, productComparisons, da
                       {negativeConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="text-base font-bold text-gray-900 leading-tight">
-                              피하고 싶은<br />단점
-                            </h4>
-                            <CircularProgress score={negativeScore} total={negativeConditions.length} color="green" />
+                            <div className="flex items-center gap-2">
+                              <svg className="w-4 h-4 text-[#4E43E1]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                              </svg>
+                              <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
+                                피하고 싶은 단점
+                              </h4>
+                            </div>
+                            {/* <CircularProgress score={negativeScore} total={negativeConditions.length} color="green" /> */}
                           </div>
                           <div className="border-t border-gray-200 pt-3">
                             <div className="space-y-4">
@@ -913,15 +939,16 @@ export default function ProductDetailModal({ productData, productComparisons, da
 
                                 return (
                                   <div key={i}>
-                                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold inline-block mb-1.5 -ml-0.5 ${badgeColor}`}>
-                                      {badgeText}
-                                    </span>
-                                    <strong className="text-sm font-bold text-gray-900 block mb-1">
-                                      {cond.condition}
-                                    </strong>
-                                    <p className="text-sm text-gray-500 leading-relaxed flex items-start gap-1.5">
-                                      <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-2 shrink-0" />
-                                      <span>{parseMarkdownBold(cond.evidence)}</span>
+                                    <div className="flex items-start justify-between mb-2 gap-2">
+                                      <strong className="text-sm font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
+                                        {cond.condition}
+                                      </strong>
+                                      <span className={`px-2.5 py-1 rounded-md text-sm font-semibold shrink-0 ${badgeColor}`}>
+                                        {badgeText}
+                                      </span>
+                                    </div>
+                                    <p className="text-sm text-gray-500 leading-relaxed">
+                                      {parseMarkdownBold(cond.evidence)}
                                     </p>
                                   </div>
                                 );
@@ -934,225 +961,36 @@ export default function ProductDetailModal({ productData, productComparisons, da
                   );
                 })()}
 
-                {/* 추가 장점 - 로딩 중이거나 데이터가 있을 때 표시 */}
-                {(isAnalysisLoading || (productData.additionalPros && productData.additionalPros.length > 0)) && (
-                  <div className="bg-white border border-gray-200 rounded-xl">
+                {/* AI 실시간 장단점 버튼 - 주석처리 */}
+                {/* {onRealReviewsClick && (
+                  <div className="mt-6">
                     <button
-                      onClick={() => !isAnalysisLoading && setIsAdditionalProsOpen(!isAdditionalProsOpen)}
-                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-50 transition-colors rounded-xl"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onRealReviewsClick();
+                      }}
+                      disabled={isRealReviewsLoading}
+                      className="w-full py-3 bg-violet-500 hover:bg-violet-600 text-white rounded-xl font-medium transition-colors duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <div className="flex items-center gap-2">
-                        
-                        <h3 className="text-base font-bold text-[#4E43E1]">추가로 이런 점도 좋아요</h3>
-                        {isAnalysisLoading && (
-                          <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin ml-2"></div>
-                        )}
-                      </div>
-                      {!isAnalysisLoading && (
-                        <svg
-                          className={`w-5 h-5 text-gray-400 transition-transform ${isAdditionalProsOpen ? 'rotate-180' : ''}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
+                      {isRealReviewsLoading ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          실시간 분석 중...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                          실시간 장단점 보기
+                        </>
                       )}
                     </button>
-                    <AnimatePresence>
-                      {isAdditionalProsOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-4 pb-4">
-                            <ul className="space-y-2">
-                              {productData.additionalPros.map((pro, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
-                                  <span className="leading-relaxed">
-                                    <TextWithCitations
-                                      text={pro.text}
-                                      citations={pro.citations}
-                                      citedReviews={productData.citedReviews}
-                                      onCitationClick={() => {}}
-                                    />
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
-                )}
-
-                {/* 주의점 - 로딩 중이거나 데이터가 있을 때 표시 */}
-                {(isAnalysisLoading || (productData.cons && productData.cons.length > 0)) && (
-                  <div className="bg-white border border-gray-200 rounded-xl">
-                    <button
-                      onClick={() => !isAnalysisLoading && setIsConsOpen(!isConsOpen)}
-                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-50 transition-colors rounded-xl"
-                    >
-                      <div className="flex items-center gap-2">
-                       
-                        <h3 className="text-base font-bold text-[#4E43E1]">이런 점은 주의하세요</h3>
-                        {isAnalysisLoading && (
-                          <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin ml-2"></div>
-                        )}
-                      </div>
-                      {!isAnalysisLoading && (
-                        <svg
-                          className={`w-5 h-5 text-gray-400 transition-transform ${isConsOpen ? 'rotate-180' : ''}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      )}
-                    </button>
-                    <AnimatePresence>
-                      {isConsOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-4 pb-4">
-                            <ul className="space-y-2">
-                              {productData.cons.map((con, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
-                                  <span className="leading-relaxed">
-                                    <TextWithCitations
-                                      text={con.text}
-                                      citations={con.citations}
-                                      citedReviews={productData.citedReviews}
-                                      onCitationClick={() => {}}
-                                    />
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )}
-
-                {/* 다른 제품과의 비교 */}
-                {productComparisons && productComparisons.length > 0 && (
-                  <div className="bg-gray-50 rounded-lg">
-                    <button
-                      onClick={() => setIsComparisonOpen(!isComparisonOpen)}
-                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-100 transition-colors rounded-lg"
-                    >
-                      <div className="flex items-center gap-2">
-                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1zm-5 8.274l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L5 10.274zm10 0l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L15 10.274z" clipRule="evenodd" />
-                        </svg>
-                        <h3 className="text-base font-bold text-gray-900">추천된 다른 상품과 비교해보세요</h3>
-                      </div>
-                      <svg
-                        className={`w-5 h-5 text-gray-400 transition-transform ${isComparisonOpen ? 'rotate-180' : ''}`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    <AnimatePresence>
-                      {isComparisonOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-4 pb-4">
-                            <ul className="space-y-2">
-                              {productComparisons.map((item, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
-                                  <span className="leading-relaxed">
-                                    {parseMarkdownBold(item.text)}
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )}
-
-                {/* 구매 팁 (선택적) - 로딩 중이거나 데이터가 있을 때 표시 */}
-                {(isAnalysisLoading || (productData.purchaseTip && productData.purchaseTip.length > 0)) && (
-                  <div className="bg-white border border-gray-200 rounded-xl">
-                    <button
-                      onClick={() => !isAnalysisLoading && setIsPurchaseTipOpen(!isPurchaseTipOpen)}
-                      className="w-full py-4 px-3 flex items-center justify-between hover:bg-gray-50 transition-colors rounded-xl"
-                    >
-                      <div className="flex items-center gap-2">
-                        
-                        <h3 className="text-base font-bold text-[#4E43E1]">구매 전 확인하세요</h3>
-                        {isAnalysisLoading && (
-                          <div className="w-4 h-4 border-2 border-gray-300 border-t-yellow-500 rounded-full animate-spin ml-2"></div>
-                        )}
-                      </div>
-                      {!isAnalysisLoading && (
-                        <svg
-                          className={`w-5 h-5 text-gray-400 transition-transform ${isPurchaseTipOpen ? 'rotate-180' : ''}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      )}
-                    </button>
-                    <AnimatePresence>
-                      {isPurchaseTipOpen && productData.purchaseTip && productData.purchaseTip.length > 0 && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-4 pb-4">
-                            <ul className="space-y-2">
-                              {productData.purchaseTip.map((item, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 shrink-0" />
-                                  <span className="leading-relaxed">
-                                    <TextWithCitations
-                                      text={item.text}
-                                      citations={item.citations || []}
-                                      citedReviews={productData.citedReviews}
-                                      onCitationClick={() => {}}
-                                    />
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )}
+                )} */}
               </div>
             </motion.div>
           ) : (

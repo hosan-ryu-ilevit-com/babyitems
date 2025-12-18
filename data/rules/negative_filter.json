@@ -12,7 +12,7 @@
           { "id": "neg_bottle_07", "label": "여행 갈 건데 부피 큰 젖병은 싫어요", "target_rule_key": "체감속성_여행용_간편함", "exclude_mode": "drop_if_lacks" }
         ]
       },
-      "formula_pot": {
+      "milk_powder_port": {
         "category_name": "분유포트",
         "options": [
           { "id": "neg_pot_01", "label": "물 식히느라 1시간 기다리기 싫어요 (급속냉각)", "target_rule_key": "체감속성_배고픈아기_급속냉각", "exclude_mode": "drop_if_lacks" },
@@ -96,7 +96,7 @@
           { "id": "neg_therm_07", "label": "기록 일일이 적기 귀찮아요 (앱 연동)", "target_rule_key": "체감속성_스마트_기록관리", "exclude_mode": "drop_if_lacks" }
         ]
       },
-      "formula_maker": {
+      "baby_formula_dispenser": {
         "category_name": "분유제조기",
         "options": [
           { "id": "neg_maker_01", "label": "새벽에 분유 타느라 잠 설치기 싫어요", "target_rule_key": "체감속성_새벽수유_구세주", "exclude_mode": "drop_if_lacks" },

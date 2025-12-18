@@ -24,6 +24,7 @@ const CATEGORY_ICONS: Record<Category, string> = {
   baby_play_mat: '🧸',
   car_seat: '🚗',
   diaper: '🧷',
+  formula: '🍼',
   milk_powder_port: '☕',
   nasal_aspirator: '👃',
   stroller: '🚼',

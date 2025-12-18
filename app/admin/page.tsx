@@ -179,6 +179,12 @@ export default function AdminPage() {
       v2_recommendation_requested: '추천 요청',
       v2_recommendation_received: 'V2 추천 결과',
       v2_step_back: '이전 단계',
+      // 🆕 새로운 기능 로깅 이벤트
+      ai_helper_clicked: '💜 AI 도움 요청',
+      example_question_clicked: '💡 예시 질문 클릭',
+      example_question_applied: '✅ AI 추천 적용',
+      review_tab_opened: '📖 리뷰 탭 열람',
+      criteria_detail_viewed: '🔎 체감속성 상세',
     };
     return labels[type] || type;
   };
@@ -524,6 +530,32 @@ export default function AdminPage() {
       return null;
     }
 
+    // 🆕 하이라이트 리뷰 찾기 (v2_recommendation_received 이벤트에서)
+    const highlightEvents = session.events.filter(
+      event => event.eventType === 'v2_recommendation_received' && event.v2FlowData?.recommendation?.highlightedReviews
+    );
+
+    // 가장 최근 하이라이트 리뷰 이벤트 사용
+    const highlightedReviews = highlightEvents.length > 0
+      ? highlightEvents[highlightEvents.length - 1].v2FlowData?.recommendation?.highlightedReviews
+      : undefined;
+
+    // 🆕 마크다운 볼드 파싱 함수
+    const parseHighlightedText = (text: string) => {
+      const parts = text.split(/(\*\*.*?\*\*)/g);
+      return parts.map((part, idx) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          const boldText = part.slice(2, -2);
+          return (
+            <strong key={idx} className="bg-amber-200 text-amber-900 px-0.5 rounded">
+              {boldText}
+            </strong>
+          );
+        }
+        return <span key={idx}>{part}</span>;
+      });
+    };
+
     return (
       <div className="mt-3 pt-3 border-t border-gray-200">
         <p className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
@@ -532,21 +564,65 @@ export default function AdminPage() {
             ({flowType === 'main' ? 'Priority' : 'Category'})
           </span>
         </p>
-        <div className="space-y-1.5">
-          {products.map((product, idx) => (
-            <div key={idx} className="flex items-start gap-2 text-sm">
-              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full flex-shrink-0 ${
-                idx === 0 ? 'bg-yellow-100 text-yellow-800' :
-                idx === 1 ? 'bg-gray-100 text-gray-700' :
-                'bg-orange-100 text-orange-700'
-              } font-bold text-xs`}>
-                {idx + 1}
-              </span>
-              <span className="text-gray-700 leading-tight flex-1 font-mono text-xs">
-                {product.title || product.id}
-              </span>
-            </div>
-          ))}
+        <div className="space-y-3">
+          {products.map((product, idx) => {
+            // 해당 제품의 하이라이트 리뷰 찾기
+            const productHighlights = highlightedReviews?.find(
+              h => h.pcode === product.id
+            );
+
+            return (
+              <div key={idx} className="border rounded-lg p-3 bg-gray-50">
+                {/* 제품 헤더 */}
+                <div className="flex items-start gap-2 mb-2">
+                  <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0 ${
+                    idx === 0 ? 'bg-yellow-100 text-yellow-800' :
+                    idx === 1 ? 'bg-gray-100 text-gray-700' :
+                    'bg-orange-100 text-orange-700'
+                  } font-bold text-xs`}>
+                    {idx + 1}
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-gray-900 font-medium text-sm leading-tight">
+                      {product.title || product.id}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 🆕 하이라이트 리뷰 섹션 */}
+                {productHighlights && productHighlights.reviews && productHighlights.reviews.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-amber-100 bg-amber-50 rounded p-2">
+                    <h4 className="text-xs font-semibold text-amber-900 mb-2 flex items-center gap-1">
+                      ✨ 하이라이트 리뷰
+                      <span className="text-amber-700 font-normal">({productHighlights.reviews.length}개)</span>
+                    </h4>
+                    <div className="space-y-2">
+                      {productHighlights.reviews.slice(0, 3).map((review: {
+                        criteriaId: string;
+                        criteriaName: string;
+                        originalText: string;
+                        excerpt: string;
+                      }, rIdx: number) => (
+                        <div key={rIdx} className="bg-white rounded p-2 border border-amber-200">
+                          <div className="text-xs text-amber-700 font-medium mb-1">
+                            {review.criteriaName}
+                          </div>
+                          <div className="text-xs text-gray-700 leading-relaxed">
+                            {parseHighlightedText(review.excerpt)}
+                          </div>
+                        </div>
+                      ))}
+                      {productHighlights.reviews.length > 3 && (
+                        <p className="text-xs text-amber-700 italic">
+                          + {productHighlights.reviews.length - 3}개 더
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     );
@@ -2170,6 +2246,99 @@ export default function AdminPage() {
                                   </p>
                                   <p className="text-gray-600">제품: {event.comparisonData.productTitle}</p>
                                   <p className="text-gray-500 text-xs">상품 ID: {event.comparisonData.productId}</p>
+                                </div>
+                              )}
+                              {/* 🆕 AI Helper 버튼 클릭 (보라색 강조) */}
+                              {event.eventType === 'ai_helper_clicked' && 'aiHelperData' in event && event.aiHelperData && (
+                                <div className="bg-purple-100 border-2 border-purple-400 p-2 rounded text-xs">
+                                  <p className="font-bold text-purple-900 mb-1 flex items-center gap-1">
+                                    <span className="text-base">💜</span> &quot;뭘 골라야 할지 모르겠어요&quot; 버튼 클릭
+                                  </p>
+                                  <div className="bg-white p-2 rounded mt-1 space-y-1">
+                                    <p className="text-purple-800 font-semibold">질문: &quot;{event.aiHelperData.questionText}&quot;</p>
+                                    <p className="text-gray-600">질문 타입: {
+                                      event.aiHelperData.questionType === 'hard_filter' ? '🔍 하드필터' :
+                                      event.aiHelperData.questionType === 'balance_game' ? '⚖️ 밸런스 게임' :
+                                      event.aiHelperData.questionType === 'negative' ? '❌ 단점' :
+                                      event.aiHelperData.questionType === 'budget' ? '💰 예산' : event.aiHelperData.questionType
+                                    }</p>
+                                    <p className="text-gray-600">질문 ID: {event.aiHelperData.questionId}</p>
+                                    {event.v2FlowData?.category && (
+                                      <p className="text-gray-600">카테고리: {event.v2FlowData.categoryName || event.v2FlowData.category}</p>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                              {/* 🆕 예시 질문 클릭 */}
+                              {event.eventType === 'example_question_clicked' && 'aiHelperData' in event && event.aiHelperData && (
+                                <div className="bg-blue-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-blue-700 mb-1">
+                                    💡 예시 질문 클릭
+                                  </p>
+                                  <div className="bg-white p-2 rounded mt-1">
+                                    <p className="text-gray-800 font-medium mb-1">&quot;{event.aiHelperData.exampleText}&quot;</p>
+                                    <p className="text-gray-600 text-xs">질문: {event.aiHelperData.questionText}</p>
+                                    <p className="text-gray-600 text-xs">질문 타입: {event.aiHelperData.questionType}</p>
+                                  </div>
+                                </div>
+                              )}
+                              {/* 🆕 예시 질문 적용 */}
+                              {event.eventType === 'example_question_applied' && 'aiHelperData' in event && event.aiHelperData && (
+                                <div className="bg-green-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-green-700 mb-1">
+                                    ✅ AI 추천 적용됨
+                                  </p>
+                                  <div className="bg-white p-2 rounded mt-1 space-y-2">
+                                    <div>
+                                      <p className="text-gray-600 font-medium mb-1">입력한 내용:</p>
+                                      <p className="text-gray-800">&quot;{event.aiHelperData.exampleText}&quot;</p>
+                                    </div>
+                                    {event.aiHelperData.selectedLabels && event.aiHelperData.selectedLabels.length > 0 && (
+                                      <div>
+                                        <p className="text-gray-600 font-medium mb-1">선택된 옵션 ({event.aiHelperData.selectedLabels.length}개):</p>
+                                        {event.aiHelperData.selectedLabels.map((label, i) => (
+                                          <p key={i} className="text-gray-700">• {label}</p>
+                                        ))}
+                                      </div>
+                                    )}
+                                    <p className="text-gray-500 text-xs">질문: {event.aiHelperData.questionText}</p>
+                                  </div>
+                                </div>
+                              )}
+                              {/* 🆕 리뷰 탭 열기 */}
+                              {event.eventType === 'review_tab_opened' && 'reviewData' in event && event.reviewData && (
+                                <div className="bg-amber-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-amber-700 mb-1">
+                                    📖 상품 리뷰 탭 열람
+                                  </p>
+                                  <div className="bg-white p-2 rounded mt-1 space-y-1">
+                                    <p className="text-gray-800 font-medium">{event.reviewData.brand} {event.reviewData.productTitle}</p>
+                                    <p className="text-gray-600">탭 타입: {
+                                      event.reviewData.tabType === 'reviews' ? '📝 전체 리뷰' :
+                                      event.reviewData.tabType === 'insights' ? '💡 리뷰 인사이트' :
+                                      event.reviewData.tabType === 'real_reviews' ? '✨ 실제 리뷰' : event.reviewData.tabType
+                                    }</p>
+                                    <p className="text-gray-600">상품 ID: {event.reviewData.pcode}</p>
+                                    {event.reviewData.rank && (
+                                      <p className="text-gray-600">추천 순위: {event.reviewData.rank}위</p>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                              {/* 🆕 체감속성 상세 보기 */}
+                              {event.eventType === 'criteria_detail_viewed' && 'reviewData' in event && event.reviewData && (
+                                <div className="bg-teal-50 p-2 rounded text-xs">
+                                  <p className="font-semibold text-teal-700 mb-1">
+                                    🔎 체감속성 상세 열람
+                                  </p>
+                                  <div className="bg-white p-2 rounded mt-1 space-y-1">
+                                    <p className="text-teal-800 font-bold">{event.reviewData.criteriaName}</p>
+                                    <p className="text-gray-600">체감속성 ID: {event.reviewData.criteriaId}</p>
+                                    {event.reviewData.mentionCount && (
+                                      <p className="text-gray-600">리뷰 언급: {event.reviewData.mentionCount}회</p>
+                                    )}
+                                    <p className="text-gray-700 text-xs mt-1">{event.reviewData.brand} {event.reviewData.productTitle}</p>
+                                  </div>
                                 </div>
                               )}
                               {/* V2 Flow Events */}

@@ -196,8 +196,8 @@
       "order": 2
     }
   },
-  "formula_maker": {
-    "hf_formula_maker_브랜드_0": {
+  "baby_formula_dispenser": {
+    "hf_baby_formula_dispenser_브랜드_0": {
       "hidden": false,
       "order": 0
     }

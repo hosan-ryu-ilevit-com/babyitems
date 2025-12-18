@@ -103,42 +103,11 @@ export function V2ResultProductCard({
                   <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
                   {(hasLowestPrice ? danawaPrice!.lowest_price! : product.price!).toLocaleString()}<span className="text-sm">원</span>
                 </p>
-                {hasLowestPrice && danawaPrice!.mall_prices && danawaPrice!.mall_prices.length > 0 && (
-                  <span className="inline-flex items-center text-xs font-semibold text-red-500">
-                    가격비교 ({danawaPrice!.mall_prices.length})
-                    <svg className="w-3 h-3 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                )}
               </div>
             </div>
           )}
         </div>
       </div>
-
-      {/* 선택 조건 매칭 태그 */}
-      {product.matchedHardFilters && product.matchedHardFilters.length > 0 && (
-        <div className="mt-3">
-          <div className="rounded-xl p-3 bg-blue-50 border border-blue-100">
-            <div className="flex items-start gap-2">
-              <svg className="w-4 h-4 shrink-0 mt-0.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <div className="flex flex-wrap gap-1.5 flex-1">
-                {product.matchedHardFilters.map((filter, i) => (
-                  <span
-                    key={i}
-                    className="text-xs px-2 py-0.5 rounded-full bg-white text-blue-700 font-medium"
-                  >
-                    {filter.value}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 밸런스 게임 매칭 규칙 태그 */}
       {product.matchedRules && product.matchedRules.length > 0 && (

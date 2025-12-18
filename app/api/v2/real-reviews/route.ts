@@ -199,7 +199,7 @@ function buildSearchTermVariations(productTitle: string, brand?: string): string
  */
 async function searchWithGrounding(query: string): Promise<SearchResult> {
   const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash-lite',
+    model: 'gemini-3-flash-preview',
     contents: query,
     config: {
       tools: [{ googleSearch: {} }],
@@ -295,7 +295,7 @@ async function filterRelevantSources(
     const brandInfo = brand ? ` (브랜드: ${brand})` : '';
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-lite',
+      model: 'gemini-3-flash-preview',
       contents: `[작업] 출처 필터링
 
 [검색한 제품]
@@ -408,7 +408,7 @@ ${allTexts.join('\n\n---\n\n')}
 `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash-lite',
+    model: 'gemini-3-flash-preview',
     contents: enhancedPrompt,
     config: { temperature: 0.1 },
   });

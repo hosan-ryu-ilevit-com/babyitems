@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { HardFilterData, ProductItem, HardFilterOption } from '@/types/recommend-v2';
+import type { HardFilterData, ProductItem } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
@@ -18,14 +18,36 @@ function ReviewPriorityTags({
   onSelect,
   currentIndex,
   totalCount,
+  showAIHelper = false,
+  category = '',
+  categoryName = '',
+  thumbnailProducts = [],
+  products = [],
 }: {
   question: HardFilterData['question'];
   selectedValues: string[];
   onSelect: (values: string[]) => void;
   currentIndex: number;
   totalCount: number;
+  showAIHelper?: boolean;
+  category?: string;
+  categoryName?: string;
+  thumbnailProducts?: Array<{ id: string; title: string; thumbnail?: string }>;
+  products?: ProductItem[];
 }) {
   const [expandedTag, setExpandedTag] = useState<string | null>(null);
+  const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+  // 랜덤 offset (0~50, 컴포넌트 마운트 시 한 번만 생성)
+  const [randomOffset] = useState(() => Math.floor(Math.random() * 51));
+
+  // 전체 리뷰 개수 계산 (products의 reviewCount 합계 + 랜덤 offset)
+  const totalReviewCount = useMemo(() => {
+    const baseCount = products.reduce((sum, p) => {
+      const reviewCount = p.reviewCount || 0;
+      return sum + reviewCount;
+    }, 0);
+    return baseCount + randomOffset;
+  }, [products, randomOffset]);
 
   const handleTagClick = (optionValue: string) => {
     const newValues = selectedValues.includes(optionValue)
@@ -34,84 +56,124 @@ function ReviewPriorityTags({
     onSelect(newValues);
   };
 
-  // 감정에 따른 아이콘
-  const getSentimentIcon = (sentiment?: HardFilterOption['sentiment']) => {
-    switch (sentiment) {
-      case 'positive':
-        return '👍';
-      case 'negative':
-        return '⚠️';
-      default:
-        return '💡';
-    }
-  };
-
-  // 총 리뷰 언급 수 계산
+  // 총 리뷰 언급 수 계산 (태그별 percentage 계산용)
   const totalMentions = question.options.reduce((sum, opt) => sum + (opt.mentionCount || 0), 0);
 
   return (
     <motion.div
       key={question.id}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-4"
     >
-      {/* 특별한 헤더 - 리뷰 기반임을 강조 */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="px-2.5 py-1 bg-violet-100 text-violet-600 rounded-full text-xs font-bold flex items-center gap-1">
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
-            </svg>
-            실제 리뷰
-          </span>
+      {/* 조건 분석 완료 헤더 (CheckpointVisual 스타일) - 먼저 페이드인 */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="bg-white rounded-2xl border border-blue-100 p-5"
+      >
+        {/* 헤더 */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3">
+            <span className="text-green-500 font-bold">✓</span>
+            <h3 className="font-medium text-[15px] text-gray-900">
+              조건 분석 완료
+            </h3>
+          </div>
           <span className="text-xs text-gray-400">
-            {totalMentions}건의 리뷰 분석
+            {currentIndex + 1} / {totalCount}
           </span>
         </div>
-        <span className="text-xs text-gray-400">
-          {currentIndex + 1} / {totalCount}
-        </span>
-      </div>
 
-      {/* 메인 질문 */}
-      <div className="space-y-1">
-        <h3 className="text-lg font-bold text-gray-900 leading-snug">
-          {question.question}
-        </h3>
-        {question.tip && (
-          <p className="text-sm text-violet-600 font-medium">
-            ✨ {question.tip}
+        {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
+        <div className="flex items-center gap-3">
+          {/* 썸네일 그룹 (최대 5개) */}
+          <div className="flex -space-x-2">
+            {thumbnailProducts.slice(0, 5).map((product, i) => (
+              <div
+                key={product.id}
+                className="w-8 h-8 rounded-full border-2 border-white overflow-hidden relative bg-gray-100 shadow-sm"
+                style={{ zIndex: 5 - i }}
+                title={product.title}
+              >
+                {product.thumbnail ? (
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // 이미지 로드 실패 시 placeholder
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200" />
+                )}
+              </div>
+            ))}
+          </div>
+          <span className="px-2.5 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full">
+            리뷰 {totalReviewCount.toLocaleString()}개 분석 완료
+          </span>
+        </div>
+      </motion.div>
+
+      {/* 메인 질문 - 순차적 페이드인 */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.5 }}
+        className="space-y-3"
+      >
+        <div className="space-y-1.5">
+          <h3 className="text-lg font-bold text-gray-900 leading-snug">
+            어떤 구매조건이 가장 중요하신가요?
+          </h3>
+          <p className="text-sm font-light text-gray-500">
+            {categoryName || category} 구매자들이 가장 중요하게 생각하는 조건들이에요.
           </p>
-        )}
-      </div>
+        </div>
 
-      {/* 태그 형식 옵션들 */}
-      <div className="flex flex-wrap gap-2">
+        {/* 뭘 골라야할지 모르겠어요 버튼 - AIHelperButton 사용 */}
+        {showAIHelper && (
+          <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+        )}
+      </motion.div>
+
+      {/* 필터 옵션들 - 순차적 페이드인 */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.8 }}
+        className="flex flex-wrap gap-2"
+      >
         {question.options.map((option, index) => {
           const isSelected = selectedValues.includes(option.value);
-          const isExpanded = expandedTag === option.value;
+          // mentionCount를 percentage로 변환
+          const percentage = option.mentionCount && totalMentions > 0
+            ? Math.round((option.mentionCount / totalMentions) * 100)
+            : 0;
 
           return (
             <motion.div
               key={option.value}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
-              className="relative"
+              transition={{ delay: 0.8 + index * 0.03 }}
             >
               <button
                 onClick={() => handleTagClick(option.value)}
                 onMouseEnter={() => setExpandedTag(option.value)}
                 onMouseLeave={() => setExpandedTag(null)}
                 className={`
-                  px-4 py-2.5 rounded-full text-sm font-medium
-                  transition-all duration-200 transform
+                  px-4 py-2.5 rounded-full text-sm font-medium border-2
+                  transition-all duration-200
                   ${isSelected
-                    ? 'bg-violet-500 text-white shadow-lg shadow-violet-200 scale-105'
-                    : 'bg-gray-100 text-gray-700 hover:bg-violet-100 hover:text-violet-700'
+                    ? 'bg-blue-50 text-blue-700 border-blue-400'
+                    : 'bg-white text-gray-700 border-gray-100 hover:border-blue-300 hover:bg-blue-50'
                   }
                 `}
               >
@@ -119,91 +181,66 @@ function ReviewPriorityTags({
                   {/* 레이블 */}
                   <span>{option.displayLabel || option.label}</span>
 
-                  {/* 언급 횟수 배지 */}
-                  {option.mentionCount && (
+                  {/* 언급 비율 배지 (%) */}
+                  {percentage > 0 && (
                     <span className={`
                       px-1.5 py-0.5 rounded-full text-[10px] font-bold
                       ${isSelected
-                        ? 'bg-white/20 text-white'
-                        : 'bg-violet-200 text-violet-700'
+                        ? 'bg-green-200 text-green-700'
+                        : 'bg-green-100 text-green-600'
                       }
                     `}>
-                      {option.mentionCount}건
+                      {percentage}%
                     </span>
                   )}
                 </span>
               </button>
-
-              {/* 호버 시 샘플 리뷰 툴팁 */}
-              <AnimatePresence>
-                {isExpanded && option.sampleReview && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 5 }}
-                    className="absolute z-10 top-full mt-2 left-0 right-0 min-w-[200px] max-w-[280px]"
-                  >
-                    <div className="bg-gray-800 text-white text-xs p-3 rounded-lg shadow-xl">
-                      <div className="flex items-start gap-2">
-                        <span className="text-base shrink-0">{getSentimentIcon(option.sentiment)}</span>
-                        <p className="leading-relaxed">&ldquo;{option.sampleReview}&rdquo;</p>
-                      </div>
-                      {/* 화살표 */}
-                      <div className="absolute -top-1.5 left-6 w-3 h-3 bg-gray-800 transform rotate-45" />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
-      {/* 선택된 항목에 대한 대표 리뷰 표시 */}
+      {/* 호버 시 샘플 리뷰 툴팁 - 태그 리스트 아래에 고정 */}
       <AnimatePresence>
-        {selectedValues.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mt-4 space-y-2"
-          >
-            <p className="text-xs text-gray-500 font-medium">
-              선택한 항목의 실제 후기:
-            </p>
-            <div className="space-y-2">
-              {selectedValues.map(value => {
-                const option = question.options.find(o => o.value === value);
-                if (!option?.sampleReview) return null;
-                return (
-                  <motion.div
-                    key={value}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-start gap-2 p-3 bg-violet-50 rounded-lg border border-violet-100"
-                  >
-                    <span className="text-base shrink-0">{getSentimentIcon(option.sentiment)}</span>
-                    <div>
-                      <p className="text-xs font-semibold text-violet-700 mb-1">
-                        {option.displayLabel || option.label}
-                      </p>
-                      <p className="text-xs text-gray-600 leading-relaxed">
-                        &ldquo;{option.sampleReview}&rdquo;
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
-        )}
+        {expandedTag && (() => {
+          const hoveredOption = question.options.find(opt => opt.value === expandedTag);
+          return hoveredOption?.sampleReview ? (
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+              className="mt-3 w-full"
+            >
+              <div className="bg-gray-50 text-gray-700 text-xs p-3 rounded-lg">
+                {/* 태그 이름 */}
+                <p className="font-bold text-sm mb-1.5 text-gray-900">
+                  {hoveredOption.displayLabel || hoveredOption.label}
+                </p>
+                {/* 리뷰 텍스트 */}
+                <p className="leading-relaxed text-gray-600">&ldquo;{hoveredOption.sampleReview}&rdquo;</p>
+              </div>
+            </motion.div>
+          ) : null;
+        })()}
       </AnimatePresence>
 
-      {/* 선택 힌트 */}
-      {selectedValues.length === 0 && (
-        <p className="text-xs text-gray-400 text-center">
-          중요하게 생각하는 항목을 터치해주세요 (복수 선택 가능)
-        </p>
+      {/* AI 도움 바텀시트 */}
+      {showAIHelper && (
+        <AIHelperBottomSheet
+          isOpen={isAIHelperOpen}
+          onClose={() => setIsAIHelperOpen(false)}
+          questionType="hard_filter"
+          questionId={question.id}
+          questionText={question.question}
+          options={question.options.map(o => ({ value: o.value, label: o.displayLabel || o.label }))}
+          category={category}
+          categoryName={categoryName}
+          tipText={question.tip || '리뷰 분석을 통해 추출한 핵심 선택 기준입니다'}
+          onSelectOptions={(selectedOptions) => {
+            onSelect(selectedOptions);
+          }}
+        />
       )}
     </motion.div>
   );
@@ -231,6 +268,8 @@ interface HardFilterQuestionProps {
   showAIHelper?: boolean;
   category?: string;
   categoryName?: string;
+  // 썸네일에 표시할 제품들 (최대 5개, review_priorities용)
+  thumbnailProducts?: Array<{ id: string; title: string; thumbnail?: string }>;
 }
 
 /**
@@ -343,6 +382,7 @@ export function HardFilterQuestion({
   showAIHelper = false,
   category = '',
   categoryName = '',
+  thumbnailProducts = [],
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
 
@@ -412,6 +452,11 @@ export function HardFilterQuestion({
         }}
         currentIndex={currentIndex}
         totalCount={totalCount}
+        showAIHelper={showAIHelper}
+        category={category}
+        categoryName={categoryName}
+        thumbnailProducts={thumbnailProducts}
+        products={products}
       />
     );
   }

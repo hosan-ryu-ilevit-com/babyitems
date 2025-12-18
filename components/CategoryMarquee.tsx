@@ -15,8 +15,8 @@ const ALL_CATEGORIES: CategoryItem[] = [
   { id: 'diaper', name: '기저귀', emoji: '🧒', isPopular: true },
   { id: 'formula', name: '분유', emoji: '🥛', isPopular: true },
   { id: 'baby_bottle', name: '젖병', emoji: '🍼', isPopular: true },
-  { id: 'formula_maker', name: '분유제조기', emoji: '⚙️', isPopular: true },
-  { id: 'formula_pot', name: '분유포트', emoji: '🫖', isPopular: true },
+  { id: 'baby_formula_dispenser', name: '분유제조기', emoji: '⚙️', isPopular: true },
+  { id: 'milk_powder_port', name: '분유포트', emoji: '🫖', isPopular: true },
   { id: 'stroller', name: '유모차', emoji: '🚼', isPopular: true },
   { id: 'car_seat', name: '카시트', emoji: '🚗', isPopular: true },
   // Row 2 - 기타 카테고리

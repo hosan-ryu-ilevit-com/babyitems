@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  logExampleQuestionClicked,
+  logExampleQuestionApplied,
+  logNaturalLanguageInput,
+} from '@/lib/logging/clientLogger';
 
 interface HardFilterOption {
   value: string;
@@ -125,6 +130,16 @@ export function AIHelperBottomSheet({
     setIsLoading(true);
     setError(null);
 
+    // 자연어 입력 로깅
+    logNaturalLanguageInput(
+      'recommend-v2',
+      0, // No step in this component
+      userInput.trim(),
+      undefined, // No parsed result at this point
+      category,
+      categoryName
+    );
+
     try {
       const res = await fetch('/api/ai-selection-helper', {
         method: 'POST',
@@ -157,6 +172,18 @@ export function AIHelperBottomSheet({
   const handleSelectRecommendation = () => {
     if (!aiResponse) return;
 
+    // 로깅
+    const selectedLabels = getRecommendationLabels();
+    logExampleQuestionApplied(
+      questionType,
+      questionId,
+      userInput,
+      aiResponse.recommendation.selectedOptions,
+      selectedLabels,
+      category,
+      categoryName
+    );
+
     // 밸런스게임에서 "both" 선택 시 특별 처리
     if (questionType === 'balance_game') {
       onSelectOptions(aiResponse.recommendation.selectedOptions);
@@ -166,7 +193,17 @@ export function AIHelperBottomSheet({
     onClose();
   };
 
-  const handleExampleClick = (example: string) => {
+  const handleExampleClick = (example: string, index: number) => {
+    // 로깅
+    logExampleQuestionClicked(
+      questionType,
+      questionId,
+      example,
+      index,
+      category,
+      categoryName
+    );
+
     setUserInput(example);
     // 모바일에서 키보드가 불필요하게 올라오지 않도록 focus 안 함
   };
@@ -298,7 +335,7 @@ export function AIHelperBottomSheet({
                           delay: idx * 0.1,
                           ease: [0.25, 0.1, 0.25, 1]
                         }}
-                        onClick={() => handleExampleClick(example)}
+                        onClick={() => handleExampleClick(example, idx)}
                         disabled={isLoading || !!aiResponse}
                         className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed"
                       >

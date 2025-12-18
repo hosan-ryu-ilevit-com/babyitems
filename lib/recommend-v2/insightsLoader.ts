@@ -12,6 +12,7 @@ import * as path from 'path';
 // (앱에서 사용하는 키와 insights 파일명이 다른 경우)
 const CATEGORY_KEY_TO_INSIGHTS_FILE: Record<string, string> = {
   formula_pot: 'milk_powder_port',  // 분유포트
+  baby_formula_dispenser: 'formula_maker',  // 분유제조기
   // 나머지는 동일한 키 사용
 };
 

@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
 
     // Call Gemini
     const result = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-lite',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
       config: { temperature: 0.3 }, // Low temperature for classification
     });

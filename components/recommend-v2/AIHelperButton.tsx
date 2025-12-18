@@ -1,10 +1,18 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { logAIHelperButtonClicked } from '@/lib/logging/clientLogger';
 
 interface AIHelperButtonProps {
   onClick: () => void;
   className?: string;
+  // 로깅용 메타데이터
+  questionType?: 'hard_filter' | 'balance_game' | 'negative' | 'budget';
+  questionId?: string;
+  questionText?: string;
+  category?: string;
+  categoryName?: string;
+  step?: number;
 }
 
 /**
@@ -12,13 +20,39 @@ interface AIHelperButtonProps {
  * - 선택지 위, 팁 아래에 위치
  * - 보라색 AI 테마 스타일
  */
-export function AIHelperButton({ onClick, className = '' }: AIHelperButtonProps) {
+export function AIHelperButton({
+  onClick,
+  className = '',
+  questionType,
+  questionId,
+  questionText,
+  category,
+  categoryName,
+  step,
+}: AIHelperButtonProps) {
+  const handleClick = () => {
+    // 로깅 (메타데이터가 있을 때만)
+    if (questionType && questionId && questionText && category && categoryName) {
+      logAIHelperButtonClicked(
+        questionType,
+        questionId,
+        questionText,
+        category,
+        categoryName,
+        step
+      );
+    }
+
+    // 원래 onClick 호출
+    onClick();
+  };
+
   return (
     <motion.button
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      onClick={onClick}
+      onClick={handleClick}
       className={`flex items-center gap-2 px-3 py-2 bg-purple-50 hover:bg-purple-100 border border-purple-200 hover:border-purple-300 rounded-xl transition-all ${className}`}
     >
       {/* AI 아이콘 (4방향 별) */}
