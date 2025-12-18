@@ -999,19 +999,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
        
       </motion.div>
 
-      {/* 선정 기준 요약 */}
-      {selectionReason && (
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5, ease: 'easeOut' }}
-          className="mb-4 p-4 rounded-2xl bg-blue-50"
-        >
-          <p className="text-sm text-blue-800 font-medium leading-[1.4]">
-            {selectionReason}
-          </p>
-        </motion.div>
-      )}
 
       {/* 제품 카드 목록 - result 페이지 스타일 */}
       {products.map((product, index) => {
@@ -1029,7 +1016,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             key={product.pcode}
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5 + index * 0.4, duration: 0.5, ease: 'easeOut' }}
+            transition={{ delay: 0.5 + index * 0.4, duration: 0.5, ease: 'easeOut' }}
             onClick={() => handleProductClick(product, index)}
             className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
           >
@@ -1186,7 +1173,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                         <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
                         </svg>
-                        <span className="text-xs font-semibold text-amber-700">실구매 리뷰</span>
+                        <span className="text-xs font-semibold text-amber-700">리뷰 하이라이트</span>
                       </div>
                       {!isReviewInsightsLoading && (
                         <button
@@ -1202,7 +1189,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                           }}
                           className="text-[11px] font-medium text-amber-600 hover:text-amber-800 flex items-center gap-0.5"
                         >
-                          리뷰 모두보기
+                          모두보기
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                           </svg>
@@ -1260,10 +1247,10 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     handleProductClick(product, index);
                     logButtonClick('상세분석보기_PLP', 'v2-result');
                   }}
-                  className="mt-2 w-full py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
+                  className="mt-2 w-full py-2.5 text-sm font-medium text-[#0074F3] bg-[#E5F1FF] hover:bg-[#D6E8FF] rounded-xl transition-colors flex items-center justify-center gap-1"
                 >
                   상세 분석 보기
-                  <svg className="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <svg className="w-3 h-3 text-[#0074F3]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -1278,7 +1265,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.6, duration: 0.5, ease: 'easeOut' }}
+          transition={{ delay: 1.8, duration: 0.5, ease: 'easeOut' }}
           className="mt-6"
         >
           <DetailedComparisonTable

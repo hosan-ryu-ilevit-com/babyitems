@@ -580,17 +580,6 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                 )}
               </div>
 
-              {/* Recommendation Reasoning Container */}
-              <div className="px-4 pt-4">
-                <div className="bg-[#E8E6FD] border border-[#D6D3FC] rounded-2xl px-4 py-3 flex items-start gap-2">
-                  <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="#4E43E1">
-                    <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                  </svg>
-                  <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
-                    {parseMarkdownBold(productData.reasoning)}
-                  </p>
-                </div>
-              </div>
 
               {/* 상품 정보 콘텐츠 */}
               <div className="px-4 py-5 space-y-3">

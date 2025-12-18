@@ -333,8 +333,7 @@ ${candidatesStr}
     },
     { "pcode": "숫자pcode", "rank": 2, "recommendationReason": "...", "matchedPreferences": ["..."] },
     { "pcode": "숫자pcode", "rank": 3, "recommendationReason": "...", "matchedPreferences": ["..."] }
-  ],
-  "selectionReason": "전체 선정 기준 요약 (1~2문장, 한국어로). 영어 변수명/속성명 절대 사용 금지. 사용해야 한다면, 자연스러운 한국어로 풀어서 사용해야 함"
+  ]
 }
 
 ## 추천 이유 작성 가이드 (매우 중요!)
@@ -342,7 +341,7 @@ ${candidatesStr}
 
 
 
-※ recommendationReason은 1~2문장, selectionReason도 1~2문장으로 간결하게 작성하세요.
+※ recommendationReason은 1~2문장으로 간결하게 작성하세요.
 
 ### 좋은 예시 (사용자 선택 → 제품 특성 + 리뷰 근거)
 - "빠른 가열을 원하셨는데, 300W 고출력으로 2분 내 데울 수 있어요. 실제로 '새벽 수유 때 빨리 데워져서 좋다'는 리뷰가 많아요"
