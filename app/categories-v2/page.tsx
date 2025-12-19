@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { logPageView, logButtonClick, logAgeBadgeSelection } from '@/lib/logging/clientLogger';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { AIHelperButton } from '@/components/recommend-v2/AIHelperButton';
+import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
 
 // API Response Types
 interface DanawaCategory {
@@ -425,6 +427,7 @@ export default function CategoriesV2Page() {
   const [selectedAgeId, setSelectedAgeId] = useState<string>('all');
   const [loadingCategoryId, setLoadingCategoryId] = useState<string | null>(null);
   const [completedCategories, setCompletedCategories] = useState<Set<string>>(new Set());
+  const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
 
   // 현재 선택된 연령대 필터
   const selectedAgeFilter = AGE_FILTERS.find((f) => f.id === selectedAgeId) || AGE_FILTERS[0];
@@ -571,6 +574,18 @@ export default function CategoriesV2Page() {
             />
           </div>
 
+          {/* AI 도움받기 버튼 */}
+          <div className="mb-4">
+            <AIHelperButton
+              onClick={() => setIsCategoryGuideOpen(true)}
+              questionType="category_selection"
+              questionId="category_select"
+              questionText="어떤 제품이 필요하신가요?"
+              category="all"
+              categoryName="전체"
+            />
+          </div>
+
           {/* 연령대별 설명 카드 */}
           {selectedAgeFilter.id !== 'all' && selectedAgeFilter.description && (
             <motion.div
@@ -629,6 +644,30 @@ export default function CategoriesV2Page() {
           )}
         </motion.div>
       </div>
+
+      {/* AI 도움받기 바텀시트 */}
+      <AIHelperBottomSheet
+        isOpen={isCategoryGuideOpen}
+        onClose={() => setIsCategoryGuideOpen(false)}
+        questionType="category_selection"
+        questionId="category_select"
+        questionText="어떤 제품이 필요하신가요?"
+        options={CATEGORY_GROUPS.flatMap(g => g.categories).map(c => ({
+          value: c.id,
+          label: c.name
+        }))}
+        category="all"
+        categoryName="전체"
+        onSelectOptions={(selectedCategoryIds) => {
+          // 첫 번째 추천 카테고리로 바로 이동
+          if (selectedCategoryIds.length > 0) {
+            const categoryId = selectedCategoryIds[0];
+            logButtonClick(`AI 추천 카테고리 선택: ${categoryId}`, 'categories-v2');
+            router.push(`/recommend-v2/${categoryId}`);
+          }
+          setIsCategoryGuideOpen(false);
+        }}
+      />
     </div>
   );
 }

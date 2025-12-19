@@ -544,8 +544,8 @@ export function HardFilterQuestion({
           return (
             <motion.button
               key={option.value}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.02 }}
               onClick={() => handleOptionClick(option.value)}
               disabled={isDisabled}

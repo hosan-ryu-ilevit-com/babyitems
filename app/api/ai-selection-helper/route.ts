@@ -36,7 +36,7 @@ interface NegativeFilterOption {
 }
 
 interface AISelectionRequest {
-  questionType: 'hard_filter' | 'balance_game' | 'negative_filter';
+  questionType: 'hard_filter' | 'balance_game' | 'negative_filter' | 'category_selection';
   questionId: string;
   questionText: string;
   options: HardFilterOption[] | { A: BalanceGameOption; B: BalanceGameOption } | NegativeFilterOption[];
@@ -143,6 +143,49 @@ ${tipText ? `**팁:** ${tipText}` : ''}
   "alternatives": "다른 선택이 더 나을 수 있는 경우 (없으면 null)"
 }`;
 
+    } else if (questionType === 'category_selection') {
+      // 카테고리 선택 도움
+      const categoryOptions = options as HardFilterOption[];
+      const optionsList = categoryOptions
+        .map(o => `- "${o.value}": ${o.label}`)
+        .join('\n');
+
+      systemPrompt = `당신은 육아용품 전문 상담사입니다. 사용자의 육아 상황을 듣고 지금 가장 필요한 제품 카테고리를 추천해주세요.
+
+**중요 규칙:**
+1. 반드시 제공된 카테고리의 "value" 값만 selectedOptions에 넣으세요 (label이 아닌 value)
+2. 사용자 상황에 가장 적합한 1-2개의 카테고리를 추천하세요 (최대 2개)
+3. 우선순위가 명확한 카테고리 1개만 추천하는 것이 더 좋습니다
+4. 추천 이유는 반드시 사용자의 구체적인 상황과 연결해서 설명하세요
+5. 아기 개월 수, 육아 환경, 현재 불편한 점 등을 고려하세요
+6. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요**
+7. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요**
+
+**카테고리 선택 가이드:**
+- 수유 관련 고민 → 분유, 분유제조기, 분유포트, 젖병, 쪽쪽이
+- 외출 관련 고민 → 유모차, 카시트
+- 위생/청결 고민 → 기저귀, 아기물티슈, 체온계, 코흡입기
+- 공간/가구 필요 → 유아침대, 유아의자, 유아소파, 유아책상`;
+
+      userPrompt = `**현재 질문:**
+${questionText}
+
+**선택 가능한 카테고리:**
+${optionsList}
+
+**사용자 상황:**
+"${userContext}"
+
+**응답 형식 (JSON):**
+{
+  "recommendation": {
+    "selectedOptions": ["value1"] 또는 ["value1", "value2"] (최대 2개),
+    "confidence": "high" | "medium" | "low"
+  },
+  "reasoning": "추천 이유 (2-3문장, 사용자 상황과 연결)",
+  "alternatives": "다른 카테고리도 고려해볼 만한 경우 (없으면 null)"
+}`;
+
     } else if (questionType === 'hard_filter') {
       const optionsList = (options as HardFilterOption[])
         .map(o => `- "${o.value}": ${o.label}`)
@@ -232,11 +275,15 @@ B: ${balanceOptions.B.text}
     const parsed = parseJSONResponse<AISelectionResponse>(response);
 
     // 유효성 검증
-    if (questionType === 'hard_filter') {
+    if (questionType === 'hard_filter' || questionType === 'category_selection') {
       const validValues = (options as HardFilterOption[]).map(o => o.value);
       parsed.recommendation.selectedOptions = parsed.recommendation.selectedOptions.filter(
         opt => validValues.includes(opt)
       );
+      // category_selection은 최대 2개로 제한
+      if (questionType === 'category_selection' && parsed.recommendation.selectedOptions.length > 2) {
+        parsed.recommendation.selectedOptions = parsed.recommendation.selectedOptions.slice(0, 2);
+      }
     } else if (questionType === 'negative_filter') {
       // negative_filter는 target_rule_key 값들만 허용
       const validKeys = (options as NegativeFilterOption[]).map(o => o.target_rule_key);

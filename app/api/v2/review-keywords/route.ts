@@ -43,18 +43,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 1. Supabase에서 리뷰 로드 (고평점 30개 + 저평점 10개)
-    const reviewsMap = await getSampledReviewsFromSupabase(pcodes, 30, 10);
+    // 1. Supabase에서 리뷰 로드 (고평점 25개 + 저평점 5개)
+    const reviewsMap = await getSampledReviewsFromSupabase(pcodes, 35, 5);
     console.log(`[review-keywords-llm] Loaded reviews for ${reviewsMap.size} products`);
 
-    // 2. 각 제품-체감속성 조합에 대해 LLM으로 발췌
+    // 2. 각 제품-체감속성 조합에 대해 LLM으로 발췌 (제품별 병렬 처리)
     const result: Record<string, ProductReviewInsights> = {};
 
-    for (const pcode of pcodes) {
+    // 제품별 병렬 처리
+    const productPromises = pcodes.map(async (pcode) => {
       const reviews = reviewsMap.get(pcode);
       if (!reviews || reviews.totalCount === 0) {
         console.log(`[review-keywords-llm] No reviews for ${pcode}, skipping`);
-        continue;
+        return null;
       }
 
       // 제품 정보 로드 (제목 필요)
@@ -107,12 +108,27 @@ export async function POST(request: NextRequest) {
       insights.push(...resolvedInsights.filter((i: ReviewInsight | null): i is ReviewInsight => i !== null));
 
       if (insights.length > 0) {
-        result[pcode] = {
-          reviewCount: reviews.totalCount,
-          insights,
+        return {
+          pcode,
+          data: {
+            reviewCount: reviews.totalCount,
+            insights,
+          }
         };
       }
-    }
+
+      return null;
+    });
+
+    // 모든 제품 병렬 처리 완료 대기
+    const productResults = await Promise.all(productPromises);
+
+    // 결과 병합
+    productResults.forEach(productResult => {
+      if (productResult) {
+        result[productResult.pcode] = productResult.data;
+      }
+    });
 
     console.log(`[review-keywords-llm] Generated insights for ${Object.keys(result).length} products`);
 
@@ -132,6 +148,37 @@ export async function POST(request: NextRequest) {
 }
 
 /**
+ * criteriaId에서 관련 키워드 추출 (힌트용)
+ */
+function getRelatedKeywords(criteriaId: string): string[] {
+  // criteriaId를 언더스코어로 분리하여 기본 키워드 생성
+  const baseKeywords = criteriaId.split('_').filter(k => k.length > 2);
+
+  // 추가 관련 키워드 매핑
+  const keywordMap: Record<string, string[]> = {
+    temperature: ['온도', '보온', '따뜻', '뜨겁', '미지근', '냉각', '식', '열'],
+    accuracy: ['정확', '오차', '일정', '안정', '맞', '틀림'],
+    cleaning: ['세척', '청소', '씻', '분해', '위생', '깨끗'],
+    noise: ['소음', '시끄럽', '조용', '소리', '작동음', '쿵쿵', '윙윙'],
+    ease: ['편', '쉽', '간편', '어렵', '힘듦', '복잡'],
+    durability: ['내구', '고장', '망가', '튼튼', '약함', '파손', '마모'],
+    speed: ['빠르', '느리', '시간', '금방', '오래'],
+    suction: ['흡입', '빨', '세기', '강', '약'],
+    portability: ['휴대', '무게', '가볍', '무겁', '들고'],
+  };
+
+  // criteriaId에 포함된 키워드와 매칭
+  const matchedKeywords: string[] = [];
+  for (const [key, keywords] of Object.entries(keywordMap)) {
+    if (criteriaId.toLowerCase().includes(key)) {
+      matchedKeywords.push(...keywords);
+    }
+  }
+
+  return [...new Set([...baseKeywords, ...matchedKeywords])].slice(0, 10);
+}
+
+/**
  * LLM을 사용하여 리뷰에서 체감속성 관련 부분 발췌 + 하이라이팅
  */
 async function extractRelevantExcerpt(
@@ -146,24 +193,42 @@ async function extractRelevantExcerpt(
       .map((r, i) => `[리뷰${i + 1}]\n${r}`)
       .join('\n\n');
 
+    // 관련 키워드 추출
+    const keywords = getRelatedKeywords(criteriaId);
+    const keywordsHint = keywords.length > 0 ? `\n관련 키워드 (참고용): ${keywords.join(', ')}` : '';
+
     const prompt = `당신은 제품 리뷰 분석가입니다.
 아래는 **"${productTitle}"** 제품의 리뷰입니다.
-"${criteriaName}" 속성과 관련된 내용을 찾아 발췌하세요.
+"${criteriaName}" 속성과 관련된 내용을 찾아 발췌하세요.${keywordsHint}
 
 ## 규칙
-1. **"${criteriaName}"와 관련된 내용**을 찾으세요
-   - 이 제품에 대한 직접적인 평가 우선
-   - 다른 제품과의 긍정적 비교는 포함 가능 (예: "이전 제품보다 좋다")
-   - 다른 제품의 단점만 언급하는 내용은 제외
+1. **"${criteriaName}"와 직접/간접적으로 관련된 내용**을 찾으세요
+   - 이 제품에 대한 실제 사용 경험 우선
+   - 다른 제품과의 비교도 OK (긍정/부정 모두 포함 가능)
+   - 유사하거나 관련된 표현도 적극 포함 (예: "온도 정확도" → "온도", "보온", "따뜻함" 등)
+   - ❌ 제외: 다른 제품만 언급하고 이 제품은 전혀 언급 안 함
 
-2. **문장 개수**: 최대 3문장 (핵심 문장 1개 + 앞뒤 문맥 각 1문장)
-   - 더 짧아도 OK
+2. **문장 개수**: 1~3문장 (핵심만 간결하게)
+   - 1문장도 충분하면 OK
 
-3. **볼드 처리 필수**:
-   - "${criteriaName}"와 관련된 핵심 문장을 **볼드**로 감싸세요
+3. **하이라이팅 (선택사항)**:
+   - 가능하면 핵심 부분을 **볼드**로 강조
    - 예: "...괜찮아요. **온도가 정말 정확해서 만족합니다.** 추천해요."
+   - 볼드가 어려우면 그냥 문장만 발췌해도 OK
 
 4. **생략 표시**: 앞뒤에 "..." 붙이기
+
+## 예시
+### 입력 리뷰:
+"이전에 쓰던 제품보다 훨씬 조용해요. 새벽에 분유 탈 때 아기 안 깨서 좋습니다."
+
+### 체감속성: "소음 수준"
+### 출력:
+{
+  "found": true,
+  "excerpt": "...이전 제품보다 **훨씬 조용해요**. 새벽에 분유 탈 때 아기 안 깨서 좋습니다.",
+  "isPositive": true
+}
 
 ## 리뷰 (${reviews.length}개)
 ${reviewsText}
@@ -171,7 +236,7 @@ ${reviewsText}
 ## 출력 (JSON만)
 {
   "found": true,
-  "excerpt": "...문맥. **핵심 문장.** 문맥...",
+  "excerpt": "...문맥. **핵심 부분.** 문맥...",
   "isPositive": true
 }
 
@@ -185,7 +250,7 @@ ${reviewsText}
     console.log(`[extractRelevantExcerpt] Processing ${criteriaName} for product ${productTitle} with ${reviews.length} reviews`);
 
     const response = await callGeminiWithRetry(async () => {
-      const model = getModel(0.5); // 약간 높은 temperature로 유연한 발췌
+      const model = getModel(0.3); // 정확한 발췌를 위해 낮은 temperature 사용
       const result = await model.generateContent(prompt);
       return result.response.text();
     }, 2, 1000);

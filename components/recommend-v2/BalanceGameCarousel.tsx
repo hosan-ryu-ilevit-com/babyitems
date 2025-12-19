@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
+import { useState, useEffect, useImperativeHandle, forwardRef, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { BalanceQuestion } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
@@ -70,6 +70,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
     const [skipped, setSkipped] = useState<Set<string>>(new Set());
     const [direction, setDirection] = useState(1); // 1: next, -1: previous
     const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+    const isTransitioningRef = useRef(false); // 자동 이동 중 클릭 방지 (ref 사용으로 리렌더링 방지)
 
     const currentQuestion = questions[currentIndex];
     const isLastQuestion = currentIndex >= questions.length - 1;
@@ -103,6 +104,9 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
     // 선택 처리 (토글 방식 + 자동 다음 이동)
     const handleSelect = (questionId: string, ruleKey: string) => {
+      // 자동 이동 중이면 클릭 무시 (중복 선택 방지)
+      if (isTransitioningRef.current) return;
+
       const newSelections = new Map(selections);
       const wasAlreadySelected = selections.get(questionId) === ruleKey;
 
@@ -142,8 +146,10 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
       // 새로 선택한 경우에만 자동으로 다음 문제로 이동 (마지막이 아닌 경우)
       if (!wasAlreadySelected && !isLastQuestion) {
+        isTransitioningRef.current = true;
         setTimeout(() => {
           goToIndex(currentIndex + 1);
+          isTransitioningRef.current = false;
         }, 350);
       }
     };
@@ -178,6 +184,9 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
     // "둘 다 중요해요" 선택 처리 (priority 타입용)
     const handleSelectBoth = (questionId: string) => {
+      // 자동 이동 중이면 클릭 무시 (중복 선택 방지)
+      if (isTransitioningRef.current) return;
+
       const question = questions.find(q => q.id === questionId);
       if (!question) return;
 
@@ -208,8 +217,10 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
       // 새로 선택한 경우에만 자동으로 다음 문제로 이동
       if (!wasAlreadyBoth && !isLastQuestion) {
+        isTransitioningRef.current = true;
         setTimeout(() => {
           goToIndex(currentIndex + 1);
+          isTransitioningRef.current = false;
         }, 350);
       }
     };

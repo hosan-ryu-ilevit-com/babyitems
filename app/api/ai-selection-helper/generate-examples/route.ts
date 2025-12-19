@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getModel, callGeminiWithRetry, parseJSONResponse } from '@/lib/ai/gemini';
 
 interface GenerateExamplesRequest {
-  questionType: 'hard_filter' | 'balance_game' | 'negative_filter';
+  questionType: 'hard_filter' | 'balance_game' | 'negative_filter' | 'category_selection';
   questionText: string;
   category: string;
   categoryName: string;
@@ -22,7 +22,28 @@ export async function POST(request: NextRequest) {
     let systemPrompt: string;
     let userPrompt: string;
 
-    if (questionType === 'negative_filter') {
+    if (questionType === 'category_selection') {
+      // 카테고리 선택용 예시 생성
+      systemPrompt = `당신은 육아맘의 마음을 잘 아는 상담사입니다.
+"어떤 제품이 필요한지 모르겠다"는 사용자가 입력할 수 있는 육아 상황 예시를 3개 생성해주세요.
+
+**중요 규칙:**
+1. 각 예시는 15-25자 내외로 짧고 자연스럽게
+2. 아기 개월 수, 육아 환경, 현재 불편한 점 등 구체적인 상황으로
+3. 좋은 예시: "신생아 출산 준비 중이에요", "쌍둥이라 수유가 힘들어요", "외출할 때마다 불편해요"
+4. 나쁜 예시: "유모차 필요해요" (카테고리를 직접 언급하면 안 됨)
+5. "~해요", "~이에요" 같은 자연스러운 말투로`;
+
+      userPrompt = `**질문:** ${questionText}
+
+사용자가 본인의 육아 상황을 설명할 수 있는 예시를 생성해주세요.
+카테고리 이름을 직접 언급하지 말고, 상황만 설명해야 합니다.
+
+**응답 형식 (JSON):**
+{
+  "examples": ["예시1", "예시2", "예시3"]
+}`;
+    } else if (questionType === 'negative_filter') {
       // 단점 필터용 예시 생성 - 상품 단점이 아닌 사용자 상황/우려 기반
       systemPrompt = `당신은 육아맘의 마음을 잘 아는 상담사입니다.
 "피하고 싶은 단점"을 선택하는 질문에서, 사용자가 입력할 수 있는 본인의 상황이나 우려를 예시로 3개 생성해주세요.

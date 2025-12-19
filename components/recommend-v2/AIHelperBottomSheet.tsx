@@ -21,7 +21,7 @@ interface BalanceGameOption {
 interface AIHelperBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  questionType: 'hard_filter' | 'balance_game';
+  questionType: 'hard_filter' | 'balance_game' | 'category_selection';
   questionId: string;
   questionText: string;
   options: HardFilterOption[] | { A: BalanceGameOption; B: BalanceGameOption };
@@ -94,7 +94,7 @@ export function AIHelperBottomSheet({
     }
   }, [aiResponse, isLoading]);
 
-  const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 선택하는게 뭔가요?';
+  const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 구매하는게 뭔가요?';
 
   const generateExamples = async () => {
     setIsLoadingExamples(true);

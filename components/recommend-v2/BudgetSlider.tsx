@@ -346,17 +346,15 @@ export function BudgetSlider({
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
           onClick={() => setIsAIHelperOpen(true)}
-          className="flex items-center gap-2 px-3 py-2 bg-purple-50 hover:bg-purple-100 border border-purple-200 hover:border-purple-300 rounded-xl transition-all"
+          className="w-full flex items-center justify-center gap-2 px-3 py-3 bg-purple-50 hover:bg-purple-100 border border-purple-300 hover:border-purple-400 rounded-xl transition-all"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="#8B5CF6">
             <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
           </svg>
-          <span className="text-sm font-medium text-purple-700">
+          <span className="text-sm font-semibold text-purple-700">
             어떤 예산이 좋은지 모르겠어요
           </span>
-          <span className="px-1.5 py-0.5 bg-purple-500 text-white text-[10px] font-bold rounded">
-            AI
-          </span>
+
         </motion.button>
       )}
 

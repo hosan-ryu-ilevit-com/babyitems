@@ -605,3 +605,33 @@ export interface UserContext {
   // 자연어 입력 (모든 단계)
   naturalLanguageInputs?: NaturalLanguageInput[];
 }
+
+// ===================================================
+// 분석 타임라인 관련 타입
+// ===================================================
+
+/**
+ * 분석 타임라인 단계
+ * AI 추천 과정의 각 단계를 상세히 표시하기 위한 타입
+ */
+export interface TimelineStep {
+  id: string;
+  title: string;
+  icon: string;
+  details: string[];  // 구체적인 분석 내용
+  subDetails?: Array<{  // 중첩된 상세 정보 (선택)
+    label: string;
+    items: string[];
+  }>;
+  timestamp: number;  // Date.now()
+  status: 'completed' | 'in_progress' | 'pending';
+}
+
+/**
+ * 전체 분석 타임라인
+ */
+export interface AnalysisTimeline {
+  steps: TimelineStep[];
+  startTime: number;
+  endTime: number;
+}

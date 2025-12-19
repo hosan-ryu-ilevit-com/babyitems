@@ -1218,7 +1218,7 @@ export function logV2ReRecommendDifferentCategory(
 
 // 1. AI 헬퍼 버튼 클릭 ("뭘 골라야 할지 모르겠어요")
 export function logAIHelperButtonClicked(
-  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget',
+  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget' | 'category_selection',
   questionId: string,
   questionText: string,
   category: string,
@@ -1246,7 +1246,7 @@ export function logAIHelperButtonClicked(
 
 // 2. 예시 질문 클릭
 export function logExampleQuestionClicked(
-  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget',
+  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget' | 'category_selection',
   questionId: string,
   exampleText: string,
   exampleIndex: number,
@@ -1274,7 +1274,7 @@ export function logExampleQuestionClicked(
 
 // 3. 예시 질문 적용
 export function logExampleQuestionApplied(
-  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget',
+  questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget' | 'category_selection',
   questionId: string,
   exampleText: string,
   selectedOptions: string[],

@@ -101,8 +101,8 @@ export function NegativeFilterList({
           return (
             <motion.button
               key={option.id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.03 }}
               onClick={() => {
                 const willBeSelected = !selectedKeys.includes(option.target_rule_key);

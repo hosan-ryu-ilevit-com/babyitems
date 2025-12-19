@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick } from '@/lib/logging/clientLogger';
+import DanawaReviewTab from '@/components/DanawaReviewTab';
+import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick, logReviewTabOpened } from '@/lib/logging/clientLogger';
 import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
 import OptionSelector from '@/components/ui/OptionSelector';
@@ -182,6 +183,7 @@ function parseMarkdownBold(text: string) {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false }: ProductDetailModalProps) {
+  const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>('price');
   const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
 
@@ -201,6 +203,9 @@ export default function ProductDetailModal({ productData, category, danawaData, 
   // 가격 비교 토글 상태
   const [showPriceComparison, setShowPriceComparison] = useState(false);
 
+  // 리뷰 탭 영역 ref (스크롤용)
+  const reviewTabRef = useRef<HTMLDivElement>(null);
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     // Save original overflow style
@@ -211,6 +216,22 @@ export default function ProductDetailModal({ productData, category, danawaData, 
     // Restore on unmount
     return () => {
       document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
+  // 리뷰 탭 열기 이벤트 리스너 (PLP에서 "리뷰 모두보기" 클릭 시)
+  useEffect(() => {
+    const handleOpenReviewTab = () => {
+      setPriceTab('danawa_reviews');
+      // 약간의 딜레이 후 리뷰 탭으로 스크롤
+      setTimeout(() => {
+        reviewTabRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    };
+
+    window.addEventListener('openReviewTab', handleOpenReviewTab);
+    return () => {
+      window.removeEventListener('openReviewTab', handleOpenReviewTab);
     };
   }, []);
 
@@ -341,8 +362,61 @@ export default function ProductDetailModal({ productData, category, danawaData, 
           </div>
         </div>
 
-        {/* 상품정보 */}
-        <div className="pb-28">
+        {/* 상품정보 | 상품리뷰 탭 (전체 너비) */}
+        <div ref={reviewTabRef}>
+          <div className="flex">
+            <button
+              onClick={() => {
+                setPriceTab('price');
+                logButtonClick('상품정보 탭', 'product-modal');
+              }}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                priceTab === 'price'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              상품정보
+            </button>
+            <button
+              onClick={() => {
+                setPriceTab('danawa_reviews');
+                // 기존 로깅 유지
+                logButtonClick('상품 리뷰 탭', 'product-modal');
+                // 상세 로깅 추가
+                logReviewTabOpened(
+                  productData.product.id,
+                  productData.product.title,
+                  'reviews',
+                  category,
+                  category, // categoryName으로 category 사용
+                  productData.product.brand,
+                  productData.rank,
+                  'product-modal'
+                );
+              }}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                priceTab === 'danawa_reviews'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              상품리뷰
+            </button>
+          </div>
+        </div>
+
+        {/* 탭 콘텐츠 */}
+        <AnimatePresence mode="wait">
+          {priceTab === 'price' ? (
+            <motion.div
+              key="product-info-tab"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="pb-28"
+            >
               {/* 가격 비교 */}
               <div className="px-4 py-4">
                 {danawaData && danawaData.prices.length > 0 ? (
@@ -896,7 +970,20 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                   </div>
                 )} */}
               </div>
-        </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="danawa-reviews-tab"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="pb-28"
+            >
+              <DanawaReviewTab pcode={productData.product.id} fullHeight={true} />
+            </motion.div>
+          )}
+        </AnimatePresence>
         </div>
 
         {/* Floating Action Buttons */}
@@ -956,7 +1043,10 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
                   }
                 }}
-                className="flex-1 h-14 font-semibold rounded-2xl text-base transition-colors bg-blue-600 hover:bg-blue-700 text-white"
+                className="flex-1 h-14 font-semibold rounded-2xl text-base transition-colors text-white"
+                style={{ backgroundColor: '#0084FE' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0070D9'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0084FE'}
               >
                 최저가로 구매하기
               </button>

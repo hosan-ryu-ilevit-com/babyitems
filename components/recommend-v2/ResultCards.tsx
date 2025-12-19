@@ -3,15 +3,16 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import type { ScoredProduct, ProductVariant } from '@/types/recommend-v2';
+import type { ScoredProduct, ProductVariant, AnalysisTimeline } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
-import { logButtonClick, logV2ProductModalOpened, logFavoriteAction, logV2RecommendationReceived } from '@/lib/logging/clientLogger';
+import { logButtonClick, logV2ProductModalOpened, logFavoriteAction, logV2RecommendationReceived, logProductModalPurchaseClick } from '@/lib/logging/clientLogger';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useDanawaPrices } from '@/hooks/useDanawaPrices';
 import { useRealReviewsCache } from '@/hooks/useRealReviewsCache';
 import { RealReviewsContent } from './RealReviewsContent';
+import { AnalysisTimeline as AnalysisTimelineComponent } from './AnalysisTimeline';
 import Toast from '@/components/Toast';
 
 // 마크다운 볼드 처리
@@ -191,6 +192,7 @@ interface ResultCardsProps {
   userContext?: UserContext;  // 사용자 선택 컨텍스트 (API용)
   onModalOpenChange?: (isOpen: boolean) => void;  // 상품 모달 열림/닫힘 상태 콜백
   onViewFavorites?: () => void;  // 찜 목록 모달로 열기 위한 콜백
+  analysisTimeline?: AnalysisTimeline;  // 분석 타임라인 (AI 분석 과정)
 }
 
 /**
@@ -227,7 +229,7 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
   return <span className="whitespace-pre-wrap">{displayedContent}</span>;
 }
 
-export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext, onModalOpenChange, onViewFavorites }: ResultCardsProps) {
+export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext, onModalOpenChange, onViewFavorites, analysisTimeline }: ResultCardsProps) {
   // Favorites management
   const { toggleFavorite, isFavorite, count: favoritesCount } = useFavorites();
   const [showToast, setShowToast] = useState(false);
@@ -996,9 +998,13 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             <StreamingText content="맞춤 추천 완료" speed={30} />
           </h3>
         </div>
-       
+
       </motion.div>
 
+      {/* AI 분석 타임라인 토글 */}
+      {analysisTimeline && (
+        <AnalysisTimelineComponent timeline={analysisTimeline} />
+      )}
 
       {/* 제품 카드 목록 - result 페이지 스타일 */}
       {products.map((product, index) => {
@@ -1240,20 +1246,54 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                   </div>
                 )}
 
-                {/* 상세 분석 보기 버튼 */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleProductClick(product, index);
-                    logButtonClick('상세분석보기_PLP', 'v2-result');
-                  }}
-                  className="mt-2 w-full py-2.5 text-sm font-medium text-[#0074F3] bg-[#E5F1FF] hover:bg-[#D6E8FF] rounded-xl transition-colors flex items-center justify-center gap-1"
-                >
-                  상세 분석 보기
-                  <svg className="w-3 h-3 text-[#0074F3]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+                {/* 버튼 그룹 */}
+                <div className="mt-2 flex gap-2">
+                  {/* 상세 분석 보기 버튼 */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleProductClick(product, index);
+                      logButtonClick('상세분석보기_PLP', 'v2-result');
+                    }}
+                    className="flex-1 py-2.5 text-sm font-medium text-[#0074F3] bg-[#E5F1FF] hover:bg-[#D6E8FF] rounded-xl transition-colors flex items-center justify-center gap-1"
+                  >
+                    상세 분석 보기
+                   
+                  </button>
+                  {/* 최저가 구매하기 버튼 */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      logButtonClick('최저가로 구매하기_PLP', 'v2-result');
+                      // 다나와 최저가 링크가 있으면 사용, 없으면 쿠팡 링크로 fallback
+                      const lowestPriceLink = danawa?.mall_prices?.[0]?.link;
+                      const lowestPrice = danawa?.mall_prices?.[0]?.price;
+                      const lowestMall = danawa?.mall_prices?.[0]?.mall || '쿠팡';
+
+                      // 가격 정보 로깅
+                      logProductModalPurchaseClick(
+                        product.pcode,
+                        product.title,
+                        lowestMall,
+                        lowestPrice || product.price || 0,
+                        true, // 최저가 버튼이므로 항상 true
+                        'v2-result'
+                      );
+
+                      if (lowestPriceLink) {
+                        window.open(lowestPriceLink, '_blank');
+                      } else {
+                        window.open(`https://www.coupang.com/vp/products/${product.pcode}`, '_blank');
+                      }
+                    }}
+                    className="flex-1 py-2.5 text-sm font-medium text-white rounded-xl transition-colors flex items-center justify-center gap-1"
+                    style={{ backgroundColor: '#0084FE' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0070D9'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0084FE'}
+                  >
+                    최저가 구매하기
+                  </button>
+                </div>
               </div>
             )}
           </motion.div>

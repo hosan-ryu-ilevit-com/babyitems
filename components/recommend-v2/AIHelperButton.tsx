@@ -7,7 +7,7 @@ interface AIHelperButtonProps {
   onClick: () => void;
   className?: string;
   // 로깅용 메타데이터
-  questionType?: 'hard_filter' | 'balance_game' | 'negative' | 'budget';
+  questionType?: 'hard_filter' | 'balance_game' | 'negative' | 'budget' | 'category_selection';
   questionId?: string;
   questionText?: string;
   category?: string;
@@ -58,7 +58,7 @@ export function AIHelperButton({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
       onClick={handleClick}
-      className={`flex items-center gap-2 px-3 py-2 bg-purple-50 hover:bg-purple-100 border border-purple-200 hover:border-purple-300 rounded-xl transition-all ${className}`}
+      className={`w-full flex items-center justify-center gap-2 px-3 py-3 bg-purple-50 hover:bg-purple-100 border border-purple-300 hover:border-purple-400 rounded-xl transition-all ${className}`}
     >
       {/* AI 아이콘 (4방향 별) */}
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="#8B5CF6">
@@ -66,14 +66,11 @@ export function AIHelperButton({
       </svg>
 
       {/* 텍스트 */}
-      <span className="text-sm font-medium text-purple-700">
+      <span className="text-sm font-semibold text-purple-700">
         뭘 골라야 할지 모르겠어요
       </span>
 
-      {/* AI 태그 */}
-      <span className="px-1.5 py-0.5 bg-purple-500 text-white text-[10px] font-bold rounded">
-        AI
-      </span>
+      
     </motion.button>
   );
 }
