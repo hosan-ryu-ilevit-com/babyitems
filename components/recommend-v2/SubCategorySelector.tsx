@@ -77,7 +77,14 @@ export function SubCategorySelector({
 
       {/* AI 도움받기 버튼 - dynamicTip이 있을 때만 표시 */}
       {showAIHelper && dynamicTip && (
-        <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+        <AIHelperButton
+          onClick={() => setIsAIHelperOpen(true)}
+          questionType="hard_filter"
+          questionId="subcategory_selector"
+          questionText={`어떤 ${categoryName}를 찾으세요?`}
+          category={category}
+          categoryName={categoryName}
+        />
       )}
 
       {/* 선택지 그리드 (다중 선택 가능) */}

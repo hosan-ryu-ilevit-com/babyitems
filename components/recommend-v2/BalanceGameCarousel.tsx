@@ -294,7 +294,15 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
               {/* AI 도움받기 버튼 */}
               {showAIHelper && (
                 <div className="mb-3">
-                  <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+                  <AIHelperButton
+                    onClick={() => setIsAIHelperOpen(true)}
+                    questionType="balance_game"
+                    questionId={currentQuestion.id}
+                    questionText={currentQuestion.title}
+                    category={category}
+                    categoryName={categoryName}
+                    step={currentIndex}
+                  />
                 </div>
               )}
 

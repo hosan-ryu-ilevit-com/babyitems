@@ -5,9 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { Recommendation } from '@/types';
-import { products } from '@/data/products';
 import { logButtonClick, logComparisonDetailViewClick } from '@/lib/logging/clientLogger';
-import AnchorProductChangeBottomSheet from './AnchorProductChangeBottomSheet';
 
 // 정규화된 스펙 row 타입 (API 응답과 동일)
 interface NormalizedSpecRow {
@@ -24,7 +22,6 @@ interface DetailedComparisonTableProps {
   isTagBasedFlow?: boolean; // Tag-based flow 여부
   category?: string; // NEW: Category for spec-based products
   onProductClick?: (rec: Recommendation) => void; // NEW: Product click handler for modal
-  onAnchorChange?: (newAnchorProduct: any) => void; // NEW: Anchor product change handler
   danawaSpecs?: Record<string, Record<string, string>>; // NEW: Danawa specs data
   normalizedSpecs?: NormalizedSpecRow[]; // NEW: 정규화된 스펙 비교표 데이터
 }
@@ -38,7 +35,6 @@ export default function DetailedComparisonTable({
   isTagBasedFlow = false,
   category,
   onProductClick,
-  onAnchorChange,
   danawaSpecs = {},
   normalizedSpecs = []
 }: DetailedComparisonTableProps) {
@@ -47,7 +43,6 @@ export default function DetailedComparisonTable({
 
   const [productDetails, setProductDetails] = useState<Record<string, { pros: string[]; cons: string[]; comparison: string; specs?: Record<string, any> | null }>>({});
   const [loadingProductIds, setLoadingProductIds] = useState<Set<string>>(new Set()); // 로딩 중인 제품 ID들
-  const [isChangeAnchorOpen, setIsChangeAnchorOpen] = useState(false); // 기준제품 변경 바텀시트
 
   // productDetails를 ref로도 추적 (useEffect에서 의존성 없이 참조하기 위함)
   const productDetailsRef = useRef(productDetails);
@@ -172,11 +167,8 @@ export default function DetailedComparisonTable({
     }
   }, [displayProducts, selectedProductIds]);
 
-  // Tag-based flow: Use products from specs (no need to look up in products.ts)
-  // Normal flow: Try to find in products.ts, but don't fail if not found
-  const allProducts = isTagBasedFlow
-    ? displayProducts.map(rec => rec.product) // Spec-based products (no coreValues)
-    : displayProducts.map(rec => products.find(p => p.id === rec.product.id) || rec.product).filter(Boolean);
+  // Use product data directly from recommendations
+  const allProducts = displayProducts.map(rec => rec.product);
 
   // 선택된 2개 제품만 필터링
   const selectedProducts = allProducts.filter(p => p && selectedProductIds.includes(p.id));
@@ -523,40 +515,27 @@ export default function DetailedComparisonTable({
                   <div className="flex items-start justify-between gap-4">
                     {/* 왼쪽 제품 버튼 */}
                     <div className="flex-1">
-                      {selectedRecommendations[0]?.reasoning !== '비교 기준 제품' ? (
-                        <button
-                          onClick={() => {
-                            if (onProductClick && selectedRecommendations[0]) {
-                              logButtonClick(
-                                `비교표 상세보기: ${selectedRecommendations[0].product.title}`,
-                                'result'
-                              );
-                              logComparisonDetailViewClick(
-                                selectedRecommendations[0].product.id,
-                                selectedRecommendations[0].product.title,
-                                selectedRecommendations[0].product.brand,
-                                selectedRecommendations[0].rank,
-                                'compare'
-                              );
-                              onProductClick(selectedRecommendations[0]);
-                            }
-                          }}
-                          className="w-full py-2.5 text-sm font-semibold text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors"
-                        >
-                          상세보기
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => {
-                            logButtonClick('기준제품_변경하기_버튼_클릭', 'compare');
-                            setIsChangeAnchorOpen(true);
-                          }}
-                          className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors"
-                          style={{ backgroundColor: '#F0F7FF', color: '#0074F3' }}
-                        >
-                          기준제품 변경하기
-                        </button>
-                      )}
+                      <button
+                        onClick={() => {
+                          if (onProductClick && selectedRecommendations[0]) {
+                            logButtonClick(
+                              `비교표 상세보기: ${selectedRecommendations[0].product.title}`,
+                              'result'
+                            );
+                            logComparisonDetailViewClick(
+                              selectedRecommendations[0].product.id,
+                              selectedRecommendations[0].product.title,
+                              selectedRecommendations[0].product.brand,
+                              selectedRecommendations[0].rank,
+                              'compare'
+                            );
+                            onProductClick(selectedRecommendations[0]);
+                          }
+                        }}
+                        className="w-full py-2.5 text-sm font-semibold text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors"
+                      >
+                        상세보기
+                      </button>
                     </div>
 
                     {/* 중앙 빈 공간 */}
@@ -564,40 +543,27 @@ export default function DetailedComparisonTable({
 
                     {/* 오른쪽 제품 버튼 */}
                     <div className="flex-1">
-                      {selectedRecommendations[1]?.reasoning !== '비교 기준 제품' ? (
-                        <button
-                          onClick={() => {
-                            if (onProductClick && selectedRecommendations[1]) {
-                              logButtonClick(
-                                `비교표 상세보기: ${selectedRecommendations[1].product.title}`,
-                                'result'
-                              );
-                              logComparisonDetailViewClick(
-                                selectedRecommendations[1].product.id,
-                                selectedRecommendations[1].product.title,
-                                selectedRecommendations[1].product.brand,
-                                selectedRecommendations[1].rank,
-                                'compare'
-                              );
-                              onProductClick(selectedRecommendations[1]);
-                            }
-                          }}
-                          className="w-full py-2.5 text-sm font-semibold text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors"
-                        >
-                          상세보기
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => {
-                            logButtonClick('기준제품_변경하기_버튼_클릭', 'compare');
-                            setIsChangeAnchorOpen(true);
-                          }}
-                          className="w-full py-2.5 text-sm font-semibold rounded-lg transition-colors"
-                          style={{ backgroundColor: '#F0F7FF', color: '#0074F3' }}
-                        >
-                          기준제품 변경하기
-                        </button>
-                      )}
+                      <button
+                        onClick={() => {
+                          if (onProductClick && selectedRecommendations[1]) {
+                            logButtonClick(
+                              `비교표 상세보기: ${selectedRecommendations[1].product.title}`,
+                              'result'
+                            );
+                            logComparisonDetailViewClick(
+                              selectedRecommendations[1].product.id,
+                              selectedRecommendations[1].product.title,
+                              selectedRecommendations[1].product.brand,
+                              selectedRecommendations[1].rank,
+                              'compare'
+                            );
+                            onProductClick(selectedRecommendations[1]);
+                          }
+                        }}
+                        className="w-full py-2.5 text-sm font-semibold text-gray-500 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors"
+                      >
+                        상세보기
+                      </button>
                     </div>
                   </div>
                 </td>
@@ -1104,31 +1070,6 @@ export default function DetailedComparisonTable({
           </tbody>
         </table>
       </div>
-      )}
-
-      {/* 기준제품 변경 바텀시트 */}
-      {isTagBasedFlow && category && (
-        <AnchorProductChangeBottomSheet
-          isOpen={isChangeAnchorOpen}
-          onClose={() => setIsChangeAnchorOpen(false)}
-          currentCategory={category}
-          currentAnchorProductId={anchorProduct?.productId || ''}
-          onSelectProduct={(newProduct) => {
-            if (onAnchorChange) {
-              const newAnchorId = String(newProduct.productId);
-              // 새 앵커 제품 ID만 로딩 상태로 설정
-              setLoadingProductIds(new Set([newAnchorId]));
-              // 기존 비교 데이터에서 새 앵커 제품만 제거 (다른 제품 데이터는 유지)
-              setProductDetails(prev => {
-                const updated = { ...prev };
-                delete updated[newAnchorId];
-                return updated;
-              });
-              onAnchorChange(newProduct);
-            }
-          }}
-          useV2Api={isTagBasedFlow}
-        />
       )}
     </motion.div>
   );

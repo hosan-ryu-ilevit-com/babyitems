@@ -142,17 +142,6 @@ export default function V2ResultPage() {
     }));
   }, [products]);
 
-  // Handle anchor product change from comparison table
-  const handleAnchorChange = (newAnchor: typeof anchorProduct) => {
-    if (newAnchor) {
-      setAnchorProduct(newAnchor);
-      // Clear comparison cache to force refetch
-      setComparisonFeatures({});
-      setComparisonDetails({});
-      logButtonClick(`기준제품_변경완료_${newAnchor.브랜드}_${newAnchor.모델명}`, 'v2-result');
-    }
-  };
-
   // Go back to recommendation flow
   const handleGoBack = () => {
     router.push(`/recommend-v2/${categoryKey}`);
@@ -308,7 +297,6 @@ export default function V2ResultPage() {
               anchorProduct={anchorProduct}
               isTagBasedFlow={true}
               category={categoryKey}
-              onAnchorChange={handleAnchorChange}
               onProductClick={(rec) => {
                 logButtonClick(`비교표_상세보기_${rec.product.title}`, 'v2-result');
                 // TODO: Open product detail modal

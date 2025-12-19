@@ -31,7 +31,7 @@ export function AIHelperButton({
   step,
 }: AIHelperButtonProps) {
   const handleClick = () => {
-    // 로깅 (메타데이터가 있을 때만)
+    // 로깅 (메타데이터가 있을 때는 상세 로깅, 없을 때는 기본 버튼 클릭 로깅)
     if (questionType && questionId && questionText && category && categoryName) {
       logAIHelperButtonClicked(
         questionType,
@@ -41,6 +41,11 @@ export function AIHelperButton({
         categoryName,
         step
       );
+    } else {
+      // 기본 로깅 (props 없이 사용된 경우)
+      import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
+        logButtonClick('recommend-v2', '💜 AI 도움 요청 (메타데이터 없음)');
+      });
     }
 
     // 원래 onClick 호출

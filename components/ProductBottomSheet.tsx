@@ -136,25 +136,6 @@ export default function ProductBottomSheet({
                   </button>
                 </div>
 
-                {/* Second Row - 질문하기 */}
-                <button
-                  onClick={() => {
-                    logButtonClick(`이 상품 질문하기: ${product.title}`, 'home_bottomsheet');
-                    router.push(`/product-chat?productId=${product.id}&from=${encodeURIComponent(fromPage)}`);
-                    onClose();
-                  }}
-                  className="w-full py-3 font-semibold rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-2"
-                  style={{ backgroundColor: '#E5F1FF', color: '#0074F3' }}
-                >
-                  질문하기
-                  <span className="px-2 py-0.5 rounded-md text-xs font-bold flex items-center gap-1 text-white" style={{ background: 'linear-gradient(135deg, #5855ff, #71c4fd, #5cdcdc)' }}>
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22l-.394-1.433a2.25 2.25 0 00-1.423-1.423L13.25 19l1.433-.394a2.25 2.25 0 001.423-1.423L16.5 16l.394 1.433a2.25 2.25 0 001.423 1.423L19.75 19l-1.433.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                    <span>AI</span>
-                  </span>
-                </button>
-
                 {/* Bottom Row - Add to Favorites */}
                 {onAddToFavorites && (
                   <button

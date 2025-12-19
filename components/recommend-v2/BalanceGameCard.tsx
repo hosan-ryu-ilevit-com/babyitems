@@ -76,7 +76,15 @@ export function BalanceGameCard({
 
       {/* AI 도움받기 버튼 */}
       {showAIHelper && (
-        <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+        <AIHelperButton
+          onClick={() => setIsAIHelperOpen(true)}
+          questionType="balance_game"
+          questionId={question.id}
+          questionText={question.title}
+          category={category}
+          categoryName={categoryName}
+          step={currentIndex}
+        />
       )}
 
       {/* A vs B 선택 */}

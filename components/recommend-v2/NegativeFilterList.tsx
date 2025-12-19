@@ -82,7 +82,14 @@ export function NegativeFilterList({
 
       {/* AI 도움받기 버튼 */}
       {showAIHelper && (
-        <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+        <AIHelperButton
+          onClick={() => setIsAIHelperOpen(true)}
+          questionType="negative"
+          questionId="negative_filter"
+          questionText="이것만큼은 절대 안 된다! 피하고 싶은 단점이 있나요?"
+          category={category}
+          categoryName={categoryName}
+        />
       )}
 
       {/* 옵션 목록 */}

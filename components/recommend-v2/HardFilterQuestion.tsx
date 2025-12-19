@@ -139,7 +139,15 @@ function ReviewPriorityTags({
 
         {/* 뭘 골라야할지 모르겠어요 버튼 - AIHelperButton 사용 */}
         {showAIHelper && (
-          <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+          <AIHelperButton
+            onClick={() => setIsAIHelperOpen(true)}
+            questionType="hard_filter"
+            questionId={question.id}
+            questionText="어떤 구매조건이 가장 중요하신가요?"
+            category={category}
+            categoryName={categoryName}
+            step={currentIndex}
+          />
         )}
       </motion.div>
 
@@ -494,7 +502,15 @@ export function HardFilterQuestion({
 
       {/* AI 도움받기 버튼 - tipText가 있을 때만 표시 */}
       {showAIHelper && tipText && (
-        <AIHelperButton onClick={() => setIsAIHelperOpen(true)} />
+        <AIHelperButton
+          onClick={() => setIsAIHelperOpen(true)}
+          questionType="hard_filter"
+          questionId={question.id}
+          questionText={question.question}
+          category={category}
+          categoryName={categoryName}
+          step={currentIndex}
+        />
       )}
 
       {/* 선택지 - 6개 초과 시 2열 그리드 */}

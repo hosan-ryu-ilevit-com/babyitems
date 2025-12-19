@@ -3,8 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Product } from '@/types';
-import { useRouter } from 'next/navigation';
-import { logFavoritesCompareClick, logFavoriteAction } from '@/lib/logging/clientLogger';
+import { logFavoriteAction } from '@/lib/logging/clientLogger';
 
 interface FavoritesBottomSheetProps {
   isOpen: boolean;
@@ -19,21 +18,6 @@ export default function FavoritesBottomSheet({
   favorites,
   onRemove,
 }: FavoritesBottomSheetProps) {
-  const router = useRouter();
-
-  const handleCompare = () => {
-    if (favorites.length !== 3) {
-      alert('정확히 3개의 제품을 선택해주세요');
-      return;
-    }
-    // Log comparison click
-    const productIds = favorites.map((p) => p.id);
-    logFavoritesCompareClick(productIds);
-
-    // Navigate to compare page with product IDs
-    router.push(`/compare?products=${productIds.join(',')}`);
-  };
-
   const handleRemove = (productId: string) => {
     const product = favorites.find(p => p.id === productId);
     if (product) {
@@ -151,27 +135,6 @@ export default function FavoritesBottomSheet({
                 </div>
               )}
             </div>
-
-            {/* Footer CTA */}
-            {favorites.length > 0 && (
-              <div className="px-6 py-4 border-t border-gray-200">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleCompare}
-                  disabled={favorites.length !== 3}
-                  className={`w-full h-14 text-white text-base font-semibold rounded-2xl transition-all ${
-                    favorites.length === 3
-                      ? 'bg-[#0084FE] hover:bg-[#0074DD]'
-                      : 'bg-gray-300 cursor-not-allowed'
-                  }`}
-                >
-                  {favorites.length === 3
-                    ? '이 3개 비교하기'
-                    : `${3 - favorites.length}개 더 선택해주세요`}
-                </motion.button>
-              </div>
-            )}
           </motion.div>
         </>
       )}
