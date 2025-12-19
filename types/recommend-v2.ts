@@ -162,8 +162,14 @@ export interface ProductItem {
 export interface ScoredProduct extends ProductItem {
   baseScore: number;
   negativeScore: number;
+  hardFilterScore: number;
+  budgetScore: number;
   totalScore: number;
   matchedRules: string[];
+  // Budget-related fields
+  isOverBudget: boolean;
+  overBudgetAmount: number;
+  overBudgetPercent: number;
   // LLM evaluation fields (from /api/recommend-v2)
   fitScore?: number;
   reasoning?: string;

@@ -23,8 +23,8 @@ export function AnalysisTimeline({ timeline }: AnalysisTimelineProps) {
         className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
       >
         <div className="flex items-center gap-2">
-          <span className="text-lg">🔍</span>
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm">🔍</span>
+          <span className="text-sm font-medium text-gray-500">
             AI 분석 과정 보기
           </span>
         </div>
@@ -33,7 +33,7 @@ export function AnalysisTimeline({ timeline }: AnalysisTimelineProps) {
           transition={{ duration: 0.2 }}
         >
           <svg
-            className="w-5 h-5 text-gray-500"
+            className="w-5 h-5 text-gray-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

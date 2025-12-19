@@ -47,6 +47,7 @@ interface AISelectionRequest {
   userSelections?: {
     hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
     balanceGames?: Array<{ title: string; selectedOption: string }>;
+    naturalLanguageInputs?: Array<{ input: string }>;
   };
 }
 

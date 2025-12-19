@@ -53,6 +53,7 @@ import {
   calculateBalanceScore,
   calculateNegativeScore,
   calculateHardFilterScore,
+  calculateBudgetScore,
   generateConditionSummary,
 } from '@/lib/recommend-v2/dynamicQuestions';
 
@@ -98,7 +99,7 @@ interface SubCategory {
 interface SubCategoryConfig {
   category_name: string;
   require_sub_category: boolean;
-  filter_by: 'category_code' | 'attribute';
+  filter_by: 'category_code' | 'attribute' | 'brand';
   filter_key?: string;  // attribute 필터일 때 사용 (예: '타입')
   sub_categories: SubCategory[];
 }
@@ -177,7 +178,8 @@ export default function RecommendV2Page() {
   const [conditionSummary, setConditionSummary] = useState<Array<{ label: string; value: string }>>([]);
 
   // Results
-  const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]);
+  const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]); // Top 3 추천 제품
+  const [allScoredProducts, setAllScoredProducts] = useState<ScoredProduct[]>([]); // 전체 점수 계산된 제품 목록 (예산 필터용)
   const [isCalculating, setIsCalculating] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false); // 버튼 중복 클릭 방지
   const [progress, setProgress] = useState(0); // 0~100 프로그레스
@@ -825,6 +827,24 @@ export default function RecommendV2Page() {
             categoryKey,
             limit: 500,
             targetCategoryCodes: codes,
+          }),
+        });
+        const productsJson = await productsRes.json();
+
+        if (productsJson.success) {
+          loadedProducts = productsJson.data.products;
+        }
+      } else if (filterBy === 'brand') {
+        // brand 기반: brands 필터 사용
+        // "기타 브랜드"인 경우 brands 필터 없이 전체 로드
+        const isOtherBrand = codes.length === 1 && codes[0] === 'other';
+        const productsRes = await fetch('/api/v2/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            limit: 500,
+            ...(isOtherBrand ? {} : { brands: codes }),
           }),
         });
         const productsJson = await productsRes.json();
@@ -1556,7 +1576,7 @@ export default function RecommendV2Page() {
     return result;
   }, [hardFilterConfig, hardFilterAnswers, balanceQuestions, balanceSelections, naturalLanguageInputs]);
 
-  const handleGetRecommendation = useCallback(async () => {
+  const handleGetRecommendation = useCallback(async (useBudgetHardFilter = false) => {
     setIsCalculating(true);
     // progress는 useEffect에서 0으로 초기화됨
 
@@ -1593,25 +1613,74 @@ export default function RecommendV2Page() {
           logicMap
         );
 
+        // 예산 점수 계산 (soft constraint)
+        const budgetScore = calculateBudgetScore(product, budget);
+
+        // 예산 초과 정보 계산
+        const effectivePrice = product.lowestPrice ?? product.price ?? 0;
+        const isOverBudget = effectivePrice > 0 && effectivePrice > budget.max;
+        const overBudgetAmount = isOverBudget ? Math.max(0, effectivePrice - budget.max) : 0;
+        const overBudgetPercent = isOverBudget && budget.max > 0
+          ? Math.round((effectivePrice - budget.max) / budget.max * 100)
+          : 0;
+
         return {
           ...product,
+          hardFilterScore,
           baseScore,
           negativeScore,
-          totalScore: hardFilterScore + baseScore + negativeScore,
+          budgetScore,
+          totalScore: hardFilterScore + baseScore + negativeScore + budgetScore,
           matchedRules: [...hardFilterMatches, ...matchedRules],
+          isOverBudget,
+          overBudgetAmount,
+          overBudgetPercent,
         };
       });
 
-      // 예산 필터링 (다나와 최저가 우선 사용)
-      const budgetFiltered = scored.filter(p => {
-        const effectivePrice = p.lowestPrice ?? p.price;
-        if (!effectivePrice) return true;
-        return effectivePrice >= budget.min && effectivePrice <= budget.max;
-      });
+      // 예산 필터링 (하드 필터 모드 시 범위 내 제품만, 일반 모드 시 점수 반영만)
+      let sorted: ScoredProduct[];
+      if (useBudgetHardFilter) {
+        console.log('[예산 하드필터 모드] 예산 범위:', budget.min.toLocaleString(), '~', budget.max.toLocaleString(), '원');
 
-      // 점수 기준 정렬
-      const sorted = budgetFiltered.sort((a, b) => b.totalScore - a.totalScore);
+        // 예산 하드 필터링: budget.min ~ budget.max 범위 내 제품만 선택
+        sorted = scored
+          .filter(p => {
+            const effectivePrice = p.lowestPrice ?? p.price ?? 0;
+            const isInBudget = effectivePrice > 0 && effectivePrice >= budget.min && effectivePrice <= budget.max;
+
+            // 필터링 제외 제품 로그 (디버깅용 - 상위 10개만)
+            if (!isInBudget && effectivePrice > 0 && scored.indexOf(p) < 10) {
+              console.log(`[예산 필터링 제외] ${p.brand || ''} ${p.title.substring(0, 30)}... - 가격: ${effectivePrice.toLocaleString()}원`);
+            }
+
+            return isInBudget;
+          })
+          .sort((a, b) => b.totalScore - a.totalScore);
+
+        console.log(`[예산 하드필터] 전체 ${scored.length}개 → 예산 범위 내 ${sorted.length}개`);
+      } else {
+        // 일반 모드: 예산을 점수에 반영하므로 필터링 없이 정렬만
+        sorted = scored.sort((a, b) => b.totalScore - a.totalScore);
+      }
+
       const candidateProducts = sorted.slice(0, 15);
+
+      // 예산 하드필터 모드에서 후보 제품 가격 범위 확인
+      if (useBudgetHardFilter && candidateProducts.length > 0) {
+        const prices = candidateProducts.map(p => p.lowestPrice ?? p.price ?? 0).filter(p => p > 0);
+        if (prices.length > 0) {
+          const minPrice = Math.min(...prices);
+          const maxPrice = Math.max(...prices);
+          console.log(`[예산 하드필터] 후보 제품 가격 범위: ${minPrice.toLocaleString()}원 ~ ${maxPrice.toLocaleString()}원 (예산: ${budget.min.toLocaleString()}~${budget.max.toLocaleString()}원)`);
+        }
+      }
+
+      // 전체 점수 계산된 제품 목록 저장 (예산 필터 재추천용)
+      setAllScoredProducts(sorted);
+
+      // 예산 내 제품 개수 계산 (로깅용)
+      const budgetFilteredCount = scored.filter(p => !p.isOverBudget).length;
 
       setProgressSafe(12); // 📦 상품 데이터 준비 완료
 
@@ -1946,7 +2015,7 @@ export default function RecommendV2Page() {
           reason: (p as { recommendationReason?: string }).recommendationReason, // 제품별 추천 이유
         })),
         finalSelectionReason,
-        budgetFiltered.length
+        budgetFilteredCount
       );
 
       // 🆕 하이라이트 리뷰 생성 (비동기, 사용자 대기 없이)
@@ -2025,7 +2094,7 @@ export default function RecommendV2Page() {
                 reason: (p as { recommendationReason?: string }).recommendationReason,
               })),
               finalSelectionReason,
-              budgetFiltered.length,
+              budgetFilteredCount,
               undefined,
               validHighlights
             );
@@ -2049,6 +2118,16 @@ export default function RecommendV2Page() {
         await new Promise(resolve => setTimeout(resolve, 50));
       }
       await new Promise(resolve => setTimeout(resolve, 300)); // 100% 표시 후 잠시 대기
+
+      // 최종 Top 3 제품 가격 확인 (디버깅용)
+      if (useBudgetHardFilter) {
+        console.log('[최종 Top 3] 예산 하드필터 모드:', top3.map((p: ScoredProduct) => ({
+          title: `${p.brand || ''} ${p.title.substring(0, 30)}...`,
+          lowestPrice: p.lowestPrice,
+          price: p.price,
+          effectivePrice: p.lowestPrice ?? p.price ?? 0,
+        })));
+      }
 
       // 결과 메시지 추가 + 스크롤 (맞춤 추천 완료 헤더 아래로)
       const resultMsgId = addMessage({
@@ -2078,6 +2157,46 @@ export default function RecommendV2Page() {
       setIsCalculating(false);
     }
   }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, addMessage, scrollToMessage]);
+
+  // 예산 내 제품만 보기 재추천 핸들러
+  const handleRestrictToBudget = useCallback(async () => {
+    console.log('[handleRestrictToBudget] 시작', { budget });
+
+    // 예산 범위 내 제품 개수 미리 확인 (디버깅 로그 포함)
+    const budgetCheckProducts = filteredProducts.filter(p => {
+      const effectivePrice = p.lowestPrice ?? p.price ?? 0;
+      const isInBudget = effectivePrice > 0 && effectivePrice >= budget.min && effectivePrice <= budget.max;
+
+      // 예산 범위 밖 제품 로그
+      if (!isInBudget && effectivePrice > 0) {
+        console.log(`[예산 필터링 제외] ${p.brand || ''} ${p.title.substring(0, 30)}... - 가격: ${effectivePrice.toLocaleString()}원 (예산: ${budget.min.toLocaleString()}~${budget.max.toLocaleString()}원)`);
+      }
+
+      return isInBudget;
+    });
+
+    console.log(`[handleRestrictToBudget] 전체: ${filteredProducts.length}개, 예산 범위 내: ${budgetCheckProducts.length}개`);
+
+    // 가격 포맷팅 함수
+    const formatPrice = (price: number) => `${Math.floor(price / 10000)}만${(price % 10000) > 0 ? ` ${Math.floor((price % 10000) / 1000)}천` : ''}원`;
+
+    if (budgetCheckProducts.length < 3) {
+      addMessage({
+        role: 'assistant',
+        content: `예산 ${formatPrice(budget.min)}~${formatPrice(budget.max)} 범위 내 제품이 ${budgetCheckProducts.length}개뿐이에요. 예산을 조금 조정해보시는 건 어떨까요?`,
+      });
+      return;
+    }
+
+    // 안내 메시지
+    addMessage({
+      role: 'assistant',
+      content: `정확한 예산 범위 내 (${formatPrice(budget.min)}~${formatPrice(budget.max)}) 제품으로 다시 추천드릴게요.`,
+    });
+
+    // 전체 추천 로직 실행 (예산 하드필터 모드)
+    await handleGetRecommendation(true);
+  }, [filteredProducts, budget, addMessage, handleGetRecommendation]);
 
   // ===================================================
   // Render Message
@@ -2347,6 +2466,7 @@ export default function RecommendV2Page() {
                   negativeLabels: negativeLabels,
                   hardFilterLabels: hardFilterLabels,
                   hardFilterDefinitions: hardFilterDefinitions,
+                  budget: budget,
                   hardFilterConfig: hardFilterConfig?.questions ? {
                     questions: hardFilterConfig.questions.map(q => ({
                       id: q.id,
@@ -2362,6 +2482,7 @@ export default function RecommendV2Page() {
                 }}
                 onModalOpenChange={setIsProductModalOpen}
                 onViewFavorites={() => setShowFavoritesModal(true)}
+                onRestrictToBudget={handleRestrictToBudget}
               />
             </div>
           );
@@ -2844,7 +2965,7 @@ export default function RecommendV2Page() {
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              onClick={handleGetRecommendation}
+              onClick={() => handleGetRecommendation(false)}
               disabled={isCalculating || isTransitioning || isTooFewProducts}
               className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
                 isCalculating || isTransitioning || isTooFewProducts
@@ -2884,11 +3005,27 @@ export default function RecommendV2Page() {
   if (isLoading) {
     return (
       <div className="h-dvh overflow-hidden bg-gray-100 flex justify-center">
-        <div className="h-full w-full max-w-[480px] bg-white shadow-lg flex items-center justify-center">
-          <div className="flex gap-1">
-            <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" />
-            <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-            <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+        <div className="h-full w-full max-w-[480px] bg-white flex items-center justify-center">
+          <div className="w-full py-8 flex flex-col items-center">
+            {/* 로딩 비디오 - 정사각형, 작게 */}
+            <div className="w-[100px] h-[100px] rounded-2xl overflow-hidden bg-white mb-6">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              >
+                <source src="/animations/recommendloading.MP4" type="video/mp4" />
+              </video>
+            </div>
+
+            {/* 로딩 메시지 */}
+            <div className="flex flex-col items-center">
+              <span className="text-sm font-semibold text-gray-500 text-center">
+                데이터를 불러오는 중...
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -2901,7 +3038,7 @@ export default function RecommendV2Page() {
 
   return (
     <div className="h-dvh overflow-hidden bg-gray-100 flex justify-center">
-      <div className="h-full w-full max-w-[480px] bg-white shadow-lg flex flex-col overflow-hidden">
+      <div className="h-full w-full max-w-[480px] bg-white flex flex-col overflow-hidden">
         {/* Header */}
         <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
           <div className="px-5 py-3 flex items-center justify-between">
@@ -2958,7 +3095,7 @@ export default function RecommendV2Page() {
         {/* Content */}
         <main
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto px-4 py-6 bg-white overscroll-contain"
+          className="flex-1 overflow-y-auto px-4 py-6 bg-white"
           style={{ paddingBottom: '102px' }}
         >
           <AnimatePresence mode="wait">
@@ -3009,7 +3146,7 @@ export default function RecommendV2Page() {
                   className="w-full py-8 flex flex-col items-center"
                 >
                   {/* 로딩 비디오 - 정사각형, 작게 */}
-                  <div className="w-[130px] h-[130px] rounded-2xl overflow-hidden bg-white mb-6">
+                  <div className="w-[100px] h-[100px] rounded-2xl overflow-hidden bg-white mb-6">
                     <video
                       autoPlay
                       loop

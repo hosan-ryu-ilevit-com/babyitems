@@ -767,7 +767,7 @@ export async function generateHardFiltersForCategory(
   });
 
   // 4. 브랜드 필터 추가 (brand 필드가 filter_attrs가 아닌 별도 필드인 카테고리)
-  const BRAND_FILTER_CATEGORIES = ['stroller', 'car_seat', 'baby_desk', 'baby_wipes'];
+  const BRAND_FILTER_CATEGORIES = ['stroller', 'car_seat', 'baby_desk', 'baby_wipes', 'diaper'];
   if (BRAND_FILTER_CATEGORIES.includes(categoryKey)) {
     const brandQuestion = createBrandQuestion(categoryKey, filteredProducts, validQuestions.length);
     if (brandQuestion) {

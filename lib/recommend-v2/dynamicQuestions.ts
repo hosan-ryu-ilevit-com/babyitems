@@ -732,6 +732,51 @@ export function calculateHardFilterScore(
   return { score, matchedRules };
 }
 
+/**
+ * 예산 기반 점수 계산 (soft constraint)
+ * - 예산 내: 보너스 점수
+ * - 예산 초과: 초과 정도에 따라 차등 페널티
+ * - 조건 점수가 우선, 예산은 tie-breaker 역할
+ */
+export function calculateBudgetScore(
+  product: ProductItem,
+  budget: { min: number; max: number }
+): number {
+  const effectivePrice = product.lowestPrice ?? product.price;
+
+  // 가격 정보 없거나 예산 미설정 시 중립
+  if (!effectivePrice || budget.max === 0) {
+    return 0;
+  }
+
+  // 예산 대비 초과 비율
+  const overPercent = (effectivePrice - budget.max) / budget.max;
+
+  let budgetScore = 0;
+
+  if (overPercent <= 0) {
+    // 예산 내: 보너스
+    budgetScore = 10;
+  } else if (overPercent <= 0.1) {
+    // 10% 이내 초과: 작은 보너스 (거의 예산 내로 취급)
+    budgetScore = 5;
+  } else if (overPercent <= 0.2) {
+    // 10-20% 초과: 중립
+    budgetScore = 0;
+  } else if (overPercent <= 0.3) {
+    // 20-30% 초과: 작은 페널티
+    budgetScore = -5;
+  } else if (overPercent <= 0.5) {
+    // 30-50% 초과: 중간 페널티
+    budgetScore = -15;
+  } else {
+    // 50%+ 초과: 큰 페널티
+    budgetScore = -25;
+  }
+
+  return budgetScore;
+}
+
 // ===================================================
 // 조건 요약 생성 함수
 // ===================================================

@@ -63,41 +63,41 @@
   },
   "diaper": {
     "category_name": "기저귀",
-    "require_sub_category": true,
-    "filter_by": "category_code",
+    "require_sub_category": false,
+    "filter_by": "brand",
     "sub_categories": [
       {
-        "code": "16349108",
+        "code": "하기스",
         "name": "하기스",
         "description": "국민 기저귀, 다양한 라인업",
         "icon": "star"
       },
       {
-        "code": "16349109",
+        "code": "팸퍼스",
         "name": "팸퍼스",
         "description": "글로벌 브랜드, 부드러운 촉감",
         "icon": "heart"
       },
       {
-        "code": "16356038",
+        "code": "마미포코",
         "name": "마미포코",
         "description": "가성비 좋은 선택",
         "icon": "coin"
       },
       {
-        "code": "16349110",
+        "code": "보솜이",
         "name": "보솜이",
         "description": "순한 소재, 민감성 피부",
         "icon": "leaf"
       },
       {
-        "code": "16356040",
+        "code": "나비잠",
         "name": "나비잠",
         "description": "밤새 보송보송",
         "icon": "moon"
       },
       {
-        "code": "16356042",
+        "code": "other",
         "name": "기타 브랜드",
         "description": "다양한 브랜드 탐색",
         "icon": "dots-three"

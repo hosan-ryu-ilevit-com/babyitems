@@ -134,7 +134,7 @@ function ReviewPriorityTags({
       >
         <div className="space-y-1.5">
           <h3 className="text-lg font-bold text-gray-900 leading-snug">
-            어떤 구매조건이 가장 중요하신가요?
+            어떤 구매조건들이 중요하신가요?
           </h3>
           <p className="text-sm font-light text-gray-500">
             {categoryName || category} 구매자들이 가장 중요하게 생각하는 조건들이에요.

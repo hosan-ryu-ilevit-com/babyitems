@@ -29,9 +29,8 @@ export const CATEGORY_CODE_MAP: Record<string, string[]> = {
  * 세부 카테고리 선택이 필요한지 확인
  * - 유모차: 디럭스형/절충형/휴대용/쌍둥이용 (category_code로 필터)
  * - 카시트: 일체형/분리형/바구니형/부스터형 (category_code로 필터)
- * - 기저귀: 브랜드별 (category_code로 필터)
  */
 export function requiresSubCategorySelection(categoryKey: string): boolean {
-  const categoriesWithSubCategories = ['stroller', 'car_seat', 'diaper'];
+  const categoriesWithSubCategories = ['stroller', 'car_seat'];
   return categoriesWithSubCategories.includes(categoryKey);
 }

@@ -608,8 +608,11 @@ function generateFallbackReason(
     const positiveRules = product.matchedRules.filter(r => !r.startsWith('❌'));
     if (positiveRules.length > 0) {
       const topPreference = getBalanceSelectionText(positiveRules[0]);
-      // 영어가 그대로 나오는 경우 (매핑 실패) 일반 메시지로 대체
-      if (/^[a-zA-Z\s]+$/.test(topPreference)) {
+      // 매핑 실패 체크: 영어, 숫자, 또는 시스템 용어가 포함된 경우 일반 메시지로 대체
+      const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(topPreference);
+      const isTooShort = topPreference.length < 3;
+
+      if (hasInvalidChars || isTooShort) {
         reasons.push('선택하신 조건에 잘 맞는 제품이에요');
       } else {
         reasons.push(`${topPreference}을(를) 원하셨는데, 이 조건에 잘 맞는 제품이에요`);
@@ -620,8 +623,11 @@ function generateFallbackReason(
   // 2. 사용자가 선택한 밸런스 게임 항목 기반 (userContext 활용)
   if (reasons.length === 0 && userContext?.balanceSelections && userContext.balanceSelections.length > 0) {
     const userPreference = getBalanceSelectionText(userContext.balanceSelections[0]);
-    // 영어가 그대로 나오는 경우 (매핑 실패) 일반 메시지로 대체
-    if (/^[a-zA-Z\s]+$/.test(userPreference)) {
+    // 매핑 실패 체크: 영어, 숫자, 또는 시스템 용어가 포함된 경우 일반 메시지로 대체
+    const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(userPreference);
+    const isTooShort = userPreference.length < 3;
+
+    if (hasInvalidChars || isTooShort) {
       reasons.push('선택하신 선호 조건에 잘 맞는 제품이에요');
     } else {
       reasons.push(`${userPreference}을(를) 중시하시는 분께 적합한 제품이에요`);
@@ -631,8 +637,11 @@ function generateFallbackReason(
   // 3. 피하고 싶은 단점이 없음을 강조
   if (userContext?.negativeSelections && userContext.negativeSelections.length > 0) {
     const avoidedIssue = getBalanceSelectionText(userContext.negativeSelections[0]);
-    // 영어가 그대로 나오는 경우 (매핑 실패) 일반 메시지로 대체
-    if (/^[a-zA-Z\s]+$/.test(avoidedIssue)) {
+    // 매핑 실패 체크: 영어, 숫자, 또는 시스템 용어가 포함된 경우 일반 메시지로 대체
+    const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(avoidedIssue);
+    const isTooShort = avoidedIssue.length < 3;
+
+    if (hasInvalidChars || isTooShort) {
       reasons.push('걱정하셨던 단점이 없는 제품이에요');
     } else {
       reasons.push(`걱정하셨던 ${avoidedIssue} 문제가 없어요`);

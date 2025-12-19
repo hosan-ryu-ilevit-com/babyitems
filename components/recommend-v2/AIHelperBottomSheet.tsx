@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   logExampleQuestionClicked,
@@ -79,7 +79,7 @@ export function AIHelperBottomSheet({
 
   const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 구매하는게 뭔가요?';
 
-  const generateExamples = useCallback(async () => {
+  const generateExamples = async () => {
     setIsLoadingExamples(true);
     try {
       const res = await fetch('/api/ai-selection-helper/generate-examples', {
@@ -106,9 +106,9 @@ export function AIHelperBottomSheet({
     } finally {
       setIsLoadingExamples(false);
     }
-  }, [questionType, questionText, category, categoryName, userSelections]);
+  };
 
-  // 바텀시트 열릴 때 예시 쿼리 생성 (userSelections 변경 시에도 재생성)
+  // 바텀시트 열릴 때 예시 쿼리 생성
   useEffect(() => {
     if (isOpen) {
       setUserInput('');
@@ -116,7 +116,8 @@ export function AIHelperBottomSheet({
       setError(null);
       generateExamples();
     }
-  }, [isOpen, questionId, generateExamples]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   // AI 응답 또는 로딩 시작하면 스크롤
   useEffect(() => {
