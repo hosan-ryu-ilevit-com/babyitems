@@ -191,6 +191,29 @@ ${optionsList}
         .map(o => `- "${o.value}": ${o.label}`)
         .join('\n');
 
+      // 이전 선택 컨텍스트 구성
+      let previousSelectionsContext = '';
+      if (userSelections) {
+        if (userSelections.hardFilters && userSelections.hardFilters.length > 0) {
+          previousSelectionsContext += '\n**사용자의 이전 선택 (환경 체크):**\n';
+          userSelections.hardFilters.forEach(hf => {
+            previousSelectionsContext += `- ${hf.questionText}: ${hf.selectedLabels.join(', ')}\n`;
+          });
+        }
+        if (userSelections.balanceGames && userSelections.balanceGames.length > 0) {
+          previousSelectionsContext += '\n**사용자의 이전 선택 (취향 선택):**\n';
+          userSelections.balanceGames.forEach(bg => {
+            previousSelectionsContext += `- ${bg.title}: ${bg.selectedOption}\n`;
+          });
+        }
+        if (userSelections.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) {
+          previousSelectionsContext += '\n**사용자의 이전 자연어 입력:**\n';
+          userSelections.naturalLanguageInputs.forEach(nl => {
+            previousSelectionsContext += `- ${nl.input}\n`;
+          });
+        }
+      }
+
       systemPrompt = `당신은 육아용품 전문 상담사입니다. 사용자의 상황을 듣고 현재 질문의 선택지 중 최적의 옵션을 추천해주세요.
 
 **중요 규칙:**
@@ -198,9 +221,10 @@ ${optionsList}
 2. 사용자 상황에 맞는 1-3개의 옵션을 추천하세요
 3. "상관없어요", "전부 좋아요" 같은 스킵 옵션은 정말 필요한 경우에만 추천하세요
 4. 추천 이유는 반드시 사용자의 상황과 연결해서 설명하세요
-5. 대안이 있다면 언급하세요
-6. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요. 옵션을 언급할 때는 영어 value가 아닌 한글 label을 사용하세요.**
-7. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요.**
+5. 사용자의 이전 선택과 일관성 있게 추천하세요
+6. 대안이 있다면 언급하세요
+7. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요. 옵션을 언급할 때는 영어 value가 아닌 한글 label을 사용하세요.**
+8. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요.**
 
 ${insightsContext}`;
 
@@ -209,7 +233,7 @@ ${questionText}
 
 **선택지:**
 ${optionsList}
-
+${previousSelectionsContext}
 ${tipText ? `**팁:** ${tipText}` : ''}
 
 **사용자 상황:**
@@ -229,15 +253,39 @@ ${tipText ? `**팁:** ${tipText}` : ''}
       // balance_game
       const balanceOptions = options as { A: BalanceGameOption; B: BalanceGameOption };
 
+      // 이전 선택 컨텍스트 구성
+      let previousSelectionsContext = '';
+      if (userSelections) {
+        if (userSelections.hardFilters && userSelections.hardFilters.length > 0) {
+          previousSelectionsContext += '\n**사용자의 이전 선택 (환경 체크):**\n';
+          userSelections.hardFilters.forEach(hf => {
+            previousSelectionsContext += `- ${hf.questionText}: ${hf.selectedLabels.join(', ')}\n`;
+          });
+        }
+        if (userSelections.balanceGames && userSelections.balanceGames.length > 0) {
+          previousSelectionsContext += '\n**사용자의 이전 선택 (취향 선택):**\n';
+          userSelections.balanceGames.forEach(bg => {
+            previousSelectionsContext += `- ${bg.title}: ${bg.selectedOption}\n`;
+          });
+        }
+        if (userSelections.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) {
+          previousSelectionsContext += '\n**사용자의 이전 자연어 입력:**\n';
+          userSelections.naturalLanguageInputs.forEach(nl => {
+            previousSelectionsContext += `- ${nl.input}\n`;
+          });
+        }
+      }
+
       systemPrompt = `당신은 육아용품 전문 상담사입니다. 사용자의 상황을 듣고 A vs B 중 어떤 선택이 더 적합한지 추천해주세요.
 
 **중요 규칙:**
 1. 반드시 "A", "B", 또는 "both" 중 하나를 selectedOptions에 넣으세요
 2. "both"는 정말 둘 다 중요한 상황일 때만 추천하세요
 3. 추천 이유는 반드시 사용자의 상황과 연결해서 설명하세요
-4. 확신이 낮으면 "both"보다는 더 중요한 하나를 선택하세요
-5. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요. 옵션을 언급할 때는 "A", "B" 대신 해당 옵션의 한글 설명을 사용하세요.**
-6. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요.**
+4. 사용자의 이전 선택과 일관성 있게 추천하세요
+5. 확신이 낮으면 "both"보다는 더 중요한 하나를 선택하세요
+6. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요. 옵션을 언급할 때는 "A", "B" 대신 해당 옵션의 한글 설명을 사용하세요.**
+7. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요.**
 
 ${insightsContext}`;
 
@@ -247,7 +295,7 @@ ${questionText}
 **선택지:**
 A: ${balanceOptions.A.text}
 B: ${balanceOptions.B.text}
-
+${previousSelectionsContext}
 **사용자 상황:**
 "${userContext}"
 

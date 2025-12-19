@@ -23,6 +23,8 @@ import type {
   GuideCardsData,
   TimelineStep,
   AnalysisTimeline,
+  NaturalLanguageInput,
+  UserSelections,
 } from '@/types/recommend-v2';
 import { STEP_LABELS, CATEGORY_BUDGET_RANGES } from '@/types/recommend-v2';
 
@@ -168,6 +170,7 @@ export default function RecommendV2Page() {
   const [balanceSelections, setBalanceSelections] = useState<Set<string>>(new Set());
   const [currentBalanceIndex, setCurrentBalanceIndex] = useState(0);
   const [negativeSelections, setNegativeSelections] = useState<string[]>([]);
+  const [naturalLanguageInputs, setNaturalLanguageInputs] = useState<NaturalLanguageInput[]>([]);
   const [budget, setBudget] = useState<{ min: number; max: number }>({ min: 0, max: 0 });
 
   // Condition summary (for result page)
@@ -1279,27 +1282,26 @@ export default function RecommendV2Page() {
     setCurrentStep(3);
     setCurrentBalanceIndex(0);
 
-    // stepTag 메시지로 스크롤
-    const stepMsgId = addMessage({
-      role: 'assistant',
-      content: '후보들 중에서 최적의 제품을 고르기 위한 질문을 드릴게요. **더 중요한 쪽을 골라주세요!**',
-      stepTag: '3/5',
-    }, true);
-    scrollToMessage(stepMsgId);
-
     if (dynamicBalanceQuestions.length > 0) {
-      setTimeout(() => {
-        // 컴포넌트는 스크롤 없이 그 아래에 렌더링
-        addMessage({
-          role: 'system',
-          content: '',
-          componentType: 'balance-carousel',
-          componentData: {
-            questions: dynamicBalanceQuestions,
-          },
-        });
-        setIsTransitioning(false);
-      }, 300);
+      // stepTag 메시지로 스크롤 - 타이핑 완료 시 밸런스 게임 컴포넌트 추가
+      const stepMsgId = addMessage({
+        role: 'assistant',
+        content: '후보들 중에서 최적의 제품을 고르기 위한 질문을 드릴게요. **더 중요한 쪽을 골라주세요!**',
+        stepTag: '3/5',
+        onTypingComplete: () => {
+          // 타이핑 완료 후 밸런스 게임 컴포넌트 추가
+          addMessage({
+            role: 'system',
+            content: '',
+            componentType: 'balance-carousel',
+            componentData: {
+              questions: dynamicBalanceQuestions,
+            },
+          });
+          setIsTransitioning(false);
+        },
+      }, true);
+      scrollToMessage(stepMsgId);
     } else {
       // No balance questions, skip to step 4
       handleBalanceGameComplete(new Set());
@@ -1497,12 +1499,21 @@ export default function RecommendV2Page() {
     setBudget(values);
   }, []);
 
-  // AI 예산 추천용 사용자 선택 정보
-  const budgetUserSelections = useMemo(() => {
-    const result: {
-      hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
-      balanceGames?: Array<{ title: string; selectedOption: string }>;
-    } = {};
+  // 자연어 입력 저장 핸들러
+  const handleNaturalLanguageInput = useCallback((stage: string, input: string) => {
+    setNaturalLanguageInputs(prev => [
+      ...prev,
+      {
+        stage,
+        timestamp: new Date().toISOString(),
+        input,
+      },
+    ]);
+  }, []);
+
+  // AI Helper용 실시간 사용자 선택 정보 (모든 단계에서 사용)
+  const allUserSelections = useMemo((): UserSelections => {
+    const result: UserSelections = {};
 
     // 하드필터 선택 정보
     if (hardFilterConfig?.questions && Object.keys(hardFilterAnswers).length > 0) {
@@ -1537,8 +1548,13 @@ export default function RecommendV2Page() {
         });
     }
 
+    // 자연어 입력 정보
+    if (naturalLanguageInputs.length > 0) {
+      result.naturalLanguageInputs = naturalLanguageInputs;
+    }
+
     return result;
-  }, [hardFilterConfig, hardFilterAnswers, balanceQuestions, balanceSelections]);
+  }, [hardFilterConfig, hardFilterAnswers, balanceQuestions, balanceSelections, naturalLanguageInputs]);
 
   const handleGetRecommendation = useCallback(async () => {
     setIsCalculating(true);
@@ -2075,6 +2091,7 @@ export default function RecommendV2Page() {
             content={message.content}
             stepTag={message.stepTag}
             typing={message.typing}
+            onTypingComplete={message.onTypingComplete}
           />
         </div>
       );
@@ -2187,6 +2204,8 @@ export default function RecommendV2Page() {
                   title: p.title,
                   thumbnail: p.thumbnail || undefined
                 }))}
+                userSelections={allUserSelections}
+                onNaturalLanguageInput={handleNaturalLanguageInput}
               />
             </div>
           );
@@ -2239,6 +2258,8 @@ export default function RecommendV2Page() {
                 showAIHelper={true}
                 category={categoryKey}
                 categoryName={categoryName}
+                userSelections={allUserSelections}
+                onNaturalLanguageInput={handleNaturalLanguageInput}
               />
             </div>
           );
@@ -2264,7 +2285,7 @@ export default function RecommendV2Page() {
                 showAIHelper={true}
                 category={categoryKey}
                 categoryName={categoryName}
-                userSelections={budgetUserSelections}
+                userSelections={allUserSelections}
               />
             </div>
           );
@@ -2297,7 +2318,7 @@ export default function RecommendV2Page() {
                 showAIHelper={true}
                 category={categoryKey}
                 categoryName={categoryName}
-                userSelections={budgetUserSelections}
+                userSelections={allUserSelections}
               />
             </div>
           );

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useImperativeHandle, forwardRef, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { BalanceQuestion } from '@/types/recommend-v2';
+import type { BalanceQuestion, UserSelections } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
@@ -38,6 +38,9 @@ interface BalanceGameCarouselProps {
   showAIHelper?: boolean;
   category?: string;
   categoryName?: string;
+  // 이전 선택 정보 (AI Helper용)
+  userSelections?: UserSelections;
+  onNaturalLanguageInput?: (stage: string, input: string) => void;
 }
 
 /**
@@ -63,7 +66,7 @@ const slideVariants = {
 };
 
 export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGameCarouselProps>(
-  function BalanceGameCarousel({ questions, onComplete, onStateChange, onSelectionMade, showAIHelper = false, category = '', categoryName = '' }, ref) {
+  function BalanceGameCarousel({ questions, onComplete, onStateChange, onSelectionMade, showAIHelper = false, category = '', categoryName = '', userSelections, onNaturalLanguageInput }, ref) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selections, setSelections] = useState<Map<string, string>>(new Map());
     const [bothSelections, setBothSelections] = useState<Map<string, [string, string]>>(new Map()); // "둘 다 중요해요" 선택
@@ -505,6 +508,8 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             category={category}
             categoryName={categoryName}
             onSelectOptions={handleAISelectOptions}
+            userSelections={userSelections}
+            onNaturalLanguageInput={onNaturalLanguageInput}
           />
         )}
       </motion.div>

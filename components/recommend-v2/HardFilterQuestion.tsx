@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { HardFilterData, ProductItem } from '@/types/recommend-v2';
+import type { HardFilterData, ProductItem, UserSelections } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
@@ -23,6 +23,8 @@ function ReviewPriorityTags({
   categoryName = '',
   thumbnailProducts = [],
   products = [],
+  userSelections,
+  onNaturalLanguageInput,
 }: {
   question: HardFilterData['question'];
   selectedValues: string[];
@@ -34,6 +36,8 @@ function ReviewPriorityTags({
   categoryName?: string;
   thumbnailProducts?: Array<{ id: string; title: string; thumbnail?: string }>;
   products?: ProductItem[];
+  userSelections?: UserSelections;
+  onNaturalLanguageInput?: (stage: string, input: string) => void;
 }) {
   const [expandedTag, setExpandedTag] = useState<string | null>(null);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
@@ -248,6 +252,8 @@ function ReviewPriorityTags({
           onSelectOptions={(selectedOptions) => {
             onSelect(selectedOptions);
           }}
+          userSelections={userSelections}
+          onNaturalLanguageInput={onNaturalLanguageInput}
         />
       )}
     </motion.div>
@@ -278,6 +284,9 @@ interface HardFilterQuestionProps {
   categoryName?: string;
   // 썸네일에 표시할 제품들 (최대 5개, review_priorities용)
   thumbnailProducts?: Array<{ id: string; title: string; thumbnail?: string }>;
+  // 이전 선택 정보 (AI Helper용)
+  userSelections?: UserSelections;
+  onNaturalLanguageInput?: (stage: string, input: string) => void;
 }
 
 /**
@@ -391,6 +400,8 @@ export function HardFilterQuestion({
   category = '',
   categoryName = '',
   thumbnailProducts = [],
+  userSelections,
+  onNaturalLanguageInput,
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
 
@@ -465,6 +476,8 @@ export function HardFilterQuestion({
         categoryName={categoryName}
         thumbnailProducts={thumbnailProducts}
         products={products}
+        userSelections={userSelections}
+        onNaturalLanguageInput={onNaturalLanguageInput}
       />
     );
   }
@@ -630,6 +643,8 @@ export function HardFilterQuestion({
             setLocalSelectedValues(selectedOptions);
             onSelect(question.id, selectedOptions);
           }}
+          userSelections={userSelections}
+          onNaturalLanguageInput={onNaturalLanguageInput}
         />
       )}
     </motion.div>

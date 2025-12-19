@@ -2,12 +2,14 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getModel, callGeminiWithRetry, parseJSONResponse } from '@/lib/ai/gemini';
+import type { UserSelections } from '@/types/recommend-v2';
 
 interface GenerateExamplesRequest {
   questionType: 'hard_filter' | 'balance_game' | 'negative_filter' | 'category_selection';
   questionText: string;
   category: string;
   categoryName: string;
+  userSelections?: UserSelections;
 }
 
 interface GenerateExamplesResponse {
@@ -17,7 +19,30 @@ interface GenerateExamplesResponse {
 export async function POST(request: NextRequest) {
   try {
     const body: GenerateExamplesRequest = await request.json();
-    const { questionType, questionText, category, categoryName } = body;
+    const { questionType, questionText, category, categoryName, userSelections } = body;
+
+    // 이전 선택 컨텍스트 빌드
+    let previousSelectionsContext = '';
+    if (userSelections) {
+      if (userSelections.hardFilters && userSelections.hardFilters.length > 0) {
+        previousSelectionsContext += '\n**사용자의 이전 선택 (환경 체크):**\n';
+        userSelections.hardFilters.forEach(hf => {
+          previousSelectionsContext += `- ${hf.questionText}: ${hf.selectedLabels.join(', ')}\n`;
+        });
+      }
+      if (userSelections.balanceGames && userSelections.balanceGames.length > 0) {
+        previousSelectionsContext += '\n**사용자의 이전 선택 (취향 밸런스):**\n';
+        userSelections.balanceGames.forEach(bg => {
+          previousSelectionsContext += `- ${bg.title}: ${bg.selectedOption}\n`;
+        });
+      }
+      if (userSelections.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) {
+        previousSelectionsContext += '\n**사용자가 이전에 입력한 자연어:**\n';
+        userSelections.naturalLanguageInputs.forEach(nli => {
+          previousSelectionsContext += `- [${nli.stage}] ${nli.input}\n`;
+        });
+      }
+    }
 
     let systemPrompt: string;
     let userPrompt: string;
@@ -34,10 +59,11 @@ export async function POST(request: NextRequest) {
 4. 나쁜 예시: "유모차 필요해요" (카테고리를 직접 언급하면 안 됨)
 5. "~해요", "~이에요" 같은 자연스러운 말투로`;
 
-      userPrompt = `**질문:** ${questionText}
+      userPrompt = `**질문:** ${questionText}${previousSelectionsContext}
 
 사용자가 본인의 육아 상황을 설명할 수 있는 예시를 생성해주세요.
 카테고리 이름을 직접 언급하지 말고, 상황만 설명해야 합니다.
+${previousSelectionsContext ? '사용자의 이전 선택과 입력을 고려하여, 일관성 있는 예시를 생성하세요.' : ''}
 
 **응답 형식 (JSON):**
 {
@@ -57,10 +83,11 @@ export async function POST(request: NextRequest) {
 6. "~해요", "~이에요" 같은 자연스러운 말투로`;
 
       userPrompt = `**카테고리:** ${categoryName} (${category})
-**질문:** ${questionText}
+**질문:** ${questionText}${previousSelectionsContext}
 
 사용자가 이 ${categoryName}를 사기 전에 본인 상황을 설명할 수 있는 예시를 생성해주세요.
 상품 단점(세척 어려움, 무거움 등)을 직접 언급하면 안 되고, 사용자의 생활 상황이나 환경을 말해야 합니다.
+${previousSelectionsContext ? '사용자의 이전 선택과 입력을 고려하여, 일관성 있는 예시를 생성하세요.' : ''}
 
 **응답 형식 (JSON):**
 {
@@ -80,8 +107,8 @@ export async function POST(request: NextRequest) {
 
       userPrompt = `**카테고리:** ${categoryName} (${category})
 **질문 타입:** ${questionType === 'hard_filter' ? '스펙 선택' : '취향 선택'}
-**질문:** ${questionText}
-
+**질문:** ${questionText}${previousSelectionsContext}
+${previousSelectionsContext ? '\n사용자의 이전 선택과 입력을 고려하여, 일관성 있는 예시를 생성하세요.\n' : ''}
 **응답 형식 (JSON):**
 {
   "examples": ["예시1", "예시2", "예시3"]

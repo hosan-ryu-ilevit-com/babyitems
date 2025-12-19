@@ -27,6 +27,7 @@ export interface ChatMessage {
   typing?: boolean;
   stepTag?: string;         // "0/5", "1/5" 등
   timestamp?: number;
+  onTypingComplete?: () => void;  // 타이핑 완료 시 호출될 콜백
 }
 
 // ===================================================
@@ -579,6 +580,15 @@ export interface NaturalLanguageInput {
   stage: string;            // 어느 단계에서 입력했는지 ('experiential_tags', 'hard_filters', 'balance_game', etc.)
   timestamp: string;        // 입력 시각
   input: string;            // 사용자 입력 원문
+}
+
+/**
+ * AI Helper에 전달되는 사용자의 이전 선택 정보
+ */
+export interface UserSelections {
+  hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
+  balanceGames?: Array<{ title: string; selectedOption: string }>;
+  naturalLanguageInputs?: NaturalLanguageInput[];
 }
 
 /**

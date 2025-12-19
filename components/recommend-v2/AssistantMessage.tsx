@@ -8,10 +8,11 @@ interface AssistantMessageProps {
   typing?: boolean;
   stepTag?: string;
   className?: string;
+  onTypingComplete?: () => void;
 }
 
 // 스트리밍 텍스트 컴포넌트 (글자가 하나씩 나타남)
-function StreamingText({ content, speed = 15 }: { content: string; speed?: number }) {
+function StreamingText({ content, speed = 15, onComplete }: { content: string; speed?: number; onComplete?: () => void }) {
   const [displayedContent, setDisplayedContent] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -25,8 +26,11 @@ function StreamingText({ content, speed = 15 }: { content: string; speed?: numbe
       }, speed);
 
       return () => clearTimeout(timeout);
+    } else if (currentIndex === content.length && onComplete) {
+      // 타이핑 완료 시 콜백 호출
+      onComplete();
     }
-  }, [currentIndex, content, speed]);
+  }, [currentIndex, content, speed, onComplete]);
 
   // 마크다운 볼드 처리
   const formatMarkdown = (text: string) => {
@@ -67,6 +71,7 @@ export function AssistantMessage({
   typing = false,
   stepTag,
   className = '',
+  onTypingComplete,
 }: AssistantMessageProps) {
   // 마크다운 볼드 처리 (**텍스트** → <strong>)
   const formatMarkdown = (text: string) => {
@@ -112,7 +117,7 @@ export function AssistantMessage({
       <div className="w-full flex justify-start">
         <div className="px-1 py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4]">
           {typing ? (
-            <StreamingText content={content} speed={15} />
+            <StreamingText content={content} speed={15} onComplete={onTypingComplete} />
           ) : (
             formatMarkdown(content)
           )}

@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   logExampleQuestionClicked,
   logExampleQuestionApplied,
   logNaturalLanguageInput,
 } from '@/lib/logging/clientLogger';
+import type { UserSelections } from '@/types/recommend-v2';
 
 interface HardFilterOption {
   value: string;
@@ -29,6 +30,8 @@ interface AIHelperBottomSheetProps {
   categoryName: string;
   tipText?: string;
   onSelectOptions: (selectedOptions: string[]) => void;
+  userSelections?: UserSelections;
+  onNaturalLanguageInput?: (stage: string, input: string) => void;
 }
 
 interface AIResponse {
@@ -62,6 +65,8 @@ export function AIHelperBottomSheet({
   categoryName,
   tipText,
   onSelectOptions,
+  userSelections,
+  onNaturalLanguageInput,
 }: AIHelperBottomSheetProps) {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -72,31 +77,9 @@ export function AIHelperBottomSheet({
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // 바텀시트 열릴 때 예시 쿼리 생성
-  useEffect(() => {
-    if (isOpen) {
-      setUserInput('');
-      setAiResponse(null);
-      setError(null);
-      generateExamples();
-    }
-  }, [isOpen, questionId]);
-
-  // AI 응답 또는 로딩 시작하면 스크롤
-  useEffect(() => {
-    if ((aiResponse || isLoading) && scrollRef.current) {
-      setTimeout(() => {
-        scrollRef.current?.scrollTo({
-          top: scrollRef.current.scrollHeight,
-          behavior: 'smooth',
-        });
-      }, 100);
-    }
-  }, [aiResponse, isLoading]);
-
   const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 구매하는게 뭔가요?';
 
-  const generateExamples = async () => {
+  const generateExamples = useCallback(async () => {
     setIsLoadingExamples(true);
     try {
       const res = await fetch('/api/ai-selection-helper/generate-examples', {
@@ -107,6 +90,7 @@ export function AIHelperBottomSheet({
           questionText,
           category,
           categoryName,
+          userSelections,
         }),
       });
       const data = await res.json();
@@ -122,13 +106,41 @@ export function AIHelperBottomSheet({
     } finally {
       setIsLoadingExamples(false);
     }
-  };
+  }, [questionType, questionText, category, categoryName, userSelections]);
+
+  // 바텀시트 열릴 때 예시 쿼리 생성 (userSelections 변경 시에도 재생성)
+  useEffect(() => {
+    if (isOpen) {
+      setUserInput('');
+      setAiResponse(null);
+      setError(null);
+      generateExamples();
+    }
+  }, [isOpen, questionId, generateExamples]);
+
+  // AI 응답 또는 로딩 시작하면 스크롤
+  useEffect(() => {
+    if ((aiResponse || isLoading) && scrollRef.current) {
+      setTimeout(() => {
+        scrollRef.current?.scrollTo({
+          top: scrollRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }, 100);
+    }
+  }, [aiResponse, isLoading]);
 
   const handleSubmit = async () => {
     if (!userInput.trim() || isLoading) return;
 
     setIsLoading(true);
     setError(null);
+
+    // 자연어 입력 저장
+    const stage = questionType === 'hard_filter' ? 'hard_filters' :
+                  questionType === 'balance_game' ? 'balance_game' :
+                  'category_selection';
+    onNaturalLanguageInput?.(stage, userInput.trim());
 
     // 자연어 입력 로깅
     logNaturalLanguageInput(
@@ -152,6 +164,7 @@ export function AIHelperBottomSheet({
           userContext: userInput.trim(),
           category,
           tipText,
+          userSelections,
         }),
       });
 
