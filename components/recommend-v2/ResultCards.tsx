@@ -1159,14 +1159,25 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     </p>
                   )}
                   {/* 최저가 로딩 UI 제거 - Supabase 캐시로 빠르게 로드됨 */}
-                  {/* 별점 & 리뷰 수 */}
+                  {/* 별점 & 리뷰 수 & 가격비교 */}
                   {hasReview && (
-                    <div className="flex items-center gap-0.5">
-                      <svg className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                      <span className="text-xs font-semibold text-gray-900">{review.averageRating.toFixed(1)}</span>
-                      <span className="text-xs text-gray-500">({review.reviewCount.toLocaleString()})</span>
+                    <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-0.5">
+                        <svg className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span className="text-xs font-semibold text-gray-900">{review.averageRating.toFixed(1)}</span>
+                        <span className="text-xs text-gray-500">({review.reviewCount.toLocaleString()})</span>
+                      </div>
+                      {/* 가격비교 판매처 개수 */}
+                      {danawa?.mall_prices && danawa.mall_prices.length > 0 && (
+                        <span className="text-xs">
+                                                    <span className="text-gray-300"> | </span>
+
+                          <span className="text-gray-800">가격비교 </span>
+                          <span className="text-gray-500">({danawa.mall_prices.length})</span>
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1559,7 +1570,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               setBudgetButtonClicked(true);  // 클릭 후 버튼 숨김
               onRestrictToBudget();
             }}
-            className="fixed bottom-24 right-4 z-[105] px-5 py-3 bg-black rounded-full font-semibold text-white transition-all active:scale-[0.95] shadow-lg flex items-center gap-2"
+            className="fixed bottom-24 right-4 z-[105] px-5 py-3 bg-black rounded-full font-semibold text-white transition-all active:scale-[0.95] flex items-center gap-2"
             style={{ maxWidth: 'calc(480px - 2rem)' }}
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">

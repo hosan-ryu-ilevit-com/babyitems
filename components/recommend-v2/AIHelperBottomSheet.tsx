@@ -74,10 +74,12 @@ export function AIHelperBottomSheet({
   const [aiResponse, setAiResponse] = useState<AIResponse | null>(null);
   const [examples, setExamples] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [shouldAutoSubmit, setShouldAutoSubmit] = useState(false); // 자동 제출 트리거
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 구매하는게 뭔가요?';
+  const CONTEXT_SUMMARY_EXAMPLE = '🔮_CONTEXT_SUMMARY'; // 특별한 식별자
 
   const generateExamples = async () => {
     setIsLoadingExamples(true);
@@ -95,18 +97,42 @@ export function AIHelperBottomSheet({
       });
       const data = await res.json();
 
+      // 어떤 선택이나 입력이라도 있는지 확인
+      const hasContext =
+        (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+        (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+        (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
+      // 디버깅 로그
+      console.log('🔍 [AIHelperBottomSheet] generateExamples:', {
+        hasContext,
+        naturalLanguageInputs: userSelections?.naturalLanguageInputs?.length || 0,
+        hardFilters: userSelections?.hardFilters?.length || 0,
+        balanceGames: userSelections?.balanceGames?.length || 0,
+      });
+
       // 카테고리 선택: 고정 1개 + API 8개 = 총 9개
       if (questionType === 'category_selection') {
         const apiExamples = (data.examples || []).slice(0, 8);
-        setExamples([FIXED_FIRST_EXAMPLE, ...apiExamples]);
+        const baseExamples = [FIXED_FIRST_EXAMPLE, ...apiExamples];
+        // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
+        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       } else {
         // 다른 타입: 첫 번째는 고정, 나머지 2개는 API에서
         const apiExamples = (data.examples || []).slice(0, 2);
-        setExamples([FIXED_FIRST_EXAMPLE, ...apiExamples]);
+        const baseExamples = [FIXED_FIRST_EXAMPLE, ...apiExamples];
+        // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
+        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       }
     } catch {
+      // 어떤 선택이나 입력이라도 있는지 확인
+      const hasContext =
+        (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+        (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+        (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
       if (questionType === 'category_selection') {
-        setExamples([
+        const baseExamples = [
           FIXED_FIRST_EXAMPLE,
           '신생아 출산 준비 중이에요',
           '쌍둥이라 수유가 힘들어요',
@@ -116,13 +142,15 @@ export function AIHelperBottomSheet({
           '아이가 예민한 편이에요',
           '외출할 때마다 불편해요',
           '둘째 출산 예정이라 준비 중이에요',
-        ]);
+        ];
+        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       } else {
-        setExamples([
+        const baseExamples = [
           FIXED_FIRST_EXAMPLE,
           '쌍둥이라 자주 사용해요',
           '맞벌이라 시간이 부족해요',
-        ]);
+        ];
+        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       }
     } finally {
       setIsLoadingExamples(false);
@@ -135,6 +163,7 @@ export function AIHelperBottomSheet({
       setUserInput('');
       setAiResponse(null);
       setError(null);
+      setShouldAutoSubmit(false); // 자동 제출 플래그 초기화
       generateExamples();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -151,6 +180,16 @@ export function AIHelperBottomSheet({
       }, 100);
     }
   }, [aiResponse, isLoading]);
+
+  // 자동 제출 트리거
+  useEffect(() => {
+    if (shouldAutoSubmit && userInput.trim() && !isLoading) {
+      console.log('🚀 [AIHelperBottomSheet] Auto-submitting with userInput:', userInput);
+      setShouldAutoSubmit(false); // 트리거 리셋
+      handleSubmit();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldAutoSubmit, userInput, isLoading]);
 
   const handleSubmit = async () => {
     if (!userInput.trim() || isLoading) return;
@@ -228,7 +267,21 @@ export function AIHelperBottomSheet({
     onClose();
   };
 
-  const handleExampleClick = (example: string, index: number) => {
+  const handleExampleClick = async (example: string, index: number) => {
+    // 특별 예시인 경우 바로 추천받기 실행
+    if (example === CONTEXT_SUMMARY_EXAMPLE) {
+      console.log('🔍 [AIHelperBottomSheet] Context summary clicked, triggering auto-submit:', {
+        userSelections: userSelections,
+      });
+
+      // "지금까지 입력한 상황에 맞춰 추천해주세요" 텍스트 설정
+      setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
+
+      // 자동 제출 트리거 설정 (useEffect가 감지하여 실행)
+      setShouldAutoSubmit(true);
+      return;
+    }
+
     // 로깅
     logExampleQuestionClicked(
       questionType,
@@ -364,23 +417,34 @@ export function AIHelperBottomSheet({
                         </div>
                       ) : (
                         <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                          {examples.map((example, idx) => (
-                            <motion.button
-                              key={idx}
-                              initial={{ opacity: 0, x: 10, scale: 0.95 }}
-                              animate={{ opacity: 1, x: 0, scale: 1 }}
-                              transition={{
-                                duration: 0.3,
-                                delay: idx * 0.05,
-                                ease: [0.25, 0.1, 0.25, 1]
-                              }}
-                              onClick={() => handleExampleClick(example, idx)}
-                              disabled={isLoading || !!aiResponse}
-                              className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed whitespace-nowrap"
-                            >
-                              {example}
-                            </motion.button>
-                          ))}
+                          {examples.map((example, idx) => {
+                            const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
+                            return (
+                              <motion.button
+                                key={idx}
+                                initial={{ opacity: 0, x: 10, scale: 0.95 }}
+                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                transition={{
+                                  duration: 0.3,
+                                  delay: idx * 0.05,
+                                  ease: [0.25, 0.1, 0.25, 1]
+                                }}
+                                onClick={() => handleExampleClick(example, idx)}
+                                disabled={isLoading || !!aiResponse}
+                                className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed whitespace-nowrap flex items-center gap-1.5 ${
+                                  isContextSummary
+                                    ? 'bg-purple-100 text-purple-700 hover:bg-purple-150 font-semibold'
+                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                }`}
+                              >
+                                {isContextSummary ? (
+                                  <span>지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
+                                ) : (
+                                  example
+                                )}
+                              </motion.button>
+                            );
+                          })}
                         </div>
                       )}
                     </div>
@@ -408,23 +472,34 @@ export function AIHelperBottomSheet({
                         `}</style>
                       </>
                     ) : (
-                      examples.map((example, idx) => (
-                        <motion.button
-                          key={idx}
-                          initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{
-                            duration: 0.3,
-                            delay: idx * 0.1,
-                            ease: [0.25, 0.1, 0.25, 1]
-                          }}
-                          onClick={() => handleExampleClick(example, idx)}
-                          disabled={isLoading || !!aiResponse}
-                          className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed"
-                        >
-                          {example}
-                        </motion.button>
-                      ))
+                      examples.map((example, idx) => {
+                        const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
+                        return (
+                          <motion.button
+                            key={idx}
+                            initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: idx * 0.1,
+                              ease: [0.25, 0.1, 0.25, 1]
+                            }}
+                            onClick={() => handleExampleClick(example, idx)}
+                            disabled={isLoading || !!aiResponse}
+                            className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed flex items-center gap-1.5 ${
+                              isContextSummary
+                                ? 'bg-purple-100 text-purple-700 hover:bg-purple-150 font-semibold'
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            }`}
+                          >
+                            {isContextSummary ? (
+                              <span>지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
+                            ) : (
+                              example
+                            )}
+                          </motion.button>
+                        );
+                      })
                     )}
                   </div>
                 )}

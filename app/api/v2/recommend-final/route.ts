@@ -263,14 +263,15 @@ async function selectTop3WithLLM(
   const topPros = insights.pros.slice(0, 5).map(p => `- ${p.text}`).join('\n');
   const topCons = insights.cons.slice(0, 5).map(c => `- ${c.text}`).join('\n');
 
-  // 후보 상품 리뷰 로드 (상위 10개에 대해)
-  const top10Candidates = candidates.slice(0, 10);
-  const productIds = top10Candidates.map(p => p.pcode);
+  // 후보 상품 리뷰 로드 (상위 6개에 대해 - 프롬프트 길이 최적화)
+  const topCandidates = candidates.slice(0, 6);
+  const productIds = topCandidates.map(p => p.pcode);
 
   let reviewsMap = new Map<string, ProductReviewSample>();
   try {
     console.log(`[recommend-final] Loading reviews for ${productIds.length} products from Supabase`);
-    reviewsMap = await getSampledReviewsFromSupabase(productIds, 10, 10);
+    // 리뷰 샘플 수를 5개로 줄여서 프롬프트 길이 감소
+    reviewsMap = await getSampledReviewsFromSupabase(productIds, 5, 5);
     const reviewCounts = Array.from(reviewsMap.values()).map(r => r.totalCount);
     console.log(`[recommend-final] Reviews loaded: ${reviewCounts.filter(c => c > 0).length}/${productIds.length} products have reviews`);
   } catch (err) {
@@ -278,7 +279,7 @@ async function selectTop3WithLLM(
   }
 
   // 후보 상품 목록 (리뷰 포함)
-  const candidatesStr = top10Candidates
+  const candidatesStr = topCandidates
     .map((p, i) => formatProductForPrompt(p, i, reviewsMap.get(p.pcode)))
     .join('\n\n');
 
@@ -460,6 +461,14 @@ ${candidatesStr}
   const top3Products: RecommendedProduct[] = [];
   const usedGroupKeys = new Set<string>();  // 중복 그룹 체크용
 
+  // 🔍 응답 검증: 3개 제품 모두 recommendationReason이 있는지 확인
+  const missingReasons = (parsed.top3 || []).filter(item => !item.recommendationReason);
+  if (missingReasons.length > 0) {
+    console.error(`[recommend-final] ⚠️⚠️⚠️ LLM returned ${missingReasons.length} products without recommendationReason!`);
+    console.error(`[recommend-final] Missing reasons for ranks:`, missingReasons.map(m => m.rank).join(', '));
+    console.error(`[recommend-final] LLM response preview (first 1000 chars):`, responseText.slice(0, 1000));
+  }
+
   for (const item of parsed.top3 || []) {
     const candidate = candidates.find(c => c.pcode === item.pcode);
     if (candidate) {
@@ -478,7 +487,7 @@ ${candidatesStr}
 
       const useFallback = !item.recommendationReason;
       if (useFallback) {
-        console.log(`[recommend-final] ⚠️ Using fallback for pcode ${item.pcode}: LLM returned empty recommendationReason`);
+        console.warn(`[recommend-final] ⚠️ Using fallback for rank ${item.rank} (pcode ${item.pcode}): LLM returned empty recommendationReason`);
       }
 
       const reason = item.recommendationReason || generateFallbackReason(candidate, item.rank, userContext);

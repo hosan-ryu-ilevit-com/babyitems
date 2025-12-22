@@ -11,8 +11,10 @@ interface PriceRangeInfo {
 }
 
 interface UserSelections {
+  naturalLanguageInputs?: Array<{ stage: string; input: string }>;
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
   balanceGames?: Array<{ title: string; selectedOption: string }>;
+  negativeSelections?: string[];
 }
 
 interface BudgetAIHelperBottomSheetProps {
@@ -71,8 +73,11 @@ export function BudgetAIHelperBottomSheet({
   const [aiResponse, setAiResponse] = useState<AIResponse | null>(null);
   const [examples, setExamples] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [shouldAutoSubmit, setShouldAutoSubmit] = useState(false); // 자동 제출 트리거
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const CONTEXT_SUMMARY_EXAMPLE = '🔮_CONTEXT_SUMMARY'; // 특별한 식별자
 
   // 바텀시트 열릴 때 예시 쿼리 생성
   useEffect(() => {
@@ -80,6 +85,7 @@ export function BudgetAIHelperBottomSheet({
       setUserInput('');
       setAiResponse(null);
       setError(null);
+      setShouldAutoSubmit(false); // 자동 제출 플래그 초기화
       generateExamples();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,6 +103,16 @@ export function BudgetAIHelperBottomSheet({
     }
   }, [aiResponse, isLoading]);
 
+  // 자동 제출 트리거
+  useEffect(() => {
+    if (shouldAutoSubmit && userInput.trim() && !isLoading) {
+      console.log('🚀 [BudgetAIHelper] Auto-submitting with userInput:', userInput);
+      setShouldAutoSubmit(false); // 트리거 리셋
+      handleSubmit();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldAutoSubmit, userInput, isLoading]);
+
   const generateExamples = async () => {
     setIsLoadingExamples(true);
     try {
@@ -110,17 +126,44 @@ export function BudgetAIHelperBottomSheet({
         }),
       });
       const data = await res.json();
-      setExamples(data.examples || [
+
+      // 어떤 선택이나 입력이라도 있는지 확인
+      const hasContext =
+        (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+        (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+        (userSelections?.balanceGames && userSelections.balanceGames.length > 0) ||
+        (userSelections?.negativeSelections && userSelections.negativeSelections.length > 0);
+
+      // 디버깅 로그
+      console.log('🔍 [BudgetAIHelper] generateExamples:', {
+        hasContext,
+        naturalLanguageInputs: userSelections?.naturalLanguageInputs?.length || 0,
+        hardFilters: userSelections?.hardFilters?.length || 0,
+        balanceGames: userSelections?.balanceGames?.length || 0,
+        negativeSelections: userSelections?.negativeSelections?.length || 0,
+      });
+
+      const baseExamples = data.examples || [
         '첫째 아이라 좋은 거 사주고 싶어요',
         '가성비 좋은 제품이면 충분해요',
         '오래 쓸 거라 투자할 생각이에요',
-      ]);
+      ];
+      // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
+      setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
     } catch {
-      setExamples([
+      // 어떤 선택이나 입력이라도 있는지 확인
+      const hasContext =
+        (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+        (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+        (userSelections?.balanceGames && userSelections.balanceGames.length > 0) ||
+        (userSelections?.negativeSelections && userSelections.negativeSelections.length > 0);
+
+      const baseExamples = [
         '첫째 아이라 좋은 거 사주고 싶어요',
         '가성비 좋은 제품이면 충분해요',
         '오래 쓸 거라 투자할 생각이에요',
-      ]);
+      ];
+      setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
     } finally {
       setIsLoadingExamples(false);
     }
@@ -168,6 +211,20 @@ export function BudgetAIHelperBottomSheet({
   };
 
   const handleExampleClick = (example: string) => {
+    // 특별 예시인 경우 바로 추천받기 실행
+    if (example === CONTEXT_SUMMARY_EXAMPLE) {
+      console.log('🔍 [BudgetAIHelper] Context summary clicked, triggering auto-submit:', {
+        userSelections: userSelections,
+      });
+
+      // "지금까지 입력한 상황에 맞춰 추천해주세요" 텍스트 설정
+      setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
+
+      // 자동 제출 트리거 설정 (useEffect가 감지하여 실행)
+      setShouldAutoSubmit(true);
+      return;
+    }
+
     setUserInput(example);
     // 모바일에서 키보드가 불필요하게 올라오지 않도록 focus 안 함
   };
@@ -241,16 +298,27 @@ export function BudgetAIHelperBottomSheet({
                       ))}
                     </div>
                   ) : (
-                    examples.map((example, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleExampleClick(example)}
-                        disabled={isLoading || !!aiResponse}
-                        className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed"
-                      >
-                        {example}
-                      </button>
-                    ))
+                    examples.map((example, idx) => {
+                      const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => handleExampleClick(example)}
+                          disabled={isLoading || !!aiResponse}
+                          className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed flex items-center gap-1.5 ${
+                            isContextSummary
+                              ? 'bg-purple-100 text-purple-700 hover:bg-purple-150 font-semibold'
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          }`}
+                        >
+                          {isContextSummary ? (
+                            <span>지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
+                          ) : (
+                            example
+                          )}
+                        </button>
+                      );
+                    })
                   )}
                 </div>
 

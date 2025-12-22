@@ -183,6 +183,7 @@ export default function RecommendV2Page() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false); // 버튼 중복 클릭 방지
   const [progress, setProgress] = useState(0); // 0~100 프로그레스
+  const progressRef = useRef(0); // 최신 progress 값 추적용
   const [selectionReason, setSelectionReason] = useState<string>('');
   const [analysisTimeline, setAnalysisTimeline] = useState<AnalysisTimeline | null>(null);
   const [timelineSteps, setTimelineSteps] = useState<TimelineStep[]>([]); // 실시간 타임라인 스텝
@@ -274,32 +275,42 @@ export default function RecommendV2Page() {
   // 프로그레스는 항상 증가만 (뒤로 가지 않음)
   const setProgressSafe = useCallback((value: number) => {
     setProgress((prev: number) => Math.max(prev, value));
+    progressRef.current = Math.max(progressRef.current, value);
   }, []);
 
-  // 프로그레스 관리: 전체 약 12초 (0-90% 9초, 90-99% 3초)
-  // API 완료 시 100%로 빠르게 애니메이션
+  // 프로그레스 관리: Tick 기반 (0~99% 천천히)
   useEffect(() => {
     if (isCalculating) {
       setProgress(0);
+      progressRef.current = 0;
       let tickCount = 0;
-      let phase2StartTick = 0;
 
       const interval = setInterval(() => {
         tickCount++;
 
         setProgress((prev: number) => {
-          // API가 이미 100%로 설정했으면 유지
-          if (prev >= 99) return prev;
-
-          if (prev < 90) {
-            // 0-90%: 100ms(10틱)마다 1% 증가 (총 9초)
-            if (tickCount % 10 === 0) return prev + 1;
-          } else {
-            // 90% 도달 시 2단계 시작점 기록
-            if (phase2StartTick === 0) phase2StartTick = tickCount;
-            // 90-99%: 350ms(35틱)마다 1% 증가 (총 약 3초)
-            const phase2Ticks = tickCount - phase2StartTick;
-            if (phase2Ticks > 0 && phase2Ticks % 35 === 0) return Math.min(prev + 1, 99);
+          // 99%까지 Tick으로 천천히 증가
+          if (prev < 40) {
+            // 0-40%: 100ms(10틱)마다 1% (총 4초)
+            if (tickCount % 10 === 0) {
+              const newVal = prev + 1;
+              progressRef.current = newVal;
+              return newVal;
+            }
+          } else if (prev < 90) {
+            // 40-90%: 120ms(12틱)마다 1% (총 6초)
+            if (tickCount % 12 === 0) {
+              const newVal = prev + 1;
+              progressRef.current = newVal;
+              return newVal;
+            }
+          } else if (prev < 99) {
+            // 90-99%: 300ms(30틱)마다 1% (총 2.7초)
+            if (tickCount % 30 === 0) {
+              const newVal = prev + 1;
+              progressRef.current = newVal;
+              return newVal;
+            }
           }
           return prev;
         });
@@ -1702,7 +1713,6 @@ export default function RecommendV2Page() {
       // 예산 내 제품 개수 계산 (로깅용)
       const budgetFilteredCount = scored.filter(p => !p.isOverBudget).length;
 
-      setProgressSafe(12); // 📦 상품 데이터 준비 완료
 
       // 타임라인: 1단계 완료
       const step1: TimelineStep = {
@@ -1724,7 +1734,6 @@ export default function RecommendV2Page() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       // 📚 2단계: 카테고리 전문 지식 로드
-      setProgressSafe(20); // 📚 카테고리 전문 지식 로드 시작
 
       const step2: TimelineStep = {
         id: 'step-2',
@@ -1745,7 +1754,6 @@ export default function RecommendV2Page() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       // 📝 3단계: 실사용 리뷰 수집
-      setProgressSafe(35); // 📝 실사용 리뷰 수집 시작
 
       const step3: TimelineStep = {
         id: 'step-3',
@@ -1788,7 +1796,6 @@ export default function RecommendV2Page() {
       });
 
       // 🤖 4단계: AI 종합 분석 시작 (API 호출 전)
-      setProgressSafe(40); // 🤖 AI 종합 분석 시작
 
       const step4: TimelineStep = {
         id: 'step-4',
@@ -1851,7 +1858,6 @@ export default function RecommendV2Page() {
         console.warn('LLM recommendation failed, using score-based fallback:', llmError);
       }
 
-      setProgressSafe(60); // LLM 분석 완료
 
       // 각 단계 사이 지연 (스트리밍 효과)
       await new Promise(resolve => setTimeout(resolve, 400));
@@ -1877,7 +1883,6 @@ export default function RecommendV2Page() {
       localTimelineSteps.push(step5);
       setTimelineSteps(prev => [...prev, step5]);
 
-      setProgressSafe(70); // 🏆 Top 3 최종 선정 완료
 
       // 스텝 사이 짧은 간격
       await new Promise(resolve => setTimeout(resolve, 300));
@@ -1898,7 +1903,6 @@ export default function RecommendV2Page() {
       localTimelineSteps.push(step6);
       setTimelineSteps(prev => [...prev, step6]);
 
-      setProgressSafe(85); // ✨ 개인 맞춤 추천 완료
 
       // 태그 정제 API 호출 (백그라운드)
       try {
@@ -2132,10 +2136,12 @@ export default function RecommendV2Page() {
         endTime: Date.now(),
       });
 
-      // 85% → 100% 빠르게 애니메이션 (50ms 간격으로 1%씩)
-      for (let i = 85; i <= 100; i++) {
-        setProgressSafe(i);
-        await new Promise(resolve => setTimeout(resolve, 50));
+      // API 완료 → 현재 progress에서 100%까지 빠르게 (10ms당 1%)
+      const currentProgress = progressRef.current;
+      for (let i = currentProgress + 1; i <= 100; i++) {
+        setProgress(i);
+        progressRef.current = i;
+        await new Promise(resolve => setTimeout(resolve, 10));
       }
       await new Promise(resolve => setTimeout(resolve, 300)); // 100% 표시 후 잠시 대기
 
@@ -2176,7 +2182,7 @@ export default function RecommendV2Page() {
     } finally {
       setIsCalculating(false);
     }
-  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, addMessage, scrollToMessage]);
+  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, addMessage, scrollToMessage, setProgressSafe]);
 
   // 예산 내 제품만 보기 재추천 핸들러
   const handleRestrictToBudget = useCallback(async () => {
@@ -3358,10 +3364,7 @@ export default function RecommendV2Page() {
                       logV2ReRecommendModalOpened(categoryKey, categoryName);
                       setShowReRecommendModal(true);
                     }}
-                    className="w-full h-14 rounded-2xl font-semibold text-base text-white transition-all flex items-center justify-center gap-2"
-                    style={{ backgroundColor: '#4E43E1' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#3D35B8'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#4E43E1'}
+                    className="w-full h-14 rounded-2xl font-semibold text-base text-white bg-purple-600 hover:bg-purple-700 transition-all flex items-center justify-center gap-2"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />

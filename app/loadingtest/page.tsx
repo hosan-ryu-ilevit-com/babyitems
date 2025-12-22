@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { LoadingAnimation } from '@/components/recommend-v2/LoadingAnimation';
 import type { TimelineStep } from '@/types/recommend-v2';
 
 export default function LoadingTestPage() {
   const [progress, setProgress] = useState(0);
+  const progressRef = useRef(0);
   const [isRunning, setIsRunning] = useState(false);
   const [timelineSteps, setTimelineSteps] = useState<TimelineStep[]>([]);
   const [cycleCount, setCycleCount] = useState(0);
@@ -97,40 +98,77 @@ export default function LoadingTestPage() {
   useEffect(() => {
     if (!isRunning) return;
 
-    let tickCount = 0;
-    let phase2StartTick = 0;
+    let isCancelled = false;
 
-    const interval = setInterval(() => {
-      tickCount++;
+    (async () => {
+      while (!isCancelled && isRunning) {
+        // 초기화
+        setProgress(0);
+        progressRef.current = 0;
+        setTimelineSteps([]);
 
-      setProgress((prev) => {
-        if (prev >= 100) {
-          // 100% 도달 시 리셋 + 사이클 카운트 증가
-          setCycleCount((c) => c + 1);
-          setTimelineSteps([]);
-          return 0;
+        // 0~99%: Tick으로 천천히 증가
+        let tickCount = 0;
+        const tickInterval = setInterval(() => {
+          tickCount++;
+          setProgress((prev) => {
+            if (prev < 40) {
+              // 0-40%: 100ms(10틱)당 1% (4초)
+              if (tickCount % 10 === 0) {
+                const newProgress = prev + 1;
+                progressRef.current = newProgress;
+                return newProgress;
+              }
+            } else if (prev < 90) {
+              // 40-90%: 120ms(12틱)당 1% (6초)
+              if (tickCount % 12 === 0) {
+                const newProgress = prev + 1;
+                progressRef.current = newProgress;
+                return newProgress;
+              }
+            } else if (prev < 99) {
+              // 90-99%: 300ms(30틱)당 1% (2.7초)
+              if (tickCount % 30 === 0) {
+                const newProgress = prev + 1;
+                progressRef.current = newProgress;
+                return newProgress;
+              }
+            }
+            return prev;
+          });
+        }, 10);
+
+        // API 완료 시뮬레이션 (약 35초 후)
+        await new Promise(resolve => setTimeout(resolve, 35000));
+        if (isCancelled) {
+          clearInterval(tickInterval);
+          break;
         }
 
-        if (prev < 90) {
-          // 0-90%: 100ms(10틱)마다 1% 증가 (총 9초)
-          if (tickCount % 10 === 0) return prev + 1;
-        } else if (prev < 99) {
-          // 90% 도달 시 2단계 시작점 기록
-          if (phase2StartTick === 0) phase2StartTick = tickCount;
-          // 90-99%: 350ms(35틱)마다 1% 증가 (총 약 3초)
-          const phase2Ticks = tickCount - phase2StartTick;
-          if (phase2Ticks > 0 && phase2Ticks % 35 === 0) return Math.min(prev + 1, 99);
-        } else {
-          // 99%에서 1초 대기 후 100%
-          if (phase2StartTick === 0) phase2StartTick = tickCount;
-          const waitTicks = tickCount - phase2StartTick;
-          if (waitTicks > 100) return 100;
-        }
-        return prev;
-      });
-    }, 10);
+        clearInterval(tickInterval);
 
-    return () => clearInterval(interval);
+        // API 완료 → 현재 progress에서 100%까지 빠르게 (10ms당 1%)
+        const currentProgress = progressRef.current;
+        for (let i = currentProgress + 1; i <= 100; i++) {
+          if (isCancelled) break;
+          setProgress(i);
+          progressRef.current = i;
+          await new Promise(resolve => setTimeout(resolve, 10));
+        }
+
+        if (isCancelled) break;
+
+        // 100% 유지 (0.3초)
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        // 사이클 증가 후 다시 시작
+        setCycleCount((c) => c + 1);
+      }
+    })();
+
+    return () => {
+      isCancelled = true;
+    };
   }, [isRunning, cycleCount]);
 
   // 타임라인 스텝 순차 추가

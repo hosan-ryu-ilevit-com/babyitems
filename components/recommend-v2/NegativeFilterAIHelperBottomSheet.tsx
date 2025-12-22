@@ -10,6 +10,7 @@ interface NegativeFilterOption {
 }
 
 interface UserSelections {
+  naturalLanguageInputs?: Array<{ stage: string; input: string }>;
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
   balanceGames?: Array<{ title: string; selectedOption: string }>;
 }
@@ -59,6 +60,7 @@ export function NegativeFilterAIHelperBottomSheet({
   const [aiResponse, setAiResponse] = useState<AIResponse | null>(null);
   const [examples, setExamples] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [shouldAutoSubmit, setShouldAutoSubmit] = useState(false); // 자동 제출 트리거
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -68,8 +70,10 @@ export function NegativeFilterAIHelperBottomSheet({
       setUserInput('');
       setAiResponse(null);
       setError(null);
+      setShouldAutoSubmit(false); // 자동 제출 플래그 초기화
       generateExamples();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   // AI 응답 또는 로딩 시작하면 스크롤
@@ -84,7 +88,18 @@ export function NegativeFilterAIHelperBottomSheet({
     }
   }, [aiResponse, isLoading]);
 
+  // 자동 제출 트리거
+  useEffect(() => {
+    if (shouldAutoSubmit && userInput.trim() && !isLoading) {
+      console.log('🚀 [NegativeFilterAIHelper] Auto-submitting with userInput:', userInput);
+      setShouldAutoSubmit(false); // 트리거 리셋
+      handleSubmit();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldAutoSubmit, userInput, isLoading]);
+
   const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 피하는 단점이 뭔가요?';
+  const CONTEXT_SUMMARY_EXAMPLE = '🔮_CONTEXT_SUMMARY'; // 특별한 식별자
 
   const generateExamples = async () => {
     setIsLoadingExamples(true);
@@ -97,19 +112,44 @@ export function NegativeFilterAIHelperBottomSheet({
           questionText: '피하고 싶은 단점이 있나요?',
           category,
           categoryName,
+          userSelections,
         }),
       });
       const data = await res.json();
+
+      // 어떤 선택이나 입력이라도 있는지 확인
+      const hasContext =
+        (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+        (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+        (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
+      // 디버깅 로그
+      console.log('🔍 [NegativeFilterAIHelper] generateExamples:', {
+        hasContext,
+        naturalLanguageInputs: userSelections?.naturalLanguageInputs?.length || 0,
+        hardFilters: userSelections?.hardFilters?.length || 0,
+        balanceGames: userSelections?.balanceGames?.length || 0,
+      });
+
       // 첫 번째는 고정, 나머지 2개는 API에서 (상황 기반 예시)
       const apiExamples = (data.examples || []).slice(0, 2);
-      setExamples([FIXED_FIRST_EXAMPLE, ...apiExamples]);
+      const baseExamples = [FIXED_FIRST_EXAMPLE, ...apiExamples];
+      // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
+      setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
     } catch {
+      // 어떤 선택이나 입력이라도 있는지 확인
+      const hasContext =
+        (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+        (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+        (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
       // Fallback: 사용자 상황 기반 예시 (상품 단점이 아님)
-      setExamples([
+      const baseExamples = [
         FIXED_FIRST_EXAMPLE,
         '맞벌이라 시간이 부족해요',
         '집이 좁은 편이에요',
-      ]);
+      ];
+      setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
     } finally {
       setIsLoadingExamples(false);
     }
@@ -157,6 +197,20 @@ export function NegativeFilterAIHelperBottomSheet({
   };
 
   const handleExampleClick = (example: string) => {
+    // 특별 예시인 경우 바로 추천받기 실행
+    if (example === CONTEXT_SUMMARY_EXAMPLE) {
+      console.log('🔍 [NegativeFilterAIHelper] Context summary clicked, triggering auto-submit:', {
+        userSelections: userSelections,
+      });
+
+      // "지금까지 입력한 상황에 맞춰 추천해주세요" 텍스트 설정
+      setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
+
+      // 자동 제출 트리거 설정 (useEffect가 감지하여 실행)
+      setShouldAutoSubmit(true);
+      return;
+    }
+
     setUserInput(example);
     // 모바일에서 키보드가 불필요하게 올라오지 않도록 focus 안 함
   };
@@ -271,23 +325,34 @@ export function NegativeFilterAIHelperBottomSheet({
                       `}</style>
                     </>
                   ) : (
-                    examples.map((example, idx) => (
-                      <motion.button
-                        key={idx}
-                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: idx * 0.1,
-                          ease: [0.25, 0.1, 0.25, 1]
-                        }}
-                        onClick={() => handleExampleClick(example)}
-                        disabled={isLoading || !!aiResponse}
-                        className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed"
-                      >
-                        {example}
-                      </motion.button>
-                    ))
+                    examples.map((example, idx) => {
+                      const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
+                      return (
+                        <motion.button
+                          key={idx}
+                          initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: idx * 0.1,
+                            ease: [0.25, 0.1, 0.25, 1]
+                          }}
+                          onClick={() => handleExampleClick(example)}
+                          disabled={isLoading || !!aiResponse}
+                          className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed flex items-center gap-1.5 ${
+                            isContextSummary
+                              ? 'bg-purple-100 text-purple-700 hover:bg-purple-150 font-semibold'
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          }`}
+                        >
+                          {isContextSummary ? (
+                            <span>지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
+                          ) : (
+                            example
+                          )}
+                        </motion.button>
+                      );
+                    })
                   )}
                 </div>
 
