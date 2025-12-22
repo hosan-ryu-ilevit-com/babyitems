@@ -94,15 +94,36 @@ export function AIHelperBottomSheet({
         }),
       });
       const data = await res.json();
-      // 첫 번째는 고정, 나머지 2개는 API에서
-      const apiExamples = (data.examples || []).slice(0, 2);
-      setExamples([FIXED_FIRST_EXAMPLE, ...apiExamples]);
+
+      // 카테고리 선택: 고정 1개 + API 8개 = 총 9개
+      if (questionType === 'category_selection') {
+        const apiExamples = (data.examples || []).slice(0, 8);
+        setExamples([FIXED_FIRST_EXAMPLE, ...apiExamples]);
+      } else {
+        // 다른 타입: 첫 번째는 고정, 나머지 2개는 API에서
+        const apiExamples = (data.examples || []).slice(0, 2);
+        setExamples([FIXED_FIRST_EXAMPLE, ...apiExamples]);
+      }
     } catch {
-      setExamples([
-        FIXED_FIRST_EXAMPLE,
-        '쌍둥이라 자주 사용해요',
-        '맞벌이라 시간이 부족해요',
-      ]);
+      if (questionType === 'category_selection') {
+        setExamples([
+          FIXED_FIRST_EXAMPLE,
+          '신생아 출산 준비 중이에요',
+          '쌍둥이라 수유가 힘들어요',
+          '6개월 아기를 키우고 다음주에 이사를 가려고 해요',
+          '맞벌이라 시간이 부족해요',
+          '곧 직장 복귀하는데 준비가 필요해요',
+          '아이가 예민한 편이에요',
+          '외출할 때마다 불편해요',
+          '둘째 출산 예정이라 준비 중이에요',
+        ]);
+      } else {
+        setExamples([
+          FIXED_FIRST_EXAMPLE,
+          '쌍둥이라 자주 사용해요',
+          '맞벌이라 시간이 부족해요',
+        ]);
+      }
     } finally {
       setIsLoadingExamples(false);
     }
@@ -234,7 +255,7 @@ export function AIHelperBottomSheet({
       return [`B: ${(options as { A: BalanceGameOption; B: BalanceGameOption }).B.text}`];
     }
 
-    // hard_filter
+    // hard_filter 또는 category_selection
     const optionList = options as HardFilterOption[];
     return aiResponse.recommendation.selectedOptions
       .map(v => optionList.find(o => o.value === v)?.label || v);
@@ -318,46 +339,95 @@ export function AIHelperBottomSheet({
                 </p>
 
                 {/* 예시 버튼들 */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {isLoadingExamples ? (
-                    <>
-                      {[1, 2, 3].map(i => (
-                        <div
-                          key={i}
-                          className="h-8 rounded-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
-                          style={{
-                            width: `${70 + i * 15}px`,
-                            animationDelay: `${i * 0.15}s`
+                {questionType === 'category_selection' ? (
+                  // 카테고리 선택: 가로 스크롤 그리드 (3개씩)
+                  <div className="mb-4 -mx-5">
+                    <div className="overflow-x-auto px-5 scrollbar-hide">
+                      {isLoadingExamples ? (
+                        <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
+                            <div
+                              key={i}
+                              className="h-8 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
+                              style={{
+                                width: '180px',
+                                animationDelay: `${i * 0.1}s`
+                              }}
+                            />
+                          ))}
+                          <style jsx>{`
+                            @keyframes shimmer {
+                              0% { background-position: 200% 0; }
+                              100% { background-position: -200% 0; }
+                            }
+                          `}</style>
+                        </div>
+                      ) : (
+                        <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
+                          {examples.map((example, idx) => (
+                            <motion.button
+                              key={idx}
+                              initial={{ opacity: 0, x: 10, scale: 0.95 }}
+                              animate={{ opacity: 1, x: 0, scale: 1 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: idx * 0.05,
+                                ease: [0.25, 0.1, 0.25, 1]
+                              }}
+                              onClick={() => handleExampleClick(example, idx)}
+                              disabled={isLoading || !!aiResponse}
+                              className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed whitespace-nowrap"
+                            >
+                              {example}
+                            </motion.button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  // 다른 타입: 기존 flex-wrap 레이아웃
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {isLoadingExamples ? (
+                      <>
+                        {[1, 2, 3].map(i => (
+                          <div
+                            key={i}
+                            className="h-8 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
+                            style={{
+                              width: `${70 + i * 15}px`,
+                              animationDelay: `${i * 0.15}s`
+                            }}
+                          />
+                        ))}
+                        <style jsx>{`
+                          @keyframes shimmer {
+                            0% { background-position: 200% 0; }
+                            100% { background-position: -200% 0; }
+                          }
+                        `}</style>
+                      </>
+                    ) : (
+                      examples.map((example, idx) => (
+                        <motion.button
+                          key={idx}
+                          initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: idx * 0.1,
+                            ease: [0.25, 0.1, 0.25, 1]
                           }}
-                        />
-                      ))}
-                      <style jsx>{`
-                        @keyframes shimmer {
-                          0% { background-position: 200% 0; }
-                          100% { background-position: -200% 0; }
-                        }
-                      `}</style>
-                    </>
-                  ) : (
-                    examples.map((example, idx) => (
-                      <motion.button
-                        key={idx}
-                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: idx * 0.1,
-                          ease: [0.25, 0.1, 0.25, 1]
-                        }}
-                        onClick={() => handleExampleClick(example, idx)}
-                        disabled={isLoading || !!aiResponse}
-                        className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed"
-                      >
-                        {example}
-                      </motion.button>
-                    ))
-                  )}
-                </div>
+                          onClick={() => handleExampleClick(example, idx)}
+                          disabled={isLoading || !!aiResponse}
+                          className="px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors disabled:cursor-not-allowed"
+                        >
+                          {example}
+                        </motion.button>
+                      ))
+                    )}
+                  </div>
+                )}
 
                 {/* 입력 영역 */}
                 <div className="mb-4">
@@ -365,7 +435,11 @@ export function AIHelperBottomSheet({
                     ref={inputRef}
                     value={userInput}
                     onChange={e => setUserInput(e.target.value)}
-                    placeholder="위 질문과 관련된 육아 상황을 알려주세요"
+                    placeholder={
+                      questionType === 'category_selection'
+                        ? '육아 상황을 알려주세요'
+                        : '위 질문과 관련된 육아 상황을 알려주세요'
+                    }
                     className="w-full p-3 border border-gray-200 rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent disabled:bg-gray-50"
                     rows={3}
                     disabled={isLoading || !!aiResponse}

@@ -39,7 +39,7 @@ import {
   NegativeFilterList,
   BudgetSlider,
   ResultCards,
-  TimelineStreamingView,
+  LoadingAnimation,
 } from '@/components/recommend-v2';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
@@ -276,13 +276,13 @@ export default function RecommendV2Page() {
     setProgress((prev: number) => Math.max(prev, value));
   }, []);
 
-  // 프로그레스 관리: 95%까지 빠르게 (100ms당 1%), 95% 이후 느리게 (1초당 1%, 99%까지)
+  // 프로그레스 관리: 전체 약 12초 (0-90% 9초, 90-99% 3초)
   // API 완료 시 100%로 빠르게 애니메이션
   useEffect(() => {
     if (isCalculating) {
       setProgress(0);
       let tickCount = 0;
-      let slowModeStartTick = 0;
+      let phase2StartTick = 0;
 
       const interval = setInterval(() => {
         tickCount++;
@@ -291,15 +291,15 @@ export default function RecommendV2Page() {
           // API가 이미 100%로 설정했으면 유지
           if (prev >= 99) return prev;
 
-          if (prev < 95) {
-            // 95%까지: 100ms(10틱)마다 1% 증가
+          if (prev < 90) {
+            // 0-90%: 100ms(10틱)마다 1% 증가 (총 9초)
             if (tickCount % 10 === 0) return prev + 1;
           } else {
-            // 95% 도달 시 슬로우 모드 시작점 기록
-            if (slowModeStartTick === 0) slowModeStartTick = tickCount;
-            // 95~99%: 1초(100틱)마다 1% 증가
-            const slowTicks = tickCount - slowModeStartTick;
-            if (slowTicks > 0 && slowTicks % 100 === 0) return prev + 1;
+            // 90% 도달 시 2단계 시작점 기록
+            if (phase2StartTick === 0) phase2StartTick = tickCount;
+            // 90-99%: 350ms(35틱)마다 1% 증가 (총 약 3초)
+            const phase2Ticks = tickCount - phase2StartTick;
+            if (phase2Ticks > 0 && phase2Ticks % 35 === 0) return Math.min(prev + 1, 99);
           }
           return prev;
         });
@@ -527,6 +527,26 @@ export default function RecommendV2Page() {
 
     loadData();
   }, [categoryKey, router, isRestoredFromStorage]);
+
+  // 초기 자연어 입력 컨텍스트 로딩 (categories-v2에서 저장된 것)
+  useEffect(() => {
+    if (!categoryKey || isRestoredFromStorage) return;
+
+    try {
+      const savedContextStr = sessionStorage.getItem(`v2_initial_context_${categoryKey}`);
+      if (savedContextStr) {
+        const savedContext = JSON.parse(savedContextStr);
+        // 초기 컨텍스트를 naturalLanguageInputs에 추가
+        setNaturalLanguageInputs([savedContext]);
+        console.log('✅ [recommend-v2] Initial context loaded:', savedContext);
+
+        // 사용 후 삭제 (한 번만 사용)
+        sessionStorage.removeItem(`v2_initial_context_${categoryKey}`);
+      }
+    } catch (e) {
+      console.warn('[recommend-v2] Failed to load initial context:', e);
+    }
+  }, [categoryKey, isRestoredFromStorage]);
 
   // 인기 하드필터 옵션 로딩 (통계 기반)
   useEffect(() => {
@@ -3113,83 +3133,13 @@ export default function RecommendV2Page() {
             {messages.map(renderMessage)}
           </div>
 
-          {/* Calculating indicator - 왼쪽 정렬 + 비디오 + 프로그레스 */}
-          {isCalculating && (() => {
-            // 단계별 메시지 (타임라인과 일치)
-            const getStageMessage = () => {
-              if (progress < 12) return '📦 상품 데이터 준비 중...';
-              if (progress < 20) return '📚 카테고리 전문 지식 로드 중...';
-              if (progress < 35) return '📝 실사용 리뷰 수집 중...';
-              if (progress < 55) return '🤖 AI 종합 분석 중...';
-              if (progress < 95) return '🏆 Top 3 최종 선정 중...';
-              return '✨ 최종 결과 준비 중...';
-            };
-            const currentMessage = getStageMessage();
-
-            // 단계 번호 계산 (메시지 변경 시 애니메이션용)
-            const getStageIndex = () => {
-              if (progress < 3) return 0;
-              if (progress < 8) return 1;
-              if (progress < 12) return 2;
-              if (progress < 15) return 3;
-              if (progress < 55) return 4;
-              if (progress < 95) return 5;
-              return 6;
-            };
-
-            return (
-              <div className="w-full">
-                <motion.div
-                  ref={calculatingRef}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="w-full py-8 flex flex-col items-center"
-                >
-                  {/* 로딩 비디오 - 정사각형, 작게 */}
-                  <div className="w-[100px] h-[100px] rounded-2xl overflow-hidden bg-white mb-6">
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover"
-                    >
-                      <source src="/animations/recommendloading.MP4" type="video/mp4" />
-                    </video>
-                  </div>
-
-                  {/* 프로그레스 + thinking 메시지 - 가운데 정렬 */}
-                  <div className="flex flex-col items-center">
-                    {/* 프로그레스 % */}
-                    <span className="text-xl font-semibold text-gray-700 tabular-nums">
-                      {progress}%
-                    </span>
-
-                    {/* 단계별 메시지 - 가운데 정렬, 단계 변경 시 애니메이션 */}
-                    <div className="mt-2 h-6 overflow-hidden">
-                      <AnimatePresence mode="wait">
-                        <motion.span
-                          key={getStageIndex()}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.4, ease: 'easeOut' }}
-                          className="text-sm font-semibold text-gray-500 block text-center"
-                        >
-                          {currentMessage}
-                        </motion.span>
-                      </AnimatePresence>
-                    </div>
-                  </div>
-
-                  {/* 타임라인 스트리밍 표시 - 모든 세부사항 글자 단위 스트리밍 */}
-                  {timelineSteps.length > 0 && (
-                    <TimelineStreamingView steps={timelineSteps} />
-                  )}
-                </motion.div>
-              </div>
-            );
-          })()}
+          {/* Calculating indicator - 로딩 애니메이션 */}
+          {isCalculating && (
+            <LoadingAnimation
+              progress={progress}
+              timelineSteps={timelineSteps}
+            />
+          )}
 
           {/* 스페이서: 새 컴포넌트가 헤더 바로 아래로 스크롤될 수 있는 여백 (추천 완료 후 숨김) */}
           {scoredProducts.length === 0 && (

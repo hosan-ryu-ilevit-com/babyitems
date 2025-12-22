@@ -428,6 +428,7 @@ export default function CategoriesV2Page() {
   const [loadingCategoryId, setLoadingCategoryId] = useState<string | null>(null);
   const [completedCategories, setCompletedCategories] = useState<Set<string>>(new Set());
   const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
+  const [initialUserInput, setInitialUserInput] = useState<string>('');
 
   // 현재 선택된 연령대 필터
   const selectedAgeFilter = AGE_FILTERS.find((f) => f.id === selectedAgeId) || AGE_FILTERS[0];
@@ -545,7 +546,7 @@ export default function CategoriesV2Page() {
               </button>
               <div className="absolute left-1/2 -translate-x-1/2">
                 <h1 className="text-base font-semibold text-gray-900">
-                  추천받을 상품을 골라주세요
+                  전체 카테고리
                 </h1>
               </div>
               <div className="w-6" />
@@ -560,7 +561,7 @@ export default function CategoriesV2Page() {
           transition={{ duration: 0.4 }}
         >
           {/* 연령대 필터 */}
-          <div className="mb-4">
+          <div className="mb-1">
             <AgeFilterBar
               selectedAgeId={selectedAgeId}
               onSelect={(ageId) => {
@@ -571,18 +572,6 @@ export default function CategoriesV2Page() {
                   logAgeBadgeSelection(ageFilter.label, ageId);
                 }
               }}
-            />
-          </div>
-
-          {/* AI 도움받기 버튼 */}
-          <div className="mb-4">
-            <AIHelperButton
-              onClick={() => setIsCategoryGuideOpen(true)}
-              questionType="category_selection"
-              questionId="category_select"
-              questionText="어떤 제품이 필요하신가요?"
-              category="all"
-              categoryName="전체"
             />
           </div>
 
@@ -651,23 +640,64 @@ export default function CategoriesV2Page() {
         onClose={() => setIsCategoryGuideOpen(false)}
         questionType="category_selection"
         questionId="category_select"
-        questionText="어떤 제품이 필요하신가요?"
+        questionText="어떤 상품을 찾고 계신가요?"
         options={CATEGORY_GROUPS.flatMap(g => g.categories).map(c => ({
           value: c.id,
           label: c.name
         }))}
         category="all"
         categoryName="전체"
+        onNaturalLanguageInput={(stage, input) => {
+          // 카테고리 선택 단계의 자연어 입력 저장
+          setInitialUserInput(input);
+        }}
         onSelectOptions={(selectedCategoryIds) => {
           // 첫 번째 추천 카테고리로 바로 이동
           if (selectedCategoryIds.length > 0) {
             const categoryId = selectedCategoryIds[0];
+
+            // 자연어 입력이 있으면 sessionStorage에 저장
+            if (initialUserInput) {
+              try {
+                const naturalLanguageInput = {
+                  stage: 'category_selection',
+                  timestamp: new Date().toISOString(),
+                  input: initialUserInput,
+                };
+                sessionStorage.setItem(
+                  `v2_initial_context_${categoryId}`,
+                  JSON.stringify(naturalLanguageInput)
+                );
+                console.log('✅ [categories-v2] Initial context saved:', naturalLanguageInput);
+              } catch (e) {
+                console.warn('[categories-v2] Failed to save initial context:', e);
+              }
+            }
+
             logButtonClick(`AI 추천 카테고리 선택: ${categoryId}`, 'categories-v2');
             router.push(`/recommend-v2/${categoryId}`);
           }
           setIsCategoryGuideOpen(false);
         }}
       />
+
+      {/* 플로팅 AI 도움받기 버튼 */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
+        <div className="max-w-[480px] mx-auto px-4 pb-4 pointer-events-auto">
+          <div className="bg-linear-to-t from-white via-white to-transparent pt-4">
+            <AIHelperButton
+              onClick={() => setIsCategoryGuideOpen(true)}
+              questionType="category_selection"
+              questionId="category_select"
+              questionText="어떤 상품을 찾고 계신가요?"
+              category="all"
+              categoryName="전체"
+              variant="emphasized"
+              className="h-14! rounded-2xl! border-2 shadow-lg [&>span]:text-base!"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

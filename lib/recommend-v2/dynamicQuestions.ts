@@ -721,9 +721,23 @@ export function calculateHardFilterScore(
     });
 
     if (matched) {
-      // 체감속성과 하드필터 균형 조정 (각각 30-40% 목표)
-      const isExperientialTag = question.type === 'review_priorities';
-      const scoreIncrement = isExperientialTag ? 25 : 40; // 체감속성 35%, 하드필터 40%
+      // 브랜드 질문 식별 (question.id 또는 question.question에 '브랜드' 포함)
+      const isBrandQuestion = questionId.includes('브랜드') || question.options.some(opt =>
+        opt.filter && 'brand' in opt.filter
+      );
+
+      // 점수 부여
+      // - 브랜드: +150 (사용자가 명시적으로 선택한 강한 선호)
+      // - 체감속성: +25
+      // - 일반 하드필터: +40
+      let scoreIncrement: number;
+      if (isBrandQuestion) {
+        scoreIncrement = 150;
+      } else {
+        const isExperientialTag = question.type === 'review_priorities';
+        scoreIncrement = isExperientialTag ? 25 : 40;
+      }
+
       score += scoreIncrement;
       matchedRules.push(`하드필터_${questionId}`);
     }

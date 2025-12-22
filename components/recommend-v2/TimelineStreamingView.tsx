@@ -53,13 +53,26 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
       animate={{ opacity: 1, y: 0 }}
       className="mt-8 w-full max-w-md mx-auto"
     >
-      {/* 회색 컴포넌트 - 높이 제한 및 스크롤 */}
-      <div
-        ref={containerRef}
-        className="bg-gray-50 rounded-xl border border-gray-200 p-4 shadow-sm max-h-[300px] overflow-y-auto"
-      >
-        <div className="space-y-4">
-          {(() => {
+      {/* 타임라인 컨테이너 - 투명 배경, 상하단 fade 효과 */}
+      <div className="relative">
+        {/* 스크롤 컨테이너 - mask로 상하단 fade */}
+        <div
+          ref={containerRef}
+          className="h-[150px] overflow-y-auto px-2 py-4"
+          style={{
+            msOverflowStyle: 'none',  // IE, Edge
+            scrollbarWidth: 'none',   // Firefox
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%)',
+          }}
+        >
+          <style jsx>{`
+            div::-webkit-scrollbar {
+              display: none;  /* Chrome, Safari, Opera */
+            }
+          `}</style>
+          <div className="space-y-4">
+            {(() => {
             let globalCumulativeDelay = 0; // 전체 스텝에 걸친 누적 delay
 
             return steps.map((step) => {
@@ -144,7 +157,8 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
               </div>
               );
             });
-          })()}
+            })()}
+          </div>
         </div>
       </div>
     </motion.div>

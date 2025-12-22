@@ -13,3 +13,4 @@ export { BudgetSlider } from './BudgetSlider';
 export { ResultCards } from './ResultCards';
 export { AnalysisTimeline } from './AnalysisTimeline';
 export { TimelineStreamingView } from './TimelineStreamingView';
+export { LoadingAnimation } from './LoadingAnimation';
