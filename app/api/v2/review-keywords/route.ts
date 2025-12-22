@@ -16,6 +16,13 @@ interface ReviewInsight {
   positiveRatio: number;
   sentiment: 'positive' | 'neutral' | 'negative';
   topSample: string | null;
+  reviewMetadata?: {
+    author: string | null;
+    review_date: string | null;
+    helpful_count: number;
+    rating: number;
+    originalIndex: number;
+  };
 }
 
 interface ProductReviewInsights {
@@ -80,7 +87,7 @@ export async function POST(request: NextRequest) {
 
         // LLM으로 관련 리뷰 발췌
         const excerpt = await extractRelevantExcerpt(
-          allReviews.map(r => r.text),
+          allReviews,
           criteriaName,
           criterion.id,
           productTitle  // 제품명 전달 (fallback 포함)
@@ -101,6 +108,7 @@ export async function POST(request: NextRequest) {
           positiveRatio: sentiment === 'positive' ? 1.0 : 0.0,
           sentiment,
           topSample: excerpt.text,
+          reviewMetadata: excerpt.metadata,
         } as ReviewInsight;
       });
 
@@ -182,15 +190,31 @@ function getRelatedKeywords(criteriaId: string): string[] {
  * LLM을 사용하여 리뷰에서 체감속성 관련 부분 발췌 + 하이라이팅
  */
 async function extractRelevantExcerpt(
-  reviews: string[],
+  reviews: Array<{
+    text: string;
+    rating: number;
+    author?: string | null;
+    review_date?: string | null;
+    helpful_count?: number;
+  }>,
   criteriaName: string,
   criteriaId: string,
   productTitle: string
-): Promise<{ text: string; isPositive: boolean } | null> {
+): Promise<{
+  text: string;
+  isPositive: boolean;
+  metadata?: {
+    author: string | null;
+    review_date: string | null;
+    helpful_count: number;
+    rating: number;
+    originalIndex: number;
+  };
+} | null> {
   try {
     // 리뷰를 하나의 텍스트로 결합 (번호 매기기)
     const reviewsText = reviews
-      .map((r, i) => `[리뷰${i + 1}]\n${r}`)
+      .map((r, i) => `[리뷰${i + 1}]\n${r.text}`)
       .join('\n\n');
 
     // 관련 키워드 추출
@@ -202,32 +226,37 @@ async function extractRelevantExcerpt(
 "${criteriaName}" 속성과 관련된 내용을 찾아 발췌하세요.${keywordsHint}
 
 ## 규칙
-1. **"${criteriaName}"와 직접/간접적으로 관련된 내용**을 찾으세요
+1. **단일 리뷰 선택 (중요!)**:
+   - "${criteriaName}"와 가장 관련성 높은 **1개 리뷰만** 선택하세요
+   - ❌ 여러 리뷰를 합치지 마세요
+   - ✅ 가장 구체적이고 상세한 1개 리뷰를 선택
+
+2. **"${criteriaName}"와 직접/간접적으로 관련된 내용**을 찾으세요
    - 이 제품에 대한 실제 사용 경험 우선
    - 다른 제품과의 비교도 OK (긍정/부정 모두 포함 가능)
    - 유사하거나 관련된 표현도 적극 포함 (예: "온도 정확도" → "온도", "보온", "따뜻함" 등)
-   - ❌ 제외: 다른 제품만 언급하고 이 제품은 전혀 언급 안 함
 
-2. **문장 개수**: 1~3문장 (핵심만 간결하게)
+3. **발췌 범위**: 선택한 리뷰에서 1~3문장 발췌
    - 1문장도 충분하면 OK
-
-3. **하이라이팅 (선택사항)**:
-   - 가능하면 핵심 부분을 **볼드**로 강조
-   - 예: "...괜찮아요. **온도가 정말 정확해서 만족합니다.** 추천해요."
-   - 볼드가 어려우면 그냥 문장만 발췌해도 OK
+   - 핵심 부분을 **볼드**로 강조
 
 4. **생략 표시**: 앞뒤에 "..." 붙이기
 
+5. **reviewIndex 반환 필수**: 선택한 리뷰의 번호를 반환하세요
+
 ## 예시
 ### 입력 리뷰:
-"이전에 쓰던 제품보다 훨씬 조용해요. 새벽에 분유 탈 때 아기 안 깨서 좋습니다."
+[리뷰1] 가격 대비 괜찮아요
+[리뷰5] 온도가 정확해요. 분유 타기 편합니다. 강추!
+[리뷰8] 디자인이 예뻐요
 
-### 체감속성: "소음 수준"
+### 체감속성: "온도 정확도"
 ### 출력:
 {
   "found": true,
-  "excerpt": "...이전 제품보다 **훨씬 조용해요**. 새벽에 분유 탈 때 아기 안 깨서 좋습니다.",
-  "isPositive": true
+  "excerpt": "**온도가 정확해요.** 분유 타기 편합니다...",
+  "isPositive": true,
+  "reviewIndex": 5
 }
 
 ## 리뷰 (${reviews.length}개)
@@ -237,14 +266,16 @@ ${reviewsText}
 {
   "found": true,
   "excerpt": "...문맥. **핵심 부분.** 문맥...",
-  "isPositive": true
+  "isPositive": true,
+  "reviewIndex": 3
 }
 
 관련 내용 없으면:
 {
   "found": false,
   "excerpt": null,
-  "isPositive": null
+  "isPositive": null,
+  "reviewIndex": null
 }`;
 
     console.log(`[extractRelevantExcerpt] Processing ${criteriaName} for product ${productTitle} with ${reviews.length} reviews`);
@@ -258,13 +289,30 @@ ${reviewsText}
     console.log(`[extractRelevantExcerpt] Raw LLM response for ${criteriaName}:`, response.substring(0, 200));
 
     // JSON 파싱
-    const parsed = parseJSONResponse(response) as { found?: boolean; excerpt?: string; isPositive?: boolean } | null;
+    const parsed = parseJSONResponse(response) as {
+      found?: boolean;
+      excerpt?: string;
+      isPositive?: boolean;
+      reviewIndex?: number;
+    } | null;
 
     if (parsed && parsed.found && parsed.excerpt) {
-      console.log(`[extractRelevantExcerpt] ✅ Found relevant excerpt for ${criteriaName}`);
+      // reviewIndex로 원본 리뷰 찾기 (1-based → 0-based)
+      const reviewIdx = (parsed.reviewIndex || 1) - 1;
+      const originalReview = reviews[reviewIdx];
+
+      console.log(`[extractRelevantExcerpt] ✅ Found relevant excerpt for ${criteriaName} (reviewIndex: ${parsed.reviewIndex})`);
+
       return {
         text: parsed.excerpt,
         isPositive: parsed.isPositive ?? true,
+        metadata: originalReview ? {
+          author: originalReview.author || null,
+          review_date: originalReview.review_date || null,
+          helpful_count: originalReview.helpful_count || 0,
+          rating: originalReview.rating,
+          originalIndex: reviewIdx,
+        } : undefined,
       };
     }
 

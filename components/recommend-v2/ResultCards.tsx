@@ -41,6 +41,13 @@ interface ReviewInsight {
   positiveRatio: number;
   sentiment: 'positive' | 'neutral' | 'negative';
   topSample: string | null;
+  reviewMetadata?: {
+    author: string | null;
+    review_date: string | null;
+    helpful_count: number;
+    rating: number;
+    originalIndex: number;
+  };
 }
 
 interface ProductReviewInsights {
@@ -99,12 +106,24 @@ const CRITERIA_KEYWORDS: Record<string, string[]> = {
 };
 
 // LLM 하이라이팅 결과 파싱 (마크다운 볼드 → 하이라이트 스타일)
-function parseHighlightedReview(text: string): React.ReactNode {
+function parseHighlightedReview(text: string, sentiment: 'positive' | 'neutral' | 'negative'): React.ReactNode {
   const parts = text.split(/(\*\*.*?\*\*)/g);
+
+  // sentiment에 따라 형광펜 색상 결정
+  const highlightClass = sentiment === 'positive'
+    ? 'bg-green-100/60 text-green-900'
+    : sentiment === 'negative'
+    ? 'bg-red-100/60 text-red-900'
+    : 'bg-yellow-100/60 text-gray-900';
+
   return parts.map((part, index) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      const boldText = part.slice(2, -2);
-      return <strong key={index} className="text-amber-900 font-bold">{boldText}</strong>;
+      const highlightedText = part.slice(2, -2);
+      return (
+        <span key={index} className={`${highlightClass} px-0.5 rounded-sm`}>
+          {highlightedText}
+        </span>
+      );
     }
     return <span key={index}>{part}</span>;
   });
@@ -127,6 +146,92 @@ function highlightKeywords(text: string, criteriaId: string): React.ReactNode {
       <span key={index}>{part}</span>
     );
   });
+}
+
+// ReviewCard 컴포넌트 (리뷰 하이라이트 카드)
+function ReviewCard({ insight }: { insight: ReviewInsight }) {
+  // 날짜 포맷팅 (상대 시간)
+  const formatDate = (dateStr: string | null) => {
+    if (!dateStr) return null;
+    try {
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+
+      if (diffDays < 1) return '오늘';
+      if (diffDays < 7) return `${diffDays}일 전`;
+      if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`;
+      if (diffDays < 365) return `${Math.floor(diffDays / 30)}개월 전`;
+      return `${Math.floor(diffDays / 365)}년 전`;
+    } catch {
+      return null;
+    }
+  };
+
+  // 별점 렌더링 (별 1개 + 숫자)
+  const renderStars = (rating: number) => {
+    return (
+      <div className="flex items-center gap-0">
+        <svg
+          className="w-3 h-3 text-yellow-400"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+        <span className="text-[10px] font-semibold text-gray-900">{rating}</span>
+      </div>
+    );
+  };
+
+  return (
+    <div className="bg-white rounded-lg p-3 border border-gray-200 hover:border-gray-300 transition-colors">
+      {/* 상단: 체감속성 태그 */}
+      <span
+        className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold mb-2 ${
+          insight.sentiment === 'positive'
+            ? 'bg-green-100 text-green-700'
+            : insight.sentiment === 'negative'
+            ? 'bg-red-100 text-red-700'
+            : 'bg-gray-100 text-gray-700'
+        }`}
+      >
+        {insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
+        {' '}{insight.criteriaName}
+      </span>
+
+      {/* 별점/닉네임/날짜 한 줄 (메타데이터 있을 때만) */}
+      {insight.reviewMetadata && (
+        <div className="flex items-center gap-1.5 mb-2 text-[10px] text-gray-500">
+          {/* 별점 */}
+          {renderStars(insight.reviewMetadata.rating)}
+
+          {/* 구분자 */}
+          <span className="text-gray-300">•</span>
+
+          {/* 닉네임 (있으면) */}
+          {insight.reviewMetadata.author && (
+            <>
+              <span className="text-gray-400">{insight.reviewMetadata.author}</span>
+              <span className="text-gray-300">•</span>
+            </>
+          )}
+
+          {/* 날짜 */}
+          {insight.reviewMetadata.review_date && (
+            <span className="text-gray-400">
+              {formatDate(insight.reviewMetadata.review_date)}
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* 발췌문 */}
+      <p className="text-xs text-gray-700 leading-relaxed">
+        {parseHighlightedReview(insight.topSample || '', insight.sentiment)}
+      </p>
+    </div>
+  );
 }
 
 // Extended product type with LLM recommendation reason + variants
@@ -1246,76 +1351,45 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
                 {/* 리뷰 기반 인사이트 (체감속성 기반) - 로딩 또는 데이터 */}
                 {(isReviewInsightsLoading || (reviewInsights[product.pcode]?.insights && reviewInsights[product.pcode].insights.length > 0)) && (
-                  <div className="mt-2 rounded-xl p-3 bg-amber-50 border border-amber-200">
-                    {/* 헤더 */}
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-1.5">
-                        <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-xs font-semibold text-amber-700">리뷰 하이라이트</span>
-                      </div>
-                      {!isReviewInsightsLoading && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // PDP 열기 + 리뷰 탭으로 이동
-                            handleProductClick(product, index);
-                            // 약간의 딜레이 후 리뷰 탭 선택 이벤트 발생
-                            setTimeout(() => {
-                              window.dispatchEvent(new CustomEvent('openReviewTab'));
-                            }, 100);
-                            logButtonClick('리뷰모두보기_PLP', 'v2-result');
-                          }}
-                          className="text-[11px] font-medium text-amber-600 hover:text-amber-800 flex items-center gap-0.5"
-                        >
-                          모두보기
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                      )}
-                    </div>
+                  <div className="mt-2 space-y-2">
                     {/* 로딩 스켈레톤 */}
                     {isReviewInsightsLoading ? (
-                      <div className="space-y-2.5 animate-pulse">
-                        {[1, 2].map((i) => (
-                          <div key={i}>
-                            {/* 태그 스켈레톤 */}
-                            <div className="h-6 w-24 bg-amber-200/50 rounded-lg mb-1"></div>
-                            {/* 텍스트 스켈레톤 */}
-                            <div className="space-y-1.5">
-                              <div className="h-3 bg-amber-200/50 rounded w-full"></div>
-                              <div className="h-3 bg-amber-200/50 rounded w-4/5"></div>
-                            </div>
-                          </div>
-                        ))}
+                      <div className="bg-white rounded-lg p-3 border border-gray-200 animate-pulse">
+                        {/* 태그 스켈레톤 */}
+                        <div className="h-5 w-20 bg-gray-200/50 rounded-md mb-2"></div>
+                        {/* 메타데이터 스켈레톤 */}
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <div className="h-3 w-12 bg-gray-200/50 rounded"></div>
+                          <div className="h-3 w-16 bg-gray-200/50 rounded"></div>
+                        </div>
+                        {/* 텍스트 스켈레톤 */}
+                        <div className="space-y-1.5">
+                          <div className="h-3 bg-gray-200/50 rounded w-full"></div>
+                          <div className="h-3 bg-gray-200/50 rounded w-4/5"></div>
+                        </div>
                       </div>
                     ) : (
                       /* 리뷰 인사이트 표시 */
-                      <div className="space-y-2.5">
-                        {reviewInsights[product.pcode].insights.slice(0, 2).map((insight, i) => (
-                          <div key={i}>
-                            {/* 체감속성 태그 */}
-                            <span
-                              className={`inline-flex items-center px-2 py-1 rounded-lg text-[11px] font-semibold mb-1 ${
-                                insight.sentiment === 'positive'
-                                  ? 'bg-green-100 text-green-700'
-                                  : insight.sentiment === 'negative'
-                                  ? 'bg-red-100 text-red-700'
-                                  : 'bg-gray-100 text-gray-700'
-                              }`}
-                            >
-                              {insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
-                              {' '}{insight.criteriaName}
-                            </span>
-                            {/* LLM 하이라이팅된 리뷰 텍스트 (topSample에 이미 포함) */}
-                            <p className="text-xs text-amber-800 leading-relaxed mt-1">
-                              {parseHighlightedReview(insight.topSample || '')}
-                            </p>
+                      <>
+                        {reviewInsights[product.pcode].insights.slice(0, 3).map((insight, i) => (
+                          <div
+                            key={i}
+                            className="cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              // PDP 열기 + 리뷰 탭으로 이동
+                              handleProductClick(product, index);
+                              // 약간의 딜레이 후 리뷰 탭 선택 이벤트 발생
+                              setTimeout(() => {
+                                window.dispatchEvent(new CustomEvent('openReviewTab'));
+                              }, 100);
+                              logButtonClick('리뷰하이라이트_클릭', 'v2-result');
+                            }}
+                          >
+                            <ReviewCard insight={insight} />
                           </div>
                         ))}
-                      </div>
+                      </>
                     )}
                   </div>
                 )}

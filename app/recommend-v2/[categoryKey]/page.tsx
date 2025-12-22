@@ -1219,12 +1219,13 @@ export default function RecommendV2Page() {
     // Log checkpoint viewed
     logV2CheckpointViewed(categoryKey, categoryName, filtered.length);
 
-    // Add AI summary message (stepTag 없음 - 위에서 이미 추가됨, 스크롤 없이 그 아래에 렌더링)
+    // Add AI summary message (Step 2 메시지이므로 stepTag 추가)
     const summaryMessage = aiSummary || `전체 **${productsToUse.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
     setTimeout(() => {
       addMessage({
         role: 'assistant',
         content: summaryMessage,
+        stepTag: '2/5',
       }, true);
       // scrollToBottom 제거 - 2/5 stepTag로 이미 스크롤됨
     }, 300);
@@ -2178,6 +2179,7 @@ export default function RecommendV2Page() {
       addMessage({
         role: 'assistant',
         content: '추천 계산 중 오류가 발생했어요. 다시 시도해주세요.',
+        stepTag: '5/5',
       });
     } finally {
       setIsCalculating(false);
@@ -2210,6 +2212,7 @@ export default function RecommendV2Page() {
       addMessage({
         role: 'assistant',
         content: `예산 ${formatPrice(budget.min)}~${formatPrice(budget.max)} 범위 내 제품이 ${budgetCheckProducts.length}개뿐이에요. 예산을 조금 조정해보시는 건 어떨까요?`,
+        stepTag: '5/5',
       });
       return;
     }
@@ -2218,6 +2221,7 @@ export default function RecommendV2Page() {
     addMessage({
       role: 'assistant',
       content: `정확한 예산 범위 내 (${formatPrice(budget.min)}~${formatPrice(budget.max)}) 제품으로 다시 추천드릴게요.`,
+      stepTag: '5/5',
     });
 
     // 전체 추천 로직 실행 (예산 하드필터 모드)
@@ -2230,8 +2234,26 @@ export default function RecommendV2Page() {
 
   const renderMessage = (message: ChatMessage) => {
     if (message.role === 'assistant') {
+      // stepTag가 있으면 해당 스텝 파싱 (예: '2/5' → 2)
+      let messageStep: number | null = null;
+      if (message.stepTag) {
+        const match = message.stepTag.match(/^(\d+)\/\d+$/);
+        if (match) {
+          messageStep = parseInt(match[1], 10);
+        }
+      }
+
+      // 현재 스텝보다 이전 스텝의 메시지면 비활성화
+      const isPastStep = messageStep !== null && currentStep > messageStep;
+
       return (
-        <div key={message.id} data-message-id={message.id} className="scroll-mt-3">
+        <div
+          key={message.id}
+          data-message-id={message.id}
+          className={`scroll-mt-3 transition-all duration-300 ${
+            isPastStep ? 'opacity-50 pointer-events-none' : ''
+          }`}
+        >
           <AssistantMessage
             content={message.content}
             stepTag={message.stepTag}
@@ -2326,12 +2348,14 @@ export default function RecommendV2Page() {
         case 'hard-filter':
           const hfData = message.componentData as { question: HardFilterQuestion; currentIndex: number; totalCount: number; selectedValues?: string[] };
           const isPastQuestion = hfData.currentIndex < currentHardFilterIndex;
+          // Step 1이 지나가면 모든 하드필터 질문 비활성화
+          const isHardFilterDisabled = currentStep > 1 || isPastQuestion;
           return (
             <div
               key={message.id}
               data-message-id={message.id}
               className={`transition-all duration-300 ${
-                isPastQuestion ? 'opacity-50 pointer-events-none' : ''
+                isHardFilterDisabled ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
               <HardFilterQuestionComponent

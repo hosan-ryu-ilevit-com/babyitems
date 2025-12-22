@@ -14,8 +14,24 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
  * Sampled review for LLM prompt
  */
 export interface ProductReviewSample {
-  high: Array<{ text: string; rating: number; length: number }>;
-  low: Array<{ text: string; rating: number; length: number }>;
+  high: Array<{
+    text: string;
+    rating: number;
+    length: number;
+    author?: string | null;
+    review_date?: string | null;
+    helpful_count?: number;
+    reviewIndex: number;
+  }>;
+  low: Array<{
+    text: string;
+    rating: number;
+    length: number;
+    author?: string | null;
+    review_date?: string | null;
+    helpful_count?: number;
+    reviewIndex: number;
+  }>;
   totalCount: number;
 }
 
@@ -59,7 +75,7 @@ export async function getSampledReviewsFromSupabase(
     // 1. Try danawa_reviews first
     const { data: danawaReviews, error: danawaError } = await supabase
       .from('danawa_reviews')
-      .select('pcode, rating, content')
+      .select('pcode, rating, content, author, review_date, helpful_count')
       .in('pcode', productIds);
 
     if (danawaError) {
@@ -69,7 +85,7 @@ export async function getSampledReviewsFromSupabase(
     // 2. Get enuri_reviews as fallback (model_no = pcode)
     const { data: enuriReviews, error: enuriError } = await supabase
       .from('enuri_reviews')
-      .select('model_no, rating, content')
+      .select('model_no, rating, content, author, review_date, helpful_count')
       .in('model_no', productIds);
 
     if (enuriError) {
@@ -77,7 +93,13 @@ export async function getSampledReviewsFromSupabase(
     }
 
     // Combine reviews, prioritizing danawa
-    const reviewsByProduct = new Map<string, Array<{ rating: number; content: string }>>();
+    const reviewsByProduct = new Map<string, Array<{
+      rating: number;
+      content: string;
+      author?: string | null;
+      review_date?: string | null;
+      helpful_count?: number;
+    }>>();
 
     // Initialize
     productIds.forEach(id => {
@@ -91,6 +113,9 @@ export async function getSampledReviewsFromSupabase(
           reviewsByProduct.get(review.pcode)?.push({
             rating: review.rating,
             content: review.content,
+            author: review.author,
+            review_date: review.review_date,
+            helpful_count: review.helpful_count,
           });
         }
       });
@@ -107,6 +132,9 @@ export async function getSampledReviewsFromSupabase(
             reviewsByProduct.get(pcode)?.push({
               rating: review.rating,
               content: review.content,
+              author: review.author,
+              review_date: review.review_date,
+              helpful_count: review.helpful_count,
             });
           }
         }
@@ -117,13 +145,29 @@ export async function getSampledReviewsFromSupabase(
     for (const [productId, reviews] of reviewsByProduct) {
       const highRating = reviews
         .filter(r => r.rating >= 4)
-        .map(r => ({ text: r.content, rating: r.rating, length: r.content.length }))
+        .map((r, idx) => ({
+          text: r.content,
+          rating: r.rating,
+          length: r.content.length,
+          author: r.author,
+          review_date: r.review_date,
+          helpful_count: r.helpful_count,
+          reviewIndex: idx,
+        }))
         .sort((a, b) => b.length - a.length)
         .slice(0, highCount);
 
       const lowRating = reviews
         .filter(r => r.rating <= 2)
-        .map(r => ({ text: r.content, rating: r.rating, length: r.content.length }))
+        .map((r, idx) => ({
+          text: r.content,
+          rating: r.rating,
+          length: r.content.length,
+          author: r.author,
+          review_date: r.review_date,
+          helpful_count: r.helpful_count,
+          reviewIndex: idx,
+        }))
         .sort((a, b) => b.length - a.length)
         .slice(0, lowCount);
 
