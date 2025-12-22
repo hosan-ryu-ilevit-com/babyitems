@@ -85,8 +85,8 @@ import {
   logV2ReRecommendDifferentCategory,
 } from '@/lib/logging/clientLogger';
 
-// Favorites
-import { FavoritesView } from '@/components/FavoritesView';
+// Favorites - 나중에 사용할 수 있도록 임시 숨김
+// import { FavoritesView } from '@/components/FavoritesView';
 
 // Sub-category types
 interface SubCategory {
@@ -212,7 +212,8 @@ export default function RecommendV2Page() {
   const [showScanAnimation, setShowScanAnimation] = useState(false);
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
-  const [showFavoritesModal, setShowFavoritesModal] = useState(false);
+  // 찜하기 기능 - 나중에 사용할 수 있도록 임시 숨김
+  // const [showFavoritesModal, setShowFavoritesModal] = useState(false);
 
   // Typing animation state
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
@@ -2531,7 +2532,7 @@ export default function RecommendV2Page() {
                   } : undefined, // 질문 타입 정보 포함
                 }}
                 onModalOpenChange={setIsProductModalOpen}
-                onViewFavorites={() => setShowFavoritesModal(true)}
+                // 찜하기 기능 - 나중에 사용할 수 있도록 임시 숨김: onViewFavorites={() => setShowFavoritesModal(true)}
                 onRestrictToBudget={handleRestrictToBudget}
               />
             </div>
@@ -3101,8 +3102,8 @@ export default function RecommendV2Page() {
             <h1 className="text-lg font-bold text-gray-900">
               {categoryName} 추천
             </h1>
-            {/* 추천 완료 후에만 하트 아이콘 표시 */}
-            {currentStep === 5 && scoredProducts.length > 0 ? (
+            {/* 추천 완료 후에만 하트 아이콘 표시 - 나중에 사용할 수 있도록 임시 숨김 */}
+            {/* {currentStep === 5 && scoredProducts.length > 0 ? (
               <button
                 onClick={() => {
                   setShowFavoritesModal(true);
@@ -3124,7 +3125,8 @@ export default function RecommendV2Page() {
               </button>
             ) : (
               <div className="w-7" />
-            )}
+            )} */}
+            <div className="w-7" />
           </div>
 
           {/* Progress Bar - Step 0(로딩/가이드카드)과 결과 화면에서는 숨김 */}
@@ -3193,8 +3195,8 @@ export default function RecommendV2Page() {
           );
         })()}
 
-        {/* 다시 추천받기 플로팅 버튼 (Step 5에서만 표시, 상품 모달 열림 시 숨김) */}
-        {currentStep === 5 && scoredProducts.length > 0 && !isProductModalOpen && (
+        {/* 다시 추천받기 플로팅 버튼 (Step 5에서만 표시) */}
+        {currentStep === 5 && scoredProducts.length > 0 && (
           <>
             {/* 회전하는 그라데이션 테두리 스타일 */}
             <style jsx>{`
@@ -3442,8 +3444,8 @@ export default function RecommendV2Page() {
           )}
         </AnimatePresence>
 
-        {/* Favorites Modal */}
-        <AnimatePresence>
+        {/* Favorites Modal - 나중에 사용할 수 있도록 임시 숨김 */}
+        {/* <AnimatePresence>
           {showFavoritesModal && (
             <>
               <motion.div
@@ -3466,7 +3468,7 @@ export default function RecommendV2Page() {
               </motion.div>
             </>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
       </div>
     </div>
   );

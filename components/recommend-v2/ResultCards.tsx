@@ -7,13 +7,13 @@ import type { ScoredProduct, ProductVariant, AnalysisTimeline } from '@/types/re
 import type { Recommendation } from '@/types';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
-import { logButtonClick, logV2ProductModalOpened, logFavoriteAction, logV2RecommendationReceived, logProductModalPurchaseClick } from '@/lib/logging/clientLogger';
-import { useFavorites } from '@/hooks/useFavorites';
+import { logButtonClick, logV2ProductModalOpened, /* logFavoriteAction, */ logV2RecommendationReceived, logProductModalPurchaseClick } from '@/lib/logging/clientLogger';
+// import { useFavorites } from '@/hooks/useFavorites'; // 찜하기 기능 비활성화
 import { useDanawaPrices } from '@/hooks/useDanawaPrices';
 import { useRealReviewsCache } from '@/hooks/useRealReviewsCache';
 import { RealReviewsContent } from './RealReviewsContent';
 import { AnalysisTimeline as AnalysisTimelineComponent } from './AnalysisTimeline';
-import Toast from '@/components/Toast';
+// import Toast from '@/components/Toast'; // 찜하기 기능 비활성화
 
 // 마크다운 볼드 처리
 function parseMarkdownBold(text: string) {
@@ -338,10 +338,10 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
 }
 
 export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext, onModalOpenChange, onViewFavorites, onRestrictToBudget, analysisTimeline }: ResultCardsProps) {
-  // Favorites management
-  const { toggleFavorite, isFavorite, count: favoritesCount } = useFavorites();
-  const [showToast, setShowToast] = useState(false);
-  const [toastType, setToastType] = useState<'add' | 'remove'>('add');
+  // Favorites management (비활성화)
+  // const { toggleFavorite, isFavorite, count: favoritesCount } = useFavorites();
+  // const [showToast, setShowToast] = useState(false);
+  // const [toastType, setToastType] = useState<'add' | 'remove'>('add');
 
   // 예산 내 제품만 보기 버튼 클릭 상태 (한 번 클릭하면 숨김)
   const [budgetButtonClicked, setBudgetButtonClicked] = useState(false);
@@ -1148,8 +1148,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             onClick={() => handleProductClick(product, index)}
             className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
           >
-            {/* 찜하기 버튼 - 우상단 */}
-            <button
+            {/* 찜하기 버튼 - 우상단 (비활성화) */}
+            {/* <button
               onClick={(e) => {
                 e.stopPropagation();
                 const wasFavorite = isFavorite(product.pcode);
@@ -1172,7 +1172,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               >
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
               </svg>
-            </button>
+            </button> */}
 
             {/* 제품 정보 */}
             <div className="flex gap-3 mb-0">
@@ -1760,14 +1760,14 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         )}
       </AnimatePresence>
 
-      {/* Toast notification for favorites */}
-      <Toast
+      {/* Toast notification for favorites (비활성화) */}
+      {/* <Toast
         isVisible={showToast}
         onClose={() => setShowToast(false)}
         duration={2000}
         type={toastType}
         onViewFavorites={onViewFavorites}
-      />
+      /> */}
     </motion.div>
   );
 }

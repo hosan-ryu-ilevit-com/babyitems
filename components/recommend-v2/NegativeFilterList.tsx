@@ -6,13 +6,6 @@ import type { NegativeFilterData } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { NegativeFilterAIHelperBottomSheet } from './NegativeFilterAIHelperBottomSheet';
 
-interface CustomNegativeOption {
-  id: string;
-  label: string;
-  target_rule_key: string;
-  isCustom: true;
-}
-
 interface UserSelections {
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
   balanceGames?: Array<{ title: string; selectedOption: string }>;
@@ -22,7 +15,6 @@ interface NegativeFilterListProps {
   data: NegativeFilterData;
   onToggle: (ruleKey: string) => void;
   onSkip?: () => void;
-  onCustomAdd?: (customText: string) => void;
   // 로깅 콜백: 개별 토글 시 호출 (label 포함)
   onToggleWithLabel?: (ruleKey: string, label: string, isSelected: boolean, totalSelected: number) => void;
   // AI 도움받기 관련
@@ -39,11 +31,10 @@ interface NegativeFilterListProps {
  * - 스킵 가능
  * - AI 도움받기 버튼 추가
  */
-export function NegativeFilterList({ 
-  data, 
-  onToggle, 
-  onSkip, 
-  onCustomAdd, 
+export function NegativeFilterList({
+  data,
+  onToggle,
+  onSkip,
   onToggleWithLabel,
   showAIHelper = false,
   category = '',
@@ -51,9 +42,6 @@ export function NegativeFilterList({
   userSelections,
 }: NegativeFilterListProps) {
   const { options, selectedKeys } = data;
-  const [showCustomInput, setShowCustomInput] = useState(false);
-  const [customInput, setCustomInput] = useState('');
-  const [customOptions, setCustomOptions] = useState<CustomNegativeOption[]>([]);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
 
   return (
@@ -152,138 +140,6 @@ export function NegativeFilterList({
           );
         })}
 
-        {/* 커스텀 옵션 (사용자가 직접 입력한 것) */}
-        {customOptions.map((option) => {
-          const isSelected = selectedKeys.includes(option.target_rule_key);
-
-          return (
-            <motion.button
-              key={option.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              onClick={() => {
-                const willBeSelected = !selectedKeys.includes(option.target_rule_key);
-                const newTotalSelected = willBeSelected ? selectedKeys.length + 1 : selectedKeys.length - 1;
-                onToggle(option.target_rule_key);
-                onToggleWithLabel?.(option.target_rule_key, option.label, willBeSelected, newTotalSelected);
-              }}
-              className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
-                isSelected
-                  ? 'border-rose-400 bg-rose-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                {/* 체크박스 */}
-                <div
-                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                    isSelected
-                      ? 'border-rose-500 bg-rose-500'
-                      : 'border-gray-300 bg-white'
-                  }`}
-                >
-                  {isSelected && (
-                    <motion.svg
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="w-3 h-3 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </motion.svg>
-                  )}
-                </div>
-
-                {/* 옵션 텍스트 + 직접입력 표시 */}
-                <span
-                  className={`text-sm font-medium leading-snug flex-1 ${
-                    isSelected ? 'text-rose-700' : 'text-gray-700'
-                  }`}
-                >
-                  {option.label}
-                </span>
-                <span className="text-xs text-gray-400 px-2 py-0.5 bg-gray-200 rounded-full">
-                  직접입력
-                </span>
-              </div>
-            </motion.button>
-          );
-        })}
-
-        {/* 직접 입력 섹션 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: options.length * 0.03 }}
-          className="pt-1"
-        >
-          {!showCustomInput ? (
-            <button
-              onClick={() => setShowCustomInput(true)}
-              className="w-full p-4 rounded-xl border-2 border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-600 transition-all text-sm flex items-center justify-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-              </svg>
-              직접 입력하기
-            </button>
-          ) : (
-            <div className="p-3 rounded-xl border-2 border-rose-200 bg-rose-50">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={customInput}
-                  onChange={(e) => setCustomInput(e.target.value)}
-                  placeholder="피하고 싶은 단점을 입력해주세요"
-                  className="flex-1 min-w-0 px-3 py-2 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent"
-                  autoFocus
-                />
-                <button
-                  onClick={() => {
-                    if (customInput.trim()) {
-                      // 커스텀 단점 옵션 생성
-                      const customRuleKey = `custom_negative_${Date.now()}`;
-                      const newCustomOption: CustomNegativeOption = {
-                        id: customRuleKey,
-                        label: customInput.trim(),
-                        target_rule_key: customRuleKey,
-                        isCustom: true,
-                      };
-
-                      // 커스텀 옵션 목록에 추가
-                      setCustomOptions(prev => [...prev, newCustomOption]);
-
-                      // 선택된 상태로 추가
-                      onToggle(customRuleKey);
-
-                      // 부모에게 커스텀 추가 알림 (필요시)
-                      onCustomAdd?.(customInput.trim());
-
-                      // 입력 초기화
-                      setCustomInput('');
-                      setShowCustomInput(false);
-                    }
-                  }}
-                  disabled={!customInput.trim()}
-                  className="shrink-0 px-4 py-2 bg-rose-500 text-white text-sm font-medium rounded-lg hover:bg-rose-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
-                >
-                  확인
-                </button>
-              </div>
-              <button
-                onClick={() => {
-                  setShowCustomInput(false);
-                  setCustomInput('');
-                }}
-                className="mt-2 text-xs text-gray-500 hover:text-gray-700"
-              >
-                취소
-              </button>
-            </div>
-          )}
-        </motion.div>
       </div>
 
       {/* 스킵 버튼 */}

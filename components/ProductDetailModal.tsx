@@ -250,7 +250,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
         backgroundColor: isExiting ? 'rgba(0, 0, 0, 0)' : (showChatInput ? 'rgba(0, 0, 0, 0.6)' : 'rgba(0, 0, 0, 0.08)')
       }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-50 flex min-h-screen items-center justify-center"
+      className="fixed inset-0 z-[120] flex min-h-screen items-center justify-center"
       onClick={showChatInput ? undefined : handleClose}
     >
       <motion.div

@@ -136,8 +136,8 @@ export default function ProductBottomSheet({
                   </button>
                 </div>
 
-                {/* Bottom Row - Add to Favorites */}
-                {onAddToFavorites && (
+                {/* Bottom Row - Add to Favorites - 나중에 사용할 수 있도록 임시 숨김 */}
+                {/* {onAddToFavorites && (
                   <button
                     onClick={() => {
                       onAddToFavorites(product.id);
@@ -164,10 +164,10 @@ export default function ProductBottomSheet({
                     </svg>
                     {isFavorite ? '찜 완료' : '찜하고 비교하기'}
                   </button>
-                )}
+                )} */}
 
-                {/* Open Favorites Button - Show when user has favorites */}
-                {isFavorite && favoritesCount > 0 && onOpenFavorites && (
+                {/* Open Favorites Button - Show when user has favorites - 나중에 사용할 수 있도록 임시 숨김 */}
+                {/* {isFavorite && favoritesCount > 0 && onOpenFavorites && (
                   <motion.button
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -192,7 +192,7 @@ export default function ProductBottomSheet({
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
                   </motion.button>
-                )}
+                )} */}
               </div>
             </div>
           </motion.div>
