@@ -2326,12 +2326,15 @@ export default function RecommendV2Page() {
             categoryName: string;
             subCategories: SubCategory[];
           };
+          // Sub-category는 첫 번째 질문 후 표시되고, 완료되면 currentHardFilterIndex가 1로 증가
+          // 따라서 currentHardFilterIndex > 0이면 이미 다음 질문으로 넘어간 것
+          const isSubCategoryDisabled = currentStep > 1 || currentHardFilterIndex > 0;
           return (
             <div
               key={message.id}
               data-message-id={message.id}
               className={`transition-all duration-300 ${
-                currentStep > 1 ? 'opacity-50 pointer-events-none' : ''
+                isSubCategoryDisabled ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
               <SubCategorySelector
