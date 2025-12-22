@@ -7,6 +7,7 @@ interface AIHelperButtonProps {
   onClick: () => void;
   className?: string;
   variant?: 'default' | 'emphasized'; // default: 연한 배경, emphasized: 진한 배경
+  label?: string; // 버튼 레이블 (기본값: "뭘 골라야 할지 모르겠어요")
   // 로깅용 메타데이터
   questionType?: 'hard_filter' | 'balance_game' | 'negative' | 'budget' | 'category_selection';
   questionId?: string;
@@ -25,6 +26,7 @@ export function AIHelperButton({
   onClick,
   className = '',
   variant = 'default',
+  label = '뭘 골라야 할지 모르겠어요',
   questionType,
   questionId,
   questionText,
@@ -77,7 +79,7 @@ export function AIHelperButton({
 
       {/* 텍스트 */}
       <span className={`text-sm font-semibold ${textColor}`}>
-        뭘 골라야 할지 모르겠어요
+        {label}
       </span>
 
 

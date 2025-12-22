@@ -687,6 +687,7 @@ export default function CategoriesV2Page() {
           <div className="bg-linear-to-t from-white via-white to-transparent pt-4">
             <AIHelperButton
               onClick={() => setIsCategoryGuideOpen(true)}
+              label="뭘 사야 할지 모르겠어요"
               questionType="category_selection"
               questionId="category_select"
               questionText="어떤 상품을 찾고 계신가요?"
