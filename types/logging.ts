@@ -549,6 +549,14 @@ export interface V2NewFlowFunnelStats {
     hardFilterCustomInput: PostRecommendationAction;
     budgetDirectInput: PostRecommendationAction;
   };
+  // AI 도움 요청 사용률
+  aiHelperUsage: {
+    totalRequests: PostRecommendationAction; // 전체 AI 도움 요청 수
+    hardFilterHelp: PostRecommendationAction; // 하드필터 AI 도움
+    balanceGameHelp: PostRecommendationAction; // 밸런스 게임 AI 도움
+    negativeHelp: PostRecommendationAction; // 단점 AI 도움
+    budgetHelp: PostRecommendationAction; // 예산 AI 도움
+  };
 }
 
 // 카테고리별 V2 New Flow 분석

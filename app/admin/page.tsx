@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { SessionSummary, CampaignFunnelStats, V2FunnelStats, CategoryAnalytics, V2ProductRecommendationRanking, V2NewFlowFunnelStats, V2NewFlowCategoryAnalytics } from '@/types/logging';
+import type { SessionSummary, CampaignFunnelStats, V2FunnelStats, CategoryAnalytics, V2ProductRecommendationRanking, V2NewFlowFunnelStats } from '@/types/logging';
 import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 
 export default function AdminPage() {
@@ -36,7 +36,6 @@ export default function AdminPage() {
   // V2 New Flow (recommend-v2 with hard filters, balance game)
   const [v2NewFlowCampaigns, setV2NewFlowCampaigns] = useState<V2NewFlowFunnelStats[]>([]);
   const [selectedV2NewFlowCampaign, setSelectedV2NewFlowCampaign] = useState<string>('all');
-  const [v2NewFlowCategoryAnalytics, setV2NewFlowCategoryAnalytics] = useState<V2NewFlowCategoryAnalytics[]>([]);
 
   // Flow 선택 (V2 New가 메인)
   const [selectedFlow, setSelectedFlow] = useState<'v2new' | 'v2' | 'main'>('v2new');
@@ -119,7 +118,6 @@ export default function AdminPage() {
 
         // V2 New Flow data (recommend-v2)
         setV2NewFlowCampaigns(data.v2NewFlow?.campaigns || []);
-        setV2NewFlowCategoryAnalytics(data.v2NewFlow?.categoryAnalytics || []);
 
         // Available campaigns (shared)
         setAvailableCampaigns(data.availableCampaigns || []);
@@ -1182,61 +1180,64 @@ export default function AdminPage() {
                         </div>
                       )}
 
-                      {/* 카테고리별 분석 */}
-                      {v2NewFlowCategoryAnalytics.length > 0 && (
+                      {/* AI 도움 요청 통계 */}
+                      {currentCampaign.aiHelperUsage && currentCampaign.aiHelperUsage.totalRequests.total > 0 && (
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
-                          <h3 className="text-base font-bold text-gray-900 mb-4">카테고리별 분석</h3>
-                          <div className="space-y-4">
-                            {v2NewFlowCategoryAnalytics.map((cat) => (
-                              <div key={cat.category} className="border border-gray-100 rounded-lg p-4">
-                                <div className="flex items-center justify-between mb-3">
-                                  <h4 className="font-semibold text-gray-800">{cat.categoryName}</h4>
-                                  <div className="flex items-center gap-4 text-sm">
-                                    <span className="text-gray-500">{cat.totalSessions} 세션</span>
-                                    <span className="text-green-600 font-medium">{cat.completionRate}% 완료</span>
-                                    <span className="text-blue-600">{cat.avgTotalTimeSeconds}초</span>
-                                  </div>
-                                </div>
+                          <h3 className="text-base font-bold text-gray-900 mb-4">💜 AI 도움 요청 현황</h3>
 
-                                {/* 인기 선택지 미리보기 */}
-                                <div className="grid grid-cols-2 gap-3 text-xs">
-                                  {cat.popularSelections.hardFilters.slice(0, 3).length > 0 && (
-                                    <div>
-                                      <p className="text-gray-500 mb-1">인기 하드필터:</p>
-                                      {cat.popularSelections.hardFilters.slice(0, 3).map((hf, i) => (
-                                        <span key={i} className="inline-block bg-purple-100 text-purple-700 px-2 py-0.5 rounded mr-1 mb-1">{hf.label} ({hf.count})</span>
-                                      ))}
-                                    </div>
-                                  )}
-                                  {cat.popularSelections.balanceChoices.slice(0, 3).length > 0 && (
-                                    <div>
-                                      <p className="text-gray-500 mb-1">인기 밸런스 선택:</p>
-                                      {cat.popularSelections.balanceChoices.slice(0, 3).map((bc, i) => (
-                                        <span key={i} className="inline-block bg-pink-100 text-pink-700 px-2 py-0.5 rounded mr-1 mb-1">{bc.label} ({bc.count})</span>
-                                      ))}
-                                    </div>
-                                  )}
-                                </div>
+                          {/* 전체 요청 수 */}
+                          <div className="bg-purple-50 rounded-lg p-4 mb-4">
+                            <p className="text-sm text-gray-600 mb-1">전체 AI 도움 요청 수</p>
+                            <p className="text-2xl font-bold text-purple-600">
+                              {currentCampaign.aiHelperUsage.totalRequests.total}회
+                              <span className="text-base font-normal text-gray-600 ml-2">
+                                ({currentCampaign.aiHelperUsage.totalRequests.unique}명)
+                              </span>
+                            </p>
+                          </div>
 
-                                {/* 추천 상품 랭킹 */}
-                                {cat.recommendedProducts.length > 0 && (
-                                  <div className="mt-3 pt-3 border-t border-gray-100">
-                                    <p className="text-xs text-gray-500 mb-2">추천 상품 TOP 5:</p>
-                                    <div className="space-y-1">
-                                      {cat.recommendedProducts.slice(0, 5).map((p, i) => (
-                                        <div key={p.pcode} className="flex items-center justify-between text-xs">
-                                          <span className="text-gray-700">{i + 1}. {p.title}</span>
-                                          <span className="text-gray-500">{p.totalRecommendations}회 (1위: {p.rank1Count})</span>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            ))}
+                          {/* 단계별 요청 수 */}
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs text-gray-500 mb-1">하드필터</p>
+                              <p className="text-lg font-bold text-gray-700">
+                                {currentCampaign.aiHelperUsage.hardFilterHelp.total}회
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {currentCampaign.aiHelperUsage.hardFilterHelp.unique}명
+                              </p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs text-gray-500 mb-1">밸런스 게임</p>
+                              <p className="text-lg font-bold text-gray-700">
+                                {currentCampaign.aiHelperUsage.balanceGameHelp.total}회
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {currentCampaign.aiHelperUsage.balanceGameHelp.unique}명
+                              </p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs text-gray-500 mb-1">단점 필터</p>
+                              <p className="text-lg font-bold text-gray-700">
+                                {currentCampaign.aiHelperUsage.negativeHelp.total}회
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {currentCampaign.aiHelperUsage.negativeHelp.unique}명
+                              </p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs text-gray-500 mb-1">예산 설정</p>
+                              <p className="text-lg font-bold text-gray-700">
+                                {currentCampaign.aiHelperUsage.budgetHelp.total}회
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {currentCampaign.aiHelperUsage.budgetHelp.unique}명
+                              </p>
+                            </div>
                           </div>
                         </div>
                       )}
+
                     </div>
                   );
                 })()

@@ -427,6 +427,18 @@ function calculateV2NewFlowFunnel(sessions: SessionSummary[], utmCampaign: strin
   const hardFilterCustomInputSessions = new Set<string>();
   const budgetDirectInputSessions = new Set<string>();
 
+  // AI 도움 요청 사용률
+  let aiHelperTotalRequests = 0;
+  let aiHelperHardFilterTotal = 0;
+  let aiHelperBalanceTotal = 0;
+  let aiHelperNegativeTotal = 0;
+  let aiHelperBudgetTotal = 0;
+  const aiHelperTotalSessions = new Set<string>();
+  const aiHelperHardFilterSessions = new Set<string>();
+  const aiHelperBalanceSessions = new Set<string>();
+  const aiHelperNegativeSessions = new Set<string>();
+  const aiHelperBudgetSessions = new Set<string>();
+
   filteredSessions.forEach(session => {
     const sid = session.sessionId;
     const timestamps: typeof sessionTimestamps extends Map<string, infer T> ? T : never = {};
@@ -567,6 +579,28 @@ function calculateV2NewFlowFunnel(sessions: SessionSummary[], utmCampaign: strin
         budgetDirectInputTotal++;
         budgetDirectInputSessions.add(sid);
       }
+
+      // AI 도움 요청 카운팅
+      if (eventType === 'ai_helper_clicked' && 'aiHelperData' in event && event.aiHelperData) {
+        aiHelperTotalRequests++;
+        aiHelperTotalSessions.add(sid);
+
+        // 질문 타입별로 분류
+        const questionType = event.aiHelperData.questionType;
+        if (questionType === 'hard_filter') {
+          aiHelperHardFilterTotal++;
+          aiHelperHardFilterSessions.add(sid);
+        } else if (questionType === 'balance_game') {
+          aiHelperBalanceTotal++;
+          aiHelperBalanceSessions.add(sid);
+        } else if (questionType === 'negative') {
+          aiHelperNegativeTotal++;
+          aiHelperNegativeSessions.add(sid);
+        } else if (questionType === 'budget') {
+          aiHelperBudgetTotal++;
+          aiHelperBudgetSessions.add(sid);
+        }
+      }
     });
 
     sessionTimestamps.set(sid, timestamps);
@@ -661,6 +695,13 @@ function calculateV2NewFlowFunnel(sessions: SessionSummary[], utmCampaign: strin
     customInputUsage: {
       hardFilterCustomInput: { total: hardFilterCustomInputTotal, unique: hardFilterCustomInputSessions.size },
       budgetDirectInput: { total: budgetDirectInputTotal, unique: budgetDirectInputSessions.size },
+    },
+    aiHelperUsage: {
+      totalRequests: { total: aiHelperTotalRequests, unique: aiHelperTotalSessions.size },
+      hardFilterHelp: { total: aiHelperHardFilterTotal, unique: aiHelperHardFilterSessions.size },
+      balanceGameHelp: { total: aiHelperBalanceTotal, unique: aiHelperBalanceSessions.size },
+      negativeHelp: { total: aiHelperNegativeTotal, unique: aiHelperNegativeSessions.size },
+      budgetHelp: { total: aiHelperBudgetTotal, unique: aiHelperBudgetSessions.size },
     },
   };
 }
