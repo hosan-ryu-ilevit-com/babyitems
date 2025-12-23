@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { HardFilterData, ProductItem, UserSelections } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
@@ -27,6 +27,7 @@ function ReviewPriorityTags({
   onNaturalLanguageInput,
   preselectedTags = [],
   preselectedExplanation = '',
+  isLoadingPreselection = false,
   userContext,
 }: {
   question: HardFilterData['question'];
@@ -43,20 +44,33 @@ function ReviewPriorityTags({
   onNaturalLanguageInput?: (stage: string, input: string) => void;
   preselectedTags?: string[];
   preselectedExplanation?: string;
+  isLoadingPreselection?: boolean;
   userContext?: string | null;
 }) {
   const [expandedTag, setExpandedTag] = useState<string | null>(null);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   // 랜덤 offset (0~50, 컴포넌트 마운트 시 한 번만 생성)
   const [randomOffset] = useState(() => Math.floor(Math.random() * 51));
-  // 미리 선택 적용 여부 추적
-  const [hasAppliedPreselection, setHasAppliedPreselection] = useState(false);
+  // preselectedTags의 이전 값 추적 (변경 감지용)
+  const prevPreselectedTagsRef = useRef<string[]>([]);
+  // 적용된 태그 추적 (어떤 태그가 적용되었는지)
+  const appliedTagsRef = useRef<string[]>([]);
 
-  // 미리 선택 적용 (첫 렌더링 시 한 번만)
+  // 미리 선택 적용
   useEffect(() => {
-    if (hasAppliedPreselection) return;
-    if (!preselectedTags || preselectedTags.length === 0) return;
-    if (selectedValues.length > 0) return; // 이미 선택된 값이 있으면 스킵
+    // preselectedTags가 변경되었는지 확인
+    const tagsChanged = JSON.stringify(preselectedTags) !== JSON.stringify(prevPreselectedTagsRef.current);
+
+    if (!tagsChanged) return; // 변경 없으면 스킵
+
+    prevPreselectedTagsRef.current = preselectedTags || [];
+
+    if (!preselectedTags || preselectedTags.length === 0) {
+      appliedTagsRef.current = [];
+      return;
+    }
+
+    console.log('🔄 preselectedTags changed, applying new selection');
 
     // 옵션 값과 태그 키 매핑 (체감속성_ 제외한 부분으로 비교)
     const matchingValues: string[] = [];
@@ -69,11 +83,14 @@ function ReviewPriorityTags({
     }
 
     if (matchingValues.length > 0) {
-      setHasAppliedPreselection(true);
+      appliedTagsRef.current = matchingValues;
       onSelect(matchingValues);
       console.log('🎯 Applied preselected experience tags:', matchingValues);
     }
-  }, [preselectedTags, question.options, selectedValues, hasAppliedPreselection, onSelect]);
+  }, [preselectedTags, question.options, onSelect]);
+
+  // UI 표시 여부 계산 (선택된 값이 있고 preselected 태그가 있으면 표시)
+  const showPreselectionExplanation = userContext && preselectedTags.length > 0 && selectedValues.length > 0 && preselectedExplanation;
 
   // 전체 리뷰 개수 계산 (products의 reviewCount 합계 + 랜덤 offset)
   const totalReviewCount = useMemo(() => {
@@ -115,7 +132,7 @@ function ReviewPriorityTags({
           <div className="flex items-center gap-3">
             <span className="text-green-500 font-bold">✓</span>
             <h3 className="font-medium text-[15px] text-gray-900">
-              조건 분석 완료
+              주요 구매조건 분석 완료
             </h3>
           </div>
           <span className="text-xs text-gray-400">
@@ -151,7 +168,7 @@ function ReviewPriorityTags({
             ))}
           </div>
           <span className="px-2.5 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full">
-            리뷰 {totalReviewCount.toLocaleString()}개 분석 완료
+            리뷰 {totalReviewCount.toLocaleString()}개 분석
           </span>
         </div>
       </motion.div>
@@ -164,16 +181,15 @@ function ReviewPriorityTags({
         className="space-y-3"
       >
         <div className="space-y-1.5">
-          <h3 className="text-lg font-bold text-gray-900 leading-snug">
-            어떤 구매조건들이 중요하신가요?
+          <h3 className="text-base font-semibold text-gray-900 leading-snug">
+            중요하게 생각하시는 <br></br> {categoryName || category} 구매조건을 골라주세요
           </h3>
-          <p className="text-sm font-light text-gray-500">
-            {categoryName || category} 구매자들이 가장 중요하게 생각하는 조건들이에요.
-          </p>
+         
         </div>
 
         {/* 뭘 골라야할지 모르겠어요 버튼 - AIHelperButton 사용 */}
-        {showAIHelper && (
+        {/* 컨텍스트 입력으로 체감속성 미리 선택된 경우 숨김 */}
+        {showAIHelper && preselectedTags.length === 0 && (
           <AIHelperButton
             onClick={() => setIsAIHelperOpen(true)}
             questionType="hard_filter"
@@ -185,32 +201,7 @@ function ReviewPriorityTags({
           />
         )}
 
-        {/* 미리 선택 설명 (AI 생성) */}
-        {userContext && hasAppliedPreselection && selectedValues.length > 0 && preselectedExplanation && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-4"
-          >
-            <div className="flex items-start gap-3">
-              <span className="text-lg">✨</span>
-              <div className="flex-1 text-sm">
-                <div className="text-purple-800 leading-relaxed">
-                  {/* **bold** 마크다운을 실제 볼드로 변환 */}
-                  {preselectedExplanation.split(/(\*\*[^*]+\*\*)/g).map((part, i) => {
-                    if (part.startsWith('**') && part.endsWith('**')) {
-                      return <strong key={i} className="text-purple-600">{part.slice(2, -2)}</strong>;
-                    }
-                    return part;
-                  })}
-                </div>
-                <div className="text-gray-500 text-xs mt-2">
-                  원하시면 아래에서 직접 변경하실 수 있어요
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
+       
       </motion.div>
 
       {/* 필터 옵션들 - 순차적 페이드인 */}
@@ -270,30 +261,45 @@ function ReviewPriorityTags({
         })}
       </motion.div>
 
-      {/* 호버 시 샘플 리뷰 툴팁 - 태그 리스트 아래에 고정 */}
-      <AnimatePresence>
-        {expandedTag && (() => {
-          const hoveredOption = question.options.find(opt => opt.value === expandedTag);
-          return hoveredOption?.sampleReview ? (
-            <motion.div
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.2 }}
-              className="mt-3 w-full"
-            >
-              <div className="bg-gray-50 text-gray-700 text-xs p-3 rounded-lg">
-                {/* 태그 이름 */}
-                <p className="font-bold text-sm mb-1.5 text-gray-900">
-                  {hoveredOption.displayLabel || hoveredOption.label}
-                </p>
-                {/* 리뷰 텍스트 */}
-                <p className="leading-relaxed text-gray-600">&ldquo;{hoveredOption.sampleReview}&rdquo;</p>
+       {/* 미리 선택 설명 (AI 생성) - 로딩 스켈레톤 또는 실제 콘텐츠 */}
+        {userContext && (isLoadingPreselection || showPreselectionExplanation) && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-purple-50 rounded-xl p-4 space-y-3"
+          >
+            {/* 사용자 입력 표시 */}
+            <div className="flex items-start gap-2">
+              <p className="text-sm text-gray-400 leading-relaxed">{userContext}</p>
+            </div>
+
+            {/* AI 설명 - 로딩 또는 실제 콘텐츠 */}
+            <div className="flex items-start gap-2">
+              <div className="flex-1 text-sm">
+                {isLoadingPreselection ? (
+                  /* 스켈레톤 로딩 */
+                  <div className="space-y-2">
+                    <div className="h-4 bg-purple-200/50 rounded animate-pulse w-full" />
+                    <div className="h-4 bg-purple-200/50 rounded animate-pulse w-3/4" />
+                  </div>
+                ) : (
+                  <div className="text-purple-800 leading-relaxed">
+                    {/* **bold** 마크다운을 실제 볼드로 변환 */}
+                    {preselectedExplanation.split(/(\*\*[^*]+\*\*)/g).map((part, i) => {
+                      if (part.startsWith('**') && part.endsWith('**')) {
+                        return <strong key={i} className="text-purple-600">{part.slice(2, -2)}</strong>;
+                      }
+                      return part;
+                    })}
+                  </div>
+                )}
               </div>
-            </motion.div>
-          ) : null;
-        })()}
-      </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+
+     
 
       {/* AI 도움 바텀시트 */}
       {showAIHelper && (
@@ -348,6 +354,7 @@ interface HardFilterQuestionProps {
   // 미리 선택된 체감속성 태그 (Step -1 컨텍스트 입력 기반)
   preselectedTags?: string[];
   preselectedExplanation?: string;
+  isLoadingPreselection?: boolean;
   userContext?: string | null;
 }
 
@@ -466,6 +473,7 @@ export function HardFilterQuestion({
   onNaturalLanguageInput,
   preselectedTags = [],
   preselectedExplanation = '',
+  isLoadingPreselection = false,
   userContext,
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
@@ -545,6 +553,7 @@ export function HardFilterQuestion({
         onNaturalLanguageInput={onNaturalLanguageInput}
         preselectedTags={preselectedTags}
         preselectedExplanation={preselectedExplanation}
+        isLoadingPreselection={isLoadingPreselection}
         userContext={userContext}
       />
     );

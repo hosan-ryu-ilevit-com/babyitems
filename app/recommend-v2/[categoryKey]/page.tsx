@@ -149,6 +149,7 @@ export default function RecommendV2Page() {
   // 체감속성 태그 미리 선택 (AI 파싱 결과)
   const [preselectedExperienceTags, setPreselectedExperienceTags] = useState<string[]>([]);
   const [preselectedExplanation, setPreselectedExplanation] = useState<string>('');
+  const [isLoadingPreselection, setIsLoadingPreselection] = useState(false);
 
   // Data
   const [categoryName, setCategoryName] = useState('');
@@ -710,7 +711,7 @@ export default function RecommendV2Page() {
         // 하드 필터 질문 바로 시작 (하위 카테고리는 첫 번째 질문 후 표시)
         if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
           setCurrentStep(1);
-          addMessage({
+          const msgId = addMessage({
             role: 'system',
             content: '',
             componentType: 'hard-filter',
@@ -721,7 +722,8 @@ export default function RecommendV2Page() {
             },
             stepTag: '1/5',
           });
-          // 스크롤 제거 - 첫 화면이므로 스크롤 불필요
+          // ContextInput에서 시작/스킵 후 Q1으로 스크롤
+          scrollToMessage(msgId);
         }
       }, 250);
     }
@@ -771,7 +773,7 @@ export default function RecommendV2Page() {
       }, 250);
     }
     */
-  }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, addMessage]);
+  }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, addMessage, scrollToMessage]);
 
   // ===================================================
   // Auto-trigger guide cards when data is ready (스캔 애니메이션 스킵)
@@ -1032,6 +1034,8 @@ export default function RecommendV2Page() {
 
     // 2. 입력이 있으면 AI 파싱 (체감속성 태그 미리 선택) - 백그라운드로 처리
     if (context && context.trim()) {
+      // 로딩 시작
+      setIsLoadingPreselection(true);
       // 비동기로 AI 파싱 (UI 블로킹 없이)
       fetch('/api/ai-selection-helper/parse-experience-tags-from-context', {
         method: 'POST',
@@ -1052,13 +1056,17 @@ export default function RecommendV2Page() {
         })
         .catch(error => {
           console.error('Context parsing failed:', error);
+        })
+        .finally(() => {
+          setIsLoadingPreselection(false);
         });
     }
 
     // 3. Step 0으로 진행 및 Guide Cards 트리거
     setCurrentStep(0);
-    
+
     // 4. Guide Cards 트리거 (hasTriggeredGuideRef 플래그 설정)
+    // 스크롤은 handleScanComplete 내부에서 Q1 메시지 추가 후 처리
     hasTriggeredGuideRef.current = true;
     handleScanComplete();
   }, [categoryKey, categoryName, handleScanComplete]);
@@ -2437,6 +2445,7 @@ export default function RecommendV2Page() {
                 onNaturalLanguageInput={handleNaturalLanguageInput}
                 preselectedTags={hfData.currentIndex === 0 ? preselectedExperienceTags : []}
                 preselectedExplanation={hfData.currentIndex === 0 ? preselectedExplanation : ''}
+                isLoadingPreselection={hfData.currentIndex === 0 ? isLoadingPreselection : false}
                 userContext={userContext}
               />
             </div>
@@ -2664,45 +2673,27 @@ export default function RecommendV2Page() {
         });
       });
     } else {
-      // Go back to step 0 (sub-category or guide)
-      logV2StepBack(categoryKey, categoryName, 1, 0);
+      // Go back to step -1 (ContextInput)
+      logV2StepBack(categoryKey, categoryName, 1, -1);
 
-      setCurrentStep(0);
+      setCurrentStep(-1);
       setCurrentHardFilterIndex(0);
 
-      // guide-cards 메시지 ID 찾기
-      let targetMsgId: string | undefined;
+      // Clear all messages (ContextInput만 남기고 전부 제거)
+      setMessages([]);
 
-      // Clear messages after guide/sub-category
-      setMessages(prev => {
-        const filtered = prev.filter(msg =>
-          msg.componentType === 'guide-cards' ||
-          msg.componentType === 'sub-category' ||
-          (msg.role === 'assistant' && !msg.stepTag)
-        );
-        // guide-cards 메시지 찾기
-        const guideMsg = filtered.find(msg => msg.componentType === 'guide-cards');
-        targetMsgId = guideMsg?.id;
-        return filtered;
-      });
+      // hasTriggeredGuideRef 리셋 (다시 시작할 때 guide cards 트리거 가능하도록)
+      hasTriggeredGuideRef.current = false;
 
-      // DOM 업데이트 후 해당 메시지로 스크롤
+      // DOM 업데이트 후 맨 위로 스크롤
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          if (targetMsgId) {
-            scrollToMessage(targetMsgId);
-          } else {
-            scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-          }
+          scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
           setIsTransitioning(false);
         });
       });
-
-      if (requiresSubCategory) {
-        setShowSubCategorySelector(true);
-      }
     }
-  }, [isTransitioning, currentHardFilterIndex, requiresSubCategory, categoryKey, categoryName, scrollToMessage]);
+  }, [isTransitioning, currentHardFilterIndex, categoryKey, categoryName, scrollToMessage]);
 
   const handleGoToStep0 = useCallback(() => {
     logV2StepBack(categoryKey, categoryName, currentStep, 0);
@@ -3217,25 +3208,20 @@ export default function RecommendV2Page() {
           className="flex-1 overflow-y-auto px-4 py-6 bg-white"
           style={{ paddingBottom: '102px' }}
         >
-          <AnimatePresence mode="wait">
-            {/* Step -1: Context Input (분유포트 파일럿) */}
-            {currentStep === -1 && (
-              <motion.div
-                key="context-input"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="space-y-4"
-              >
-                {/* Context Input 컴포넌트 */}
-                <ContextInput
-                  category={categoryKey}
-                  categoryName={categoryName}
-                  onComplete={handleContextComplete}
-                />
-              </motion.div>
-            )}
+          {/* Step -1: Context Input - AnimatePresence 밖으로 (완료 후에도 유지) */}
+          {currentStep >= -1 && (
+            <div className="mb-4">
+              <ContextInput
+                category={categoryKey}
+                categoryName={categoryName}
+                onComplete={handleContextComplete}
+                isCompleted={currentStep > -1}
+                submittedText={userContext}
+              />
+            </div>
+          )}
 
+          <AnimatePresence mode="wait">
             {/* Step 0: Scan Animation */}
             {currentStep === 0 && showScanAnimation && (
               <ScanAnimation
@@ -3245,8 +3231,8 @@ export default function RecommendV2Page() {
             )}
           </AnimatePresence>
 
-          {/* Messages - Step -1일 때는 숨김 (ContextInput만 표시) */}
-          {currentStep !== -1 && (
+          {/* Messages */}
+          {currentStep > -1 && (
             <div className="space-y-4">
               {messages.map(renderMessage)}
             </div>

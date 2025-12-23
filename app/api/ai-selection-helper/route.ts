@@ -48,6 +48,7 @@ interface AISelectionRequest {
     hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
     balanceGames?: Array<{ title: string; selectedOption: string }>;
     naturalLanguageInputs?: Array<{ input: string }>;
+    initialContext?: string;  // 처음 입력한 자연어 컨텍스트
   };
 }
 
@@ -95,6 +96,9 @@ export async function POST(request: NextRequest) {
       // 이전 선택 컨텍스트 구성
       let previousSelectionsContext = '';
       if (userSelections) {
+        if (userSelections.initialContext) {
+          previousSelectionsContext += `\n**사용자의 초기 상황 설명:**\n"${userSelections.initialContext}"\n`;
+        }
         if (userSelections.hardFilters && userSelections.hardFilters.length > 0) {
           previousSelectionsContext += '\n**사용자의 이전 선택 (환경 체크):**\n';
           userSelections.hardFilters.forEach(hf => {
@@ -209,6 +213,9 @@ ${optionsList}
       // 이전 선택 컨텍스트 구성
       let previousSelectionsContext = '';
       if (userSelections) {
+        if (userSelections.initialContext) {
+          previousSelectionsContext += `\n**사용자의 초기 상황 설명:**\n"${userSelections.initialContext}"\n`;
+        }
         if (userSelections.hardFilters && userSelections.hardFilters.length > 0) {
           previousSelectionsContext += '\n**사용자의 이전 선택 (환경 체크):**\n';
           userSelections.hardFilters.forEach(hf => {
@@ -276,6 +283,9 @@ ${tipText ? `**팁:** ${tipText}` : ''}
       // 이전 선택 컨텍스트 구성
       let previousSelectionsContext = '';
       if (userSelections) {
+        if (userSelections.initialContext) {
+          previousSelectionsContext += `\n**사용자의 초기 상황 설명:**\n"${userSelections.initialContext}"\n`;
+        }
         if (userSelections.hardFilters && userSelections.hardFilters.length > 0) {
           previousSelectionsContext += '\n**사용자의 이전 선택 (환경 체크):**\n';
           userSelections.hardFilters.forEach(hf => {

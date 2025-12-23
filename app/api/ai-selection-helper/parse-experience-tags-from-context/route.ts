@@ -87,31 +87,32 @@ export async function POST(request: NextRequest) {
    관련 키워드: ${keywords}`;
     }).join('\n');
 
-    const systemPrompt = `당신은 ${categoryName} 추천 전문가입니다.
+    const systemPrompt = `당신은 10년 경력의 ${categoryName} 전문 컨설턴트입니다.
 
 사용자가 다음과 같은 상황을 설명했습니다:
 "${context}"
 
-아래는 ${categoryName} 선택 시 중요한 구매조건들입니다. 사용자의 상황에서 중요하게 생각할 것 같은 조건들을 선택해주세요.
+아래는 ${categoryName} 선택 시 중요한 구매조건들입니다. 사용자의 상황을 분석하여 꼭 체크해야 할 조건들을 선택해주세요.
 
 ## 중요 규칙:
 1. 사용자 상황에서 명확하게 연관되는 조건만 선택
 2. 확신이 없으면 선택하지 않음 (사용자가 직접 선택하도록)
-3. 최대 2개까지만 선택
-4. explanation은 사용자에게 보여줄 자연스러운 설명 (50자 이내)
-   - 형식: "~~ 때문에 **{조건1}**과 **{조건2}**을 추천해요"
-   - 사용자 상황과 선택 이유를 자연스럽게 연결`;
+3. 최대 3개까지 선택 가능
+4. explanation은 전문가답게 구체적으로 작성 (80자 이내)
+   - 사용자 상황의 핵심 포인트를 짚어주고
+   - 왜 해당 조건들이 중요한지 근거를 설명
+   - 예: "밤수유가 잦으시면 **온도 정확도**가 핵심이고, 피로 누적을 줄이려면 **사용 편의성**도 꼭 챙기세요"`;
 
     const userPrompt = `## ${categoryName} 구매조건 목록
 ${optionsFormatted}
 
 ## 출력 형식 (JSON)
 {
-  "selectedTags": ["option_value_1", "option_value_2"],
-  "explanation": "밤수유가 많으시니 **온도 정확도**와 **사용 편의성**이 중요해요"
+  "selectedTags": ["option_value_1", "option_value_2", "option_value_3"],
+  "explanation": "밤수유가 잦으시면 **온도 정확도**가 핵심이고, 피로 누적을 줄이려면 **사용 편의성**과 **소음**도 꼭 챙기세요"
 }
 
-사용자 상황에 맞는 조건들만 선택하세요. 확신이 없으면 빈 배열을 반환하세요.`;
+사용자 상황을 분석하여 꼭 필요한 조건들을 선택하세요. 확신이 없으면 빈 배열을 반환하세요.`;
 
     const model = getModel(0.5); // 약간의 창의성 허용
 

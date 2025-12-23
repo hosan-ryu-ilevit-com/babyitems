@@ -7,9 +7,20 @@ interface ContextInputProps {
   category: string;
   categoryName: string;
   onComplete: (context: string | null) => void;  // null = 스킵
+  isCompleted?: boolean;
+  submittedText?: string | null;
 }
 
-export default function ContextInput({ category, categoryName, onComplete }: ContextInputProps) {
+// 통일된 플레이스홀더 (예시 칩이 있으므로 간결하게)
+const PLACEHOLDER = '자유롭게 적어주세요';
+
+export default function ContextInput({
+  category,
+  categoryName,
+  onComplete,
+  isCompleted = false,
+  submittedText = null,
+}: ContextInputProps) {
   const [text, setText] = useState('');
   const [examples, setExamples] = useState<string[]>([]);
   const [isLoadingExamples, setIsLoadingExamples] = useState(true);
@@ -19,6 +30,13 @@ export default function ContextInput({ category, categoryName, onComplete }: Con
   useEffect(() => {
     loadExamples();
   }, [category, categoryName]);
+
+  // 완료 후 submittedText로 텍스트 동기화
+  useEffect(() => {
+    if (isCompleted && submittedText !== null) {
+      setText(submittedText);
+    }
+  }, [isCompleted, submittedText]);
 
   const loadExamples = async () => {
     setIsLoadingExamples(true);
@@ -35,10 +53,12 @@ export default function ContextInput({ category, categoryName, onComplete }: Con
     } catch (err) {
       console.error('Failed to load examples:', err);
       setExamples([
-        '아이는 3개월이에요',
-        '첫째 아이예요',
-        '맞벌이 가정이에요',
-        '공간이 넓지 않아요',
+        '지금 쓰는 거 불편해서 바꾸려고요',
+        '가성비 좋은 거 추천해주세요',
+        '세척 편한 거 있나요',
+        '3개월 아기인데 뭘 사야 할지 모르겠어요',
+        '첫째 아이라 추천해주세요',
+        '맞벌이라 편한 게 필요해요',
       ]);
     } finally {
       setIsLoadingExamples(false);
@@ -46,12 +66,13 @@ export default function ContextInput({ category, categoryName, onComplete }: Con
   };
 
   const handleSubmit = () => {
+    if (!text.trim()) return;
     if (text.trim().length > 500) {
       setError('500자 이내로 입력해주세요');
       return;
     }
     setError(null);
-    onComplete(text.trim() || null);
+    onComplete(text.trim());
   };
 
   const handleSkip = () => {
@@ -62,82 +83,196 @@ export default function ContextInput({ category, categoryName, onComplete }: Con
     setText(example);
   };
 
+  const isSubmitDisabled = !text.trim();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-white rounded-2xl border border-gray-200 p-5 space-y-4"
+      className={`bg-white space-y-4 transition-all duration-300 ${
+        isCompleted ? 'opacity-50 pointer-events-none' : ''
+      }`}
     >
-      {/* 헤더 - 간결하게 */}
-      <div className="space-y-1">
-        <h3 className="text-base font-bold text-gray-900">
-          💬 상황을 알려주세요. 구체적으로 말씀해주실수록 좋아요
-        </h3>
-        
-      </div>
-
-      {/* 예시 버튼들 */}
-      <div className="flex flex-wrap gap-2">
-        {isLoadingExamples ? (
-          // 스켈레톤 로딩
-          <>
-            {[1, 2, 3, 4].map(i => (
-              <div
-                key={i}
-                className="h-9 rounded-full bg-gray-100 animate-pulse"
-                style={{ width: `${80 + i * 20}px` }}
-              />
-            ))}
-          </>
-        ) : (
-          examples.map((example, idx) => (
-            <motion.button
-              key={idx}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: idx * 0.05 }}
-              onClick={() => handleExampleClick(example)}
-              className="px-3 py-2 text-sm rounded-full bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border border-transparent hover:border-blue-200"
-            >
-              {example}
-            </motion.button>
-          ))
-        )}
-      </div>
-
-      {/* Textarea */}
+      {/* 헤더 */}
       <div className="space-y-2">
-        <textarea
-          ref={textareaRef}
-          value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-            setError(null);
-          }}
-          placeholder={`아기 월령, 환경 등을 알려주시면 더 정확한 추천이 가능해요`}
-          className="w-full p-4 border border-gray-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
-          rows={3}
-          maxLength={500}
-        />
+        <h3 className="text-2xl font-semibold text-gray-900">
+          안녕하세요!<br></br>찾으시는 {categoryName} 특징이나 <br></br>아이 상황을 알려주세요.
+        </h3>
       
       </div>
 
-      {/* 버튼들 */}
-      <div className="flex gap-3">
-        <button
-          onClick={handleSubmit}
-          className="flex-1 bg-blue-500 text-white py-3 rounded-xl font-semibold text-sm hover:bg-blue-600 transition-colors"
-        >
-          시작하기
-        </button>
-        <button
-          onClick={handleSkip}
-          className="text-gray-500 underline px-4 text-sm hover:text-gray-700 transition-colors"
-        >
-          스킵하고 바로 시작
-        </button>
+      {/* Textarea with animated gradient border */}
+      <div className="relative">
+        <div className="gradient-outer-wrapper">
+          {!isCompleted && (
+            <>
+              <div className="gradient-border"></div>
+              <div className="gradient-blur"></div>
+            </>
+          )}
+          <textarea
+            ref={textareaRef}
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+              setError(null);
+            }}
+            placeholder={PLACEHOLDER}
+            className={`textarea-inner ${isCompleted ? 'completed' : ''}`}
+            rows={3}
+            maxLength={500}
+            disabled={isCompleted}
+          />
+        </div>
+        {error && (
+          <p className="text-xs text-red-500 mt-2">{error}</p>
+        )}
       </div>
+
+      {/* 예시 버튼들 - 완료 시 숨김, 페이지 패딩 무시 */}
+      {!isCompleted && (
+        <div className="-mx-4">
+          <div className="overflow-x-auto px-4 scrollbar-hide">
+            {isLoadingExamples ? (
+              <div className="grid grid-rows-2 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                  <div
+                    key={i}
+                    className="h-10 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
+                    style={{
+                      width: `${100 + (i % 2) * 50}px`,
+                      animationDelay: `${i * 0.1}s`
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-rows-2 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
+                {examples.map((example, idx) => (
+                  <motion.button
+                    key={idx}
+                    initial={{ opacity: 0, x: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    transition={{
+                      duration: 0.3,
+                      delay: idx * 0.05,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }}
+                    onClick={() => handleExampleClick(example)}
+                    className="px-4 py-2 text-sm rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors whitespace-nowrap"
+                  >
+                    {example}
+                  </motion.button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 플로팅 버튼 영역 확보용 스페이서 */}
+      {!isCompleted && <div className="h-32" />}
+
+      {/* 플로팅 버튼들 - 완료 시 숨김 */}
+      {!isCompleted && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 pb-[env(safe-area-inset-bottom)] pt-3 z-50">
+          <div className="flex flex-col gap-2 max-w-lg mx-auto">
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitDisabled}
+              className={`w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center ${
+                isSubmitDisabled
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'text-white hover:opacity-90 active:scale-[0.98]'
+              }`}
+              style={!isSubmitDisabled ? { backgroundColor: '#0084FE' } : undefined}
+            >
+              시작하기
+            </button>
+            <button
+              onClick={handleSkip}
+              className="w-full h-12 rounded-2xl font-medium mb-1 text-sm text-gray-500 hover:bg-gray-100 transition-colors"
+            >
+              건너뛰기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Animated gradient border styles */}
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+
+        @keyframes steam {
+          0% {
+            background-position: 0 0;
+          }
+          50% {
+            background-position: 400% 0;
+          }
+          100% {
+            background-position: 0 0;
+          }
+        }
+
+        .gradient-outer-wrapper {
+          position: relative;
+        }
+
+        .gradient-border {
+          position: absolute;
+          inset: -2px;
+          background: linear-gradient(60deg, #5b21b6, #7c3aed, #a855f7, #e879f9, #f0abfc, #c084fc, #818cf8, #5b21b6,
+            #7c3aed, #a855f7, #e879f9, #f0abfc, #c084fc, #818cf8);
+          background-size: 300%;
+          animation: steam 8s linear infinite;
+          border-radius: 14px;
+          z-index: 0;
+        }
+
+        .gradient-blur {
+          position: absolute;
+          inset: 10px;
+          background: linear-gradient(60deg, #7c3aed, #a855f7, #e879f9, #f0abfc, #c084fc, #818cf8, #5b21b6,
+            #7c3aed, #a855f7, #e879f9, #f0abfc, #c084fc, #818cf8);
+          background-size: 300%;
+          animation: steam 20s linear infinite;
+          filter: blur(20px);
+          opacity: 0.5;
+          border-radius: 0.75rem;
+          z-index: 0;
+        }
+
+        .textarea-inner {
+          position: relative;
+          z-index: 1;
+          display: block;
+          width: 100%;
+          padding: 1rem;
+          background: white;
+          border-radius: 0.75rem;
+          font-size: 1rem;
+          resize: none;
+          min-height: 100px;
+          border: none;
+          outline: none;
+          margin: 0;
+          box-sizing: border-box;
+        }
+
+        .textarea-inner.completed {
+          border: 1px solid #e5e7eb;
+          min-height: auto;
+        }
+
+        .textarea-inner::placeholder {
+          color: #9ca3af;
+        }
+      `}</style>
     </motion.div>
   );
 }

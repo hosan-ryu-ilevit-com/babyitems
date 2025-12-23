@@ -25,7 +25,7 @@ export function AnalysisTimeline({ timeline }: AnalysisTimelineProps) {
         <div className="flex items-center gap-2">
           <span className="text-sm">🔍</span>
           <span className="text-sm font-medium text-gray-500">
-            AI 분석 과정 보기
+            AI 분석 과정
           </span>
         </div>
         <motion.div
