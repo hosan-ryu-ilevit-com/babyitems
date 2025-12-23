@@ -26,6 +26,8 @@ interface NegativeFilterListProps {
   // 직접 입력 기능
   directInputValue?: string;
   onDirectInputChange?: (value: string) => void;
+  isDirectInputRegistered?: boolean;
+  onDirectInputRegister?: (value: string) => void;
 }
 
 /**
@@ -46,9 +48,18 @@ export function NegativeFilterList({
   userSelections,
   directInputValue = '',
   onDirectInputChange,
+  isDirectInputRegistered = false,
+  onDirectInputRegister,
 }: NegativeFilterListProps) {
   const { options, selectedKeys } = data;
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+  const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+
+  // 컨텍스트 정보가 있는지 확인
+  const hasContext = 
+    (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+    (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+    (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
 
   return (
     <motion.div
@@ -76,14 +87,35 @@ export function NegativeFilterList({
 
       {/* AI 도움받기 버튼 */}
       {showAIHelper && (
-        <AIHelperButton
-          onClick={() => setIsAIHelperOpen(true)}
-          questionType="negative"
-          questionId="negative_filter"
-          questionText="이것만큼은 절대 안 된다! 피하고 싶은 단점이 있나요?"
-          category={category}
-          categoryName={categoryName}
-        />
+        <>
+          <AIHelperButton
+            onClick={() => setIsAIHelperOpen(true)}
+            questionType="negative"
+            questionId="negative_filter"
+            questionText="이것만큼은 절대 안 된다! 피하고 싶은 단점이 있나요?"
+            category={category}
+            categoryName={categoryName}
+            hasContext={hasContext}
+            onContextRecommend={() => {
+              setIsAIHelperAutoSubmit(true);
+              setIsAIHelperOpen(true);
+            }}
+          />
+
+          <NegativeFilterAIHelperBottomSheet
+            isOpen={isAIHelperOpen}
+            onClose={() => {
+              setIsAIHelperOpen(false);
+              setIsAIHelperAutoSubmit(false);
+            }}
+            options={options}
+            category={category}
+            categoryName={categoryName}
+            onSelectOptions={onToggle}
+            userSelections={userSelections}
+            autoSubmitContext={isAIHelperAutoSubmit}
+          />
+        </>
       )}
 
       {/* 옵션 목록 */}
@@ -155,6 +187,8 @@ export function NegativeFilterList({
           onChange={onDirectInputChange}
           placeholder="피하고 싶은 조건을 직접 입력해주세요"
           filterType="negative_filter"
+          isRegistered={isDirectInputRegistered}
+          onRegister={onDirectInputRegister}
         />
       )}
 

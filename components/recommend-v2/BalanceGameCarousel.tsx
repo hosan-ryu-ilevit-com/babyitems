@@ -79,8 +79,15 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
     const [skipped, setSkipped] = useState<Set<string>>(new Set());
     const [direction, setDirection] = useState(1); // 1: next, -1: previous
     const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+    const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
     const isTransitioningRef = useRef(false); // 자동 이동 중 클릭 방지 (ref 사용으로 리렌더링 방지)
     const [appliedPreselections, setAppliedPreselections] = useState<Set<string>>(new Set()); // 이미 적용된 미리 선택
+
+    const hasContext = !!userContext || 
+      (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+      (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+      (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
     const preselectionAppliedRef = useRef(false); // 미리 선택 적용 여부 추적
 
     const currentQuestion = questions[currentIndex];
@@ -413,6 +420,11 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                     category={category}
                     categoryName={categoryName}
                     step={currentIndex}
+                    hasContext={hasContext}
+                    onContextRecommend={() => {
+                      setIsAIHelperAutoSubmit(true);
+                      setIsAIHelperOpen(true);
+                    }}
                   />
                 </div>
               )}
@@ -594,7 +606,10 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
         {showAIHelper && currentQuestion && (
           <AIHelperBottomSheet
             isOpen={isAIHelperOpen}
-            onClose={() => setIsAIHelperOpen(false)}
+            onClose={() => {
+              setIsAIHelperOpen(false);
+              setIsAIHelperAutoSubmit(false);
+            }}
             questionType="balance_game"
             questionId={currentQuestion.id}
             questionText={currentQuestion.title}
@@ -607,6 +622,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             onSelectOptions={handleAISelectOptions}
             userSelections={userSelections}
             onNaturalLanguageInput={onNaturalLanguageInput}
+            autoSubmitContext={isAIHelperAutoSubmit}
           />
         )}
       </motion.div>

@@ -190,7 +190,18 @@ export function HomeContent() {
             >
               <h1 className="text-2xl font-bold text-gray-900 mb-6 mt-6 leading-tight">
                 수천 개 아기용품 중<br />
-                <span style={{ color: '#0084FE' }}>내게 딱 맞는 하나</span> 찾기
+                <span 
+                  className="rounded-sm"
+                  style={{ 
+                    backgroundImage: 'linear-gradient(to top, rgba(186, 230, 253, 0.6) 70%, transparent 70%)',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'left bottom',
+                    backgroundSize: '100% 100%',
+                    boxDecorationBreak: 'clone',
+                    WebkitBoxDecorationBreak: 'clone',
+                    animation: 'highlight-draw-home 0.8s ease-out 0.2s both'
+                  }}
+                >내게 딱 맞는 하나</span> 찾기
               </h1>
 
               {/* Video Character Animation */}

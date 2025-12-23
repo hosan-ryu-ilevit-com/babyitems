@@ -4,9 +4,8 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
-import { logPageView, logButtonClick, logAgeBadgeSelection } from '@/lib/logging/clientLogger';
+import { logPageView, logButtonClick, logAgeBadgeSelection, logAIHelperButtonClicked } from '@/lib/logging/clientLogger';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
-import { AIHelperButton } from '@/components/recommend-v2/AIHelperButton';
 import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
 
 // API Response Types
@@ -683,19 +682,31 @@ export default function CategoriesV2Page() {
 
       {/* 플로팅 AI 도움받기 버튼 */}
       <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
-        <div className="max-w-[480px] mx-auto px-4 pb-4 pointer-events-auto">
-          <div className="bg-linear-to-t from-white via-white to-transparent pt-4">
-            <AIHelperButton
-              onClick={() => setIsCategoryGuideOpen(true)}
-              label="뭘 사야 할지 모르겠어요"
-              questionType="category_selection"
-              questionId="category_select"
-              questionText="어떤 상품을 찾고 계신가요?"
-              category="all"
-              categoryName="전체"
-              variant="emphasized"
-              className="h-14! rounded-2xl! border-2 shadow-lg [&>span]:text-base!"
-            />
+        <div className="max-w-[480px] mx-auto px-4 pointer-events-auto">
+          <div className="bg-linear-to-t from-white via-white to-transparent pt-4 pb-4">
+            <motion.button
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              onClick={() => {
+                logAIHelperButtonClicked(
+                  'category_selection',
+                  'category_select',
+                  '어떤 상품을 찾고 계신가요?',
+                  'all',
+                  '전체'
+                );
+                setIsCategoryGuideOpen(true);
+              }}
+              className="w-full h-14 flex items-center justify-center gap-2 px-3 py-3 rounded-2xl shadow-lg bg-purple-600 hover:bg-purple-700 transition-all active:scale-95"
+            >
+              <svg className="w-5 h-5 text-[#E9D5FF]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+              </svg>
+              <span className="text-base font-bold text-white">
+                뭘 사야 할지 모르겠어요
+              </span>
+            </motion.button>
           </div>
         </div>
       </div>

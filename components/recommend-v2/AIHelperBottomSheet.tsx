@@ -32,6 +32,7 @@ interface AIHelperBottomSheetProps {
   onSelectOptions: (selectedOptions: string[]) => void;
   userSelections?: UserSelections;
   onNaturalLanguageInput?: (stage: string, input: string) => void;
+  autoSubmitContext?: boolean;
 }
 
 interface AIResponse {
@@ -67,6 +68,7 @@ export function AIHelperBottomSheet({
   onSelectOptions,
   userSelections,
   onNaturalLanguageInput,
+  autoSubmitContext = false,
 }: AIHelperBottomSheetProps) {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -160,11 +162,19 @@ export function AIHelperBottomSheet({
   // 바텀시트 열릴 때 예시 쿼리 생성
   useEffect(() => {
     if (isOpen) {
-      setUserInput('');
-      setAiResponse(null);
-      setError(null);
-      setShouldAutoSubmit(false); // 자동 제출 플래그 초기화
-      generateExamples();
+      if (autoSubmitContext) {
+        console.log('🤖 Auto submit triggered by prop (Initialization)');
+        setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
+        setAiResponse(null);
+        setError(null);
+        setShouldAutoSubmit(true);
+      } else {
+        setUserInput('');
+        setAiResponse(null);
+        setError(null);
+        setShouldAutoSubmit(false); // 자동 제출 플래그 초기화
+        generateExamples();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);

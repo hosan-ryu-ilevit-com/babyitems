@@ -101,3 +101,9 @@ body {
 .active\:pause:active {
   animation-play-state: paused;
 }
+
+/* Highlight draw animation */
+@keyframes highlight-draw-home {
+  0% { background-size: 0% 100%; }
+  100% { background-size: 100% 100%; }
+}

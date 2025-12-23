@@ -15,6 +15,8 @@ interface AIHelperButtonProps {
   category?: string;
   categoryName?: string;
   step?: number;
+  hasContext?: boolean;
+  onContextRecommend?: () => void;
 }
 
 /**
@@ -33,6 +35,8 @@ export function AIHelperButton({
   category,
   categoryName,
   step,
+  hasContext = false,
+  onContextRecommend,
 }: AIHelperButtonProps) {
   const handleClick = () => {
     // 로깅 (메타데이터가 있을 때는 상세 로깅, 없을 때는 기본 버튼 클릭 로깅)
@@ -58,31 +62,56 @@ export function AIHelperButton({
 
   // variant에 따른 스타일 설정
   const baseStyles = variant === 'emphasized'
-    ? 'bg-purple-600 hover:bg-purple-700 border-purple-600 hover:border-purple-700'
-    : 'bg-purple-50 hover:bg-purple-100 border-purple-300 hover:border-purple-400';
+    ? 'bg-purple-600 hover:bg-purple-700 border-purple-600'
+    : 'bg-purple-50 hover:bg-purple-100 border-purple-100';
 
   const iconFill = variant === 'emphasized' ? '#E9D5FF' : '#8B5CF6';
   const textColor = variant === 'emphasized' ? 'text-white' : 'text-purple-700';
 
   return (
-    <motion.button
-      initial={{ opacity: 0, y: 5 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-      onClick={handleClick}
-      className={`w-full flex items-center justify-center gap-2 px-3 py-3 border rounded-xl transition-all ${baseStyles} ${className}`}
-    >
-      {/* AI 아이콘 (4방향 별) */}
-      <svg className="w-4 h-4" viewBox="0 0 24 24" fill={iconFill}>
-        <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-      </svg>
+    <div className={`w-full flex flex-col items-start gap-2 ${className}`}>
+      <motion.button
+        initial={{ opacity: 0, y: 5 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        onClick={handleClick}
+        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border transition-all ${baseStyles}`}
+      >
+        {/* AI 아이콘 (4방향 별) */}
+        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill={iconFill}>
+          <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+        </svg>
 
-      {/* 텍스트 */}
-      <span className={`text-sm font-semibold ${textColor}`}>
-        {label}
-      </span>
+        {/* 텍스트 */}
+        <span className={`text-xs font-semibold ${textColor}`}>
+          {label}
+        </span>
+      </motion.button>
 
+      {/* 컨텍스트 기반 추천 버튼 (태그 스타일) */}
+      {hasContext && onContextRecommend && (
+        <motion.button
+          initial={{ opacity: 0, x: -5 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+          onClick={() => {
+            import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
+                logButtonClick('recommend-v2', '💜 AI 도움 요청 (컨텍스트 기반)');
+            });
+            onContextRecommend();
+          }}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-purple-50 border border-purple-200 hover:bg-purple-100 transition-colors"
+        >
+          {/* 번개 아이콘 (빠른 추천 의미) */}
+          <svg className="w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
+          </svg>
 
-    </motion.button>
+          <span className="text-xs font-semibold text-purple-700">
+            지금까지 입력한 내 상황에 맞춰 골라주세요
+          </span>
+        </motion.button>
+      )}
+    </div>
   );
 }

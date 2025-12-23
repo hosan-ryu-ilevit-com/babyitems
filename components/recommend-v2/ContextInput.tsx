@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 
 interface ContextInputProps {
@@ -25,10 +26,15 @@ export default function ContextInput({
   const [examples, setExamples] = useState<string[]>([]);
   const [isLoadingExamples, setIsLoadingExamples] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const isLoadedRef = useRef(false);
 
   useEffect(() => {
-    loadExamples();
+    setMounted(true);
+    if (!isLoadedRef.current) {
+      loadExamples();
+    }
   }, [category, categoryName]);
 
   // 완료 후 submittedText로 텍스트 동기화
@@ -39,6 +45,9 @@ export default function ContextInput({
   }, [isCompleted, submittedText]);
 
   const loadExamples = async () => {
+    if (isLoadedRef.current) return;
+    isLoadedRef.current = true;
+    
     setIsLoadingExamples(true);
     try {
       const response = await fetch('/api/ai-selection-helper/generate-context-examples', {
@@ -47,20 +56,21 @@ export default function ContextInput({
         body: JSON.stringify({ category, categoryName }),
       });
       const data = await response.json();
+      
       if (data.examples && data.examples.length > 0) {
         setExamples(data.examples);
       }
+      setIsLoadingExamples(false);
     } catch (err) {
       console.error('Failed to load examples:', err);
       setExamples([
         '지금 쓰는 거 불편해서 바꾸려고요',
         '가성비 좋은 거 추천해주세요',
-        '세척 편한 거 있나요',
+        '세척 편한 거 찾아요',
         '3개월 아기인데 뭘 사야 할지 모르겠어요',
         '첫째 아이라 추천해주세요',
         '맞벌이라 편한 게 필요해요',
       ]);
-    } finally {
       setIsLoadingExamples(false);
     }
   };
@@ -96,10 +106,33 @@ export default function ContextInput({
     >
       {/* 헤더 */}
       <div className="space-y-2">
-        <h3 className="text-2xl font-semibold text-gray-900">
-          안녕하세요!<br></br>찾으시는 {categoryName} 특징이나 <br></br>아이 상황을 알려주세요.
+        <h3 className="text-2xl font-semibold text-gray-900 leading-snug">
+          안녕하세요!<br />
+          찾으시는 <span 
+            className="rounded-sm"
+            style={{ 
+              backgroundImage: 'linear-gradient(to top, rgba(186, 230, 253, 0.6) 70%, transparent 70%)',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'left bottom',
+              backgroundSize: '0% 100%',
+              boxDecorationBreak: 'clone',
+              WebkitBoxDecorationBreak: 'clone',
+              animation: 'highlight-draw 0.8s ease-out 0.2s forwards'
+            }}
+          >{categoryName} 특징</span>이나 <br />
+          <span 
+            className="rounded-sm"
+            style={{ 
+              backgroundImage: 'linear-gradient(to top, rgba(253, 230, 138, 0.6) 70%, transparent 70%)',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'left bottom',
+              backgroundSize: '0% 100%',
+              boxDecorationBreak: 'clone',
+              WebkitBoxDecorationBreak: 'clone',
+              animation: 'highlight-draw 0.8s ease-out 0.8s forwards'
+            }}
+          >아이 상황</span>을 알려주세요.
         </h3>
-      
       </div>
 
       {/* Textarea with animated gradient border */}
@@ -141,7 +174,7 @@ export default function ContextInput({
                     key={i}
                     className="h-10 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
                     style={{
-                      width: `${100 + (i % 2) * 50}px`,
+                      width: '160px', // 스켈레톤 너비 통일
                       animationDelay: `${i * 0.1}s`
                     }}
                   />
@@ -175,10 +208,14 @@ export default function ContextInput({
       {!isCompleted && <div className="h-32" />}
 
       {/* 플로팅 버튼들 - 완료 시 숨김 */}
-      {!isCompleted && (
+      {!isCompleted && mounted && createPortal(
         <div
-          className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 pb-[env(safe-area-inset-bottom)] pt-3 z-50"
-          style={{ maxWidth: '480px', margin: '0 auto' }}
+          className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 pb-[env(safe-area-inset-bottom)] pt-3 z-[100]"
+          style={{ 
+            maxWidth: '480px', 
+            margin: '0 auto',
+            bottom: 0 
+          }}
         >
           <div className="flex flex-col gap-2">
             <button
@@ -200,7 +237,8 @@ export default function ContextInput({
               잘 모르겠어요 (건너뛰기)
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Animated gradient border styles */}
@@ -274,6 +312,11 @@ export default function ContextInput({
 
         .textarea-inner::placeholder {
           color: #9ca3af;
+        }
+
+        @keyframes highlight-draw {
+          0% { background-size: 0% 100%; }
+          100% { background-size: 100% 100%; }
         }
       `}</style>
     </motion.div>

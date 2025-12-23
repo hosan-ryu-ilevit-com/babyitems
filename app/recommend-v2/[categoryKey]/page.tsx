@@ -141,8 +141,8 @@ export default function RecommendV2Page() {
   // ===================================================
 
   // Flow state
-  // 분유포트 카테고리는 Step -1(컨텍스트 입력)부터 시작
-  const [currentStep, setCurrentStep] = useState<FlowStep>(categoryKey === 'milk_powder_port' ? -1 : 0);
+  // 모든 카테고리에서 Step -1(컨텍스트 입력)부터 시작
+  const [currentStep, setCurrentStep] = useState<FlowStep>(-1);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -182,9 +182,12 @@ export default function RecommendV2Page() {
   const [balanceSelections, setBalanceSelections] = useState<Set<string>>(new Set());
   const [currentBalanceIndex, setCurrentBalanceIndex] = useState(0);
   const [negativeSelections, setNegativeSelections] = useState<string[]>([]);
-  // 직접 입력 (자연어)
-  const [hardFilterDirectInput, setHardFilterDirectInput] = useState<string>('');
+  // 직접 입력 (자연어) - 하드필터는 질문별로 관리
+  const [hardFilterDirectInputs, setHardFilterDirectInputs] = useState<Record<string, string>>({});
   const [negativeDirectInput, setNegativeDirectInput] = useState<string>('');
+  // 직접 입력 등록 상태 - 하드필터는 질문별로 관리
+  const [hardFilterDirectInputRegistered, setHardFilterDirectInputRegistered] = useState<Record<string, boolean>>({});
+  const [isNegativeDirectInputRegistered, setIsNegativeDirectInputRegistered] = useState(false);
   // 직접 입력 분석 결과
   const [hardFilterAnalysis, setHardFilterAnalysis] = useState<DirectInputAnalysis | null>(null);
   const [negativeAnalysis, setNegativeAnalysis] = useState<DirectInputAnalysis | null>(null);
@@ -1093,14 +1096,21 @@ export default function RecommendV2Page() {
     const totalQuestions = hardFilterConfig?.questions?.length || 0;
     logV2HardFilterCompleted(categoryKey, categoryName, totalQuestions, productsOverride?.length || productsRef.current.length);
 
-    // 직접 입력 분석 (입력값이 있으면 백그라운드에서 API 호출)
-    if (hardFilterDirectInput.trim().length >= 2) {
+    // 직접 입력 분석 (모든 질문의 등록된 입력값을 합쳐서 분석)
+    const registeredInputs = Object.entries(hardFilterDirectInputs)
+      .filter(([questionId, value]) => 
+        hardFilterDirectInputRegistered[questionId] && value.trim().length >= 2
+      )
+      .map(([, value]) => value.trim());
+    
+    if (registeredInputs.length > 0) {
+      const combinedInput = registeredInputs.join(', ');
       fetch('/api/ai-selection-helper/direct-input', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           filterType: 'hard_filter',
-          userInput: hardFilterDirectInput,
+          userInput: combinedInput,
           category: categoryKey,
         }),
       })
@@ -1320,7 +1330,7 @@ export default function RecommendV2Page() {
       }, true);
       // scrollToBottom 제거 - 2/5 stepTag로 이미 스크롤됨
     }, 300);
-  }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInput]);
+  }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInputs, hardFilterDirectInputRegistered]);
 
   // Update ref to the latest handleHardFiltersComplete
   useEffect(() => {
@@ -2144,7 +2154,10 @@ export default function RecommendV2Page() {
           hardFilterLabels,
           hardFilterDefinitions,
           // 직접 입력 데이터 (AI 요약에 활용)
-          hardFilterDirectInput,
+          hardFilterDirectInput: Object.entries(hardFilterDirectInputs)
+            .filter(([qId]) => hardFilterDirectInputRegistered[qId])
+            .map(([, v]) => v)
+            .join(', '),
           negativeDirectInput,
           timestamp: Date.now(),
         };
@@ -2313,7 +2326,7 @@ export default function RecommendV2Page() {
     } finally {
       setIsCalculating(false);
     }
-  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, hardFilterAnalysis, negativeAnalysis, hardFilterConfig, hardFilterDefinitions, hardFilterLabels, balanceLabels, negativeLabels, conditionSummary, userContext, hardFilterDirectInput, negativeDirectInput, addMessage, scrollToMessage]);
+  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, hardFilterAnalysis, negativeAnalysis, hardFilterConfig, hardFilterDefinitions, hardFilterLabels, balanceLabels, negativeLabels, conditionSummary, userContext, hardFilterDirectInputs, hardFilterDirectInputRegistered, negativeDirectInput, addMessage, scrollToMessage]);
 
   // 예산 내 제품만 보기 재추천 핸들러
   const handleRestrictToBudget = useCallback(async () => {
@@ -2511,8 +2524,21 @@ export default function RecommendV2Page() {
                 preselectedExplanation={hfData.currentIndex === 0 ? preselectedExplanation : ''}
                 isLoadingPreselection={hfData.currentIndex === 0 ? isLoadingPreselection : false}
                 userContext={userContext}
-                directInputValue={hardFilterDirectInput}
-                onDirectInputChange={setHardFilterDirectInput}
+                directInputValue={hardFilterDirectInputs[hfData.question.id] || ''}
+                onDirectInputChange={(value) => {
+                  const questionId = hfData.question.id;
+                  setHardFilterDirectInputs(prev => ({ ...prev, [questionId]: value }));
+                  // 값이 변경되면 해당 질문의 등록 상태 해제
+                  if (hardFilterDirectInputRegistered[questionId]) {
+                    setHardFilterDirectInputRegistered(prev => ({ ...prev, [questionId]: false }));
+                  }
+                }}
+                isDirectInputRegistered={hardFilterDirectInputRegistered[hfData.question.id] || false}
+                onDirectInputRegister={(value) => {
+                  const questionId = hfData.question.id;
+                  setHardFilterDirectInputs(prev => ({ ...prev, [questionId]: value }));
+                  setHardFilterDirectInputRegistered(prev => ({ ...prev, [questionId]: true }));
+                }}
               />
             </div>
           );
@@ -2594,7 +2620,18 @@ export default function RecommendV2Page() {
                 categoryName={categoryName}
                 userSelections={allUserSelections}
                 directInputValue={negativeDirectInput}
-                onDirectInputChange={setNegativeDirectInput}
+                onDirectInputChange={(value) => {
+                  setNegativeDirectInput(value);
+                  // 값이 변경되면 등록 상태 해제
+                  if (isNegativeDirectInputRegistered) {
+                    setIsNegativeDirectInputRegistered(false);
+                  }
+                }}
+                isDirectInputRegistered={isNegativeDirectInputRegistered}
+                onDirectInputRegister={(value) => {
+                  setNegativeDirectInput(value);
+                  setIsNegativeDirectInputRegistered(true);
+                }}
               />
             </div>
           );
@@ -2835,6 +2872,10 @@ export default function RecommendV2Page() {
       const currentQuestion = questions[currentHardFilterIndex];
       const currentQuestionAnswered = currentQuestion &&
         hardFilterAnswers[currentQuestion.id]?.length > 0;
+      // 현재 질문에 대해 직접 입력이 등록되었으면 옵션 미선택이어도 다음 진행 가능
+      const currentQuestionDirectInputRegistered = currentQuestion && 
+        hardFilterDirectInputRegistered[currentQuestion.id];
+      const canProceed = currentQuestionAnswered || currentQuestionDirectInputRegistered;
       const isLastQuestion = currentHardFilterIndex >= questions.length - 1;
 
       return (
@@ -2856,9 +2897,9 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleHardFilterNext}
-            disabled={!currentQuestionAnswered || isTransitioning}
+            disabled={!canProceed || isTransitioning}
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
-              currentQuestionAnswered && !isTransitioning
+              canProceed && !isTransitioning
                 ? 'bg-blue-500 text-white hover:bg-blue-600'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }`}
@@ -3078,8 +3119,8 @@ export default function RecommendV2Page() {
                 : 'bg-rose-500 text-white hover:bg-rose-600'
             }`}
           >
-            {negativeSelections.length > 0
-              ? `${negativeSelections.length}개 제외하고 다음`
+            {negativeSelections.length > 0 || isNegativeDirectInputRegistered
+              ? `${negativeSelections.length + (isNegativeDirectInputRegistered ? 1 : 0)}개 제외하고 다음`
               : '넘어가기'}
           </motion.button>
         </div>

@@ -50,6 +50,14 @@ function ReviewPriorityTags({
 }) {
   const [expandedTag, setExpandedTag] = useState<string | null>(null);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+  const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+
+  // 컨텍스트 정보가 있는지 확인
+  const hasContext = !!userContext || 
+    (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+    (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+    (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
   // 랜덤 offset (0~50, 컴포넌트 마운트 시 한 번만 생성)
   const [randomOffset] = useState(() => Math.floor(Math.random() * 51));
   // preselectedTags의 이전 값 추적 (변경 감지용)
@@ -179,6 +187,11 @@ function ReviewPriorityTags({
             category={category}
             categoryName={categoryName}
             step={currentIndex}
+            hasContext={hasContext}
+            onContextRecommend={() => {
+              setIsAIHelperAutoSubmit(true);
+              setIsAIHelperOpen(true);
+            }}
           />
         )}
 
@@ -286,7 +299,10 @@ function ReviewPriorityTags({
       {showAIHelper && (
         <AIHelperBottomSheet
           isOpen={isAIHelperOpen}
-          onClose={() => setIsAIHelperOpen(false)}
+          onClose={() => {
+            setIsAIHelperOpen(false);
+            setIsAIHelperAutoSubmit(false);
+          }}
           questionType="hard_filter"
           questionId={question.id}
           questionText={question.question}
@@ -299,6 +315,7 @@ function ReviewPriorityTags({
           }}
           userSelections={userSelections}
           onNaturalLanguageInput={onNaturalLanguageInput}
+          autoSubmitContext={isAIHelperAutoSubmit}
         />
       )}
     </motion.div>
@@ -340,6 +357,8 @@ interface HardFilterQuestionProps {
   // 직접 입력 기능
   directInputValue?: string;
   onDirectInputChange?: (value: string) => void;
+  isDirectInputRegistered?: boolean;
+  onDirectInputRegister?: (value: string) => void;
 }
 
 /**
@@ -461,6 +480,8 @@ export function HardFilterQuestion({
   userContext,
   directInputValue = '',
   onDirectInputChange,
+  isDirectInputRegistered = false,
+  onDirectInputRegister,
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
 
@@ -472,6 +493,13 @@ export function HardFilterQuestion({
 
   // AI 도움 바텀시트 상태
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+  const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+
+  // 컨텍스트 정보가 있는지 확인
+  const hasContext = !!userContext || 
+    (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+    (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+    (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
 
   // 부모에서 전달받은 값이 변경되면 동기화
   useEffect(() => {
@@ -586,6 +614,11 @@ export function HardFilterQuestion({
           category={category}
           categoryName={categoryName}
           step={currentIndex}
+          hasContext={hasContext}
+          onContextRecommend={() => {
+            setIsAIHelperAutoSubmit(true);
+            setIsAIHelperOpen(true);
+          }}
         />
       )}
 
@@ -697,6 +730,8 @@ export function HardFilterQuestion({
           onChange={onDirectInputChange}
           placeholder="원하는 조건을 직접 입력해주세요"
           filterType="hard_filter"
+          isRegistered={isDirectInputRegistered}
+          onRegister={onDirectInputRegister}
         />
       )}
 
@@ -704,7 +739,10 @@ export function HardFilterQuestion({
       {showAIHelper && tipText && (
         <AIHelperBottomSheet
           isOpen={isAIHelperOpen}
-          onClose={() => setIsAIHelperOpen(false)}
+          onClose={() => {
+            setIsAIHelperOpen(false);
+            setIsAIHelperAutoSubmit(false);
+          }}
           questionType="hard_filter"
           questionId={question.id}
           questionText={question.question}
@@ -718,6 +756,7 @@ export function HardFilterQuestion({
           }}
           userSelections={userSelections}
           onNaturalLanguageInput={onNaturalLanguageInput}
+          autoSubmitContext={isAIHelperAutoSubmit}
         />
       )}
     </motion.div>

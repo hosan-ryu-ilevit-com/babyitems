@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import type { BalanceGameData } from '@/types/recommend-v2';
+import type { BalanceGameData, UserSelections } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 
@@ -16,6 +16,7 @@ interface BalanceGameCardProps {
   showAIHelper?: boolean;
   category?: string;
   categoryName?: string;
+  userSelections?: UserSelections;
 }
 
 /**
@@ -32,11 +33,19 @@ export function BalanceGameCard({
   showAIHelper = false,
   category = '',
   categoryName = '',
+  userSelections,
 }: BalanceGameCardProps) {
   const { question, currentIndex, totalCount } = data;
 
   // AI 도움 바텀시트 상태
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+  const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+
+  // 컨텍스트 정보가 있는지 확인
+  const hasContext = 
+    (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
+    (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
+    (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
 
   // AI 추천 결과 처리
   const handleAISelectOptions = (selectedOptions: string[]) => {
@@ -84,6 +93,11 @@ export function BalanceGameCard({
           category={category}
           categoryName={categoryName}
           step={currentIndex}
+          hasContext={hasContext}
+          onContextRecommend={() => {
+            setIsAIHelperAutoSubmit(true);
+            setIsAIHelperOpen(true);
+          }}
         />
       )}
 
@@ -145,7 +159,10 @@ export function BalanceGameCard({
       {showAIHelper && (
         <AIHelperBottomSheet
           isOpen={isAIHelperOpen}
-          onClose={() => setIsAIHelperOpen(false)}
+          onClose={() => {
+            setIsAIHelperOpen(false);
+            setIsAIHelperAutoSubmit(false);
+          }}
           questionType="balance_game"
           questionId={question.id}
           questionText={question.title}
@@ -156,6 +173,8 @@ export function BalanceGameCard({
           category={category}
           categoryName={categoryName}
           onSelectOptions={handleAISelectOptions}
+          userSelections={userSelections}
+          autoSubmitContext={isAIHelperAutoSubmit}
         />
       )}
     </motion.div>
