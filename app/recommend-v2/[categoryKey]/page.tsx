@@ -2423,7 +2423,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`transition-all duration-300 ${
+              className={`scroll-mt-4 transition-all duration-300 ${
                 isHardFilterDisabled ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
