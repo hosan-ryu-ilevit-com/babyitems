@@ -1,4 +1,4 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient as createSupabaseClient, SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -11,7 +11,7 @@ const SUPABASE_DISABLED = false; // 다시 활성화해서 데이터 확인
 
 if (!SUPABASE_DISABLED && supabaseUrl && supabaseKey) {
   try {
-    supabaseClient = createClient(supabaseUrl, supabaseKey);
+    supabaseClient = createSupabaseClient(supabaseUrl, supabaseKey);
     console.log('✅ Supabase client initialized');
   } catch (error) {
     console.warn('⚠️  Supabase initialization failed (logging will be disabled):', error);
@@ -21,6 +21,14 @@ if (!SUPABASE_DISABLED && supabaseUrl && supabaseKey) {
 }
 
 export const supabase = supabaseClient;
+
+// createClient 함수 export (ab-test.ts 등에서 사용)
+export function createClient() {
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Supabase URL or Key is not configured');
+  }
+  return createSupabaseClient(supabaseUrl, supabaseKey);
+}
 
 // Supabase 사용 가능 여부 확인 헬퍼
 export const isSupabaseAvailable = (): boolean => {
