@@ -32,6 +32,8 @@ interface ProductInfo {
   brand?: string | null;
   price?: number | null;
   spec?: Record<string, unknown>;
+  // PLP에서 생성된 추천 이유 (PDP contextMatch 일관성 유지용)
+  recommendationReason?: string;
 }
 
 // 사용자 컨텍스트 타입
@@ -43,6 +45,14 @@ interface UserContext {
   balanceLabels?: Record<string, string>;
   negativeLabels?: Record<string, string>;
   hardFilterLabels?: Record<string, string>;
+  // 사용자가 처음 입력한 자연어 상황 설명
+  initialContext?: string;
+}
+
+// 내 상황과의 적합성 평가 타입
+interface ContextMatch {
+  explanation: string;         // "밤수유가 잦다고 하셨는데, 이 제품은 저소음 35dB로 아기를 깨우지 않아요"
+  matchedPoints: string[];     // ["저소음", "급속 가열", "야간 조명"]
 }
 
 // 요청 타입
@@ -69,6 +79,7 @@ interface ProductAnalysis {
   cons: Array<{ text: string; citations: number[] }>;
   purchaseTip: Array<{ text: string; citations: number[] }>;
   selectedConditionsEvaluation?: ConditionEvaluation[];  // V2 조건 충족도 평가
+  contextMatch?: ContextMatch;  // 내 상황과의 적합성 (initialContext가 있을 때만)
 }
 
 // 응답 타입
@@ -153,6 +164,36 @@ async function analyzeProduct(
   );
 
   const hasUserConditions = hardFilterConditions.length > 0 || balanceConditions.length > 0 || negativeConditions.length > 0;
+  const hasInitialContext = !!userContext.initialContext;
+
+  // PLP에서 생성된 추천 이유 (일관성 유지용)
+  const hasRecommendationReason = !!product.recommendationReason;
+
+  // 내 상황과의 적합성 평가 섹션 (initialContext가 있을 때만)
+  const contextMatchSection = hasInitialContext ? `
+## 사용자가 처음 말씀하신 상황
+"${userContext.initialContext}"
+${hasRecommendationReason ? `
+## ⚠️ 중요: PLP에서 이미 생성된 추천 이유 (일관성 유지 필수)
+"${product.recommendationReason}"
+
+위 추천 이유에서 언급된 장점(예: 저소음, 빠른 가열 등)은 contextMatch에서도 **반드시 동일하게 긍정적으로 평가**해야 합니다.
+PLP와 PDP 간 상반된 평가는 사용자에게 혼란을 줍니다.
+` : ''}
+## 내 상황과의 적합성 평가 요청
+위 상황과 이 제품이 얼마나 잘 맞는지 평가해주세요:
+- **explanation**: 사용자 상황을 **자연스럽게 녹여서** 이 제품이 왜 적합한지 1-2문장으로 설명${hasRecommendationReason ? ' (PLP 추천 이유와 일관되게)' : ''}
+  - ❌ 나쁜 예: "처음에 '밤수유 자주 해요'라고 하셨는데, 이 제품은..." (대놓고 인용)
+  - ✅ 좋은 예: "원하시는 것처럼 밤수유가 잦은 상황에 적합합니다. 저소음 35dB라 아기를 깨우지 않아요"
+  - ✅ 좋은 예: "말씀하신 것처럼 4개월 아기의 첫 분유포트로 적합해요. 온도 정확도가 높고 세척이 편리합니다"
+- **matchedPoints**: 해당 상황에 매칭되는 제품의 특징 2-4개 (간단한 키워드)
+` : '';
+
+  const contextMatchFormat = hasInitialContext ? `
+  "contextMatch": {
+    "explanation": "[상황]에 적합합니다/적합해요. [구체적 이유 1-2문장]",
+    "matchedPoints": ["특징1", "특징2", "특징3"]
+  },` : '';
 
   // 조건 평가 섹션 (조건이 있을 때만)
   const conditionEvaluationSection = hasUserConditions ? `
@@ -215,16 +256,16 @@ ${categoryPros}
 
 ## 이 카테고리의 주요 단점/우려사항
 ${categoryCons}
-${conditionEvaluationSection}
+${conditionEvaluationSection}${contextMatchSection}
 ## 분석 요청
 제품 스펙과 **실제 사용자 리뷰**를 종합하여 다음을 작성해주세요:
 
-${hasUserConditions ? '1. **조건 충족도 평가 (selectedConditionsEvaluation)**: 사용자가 선택한 조건들에 대한 충족 여부 평가 (리뷰에서 언급된 내용 우선 참고)\n' : ''}${hasUserConditions ? '2' : '1'}. **추가 장점 (additionalPros)**: 스펙 + 리뷰에서 확인된 이 제품만의 추가 장점 2-3개
-${hasUserConditions ? '3' : '2'}. **주의점 (cons)**: 이 제품 사용 시 주의해야 할 점 2-3개 (리뷰에서 언급된 실사용 단점 우선)
-${hasUserConditions ? '4' : '3'}. **구매 팁 (purchaseTip)**: 구매 전 확인해야 할 사항 1-2개
+${hasUserConditions ? '1. **조건 충족도 평가 (selectedConditionsEvaluation)**: 사용자가 선택한 조건들에 대한 충족 여부 평가 (리뷰에서 언급된 내용 우선 참고)\n' : ''}${hasInitialContext ? `${hasUserConditions ? '2' : '1'}. **내 상황과의 적합성 (contextMatch)**: 처음 말씀하신 상황과 이 제품이 얼마나 맞는지 평가\n` : ''}${hasInitialContext && hasUserConditions ? '3' : hasInitialContext || hasUserConditions ? '2' : '1'}. **추가 장점 (additionalPros)**: 스펙 + 리뷰에서 확인된 이 제품만의 추가 장점 2-3개
+${hasInitialContext && hasUserConditions ? '4' : hasInitialContext || hasUserConditions ? '3' : '2'}. **주의점 (cons)**: 이 제품 사용 시 주의해야 할 점 2-3개 (리뷰에서 언급된 실사용 단점 우선)
+${hasInitialContext && hasUserConditions ? '5' : hasInitialContext || hasUserConditions ? '4' : '3'}. **구매 팁 (purchaseTip)**: 구매 전 확인해야 할 사항 1-2개
 
 ## 응답 JSON 형식
-{${conditionEvaluationFormat}
+{${conditionEvaluationFormat}${contextMatchFormat}
   "additionalPros": [
     { "text": "장점 설명 (구체적으로)", "citations": [] }
   ],
@@ -280,6 +321,7 @@ JSON만 응답하세요.`;
       cons?: Array<{ text: string; citations: number[] }>;
       purchaseTip?: Array<{ text: string; citations: number[] }>;
       selectedConditionsEvaluation?: ConditionEvaluation[];
+      contextMatch?: ContextMatch;
     };
 
     // 잘못된 값 필터링 함수 (LLM이 "[]", "없음", 빈 문자열 등을 반환하는 경우)
@@ -364,12 +406,22 @@ JSON만 응답하세요.`;
       console.log(`[product-analysis] Validated ${product.pcode}: ${hardFilterEvals.length} -> ${finalHardFilterEvals.length} hardFilter evaluations`);
     }
 
+    // contextMatch 검증 (빈 값 필터링)
+    let validatedContextMatch: ContextMatch | undefined;
+    if (parsed.contextMatch && parsed.contextMatch.explanation && parsed.contextMatch.explanation.trim()) {
+      validatedContextMatch = {
+        explanation: parsed.contextMatch.explanation.trim(),
+        matchedPoints: (parsed.contextMatch.matchedPoints || []).filter(p => p && p.trim()),
+      };
+    }
+
     return {
       pcode: product.pcode,
       additionalPros: filterInvalidTextItems(parsed.additionalPros),
       cons: filterInvalidTextItems(parsed.cons),
       purchaseTip: filterInvalidTextItems(parsed.purchaseTip),
       selectedConditionsEvaluation: validatedEvaluations,
+      contextMatch: validatedContextMatch,
     };
   } catch (error) {
     console.error(`[product-analysis] Failed to analyze ${product.pcode}:`, error);
@@ -446,12 +498,19 @@ function generateFallbackAnalysis(product: ProductInfo, insights: CategoryInsigh
     });
   });
 
+  // Fallback contextMatch (initialContext가 있을 때만)
+  const contextMatch: ContextMatch | undefined = userContext.initialContext ? {
+    explanation: `말씀하신 상황에 대해 정확한 평가가 어렵습니다. 상세 스펙과 리뷰를 확인해주세요.`,
+    matchedPoints: [],
+  } : undefined;
+
   return {
     pcode: product.pcode,
     additionalPros,
     cons,
     purchaseTip,
     selectedConditionsEvaluation,
+    contextMatch,
   };
 }
 

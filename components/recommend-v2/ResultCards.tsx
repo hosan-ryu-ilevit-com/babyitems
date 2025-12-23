@@ -258,6 +258,12 @@ interface ConditionEvaluation {
   tradeoff?: string;
 }
 
+// 내 상황과의 적합성 평가 타입
+interface ContextMatch {
+  explanation: string;         // "밤수유가 잦다고 하셨는데, 이 제품은 저소음 35dB로 아기를 깨우지 않아요"
+  matchedPoints: string[];     // ["저소음", "급속 가열", "야간 조명"]
+}
+
 // Product analysis data from LLM
 interface ProductAnalysisData {
   pcode: string;
@@ -265,6 +271,7 @@ interface ProductAnalysisData {
   cons: Array<{ text: string; citations: number[] }>;
   purchaseTip: Array<{ text: string; citations: number[] }>;
   selectedConditionsEvaluation?: ConditionEvaluation[];  // V2 조건 충족도 평가
+  contextMatch?: ContextMatch;  // 내 상황과의 적합성 (initialContext가 있을 때만)
 }
 
 // User context for API calls
@@ -289,6 +296,8 @@ interface UserContext {
   };
   // Budget range
   budget?: { min: number; max: number };
+  // 사용자가 처음 입력한 자연어 상황 설명
+  initialContext?: string;
 }
 
 interface ResultCardsProps {
@@ -762,7 +771,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       // API 실제 호출 시점에 ref 설정 (cleanup으로 인한 미호출 방지)
       analysisCalledRef.current = true;
       console.log('🔄 [ResultCards] Fetching analysis from API (cache miss)');
-      // Prepare product info for API calls (spec + filter_attrs 포함)
+      // Prepare product info for API calls (spec + filter_attrs + recommendationReason 포함)
       const productInfos = products.slice(0, 3).map(p => ({
         pcode: p.pcode,
         title: p.title,
@@ -771,6 +780,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         spec: p.spec,
         filter_attrs: (p as ScoredProduct & { filter_attrs?: Record<string, unknown> }).filter_attrs,
         rank: p.rank,
+        // PLP 추천 이유 전달 (PDP contextMatch 일관성 유지용)
+        recommendationReason: (p as RecommendedProduct).recommendationReason,
       }));
 
       // Call APIs only for missing data
@@ -1517,6 +1528,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           danawaData={selectedProductDanawa}
           isAnalysisLoading={isAnalysisLoading}
           selectedConditionsEvaluation={productAnalysisData[selectedProduct.product.id]?.selectedConditionsEvaluation}
+          initialContext={userContext?.initialContext}
+          contextMatchData={productAnalysisData[selectedProduct.product.id]?.contextMatch}
           initialAverageRating={reviewData[selectedProduct.product.id]?.averageRating}
           variants={selectedProductVariants}
           variantDanawaData={variantDanawaLowestPrices}

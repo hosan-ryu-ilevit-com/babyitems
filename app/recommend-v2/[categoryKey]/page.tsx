@@ -1907,6 +1907,7 @@ export default function RecommendV2Page() {
               hardFilterAnswers,
               balanceSelections: Array.from(balanceSelections),
               negativeSelections,
+              initialContext: userContext,  // 사용자가 처음 입력한 자연어 상황
             },
             budget,
           }),
@@ -2601,6 +2602,7 @@ export default function RecommendV2Page() {
                       })),
                     }))
                   } : undefined, // 질문 타입 정보 포함
+                  initialContext: userContext || undefined,  // 사용자가 처음 입력한 자연어 상황
                 }}
                 onModalOpenChange={setIsProductModalOpen}
                 // 찜하기 기능 - 나중에 사용할 수 있도록 임시 숨김: onViewFavorites={() => setShowFavoritesModal(true)}
@@ -3209,7 +3211,8 @@ export default function RecommendV2Page() {
           style={{ paddingBottom: '102px' }}
         >
           {/* Step -1: Context Input - AnimatePresence 밖으로 (완료 후에도 유지) */}
-          {currentStep >= -1 && (
+          {/* 세션 복원 시에는 숨김 */}
+          {currentStep >= -1 && !isRestoredFromStorage && (
             <div className="mb-4">
               <ContextInput
                 category={categoryKey}
@@ -3393,8 +3396,9 @@ export default function RecommendV2Page() {
                         sessionStorage.removeItem(`v2_result_${categoryKey}`);
                         setIsRestoredFromStorage(false);
 
-                        // 상태 초기화
-                        setCurrentStep(0);
+                        // 상태 초기화 - Step -1 (자연어 입력)부터 다시 시작
+                        setCurrentStep(-1);
+                        setUserContext(null);  // 자연어 입력 초기화
                         setCurrentHardFilterIndex(0);
                         setHardFilterAnswers({});
                         setBalanceSelections(new Set());
@@ -3405,10 +3409,7 @@ export default function RecommendV2Page() {
                         setShowReRecommendModal(false);
 
                         // useEffect 중복 호출 방지 (sessionStorage 복원 후 다시 추천받기 시)
-                        hasTriggeredGuideRef.current = true;
-
-                        // 스캔 애니메이션 없이 바로 가이드 카드 표시
-                        handleScanComplete();
+                        hasTriggeredGuideRef.current = false;  // Step -1부터 시작하므로 리셋
 
                         if (requiresSubCategory) {
                           setSelectedSubCategoryCodes([]);

@@ -176,8 +176,11 @@ export default function ContextInput({
 
       {/* 플로팅 버튼들 - 완료 시 숨김 */}
       {!isCompleted && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 pb-[env(safe-area-inset-bottom)] pt-3 z-50">
-          <div className="flex flex-col gap-2 max-w-lg mx-auto">
+        <div
+          className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 pb-[env(safe-area-inset-bottom)] pt-3 z-50"
+          style={{ maxWidth: '480px', margin: '0 auto' }}
+        >
+          <div className="flex flex-col gap-2">
             <button
               onClick={handleSubmit}
               disabled={isSubmitDisabled}
@@ -186,15 +189,15 @@ export default function ContextInput({
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'text-white hover:opacity-90 active:scale-[0.98]'
               }`}
-              style={!isSubmitDisabled ? { backgroundColor: '#0084FE' } : undefined}
+              style={!isSubmitDisabled ? { backgroundColor: '#a855f7' } : undefined}
             >
-              시작하기
+              추천받기 시작
             </button>
             <button
               onClick={handleSkip}
-              className="w-full h-12 rounded-2xl font-medium mb-1 text-sm text-gray-500 hover:bg-gray-100 transition-colors"
+              className="w-full h-12 rounded-2xl font-medium mb-2 text-sm text-gray-500 hover:bg-gray-100 transition-colors"
             >
-              건너뛰기
+              잘 모르겠어요 (건너뛰기)
             </button>
           </div>
         </div>

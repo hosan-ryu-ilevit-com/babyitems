@@ -71,6 +71,12 @@ interface ProductDetailModalProps {
   // AI 실시간 장단점 분석 관련
   onRealReviewsClick?: () => void;
   isRealReviewsLoading?: boolean;
+  // 내 상황과의 적합성 (initialContext가 있을 때만)
+  initialContext?: string;  // 사용자가 처음 입력한 자연어 상황
+  contextMatchData?: {
+    explanation: string;      // "밤수유가 잦다고 하셨는데, 이 제품은 저소음 35dB로 아기를 깨우지 않아요"
+    matchedPoints: string[];  // ["저소음", "급속 가열", "야간 조명"]
+  };
 }
 
 // 쇼핑몰 이름 → 로고 파일 매핑
@@ -182,7 +188,7 @@ function parseMarkdownBold(text: string) {
 // }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData }: ProductDetailModalProps) {
   const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>('price');
   const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
@@ -709,6 +715,30 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     </div>
                   );
                 })()}
+
+                {/* 내 상황과의 적합성 (initialContext + contextMatchData가 있을 때만 표시) */}
+                {initialContext && contextMatchData && contextMatchData.explanation && (
+                  <div className="bg-purple-50 rounded-xl p-4 mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <svg className="w-5 h-5 text-purple-800" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                      </svg>
+                      <span className="font-semibold text-purple-800">내 상황과의 적합성</span>
+                    </div>
+                    <p className="text-sm text-gray-600 leading-5.5">
+                      {parseMarkdownBold(contextMatchData.explanation)}
+                    </p>
+                    {contextMatchData.matchedPoints && contextMatchData.matchedPoints.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-3">
+                        {contextMatchData.matchedPoints.map((point, i) => (
+                          <span key={i} className="px-2.5 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">
+                            ✓ {point}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* V2 조건 충족도 평가 (recommend-v2 플로우용) - 로딩 중이거나 데이터가 있을 때 표시 */}
                 {(isAnalysisLoading || (selectedConditionsEvaluation && selectedConditionsEvaluation.length > 0)) && (() => {

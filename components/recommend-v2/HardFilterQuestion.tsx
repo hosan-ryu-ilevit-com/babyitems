@@ -120,27 +120,20 @@ function ReviewPriorityTags({
       transition={{ duration: 0.3 }}
       className="space-y-4"
     >
-      {/* 조건 분석 완료 헤더 (CheckpointVisual 스타일) - 먼저 페이드인 */}
+     
+
+      {/* 메인 질문 - 순차적 페이드인 */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="bg-white rounded-2xl border border-blue-100 p-5"
+        transition={{ duration: 0.4, delay: 0.5 }}
+        className="space-y-3"
       >
-        {/* 헤더 */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <span className="text-green-500 font-bold">✓</span>
-            <h3 className="font-medium text-[15px] text-gray-900">
-              주요 구매조건 분석 완료
-            </h3>
-          </div>
-          <span className="text-xs text-gray-400">
-            {currentIndex + 1} / {totalCount}
-          </span>
-        </div>
-
-        {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
+        <div className="space-y-2">
+          <h3 className="text-base font-semibold text-gray-900 leading-snug">
+            중요하게 생각하시는 <br></br> {categoryName || category} 구매조건을 골라주세요
+          </h3>
+            {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
         <div className="flex items-center gap-3">
           {/* 썸네일 그룹 (최대 5개) */}
           <div className="flex -space-x-2">
@@ -171,19 +164,6 @@ function ReviewPriorityTags({
             리뷰 {totalReviewCount.toLocaleString()}개 분석
           </span>
         </div>
-      </motion.div>
-
-      {/* 메인 질문 - 순차적 페이드인 */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.5 }}
-        className="space-y-3"
-      >
-        <div className="space-y-1.5">
-          <h3 className="text-base font-semibold text-gray-900 leading-snug">
-            중요하게 생각하시는 <br></br> {categoryName || category} 구매조건을 골라주세요
-          </h3>
          
         </div>
 
