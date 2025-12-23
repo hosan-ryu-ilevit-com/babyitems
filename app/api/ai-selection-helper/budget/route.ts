@@ -10,6 +10,13 @@ interface PriceRangeInfo {
   count: number;
 }
 
+interface UserSelections {
+  naturalLanguageInputs?: Array<{ stage: string; input: string }>;
+  hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
+  balanceGames?: Array<{ title: string; selectedOption: string }>;
+  negativeSelections?: string[];
+}
+
 interface BudgetRecommendRequest {
   userContext: string;
   category: string;
@@ -18,6 +25,7 @@ interface BudgetRecommendRequest {
   totalProducts: number;
   sliderMin: number;
   sliderMax: number;
+  userSelections?: UserSelections;
 }
 
 interface BudgetRecommendResponse {
@@ -41,6 +49,7 @@ export async function POST(request: NextRequest) {
       totalProducts,
       sliderMin,
       sliderMax,
+      userSelections,
     } = body;
 
     if (!userContext || userContext.trim().length < 2) {
@@ -48,6 +57,49 @@ export async function POST(request: NextRequest) {
         { error: '상황을 조금 더 자세히 알려주세요.' },
         { status: 400 }
       );
+    }
+
+    // 사용자 선택 정보 포맷팅
+    let selectionsContext = '';
+    if (userSelections) {
+      const parts: string[] = [];
+
+      if (userSelections.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) {
+        const nlSummary = userSelections.naturalLanguageInputs
+          .map(nl => `[${nl.stage}] ${nl.input}`)
+          .join('\n');
+        if (nlSummary) {
+          parts.push(`[사용자 입력 히스토리]\n${nlSummary}`);
+        }
+      }
+
+      if (userSelections.hardFilters && userSelections.hardFilters.length > 0) {
+        const hardFilterSummary = userSelections.hardFilters
+          .filter(hf => hf.selectedLabels.length > 0)
+          .map(hf => `${hf.questionText}: ${hf.selectedLabels.join(', ')}`)
+          .join('\n');
+        if (hardFilterSummary) {
+          parts.push(`[사용자가 선택한 조건]\n${hardFilterSummary}`);
+        }
+      }
+
+      if (userSelections.balanceGames && userSelections.balanceGames.length > 0) {
+        const balanceSummary = userSelections.balanceGames
+          .filter(bg => bg.selectedOption)
+          .map(bg => `${bg.title}: ${bg.selectedOption}`)
+          .join('\n');
+        if (balanceSummary) {
+          parts.push(`[사용자 취향 선택]\n${balanceSummary}`);
+        }
+      }
+      
+      if (userSelections.negativeSelections && userSelections.negativeSelections.length > 0) {
+        parts.push(`[제외 키워드]\n${userSelections.negativeSelections.join(', ')}`);
+      }
+
+      if (parts.length > 0) {
+        selectionsContext = parts.join('\n\n');
+      }
     }
 
     // 가격대별 상품 분포 정보 문자열로 변환
@@ -87,6 +139,8 @@ ${priceDistribution}
 
     const userPrompt = `**사용자 상황:**
 "${userContext}"
+
+${selectionsContext ? `**지금까지의 사용자 선택 정보 (참고용):**\n${selectionsContext}\n` : ''}
 
 위 상황을 고려해서 적절한 예산 범위를 추천해주세요. 반드시 해당 범위에 3개 이상의 상품이 있어야 합니다.`;
 

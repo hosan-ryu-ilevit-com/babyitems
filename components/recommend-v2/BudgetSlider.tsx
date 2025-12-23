@@ -18,11 +18,9 @@ interface BudgetSliderProps {
   initialMin?: number;
   initialMax?: number;
   onChange: (values: { min: number; max: number }) => void;
-  formatValue?: (value: number) => string;
   // 히스토그램용: 상품 목록
   products?: ProductItem[];
   // 로깅 콜백
-  onPresetClick?: (preset: string, min: number, max: number, productsInRange: number) => void;
   onDirectInput?: (min: number, max: number, productsInRange: number) => void;
   // AI 도움 관련
   showAIHelper?: boolean;
@@ -53,9 +51,7 @@ export function BudgetSlider({
   initialMin,
   initialMax,
   onChange,
-  formatValue = (v) => `${(v / 10000).toFixed(0)}만원`,
   products = [],
-  onPresetClick,
   onDirectInput,
   showAIHelper = false,
   category = '',
@@ -247,15 +243,31 @@ export function BudgetSlider({
     }
   };
 
-  // 숫자만 입력 허용
+  // 숫자만 입력 허용 + 즉시 bar 반영
   const handleMinInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '');
     setMinInputValue(value);
+
+    // 즉시 bar에 반영
+    const parsed = parseInt(value, 10);
+    if (!isNaN(parsed) && parsed >= min) {
+      const newMin = snapToStep(Math.min(parsed, maxValue - step));
+      setMinValue(newMin);
+      onChange({ min: newMin, max: maxValue });
+    }
   };
 
   const handleMaxInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '');
     setMaxInputValue(value);
+
+    // 즉시 bar에 반영
+    const parsed = parseInt(value, 10);
+    if (!isNaN(parsed) && parsed >= minValue + step) {
+      const newMax = snapToStep(Math.min(max, parsed));
+      setMaxValue(newMax);
+      onChange({ min: minValue, max: newMax });
+    }
   };
 
   // Enter 키 처리
@@ -320,17 +332,6 @@ export function BudgetSlider({
     onChange({ min: aiMin, max: aiMax });
   };
 
-  const handleContextRecommend = () => {
-    setAiHelperAutoSubmitText(undefined);
-    setIsAIHelperAutoSubmit(true);
-    setIsAIHelperOpen(true);
-  };
-
-  const handlePopularRecommend = () => {
-    setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
-    setIsAIHelperAutoSubmit(false);
-    setIsAIHelperOpen(true);
-  };
 
   return (
     <motion.div
@@ -368,9 +369,6 @@ export function BudgetSlider({
           questionText="생각해 둔 예산이 있나요?"
           category={category}
           categoryName={categoryName}
-          hasContext={!!userSelections?.naturalLanguageInputs?.length || !!userSelections?.hardFilters?.length || !!userSelections?.balanceGames?.length}
-          onContextRecommend={handleContextRecommend}
-          onPopularRecommend={handlePopularRecommend}
         />
       )}
 
@@ -507,36 +505,6 @@ export function BudgetSlider({
         </div>
       </div>
 
-      {/* 빠른 선택 버튼 */}
-      <div className="flex flex-wrap gap-2 justify-center pt-2">
-        {generateQuickOptions(min, max).map((option) => {
-          const isSelected = minValue === option.min && maxValue === option.max;
-          return (
-            <button
-              key={option.label}
-              onClick={() => {
-                setMinValue(option.min);
-                setMaxValue(option.max);
-                onChange({ min: option.min, max: option.max });
-                // 로깅 콜백 호출
-                const productsCount = products.filter(p => {
-                  const ep = getEffectivePrice(p);
-                  return ep && ep >= option.min && ep <= option.max;
-                }).length;
-                onPresetClick?.(option.label, option.min, option.max, productsCount);
-              }}
-              className={`px-4 py-2 rounded-full text-sm font-medium border-2 transition-all ${
-                isSelected
-                  ? 'bg-amber-50 border-amber-400 text-amber-700'
-                  : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300'
-              }`}
-            >
-              {option.label}
-            </button>
-          );
-        })}
-      </div>
-
       {/* AI 예산 도움 바텀시트 */}
       {showAIHelper && (
         <BudgetAIHelperBottomSheet
@@ -562,33 +530,4 @@ export function BudgetSlider({
       )}
     </motion.div>
   );
-}
-
-// 빠른 선택 옵션 생성
-function generateQuickOptions(min: number, max: number) {
-  const range = max - min;
-  const quarter = range / 4;
-
-  return [
-    {
-      label: '가성비',
-      min: min,
-      max: Math.round(min + quarter),
-    },
-    {
-      label: '적정가',
-      min: Math.round(min + quarter),
-      max: Math.round(min + quarter * 2),
-    },
-    {
-      label: '프리미엄',
-      min: Math.round(min + quarter * 2),
-      max: Math.round(min + quarter * 3),
-    },
-    {
-      label: '전체',
-      min: min,
-      max: max,
-    },
-  ];
 }

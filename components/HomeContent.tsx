@@ -106,6 +106,83 @@ export function HomeContent() {
     logPageView('home');
   }, []);
 
+  // 채널톡 스크립트 초기화
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !(window as Window & { ChannelIO?: unknown }).ChannelIO) {
+      const w = window as Window & { ChannelIO?: ((...args: unknown[]) => void) & { c?: (args: unknown[]) => void; q?: unknown[] }; ChannelIOInitialized?: boolean };
+      const ch = function(...args: unknown[]) {
+        ch.c?.(args);
+      };
+      ch.q = [] as unknown[];
+      ch.c = function(args: unknown[]) {
+        ch.q?.push(args);
+      };
+      w.ChannelIO = ch;
+
+      const loadChannelIO = () => {
+        if (w.ChannelIOInitialized) return;
+        w.ChannelIOInitialized = true;
+        const s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+        const x = document.getElementsByTagName('script')[0];
+        if (x.parentNode) {
+          x.parentNode.insertBefore(s, x);
+        }
+      };
+
+      if (document.readyState === 'complete') {
+        loadChannelIO();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadChannelIO);
+        window.addEventListener('load', loadChannelIO);
+      }
+
+      // 채널톡 부트
+      setTimeout(() => {
+        if (w.ChannelIO) {
+          // URL에서 UTM 파라미터 및 phone 파싱
+          const urlParams = new URLSearchParams(window.location.search);
+          const phone = urlParams.get('phone');
+          const utmSource = urlParams.get('utm_source');
+          const utmMedium = urlParams.get('utm_medium');
+          const utmCampaign = urlParams.get('utm_campaign');
+
+          // 고유 방문자 ID 생성/조회
+          let visitorId = localStorage.getItem('babyitem_visitor_id');
+          if (!visitorId) {
+            visitorId = `visitor_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+            localStorage.setItem('babyitem_visitor_id', visitorId);
+          }
+
+          w.ChannelIO('boot', {
+            pluginKey: '81ef1201-79c7-4b62-b021-c571fe06f935',
+            hideChannelButtonOnBoot: true,
+            profile: {
+              visitorId,
+              ...(phone && { mobileNumber: phone }),
+              ...(utmSource && { utm_source: utmSource }),
+              ...(utmMedium && { utm_medium: utmMedium }),
+              ...(utmCampaign && { utm_campaign: utmCampaign }),
+              referrer: document.referrer || 'direct',
+              landingPage: window.location.pathname
+            }
+          });
+        }
+      }, 100);
+    }
+  }, []);
+
+  const handleFeedbackClick = () => {
+    const w = window as Window & { ChannelIO?: (...args: unknown[]) => void };
+    if (w.ChannelIO) {
+      // openChat() - 바로 새 채팅 창 열기 (showMessenger는 홈 화면)
+      w.ChannelIO('openChat');
+    }
+    logButtonClick('피드백 보내기', 'home');
+  };
+
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
     setIsBottomSheetOpen(true);
@@ -151,30 +228,24 @@ export function HomeContent() {
       {/* 모바일 최적화 컨테이너 */}
       <div className="relative w-full max-w-[480px] min-h-screen shadow-lg" style={{ backgroundColor: '#FCFCFC' }}>
         {/* Header */}
-        <header className="flex items-center justify-between px-6 py-4">
-          <h1 className="text-xl font-bold text-gray-900"></h1>
-          {/* 찜하기 기능 - 나중에 사용할 수 있도록 임시 숨김 */}
-          {/* <button
-            onClick={() => {
-              router.push('/favorites');
-              logButtonClick('찜한거 보기 아이콘 클릭', 'home');
-            }}
-            className="relative p-1"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="#FF6B6B"
-              stroke="#FF6B6B"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+        <header className="flex items-center justify-between px-5 py-3">
+          <h1 className="text-base font-semibold">
+            <span className="text-gray-500">아기용품 </span>
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage: 'linear-gradient(135deg, #8B5CF6 0%, #A855F7 50%, #7C3AED 100%)'
+              }}
             >
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
-
-          </button> */}
+              AI
+            </span>
+          </h1>
+          <button
+            onClick={handleFeedbackClick}
+            className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            피드백 보내기
+          </button>
         </header>
 
         {/* Main Content */}
@@ -188,7 +259,7 @@ export function HomeContent() {
               className="text-center mb-auto mt-0 w-full"
               suppressHydrationWarning
             >
-              <h1 className="text-3xl font-bold text-gray-900 mb-6 mt-6 leading-tight">
+              <h1 className="text-2xl font-bold text-gray-900 mb-6 mt-6 leading-tight">
                 <span className="font-semibold">수천 개 아기용품 중</span><br />
                 <span 
                   className="rounded-sm"
@@ -292,7 +363,6 @@ export function HomeContent() {
             >
               <span className="flex items-baseline gap-2.5">
                 <span>1분 만에 추천받기</span>
-                <span className="text-xs font-light text-white/90">AI</span>
               </span>
             </button>
           </Link>

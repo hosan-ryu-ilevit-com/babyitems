@@ -3,6 +3,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
+import {
+  logContextInputExampleClick,
+  logContextInputSubmit,
+  logContextInputButtonClick,
+} from '@/lib/logging/clientLogger';
 
 interface ContextInputProps {
   category: string;
@@ -82,14 +87,25 @@ export default function ContextInput({
       return;
     }
     setError(null);
+
+    // 로깅: 컨텍스트 입력 제출
+    logContextInputSubmit(category, categoryName, text.trim());
+    logContextInputButtonClick(category, categoryName, 'start', text.trim());
+
     onComplete(text.trim());
   };
 
   const handleSkip = () => {
+    // 로깅: 건너뛰기 버튼 클릭
+    logContextInputButtonClick(category, categoryName, 'skip');
+
     onComplete(null);
   };
 
-  const handleExampleClick = (example: string) => {
+  const handleExampleClick = (example: string, index: number) => {
+    // 로깅: 예시 칩 클릭
+    logContextInputExampleClick(category, categoryName, example, index);
+
     setText(example);
   };
 
@@ -104,7 +120,7 @@ export default function ContextInput({
     >
       {/* 헤더 */}
       <div className="space-y-2">
-        <h3 className="text-2xl font-semibold text-gray-900 leading-snug">
+        <h3 className="text-xl font-semibold text-gray-900 leading-snug">
           안녕하세요!<br />
           찾으시는 <span 
             className="rounded-sm"
@@ -155,6 +171,20 @@ export default function ContextInput({
             maxLength={500}
             disabled={isCompleted}
           />
+          {text.length > 0 && !isCompleted && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              onClick={() => setText('')}
+              className="absolute top-3 right-3 p-1.5 rounded-full bg-gray-100/80 hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-colors z-10 backdrop-blur-sm"
+              aria-label="내용 전체 지우기"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+              </svg>
+            </motion.button>
+          )}
         </div>
         {error && (
           <p className="text-xs text-red-500 mt-2">{error}</p>
@@ -190,7 +220,7 @@ export default function ContextInput({
                       delay: idx * 0.05,
                       ease: [0.25, 0.1, 0.25, 1]
                     }}
-                    onClick={() => handleExampleClick(example)}
+                    onClick={() => handleExampleClick(example, idx)}
                     className="px-4 py-2 text-sm rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors whitespace-nowrap"
                   >
                     {example}
@@ -230,7 +260,7 @@ export default function ContextInput({
             </button>
             <button
               onClick={handleSkip}
-              className="w-full h-12 rounded-2xl font-medium mb-2 text-sm text-gray-500 hover:bg-gray-100 transition-colors"
+              className="w-full h-13 rounded-2xl font-semibold text-sm transition-all flex items-center justify-center bg-gray-100 text-gray-500 hover:bg-gray-200 active:scale-[0.98] mb-4"
             >
               잘 모르겠어요 (건너뛰기)
             </button>
@@ -291,7 +321,7 @@ export default function ContextInput({
           z-index: 1;
           display: block;
           width: 100%;
-          padding: 1rem;
+          padding: 1rem 3rem 1rem 1rem;
           background: white;
           border-radius: 0.75rem;
           font-size: 1rem;

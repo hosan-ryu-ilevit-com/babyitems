@@ -16,7 +16,7 @@ interface DirectInputFieldProps {
 }
 
 export default function DirectInputField({
-  placeholder = '원하는 조건을 직접 입력해주세요',
+  placeholder = '조건을 직접 입력해주세요',
   value,
   onChange,
   disabled = false,
@@ -89,8 +89,8 @@ export default function DirectInputField({
       className="mt-4 pt-4 border-t border-gray-100"
     >
       <div className="flex items-center gap-2 mb-2">
-        <span className="text-xs text-gray-400">
-          {isNegative ? '피하고 싶은 조건이 더 있나요?' : '원하는 조건이 더 있나요?'}
+        <span className="text-sm text-gray-400">
+          (선택) 직접 입력
         </span>
       </div>
 

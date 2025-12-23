@@ -200,6 +200,7 @@ export function BudgetAIHelperBottomSheet({
           totalProducts,
           sliderMin,
           sliderMax,
+          userSelections,
         }),
       });
 

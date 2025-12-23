@@ -59,7 +59,13 @@ export type LogEventType =
   | 'example_question_clicked' // AI 헬퍼 바텀시트 예시 질문 클릭
   | 'example_question_applied' // 예시 질문 선택 후 적용
   | 'review_tab_opened' // 제품 리뷰 탭 열기
-  | 'criteria_detail_viewed'; // 체감속성/구매 기준 상세 보기
+  | 'criteria_detail_viewed' // 체감속성/구매 기준 상세 보기
+  // Step -1 (ContextInput) 이벤트
+  | 'context_input_example_clicked' // 컨텍스트 입력 예시 칩 클릭
+  | 'context_input_submitted' // 컨텍스트 입력 제출 (자연어)
+  | 'context_input_button_clicked' // 컨텍스트 입력 버튼 (추천받기 시작/건너뛰기)
+  // 직접 입력 이벤트
+  | 'direct_input_registered'; // 하드필터/단점 필터 직접 입력 등록
 
 export interface LogEvent {
   sessionId: string;

@@ -76,7 +76,6 @@ import {
   logV2BalanceCompleted,
   logV2NegativeToggle,
   logV2NegativeCompleted,
-  logV2BudgetPresetClicked,
   logV2BudgetChanged,
   logV2RecommendationRequested,
   logV2RecommendationReceived,
@@ -86,6 +85,8 @@ import {
   logV2ReRecommendModalOpened,
   logV2ReRecommendSameCategory,
   logV2ReRecommendDifferentCategory,
+  logButtonClick,
+  logDirectInputRegister,
 } from '@/lib/logging/clientLogger';
 
 // Favorites - 나중에 사용할 수 있도록 임시 숨김
@@ -559,6 +560,60 @@ export default function RecommendV2Page() {
 
     loadData();
   }, [categoryKey, router, isRestoredFromStorage]);
+
+  // 채널톡 스크립트 초기화
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !(window as Window & { ChannelIO?: unknown }).ChannelIO) {
+      const w = window as Window & { ChannelIO?: ((...args: unknown[]) => void) & { c?: (args: unknown[]) => void; q?: unknown[] }; ChannelIOInitialized?: boolean };
+      const ch = function(...args: unknown[]) {
+        ch.c?.(args);
+      };
+      ch.q = [] as unknown[];
+      ch.c = function(args: unknown[]) {
+        ch.q?.push(args);
+      };
+      w.ChannelIO = ch;
+
+      const loadChannelIO = () => {
+        if (w.ChannelIOInitialized) return;
+        w.ChannelIOInitialized = true;
+        const s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+        const x = document.getElementsByTagName('script')[0];
+        if (x.parentNode) {
+          x.parentNode.insertBefore(s, x);
+        }
+      };
+
+      if (document.readyState === 'complete') {
+        loadChannelIO();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadChannelIO);
+        window.addEventListener('load', loadChannelIO);
+      }
+
+      // 채널톡 부트
+      setTimeout(() => {
+        if (w.ChannelIO) {
+          w.ChannelIO('boot', {
+            pluginKey: '81ef1201-79c7-4b62-b021-c571fe06f935',
+            hideChannelButtonOnBoot: true,
+          });
+        }
+      }, 100);
+    }
+  }, []);
+
+  // 피드백 버튼 클릭 핸들러
+  const handleFeedbackClick = useCallback(() => {
+    const w = window as Window & { ChannelIO?: (...args: unknown[]) => void };
+    if (w.ChannelIO) {
+      w.ChannelIO('openChat');
+    }
+    logButtonClick('피드백 보내기', `recommend-v2-${categoryKey}`);
+  }, [categoryKey]);
 
   // 초기 자연어 입력 컨텍스트 로딩 (categories-v2에서 저장된 것)
   useEffect(() => {
@@ -2538,6 +2593,8 @@ export default function RecommendV2Page() {
                   const questionId = hfData.question.id;
                   setHardFilterDirectInputs(prev => ({ ...prev, [questionId]: value }));
                   setHardFilterDirectInputRegistered(prev => ({ ...prev, [questionId]: true }));
+                  // 로깅: 하드필터 직접 입력 등록
+                  logDirectInputRegister(categoryKey, categoryName, 'hard_filter', value, questionId, 1);
                 }}
               />
             </div>
@@ -2631,6 +2688,8 @@ export default function RecommendV2Page() {
                 onDirectInputRegister={(value) => {
                   setNegativeDirectInput(value);
                   setIsNegativeDirectInputRegistered(true);
+                  // 로깅: 단점 필터 직접 입력 등록
+                  logDirectInputRegister(categoryKey, categoryName, 'negative_filter', value, 'negative_filter', 4);
                 }}
               />
             </div>
@@ -2655,9 +2714,6 @@ export default function RecommendV2Page() {
                 initialMax={budget.max}
                 onChange={handleBudgetChange}
                 products={filteredProducts}
-                onPresetClick={(preset, min, max, productsInRange) => {
-                  logV2BudgetPresetClicked(categoryKey, categoryName, preset, min, max, productsInRange);
-                }}
                 onDirectInput={(min, max, productsInRange) => {
                   logV2BudgetChanged(categoryKey, categoryName, min, max, true, productsInRange);
                 }}
@@ -3260,41 +3316,31 @@ export default function RecommendV2Page() {
       <div className="h-full w-full max-w-[480px] bg-white flex flex-col overflow-hidden">
         {/* Header */}
         <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
-          <div className="px-5 py-3 flex items-center justify-between">
+          <div className="px-5 py-3 flex items-center relative">
+            {/* 왼쪽: 뒤로가기 버튼 */}
             <button
               onClick={() => setShowBackModal(true)}
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-600 hover:text-gray-900 z-10"
             >
               <CaretLeft size={24} weight="bold" />
             </button>
-            <h1 className="text-lg font-bold text-gray-900">
+            {/* 중앙: 카테고리 이름 (항상 정중앙) */}
+            <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold text-gray-900">
               {categoryName} 추천
             </h1>
-            {/* 추천 완료 후에만 하트 아이콘 표시 - 나중에 사용할 수 있도록 임시 숨김 */}
-            {/* {currentStep === 5 && scoredProducts.length > 0 ? (
-              <button
-                onClick={() => {
-                  setShowFavoritesModal(true);
-                }}
-                className="p-1"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="#FF6B6B"
-                  stroke="#FF6B6B"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+            {/* 오른쪽: 피드백 버튼 (추천 완료 후에만 표시) */}
+            <div className="ml-auto z-10">
+              {currentStep === 5 && scoredProducts.length > 0 ? (
+                <button
+                  onClick={handleFeedbackClick}
+                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors whitespace-nowrap"
                 >
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
-              </button>
-            ) : (
-              <div className="w-7" />
-            )} */}
-            <div className="w-7" />
+                  피드백 보내기
+                </button>
+              ) : (
+                <div className="w-7" />
+              )}
+            </div>
           </div>
 
           {/* Progress Bar - Step 0(로딩/가이드카드)과 결과 화면에서는 숨김 */}
@@ -3379,8 +3425,8 @@ export default function RecommendV2Page() {
           );
         })()}
 
-        {/* 다시 추천받기 플로팅 버튼 (Step 5에서만 표시) */}
-        {currentStep === 5 && scoredProducts.length > 0 && (
+        {/* 다시 추천받기 플로팅 버튼 (Step 5에서만 표시, 로딩 중 숨김) */}
+        {currentStep === 5 && scoredProducts.length > 0 && !isCalculating && (
           <>
             {/* 회전하는 그라데이션 테두리 스타일 */}
             <style jsx>{`

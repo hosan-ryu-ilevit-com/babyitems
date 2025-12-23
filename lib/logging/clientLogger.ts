@@ -1412,3 +1412,112 @@ export function logNaturalLanguageInput(
     },
   });
 }
+
+// ============================================
+// Step -1 (ContextInput) 로깅 함수들
+// ============================================
+
+// 8. 컨텍스트 입력 예시 칩 클릭
+export function logContextInputExampleClick(
+  category: string,
+  categoryName: string,
+  exampleText: string,
+  exampleIndex: number
+): void {
+  const shortText = exampleText.length > 40 ? exampleText.substring(0, 40) + '...' : exampleText;
+
+  sendLogEvent('context_input_example_clicked', {
+    page: 'recommend-v2',
+    buttonLabel: `예시 클릭: "${shortText}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: -1,
+    },
+    metadata: {
+      exampleText,
+      exampleIndex,
+    },
+  });
+}
+
+// 9. 컨텍스트 입력 제출 (자연어 입력)
+export function logContextInputSubmit(
+  category: string,
+  categoryName: string,
+  inputText: string
+): void {
+  const shortText = inputText.length > 40 ? inputText.substring(0, 40) + '...' : inputText;
+
+  sendLogEvent('context_input_submitted', {
+    page: 'recommend-v2',
+    userInput: inputText,
+    buttonLabel: `컨텍스트 입력: "${shortText}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: -1,
+    },
+    metadata: {
+      inputLength: inputText.length,
+    },
+  });
+}
+
+// 10. 컨텍스트 입력 버튼 클릭 (추천받기 시작 / 건너뛰기)
+export function logContextInputButtonClick(
+  category: string,
+  categoryName: string,
+  buttonType: 'start' | 'skip',
+  inputText?: string
+): void {
+  const buttonLabel = buttonType === 'start' ? '추천받기 시작' : '잘 모르겠어요 (건너뛰기)';
+
+  sendLogEvent('context_input_button_clicked', {
+    page: 'recommend-v2',
+    buttonLabel,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: -1,
+    },
+    metadata: {
+      buttonType,
+      hasInput: !!inputText,
+      inputLength: inputText?.length || 0,
+    },
+  });
+}
+
+// ============================================
+// 직접 입력 (DirectInput) 로깅 함수들
+// ============================================
+
+// 11. 직접 입력 등록 (하드필터/단점 필터)
+export function logDirectInputRegister(
+  category: string,
+  categoryName: string,
+  filterType: 'hard_filter' | 'negative_filter',
+  inputText: string,
+  questionId?: string,
+  step?: number
+): void {
+  const shortText = inputText.length > 40 ? inputText.substring(0, 40) + '...' : inputText;
+  const filterLabel = filterType === 'hard_filter' ? '하드필터' : '단점필터';
+
+  sendLogEvent('direct_input_registered', {
+    page: 'recommend-v2',
+    userInput: inputText,
+    buttonLabel: `${filterLabel} 직접입력: "${shortText}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: step ?? (filterType === 'hard_filter' ? 1 : 4),
+    },
+    metadata: {
+      filterType,
+      questionId,
+      inputLength: inputText.length,
+    },
+  });
+}
