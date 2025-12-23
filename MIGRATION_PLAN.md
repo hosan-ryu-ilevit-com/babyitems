@@ -5,6 +5,7 @@
 **목표**: 분유포트 전용 MVP → 9개 카테고리 육아용품 추천 플랫폼 전환
 
 **핵심 변화**:
+
 - 고정 앵커 3개 → 동적 앵커 1개 (사용자 선택)
 - 수동 큐레이션 태그 → Gemini 실시간 생성 (Top 50 긴 리뷰 기반)
 - Markdown 기반 → Gemini File Search 기반
@@ -19,12 +20,12 @@
 
 ### User Journey 비교
 
-| 단계 | 현재 (분유포트 전용) | 새로운 (9개 카테고리) | 변경 수준 |
-|------|---------------------|---------------------|----------|
-| **진입** | Home (단일 제품 리스트) | Home (9개 카테고리 아이콘) | 🔴 전면 개편 |
-| **기준 설정** | Priority (고정 앵커 3개 + 수동 태그) | Anchor 선택 (동적 1개) + 실시간 태그 생성 | 🔴 전면 개편 |
-| **추천** | Persona Generator → Product Evaluator | Spec Filter → File Search → Top 3 | 🟡 부분 수정 |
-| **탐색** | Result → Product Chat → Compare | Result + 앵커 비교군 + 무한 에이전트 | 🟡 부분 수정 |
+| 단계          | 현재 (분유포트 전용)                  | 새로운 (9개 카테고리)                     | 변경 수준    |
+| ------------- | ------------------------------------- | ----------------------------------------- | ------------ |
+| **진입**      | Home (단일 제품 리스트)               | Home (9개 카테고리 아이콘)                | 🔴 전면 개편 |
+| **기준 설정** | Priority (고정 앵커 3개 + 수동 태그)  | Anchor 선택 (동적 1개) + 실시간 태그 생성 | 🔴 전면 개편 |
+| **추천**      | Persona Generator → Product Evaluator | Spec Filter → File Search → Top 3         | 🟡 부분 수정 |
+| **탐색**      | Result → Product Chat → Compare       | Result + 앵커 비교군 + 무한 에이전트      | 🟡 부분 수정 |
 
 ### 데이터 아키텍처
 
@@ -45,11 +46,13 @@
 ## 📋 Phase 1: Foundation (2-3일)
 
 ### 목표
+
 인프라 레이어 구축 - File Search, Spec Loader, 타입 정의
 
 ### 작업 목록
 
 #### 1.1 File Search 래퍼 생성 (P0 - Critical) ⏱️ 4시간
+
 **파일**: `lib/fileSearch.ts`
 
 ```typescript
@@ -64,18 +67,25 @@ interface FileSearchOptions {
 }
 
 // 주요 함수
-export async function getStoreId(category: Category): Promise<string>
-export async function searchReviews(options: FileSearchOptions): Promise<Review[]>
-export async function getReviewById(category: Category, reviewId: string): Promise<Review>
+export async function getStoreId(category: Category): Promise<string>;
+export async function searchReviews(
+  options: FileSearchOptions
+): Promise<Review[]>;
+export async function getReviewById(
+  category: Category,
+  reviewId: string
+): Promise<Review>;
 ```
 
 **구현 세부사항**:
+
 - `lib/store_ids.json` 로드 (upload 스크립트 결과)
 - Gemini File Search API 호출
 - 에러 핸들링: 3회 재시도, 지수 백오프
 - 타임아웃: 30초
 
 **테스트**:
+
 ```bash
 # 테스트 API 엔드포인트 생성
 app/api/test-filesearch/route.ts
@@ -84,6 +94,7 @@ app/api/test-filesearch/route.ts
 ---
 
 #### 1.2 Spec 데이터 로더 (P0 - Critical) ⏱️ 3시간
+
 **파일**: `lib/data/specLoader.ts`
 
 ```typescript
@@ -93,18 +104,27 @@ let cachedSpecs: Record<Category, Product[]> = {};
 export function loadSpecs(category: Category): Product[] {
   if (cachedSpecs[category]) return cachedSpecs[category];
 
-  const filePath = path.join(process.cwd(), 'data', 'specs', `${category}.json`);
-  const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  const filePath = path.join(
+    process.cwd(),
+    "data",
+    "specs",
+    `${category}.json`
+  );
+  const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
   cachedSpecs[category] = data;
   return data;
 }
 
-export function filterByPrice(specs: Product[], maxPrice: number): Product[]
-export function filterBySpec(specs: Product[], criteria: SpecCriteria): Product[]
-export function getRankingTop(specs: Product[], n: number = 10): Product[]
+export function filterByPrice(specs: Product[], maxPrice: number): Product[];
+export function filterBySpec(
+  specs: Product[],
+  criteria: SpecCriteria
+): Product[];
+export function getRankingTop(specs: Product[], n: number = 10): Product[];
 ```
 
 **성능 목표**:
+
 - 첫 로드: < 100ms
 - 캐시 히트: < 1ms
 - 메모리 사용: < 50MB (9개 카테고리 전체)
@@ -112,20 +132,21 @@ export function getRankingTop(specs: Product[], n: number = 10): Product[]
 ---
 
 #### 1.3 타입 정의 업데이트 ⏱️ 2시간
+
 **파일**: `types/index.ts`
 
 ```typescript
 // 새로운 타입 추가
 export type Category =
-  | 'milk_powder_port'
-  | 'baby_bottle'
-  | 'baby_bottle_sterilizer'
-  | 'car_seat'
-  | 'thermometer'
-  | 'nasal_aspirator'
-  | 'baby_play_mat'
-  | 'baby_monitor'
-  | 'baby_formula_dispenser';
+  | "milk_powder_port"
+  | "baby_bottle"
+  | "baby_bottle_sterilizer"
+  | "car_seat"
+  | "thermometer"
+  | "nasal_aspirator"
+  | "baby_play_mat"
+  | "baby_monitor"
+  | "baby_formula_dispenser";
 
 export interface AnchorProduct {
   id: string;
@@ -139,16 +160,16 @@ export interface AnchorProduct {
 export interface DynamicTag {
   id: string;
   text: string;
-  type: 'pro' | 'con';
-  source: 'review' | 'spec';
+  type: "pro" | "con";
+  source: "review" | "spec";
   confidence: number; // 0-1
 }
 
 export type IntentType =
-  | 'REFILTER'      // 조건 변경 및 재추천
-  | 'PRODUCT_QA'    // 특정 제품 질문
-  | 'COMPARE'       // 제품 비교
-  | 'CHIT_CHAT';    // 일반 대화
+  | "REFILTER" // 조건 변경 및 재추천
+  | "PRODUCT_QA" // 특정 제품 질문
+  | "COMPARE" // 제품 비교
+  | "CHIT_CHAT"; // 일반 대화
 
 export interface Review {
   reviewId: string;
@@ -162,6 +183,7 @@ export interface Review {
 ---
 
 #### 1.4 환경 변수 체크 ⏱️ 30분
+
 **파일**: `.env.local`
 
 ```bash
@@ -177,6 +199,7 @@ NEXT_PUBLIC_CATEGORIES=milk_powder_port,baby_bottle,baby_bottle_sterilizer,car_s
 ---
 
 ### Phase 1 완료 기준 (DoD)
+
 - [ ] File Search 테스트 API 작동 (쿼리 → 리뷰 반환)
 - [ ] Spec 로딩 성능 검증 (< 100ms)
 - [ ] 타입 오류 0개 (`npm run build` 성공)
@@ -187,6 +210,7 @@ NEXT_PUBLIC_CATEGORIES=milk_powder_port,baby_bottle,baby_bottle_sterilizer,car_s
 ## 📋 Phase 2: Core Flow (4-5일)
 
 ### 목표
+
 새로운 사용자 플로우 구축 (병렬 개발)
 
 ---
@@ -197,6 +221,7 @@ NEXT_PUBLIC_CATEGORIES=milk_powder_port,baby_bottle,baby_bottle_sterilizer,car_s
 **파일 생성**: `components/CategorySelector.tsx`
 
 **UI 구조**:
+
 ```
 ┌─────────────────────────────────────┐
 │  Baby Product AI Advisor            │
@@ -209,6 +234,7 @@ NEXT_PUBLIC_CATEGORIES=milk_powder_port,baby_bottle,baby_bottle_sterilizer,car_s
 ```
 
 **라우팅**:
+
 ```typescript
 onClick={() => router.push(`/anchor?category=${category}`)}
 ```
@@ -222,12 +248,14 @@ onClick={() => router.push(`/anchor?category=${category}`)}
 **파일 생성**: `app/anchor/page.tsx`
 
 **플로우**:
+
 1. URL에서 `category` 파라미터 추출
 2. Spec 데이터 로드 → 랭킹 1위 자동 선택
 3. "변경하기" 버튼 → Top 10 리스트 또는 검색
 4. 선택 완료 → `/tags?anchor={id}&category={cat}`
 
 **UI 요소**:
+
 ```
 ┌─────────────────────────────────────┐
 │ 분유포트 추천 시작하기              │
@@ -243,6 +271,7 @@ onClick={() => router.push(`/anchor?category=${category}`)}
 ```
 
 **"변경하기" 바텀시트**:
+
 - Top 10 제품 리스트 (가로 스크롤)
 - 검색바 (제품명으로 검색)
 
@@ -251,10 +280,12 @@ onClick={() => router.push(`/anchor?category=${category}`)}
 ### 2.3 동적 태그 생성 페이지 ⏱️ 1일 (8시간)
 
 **파일 생성**:
+
 - `app/tags/page.tsx`
 - `app/api/generate-tags/route.ts`
 
 **Step 1: 리뷰 샘플링 (서버)** ⏱️ 2시간
+
 ```typescript
 // app/api/generate-tags/route.ts
 
@@ -264,9 +295,9 @@ export async function POST(req: Request) {
   // 1. File Search로 해당 제품 리뷰 가져오기
   const reviews = await searchReviews({
     category,
-    query: '',
+    query: "",
     filters: { productIds: [anchorProductId] },
-    limit: 1000
+    limit: 1000,
   });
 
   // 2. 길이 순 정렬 → Top 50
@@ -282,12 +313,15 @@ export async function POST(req: Request) {
 ```
 
 **Step 2: 태그 생성 (Gemini)** ⏱️ 3시간
+
 ```typescript
-async function generateTagsFromReviews(reviews: Review[]): Promise<DynamicTags> {
+async function generateTagsFromReviews(
+  reviews: Review[]
+): Promise<DynamicTags> {
   const prompt = `
 다음은 실제 사용자 리뷰 50개입니다.
 
-${reviews.map(r => `- ${r.text}`).join('\n')}
+${reviews.map((r) => `- ${r.text}`).join("\n")}
 
 위 리뷰를 분석하여:
 1. **장점(Pros)**: 이 제품의 구체적인 장점을 문장 형태로 8-12개 추출
@@ -316,6 +350,7 @@ JSON 형식으로 반환:
 **Step 3: 사용자 선택 UI** ⏱️ 3시간
 
 **3-Step UI**:
+
 ```
 Step 1: 장점 선택
 ┌─────────────────────────────────────┐
@@ -336,7 +371,7 @@ Step 2: 단점 선택 (선택적)
 │ [ ] 냉각 시간이 2시간이나 걸려요     │
 │ [ ] 터치 버튼이 너무 민감해요        │
 │ ...                                 │
-│ [괜찮아요 (스킵)] [다음 단계]        │
+│ [괜찮아요 (건너뛰기)] [다음 단계]        │
 └─────────────────────────────────────┘
 
 Step 3: 예산 입력
@@ -353,6 +388,7 @@ Step 3: 예산 입력
 ```
 
 **선택 순서 = 우선순위**:
+
 - 첫 번째 선택: 가장 중요
 - 두 번째 선택: 두 번째로 중요
 - 최대 4개까지
@@ -364,6 +400,7 @@ Step 3: 예산 입력
 **파일 생성**: `app/api/recommend-v2/route.ts`
 
 **Step A: 정량 필터링 (로컬)** ⏱️ 3시간
+
 ```typescript
 async function quantitativeFilter(
   category: Category,
@@ -382,13 +419,12 @@ async function quantitativeFilter(
   }
 
   // 4. 랭킹 순 정렬 → Top 20
-  return candidates
-    .sort((a, b) => a.ranking - b.ranking)
-    .slice(0, 20);
+  return candidates.sort((a, b) => a.ranking - b.ranking).slice(0, 20);
 }
 ```
 
 **Step B: 정성 검색 (File Search)** ⏱️ 5시간
+
 ```typescript
 async function qualitativeSearch(
   category: Category,
@@ -403,12 +439,12 @@ async function qualitativeSearch(
   //      유리 재질이 아니고, 소음이 적은 제품"
 
   // 2. File Search 실행 (후보군 ID 필터링)
-  const candidateIds = candidates.map(c => c.productId);
+  const candidateIds = candidates.map((c) => c.productId);
   const searchResults = await searchReviews({
     category,
     query,
     filters: { productIds: candidateIds },
-    limit: 100
+    limit: 100,
   });
 
   // 3. 제품별 적합도 점수 계산
@@ -418,20 +454,20 @@ async function qualitativeSearch(
   return productScores
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
-    .map(ps => ps.product);
+    .map((ps) => ps.product);
 }
 
 function buildSearchQuery(pros: string[], cons: string[]): string {
-  const prosText = pros.join(', ');
-  const consText = cons.length > 0
-    ? ` 그리고 ${cons.join(', ')}는 아닌 제품`
-    : '';
+  const prosText = pros.join(", ");
+  const consText =
+    cons.length > 0 ? ` 그리고 ${cons.join(", ")}는 아닌 제품` : "";
 
   return `${prosText}${consText}`;
 }
 ```
 
 **Step C: 상세 설명 생성 (Gemini)** ⏱️ 4시간
+
 ```typescript
 async function generateDetailedExplanations(
   anchorProduct: Product,
@@ -440,7 +476,7 @@ async function generateDetailedExplanations(
 ): Promise<ProductWithExplanation[]> {
   // 병렬 처리
   return Promise.all(
-    topProducts.map(product =>
+    topProducts.map((product) =>
       generateExplanation(anchorProduct, product, category)
     )
   );
@@ -454,9 +490,9 @@ async function generateExplanation(
   // 1. 제품 리뷰 가져오기
   const reviews = await searchReviews({
     category,
-    query: '',
+    query: "",
     filters: { productIds: [product.productId] },
-    limit: 30
+    limit: 30,
   });
 
   // 2. Gemini로 비교 설명 생성
@@ -472,7 +508,7 @@ async function generateExplanation(
 - 제품명: ${product.title}
 - 가격: ${product.price.toLocaleString()}원
 - 주요 스펙: ${JSON.stringify(product.specs)}
-- 실제 리뷰 30개: ${reviews.map(r => r.text).join('\n')}
+- 실제 리뷰 30개: ${reviews.map((r) => r.text).join("\n")}
 
 **요구사항**:
 1. 앵커 제품 대비 이 제품의 장점/단점을 비교 설명
@@ -498,7 +534,7 @@ async function generateExplanation(
   return {
     ...product,
     explanation: result,
-    citations
+    citations,
   };
 }
 
@@ -506,9 +542,9 @@ function parseCitations(text: string): Citation[] {
   const regex = /\[([^\]]+)\]/g;
   const matches = [...text.matchAll(regex)];
 
-  return matches.map(m => ({
+  return matches.map((m) => ({
     reviewId: m[1],
-    position: m.index
+    position: m.index,
   }));
 }
 ```
@@ -520,6 +556,7 @@ function parseCitations(text: string): Citation[] {
 **파일 생성**: `app/result-v2/page.tsx`
 
 **UI 구조**:
+
 ```
 ┌────────────────────────────────────────────────────────────┐
 │  분유포트 추천 결과                                         │
@@ -540,6 +577,7 @@ function parseCitations(text: string): Citation[] {
 ```
 
 **Citation 클릭 시**:
+
 ```
 ┌────────────────────────────────────┐
 │ 📝 원본 리뷰                       │
@@ -558,6 +596,7 @@ function parseCitations(text: string): Citation[] {
 ---
 
 ### Phase 2 완료 기준 (DoD)
+
 - [ ] 분유포트 카테고리 E2E 성공
 - [ ] 태그 생성 속도 < 10초
 - [ ] 추천 결과 정확도 수동 검증 (10회 테스트)
@@ -568,6 +607,7 @@ function parseCitations(text: string): Citation[] {
 ## 📋 Phase 3: Agent & Cleanup (3-4일)
 
 ### 목표
+
 무한 에이전트 구현 + 기존 코드 제거
 
 ---
@@ -656,7 +696,7 @@ export async function classifyIntent(
 사용자 메시지: "${message}"
 
 현재 컨텍스트:
-- 현재 보고 있는 제품: ${context.currentProducts.map(p => p.title).join(', ')}
+- 현재 보고 있는 제품: ${context.currentProducts.map((p) => p.title).join(", ")}
 - 선택한 조건: ${JSON.stringify(context.criteria)}
 
 위 메시지를 다음 4가지 중 하나로 분류해주세요:
@@ -681,7 +721,7 @@ JSON 형식으로 반환:
 }
 `;
 
-  const model = getModel('flash-lite'); // 빠른 모델
+  const model = getModel("flash-lite"); // 빠른 모델
   const result = await callGeminiWithRetry(async () => {
     const response = await model.generateContent(prompt);
     return JSON.parse(response.response.text());
@@ -706,7 +746,7 @@ export async function toolRefilter(
   // 기존 조건에 새 조건 병합
   const updatedCriteria = {
     ...context.criteria,
-    ...newCriteria
+    ...newCriteria,
   };
 
   // 추천 엔진 재실행
@@ -716,9 +756,9 @@ export async function toolRefilter(
   );
 
   return {
-    type: 'REFILTER',
+    type: "REFILTER",
     data: recommendations,
-    message: `조건을 변경하여 다시 찾아봤어요!`
+    message: `조건을 변경하여 다시 찾아봤어요!`,
   };
 }
 
@@ -730,14 +770,14 @@ export async function toolProductQA(
 ): Promise<ToolResult> {
   // 1. 제품 스펙 로드
   const specs = loadSpecs(category);
-  const product = specs.find(s => s.productId === productId);
+  const product = specs.find((s) => s.productId === productId);
 
   // 2. 제품 리뷰 검색
   const reviews = await searchReviews({
     category,
     query: question,
     filters: { productIds: [productId] },
-    limit: 10
+    limit: 10,
   });
 
   // 3. Gemini로 답변 생성
@@ -748,7 +788,7 @@ export async function toolProductQA(
 ${JSON.stringify(product, null, 2)}
 
 관련 리뷰:
-${reviews.map(r => `- ${r.text} [${r.reviewId}]`).join('\n')}
+${reviews.map((r) => `- ${r.text} [${r.reviewId}]`).join("\n")}
 
 위 정보를 바탕으로 질문에 답변해주세요.
 반드시 [ReviewID] 형식으로 출처를 표기하세요.
@@ -760,9 +800,9 @@ ${reviews.map(r => `- ${r.text} [${r.reviewId}]`).join('\n')}
   });
 
   return {
-    type: 'PRODUCT_QA',
+    type: "PRODUCT_QA",
     data: { answer, citations: parseCitations(answer) },
-    message: answer
+    message: answer,
   };
 }
 
@@ -774,17 +814,17 @@ export async function toolCompare(
 ): Promise<ToolResult> {
   // 1. 제품 스펙 로드
   const specs = loadSpecs(category);
-  const products = productIds.map(id =>
-    specs.find(s => s.productId === id)
+  const products = productIds.map((id) =>
+    specs.find((s) => s.productId === id)
   );
 
   // 2. 비교 대상 리뷰 검색
-  const reviewsPromises = productIds.map(id =>
+  const reviewsPromises = productIds.map((id) =>
     searchReviews({
       category,
       query: aspect,
       filters: { productIds: [id] },
-      limit: 10
+      limit: 10,
     })
   );
   const reviews = await Promise.all(reviewsPromises);
@@ -793,12 +833,16 @@ export async function toolCompare(
   const prompt = `
 다음 ${productIds.length}개 제품을 "${aspect}" 측면에서 비교해주세요.
 
-${products.map((p, i) => `
-제품 ${i+1}: ${p.title}
+${products
+  .map(
+    (p, i) => `
+제품 ${i + 1}: ${p.title}
 - 가격: ${p.price.toLocaleString()}원
 - 스펙: ${JSON.stringify(p.specs)}
-- 관련 리뷰: ${reviews[i].map(r => `${r.text} [${r.reviewId}]`).join('\n')}
-`).join('\n\n')}
+- 관련 리뷰: ${reviews[i].map((r) => `${r.text} [${r.reviewId}]`).join("\n")}
+`
+  )
+  .join("\n\n")}
 
 각 제품의 장단점을 비교하고, 어떤 상황에 적합한지 추천해주세요.
 `;
@@ -809,9 +853,9 @@ ${products.map((p, i) => `
   });
 
   return {
-    type: 'COMPARE',
+    type: "COMPARE",
     data: { comparison, citations: parseCitations(comparison) },
-    message: comparison
+    message: comparison,
   };
 }
 
@@ -841,9 +885,9 @@ You: "정말 힘드시죠... 특히 밤 수유 때문에 잠도 부족하시고�
   });
 
   return {
-    type: 'CHIT_CHAT',
+    type: "CHIT_CHAT",
     data: {},
-    message: response
+    message: response,
   };
 }
 ```
@@ -865,11 +909,11 @@ export async function POST(req: Request) {
   let result: ToolResult;
 
   switch (intent.intent) {
-    case 'REFILTER':
+    case "REFILTER":
       result = await toolRefilter(intent.extractedParams, context);
       break;
 
-    case 'PRODUCT_QA':
+    case "PRODUCT_QA":
       result = await toolProductQA(
         intent.extractedParams.productId,
         message,
@@ -877,15 +921,15 @@ export async function POST(req: Request) {
       );
       break;
 
-    case 'COMPARE':
+    case "COMPARE":
       result = await toolCompare(
         intent.extractedParams.productIds,
-        intent.extractedParams.aspect || '전반적',
+        intent.extractedParams.aspect || "전반적",
         context.category
       );
       break;
 
-    case 'CHIT_CHAT':
+    case "CHIT_CHAT":
       result = await toolChitChat(message, context);
       break;
   }
@@ -894,7 +938,7 @@ export async function POST(req: Request) {
   return Response.json({
     intent: intent.intent,
     result,
-    citations: result.data.citations || []
+    citations: result.data.citations || [],
   });
 }
 ```
@@ -904,6 +948,7 @@ export async function POST(req: Request) {
 ### 3.5 기존 코드 제거 ⏱️ 2시간
 
 **백업 후 제거**:
+
 ```bash
 # 백업
 mkdir -p .backup
@@ -920,6 +965,7 @@ git commit -m "chore: backup legacy code before migration"
 ```
 
 **제거 대상 파일**:
+
 - ❌ `data/priorityTags.ts`
 - ❌ `data/products/*.md` (44개)
 - ❌ `lib/data/productLoader.ts`
@@ -928,6 +974,7 @@ git commit -m "chore: backup legacy code before migration"
 - ❌ `lib/agents/personaGenerator.ts`
 
 **의존성 체크**:
+
 ```bash
 # 제거할 파일을 import하는 곳 찾기
 grep -r "priorityTags" --include="*.ts" --include="*.tsx" app/ lib/ components/
@@ -936,6 +983,7 @@ grep -r "personaGenerator" --include="*.ts" --include="*.tsx" app/ lib/
 ```
 
 **Admin 페이지 수정**:
+
 - Admin 페이지가 기존 코드를 참조하면 수정 필요
 - 통계는 계속 작동하도록 유지
 
@@ -944,6 +992,7 @@ grep -r "personaGenerator" --include="*.ts" --include="*.tsx" app/ lib/
 ### 3.6 UX 개선 ⏱️ 4시간
 
 #### Citation 뱃지 컴포넌트
+
 **파일 생성**: `components/CitationBadge.tsx`
 
 ```typescript
@@ -952,7 +1001,10 @@ interface CitationBadgeProps {
   onClickCitation: (reviewId: string) => void;
 }
 
-export function CitationBadge({ citations, onClickCitation }: CitationBadgeProps) {
+export function CitationBadge({
+  citations,
+  onClickCitation,
+}: CitationBadgeProps) {
   return (
     <div className="inline-flex gap-1">
       {citations.map((citation, i) => (
@@ -970,32 +1022,35 @@ export function CitationBadge({ citations, onClickCitation }: CitationBadgeProps
 ```
 
 #### 리뷰 뷰어 컴포넌트
+
 **파일 생성**: `components/ReviewViewer.tsx`
 
 ```typescript
 export function ReviewViewer({ category, productId }: ReviewViewerProps) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [page, setPage] = useState(1);
-  const [sortBy, setSortBy] = useState<'latest' | 'longest'>('latest');
+  const [sortBy, setSortBy] = useState<"latest" | "longest">("latest");
 
   useEffect(() => {
     // API 호출
-    fetch(`/api/reviews?category=${category}&productId=${productId}&page=${page}&sort=${sortBy}`)
-      .then(res => res.json())
-      .then(data => setReviews(data.reviews));
+    fetch(
+      `/api/reviews?category=${category}&productId=${productId}&page=${page}&sort=${sortBy}`
+    )
+      .then((res) => res.json())
+      .then((data) => setReviews(data.reviews));
   }, [category, productId, page, sortBy]);
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between">
         <h3>전체 리뷰 ({reviews.length}개)</h3>
-        <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="latest">최신순</option>
           <option value="longest">긴 순</option>
         </select>
       </div>
 
-      {reviews.map(review => (
+      {reviews.map((review) => (
         <div key={review.reviewId} className="border p-4 rounded">
           <div className="flex items-center gap-2 mb-2">
             <span>⭐ {review.rating}</span>
@@ -1014,6 +1069,7 @@ export function ReviewViewer({ category, productId }: ReviewViewerProps) {
 ---
 
 ### Phase 3 완료 기준 (DoD)
+
 - [ ] 10가지 대화 시나리오 테스트 통과
   - REFILTER: "더 싼걸로", "10만원 이하"
   - PRODUCT_QA: "1번 유리야?", "식세기 돼?"
@@ -1071,13 +1127,17 @@ Day 12: 테스트 & QA
 ## 🎯 우선순위 (Critical Path)
 
 ### 🔴 P0 - 차단 요소 (블로킹)
+
 **이것들이 없으면 다른 작업 불가**
+
 - 1.1 File Search 래퍼 (모든 것의 기반)
 - 1.2 Spec Loader (필터링 필수)
 - 2.4 하이브리드 추천 엔진 (핵심 로직)
 
 ### 🟡 P1 - 핵심 플로우
+
 **사용자 플로우 완성에 필수**
+
 - 2.1 홈 화면
 - 2.2 앵커 선택
 - 2.3 동적 태그 생성
@@ -1085,14 +1145,18 @@ Day 12: 테스트 & QA
 - 3.1-3.4 무한 에이전트
 
 ### 🟢 P2 - UX 개선
+
 **기능은 작동하지만 경험 향상**
+
 - 3.6 Citation 뱃지
 - 3.6 리뷰 뷰어
 - 로딩 스켈레톤
 - 에러 핸들링 강화
 
 ### 🔵 P3 - 정리
+
 **마지막에 해도 됨**
+
 - 3.5 기존 코드 제거
 - 코드 리팩토링
 - 문서 업데이트
@@ -1102,24 +1166,30 @@ Day 12: 테스트 & QA
 ## ⚠️ 위험 요소 (Risk)
 
 ### 1. 🚨 File Search 품질 (High Risk)
+
 **문제**: 리뷰 검색 정확도가 낮으면 추천 품질 하락
 **완화책**:
+
 - 다양한 쿼리 패턴 테스트
 - 검색 결과 수동 검증
 - 쿼리 엔지니어링 최적화
 - Fallback: 스펙 기반 필터링 강화
 
 ### 2. ⏱️ 태그 생성 속도 (Medium Risk)
+
 **문제**: Top 50 리뷰 → Gemini 처리 시간 오래 걸림
 **목표**: < 10초
 **완화책**:
+
 - 스트리밍 UI로 체감 속도 개선
 - 캐싱: Redis에 제품별 태그 저장
 - 병렬 처리: 스펙 데이터 먼저 보여주기
 
 ### 3. 💰 API 비용 (Medium Risk)
+
 **문제**: File Search + Gemini 호출 증가
 **완화책**:
+
 - 캐싱 전략 (Redis)
   - 태그: 1주일 TTL
   - 검색 결과: 1시간 TTL
@@ -1128,8 +1198,10 @@ Day 12: 테스트 & QA
 - 모니터링 대시보드
 
 ### 4. 🐛 기존 시스템 의존성 (Low Risk)
+
 **문제**: Admin 등 다른 페이지가 기존 코드 의존
 **완화책**:
+
 - 의존성 체크 스크립트 실행
 - Admin 페이지 별도 수정
 - 철저한 테스트
@@ -1139,6 +1211,7 @@ Day 12: 테스트 & QA
 ## 🚀 다음 즉시 작업 (Next Steps)
 
 ### 1️⃣ 업로드 완료 대기 (진행 중)
+
 ```bash
 # 완료 확인
 ls -lh lib/store_ids.json
@@ -1153,26 +1226,31 @@ cat lib/store_ids.json
 ```
 
 ### 2️⃣ Phase 1.1: File Search 래퍼 작성
+
 **파일**: `lib/fileSearch.ts`
 **소요 시간**: 4시간
 
 **구현 순서**:
+
 1. store_ids.json 로드
 2. searchReviews() 함수 구현
 3. 에러 핸들링 + 재시도
 4. 테스트 API 작성
 
 ### 3️⃣ Phase 1.2: Spec Loader 작성
+
 **파일**: `lib/data/specLoader.ts`
 **소요 시간**: 3시간
 
 **구현 순서**:
+
 1. Global cache 구현
 2. loadSpecs() 함수
 3. filterByPrice() 함수
 4. 성능 테스트
 
 ### 4️⃣ 테스트 API 엔드포인트
+
 **파일**: `app/api/test-filesearch/route.ts`
 **목적**: File Search 작동 확인
 
@@ -1181,24 +1259,25 @@ cat lib/store_ids.json
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const category = searchParams.get('category');
-  const query = searchParams.get('query');
+  const category = searchParams.get("category");
+  const query = searchParams.get("query");
 
   const results = await searchReviews({
     category,
     query,
-    limit: 10
+    limit: 10,
   });
 
   return Response.json({
     success: true,
     count: results.length,
-    results
+    results,
   });
 }
 ```
 
 **테스트 방법**:
+
 ```bash
 # 브라우저에서
 http://localhost:3000/api/test-filesearch?category=milk_powder_port&query=온도조절
@@ -1212,17 +1291,20 @@ curl "http://localhost:3000/api/test-filesearch?category=milk_powder_port&query=
 ## 📈 성공 지표 (KPI)
 
 ### 기능적 지표
+
 - [ ] E2E 성공률: 100% (9개 카테고리 모두)
 - [ ] Intent 분류 정확도: > 90%
 - [ ] 추천 정확도: 수동 검증 (10회 × 9개 카테고리)
 
 ### 성능 지표
+
 - [ ] 태그 생성 시간: < 10초
 - [ ] 추천 생성 시간: < 5초
 - [ ] 채팅 응답 시간: < 3초
 - [ ] Page load: < 2초
 
 ### 비용 지표
+
 - [ ] API 호출당 평균 비용: < $0.05
 - [ ] 일일 예상 비용: < $10 (100 사용자 기준)
 
@@ -1231,12 +1313,15 @@ curl "http://localhost:3000/api/test-filesearch?category=milk_powder_port&query=
 ## 🎓 학습 포인트
 
 ### 새로운 기술
+
 1. **Gemini File Search API**
+
    - Vector Store 생성 및 관리
    - 효과적인 쿼리 작성
    - 메타데이터 필터링
 
 2. **Intent Classification**
+
    - Few-shot learning
    - Prompt engineering
    - Confidence threshold 설정
@@ -1247,12 +1332,15 @@ curl "http://localhost:3000/api/test-filesearch?category=milk_powder_port&query=
    - UI/UX 디자인
 
 ### 아키텍처 패턴
+
 1. **하이브리드 필터링**
+
    - 정량 (Spec) + 정성 (Review)
    - 2-stage 파이프라인
    - 성능 최적화
 
 2. **Tool-based Agent**
+
    - Intent → Tool 라우팅
    - Stateless 설계
    - 확장 가능한 구조
@@ -1267,12 +1355,14 @@ curl "http://localhost:3000/api/test-filesearch?category=milk_powder_port&query=
 ## 📞 Support & Contact
 
 **문제 발생 시**:
+
 1. 먼저 `MIGRATION_PLAN.md` (이 문서) 참고
 2. 각 Phase의 테스트 항목 확인
 3. 로그 확인: `npm run dev` 출력
 4. Git history 확인: `git log --oneline`
 
 **롤백 방법**:
+
 ```bash
 # 백업에서 복원
 cp -r .backup/products data/
@@ -1289,6 +1379,7 @@ git revert <commit-id>
 ## ✅ Checklist
 
 ### Pre-launch Checklist
+
 - [ ] 9개 카테고리 모두 File Search Store 생성 확인
 - [ ] 모든 Phase DoD 충족
 - [ ] 성능 지표 달성
@@ -1297,6 +1388,7 @@ git revert <commit-id>
 - [ ] 모바일 반응형 확인
 
 ### Launch Day Checklist
+
 - [ ] 환경 변수 확인 (Production)
 - [ ] 백업 완료
 - [ ] 모니터링 대시보드 준비

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { HardFilterData, ProductItem, UserSelections } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
+import DirectInputField from './DirectInputField';
 
 // "전부 좋아요" 옵션 값 (이 값을 가진 옵션이 선택되면 다른 옵션 비활성화)
 const SKIP_VALUES = ['skip', 'any', '상관없어요', '전부 좋아요', 'none', 'all'];
@@ -336,6 +337,9 @@ interface HardFilterQuestionProps {
   preselectedExplanation?: string;
   isLoadingPreselection?: boolean;
   userContext?: string | null;
+  // 직접 입력 기능
+  directInputValue?: string;
+  onDirectInputChange?: (value: string) => void;
 }
 
 /**
@@ -455,6 +459,8 @@ export function HardFilterQuestion({
   preselectedExplanation = '',
   isLoadingPreselection = false,
   userContext,
+  directInputValue = '',
+  onDirectInputChange,
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
 
@@ -683,6 +689,16 @@ export function HardFilterQuestion({
           );
         })}
       </div>
+
+      {/* 직접 입력 필드 */}
+      {onDirectInputChange && (
+        <DirectInputField
+          value={directInputValue}
+          onChange={onDirectInputChange}
+          placeholder="원하는 조건을 직접 입력해주세요"
+          filterType="hard_filter"
+        />
+      )}
 
       {/* AI 도움 바텀시트 - tipText가 있을 때만 렌더 */}
       {showAIHelper && tipText && (

@@ -533,7 +533,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       : 'text-gray-400 font-semibold hover:text-gray-600'
                   }`}
                 >
-                  {isCurrentBoth ? '둘 다 중요해요 (스킵) ✓' : '둘 다 중요해요 (스킵)'}
+                  {isCurrentBoth ? '둘 다 중요해요 (건너뛰기) ✓' : '둘 다 중요해요 (건너뛰기)'}
                 </button>
               </div>
             </motion.div>

@@ -165,6 +165,7 @@ export interface ScoredProduct extends ProductItem {
   negativeScore: number;
   hardFilterScore: number;
   budgetScore: number;
+  directInputScore: number;
   totalScore: number;
   matchedRules: string[];
   // Budget-related fields
@@ -653,4 +654,19 @@ export interface AnalysisTimeline {
   steps: TimelineStep[];
   startTime: number;
   endTime: number;
+}
+
+// ===================================================
+// 직접 입력 관련 타입
+// ===================================================
+
+/**
+ * AI 분석 결과 (직접 입력용)
+ * 사용자의 자연어 입력을 분석하여 키워드 추출 및 점수 영향도 결정
+ */
+export interface DirectInputAnalysis {
+  keywords: string[];                 // 추출된 키워드 (title/리뷰 검색용)
+  scoreImpact: number;                // 점수 영향 (+10 ~ +30)
+  type: 'preference' | 'avoidance';   // 선호/회피
+  reasoning?: string;                 // AI 분석 이유
 }

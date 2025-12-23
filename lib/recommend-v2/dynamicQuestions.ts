@@ -10,6 +10,7 @@ import type {
   RuleLogic,
   BalanceQuestion,
   NegativeFilterOption,
+  DirectInputAnalysis,
 } from '@/types/recommend-v2';
 import { DEFAULT_BALANCE_QUESTIONS } from '@/types/recommend-v2';
 import { matchesSubCategory, ENURI_CATEGORY_CODES } from '@/lib/dataSourceConfig';
@@ -849,4 +850,45 @@ export function generateConditionSummary(
   }
 
   return summaries;
+}
+
+// ===================================================
+// 직접 입력 점수 계산
+// ===================================================
+
+/**
+ * 직접 입력 분석 결과를 기반으로 제품 점수 계산
+ * - keywords가 제품 title 또는 리뷰에 포함되면 scoreImpact 적용
+ * - preference: +점수, avoidance: -점수
+ */
+export function calculateDirectInputScore(
+  product: ProductItem,
+  analysis: DirectInputAnalysis | null
+): number {
+  if (!analysis || !analysis.keywords || analysis.keywords.length === 0) {
+    return 0;
+  }
+
+  // 제품 정보에서 검색 대상 텍스트 추출
+  const searchTargets = [
+    product.title || '',
+    // spec에서 텍스트 값들 추출
+    ...Object.values(product.spec || {})
+      .filter(v => typeof v === 'string')
+      .map(v => v as string),
+  ].join(' ').toLowerCase();
+
+  // 키워드 매칭 확인
+  const hasKeyword = analysis.keywords.some(kw =>
+    searchTargets.includes(kw.toLowerCase())
+  );
+
+  if (!hasKeyword) {
+    return 0;
+  }
+
+  // 타입에 따라 점수 부여
+  return analysis.type === 'preference'
+    ? analysis.scoreImpact      // 선호: +점수
+    : -analysis.scoreImpact;    // 회피: -점수
 }

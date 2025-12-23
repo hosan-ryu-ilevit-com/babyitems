@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import type { NegativeFilterData } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { NegativeFilterAIHelperBottomSheet } from './NegativeFilterAIHelperBottomSheet';
+import DirectInputField from './DirectInputField';
 
 interface UserSelections {
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
@@ -22,6 +23,9 @@ interface NegativeFilterListProps {
   category?: string;
   categoryName?: string;
   userSelections?: UserSelections;
+  // 직접 입력 기능
+  directInputValue?: string;
+  onDirectInputChange?: (value: string) => void;
 }
 
 /**
@@ -40,6 +44,8 @@ export function NegativeFilterList({
   category = '',
   categoryName = '',
   userSelections,
+  directInputValue = '',
+  onDirectInputChange,
 }: NegativeFilterListProps) {
   const { options, selectedKeys } = data;
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
@@ -141,6 +147,16 @@ export function NegativeFilterList({
         })}
 
       </div>
+
+      {/* 직접 입력 필드 */}
+      {onDirectInputChange && (
+        <DirectInputField
+          value={directInputValue}
+          onChange={onDirectInputChange}
+          placeholder="피하고 싶은 조건을 직접 입력해주세요"
+          filterType="negative_filter"
+        />
+      )}
 
       {/* 스킵 버튼 */}
       {onSkip && (

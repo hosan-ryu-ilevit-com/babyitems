@@ -25,6 +25,7 @@ import type {
   AnalysisTimeline,
   NaturalLanguageInput,
   UserSelections,
+  DirectInputAnalysis,
 } from '@/types/recommend-v2';
 import { STEP_LABELS, CATEGORY_BUDGET_RANGES } from '@/types/recommend-v2';
 
@@ -55,6 +56,7 @@ import {
   calculateNegativeScore,
   calculateHardFilterScore,
   calculateBudgetScore,
+  calculateDirectInputScore,
   generateConditionSummary,
 } from '@/lib/recommend-v2/dynamicQuestions';
 
@@ -180,6 +182,12 @@ export default function RecommendV2Page() {
   const [balanceSelections, setBalanceSelections] = useState<Set<string>>(new Set());
   const [currentBalanceIndex, setCurrentBalanceIndex] = useState(0);
   const [negativeSelections, setNegativeSelections] = useState<string[]>([]);
+  // 직접 입력 (자연어)
+  const [hardFilterDirectInput, setHardFilterDirectInput] = useState<string>('');
+  const [negativeDirectInput, setNegativeDirectInput] = useState<string>('');
+  // 직접 입력 분석 결과
+  const [hardFilterAnalysis, setHardFilterAnalysis] = useState<DirectInputAnalysis | null>(null);
+  const [negativeAnalysis, setNegativeAnalysis] = useState<DirectInputAnalysis | null>(null);
   const [naturalLanguageInputs, setNaturalLanguageInputs] = useState<NaturalLanguageInput[]>([]);
   const [budget, setBudget] = useState<{ min: number; max: number }>({ min: 0, max: 0 });
 
@@ -1085,6 +1093,29 @@ export default function RecommendV2Page() {
     const totalQuestions = hardFilterConfig?.questions?.length || 0;
     logV2HardFilterCompleted(categoryKey, categoryName, totalQuestions, productsOverride?.length || productsRef.current.length);
 
+    // 직접 입력 분석 (입력값이 있으면 백그라운드에서 API 호출)
+    if (hardFilterDirectInput.trim().length >= 2) {
+      fetch('/api/ai-selection-helper/direct-input', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          filterType: 'hard_filter',
+          userInput: hardFilterDirectInput,
+          category: categoryKey,
+        }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.data) {
+            setHardFilterAnalysis(data.data);
+            console.log('✅ 하드필터 직접입력 분석 완료:', data.data);
+          }
+        })
+        .catch(err => {
+          console.error('하드필터 직접입력 분석 실패:', err);
+        });
+    }
+
     // Apply filters to products
     // 우선순위: 1) productsOverride (직접 전달) 2) productsRef.current (최신 상태)
     // Note: productsRef.current 사용으로 closure 문제 해결 (콜백에서 stale products 방지)
@@ -1289,7 +1320,7 @@ export default function RecommendV2Page() {
       }, true);
       // scrollToBottom 제거 - 2/5 stepTag로 이미 스크롤됨
     }, 300);
-  }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage]);
+  }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInput]);
 
   // Update ref to the latest handleHardFiltersComplete
   useEffect(() => {
@@ -1582,6 +1613,29 @@ export default function RecommendV2Page() {
     const selectedLabels = negativeSelections.map(key => negativeLabels[key] || key);
     logV2NegativeCompleted(categoryKey, categoryName, negativeSelections, selectedLabels);
 
+    // 직접 입력 분석 (입력값이 있으면 백그라운드에서 API 호출)
+    if (negativeDirectInput.trim().length >= 2) {
+      fetch('/api/ai-selection-helper/direct-input', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          filterType: 'negative_filter',
+          userInput: negativeDirectInput,
+          category: categoryKey,
+        }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.data) {
+            setNegativeAnalysis(data.data);
+            console.log('✅ 단점필터 직접입력 분석 완료:', data.data);
+          }
+        })
+        .catch(err => {
+          console.error('단점필터 직접입력 분석 실패:', err);
+        });
+    }
+
     setCurrentStep(5);
 
     // stepTag 메시지로 스크롤
@@ -1601,7 +1655,7 @@ export default function RecommendV2Page() {
       });
       setIsTransitioning(false);
     }, 300);
-  }, [isTransitioning, negativeSelections, negativeLabels, categoryKey, categoryName, addMessage, scrollToMessage]);
+  }, [isTransitioning, negativeSelections, negativeLabels, categoryKey, categoryName, addMessage, scrollToMessage, negativeDirectInput]);
 
   // ===================================================
   // Step 5: Budget & Results
@@ -1713,6 +1767,11 @@ export default function RecommendV2Page() {
         // 예산 점수 계산 (soft constraint)
         const budgetScore = calculateBudgetScore(product, budget);
 
+        // 직접 입력 점수 계산 (하드필터 + 단점필터)
+        const hardFilterDirectScore = calculateDirectInputScore(product, hardFilterAnalysis);
+        const negativeDirectScore = calculateDirectInputScore(product, negativeAnalysis);
+        const directInputScore = hardFilterDirectScore + negativeDirectScore;
+
         // 예산 초과 정보 계산
         const effectivePrice = product.lowestPrice ?? product.price ?? 0;
         const isOverBudget = effectivePrice > 0 && effectivePrice > budget.max;
@@ -1727,7 +1786,8 @@ export default function RecommendV2Page() {
           baseScore,
           negativeScore,
           budgetScore,
-          totalScore: hardFilterScore + baseScore + negativeScore + budgetScore,
+          directInputScore,
+          totalScore: hardFilterScore + baseScore + negativeScore + budgetScore + directInputScore,
           matchedRules: [...hardFilterMatches, ...matchedRules],
           isOverBudget,
           overBudgetAmount,
@@ -2083,6 +2143,9 @@ export default function RecommendV2Page() {
           negativeLabels,
           hardFilterLabels,
           hardFilterDefinitions,
+          // 직접 입력 데이터 (AI 요약에 활용)
+          hardFilterDirectInput,
+          negativeDirectInput,
           timestamp: Date.now(),
         };
         sessionStorage.setItem(`v2_result_${categoryKey}`, JSON.stringify(savedState));
@@ -2250,7 +2313,7 @@ export default function RecommendV2Page() {
     } finally {
       setIsCalculating(false);
     }
-  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, addMessage, scrollToMessage, setProgressSafe]);
+  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, hardFilterAnalysis, negativeAnalysis, hardFilterConfig, hardFilterDefinitions, hardFilterLabels, balanceLabels, negativeLabels, conditionSummary, userContext, hardFilterDirectInput, negativeDirectInput, addMessage, scrollToMessage]);
 
   // 예산 내 제품만 보기 재추천 핸들러
   const handleRestrictToBudget = useCallback(async () => {
@@ -2448,6 +2511,8 @@ export default function RecommendV2Page() {
                 preselectedExplanation={hfData.currentIndex === 0 ? preselectedExplanation : ''}
                 isLoadingPreselection={hfData.currentIndex === 0 ? isLoadingPreselection : false}
                 userContext={userContext}
+                directInputValue={hardFilterDirectInput}
+                onDirectInputChange={setHardFilterDirectInput}
               />
             </div>
           );
@@ -2528,6 +2593,8 @@ export default function RecommendV2Page() {
                 category={categoryKey}
                 categoryName={categoryName}
                 userSelections={allUserSelections}
+                directInputValue={negativeDirectInput}
+                onDirectInputChange={setNegativeDirectInput}
               />
             </div>
           );
