@@ -17,6 +17,7 @@ interface AIHelperButtonProps {
   step?: number;
   hasContext?: boolean;
   onContextRecommend?: () => void;
+  onPopularRecommend?: () => void;
 }
 
 /**
@@ -37,6 +38,7 @@ export function AIHelperButton({
   step,
   hasContext = false,
   onContextRecommend,
+  onPopularRecommend,
 }: AIHelperButtonProps) {
   const handleClick = () => {
     // 로깅 (메타데이터가 있을 때는 상세 로깅, 없을 때는 기본 버튼 클릭 로깅)
@@ -100,15 +102,40 @@ export function AIHelperButton({
             });
             onContextRecommend();
           }}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-purple-50 border border-purple-200 hover:bg-purple-100 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 transition-colors"
         >
           {/* 번개 아이콘 (빠른 추천 의미) */}
           <svg className="w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="currentColor">
             <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
           </svg>
 
-          <span className="text-xs font-semibold text-purple-700">
+          <span className="text-xs font-semibold text-gray-600">
             지금까지 입력한 내 상황에 맞춰 골라주세요
+          </span>
+        </motion.button>
+      )}
+
+      {/* 가장 많은 사람들이 구매하는 제품 추천 버튼 */}
+      {onPopularRecommend && (
+        <motion.button
+          initial={{ opacity: 0, x: -5 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.35 }}
+          onClick={() => {
+            import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
+              logButtonClick('recommend-v2', '💜 AI 도움 요청 (인기 제품)');
+            });
+            onPopularRecommend();
+          }}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 transition-colors"
+        >
+          {/* 번개 아이콘 */}
+          <svg className="w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
+          </svg>
+
+          <span className="text-xs font-semibold text-gray-600">
+            가장 많은 사람들이 구매하는게 뭔가요?
           </span>
         </motion.button>
       )}

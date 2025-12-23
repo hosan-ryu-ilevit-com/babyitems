@@ -188,8 +188,8 @@ export function HomeContent() {
               className="text-center mb-auto mt-0 w-full"
               suppressHydrationWarning
             >
-              <h1 className="text-2xl font-bold text-gray-900 mb-6 mt-6 leading-tight">
-                수천 개 아기용품 중<br />
+              <h1 className="text-3xl font-bold text-gray-900 mb-6 mt-6 leading-tight">
+                <span className="font-semibold">수천 개 아기용품 중</span><br />
                 <span 
                   className="rounded-sm"
                   style={{ 

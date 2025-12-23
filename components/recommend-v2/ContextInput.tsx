@@ -97,12 +97,10 @@ export default function ContextInput({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`bg-white space-y-4 transition-all duration-300 ${
-        isCompleted ? 'opacity-50 pointer-events-none' : ''
-      }`}
+      className="bg-white space-y-4 transition-all duration-300"
     >
       {/* 헤더 */}
       <div className="space-y-2">

@@ -30,6 +30,8 @@ interface BudgetAIHelperBottomSheetProps {
   sliderMax: number;
   onSelectBudget: (min: number, max: number) => void;
   userSelections?: UserSelections;
+  autoSubmitContext?: boolean;
+  autoSubmitText?: string;
 }
 
 interface AIResponse {
@@ -66,6 +68,8 @@ export function BudgetAIHelperBottomSheet({
   sliderMax,
   onSelectBudget,
   userSelections,
+  autoSubmitContext = false,
+  autoSubmitText,
 }: BudgetAIHelperBottomSheetProps) {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -82,11 +86,25 @@ export function BudgetAIHelperBottomSheet({
   // 바텀시트 열릴 때 예시 쿼리 생성
   useEffect(() => {
     if (isOpen) {
-      setUserInput('');
-      setAiResponse(null);
-      setError(null);
-      setShouldAutoSubmit(false); // 자동 제출 플래그 초기화
-      generateExamples();
+      if (autoSubmitText) {
+        console.log('🤖 Auto submit triggered by prop (Text):', autoSubmitText);
+        setUserInput(autoSubmitText);
+        setAiResponse(null);
+        setError(null);
+        setShouldAutoSubmit(true);
+      } else if (autoSubmitContext) {
+        console.log('🤖 Auto submit triggered by prop (Budget/Init)');
+        setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
+        setAiResponse(null);
+        setError(null);
+        setShouldAutoSubmit(true);
+      } else {
+        setUserInput('');
+        setAiResponse(null);
+        setError(null);
+        setShouldAutoSubmit(false); // 자동 제출 플래그 초기화
+        generateExamples();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
@@ -143,13 +161,8 @@ export function BudgetAIHelperBottomSheet({
         negativeSelections: userSelections?.negativeSelections?.length || 0,
       });
 
-      const baseExamples = data.examples || [
-        '첫째 아이라 좋은 거 사주고 싶어요',
-        '가성비 좋은 제품이면 충분해요',
-        '오래 쓸 거라 투자할 생각이에요',
-      ];
-      // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
-      setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
+      const apiExamples = (data.examples || []).slice(0, 3);
+      setExamples(apiExamples);
     } catch {
       // 어떤 선택이나 입력이라도 있는지 확인
       const hasContext =
@@ -158,12 +171,12 @@ export function BudgetAIHelperBottomSheet({
         (userSelections?.balanceGames && userSelections.balanceGames.length > 0) ||
         (userSelections?.negativeSelections && userSelections.negativeSelections.length > 0);
 
-      const baseExamples = [
+      const fallbackExamples = [
         '첫째 아이라 좋은 거 사주고 싶어요',
         '가성비 좋은 제품이면 충분해요',
         '오래 쓸 거라 투자할 생각이에요',
       ];
-      setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
+      setExamples(fallbackExamples);
     } finally {
       setIsLoadingExamples(false);
     }
@@ -307,7 +320,7 @@ export function BudgetAIHelperBottomSheet({
                           disabled={isLoading || !!aiResponse}
                           className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed flex items-center gap-1.5 ${
                             isContextSummary
-                              ? 'bg-purple-100 text-purple-700 hover:bg-purple-150 font-semibold'
+                              ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 font-semibold'
                               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                           }`}
                         >

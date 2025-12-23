@@ -2851,7 +2851,7 @@ export default function RecommendV2Page() {
       // 하위 카테고리 선택 완료 후 "다음" 버튼 표시
       return (
         <motion.button
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={handleSubCategoryConfirm}
           disabled={isTransitioning}
@@ -2881,7 +2881,7 @@ export default function RecommendV2Page() {
       return (
         <div className="flex gap-2">
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleGoToPreviousHardFilter}
             disabled={isTransitioning}
@@ -2894,7 +2894,7 @@ export default function RecommendV2Page() {
             이전
           </motion.button>
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleHardFilterNext}
             disabled={!canProceed || isTransitioning}
@@ -2922,7 +2922,7 @@ export default function RecommendV2Page() {
       return (
         <div className="flex gap-2">
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             disabled={isStep2Disabled}
             onClick={() => {
@@ -2964,7 +2964,7 @@ export default function RecommendV2Page() {
             이전
           </motion.button>
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleStartBalanceGame}
             disabled={isStep2Disabled}
@@ -2990,7 +2990,7 @@ export default function RecommendV2Page() {
       return (
         <div className="flex gap-2">
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             disabled={isTransitioning}
             onClick={() => {
@@ -3037,7 +3037,7 @@ export default function RecommendV2Page() {
             이전
           </motion.button>
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={() => {
               if (isTransitioning) return;
@@ -3068,7 +3068,7 @@ export default function RecommendV2Page() {
       return (
         <div className="flex gap-2">
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             disabled={isTransitioning}
             onClick={() => {
@@ -3109,7 +3109,7 @@ export default function RecommendV2Page() {
             이전
           </motion.button>
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleNegativeComplete}
             disabled={isTransitioning}
@@ -3321,7 +3321,7 @@ export default function RecommendV2Page() {
           {/* Step -1: Context Input - AnimatePresence 밖으로 (완료 후에도 유지) */}
           {/* 세션 복원 시에는 숨김 */}
           {currentStep >= -1 && !isRestoredFromStorage && (
-            <div className="mb-4">
+            <div className={`mb-4 transition-all duration-300 ${currentStep > -1 ? 'opacity-50 pointer-events-none' : ''}`}>
               <ContextInput
                 category={categoryKey}
                 categoryName={categoryName}
@@ -3470,9 +3470,9 @@ export default function RecommendV2Page() {
               {showReRecommendModal && (
                 <div className="fixed bottom-24 left-0 right-0 flex flex-col items-center gap-3 z-[110] px-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 0 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
+                    exit={{ opacity: 0, y: 0 }}
                     transition={{ type: 'spring', damping: 25, stiffness: 300 }}
                     className="flex flex-col gap-3 w-full"
                   >
@@ -3597,9 +3597,9 @@ export default function RecommendV2Page() {
                 onClick={() => setShowBackModal(false)}
               />
               <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                initial={{ opacity: 0, scale: 0.95, y: 0 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                exit={{ opacity: 0, scale: 0.95, y: 0 }}
                 className="fixed inset-0 flex items-center justify-center z-[210] px-4"
               >
                 <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">

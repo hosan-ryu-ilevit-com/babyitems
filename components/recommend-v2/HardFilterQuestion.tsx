@@ -51,12 +51,25 @@ function ReviewPriorityTags({
   const [expandedTag, setExpandedTag] = useState<string | null>(null);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+  const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
 
   // 컨텍스트 정보가 있는지 확인
   const hasContext = !!userContext || 
     (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
     (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
     (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
+  const handleContextRecommend = () => {
+    setAiHelperAutoSubmitText(undefined);
+    setIsAIHelperAutoSubmit(true);
+    setIsAIHelperOpen(true);
+  };
+
+  const handlePopularRecommend = () => {
+    setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
+    setIsAIHelperAutoSubmit(false);
+    setIsAIHelperOpen(true);
+  };
 
   // 랜덤 offset (0~50, 컴포넌트 마운트 시 한 번만 생성)
   const [randomOffset] = useState(() => Math.floor(Math.random() * 51));
@@ -133,7 +146,7 @@ function ReviewPriorityTags({
 
       {/* 메인 질문 - 순차적 페이드인 */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.5 }}
         className="space-y-3"
@@ -188,10 +201,8 @@ function ReviewPriorityTags({
             categoryName={categoryName}
             step={currentIndex}
             hasContext={hasContext}
-            onContextRecommend={() => {
-              setIsAIHelperAutoSubmit(true);
-              setIsAIHelperOpen(true);
-            }}
+            onContextRecommend={handleContextRecommend}
+            onPopularRecommend={handlePopularRecommend}
           />
         )}
 
@@ -302,6 +313,7 @@ function ReviewPriorityTags({
           onClose={() => {
             setIsAIHelperOpen(false);
             setIsAIHelperAutoSubmit(false);
+            setAiHelperAutoSubmitText(undefined);
           }}
           questionType="hard_filter"
           questionId={question.id}
@@ -316,6 +328,7 @@ function ReviewPriorityTags({
           userSelections={userSelections}
           onNaturalLanguageInput={onNaturalLanguageInput}
           autoSubmitContext={isAIHelperAutoSubmit}
+          autoSubmitText={aiHelperAutoSubmitText}
         />
       )}
     </motion.div>
@@ -494,12 +507,25 @@ export function HardFilterQuestion({
   // AI 도움 바텀시트 상태
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+  const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
 
   // 컨텍스트 정보가 있는지 확인
   const hasContext = !!userContext || 
     (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
     (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
     (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
+  const handleContextRecommend = () => {
+    setAiHelperAutoSubmitText(undefined);
+    setIsAIHelperAutoSubmit(true);
+    setIsAIHelperOpen(true);
+  };
+
+  const handlePopularRecommend = () => {
+    setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
+    setIsAIHelperAutoSubmit(false);
+    setIsAIHelperOpen(true);
+  };
 
   // 부모에서 전달받은 값이 변경되면 동기화
   useEffect(() => {
@@ -576,7 +602,7 @@ export function HardFilterQuestion({
   return (
     <motion.div
       key={question.id}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
@@ -615,10 +641,8 @@ export function HardFilterQuestion({
           categoryName={categoryName}
           step={currentIndex}
           hasContext={hasContext}
-          onContextRecommend={() => {
-            setIsAIHelperAutoSubmit(true);
-            setIsAIHelperOpen(true);
-          }}
+          onContextRecommend={handleContextRecommend}
+          onPopularRecommend={handlePopularRecommend}
         />
       )}
 
@@ -653,7 +677,7 @@ export function HardFilterQuestion({
           return (
             <motion.button
               key={option.value}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.02 }}
               onClick={() => handleOptionClick(option.value)}
@@ -742,6 +766,7 @@ export function HardFilterQuestion({
           onClose={() => {
             setIsAIHelperOpen(false);
             setIsAIHelperAutoSubmit(false);
+            setAiHelperAutoSubmitText(undefined);
           }}
           questionType="hard_filter"
           questionId={question.id}
@@ -757,6 +782,7 @@ export function HardFilterQuestion({
           userSelections={userSelections}
           onNaturalLanguageInput={onNaturalLanguageInput}
           autoSubmitContext={isAIHelperAutoSubmit}
+          autoSubmitText={aiHelperAutoSubmitText}
         />
       )}
     </motion.div>

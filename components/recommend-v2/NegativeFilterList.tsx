@@ -54,6 +54,7 @@ export function NegativeFilterList({
   const { options, selectedKeys } = data;
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+  const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
 
   // 컨텍스트 정보가 있는지 확인
   const hasContext = 
@@ -61,9 +62,21 @@ export function NegativeFilterList({
     (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
     (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
 
+  const handleContextRecommend = () => {
+    setAiHelperAutoSubmitText(undefined);
+    setIsAIHelperAutoSubmit(true);
+    setIsAIHelperOpen(true);
+  };
+
+  const handlePopularRecommend = () => {
+    setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
+    setIsAIHelperAutoSubmit(false);
+    setIsAIHelperOpen(true);
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-3"
@@ -87,35 +100,21 @@ export function NegativeFilterList({
 
       {/* AI 도움받기 버튼 */}
       {showAIHelper && (
-        <>
-          <AIHelperButton
-            onClick={() => setIsAIHelperOpen(true)}
-            questionType="negative"
-            questionId="negative_filter"
-            questionText="이것만큼은 절대 안 된다! 피하고 싶은 단점이 있나요?"
-            category={category}
-            categoryName={categoryName}
-            hasContext={hasContext}
-            onContextRecommend={() => {
-              setIsAIHelperAutoSubmit(true);
-              setIsAIHelperOpen(true);
-            }}
-          />
-
-          <NegativeFilterAIHelperBottomSheet
-            isOpen={isAIHelperOpen}
-            onClose={() => {
-              setIsAIHelperOpen(false);
-              setIsAIHelperAutoSubmit(false);
-            }}
-            options={options}
-            category={category}
-            categoryName={categoryName}
-            onSelectOptions={onToggle}
-            userSelections={userSelections}
-            autoSubmitContext={isAIHelperAutoSubmit}
-          />
-        </>
+        <AIHelperButton
+          onClick={() => {
+            setAiHelperAutoSubmitText(undefined);
+            setIsAIHelperAutoSubmit(false);
+            setIsAIHelperOpen(true);
+          }}
+          questionType="negative"
+          questionId="negative_filter"
+          questionText="이것만큼은 절대 안 된다! 피하고 싶은 단점이 있나요?"
+          category={category}
+          categoryName={categoryName}
+          hasContext={hasContext}
+          onContextRecommend={handleContextRecommend}
+          onPopularRecommend={handlePopularRecommend}
+        />
       )}
 
       {/* 옵션 목록 */}
@@ -127,7 +126,7 @@ export function NegativeFilterList({
           return (
             <motion.button
               key={option.id}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.03 }}
               onClick={() => {
@@ -208,11 +207,17 @@ export function NegativeFilterList({
       {showAIHelper && (
         <NegativeFilterAIHelperBottomSheet
           isOpen={isAIHelperOpen}
-          onClose={() => setIsAIHelperOpen(false)}
+          onClose={() => {
+            setIsAIHelperOpen(false);
+            setIsAIHelperAutoSubmit(false);
+            setAiHelperAutoSubmitText(undefined);
+          }}
           options={options}
           category={category}
           categoryName={categoryName}
           userSelections={userSelections}
+          autoSubmitContext={isAIHelperAutoSubmit}
+          autoSubmitText={aiHelperAutoSubmitText}
           onSelectOptions={(selectedRuleKeys) => {
             // 먼저 현재 선택된 것들을 모두 해제
             selectedKeys.forEach(key => {

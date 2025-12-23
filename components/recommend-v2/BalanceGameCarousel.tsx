@@ -80,6 +80,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
     const [direction, setDirection] = useState(1); // 1: next, -1: previous
     const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
     const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+    const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
     const isTransitioningRef = useRef(false); // 자동 이동 중 클릭 방지 (ref 사용으로 리렌더링 방지)
     const [appliedPreselections, setAppliedPreselections] = useState<Set<string>>(new Set()); // 이미 적용된 미리 선택
 
@@ -312,6 +313,18 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
       }
     };
 
+    const handleContextRecommend = () => {
+      setAiHelperAutoSubmitText(undefined);
+      setIsAIHelperAutoSubmit(true);
+      setIsAIHelperOpen(true);
+    };
+
+    const handlePopularRecommend = () => {
+      setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
+      setIsAIHelperAutoSubmit(false);
+      setIsAIHelperOpen(true);
+    };
+
     // 상태 변경 시 부모에 알림
     useEffect(() => {
       // 단일 선택 + "둘 다" 선택 모두 포함
@@ -339,7 +352,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         className="space-y-3"
       >
@@ -413,7 +426,11 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
               {showAIHelper && (
                 <div className="mb-3">
                   <AIHelperButton
-                    onClick={() => setIsAIHelperOpen(true)}
+                    onClick={() => {
+                      setAiHelperAutoSubmitText(undefined);
+                      setIsAIHelperAutoSubmit(false);
+                      setIsAIHelperOpen(true);
+                    }}
                     questionType="balance_game"
                     questionId={currentQuestion.id}
                     questionText={currentQuestion.title}
@@ -421,10 +438,8 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                     categoryName={categoryName}
                     step={currentIndex}
                     hasContext={hasContext}
-                    onContextRecommend={() => {
-                      setIsAIHelperAutoSubmit(true);
-                      setIsAIHelperOpen(true);
-                    }}
+                    onContextRecommend={handleContextRecommend}
+                    onPopularRecommend={handlePopularRecommend}
                   />
                 </div>
               )}
@@ -609,6 +624,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             onClose={() => {
               setIsAIHelperOpen(false);
               setIsAIHelperAutoSubmit(false);
+              setAiHelperAutoSubmitText(undefined);
             }}
             questionType="balance_game"
             questionId={currentQuestion.id}
@@ -623,6 +639,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             userSelections={userSelections}
             onNaturalLanguageInput={onNaturalLanguageInput}
             autoSubmitContext={isAIHelperAutoSubmit}
+            autoSubmitText={aiHelperAutoSubmitText}
           />
         )}
       </motion.div>

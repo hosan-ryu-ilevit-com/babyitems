@@ -24,6 +24,7 @@ interface NegativeFilterAIHelperBottomSheetProps {
   onSelectOptions: (selectedRuleKeys: string[]) => void;
   userSelections?: UserSelections;
   autoSubmitContext?: boolean;
+  autoSubmitText?: string;
 }
 
 interface AIResponse {
@@ -55,6 +56,7 @@ export function NegativeFilterAIHelperBottomSheet({
   onSelectOptions,
   userSelections,
   autoSubmitContext = false,
+  autoSubmitText,
 }: NegativeFilterAIHelperBottomSheetProps) {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +71,13 @@ export function NegativeFilterAIHelperBottomSheet({
   // 바텀시트 열릴 때 예시 쿼리 생성
   useEffect(() => {
     if (isOpen) {
-      if (autoSubmitContext) {
+      if (autoSubmitText) {
+        console.log('🤖 Auto submit triggered by prop (Text):', autoSubmitText);
+        setUserInput(autoSubmitText);
+        setAiResponse(null);
+        setError(null);
+        setShouldAutoSubmit(true);
+      } else if (autoSubmitContext) {
         console.log('🤖 Auto submit triggered by prop (Negative/Init)');
         setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
         setAiResponse(null);
@@ -141,11 +149,9 @@ export function NegativeFilterAIHelperBottomSheet({
         balanceGames: userSelections?.balanceGames?.length || 0,
       });
 
-      // 첫 번째는 고정, 나머지 2개는 API에서 (상황 기반 예시)
-      const apiExamples = (data.examples || []).slice(0, 2);
-      const baseExamples = [FIXED_FIRST_EXAMPLE, ...apiExamples];
-      // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
-      setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
+      // API에서 3개 가져오기 (고정 예시 제거)
+      const apiExamples = (data.examples || []).slice(0, 3);
+      setExamples(apiExamples);
     } catch {
       // 어떤 선택이나 입력이라도 있는지 확인
       const hasContext =
@@ -153,13 +159,13 @@ export function NegativeFilterAIHelperBottomSheet({
         (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
         (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
 
-      // Fallback: 사용자 상황 기반 예시 (상품 단점이 아님)
-      const baseExamples = [
-        FIXED_FIRST_EXAMPLE,
+      // Fallback: 사용자 상황 기반 예시
+      const fallbackExamples = [
         '맞벌이라 시간이 부족해요',
         '집이 좁은 편이에요',
+        '아이가 예민한 편이에요',
       ];
-      setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
+      setExamples(fallbackExamples);
     } finally {
       setIsLoadingExamples(false);
     }
@@ -351,7 +357,7 @@ export function NegativeFilterAIHelperBottomSheet({
                           disabled={isLoading || !!aiResponse}
                           className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed flex items-center gap-1.5 ${
                             isContextSummary
-                              ? 'bg-purple-100 text-purple-700 hover:bg-purple-150 font-semibold'
+                              ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 font-semibold'
                               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                           }`}
                         >

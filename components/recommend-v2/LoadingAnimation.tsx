@@ -33,7 +33,7 @@ export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationPr
     <div className="w-full">
       <motion.div
         ref={calculatingRef}
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full py-8 flex flex-col items-center"
       >

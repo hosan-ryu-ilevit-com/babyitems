@@ -32,7 +32,8 @@ interface AIHelperBottomSheetProps {
   onSelectOptions: (selectedOptions: string[]) => void;
   userSelections?: UserSelections;
   onNaturalLanguageInput?: (stage: string, input: string) => void;
-  autoSubmitContext?: boolean;
+  autoSubmitContext?: boolean; // 하위 호환성을 위해 유지
+  autoSubmitText?: string; // 새로 추가된 prop
 }
 
 interface AIResponse {
@@ -69,6 +70,7 @@ export function AIHelperBottomSheet({
   userSelections,
   onNaturalLanguageInput,
   autoSubmitContext = false,
+  autoSubmitText,
 }: AIHelperBottomSheetProps) {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -120,11 +122,9 @@ export function AIHelperBottomSheet({
         // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
         setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       } else {
-        // 다른 타입: 첫 번째는 고정, 나머지 2개는 API에서
-        const apiExamples = (data.examples || []).slice(0, 2);
-        const baseExamples = [FIXED_FIRST_EXAMPLE, ...apiExamples];
-        // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
-        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
+        // 다른 타입: API에서 3개 가져오기 (고정 예시 제거)
+        const apiExamples = (data.examples || []).slice(0, 3);
+        setExamples(apiExamples);
       }
     } catch {
       // 어떤 선택이나 입력이라도 있는지 확인
@@ -147,12 +147,12 @@ export function AIHelperBottomSheet({
         ];
         setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       } else {
-        const baseExamples = [
-          FIXED_FIRST_EXAMPLE,
+        const fallbackExamples = [
           '쌍둥이라 자주 사용해요',
           '맞벌이라 시간이 부족해요',
+          '집이 좁은 편이에요',
         ];
-        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
+        setExamples(fallbackExamples);
       }
     } finally {
       setIsLoadingExamples(false);
@@ -162,8 +162,14 @@ export function AIHelperBottomSheet({
   // 바텀시트 열릴 때 예시 쿼리 생성
   useEffect(() => {
     if (isOpen) {
-      if (autoSubmitContext) {
-        console.log('🤖 Auto submit triggered by prop (Initialization)');
+      if (autoSubmitText) {
+        console.log('🤖 Auto submit triggered by prop (Text):', autoSubmitText);
+        setUserInput(autoSubmitText);
+        setAiResponse(null);
+        setError(null);
+        setShouldAutoSubmit(true);
+      } else if (autoSubmitContext) {
+        console.log('🤖 Auto submit triggered by prop (Context)');
         setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
         setAiResponse(null);
         setError(null);
@@ -443,7 +449,7 @@ export function AIHelperBottomSheet({
                                 disabled={isLoading || !!aiResponse}
                                 className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed whitespace-nowrap flex items-center gap-1.5 ${
                                   isContextSummary
-                                    ? 'bg-purple-100 text-purple-700 hover:bg-purple-150 font-semibold'
+                                    ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 font-semibold'
                                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                 }`}
                               >
@@ -498,7 +504,7 @@ export function AIHelperBottomSheet({
                             disabled={isLoading || !!aiResponse}
                             className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed flex items-center gap-1.5 ${
                               isContextSummary
-                                ? 'bg-purple-100 text-purple-700 hover:bg-purple-150 font-semibold'
+                                ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 font-semibold'
                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                           >

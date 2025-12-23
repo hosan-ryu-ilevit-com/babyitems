@@ -1111,7 +1111,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
       className="space-y-4"
@@ -1153,7 +1153,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         return (
           <motion.div
             key={product.pcode}
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 + index * 0.4, duration: 0.5, ease: 'easeOut' }}
             onClick={() => handleProductClick(product, index)}
@@ -1462,7 +1462,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       {/* 상세 비교표 */}
       {recommendations.length > 0 && (
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8, duration: 0.5, ease: 'easeOut' }}
           className="mt-6"

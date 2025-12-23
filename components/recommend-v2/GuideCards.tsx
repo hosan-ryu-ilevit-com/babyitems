@@ -313,7 +313,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
       {/* 인트로 메시지 - AssistantMessage 스타일과 동일하게 (스트리밍) */}
       {introMessage && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
           className="w-full mb-4"
@@ -596,9 +596,9 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
       <AnimatePresence>
         {isActive && showFloatingButton && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
+            exit={{ opacity: 0, y: 0 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
             className="fixed bottom-0 left-0 right-0 z-50"
           >

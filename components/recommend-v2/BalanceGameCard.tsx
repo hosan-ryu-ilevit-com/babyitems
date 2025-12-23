@@ -40,12 +40,25 @@ export function BalanceGameCard({
   // AI 도움 바텀시트 상태
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+  const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
 
   // 컨텍스트 정보가 있는지 확인
   const hasContext = 
     (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
     (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
     (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+
+  const handleContextRecommend = () => {
+    setAiHelperAutoSubmitText(undefined);
+    setIsAIHelperAutoSubmit(true);
+    setIsAIHelperOpen(true);
+  };
+
+  const handlePopularRecommend = () => {
+    setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
+    setIsAIHelperAutoSubmit(false);
+    setIsAIHelperOpen(true);
+  };
 
   // AI 추천 결과 처리
   const handleAISelectOptions = (selectedOptions: string[]) => {
@@ -62,7 +75,7 @@ export function BalanceGameCard({
   return (
     <motion.div
       key={question.id}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
@@ -86,7 +99,11 @@ export function BalanceGameCard({
       {/* AI 도움받기 버튼 */}
       {showAIHelper && (
         <AIHelperButton
-          onClick={() => setIsAIHelperOpen(true)}
+          onClick={() => {
+            setAiHelperAutoSubmitText(undefined);
+            setIsAIHelperAutoSubmit(false);
+            setIsAIHelperOpen(true);
+          }}
           questionType="balance_game"
           questionId={question.id}
           questionText={question.title}
@@ -94,10 +111,8 @@ export function BalanceGameCard({
           categoryName={categoryName}
           step={currentIndex}
           hasContext={hasContext}
-          onContextRecommend={() => {
-            setIsAIHelperAutoSubmit(true);
-            setIsAIHelperOpen(true);
-          }}
+          onContextRecommend={handleContextRecommend}
+          onPopularRecommend={handlePopularRecommend}
         />
       )}
 
@@ -162,6 +177,7 @@ export function BalanceGameCard({
           onClose={() => {
             setIsAIHelperOpen(false);
             setIsAIHelperAutoSubmit(false);
+            setAiHelperAutoSubmitText(undefined);
           }}
           questionType="balance_game"
           questionId={question.id}
@@ -175,6 +191,7 @@ export function BalanceGameCard({
           onSelectOptions={handleAISelectOptions}
           userSelections={userSelections}
           autoSubmitContext={isAIHelperAutoSubmit}
+          autoSubmitText={aiHelperAutoSubmitText}
         />
       )}
     </motion.div>

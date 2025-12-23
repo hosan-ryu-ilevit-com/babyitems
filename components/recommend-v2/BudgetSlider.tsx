@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { ProductItem } from '@/types/recommend-v2';
 import { BudgetAIHelperBottomSheet } from './BudgetAIHelperBottomSheet';
+import { AIHelperButton } from './AIHelperButton';
 
 interface UserSelections {
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
@@ -74,6 +75,8 @@ export function BudgetSlider({
   const [minInputValue, setMinInputValue] = useState('');
   const [maxInputValue, setMaxInputValue] = useState('');
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+  const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+  const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
   const trackRef = useRef<HTMLDivElement>(null);
   const minInputRef = useRef<HTMLInputElement>(null);
   const maxInputRef = useRef<HTMLInputElement>(null);
@@ -317,9 +320,21 @@ export function BudgetSlider({
     onChange({ min: aiMin, max: aiMax });
   };
 
+  const handleContextRecommend = () => {
+    setAiHelperAutoSubmitText(undefined);
+    setIsAIHelperAutoSubmit(true);
+    setIsAIHelperOpen(true);
+  };
+
+  const handlePopularRecommend = () => {
+    setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
+    setIsAIHelperAutoSubmit(false);
+    setIsAIHelperOpen(true);
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-4"
     >
@@ -341,21 +356,22 @@ export function BudgetSlider({
 
       {/* AI 도움 버튼 */}
       {showAIHelper && (
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          onClick={() => setIsAIHelperOpen(true)}
-          className="w-full flex items-center justify-center gap-2 px-3 py-3 bg-purple-50 hover:bg-purple-100 border border-purple-300 hover:border-purple-400 rounded-xl transition-all"
-        >
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="#8B5CF6">
-            <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-          </svg>
-          <span className="text-sm font-semibold text-purple-700">
-            어떤 예산이 좋은지 모르겠어요
-          </span>
-
-        </motion.button>
+        <AIHelperButton
+          onClick={() => {
+            setAiHelperAutoSubmitText(undefined);
+            setIsAIHelperAutoSubmit(false);
+            setIsAIHelperOpen(true);
+          }}
+          label="어떤 예산이 좋은지 모르겠어요"
+          questionType="budget"
+          questionId="budget_slider"
+          questionText="생각해 둔 예산이 있나요?"
+          category={category}
+          categoryName={categoryName}
+          hasContext={!!userSelections?.naturalLanguageInputs?.length || !!userSelections?.hardFilters?.length || !!userSelections?.balanceGames?.length}
+          onContextRecommend={handleContextRecommend}
+          onPopularRecommend={handlePopularRecommend}
+        />
       )}
 
       {/* 히스토그램 + 슬라이더 */}
@@ -525,7 +541,11 @@ export function BudgetSlider({
       {showAIHelper && (
         <BudgetAIHelperBottomSheet
           isOpen={isAIHelperOpen}
-          onClose={() => setIsAIHelperOpen(false)}
+          onClose={() => {
+            setIsAIHelperOpen(false);
+            setIsAIHelperAutoSubmit(false);
+            setAiHelperAutoSubmitText(undefined);
+          }}
           category={category}
           categoryName={categoryName}
           priceRangeInfo={priceRangeInfo}
@@ -536,6 +556,8 @@ export function BudgetSlider({
           sliderMax={max}
           onSelectBudget={handleAIBudgetSelect}
           userSelections={userSelections}
+          autoSubmitContext={isAIHelperAutoSubmit}
+          autoSubmitText={aiHelperAutoSubmitText}
         />
       )}
     </motion.div>

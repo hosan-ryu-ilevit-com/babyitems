@@ -38,6 +38,7 @@ export function SubCategorySelector({
   category = '',
 }: SubCategorySelectorProps) {
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+  const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
 
   // AI 추천 결과 처리 (다중 선택 지원)
   const handleAISelectOptions = (selectedOptions: string[]) => {
@@ -49,9 +50,14 @@ export function SubCategorySelector({
     });
   };
 
+  const handlePopularRecommend = () => {
+    setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
+    setIsAIHelperOpen(true);
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-4"
@@ -78,12 +84,16 @@ export function SubCategorySelector({
       {/* AI 도움받기 버튼 - dynamicTip이 있을 때만 표시 */}
       {showAIHelper && dynamicTip && (
         <AIHelperButton
-          onClick={() => setIsAIHelperOpen(true)}
+          onClick={() => {
+            setAiHelperAutoSubmitText(undefined);
+            setIsAIHelperOpen(true);
+          }}
           questionType="hard_filter"
           questionId="subcategory_selector"
           questionText={`어떤 ${categoryName}를 찾으세요?`}
           category={category}
           categoryName={categoryName}
+          onPopularRecommend={handlePopularRecommend}
         />
       )}
 
@@ -121,7 +131,10 @@ export function SubCategorySelector({
       {showAIHelper && dynamicTip && (
         <AIHelperBottomSheet
           isOpen={isAIHelperOpen}
-          onClose={() => setIsAIHelperOpen(false)}
+          onClose={() => {
+            setIsAIHelperOpen(false);
+            setAiHelperAutoSubmitText(undefined);
+          }}
           questionType="hard_filter"
           questionId={`subcategory_${category}`}
           questionText={`어떤 ${categoryName}를 찾으세요?`}
@@ -130,6 +143,7 @@ export function SubCategorySelector({
           categoryName={categoryName}
           tipText={dynamicTip}
           onSelectOptions={handleAISelectOptions}
+          autoSubmitText={aiHelperAutoSubmitText}
         />
       )}
     </motion.div>
