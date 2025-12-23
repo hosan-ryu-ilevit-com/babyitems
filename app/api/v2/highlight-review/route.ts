@@ -4,12 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { callGeminiWithRetry } from '@/lib/ai/gemini';
-import { GoogleGenAI } from '@google/genai';
-
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) throw new Error('GEMINI_API_KEY is required');
-const ai = new GoogleGenAI({ apiKey });
+import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
 
 interface HighlightRequest {
   reviews: Array<{
@@ -42,7 +37,7 @@ export async function POST(request: NextRequest) {
 
 ## 규칙
 1. 해당 속성과 **직접 관련된 문장 1개**를 찾으세요 (문장 = 마침표/느낌표/물음표로 끝나는 단위)
-2. 핵심 문장 앞뒤로 각 1문장씩 포함해서 발췌 (총 2-3문장)
+2. 핵심 문장 앞뒤로 각 1문장씩 포함해서 발췌 (총 2-3문장, 앞뒤 문장이 없다면 무시)
 3. 앞뒤에 "..."를 붙여 생략 표시
 4. **핵심 문장 전체**를 볼드로 감싸세요 (단어가 아닌 문장!)
 5. 관련 내용이 없으면 가장 연관된 부분 발췌
@@ -60,15 +55,9 @@ ${reviews.map((r, i) => `[${i + 1}] 속성: "${r.criteriaName}"
 [{"index": 1, "excerpt": "...발췌문..."}]`;
 
     const response = await callGeminiWithRetry(async () => {
-      // Use Gemini 3 Flash for better highlighting quality
-      const result = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: prompt,
-        config: {
-          temperature: 0.2, // 낮은 temperature로 일관된 발췌
-        },
-      });
-      return result.text || '';
+      const model = getModel(0.2); // 낮은 temperature로 일관된 발췌
+      const result = await model.generateContent(prompt);
+      return result.response.text();
     }, 2, 1000);
 
     // JSON 파싱
