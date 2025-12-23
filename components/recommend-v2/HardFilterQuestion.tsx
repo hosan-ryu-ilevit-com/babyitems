@@ -25,6 +25,9 @@ function ReviewPriorityTags({
   products = [],
   userSelections,
   onNaturalLanguageInput,
+  preselectedTags = [],
+  preselectedExplanation = '',
+  userContext,
 }: {
   question: HardFilterData['question'];
   selectedValues: string[];
@@ -38,11 +41,39 @@ function ReviewPriorityTags({
   products?: ProductItem[];
   userSelections?: UserSelections;
   onNaturalLanguageInput?: (stage: string, input: string) => void;
+  preselectedTags?: string[];
+  preselectedExplanation?: string;
+  userContext?: string | null;
 }) {
   const [expandedTag, setExpandedTag] = useState<string | null>(null);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   // 랜덤 offset (0~50, 컴포넌트 마운트 시 한 번만 생성)
   const [randomOffset] = useState(() => Math.floor(Math.random() * 51));
+  // 미리 선택 적용 여부 추적
+  const [hasAppliedPreselection, setHasAppliedPreselection] = useState(false);
+
+  // 미리 선택 적용 (첫 렌더링 시 한 번만)
+  useEffect(() => {
+    if (hasAppliedPreselection) return;
+    if (!preselectedTags || preselectedTags.length === 0) return;
+    if (selectedValues.length > 0) return; // 이미 선택된 값이 있으면 스킵
+
+    // 옵션 값과 태그 키 매핑 (체감속성_ 제외한 부분으로 비교)
+    const matchingValues: string[] = [];
+    for (const option of question.options) {
+      const optionValue = option.value;
+      // 태그 키가 체감속성_xxx_yyy 형식일 때, option.value도 체감속성_xxx_yyy 형식인지 확인
+      if (preselectedTags.includes(optionValue)) {
+        matchingValues.push(optionValue);
+      }
+    }
+
+    if (matchingValues.length > 0) {
+      setHasAppliedPreselection(true);
+      onSelect(matchingValues);
+      console.log('🎯 Applied preselected experience tags:', matchingValues);
+    }
+  }, [preselectedTags, question.options, selectedValues, hasAppliedPreselection, onSelect]);
 
   // 전체 리뷰 개수 계산 (products의 reviewCount 합계 + 랜덤 offset)
   const totalReviewCount = useMemo(() => {
@@ -152,6 +183,33 @@ function ReviewPriorityTags({
             categoryName={categoryName}
             step={currentIndex}
           />
+        )}
+
+        {/* 미리 선택 설명 (AI 생성) */}
+        {userContext && hasAppliedPreselection && selectedValues.length > 0 && preselectedExplanation && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-4"
+          >
+            <div className="flex items-start gap-3">
+              <span className="text-lg">✨</span>
+              <div className="flex-1 text-sm">
+                <div className="text-purple-800 leading-relaxed">
+                  {/* **bold** 마크다운을 실제 볼드로 변환 */}
+                  {preselectedExplanation.split(/(\*\*[^*]+\*\*)/g).map((part, i) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                      return <strong key={i} className="text-purple-600">{part.slice(2, -2)}</strong>;
+                    }
+                    return part;
+                  })}
+                </div>
+                <div className="text-gray-500 text-xs mt-2">
+                  원하시면 아래에서 직접 변경하실 수 있어요
+                </div>
+              </div>
+            </div>
+          </motion.div>
         )}
       </motion.div>
 
@@ -287,6 +345,10 @@ interface HardFilterQuestionProps {
   // 이전 선택 정보 (AI Helper용)
   userSelections?: UserSelections;
   onNaturalLanguageInput?: (stage: string, input: string) => void;
+  // 미리 선택된 체감속성 태그 (Step -1 컨텍스트 입력 기반)
+  preselectedTags?: string[];
+  preselectedExplanation?: string;
+  userContext?: string | null;
 }
 
 /**
@@ -402,6 +464,9 @@ export function HardFilterQuestion({
   thumbnailProducts = [],
   userSelections,
   onNaturalLanguageInput,
+  preselectedTags = [],
+  preselectedExplanation = '',
+  userContext,
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
 
@@ -478,6 +543,9 @@ export function HardFilterQuestion({
         products={products}
         userSelections={userSelections}
         onNaturalLanguageInput={onNaturalLanguageInput}
+        preselectedTags={preselectedTags}
+        preselectedExplanation={preselectedExplanation}
+        userContext={userContext}
       />
     );
   }

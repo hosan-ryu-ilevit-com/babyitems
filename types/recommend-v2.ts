@@ -596,6 +596,8 @@ export interface UserSelections {
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
   balanceGames?: Array<{ title: string; selectedOption: string }>;
   naturalLanguageInputs?: NaturalLanguageInput[];
+  // 초기 컨텍스트 입력 (Step -1)
+  initialContext?: string;
 }
 
 /**

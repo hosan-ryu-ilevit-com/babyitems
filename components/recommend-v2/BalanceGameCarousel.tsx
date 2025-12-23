@@ -41,6 +41,12 @@ interface BalanceGameCarouselProps {
   // 이전 선택 정보 (AI Helper용)
   userSelections?: UserSelections;
   onNaturalLanguageInput?: (stage: string, input: string) => void;
+  // 컨텍스트 입력에서 AI가 미리 선택한 답변
+  preselectedAnswers?: Record<string, 'A' | 'B' | 'both'>;
+  // 미리 선택 변경 콜백
+  onPreselectionChanged?: (questionId: string, from: string, to: string) => void;
+  // 사용자가 입력한 컨텍스트 (설명 표시용)
+  userContext?: string | null;
 }
 
 /**
@@ -66,7 +72,7 @@ const slideVariants = {
 };
 
 export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGameCarouselProps>(
-  function BalanceGameCarousel({ questions, onComplete, onStateChange, onSelectionMade, showAIHelper = false, category = '', categoryName = '', userSelections, onNaturalLanguageInput }, ref) {
+  function BalanceGameCarousel({ questions, onComplete, onStateChange, onSelectionMade, showAIHelper = false, category = '', categoryName = '', userSelections, onNaturalLanguageInput, preselectedAnswers, onPreselectionChanged, userContext }, ref) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selections, setSelections] = useState<Map<string, string>>(new Map());
     const [bothSelections, setBothSelections] = useState<Map<string, [string, string]>>(new Map()); // "둘 다 중요해요" 선택
@@ -74,11 +80,52 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
     const [direction, setDirection] = useState(1); // 1: next, -1: previous
     const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
     const isTransitioningRef = useRef(false); // 자동 이동 중 클릭 방지 (ref 사용으로 리렌더링 방지)
+    const [appliedPreselections, setAppliedPreselections] = useState<Set<string>>(new Set()); // 이미 적용된 미리 선택
+    const preselectionAppliedRef = useRef(false); // 미리 선택 적용 여부 추적
 
     const currentQuestion = questions[currentIndex];
     const isLastQuestion = currentIndex >= questions.length - 1;
     const isCurrentSkipped = skipped.has(currentQuestion?.id);
     const isCurrentBoth = bothSelections.has(currentQuestion?.id);
+
+    // 미리 선택 적용 (preselectedAnswers가 변경될 때마다 체크)
+    useEffect(() => {
+      if (!preselectedAnswers || Object.keys(preselectedAnswers).length === 0) return;
+      if (preselectionAppliedRef.current) return; // 이미 적용됨
+      if (questions.length === 0) return; // 질문이 없으면 스킵
+
+      const newSelections = new Map<string, string>();
+      const newBothSelections = new Map<string, [string, string]>();
+      const newApplied = new Set<string>();
+
+      for (const question of questions) {
+        const preselection = preselectedAnswers[question.id];
+        if (!preselection) continue;
+
+        if (preselection === 'A') {
+          newSelections.set(question.id, question.option_A.target_rule_key);
+          newApplied.add(question.id);
+        } else if (preselection === 'B') {
+          newSelections.set(question.id, question.option_B.target_rule_key);
+          newApplied.add(question.id);
+        } else if (preselection === 'both') {
+          newBothSelections.set(question.id, [
+            question.option_A.target_rule_key,
+            question.option_B.target_rule_key,
+          ]);
+          newApplied.add(question.id);
+        }
+      }
+
+      if (newApplied.size > 0) {
+        preselectionAppliedRef.current = true;
+        setSelections(newSelections);
+        setBothSelections(newBothSelections);
+        setAppliedPreselections(newApplied);
+        console.log('🎯 Applied preselections:', Object.fromEntries(newSelections));
+        console.log('🎯 Applied both selections:', Object.fromEntries(newBothSelections));
+      }
+    }, [preselectedAnswers, questions]);
 
     // 인덱스 변경 함수 (방향을 먼저 설정하여 애니메이션 방향 보장)
     const goToIndex = (newIndex: number) => {
@@ -112,6 +159,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
       const newSelections = new Map(selections);
       const wasAlreadySelected = selections.get(questionId) === ruleKey;
+      const previousSelection = selections.get(questionId);
 
       // 이미 같은 값이 선택되어 있으면 선택 해제
       if (wasAlreadySelected) {
@@ -132,6 +180,16 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             optionBLabel: question.option_B.text,
             ruleKey,
           });
+        }
+
+        // 미리 선택된 것을 변경한 경우 콜백 호출
+        if (appliedPreselections.has(questionId) && previousSelection && onPreselectionChanged) {
+          const question = questions.find(q => q.id === questionId);
+          if (question) {
+            const fromOption = previousSelection === question.option_A.target_rule_key ? 'A' : 'B';
+            const toOption = ruleKey === question.option_A.target_rule_key ? 'A' : 'B';
+            onPreselectionChanged(questionId, fromOption, toOption);
+          }
         }
       }
 
@@ -287,6 +345,45 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             {currentIndex + 1} / {questions.length}
           </span>
         </div>
+
+        {/* 미리 선택 설명 (userContext 기반) */}
+        {userContext && appliedPreselections.size > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-4"
+          >
+            <div className="flex items-start gap-3">
+              <span className="text-lg">💡</span>
+              <div className="flex-1 text-sm">
+                <div className="text-purple-700 font-medium mb-1">
+                  &ldquo;{userContext}&rdquo; 에 맞춰 미리 선택했어요
+                </div>
+                <div className="text-gray-600 text-xs leading-relaxed">
+                  {(() => {
+                    const preselectedItems: string[] = [];
+                    questions.forEach(q => {
+                      const presel = preselectedAnswers?.[q.id];
+                      if (presel === 'A') {
+                        preselectedItems.push(q.option_A.text);
+                      } else if (presel === 'B') {
+                        preselectedItems.push(q.option_B.text);
+                      } else if (presel === 'both') {
+                        preselectedItems.push(`${q.option_A.text} & ${q.option_B.text}`);
+                      }
+                    });
+                    return preselectedItems.length > 0 
+                      ? `선택: ${preselectedItems.join(', ')}`
+                      : '';
+                  })()}
+                </div>
+                <div className="text-gray-500 text-xs mt-1">
+                  원하시면 아래에서 직접 변경하실 수 있어요
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* 질문 영역 - 슬라이드 애니메이션 */}
         <div className="overflow-hidden">

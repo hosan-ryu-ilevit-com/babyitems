@@ -140,13 +140,15 @@ export default function RecommendV2Page() {
 
   // Flow state
   // 분유포트 카테고리는 Step -1(컨텍스트 입력)부터 시작
-  const [currentStep, setCurrentStep] = useState<FlowStep>(categoryKey === 'formula_pot' ? -1 : 0);
+  const [currentStep, setCurrentStep] = useState<FlowStep>(categoryKey === 'milk_powder_port' ? -1 : 0);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Context input (Step -1)
   const [userContext, setUserContext] = useState<string | null>(null);
-  const [parsedBalanceSelections, setParsedBalanceSelections] = useState<Record<string, string>>({});
+  // 체감속성 태그 미리 선택 (AI 파싱 결과)
+  const [preselectedExperienceTags, setPreselectedExperienceTags] = useState<string[]>([]);
+  const [preselectedExplanation, setPreselectedExplanation] = useState<string>('');
 
   // Data
   const [categoryName, setCategoryName] = useState('');
@@ -783,10 +785,12 @@ export default function RecommendV2Page() {
     if (hasTriggeredGuideRef.current || isLoading || !hardFilterConfig) return;
     // sessionStorage에서 복원된 경우 스킵 (이미 결과 화면)
     if (isRestoredFromStorage) return;
+    // Step -1 (ContextInput)인 경우 스킵 - ContextInput 완료 후 handleContextComplete에서 처리
+    if (currentStep === -1) return;
 
     hasTriggeredGuideRef.current = true;
     handleScanComplete();
-  }, [isLoading, hardFilterConfig, isRestoredFromStorage, handleScanComplete]);
+  }, [isLoading, hardFilterConfig, isRestoredFromStorage, handleScanComplete, currentStep]);
 
   // ===================================================
   // Sub-Category Selection Handler (다중 선택 지원)
@@ -1017,6 +1021,47 @@ export default function RecommendV2Page() {
       return msg;
     }));
   }, [hardFilterAnswers]);
+
+  // ===================================================
+  // Step -1 Complete → Step 0 (Context Input)
+  // ===================================================
+
+  const handleContextComplete = useCallback(async (context: string | null) => {
+    // 1. 상태 저장
+    setUserContext(context);
+
+    // 2. 입력이 있으면 AI 파싱 (체감속성 태그 미리 선택) - 백그라운드로 처리
+    if (context && context.trim()) {
+      // 비동기로 AI 파싱 (UI 블로킹 없이)
+      fetch('/api/ai-selection-helper/parse-experience-tags-from-context', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          category: categoryKey,
+          categoryName,
+          context: context.trim(),
+        }),
+      })
+        .then(result => result.ok ? result.json() : null)
+        .then(data => {
+          if (data?.selectedTags && data.selectedTags.length > 0) {
+            setPreselectedExperienceTags(data.selectedTags);
+            setPreselectedExplanation(data.explanation || '');
+            console.log('🎯 Context parsed, experience tags:', data.selectedTags);
+          }
+        })
+        .catch(error => {
+          console.error('Context parsing failed:', error);
+        });
+    }
+
+    // 3. Step 0으로 진행 및 Guide Cards 트리거
+    setCurrentStep(0);
+    
+    // 4. Guide Cards 트리거 (hasTriggeredGuideRef 플래그 설정)
+    hasTriggeredGuideRef.current = true;
+    handleScanComplete();
+  }, [categoryKey, categoryName, handleScanComplete]);
 
   // ===================================================
   // Step 1 Complete → Step 2
@@ -1612,8 +1657,13 @@ export default function RecommendV2Page() {
       result.naturalLanguageInputs = naturalLanguageInputs;
     }
 
+    // 초기 컨텍스트 입력 정보 (Step -1)
+    if (userContext) {
+      result.initialContext = userContext;
+    }
+
     return result;
-  }, [hardFilterConfig, hardFilterAnswers, balanceQuestions, balanceSelections, naturalLanguageInputs]);
+  }, [hardFilterConfig, hardFilterAnswers, balanceQuestions, balanceSelections, naturalLanguageInputs, userContext]);
 
   const handleGetRecommendation = useCallback(async (useBudgetHardFilter = false) => {
     setIsCalculating(true);
@@ -2385,6 +2435,9 @@ export default function RecommendV2Page() {
                 }))}
                 userSelections={allUserSelections}
                 onNaturalLanguageInput={handleNaturalLanguageInput}
+                preselectedTags={hfData.currentIndex === 0 ? preselectedExperienceTags : []}
+                preselectedExplanation={hfData.currentIndex === 0 ? preselectedExplanation : ''}
+                userContext={userContext}
               />
             </div>
           );
@@ -2675,6 +2728,11 @@ export default function RecommendV2Page() {
   // ===================================================
 
   const renderBottomButton = () => {
+    // Step -1: ContextInput이 자체적으로 버튼을 가지고 있으므로 하단 버튼 숨김
+    if (currentStep === -1) {
+      return null;
+    }
+
     const questions = hardFilterConfig?.questions || [];
     // 다중 선택: 모든 질문에 최소 1개 이상 답변했는지 확인
     const allQuestionsAnswered = questions.length > 0 &&
@@ -3160,6 +3218,24 @@ export default function RecommendV2Page() {
           style={{ paddingBottom: '102px' }}
         >
           <AnimatePresence mode="wait">
+            {/* Step -1: Context Input (분유포트 파일럿) */}
+            {currentStep === -1 && (
+              <motion.div
+                key="context-input"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-4"
+              >
+                {/* Context Input 컴포넌트 */}
+                <ContextInput
+                  category={categoryKey}
+                  categoryName={categoryName}
+                  onComplete={handleContextComplete}
+                />
+              </motion.div>
+            )}
+
             {/* Step 0: Scan Animation */}
             {currentStep === 0 && showScanAnimation && (
               <ScanAnimation
@@ -3169,10 +3245,12 @@ export default function RecommendV2Page() {
             )}
           </AnimatePresence>
 
-          {/* Messages */}
-          <div className="space-y-4">
-            {messages.map(renderMessage)}
-          </div>
+          {/* Messages - Step -1일 때는 숨김 (ContextInput만 표시) */}
+          {currentStep !== -1 && (
+            <div className="space-y-4">
+              {messages.map(renderMessage)}
+            </div>
+          )}
 
           {/* Calculating indicator - 로딩 애니메이션 */}
           {isCalculating && (
