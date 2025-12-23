@@ -129,7 +129,7 @@ export default function ContextInput({ category, categoryName, onComplete }: Con
           onClick={handleSubmit}
           className="flex-1 bg-blue-500 text-white py-3 rounded-xl font-semibold text-sm hover:bg-blue-600 transition-colors"
         >
-          시작하기 →
+          시작하기
         </button>
         <button
           onClick={handleSkip}
