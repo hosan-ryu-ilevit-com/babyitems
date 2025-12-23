@@ -428,6 +428,11 @@ export default function CategoriesV2Page() {
   const [completedCategories, setCompletedCategories] = useState<Set<string>>(new Set());
   const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
   const [initialUserInput, setInitialUserInput] = useState<string>('');
+  // Hydration 깜빡임 방지: 클라이언트 마운트 후에만 애니메이션 적용
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // 현재 선택된 연령대 필터
   const selectedAgeFilter = AGE_FILTERS.find((f) => f.id === selectedAgeId) || AGE_FILTERS[0];
@@ -555,7 +560,7 @@ export default function CategoriesV2Page() {
 
         <motion.div
           className="px-4 py-6 pb-24"
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMounted ? { opacity: 0, y: 20 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
@@ -577,7 +582,7 @@ export default function CategoriesV2Page() {
           {/* 연령대별 설명 카드 */}
           {selectedAgeFilter.id !== 'all' && selectedAgeFilter.description && (
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={isMounted ? { opacity: 0 } : false}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
@@ -685,9 +690,8 @@ export default function CategoriesV2Page() {
         <div className="max-w-[480px] mx-auto px-4 pointer-events-auto">
           <div className="bg-linear-to-t from-white via-white to-transparent pt-4 pb-4">
             <motion.button
-              initial={{ opacity: 0, y: 5 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
               onClick={() => {
                 logAIHelperButtonClicked(
                   'category_selection',

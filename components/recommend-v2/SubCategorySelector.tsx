@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
+import type { UserSelections } from '@/types/recommend-v2';
 
 interface SubCategory {
   code: string;
@@ -22,6 +23,8 @@ interface SubCategorySelectorProps {
   // AI 도움 기능
   showAIHelper?: boolean;
   category?: string;
+  // 사용자 선택 데이터 (자연어 입력 등)
+  userSelections?: UserSelections;
 }
 
 /**
@@ -36,9 +39,22 @@ export function SubCategorySelector({
   dynamicTip,
   showAIHelper = false,
   category = '',
+  userSelections,
 }: SubCategorySelectorProps) {
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
+  const [aiHelperAutoSubmitContext, setAiHelperAutoSubmitContext] = useState(false);
+  // Hydration 깜빡임 방지
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // 자연어 입력이 있는지 확인 (initialContext 또는 naturalLanguageInputs)
+  const hasContext = !!(
+    userSelections?.initialContext ||
+    (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0)
+  );
 
   // AI 추천 결과 처리 (다중 선택 지원)
   const handleAISelectOptions = (selectedOptions: string[]) => {
@@ -52,12 +68,19 @@ export function SubCategorySelector({
 
   const handlePopularRecommend = () => {
     setAiHelperAutoSubmitText('가장 많은 사람들이 구매하는게 뭔가요?');
+    setAiHelperAutoSubmitContext(false);
+    setIsAIHelperOpen(true);
+  };
+
+  const handleContextRecommend = () => {
+    setAiHelperAutoSubmitText(undefined);
+    setAiHelperAutoSubmitContext(true);
     setIsAIHelperOpen(true);
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 0 }}
+      initial={isMounted ? { opacity: 0, y: 0 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-4"
@@ -86,6 +109,7 @@ export function SubCategorySelector({
         <AIHelperButton
           onClick={() => {
             setAiHelperAutoSubmitText(undefined);
+            setAiHelperAutoSubmitContext(false);
             setIsAIHelperOpen(true);
           }}
           questionType="hard_filter"
@@ -93,6 +117,8 @@ export function SubCategorySelector({
           questionText={`어떤 ${categoryName}를 찾으세요?`}
           category={category}
           categoryName={categoryName}
+          hasContext={hasContext}
+          onContextRecommend={handleContextRecommend}
           onPopularRecommend={handlePopularRecommend}
         />
       )}
@@ -134,6 +160,7 @@ export function SubCategorySelector({
           onClose={() => {
             setIsAIHelperOpen(false);
             setAiHelperAutoSubmitText(undefined);
+            setAiHelperAutoSubmitContext(false);
           }}
           questionType="hard_filter"
           questionId={`subcategory_${category}`}
@@ -143,7 +170,9 @@ export function SubCategorySelector({
           categoryName={categoryName}
           tipText={dynamicTip}
           onSelectOptions={handleAISelectOptions}
+          userSelections={userSelections}
           autoSubmitText={aiHelperAutoSubmitText}
+          autoSubmitContext={aiHelperAutoSubmitContext}
         />
       )}
     </motion.div>

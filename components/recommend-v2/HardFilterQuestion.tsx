@@ -190,8 +190,8 @@ function ReviewPriorityTags({
         </div>
 
         {/* 뭘 골라야할지 모르겠어요 버튼 - AIHelperButton 사용 */}
-        {/* 컨텍스트 입력으로 체감속성 미리 선택된 경우 숨김 */}
-        {showAIHelper && preselectedTags.length === 0 && (
+        {/* 컨텍스트 입력으로 체감속성 미리 선택된 경우 또는 로딩 중 숨김 */}
+        {showAIHelper && preselectedTags.length === 0 && !isLoadingPreselection && (
           <AIHelperButton
             onClick={() => setIsAIHelperOpen(true)}
             questionType="hard_filter"

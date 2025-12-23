@@ -1020,8 +1020,8 @@ export default function ProductDetailModal({ productData, category, danawaData, 
         {!showChatInput && (
           <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 px-4 py-3 z-30">
             <div className="flex gap-2">
-              {/* 찜하기 버튼 */}
-              <button
+              {/* 찜하기 버튼 - 숨김 처리 */}
+              {/* <button
                 onClick={(e) => {
                   e.stopPropagation();
                   const wasFavorite = isFavorite(productData.product.id);
@@ -1047,7 +1047,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                 >
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                 </svg>
-              </button>
+              </button> */}
               {/* 최저가로 구매하기 버튼 */}
               <button
                 onClick={() => {

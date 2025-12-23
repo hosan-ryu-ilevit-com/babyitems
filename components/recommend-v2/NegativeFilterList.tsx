@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { NegativeFilterData } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
@@ -10,6 +10,8 @@ import DirectInputField from './DirectInputField';
 interface UserSelections {
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
   balanceGames?: Array<{ title: string; selectedOption: string }>;
+  naturalLanguageInputs?: Array<{ stage: string; input: string }>;
+  initialContext?: string;
 }
 
 interface NegativeFilterListProps {
@@ -55,12 +57,19 @@ export function NegativeFilterList({
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
+  // Hydration 깜빡임 방지
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-  // 컨텍스트 정보가 있는지 확인
-  const hasContext = 
+  // 컨텍스트 정보가 있는지 확인 (initialContext 포함)
+  const hasContext = !!(
+    userSelections?.initialContext ||
     (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
     (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
-    (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+    (userSelections?.balanceGames && userSelections.balanceGames.length > 0)
+  );
 
   const handleContextRecommend = () => {
     setAiHelperAutoSubmitText(undefined);
@@ -76,7 +85,7 @@ export function NegativeFilterList({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 0 }}
+      initial={isMounted ? { opacity: 0, y: 0 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-3"

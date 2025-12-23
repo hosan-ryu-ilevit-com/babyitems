@@ -42,11 +42,13 @@ export function BalanceGameCard({
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
 
-  // 컨텍스트 정보가 있는지 확인
-  const hasContext = 
+  // 컨텍스트 정보가 있는지 확인 (initialContext 포함)
+  const hasContext = !!(
+    userSelections?.initialContext ||
     (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
     (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
-    (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+    (userSelections?.balanceGames && userSelections.balanceGames.length > 0)
+  );
 
   const handleContextRecommend = () => {
     setAiHelperAutoSubmitText(undefined);

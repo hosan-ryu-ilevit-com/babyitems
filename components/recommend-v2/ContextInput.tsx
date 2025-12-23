@@ -69,12 +69,15 @@ export default function ContextInput({
     } catch (err) {
       console.error('Failed to load examples:', err);
       setExamples([
-        '지금 쓰는 거 불편해서 바꾸려고요',
-        '가성비 좋은 거 추천해주세요',
-        '세척 편한 거 찾아요',
-        '3개월 아기인데 뭘 사야 할지 모르겠어요',
-        '첫째 아이라 추천해주세요',
-        '맞벌이라 편한 게 필요해요',
+        '지금 쓰는 게 불편해요',
+        '사용하기 어려워요',
+        '품질이 아쉬워요',
+        '3개월 아기예요',
+        '첫 아이라 잘 몰라요',
+        '맞벌이라 시간이 부족해요',
+        '가성비가 중요해요',
+        '사용 편한 게 필요해요',
+        '안전한 제품을 원해요',
       ]);
       setIsLoadingExamples(false);
     }
@@ -113,7 +116,7 @@ export default function ContextInput({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 0 }}
+      initial={mounted ? { opacity: 0, y: 0 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="bg-white space-y-4 transition-all duration-300"
@@ -196,20 +199,20 @@ export default function ContextInput({
         <div className="-mx-4">
           <div className="overflow-x-auto px-4 scrollbar-hide">
             {isLoadingExamples ? (
-              <div className="grid grid-rows-2 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                {[1, 2, 3, 4, 5, 6].map(i => (
+              <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
                   <div
                     key={i}
                     className="h-10 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
                     style={{
-                      width: '160px', // 스켈레톤 너비 통일
-                      animationDelay: `${i * 0.1}s`
+                      width: '150px',
+                      animationDelay: `${i * 0.08}s`
                     }}
                   />
                 ))}
               </div>
             ) : (
-              <div className="grid grid-rows-2 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
+              <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
                 {examples.map((example, idx) => (
                   <motion.button
                     key={idx}
@@ -217,7 +220,7 @@ export default function ContextInput({
                     animate={{ opacity: 1, x: 0, scale: 1 }}
                     transition={{
                       duration: 0.3,
-                      delay: idx * 0.05,
+                      delay: idx * 0.04,
                       ease: [0.25, 0.1, 0.25, 1]
                     }}
                     onClick={() => handleExampleClick(example, idx)}
@@ -260,7 +263,7 @@ export default function ContextInput({
             </button>
             <button
               onClick={handleSkip}
-              className="w-full h-13 rounded-2xl font-semibold text-sm transition-all flex items-center justify-center bg-gray-100 text-gray-500 hover:bg-gray-200 active:scale-[0.98] mb-4"
+              className="w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center bg-gray-100 text-gray-600 border-2 border-gray-300 hover:bg-gray-200 hover:border-gray-400 active:scale-[0.98] mb-4"
             >
               잘 모르겠어요 (건너뛰기)
             </button>

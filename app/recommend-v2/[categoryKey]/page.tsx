@@ -2541,6 +2541,7 @@ export default function RecommendV2Page() {
                 dynamicTip={subCategoryTip}
                 showAIHelper={true}
                 category={categoryKey}
+                userSelections={allUserSelections}
               />
             </div>
           );
@@ -2929,9 +2930,11 @@ export default function RecommendV2Page() {
       const currentQuestionAnswered = currentQuestion &&
         hardFilterAnswers[currentQuestion.id]?.length > 0;
       // 현재 질문에 대해 직접 입력이 등록되었으면 옵션 미선택이어도 다음 진행 가능
-      const currentQuestionDirectInputRegistered = currentQuestion && 
+      const currentQuestionDirectInputRegistered = currentQuestion &&
         hardFilterDirectInputRegistered[currentQuestion.id];
-      const canProceed = currentQuestionAnswered || currentQuestionDirectInputRegistered;
+      // 하위 카테고리 선택 중이면 선택해야 다음 진행 가능
+      const subCategoryPending = showSubCategorySelector && selectedSubCategoryCodes.length === 0;
+      const canProceed = (currentQuestionAnswered || currentQuestionDirectInputRegistered) && !subCategoryPending;
       const isLastQuestion = currentHardFilterIndex >= questions.length - 1;
 
       return (

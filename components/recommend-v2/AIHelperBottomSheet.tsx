@@ -79,6 +79,7 @@ export function AIHelperBottomSheet({
   const [examples, setExamples] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [shouldAutoSubmit, setShouldAutoSubmit] = useState(false); // 자동 제출 트리거
+  const [isQuickMode, setIsQuickMode] = useState(false); // 번개 버튼으로 진입 시 입력 UI 숨김
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -168,17 +169,20 @@ export function AIHelperBottomSheet({
         setAiResponse(null);
         setError(null);
         setShouldAutoSubmit(true);
+        setIsQuickMode(true); // 번개 버튼 모드
       } else if (autoSubmitContext) {
         console.log('🤖 Auto submit triggered by prop (Context)');
         setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
         setAiResponse(null);
         setError(null);
         setShouldAutoSubmit(true);
+        setIsQuickMode(true); // 번개 버튼 모드
       } else {
         setUserInput('');
         setAiResponse(null);
         setError(null);
         setShouldAutoSubmit(false); // 자동 제출 플래그 초기화
+        setIsQuickMode(false); // 일반 모드
         generateExamples();
       }
     }
@@ -395,8 +399,11 @@ export function AIHelperBottomSheet({
 
             {/* Scrollable Content */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4">
-              {/* 입력 영역 - 결과 나오면 비활성화 */}
+              {/* 입력 영역 - 퀵 모드에서는 질문/예시/버튼만 숨김 */}
               <div className={`transition-all duration-300 ${aiResponse ? 'opacity-40 pointer-events-none' : ''}`}>
+                {/* 질문, 안내, 예시 - 퀵 모드에서는 숨김 */}
+                {!isQuickMode && (
+                <>
                 {/* 질문 표시 */}
                 <h3 className="text-base font-bold text-gray-900 leading-snug mb-1">
                   {questionText}
@@ -519,8 +526,10 @@ export function AIHelperBottomSheet({
                     )}
                   </div>
                 )}
+                </>
+                )}
 
-                {/* 입력 영역 */}
+                {/* 입력 영역 - 항상 표시 (퀵 모드에서도 입력 내용 확인용) */}
                 <div className="mb-4">
                   <textarea
                     ref={inputRef}
@@ -533,11 +542,12 @@ export function AIHelperBottomSheet({
                     }
                     className="w-full p-3 border border-gray-200 rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent disabled:bg-gray-50"
                     rows={3}
-                    disabled={isLoading || !!aiResponse}
+                    disabled={isQuickMode || isLoading || !!aiResponse}
                   />
                 </div>
 
-                {/* 제출 버튼 */}
+                {/* 제출 버튼 - 퀵 모드에서는 숨김 */}
+                {!isQuickMode && (
                 <button
                   onClick={handleSubmit}
                   disabled={!userInput.trim() || isLoading || !!aiResponse}
@@ -549,6 +559,7 @@ export function AIHelperBottomSheet({
                 >
                   추천받기
                 </button>
+                )}
               </div>
 
               {/* 스켈레톤 로딩 */}
