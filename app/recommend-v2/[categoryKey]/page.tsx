@@ -41,6 +41,7 @@ import {
   ResultCards,
   LoadingAnimation,
 } from '@/components/recommend-v2';
+import ContextInput from '@/components/recommend-v2/ContextInput';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
 
@@ -138,9 +139,14 @@ export default function RecommendV2Page() {
   // ===================================================
 
   // Flow state
-  const [currentStep, setCurrentStep] = useState<FlowStep>(0);
+  // 분유포트 카테고리는 Step -1(컨텍스트 입력)부터 시작
+  const [currentStep, setCurrentStep] = useState<FlowStep>(categoryKey === 'formula_pot' ? -1 : 0);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Context input (Step -1)
+  const [userContext, setUserContext] = useState<string | null>(null);
+  const [parsedBalanceSelections, setParsedBalanceSelections] = useState<Record<string, string>>({});
 
   // Data
   const [categoryName, setCategoryName] = useState('');

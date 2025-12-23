@@ -34,9 +34,10 @@ export interface ChatMessage {
 // 플로우 Step 타입
 // ===================================================
 
-export type FlowStep = 0 | 1 | 2 | 3 | 4 | 5;
+export type FlowStep = -1 | 0 | 1 | 2 | 3 | 4 | 5;
 
 export const STEP_LABELS: Record<FlowStep, string> = {
+  '-1': '상황 입력',
   0: '트렌드 브리핑',
   1: '환경 체크',
   2: '후보 분석',
