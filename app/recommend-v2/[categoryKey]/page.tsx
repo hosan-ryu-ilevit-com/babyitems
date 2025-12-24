@@ -3986,8 +3986,8 @@ export default function RecommendV2Page() {
             />
           )}
 
-          {/* 스페이서: 새 컴포넌트가 헤더 바로 아래로 스크롤될 수 있는 여백 (추천 완료 후 숨김) */}
-          {scoredProducts.length === 0 && (
+          {/* 스페이서: 새 컴포넌트가 헤더 바로 아래로 스크롤될 수 있는 여백 (추천 완료 후 또는 AI 리뷰 화면에서는 숨김) */}
+          {scoredProducts.length === 0 && !showAiReview && (
             <div className="min-h-[calc(100dvh-220px)]" aria-hidden="true" />
           )}
 

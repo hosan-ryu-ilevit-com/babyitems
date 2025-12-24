@@ -261,7 +261,7 @@ export function AISelectionReview({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}
-      className="flex flex-col min-h-full pb-32"
+      className="flex flex-col pb-32"
     >
       {/* 썸네일 + 리뷰 배지 */}
       {thumbnailProducts.length > 0 && (
@@ -444,23 +444,15 @@ export function AISelectionReview({
                       <div className="flex flex-col gap-2">
                         {/* Option A */}
                         <button
+                          type="button"
                           onClick={() => handleBalanceEdit(question.id, 'A')}
-                          className={`w-full px-4 py-3 text-sm text-left rounded-xl border-2 transition-all ${
+                          className={`w-full px-4 py-3 text-sm text-center rounded-full border-2 transition-all ${
                             currentSelection === 'A' || currentSelection === 'both'
                               ? 'bg-purple-50 text-purple-700 border-purple-500 shadow-sm'
                               : 'bg-white text-gray-700 border-gray-100 hover:border-purple-200'
                           }`}
                         >
-                          <div className="flex items-center gap-3">
-                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
-                              currentSelection === 'A' || currentSelection === 'both' ? 'bg-purple-500 border-purple-500 text-white' : 'border-gray-300'
-                            }`}>
-                              {(currentSelection === 'A' || currentSelection === 'both') && (
-                                <svg className="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
-                              )}
-                            </div>
-                            <span>{question.option_A.text}</span>
-                          </div>
+                          {question.option_A.text}
                         </button>
 
                         {/* VS Divider */}
@@ -473,36 +465,29 @@ export function AISelectionReview({
 
                         {/* Option B */}
                         <button
+                          type="button"
                           onClick={() => handleBalanceEdit(question.id, 'B')}
-                          className={`w-full px-4 py-3 text-sm text-left rounded-xl border-2 transition-all ${
+                          className={`w-full px-4 py-3 text-sm text-center rounded-full border-2 transition-all ${
                             currentSelection === 'B' || currentSelection === 'both'
                               ? 'bg-purple-50 text-purple-700 border-purple-500 shadow-sm'
                               : 'bg-white text-gray-700 border-gray-100 hover:border-purple-200'
                           }`}
                         >
-                          <div className="flex items-center gap-3">
-                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
-                              currentSelection === 'B' || currentSelection === 'both' ? 'bg-purple-500 border-purple-500 text-white' : 'border-gray-300'
-                            }`}>
-                              {(currentSelection === 'B' || currentSelection === 'both') && (
-                                <svg className="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
-                              )}
-                            </div>
-                            <span>{question.option_B.text}</span>
-                          </div>
+                          {question.option_B.text}
                         </button>
 
                         {/* Both Text */}
                         <div className="mt-1 text-center">
                           <button
+                            type="button"
                             onClick={() => handleBalanceEdit(question.id, 'both')}
-                            className={`text-xs font-medium py-2 px-4 rounded-lg transition-colors ${
+                            className={`text-xs font-medium py-2 px-4 rounded-full transition-colors ${
                               currentSelection === 'both' 
                                 ? 'text-purple-700 bg-purple-50' 
                                 : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
                             }`}
                           >
-                            둘 다 중요해요 {currentSelection === 'both' && '✓'}
+                            둘 다 중요해요
                           </button>
                         </div>
                       </div>
@@ -574,7 +559,7 @@ export function AISelectionReview({
       </div>
 
       {/* 고정 하단 CTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 safe-area-pb">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 safe-area-pb z-40">
         <div className="max-w-lg mx-auto space-y-3">
           <div className="flex gap-3">
             {onBack && (
@@ -620,6 +605,7 @@ function SectionCard({
     <div className="bg-gray-50 rounded-2xl overflow-hidden">
       {/* 헤더 (클릭 가능) */}
       <button
+        type="button"
         onClick={onToggle}
         className="w-full flex items-start justify-between p-4 text-left hover:bg-gray-100 transition-colors gap-4"
       >
