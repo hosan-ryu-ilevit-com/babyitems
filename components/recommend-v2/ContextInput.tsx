@@ -35,28 +35,11 @@ export default function ContextInput({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const isLoadedRef = useRef(false);
 
-  useEffect(() => {
-    setMounted(true);
-    if (!isLoadedRef.current) {
-      loadExamples();
-    }
-  }, [category, categoryName]);
-
-  // 완료 후 submittedText로 텍스트 동기화 & 이전으로 돌아왔을 때 상태 리셋
-  useEffect(() => {
-    if (isCompleted && submittedText !== null) {
-      setText(submittedText);
-    }
-    // 이전 단계로 돌아왔을 때 (isCompleted가 false가 되면) 상태 리셋
-    if (!isCompleted) {
-      setIsSubmitting(false);
-    }
-  }, [isCompleted, submittedText]);
-
+  // 예시 로드 함수 (useEffect 위에 선언)
   const loadExamples = async () => {
     if (isLoadedRef.current) return;
     isLoadedRef.current = true;
-    
+
     setIsLoadingExamples(true);
     try {
       const response = await fetch('/api/ai-selection-helper/generate-context-examples', {
@@ -65,7 +48,7 @@ export default function ContextInput({
         body: JSON.stringify({ category, categoryName }),
       });
       const data = await response.json();
-      
+
       if (data.examples && data.examples.length > 0) {
         setExamples(data.examples);
       }
@@ -86,6 +69,28 @@ export default function ContextInput({
       setIsLoadingExamples(false);
     }
   };
+
+  useEffect(() => {
+    setMounted(true);
+    if (!isLoadedRef.current) {
+      loadExamples();
+    }
+  }, [category, categoryName]);
+
+  // 완료 후 submittedText로 텍스트 동기화 & 이전으로 돌아왔을 때 상태 리셋
+  useEffect(() => {
+    if (isCompleted && submittedText !== null) {
+      setText(submittedText);
+    }
+    // 이전 단계로 돌아왔을 때 (isCompleted가 false가 되면) 상태 리셋
+    if (!isCompleted) {
+      setIsSubmitting(false);
+      // submittedText가 null이면 텍스트도 초기화 (다시 입력 버튼 클릭 시)
+      if (submittedText === null) {
+        setText('');
+      }
+    }
+  }, [isCompleted, submittedText]);
 
   const handleSubmit = () => {
     if (!text.trim() || isSubmitting) return;
@@ -115,7 +120,7 @@ export default function ContextInput({
       initial={mounted ? { opacity: 0, y: 0 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-white space-y-4 transition-all duration-300"
+      className={`bg-white space-y-4 transition-all duration-300 ${isCompleted ? 'hidden' : ''}`}
     >
       {/* 헤더 */}
       <div className="space-y-3 px-1">
@@ -147,7 +152,7 @@ export default function ContextInput({
           maxLength={500}
           disabled={isCompleted}
         />
-        
+
         {text.length > 0 && !isCompleted && (
           <>
             {/* 우상단 X 버튼 (지우기) */}
@@ -195,8 +200,8 @@ export default function ContextInput({
         )}
       </div>
 
-      {/* 예시 버튼들 - 완료 시 또는 직접 입력 시 숨김 */}
-      {!isCompleted && text.length === 0 && (
+      {/* 예시 버튼들 - 직접 입력 시 숨김 */}
+      {text.length === 0 && (
         <div className="-mx-4 mt-2">
           <div className="overflow-x-auto px-4 pb-4 scrollbar-hide">
             {isLoadingExamples ? (

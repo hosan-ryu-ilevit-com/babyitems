@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
    - hardFilters: 각 questionId에 대해 왜 그 옵션을 선택했는지
    - balanceGames: 각 questionId에 대해 왜 A/B/both를 선택했는지
    - negativeFilters: 전체적으로 왜 그 단점들을 선택했는지 (또는 선택하지 않았는지)
-6. **overallReasoning:** 전체 선택에 대한 3-4문장 요약. "사용자님의 상황(~~)을 고려하여 ~~한 제품 위주로 골라봤어요" 톤으로 작성하세요.
+6. **overallReasoning:** 전체 선택에 대한 3-4문장 요약. "사용자님의 상황(~~)을 고려하여 ~~한 제품 위주로 골라봤어요" 톤으로 작성하세요. **중요: 선택된 조건과 관련된 핵심 키워드(예: 가성비, 안전성, 휴대성 등)는 반드시 **키워드** 형식으로 감싸서 강조해주세요.** 예: "**가성비**와 **휴대성**을 중요하게 생각하시는 것 같아요."
 7. **모든 reasoning은 한글로 작성하세요. 내부 키(pro_1, con_2 등)가 아닌 한글 설명을 사용하세요.**
 
 **응답 형식 (JSON):**
@@ -181,9 +181,16 @@ ${JSON.stringify(negativeOptions.map(o => ({
     // 1. 하드필터 선택 검증
     const validatedHardFilterSelections: Record<string, string[]> = {};
     for (const question of hardFilterQuestions) {
-      const selections = parsed.hardFilterSelections[question.id] || [];
+      let selections = parsed.hardFilterSelections?.[question.id] || [];
+      // AI가 문자열로 반환한 경우 배열로 변환
+      if (typeof selections === 'string') {
+        selections = [selections];
+      }
+      if (!Array.isArray(selections)) {
+        selections = [];
+      }
       const validValues = question.options.map(o => o.value);
-      validatedHardFilterSelections[question.id] = selections.filter(s => validValues.includes(s));
+      validatedHardFilterSelections[question.id] = selections.filter((s: string) => validValues.includes(s));
 
       // 선택이 없으면 첫 번째 옵션 기본 선택
       if (validatedHardFilterSelections[question.id].length === 0 && question.options.length > 0) {

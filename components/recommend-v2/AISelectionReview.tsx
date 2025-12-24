@@ -4,6 +4,12 @@ import { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { HardFilterQuestion, BalanceQuestion, NegativeFilterOption } from '@/types/recommend-v2';
 
+interface ThumbnailProduct {
+  id: string;
+  title: string;
+  thumbnail?: string;
+}
+
 interface AISelectionReviewProps {
   // AI 선택 결과
   hardFilterSelections: Record<string, string[]>;
@@ -35,6 +41,10 @@ interface AISelectionReviewProps {
   categoryName: string;
   overallReasoning: string;
   confidence: 'high' | 'medium' | 'low';
+
+  // 썸네일 & 리뷰 정보
+  thumbnailProducts?: ThumbnailProduct[];
+  totalReviewCount?: number;
 }
 
 type SectionType = 'hardFilter' | 'balanceGame' | 'negativeFilter';
@@ -62,6 +72,8 @@ export function AISelectionReview({
   categoryName,
   overallReasoning,
   confidence,
+  thumbnailProducts = [],
+  totalReviewCount = 0,
 }: AISelectionReviewProps) {
   // 수정 가능한 상태
   const [hardFilterSelections, setHardFilterSelections] = useState(initialHardFilters);
@@ -84,6 +96,29 @@ export function AISelectionReview({
     medium: '보통 확신',
     low: '낮은 확신',
   };
+
+  // **텍스트**를 형광펜 처리하는 렌더러
+  const renderHighlightedText = useCallback((text: string) => {
+    // **text** 패턴을 찾아서 분리
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const highlighted = part.slice(2, -2);
+        return (
+          <mark
+            key={index}
+            className="text-gray-900 font-semibold"
+            style={{
+              background: 'linear-gradient(to top, rgba(255, 245, 120, 0.35) 75%, transparent 80%)',
+            }}
+          >
+            {highlighted}
+          </mark>
+        );
+      }
+      return <span key={index}>{part}</span>;
+    });
+  }, []);
 
   // 하드필터 선택값을 레이블로 변환
   const getHardFilterLabels = useCallback((questionId: string) => {
@@ -187,30 +222,75 @@ export function AISelectionReview({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.2 }}
       className="flex flex-col min-h-full pb-32"
     >
-      {/* 헤더 */}
-      <div className="px-6 pt-6 pb-4">
+      {/* 썸네일 + 리뷰 배지 */}
+      {thumbnailProducts.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0 }}
+          className="flex items-center gap-3 pt-2 pb-3"
+        >
+          {/* 썸네일 그룹 (최대 5개) */}
+          <div className="flex -space-x-2">
+            {thumbnailProducts.slice(0, 5).map((product, i) => (
+              <div
+                key={product.id}
+                className="w-8 h-8 rounded-full border-2 border-white overflow-hidden relative bg-gray-100 shadow-sm"
+                style={{ zIndex: 5 - i }}
+                title={product.title}
+              >
+                {product.thumbnail ? (
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200" />
+                )}
+              </div>
+            ))}
+          </div>
+          {/* 리뷰 개수 배지 */}
+          {totalReviewCount > 0 && (
+            <span className="px-2.5 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full">
+              리뷰 {totalReviewCount.toLocaleString()}개 분석
+            </span>
+          )}
+        </motion.div>
+      )}
+
+      {/* 헤더: 확신도 + 설명 */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.15 }}
+        className="pb-4"
+      >
         <div className="flex items-center gap-2 mb-2">
-          <h2 className="text-xl font-bold text-gray-900">
-            AI가 분석한 맞춤 조건이에요
-          </h2>
           <span className={`px-2 py-0.5 text-xs font-medium rounded-full border ${confidenceColors[confidence]}`}>
             {confidenceLabels[confidence]}
           </span>
         </div>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          {overallReasoning}
+        <p className="text-base text-gray-700 font-medium leading-6">
+          {renderHighlightedText(overallReasoning)}
         </p>
-      </div>
+      </motion.div>
 
       {/* 섹션 카드들 */}
-      <div className="px-4 space-y-3">
+      <div className="space-y-3">
         {/* 1. 하드필터 섹션 */}
         {hardFilterQuestions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+          >
           <SectionCard
             title="기본 조건"
             icon="🎯"
@@ -285,10 +365,10 @@ export function AISelectionReview({
                                       handleHardFilterEdit(question.id, newValues.length > 0 ? newValues : [option.value]);
                                     }
                                   }}
-                                  className={`px-3 py-1.5 text-sm rounded-lg border transition-all ${
+                                  className={`px-3.5 py-2 text-sm rounded-full border-2 transition-all ${
                                     isSelected
-                                      ? 'bg-[#5F0080] text-white border-[#5F0080]'
-                                      : 'bg-white text-gray-700 border-gray-200 hover:border-[#5F0080]'
+                                      ? 'bg-purple-50 text-purple-700 border-purple-500'
+                                      : 'bg-white text-gray-700 border-gray-100 hover:border-purple-300 hover:bg-purple-50'
                                   }`}
                                 >
                                   {option.label}
@@ -310,10 +390,16 @@ export function AISelectionReview({
               })}
             </div>
           </SectionCard>
+          </motion.div>
         )}
 
         {/* 2. 밸런스게임 섹션 */}
         {balanceQuestions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.4 }}
+          >
           <SectionCard
             title="선호도"
             icon="⚖️"
@@ -377,10 +463,10 @@ export function AISelectionReview({
                                 <button
                                   key={option}
                                   onClick={() => handleBalanceEdit(question.id, option)}
-                                  className={`w-full px-4 py-2.5 text-sm text-left rounded-lg border transition-all ${
+                                  className={`w-full px-4 py-2.5 text-sm text-left rounded-xl border-2 transition-all ${
                                     isSelected
-                                      ? 'bg-[#5F0080] text-white border-[#5F0080]'
-                                      : 'bg-white text-gray-700 border-gray-200 hover:border-[#5F0080]'
+                                      ? 'bg-purple-50 text-purple-700 border-purple-500'
+                                      : 'bg-white text-gray-700 border-gray-100 hover:border-purple-300 hover:bg-purple-50'
                                   }`}
                                 >
                                   {option !== 'both' && <span className="font-medium mr-2">{option}.</span>}
@@ -397,10 +483,16 @@ export function AISelectionReview({
               })}
             </div>
           </SectionCard>
+          </motion.div>
         )}
 
         {/* 3. 단점필터 섹션 */}
         {negativeOptions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+          >
           <SectionCard
             title="피할 단점"
             icon="🚫"
@@ -441,10 +533,10 @@ export function AISelectionReview({
                       <button
                         key={option.target_rule_key}
                         onClick={() => handleNegativeToggle(option.target_rule_key)}
-                        className={`px-3 py-1.5 text-sm rounded-lg border transition-all ${
+                        className={`px-3.5 py-2 text-sm rounded-full border-2 transition-all ${
                           isSelected
-                            ? 'bg-red-50 text-red-600 border-red-200'
-                            : 'bg-white text-gray-600 border-gray-200 hover:border-red-200'
+                            ? 'bg-red-50 text-red-600 border-red-300'
+                            : 'bg-white text-gray-600 border-gray-100 hover:border-red-200 hover:bg-red-50'
                         }`}
                       >
                         {option.label}
@@ -455,10 +547,9 @@ export function AISelectionReview({
               </div>
             </div>
           </SectionCard>
+          </motion.div>
         )}
       </div>
-
-      
 
       {/* 고정 하단 CTA */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 safe-area-pb">
@@ -509,23 +600,23 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+    <div className="bg-gray-50 rounded-2xl overflow-hidden">
       {/* 헤더 (클릭 가능) */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-100 transition-colors"
       >
         <div className="flex items-center gap-3">
-          <span className="text-xl">{icon}</span>
+          <span className="text-lg">{icon}</span>
           <div>
-            <h3 className="font-semibold text-gray-900">{title}</h3>
+            <h3 className="font-semibold text-gray-900 text-sm">{title}</h3>
             <p className="text-xs text-gray-500">{summary}</p>
           </div>
         </div>
         <motion.svg
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="w-5 h-5 text-gray-400"
+          className="w-4 h-4 text-gray-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -544,7 +635,7 @@ function SectionCard({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="px-4 pb-4 pt-2 border-t border-gray-50">
+            <div className="px-4 pb-4 pt-2 bg-white mx-2 mb-2 rounded-xl">
               {children}
             </div>
           </motion.div>

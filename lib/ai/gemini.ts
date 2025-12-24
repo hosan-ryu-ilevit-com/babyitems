@@ -21,7 +21,7 @@ export const getModel = (temperature: number = 0.7) => {
     throw new Error('Gemini API is not initialized. Please set GEMINI_API_KEY environment variable.');
   }
   return genAI.getGenerativeModel({
-    model: 'gemini-flash-lite-latest',
+    model: 'gemini-2.5-flash-lite',
     generationConfig: {
       temperature,
       topK: 40,

@@ -43,7 +43,6 @@ import {
   LoadingAnimation,
 } from '@/components/recommend-v2';
 import ContextInput from '@/components/recommend-v2/ContextInput';
-import { AIAnalyzingAnimation } from '@/components/recommend-v2/AIAnalyzingAnimation';
 import { AISelectionReview } from '@/components/recommend-v2/AISelectionReview';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
@@ -1144,10 +1143,8 @@ export default function RecommendV2Page() {
     setIsAiAnalyzing(true);
     setShowAiReview(false);
 
-    // 스크롤 상단으로
-    setTimeout(() => {
-      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
+    // 말풍선으로 스크롤 (헤더 바로 아래 위치)
+    scrollToMessage('user-context-bubble');
 
     try {
       // 3. One-Shot API 호출
@@ -1181,7 +1178,7 @@ export default function RecommendV2Page() {
     } finally {
       setIsAiAnalyzing(false);
     }
-  }, [categoryKey, categoryName]);
+  }, [categoryKey, categoryName, scrollToMessage]);
 
   // ===================================================
   // B 버전: AI 선택 확인 후 추천 결과로 진행
@@ -3866,9 +3863,17 @@ export default function RecommendV2Page() {
         {/* Content */}
         <main
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto px-4 py-6 bg-white"
+          className="flex-1 overflow-y-auto px-4 py-6"
           style={{ paddingBottom: '102px' }}
         >
+          {/* Shimmer text animation for AI loading */}
+          <style jsx global>{`
+            @keyframes shimmer-text {
+              0%, 100% { background-position: 200% 0; }
+              50% { background-position: 0% 0; }
+            }
+          `}</style>
+
           {/* Step -1: Context Input - AnimatePresence 밖으로 (완료 후에도 유지) */}
           {/* 세션 복원 시에는 숨김 */}
           {currentStep >= -1 && !isRestoredFromStorage && (
@@ -3883,15 +3888,39 @@ export default function RecommendV2Page() {
             </div>
           )}
 
-          <AnimatePresence mode="wait">
-            {/* B 버전: AI 분석 중 애니메이션 */}
-            {currentStep === 0 && isAiAnalyzing && (
-              <AIAnalyzingAnimation
-                categoryName={categoryName}
-                userContext={userContext || ''}
-              />
-            )}
-          </AnimatePresence>
+          {/* B 버전: 사용자 입력 말풍선 (AI 분석 중 + AI 리뷰 화면에서 표시) */}
+          {currentStep === 0 && userContext && (
+            <div
+              data-message-id="user-context-bubble"
+              className="flex justify-end pt-6 mb-4"
+            >
+              <div className="max-w-[85%] px-4 py-3 bg-gray-100 rounded-2xl rounded-tr-md">
+                <p className="text-[15px] text-gray-800 leading-relaxed whitespace-pre-wrap">
+                  {userContext}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* B 버전: AI 분석 중 - 좌측 shimmer 텍스트 */}
+          {currentStep === 0 && isAiAnalyzing && (
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-[15px] font-medium leading-relaxed"
+              style={{
+                background: 'linear-gradient(90deg, #4b5563 0%, #9ca3af 30%, #4b5563 50%, #9ca3af 70%, #4b5563 100%)',
+                backgroundSize: '200% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                animation: 'shimmer-text 1.2s linear infinite',
+              }}
+            >
+              {categoryName} 맞춤 조건을 찾고 있어요...
+            </motion.p>
+          )}
 
           {/* B 버전: AI 선택 결과 확인/수정 화면 */}
           {currentStep === 0 && showAiReview && aiSelections && (
@@ -3909,6 +3938,12 @@ export default function RecommendV2Page() {
               categoryName={categoryName}
               overallReasoning={aiSelections.overallReasoning}
               confidence={aiSelections.confidence}
+              thumbnailProducts={products.slice(0, 5).map(p => ({
+                id: p.pcode,
+                title: p.title,
+                thumbnail: p.thumbnail || undefined
+              }))}
+              totalReviewCount={products.length + Math.floor(Math.random() * 20) + 1}
             />
           )}
 
