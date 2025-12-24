@@ -82,7 +82,6 @@ export function AISelectionReview({
 
   // UI 상태
   const [expandedSection, setExpandedSection] = useState<SectionType | null>(null);
-  const [editing, setEditing] = useState<EditingState | null>(null);
 
   // Confidence 배지 색상
   const confidenceColors = {
@@ -127,7 +126,7 @@ export function AISelectionReview({
     const selectedValues = hardFilterSelections[questionId] || [];
     return selectedValues.map(value => {
       const option = question.options.find(o => o.value === value);
-      return option?.label || value;
+      return option?.displayLabel || option?.label || value;
     });
   }, [hardFilterQuestions, hardFilterSelections]);
 
@@ -143,17 +142,56 @@ export function AISelectionReview({
   }, [balanceQuestions, balanceGameSelections]);
 
   // 단점필터 선택을 레이블로 변환
-  const getNegativeLabels = useMemo(() => {
+  const negativeLabels = useMemo(() => {
     return negativeFilterSelections.map(key => {
       const option = negativeOptions.find(o => o.target_rule_key === key);
       return option?.label || key;
     });
   }, [negativeFilterSelections, negativeOptions]);
 
+  // 섹션별 선택 요약 텍스트 렌더러
+  const renderSummary = useCallback((labels: string[], fallback: string = '설정 없음') => {
+    if (labels.length === 0) return fallback;
+    return labels.map((label, i) => (
+      <span key={i} className="inline-flex items-center">
+        {label}
+        {i < labels.length - 1 && (
+          <span className="mx-1.5 text-gray-400 font-black text-sm leading-none" style={{ transform: 'scale(1.4)' }}>·</span>
+        )}
+      </span>
+    ));
+  }, []);
+
+  const hardFilterSummary = useMemo(() => {
+    const allLabels: string[] = [];
+    hardFilterQuestions.forEach(q => {
+      const labels = getHardFilterLabels(q.id);
+      allLabels.push(...labels);
+    });
+    return renderSummary(allLabels);
+  }, [hardFilterQuestions, getHardFilterLabels, renderSummary]);
+
+  const balanceSummary = useMemo(() => {
+    const allLabels: string[] = [];
+    balanceQuestions.forEach(q => {
+      const selection = balanceGameSelections[q.id];
+      if (selection === 'A') allLabels.push(q.option_A.text);
+      else if (selection === 'B') allLabels.push(q.option_B.text);
+      else if (selection === 'both') {
+        allLabels.push(q.option_A.text);
+        allLabels.push(q.option_B.text);
+      }
+    });
+    return renderSummary(allLabels);
+  }, [balanceQuestions, balanceGameSelections, renderSummary]);
+
+  const negativeSummary = useMemo(() => {
+    return renderSummary(negativeLabels, '없음');
+  }, [negativeLabels, renderSummary]);
+
   // 섹션 토글
   const toggleSection = (section: SectionType) => {
     setExpandedSection(prev => prev === section ? null : section);
-    setEditing(null);
   };
 
   // 하드필터 수정
@@ -162,7 +200,6 @@ export function AISelectionReview({
       ...prev,
       [questionId]: newValues,
     }));
-    setEditing(null);
   };
 
   // 밸런스게임 수정
@@ -171,7 +208,6 @@ export function AISelectionReview({
       ...prev,
       [questionId]: newSelection,
     }));
-    setEditing(null);
   };
 
   // 단점필터 수정
@@ -282,6 +318,20 @@ export function AISelectionReview({
         </p>
       </motion.div>
 
+      {/* 수정 안내 배너 */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        className="mb-4"
+      >
+        <div className="flex items-center justify-center px-4 py-3 bg-purple-50/50 rounded-xl border border-purple-100/50">
+          <p className="text-xs text-purple-700 font-medium leading-tight text-center">
+            아래 메뉴를 눌러서 조건들을 직접 수정하실 수도 있어요
+          </p>
+        </div>
+      </motion.div>
+
       {/* 섹션 카드들 */}
       <div className="space-y-3">
         {/* 1. 하드필터 섹션 */}
@@ -293,98 +343,65 @@ export function AISelectionReview({
           >
           <SectionCard
             title="기본 조건"
-            icon="🎯"
+            icon="📋"
             isExpanded={expandedSection === 'hardFilter'}
             onToggle={() => toggleSection('hardFilter')}
-            summary={`${hardFilterQuestions.length}개 조건 설정됨`}
+            summary={hardFilterSummary}
           >
-            <div className="space-y-4">
+            <div className="space-y-6 pt-2">
               {hardFilterQuestions.map(question => {
-                const labels = getHardFilterLabels(question.id);
-                const isEditing = editing?.type === 'hardFilter' && editing.id === question.id;
                 const reason = selectionReasons.hardFilters[question.id];
+                
+                // AI가 골라준 초기값과 현재 값이 다른지 확인
+                const initial = initialHardFilters[question.id] || [];
+                const current = hardFilterSelections[question.id] || [];
+                const isModified = JSON.stringify(initial.sort()) !== JSON.stringify(current.sort());
 
                 return (
-                  <div key={question.id} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-800 mb-1">
-                          {question.question}
-                        </p>
-                        {!isEditing && (
-                          <>
-                            <div className="flex flex-wrap gap-1.5 mb-1">
-                              {labels.map((label, i) => (
-                                <span
-                                  key={i}
-                                  className="px-2.5 py-1 bg-[#5F0080]/10 text-[#5F0080] text-sm rounded-full"
-                                >
-                                  {label}
-                                </span>
-                              ))}
-                            </div>
-                            {reason && (
-                              <p className="text-xs text-gray-500 mt-1">{reason}</p>
-                            )}
-                          </>
-                        )}
+                  <div key={question.id} className="border-b border-gray-100 pb-6 last:border-0 last:pb-0">
+                    <div className="flex flex-col gap-3">
+                      <p className="text-sm font-semibold text-gray-800">
+                        {question.question}
+                      </p>
+                      
+                      {/* 옵션 버튼들 (수정 모드 기본 노출) */}
+                      <div className="flex flex-wrap gap-2">
+                        {question.options.map(option => {
+                          const isSelected = (hardFilterSelections[question.id] || []).includes(option.value);
+                          return (
+                            <button
+                              key={option.value}
+                              onClick={() => {
+                                const currentVals = hardFilterSelections[question.id] || [];
+                                if (question.type === 'single') {
+                                  handleHardFilterEdit(question.id, [option.value]);
+                                } else {
+                                  const newValues = isSelected
+                                    ? currentVals.filter(v => v !== option.value)
+                                    : [...currentVals, option.value];
+                                  handleHardFilterEdit(question.id, newValues.length > 0 ? newValues : [option.value]);
+                                }
+                              }}
+                              className={`px-3.5 py-2 text-sm rounded-full border-2 transition-all ${
+                                isSelected
+                                  ? 'bg-purple-50 text-purple-700 border-purple-500'
+                                  : 'bg-white text-gray-700 border-gray-100 hover:border-purple-300 hover:bg-purple-50'
+                              }`}
+                            >
+                              {option.displayLabel || option.label}
+                            </button>
+                          );
+                        })}
                       </div>
-                      {!isEditing && (
-                        <button
-                          onClick={() => setEditing({ type: 'hardFilter', id: question.id })}
-                          className="text-xs text-gray-400 hover:text-[#5F0080] transition-colors shrink-0"
-                        >
-                          수정
-                        </button>
+
+                      {/* AI 설명 (수정되지 않았을 때만 아래에 표시) */}
+                      {!isModified && reason && (
+                        <p className="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed">
+                          <span className="font-bold text-purple-600 mr-1.5 text-[10px] uppercase tracking-wider">AI 분석</span>
+                          {renderHighlightedText(reason)}
+                        </p>
                       )}
                     </div>
-
-                    {/* 수정 UI */}
-                    <AnimatePresence>
-                      {isEditing && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="mt-3 overflow-hidden"
-                        >
-                          <div className="flex flex-wrap gap-2">
-                            {question.options.map(option => {
-                              const isSelected = (hardFilterSelections[question.id] || []).includes(option.value);
-                              return (
-                                <button
-                                  key={option.value}
-                                  onClick={() => {
-                                    const current = hardFilterSelections[question.id] || [];
-                                    if (question.type === 'single') {
-                                      handleHardFilterEdit(question.id, [option.value]);
-                                    } else {
-                                      const newValues = isSelected
-                                        ? current.filter(v => v !== option.value)
-                                        : [...current, option.value];
-                                      handleHardFilterEdit(question.id, newValues.length > 0 ? newValues : [option.value]);
-                                    }
-                                  }}
-                                  className={`px-3.5 py-2 text-sm rounded-full border-2 transition-all ${
-                                    isSelected
-                                      ? 'bg-purple-50 text-purple-700 border-purple-500'
-                                      : 'bg-white text-gray-700 border-gray-100 hover:border-purple-300 hover:bg-purple-50'
-                                  }`}
-                                >
-                                  {option.label}
-                                </button>
-                              );
-                            })}
-                          </div>
-                          <button
-                            onClick={() => setEditing(null)}
-                            className="mt-2 text-xs text-gray-400"
-                          >
-                            완료
-                          </button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
                 );
               })}
@@ -401,83 +418,103 @@ export function AISelectionReview({
             transition={{ duration: 0.3, delay: 0.4 }}
           >
           <SectionCard
-            title="선호도"
-            icon="⚖️"
+            title="상세 선호"
+            icon="✨"
             isExpanded={expandedSection === 'balanceGame'}
             onToggle={() => toggleSection('balanceGame')}
-            summary={`${balanceQuestions.length}개 선호도 분석됨`}
+            summary={balanceSummary}
           >
-            <div className="space-y-4">
+            <div className="space-y-6 pt-2">
               {balanceQuestions.map(question => {
-                const selectedLabel = getBalanceLabel(question.id);
-                const isEditing = editing?.type === 'balanceGame' && editing.id === question.id;
                 const reason = selectionReasons.balanceGames[question.id];
                 const currentSelection = balanceGameSelections[question.id];
+                
+                // AI가 골라준 초기값과 현재 값이 다른지 확인
+                const initial = initialBalanceGames[question.id];
+                const isModified = initial !== currentSelection;
 
                 return (
-                  <div key={question.id} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-800 mb-1">
-                          {question.title}
-                        </p>
-                        {!isEditing && (
-                          <>
-                            <span className="inline-block px-2.5 py-1 bg-[#5F0080]/10 text-[#5F0080] text-sm rounded-full">
-                              {selectedLabel}
-                            </span>
-                            {reason && (
-                              <p className="text-xs text-gray-500 mt-1">{reason}</p>
-                            )}
-                          </>
-                        )}
-                      </div>
-                      {!isEditing && (
+                  <div key={question.id} className="border-b border-gray-100 pb-6 last:border-0 last:pb-0">
+                    <div className="flex flex-col gap-3">
+                      <p className="text-sm font-semibold text-gray-800">
+                        {question.title}
+                      </p>
+                      
+                      {/* 옵션 버튼들 (수정 모드 기본 노출) */}
+                      <div className="flex flex-col gap-2">
+                        {/* Option A */}
                         <button
-                          onClick={() => setEditing({ type: 'balanceGame', id: question.id })}
-                          className="text-xs text-gray-400 hover:text-[#5F0080] transition-colors shrink-0"
+                          onClick={() => handleBalanceEdit(question.id, 'A')}
+                          className={`w-full px-4 py-3 text-sm text-left rounded-xl border-2 transition-all ${
+                            currentSelection === 'A' || currentSelection === 'both'
+                              ? 'bg-purple-50 text-purple-700 border-purple-500 shadow-sm'
+                              : 'bg-white text-gray-700 border-gray-100 hover:border-purple-200'
+                          }`}
                         >
-                          수정
+                          <div className="flex items-center gap-3">
+                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
+                              currentSelection === 'A' || currentSelection === 'both' ? 'bg-purple-500 border-purple-500 text-white' : 'border-gray-300'
+                            }`}>
+                              {(currentSelection === 'A' || currentSelection === 'both') && (
+                                <svg className="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
+                              )}
+                            </div>
+                            <span>{question.option_A.text}</span>
+                          </div>
                         </button>
+
+                        {/* VS Divider */}
+                        <div className="relative flex items-center justify-center py-1">
+                          <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-100"></div>
+                          </div>
+                          <span className="relative px-3 bg-white text-[10px] font-bold text-gray-300 uppercase tracking-widest italic">vs</span>
+                        </div>
+
+                        {/* Option B */}
+                        <button
+                          onClick={() => handleBalanceEdit(question.id, 'B')}
+                          className={`w-full px-4 py-3 text-sm text-left rounded-xl border-2 transition-all ${
+                            currentSelection === 'B' || currentSelection === 'both'
+                              ? 'bg-purple-50 text-purple-700 border-purple-500 shadow-sm'
+                              : 'bg-white text-gray-700 border-gray-100 hover:border-purple-200'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
+                              currentSelection === 'B' || currentSelection === 'both' ? 'bg-purple-500 border-purple-500 text-white' : 'border-gray-300'
+                            }`}>
+                              {(currentSelection === 'B' || currentSelection === 'both') && (
+                                <svg className="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
+                              )}
+                            </div>
+                            <span>{question.option_B.text}</span>
+                          </div>
+                        </button>
+
+                        {/* Both Text */}
+                        <div className="mt-1 text-center">
+                          <button
+                            onClick={() => handleBalanceEdit(question.id, 'both')}
+                            className={`text-xs font-medium py-2 px-4 rounded-lg transition-colors ${
+                              currentSelection === 'both' 
+                                ? 'text-purple-700 bg-purple-50' 
+                                : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
+                            }`}
+                          >
+                            둘 다 중요해요 {currentSelection === 'both' && '✓'}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* AI 설명 (수정되지 않았을 때만 아래에 표시) */}
+                      {!isModified && reason && (
+                        <p className="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed">
+                          <span className="font-bold text-purple-600 mr-1.5 text-[10px] uppercase tracking-wider">AI 분석</span>
+                          {renderHighlightedText(reason)}
+                        </p>
                       )}
                     </div>
-
-                    {/* 수정 UI */}
-                    <AnimatePresence>
-                      {isEditing && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="mt-3 overflow-hidden"
-                        >
-                          <div className="space-y-2">
-                            {(['A', 'B', 'both'] as const).map(option => {
-                              const label = option === 'A'
-                                ? question.option_A.text
-                                : option === 'B'
-                                  ? question.option_B.text
-                                  : '둘 다 중요해요';
-                              const isSelected = currentSelection === option;
-                              return (
-                                <button
-                                  key={option}
-                                  onClick={() => handleBalanceEdit(question.id, option)}
-                                  className={`w-full px-4 py-2.5 text-sm text-left rounded-xl border-2 transition-all ${
-                                    isSelected
-                                      ? 'bg-purple-50 text-purple-700 border-purple-500'
-                                      : 'bg-white text-gray-700 border-gray-100 hover:border-purple-300 hover:bg-purple-50'
-                                  }`}
-                                >
-                                  {option !== 'both' && <span className="font-medium mr-2">{option}.</span>}
-                                  {label}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
                 );
               })}
@@ -498,34 +535,11 @@ export function AISelectionReview({
             icon="🚫"
             isExpanded={expandedSection === 'negativeFilter'}
             onToggle={() => toggleSection('negativeFilter')}
-            summary={negativeFilterSelections.length > 0 ? `${negativeFilterSelections.length}개 선택됨` : '선택 없음'}
+            summary={negativeSummary}
           >
-            <div>
-              {getNegativeLabels.length > 0 ? (
-                <>
-                  <div className="flex flex-wrap gap-1.5 mb-2">
-                    {getNegativeLabels.map((label, i) => (
-                      <span
-                        key={i}
-                        className="px-2.5 py-1 bg-red-50 text-red-600 text-sm rounded-full"
-                      >
-                        {label}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-xs text-gray-500 mb-3">
-                    {selectionReasons.negativeFilters}
-                  </p>
-                </>
-              ) : (
-                <p className="text-sm text-gray-500 mb-3">
-                  {selectionReasons.negativeFilters || '특별히 피해야 할 단점이 없어요.'}
-                </p>
-              )}
-
-              {/* 수정 UI - 항상 표시 */}
-              <div className="pt-3 border-t border-gray-100">
-                <p className="text-xs text-gray-400 mb-2">탭하여 추가/제거</p>
+            <div className="space-y-6 pt-2">
+              <div className="flex flex-col gap-3">
+                {/* 옵션 버튼들 */}
                 <div className="flex flex-wrap gap-2">
                   {negativeOptions.map(option => {
                     const isSelected = negativeFilterSelections.includes(option.target_rule_key);
@@ -535,8 +549,8 @@ export function AISelectionReview({
                         onClick={() => handleNegativeToggle(option.target_rule_key)}
                         className={`px-3.5 py-2 text-sm rounded-full border-2 transition-all ${
                           isSelected
-                            ? 'bg-red-50 text-red-600 border-red-300'
-                            : 'bg-white text-gray-600 border-gray-100 hover:border-red-200 hover:bg-red-50'
+                            ? 'bg-red-50 text-red-600 border-red-300 shadow-sm'
+                            : 'bg-white text-gray-700 border-gray-100 hover:border-red-200'
                         }`}
                       >
                         {option.label}
@@ -544,6 +558,14 @@ export function AISelectionReview({
                     );
                   })}
                 </div>
+
+                {/* AI 설명 (수정되지 않았을 때만 아래에 표시) */}
+                {JSON.stringify(initialNegativeFilters.sort()) === JSON.stringify(negativeFilterSelections.sort()) && selectionReasons.negativeFilters && (
+                  <p className="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed mt-1">
+                    <span className="font-bold text-red-600 mr-1.5 text-[10px] uppercase tracking-wider">AI 분석</span>
+                    {renderHighlightedText(selectionReasons.negativeFilters)}
+                  </p>
+                )}
               </div>
             </div>
           </SectionCard>
@@ -554,11 +576,6 @@ export function AISelectionReview({
       {/* 고정 하단 CTA */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 safe-area-pb">
         <div className="max-w-lg mx-auto space-y-3">
-          {modifiedCount > 0 && (
-            <p className="text-center text-xs text-gray-500">
-              {modifiedCount}개 항목을 수정했어요
-            </p>
-          )}
           <div className="flex gap-3">
             {onBack && (
               <button
@@ -596,7 +613,7 @@ function SectionCard({
   icon: string;
   isExpanded: boolean;
   onToggle: () => void;
-  summary: string;
+  summary: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -604,25 +621,29 @@ function SectionCard({
       {/* 헤더 (클릭 가능) */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-100 transition-colors"
+        className="w-full flex items-start justify-between p-4 text-left hover:bg-gray-100 transition-colors gap-4"
       >
-        <div className="flex items-center gap-3">
-          <span className="text-lg">{icon}</span>
-          <div>
-            <h3 className="font-semibold text-gray-900 text-sm">{title}</h3>
-            <p className="text-xs text-gray-500">{summary}</p>
+        <div className="flex items-start gap-3 flex-1 min-w-0">
+          <span className="text-lg leading-none mt-0.5">{icon}</span>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-gray-900 text-sm mb-0.5">{title}</h3>
+            <p className="text-xs text-gray-500 leading-relaxed break-keep">
+              {summary}
+            </p>
           </div>
         </div>
-        <motion.svg
-          animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="w-4 h-4 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </motion.svg>
+        <div className="pt-1 shrink-0">
+          <motion.svg
+            animate={{ rotate: isExpanded ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="w-4 h-4 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </motion.svg>
+        </div>
       </button>
 
       {/* 내용 (아코디언) */}

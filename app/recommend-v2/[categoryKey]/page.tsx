@@ -157,6 +157,7 @@ export default function RecommendV2Page() {
 
   // B 버전: AI One-Shot Selection 상태
   const [isAiAnalyzing, setIsAiAnalyzing] = useState(false);
+  const [aiAnalysisTime, setAiAnalysisTime] = useState(0); // AI 분석 시간 (0.1초 단위)
   const [aiSelections, setAiSelections] = useState<{
     hardFilterSelections: Record<string, string[]>;
     balanceGameSelections: Record<string, 'A' | 'B' | 'both'>;
@@ -310,6 +311,20 @@ export default function RecommendV2Page() {
       }, 150);
     }
   }, [isCalculating]);
+
+  // B 버전: AI 분석 시간 타이머
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isAiAnalyzing) {
+      setAiAnalysisTime(0);
+      interval = setInterval(() => {
+        setAiAnalysisTime(prev => prev + 1);
+      }, 10);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isAiAnalyzing]);
 
   // 프로그레스는 항상 증가만 (뒤로 가지 않음)
   const setProgressSafe = useCallback((value: number) => {
@@ -3845,8 +3860,8 @@ export default function RecommendV2Page() {
             </div>
           </div>
 
-          {/* Progress Bar - Step 0(로딩/가이드카드)과 결과 화면에서는 숨김 */}
-          {currentStep >= 1 && !(currentStep === 5 && scoredProducts.length > 0) && (
+          {/* Progress Bar - Step 0(로딩/가이드카드), 로딩 중, 결과 화면에서는 숨김 */}
+          {currentStep >= 1 && !isCalculating && !(currentStep === 5 && scoredProducts.length > 0) && (
             <div className="px-5 pb-3">
               <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                 <motion.div
@@ -3904,22 +3919,31 @@ export default function RecommendV2Page() {
 
           {/* B 버전: AI 분석 중 - 좌측 shimmer 텍스트 */}
           {currentStep === 0 && isAiAnalyzing && (
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="text-[15px] font-medium leading-relaxed"
-              style={{
-                background: 'linear-gradient(90deg, #4b5563 0%, #9ca3af 30%, #4b5563 50%, #9ca3af 70%, #4b5563 100%)',
-                backgroundSize: '200% 100%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                animation: 'shimmer-text 1.2s linear infinite',
-              }}
-            >
-              {categoryName} 맞춤 조건을 찾고 있어요...
-            </motion.p>
+            <div className="flex flex-col gap-1">
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="text-[15px] font-medium leading-relaxed"
+                style={{
+                  background: 'linear-gradient(90deg, #4b5563 0%, #9ca3af 30%, #4b5563 50%, #9ca3af 70%, #4b5563 100%)',
+                  backgroundSize: '200% 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  animation: 'shimmer-text 1.2s linear infinite',
+                }}
+              >
+                {categoryName} 맞춤 조건을 찾고 있어요...
+              </motion.p>
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-[11px] font-mono text-gray-400 tabular-nums ml-0.5"
+              >
+                {(aiAnalysisTime / 100).toFixed(2)}초
+              </motion.span>
+            </div>
           )}
 
           {/* B 버전: AI 선택 결과 확인/수정 화면 */}

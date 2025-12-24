@@ -205,24 +205,24 @@ export default function ContextInput({
         <div className="-mx-4 mt-2">
           <div className="overflow-x-auto px-4 pb-4 scrollbar-hide">
             {isLoadingExamples ? (
-              <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
+              <div className="grid grid-rows-2 grid-flow-col gap-3" style={{ minWidth: 'max-content' }}>
+                {[1, 2, 3, 4, 5, 6].map(i => (
                   <div
                     key={i}
-                    className="h-8 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
+                    className="h-16 rounded-xl bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
                     style={{
-                      width: '180px',
+                      width: '240px',
                       animationDelay: `${i * 0.1}s`
                     }}
                   />
                 ))}
               </div>
             ) : (
-              <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
+              <div className="grid grid-rows-2 grid-flow-col gap-3" style={{ minWidth: 'max-content' }}>
                 {examples.map((example, idx) => (
                   <motion.button
                     key={idx}
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
                       duration: 0.2,
@@ -230,9 +230,10 @@ export default function ContextInput({
                       ease: "easeOut"
                     }}
                     onClick={() => handleExampleClick(example, idx)}
-                    className="px-3 py-1.5 text-[13px] font-medium rounded-full bg-gray-100 border border-transparent 
-                    text-gray-600 transition-all duration-200 whitespace-nowrap text-left
-                    hover:bg-gray-200 active:scale-95"
+                    className="px-3.5 py-3 text-[13px] font-medium rounded-xl bg-gray-50 border border-gray-100 
+                    text-gray-600 transition-all duration-200 text-left leading-relaxed
+                    hover:bg-gray-100 hover:border-gray-200 active:scale-[0.98]"
+                    style={{ width: '280px' }}
                   >
                     {example}
                   </motion.button>

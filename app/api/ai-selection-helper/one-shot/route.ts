@@ -78,6 +78,13 @@ export async function POST(request: NextRequest) {
     const targetCategoryCodes = subCategoryCode ? [subCategoryCode] : undefined;
     const hardFilterQuestions = await generateHardFiltersForCategory(categoryKey, targetCategoryCodes);
 
+    // 디버깅: 로드된 하드필터 질문 확인 (특히 review_priorities)
+    const reviewQuestions = hardFilterQuestions.filter(q => q.type === 'review_priorities');
+    console.log(`[OneShot] Loaded ${hardFilterQuestions.length} hard filters. Review priorities: ${reviewQuestions.length}`);
+    if (reviewQuestions.length > 0) {
+      console.log('[OneShot] First review question options:', JSON.stringify(reviewQuestions[0].options.map(o => ({ v: o.value, l: o.label }))));
+    }
+
     // 밸런스게임 질문 로드
     const categoryBalance = balanceGame.scenarios[categoryKey];
     const balanceQuestions: BalanceQuestion[] = categoryBalance?.questions || [];
@@ -116,7 +123,8 @@ export async function POST(request: NextRequest) {
    - balanceGames: 각 questionId에 대해 왜 A/B/both를 선택했는지
    - negativeFilters: 전체적으로 왜 그 단점들을 선택했는지 (또는 선택하지 않았는지)
 6. **overallReasoning:** 전체 선택에 대한 3-4문장 요약. "사용자님의 상황(~~)을 고려하여 ~~한 제품 위주로 골라봤어요" 톤으로 작성하세요. **중요: 선택된 조건과 관련된 핵심 키워드(예: 가성비, 안전성, 휴대성 등)는 반드시 **키워드** 형식으로 감싸서 강조해주세요.** 예: "**가성비**와 **휴대성**을 중요하게 생각하시는 것 같아요."
-7. **모든 reasoning은 한글로 작성하세요. 내부 키(pro_1, con_2 등)가 아닌 한글 설명을 사용하세요.**
+7. **예외 처리:** 만약 userContext가 무의미한 문자열이거나 육아용품 추천과 전혀 관련이 없다면, 억지로 추천 이유를 지어내지 말고 overallReasoning에 "입력하신 내용으로는 구체적인 상황을 파악하기 어려워요. 조금 더 자세히 말씀해 주시면 딱 맞는 제품을 찾아드릴게요!"라고 작성하고, confidence를 "low"로 설정하세요.
+8. **모든 reasoning은 한글로 작성하세요. 내부 키(pro_1, con_2 등)가 아닌 한글 설명을 사용하세요.**
 
 **응답 형식 (JSON):**
 {
@@ -145,7 +153,12 @@ ${JSON.stringify(hardFilterQuestions.map(q => ({
   id: q.id,
   question: q.question,
   type: q.type,
-  options: q.options.map(o => ({ value: o.value, label: o.label }))
+  options: q.options.map(o => ({
+    value: o.value,
+    label: o.displayLabel || o.label, // displayLabel 우선 사용
+    tip: o.tip, // 힌트 추가
+    reviewKeywords: o.reviewKeywords // 리뷰 키워드 힌트 추가
+  }))
 })), null, 2)}
 
 **2. 밸런스 게임 질문 목록:**
@@ -174,6 +187,9 @@ ${JSON.stringify(negativeOptions.map(o => ({
       ]);
       return result.response.text();
     });
+
+    console.log('[OneShot] User Context:', userContext);
+    console.log('[OneShot] Raw AI Response:', response);
 
     const parsed = parseJSONResponse<OneShotResponse>(response);
 
