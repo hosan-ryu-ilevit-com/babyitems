@@ -669,3 +669,80 @@ export interface DirectInputAnalysis {
   type: 'preference' | 'avoidance';   // 선호/회피
   reasoning?: string;                 // AI 분석 이유
 }
+
+// ===================================================
+// Clarifying Questions (선택지 기반 Q&A) 관련 타입
+// ===================================================
+
+/**
+ * 명확화 질문의 선택지
+ */
+export interface ClarifyingOption {
+  value: string;        // "0-3months", "home", etc.
+  label: string;        // "신생아~3개월"
+  description: string;  // "모로반사가 있어 안정감이 중요해요"
+}
+
+/**
+ * 명확화 질문
+ */
+export interface ClarifyingQuestion {
+  id: string;                    // "age", "environment", "experience", etc.
+  text: string;                  // "아기가 몇 개월쯤 되셨나요?"
+  subtext?: string;              // "월령에 따라 추천 제품이 달라져요"
+  options: ClarifyingOption[];   // 2-3개 선택지 (기타는 프론트에서 자동 추가)
+}
+
+/**
+ * 사용자의 명확화 질문 답변
+ */
+export interface ClarifyingAnswer {
+  questionId: string;
+  questionText: string;
+  selectedOption: string | null;  // null이면 기타 선택
+  selectedLabel?: string;         // 선택한 옵션의 레이블
+  customText?: string;            // 기타 선택 시 자연어 입력
+}
+
+/**
+ * 수집된 인사이트 (질문을 통해 파악된 정보)
+ */
+export interface CollectedInsight {
+  type: 'age' | 'environment' | 'concern' | 'priority' | 'budget' | 'experience';
+  value: string;
+  source: 'initial' | 'clarifying';  // 초기 입력에서 vs 명확화 질문에서
+}
+
+/**
+ * 강화된 컨텍스트 (명확화 질문 완료 후)
+ */
+export interface EnrichedContext {
+  initialContext: string;
+  clarifyingAnswers: ClarifyingAnswer[];
+  collectedInsights: CollectedInsight[];
+  totalTurns: number;
+}
+
+/**
+ * Clarifying Questions API 요청
+ */
+export interface ClarifyingQuestionsRequest {
+  categoryKey: string;
+  categoryName: string;
+  initialContext: string;
+  previousAnswers: ClarifyingAnswer[];
+  turnNumber: number;  // 1, 2, 3
+}
+
+/**
+ * Clarifying Questions API 응답
+ */
+export interface ClarifyingQuestionsResponse {
+  success: boolean;
+  data?: {
+    question: ClarifyingQuestion;
+    shouldContinue: boolean;
+    collectedInsights: CollectedInsight[];
+  };
+  error?: string;
+}

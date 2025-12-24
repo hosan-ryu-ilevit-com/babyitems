@@ -56,15 +56,9 @@ export default function ContextInput({
     } catch (err) {
       console.error('Failed to load examples:', err);
       setExamples([
-        '지금 쓰는 게 불편해요',
-        '사용하기 어려워요',
-        '품질이 아쉬워요',
-        '3개월 아기예요',
-        '첫 아이라 잘 몰라요',
-        '맞벌이라 시간이 부족해요',
-        '가성비가 중요해요',
-        '사용 편한 게 필요해요',
-        '안전한 제품을 원해요',
+        '지금 쓰는 게 불편해서 바꾸려고 해요',
+        '첫 아이라 뭘 사야 할지 잘 몰라요',
+        '가성비 좋으면서 품질 괜찮은 거 찾아요',
       ]);
       setIsLoadingExamples(false);
     }
@@ -202,43 +196,42 @@ export default function ContextInput({
 
       {/* 예시 버튼들 - 직접 입력 시 숨김 */}
       {text.length === 0 && (
-        <div className="-mx-4 mt-2">
-          <div className="overflow-x-auto px-4 pb-4 scrollbar-hide">
+        <div className="mt-2">
+          <div className="flex flex-col gap-2 items-start">
             {isLoadingExamples ? (
-              <div className="grid grid-rows-2 grid-flow-col gap-3" style={{ minWidth: 'max-content' }}>
-                {[1, 2, 3, 4, 5, 6].map(i => (
-                  <div
+              <>
+                {[1, 2, 3].map(i => (
+                  <motion.div
                     key={i}
-                    className="h-16 rounded-xl bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="w-[80%] h-[52px] rounded-xl bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
                     style={{
-                      width: '240px',
                       animationDelay: `${i * 0.1}s`
                     }}
                   />
                 ))}
-              </div>
+              </>
             ) : (
-              <div className="grid grid-rows-2 grid-flow-col gap-3" style={{ minWidth: 'max-content' }}>
-                {examples.map((example, idx) => (
-                  <motion.button
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0.2,
-                      delay: idx * 0.03,
-                      ease: "easeOut"
-                    }}
-                    onClick={() => handleExampleClick(example, idx)}
-                    className="px-3.5 py-3 text-[13px] font-medium rounded-xl bg-gray-50 border border-gray-100 
-                    text-gray-600 transition-all duration-200 text-left leading-relaxed
-                    hover:bg-gray-100 hover:border-gray-200 active:scale-[0.98]"
-                    style={{ width: '280px' }}
-                  >
-                    {example}
-                  </motion.button>
-                ))}
-              </div>
+              examples.map((example, idx) => (
+                <motion.button
+                  key={idx}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.25,
+                    delay: idx * 0.08,
+                    ease: "easeOut"
+                  }}
+                  onClick={() => handleExampleClick(example, idx)}
+                  className="w-[80%] px-4 py-3 text-[14px] font-medium rounded-xl bg-gray-50 border border-gray-100
+                  text-gray-600 transition-all duration-200 text-left leading-relaxed
+                  hover:bg-gray-100 hover:border-gray-200 active:scale-[0.98]"
+                >
+                  {example}
+                </motion.button>
+              ))
             )}
           </div>
         </div>

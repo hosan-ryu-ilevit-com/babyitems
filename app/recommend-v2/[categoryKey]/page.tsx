@@ -44,6 +44,8 @@ import {
 } from '@/components/recommend-v2';
 import ContextInput from '@/components/recommend-v2/ContextInput';
 import { AISelectionReview } from '@/components/recommend-v2/AISelectionReview';
+import ClarifyingQuestions from '@/components/recommend-v2/ClarifyingQuestions';
+import type { EnrichedContext } from '@/types/recommend-v2';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
 
@@ -156,6 +158,8 @@ export default function RecommendV2Page() {
   const [isLoadingPreselection, setIsLoadingPreselection] = useState(false);
 
   // B 버전: AI One-Shot Selection 상태
+  const [showClarifyingQuestions, setShowClarifyingQuestions] = useState(false);
+  const [enrichedContext, setEnrichedContext] = useState<EnrichedContext | null>(null);
   const [isAiAnalyzing, setIsAiAnalyzing] = useState(false);
   const [aiAnalysisTime, setAiAnalysisTime] = useState(0); // AI 분석 시간 (0.1초 단위)
   const [aiSelections, setAiSelections] = useState<{
@@ -899,14 +903,14 @@ export default function RecommendV2Page() {
     if (isRestoredFromStorage) return;
     // Step -1 (ContextInput)인 경우 스킵 - ContextInput 완료 후 handleContextComplete에서 처리
     if (currentStep === -1) return;
-    // B 버전: AI 분석 중이거나 AI 리뷰 화면일 때는 스킵
-    if (isAiAnalyzing || showAiReview) return;
+    // B 버전: Clarifying Questions, AI 분석 중, AI 리뷰 화면일 때는 스킵
+    if (showClarifyingQuestions || isAiAnalyzing || showAiReview) return;
     // B 버전: 이미 결과 단계(Step 5)로 직행한 경우 스킵
     if (currentStep >= 5) return;
 
     hasTriggeredGuideRef.current = true;
     handleScanComplete();
-  }, [isLoading, hardFilterConfig, isRestoredFromStorage, handleScanComplete, currentStep, isAiAnalyzing, showAiReview]);
+  }, [isLoading, hardFilterConfig, isRestoredFromStorage, handleScanComplete, currentStep, showClarifyingQuestions, isAiAnalyzing, showAiReview]);
 
   // ===================================================
   // Sub-Category Selection Handler (다중 선택 지원)
@@ -1143,7 +1147,7 @@ export default function RecommendV2Page() {
   // ===================================================
 
   const handleContextComplete = useCallback(async (context: string | null) => {
-    // B 버전: 자연어 입력 필수, One-Shot AI Selection 사용
+    // B 버전: 자연어 입력 필수, Clarifying Questions 후 One-Shot AI Selection
 
     // 1. 상태 저장
     setUserContext(context);
@@ -1153,35 +1157,42 @@ export default function RecommendV2Page() {
       return;
     }
 
-    // 2. AI 분석 시작
+    // 2. Clarifying Questions 표시
     setCurrentStep(0);
-    setIsAiAnalyzing(true);
+    setShowClarifyingQuestions(true);
     setShowAiReview(false);
+  }, []);
+
+  // Clarifying Questions 완료 후 One-Shot 분석 진행
+  const handleClarifyingComplete = useCallback(async (enriched: EnrichedContext) => {
+    setShowClarifyingQuestions(false);
+    setEnrichedContext(enriched);
+    setIsAiAnalyzing(true);
 
     // 말풍선으로 스크롤 (헤더 바로 아래 위치)
     scrollToMessage('user-context-bubble');
 
     try {
-      // 3. One-Shot API 호출
+      // One-Shot API 호출 (enriched context 포함)
       const response = await fetch('/api/ai-selection-helper/one-shot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           categoryKey,
           categoryName,
-          userContext: context.trim(),
+          userContext: enriched.initialContext,
+          clarifyingAnswers: enriched.clarifyingAnswers,
+          collectedInsights: enriched.collectedInsights,
         }),
       });
 
       const result = await response.json();
 
       if (result.success && result.data) {
-        // 4. AI 선택 결과 저장
         setAiSelections(result.data);
         setShowAiReview(true);
-        console.log('🤖 One-Shot AI Selection completed:', result.data);
+        console.log('🤖 One-Shot AI Selection completed (with clarifying):', result.data);
       } else {
-        // 실패 시 에러 표시
         console.error('One-Shot selection failed:', result.error);
         alert('AI 분석에 실패했습니다. 다시 시도해주세요.');
         setCurrentStep(-1);
@@ -1194,6 +1205,45 @@ export default function RecommendV2Page() {
       setIsAiAnalyzing(false);
     }
   }, [categoryKey, categoryName, scrollToMessage]);
+
+  // Clarifying Questions 스킵 → 바로 One-Shot 분석
+  const handleClarifyingSkip = useCallback(async () => {
+    setShowClarifyingQuestions(false);
+    setIsAiAnalyzing(true);
+
+    // 말풍선으로 스크롤
+    scrollToMessage('user-context-bubble');
+
+    try {
+      const response = await fetch('/api/ai-selection-helper/one-shot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryKey,
+          categoryName,
+          userContext: userContext?.trim() || '',
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        setAiSelections(result.data);
+        setShowAiReview(true);
+        console.log('🤖 One-Shot AI Selection completed (skipped clarifying):', result.data);
+      } else {
+        console.error('One-Shot selection failed:', result.error);
+        alert('AI 분석에 실패했습니다. 다시 시도해주세요.');
+        setCurrentStep(-1);
+      }
+    } catch (error) {
+      console.error('One-Shot API error:', error);
+      alert('AI 분석 중 오류가 발생했습니다. 다시 시도해주세요.');
+      setCurrentStep(-1);
+    } finally {
+      setIsAiAnalyzing(false);
+    }
+  }, [categoryKey, categoryName, userContext, scrollToMessage]);
 
   // ===================================================
   // B 버전: AI 선택 확인 후 추천 결과로 진행
@@ -1723,12 +1773,16 @@ export default function RecommendV2Page() {
 
     // Step -1로 이동 (ContextInput)
     setCurrentStep(-1);
+    // Clarifying Questions 숨기기
+    setShowClarifyingQuestions(false);
     // AI 리뷰 화면 숨기기
     setShowAiReview(false);
     // AI 선택 결과 초기화
     setAiSelections(null);
     // 사용자 컨텍스트 초기화 (ContextInput 초기 상태로)
     setUserContext(null);
+    // enrichedContext 초기화
+    setEnrichedContext(null);
 
     // 스크롤 상단으로
     setTimeout(() => {
@@ -3903,17 +3957,59 @@ export default function RecommendV2Page() {
             </div>
           )}
 
-          {/* B 버전: 사용자 입력 말풍선 (AI 분석 중 + AI 리뷰 화면에서 표시) */}
-          {currentStep === 0 && userContext && (
-            <div
-              data-message-id="user-context-bubble"
-              className="flex justify-end pt-6 mb-4"
-            >
-              <div className="max-w-[85%] px-4 py-3 bg-gray-100 rounded-2xl rounded-tr-md">
-                <p className="text-[15px] text-gray-800 leading-relaxed whitespace-pre-wrap">
-                  {userContext}
-                </p>
+          {/* B 버전: 사용자 입력 말풍선 (Clarifying Questions, AI 분석 중, AI 리뷰 화면에서 표시) */}
+          {currentStep === 0 && userContext && !showClarifyingQuestions && (
+            <div className="space-y-3 pt-6 mb-4">
+              {/* 원래 사용자 입력 말풍선 */}
+              <div
+                data-message-id="user-context-bubble"
+                className="flex justify-end"
+              >
+                <div className="max-w-[85%] px-4 py-3 bg-gray-100 rounded-2xl rounded-tr-md">
+                  <p className="text-[15px] text-gray-800 leading-relaxed whitespace-pre-wrap">
+                    {userContext}
+                  </p>
+                </div>
               </div>
+
+              {/* Clarifying 답변 요약 말풍선 */}
+              {enrichedContext && enrichedContext.clarifyingAnswers.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
+                  className="flex justify-end"
+                >
+                  <div className="max-w-[85%] px-4 py-3 bg-purple-50 border border-purple-100 rounded-2xl rounded-tr-md">
+                    <div className="space-y-2">
+                      {enrichedContext.clarifyingAnswers.map((answer, idx) => (
+                        <div key={answer.questionId} className="text-[13px]">
+                          <span className="text-purple-400 font-medium">Q{idx + 1}.</span>{' '}
+                          <span className="text-gray-500">{answer.questionText}</span>
+                          <div className="ml-5 mt-0.5">
+                            <span className="text-purple-600 font-medium">
+                              → {answer.customText || answer.selectedLabel || answer.selectedOption}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          )}
+
+          {/* B 버전: Clarifying Questions (선택지 기반 Q&A) */}
+          {currentStep === 0 && showClarifyingQuestions && userContext && (
+            <div className="pt-4">
+              <ClarifyingQuestions
+                categoryKey={categoryKey}
+                categoryName={categoryName}
+                initialContext={userContext}
+                onComplete={handleClarifyingComplete}
+                onSkip={handleClarifyingSkip}
+              />
             </div>
           )}
 

@@ -326,8 +326,8 @@ export function AISelectionReview({
         className="mb-4"
       >
         <div className="flex items-center justify-center px-4 py-3 bg-purple-50/50 rounded-xl border border-purple-100/50">
-          <p className="text-xs text-purple-700 font-medium leading-tight text-center">
-            아래 메뉴를 눌러서 조건들을 직접 수정하실 수도 있어요
+          <p className="text-sm text-purple-700 font-medium leading-tight text-center">
+            👇 아래 메뉴를 눌러 조건을 수정하실 수 있어요 
           </p>
         </div>
       </motion.div>

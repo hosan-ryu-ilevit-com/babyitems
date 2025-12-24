@@ -83,9 +83,6 @@ export function AIHelperBottomSheet({
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 구매하는게 뭔가요?';
-  const CONTEXT_SUMMARY_EXAMPLE = '🔮_CONTEXT_SUMMARY'; // 특별한 식별자
-
   const generateExamples = async () => {
     setIsLoadingExamples(true);
     try {
@@ -102,59 +99,23 @@ export function AIHelperBottomSheet({
       });
       const data = await res.json();
 
-      // 어떤 선택이나 입력이라도 있는지 확인
-      const hasContext =
-        (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
-        (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
-        (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
-
-      // 디버깅 로그
-      console.log('🔍 [AIHelperBottomSheet] generateExamples:', {
-        hasContext,
-        naturalLanguageInputs: userSelections?.naturalLanguageInputs?.length || 0,
-        hardFilters: userSelections?.hardFilters?.length || 0,
-        balanceGames: userSelections?.balanceGames?.length || 0,
-      });
-
-      // 카테고리 선택: 고정 1개 + API 8개 = 총 9개
-      if (questionType === 'category_selection') {
-        const apiExamples = (data.examples || []).slice(0, 8);
-        const baseExamples = [FIXED_FIRST_EXAMPLE, ...apiExamples];
-        // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
-        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
-      } else {
-        // 다른 타입: API에서 3개 가져오기 (고정 예시 제거)
-        const apiExamples = (data.examples || []).slice(0, 3);
-        setExamples(apiExamples);
-      }
+      // 모든 타입: API에서 3개 가져오기
+      const apiExamples = (data.examples || []).slice(0, 3);
+      setExamples(apiExamples);
     } catch {
-      // 어떤 선택이나 입력이라도 있는지 확인
-      const hasContext =
-        (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
-        (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
-        (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
-
-      if (questionType === 'category_selection') {
-        const baseExamples = [
-          FIXED_FIRST_EXAMPLE,
-          '신생아 출산 준비 중이에요',
-          '쌍둥이라 수유가 힘들어요',
-          '6개월 아기를 키우고 다음주에 이사를 가려고 해요',
-          '맞벌이라 시간이 부족해요',
-          '곧 직장 복귀하는데 준비가 필요해요',
-          '아이가 예민한 편이에요',
-          '외출할 때마다 불편해요',
-          '둘째 출산 예정이라 준비 중이에요',
-        ];
-        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
-      } else {
-        const fallbackExamples = [
-          '쌍둥이라 자주 사용해요',
-          '맞벌이라 시간이 부족해요',
-          '집이 좁은 편이에요',
-        ];
-        setExamples(fallbackExamples);
-      }
+      // 모든 타입: 3개 fallback
+      const fallbackExamples = questionType === 'category_selection'
+        ? [
+            '신생아 출산 준비 중이에요',
+            '쌍둥이라 수유가 힘들어요',
+            '맞벌이라 시간이 부족해요',
+          ]
+        : [
+            '쌍둥이라 자주 사용해요',
+            '맞벌이라 시간이 부족해요',
+            '집이 좁은 편이에요',
+          ];
+      setExamples(fallbackExamples);
     } finally {
       setIsLoadingExamples(false);
     }
@@ -288,20 +249,6 @@ export function AIHelperBottomSheet({
   };
 
   const handleExampleClick = async (example: string, index: number) => {
-    // 특별 예시인 경우 바로 추천받기 실행
-    if (example === CONTEXT_SUMMARY_EXAMPLE) {
-      console.log('🔍 [AIHelperBottomSheet] Context summary clicked, triggering auto-submit:', {
-        userSelections: userSelections,
-      });
-
-      // "지금까지 입력한 상황에 맞춰 추천해주세요" 텍스트 설정
-      setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
-
-      // 자동 제출 트리거 설정 (useEffect가 감지하여 실행)
-      setShouldAutoSubmit(true);
-      return;
-    }
-
     // 로깅
     logExampleQuestionClicked(
       questionType,
@@ -414,138 +361,46 @@ export function AIHelperBottomSheet({
                   어떤 상황인지 알려주시면 추천해드릴게요!
                 </p>
 
-                {/* 예시 버튼들 */}
-                {questionType === 'category_selection' ? (
-                  // 카테고리 선택: 가로 스크롤 그리드 (3개씩)
-                  <div className="mb-4 -mx-5">
-                    <div className="overflow-x-auto px-5 scrollbar-hide">
-                      {isLoadingExamples ? (
-                        <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
-                            <div
-                              key={i}
-                              className="h-8 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
-                              style={{
-                                width: '180px',
-                                animationDelay: `${i * 0.1}s`
-                              }}
-                            />
-                          ))}
-                          <style jsx>{`
-                            @keyframes shimmer {
-                              0% { background-position: 200% 0; }
-                              100% { background-position: -200% 0; }
-                            }
-                          `}</style>
-                        </div>
-                      ) : (
-                        <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                          {examples.map((example, idx) => {
-                            const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
-                            return (
-                              <motion.button
-                                key={idx}
-                                initial={{ opacity: 0, x: 10, scale: 0.95 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                transition={{
-                                  duration: 0.3,
-                                  delay: idx * 0.05,
-                                  ease: [0.25, 0.1, 0.25, 1]
-                                }}
-                                onClick={() => handleExampleClick(example, idx)}
-                                disabled={isLoading || !!aiResponse}
-                                className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed whitespace-nowrap flex items-center gap-1.5 ${
-                                  isContextSummary
-                                    ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 font-semibold'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                              >
-                                {isContextSummary ? (
-                                  <span>지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
-                                ) : (
-                                  example
-                                )}
-                              </motion.button>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  // 다른 타입: 기존 flex-wrap 레이아웃
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {isLoadingExamples ? (
-                      <>
-                        {[1, 2, 3].map(i => (
-                          <div
-                            key={i}
-                            className="h-8 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
-                            style={{
-                              width: `${70 + i * 15}px`,
-                              animationDelay: `${i * 0.15}s`
-                            }}
-                          />
-                        ))}
-                        <style jsx>{`
-                          @keyframes shimmer {
-                            0% { background-position: 200% 0; }
-                            100% { background-position: -200% 0; }
-                          }
-                        `}</style>
-                      </>
-                    ) : (
-                      examples.map((example, idx) => {
-                        const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
-                        return (
-                          <motion.button
-                            key={idx}
-                            initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{
-                              duration: 0.3,
-                              delay: idx * 0.1,
-                              ease: [0.25, 0.1, 0.25, 1]
-                            }}
-                            onClick={() => handleExampleClick(example, idx)}
-                            disabled={isLoading || !!aiResponse}
-                            className={`text-sm rounded-full transition-all disabled:cursor-not-allowed flex items-center gap-1.5 ${
-                              isContextSummary || example === FIXED_FIRST_EXAMPLE
-                                ? 'w-full p-3 rounded-xl border mb-1 justify-between' // Card Style for special options
-                                : 'px-3 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-full' // Default Chip Style
-                            } ${
-                              isContextSummary
-                                ? 'bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100'
-                                : example === FIXED_FIRST_EXAMPLE
-                                ? 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-100'
-                                : ''
-                            }`}
-                          >
-                            {isContextSummary ? (
-                              <>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-lg leading-none">✨</span>
-                                  <span className="font-bold">지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
-                                </div>
-                                <svg className="w-4 h-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                              </>
-                            ) : example === FIXED_FIRST_EXAMPLE ? (
-                              <>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-lg leading-none">🔥</span>
-                                  <span className="font-bold">{example}</span>
-                                </div>
-                                <svg className="w-4 h-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                              </>
-                            ) : (
-                              example
-                            )}
-                          </motion.button>
-                        );
-                      })
-                    )}
-                  </div>
-                )}
+                {/* 예시 버튼들 - 모든 타입: 세로 1x3 배열 */}
+                <div className="flex flex-col gap-2 mb-4">
+                  {isLoadingExamples ? (
+                    <>
+                      {[1, 2, 3].map(i => (
+                        <div
+                          key={i}
+                          className="h-10 rounded-xl bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
+                          style={{
+                            animationDelay: `${i * 0.15}s`
+                          }}
+                        />
+                      ))}
+                      <style jsx>{`
+                        @keyframes shimmer {
+                          0% { background-position: 200% 0; }
+                          100% { background-position: -200% 0; }
+                        }
+                      `}</style>
+                    </>
+                  ) : (
+                    examples.map((example, idx) => (
+                      <motion.button
+                        key={idx}
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: idx * 0.1,
+                          ease: [0.25, 0.1, 0.25, 1]
+                        }}
+                        onClick={() => handleExampleClick(example, idx)}
+                        disabled={isLoading || !!aiResponse}
+                        className="w-full px-4 py-2.5 text-sm text-left rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all disabled:cursor-not-allowed"
+                      >
+                        {example}
+                      </motion.button>
+                    ))
+                  )}
+                </div>
                 </>
                 )}
 

@@ -389,6 +389,11 @@ ${previousSelectionsContext}
 
     const parsed = parseJSONResponse<AISelectionResponse>(response);
 
+    // 디버깅: AI 응답 로깅
+    console.log('[AI-Selection-Helper] questionType:', questionType);
+    console.log('[AI-Selection-Helper] Raw AI Response:', response);
+    console.log('[AI-Selection-Helper] Parsed selectedOptions:', parsed.recommendation.selectedOptions);
+
     // 유효성 검증
     if (questionType === 'hard_filter' || questionType === 'category_selection') {
       const validValues = (options as HardFilterOption[]).map(o => o.value);
@@ -403,9 +408,17 @@ ${previousSelectionsContext}
     } else if (questionType === 'negative_filter') {
       // negative_filter는 target_rule_key 값들만 허용
       const validKeys = (options as NegativeFilterOption[]).map(o => o.target_rule_key);
+      const originalOptions = [...parsed.recommendation.selectedOptions];
       parsed.recommendation.selectedOptions = parsed.recommendation.selectedOptions.filter(
         opt => validKeys.includes(opt)
       );
+      // 디버깅: 필터링 결과 로깅
+      const filteredOut = originalOptions.filter(opt => !validKeys.includes(opt));
+      if (filteredOut.length > 0) {
+        console.log('[AI-Selection-Helper] ⚠️ Negative filter - Filtered OUT (invalid keys):', filteredOut);
+        console.log('[AI-Selection-Helper] Valid keys sample:', validKeys.slice(0, 3));
+      }
+      console.log('[AI-Selection-Helper] Negative filter - Final selectedOptions:', parsed.recommendation.selectedOptions);
       // 빈 배열도 유효 (피해야 할 단점이 없는 경우)
     } else {
       // balance_game은 A, B, both만 허용

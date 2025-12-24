@@ -26,24 +26,24 @@ export async function POST(request: NextRequest) {
     let userPrompt: string;
 
     if (questionType === 'category_selection') {
-      // 카테고리 선택용 예시 생성 - 8개 생성 (3x3 그리드에서 고정 1개 + API 8개)
+      // 카테고리 선택용 예시 생성 - 3개 생성
       systemPrompt = `당신은 육아맘의 마음을 잘 아는 상담사입니다.
-아기용품을 찾는 사용자가 본인 상황을 설명할 수 있는 예시를 8개 생성해주세요.
+아기용품을 찾는 사용자가 본인 상황을 설명할 수 있는 예시를 3개 생성해주세요.
 
 **중요 규칙:**
 1. 각 예시는 15-25자 내외로 짧고 자연스럽게
 2. 다양한 육아 상황을 커버 (출산 준비, 월령별 필요, 생활 패턴, 환경 등)
 3. 예시들이 서로 겹치지 않도록 다양한 상황으로
-4. 좋은 예시: "신생아 출산 준비 중이에요", "쌍둥이라 수유가 힘들어요", "맞벌이라 시간이 부족해요", "곧 직장 복귀해요"
+4. 좋은 예시: "신생아 출산 준비 중이에요", "쌍둥이라 수유가 힘들어요", "맞벌이라 시간이 부족해요"
 5. "~해요", "~이에요" 같은 자연스러운 말투로
 6. 카테고리를 직접 언급하지 말고, 상황만 설명`;
 
-      userPrompt = `사용자가 아기용품을 찾을 때 본인 상황을 설명할 수 있는 예시 8개를 생성해주세요.
+      userPrompt = `사용자가 아기용품을 찾을 때 본인 상황을 설명할 수 있는 예시 3개를 생성해주세요.
 다양한 육아 상황(출산 준비, 월령, 생활 패턴, 환경, 아기 특성 등)을 커버해주세요.
 
 **응답 형식 (JSON):**
 {
-  "examples": ["예시1", "예시2", "예시3", "예시4", "예시5", "예시6", "예시7", "예시8"]
+  "examples": ["예시1", "예시2", "예시3"]
 }`;
     } else if (questionType === 'negative_filter') {
       // 단점 필터용 예시 생성 - 상품 단점이 아닌 사용자 상황/우려 기반
@@ -101,20 +101,15 @@ export async function POST(request: NextRequest) {
 
     const parsed = parseJSONResponse<GenerateExamplesResponse>(response);
 
-    // category_selection은 8개, 나머지는 3개
-    const targetCount = questionType === 'category_selection' ? 8 : 3;
+    // 모든 타입 3개
+    const targetCount = 3;
 
     // 예시가 목표 개수 미만이면 기본 예시로 채움
     const defaultExamples = questionType === 'category_selection'
       ? [
           '신생아 출산 준비 중이에요',
           '쌍둥이라 수유가 힘들어요',
-          '6개월 아기를 키우고 있어요',
           '맞벌이라 시간이 부족해요',
-          '곧 직장 복귀해요',
-          '아이가 예민한 편이에요',
-          '외출할 때마다 불편해요',
-          '둘째 출산 예정이에요',
         ]
       : [
           '쌍둥이라 자주 사용해요',
@@ -130,17 +125,12 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Generate examples error:', error);
-    // 에러 시 기본 예시 반환 - questionType에 따라 다른 개수
+    // 에러 시 기본 예시 반환 - 모두 3개
     const fallbackExamples = questionType === 'category_selection'
       ? [
           '신생아 출산 준비 중이에요',
           '쌍둥이라 수유가 힘들어요',
-          '6개월 아기를 키우고 있어요',
           '맞벌이라 시간이 부족해요',
-          '곧 직장 복귀해요',
-          '아이가 예민한 편이에요',
-          '외출할 때마다 불편해요',
-          '둘째 출산 예정이에요',
         ]
       : [
           '쌍둥이라 자주 사용해요',

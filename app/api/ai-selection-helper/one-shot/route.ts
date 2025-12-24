@@ -19,13 +19,16 @@ import type {
   BalanceQuestion,
   NegativeFilterOption,
 } from '@/types/rules';
-import type { HardFilterQuestion } from '@/types/recommend-v2';
+import type { HardFilterQuestion, ClarifyingAnswer, CollectedInsight } from '@/types/recommend-v2';
 
 interface OneShotRequest {
   categoryKey: string;
   categoryName: string;
   userContext: string;
   subCategoryCode?: string;
+  // Clarifying Questions에서 수집된 추가 정보
+  clarifyingAnswers?: ClarifyingAnswer[];
+  collectedInsights?: CollectedInsight[];
 }
 
 interface OneShotResponse {
@@ -44,7 +47,7 @@ interface OneShotResponse {
 export async function POST(request: NextRequest) {
   try {
     const body: OneShotRequest = await request.json();
-    const { categoryKey, categoryName, userContext, subCategoryCode } = body;
+    const { categoryKey, categoryName, userContext, subCategoryCode, clarifyingAnswers, collectedInsights } = body;
 
     // 유효성 검사
     if (!userContext || userContext.trim().length < 2) {
@@ -121,13 +124,13 @@ export async function POST(request: NextRequest) {
 2. **모든 질문에 대해 답변을 생성해야 합니다.** (건너뛰기 금지)
 3. **하드 필터:** 각 질문(id)에 대해 적절한 옵션(value)들을 선택하세요. (복수 선택 가능)
 4. **밸런스 게임:** 각 질문(id)에 대해 "A", "B", "both" 중 하나를 선택하세요. "both"는 정말 애매할 때만 사용하세요.
-5. **기피하는 단점:** 사용자 상황에서 꼭 피해야 할 단점들의 target_rule_key를 리스트로 반환하세요. 없으면 빈 리스트.
+5. **기피하는 단점:** 사용자 상황에서 꼭 피해야 할 단점들의 key 값을 리스트로 반환하세요. **반드시 아래 제공된 옵션의 "key" 값 그대로 사용하세요** (예: "체감속성_위생적인_올실리콘"). 없으면 빈 리스트 [].
 6. **selectionReasons:** 각 선택에 대한 개별 이유를 **한글로, 1문장으로** 작성하세요.
    - hardFilters: 각 questionId에 대해 왜 그 옵션을 선택했는지
    - balanceGames: 각 questionId에 대해 왜 A/B/both를 선택했는지
    - negativeFilters: 전체적으로 왜 그 단점들을 선택했는지 (또는 선택하지 않았는지)
 7. **overallReasoning:** 전체 선택에 대한 3-4문장 요약. "사용자님의 상황(~~)을 고려하여 ~~한 제품 위주로 골라봤어요" 톤으로 작성하세요. **중요: 선택된 조건과 관련된 핵심 키워드(예: 가성비, 안전성, 휴대성 등)는 반드시 **키워드** 형식으로 감싸서 강조해주세요.** 예: "**가성비**와 **휴대성**을 중요하게 생각하시는 것 같아요."
-8. **모든 reasoning은 한글로 작성하세요. 내부 키(pro_1, con_2 등)가 아닌 한글 설명을 사용하세요.**
+8. **reasoning/overallReasoning 텍스트는 한글로 작성하세요.** reasoning에서 단점을 언급할 때는 label(한글 설명)을 사용하세요. 단, negativeFilterSelections 배열에는 반드시 제공된 key 값(체감속성_XXX 형식)을 그대로 사용하세요.
 9. **신뢰도(confidence) 기준:**
    - **high**: 사용자의 상황이 구체적이고(예: "6개월 아기 유모차, 가벼운 것"), 모든 필터 선택에 명확한 근거가 있는 경우.
    - **medium**: 상황은 파악되나 일부 선택에 추측이 필요한 경우.
@@ -137,7 +140,7 @@ export async function POST(request: NextRequest) {
 {
   "hardFilterSelections": { "questionId1": ["value1", "value2"], ... },
   "balanceGameSelections": { "questionId1": "A", "questionId2": "B", ... },
-  "negativeFilterSelections": ["key1", "key2"],
+  "negativeFilterSelections": ["체감속성_XXX", "체감속성_YYY"],  // 반드시 제공된 key 값 그대로 사용!
   "selectionReasons": {
     "hardFilters": { "questionId1": "이유 1문장", ... },
     "balanceGames": { "questionId1": "이유 1문장", ... },
@@ -149,10 +152,27 @@ export async function POST(request: NextRequest) {
 
 ${insightsContext}`;
 
-    const userPrompt = `
-**사용자 상황:**
-"${userContext}"
+    // Clarifying Questions에서 수집된 추가 컨텍스트 구성
+    const clarifyingContext = clarifyingAnswers && clarifyingAnswers.length > 0 ? `
+**추가 확인 내용 (Clarifying Questions):**
+${clarifyingAnswers.map(a => {
+  const answer = a.customText
+    ? `기타: "${a.customText}"`
+    : a.selectedLabel || a.selectedOption || '선택 없음';
+  return `Q: ${a.questionText}\nA: ${answer}`;
+}).join('\n\n')}
+` : '';
 
+    const insightsFromClarifying = collectedInsights && collectedInsights.length > 0 ? `
+**파악된 정보:**
+${collectedInsights.map(i => `- ${i.type}: ${i.value}`).join('\n')}
+` : '';
+
+    const userPrompt = `
+**사용자 초기 입력:**
+"${userContext}"
+${clarifyingContext}
+${insightsFromClarifying}
 **카테고리:** ${categoryName}
 
 **1. 하드 필터 질문 목록:**
@@ -234,8 +254,19 @@ ${JSON.stringify(negativeOptions.map(o => ({
 
     // 3. 단점필터 선택 검증
     const validNegativeKeys = negativeOptions.map(o => o.target_rule_key);
-    const validatedNegativeSelections = (parsed.negativeFilterSelections || [])
+    const originalNegativeSelections = parsed.negativeFilterSelections || [];
+    const validatedNegativeSelections = originalNegativeSelections
       .filter(key => validNegativeKeys.includes(key));
+
+    // 디버깅: 단점필터 검증 결과 로깅
+    console.log('[OneShot] negativeOptions count:', negativeOptions.length);
+    console.log('[OneShot] AI returned negativeFilterSelections:', originalNegativeSelections);
+    console.log('[OneShot] Valid negative keys sample:', validNegativeKeys.slice(0, 3));
+    const filteredOutNegative = originalNegativeSelections.filter(key => !validNegativeKeys.includes(key));
+    if (filteredOutNegative.length > 0) {
+      console.log('[OneShot] ⚠️ Negative filter - Filtered OUT (invalid keys):', filteredOutNegative);
+    }
+    console.log('[OneShot] Final validated negativeFilterSelections:', validatedNegativeSelections);
 
     // 4. selectionReasons 기본값 설정
     const selectionReasons = {
