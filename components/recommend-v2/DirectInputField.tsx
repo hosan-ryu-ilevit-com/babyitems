@@ -70,15 +70,15 @@ export default function DirectInputField({
   // 등록된 상태이고 편집 중이 아닐 때 → 체크된 옵션처럼 표시
   const showRegisteredState = isRegistered && !isEditing;
 
-  // 색상 설정
-  const accentColor = isNegative ? 'rose' : 'blue';
+  // 색상 설정 (모든 필터 타입에 대해 Purple 테마 적용)
+  const accentColor = 'purple';
   const borderColorClass = showRegisteredState
-    ? `border-${accentColor}-400`
+    ? `border-purple-400`
     : isFocused
-      ? `border-${accentColor}-400`
+      ? `border-purple-400`
       : 'border-gray-200';
   const bgColorClass = showRegisteredState
-    ? `bg-${accentColor}-50`
+    ? `bg-purple-50`
     : 'bg-white';
 
   return (
@@ -102,20 +102,14 @@ export default function DirectInputField({
           onClick={handleEdit}
           className={`
             w-full p-4 rounded-xl border-2 text-left transition-all
-            ${isNegative 
-              ? 'border-rose-400 bg-rose-50' 
-              : 'border-blue-400 bg-blue-50'
-            }
+            border-purple-500 bg-purple-50
           `}
         >
           <div className="flex items-center gap-3">
             {/* 체크 아이콘 */}
             <div className={`
               w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0
-              ${isNegative 
-                ? 'border-rose-500 bg-rose-500' 
-                : 'border-blue-500 bg-blue-500'
-              }
+              border-purple-500 bg-purple-500
             `}>
               <motion.svg
                 initial={{ scale: 0 }}
@@ -132,7 +126,7 @@ export default function DirectInputField({
             {/* 등록된 텍스트 */}
             <span className={`
               text-sm font-medium leading-snug flex-1
-              ${isNegative ? 'text-rose-700' : 'text-blue-700'}
+              text-purple-700
             `}>
               {value}
             </span>
@@ -160,7 +154,7 @@ export default function DirectInputField({
               flex-1 px-4 py-3 rounded-xl
               border-2 
               ${isFocused 
-                ? isNegative ? 'border-rose-400' : 'border-blue-400'
+                ? 'border-purple-400'
                 : 'border-gray-200'
               }
               bg-white
@@ -168,7 +162,7 @@ export default function DirectInputField({
               placeholder:text-gray-300
               transition-all duration-200
               focus:outline-none focus:ring-4 
-              ${isNegative ? 'focus:ring-rose-100' : 'focus:ring-blue-100'}
+              focus:ring-purple-100
               disabled:bg-gray-50 disabled:cursor-not-allowed
             `}
             style={{ fontSize: '16px' }} // 모바일 확대 방지
@@ -183,9 +177,7 @@ export default function DirectInputField({
               px-4 py-3 rounded-xl font-medium text-sm whitespace-nowrap
               transition-all duration-200
               ${value.trim().length >= 2
-                ? isNegative
-                  ? 'bg-rose-500 text-white hover:bg-rose-600'
-                  : 'bg-blue-500 text-white hover:bg-blue-600'
+                ? 'bg-purple-500 text-white hover:bg-purple-600'
                 : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               }
             `}

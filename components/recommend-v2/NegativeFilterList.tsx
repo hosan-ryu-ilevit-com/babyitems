@@ -92,7 +92,7 @@ export function NegativeFilterList({
     >
       {/* 헤더 */}
       <div className="flex items-center justify-between">
-        <span className="px-2.5 py-1 bg-rose-100 text-rose-600 rounded-full text-xs font-bold">
+        <span className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold">
           단점 필터
         </span>
         
@@ -146,8 +146,8 @@ export function NegativeFilterList({
               }}
               className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                 isSelected
-                  ? 'border-rose-400 bg-rose-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  ? 'border-purple-500 bg-purple-50'
+                  : 'border-gray-200 bg-white hover:border-purple-200 hover:bg-purple-50'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -155,8 +155,8 @@ export function NegativeFilterList({
                 <div
                   className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                     isSelected
-                      ? 'border-rose-500 bg-rose-500'
-                      : 'border-gray-300 bg-white'
+                      ? 'border-purple-500 bg-purple-500'
+                      : 'border-gray-300 bg-white group-hover:border-purple-300'
                   }`}
                 >
                   {isSelected && (
@@ -176,7 +176,7 @@ export function NegativeFilterList({
                 {/* 옵션 텍스트 */}
                 <span
                   className={`text-sm font-medium leading-snug flex-1 ${
-                    isSelected ? 'text-rose-700' : 'text-gray-700'
+                    isSelected ? 'text-purple-700' : 'text-gray-700'
                   }`}
                 >
                   {option.label}

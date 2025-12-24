@@ -358,7 +358,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
       >
         {/* 헤더 */}
         <div className="flex items-center justify-between">
-          <span className="px-2.5 py-1 bg-emerald-100 text-emerald-600 rounded-full text-xs font-bold">
+          <span className="px-2.5 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-bold">
             취향 선택
           </span>
           <span className="text-xs text-gray-400">
@@ -454,8 +454,8 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                     isCurrentSkipped
                       ? 'border-gray-200 bg-gray-50 cursor-default'
                       : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                      ? 'border-emerald-400 bg-emerald-50'
-                      : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                      ? 'border-purple-500 bg-purple-50'
+                      : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -465,7 +465,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                         isCurrentSkipped
                           ? 'border-gray-300 bg-white'
                           : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                          ? 'border-emerald-500 bg-emerald-500'
+                          ? 'border-purple-500 bg-purple-500'
                           : 'border-gray-300 bg-white'
                       }`}
                     >
@@ -486,7 +486,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       isCurrentSkipped
                         ? 'text-gray-400'
                         : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                        ? 'text-emerald-700'
+                        ? 'text-purple-700'
                         : 'text-gray-700'
                     }`}>
                       {currentQuestion.option_A.text}
@@ -509,8 +509,8 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                     isCurrentSkipped
                       ? 'border-gray-200 bg-gray-50 cursor-default'
                       : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                      ? 'border-emerald-400 bg-emerald-50'
-                      : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                      ? 'border-purple-500 bg-purple-50'
+                      : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -520,7 +520,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                         isCurrentSkipped
                           ? 'border-gray-300 bg-white'
                           : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                          ? 'border-emerald-500 bg-emerald-500'
+                          ? 'border-purple-500 bg-purple-500'
                           : 'border-gray-300 bg-white'
                       }`}
                     >
@@ -541,7 +541,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       isCurrentSkipped
                         ? 'text-gray-400'
                         : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                        ? 'text-emerald-700'
+                        ? 'text-purple-700'
                         : 'text-gray-700'
                     }`}>
                       {currentQuestion.option_B.text}
@@ -576,7 +576,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             className={`p-1.5 rounded-full transition-all ${
               currentIndex === 0
                 ? 'text-gray-300 cursor-not-allowed'
-                : 'text-gray-500 hover:text-emerald-600 hover:bg-emerald-50'
+                : 'text-gray-500 hover:text-purple-600 hover:bg-purple-50'
             }`}
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -592,9 +592,9 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                 onClick={() => goToIndex(idx)}
                 className={`h-1.5 rounded-full transition-all ${
                   idx === currentIndex
-                    ? 'w-6 bg-emerald-500'
+                    ? 'w-6 bg-purple-500'
                     : isAnswered(q.id)
-                    ? 'w-1.5 bg-emerald-300'
+                    ? 'w-1.5 bg-purple-300'
                     : 'w-1.5 bg-gray-300'
                 }`}
               />
@@ -608,7 +608,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             className={`p-1.5 rounded-full transition-all ${
               currentIndex >= questions.length - 1
                 ? 'text-gray-300 cursor-not-allowed'
-                : 'text-gray-500 hover:text-emerald-600 hover:bg-emerald-50'
+                : 'text-gray-500 hover:text-purple-600 hover:bg-purple-50'
             }`}
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

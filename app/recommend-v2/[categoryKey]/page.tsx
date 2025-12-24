@@ -2914,7 +2914,7 @@ export default function RecommendV2Page() {
           className={`w-full h-14 rounded-2xl font-semibold text-base transition-all ${
             isTransitioning
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-blue-500 text-white hover:bg-blue-600'
+              : 'bg-purple-600 text-white hover:bg-purple-700'
           }`}
         >
           {isTransitioning ? '로딩 중...' : '다음'}
@@ -2958,7 +2958,7 @@ export default function RecommendV2Page() {
             disabled={!canProceed || isTransitioning}
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
               canProceed && !isTransitioning
-                ? 'bg-blue-500 text-white hover:bg-blue-600'
+                ? 'bg-purple-600 text-white hover:bg-purple-700'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }`}
           >
@@ -3028,8 +3028,8 @@ export default function RecommendV2Page() {
             disabled={isStep2Disabled}
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
               isStep2Disabled
-                ? 'bg-emerald-300 text-emerald-100 cursor-not-allowed'
-                : 'bg-emerald-500 text-white hover:bg-emerald-600'
+                ? 'bg-purple-300 text-purple-100 cursor-not-allowed'
+                : 'bg-purple-600 text-white hover:bg-purple-700'
             }`}
           >
             다음
@@ -3110,7 +3110,7 @@ export default function RecommendV2Page() {
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
               isNextDisabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-emerald-500 text-white hover:bg-emerald-600'
+                : 'bg-purple-600 text-white hover:bg-purple-700'
             }`}
           >
             {isLastBalanceQuestion
@@ -3174,7 +3174,7 @@ export default function RecommendV2Page() {
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
               isTransitioning
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-rose-500 text-white hover:bg-rose-600'
+                : 'bg-purple-600 text-white hover:bg-purple-700'
             }`}
           >
             {negativeSelections.length > 0 || isNegativeDirectInputRegistered
@@ -3187,6 +3187,11 @@ export default function RecommendV2Page() {
 
     // Step 5: 추천받기 with prev/next
     if (currentStep === 5 && scoredProducts.length === 0) {
+      // 로딩 중(분석 중)일 때는 버튼 영역 아예 숨김
+      if (isCalculating) {
+        return null;
+      }
+
       // 예산 범위 내 상품 개수 계산
       const budgetProductsCount = filteredProducts.filter(p => {
         const effectivePrice = p.lowestPrice ?? p.price;
@@ -3201,9 +3206,9 @@ export default function RecommendV2Page() {
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              disabled={isTransitioning || isCalculating}
+              disabled={isTransitioning}
               onClick={() => {
-                if (isTransitioning || isCalculating) return;
+                if (isTransitioning) return;
                 logV2StepBack(categoryKey, categoryName, 5, 4);
                 setCurrentStep(4);
 
@@ -3232,7 +3237,7 @@ export default function RecommendV2Page() {
                 });
               }}
               className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
-                isTransitioning || isCalculating
+                isTransitioning
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
@@ -3243,14 +3248,15 @@ export default function RecommendV2Page() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => handleGetRecommendation(false)}
-              disabled={isCalculating || isTransitioning || isTooFewProducts}
-              className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
-                isCalculating || isTransitioning || isTooFewProducts
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-amber-500 text-white hover:bg-amber-600'
+              disabled={isTransitioning || isTooFewProducts}
+              className={`flex-[3] h-14 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-200/50 ${
+                isTransitioning || isTooFewProducts
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
+                  : 'bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:shadow-purple-300 hover:scale-[1.02] active:scale-[0.98]'
               }`}
             >
-              {isCalculating ? '분석 중...' : '추천받기'}
+              <span className="text-xl">✨</span>
+              <span>추천받기</span>
             </motion.button>
           </div>
           {/* 상품 부족 경고 */}
@@ -3350,7 +3356,7 @@ export default function RecommendV2Page() {
             <div className="px-5 pb-3">
               <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-blue-500 rounded-full"
+                  className="h-full bg-purple-500 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${(currentStep / 5) * 100}%` }}
                   transition={{ duration: 0.3 }}
@@ -3663,7 +3669,7 @@ export default function RecommendV2Page() {
                     </button>
                     <button
                       onClick={() => router.push('/categories-v2')}
-                      className="flex-1 px-4 py-3 bg-blue-500 text-white font-semibold rounded-xl"
+                      className="flex-1 px-4 py-3 bg-purple-600 text-white font-semibold rounded-xl"
                     >
                       돌아가기
                     </button>

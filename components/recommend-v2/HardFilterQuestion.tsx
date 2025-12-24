@@ -238,8 +238,8 @@ function ReviewPriorityTags({
                   px-4 py-2.5 rounded-full text-sm font-medium border-2
                   transition-all duration-200
                   ${isSelected
-                    ? 'bg-blue-50 text-blue-700 border-blue-400'
-                    : 'bg-white text-gray-700 border-gray-100 hover:border-blue-300 hover:bg-blue-50'
+                    ? 'bg-purple-50 text-purple-700 border-purple-500'
+                    : 'bg-white text-gray-700 border-gray-100 hover:border-purple-300 hover:bg-purple-50'
                   }
                 `}
               >
@@ -610,16 +610,16 @@ export function HardFilterQuestion({
     >
       {/* 질문 헤더 */}
       <div className="flex items-center justify-between">
-        <span className="px-2.5 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-bold">
+        <span className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold">
           Q{currentIndex + 1}
         </span>
-        <span className="text-xs text-gray-400">
+        <span className="text-xs text-gray-400 font-medium">
           {currentIndex + 1} / {totalCount}
         </span>
       </div>
 
       {/* 질문 텍스트 */}
-      <h3 className="text-base font-bold text-gray-900 leading-snug">
+      <h3 className="text-[19px] font-bold text-gray-900 leading-snug">
         {question.question}
       </h3>
 
@@ -647,12 +647,12 @@ export function HardFilterQuestion({
       )}
 
       {/* 선택지 - 6개 초과 시 2열 그리드 */}
-      <div className={question.options.length > 6 ? 'grid grid-cols-2 gap-2' : 'space-y-2'}>
+      <div className={question.options.length > 6 ? 'grid grid-cols-2 gap-2.5' : 'space-y-2.5'}>
         {question.options.map((option, index) => {
           const isSelected = localSelectedValues.includes(option.value);
           const isSkipOption = SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없') || option.value.includes('전부 좋아요');
           const isDisabled = isSkipSelected && !isSkipOption;
-
+          
           // 인기 옵션인지 확인 (해당 질문의 상위 3개)
           const popularOption = popularOptions.find(
             po => po.questionId === question.id && po.value === option.value && po.isPopular
@@ -682,30 +682,30 @@ export function HardFilterQuestion({
               transition={{ delay: index * 0.02 }}
               onClick={() => handleOptionClick(option.value)}
               disabled={isDisabled}
-              className={`${isFullWidth ? 'col-span-2' : ''} w-full p-3 rounded-xl border-2 text-left transition-all ${
+              className={`${isFullWidth ? 'col-span-2' : ''} w-full p-4 rounded-xl border text-left transition-all relative overflow-hidden ${
                 isDisabled
                   ? 'border-gray-100 bg-gray-50 cursor-not-allowed opacity-50'
                   : isSelected
-                  ? 'border-blue-400 bg-blue-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  ? 'border-purple-500 bg-purple-50 shadow-sm'
+                  : 'border-gray-200 bg-white hover:border-purple-200 hover:bg-purple-50/30 hover:shadow-md'
               }`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 {/* 체크박스 스타일 */}
                 <div
-                  className={`w-4 h-4 rounded-md border-2 flex items-center justify-center shrink-0 transition-all ${
+                  className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
                     isDisabled
                       ? 'border-gray-200 bg-gray-100'
                       : isSelected
-                      ? 'border-blue-500 bg-blue-500'
-                      : 'border-gray-300 bg-white'
+                      ? 'border-purple-500 bg-purple-500'
+                      : 'border-gray-300 bg-white group-hover:border-purple-300'
                   }`}
                 >
                   {isSelected && !isDisabled && (
                     <motion.svg
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="w-2.5 h-2.5 text-white"
+                      className="w-3 h-3 text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -717,11 +717,11 @@ export function HardFilterQuestion({
 
                 {/* 옵션 텍스트 */}
                 <span
-                  className={`text-sm font-medium flex-1 truncate ${
+                  className={`text-[15px] font-medium flex-1 truncate ${
                     isDisabled
                       ? 'text-gray-400'
                       : isSelected
-                      ? 'text-blue-700'
+                      ? 'text-purple-900'
                       : 'text-gray-700'
                   }`}
                 >
@@ -730,7 +730,7 @@ export function HardFilterQuestion({
 
                 {/* 많이 선택 뱃지 - 2열일 때는 간소화 */}
                 {isPopular && !isSkipOption && popularOption && (
-                  <span className={`bg-green-100 text-green-600 font-semibold rounded-full shrink-0 ${
+                  <span className={`bg-purple-100 text-purple-600 font-bold rounded-full shrink-0 ${
                     question.options.length > 6
                       ? 'px-1.5 py-0.5 text-[9px]'
                       : 'px-2 py-0.5 text-[10px]'

@@ -509,14 +509,34 @@ export function AIHelperBottomSheet({
                             }}
                             onClick={() => handleExampleClick(example, idx)}
                             disabled={isLoading || !!aiResponse}
-                            className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed flex items-center gap-1.5 ${
+                            className={`text-sm rounded-full transition-all disabled:cursor-not-allowed flex items-center gap-1.5 ${
+                              isContextSummary || example === FIXED_FIRST_EXAMPLE
+                                ? 'w-full p-3 rounded-xl border mb-1 justify-between' // Card Style for special options
+                                : 'px-3 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-full' // Default Chip Style
+                            } ${
                               isContextSummary
-                                ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 font-semibold'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                ? 'bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100'
+                                : example === FIXED_FIRST_EXAMPLE
+                                ? 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-100'
+                                : ''
                             }`}
                           >
                             {isContextSummary ? (
-                              <span>지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
+                              <>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-lg leading-none">✨</span>
+                                  <span className="font-bold">지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
+                                </div>
+                                <svg className="w-4 h-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                              </>
+                            ) : example === FIXED_FIRST_EXAMPLE ? (
+                              <>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-lg leading-none">🔥</span>
+                                  <span className="font-bold">{example}</span>
+                                </div>
+                                <svg className="w-4 h-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                              </>
                             ) : (
                               example
                             )}
@@ -631,8 +651,8 @@ export function AIHelperBottomSheet({
                             key={idx}
                             className={`px-3 py-1.5 text-sm font-medium rounded-lg border ${
                               questionType === 'balance_game'
-                                ? 'text-emerald-700 bg-emerald-50 border-emerald-400'
-                                : 'text-blue-700 bg-blue-50 border-blue-400'
+                                ? 'text-purple-700 bg-purple-50 border-purple-400'
+                                : 'text-purple-700 bg-purple-50 border-purple-400'
                             }`}
                           >
                             {label}
