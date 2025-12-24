@@ -152,11 +152,11 @@ ${insightsContext}`;
 ${JSON.stringify(hardFilterQuestions.map(q => ({
   id: q.id,
   question: q.question,
+  tip: q.tip, // 질문 힌트 추가
   type: q.type,
   options: q.options.map(o => ({
     value: o.value,
     label: o.displayLabel || o.label, // displayLabel 우선 사용
-    tip: o.tip, // 힌트 추가
     reviewKeywords: o.reviewKeywords // 리뷰 키워드 힌트 추가
   }))
 })), null, 2)}
