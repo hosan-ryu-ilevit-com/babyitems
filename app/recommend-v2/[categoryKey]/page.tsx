@@ -1094,46 +1094,58 @@ export default function RecommendV2Page() {
   // Step -1 Complete → Step 0 (Context Input)
   // ===================================================
 
-  const handleContextComplete = useCallback(async (context: string | null) => {
+  const handleContextComplete = useCallback((context: string | null) => {
     // 1. 상태 저장
     setUserContext(context);
 
-    // 2. 입력이 있으면 AI 파싱 (체감속성 태그 미리 선택) - await로 완료 대기
+    // 건너뛰기인 경우 preselected 상태 초기화
+    if (!context || !context.trim()) {
+      setPreselectedExperienceTags([]);
+      setPreselectedExplanation('');
+    }
+
+    // 2. 즉시 Step 0으로 진행 (AI 파싱 기다리지 않음)
+    setCurrentStep(0);
+
+    // 3. Guide Cards 트리거 (hasTriggeredGuideRef 플래그 설정)
+    hasTriggeredGuideRef.current = true;
+    handleScanComplete();
+
+    // 4. 스크롤을 Q1 영역으로 즉시 이동
+    setTimeout(() => {
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+
+    // 5. 입력이 있으면 AI 파싱 (백그라운드에서 비동기 처리)
     if (context && context.trim()) {
       setIsLoadingPreselection(true);
-      try {
-        const result = await fetch('/api/ai-selection-helper/parse-experience-tags-from-context', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            category: categoryKey,
-            categoryName,
-            context: context.trim(),
-          }),
-        });
-
-        if (result.ok) {
-          const data = await result.json();
+      fetch('/api/ai-selection-helper/parse-experience-tags-from-context', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          category: categoryKey,
+          categoryName,
+          context: context.trim(),
+        }),
+      })
+        .then(result => {
+          if (result.ok) return result.json();
+          throw new Error('Parse failed');
+        })
+        .then(data => {
           if (data?.selectedTags && data.selectedTags.length > 0) {
             setPreselectedExperienceTags(data.selectedTags);
             setPreselectedExplanation(data.explanation || '');
             console.log('🎯 Context parsed, experience tags:', data.selectedTags);
           }
-        }
-      } catch (error) {
-        console.error('Context parsing failed:', error);
-      } finally {
-        setIsLoadingPreselection(false);
-      }
+        })
+        .catch(error => {
+          console.error('Context parsing failed:', error);
+        })
+        .finally(() => {
+          setIsLoadingPreselection(false);
+        });
     }
-
-    // 3. Step 0으로 진행 및 Guide Cards 트리거 (AI 파싱 완료 후)
-    setCurrentStep(0);
-
-    // 4. Guide Cards 트리거 (hasTriggeredGuideRef 플래그 설정)
-    // 스크롤은 handleScanComplete 내부에서 Q1 메시지 추가 후 처리
-    hasTriggeredGuideRef.current = true;
-    handleScanComplete();
   }, [categoryKey, categoryName, handleScanComplete]);
 
   // ===================================================
@@ -3252,10 +3264,12 @@ export default function RecommendV2Page() {
               className={`flex-[3] h-14 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-200/50 ${
                 isTransitioning || isTooFewProducts
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
-                  : 'bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:shadow-purple-300 hover:scale-[1.02] active:scale-[0.98]'
+                  : 'bg-purple-600 text-white hover:bg-purple-700 hover:shadow-purple-300 hover:scale-[1.02] active:scale-[0.98]'
               }`}
             >
-              <span className="text-xl">✨</span>
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+              </svg>
               <span>추천받기</span>
             </motion.button>
           </div>
@@ -3341,7 +3355,7 @@ export default function RecommendV2Page() {
               {currentStep === 5 && scoredProducts.length > 0 ? (
                 <button
                   onClick={handleFeedbackClick}
-                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors whitespace-nowrap"
+                  className="text-[13px] font-medium text-gray-400 hover:text-gray-600 transition-colors bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm"
                 >
                   피드백 보내기
                 </button>
@@ -3356,7 +3370,7 @@ export default function RecommendV2Page() {
             <div className="px-5 pb-3">
               <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-purple-500 rounded-full"
+                  className="h-full bg-orange-600 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${(currentStep / 5) * 100}%` }}
                   transition={{ duration: 0.3 }}

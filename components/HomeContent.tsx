@@ -241,7 +241,7 @@ export function HomeContent() {
             onClick={handleFeedbackClick}
             className="text-[13px] font-medium text-gray-400 hover:text-gray-600 transition-colors bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm"
           >
-            피드백
+            피드백 보내기
           </button>
         </header>
 
@@ -258,18 +258,7 @@ export function HomeContent() {
             >
               <h1 className="text-[26px] font-bold text-gray-900 mb-8 mt-4 leading-[1.3] tracking-tight">
                 <span className="font-semibold text-gray-800">수천 개 아기용품 중</span><br />
-                <span 
-                  className="rounded-sm relative inline-block"
-                >
-                  <span className="relative z-10 text-gray-900">내게 딱 맞는 하나</span>
-                  <span 
-                    className="absolute bottom-1 left-0 w-full h-3 bg-purple-200/60 -z-0 rounded-sm"
-                    style={{
-                      transformOrigin: 'left',
-                      animation: 'highlight-draw-home 0.8s ease-out 0.2s both'
-                    }}
-                  />
-                </span> 찾기
+                <span className="text-purple-600">내게 딱 맞는 하나</span> 찾기
               </h1>
 
               {/* Video Character Animation with Soft Glow */}
@@ -346,7 +335,7 @@ export function HomeContent() {
             <div className="text-[13px] font-semibold px-4 py-2 rounded-full whitespace-nowrap shadow-md flex items-center gap-1.5" 
               style={{ backgroundColor: '#2D2D2D', color: '#FFFFFF' }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <span>어떤 상품을 찾으시나요?</span>
             </div>

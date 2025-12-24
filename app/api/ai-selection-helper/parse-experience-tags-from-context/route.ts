@@ -144,7 +144,7 @@ ${optionsFormatted}
 
       if (finalTags.length > 0) {
         const topLabels = sortedByMention.slice(0, 2).map(opt => opt.displayLabel || opt.label);
-        finalExplanation = `가장 많은 분들이 체크하시는 **${topLabels.join('**과 **')}** 조건이에요. 상황에 맞게 조정해주세요!`;
+        finalExplanation = `요청사항과 정확히 대응되는 조건이 없어, 가장 많은 분들이 고르시는 **${topLabels.join('**과 **')}** 을 골랐어요. 상황에 맞게 조정해주세요!`;
         console.log('🔄 Fallback to top mentionCount tags:', finalTags);
       }
     }

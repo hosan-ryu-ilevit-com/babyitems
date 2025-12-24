@@ -32,6 +32,7 @@ export default function ContextInput({
   const [isLoadingExamples, setIsLoadingExamples] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // 버튼 중복 클릭 방지
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const isLoadedRef = useRef(false);
 
@@ -42,10 +43,14 @@ export default function ContextInput({
     }
   }, [category, categoryName]);
 
-  // 완료 후 submittedText로 텍스트 동기화
+  // 완료 후 submittedText로 텍스트 동기화 & 이전으로 돌아왔을 때 상태 리셋
   useEffect(() => {
     if (isCompleted && submittedText !== null) {
       setText(submittedText);
+    }
+    // 이전 단계로 돌아왔을 때 (isCompleted가 false가 되면) 상태 리셋
+    if (!isCompleted) {
+      setIsSubmitting(false);
     }
   }, [isCompleted, submittedText]);
 
@@ -84,12 +89,13 @@ export default function ContextInput({
   };
 
   const handleSubmit = () => {
-    if (!text.trim()) return;
+    if (!text.trim() || isSubmitting) return;
     if (text.trim().length > 500) {
       setError('500자 이내로 입력해주세요');
       return;
     }
     setError(null);
+    setIsSubmitting(true); // 즉시 비활성화
 
     // 로깅: 컨텍스트 입력 제출
     logContextInputSubmit(category, categoryName, text.trim());
@@ -112,7 +118,7 @@ export default function ContextInput({
     setText(example);
   };
 
-  const isSubmitDisabled = !text.trim();
+  const isSubmitDisabled = !text.trim() || isSubmitting;
 
   return (
     <motion.div
@@ -145,7 +151,7 @@ export default function ContextInput({
             focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 
             shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]
             ${isCompleted ? 'bg-gray-50 text-gray-500 border-transparent shadow-none' : ''}`}
-          rows={4}
+          rows={3}
           maxLength={500}
           disabled={isCompleted}
         />
@@ -232,13 +238,23 @@ export default function ContextInput({
             <button
               onClick={handleSubmit}
               disabled={isSubmitDisabled}
-              className={`w-full h-[56px] rounded-2xl font-bold text-[17px] tracking-tight transition-all flex items-center justify-center shadow-lg hover:shadow-xl active:scale-[0.98] ${
+              className={`w-full h-[56px] rounded-2xl font-bold text-[17px] tracking-tight transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-[0.98] ${
                 isSubmitDisabled
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
                   : 'bg-purple-600 text-white hover:bg-purple-700 shadow-purple-200'
               }`}
             >
-              추천받기 시작
+              {isSubmitting ? (
+                <>
+                  <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  분석 중...
+                </>
+              ) : (
+                '추천받기 시작'
+              )}
             </button>
             <button
               onClick={handleSkip}

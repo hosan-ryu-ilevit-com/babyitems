@@ -87,7 +87,7 @@ export function SubCategorySelector({
     >
       {/* 헤더 */}
       <div className="flex items-center gap-2">
-        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-600 rounded-full text-xs font-bold">
+        <span className="px-2.5 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-bold">
           세부 종류
         </span>
       </div>
@@ -137,13 +137,13 @@ export function SubCategorySelector({
               onClick={() => onToggle(sub.code)}
               className={`px-4 py-3 rounded-xl border-2 transition-all ${
                 isSelected
-                  ? 'border-emerald-400 bg-emerald-50'
-                  : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  ? 'border-purple-500 bg-purple-50'
+                  : 'border-gray-100 bg-white hover:border-purple-200 hover:bg-purple-50/30'
               }`}
             >
               <span
                 className={`text-sm font-semibold ${
-                  isSelected ? 'text-emerald-700' : 'text-gray-800'
+                  isSelected ? 'text-purple-900' : 'text-gray-800'
                 }`}
               >
                 {sub.name}

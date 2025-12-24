@@ -53,7 +53,7 @@ export function AIHelperButton({
     // 토글 기능 추가: 버튼 클릭 시 확장/축소
     if (onContextRecommend || onPopularRecommend) {
       setIsExpanded(!isExpanded);
-      
+
       // 로깅 (확장될 때만)
       if (!isExpanded) {
         import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
@@ -66,91 +66,67 @@ export function AIHelperButton({
     }
   };
 
-  // variant에 따른 스타일 설정
-  const baseStyles = variant === 'emphasized'
-    ? 'bg-purple-600 hover:bg-purple-700 border-purple-600'
-    : 'bg-purple-50 hover:bg-purple-100 border-purple-100';
-
-  const iconFill = variant === 'emphasized' ? '#E9D5FF' : '#8B5CF6';
-  const textColor = variant === 'emphasized' ? 'text-white' : 'text-purple-700';
-
   return (
     <div className={`w-full flex flex-col items-start gap-2 ${className}`}>
-      {/* 
-        [접힘 상태]
-        - 아이콘 + "AI에게 물어보기" 텍스트만 심플하게 표시
-        - 클릭 시 펼쳐짐 (isExpanded true)
-      */}
+      {/* 메인 버튼 - 심플한 디자인 */}
       <motion.button
         initial={isMounted ? { opacity: 0, y: 5 } : false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
         onClick={handleClick}
-        className={`relative flex items-center justify-between px-4 py-3 rounded-xl border transition-all w-full shadow-sm hover:shadow-md group overflow-hidden ${
+        className={`flex items-center justify-between px-4 py-3.5 rounded-xl border transition-all w-full ${
           variant === 'emphasized'
-            ? 'bg-linear-to-r from-purple-600 to-indigo-600 border-transparent text-white'
-            : 'bg-white border-purple-100 hover:border-purple-300'
+            ? 'bg-purple-100 border-purple-200 hover:bg-purple-150'
+            : 'bg-purple-50 border-purple-100 hover:bg-purple-100'
         }`}
       >
-        <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none ${
-          variant === 'emphasized' ? 'bg-white/10' : 'bg-purple-50/50'
-        }`} />
-
-        <div className="flex items-center gap-2.5 relative z-10">
-          {/* AI 아이콘 (캐릭터 느낌) */}
-          <div className={`p-1.5 rounded-lg ${
-            variant === 'emphasized' ? 'bg-white/20' : 'bg-purple-50'
-          }`}>
-            <span className="text-lg leading-none">🧞‍♂️</span>
-          </div>
-
-          <div className="flex flex-col items-start">
-            <span className={`text-[13px] font-bold leading-none ${
-              variant === 'emphasized' ? 'text-white' : 'text-purple-700'
-            }`}>
-              뭘 골라야 할지 모르겠어요
-            </span>
-          </div>
+        <div className="flex items-center gap-2">
+          {/* 물음표 원 아이콘 */}
+          {/* <svg className="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="12" cy="17" r="0.5" fill="currentColor" />
+          </svg> */}
+           <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-200 text-purple-700">
+            AI
+          </span>
+          <span className="text-[13px] font-semibold text-purple-700">
+            뭘 골라야 할지 모르겠어요
+          </span>
+         
         </div>
 
-        {/* 우측 화살표 - 토글 상태 표시 */}
-        <div className={`p-1 rounded-full ${
-          variant === 'emphasized' ? 'bg-white/20 text-white' : 'bg-gray-50 text-gray-400 group-hover:bg-purple-100 group-hover:text-purple-600'
-        } transition-colors relative z-10`}>
-          <motion.svg 
-            animate={{ rotate: isExpanded ? 180 : 0 }}
-            className="w-4 h-4" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2.5"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </motion.svg>
-        </div>
+        {/* 우측 화살표 */}
+        <motion.svg
+          animate={{ rotate: isExpanded ? 90 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="w-4 h-4 text-purple-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </motion.svg>
       </motion.button>
 
-      {/* 
-        [펼침 상태] - 빠른 추천 옵션들이 아래로 슬라이드 다운됨 
-        - isExpanded가 true일 때만 렌더링/표시
-      */}
+      {/* 펼침 상태 - 하위 옵션들 */}
       <AnimatePresence>
         {isExpanded && ((hasContext && onContextRecommend) || onPopularRecommend) && (
-          <motion.div 
+          <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
             className="w-full overflow-hidden"
           >
-            <div className="grid grid-cols-1 gap-2 w-full pt-1 pb-1">
-              {/* 질문하기 버튼 (가장 먼저 노출) */}
+            <div className="flex flex-col gap-2 w-full">
+              {/* AI에게 직접 물어보기 */}
               <motion.button
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.05 }}
                 onClick={() => {
-                  // 로깅 및 바텀시트 열기
                   if (questionType && questionId && questionText && category && categoryName) {
                     logAIHelperButtonClicked(
                       questionType,
@@ -163,14 +139,15 @@ export function AIHelperButton({
                   }
                   onClick();
                 }}
-                className="flex items-center gap-3 px-3 py-3 rounded-xl bg-purple-50 border border-purple-200 hover:bg-purple-100/50 hover:shadow-sm transition-all text-left"
+                className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all"
               >
-                <div className="p-1.5 rounded-lg bg-white shrink-0">
-                  <span className="text-lg leading-none">💬</span>
-                </div>
-                <span className="text-xs font-bold text-purple-900">AI에게 직접 물어보기</span>
+                <svg className="w-4 h-4 text-purple-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L13.5 9L20 12L13.5 15L12 22L10.5 15L4 12L10.5 9L12 2Z" />
+          </svg>
+                <span className="text-[13px] font-medium text-gray-700">AI에게 내 상황 말하고 추천받기</span>
               </motion.button>
 
+              {/* 가장 많은 사람들이 구매하는게 뭔가요? */}
               {onPopularRecommend && (
                 <motion.button
                   initial={{ opacity: 0 }}
@@ -182,14 +159,16 @@ export function AIHelperButton({
                     });
                     onPopularRecommend();
                   }}
-                  className="flex items-center gap-3 px-3 py-3 rounded-xl bg-white border border-gray-200 hover:border-purple-200 hover:bg-purple-50/30 hover:shadow-sm transition-all text-left"
+                  className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all"
                 >
-                  <div className="p-1.5 rounded-lg bg-orange-50 shrink-0">
-                    <span className="text-lg leading-none">🔥</span>
-                  </div>
-                  <span className="text-xs font-bold text-gray-800">가장 많은 사람들이 구매하는게 뭔가요?</span>
+                  <svg className="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                  <span className="text-[13px] font-medium text-gray-700">가장 많은 사람들이 구매하는게 뭔가요?</span>
                 </motion.button>
               )}
+
+              {/* 입력한 내 상황에 맞춰 골라주세요 */}
               {hasContext && onContextRecommend && (
                 <motion.button
                   initial={{ opacity: 0 }}
@@ -201,12 +180,12 @@ export function AIHelperButton({
                     });
                     onContextRecommend();
                   }}
-                  className="flex items-center gap-3 px-3 py-3 rounded-xl bg-white border border-gray-200 hover:border-purple-200 hover:bg-purple-50/30 hover:shadow-sm transition-all text-left"
+                  className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all"
                 >
-                  <div className="p-1.5 rounded-lg bg-purple-50 shrink-0">
-                    <span className="text-lg leading-none">✨</span>
-                  </div>
-                  <span className="text-xs font-bold text-gray-800">입력한 내 상황에 맞춰 골라주세요</span>
+                  <svg className="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                  <span className="text-[13px] font-medium text-gray-700">지금까지 입력된 내 상황에 맞춰 골라주세요</span>
                 </motion.button>
               )}
             </div>

@@ -651,8 +651,8 @@ export function AIHelperBottomSheet({
                             key={idx}
                             className={`px-3 py-1.5 text-sm font-medium rounded-lg border ${
                               questionType === 'balance_game'
-                                ? 'text-purple-700 bg-purple-50 border-purple-400'
-                                : 'text-purple-700 bg-purple-50 border-purple-400'
+                                ? 'text-purple-700 bg-white border-purple-400'
+                                : 'text-purple-700 bg-white border-purple-400'
                             }`}
                           >
                             {label}
@@ -675,6 +675,8 @@ export function AIHelperBottomSheet({
                         onClick={() => {
                           setAiResponse(null);
                           setUserInput('');
+                          setIsQuickMode(false); // 전체 UI 다시 표시
+                          generateExamples(); // 예시 다시 로드
                           // 위로 스크롤 후 인풋 포커스
                           scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
                           setTimeout(() => {

@@ -88,6 +88,11 @@ function ReviewPriorityTags({
     prevPreselectedTagsRef.current = preselectedTags || [];
 
     if (!preselectedTags || preselectedTags.length === 0) {
+      // 이전에 preselected로 적용된 태그가 있었다면 선택 초기화
+      if (appliedTagsRef.current.length > 0) {
+        onSelect([]);
+        console.log('🔄 Cleared preselected tags');
+      }
       appliedTagsRef.current = [];
       return;
     }
@@ -153,7 +158,11 @@ function ReviewPriorityTags({
       >
         <div className="space-y-2">
           <h3 className="text-base font-semibold text-gray-900 leading-snug">
-            중요하게 생각하시는 <br></br> {categoryName || category} 구매조건을 골라주세요
+            {preselectedTags.length > 0 ? (
+              <>핵심 구매조건을 <br></br>자동으로 골라드렸어요</>
+            ) : (
+              <>중요하게 생각하시는 <br />{categoryName || category} 구매조건을 골라주세요</>
+            )}
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
         <div className="flex items-center gap-3">
@@ -252,8 +261,8 @@ function ReviewPriorityTags({
                     <span className={`
                       px-1.5 py-0.5 rounded-full text-[10px] font-bold
                       ${isSelected
-                        ? 'bg-green-200 text-green-700'
-                        : 'bg-green-100 text-green-600'
+                        ? 'bg-orange-200 text-orange-700'
+                        : 'bg-orange-100 text-orange-600'
                       }
                     `}>
                       {percentage}%
@@ -730,7 +739,7 @@ export function HardFilterQuestion({
 
                 {/* 많이 선택 뱃지 - 2열일 때는 간소화 */}
                 {isPopular && !isSkipOption && popularOption && (
-                  <span className={`bg-purple-100 text-purple-600 font-bold rounded-full shrink-0 ${
+                  <span className={`bg-orange-100 text-orange-600 font-bold rounded-full shrink-0 ${
                     question.options.length > 6
                       ? 'px-1.5 py-0.5 text-[9px]'
                       : 'px-2 py-0.5 text-[10px]'
