@@ -130,14 +130,33 @@ ${optionsFormatted}
     const validOptionValues = q1Options.map(opt => opt.value);
     const validatedTags = (parsed.selectedTags || []).filter(tag => validOptionValues.includes(tag));
 
+    // 폴백: AI가 빈 배열 반환 시 mentionCount 상위 2개 태그 선택
+    let finalTags = validatedTags;
+    let finalExplanation = parsed.explanation || '';
+
+    if (finalTags.length === 0) {
+      // mentionCount 기준 정렬 후 상위 2개 선택
+      const sortedByMention = [...q1Options]
+        .filter(opt => opt.mentionCount && opt.mentionCount > 0)
+        .sort((a, b) => (b.mentionCount || 0) - (a.mentionCount || 0));
+
+      finalTags = sortedByMention.slice(0, 2).map(opt => opt.value);
+
+      if (finalTags.length > 0) {
+        const topLabels = sortedByMention.slice(0, 2).map(opt => opt.displayLabel || opt.label);
+        finalExplanation = `가장 많은 분들이 체크하시는 **${topLabels.join('**과 **')}** 조건이에요. 상황에 맞게 조정해주세요!`;
+        console.log('🔄 Fallback to top mentionCount tags:', finalTags);
+      }
+    }
+
     console.log('🎯 Parse experience tags from context result:');
     console.log('  - Context:', context);
-    console.log('  - Selected tags:', validatedTags);
-    console.log('  - Explanation:', parsed.explanation);
+    console.log('  - Selected tags:', finalTags);
+    console.log('  - Explanation:', finalExplanation);
 
     return NextResponse.json({
-      selectedTags: validatedTags,
-      explanation: parsed.explanation || '',
+      selectedTags: finalTags,
+      explanation: finalExplanation,
     });
 
   } catch (error) {

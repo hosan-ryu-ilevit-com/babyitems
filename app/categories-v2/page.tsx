@@ -231,7 +231,7 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
   },
 ];
 
-// Age Filter Bar Component - 선택된 것만 pill, 나머지는 텍스트만
+// Age Filter Bar Component - High Contrast Selection
 function AgeFilterBar({
   selectedAgeId,
   onSelect,
@@ -249,10 +249,10 @@ function AgeFilterBar({
               key={filter.id}
               whileTap={{ scale: 0.95 }}
               onClick={() => onSelect(filter.id)}
-              className={`py-2 px-4 text-sm font-bold whitespace-nowrap transition-all ${
+              className={`py-2 px-4 text-[13px] font-bold whitespace-nowrap transition-all rounded-full ${
                 isSelected
-                  ? 'bg-blue-50 text-blue-600 rounded-full'
-                  : 'text-gray-400 hover:text-gray-600'
+                  ? 'bg-gray-900 text-white shadow-md'
+                  : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               {filter.label}
@@ -264,7 +264,7 @@ function AgeFilterBar({
   );
 }
 
-// Category Card Component - v2 스타일 (그림자 없음, 보더 스타일)
+// Category Card Component - v2 스타일 (Purple Theme)
 function CategoryCard({
   category,
   isSelected,
@@ -280,37 +280,40 @@ function CategoryCard({
 }) {
   return (
     <motion.button
-      whileTap={{ scale: 0.97 }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(category)}
       disabled={isLoading}
-      className={`rounded-2xl p-4 transition-all duration-200 text-left border ${
+      className={`rounded-2xl p-4 transition-all duration-200 text-left border relative overflow-hidden group ${
         isLoading
-          ? 'bg-blue-100 border-blue-200 animate-pulse'
+          ? 'bg-purple-50 border-purple-200'
           : isSelected
-            ? 'bg-blue-50 border-transparent'
-            : 'bg-gray-50 border-transparent hover:bg-gray-100 active:bg-gray-200 active:opacity-70'
+            ? 'bg-purple-50 border-purple-200 shadow-sm'
+            : 'bg-white border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md hover:border-purple-100 hover:bg-purple-50/30'
       }`}
     >
+      {/* Loading Shimmer */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-white/30 animate-pulse" />
+      )}
+
       {/* Emoji/Spinner + Category Name */}
-      <div className="flex items-center gap-2">
-        <span className="text-base w-5 h-5 flex items-center justify-center">
+      <div className="flex items-center gap-3 relative z-10">
+        <span className="text-[22px] w-8 h-8 flex items-center justify-center bg-gray-50 rounded-full group-hover:bg-white transition-colors">
           {isLoading ? (
-            <svg className="w-4 h-4 animate-spin text-blue-500" viewBox="0 0 24 24" fill="none">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-            </svg>
+            <div className="w-5 h-5 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
           ) : (
             category.emoji
           )}
         </span>
-        <span className={`text-sm font-semibold ${isLoading ? 'text-blue-600' : 'text-gray-900'}`}>
+        <span className={`text-[15px] font-semibold tracking-tight ${isLoading ? 'text-purple-700' : 'text-gray-900'}`}>
           {category.name}
         </span>
       </div>
+
       {/* 추천 완료 태그 - 텍스트 아래 배치 */}
       {hasCompletedRecommendation && !isLoading && (
-        <div className="mt-1 ml-7">
-          <span className="px-2 py-0.5 bg-white text-gray-500 text-[10px] font-medium rounded-full border border-gray-200">
+        <div className="mt-2 ml-11">
+          <span className="inline-flex items-center px-2 py-0.5 bg-purple-100 text-purple-700 text-[10px] font-bold rounded-full">
             추천 완료
           </span>
         </div>
@@ -336,12 +339,13 @@ function GroupSection({
   if (group.categories.length === 0) return null;
 
   return (
-    <div className="mb-6 mt-2">
-      {/* 그룹 타이틀 */}
-      <div className="mb-3">
-        <span className="inline-block px-3 py-1.5 bg-green-50 text-green-600 text-sm font-semibold rounded-full">
+    <div className="mb-8 mt-2">
+      {/* 그룹 타이틀 - Clean Typography Style */}
+      <div className="mb-4 px-1">
+        <h3 className="text-[17px] font-bold text-gray-900 flex items-center gap-2">
           {group.name}
-        </span>
+          <div className="h-px flex-1 bg-gray-100" /> {/* Divider Line */}
+        </h3>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {group.categories.map((category) => (
@@ -391,14 +395,15 @@ function AgeGroupSection({
   if (categories.length === 0) return null;
 
   return (
-    <div className="mb-6 mt-8">
-      {/* 그룹 타이틀 */}
-      <div className="mb-3">
-        <span className="inline-block px-3 py-1.5 bg-green-50 text-green-600 text-sm font-semibold rounded-full">
+    <div className="mb-8 mt-6">
+      {/* 그룹 타이틀 - Clean Typography Style */}
+      <div className="mb-4 px-1">
+        <h3 className="text-[17px] font-bold text-gray-900 flex items-center gap-2 mb-1.5">
           {groupName}
-        </span>
+          <div className="h-px flex-1 bg-gray-100 ml-2" /> {/* Divider Line */}
+        </h3>
         {description && (
-          <p className="text-xs text-gray-500 mt-2 ml-1">{description}</p>
+          <p className="text-[13px] text-gray-400 font-medium leading-normal">{description}</p>
         )}
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -526,7 +531,7 @@ export default function CategoriesV2Page() {
           <p className="text-gray-700 font-medium">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg text-sm"
+            className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
           >
             다시 시도
           </button>
@@ -539,18 +544,18 @@ export default function CategoriesV2Page() {
     <div className="min-h-screen bg-white">
       <div className="max-w-[480px] mx-auto min-h-screen">
         {/* Top Header with Back Button */}
-        <header className="sticky top-0 bg-white z-50 border-b border-gray-100">
+        <header className="sticky top-0 bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
           <div className="px-5 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => router.push('/')}
-                className="text-gray-600 hover:text-gray-900 transition-colors"
+                className="text-gray-500 hover:text-gray-900 transition-colors p-1 -ml-1"
               >
-                <CaretLeft size={20} weight="bold" />
+                <CaretLeft size={24} weight="bold" />
               </button>
               <div className="absolute left-1/2 -translate-x-1/2">
-                <h1 className="text-base font-semibold text-gray-900">
-                  전체 카테고리
+                <h1 className="text-[17px] font-bold text-gray-900 tracking-tight">
+                  어떤 상품을 찾으시나요?
                 </h1>
               </div>
               <div className="w-6" />
@@ -579,14 +584,14 @@ export default function CategoriesV2Page() {
             />
           </div>
 
-          {/* 연령대별 설명 카드 */}
+          {/* 연령대별 설명 카드 - Neutral Gray Background */}
           {selectedAgeFilter.id !== 'all' && selectedAgeFilter.description && (
             <motion.div
               initial={isMounted ? { opacity: 0 } : false}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="mb-4 bg-blue-50 rounded-2xl p-5"
+              className="mb-4 bg-gray-50 rounded-2xl p-5 border border-gray-100"
             >
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-2xl">{selectedAgeFilter.emoji}</span>

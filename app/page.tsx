@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center bg-gray-100">
-        <div className="w-full max-w-[480px] min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FCFCFC' }}>
+        <div className="w-full max-w-[480px] min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFDFD' }}>
           <LoadingSpinner size="lg" message="로딩 중..." />
         </div>
       </div>

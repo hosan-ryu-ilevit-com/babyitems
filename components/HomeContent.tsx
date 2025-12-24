@@ -226,25 +226,22 @@ export function HomeContent() {
   return (
     <div className="flex min-h-screen items-start justify-center bg-gray-100">
       {/* 모바일 최적화 컨테이너 */}
-      <div className="relative w-full max-w-[480px] min-h-screen shadow-lg" style={{ backgroundColor: '#FCFCFC' }}>
+      <div className="relative w-full max-w-[480px] min-h-screen shadow-lg" style={{ backgroundColor: '#FDFDFD' }}>
         {/* Header */}
-        <header className="flex items-center justify-between px-5 py-3">
-          <h1 className="text-base font-semibold">
-            <span className="text-gray-500">아기용품 </span>
+        <header className="flex items-center justify-between px-5 py-4">
+          <h1 className="text-[17px] font-bold tracking-tight flex items-center gap-1.5">
+            <span className="text-gray-800">아기용품</span>
             <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: 'linear-gradient(135deg, #8B5CF6 0%, #A855F7 50%, #7C3AED 100%)'
-              }}
+              className="px-2 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-700"
             >
               AI
             </span>
           </h1>
           <button
             onClick={handleFeedbackClick}
-            className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            className="text-[13px] font-medium text-gray-400 hover:text-gray-600 transition-colors bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm"
           >
-            피드백 보내기
+            피드백
           </button>
         </header>
 
@@ -259,35 +256,36 @@ export function HomeContent() {
               className="text-center mb-auto mt-0 w-full"
               suppressHydrationWarning
             >
-              <h1 className="text-2xl font-bold text-gray-900 mb-6 mt-6 leading-tight">
-                <span className="font-semibold">수천 개 아기용품 중</span><br />
+              <h1 className="text-[26px] font-bold text-gray-900 mb-8 mt-4 leading-[1.3] tracking-tight">
+                <span className="font-semibold text-gray-800">수천 개 아기용품 중</span><br />
                 <span 
-                  className="rounded-sm"
-                  style={{ 
-                    backgroundImage: 'linear-gradient(to top, rgba(186, 230, 253, 0.6) 70%, transparent 70%)',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'left bottom',
-                    backgroundSize: '100% 100%',
-                    boxDecorationBreak: 'clone',
-                    WebkitBoxDecorationBreak: 'clone',
-                    animation: 'highlight-draw-home 0.8s ease-out 0.2s both'
-                  }}
-                >내게 딱 맞는 하나</span> 찾기
+                  className="rounded-sm relative inline-block"
+                >
+                  <span className="relative z-10 text-gray-900">내게 딱 맞는 하나</span>
+                  <span 
+                    className="absolute bottom-1 left-0 w-full h-3 bg-purple-200/60 -z-0 rounded-sm"
+                    style={{
+                      transformOrigin: 'left',
+                      animation: 'highlight-draw-home 0.8s ease-out 0.2s both'
+                    }}
+                  />
+                </span> 찾기
               </h1>
 
-              {/* Video Character Animation */}
+              {/* Video Character Animation with Soft Glow */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="w-48 h-48 mx-auto"
+                className="w-56 h-56 mx-auto relative"
               >
+                <div className="absolute inset-0 bg-purple-200/20 blur-3xl rounded-full" />
                 <video
                   autoPlay
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain relative z-10"
                 >
                   <source src="/animations/character.mp4" type="video/mp4" />
                 </video>
@@ -345,24 +343,33 @@ export function HomeContent() {
             }}
             className="relative"
           >
-            <div className="text-xs font-medium px-3 py-1.5 rounded-full whitespace-nowrap" style={{ backgroundColor: '#4B4B4B', color: '#F9E000' }}>
-              카테고리 전체보기
+            <div className="text-[13px] font-semibold px-4 py-2 rounded-full whitespace-nowrap shadow-md flex items-center gap-1.5" 
+              style={{ backgroundColor: '#2D2D2D', color: '#FFFFFF' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>어떤 상품을 찾으시나요?</span>
             </div>
-            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px]" style={{ borderTopColor: '#4B4B4B' }}></div>
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px]" style={{ borderTopColor: '#2D2D2D' }}></div>
           </motion.div>
         </div>
 
         {/* Bottom Fixed Container - CTA Button */}
-        <div className="fixed bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto', backgroundColor: '#FCFCFC' }}>
+        <div className="fixed bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-200 z-40" style={{ maxWidth: '480px', margin: '0 auto', backgroundColor: '#FDFDFD' }}>
           {/* 1분만에 추천받기 Button → categories-v2로 이동 */}
           <Link href="/categories-v2">
             <button
               onClick={() => logButtonClick('1분만에 추천받기', 'home')}
-              className="w-full h-14 text-white text-base font-semibold rounded-2xl transition-all flex items-center justify-center mb-3"
-              style={{ backgroundColor: '#0084FE' }}
+              className="w-full h-14 text-white text-[17px] font-bold rounded-2xl transition-all flex items-center justify-center mb-3 shadow-lg hover:shadow-xl active:scale-[0.98] shadow-purple-200"
+              style={{ 
+                background: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)'
+              }}
             >
-              <span className="flex items-baseline gap-2.5">
+              <span className="flex items-center gap-2">
                 <span>1분 만에 추천받기</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-80">
+                  <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </span>
             </button>
           </Link>

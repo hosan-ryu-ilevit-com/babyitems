@@ -1098,37 +1098,36 @@ export default function RecommendV2Page() {
     // 1. 상태 저장
     setUserContext(context);
 
-    // 2. 입력이 있으면 AI 파싱 (체감속성 태그 미리 선택) - 백그라운드로 처리
+    // 2. 입력이 있으면 AI 파싱 (체감속성 태그 미리 선택) - await로 완료 대기
     if (context && context.trim()) {
-      // 로딩 시작
       setIsLoadingPreselection(true);
-      // 비동기로 AI 파싱 (UI 블로킹 없이)
-      fetch('/api/ai-selection-helper/parse-experience-tags-from-context', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          category: categoryKey,
-          categoryName,
-          context: context.trim(),
-        }),
-      })
-        .then(result => result.ok ? result.json() : null)
-        .then(data => {
+      try {
+        const result = await fetch('/api/ai-selection-helper/parse-experience-tags-from-context', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            category: categoryKey,
+            categoryName,
+            context: context.trim(),
+          }),
+        });
+
+        if (result.ok) {
+          const data = await result.json();
           if (data?.selectedTags && data.selectedTags.length > 0) {
             setPreselectedExperienceTags(data.selectedTags);
             setPreselectedExplanation(data.explanation || '');
             console.log('🎯 Context parsed, experience tags:', data.selectedTags);
           }
-        })
-        .catch(error => {
-          console.error('Context parsing failed:', error);
-        })
-        .finally(() => {
-          setIsLoadingPreselection(false);
-        });
+        }
+      } catch (error) {
+        console.error('Context parsing failed:', error);
+      } finally {
+        setIsLoadingPreselection(false);
+      }
     }
 
-    // 3. Step 0으로 진행 및 Guide Cards 트리거
+    // 3. Step 0으로 진행 및 Guide Cards 트리거 (AI 파싱 완료 후)
     setCurrentStep(0);
 
     // 4. Guide Cards 트리거 (hasTriggeredGuideRef 플래그 설정)

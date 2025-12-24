@@ -122,109 +122,86 @@ export default function ContextInput({
       className="bg-white space-y-4 transition-all duration-300"
     >
       {/* 헤더 */}
-      <div className="space-y-2">
-        <h3 className="text-xl font-semibold text-gray-900 leading-snug">
-          안녕하세요!<br />
-          찾으시는 <span 
-            className="rounded-sm"
-            style={{ 
-              backgroundImage: 'linear-gradient(to top, rgba(186, 230, 253, 0.6) 70%, transparent 70%)',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'left bottom',
-              backgroundSize: '0% 100%',
-              boxDecorationBreak: 'clone',
-              WebkitBoxDecorationBreak: 'clone',
-              animation: 'highlight-draw 0.8s ease-out 0.2s forwards'
-            }}
-          >{categoryName} 특징</span>이나 <br />
-          <span 
-            className="rounded-sm"
-            style={{ 
-              backgroundImage: 'linear-gradient(to top, rgba(253, 230, 138, 0.6) 70%, transparent 70%)',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'left bottom',
-              backgroundSize: '0% 100%',
-              boxDecorationBreak: 'clone',
-              WebkitBoxDecorationBreak: 'clone',
-              animation: 'highlight-draw 0.8s ease-out 0.8s forwards'
-            }}
-          >아이 상황</span>을 알려주세요.
+      <div className="space-y-3 px-1">
+        <h3 className="text-[22px] font-bold text-gray-900 leading-[1.35] tracking-tight">
+          안녕하세요! 👋<br />
+          찾으시는 <span className="text-purple-600">{categoryName}의 특징</span>이나<br />
+          <span className="text-purple-600">아이의 상황</span>을 알려주세요.
         </h3>
       </div>
 
-      {/* Textarea with animated gradient border */}
-      <div className="relative">
-        <div className="gradient-outer-wrapper">
-          {!isCompleted && (
-            <>
-              <div className="gradient-border"></div>
-              <div className="gradient-blur"></div>
-            </>
-          )}
-          <textarea
-            ref={textareaRef}
-            value={text}
-            onChange={(e) => {
-              setText(e.target.value);
-              setError(null);
-            }}
-            placeholder={PLACEHOLDER}
-            className={`textarea-inner ${isCompleted ? 'completed' : ''}`}
-            rows={3}
-            maxLength={500}
-            disabled={isCompleted}
-          />
-          {text.length > 0 && !isCompleted && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              onClick={() => setText('')}
-              className="absolute top-3 right-3 p-1.5 rounded-full bg-gray-100/80 hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-colors z-10 backdrop-blur-sm"
-              aria-label="내용 전체 지우기"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-              </svg>
-            </motion.button>
-          )}
-        </div>
+      {/* Textarea with Modern Clean Style */}
+      <div className="relative group">
+        <textarea
+          ref={textareaRef}
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+            setError(null);
+          }}
+          placeholder={PLACEHOLDER}
+          className={`w-full p-5 bg-white border border-gray-200 rounded-2xl text-[16px] leading-relaxed
+            placeholder-gray-400 resize-none outline-none transition-all duration-300
+            focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 
+            shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]
+            ${isCompleted ? 'bg-gray-50 text-gray-500 border-transparent shadow-none' : ''}`}
+          rows={4}
+          maxLength={500}
+          disabled={isCompleted}
+        />
+        
+        {text.length > 0 && !isCompleted && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => setText('')}
+            className="absolute top-4 right-4 p-1.5 rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-600 transition-colors"
+            aria-label="내용 전체 지우기"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+            </svg>
+          </motion.button>
+        )}
+
         {error && (
-          <p className="text-xs text-red-500 mt-2">{error}</p>
+          <p className="absolute -bottom-6 left-1 text-xs font-medium text-red-500 animate-fade-in">
+            {error}
+          </p>
         )}
       </div>
 
-      {/* 예시 버튼들 - 완료 시 숨김, 페이지 패딩 무시 */}
+      {/* 예시 버튼들 - 완료 시 숨김 */}
       {!isCompleted && (
-        <div className="-mx-4">
-          <div className="overflow-x-auto px-4 scrollbar-hide">
+        <div className="-mx-4 mt-2">
+          <div className="overflow-x-auto px-4 pb-4 scrollbar-hide">
             {isLoadingExamples ? (
-              <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
+              <div className="flex flex-wrap gap-2.5 w-full">
+                {[1, 2, 3, 4, 5, 6].map(i => (
                   <div
                     key={i}
-                    className="h-10 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
-                    style={{
-                      width: '150px',
-                      animationDelay: `${i * 0.08}s`
-                    }}
+                    className="h-[38px] rounded-full bg-gray-100 animate-pulse"
+                    style={{ width: Math.floor(Math.random() * 60) + 80 + 'px' }}
                   />
                 ))}
               </div>
             ) : (
-              <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
+              <div className="flex flex-wrap gap-2.5">
                 {examples.map((example, idx) => (
                   <motion.button
                     key={idx}
-                    initial={{ opacity: 0, x: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      duration: 0.3,
-                      delay: idx * 0.04,
-                      ease: [0.25, 0.1, 0.25, 1]
+                      duration: 0.4,
+                      delay: idx * 0.03,
+                      ease: [0.2, 0, 0.2, 1]
                     }}
                     onClick={() => handleExampleClick(example, idx)}
-                    className="px-4 py-2 text-sm rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors whitespace-nowrap"
+                    className="px-4 py-2 text-[14px] font-medium rounded-full bg-white border border-gray-200 
+                    text-gray-600 shadow-sm transition-all duration-200
+                    hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700 hover:shadow-md active:scale-95"
                   >
                     {example}
                   </motion.button>
@@ -248,22 +225,21 @@ export default function ContextInput({
             bottom: 0 
           }}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <button
               onClick={handleSubmit}
               disabled={isSubmitDisabled}
-              className={`w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center ${
+              className={`w-full h-[56px] rounded-2xl font-bold text-[17px] tracking-tight transition-all flex items-center justify-center shadow-lg hover:shadow-xl active:scale-[0.98] ${
                 isSubmitDisabled
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'text-white hover:opacity-90 active:scale-[0.98]'
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
+                  : 'bg-purple-600 text-white hover:bg-purple-700 shadow-purple-200'
               }`}
-              style={!isSubmitDisabled ? { backgroundColor: '#a855f7' } : undefined}
             >
               추천받기 시작
             </button>
             <button
               onClick={handleSkip}
-              className="w-full h-14 rounded-2xl font-semibold text-base transition-all flex items-center justify-center bg-gray-100 text-gray-600 border-2 border-gray-300 hover:bg-gray-200 hover:border-gray-400 active:scale-[0.98] mb-4"
+              className="w-full h-[52px] rounded-2xl font-medium text-[15px] text-gray-500 hover:bg-gray-50 active:scale-[0.98] mb-4 transition-colors"
             >
               잘 모르겠어요 (건너뛰기)
             </button>
@@ -279,6 +255,15 @@ export default function ContextInput({
           100% { background-position: -200% 0; }
         }
 
+        @keyframes fade-in {
+          0% { opacity: 0; transform: translateY(-4px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.2s ease-out forwards;
+        }
+
         @keyframes steam {
           0% {
             background-position: 0 0;
@@ -289,65 +274,6 @@ export default function ContextInput({
           100% {
             background-position: 0 0;
           }
-        }
-
-        .gradient-outer-wrapper {
-          position: relative;
-        }
-
-        .gradient-border {
-          position: absolute;
-          inset: -2px;
-          background: linear-gradient(60deg, #5b21b6, #7c3aed, #a855f7, #e879f9, #f0abfc, #c084fc, #818cf8, #5b21b6,
-            #7c3aed, #a855f7, #e879f9, #f0abfc, #c084fc, #818cf8);
-          background-size: 300%;
-          animation: steam 8s linear infinite;
-          border-radius: 14px;
-          z-index: 0;
-        }
-
-        .gradient-blur {
-          position: absolute;
-          inset: 10px;
-          background: linear-gradient(60deg, #7c3aed, #a855f7, #e879f9, #f0abfc, #c084fc, #818cf8, #5b21b6,
-            #7c3aed, #a855f7, #e879f9, #f0abfc, #c084fc, #818cf8);
-          background-size: 300%;
-          animation: steam 20s linear infinite;
-          filter: blur(20px);
-          opacity: 0.5;
-          border-radius: 0.75rem;
-          z-index: 0;
-        }
-
-        .textarea-inner {
-          position: relative;
-          z-index: 1;
-          display: block;
-          width: 100%;
-          padding: 1rem 3rem 1rem 1rem;
-          background: white;
-          border-radius: 0.75rem;
-          font-size: 1rem;
-          resize: none;
-          min-height: 100px;
-          border: none;
-          outline: none;
-          margin: 0;
-          box-sizing: border-box;
-        }
-
-        .textarea-inner.completed {
-          border: 1px solid #e5e7eb;
-          min-height: auto;
-        }
-
-        .textarea-inner::placeholder {
-          color: #9ca3af;
-        }
-
-        @keyframes highlight-draw {
-          0% { background-size: 0% 100%; }
-          100% { background-size: 100% 100%; }
         }
       `}</style>
     </motion.div>
