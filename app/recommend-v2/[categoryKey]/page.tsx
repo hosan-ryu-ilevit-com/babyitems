@@ -43,6 +43,8 @@ import {
   LoadingAnimation,
 } from '@/components/recommend-v2';
 import ContextInput from '@/components/recommend-v2/ContextInput';
+import { AIAnalyzingAnimation } from '@/components/recommend-v2/AIAnalyzingAnimation';
+import { AISelectionReview } from '@/components/recommend-v2/AISelectionReview';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
 
@@ -153,6 +155,22 @@ export default function RecommendV2Page() {
   const [preselectedExperienceTags, setPreselectedExperienceTags] = useState<string[]>([]);
   const [preselectedExplanation, setPreselectedExplanation] = useState<string>('');
   const [isLoadingPreselection, setIsLoadingPreselection] = useState(false);
+
+  // B 버전: AI One-Shot Selection 상태
+  const [isAiAnalyzing, setIsAiAnalyzing] = useState(false);
+  const [aiSelections, setAiSelections] = useState<{
+    hardFilterSelections: Record<string, string[]>;
+    balanceGameSelections: Record<string, 'A' | 'B' | 'both'>;
+    negativeFilterSelections: string[];
+    selectionReasons: {
+      hardFilters: Record<string, string>;
+      balanceGames: Record<string, string>;
+      negativeFilters: string;
+    };
+    overallReasoning: string;
+    confidence: 'high' | 'medium' | 'low';
+  } | null>(null);
+  const [showAiReview, setShowAiReview] = useState(false);
 
   // Data
   const [categoryName, setCategoryName] = useState('');
@@ -769,6 +787,18 @@ export default function RecommendV2Page() {
     console.log('  - requiresSubCategory:', requiresSubCategory);
     console.log('  - subCategoryConfig:', !!subCategoryConfig);
 
+    // B 버전: AI 분석 중이거나 AI 리뷰 화면일 때는 A 버전 플로우 실행 안 함
+    if (isAiAnalyzing || showAiReview) {
+      console.log('🤖 B 버전 모드 - A 버전 플로우 스킵');
+      return;
+    }
+
+    // B 버전: 이미 결과 단계로 진행한 경우 스킵
+    if (currentStep >= 5) {
+      console.log('🤖 B 버전: 이미 결과 단계 - A 버전 플로우 스킵');
+      return;
+    }
+
     setShowScanAnimation(false);
 
     // [SKIP GUIDE CARDS] 가이드 카드 단계 스킵 - 바로 첫 질문으로 이동
@@ -839,7 +869,7 @@ export default function RecommendV2Page() {
       }, 250);
     }
     */
-  }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, addMessage, scrollToMessage]);
+  }, [hardFilterConfig, categoryName, requiresSubCategory, subCategoryConfig, addMessage, scrollToMessage, isAiAnalyzing, showAiReview, currentStep]);
 
   // ===================================================
   // Auto-trigger guide cards when data is ready (스캔 애니메이션 스킵)
@@ -855,10 +885,14 @@ export default function RecommendV2Page() {
     if (isRestoredFromStorage) return;
     // Step -1 (ContextInput)인 경우 스킵 - ContextInput 완료 후 handleContextComplete에서 처리
     if (currentStep === -1) return;
+    // B 버전: AI 분석 중이거나 AI 리뷰 화면일 때는 스킵
+    if (isAiAnalyzing || showAiReview) return;
+    // B 버전: 이미 결과 단계(Step 5)로 직행한 경우 스킵
+    if (currentStep >= 5) return;
 
     hasTriggeredGuideRef.current = true;
     handleScanComplete();
-  }, [isLoading, hardFilterConfig, isRestoredFromStorage, handleScanComplete, currentStep]);
+  }, [isLoading, hardFilterConfig, isRestoredFromStorage, handleScanComplete, currentStep, isAiAnalyzing, showAiReview]);
 
   // ===================================================
   // Sub-Category Selection Handler (다중 선택 지원)
@@ -1094,59 +1128,601 @@ export default function RecommendV2Page() {
   // Step -1 Complete → Step 0 (Context Input)
   // ===================================================
 
-  const handleContextComplete = useCallback((context: string | null) => {
+  const handleContextComplete = useCallback(async (context: string | null) => {
+    // B 버전: 자연어 입력 필수, One-Shot AI Selection 사용
+
     // 1. 상태 저장
     setUserContext(context);
 
-    // 건너뛰기인 경우 preselected 상태 초기화
+    // 입력이 없으면 진행하지 않음 (B 버전에서는 건너뛰기 제거됨)
     if (!context || !context.trim()) {
-      setPreselectedExperienceTags([]);
-      setPreselectedExplanation('');
+      return;
     }
 
-    // 2. 즉시 Step 0으로 진행 (AI 파싱 기다리지 않음)
+    // 2. AI 분석 시작
     setCurrentStep(0);
+    setIsAiAnalyzing(true);
+    setShowAiReview(false);
 
-    // 3. Guide Cards 트리거 (hasTriggeredGuideRef 플래그 설정)
-    hasTriggeredGuideRef.current = true;
-    handleScanComplete();
-
-    // 4. 스크롤을 Q1 영역으로 즉시 이동
+    // 스크롤 상단으로
     setTimeout(() => {
       scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }, 100);
 
-    // 5. 입력이 있으면 AI 파싱 (백그라운드에서 비동기 처리)
-    if (context && context.trim()) {
-      setIsLoadingPreselection(true);
-      fetch('/api/ai-selection-helper/parse-experience-tags-from-context', {
+    try {
+      // 3. One-Shot API 호출
+      const response = await fetch('/api/ai-selection-helper/one-shot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          category: categoryKey,
+          categoryKey,
           categoryName,
-          context: context.trim(),
+          userContext: context.trim(),
         }),
-      })
-        .then(result => {
-          if (result.ok) return result.json();
-          throw new Error('Parse failed');
-        })
-        .then(data => {
-          if (data?.selectedTags && data.selectedTags.length > 0) {
-            setPreselectedExperienceTags(data.selectedTags);
-            setPreselectedExplanation(data.explanation || '');
-            console.log('🎯 Context parsed, experience tags:', data.selectedTags);
-          }
-        })
-        .catch(error => {
-          console.error('Context parsing failed:', error);
-        })
-        .finally(() => {
-          setIsLoadingPreselection(false);
-        });
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        // 4. AI 선택 결과 저장
+        setAiSelections(result.data);
+        setShowAiReview(true);
+        console.log('🤖 One-Shot AI Selection completed:', result.data);
+      } else {
+        // 실패 시 에러 표시
+        console.error('One-Shot selection failed:', result.error);
+        alert('AI 분석에 실패했습니다. 다시 시도해주세요.');
+        setCurrentStep(-1);
+      }
+    } catch (error) {
+      console.error('One-Shot API error:', error);
+      alert('AI 분석 중 오류가 발생했습니다. 다시 시도해주세요.');
+      setCurrentStep(-1);
+    } finally {
+      setIsAiAnalyzing(false);
     }
-  }, [categoryKey, categoryName, handleScanComplete]);
+  }, [categoryKey, categoryName]);
+
+  // ===================================================
+  // B 버전: AI 선택 확인 후 추천 결과로 진행
+  // ===================================================
+
+  const handleAISelectionConfirm = useCallback(async (finalSelections: {
+    hardFilterSelections: Record<string, string[]>;
+    balanceGameSelections: Record<string, 'A' | 'B' | 'both'>;
+    negativeFilterSelections: string[];
+  }) => {
+    console.log('🎯 AI Selection confirmed:', finalSelections);
+
+    // 1. 선택 결과를 기존 상태에 적용
+    setHardFilterAnswers(finalSelections.hardFilterSelections);
+
+    // 밸런스게임 선택을 rule_key Set으로 변환
+    const balanceRuleKeys = new Set<string>();
+    for (const [questionId, selection] of Object.entries(finalSelections.balanceGameSelections)) {
+      const question = balanceQuestions.find(q => q.id === questionId);
+      if (!question) continue;
+      if (selection === 'A') {
+        balanceRuleKeys.add(question.option_A.target_rule_key);
+      } else if (selection === 'B') {
+        balanceRuleKeys.add(question.option_B.target_rule_key);
+      } else if (selection === 'both') {
+        balanceRuleKeys.add(question.option_A.target_rule_key);
+        balanceRuleKeys.add(question.option_B.target_rule_key);
+      }
+    }
+    setBalanceSelections(balanceRuleKeys);
+    setNegativeSelections(finalSelections.negativeFilterSelections);
+
+    // 2. 리뷰 화면 숨기고 결과 로딩 시작
+    setShowAiReview(false);
+    setIsCalculating(true);
+    setCurrentStep(5);
+
+    // 타임라인 초기화
+    const timelineStartTime = Date.now();
+    const localTimelineSteps: TimelineStep[] = [];
+    setTimelineSteps([]);
+    setProgress(0);
+    progressRef.current = 0;
+
+    // 스크롤 상단으로
+    setTimeout(() => {
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+
+    try {
+      // 3. 제품 필터링
+      const currentProducts = productsRef.current;
+      const filtered = applyHardFilters(
+        currentProducts,
+        finalSelections.hardFilterSelections,
+        hardFilterConfig?.questions || []
+      );
+      setFilteredProducts(filtered);
+
+      // 기본 예산 범위
+      const categoryBudget = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000 };
+      setBudget(categoryBudget);
+
+      // 📦 타임라인 1단계
+      const step1: TimelineStep = {
+        id: 'step-1',
+        title: '📦 상품 데이터 준비',
+        icon: '',
+        details: [
+          'AI가 분석한 조건으로 제품 필터링',
+          '사용자 선호도와 회피 조건 적용',
+          '예산 범위 내 최적 후보 선정',
+        ],
+        timestamp: Date.now(),
+        status: 'completed',
+      };
+      localTimelineSteps.push(step1);
+      setTimelineSteps(prev => [...prev, step1]);
+      await new Promise(resolve => setTimeout(resolve, 400));
+
+      // 📚 타임라인 2단계
+      const step2: TimelineStep = {
+        id: 'step-2',
+        title: '📚 카테고리 전문 지식 로드',
+        icon: '',
+        details: [
+          `${categoryName} 카테고리 인사이트 분석`,
+          '실구매자들이 중요하게 생각하는 포인트 파악',
+          '제품 비교 기준 설정',
+        ],
+        timestamp: Date.now(),
+        status: 'completed',
+      };
+      localTimelineSteps.push(step2);
+      setTimelineSteps(prev => [...prev, step2]);
+      await new Promise(resolve => setTimeout(resolve, 400));
+
+      // 4. 점수 계산
+      const scored: ScoredProduct[] = filtered.map(product => {
+        const { score: hardFilterScore, matchedRules: hardFilterMatches } = calculateHardFilterScore(
+          product,
+          finalSelections.hardFilterSelections,
+          hardFilterConfig
+        );
+        const { score: baseScore, matchedRules } = calculateBalanceScore(
+          product,
+          balanceRuleKeys,
+          logicMap
+        );
+        const negativeScore = calculateNegativeScore(
+          product,
+          finalSelections.negativeFilterSelections,
+          negativeOptions,
+          logicMap
+        );
+        const budgetScore = calculateBudgetScore(product, categoryBudget);
+        const effectivePrice = product.lowestPrice ?? product.price ?? 0;
+        const isOverBudget = effectivePrice > 0 && effectivePrice > categoryBudget.max;
+        const overBudgetAmount = isOverBudget ? Math.max(0, effectivePrice - categoryBudget.max) : 0;
+        const overBudgetPercent = isOverBudget && categoryBudget.max > 0
+          ? Math.round((effectivePrice - categoryBudget.max) / categoryBudget.max * 100)
+          : 0;
+
+        return {
+          ...product,
+          hardFilterScore,
+          baseScore,
+          negativeScore,
+          budgetScore,
+          directInputScore: 0,
+          totalScore: hardFilterScore + baseScore + negativeScore + budgetScore,
+          matchedRules: [...hardFilterMatches, ...matchedRules],
+          isOverBudget,
+          overBudgetAmount,
+          overBudgetPercent,
+        };
+      });
+
+      // 📝 타임라인 3단계
+      const candidateProducts = scored.slice(0, 15);
+      const step3: TimelineStep = {
+        id: 'step-3',
+        title: '📝 실사용 리뷰 분석',
+        icon: '',
+        details: [
+          '후보 제품들의 리뷰 분석',
+          '긍정 리뷰와 부정 리뷰 분류',
+          '사용자 조건과 관련된 실제 경험 추출',
+        ],
+        subDetails: candidateProducts.length > 0 ? [
+          {
+            label: '분석된 제품 예시',
+            items: candidateProducts.slice(0, Math.min(6, candidateProducts.length)).map(p => `${p.brand || ''} ${p.title}`.trim()),
+          },
+        ] : undefined,
+        timestamp: Date.now(),
+        status: 'completed',
+      };
+      localTimelineSteps.push(step3);
+      setTimelineSteps(prev => [...prev, step3]);
+      await new Promise(resolve => setTimeout(resolve, 400));
+
+      // 점수순 정렬
+      scored.sort((a, b) => (b.totalScore || 0) - (a.totalScore || 0));
+
+      // 사용자 선택 조건 정리
+      const userSelectedConditions: string[] = [];
+      const userAvoidConditions: string[] = [];
+      Array.from(balanceRuleKeys).forEach(ruleKey => {
+        const label = balanceLabels[ruleKey];
+        if (label) userSelectedConditions.push(label);
+      });
+      finalSelections.negativeFilterSelections.forEach(negKey => {
+        const label = negativeLabels[negKey];
+        if (label) userAvoidConditions.push(label);
+      });
+
+      // 🤖 타임라인 4단계
+      const step4: TimelineStep = {
+        id: 'step-4',
+        title: '🤖 AI 종합 분석',
+        icon: '',
+        details: [
+          'AI가 리뷰를 종합 분석',
+          '사용자 선호 조건과 제품 특성 비교',
+          '각 제품의 장단점 평가 및 추천 점수 계산',
+        ],
+        subDetails: [
+          {
+            label: '사용자가 중요하게 생각하는 조건',
+            items: userSelectedConditions.length > 0 ? userSelectedConditions : ['(AI가 자동 선택)'],
+          },
+          ...(userAvoidConditions.length > 0 ? [{
+            label: '피하고 싶은 조건',
+            items: userAvoidConditions,
+          }] : []),
+        ],
+        timestamp: Date.now(),
+        status: 'completed',
+      };
+      localTimelineSteps.push(step4);
+      setTimelineSteps(prev => [...prev, step4]);
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // /api/v2/recommend-final API 호출
+      let top3 = candidateProducts.slice(0, 3);
+      let finalSelectionReason = aiSelections?.overallReasoning || '';
+
+      try {
+        const recommendResponse = await fetch('/api/v2/recommend-final', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            categoryKey,
+            candidateProducts,
+            userContext: {
+              hardFilterAnswers: finalSelections.hardFilterSelections,
+              balanceSelections: Array.from(balanceRuleKeys),
+              negativeSelections: finalSelections.negativeFilterSelections,
+              initialContext: userContext,
+            },
+            budget: categoryBudget,
+          }),
+        });
+
+        const recommendResult = await recommendResponse.json();
+
+        if (recommendResult.success && recommendResult.data) {
+          top3 = recommendResult.data.top3Products;
+          finalSelectionReason = recommendResult.data.selectionReason || finalSelectionReason;
+          console.log(`✅ LLM recommendation: ${recommendResult.data.generated_by}`, top3.map((p: ScoredProduct) => p.title));
+        }
+      } catch (llmError) {
+        console.warn('LLM recommendation failed, using score-based fallback:', llmError);
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 400));
+
+      // 🏆 타임라인 5단계
+      const step5: TimelineStep = {
+        id: 'step-5',
+        title: '🏆 Top 3 최종 선정',
+        icon: '',
+        details: [
+          'AI 분석 결과와 사용자 선호도를 종합',
+          '가장 적합한 상위 3개 제품 선정',
+          '각 제품별 추천 이유 생성',
+        ],
+        subDetails: top3.length > 0 ? [
+          {
+            label: '선정된 제품',
+            items: top3.map((p, idx) => `${idx + 1}. ${p.brand || ''} ${p.title}`.trim()),
+          },
+        ] : undefined,
+        timestamp: Date.now(),
+        status: 'completed',
+      };
+      localTimelineSteps.push(step5);
+      setTimelineSteps(prev => [...prev, step5]);
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      // ✨ 타임라인 6단계
+      const step6: TimelineStep = {
+        id: 'step-6',
+        title: '✨ 개인 맞춤 추천 완료',
+        icon: '',
+        details: [
+          '사용자님의 조건에 가장 적합한 제품 3개 선정 완료',
+          '각 제품의 상세 분석 및 추천 이유 제공',
+          '실사용 리뷰 기반의 신뢰할 수 있는 추천',
+        ],
+        timestamp: Date.now(),
+        status: 'completed',
+      };
+      localTimelineSteps.push(step6);
+      setTimelineSteps(prev => [...prev, step6]);
+
+      setScoredProducts(top3);
+      setAllScoredProducts(scored);
+      setSelectionReason(finalSelectionReason);
+
+      // 조건 요약 생성
+      const summary = generateConditionSummary(
+        finalSelections.hardFilterSelections,
+        hardFilterConfig?.questions || []
+      );
+      setConditionSummary(summary);
+
+      // sessionStorage에 결과 저장
+      try {
+        const savedState = {
+          scoredProducts: top3,
+          selectionReason: finalSelectionReason,
+          categoryKey,
+          categoryName,
+          currentStep: 5,
+          budget: categoryBudget,
+          hardFilterAnswers: finalSelections.hardFilterSelections,
+          balanceSelections: Array.from(balanceRuleKeys),
+          negativeSelections: finalSelections.negativeFilterSelections,
+          conditionSummary: summary,
+          balanceLabels,
+          negativeLabels,
+          hardFilterLabels,
+          hardFilterDefinitions,
+          timestamp: Date.now(),
+        };
+        sessionStorage.setItem(`v2_result_${categoryKey}`, JSON.stringify(savedState));
+        console.log('✅ [sessionStorage] Result saved for', categoryKey);
+      } catch (e) {
+        console.warn('[sessionStorage] Failed to save result:', e);
+      }
+
+      // 타임라인 저장
+      setAnalysisTimeline({
+        steps: localTimelineSteps,
+        startTime: timelineStartTime,
+        endTime: Date.now(),
+      });
+
+      // 프로그레스 100%까지 채우기
+      const currentProgress = progressRef.current;
+      for (let i = currentProgress + 1; i <= 100; i++) {
+        setProgress(i);
+        progressRef.current = i;
+        await new Promise(resolve => setTimeout(resolve, 8));
+      }
+      await new Promise(resolve => setTimeout(resolve, 200));
+
+      // 결과 메시지 추가
+      const resultMsgId = addMessage({
+        role: 'system',
+        content: '',
+        componentType: 'result-cards',
+        componentData: {
+          products: top3,
+          selectionReason: finalSelectionReason,
+          categoryKey,
+          categoryName,
+          analysisTimeline: {
+            steps: localTimelineSteps,
+            startTime: timelineStartTime,
+            endTime: Date.now(),
+          },
+        },
+      });
+      scrollToMessage(resultMsgId);
+
+      // 추천 로그
+      const budgetFilteredCount = scored.filter(p => !p.isOverBudget).length;
+      logV2RecommendationReceived(
+        categoryKey,
+        categoryName,
+        top3.map((p: ScoredProduct, index: number) => ({
+          pcode: p.pcode,
+          title: p.title,
+          brand: p.brand || undefined,
+          rank: index + 1,
+          price: p.price || undefined,
+          score: p.totalScore,
+          tags: p.matchedRules,
+          reason: (p as { recommendationReason?: string }).recommendationReason,
+        })),
+        finalSelectionReason,
+        budgetFilteredCount
+      );
+
+      // 🆕 하이라이트 리뷰 생성 (비동기)
+      (async () => {
+        try {
+          const highlightedReviews = await Promise.all(
+            top3.map(async (product: ScoredProduct, index: number) => {
+              if (!product.citedReviews || product.citedReviews.length === 0) {
+                return null;
+              }
+
+              const reviewsForHighlight = product.selectedTagsEvaluation
+                ?.filter(tag => tag.citations && tag.citations.length > 0)
+                .slice(0, 5)
+                .map(tag => {
+                  const citationIdx = tag.citations[0];
+                  const citedReview = product.citedReviews?.[citationIdx];
+                  return citedReview ? {
+                    reviewText: citedReview.text,
+                    criteriaName: tag.userTag,
+                    criteriaId: tag.userTag,
+                  } : null;
+                })
+                .filter(Boolean) as Array<{
+                  reviewText: string;
+                  criteriaName: string;
+                  criteriaId: string;
+                }>;
+
+              if (reviewsForHighlight.length === 0) return null;
+
+              const response = await fetch('/api/v2/highlight-review', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reviews: reviewsForHighlight }),
+              });
+
+              if (!response.ok) return null;
+
+              const result = await response.json();
+              if (!result.success || !result.data) return null;
+
+              return {
+                pcode: product.pcode,
+                productTitle: product.title,
+                rank: index + 1,
+                reviews: result.data.map((item: { criteriaId: string; originalText: string; excerpt: string }) => ({
+                  criteriaId: item.criteriaId,
+                  criteriaName: item.criteriaId,
+                  originalText: item.originalText,
+                  excerpt: item.excerpt,
+                })),
+              };
+            })
+          );
+
+          const validHighlights = highlightedReviews.filter((h): h is NonNullable<typeof h> => h !== null);
+
+          if (validHighlights.length > 0) {
+            logV2RecommendationReceived(
+              categoryKey,
+              categoryName,
+              top3.map((p: ScoredProduct, index: number) => ({
+                pcode: p.pcode,
+                title: p.title,
+                brand: p.brand || undefined,
+                rank: index + 1,
+                price: p.price || undefined,
+                score: p.totalScore,
+                tags: p.matchedRules,
+                reason: (p as { recommendationReason?: string }).recommendationReason,
+              })),
+              finalSelectionReason,
+              budgetFilteredCount,
+              undefined,
+              validHighlights
+            );
+            console.log('✅ [Highlight Reviews] Logged successfully:', validHighlights.length, 'products');
+          }
+        } catch (error) {
+          console.error('[Highlight Reviews] Failed to generate:', error);
+        }
+      })();
+
+    } catch (error) {
+      console.error('Recommendation calculation error:', error);
+      addMessage({
+        role: 'assistant',
+        content: '추천 계산 중 오류가 발생했어요. 다시 시도해주세요.',
+      });
+    } finally {
+      setIsCalculating(false);
+    }
+  }, [
+    categoryKey,
+    categoryName,
+    balanceQuestions,
+    negativeOptions,
+    hardFilterConfig,
+    logicMap,
+    aiSelections,
+    addMessage,
+    scrollToMessage,
+    balanceLabels,
+    negativeLabels,
+    hardFilterLabels,
+    hardFilterDefinitions,
+    userContext,
+  ]);
+
+  // ===================================================
+  // B Version: Enter Edit Mode (Switch to A Version Flow)
+  // ===================================================
+
+  const handleEnterEditMode = useCallback(() => {
+    console.log('✏️ Entering edit mode - switching to A version flow');
+
+    if (!aiSelections) {
+      console.error('No AI selections to apply');
+      return;
+    }
+
+    // 1. AI 선택 결과를 기존 상태에 미리 적용
+    setHardFilterAnswers(aiSelections.hardFilterSelections);
+
+    // 밸런스게임 선택을 rule_key Set으로 변환
+    const balanceRuleKeys = new Set<string>();
+    for (const [questionId, selection] of Object.entries(aiSelections.balanceGameSelections)) {
+      const question = balanceQuestions.find(q => q.id === questionId);
+      if (!question) continue;
+      if (selection === 'A') {
+        balanceRuleKeys.add(question.option_A.target_rule_key);
+      } else if (selection === 'B') {
+        balanceRuleKeys.add(question.option_B.target_rule_key);
+      } else if (selection === 'both') {
+        balanceRuleKeys.add(question.option_A.target_rule_key);
+        balanceRuleKeys.add(question.option_B.target_rule_key);
+      }
+    }
+    setBalanceSelections(balanceRuleKeys);
+
+    setNegativeSelections(aiSelections.negativeFilterSelections);
+
+    // 2. AI 리뷰 화면 숨기기
+    setShowAiReview(false);
+
+    // 3. A 버전 플로우 시작 (Step 1: 하드필터부터)
+    setCurrentStep(1);
+
+    // 스크롤 상단으로
+    setTimeout(() => {
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  }, [aiSelections, balanceQuestions]);
+
+  // ===================================================
+  // B Version: Back to Context Input (Previous Step)
+  // ===================================================
+
+  const handleBackToContextInput = useCallback(() => {
+    console.log('⬅️ Going back to context input (step -1)');
+
+    // Step -1로 이동 (ContextInput)
+    setCurrentStep(-1);
+    // AI 리뷰 화면 숨기기
+    setShowAiReview(false);
+    // AI 선택 결과 초기화
+    setAiSelections(null);
+    // 사용자 컨텍스트 초기화 (ContextInput 초기 상태로)
+    setUserContext(null);
+
+    // 스크롤 상단으로
+    setTimeout(() => {
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  }, []);
 
   // ===================================================
   // Step 1 Complete → Step 2
@@ -3308,17 +3884,36 @@ export default function RecommendV2Page() {
           )}
 
           <AnimatePresence mode="wait">
-            {/* Step 0: Scan Animation */}
-            {currentStep === 0 && showScanAnimation && (
-              <ScanAnimation
+            {/* B 버전: AI 분석 중 애니메이션 */}
+            {currentStep === 0 && isAiAnalyzing && (
+              <AIAnalyzingAnimation
                 categoryName={categoryName}
-                onComplete={handleScanComplete}
+                userContext={userContext || ''}
               />
             )}
           </AnimatePresence>
 
-          {/* Messages */}
-          {currentStep > -1 && (
+          {/* B 버전: AI 선택 결과 확인/수정 화면 */}
+          {currentStep === 0 && showAiReview && aiSelections && (
+            <AISelectionReview
+              hardFilterSelections={aiSelections.hardFilterSelections}
+              balanceGameSelections={aiSelections.balanceGameSelections}
+              negativeFilterSelections={aiSelections.negativeFilterSelections}
+              selectionReasons={aiSelections.selectionReasons}
+              hardFilterQuestions={hardFilterConfig?.questions || []}
+              balanceQuestions={balanceQuestions}
+              negativeOptions={negativeOptions}
+              onConfirm={handleAISelectionConfirm}
+              onEditMode={handleEnterEditMode}
+              onBack={handleBackToContextInput}
+              categoryName={categoryName}
+              overallReasoning={aiSelections.overallReasoning}
+              confidence={aiSelections.confidence}
+            />
+          )}
+
+          {/* Messages (결과 표시용) */}
+          {currentStep > 0 && (
             <div className="space-y-4">
               {messages.map(renderMessage)}
             </div>
