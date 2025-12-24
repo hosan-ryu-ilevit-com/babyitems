@@ -1414,7 +1414,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                       handleProductClick(product, index);
                       logButtonClick('상세분석보기_PLP', 'v2-result');
                     }}
-                    className="flex-1 py-2.5 text-sm font-medium text-[#0074F3] bg-[#E5F1FF] hover:bg-[#D6E8FF] rounded-xl transition-colors flex items-center justify-center gap-1"
+                    className="flex-1 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
                   >
                     상세 분석 보기
                    
@@ -1445,10 +1445,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                         window.open(`https://www.coupang.com/vp/products/${product.pcode}`, '_blank');
                       }
                     }}
-                    className="flex-1 py-2.5 text-sm font-medium text-white rounded-xl transition-colors flex items-center justify-center gap-1"
-                    style={{ backgroundColor: '#0084FE' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0070D9'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0084FE'}
+                    className="flex-1 py-2.5 text-sm font-medium text-white rounded-xl transition-colors flex items-center justify-center gap-1 bg-[#5F0080] hover:bg-[#4a0063]"
                   >
                     최저가 구매하기
                   </button>
@@ -1657,7 +1654,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               setBudgetButtonClicked(true);  // 클릭 후 버튼 숨김
               onRestrictToBudget();
             }}
-            className="fixed bottom-24 right-4 z-[105] px-5 py-3 bg-black rounded-full font-semibold text-white transition-all active:scale-[0.95] flex items-center gap-2"
+            className="fixed bottom-24 right-4 z-[105] px-5 py-3 bg-orange-600 rounded-full font-semibold text-white transition-all active:scale-[0.95] flex items-center gap-2 shadow-lg hover:bg-orange-700"
             style={{ maxWidth: 'calc(480px - 2rem)' }}
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">

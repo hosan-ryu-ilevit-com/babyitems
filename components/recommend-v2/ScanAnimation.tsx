@@ -86,7 +86,7 @@ export function ScanAnimation({
         <div className="mb-6">
           <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gray-900 rounded-full"
+              className="h-full bg-[#5F0080] rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ ease: 'linear' }}

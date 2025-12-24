@@ -81,10 +81,10 @@ export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualPr
         <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
           <motion.div
             className="h-full rounded-full"
-            initial={{ width: '100%', backgroundColor: '#111827' }}
+            initial={{ width: '100%', backgroundColor: '#5F0080' }}
             animate={{
               width: `${finalPercent}%`,
-              backgroundColor: isShrinkComplete ? '#22c55e' : '#111827',
+              backgroundColor: isShrinkComplete ? '#22c55e' : '#5F0080',
             }}
             transition={{
               width: { delay: 0.3, duration: 0.8, ease: 'easeInOut' },

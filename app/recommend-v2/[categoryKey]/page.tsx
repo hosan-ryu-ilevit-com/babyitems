@@ -3370,7 +3370,7 @@ export default function RecommendV2Page() {
             <div className="px-5 pb-3">
               <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-orange-600 rounded-full"
+                  className="h-full bg-[#5F0080] rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${(currentStep / 5) * 100}%` }}
                   transition={{ duration: 0.3 }}

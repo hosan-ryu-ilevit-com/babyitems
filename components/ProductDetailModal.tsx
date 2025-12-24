@@ -271,14 +271,26 @@ export default function ProductDetailModal({ productData, category, danawaData, 
       >
         {/* Header */}
         <header className="shrink-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between">
             <button
               onClick={handleClose}
-              className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-1 -ml-1 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
+            </button>
+            <button
+              onClick={() => {
+                const w = window as Window & { ChannelIO?: (...args: unknown[]) => void };
+                if (w.ChannelIO) {
+                  w.ChannelIO('openChat');
+                }
+                logButtonClick('피드백 보내기', 'product-modal');
+              }}
+              className="text-[13px] font-medium text-gray-400 hover:text-gray-600 transition-colors bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm"
+            >
+              피드백 보내기
             </button>
           </div>
         </header>
@@ -314,7 +326,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                 setShowChatInput(true);
                 logButtonClick('이 상품 기반으로 재추천', 'product-modal');
               }}
-              className="absolute bottom-4 left-4 px-4 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition-all flex items-center gap-2"
+              className="absolute bottom-4 left-4 px-4 py-2.5 bg-white border border-purple-200 text-purple-700 text-sm font-semibold rounded-lg shadow-sm hover:bg-purple-50 transition-all flex items-center gap-2"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -847,10 +859,10 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                 return (
                                   <span
                                     key={i}
-                                    className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                                    className={`px-2.5 py-1 rounded-full text-xs font-bold border ${
                                       isSatisfied
-                                        ? 'bg-blue-100 text-blue-700'
-                                        : 'bg-gray-100 text-gray-400 opacity-50'
+                                        ? 'bg-white border-gray-300 text-gray-800'
+                                        : 'bg-gray-100 border-transparent text-gray-400 opacity-50'
                                     }`}
                                   >
                                     {cond.condition}
@@ -1073,10 +1085,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
                   }
                 }}
-                className="flex-1 h-14 font-semibold rounded-2xl text-base transition-colors text-white"
-                style={{ backgroundColor: '#0084FE' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0070D9'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0084FE'}
+                className="flex-1 h-14 font-semibold rounded-2xl text-base transition-colors text-white bg-[#5F0080] hover:bg-[#4a0063]"
               >
                 최저가로 구매하기
               </button>
