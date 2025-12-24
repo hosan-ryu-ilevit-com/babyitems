@@ -3986,7 +3986,7 @@ export default function RecommendV2Page() {
                         <div key={answer.questionId} className="text-[13px]">
                           <span className="text-purple-400 font-medium">Q{idx + 1}.</span>{' '}
                           <span className="text-gray-500">{answer.questionText}</span>
-                          <div className="ml-5 mt-0.5">
+                          <div className="mt-0.5">
                             <span className="text-purple-600 font-medium">
                               → {answer.customText || answer.selectedLabel || answer.selectedOption}
                             </span>
