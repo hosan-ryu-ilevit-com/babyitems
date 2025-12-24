@@ -189,7 +189,6 @@ export interface ScoredProduct extends ProductItem {
   purchaseTip?: Array<{ text: string; citations: number[] }>;
   citedReviews?: Array<{ index: number; text: string; rating: number }>;
   // Optional fields for enhanced display
-  refinedTags?: string[];  // LLM-refined display tags
   recommendationReason?: string;  // Short reason for recommendation
 }
 

@@ -238,8 +238,6 @@ function ReviewCard({ insight }: { insight: ReviewInsight }) {
 interface RecommendedProduct extends ScoredProduct {
   recommendationReason?: string;
   matchedPreferences?: string[];
-  // LLM 정제된 태그 (refine-tags API 결과)
-  refinedTags?: string[];
   // 옵션/변형 정보 (그룹핑)
   variants?: ProductVariant[];
   optionCount?: number;
@@ -1654,7 +1652,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               setBudgetButtonClicked(true);  // 클릭 후 버튼 숨김
               onRestrictToBudget();
             }}
-            className="fixed bottom-24 right-4 z-[105] px-5 py-3 bg-orange-600 rounded-full font-semibold text-white transition-all active:scale-[0.95] flex items-center gap-2 shadow-lg hover:bg-orange-700"
+            className="fixed bottom-24 right-4 z-[105] px-5 py-3 bg-black rounded-full font-semibold text-white transition-all active:scale-[0.95] flex items-center gap-2 shadow-lg hover:bg-orange-700"
             style={{ maxWidth: 'calc(480px - 2rem)' }}
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
