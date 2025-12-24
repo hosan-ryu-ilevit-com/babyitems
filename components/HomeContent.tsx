@@ -257,7 +257,7 @@ export function HomeContent() {
               suppressHydrationWarning
             >
               <h1 className="text-[26px] font-bold text-gray-900 mb-8 mt-4 leading-[1.3] tracking-tight">
-                <span className="font-semibold text-gray-800">수천 개 아기용품 중</span><br />
+                <span className="font-semibold text-gray-800">수만 개 아기용품 중</span><br />
                 <span className="text-purple-600">내게 딱 맞는 하나</span> 찾기
               </h1>
 
