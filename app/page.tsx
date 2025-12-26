@@ -131,11 +131,11 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
 function StepIndicator({ currentStep = 1 }: { currentStep?: number }) {
   const steps = [1, 2, 3, 4];
   return (
-    <div className="sticky top-14 left-0 right-0 z-40 flex justify-center py-4 pointer-events-none">
-      <div className="flex items-center gap-2 bg-white/70 border border-gray-200 rounded-[42px] px-4 py-2 backdrop-blur-[12px] pointer-events-auto">
+    <div className="sticky top-14 left-0 right-0 z-40 flex justify-center pointer-events-none">
+      <div className="mt-2 flex items-center gap-2 bg-white/70 border border-gray-200 rounded-[42px] px-4 py-[6px] backdrop-blur-[12px] pointer-events-auto">
         {steps.map((step, idx) => (
           <div key={step} className="flex items-center">
-            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[12px] font-bold border transition-all ${
+            <div className={`w-[28px] h-[28px] rounded-full flex items-center justify-center text-[13px] font-bold border transition-all ${
               step === currentStep 
                 ? 'bg-gray-800 border-gray-800 text-white' 
                 : 'bg-white border-gray-200 text-gray-300'
@@ -282,7 +282,7 @@ export default function Home() {
           {/* 5. AI 도움받기 버튼 */}
           <button
             onClick={() => {
-              logAIHelperButtonClicked('category_selection', 'category_select', '어떤 상품을 찾고 계신가요?', 'all', '전체');
+              logAIHelperButtonClicked('category_selection', 'category_select', '어떤 상품을 찾으시나요?', 'all', '전체');
               setIsAIHelperOpen(true);
             }}
             className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 transition-all active:scale-[0.98]"

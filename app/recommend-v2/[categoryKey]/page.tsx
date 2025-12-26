@@ -116,6 +116,33 @@ function generateId(): string {
   return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
+// --- Sub-components ---
+
+// 상단 단계 표시 바
+function StepIndicator({ currentStep = 1 }: { currentStep?: number }) {
+  const steps = [1, 2, 3, 4];
+  return (
+    <div className="sticky top-14 left-0 right-0 z-40 h-0 flex justify-center pointer-events-none overflow-visible">
+      <div className="mt-2 flex items-center gap-2 bg-white/70 border border-gray-200 rounded-[42px] px-4 py-[6px] backdrop-blur-[12px] pointer-events-auto shadow-sm">
+        {steps.map((step, idx) => (
+          <div key={step} className="flex items-center">
+            <div className={`w-[28px] h-[28px] rounded-full flex items-center justify-center text-[12px] font-bold border transition-all ${
+              step <= currentStep 
+                ? 'bg-gray-800 border-gray-800 text-white' 
+                : 'bg-white border-gray-200 text-gray-300'
+            }`}>
+              {step}
+            </div>
+            {idx < steps.length - 1 && (
+              <div className={`w-6 h-[1px] mx-1 ${step < currentStep ? 'bg-gray-800' : 'bg-gray-200'}`} />
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // =====================================================
 // Main Component
 // =====================================================
@@ -464,7 +491,7 @@ export default function RecommendV2Page() {
 
         // Rules 처리
         if (!rulesJson.success) {
-          router.push('/categories-v2');
+          router.push('/');
           return;
         }
 
@@ -3241,58 +3268,31 @@ export default function RecommendV2Page() {
   // ===================================================
 
   return (
-    <div className="h-dvh overflow-hidden bg-gray-100 flex justify-center">
+    <div className="h-dvh overflow-hidden bg-white flex justify-center">
       <div className="h-full w-full max-w-[480px] bg-white flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="sticky top-0 bg-white border-b border-gray-200 z-50">
-          <div className="px-5 py-3 flex items-center relative">
-            {/* 왼쪽: 뒤로가기 버튼 */}
-            <button
-              onClick={() => setShowBackModal(true)}
-              className="text-gray-600 hover:text-gray-900 z-10"
-            >
-              <CaretLeft size={24} weight="bold" />
-            </button>
-            {/* 중앙: 카테고리 이름 (항상 정중앙) */}
-            <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold text-gray-900">
-              {categoryName} 추천
-            </h1>
-            {/* 오른쪽: 피드백 버튼 (추천 완료 후에만 표시) */}
-            <div className="ml-auto z-10">
-              {currentStep === 5 && scoredProducts.length > 0 ? (
-                <button
-                  onClick={handleFeedbackClick}
-                  className="text-[13px] font-medium text-gray-400 hover:text-gray-600 transition-colors bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm"
-                >
-                  피드백 보내기
-                </button>
-              ) : (
-                <div className="w-7" />
-              )}
-            </div>
+        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-50 h-14 flex items-center px-5 gap-3">
+          <button
+            onClick={() => setShowBackModal(true)}
+            className="flex items-center justify-center w-5 h-5 text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <CaretLeft size={20} weight="bold" />
+          </button>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[17px] font-semibold text-gray-800 tracking-tight">아기용품</span>
+            <span className="text-[17px] font-bold ai-gradient-text tracking-tight">AI</span>
           </div>
-
-          {/* Progress Bar - Step 0(로딩/가이드카드)과 결과 화면에서는 숨김 */}
-          {currentStep >= 1 && !(currentStep === 5 && scoredProducts.length > 0) && (
-            <div className="px-5 pb-3">
-              <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-[#5F0080] rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(currentStep / 5) * 100}%` }}
-                  transition={{ duration: 0.3 }}
-                />
-              </div>
-            </div>
-          )}
         </header>
 
         {/* Content */}
         <main
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto px-4 py-6 bg-white"
+          className="flex-1 overflow-y-auto px-4 py-6 bg-white relative"
           style={{ paddingBottom: '102px' }}
         >
+          {/* Step Indicator - Moved inside main for true floating effect */}
+          <StepIndicator currentStep={2} />
+
           {/* Step -1: Context Input - AnimatePresence 밖으로 (완료 후에도 유지) */}
           {/* 세션 복원 시에는 숨김 */}
           {currentStep >= -1 && !isRestoredFromStorage && (
@@ -3457,7 +3457,7 @@ export default function RecommendV2Page() {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => {
                         logV2ReRecommendDifferentCategory(categoryKey, categoryName);
-                        router.push('/categories-v2');
+                        router.push('/');
                       }}
                       className="w-full py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-2xl shadow-lg font-semibold transition-colors flex items-center justify-center gap-2"
                     >
@@ -3589,7 +3589,7 @@ export default function RecommendV2Page() {
                       취소
                     </button>
                     <button
-                      onClick={() => router.push('/categories-v2')}
+                      onClick={() => router.push('/')}
                       className="flex-1 px-4 py-3 bg-purple-600 text-white font-semibold rounded-xl"
                     >
                       돌아가기
