@@ -4160,7 +4160,7 @@ export default function RecommendV2Page() {
 
           {/* B 버전: AI 분석 중 - 좌측 shimmer 텍스트 */}
           {currentStep === 0 && isAiAnalyzing && (
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 mt-2">
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}

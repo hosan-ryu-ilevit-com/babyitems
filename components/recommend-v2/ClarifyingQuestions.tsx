@@ -334,7 +334,7 @@ export default function ClarifyingQuestions({
   if (!currentQuestion) return null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* 이전 입력 말풍선 (투명도 처리) */}
       <div className="flex justify-end">
         <div className="max-w-[85%] px-4 py-3 bg-gray-100 rounded-2xl rounded-tr-md opacity-60">
@@ -352,7 +352,7 @@ export default function ClarifyingQuestions({
         className="bg-gray-50 rounded-2xl overflow-hidden"
       >
         {/* 헤더: 진행 표시 */}
-        <div className="px-5 py-4">
+        <div className="px-5 pt-3 pb-4">
           <span className="px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">
             추가 질문 {currentIndex + 1}/{totalQuestions}
           </span>
@@ -526,6 +526,7 @@ export default function ClarifyingQuestions({
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
+              이전
             </button>
 
             {/* 건너뛰기 버튼 - 마지막 질문이면 즉시분석, 아니면 다음 질문으로 */}

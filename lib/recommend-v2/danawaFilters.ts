@@ -243,7 +243,7 @@ function createBrandQuestion(
 
   return {
     id: `hf_${categoryKey}_브랜드_${index}`,
-    type: 'single',
+    type: 'multi',
     question: '선호하는 브랜드가 있나요?',
     tip: '좋아하는 브랜드가 있으시다면 골라주세요.',
     options,
@@ -330,7 +330,7 @@ function convertFilterToQuestion(
 
   return {
     id: `hf_${categoryKey}_${filter.filter_name.replace(/\s+/g, '_')}_${index}`,
-    type: 'single',
+    type: 'multi',
     question: questionText,
     tip,
     options,
