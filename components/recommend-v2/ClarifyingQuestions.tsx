@@ -266,15 +266,6 @@ export default function ClarifyingQuestions({
   if (isLoading) {
     return (
       <div className="space-y-4">
-        {/* 이전 입력 말풍선 */}
-        <div className="flex justify-end">
-          <div className="max-w-[85%] px-4 py-3 bg-gray-100 rounded-2xl rounded-tr-md opacity-60">
-            <p className="text-[15px] text-gray-800 leading-relaxed whitespace-pre-wrap">
-              {initialContext}
-            </p>
-          </div>
-        </div>
-
         {/* 쉬머링 텍스트 + 타이머 */}
         <div className="flex flex-col gap-1">
           <motion.p
@@ -316,13 +307,6 @@ export default function ClarifyingQuestions({
   if (error) {
     return (
       <div className="space-y-4">
-        <div className="flex justify-end">
-          <div className="max-w-[85%] px-4 py-3 bg-gray-100 rounded-2xl rounded-tr-md opacity-60">
-            <p className="text-[15px] text-gray-800 leading-relaxed whitespace-pre-wrap">
-              {initialContext}
-            </p>
-          </div>
-        </div>
         <div className="bg-gray-50 rounded-2xl p-6 text-center">
           <p className="text-gray-600">{error}</p>
           <p className="text-sm text-gray-400 mt-2">바로 분석으로 진행합니다...</p>
@@ -335,15 +319,6 @@ export default function ClarifyingQuestions({
 
   return (
     <div className="space-y-2">
-      {/* 이전 입력 말풍선 (투명도 처리) */}
-      <div className="flex justify-end">
-        <div className="max-w-[85%] px-4 py-3 bg-gray-100 rounded-2xl rounded-tr-md opacity-60">
-          <p className="text-[15px] text-gray-800 leading-relaxed whitespace-pre-wrap">
-            {initialContext}
-          </p>
-        </div>
-      </div>
-
       {/* 질문 카드 */}
       <motion.div
         initial={{ opacity: 0 }}

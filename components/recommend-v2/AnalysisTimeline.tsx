@@ -16,7 +16,7 @@ export function AnalysisTimeline({ timeline }: AnalysisTimelineProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="w-full max-w-md mx-auto mb-6">
+    <div className="w-full mx-auto mb-6">
       {/* 토글 버튼 */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}

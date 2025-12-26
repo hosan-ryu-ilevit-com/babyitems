@@ -281,11 +281,11 @@ export default function RecommendV2Page() {
   }, []);
 
   // 특정 메시지로 스크롤 (상단 정렬 - AI 채팅처럼 새 컴포넌트가 헤더 아래로)
-  const scrollToMessage = useCallback((messageId: string) => {
+  const scrollToMessage = useCallback((messageId: string, behavior: ScrollBehavior = 'smooth') => {
     setTimeout(() => {
       const el = document.querySelector(`[data-message-id="${messageId}"]`);
-      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 150);
+      el?.scrollIntoView({ behavior, block: 'start' });
+    }, behavior === 'smooth' ? 150 : 0);
   }, []);
 
   // ===================================================
@@ -324,11 +324,22 @@ export default function RecommendV2Page() {
       interval = setInterval(() => {
         setAiAnalysisTime(prev => prev + 1);
       }, 10);
+
+      // 말풍선으로 스크롤 (헤더 바로 아래 위치)
+      // isAiAnalyzing이 true가 되면 ClarifyingQuestions가 사라지고 말풍선이 나타나므로
+      // 약간의 지연을 주어 DOM이 완전히 업데이트된 후 스크롤
+      const scrollTimer = setTimeout(() => {
+        scrollToMessage('user-context-bubble');
+      }, 100);
+      return () => {
+        if (interval) clearInterval(interval);
+        clearTimeout(scrollTimer);
+      };
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isAiAnalyzing]);
+  }, [isAiAnalyzing, scrollToMessage]);
 
   // 프로그레스는 항상 증가만 (뒤로 가지 않음)
   const setProgressSafe = useCallback((value: number) => {
@@ -1161,16 +1172,16 @@ export default function RecommendV2Page() {
     setCurrentStep(0);
     setShowClarifyingQuestions(true);
     setShowAiReview(false);
-  }, []);
+
+    // 첫 입력 완료 시에는 'auto'(즉시) 이동을 사용하여 덜컹거림 제거
+    scrollToMessage('user-context-bubble', 'auto');
+  }, [scrollToMessage]);
 
   // Clarifying Questions 완료 후 One-Shot 분석 진행
   const handleClarifyingComplete = useCallback(async (enriched: EnrichedContext) => {
     setShowClarifyingQuestions(false);
     setEnrichedContext(enriched);
     setIsAiAnalyzing(true);
-
-    // 말풍선으로 스크롤 (헤더 바로 아래 위치)
-    scrollToMessage('user-context-bubble');
 
     try {
       // One-Shot API 호출 (enriched context 포함)
@@ -1212,9 +1223,6 @@ export default function RecommendV2Page() {
   const handleClarifyingSkip = useCallback(async () => {
     setShowClarifyingQuestions(false);
     setIsAiAnalyzing(true);
-
-    // 말풍선으로 스크롤
-    scrollToMessage('user-context-bubble');
 
     try {
       const response = await fetch('/api/ai-selection-helper/one-shot', {
@@ -4091,7 +4099,7 @@ export default function RecommendV2Page() {
           {/* Step -1: Context Input - AnimatePresence 밖으로 (완료 후에도 유지) */}
           {/* 세션 복원 시에는 숨김 */}
           {currentStep >= -1 && !isRestoredFromStorage && (
-            <div className={`mb-4 transition-all duration-300 ${currentStep > -1 ? 'opacity-50 pointer-events-none' : ''}`}>
+            <div className={currentStep > -1 ? 'hidden' : 'mb-4'}>
               <ContextInput
                 category={categoryKey}
                 categoryName={categoryName}
@@ -4103,13 +4111,15 @@ export default function RecommendV2Page() {
           )}
 
           {/* B 버전: 사용자 입력 말풍선 (Clarifying Questions, AI 분석 중, AI 리뷰 화면에서 표시) */}
-          {currentStep === 0 && userContext && !showClarifyingQuestions && (
-            <div className="space-y-3 pt-8 mb-4">
+          {currentStep === 0 && userContext && (
+            <div 
+              data-message-id="user-context-bubble"
+              className={`space-y-3 pt-2 mb-4 transition-opacity duration-300 ${
+                showClarifyingQuestions ? 'opacity-60' : 'opacity-100'
+              }`}
+            >
               {/* 원래 사용자 입력 말풍선 */}
-              <div
-                data-message-id="user-context-bubble"
-                className="flex justify-end"
-              >
+              <div className="flex justify-end">
                 <div className="max-w-[85%] px-4 py-3 bg-gray-100 rounded-2xl rounded-tr-md">
                   <p className="text-[15px] text-gray-800 leading-relaxed whitespace-pre-wrap">
                     {userContext}
@@ -4118,7 +4128,7 @@ export default function RecommendV2Page() {
               </div>
 
               {/* Clarifying 답변 요약 말풍선 */}
-              {enrichedContext && enrichedContext.clarifyingAnswers.length > 0 && (
+              {enrichedContext && enrichedContext.clarifyingAnswers.length > 0 && !showClarifyingQuestions && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -4147,7 +4157,7 @@ export default function RecommendV2Page() {
 
           {/* B 버전: Clarifying Questions (선택지 기반 Q&A) */}
           {currentStep === 0 && showClarifyingQuestions && userContext && (
-            <div className="pt-4">
+            <div className="pt-0">
               <ClarifyingQuestions
                 categoryKey={categoryKey}
                 categoryName={categoryName}
@@ -4339,7 +4349,8 @@ export default function RecommendV2Page() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25, ease: 'easeInOut' }}
-                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[100]"
+                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[100] mx-auto"
+                  style={{ maxWidth: '480px' }}
                   onClick={() => setShowReRecommendModal(false)}
                 />
               )}
@@ -4480,7 +4491,8 @@ export default function RecommendV2Page() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 z-[200]"
+                className="fixed inset-0 bg-black/50 z-[200] mx-auto"
+                style={{ maxWidth: '480px' }}
                 onClick={() => setShowBackModal(false)}
               />
               <motion.div

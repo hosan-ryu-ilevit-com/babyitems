@@ -1646,20 +1646,24 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         if (!hasOutOfBudget) return null;
 
         return (
-          <button
-            onClick={() => {
-              logButtonClick('예산 내 제품만 보기');
-              setBudgetButtonClicked(true);  // 클릭 후 버튼 숨김
-              onRestrictToBudget();
-            }}
-            className="fixed bottom-24 right-4 z-[105] px-5 py-3 bg-black rounded-full font-semibold text-white transition-all active:scale-[0.95] flex items-center gap-2 shadow-lg hover:bg-orange-700"
-            style={{ maxWidth: 'calc(480px - 2rem)' }}
+          <div 
+            className="fixed bottom-24 left-0 right-0 z-[105] pointer-events-none"
+            style={{ maxWidth: '480px', margin: '0 auto' }}
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
-            </svg>
-            <span className="text-sm whitespace-nowrap">예산 내 제품만 보기</span>
-          </button>
+            <button
+              onClick={() => {
+                logButtonClick('예산 내 제품만 보기');
+                setBudgetButtonClicked(true);  // 클릭 후 버튼 숨김
+                onRestrictToBudget();
+              }}
+              className="absolute bottom-0 right-4 px-5 py-3 bg-black rounded-full font-semibold text-white transition-all active:scale-[0.95] flex items-center gap-2 shadow-lg hover:bg-orange-700 pointer-events-auto"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm whitespace-nowrap">예산 내 제품만 보기</span>
+            </button>
+          </div>
         );
       })()}
 

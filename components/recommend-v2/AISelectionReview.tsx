@@ -349,7 +349,7 @@ export function AISelectionReview({
       >
         <div className="flex items-center justify-center px-4 py-3 bg-purple-50/50 rounded-xl border border-purple-100/50">
           <p className="text-sm text-purple-700 font-medium leading-tight text-center">
-            👇 아래 메뉴를 눌러 조건을 수정하실 수 있어요 
+            👇 아래에서 AI가 골라드린 조건을 수정하실 수 있어요 
           </p>
         </div>
       </motion.div>
@@ -616,8 +616,11 @@ export function AISelectionReview({
 
       {/* 고정 하단 CTA - 로딩 중에는 완전히 숨김 */}
       {!isLoading && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 safe-area-pb z-40">
-          <div className="max-w-lg mx-auto space-y-3">
+        <div 
+          className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 safe-area-pb z-40"
+          style={{ maxWidth: '480px', margin: '0 auto' }}
+        >
+          <div className="w-full space-y-3">
             <div className="flex gap-3">
               {onBack && (
                 <button
@@ -631,7 +634,7 @@ export function AISelectionReview({
                 onClick={handleConfirm}
                 className="flex-1 py-4 bg-[#5F0080] text-white font-semibold rounded-xl hover:bg-[#4a0066] transition-colors"
               >
-                이대로 추천받기
+                이 조건으로 추천받기
               </button>
             </div>
           </div>

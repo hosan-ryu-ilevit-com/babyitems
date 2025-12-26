@@ -51,7 +51,7 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mt-8 w-full max-w-md mx-auto"
+      className="mt-8 w-full mx-auto"
     >
       {/* 타임라인 컨테이너 - 투명 배경, 상하단 fade 효과 */}
       <div className="relative">

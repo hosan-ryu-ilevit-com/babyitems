@@ -279,7 +279,8 @@ export function NegativeFilterAIHelperBottomSheet({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-[60]"
+            className="fixed inset-0 bg-black/50 z-[60] mx-auto"
+            style={{ maxWidth: '480px' }}
           />
 
           {/* Bottom Sheet */}
