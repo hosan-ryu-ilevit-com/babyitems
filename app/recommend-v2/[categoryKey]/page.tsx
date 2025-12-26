@@ -1276,8 +1276,39 @@ export default function RecommendV2Page() {
     setBalanceSelections(balanceRuleKeys);
     setNegativeSelections(finalSelections.negativeFilterSelections);
 
-    // 2. 리뷰 화면 숨기고 결과 로딩 시작
-    setShowAiReview(false);
+    // 🔧 B버전 플로우: balanceLabels와 negativeLabels 설정 (PDP 조건 충족도 표시용)
+    const balanceMap: Record<string, string> = {};
+    balanceQuestions.forEach((q) => {
+      if (q.option_A?.target_rule_key && q.option_A?.text) {
+        balanceMap[q.option_A.target_rule_key] = q.option_A.text;
+      }
+      if (q.option_B?.target_rule_key && q.option_B?.text) {
+        balanceMap[q.option_B.target_rule_key] = q.option_B.text;
+      }
+    });
+    setBalanceLabels(balanceMap);
+
+    const negativeMap: Record<string, string> = {};
+    negativeOptions.forEach((opt) => {
+      if (opt.target_rule_key && opt.label) {
+        negativeMap[opt.target_rule_key] = opt.label;
+      }
+    });
+    setNegativeLabels(negativeMap);
+
+    // hardFilterLabels도 설정 (하드필터 질문에서)
+    const hardFilterMap: Record<string, string> = {};
+    hardFilterConfig?.questions?.forEach((q) => {
+      q.options?.forEach((opt) => {
+        if (opt.value && (opt.displayLabel || opt.label)) {
+          hardFilterMap[opt.value] = opt.displayLabel || opt.label;
+        }
+      });
+    });
+    setHardFilterLabels(hardFilterMap);
+
+    // 2. 결과 로딩 시작 (AI 리뷰 화면은 비활성화로 유지)
+    // setShowAiReview(false); // 숨기지 않고 비활성화+투명도로 표시
     setIsCalculating(true);
     setCurrentStep(5);
 
@@ -1303,9 +1334,68 @@ export default function RecommendV2Page() {
       );
       setFilteredProducts(filtered);
 
-      // 기본 예산 범위
-      const categoryBudget = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000 };
-      setBudget(categoryBudget);
+      // 🔧 예산 범위 결정: clarifying questions에서 선택한 예산 반영
+      const categoryBudgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000, step: 10000 };
+      const categoryBudget = { min: categoryBudgetRange.min, max: categoryBudgetRange.max };
+      let finalBudget = { ...categoryBudget };
+
+      // clarifyingAnswers에서 예산 선택 추출
+      const budgetAnswer = enrichedContext?.clarifyingAnswers?.find(
+        a => a.questionId === 'budget_fixed'
+      );
+
+      if (budgetAnswer) {
+        const { min, max } = categoryBudget;
+        const range = max - min;
+        const q1 = min + range * 0.25;
+        const q2 = min + range * 0.5;
+        const q3 = min + range * 0.75;
+
+        // 선택된 옵션에 따른 예산 범위 결정
+        if (budgetAnswer.selectedOption === 'budget_low') {
+          finalBudget = { min, max: Math.round(q1) };
+        } else if (budgetAnswer.selectedOption === 'budget_mid') {
+          finalBudget = { min: Math.round(q1), max: Math.round(q2) };
+        } else if (budgetAnswer.selectedOption === 'budget_high') {
+          finalBudget = { min: Math.round(q2), max: Math.round(q3) };
+        } else if (budgetAnswer.selectedOption === 'budget_premium') {
+          finalBudget = { min: Math.round(q3), max };
+        } else if (budgetAnswer.customText) {
+          // 기타 입력: 숫자 파싱 시도 (예: "20만원", "15~25만원", "30만원 이하")
+          const text = budgetAnswer.customText;
+          const parsedBudget = (() => {
+            // 범위 패턴: "15~25만원", "15만~25만원", "15-25만원"
+            const rangeMatch = text.match(/(\d+)\s*만?\s*[~\-]\s*(\d+)\s*만/);
+            if (rangeMatch) {
+              return { min: parseInt(rangeMatch[1]) * 10000, max: parseInt(rangeMatch[2]) * 10000 };
+            }
+            // "~이하" 패턴: "20만원 이하", "20만원이하"
+            const belowMatch = text.match(/(\d+)\s*만\s*원?\s*이하/);
+            if (belowMatch) {
+              return { min: categoryBudget.min, max: parseInt(belowMatch[1]) * 10000 };
+            }
+            // "~이상" 패턴: "20만원 이상"
+            const aboveMatch = text.match(/(\d+)\s*만\s*원?\s*이상/);
+            if (aboveMatch) {
+              return { min: parseInt(aboveMatch[1]) * 10000, max: categoryBudget.max };
+            }
+            // 단일 숫자 패턴: "20만원", "20만" → 해당 금액을 max로
+            const singleMatch = text.match(/(\d+)\s*만\s*원?/);
+            if (singleMatch) {
+              const value = parseInt(singleMatch[1]) * 10000;
+              return { min: categoryBudget.min, max: value };
+            }
+            return null;
+          })();
+
+          if (parsedBudget) {
+            finalBudget = parsedBudget;
+          }
+        }
+        console.log('💰 [Budget] From clarifying questions:', budgetAnswer.selectedOption || budgetAnswer.customText, '→', finalBudget);
+      }
+
+      setBudget(finalBudget);
 
       // 📦 타임라인 1단계
       const step1: TimelineStep = {
@@ -1359,12 +1449,12 @@ export default function RecommendV2Page() {
           negativeOptions,
           logicMap
         );
-        const budgetScore = calculateBudgetScore(product, categoryBudget);
+        const budgetScore = calculateBudgetScore(product, finalBudget);
         const effectivePrice = product.lowestPrice ?? product.price ?? 0;
-        const isOverBudget = effectivePrice > 0 && effectivePrice > categoryBudget.max;
-        const overBudgetAmount = isOverBudget ? Math.max(0, effectivePrice - categoryBudget.max) : 0;
-        const overBudgetPercent = isOverBudget && categoryBudget.max > 0
-          ? Math.round((effectivePrice - categoryBudget.max) / categoryBudget.max * 100)
+        const isOverBudget = effectivePrice > 0 && effectivePrice > finalBudget.max;
+        const overBudgetAmount = isOverBudget ? Math.max(0, effectivePrice - finalBudget.max) : 0;
+        const overBudgetPercent = isOverBudget && finalBudget.max > 0
+          ? Math.round((effectivePrice - finalBudget.max) / finalBudget.max * 100)
           : 0;
 
         return {
@@ -1717,6 +1807,7 @@ export default function RecommendV2Page() {
     hardFilterLabels,
     hardFilterDefinitions,
     userContext,
+    enrichedContext,
   ]);
 
   // ===================================================
@@ -4043,28 +4134,34 @@ export default function RecommendV2Page() {
           )}
 
           {/* B 버전: AI 선택 결과 확인/수정 화면 */}
-          {currentStep === 0 && showAiReview && aiSelections && (
-            <AISelectionReview
-              hardFilterSelections={aiSelections.hardFilterSelections}
-              balanceGameSelections={aiSelections.balanceGameSelections}
-              negativeFilterSelections={aiSelections.negativeFilterSelections}
-              selectionReasons={aiSelections.selectionReasons}
-              hardFilterQuestions={hardFilterConfig?.questions || []}
-              balanceQuestions={balanceQuestions}
-              negativeOptions={negativeOptions}
-              onConfirm={handleAISelectionConfirm}
-              onEditMode={handleEnterEditMode}
-              onBack={handleBackToContextInput}
-              categoryName={categoryName}
-              overallReasoning={aiSelections.overallReasoning}
-              confidence={aiSelections.confidence}
-              thumbnailProducts={products.slice(0, 5).map(p => ({
-                id: p.pcode,
-                title: p.title,
-                thumbnail: p.thumbnail || undefined
-              }))}
-              totalReviewCount={products.length + Math.floor(Math.random() * 20) + 1}
-            />
+          {showAiReview && aiSelections && (
+            <div className={`transition-all duration-300 ${
+              currentStep > 0 || isCalculating || scoredProducts.length > 0
+                ? 'opacity-50 pointer-events-none'
+                : ''
+            }`}>
+              <AISelectionReview
+                hardFilterSelections={aiSelections.hardFilterSelections}
+                balanceGameSelections={aiSelections.balanceGameSelections}
+                negativeFilterSelections={aiSelections.negativeFilterSelections}
+                selectionReasons={aiSelections.selectionReasons}
+                hardFilterQuestions={hardFilterConfig?.questions || []}
+                balanceQuestions={balanceQuestions}
+                negativeOptions={negativeOptions}
+                onConfirm={handleAISelectionConfirm}
+                onEditMode={handleEnterEditMode}
+                onBack={handleBackToContextInput}
+                categoryName={categoryName}
+                overallReasoning={aiSelections.overallReasoning}
+                confidence={aiSelections.confidence}
+                thumbnailProducts={products.slice(0, 5).map(p => ({
+                  id: p.pcode,
+                  title: p.title,
+                  thumbnail: p.thumbnail || undefined
+                }))}
+                totalReviewCount={products.length + Math.floor(Math.random() * 20) + 1}
+              />
+            </div>
           )}
 
           {/* Messages (결과 표시용) */}
@@ -4240,6 +4337,13 @@ export default function RecommendV2Page() {
                         setConditionSummary([]);
                         setMessages([]);
                         setShowReRecommendModal(false);
+
+                        // 🔧 B버전 AI 분석 상태 초기화
+                        setAiSelections(null);
+                        setShowAiReview(false);
+                        setEnrichedContext(null);
+                        setShowClarifyingQuestions(false);
+                        setIsAiAnalyzing(false);
 
                         // useEffect 중복 호출 방지 (sessionStorage 복원 후 다시 추천받기 시)
                         hasTriggeredGuideRef.current = false;  // Step -1부터 시작하므로 리셋

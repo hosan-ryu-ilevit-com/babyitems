@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getModel, callGeminiWithRetry, parseJSONResponse } from '@/lib/ai/gemini';
+import { generateHardFiltersForCategory } from '@/lib/recommend-v2/danawaFilters';
 
 interface GenerateContextExamplesRequest {
   category: string;
@@ -10,6 +11,7 @@ interface GenerateContextExamplesRequest {
 
 interface GenerateContextExamplesResponse {
   examples: string[];
+  hint?: string;
 }
 
 // 카테고리별 제품 스펙 힌트 (뭘 살지 아는 사람용) - 구체적인 불만/요구사항
@@ -51,13 +53,20 @@ export async function POST(request: NextRequest) {
     const body: GenerateContextExamplesRequest = await request.json();
     const { category, categoryName } = body;
 
+    // 하드필터 질문들 로드 (질문 텍스트를 AI에게 전달)
+    const hardFilterQuestions = await generateHardFiltersForCategory(category);
+    const hardFilterQuestionsText = hardFilterQuestions
+      .slice(0, 5)
+      .filter(q => q.type !== 'review_priorities') // 리뷰 우선순위 타입 제외
+      .map(q => `- ${q.question}`)
+      .join('\n');
+
     const specHints = CATEGORY_SPEC_HINTS[category] || '용량, 소음, 편의성, 가격대';
     const situationHints = CATEGORY_SITUATION_HINTS[category] || '아기 월령, 사용 환경, 생활 패턴';
 
     const systemPrompt = `당신은 육아 전문 상담사입니다.
 
-${categoryName}을 구매하려는 부모가 **추천 서비스에 처음 입력할 법한 문장** 3개를 생성해주세요.
-이것은 추천의 "시작점"이므로, 사용자의 상황과 요구사항을 아주 **구체적이고 상세하게** 담아야 합니다.
+${categoryName}을 구매하려는 부모가 **추천 서비스에 처음 입력할 법한 문장** 3개와, 입력을 유도하는 **힌트 문장** 1개를 생성해주세요.
 
 ## 세 가지 유형의 예시 (각 1개씩):
 
@@ -72,6 +81,16 @@ ${categoryName}을 구매하려는 부모가 **추천 서비스에 처음 입력
 ### 유형 C: 원하는 특징/조건 (1개)
 - 단순히 '가성비'가 아니라, **왜 그 특징이 필요한지** 이유를 포함한 구체적인 조건
 
+## 힌트 문장 생성 규칙:
+- 이 카테고리에서 **사용자가 입력하면 좋을 정보**를 안내하는 문장
+- 아래 "이 카테고리의 주요 질문들"을 참고해서 **구체적인 정보 항목**을 자연스럽게 언급
+- 형식: "~를 말씀해주시면 좋아요" 또는 "~를 알려주시면 도움이 돼요"
+- 예시: "아기 개월수와 성별, 선호 브랜드 등을 말씀해주시면 좋아요"
+- **25~35자**로 간결하면서도 구체적으로
+
+**이 카테고리의 주요 질문들:**
+${hardFilterQuestionsText || '- 아기 월령이나 상황'}
+
 ## 중요 규칙:
 1. **"~추천해주세요" 금지** - 상황만 설명하세요.
 2. **물음표(?) 금지**
@@ -81,7 +100,7 @@ ${categoryName}을 구매하려는 부모가 **추천 서비스에 처음 입력
 
     const userPrompt = `**카테고리:** ${categoryName} (${category})
 
-${categoryName} 추천 서비스에 사용자가 **처음 입력할 구체적이고 생생한 상황/조건** 3개를 생성하세요.
+${categoryName} 추천 서비스에 사용자가 **처음 입력할 구체적이고 생생한 상황/조건** 3개와 **힌트 문장** 1개를 생성하세요.
 단순히 "무거워요", "4개월이에요" 같은 짧은 문장이 아니라, 실제 부모들이 겪는 **디테일한 상황**을 묘사해야 합니다.
 
 유형 A(불편/문제점) 1개, 유형 B(아기/가족 상황) 1개, 유형 C(원하는 특징) 1개씩 균형있게 생성하세요.
@@ -93,7 +112,8 @@ ${categoryName} 추천 서비스에 사용자가 **처음 입력할 구체적이
     "지금 쓰는 분유 포트 물 끓는 소리가 너무 커서 밤수유 때 아기가 깨서 힘들어요",
     "생후 130일 7.2kg 완분 아기인데 수유량이 늘어서 큰 사이즈 젖병이 필요해요",
     "맞벌이라 세척에 시간을 많이 못 써서 구조가 단순하고 통세척 되는 거 찾아요"
-  ]
+  ],
+  "hint": "월령과 수유량, 세척 편의성 등을 말씀해주시면 좋아요"
 }`;
 
     const model = getModel(0.7);
@@ -148,9 +168,14 @@ ${categoryName} 추천 서비스에 사용자가 **처음 입력할 구체적이
       examples.push(fallbackExamples[examples.length] || fallbackExamples[examples.length % fallbackExamples.length]);
     }
 
-    console.log('🎯 Generated context examples for', categoryName, ':', examples);
+    // 힌트 처리 (AI가 생성하지 못한 경우 기본값 - situationHints 기반)
+    const defaultHint = `${situationHints.split(',').slice(0, 2).map(s => s.trim()).join('과 ')} 등을 알려주시면 도움이 돼요`;
+    const hint = parsed.hint || defaultHint;
 
-    return NextResponse.json({ examples: examples.slice(0, 3) });
+    console.log('🎯 Generated context examples for', categoryName, ':', examples);
+    console.log('💡 Generated hint:', hint);
+
+    return NextResponse.json({ examples: examples.slice(0, 3), hint });
 
   } catch (error) {
     console.error('Generate context examples error:', error);
@@ -160,6 +185,7 @@ ${categoryName} 추천 서비스에 사용자가 **처음 입력할 구체적이
         '첫 아이라 뭘 사야 할지 잘 몰라요',
         '가성비 좋으면서 품질 괜찮은 거 찾아요',
       ],
+      hint: '아기 월령과 상황을 말씀해주시면 좋아요',
     });
   }
 }

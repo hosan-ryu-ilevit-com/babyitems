@@ -28,6 +28,7 @@ export default function ContextInput({
 }: ContextInputProps) {
   const [text, setText] = useState('');
   const [examples, setExamples] = useState<string[]>([]);
+  const [hint, setHint] = useState<string | null>(null);
   const [isLoadingExamples, setIsLoadingExamples] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -51,6 +52,9 @@ export default function ContextInput({
 
       if (data.examples && data.examples.length > 0) {
         setExamples(data.examples);
+      }
+      if (data.hint) {
+        setHint(data.hint);
       }
       setIsLoadingExamples(false);
     } catch (err) {
@@ -122,9 +126,13 @@ export default function ContextInput({
           찾으시는 <span className="text-purple-600">{categoryName}의 특징</span>이나<br />
           <span className="text-purple-600">아이의 상황</span>을 알려주세요 👋
         </h3>
-        <p className="text-[16px] text-gray-600">
-          구체적일수록 더 나은 추천을 받을 수 있습니다
-        </p>
+        {hint ? (
+          <p className="text-[16px] text-gray-600">
+            {hint}
+          </p>
+        ) : (
+          <div className="h-6 w-[70%] rounded-md bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]" />
+        )}
       </div>
 
       {/* Textarea with Modern Clean Style */}

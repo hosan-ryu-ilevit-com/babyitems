@@ -526,16 +526,16 @@ export default function ClarifyingQuestions({
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              이전
+              
             </button>
 
             {/* 바로 분석하기 */}
             <button
               onClick={handleSkipWithAnswers}
               disabled={isTransitioning}
-              className="text-sm font-medium text-gray-500 hover:text-purple-600 transition-colors disabled:opacity-50"
+              className="text-sm font-semibold text-gray-400 hover:text-purple-600 transition-colors disabled:opacity-50"
             >
-              바로 분석하기
+              건너뛰기 (즉시 분석)
             </button>
 
             {/* 다음 버튼 */}
@@ -553,7 +553,7 @@ export default function ClarifyingQuestions({
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
                 } disabled:opacity-50`}
             >
-              다음
+              
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

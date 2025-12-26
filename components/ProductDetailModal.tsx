@@ -126,7 +126,8 @@ function getMallLogoPath(mallName: string | undefined): string | null {
 }
 
 // 마크다운 볼드 처리
-function parseMarkdownBold(text: string) {
+function parseMarkdownBold(text: string | undefined | null) {
+  if (!text) return null;
   const parts = text.split(/(\*\*.*?\*\*)/g);
   return parts.map((part, index) => {
     if (part.startsWith('**') && part.endsWith('**')) {
