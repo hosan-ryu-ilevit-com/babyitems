@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import {
   logContextInputExampleClick,
@@ -29,12 +28,45 @@ export default function ContextInput({
 }: ContextInputProps) {
   const [text, setText] = useState('');
   const [examples, setExamples] = useState<string[]>([]);
+  const [hint, setHint] = useState<string | null>(null);
   const [isLoadingExamples, setIsLoadingExamples] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false); // 버튼 중복 클릭 방지
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const isLoadedRef = useRef(false);
+
+  // 예시 로드 함수 (useEffect 위에 선언)
+  const loadExamples = async () => {
+    if (isLoadedRef.current) return;
+    isLoadedRef.current = true;
+
+    setIsLoadingExamples(true);
+    try {
+      const response = await fetch('/api/ai-selection-helper/generate-context-examples', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category, categoryName }),
+      });
+      const data = await response.json();
+
+      if (data.examples && data.examples.length > 0) {
+        setExamples(data.examples);
+      }
+      if (data.hint) {
+        setHint(data.hint);
+      }
+      setIsLoadingExamples(false);
+    } catch (err) {
+      console.error('Failed to load examples:', err);
+      setExamples([
+        '지금 쓰는 게 불편해서 바꾸려고 해요',
+        '첫 아이라 뭘 사야 할지 잘 몰라요',
+        '가성비 좋으면서 품질 괜찮은 거 찾아요',
+      ]);
+      setIsLoadingExamples(false);
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -51,42 +83,12 @@ export default function ContextInput({
     // 이전 단계로 돌아왔을 때 (isCompleted가 false가 되면) 상태 리셋
     if (!isCompleted) {
       setIsSubmitting(false);
+      // submittedText가 null이면 텍스트도 초기화 (다시 입력 버튼 클릭 시)
+      if (submittedText === null) {
+        setText('');
+      }
     }
   }, [isCompleted, submittedText]);
-
-  const loadExamples = async () => {
-    if (isLoadedRef.current) return;
-    isLoadedRef.current = true;
-    
-    setIsLoadingExamples(true);
-    try {
-      const response = await fetch('/api/ai-selection-helper/generate-context-examples', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category, categoryName }),
-      });
-      const data = await response.json();
-      
-      if (data.examples && data.examples.length > 0) {
-        setExamples(data.examples);
-      }
-      setIsLoadingExamples(false);
-    } catch (err) {
-      console.error('Failed to load examples:', err);
-      setExamples([
-        '지금 쓰는 게 불편해요',
-        '사용하기 어려워요',
-        '품질이 아쉬워요',
-        '3개월 아기예요',
-        '첫 아이라 잘 몰라요',
-        '맞벌이라 시간이 부족해요',
-        '가성비가 중요해요',
-        '사용 편한 게 필요해요',
-        '안전한 제품을 원해요',
-      ]);
-      setIsLoadingExamples(false);
-    }
-  };
 
   const handleSubmit = () => {
     if (!text.trim() || isSubmitting) return;
@@ -104,13 +106,6 @@ export default function ContextInput({
     onComplete(text.trim());
   };
 
-  const handleSkip = () => {
-    // 로깅: 건너뛰기 버튼 클릭
-    logContextInputButtonClick(category, categoryName, 'skip');
-
-    onComplete(null);
-  };
-
   const handleExampleClick = (example: string, index: number) => {
     // 로깅: 예시 칩 클릭
     logContextInputExampleClick(category, categoryName, example, index);
@@ -118,22 +113,26 @@ export default function ContextInput({
     setText(example);
   };
 
-  const isSubmitDisabled = !text.trim() || isSubmitting;
-
   return (
     <motion.div
       initial={mounted ? { opacity: 0, y: 0 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-white space-y-4 transition-all duration-300"
+      className={`bg-white space-y-4 transition-all duration-300 ${isCompleted ? 'hidden' : ''}`}
     >
       {/* 헤더 */}
       <div className="space-y-3 px-1">
         <h3 className="text-[22px] font-bold text-gray-900 leading-[1.35] tracking-tight">
-          안녕하세요! 👋<br />
           찾으시는 <span className="text-purple-600">{categoryName}의 특징</span>이나<br />
-          <span className="text-purple-600">아이의 상황</span>을 알려주세요.
+          <span className="text-purple-600">아이의 상황</span>을 알려주세요 👋
         </h3>
+        {hint ? (
+          <p className="text-[16px] text-gray-600">
+            {hint}
+          </p>
+        ) : (
+          <div className="h-6 w-[70%] rounded-md bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]" />
+        )}
       </div>
 
       {/* Textarea with Modern Clean Style */}
@@ -146,29 +145,54 @@ export default function ContextInput({
             setError(null);
           }}
           placeholder={PLACEHOLDER}
-          className={`w-full p-5 bg-white border border-gray-200 rounded-2xl text-[16px] leading-relaxed
+          className={`w-full p-5 pr-14 bg-white border border-gray-200 rounded-2xl text-[16px] leading-relaxed
             placeholder-gray-400 resize-none outline-none transition-all duration-300
-            focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 
+            focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10
             shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]
             ${isCompleted ? 'bg-gray-50 text-gray-500 border-transparent shadow-none' : ''}`}
           rows={3}
           maxLength={500}
           disabled={isCompleted}
         />
-        
+
         {text.length > 0 && !isCompleted && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={() => setText('')}
-            className="absolute top-4 right-4 p-1.5 rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-600 transition-colors"
-            aria-label="내용 전체 지우기"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-            </svg>
-          </motion.button>
+          <>
+            {/* 우상단 X 버튼 (지우기) */}
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              onClick={() => setText('')}
+              className="absolute top-4 right-4 p-1 text-gray-600 hover:text-gray-800 transition-colors"
+              aria-label="내용 전체 지우기"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+              </svg>
+            </motion.button>
+
+            {/* 우하단 보내기 버튼 */}
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+              aria-label="추천받기 시작"
+            >
+              {isSubmitting ? (
+                <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                  <path fillRule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clipRule="evenodd" />
+                </svg>
+              )}
+            </motion.button>
+          </>
         )}
 
         {error && (
@@ -178,93 +202,47 @@ export default function ContextInput({
         )}
       </div>
 
-      {/* 예시 버튼들 - 완료 시 숨김 */}
-      {!isCompleted && (
-        <div className="-mx-4 mt-2">
-          <div className="overflow-x-auto px-4 pb-4 scrollbar-hide">
+      {/* 예시 버튼들 - 직접 입력 시 숨김 */}
+      {text.length === 0 && (
+        <div className="mt-2">
+          <div className="flex flex-col gap-2 items-start">
             {isLoadingExamples ? (
-              <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
-                  <div
+              <>
+                {[1, 2, 3].map(i => (
+                  <motion.div
                     key={i}
-                    className="h-8 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="w-[80%] h-[52px] rounded-xl bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
                     style={{
-                      width: '180px',
                       animationDelay: `${i * 0.1}s`
                     }}
                   />
                 ))}
-              </div>
+              </>
             ) : (
-              <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                {examples.map((example, idx) => (
-                  <motion.button
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0.2,
-                      delay: idx * 0.03,
-                      ease: "easeOut"
-                    }}
-                    onClick={() => handleExampleClick(example, idx)}
-                    className="px-3 py-1.5 text-[13px] font-medium rounded-full bg-gray-100 border border-transparent 
-                    text-gray-600 transition-all duration-200 whitespace-nowrap text-left
-                    hover:bg-gray-200 active:scale-95"
-                  >
-                    {example}
-                  </motion.button>
-                ))}
-              </div>
+              examples.map((example, idx) => (
+                <motion.button
+                  key={idx}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.25,
+                    delay: idx * 0.08,
+                    ease: "easeOut"
+                  }}
+                  onClick={() => handleExampleClick(example, idx)}
+                  className="w-[80%] px-4 py-3 text-[14px] font-medium rounded-xl bg-gray-50 border border-gray-100
+                  text-gray-600 transition-all duration-200 text-left leading-relaxed
+                  hover:bg-gray-100 hover:border-gray-200 active:scale-[0.98]"
+                >
+                  {example}
+                </motion.button>
+              ))
             )}
           </div>
         </div>
-      )}
-
-      {/* 플로팅 버튼 영역 확보용 스페이서 */}
-      {!isCompleted && <div className="h-32" />}
-
-      {/* 플로팅 버튼들 - 완료 시 숨김 */}
-      {!isCompleted && mounted && createPortal(
-        <div
-          className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 pb-[env(safe-area-inset-bottom)] pt-3 z-[100]"
-          style={{ 
-            maxWidth: '480px', 
-            margin: '0 auto',
-            bottom: 0 
-          }}
-        >
-          <div className="flex flex-col gap-3">
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitDisabled}
-              className={`w-full h-[56px] rounded-2xl font-bold text-[17px] tracking-tight transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-[0.98] ${
-                isSubmitDisabled
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
-                  : 'bg-purple-600 text-white hover:bg-purple-700 shadow-purple-200'
-              }`}
-            >
-              {isSubmitting ? (
-                <>
-                  <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  분석 중...
-                </>
-              ) : (
-                '추천받기 시작'
-              )}
-            </button>
-            <button
-              onClick={handleSkip}
-              className="w-full h-[52px] rounded-2xl font-medium text-[15px] text-gray-500 hover:bg-gray-50 active:scale-[0.98] mb-4 transition-colors"
-            >
-              잘 모르겠어요 (건너뛰기)
-            </button>
-          </div>
-        </div>,
-        document.body
       )}
 
       {/* Animated gradient border styles */}
