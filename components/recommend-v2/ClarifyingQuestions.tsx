@@ -526,37 +526,27 @@ export default function ClarifyingQuestions({
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              
             </button>
 
-            {/* 바로 분석하기 */}
-            <button
-              onClick={handleSkipWithAnswers}
-              disabled={isTransitioning}
-              className="text-sm font-semibold text-gray-400 hover:text-purple-600 transition-colors disabled:opacity-50"
-            >
-              건너뛰기 (즉시 분석)
-            </button>
-
-            {/* 다음 버튼 */}
+            {/* 건너뛰기 버튼 - 마지막 질문이면 즉시분석, 아니면 다음 질문으로 */}
             <button
               onClick={() => {
-                if (currentIndex + 1 < totalQuestions && !isTransitioning) {
+                if (isTransitioning) return;
+
+                const isLastQuestion = currentIndex + 1 >= totalQuestions;
+                if (isLastQuestion) {
+                  // 마지막 질문: 즉시 분석
+                  handleSkipWithAnswers();
+                } else {
+                  // 다음 질문으로 이동
                   setSlideDirection('left');
                   setCurrentIndex(currentIndex + 1);
                 }
               }}
-              disabled={currentIndex + 1 >= totalQuestions || isTransitioning}
-              className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors
-                ${currentIndex + 1 >= totalQuestions
-                  ? 'text-gray-300 cursor-not-allowed'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-                } disabled:opacity-50`}
+              disabled={isTransitioning}
+              className="text-sm font-semibold text-gray-400 hover:text-purple-600 transition-colors disabled:opacity-50"
             >
-              
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              {currentIndex + 1 >= totalQuestions ? '건너뛰기 (바로 추천받기)' : '건너뛰기'}
             </button>
           </div>
         </div>
