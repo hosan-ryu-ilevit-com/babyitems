@@ -1691,9 +1691,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             {/* Header */}
             <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                {/* Purple Sparkle Icon */}
+                {/* Emerald Sparkle Icon */}
                 <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#7C3AED" />
+                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#10B981" />
                 </svg>
                 <h3 className="text-lg font-bold text-gray-900">실시간 장단점</h3>
                 {realReviewsData[selectedRealReviewPcode]?.lowQuality && (

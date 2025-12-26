@@ -108,7 +108,7 @@ export function AssistantMessage({
     >
       {/* Step 태그 */}
       {stepTag && (
-        <div className="inline-block px-2.5 py-1 bg-gray-100 text-blue-600 rounded-lg text-xs font-bold mb-2">
+        <div className="inline-block px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-xs font-bold mb-2">
           {stepTag}
         </div>
       )}

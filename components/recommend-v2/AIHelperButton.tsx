@@ -57,7 +57,7 @@ export function AIHelperButton({
       // 로깅 (확장될 때만)
       if (!isExpanded) {
         import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
-          logButtonClick('recommend-v2', '💜 AI 도움 요청 (옵션 열기)');
+          logButtonClick('recommend-v2', '💚 AI 도움 요청 (옵션 열기)');
         });
       }
     } else {
@@ -76,21 +76,21 @@ export function AIHelperButton({
         onClick={handleClick}
         className={`flex items-center justify-between px-4 py-3.5 rounded-xl border transition-all w-full ${
           variant === 'emphasized'
-            ? 'bg-purple-100 border-purple-200 hover:bg-purple-150'
-            : 'bg-purple-50 border-purple-100 hover:bg-purple-100'
+            ? 'bg-emerald-100 border-emerald-200 hover:bg-emerald-150'
+            : 'bg-emerald-50 border-emerald-100 hover:bg-emerald-100'
         }`}
       >
         <div className="flex items-center gap-2">
           {/* 물음표 원 아이콘 */}
-          {/* <svg className="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          {/* <svg className="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="12" cy="12" r="10" />
             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" strokeLinecap="round" strokeLinejoin="round" />
             <circle cx="12" cy="17" r="0.5" fill="currentColor" />
           </svg> */}
-           <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-200 text-purple-700">
+           <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-200 text-emerald-700">
             AI
           </span>
-          <span className="text-[13px] font-semibold text-purple-700">
+          <span className="text-[13px] font-semibold text-emerald-700">
             뭘 골라야 할지 모르겠어요
           </span>
          
@@ -100,7 +100,7 @@ export function AIHelperButton({
         <motion.svg
           animate={{ rotate: isExpanded ? 90 : 0 }}
           transition={{ duration: 0.2 }}
-          className="w-4 h-4 text-purple-400"
+          className="w-4 h-4 text-emerald-400"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -141,7 +141,7 @@ export function AIHelperButton({
                 }}
                 className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all"
               >
-                <svg className="w-4 h-4 text-purple-500" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2L13.5 9L20 12L13.5 15L12 22L10.5 15L4 12L10.5 9L12 2Z" />
           </svg>
                 <span className="text-[13px] font-medium text-gray-700">AI에게 내 상황 말하고 추천받기</span>
@@ -155,7 +155,7 @@ export function AIHelperButton({
                   transition={{ delay: 0.1 }}
                   onClick={() => {
                     import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
-                      logButtonClick('recommend-v2', '💜 AI 도움 요청 (인기 제품)');
+                      logButtonClick('recommend-v2', '💚 AI 도움 요청 (인기 제품)');
                     });
                     onPopularRecommend();
                   }}
@@ -176,7 +176,7 @@ export function AIHelperButton({
                   transition={{ delay: 0.15 }}
                   onClick={() => {
                     import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
-                      logButtonClick('recommend-v2', '💜 AI 도움 요청 (컨텍스트 기반)');
+                      logButtonClick('recommend-v2', '💚 AI 도움 요청 (컨텍스트 기반)');
                     });
                     onContextRecommend();
                   }}

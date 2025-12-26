@@ -281,7 +281,7 @@ function ReviewPriorityTags({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-purple-50 rounded-xl p-4 space-y-3"
+            className="bg-emerald-50 rounded-xl p-4 space-y-3"
           >
             {/* 사용자 입력 표시 */}
             <div className="flex items-start gap-2">
@@ -294,15 +294,15 @@ function ReviewPriorityTags({
                 {isLoadingPreselection ? (
                   /* 스켈레톤 로딩 */
                   <div className="space-y-2">
-                    <div className="h-4 bg-purple-200/50 rounded animate-pulse w-full" />
-                    <div className="h-4 bg-purple-200/50 rounded animate-pulse w-3/4" />
+                    <div className="h-4 bg-emerald-200/50 rounded animate-pulse w-full" />
+                    <div className="h-4 bg-emerald-200/50 rounded animate-pulse w-3/4" />
                   </div>
                 ) : (
-                  <div className="text-purple-800 leading-relaxed">
+                  <div className="text-emerald-800 leading-relaxed">
                     {/* **bold** 마크다운을 실제 볼드로 변환 */}
                     {preselectedExplanation.split(/(\*\*[^*]+\*\*)/g).map((part, i) => {
                       if (part.startsWith('**') && part.endsWith('**')) {
-                        return <strong key={i} className="text-purple-600">{part.slice(2, -2)}</strong>;
+                        return <strong key={i} className="text-emerald-600">{part.slice(2, -2)}</strong>;
                       }
                       return part;
                     })}

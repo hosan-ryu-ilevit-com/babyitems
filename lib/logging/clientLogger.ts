@@ -1230,7 +1230,7 @@ export function logAIHelperButtonClicked(
 
   sendLogEvent('ai_helper_clicked', {
     page: 'recommend-v2',
-    buttonLabel: `💜 AI 도움: "${shortQuestion}"`,
+    buttonLabel: `💚 AI 도움: "${shortQuestion}"`,
     v2FlowData: {
       category,
       categoryName,

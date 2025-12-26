@@ -123,8 +123,8 @@ export default function ContextInput({
       {/* 헤더 */}
       <div className="space-y-3 px-1">
         <h3 className="text-[22px] font-bold text-gray-900 leading-[1.35] tracking-tight">
-          찾으시는 <span className="text-purple-600">{categoryName}의 특징</span>이나<br />
-          <span className="text-purple-600">아이의 상황</span>을 알려주세요 👋
+          찾으시는 <span className="text-emerald-600">{categoryName}의 특징</span>이나<br />
+          <span className="text-emerald-600">아이의 상황</span>을 알려주세요 👋
         </h3>
         {hint ? (
           <p className="text-[16px] text-gray-600">
@@ -147,7 +147,7 @@ export default function ContextInput({
           placeholder={PLACEHOLDER}
           className={`w-full p-5 pr-14 bg-white border border-gray-200 rounded-2xl text-[16px] leading-relaxed
             placeholder-gray-400 resize-none outline-none transition-all duration-300
-            focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10
+            focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10
             shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]
             ${isCompleted ? 'bg-gray-50 text-gray-500 border-transparent shadow-none' : ''}`}
           rows={3}
@@ -178,7 +178,7 @@ export default function ContextInput({
               exit={{ opacity: 0, scale: 0.8 }}
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+              className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
               aria-label="추천받기 시작"
             >
               {isSubmitting ? (

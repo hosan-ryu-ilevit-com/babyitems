@@ -276,7 +276,7 @@ export function BudgetAIHelperBottomSheet({
             {/* Header */}
             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#8B5CF6">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#10B981">
                   <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
                 </svg>
                 <h2 className="text-base font-bold text-gray-900">AI 예산 추천</h2>
@@ -343,7 +343,7 @@ export function BudgetAIHelperBottomSheet({
                     value={userInput}
                     onChange={e => setUserInput(e.target.value)}
                     placeholder="예산에 대한 고민을 자유롭게 적어주세요"
-                    className="w-full p-3 border border-gray-200 rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent disabled:bg-gray-50"
+                    className="w-full p-3 border border-gray-200 rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent disabled:bg-gray-50"
                     rows={3}
                     disabled={isLoading || !!aiResponse}
                   />
@@ -356,7 +356,7 @@ export function BudgetAIHelperBottomSheet({
                   className={`w-full py-3 rounded-xl font-semibold text-sm transition-all mb-4 ${
                     !userInput.trim() || isLoading || aiResponse
                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'bg-purple-500 text-white hover:bg-purple-600 active:scale-[0.98]'
+                      : 'bg-emerald-500 text-white hover:bg-emerald-600 active:scale-[0.98]'
                   }`}
                 >
                   예산 추천받기
@@ -372,22 +372,22 @@ export function BudgetAIHelperBottomSheet({
                     exit={{ opacity: 0, y: -10 }}
                     className="space-y-3 mb-4"
                   >
-                    <div className="p-4 bg-purple-50 rounded-xl border border-purple-100 overflow-hidden">
+                    <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 overflow-hidden">
                       {/* AI 분석중 헤더 */}
                       <div className="flex items-center gap-2 mb-3">
                         <div className="flex items-center gap-1.5">
-                          <svg className="w-4 h-4 animate-pulse" viewBox="0 0 24 24" fill="#8B5CF6">
+                          <svg className="w-4 h-4 animate-pulse" viewBox="0 0 24 24" fill="#10B981">
                             <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
                           </svg>
-                          <span className="text-purple-600 font-bold text-sm">예산을 분석하고 있어요</span>
+                          <span className="text-emerald-600 font-bold text-sm">예산을 분석하고 있어요</span>
                         </div>
                       </div>
 
                       {/* 스켈레톤 라인들 - 쉬머 효과 */}
                       <div className="space-y-2">
-                        <div className="h-4 rounded-lg w-3/4 bg-gradient-to-r from-purple-100 via-purple-50 to-purple-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" />
-                        <div className="h-4 rounded-lg w-full bg-gradient-to-r from-purple-100 via-purple-50 to-purple-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" style={{ animationDelay: '0.1s' }} />
-                        <div className="h-4 rounded-lg w-5/6 bg-gradient-to-r from-purple-100 via-purple-50 to-purple-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" style={{ animationDelay: '0.2s' }} />
+                        <div className="h-4 rounded-lg w-3/4 bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" />
+                        <div className="h-4 rounded-lg w-full bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" style={{ animationDelay: '0.1s' }} />
+                        <div className="h-4 rounded-lg w-5/6 bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" style={{ animationDelay: '0.2s' }} />
                       </div>
                     </div>
 
