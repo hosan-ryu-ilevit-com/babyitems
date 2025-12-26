@@ -74,40 +74,14 @@ export function AIHelperButton({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
         onClick={handleClick}
-        className={`flex items-center justify-between px-4 py-3.5 rounded-xl border transition-all w-full ${
-          variant === 'emphasized'
-            ? 'bg-emerald-100 border-emerald-200 hover:bg-emerald-150'
-            : 'bg-emerald-50 border-emerald-100 hover:bg-emerald-100'
-        }`}
+        className={`flex items-center justify-center h-[48px] rounded-xl ai-gradient-border transition-all w-full active:scale-[0.98] ${className}`}
       >
         <div className="flex items-center gap-2">
-          {/* 물음표 원 아이콘 */}
-          {/* <svg className="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="12" cy="17" r="0.5" fill="currentColor" />
-          </svg> */}
-           <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-200 text-emerald-700">
-            AI
-          </span>
-          <span className="text-[13px] font-semibold text-emerald-700">
+          <span className="ai-gradient-text text-[16px] font-bold">✦</span>
+          <span className="text-[16px] font-semibold text-[#5549F5]">
             뭘 골라야 할지 모르겠어요
           </span>
-         
         </div>
-
-        {/* 우측 화살표 */}
-        <motion.svg
-          animate={{ rotate: isExpanded ? 90 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="w-4 h-4 text-emerald-400"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </motion.svg>
       </motion.button>
 
       {/* 펼침 상태 - 하위 옵션들 */}

@@ -16,7 +16,7 @@ interface DirectInputFieldProps {
 }
 
 export default function DirectInputField({
-  placeholder = '조건을 직접 입력해주세요',
+  placeholder = '원하는 답변을 입력하세요...',
   value,
   onChange,
   disabled = false,
@@ -29,14 +29,11 @@ export default function DirectInputField({
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const isNegative = filterType === 'negative_filter';
-
   // 등록 핸들러
   const handleRegister = useCallback(() => {
     if (value.trim().length >= 2 && onRegister) {
       onRegister(value.trim());
       setIsEditing(false);
-      inputRef.current?.blur();
     }
   }, [value, onRegister]);
 
@@ -69,17 +66,7 @@ export default function DirectInputField({
 
   // 등록된 상태이고 편집 중이 아닐 때 → 체크된 옵션처럼 표시
   const showRegisteredState = isRegistered && !isEditing;
-
-  // 색상 설정 (모든 필터 타입에 대해 Purple 테마 적용)
-  const accentColor = 'purple';
-  const borderColorClass = showRegisteredState
-    ? `border-purple-400`
-    : isFocused
-      ? `border-purple-400`
-      : 'border-gray-200';
-  const bgColorClass = showRegisteredState
-    ? `bg-purple-50`
-    : 'bg-white';
+  const isNegative = filterType === 'negative_filter';
 
   return (
     <motion.div
@@ -88,57 +75,31 @@ export default function DirectInputField({
       transition={{ delay: 0.2 }}
       className="mt-4 pt-4 border-t border-gray-100"
     >
-      <div className="flex items-center gap-2 mb-2">
-        <span className="text-sm text-gray-400">
-          (선택) 직접 입력
-        </span>
-      </div>
-
-      {/* 등록된 상태 - 체크된 옵션처럼 표시 */}
       {showRegisteredState ? (
+        /* 등록된 상태 - 다른 옵션들과 통일된 디자인 */
         <motion.button
           initial={{ scale: 0.98 }}
           animate={{ scale: 1 }}
           onClick={handleEdit}
-          className={`
-            w-full p-4 rounded-xl border-2 text-left transition-all
-            border-purple-500 bg-purple-50
-          `}
+          className={`w-full p-4 rounded-xl border text-left transition-all ${
+            isNegative 
+              ? 'border-red-100 bg-red-50' 
+              : 'border-blue-100 bg-blue-50'
+          }`}
         >
           <div className="flex items-center gap-3">
-            {/* 체크 아이콘 */}
-            <div className={`
-              w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0
-              border-purple-500 bg-purple-500
-            `}>
-              <motion.svg
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="w-3 h-3 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-              </motion.svg>
-            </div>
-
-            {/* 등록된 텍스트 */}
-            <span className={`
-              text-sm font-medium leading-snug flex-1
-              text-purple-700
-            `}>
+            <span className={`text-[16px] font-medium flex-1 ${
+              isNegative ? 'text-red-500' : 'text-blue-500'
+            }`}>
               {value}
             </span>
-
-            {/* 수정 힌트 */}
-            <span className="text-xs text-gray-400">
-              터치하여 수정
-            </span>
+            <span className={`text-xs ${
+              isNegative ? 'text-red-500/60' : 'text-blue-500/60'
+            }`}>터치하여 수정</span>
           </div>
         </motion.button>
-      ) : (
-        /* 입력 모드 */
+      ) : isEditing ? (
+        /* 입력 모드 - 디자인 이미지 기반 변경 */
         <div className="relative flex gap-2">
           <input
             ref={inputRef}
@@ -146,50 +107,60 @@ export default function DirectInputField({
             value={value}
             onChange={handleChange}
             onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onBlur={() => {
+              setIsFocused(false);
+              if (value.trim().length < 2) {
+                setIsEditing(false);
+              }
+            }}
             onKeyDown={handleKeyDown}
             disabled={disabled}
             placeholder={placeholder}
             className={`
               flex-1 px-4 py-3 rounded-xl
-              border-2 
+              border 
               ${isFocused 
-                ? 'border-purple-400'
-                : 'border-gray-200'
+                ? (isNegative ? 'border-red-400 bg-white' : 'border-blue-400 bg-white')
+                : 'border-gray-200 bg-[#F8F9FB]'
               }
-              bg-white
               text-base text-gray-700
-              placeholder:text-gray-300
+              placeholder:text-gray-400
               transition-all duration-200
-              focus:outline-none focus:ring-4 
-              focus:ring-purple-100
+              focus:outline-none
               disabled:bg-gray-50 disabled:cursor-not-allowed
             `}
-            style={{ fontSize: '16px' }} // 모바일 확대 방지
+            style={{ fontSize: '16px' }}
           />
-          
-          {/* 등록 버튼 */}
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleRegister}
             disabled={value.trim().length < 2}
             className={`
-              px-4 py-3 rounded-xl font-medium text-sm whitespace-nowrap
+              px-5 py-3 rounded-xl font-bold text-[15px] whitespace-nowrap
               transition-all duration-200
               ${value.trim().length >= 2
-                ? 'bg-purple-500 text-white hover:bg-purple-600'
-                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                ? 'bg-[#111827] text-white'
+                : 'bg-[#C1C4CC] text-white cursor-not-allowed'
               }
             `}
           >
-            등록
+            추가
           </motion.button>
         </div>
+      ) : (
+        /* 초기 상태 - 직접 추가 버튼 (점선 테두리) */
+        <button
+          onClick={handleEdit}
+          className="w-full h-[52px] rounded-xl border-2 border-dashed border-gray-200 bg-white flex items-center justify-center gap-2 text-gray-400 hover:border-gray-300 hover:bg-gray-50 transition-all active:scale-[0.98]"
+        >
+          <span className="text-xl font-light">+</span>
+          <span className="text-[15px] font-medium">직접 추가</span>
+        </button>
       )}
 
       {/* 2자 미만 경고 */}
-      {!showRegisteredState && value.length > 0 && value.length < 2 && (
-        <p className="mt-1 text-xs text-amber-500">2자 이상 입력해주세요</p>
+      {isEditing && value.length > 0 && value.length < 2 && (
+        <p className="mt-1 text-xs text-amber-500 px-1">2자 이상 입력해주세요</p>
       )}
     </motion.div>
   );

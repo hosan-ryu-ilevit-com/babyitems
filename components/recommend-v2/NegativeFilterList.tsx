@@ -90,21 +90,18 @@ export function NegativeFilterList({
       transition={{ duration: 0.3 }}
       className="space-y-3"
     >
-      {/* 헤더 */}
-      <div className="flex items-center justify-between">
-        <span className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold">
-          단점 필터
+      <div className="w-full h-[1px] bg-gray-100 mb-5" />
+
+      {/* 질문 헤더 - 디자인 변경 */}
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-sm text-gray-400 font-medium">
+          단점 선택
         </span>
-        
       </div>
 
       {/* 설명 */}
-      <h3 className="text-base font-bold text-gray-900 leading-6">
-        이것만큼은 절대 안 된다! 
-        <br />
-        <span className="text-gray-500 font-normal text-sm mt-2">
-          피하고 싶은 단점이 있나요? 없으면 바로 넘어가기를 눌러주세요.
-        </span>
+      <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+        꼭 피하고 싶은 단점을 선택하세요 <span className="text-blue-500 font-bold">*</span>
       </h3>
 
       {/* AI 도움받기 버튼 */}
@@ -117,7 +114,7 @@ export function NegativeFilterList({
           }}
           questionType="negative"
           questionId="negative_filter"
-          questionText="이것만큼은 절대 안 된다! 피하고 싶은 단점이 있나요?"
+          questionText="꼭 피하고 싶은 단점을 선택하세요"
           category={category}
           categoryName={categoryName}
           hasContext={hasContext}
@@ -144,44 +141,20 @@ export function NegativeFilterList({
                 onToggle(option.target_rule_key);
                 onToggleWithLabel?.(option.target_rule_key, option.label, willBeSelected, newTotalSelected);
               }}
-              className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left transition-all flex items-center justify-between gap-3 ${
                 isSelected
-                  ? 'border-purple-500 bg-purple-50'
-                  : 'border-gray-200 bg-white hover:border-purple-200 hover:bg-purple-50'
+                  ? 'border-red-100 bg-red-50'
+                  : 'border-gray-100 bg-white hover:border-gray-200'
               }`}
             >
-              <div className="flex items-center gap-3">
-                {/* 체크박스 */}
-                <div
-                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                    isSelected
-                      ? 'border-purple-500 bg-purple-500'
-                      : 'border-gray-300 bg-white group-hover:border-purple-300'
-                  }`}
-                >
-                  {isSelected && (
-                    <motion.svg
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="w-3 h-3 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </motion.svg>
-                  )}
-                </div>
-
-                {/* 옵션 텍스트 */}
-                <span
-                  className={`text-sm font-medium leading-snug flex-1 ${
-                    isSelected ? 'text-purple-700' : 'text-gray-700'
-                  }`}
-                >
-                  {option.label}
-                </span>
-              </div>
+              {/* 옵션 텍스트 */}
+              <span
+                className={`text-[16px] font-medium leading-snug flex-1 ${
+                  isSelected ? 'text-red-500' : 'text-gray-600'
+                }`}
+              >
+                {option.label}
+              </span>
             </motion.button>
           );
         })}
@@ -193,7 +166,7 @@ export function NegativeFilterList({
         <DirectInputField
           value={directInputValue}
           onChange={onDirectInputChange}
-          placeholder="피하고 싶은 조건을 직접 입력해주세요"
+          placeholder="원하는 답변을 입력하세요..."
           filterType="negative_filter"
           isRegistered={isDirectInputRegistered}
           onRegister={onDirectInputRegister}

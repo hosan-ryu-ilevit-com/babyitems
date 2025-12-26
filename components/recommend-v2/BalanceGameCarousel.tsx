@@ -356,13 +356,12 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
         animate={{ opacity: 1, y: 0 }}
         className="space-y-3"
       >
-        {/* 헤더 */}
-        <div className="flex items-center justify-between">
-          <span className="px-2.5 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-bold">
+        <div className="w-full h-[1px] bg-gray-100 mb-5" />
+
+        {/* 헤더 - 디자인 변경 */}
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-sm text-gray-400 font-medium">
             취향 선택
-          </span>
-          <span className="text-xs text-gray-400">
-            {currentIndex + 1} / {questions.length}
           </span>
         </div>
 
@@ -371,12 +370,12 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-4"
+            className="bg-blue-50 border border-blue-100 rounded-xl p-4"
           >
             <div className="flex items-start gap-3">
               <span className="text-lg">💡</span>
               <div className="flex-1 text-sm">
-                <div className="text-purple-700 font-medium mb-1">
+                <div className="text-blue-500 font-medium mb-1">
                   &ldquo;{userContext}&rdquo; 에 맞춰 미리 선택했어요
                 </div>
                 <div className="text-gray-600 text-xs leading-relaxed">
@@ -418,8 +417,8 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
               transition={{ duration: 0.25, ease: 'easeInOut' }}
             >
               {/* 질문 제목 */}
-              <h3 className="text-base font-bold text-gray-900 leading-snug mb-3">
-                {currentQuestion.title}
+              <h3 className="text-[20px] font-bold text-gray-900 leading-snug mb-3">
+                {currentQuestion.title} <span className="text-blue-500 font-bold">*</span>
               </h3>
 
               {/* AI 도움받기 버튼 */}
@@ -446,121 +445,79 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
               {/* 선택지 - VS 포함 */}
               <div className={`space-y-2 transition-opacity ${isCurrentSkipped ? 'opacity-40' : ''}`}>
-                {/* Option A */}
                 <motion.button
                   whileTap={isCurrentSkipped ? undefined : { scale: 0.98 }}
                   onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_A.target_rule_key)}
-                  className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center transition-all flex items-center justify-center ${
                     isCurrentSkipped
-                      ? 'border-gray-200 bg-gray-50 cursor-default'
+                      ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                       : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                      ? 'border-purple-500 bg-purple-50'
-                      : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50'
+                      ? 'border-blue-100 bg-blue-50'
+                      : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    {/* 체크박스 스타일 */}
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                        isCurrentSkipped
-                          ? 'border-gray-300 bg-white'
-                          : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                          ? 'border-purple-500 bg-purple-500'
-                          : 'border-gray-300 bg-white'
-                      }`}
-                    >
-                      {!isCurrentSkipped && (isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key) && (
-                        <motion.svg
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="w-3 h-3 text-white"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </motion.svg>
-                      )}
-                    </div>
-                    <span className={`text-sm font-medium leading-snug ${
-                      isCurrentSkipped
-                        ? 'text-gray-400'
-                        : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
-                        ? 'text-purple-700'
-                        : 'text-gray-700'
-                    }`}>
-                      {currentQuestion.option_A.text}
-                    </span>
-                  </div>
+                  <span className={`text-[16px] font-medium leading-tight ${
+                    isCurrentSkipped
+                      ? 'text-gray-300'
+                      : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                      ? 'text-blue-500'
+                      : 'text-gray-600'
+                  }`}>
+                    {currentQuestion.option_A.text}
+                  </span>
                 </motion.button>
 
-                {/* VS 구분선 */}
+                {/* VS 구분선 - 디자인 변경 */}
                 <div className="flex items-center justify-center py-1">
-                  <div className="flex-1 h-px bg-gray-200" />
-                  <span className="px-3 text-xs font-bold text-gray-400">VS</span>
-                  <div className="flex-1 h-px bg-gray-200" />
+                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-400 text-[10px] font-bold tracking-tight">VS</span>
+                  </div>
                 </div>
 
                 {/* Option B */}
                 <motion.button
                   whileTap={isCurrentSkipped ? undefined : { scale: 0.98 }}
                   onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_B.target_rule_key)}
-                  className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center transition-all flex items-center justify-center ${
                     isCurrentSkipped
-                      ? 'border-gray-200 bg-gray-50 cursor-default'
+                      ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                       : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                      ? 'border-purple-500 bg-purple-50'
-                      : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50'
+                      ? 'border-blue-100 bg-blue-50'
+                      : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    {/* 체크박스 스타일 */}
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                        isCurrentSkipped
-                          ? 'border-gray-300 bg-white'
-                          : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                          ? 'border-purple-500 bg-purple-500'
-                          : 'border-gray-300 bg-white'
-                      }`}
-                    >
-                      {!isCurrentSkipped && (isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key) && (
-                        <motion.svg
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="w-3 h-3 text-white"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </motion.svg>
-                      )}
-                    </div>
-                    <span className={`text-sm font-medium leading-snug ${
-                      isCurrentSkipped
-                        ? 'text-gray-400'
-                        : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
-                        ? 'text-purple-700'
-                        : 'text-gray-700'
-                    }`}>
-                      {currentQuestion.option_B.text}
-                    </span>
-                  </div>
+                  <span className={`text-[16px] font-medium leading-tight ${
+                    isCurrentSkipped
+                      ? 'text-gray-300'
+                      : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                      ? 'text-blue-500'
+                      : 'text-gray-600'
+                  }`}>
+                    {currentQuestion.option_B.text}
+                  </span>
                 </motion.button>
               </div>
 
-              {/* 하단 버튼 영역 - 모든 질문에 동일하게 표시 */}
-              <div className="text-center pt-3">
+              {/* 하단 버튼 영역 - 디자인 변경 (상관없어요 Skip) */}
+              <div className="pt-4">
                 <button
                   onClick={() => handleSelectBoth(currentQuestion.id)}
-                  className={`text-sm transition-colors py-2 px-4 rounded-lg hover:bg-gray-100 ${
+                  className={`w-full h-[50px] rounded-xl border transition-all flex items-center justify-center gap-1.5 ${
                     isCurrentBoth
-                      ? 'text-gray-700 font-semibold bg-gray-100'
-                      : 'text-gray-400 font-semibold hover:text-gray-600'
+                      ? 'border-blue-100 bg-blue-50'
+                      : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  {isCurrentBoth ? '둘 다 중요해요 (건너뛰기) ✓' : '둘 다 중요해요 (건너뛰기)'}
+                  <span className={`text-[16px] font-medium ${
+                    isCurrentBoth ? 'text-blue-500' : 'text-gray-600'
+                  }`}>
+                    상관없어요
+                  </span>
+                  <span className={`text-[14px] font-medium ${
+                    isCurrentBoth ? 'text-blue-300' : 'text-gray-300'
+                  }`}>
+                    Skip
+                  </span>
                 </button>
               </div>
             </motion.div>
@@ -575,8 +532,8 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             disabled={currentIndex === 0}
             className={`p-1.5 rounded-full transition-all ${
               currentIndex === 0
-                ? 'text-gray-300 cursor-not-allowed'
-                : 'text-gray-500 hover:text-purple-600 hover:bg-purple-50'
+                ? 'text-gray-200 cursor-not-allowed'
+                : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
             }`}
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -592,10 +549,10 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                 onClick={() => goToIndex(idx)}
                 className={`h-1.5 rounded-full transition-all ${
                   idx === currentIndex
-                    ? 'w-6 bg-purple-500'
+                    ? 'w-6 bg-[#111827]'
                     : isAnswered(q.id)
-                    ? 'w-1.5 bg-purple-300'
-                    : 'w-1.5 bg-gray-300'
+                    ? 'w-1.5 bg-gray-400'
+                    : 'w-1.5 bg-gray-200'
                 }`}
               />
             ))}

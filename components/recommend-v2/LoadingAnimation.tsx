@@ -24,7 +24,20 @@ export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationPr
   useEffect(() => {
     if (calculatingRef.current) {
       setTimeout(() => {
-        calculatingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // StepIndicator 높이(약 48px) + 여백 고려하여 scroll-margin-top 설정하듯 scrollTo 사용
+        const el = calculatingRef.current;
+        const container = el.closest('.overflow-y-auto');
+        if (container) {
+          const offset = 70;
+          const targetScroll = (el as HTMLElement).offsetTop - offset;
+          container.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: 'smooth'
+          });
+        } else {
+          // fallback
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }, 150);
     }
   }, []);

@@ -339,9 +339,11 @@ export function BudgetSlider({
       animate={{ opacity: 1, y: 0 }}
       className="space-y-4"
     >
+      <div className="w-full h-[1px] bg-gray-100 mb-5" />
+
       {/* 헤더 */}
       <div className="flex items-center justify-between">
-        <span className="px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold">
+        <span className="text-sm text-gray-400 font-medium">
           예산 범위
         </span>
         {products.length > 0 && (

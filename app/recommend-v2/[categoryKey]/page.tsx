@@ -5,6 +5,7 @@ import { flushSync } from 'react-dom';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
+import { StepIndicator } from '@/components/StepIndicator';
 
 // Types
 import type {
@@ -118,31 +119,6 @@ function generateId(): string {
 
 // --- Sub-components ---
 
-// 상단 단계 표시 바
-function StepIndicator({ currentStep = 1 }: { currentStep?: number }) {
-  const steps = [1, 2, 3, 4];
-  return (
-    <div className="sticky top-14 left-0 right-0 z-40 h-0 flex justify-center pointer-events-none overflow-visible">
-      <div className="mt-2 flex items-center gap-2 bg-white/70 border border-gray-200 rounded-[42px] px-4 py-[6px] backdrop-blur-[12px] pointer-events-auto shadow-sm">
-        {steps.map((step, idx) => (
-          <div key={step} className="flex items-center">
-            <div className={`w-[28px] h-[28px] rounded-full flex items-center justify-center text-[12px] font-bold border transition-all ${
-              step <= currentStep 
-                ? 'bg-gray-800 border-gray-800 text-white' 
-                : 'bg-white border-gray-200 text-gray-300'
-            }`}>
-              {step}
-            </div>
-            {idx < steps.length - 1 && (
-              <div className={`w-6 h-[1px] mx-1 ${step < currentStep ? 'bg-gray-800' : 'bg-gray-200'}`} />
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // =====================================================
 // Main Component
 // =====================================================
@@ -159,7 +135,6 @@ export default function RecommendV2Page() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const budgetSliderRef = useRef<HTMLDivElement>(null);
   const balanceGameRef = useRef<BalanceGameCarouselRef>(null);
-  const calculatingRef = useRef<HTMLDivElement>(null);
 
   // Ref to always hold the latest products (to avoid closure issues in callbacks)
   const productsRef = useRef<ProductItem[]>([]);
@@ -266,6 +241,16 @@ export default function RecommendV2Page() {
   // Typing animation state
   const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
 
+  // Step Indicator Prop Mapping
+  const indicatorStep = useMemo(() => {
+    // 사용자 요청: 하드필터 2단계, 밸런스게임 3단계, 단점+예산 4단계
+    if (currentStep <= 0) return 1;
+    if (currentStep === 1) return 2;
+    if (currentStep === 2 || currentStep === 3) return 3;
+    if (currentStep >= 4) return 4;
+    return 1;
+  }, [currentStep]);
+
   // Sub-category state (for stroller, car_seat, diaper) - 다중 선택 지원
   const [requiresSubCategory, setRequiresSubCategory] = useState(false);
   const [subCategoryConfig, setSubCategoryConfig] = useState<SubCategoryConfig | null>(null);
@@ -288,8 +273,17 @@ export default function RecommendV2Page() {
   // 특정 메시지로 스크롤 (상단 정렬 - AI 채팅처럼 새 컴포넌트가 헤더 아래로)
   const scrollToMessage = useCallback((messageId: string) => {
     setTimeout(() => {
-      const el = document.querySelector(`[data-message-id="${messageId}"]`);
-      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const container = scrollContainerRef.current;
+      const el = document.querySelector(`[data-message-id="${messageId}"]`) as HTMLElement;
+      if (container && el) {
+        // StepIndicator height(약 48px) + mt-2(8px) + 여백(약 14px) = 70px
+        const offset = 70;
+        const targetScroll = el.offsetTop - offset;
+        container.scrollTo({
+          top: Math.max(0, targetScroll),
+          behavior: 'smooth'
+        });
+      }
     }, 150);
   }, []);
 
@@ -311,15 +305,6 @@ export default function RecommendV2Page() {
       return () => clearTimeout(timer);
     }
   }, [typingMessageId]);
-
-  // "AI 추천 진행 중..." 표시 시 스크롤
-  useEffect(() => {
-    if (isCalculating && calculatingRef.current) {
-      setTimeout(() => {
-        calculatingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150);
-    }
-  }, [isCalculating]);
 
   // 프로그레스는 항상 증가만 (뒤로 가지 않음)
   const setProgressSafe = useCallback((value: number) => {
@@ -1653,7 +1638,7 @@ export default function RecommendV2Page() {
     // 로딩 완료 후 stepTag 메시지 추가 + 스크롤
     const stepMsgId = addMessage({
       role: 'assistant',
-      content: '후보들의 실제 리뷰에서 단점을 분석했어요.',
+      content: '입력하신 내용을 확인했습니다.\n마지막으로 피하고 싶은 단점과 예산을 여쭤본 후, 최적의 결과를 제공해드릴게요.',
       stepTag: '4/5',
     }, true);
     scrollToMessage(stepMsgId);
@@ -2392,13 +2377,12 @@ export default function RecommendV2Page() {
         <div
           key={message.id}
           data-message-id={message.id}
-          className={`scroll-mt-3 transition-all duration-300 ${
+          className={`scroll-mt-[70px] transition-all duration-300 ${
             isPastStep ? 'opacity-50 pointer-events-none' : ''
           }`}
         >
           <AssistantMessage
             content={message.content}
-            stepTag={message.stepTag}
             typing={message.typing}
             onTypingComplete={message.onTypingComplete}
           />
@@ -2414,7 +2398,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`transition-all duration-300 ${
+              className={`scroll-mt-[70px] transition-all duration-300 ${
                 currentStep > 0 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2474,7 +2458,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`transition-all duration-300 ${
+              className={`scroll-mt-[70px] transition-all duration-300 ${
                 isSubCategoryDisabled ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2500,7 +2484,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-4 transition-all duration-300 ${
+              className={`scroll-mt-[70px] transition-all duration-300 ${
                 isHardFilterDisabled ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2552,7 +2536,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`transition-all duration-300 ${
+              className={`scroll-mt-[70px] transition-all duration-300 ${
                 currentStep > 2 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2569,7 +2553,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`transition-all duration-300 ${
+              className={`scroll-mt-[70px] transition-all duration-300 ${
                 currentStep > 3 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2605,7 +2589,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`transition-all duration-300 ${
+              className={`scroll-mt-[70px] transition-all duration-300 ${
                 currentStep > 4 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2648,7 +2632,7 @@ export default function RecommendV2Page() {
               key={message.id}
               data-message-id={message.id}
               ref={budgetSliderRef}
-              className={`transition-all duration-300 ${
+              className={`scroll-mt-[70px] transition-all duration-300 ${
                 scoredProducts.length > 0 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2680,7 +2664,7 @@ export default function RecommendV2Page() {
             analysisTimeline?: AnalysisTimeline;
           } | undefined;
           return (
-            <div key={message.id} data-message-id={message.id}>
+            <div key={message.id} data-message-id={message.id} className="scroll-mt-[70px]">
               <ResultCards
                 products={resultData?.products || scoredProducts}
                 categoryName={resultData?.categoryName || categoryName}
@@ -2859,8 +2843,8 @@ export default function RecommendV2Page() {
           disabled={isTransitioning}
           className={`w-full h-14 rounded-2xl font-semibold text-base transition-all ${
             isTransitioning
-              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-purple-600 text-white hover:bg-purple-700'
+              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-[#111827] text-white'
           }`}
         >
           {isTransitioning ? '로딩 중...' : '다음'}
@@ -2904,11 +2888,11 @@ export default function RecommendV2Page() {
             disabled={!canProceed || isTransitioning}
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
               canProceed && !isTransitioning
-                ? 'bg-purple-600 text-white hover:bg-purple-700'
+                ? 'bg-[#111827] text-white'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }`}
           >
-            {isLastQuestion ? '조건 선택 완료' : '다음'}
+            {isLastQuestion ? '완료' : '다음'}
           </motion.button>
         </div>
       );
@@ -2974,8 +2958,8 @@ export default function RecommendV2Page() {
             disabled={isStep2Disabled}
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
               isStep2Disabled
-                ? 'bg-purple-300 text-purple-100 cursor-not-allowed'
-                : 'bg-purple-600 text-white hover:bg-purple-700'
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-[#111827] text-white'
             }`}
           >
             다음
@@ -3056,7 +3040,7 @@ export default function RecommendV2Page() {
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
               isNextDisabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-purple-600 text-white hover:bg-purple-700'
+                : 'bg-[#111827] text-white'
             }`}
           >
             {isLastBalanceQuestion
@@ -3120,7 +3104,7 @@ export default function RecommendV2Page() {
             className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
               isTransitioning
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-purple-600 text-white hover:bg-purple-700'
+                : 'bg-[#111827] text-white'
             }`}
           >
             {negativeSelections.length > 0 || isNegativeDirectInputRegistered
@@ -3198,7 +3182,7 @@ export default function RecommendV2Page() {
               className={`flex-[3] h-14 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-200/50 ${
                 isTransitioning || isTooFewProducts
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
-                  : 'bg-purple-600 text-white hover:bg-purple-700 hover:shadow-purple-300 hover:scale-[1.02] active:scale-[0.98]'
+                  : 'bg-[#111827] text-white active:scale-[0.98]'
               }`}
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -3278,7 +3262,7 @@ export default function RecommendV2Page() {
           >
             <CaretLeft size={20} weight="bold" />
           </button>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 ml-auto">
             <span className="text-[17px] font-semibold text-gray-800 tracking-tight">아기용품</span>
             <span className="text-[17px] font-bold ai-gradient-text tracking-tight">AI</span>
           </div>
@@ -3287,11 +3271,11 @@ export default function RecommendV2Page() {
         {/* Content */}
         <main
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto px-4 py-6 bg-white relative"
+          className="flex-1 overflow-y-auto px-4 pb-6 pt-0 bg-white relative"
           style={{ paddingBottom: '102px' }}
         >
           {/* Step Indicator - Moved inside main for true floating effect */}
-          <StepIndicator currentStep={2} />
+          <StepIndicator currentStep={indicatorStep} className="top-0" />
 
           {/* Step -1: Context Input - AnimatePresence 밖으로 (완료 후에도 유지) */}
           {/* 세션 복원 시에는 숨김 */}
@@ -3547,7 +3531,7 @@ export default function RecommendV2Page() {
                       logV2ReRecommendModalOpened(categoryKey, categoryName);
                       setShowReRecommendModal(true);
                     }}
-                    className="w-full h-14 rounded-2xl font-semibold text-base text-white bg-purple-600 hover:bg-purple-700 transition-all flex items-center justify-center gap-2"
+                    className="w-full h-14 rounded-2xl font-semibold text-base text-white bg-[#111827] transition-all flex items-center justify-center gap-2"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
@@ -3590,7 +3574,7 @@ export default function RecommendV2Page() {
                     </button>
                     <button
                       onClick={() => router.push('/')}
-                      className="flex-1 px-4 py-3 bg-purple-600 text-white font-semibold rounded-xl"
+                      className="flex-1 px-4 py-3 bg-[#111827] text-white font-semibold rounded-xl"
                     >
                       돌아가기
                     </button>

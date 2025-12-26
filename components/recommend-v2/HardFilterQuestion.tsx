@@ -147,7 +147,14 @@ function ReviewPriorityTags({
       transition={{ duration: 0.3 }}
       className="space-y-4"
     >
-     
+      <div className="w-full h-[1px] bg-gray-100 mb-5" />
+
+      {/* 질문 헤더 - 디자인 변경 */}
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-sm text-gray-400 font-medium">
+          구매 조건
+        </span>
+      </div>
 
       {/* 메인 질문 - 순차적 페이드인 */}
       <motion.div
@@ -157,11 +164,11 @@ function ReviewPriorityTags({
         className="space-y-3"
       >
         <div className="space-y-2">
-          <h3 className="text-base font-semibold text-gray-900 leading-snug">
+          <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
             {preselectedTags.length > 0 ? (
-              <>핵심 구매조건을 <br></br>자동으로 골라드렸어요</>
+              <>핵심 구매조건을 <br></br>자동으로 골라드렸어요 <span className="text-blue-500 font-bold">*</span></>
             ) : (
-              <>중요하게 생각하시는 <br />{categoryName || category} 구매조건을 골라주세요</>
+              <>중요하게 생각하시는 <br />{categoryName || category} 구매조건을 골라주세요 <span className="text-blue-500 font-bold">*</span></>
             )}
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
@@ -244,11 +251,10 @@ function ReviewPriorityTags({
                 onMouseEnter={() => setExpandedTag(option.value)}
                 onMouseLeave={() => setExpandedTag(null)}
                 className={`
-                  px-4 py-2.5 rounded-full text-sm font-medium border-2
-                  transition-all duration-200
+                  px-4 min-h-[50px] py-[14px] rounded-xl text-[16px] font-medium border transition-all duration-200 flex items-center gap-2
                   ${isSelected
-                    ? 'bg-purple-50 text-purple-700 border-purple-500'
-                    : 'bg-white text-gray-700 border-gray-100 hover:border-purple-300 hover:bg-purple-50'
+                    ? 'bg-blue-50 text-blue-500 border-blue-100'
+                    : 'bg-white text-gray-600 border-gray-100 hover:border-gray-200'
                   }
                 `}
               >
@@ -256,16 +262,10 @@ function ReviewPriorityTags({
                   {/* 레이블 */}
                   <span>{option.displayLabel || option.label}</span>
 
-                  {/* 언급 비율 배지 (%) */}
+                  {/* 언급 비율 배지 (%) - 디자인 변경 */}
                   {percentage > 0 && (
-                    <span className={`
-                      px-1.5 py-0.5 rounded-full text-[10px] font-bold
-                      ${isSelected
-                        ? 'bg-orange-200 text-orange-700'
-                        : 'bg-orange-100 text-orange-600'
-                      }
-                    `}>
-                      {percentage}%
+                    <span className="px-1.5 py-0.5 rounded-[6px] text-[13px] font-medium bg-[#75D21C] text-white">
+                      {percentage}% 선택
                     </span>
                   )}
                 </span>
@@ -617,19 +617,18 @@ export function HardFilterQuestion({
       transition={{ duration: 0.3 }}
       className="space-y-3"
     >
-      {/* 질문 헤더 */}
-      <div className="flex items-center justify-between">
-        <span className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold">
-          Q{currentIndex + 1}
-        </span>
-        <span className="text-xs text-gray-400 font-medium">
-          {currentIndex + 1} / {totalCount}
+      <div className="w-full h-[1px] bg-gray-100 mb-5" />
+
+      {/* 질문 헤더 - 디자인 변경 */}
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-sm text-gray-400 font-medium">
+          구매 조건
         </span>
       </div>
 
       {/* 질문 텍스트 */}
-      <h3 className="text-[19px] font-bold text-gray-900 leading-snug">
-        {question.question}
+      <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+        {question.question} <span className="text-blue-500 font-bold">*</span>
       </h3>
 
       {/* 도움말 팁 (dynamicTip 우선) */}
@@ -655,8 +654,8 @@ export function HardFilterQuestion({
         />
       )}
 
-      {/* 선택지 - 6개 초과 시 2열 그리드 */}
-      <div className={question.options.length > 6 ? 'grid grid-cols-2 gap-2.5' : 'space-y-2.5'}>
+      {/* 선택지 - 세로 리스트 배치 */}
+      <div className="space-y-2.5">
         {question.options.map((option, index) => {
           const isSelected = localSelectedValues.includes(option.value);
           const isSkipOption = SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없') || option.value.includes('전부 좋아요');
@@ -680,9 +679,6 @@ export function HardFilterQuestion({
             return null;
           }
 
-          // 2열 그리드일 때 "전부 좋아요" 옵션은 전체 너비 차지
-          const isFullWidth = question.options.length > 6 && isSkipOption;
-
           return (
             <motion.button
               key={option.value}
@@ -691,66 +687,33 @@ export function HardFilterQuestion({
               transition={{ delay: index * 0.02 }}
               onClick={() => handleOptionClick(option.value)}
               disabled={isDisabled}
-              className={`${isFullWidth ? 'col-span-2' : ''} w-full p-4 rounded-xl border text-left transition-all relative overflow-hidden ${
+              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left transition-all relative overflow-hidden flex items-center justify-between gap-3 ${
                 isDisabled
-                  ? 'border-gray-100 bg-gray-50 cursor-not-allowed opacity-50'
+                  ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                   : isSelected
-                  ? 'border-purple-500 bg-purple-50 shadow-sm'
-                  : 'border-gray-200 bg-white hover:border-purple-200 hover:bg-purple-50/30 hover:shadow-md'
+                  ? 'border-blue-100 bg-blue-50'
+                  : 'border-gray-100 bg-white hover:border-gray-200'
               }`}
             >
-              <div className="flex items-center gap-3">
-                {/* 체크박스 스타일 */}
-                <div
-                  className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
-                    isDisabled
-                      ? 'border-gray-200 bg-gray-100'
-                      : isSelected
-                      ? 'border-purple-500 bg-purple-500'
-                      : 'border-gray-300 bg-white group-hover:border-purple-300'
-                  }`}
-                >
-                  {isSelected && !isDisabled && (
-                    <motion.svg
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="w-3 h-3 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </motion.svg>
-                  )}
-                </div>
+              {/* 옵션 텍스트 */}
+              <span
+                className={`text-[16px] font-medium flex-1 ${
+                  isDisabled
+                    ? 'text-gray-300'
+                    : isSelected
+                    ? 'text-blue-500'
+                    : 'text-gray-600'
+                }`}
+              >
+                {option.label}
+              </span>
 
-                {/* 옵션 텍스트 */}
-                <span
-                  className={`text-[15px] font-medium flex-1 truncate ${
-                    isDisabled
-                      ? 'text-gray-400'
-                      : isSelected
-                      ? 'text-purple-900'
-                      : 'text-gray-700'
-                  }`}
-                >
-                  {option.label}
+              {/* 많이 선택 뱃지 - 디자인 변경 */}
+              {isPopular && !isSkipOption && popularOption && (
+                <span className="text-white bg-[#75D21C] text-[13px] font-medium px-2 py-0.5 rounded-[6px] shrink-0">
+                  {popularOption.percentage}% 선택
                 </span>
-
-                {/* 많이 선택 뱃지 - 2열일 때는 간소화 */}
-                {isPopular && !isSkipOption && popularOption && (
-                  <span className={`bg-orange-100 text-orange-600 font-bold rounded-full shrink-0 ${
-                    question.options.length > 6
-                      ? 'px-1.5 py-0.5 text-[9px]'
-                      : 'px-2 py-0.5 text-[10px]'
-                  }`}>
-                    {question.options.length > 6
-                      ? `${popularOption.percentage}%`
-                      : `${popularOption.percentage}% 선택`
-                    }
-                  </span>
-                )}
-              </div>
+              )}
             </motion.button>
           );
         })}
@@ -761,7 +724,7 @@ export function HardFilterQuestion({
         <DirectInputField
           value={directInputValue}
           onChange={onDirectInputChange}
-          placeholder="원하는 조건을 직접 입력해주세요"
+          placeholder="원하는 답변을 입력하세요..."
           filterType="hard_filter"
           isRegistered={isDirectInputRegistered}
           onRegister={onDirectInputRegister}

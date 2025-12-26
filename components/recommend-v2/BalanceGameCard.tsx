@@ -83,19 +83,18 @@ export function BalanceGameCard({
       transition={{ duration: 0.3 }}
       className="space-y-4"
     >
-      {/* 헤더 */}
-      <div className="flex items-center justify-between">
-        <span className="px-2.5 py-1 bg-purple-50 text-purple-600 rounded-full text-xs font-bold">
-          Q{currentIndex + 1}. 취향 선택
-        </span>
-        <span className="text-xs text-gray-400">
-          {currentIndex + 1} / {totalCount}
+      <div className="w-full h-[1px] bg-gray-100 mb-5" />
+
+      {/* 질문 헤더 - 디자인 변경 */}
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-sm text-gray-400 font-medium">
+          취향 선택
         </span>
       </div>
 
       {/* 질문 제목 */}
-      <h3 className="text-base font-bold text-gray-900 text-center leading-snug">
-        {question.title}
+      <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+        {question.title} <span className="text-blue-500 font-bold">*</span>
       </h3>
 
       {/* AI 도움받기 버튼 */}
@@ -124,13 +123,10 @@ export function BalanceGameCard({
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={onSelectA}
-          className="w-full p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 text-left hover:border-blue-400 hover:from-blue-100 hover:to-blue-150 transition-all"
+          className="w-full h-[50px] rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
         >
-          <div className="flex items-center gap-3">
-            <span className="w-8 h-8 rounded-full bg-blue-500 text-white font-bold text-sm flex items-center justify-center flex-shrink-0">
-              A
-            </span>
-            <span className="text-sm font-medium text-gray-800 leading-snug">
+          <div className="flex items-center h-full px-4 gap-3">
+            <span className="text-[16px] font-medium text-gray-600 leading-snug">
               {question.option_A.text}
             </span>
           </div>
@@ -138,22 +134,19 @@ export function BalanceGameCard({
 
         {/* VS 구분선 */}
         <div className="flex items-center gap-3">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="text-gray-400 text-xs font-bold">VS</span>
-          <div className="flex-1 h-px bg-gray-200" />
+          <div className="flex-1 h-px bg-gray-100" />
+          <span className="text-gray-300 text-[10px] font-bold">VS</span>
+          <div className="flex-1 h-px bg-gray-100" />
         </div>
 
         {/* Option B */}
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={onSelectB}
-          className="w-full p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-purple-100 border-2 border-purple-200 text-left hover:border-purple-400 hover:from-purple-100 hover:to-purple-150 transition-all"
+          className="w-full h-[50px] rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
         >
-          <div className="flex items-center gap-3">
-            <span className="w-8 h-8 rounded-full bg-purple-500 text-white font-bold text-sm flex items-center justify-center flex-shrink-0">
-              B
-            </span>
-            <span className="text-sm font-medium text-gray-800 leading-snug">
+          <div className="flex items-center h-full px-4 gap-3">
+            <span className="text-[16px] font-medium text-gray-600 leading-snug">
               {question.option_B.text}
             </span>
           </div>

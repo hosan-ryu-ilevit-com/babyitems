@@ -85,16 +85,18 @@ export function SubCategorySelector({
       transition={{ duration: 0.3 }}
       className="space-y-4"
     >
-      {/* 헤더 */}
-      <div className="flex items-center gap-2">
-        <span className="px-2.5 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-bold">
+      <div className="w-full h-[1px] bg-gray-100 mb-5" />
+
+      {/* 헤더 - 디자인 변경 */}
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-sm text-gray-400 font-medium">
           세부 종류
         </span>
       </div>
 
       {/* 질문 텍스트 */}
-      <h3 className="text-base font-medium text-gray-900 leading-snug">
-        어떤 {categoryName}를 찾으세요?
+      <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+        어떤 {categoryName}를 찾으세요? <span className="text-blue-500 font-bold">*</span>
       </h3>
 
       {/* 도움말 팁 */}
@@ -135,15 +137,15 @@ export function SubCategorySelector({
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
               onClick={() => onToggle(sub.code)}
-              className={`px-4 py-3 rounded-xl border-2 transition-all ${
+              className={`px-4 min-h-[50px] py-[14px] rounded-xl border transition-all flex items-center justify-center ${
                 isSelected
-                  ? 'border-purple-500 bg-purple-50'
-                  : 'border-gray-100 bg-white hover:border-purple-200 hover:bg-purple-50/30'
+                  ? 'border-blue-100 bg-blue-50'
+                  : 'border-gray-100 bg-white hover:border-gray-200'
               }`}
             >
               <span
-                className={`text-sm font-semibold ${
-                  isSelected ? 'text-purple-900' : 'text-gray-800'
+                className={`text-[16px] font-medium ${
+                  isSelected ? 'text-blue-500' : 'text-gray-600'
                 }`}
               >
                 {sub.name}

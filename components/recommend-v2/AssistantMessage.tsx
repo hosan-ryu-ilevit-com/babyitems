@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 interface AssistantMessageProps {
   content: string;
   typing?: boolean;
-  stepTag?: string;
   className?: string;
   onTypingComplete?: () => void;
 }
@@ -69,7 +68,6 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
 export function AssistantMessage({
   content,
   typing = false,
-  stepTag,
   className = '',
   onTypingComplete,
 }: AssistantMessageProps) {
@@ -106,13 +104,6 @@ export function AssistantMessage({
       transition={{ duration: 0.3 }}
       className={`w-full ${className}`}
     >
-      {/* Step 태그 */}
-      {stepTag && (
-        <div className="inline-block px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-xs font-bold mb-2">
-          {stepTag}
-        </div>
-      )}
-
       {/* 메시지 버블 */}
       <div className="w-full flex justify-start">
         <div className="px-1 py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4]">

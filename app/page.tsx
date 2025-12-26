@@ -127,30 +127,7 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
 
 // --- Sub-components ---
 
-// 상단 단계 표시 바
-function StepIndicator({ currentStep = 1 }: { currentStep?: number }) {
-  const steps = [1, 2, 3, 4];
-  return (
-    <div className="sticky top-14 left-0 right-0 z-40 flex justify-center pointer-events-none">
-      <div className="mt-2 flex items-center gap-2 bg-white/70 border border-gray-200 rounded-[42px] px-4 py-[6px] backdrop-blur-[12px] pointer-events-auto">
-        {steps.map((step, idx) => (
-          <div key={step} className="flex items-center">
-            <div className={`w-[28px] h-[28px] rounded-full flex items-center justify-center text-[13px] font-bold border transition-all ${
-              step === currentStep 
-                ? 'bg-gray-800 border-gray-800 text-white' 
-                : 'bg-white border-gray-200 text-gray-300'
-            }`}>
-              {step}
-            </div>
-            {idx < steps.length - 1 && (
-              <div className="w-6 h-[1px] bg-gray-200 mx-1" />
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+import { StepIndicator } from '@/components/StepIndicator';
 
 // 스트리밍 타이틀
 function StreamingTitle() {
@@ -172,7 +149,7 @@ function StreamingTitle() {
   }, []);
 
   return (
-    <div className="px-5 pt-0 pb-0">
+    <div className="px-5 pt-4 pb-0">
       <h2 className="text-[16px] font-medium text-gray-900 leading-[1.6] whitespace-pre-wrap">
         {displayedText}
         {isTyping && (
