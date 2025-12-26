@@ -8,7 +8,28 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ai-start: #6141ED;
+  --color-ai-end: #7EA0FF;
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+/* AI Gradient Utilities */
+.ai-gradient-bg {
+  background: linear-gradient(90deg, #6141ED 0%, #7EA0FF 100%);
+}
+
+.ai-gradient-text {
+  background: linear-gradient(90deg, #6141ED 0%, #7EA0FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ai-gradient-border {
+  border: 1px solid transparent;
+  background-image: linear-gradient(white, white), linear-gradient(90deg, #6141ED 0%, #7EA0FF 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 body {
