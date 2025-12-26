@@ -708,7 +708,7 @@ export interface ClarifyingAnswer {
  * 수집된 인사이트 (질문을 통해 파악된 정보)
  */
 export interface CollectedInsight {
-  type: 'age' | 'environment' | 'concern' | 'priority' | 'budget' | 'experience';
+  type: 'age' | 'environment' | 'concern' | 'priority' | 'budget' | 'experience' | 'pain_point';
   value: string;
   source: 'initial' | 'clarifying';  // 초기 입력에서 vs 명확화 질문에서
 }

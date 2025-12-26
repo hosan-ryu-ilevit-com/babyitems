@@ -45,9 +45,15 @@ interface AISelectionReviewProps {
   // 썸네일 & 리뷰 정보
   thumbnailProducts?: ThumbnailProduct[];
   totalReviewCount?: number;
+
+  // 예산 정보 (clarifying questions에서 설정된)
+  budgetRange?: { min: number; max: number } | null;
+
+  // 로딩 상태 (추천 계산 중일 때 하단 버튼 숨김)
+  isLoading?: boolean;
 }
 
-type SectionType = 'hardFilter' | 'balanceGame' | 'negativeFilter';
+type SectionType = 'hardFilter' | 'balanceGame' | 'negativeFilter' | 'budget';
 
 interface EditingState {
   type: SectionType;
@@ -74,6 +80,8 @@ export function AISelectionReview({
   confidence,
   thumbnailProducts = [],
   totalReviewCount = 0,
+  budgetRange,
+  isLoading = false,
 }: AISelectionReviewProps) {
   // 수정 가능한 상태
   const [hardFilterSelections, setHardFilterSelections] = useState(initialHardFilters);
@@ -82,6 +90,20 @@ export function AISelectionReview({
 
   // UI 상태
   const [expandedSection, setExpandedSection] = useState<SectionType | null>(null);
+
+  // 가격 포맷 헬퍼
+  const formatPrice = (price: number) => {
+    if (price >= 10000) {
+      return `${Math.round(price / 10000)}만원`;
+    }
+    return `${price.toLocaleString()}원`;
+  };
+
+  // 예산 요약 텍스트
+  const budgetSummary = useMemo(() => {
+    if (!budgetRange) return '설정 안 함';
+    return `${formatPrice(budgetRange.min)} ~ ${formatPrice(budgetRange.max)}`;
+  }, [budgetRange]);
 
   // Confidence 배지 색상
   const confidenceColors = {
@@ -556,29 +578,65 @@ export function AISelectionReview({
           </SectionCard>
           </motion.div>
         )}
+
+        {/* 4. 예산 범위 섹션 */}
+        {budgetRange && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.6 }}
+          >
+          <SectionCard
+            title="예산 범위"
+            icon="💰"
+            isExpanded={expandedSection === 'budget'}
+            onToggle={() => toggleSection('budget')}
+            summary={budgetSummary}
+          >
+            <div className="pt-2">
+              <div className="flex items-center justify-center gap-3 py-4">
+                <div className="text-center">
+                  <p className="text-xs text-gray-400 mb-1">최소</p>
+                  <p className="text-lg font-bold text-gray-900">{formatPrice(budgetRange.min)}</p>
+                </div>
+                <div className="text-gray-300 text-2xl font-light">~</div>
+                <div className="text-center">
+                  <p className="text-xs text-gray-400 mb-1">최대</p>
+                  <p className="text-lg font-bold text-purple-600">{formatPrice(budgetRange.max)}</p>
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 text-center mt-2">
+                추가 질문에서 선택하신 예산 범위예요
+              </p>
+            </div>
+          </SectionCard>
+          </motion.div>
+        )}
       </div>
 
-      {/* 고정 하단 CTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 safe-area-pb z-40">
-        <div className="max-w-lg mx-auto space-y-3">
-          <div className="flex gap-3">
-            {onBack && (
+      {/* 고정 하단 CTA - 로딩 중에는 완전히 숨김 */}
+      {!isLoading && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 safe-area-pb z-40">
+          <div className="max-w-lg mx-auto space-y-3">
+            <div className="flex gap-3">
+              {onBack && (
+                <button
+                  onClick={onBack}
+                  className="px-6 py-4 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors"
+                >
+                  다시 입력
+                </button>
+              )}
               <button
-                onClick={onBack}
-                className="px-6 py-4 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors"
+                onClick={handleConfirm}
+                className="flex-1 py-4 bg-[#5F0080] text-white font-semibold rounded-xl hover:bg-[#4a0066] transition-colors"
               >
-                다시 입력
+                이대로 추천받기
               </button>
-            )}
-            <button
-              onClick={handleConfirm}
-              className="flex-1 py-4 bg-[#5F0080] text-white font-semibold rounded-xl hover:bg-[#4a0066] transition-colors"
-            >
-              이대로 추천받기
-            </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </motion.div>
   );
 }

@@ -21,6 +21,85 @@ import type {
 } from '@/types/recommend-v2';
 import { CATEGORY_BUDGET_RANGES } from '@/types/recommend-v2';
 
+// 🔧 단계/사이즈 기반 카테고리 (개월 정보 필수)
+// 이 카테고리들은 제품 필터링에 아기 개월/단계 정보가 반드시 필요함
+const STAGE_BASED_CATEGORIES: Record<string, {
+  question: string;
+  subtext: string;
+  options: Array<{ value: string; label: string; description: string }>;
+}> = {
+  diaper: {
+    question: '아기 개월 수가 어떻게 되나요?',
+    subtext: '사이즈/타입 추천에 필요해요',
+    options: [
+      { value: 'newborn', label: '신생아 (0~1개월)', description: '밴드형 NB/1단계' },
+      { value: '2_6months', label: '2~6개월', description: '밴드형 2~3단계' },
+      { value: '7_12months', label: '7~12개월', description: '팬티형 전환 시기' },
+      { value: 'over_12months', label: '12개월 이상', description: '팬티형 4단계 이상' },
+    ],
+  },
+  formula: {
+    question: '아기 개월 수가 어떻게 되나요?',
+    subtext: '분유 단계 추천에 필요해요',
+    options: [
+      { value: 'stage1', label: '0~6개월', description: '1단계 분유' },
+      { value: 'stage2', label: '6~12개월', description: '2단계 분유' },
+      { value: 'stage3', label: '12개월 이상', description: '3단계 분유' },
+    ],
+  },
+  pacifier: {
+    question: '아기 개월 수가 어떻게 되나요?',
+    subtext: '쪽쪽이 사이즈 추천에 필요해요',
+    options: [
+      { value: '0_3months', label: '0~3개월', description: '1단계 젖꼭지' },
+      { value: '3_6months', label: '3~6개월', description: '2단계 젖꼭지' },
+      { value: 'over_6months', label: '6개월 이상', description: '3단계 젖꼭지' },
+    ],
+  },
+  baby_bottle: {
+    question: '아기 개월 수가 어떻게 되나요?',
+    subtext: '용량/젖꼭지 단계 추천에 필요해요',
+    options: [
+      { value: 'newborn', label: '신생아 (0~2개월)', description: '150ml, SS 젖꼭지' },
+      { value: '3_6months', label: '3~6개월', description: '240ml, S/M 젖꼭지' },
+      { value: 'over_6months', label: '6개월 이상', description: '260ml+, L 젖꼭지' },
+    ],
+  },
+  stroller: {
+    question: '아기 개월 수가 어떻게 되나요?',
+    subtext: '유모차 타입 추천에 필요해요',
+    options: [
+      { value: 'newborn', label: '신생아 (0~3개월)', description: '디럭스형 권장 (완전 눕힘)' },
+      { value: '4_6months', label: '4~6개월', description: '목 가누기 시작, 절충형 가능' },
+      { value: 'over_6months', label: '6개월 이상', description: '휴대용/경량형 사용 가능' },
+    ],
+  },
+  car_seat: {
+    question: '아기 개월 수가 어떻게 되나요?',
+    subtext: '카시트 타입 추천에 필요해요',
+    options: [
+      { value: 'newborn', label: '신생아 (0~12개월)', description: '바구니형/신생아 겸용' },
+      { value: '1_3years', label: '1~3세', description: '컨버터블/회전형' },
+      { value: 'over_3years', label: '3세 이상', description: '주니어/부스터형' },
+    ],
+  },
+};
+
+// 개월 정보가 포함되어 있는지 확인하는 패턴
+const AGE_PATTERNS = [
+  /\d+\s*개월/,           // "6개월", "12개월"
+  /신생아/,               // "신생아"
+  /\d+\s*살/,             // "1살", "2살"
+  /\d+\s*세/,             // "1세", "2세"
+  /돌\s*(전|지남|지나)/,   // "돌 전", "돌 지남"
+  /백일/,                 // "백일"
+  /\d+단계/,              // "1단계", "2단계"
+];
+
+function hasAgeInfo(text: string): boolean {
+  return AGE_PATTERNS.some(pattern => pattern.test(text));
+}
+
 // 카테고리별 가이드 데이터
 const categoryGuides = hardFiltersData as Record<string, { guide?: { title: string; points: string[]; trend: string } }>;
 
@@ -118,20 +197,36 @@ ${negativeContext}`;
 - "사용자들이 자주 걱정하는 점들": 이 카테고리 구매 시 흔한 고민거리
 - 이 정보들을 기반으로 선택지를 구성하면 더 의미있는 질문이 됩니다.
 
+**핵심 원칙 - 질문은 반드시 제품 선택에 영향을 줘야 함:**
+질문의 답변이 실제 제품 필터링/추천에 영향을 주어야 합니다.
+- ✅ 좋은 질문: "용량이 얼마나 필요하세요?" → 150ml vs 260ml 제품 구분 가능
+- ✅ 좋은 질문: "세척 편의성이 중요하세요?" → 세척 용이한 제품 필터링 가능
+- ❌나쁜 질문: "시간이 얼마나 단축되길 바라세요?" → 모든 제품이 빠름을 추구하므로 구분 불가
+
 **중요 규칙:**
-1. 사용자의 초기 입력(initialContext)에서 **이미 파악된 정보는 다시 묻지 마세요.**
+1. **페인포인트/니즈는 질문하지 말고 인사이트로 인식하세요.**
+   - 예: "분유 타는 시간이 오래걸려요" → collectedInsights에 { type: "pain_point", value: "분유 제조 속도" } 추가
+   - 예: "세척이 너무 번거로워요" → pain_point로 인식. "얼마나 편해지길 원하세요?" 같은 정도 질문 금지
+   - 사용자가 이미 언급한 불편함은 우선순위로 인식하면 됨. 정도를 묻는 건 무의미.
+2. **질문은 "핵심 선택 기준 (하드 필터)"에 있는 스펙 기반으로 생성하세요.**
+   - 하드 필터에 용량, 재질, 타입 등이 있다면 그것을 물어보세요.
+   - 하드 필터에 없는 추상적 질문(빠르기 정도, 만족도 등)은 제품 선택에 도움 안 됨.
+3. 사용자의 초기 입력(initialContext)에서 **이미 파악된 정보는 다시 묻지 마세요.**
    - 예: "6개월 아기" → age 질문 불필요
    - 예: "가벼운 게 좋아요" → priority(휴대성) 이미 파악됨
-2. 선택지는 2-3개로 제한하세요. ("기타" 옵션은 프론트에서 자동 추가됨)
-3. 각 선택지에는 label(짧은 텍스트)과 description(부연설명)을 포함하세요.
-4. **질문은 1~4개**를 생성하세요. (너무 적으면 사용자 니즈 파악이 어렵습니다)
-5. 초기 입력이 매우 상세하더라도 최소 1개 질문은 생성하세요.
-6. 중복된 유형의 질문은 생성하지 마세요 (age 질문 2개 금지).
-7. **절대 금지: "기존 제품 만족 여부"만 묻는 질문** - "만족해요/불만족해요"는 기존 제품이 뭔지 모르면 정보량이 0입니다. 대신 **구체적인 불편점/문제점**을 물어보세요.
+4. 선택지는 2-3개로 제한하세요. ("기타" 옵션은 프론트에서 자동 추가됨)
+5. 각 선택지에는 label(짧은 텍스트)과 description(부연설명)을 포함하세요.
+6. **질문은 1~3개**를 생성하세요. 적더라도 의미있는 질문만.
+7. 중복된 유형의 질문은 생성하지 마세요 (age 질문 2개 금지).
+8. **절대 금지:**
+   - "기존 제품 만족 여부" 질문 - 정보량 0
+   - "얼마나 빠르길/편하길 원하세요?" - 정도 질문은 제품 구분 불가
+   - 추상적 선호도 질문 - 구체적 스펙으로 물어보세요
 
 **collectedInsights 추출:**
 - 초기 입력에서 파악 가능한 정보를 정리
-- type: 'age' | 'environment' | 'concern' | 'priority' | 'budget' | 'experience'
+- type: 'age' | 'environment' | 'concern' | 'priority' | 'budget' | 'experience' | 'pain_point'
+- 특히 pain_point는 사용자가 언급한 불편함/문제점을 그대로 캡처하세요
 - source: 'initial'
 
 **응답 형식 (JSON):**
@@ -231,11 +326,26 @@ JSON으로 응답하세요.`;
 
     // 유효성 검증
     if (!parsed.questions || parsed.questions.length === 0) {
-      // AI가 질문을 생성하지 못한 경우 - 예산 질문만 반환
+      // AI가 질문을 생성하지 못한 경우
+      // 단계 기반 카테고리면 개월 질문 + 예산 질문, 아니면 예산 질문만
+      const stageConfigFallback = STAGE_BASED_CATEGORIES[categoryKey];
+      const needsAgeFallback = stageConfigFallback && !hasAgeInfo(initialContext);
+
+      const fallbackQuestions: ClarifyingQuestion[] = [];
+      if (needsAgeFallback) {
+        fallbackQuestions.push({
+          id: 'age_mandatory',
+          text: stageConfigFallback.question,
+          subtext: stageConfigFallback.subtext,
+          options: stageConfigFallback.options,
+        });
+      }
+      fallbackQuestions.push(budgetQuestion);
+
       return NextResponse.json({
         success: true,
         data: {
-          questions: [budgetQuestion],
+          questions: fallbackQuestions,
           collectedInsights: parsed.collectedInsights || [],
         }
       });
@@ -253,8 +363,35 @@ JSON으로 응답하세요.`;
       })),
     }));
 
+    // 🔧 단계 기반 카테고리에서 개월 정보가 없으면 필수 질문 추가
+    const stageConfig = STAGE_BASED_CATEGORIES[categoryKey];
+    const needsAgeQuestion = stageConfig && !hasAgeInfo(initialContext);
+
+    let finalQuestions: ClarifyingQuestion[] = [];
+
+    if (needsAgeQuestion) {
+      // 개월 질문을 맨 앞에 추가
+      const ageQuestion: ClarifyingQuestion = {
+        id: 'age_mandatory',
+        text: stageConfig.question,
+        subtext: stageConfig.subtext,
+        options: stageConfig.options,
+      };
+      // AI 생성 질문에서 age 관련 질문 제거 (중복 방지)
+      const filteredAiQuestions = aiQuestions.filter(q =>
+        !q.id.toLowerCase().includes('age') &&
+        !q.text.includes('개월') &&
+        !q.text.includes('월령')
+      );
+      finalQuestions = [ageQuestion, ...filteredAiQuestions.slice(0, 2), budgetQuestion];
+      console.log('[ClarifyingQuestions] Added mandatory age question for stage-based category:', categoryKey);
+    } else {
+      // 기존 로직: AI 생성 질문 + 예산 질문
+      finalQuestions = [...aiQuestions, budgetQuestion];
+    }
+
     // AI 생성 질문 + 예산 질문
-    const questions = [...aiQuestions, budgetQuestion];
+    const questions = finalQuestions;
 
     return NextResponse.json({
       success: true,

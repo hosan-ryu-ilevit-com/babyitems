@@ -1191,6 +1191,8 @@ export default function RecommendV2Page() {
       if (result.success && result.data) {
         setAiSelections(result.data);
         setShowAiReview(true);
+        // AI 분석 결과로 스크롤 (5개 상품 썸네일 + 리뷰 분석 말풍선)
+        setTimeout(() => scrollToMessage('ai-review-result'), 100);
         console.log('🤖 One-Shot AI Selection completed (with clarifying):', result.data);
       } else {
         console.error('One-Shot selection failed:', result.error);
@@ -1230,6 +1232,8 @@ export default function RecommendV2Page() {
       if (result.success && result.data) {
         setAiSelections(result.data);
         setShowAiReview(true);
+        // AI 분석 결과로 스크롤 (5개 상품 썸네일 + 리뷰 분석 말풍선)
+        setTimeout(() => scrollToMessage('ai-review-result'), 100);
         console.log('🤖 One-Shot AI Selection completed (skipped clarifying):', result.data);
       } else {
         console.error('One-Shot selection failed:', result.error);
@@ -2485,6 +2489,56 @@ export default function RecommendV2Page() {
       },
     ]);
   }, []);
+
+  // clarifying questions에서 설정된 예산 범위 계산 (AISelectionReview에 전달용)
+  const clarifyingBudgetRange = useMemo(() => {
+    if (!enrichedContext?.clarifyingAnswers) return null;
+
+    const budgetAnswer = enrichedContext.clarifyingAnswers.find(
+      a => a.questionId === 'budget_fixed'
+    );
+    if (!budgetAnswer) return null;
+
+    const categoryBudgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000 };
+    const { min, max } = categoryBudgetRange;
+    const range = max - min;
+    const q1 = min + range * 0.25;
+    const q2 = min + range * 0.5;
+    const q3 = min + range * 0.75;
+
+    if (budgetAnswer.selectedOption === 'budget_low') {
+      return { min, max: Math.round(q1) };
+    } else if (budgetAnswer.selectedOption === 'budget_mid') {
+      return { min: Math.round(q1), max: Math.round(q2) };
+    } else if (budgetAnswer.selectedOption === 'budget_high') {
+      return { min: Math.round(q2), max: Math.round(q3) };
+    } else if (budgetAnswer.selectedOption === 'budget_premium') {
+      return { min: Math.round(q3), max };
+    } else if (budgetAnswer.customText) {
+      const text = budgetAnswer.customText;
+      // 범위 패턴
+      const rangeMatch = text.match(/(\d+)\s*만?\s*[~\-]\s*(\d+)\s*만/);
+      if (rangeMatch) {
+        return { min: parseInt(rangeMatch[1]) * 10000, max: parseInt(rangeMatch[2]) * 10000 };
+      }
+      // 이하 패턴
+      const belowMatch = text.match(/(\d+)\s*만\s*원?\s*이하/);
+      if (belowMatch) {
+        return { min, max: parseInt(belowMatch[1]) * 10000 };
+      }
+      // 이상 패턴
+      const aboveMatch = text.match(/(\d+)\s*만\s*원?\s*이상/);
+      if (aboveMatch) {
+        return { min: parseInt(aboveMatch[1]) * 10000, max };
+      }
+      // 단일 숫자
+      const singleMatch = text.match(/(\d+)\s*만\s*원?/);
+      if (singleMatch) {
+        return { min, max: parseInt(singleMatch[1]) * 10000 };
+      }
+    }
+    return null;
+  }, [enrichedContext, categoryKey]);
 
   // AI Helper용 실시간 사용자 선택 정보 (모든 단계에서 사용)
   const allUserSelections = useMemo((): UserSelections => {
@@ -4050,7 +4104,7 @@ export default function RecommendV2Page() {
 
           {/* B 버전: 사용자 입력 말풍선 (Clarifying Questions, AI 분석 중, AI 리뷰 화면에서 표시) */}
           {currentStep === 0 && userContext && !showClarifyingQuestions && (
-            <div className="space-y-3 pt-6 mb-4">
+            <div className="space-y-3 pt-8 mb-4">
               {/* 원래 사용자 입력 말풍선 */}
               <div
                 data-message-id="user-context-bubble"
@@ -4135,7 +4189,9 @@ export default function RecommendV2Page() {
 
           {/* B 버전: AI 선택 결과 확인/수정 화면 */}
           {showAiReview && aiSelections && (
-            <div className={`transition-all duration-300 ${
+            <div
+              data-message-id="ai-review-result"
+              className={`transition-all duration-300 ${
               currentStep > 0 || isCalculating || scoredProducts.length > 0
                 ? 'opacity-50 pointer-events-none'
                 : ''
@@ -4160,6 +4216,8 @@ export default function RecommendV2Page() {
                   thumbnail: p.thumbnail || undefined
                 }))}
                 totalReviewCount={products.length + Math.floor(Math.random() * 20) + 1}
+                budgetRange={clarifyingBudgetRange}
+                isLoading={isCalculating}
               />
             </div>
           )}

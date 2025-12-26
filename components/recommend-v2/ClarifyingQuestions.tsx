@@ -392,10 +392,10 @@ export default function ClarifyingQuestions({
                       key={option.value}
                       onClick={() => handleOptionSelect(option.value, option.label)}
                       disabled={isTransitioning}
-                      className={`w-full px-4 py-3 rounded-xl border-2 bg-white text-left transition-all duration-150
+                      className={`w-full px-4 py-3 rounded-xl border-2 text-left transition-all duration-150
                         ${isSelected
-                          ? 'border-purple-500 bg-purple-50'
-                          : 'border-gray-200 hover:border-purple-400 hover:bg-purple-50'
+                          ? 'border-purple-500 bg-purple-100'
+                          : 'bg-white border-gray-200 hover:border-purple-400 hover:bg-purple-50'
                         } active:scale-[0.98] disabled:opacity-70`}
                     >
                       <div className="flex items-start gap-3">
@@ -435,10 +435,10 @@ export default function ClarifyingQuestions({
                       setTempSelectedOption(null);
                     }}
                     disabled={isTransitioning}
-                    className={`w-full px-4 py-3 rounded-xl border-2 bg-white text-left transition-all duration-150
+                    className={`w-full px-4 py-3 rounded-xl border-2 text-left transition-all duration-150
                       ${tempCustomText
-                        ? 'border-purple-500 bg-purple-50'
-                        : 'border-gray-200 hover:border-purple-400 hover:bg-purple-50'
+                        ? 'border-purple-500 bg-purple-100'
+                        : 'bg-white border-gray-200 hover:border-purple-400 hover:bg-purple-50'
                       } disabled:opacity-70`}
                   >
                     <div className="flex items-start gap-3">
