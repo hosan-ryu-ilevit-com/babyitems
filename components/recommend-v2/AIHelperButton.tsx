@@ -44,12 +44,6 @@ export function AIHelperButton({
 }: AIHelperButtonProps) {
   const [isExpanded, setIsExpanded] = useState(false); // 토글 상태
 
-  // Hydration 깜빡임 방지: 클라이언트 마운트 후에만 애니메이션 적용
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const handleClick = () => {
     // 토글 기능 추가: 버튼 클릭 시 확장/축소
     if (onContextRecommend || onPopularRecommend) {
@@ -68,7 +62,7 @@ export function AIHelperButton({
   };
 
   return (
-    <div className={`w-full flex flex-col items-start gap-2 relative ${isExpanded ? 'z-[100]' : 'z-auto'} ${className}`}>
+    <div className={`w-full flex flex-col items-start gap-2 relative ${className}`}>
       {/* 배경 딤 처리 */}
       <AnimatePresence>
         {isExpanded && (
@@ -77,18 +71,19 @@ export function AIHelperButton({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsExpanded(false)}
-            className="fixed inset-0 bg-black/50 z-[-1]"
+            className="fixed inset-0 bg-black/50 z-[90]"
           />
         )}
       </AnimatePresence>
 
       {/* 메인 버튼 - 심플한 디자인 */}
       <motion.button
-        initial={isMounted ? { opacity: 0, y: 5 } : false}
+        initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.2 }}
         onClick={handleClick}
-        className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border shadow-sm transition-all w-full active:scale-[0.98] bg-white`}
+        className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border shadow-sm w-full bg-white relative ${isExpanded ? 'z-[100]' : 'z-auto'}`}
       >
         <div className="flex items-center gap-2">
           <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4" />
@@ -105,15 +100,14 @@ export function AIHelperButton({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="w-full overflow-hidden"
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="w-full overflow-hidden z-[100] relative"
           >
             <div className="flex flex-col gap-2 w-full">
               {/* AI에게 직접 물어보기 */}
               <motion.button
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.05 }}
                 onClick={() => {
                   if (questionType && questionId && questionText && category && categoryName) {
                     logAIHelperButtonClicked(
@@ -128,7 +122,8 @@ export function AIHelperButton({
                   onClick();
                   setIsExpanded(false);
                 }}
-                className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-purple-50 border border-purple-100 hover:bg-purple-100 transition-all text-left"
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-purple-50 border border-purple-100 text-left"
               >
                 <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                   <ChatCircleDots size={18} weight="fill" className="text-purple-400" />
@@ -144,7 +139,6 @@ export function AIHelperButton({
                 <motion.button
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.1 }}
                   onClick={() => {
                     import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
                       logButtonClick('recommend-v2', '💚 AI 도움 요청 (인기 제품)');
@@ -152,7 +146,8 @@ export function AIHelperButton({
                     onPopularRecommend();
                     setIsExpanded(false);
                   }}
-                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all text-left"
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 text-left"
                 >
                   <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                     <TrendUp size={18} weight="bold" className="text-gray-300" />
@@ -169,7 +164,6 @@ export function AIHelperButton({
                 <motion.button
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.15 }}
                   onClick={() => {
                     import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
                       logButtonClick('recommend-v2', '💚 AI 도움 요청 (컨텍스트 기반)');
@@ -177,7 +171,8 @@ export function AIHelperButton({
                     onContextRecommend();
                     setIsExpanded(false);
                   }}
-                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all text-left"
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 text-left"
                 >
                   <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                     <img src="/icons/ic-ai.svg" alt="" className="w-5 h-5 opacity-50" />

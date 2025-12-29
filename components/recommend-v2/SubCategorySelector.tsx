@@ -44,11 +44,6 @@ export function SubCategorySelector({
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
   const [aiHelperAutoSubmitContext, setAiHelperAutoSubmitContext] = useState(false);
-  // Hydration 깜빡임 방지
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // 자연어 입력이 있는지 확인 (initialContext 또는 naturalLanguageInputs)
   const hasContext = !!(
@@ -80,7 +75,7 @@ export function SubCategorySelector({
 
   return (
     <motion.div
-      initial={isMounted ? { opacity: 0, y: 0 } : false}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-4"
@@ -138,7 +133,8 @@ export function SubCategorySelector({
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
               onClick={() => onToggle(sub.code)}
-              className={`px-4 min-h-[50px] py-[14px] rounded-xl border transition-all flex items-center justify-center ${
+              whileTap={{ scale: 0.98 }}
+              className={`px-4 min-h-[50px] py-[14px] rounded-xl border flex items-center justify-center ${
                 isSelected
                   ? 'border-blue-100 bg-blue-50'
                   : 'border-gray-100 bg-white hover:border-gray-200'

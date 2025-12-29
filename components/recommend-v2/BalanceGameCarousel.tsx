@@ -360,9 +360,14 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
         {/* 헤더 - 디자인 변경 */}
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[16px] text-gray-400 font-semibold">
-            취향 선택
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-[16px] text-gray-400 font-semibold">
+              취향 선택
+            </span>
+            <span className="text-[14px] text-gray-300 font-medium">
+              {currentIndex + 1}/{questions.length}
+            </span>
+          </div>
         </div>
 
         {/* 미리 선택 설명 (userContext 기반) */}
@@ -449,7 +454,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                 <motion.button
                   whileTap={isCurrentSkipped ? undefined : { scale: 0.98 }}
                   onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_A.target_rule_key)}
-                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center transition-all flex items-center justify-center ${
+                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center flex items-center justify-center ${
                     isCurrentSkipped
                       ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                       : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
@@ -483,7 +488,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                 <motion.button
                   whileTap={isCurrentSkipped ? undefined : { scale: 0.98 }}
                   onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_B.target_rule_key)}
-                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center transition-all flex items-center justify-center ${
+                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center flex items-center justify-center ${
                     isCurrentSkipped
                       ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                       : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key

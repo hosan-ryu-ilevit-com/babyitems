@@ -164,8 +164,8 @@ export function generateDynamicBalanceQuestions(
   relevantRuleKeys: string[],
   allBalanceQuestions: BalanceQuestion[],
   categoryKey: string,
-  minQuestions: number = 2,
-  maxQuestions: number = 4
+  minQuestions: number = 1,
+  maxQuestions: number = 3
 ): BalanceQuestion[] {
   // 1. 관련된 규칙 키를 가진 질문만 필터링
   const dynamicQuestions = allBalanceQuestions.filter(question =>

@@ -25,6 +25,7 @@ export interface ChatMessage {
   componentType?: ComponentType;
   componentData?: unknown;
   typing?: boolean;
+  speed?: number;           // 타이핑 속도 (ms, 낮을수록 빠름)
   stepTag?: string;         // "0/5", "1/5" 등
   timestamp?: number;
   onTypingComplete?: () => void;  // 타이핑 완료 시 호출될 콜백

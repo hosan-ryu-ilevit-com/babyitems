@@ -237,6 +237,7 @@ export default function RecommendV2Page() {
   const [showScanAnimation, setShowScanAnimation] = useState(false);
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+  const [isSummaryTypingComplete, setIsSummaryTypingComplete] = useState(false);
   // 찜하기 기능 - 나중에 사용할 수 있도록 임시 숨김
   // const [showFavoritesModal, setShowFavoritesModal] = useState(false);
 
@@ -295,21 +296,8 @@ export default function RecommendV2Page() {
   // Typing animation completion
   // ===================================================
 
-  useEffect(() => {
-    if (typingMessageId) {
-      const timer = setTimeout(() => {
-        setMessages(prev =>
-          prev.map(msg =>
-            msg.id === typingMessageId ? { ...msg, typing: false } : msg
-          )
-        );
-        setTypingMessageId(null);
-      }, 1000); // 1초 후 타이핑 효과 종료
-
-      return () => clearTimeout(timer);
-    }
-  }, [typingMessageId]);
-
+  // 기존의 1초 강제 종료 로직은 제거하고, StreamingText의 완료 콜백을 사용합니다.
+  
   // 프로그레스는 항상 증가만 (뒤로 가지 않음)
   const setProgressSafe = useCallback((value: number) => {
     setProgress((prev: number) => Math.max(prev, value));
@@ -361,12 +349,13 @@ export default function RecommendV2Page() {
   // Add message helper
   // ===================================================
 
-  const addMessage = useCallback((message: Omit<ChatMessage, 'id' | 'timestamp'>, withTyping = false) => {
+  const addMessage = useCallback((message: Omit<ChatMessage, 'id' | 'timestamp'>, withTyping = false, speed?: number) => {
     const newMessage: ChatMessage = {
       ...message,
       id: generateId(),
       timestamp: Date.now(),
       typing: withTyping,
+      speed: speed,
     };
     setMessages(prev => [...prev, newMessage]);
     if (withTyping) {
@@ -793,28 +782,29 @@ export default function RecommendV2Page() {
         addMessage({
           role: 'assistant',
           content: `안녕하세요!\n고객님께 필요한 최적의 **${categoryName}**${getParticle(categoryName)} 찾아드릴게요.`,
-        });
-
-        // 2. 하드 필터 질문 바로 시작 (약간의 시차를 두어 스크롤 연출)
-        if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
-          const questions = hardFilterConfig.questions;
-          setTimeout(() => {
-            setCurrentStep(1);
-            const msgId = addMessage({
-              role: 'system',
-              content: '',
-              componentType: 'hard-filter',
-              componentData: {
-                question: questions[0],
-                currentIndex: 0,
-                totalCount: questions.length,
-              },
-              stepTag: '1/5',
-            });
-            // 첫 질문으로 부드럽게 스크롤
-            scrollToMessage(msgId);
-          }, 600);
-        }
+          onTypingComplete: () => {
+            // 2. 타이핑 완료 후 하드 필터 질문 시작
+            if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
+              const questions = hardFilterConfig.questions;
+              setTimeout(() => {
+                setCurrentStep(1);
+                const msgId = addMessage({
+                  role: 'system',
+                  content: '',
+                  componentType: 'hard-filter',
+                  componentData: {
+                    question: questions[0],
+                    currentIndex: 0,
+                    totalCount: questions.length,
+                  },
+                  stepTag: '1/5',
+                });
+                // 첫 질문으로 부드럽게 스크롤
+                scrollToMessage(msgId);
+              }, 400);
+            }
+          }
+        }, true);
       }, 250);
     }
 
@@ -1131,14 +1121,44 @@ export default function RecommendV2Page() {
     // 2. 즉시 Step 0으로 진행 (AI 파싱 기다리지 않음)
     setCurrentStep(0);
 
-    // 3. Guide Cards 트리거 (hasTriggeredGuideRef 플래그 설정)
-    hasTriggeredGuideRef.current = true;
-    handleScanComplete();
-
-    // 4. 스크롤을 Q1 영역으로 즉시 이동
+    // 1. 인사말 추가 (메인 페이지와 동일한 문구 사용, 육아용품 대신 카테고리 네임 사용)
     setTimeout(() => {
-      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
+      const getParticle = (name: string) => {
+        if (!name) return '을';
+        const lastChar = name.charCodeAt(name.length - 1);
+        if (lastChar < 0xAC00 || lastChar > 0xD7A3) return '을'; // 한글 아니면 기본값
+        return (lastChar - 0xAC00) % 28 > 0 ? '을' : '를';
+      };
+      
+      addMessage({
+        role: 'assistant',
+        content: `안녕하세요!\n고객님께 필요한 최적의 **${categoryName}**${getParticle(categoryName)} 찾아드릴게요.`,
+        onTypingComplete: () => {
+          // 2. 타이핑 완료 후 가이드 카드/첫 질문 표시
+          if (hardFilterConfig) {
+            if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
+              const questions = hardFilterConfig.questions;
+              setTimeout(() => {
+                setCurrentStep(1);
+                const msgId = addMessage({
+                  role: 'system',
+                  content: '',
+                  componentType: 'hard-filter',
+                  componentData: {
+                    question: questions[0],
+                    currentIndex: 0,
+                    totalCount: questions.length,
+                  },
+                  stepTag: '1/5',
+                });
+                // 첫 질문으로 부드럽게 스크롤
+                scrollToMessage(msgId);
+              }, 400);
+            }
+          }
+        }
+      }, true);
+    }, 300);
 
     // 5. 입력이 있으면 AI 파싱 (백그라운드에서 비동기 처리)
     if (context && context.trim()) {
@@ -1170,17 +1190,58 @@ export default function RecommendV2Page() {
           setIsLoadingPreselection(false);
         });
     }
-  }, [categoryKey, categoryName, handleScanComplete]);
+  }, [categoryKey, categoryName, hardFilterConfig, addMessage, scrollToMessage]);
+
+  const handleStartBalanceGame = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+
+    console.log('🎮 [Step 3] handleStartBalanceGame called');
+    console.log('  - dynamicBalanceQuestions:', dynamicBalanceQuestions.length, dynamicBalanceQuestions.map(q => q.id));
+    console.log('  - balanceQuestions (static):', balanceQuestions.length);
+
+    setCurrentStep(3);
+    setCurrentBalanceIndex(0);
+
+    if (dynamicBalanceQuestions.length > 0) {
+      // stepTag 메시지로 스크롤 - 타이핑 완료 시 밸런스 게임 컴포넌트 추가
+      const stepMsgId = addMessage({
+        role: 'assistant',
+        content: '**더 중요한 쪽을 골라주세요!**',
+        stepTag: '3/5',
+        onTypingComplete: () => {
+          // 타이핑 완료 후 밸런스 게임 컴포넌트 추가
+          addMessage({
+            role: 'system',
+            content: '',
+            componentType: 'balance-carousel',
+            componentData: {
+              questions: dynamicBalanceQuestions,
+            },
+          });
+          setIsTransitioning(false);
+        },
+      }, true);
+      scrollToMessage(stepMsgId);
+    } else {
+      // No balance questions, skip to step 4
+      handleBalanceGameComplete(new Set());
+      setIsTransitioning(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTransitioning, dynamicBalanceQuestions, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 1 Complete → Step 2
   // ===================================================
+  // ... (handleHardFiltersComplete follows)
 
   const handleHardFiltersComplete = useCallback(async (
     answers: Record<string, string[]>,
     productsOverride?: ProductItem[]  // 선택적: state 대신 직접 전달된 products 사용
   ) => {
     setCurrentStep(2);
+    setIsSummaryTypingComplete(false);
 
     // Log hard filter completion
     const totalQuestions = hardFilterConfig?.questions?.length || 0;
@@ -1234,33 +1295,16 @@ export default function RecommendV2Page() {
     console.log('  - products:', productsToUse.length);
     console.log('  - filtered:', filtered.length);
 
-    // stepTag를 먼저 추가 (checkpoint 위에 위치) - 이 메시지로 스크롤
-    const stepMsgId = addMessage({
-      role: 'assistant',
-      content: '조건에 맞는 후보를 찾고 있어요.',
-      stepTag: '2/5',
-    }, true);
-    scrollToMessage(stepMsgId);
-
-    // 필터링된 상품 썸네일 추출 (상위 5개)
-    const productThumbnails = filtered
-      .filter(p => p.thumbnail)
-      .slice(0, 5)
-      .map(p => p.thumbnail as string);
-
-    // 로딩 상태 메시지 추가 (스크롤 없이 그 아래에 렌더링)
+    // 로딩 상태 표시 (사용자에게 필터링 중임을 알림)
     const loadingMsgId = addMessage({
       role: 'system',
       content: '',
-      componentType: 'checkpoint',
+      componentType: 'loading-text',
       componentData: {
-        totalProducts: productsToUse.length,
-        filteredCount: filtered.length,
-        conditions,
-        productThumbnails,
-        isLoading: true,
-      } as CheckpointData & { isLoading: boolean },
+        text: '조건에 맞는 후보를 찾는 중...',
+      },
     });
+    scrollToMessage(loadingMsgId);
 
     // ========================================
     // 동적 질문 생성 (category-insights 기반 LLM)
@@ -1391,34 +1435,25 @@ export default function RecommendV2Page() {
       }
     }
 
-    // 로딩 메시지를 완료 상태로 업데이트
-    setMessages(prev => prev.map(msg =>
-      msg.id === loadingMsgId
-        ? {
-            ...msg,
-            componentData: {
-              totalProducts: productsToUse.length,
-              filteredCount: filtered.length,
-              conditions,
-              productThumbnails,
-              isLoading: false,
-            } as CheckpointData & { isLoading: boolean },
-          }
-        : msg
-    ));
+    // 로딩 메시지 제거
+    setMessages(prev => prev.filter(msg => msg.id !== loadingMsgId));
 
     // Log checkpoint viewed
     logV2CheckpointViewed(categoryKey, categoryName, filtered.length);
 
     // Add AI summary message (Step 2 메시지이므로 stepTag 추가)
-    const summaryMessage = aiSummary || `전체 **${productsToUse.length}개** 제품 중 **${filtered.length}개**가 조건에 맞아요.`;
+    const fixedSuffix = "\n\n이제 말씀하신 상품 조건에 대해 조금만 더 자세히 여쭤볼게요. 정확한 상황을 파악하고, 알맞은 상품을 추천해야 하기 때문이에요.";
+    const summaryMessage = (aiSummary || "선택하신 조건에 맞는 제품들을 찾았습니다.") + fixedSuffix;
+    
     setTimeout(() => {
       addMessage({
         role: 'assistant',
         content: summaryMessage,
         stepTag: '2/5',
-      }, true);
-      // scrollToBottom 제거 - 2/5 stepTag로 이미 스크롤됨
+        onTypingComplete: () => {
+          setIsSummaryTypingComplete(true);
+        }
+      }, true, 7); // 긴 문장이므로 속도를 7ms로 더 빠르게 설정
     }, 300);
   }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInputs, hardFilterDirectInputRegistered]);
 
@@ -1509,49 +1544,6 @@ export default function RecommendV2Page() {
       setIsTransitioning(false);
     }
   }, [isTransitioning, hardFilterConfig, currentHardFilterIndex, hardFilterAnswers, hardFilterLabels, categoryKey, categoryName, addMessage, scrollToMessage, handleHardFiltersComplete, requiresSubCategory, subCategoryConfig, selectedSubCategoryCodes]);
-
-  // ===================================================
-  // Step 2 → Step 3: Start Balance Game
-  // ===================================================
-
-  const handleStartBalanceGame = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-
-    console.log('🎮 [Step 3] handleStartBalanceGame called');
-    console.log('  - dynamicBalanceQuestions:', dynamicBalanceQuestions.length, dynamicBalanceQuestions.map(q => q.id));
-    console.log('  - balanceQuestions (static):', balanceQuestions.length);
-
-    setCurrentStep(3);
-    setCurrentBalanceIndex(0);
-
-    if (dynamicBalanceQuestions.length > 0) {
-      // stepTag 메시지로 스크롤 - 타이핑 완료 시 밸런스 게임 컴포넌트 추가
-      const stepMsgId = addMessage({
-        role: 'assistant',
-        content: '후보들 중에서 최적의 제품을 고르기 위한 질문을 드릴게요. **더 중요한 쪽을 골라주세요!**',
-        stepTag: '3/5',
-        onTypingComplete: () => {
-          // 타이핑 완료 후 밸런스 게임 컴포넌트 추가
-          addMessage({
-            role: 'system',
-            content: '',
-            componentType: 'balance-carousel',
-            componentData: {
-              questions: dynamicBalanceQuestions,
-            },
-          });
-          setIsTransitioning(false);
-        },
-      }, true);
-      scrollToMessage(stepMsgId);
-    } else {
-      // No balance questions, skip to step 4
-      handleBalanceGameComplete(new Set());
-      setIsTransitioning(false);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTransitioning, dynamicBalanceQuestions, addMessage, scrollToMessage]);
 
   // ===================================================
   // Step 3: Balance Game Complete (캐러셀에서 호출됨)
@@ -2310,10 +2302,12 @@ export default function RecommendV2Page() {
       }
 
       // 현재 스텝보다 이전 스텝의 메시지면 비활성화
-      // stepTag가 없는 assistant 메시지(인사말)는 step 0으로 취급
+      const msgIndex = messages.findIndex(m => m.id === message.id);
+      const hasSystemMessageAfter = messages.slice(msgIndex + 1).some(m => m.role === 'system');
+
       const isPastStep = messageStep !== null
         ? currentStep > messageStep
-        : currentStep > 0;
+        : (currentStep > 0 && hasSystemMessageAfter);
 
       return (
         <div
@@ -2326,7 +2320,17 @@ export default function RecommendV2Page() {
           <AssistantMessage
             content={message.content}
             typing={message.typing}
-            onTypingComplete={message.onTypingComplete}
+            speed={message.speed}
+            onTypingComplete={() => {
+              // 타이핑이 끝나면 해당 메시지의 typing 상태를 false로 변경
+              if (message.typing) {
+                setMessages(prev => prev.map(m => 
+                  m.id === message.id ? { ...m, typing: false } : m
+                ));
+              }
+              // 기존 콜백 실행
+              message.onTypingComplete?.();
+            }}
           />
         </div>
       );
@@ -2823,14 +2827,10 @@ export default function RecommendV2Page() {
       );
     }
 
-    // Step 2: 계속하기 with prev/next
+    // Step 2: 후보 요약 (이전/다음 버튼 노출)
     if (currentStep === 2) {
-      // 체크포인트 로딩 상태 확인
-      const checkpointMsg = messages.find(msg => msg.componentType === 'checkpoint');
-      const isCheckpointLoading = checkpointMsg?.componentData
-        ? Boolean((checkpointMsg.componentData as { isLoading?: boolean }).isLoading)
-        : false;
-      const isStep2Disabled = isTransitioning || isCheckpointLoading;
+      const isStep2Disabled = isTransitioning;
+      const isNextDisabled = isStep2Disabled || !isSummaryTypingComplete;
 
       return (
         <div className="flex gap-2">
@@ -2846,10 +2846,10 @@ export default function RecommendV2Page() {
               // 마지막 hard-filter 메시지 ID 찾기
               let targetMsgId: string | undefined;
 
-              // Remove checkpoint related messages
+              // Remove summary related messages
               setMessages(prev => {
                 const filtered = prev.filter(msg =>
-                  msg.componentType !== 'checkpoint' &&
+                  msg.componentType !== 'loading-text' &&
                   msg.componentType !== 'natural-input' &&
                   !(msg.stepTag === '2/5')
                 );
@@ -2880,9 +2880,9 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleStartBalanceGame}
-            disabled={isStep2Disabled}
+            disabled={isNextDisabled}
             className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
-              isStep2Disabled
+              isNextDisabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
             }`}
@@ -2916,7 +2916,7 @@ export default function RecommendV2Page() {
                 logV2StepBack(categoryKey, categoryName, 3, 2);
                 setCurrentStep(2);
 
-                // checkpoint 메시지 ID 찾기
+                // 요약 메시지 ID 찾기 (stepTag 2/5)
                 let targetMsgId: string | undefined;
 
                 setMessages(prev => {
@@ -2924,9 +2924,9 @@ export default function RecommendV2Page() {
                     msg.componentType !== 'balance-carousel' &&
                     !(msg.stepTag === '3/5')
                   );
-                  // checkpoint 메시지 찾기
-                  const checkpointMsg = filtered.findLast(msg => msg.componentType === 'checkpoint');
-                  targetMsgId = checkpointMsg?.id;
+                  // 2/5 요약 메시지 찾기
+                  const summaryMsg = filtered.findLast(msg => msg.stepTag === '2/5');
+                  targetMsgId = summaryMsg?.id;
                   return filtered;
                 });
                 setBalanceGameState({ selectionsCount: 0, allAnswered: false, currentSelections: new Set(), currentIndex: 0, canGoPrevious: false, canGoNext: false, totalQuestions: 0, currentQuestionAnswered: false });
@@ -3198,7 +3198,7 @@ export default function RecommendV2Page() {
 
           {/* Messages */}
           {currentStep > -1 && (
-            <div className="space-y-4">
+            <div className="space-y-4 pt-10">
               {messages.map(renderMessage)}
             </div>
           )}

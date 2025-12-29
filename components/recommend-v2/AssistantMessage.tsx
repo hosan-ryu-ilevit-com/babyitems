@@ -6,14 +6,23 @@ import { motion } from 'framer-motion';
 interface AssistantMessageProps {
   content: string;
   typing?: boolean;
+  speed?: number;
   className?: string;
   onTypingComplete?: () => void;
 }
 
 // 스트리밍 텍스트 컴포넌트 (글자가 하나씩 나타남)
-function StreamingText({ content, speed = 15, onComplete }: { content: string; speed?: number; onComplete?: () => void }) {
+function StreamingText({ content, speed = 10, onComplete }: { content: string; speed?: number; onComplete?: () => void }) {
   const [displayedContent, setDisplayedContent] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDone, setIsDone] = useState(false);
+
+  // content가 변경되면 초기화
+  useEffect(() => {
+    setDisplayedContent('');
+    setCurrentIndex(0);
+    setIsDone(false);
+  }, [content]);
 
   useEffect(() => {
     if (!content) return;
@@ -21,15 +30,17 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
     if (currentIndex < content.length) {
       const timeout = setTimeout(() => {
         setDisplayedContent(content.slice(0, currentIndex + 1));
-        setCurrentIndex(currentIndex + 1);
+        setCurrentIndex(prev => prev + 1);
       }, speed);
 
       return () => clearTimeout(timeout);
-    } else if (currentIndex === content.length && onComplete) {
-      // 타이핑 완료 시 콜백 호출
-      onComplete();
+    } else if (currentIndex === content.length && !isDone) {
+      setIsDone(true);
+      if (onComplete) {
+        onComplete();
+      }
     }
-  }, [currentIndex, content, speed, onComplete]);
+  }, [currentIndex, content, speed, onComplete, isDone]);
 
   // 마크다운 볼드 처리
   const formatMarkdown = (text: string) => {
@@ -57,7 +68,7 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
     });
   };
 
-  return <span className="whitespace-pre-wrap">{formatMarkdown(displayedContent)}</span>;
+  return <>{formatMarkdown(displayedContent)}</>;
 }
 
 /**
@@ -68,6 +79,7 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
 export function AssistantMessage({
   content,
   typing = false,
+  speed = 10,
   className = '',
   onTypingComplete,
 }: AssistantMessageProps) {
@@ -89,8 +101,13 @@ export function AssistantMessage({
         return <span key={index}>{part}</span>;
       });
 
+      // 빈 줄이면 더 큰 간격 부여 (문단 구분)
+      if (line.trim() === '') {
+        return <div key={lineIndex} className="h-4" />;
+      }
+
       return (
-        <div key={lineIndex} className={lineIndex > 0 ? 'mt-0.5' : ''}>
+        <div key={lineIndex} className={`break-all ${lineIndex > 0 ? 'mt-0.5' : ''}`}>
           {formattedLine}
         </div>
       );
@@ -106,9 +123,9 @@ export function AssistantMessage({
     >
       {/* 메시지 버블 */}
       <div className="w-full flex justify-start">
-        <div className="py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4] break-keep">
+        <div className="py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-800 font-medium leading-[1.4] whitespace-pre-wrap">
           {typing ? (
-            <StreamingText content={content} speed={15} onComplete={onTypingComplete} />
+            <StreamingText content={content} speed={speed} onComplete={onTypingComplete} />
           ) : (
             formatMarkdown(content)
           )}

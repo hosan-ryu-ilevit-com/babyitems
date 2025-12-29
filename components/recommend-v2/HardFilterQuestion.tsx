@@ -176,7 +176,7 @@ function ReviewPriorityTags({
       <motion.div
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.5 }}
+        transition={{ duration: 0.3 }}
         className="space-y-3"
       >
         <div className="space-y-2">
@@ -242,7 +242,7 @@ function ReviewPriorityTags({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, delay: 0.8 }}
+        transition={{ duration: 0.3 }}
         className="space-y-2.5"
       >
         {question.options.map((option, index) => {
@@ -257,11 +257,12 @@ function ReviewPriorityTags({
               key={option.value}
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + index * 0.03 }}
+              transition={{ delay: index * 0.01 }}
               onClick={() => handleTagClick(option.value)}
               onMouseEnter={() => setExpandedTag(option.value)}
               onMouseLeave={() => setExpandedTag(null)}
-              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left transition-all relative overflow-hidden flex items-center justify-between gap-3
+              whileTap={{ scale: 0.98 }}
+              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-3
                 ${isSelected
                   ? 'bg-blue-50 text-blue-500 border-blue-100'
                   : 'bg-white text-gray-600 border-gray-100 hover:border-gray-200'
@@ -710,10 +711,11 @@ export function HardFilterQuestion({
               key={option.value}
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.02 }}
+              transition={{ delay: index * 0.01 }}
               onClick={() => handleOptionClick(option.value)}
               disabled={isDisabled}
-              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left transition-all relative overflow-hidden flex items-center justify-between gap-3 ${
+              whileTap={isDisabled ? undefined : { scale: 0.98 }}
+              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-3 ${
                 isDisabled
                   ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                   : isSelected

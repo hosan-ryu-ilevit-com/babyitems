@@ -31,7 +31,6 @@ export default function ContextInput({
   const [hint, setHint] = useState<string | null>(null);
   const [isLoadingExamples, setIsLoadingExamples] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false); // 버튼 중복 클릭 방지
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const isLoadedRef = useRef(false);
@@ -69,7 +68,6 @@ export default function ContextInput({
   };
 
   useEffect(() => {
-    setMounted(true);
     if (!isLoadedRef.current) {
       loadExamples();
     }
@@ -115,7 +113,7 @@ export default function ContextInput({
 
   return (
     <motion.div
-      initial={mounted ? { opacity: 0, y: 0 } : false}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={`bg-white space-y-4 transition-all duration-300 ${isCompleted ? 'hidden' : ''}`}

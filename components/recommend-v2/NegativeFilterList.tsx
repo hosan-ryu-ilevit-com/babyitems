@@ -57,11 +57,6 @@ export function NegativeFilterList({
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
-  // Hydration 깜빡임 방지
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // 컨텍스트 정보가 있는지 확인 (initialContext 포함)
   const hasContext = !!(
@@ -85,7 +80,7 @@ export function NegativeFilterList({
 
   return (
     <motion.div
-      initial={isMounted ? { opacity: 0, y: 0 } : false}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="space-y-3"
@@ -142,7 +137,8 @@ export function NegativeFilterList({
                 onToggle(option.target_rule_key);
                 onToggleWithLabel?.(option.target_rule_key, option.label, willBeSelected, newTotalSelected);
               }}
-              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left transition-all flex items-center justify-between gap-3 ${
+              whileTap={{ scale: 0.98 }}
+              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left flex items-center justify-between gap-3 ${
                 isSelected
                   ? 'border-red-100 bg-red-50'
                   : 'border-gray-100 bg-white hover:border-gray-200'
