@@ -278,7 +278,7 @@ function ReviewPriorityTags({
               {/* 언급 비율 배지 (%) - 상위 3개만 표시, 그리드 모드에서는 간소화 */}
               {percentage > 0 && top3Values.includes(option.value) && (
                 <span className={`${isGridMode ? 'px-1 py-0.5 text-[10px]' : 'px-1.5 py-0.5 text-[12px]'} rounded-md font-medium bg-[#75D21C] text-white shrink-0`}>
-                  {percentage}%
+                  {percentage}%{!isGridMode && ' 선택'}
                 </span>
               )}
             </motion.button>
@@ -741,7 +741,7 @@ export function HardFilterQuestion({
               {/* 많이 선택 뱃지 - 그리드 모드에서는 간소화 */}
               {isPopular && !isSkipOption && popularOption && (
                 <span className={`text-white bg-[#75D21C] ${isGridMode ? 'text-[10px] px-1' : 'text-[12px] px-2'} font-medium py-0.5 rounded-md shrink-0`}>
-                  {popularOption.percentage}%
+                  {popularOption.percentage}%{!isGridMode && ' 선택'}
                 </span>
               )}
             </motion.button>

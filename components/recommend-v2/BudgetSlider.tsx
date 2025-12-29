@@ -27,6 +27,7 @@ interface BudgetSliderProps {
   category?: string;
   categoryName?: string;
   userSelections?: UserSelections;
+  disabled?: boolean;
 }
 
 // 히스토그램 막대 개수
@@ -57,6 +58,7 @@ export function BudgetSlider({
   category = '',
   categoryName = '',
   userSelections,
+  disabled = false,
 }: BudgetSliderProps) {
   // 디폴트를 '적정가' 범위로 설정 (전체 범위의 1/4 ~ 2/4 구간)
   const defaultMin = initialMin ?? Math.round(min + (max - min) / 4);
@@ -367,17 +369,18 @@ export function BudgetSlider({
             questionText="생각해 둔 예산이 있나요?"
             category={category}
             categoryName={categoryName}
+            disabled={disabled}
           />
         </div>
       )}
 
       {/* 최저/최고 입력 영역 */}
-      <div className="flex items-center justify-between gap-4 px-1 mb-8">
+      <div className={`flex items-center justify-between gap-4 px-1 mb-8 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
         {/* 최저 */}
         <div className="flex-1">
           <div className="text-[14px] text-gray-400 font-medium mb-2">최저</div>
           <div
-            onClick={handleMinClick}
+            onClick={() => !disabled && handleMinClick()}
             className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
           >
             {isEditingMin ? (
@@ -391,6 +394,7 @@ export function BudgetSlider({
                 onKeyDown={(e) => handleKeyDown(e, 'min')}
                 className="w-full bg-transparent outline-none p-0"
                 autoFocus
+                disabled={disabled}
               />
             ) : (
               <span>{minValue.toLocaleString()}원</span>
@@ -402,7 +406,7 @@ export function BudgetSlider({
         <div className="flex-1">
           <div className="text-[14px] text-gray-400 font-medium mb-2">최고</div>
           <div
-            onClick={handleMaxClick}
+            onClick={() => !disabled && handleMaxClick()}
             className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
           >
             {isEditingMax ? (
@@ -416,6 +420,7 @@ export function BudgetSlider({
                 onKeyDown={(e) => handleKeyDown(e, 'max')}
                 className="w-full bg-transparent outline-none p-0"
                 autoFocus
+                disabled={disabled}
               />
             ) : (
               <span>{maxValue.toLocaleString()}원{maxValue >= max ? '+' : ''}</span>
@@ -425,7 +430,7 @@ export function BudgetSlider({
       </div>
 
       {/* 히스토그램 + 슬라이더 */}
-      <div className="relative pt-4 px-2">
+      <div className={`relative pt-4 px-2 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
         {/* 히스토그램 */}
         <div className="flex items-end h-24 gap-[2px] px-4 justify-center">
           {histogramData.map((height, index) => {

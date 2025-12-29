@@ -2878,7 +2878,7 @@ export default function RecommendV2Page() {
               data-message-id={message.id}
               ref={budgetSliderRef}
               className={`scroll-mt-[70px] transition-all duration-300 ${
-                scoredProducts.length > 0 ? 'opacity-50 pointer-events-none' : ''
+                (scoredProducts.length > 0 || isCalculating || isLoadingFollowup || showFollowupCarousel) ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
               <BudgetSlider
@@ -2896,6 +2896,7 @@ export default function RecommendV2Page() {
                 category={categoryKey}
                 categoryName={categoryName}
                 userSelections={allUserSelections}
+                disabled={scoredProducts.length > 0 || isCalculating || isLoadingFollowup || showFollowupCarousel}
               />
             </div>
           );
@@ -2909,7 +2910,13 @@ export default function RecommendV2Page() {
             analysisTimeline?: AnalysisTimeline;
           } | undefined;
           return (
-            <div key={message.id} data-message-id={message.id} className="scroll-mt-[70px]">
+            <div
+              key={message.id}
+              data-message-id={message.id}
+              className={`scroll-mt-[70px] transition-all duration-300 ${
+                isCalculating ? 'opacity-50 pointer-events-none' : ''
+              }`}
+            >
               <ResultCards
                 products={resultData?.products || scoredProducts}
                 categoryName={resultData?.categoryName || categoryName}

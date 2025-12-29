@@ -20,6 +20,7 @@ interface AIHelperButtonProps {
   hasContext?: boolean;
   onContextRecommend?: () => void;
   onPopularRecommend?: () => void;
+  disabled?: boolean;
 }
 
 /**
@@ -41,10 +42,12 @@ export function AIHelperButton({
   hasContext = false,
   onContextRecommend,
   onPopularRecommend,
+  disabled = false,
 }: AIHelperButtonProps) {
   const [isExpanded, setIsExpanded] = useState(false); // 토글 상태
 
   const handleClick = () => {
+    if (disabled) return;
     // 토글 기능 추가: 버튼 클릭 시 확장/축소
     if (onContextRecommend || onPopularRecommend) {
       setIsExpanded(!isExpanded);
@@ -80,10 +83,13 @@ export function AIHelperButton({
       <motion.button
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        whileTap={{ scale: 0.98 }}
+        whileTap={disabled ? undefined : { scale: 0.98 }}
         transition={{ duration: 0.2 }}
         onClick={handleClick}
-        className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border shadow-sm w-full bg-white relative ${isExpanded ? 'z-[100]' : 'z-auto'}`}
+        disabled={disabled}
+        className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border shadow-sm w-full bg-white relative ${
+          isExpanded ? 'z-[100]' : 'z-auto'
+        } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         <div className="flex items-center gap-2">
           <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4" />
