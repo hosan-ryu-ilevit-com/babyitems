@@ -173,6 +173,8 @@ export interface ScoredProduct extends ProductItem {
   isOverBudget: boolean;
   overBudgetAmount: number;
   overBudgetPercent: number;
+  // 자연어 매칭 결과 (PLP 파란색 태그 표시용)
+  naturalLanguageMatches?: NaturalLanguageMatch[];
   // LLM evaluation fields (from /api/recommend-v2)
   fitScore?: number;
   reasoning?: string;
@@ -694,9 +696,49 @@ export interface AnalysisTimeline {
  * AI 분석 결과 (직접 입력용)
  * 사용자의 자연어 입력을 분석하여 키워드 추출 및 점수 영향도 결정
  */
+// 확장된 키워드 타입 (Flash Lite 유의어 확장)
+export interface ExpandedKeyword {
+  original: string;
+  synonyms: string[];
+  specKeywords: string[];
+}
+
 export interface DirectInputAnalysis {
   keywords: string[];                 // 추출된 키워드 (title/리뷰 검색용)
-  scoreImpact: number;                // 점수 영향 (+10 ~ +30)
+  expandedKeywords?: Record<string, ExpandedKeyword>;  // 유의어 확장된 키워드 (Flash Lite)
+  scoreImpact: number;                // 점수 영향 (+20 ~ +80)
   type: 'preference' | 'avoidance';   // 선호/회피
   reasoning?: string;                 // AI 분석 이유
+  originalInput?: string;             // 사용자 원본 입력
+}
+
+// 자연어 매칭 결과 (PLP/PDP 표시용)
+export interface NaturalLanguageMatch {
+  keyword: string;            // 원본 키워드 ("가벼운")
+  matchedInTitle: boolean;    // 타이틀에서 매칭됨
+  matchedInSpec: boolean;     // 스펙에서 매칭됨
+  specValue?: string;         // 매칭된 스펙 값 ("180g")
+  userInput?: string;         // 사용자 원본 입력
+}
+
+// ===================================================
+// 전처리된 사용자 요구사항 (LLM Top3 선정용)
+// ===================================================
+
+/**
+ * 사용자 직접 입력들을 Flash Lite로 전처리한 결과
+ * LLM이 Top 3 선정 시 최우선으로 반영
+ */
+export interface PreprocessedRequirements {
+  // 전처리된 요구사항 (자연스러운 2-3문장)
+  summary: string;
+  // 핵심 키워드 (추천 이유 생성 시 참조용)
+  keyPoints: string[];
+  // 원본 입력 보존 (디버깅/로깅용)
+  originalInputs: {
+    hardFilter?: string[];
+    negative?: string;
+    final?: string;
+    initial?: string;
+  };
 }

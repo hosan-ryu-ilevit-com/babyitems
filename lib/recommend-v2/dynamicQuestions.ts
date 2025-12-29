@@ -857,38 +857,154 @@ export function generateConditionSummary(
 // ===================================================
 
 /**
- * 직접 입력 분석 결과를 기반으로 제품 점수 계산
- * - keywords가 제품 title 또는 리뷰에 포함되면 scoreImpact 적용
+ * 자연어 매칭 결과 타입
+ */
+export interface DirectInputScoreResult {
+  score: number;
+  matchedKeywords: Array<{
+    keyword: string;         // 원본 키워드 (예: "가벼운")
+    matchedInTitle: boolean; // 타이틀에서 매칭됨
+    matchedInSpec: boolean;  // 스펙에서 매칭됨
+    specValue?: string;      // 매칭된 스펙 값 (예: "180g")
+  }>;
+}
+
+/**
+ * 직접 입력 분석 결과를 기반으로 제품 점수 계산 (확장된 키워드 지원)
+ * - expandedKeywords가 있으면 synonyms + specKeywords로 확장 매칭
+ * - keywords가 제품 title 또는 spec에 포함되면 점수 적용
  * - preference: +점수, avoidance: -점수
+ * - 점수 계산: 매칭 개수에 따라 가중치 부여 (최대 scoreImpact)
  */
 export function calculateDirectInputScore(
   product: ProductItem,
   analysis: DirectInputAnalysis | null
-): number {
+): DirectInputScoreResult {
+  const emptyResult: DirectInputScoreResult = { score: 0, matchedKeywords: [] };
+
   if (!analysis || !analysis.keywords || analysis.keywords.length === 0) {
-    return 0;
+    return emptyResult;
   }
 
   // 제품 정보에서 검색 대상 텍스트 추출
-  const searchTargets = [
-    product.title || '',
-    // spec에서 텍스트 값들 추출
-    ...Object.values(product.spec || {})
-      .filter(v => typeof v === 'string')
-      .map(v => v as string),
-  ].join(' ').toLowerCase();
+  const titleText = (product.title || '').toLowerCase();
+  const specEntries = Object.entries(product.spec || {});
+  const specText = specEntries
+    .filter(([, v]) => typeof v === 'string')
+    .map(([, v]) => v as string)
+    .join(' ')
+    .toLowerCase();
 
-  // 키워드 매칭 확인
-  const hasKeyword = analysis.keywords.some(kw =>
-    searchTargets.includes(kw.toLowerCase())
-  );
+  const matchedKeywords: DirectInputScoreResult['matchedKeywords'] = [];
 
-  if (!hasKeyword) {
-    return 0;
+  // expandedKeywords가 있으면 확장 매칭, 없으면 기본 키워드로 매칭
+  if (analysis.expandedKeywords && Object.keys(analysis.expandedKeywords).length > 0) {
+    // 확장된 키워드로 매칭
+    for (const [original, expanded] of Object.entries(analysis.expandedKeywords)) {
+      // 모든 관련 키워드: 원본 + synonyms + specKeywords
+      const allKeywords = [
+        original,
+        ...(expanded.synonyms || []),
+        ...(expanded.specKeywords || []),
+      ];
+
+      let matchedInTitle = false;
+      let matchedInSpec = false;
+      let specValue: string | undefined;
+
+      // 키워드 그룹에서 하나라도 매칭되면 성공
+      for (const kw of allKeywords) {
+        const kwLower = kw.toLowerCase();
+
+        // 타이틀 매칭
+        if (titleText.includes(kwLower)) {
+          matchedInTitle = true;
+        }
+
+        // 스펙 매칭 (매칭된 스펙 값 추출)
+        if (!matchedInSpec) {
+          for (const [specKey, specVal] of specEntries) {
+            if (typeof specVal === 'string') {
+              const specValLower = specVal.toLowerCase();
+              if (specValLower.includes(kwLower)) {
+                matchedInSpec = true;
+                // 스펙 값에서 숫자+단위 추출 시도 (예: "180g", "5kg")
+                const numMatch = specVal.match(/[\d.]+\s*(?:g|kg|ml|l|cm|mm|개월)/i);
+                specValue = numMatch ? numMatch[0] : specVal.slice(0, 20);
+                break;
+              }
+            }
+          }
+        }
+
+        // 둘 다 찾았으면 종료
+        if (matchedInTitle && matchedInSpec) break;
+      }
+
+      // 하나라도 매칭되면 결과에 추가
+      if (matchedInTitle || matchedInSpec) {
+        matchedKeywords.push({
+          keyword: original,
+          matchedInTitle,
+          matchedInSpec,
+          specValue,
+        });
+      }
+    }
+  } else {
+    // 기본 키워드로 매칭 (확장 키워드 없는 경우)
+    for (const kw of analysis.keywords) {
+      const kwLower = kw.toLowerCase();
+      let matchedInTitle = false;
+      let matchedInSpec = false;
+      let specValue: string | undefined;
+
+      if (titleText.includes(kwLower)) {
+        matchedInTitle = true;
+      }
+
+      for (const [specKey, specVal] of specEntries) {
+        if (typeof specVal === 'string' && specVal.toLowerCase().includes(kwLower)) {
+          matchedInSpec = true;
+          const numMatch = specVal.match(/[\d.]+\s*(?:g|kg|ml|l|cm|mm|개월)/i);
+          specValue = numMatch ? numMatch[0] : specVal.slice(0, 20);
+          break;
+        }
+      }
+
+      if (matchedInTitle || matchedInSpec) {
+        matchedKeywords.push({
+          keyword: kw,
+          matchedInTitle,
+          matchedInSpec,
+          specValue,
+        });
+      }
+    }
   }
 
+  // 매칭 없으면 0점
+  if (matchedKeywords.length === 0) {
+    return emptyResult;
+  }
+
+  // 점수 계산: 매칭 개수에 따라 가중치 (최대 scoreImpact)
+  // 1개 매칭: 40%, 2개: 70%, 3개 이상: 100%
+  const matchRatio = matchedKeywords.length === 1
+    ? 0.4
+    : matchedKeywords.length === 2
+    ? 0.7
+    : 1.0;
+
+  const baseScore = Math.round(analysis.scoreImpact * matchRatio);
+
   // 타입에 따라 점수 부여
-  return analysis.type === 'preference'
-    ? analysis.scoreImpact      // 선호: +점수
-    : -analysis.scoreImpact;    // 회피: -점수
+  const finalScore = analysis.type === 'preference'
+    ? baseScore       // 선호: +점수
+    : -baseScore;     // 회피: -점수
+
+  return {
+    score: finalScore,
+    matchedKeywords,
+  };
 }

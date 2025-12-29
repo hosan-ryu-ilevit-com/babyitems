@@ -121,7 +121,41 @@ export function V2ResultProductCard({
         </div>
       </div>
 
-      {/* 밸런스 게임 매칭 규칙 태그 */}
+      {/* 자연어 매칭 태그 (파란색) - 사용자 입력 조건 매칭 결과 */}
+      {product.naturalLanguageMatches && product.naturalLanguageMatches.length > 0 && (
+        <div className="mt-2">
+          <div className="rounded-xl p-3 bg-blue-50 border border-blue-100">
+            <div className="flex items-start gap-2">
+              <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_blue_gradient)" />
+                <defs>
+                  <linearGradient id="ai_blue_gradient" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#3B82F6" />
+                    <stop offset="1" stopColor="#60A5FA" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div className="flex flex-wrap gap-1.5 flex-1">
+                {product.naturalLanguageMatches.slice(0, 4).map((match, i) => (
+                  <span
+                    key={i}
+                    className="text-xs px-2 py-0.5 rounded-full bg-white text-blue-700 font-medium"
+                  >
+                    ✓ {match.keyword}{match.specValue ? ` (${match.specValue})` : ''}
+                  </span>
+                ))}
+                {product.naturalLanguageMatches.length > 4 && (
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-600">
+                    +{product.naturalLanguageMatches.length - 4}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 밸런스 게임 매칭 규칙 태그 (초록색) */}
       {product.matchedRules && product.matchedRules.length > 0 && (
         <div className="mt-2">
           <div className="rounded-xl p-3 bg-emerald-50 border border-emerald-100">

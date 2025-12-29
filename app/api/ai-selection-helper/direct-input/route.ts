@@ -2,19 +2,47 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getModel, callGeminiWithRetry, parseJSONResponse } from '@/lib/ai/gemini';
-import type { DirectInputAnalysis } from '@/types/recommend-v2';
+import type { DirectInputAnalysis, ExpandedKeyword } from '@/types/recommend-v2';
 
 interface DirectInputRequest {
   filterType: 'hard_filter' | 'negative_filter';
   userInput: string;
   category: string;
   categoryName?: string;
+  enableExpansion?: boolean;  // 유의어 확장 활성화 (기본: true)
+}
+
+// 유의어 확장 API 호출
+async function expandKeywords(
+  keywords: string[],
+  categoryKey: string,
+  categoryName?: string
+): Promise<Record<string, ExpandedKeyword>> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const res = await fetch(`${baseUrl}/api/v2/expand-keywords`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ keywords, categoryKey, categoryName }),
+    });
+
+    if (!res.ok) {
+      console.warn('[direct-input] expand-keywords API failed:', res.status);
+      return {};
+    }
+
+    const data = await res.json();
+    return data.data?.expandedKeywords || {};
+  } catch (error) {
+    console.warn('[direct-input] expand-keywords error:', error);
+    return {};
+  }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body: DirectInputRequest = await request.json();
-    const { filterType, userInput, category, categoryName } = body;
+    const { filterType, userInput, category, categoryName, enableExpansion = true } = body;
 
     // 입력 검증
     if (!userInput || userInput.trim().length < 2) {
@@ -44,10 +72,11 @@ export async function POST(request: NextRequest) {
 4. 키워드는 한국어로 추출하세요
 5. 최대 5개의 키워드를 추출하세요
 
-## 점수 영향도 결정
-- 매우 구체적인 조건 (브랜드명, 특정 기능): +30 또는 -30
-- 일반적인 선호/회피 (소재, 크기, 특성): +20 또는 -20
-- 모호한 조건 (좋은, 괜찮은 등): +10 또는 -10
+## 점수 영향도 결정 (높은 가중치!)
+- 매우 구체적인 조건 (브랜드명, 특정 기능, 정확한 스펙): +80 또는 -80
+- 구체적인 선호/회피 (소재명, 특정 특성): +60 또는 -60
+- 일반적인 선호/회피 (소재 종류, 크기, 특성): +40 또는 -40
+- 모호한 조건 (좋은, 괜찮은 등): +20 또는 -20
 
 ## 응답 형식 (JSON)
 {
@@ -81,13 +110,25 @@ export async function POST(request: NextRequest) {
     // 타입 강제 (filterType에 따라)
     analysis.type = isPreference ? 'preference' : 'avoidance';
 
-    // 점수 범위 검증
-    analysis.scoreImpact = Math.min(30, Math.max(10, Math.abs(analysis.scoreImpact)));
+    // 점수 범위 검증 (±20-80)
+    analysis.scoreImpact = Math.min(80, Math.max(20, Math.abs(analysis.scoreImpact)));
 
     // 키워드 배열 검증
     if (!Array.isArray(analysis.keywords) || analysis.keywords.length === 0) {
       // 키워드 추출 실패 시 원본 입력을 키워드로 사용
       analysis.keywords = userInput.split(/\s+/).filter(w => w.length >= 2).slice(0, 3);
+    }
+
+    // 원본 입력 저장
+    analysis.originalInput = userInput;
+
+    // 유의어 확장 (enableExpansion이 true인 경우)
+    if (enableExpansion && analysis.keywords.length > 0) {
+      const expandedKeywords = await expandKeywords(analysis.keywords, category, categoryName);
+      if (Object.keys(expandedKeywords).length > 0) {
+        analysis.expandedKeywords = expandedKeywords;
+        console.log(`[direct-input] Keywords expanded: ${Object.keys(expandedKeywords).join(', ')}`);
+      }
     }
 
     return NextResponse.json({
@@ -109,9 +150,10 @@ export async function POST(request: NextRequest) {
       success: true,
       data: {
         keywords: fallbackKeywords.length > 0 ? fallbackKeywords : ['기타'],
-        scoreImpact: 15,
+        scoreImpact: 30,  // 기본값도 상향 (20-80 범위 내)
         type: body.filterType === 'hard_filter' ? 'preference' : 'avoidance',
         reasoning: 'AI 분석 실패, 기본값 사용',
+        originalInput: body.userInput,
       } as DirectInputAnalysis,
     });
   }

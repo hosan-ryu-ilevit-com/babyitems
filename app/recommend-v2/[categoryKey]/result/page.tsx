@@ -13,6 +13,40 @@ import { useDanawaPrices } from '@/hooks/useDanawaPrices';
 
 // SessionStorage 키
 const V2_RESULT_KEY = 'v2_recommendation_result';
+// LocalStorage 키 (히스토리)
+const V2_HISTORY_KEY = 'v2_recommendation_history';
+const V2_HISTORY_MAX = 10;
+
+// 히스토리에 결과 저장
+function saveToHistory(data: V2ResultData) {
+  try {
+    const history = JSON.parse(localStorage.getItem(V2_HISTORY_KEY) || '[]');
+
+    // 중복 방지: 같은 카테고리 + 같은 제품 조합이면 저장 안 함
+    const newProductIds = data.products.map(p => p.pcode).sort().join(',');
+    const isDuplicate = history.some((h: { products: Array<{ pcode: string }> }) => {
+      const existingIds = h.products.map((p: { pcode: string }) => p.pcode).sort().join(',');
+      return existingIds === newProductIds;
+    });
+
+    if (isDuplicate) return;
+
+    const historyItem = {
+      id: crypto.randomUUID(),
+      categoryKey: data.categoryKey,
+      categoryName: data.categoryName,
+      products: data.products.slice(0, 3), // Top 3만 저장
+      conditions: data.conditions,
+      budget: data.budget,
+      completedAt: new Date().toISOString(),
+    };
+
+    history.unshift(historyItem);
+    localStorage.setItem(V2_HISTORY_KEY, JSON.stringify(history.slice(0, V2_HISTORY_MAX)));
+  } catch (e) {
+    console.error('Failed to save to history:', e);
+  }
+}
 
 interface V2ResultData {
   products: ScoredProduct[];
@@ -83,6 +117,9 @@ export default function V2ResultPage() {
           썸네일: first.thumbnail || '',
         });
       }
+
+      // 히스토리에 저장 (localStorage)
+      saveToHistory(data);
 
       // 즉시 렌더링 (비블로킹) - 다나와 가격은 useDanawaPrices 훅에서 자동 로드
       setLoading(false);

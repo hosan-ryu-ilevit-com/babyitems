@@ -102,11 +102,12 @@ export function AIHelperBottomSheet({
       });
       const data = await res.json();
 
-      // 어떤 선택이나 입력이라도 있는지 확인
+      // 어떤 선택이나 입력이라도 있는지 확인 (연령대 컨텍스트 포함)
       const hasContext =
         (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
         (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
-        (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+        (userSelections?.balanceGames && userSelections.balanceGames.length > 0) ||
+        !!userSelections?.ageContext;
 
       // 디버깅 로그
       console.log('🔍 [AIHelperBottomSheet] generateExamples:', {
@@ -114,6 +115,7 @@ export function AIHelperBottomSheet({
         naturalLanguageInputs: userSelections?.naturalLanguageInputs?.length || 0,
         hardFilters: userSelections?.hardFilters?.length || 0,
         balanceGames: userSelections?.balanceGames?.length || 0,
+        ageContext: !!userSelections?.ageContext,
       });
 
       // 카테고리 선택: 고정 1개 + API 2개 = 총 3개
@@ -128,11 +130,12 @@ export function AIHelperBottomSheet({
         setExamples(apiExamples);
       }
     } catch {
-      // 어떤 선택이나 입력이라도 있는지 확인
+      // 어떤 선택이나 입력이라도 있는지 확인 (연령대 컨텍스트 포함)
       const hasContext =
         (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
         (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
-        (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
+        (userSelections?.balanceGames && userSelections.balanceGames.length > 0) ||
+        !!userSelections?.ageContext;
 
       if (questionType === 'category_selection') {
         const baseExamples = [
@@ -154,9 +157,17 @@ export function AIHelperBottomSheet({
     }
   };
 
-  // 바텀시트 열릴 때 예시 쿼리 생성
+  // 이전 isOpen 상태 추적 (무한 루프 방지)
+  const prevIsOpenRef = useRef(false);
+
+  // 바텀시트 열릴 때 예시 쿼리 생성 (isOpen이 false→true로 변경될 때만)
   useEffect(() => {
-    if (isOpen) {
+    const wasOpen = prevIsOpenRef.current;
+    prevIsOpenRef.current = isOpen;
+
+    // isOpen이 false→true로 변경될 때만 실행
+    if (isOpen && !wasOpen) {
+      console.log('🔍 [AIHelperBottomSheet] Sheet opened - userSelections:', userSelections);
       if (autoSubmitText) {
         console.log('🤖 Auto submit triggered by prop (Text):', autoSubmitText);
         setUserInput(autoSubmitText);
@@ -180,8 +191,7 @@ export function AIHelperBottomSheet({
         generateExamples();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [isOpen, userSelections, autoSubmitText, autoSubmitContext]);
 
   // AI 응답 또는 로딩 시작하면 스크롤
   useEffect(() => {

@@ -181,7 +181,7 @@ function ReviewPriorityTags({
       >
         <div className="space-y-2">
           <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-            실제 후기에서 가장 중요한 조건을 뽑았어요. <br />원하시는 {categoryName || category} 조건을 골라주세요 <span className="text-blue-500 font-bold">*</span>
+            실제 후기에서 가장 많이 언급된 조건이에요. <br />원하시는 구매조건을 골라주세요.<span className="text-blue-500 font-bold">*</span>
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
         <div className="flex items-center gap-3">
@@ -238,12 +238,12 @@ function ReviewPriorityTags({
        
       </motion.div>
 
-      {/* 필터 옵션들 - 순차적 페이드인 (세로 리스트로 변경) */}
+      {/* 필터 옵션들 - 순차적 페이드인 (6개 이상이면 2열 그리드) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
-        className="space-y-2.5"
+        className={question.options.length >= 6 ? "grid grid-cols-2 gap-2" : "space-y-2.5"}
       >
         {question.options.map((option, index) => {
           const isSelected = selectedValues.includes(option.value);
@@ -251,6 +251,7 @@ function ReviewPriorityTags({
           const percentage = option.mentionCount && totalMentions > 0
             ? Math.round((option.mentionCount / totalMentions) * 100)
             : 0;
+          const isGridMode = question.options.length >= 6;
 
           return (
             <motion.button
@@ -262,7 +263,7 @@ function ReviewPriorityTags({
               onMouseEnter={() => setExpandedTag(option.value)}
               onMouseLeave={() => setExpandedTag(null)}
               whileTap={{ scale: 0.98 }}
-              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-3
+              className={`w-full min-h-11 ${isGridMode ? 'py-2.5 px-3' : 'py-3.5 px-4'} rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-2
                 ${isSelected
                   ? 'bg-blue-50 text-blue-500 border-blue-100'
                   : 'bg-white text-gray-600 border-gray-100 hover:border-gray-200'
@@ -270,14 +271,14 @@ function ReviewPriorityTags({
               `}
             >
               {/* 레이블 */}
-              <span className="text-[16px] font-medium flex-1 break-keep">
+              <span className={`${isGridMode ? 'text-[14px]' : 'text-[16px]'} font-medium flex-1 break-keep leading-tight`}>
                 {option.displayLabel || option.label}
               </span>
 
-              {/* 언급 비율 배지 (%) - 상위 3개만 표시 */}
+              {/* 언급 비율 배지 (%) - 상위 3개만 표시, 그리드 모드에서는 간소화 */}
               {percentage > 0 && top3Values.includes(option.value) && (
-                <span className="px-1.5 py-0.5 rounded-[6px] text-[12px] font-medium bg-[#75D21C] text-white shrink-0">
-                  {percentage}% 선택
+                <span className={`${isGridMode ? 'px-1 py-0.5 text-[10px]' : 'px-1.5 py-0.5 text-[12px]'} rounded-md font-medium bg-[#75D21C] text-white shrink-0`}>
+                  {percentage}%
                 </span>
               )}
             </motion.button>
@@ -681,13 +682,14 @@ export function HardFilterQuestion({
         />
       )}
 
-      {/* 선택지 - 세로 리스트 배치 */}
-      <div className="space-y-2.5">
+      {/* 선택지 - 6개 이상이면 2열 그리드 */}
+      <div className={question.options.length >= 6 ? "grid grid-cols-2 gap-2" : "space-y-2.5"}>
         {question.options.map((option, index) => {
           const isSelected = localSelectedValues.includes(option.value);
           const isSkipOption = SKIP_VALUES.includes(option.value.toLowerCase()) || option.value.includes('상관없') || option.value.includes('전부 좋아요');
           const isDisabled = isSkipSelected && !isSkipOption;
-          
+          const isGridMode = question.options.length >= 6;
+
           // 인기 옵션인지 확인 (해당 질문의 상위 3개)
           const popularOption = popularOptions.find(
             po => po.questionId === question.id && po.value === option.value && po.isPopular
@@ -715,7 +717,7 @@ export function HardFilterQuestion({
               onClick={() => handleOptionClick(option.value)}
               disabled={isDisabled}
               whileTap={isDisabled ? undefined : { scale: 0.98 }}
-              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-3 ${
+              className={`w-full min-h-11 ${isGridMode ? 'py-2.5 px-3' : 'py-3.5 px-4'} rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-2 ${
                 isDisabled
                   ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                   : isSelected
@@ -725,7 +727,7 @@ export function HardFilterQuestion({
             >
               {/* 옵션 텍스트 */}
               <span
-                className={`text-[16px] font-medium flex-1 break-keep ${
+                className={`${isGridMode ? 'text-[14px]' : 'text-[16px]'} font-medium flex-1 break-keep leading-tight ${
                   isDisabled
                     ? 'text-gray-300'
                     : isSelected
@@ -736,10 +738,10 @@ export function HardFilterQuestion({
                 {option.label}
               </span>
 
-              {/* 많이 선택 뱃지 - 디자인 변경 */}
+              {/* 많이 선택 뱃지 - 그리드 모드에서는 간소화 */}
               {isPopular && !isSkipOption && popularOption && (
-                <span className="text-white bg-[#75D21C] text-[12px] font-medium px-2 py-0.5 rounded-[6px] shrink-0">
-                  {popularOption.percentage}% 선택
+                <span className={`text-white bg-[#75D21C] ${isGridMode ? 'text-[10px] px-1' : 'text-[12px] px-2'} font-medium py-0.5 rounded-md shrink-0`}>
+                  {popularOption.percentage}%
                 </span>
               )}
             </motion.button>

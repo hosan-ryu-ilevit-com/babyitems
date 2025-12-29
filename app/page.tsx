@@ -468,12 +468,42 @@ export default function Home() {
         options={CATEGORY_GROUPS.flatMap(g => g.categories).map(c => ({ value: c.id, label: c.name }))}
         category="all"
         categoryName="전체"
+        userSelections={selectedAgeId !== 'all' ? {
+          ageContext: (() => {
+            const ageFilter = AGE_FILTERS.find(f => f.id === selectedAgeId);
+            return ageFilter ? {
+              ageId: ageFilter.id,
+              ageLabel: ageFilter.label,
+              ageDescription: ageFilter.description,
+            } : undefined;
+          })(),
+        } : undefined}
         onNaturalLanguageInput={(stage, input) => {
           setInitialUserInput(input);
         }}
         onSelectOptions={(selectedCategoryIds) => {
           if (selectedCategoryIds.length > 0) {
             const categoryId = selectedCategoryIds[0];
+
+            // 연령대 태그 정보 저장 (all이 아닌 경우에만) - handleCategorySelect와 동일
+            if (selectedAgeId !== 'all') {
+              try {
+                const ageFilter = AGE_FILTERS.find(f => f.id === selectedAgeId);
+                if (ageFilter) {
+                  const ageContext = {
+                    ageId: ageFilter.id,
+                    ageLabel: ageFilter.label,
+                    ageDescription: ageFilter.description,
+                    timestamp: new Date().toISOString(),
+                  };
+                  sessionStorage.setItem(`v2_age_context_${categoryId}`, JSON.stringify(ageContext));
+                  console.log('✅ [home/AIHelper] Age context saved:', ageContext);
+                }
+              } catch (e) {
+                console.warn('[home/AIHelper] Failed to save age context:', e);
+              }
+            }
+
             if (initialUserInput) {
               try {
                 const naturalLanguageInput = {

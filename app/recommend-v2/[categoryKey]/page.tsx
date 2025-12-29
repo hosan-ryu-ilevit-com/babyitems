@@ -28,6 +28,7 @@ import type {
   NaturalLanguageInput,
   UserSelections,
   DirectInputAnalysis,
+  PreprocessedRequirements,
 } from '@/types/recommend-v2';
 import { STEP_LABELS, CATEGORY_BUDGET_RANGES } from '@/types/recommend-v2';
 
@@ -48,6 +49,7 @@ import {
 import ContextInput from '@/components/recommend-v2/ContextInput';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
+import { FollowupCarousel } from '@/components/recommend-v2/FollowupCarousel';
 
 // Utils
 import {
@@ -200,6 +202,29 @@ export default function RecommendV2Page() {
   const [negativeAnalysis, setNegativeAnalysis] = useState<DirectInputAnalysis | null>(null);
   const [naturalLanguageInputs, setNaturalLanguageInputs] = useState<NaturalLanguageInput[]>([]);
   const [budget, setBudget] = useState<{ min: number; max: number }>({ min: 0, max: 0 });
+  // 추가 질문 + 마지막 자연어 인풋 캐러셀 상태
+  interface FollowupQuestionType {
+    id: string;
+    title: string;
+    options: Array<{
+      value: string;
+      label: string;
+      description: string;
+      scoreImpact?: number;
+    }>;
+    allowOther?: boolean;
+    reason?: string;
+  }
+  const [followupQuestions, setFollowupQuestions] = useState<FollowupQuestionType[]>([]);
+  const [followupAnswers, setFollowupAnswers] = useState<Array<{ questionId: string; answer: string; isOther: boolean; otherText?: string }>>([]);
+  const [isLoadingFollowup, setIsLoadingFollowup] = useState(false);
+  const [showFollowupCarousel, setShowFollowupCarousel] = useState(false);
+  const [finalDirectInputAnalysis, setFinalDirectInputAnalysis] = useState<DirectInputAnalysis | null>(null);
+  const [isCarouselLoading, setIsCarouselLoading] = useState(false);
+  // 전처리된 사용자 요구사항 (LLM Top3 선정 시 최우선 반영)
+  const [preprocessedRequirements, setPreprocessedRequirements] = useState<PreprocessedRequirements | null>(null);
+  const [isPreprocessing, setIsPreprocessing] = useState(false);
+  const preprocessingPromiseRef = useRef<Promise<PreprocessedRequirements | null> | null>(null);
 
   // Condition summary (for result page)
   const [conditionSummary, setConditionSummary] = useState<Array<{ label: string; value: string }>>([]);
@@ -295,6 +320,25 @@ export default function RecommendV2Page() {
       }
     }, 150);
   }, []);
+
+  // 추가 질문 로딩/캐러셀 표시 시 해당 영역으로 자동 스크롤
+  useEffect(() => {
+    if (isLoadingFollowup || showFollowupCarousel) {
+      // 로딩/캐러셀 영역으로 스크롤 (data-followup-area 속성 사용)
+      setTimeout(() => {
+        const followupArea = document.querySelector('[data-followup-area]') as HTMLElement;
+        const container = scrollContainerRef.current;
+        if (followupArea && container) {
+          const offset = 70; // StepIndicator 높이 + 여백
+          const targetScroll = followupArea.offsetTop - offset;
+          container.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: 'smooth'
+          });
+        }
+      }, 150);
+    }
+  }, [isLoadingFollowup, showFollowupCarousel]);
 
   // ===================================================
   // Typing animation completion
@@ -1753,24 +1797,17 @@ export default function RecommendV2Page() {
 
     setCurrentStep(5);
 
-    // stepTag 메시지로 스크롤
-    const stepMsgId = addMessage({
-      role: 'assistant',
-      content: '마지막이에요!',
-      stepTag: '5/5',
-    }, true);
-    scrollToMessage(stepMsgId);
-
     setTimeout(() => {
-      // 컴포넌트는 스크롤 없이 그 아래에 렌더링
-      addMessage({
+      // 예산 슬라이더 추가 및 스크롤
+      const budgetMsgId = addMessage({
         role: 'system',
         content: '',
         componentType: 'budget-slider',
       });
+      scrollToMessage(budgetMsgId);
       setIsTransitioning(false);
     }, 300);
-  }, [isTransitioning, negativeSelections, negativeLabels, categoryKey, categoryName, addMessage, scrollToMessage, negativeDirectInput]);
+  }, [isTransitioning, negativeSelections, negativeLabels, categoryKey, categoryName, addMessage, negativeDirectInput, scrollToMessage]);
 
   // ===================================================
   // Step 5: Budget & Results
@@ -1849,7 +1886,218 @@ export default function RecommendV2Page() {
     }
 
     return result;
-  }, [hardFilterConfig, hardFilterAnswers, balanceQuestions, balanceSelections, naturalLanguageInputs, userContext]);
+  }, [hardFilterConfig, hardFilterAnswers, balanceQuestions, balanceSelections, naturalLanguageInputs, userContext, ageContext]);
+
+  // 추천 요청 ref (순환 의존성 방지)
+  const handleGetRecommendationRef = useRef<((useBudgetHardFilter: boolean) => Promise<void>) | undefined>(undefined);
+
+  // 사용자 요구사항 전처리 함수 (Flash Lite로 자연스러운 문장 생성)
+  const preprocessUserRequirements = useCallback(async (finalInput?: string): Promise<PreprocessedRequirements | null> => {
+    // 등록된 하드필터 직접 입력들 수집
+    const registeredHardFilterInputs = Object.entries(hardFilterDirectInputs)
+      .filter(([questionId, value]) => hardFilterDirectInputRegistered[questionId] && value.trim().length >= 2)
+      .map(([, value]) => value.trim());
+
+    // 등록된 단점필터 직접 입력
+    const registeredNegativeInput = isNegativeDirectInputRegistered && negativeDirectInput.trim().length >= 2
+      ? negativeDirectInput.trim()
+      : undefined;
+
+    // 입력이 하나도 없으면 null 반환
+    const hasAnyInput = registeredHardFilterInputs.length > 0 ||
+      registeredNegativeInput ||
+      finalInput ||
+      userContext;
+
+    if (!hasAnyInput) {
+      console.log('[Preprocess] No inputs to preprocess');
+      return null;
+    }
+
+    setIsPreprocessing(true);
+    console.log('[Preprocess] Starting preprocessing with:', {
+      hardFilter: registeredHardFilterInputs,
+      negative: registeredNegativeInput,
+      final: finalInput,
+      initial: userContext,
+    });
+
+    try {
+      const response = await fetch('/api/v2/preprocess-user-requirements', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryKey,
+          categoryName,
+          hardFilterDirectInputs: registeredHardFilterInputs,
+          negativeDirectInput: registeredNegativeInput,
+          finalNaturalInput: finalInput,
+          initialContext: userContext,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.data) {
+          console.log('[Preprocess] Result:', data.data);
+          setPreprocessedRequirements(data.data);
+          return data.data as PreprocessedRequirements;
+        }
+      }
+
+      console.warn('[Preprocess] API failed, returning null');
+      return null;
+    } catch (error) {
+      console.error('[Preprocess] Error:', error);
+      return null;
+    } finally {
+      setIsPreprocessing(false);
+    }
+  }, [categoryKey, categoryName, hardFilterDirectInputs, hardFilterDirectInputRegistered, negativeDirectInput, isNegativeDirectInputRegistered, userContext]);
+
+  // 추가 질문 플로우 시작 핸들러 (완료 버튼 클릭 시 호출)
+  const handleStartFollowupFlow = useCallback(async () => {
+    setIsLoadingFollowup(true);
+
+    // 🚀 전처리 API를 병렬로 시작 (마지막 자연어 입력은 아직 없으므로 제외)
+    // 결과는 나중에 handleFollowupCarouselComplete에서 업데이트
+    preprocessingPromiseRef.current = preprocessUserRequirements();
+
+    try {
+      // generate-followup-questions API 호출
+      const response = await fetch('/api/v2/generate-followup-questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryKey,
+          categoryName,
+          hardFilterAnswers,
+          balanceSelections: Array.from(balanceSelections),
+          negativeSelections,
+          budget,
+          filteredProductCount: filteredProducts.length,
+          candidateProducts: filteredProducts.slice(0, 10).map(p => ({
+            pcode: p.pcode,
+            title: p.title,
+            brand: p.brand,
+            spec: p.spec,
+          })),
+          directInputAnalysis: hardFilterAnalysis ? {
+            keywords: hardFilterAnalysis.keywords,
+            originalInput: hardFilterAnalysis.originalInput,
+          } : undefined,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('[FollowupFlow] API Response:', data);
+
+        if (data.success && data.data?.shouldAsk && data.data.questions.length > 0) {
+          // 추가 질문이 있으면 질문 저장
+          setFollowupQuestions(data.data.questions);
+        } else {
+          // 추가 질문이 없으면 빈 배열
+          setFollowupQuestions([]);
+        }
+      } else {
+        // API 에러 시 질문 없이 진행
+        console.error('[FollowupFlow] API error:', response.status);
+        setFollowupQuestions([]);
+      }
+    } catch (error) {
+      console.error('[FollowupFlow] Error:', error);
+      setFollowupQuestions([]);
+    } finally {
+      setIsLoadingFollowup(false);
+      // 캐러셀 표시 (질문 유무와 관계없이 - 자연어 입력은 항상 있음)
+      setShowFollowupCarousel(true);
+    }
+  }, [categoryKey, categoryName, hardFilterAnswers, balanceSelections, negativeSelections, budget, filteredProducts, hardFilterAnalysis, preprocessUserRequirements]);
+
+  // 캐러셀 완료 핸들러 (질문 답변 + 자연어 입력 처리)
+  const handleFollowupCarouselComplete = useCallback(async (
+    answers: Array<{ questionId: string; answer: string; isOther: boolean; otherText?: string }>,
+    naturalInput?: string
+  ) => {
+    setIsCarouselLoading(true);
+    setFollowupAnswers(answers);
+    console.log('[FollowupCarousel] Answers:', answers);
+    console.log('[FollowupCarousel] Natural input:', naturalInput);
+
+    try {
+      // 마지막 자연어 입력이 있으면 전처리에 포함하여 다시 호출
+      // (병렬로 시작했던 전처리에 마지막 입력 추가)
+      if (naturalInput && naturalInput.length >= 2) {
+        // 전처리 API를 마지막 자연어 입력 포함하여 재호출
+        const preprocessResult = await preprocessUserRequirements(naturalInput);
+        console.log('[FollowupCarousel] Final preprocess result:', preprocessResult);
+
+        // 기존 direct-input 분석도 병행 (점수 계산용 - 추후 제거 예정)
+        const response = await fetch('/api/ai-selection-helper/direct-input', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            filterType: 'hard_filter',
+            userInput: naturalInput,
+            category: categoryKey,
+            categoryName: categoryName,
+            enableExpansion: false, // 전처리에서 이미 처리되므로 확장 불필요
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data) {
+            const analysis: DirectInputAnalysis = {
+              ...data.data,
+              originalInput: naturalInput,
+            };
+            setFinalDirectInputAnalysis(analysis);
+            console.log('[FollowupCarousel] Final analysis:', analysis);
+          }
+        }
+      } else {
+        // 마지막 자연어 입력이 없으면 기존 전처리 결과 대기
+        if (preprocessingPromiseRef.current) {
+          const result = await preprocessingPromiseRef.current;
+          console.log('[FollowupCarousel] Using pre-started preprocess result:', result);
+        }
+      }
+    } catch (error) {
+      console.error('[FollowupCarousel] Error:', error);
+    } finally {
+      setIsCarouselLoading(false);
+      setShowFollowupCarousel(false);
+      // 추천 요청 시작
+      setTimeout(() => {
+        handleGetRecommendationRef.current?.(false);
+      }, 100);
+    }
+  }, [categoryKey, categoryName, preprocessUserRequirements]);
+
+  // 캐러셀 전체 건너뛰기 핸들러
+  const handleFollowupCarouselSkipAll = useCallback(() => {
+    setShowFollowupCarousel(false);
+    // 추천 요청 시작
+    setTimeout(() => {
+      handleGetRecommendationRef.current?.(false);
+    }, 100);
+  }, []);
+
+  // 캐러셀에서 이전(예산) 단계로 돌아가기
+  const handleFollowupCarouselBack = useCallback(() => {
+    setShowFollowupCarousel(false);
+    setFollowupQuestions([]);
+
+    // 예산 슬라이더로 스크롤
+    requestAnimationFrame(() => {
+      const budgetMsg = messages.findLast(msg => msg.componentType === 'budget-slider');
+      if (budgetMsg?.id) {
+        scrollToMessage(budgetMsg.id);
+      }
+    });
+  }, [messages, scrollToMessage]);
 
   const handleGetRecommendation = useCallback(async (useBudgetHardFilter = false) => {
     setIsCalculating(true);
@@ -1891,10 +2139,20 @@ export default function RecommendV2Page() {
         // 예산 점수 계산 (soft constraint)
         const budgetScore = calculateBudgetScore(product, budget);
 
-        // 직접 입력 점수 계산 (하드필터 + 단점필터)
-        const hardFilterDirectScore = calculateDirectInputScore(product, hardFilterAnalysis);
-        const negativeDirectScore = calculateDirectInputScore(product, negativeAnalysis);
-        const directInputScore = hardFilterDirectScore + negativeDirectScore;
+        // 🚀 직접 입력 점수 계산 제거 - LLM 정성 평가로 대체 (preprocessedRequirements)
+        // 자연어 매칭 결과만 PLP 표시용으로 유지 (점수 계산은 제거)
+        const hardFilterDirectResult = calculateDirectInputScore(product, hardFilterAnalysis);
+        const negativeDirectResult = calculateDirectInputScore(product, negativeAnalysis);
+        const finalDirectResult = calculateDirectInputScore(product, finalDirectInputAnalysis);
+        // directInputScore는 0으로 고정 (LLM이 정성적으로 판단)
+        const directInputScore = 0;
+
+        // 자연어 매칭 결과 병합 (PLP 파란색 태그용 - 점수와 무관하게 유지)
+        const naturalLanguageMatches = [
+          ...hardFilterDirectResult.matchedKeywords,
+          ...negativeDirectResult.matchedKeywords,
+          ...finalDirectResult.matchedKeywords,
+        ];
 
         // 예산 초과 정보 계산
         const effectivePrice = product.lowestPrice ?? product.price ?? 0;
@@ -1913,6 +2171,7 @@ export default function RecommendV2Page() {
           directInputScore,
           totalScore: hardFilterScore + baseScore + negativeScore + budgetScore + directInputScore,
           matchedRules: [...hardFilterMatches, ...matchedRules],
+          naturalLanguageMatches: naturalLanguageMatches.length > 0 ? naturalLanguageMatches : undefined,
           isOverBudget,
           overBudgetAmount,
           overBudgetPercent,
@@ -1982,6 +2241,9 @@ export default function RecommendV2Page() {
                 balanceSelections: Array.from(balanceSelections),
                 negativeSelections,
                 initialContext: userContext,  // 사용자가 처음 입력한 자연어 상황
+                ageContext: ageContext || undefined,  // 연령대 컨텍스트 (메인 페이지에서 태그 선택 후 진입)
+                // 🚀 전처리된 사용자 요구사항 (LLM Top3 선정 시 최우선 반영)
+                preprocessedRequirements: preprocessedRequirements || undefined,
               },
               budget,
             }),
@@ -2274,7 +2536,7 @@ export default function RecommendV2Page() {
     } finally {
       setIsCalculating(false);
     }
-  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, hardFilterAnalysis, negativeAnalysis, hardFilterConfig, hardFilterDefinitions, hardFilterLabels, balanceLabels, negativeLabels, conditionSummary, userContext, hardFilterDirectInputs, hardFilterDirectInputRegistered, negativeDirectInput, addMessage, scrollToMessage]);
+  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, hardFilterAnalysis, negativeAnalysis, finalDirectInputAnalysis, hardFilterConfig, hardFilterDefinitions, hardFilterLabels, balanceLabels, negativeLabels, conditionSummary, userContext, ageContext, hardFilterDirectInputs, hardFilterDirectInputRegistered, negativeDirectInput, addMessage, scrollToMessage, preprocessedRequirements]);
 
   // 예산 내 제품만 보기 재추천 핸들러
   const handleRestrictToBudget = useCallback(async () => {
@@ -2317,6 +2579,11 @@ export default function RecommendV2Page() {
     // 전체 추천 로직 실행 (예산 하드필터 모드)
     await handleGetRecommendation(true);
   }, [filteredProducts, budget, addMessage, handleGetRecommendation]);
+
+  // handleGetRecommendation ref 업데이트 (순환 의존성 방지용)
+  useEffect(() => {
+    handleGetRecommendationRef.current = handleGetRecommendation;
+  }, [handleGetRecommendation]);
 
   // ===================================================
   // Render Message
@@ -3107,8 +3374,8 @@ export default function RecommendV2Page() {
             }`}
           >
             {negativeSelections.length > 0 || isNegativeDirectInputRegistered
-              ? `완료`
-              : '넘어가기'}
+              ? '다음'
+              : '건너뛰기'}
           </motion.button>
         </div>
       );
@@ -3118,6 +3385,11 @@ export default function RecommendV2Page() {
     if (currentStep === 5 && scoredProducts.length === 0) {
       // 로딩 중(분석 중)일 때는 버튼 영역 아예 숨김
       if (isCalculating) {
+        return null;
+      }
+
+      // 추가 질문 캐러셀 표시 중이면 버튼 숨김
+      if (showFollowupCarousel || isLoadingFollowup) {
         return null;
       }
 
@@ -3177,7 +3449,7 @@ export default function RecommendV2Page() {
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              onClick={() => handleGetRecommendation(false)}
+              onClick={handleStartFollowupFlow}
               disabled={isTransitioning || isTooFewProducts}
               whileTap={(isTransitioning || isTooFewProducts) ? undefined : { scale: 0.98 }}
               className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base flex items-center justify-center shadow-lg shadow-purple-200/50 ${
@@ -3186,7 +3458,7 @@ export default function RecommendV2Page() {
                   : 'bg-[#111827] text-white'
               }`}
             >
-              <span>완료</span>
+              <span>다음</span>
             </motion.button>
           </div>
           {/* 상품 부족 경고 */}
@@ -3276,8 +3548,32 @@ export default function RecommendV2Page() {
 
           {/* Messages */}
           {currentStep > -1 && (
-            <div className="space-y-4 pt-10">
+            <div className={`space-y-4 pt-10 transition-opacity duration-300 ${
+              showFollowupCarousel || isLoadingFollowup ? 'opacity-30 pointer-events-none' : ''
+            }`}>
               {messages.map(renderMessage)}
+            </div>
+          )}
+
+          {/* 추가 질문 로딩 중 표시 */}
+          {currentStep === 5 && isLoadingFollowup && !showFollowupCarousel && !isCalculating && scoredProducts.length === 0 && (
+            <div data-followup-area className="mt-8 mb-4 flex flex-col items-center justify-center py-12">
+              <LoadingDots />
+              <p className="mt-4 text-sm text-gray-500">추가로 확인할 사항이 있는지 분석 중...</p>
+            </div>
+          )}
+
+          {/* 추가 질문 + 마지막 자연어 입력 캐러셀 */}
+          {currentStep === 5 && showFollowupCarousel && !isCalculating && scoredProducts.length === 0 && (
+            <div data-followup-area className="mt-8 mb-4">
+              <FollowupCarousel
+                questions={followupQuestions}
+                categoryName={categoryName}
+                onComplete={handleFollowupCarouselComplete}
+                onSkipAll={handleFollowupCarouselSkipAll}
+                onBack={handleFollowupCarouselBack}
+                isLoading={isCarouselLoading}
+              />
             </div>
           )}
 

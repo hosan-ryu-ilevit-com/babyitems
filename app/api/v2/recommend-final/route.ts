@@ -53,6 +53,32 @@ interface CandidateProduct {
   matchedRules?: string[];
 }
 
+// 자연어 입력 분석 결과 타입
+interface DirectInputAnalysis {
+  keywords: string[];
+  scoreImpact: number;
+  type: 'preference' | 'avoidance';
+  reasoning?: string;
+  originalInput?: string;  // 사용자 원본 입력
+  expandedKeywords?: Record<string, {
+    original: string;
+    synonyms: string[];
+    specKeywords: string[];
+  }>;
+}
+
+// 전처리된 사용자 요구사항 타입
+interface PreprocessedRequirements {
+  summary: string;        // 전처리된 요구사항 (자연스러운 2-3문장)
+  keyPoints: string[];    // 핵심 키워드
+  originalInputs: {
+    hardFilter?: string[];
+    negative?: string;
+    final?: string;
+    initial?: string;
+  };
+}
+
 // 사용자 컨텍스트 타입
 interface UserContext {
   hardFilterAnswers?: Record<string, string[]>;
@@ -60,6 +86,16 @@ interface UserContext {
   balanceSelections?: string[];
   negativeSelections?: string[];
   initialContext?: string;  // 사용자가 처음 입력한 자연어 상황 설명
+  ageContext?: {  // 연령대 컨텍스트 (메인 페이지에서 태그 선택 후 진입)
+    ageId: string;      // 'prenatal' | '0-3m' | '4-6m' | '7-12m'
+    ageLabel: string;   // '출산 전' | '0~3개월' | '4~6개월' | '7~12개월'
+    ageDescription: string;
+  };
+  // 자연어 직접 입력 분석 결과 (높은 가중치 반영) - deprecated, preprocessedRequirements 사용
+  directInputAnalysisList?: DirectInputAnalysis[];
+  finalDirectInputAnalysis?: DirectInputAnalysis;  // 마지막 자연어 인풋
+  // 🚀 전처리된 사용자 요구사항 (최우선 반영)
+  preprocessedRequirements?: PreprocessedRequirements;
 }
 
 // 요청 타입
@@ -176,6 +212,33 @@ function formatNegativeSelections(selections: string[]): string {
 }
 
 /**
+ * 자연어 직접 입력 분석 결과를 프롬프트용 문자열로 변환
+ * (높은 가중치로 추천 이유에 반영되어야 함)
+ */
+function formatDirectInputAnalysis(userContext: UserContext): string {
+  const inputs: string[] = [];
+
+  // 직접 입력 분석 목록
+  if (userContext.directInputAnalysisList && userContext.directInputAnalysisList.length > 0) {
+    for (const analysis of userContext.directInputAnalysisList) {
+      if (analysis.originalInput) {
+        const typeLabel = analysis.type === 'preference' ? '선호' : '회피';
+        inputs.push(`- "${analysis.originalInput}" (${typeLabel}, 키워드: ${analysis.keywords.join(', ')})`);
+      }
+    }
+  }
+
+  // 마지막 자연어 인풋 (가장 중요)
+  if (userContext.finalDirectInputAnalysis?.originalInput) {
+    const analysis = userContext.finalDirectInputAnalysis;
+    const typeLabel = analysis.type === 'preference' ? '선호' : '회피';
+    inputs.push(`- ⭐ "${analysis.originalInput}" (${typeLabel}, 마지막 추가 요청, 키워드: ${analysis.keywords.join(', ')})`);
+  }
+
+  return inputs.length > 0 ? inputs.join('\n') : '없음';
+}
+
+/**
  * 상품 정보를 LLM 프롬프트용 문자열로 변환 (스펙 + 리뷰 데이터 포함)
  */
 function formatProductForPrompt(
@@ -261,6 +324,14 @@ async function selectTop3WithLLM(
     ? formatNegativeSelections(userContext.negativeSelections)
     : '선택 없음';
 
+  // 자연어 직접 입력 요약 (⭐ 높은 가중치!) - deprecated, preprocessedRequirements 사용
+  const directInputSummary = formatDirectInputAnalysis(userContext);
+
+  // 🚀 전처리된 사용자 요구사항 (최우선 반영)
+  const preprocessedSummary = userContext.preprocessedRequirements?.summary || '';
+  const preprocessedKeyPoints = userContext.preprocessedRequirements?.keyPoints || [];
+  const hasPreprocessed = preprocessedSummary.length > 0;
+
   // 카테고리 인사이트에서 핵심 정보 추출
   const topPros = insights.pros.slice(0, 5).map(p => `- ${p.text}`).join('\n');
   const topCons = insights.cons.slice(0, 5).map(c => `- ${c.text}`).join('\n');
@@ -312,8 +383,19 @@ async function selectTop3WithLLM(
 3. "'물에 잘 녹아요'라는 평이 있어요" 같은 자연스러운 표현 사용
 4. **절대 금지**: "리뷰 X개", "X개 발견", "X개에서", "X%", "X개 중 Y개", "대부분", "많은" 등 모든 개수/비율 표현
 
-## 사용자 상황
-${userContext.initialContext ? `\n**처음 말씀하신 상황:** "${userContext.initialContext}"\n` : ''}
+${hasPreprocessed ? `## 🎯 사용자가 직접 요청한 조건 (★★★ 최우선 반영 ★★★)
+**"${preprocessedSummary}"**
+
+핵심 키워드: ${preprocessedKeyPoints.join(', ')}
+
+⚠️ **매우 중요**: 위 내용은 사용자가 자연어로 직접 입력한 요구사항입니다.
+- Top 3 선정 시 이 조건들을 **가장 높은 가중치**로 반영하세요.
+- 추천 이유에서 위 조건들이 어떻게 충족되는지 **반드시** 구체적으로 설명하세요.
+- 예: "밤수유 시 편한 제품을 원하셨는데 → 35dB 저소음 + 1분 급속가열로 딱 맞아요"
+- 예: "세척이 쉬운 제품을 원하셨는데 → '분리해서 씻기 편해요'라는 리뷰가 있어요"
+
+` : ''}## 사용자 상황
+${userContext.ageContext ? `\n**아기 연령대:** ${userContext.ageContext.ageLabel}${userContext.ageContext.ageDescription ? ` (${userContext.ageContext.ageDescription})` : ''}\n` : ''}${userContext.initialContext ? `\n**처음 말씀하신 상황:** "${userContext.initialContext}"\n` : ''}
 ### 1. 필수 요구사항 (사용자가 꼭 원하는 조건)
 ${hardFilterSummary}
 
@@ -326,6 +408,11 @@ ${negativeSummary}
 ### 4. 예산 범위
 ${budget.min.toLocaleString()}원 ~ ${budget.max.toLocaleString()}원
 
+${!hasPreprocessed && directInputSummary !== '없음' ? `### 5. 사용자 직접 입력 조건 (⭐ 높은 가중치로 반영!)
+${directInputSummary}
+⚠️ **중요**: 위 직접 입력 조건들은 사용자가 자연어로 명시적으로 요청한 것입니다.
+- 이 조건들이 제품에서 어떻게 충족되는지 추천 이유에 **반드시** 구체적으로 설명하세요.
+` : ''}
 ## 이 카테고리의 일반적인 장점들 (언급률 순)
 ${topPros}
 
@@ -335,16 +422,16 @@ ${topCons}
 ## 후보 상품 목록 (현재 점수 기준 정렬)
 ${candidatesStr}
 
-## 선정 기준
-${userContext.initialContext ? `0. **처음 말씀하신 상황에 가장 적합한 제품 우선** (예: 밤수유 → 저소음/급속가열 중요)\n` : ''}1. 사용자가 꼭 원한다고 선택한 필수 조건을 모두 만족해야 함
-2. 선호한다고 선택한 특성을 가진 제품 우선
-3. 피하고 싶다고 한 단점이 없는 제품 우선 (리뷰에서 해당 단점 언급이 적은 제품 우선)
-4. 예산 범위 내에서 가성비 고려
-5. **실제 사용자 리뷰를 필수로 참고하여 스펙과 실사용 경험이 일치하는지 확인**
+## 선정 기준 (우선순위 순서대로!)
+${hasPreprocessed ? `1. **🎯 사용자가 직접 입력한 요구사항 최우선 반영** - "${preprocessedSummary.slice(0, 50)}..." 조건에 가장 부합하는 제품 선정\n` : ''}${userContext.ageContext ? `${hasPreprocessed ? '2' : '1'}. **아기 연령대(${userContext.ageContext.ageLabel})에 적합한 제품 우선** (예: 출산 전 → 사전 준비에 좋은 제품, 0~3개월 → 신생아 적합 제품)\n` : ''}${userContext.initialContext ? `${hasPreprocessed ? '3' : '2'}. **처음 말씀하신 상황에 가장 적합한 제품 우선** (예: 밤수유 → 저소음/급속가열 중요)\n` : ''}- 사용자가 꼭 원한다고 선택한 필수 조건을 모두 만족해야 함
+- 선호한다고 선택한 특성을 가진 제품 우선
+- 피하고 싶다고 한 단점이 없는 제품 우선 (리뷰에서 해당 단점 언급이 적은 제품 우선)
+- 예산 범위 내에서 가성비 고려
+- **실제 사용자 리뷰를 필수로 참고하여 스펙과 실사용 경험이 일치하는지 확인**
    - 높은평점 리뷰: 어떤 스펙이 어떤 상황에서 좋은지 구체적으로 파악 (예: "300W 출력 → 2분 내 데워짐 → 새벽 수유 편함")
    - 낮은평점 리뷰: 어떤 스펙/상황에서 불만이 있는지 구체적으로 파악
    - 리뷰 직접 인용: 실제 사용자의 구체적인 경험을 짧게 따옴표로 인용
-6. **스펙 → 실사용 효과 → 리뷰 검증 체인 확립**: 단순 스펙 나열이 아닌, "이 스펙이 실제 어떤 효과를 내는지" → "샘플 리뷰에서 실제로 그런 효과를 경험했는지" 연결
+- **스펙 → 실사용 효과 → 리뷰 검증 체인 확립**: 단순 스펙 나열이 아닌, "이 스펙이 실제 어떤 효과를 내는지" → "샘플 리뷰에서 실제로 그런 효과를 경험했는지" 연결
 ## 응답 JSON 형식
 ⚠️ 중요: pcode는 반드시 **숫자 문자열** (예: "11354604")을 사용하세요. 제품명이 아닙니다!
 ⚠️ **영어 절대 금지**: recommendationReason과 matchedPreferences에 영어 단어가 하나라도 있으면 안 됩니다!
@@ -433,15 +520,16 @@ ${userContext.initialContext ? `0. **처음 말씀하신 상황에 가장 적합
 - ❌ "리뷰가 많아요" / "만족도가 높아요" (정량적 수치 없음)
 
 ### 작성 원칙 (우선순위 순)
-1. **🚨 영어 0%**: 응답에 영어 알파벳, 언더스코어(_) 절대 금지 (pcode 제외)
-2. **🚨 개수/비율 표현 0%**: 리뷰 개수, 전체 중 몇 개, 비율(%) 절대 언급 금지
-3. **🚨 반드시 한 문장**: 모든 내용을 유기적으로 연결하여 딱 한 문장으로 작성
-4. **사용자 선택 조건 명시적 연결**: "선택하신 [조건]에 맞춰", "[선택한 특성]을 중요하게 보셨는데"
-5. **스펙 → 실사용 효과 체인**: 스펙 수치 → 그로 인한 사용자 경험 → 리뷰 근거
-6. **리뷰 내용 인용**: 개수 없이 내용만 "'물에 잘 녹아요'라는 평이 있어요"
-7. **이 제품만의 차별점**: 다른 제품과 구분되는 구체적 특징 + 수치 (스펙 수치는 OK)
-8. **자연스러운 대화체**: 정량적이되, 딱딱하지 않게 한국어로 자연스럽게
-9. **리뷰 인용 간결하게**: 리뷰 원문은 짧게 따옴표로, 전체 맥락은 자연스럽게 한 문장에 녹이기
+1. **🎯 사용자 직접 입력 조건 필수 언급**: 사용자가 직접 입력한 요구사항이 있다면, 그 조건이 어떻게 충족되는지 **반드시** 추천 이유에 포함
+2. **🚨 영어 0%**: 응답에 영어 알파벳, 언더스코어(_) 절대 금지 (pcode 제외)
+3. **🚨 개수/비율 표현 0%**: 리뷰 개수, 전체 중 몇 개, 비율(%) 절대 언급 금지
+4. **🚨 반드시 한 문장**: 모든 내용을 유기적으로 연결하여 딱 한 문장으로 작성
+5. **사용자 선택 조건 명시적 연결**: "선택하신 [조건]에 맞춰", "[선택한 특성]을 중요하게 보셨는데"
+6. **스펙 → 실사용 효과 체인**: 스펙 수치 → 그로 인한 사용자 경험 → 리뷰 근거
+7. **리뷰 내용 인용**: 개수 없이 내용만 "'물에 잘 녹아요'라는 평이 있어요"
+8. **이 제품만의 차별점**: 다른 제품과 구분되는 구체적 특징 + 수치 (스펙 수치는 OK)
+9. **자연스러운 대화체**: 정량적이되, 딱딱하지 않게 한국어로 자연스럽게
+10. **리뷰 인용 간결하게**: 리뷰 원문은 짧게 따옴표로, 전체 맥락은 자연스럽게 한 문장에 녹이기
 
 ---
 
