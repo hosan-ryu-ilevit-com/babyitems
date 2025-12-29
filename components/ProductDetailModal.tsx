@@ -287,14 +287,14 @@ export default function ProductDetailModal({ productData, category, danawaData, 
           : (showHighlight ? 'rgba(0, 0, 0, 0.85)' : (showChatInput ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)'))
       }}
       transition={{ duration: 0.4 }}
-      className="fixed inset-0 z-[120] flex min-h-screen items-center justify-center backdrop-blur-[1px]"
+      className="fixed inset-0 z-[120] flex min-h-screen justify-center backdrop-blur-[1px]"
       onClick={showChatInput ? undefined : handleClose}
     >
       <motion.div
       initial={{ x: '100%' }}
       animate={{ x: isExiting ? '100%' : 0 }}
       transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-      className="relative w-full max-w-[480px] h-screen flex flex-col bg-white mx-auto overflow-hidden"
+      className="relative w-full max-w-[480px] h-[100dvh] flex flex-col bg-white overflow-hidden shadow-2xl"
       style={{
         boxShadow: '-4px 0 16px rgba(0, 0, 0, 0.1)'
       }}
@@ -509,7 +509,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="pb-28 relative"
+              className="relative"
             >
               {/* 가격 비교 */}
               <div 
@@ -915,9 +915,9 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                       {/* 필수 조건 (하드 필터) - 문장 리스트 형태로 변경 */}
                       {recommendationSentences.length > 0 && (
                         <div className="-mt-4">
-                          <div className="h-[10px] bg-gray-50 border-y border-gray-100 -mx-6" />
+                          <div className="h-[10px] bg-gray-50 border-y border-gray-100 -mx-4" />
                           <div 
-                            className="pt-4 px-6 pb-6 -mx-6" 
+                            className="pt-4 px-6 pb-6 -mx-4" 
                             style={{ 
                               background: 'linear-gradient(180deg, #F3F0FF 0%, #FFFFFF 100%)' 
                             }}
@@ -1104,7 +1104,6 @@ export default function ProductDetailModal({ productData, category, danawaData, 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="pb-28"
             >
               <DanawaReviewTab pcode={productData.product.id} fullHeight={true} />
             </motion.div>
@@ -1114,7 +1113,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
 
         {/* Floating Action Buttons */}
         {!showChatInput && (
-          <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 px-4 py-3 z-30">
+          <div className="shrink-0 w-full bg-white border-t border-gray-200 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] z-30">
             <div className="flex gap-2">
               {/* 찜하기 버튼 - 숨김 처리 */}
               {/* <button
