@@ -146,6 +146,14 @@ function ReviewPriorityTags({
   // 총 리뷰 언급 수 계산 (태그별 percentage 계산용)
   const totalMentions = question.options.reduce((sum, opt) => sum + (opt.mentionCount || 0), 0);
 
+  // 상위 3개 언급량 추출 (그린 태그 표시용)
+  const top3Values = useMemo(() => {
+    return [...question.options]
+      .sort((a, b) => (b.mentionCount || 0) - (a.mentionCount || 0))
+      .slice(0, 3)
+      .map(opt => opt.value);
+  }, [question.options]);
+
   return (
     <motion.div
       key={question.id}
@@ -159,7 +167,7 @@ function ReviewPriorityTags({
 
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm text-gray-400 font-medium">
+        <span className="text-[16px] text-gray-400 font-semibold">
           구매 조건
         </span>
       </div>
@@ -172,7 +180,7 @@ function ReviewPriorityTags({
         className="space-y-3"
       >
         <div className="space-y-2">
-          <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+          <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
             중요하게 생각하시는 <br />{categoryName || category} 구매조건을 골라주세요 <span className="text-blue-500 font-bold">*</span>
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
@@ -214,7 +222,7 @@ function ReviewPriorityTags({
         {showAIHelper && !isLoadingPreselection && (
           <AIHelperButton
             onClick={() => setIsAIHelperOpen(true)}
-            label="AI 도움받기"
+            label="뭘 골라야 할지 모르겠어요"
             questionType="hard_filter"
             questionId={question.id}
             questionText="어떤 구매조건이 가장 중요하신가요?"
@@ -261,12 +269,12 @@ function ReviewPriorityTags({
               `}
             >
               {/* 레이블 */}
-              <span className="text-[16px] font-medium flex-1">
+              <span className="text-[16px] font-medium flex-1 break-keep">
                 {option.displayLabel || option.label}
               </span>
 
-              {/* 언급 비율 배지 (%) - 디자인 변경 */}
-              {percentage > 0 && (
+              {/* 언급 비율 배지 (%) - 상위 3개만 표시 */}
+              {percentage > 0 && top3Values.includes(option.value) && (
                 <span className="px-1.5 py-0.5 rounded-[6px] text-[12px] font-medium bg-[#75D21C] text-white shrink-0">
                   {percentage}% 선택
                 </span>
@@ -638,13 +646,13 @@ export function HardFilterQuestion({
 
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm text-gray-400 font-medium">
+        <span className="text-[16px] text-gray-400 font-semibold">
           구매 조건
         </span>
       </div>
 
       {/* 질문 텍스트 */}
-      <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+      <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
         {question.question} <span className="text-blue-500 font-bold">*</span>
       </h3>
 
@@ -659,7 +667,7 @@ export function HardFilterQuestion({
       {showAIHelper && (
         <AIHelperButton
           onClick={() => setIsAIHelperOpen(true)}
-          label="AI 도움받기"
+          label="뭘 골라야 할지 모르겠어요"
           questionType="hard_filter"
           questionId={question.id}
           questionText={question.question}
@@ -715,7 +723,7 @@ export function HardFilterQuestion({
             >
               {/* 옵션 텍스트 */}
               <span
-                className={`text-[16px] font-medium flex-1 ${
+                className={`text-[16px] font-medium flex-1 break-keep ${
                   isDisabled
                     ? 'text-gray-300'
                     : isSelected

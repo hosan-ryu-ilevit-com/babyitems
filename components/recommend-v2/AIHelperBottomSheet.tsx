@@ -377,326 +377,215 @@ export function AIHelperBottomSheet({
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[70] flex flex-col overflow-hidden"
-            style={{ maxWidth: '480px', margin: '0 auto', height: '70vh' }}
+            style={{ maxWidth: '480px', margin: '0 auto', height: '85vh' }}
           >
             {/* Header */}
-            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#10B981">
-                  <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+            <div className="px-5 py-5 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-1.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 3L14.5 9L21 11.5L14.5 14L12 20L9.5 14L3 11.5L9.5 9L12 3Z" fill="url(#ai_gradient_sheet_main)" />
+                  <defs>
+                    <linearGradient id="ai_gradient_sheet_main" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#77A0FF" />
+                      <stop offset="0.7" stopColor="#907FFF" />
+                      <stop offset="1" stopColor="#6947FF" />
+                    </linearGradient>
+                  </defs>
                 </svg>
-                <h2 className="text-base font-bold text-gray-900">AI 도움받기</h2>
+                <h2 className="text-[18px] font-bold text-[#6366F1]">AI 질문하기</h2>
               </div>
               <button
                 onClick={onClose}
                 className="p-1 rounded-full hover:bg-gray-100 transition-colors"
               >
-                <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
             {/* Scrollable Content */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4">
-              {/* 입력 영역 - 퀵 모드에서는 질문/예시/버튼만 숨김 */}
-              <div className={`transition-all duration-300 ${aiResponse ? 'opacity-40 pointer-events-none' : ''}`}>
-                {/* 질문, 안내, 예시 - 퀵 모드에서는 숨김 */}
-                {!isQuickMode && (
-                <>
-                {/* 질문 표시 */}
-                <h3 className="text-base font-bold text-gray-900 leading-snug mb-1">
-                  {questionText}
-                </h3>
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 pb-10">
+              <AnimatePresence mode="wait">
+                {!aiResponse ? (
+                  /* 입력 영역 */
+                  <motion.div
+                    key="input-area"
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="block"
+                  >
+                    {/* 질문 표시 */}
+                    <h3 className="text-[18px] font-bold text-gray-900 leading-[1.4] mb-6">
+                      어떤 상황인지 알려주시면,<br />
+                      구매조건을 추천해드려요
+                    </h3>
 
-                {/* 안내 메시지 */}
-                <p className="text-sm text-gray-600 mb-4">
-                  어떤 상황인지 알려주시면 추천해드릴게요!
-                </p>
-
-                {/* 예시 버튼들 */}
-                {questionType === 'category_selection' ? (
-                  // 카테고리 선택: 가로 스크롤 그리드 (3개씩)
-                  <div className="mb-4 -mx-5">
-                    <div className="overflow-x-auto px-5 scrollbar-hide">
+                    {/* 예시 버튼들 */}
+                    <div className="flex flex-wrap gap-2 mb-6">
                       {isLoadingExamples ? (
-                        <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
+                        <div className="flex gap-2">
+                          {[1, 2, 3].map(i => (
                             <div
                               key={i}
-                              className="h-8 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
-                              style={{
-                                width: '180px',
-                                animationDelay: `${i * 0.1}s`
-                              }}
+                              className="h-9 w-24 bg-gray-50 rounded-full animate-pulse"
                             />
                           ))}
-                          <style jsx>{`
-                            @keyframes shimmer {
-                              0% { background-position: 200% 0; }
-                              100% { background-position: -200% 0; }
-                            }
-                          `}</style>
                         </div>
                       ) : (
-                        <div className="grid grid-rows-3 grid-flow-col gap-2" style={{ minWidth: 'max-content' }}>
-                          {examples.map((example, idx) => {
-                            const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
-                            return (
-                              <motion.button
-                                key={idx}
-                                initial={{ opacity: 0, x: 10, scale: 0.95 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                transition={{
-                                  duration: 0.3,
-                                  delay: idx * 0.05,
-                                  ease: [0.25, 0.1, 0.25, 1]
-                                }}
-                                onClick={() => handleExampleClick(example, idx)}
-                                disabled={isLoading || !!aiResponse}
-                                className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed whitespace-nowrap flex items-center gap-1.5 ${
-                                  isContextSummary
-                                    ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 font-semibold'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                              >
-                                {isContextSummary ? (
-                                  <span>지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
-                                ) : (
-                                  example
-                                )}
-                              </motion.button>
-                            );
-                          })}
-                        </div>
+                        examples.map((example, idx) => {
+                          const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE || example === "지금까지 입력한 상황에 맞춰 추천해주세요";
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => handleExampleClick(example, idx)}
+                              disabled={isLoading || !!aiResponse}
+                              className={`px-4 py-2 text-[16px] rounded-full transition-all disabled:cursor-not-allowed ${
+                                isContextSummary
+                                  ? 'ai-gradient-border text-[#6366F1] font-medium'
+                                  : 'bg-white text-gray-500 border border-gray-100'
+                              }`}
+                            >
+                              {isContextSummary ? '지금까지 입력한 내 상황에 맞춰 추천해주세요' : example}
+                            </button>
+                          );
+                        })
                       )}
                     </div>
-                  </div>
+
+                    {/* 입력 영역 */}
+                    <div className="mb-6">
+                      <textarea
+                        ref={inputRef}
+                        value={userInput}
+                        onChange={e => setUserInput(e.target.value)}
+                        placeholder="위 질문과 관련된 육아 상황을 알려주세요"
+                        className="w-full p-4 bg-gray-50 border-none rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px]"
+                        disabled={isQuickMode || isLoading || !!aiResponse}
+                      />
+                    </div>
+                  </motion.div>
                 ) : (
-                  // 다른 타입: 기존 flex-wrap 레이아웃
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {isLoadingExamples ? (
-                      <>
-                        {[1, 2, 3].map(i => (
-                          <div
-                            key={i}
-                            className="h-8 rounded-full bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 bg-size-[200%_100%] animate-[shimmer_1s_ease-in-out_infinite]"
-                            style={{
-                              width: `${70 + i * 15}px`,
-                              animationDelay: `${i * 0.15}s`
-                            }}
-                          />
-                        ))}
-                        <style jsx>{`
-                          @keyframes shimmer {
-                            0% { background-position: 200% 0; }
-                            100% { background-position: -200% 0; }
-                          }
-                        `}</style>
-                      </>
-                    ) : (
-                      examples.map((example, idx) => {
-                        const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
-                        return (
-                          <motion.button
-                            key={idx}
-                            initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{
-                              duration: 0.3,
-                              delay: idx * 0.1,
-                              ease: [0.25, 0.1, 0.25, 1]
-                            }}
-                            onClick={() => handleExampleClick(example, idx)}
-                            disabled={isLoading || !!aiResponse}
-                            className={`text-sm rounded-full transition-all disabled:cursor-not-allowed flex items-center gap-1.5 ${
-                              isContextSummary || example === FIXED_FIRST_EXAMPLE
-                                ? 'w-full p-3 rounded-xl border mb-1 justify-between' // Card Style for special options
-                                : 'px-3 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-full' // Default Chip Style
-                            } ${
-                              isContextSummary
-                                ? 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
-                                : example === FIXED_FIRST_EXAMPLE
-                                ? 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-100'
-                                : ''
-                            }`}
-                          >
-                            {isContextSummary ? (
-                              <>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-lg leading-none">✨</span>
-                                  <span className="font-bold">지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
-                                </div>
-                                <svg className="w-4 h-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                              </>
-                            ) : example === FIXED_FIRST_EXAMPLE ? (
-                              <>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-lg leading-none">🔥</span>
-                                  <span className="font-bold">{example}</span>
-                                </div>
-                                <svg className="w-4 h-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                              </>
-                            ) : (
-                              example
-                            )}
-                          </motion.button>
-                        );
-                      })
+                  /* AI 응답 영역 */
+                  <motion.div
+                    key="result-area"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                    className="space-y-6"
+                  >
+                    {/* 결과 헤더 */}
+                    <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+                      추천 구매조건
+                    </h3>
+
+                    {/* 추천 결과 아이템 */}
+                    <div className="space-y-2">
+                      {getRecommendationLabels().map((label, idx) => (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          className="p-4 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 font-medium text-[16px] text-left break-keep"
+                        >
+                          {label}
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* 분석 근거 */}
+                    <div className="text-[16px] font-medium text-gray-700 leading-[1.4] space-y-4">
+                      {renderWithBold(aiResponse.reasoning)}
+                    </div>
+
+                    {/* 구분선 */}
+                    <div className="h-[1px] bg-gray-100 w-full" />
+
+                    {/* TIP 섹션 */}
+                    {aiResponse.alternatives && (
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-1.5 text-[16px] font-bold text-gray-900">
+                          <span>💡</span> TIP
+                        </div>
+                        <p className="text-[16px] font-medium text-gray-600 leading-[1.4]">
+                          {aiResponse.alternatives}
+                        </p>
+                      </div>
                     )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* 스켈레톤 로딩 - AnimatePresence 외부에 두어 입력창과 동시에 보일 수 있게 함 */}
+              {isLoading && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-4 mt-4"
+                >
+                  <div className="p-5 bg-gray-50 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <svg className="w-4 h-4 animate-spin text-[#6366F1]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <circle cx="12" cy="12" r="10" strokeOpacity="0.2" />
+                        <path d="M12 2a10 10 0 0 1 10 10" />
+                      </svg>
+                      <span className="text-[#6366F1] font-bold text-sm">추천 옵션을 분석하고 있어요</span>
+                    </div>
+                    <div className="h-4 bg-gray-200 rounded-full w-3/4 animate-pulse" />
+                    <div className="h-4 bg-gray-200 rounded-full w-full animate-pulse" />
+                    <div className="h-4 bg-gray-200 rounded-full w-5/6 animate-pulse" />
                   </div>
-                )}
-                </>
-                )}
+                </motion.div>
+              )}
 
-                {/* 입력 영역 - 항상 표시 (퀵 모드에서도 입력 내용 확인용) */}
-                <div className="mb-4">
-                  <textarea
-                    ref={inputRef}
-                    value={userInput}
-                    onChange={e => setUserInput(e.target.value)}
-                    placeholder={
-                      questionType === 'category_selection'
-                        ? '육아 상황을 알려주세요'
-                        : '위 질문과 관련된 육아 상황을 알려주세요'
-                    }
-                    className="w-full p-3 border border-gray-200 rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent disabled:bg-gray-50"
-                    rows={3}
-                    disabled={isQuickMode || isLoading || !!aiResponse}
-                  />
+              {/* 에러 메시지 */}
+              {error && (
+                <div className="p-4 bg-red-50 rounded-2xl my-4">
+                  <p className="text-sm text-red-600 font-medium">{error}</p>
                 </div>
+              )}
+            </div>
 
-                {/* 제출 버튼 - 퀵 모드에서는 숨김 */}
-                {!isQuickMode && (
+            {/* Fixed Bottom Footer */}
+            <div className="px-5 py-4 border-t border-gray-100 bg-white shrink-0">
+              {aiResponse ? (
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      setAiResponse(null);
+                      setUserInput('');
+                      setIsQuickMode(false);
+                      generateExamples();
+                      scrollRef.current?.scrollTo({ top: 0 });
+                      setTimeout(() => inputRef.current?.focus(), 100);
+                    }}
+                    className="flex-1 py-4 rounded-2xl font-bold text-[16px] text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors"
+                  >
+                    다시 질문하기
+                  </button>
+                  <button
+                    onClick={handleSelectRecommendation}
+                    className="flex-1 py-4 rounded-2xl font-bold text-[16px] text-white bg-[#111827] hover:bg-gray-800 transition-all active:scale-[0.98]"
+                  >
+                    이대로 선택하기
+                  </button>
+                </div>
+              ) : (
                 <button
                   onClick={handleSubmit}
-                  disabled={!userInput.trim() || isLoading || !!aiResponse}
-                  className={`w-full py-3 rounded-xl font-semibold text-sm transition-all mb-4 ${
-                    !userInput.trim() || isLoading || aiResponse
+                  disabled={!userInput.trim() || isLoading}
+                  className={`w-full py-4 rounded-2xl font-bold text-[17px] transition-all ${
+                    !userInput.trim() || isLoading
                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'bg-emerald-500 text-white hover:bg-emerald-600 active:scale-[0.98]'
+                      : 'bg-[#111827] text-white active:scale-[0.98]'
                   }`}
                 >
                   추천받기
                 </button>
-                )}
-              </div>
-
-              {/* 스켈레톤 로딩 */}
-              <AnimatePresence>
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="space-y-3 mb-4"
-                  >
-                    <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 overflow-hidden">
-                      {/* AI 분석중 헤더 */}
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="flex items-center gap-1.5">
-                          <svg className="w-4 h-4 animate-pulse" viewBox="0 0 24 24" fill="#10B981">
-                            <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                          </svg>
-                          <span className="text-emerald-600 font-bold text-sm">상황을 분석하고 있어요. 잠시만 기다려주세요!</span>
-                        </div>
-                      </div>
-
-                      {/* 스켈레톤 라인들 - 쉬머 효과 */}
-                      <div className="space-y-2">
-                        <div className="h-4 rounded-lg w-3/4 bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" />
-                        <div className="h-4 rounded-lg w-full bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" style={{ animationDelay: '0.1s' }} />
-                        <div className="h-4 rounded-lg w-5/6 bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" style={{ animationDelay: '0.2s' }} />
-                      </div>
-                    </div>
-
-                    {/* 쉬머 애니메이션 정의 */}
-                    <style jsx>{`
-                      @keyframes shimmer {
-                        0% { background-position: 200% 0; }
-                        100% { background-position: -200% 0; }
-                      }
-                    `}</style>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* 에러 메시지 */}
-              {error && (
-                <div className="mb-4 p-3 bg-red-50 rounded-xl">
-                  <p className="text-sm text-red-600">{error}</p>
-                </div>
               )}
-
-              {/* AI 응답 */}
-              <AnimatePresence>
-                {aiResponse && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="space-y-3"
-                  >
-                    {/* 추천 결과 */}
-                    <div className="p-4 bg-emerald-50 rounded-xl">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-emerald-500 font-bold text-sm">추천</span>
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getConfidenceColor(aiResponse.recommendation.confidence)}`}>
-                          {getConfidenceLabel(aiResponse.recommendation.confidence)}
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap gap-2 my-3">
-                        {getRecommendationLabels().map((label, idx) => (
-                          <span
-                            key={idx}
-                            className={`px-3 py-1.5 text-sm font-medium rounded-lg border ${
-                              questionType === 'balance_game'
-                                ? 'text-emerald-700 bg-white border-emerald-400'
-                                : 'text-emerald-700 bg-white border-emerald-400'
-                            }`}
-                          >
-                            {label}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="text-sm text-gray-600 leading-snug">
-                        {renderWithBold(aiResponse.reasoning)}
-                      </p>
-                      {aiResponse.alternatives && (
-                        <p className="text-xs text-gray-500 mt-2 pt-2 border-t border-emerald-100">
-                          <span className="font-semibold">TIP:</span> {aiResponse.alternatives}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* 액션 버튼들 */}
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setAiResponse(null);
-                          setUserInput('');
-                          setIsQuickMode(false); // 전체 UI 다시 표시
-                          generateExamples(); // 예시 다시 로드
-                          // 위로 스크롤 후 인풋 포커스
-                          scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-                          setTimeout(() => {
-                            inputRef.current?.focus();
-                          }, 150);
-                        }}
-                        className="flex-1 py-3.5 rounded-xl font-medium text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
-                      >
-                        다시 물어볼래요
-                      </button>
-                      <button
-                        onClick={handleSelectRecommendation}
-                        className="flex-1 py-3.5 rounded-xl font-semibold text-sm text-white bg-emerald-500 hover:bg-emerald-600 active:scale-[0.98] transition-all"
-                      >
-                        이걸로 선택할게요
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           </motion.div>
         </>

@@ -87,13 +87,13 @@ export function BalanceGameCard({
 
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm text-gray-400 font-medium">
+        <span className="text-[16px] text-gray-400 font-semibold">
           취향 선택
         </span>
       </div>
 
       {/* 질문 제목 */}
-      <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+      <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
         {question.title} <span className="text-blue-500 font-bold">*</span>
       </h3>
 
@@ -105,6 +105,7 @@ export function BalanceGameCard({
             setIsAIHelperAutoSubmit(false);
             setIsAIHelperOpen(true);
           }}
+          label="뭘 골라야 할지 모르겠어요"
           questionType="balance_game"
           questionId={question.id}
           questionText={question.title}
@@ -123,10 +124,10 @@ export function BalanceGameCard({
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={onSelectA}
-          className="w-full h-[50px] rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
+          className="w-full min-h-[50px] py-2 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
         >
-          <div className="flex items-center h-full px-4 gap-3">
-            <span className="text-[16px] font-medium text-gray-600 leading-snug">
+          <div className="flex items-center justify-center h-full px-4 gap-3">
+            <span className="text-[16px] font-medium text-gray-600 leading-snug break-keep text-center">
               {question.option_A.text}
             </span>
           </div>
@@ -145,10 +146,10 @@ export function BalanceGameCard({
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={onSelectB}
-          className="w-full h-[50px] rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
+          className="w-full min-h-[50px] py-2 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
         >
-          <div className="flex items-center h-full px-4 gap-3">
-            <span className="text-[16px] font-medium text-gray-600 leading-snug">
+          <div className="flex items-center justify-center h-full px-4 gap-3">
+            <span className="text-[16px] font-medium text-gray-600 leading-snug break-keep text-center">
               {question.option_B.text}
             </span>
           </div>

@@ -11,6 +11,7 @@ import { logPageView, logButtonClick, logFavoriteAction } from '@/lib/logging/cl
 import ProductBottomSheet from '@/components/ProductBottomSheet';
 import FavoritesBottomSheet from '@/components/FavoritesBottomSheet';
 import { GuideBottomSheet } from '@/components/GuideBottomSheet';
+import FeedbackButton from '@/components/FeedbackButton';
 import { Product, ProductCategory } from '@/types';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Playfair_Display } from 'next/font/google';
@@ -174,14 +175,6 @@ export function HomeContent() {
     }
   }, []);
 
-  const handleFeedbackClick = () => {
-    const w = window as Window & { ChannelIO?: (...args: unknown[]) => void };
-    if (w.ChannelIO) {
-      // openChat() - 바로 새 채팅 창 열기 (showMessenger는 홈 화면)
-      w.ChannelIO('openChat');
-    }
-    logButtonClick('피드백 보내기', 'home');
-  };
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
@@ -237,12 +230,7 @@ export function HomeContent() {
               AI
             </span>
           </h1>
-          <button
-            onClick={handleFeedbackClick}
-            className="text-[13px] font-medium text-gray-400 hover:text-gray-600 transition-colors bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm"
-          >
-            피드백 보내기
-          </button>
+          <FeedbackButton source="home" />
         </header>
 
         {/* Main Content */}

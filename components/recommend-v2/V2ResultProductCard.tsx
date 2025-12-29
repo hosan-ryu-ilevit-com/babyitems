@@ -84,21 +84,33 @@ export function V2ResultProductCard({
 
         {/* 제품 상세 정보 */}
         <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
+          {/* 제품명 */}
+          <h3 className="font-medium text-gray-800 text-sm mb-1 leading-tight line-clamp-2">
+            {product.title}
+          </h3>
           {/* 브랜드 */}
           {product.brand && (
-            <div className="text-sm text-gray-500 font-medium mb-0">
+            <div className="text-[13px] text-gray-500 font-medium mb-0.5">
               {product.brand}
             </div>
           )}
-          {/* 제품명 */}
-          <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
-            {product.title}
-          </h3>
-          {/* 가격 정보 - 다나와 최저가 우선 사용 */}
+          {/* 별점 & 리뷰 수 - 위로 올림 */}
+          {((product.averageRating ?? 0) > 0 || (product.reviewCount ?? 0) > 0) && (
+            <div className="flex items-center gap-1 mb-1">
+              <div className="flex items-center gap-0.5">
+                <svg className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span className="text-xs font-semibold text-gray-900">{(product.averageRating ?? 0).toFixed(1)}</span>
+                <span className="text-xs text-gray-500">({(product.reviewCount ?? 0).toLocaleString()})</span>
+              </div>
+            </div>
+          )}
+          {/* 가격 정보 - 다나와 최저가 우선 사용 - 맨 아래로 내림 */}
           {(hasLowestPrice || product.price) && (
             <div className="space-y-0">
               <div className="flex items-center gap-1.5">
-                <p className="text-lg font-bold text-gray-900">
+                <p className="text-[16px] font-bold text-gray-900">
                   {/* 다나와 최저가가 있으면 해당 가격 사용, 없으면 product.price */}
                   <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
                   {(hasLowestPrice ? danawaPrice!.lowest_price! : product.price!).toLocaleString()}<span className="text-sm">원</span>
@@ -155,10 +167,17 @@ export function V2ResultProductCard({
         <div className="mt-3">
           <div className="rounded-xl p-3 bg-[#E8E6FD] border border-[#D6D3FC]">
             <div className="flex items-start gap-2">
-              <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="#4E43E1">
-                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+              <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_v2_card)" />
+                <defs>
+                  <linearGradient id="ai_gradient_v2_card" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#77A0FF" />
+                    <stop offset="0.7" stopColor="#907FFF" />
+                    <stop offset="1" stopColor="#6947FF" />
+                  </linearGradient>
+                </defs>
               </svg>
-              <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
+              <p className="text-sm text-gray-600 leading-normal font-medium flex-1">
                 {parseMarkdownBold(product.recommendationReason)}
               </p>
             </div>

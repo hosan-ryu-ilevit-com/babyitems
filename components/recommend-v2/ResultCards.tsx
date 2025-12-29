@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import type { ScoredProduct, ProductVariant, AnalysisTimeline } from '@/types/recommend-v2';
+import type { ScoredProduct, ProductVariant, AnalysisTimeline, UserContext } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
 import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import ProductDetailModal from '@/components/ProductDetailModal';
@@ -109,18 +109,14 @@ const CRITERIA_KEYWORDS: Record<string, string[]> = {
 function parseHighlightedReview(text: string, sentiment: 'positive' | 'neutral' | 'negative'): React.ReactNode {
   const parts = text.split(/(\*\*.*?\*\*)/g);
 
-  // sentiment에 따라 형광펜 색상 결정
-  const highlightClass = sentiment === 'positive'
-    ? 'bg-green-100/60 text-green-900'
-    : sentiment === 'negative'
-    ? 'bg-red-100/60 text-red-900'
-    : 'bg-yellow-100/60 text-gray-900';
+  // sentiment가 negative면 빨간색, 그 외(positive, neutral)는 초록색 표시
+  const highlightClass = sentiment === 'negative' ? 'text-red-700 font-semibold' : 'text-green-700 font-semibold';
 
   return parts.map((part, index) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       const highlightedText = part.slice(2, -2);
       return (
-        <span key={index} className={`${highlightClass} px-0.5 rounded-sm`}>
+        <span key={index} className={highlightClass}>
           {highlightedText}
         </span>
       );
@@ -130,9 +126,12 @@ function parseHighlightedReview(text: string, sentiment: 'positive' | 'neutral' 
 }
 
 // 리뷰 텍스트에서 키워드를 하이라이트하는 함수 (fallback용)
-function highlightKeywords(text: string, criteriaId: string): React.ReactNode {
+function highlightKeywords(text: string, criteriaId: string, sentiment: 'positive' | 'neutral' | 'negative' = 'positive'): React.ReactNode {
   const keywords = CRITERIA_KEYWORDS[criteriaId] || [];
   if (keywords.length === 0) return text;
+
+  // sentiment가 negative면 빨간색, 그 외는 초록색 표시
+  const highlightClass = sentiment === 'negative' ? 'text-red-700 font-bold' : 'text-green-700 font-bold';
 
   // 키워드를 정규식 패턴으로 변환 (대소문자 무시)
   const pattern = new RegExp(`(${keywords.join('|')})`, 'gi');
@@ -141,7 +140,7 @@ function highlightKeywords(text: string, criteriaId: string): React.ReactNode {
   return parts.map((part, index) => {
     const isKeyword = keywords.some(k => part.toLowerCase().includes(k.toLowerCase()));
     return isKeyword ? (
-      <strong key={index} className="text-amber-900 font-bold">{part}</strong>
+      <strong key={index} className={highlightClass}>{part}</strong>
     ) : (
       <span key={index}>{part}</span>
     );
@@ -171,63 +170,52 @@ function ReviewCard({ insight }: { insight: ReviewInsight }) {
   // 별점 렌더링 (별 1개 + 숫자)
   const renderStars = (rating: number) => {
     return (
-      <div className="flex items-center gap-0">
+      <div className="flex items-center gap-1">
         <svg
-          className="w-3 h-3 text-yellow-400"
+          className="w-3.5 h-3.5 text-yellow-400"
           fill="currentColor"
           viewBox="0 0 20 20"
         >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
-        <span className="text-[10px] font-semibold text-gray-900">{rating}</span>
+        <span className="text-sm font-bold text-gray-700">{rating}</span>
       </div>
     );
   };
 
   return (
-    <div className="bg-white rounded-lg p-3 border border-gray-200 hover:border-gray-300 transition-colors">
+    <div className="bg-white rounded-2xl p-4 border border-gray-100 h-full flex flex-col min-w-[280px]">
       {/* 상단: 체감속성 태그 */}
-      <span
-        className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold mb-2 ${
-          insight.sentiment === 'positive'
-            ? 'bg-green-100 text-green-700'
-            : insight.sentiment === 'negative'
-            ? 'bg-red-100 text-red-700'
-            : 'bg-gray-100 text-gray-700'
-        }`}
-      >
-        {insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
-        {' '}{insight.criteriaName}
-      </span>
+      <div className="mb-3">
+        <span
+          className={`inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-medium border ${
+            insight.sentiment === 'positive'
+              ? 'bg-green-50 border-green-200 text-green-800'
+              : insight.sentiment === 'negative'
+              ? 'bg-red-50 border-red-200 text-red-800'
+              : 'bg-gray-50 border-gray-100 text-gray-700'
+          }`}
+        >
+          {insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
+          {' '}{insight.criteriaName}
+        </span>
+      </div>
 
-      {/* 별점/닉네임/날짜 한 줄 (메타데이터 있을 때만) */}
-      {insight.reviewMetadata && (
-        <div className="flex items-center gap-1.5 mb-2 text-[10px] text-gray-500">
-          {/* 별점 */}
-          {renderStars(insight.reviewMetadata.rating)}
-
-          {/* 구분자 */}
-          <span className="text-gray-300">•</span>
-
-          {/* 닉네임 (있으면) */}
-          {insight.reviewMetadata.author && (
-            <>
-              <span className="text-gray-400">{insight.reviewMetadata.author}</span>
-              <span className="text-gray-300">•</span>
-            </>
-          )}
-
-          {/* 날짜 */}
-          {insight.reviewMetadata.review_date && (
-            <span className="text-gray-400">
-              {formatDate(insight.reviewMetadata.review_date)}
-            </span>
-          )}
+      {/* 별점/닉네임/날짜 한 줄 */}
+      <div className="flex items-center gap-2 mb-3">
+        {insight.reviewMetadata && renderStars(insight.reviewMetadata.rating)}
+        
+        {insight.reviewMetadata?.author && (
+          <span className="text-sm text-gray-400 font-medium">{insight.reviewMetadata.author}</span>
+        )}
+        
+        <div className="ml-auto text-sm text-gray-400 font-medium">
+          {insight.reviewMetadata?.review_date && formatDate(insight.reviewMetadata.review_date)}
         </div>
-      )}
+      </div>
 
       {/* 발췌문 */}
-      <p className="text-xs text-gray-700 leading-relaxed">
+      <p className="text-sm text-gray-700 leading-[1.4] font-medium line-clamp-4">
         {parseHighlightedReview(insight.topSample || '', insight.sentiment)}
       </p>
     </div>
@@ -270,32 +258,6 @@ interface ProductAnalysisData {
   purchaseTip: Array<{ text: string; citations: number[] }>;
   selectedConditionsEvaluation?: ConditionEvaluation[];  // V2 조건 충족도 평가
   contextMatch?: ContextMatch;  // 내 상황과의 적합성 (initialContext가 있을 때만)
-}
-
-// User context for API calls
-interface UserContext {
-  hardFilterAnswers?: Record<string, string[]>;
-  balanceSelections?: string[];
-  negativeSelections?: string[];
-  // Rule key / value → Korean label mappings (for display)
-  balanceLabels?: Record<string, string>;
-  negativeLabels?: Record<string, string>;
-  hardFilterLabels?: Record<string, string>;
-  // Filter conditions for product-specific matching
-  hardFilterDefinitions?: Record<string, Record<string, unknown>>;
-  // Hard filter questions config (for filtering review_priorities type)
-  hardFilterConfig?: {
-    questions: Array<{
-      id: string;
-      type: 'single' | 'multi' | 'review_priorities';
-      question: string;
-      options: Array<{ id: string; text: string; [key: string]: unknown }>;
-    }>;
-  };
-  // Budget range
-  budget?: { min: number; max: number };
-  // 사용자가 처음 입력한 자연어 상황 설명
-  initialContext?: string;
 }
 
 interface ResultCardsProps {
@@ -418,6 +380,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     productName: string;
     prices: Array<{ mall: string; price: number; delivery: string; link?: string }>;
   } | undefined>(undefined);
+  const [shouldScrollToSellers, setShouldScrollToSellers] = useState(false);
 
   // Anchor product for comparison (별도 기준제품 - TOP 3와 별개)
   const [anchorProduct, setAnchorProduct] = useState<{
@@ -1015,8 +978,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   }, [products, productAnalysisData, reviewData]);
 
   // Handle product click
-  const handleProductClick = (product: ScoredProduct, index: number) => {
-    logButtonClick(`제품카드_클릭_${product.brand}_${product.title}`, 'v2-result');
+  const handleProductClick = (product: ScoredProduct, index: number, scrollToSellers = false) => {
+    logButtonClick(`제품카드_클릭_${product.brand}_${product.title}${scrollToSellers ? '_최저가구매' : ''}`, 'v2-result');
 
     // V2 specific logging
     if (categoryKey) {
@@ -1070,6 +1033,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     // variants 정보 저장 (RecommendedProduct에서 가져옴)
     const recommendedProduct = product as RecommendedProduct;
     setSelectedProductVariants(recommendedProduct.variants || []);
+    setShouldScrollToSellers(scrollToSellers);
     onModalOpenChange?.(true);
 
     // Convert DanawaPriceData to modal format
@@ -1114,28 +1078,40 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       transition={{ duration: 0.4 }}
       className="space-y-4"
     >
-      {/* 헤더 - 강조된 완료 메시지 */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
-        className="bg-white rounded-2xl p-2 mt-10 mb-2"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-            <span className="text-green-600 text-lg">✓</span>
-          </div>
-          <h3 className="font-bold text-gray-900 text-lg">
-            <StreamingText content="맞춤 추천 완료" speed={30} />
-          </h3>
-        </div>
-
-      </motion.div>
-
       {/* AI 분석 타임라인 토글 */}
       {analysisTimeline && (
         <AnalysisTimelineComponent timeline={analysisTimeline} />
       )}
+
+      {/* AI 완료 메시지 */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+        className="px-1 mb-2"
+      >
+        <p className="text-[16px] text-gray-800 leading-[1.4] font-medium">
+          입력해주신 조건에 맞는 제품을 추천해드렸어요!<br />
+          상세 분석을 확인하고, 구매해보세요.
+        </p>
+      </motion.div>
+
+      {/* 구분선 */}
+      <div className="h-[1px] bg-gray-100 w-full mb-6" />
+
+      {/* 헤더 - 카테고리 추천 타이틀 */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="bg-white rounded-2xl p-1 mb-2"
+      >
+        <div className="flex items-center gap-3">
+          <h3 className="font-bold text-gray-900 text-[20px]">
+            조건에 맞는 {categoryName} 추천
+          </h3>
+        </div>
+      </motion.div>
 
       {/* 제품 카드 목록 - result 페이지 스타일 */}
       {products.map((product, index) => {
@@ -1216,10 +1192,14 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
               {/* 제품 상세 정보 */}
               <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
+                {/* 제품명 */}
+                <h3 className="font-medium text-gray-800 text-sm mb-1 leading-tight line-clamp-2">
+                  {product.title}
+                </h3>
                 {/* 브랜드 + 옵션 태그 */}
-                <div className="flex items-center gap-2 mb-0">
+                <div className="flex items-center gap-2 mb-0.5">
                   {product.brand && (
-                    <span className="text-sm text-gray-500 font-medium">
+                    <span className="text-[13px] text-gray-500 font-medium">
                       {product.brand}
                     </span>
                   )}
@@ -1230,52 +1210,11 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     </span>
                   )}
                 </div>
-                {/* 제품명 */}
-                <h3 className="font-semibold text-gray-900 text-base mb-1 leading-tight line-clamp-2">
-                  {product.title}
-                </h3>
                 {/* 가격 정보 - 다나와 최저가 우선 사용 */}
-                <div className="space-y-0">
-                  {/* 옵션이 여러 개면 가격 범위, 아니면 단일 가격 */}
-                  {(() => {
-                    // 옵션이 여러 개인 경우 다나와 최저가 기반으로 가격 범위 재계산
-                    const recommendedProduct = product as RecommendedProduct;
-                    if (recommendedProduct.optionCount && recommendedProduct.optionCount > 1 && recommendedProduct.variants) {
-                      const prices = recommendedProduct.variants
-                        .map(v => variantDanawaLowestPrices[v.pcode] || v.price)
-                        .filter((p): p is number => p !== null && p > 0);
-
-                      if (prices.length > 0) {
-                        const minPrice = Math.min(...prices);
-                        const maxPrice = Math.max(...prices);
-
-                        return (
-                          <>
-                            <p className="text-lg font-bold text-gray-900">
-                              <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
-                              {minPrice.toLocaleString()}<span className="text-sm">원</span>
-                              <span className="text-gray-400 mx-1">~</span>
-                              {maxPrice.toLocaleString()}<span className="text-sm">원</span>
-                            </p>
-                          </>
-                        );
-                      }
-                    }
-                    return null;
-                  })() || (
-                    <p className="text-lg font-bold text-gray-900 flex items-baseline gap-1.5">
-                      {/* 다나와 최저가가 있으면 해당 가격 사용, 없으면 product.price */}
-                      <span>
-                        <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
-                        {(hasLowestPrice ? danawa.lowest_price! : (product.lowestPrice || product.price || 0)).toLocaleString()}
-                        <span className="text-sm">원</span>
-                      </span>
-                    </p>
-                  )}
-                  {/* 최저가 로딩 UI 제거 - Supabase 캐시로 빠르게 로드됨 */}
-                  {/* 별점 & 리뷰 수 & 가격비교 */}
+                <div className="space-y-0 flex flex-col">
+                  {/* 별점 & 리뷰 수 & 가격비교 - 위로 올림 */}
                   {hasReview && (
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 mb-0.5">
                       <div className="flex items-center gap-0.5">
                         <svg className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -1294,8 +1233,70 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                       )}
                     </div>
                   )}
+
+                  {/* 가격 - 아래로 내림 */}
+                  {(() => {
+                    // 옵션이 여러 개인 경우 다나와 최저가 기반으로 가격 범위 재계산
+                    const recommendedProduct = product as RecommendedProduct;
+                    if (recommendedProduct.optionCount && recommendedProduct.optionCount > 1 && recommendedProduct.variants) {
+                      const prices = recommendedProduct.variants
+                        .map(v => variantDanawaLowestPrices[v.pcode] || v.price)
+                        .filter((p): p is number => p !== null && p > 0);
+
+                      if (prices.length > 0) {
+                        const minPrice = Math.min(...prices);
+                        const maxPrice = Math.max(...prices);
+
+                        return (
+                          <>
+                            <p className="text-[16px] font-bold text-gray-900">
+                              <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
+                              {minPrice.toLocaleString()}<span className="text-sm">원</span>
+                              <span className="text-gray-400 mx-1">~</span>
+                              {maxPrice.toLocaleString()}<span className="text-sm">원</span>
+                            </p>
+                          </>
+                        );
+                      }
+                    }
+                    return null;
+                  })() || (
+                    <p className="text-[16px] font-bold text-gray-900 flex items-baseline gap-1.5">
+                      {/* 다나와 최저가가 있으면 해당 가격 사용, 없으면 product.price */}
+                      <span>
+                        <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
+                        {(hasLowestPrice ? danawa.lowest_price! : (product.lowestPrice || product.price || 0)).toLocaleString()}
+                        <span className="text-sm">원</span>
+                      </span>
+                    </p>
+                  )}
                 </div>
               </div>
+            </div>
+
+            {/* 버튼 그룹 */}
+            <div className="mt-4 flex gap-2 px-1">
+              {/* 상세 보기 버튼 */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProductClick(product, index);
+                  logButtonClick('상세보기_PLP', 'v2-result');
+                }}
+                className="flex-1 py-2.5 text-sm font-medium text-gray-800 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
+              >
+                상세 보기
+              </button>
+              {/* 최저가 구매하기 버튼 */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProductClick(product, index, true);
+                }}
+                className="flex-1 py-2.5 text-sm font-medium text-white rounded-xl transition-colors flex items-center justify-center gap-1 bg-black hover:bg-gray-900"
+              >
+                최저가 구매하기
+              </button>
             </div>
 
             {/* 예산 비교 뱃지 - AI 추천이유 위에 배치 */}
@@ -1344,51 +1345,61 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               return null;
             })()}
 
-            {/* LLM 추천 이유 */}
+            {/* LLM 추천 이유 & 리뷰 하이라이트 */}
             {product.recommendationReason && (
-              <div className="mt-2">
-                <div className="rounded-xl p-3 bg-[#E8E6FD] border border-[#D6D3FC]">
-                  <div className="flex items-start gap-2">
-                    <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="#4E43E1">
-                      <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                    </svg>
-                    <p className="text-sm text-[#4E43E1] leading-normal font-medium flex-1">
-                      {parseMarkdownBold(product.recommendationReason)}
-                    </p>
-                  </div>
+              <div className="mt-4 px-1">
+                {/* 한줄 평 헤더 */}
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L14.5 9L21 11.5L14.5 14L12 20L9.5 14L3 11.5L9.5 9L12 3Z" fill="url(#ai_one_line_gradient)" />
+                    <defs>
+                      <linearGradient id="ai_one_line_gradient" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#77A0FF" />
+                        <stop offset="0.7" stopColor="#907FFF" />
+                        <stop offset="1" stopColor="#6947FF" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <span className="text-[16px] font-medium ai-gradient-text">한줄 평</span>
                 </div>
 
-                {/* 리뷰 기반 인사이트 (체감속성 기반) - 로딩 또는 데이터 */}
+                {/* 추천 이유 (인용구 스타일) */}
+                <div className="pl-4 border-l-[3px] border-gray-100 mb-6">
+                  <p className="text-[14px] text-gray-600 leading-[1.4] font-medium">
+                    {parseMarkdownBold(product.recommendationReason)}
+                  </p>
+                </div>
+
+                {/* 리뷰 기반 인사이트 (가로 스크롤 캐러셀) */}
                 {(isReviewInsightsLoading || (reviewInsights[product.pcode]?.insights && reviewInsights[product.pcode].insights.length > 0)) && (
-                  <div className="mt-2 space-y-2">
-                    {/* 로딩 스켈레톤 */}
+                  <div className="mt-2 -mx-4 px-4 overflow-x-auto scrollbar-hide">
                     {isReviewInsightsLoading ? (
-                      <div className="bg-white rounded-lg p-3 border border-gray-200 animate-pulse">
-                        {/* 태그 스켈레톤 */}
-                        <div className="h-5 w-20 bg-gray-200/50 rounded-md mb-2"></div>
-                        {/* 메타데이터 스켈레톤 */}
-                        <div className="flex items-center gap-1.5 mb-2">
-                          <div className="h-3 w-12 bg-gray-200/50 rounded"></div>
-                          <div className="h-3 w-16 bg-gray-200/50 rounded"></div>
-                        </div>
-                        {/* 텍스트 스켈레톤 */}
-                        <div className="space-y-1.5">
-                          <div className="h-3 bg-gray-200/50 rounded w-full"></div>
-                          <div className="h-3 bg-gray-200/50 rounded w-4/5"></div>
-                        </div>
+                      /* 로딩 스켈레톤 */
+                      <div className="flex gap-3 pb-2">
+                        {[1, 2, 3].map((i) => (
+                          <div key={i} className="min-w-[280px] bg-white rounded-2xl p-4 border border-gray-100 animate-pulse">
+                            <div className="h-6 w-24 bg-gray-50 rounded-lg mb-4"></div>
+                            <div className="flex items-center gap-2 mb-4">
+                              <div className="h-4 w-12 bg-gray-50 rounded"></div>
+                              <div className="h-4 w-16 bg-gray-50 rounded"></div>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="h-4 bg-gray-50 rounded w-full"></div>
+                              <div className="h-4 bg-gray-50 rounded w-4/5"></div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     ) : (
-                      /* 리뷰 인사이트 표시 */
-                      <>
+                      /* 리뷰 카드 목록 (가로 스크롤) */
+                      <div className="flex gap-3 pb-2">
                         {reviewInsights[product.pcode].insights.slice(0, 3).map((insight, i) => (
                           <div
                             key={i}
                             className="cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation();
-                              // PDP 열기 + 리뷰 탭으로 이동
                               handleProductClick(product, index);
-                              // 약간의 딜레이 후 리뷰 탭 선택 이벤트 발생
                               setTimeout(() => {
                                 window.dispatchEvent(new CustomEvent('openReviewTab'));
                               }, 100);
@@ -1398,56 +1409,10 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                             <ReviewCard insight={insight} />
                           </div>
                         ))}
-                      </>
+                      </div>
                     )}
                   </div>
                 )}
-
-                {/* 버튼 그룹 */}
-                <div className="mt-2 flex gap-2">
-                  {/* 상세 분석 보기 버튼 */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleProductClick(product, index);
-                      logButtonClick('상세분석보기_PLP', 'v2-result');
-                    }}
-                    className="flex-1 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
-                  >
-                    상세 분석 보기
-                   
-                  </button>
-                  {/* 최저가 구매하기 버튼 */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      logButtonClick('최저가로 구매하기_PLP', 'v2-result');
-                      // 다나와 최저가 링크가 있으면 사용, 없으면 쿠팡 링크로 fallback
-                      const lowestPriceLink = danawa?.mall_prices?.[0]?.link;
-                      const lowestPrice = danawa?.mall_prices?.[0]?.price;
-                      const lowestMall = danawa?.mall_prices?.[0]?.mall || '쿠팡';
-
-                      // 가격 정보 로깅
-                      logProductModalPurchaseClick(
-                        product.pcode,
-                        product.title,
-                        lowestMall,
-                        lowestPrice || product.price || 0,
-                        true, // 최저가 버튼이므로 항상 true
-                        'v2-result'
-                      );
-
-                      if (lowestPriceLink) {
-                        window.open(lowestPriceLink, '_blank');
-                      } else {
-                        window.open(`https://www.coupang.com/vp/products/${product.pcode}`, '_blank');
-                      }
-                    }}
-                    className="flex-1 py-2.5 text-sm font-medium text-white rounded-xl transition-colors flex items-center justify-center gap-1 bg-[#5F0080] hover:bg-[#4a0063]"
-                  >
-                    최저가 구매하기
-                  </button>
-                </div>
               </div>
             )}
           </motion.div>
@@ -1517,11 +1482,13 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             setSelectedProduct(null);
             setSelectedProductVariants([]);
             setSelectedProductDanawa(undefined);
+            setShouldScrollToSellers(false);
             onModalOpenChange?.(false);
           }}
           category={categoryKey || 'milk_powder_port'}
           danawaData={selectedProductDanawa}
           isAnalysisLoading={isAnalysisLoading}
+          scrollToSellers={shouldScrollToSellers}
           selectedConditionsEvaluation={productAnalysisData[selectedProduct.product.id]?.selectedConditionsEvaluation}
           initialContext={userContext?.initialContext}
           contextMatchData={productAnalysisData[selectedProduct.product.id]?.contextMatch}

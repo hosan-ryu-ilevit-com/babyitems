@@ -92,22 +92,25 @@ export default function ProductBottomSheet({
 
                 {/* Product Details - Right Side */}
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-bold text-gray-900 mb-2 leading-[1.4] line-clamp-2">
+                  <h4 className="text-sm font-medium text-gray-800 mb-1 leading-[1.4] line-clamp-2">
                     {product.title}
                   </h4>
+                  {product.brand && (
+                    <p className="text-[13px] text-gray-500 font-medium mb-2">{product.brand}</p>
+                  )}
 
-                  <div className="mb-2">
-                    <span className="text-lg font-bold text-gray-900">
-                      {product.price.toLocaleString()}원
-                    </span>
-                  </div>
-
-                  {/* Review Count */}
-                  <div className="flex items-center gap-1 text-xs text-gray-600">
+                  {/* Review Count - 위로 올림 */}
+                  <div className="flex items-center gap-1 text-xs text-gray-600 mb-2">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="#FCD34D" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                     </svg>
                     <span className="font-medium">리뷰 {product.reviewCount.toLocaleString()}</span>
+                  </div>
+
+                  <div className="mb-2">
+                    <span className="text-[16px] font-bold text-gray-900">
+                      {product.price.toLocaleString()}<span className="text-sm">원</span>
+                    </span>
                   </div>
                 </div>
               </div>

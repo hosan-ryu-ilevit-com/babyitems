@@ -49,21 +49,9 @@ export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationPr
         ref={calculatingRef}
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full py-8 flex flex-col items-center"
+        className="w-full py-12 flex flex-col items-start"
       >
-        {/* 로딩 애니메이션 - dots */}
-        <div className="mb-6">
-          <LoadingDots />
-        </div>
-
-        {/* 프로그레스 % */}
-        <div className="flex flex-col items-center">
-          <span className="text-xl font-semibold text-gray-700 tabular-nums mb-2">
-            {Math.floor(progress)}%
-          </span>
-        </div>
-
-        {/* 타임라인 스트리밍 표시 - 모든 세부사항 글자 단위 스트리밍 */}
+        {/* 타임라인 스트리밍 표시 - 새로운 디자인 레이아웃 */}
         {timelineSteps.length > 0 && (
           <TimelineStreamingView steps={timelineSteps} />
         )}

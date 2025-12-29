@@ -528,7 +528,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
                     onDragEnd={handleDragEnd}
                     className="cursor-grab active:cursor-grabbing"
                   >
-                    <div className="bg-white rounded-2xl border border-blue-100 overflow-hidden">
+                    <div className="bg-white rounded-2xl border border-green-100 overflow-hidden">
                       <div className="px-5 pt-5 pb-3">
                         <h3 className="font-semibold text-gray-900 text-lg text-center">
                           {currentCard.title}

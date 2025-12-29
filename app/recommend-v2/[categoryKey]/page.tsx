@@ -5,6 +5,7 @@ import { flushSync } from 'react-dom';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
+import FeedbackButton from '@/components/FeedbackButton';
 import { StepIndicator } from '@/components/StepIndicator';
 
 // Types
@@ -621,14 +622,6 @@ export default function RecommendV2Page() {
     }
   }, []);
 
-  // 피드백 버튼 클릭 핸들러
-  const handleFeedbackClick = useCallback(() => {
-    const w = window as Window & { ChannelIO?: (...args: unknown[]) => void };
-    if (w.ChannelIO) {
-      w.ChannelIO('openChat');
-    }
-    logButtonClick('피드백 보내기', `recommend-v2-${categoryKey}`);
-  }, [categoryKey]);
 
   // 초기 자연어 입력 컨텍스트 로딩 (categories-v2에서 저장된 것)
   useEffect(() => {
@@ -1947,15 +1940,13 @@ export default function RecommendV2Page() {
       const budgetFilteredCount = scored.filter(p => !p.isOverBudget).length;
 
 
-      // 타임라인: 1단계 완료
+      // 📦 1단계: 실사용 리뷰 및 카테고리 분석
       const step1: TimelineStep = {
         id: 'step-1',
-        title: '📦 상품 데이터 준비',
+        title: `인기 ${categoryName} 제품들의 리뷰를 분석 중`,
         icon: '',
         details: [
-          '조건에 맞는 제품 필터링',
-          '사용자 선호도와 회피 조건을 바탕으로 AI 분석 점수 계산',
-          '예산 범위 내 최적 후보 선정',
+          `후보 제품들의 실사용 리뷰와 ${categoryName} 카테고리의 주요 만족 포인트를 수집하고 분석하고 있습니다. ${candidateProducts.slice(0, 3).map(p => (p.brand || '') + ' ' + p.title).join(', ')} 등을 분석하고 있습니다.`,
         ],
         timestamp: Date.now(),
         status: 'completed',
@@ -1963,56 +1954,10 @@ export default function RecommendV2Page() {
       localTimelineSteps.push(step1);
       setTimelineSteps(prev => [...prev, step1]);
 
-      // 스텝 사이 짧은 간격 (스트리밍은 백그라운드에서 진행)
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // 1단계 -> 2단계: 6초 대기 (프로그레스 0% -> 40% 구간)
+      await new Promise(resolve => setTimeout(resolve, 6000));
 
-      // 📚 2단계: 카테고리 전문 지식 로드
-
-      const step2: TimelineStep = {
-        id: 'step-2',
-        title: '📚 카테고리 전문 지식 로드',
-        icon: '',
-        details: [
-          `${categoryName} 카테고리 인사이트 분석`,
-          '실구매자들이 중요하게 생각하는 포인트 파악',
-          '제품 비교 기준 설정',
-        ],
-        timestamp: Date.now(),
-        status: 'completed',
-      };
-      localTimelineSteps.push(step2);
-      setTimelineSteps(prev => [...prev, step2]);
-
-      // 스텝 사이 짧은 간격
-      await new Promise(resolve => setTimeout(resolve, 300));
-
-      // 📝 3단계: 실사용 리뷰 수집
-
-      const step3: TimelineStep = {
-        id: 'step-3',
-        title: '📝 실사용 리뷰 분석',
-        icon: '',
-        details: [
-          '후보 제품들의 리뷰 분석',
-          '긍정 리뷰와 부정 리뷰 분류',
-          '사용자 조건과 관련된 실제 경험 추출',
-        ],
-        subDetails: candidateProducts.length > 0 ? [
-          {
-            label: '분석된 제품 예시',
-            items: candidateProducts.slice(0, Math.min(6, candidateProducts.length)).map(p => `${p.brand || ''} ${p.title}`.trim()),
-          },
-        ] : undefined,
-        timestamp: Date.now(),
-        status: 'completed',
-      };
-      localTimelineSteps.push(step3);
-      setTimelineSteps(prev => [...prev, step3]);
-
-      // 스텝 사이 짧은 간격
-      await new Promise(resolve => setTimeout(resolve, 300));
-
-      // 사용자 선택 조건 정리 (step4에서 사용)
+      // 🤖 2단계: 맞춤 후보군 선정 및 점수 계산
       const userSelectedConditions: string[] = [];
       const userAvoidConditions: string[] = [];
 
@@ -2028,42 +1973,44 @@ export default function RecommendV2Page() {
         if (label) userAvoidConditions.push(label);
       });
 
-      // 🤖 4단계: AI 종합 분석 시작 (API 호출 전)
-
-      const step4: TimelineStep = {
-        id: 'step-4',
-        title: '🤖 AI 종합 분석',
+      const step2: TimelineStep = {
+        id: 'step-2',
+        title: `고객님의 목표에 알맞는 제품 ${candidateProducts.length}개 골라내는 중`,
         icon: '',
         details: [
-          'AI가 리뷰를 종합 분석',
-          '사용자 선호 조건과 제품 특성 비교',
-          '각 제품의 장단점 평가 및 추천 점수 계산',
-        ],
-        subDetails: [
-          {
-            label: '사용자가 중요하게 생각하는 조건',
-            items: userSelectedConditions.length > 0 ? userSelectedConditions : ['(선택된 조건 없음)'],
-          },
-          ...(userAvoidConditions.length > 0 ? [{
-            label: '피하고 싶은 조건',
-            items: userAvoidConditions,
-          }] : []),
+          `각 제품의 장단점 평가 및 추천 점수를 계산합니다. 입력하신 선호 조건(${userSelectedConditions.slice(0, 2).join(', ')}...)과 회피 조건(${userAvoidConditions.slice(0, 2).join(', ')}...)을 제품 특성과 대조해 최적의 후보군을 골라내고 있습니다.`,
         ],
         timestamp: Date.now(),
         status: 'completed',
       };
-      localTimelineSteps.push(step4);
-      setTimelineSteps(prev => [...prev, step4]);
+      localTimelineSteps.push(step2);
+      setTimelineSteps(prev => [...prev, step2]);
 
-      // API 호출 전 짧은 간격
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // 2단계 -> 3단계: 8초 대기 (프로그레스 40% -> 90% 구간)
+      await new Promise(resolve => setTimeout(resolve, 8000));
+
+      // 🏆 3단계: TOP 3 최종 선정
+      const step3: TimelineStep = {
+        id: 'step-3',
+        title: 'TOP 3 제품 최종 선정 중',
+        icon: '',
+        details: [
+          `고객님의 상황에 가장 완벽하게 부합하는 3가지 제품을 선별하고 있습니다. 각 제품의 스펙, 가격 경쟁력, 그리고 실제 사용자들의 만족도가 가장 높은 지점을 심층 분석하여 맞춤형 추천 근거를 작성 중입니다.`,
+        ],
+        timestamp: Date.now(),
+        status: 'completed',
+      };
+      localTimelineSteps.push(step3);
+      setTimelineSteps(prev => [...prev, step3]);
+
+      // 3단계 -> API 호출: 8초 대기 (프로그레스 90% -> 99% 구간)
+      await new Promise(resolve => setTimeout(resolve, 8000));
 
       let top3 = candidateProducts.slice(0, 3);
       let finalSelectionReason = '';
       let finalGeneratedBy: 'llm' | 'fallback' = 'fallback';
 
       try {
-
         const recommendResponse = await fetch('/api/v2/recommend-final', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2091,51 +2038,6 @@ export default function RecommendV2Page() {
       } catch (llmError) {
         console.warn('LLM recommendation failed, using score-based fallback:', llmError);
       }
-
-
-      // 각 단계 사이 지연 (스트리밍 효과)
-      await new Promise(resolve => setTimeout(resolve, 400));
-
-      const step5: TimelineStep = {
-        id: 'step-5',
-        title: '🏆 Top 3 최종 선정',
-        icon: '',
-        details: [
-          'AI 분석 결과와 사용자 선호도를 종합',
-          '가장 적합한 상위 3개 제품 선정',
-          '각 제품별 추천 이유 생성',
-        ],
-        subDetails: top3.length > 0 ? [
-          {
-            label: '선정된 제품',
-            items: top3.map((p, idx) => `${idx + 1}. ${p.brand || ''} ${p.title}`.trim()),
-          },
-        ] : undefined,
-        timestamp: Date.now(),
-        status: 'completed',
-      };
-      localTimelineSteps.push(step5);
-      setTimelineSteps(prev => [...prev, step5]);
-
-
-      // 스텝 사이 짧은 간격
-      await new Promise(resolve => setTimeout(resolve, 300));
-
-      // 타임라인: 6단계 완료 (최종)
-      const step6: TimelineStep = {
-        id: 'step-6',
-        title: '✨ 개인 맞춤 추천 완료',
-        icon: '',
-        details: [
-          '사용자님의 조건에 가장 적합한 제품 3개 선정 완료',
-          '각 제품의 상세 분석 및 추천 이유 제공',
-          '실사용 리뷰 기반의 신뢰할 수 있는 추천',
-        ],
-        timestamp: Date.now(),
-        status: 'completed',
-      };
-      localTimelineSteps.push(step6);
-      setTimelineSteps(prev => [...prev, step6]);
 
       setScoredProducts(top3);
       setSelectionReason(finalSelectionReason);
@@ -3181,16 +3083,13 @@ export default function RecommendV2Page() {
               animate={{ opacity: 1, y: 0 }}
               onClick={() => handleGetRecommendation(false)}
               disabled={isTransitioning || isTooFewProducts}
-              className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-200/50 ${
+              className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base transition-all flex items-center justify-center shadow-lg shadow-purple-200/50 ${
                 isTransitioning || isTooFewProducts
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
                   : 'bg-[#111827] text-white active:scale-[0.98]'
               }`}
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-              </svg>
-              <span>추천</span>
+              <span>완료</span>
             </motion.button>
           </div>
           {/* 상품 부족 경고 */}
@@ -3246,17 +3145,15 @@ export default function RecommendV2Page() {
     <div className="h-dvh overflow-hidden bg-white flex justify-center">
       <div className="h-full w-full max-w-[480px] bg-white flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-50 h-14 flex items-center px-5 gap-3">
+        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-50 h-14 flex items-center px-5">
           <button
             onClick={() => setShowBackModal(true)}
             className="flex items-center justify-center w-5 h-5 text-gray-400 hover:text-gray-600 transition-colors"
           >
             <CaretLeft size={20} weight="bold" />
           </button>
-          <div className="flex items-center gap-1.5 ml-auto">
-            <span className="text-[17px] font-semibold text-gray-800 tracking-tight">아기용품</span>
-            <span className="text-[17px] font-bold ai-gradient-text tracking-tight">AI</span>
-          </div>
+          
+          <FeedbackButton source={`recommend-v2-${categoryKey}`} className="ml-auto" />
         </header>
 
         {/* Content */}
@@ -3510,8 +3407,15 @@ export default function RecommendV2Page() {
                     }}
                     className="w-full h-14 rounded-2xl font-semibold text-base text-white bg-[#111827] transition-all flex items-center justify-center gap-2"
                   >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_rerecommend)" />
+                      <defs>
+                        <linearGradient id="ai_gradient_rerecommend" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#77A0FF" />
+                          <stop offset="0.7" stopColor="#907FFF" />
+                          <stop offset="1" stopColor="#6947FF" />
+                        </linearGradient>
+                      </defs>
                     </svg>
                     <span>다시 추천받기</span>
                   </button>

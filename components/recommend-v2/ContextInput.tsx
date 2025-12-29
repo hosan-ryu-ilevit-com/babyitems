@@ -122,7 +122,7 @@ export default function ContextInput({
     >
       {/* 헤더 */}
       <div className="space-y-3">
-        <h3 className="text-[22px] font-bold text-gray-900 leading-[1.35] tracking-tight">
+        <h3 className="text-[18px] font-semibold text-gray-900 leading-[1.35] tracking-tight">
           찾으시는 <span className="text-emerald-600">{categoryName}의 특징</span>이나<br />
           <span className="text-emerald-600">아이의 상황</span>을 알려주세요 👋
         </h3>

@@ -193,16 +193,16 @@ PLP와 PDP 간 상반된 평가는 사용자에게 혼란을 줍니다.
 ` : ''}
 ## 내 상황과의 적합성 평가 요청
 위 상황과 이 제품이 얼마나 잘 맞는지 평가해주세요:
-- **explanation**: 사용자 상황을 **자연스럽게 녹여서** 이 제품이 왜 적합한지 1-2문장으로 설명${hasRecommendationReason ? ' (PLP 추천 이유와 일관되게)' : ''}
-  - ❌ 나쁜 예: "처음에 '밤수유 자주 해요'라고 하셨는데, 이 제품은..." (대놓고 인용)
-  - ✅ 좋은 예: "원하시는 것처럼 밤수유가 잦은 상황에 적합합니다. 저소음 35dB라 아기를 깨우지 않아요"
-  - ✅ 좋은 예: "말씀하신 것처럼 4개월 아기의 첫 분유포트로 적합해요. 온도 정확도가 높고 세척이 편리합니다"
+- **explanation**: 사용자 상황을 고려하여 이 제품이 왜 적합한지 **'~강화', '~최적', '~해결' 등 명사형/종결 어미**로 끝나는 간결한 한 문장으로 설명
+  - ❌ 나쁜 예: "밤수유가 잦은 상황에 적합합니다. 저소음이라 아기를 깨우지 않아요." (두 문장 분리, 다/요 말투)
+  - ✅ 좋은 예: "밤수유가 잦은 상황에 적합하도록 35dB의 저소음 설계를 갖춰 아기 수면 방해 최소화"
+  - ✅ 좋은 예: "4개월 아기의 첫 분유포트로 적합한 높은 온도 정확도와 간편한 세척 기능으로 위생 관리 최적"
 - **matchedPoints**: 해당 상황에 매칭되는 제품의 특징 2-4개 (간단한 키워드)
 ` : '';
 
   const contextMatchFormat = hasInitialContext ? `
   "contextMatch": {
-    "explanation": "[상황]에 적합합니다/적합해요. [구체적 이유 1-2문장]",
+    "explanation": "[상황]에 적합한 [특징]으로 [가치/결과] 최적/강화/제공",
     "matchedPoints": ["특징1", "특징2", "특징3"]
   },` : '';
 
@@ -231,7 +231,8 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
       "condition": "${c.label}",
       "conditionType": "hardFilter",
       "questionId": "${c.questionId}",
-      "status": "충족 또는 불충족 중 하나"
+      "status": "충족 또는 불충족 중 하나",
+      "evidence": "충족 시 이 조건이 왜 중요한지 사용자 상황과 연결하여 '~강화', '~최적' 등 명사형으로 1문장 설명"
     }`).join(',\n    ')}${hardFilterConditions.length > 0 && balanceConditions.length > 0 ? ',' : ''}
     // 선호 속성 평가 (${balanceConditions.length}개) - status는 "충족", "부분충족", "불충족" 중 하나만 선택
     ${balanceConditions.map(c => `{
@@ -296,6 +297,7 @@ ${hasInitialContext && hasUserConditions ? '5' : hasInitialContext || hasUserCon
 - citations는 빈 배열로
 ${hasUserConditions ? `
 - selectedConditionsEvaluation은 사용자가 선택한 조건 총 ${hardFilterConditions.length + balanceConditions.length + negativeConditions.length}개를 모두 평가해야 합니다
+- **필수 조건(hardFilter) 충족 시, 왜 이 제품이 그 조건에 부합하는지 사용자 상황과 연결하여 '~최적', '~강화', '~확보' 등 명사형/간결한 문장으로 evidence를 작성하세요.**
 
 ## ⚠️ status 값 중요 (정확히 아래 값만 사용):
 - 필수 조건(hardFilter): "충족" 또는 "불충족" (이 두 값 중 하나만)
@@ -307,7 +309,8 @@ status 예시 (반드시 이 형식으로):
   "condition": "ISOFIX 지원",
   "conditionType": "hardFilter",
   "questionId": "q1",
-  "status": "충족"
+  "status": "충족",
+  "evidence": "최신 i-Size 인증을 받은 ISOFIX 시스템으로 빠르고 안전한 장착 환경 확보"
 }
 {
   "condition": "세척 편리성",

@@ -89,13 +89,13 @@ export function SubCategorySelector({
 
       {/* 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm text-gray-400 font-medium">
+        <span className="text-[16px] text-gray-400 font-semibold">
           세부 종류
         </span>
       </div>
 
       {/* 질문 텍스트 */}
-      <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
+      <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
         어떤 {categoryName}를 찾으세요? <span className="text-blue-500 font-bold">*</span>
       </h3>
 
@@ -114,6 +114,7 @@ export function SubCategorySelector({
             setAiHelperAutoSubmitContext(false);
             setIsAIHelperOpen(true);
           }}
+          label="뭘 골라야 할지 모르겠어요"
           questionType="hard_filter"
           questionId="subcategory_selector"
           questionText={`어떤 ${categoryName}를 찾으세요?`}
@@ -144,7 +145,7 @@ export function SubCategorySelector({
               }`}
             >
               <span
-                className={`text-[16px] font-medium ${
+                className={`text-[16px] font-medium break-keep ${
                   isSelected ? 'text-blue-500' : 'text-gray-600'
                 }`}
               >

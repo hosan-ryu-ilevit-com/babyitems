@@ -601,13 +601,13 @@ export interface UserSelections {
 }
 
 /**
- * 사용자 컨텍스트 (추천 로직에 전달되는 모든 정보)
+ * 사용자 컨텍스트 (추천 로직 및 결과 표시용 모든 정보)
  */
 export interface UserContext {
   // 기본 정보
-  categoryKey: string;
+  categoryKey?: string;
   anchorProduct?: ProductItem;
-  budget?: string;
+  budget?: { min: number; max: number } | string;
 
   // 하드필터 답변 (기존)
   hardFilterAnswers?: Record<string, string[]>;
@@ -620,12 +620,33 @@ export interface UserContext {
 
   // 밸런스 게임 선택
   balanceGameChoices?: BalanceGameChoice[];
+  balanceSelections?: string[];
 
   // 단점 회피 태그
   negativeTagAvoidances?: string[];
+  negativeSelections?: string[];
 
   // 자연어 입력 (모든 단계)
   naturalLanguageInputs?: NaturalLanguageInput[];
+
+  // 표시용 레이블 매핑
+  balanceLabels?: Record<string, string>;
+  negativeLabels?: Record<string, string>;
+  hardFilterLabels?: Record<string, string>;
+
+  // 필터 정의 및 설정
+  hardFilterDefinitions?: Record<string, Record<string, unknown>>;
+  hardFilterConfig?: {
+    questions: Array<{
+      id: string;
+      type: 'single' | 'multi' | 'review_priorities';
+      question: string;
+      options: Array<{ id: string; text: string; [key: string]: unknown }>;
+    }>;
+  };
+
+  // 사용자가 처음 입력한 자연어 상황 설명
+  initialContext?: string;
 }
 
 // ===================================================

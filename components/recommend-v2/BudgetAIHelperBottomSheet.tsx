@@ -162,7 +162,7 @@ export function BudgetAIHelperBottomSheet({
       });
 
       const apiExamples = (data.examples || []).slice(0, 3);
-      setExamples(apiExamples);
+      setExamples([CONTEXT_SUMMARY_EXAMPLE, ...apiExamples]);
     } catch {
       // 어떤 선택이나 입력이라도 있는지 확인
       const hasContext =
@@ -176,7 +176,7 @@ export function BudgetAIHelperBottomSheet({
         '가성비 좋은 제품이면 충분해요',
         '오래 쓸 거라 투자할 생각이에요',
       ];
-      setExamples(fallbackExamples);
+      setExamples([CONTEXT_SUMMARY_EXAMPLE, ...fallbackExamples]);
     } finally {
       setIsLoadingExamples(false);
     }
@@ -271,200 +271,206 @@ export function BudgetAIHelperBottomSheet({
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[70] flex flex-col overflow-hidden"
-            style={{ maxWidth: '480px', margin: '0 auto', height: '70vh' }}
+            style={{ maxWidth: '480px', margin: '0 auto', height: '85vh' }}
           >
             {/* Header */}
-            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#10B981">
-                  <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+            <div className="px-5 py-5 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-1.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 3L14.5 9L21 11.5L14.5 14L12 20L9.5 14L3 11.5L9.5 9L12 3Z" fill="url(#ai_gradient_sheet_budget)" />
+                  <defs>
+                    <linearGradient id="ai_gradient_sheet_budget" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#77A0FF" />
+                      <stop offset="0.7" stopColor="#907FFF" />
+                      <stop offset="1" stopColor="#6947FF" />
+                    </linearGradient>
+                  </defs>
                 </svg>
-                <h2 className="text-base font-bold text-gray-900">AI 예산 추천</h2>
+                <h2 className="text-[18px] font-bold text-[#6366F1]">AI 질문하기</h2>
               </div>
               <button
                 onClick={onClose}
                 className="p-1 rounded-full hover:bg-gray-100 transition-colors"
               >
-                <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
             {/* Scrollable Content */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4">
-              {/* 입력 영역 - 결과 나오면 비활성화 */}
-              <div className={`transition-all duration-300 ${aiResponse ? 'opacity-40 pointer-events-none' : ''}`}>
-                {/* 안내 메시지 */}
-                <p className="text-sm text-gray-600 mb-4">
-                  어떤 상황인지 알려주시면 예산 범위를 추천해드릴게요!
-                </p>
-
-                {/* 예시 버튼들 */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {isLoadingExamples ? (
-                    <div className="flex gap-2">
-                      {[1, 2, 3].map(i => (
-                        <div
-                          key={i}
-                          className="h-8 w-24 bg-gray-100 rounded-full animate-pulse"
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    examples.map((example, idx) => {
-                      const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE;
-                      return (
-                        <button
-                          key={idx}
-                          onClick={() => handleExampleClick(example)}
-                          disabled={isLoading || !!aiResponse}
-                          className={`px-3 py-1.5 text-sm rounded-full transition-colors disabled:cursor-not-allowed flex items-center gap-1.5 ${
-                            isContextSummary
-                              ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 font-semibold'
-                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                          }`}
-                        >
-                          {isContextSummary ? (
-                            <span>지금까지 입력한 내 상황에 맞춰 추천해주세요</span>
-                          ) : (
-                            example
-                          )}
-                        </button>
-                      );
-                    })
-                  )}
-                </div>
-
-                {/* 입력 영역 */}
-                <div className="mb-4">
-                  <textarea
-                    ref={inputRef}
-                    value={userInput}
-                    onChange={e => setUserInput(e.target.value)}
-                    placeholder="예산에 대한 고민을 자유롭게 적어주세요"
-                    className="w-full p-3 border border-gray-200 rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent disabled:bg-gray-50"
-                    rows={3}
-                    disabled={isLoading || !!aiResponse}
-                  />
-                </div>
-
-                {/* 제출 버튼 */}
-                <button
-                  onClick={handleSubmit}
-                  disabled={!userInput.trim() || isLoading || !!aiResponse}
-                  className={`w-full py-3 rounded-xl font-semibold text-sm transition-all mb-4 ${
-                    !userInput.trim() || isLoading || aiResponse
-                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'bg-emerald-500 text-white hover:bg-emerald-600 active:scale-[0.98]'
-                  }`}
-                >
-                  예산 추천받기
-                </button>
-              </div>
-
-              {/* 스켈레톤 로딩 */}
-              <AnimatePresence>
-                {isLoading && (
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 pb-10">
+              <AnimatePresence mode="wait">
+                {!aiResponse ? (
+                  /* 입력 영역 */
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="space-y-3 mb-4"
+                    key="input-area"
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="block"
                   >
-                    <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 overflow-hidden">
-                      {/* AI 분석중 헤더 */}
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="flex items-center gap-1.5">
-                          <svg className="w-4 h-4 animate-pulse" viewBox="0 0 24 24" fill="#10B981">
-                            <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                          </svg>
-                          <span className="text-emerald-600 font-bold text-sm">예산을 분석하고 있어요</span>
+                    {/* 질문 표시 */}
+                    <h3 className="text-[18px] font-bold text-gray-900 leading-[1.4] mb-6">
+                      어떤 상황인지 알려주시면,<br />
+                      예산을 추천해드려요
+                    </h3>
+
+                    {/* 예시 버튼들 */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {isLoadingExamples ? (
+                        <div className="flex gap-2">
+                          {[1, 2, 3].map(i => (
+                            <div
+                              key={i}
+                              className="h-9 w-24 bg-gray-50 rounded-full animate-pulse"
+                            />
+                          ))}
                         </div>
-                      </div>
-
-                      {/* 스켈레톤 라인들 - 쉬머 효과 */}
-                      <div className="space-y-2">
-                        <div className="h-4 rounded-lg w-3/4 bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" />
-                        <div className="h-4 rounded-lg w-full bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" style={{ animationDelay: '0.1s' }} />
-                        <div className="h-4 rounded-lg w-5/6 bg-gradient-to-r from-emerald-100 via-emerald-50 to-emerald-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" style={{ animationDelay: '0.2s' }} />
-                      </div>
-                    </div>
-
-                    {/* 쉬머 애니메이션 정의 */}
-                    <style jsx>{`
-                      @keyframes shimmer {
-                        0% { background-position: 200% 0; }
-                        100% { background-position: -200% 0; }
-                      }
-                    `}</style>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* 에러 메시지 */}
-              {error && (
-                <div className="mb-4 p-3 bg-red-50 rounded-xl">
-                  <p className="text-sm text-red-600">{error}</p>
-                </div>
-              )}
-
-              {/* AI 응답 */}
-              <AnimatePresence>
-                {aiResponse && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="space-y-3"
-                  >
-                    {/* 추천 결과 */}
-                    <div className="p-4 bg-amber-50 rounded-xl">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-amber-600 font-bold text-sm">추천 예산</span>
-                      </div>
-                      <p className="text-lg font-bold text-gray-800 mb-2">
-                        {formatPrice(aiResponse.recommendation.min)} ~ {formatPrice(aiResponse.recommendation.max)}
-                      </p>
-                      <p className="text-sm text-amber-600 font-medium mb-2">
-                        이 범위에 {aiResponse.recommendation.productsInRange}개 상품이 있어요
-                      </p>
-                      <p className="text-sm text-gray-600 leading-snug">
-                        {renderWithBold(aiResponse.reasoning)}
-                      </p>
-                      {aiResponse.alternatives && (
-                        <p className="text-xs text-gray-500 mt-2 pt-2 border-t border-amber-100">
-                          <span className="font-semibold">TIP:</span> {aiResponse.alternatives}
-                        </p>
+                      ) : (
+                        examples.map((example, idx) => {
+                          const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE || example === "지금까지 입력한 상황에 맞춰 추천해주세요";
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => handleExampleClick(example)}
+                              disabled={isLoading || !!aiResponse}
+                              className={`px-4 py-2 text-[16px] rounded-full transition-all disabled:cursor-not-allowed ${
+                                isContextSummary
+                                  ? 'ai-gradient-border text-[#6366F1]'
+                                  : 'bg-white text-gray-500 border border-gray-100'
+                              }`}
+                            >
+                              {isContextSummary ? '지금까지 입력한 내 상황에 맞춰 추천해주세요' : example}
+                            </button>
+                          );
+                        })
                       )}
                     </div>
 
-                    {/* 액션 버튼들 */}
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setAiResponse(null);
-                          setUserInput('');
-                          // 위로 스크롤 후 인풋 포커스
-                          scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-                          setTimeout(() => {
-                            inputRef.current?.focus();
-                          }, 150);
-                        }}
-                        className="flex-1 py-3 rounded-xl font-medium text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
-                      >
-                        다시 물어볼래요
-                      </button>
-                      <button
-                        onClick={handleSelectRecommendation}
-                        className="flex-1 py-3 rounded-xl font-semibold text-sm text-white bg-amber-500 hover:bg-amber-600 active:scale-[0.98] transition-all"
-                      >
-                        이 예산으로 할게요
-                      </button>
+                    {/* 입력 영역 */}
+                    <div className="mb-6">
+                      <textarea
+                        ref={inputRef}
+                        value={userInput}
+                        onChange={e => setUserInput(e.target.value)}
+                        placeholder="위 질문과 관련된 육아 상황을 알려주세요"
+                        className="w-full p-4 bg-gray-50 border-none rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px]"
+                        disabled={isLoading || !!aiResponse}
+                      />
                     </div>
+                  </motion.div>
+                ) : (
+                  /* AI 응답 영역 */
+                  <motion.div
+                    key="result-area"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                    className="space-y-6"
+                  >
+                    {/* 결과 헤더 */}
+                    <div>
+                      <h3 className="text-[20px] font-bold text-gray-900 leading-snug mb-3">
+                        추천 예산
+                      </h3>
+                      <p className="text-[24px] font-bold text-[#0074F3] mb-1">
+                        {formatPrice(aiResponse.recommendation.min)}~{formatPrice(aiResponse.recommendation.max)}
+                      </p>
+                      <p className="text-[14px] text-[#0074F3] font-medium opacity-70">
+                        이 범위에 {aiResponse.recommendation.productsInRange}개 상품이 있어요
+                      </p>
+                    </div>
+
+                    {/* 분석 근거 */}
+                    <div className="text-[16px] font-medium text-gray-700 leading-[1.4] space-y-4">
+                      {renderWithBold(aiResponse.reasoning)}
+                    </div>
+
+                    {/* 구분선 */}
+                    <div className="h-[1px] bg-gray-100 w-full" />
+
+                    {/* TIP 섹션 */}
+                    {aiResponse.alternatives && (
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-1.5 text-[16px] font-bold text-gray-900">
+                          <span>💡</span> TIP
+                        </div>
+                        <p className="text-[16px] font-medium text-gray-600 leading-[1.4]">
+                          {aiResponse.alternatives}
+                        </p>
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              {/* 스켈레톤 로딩 */}
+              {isLoading && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-4 mt-4"
+                >
+                  <div className="p-5 bg-gray-50 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <svg className="w-4 h-4 animate-spin text-[#6366F1]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <circle cx="12" cy="12" r="10" strokeOpacity="0.2" />
+                        <path d="M12 2a10 10 0 0 1 10 10" />
+                      </svg>
+                      <span className="text-[#6366F1] font-bold text-sm">적절한 예산을 분석하고 있어요</span>
+                    </div>
+                    <div className="h-4 bg-gray-200 rounded-full w-3/4 animate-pulse" />
+                    <div className="h-4 bg-gray-200 rounded-full w-full animate-pulse" />
+                  </div>
+                </motion.div>
+              )}
+
+              {/* 에러 메시지 */}
+              {error && (
+                <div className="p-4 bg-red-50 rounded-2xl my-4">
+                  <p className="text-sm text-red-600 font-medium">{error}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Fixed Bottom Footer */}
+            <div className="px-5 py-4 border-t border-gray-100 bg-white shrink-0">
+              {aiResponse ? (
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      setAiResponse(null);
+                      setUserInput('');
+                      generateExamples();
+                      scrollRef.current?.scrollTo({ top: 0 });
+                      setTimeout(() => inputRef.current?.focus(), 100);
+                    }}
+                    className="flex-1 py-4 rounded-2xl font-bold text-[16px] text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors"
+                  >
+                    다시 질문하기
+                  </button>
+                  <button
+                    onClick={handleSelectRecommendation}
+                    className="flex-1 py-4 rounded-2xl font-bold text-[16px] text-white bg-[#111827] hover:bg-gray-800 transition-all active:scale-[0.98]"
+                  >
+                    이대로 선택하기
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={!userInput.trim() || isLoading}
+                  className={`w-full py-4 rounded-2xl font-bold text-[17px] transition-all ${
+                    !userInput.trim() || isLoading
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-[#111827] text-white active:scale-[0.98]'
+                  }`}
+                >
+                  추천받기
+                </button>
+              )}
             </div>
           </motion.div>
         </>

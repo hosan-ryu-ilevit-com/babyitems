@@ -36,7 +36,7 @@ export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualPr
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
-        className="bg-white rounded-2xl border border-blue-100 p-5"
+        className="bg-white rounded-2xl border border-green-100 p-5"
       >
         <p className="text-base font-medium shimmer-text">
           조건을 분석하는 중입니다...
@@ -52,7 +52,7 @@ export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualPr
       transition={{ duration: 0.3 }}
     >
       {/* 메인 카드 - GuideCards 디자인 언어 */}
-      <div className="bg-white rounded-2xl border border-blue-100 p-5">
+      <div className="bg-white rounded-2xl border border-green-100 p-5">
         {/* 헤더 */}
         <div className="flex items-center gap-3 mb-4">
           <span className="text-green-500 font-bold">✓</span>
@@ -81,10 +81,10 @@ export function CheckpointVisual({ data, isLoading = false }: CheckpointVisualPr
         <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
           <motion.div
             className="h-full rounded-full"
-            initial={{ width: '100%', backgroundColor: '#5F0080' }}
+            initial={{ width: '100%', backgroundColor: '#000000' }}
             animate={{
               width: `${finalPercent}%`,
-              backgroundColor: isShrinkComplete ? '#22c55e' : '#5F0080',
+              backgroundColor: isShrinkComplete ? '#16a34a' : '#000000',
             }}
             transition={{
               width: { delay: 0.3, duration: 0.8, ease: 'easeInOut' },

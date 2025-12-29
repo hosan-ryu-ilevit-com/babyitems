@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import DanawaReviewTab from '@/components/DanawaReviewTab';
+import FeedbackButton from '@/components/FeedbackButton';
 import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick, logReviewTabOpened } from '@/lib/logging/clientLogger';
 import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
@@ -77,6 +78,7 @@ interface ProductDetailModalProps {
     explanation: string;      // "밤수유가 잦다고 하셨는데, 이 제품은 저소음 35dB로 아기를 깨우지 않아요"
     matchedPoints: string[];  // ["저소음", "급속 가열", "야간 조명"]
   };
+  scrollToSellers?: boolean;
 }
 
 // 쇼핑몰 이름 → 로고 파일 매핑
@@ -188,10 +190,12 @@ function parseMarkdownBold(text: string) {
 // }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, scrollToSellers = false }: ProductDetailModalProps) {
   const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>('price');
   const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
+  const [showHighlight, setShowHighlight] = useState(false);
+  const sellersRef = useRef<HTMLDivElement>(null);
 
 
   // NEW: Chat input for re-recommendation
@@ -241,6 +245,31 @@ export default function ProductDetailModal({ productData, category, danawaData, 
     };
   }, []);
 
+  // 최저가 구매하기 자동 스크롤 및 하이라이트 효과
+  useEffect(() => {
+    if (scrollToSellers && danawaData && danawaData.prices.length > 0) {
+      // 탭을 '가격' 탭으로 보장
+      setPriceTab('price');
+      
+      // 모달 애니메이션 완료 후 스크롤
+      const timer = setTimeout(() => {
+        if (sellersRef.current) {
+          sellersRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setShowHighlight(true);
+          
+          // 3초 후 하이라이트 제거
+          const highlightTimer = setTimeout(() => {
+            setShowHighlight(false);
+          }, 3000);
+          
+          return () => clearTimeout(highlightTimer);
+        }
+      }, 400);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [scrollToSellers, danawaData]);
+
   const handleClose = () => {
     setIsExiting(true);
     // Wait for animation to complete before calling onClose
@@ -253,23 +282,37 @@ export default function ProductDetailModal({ productData, category, danawaData, 
     <motion.div
       initial={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
       animate={{
-        backgroundColor: isExiting ? 'rgba(0, 0, 0, 0)' : (showChatInput ? 'rgba(0, 0, 0, 0.6)' : 'rgba(0, 0, 0, 0.08)')
+        backgroundColor: isExiting 
+          ? 'rgba(0, 0, 0, 0)' 
+          : (showHighlight ? 'rgba(0, 0, 0, 0.85)' : (showChatInput ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)'))
       }}
-      transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[120] flex min-h-screen items-center justify-center"
+      transition={{ duration: 0.4 }}
+      className="fixed inset-0 z-[120] flex min-h-screen items-center justify-center backdrop-blur-[1px]"
       onClick={showChatInput ? undefined : handleClose}
     >
       <motion.div
-        initial={{ x: '100%' }}
-        animate={{ x: isExiting ? '100%' : 0 }}
-        transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-        className="relative w-full max-w-[480px] h-screen flex flex-col bg-white mx-auto"
-        style={{
-          boxShadow: '-4px 0 16px rgba(0, 0, 0, 0.1)'
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
+      initial={{ x: '100%' }}
+      animate={{ x: isExiting ? '100%' : 0 }}
+      transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+      className="relative w-full max-w-[480px] h-screen flex flex-col bg-white mx-auto overflow-hidden"
+      style={{
+        boxShadow: '-4px 0 16px rgba(0, 0, 0, 0.1)'
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* 모달 내부 강조용 딤 처리 (헤더/썸네일 등 포함 전체 영역) */}
+      <AnimatePresence>
+        {showHighlight && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/40 z-[45] pointer-events-none"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Header */}
         <header className="shrink-0 bg-white border-b border-gray-200 px-4 py-3 z-20">
           <div className="flex items-center justify-between">
             <button
@@ -280,18 +323,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <button
-              onClick={() => {
-                const w = window as Window & { ChannelIO?: (...args: unknown[]) => void };
-                if (w.ChannelIO) {
-                  w.ChannelIO('openChat');
-                }
-                logButtonClick('피드백 보내기', 'product-modal');
-              }}
-              className="text-[13px] font-medium text-gray-400 hover:text-gray-600 transition-colors bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm"
-            >
-              피드백 보내기
-            </button>
+            <FeedbackButton source="product-modal" />
           </div>
         </header>
 
@@ -328,12 +360,14 @@ export default function ProductDetailModal({ productData, category, danawaData, 
               }}
               className="absolute bottom-4 left-4 px-4 py-2.5 bg-white border border-purple-200 text-purple-700 text-sm font-semibold rounded-lg shadow-sm hover:bg-purple-50 transition-all flex items-center gap-2"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
               이 상품 기반으로 재추천
             </button>
           )}
+
+          {/* 평균별점 또는 리뷰개수가 있을 때 썸네일 우하단 표시 제거 - 아래 정보 영역으로 이동 */}
 
             </div>
           </div>
@@ -351,32 +385,75 @@ export default function ProductDetailModal({ productData, category, danawaData, 
           )}
 
         {/* Product Info */}
-        <div className="px-4 py-4 border-b border-gray-100">
-          {/* Brand and Rating Row */}
+        <div className="px-4 pt-5 pb-6 border-b border-gray-100">
+          {/* 브랜드 & 별점/리뷰 Row */}
           <div className="flex items-center justify-between mb-1">
-            {productData.product.brand && (
-              <div className="text-sm text-gray-500">{productData.product.brand}</div>
+            {productData.product.brand ? (
+              <span className="text-base font-medium text-gray-500">
+                {productData.product.brand}
+              </span>
+            ) : (
+              <div />
             )}
-            {/* 평균별점 또는 리뷰개수가 있을 때만 표시 */}
+            
             {(averageRating > 0 || productData.product.reviewCount > 0) && (
-              <div className="flex items-center gap-1">
-                <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <button
+                onClick={() => {
+                  setPriceTab('danawa_reviews');
+                  setTimeout(() => {
+                    reviewTabRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 150);
+                  logButtonClick('브랜드_리뷰정보_클릭', 'product-modal');
+                }}
+                className="flex items-center gap-1"
+              >
+                <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
-                <span className="text-sm font-semibold text-gray-900">
+                <span className="text-sm font-bold text-gray-900">
                   {averageRating > 0 ? averageRating.toFixed(1) : '—'}
                 </span>
-                <span className="text-sm text-gray-500">({productData.product.reviewCount.toLocaleString()})</span>
-              </div>
+                <span className="text-sm text-gray-400 underline decoration-gray-400">
+                  리뷰 {productData.product.reviewCount.toLocaleString()}개
+                </span>
+              </button>
             )}
           </div>
-          <h2 className="text-lg font-bold text-gray-900 mb-3 leading-snug">
+
+          {/* 제품 타이틀 */}
+          <h2 className="text-base font-medium text-gray-800 mb-4 leading-snug">
             {productData.product.title}
           </h2>
-          {/* 가격 - 다나와 최저가 우선, 없으면 product.price */}
-          <div className="text-2xl font-bold text-gray-900">
-            <span className="text-sm font-bold text-gray-900 mr-1">최저</span>
-            {(danawaData?.lowestPrice || productData.product.price).toLocaleString()}원
+
+          {/* 가격 & 최저가 몰 Row */}
+          <div className="flex items-center justify-between">
+            <div className="text-[18px] font-bold text-gray-900">
+              {(danawaData?.lowestPrice || productData.product.price).toLocaleString()}원
+            </div>
+
+            {danawaData?.lowestMall && (
+              <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gray-50 rounded-[20px]">
+                {(() => {
+                  const logoKey = MALL_LOGO_MAP[danawaData.lowestMall];
+                  const mallLogo = logoKey 
+                    ? `/icons/malls/name=${logoKey}.png`
+                    : danawaData.prices.find(p => p.mall === danawaData.lowestMall)?.mallLogo;
+                  
+                  return mallLogo && (
+                    <div className="w-6 h-6 rounded-full overflow-hidden border border-gray-100 bg-white flex items-center justify-center shrink-0">
+                      <img 
+                        src={mallLogo} 
+                        alt={danawaData.lowestMall}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  );
+                })()}
+                <span className="text-[14px] font-medium text-gray-700">
+                  {danawaData.lowestMall}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -433,11 +510,32 @@ export default function ProductDetailModal({ productData, category, danawaData, 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="pb-28"
+              className="pb-28 relative"
             >
               {/* 가격 비교 */}
-              <div className="px-4 py-4">
-                {danawaData && danawaData.prices.length > 0 ? (
+              <div 
+                ref={sellersRef}
+                className={`relative px-4 py-4 transition-all duration-500 ${
+                  showHighlight 
+                    ? 'z-[50] bg-white rounded-2xl mx-2 ring-2 ring-purple-500 ring-inset mt-2 shadow-md' 
+                    : 'z-10'
+                }`}
+              >
+                {/* 하이라이트 효과 레이어 (보라색 반짝임) */}
+                <AnimatePresence>
+                  {showHighlight && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: [0, 0.2, 0, 0.2, 0] }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 3, times: [0, 0.2, 0.5, 0.8, 1] }}
+                      className="absolute inset-0 bg-purple-100/30 rounded-2xl z-0 pointer-events-none"
+                    />
+                  )}
+                </AnimatePresence>
+
+                <div className="relative z-10">
+                  {danawaData && danawaData.prices.length > 0 ? (
                   <div className="space-y-2">
                     {/* 기본 3개 표시 */}
                     {danawaData.prices.slice(0, 3).map((priceInfo, index) => (
@@ -590,11 +688,12 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div className="flex flex-col items-center justify-center py-8">
-                    <div className="text-gray-400 text-sm">가격 정보가 없습니다</div>
-                  </div>
-                )}
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-8">
+                      <div className="text-gray-400 text-sm">가격 정보가 없습니다</div>
+                    </div>
+                  )}
+                </div>
               </div>
 
 
@@ -728,30 +827,6 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                   );
                 })()}
 
-                {/* 내 상황과의 적합성 (initialContext + contextMatchData가 있을 때만 표시) */}
-                {initialContext && contextMatchData && contextMatchData.explanation && (
-                  <div className="bg-purple-50 rounded-xl p-4 mb-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <svg className="w-5 h-5 text-purple-800" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                      </svg>
-                      <span className="font-semibold text-purple-800">내 상황과의 적합성</span>
-                    </div>
-                    <p className="text-sm text-gray-600 leading-5.5">
-                      {parseMarkdownBold(contextMatchData.explanation)}
-                    </p>
-                    {contextMatchData.matchedPoints && contextMatchData.matchedPoints.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        {contextMatchData.matchedPoints.map((point, i) => (
-                          <span key={i} className="px-2.5 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">
-                            ✓ {point}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
                 {/* V2 조건 충족도 평가 (recommend-v2 플로우용) - 로딩 중이거나 데이터가 있을 때 표시 */}
                 {(isAnalysisLoading || (selectedConditionsEvaluation && selectedConditionsEvaluation.length > 0)) && (() => {
                   // 로딩 중이면 로딩 인디케이터 표시
@@ -821,66 +896,68 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     return [...withoutQuestionId, ...fromGroups];
                   })();
 
-                  // 점수 계산
-                  // const hardFilterScore = hardFilterConditions.filter(c => c.status === '충족').length;
-
-                  // const balanceScore = balanceConditions.reduce((sum, c) => {
-                  //   if (c.status === '충족') return sum + 1.0;
-                  //   if (c.status === '부분충족') return sum + 0.5;
-                  //   return sum;
-                  // }, 0);
-
-                  // const negativeScore = negativeConditions.reduce((sum, c) => {
-                  //   if (c.status === '회피됨') return sum + 1.0;
-                  //   if (c.status === '부분회피') return sum + 0.5;
-                  //   return sum;
-                  // }, 0);
+                  // 추천 이유 문장 리스트 생성
+                  const recommendationSentences = [];
+                  
+                  // 1. 내 상황과의 적합성 설명 (있다면 첫 번째로)
+                  if (initialContext && contextMatchData && contextMatchData.explanation) {
+                    recommendationSentences.push(contextMatchData.explanation);
+                  }
+                  
+                  // 2. 충족된 하드 필터들
+                  hardFilterConditions.forEach(cond => {
+                    if (cond.status === '충족') {
+                      recommendationSentences.push(cond.evidence || cond.condition);
+                    }
+                  });
 
                   return (
                     <div className="space-y-4">
-                      {/* 필수 조건 (하드 필터) - 태그 기반 표시 */}
-                      {hardFilterConditions.length > 0 && (
-                        <div className="bg-gray-50 rounded-xl p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-2">
-                              <svg className="w-4 h-4 text-[#4E43E1]" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                              </svg>
-                              <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
-                                필수 조건
+                      {/* 필수 조건 (하드 필터) - 문장 리스트 형태로 변경 */}
+                      {recommendationSentences.length > 0 && (
+                        <div className="-mt-4">
+                          <div className="h-[10px] bg-gray-50 border-y border-gray-100 -mx-6" />
+                          <div 
+                            className="pt-4 px-6 pb-6 -mx-6" 
+                            style={{ 
+                              background: 'linear-gradient(180deg, #F3F0FF 0%, #FFFFFF 100%)' 
+                            }}
+                          >
+                            <div className="flex items-center gap-2 mb-5">
+                              <span className="text-[#6344FF] text-lg">✦</span>
+                              <h4 className="text-[18px] font-semibold text-[#6344FF] leading-tight">
+                                왜 추천했나요?
                               </h4>
                             </div>
-                            {/* <CircularProgress score={hardFilterScore} total={hardFilterConditions.length} color="blue" /> */}
-                          </div>
-                          <div className="border-t border-gray-200 pt-3">
-                            <div className="flex flex-wrap gap-2">
-                              {hardFilterConditions.map((cond, i) => {
-                                const isSatisfied = cond.status === '충족';
-                                return (
-                                  <span
-                                    key={i}
-                                    className={`px-2.5 py-1 rounded-full text-xs font-bold border ${
-                                      isSatisfied
-                                        ? 'bg-white border-gray-300 text-gray-800'
-                                        : 'bg-gray-100 border-transparent text-gray-400 opacity-50'
-                                    }`}
-                                  >
-                                    {cond.condition}
-                                  </span>
-                                );
-                              })}
+                            <div className="space-y-[6px] mb-2">
+                              {recommendationSentences.map((sentence, i) => (
+                                <div key={i} className="flex items-start gap-2.5">
+                                  <span className="text-[16px] text-gray-800 shrink-0 mt-0.5">✔</span>
+                                  <p className="text-[16px] font-medium text-gray-800 leading-snug">
+                                    {parseMarkdownBold(sentence)}
+                                  </p>
+                                </div>
+                              ))}
                             </div>
+                            <div className="h-px bg-gray-100 mt-6 mb-0" />
                           </div>
                         </div>
                       )}
 
                       {/* 선호 속성 (밸런스 게임) */}
                       {balanceConditions.length > 0 && (
-                        <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="bg-gray-50 rounded-xl p-4 !mt-2">
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
-                              <svg className="w-4 h-4 text-[#4E43E1]" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
+                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_modal_balance)" />
+                                <defs>
+                                  <linearGradient id="ai_gradient_modal_balance" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                                    <stop stopColor="#77A0FF" />
+                                    <stop offset="0.7" stopColor="#907FFF" />
+                                    <stop offset="1" stopColor="#6947FF" />
+                                  </linearGradient>
+                                </defs>
                               </svg>
                               <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
                                 선호 속성
@@ -930,14 +1007,21 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                       {negativeConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-2">
-                              <svg className="w-4 h-4 text-[#4E43E1]" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
-                              </svg>
-                              <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
-                                피하고 싶은 단점
-                              </h4>
-                            </div>
+                          <div className="flex items-center gap-2">
+                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                              <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_modal_negative)" />
+                              <defs>
+                                <linearGradient id="ai_gradient_modal_negative" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                                  <stop stopColor="#77A0FF" />
+                                  <stop offset="0.7" stopColor="#907FFF" />
+                                  <stop offset="1" stopColor="#6947FF" />
+                                </linearGradient>
+                              </defs>
+                            </svg>
+                            <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
+                              피하고 싶은 단점
+                            </h4>
+                          </div>
                             {/* <CircularProgress score={negativeScore} total={negativeConditions.length} color="green" /> */}
                           </div>
                           <div className="border-t border-gray-200 pt-3">
@@ -1085,7 +1169,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
                   }
                 }}
-                className="flex-1 h-14 font-semibold rounded-2xl text-base transition-colors text-white bg-[#5F0080] hover:bg-[#4a0063]"
+                className="flex-1 h-14 font-semibold rounded-2xl text-base transition-colors text-white bg-black hover:bg-gray-900"
               >
                 최저가로 구매하기
               </button>

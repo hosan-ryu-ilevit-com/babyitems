@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChatCircleDots, TrendUp, Sparkle } from '@phosphor-icons/react';
 import { logAIHelperButtonClicked } from '@/lib/logging/clientLogger';
 
 interface AIHelperButtonProps {
@@ -67,19 +68,32 @@ export function AIHelperButton({
   };
 
   return (
-    <div className={`w-full flex flex-col items-start gap-2 ${className}`}>
+    <div className={`w-full flex flex-col items-start gap-2 relative ${isExpanded ? 'z-[100]' : 'z-auto'} ${className}`}>
+      {/* 배경 딤 처리 */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsExpanded(false)}
+            className="fixed inset-0 bg-black/50 z-[-1]"
+          />
+        )}
+      </AnimatePresence>
+
       {/* 메인 버튼 - 심플한 디자인 */}
       <motion.button
         initial={isMounted ? { opacity: 0, y: 5 } : false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
         onClick={handleClick}
-        className={`flex items-center justify-center h-[48px] rounded-xl ai-gradient-border transition-all w-full active:scale-[0.98] ${className}`}
+        className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border shadow-sm transition-all w-full active:scale-[0.98] bg-white`}
       >
         <div className="flex items-center gap-2">
-          <span className="ai-gradient-text text-[16px] font-bold">✦</span>
-          <span className="text-[16px] font-semibold text-[#5549F5]">
-            뭘 골라야 할지 모르겠어요
+          <span className="ai-gradient-text text-[18px] font-bold">✦</span>
+          <span className="text-[16px] font-bold text-[#6366F1]">
+            {label}
           </span>
         </div>
       </motion.button>
@@ -112,13 +126,17 @@ export function AIHelperButton({
                     );
                   }
                   onClick();
+                  setIsExpanded(false);
                 }}
-                className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all"
+                className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-purple-50 border border-purple-100 hover:bg-purple-100 transition-all text-left"
               >
-                <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L13.5 9L20 12L13.5 15L12 22L10.5 15L4 12L10.5 9L12 2Z" />
-          </svg>
-                <span className="text-[13px] font-medium text-gray-700">AI에게 내 상황 말하고 추천받기</span>
+                <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
+                  <ChatCircleDots size={18} weight="fill" className="text-purple-400" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[14px] font-bold text-gray-800">AI에게 내 상황 설명하기</span>
+                  <span className="text-[12px] text-gray-500">직접 말하고 딱 맞는 선택지 추천받기</span>
+                </div>
               </motion.button>
 
               {/* 가장 많은 사람들이 구매하는게 뭔가요? */}
@@ -132,13 +150,17 @@ export function AIHelperButton({
                       logButtonClick('recommend-v2', '💚 AI 도움 요청 (인기 제품)');
                     });
                     onPopularRecommend();
+                    setIsExpanded(false);
                   }}
-                  className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all"
+                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all text-left"
                 >
-                  <svg className="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
-                  <span className="text-[13px] font-medium text-gray-700">가장 많은 사람들이 구매하는게 뭔가요?</span>
+                  <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
+                    <TrendUp size={18} weight="bold" className="text-gray-300" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[14px] font-bold text-gray-800">가장 많은 사람이 구매한 선택지 보기</span>
+                    <span className="text-[12px] text-gray-500">인기 있는 선택지 추천받기</span>
+                  </div>
                 </motion.button>
               )}
 
@@ -153,13 +175,17 @@ export function AIHelperButton({
                       logButtonClick('recommend-v2', '💚 AI 도움 요청 (컨텍스트 기반)');
                     });
                     onContextRecommend();
+                    setIsExpanded(false);
                   }}
-                  className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all"
+                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all text-left"
                 >
-                  <svg className="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
-                  <span className="text-[13px] font-medium text-gray-700">지금까지 입력된 내 상황에 맞춰 골라주세요</span>
+                  <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
+                    <Sparkle size={18} weight="fill" className="text-gray-300" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[14px] font-bold text-gray-800">내 상황에 맞춰 추천받기</span>
+                    <span className="text-[12px] text-gray-500">지금까지 입력한 정보로 AI에게 추천받기</span>
+                  </div>
                 </motion.button>
               )}
             </div>

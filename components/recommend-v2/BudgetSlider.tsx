@@ -342,42 +342,92 @@ export function BudgetSlider({
       <div className="w-full h-[1px] bg-gray-100 mb-5" />
 
       {/* 헤더 */}
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-400 font-medium">
-          예산 범위
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-[16px] text-gray-400 font-semibold">
+          예산 설정
         </span>
-        {products.length > 0 && (
-          <span className="text-xs text-gray-500">
-            선택 범위 내 <span className="font-semibold text-amber-600">{productsInRange}개</span> 상품
-          </span>
-        )}
       </div>
 
-      <h3 className="text-base font-bold text-gray-900">
-        생각해 둔 예산이 있나요?
+      <h3 className="text-[18px] font-semibold text-gray-900 mb-4">
+        예산을 선택하세요 <span className="text-blue-500 font-bold">*</span>
       </h3>
 
       {/* AI 도움 버튼 */}
       {showAIHelper && (
-        <AIHelperButton
-          onClick={() => {
-            setAiHelperAutoSubmitText(undefined);
-            setIsAIHelperAutoSubmit(false);
-            setIsAIHelperOpen(true);
-          }}
-          label="어떤 예산이 좋은지 모르겠어요"
-          questionType="budget"
-          questionId="budget_slider"
-          questionText="생각해 둔 예산이 있나요?"
-          category={category}
-          categoryName={categoryName}
-        />
+        <div className="mb-6">
+          <AIHelperButton
+            onClick={() => {
+              setAiHelperAutoSubmitText(undefined);
+              setIsAIHelperAutoSubmit(false);
+              setIsAIHelperOpen(true);
+            }}
+            label="어떤 예산이 좋은지 모르겠어요"
+            questionType="budget"
+            questionId="budget_slider"
+            questionText="생각해 둔 예산이 있나요?"
+            category={category}
+            categoryName={categoryName}
+          />
+        </div>
       )}
 
+      {/* 최저/최고 입력 영역 */}
+      <div className="flex items-center justify-between gap-4 px-1 mb-8">
+        {/* 최저 */}
+        <div className="flex-1">
+          <div className="text-[14px] text-gray-400 font-medium mb-2">최저</div>
+          <div
+            onClick={handleMinClick}
+            className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
+          >
+            {isEditingMin ? (
+              <input
+                ref={minInputRef}
+                type="text"
+                inputMode="numeric"
+                value={minInputValue}
+                onChange={handleMinInputChange}
+                onBlur={handleMinInputBlur}
+                onKeyDown={(e) => handleKeyDown(e, 'min')}
+                className="w-full bg-transparent outline-none p-0"
+                autoFocus
+              />
+            ) : (
+              <span>{minValue.toLocaleString()}원</span>
+            )}
+          </div>
+        </div>
+
+        {/* 최고 */}
+        <div className="flex-1">
+          <div className="text-[14px] text-gray-400 font-medium mb-2">최고</div>
+          <div
+            onClick={handleMaxClick}
+            className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
+          >
+            {isEditingMax ? (
+              <input
+                ref={maxInputRef}
+                type="text"
+                inputMode="numeric"
+                value={maxInputValue}
+                onChange={handleMaxInputChange}
+                onBlur={handleMaxInputBlur}
+                onKeyDown={(e) => handleKeyDown(e, 'max')}
+                className="w-full bg-transparent outline-none p-0"
+                autoFocus
+              />
+            ) : (
+              <span>{maxValue.toLocaleString()}원{maxValue >= max ? '+' : ''}</span>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* 히스토그램 + 슬라이더 */}
-      <div className="relative pt-2">
+      <div className="relative pt-4 px-2">
         {/* 히스토그램 */}
-        <div className="flex items-end h-20 gap-[2px] px-3">
+        <div className="flex items-end h-24 gap-[2px] px-4 justify-center">
           {histogramData.map((height, index) => {
             const barPercent = (index / HISTOGRAM_BARS) * 100;
             const isInRange = barPercent >= minPercent && barPercent <= maxPercent;
@@ -385,8 +435,8 @@ export function BudgetSlider({
             return (
               <div
                 key={index}
-                className={`flex-1 rounded-t-sm transition-colors duration-200 ${
-                  isInRange ? 'bg-amber-400' : 'bg-gray-200'
+                className={`w-[13px] rounded-t-[2px] transition-colors duration-200 ${
+                  isInRange ? 'bg-[#3B82F6]' : 'bg-gray-200'
                 }`}
                 style={{ height: `${Math.max(height * 100, 4)}%` }}
               />
@@ -395,15 +445,15 @@ export function BudgetSlider({
         </div>
 
         {/* 슬라이더 트랙 */}
-        <div className="px-3 mt-1">
+        <div className="px-4 mt-[-2px] relative z-10">
           <div
             ref={trackRef}
-            className="relative h-1 bg-gray-200 rounded-full cursor-pointer"
+            className="relative h-[2px] bg-gray-200"
             onClick={handleTrackClick}
           >
             {/* 선택된 범위 */}
             <div
-              className="absolute h-full bg-amber-400 rounded-full"
+              className="absolute h-full bg-[#3B82F6]"
               style={{
                 left: `${minPercent}%`,
                 width: `${maxPercent - minPercent}%`,
@@ -412,8 +462,8 @@ export function BudgetSlider({
 
             {/* Min 핸들 */}
             <div
-              className={`absolute w-7 h-7 -mt-3 -ml-3.5 bg-white border-2 rounded-full shadow-lg cursor-grab active:cursor-grabbing transition-all ${
-                isDraggingMin ? 'border-amber-500 scale-110 shadow-xl' : 'border-gray-300'
+              className={`absolute w-8 h-8 -mt-[15px] -ml-4 bg-white border border-gray-200 rounded-full shadow-md cursor-grab active:cursor-grabbing transition-all flex items-center justify-center gap-[2px] ${
+                isDraggingMin ? 'scale-110 shadow-lg' : ''
               }`}
               style={{ left: `${minPercent}%` }}
               onMouseDown={(e) => {
@@ -424,12 +474,16 @@ export function BudgetSlider({
                 e.stopPropagation();
                 setIsDraggingMin(true);
               }}
-            />
+            >
+              <div className="w-[1.5px] h-3 bg-gray-300 rounded-full" />
+              <div className="w-[1.5px] h-3 bg-gray-300 rounded-full" />
+              <div className="w-[1.5px] h-3 bg-gray-300 rounded-full" />
+            </div>
 
             {/* Max 핸들 */}
             <div
-              className={`absolute w-7 h-7 -mt-3 -ml-3.5 bg-white border-2 rounded-full shadow-lg cursor-grab active:cursor-grabbing transition-all ${
-                isDraggingMax ? 'border-amber-500 scale-110 shadow-xl' : 'border-gray-300'
+              className={`absolute w-8 h-8 -mt-[15px] -ml-4 bg-white border border-gray-200 rounded-full shadow-md cursor-grab active:cursor-grabbing transition-all flex items-center justify-center gap-[2px] ${
+                isDraggingMax ? 'scale-110 shadow-lg' : ''
               }`}
               style={{ left: `${maxPercent}%` }}
               onMouseDown={(e) => {
@@ -440,72 +494,23 @@ export function BudgetSlider({
                 e.stopPropagation();
                 setIsDraggingMax(true);
               }}
-            />
+            >
+              <div className="w-[1.5px] h-3 bg-gray-300 rounded-full" />
+              <div className="w-[1.5px] h-3 bg-gray-300 rounded-full" />
+              <div className="w-[1.5px] h-3 bg-gray-300 rounded-full" />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* 최저/최고 입력 영역 */}
-      <div className="flex items-center justify-between gap-4 px-1">
-        {/* 최저 */}
-        <div className="flex-1">
-          <div className="text-xs text-gray-500 mb-1">최저</div>
-          {isEditingMin ? (
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₩</span>
-              <input
-                ref={minInputRef}
-                type="text"
-                inputMode="numeric"
-                value={minInputValue}
-                onChange={handleMinInputChange}
-                onBlur={handleMinInputBlur}
-                onKeyDown={(e) => handleKeyDown(e, 'min')}
-                className="w-full pl-7 pr-3 py-2.5 text-base font-semibold border-2 border-amber-400 rounded-full outline-none bg-white"
-              />
-            </div>
-          ) : (
-            <button
-              onClick={handleMinClick}
-              className="w-full px-4 py-2.5 text-base font-semibold text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors text-left"
-            >
-              ₩{minValue.toLocaleString()}
-            </button>
-          )}
+      {/* 상품 개수 정보 (선택사항) */}
+      {products.length > 0 && (
+        <div className="text-center pt-2">
+          <span className="text-[13px] text-gray-400">
+            선택 범위 내 <span className="font-semibold text-blue-500">{productsInRange}개</span> 상품이 있어요
+          </span>
         </div>
-
-        <div className="text-gray-300 font-light text-2xl mt-5">—</div>
-
-        {/* 최고 */}
-        <div className="flex-1">
-          <div className="text-xs text-gray-500 mb-1">최고</div>
-          {isEditingMax ? (
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₩</span>
-              <input
-                ref={maxInputRef}
-                type="text"
-                inputMode="numeric"
-                value={maxInputValue}
-                onChange={handleMaxInputChange}
-                onBlur={handleMaxInputBlur}
-                onKeyDown={(e) => handleKeyDown(e, 'max')}
-                className="w-full pl-7 pr-3 py-2.5 text-base font-semibold border-2 border-amber-400 rounded-full outline-none bg-white"
-              />
-              {maxValue >= max && (
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">+</span>
-              )}
-            </div>
-          ) : (
-            <button
-              onClick={handleMaxClick}
-              className="w-full px-4 py-2.5 text-base font-semibold text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors text-left"
-            >
-              ₩{maxValue.toLocaleString()}{maxValue >= max ? '+' : ''}
-            </button>
-          )}
-        </div>
-      </div>
+      )}
 
       {/* AI 예산 도움 바텀시트 */}
       {showAIHelper && (

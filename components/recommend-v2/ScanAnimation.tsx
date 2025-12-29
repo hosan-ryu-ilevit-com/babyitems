@@ -81,15 +81,21 @@ export function ScanAnimation({
       className="flex flex-col items-center justify-center py-12 px-6"
     >
       {/* 메인 카드 영역 */}
-      <div className="w-full max-w-sm bg-white rounded-2xl border border-blue-100 p-6 mb-6">
+      <div className="w-full max-w-sm bg-white rounded-2xl border border-green-100 p-6 mb-6">
         {/* 프로그레스 바 */}
         <div className="mb-6">
           <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-[#5F0080] rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ ease: 'linear' }}
+              className="h-full rounded-full"
+              initial={{ width: 0, backgroundColor: '#000000' }}
+              animate={{ 
+                width: `${progress}%`,
+                backgroundColor: progress >= 100 ? '#16a34a' : '#000000'
+              }}
+              transition={{ 
+                width: { ease: 'linear' },
+                backgroundColor: { duration: 0.3 }
+              }}
             />
           </div>
           <div className="flex justify-between mt-2">

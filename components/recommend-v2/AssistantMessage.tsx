@@ -50,7 +50,7 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
       });
 
       return (
-        <div key={lineIndex} className={lineIndex > 0 ? 'mt-1' : ''}>
+        <div key={lineIndex} className={lineIndex > 0 ? 'mt-0.5' : ''}>
           {formattedLine}
         </div>
       );
@@ -90,7 +90,7 @@ export function AssistantMessage({
       });
 
       return (
-        <div key={lineIndex} className={lineIndex > 0 ? 'mt-1' : ''}>
+        <div key={lineIndex} className={lineIndex > 0 ? 'mt-0.5' : ''}>
           {formattedLine}
         </div>
       );
@@ -106,7 +106,7 @@ export function AssistantMessage({
     >
       {/* 메시지 버블 */}
       <div className="w-full flex justify-start">
-        <div className="py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4]">
+        <div className="py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4] break-keep">
           {typing ? (
             <StreamingText content={content} speed={15} onComplete={onTypingComplete} />
           ) : (

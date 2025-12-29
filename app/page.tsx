@@ -1,11 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import { logPageView, logButtonClick, logAgeBadgeSelection, logAIHelperButtonClicked } from '@/lib/logging/clientLogger';
-import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { motion, Variants, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { logPageView, logButtonClick, logAIHelperButtonClicked } from '@/lib/logging/clientLogger';
 import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
+import FeedbackButton from '@/components/FeedbackButton';
+import { StepIndicator } from '@/components/StepIndicator';
 
 // --- Types ---
 interface DanawaCategory {
@@ -14,11 +15,6 @@ interface DanawaCategory {
   group_id: string;
   total_product_count: number;
   crawled_product_count: number;
-}
-
-interface CategoriesResponse {
-  groups: { categories?: DanawaCategory[] }[];
-  uncategorized: DanawaCategory[];
 }
 
 interface UnifiedCategory {
@@ -127,15 +123,14 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
 
 // --- Sub-components ---
 
-import { StepIndicator } from '@/components/StepIndicator';
-
 // 스트리밍 타이틀
-function StreamingTitle() {
+function StreamingTitle({ onComplete }: { onComplete?: () => void }) {
   const text = "안녕하세요!\n고객님께 필요한 최적의 육아용품을 찾아드릴게요.";
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {
+    // 타이핑 효과 시작
     let i = 0;
     const interval = setInterval(() => {
       setDisplayedText(text.slice(0, i));
@@ -143,14 +138,17 @@ function StreamingTitle() {
       if (i > text.length) {
         clearInterval(interval);
         setIsTyping(false);
+        onComplete?.();
       }
     }, 40);
+
     return () => clearInterval(interval);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 마운트 시 최초 1회만 실행하도록 고정
 
   return (
     <div className="px-5 pt-4 pb-0">
-      <h2 className="text-[16px] font-medium text-gray-900 leading-[1.6] whitespace-pre-wrap">
+      <h2 className="text-[16px] font-medium text-gray-900 leading-[1.4] whitespace-pre-wrap">
         {displayedText}
         {isTyping && (
           <motion.span
@@ -190,23 +188,50 @@ function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: 
 // 카테고리 카드 (디자인 변경)
 function CategoryCard({ name, isSelected, onClick, isLoading }: { name: string; isSelected: boolean; onClick: () => void; isLoading: boolean }) {
   return (
-    <button
-      onClick={onClick}
-      disabled={isLoading}
-      className={`relative h-[50px] rounded-xl border flex items-center px-4 transition-all active:scale-[0.98] ${
-        isSelected
-          ? 'bg-purple-50 border-purple-200 text-purple-700'
-          : 'bg-white border-gray-100 text-gray-600'
-      }`}
-    >
-      {isLoading ? (
-        <div className="w-5 h-5 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto" />
-      ) : (
-        <span className="text-[15px] font-medium text-left">{name}</span>
+    <div className="flex flex-col gap-1.5">
+      <button
+        onClick={onClick}
+        disabled={isLoading}
+        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 transition-all active:scale-[0.98] ${
+          isSelected
+            ? 'bg-purple-50 border-purple-200 text-purple-700'
+            : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200'
+        }`}
+      >
+        {isLoading ? (
+          <div className="w-5 h-5 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto" />
+        ) : (
+          <span className="text-[15px] font-medium text-left">{name}</span>
+        )}
+      </button>
+      {isSelected && !isLoading && (
+        <div className="flex px-1">
+          <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded-md">추천완료</span>
+        </div>
       )}
-    </button>
+    </div>
   );
 }
+
+// 애니메이션 베리언트
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 5 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.3, ease: "easeOut" },
+  },
+};
 
 // 메인 컴포넌트
 export default function Home() {
@@ -216,11 +241,72 @@ export default function Home() {
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [completedCategories, setCompletedCategories] = useState<Set<string>>(new Set());
   const [initialUserInput, setInitialUserInput] = useState<string>('');
+  const [isTitleComplete, setIsTitleComplete] = useState(false);
 
+  // 뒤로가기 등으로 진입 시 상태가 꼬이지 않도록 마운트 시점에 강제 초기화
   useEffect(() => {
+    setIsTitleComplete(false);
     logPageView('home');
-    // 디자인 통합을 위해 초기 완료 상태 체크는 하지 않음 (필요 시 복구 가능)
-    setCompletedCategories(new Set());
+    
+    // 세션 스토리지에서 완료된 카테고리 체크
+    const completed = new Set<string>();
+    try {
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        if (key?.startsWith('v2_result_')) {
+          const categoryId = key.replace('v2_result_', '');
+          completed.add(categoryId);
+        }
+      }
+    } catch (e) {
+      console.warn('[home] Failed to access sessionStorage:', e);
+    }
+    setCompletedCategories(completed);
+  }, []);
+
+  // 채널톡 스크립트 초기화
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !(window as any).ChannelIO) {
+      const w = window as any;
+      const ch = function(...args: any[]) {
+        ch.c?.(args);
+      };
+      ch.q = [] as any[];
+      ch.c = function(args: any[]) {
+        ch.q?.push(args);
+      };
+      w.ChannelIO = ch;
+
+      const loadChannelIO = () => {
+        if (w.ChannelIOInitialized) return;
+        w.ChannelIOInitialized = true;
+        const s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+        const x = document.getElementsByTagName('script')[0];
+        if (x.parentNode) {
+          x.parentNode.insertBefore(s, x);
+        }
+      };
+
+      if (document.readyState === 'complete') {
+        loadChannelIO();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadChannelIO);
+        window.addEventListener('load', loadChannelIO);
+      }
+
+      // 채널톡 부트
+      setTimeout(() => {
+        if (w.ChannelIO) {
+          w.ChannelIO('boot', {
+            pluginKey: '81ef1201-79c7-4b62-b021-c571fe06f935',
+            hideChannelButtonOnBoot: true,
+          });
+        }
+      }, 100);
+    }
   }, []);
 
   const handleCategorySelect = (categoryId: string, categoryName: string) => {
@@ -233,108 +319,129 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col">
         {/* 헤더 바 */}
-        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-50 h-14 flex items-center px-5 gap-1.5">
-          <span className="text-[17px] font-semibold text-gray-800 tracking-tight">아기용품</span>
-          <span className="text-[17px] font-bold ai-gradient-text tracking-tight">AI</span>
+        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-50 h-14 flex items-center px-5">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[17px] font-semibold text-gray-800 tracking-tight">아기용품</span>
+            <span className="text-[17px] font-bold ai-gradient-text tracking-tight">AI</span>
+          </div>
+
+          <FeedbackButton source="home" className="ml-auto" />
         </header>
 
         {/* 1. 상단 스텝 바 */}
         <StepIndicator currentStep={1} />
 
         {/* 2. 스트리밍 타이틀 */}
-        <StreamingTitle />
+        <StreamingTitle onComplete={() => setIsTitleComplete(true)} />
 
-        {/* 3. 디바이더 */}
-        <div className="h-[1px] bg-gray-100 mx-5 mt-[20px] mb-[20px]" />
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isTitleComplete ? 'visible' : 'hidden'}
+          className="flex-1 flex flex-col"
+        >
+          {/* 3. 디바이더 */}
+          <motion.div variants={itemVariants} className="h-[1px] bg-gray-100 mx-5 mt-[20px] mb-[20px]" />
 
-        <div className="px-5 pt-0 pb-24">
-          {/* 4. 카테고리 설정 섹션 */}
-          <div className="mb-0">
-            <span className="text-[16px] text-gray-400 font-semibold mb-1 block">카테고리 설정</span>
-            <h1 className="text-[18px] font-bold text-gray-900">
-              찾으시는 상품을 선택하세요 <span className="text-blue-500 font-bold">*</span>
-            </h1>
+          <div className="px-5 pt-0 pb-24">
+            {/* 4. 카테고리 설정 섹션 */}
+            <motion.div variants={itemVariants} className="mb-0">
+              <span className="text-[16px] text-gray-400 font-semibold mb-1 block">카테고리 설정</span>
+              <h1 className="text-[18px] font-bold text-gray-900">
+                찾으시는 상품을 선택하세요 <span className="text-blue-500 font-bold">*</span>
+              </h1>
+            </motion.div>
+
+            {/* 5. AI 도움받기 버튼 */}
+            <motion.button
+              variants={itemVariants}
+              onClick={() => {
+                logAIHelperButtonClicked('category_selection', 'category_select', '어떤 상품을 찾으시나요?', 'all', '전체');
+                setIsAIHelperOpen(true);
+              }}
+              className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 transition-all active:scale-[0.98]"
+            >
+              <span className="ai-gradient-text text-[16px] font-bold">✦</span>
+              <span className="text-[16px] font-semibold text-[#6366F1]">뭘 골라야 할지 모르겠어요</span>
+            </motion.button>
+
+            {/* 6. 연령대 탭 */}
+            <motion.div variants={itemVariants}>
+              <AgeFilterBar selectedId={selectedAgeId} onSelect={setSelectedAgeId} />
+            </motion.div>
+
+            {/* 7. 카테고리 리스트 */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedAgeId}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                {selectedAgeId === 'all' ? (
+                  CATEGORY_GROUPS.map((group) => (
+                    <div key={group.id} className="mb-10">
+                      <div className="flex items-center gap-2 mb-4">
+                        <span className="text-[18px]">{group.emoji}</span>
+                        <h3 className="text-[16px] font-semibold text-gray-800">{group.name}</h3>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        {group.categories.map((cat) => (
+                          <CategoryCard
+                            key={cat.id}
+                            name={cat.name}
+                            isSelected={completedCategories.has(cat.id)}
+                            isLoading={loadingCategoryId === cat.id}
+                            onClick={() => handleCategorySelect(cat.id, cat.name)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  (() => {
+                    const ageFilter = AGE_FILTERS.find(f => f.id === selectedAgeId);
+                    if (!ageFilter) return null;
+                    
+                    return ageFilter.groups.map((ageGroup, idx) => {
+                      const categories = ageGroup.categoryIds.map(id => {
+                        for (const group of CATEGORY_GROUPS) {
+                          const found = group.categories.find(c => c.id === id);
+                          if (found) return found;
+                        }
+                        return null;
+                      }).filter((c): c is UnifiedCategory => c !== null);
+
+                      if (categories.length === 0) return null;
+                      const groupEmoji = CATEGORY_GROUPS.find(g => g.name === ageGroup.name)?.emoji || '✨';
+
+                      return (
+                        <div key={`${selectedAgeId}-${idx}`} className="mb-10">
+                          <div className="flex items-center gap-2 mb-4">
+                            <span className="text-[18px]">{groupEmoji}</span>
+                            <h3 className="text-[16px] font-semibold text-gray-800">{ageGroup.name}</h3>
+                          </div>
+                          <div className="grid grid-cols-2 gap-3">
+                            {categories.map((cat) => (
+                              <CategoryCard
+                                key={cat.id}
+                                name={cat.name}
+                                isSelected={completedCategories.has(cat.id)}
+                                isLoading={loadingCategoryId === cat.id}
+                                onClick={() => handleCategorySelect(cat.id, cat.name)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    });
+                  })()
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
-
-          {/* 5. AI 도움받기 버튼 */}
-          <button
-            onClick={() => {
-              logAIHelperButtonClicked('category_selection', 'category_select', '어떤 상품을 찾으시나요?', 'all', '전체');
-              setIsAIHelperOpen(true);
-            }}
-            className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 transition-all active:scale-[0.98]"
-          >
-            <span className="ai-gradient-text text-[16px] font-bold">✦</span>
-            <span className="text-[16px] font-semibold text-[#5549F5]">뭘 골라야 할지 모르겠어요</span>
-          </button>
-
-          {/* 6. 연령대 탭 */}
-          <AgeFilterBar selectedId={selectedAgeId} onSelect={setSelectedAgeId} />
-
-          {/* 7. 카테고리 리스트 */}
-          {selectedAgeId === 'all' ? (
-            CATEGORY_GROUPS.map((group) => (
-              <div key={group.id} className="mb-10">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-[18px]">{group.emoji}</span>
-                  <h3 className="text-[16px] font-semibold text-gray-800">{group.name}</h3>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {group.categories.map((cat) => (
-                    <CategoryCard
-                      key={cat.id}
-                      name={cat.name}
-                      isSelected={completedCategories.has(cat.id)}
-                      isLoading={loadingCategoryId === cat.id}
-                      onClick={() => handleCategorySelect(cat.id, cat.name)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))
-          ) : (
-            (() => {
-              const ageFilter = AGE_FILTERS.find(f => f.id === selectedAgeId);
-              if (!ageFilter) return null;
-              
-              return ageFilter.groups.map((ageGroup, idx) => {
-                // Find matching categories from CATEGORY_GROUPS
-                const categories = ageGroup.categoryIds.map(id => {
-                  for (const group of CATEGORY_GROUPS) {
-                    const found = group.categories.find(c => c.id === id);
-                    if (found) return found;
-                  }
-                  return null;
-                }).filter((c): c is UnifiedCategory => c !== null);
-
-                if (categories.length === 0) return null;
-
-                // Find emoji for the group name if possible, or use a default
-                const groupEmoji = CATEGORY_GROUPS.find(g => g.name === ageGroup.name)?.emoji || '✨';
-
-                return (
-                  <div key={`${selectedAgeId}-${idx}`} className="mb-10">
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-[18px]">{groupEmoji}</span>
-                      <h3 className="text-[16px] font-semibold text-gray-800">{ageGroup.name}</h3>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {categories.map((cat) => (
-                        <CategoryCard
-                          key={cat.id}
-                          name={cat.name}
-                          isSelected={completedCategories.has(cat.id)}
-                          isLoading={loadingCategoryId === cat.id}
-                          onClick={() => handleCategorySelect(cat.id, cat.name)}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                );
-              });
-            })()
-          )}
-        </div>
+        </motion.div>
       </div>
 
       {/* AI 도움받기 바텀시트 */}

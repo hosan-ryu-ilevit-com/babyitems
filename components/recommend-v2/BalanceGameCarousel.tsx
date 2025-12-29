@@ -360,7 +360,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
         {/* 헤더 - 디자인 변경 */}
         <div className="flex items-center justify-between mb-1">
-          <span className="text-sm text-gray-400 font-medium">
+          <span className="text-[16px] text-gray-400 font-semibold">
             취향 선택
           </span>
         </div>
@@ -417,7 +417,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
               transition={{ duration: 0.25, ease: 'easeInOut' }}
             >
               {/* 질문 제목 */}
-              <h3 className="text-[20px] font-bold text-gray-900 leading-snug mb-3">
+              <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-3">
                 {currentQuestion.title} <span className="text-blue-500 font-bold">*</span>
               </h3>
 
@@ -430,6 +430,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       setIsAIHelperAutoSubmit(false);
                       setIsAIHelperOpen(true);
                     }}
+                    label="뭘 골라야 할지 모르겠어요"
                     questionType="balance_game"
                     questionId={currentQuestion.id}
                     questionText={currentQuestion.title}
@@ -458,7 +459,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <span className={`text-[16px] font-medium leading-tight ${
+                  <span className={`text-[16px] font-medium leading-tight break-keep ${
                     isCurrentSkipped
                       ? 'text-gray-300'
                       : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
@@ -492,7 +493,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <span className={`text-[16px] font-medium leading-tight ${
+                  <span className={`text-[16px] font-medium leading-tight break-keep ${
                     isCurrentSkipped
                       ? 'text-gray-300'
                       : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
@@ -512,17 +513,17 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                   onClick={() => handleSelectBoth(currentQuestion.id)}
                   className={`w-full h-[50px] rounded-xl border transition-all flex items-center justify-center gap-1.5 ${
                     isCurrentBoth
-                      ? 'border-gray-200 bg-gray-200'
+                      ? 'border-blue-100 bg-blue-50'
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
                   <span className={`text-[16px] font-medium ${
-                    isCurrentBoth ? 'text-gray-700' : 'text-gray-600'
+                    isCurrentBoth ? 'text-blue-500' : 'text-gray-600'
                   }`}>
                     상관없어요
                   </span>
                   <span className={`text-[14px] font-medium ${
-                    isCurrentBoth ? 'text-gray-400' : 'text-gray-300'
+                    isCurrentBoth ? 'text-blue-300' : 'text-gray-300'
                   }`}>
                     Skip
                   </span>

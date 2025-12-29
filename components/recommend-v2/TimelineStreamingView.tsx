@@ -13,184 +13,184 @@ interface TimelineStreamingViewProps {
  */
 export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollTrigger, setScrollTrigger] = useState(0);
+  const [activeStepId, setActiveStepId] = useState<string | null>(null);
 
-  // 자동 스크롤: steps가 업데이트되거나 일정 간격마다 스크롤
+  // 가장 최근에 추가된 스텝을 활성 스텝으로 설정
   useEffect(() => {
-    const scrollToBottom = () => {
-      if (containerRef.current) {
-        containerRef.current.scrollTo({
-          top: containerRef.current.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
-    };
+    if (steps.length > 0) {
+      setActiveStepId(steps[steps.length - 1].id);
+    }
+  }, [steps]);
 
-    scrollToBottom();
-
-    // 스트리밍 중 지속적으로 스크롤 (100ms마다)
-    const scrollInterval = setInterval(() => {
-      scrollToBottom();
-    }, 100);
-
-    return () => clearInterval(scrollInterval);
-  }, [steps, scrollTrigger]);
-
-  // 스트리밍 중 스크롤 트리거 (200ms마다 업데이트)
+  // 자동 스크롤: 내부 콘텐츠 변화(스트리밍 등) 감지하여 하단 유지
   useEffect(() => {
-    const trigger = setInterval(() => {
-      setScrollTrigger(prev => prev + 1);
-    }, 200);
+    const container = containerRef.current;
+    if (!container) return;
 
-    return () => clearInterval(trigger);
+    const observer = new MutationObserver(() => {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: 'smooth'
+      });
+    });
+
+    observer.observe(container, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   if (steps.length === 0) return null;
 
+  const currentStep = steps[steps.length - 1];
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mt-8 w-full max-w-md mx-auto"
-    >
-      {/* 타임라인 컨테이너 - 투명 배경, 상하단 fade 효과 */}
+    <div className="w-full flex flex-col gap-8">
+      {/* 상단: 현재 진행 중인 메인 작업 (AI 그라데이션) */}
+      <div className="flex items-start gap-2.5 px-1">
+        <div className="w-[22px] h-[22px] flex items-center justify-center shrink-0 mt-0.5">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3L14.5 9L21 11.5L14.5 14L12 20L9.5 14L3 11.5L9.5 9L12 3Z" fill="url(#ai_gradient_header)" />
+            <defs>
+              <linearGradient id="ai_gradient_header" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#77A0FF" />
+                <stop offset="0.7" stopColor="#907FFF" />
+                <stop offset="1" stopColor="#6947FF" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        
+        <div className="flex flex-col gap-1">
+          <motion.h2
+            key={currentStep.id}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.5 }}
+            className="text-[16px] font-medium ai-gradient-text leading-snug tracking-tight"
+          >
+            {currentStep.title}......
+          </motion.h2>
+          <Timer className="text-gray-400/80 font-mono text-[13px]" />
+        </div>
+      </div>
+
+      {/* 하단: 상세 타임라인 리스트 */}
       <div className="relative">
-        {/* 스크롤 컨테이너 - mask로 상하단 fade */}
         <div
           ref={containerRef}
-          className="h-[150px] overflow-y-auto px-2 py-4"
+          className="max-h-[320px] overflow-y-auto px-1 space-y-8 scrollbar-hide pb-4"
           style={{
-            msOverflowStyle: 'none',  // IE, Edge
-            scrollbarWidth: 'none',   // Firefox
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
           }}
         >
-          <style jsx>{`
-            div::-webkit-scrollbar {
-              display: none;  /* Chrome, Safari, Opera */
-            }
-          `}</style>
-          <div className="space-y-4">
-            {(() => {
-            let globalCumulativeDelay = 0; // 전체 스텝에 걸친 누적 delay
-
-            return steps.map((step) => {
-              // 이 스텝의 시작 시점
-              const stepBaseDelay = globalCumulativeDelay;
-
-              // Title delay
-              let localDelay = 0;
-              const titleDelay = stepBaseDelay + localDelay;
-              localDelay += step.title.length * 20 + 100;
-
-              // Details delays
-              const detailDelays = step.details.map(detail => {
-                const delay = stepBaseDelay + localDelay;
-                localDelay += detail.length * 20 + 50;
-                return delay;
-              });
-
-              // SubDetails delays
-              const subDetailDelays: Array<{ labelDelay: number; itemDelays: number[] }> = [];
-              if (step.subDetails) {
-                step.subDetails.forEach(subDetail => {
-                  const labelDelay = stepBaseDelay + localDelay;
-                  localDelay += subDetail.label.length * 20 + 50;
-
-                  const itemDelays = subDetail.items.map(item => {
-                    const delay = stepBaseDelay + localDelay;
-                    localDelay += item.length * 20 + 50;
-                    return delay;
-                  });
-
-                  subDetailDelays.push({ labelDelay, itemDelays });
-                });
-              }
-
-              // 글로벌 누적 업데이트
-              globalCumulativeDelay += localDelay + 300;
-
+          {steps.map((step, idx) => {
+            const isLast = idx === steps.length - 1;
+            
             return (
-              <div key={step.id} className="space-y-1.5">
-                {/* 제목 */}
-                <StreamedText
-                  text={step.title}
-                  delay={titleDelay}
-                  className="text-sm font-semibold text-gray-800 block"
-                />
-
-                {/* Details (리스트) */}
-                <div className="space-y-0.5">
-                  {step.details.map((detail, idx) => (
-                    <StreamedText
-                      key={idx}
-                      text={`  • ${detail}`}
-                      delay={detailDelays[idx]}
-                      className="text-xs text-gray-600 leading-relaxed block"
-                    />
-                  ))}
+              <div key={step.id} className="relative flex gap-4">
+                {/* 왼쪽 라인 및 아이콘 */}
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="w-6 h-6 flex items-center justify-center z-10">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-gray-400">
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="m21 21-4.3-4.3" />
+                    </svg>
+                  </div>
+                  <div className="w-[1px] flex-1 bg-gray-200 my-1" />
                 </div>
 
-                {/* SubDetails */}
-                {step.subDetails && step.subDetails.length > 0 && (
+                {/* 콘텐츠 */}
+                <div className="flex-1 space-y-2">
+                  <h3 className="text-[16px] font-semibold text-gray-600 leading-snug">
+                    <StreamedText
+                      text={step.title}
+                      className=""
+                      speed={20}
+                    />
+                  </h3>
+                  
                   <div className="space-y-1">
-                    {step.subDetails.map((subDetail, subIdx) => (
-                      <div key={subIdx} className="space-y-0.5">
-                        <StreamedText
-                          text={`  ${subDetail.label}`}
-                          delay={subDetailDelays[subIdx].labelDelay}
-                          className="text-xs font-medium text-gray-700 block"
-                        />
-                        {subDetail.items.map((item, itemIdx) => (
-                          <StreamedText
-                            key={itemIdx}
-                            text={`    · ${item}`}
-                            delay={subDetailDelays[subIdx].itemDelays[itemIdx]}
-                            className="text-xs text-gray-600 leading-relaxed block"
-                          />
-                        ))}
+                    {step.details.map((detail, dIdx) => (
+                      <StreamedText
+                        key={`${step.id}-d-${dIdx}`}
+                        text={detail}
+                        className="text-[14px] font-medium text-gray-400 leading-relaxed block"
+                        speed={25}
+                      />
+                    ))}
+                    
+                    {step.subDetails?.map((sub, sIdx) => (
+                      <div key={`${step.id}-s-${sIdx}`} className="space-y-1.5 pt-1">
+                        <span className="text-[13px] font-bold text-gray-500 block">
+                          {sub.label}
+                        </span>
+                        <div className="flex flex-wrap gap-x-2 gap-y-1">
+                          {sub.items.map((item, iIdx) => (
+                            <StreamedText
+                              key={`${step.id}-si-${sIdx}-${iIdx}`}
+                              text={item + (iIdx < sub.items.length - 1 ? ',' : '')}
+                              className="text-[13px] font-medium text-gray-400 block"
+                              speed={10}
+                            />
+                          ))}
+                        </div>
                       </div>
                     ))}
                   </div>
-                )}
+                </div>
               </div>
-              );
-            });
-            })()}
-          </div>
+            );
+          })}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 /**
  * 개별 텍스트를 글자 단위로 스트리밍하는 컴포넌트
  */
-function StreamedText({ text, delay, className }: { text: string; delay: number; className: string }) {
+function StreamedText({ text, className, speed = 20 }: { text: string; className: string; speed?: number }) {
   const [displayedText, setDisplayedText] = useState('');
 
   useEffect(() => {
-    // 초기 딜레이 후 스트리밍 시작
-    const startTimer = setTimeout(() => {
-      let currentIndex = 0;
+    let currentIndex = 0;
+    const streamInterval = setInterval(() => {
+      if (currentIndex < text.length) {
+        setDisplayedText(text.slice(0, currentIndex + 1));
+        currentIndex++;
+      } else {
+        clearInterval(streamInterval);
+      }
+    }, speed);
 
-      const streamInterval = setInterval(() => {
-        if (currentIndex < text.length) {
-          setDisplayedText(text.slice(0, currentIndex + 1));
-          currentIndex++;
-        } else {
-          clearInterval(streamInterval);
-        }
-      }, 20); // 20ms마다 1글자씩
-
-      return () => clearInterval(streamInterval);
-    }, delay);
-
-    return () => clearTimeout(startTimer);
-  }, [text, delay]);
+    return () => clearInterval(streamInterval);
+  }, [text, speed]);
 
   return <span className={className}>{displayedText}</span>;
+}
+
+/**
+ * 소수점 둘째자리까지 표시되는 타이머 컴포넌트
+ */
+function Timer({ className }: { className?: string }) {
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      setTime((Date.now() - startTime) / 1000);
+    }, 40); // 25fps 정도로 업데이트
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <span className={className}>{time.toFixed(2)}s</span>;
 }
 

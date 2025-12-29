@@ -353,13 +353,12 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
 
                 {/* Product Info */}
                 <div className="flex-1 pr-8">
+                  <h3 className="font-medium text-gray-800 text-sm mb-1 line-clamp-2">{product.title}</h3>
                   {product.brand && (
-                    <p className="text-xs text-gray-500 mb-0.5">{product.brand}</p>
+                    <p className="text-[13px] text-gray-500 font-medium mb-1">{product.brand}</p>
                   )}
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2">{product.title}</h3>
-                  <p className="text-lg font-bold text-gray-900 mb-1">{product.price.toLocaleString()}원</p>
                   {((product.averageRating ?? 0) > 0 || product.reviewCount > 0) && (
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
                       {(product.averageRating ?? 0) > 0 && (
                         <div className="flex items-center gap-1">
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFC107" stroke="#FFC107" strokeWidth="2">
@@ -373,6 +372,7 @@ export function FavoritesView({ onClose }: FavoritesViewProps) {
                       )}
                     </div>
                   )}
+                  <p className="text-[16px] font-bold text-gray-900">{product.price.toLocaleString()}<span className="text-sm">원</span></p>
                 </div>
               </div>
 
