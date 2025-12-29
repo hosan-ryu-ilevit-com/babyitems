@@ -60,8 +60,13 @@ function StreamingText({ content, speed = 10, onComplete }: { content: string; s
         return <span key={index}>{part}</span>;
       });
 
+      // 빈 줄이면 더 큰 간격 부여 (문단 구분)
+      if (line.trim() === '') {
+        return <div key={lineIndex} className="h-4" />;
+      }
+
       return (
-        <div key={lineIndex} className={lineIndex > 0 ? 'mt-0.5' : ''}>
+        <div key={lineIndex} className={`break-all ${lineIndex > 0 ? 'mt-0.5' : ''}`}>
           {formattedLine}
         </div>
       );

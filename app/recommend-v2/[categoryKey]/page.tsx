@@ -246,15 +246,17 @@ export default function RecommendV2Page() {
 
   // Step Indicator Prop Mapping
   const indicatorStep = useMemo(() => {
-    // 사용자 요청: 하드필터 1단계 (Step 1), 밸런스게임 2단계 (Step 2), 단점+예산 3단계 (Step 3), 결과 4단계 (Step 4)
-    if (currentStep === 1) return 1;
-    if (currentStep === 2 || currentStep === 3) return 2;
-    if (currentStep === 4 || currentStep === 5) {
-      // 결과가 아직 나오지 않았을 때만 3단계, 결과 화면에서는 4단계
-      return scoredProducts.length > 0 ? 4 : 3;
-    }
+    // 사용자 요청:
+    // 1단계: 메인 카테고리 화면/첫 체감속성 질문
+    // 2단계: 하드필터
+    // 3단계: 밸런스게임
+    // 4단계: 단점+예산
+    if (currentStep === 0) return 1;
+    if (currentStep === 1) return 2;
+    if (currentStep === 2 || currentStep === 3) return 3;
+    if (currentStep === 4 || currentStep === 5) return 4;
     return 1;
-  }, [currentStep, scoredProducts.length]);
+  }, [currentStep]);
 
   // Sub-category state (for stroller, car_seat, diaper) - 다중 선택 지원
   const [requiresSubCategory, setRequiresSubCategory] = useState(false);
@@ -1296,12 +1298,15 @@ export default function RecommendV2Page() {
     console.log('  - filtered:', filtered.length);
 
     // 로딩 상태 표시 (사용자에게 필터링 중임을 알림)
+    const fixedSuffix = "이제 말씀하신 상품 조건에 대해 조금만 더 자세히 여쭤볼게요. 정확한 상황을 파악하고, 알맞은 상품을 추천해야 하기 때문이에요.";
     const loadingMsgId = addMessage({
       role: 'system',
       content: '',
       componentType: 'loading-text',
       componentData: {
         text: '조건에 맞는 후보를 찾는 중...',
+        subText: fixedSuffix,
+        showGap: true
       },
     });
     scrollToMessage(loadingMsgId);
@@ -1442,19 +1447,16 @@ export default function RecommendV2Page() {
     logV2CheckpointViewed(categoryKey, categoryName, filtered.length);
 
     // Add AI summary message (Step 2 메시지이므로 stepTag 추가)
-    const fixedSuffix = "\n\n이제 말씀하신 상품 조건에 대해 조금만 더 자세히 여쭤볼게요. 정확한 상황을 파악하고, 알맞은 상품을 추천해야 하기 때문이에요.";
-    const summaryMessage = (aiSummary || "선택하신 조건에 맞는 제품들을 찾았습니다.") + fixedSuffix;
+    const summaryMessage = (aiSummary || "선택하신 조건에 맞는 제품들을 찾았습니다.") + "\n\n" + fixedSuffix;
     
-    setTimeout(() => {
-      addMessage({
-        role: 'assistant',
-        content: summaryMessage,
-        stepTag: '2/5',
-        onTypingComplete: () => {
-          setIsSummaryTypingComplete(true);
-        }
-      }, true, 7); // 긴 문장이므로 속도를 7ms로 더 빠르게 설정
-    }, 300);
+    addMessage({
+      role: 'assistant',
+      content: summaryMessage,
+      stepTag: '2/5',
+      onTypingComplete: () => {
+        setIsSummaryTypingComplete(true);
+      }
+    }, true, 7); // 긴 문장이므로 속도를 7ms로 더 빠르게 설정
   }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInputs, hardFilterDirectInputRegistered]);
 
   // Update ref to the latest handleHardFiltersComplete
@@ -2649,13 +2651,19 @@ export default function RecommendV2Page() {
           );
 
         case 'loading-text':
-          const loadingData = message.componentData as { text: string };
+          const loadingData = message.componentData as { text: string; subText?: string; showGap?: boolean };
           return (
             <div key={message.id} data-message-id={message.id} className="w-full py-2">
-              <div className="w-full flex justify-start">
+              <div className="w-full flex flex-col justify-start">
                 <p className="py-1 text-base font-medium text-gray-600 shimmer-text">
                   {loadingData?.text || '로딩 중...'}
                 </p>
+                {loadingData?.showGap && <div className="h-4" />}
+                {loadingData?.subText && (
+                  <p className="py-1 text-base font-medium text-transparent select-none">
+                    {loadingData.subText}
+                  </p>
+                )}
               </div>
             </div>
           );
@@ -2675,6 +2683,33 @@ export default function RecommendV2Page() {
   const handleGoToPreviousHardFilter = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
+
+    // 하위 카테고리 선택 중이면 선택기 닫고 이전 질문으로
+    if (showSubCategorySelector) {
+      setShowSubCategorySelector(false);
+      setSelectedSubCategoryCodes([]);
+
+      // Log step back from sub-category to first hard filter question
+      logV2StepBack(categoryKey, categoryName, 1, 1);
+
+      let targetMsgId: string | undefined;
+      setMessages(prev => {
+        const filtered = prev.filter(msg => msg.componentType !== 'sub-category');
+        const prevMsg = filtered.findLast(msg => msg.componentType === 'hard-filter');
+        targetMsgId = prevMsg?.id;
+        return filtered;
+      });
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (targetMsgId) {
+            scrollToMessage(targetMsgId);
+          }
+          setIsTransitioning(false);
+        });
+      });
+      return;
+    }
 
     if (currentHardFilterIndex > 0) {
       const prevIndex = currentHardFilterIndex - 1;
@@ -2716,7 +2751,7 @@ export default function RecommendV2Page() {
       router.push('/');
       setIsTransitioning(false);
     }
-  }, [isTransitioning, currentHardFilterIndex, categoryKey, categoryName, scrollToMessage, router]);
+  }, [isTransitioning, showSubCategorySelector, currentHardFilterIndex, categoryKey, categoryName, scrollToMessage, router]);
 
   const handleGoToStep0 = useCallback(() => {
     logV2StepBack(categoryKey, categoryName, currentStep, 0);
@@ -2767,7 +2802,8 @@ export default function RecommendV2Page() {
           animate={{ opacity: 1, y: 0 }}
           onClick={handleSubCategoryConfirm}
           disabled={isTransitioning}
-          className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
+          whileTap={isTransitioning ? undefined : { scale: 0.98 }}
+          className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
             isTransitioning
               ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
               : 'bg-[#111827] text-white'
@@ -2795,13 +2831,14 @@ export default function RecommendV2Page() {
 
       return (
         <div className="flex gap-2">
-          {!isFirstQuestion && (
+          {(!isFirstQuestion || showSubCategorySelector) && (
             <motion.button
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={handleGoToPreviousHardFilter}
               disabled={isTransitioning}
-              className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
+              whileTap={isTransitioning ? undefined : { scale: 0.98 }}
+              className={`w-20 h-14 rounded-2xl font-semibold text-base ${
                 isTransitioning
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -2815,7 +2852,8 @@ export default function RecommendV2Page() {
             animate={{ opacity: 1, y: 0 }}
             onClick={handleHardFilterNext}
             disabled={!canProceed || isTransitioning}
-            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
+            whileTap={(!canProceed || isTransitioning) ? undefined : { scale: 0.98 }}
+            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
               canProceed && !isTransitioning
                 ? 'bg-[#111827] text-white'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
@@ -2838,6 +2876,7 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             disabled={isStep2Disabled}
+            whileTap={isStep2Disabled ? undefined : { scale: 0.98 }}
             onClick={() => {
               if (isStep2Disabled) return;
               logV2StepBack(categoryKey, categoryName, 2, 1);
@@ -2868,7 +2907,7 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${
               isStep2Disabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -2881,7 +2920,8 @@ export default function RecommendV2Page() {
             animate={{ opacity: 1, y: 0 }}
             onClick={handleStartBalanceGame}
             disabled={isNextDisabled}
-            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
+            whileTap={isNextDisabled ? undefined : { scale: 0.98 }}
+            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
               isNextDisabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
@@ -2906,6 +2946,7 @@ export default function RecommendV2Page() {
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             disabled={isTransitioning}
+            whileTap={isTransitioning ? undefined : { scale: 0.98 }}
             onClick={() => {
               if (isTransitioning) return;
               // 밸런스 게임 내에서 이전 질문이 있으면 그리로 이동
@@ -2941,7 +2982,7 @@ export default function RecommendV2Page() {
                 });
               }
             }}
-            className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${
               isTransitioning
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -2952,6 +2993,7 @@ export default function RecommendV2Page() {
           <motion.button
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
+            whileTap={isNextDisabled ? undefined : { scale: 0.98 }}
             onClick={() => {
               if (isTransitioning) return;
               // 마지막 질문이면 완료 처리, 아니면 다음 질문으로
@@ -2962,7 +3004,7 @@ export default function RecommendV2Page() {
               }
             }}
             disabled={isNextDisabled}
-            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
               isNextDisabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
@@ -3013,7 +3055,8 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
+            whileTap={isTransitioning ? undefined : { scale: 0.98 }}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${
               isTransitioning
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3026,7 +3069,8 @@ export default function RecommendV2Page() {
             animate={{ opacity: 1, y: 0 }}
             onClick={handleNegativeComplete}
             disabled={isTransitioning}
-            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
+            whileTap={isTransitioning ? undefined : { scale: 0.98 }}
+            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
               isTransitioning
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
@@ -3062,6 +3106,7 @@ export default function RecommendV2Page() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               disabled={isTransitioning}
+              whileTap={isTransitioning ? undefined : { scale: 0.98 }}
               onClick={() => {
                 if (isTransitioning) return;
                 logV2StepBack(categoryKey, categoryName, 5, 4);
@@ -3091,7 +3136,7 @@ export default function RecommendV2Page() {
                   });
                 });
               }}
-              className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
+              className={`w-20 h-14 rounded-2xl font-semibold text-base ${
                 isTransitioning
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3104,10 +3149,11 @@ export default function RecommendV2Page() {
               animate={{ opacity: 1, y: 0 }}
               onClick={() => handleGetRecommendation(false)}
               disabled={isTransitioning || isTooFewProducts}
-              className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base transition-all flex items-center justify-center shadow-lg shadow-purple-200/50 ${
+              whileTap={(isTransitioning || isTooFewProducts) ? undefined : { scale: 0.98 }}
+              className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base flex items-center justify-center shadow-lg shadow-purple-200/50 ${
                 isTransitioning || isTooFewProducts
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
-                  : 'bg-[#111827] text-white active:scale-[0.98]'
+                  : 'bg-[#111827] text-white'
               }`}
             >
               <span>완료</span>
@@ -3184,7 +3230,9 @@ export default function RecommendV2Page() {
           style={{ paddingBottom: '102px' }}
         >
           {/* Step Indicator - Moved inside main for true floating effect */}
-          <StepIndicator currentStep={indicatorStep} className="top-0" />
+          {currentStep >= 0 && !isCalculating && scoredProducts.length === 0 && (
+            <StepIndicator currentStep={indicatorStep} className="top-0" />
+          )}
 
           <AnimatePresence mode="wait">
             {/* Step 0: Scan Animation */}
@@ -3324,26 +3372,35 @@ export default function RecommendV2Page() {
               {showReRecommendModal && (
                 <div className="fixed bottom-24 left-0 right-0 flex flex-col items-center gap-3 z-[110] px-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
                   <motion.div
-                    initial={{ opacity: 0, y: 0 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
                     transition={{ type: 'spring', damping: 25, stiffness: 300 }}
                     className="flex flex-col gap-3 w-full"
                   >
                     {/* 다른 카테고리 추천받기 버튼 */}
                     <motion.button
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ scale: 1.02, backgroundColor: '#F9FAFB' }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => {
                         logV2ReRecommendDifferentCategory(categoryKey, categoryName);
                         router.push('/');
                       }}
-                      className="w-full py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-2xl shadow-lg font-semibold transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-4 px-6 bg-white text-gray-900 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 font-semibold flex items-center justify-center gap-3 group overflow-hidden relative"
                     >
-                      <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                      </svg>
-                      <span>다른 카테고리 추천받기</span>
+                      <motion.div
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                        className="relative z-10 flex items-center gap-3"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-white transition-colors">
+                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                          </svg>
+                        </div>
+                        <span className="text-gray-700">다른 카테고리 추천받기</span>
+                      </motion.div>
                     </motion.button>
 
                     {/* 현재 카테고리 다시 추천받기 버튼 */}
@@ -3385,13 +3442,33 @@ export default function RecommendV2Page() {
                           });
                         });
                       }}
-                      className="w-full py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-2xl shadow-lg font-semibold transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-4 px-6 bg-white text-[#6366F1] rounded-2xl shadow-[0_8px_30px_rgb(99,102,241,0.12)] border border-indigo-50 font-bold flex items-center justify-center gap-3 group relative overflow-hidden"
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/icons/ic-ai.svg" alt="" width={14} height={14} className="opacity-80" />
-                      <span>{categoryName} 다시 추천받기</span>
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-indigo-50/0 via-indigo-50/50 to-indigo-50/0"
+                        animate={{
+                          x: ['-100%', '100%'],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: 'linear',
+                        }}
+                      />
+                      <motion.div
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="relative z-10 flex items-center gap-3"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-white transition-colors">
+                          <svg className="w-4 h-4 text-[#6366F1]" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="currentColor" />
+                          </svg>
+                        </div>
+                        <span>{categoryName} 다시 추천받기</span>
+                      </motion.div>
                     </motion.button>
-
                   </motion.div>
                 </div>
               )}

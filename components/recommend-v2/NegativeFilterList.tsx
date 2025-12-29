@@ -96,7 +96,7 @@ export function NegativeFilterList({
 
       {/* 설명 */}
       <h3 className="text-[18px] font-semibold text-gray-900 leading-snug">
-        꼭 피하고 싶은 단점을 선택하세요 <span className="text-blue-500 font-bold">*</span>
+        꼭 피하고 싶은 단점을 선택하세요 <span className="text-gray-500 text-[14px] font-normal ml-1">(건너뛰기 가능)</span>
       </h3>
 
       {/* AI 도움받기 버튼 */}
@@ -110,7 +110,7 @@ export function NegativeFilterList({
           label="뭘 골라야 할지 모르겠어요"
           questionType="negative"
           questionId="negative_filter"
-          questionText="꼭 피하고 싶은 단점을 선택하세요"
+          questionText="꼭 피하고 싶은 단점을 선택하세요 (건너뛰기 가능)"
           category={category}
           categoryName={categoryName}
           hasContext={hasContext}

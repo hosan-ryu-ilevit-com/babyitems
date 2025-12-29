@@ -158,17 +158,18 @@ function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: 
     <div className="overflow-x-auto scrollbar-hide -mx-5 px-5 mb-6">
       <div className="flex items-center gap-2">
         {AGE_FILTERS.map((filter) => (
-          <button
+          <motion.button
             key={filter.id}
             onClick={() => onSelect(filter.id)}
-            className={`px-4 py-2 rounded-full text-[14px] font-medium whitespace-nowrap border transition-all ${
+            whileTap={{ scale: 0.96 }}
+            className={`px-4 py-2 rounded-full text-[14px] font-medium whitespace-nowrap border ${
               selectedId === filter.id
                 ? 'bg-gray-800 border-gray-800 text-white shadow-sm'
                 : 'bg-white border-gray-200 text-gray-500'
             }`}
           >
             {filter.label}
-          </button>
+          </motion.button>
         ))}
       </div>
     </div>
@@ -179,10 +180,11 @@ function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: 
 function CategoryCard({ name, isSelected, onClick, isLoading }: { name: string; isSelected: boolean; onClick: () => void; isLoading: boolean }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <button
+      <motion.button
         onClick={onClick}
         disabled={isLoading}
-        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 transition-all active:scale-[0.98] ${
+        whileTap={isLoading ? undefined : { scale: 0.98 }}
+        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 ${
           isSelected
             ? 'bg-purple-50 border-purple-200 text-purple-700'
             : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200'
@@ -193,7 +195,7 @@ function CategoryCard({ name, isSelected, onClick, isLoading }: { name: string; 
         ) : (
           <span className="text-[15px] font-medium text-left">{name}</span>
         )}
-      </button>
+      </motion.button>
       {isSelected && !isLoading && (
         <div className="flex px-1">
           <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded-md">추천완료</span>
@@ -345,11 +347,12 @@ export default function Home() {
             {/* 5. AI 도움받기 버튼 */}
             <motion.button
               variants={itemVariants}
+              whileTap={{ scale: 0.98 }}
               onClick={() => {
                 logAIHelperButtonClicked('category_selection', 'category_select', '어떤 상품을 찾으시나요?', 'all', '전체');
                 setIsAIHelperOpen(true);
               }}
-              className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 transition-all active:scale-[0.98]"
+              className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 bg-white"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
