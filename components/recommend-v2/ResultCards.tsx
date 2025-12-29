@@ -1581,7 +1581,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
       {/* 예산 내 제품만 보기 플로팅 버튼 (다시 추천받기 버튼 위에 위치) */}
       {(() => {
-        if (!onRestrictToBudget || !userContext?.budget?.min || !userContext?.budget?.max) return null;
+        // budget이 object인 경우에만 min/max 접근
+        const budgetObj = userContext?.budget && typeof userContext.budget === 'object' ? userContext.budget : null;
+        if (!onRestrictToBudget || !budgetObj?.min || !budgetObj?.max) return null;
 
         // 이미 클릭했으면 숨김
         if (budgetButtonClicked) return null;
@@ -1591,7 +1593,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
           const danawa = danawaData[p.pcode];
           const hasLowestPrice = danawa && danawa.lowest_price && danawa.lowest_price > 0;
           const effectivePrice = hasLowestPrice ? danawa.lowest_price! : (p.lowestPrice || p.price || 0);
-          const isOutOfBudget = effectivePrice > 0 && (effectivePrice < userContext.budget!.min || effectivePrice > userContext.budget!.max);
+          const isOutOfBudget = effectivePrice > 0 && (effectivePrice < budgetObj.min || effectivePrice > budgetObj.max);
 
           return {
             title: `${p.brand || ''} ${p.title.substring(0, 20)}...`,
@@ -1599,8 +1601,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             lowestPrice: p.lowestPrice,
             price: p.price,
             effectivePrice,
-            budgetMin: userContext.budget!.min,
-            budgetMax: userContext.budget!.max,
+            budgetMin: budgetObj.min,
+            budgetMax: budgetObj.max,
             isOutOfBudget,
           };
         });
@@ -1608,7 +1610,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         const hasOutOfBudget = budgetCheckResults.some(r => r.isOutOfBudget);
 
         // 디버깅 로그 (제품별 가격 확인)
-        console.log('[버튼 표시 로직] 예산 범위:', userContext.budget.min.toLocaleString(), '~', userContext.budget.max.toLocaleString(), '원');
+        console.log('[버튼 표시 로직] 예산 범위:', budgetObj.min.toLocaleString(), '~', budgetObj.max.toLocaleString(), '원');
         console.log('[버튼 표시 로직] 제품별 가격:', budgetCheckResults);
         console.log('[버튼 표시 로직] 범위 밖 제품 있음?', hasOutOfBudget, '→  버튼', hasOutOfBudget ? '표시' : '숨김');
 
