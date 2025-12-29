@@ -127,36 +127,26 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
 function StreamingTitle({ onComplete }: { onComplete?: () => void }) {
   const text = "안녕하세요!\n고객님께 필요한 최적의 육아용품을 찾아드릴게요.";
   const [displayedText, setDisplayedText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {
-    // 타이핑 효과 시작
     let i = 0;
     const interval = setInterval(() => {
       setDisplayedText(text.slice(0, i));
       i++;
       if (i > text.length) {
         clearInterval(interval);
-        setIsTyping(false);
         onComplete?.();
       }
-    }, 40);
+    }, 25);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // 마운트 시 최초 1회만 실행하도록 고정
+  }, []);
 
   return (
     <div className="px-5 pt-4 pb-0">
       <h2 className="text-[16px] font-medium text-gray-900 leading-[1.4] whitespace-pre-wrap">
         {displayedText}
-        {isTyping && (
-          <motion.span
-            animate={{ opacity: [1, 0] }}
-            transition={{ duration: 0.8, repeat: Infinity }}
-            className="inline-block w-[2px] h-[16px] bg-gray-400 ml-1 translate-y-[2px]"
-          />
-        )}
       </h2>
     </div>
   );
@@ -361,7 +351,8 @@ export default function Home() {
               }}
               className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 transition-all active:scale-[0.98]"
             >
-              <span className="ai-gradient-text text-[16px] font-bold">✦</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
               <span className="text-[16px] font-semibold text-[#6366F1]">뭘 골라야 할지 모르겠어요</span>
             </motion.button>
 

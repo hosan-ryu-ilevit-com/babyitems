@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import type { TimelineStep } from '@/types/recommend-v2';
 
@@ -10,17 +10,35 @@ interface TimelineStreamingViewProps {
 
 /**
  * 로딩 화면에서 타임라인 전체 내용을 글자 단위로 스트리밍하는 컴포넌트
+ * 각 단계는 이전 단계의 스트리밍이 완료된 후에만 표시됩니다.
  */
 export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activeStepId, setActiveStepId] = useState<string | null>(null);
+  // 스트리밍이 완료된 step index들을 추적
+  const [completedStepIndices, setCompletedStepIndices] = useState<Set<number>>(new Set());
+  // 현재 스트리밍 중인 step index
+  const [currentStreamingIndex, setCurrentStreamingIndex] = useState(0);
 
-  // 가장 최근에 추가된 스텝을 활성 스텝으로 설정
-  useEffect(() => {
-    if (steps.length > 0) {
-      setActiveStepId(steps[steps.length - 1].id);
+  // step 스트리밍 완료 핸들러
+  const handleStepComplete = useCallback((stepIndex: number) => {
+    setCompletedStepIndices(prev => new Set([...prev, stepIndex]));
+    // 다음 step이 있으면 스트리밍 시작
+    setCurrentStreamingIndex(prev => {
+      if (stepIndex + 1 < steps.length && stepIndex + 1 > prev) {
+        return stepIndex + 1;
+      }
+      return prev;
+    });
+  }, [steps.length]);
+
+  // 새 step이 추가되었을 때, 이전 step이 완료되었으면 바로 시작
+  const effectiveStreamingIndex = (() => {
+    const lastIndex = steps.length - 1;
+    if (lastIndex > 0 && completedStepIndices.has(lastIndex - 1) && currentStreamingIndex < lastIndex) {
+      return lastIndex;
     }
-  }, [steps]);
+    return currentStreamingIndex;
+  })();
 
   // 자동 스크롤: 내부 콘텐츠 변화(스트리밍 등) 감지하여 하단 유지
   useEffect(() => {
@@ -45,25 +63,19 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
 
   if (steps.length === 0) return null;
 
-  const currentStep = steps[steps.length - 1];
+  // 현재 보여줄 step: 스트리밍 중이거나 완료된 것만
+  const visibleStepCount = effectiveStreamingIndex + 1;
+  const currentStep = steps[Math.min(effectiveStreamingIndex, steps.length - 1)];
 
   return (
     <div className="w-full flex flex-col gap-8">
       {/* 상단: 현재 진행 중인 메인 작업 (AI 그라데이션) */}
       <div className="flex items-start gap-2.5 px-1">
-        <div className="w-[22px] h-[22px] flex items-center justify-center shrink-0 mt-0.5">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 3L14.5 9L21 11.5L14.5 14L12 20L9.5 14L3 11.5L9.5 9L12 3Z" fill="url(#ai_gradient_header)" />
-            <defs>
-              <linearGradient id="ai_gradient_header" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#77A0FF" />
-                <stop offset="0.7" stopColor="#907FFF" />
-                <stop offset="1" stopColor="#6947FF" />
-              </linearGradient>
-            </defs>
-          </svg>
+        <div className="w-4 h-4 flex items-center justify-center shrink-0 mt-0.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/icons/ic-ai.svg" alt="" width={16} height={16} />
         </div>
-        
+
         <div className="flex flex-col gap-1">
           <motion.h2
             key={currentStep.id}
@@ -89,11 +101,18 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
           }}
         >
-          {steps.map((step, idx) => {
-            const isLast = idx === steps.length - 1;
-            
+          {steps.slice(0, visibleStepCount).map((step, idx) => {
+            const isCurrentlyStreaming = idx === effectiveStreamingIndex;
+            const isCompleted = completedStepIndices.has(idx);
+
             return (
-              <div key={step.id} className="relative flex gap-4">
+              <motion.div
+                key={step.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="relative flex gap-4"
+              >
                 {/* 왼쪽 라인 및 아이콘 */}
                 <div className="flex flex-col items-center shrink-0">
                   <div className="w-6 h-6 flex items-center justify-center z-10">
@@ -107,44 +126,14 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
 
                 {/* 콘텐츠 */}
                 <div className="flex-1 space-y-2">
-                  <h3 className="text-[16px] font-semibold text-gray-600 leading-snug">
-                    <StreamedText
-                      text={step.title}
-                      className=""
-                      speed={20}
-                    />
-                  </h3>
-                  
-                  <div className="space-y-1">
-                    {step.details.map((detail, dIdx) => (
-                      <StreamedText
-                        key={`${step.id}-d-${dIdx}`}
-                        text={detail}
-                        className="text-[14px] font-medium text-gray-400 leading-relaxed block"
-                        speed={25}
-                      />
-                    ))}
-                    
-                    {step.subDetails?.map((sub, sIdx) => (
-                      <div key={`${step.id}-s-${sIdx}`} className="space-y-1.5 pt-1">
-                        <span className="text-[13px] font-bold text-gray-500 block">
-                          {sub.label}
-                        </span>
-                        <div className="flex flex-wrap gap-x-2 gap-y-1">
-                          {sub.items.map((item, iIdx) => (
-                            <StreamedText
-                              key={`${step.id}-si-${sIdx}-${iIdx}`}
-                              text={item + (iIdx < sub.items.length - 1 ? ',' : '')}
-                              className="text-[13px] font-medium text-gray-400 block"
-                              speed={10}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <StepContent
+                    step={step}
+                    isStreaming={isCurrentlyStreaming}
+                    isCompleted={isCompleted}
+                    onComplete={() => handleStepComplete(idx)}
+                  />
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -154,24 +143,125 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
 }
 
 /**
+ * 개별 Step 콘텐츠 (순차 스트리밍)
+ */
+function StepContent({
+  step,
+  isStreaming,
+  isCompleted,
+  onComplete
+}: {
+  step: TimelineStep;
+  isStreaming: boolean;
+  isCompleted: boolean;
+  onComplete: () => void;
+}) {
+  const [titleComplete, setTitleComplete] = useState(false);
+  const [detailsCompleteCount, setDetailsCompleteCount] = useState(0);
+  const hasReportedComplete = useRef(false);
+
+  // 완료 체크: title + 모든 details 완료 시 (한 번만 호출)
+  useEffect(() => {
+    if (titleComplete && detailsCompleteCount >= step.details.length && !hasReportedComplete.current) {
+      hasReportedComplete.current = true;
+      onComplete();
+    }
+  }, [titleComplete, detailsCompleteCount, step.details.length, onComplete]);
+
+  // 이미 완료된 step은 전체 텍스트 즉시 표시
+  if (isCompleted && !isStreaming) {
+    return (
+      <>
+        <h3 className="text-[16px] font-semibold text-gray-600 leading-snug">
+          {step.title}
+        </h3>
+        <div className="space-y-1">
+          {step.details.map((detail, dIdx) => (
+            <span key={`${step.id}-d-${dIdx}`} className="text-[14px] font-medium text-gray-400 leading-relaxed block">
+              {detail}
+            </span>
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <h3 className="text-[16px] font-semibold text-gray-600 leading-snug">
+        <StreamedText
+          text={step.title}
+          className=""
+          speed={15}
+          onComplete={() => setTitleComplete(true)}
+          shouldStream={isStreaming}
+        />
+      </h3>
+
+      <div className="space-y-1">
+        {step.details.map((detail, dIdx) => (
+          <StreamedText
+            key={`${step.id}-d-${dIdx}`}
+            text={detail}
+            className="text-[14px] font-medium text-gray-400 leading-relaxed block"
+            speed={12}
+            // title 완료 후, 이전 detail들이 완료되면 시작
+            shouldStream={isStreaming && titleComplete && dIdx <= detailsCompleteCount}
+            onComplete={() => setDetailsCompleteCount(prev => prev + 1)}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
+/**
  * 개별 텍스트를 글자 단위로 스트리밍하는 컴포넌트
  */
-function StreamedText({ text, className, speed = 20 }: { text: string; className: string; speed?: number }) {
+function StreamedText({
+  text,
+  className,
+  speed = 20,
+  shouldStream = true,
+  onComplete
+}: {
+  text: string;
+  className: string;
+  speed?: number;
+  shouldStream?: boolean;
+  onComplete?: () => void;
+}) {
   const [displayedText, setDisplayedText] = useState('');
+  const hasCompletedRef = useRef(false);
 
   useEffect(() => {
-    let currentIndex = 0;
+    // 스트리밍 비활성화 시 대기
+    if (!shouldStream) {
+      return;
+    }
+
+    let currentIndex = displayedText.length; // 기존 진행 상태 유지
     const streamInterval = setInterval(() => {
       if (currentIndex < text.length) {
         setDisplayedText(text.slice(0, currentIndex + 1));
         currentIndex++;
       } else {
         clearInterval(streamInterval);
+        // 완료 콜백 (한 번만 호출)
+        if (onComplete && !hasCompletedRef.current) {
+          hasCompletedRef.current = true;
+          onComplete();
+        }
       }
     }, speed);
 
     return () => clearInterval(streamInterval);
-  }, [text, speed]);
+  }, [text, speed, shouldStream, onComplete, displayedText.length]);
+
+  // 스트리밍 비활성화 상태면 아무것도 표시하지 않음
+  if (!shouldStream && displayedText.length === 0) {
+    return null;
+  }
 
   return <span className={className}>{displayedText}</span>;
 }

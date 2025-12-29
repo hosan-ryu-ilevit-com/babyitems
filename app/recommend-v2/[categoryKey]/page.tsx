@@ -1940,103 +1940,121 @@ export default function RecommendV2Page() {
       const budgetFilteredCount = scored.filter(p => !p.isOverBudget).length;
 
 
-      // 📦 1단계: 실사용 리뷰 및 카테고리 분석
-      const step1: TimelineStep = {
-        id: 'step-1',
-        title: `인기 ${categoryName} 제품들의 리뷰를 분석 중`,
-        icon: '',
-        details: [
-          `후보 제품들의 실사용 리뷰와 ${categoryName} 카테고리의 주요 만족 포인트를 수집하고 분석하고 있습니다. ${candidateProducts.slice(0, 3).map(p => (p.brand || '') + ' ' + p.title).join(', ')} 등을 분석하고 있습니다.`,
-        ],
-        timestamp: Date.now(),
-        status: 'completed',
-      };
-      localTimelineSteps.push(step1);
-      setTimelineSteps(prev => [...prev, step1]);
-
-      // 1단계 -> 2단계: 6초 대기 (프로그레스 0% -> 40% 구간)
-      await new Promise(resolve => setTimeout(resolve, 6000));
-
-      // 🤖 2단계: 맞춤 후보군 선정 및 점수 계산
-      const userSelectedConditions: string[] = [];
-      const userAvoidConditions: string[] = [];
-
-      // 밸런스 게임 선택
-      Array.from(balanceSelections).forEach(ruleKey => {
-        const label = balanceLabels[ruleKey];
-        if (label) userSelectedConditions.push(label);
-      });
-
-      // 단점 필터 선택
-      negativeSelections.forEach(negKey => {
-        const label = negativeLabels[negKey];
-        if (label) userAvoidConditions.push(label);
-      });
-
-      const step2: TimelineStep = {
-        id: 'step-2',
-        title: `고객님의 목표에 알맞는 제품 ${candidateProducts.length}개 골라내는 중`,
-        icon: '',
-        details: [
-          `각 제품의 장단점 평가 및 추천 점수를 계산합니다. 입력하신 선호 조건(${userSelectedConditions.slice(0, 2).join(', ')}...)과 회피 조건(${userAvoidConditions.slice(0, 2).join(', ')}...)을 제품 특성과 대조해 최적의 후보군을 골라내고 있습니다.`,
-        ],
-        timestamp: Date.now(),
-        status: 'completed',
-      };
-      localTimelineSteps.push(step2);
-      setTimelineSteps(prev => [...prev, step2]);
-
-      // 2단계 -> 3단계: 8초 대기 (프로그레스 40% -> 90% 구간)
-      await new Promise(resolve => setTimeout(resolve, 8000));
-
-      // 🏆 3단계: TOP 3 최종 선정
-      const step3: TimelineStep = {
-        id: 'step-3',
-        title: 'TOP 3 제품 최종 선정 중',
-        icon: '',
-        details: [
-          `고객님의 상황에 가장 완벽하게 부합하는 3가지 제품을 선별하고 있습니다. 각 제품의 스펙, 가격 경쟁력, 그리고 실제 사용자들의 만족도가 가장 높은 지점을 심층 분석하여 맞춤형 추천 근거를 작성 중입니다.`,
-        ],
-        timestamp: Date.now(),
-        status: 'completed',
-      };
-      localTimelineSteps.push(step3);
-      setTimelineSteps(prev => [...prev, step3]);
-
-      // 3단계 -> API 호출: 8초 대기 (프로그레스 90% -> 99% 구간)
-      await new Promise(resolve => setTimeout(resolve, 8000));
-
+      // 🚀 API 호출을 즉시 시작 (타임라인 UX와 병렬 실행)
       let top3 = candidateProducts.slice(0, 3);
       let finalSelectionReason = '';
       let finalGeneratedBy: 'llm' | 'fallback' = 'fallback';
 
-      try {
-        const recommendResponse = await fetch('/api/v2/recommend-final', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            categoryKey,
-            candidateProducts,
-            userContext: {
-              hardFilterAnswers,
-              balanceSelections: Array.from(balanceSelections),
-              negativeSelections,
-              initialContext: userContext,  // 사용자가 처음 입력한 자연어 상황
-            },
-            budget,
-          }),
+      const apiPromise = (async () => {
+        try {
+          const recommendResponse = await fetch('/api/v2/recommend-final', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              categoryKey,
+              candidateProducts,
+              userContext: {
+                hardFilterAnswers,
+                balanceSelections: Array.from(balanceSelections),
+                negativeSelections,
+                initialContext: userContext,  // 사용자가 처음 입력한 자연어 상황
+              },
+              budget,
+            }),
+          });
+
+          const recommendResult = await recommendResponse.json();
+
+          if (recommendResult.success && recommendResult.data) {
+            return {
+              top3: recommendResult.data.top3Products,
+              selectionReason: recommendResult.data.selectionReason || '',
+              generatedBy: recommendResult.data.generated_by || 'fallback',
+            };
+          }
+        } catch (llmError) {
+          console.warn('LLM recommendation failed, using score-based fallback:', llmError);
+        }
+        return null;
+      })();
+
+      // 🎬 타임라인 UX (API와 병렬 실행, 총 11초: 3+4+4)
+      const timelinePromise = (async () => {
+        // 📦 1단계: 실사용 리뷰 및 카테고리 분석
+        const step1: TimelineStep = {
+          id: 'step-1',
+          title: `인기 ${categoryName} 제품들의 리뷰를 분석 중`,
+          icon: '',
+          details: [
+            `후보 제품들의 실사용 리뷰와 ${categoryName} 카테고리의 주요 만족 포인트를 수집하고 분석하고 있습니다. ${candidateProducts.slice(0, 3).map(p => (p.brand || '') + ' ' + p.title).join(', ')} 등을 분석하고 있습니다.`,
+          ],
+          timestamp: Date.now(),
+          status: 'completed',
+        };
+        localTimelineSteps.push(step1);
+        setTimelineSteps(prev => [...prev, step1]);
+
+        // 1단계 -> 2단계: 3초 대기
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        // 🤖 2단계: 맞춤 후보군 선정 및 점수 계산
+        const userSelectedConditions: string[] = [];
+        const userAvoidConditions: string[] = [];
+
+        // 밸런스 게임 선택
+        Array.from(balanceSelections).forEach(ruleKey => {
+          const label = balanceLabels[ruleKey];
+          if (label) userSelectedConditions.push(label);
         });
 
-        const recommendResult = await recommendResponse.json();
+        // 단점 필터 선택
+        negativeSelections.forEach(negKey => {
+          const label = negativeLabels[negKey];
+          if (label) userAvoidConditions.push(label);
+        });
 
-        if (recommendResult.success && recommendResult.data) {
-          top3 = recommendResult.data.top3Products;
-          finalSelectionReason = recommendResult.data.selectionReason || '';
-          finalGeneratedBy = recommendResult.data.generated_by || 'fallback';
-          console.log(`✅ LLM recommendation: ${finalGeneratedBy}`, top3.map((p: ScoredProduct) => p.title));
-        }
-      } catch (llmError) {
-        console.warn('LLM recommendation failed, using score-based fallback:', llmError);
+        const step2: TimelineStep = {
+          id: 'step-2',
+          title: `고객님의 목표에 알맞는 제품 ${candidateProducts.length}개 골라내는 중`,
+          icon: '',
+          details: [
+            `각 제품의 장단점 평가 및 추천 점수를 계산합니다. 입력하신 선호 조건(${userSelectedConditions.slice(0, 2).join(', ')}...)과 회피 조건(${userAvoidConditions.slice(0, 2).join(', ')}...)을 제품 특성과 대조해 최적의 후보군을 골라내고 있습니다.`,
+          ],
+          timestamp: Date.now(),
+          status: 'completed',
+        };
+        localTimelineSteps.push(step2);
+        setTimelineSteps(prev => [...prev, step2]);
+
+        // 2단계 -> 3단계: 4초 대기
+        await new Promise(resolve => setTimeout(resolve, 4000));
+
+        // 🏆 3단계: TOP 3 최종 선정
+        const step3: TimelineStep = {
+          id: 'step-3',
+          title: 'TOP 3 제품 최종 선정 중',
+          icon: '',
+          details: [
+            `고객님의 상황에 가장 완벽하게 부합하는 3가지 제품을 선별하고 있습니다. 각 제품의 스펙, 가격 경쟁력, 그리고 실제 사용자들의 만족도가 가장 높은 지점을 심층 분석하여 맞춤형 추천 근거를 작성 중입니다.`,
+          ],
+          timestamp: Date.now(),
+          status: 'completed',
+        };
+        localTimelineSteps.push(step3);
+        setTimelineSteps(prev => [...prev, step3]);
+
+        // 3단계: 4초 대기 (최소 UX 시간)
+        await new Promise(resolve => setTimeout(resolve, 4000));
+      })();
+
+      // API 완료와 최소 타임라인 UX(11초) 모두 만족하면 결과 표시
+      const [apiResult] = await Promise.all([apiPromise, timelinePromise]);
+
+      if (apiResult) {
+        top3 = apiResult.top3;
+        finalSelectionReason = apiResult.selectionReason;
+        finalGeneratedBy = apiResult.generatedBy as 'llm' | 'fallback';
+        console.log(`✅ LLM recommendation: ${finalGeneratedBy}`, top3.map((p: ScoredProduct) => p.title));
       }
 
       setScoredProducts(top3);
@@ -2292,7 +2310,10 @@ export default function RecommendV2Page() {
       }
 
       // 현재 스텝보다 이전 스텝의 메시지면 비활성화
-      const isPastStep = messageStep !== null && currentStep > messageStep;
+      // stepTag가 없는 assistant 메시지(인사말)는 step 0으로 취급
+      const isPastStep = messageStep !== null
+        ? currentStep > messageStep
+        : currentStep > 0;
 
       return (
         <div
@@ -3366,9 +3387,8 @@ export default function RecommendV2Page() {
                       }}
                       className="w-full py-4 px-6 bg-white hover:bg-gray-50 text-gray-900 rounded-2xl shadow-lg font-semibold transition-colors flex items-center justify-center gap-2"
                     >
-                      <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/icons/ic-ai.svg" alt="" width={14} height={14} className="opacity-80" />
                       <span>{categoryName} 다시 추천받기</span>
                     </motion.button>
 

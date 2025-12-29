@@ -23,6 +23,7 @@ interface ReviewInsight {
     rating: number;
     originalIndex: number;
   };
+  isFallback?: boolean;  // 폴백 베스트 리뷰 구분
 }
 
 interface ProductReviewInsights {
@@ -114,6 +115,43 @@ export async function POST(request: NextRequest) {
 
       const resolvedInsights = await Promise.all(insightPromises);
       insights.push(...resolvedInsights.filter((i: ReviewInsight | null): i is ReviewInsight => i !== null));
+
+      // 폴백: 체감속성 리뷰가 없으면 베스트 리뷰로 대체
+      const validInsights = insights.filter(i => i.topSample);
+      if (validInsights.length === 0 && reviews.high.length > 0) {
+        console.log(`[review-keywords-llm] No valid insights for ${pcode}, falling back to best reviews`);
+
+        // 베스트 리뷰 선정 (고평점 + 길이 순)
+        const bestReviews = selectBestReviews(reviews.high, 3);
+
+        // 병렬로 LLM 하이라이팅
+        const fallbackPromises = bestReviews.map(async (review, idx) => {
+          const highlighted = await highlightBestReview(review.text, productTitle);
+          if (highlighted) {
+            return {
+              criteriaId: `fallback_best_${idx}`,
+              criteriaName: '베스트 리뷰',
+              totalMentions: 1,
+              positiveRatio: 1.0,
+              sentiment: 'neutral' as const,
+              topSample: highlighted,
+              reviewMetadata: {
+                author: review.author || null,
+                review_date: review.review_date || null,
+                helpful_count: review.helpful_count || 0,
+                rating: review.rating,
+                originalIndex: review.reviewIndex,
+              },
+              isFallback: true,
+            };
+          }
+          return null;
+        });
+
+        const fallbackResults = await Promise.all(fallbackPromises);
+        const validFallbacks = fallbackResults.filter((i): i is NonNullable<typeof i> => i !== null);
+        insights.push(...validFallbacks as ReviewInsight[]);
+      }
 
       if (insights.length > 0) {
         return {
@@ -322,6 +360,76 @@ ${reviewsText}
   } catch (error) {
     console.error(`[extractRelevantExcerpt] Error for ${criteriaName}:`, error);
     return null;
+  }
+}
+
+/**
+ * 베스트 리뷰 선정 (고평점 리뷰에서 길이 순)
+ */
+function selectBestReviews(
+  highRatedReviews: Array<{
+    text: string;
+    rating: number;
+    length: number;
+    author?: string | null;
+    review_date?: string | null;
+    helpful_count?: number;
+    reviewIndex: number;
+  }>,
+  count: number
+) {
+  // 길이 기반 정렬 (이미 고평점으로 필터링됨)
+  return [...highRatedReviews]
+    .sort((a, b) => b.length - a.length)
+    .slice(0, count);
+}
+
+/**
+ * 베스트 리뷰 하이라이팅 (LLM 사용)
+ */
+async function highlightBestReview(
+  reviewText: string,
+  productTitle: string
+): Promise<string | null> {
+  try {
+    const prompt = `당신은 제품 리뷰 분석가입니다.
+아래는 **"${productTitle}"** 제품의 리뷰입니다.
+이 리뷰에서 핵심적인 평가 내용을 발췌하고 **마크다운 볼드**로 강조하세요.
+
+## 규칙
+1. 1~2문장만 발췌 (핵심이 1문장이면 OK)
+2. 핵심 키워드/평가 부분에 **볼드** 처리
+3. 앞뒤에 "..." 붙이기 (생략 표시)
+4. 리뷰 전체가 짧으면 그대로 사용해도 OK
+
+## 리뷰
+${reviewText}
+
+## 출력 (JSON만)
+{
+  "excerpt": "...**핵심 평가 부분**..."
+}`;
+
+    const response = await callGeminiWithRetry(async () => {
+      const model = getModel(0.3);
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    }, 2, 1000);
+
+    const parsed = parseJSONResponse(response) as { excerpt?: string } | null;
+
+    if (parsed && parsed.excerpt) {
+      console.log(`[highlightBestReview] ✅ Highlighted best review`);
+      return parsed.excerpt;
+    }
+
+    // 파싱 실패 시 원본 텍스트 일부 반환
+    return reviewText.length > 150 ? reviewText.slice(0, 150) + '...' : reviewText;
+
+  } catch (error) {
+    console.error(`[highlightBestReview] Error:`, error);
+    // 에러 시 원본 텍스트 일부 반환
+    return reviewText.length > 150 ? reviewText.slice(0, 150) + '...' : reviewText;
   }
 }
 

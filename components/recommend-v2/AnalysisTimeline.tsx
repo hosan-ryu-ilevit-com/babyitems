@@ -32,17 +32,9 @@ export function AnalysisTimeline({ timeline }: AnalysisTimelineProps) {
         className="w-full flex items-center justify-between px-1 py-3 bg-transparent transition-colors"
       >
         <div className="flex items-center gap-2">
-          <div className="w-[22px] h-[22px] flex items-center justify-center shrink-0">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 3L14.5 9L21 11.5L14.5 14L12 20L9.5 14L3 11.5L9.5 9L12 3Z" fill="url(#ai_gradient_timeline)" />
-              <defs>
-                <linearGradient id="ai_gradient_timeline" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#77A0FF" />
-                  <stop offset="0.7" stopColor="#907FFF" />
-                  <stop offset="1" stopColor="#6947FF" />
-                </linearGradient>
-              </defs>
-            </svg>
+          <div className="w-4 h-4 flex items-center justify-center shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/ic-ai.svg" alt="" width={16} height={16} />
           </div>
           <span className="text-[16px] font-medium ai-gradient-text">
             {durationText}동안 쇼핑 · 제품 탐색 완료

@@ -48,6 +48,7 @@ interface ReviewInsight {
     rating: number;
     originalIndex: number;
   };
+  isFallback?: boolean;  // 폴백 베스트 리뷰 구분
 }
 
 interface ProductReviewInsights {
@@ -106,11 +107,15 @@ const CRITERIA_KEYWORDS: Record<string, string[]> = {
 };
 
 // LLM 하이라이팅 결과 파싱 (마크다운 볼드 → 하이라이트 스타일)
-function parseHighlightedReview(text: string, sentiment: 'positive' | 'neutral' | 'negative'): React.ReactNode {
+function parseHighlightedReview(text: string, sentiment: 'positive' | 'neutral' | 'negative', isFallback?: boolean): React.ReactNode {
   const parts = text.split(/(\*\*.*?\*\*)/g);
 
-  // sentiment가 negative면 빨간색, 그 외(positive, neutral)는 초록색 표시
-  const highlightClass = sentiment === 'negative' ? 'text-red-700 font-semibold' : 'text-green-700 font-semibold';
+  // 폴백 베스트 리뷰는 파란색, negative면 빨간색, 그 외는 초록색
+  const highlightClass = isFallback
+    ? 'text-blue-600 font-semibold'
+    : sentiment === 'negative'
+      ? 'text-red-700 font-semibold'
+      : 'text-green-700 font-semibold';
 
   return parts.map((part, index) => {
     if (part.startsWith('**') && part.endsWith('**')) {
@@ -185,18 +190,20 @@ function ReviewCard({ insight }: { insight: ReviewInsight }) {
 
   return (
     <div className="bg-white rounded-2xl p-4 border border-gray-100 h-full flex flex-col min-w-[280px]">
-      {/* 상단: 체감속성 태그 */}
+      {/* 상단: 체감속성 태그 (폴백 베스트 리뷰는 파란색) */}
       <div className="mb-3">
         <span
           className={`inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-medium border ${
-            insight.sentiment === 'positive'
+            insight.isFallback
+              ? 'bg-blue-50 border-blue-200 text-blue-700'
+              : insight.sentiment === 'positive'
               ? 'bg-green-50 border-green-200 text-green-800'
               : insight.sentiment === 'negative'
               ? 'bg-red-50 border-red-200 text-red-800'
               : 'bg-gray-50 border-gray-100 text-gray-700'
           }`}
         >
-          {insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
+          {insight.isFallback ? '⭐' : insight.sentiment === 'positive' ? '👍' : insight.sentiment === 'negative' ? '👎' : '💬'}
           {' '}{insight.criteriaName}
         </span>
       </div>
@@ -216,7 +223,7 @@ function ReviewCard({ insight }: { insight: ReviewInsight }) {
 
       {/* 발췌문 */}
       <p className="text-sm text-gray-700 leading-[1.4] font-medium line-clamp-4">
-        {parseHighlightedReview(insight.topSample || '', insight.sentiment)}
+        {parseHighlightedReview(insight.topSample || '', insight.sentiment, insight.isFallback)}
       </p>
     </div>
   );
@@ -381,6 +388,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
     prices: Array<{ mall: string; price: number; delivery: string; link?: string }>;
   } | undefined>(undefined);
   const [shouldScrollToSellers, setShouldScrollToSellers] = useState(false);
+
+  // 비교표 토글 state
+  const [showComparisonOnly, setShowComparisonOnly] = useState(false);
 
   // Anchor product for comparison (별도 기준제품 - TOP 3와 별개)
   const [anchorProduct, setAnchorProduct] = useState<{
@@ -1088,7 +1098,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
-        className="px-1 mb-2"
+        className="px-1 mb-2 mt-4"
       >
         <p className="text-[16px] text-gray-800 leading-[1.4] font-medium">
           입력해주신 조건에 맞는 제품을 추천해드렸어요!<br />
@@ -1097,7 +1107,7 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
       </motion.div>
 
       {/* 구분선 */}
-      <div className="h-[1px] bg-gray-100 w-full mb-6" />
+      <div className="h-[1px] bg-gray-100 w-full mb-5" />
 
       {/* 헤더 - 카테고리 추천 타이틀 */}
       <motion.div
@@ -1113,8 +1123,48 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         </div>
       </motion.div>
 
+      {/* 비교표 토글 */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.3 }}
+      >
+        <button
+          onClick={() => setShowComparisonOnly(!showComparisonOnly)}
+          className={`flex items-center justify-between w-[116px] h-[34px] px-2.5 rounded-lg transition-all duration-200 ${
+            showComparisonOnly
+              ? 'bg-blue-50 border border-blue-100'
+              : 'bg-gray-50 border border-gray-100'
+          }`}
+        >
+          <span className={`text-[16px] font-medium transition-colors ${
+            showComparisonOnly ? 'text-blue-500' : 'text-gray-600'
+          }`}>
+            비교표
+          </span>
+          {/* Toggle Switch */}
+          <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 ${
+            showComparisonOnly ? 'bg-blue-500' : 'bg-gray-300'
+          }`}>
+            <div
+              className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200"
+              style={{ transform: showComparisonOnly ? 'translateX(16px)' : 'translateX(0)' }}
+            />
+          </div>
+        </button>
+      </motion.div>
+
       {/* 제품 카드 목록 - result 페이지 스타일 */}
-      {products.map((product, index) => {
+      <AnimatePresence>
+        {!showComparisonOnly && (
+          <motion.div
+            key="product-cards"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+            transition={{ duration: 0.15 }}
+          >
+            {products.map((product, index) => {
         const danawa = danawaData[product.pcode];
         const hasLowestPrice = danawa && danawa.lowest_price && danawa.lowest_price > 0;
         // 리뷰 데이터: API 응답 우선, 없으면 product 필드에서 fallback
@@ -1125,14 +1175,18 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         const hasReview = review.reviewCount > 0 || review.averageRating > 0;
 
         return (
-          <motion.div
-            key={product.pcode}
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 + index * 0.4, duration: 0.5, ease: 'easeOut' }}
-            onClick={() => handleProductClick(product, index)}
-            className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
-          >
+          <div key={product.pcode}>
+            {/* 두 번째 제품부터 디바이더 추가 */}
+            {index > 0 && (
+              <div className="h-px bg-gray-200 w-full" />
+            )}
+            <motion.div
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + index * 0.4, duration: 0.5, ease: 'easeOut' }}
+              onClick={() => handleProductClick(product, index)}
+              className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
+            >
             {/* 찜하기 버튼 - 우상단 (비활성화) */}
             {/* <button
               onClick={(e) => {
@@ -1222,15 +1276,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                         <span className="text-xs font-semibold text-gray-900">{review.averageRating.toFixed(1)}</span>
                         <span className="text-xs text-gray-500">({review.reviewCount.toLocaleString()})</span>
                       </div>
-                      {/* 가격비교 판매처 개수 */}
-                      {danawa?.mall_prices && danawa.mall_prices.length > 0 && (
-                        <span className="text-xs">
-                                                    <span className="text-gray-300"> | </span>
-
-                          <span className="text-gray-800">가격비교 </span>
-                          <span className="text-gray-500">({danawa.mall_prices.length})</span>
-                        </span>
-                      )}
                     </div>
                   )}
 
@@ -1353,16 +1398,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               <div className="mt-4 px-1">
                 {/* 한줄 평 헤더 */}
                 <div className="flex items-center gap-1.5 mb-2.5">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 3L14.5 9L21 11.5L14.5 14L12 20L9.5 14L3 11.5L9.5 9L12 3Z" fill="url(#ai_one_line_gradient)" />
-                    <defs>
-                      <linearGradient id="ai_one_line_gradient" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#77A0FF" />
-                        <stop offset="0.7" stopColor="#907FFF" />
-                        <stop offset="1" stopColor="#6947FF" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
                   <span className="text-[16px] font-medium ai-gradient-text">한줄 평</span>
                 </div>
 
@@ -1418,17 +1455,22 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                 )}
               </div>
             )}
+            </motion.div>
+          </div>
+            );
+            })}
           </motion.div>
-        );
-      })}
+        )}
+      </AnimatePresence>
 
       {/* 상세 비교표 */}
       {recommendations.length > 0 && (
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 0.5, ease: 'easeOut' }}
-          className="mt-6"
+          key={showComparisonOnly ? 'comparison-only' : 'with-products'}
+          initial={{ opacity: showComparisonOnly ? 0 : 1 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: showComparisonOnly ? 0.15 : 0, delay: showComparisonOnly ? 0 : 1.8 }}
+          className={showComparisonOnly ? '' : 'mt-6'}
         >
           <DetailedComparisonTable
             recommendations={recommendations}

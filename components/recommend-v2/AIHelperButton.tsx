@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChatCircleDots, TrendUp, Sparkle } from '@phosphor-icons/react';
+import { ChatCircleDots, TrendUp } from '@phosphor-icons/react';
 import { logAIHelperButtonClicked } from '@/lib/logging/clientLogger';
 
 interface AIHelperButtonProps {
@@ -91,7 +91,7 @@ export function AIHelperButton({
         className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border shadow-sm transition-all w-full active:scale-[0.98] bg-white`}
       >
         <div className="flex items-center gap-2">
-          <span className="ai-gradient-text text-[18px] font-bold">✦</span>
+          <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4" />
           <span className="text-[16px] font-bold text-[#6366F1]">
             {label}
           </span>
@@ -180,7 +180,7 @@ export function AIHelperButton({
                   className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-all text-left"
                 >
                   <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-                    <Sparkle size={18} weight="fill" className="text-gray-300" />
+                    <img src="/icons/ic-ai.svg" alt="" className="w-5 h-5 opacity-50" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[14px] font-bold text-gray-800">내 상황에 맞춰 추천받기</span>

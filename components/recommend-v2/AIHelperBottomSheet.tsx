@@ -116,9 +116,9 @@ export function AIHelperBottomSheet({
         balanceGames: userSelections?.balanceGames?.length || 0,
       });
 
-      // 카테고리 선택: 고정 1개 + API 8개 = 총 9개
+      // 카테고리 선택: 고정 1개 + API 2개 = 총 3개
       if (questionType === 'category_selection') {
-        const apiExamples = (data.examples || []).slice(0, 8);
+        const apiExamples = (data.examples || []).slice(0, 2);
         const baseExamples = [FIXED_FIRST_EXAMPLE, ...apiExamples];
         // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
         setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
@@ -138,13 +138,7 @@ export function AIHelperBottomSheet({
         const baseExamples = [
           FIXED_FIRST_EXAMPLE,
           '신생아 출산 준비 중이에요',
-          '쌍둥이라 수유가 힘들어요',
-          '6개월 아기를 키우고 다음주에 이사를 가려고 해요',
           '맞벌이라 시간이 부족해요',
-          '곧 직장 복귀하는데 준비가 필요해요',
-          '아이가 예민한 편이에요',
-          '외출할 때마다 불편해요',
-          '둘째 출산 예정이라 준비 중이에요',
         ];
         setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       } else {
@@ -367,7 +361,7 @@ export function AIHelperBottomSheet({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-[60]"
+            className="fixed inset-0 bg-black/50 z-100"
           />
 
           {/* Bottom Sheet */}
@@ -376,7 +370,7 @@ export function AIHelperBottomSheet({
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[70] flex flex-col overflow-hidden"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-110 flex flex-col overflow-hidden"
             style={{ maxWidth: '480px', margin: '0 auto', height: '85vh' }}
           >
             {/* Header */}
@@ -423,35 +417,51 @@ export function AIHelperBottomSheet({
                     </h3>
 
                     {/* 예시 버튼들 */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {isLoadingExamples ? (
-                        <div className="flex gap-2">
-                          {[1, 2, 3].map(i => (
-                            <div
-                              key={i}
-                              className="h-9 w-24 bg-gray-50 rounded-full animate-pulse"
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        examples.map((example, idx) => {
-                          const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE || example === "지금까지 입력한 상황에 맞춰 추천해주세요";
-                          return (
-                            <button
-                              key={idx}
-                              onClick={() => handleExampleClick(example, idx)}
-                              disabled={isLoading || !!aiResponse}
-                              className={`px-4 py-2 text-[16px] rounded-full transition-all disabled:cursor-not-allowed ${
-                                isContextSummary
-                                  ? 'ai-gradient-border text-[#6366F1] font-medium'
-                                  : 'bg-white text-gray-500 border border-gray-100'
-                              }`}
-                            >
-                              {isContextSummary ? '지금까지 입력한 내 상황에 맞춰 추천해주세요' : example}
-                            </button>
-                          );
-                        })
-                      )}
+                    <div className="flex flex-wrap gap-2 mb-6 min-h-9">
+                      <AnimatePresence mode="wait">
+                        {isLoadingExamples ? (
+                          <motion.div
+                            key="skeleton"
+                            initial={false}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.15 }}
+                            className="flex gap-2"
+                          >
+                            {[1, 2, 3].map(i => (
+                              <div
+                                key={i}
+                                className="h-9 w-24 bg-gray-50 rounded-full animate-pulse"
+                              />
+                            ))}
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="buttons"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.2 }}
+                            className="flex flex-wrap gap-2"
+                          >
+                            {examples.map((example, idx) => {
+                              const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE || example === "지금까지 입력한 상황에 맞춰 추천해주세요";
+                              return (
+                                <button
+                                  key={idx}
+                                  onClick={() => handleExampleClick(example, idx)}
+                                  disabled={isLoading || !!aiResponse}
+                                  className={`px-4 py-2 text-[16px] rounded-full transition-all disabled:cursor-not-allowed ${
+                                    isContextSummary
+                                      ? 'ai-gradient-border text-[#6366F1] font-medium'
+                                      : 'bg-white text-gray-500 border border-gray-100'
+                                  }`}
+                                >
+                                  {isContextSummary ? '지금까지 입력한 내 상황에 맞춰 추천해주세요' : example}
+                                </button>
+                              );
+                            })}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
                     {/* 입력 영역 */}
