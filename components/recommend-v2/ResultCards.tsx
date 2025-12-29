@@ -1302,8 +1302,11 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
             {/* 예산 비교 뱃지 - AI 추천이유 위에 배치 */}
             {(() => {
               const effectivePrice = (hasLowestPrice ? danawa.lowest_price! : (product.lowestPrice || product.price || 0));
-              const budgetMin = userContext?.budget?.min || 0;
-              const budgetMax = userContext?.budget?.max || 0;
+              
+              // budget이 object인 경우에만 min/max 접근
+              const budgetObj = userContext?.budget && typeof userContext.budget === 'object' ? userContext.budget : null;
+              const budgetMin = budgetObj?.min || 0;
+              const budgetMax = budgetObj?.max || 0;
 
               if (!effectivePrice || !budgetMin || !budgetMax) return null;
 
