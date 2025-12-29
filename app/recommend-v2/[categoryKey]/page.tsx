@@ -153,6 +153,8 @@ export default function RecommendV2Page() {
 
   // Context input (Step -1)
   const [userContext, setUserContext] = useState<string | null>(null);
+  // 연령대 컨텍스트 (메인 페이지에서 태그 선택 후 진입한 경우)
+  const [ageContext, setAgeContext] = useState<{ ageId: string; ageLabel: string; ageDescription: string } | null>(null);
   // 체감속성 태그 미리 선택 (AI 파싱 결과)
   const [preselectedExperienceTags, setPreselectedExperienceTags] = useState<string[]>([]);
   const [preselectedExplanation, setPreselectedExplanation] = useState<string>('');
@@ -631,6 +633,25 @@ export default function RecommendV2Page() {
       }
     } catch (e) {
       console.warn('[recommend-v2] Failed to load initial context:', e);
+    }
+  }, [categoryKey, isRestoredFromStorage]);
+
+  // 연령대 컨텍스트 로딩 (메인 페이지에서 태그 선택 후 진입한 경우)
+  useEffect(() => {
+    if (!categoryKey || isRestoredFromStorage) return;
+
+    try {
+      const savedAgeContextStr = sessionStorage.getItem(`v2_age_context_${categoryKey}`);
+      if (savedAgeContextStr) {
+        const savedAgeContext = JSON.parse(savedAgeContextStr);
+        setAgeContext(savedAgeContext);
+        console.log('✅ [recommend-v2] Age context loaded:', savedAgeContext);
+
+        // 사용 후 삭제 (한 번만 사용)
+        sessionStorage.removeItem(`v2_age_context_${categoryKey}`);
+      }
+    } catch (e) {
+      console.warn('[recommend-v2] Failed to load age context:', e);
     }
   }, [categoryKey, isRestoredFromStorage]);
 
@@ -1816,6 +1837,15 @@ export default function RecommendV2Page() {
     // 초기 컨텍스트 입력 정보 (Step -1)
     if (userContext) {
       result.initialContext = userContext;
+    }
+
+    // 연령대 컨텍스트 (메인 페이지에서 태그 선택 후 진입한 경우)
+    if (ageContext) {
+      result.ageContext = {
+        ageId: ageContext.ageId,
+        ageLabel: ageContext.ageLabel,
+        ageDescription: ageContext.ageDescription,
+      };
     }
 
     return result;

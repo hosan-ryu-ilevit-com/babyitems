@@ -304,6 +304,26 @@ export default function Home() {
   const handleCategorySelect = (categoryId: string, categoryName: string) => {
     setLoadingCategoryId(categoryId);
     logButtonClick(`카테고리 선택: ${categoryName}`, 'home');
+
+    // 연령대 태그 정보 저장 (all이 아닌 경우에만)
+    if (selectedAgeId !== 'all') {
+      try {
+        const ageFilter = AGE_FILTERS.find(f => f.id === selectedAgeId);
+        if (ageFilter) {
+          const ageContext = {
+            ageId: ageFilter.id,
+            ageLabel: ageFilter.label,
+            ageDescription: ageFilter.description,
+            timestamp: new Date().toISOString(),
+          };
+          sessionStorage.setItem(`v2_age_context_${categoryId}`, JSON.stringify(ageContext));
+          console.log('✅ [home] Age context saved:', ageContext);
+        }
+      } catch (e) {
+        console.warn('[home] Failed to save age context:', e);
+      }
+    }
+
     router.push(`/recommend-v2/${categoryId}`);
   };
 

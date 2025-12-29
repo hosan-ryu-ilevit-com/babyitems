@@ -181,7 +181,7 @@ function ReviewPriorityTags({
       >
         <div className="space-y-2">
           <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-            중요하게 생각하시는 <br />{categoryName || category} 구매조건을 골라주세요 <span className="text-blue-500 font-bold">*</span>
+            실제 후기에서 가장 중요한 조건을 뽑았어요. <br />원하시는 {categoryName || category} 조건을 골라주세요 <span className="text-blue-500 font-bold">*</span>
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
         <div className="flex items-center gap-3">

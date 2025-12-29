@@ -599,6 +599,12 @@ export interface UserSelections {
   naturalLanguageInputs?: NaturalLanguageInput[];
   // 초기 컨텍스트 입력 (Step -1)
   initialContext?: string;
+  // 연령대 컨텍스트 (메인 페이지에서 태그 선택 후 진입한 경우)
+  ageContext?: {
+    ageId: string;      // 'prenatal' | '0-3m' | '4-6m' | '7-12m'
+    ageLabel: string;   // '출산 전' | '0~3개월' | '4~6개월' | '7~12개월'
+    ageDescription: string;
+  };
 }
 
 /**
