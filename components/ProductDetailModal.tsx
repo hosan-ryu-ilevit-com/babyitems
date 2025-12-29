@@ -434,11 +434,10 @@ export default function ProductDetailModal({ productData, category, danawaData, 
             {danawaData?.lowestMall && (
               <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gray-50 rounded-[20px]">
                 {(() => {
-                  const logoKey = MALL_LOGO_MAP[danawaData.lowestMall];
-                  const mallLogo = logoKey 
-                    ? `/icons/malls/name=${logoKey}.png`
-                    : danawaData.prices.find(p => p.mall === danawaData.lowestMall)?.mallLogo;
-                  
+                  // 아래 가격 리스트와 동일한 로직 사용
+                  const priceInfo = danawaData.prices.find(p => p.mall === danawaData.lowestMall);
+                  const mallLogo = priceInfo?.mallLogo || getMallLogoPath(danawaData.lowestMall);
+
                   return mallLogo && (
                     <div className="w-6 h-6 rounded-full overflow-hidden border border-gray-100 bg-white flex items-center justify-center shrink-0">
                       <img 
@@ -924,7 +923,8 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                             }}
                           >
                             <div className="flex items-center gap-2 mb-5">
-                              <span className="text-[#6344FF] text-lg">✦</span>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
                               <h4 className="text-[18px] font-semibold text-[#6344FF] leading-tight">
                                 왜 추천했나요?
                               </h4>
