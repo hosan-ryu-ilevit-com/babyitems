@@ -135,7 +135,9 @@ export function BalanceGameCard({
         {/* VS 구분선 */}
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-gray-100" />
-          <span className="text-gray-300 text-[10px] font-bold">VS</span>
+          <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+            <span className="text-gray-400 text-[12px] font-semibold">VS</span>
+          </div>
           <div className="flex-1 h-px bg-gray-100" />
         </div>
 

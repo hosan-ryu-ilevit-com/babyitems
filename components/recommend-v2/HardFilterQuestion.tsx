@@ -30,6 +30,10 @@ function ReviewPriorityTags({
   preselectedExplanation = '',
   isLoadingPreselection = false,
   userContext,
+  directInputValue = '',
+  onDirectInputChange,
+  isDirectInputRegistered = false,
+  onDirectInputRegister,
 }: {
   question: HardFilterData['question'];
   selectedValues: string[];
@@ -47,6 +51,10 @@ function ReviewPriorityTags({
   preselectedExplanation?: string;
   isLoadingPreselection?: boolean;
   userContext?: string | null;
+  directInputValue?: string;
+  onDirectInputChange?: (value: string) => void;
+  isDirectInputRegistered?: boolean;
+  onDirectInputRegister?: (value: string) => void;
 }) {
   const [expandedTag, setExpandedTag] = useState<string | null>(null);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
@@ -165,11 +173,7 @@ function ReviewPriorityTags({
       >
         <div className="space-y-2">
           <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
-            {preselectedTags.length > 0 ? (
-              <>핵심 구매조건을 <br></br>자동으로 골라드렸어요 <span className="text-blue-500 font-bold">*</span></>
-            ) : (
-              <>중요하게 생각하시는 <br />{categoryName || category} 구매조건을 골라주세요 <span className="text-blue-500 font-bold">*</span></>
-            )}
+            중요하게 생각하시는 <br />{categoryName || category} 구매조건을 골라주세요 <span className="text-blue-500 font-bold">*</span>
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
         <div className="flex items-center gap-3">
@@ -178,8 +182,8 @@ function ReviewPriorityTags({
             {thumbnailProducts.slice(0, 5).map((product, i) => (
               <div
                 key={product.id}
-                className="w-8 h-8 rounded-full border-2 border-white overflow-hidden relative bg-gray-100 shadow-sm"
-                style={{ zIndex: 5 - i }}
+                className="w-[26px] h-[26px] rounded-full border-[1px] border-gray-200 overflow-hidden relative bg-gray-100"
+                style={{ zIndex: i }}
                 title={product.title}
               >
                 {product.thumbnail ? (
@@ -198,18 +202,19 @@ function ReviewPriorityTags({
               </div>
             ))}
           </div>
-          <span className="px-2.5 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full">
-            리뷰 {totalReviewCount.toLocaleString()}개 분석
+          <span className="px-2.5 py-1 bg-gray-50 text-gray-500 text-[14px] font-medium rounded-full">
+            리뷰 {totalReviewCount.toLocaleString()}개 분석 완료
           </span>
         </div>
          
         </div>
 
-        {/* 뭘 골라야할지 모르겠어요 버튼 - AIHelperButton 사용 */}
-        {/* 컨텍스트 입력으로 체감속성 미리 선택된 경우 또는 로딩 중 숨김 */}
-        {showAIHelper && preselectedTags.length === 0 && !isLoadingPreselection && (
+        {/* AI 도움받기 버튼 - AIHelperButton 사용 */}
+        {/* 로딩 중에는 숨김 */}
+        {showAIHelper && !isLoadingPreselection && (
           <AIHelperButton
             onClick={() => setIsAIHelperOpen(true)}
+            label="AI 도움받기"
             questionType="hard_filter"
             questionId={question.id}
             questionText="어떤 구매조건이 가장 중요하신가요?"
@@ -225,12 +230,12 @@ function ReviewPriorityTags({
        
       </motion.div>
 
-      {/* 필터 옵션들 - 순차적 페이드인 */}
+      {/* 필터 옵션들 - 순차적 페이드인 (세로 리스트로 변경) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.8 }}
-        className="flex flex-wrap gap-2"
+        className="space-y-2.5"
       >
         {question.options.map((option, index) => {
           const isSelected = selectedValues.includes(option.value);
@@ -240,39 +245,47 @@ function ReviewPriorityTags({
             : 0;
 
           return (
-            <motion.div
+            <motion.button
               key={option.value}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 + index * 0.03 }}
+              onClick={() => handleTagClick(option.value)}
+              onMouseEnter={() => setExpandedTag(option.value)}
+              onMouseLeave={() => setExpandedTag(null)}
+              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left transition-all relative overflow-hidden flex items-center justify-between gap-3
+                ${isSelected
+                  ? 'bg-blue-50 text-blue-500 border-blue-100'
+                  : 'bg-white text-gray-600 border-gray-100 hover:border-gray-200'
+                }
+              `}
             >
-              <button
-                onClick={() => handleTagClick(option.value)}
-                onMouseEnter={() => setExpandedTag(option.value)}
-                onMouseLeave={() => setExpandedTag(null)}
-                className={`
-                  px-4 min-h-[50px] py-[14px] rounded-xl text-[16px] font-medium border transition-all duration-200 flex items-center gap-2
-                  ${isSelected
-                    ? 'bg-blue-50 text-blue-500 border-blue-100'
-                    : 'bg-white text-gray-600 border-gray-100 hover:border-gray-200'
-                  }
-                `}
-              >
-                <span className="flex items-center gap-2">
-                  {/* 레이블 */}
-                  <span>{option.displayLabel || option.label}</span>
+              {/* 레이블 */}
+              <span className="text-[16px] font-medium flex-1">
+                {option.displayLabel || option.label}
+              </span>
 
-                  {/* 언급 비율 배지 (%) - 디자인 변경 */}
-                  {percentage > 0 && (
-                    <span className="px-1.5 py-0.5 rounded-[6px] text-[13px] font-medium bg-[#75D21C] text-white">
-                      {percentage}% 선택
-                    </span>
-                  )}
+              {/* 언급 비율 배지 (%) - 디자인 변경 */}
+              {percentage > 0 && (
+                <span className="px-1.5 py-0.5 rounded-[6px] text-[12px] font-medium bg-[#75D21C] text-white shrink-0">
+                  {percentage}% 선택
                 </span>
-              </button>
-            </motion.div>
+              )}
+            </motion.button>
           );
         })}
+
+        {/* 직접 입력 필드 */}
+        {onDirectInputChange && (
+          <DirectInputField
+            value={directInputValue}
+            onChange={onDirectInputChange}
+            placeholder="원하는 답변을 입력하세요..."
+            filterType="hard_filter"
+            isRegistered={isDirectInputRegistered}
+            onRegister={onDirectInputRegister}
+          />
+        )}
       </motion.div>
 
        {/* 미리 선택 설명 (AI 생성) - 로딩 스켈레톤 또는 실제 콘텐츠 */}
@@ -604,6 +617,10 @@ export function HardFilterQuestion({
         preselectedExplanation={preselectedExplanation}
         isLoadingPreselection={isLoadingPreselection}
         userContext={userContext}
+        directInputValue={directInputValue}
+        onDirectInputChange={onDirectInputChange}
+        isDirectInputRegistered={isDirectInputRegistered}
+        onDirectInputRegister={onDirectInputRegister}
       />
     );
   }
@@ -638,10 +655,11 @@ export function HardFilterQuestion({
         </p>
       )}
 
-      {/* AI 도움받기 버튼 - tipText가 있을 때만 표시 */}
-      {showAIHelper && tipText && (
+      {/* AI 도움받기 버튼 */}
+      {showAIHelper && (
         <AIHelperButton
           onClick={() => setIsAIHelperOpen(true)}
+          label="AI 도움받기"
           questionType="hard_filter"
           questionId={question.id}
           questionText={question.question}
@@ -710,7 +728,7 @@ export function HardFilterQuestion({
 
               {/* 많이 선택 뱃지 - 디자인 변경 */}
               {isPopular && !isSkipOption && popularOption && (
-                <span className="text-white bg-[#75D21C] text-[13px] font-medium px-2 py-0.5 rounded-[6px] shrink-0">
+                <span className="text-white bg-[#75D21C] text-[12px] font-medium px-2 py-0.5 rounded-[6px] shrink-0">
                   {popularOption.percentage}% 선택
                 </span>
               )}

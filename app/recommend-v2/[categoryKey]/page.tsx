@@ -42,6 +42,7 @@ import {
   BudgetSlider,
   ResultCards,
   LoadingAnimation,
+  LoadingDots,
 } from '@/components/recommend-v2';
 import ContextInput from '@/components/recommend-v2/ContextInput';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
@@ -144,8 +145,8 @@ export default function RecommendV2Page() {
   // ===================================================
 
   // Flow state
-  // 모든 카테고리에서 Step -1(컨텍스트 입력)부터 시작
-  const [currentStep, setCurrentStep] = useState<FlowStep>(-1);
+  // 모든 카테고리에서 Step 1(체감속성)부터 바로 시작 (Step -1 컨텍스트 입력 퍼널 삭제)
+  const [currentStep, setCurrentStep] = useState<FlowStep>(1);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -243,13 +244,15 @@ export default function RecommendV2Page() {
 
   // Step Indicator Prop Mapping
   const indicatorStep = useMemo(() => {
-    // 사용자 요청: 하드필터 2단계, 밸런스게임 3단계, 단점+예산 4단계
-    if (currentStep <= 0) return 1;
-    if (currentStep === 1) return 2;
-    if (currentStep === 2 || currentStep === 3) return 3;
-    if (currentStep >= 4) return 4;
+    // 사용자 요청: 하드필터 1단계 (Step 1), 밸런스게임 2단계 (Step 2), 단점+예산 3단계 (Step 3), 결과 4단계 (Step 4)
+    if (currentStep === 1) return 1;
+    if (currentStep === 2 || currentStep === 3) return 2;
+    if (currentStep === 4 || currentStep === 5) {
+      // 결과가 아직 나오지 않았을 때만 3단계, 결과 화면에서는 4단계
+      return scoredProducts.length > 0 ? 4 : 3;
+    }
     return 1;
-  }, [currentStep]);
+  }, [currentStep, scoredProducts.length]);
 
   // Sub-category state (for stroller, car_seat, diaper) - 다중 선택 지원
   const [requiresSubCategory, setRequiresSubCategory] = useState(false);
@@ -783,25 +786,41 @@ export default function RecommendV2Page() {
 
     setShowScanAnimation(false);
 
-    // [SKIP GUIDE CARDS] 가이드 카드 단계 스킵 - 바로 첫 질문으로 이동
+    // 인사말 메시지 추가 후 첫 질문으로 이동
     if (hardFilterConfig) {
       setTimeout(() => {
-        // 하드 필터 질문 바로 시작 (하위 카테고리는 첫 번째 질문 후 표시)
+        // 1. 인사말 추가 (메인 페이지와 동일한 문구 사용, 육아용품 대신 카테고리 네임 사용)
+        const getParticle = (name: string) => {
+          if (!name) return '을';
+          const lastChar = name.charCodeAt(name.length - 1);
+          if (lastChar < 0xAC00 || lastChar > 0xD7A3) return '을'; // 한글 아니면 기본값
+          return (lastChar - 0xAC00) % 28 > 0 ? '을' : '를';
+        };
+        
+        addMessage({
+          role: 'assistant',
+          content: `안녕하세요!\n고객님께 필요한 최적의 **${categoryName}**${getParticle(categoryName)} 찾아드릴게요.`,
+        });
+
+        // 2. 하드 필터 질문 바로 시작 (약간의 시차를 두어 스크롤 연출)
         if (hardFilterConfig?.questions && hardFilterConfig.questions.length > 0) {
-          setCurrentStep(1);
-          const msgId = addMessage({
-            role: 'system',
-            content: '',
-            componentType: 'hard-filter',
-            componentData: {
-              question: hardFilterConfig.questions[0],
-              currentIndex: 0,
-              totalCount: hardFilterConfig.questions.length,
-            },
-            stepTag: '1/5',
-          });
-          // ContextInput에서 시작/스킵 후 Q1으로 스크롤
-          scrollToMessage(msgId);
+          const questions = hardFilterConfig.questions;
+          setTimeout(() => {
+            setCurrentStep(1);
+            const msgId = addMessage({
+              role: 'system',
+              content: '',
+              componentType: 'hard-filter',
+              componentData: {
+                question: questions[0],
+                currentIndex: 0,
+                totalCount: questions.length,
+              },
+              stepTag: '1/5',
+            });
+            // 첫 질문으로 부드럽게 스크롤
+            scrollToMessage(msgId);
+          }, 600);
         }
       }, 250);
     }
@@ -2673,6 +2692,7 @@ export default function RecommendV2Page() {
                 analysisTimeline={resultData?.analysisTimeline || analysisTimeline || undefined}
                 userContext={{
                   hardFilterAnswers: hardFilterAnswers,
+                  hardFilterDirectInputs: hardFilterDirectInputs,
                   balanceSelections: Array.from(balanceSelections),
                   negativeSelections: negativeSelections,
                   balanceLabels: balanceLabels,
@@ -2706,7 +2726,7 @@ export default function RecommendV2Page() {
           return (
             <div key={message.id} data-message-id={message.id} className="w-full py-2">
               <div className="w-full flex justify-start">
-                <p className="px-1 py-1 text-base font-medium text-gray-600 shimmer-text">
+                <p className="py-1 text-base font-medium text-gray-600 shimmer-text">
                   {loadingData?.text || '로딩 중...'}
                 </p>
               </div>
@@ -2765,27 +2785,11 @@ export default function RecommendV2Page() {
         });
       });
     } else {
-      // Go back to step -1 (ContextInput)
-      logV2StepBack(categoryKey, categoryName, 1, -1);
-
-      setCurrentStep(-1);
-      setCurrentHardFilterIndex(0);
-
-      // Clear all messages (ContextInput만 남기고 전부 제거)
-      setMessages([]);
-
-      // hasTriggeredGuideRef 리셋 (다시 시작할 때 guide cards 트리거 가능하도록)
-      hasTriggeredGuideRef.current = false;
-
-      // DOM 업데이트 후 맨 위로 스크롤
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-          setIsTransitioning(false);
-        });
-      });
+      // 첫 번째 질문에서 이전 클릭 시 카테고리 선택으로 이동
+      router.push('/');
+      setIsTransitioning(false);
     }
-  }, [isTransitioning, currentHardFilterIndex, categoryKey, categoryName, scrollToMessage]);
+  }, [isTransitioning, currentHardFilterIndex, categoryKey, categoryName, scrollToMessage, router]);
 
   const handleGoToStep0 = useCallback(() => {
     logV2StepBack(categoryKey, categoryName, currentStep, 0);
@@ -2811,11 +2815,6 @@ export default function RecommendV2Page() {
   // ===================================================
 
   const renderBottomButton = () => {
-    // Step -1: ContextInput이 자체적으로 버튼을 가지고 있으므로 하단 버튼 숨김
-    if (currentStep === -1) {
-      return null;
-    }
-
     const questions = hardFilterConfig?.questions || [];
     // 다중 선택: 모든 질문에 최소 1개 이상 답변했는지 확인
     const allQuestionsAnswered = questions.length > 0 &&
@@ -2841,7 +2840,7 @@ export default function RecommendV2Page() {
           animate={{ opacity: 1, y: 0 }}
           onClick={handleSubCategoryConfirm}
           disabled={isTransitioning}
-          className={`w-full h-14 rounded-2xl font-semibold text-base transition-all ${
+          className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
             isTransitioning
               ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
               : 'bg-[#111827] text-white'
@@ -2865,28 +2864,31 @@ export default function RecommendV2Page() {
       const subCategoryPending = showSubCategorySelector && selectedSubCategoryCodes.length === 0;
       const canProceed = (currentQuestionAnswered || currentQuestionDirectInputRegistered) && !subCategoryPending;
       const isLastQuestion = currentHardFilterIndex >= questions.length - 1;
+      const isFirstQuestion = currentHardFilterIndex === 0;
 
       return (
         <div className="flex gap-2">
-          <motion.button
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            onClick={handleGoToPreviousHardFilter}
-            disabled={isTransitioning}
-            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
-              isTransitioning
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            이전
-          </motion.button>
+          {!isFirstQuestion && (
+            <motion.button
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              onClick={handleGoToPreviousHardFilter}
+              disabled={isTransitioning}
+              className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
+                isTransitioning
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              이전
+            </motion.button>
+          )}
           <motion.button
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleHardFilterNext}
             disabled={!canProceed || isTransitioning}
-            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
               canProceed && !isTransitioning
                 ? 'bg-[#111827] text-white'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
@@ -2943,7 +2945,7 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
               isStep2Disabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -2956,7 +2958,7 @@ export default function RecommendV2Page() {
             animate={{ opacity: 1, y: 0 }}
             onClick={handleStartBalanceGame}
             disabled={isStep2Disabled}
-            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
               isStep2Disabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
@@ -3016,7 +3018,7 @@ export default function RecommendV2Page() {
                 });
               }
             }}
-            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
               isTransitioning
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3037,14 +3039,14 @@ export default function RecommendV2Page() {
               }
             }}
             disabled={isNextDisabled}
-            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
               isNextDisabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
             }`}
           >
             {isLastBalanceQuestion
-              ? (balanceGameState.selectionsCount > 0 ? `완료 (${balanceGameState.selectionsCount}개 선택됨)` : '넘어가기')
+              ? (balanceGameState.selectionsCount > 0 ? `완료` : '넘어가기')
               : '다음'}
           </motion.button>
         </div>
@@ -3088,7 +3090,7 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
               isTransitioning
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3101,14 +3103,14 @@ export default function RecommendV2Page() {
             animate={{ opacity: 1, y: 0 }}
             onClick={handleNegativeComplete}
             disabled={isTransitioning}
-            className={`flex-[3] h-14 rounded-2xl font-semibold text-base transition-all ${
+            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base transition-all ${
               isTransitioning
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
             }`}
           >
             {negativeSelections.length > 0 || isNegativeDirectInputRegistered
-              ? `${negativeSelections.length + (isNegativeDirectInputRegistered ? 1 : 0)}개 제외하고 다음`
+              ? `완료`
               : '넘어가기'}
           </motion.button>
         </div>
@@ -3166,7 +3168,7 @@ export default function RecommendV2Page() {
                   });
                 });
               }}
-              className={`flex-[2] h-14 rounded-2xl font-semibold text-base transition-all ${
+              className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
                 isTransitioning
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3179,7 +3181,7 @@ export default function RecommendV2Page() {
               animate={{ opacity: 1, y: 0 }}
               onClick={() => handleGetRecommendation(false)}
               disabled={isTransitioning || isTooFewProducts}
-              className={`flex-[3] h-14 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-200/50 ${
+              className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-200/50 ${
                 isTransitioning || isTooFewProducts
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
                   : 'bg-[#111827] text-white active:scale-[0.98]'
@@ -3188,7 +3190,7 @@ export default function RecommendV2Page() {
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2L15.5 12L12 22L8.5 12Z M2 12L12 8.5L22 12L12 15.5Z" />
               </svg>
-              <span>추천받기</span>
+              <span>추천</span>
             </motion.button>
           </div>
           {/* 상품 부족 경고 */}
@@ -3221,19 +3223,8 @@ export default function RecommendV2Page() {
     return (
       <div className="h-dvh overflow-hidden bg-gray-100 flex justify-center">
         <div className="h-full w-full max-w-[480px] bg-white flex items-center justify-center">
-          <div className="w-full py-8 flex flex-col items-center">
-            {/* 로딩 비디오 - 정사각형, 작게 */}
-            <div className="w-[100px] h-[100px] rounded-2xl overflow-hidden bg-white mb-6">
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              >
-                <source src="/animations/recommendloading.MP4" type="video/mp4" />
-              </video>
-            </div>
+          <div className="w-full py-8 flex flex-col items-center gap-6">
+            <LoadingDots />
 
             {/* 로딩 메시지 */}
             <div className="flex flex-col items-center">
@@ -3276,20 +3267,6 @@ export default function RecommendV2Page() {
         >
           {/* Step Indicator - Moved inside main for true floating effect */}
           <StepIndicator currentStep={indicatorStep} className="top-0" />
-
-          {/* Step -1: Context Input - AnimatePresence 밖으로 (완료 후에도 유지) */}
-          {/* 세션 복원 시에는 숨김 */}
-          {currentStep >= -1 && !isRestoredFromStorage && (
-            <div className={`mb-4 transition-all duration-300 ${currentStep > -1 ? 'opacity-50 pointer-events-none' : ''}`}>
-              <ContextInput
-                category={categoryKey}
-                categoryName={categoryName}
-                onComplete={handleContextComplete}
-                isCompleted={currentStep > -1}
-                submittedText={userContext}
-              />
-            </div>
-          )}
 
           <AnimatePresence mode="wait">
             {/* Step 0: Scan Animation */}
@@ -3463,9 +3440,9 @@ export default function RecommendV2Page() {
                         sessionStorage.removeItem(`v2_result_${categoryKey}`);
                         setIsRestoredFromStorage(false);
 
-                        // 상태 초기화 - Step -1 (자연어 입력)부터 다시 시작
-                        setCurrentStep(-1);
-                        setUserContext(null);  // 자연어 입력 초기화
+                        // 상태 초기화 - Step 1 (체감속성)부터 다시 시작
+                        setCurrentStep(1);
+                        setUserContext(null);
                         setCurrentHardFilterIndex(0);
                         setHardFilterAnswers({});
                         setBalanceSelections(new Set());
@@ -3475,8 +3452,8 @@ export default function RecommendV2Page() {
                         setMessages([]);
                         setShowReRecommendModal(false);
 
-                        // useEffect 중복 호출 방지 (sessionStorage 복원 후 다시 추천받기 시)
-                        hasTriggeredGuideRef.current = false;  // Step -1부터 시작하므로 리셋
+                        // useEffect 중복 호출 방지
+                        hasTriggeredGuideRef.current = false;  // Step 1부터 다시 시작하므로 리셋
 
                         if (requiresSubCategory) {
                           setSelectedSubCategoryCodes([]);

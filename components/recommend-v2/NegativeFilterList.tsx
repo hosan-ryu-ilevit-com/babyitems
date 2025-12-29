@@ -159,19 +159,18 @@ export function NegativeFilterList({
           );
         })}
 
+        {/* 직접 입력 필드 */}
+        {onDirectInputChange && (
+          <DirectInputField
+            value={directInputValue}
+            onChange={onDirectInputChange}
+            placeholder="원하는 답변을 입력하세요..."
+            filterType="negative_filter"
+            isRegistered={isDirectInputRegistered}
+            onRegister={onDirectInputRegister}
+          />
+        )}
       </div>
-
-      {/* 직접 입력 필드 */}
-      {onDirectInputChange && (
-        <DirectInputField
-          value={directInputValue}
-          onChange={onDirectInputChange}
-          placeholder="원하는 답변을 입력하세요..."
-          filterType="negative_filter"
-          isRegistered={isDirectInputRegistered}
-          onRegister={onDirectInputRegister}
-        />
-      )}
 
       {/* 스킵 버튼 */}
       {onSkip && (

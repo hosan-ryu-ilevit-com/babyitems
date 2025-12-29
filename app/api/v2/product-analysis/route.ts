@@ -39,6 +39,7 @@ interface ProductInfo {
 // 사용자 컨텍스트 타입
 interface UserContext {
   hardFilterAnswers?: Record<string, string[]>;
+  hardFilterDirectInputs?: Record<string, string>;
   balanceSelections?: string[];
   negativeSelections?: string[];
   // Rule key / value → Korean label mappings
@@ -148,6 +149,16 @@ async function analyzeProduct(
         if (values === 'any') return;
         const label = hardFilterLabels[values] || values;
         hardFilterConditions.push({ questionId, label });
+      }
+    });
+  }
+
+  // 직접 입력 조건 추가 (hardFilterDirectInputs)
+  if (userContext.hardFilterDirectInputs) {
+    Object.entries(userContext.hardFilterDirectInputs).forEach(([questionId, value]) => {
+      // 값이 있고 'any'가 아니면 추가
+      if (value && value.trim() && value !== 'any') {
+        hardFilterConditions.push({ questionId, label: value.trim() });
       }
     });
   }

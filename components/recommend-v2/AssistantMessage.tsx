@@ -106,7 +106,7 @@ export function AssistantMessage({
     >
       {/* 메시지 버블 */}
       <div className="w-full flex justify-start">
-        <div className="px-1 py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4]">
+        <div className="py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4]">
           {typing ? (
             <StreamingText content={content} speed={15} onComplete={onTypingComplete} />
           ) : (

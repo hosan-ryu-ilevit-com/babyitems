@@ -73,7 +73,6 @@ export default function DirectInputField({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      className="mt-4 pt-4 border-t border-gray-100"
     >
       {showRegisteredState ? (
         /* 등록된 상태 - 다른 옵션들과 통일된 디자인 */
@@ -153,14 +152,17 @@ export default function DirectInputField({
           onClick={handleEdit}
           className="w-full h-[52px] rounded-xl border-2 border-dashed border-gray-200 bg-white flex items-center justify-center gap-2 text-gray-400 hover:border-gray-300 hover:bg-gray-50 transition-all active:scale-[0.98]"
         >
-          <span className="text-xl font-light">+</span>
-          <span className="text-[15px] font-medium">직접 추가</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span className="text-[16px] font-medium">직접 추가</span>
         </button>
       )}
 
       {/* 2자 미만 경고 */}
       {isEditing && value.length > 0 && value.length < 2 && (
-        <p className="mt-1 text-xs text-amber-500 px-1">2자 이상 입력해주세요</p>
+        <p className="mt-1 text-xs text-amber-500">2자 이상 입력해주세요</p>
       )}
     </motion.div>
   );

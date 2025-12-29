@@ -612,6 +612,9 @@ export interface UserContext {
   // 하드필터 답변 (기존)
   hardFilterAnswers?: Record<string, string[]>;
 
+  // 하드필터 직접 입력 답변 (질문ID -> 입력값)
+  hardFilterDirectInputs?: Record<string, string>;
+
   // 체감속성 태그 (첫 번째 질문, review_priorities 타입)
   experientialTags?: string[];
 

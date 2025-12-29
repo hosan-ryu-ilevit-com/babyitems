@@ -57,8 +57,8 @@ function ThumbnailGroup({ thumbnails }: { thumbnails: string[] }) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ layout: { duration: 0.3 }, opacity: { duration: 0.2 } }}
-            className="w-8 h-8 rounded-full border border-gray-200 overflow-hidden relative"
-            style={{ zIndex: 5 - i }}
+            className="w-[26px] h-[26px] rounded-full border border-gray-200 overflow-hidden relative"
+            style={{ zIndex: i }}
           >
             {/* 스켈레톤 shimmer */}
             {!isLoaded && (
@@ -319,7 +319,7 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
           className="w-full mb-4"
         >
           <div className="w-full flex justify-start">
-            <div className="px-1 py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4]">
+            <div className="py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-900 font-medium leading-[1.4]">
               {enableTyping ? (
                 <StreamingText
                   content={introMessage}
@@ -348,8 +348,8 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
               >
                 <ThumbnailGroup thumbnails={data.productThumbnails.slice(0, 5)} />
                 {data.analyzedReviewCount && (
-                  <span className="px-2.5 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full">
-                    {data.analyzedReviewCount.toLocaleString()}개 상품 분석 완료
+                  <span className="px-2.5 py-1 bg-gray-50 text-gray-500 text-[14px] font-medium rounded-full">
+                    리뷰 {data.analyzedReviewCount.toLocaleString()}개 분석 완료
                   </span>
                 )}
               </motion.div>
@@ -603,17 +603,17 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
             className="fixed bottom-0 left-0 right-0 z-50"
           >
             {/* 흰색 플로팅바 배경 */}
-            <div className="bg-white border-t border-gray-200 px-4 py-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
+            <div className="bg-white border-t border-gray-200 px-4 py-4 flex justify-end" style={{ maxWidth: '480px', margin: '0 auto' }}>
               <button
                 onClick={() => !disabled && onNext?.()}
                 disabled={disabled}
-                className={`w-full py-4 rounded-2xl font-semibold text-base transition-all ${
+                className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
                   disabled
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-[#0084FE] text-white hover:bg-[#0074E0] active:scale-[0.98]'
                 }`}
               >
-                {disabled ? '로딩 중...' : '시작하기'}
+                {disabled ? '...' : '다음'}
               </button>
             </div>
           </motion.div>

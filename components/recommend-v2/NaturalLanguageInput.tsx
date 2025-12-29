@@ -74,7 +74,7 @@ export function NaturalLanguageInput({
           )}
         </button>
       </div>
-      <p className="text-xs text-gray-400 mt-1.5 px-1">
+      <p className="text-xs text-gray-400 mt-1.5">
         혹시 조건을 수정하고 싶으시면 말씀해주세요.
       </p>
     </motion.div>

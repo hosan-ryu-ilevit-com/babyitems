@@ -451,16 +451,20 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                   className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center transition-all flex items-center justify-center ${
                     isCurrentSkipped
                       ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
-                      : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                      : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
                       ? 'border-blue-100 bg-blue-50'
+                      : isCurrentBoth
+                      ? 'border-gray-200 bg-gray-200'
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
                   <span className={`text-[16px] font-medium leading-tight ${
                     isCurrentSkipped
                       ? 'text-gray-300'
-                      : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                      : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
                       ? 'text-blue-500'
+                      : isCurrentBoth
+                      ? 'text-gray-700'
                       : 'text-gray-600'
                   }`}>
                     {currentQuestion.option_A.text}
@@ -469,8 +473,8 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
                 {/* VS 구분선 - 디자인 변경 */}
                 <div className="flex items-center justify-center py-1">
-                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                    <span className="text-gray-400 text-[10px] font-bold tracking-tight">VS</span>
+                  <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-400 text-[12px] font-semibold">VS</span>
                   </div>
                 </div>
 
@@ -481,16 +485,20 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                   className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center transition-all flex items-center justify-center ${
                     isCurrentSkipped
                       ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
-                      : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                      : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
                       ? 'border-blue-100 bg-blue-50'
+                      : isCurrentBoth
+                      ? 'border-gray-200 bg-gray-200'
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
                   <span className={`text-[16px] font-medium leading-tight ${
                     isCurrentSkipped
                       ? 'text-gray-300'
-                      : isCurrentBoth || selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                      : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
                       ? 'text-blue-500'
+                      : isCurrentBoth
+                      ? 'text-gray-700'
                       : 'text-gray-600'
                   }`}>
                     {currentQuestion.option_B.text}
@@ -504,17 +512,17 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                   onClick={() => handleSelectBoth(currentQuestion.id)}
                   className={`w-full h-[50px] rounded-xl border transition-all flex items-center justify-center gap-1.5 ${
                     isCurrentBoth
-                      ? 'border-blue-100 bg-blue-50'
+                      ? 'border-gray-200 bg-gray-200'
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
                   <span className={`text-[16px] font-medium ${
-                    isCurrentBoth ? 'text-blue-500' : 'text-gray-600'
+                    isCurrentBoth ? 'text-gray-700' : 'text-gray-600'
                   }`}>
                     상관없어요
                   </span>
                   <span className={`text-[14px] font-medium ${
-                    isCurrentBoth ? 'text-blue-300' : 'text-gray-300'
+                    isCurrentBoth ? 'text-gray-400' : 'text-gray-300'
                   }`}>
                     Skip
                   </span>

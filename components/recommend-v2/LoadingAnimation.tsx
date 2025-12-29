@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TimelineStreamingView } from './TimelineStreamingView';
+import { LoadingDots } from './LoadingDots';
 import type { TimelineStep } from '@/types/recommend-v2';
 
 interface LoadingAnimationProps {
@@ -50,17 +51,9 @@ export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationPr
         animate={{ opacity: 1, y: 0 }}
         className="w-full py-8 flex flex-col items-center"
       >
-        {/* 로딩 비디오 - 정사각형, 작게 */}
-        <div className="w-[100px] h-[100px] rounded-2xl overflow-hidden bg-white mb-6">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            <source src="/animations/recommendloading.MP4" type="video/mp4" />
-          </video>
+        {/* 로딩 애니메이션 - dots */}
+        <div className="mb-6">
+          <LoadingDots />
         </div>
 
         {/* 프로그레스 % */}

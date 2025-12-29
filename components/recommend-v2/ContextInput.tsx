@@ -121,7 +121,7 @@ export default function ContextInput({
       className={`bg-white space-y-4 transition-all duration-300 ${isCompleted ? 'hidden' : ''}`}
     >
       {/* 헤더 */}
-      <div className="space-y-3 px-1">
+      <div className="space-y-3">
         <h3 className="text-[22px] font-bold text-gray-900 leading-[1.35] tracking-tight">
           찾으시는 <span className="text-emerald-600">{categoryName}의 특징</span>이나<br />
           <span className="text-emerald-600">아이의 상황</span>을 알려주세요 👋
@@ -196,7 +196,7 @@ export default function ContextInput({
         )}
 
         {error && (
-          <p className="absolute -bottom-6 left-1 text-xs font-medium text-red-500 animate-fade-in">
+          <p className="absolute -bottom-6 left-0 text-xs font-medium text-red-500 animate-fade-in">
             {error}
           </p>
         )}
