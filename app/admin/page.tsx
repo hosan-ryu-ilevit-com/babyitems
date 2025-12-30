@@ -183,6 +183,17 @@ export default function AdminPage() {
       example_question_applied: '✅ AI 추천 적용',
       review_tab_opened: '📖 리뷰 탭 열람',
       criteria_detail_viewed: '🔎 체감속성 상세',
+      // 직접 입력 & 추가 질문 로깅
+      direct_input_button_clicked: '✏️ 직접 추가 클릭',
+      direct_input_registered: '📝 직접 입력 등록',
+      followup_question_answered: '💬 추가 질문 응답',
+      followup_question_other_input: '✍️ 추가 질문 직접입력',
+      final_natural_input_submitted: '📋 마지막 자연어 입력',
+      skip_to_recommendation_clicked: '⏭️ 건너뛰기',
+      recommend_with_natural_input_clicked: '🎯 자연어 추천받기',
+      // 결과 채팅 로깅
+      result_chat_message: '💬 결과 채팅',
+      result_chat_full_history: '📜 채팅 전체 내역',
     };
     return labels[type] || type;
   };
@@ -2143,6 +2154,23 @@ export default function AdminPage() {
                                   </p>
                                 </div>
                               )}
+                              {/* result_chat_message 이벤트 타입에서 AI 응답 표시 */}
+                              {event.eventType === 'result_chat_message' && (() => {
+                                const aiResp = 'aiResponse' in event ? event.aiResponse : null;
+                                const metaAiResp = 'metadata' in event && event.metadata
+                                  ? (event.metadata as Record<string, unknown>).aiResponse
+                                  : null;
+                                const displayResponse = aiResp || metaAiResp;
+                                if (!displayResponse) return null;
+                                return (
+                                  <div className="bg-blue-50 border-l-4 border-blue-500 p-2 rounded text-sm mb-2">
+                                    <span className="text-blue-700 font-semibold">AI</span>
+                                    <p className="text-gray-800 mt-1 whitespace-pre-wrap">
+                                      {String(displayResponse)}
+                                    </p>
+                                  </div>
+                                );
+                              })()}
                               {event.eventType === 'product_chat_message' && 'chatData' in event && event.chatData && (
                                 <div className="space-y-2">
                                   <div className="bg-gray-50 p-2 rounded text-xs">

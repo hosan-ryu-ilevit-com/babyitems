@@ -6,13 +6,20 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
 import { getModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+let supabase: SupabaseClient | null = null;
+
+function getSupabaseClient(): SupabaseClient {
+  if (!supabase) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+    supabase = createClient(supabaseUrl, supabaseKey);
+  }
+  return supabase;
+}
 
 interface ReRecommendRequest {
   categoryKey: string;
@@ -66,7 +73,7 @@ export async function POST(request: NextRequest) {
     console.log(`[ReRecommend] Category: ${categoryKey}, New condition: "${newCondition}"`);
 
     // 1. 카테고리에서 제품 조회
-    const { data: products, error: productError } = await supabase
+    const { data: products, error: productError } = await getSupabaseClient()
       .from('danawa_products')
       .select('*')
       .eq('category_key', categoryKey)

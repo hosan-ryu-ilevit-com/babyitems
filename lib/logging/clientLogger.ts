@@ -1500,7 +1500,8 @@ export function logDirectInputRegister(
   filterType: 'hard_filter' | 'negative_filter',
   inputText: string,
   questionId?: string,
-  step?: number
+  step?: number,
+  currentSelectionCount?: number
 ): void {
   const shortText = inputText.length > 40 ? inputText.substring(0, 40) + '...' : inputText;
   const filterLabel = filterType === 'hard_filter' ? '하드필터' : '단점필터';
@@ -1518,6 +1519,9 @@ export function logDirectInputRegister(
       filterType,
       questionId,
       inputLength: inputText.length,
+      inputText,
+      currentSelectionCount: currentSelectionCount ?? 0,
+      isDirectInput: true,
     },
   });
 }

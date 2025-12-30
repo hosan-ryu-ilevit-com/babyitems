@@ -2960,8 +2960,8 @@ export default function RecommendV2Page() {
                 onDirectInputRegister={(value) => {
                   setNegativeDirectInput(value);
                   setIsNegativeDirectInputRegistered(true);
-                  // 로깅: 단점 필터 직접 입력 등록
-                  logDirectInputRegister(categoryKey, categoryName, 'negative_filter', value, 'negative_filter', 4);
+                  // 로깅: 단점 필터 직접 입력 등록 (현재 선택 개수 + 직접입력 1개)
+                  logDirectInputRegister(categoryKey, categoryName, 'negative_filter', value, 'negative_filter', 4, negativeSelections.length + 1);
                 }}
               />
             </div>
