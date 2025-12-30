@@ -432,7 +432,7 @@ export function BudgetSlider({
       {/* 히스토그램 + 슬라이더 */}
       <div className={`relative pt-4 px-2 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
         {/* 히스토그램 */}
-        <div className="flex items-end h-24 gap-[2px] px-4 justify-center">
+        <div className="flex items-end h-24 gap-[2px] px-4">
           {histogramData.map((height, index) => {
             const barPercent = (index / HISTOGRAM_BARS) * 100;
             const isInRange = barPercent >= minPercent && barPercent <= maxPercent;
@@ -440,7 +440,7 @@ export function BudgetSlider({
             return (
               <div
                 key={index}
-                className={`w-[13px] rounded-t-[2px] transition-colors duration-200 ${
+                className={`flex-1 min-w-[2px] max-w-[15px] rounded-t-[2px] transition-colors duration-200 ${
                   isInRange ? 'bg-[#3B82F6]' : 'bg-gray-200'
                 }`}
                 style={{ height: `${Math.max(height * 100, 4)}%` }}

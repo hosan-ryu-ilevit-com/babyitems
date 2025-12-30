@@ -134,7 +134,7 @@ export function ResultChatContainer({
           ref={inputRef}
           type="text"
           placeholder="추천 결과에 대해 궁금한게 있으신가요?"
-          className="relative z-10 w-full h-12 pl-4 pr-12 rounded-[20px] bg-white/50 backdrop-blur-md text-base text-gray-800 placeholder:text-gray-400 placeholder:font-medium focus:outline-none transition-all"
+          className="relative z-10 w-full h-12 pl-4 pr-12 rounded-[20px] bg-white/70 backdrop-blur-md text-base text-gray-800 placeholder:text-gray-400 placeholder:font-medium focus:outline-none transition-all"
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();

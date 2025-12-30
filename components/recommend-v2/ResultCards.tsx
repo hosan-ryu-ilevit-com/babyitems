@@ -275,7 +275,6 @@ interface ResultCardsProps {
   userContext?: UserContext;  // 사용자 선택 컨텍스트 (API용)
   onModalOpenChange?: (isOpen: boolean) => void;  // 상품 모달 열림/닫힘 상태 콜백
   onViewFavorites?: () => void;  // 찜 목록 모달로 열기 위한 콜백
-  onRestrictToBudget?: () => void;  // 예산 내 제품만 보기 재추천 콜백
   analysisTimeline?: AnalysisTimeline;  // 분석 타임라인 (AI 분석 과정)
 }
 
@@ -313,25 +312,12 @@ function StreamingText({ content, speed = 15, onComplete }: { content: string; s
   return <span className="whitespace-pre-wrap">{displayedContent}</span>;
 }
 
-export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext, onModalOpenChange, onViewFavorites, onRestrictToBudget, analysisTimeline }: ResultCardsProps) {
+export function ResultCards({ products, categoryName, categoryKey, selectionReason, userContext, onModalOpenChange, onViewFavorites, analysisTimeline }: ResultCardsProps) {
   // Favorites management (비활성화)
   // const { toggleFavorite, isFavorite, count: favoritesCount } = useFavorites();
   // const [showToast, setShowToast] = useState(false);
   // const [toastType, setToastType] = useState<'add' | 'remove'>('add');
 
-  // 예산 내 제품만 보기 버튼 클릭 상태 (한 번 클릭하면 숨김)
-  const [budgetButtonClicked, setBudgetButtonClicked] = useState(false);
-
-  // 제품 목록이 변경되면 버튼 상태 리셋 (다른 추천 결과 or 다른 카테고리)
-  const productKey = useMemo(() =>
-    products.map(p => p.pcode).sort().join(','),
-    [products]
-  );
-
-  useEffect(() => {
-    // 제품 목록이 변경되면 버튼 클릭 상태 초기화
-    setBudgetButtonClicked(false);
-  }, [productKey]);
 
   // Danawa price/spec/review data (공통 훅 사용)
   // variant pcodes도 포함하여 옵션 드롭다운에서 다나와 최저가 표시 가능하게 함
@@ -1621,61 +1607,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         );
       })()}
 
-      {/* 예산 내 제품만 보기 플로팅 버튼 (다시 추천받기 버튼 위에 위치) */}
-      {(() => {
-        // budget이 object인 경우에만 min/max 접근
-        const budgetObj = userContext?.budget && typeof userContext.budget === 'object' ? userContext.budget : null;
-        if (!onRestrictToBudget || !budgetObj?.min || !budgetObj?.max) return null;
-
-        // 이미 클릭했으면 숨김
-        if (budgetButtonClicked) return null;
-
-        // Top 3 중 예산 범위(min~max) 밖의 제품이 있는지 확인 (다나와 최저가 우선 사용)
-        const budgetCheckResults = products.map(p => {
-          const danawa = danawaData[p.pcode];
-          const hasLowestPrice = danawa && danawa.lowest_price && danawa.lowest_price > 0;
-          const effectivePrice = hasLowestPrice ? danawa.lowest_price! : (p.lowestPrice || p.price || 0);
-          const isOutOfBudget = effectivePrice > 0 && (effectivePrice < budgetObj.min || effectivePrice > budgetObj.max);
-
-          return {
-            title: `${p.brand || ''} ${p.title.substring(0, 20)}...`,
-            danawaPrice: danawa?.lowest_price,
-            lowestPrice: p.lowestPrice,
-            price: p.price,
-            effectivePrice,
-            budgetMin: budgetObj.min,
-            budgetMax: budgetObj.max,
-            isOutOfBudget,
-          };
-        });
-
-        const hasOutOfBudget = budgetCheckResults.some(r => r.isOutOfBudget);
-
-        // 디버깅 로그 (제품별 가격 확인)
-        console.log('[버튼 표시 로직] 예산 범위:', budgetObj.min.toLocaleString(), '~', budgetObj.max.toLocaleString(), '원');
-        console.log('[버튼 표시 로직] 제품별 가격:', budgetCheckResults);
-        console.log('[버튼 표시 로직] 범위 밖 제품 있음?', hasOutOfBudget, '→  버튼', hasOutOfBudget ? '표시' : '숨김');
-
-        // 예산 범위 밖 제품이 없으면 버튼 숨김
-        if (!hasOutOfBudget) return null;
-
-        return (
-          <button
-            onClick={() => {
-              logButtonClick('예산 내 제품만 보기');
-              setBudgetButtonClicked(true);  // 클릭 후 버튼 숨김
-              onRestrictToBudget();
-            }}
-            className="fixed bottom-24 right-4 z-[105] px-5 py-3 bg-black rounded-full font-semibold text-white transition-all active:scale-[0.95] flex items-center gap-2 shadow-lg hover:bg-orange-700"
-            style={{ maxWidth: 'calc(480px - 2rem)' }}
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
-            </svg>
-            <span className="text-sm whitespace-nowrap">예산 내 제품만 보기</span>
-          </button>
-        );
-      })()}
 
       {/* Real Reviews Bottom Sheet Modal (Gemini Grounding) */}
       <AnimatePresence>

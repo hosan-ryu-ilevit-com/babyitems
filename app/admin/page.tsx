@@ -52,8 +52,10 @@ export default function AdminPage() {
   // 추가 입력 섹션 상태
   const [isUserInputExpanded, setIsUserInputExpanded] = useState(false);
 
-  // 재추천 대화 섹션 상태
-  const [isReRecommendationExpanded, setIsReRecommendationExpanded] = useState(false);
+  // 리텐션 대시보드 상태
+  const [isRetentionExpanded, setIsRetentionExpanded] = useState(false);
+  const [retentionPeriod, setRetentionPeriod] = useState<'day' | 'week' | 'month'>('day');
+  const [retentionCriteria, setRetentionCriteria] = useState<'access' | 'completed'>('access');
 
   // 비밀번호 검증
   const handleLogin = () => {
@@ -888,67 +890,113 @@ export default function AdminPage() {
     );
   };
 
-  // 재추천 대화 수집 (Result 페이지에서의 user_input + ai_response 페어링)
-  const collectReRecommendationChats = () => {
+  // 리텐션 데이터 계산
+  const calculateRetention = () => {
     const TEST_IPS = ['::1', '127.0.0.1', '211.53.92.162', '::ffff:172.16.230.123'];
     const TEST_PHONES = ['01088143142'];
 
-    interface ChatSession {
-      sessionId: string;
-      phone?: string;
-      utmCampaign?: string;
-      conversations: Array<{
-        userInput: string;
-        aiResponse: string;
-        timestamp: string;
-      }>;
-    }
+    // 필터링된 세션
+    const filteredSessions = allSessions.filter(session => {
+      if (session.ip && TEST_IPS.includes(session.ip)) return false;
+      if (session.phone && TEST_PHONES.includes(session.phone)) return false;
+      return true;
+    });
 
-    const chatSessions = new Map<string, ChatSession>();
+    // 사용자 식별 (phone > ip 우선순위)
+    const getUserId = (session: SessionSummary) => session.phone || session.ip || session.sessionId;
 
-    allSessions.forEach(session => {
-      // 테스트 IP/전화번호 필터링
-      if (session.ip && TEST_IPS.includes(session.ip)) return;
-      if (session.phone && TEST_PHONES.includes(session.phone)) return;
+    // 기간별 그룹핑 함수
+    const getPeriodKey = (dateStr: string, period: 'day' | 'week' | 'month') => {
+      const date = new Date(dateStr);
+      if (period === 'day') {
+        return date.toISOString().split('T')[0]; // YYYY-MM-DD
+      } else if (period === 'week') {
+        // 주의 시작일 (월요일 기준)
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        const weekStart = new Date(date.setDate(diff));
+        return weekStart.toISOString().split('T')[0];
+      } else {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`; // YYYY-MM
+      }
+    };
 
-      // Result 페이지에서의 user_input과 ai_response 이벤트만 수집
-      const resultEvents = session.events.filter(e => e.page === 'result');
-      const userInputs = resultEvents.filter(e => e.eventType === 'user_input' && e.userInput);
-      const aiResponses = resultEvents.filter(e => e.eventType === 'ai_response' && e.aiResponse);
+    // 사용자별 방문 기록 (기간별)
+    const userVisits = new Map<string, Map<string, { accessed: boolean; completed: boolean }>>();
 
-      if (userInputs.length === 0) return;
+    filteredSessions.forEach(session => {
+      const userId = getUserId(session);
+      const periodKey = getPeriodKey(session.firstSeen, retentionPeriod);
 
-      // 세션 데이터 초기화
-      if (!chatSessions.has(session.sessionId)) {
-        chatSessions.set(session.sessionId, {
-          sessionId: session.sessionId,
-          phone: session.phone,
-          utmCampaign: session.utmCampaign,
-          conversations: [],
-        });
+      if (!userVisits.has(userId)) {
+        userVisits.set(userId, new Map());
       }
 
-      const chatSession = chatSessions.get(session.sessionId)!;
+      const visits = userVisits.get(userId)!;
+      if (!visits.has(periodKey)) {
+        visits.set(periodKey, { accessed: false, completed: false });
+      }
 
-      // user_input과 ai_response를 페어링
-      userInputs.forEach((userInputEvent, idx) => {
-        const aiResponseEvent = aiResponses[idx]; // 순서대로 매칭
-        if (aiResponseEvent) {
-          chatSession.conversations.push({
-            userInput: userInputEvent.userInput!,
-            aiResponse: aiResponseEvent.aiResponse!,
-            timestamp: userInputEvent.timestamp,
-          });
-        }
-      });
+      const periodData = visits.get(periodKey)!;
+      periodData.accessed = true;
+      if (session.completed) {
+        periodData.completed = true;
+      }
     });
 
-    // 최신순으로 정렬
-    return Array.from(chatSessions.values()).sort((a, b) => {
-      const aLatest = a.conversations.length > 0 ? new Date(a.conversations[a.conversations.length - 1].timestamp).getTime() : 0;
-      const bLatest = b.conversations.length > 0 ? new Date(b.conversations[b.conversations.length - 1].timestamp).getTime() : 0;
-      return bLatest - aLatest;
+    // 코호트 분석: 각 기간별 신규 사용자와 재방문율 계산
+    const periods = Array.from(new Set(
+      filteredSessions.map(s => getPeriodKey(s.firstSeen, retentionPeriod))
+    )).sort();
+
+    // 각 사용자의 첫 방문 기간
+    const userFirstPeriod = new Map<string, string>();
+    userVisits.forEach((visits, userId) => {
+      const sortedPeriods = Array.from(visits.keys()).sort();
+      if (sortedPeriods.length > 0) {
+        userFirstPeriod.set(userId, sortedPeriods[0]);
+      }
     });
+
+    // 코호트 데이터 계산
+    interface CohortData {
+      period: string;
+      newUsers: number;
+      retention: number[]; // 각 후속 기간별 재방문율
+    }
+
+    const cohorts: CohortData[] = [];
+
+    periods.forEach((cohortPeriod, cohortIndex) => {
+      // 해당 기간에 첫 방문한 사용자들
+      const cohortUsers = Array.from(userFirstPeriod.entries())
+        .filter(([, firstPeriod]) => firstPeriod === cohortPeriod)
+        .map(([userId]) => userId);
+
+      const newUsers = cohortUsers.length;
+      const retention: number[] = [];
+
+      // 후속 기간별 재방문율 계산 (최대 6기간)
+      for (let i = 1; i <= Math.min(6, periods.length - cohortIndex - 1); i++) {
+        const targetPeriod = periods[cohortIndex + i];
+        if (!targetPeriod) break;
+
+        const returnedUsers = cohortUsers.filter(userId => {
+          const visits = userVisits.get(userId);
+          if (!visits) return false;
+          const periodData = visits.get(targetPeriod);
+          if (!periodData) return false;
+          return retentionCriteria === 'access' ? periodData.accessed : periodData.completed;
+        }).length;
+
+        retention.push(newUsers > 0 ? Math.round((returnedUsers / newUsers) * 100) : 0);
+      }
+
+      cohorts.push({ period: cohortPeriod, newUsers, retention });
+    });
+
+    // 최근 10개 코호트만 표시
+    return cohorts.slice(-10);
   };
 
   // 로그인 화면
@@ -1600,6 +1648,161 @@ export default function AdminPage() {
             )}
           </div>
 
+          {/* 리텐션 대시보드 */}
+          <div className="border-t pt-4 mt-4">
+            <button
+              onClick={() => setIsRetentionExpanded(!isRetentionExpanded)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-xl">📈</span>
+                <div className="text-left">
+                  <h2 className="text-lg font-semibold text-gray-800">리텐션 분석</h2>
+                  <p className="text-xs text-gray-600">코호트별 재방문율 분석 (Day/Week/Month)</p>
+                </div>
+              </div>
+              <svg
+                className={`w-5 h-5 text-gray-600 transition-transform ${isRetentionExpanded ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {isRetentionExpanded && (
+              <div className="mt-4">
+                {/* 필터 컨트롤 */}
+                <div className="flex items-center justify-end gap-4 mb-4">
+                  {/* 재방문 기준 토글 */}
+                  <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                    <button
+                      onClick={() => setRetentionCriteria('access')}
+                      className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                        retentionCriteria === 'access'
+                          ? 'bg-white text-gray-800 shadow-sm font-medium'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      단순 접속
+                    </button>
+                    <button
+                      onClick={() => setRetentionCriteria('completed')}
+                      className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                        retentionCriteria === 'completed'
+                          ? 'bg-white text-gray-800 shadow-sm font-medium'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      추천 완료
+                    </button>
+                  </div>
+                  {/* 기간 선택 */}
+                  <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                    <button
+                      onClick={() => setRetentionPeriod('day')}
+                      className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                        retentionPeriod === 'day'
+                          ? 'bg-white text-gray-800 shadow-sm font-medium'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      Day
+                    </button>
+                    <button
+                      onClick={() => setRetentionPeriod('week')}
+                      className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                        retentionPeriod === 'week'
+                          ? 'bg-white text-gray-800 shadow-sm font-medium'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      Week
+                    </button>
+                    <button
+                      onClick={() => setRetentionPeriod('month')}
+                      className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                        retentionPeriod === 'month'
+                          ? 'bg-white text-gray-800 shadow-sm font-medium'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      Month
+                    </button>
+                  </div>
+                </div>
+
+                {/* 코호트 리텐션 테이블 */}
+                {(() => {
+                  const cohorts = calculateRetention();
+                  const periodLabel = retentionPeriod === 'day' ? '일' : retentionPeriod === 'week' ? '주' : '월';
+                  const maxRetentionColumns = Math.max(...cohorts.map(c => c.retention.length), 0);
+
+                  if (cohorts.length === 0) {
+                    return (
+                      <div className="text-center py-8 text-gray-500">
+                        리텐션 데이터가 없습니다.
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm border-collapse">
+                        <thead>
+                          <tr className="bg-gray-100">
+                            <th className="px-3 py-2 text-left font-semibold text-gray-700 border">코호트</th>
+                            <th className="px-3 py-2 text-center font-semibold text-gray-700 border">신규</th>
+                            {Array.from({ length: maxRetentionColumns }, (_, i) => (
+                              <th key={i} className="px-3 py-2 text-center font-semibold text-gray-700 border">
+                                +{i + 1}{periodLabel}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {cohorts.map((cohort, idx) => (
+                            <tr key={idx} className="hover:bg-gray-50">
+                              <td className="px-3 py-2 border text-gray-700 font-medium whitespace-nowrap">
+                                {cohort.period}
+                              </td>
+                              <td className="px-3 py-2 border text-center text-gray-800 font-semibold">
+                                {cohort.newUsers}
+                              </td>
+                              {Array.from({ length: maxRetentionColumns }, (_, i) => {
+                                const rate = cohort.retention[i];
+                                const hasData = rate !== undefined;
+                                const bgColor = hasData
+                                  ? rate >= 30 ? 'bg-green-100 text-green-800'
+                                    : rate >= 15 ? 'bg-yellow-100 text-yellow-800'
+                                    : rate > 0 ? 'bg-orange-100 text-orange-800'
+                                    : 'bg-gray-100 text-gray-500'
+                                  : '';
+                                return (
+                                  <td
+                                    key={i}
+                                    className={`px-3 py-2 border text-center ${bgColor}`}
+                                  >
+                                    {hasData ? `${rate}%` : '-'}
+                                  </td>
+                                );
+                              })}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <p className="mt-2 text-xs text-gray-500">
+                        * 사용자 식별: 전화번호 &gt; IP 주소 우선
+                        {retentionCriteria === 'access' ? ' / 재방문 기준: 단순 접속' : ' / 재방문 기준: 추천 완료'}
+                      </p>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+          </div>
+
           {/* 사용자 추가 입력 섹션 */}
           <div className="border-t pt-4 mt-4">
             <button
@@ -1673,91 +1876,6 @@ export default function AdminPage() {
                   </table>
                 ) : (
                   <p className="text-center text-gray-500 py-8">추가 입력 데이터가 없습니다.</p>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* 재추천 대화 섹션 */}
-          <div className="border-t pt-4 mt-4">
-            <button
-              onClick={() => setIsReRecommendationExpanded(!isReRecommendationExpanded)}
-              className="w-full flex items-center justify-between px-4 py-3 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-xl">💬</span>
-                <div className="text-left">
-                  <h2 className="text-lg font-semibold text-gray-800">재추천 대화</h2>
-                  <p className="text-xs text-gray-600">Result 페이지에서 &apos;입력으로 재추천받기&apos;를 통한 대화</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-emerald-500 text-white rounded-full text-sm font-medium">
-                  {collectReRecommendationChats().length}건
-                </span>
-                <svg
-                  className={`w-5 h-5 text-gray-600 transition-transform ${isReRecommendationExpanded ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </button>
-
-            {isReRecommendationExpanded && (
-              <div className="mt-4 space-y-4">
-                {collectReRecommendationChats().length > 0 ? (
-                  collectReRecommendationChats().map((chatSession, idx) => (
-                    <div key={idx} className="bg-white border border-gray-200 rounded-lg p-4">
-                      {/* 세션 헤더 */}
-                      <div className="flex items-center justify-between mb-3 pb-3 border-b border-gray-200">
-                        <div className="flex items-center gap-3">
-                          <span className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                            {chatSession.sessionId.slice(0, 8)}...
-                          </span>
-                          {chatSession.utmCampaign && (
-                            <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
-                              {chatSession.utmCampaign}
-                            </span>
-                          )}
-                          {chatSession.phone && (
-                            <span className="text-xs text-gray-600">📞 {chatSession.phone}</span>
-                          )}
-                        </div>
-                        <span className="text-xs text-gray-500">
-                          {chatSession.conversations.length}회 대화
-                        </span>
-                      </div>
-
-                      {/* 대화 내역 */}
-                      <div className="space-y-3">
-                        {chatSession.conversations.map((conv, convIdx) => (
-                          <div key={convIdx} className="space-y-2">
-                            {/* 사용자 입력 */}
-                            <div className="flex justify-end">
-                              <div className="max-w-[80%] bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
-                                <p className="text-xs text-gray-500 mb-1">
-                                  {formatDateTime(conv.timestamp)}
-                                </p>
-                                <p className="text-sm text-gray-800">{conv.userInput}</p>
-                              </div>
-                            </div>
-
-                            {/* AI 응답 */}
-                            <div className="flex justify-start">
-                              <div className="max-w-[80%] bg-emerald-50 border-l-4 border-emerald-500 p-3 rounded">
-                                <p className="text-sm text-gray-800 whitespace-pre-wrap">{conv.aiResponse}</p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center text-gray-500 py-8">재추천 대화 데이터가 없습니다.</p>
                 )}
               </div>
             )}
