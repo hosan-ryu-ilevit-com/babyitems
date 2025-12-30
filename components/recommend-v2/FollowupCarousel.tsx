@@ -191,18 +191,9 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
         {/* 메인 콘텐츠 영역 */}
         <div className="w-full max-w-lg mx-auto pb-36">
           {/* 헤더 */}
-          <div className="text-left mb-6">
+          <div className="text-left">
             <div className="flex items-center gap-2 mb-3">
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#followup_carousel_gradient)" />
-                <defs>
-                  <linearGradient id="followup_carousel_gradient" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#77A0FF" />
-                    <stop offset="0.7" stopColor="#907FFF" />
-                    <stop offset="1" stopColor="#6947FF" />
-                  </linearGradient>
-                </defs>
-              </svg>
+             
               <span className="text-sm font-medium text-gray-500">
                 {isLastItem ? '마지막 단계' : `추가 확인 ${currentIndex + 1}/${questions.length}`}
               </span>
@@ -337,7 +328,7 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                           handleNaturalInputSubmit();
                         }
                       }}
-                      placeholder="자유롭게 적어주세요"
+                      placeholder="아기 월령 등 반영하면 좋을 상황을 자유롭게 적어주세요"
                       disabled={isLoading}
                       className={`
                         w-full h-24 px-4 py-3 rounded-2xl border resize-none
@@ -348,15 +339,29 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                       `}
                     />
 
-                    {/* 건너뛰고 바로 추천받기 - 텍스트형 버튼 */}
-                    <button
-                      onClick={handleSkip}
-                      disabled={isLoading}
-                      className="mt-3 w-full text-center py-2 text-base text-gray-400 hover:text-gray-600
-                        transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      건너뛰고 바로 추천받기
-                    </button>
+                    {/* 건너뛰고 바로 추천받기 - 버튼형 (입력 시 fade out) */}
+                    <AnimatePresence>
+                      {naturalInput.length === 0 && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="mt-3 flex justify-center"
+                        >
+                          <button
+                            onClick={handleSkip}
+                            disabled={isLoading}
+                            className="px-4 py-2 rounded-xl bg-gray-50 hover:bg-gray-200
+                              transition-all duration-200 flex items-center justify-center gap-1.5
+                              disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                          >
+                            <img src="/icons/ic-ai.svg" alt="" className="w-3.5 h-3.5 opacity-70" />
+                            <span className="font-medium text-sm text-gray-500">건너뛰고 바로 추천받기</span>
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
               </motion.div>
