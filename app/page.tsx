@@ -247,7 +247,22 @@ export default function Home() {
         const key = sessionStorage.key(i);
         if (key?.startsWith('v2_result_')) {
           const categoryId = key.replace('v2_result_', '');
-          completed.add(categoryId);
+          const savedStateStr = sessionStorage.getItem(key);
+          if (savedStateStr) {
+            try {
+              const savedState = JSON.parse(savedStateStr);
+              // 1시간(3600000ms) 이내의 결과이고 상품이 있는 경우만 완료로 표시
+              // app/recommend-v2/[categoryKey]/page.tsx 의 복원 로직과 동일하게 유지
+              const isRecent = Date.now() - (savedState.timestamp || 0) < 3600000;
+              const hasProducts = savedState.scoredProducts && Array.isArray(savedState.scoredProducts) && savedState.scoredProducts.length > 0;
+              
+              if (isRecent && hasProducts) {
+                completed.add(categoryId);
+              }
+            } catch (parseError) {
+              console.warn(`[home] Failed to parse ${key}:`, parseError);
+            }
+          }
         }
       }
     } catch (e) {

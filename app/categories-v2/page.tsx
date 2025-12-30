@@ -283,12 +283,12 @@ function CategoryCard({
       whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(category)}
       disabled={isLoading}
-      className={`rounded-2xl p-4 transition-all duration-200 text-left border relative overflow-hidden group ${
+        className={`rounded-2xl p-4 transition-all duration-200 text-left border relative overflow-hidden group ${
         isLoading
           ? 'bg-purple-50 border-purple-200'
           : isSelected
-            ? 'bg-purple-50 border-purple-200 shadow-sm'
-            : 'bg-white border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md hover:border-purple-100 hover:bg-purple-50/30'
+            ? 'bg-purple-50 border-purple-200'
+            : 'bg-white border-gray-100 hover:border-purple-100 hover:bg-purple-50/30'
       }`}
     >
       {/* Loading Shimmer */}
@@ -450,9 +450,22 @@ export default function CategoriesV2Page() {
     CATEGORY_GROUPS.forEach((group) => {
       group.categories.forEach((category) => {
         const resultKey = `v2_result_${category.id}`;
-        const hasResult = sessionStorage.getItem(resultKey);
-        if (hasResult) {
-          completed.add(category.id);
+        const savedStateStr = sessionStorage.getItem(resultKey);
+        
+        if (savedStateStr) {
+          try {
+            const savedState = JSON.parse(savedStateStr);
+            // 1시간(3600000ms) 이내의 결과이고 상품이 있는 경우만 완료로 표시
+            // app/recommend-v2/[categoryKey]/page.tsx 의 복원 로직과 동일하게 유지
+            const isRecent = Date.now() - (savedState.timestamp || 0) < 3600000;
+            const hasProducts = savedState.scoredProducts && Array.isArray(savedState.scoredProducts) && savedState.scoredProducts.length > 0;
+            
+            if (isRecent && hasProducts) {
+              completed.add(category.id);
+            }
+          } catch (e) {
+            console.warn(`[categories-v2] Failed to parse ${resultKey}:`, e);
+          }
         }
       });
     });
@@ -702,7 +715,7 @@ export default function CategoriesV2Page() {
                 );
                 setIsCategoryGuideOpen(true);
               }}
-              className="w-full h-14 flex items-center justify-center gap-2 px-3 py-3 rounded-2xl shadow-lg bg-purple-600 hover:bg-purple-700 transition-all active:scale-95"
+              className="w-full h-14 flex items-center justify-center gap-2 px-3 py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 transition-all active:scale-95"
             >
               <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-white/80 text-purple-600">
                 AI

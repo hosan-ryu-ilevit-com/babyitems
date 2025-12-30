@@ -257,10 +257,10 @@ export default function ProductDetailModal({ productData, category, danawaData, 
           sellersRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setShowHighlight(true);
           
-          // 3초 후 하이라이트 제거
+          // 1.5초 후 하이라이트 제거
           const highlightTimer = setTimeout(() => {
             setShowHighlight(false);
-          }, 3000);
+          }, 1500);
           
           return () => clearTimeout(highlightTimer);
         }
@@ -527,7 +527,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                       initial={{ opacity: 0 }}
                       animate={{ opacity: [0, 0.2, 0, 0.2, 0] }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 3, times: [0, 0.2, 0.5, 0.8, 1] }}
+                      transition={{ duration: 1.5, times: [0, 0.2, 0.5, 0.8, 1] }}
                       className="absolute inset-0 bg-purple-100/30 rounded-2xl z-0 pointer-events-none"
                     />
                   )}
@@ -585,7 +585,10 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                         </div>
 
                         {/* 가격 + 화살표 */}
-                        <div className="flex items-center gap-3 shrink-0">
+                        <div className="flex items-center gap-2 shrink-0">
+                          {index === 0 && (
+                            <span className="text-[13px] font-medium text-red-500">최대 할인</span>
+                          )}
                           <span className={`text-m font-bold ${index === 0 ? 'text-red-500' : 'text-gray-900'}`}>
                             {priceInfo.price?.toLocaleString() || 0}원
                           </span>
@@ -678,11 +681,11 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                         <button
                           onClick={() => {
                             setShowPriceComparison(!showPriceComparison);
-                            logButtonClick(showPriceComparison ? '판매처 접기' : '판매처 더보기', 'product-modal');
+                            logButtonClick(showPriceComparison ? '접기' : '더보기', 'product-modal');
                           }}
                           className="px-5 py-2 bg-black/60 rounded-full text-sm font-medium text-white hover:bg-gray-600 transition-colors"
                         >
-                          {showPriceComparison ? '판매처 접기' : '판매처 더보기'}
+                          {showPriceComparison ? '접기' : '더보기'}
                         </button>
                       </div>
                     )}
@@ -917,7 +920,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                         <div className="-mt-4">
                           <div className="h-[10px] bg-gray-50 border-y border-gray-100 -mx-4" />
                           <div 
-                            className="pt-4 px-6 pb-6 -mx-4" 
+                            className="pt-4 px-6 pb-2 -mx-4" 
                             style={{ 
                               background: 'linear-gradient(180deg, #F3F0FF 0%, #FFFFFF 100%)' 
                             }}
@@ -939,27 +942,19 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                 </div>
                               ))}
                             </div>
-                            <div className="h-px bg-gray-100 mt-6 mb-0" />
+                            <div className="h-px bg-gray-100 mt-2 mb-0" />
                           </div>
                         </div>
                       )}
 
                       {/* 선호 속성 (밸런스 게임) */}
                       {balanceConditions.length > 0 && (
-                        <div className="bg-gray-50 rounded-xl p-4 !mt-2">
+                        <div className="bg-gray-50 rounded-xl p-4 !mt-0 border border-gray-100">
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
-                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_modal_balance)" />
-                                <defs>
-                                  <linearGradient id="ai_gradient_modal_balance" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                                    <stop stopColor="#77A0FF" />
-                                    <stop offset="0.7" stopColor="#907FFF" />
-                                    <stop offset="1" stopColor="#6947FF" />
-                                  </linearGradient>
-                                </defs>
-                              </svg>
-                              <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
+                              <h4 className="text-[18px] font-bold text-[#4E43E1] leading-tight">
                                 선호 속성
                               </h4>
                             </div>
@@ -985,14 +980,17 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                 return (
                                   <div key={i}>
                                     <div className="flex items-start justify-between mb-2 gap-2">
-                                      <strong className="text-sm font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
+                                      <strong className="text-[16px] font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
                                         {cond.condition}
                                       </strong>
                                       <span className={`px-2.5 py-1 rounded-md text-sm font-semibold shrink-0 ${badgeColor}`}>
                                         {badgeText}
                                       </span>
                                     </div>
-                                    <p className="text-sm text-gray-500 leading-relaxed">
+                                    <p 
+                                      className="text-[16px] text-gray-700 font-medium"
+                                      style={{ lineHeight: '1.4' }}
+                                    >
                                       {parseMarkdownBold(cond.evidence)}
                                     </p>
                                   </div>
@@ -1005,20 +1003,12 @@ export default function ProductDetailModal({ productData, category, danawaData, 
 
                       {/* 피하고 싶은 단점 */}
                       {negativeConditions.length > 0 && (
-                        <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                           <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                              <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_modal_negative)" />
-                              <defs>
-                                <linearGradient id="ai_gradient_modal_negative" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                                  <stop stopColor="#77A0FF" />
-                                  <stop offset="0.7" stopColor="#907FFF" />
-                                  <stop offset="1" stopColor="#6947FF" />
-                                </linearGradient>
-                              </defs>
-                            </svg>
-                            <h4 className="text-sm font-bold text-[#4E43E1] leading-tight">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
+                            <h4 className="text-[18px] font-bold text-[#4E43E1] leading-tight">
                               피하고 싶은 단점
                             </h4>
                           </div>
@@ -1044,14 +1034,17 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                 return (
                                   <div key={i}>
                                     <div className="flex items-start justify-between mb-2 gap-2">
-                                      <strong className="text-sm font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
+                                      <strong className="text-[16px] font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
                                         {cond.condition}
                                       </strong>
                                       <span className={`px-2.5 py-1 rounded-md text-sm font-semibold shrink-0 ${badgeColor}`}>
                                         {badgeText}
                                       </span>
                                     </div>
-                                    <p className="text-sm text-gray-500 leading-relaxed">
+                                    <p 
+                                      className="text-[16px] text-gray-700 font-medium"
+                                      style={{ lineHeight: '1.4' }}
+                                    >
                                       {parseMarkdownBold(cond.evidence)}
                                     </p>
                                   </div>

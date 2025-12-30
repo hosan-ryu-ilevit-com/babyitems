@@ -3459,9 +3459,9 @@ export default function RecommendV2Page() {
               onClick={handleStartFollowupFlow}
               disabled={isTransitioning || isTooFewProducts}
               whileTap={(isTransitioning || isTooFewProducts) ? undefined : { scale: 0.98 }}
-              className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base flex items-center justify-center shadow-lg shadow-purple-200/50 ${
+              className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base flex items-center justify-center ${
                 isTransitioning || isTooFewProducts
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   : 'bg-[#111827] text-white'
               }`}
             >
@@ -3640,7 +3640,6 @@ export default function RecommendV2Page() {
                 border-radius: 1rem;
                 background: #111827;
                 overflow: hidden;
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
               }
 
               .gradient-border-button.w-full {
@@ -3719,7 +3718,7 @@ export default function RecommendV2Page() {
                         logV2ReRecommendDifferentCategory(categoryKey, categoryName);
                         router.push('/');
                       }}
-                      className="w-full py-4 px-6 bg-white text-gray-900 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 font-semibold flex items-center justify-center gap-3 group overflow-hidden relative"
+                      className="w-full py-4 px-6 bg-white text-gray-900 rounded-2xl border border-gray-100 font-semibold flex items-center justify-center gap-3 group overflow-hidden relative"
                     >
                       <motion.div
                         initial={{ x: -20, opacity: 0 }}
@@ -3775,7 +3774,7 @@ export default function RecommendV2Page() {
                           });
                         });
                       }}
-                      className="w-full py-4 px-6 bg-white text-[#6366F1] rounded-2xl shadow-[0_8px_30px_rgb(99,102,241,0.12)] border border-indigo-50 font-bold flex items-center justify-center gap-3 group relative overflow-hidden"
+                      className="w-full py-4 px-6 bg-white text-[#6366F1] rounded-2xl border border-indigo-50 font-bold flex items-center justify-center gap-3 group relative overflow-hidden"
                     >
                       <motion.div
                         className="absolute inset-0 bg-gradient-to-r from-indigo-50/0 via-indigo-50/50 to-indigo-50/0"

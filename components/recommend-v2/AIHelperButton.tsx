@@ -87,7 +87,7 @@ export function AIHelperButton({
         transition={{ duration: 0.2 }}
         onClick={handleClick}
         disabled={disabled}
-        className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border shadow-sm w-full bg-white relative ${
+        className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border w-full bg-white relative ${
           isExpanded ? 'z-[100]' : 'z-auto'
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
