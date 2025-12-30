@@ -50,6 +50,9 @@ import ContextInput from '@/components/recommend-v2/ContextInput';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
 import { FollowupCarousel } from '@/components/recommend-v2/FollowupCarousel';
+import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
+import { ThinkingMessage } from '@/components/recommend-v2/ThinkingMessage';
+import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
 
 // Utils
 import {
@@ -233,6 +236,7 @@ export default function RecommendV2Page() {
   const [scoredProducts, setScoredProducts] = useState<ScoredProduct[]>([]); // Top 3 추천 제품
   const [allScoredProducts, setAllScoredProducts] = useState<ScoredProduct[]>([]); // 전체 점수 계산된 제품 목록 (예산 필터용)
   const [isCalculating, setIsCalculating] = useState(false);
+  const [isChatLoading, setIsChatLoading] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false); // 버튼 중복 클릭 방지
   const [progress, setProgress] = useState(0); // 0~100 프로그레스
   const progressRef = useRef(0); // 최신 progress 값 추적용
@@ -306,19 +310,22 @@ export default function RecommendV2Page() {
 
   // 특정 메시지로 스크롤 (상단 정렬 - AI 채팅처럼 새 컴포넌트가 헤더 아래로)
   const scrollToMessage = useCallback((messageId: string) => {
+    // DOM 업데이트 및 레이아웃 완료를 기다리기 위해 약간의 지연
     setTimeout(() => {
       const container = scrollContainerRef.current;
       const el = document.querySelector(`[data-message-id="${messageId}"]`) as HTMLElement;
+      
       if (container && el) {
         // StepIndicator height(약 48px) + mt-2(8px) + 여백(약 14px) = 70px
         const offset = 70;
         const targetScroll = el.offsetTop - offset;
+        
         container.scrollTo({
           top: Math.max(0, targetScroll),
           behavior: 'smooth'
         });
       }
-    }, 150);
+    }, 100);
   }, []);
 
   // 추가 질문 로딩/캐러셀 표시 시 해당 영역으로 자동 스크롤
@@ -446,8 +453,8 @@ export default function RecommendV2Page() {
           setHardFilterLabels(savedState.hardFilterLabels || {});
           setHardFilterDefinitions(savedState.hardFilterDefinitions || {});
 
-          // 결과 메시지 추가
-          setMessages([{
+          // 결과 메시지 + 채팅 내역 복원
+          const resultMessage: ChatMessage = {
             id: generateId(),
             role: 'system',
             content: '',
@@ -459,7 +466,11 @@ export default function RecommendV2Page() {
               selectionReason: savedState.selectionReason,
             },
             timestamp: Date.now(),
-          }]);
+          };
+
+          // 저장된 채팅 내역이 있으면 복원
+          const restoredChatMessages = (savedState.chatMessages || []) as ChatMessage[];
+          setMessages([resultMessage, ...restoredChatMessages]);
 
           setIsLoading(false);
           setShowScanAnimation(false);
@@ -473,6 +484,25 @@ export default function RecommendV2Page() {
       console.warn('[sessionStorage] Failed to restore result:', e);
     }
   }, [categoryKey]);
+
+  // 채팅 메시지 변경 시 sessionStorage 업데이트 (Step 5에서만)
+  useEffect(() => {
+    if (!categoryKey || currentStep !== 5 || scoredProducts.length === 0) return;
+
+    try {
+      const savedStateStr = sessionStorage.getItem(`v2_result_${categoryKey}`);
+      if (savedStateStr) {
+        const savedState = JSON.parse(savedStateStr);
+        // 채팅 메시지만 업데이트 (typing/reRecommendData 제거)
+        savedState.chatMessages = messages
+          .filter(m => m.role === 'user' || m.role === 'assistant')
+          .map(m => ({ id: m.id, role: m.role, content: m.content, timestamp: m.timestamp }));
+        sessionStorage.setItem(`v2_result_${categoryKey}`, JSON.stringify(savedState));
+      }
+    } catch (e) {
+      console.warn('[sessionStorage] Failed to update chat messages:', e);
+    }
+  }, [messages, categoryKey, currentStep, scoredProducts.length]);
 
   // ===================================================
   // Data Loading
@@ -2370,6 +2400,10 @@ export default function RecommendV2Page() {
             .join(', '),
           negativeDirectInput,
           timestamp: Date.now(),
+          // 채팅 내역 저장 (user/assistant 메시지만, typing/reRecommendData 제거)
+          chatMessages: messages
+            .filter(m => m.role === 'user' || m.role === 'assistant')
+            .map(m => ({ id: m.id, role: m.role, content: m.content, timestamp: m.timestamp })),
         };
         sessionStorage.setItem(`v2_result_${categoryKey}`, JSON.stringify(savedState));
         console.log('✅ [sessionStorage] Result saved for', categoryKey);
@@ -2536,7 +2570,7 @@ export default function RecommendV2Page() {
     } finally {
       setIsCalculating(false);
     }
-  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, hardFilterAnalysis, negativeAnalysis, finalDirectInputAnalysis, hardFilterConfig, hardFilterDefinitions, hardFilterLabels, balanceLabels, negativeLabels, conditionSummary, userContext, ageContext, hardFilterDirectInputs, hardFilterDirectInputRegistered, negativeDirectInput, addMessage, scrollToMessage, preprocessedRequirements]);
+  }, [filteredProducts, balanceSelections, negativeSelections, dynamicNegativeOptions, logicMap, budget, categoryName, categoryKey, hardFilterAnswers, hardFilterAnalysis, negativeAnalysis, finalDirectInputAnalysis, hardFilterConfig, hardFilterDefinitions, hardFilterLabels, balanceLabels, negativeLabels, conditionSummary, userContext, ageContext, hardFilterDirectInputs, hardFilterDirectInputRegistered, negativeDirectInput, addMessage, scrollToMessage, preprocessedRequirements, messages]);
 
   // 예산 내 제품만 보기 재추천 핸들러
   const handleRestrictToBudget = useCallback(async () => {
@@ -2590,7 +2624,70 @@ export default function RecommendV2Page() {
   // ===================================================
 
   const renderMessage = (message: ChatMessage) => {
+    // 사용자 메시지 (채팅)
+    if (message.role === 'user') {
+      return (
+        <div
+          key={message.id}
+          data-message-id={message.id}
+          className="scroll-mt-[70px] flex justify-end transition-all duration-300"
+        >
+          <div className="max-w-[80%] min-h-[46px] px-4 py-3 rounded-[20px] bg-gray-50 flex items-center">
+            <span className="text-gray-800 text-base leading-[140%] font-medium">
+              {message.content}
+            </span>
+          </div>
+        </div>
+      );
+    }
+
     if (message.role === 'assistant') {
+      // 재추천 메시지인 경우 (결과 페이지 채팅)
+      if (message.reRecommendData) {
+        return (
+          <div
+            key={message.id}
+            data-message-id={message.id}
+            className="scroll-mt-[70px]"
+          >
+            <ResultChatMessage
+              message={{
+                id: message.id,
+                role: 'assistant',
+                content: message.content,
+                timestamp: message.timestamp || Date.now(),
+                reRecommendData: message.reRecommendData,
+              }}
+              typing={message.typing}
+              speed={message.speed}
+              isReRecommending={isCalculating}
+              onTypingComplete={() => {
+                if (message.typing) {
+                  setMessages(prev => prev.map(m => 
+                    m.id === message.id ? { ...m, typing: false } : m
+                  ));
+                }
+                message.onTypingComplete?.();
+              }}
+              onReRecommendConfirm={async () => {
+                if (isCalculating) return;
+                // 1. 자연어 입력에 추가
+                handleNaturalLanguageInput('chat_re_recommend', message.reRecommendData!.naturalLanguageCondition);
+                // 2. 재추천 실행
+                await handleGetRecommendation(false);
+              }}
+              onReRecommendCancel={() => {
+                // 단순 안내 메시지 추가
+                addMessage({
+                  role: 'assistant',
+                  content: '네, 계속해서 궁금한 점을 물어보세요!',
+                });
+              }}
+            />
+          </div>
+        );
+      }
+
       // stepTag가 있으면 해당 스텝 파싱 (예: '2/5' → 2)
       let messageStep: number | null = null;
       if (message.stepTag) {
@@ -2871,7 +2968,25 @@ export default function RecommendV2Page() {
           );
 
         case 'budget-slider':
-          const budgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000, step: 10000 };
+          const categoryBudgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000, step: 10000 };
+
+          // filteredProducts에서 실제 가격 범위 계산
+          const productPrices = filteredProducts
+            .map(p => p.lowestPrice ?? p.price)
+            .filter((price): price is number => price != null && price > 0);
+
+          const actualMin = productPrices.length > 0 ? Math.min(...productPrices) : categoryBudgetRange.min;
+          const actualMax = productPrices.length > 0 ? Math.max(...productPrices) : categoryBudgetRange.max;
+
+          // step은 범위에 따라 동적 계산 (약 20~30개 구간)
+          const priceSpan = actualMax - actualMin;
+          const dynamicStep = Math.max(1000, Math.round(priceSpan / 25 / 1000) * 1000);
+
+          const budgetRange = {
+            min: actualMin,
+            max: actualMax,
+            step: dynamicStep,
+          };
           return (
             <div
               key={message.id}
@@ -3536,7 +3651,7 @@ export default function RecommendV2Page() {
         <main
           ref={scrollContainerRef}
           className="flex-1 overflow-y-auto px-4 pb-6 pt-0 bg-white relative"
-          style={{ paddingBottom: '102px' }}
+          style={{ paddingBottom: currentStep === 5 && scoredProducts.length > 0 ? '350px' : '102px' }}
         >
           {/* Step Indicator - Moved inside main for true floating effect */}
           {currentStep >= 0 && !isCalculating && scoredProducts.length === 0 && (
@@ -3559,6 +3674,7 @@ export default function RecommendV2Page() {
               showFollowupCarousel || isLoadingFollowup ? 'opacity-30 pointer-events-none' : ''
             }`}>
               {messages.map(renderMessage)}
+              {isChatLoading && <ThinkingMessage />}
             </div>
           )}
 
@@ -3575,6 +3691,7 @@ export default function RecommendV2Page() {
             <div data-followup-area className="mt-8 mb-4">
               <FollowupCarousel
                 questions={followupQuestions}
+                categoryKey={categoryKey}
                 categoryName={categoryName}
                 onComplete={handleFollowupCarouselComplete}
                 onSkipAll={handleFollowupCarouselSkipAll}
@@ -3798,7 +3915,7 @@ export default function RecommendV2Page() {
                             <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="currentColor" />
                           </svg>
                         </div>
-                        <span>{categoryName} 다시 추천받기</span>
+                        <span>{categoryName} 처음부터 다시 추천받기</span>
                       </motion.div>
                     </motion.button>
                   </motion.div>
@@ -3806,50 +3923,119 @@ export default function RecommendV2Page() {
               )}
             </AnimatePresence>
 
-            {/* 메인 버튼 - 다시 추천받기 / 취소 (흰색 컨테이너 + 풀 width) */}
+            {/* 플로팅 버튼 영역 (우측 하단) */}
+            {!showReRecommendModal && (
+              <div
+                className="fixed right-4 z-[105] flex flex-col items-end gap-2"
+                style={{ bottom: '72px', maxWidth: '480px' }}
+              >
+                {/* 예산 범위 내로 다시 추천받기 버튼 (조건부 표시) */}
+                {scoredProducts.some(p => {
+                  const effectivePrice = p.lowestPrice ?? p.price ?? 0;
+                  return effectivePrice > budget.max || effectivePrice < budget.min;
+                }) && (
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleRestrictToBudget}
+                    className="px-4 py-3 bg-white rounded-2xl border border-gray-100 text-sm font-semibold text-gray-700 flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    예산 범위 내로 다시 추천
+                  </motion.button>
+                )}
+
+                {/* 다시 추천받기 버튼 */}
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    logV2ReRecommendModalOpened(categoryKey, categoryName);
+                    setShowReRecommendModal(true);
+                  }}
+                  className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_fab)" />
+                    <defs>
+                      <linearGradient id="ai_gradient_fab" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#77A0FF" />
+                        <stop offset="0.7" stopColor="#907FFF" />
+                        <stop offset="1" stopColor="#6947FF" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  다시 추천받기
+                </motion.button>
+              </div>
+            )}
+
+            {/* 하단 바 - 채팅 입력창 / 취소 버튼 */}
             <div
-              className={`fixed bottom-0 left-0 right-0 px-4 py-4 z-[110] transition-colors ${
-                showReRecommendModal ? 'bg-transparent' : 'bg-white border-t border-gray-200'
+              className={`fixed bottom-0 left-0 right-0 z-[110] transition-colors ${
+                showReRecommendModal ? 'bg-transparent px-4 py-4' : 'bg-transparent px-3 pb-2 pt-2'
               }`}
               style={{ maxWidth: '480px', margin: '0 auto' }}
             >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, ease: 'easeOut', delay: 0.8 }}
-                className="w-full"
-              >
-                {showReRecommendModal ? (
-                  /* 취소 버튼 */
+              {showReRecommendModal ? (
+                /* 취소 버튼 (모달 열렸을 때) */
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="w-full"
+                >
                   <button
                     onClick={() => setShowReRecommendModal(false)}
                     className="w-full h-14 rounded-2xl font-semibold text-base bg-gray-900 text-white hover:bg-gray-800 transition-all"
                   >
                     취소
                   </button>
-                ) : (
-                  /* 다시 추천받기 버튼 */
-                  <button
-                    onClick={() => {
-                      logV2ReRecommendModalOpened(categoryKey, categoryName);
-                      setShowReRecommendModal(true);
-                    }}
-                    className="w-full h-14 rounded-2xl font-semibold text-base text-white bg-[#111827] transition-all flex items-center justify-center gap-2"
-                  >
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_rerecommend)" />
-                      <defs>
-                        <linearGradient id="ai_gradient_rerecommend" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                          <stop stopColor="#77A0FF" />
-                          <stop offset="0.7" stopColor="#907FFF" />
-                          <stop offset="1" stopColor="#6947FF" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    <span>다시 추천받기</span>
-                  </button>
-                )}
-              </motion.div>
+                </motion.div>
+              ) : (
+                /* 채팅 입력창 */
+                <ResultChatContainer
+                  products={scoredProducts}
+                  categoryKey={categoryKey}
+                  categoryName={categoryName}
+                  existingConditions={{
+                    hardFilterAnswers: Object.fromEntries(
+                      Object.entries(hardFilterAnswers).map(([k, v]) => [k, v.join(', ')])
+                    ),
+                    balanceSelections: Array.from(balanceSelections),
+                    negativeSelections: negativeSelections,
+                    budget: budget,
+                  }}
+                  onUserMessage={(content) => {
+                    // 사용자 메시지 추가
+                    const msgId = addMessage({
+                      role: 'user',
+                      content,
+                    });
+                    scrollToMessage(msgId);
+                  }}
+                  onAssistantMessage={(content, typing = false, reRecommendData) => {
+                    // AI 응답 메시지 추가
+                    const msgId = addMessage({
+                      role: 'assistant',
+                      content,
+                      reRecommendData,
+                    }, typing);
+                    scrollToMessage(msgId);
+                  }}
+                  onLoadingChange={setIsChatLoading}
+                  chatHistory={messages
+                    .filter(m => m.role === 'user' || m.role === 'assistant')
+                    .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+                  }
+                />
+              )}
             </div>
           </>
         )}

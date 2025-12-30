@@ -65,7 +65,17 @@ export type LogEventType =
   | 'context_input_submitted' // 컨텍스트 입력 제출 (자연어)
   | 'context_input_button_clicked' // 컨텍스트 입력 버튼 (추천받기 시작/건너뛰기)
   // 직접 입력 이벤트
-  | 'direct_input_registered'; // 하드필터/단점 필터 직접 입력 등록
+  | 'direct_input_registered' // 하드필터/단점 필터 직접 입력 등록
+  | 'direct_input_button_clicked' // 직접 추가 버튼 클릭 (편집 모드 진입)
+  // Followup Carousel (추가 질문) 이벤트
+  | 'followup_question_answered' // 추가 질문 응답
+  | 'followup_question_other_input' // 추가 질문 직접 입력
+  | 'final_natural_input_submitted' // 마지막 자연어 추가조건 입력
+  | 'skip_to_recommendation_clicked' // 건너뛰고 바로 추천받기 클릭
+  | 'recommend_with_natural_input_clicked' // 자연어 입력 후 추천받기 클릭
+  // Result Chat (추천 결과 채팅) 이벤트
+  | 'result_chat_message' // 결과 페이지 채팅 메시지 (사용자 + AI 응답)
+  | 'result_chat_full_history'; // 결과 페이지 채팅 전체 대화 내역
 
 export interface LogEvent {
   sessionId: string;

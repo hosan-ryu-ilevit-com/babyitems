@@ -1,7 +1,14 @@
 'use client';
 
-import { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  logFollowupQuestionAnswer,
+  logFollowupQuestionOtherInput,
+  logFinalNaturalInput,
+  logSkipToRecommendation,
+  logRecommendWithNaturalInput,
+} from '@/lib/logging/clientLogger';
 
 // 추가 질문 옵션 타입
 interface FollowupQuestionOption {
@@ -32,6 +39,7 @@ export interface FollowupCarouselRef {
 
 interface FollowupCarouselProps {
   questions: FollowupQuestion[];
+  categoryKey: string;
   categoryName: string;
   onComplete: (answers: Array<{ questionId: string; answer: string; isOther: boolean; otherText?: string }>, naturalInput?: string) => void;
   onSkipAll: () => void;
@@ -62,7 +70,7 @@ const slideVariants = {
  * - 마지막에 자연어 입력 포함
  */
 export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarouselProps>(
-  function FollowupCarousel({ questions, categoryName, onComplete, onSkipAll, onBack, isLoading = false }, ref) {
+  function FollowupCarousel({ questions, categoryKey, categoryName, onComplete, onSkipAll, onBack, isLoading = false }, ref) {
     // 캐러셀 아이템 구성: 질문들 + 마지막 자연어 입력
     const items: CarouselItem[] = [
       ...questions.map(q => ({ type: 'question' as const, question: q })),
@@ -110,6 +118,22 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
     const handleOptionSelect = (questionId: string, value: string, label: string) => {
       if (isLoading) return;
 
+      // 로깅: 추가 질문 응답
+      const currentQuestion = questions.find(q => q.id === questionId);
+      if (currentQuestion) {
+        logFollowupQuestionAnswer(
+          categoryKey,
+          categoryName,
+          questionId,
+          currentQuestion.title,
+          value,
+          label,
+          currentIndex,
+          questions.length,
+          false
+        );
+      }
+
       setAnswers(prev => {
         const newAnswers = new Map(prev);
         newAnswers.set(questionId, { answer: value, isOther: false });
@@ -136,6 +160,20 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
       const otherText = otherInputs.get(questionId) || '';
       if (otherText.trim().length < 2) return;
 
+      // 로깅: 추가 질문 직접 입력
+      const currentQuestion = questions.find(q => q.id === questionId);
+      if (currentQuestion) {
+        logFollowupQuestionOtherInput(
+          categoryKey,
+          categoryName,
+          questionId,
+          currentQuestion.title,
+          otherText.trim(),
+          currentIndex,
+          questions.length
+        );
+      }
+
       setAnswers(prev => {
         const newAnswers = new Map(prev);
         newAnswers.set(questionId, { answer: otherText.trim(), isOther: true, otherText: otherText.trim() });
@@ -154,9 +192,25 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
     // 현재 아이템 건너뛰기
     const handleSkip = () => {
       if (isLastItem) {
+        // 로깅: 건너뛰고 바로 추천받기
+        logSkipToRecommendation(
+          categoryKey,
+          categoryName,
+          'natural_input',
+          currentIndex,
+          questions.length
+        );
         // 마지막(자연어 입력)에서 건너뛰기 = 완료
         handleComplete();
       } else {
+        // 로깅: 추가 질문 건너뛰기
+        logSkipToRecommendation(
+          categoryKey,
+          categoryName,
+          'question',
+          currentIndex,
+          questions.length
+        );
         goToIndex(currentIndex + 1);
       }
     };
@@ -167,6 +221,13 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
         questionId,
         ...data,
       }));
+
+      // 로깅: 자연어 입력이 있으면 마지막 자연어 입력 로깅
+      if (naturalInput.trim().length >= 2) {
+        logFinalNaturalInput(categoryKey, categoryName, naturalInput.trim());
+        logRecommendWithNaturalInput(categoryKey, categoryName, naturalInput.trim(), answersArray);
+      }
+
       onComplete(answersArray, naturalInput.trim() || undefined);
     };
 
@@ -434,38 +495,47 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                 onClick={currentIndex === 0 ? onBack : () => goToIndex(currentIndex - 1)}
                 disabled={isLoading}
                 className="w-20 h-14 rounded-2xl bg-gray-100 hover:bg-gray-200
-                  transition-all flex items-center justify-center
+                  transition-all duration-300 flex items-center justify-center
                   disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span className="font-semibold text-base text-gray-700">이전</span>
               </button>
-              <button
-                onClick={handleComplete}
-                disabled={isLoading}
-                className={`
-                  flex-1 h-14 rounded-2xl font-semibold text-base
-                  transition-all duration-200
-                  ${!isLoading
-                    ? 'bg-[#111827] text-white hover:bg-gray-800 active:scale-[0.98]'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  }
-                `}
-              >
-                {isLoading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    분석 중...
-                  </span>
-                ) : (
-                  <span className="flex items-center justify-center gap-1.5">
-                    <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4" />
-                    추천받기
-                  </span>
+              <AnimatePresence>
+                {naturalInput.length > 0 && (
+                  <motion.button
+                    key="submit-button"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={handleComplete}
+                    disabled={isLoading}
+                    className={`
+                      flex-1 h-14 rounded-2xl font-semibold text-base
+                      transition-all duration-200
+                      ${!isLoading
+                        ? 'bg-[#111827] text-white hover:bg-gray-800 active:scale-[0.98]'
+                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      }
+                    `}
+                  >
+                    {isLoading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        분석 중...
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-1.5">
+                        <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4" />
+                        추천받기
+                      </span>
+                    )}
+                  </motion.button>
                 )}
-              </button>
+              </AnimatePresence>
             </div>
           ) : (
             // 질문 단계: 이전 + 건너뛰기 버튼

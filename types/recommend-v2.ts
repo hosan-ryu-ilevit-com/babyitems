@@ -20,7 +20,7 @@ export type ComponentType =
 
 export interface ChatMessage {
   id: string;
-  role: 'assistant' | 'system';
+  role: 'assistant' | 'system' | 'user';
   content: string;
   componentType?: ComponentType;
   componentData?: unknown;
@@ -29,6 +29,11 @@ export interface ChatMessage {
   stepTag?: string;         // "0/5", "1/5" 등
   timestamp?: number;
   onTypingComplete?: () => void;  // 타이핑 완료 시 호출될 콜백
+  // 재추천 관련 (결과 페이지 채팅용)
+  reRecommendData?: {
+    description: string;
+    naturalLanguageCondition: string;
+  };
 }
 
 // ===================================================
@@ -741,4 +746,79 @@ export interface PreprocessedRequirements {
     final?: string;
     initial?: string;
   };
+}
+
+// ===================================================
+// 결과 페이지 채팅 관련 타입
+// ===================================================
+
+/**
+ * 결과 페이지 채팅 메시지
+ */
+export interface ResultChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+  // 재추천 확인 데이터 (assistant가 재추천 의도 감지 시)
+  reRecommendData?: {
+    description: string;  // "예산 50만원 이하로 변경"
+    naturalLanguageCondition: string;  // 원본 자연어 조건
+  };
+  // 비교표 데이터 (마크다운)
+  comparisonTable?: string;
+}
+
+/**
+ * 결과 페이지 채팅 API 요청
+ */
+export interface ResultChatApiRequest {
+  message: string;
+  categoryKey: string;
+  products: Array<{
+    pcode: string;
+    title: string;
+    brand?: string | null;
+    price?: number | null;
+    spec?: Record<string, unknown>;
+    totalScore: number;
+    matchedRules: string[];
+    recommendationReason?: string;
+  }>;
+  existingConditions: {
+    hardFilterAnswers: Record<string, string>;
+    balanceSelections: string[];
+    negativeSelections: string[];
+    budget: { min: number; max: number };
+  };
+  chatHistory: Array<{ role: 'user' | 'assistant'; content: string }>;
+}
+
+/**
+ * 결과 페이지 채팅 API 응답
+ */
+export interface ResultChatApiResponse {
+  success: boolean;
+  data?: {
+    type: 'conversation' | 're-recommendation';
+    content: string;
+    // 재추천인 경우만
+    parsedCondition?: {
+      description: string;
+      naturalLanguageCondition: string;
+    };
+    // 비교표 (대화인 경우)
+    comparisonTable?: string;
+  };
+  error?: string;
+}
+
+/**
+ * localStorage에 저장되는 채팅 히스토리
+ */
+export interface StoredResultChat {
+  categoryKey: string;
+  productIds: string[];  // 현재 추천과 매칭 확인용
+  messages: ResultChatMessage[];
+  lastUpdated: string;
 }

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { logDirectInputButtonClick } from '@/lib/logging/clientLogger';
 
 interface DirectInputFieldProps {
   placeholder?: string;
@@ -13,6 +14,11 @@ interface DirectInputFieldProps {
   // 등록 상태 관리
   isRegistered?: boolean;
   onRegister?: (value: string) => void;
+  // 로깅용 정보
+  category?: string;
+  categoryName?: string;
+  questionId?: string;
+  step?: number;
 }
 
 export default function DirectInputField({
@@ -24,6 +30,10 @@ export default function DirectInputField({
   filterType = 'hard_filter',
   isRegistered = false,
   onRegister,
+  category = '',
+  categoryName = '',
+  questionId,
+  step,
 }: DirectInputFieldProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -40,11 +50,15 @@ export default function DirectInputField({
   // 편집 모드 진입
   const handleEdit = useCallback(() => {
     setIsEditing(true);
+    // 로깅: 직접 추가 버튼 클릭
+    if (category && categoryName) {
+      logDirectInputButtonClick(category, categoryName, filterType, questionId, step);
+    }
     // 다음 렌더 사이클에서 input에 포커스
     setTimeout(() => {
       inputRef.current?.focus();
     }, 50);
-  }, []);
+  }, [category, categoryName, filterType, questionId, step]);
 
   // Enter 키로 등록
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {

@@ -294,6 +294,10 @@ function ReviewPriorityTags({
             filterType="hard_filter"
             isRegistered={isDirectInputRegistered}
             onRegister={onDirectInputRegister}
+            category={category}
+            categoryName={categoryName}
+            questionId={question.id}
+            step={currentIndex}
           />
         )}
       </motion.div>
@@ -758,6 +762,10 @@ export function HardFilterQuestion({
           filterType="hard_filter"
           isRegistered={isDirectInputRegistered}
           onRegister={onDirectInputRegister}
+          category={category}
+          categoryName={categoryName}
+          questionId={question.id}
+          step={currentIndex}
         />
       )}
 

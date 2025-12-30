@@ -2,8 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import { motion } from 'framer-motion';
 import type { ScoredProduct, V2ResultProduct } from '@/types/recommend-v2';
 import type { Recommendation } from '@/types';
 import { V2ResultProductCard } from '@/components/recommend-v2/V2ResultProductCard';
@@ -55,6 +54,11 @@ interface V2ResultData {
   conditions: Array<{ label: string; value: string }>;
   budget: { min: number; max: number };
   hardFilterAnswers: Record<string, string>;
+  // 채팅 재추천용 추가 필드
+  balanceSelections?: string[];
+  negativeSelections?: string[];
+  // 자연어 조건 (재추천 시 누적)
+  naturalLanguageConditions?: string[];
 }
 
 export default function V2ResultPage() {
@@ -267,7 +271,7 @@ export default function V2ResultPage() {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-3 pb-20">
+        <main className="flex-1 overflow-y-auto px-3 pb-24">
           {/* AI Summary */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -374,15 +378,16 @@ export default function V2ResultPage() {
               </div>
             </motion.div>
           )}
+
         </main>
 
-        {/* Bottom CTA */}
-        <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto p-3 bg-white border-t border-gray-200">
+        {/* Bottom Bar - 다시 추천받기 버튼 (이 페이지는 deprecated) */}
+        <div className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 z-20 px-4 py-4">
           <button
             onClick={handleGoBack}
-            className="w-full h-14 rounded-2xl font-semibold text-base bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+            className="w-full h-14 rounded-2xl font-semibold text-base bg-gray-900 text-white hover:bg-gray-800 transition-all"
           >
-            조건 다시 선택하기
+            다시 추천받기
           </button>
         </div>
       </div>

@@ -165,6 +165,9 @@ export function NegativeFilterList({
             filterType="negative_filter"
             isRegistered={isDirectInputRegistered}
             onRegister={onDirectInputRegister}
+            category={category}
+            categoryName={categoryName}
+            step={4}
           />
         )}
       </div>

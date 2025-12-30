@@ -22,7 +22,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
-import { getProModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
+import { getModel, getProModel, callGeminiWithRetry, parseJSONResponse, isGeminiAvailable } from '@/lib/ai/gemini';
 import type { CategoryInsights } from '@/types/category-insights';
 import {
   normalizeTitle,
@@ -615,9 +615,15 @@ ${hasPreprocessed ? `1. **🎯 사용자가 직접 입력한 요구사항 최우
       .filter(c => !selectedPcodes.has(c.pcode) && !usedGroupKeys.has(normalizeTitle(c.title)))
       .slice(0, 3 - top3Products.length);
 
+    // 부족한 상품들에 대해 동적 추천 이유 생성 시도
+    let dynamicReasons: Record<string, string> = {};
+    if (userContext && remaining.length > 0) {
+      dynamicReasons = await generateFallbackReasonsWithLLM(categoryName, remaining, userContext);
+    }
+
     for (const p of remaining) {
       const newRank = top3Products.length + 1;
-      const reason = generateFallbackReason(p, newRank, userContext);
+      const reason = dynamicReasons[p.pcode] || generateFallbackReason(p, newRank, userContext);
       top3Products.push(enrichWithVariants(p, candidates, reason, p.matchedRules || [], newRank));
     }
   }
@@ -631,20 +637,27 @@ ${hasPreprocessed ? `1. **🎯 사용자가 직접 입력한 요구사항 최우
 /**
  * Fallback: 점수 기준 Top 3 반환 (중복 제거 + variants 포함)
  */
-function selectTop3Fallback(
+async function selectTop3Fallback(
+  categoryName: string,
   candidates: CandidateProduct[],
   userContext?: UserContext
-): {
+): Promise<{
   top3Products: RecommendedProduct[];
   selectionReason: string;
-} {
+}> {
   // 점수 순 정렬 후 중복 제거
   const sorted = [...candidates].sort((a, b) => (b.totalScore || 0) - (a.totalScore || 0));
   const dedupedTop3 = deduplicateProducts(sorted, 3);
 
+  // Gemini Flash Lite로 동적 추천 이유 생성 시도
+  let dynamicReasons: Record<string, string> = {};
+  if (userContext) {
+    dynamicReasons = await generateFallbackReasonsWithLLM(categoryName, dedupedTop3, userContext);
+  }
+
   const top3Products: RecommendedProduct[] = dedupedTop3.map((p, index) => {
     const rank = index + 1;
-    const reason = generateFallbackReason(p, rank, userContext);
+    const reason = dynamicReasons[p.pcode] || generateFallbackReason(p, rank, userContext);
     return enrichWithVariants(p, candidates, reason, p.matchedRules || [], rank);
   });
 
@@ -737,8 +750,8 @@ function getBalanceSelectionText(ruleKey: string): string {
     '안전소재': '안전한 소재',
   };
 
-  // 체감속성_ 접두사 제거 후 매핑 검색
-  const cleanKey = ruleKey.replace('체감속성_', '');
+  // 접두사 제거 (체감속성_, 하드필터_, hf_ 등)
+  const cleanKey = ruleKey.replace(/^(체감속성_|하드필터_|hf_)/, '');
 
   for (const [key, text] of Object.entries(koreanMapping)) {
     if (cleanKey.includes(key) || ruleKey.includes(key)) {
@@ -746,8 +759,61 @@ function getBalanceSelectionText(ruleKey: string): string {
     }
   }
 
-  // 기본 변환: 언더스코어를 공백으로, 체감속성_ 제거
+  // 기본 변환: 언더스코어를 공백으로
   return cleanKey.replace(/_/g, ' ');
+}
+
+/**
+ * Gemini Flash Lite를 사용하여 후보 상품들에 대한 추천 이유를 동적으로 생성 (Fallback용)
+ */
+async function generateFallbackReasonsWithLLM(
+  categoryName: string,
+  products: CandidateProduct[],
+  userContext: UserContext
+): Promise<Record<string, string>> {
+  if (!isGeminiAvailable() || products.length === 0) return {};
+
+  try {
+    const model = getModel(0.3); // Flash Lite 모델 사용
+
+    const productInfo = products.map(p => {
+      const matchedRulesStr = p.matchedRules && p.matchedRules.length > 0
+        ? p.matchedRules.map(r => r.replace('체감속성_', '').replace(/_/g, ' ')).join(', ')
+        : '없음';
+      return `- [${p.pcode}] ${p.brand ? `[${p.brand}] ` : ''}${p.title} (매칭 조건: ${matchedRulesStr})`;
+    }).join('\n');
+
+    const prompt = `당신은 ${categoryName} 전문가입니다. 아래 상품들에 대해 사용자의 선호 조건과 매칭된 특징을 바탕으로 짧은 추천 이유를 작성해주세요.
+
+사용자 상황 및 선호:
+- 필수 조건: ${JSON.stringify(userContext.hardFilterAnswers || {})}
+- 선호 특성: ${userContext.balanceSelections?.join(', ') || '없음'}
+- 피하고 싶은 단점: ${userContext.negativeSelections?.join(', ') || '없음'}
+${userContext.initialContext ? `- 사용자 상황: "${userContext.initialContext}"` : ''}
+
+대상 상품 목록:
+${productInfo}
+
+### ⚠️ 필수 지침:
+1. **영어 절대 금지**: 모든 추천 이유는 반드시 순수 한국어로만 작성하세요. (hf_, rule_ 등 시스템 용어 포함 절대 금지)
+2. **한 문장 제한**: 각 상품당 반드시 딱 한 문장(60자 내외)으로만 작성하세요.
+3. **구체적 연결**: 매칭된 조건이 상품의 어떤 장점인지 자연스럽게 연결하세요. (예: "가벼운 무게를 원하셨는데, 이 제품은 손목 부담이 적어 탁월한 선택이에요.")
+4. **JSON 형식 응답**: { "pcode": "추천 이유" } 형식의 JSON 객체만 응답하세요.
+
+작성 예시:
+{
+  "123456": "가벼운 무게를 원하셨는데, 이 제품은 PPSU 소재로 손목 부담이 적어 탁월한 선택이에요.",
+  "789012": "배앓이 방지 기능을 중시하시는 분께 적합하도록 공기 순환 설계가 잘 된 제품입니다."
+}`;
+
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+    const parsed = parseJSONResponse(responseText) as Record<string, string>;
+    return parsed;
+  } catch (error) {
+    console.error('[recommend-final] Failed to generate dynamic fallback reasons:', error);
+    return {};
+  }
 }
 
 /**
@@ -760,56 +826,61 @@ function generateFallbackReason(
 ): string {
   const reasons: string[] = [];
 
-  // 디버그: fallback 진입 시 데이터 확인
-  console.log(`[fallback] 🔍 product.matchedRules:`, product.matchedRules);
-  console.log(`[fallback] 🔍 userContext.balanceSelections:`, userContext?.balanceSelections);
-
-  // 1. 매칭된 밸런스 선택과 연결
+  // 1. 매칭된 밸런스 선택과 연결 (가장 구체적인 근거)
   if (product.matchedRules && product.matchedRules.length > 0) {
     const positiveRules = product.matchedRules.filter(r => !r.startsWith('❌'));
-    if (positiveRules.length > 0) {
-      const topPreference = getBalanceSelectionText(positiveRules[0]);
-      // 매핑 실패 체크: 영어, 숫자, 또는 시스템 용어가 포함된 경우 일반 메시지로 대체
-      const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(topPreference);
-      const isTooShort = topPreference.length < 3;
+    
+    // 체감속성(bg_...) 규칙을 하드필터보다 우선시해서 찾기
+    const prioritizedRules = [...positiveRules].sort((a, b) => {
+      const aIsSubjective = a.startsWith('체감속성_');
+      const bIsSubjective = b.startsWith('체감속성_');
+      if (aIsSubjective && !bIsSubjective) return -1;
+      if (!aIsSubjective && bIsSubjective) return 1;
+      return 0;
+    });
 
-      if (hasInvalidChars || isTooShort) {
-        reasons.push('선택하신 조건에 잘 맞는 제품이에요');
-      } else {
-        reasons.push(`${topPreference}을(를) 원하셨는데, 이 조건에 잘 맞는 제품이에요`);
+    for (const rule of prioritizedRules) {
+      const translation = getBalanceSelectionText(rule);
+      // 매핑 실패 체크: 영어, 숫자, 또는 시스템 용어가 포함된 경우 무시하고 다음 규칙 시도
+      const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(translation);
+      const isTooShort = translation.length < 2;
+
+      if (!hasInvalidChars && !isTooShort) {
+        reasons.push(`${translation}을(를) 원하셨는데, 이 조건에 잘 맞는 제품이에요`);
+        break;
       }
     }
   }
 
-  // 2. 사용자가 선택한 밸런스 게임 항목 기반 (userContext 활용)
+  // 2. 사용자가 선택한 밸런스 게임 항목 기반 (사용자의 일반적인 선호)
   if (reasons.length === 0 && userContext?.balanceSelections && userContext.balanceSelections.length > 0) {
-    const userPreference = getBalanceSelectionText(userContext.balanceSelections[0]);
-    // 매핑 실패 체크: 영어, 숫자, 또는 시스템 용어가 포함된 경우 일반 메시지로 대체
-    const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(userPreference);
-    const isTooShort = userPreference.length < 3;
+    for (const selection of userContext.balanceSelections) {
+      const translation = getBalanceSelectionText(selection);
+      const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(translation);
+      const isTooShort = translation.length < 2;
 
-    if (hasInvalidChars || isTooShort) {
-      reasons.push('선택하신 선호 조건에 잘 맞는 제품이에요');
-    } else {
-      reasons.push(`${userPreference}을(를) 중시하시는 분께 적합한 제품이에요`);
+      if (!hasInvalidChars && !isTooShort) {
+        reasons.push(`${translation}을(를) 중시하시는 분께 적합한 제품이에요`);
+        break;
+      }
     }
   }
 
   // 3. 피하고 싶은 단점이 없음을 강조
-  if (userContext?.negativeSelections && userContext.negativeSelections.length > 0) {
-    const avoidedIssue = getBalanceSelectionText(userContext.negativeSelections[0]);
-    // 매핑 실패 체크: 영어, 숫자, 또는 시스템 용어가 포함된 경우 일반 메시지로 대체
-    const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(avoidedIssue);
-    const isTooShort = avoidedIssue.length < 3;
+  if (reasons.length === 0 && userContext?.negativeSelections && userContext.negativeSelections.length > 0) {
+    for (const negative of userContext.negativeSelections) {
+      const translation = getBalanceSelectionText(negative);
+      const hasInvalidChars = /[a-zA-Z0-9_]|hf|체감속성/.test(translation);
+      const isTooShort = translation.length < 2;
 
-    if (hasInvalidChars || isTooShort) {
-      reasons.push('걱정하셨던 단점이 없는 제품이에요');
-    } else {
-      reasons.push(`걱정하셨던 ${avoidedIssue} 문제가 없어요`);
+      if (!hasInvalidChars && !isTooShort) {
+        reasons.push(`걱정하셨던 ${translation} 문제가 없어요`);
+        break;
+      }
     }
   }
 
-  // 4. 기본 fallback
+  // 4. 기본 fallback (순위별 차별화된 메시지)
   if (reasons.length === 0) {
     if (rank === 1) {
       reasons.push('선택하신 조건들을 종합 분석한 결과 가장 적합한 제품이에요');
@@ -878,14 +949,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<Recommend
         console.log(`[recommend-final] LLM selected Top 3 for ${categoryKey}: ${top3Products.map(p => p.pcode).join(', ')}`);
       } catch (llmError) {
         console.error('[recommend-final] LLM failed, using fallback:', llmError);
-        const fallbackResult = selectTop3Fallback(candidateProducts, userContext);
+        const fallbackResult = await selectTop3Fallback(categoryName, candidateProducts, userContext);
         top3Products = fallbackResult.top3Products;
         selectionReason = fallbackResult.selectionReason;
       }
     } else {
       // LLM 없을 때 fallback
       console.log(`[recommend-final] LLM not available, using fallback for ${categoryKey}`);
-      const fallbackResult = selectTop3Fallback(candidateProducts, userContext);
+      const fallbackResult = await selectTop3Fallback(categoryName, candidateProducts, userContext);
       top3Products = fallbackResult.top3Products;
       selectionReason = fallbackResult.selectionReason;
     }

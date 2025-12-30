@@ -1521,3 +1521,236 @@ export function logDirectInputRegister(
     },
   });
 }
+
+// 12. 직접 추가 버튼 클릭 (편집 모드 진입)
+export function logDirectInputButtonClick(
+  category: string,
+  categoryName: string,
+  filterType: 'hard_filter' | 'negative_filter',
+  questionId?: string,
+  step?: number
+): void {
+  const filterLabel = filterType === 'hard_filter' ? '하드필터' : '단점필터';
+
+  sendLogEvent('direct_input_button_clicked', {
+    page: 'recommend-v2',
+    buttonLabel: `${filterLabel} 직접 추가 클릭`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: step ?? (filterType === 'hard_filter' ? 1 : 4),
+    },
+    metadata: {
+      filterType,
+      questionId,
+    },
+  });
+}
+
+// ============================================
+// Followup Carousel (추가 질문) 로깅 함수들
+// ============================================
+
+// 13. 추가 질문 응답 로깅
+export function logFollowupQuestionAnswer(
+  category: string,
+  categoryName: string,
+  questionId: string,
+  questionTitle: string,
+  selectedValue: string,
+  selectedLabel: string,
+  questionIndex: number,
+  totalQuestions: number,
+  isOther: boolean = false
+): void {
+  const shortLabel = selectedLabel.length > 30 ? selectedLabel.substring(0, 30) + '...' : selectedLabel;
+
+  sendLogEvent('followup_question_answered', {
+    page: 'recommend-v2',
+    buttonLabel: `추가질문 ${questionIndex + 1}/${totalQuestions}: ${shortLabel}`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+    },
+    metadata: {
+      followup: {
+        questionId,
+        questionTitle,
+        selectedValue,
+        selectedLabel,
+        questionIndex,
+        totalQuestions,
+        isOther,
+      },
+    },
+  });
+}
+
+// 14. 추가 질문 직접 입력 로깅
+export function logFollowupQuestionOtherInput(
+  category: string,
+  categoryName: string,
+  questionId: string,
+  questionTitle: string,
+  otherText: string,
+  questionIndex: number,
+  totalQuestions: number
+): void {
+  const shortText = otherText.length > 30 ? otherText.substring(0, 30) + '...' : otherText;
+
+  sendLogEvent('followup_question_other_input', {
+    page: 'recommend-v2',
+    userInput: otherText,
+    buttonLabel: `추가질문 ${questionIndex + 1} 직접입력: "${shortText}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+    },
+    metadata: {
+      followup: {
+        questionId,
+        questionTitle,
+        otherText,
+        questionIndex,
+        totalQuestions,
+        isOther: true,
+      },
+    },
+  });
+}
+
+// 15. 마지막 자연어 추가조건 입력 로깅
+export function logFinalNaturalInput(
+  category: string,
+  categoryName: string,
+  inputText: string
+): void {
+  const shortText = inputText.length > 40 ? inputText.substring(0, 40) + '...' : inputText;
+
+  sendLogEvent('final_natural_input_submitted', {
+    page: 'recommend-v2',
+    userInput: inputText,
+    buttonLabel: `마지막 자연어 입력: "${shortText}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+    },
+    metadata: {
+      inputLength: inputText.length,
+      inputText,
+    },
+  });
+}
+
+// 16. 건너뛰고 바로 추천받기 버튼 클릭
+export function logSkipToRecommendation(
+  category: string,
+  categoryName: string,
+  skippedFrom: 'question' | 'natural_input',
+  currentQuestionIndex?: number,
+  totalQuestions?: number
+): void {
+  sendLogEvent('skip_to_recommendation_clicked', {
+    page: 'recommend-v2',
+    buttonLabel: skippedFrom === 'natural_input'
+      ? '건너뛰고 바로 추천받기'
+      : `추가질문 ${(currentQuestionIndex ?? 0) + 1} 건너뛰기`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+    },
+    metadata: {
+      skippedFrom,
+      currentQuestionIndex,
+      totalQuestions,
+    },
+  });
+}
+
+// 17. 자연어 입력 후 추천받기 버튼 클릭
+export function logRecommendWithNaturalInput(
+  category: string,
+  categoryName: string,
+  naturalInput: string,
+  followupAnswers: Array<{ questionId: string; answer: string; isOther: boolean }>
+): void {
+  const shortText = naturalInput.length > 40 ? naturalInput.substring(0, 40) + '...' : naturalInput;
+
+  sendLogEvent('recommend_with_natural_input_clicked', {
+    page: 'recommend-v2',
+    userInput: naturalInput,
+    buttonLabel: `추천받기 (자연어 입력): "${shortText}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+    },
+    metadata: {
+      naturalInput,
+      followupAnswersCount: followupAnswers.length,
+      followupAnswers,
+    },
+  });
+}
+
+// ============================================
+// Result Chat (추천 결과 채팅) 로깅 함수들
+// ============================================
+
+// 18. 결과 페이지 채팅 메시지 로깅 (사용자 + AI 응답)
+export function logResultChatMessage(
+  category: string,
+  categoryName: string,
+  userMessage: string,
+  aiResponse: string,
+  chatHistory: Array<{ role: 'user' | 'assistant'; content: string }>,
+  responseType?: 'answer' | 're-recommendation'
+): void {
+  const shortUserMsg = userMessage.length > 40 ? userMessage.substring(0, 40) + '...' : userMessage;
+
+  sendLogEvent('result_chat_message', {
+    page: 'result',
+    userInput: userMessage,
+    aiResponse: aiResponse,
+    buttonLabel: `결과 채팅: "${shortUserMsg}"`,
+    v2FlowData: {
+      category,
+      categoryName,
+    },
+    metadata: {
+      userMessage,
+      aiResponse,
+      responseType,
+      chatHistoryLength: chatHistory.length,
+      fullChatHistory: chatHistory,
+    },
+  });
+}
+
+// 19. 결과 페이지 채팅 전체 대화 내역 로깅 (세션 종료 시 또는 페이지 이탈 시)
+export function logResultChatFullHistory(
+  category: string,
+  categoryName: string,
+  chatHistory: Array<{ role: 'user' | 'assistant'; content: string }>,
+  productPcodes: string[]
+): void {
+  sendLogEvent('result_chat_full_history', {
+    page: 'result',
+    buttonLabel: `결과 채팅 전체 내역 (${chatHistory.length}개 메시지)`,
+    v2FlowData: {
+      category,
+      categoryName,
+    },
+    metadata: {
+      totalMessages: chatHistory.length,
+      userMessages: chatHistory.filter(m => m.role === 'user').length,
+      assistantMessages: chatHistory.filter(m => m.role === 'assistant').length,
+      productPcodes,
+      fullChatHistory: chatHistory,
+    },
+  });
+}
