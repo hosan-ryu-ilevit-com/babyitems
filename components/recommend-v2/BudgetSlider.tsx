@@ -344,19 +344,19 @@ export function BudgetSlider({
       <div className="w-full h-[1px] bg-gray-100 mb-5" />
 
       {/* 헤더 */}
-      <div className="flex items-center justify-between mb-1">
+      <div className="flex items-center justify-between mb-1 px-4">
         <span className="text-[16px] text-gray-400 font-semibold">
           예산 설정
         </span>
       </div>
 
-      <h3 className="text-[18px] font-semibold text-gray-900 mb-4">
+      <h3 className="text-[18px] font-semibold text-gray-900 mb-4 px-4">
         예산을 선택하세요 <span className="text-blue-500 font-bold">*</span>
       </h3>
 
       {/* AI 도움 버튼 */}
       {showAIHelper && (
-        <div className="mb-6">
+        <div className="mb-6 px-4">
           <AIHelperButton
             onClick={() => {
               setAiHelperAutoSubmitText(undefined);
@@ -375,7 +375,7 @@ export function BudgetSlider({
       )}
 
       {/* 최저/최고 입력 영역 */}
-      <div className={`flex items-center justify-between gap-4 px-1 mb-8 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
+      <div className={`flex items-center justify-between gap-4 px-4 mb-8 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
         {/* 최저 */}
         <div className="flex-1">
           <div className="text-[14px] text-gray-400 font-medium mb-2">최저</div>
@@ -432,7 +432,7 @@ export function BudgetSlider({
       {/* 히스토그램 + 슬라이더 */}
       <div className={`relative pt-4 px-2 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
         {/* 히스토그램 */}
-        <div className="flex items-end h-24 gap-[2px] px-4">
+        <div className="flex items-end h-24 gap-[2px] px-4 justify-center">
           {histogramData.map((height, index) => {
             const barPercent = (index / HISTOGRAM_BARS) * 100;
             const isInRange = barPercent >= minPercent && barPercent <= maxPercent;
