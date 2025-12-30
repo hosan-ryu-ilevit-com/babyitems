@@ -92,7 +92,21 @@ export function AIHelperButton({
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         <div className="flex items-center gap-2">
-          <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4" />
+          <motion.img 
+            src="/icons/ic-ai.svg" 
+            alt="" 
+            className="w-4 h-4" 
+            animate={{
+              rotate: [0, -15, 15, -15, 0],
+              y: [0, -2.5, 0],
+            }}
+            transition={{
+              duration: 0.8,
+              repeat: Infinity,
+              repeatDelay: 2,
+              ease: "easeInOut"
+            }}
+          />
           <span className="text-[16px] font-bold text-[#6366F1]">
             {label}
           </span>

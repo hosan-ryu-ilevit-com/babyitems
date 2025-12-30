@@ -516,7 +516,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
               <div className="pt-4">
                 <button
                   onClick={() => handleSelectBoth(currentQuestion.id)}
-                  className={`w-full h-[50px] px-4 rounded-xl border transition-all flex items-center justify-start gap-1.5 ${
+                  className={`w-full h-[50px] px-4 rounded-xl border transition-all flex items-center justify-center gap-1.5 ${
                     isCurrentBoth
                       ? 'border-blue-100 bg-blue-50'
                       : 'border-gray-100 bg-white hover:border-gray-200'

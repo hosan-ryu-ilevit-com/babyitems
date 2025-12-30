@@ -3938,9 +3938,23 @@ export default function RecommendV2Page() {
                         className="relative z-10 flex items-center gap-3"
                       >
                         <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-white transition-colors">
-                          <svg className="w-4 h-4 text-[#6366F1]" viewBox="0 0 24 24" fill="none">
+                          <motion.svg 
+                            className="w-4 h-4 text-[#6366F1]" 
+                            viewBox="0 0 24 24" 
+                            fill="none"
+                            animate={{
+                              rotate: [0, -15, 15, -15, 0],
+                              y: [0, -2.5, 0],
+                            }}
+                            transition={{
+                              duration: 0.8,
+                              repeat: Infinity,
+                              repeatDelay: 2,
+                              ease: "easeInOut"
+                            }}
+                          >
                             <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="currentColor" />
-                          </svg>
+                          </motion.svg>
                         </div>
                         <span>{categoryName} 처음부터 다시 추천받기</span>
                       </motion.div>
@@ -3988,7 +4002,21 @@ export default function RecommendV2Page() {
                   }}
                   className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
                 >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                  <motion.svg 
+                    className="w-4 h-4" 
+                    viewBox="0 0 24 24" 
+                    fill="none"
+                    animate={{
+                      rotate: [0, -15, 15, -15, 0],
+                      y: [0, -2.5, 0],
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      repeat: Infinity,
+                      repeatDelay: 2,
+                      ease: "easeInOut"
+                    }}
+                  >
                     <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_fab)" />
                     <defs>
                       <linearGradient id="ai_gradient_fab" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
@@ -3997,7 +4025,7 @@ export default function RecommendV2Page() {
                         <stop offset="1" stopColor="#6947FF" />
                       </linearGradient>
                     </defs>
-                  </svg>
+                  </motion.svg>
                   다시 추천받기
                 </motion.button>
               </div>

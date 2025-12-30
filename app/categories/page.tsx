@@ -342,7 +342,7 @@ export default function CategoriesPage() {
           className="flex-1 flex flex-col pt-4"
         >
           <div className="px-5 pt-0 pb-12">
-            {/* 5. AI 도움받기 버튼 */}
+            {/* 5. AI 도움받기 버튼 (인사형 애니메이션 적용) */}
             <motion.button
               variants={itemVariants}
               whileTap={{ scale: 0.98 }}
@@ -352,8 +352,22 @@ export default function CategoriesPage() {
               }}
               className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 bg-white"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
+              <motion.img 
+                src="/icons/ic-ai.svg" 
+                alt="" 
+                width={14} 
+                height={14}
+                animate={{
+                  rotate: [0, -15, 15, -15, 0],
+                  y: [0, -2.5, 0],
+                }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  repeatDelay: 2,
+                  ease: "easeInOut"
+                }}
+              />
               <span className="text-[16px] font-semibold text-[#6366F1]">뭘 사야 할지 모르겠어요</span>
             </motion.button>
 
