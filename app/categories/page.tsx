@@ -82,24 +82,24 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
   {
     id: 'mobility', name: '이동수단', emoji: '🚗',
     categories: [
-      { id: 'stroller', name: '유모차', emoji: '🚼' },
-      { id: 'car_seat', name: '카시트', emoji: '🚗' },
+      { id: 'stroller', name: '유모차', emoji: '🛒' },
+      { id: 'car_seat', name: '카시트', emoji: '🚘' },
     ],
   },
   {
     id: 'feeding', name: '수유용품', emoji: '🍼',
     categories: [
       { id: 'formula', name: '분유', emoji: '🥛' },
-      { id: 'baby_formula_dispenser', name: '분유제조기', emoji: '⚙️' },
+      { id: 'baby_formula_dispenser', name: '분유제조기', emoji: '🤖' },
       { id: 'milk_powder_port', name: '분유포트', emoji: '🫖' },
       { id: 'baby_bottle', name: '젖병', emoji: '🍼' },
-      { id: 'pacifier', name: '쪽쪽이/노리개', emoji: '😊' },
+      { id: 'pacifier', name: '쪽쪽이/노리개', emoji: '👶' },
     ],
   },
   {
     id: 'diaper', name: '기저귀/위생', emoji: '👶',
     categories: [
-      { id: 'diaper', name: '기저귀', emoji: '🧒' },
+      { id: 'diaper', name: '기저귀', emoji: '🚼' },
       { id: 'baby_wipes', name: '아기물티슈', emoji: '🧻' },
     ],
   },
@@ -114,7 +114,7 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
     id: 'furniture', name: '유아가구', emoji: '🛌',
     categories: [
       { id: 'baby_bed', name: '유아침대', emoji: '🛏️' },
-      { id: 'high_chair', name: '유아의자/식탁의자', emoji: '🪑' },
+      { id: 'high_chair', name: '유아의자', emoji: '🪑' },
       { id: 'baby_sofa', name: '유아소파', emoji: '🛋️' },
       { id: 'baby_desk', name: '유아책상', emoji: '📝' },
     ],
@@ -148,14 +148,14 @@ function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: 
 }
 
 // 카테고리 카드 (디자인 변경)
-function CategoryCard({ name, isSelected, onClick, isLoading }: { name: string; isSelected: boolean; onClick: () => void; isLoading: boolean }) {
+function CategoryCard({ name, emoji, isSelected, onClick, isLoading }: { name: string; emoji: string; isSelected: boolean; onClick: () => void; isLoading: boolean }) {
   return (
     <div className="flex flex-col gap-1.5">
       <motion.button
         onClick={onClick}
         disabled={isLoading}
         whileTap={isLoading ? undefined : { scale: 0.98 }}
-        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 ${
+        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 gap-2.5 ${
           isSelected
             ? 'bg-purple-50 border-purple-200 text-purple-700'
             : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200'
@@ -164,7 +164,10 @@ function CategoryCard({ name, isSelected, onClick, isLoading }: { name: string; 
         {isLoading ? (
           <div className="w-5 h-5 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto" />
         ) : (
-          <span className="text-[15px] font-medium text-left">{name}</span>
+          <>
+            <span className="text-[18px]">{emoji}</span>
+            <span className="text-[15px] font-medium text-left">{name}</span>
+          </>
         )}
       </motion.button>
       {isSelected && !isLoading && (
@@ -315,7 +318,7 @@ export default function CategoriesPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col">
         {/* 헤더 바 */}
-        <header className="sticky top-0 z-50 bg-[#FBFBFD] h-14 flex items-center px-5">
+        <header className="sticky top-0 z-50 bg-[#FBFBFD] h-[54px] flex items-center px-5">
           <button onClick={() => router.push('/')} className="p-2 -ml-2">
             <Image
               src="/icons/back.png"
@@ -351,7 +354,7 @@ export default function CategoriesPage() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-              <span className="text-[16px] font-semibold text-[#6366F1]">뭘 골라야 할지 모르겠어요</span>
+              <span className="text-[16px] font-semibold text-[#6366F1]">뭘 사야 할지 모르겠어요</span>
             </motion.button>
 
             {/* 6. 연령대 탭 */}
@@ -372,14 +375,14 @@ export default function CategoriesPage() {
                   CATEGORY_GROUPS.map((group) => (
                     <div key={group.id} className="mb-10">
                       <div className="flex items-center gap-2 mb-4">
-                        <span className="text-[18px]">{group.emoji}</span>
-                        <h3 className="text-[16px] font-semibold text-gray-800">{group.name}</h3>
+                        <h3 className="text-[16px] font-bold text-gray-900">{group.name}</h3>
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         {group.categories.map((cat) => (
                           <CategoryCard
                             key={cat.id}
                             name={cat.name}
+                            emoji={cat.emoji}
                             isSelected={completedCategories.has(cat.id)}
                             isLoading={loadingCategoryId === cat.id}
                             onClick={() => handleCategorySelect(cat.id, cat.name)}
@@ -403,19 +406,18 @@ export default function CategoriesPage() {
                       }).filter((c): c is UnifiedCategory => c !== null);
 
                       if (categories.length === 0) return null;
-                      const groupEmoji = CATEGORY_GROUPS.find(g => g.name === ageGroup.name)?.emoji || '✨';
 
                       return (
                         <div key={`${selectedAgeId}-${idx}`} className="mb-10">
                           <div className="flex items-center gap-2 mb-4">
-                            <span className="text-[18px]">{groupEmoji}</span>
-                            <h3 className="text-[16px] font-semibold text-gray-800">{ageGroup.name}</h3>
+                            <h3 className="text-[16px] font-bold text-gray-900">{ageGroup.name}</h3>
                           </div>
                           <div className="grid grid-cols-2 gap-3">
                             {categories.map((cat) => (
                               <CategoryCard
                                 key={cat.id}
                                 name={cat.name}
+                                emoji={cat.emoji}
                                 isSelected={completedCategories.has(cat.id)}
                                 isLoading={loadingCategoryId === cat.id}
                                 onClick={() => handleCategorySelect(cat.id, cat.name)}

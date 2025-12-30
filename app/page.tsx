@@ -66,7 +66,7 @@ export default function Home() {
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col relative">
         {/* 헤더 */}
-        <header className="h-14 flex items-center justify-between px-5 sticky top-0 z-50 bg-[#FBFBFD]">
+        <header className="h-[54px] flex items-center justify-between px-5 sticky top-0 z-50 bg-[#FBFBFD]">
           {/* 뒤로가기 버튼 - 임시 숨김 처리
           <button
             onClick={() => window.location.href = 'https://alwayz-pmf.ilevit.com/integration'}
@@ -95,7 +95,7 @@ export default function Home() {
         </header>
 
         {/* 메인 컨텐츠 */}
-        <main className="flex-1 flex flex-col items-center px-6 pt-12 pb-48">
+        <main className="flex-1 flex flex-col items-center px-6 pt-[35px] pb-48">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -139,7 +139,7 @@ export default function Home() {
         </main>
 
         {/* 하단 고정 버튼 및 의견 영역 */}
-        <div className="fixed bottom-0 left-0 right-0 p-5 bg-white z-50 max-w-[480px] mx-auto flex flex-col items-center">
+        <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-5 z-50 max-w-[480px] mx-auto flex flex-col items-center">
           {/* 의견 메시지 */}
           <div className="mb-4 flex items-center gap-3">
             <span className="text-[14px] font-medium text-gray-400">여러분의 의견대로 만들어져요</span>
@@ -149,7 +149,7 @@ export default function Home() {
           <motion.button
             whileTap={{ scale: 0.98 }}
             onClick={handleStart}
-            className="w-full h-14 bg-[#1F2228] text-white rounded-2xl text-[16px] font-semibold"
+            className="w-full h-[50px] bg-[#1F2228] text-white rounded-xl text-[16px] font-semibold"
           >
             바로 추천 받기
           </motion.button>

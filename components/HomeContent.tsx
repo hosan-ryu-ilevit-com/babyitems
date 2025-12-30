@@ -221,7 +221,7 @@ export function HomeContent() {
       {/* 모바일 최적화 컨테이너 */}
       <div className="relative w-full max-w-[480px] min-h-screen shadow-lg" style={{ backgroundColor: '#FDFDFD' }}>
         {/* Header */}
-        <header className="flex items-center justify-between px-5 py-4">
+        <header className="flex items-center justify-between px-5 h-[54px]">
           <h1 className="text-[17px] font-bold tracking-tight flex items-center gap-1.5">
             <span className="text-gray-800">아기용품</span>
             <span

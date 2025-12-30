@@ -100,7 +100,7 @@ const AGE_FILTERS: AgeFilter[] = [
     description: '이유식 시작하면서 많은 게 바뀌어요',
     categoryIds: ['high_chair', 'baby_bottle', 'diaper', 'baby_wipes'],
     groups: [
-      { name: '유아가구', description: '이유식 시작하면 식탁의자가 필수예요', categoryIds: ['high_chair'] },
+      { name: '유아가구', description: '이유식 시작하면 유아의자가 필수예요', categoryIds: ['high_chair'] },
       { name: '수유용품', description: '젖꼭지 단계를 올려줄 때예요', categoryIds: ['baby_bottle'] },
       { name: '기저귀/위생', description: '뒤집기 시작하면 팬티형도 고려해보세요', categoryIds: ['diaper', 'baby_wipes'] },
     ],
@@ -175,13 +175,13 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
       {
         id: 'stroller',
         name: '유모차',
-        emoji: '🚼',
+        emoji: '🛒',
         subCategoryCodes: ['16349368', '16349193', '16349195', '16349196'],
       },
       {
         id: 'car_seat',
         name: '카시트',
-        emoji: '🚗',
+        emoji: '🚘',
         subCategoryCodes: ['16349200', '16349201', '16349202', '16353763'],
       },
     ],
@@ -191,10 +191,10 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
     name: '수유용품',
     categories: [
       { id: 'formula', name: '분유', emoji: '🥛', subCategoryCodes: ['16249091'] },
-      { id: 'baby_formula_dispenser', name: '분유제조기', emoji: '⚙️', subCategoryCodes: ['16349381'] },
+      { id: 'baby_formula_dispenser', name: '분유제조기', emoji: '🤖', subCategoryCodes: ['16349381'] },
       { id: 'milk_powder_port', name: '분유포트', emoji: '🫖', subCategoryCodes: ['16330960'] },
       { id: 'baby_bottle', name: '젖병', emoji: '🍼', subCategoryCodes: ['16349219'] },
-      { id: 'pacifier', name: '쪽쪽이/노리개', emoji: '😊', subCategoryCodes: ['16349351'] },
+      { id: 'pacifier', name: '쪽쪽이/노리개', emoji: '👶', subCategoryCodes: ['16349351'] },
     ],
   },
   {
@@ -204,7 +204,7 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
       {
         id: 'diaper',
         name: '기저귀',
-        emoji: '🧒',
+        emoji: '🚼',
         subCategoryCodes: ['16349108', '16349109', '16356038', '16349110', '16356040', '16356042'],
       },
       { id: 'baby_wipes', name: '아기물티슈', emoji: '🧻', subCategoryCodes: ['16349119'] },
@@ -224,7 +224,7 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
     name: '유아가구',
     categories: [
       { id: 'baby_bed', name: '유아침대', emoji: '🛏️', subCategoryCodes: ['16338152'] },
-      { id: 'high_chair', name: '유아의자/식탁의자', emoji: '🪑', subCategoryCodes: ['16338153', '16338154'] },
+      { id: 'high_chair', name: '유아의자', emoji: '🪑', subCategoryCodes: ['16338153', '16338154'] },
       { id: 'baby_sofa', name: '유아소파', emoji: '🛋️', subCategoryCodes: ['16338155'] },
       { id: 'baby_desk', name: '유아책상', emoji: '📝', subCategoryCodes: ['16338156'] },
     ],
@@ -552,9 +552,9 @@ export default function CategoriesV2Page() {
     <div className="min-h-screen bg-white">
       <div className="max-w-[480px] mx-auto min-h-screen">
         {/* Top Header with Back Button */}
-        <header className="sticky top-0 bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
-          <div className="px-5 py-4">
-            <div className="flex items-center justify-between">
+        <header className="sticky top-0 bg-white/80 backdrop-blur-md z-50 border-b border-gray-100 h-[54px] flex items-center px-5">
+          <div className="w-full">
+            <div className="flex items-center justify-between relative">
               <button
                 onClick={() => router.push('/')}
                 className="text-gray-500 hover:text-gray-900 transition-colors p-1 -ml-1"

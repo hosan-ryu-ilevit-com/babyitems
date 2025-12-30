@@ -3657,7 +3657,7 @@ export default function RecommendV2Page() {
     <div className="h-dvh overflow-hidden bg-white flex justify-center">
       <div className="h-full w-full max-w-[480px] bg-white flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-[#FBFBFD] border-b border-gray-50 h-14 flex items-center px-5">
+        <header className="sticky top-0 z-50 bg-[#FBFBFD] border-b border-gray-50 h-[54px] flex items-center px-5">
           <button
             onClick={() => setShowBackModal(true)}
             className="p-2 -ml-2 flex items-center justify-center transition-opacity hover:opacity-70"
@@ -3750,7 +3750,7 @@ export default function RecommendV2Page() {
           if (!bottomButton) return null;
           return (
             <div
-              className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-4 z-40"
+              className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-[12.5px] z-40"
               style={{ maxWidth: '480px', margin: '0 auto' }}
             >
               {bottomButton}
