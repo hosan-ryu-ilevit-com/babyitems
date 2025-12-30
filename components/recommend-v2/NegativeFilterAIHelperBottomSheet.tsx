@@ -131,7 +131,7 @@ export function NegativeFilterAIHelperBottomSheet({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           questionType: 'negative_filter',
-          questionText: '피하고 싶은 단점이 있나요?',
+          questionText: '피할 단점이 있나요?',
           category,
           categoryName,
           userSelections,
@@ -188,7 +188,7 @@ export function NegativeFilterAIHelperBottomSheet({
         body: JSON.stringify({
           questionType: 'negative_filter',
           questionId: 'negative_filter',
-          questionText: '피하고 싶은 단점이 있나요?',
+          questionText: '피할 단점이 있나요?',
           options,
           userContext: userInput.trim(),
           category,

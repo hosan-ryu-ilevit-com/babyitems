@@ -167,9 +167,14 @@ function ReviewPriorityTags({
 
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[16px] text-gray-400 font-semibold">
-          구매 조건
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[16px] text-gray-400 font-semibold">
+            조건 고르기
+          </span>
+          <span className="text-[14px] text-gray-300 font-medium">
+            {currentIndex + 1}/{totalCount}
+          </span>
+        </div>
       </div>
 
       {/* 메인 질문 - 순차적 페이드인 */}
@@ -181,7 +186,7 @@ function ReviewPriorityTags({
       >
         <div className="space-y-2">
           <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-            실제 후기에서 가장 많이 언급된 조건이에요. <br />원하시는 구매조건을 골라주세요.<span className="text-blue-500 font-bold">*</span>
+            실제 후기에서 가장 많이 언급된 조건이에요. <br />원하시는 조건을 골라주세요.<span className="text-blue-500 font-bold">*</span>
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
         <div className="flex items-center gap-3">
@@ -225,7 +230,7 @@ function ReviewPriorityTags({
             label="뭘 골라야 할지 모르겠어요"
             questionType="hard_filter"
             questionId={question.id}
-            questionText="어떤 구매조건이 가장 중요하신가요?"
+            questionText="어떤 조건이 가장 중요하신가요?"
             category={category}
             categoryName={categoryName}
             step={currentIndex}
@@ -652,9 +657,14 @@ export function HardFilterQuestion({
 
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[16px] text-gray-400 font-semibold">
-          구매 조건
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[16px] text-gray-400 font-semibold">
+            조건 고르기
+          </span>
+          <span className="text-[14px] text-gray-300 font-medium">
+            {currentIndex + 1}/{totalCount}
+          </span>
+        </div>
       </div>
 
       {/* 질문 텍스트 */}

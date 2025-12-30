@@ -362,7 +362,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
             <span className="text-[16px] text-gray-400 font-semibold">
-              취향 선택
+              밸런스 게임
             </span>
             <span className="text-[14px] text-gray-300 font-medium">
               {currentIndex + 1}/{questions.length}
@@ -454,7 +454,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                 <motion.button
                   whileTap={isCurrentSkipped ? undefined : { scale: 0.98 }}
                   onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_A.target_rule_key)}
-                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center flex items-center justify-center ${
+                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left flex items-center justify-start ${
                     isCurrentSkipped
                       ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                       : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
@@ -488,7 +488,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                 <motion.button
                   whileTap={isCurrentSkipped ? undefined : { scale: 0.98 }}
                   onClick={() => handleSelect(currentQuestion.id, currentQuestion.option_B.target_rule_key)}
-                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-center flex items-center justify-center ${
+                  className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left flex items-center justify-start ${
                     isCurrentSkipped
                       ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                       : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
@@ -516,7 +516,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
               <div className="pt-4">
                 <button
                   onClick={() => handleSelectBoth(currentQuestion.id)}
-                  className={`w-full h-[50px] rounded-xl border transition-all flex items-center justify-center gap-1.5 ${
+                  className={`w-full h-[50px] px-4 rounded-xl border transition-all flex items-center justify-start gap-1.5 ${
                     isCurrentBoth
                       ? 'border-blue-100 bg-blue-50'
                       : 'border-gray-100 bg-white hover:border-gray-200'

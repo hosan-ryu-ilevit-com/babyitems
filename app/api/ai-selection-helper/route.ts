@@ -106,20 +106,20 @@ export async function POST(request: NextRequest) {
           });
         }
         if (userSelections.balanceGames && userSelections.balanceGames.length > 0) {
-          previousSelectionsContext += '\n**사용자의 이전 선택 (취향 선택):**\n';
+          previousSelectionsContext += '\n**사용자의 이전 선택 (밸런스 게임):**\n';
           userSelections.balanceGames.forEach(bg => {
             previousSelectionsContext += `- ${bg.title}: ${bg.selectedOption}\n`;
           });
         }
       }
 
-      systemPrompt = `당신은 육아용품 전문 상담사입니다. 사용자의 상황을 듣고 "피하고 싶은 단점"을 추천해주세요.
+      systemPrompt = `당신은 육아용품 전문 상담사입니다. 사용자의 상황을 듣고 "피할 단점"을 추천해주세요.
 
 **중요 규칙:**
 1. 반드시 제공된 단점 옵션의 "target_rule_key" 값만 selectedOptions에 넣으세요 (label이 아닌 target_rule_key)
 2. 사용자 상황에 맞는 0-3개의 단점을 추천하세요
 3. 정말 피해야 하는 단점만 선택하세요. 모호한 경우 선택하지 마세요
-4. 사용자의 이전 선택(환경 체크, 취향 선택)과 일관성 있게 추천하세요
+4. 사용자의 이전 선택(환경 체크, 밸런스 게임)과 일관성 있게 추천하세요
 5. 추천 이유는 반드시 사용자의 상황과 연결해서 설명하세요
 6. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요. 옵션을 언급할 때는 target_rule_key가 아닌 한글 label을 사용하세요.**
 7. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요.**
@@ -223,7 +223,7 @@ ${optionsList}
           });
         }
         if (userSelections.balanceGames && userSelections.balanceGames.length > 0) {
-          previousSelectionsContext += '\n**사용자의 이전 선택 (취향 선택):**\n';
+          previousSelectionsContext += '\n**사용자의 이전 선택 (밸런스 게임):**\n';
           userSelections.balanceGames.forEach(bg => {
             previousSelectionsContext += `- ${bg.title}: ${bg.selectedOption}\n`;
           });
@@ -293,7 +293,7 @@ ${tipText ? `**팁:** ${tipText}` : ''}
           });
         }
         if (userSelections.balanceGames && userSelections.balanceGames.length > 0) {
-          previousSelectionsContext += '\n**사용자의 이전 선택 (취향 선택):**\n';
+          previousSelectionsContext += '\n**사용자의 이전 선택 (밸런스 게임):**\n';
           userSelections.balanceGames.forEach(bg => {
             previousSelectionsContext += `- ${bg.title}: ${bg.selectedOption}\n`;
           });

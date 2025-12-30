@@ -32,7 +32,7 @@ export type LogEventType =
   | 'v2_balance_completed'   // 밸런스 게임 완료
   | 'v2_balance_skipped'     // 밸런스 게임 스킵
   | 'v2_negative_toggle'     // 단점 개별 토글
-  | 'v2_negative_completed'  // 단점 선택 완료
+  | 'v2_negative_completed'  // 피할 단점 완료
   | 'v2_budget_changed'      // 예산 슬라이더/입력 변경
   | 'v2_budget_preset_clicked' // 예산 프리셋 버튼 클릭
   | 'v2_recommendation_requested' // 추천받기 버튼 클릭
@@ -236,7 +236,7 @@ export interface LogEvent {
       selectedLabel: string;
       ruleKey: string;
     };
-    // 단점 선택 관련
+    // 피할 단점 관련
     negative?: {
       ruleKey: string;
       label: string;
@@ -529,7 +529,7 @@ export interface V2NewFlowFunnelStats {
     hardFilterCompleted: FunnelStep;     // Step 4: 하드필터 완료
     checkpointViewed: FunnelStep;        // Step 5: 조건 분석 완료 화면
     balanceCompleted: FunnelStep;        // Step 6: 밸런스 게임 완료
-    negativeCompleted: FunnelStep;       // Step 7: 단점 선택 완료
+    negativeCompleted: FunnelStep;       // Step 7: 피할 단점 완료
     budgetConfirmed: FunnelStep;         // Step 8: 예산 설정 완료
     recommendationReceived: FunnelStep;  // Step 9: 추천 결과 수신
   };

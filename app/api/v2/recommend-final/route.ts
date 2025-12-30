@@ -402,7 +402,7 @@ ${hardFilterSummary}
 ### 2. 선호하는 특성
 ${balanceSummary}
 
-### 3. 피하고 싶은 단점
+### 3. 피할 단점
 ${negativeSummary}
 
 ### 4. 예산 범위
@@ -788,7 +788,7 @@ async function generateFallbackReasonsWithLLM(
 사용자 상황 및 선호:
 - 필수 조건: ${JSON.stringify(userContext.hardFilterAnswers || {})}
 - 선호 특성: ${userContext.balanceSelections?.join(', ') || '없음'}
-- 피하고 싶은 단점: ${userContext.negativeSelections?.join(', ') || '없음'}
+- 피할 단점: ${userContext.negativeSelections?.join(', ') || '없음'}
 ${userContext.initialContext ? `- 사용자 상황: "${userContext.initialContext}"` : ''}
 
 대상 상품 목록:
@@ -866,7 +866,7 @@ function generateFallbackReason(
     }
   }
 
-  // 3. 피하고 싶은 단점이 없음을 강조
+  // 3. 피할 단점이 없음을 강조
   if (reasons.length === 0 && userContext?.negativeSelections && userContext.negativeSelections.length > 0) {
     for (const negative of userContext.negativeSelections) {
       const translation = getBalanceSelectionText(negative);

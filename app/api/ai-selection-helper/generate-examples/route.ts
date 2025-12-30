@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     } else if (questionType === 'negative_filter') {
       // 단점 필터용 예시 생성 - 상품 단점이 아닌 사용자 상황/우려 기반
       systemPrompt = `당신은 육아맘의 마음을 잘 아는 상담사입니다.
-"피하고 싶은 단점"을 선택하는 질문에서, 사용자가 입력할 수 있는 본인의 상황이나 우려를 예시로 3개 생성해주세요.
+"피할 단점"을 선택하는 질문에서, 사용자가 입력할 수 있는 본인의 상황이나 우려를 예시로 3개 생성해주세요.
 
 **중요 규칙:**
 1. 각 예시는 15-25자 내외로 짧고 자연스럽게
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
 5. "~해요", "~이에요" 같은 자연스러운 말투로`;
 
       userPrompt = `**카테고리:** ${categoryName} (${category})
-**질문 타입:** ${questionType === 'hard_filter' ? '스펙 선택' : '취향 선택'}
+**질문 타입:** ${questionType === 'hard_filter' ? '스펙 선택' : '밸런스 게임'}
 **질문:** ${questionText}
 
 **응답 형식 (JSON):**

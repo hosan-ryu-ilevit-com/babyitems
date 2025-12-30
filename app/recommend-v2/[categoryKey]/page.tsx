@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { flushSync } from 'react-dom';
 import { useRouter, useParams } from 'next/navigation';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import FeedbackButton from '@/components/FeedbackButton';
 import { StepIndicator } from '@/components/StepIndicator';
 
@@ -277,15 +277,14 @@ export default function RecommendV2Page() {
 
   // Step Indicator Prop Mapping
   const indicatorStep = useMemo(() => {
-    // 사용자 요청:
-    // 1단계: 메인 카테고리 화면/첫 체감속성 질문
-    // 2단계: 하드필터
-    // 3단계: 밸런스게임
-    // 4단계: 단점+예산
-    if (currentStep === 0) return 1;
-    if (currentStep === 1) return 2;
-    if (currentStep === 2 || currentStep === 3) return 3;
-    if (currentStep === 4 || currentStep === 5) return 4;
+    // 1단계: 조건 고르기 (체감속성, 하드필터)
+    // 2단계: 밸런스 게임 (밸런스게임)
+    // 3단계: 피할 단점 (부정필터)
+    // 4단계: 예산 설정 (예산설택, 마지막질문)
+    if (currentStep === 1 || currentStep === 2) return 1;
+    if (currentStep === 3) return 2;
+    if (currentStep === 4) return 3;
+    if (currentStep === 5) return 4;
     return 1;
   }, [currentStep]);
 
@@ -316,8 +315,8 @@ export default function RecommendV2Page() {
       const el = document.querySelector(`[data-message-id="${messageId}"]`) as HTMLElement;
       
       if (container && el) {
-        // StepIndicator height(약 48px) + mt-2(8px) + 여백(약 14px) = 70px
-        const offset = 70;
+        // StepIndicator height(약 49px) 고려하여 52px 정도로 설정
+        const offset = 52;
         const targetScroll = el.offsetTop - offset;
         
         container.scrollTo({
@@ -336,7 +335,7 @@ export default function RecommendV2Page() {
         const followupArea = document.querySelector('[data-followup-area]') as HTMLElement;
         const container = scrollContainerRef.current;
         if (followupArea && container) {
-          const offset = 70; // StepIndicator 높이 + 여백
+          const offset = 52; // StepIndicator 높이 고려
           const targetScroll = followupArea.offsetTop - offset;
           container.scrollTo({
             top: Math.max(0, targetScroll),
@@ -547,7 +546,7 @@ export default function RecommendV2Page() {
 
         // Rules 처리
         if (!rulesJson.success) {
-          router.push('/');
+          router.push('/categories');
           return;
         }
 
@@ -1542,16 +1541,38 @@ export default function RecommendV2Page() {
     logV2CheckpointViewed(categoryKey, categoryName, filtered.length);
 
     // Add AI summary message (Step 2 메시지이므로 stepTag 추가)
-    const summaryMessage = (aiSummary || "선택하신 조건에 맞는 제품들을 찾았습니다.") + "\n\n" + fixedSuffix;
-    
-    addMessage({
+    // 1단계: AI 요약 문구 추가 (타이핑 효과)
+    const summaryMsgId = addMessage({
       role: 'assistant',
-      content: summaryMessage,
+      content: aiSummary || "선택하신 조건에 맞는 제품들을 찾았습니다.",
       stepTag: '2/5',
       onTypingComplete: () => {
-        setIsSummaryTypingComplete(true);
+        // 2단계: 후보 선정 컴포넌트 추가
+        addMessage({
+          role: 'system',
+          content: '',
+          componentType: 'checkpoint',
+          componentData: {
+            totalProducts: productsToUse.length,
+            filteredCount: filtered.length,
+          },
+          stepTag: '2/5', // 통일된 스텝 태그
+        });
+
+        // 3단계: 후속 문구 추가 (약간의 지연 후 타이핑 시작)
+        setTimeout(() => {
+          addMessage({
+            role: 'assistant',
+            content: fixedSuffix,
+            stepTag: '2/5', // 통일된 스텝 태그
+            onTypingComplete: () => {
+              setIsSummaryTypingComplete(true);
+            }
+          }, true, 7);
+        }, 600);
       }
-    }, true, 7); // 긴 문장이므로 속도를 7ms로 더 빠르게 설정
+    }, true, 7);
+    scrollToMessage(summaryMsgId); // 첫 문단만 스크롤
   }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInputs, hardFilterDirectInputRegistered]);
 
   // Update ref to the latest handleHardFiltersComplete
@@ -1739,7 +1760,7 @@ export default function RecommendV2Page() {
     // 로딩 완료 후 stepTag 메시지 추가 + 스크롤
     const stepMsgId = addMessage({
       role: 'assistant',
-      content: '입력하신 내용을 확인했습니다.\n마지막으로 피하고 싶은 단점과 예산을 여쭤본 후, 최적의 결과를 제공해드릴게요.',
+      content: '입력하신 내용을 확인했습니다.\n마지막으로 피할 단점과 예산을 여쭤본 후, 최적의 결과를 제공해드릴게요.',
       stepTag: '4/5',
     }, true);
     scrollToMessage(stepMsgId);
@@ -2630,7 +2651,7 @@ export default function RecommendV2Page() {
         <div
           key={message.id}
           data-message-id={message.id}
-          className="scroll-mt-[70px] flex justify-end transition-all duration-300"
+          className="scroll-mt-[52px] flex justify-end transition-all duration-300"
         >
           <div className="max-w-[80%] min-h-[46px] px-4 py-3 rounded-[20px] bg-gray-50 flex items-center">
             <span className="text-gray-800 text-base leading-[140%] font-medium">
@@ -2648,7 +2669,7 @@ export default function RecommendV2Page() {
           <div
             key={message.id}
             data-message-id={message.id}
-            className="scroll-mt-[70px]"
+            className="scroll-mt-[52px]"
           >
             <ResultChatMessage
               message={{
@@ -2709,7 +2730,7 @@ export default function RecommendV2Page() {
         <div
           key={message.id}
           data-message-id={message.id}
-          className={`scroll-mt-[70px] transition-all duration-300 ${
+          className={`scroll-mt-[52px] transition-all duration-300 ${
             isPastStep ? 'opacity-50 pointer-events-none' : ''
           }`}
         >
@@ -2740,7 +2761,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[70px] transition-all duration-300 ${
+              className={`scroll-mt-[52px] transition-all duration-300 ${
                 currentStep > 0 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2800,7 +2821,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[70px] transition-all duration-300 ${
+              className={`scroll-mt-[52px] transition-all duration-300 ${
                 isSubCategoryDisabled ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2826,7 +2847,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[70px] transition-all duration-300 ${
+              className={`scroll-mt-[52px] transition-all duration-300 ${
                 isHardFilterDisabled ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2878,7 +2899,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[70px] transition-all duration-300 ${
+              className={`scroll-mt-[52px] transition-all duration-300 ${
                 currentStep > 2 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2895,7 +2916,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[70px] transition-all duration-300 ${
+              className={`scroll-mt-[52px] transition-all duration-300 ${
                 currentStep > 3 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2931,7 +2952,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[70px] transition-all duration-300 ${
+              className={`scroll-mt-[52px] transition-all duration-300 ${
                 currentStep > 4 ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -2992,7 +3013,7 @@ export default function RecommendV2Page() {
               key={message.id}
               data-message-id={message.id}
               ref={budgetSliderRef}
-              className={`scroll-mt-[70px] transition-all duration-300 ${
+              className={`scroll-mt-[52px] transition-all duration-300 ${
                 (scoredProducts.length > 0 || isCalculating || isLoadingFollowup || showFollowupCarousel) ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -3000,8 +3021,8 @@ export default function RecommendV2Page() {
                 min={budgetRange.min}
                 max={budgetRange.max}
                 step={budgetRange.step}
-                initialMin={budget.min}
-                initialMax={budget.max}
+                initialMin={budget.min === 0 && budget.max === 0 ? undefined : budget.min}
+                initialMax={budget.min === 0 && budget.max === 0 ? undefined : budget.max}
                 onChange={handleBudgetChange}
                 products={filteredProducts}
                 onDirectInput={(min, max, productsInRange) => {
@@ -3028,7 +3049,7 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[70px] transition-all duration-300 ${
+              className={`scroll-mt-[52px] transition-all duration-300 ${
                 isCalculating ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -3166,7 +3187,7 @@ export default function RecommendV2Page() {
       });
     } else {
       // 첫 번째 질문에서 이전 클릭 시 카테고리 선택으로 이동
-      router.push('/');
+      router.push('/categories');
       setIsTransitioning(false);
     }
   }, [isTransitioning, showSubCategorySelector, currentHardFilterIndex, categoryKey, categoryName, scrollToMessage, router]);
@@ -3308,6 +3329,7 @@ export default function RecommendV2Page() {
                 const filtered = prev.filter(msg =>
                   msg.componentType !== 'loading-text' &&
                   msg.componentType !== 'natural-input' &&
+                  msg.componentType !== 'checkpoint' &&
                   !(msg.stepTag === '2/5')
                 );
                 // 마지막 hard-filter 메시지 찾기
@@ -3635,15 +3657,21 @@ export default function RecommendV2Page() {
     <div className="h-dvh overflow-hidden bg-white flex justify-center">
       <div className="h-full w-full max-w-[480px] bg-white flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-50 h-14 flex items-center px-5">
+        <header className="sticky top-0 z-50 bg-[#FBFBFD] border-b border-gray-50 h-14 flex items-center px-5">
           <button
             onClick={() => setShowBackModal(true)}
-            className="flex items-center justify-center w-5 h-5 text-gray-400 hover:text-gray-600 transition-colors"
+            className="p-2 -ml-2 flex items-center justify-center transition-opacity hover:opacity-70"
           >
-            <CaretLeft size={20} weight="bold" />
+            <Image
+              src="/icons/back.png"
+              alt="뒤로가기"
+              width={20}
+              height={20}
+              priority
+            />
           </button>
           
-          <FeedbackButton source={`recommend-v2-${categoryKey}`} className="ml-auto" />
+          <FeedbackButton source={`recommend-v2-${categoryKey}`} variant="minimal" className="ml-auto" />
         </header>
 
         {/* Content */}
@@ -3653,7 +3681,7 @@ export default function RecommendV2Page() {
           style={{ paddingBottom: currentStep === 5 && scoredProducts.length > 0 ? '350px' : '102px' }}
         >
           {/* Step Indicator - Moved inside main for true floating effect */}
-          {currentStep >= 0 && !isCalculating && scoredProducts.length === 0 && (
+          {currentStep >= 1 && !isCalculating && scoredProducts.length === 0 && (
             <StepIndicator currentStep={indicatorStep} className="top-0" />
           )}
 
@@ -3669,7 +3697,7 @@ export default function RecommendV2Page() {
 
           {/* Messages */}
           {currentStep > -1 && (
-            <div className={`space-y-4 pt-10 transition-opacity duration-300 ${
+            <div className={`space-y-4 pt-4 transition-opacity duration-300 ${
               showFollowupCarousel || isLoadingFollowup ? 'opacity-30 pointer-events-none' : ''
             }`}>
               {messages.map(renderMessage)}
@@ -3832,7 +3860,7 @@ export default function RecommendV2Page() {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => {
                         logV2ReRecommendDifferentCategory(categoryKey, categoryName);
-                        router.push('/');
+                        router.push('/categories');
                       }}
                       className="w-full py-4 px-6 bg-white text-gray-900 rounded-2xl border border-gray-100 font-semibold flex items-center justify-center gap-3 group overflow-hidden relative"
                     >
@@ -3925,7 +3953,7 @@ export default function RecommendV2Page() {
             {/* 플로팅 버튼 영역 (우측 하단) */}
             {!showReRecommendModal && (
               <div
-                className="fixed right-4 z-[105] flex flex-col items-end gap-2"
+                className="fixed right-4 z-[105] flex flex-row items-center gap-2"
                 style={{ bottom: '72px', maxWidth: '480px' }}
               >
                 {/* 예산 범위 내로 다시 추천받기 버튼 (조건부 표시) */}
@@ -3939,7 +3967,7 @@ export default function RecommendV2Page() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleRestrictToBudget}
-                    className="px-4 py-3 bg-white rounded-2xl border border-gray-100 text-sm font-semibold text-gray-700 flex items-center gap-2"
+                    className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
                   >
                     <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -4068,7 +4096,7 @@ export default function RecommendV2Page() {
                       취소
                     </button>
                     <button
-                      onClick={() => router.push('/')}
+                      onClick={() => router.push('/categories')}
                       className="flex-1 px-4 py-3 bg-[#111827] text-white font-semibold rounded-xl"
                     >
                       돌아가기

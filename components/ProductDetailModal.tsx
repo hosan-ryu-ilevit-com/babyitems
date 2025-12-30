@@ -855,7 +855,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     .filter(c => c.conditionType === 'balance')
                     .sort((a, b) => (balanceStatusOrder[a.status] ?? 3) - (balanceStatusOrder[b.status] ?? 3));
 
-                  // 피하고 싶은 단점: 회피됨 → 부분회피 → 회피안됨 순서로 정렬
+                  // 피할 단점: 회피됨 → 부분회피 → 회피안됨 순서로 정렬
                   const negativeStatusOrder: Record<string, number> = { '회피됨': 0, '부분회피': 1, '회피안됨': 2 };
                   const negativeConditions = selectedConditionsEvaluation
                     .filter(c => c.conditionType === 'negative')
@@ -1001,7 +1001,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                         </div>
                       )}
 
-                      {/* 피하고 싶은 단점 */}
+                      {/* 피할 단점 */}
                       {negativeConditions.length > 0 && (
                         <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                           <div className="flex items-center justify-between mb-3">
@@ -1009,7 +1009,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
                             <h4 className="text-[18px] font-bold text-[#4E43E1] leading-tight">
-                              피하고 싶은 단점
+                              피할 단점
                             </h4>
                           </div>
                             {/* <CircularProgress score={negativeScore} total={negativeConditions.length} color="green" /> */}

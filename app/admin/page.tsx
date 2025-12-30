@@ -172,7 +172,7 @@ export default function AdminPage() {
       v2_balance_selection: '밸런스 선택',
       v2_balance_skipped: '밸런스 스킵',
       v2_balance_completed: '밸런스 완료',
-      v2_negative_toggle: '단점 선택',
+      v2_negative_toggle: '피할 단점',
       v2_negative_completed: '단점 완료',
       v2_budget_changed: '예산 변경',
       v2_budget_preset_clicked: '예산 프리셋',
@@ -1130,7 +1130,7 @@ export default function AdminPage() {
                     { label: '하드필터 완료', data: currentCampaign.funnel.hardFilterCompleted, color: 'bg-purple-400' },
                     { label: '체크포인트 확인', data: currentCampaign.funnel.checkpointViewed, color: 'bg-pink-500' },
                     { label: '밸런스 게임 완료', data: currentCampaign.funnel.balanceCompleted, color: 'bg-pink-400' },
-                    { label: '단점 선택 완료', data: currentCampaign.funnel.negativeCompleted, color: 'bg-rose-500' },
+                    { label: '피할 단점 완료', data: currentCampaign.funnel.negativeCompleted, color: 'bg-rose-500' },
                     { label: '예산 설정', data: currentCampaign.funnel.budgetConfirmed, color: 'bg-rose-400' },
                     { label: '추천 완료', data: currentCampaign.funnel.recommendationReceived, color: 'bg-green-500' },
                   ];
@@ -1183,7 +1183,7 @@ export default function AdminPage() {
                             )}
                             {currentCampaign.avgTimePerStep.balanceToNegative > 0 && (
                               <div className="bg-rose-50 rounded-lg p-3">
-                                <p className="text-xs text-gray-500">단점 선택</p>
+                                <p className="text-xs text-gray-500">피할 단점</p>
                                 <p className="text-lg font-bold text-rose-600">{currentCampaign.avgTimePerStep.balanceToNegative}초</p>
                               </div>
                             )}
@@ -2711,17 +2711,17 @@ export default function AdminPage() {
                                   {event.eventType === 'v2_negative_toggle' && event.v2FlowData.negative && (
                                     <div className={`p-2 rounded text-xs ${event.v2FlowData.negative.isSelected ? 'bg-red-50' : 'bg-gray-50'}`}>
                                       <p className={`font-semibold mb-1 ${event.v2FlowData.negative.isSelected ? 'text-red-700' : 'text-gray-600'}`}>
-                                        {event.v2FlowData.negative.isSelected ? '❌ 단점 선택' : '✓ 단점 해제'}
+                                        {event.v2FlowData.negative.isSelected ? '❌ 피할 단점' : '✓ 단점 해제'}
                                       </p>
                                       <p className="text-gray-700">&quot;{event.v2FlowData.negative.label}&quot;</p>
                                       <p className="text-gray-500 mt-1">현재 선택: {event.v2FlowData.negative.totalSelected}개</p>
                                     </div>
                                   )}
-                                  {/* 단점 선택 완료 */}
+                                  {/* 피할 단점 완료 */}
                                   {event.eventType === 'v2_negative_completed' && event.metadata && (
                                     <div className="bg-red-50 p-2 rounded text-xs">
                                       <p className="font-semibold text-red-700 mb-1">
-                                        🚫 단점 선택 완료 ({(event.metadata as { selectedCount?: number; selectedLabels?: string[] }).selectedCount || 0}개)
+                                        🚫 피할 단점 완료 ({(event.metadata as { selectedCount?: number; selectedLabels?: string[] }).selectedCount || 0}개)
                                       </p>
                                       {((event.metadata as { selectedLabels?: string[] }).selectedLabels || []).length > 0 && (
                                         <div className="bg-white p-2 rounded mt-1">

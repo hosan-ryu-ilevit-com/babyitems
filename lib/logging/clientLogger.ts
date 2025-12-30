@@ -645,7 +645,7 @@ export function logV2NegativeToggle(
   });
 }
 
-// 단점 선택 완료
+// 피할 단점 완료
 export function logV2NegativeCompleted(
   category: string,
   categoryName: string,

@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
           .map(bg => `${bg.title}: ${bg.selectedOption}`)
           .join('\n');
         if (balanceSummary) {
-          parts.push(`[사용자 취향 선택]\n${balanceSummary}`);
+          parts.push(`[사용자 밸런스 게임]\n${balanceSummary}`);
         }
       }
 

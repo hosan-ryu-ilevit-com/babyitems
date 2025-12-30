@@ -47,7 +47,7 @@ export const STEP_LABELS: Record<FlowStep, string> = {
   0: '트렌드 브리핑',
   1: '환경 체크',
   2: '후보 분석',
-  3: '취향 선택',
+  3: '밸런스 게임',
   4: '단점 필터',
   5: '예산 & 추천',
 };

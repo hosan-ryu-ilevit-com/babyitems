@@ -85,7 +85,7 @@ export function SubCategorySelector({
       {/* 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
         <span className="text-[16px] text-gray-400 font-semibold">
-          세부 종류
+          조건 고르기
         </span>
       </div>
 

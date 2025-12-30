@@ -88,7 +88,7 @@ export function BalanceGameCard({
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
         <span className="text-[16px] text-gray-400 font-semibold">
-          취향 선택
+          밸런스 게임
         </span>
       </div>
 
@@ -126,8 +126,8 @@ export function BalanceGameCard({
           onClick={onSelectA}
           className="w-full min-h-[50px] py-2 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
         >
-          <div className="flex items-center justify-center h-full px-4 gap-3">
-            <span className="text-[16px] font-medium text-gray-600 leading-snug break-keep text-center">
+          <div className="flex items-center justify-start h-full px-4 gap-3">
+            <span className="text-[16px] font-medium text-gray-600 leading-snug break-keep text-left">
               {question.option_A.text}
             </span>
           </div>
@@ -148,8 +148,8 @@ export function BalanceGameCard({
           onClick={onSelectB}
           className="w-full min-h-[50px] py-2 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
         >
-          <div className="flex items-center justify-center h-full px-4 gap-3">
-            <span className="text-[16px] font-medium text-gray-600 leading-snug break-keep text-center">
+          <div className="flex items-center justify-start h-full px-4 gap-3">
+            <span className="text-[16px] font-medium text-gray-600 leading-snug break-keep text-left">
               {question.option_B.text}
             </span>
           </div>

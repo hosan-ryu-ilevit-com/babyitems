@@ -510,7 +510,7 @@ function calculateV2NewFlowFunnel(sessions: SessionSummary[], utmCampaign: strin
         timestamps.balanceComplete = ts;
       }
 
-      // Step 9: 단점 선택 완료
+      // Step 9: 피할 단점 완료
       if (eventType === 'v2_negative_completed') {
         negativeCompleted.add(sid);
         timestamps.negativeComplete = ts;
@@ -807,7 +807,7 @@ function calculateV2NewFlowCategoryAnalytics(sessions: SessionSummary[]): V2NewF
           questionStats.set(selectedOption, existing);
         }
 
-        // 단점 선택 통계
+        // 피할 단점 통계
         if (eventType === 'v2_negative_toggle' && v2Data.negative) {
           const { ruleKey, label, isSelected } = v2Data.negative;
           if (isSelected) {
@@ -906,7 +906,7 @@ function calculateV2NewFlowCategoryAnalytics(sessions: SessionSummary[]): V2NewF
     });
     popularBalanceChoices.sort((a, b) => b.count - a.count);
 
-    // 인기 단점 선택
+    // 인기 피할 단점 선택
     const popularNegativeChoices: V2NewFlowCategoryAnalytics['popularSelections']['negativeChoices'] = [];
     data.negativeSelections.forEach((stats, ruleKey) => {
       popularNegativeChoices.push({

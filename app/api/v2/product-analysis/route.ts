@@ -215,13 +215,13 @@ ${hardFilterConditions.map((c, i) => `${i + 1}. ${c.label}`).join('\n')}` : ''}
 ${balanceConditions.length > 0 ? `### 선호 속성 (밸런스 게임 선택)
 ${balanceConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 
-${negativeConditions.length > 0 ? `### 피하고 싶은 단점
+${negativeConditions.length > 0 ? `### 피할 단점
 ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 
 ## 조건 충족도 평가 요청
 위 사용자 조건들에 대해 이 제품이 얼마나 충족하는지 평가해주세요:
 - **필수 조건/선호 속성**: "충족" (완벽히 만족) | "부분충족" (일부 만족) | "불충족" (만족 안 함)
-- **피하고 싶은 단점**: "회피됨" (단점 없음) | "부분회피" (일부 단점 있음) | "회피안됨" (단점 존재)
+- **피할 단점**: "회피됨" (단점 없음) | "부분회피" (일부 단점 있음) | "회피안됨" (단점 존재)
 ` : '';
 
   const conditionEvaluationFormat = hasUserConditions ? `
@@ -241,7 +241,7 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
       "status": "충족, 부분충족, 불충족 중 하나",
       "evidence": "구체적 근거 1-2문장"
     }`).join(',\n    ')}${(hardFilterConditions.length > 0 || balanceConditions.length > 0) && negativeConditions.length > 0 ? ',' : ''}
-    // 피하고 싶은 단점 평가 (${negativeConditions.length}개) - status는 "회피됨", "부분회피", "회피안됨" 중 하나만 선택
+    // 피할 단점 평가 (${negativeConditions.length}개) - status는 "회피됨", "부분회피", "회피안됨" 중 하나만 선택
     ${negativeConditions.map(c => `{
       "condition": "${c}",
       "conditionType": "negative",
@@ -302,7 +302,7 @@ ${hasUserConditions ? `
 ## ⚠️ status 값 중요 (정확히 아래 값만 사용):
 - 필수 조건(hardFilter): "충족" 또는 "불충족" (이 두 값 중 하나만)
 - 선호 속성(balance): "충족" 또는 "부분충족" 또는 "불충족" (이 세 값 중 하나만)
-- 피하고 싶은 단점(negative): "회피됨" 또는 "부분회피" 또는 "회피안됨" (이 세 값 중 하나만)
+- 피할 단점(negative): "회피됨" 또는 "부분회피" 또는 "회피안됨" (이 세 값 중 하나만)
 
 status 예시 (반드시 이 형식으로):
 {
@@ -500,7 +500,7 @@ function generateFallbackAnalysis(product: ProductInfo, insights: CategoryInsigh
     });
   });
 
-  // 피하고 싶은 단점 (한국어 레이블 사용)
+  // 피할 단점 (한국어 레이블 사용)
   const negativeLabels = userContext.negativeLabels || {};
   userContext.negativeSelections?.forEach(ruleKey => {
     const label = negativeLabels[ruleKey] || ruleKey.replace(/_/g, ' ');

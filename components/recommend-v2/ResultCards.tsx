@@ -1222,9 +1222,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
                     </svg>
                   </div>
                 )}
-                {/* 랭킹 배지 - 좌측 하단 */}
-                <div className="absolute bottom-0 left-0 h-7 px-2 bg-gray-900 rounded-tl-none rounded-tr-xl rounded-bl-xl rounded-br-none flex items-center justify-center">
-                  <span className="text-white font-semibold text-xs">
+                {/* 랭킹 배지 - 좌측 상단 */}
+                <div className="absolute top-0 left-0 w-[32px] h-[26px] bg-gray-900 rounded-tl-[12px] rounded-br-[12px] rounded-tr-[4px] rounded-bl-[4px] flex items-center justify-center">
+                  <span className="text-white font-semibold text-[12px] leading-none">
                     {index + 1}위
                   </span>
                 </div>

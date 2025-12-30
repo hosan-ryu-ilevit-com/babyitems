@@ -129,14 +129,13 @@ export function AIHelperButton({
                   setIsExpanded(false);
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-purple-50 border border-purple-100 text-left"
+                className="flex items-center gap-1 px-4 py-2.5 rounded-xl bg-purple-50 border border-purple-100 text-left"
               >
                 <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                   <ChatCircleDots size={18} weight="fill" className="text-purple-400" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-bold text-gray-800">AI에게 내 상황 설명하기</span>
-                  <span className="text-[12px] text-gray-500">직접 말하고 딱 맞는 선택지 추천받기</span>
+                  <span className="text-[14px] font-semibold text-gray-800">직접 입력하고 추천받기</span>
                 </div>
               </motion.button>
 
@@ -153,14 +152,13 @@ export function AIHelperButton({
                     setIsExpanded(false);
                   }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 text-left"
+                  className="flex items-center gap-1 px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-100 text-left"
                 >
                   <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                     <TrendUp size={18} weight="bold" className="text-gray-300" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-gray-800">가장 많은 사람이 구매한 선택지 보기</span>
-                    <span className="text-[12px] text-gray-500">인기 있는 선택지 추천받기</span>
+                    <span className="text-[14px] font-semibold text-gray-800">가장 인기 있는 선택지 추천받기</span>
                   </div>
                 </motion.button>
               )}
@@ -178,14 +176,13 @@ export function AIHelperButton({
                     setIsExpanded(false);
                   }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-100 text-left"
+                  className="flex items-center gap-1 px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-100 text-left"
                 >
                   <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                     <img src="/icons/ic-ai.svg" alt="" className="w-5 h-5 opacity-50" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-gray-800">내 상황에 맞춰 추천받기</span>
-                    <span className="text-[12px] text-gray-500">지금까지 입력한 정보로 AI에게 추천받기</span>
+                    <span className="text-[14px] font-semibold text-gray-800">지금까지 입력한 정보로 추천받기</span>
                   </div>
                 </motion.button>
               )}

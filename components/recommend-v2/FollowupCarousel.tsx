@@ -256,7 +256,7 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
             <div className="flex items-center gap-2 mb-3">
              
               <span className="text-sm font-medium text-gray-500">
-                {isLastItem ? '마지막 단계' : `추가 확인 ${currentIndex + 1}/${questions.length}`}
+                {isLastItem ? '추가 입력' : `추가 확인 ${currentIndex + 1}/${questions.length}`}
               </span>
             </div>
           </div>
@@ -375,8 +375,8 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                 ) : (
                   // 자연어 입력 아이템 (마지막)
                   <div>
-                    <h2 className="text-lg font-bold text-gray-800 mb-4">
-                      마지막으로 {categoryName} 추천에 <br></br>반영하고 싶은 조건이 있으신가요?
+                    <h2 className="text-lg font-bold text-gray-800 mb-3">
+                      정말 마지막으로, <br></br>혹시 입력하지 못한 정보가 있다면 적어주세요.<br></br>추천에 우선적으로 반영할게요!
                     </h2>
                     
 
@@ -417,8 +417,8 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                               transition-all duration-200 flex items-center justify-center gap-1.5
                               disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
                           >
-                            <img src="/icons/ic-ai.svg" alt="" className="w-3.5 h-3.5 opacity-70" />
-                            <span className="font-medium text-sm text-gray-500">건너뛰고 바로 추천받기</span>
+                            <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4 opacity-90" />
+                            <span className="font-semibold text-base text-gray-600">건너뛰고 바로 추천받기</span>
                           </button>
                         </motion.div>
                       )}

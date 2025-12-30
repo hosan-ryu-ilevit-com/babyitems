@@ -31,7 +31,7 @@ export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationPr
 
         const container = el.closest('.overflow-y-auto');
         if (container) {
-          const offset = 70;
+          const offset = 52;
           const targetScroll = (el as HTMLElement).offsetTop - offset;
           container.scrollTo({
             top: Math.max(0, targetScroll),

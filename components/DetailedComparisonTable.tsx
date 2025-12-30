@@ -409,11 +409,11 @@ export default function DetailedComparisonTable({
                 {/* 랭킹 뱃지 */}
                 {!isAnchor && rank && rank <= 3 && (
                   <div 
-                    className={`absolute top-0 right-0 px-3 h-8 flex items-center justify-center z-10 rounded-tr-[12px] rounded-bl-[12px] rounded-tl-[4px] rounded-br-[4px] ${
+                    className={`absolute top-0 right-0 w-[34px] h-[26px] flex items-center justify-center z-10 rounded-tr-[12px] rounded-bl-[12px] rounded-tl-[4px] rounded-br-[4px] ${
                       isSelected ? 'bg-blue-500' : 'bg-[#212529]'
                     }`}
                   >
-                    <span className="text-white font-bold text-[14px] leading-none">{rank}위</span>
+                    <span className="text-white font-bold text-[12px] leading-none">{rank}위</span>
                   </div>
                 )}
                 
