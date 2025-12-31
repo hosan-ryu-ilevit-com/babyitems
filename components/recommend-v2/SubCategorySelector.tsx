@@ -88,7 +88,7 @@ export function SubCategorySelector({
 
       {/* 질문 텍스트 */}
       <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-        어떤 {categoryName}를 찾으세요? <span className="text-blue-500 font-bold">*</span>
+        어떤 {categoryName}를 찾으세요? 
       </h3>
 
       {/* AI 도움받기 버튼 */}

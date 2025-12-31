@@ -423,7 +423,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
             >
               {/* 질문 제목 */}
               <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-3">
-                {currentQuestion.title} <span className="text-blue-500 font-bold">*</span>
+                {currentQuestion.title} 
               </h3>
 
               {/* AI 도움받기 버튼 */}

@@ -94,7 +94,7 @@ export function BalanceGameCard({
 
       {/* 질문 제목 */}
       <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-        {question.title} <span className="text-blue-500 font-bold">*</span>
+        {question.title}
       </h3>
 
       {/* AI 도움받기 버튼 */}

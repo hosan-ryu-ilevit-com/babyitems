@@ -186,7 +186,7 @@ function ReviewPriorityTags({
       >
         <div className="space-y-2">
           <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-            실제 후기에서 가장 많이 언급된 조건이에요. <br />원하시는 조건을 골라주세요.<span className="text-blue-500 font-bold">*</span>
+            실제 후기에서 가장 많이 언급된 조건이에요. <br />원하시는 조건을 골라주세요.
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
         <div className="flex items-center gap-3">
@@ -663,7 +663,7 @@ export function HardFilterQuestion({
 
       {/* 질문 텍스트 */}
       <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-        {question.question} <span className="text-blue-500 font-bold">*</span>
+        {question.question} 
       </h3>
 
       {/* AI 도움받기 버튼 */}

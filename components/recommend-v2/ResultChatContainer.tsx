@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type {
   ResultChatApiRequest,
@@ -46,7 +46,8 @@ export function ResultChatContainer({
 }: ResultChatContainerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showHelpBubble, setShowHelpBubble] = useState(true);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // 상호작용 시 말풍선 숨김
   const handleInteraction = () => {
@@ -54,6 +55,22 @@ export function ResultChatContainer({
       setShowHelpBubble(false);
     }
   };
+
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      const scrollHeight = textarea.scrollHeight;
+      // h-12 (48px)가 기본, 대략 3줄 정도면 120px
+      const newHeight = Math.max(48, Math.min(scrollHeight, 120));
+      textarea.style.height = `${newHeight}px`;
+    }
+  };
+
+  // 입력값이 변경될 때마다 높이 조절
+  useEffect(() => {
+    adjustHeight();
+  }, [inputValue]);
 
   // 메시지 전송
   const handleSend = async (content: string) => {
@@ -64,6 +81,7 @@ export function ResultChatContainer({
     onUserMessage(content);
     setIsLoading(true);
     onLoadingChange?.(true);
+    setInputValue(''); // 입력창 초기화
 
     try {
       // 2. API 호출
@@ -162,7 +180,7 @@ export function ResultChatContainer({
       </AnimatePresence>
 
       {/* 채팅 입력창 */}
-      <div className="relative overflow-hidden rounded-[20px] border border-gray-200">
+      <div className="relative overflow-hidden rounded-[20px] border border-gray-200 flex items-end">
         {/* Radial Gradient Background (Ellipse 464) */}
         <div 
           className="absolute pointer-events-none"
@@ -177,37 +195,35 @@ export function ResultChatContainer({
           }}
         />
         
-        <input
-          ref={inputRef}
-          type="text"
+        <textarea
+          ref={textareaRef}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           placeholder="추천 결과에 대해 궁금한게 있으신가요?"
-          className="relative z-10 w-full h-12 pl-4 pr-12 rounded-[20px] bg-white/70 backdrop-blur-md text-base text-gray-800 placeholder:text-gray-400 placeholder:font-medium focus:outline-none transition-all"
+          className="relative z-10 w-full min-h-[48px] max-h-[120px] py-[13px] pl-4 pr-12 rounded-[20px] bg-white/70 backdrop-blur-md text-base text-gray-800 placeholder:text-gray-400 placeholder:font-medium focus:outline-none transition-all resize-none overflow-y-auto"
           onFocus={handleInteraction}
           onClick={handleInteraction}
           onKeyDown={(e) => {
             handleInteraction();
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
-              const input = e.currentTarget;
-              if (input.value.trim()) {
-                handleSend(input.value.trim());
-                input.value = '';
+              if (inputValue.trim()) {
+                handleSend(inputValue.trim());
               }
             }
           }}
           disabled={isLoading}
+          rows={1}
         />
         <button
           onClick={() => {
             handleInteraction();
-            const input = inputRef.current;
-            if (input?.value.trim()) {
-              handleSend(input.value.trim());
-              input.value = '';
+            if (inputValue.trim()) {
+              handleSend(inputValue.trim());
             }
           }}
           disabled={isLoading}
-          className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 z-20 flex items-center justify-center disabled:opacity-50 transition-all active:scale-95"
+          className="absolute right-1.5 bottom-2 w-8 h-8 z-20 flex items-center justify-center disabled:opacity-50 transition-all active:scale-95"
         >
           {isLoading ? (
             <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center">

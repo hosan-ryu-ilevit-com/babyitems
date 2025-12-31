@@ -368,7 +368,7 @@ export function BudgetSlider({
       </div>
 
       <h3 className="text-[18px] font-semibold text-gray-900 mb-4">
-        예산 범위를 정해주세요. <br></br>정하신 예산 안에서 추천해드려요.<span className="text-blue-500 font-bold">*</span>
+        가격 범위를 정해주세요! <br></br>그 안에서 추천드려요.
       </h3>
 
       {/* AI 도움 버튼 */}
@@ -390,61 +390,6 @@ export function BudgetSlider({
           />
         </div>
       )}
-
-      {/* 최저/최고 입력 영역 */}
-      <div className={`flex items-center justify-between gap-4 mb-8 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
-        {/* 최저 */}
-        <div className="flex-1">
-          <div className="text-[14px] text-gray-400 font-medium mb-2">최저</div>
-          <div
-            onClick={() => !disabled && handleMinClick()}
-            className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
-          >
-            {isEditingMin ? (
-              <input
-                ref={minInputRef}
-                type="text"
-                inputMode="numeric"
-                value={minInputValue}
-                onChange={handleMinInputChange}
-                onBlur={handleMinInputBlur}
-                onKeyDown={(e) => handleKeyDown(e, 'min')}
-                className="w-full bg-transparent outline-none p-0"
-                autoFocus
-                disabled={disabled}
-              />
-            ) : (
-              <span>{minValue.toLocaleString()}원</span>
-            )}
-          </div>
-        </div>
-
-        {/* 최고 */}
-        <div className="flex-1">
-          <div className="text-[14px] text-gray-400 font-medium mb-2">최고</div>
-          <div
-            onClick={() => !disabled && handleMaxClick()}
-            className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
-          >
-            {isEditingMax ? (
-              <input
-                ref={maxInputRef}
-                type="text"
-                inputMode="numeric"
-                value={maxInputValue}
-                onChange={handleMaxInputChange}
-                onBlur={handleMaxInputBlur}
-                onKeyDown={(e) => handleKeyDown(e, 'max')}
-                className="w-full bg-transparent outline-none p-0"
-                autoFocus
-                disabled={disabled}
-              />
-            ) : (
-              <span>{maxValue.toLocaleString()}원{maxValue >= max ? '+' : ''}</span>
-            )}
-          </div>
-        </div>
-      </div>
 
       {/* 히스토그램 + 슬라이더 */}
       <div className={`relative pt-4 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
@@ -533,6 +478,61 @@ export function BudgetSlider({
           </span>
         </div>
       )}
+
+      {/* 최저/최고 입력 영역 */}
+      <div className={`flex items-center justify-between gap-4 py-4 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
+        {/* 최저 */}
+        <div className="flex-1">
+          <div className="text-[14px] text-gray-400 font-medium mb-2">최저</div>
+          <div
+            onClick={() => !disabled && handleMinClick()}
+            className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
+          >
+            {isEditingMin ? (
+              <input
+                ref={minInputRef}
+                type="text"
+                inputMode="numeric"
+                value={minInputValue}
+                onChange={handleMinInputChange}
+                onBlur={handleMinInputBlur}
+                onKeyDown={(e) => handleKeyDown(e, 'min')}
+                className="w-full bg-transparent outline-none p-0"
+                autoFocus
+                disabled={disabled}
+              />
+            ) : (
+              <span>{minValue.toLocaleString()}원</span>
+            )}
+          </div>
+        </div>
+
+        {/* 최고 */}
+        <div className="flex-1">
+          <div className="text-[14px] text-gray-400 font-medium mb-2">최고</div>
+          <div
+            onClick={() => !disabled && handleMaxClick()}
+            className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
+          >
+            {isEditingMax ? (
+              <input
+                ref={maxInputRef}
+                type="text"
+                inputMode="numeric"
+                value={maxInputValue}
+                onChange={handleMaxInputChange}
+                onBlur={handleMaxInputBlur}
+                onKeyDown={(e) => handleKeyDown(e, 'max')}
+                className="w-full bg-transparent outline-none p-0"
+                autoFocus
+                disabled={disabled}
+              />
+            ) : (
+              <span>{maxValue.toLocaleString()}원{maxValue >= max ? '+' : ''}</span>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* AI 예산 도움 바텀시트 */}
       {showAIHelper && (
