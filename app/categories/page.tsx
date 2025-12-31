@@ -330,7 +330,7 @@ export default function CategoriesPage() {
           </button>
           <div className="absolute left-1/2 -translate-x-1/2">
             <h1 className="text-[17px] font-bold text-gray-900 tracking-tight whitespace-nowrap">
-              어떤 상품을 찾으시나요?
+              카테고리 선택
             </h1>
           </div>
         </header>

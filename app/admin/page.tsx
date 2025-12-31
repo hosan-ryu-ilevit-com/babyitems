@@ -2399,7 +2399,7 @@ export default function AdminPage() {
                               {event.eventType === 'ai_helper_clicked' && 'aiHelperData' in event && event.aiHelperData && (
                                 <div className="bg-purple-100 border-2 border-purple-400 p-2 rounded text-xs">
                                   <p className="font-bold text-purple-900 mb-1 flex items-center gap-1">
-                                    <span className="text-base">💜</span> &quot;뭘 골라야 할지 모르겠어요&quot; 버튼 클릭
+                                    <span className="text-base">💜</span> &quot;뭘 고를지 모르겠어요&quot; 버튼 클릭
                                   </p>
                                   <div className="bg-white p-2 rounded mt-1 space-y-1">
                                     <p className="text-purple-800 font-semibold">질문: &quot;{event.aiHelperData.questionText}&quot;</p>

@@ -9,6 +9,7 @@ AI 기반 아기용품 추천 서비스. Supabase + 다나와/에누리 크롤�
 **Tech Stack**: Next.js 16.0.1, React 19.2.0, TypeScript, Tailwind CSS v4, Framer Motion, Gemini API, Supabase
 
 **Data Sources**:
+
 - Supabase (메인 DB)
 - 다나와 (제품 스펙, 리뷰)
 - 에누리 (최저가 정보)
@@ -39,14 +40,14 @@ npm run lint        # ESLint
 
 `/recommend-v2/[categoryKey]` 페이지에서 진행되는 단계:
 
-| Step | 이름 | 컴포넌트 | 설명 |
-|------|------|----------|------|
-| 0 | 트렌드 브리핑 | `scan-animation`, `guide-cards` | 카테고리 트렌드 소개 |
-| 1 | 환경 체크 | `hard-filter` | 필수 스펙 질문 (단답형/다답형) |
-| 2 | 후보 분석 | `checkpoint` | 필터링된 제품 시각화 |
-| 3 | 취향 선택 | `balance-carousel` | 밸런스 게임 (A vs B 선택) |
-| 4 | 단점 필터 | `negative-filter` | 피하고 싶은 단점 선택 |
-| 5 | 예산 & 추천 | `budget-slider`, `result-cards` | 예산 설정 후 Top 3 추천 |
+| Step | 이름          | 컴포넌트                        | 설명                           |
+| ---- | ------------- | ------------------------------- | ------------------------------ |
+| 0    | 트렌드 브리핑 | `scan-animation`, `guide-cards` | 카테고리 트렌드 소개           |
+| 1    | 환경 체크     | `hard-filter`                   | 필수 스펙 질문 (단답형/다답형) |
+| 2    | 후보 분석     | `checkpoint`                    | 필터링된 제품 시각화           |
+| 3    | 취향 선택     | `balance-carousel`              | 밸런스 게임 (A vs B 선택)      |
+| 4    | 단점 필터     | `negative-filter`               | 피하고 싶은 단점 선택          |
+| 5    | 예산 & 추천   | `budget-slider`, `result-cards` | 예산 설정 후 Top 3 추천        |
 
 ### Directory Structure
 
@@ -93,21 +94,21 @@ export type FlowStep = 0 | 1 | 2 | 3 | 4 | 5;
 
 // 컴포넌트 타입
 export type ComponentType =
-  | 'scan-animation'    // 스캔 애니메이션
-  | 'guide-cards'       // 가이드 카드
-  | 'sub-category'      // 세부 카테고리 선택
-  | 'hard-filter'       // 하드 필터 질문
-  | 'checkpoint'        // 중간 점검 시각화
-  | 'balance-carousel'  // 밸런스 게임 캐러셀
-  | 'negative-filter'   // 단점 필터 체크박스
-  | 'budget-slider'     // 예산 슬라이더
-  | 'result-cards';     // 추천 결과
+  | "scan-animation" // 스캔 애니메이션
+  | "guide-cards" // 가이드 카드
+  | "sub-category" // 세부 카테고리 선택
+  | "hard-filter" // 하드 필터 질문
+  | "checkpoint" // 중간 점검 시각화
+  | "balance-carousel" // 밸런스 게임 캐러셀
+  | "negative-filter" // 단점 필터 체크박스
+  | "budget-slider" // 예산 슬라이더
+  | "result-cards"; // 추천 결과
 
 // 하드 필터 질문 타입
-export type HardFilterQuestionType = 'single' | 'multi' | 'review_priorities';
+export type HardFilterQuestionType = "single" | "multi" | "review_priorities";
 
 // 밸런스 게임 질문 타입
-export type BalanceQuestionType = 'tradeoff' | 'priority';
+export type BalanceQuestionType = "tradeoff" | "priority";
 ```
 
 ## Key API Endpoints
@@ -233,16 +234,19 @@ ENURI_API_KEY=your_enuri_key
 ### 일반적인 문제
 
 **제품이 안 뜨는 경우**:
+
 1. Supabase 연결 확인
 2. 카테고리 코드 매핑 확인 (`data/rules/hard_filters.json`)
 3. 필터 조건 로그 확인 (Console)
 
 **질문이 생성 안 되는 경우**:
+
 1. `data/rules/` JSON 파일 확인
 2. 룰 키 매핑 확인 (`logic_map.json`)
 3. API 응답 확인 (`/api/v2/rules/[categoryKey]`)
 
 **점수 계산 이상**:
+
 1. `lib/recommend-v2/dynamicQuestions.ts` 점수 계산 로직 확인
 2. 룰 키 가중치 확인
 3. Console 로그에서 점수 계산 과정 확인
@@ -263,7 +267,7 @@ ENURI_API_KEY=your_enuri_key
 
 ## 최근 주요 변경사항
 
-- **0.9.1**: "뭘 골라야 할지 모르겠어요" 기능 개선
+- **0.9.1**: "뭘 고를지 모르겠어요" 기능 개선
 - **0.9**: 카테고리-추천 플로우 로딩 속도 개선
 - 리뷰 띵킹 추가
 - 체감 속성/리뷰 부여 시스템 추가

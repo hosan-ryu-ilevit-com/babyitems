@@ -18,80 +18,146 @@
       "rank": 1,
       "mention_rate": 29,
       "text": "세척할 때 물이 빠지거나 물고임이 없어서 위생 관리가 편리해요",
-      "keywords": ["물고임없음", "위생", "세척편리", "일체형"],
-      "related_products": ["모윰 마카롱"]
+      "keywords": [
+        "물고임없음",
+        "위생",
+        "세척편리",
+        "일체형"
+      ],
+      "related_products": [
+        "모윰 마카롱"
+      ]
     },
     {
       "id": "pro_2",
       "rank": 2,
       "mention_rate": 26,
       "text": "부드러운 실리콘 재질로 아기가 편하게 물고 오래 빨 수 있어요",
-      "keywords": ["부드러움", "실리콘", "편안함"],
-      "related_products": ["더블하트", "아벤트", "모윰", "스와비넥스"]
+      "keywords": [
+        "부드러움",
+        "실리콘",
+        "편안함"
+      ],
+      "related_products": [
+        "더블하트",
+        "아벤트",
+        "모윰",
+        "스와비넥스"
+      ]
     },
     {
       "id": "pro_3",
       "rank": 3,
       "mention_rate": 24,
       "text": "모유 수유와 비슷한 자연스러운 흡입감으로 수유 거부가 적어요",
-      "keywords": ["모유실감", "자연스러운흡입", "수유거부없음"],
-      "related_products": ["더블하트 소프트버디"]
+      "keywords": [
+        "모유실감",
+        "자연스러운흡입",
+        "수유거부없음"
+      ],
+      "related_products": [
+        "더블하트 소프트버디"
+      ]
     },
     {
       "id": "pro_4",
       "rank": 4,
       "mention_rate": 21,
       "text": "국민 제품으로 불릴 정도로 대부분의 아기가 잘 물어요",
-      "keywords": ["국민템", "높은성공률", "거부없음"],
-      "related_products": ["아벤트 울트라"]
+      "keywords": [
+        "국민템",
+        "높은성공률",
+        "거부없음"
+      ],
+      "related_products": [
+        "아벤트 울트라"
+      ]
     },
     {
       "id": "pro_5",
       "rank": 5,
       "mention_rate": 18,
       "text": "전자레인지나 열탕 소독이 가능해서 위생 관리가 간편해요",
-      "keywords": ["전자레인지소독", "열탕소독", "위생관리"],
-      "related_products": ["아벤트", "모윰"]
+      "keywords": [
+        "전자레인지소독",
+        "열탕소독",
+        "위생관리"
+      ],
+      "related_products": [
+        "아벤트",
+        "모윰"
+      ]
     },
     {
       "id": "pro_6",
       "rank": 6,
       "mention_rate": 16,
       "text": "올 실리콘 소재로 미세플라스틱 방출 걱정이 없어요",
-      "keywords": ["올실리콘", "미세플라스틱없음", "안전"],
-      "related_products": ["모윰 마카롱"]
+      "keywords": [
+        "올실리콘",
+        "미세플라스틱없음",
+        "안전"
+      ],
+      "related_products": [
+        "모윰 마카롱"
+      ]
     },
     {
       "id": "pro_7",
       "rank": 7,
       "mention_rate": 13,
       "text": "가벼운 무게로 아기가 손에 쥐고 물기가 편해요",
-      "keywords": ["가벼움", "손으로잡기", "편리함"],
-      "related_products": ["더블하트"]
+      "keywords": [
+        "가벼움",
+        "손으로잡기",
+        "편리함"
+      ],
+      "related_products": [
+        "더블하트"
+      ]
     },
     {
       "id": "pro_8",
       "rank": 8,
       "mention_rate": 11,
       "text": "예쁜 디자인과 다양한 색상/캐릭터 선택지가 있어요",
-      "keywords": ["디자인", "색상다양", "캐릭터"],
-      "related_products": ["모윰 마카롱", "아벤트"]
+      "keywords": [
+        "디자인",
+        "색상다양",
+        "캐릭터"
+      ],
+      "related_products": [
+        "모윰 마카롱",
+        "아벤트"
+      ]
     },
     {
       "id": "pro_9",
       "rank": 9,
       "mention_rate": 8,
       "text": "통기구멍이 있어서 침독이 거의 발생하지 않아요",
-      "keywords": ["통기구멍", "침독예방", "피부보호"],
-      "related_products": ["아벤트 울트라에어"]
+      "keywords": [
+        "통기구멍",
+        "침독예방",
+        "피부보호"
+      ],
+      "related_products": [
+        "아벤트 울트라에어"
+      ]
     },
     {
       "id": "pro_10",
       "rank": 10,
       "mention_rate": 5,
       "text": "야광 기능이 있어서 밤에 쪽쪽이를 쉽게 찾을 수 있어요",
-      "keywords": ["야광", "밤중찾기", "편리함"],
-      "related_products": ["아벤트 나이트"]
+      "keywords": [
+        "야광",
+        "밤중찾기",
+        "편리함"
+      ],
+      "related_products": [
+        "아벤트 나이트"
+      ]
     }
   ],
   "cons": [
@@ -100,7 +166,11 @@
       "rank": 1,
       "mention_rate": 18,
       "text": "세척할 때 젖꼭지 내부에 물이 고여서 여러 번 헹궈야 해요",
-      "keywords": ["물고임", "세척번거로움", "헹굼필요"],
+      "keywords": [
+        "물고임",
+        "세척번거로움",
+        "헹굼필요"
+      ],
       "deal_breaker_for": "위생을 최우선으로 생각하는 부모"
     },
     {
@@ -108,7 +178,11 @@
       "rank": 2,
       "mention_rate": 15,
       "text": "세척 후 오래 사용하면 특유의 쉰내가 나요",
-      "keywords": ["쉰내", "냄새", "장기사용"],
+      "keywords": [
+        "쉰내",
+        "냄새",
+        "장기사용"
+      ],
       "deal_breaker_for": "민감한 아기"
     },
     {
@@ -116,7 +190,11 @@
       "rank": 3,
       "mention_rate": 15,
       "text": "침이 많이 나오면 침독이나 발진이 생길 수 있어요",
-      "keywords": ["침독", "발진", "피부문제"],
+      "keywords": [
+        "침독",
+        "발진",
+        "피부문제"
+      ],
       "deal_breaker_for": "피부가 예민한 아기"
     },
     {
@@ -124,7 +202,11 @@
       "rank": 4,
       "mention_rate": 12,
       "text": "젖꼭지 부분이 길거나 굵어서 입이 작은 아기는 안 물려요",
-      "keywords": ["크기문제", "신생아불가", "입작은아기"],
+      "keywords": [
+        "크기문제",
+        "신생아불가",
+        "입작은아기"
+      ],
       "deal_breaker_for": "신생아나 미숙아"
     },
     {
@@ -132,7 +214,11 @@
       "rank": 5,
       "mention_rate": 12,
       "text": "다소 무거운 편이라서 아기가 장시간 물고 있기 힘들어해요",
-      "keywords": ["무거움", "장시간사용", "피로"],
+      "keywords": [
+        "무거움",
+        "장시간사용",
+        "피로"
+      ],
       "deal_breaker_for": "신생아기 아기"
     },
     {
@@ -140,7 +226,11 @@
       "rank": 6,
       "mention_rate": 9,
       "text": "먼지가 쉽게 붙거나 끼어서 관리에 신경 써야 해요",
-      "keywords": ["먼지", "관리필요", "청결"],
+      "keywords": [
+        "먼지",
+        "관리필요",
+        "청결"
+      ],
       "deal_breaker_for": "관리에 시간을 투자하기 어려운 경우"
     },
     {
@@ -148,7 +238,11 @@
       "rank": 7,
       "mention_rate": 9,
       "text": "야광 버전의 경우 밤중 불빛이 아기 수면을 방해할 수 있어요",
-      "keywords": ["야광밝음", "수면방해", "빛"],
+      "keywords": [
+        "야광밝음",
+        "수면방해",
+        "빛"
+      ],
       "deal_breaker_for": "빛에 예민한 아기"
     },
     {
@@ -156,51 +250,15 @@
       "rank": 8,
       "mention_rate": 6,
       "text": "젖병의 높은 가격 때문에 추가 구매가 부담스러워요",
-      "keywords": ["고가", "비싼가격", "추가구매부담"],
+      "keywords": [
+        "고가",
+        "비싼가격",
+        "추가구매부담"
+      ],
       "deal_breaker_for": "예산이 제한된 부모"
     }
   ],
-  "tradeoffs": [
-    {
-      "id": "trade_1",
-      "title": "위생 vs 디자인",
-      "description": "소재와 외관 선택",
-      "option_a": {
-        "text": "물 고임/곰팡이 걱정 없는 올실리콘",
-        "keywords": ["올실리콘", "위생", "곰팡이방지"]
-      },
-      "option_b": {
-        "text": "우리 아기 인생샷 남겨줄 감성 디자인",
-        "keywords": ["디자인", "감성", "인생샷"]
-      }
-    },
-    {
-      "id": "trade_2",
-      "title": "실용성",
-      "description": "기능적 선택",
-      "option_a": {
-        "text": "밤에 떨어뜨려도 바로 찾는 야광",
-        "keywords": ["야광", "밤중찾기", "편리"]
-      },
-      "option_b": {
-        "text": "침독 오르지 않게 통기성 좋은 것",
-        "keywords": ["통기성", "침독방지", "피부보호"]
-      }
-    },
-    {
-      "id": "trade_3",
-      "title": "구성",
-      "description": "수량과 무게 선택",
-      "option_a": {
-        "text": "자주 잃어버리니 여러 개 세트로!",
-        "keywords": ["세트구성", "여러개", "가성비"]
-      },
-      "option_b": {
-        "text": "입에서 자꾸 빠지지 않는 초경량",
-        "keywords": ["초경량", "가벼움", "잘물림"]
-      }
-    }
-  ],
+  "tradeoffs": [],
   "question_context": {
     "typical_use_cases": [
       "빨기 욕구 충족",

@@ -1216,7 +1216,7 @@ export function logV2ReRecommendDifferentCategory(
 // 새로운 기능 로깅 함수들
 // ============================================
 
-// 1. AI 헬퍼 버튼 클릭 ("뭘 골라야 할지 모르겠어요")
+// 1. AI 헬퍼 버튼 클릭 ("뭘 고를지 모르겠어요")
 export function logAIHelperButtonClicked(
   questionType: 'hard_filter' | 'balance_game' | 'negative' | 'budget' | 'category_selection',
   questionId: string,

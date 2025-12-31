@@ -6,6 +6,7 @@ import type { HardFilterData, ProductItem, UserSelections } from '@/types/recomm
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
 import DirectInputField from './DirectInputField';
+import { StreamingText } from './AssistantMessage';
 
 // "전부 좋아요" 옵션 값 (이 값을 가진 옵션이 선택되면 다른 옵션 비활성화)
 const SKIP_VALUES = ['skip', 'any', '상관없어요', '전부 좋아요', 'none', 'all'];
@@ -168,7 +169,7 @@ function ReviewPriorityTags({
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
-          <span className="text-[16px] text-gray-400 font-semibold">
+          <span className="text-[14px] text-gray-400 font-semibold">
             조건 고르기
           </span>
           <span className="text-[14px] text-gray-300 font-medium">
@@ -227,7 +228,7 @@ function ReviewPriorityTags({
         {showAIHelper && !isLoadingPreselection && (
           <AIHelperButton
             onClick={() => setIsAIHelperOpen(true)}
-            label="뭘 골라야 할지 모르겠어요"
+            label="뭘 고를지 모르겠어요"
             questionType="hard_filter"
             questionId={question.id}
             questionText="어떤 조건이 가장 중요하신가요?"
@@ -565,7 +566,6 @@ export function HardFilterQuestion({
   // 부모에서 전달받은 값이 변경되면 동기화
   useEffect(() => {
     if (initialValues) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLocalSelectedValues(initialValues);
     }
   }, [initialValues]);
@@ -652,7 +652,7 @@ export function HardFilterQuestion({
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
-          <span className="text-[16px] text-gray-400 font-semibold">
+          <span className="text-[14px] text-gray-400 font-semibold">
             조건 고르기
           </span>
           <span className="text-[14px] text-gray-300 font-medium">
@@ -661,16 +661,20 @@ export function HardFilterQuestion({
         </div>
       </div>
 
-      {/* 질문 텍스트 */}
-      <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-        {question.question} 
+      {/* 질문 텍스트 - 스트리밍 효과 (서버에서 미리 생성된 질문 사용) */}
+      <h3 className="text-[16px] font-semibold text-gray-900 leading-snug break-keep">
+        <StreamingText
+          key={question.id}
+          content={question.question}
+          speed={20}
+        />
       </h3>
 
       {/* AI 도움받기 버튼 */}
       {showAIHelper && (
         <AIHelperButton
           onClick={() => setIsAIHelperOpen(true)}
-          label="뭘 골라야 할지 모르겠어요"
+          label="뭘 고를지 모르겠어요"
           questionType="hard_filter"
           questionId={question.id}
           questionText={question.question}

@@ -24,7 +24,7 @@ export function AIHelperButtonTest() {
   if (!variant) return null;
 
   const labels: Record<Variant, string> = {
-    A: '뭘 골라야 할지 모르겠어요',
+    A: '뭘 고를지 모르겠어요',
     B: 'AI에게 물어보기',
     C: '선택 도움받기'
   };

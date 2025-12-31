@@ -18,80 +18,138 @@
       "rank": 1,
       "mention_rate": 95,
       "text": "노시부 프로는 병원용 기계 수준의 압도적 흡입력으로 모든 종류의 콧물을 한 번에 제거해 가장 확실한 효과를 제공해요",
-      "keywords": ["강력흡입력", "병원수준", "확실한효과"],
-      "related_products": ["노시부 프로"]
+      "keywords": [
+        "강력흡입력",
+        "병원수준",
+        "확실한효과"
+      ],
+      "related_products": [
+        "노시부 프로"
+      ]
     },
     {
       "id": "pro_2",
       "rank": 2,
       "mention_rate": 90,
       "text": "다이얼로 흡입 세기를 세밀하게 조절해 신생아부터 성인까지 안전하게 사용할 수 있어요",
-      "keywords": ["세기조절", "신생아", "안전"],
-      "related_products": ["노시부 프로"]
+      "keywords": [
+        "세기조절",
+        "신생아",
+        "안전"
+      ],
+      "related_products": [
+        "노시부 프로"
+      ]
     },
     {
       "id": "pro_3",
       "rank": 3,
       "mention_rate": 85,
       "text": "코끼리 뻥코3 플러스는 부모의 폐력을 이용한 강한 흡입력으로 진한 콧물과 코딱지까지 효과적으로 제거해요",
-      "keywords": ["폐력흡입", "코딱지제거", "진한콧물"],
-      "related_products": ["코끼리 뻥코3 플러스"]
+      "keywords": [
+        "폐력흡입",
+        "코딱지제거",
+        "진한콧물"
+      ],
+      "related_products": [
+        "코끼리 뻥코3 플러스"
+      ]
     },
     {
       "id": "pro_4",
       "rank": 4,
       "mention_rate": 85,
       "text": "4,500~6,000원의 매우 저렴한 가격으로 부담 없이 구매할 수 있어요",
-      "keywords": ["저렴함", "가성비", "부담없음"],
-      "related_products": ["코끼리 뻥코3 플러스"]
+      "keywords": [
+        "저렴함",
+        "가성비",
+        "부담없음"
+      ],
+      "related_products": [
+        "코끼리 뻥코3 플러스"
+      ]
     },
     {
       "id": "pro_5",
       "rank": 5,
       "mention_rate": 82,
       "text": "소음이 적어 아기가 무서워하지 않으며 수면 중에도 사용 가능해요",
-      "keywords": ["저소음", "수면중사용", "거부감없음"],
-      "related_products": ["예꼬맘 노스클린업 NS-17"]
+      "keywords": [
+        "저소음",
+        "수면중사용",
+        "거부감없음"
+      ],
+      "related_products": [
+        "예꼬맘 노스클린업 NS-17"
+      ]
     },
     {
       "id": "pro_6",
       "rank": 6,
       "mention_rate": 78,
       "text": "강력한 효과로 아이의 호흡이 즉시 편해져서 결과적으로 아이가 만족해요",
-      "keywords": ["즉각효과", "호흡개선", "만족도"],
-      "related_products": ["노시부 프로"]
+      "keywords": [
+        "즉각효과",
+        "호흡개선",
+        "만족도"
+      ],
+      "related_products": [
+        "노시부 프로"
+      ]
     },
     {
       "id": "pro_7",
       "rank": 7,
       "mention_rate": 75,
       "text": "저렴한 가격대에 전동식의 편의성을 모두 갖춘 가성비 제품이에요",
-      "keywords": ["전동식", "편의성", "가성비"],
-      "related_products": ["예꼬맘 노스클린업 NS-17"]
+      "keywords": [
+        "전동식",
+        "편의성",
+        "가성비"
+      ],
+      "related_products": [
+        "예꼬맘 노스클린업 NS-17"
+      ]
     },
     {
       "id": "pro_8",
       "rank": 8,
       "mention_rate": 72,
       "text": "USB 충전식으로 배터리를 자주 구매할 필요가 없어요",
-      "keywords": ["USB충전", "배터리절약"],
-      "related_products": ["휴비딕 HNA-300"]
+      "keywords": [
+        "USB충전",
+        "배터리절약"
+      ],
+      "related_products": [
+        "휴비딕 HNA-300"
+      ]
     },
     {
       "id": "pro_9",
       "rank": 9,
       "mention_rate": 72,
       "text": "전동 제품이 아니므로 아이가 두려워하지 않는 낮은 소음이 특징이에요",
-      "keywords": ["무소음", "아이친화적"],
-      "related_products": ["코끼리 뻥코3 플러스"]
+      "keywords": [
+        "무소음",
+        "아이친화적"
+      ],
+      "related_products": [
+        "코끼리 뻥코3 플러스"
+      ]
     },
     {
       "id": "pro_10",
       "rank": 10,
       "mention_rate": 70,
       "text": "부드러운 고무재질로 신생아 코 점막 손상 위험이 낮아요",
-      "keywords": ["부드러운재질", "점막보호", "신생아안전"],
-      "related_products": ["코크린 COB-100"]
+      "keywords": [
+        "부드러운재질",
+        "점막보호",
+        "신생아안전"
+      ],
+      "related_products": [
+        "코크린 COB-100"
+      ]
     }
   ],
   "cons": [
@@ -100,7 +158,11 @@
       "rank": 1,
       "mention_rate": 92,
       "text": "노시부 프로는 250,000~300,000원의 매우 높은 가격으로 구매 결정에 큰 부담이 돼요",
-      "keywords": ["고가", "25만원", "부담"],
+      "keywords": [
+        "고가",
+        "25만원",
+        "부담"
+      ],
       "deal_breaker_for": "예산이 제한된 부모"
     },
     {
@@ -108,7 +170,11 @@
       "rank": 2,
       "mention_rate": 88,
       "text": "노시부 프로는 청소기 수준의 매우 큰 소음으로 민감한 아이가 매우 놀라거나 거부할 수 있어요",
-      "keywords": ["소음큼", "청소기수준", "아이거부"],
+      "keywords": [
+        "소음큼",
+        "청소기수준",
+        "아이거부"
+      ],
       "deal_breaker_for": "소리에 민감한 아이"
     },
     {
@@ -116,7 +182,11 @@
       "rank": 3,
       "mention_rate": 85,
       "text": "피지오머 베이비는 일회용 필터를 정기적으로 구매해야 해서 장기적으로 추가 비용이 계속 발생해요",
-      "keywords": ["필터비용", "추가비용", "소모품"],
+      "keywords": [
+        "필터비용",
+        "추가비용",
+        "소모품"
+      ],
       "deal_breaker_for": "추가 비용을 원하지 않는 경우"
     },
     {
@@ -124,7 +194,11 @@
       "rank": 4,
       "mention_rate": 82,
       "text": "노시부 프로의 거대한 본체로 인해 보관 공간과 이동이 매우 불편해요",
-      "keywords": ["부피큼", "보관불편", "이동어려움"],
+      "keywords": [
+        "부피큼",
+        "보관불편",
+        "이동어려움"
+      ],
       "deal_breaker_for": "공간이 협소한 경우"
     },
     {
@@ -132,7 +206,11 @@
       "rank": 5,
       "mention_rate": 78,
       "text": "부모가 입으로 빨아야 해서 감기 등 질병이 전염될 위험이 있어요",
-      "keywords": ["입빨기", "감염위험", "교차감염"],
+      "keywords": [
+        "입빨기",
+        "감염위험",
+        "교차감염"
+      ],
       "deal_breaker_for": "위생이 걱정되는 경우"
     },
     {
@@ -140,7 +218,11 @@
       "rank": 6,
       "mention_rate": 75,
       "text": "아기가 머리를 심하게 흔들면 노즐이 코 안에서 움직여 점막 손상 위험이 있어요",
-      "keywords": ["점막손상", "움직임위험", "안전문제"],
+      "keywords": [
+        "점막손상",
+        "움직임위험",
+        "안전문제"
+      ],
       "deal_breaker_for": "움직임이 많은 아이"
     },
     {
@@ -148,7 +230,11 @@
       "rank": 7,
       "mention_rate": 72,
       "text": "흡입력이 약한 제품은 끈적한 콧물이 제대로 흡입되지 않아요",
-      "keywords": ["흡입력약함", "끈적콧물", "효과없음"],
+      "keywords": [
+        "흡입력약함",
+        "끈적콧물",
+        "효과없음"
+      ],
       "deal_breaker_for": "심한 코막힘의 경우"
     },
     {
@@ -156,51 +242,15 @@
       "rank": 8,
       "mention_rate": 68,
       "text": "세척이 복잡하고 완전한 건조가 어려워 위생 관리가 번거로워요",
-      "keywords": ["세척복잡", "건조어려움", "위생관리"],
+      "keywords": [
+        "세척복잡",
+        "건조어려움",
+        "위생관리"
+      ],
       "deal_breaker_for": "간편한 관리를 원하는 경우"
     }
   ],
-  "tradeoffs": [
-    {
-      "id": "trade_1",
-      "title": "타입 선택",
-      "description": "흡입 방식 선택",
-      "option_a": {
-        "text": "전동식으로 버튼 하나로 편리하게",
-        "keywords": ["전동식", "편리함", "버튼조작"]
-      },
-      "option_b": {
-        "text": "수동식(입빨기)으로 힘 조절 자유롭게",
-        "keywords": ["수동식", "입빨기", "힘조절"]
-      }
-    },
-    {
-      "id": "trade_2",
-      "title": "흡입력 vs 소음",
-      "description": "성능과 편의 선택",
-      "option_a": {
-        "text": "노시부급 강력 흡입력 (소음 큼)",
-        "keywords": ["노시부", "강력흡입", "소음있음"]
-      },
-      "option_b": {
-        "text": "저소음으로 아이 거부감 최소화",
-        "keywords": ["저소음", "거부감없음", "순한흡입"]
-      }
-    },
-    {
-      "id": "trade_3",
-      "title": "가격 선택",
-      "description": "예산과 성능",
-      "option_a": {
-        "text": "5천원대 코끼리 뻥코로 가성비 극대화",
-        "keywords": ["코끼리뻥코", "5천원", "가성비"]
-      },
-      "option_b": {
-        "text": "25만원 노시부로 병원급 효과",
-        "keywords": ["노시부", "25만원", "프리미엄"]
-      }
-    }
-  ],
+  "tradeoffs": [],
   "question_context": {
     "typical_use_cases": [
       "감기 시 코막힘 해소",

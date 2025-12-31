@@ -10,7 +10,7 @@ import logicMapData from '@/data/rules/logic_map.json';
 import balanceGameData from '@/data/rules/balance_game.json';
 import negativeFilterData from '@/data/rules/negative_filter.json';
 import hardFiltersData from '@/data/rules/hard_filters.json';
-import { generateHardFiltersForCategory } from '@/lib/recommend-v2/danawaFilters';
+import { generateHardFiltersForCategory, enhanceHardFilterQuestionsWithLLM } from '@/lib/recommend-v2/danawaFilters';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
 import type {
   CategoryLogicMap,
@@ -167,6 +167,21 @@ export async function GET(
     const targetCategoryCodes = subCategoryCode ? [subCategoryCode] : undefined;
     const dynamicQuestions = await generateHardFiltersForCategory(categoryKey, targetCategoryCodes);
 
+    // LLM으로 질문 텍스트 자연스럽게 변환 (서버에서 미리 생성, 인사이트 포함)
+    const insightsForLLM = insights ? {
+      pros: insights.pros?.slice(0, 3).map(p => ({ text: p.text, mention_rate: p.mention_rate })),
+      cons: insights.cons?.slice(0, 3).map(c => ({ text: c.text, mention_rate: c.mention_rate, deal_breaker_for: c.deal_breaker_for })),
+      common_concerns: insights.question_context?.common_concerns,
+      decision_factors: insights.question_context?.decision_factors,
+    } : undefined;
+
+    const enhancedQuestions = await enhanceHardFilterQuestionsWithLLM(
+      dynamicQuestions.slice(0, 5),
+      categoryKey,
+      categoryLogic.category_name,
+      insightsForLLM
+    );
+
     // 응답 구성
     const response: CategoryRulesResponse = {
       category_key: categoryKey,
@@ -177,7 +192,7 @@ export async function GET(
       negative_filter: categoryNegative?.options || [],
       hard_filters: {
         guide: guideData,
-        questions: dynamicQuestions.slice(0, 5), // 최대 5개 질문
+        questions: enhancedQuestions,
       },
     };
 

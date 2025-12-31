@@ -552,7 +552,7 @@ export function AIHelperBottomSheet({
                         <circle cx="12" cy="12" r="10" strokeOpacity="0.2" />
                         <path d="M12 2a10 10 0 0 1 10 10" />
                       </svg>
-                      <span className="text-[#6366F1] font-bold text-sm">추천 옵션을 분석하고 있어요</span>
+                      <span className="text-[#6366F1] font-bold text-sm">분석 중...</span>
                     </div>
                     <div className="h-4 bg-gray-200 rounded-full w-3/4 animate-pulse" />
                     <div className="h-4 bg-gray-200 rounded-full w-full animate-pulse" />

@@ -13,6 +13,7 @@ import { CATEGORY_CODE_MAP } from './categoryUtils';
 import { normalizeFilterValue, normalizeAndDeduplicateValues } from './labelNormalizer';
 import { createClient } from '@supabase/supabase-js';
 import { getDataSource, ENURI_CATEGORY_CODES } from '@/lib/dataSourceConfig';
+import { getModel, parseJSONResponse, isGeminiAvailable, callGeminiWithRetry } from '@/lib/ai/gemini';
 
 // Supabase 클라이언트 (하드필터 생성용)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -833,3 +834,148 @@ export async function generateHardFiltersForCategory(
 }
 
 // requiresSubCategorySelection은 categoryUtils.ts로 이동됨
+
+/**
+ * LLM을 사용하여 하드필터 질문 텍스트를 동적으로 생성
+ * - 선택지 레이블들과 카테고리 지식을 바탕으로 자연스러운 질문 생성
+ * - 카테고리 인사이트 (장점, 단점, 트레이드오프) 반영
+ * - 한 문장으로 간결하게, 세심하고 꼼꼼한 느낌
+ */
+export async function enhanceHardFilterQuestionsWithLLM(
+  questions: HardFilterQuestion[],
+  categoryKey: string,
+  categoryName: string,
+  insights?: {
+    pros?: Array<{ text: string; mention_rate: number }>;
+    cons?: Array<{ text: string; mention_rate: number; deal_breaker_for?: string }>;
+    common_concerns?: string[];
+    decision_factors?: string[];
+  }
+): Promise<HardFilterQuestion[]> {
+  // Gemini가 사용 불가능하면 원본 반환
+  if (!isGeminiAvailable()) {
+    console.log('[enhanceHardFilterQuestions] Gemini not available, returning original questions');
+    return questions;
+  }
+
+  // review_priorities 타입은 제외 (이미 고정 텍스트 사용)
+  const questionsToEnhance = questions.filter(q => q.type !== 'review_priorities');
+  const reviewPriorityQuestions = questions.filter(q => q.type === 'review_priorities');
+
+  if (questionsToEnhance.length === 0) {
+    return questions;
+  }
+
+  try {
+    const model = getModel(0.3); // 낮은 temperature로 일관성 유지
+
+    // 질문 정보를 프롬프트에 포함 (선택 비율 포함)
+    const questionsInfo = questionsToEnhance.map((q, i) => {
+      const optionLabels = q.options
+        .filter(opt => opt.value !== 'any' && !opt.label.includes('전부 좋아요'))
+        .map(opt => {
+          // mentionCount가 있으면 비율 정보 추가
+          if (opt.mentionCount) {
+            return `${opt.label} (${opt.mentionCount}% 선택)`;
+          }
+          return opt.label;
+        })
+        .join(', ');
+      return `${i + 1}. 필터명: "${q.question.replace('을(를) 선택해주세요', '').replace('원하는 ', '').replace('이 있나요?', '')}"
+   선택지: [${optionLabels}]`;
+    }).join('\n');
+
+    // 카테고리 인사이트 컨텍스트 구성
+    let insightsContext = '';
+    if (insights) {
+      const parts: string[] = [];
+      if (insights.pros && insights.pros.length > 0) {
+        const topPros = insights.pros.slice(0, 3).map(p => `${p.text} (${p.mention_rate}% 언급)`).join(', ');
+        parts.push(`주요 장점: ${topPros}`);
+      }
+      if (insights.cons && insights.cons.length > 0) {
+        const topCons = insights.cons.slice(0, 3).map(c => `${c.text} (${c.mention_rate}% 언급)`).join(', ');
+        parts.push(`주요 단점: ${topCons}`);
+      }
+      if (insights.common_concerns && insights.common_concerns.length > 0) {
+        parts.push(`부모들의 주요 고민: ${insights.common_concerns.slice(0, 3).join(', ')}`);
+      }
+      if (insights.decision_factors && insights.decision_factors.length > 0) {
+        parts.push(`결정 요소: ${insights.decision_factors.slice(0, 3).join(', ')}`);
+      }
+      if (parts.length > 0) {
+        insightsContext = `\n📊 카테고리 인사이트:\n${parts.join('\n')}\n`;
+      }
+    }
+
+    const prompt = `당신은 ${categoryName} 구매를 도와주는 친절한 상담사입니다.
+${insightsContext}
+아래 필터 질문들을 초보 부모도 쉽게 이해할 수 있는 자연스러운 한국어 질문으로 변환해주세요.
+
+📋 변환할 질문들:
+${questionsInfo}
+
+🎯 변환 규칙:
+1. 보통 **1문장** (15~30자), 필요시 최대 **2문장** (40자 이내)
+2. **세심하고 꼼꼼한 느낌** - 부모의 상황을 이해하는 뉘앙스
+3. **일상적인 말투** - "~하시나요?", "~있으세요?", "~좋으세요?" 형태
+4. 전문용어는 풀어서 설명하거나 괄호로 보충
+5. ⚠️ **객관식 선택 유도** - 사용자가 선택지 중에서 고르도록 하는 질문
+6. ⚠️ **중립적** - 특정 옵션을 추천하거나 유도하지 않음
+
+❌ 나쁜 예:
+- "재질을(를) 선택해주세요" (딱딱함)
+- "액상이나 고체 타입도 괜찮으신가요?" (특정 옵션 유도, 주관식 느낌)
+- "PPSU가 좋으신가요?" (특정 옵션 추천)
+
+✅ 좋은 예:
+- "젖병 재질은 어떤 게 좋으세요?" (중립적, 선택 유도)
+- "선호하시는 분유 타입이 있으세요?" (중립적)
+- "용량은 어느 정도가 필요하세요?" (중립적)
+
+📤 응답 형식 (JSON만 출력):
+{
+  "questions": [
+    {"index": 1, "question": "변환된 질문 텍스트"},
+    {"index": 2, "question": "변환된 질문 텍스트"}
+  ]
+}
+
+JSON만 응답하세요. 마크다운 코드블록 없이 순수 JSON만.`;
+
+    const result = await callGeminiWithRetry(async () => {
+      const response = await model.generateContent(prompt);
+      return response.response.text();
+    }, 2, 500);
+
+    const parsed = parseJSONResponse<{ questions: Array<{ index: number; question: string }> }>(result);
+
+    if (!parsed.questions || parsed.questions.length === 0) {
+      console.log('[enhanceHardFilterQuestions] LLM returned empty, using original');
+      return questions;
+    }
+
+    // 원본 질문에 LLM 생성 텍스트 적용
+    const enhancedMap = new Map<number, string>();
+    for (const item of parsed.questions) {
+      enhancedMap.set(item.index, item.question);
+    }
+
+    const enhancedQuestions = questionsToEnhance.map((q, i) => {
+      const enhancedText = enhancedMap.get(i + 1);
+      if (enhancedText) {
+        return { ...q, question: enhancedText };
+      }
+      return q;
+    });
+
+    console.log(`[enhanceHardFilterQuestions] Enhanced ${enhancedQuestions.length} questions for ${categoryKey}`);
+
+    // review_priorities + enhanced questions 순서 유지
+    return [...reviewPriorityQuestions, ...enhancedQuestions];
+
+  } catch (error) {
+    console.error('[enhanceHardFilterQuestions] LLM failed:', error);
+    return questions;
+  }
+}

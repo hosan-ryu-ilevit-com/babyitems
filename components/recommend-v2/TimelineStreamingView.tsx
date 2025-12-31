@@ -192,7 +192,7 @@ function StepContent({
         <StreamedText
           text={step.title}
           className=""
-          speed={15}
+          speed={20}
           onComplete={() => setTitleComplete(true)}
           shouldStream={isStreaming}
         />
@@ -204,7 +204,7 @@ function StepContent({
             key={`${step.id}-d-${dIdx}`}
             text={detail}
             className="text-[14px] font-medium text-gray-400 leading-relaxed block"
-            speed={12}
+            speed={20}
             // title 완료 후, 이전 detail들이 완료되면 시작
             shouldStream={isStreaming && titleComplete && dIdx <= detailsCompleteCount}
             onComplete={() => setDetailsCompleteCount(prev => prev + 1)}

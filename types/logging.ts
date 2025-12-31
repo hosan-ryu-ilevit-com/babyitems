@@ -55,7 +55,7 @@ export type LogEventType =
   | 'v2_re_recommend_same_category' // 같은 카테고리 다시 추천받기
   | 'v2_re_recommend_different_category' // 다른 카테고리 추천받기
   // 새로운 기능 로깅 이벤트
-  | 'ai_helper_clicked' // "뭘 골라야 할지 모르겠어요" 버튼 클릭
+  | 'ai_helper_clicked' // "뭘 고를지 모르겠어요" 버튼 클릭
   | 'example_question_clicked' // AI 헬퍼 바텀시트 예시 질문 클릭
   | 'example_question_applied' // 예시 질문 선택 후 적용
   | 'review_tab_opened' // 제품 리뷰 탭 열기

@@ -1499,10 +1499,10 @@ export default function RecommendV2Page() {
             onTypingComplete: () => {
               setIsSummaryTypingComplete(true);
             }
-          }, true, 7);
+          }, true, 20);
         }, 600);
       }
-    }, true, 7);
+    }, true, 20);
     scrollToMessage(summaryMsgId); // 첫 문단만 스크롤
   }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInputs, hardFilterDirectInputRegistered]);
 
@@ -1612,7 +1612,6 @@ export default function RecommendV2Page() {
 
     // 선택된 rule keys 저장
     setBalanceSelections(selections);
-    setCurrentStep(4);
 
     // 밸런스 선택값을 기반으로 단점 필터 재생성
     // (선택한 옵션과 충돌하는 단점 제외)
@@ -1694,28 +1693,28 @@ export default function RecommendV2Page() {
       role: 'assistant',
       content: '입력하신 내용을 확인했습니다.\n마지막으로 피할 단점과 예산을 여쭤본 후, 최적의 결과를 제공해드릴게요.',
       stepTag: '4/5',
+      onTypingComplete: () => {
+        setCurrentStep(4);
+        if (updatedNegativeOptions.length > 0) {
+          // 컴포넌트는 스크롤 없이 그 아래에 렌더링
+          addMessage({
+            role: 'system',
+            content: '',
+            componentType: 'negative-filter',
+            componentData: {
+              options: updatedNegativeOptions,
+              selectedKeys: negativeSelections,
+            } as NegativeFilterData,
+          });
+          setIsTransitioning(false);
+        } else {
+          // No negative options, skip to step 5
+          handleNegativeComplete();
+          setIsTransitioning(false);
+        }
+      }
     }, true);
     scrollToMessage(stepMsgId);
-
-    if (updatedNegativeOptions.length > 0) {
-      setTimeout(() => {
-        // 컴포넌트는 스크롤 없이 그 아래에 렌더링
-        addMessage({
-          role: 'system',
-          content: '',
-          componentType: 'negative-filter',
-          componentData: {
-            options: updatedNegativeOptions,
-            selectedKeys: negativeSelections,
-          } as NegativeFilterData,
-        });
-        setIsTransitioning(false);
-      }, 300);
-    } else {
-      // No negative options, skip to step 5
-      handleNegativeComplete();
-      setIsTransitioning(false);
-    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTransitioning, dynamicNegativeOptions, dynamicBalanceQuestions, negativeSelections, negativeOptions.length, categoryKey, hardFilterAnswers, filteredProducts, addMessage, scrollToMessage]);
 
@@ -3890,7 +3889,7 @@ export default function RecommendV2Page() {
                             <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="currentColor" />
                           </motion.svg>
                         </div>
-                        <span>{categoryName} 처음부터 다시 추천받기</span>
+                        <span>{categoryName} 다시 추천받기</span>
                       </motion.div>
                     </motion.button>
                   </motion.div>
@@ -3960,7 +3959,7 @@ export default function RecommendV2Page() {
                       </linearGradient>
                     </defs>
                   </motion.svg>
-                  다시 추천
+                  다시 추천받기
                 </motion.button>
               </div>
             )}

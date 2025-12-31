@@ -89,7 +89,7 @@ export function NegativeFilterList({
 
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[16px] text-gray-400 font-semibold">
+        <span className="text-[14px] text-gray-400 font-semibold">
           피할 단점
         </span>
       </div>
@@ -107,7 +107,7 @@ export function NegativeFilterList({
             setIsAIHelperAutoSubmit(false);
             setIsAIHelperOpen(true);
           }}
-          label="뭘 골라야 할지 모르겠어요"
+          label="뭘 고를지 모르겠어요"
           questionType="negative"
           questionId="negative_filter"
           questionText="꼭 피할 단점을 선택하세요 (건너뛰기 가능)"

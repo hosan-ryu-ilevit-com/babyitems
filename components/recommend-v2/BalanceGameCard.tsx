@@ -87,7 +87,7 @@ export function BalanceGameCard({
 
       {/* 질문 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[16px] text-gray-400 font-semibold">
+        <span className="text-[14px] text-gray-400 font-semibold">
           밸런스 게임
         </span>
       </div>
@@ -105,7 +105,7 @@ export function BalanceGameCard({
             setIsAIHelperAutoSubmit(false);
             setIsAIHelperOpen(true);
           }}
-          label="뭘 골라야 할지 모르겠어요"
+          label="뭘 고를지 모르겠어요"
           questionType="balance_game"
           questionId={question.id}
           questionText={question.title}

@@ -361,7 +361,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
         {/* 헤더 - 디자인 변경 */}
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
-            <span className="text-[16px] text-gray-400 font-semibold">
+            <span className="text-[14px] text-gray-400 font-semibold">
               밸런스 게임
             </span>
             <span className="text-[14px] text-gray-300 font-medium">
@@ -435,7 +435,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       setIsAIHelperAutoSubmit(false);
                       setIsAIHelperOpen(true);
                     }}
-                    label="뭘 골라야 할지 모르겠어요"
+                    label="뭘 고를지 모르겠어요"
                     questionType="balance_game"
                     questionId={currentQuestion.id}
                     questionText={currentQuestion.title}

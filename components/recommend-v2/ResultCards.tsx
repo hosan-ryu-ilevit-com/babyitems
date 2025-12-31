@@ -287,7 +287,7 @@ interface ResultCardsProps {
  * - 백그라운드 LLM 분석 (PDP 모달 + 비교표)
  */
 // 스트리밍 텍스트 컴포넌트 (글자가 하나씩 나타남)
-function StreamingText({ content, speed = 15, onComplete }: { content: string; speed?: number; onComplete?: () => void }) {
+function StreamingText({ content, speed = 20, onComplete }: { content: string; speed?: number; onComplete?: () => void }) {
   const [displayedContent, setDisplayedContent] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
 

@@ -81,7 +81,7 @@ export function SubCategorySelector({
 
       {/* 헤더 - 디자인 변경 */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[16px] text-gray-400 font-semibold">
+        <span className="text-[14px] text-gray-400 font-semibold">
           조건 고르기
         </span>
       </div>
@@ -99,7 +99,7 @@ export function SubCategorySelector({
             setAiHelperAutoSubmitContext(false);
             setIsAIHelperOpen(true);
           }}
-          label="뭘 골라야 할지 모르겠어요"
+          label="뭘 고를지 모르겠어요"
           questionType="hard_filter"
           questionId="subcategory_selector"
           questionText={`어떤 ${categoryName}를 찾으세요?`}

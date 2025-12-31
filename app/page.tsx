@@ -67,7 +67,6 @@ export default function Home() {
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col relative">
         {/* 헤더 */}
         <header className="h-[54px] flex items-center justify-between px-5 sticky top-0 z-50 bg-[#FBFBFD]">
-          {/* 뒤로가기 버튼 - 임시 숨김 처리
           <button
             onClick={() => window.location.href = 'https://alwayz-pmf.ilevit.com/integration'}
             className="p-2 -ml-2"
@@ -80,8 +79,6 @@ export default function Home() {
               priority
             />
           </button>
-          */}
-          <div className="w-10" /> {/* Spacer for hidden back button */}
           <div className="flex items-center">
             <Image
               src="/icons/logo.svg"
@@ -95,7 +92,7 @@ export default function Home() {
         </header>
 
         {/* 메인 컨텐츠 */}
-        <main className="flex-1 flex flex-col items-center px-6 pt-[35px] pb-48">
+        <main className="flex-1 flex flex-col items-center px-4 pt-[20px] pb-48">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -123,17 +120,19 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex items-center justify-center w-full max-w-[326px] relative"
-            style={{ marginTop: '45px' }}
+            className="flex items-center justify-center w-full max-w-[380px] relative"
+            style={{ marginTop: '10px' }}
           >
-            <div className="relative w-[326px] h-[330px]">
+            <div className="relative w-full aspect-[326/330]">
               <Image
-                src="/images/img-baby.png"
+                src="/images/img-baby2.jpeg"
                 alt="Baby Product"
                 fill
                 className="object-contain"
                 priority
               />
+              {/* 하단 그라데이션 오버레이 */}
+              <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none" />
             </div>
           </motion.div>
         </main>

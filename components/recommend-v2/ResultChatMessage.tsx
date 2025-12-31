@@ -19,7 +19,7 @@ interface ResultChatMessageProps {
  */
 function StreamingText({
   content,
-  speed = 15,
+  speed = 20,
   onComplete,
 }: {
   content: string;
@@ -120,7 +120,7 @@ function formatMarkdown(text: string): React.ReactNode {
 export function ResultChatMessage({
   message,
   typing = false,
-  speed = 15,
+  speed = 20,
   onTypingComplete,
   onReRecommendConfirm,
   onReRecommendCancel,
