@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type {
   ResultChatApiRequest,
   ResultChatApiResponse,
@@ -24,6 +25,7 @@ interface ResultChatContainerProps {
   onLoadingChange?: (loading: boolean) => void;
   // 채팅 히스토리 (API 요청에 사용)
   chatHistory?: Array<{ role: 'user' | 'assistant'; content: string }>;
+  hideHelpBubble?: boolean;
 }
 
 /**
@@ -40,12 +42,22 @@ export function ResultChatContainer({
   onAssistantMessage,
   onLoadingChange,
   chatHistory = [],
+  hideHelpBubble = false,
 }: ResultChatContainerProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [showHelpBubble, setShowHelpBubble] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // 상호작용 시 말풍선 숨김
+  const handleInteraction = () => {
+    if (showHelpBubble) {
+      setShowHelpBubble(false);
+    }
+  };
 
   // 메시지 전송
   const handleSend = async (content: string) => {
+    handleInteraction();
     if (!content.trim() || isLoading) return;
 
     // 1. 사용자 메시지 추가 (부모에게 전달)
@@ -113,7 +125,42 @@ export function ResultChatContainer({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {/* 플로팅 말풍선 (무엇이든 물어보세요) */}
+      <AnimatePresence>
+        {showHelpBubble && !hideHelpBubble && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ 
+              opacity: 1, 
+              y: [0, -6, 0] 
+            }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{
+              y: {
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              },
+              opacity: { duration: 0.3 }
+            }}
+            className="absolute left-0 bottom-full mb-2.5 z-20"
+          >
+            <div className="relative">
+              <div className="relative z-10 px-3 py-1.5 bg-violet-50 rounded-2xl text-[13px] font-semibold text-violet-600 flex items-center gap-1.5 border border-violet-200">
+                <span className="text-[15px] leading-none">💬</span>
+                <span>무엇이든 물어보세요</span>
+                
+                {/* Tail - moved inside for cleaner overlap */}
+                <div className="absolute left-6 bottom-[-6.5px] w-3 h-3 bg-violet-50 border-r border-b border-violet-200 transform rotate-45 -z-10"></div>
+                {/* Border Cover - hides the main bubble's border at the tail connection */}
+                <div className="absolute left-[22px] bottom-[-1px] w-4 h-[2px] bg-violet-50 z-20"></div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* 채팅 입력창 */}
       <div className="relative overflow-hidden rounded-[20px] border border-gray-200">
         {/* Radial Gradient Background (Ellipse 464) */}
@@ -135,7 +182,10 @@ export function ResultChatContainer({
           type="text"
           placeholder="추천 결과에 대해 궁금한게 있으신가요?"
           className="relative z-10 w-full h-12 pl-4 pr-12 rounded-[20px] bg-white/70 backdrop-blur-md text-base text-gray-800 placeholder:text-gray-400 placeholder:font-medium focus:outline-none transition-all"
+          onFocus={handleInteraction}
+          onClick={handleInteraction}
           onKeyDown={(e) => {
+            handleInteraction();
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
               const input = e.currentTarget;
@@ -149,6 +199,7 @@ export function ResultChatContainer({
         />
         <button
           onClick={() => {
+            handleInteraction();
             const input = inputRef.current;
             if (input?.value.trim()) {
               handleSend(input.value.trim());

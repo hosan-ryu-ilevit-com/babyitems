@@ -187,10 +187,6 @@ export default function RecommendV2Page() {
   const [currentHardFilterIndex, setCurrentHardFilterIndex] = useState(0);
   // 인기 하드필터 옵션 (통계 기반)
   const [popularHardFilterOptions, setPopularHardFilterOptions] = useState<Array<{ questionId: string; value: string; label: string; percentage: number; isPopular: boolean }>>([]);
-  // 동적 생성 팁 (LLM 기반)
-  const [dynamicTips, setDynamicTips] = useState<Record<string, string>>({});
-  // 하위 카테고리 선택용 동적 팁
-  const [subCategoryTip, setSubCategoryTip] = useState<string>('');
   const [balanceSelections, setBalanceSelections] = useState<Set<string>>(new Set());
   const [currentBalanceIndex, setCurrentBalanceIndex] = useState(0);
   const [negativeSelections, setNegativeSelections] = useState<string[]>([]);
@@ -556,6 +552,26 @@ export default function RecommendV2Page() {
         setBalanceQuestions(balance_game);
         setNegativeOptions(negative_filter);
 
+        // 초기 레이블 매핑 생성
+        const initialBalanceLabels: Record<string, string> = {};
+        (balance_game || []).forEach((q: BalanceQuestion) => {
+          if (q.option_A?.target_rule_key && q.option_A?.text) {
+            initialBalanceLabels[q.option_A.target_rule_key] = q.option_A.text;
+          }
+          if (q.option_B?.target_rule_key && q.option_B?.text) {
+            initialBalanceLabels[q.option_B.target_rule_key] = q.option_B.text;
+          }
+        });
+        setBalanceLabels(initialBalanceLabels);
+
+        const initialNegativeLabels: Record<string, string> = {};
+        (negative_filter || []).forEach((opt: NegativeFilterOption) => {
+          if (opt.target_rule_key && opt.label) {
+            initialNegativeLabels[opt.target_rule_key] = opt.label;
+          }
+        });
+        setNegativeLabels(initialNegativeLabels);
+
         // DEBUG: Log loaded data
         console.log('🚀 DEBUG Data Loaded:');
         console.log('  - category_name:', category_name);
@@ -747,89 +763,6 @@ export default function RecommendV2Page() {
     loadPopularOptions();
   }, [categoryKey]);
 
-  // 동적 팁 로딩 (LLM 기반) - 질문이 로드된 후 한 번만 실행
-  useEffect(() => {
-    if (!categoryKey || !hardFilterConfig?.questions?.length) return;
-    // 이미 해당 카테고리의 팁을 로딩 중이거나 완료된 경우 스킵
-    if (tipsLoadingRef.current === categoryKey) return;
-    tipsLoadingRef.current = categoryKey;
-
-    const loadDynamicTips = async () => {
-      const questions = hardFilterConfig.questions!;
-
-      // 각 질문에 대해 병렬로 tip 생성 요청
-      const tipPromises = questions.map(async (q) => {
-        try {
-          const res = await fetch('/api/v2/generate-tip', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              categoryKey,
-              questionId: q.id,
-              questionText: q.question,
-              options: q.options.map(o => ({ value: o.value, label: o.label })),
-            }),
-          });
-
-          if (res.ok) {
-            const data = await res.json();
-            return { questionId: q.id, tip: data.tip };
-          }
-        } catch (error) {
-          console.warn(`Failed to load dynamic tip for ${q.id}:`, error);
-        }
-        return null;
-      });
-
-      const results = await Promise.all(tipPromises);
-      const tips: Record<string, string> = {};
-      results.forEach(r => {
-        if (r?.tip) tips[r.questionId] = r.tip;
-      });
-
-      setDynamicTips(tips);
-    };
-
-    loadDynamicTips();
-  }, [categoryKey, hardFilterConfig?.questions]);
-
-  // 하위 카테고리 선택용 동적 팁 로딩
-  useEffect(() => {
-    if (!categoryKey || !requiresSubCategory || !subCategoryConfig) return;
-    // 이미 해당 카테고리의 서브카테고리 팁을 로딩 완료한 경우 스킵
-    if (subCategoryTipLoadedRef.current === categoryKey) return;
-    subCategoryTipLoadedRef.current = categoryKey;
-
-    const loadSubCategoryTip = async () => {
-      try {
-        const res = await fetch('/api/v2/generate-tip', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            categoryKey,
-            questionId: 'sub_category',
-            questionText: `어떤 ${subCategoryConfig.category_name}를 찾으세요?`,
-            options: subCategoryConfig.sub_categories.map(sc => ({
-              value: sc.code,
-              label: sc.name,
-            })),
-          }),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.tip) {
-            setSubCategoryTip(data.tip);
-          }
-        }
-      } catch (error) {
-        console.warn('Failed to load sub-category tip:', error);
-      }
-    };
-
-    loadSubCategoryTip();
-  }, [categoryKey, requiresSubCategory, subCategoryConfig]);
-
   // Keep productsRef in sync with products state (to avoid closure issues)
   useEffect(() => {
     productsRef.current = products;
@@ -955,9 +888,6 @@ export default function RecommendV2Page() {
   // Auto-trigger guide cards when data is ready (스캔 애니메이션 스킵)
   // ===================================================
   const hasTriggeredGuideRef = useRef(false);
-  // 팁 로딩 중복 방지 ref (categoryKey별로 추적)
-  const tipsLoadingRef = useRef<string | null>(null);
-  const subCategoryTipLoadedRef = useRef<string | null>(null);
   useEffect(() => {
     // 이미 트리거됐거나, 로딩 중이거나, 설정이 없으면 스킵
     if (hasTriggeredGuideRef.current || isLoading || !hardFilterConfig) return;
@@ -1413,7 +1343,7 @@ export default function RecommendV2Page() {
     console.log('  - filteredProducts count:', filtered.length);
 
     try {
-      // 후보군 상품 정보를 포함하여 API 호출
+      // 후보군 상품 정보를 포함하여 API 호출 (밸런스 게임 질문만 생성)
       const generateResponse = await fetch('/api/v2/generate-questions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1421,6 +1351,7 @@ export default function RecommendV2Page() {
           categoryKey,
           hardFilterAnswers: answers,
           filteredProducts: filtered.slice(0, 50), // 상위 50개만 전달 (payload 크기 제한)
+          generate: 'balance_only', // 밸런스 게임 질문만 생성 (단점 필터는 밸런스 선택 후 생성)
         }),
       });
       const generateJson = await generateResponse.json();
@@ -1442,7 +1373,7 @@ export default function RecommendV2Page() {
             balanceMap[q.option_B.target_rule_key] = q.option_B.text;
           }
         });
-        setBalanceLabels(balanceMap);
+        setBalanceLabels(prev => ({ ...prev, ...balanceMap }));
 
         const negativeMap: Record<string, string> = {};
         (negative_filter_options || []).forEach((opt: NegativeFilterOption) => {
@@ -1450,7 +1381,7 @@ export default function RecommendV2Page() {
             negativeMap[opt.target_rule_key] = opt.label;
           }
         });
-        setNegativeLabels(negativeMap);
+        setNegativeLabels(prev => ({ ...prev, ...negativeMap }));
       } else {
         console.warn('  - Dynamic question generation failed, using fallback');
         // Fallback: 기존 정적 방식
@@ -1470,7 +1401,7 @@ export default function RecommendV2Page() {
             balanceMap[q.option_B.target_rule_key] = q.option_B.text;
           }
         });
-        setBalanceLabels(balanceMap);
+        setBalanceLabels(prev => ({ ...prev, ...balanceMap }));
 
         const negativeMap: Record<string, string> = {};
         fallbackNegativeOptions.forEach((opt: NegativeFilterOption) => {
@@ -1478,7 +1409,7 @@ export default function RecommendV2Page() {
             negativeMap[opt.target_rule_key] = opt.label;
           }
         });
-        setNegativeLabels(negativeMap);
+        setNegativeLabels(prev => ({ ...prev, ...negativeMap }));
       }
     } catch (error) {
       console.error('Dynamic question generation error:', error);
@@ -1499,7 +1430,7 @@ export default function RecommendV2Page() {
           balanceMap[q.option_B.target_rule_key] = q.option_B.text;
         }
       });
-      setBalanceLabels(balanceMap);
+      setBalanceLabels(prev => ({ ...prev, ...balanceMap }));
 
       const negativeMap: Record<string, string> = {};
       fallbackNegativeOptions.forEach((opt: NegativeFilterOption) => {
@@ -1507,7 +1438,7 @@ export default function RecommendV2Page() {
           negativeMap[opt.target_rule_key] = opt.label;
         }
       });
-      setNegativeLabels(negativeMap);
+      setNegativeLabels(prev => ({ ...prev, ...negativeMap }));
     }
 
     // Generate AI summary message based on hard filter selections
@@ -1729,6 +1660,7 @@ export default function RecommendV2Page() {
             hardFilterAnswers,
             filteredProducts: filteredProducts.slice(0, 50),
             balanceSelections: balanceSelectionsForAPI,
+            generate: 'negative_only', // 단점 필터만 생성 (밸런스 선택 결과 반영)
           }),
         });
         const generateJson = await generateResponse.json();
@@ -1744,7 +1676,7 @@ export default function RecommendV2Page() {
               negativeMap[opt.target_rule_key] = opt.label;
             }
           });
-          setNegativeLabels(negativeMap);
+          setNegativeLabels(prev => ({ ...prev, ...negativeMap }));
 
           console.log('  - Regenerated negative filters:', updatedNegativeOptions.length);
         }
@@ -2291,6 +2223,9 @@ export default function RecommendV2Page() {
                 hardFilterAnswers,
                 balanceSelections: Array.from(balanceSelections),
                 negativeSelections,
+                balanceLabels,
+                negativeLabels,
+                hardFilterLabels,
                 initialContext: userContext,  // 사용자가 처음 입력한 자연어 상황
                 ageContext: ageContext || undefined,  // 연령대 컨텍스트 (메인 페이지에서 태그 선택 후 진입)
                 // 🚀 전처리된 사용자 요구사항 (LLM Top3 선정 시 최우선 반영)
@@ -2830,7 +2765,6 @@ export default function RecommendV2Page() {
                 subCategories={subCatData.subCategories}
                 selectedCodes={selectedSubCategoryCodes}
                 onToggle={handleSubCategoryToggle}
-                dynamicTip={subCategoryTip}
                 showAIHelper={true}
                 category={categoryKey}
                 userSelections={allUserSelections}
@@ -2857,7 +2791,6 @@ export default function RecommendV2Page() {
                 products={products}
                 showProductCounts={true}
                 popularOptions={popularHardFilterOptions}
-                dynamicTip={dynamicTips[hfData.question.id]}
                 showAIHelper={true}
                 category={categoryKey}
                 categoryName={categoryName}
@@ -2991,22 +2924,23 @@ export default function RecommendV2Page() {
         case 'budget-slider':
           const categoryBudgetRange = CATEGORY_BUDGET_RANGES[categoryKey] || { min: 10000, max: 500000, step: 10000 };
 
-          // filteredProducts에서 실제 가격 범위 계산
+          // filteredProducts에서 실제 가격 범위 확인 (참고용)
           const productPrices = filteredProducts
             .map(p => p.lowestPrice ?? p.price)
             .filter((price): price is number => price != null && price > 0);
 
-          const actualMin = productPrices.length > 0 ? Math.min(...productPrices) : categoryBudgetRange.min;
-          const actualMax = productPrices.length > 0 ? Math.max(...productPrices) : categoryBudgetRange.max;
+          const minPrice = productPrices.length > 0 ? Math.min(...productPrices) : categoryBudgetRange.min;
+          const maxPrice = productPrices.length > 0 ? Math.max(...productPrices) : categoryBudgetRange.max;
 
-          // step은 범위에 따라 동적 계산 (약 20~30개 구간)
-          const priceSpan = actualMax - actualMin;
-          const dynamicStep = Math.max(1000, Math.round(priceSpan / 25 / 1000) * 1000);
+          // 슬라이더 범위는 카테고리 기본값 사용 (양끝이 딱 떨어지지 않게 여유를 둠)
+          // 단, 상품 가격이 기본 범위를 벗어나면 확장함
+          const sliderMin = Math.min(categoryBudgetRange.min, Math.floor(minPrice / categoryBudgetRange.step) * categoryBudgetRange.step);
+          const sliderMax = Math.max(categoryBudgetRange.max, Math.ceil(maxPrice / categoryBudgetRange.step) * categoryBudgetRange.step);
 
           const budgetRange = {
-            min: actualMin,
-            max: actualMax,
-            step: dynamicStep,
+            min: sliderMin,
+            max: sliderMax,
+            step: categoryBudgetRange.step,
           };
           return (
             <div
@@ -3242,7 +3176,7 @@ export default function RecommendV2Page() {
           onClick={handleSubCategoryConfirm}
           disabled={isTransitioning}
           whileTap={isTransitioning ? undefined : { scale: 0.98 }}
-          className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
+          className={`w-full h-14 rounded-2xl font-semibold text-base ${
             isTransitioning
               ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
               : 'bg-[#111827] text-white'
@@ -3277,7 +3211,7 @@ export default function RecommendV2Page() {
               onClick={handleGoToPreviousHardFilter}
               disabled={isTransitioning}
               whileTap={isTransitioning ? undefined : { scale: 0.98 }}
-              className={`w-20 h-14 rounded-2xl font-semibold text-base ${
+              className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
                 isTransitioning
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3292,7 +3226,7 @@ export default function RecommendV2Page() {
             onClick={handleHardFilterNext}
             disabled={!canProceed || isTransitioning}
             whileTap={(!canProceed || isTransitioning) ? undefined : { scale: 0.98 }}
-            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
+            className={`flex-[7] h-14 rounded-2xl font-semibold text-base ${
               canProceed && !isTransitioning
                 ? 'bg-[#111827] text-white'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
@@ -3347,7 +3281,7 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className={`w-20 h-14 rounded-2xl font-semibold text-base ${
+            className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
               isStep2Disabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3361,7 +3295,7 @@ export default function RecommendV2Page() {
             onClick={handleStartBalanceGame}
             disabled={isNextDisabled}
             whileTap={isNextDisabled ? undefined : { scale: 0.98 }}
-            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
+            className={`flex-[7] h-14 rounded-2xl font-semibold text-base ${
               isNextDisabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
@@ -3422,7 +3356,7 @@ export default function RecommendV2Page() {
                 });
               }
             }}
-            className={`w-20 h-14 rounded-2xl font-semibold text-base ${
+            className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
               isTransitioning
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3444,7 +3378,7 @@ export default function RecommendV2Page() {
               }
             }}
             disabled={isNextDisabled}
-            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
+            className={`flex-[7] h-14 rounded-2xl font-semibold text-base ${
               isNextDisabled
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
@@ -3496,7 +3430,7 @@ export default function RecommendV2Page() {
               });
             }}
             whileTap={isTransitioning ? undefined : { scale: 0.98 }}
-            className={`w-20 h-14 rounded-2xl font-semibold text-base ${
+            className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
               isTransitioning
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3510,7 +3444,7 @@ export default function RecommendV2Page() {
             onClick={handleNegativeComplete}
             disabled={isTransitioning}
             whileTap={isTransitioning ? undefined : { scale: 0.98 }}
-            className={`w-20 ml-auto h-14 rounded-2xl font-semibold text-base ${
+            className={`flex-[7] h-14 rounded-2xl font-semibold text-base ${
               isTransitioning
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-[#111827] text-white'
@@ -3581,7 +3515,7 @@ export default function RecommendV2Page() {
                   });
                 });
               }}
-              className={`w-20 h-14 rounded-2xl font-semibold text-base ${
+              className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
                 isTransitioning
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -3595,7 +3529,7 @@ export default function RecommendV2Page() {
               onClick={handleStartFollowupFlow}
               disabled={isTransitioning || isTooFewProducts}
               whileTap={(isTransitioning || isTooFewProducts) ? undefined : { scale: 0.98 }}
-              className={`w-20 ml-auto h-14 rounded-2xl font-bold text-base flex items-center justify-center ${
+              className={`flex-[7] h-14 rounded-2xl font-bold text-base flex items-center justify-center ${
                 isTransitioning || isTooFewProducts
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   : 'bg-[#111827] text-white'
@@ -3986,7 +3920,7 @@ export default function RecommendV2Page() {
                     <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    정확한 예산 범위로 재추천
+                    정확한 예산으로 다시 추천
                   </motion.button>
                 )}
 
@@ -4026,7 +3960,7 @@ export default function RecommendV2Page() {
                       </linearGradient>
                     </defs>
                   </motion.svg>
-                  다시 추천받기
+                  다시 추천
                 </motion.button>
               </div>
             )}
@@ -4067,6 +4001,10 @@ export default function RecommendV2Page() {
                     negativeSelections: negativeSelections,
                     budget: budget,
                   }}
+                  hideHelpBubble={scoredProducts.some(p => {
+                    const effectivePrice = p.lowestPrice ?? p.price ?? 0;
+                    return effectivePrice > budget.max || effectivePrice < budget.min;
+                  })}
                   onUserMessage={(content) => {
                     // 사용자 메시지 추가
                     const msgId = addMessage({

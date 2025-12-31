@@ -56,7 +56,7 @@ export function NaturalLanguageInput({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled || isLoading}
-          className="flex-1 px-3 py-2 bg-transparent text-sm text-gray-800 placeholder-gray-400 outline-none"
+          className="flex-1 px-3 py-2 bg-transparent text-base text-gray-800 placeholder-gray-400 outline-none"
         />
         <button
           onClick={handleSubmit}

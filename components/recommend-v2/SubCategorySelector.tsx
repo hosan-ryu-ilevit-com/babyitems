@@ -18,8 +18,6 @@ interface SubCategorySelectorProps {
   subCategories: SubCategory[];
   selectedCodes: string[];
   onToggle: (code: string) => void;
-  // LLM 생성 동적 팁
-  dynamicTip?: string;
   // AI 도움 기능
   showAIHelper?: boolean;
   category?: string;
@@ -36,7 +34,6 @@ export function SubCategorySelector({
   subCategories,
   selectedCodes,
   onToggle,
-  dynamicTip,
   showAIHelper = false,
   category = '',
   userSelections,
@@ -94,15 +91,8 @@ export function SubCategorySelector({
         어떤 {categoryName}를 찾으세요? <span className="text-blue-500 font-bold">*</span>
       </h3>
 
-      {/* 도움말 팁 */}
-      {dynamicTip && (
-        <p className="text-sm text-gray-500 -mt-2">
-          {dynamicTip}
-        </p>
-      )}
-
-      {/* AI 도움받기 버튼 - dynamicTip이 있을 때만 표시 */}
-      {showAIHelper && dynamicTip && (
+      {/* AI 도움받기 버튼 */}
+      {showAIHelper && (
         <AIHelperButton
           onClick={() => {
             setAiHelperAutoSubmitText(undefined);
@@ -152,8 +142,8 @@ export function SubCategorySelector({
         })}
       </div>
 
-      {/* AI 도움 바텀시트 - dynamicTip이 있을 때만 렌더 */}
-      {showAIHelper && dynamicTip && (
+      {/* AI 도움 바텀시트 */}
+      {showAIHelper && (
         <AIHelperBottomSheet
           isOpen={isAIHelperOpen}
           onClose={() => {
@@ -167,7 +157,7 @@ export function SubCategorySelector({
           options={subCategories.map(sc => ({ value: sc.code, label: sc.name }))}
           category={category}
           categoryName={categoryName}
-          tipText={dynamicTip}
+          tipText={`리뷰에서 많이 언급되는 ${categoryName}의 종류입니다.`}
           onSelectOptions={handleAISelectOptions}
           userSelections={userSelections}
           autoSubmitText={aiHelperAutoSubmitText}

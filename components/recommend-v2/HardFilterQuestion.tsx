@@ -282,7 +282,7 @@ function ReviewPriorityTags({
 
               {/* 언급 비율 배지 (%) - 상위 3개만 표시, 그리드 모드에서는 간소화 */}
               {percentage > 0 && top3Values.includes(option.value) && (
-                <span className={`${isGridMode ? 'px-1 py-0.5 text-[10px]' : 'px-1.5 py-0.5 text-[12px]'} rounded-md font-medium bg-[#75D21C] text-white shrink-0`}>
+                <span className={`${isGridMode ? 'px-1 py-0.5 text-[10px]' : 'px-1.5 py-0.5 text-[12px]'} rounded-md font-medium bg-green-50 text-green-800 shrink-0`}>
                   {percentage}%{!isGridMode && ' 선택'}
                 </span>
               )}
@@ -392,8 +392,6 @@ interface HardFilterQuestionProps {
   showProductCounts?: boolean;
   // 인기 옵션 (상위 3개)
   popularOptions?: PopularOption[];
-  // LLM 생성 동적 팁 (question.tip보다 우선)
-  dynamicTip?: string;
   // AI 도움 기능
   showAIHelper?: boolean;
   category?: string;
@@ -521,7 +519,6 @@ export function HardFilterQuestion({
   products,
   showProductCounts = false,
   popularOptions = [],
-  dynamicTip,
   showAIHelper = false,
   category = '',
   categoryName = '',
@@ -538,9 +535,6 @@ export function HardFilterQuestion({
   onDirectInputRegister,
 }: HardFilterQuestionProps) {
   const { question, currentIndex, totalCount, selectedValues: initialValues } = data;
-
-  // dynamicTip이 있으면 우선 사용, 없으면 question.tip 사용
-  const tipText = dynamicTip || data.dynamicTip || question.tip;
 
   // 로컬 선택 상태 (부모에서 전달받은 값으로 초기화)
   const [localSelectedValues, setLocalSelectedValues] = useState<string[]>(initialValues || []);
@@ -672,13 +666,6 @@ export function HardFilterQuestion({
         {question.question} <span className="text-blue-500 font-bold">*</span>
       </h3>
 
-      {/* 도움말 팁 (dynamicTip 우선) */}
-      {tipText && (
-        <p className="text-sm text-gray-500 -mt-2">
-          {tipText}
-        </p>
-      )}
-
       {/* AI 도움받기 버튼 */}
       {showAIHelper && (
         <AIHelperButton
@@ -754,7 +741,7 @@ export function HardFilterQuestion({
 
               {/* 많이 선택 뱃지 - 그리드 모드에서는 간소화 */}
               {isPopular && !isSkipOption && popularOption && (
-                <span className={`text-white bg-[#75D21C] ${isGridMode ? 'text-[10px] px-1' : 'text-[12px] px-2'} font-medium py-0.5 rounded-md shrink-0`}>
+                <span className={`bg-green-50 text-green-800 ${isGridMode ? 'text-[10px] px-1' : 'text-[12px] px-2'} font-medium py-0.5 rounded-md shrink-0`}>
                   {popularOption.percentage}%{!isGridMode && ' 선택'}
                 </span>
               )}
@@ -779,8 +766,8 @@ export function HardFilterQuestion({
         />
       )}
 
-      {/* AI 도움 바텀시트 - tipText가 있을 때만 렌더 */}
-      {showAIHelper && tipText && (
+      {/* AI 도움 바텀시트 */}
+      {showAIHelper && (
         <AIHelperBottomSheet
           isOpen={isAIHelperOpen}
           onClose={() => {
@@ -794,7 +781,7 @@ export function HardFilterQuestion({
           options={question.options.map(o => ({ value: o.value, label: o.label }))}
           category={category}
           categoryName={categoryName}
-          tipText={tipText}
+          tipText={question.tip || '리뷰 분석을 통해 추출한 핵심 선택 기준입니다'}
           onSelectOptions={(selectedOptions) => {
             setLocalSelectedValues(selectedOptions);
             onSelect(question.id, selectedOptions);

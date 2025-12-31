@@ -603,11 +603,11 @@ export function GuideCards({ data, introMessage, onNext, isActive = true, enable
             className="fixed bottom-0 left-0 right-0 z-50"
           >
             {/* 흰색 플로팅바 배경 */}
-            <div className="bg-white border-t border-gray-200 px-4 py-4 flex justify-end" style={{ maxWidth: '480px', margin: '0 auto' }}>
+            <div className="bg-white border-t border-gray-200 px-4 py-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
               <button
                 onClick={() => !disabled && onNext?.()}
                 disabled={disabled}
-                className={`w-20 h-14 rounded-2xl font-semibold text-base transition-all ${
+                className={`w-full h-14 rounded-2xl font-semibold text-base transition-all ${
                   disabled
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-[#0084FE] text-white hover:bg-[#0074E0] active:scale-[0.98]'

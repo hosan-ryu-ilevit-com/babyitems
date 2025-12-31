@@ -256,7 +256,11 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
             <div className="flex items-center gap-2 mb-3">
              
               <span className="text-sm font-medium text-gray-500">
-                {isLastItem ? '추가 입력' : `추가 확인 ${currentIndex + 1}/${questions.length}`}
+                {isLastItem ? (
+                  <>
+                    추가 입력 <span className="text-gray-400 text-[12px] font-normal ml-1">(건너뛰기 가능)</span>
+                  </>
+                ) : `추가 확인 ${currentIndex + 1}/${questions.length}`}
               </span>
             </div>
           </div>
@@ -347,7 +351,7 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                               autoFocus
                               className="w-full px-4 py-3 border border-gray-300 rounded-xl
                                 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900
-                                text-gray-800 placeholder-gray-400 text-sm"
+                                text-gray-800 placeholder-gray-400 text-base"
                               onClick={(e) => e.stopPropagation()}
                             />
                             <button
@@ -376,7 +380,7 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                   // 자연어 입력 아이템 (마지막)
                   <div>
                     <h2 className="text-lg font-bold text-gray-800 mb-3">
-                      정말 마지막으로, <br></br>혹시 입력하지 못한 정보가 있다면 적어주세요.<br></br>추천에 우선적으로 반영할게요!
+                      입력하지 못한 정보가 있다면 적어주세요.<br></br>추천에 우선적으로 반영할게요! ✏️
                     </h2>
                     
 
@@ -389,11 +393,11 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                           handleNaturalInputSubmit();
                         }
                       }}
-                      placeholder="아기 월령 등 반영하면 좋을 상황을 자유롭게 적어주세요"
+                      placeholder="바로 추천받기를 누르시거나, 자유롭게 적어주세요"
                       disabled={isLoading}
                       className={`
                         w-full h-24 px-4 py-3 rounded-2xl border resize-none
-                        text-gray-800 placeholder-gray-400 text-sm
+                        text-gray-800 placeholder-gray-400 text-base
                         focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900
                         transition-all duration-200
                         ${isLoading ? 'bg-gray-50 cursor-not-allowed border-gray-200' : 'bg-white border-gray-200'}
@@ -494,48 +498,50 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
               <button
                 onClick={currentIndex === 0 ? onBack : () => goToIndex(currentIndex - 1)}
                 disabled={isLoading}
-                className="w-20 h-14 rounded-2xl bg-gray-100 hover:bg-gray-200
+                className="flex-[3] h-14 rounded-2xl bg-gray-100 hover:bg-gray-200
                   transition-all duration-300 flex items-center justify-center
                   disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span className="font-semibold text-base text-gray-700">이전</span>
               </button>
-              <AnimatePresence>
-                {naturalInput.length > 0 && (
-                  <motion.button
-                    key="submit-button"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    onClick={handleComplete}
-                    disabled={isLoading}
-                    className={`
-                      flex-1 h-14 rounded-2xl font-semibold text-base
-                      transition-all duration-200
-                      ${!isLoading
-                        ? 'bg-[#111827] text-white hover:bg-gray-800 active:scale-[0.98]'
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      }
-                    `}
-                  >
-                    {isLoading ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                        </svg>
-                        분석 중...
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-1.5">
-                        <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4" />
-                        추천받기
-                      </span>
-                    )}
-                  </motion.button>
-                )}
-              </AnimatePresence>
+              <div className="flex-[7]">
+                <AnimatePresence>
+                  {naturalInput.length > 0 && (
+                    <motion.button
+                      key="submit-button"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      onClick={handleComplete}
+                      disabled={isLoading}
+                      className={`
+                        w-full h-14 rounded-2xl font-semibold text-base
+                        transition-all duration-200
+                        ${!isLoading
+                          ? 'bg-[#111827] text-white hover:bg-gray-800 active:scale-[0.98]'
+                          : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        }
+                      `}
+                    >
+                      {isLoading ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                          </svg>
+                          분석 중...
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center gap-1.5">
+                          <img src="/icons/ic-ai.svg" alt="" className="w-4 h-4" />
+                          추천받기
+                        </span>
+                      )}
+                    </motion.button>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           ) : (
             // 질문 단계: 이전 + 건너뛰기 버튼
@@ -543,7 +549,7 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
               <button
                 onClick={currentIndex === 0 ? onBack : () => goToIndex(currentIndex - 1)}
                 disabled={isLoading}
-                className="w-20 h-14 rounded-2xl bg-gray-100 hover:bg-gray-200
+                className="flex-[3] h-14 rounded-2xl bg-gray-100 hover:bg-gray-200
                   transition-all flex items-center justify-center
                   disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -552,7 +558,7 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
               <button
                 onClick={handleSkip}
                 disabled={isLoading}
-                className="flex-1 h-14 rounded-2xl border border-gray-100 bg-white hover:border-gray-200
+                className="flex-[7] h-14 rounded-2xl border border-gray-100 bg-white hover:border-gray-200
                   transition-all flex items-center justify-center gap-1.5
                   disabled:opacity-50 disabled:cursor-not-allowed"
               >

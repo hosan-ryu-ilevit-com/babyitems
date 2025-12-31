@@ -99,6 +99,9 @@ export function BudgetSlider({
     }
 
     const priceRange = max - min;
+    if (priceRange <= 0) {
+      return Array(HISTOGRAM_BARS).fill(0.5);
+    }
     const barWidth = priceRange / HISTOGRAM_BARS;
     const counts = Array(HISTOGRAM_BARS).fill(0);
 
@@ -120,13 +123,18 @@ export function BudgetSlider({
 
   // 퍼센트 계산
   const getPercent = useCallback(
-    (value: number) => ((value - min) / (max - min)) * 100,
+    (value: number) => {
+      const range = max - min;
+      if (range <= 0) return 0;
+      return ((value - min) / range) * 100;
+    },
     [min, max]
   );
 
   // 값을 step 단위로 맞추기
   const snapToStep = useCallback(
     (value: number) => {
+      if (step <= 0) return value;
       const snapped = Math.round(value / step) * step;
       return Math.max(min, Math.min(max, snapped));
     },
@@ -138,8 +146,10 @@ export function BudgetSlider({
     (clientX: number) => {
       if (!trackRef.current) return min;
       const rect = trackRef.current.getBoundingClientRect();
+      const range = max - min;
+      if (range <= 0 || rect.width <= 0) return min;
       const percent = (clientX - rect.left) / rect.width;
-      const value = min + percent * (max - min);
+      const value = min + percent * range;
       return snapToStep(value);
     },
     [min, max, snapToStep]
@@ -303,7 +313,7 @@ export function BudgetSlider({
 
   // AI 도움을 위한 가격대별 상품 분포 정보
   const priceRangeInfo = useMemo(() => {
-    if (products.length === 0) return [];
+    if (products.length === 0 || max <= min) return [];
 
     const ranges: { range: string; min: number; max: number; count: number }[] = [];
     const priceRange = max - min;
@@ -358,7 +368,7 @@ export function BudgetSlider({
       </div>
 
       <h3 className="text-[18px] font-semibold text-gray-900 mb-4">
-        예산을 선택하세요 <span className="text-blue-500 font-bold">*</span>
+        예산 범위를 정해주세요. <br></br>정하신 예산 안에서 추천해드려요.<span className="text-blue-500 font-bold">*</span>
       </h3>
 
       {/* AI 도움 버튼 */}

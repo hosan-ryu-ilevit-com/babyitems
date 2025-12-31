@@ -146,7 +146,7 @@ export function NegativeFilterList({
             >
               {/* 옵션 텍스트 */}
               <span
-                className={`text-[14px] font-medium leading-snug flex-1 ${
+                className={`text-[16px] font-medium leading-snug flex-1 ${
                   isSelected ? 'text-red-500' : 'text-gray-600'
                 }`}
               >

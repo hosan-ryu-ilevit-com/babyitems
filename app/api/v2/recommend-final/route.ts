@@ -96,6 +96,10 @@ interface UserContext {
   finalDirectInputAnalysis?: DirectInputAnalysis;  // 마지막 자연어 인풋
   // 🚀 전처리된 사용자 요구사항 (최우선 반영)
   preprocessedRequirements?: PreprocessedRequirements;
+  // 표시용 레이블 매핑
+  balanceLabels?: Record<string, string>;
+  negativeLabels?: Record<string, string>;
+  hardFilterLabels?: Record<string, string>;
 }
 
 // 요청 타입
@@ -187,27 +191,18 @@ function enrichWithVariants(
 /**
  * 밸런스 선택을 자연어로 변환
  */
-function formatBalanceSelections(selections: string[]): string {
-  const descriptions: Record<string, string> = {
-    // 예시 매핑 (실제로는 logic_map에서 description을 가져올 수 있음)
-    'rule_bottle_lightweight': '가벼운 제품 선호',
-    'rule_bottle_durable': '내구성 있는 제품 선호',
-    'rule_pot_warm_fast': '빠른 가열 선호',
-    'rule_pot_temp_accurate': '정확한 온도 조절 선호',
-    // ... 더 많은 매핑
-  };
-
+function formatBalanceSelections(selections: string[], labels: Record<string, string> = {}): string {
   return selections
-    .map(key => descriptions[key] || key.replace(/^rule_\w+_/, '').replace(/_/g, ' '))
+    .map(key => labels[key] || key.replace(/^rule_\w+_/, '').replace(/_/g, ' '))
     .join(', ');
 }
 
 /**
  * 단점 필터 선택을 자연어로 변환
  */
-function formatNegativeSelections(selections: string[]): string {
+function formatNegativeSelections(selections: string[], labels: Record<string, string> = {}): string {
   return selections
-    .map(key => key.replace(/^rule_\w+_/, '').replace(/_/g, ' '))
+    .map(key => labels[key] || key.replace(/^rule_\w+_/, '').replace(/_/g, ' '))
     .join(', ');
 }
 
@@ -317,11 +312,11 @@ async function selectTop3WithLLM(
     : '선택 없음';
 
   const balanceSummary = userContext.balanceSelections?.length
-    ? formatBalanceSelections(userContext.balanceSelections)
+    ? formatBalanceSelections(userContext.balanceSelections, userContext.balanceLabels)
     : '선택 없음';
 
   const negativeSummary = userContext.negativeSelections?.length
-    ? formatNegativeSelections(userContext.negativeSelections)
+    ? formatNegativeSelections(userContext.negativeSelections, userContext.negativeLabels)
     : '선택 없음';
 
   // 자연어 직접 입력 요약 (⭐ 높은 가중치!) - deprecated, preprocessedRequirements 사용

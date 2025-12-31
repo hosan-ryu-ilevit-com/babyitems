@@ -283,7 +283,6 @@ export interface HardFilterData {
   selectedValue?: string;           // deprecated: use selectedValues for multi-select
   selectedValues?: string[];        // 다중 선택 지원
   onNext?: () => void;              // 다음 버튼 클릭 핸들러
-  dynamicTip?: string;              // LLM이 생성한 동적 팁 (question.tip보다 우선)
 }
 
 export interface CheckpointData {

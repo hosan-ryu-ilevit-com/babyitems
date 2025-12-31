@@ -1209,7 +1209,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     }
                   }}
                   placeholder="예: 더 저렴한 걸로, 조용한 제품으로"
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                   autoFocus
                   disabled={isProcessing}
                 />

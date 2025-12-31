@@ -175,7 +175,7 @@ export function FollowupQuestion({
                 autoFocus
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl
                   focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900
-                  text-gray-800 placeholder-gray-400 text-sm"
+                  text-gray-800 placeholder-gray-400 text-base"
                 onClick={(e) => e.stopPropagation()}
               />
               {/* 직접 입력 확인 버튼 */}
@@ -207,7 +207,7 @@ export function FollowupQuestion({
           <button
             onClick={onPrevious}
             disabled={isLoading}
-            className="w-20 h-14 rounded-2xl font-semibold text-base
+            className="flex-[3] h-14 rounded-2xl font-semibold text-base
               bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors
               disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -219,7 +219,7 @@ export function FollowupQuestion({
             onClick={onSkip}
             disabled={isLoading}
             className={`
-              ${canGoPrevious ? 'flex-1' : 'w-full'} h-14 rounded-2xl font-semibold text-base
+              ${canGoPrevious ? 'flex-[7]' : 'w-full'} h-14 rounded-2xl font-semibold text-base
               bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors
               disabled:opacity-50 disabled:cursor-not-allowed
             `}

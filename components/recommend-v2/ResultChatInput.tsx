@@ -67,7 +67,7 @@ export function ResultChatInput({
             placeholder={placeholder}
             disabled={disabled}
             rows={1}
-            className="flex-1 bg-transparent resize-none outline-none text-[15px] text-gray-800 placeholder:text-gray-400 max-h-[120px] py-1.5 disabled:opacity-50"
+            className="flex-1 bg-transparent resize-none outline-none text-[16px] text-gray-800 placeholder:text-gray-400 max-h-[120px] py-1.5 disabled:opacity-50"
           />
           <button
             onClick={handleSubmit}

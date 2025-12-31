@@ -83,7 +83,7 @@ export function FinalNaturalInput({
           disabled={isLoading}
           className={`
             w-full h-24 px-4 py-3 rounded-2xl border resize-none
-            text-gray-800 placeholder-gray-400 text-sm
+            text-gray-800 placeholder-gray-400 text-base
             focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900
             transition-all duration-200
             ${isLoading ? 'bg-gray-50 cursor-not-allowed border-gray-200' : 'bg-white border-gray-200'}
