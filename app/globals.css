@@ -159,19 +159,19 @@
   --color-purple-50: var(--purple-50);
 
   --color-white: var(--white);
-  --color-ai-start: #77A0FF;
-  --color-ai-mid: #907FFF;
+  --color-ai-start: #907FFF;
+  --color-ai-mid: #7C5CFF;
   --color-ai-end: #6947FF;
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 /* AI Gradient Utilities */
 .ai-gradient-bg {
-  background: linear-gradient(270deg, #77A0FF 0%, #907FFF 70%, #6947FF 100%);
+  background: linear-gradient(270deg, #907FFF 0%, #6947FF 100%);
 }
 
 .ai-gradient-text {
-  background: linear-gradient(270deg, #77A0FF 0%, #907FFF 70%, #6947FF 100%);
+  background: linear-gradient(270deg, #907FFF 0%, #6947FF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -179,7 +179,7 @@
 
 .ai-gradient-border {
   border: 1px solid transparent;
-  background-image: linear-gradient(white, white), linear-gradient(270deg, #77A0FF 0%, #907FFF 70%, #6947FF 100%);
+  background-image: linear-gradient(white, white), linear-gradient(270deg, #907FFF 0%, #6947FF 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }

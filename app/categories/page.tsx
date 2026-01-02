@@ -133,10 +133,10 @@ function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: 
             key={filter.id}
             onClick={() => onSelect(filter.id)}
             whileTap={{ scale: 0.96 }}
-            className={`px-4 py-2 rounded-full text-[14px] font-medium whitespace-nowrap border ${
+            className={`px-4 py-2 rounded-full text-[14px] font-medium whitespace-nowrap ${
               selectedId === filter.id
-                ? 'bg-gray-800 border-gray-800 text-white shadow-sm'
-                : 'bg-white border-gray-200 text-gray-500'
+                ? 'bg-gray-800 text-white shadow-sm'
+                : 'bg-white text-gray-500'
             }`}
           >
             {filter.label}
@@ -155,10 +155,10 @@ function CategoryCard({ name, emoji, isSelected, onClick, isLoading }: { name: s
         onClick={onClick}
         disabled={isLoading}
         whileTap={isLoading ? undefined : { scale: 0.98 }}
-        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 gap-2.5 ${
+        className={`relative h-[50px] w-full rounded-xl flex items-center px-4 gap-2.5 ${
           isSelected
-            ? 'bg-purple-50 border-purple-200 text-purple-700'
-            : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200'
+            ? 'bg-purple-100 text-purple-700'
+            : 'bg-white text-gray-600'
         }`}
       >
         {isLoading ? (
@@ -315,10 +315,10 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#F8F8FA]">
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col">
         {/* 헤더 바 */}
-        <header className="sticky top-0 z-50 bg-[#FBFBFD] h-[54px] flex items-center px-5">
+        <header className="sticky top-0 z-50 bg-[#F8F8FA] h-[54px] flex items-center px-5">
           <button onClick={() => router.push('/')} className="p-2 -ml-2">
             <Image
               src="/icons/back.png"

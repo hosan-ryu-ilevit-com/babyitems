@@ -283,12 +283,12 @@ function CategoryCard({
       whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(category)}
       disabled={isLoading}
-        className={`rounded-2xl p-4 transition-all duration-200 text-left border relative overflow-hidden group ${
+        className={`rounded-2xl p-4 transition-all duration-200 text-left relative overflow-hidden group ${
         isLoading
-          ? 'bg-purple-50 border-purple-200'
+          ? 'bg-purple-100'
           : isSelected
-            ? 'bg-purple-50 border-purple-200'
-            : 'bg-white border-gray-100 hover:border-purple-100 hover:bg-purple-50/30'
+            ? 'bg-purple-100'
+            : 'bg-white hover:bg-gray-50'
       }`}
     >
       {/* Loading Shimmer */}
@@ -549,10 +549,10 @@ export default function CategoriesV2Page() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#F8F8FA]">
       <div className="max-w-[480px] mx-auto min-h-screen">
         {/* Top Header with Back Button */}
-        <header className="sticky top-0 bg-white/80 backdrop-blur-md z-50 border-b border-gray-100 h-[54px] flex items-center px-5">
+        <header className="sticky top-0 bg-[#F8F8FA]/80 backdrop-blur-md z-50 border-b border-gray-100 h-[54px] flex items-center px-5">
           <div className="w-full">
             <div className="flex items-center justify-between relative">
               <button
