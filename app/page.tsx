@@ -98,9 +98,9 @@ export default function Home() {
             </h1>
             <p
               className="text-gray-500 mt-3"
-              style={{ fontSize: '17px', lineHeight: '1.5', fontWeight: 400 }}
+              style={{ fontSize: '15px', lineHeight: '1.5', fontWeight: 400 }}
             >
-              광고는 거르고 객관적으로만 비교했어요
+              광고 없는 AI 분석으로 고민하는 시간을 줄여보세요.
             </p>
           </motion.div>
 
@@ -140,10 +140,10 @@ export default function Home() {
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={handleStart}
-            className="w-full h-[58px] bg-[#1F2228] text-white rounded-[20px] text-[17px] font-bold shadow-xl flex items-center justify-center gap-2"
+            className="w-full h-[58px] bg-[#1F2228] text-white rounded-[20px] text-[17px] font-bold flex items-center justify-center gap-2"
           >
             <span>시작하기</span>
-            <span className="text-[12px] font-normal mt-0.5 ai-gradient-text">with AI</span>
+            <span className="text-[12px] font-normal mt-0.5 ai-gradient-text-light">with AI</span>
           </motion.button>
         </div>
       </div>

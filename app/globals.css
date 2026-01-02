@@ -177,6 +177,13 @@
   background-clip: text;
 }
 
+.ai-gradient-text-light {
+  background: linear-gradient(270deg, #B5A8FF 0%, #907FFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .ai-gradient-border {
   border: 1px solid transparent;
   background-image: linear-gradient(white, white), linear-gradient(270deg, #907FFF 0%, #6947FF 100%);

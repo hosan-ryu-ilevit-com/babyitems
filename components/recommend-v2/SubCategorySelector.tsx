@@ -23,6 +23,12 @@ interface SubCategorySelectorProps {
   category?: string;
   // 사용자 선택 데이터 (자연어 입력 등)
   userSelections?: UserSelections;
+  // 인기 옵션 정보
+  popularOptions?: Array<{
+    value: string;
+    percentage: number;
+    isPopular: boolean;
+  }>;
 }
 
 /**
@@ -37,6 +43,7 @@ export function SubCategorySelector({
   showAIHelper = false,
   category = '',
   userSelections,
+  popularOptions = [],
 }: SubCategorySelectorProps) {
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
@@ -115,6 +122,8 @@ export function SubCategorySelector({
       <div className="grid grid-cols-2 gap-3">
         {subCategories.map((sub, index) => {
           const isSelected = selectedCodes.includes(sub.code);
+          const popularOption = popularOptions.find(opt => opt.value === sub.code);
+          const isPopular = popularOption?.isPopular;
 
           return (
             <motion.button
@@ -124,19 +133,26 @@ export function SubCategorySelector({
               transition={{ delay: index * 0.05 }}
               onClick={() => onToggle(sub.code)}
               whileTap={{ scale: 0.98 }}
-              className={`px-4 min-h-[50px] py-[14px] rounded-xl border flex items-center justify-center ${
+              className={`px-3 min-h-10 py-2 rounded-xl border flex items-center justify-between gap-2 text-left relative overflow-hidden ${
                 isSelected
                   ? 'border-blue-100 bg-blue-50'
                   : 'border-gray-100 bg-white hover:border-gray-200'
               }`}
             >
               <span
-                className={`text-[16px] font-medium break-keep ${
+                className={`text-[14px] font-medium break-keep flex-1 leading-tight ${
                   isSelected ? 'text-blue-500' : 'text-gray-600'
                 }`}
               >
                 {sub.name}
               </span>
+
+              {/* 많이 선택 뱃지 */}
+              {isPopular && popularOption && (
+                <span className="bg-green-50 text-green-800 text-[10px] px-1 font-medium py-0.5 rounded-md shrink-0">
+                  {popularOption.percentage}%
+                </span>
+              )}
             </motion.button>
           );
         })}

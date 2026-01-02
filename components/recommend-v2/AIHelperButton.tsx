@@ -87,7 +87,7 @@ export function AIHelperButton({
         transition={{ duration: 0.2 }}
         onClick={handleClick}
         disabled={disabled}
-        className={`flex items-center justify-center h-[50px] rounded-xl ai-gradient-border w-full bg-white relative ${
+        className={`flex items-center justify-center h-[46px] rounded-xl ai-gradient-border w-full bg-white relative ${
           isExpanded ? 'z-[100]' : 'z-auto'
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
@@ -107,8 +107,11 @@ export function AIHelperButton({
               ease: "easeInOut"
             }}
           />
-          <span className="text-[16px] font-bold text-[#6366F1]">
+          <span className="text-[15px] font-bold text-[#6366F1]">
             {label}
+          </span>
+          <span className="bg-[#6366F1] text-white text-[10px] px-1.5 py-0.5 rounded-md font-bold leading-none">
+            AI
           </span>
         </div>
       </motion.button>

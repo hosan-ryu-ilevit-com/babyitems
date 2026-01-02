@@ -3,8 +3,20 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { ProductItem } from '@/types/recommend-v2';
+import { CATEGORY_BUDGET_PRESETS } from '@/types/recommend-v2';
 import { BudgetAIHelperBottomSheet } from './BudgetAIHelperBottomSheet';
 import { AIHelperButton } from './AIHelperButton';
+
+// 예산 프리셋 타입
+export type BudgetPresetType = 'all' | 'budget' | 'standard' | 'premium';
+
+export interface BudgetPreset {
+  type: BudgetPresetType;
+  label: string;
+  min: number;
+  max: number;
+  count: number; // 해당 범위 내 제품 수
+}
 
 interface UserSelections {
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
@@ -22,6 +34,8 @@ interface BudgetSliderProps {
   products?: ProductItem[];
   // 로깅 콜백
   onDirectInput?: (min: number, max: number, productsInRange: number) => void;
+  // 프리셋 클릭 콜백
+  onPresetClick?: (preset: BudgetPresetType, min: number, max: number, productsInRange: number) => void;
   // AI 도움 관련
   showAIHelper?: boolean;
   category?: string;
@@ -54,6 +68,7 @@ export function BudgetSlider({
   onChange,
   products = [],
   onDirectInput,
+  onPresetClick,
   showAIHelper = false,
   category = '',
   categoryName = '',
@@ -344,8 +359,123 @@ export function BudgetSlider({
     return ranges;
   }, [products, min, max]);
 
+  // 예산 프리셋 계산 (도메인 지식 + 실제 제품 분포 혼합)
+  const budgetPresets = useMemo((): BudgetPreset[] => {
+    if (products.length === 0) {
+      // 제품이 없으면 기본 프리셋만 반환
+      return [
+        { type: 'all', label: '전체', min, max, count: 0 },
+        { type: 'budget', label: '가성비', min, max: Math.round(min + (max - min) * 0.25), count: 0 },
+        { type: 'standard', label: '평균', min: Math.round(min + (max - min) * 0.25), max: Math.round(min + (max - min) * 0.75), count: 0 },
+        { type: 'premium', label: '프리미엄', min: Math.round(min + (max - min) * 0.75), max, count: 0 },
+      ];
+    }
+
+    // 제품 가격 추출 및 정렬
+    const prices = products
+      .map(p => getEffectivePrice(p))
+      .filter((p): p is number => p !== null && p > 0)
+      .sort((a, b) => a - b);
+
+    if (prices.length === 0) {
+      return [{ type: 'all', label: '전체', min, max, count: 0 }];
+    }
+
+    const actualMin = prices[0];
+    const actualMax = prices[prices.length - 1];
+
+    // 도메인 지식 기준점 가져오기
+    const thresholds = CATEGORY_BUDGET_PRESETS[category];
+
+    let budgetMax: number;
+    let standardMax: number;
+
+    if (thresholds) {
+      // 도메인 지식이 있으면 실제 가격 범위에 맞게 조정
+      budgetMax = Math.min(thresholds.budgetMax, actualMax);
+      standardMax = Math.min(thresholds.standardMax, actualMax);
+
+      // 가성비 상한이 실제 최저가보다 낮으면 조정
+      if (budgetMax < actualMin) {
+        budgetMax = Math.round(actualMin + (actualMax - actualMin) * 0.3);
+      }
+      // 평균 상한이 가성비 상한보다 낮으면 조정
+      if (standardMax <= budgetMax) {
+        standardMax = Math.round(budgetMax + (actualMax - budgetMax) * 0.6);
+      }
+    } else {
+      // 도메인 지식이 없으면 분위수 사용
+      const p30Index = Math.floor(prices.length * 0.3);
+      const p70Index = Math.floor(prices.length * 0.7);
+      budgetMax = prices[p30Index] || actualMax;
+      standardMax = prices[p70Index] || actualMax;
+    }
+
+    // 각 프리셋 범위 내 제품 수 계산
+    const countInRange = (minP: number, maxP: number) =>
+      prices.filter(p => p >= minP && p <= maxP).length;
+
+    const presets: BudgetPreset[] = [
+      {
+        type: 'all',
+        label: '전체',
+        min: actualMin,
+        max: actualMax,
+        count: prices.length
+      },
+      {
+        type: 'budget',
+        label: '가성비',
+        min: actualMin,
+        max: budgetMax,
+        count: countInRange(actualMin, budgetMax)
+      },
+      {
+        type: 'standard',
+        label: '평균',
+        min: budgetMax,
+        max: standardMax,
+        count: countInRange(budgetMax, standardMax)
+      },
+      {
+        type: 'premium',
+        label: '프리미엄',
+        min: standardMax,
+        max: actualMax,
+        count: countInRange(standardMax, actualMax)
+      },
+    ];
+
+    // 제품이 0개인 프리셋은 제외 (전체는 항상 포함)
+    return presets.filter(p => p.type === 'all' || p.count > 0);
+  }, [products, category, min, max]);
+
+  // 선택된 프리셋 상태
+  const [selectedPreset, setSelectedPreset] = useState<BudgetPresetType | null>(null);
+
+  // 프리셋 클릭 핸들러
+  const handlePresetClick = (preset: BudgetPreset) => {
+    setSelectedPreset(preset.type);
+    setMinValue(preset.min);
+    setMaxValue(preset.max);
+    onChange({ min: preset.min, max: preset.max });
+    onPresetClick?.(preset.type, preset.min, preset.max, preset.count);
+  };
+
+  // 슬라이더 수동 조작 시 프리셋 선택 해제
+  useEffect(() => {
+    // 현재 값이 어떤 프리셋과도 정확히 일치하지 않으면 선택 해제
+    const matchingPreset = budgetPresets.find(
+      p => p.min === minValue && p.max === maxValue
+    );
+    if (!matchingPreset) {
+      setSelectedPreset(null);
+    }
+  }, [minValue, maxValue, budgetPresets]);
+
   // AI 추천 예산 적용
   const handleAIBudgetSelect = (aiMin: number, aiMax: number) => {
+    setSelectedPreset(null); // AI 선택 시 프리셋 해제
     setMinValue(aiMin);
     setMaxValue(aiMax);
     onChange({ min: aiMin, max: aiMax });
@@ -370,6 +500,32 @@ export function BudgetSlider({
       <h3 className="text-[18px] font-semibold text-gray-900 mb-4">
         가격 범위를 정해주세요! <br></br>그 안에서 추천드려요.
       </h3>
+
+      {/* 예산 프리셋 버튼 */}
+      {budgetPresets.length > 1 && (
+        <div className={`flex gap-2 mb-4 ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
+          {budgetPresets.map((preset) => {
+            const isSelected = selectedPreset === preset.type;
+            return (
+              <button
+                key={preset.type}
+                onClick={() => handlePresetClick(preset)}
+                disabled={disabled}
+                className={`flex-1 py-2.5 px-3 rounded-xl text-[14px] font-medium transition-all border ${
+                  isSelected
+                    ? 'bg-blue-50 border-blue-100'
+                    : 'bg-white border-gray-100 hover:border-gray-200'
+                }`}
+              >
+                <div className={isSelected ? 'text-blue-500 font-semibold' : 'text-gray-600'}>{preset.label}</div>
+                <div className={`text-[11px] mt-0.5 ${isSelected ? 'text-blue-400' : 'text-gray-400'}`}>
+                  {preset.count}개
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* AI 도움 버튼 */}
       {showAIHelper && (

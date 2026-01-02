@@ -138,7 +138,7 @@ export function NegativeFilterList({
                 onToggleWithLabel?.(option.target_rule_key, option.label, willBeSelected, newTotalSelected);
               }}
               whileTap={{ scale: 0.98 }}
-              className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left flex items-center justify-between gap-3 ${
+              className={`w-full min-h-10 py-2.5 px-4 rounded-xl border text-left flex items-center justify-between gap-3 ${
                 isSelected
                   ? 'border-red-100 bg-red-50'
                   : 'border-gray-100 bg-white hover:border-gray-200'
@@ -146,7 +146,7 @@ export function NegativeFilterList({
             >
               {/* 옵션 텍스트 */}
               <span
-                className={`text-[16px] font-medium leading-snug flex-1 ${
+                className={`text-[14px] font-medium leading-snug flex-1 ${
                   isSelected ? 'text-red-500' : 'text-gray-600'
                 }`}
               >

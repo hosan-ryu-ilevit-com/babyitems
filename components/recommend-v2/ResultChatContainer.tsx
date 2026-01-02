@@ -144,40 +144,7 @@ export function ResultChatContainer({
 
   return (
     <div className="w-full relative">
-      {/* 플로팅 말풍선 (무엇이든 물어보세요) */}
-      <AnimatePresence>
-        {showHelpBubble && !hideHelpBubble && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ 
-              opacity: 1, 
-              y: [0, -6, 0] 
-            }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{
-              y: {
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              },
-              opacity: { duration: 0.3 }
-            }}
-            className="absolute left-0 bottom-full mb-2.5 z-20"
-          >
-            <div className="relative">
-              <div className="relative z-10 px-3 py-1.5 bg-violet-50 rounded-2xl text-[13px] font-semibold text-violet-600 flex items-center gap-1.5 border border-violet-200">
-                <span className="text-[15px] leading-none">💬</span>
-                <span>무엇이든 물어보세요</span>
-                
-                {/* Tail - moved inside for cleaner overlap */}
-                <div className="absolute left-6 bottom-[-6.5px] w-3 h-3 bg-violet-50 border-r border-b border-violet-200 transform rotate-45 -z-10"></div>
-                {/* Border Cover - hides the main bubble's border at the tail connection */}
-                <div className="absolute left-[22px] bottom-[-1px] w-4 h-[2px] bg-violet-50 z-20"></div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+     
 
       {/* 채팅 입력창 */}
       <div className="relative overflow-hidden rounded-[20px] border border-gray-200 flex items-end">

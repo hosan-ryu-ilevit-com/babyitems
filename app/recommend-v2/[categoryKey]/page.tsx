@@ -5,7 +5,7 @@ import { flushSync } from 'react-dom';
 import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import FeedbackButton from '@/components/FeedbackButton';
+// import FeedbackButton from '@/components/FeedbackButton';
 import { StepIndicator } from '@/components/StepIndicator';
 
 // Types
@@ -85,6 +85,7 @@ import {
   logV2NegativeToggle,
   logV2NegativeCompleted,
   logV2BudgetChanged,
+  logV2BudgetPresetClicked,
   logV2RecommendationRequested,
   logV2RecommendationReceived,
   logV2StepBack,
@@ -95,6 +96,7 @@ import {
   logV2ReRecommendDifferentCategory,
   logButtonClick,
   logDirectInputRegister,
+  logV2BudgetRestrictClicked,
 } from '@/lib/logging/clientLogger';
 
 // Favorites - 나중에 사용할 수 있도록 임시 숨김
@@ -488,9 +490,9 @@ export default function RecommendV2Page() {
       const savedStateStr = sessionStorage.getItem(`v2_result_${categoryKey}`);
       if (savedStateStr) {
         const savedState = JSON.parse(savedStateStr);
-        // 채팅 메시지만 업데이트 (typing/reRecommendData 제거)
+        // 결과 채팅 메시지만 업데이트 (stepTag/componentType이 있는 초반 플로우 메시지 제외)
         savedState.chatMessages = messages
-          .filter(m => m.role === 'user' || m.role === 'assistant')
+          .filter(m => (m.role === 'user' || m.role === 'assistant') && !m.stepTag && !m.componentType)
           .map(m => ({ id: m.id, role: m.role, content: m.content, timestamp: m.timestamp }));
         sessionStorage.setItem(`v2_result_${categoryKey}`, JSON.stringify(savedState));
       }
@@ -1233,7 +1235,7 @@ export default function RecommendV2Page() {
       // stepTag 메시지로 스크롤 - 타이핑 완료 시 밸런스 게임 컴포넌트 추가
       const stepMsgId = addMessage({
         role: 'assistant',
-        content: '**더 중요한 쪽을 골라주세요!**',
+        content: '후보들 중에서 최적의 제품을 고르기 위한 질문을 드릴게요. **더 중요한 쪽**을 골라주세요!',
         stepTag: '3/5',
         onTypingComplete: () => {
           // 타이핑 완료 후 밸런스 게임 컴포넌트 추가
@@ -1322,7 +1324,7 @@ export default function RecommendV2Page() {
     console.log('  - filtered:', filtered.length);
 
     // 로딩 상태 표시 (사용자에게 필터링 중임을 알림)
-    const fixedSuffix = "이제 말씀하신 상품 조건에 대해 조금만 더 자세히 여쭤볼게요. 정확한 상황을 파악하고, 알맞은 상품을 추천해야 하기 때문이에요.";
+    const fixedSuffix = "이제 말씀하신 상품 조건에 대해 조금만 더 자세히 여쭤볼게요.";
     const loadingMsgId = addMessage({
       role: 'system',
       content: '',
@@ -1352,6 +1354,11 @@ export default function RecommendV2Page() {
           hardFilterAnswers: answers,
           filteredProducts: filtered.slice(0, 50), // 상위 50개만 전달 (payload 크기 제한)
           generate: 'balance_only', // 밸런스 게임 질문만 생성 (단점 필터는 밸런스 선택 후 생성)
+          selectedSubCategories: selectedSubCategoryCodes.length > 0
+            ? subCategoryConfig?.sub_categories
+                .filter(s => selectedSubCategoryCodes.includes(s.code))
+                .map(s => s.name) || []
+            : [],
         }),
       });
       const generateJson = await generateResponse.json();
@@ -1499,12 +1506,12 @@ export default function RecommendV2Page() {
             onTypingComplete: () => {
               setIsSummaryTypingComplete(true);
             }
-          }, true, 20);
+          }, true, 13);
         }, 600);
       }
-    }, true, 20);
+    }, true, 13);
     scrollToMessage(summaryMsgId); // 첫 문단만 스크롤
-  }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInputs, hardFilterDirectInputRegistered]);
+  }, [hardFilterConfig, logicMap, balanceQuestions, negativeOptions, categoryKey, categoryName, addMessage, scrollToMessage, hardFilterDirectInputs, hardFilterDirectInputRegistered, selectedSubCategoryCodes, subCategoryConfig]);
 
   // Update ref to the latest handleHardFiltersComplete
   useEffect(() => {
@@ -1660,6 +1667,11 @@ export default function RecommendV2Page() {
             filteredProducts: filteredProducts.slice(0, 50),
             balanceSelections: balanceSelectionsForAPI,
             generate: 'negative_only', // 단점 필터만 생성 (밸런스 선택 결과 반영)
+            selectedSubCategories: selectedSubCategoryCodes.length > 0
+              ? subCategoryConfig?.sub_categories
+                  .filter(s => selectedSubCategoryCodes.includes(s.code))
+                  .map(s => s.name) || []
+              : [],
           }),
         });
         const generateJson = await generateResponse.json();
@@ -1691,7 +1703,7 @@ export default function RecommendV2Page() {
     // 로딩 완료 후 stepTag 메시지 추가 + 스크롤
     const stepMsgId = addMessage({
       role: 'assistant',
-      content: '입력하신 내용을 확인했습니다.\n마지막으로 피할 단점과 예산을 여쭤본 후, 최적의 결과를 제공해드릴게요.',
+      content: '거의 다 왔어요! 최종 추천 후보를 추리기 위해 **피하고 싶은 단점**을 여쭤볼게요.',
       stepTag: '4/5',
       onTypingComplete: () => {
         setCurrentStep(4);
@@ -2082,6 +2094,12 @@ export default function RecommendV2Page() {
   }, [messages, scrollToMessage]);
 
   const handleGetRecommendation = useCallback(async (useBudgetHardFilter = false) => {
+    // 🚀 추천 프로세스 시작 시 기존 결과 메시지 및 로딩 텍스트 제거 (중복 노출 방지)
+    setMessages(prev => prev.filter(msg => 
+      msg.componentType !== 'result-cards' && 
+      msg.componentType !== 'loading-text'
+    ));
+
     setIsCalculating(true);
     // progress는 useEffect에서 0으로 초기화됨
 
@@ -2531,6 +2549,9 @@ export default function RecommendV2Page() {
   const handleRestrictToBudget = useCallback(async () => {
     console.log('[handleRestrictToBudget] 시작', { budget });
 
+    // 로깅
+    logV2BudgetRestrictClicked(categoryKey, categoryName, budget.min, budget.max);
+
     // 예산 범위 내 제품 개수 미리 확인 (디버깅 로그 포함)
     const budgetCheckProducts = filteredProducts.filter(p => {
       const effectivePrice = p.lowestPrice ?? p.price ?? 0;
@@ -2567,7 +2588,7 @@ export default function RecommendV2Page() {
 
     // 전체 추천 로직 실행 (예산 하드필터 모드)
     await handleGetRecommendation(true);
-  }, [filteredProducts, budget, addMessage, handleGetRecommendation]);
+  }, [filteredProducts, budget, addMessage, handleGetRecommendation, categoryKey, categoryName]);
 
   // handleGetRecommendation ref 업데이트 (순환 의존성 방지용)
   useEffect(() => {
@@ -2767,6 +2788,7 @@ export default function RecommendV2Page() {
                 showAIHelper={true}
                 category={categoryKey}
                 userSelections={allUserSelections}
+                popularOptions={popularHardFilterOptions.filter(opt => opt.questionId === 'subcategory')}
               />
             </div>
           );
@@ -2960,6 +2982,9 @@ export default function RecommendV2Page() {
                 products={filteredProducts}
                 onDirectInput={(min, max, productsInRange) => {
                   logV2BudgetChanged(categoryKey, categoryName, min, max, true, productsInRange);
+                }}
+                onPresetClick={(preset, min, max, productsInRange) => {
+                  logV2BudgetPresetClicked(categoryKey, categoryName, preset, min, max, productsInRange);
                 }}
                 showAIHelper={true}
                 category={categoryKey}
@@ -3604,7 +3629,7 @@ export default function RecommendV2Page() {
             />
           </button>
           
-          <FeedbackButton source={`recommend-v2-${categoryKey}`} variant="minimal" className="ml-auto" />
+          {/* 의견 보내기 버튼 삭제됨 */}
         </header>
 
         {/* Content */}
@@ -3776,123 +3801,119 @@ export default function RecommendV2Page() {
               )}
             </AnimatePresence>
 
-            {/* 모달 옵션 버튼들 */}
+            {/* 모달 옵션 버튼들 - 우측 정렬, 플로팅 버튼 확장 느낌 */}
             <AnimatePresence>
               {showReRecommendModal && (
-                <div className="fixed bottom-24 left-0 right-0 flex flex-col items-center gap-3 z-[110] px-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                    className="flex flex-col gap-3 w-full"
+                <div
+                  className="fixed right-4 z-[110] flex flex-col items-end gap-2"
+                  style={{ bottom: '72px', maxWidth: '480px' }}
+                >
+                  {/* 다른 카테고리 추천받기 버튼 */}
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                    transition={{
+                      type: 'spring',
+                      damping: 20,
+                      stiffness: 300,
+                      delay: 0.05
+                    }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => {
+                      logV2ReRecommendDifferentCategory(categoryKey, categoryName);
+                      router.push('/categories');
+                    }}
+                    className="px-4 py-3 bg-white/95 backdrop-blur-sm rounded-2xl text-sm font-semibold text-gray-700 flex items-center gap-2 shadow-lg border border-gray-100/50"
                   >
-                    {/* 다른 카테고리 추천받기 버튼 */}
-                    <motion.button
-                      whileHover={{ scale: 1.02, backgroundColor: '#F9FAFB' }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        logV2ReRecommendDifferentCategory(categoryKey, categoryName);
-                        router.push('/categories');
-                      }}
-                      className="w-full py-4 px-6 bg-white text-gray-900 rounded-2xl border border-gray-100 font-semibold flex items-center justify-center gap-3 group overflow-hidden relative"
-                    >
-                      <motion.div
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.1 }}
-                        className="relative z-10 flex items-center gap-3"
-                      >
-                        <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-white transition-colors">
-                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                          </svg>
-                        </div>
-                        <span className="text-gray-700">다른 카테고리 추천받기</span>
-                      </motion.div>
-                    </motion.button>
+                    <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    다른 카테고리
+                  </motion.button>
 
-                    {/* 현재 카테고리 다시 추천받기 버튼 */}
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        // 로깅
-                        logV2ReRecommendSameCategory(categoryKey, categoryName);
-
-                        // sessionStorage 클리어 (복원 방지)
-                        sessionStorage.removeItem(`v2_result_${categoryKey}`);
-                        setIsRestoredFromStorage(false);
-
-                        // 상태 초기화 - Step 1 (체감속성)부터 다시 시작
-                        setCurrentStep(1);
-                        setUserContext(null);
-                        setCurrentHardFilterIndex(0);
-                        setHardFilterAnswers({});
-                        setBalanceSelections(new Set());
-                        setNegativeSelections([]);
-                        setScoredProducts([]);
-                        setConditionSummary([]);
-                        setMessages([]);
-                        setShowReRecommendModal(false);
-
-                        // useEffect 중복 호출 방지
-                        hasTriggeredGuideRef.current = false;  // Step 1부터 다시 시작하므로 리셋
-
-                        if (requiresSubCategory) {
-                          setSelectedSubCategoryCodes([]);
-                          setShowSubCategorySelector(false);
-                        }
-
-                        // DOM 업데이트 후 스크롤 맨 위로 초기화
+                  {/* 현재 카테고리 다시 추천받기 버튼 */}
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                    transition={{
+                      type: 'spring',
+                      damping: 20,
+                      stiffness: 300,
+                      delay: 0
+                    }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => {
+                      logV2ReRecommendSameCategory(categoryKey, categoryName);
+                      sessionStorage.removeItem(`v2_result_${categoryKey}`);
+                      setIsRestoredFromStorage(false);
+                      setCurrentStep(1);
+                      setUserContext(null);
+                      setCurrentHardFilterIndex(0);
+                      setHardFilterAnswers({});
+                      setBalanceSelections(new Set());
+                      setNegativeSelections([]);
+                      setScoredProducts([]);
+                      setConditionSummary([]);
+                      setMessages([]);
+                      setShowReRecommendModal(false);
+                      hasTriggeredGuideRef.current = false;
+                      if (requiresSubCategory) {
+                        setSelectedSubCategoryCodes([]);
+                        setShowSubCategorySelector(false);
+                      }
+                      requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
-                          requestAnimationFrame(() => {
-                            scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-                          });
+                          scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
                         });
+                      });
+                    }}
+                    className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
+                    style={{
+                      background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)'
+                    }}
+                  >
+                    <motion.svg
+                      className="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      animate={{
+                        rotate: [0, -15, 15, -15, 0],
+                        y: [0, -2, 0],
                       }}
-                      className="w-full py-4 px-6 bg-white text-[#6366F1] rounded-2xl border border-indigo-50 font-bold flex items-center justify-center gap-3 group relative overflow-hidden"
+                      transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatDelay: 2,
+                        ease: "easeInOut"
+                      }}
                     >
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-indigo-50/0 via-indigo-50/50 to-indigo-50/0"
-                        animate={{
-                          x: ['-100%', '100%'],
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: 'linear',
-                        }}
-                      />
-                      <motion.div
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="relative z-10 flex items-center gap-3"
-                      >
-                        <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-white transition-colors">
-                          <motion.svg 
-                            className="w-4 h-4 text-[#6366F1]" 
-                            viewBox="0 0 24 24" 
-                            fill="none"
-                            animate={{
-                              rotate: [0, -15, 15, -15, 0],
-                              y: [0, -2.5, 0],
-                            }}
-                            transition={{
-                              duration: 0.8,
-                              repeat: Infinity,
-                              repeatDelay: 2,
-                              ease: "easeInOut"
-                            }}
-                          >
-                            <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="currentColor" />
-                          </motion.svg>
-                        </div>
-                        <span>{categoryName} 다시 추천받기</span>
-                      </motion.div>
-                    </motion.button>
-                  </motion.div>
+                      <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+                    </motion.svg>
+                    {categoryName} 처음부터
+                  </motion.button>
+
+                  {/* 취소 버튼 */}
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      type: 'spring',
+                      damping: 20,
+                      stiffness: 300,
+                      delay: 0.1
+                    }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setShowReRecommendModal(false)}
+                    className="px-4 py-2.5 rounded-xl text-sm font-medium text-gray-500 bg-gray-100/80 backdrop-blur-sm"
+                  >
+                    취소
+                  </motion.button>
                 </div>
               )}
             </AnimatePresence>
@@ -3904,7 +3925,7 @@ export default function RecommendV2Page() {
                 style={{ bottom: '72px', maxWidth: '480px' }}
               >
                 {/* 예산 범위 내로 다시 추천받기 버튼 (조건부 표시) */}
-                {scoredProducts.some(p => {
+                {budget.max > 0 && scoredProducts.some(p => {
                   const effectivePrice = p.lowestPrice ?? p.price ?? 0;
                   return effectivePrice > budget.max || effectivePrice < budget.min;
                 }) && (
@@ -3914,12 +3935,15 @@ export default function RecommendV2Page() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleRestrictToBudget}
-                    className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
+                    className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
+                    style={{
+                      background: 'linear-gradient(90deg, #FF6B2B 0%, #FF9747 50%, #FFBB47 100%)'
+                    }}
                   >
-                    <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    정확한 예산으로 다시 추천
+                    정확한 예산 범위로 추천받기
                   </motion.button>
                 )}
 
@@ -3933,11 +3957,14 @@ export default function RecommendV2Page() {
                     logV2ReRecommendModalOpened(categoryKey, categoryName);
                     setShowReRecommendModal(true);
                   }}
-                  className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
+                  className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
+                  style={{
+                    background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)'
+                  }}
                 >
-                  <motion.svg 
-                    className="w-4 h-4" 
-                    viewBox="0 0 24 24" 
+                  <motion.svg
+                    className="w-4 h-4 text-white"
+                    viewBox="0 0 24 24"
                     fill="none"
                     animate={{
                       rotate: [0, -15, 15, -15, 0],
@@ -3950,44 +3977,19 @@ export default function RecommendV2Page() {
                       ease: "easeInOut"
                     }}
                   >
-                    <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_fab)" />
-                    <defs>
-                      <linearGradient id="ai_gradient_fab" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#77A0FF" />
-                        <stop offset="0.7" stopColor="#907FFF" />
-                        <stop offset="1" stopColor="#6947FF" />
-                      </linearGradient>
-                    </defs>
+                    <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
                   </motion.svg>
                   다시 추천받기
                 </motion.button>
               </div>
             )}
 
-            {/* 하단 바 - 채팅 입력창 / 취소 버튼 */}
-            <div
-              className={`fixed bottom-0 left-0 right-0 z-[110] transition-colors ${
-                showReRecommendModal ? 'bg-transparent px-4 py-4' : 'bg-transparent px-3 pb-2 pt-2'
-              }`}
-              style={{ maxWidth: '480px', margin: '0 auto' }}
-            >
-              {showReRecommendModal ? (
-                /* 취소 버튼 (모달 열렸을 때) */
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
-                  className="w-full"
-                >
-                  <button
-                    onClick={() => setShowReRecommendModal(false)}
-                    className="w-full h-14 rounded-2xl font-semibold text-base bg-gray-900 text-white hover:bg-gray-800 transition-all"
-                  >
-                    취소
-                  </button>
-                </motion.div>
-              ) : (
-                /* 채팅 입력창 */
+            {/* 하단 바 - 채팅 입력창 (모달 열렸을 때 숨김) */}
+            {!showReRecommendModal && (
+              <div
+                className="fixed bottom-0 left-0 right-0 z-[110] bg-transparent px-3 pb-2 pt-2"
+                style={{ maxWidth: '480px', margin: '0 auto' }}
+              >
                 <ResultChatContainer
                   products={scoredProducts}
                   categoryKey={categoryKey}
@@ -4023,12 +4025,12 @@ export default function RecommendV2Page() {
                   }}
                   onLoadingChange={setIsChatLoading}
                   chatHistory={messages
-                    .filter(m => m.role === 'user' || m.role === 'assistant')
+                    .filter(m => (m.role === 'user' || m.role === 'assistant') && !m.stepTag && !m.componentType)
                     .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
                   }
                 />
-              )}
-            </div>
+              </div>
+            )}
           </>
         )}
 

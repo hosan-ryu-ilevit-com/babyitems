@@ -457,17 +457,17 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                   className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left flex items-center justify-start ${
                     isCurrentSkipped
                       ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
-                      : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                      : (currentQuestion.option_A.target_rule_key && selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key)
                       ? 'border-blue-100 bg-blue-50'
                       : isCurrentBoth
                       ? 'border-gray-200 bg-gray-200'
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <span className={`text-[16px] font-medium leading-tight break-keep ${
+                  <span className={`text-[14px] font-medium leading-tight break-keep ${
                     isCurrentSkipped
                       ? 'text-gray-300'
-                      : selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key
+                      : (currentQuestion.option_A.target_rule_key && selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key)
                       ? 'text-blue-500'
                       : isCurrentBoth
                       ? 'text-gray-700'
@@ -491,17 +491,17 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                   className={`w-full min-h-[50px] py-[14px] px-4 rounded-xl border text-left flex items-center justify-start ${
                     isCurrentSkipped
                       ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
-                      : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                      : (currentQuestion.option_B.target_rule_key && selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key)
                       ? 'border-blue-100 bg-blue-50'
                       : isCurrentBoth
                       ? 'border-gray-200 bg-gray-200'
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <span className={`text-[16px] font-medium leading-tight break-keep ${
+                  <span className={`text-[14px] font-medium leading-tight break-keep ${
                     isCurrentSkipped
                       ? 'text-gray-300'
-                      : selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key
+                      : (currentQuestion.option_B.target_rule_key && selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key)
                       ? 'text-blue-500'
                       : isCurrentBoth
                       ? 'text-gray-700'
@@ -522,7 +522,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <span className={`text-[16px] font-medium ${
+                  <span className={`text-[14px] font-medium ${
                     isCurrentBoth ? 'text-blue-500' : 'text-gray-600'
                   }`}>
                     상관없어요

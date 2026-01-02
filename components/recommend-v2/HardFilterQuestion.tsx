@@ -187,7 +187,7 @@ function ReviewPriorityTags({
       >
         <div className="space-y-2">
           <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
-            실제 후기에서 가장 많이 언급된 조건이에요. <br />원하시는 조건을 골라주세요.
+            어떤 구매조건이 가장 중요하신가요?
           </h3>
             {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
         <div className="flex items-center gap-3">
@@ -269,7 +269,7 @@ function ReviewPriorityTags({
               onMouseEnter={() => setExpandedTag(option.value)}
               onMouseLeave={() => setExpandedTag(null)}
               whileTap={{ scale: 0.98 }}
-              className={`w-full min-h-11 ${isGridMode ? 'py-2.5 px-3' : 'py-3.5 px-4'} rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-2
+              className={`w-full min-h-10 ${isGridMode ? 'py-2 px-3' : 'py-2.5 px-4'} rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-2
                 ${isSelected
                   ? 'bg-blue-50 text-blue-500 border-blue-100'
                   : 'bg-white text-gray-600 border-gray-100 hover:border-gray-200'
@@ -277,7 +277,7 @@ function ReviewPriorityTags({
               `}
             >
               {/* 레이블 */}
-              <span className={`${isGridMode ? 'text-[14px]' : 'text-[16px]'} font-medium flex-1 break-keep leading-tight`}>
+              <span className="text-[14px] font-medium flex-1 break-keep leading-tight">
                 {option.displayLabel || option.label}
               </span>
 
@@ -722,7 +722,7 @@ export function HardFilterQuestion({
               onClick={() => handleOptionClick(option.value)}
               disabled={isDisabled}
               whileTap={isDisabled ? undefined : { scale: 0.98 }}
-              className={`w-full min-h-11 ${isGridMode ? 'py-2.5 px-3' : 'py-3.5 px-4'} rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-2 ${
+              className={`w-full min-h-10 ${isGridMode ? 'py-2 px-3' : 'py-2.5 px-4'} rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-2 ${
                 isDisabled
                   ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                   : isSelected
@@ -732,7 +732,7 @@ export function HardFilterQuestion({
             >
               {/* 옵션 텍스트 */}
               <span
-                className={`${isGridMode ? 'text-[14px]' : 'text-[16px]'} font-medium flex-1 break-keep leading-tight ${
+                className={`text-[14px] font-medium flex-1 break-keep leading-tight ${
                   isDisabled
                     ? 'text-gray-300'
                     : isSelected

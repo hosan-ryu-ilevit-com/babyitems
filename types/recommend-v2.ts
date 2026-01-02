@@ -392,6 +392,35 @@ export const CATEGORY_BUDGET_RANGES: Record<string, { min: number; max: number; 
 };
 
 // ===================================================
+// 카테고리별 예산 프리셋 도메인 지식 (일반적 인식 기준)
+// budgetMax: 가성비 상한, standardMax: 평균 상한 (이상은 프리미엄)
+// ===================================================
+
+export interface BudgetPresetThresholds {
+  budgetMax: number;    // 가성비 구간 상한
+  standardMax: number;  // 평균 구간 상한 (초과시 프리미엄)
+}
+
+export const CATEGORY_BUDGET_PRESETS: Record<string, BudgetPresetThresholds> = {
+  baby_bottle: { budgetMax: 15000, standardMax: 35000 },        // 젖병: ~1.5만 가성비, 1.5~3.5만 평균
+  formula_pot: { budgetMax: 80000, standardMax: 150000 },       // 분유포트: ~8만 가성비, 8~15만 평균
+  stroller: { budgetMax: 300000, standardMax: 800000 },         // 유모차: ~30만 가성비, 30~80만 평균
+  car_seat: { budgetMax: 250000, standardMax: 600000 },         // 카시트: ~25만 가성비, 25~60만 평균
+  diaper: { budgetMax: 25000, standardMax: 45000 },             // 기저귀: ~2.5만 가성비, 2.5~4.5만 평균
+  high_chair: { budgetMax: 100000, standardMax: 250000 },       // 하이체어: ~10만 가성비, 10~25만 평균
+  baby_bed: { budgetMax: 200000, standardMax: 500000 },         // 아기침대: ~20만 가성비, 20~50만 평균
+  thermometer: { budgetMax: 20000, standardMax: 50000 },        // 체온계: ~2만 가성비, 2~5만 평균
+  baby_wipes: { budgetMax: 12000, standardMax: 25000 },         // 물티슈: ~1.2만 가성비, 1.2~2.5만 평균
+  formula: { budgetMax: 35000, standardMax: 60000 },            // 분유: ~3.5만 가성비, 3.5~6만 평균
+  formula_maker: { budgetMax: 180000, standardMax: 300000 },    // 분유제조기: ~18만 가성비, 18~30만 평균
+  pacifier: { budgetMax: 10000, standardMax: 25000 },           // 공갈젖꼭지: ~1만 가성비, 1~2.5만 평균
+  baby_sofa: { budgetMax: 80000, standardMax: 150000 },         // 아기소파: ~8만 가성비, 8~15만 평균
+  baby_desk: { budgetMax: 100000, standardMax: 250000 },        // 아기책상: ~10만 가성비, 10~25만 평균
+  nasal_aspirator: { budgetMax: 40000, standardMax: 100000 },   // 코흡입기: ~4만 가성비, 4~10만 평균
+  ip_camera: { budgetMax: 60000, standardMax: 150000 },         // IP카메라: ~6만 가성비, 6~15만 평균
+};
+
+// ===================================================
 // 카테고리별 기본 밸런스 질문 ID (최소 보장용)
 // ===================================================
 

@@ -51,12 +51,12 @@ export async function GET(request: NextRequest) {
     startDate.setDate(startDate.getDate() - 14);
     const startDateStr = startDate.toISOString();
 
-    // DB 레벨에서 event_type 필터링 (v2_hard_filter_answer만 조회)
+    // DB 레벨에서 event_type 필터링 (v2_hard_filter_answer + v2_subcategory_selected 조회)
     console.log(`[HardFilterStats] Fetching from DB with event_type filter...`);
     const { data: rows, error } = await supabase
       .from('event_logs')
-      .select('event_data')
-      .eq('event_type', 'v2_hard_filter_answer')
+      .select('event_type, event_data')
+      .in('event_type', ['v2_hard_filter_answer', 'v2_subcategory_selected'])
       .gte('timestamp', startDateStr)
       .order('timestamp', { ascending: false });
 
@@ -82,9 +82,8 @@ export async function GET(request: NextRequest) {
 
     rows.forEach((row) => {
       const eventData = row.event_data as any;
-      if (!eventData?.v2FlowData?.hardFilter) return;
+      if (!eventData?.v2FlowData) return;
 
-      const { hardFilter } = eventData.v2FlowData;
       const eventCategory = eventData.v2FlowData.category;
 
       // 카테고리 필터링 (특정 카테고리만 또는 전체)
@@ -92,27 +91,46 @@ export async function GET(request: NextRequest) {
         return;
       }
 
-      const { questionId, selectedValues, selectedLabels } = hardFilter;
+      if (row.event_type === 'v2_subcategory_selected') {
+        const subCategory = eventData.v2FlowData.subCategory;
+        if (!subCategory?.code) return;
 
-      if (!questionId || !selectedValues) return;
-
-      if (!optionCounts.has(questionId)) {
-        optionCounts.set(questionId, new Map());
-      }
-
-      const questionStats = optionCounts.get(questionId)!;
-
-      selectedValues.forEach((value: string, index: number) => {
-        // skip 옵션 제외 (상관없어요 등)
-        if (value.toLowerCase() === 'skip' || value.includes('상관없')) {
-          return;
+        const questionId = 'subcategory'; // 서브카테고리는 고정된 questionId 사용
+        if (!optionCounts.has(questionId)) {
+          optionCounts.set(questionId, new Map());
         }
 
-        const label = selectedLabels?.[index] || value;
-        const existing = questionStats.get(value) || { label, count: 0 };
+        const questionStats = optionCounts.get(questionId)!;
+        const label = subCategory.name || subCategory.code;
+        const existing = questionStats.get(subCategory.code) || { label, count: 0 };
         existing.count++;
-        questionStats.set(value, existing);
-      });
+        questionStats.set(subCategory.code, existing);
+      } else if (row.event_type === 'v2_hard_filter_answer') {
+        const { hardFilter } = eventData.v2FlowData;
+        if (!hardFilter) return;
+
+        const { questionId, selectedValues, selectedLabels } = hardFilter;
+
+        if (!questionId || !selectedValues) return;
+
+        if (!optionCounts.has(questionId)) {
+          optionCounts.set(questionId, new Map());
+        }
+
+        const questionStats = optionCounts.get(questionId)!;
+
+        selectedValues.forEach((value: string, index: number) => {
+          // skip 옵션 제외 (상관없어요 등)
+          if (value.toLowerCase() === 'skip' || value.includes('상관없')) {
+            return;
+          }
+
+          const label = selectedLabels?.[index] || value;
+          const existing = questionStats.get(value) || { label, count: 0 };
+          existing.count++;
+          questionStats.set(value, existing);
+        });
+      }
     });
 
     // 결과 배열 생성

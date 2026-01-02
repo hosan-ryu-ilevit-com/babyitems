@@ -75,7 +75,9 @@ export type LogEventType =
   | 'recommend_with_natural_input_clicked' // 자연어 입력 후 추천받기 클릭
   // Result Chat (추천 결과 채팅) 이벤트
   | 'result_chat_message' // 결과 페이지 채팅 메시지 (사용자 + AI 응답)
-  | 'result_chat_full_history'; // 결과 페이지 채팅 전체 대화 내역
+  | 'result_chat_full_history' // 결과 페이지 채팅 전체 대화 내역
+  // 예산 관련 추가 이벤트
+  | 'v2_budget_restrict_clicked'; // 정확한 예산 범위로 추천받기 클릭
 
 export interface LogEvent {
   sessionId: string;

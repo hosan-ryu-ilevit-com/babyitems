@@ -127,7 +127,7 @@ export function BalanceGameCard({
           className="w-full min-h-[50px] py-2 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
         >
           <div className="flex items-center justify-start h-full px-4 gap-3">
-            <span className="text-[16px] font-medium text-gray-600 leading-snug break-keep text-left">
+            <span className="text-[14px] font-medium text-gray-600 leading-snug break-keep text-left">
               {question.option_A.text}
             </span>
           </div>
@@ -149,7 +149,7 @@ export function BalanceGameCard({
           className="w-full min-h-[50px] py-2 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
         >
           <div className="flex items-center justify-start h-full px-4 gap-3">
-            <span className="text-[16px] font-medium text-gray-600 leading-snug break-keep text-left">
+            <span className="text-[14px] font-medium text-gray-600 leading-snug break-keep text-left">
               {question.option_B.text}
             </span>
           </div>

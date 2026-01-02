@@ -928,15 +928,15 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                             <div className="flex items-center gap-2 mb-5">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-                              <h4 className="text-[18px] font-semibold text-[#6344FF] leading-tight">
+                              <h4 className="text-[16px] font-semibold text-[#6344FF] leading-tight">
                                 왜 추천했나요?
                               </h4>
                             </div>
                             <div className="space-y-[6px] mb-2">
                               {recommendationSentences.map((sentence, i) => (
                                 <div key={i} className="flex items-start gap-2.5">
-                                  <span className="text-[16px] text-gray-800 shrink-0 mt-0.5">✔</span>
-                                  <p className="text-[16px] font-medium text-gray-800 leading-snug">
+                                  <span className="text-[14px] text-gray-800 shrink-0 mt-0.5">✔</span>
+                                  <p className="text-[14px] font-medium text-gray-800 leading-snug">
                                     {parseMarkdownBold(sentence)}
                                   </p>
                                 </div>
@@ -954,7 +954,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                             <div className="flex items-center gap-2">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-                              <h4 className="text-[18px] font-bold text-[#4E43E1] leading-tight">
+                              <h4 className="text-[16px] font-bold text-[#4E43E1] leading-tight">
                                 선호 속성
                               </h4>
                             </div>
@@ -980,15 +980,15 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                 return (
                                   <div key={i}>
                                     <div className="flex items-start justify-between mb-2 gap-2">
-                                      <strong className="text-[16px] font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
+                                      <strong className="text-[14px] font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
                                         {cond.condition}
                                       </strong>
-                                      <span className={`px-2.5 py-1 rounded-md text-sm font-semibold shrink-0 ${badgeColor}`}>
+                                      <span className={`px-2 py-0.5 rounded-md text-xs font-semibold shrink-0 ${badgeColor}`}>
                                         {badgeText}
                                       </span>
                                     </div>
-                                    <p 
-                                      className="text-[16px] text-gray-700 font-medium"
+                                    <p
+                                      className="text-[14px] text-gray-700 font-medium"
                                       style={{ lineHeight: '1.4' }}
                                     >
                                       {parseMarkdownBold(cond.evidence)}
@@ -1008,7 +1008,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                           <div className="flex items-center gap-2">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-                            <h4 className="text-[18px] font-bold text-[#4E43E1] leading-tight">
+                            <h4 className="text-[16px] font-bold text-[#4E43E1] leading-tight">
                               피할 단점
                             </h4>
                           </div>
@@ -1034,15 +1034,15 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                 return (
                                   <div key={i}>
                                     <div className="flex items-start justify-between mb-2 gap-2">
-                                      <strong className="text-[16px] font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
+                                      <strong className="text-[14px] font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
                                         {cond.condition}
                                       </strong>
-                                      <span className={`px-2.5 py-1 rounded-md text-sm font-semibold shrink-0 ${badgeColor}`}>
+                                      <span className={`px-2 py-0.5 rounded-md text-xs font-semibold shrink-0 ${badgeColor}`}>
                                         {badgeText}
                                       </span>
                                     </div>
-                                    <p 
-                                      className="text-[16px] text-gray-700 font-medium"
+                                    <p
+                                      className="text-[14px] text-gray-700 font-medium"
                                       style={{ lineHeight: '1.4' }}
                                     >
                                       {parseMarkdownBold(cond.evidence)}

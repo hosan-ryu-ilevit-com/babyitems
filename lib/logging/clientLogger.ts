@@ -1758,3 +1758,25 @@ export function logResultChatFullHistory(
     },
   });
 }
+
+// 20. 정확한 예산 범위로 추천받기 버튼 클릭
+export function logV2BudgetRestrictClicked(
+  category: string,
+  categoryName: string,
+  budgetMin: number,
+  budgetMax: number
+): void {
+  sendLogEvent('v2_budget_restrict_clicked', {
+    page: 'recommend-v2',
+    buttonLabel: '정확한 예산 범위로 추천받기',
+    v2FlowData: {
+      category,
+      categoryName,
+      step: 5,
+      budget: {
+        min: budgetMin,
+        max: budgetMax,
+      },
+    },
+  });
+}

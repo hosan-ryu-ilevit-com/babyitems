@@ -229,6 +229,154 @@ function ReviewCard({ insight }: { insight: ReviewInsight }) {
   );
 }
 
+// ReviewHighlightsSection 컴포넌트
+function ReviewHighlightsSection({
+  product,
+  index,
+  insights,
+  isLoading,
+  isExpanded,
+  onToggle,
+  onProductClick,
+}: {
+  product: RecommendedProduct;
+  index: number;
+  insights?: ProductReviewInsights;
+  isLoading: boolean;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onProductClick: (product: RecommendedProduct, index: number) => void;
+}) {
+  const hasInsights = insights?.insights && insights.insights.length > 0;
+
+  // 로딩 중이거나 인사이트가 있는 경우에만 표시
+  if (!isLoading && !hasInsights) return null;
+
+  const handleViewAllReviews = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onProductClick(product, index);
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('openReviewTab'));
+    }, 100);
+    logButtonClick('리뷰하이라이트_모두보기_클릭', 'v2-result');
+  };
+
+  return (
+    <div className="mt-2">
+      {/* 토글 버튼 - 텍스트는 좌우 패딩 유지 */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggle();
+        }}
+        className="w-full flex items-center justify-between py-2 px-1 bg-transparent transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 flex items-center justify-center shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/ic-ai.svg" alt="" width={16} height={16} />
+          </div>
+          <span className="text-[15px] font-semibold ai-gradient-text">
+            {isLoading 
+              ? '실시간 리뷰 분석 중...' 
+              : `리뷰 하이라이트 (${insights?.insights.length || 0})`
+            }
+          </span>
+        </div>
+        <motion.div
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <svg
+            className="w-5 h-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </motion.div>
+      </button>
+
+      {/* 가로 스크롤 + 버튼을 하나의 AnimatePresence로 통합 */}
+      <AnimatePresence initial={false}>
+        {isExpanded && (
+          <motion.div
+            key="review-highlights-content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="-mx-5 overflow-hidden"
+          >
+            {/* 가로 스크롤 영역 - 화면 끝까지 확장 */}
+            <div className="mt-2">
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="flex gap-3 pb-2 px-5">
+                {isLoading ? (
+                  /* 로딩 스켈레톤 */
+                  [1, 2, 3].map((i) => (
+                    <div key={i} className="min-w-[280px] bg-white rounded-2xl p-4 border border-gray-100 animate-pulse">
+                      <div className="h-6 w-24 bg-gray-50 rounded-lg mb-4"></div>
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="h-4 w-12 bg-gray-50 rounded"></div>
+                        <div className="h-4 w-16 bg-gray-50 rounded"></div>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="h-4 bg-gray-50 rounded w-full"></div>
+                        <div className="h-4 bg-gray-50 rounded w-4/5"></div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  /* 리뷰 카드 목록 */
+                  insights?.insights.slice(0, 3).map((insight, i) => (
+                    <div
+                      key={i}
+                      className="cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onProductClick(product, index);
+                        setTimeout(() => {
+                          window.dispatchEvent(new CustomEvent('openReviewTab'));
+                        }, 100);
+                        logButtonClick('리뷰하이라이트_클릭', 'v2-result');
+                      }}
+                    >
+                      <ReviewCard insight={insight} />
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+            </div>
+
+            {/* 리뷰 모두보기 버튼 */}
+            {!isLoading && (
+              <div className="px-6 mt-4">
+                <button
+                  onClick={handleViewAllReviews}
+                  className="w-full py-2.5 px-4 bg-gray-50 rounded-xl text-sm font-medium text-gray-600 flex items-center justify-center gap-1.5 active:bg-gray-100 transition-colors border border-gray-100/50 mb-2"
+                >
+                  <span>리뷰 모두보기 ({insights?.reviewCount?.toLocaleString() || 0})</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M9 18L15 12L9 6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // Extended product type with LLM recommendation reason + variants
 interface RecommendedProduct extends ScoredProduct {
   recommendationReason?: string;
@@ -393,6 +541,21 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
   const [reviewInsights, setReviewInsights] = useState<Record<string, ProductReviewInsights>>({});
   const [isReviewInsightsLoading, setIsReviewInsightsLoading] = useState(false);
   const reviewInsightsFetchedRef = useRef(false);
+
+  // 리뷰 하이라이트 토글 상태
+  const [expandedReviews, setExpandedReviews] = useState<Record<string, boolean>>({});
+
+  // 리뷰 분석 중 시뮬레이션 (최소 N초 노출)
+  const [isSimulatedReviewLoading, setIsSimulatedReviewLoading] = useState(true);
+
+  useEffect(() => {
+    // 1.8초~2.5초 사이 랜덤하게 로딩 종료
+    const duration = Math.floor(Math.random() * 700) + 1800;
+    const timer = setTimeout(() => {
+      setIsSimulatedReviewLoading(false);
+    }, duration);
+    return () => clearTimeout(timer);
+  }, []);
 
   // LLM 하이라이팅은 이제 /api/v2/review-keywords에서 topSample에 포함되어 반환됨
 
@@ -1305,31 +1468,6 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
               </div>
             </div>
 
-            {/* 버튼 그룹 */}
-            <div className="mt-4 flex gap-2 px-1">
-              {/* 상세 보기 버튼 */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleProductClick(product, index);
-                  logButtonClick('상세보기_PLP', 'v2-result');
-                }}
-                className="flex-1 py-2.5 text-sm font-medium text-gray-800 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
-              >
-                상세 보기
-              </button>
-              {/* 최저가 구매하기 버튼 */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleProductClick(product, index, true);
-                }}
-                className="flex-1 py-2.5 text-sm font-medium text-white rounded-xl transition-colors flex items-center justify-center gap-1 bg-black hover:bg-gray-900"
-              >
-                최저가 구매하기
-              </button>
-            </div>
-
             {/* 예산 비교 뱃지 - AI 추천이유 위에 배치 */}
             {(() => {
               const effectivePrice = (hasLowestPrice ? danawa.lowest_price! : (product.lowestPrice || product.price || 0));
@@ -1381,66 +1519,68 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
 
             {/* LLM 추천 이유 & 리뷰 하이라이트 */}
             {product.recommendationReason && (
-              <div className="mt-4 px-1">
+              <div className="mt-4">
                 {/* 한줄 평 헤더 */}
-                <div className="flex items-center gap-1.5 mb-2.5">
+                <div className="flex items-center gap-1.5 mb-2.5 px-1">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
                   <span className="text-[16px] font-medium ai-gradient-text">한줄 평</span>
                 </div>
 
                 {/* 추천 이유 (인용구 스타일) */}
-                <div className="pl-4 border-l-[3px] border-gray-100 mb-6">
+                <div className="relative pl-3 mb-2 ml-2 mr-1">
+                  <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full ai-gradient-bg opacity-50" />
                   <p className="text-[14px] text-gray-600 leading-[1.4] font-medium">
                     {parseMarkdownBold(product.recommendationReason)}
                   </p>
                 </div>
 
-                {/* 리뷰 기반 인사이트 (가로 스크롤 캐러셀) */}
-                {(isReviewInsightsLoading || (reviewInsights[product.pcode]?.insights && reviewInsights[product.pcode].insights.length > 0)) && (
-                  <div className="mt-2 -mx-4 px-4 overflow-x-auto scrollbar-hide">
-                    {isReviewInsightsLoading ? (
-                      /* 로딩 스켈레톤 */
-                      <div className="flex gap-3 pb-2">
-                        {[1, 2, 3].map((i) => (
-                          <div key={i} className="min-w-[280px] bg-white rounded-2xl p-4 border border-gray-100 animate-pulse">
-                            <div className="h-6 w-24 bg-gray-50 rounded-lg mb-4"></div>
-                            <div className="flex items-center gap-2 mb-4">
-                              <div className="h-4 w-12 bg-gray-50 rounded"></div>
-                              <div className="h-4 w-16 bg-gray-50 rounded"></div>
-                            </div>
-                            <div className="space-y-2">
-                              <div className="h-4 bg-gray-50 rounded w-full"></div>
-                              <div className="h-4 bg-gray-50 rounded w-4/5"></div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      /* 리뷰 카드 목록 (가로 스크롤) */
-                      <div className="flex gap-3 pb-2">
-                        {reviewInsights[product.pcode].insights.slice(0, 3).map((insight, i) => (
-                          <div
-                            key={i}
-                            className="cursor-pointer"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleProductClick(product, index);
-                              setTimeout(() => {
-                                window.dispatchEvent(new CustomEvent('openReviewTab'));
-                              }, 100);
-                              logButtonClick('리뷰하이라이트_클릭', 'v2-result');
-                            }}
-                          >
-                            <ReviewCard insight={insight} />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
+                {/* 리뷰 기반 하이라이트 (토글 형식) */}
+                <ReviewHighlightsSection
+                  product={product}
+                  index={index}
+                  insights={reviewInsights[product.pcode]}
+                  isLoading={isReviewInsightsLoading || isSimulatedReviewLoading}
+                  isExpanded={expandedReviews[product.pcode] || false}
+                  onToggle={() => {
+                    setExpandedReviews(prev => ({
+                      ...prev,
+                      [product.pcode]: !prev[product.pcode]
+                    }));
+                    logButtonClick(
+                      expandedReviews[product.pcode] ? '리뷰하이라이트_접기' : '리뷰하이라이트_펼치기',
+                      'v2-result'
+                    );
+                  }}
+                  onProductClick={handleProductClick}
+                />
               </div>
             )}
+
+            {/* 버튼 그룹 - 리뷰 하이라이트 아래 */}
+            <div className="mt-4 flex gap-2 px-1">
+              {/* 상세 보기 버튼 */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProductClick(product, index);
+                  logButtonClick('상세보기_PLP', 'v2-result');
+                }}
+                className="flex-1 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
+              >
+                상세 보기
+              </button>
+              {/* 최저가 구매하기 버튼 */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProductClick(product, index, true);
+                }}
+                className="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl transition-colors flex items-center justify-center gap-1 bg-black hover:bg-gray-900"
+              >
+                최저가 구매하기
+              </button>
+            </div>
             </motion.div>
           </div>
             );

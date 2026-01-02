@@ -94,14 +94,14 @@ export default function DirectInputField({
           initial={{ scale: 0.98 }}
           animate={{ scale: 1 }}
           onClick={handleEdit}
-          className={`w-full p-4 rounded-xl border text-left transition-all ${
+          className={`w-full p-3.5 rounded-xl border text-left transition-all ${
             isNegative 
               ? 'border-red-100 bg-red-50' 
               : 'border-blue-100 bg-blue-50'
           }`}
         >
           <div className="flex items-center gap-3">
-            <span className={`text-[16px] font-medium flex-1 ${
+            <span className={`text-[14px] font-medium flex-1 ${
               isNegative ? 'text-red-500' : 'text-blue-500'
             }`}>
               {value}
@@ -130,26 +130,26 @@ export default function DirectInputField({
             disabled={disabled}
             placeholder={placeholder}
             className={`
-              flex-1 px-4 py-3 rounded-xl
+              flex-1 px-4 py-2.5 rounded-xl
               border 
               ${isFocused 
                 ? (isNegative ? 'border-red-400 bg-white' : 'border-blue-400 bg-white')
                 : 'border-gray-200 bg-[#F8F9FB]'
               }
-              text-base text-gray-700
+              text-[14px] text-gray-700
               placeholder:text-gray-400
               transition-all duration-200
               focus:outline-none
               disabled:bg-gray-50 disabled:cursor-not-allowed
             `}
-            style={{ fontSize: '16px' }}
+            style={{ fontSize: '14px' }}
           />
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleRegister}
             disabled={value.trim().length < 2}
             className={`
-              px-5 py-3 rounded-xl font-bold text-[15px] whitespace-nowrap
+              px-5 py-2.5 rounded-xl font-bold text-[14px] whitespace-nowrap
               transition-all duration-200
               ${value.trim().length >= 2
                 ? 'bg-[#111827] text-white'
@@ -164,13 +164,13 @@ export default function DirectInputField({
         /* 초기 상태 - 직접 추가 버튼 (점선 테두리) */
         <button
           onClick={handleEdit}
-          className="w-full h-[52px] rounded-xl border-2 border-dashed border-gray-200 bg-white flex items-center justify-center gap-2 text-gray-400 hover:border-gray-300 hover:bg-gray-50 transition-all active:scale-[0.98]"
+          className="w-full h-[46px] rounded-xl border-2 border-dashed border-gray-200 bg-white flex items-center justify-center gap-2 text-gray-400 hover:border-gray-300 hover:bg-gray-50 transition-all active:scale-[0.98]"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
-          <span className="text-[16px] font-medium">직접 추가</span>
+          <span className="text-[14px] font-medium">직접 추가</span>
         </button>
       )}
 
