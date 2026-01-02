@@ -3,9 +3,15 @@
 import { motion } from 'framer-motion';
 
 export function LoadingDots() {
+  const dots = [
+    'bg-blue-500',
+    'bg-blue-300',
+    'bg-blue-100'
+  ];
+
   return (
     <div className="flex items-center justify-center gap-1.5 h-6">
-      {[0, 1, 2].map((i) => (
+      {dots.map((color, i) => (
         <motion.div
           key={i}
           initial={{ opacity: 0.3, y: 0 }}
@@ -19,7 +25,7 @@ export function LoadingDots() {
             delay: i * 0.15,
             ease: "easeInOut"
           }}
-          className="w-2 h-2 rounded-full bg-purple-500"
+          className={`w-2 h-2 rounded-full ${color}`}
         />
       ))}
     </div>

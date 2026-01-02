@@ -53,6 +53,7 @@ import { FollowupCarousel } from '@/components/recommend-v2/FollowupCarousel';
 import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
 import { ThinkingMessage } from '@/components/recommend-v2/ThinkingMessage';
 import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
+import SimpleConfirmModal from '@/components/SimpleConfirmModal';
 
 // Utils
 import {
@@ -2574,6 +2575,47 @@ export default function RecommendV2Page() {
     handleGetRecommendationRef.current = handleGetRecommendation;
   }, [handleGetRecommendation]);
 
+  const handleReRecommendSameCategory = useCallback(() => {
+    // 로깅
+    logV2ReRecommendSameCategory(categoryKey, categoryName);
+
+    // sessionStorage 클리어 (복원 방지)
+    sessionStorage.removeItem(`v2_result_${categoryKey}`);
+    setIsRestoredFromStorage(false);
+
+    // 상태 초기화 - Step 1 (체감속성)부터 다시 시작
+    setCurrentStep(1);
+    setUserContext(null);
+    setCurrentHardFilterIndex(0);
+    setHardFilterAnswers({});
+    setBalanceSelections(new Set());
+    setNegativeSelections([]);
+    setScoredProducts([]);
+    setConditionSummary([]);
+    setMessages([]);
+    setShowReRecommendModal(false);
+
+    // useEffect 중복 호출 방지
+    hasTriggeredGuideRef.current = false;  // Step 1부터 다시 시작하므로 리셋
+
+    if (requiresSubCategory) {
+      setSelectedSubCategoryCodes([]);
+      setShowSubCategorySelector(false);
+    }
+
+    // DOM 업데이트 후 스크롤 맨 위로 초기화
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  }, [categoryKey, categoryName, requiresSubCategory]);
+
+  const handleReRecommendDifferentCategory = useCallback(() => {
+    logV2ReRecommendDifferentCategory(categoryKey, categoryName);
+    router.push('/categories');
+  }, [categoryKey, categoryName, router]);
+
   // ===================================================
   // Render Message
   // ===================================================
@@ -3572,8 +3614,8 @@ export default function RecommendV2Page() {
 
             {/* 로딩 메시지 */}
             <div className="flex flex-col items-center">
-              <span className="text-sm font-semibold text-gray-500 text-center">
-                데이터를 불러오는 중...
+              <span className="text-[16px] font-semibold text-gray-700 text-center">
+                질문을 불러오고 있어요...
               </span>
             </div>
           </div>
@@ -3642,7 +3684,7 @@ export default function RecommendV2Page() {
           {currentStep === 5 && isLoadingFollowup && !showFollowupCarousel && !isCalculating && scoredProducts.length === 0 && (
             <div data-followup-area className="mt-8 mb-4 flex flex-col items-center justify-center py-12">
               <LoadingDots />
-              <p className="mt-4 text-sm text-gray-500">추가로 확인할 사항이 있는지 분석 중...</p>
+              <p className="mt-4 text-[16px] font-semibold text-gray-700">추가로 확인할 사항이 있는지 분석 중...</p>
             </div>
           )}
 
@@ -3762,316 +3804,137 @@ export default function RecommendV2Page() {
               }
             `}</style>
 
-            {/* 배경 오버레이 */}
-            <AnimatePresence>
-              {showReRecommendModal && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25, ease: 'easeInOut' }}
-                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[100]"
-                  onClick={() => setShowReRecommendModal(false)}
-                />
-              )}
-            </AnimatePresence>
-
-            {/* 모달 옵션 버튼들 */}
-            <AnimatePresence>
-              {showReRecommendModal && (
-                <div className="fixed bottom-24 left-0 right-0 flex flex-col items-center gap-3 z-[110] px-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                    className="flex flex-col gap-3 w-full"
-                  >
-                    {/* 다른 카테고리 추천받기 버튼 */}
-                    <motion.button
-                      whileHover={{ scale: 1.02, backgroundColor: '#F9FAFB' }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        logV2ReRecommendDifferentCategory(categoryKey, categoryName);
-                        router.push('/categories');
-                      }}
-                      className="w-full py-4 px-6 bg-white text-gray-900 rounded-2xl border border-gray-100 font-semibold flex items-center justify-center gap-3 group overflow-hidden relative"
-                    >
-                      <motion.div
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.1 }}
-                        className="relative z-10 flex items-center gap-3"
-                      >
-                        <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-white transition-colors">
-                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                          </svg>
-                        </div>
-                        <span className="text-gray-700">다른 카테고리 추천받기</span>
-                      </motion.div>
-                    </motion.button>
-
-                    {/* 현재 카테고리 다시 추천받기 버튼 */}
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        // 로깅
-                        logV2ReRecommendSameCategory(categoryKey, categoryName);
-
-                        // sessionStorage 클리어 (복원 방지)
-                        sessionStorage.removeItem(`v2_result_${categoryKey}`);
-                        setIsRestoredFromStorage(false);
-
-                        // 상태 초기화 - Step 1 (체감속성)부터 다시 시작
-                        setCurrentStep(1);
-                        setUserContext(null);
-                        setCurrentHardFilterIndex(0);
-                        setHardFilterAnswers({});
-                        setBalanceSelections(new Set());
-                        setNegativeSelections([]);
-                        setScoredProducts([]);
-                        setConditionSummary([]);
-                        setMessages([]);
-                        setShowReRecommendModal(false);
-
-                        // useEffect 중복 호출 방지
-                        hasTriggeredGuideRef.current = false;  // Step 1부터 다시 시작하므로 리셋
-
-                        if (requiresSubCategory) {
-                          setSelectedSubCategoryCodes([]);
-                          setShowSubCategorySelector(false);
-                        }
-
-                        // DOM 업데이트 후 스크롤 맨 위로 초기화
-                        requestAnimationFrame(() => {
-                          requestAnimationFrame(() => {
-                            scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-                          });
-                        });
-                      }}
-                      className="w-full py-4 px-6 bg-white text-[#6366F1] rounded-2xl border border-indigo-50 font-bold flex items-center justify-center gap-3 group relative overflow-hidden"
-                    >
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-indigo-50/0 via-indigo-50/50 to-indigo-50/0"
-                        animate={{
-                          x: ['-100%', '100%'],
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: 'linear',
-                        }}
-                      />
-                      <motion.div
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="relative z-10 flex items-center gap-3"
-                      >
-                        <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-white transition-colors">
-                          <motion.svg 
-                            className="w-4 h-4 text-[#6366F1]" 
-                            viewBox="0 0 24 24" 
-                            fill="none"
-                            animate={{
-                              rotate: [0, -15, 15, -15, 0],
-                              y: [0, -2.5, 0],
-                            }}
-                            transition={{
-                              duration: 0.8,
-                              repeat: Infinity,
-                              repeatDelay: 2,
-                              ease: "easeInOut"
-                            }}
-                          >
-                            <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="currentColor" />
-                          </motion.svg>
-                        </div>
-                        <span>{categoryName} 다시 추천받기</span>
-                      </motion.div>
-                    </motion.button>
-                  </motion.div>
-                </div>
-              )}
-            </AnimatePresence>
-
             {/* 플로팅 버튼 영역 (우측 하단) */}
-            {!showReRecommendModal && (
-              <div
-                className="fixed right-4 z-[105] flex flex-row items-center gap-2"
-                style={{ bottom: '72px', maxWidth: '480px' }}
-              >
-                {/* 예산 범위 내로 다시 추천받기 버튼 (조건부 표시) */}
-                {scoredProducts.some(p => {
-                  const effectivePrice = p.lowestPrice ?? p.price ?? 0;
-                  return effectivePrice > budget.max || effectivePrice < budget.min;
-                }) && (
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleRestrictToBudget}
-                    className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
-                  >
-                    <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    정확한 예산으로 다시 추천
-                  </motion.button>
-                )}
-
-                {/* 다시 추천받기 버튼 */}
+            <div
+              className="fixed right-4 z-[105] flex flex-row items-center gap-2"
+              style={{ bottom: '72px', maxWidth: '480px' }}
+            >
+              {/* 예산 범위 내로 다시 추천받기 버튼 (조건부 표시) */}
+              {scoredProducts.some(p => {
+                const effectivePrice = p.lowestPrice ?? p.price ?? 0;
+                return effectivePrice > budget.max || effectivePrice < budget.min;
+              }) && (
                 <motion.button
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    logV2ReRecommendModalOpened(categoryKey, categoryName);
-                    setShowReRecommendModal(true);
-                  }}
+                  onClick={handleRestrictToBudget}
                   className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
                 >
-                  <motion.svg 
-                    className="w-4 h-4" 
-                    viewBox="0 0 24 24" 
-                    fill="none"
-                    animate={{
-                      rotate: [0, -15, 15, -15, 0],
-                      y: [0, -2.5, 0],
-                    }}
-                    transition={{
-                      duration: 0.8,
-                      repeat: Infinity,
-                      repeatDelay: 2,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_fab)" />
-                    <defs>
-                      <linearGradient id="ai_gradient_fab" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#77A0FF" />
-                        <stop offset="0.7" stopColor="#907FFF" />
-                        <stop offset="1" stopColor="#6947FF" />
-                      </linearGradient>
-                    </defs>
-                  </motion.svg>
-                  다시 추천받기
+                  <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  정확한 예산으로 다시 추천
                 </motion.button>
-              </div>
-            )}
+              )}
 
-            {/* 하단 바 - 채팅 입력창 / 취소 버튼 */}
+              {/* 다시 추천받기 버튼 */}
+              <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  logV2ReRecommendModalOpened(categoryKey, categoryName);
+                  setShowReRecommendModal(true);
+                }}
+                className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
+              >
+                <motion.svg 
+                  className="w-4 h-4" 
+                  viewBox="0 0 24 24" 
+                  fill="none"
+                  animate={{
+                    rotate: [0, -15, 15, -15, 0],
+                    y: [0, -2.5, 0],
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_fab)" />
+                  <defs>
+                    <linearGradient id="ai_gradient_fab" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#77A0FF" />
+                      <stop offset="0.7" stopColor="#907FFF" />
+                      <stop offset="1" stopColor="#6947FF" />
+                    </linearGradient>
+                  </defs>
+                </motion.svg>
+                다시 추천받기
+              </motion.button>
+            </div>
+
+            {/* 하단 바 - 채팅 입력창 */}
             <div
-              className={`fixed bottom-0 left-0 right-0 z-[110] transition-colors ${
-                showReRecommendModal ? 'bg-transparent px-4 py-4' : 'bg-transparent px-3 pb-2 pt-2'
-              }`}
+              className="fixed bottom-0 left-0 right-0 z-[110] bg-transparent px-3 pb-2 pt-2"
               style={{ maxWidth: '480px', margin: '0 auto' }}
             >
-              {showReRecommendModal ? (
-                /* 취소 버튼 (모달 열렸을 때) */
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
-                  className="w-full"
-                >
-                  <button
-                    onClick={() => setShowReRecommendModal(false)}
-                    className="w-full h-14 rounded-2xl font-semibold text-base bg-gray-900 text-white hover:bg-gray-800 transition-all"
-                  >
-                    취소
-                  </button>
-                </motion.div>
-              ) : (
-                /* 채팅 입력창 */
-                <ResultChatContainer
-                  products={scoredProducts}
-                  categoryKey={categoryKey}
-                  categoryName={categoryName}
-                  existingConditions={{
-                    hardFilterAnswers: Object.fromEntries(
-                      Object.entries(hardFilterAnswers).map(([k, v]) => [k, v.join(', ')])
-                    ),
-                    balanceSelections: Array.from(balanceSelections),
-                    negativeSelections: negativeSelections,
-                    budget: budget,
-                  }}
-                  hideHelpBubble={scoredProducts.some(p => {
-                    const effectivePrice = p.lowestPrice ?? p.price ?? 0;
-                    return effectivePrice > budget.max || effectivePrice < budget.min;
-                  })}
-                  onUserMessage={(content) => {
-                    // 사용자 메시지 추가
-                    const msgId = addMessage({
-                      role: 'user',
-                      content,
-                    });
-                    scrollToMessage(msgId);
-                  }}
-                  onAssistantMessage={(content, typing = false, reRecommendData) => {
-                    // AI 응답 메시지 추가
-                    const msgId = addMessage({
-                      role: 'assistant',
-                      content,
-                      reRecommendData,
-                    }, typing);
-                    scrollToMessage(msgId);
-                  }}
-                  onLoadingChange={setIsChatLoading}
-                  chatHistory={messages
-                    .filter(m => m.role === 'user' || m.role === 'assistant')
-                    .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
-                  }
-                />
-              )}
+              <ResultChatContainer
+                products={scoredProducts}
+                categoryKey={categoryKey}
+                categoryName={categoryName}
+                existingConditions={{
+                  hardFilterAnswers: Object.fromEntries(
+                    Object.entries(hardFilterAnswers).map(([k, v]) => [k, v.join(', ')])
+                  ),
+                  balanceSelections: Array.from(balanceSelections),
+                  negativeSelections: negativeSelections,
+                  budget: budget,
+                }}
+                hideHelpBubble={scoredProducts.some(p => {
+                  const effectivePrice = p.lowestPrice ?? p.price ?? 0;
+                  return effectivePrice > budget.max || effectivePrice < budget.min;
+                })}
+                onUserMessage={(content) => {
+                  // 사용자 메시지 추가
+                  const msgId = addMessage({
+                    role: 'user',
+                    content,
+                  });
+                  scrollToMessage(msgId);
+                }}
+                onAssistantMessage={(content, typing = false, reRecommendData) => {
+                  // AI 응답 메시지 추가
+                  const msgId = addMessage({
+                    role: 'assistant',
+                    content,
+                    reRecommendData,
+                  }, typing);
+                  scrollToMessage(msgId);
+                }}
+                onLoadingChange={setIsChatLoading}
+                chatHistory={messages
+                  .filter(m => m.role === 'user' || m.role === 'assistant')
+                  .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+                }
+              />
             </div>
           </>
         )}
 
-        {/* Back Modal */}
-        <AnimatePresence>
-          {showBackModal && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 z-[200]"
-                onClick={() => setShowBackModal(false)}
-              />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 0 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 0 }}
-                className="fixed inset-0 flex items-center justify-center z-[210] px-4"
-              >
-                <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
-                  <p className="text-base text-gray-800 mb-6">
-                    카테고리 선택으로 돌아가시겠어요?
-                  </p>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setShowBackModal(false)}
-                      className="flex-1 px-4 py-3 bg-gray-100 text-gray-900 font-semibold rounded-xl"
-                    >
-                      취소
-                    </button>
-                    <button
-                      onClick={() => router.push('/categories')}
-                      className="flex-1 px-4 py-3 bg-[#111827] text-white font-semibold rounded-xl"
-                    >
-                      돌아가기
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
+        <SimpleConfirmModal
+          isOpen={showReRecommendModal}
+          onClose={() => setShowReRecommendModal(false)}
+          title="다시 추천받으시겠어요?"
+          primaryLabel="현재 카테고리 다시 추천"
+          onPrimaryClick={handleReRecommendSameCategory}
+          secondaryLabel="다른 카테고리 추천"
+          onSecondaryClick={handleReRecommendDifferentCategory}
+        />
+
+        <SimpleConfirmModal
+          isOpen={showBackModal}
+          onClose={() => setShowBackModal(false)}
+          title="카테고리 선택으로 돌아가시겠어요?"
+          primaryLabel="돌아가기"
+          onPrimaryClick={() => router.push('/categories')}
+          secondaryLabel="취소"
+        />
 
         {/* Favorites Modal - 나중에 사용할 수 있도록 임시 숨김 */}
         {/* <AnimatePresence>
