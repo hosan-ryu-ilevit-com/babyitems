@@ -666,7 +666,7 @@ export function HardFilterQuestion({
         <StreamingText
           key={question.id}
           content={question.question}
-          speed={20}
+          speed={10}
         />
       </h3>
 

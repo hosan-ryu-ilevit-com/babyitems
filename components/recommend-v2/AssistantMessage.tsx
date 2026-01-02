@@ -12,7 +12,7 @@ interface AssistantMessageProps {
 }
 
 // 스트리밍 텍스트 컴포넌트 (글자가 하나씩 나타남) - export for reuse
-export function StreamingText({ content, speed = 20, onComplete, className = '' }: { content: string; speed?: number; onComplete?: () => void; className?: string }) {
+export function StreamingText({ content, speed = 10, onComplete, className = '' }: { content: string; speed?: number; onComplete?: () => void; className?: string }) {
   const [displayedContent, setDisplayedContent] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDone, setIsDone] = useState(false);
@@ -84,7 +84,7 @@ export function StreamingText({ content, speed = 20, onComplete, className = '' 
 export function AssistantMessage({
   content,
   typing = false,
-  speed = 20,
+  speed = 10,
   className = '',
   onTypingComplete,
 }: AssistantMessageProps) {
