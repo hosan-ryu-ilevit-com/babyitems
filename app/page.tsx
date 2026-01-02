@@ -121,11 +121,11 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex items-center justify-center w-full max-w-[380px] relative"
-            style={{ marginTop: '10px' }}
+            style={{ marginTop: '45px' }}
           >
             <div className="relative w-full aspect-[326/330]">
               <Image
-                src="/images/img-baby2.jpeg"
+                src="/images/img-baby.png"
                 alt="Baby Product"
                 fill
                 className="object-contain"
