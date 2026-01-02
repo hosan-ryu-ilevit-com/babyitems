@@ -92,7 +92,7 @@ export default function Home() {
         </header>
 
         {/* 메인 컨텐츠 */}
-        <main className="flex-1 flex flex-col items-center px-4 pt-[20px] pb-48">
+        <main className="flex-1 flex flex-col items-center px-4 pt-[36px] pb-48">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -106,9 +106,9 @@ export default function Home() {
               수천 개 아기용품 중<br />
               <span className="text-blue-500">아이에게 딱 맞는 하나</span> 찾기
             </h1>
-            <p 
-              className="font-medium text-gray-600"
-              style={{ fontSize: '16px', lineHeight: '1.4', marginTop: '16px' }}
+            <p
+              className="text-gray-600"
+              style={{ fontSize: '16px', lineHeight: '1.4', marginTop: '16px', fontFamily: 'Abel', fontWeight: 400 }}
             >
               인기 아기용품들의 후기를 분석해서<br />
               나와 딱 맞는 상품을 찾아드려요
@@ -141,7 +141,7 @@ export default function Home() {
         <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-5 z-50 max-w-[480px] mx-auto flex flex-col items-center">
           {/* 의견 메시지 */}
           <div className="mb-4 flex items-center gap-3">
-            <span className="text-[14px] font-medium text-gray-400">여러분의 의견대로 만들어져요</span>
+            <span className="text-[14px] text-gray-400" style={{ fontFamily: 'Abel', fontWeight: 400 }}>여러분의 의견대로 만들어져요</span>
             <FeedbackButton source="home_bottom" variant="minimal" />
           </div>
 

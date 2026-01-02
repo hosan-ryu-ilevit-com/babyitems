@@ -22,7 +22,7 @@ export default function FeedbackButton({ source, className = '', variant = 'defa
     return (
       <button
         onClick={handleFeedbackClick}
-        className={`flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 rounded-[8px] hover:bg-gray-200 transition-all ${className}`}
+        className={`flex items-center gap-1.5 pl-[6px] pr-[8px] py-[6px] bg-gray-100 rounded-[8px] hover:bg-gray-200 transition-all ${className}`}
       >
         <ChatCircleDots size={18} weight="fill" className="text-gray-700" />
         <span className="text-[14px] font-medium text-gray-700">의견 보내기</span>

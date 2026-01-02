@@ -149,7 +149,7 @@ export function AIHelperButton({
                   <ChatCircleDots size={18} weight="fill" className="text-purple-400" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-semibold text-gray-800">직접 입력하고 추천받기</span>
+                  <span className="text-[14px] font-semibold text-gray-800">내 상황 입력하고 추천받기</span>
                 </div>
               </motion.button>
 
