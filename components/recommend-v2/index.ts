@@ -16,3 +16,6 @@ export { AnalysisTimeline } from './AnalysisTimeline';
 export { TimelineStreamingView } from './TimelineStreamingView';
 export { LoadingAnimation } from './LoadingAnimation';
 export { LoadingDots } from './LoadingDots';
+export { ResultChatContainer } from './ResultChatContainer';
+export { ResultChatMessage } from './ResultChatMessage';
+export { ThinkingMessage } from './ThinkingMessage';

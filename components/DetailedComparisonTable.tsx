@@ -76,6 +76,11 @@ export default function DetailedComparisonTable({
   // 단, 앵커 제품이 Top 3에 포함된 경우 앵커를 숨김 (중복 방지)
   // useMemo로 메모이제이션하여 무한 루프 방지
   const displayProducts = useMemo(() => {
+    // Guard against undefined or empty recommendations
+    if (!recommendations || recommendations.length === 0) {
+      return [];
+    }
+    
     if (isTagBasedFlow && anchorProduct) {
       const anchorId = String(anchorProduct.productId);
 
