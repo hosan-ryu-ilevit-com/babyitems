@@ -76,6 +76,36 @@ const AGE_FILTERS: AgeFilter[] = [
       { name: '기저귀/위생', categoryIds: ['diaper', 'baby_wipes'] },
     ],
   },
+  {
+    id: '13-24m', label: '13~24개월', emoji: '🐥', description: '혼자 하려고 하고, 젖병도 슬슬 졸업해요',
+    groups: [
+      { name: '유아가구', categoryIds: ['baby_desk', 'baby_sofa'] },
+      { name: '수유용품', categoryIds: ['formula', 'baby_bottle'] },
+      { name: '기저귀/위생', categoryIds: ['diaper', 'baby_wipes'] },
+    ],
+  },
+  {
+    id: '3-4y', label: '3~4세', emoji: '🎒', description: '기저귀 졸업하고 놀이 학습을 시작해요',
+    groups: [
+      { name: '이동수단', categoryIds: ['car_seat'] },
+      { name: '유아가구', categoryIds: ['baby_desk', 'high_chair'] },
+      { name: '기저귀/위생', categoryIds: ['diaper', 'baby_wipes'] },
+    ],
+  },
+  {
+    id: '5-7y', label: '5~7세', emoji: '🎨', description: '키가 크면서 가구도 바꿔줄 때예요',
+    groups: [
+      { name: '유아가구', categoryIds: ['baby_desk', 'high_chair'] },
+      { name: '이동수단', categoryIds: ['car_seat'] },
+      { name: '건강/안전', categoryIds: ['thermometer'] },
+    ],
+  },
+  {
+    id: '7y+', label: '7세이상', emoji: '🏫', description: '유아용품을 거의 졸업하는 시기예요',
+    groups: [
+      { name: '유아가구', categoryIds: ['baby_desk'] },
+    ],
+  },
 ];
 
 const CATEGORY_GROUPS: DisplayGroup[] = [
@@ -133,11 +163,10 @@ function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: 
             key={filter.id}
             onClick={() => onSelect(filter.id)}
             whileTap={{ scale: 0.96 }}
-            className={`px-4 py-2 rounded-full text-[14px] font-medium whitespace-nowrap border ${
-              selectedId === filter.id
+            className={`px-4 py-2 rounded-full text-[14px] font-medium whitespace-nowrap border ${selectedId === filter.id
                 ? 'bg-gray-800 border-gray-800 text-white shadow-sm'
                 : 'bg-white border-gray-200 text-gray-500'
-            }`}
+              }`}
           >
             {filter.label}
           </motion.button>
@@ -155,11 +184,10 @@ function CategoryCard({ name, emoji, isSelected, onClick, isLoading }: { name: s
         onClick={onClick}
         disabled={isLoading}
         whileTap={isLoading ? undefined : { scale: 0.98 }}
-        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 gap-2.5 ${
-          isSelected
+        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 gap-2.5 ${isSelected
             ? 'bg-purple-50 border-purple-200 text-purple-700'
             : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200'
-        }`}
+          }`}
       >
         {isLoading ? (
           <div className="w-5 h-5 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto" />
@@ -211,7 +239,7 @@ export default function CategoriesPage() {
   // 뒤로가기 등으로 진입 시 상태가 꼬이지 않도록 마운트 시점에 강제 초기화
   useEffect(() => {
     logPageView('categories');
-    
+
     // 세션 스토리지에서 완료된 카테고리 체크
     const completed = new Set<string>();
     try {
@@ -227,7 +255,7 @@ export default function CategoriesPage() {
               // app/recommend-v2/[categoryKey]/page.tsx 의 복원 로직과 동일하게 유지
               const isRecent = Date.now() - (savedState.timestamp || 0) < 3600000;
               const hasProducts = savedState.scoredProducts && Array.isArray(savedState.scoredProducts) && savedState.scoredProducts.length > 0;
-              
+
               if (isRecent && hasProducts) {
                 completed.add(categoryId);
               }
@@ -247,11 +275,11 @@ export default function CategoriesPage() {
   useEffect(() => {
     if (typeof window !== 'undefined' && !(window as any).ChannelIO) {
       const w = window as any;
-      const ch = function(...args: any[]) {
+      const ch = function (...args: any[]) {
         ch.c?.(args);
       };
       ch.q = [] as any[];
-      ch.c = function(args: any[]) {
+      ch.c = function (args: any[]) {
         ch.q?.push(args);
       };
       w.ChannelIO = ch;
@@ -352,10 +380,10 @@ export default function CategoriesPage() {
               }}
               className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 bg-white"
             >
-              <motion.img 
-                src="/icons/ic-ai.svg" 
-                alt="" 
-                width={14} 
+              <motion.img
+                src="/icons/ic-ai.svg"
+                alt=""
+                width={14}
                 height={14}
                 animate={{
                   rotate: [0, -15, 15, -15, 0],
@@ -409,7 +437,7 @@ export default function CategoriesPage() {
                   (() => {
                     const ageFilter = AGE_FILTERS.find(f => f.id === selectedAgeId);
                     if (!ageFilter) return null;
-                    
+
                     return ageFilter.groups.map((ageGroup, idx) => {
                       const categories = ageGroup.categoryIds.map(id => {
                         for (const group of CATEGORY_GROUPS) {

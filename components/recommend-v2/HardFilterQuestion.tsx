@@ -63,7 +63,7 @@ function ReviewPriorityTags({
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
 
   // 컨텍스트 정보가 있는지 확인
-  const hasContext = !!userContext || 
+  const hasContext = !!userContext ||
     (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
     (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
     (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
@@ -189,38 +189,38 @@ function ReviewPriorityTags({
           <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
             실제 후기에서 가장 많이 언급된 조건이에요. <br />원하시는 조건을 골라주세요.
           </h3>
-            {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
-        <div className="flex items-center gap-3">
-          {/* 썸네일 그룹 (최대 5개) */}
-          <div className="flex -space-x-2">
-            {thumbnailProducts.slice(0, 5).map((product, i) => (
-              <div
-                key={product.id}
-                className="w-[26px] h-[26px] rounded-full border-[1px] border-gray-200 overflow-hidden relative bg-gray-100"
-                style={{ zIndex: i }}
-                title={product.title}
-              >
-                {product.thumbnail ? (
-                  <img
-                    src={product.thumbnail}
-                    alt={product.title}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      // 이미지 로드 실패 시 placeholder
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200" />
-                )}
-              </div>
-            ))}
+          {/* 썸네일 + N개 리뷰 분석 완료 태그 */}
+          <div className="flex items-center gap-3">
+            {/* 썸네일 그룹 (최대 5개) */}
+            <div className="flex -space-x-2">
+              {thumbnailProducts.slice(0, 5).map((product, i) => (
+                <div
+                  key={product.id}
+                  className="w-[26px] h-[26px] rounded-full border-[1px] border-gray-200 overflow-hidden relative bg-gray-100"
+                  style={{ zIndex: i }}
+                  title={product.title}
+                >
+                  {product.thumbnail ? (
+                    <img
+                      src={product.thumbnail}
+                      alt={product.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        // 이미지 로드 실패 시 placeholder
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200" />
+                  )}
+                </div>
+              ))}
+            </div>
+            <span className="px-2.5 py-1 bg-gray-50 text-gray-500 text-[14px] font-medium rounded-full">
+              리뷰 {totalReviewCount.toLocaleString()}개 분석 완료
+            </span>
           </div>
-          <span className="px-2.5 py-1 bg-gray-50 text-gray-500 text-[14px] font-medium rounded-full">
-            리뷰 {totalReviewCount.toLocaleString()}개 분석 완료
-          </span>
-        </div>
-         
+
         </div>
 
         {/* AI 도움받기 버튼 - AIHelperButton 사용 */}
@@ -241,7 +241,7 @@ function ReviewPriorityTags({
           />
         )}
 
-       
+
       </motion.div>
 
       {/* 필터 옵션들 - 순차적 페이드인 (6개 이상이면 2열 그리드) */}
@@ -277,13 +277,13 @@ function ReviewPriorityTags({
               `}
             >
               {/* 레이블 */}
-              <span className={`${isGridMode ? 'text-[14px]' : 'text-[16px]'} font-medium flex-1 break-keep leading-tight`}>
+              <span className="text-[16px] font-medium flex-1 break-keep leading-snug">
                 {option.displayLabel || option.label}
               </span>
 
               {/* 언급 비율 배지 (%) - 상위 3개만 표시, 그리드 모드에서는 간소화 */}
               {percentage > 0 && top3Values.includes(option.value) && (
-                <span className={`${isGridMode ? 'px-1 py-0.5 text-[10px]' : 'px-1.5 py-0.5 text-[12px]'} rounded-md font-medium bg-green-50 text-green-800 shrink-0`}>
+                <span className={`${isGridMode ? 'px-1 py-0.5 text-[11px]' : 'px-1.5 py-0.5 text-[12px]'} rounded-md font-medium bg-green-50 text-green-800 shrink-0`}>
                   {percentage}%{!isGridMode && ' 선택'}
                 </span>
               )}
@@ -308,45 +308,45 @@ function ReviewPriorityTags({
         )}
       </motion.div>
 
-       {/* 미리 선택 설명 (AI 생성) - 로딩 스켈레톤 또는 실제 콘텐츠 */}
-        {userContext && (isLoadingPreselection || showPreselectionExplanation) && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-emerald-50 rounded-xl p-4 space-y-3"
-          >
-            {/* 사용자 입력 표시 */}
-            <div className="flex items-start gap-2">
-              <p className="text-sm text-gray-400 leading-relaxed">{userContext}</p>
-            </div>
+      {/* 미리 선택 설명 (AI 생성) - 로딩 스켈레톤 또는 실제 콘텐츠 */}
+      {userContext && (isLoadingPreselection || showPreselectionExplanation) && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-emerald-50 rounded-xl p-4 space-y-3"
+        >
+          {/* 사용자 입력 표시 */}
+          <div className="flex items-start gap-2">
+            <p className="text-sm text-gray-400 leading-relaxed">{userContext}</p>
+          </div>
 
-            {/* AI 설명 - 로딩 또는 실제 콘텐츠 */}
-            <div className="flex items-start gap-2">
-              <div className="flex-1 text-sm">
-                {isLoadingPreselection ? (
-                  /* 스켈레톤 로딩 */
-                  <div className="space-y-2">
-                    <div className="h-4 bg-emerald-200/50 rounded animate-pulse w-full" />
-                    <div className="h-4 bg-emerald-200/50 rounded animate-pulse w-3/4" />
-                  </div>
-                ) : (
-                  <div className="text-emerald-800 leading-relaxed">
-                    {/* **bold** 마크다운을 실제 볼드로 변환 */}
-                    {preselectedExplanation.split(/(\*\*[^*]+\*\*)/g).map((part, i) => {
-                      if (part.startsWith('**') && part.endsWith('**')) {
-                        return <strong key={i} className="text-emerald-600">{part.slice(2, -2)}</strong>;
-                      }
-                      return part;
-                    })}
-                  </div>
-                )}
-              </div>
+          {/* AI 설명 - 로딩 또는 실제 콘텐츠 */}
+          <div className="flex items-start gap-2">
+            <div className="flex-1 text-sm">
+              {isLoadingPreselection ? (
+                /* 스켈레톤 로딩 */
+                <div className="space-y-2">
+                  <div className="h-4 bg-emerald-200/50 rounded animate-pulse w-full" />
+                  <div className="h-4 bg-emerald-200/50 rounded animate-pulse w-3/4" />
+                </div>
+              ) : (
+                <div className="text-emerald-800 leading-relaxed">
+                  {/* **bold** 마크다운을 실제 볼드로 변환 */}
+                  {preselectedExplanation.split(/(\*\*[^*]+\*\*)/g).map((part, i) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                      return <strong key={i} className="text-emerald-600">{part.slice(2, -2)}</strong>;
+                    }
+                    return part;
+                  })}
+                </div>
+              )}
             </div>
-          </motion.div>
-        )}
+          </div>
+        </motion.div>
+      )}
 
-     
+
 
       {/* AI 도움 바텀시트 */}
       {showAIHelper && (
@@ -546,7 +546,7 @@ export function HardFilterQuestion({
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
 
   // 컨텍스트 정보가 있는지 확인
-  const hasContext = !!userContext || 
+  const hasContext = !!userContext ||
     (userSelections?.naturalLanguageInputs && userSelections.naturalLanguageInputs.length > 0) ||
     (userSelections?.hardFilters && userSelections.hardFilters.length > 0) ||
     (userSelections?.balanceGames && userSelections.balanceGames.length > 0);
@@ -722,30 +722,23 @@ export function HardFilterQuestion({
               onClick={() => handleOptionClick(option.value)}
               disabled={isDisabled}
               whileTap={isDisabled ? undefined : { scale: 0.98 }}
-              className={`w-full min-h-11 ${isGridMode ? 'py-2.5 px-3' : 'py-3.5 px-4'} rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-2 ${
-                isDisabled
+              className={`w-full min-h-11 ${isGridMode ? 'py-2.5 px-3' : 'py-3.5 px-4'} rounded-xl border text-left relative overflow-hidden flex items-center justify-between gap-2 ${isDisabled
                   ? 'border-gray-50 bg-gray-50 cursor-not-allowed opacity-50'
                   : isSelected
-                  ? 'border-blue-100 bg-blue-50'
-                  : 'border-gray-100 bg-white hover:border-gray-200'
-              }`}
+                    ? 'border-blue-100 bg-blue-50'
+                    : 'border-gray-100 bg-white hover:border-gray-200'
+                }`}
             >
               {/* 옵션 텍스트 */}
               <span
-                className={`${isGridMode ? 'text-[14px]' : 'text-[16px]'} font-medium flex-1 break-keep leading-tight ${
-                  isDisabled
-                    ? 'text-gray-300'
-                    : isSelected
-                    ? 'text-blue-500'
-                    : 'text-gray-600'
-                }`}
+                className="text-[16px] font-medium flex-1 break-keep leading-snug"
               >
                 {option.label}
               </span>
 
               {/* 많이 선택 뱃지 - 그리드 모드에서는 간소화 */}
               {isPopular && !isSkipOption && popularOption && (
-                <span className={`bg-green-50 text-green-800 ${isGridMode ? 'text-[10px] px-1' : 'text-[12px] px-2'} font-medium py-0.5 rounded-md shrink-0`}>
+                <span className={`bg-green-50 text-green-800 ${isGridMode ? 'text-[11px] px-1.5' : 'text-[12px] px-2'} font-medium py-0.5 rounded-md shrink-0`}>
                   {popularOption.percentage}%{!isGridMode && ' 선택'}
                 </span>
               )}

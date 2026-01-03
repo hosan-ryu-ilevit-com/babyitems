@@ -310,12 +310,12 @@ export default function RecommendV2Page() {
     setTimeout(() => {
       const container = scrollContainerRef.current;
       const el = document.querySelector(`[data-message-id="${messageId}"]`) as HTMLElement;
-      
+
       if (container && el) {
         // StepIndicator height(약 49px) 고려하여 52px 정도로 설정
         const offset = 52;
         const targetScroll = el.offsetTop - offset;
-        
+
         container.scrollTo({
           top: Math.max(0, targetScroll),
           behavior: 'smooth'
@@ -348,7 +348,7 @@ export default function RecommendV2Page() {
   // ===================================================
 
   // 기존의 1초 강제 종료 로직은 제거하고, StreamingText의 완료 콜백을 사용합니다.
-  
+
   // 프로그레스는 항상 증가만 (뒤로 가지 않음)
   const setProgressSafe = useCallback((value: number) => {
     setProgress((prev: number) => Math.max(prev, value));
@@ -664,11 +664,11 @@ export default function RecommendV2Page() {
   useEffect(() => {
     if (typeof window !== 'undefined' && !(window as Window & { ChannelIO?: unknown }).ChannelIO) {
       const w = window as Window & { ChannelIO?: ((...args: unknown[]) => void) & { c?: (args: unknown[]) => void; q?: unknown[] }; ChannelIOInitialized?: boolean };
-      const ch = function(...args: unknown[]) {
+      const ch = function (...args: unknown[]) {
         ch.c?.(args);
       };
       ch.q = [] as unknown[];
-      ch.c = function(args: unknown[]) {
+      ch.c = function (args: unknown[]) {
         ch.q?.push(args);
       };
       w.ChannelIO = ch;
@@ -808,7 +808,7 @@ export default function RecommendV2Page() {
           if (lastChar < 0xAC00 || lastChar > 0xD7A3) return '을'; // 한글 아니면 기본값
           return (lastChar - 0xAC00) % 28 > 0 ? '을' : '를';
         };
-        
+
         addMessage({
           role: 'assistant',
           content: `안녕하세요!\n고객님께 필요한 최적의 **${categoryName}**${getParticle(categoryName)} 찾아드릴게요.`,
@@ -1156,7 +1156,7 @@ export default function RecommendV2Page() {
         if (lastChar < 0xAC00 || lastChar > 0xD7A3) return '을'; // 한글 아니면 기본값
         return (lastChar - 0xAC00) % 28 > 0 ? '을' : '를';
       };
-      
+
       addMessage({
         role: 'assistant',
         content: `안녕하세요!\n고객님께 필요한 최적의 **${categoryName}**${getParticle(categoryName)} 찾아드릴게요.`,
@@ -1255,7 +1255,7 @@ export default function RecommendV2Page() {
       handleBalanceGameComplete(new Set());
       setIsTransitioning(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTransitioning, dynamicBalanceQuestions, addMessage, scrollToMessage]);
 
   // ===================================================
@@ -1276,11 +1276,11 @@ export default function RecommendV2Page() {
 
     // 직접 입력 분석 (모든 질문의 등록된 입력값을 합쳐서 분석)
     const registeredInputs = Object.entries(hardFilterDirectInputs)
-      .filter(([questionId, value]) => 
+      .filter(([questionId, value]) =>
         hardFilterDirectInputRegistered[questionId] && value.trim().length >= 2
       )
       .map(([, value]) => value.trim());
-    
+
     if (registeredInputs.length > 0) {
       const combinedInput = registeredInputs.join(', ');
       fetch('/api/ai-selection-helper/direct-input', {
@@ -1716,7 +1716,7 @@ export default function RecommendV2Page() {
       }
     }, true);
     scrollToMessage(stepMsgId);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTransitioning, dynamicNegativeOptions, dynamicBalanceQuestions, negativeSelections, negativeOptions.length, categoryKey, hardFilterAnswers, filteredProducts, addMessage, scrollToMessage]);
 
   // ===================================================
@@ -2660,7 +2660,7 @@ export default function RecommendV2Page() {
               isReRecommending={isCalculating}
               onTypingComplete={() => {
                 if (message.typing) {
-                  setMessages(prev => prev.map(m => 
+                  setMessages(prev => prev.map(m =>
                     m.id === message.id ? { ...m, typing: false } : m
                   ));
                 }
@@ -2706,9 +2706,8 @@ export default function RecommendV2Page() {
         <div
           key={message.id}
           data-message-id={message.id}
-          className={`scroll-mt-[52px] transition-all duration-300 ${
-            isPastStep ? 'opacity-50 pointer-events-none' : ''
-          }`}
+          className={`scroll-mt-[52px] transition-all duration-300 ${isPastStep ? 'opacity-50 pointer-events-none' : ''
+            }`}
         >
           <AssistantMessage
             content={message.content}
@@ -2717,7 +2716,7 @@ export default function RecommendV2Page() {
             onTypingComplete={() => {
               // 타이핑이 끝나면 해당 메시지의 typing 상태를 false로 변경
               if (message.typing) {
-                setMessages(prev => prev.map(m => 
+                setMessages(prev => prev.map(m =>
                   m.id === message.id ? { ...m, typing: false } : m
                 ));
               }
@@ -2737,9 +2736,8 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[52px] transition-all duration-300 ${
-                currentStep > 0 ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={`scroll-mt-[52px] transition-all duration-300 ${currentStep > 0 ? 'opacity-50 pointer-events-none' : ''
+                }`}
             >
               <GuideCards
                 data={message.componentData as GuideCardsData & { introMessage?: string }}
@@ -2797,9 +2795,8 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[52px] transition-all duration-300 ${
-                isSubCategoryDisabled ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={`scroll-mt-[52px] transition-all duration-300 ${isSubCategoryDisabled ? 'opacity-50 pointer-events-none' : ''
+                }`}
             >
               <SubCategorySelector
                 categoryName={subCatData.categoryName}
@@ -2822,9 +2819,8 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[52px] transition-all duration-300 ${
-                isHardFilterDisabled ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={`scroll-mt-[52px] transition-all duration-300 ${isHardFilterDisabled ? 'opacity-50 pointer-events-none' : ''
+                }`}
             >
               <HardFilterQuestionComponent
                 data={hfData}
@@ -2873,9 +2869,8 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[52px] transition-all duration-300 ${
-                currentStep > 2 ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={`scroll-mt-[52px] transition-all duration-300 ${currentStep > 2 ? 'opacity-50 pointer-events-none' : ''
+                }`}
             >
               <CheckpointVisual
                 data={checkpointData}
@@ -2890,9 +2885,8 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[52px] transition-all duration-300 ${
-                currentStep > 3 ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={`scroll-mt-[52px] transition-all duration-300 ${currentStep > 3 ? 'opacity-50 pointer-events-none' : ''
+                }`}
             >
               <BalanceGameCarousel
                 ref={balanceGameRef}
@@ -2926,9 +2920,8 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[52px] transition-all duration-300 ${
-                currentStep > 4 ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={`scroll-mt-[52px] transition-all duration-300 ${currentStep > 4 ? 'opacity-50 pointer-events-none' : ''
+                }`}
             >
               <NegativeFilterList
                 data={{
@@ -2988,9 +2981,8 @@ export default function RecommendV2Page() {
               key={message.id}
               data-message-id={message.id}
               ref={budgetSliderRef}
-              className={`scroll-mt-[52px] transition-all duration-300 ${
-                (scoredProducts.length > 0 || isCalculating || isLoadingFollowup || showFollowupCarousel) ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={`scroll-mt-[52px] transition-all duration-300 ${(scoredProducts.length > 0 || isCalculating || isLoadingFollowup || showFollowupCarousel) ? 'opacity-50 pointer-events-none' : ''
+                }`}
             >
               <BudgetSlider
                 min={budgetRange.min}
@@ -3024,9 +3016,8 @@ export default function RecommendV2Page() {
             <div
               key={message.id}
               data-message-id={message.id}
-              className={`scroll-mt-[52px] transition-all duration-300 ${
-                isCalculating ? 'opacity-50 pointer-events-none' : ''
-              }`}
+              className={`scroll-mt-[52px] transition-all duration-300 ${isCalculating ? 'opacity-50 pointer-events-none' : ''
+                }`}
             >
               <ResultCards
                 products={resultData?.products || scoredProducts}
@@ -3059,7 +3050,7 @@ export default function RecommendV2Page() {
                   initialContext: userContext || undefined,  // 사용자가 처음 입력한 자연어 상황
                 }}
                 onModalOpenChange={setIsProductModalOpen}
-                // 찜하기 기능 - 나중에 사용할 수 있도록 임시 숨김: onViewFavorites={() => setShowFavoritesModal(true)}
+              // 찜하기 기능 - 나중에 사용할 수 있도록 임시 숨김: onViewFavorites={() => setShowFavoritesModal(true)}
               />
             </div>
           );
@@ -3069,9 +3060,12 @@ export default function RecommendV2Page() {
           return (
             <div key={message.id} data-message-id={message.id} className="w-full py-2">
               <div className="w-full flex flex-col justify-start">
-                <p className="py-1 text-base font-medium text-gray-600 shimmer-text">
-                  {loadingData?.text || '로딩 중...'}
-                </p>
+                <div className="flex items-center gap-2 py-1">
+                  <LoadingDots variant="gray" size="sm" className="h-auto" />
+                  <p className="text-base font-medium text-gray-600 shimmer-text">
+                    {loadingData?.text || '로딩 중...'}
+                  </p>
+                </div>
                 {loadingData?.showGap && <div className="h-4" />}
                 {loadingData?.subText && (
                   <p className="py-1 text-base font-medium text-transparent select-none">
@@ -3211,20 +3205,21 @@ export default function RecommendV2Page() {
 
       // 하위 카테고리 선택 완료 후 "다음" 버튼 표시
       return (
-        <motion.button
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          onClick={handleSubCategoryConfirm}
-          disabled={isTransitioning}
-          whileTap={isTransitioning ? undefined : { scale: 0.98 }}
-          className={`w-full h-14 rounded-2xl font-semibold text-base ${
-            isTransitioning
+        <div className="flex justify-end w-full">
+          <motion.button
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={handleSubCategoryConfirm}
+            disabled={isTransitioning}
+            whileTap={isTransitioning ? undefined : { scale: 0.98 }}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${isTransitioning
               ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
               : 'bg-[#111827] text-white'
-          }`}
-        >
-          {isTransitioning ? '로딩 중...' : '다음'}
-        </motion.button>
+              }`}
+          >
+            {isTransitioning ? '로딩 중...' : '다음'}
+          </motion.button>
+        </div>
       );
     }
 
@@ -3244,7 +3239,7 @@ export default function RecommendV2Page() {
       const isFirstQuestion = currentHardFilterIndex === 0;
 
       return (
-        <div className="flex gap-2">
+        <div className={`flex w-full ${(!isFirstQuestion || showSubCategorySelector) ? 'justify-between' : 'justify-end'}`}>
           {(!isFirstQuestion || showSubCategorySelector) && (
             <motion.button
               initial={{ opacity: 0, y: 0 }}
@@ -3252,11 +3247,10 @@ export default function RecommendV2Page() {
               onClick={handleGoToPreviousHardFilter}
               disabled={isTransitioning}
               whileTap={isTransitioning ? undefined : { scale: 0.98 }}
-              className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
-                isTransitioning
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+              className={`w-20 h-14 rounded-2xl font-semibold text-base ${isTransitioning
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
             >
               이전
             </motion.button>
@@ -3267,11 +3261,10 @@ export default function RecommendV2Page() {
             onClick={handleHardFilterNext}
             disabled={!canProceed || isTransitioning}
             whileTap={(!canProceed || isTransitioning) ? undefined : { scale: 0.98 }}
-            className={`flex-[7] h-14 rounded-2xl font-semibold text-base ${
-              canProceed && !isTransitioning
-                ? 'bg-[#111827] text-white'
-                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            }`}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${canProceed && !isTransitioning
+              ? 'bg-[#111827] text-white'
+              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
           >
             {isLastQuestion ? '완료' : '다음'}
           </motion.button>
@@ -3285,7 +3278,7 @@ export default function RecommendV2Page() {
       const isNextDisabled = isStep2Disabled || !isSummaryTypingComplete;
 
       return (
-        <div className="flex gap-2">
+        <div className="flex justify-between w-full">
           <motion.button
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
@@ -3322,11 +3315,10 @@ export default function RecommendV2Page() {
                 });
               });
             }}
-            className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
-              isStep2Disabled
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${isStep2Disabled
+              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
           >
             이전
           </motion.button>
@@ -3336,11 +3328,10 @@ export default function RecommendV2Page() {
             onClick={handleStartBalanceGame}
             disabled={isNextDisabled}
             whileTap={isNextDisabled ? undefined : { scale: 0.98 }}
-            className={`flex-[7] h-14 rounded-2xl font-semibold text-base ${
-              isNextDisabled
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-[#111827] text-white'
-            }`}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${isNextDisabled
+              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-[#111827] text-white'
+              }`}
           >
             다음
           </motion.button>
@@ -3356,7 +3347,7 @@ export default function RecommendV2Page() {
       const isNextDisabled = !isLastBalanceQuestion || !balanceGameState.allAnswered || isTransitioning;
 
       return (
-        <div className="flex gap-2">
+        <div className="flex justify-between w-full">
           <motion.button
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
@@ -3397,11 +3388,10 @@ export default function RecommendV2Page() {
                 });
               }
             }}
-            className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
-              isTransitioning
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${isTransitioning
+              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
           >
             이전
           </motion.button>
@@ -3419,11 +3409,10 @@ export default function RecommendV2Page() {
               }
             }}
             disabled={isNextDisabled}
-            className={`flex-[7] h-14 rounded-2xl font-semibold text-base ${
-              isNextDisabled
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-[#111827] text-white'
-            }`}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${isNextDisabled
+              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-[#111827] text-white'
+              }`}
           >
             {isLastBalanceQuestion
               ? (balanceGameState.selectionsCount > 0 ? `완료` : '넘어가기')
@@ -3436,7 +3425,7 @@ export default function RecommendV2Page() {
     // Step 4: 단점 필터 완료 with prev/next
     if (currentStep === 4) {
       return (
-        <div className="flex gap-2">
+        <div className="flex justify-between w-full">
           <motion.button
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
@@ -3471,11 +3460,10 @@ export default function RecommendV2Page() {
               });
             }}
             whileTap={isTransitioning ? undefined : { scale: 0.98 }}
-            className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
-              isTransitioning
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${isTransitioning
+              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
           >
             이전
           </motion.button>
@@ -3485,11 +3473,10 @@ export default function RecommendV2Page() {
             onClick={handleNegativeComplete}
             disabled={isTransitioning}
             whileTap={isTransitioning ? undefined : { scale: 0.98 }}
-            className={`flex-[7] h-14 rounded-2xl font-semibold text-base ${
-              isTransitioning
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-[#111827] text-white'
-            }`}
+            className={`w-20 h-14 rounded-2xl font-semibold text-base ${isTransitioning
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-[#111827] text-white'
+              }`}
           >
             {negativeSelections.length > 0 || isNegativeDirectInputRegistered
               ? '다음'
@@ -3521,7 +3508,7 @@ export default function RecommendV2Page() {
 
       return (
         <div className="flex flex-col gap-2">
-          <div className="flex gap-2">
+          <div className="flex justify-between w-full">
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -3556,11 +3543,10 @@ export default function RecommendV2Page() {
                   });
                 });
               }}
-              className={`flex-[3] h-14 rounded-2xl font-semibold text-base ${
-                isTransitioning
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+              className={`w-20 h-14 rounded-2xl font-semibold text-base ${isTransitioning
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
             >
               이전
             </motion.button>
@@ -3570,11 +3556,10 @@ export default function RecommendV2Page() {
               onClick={handleStartFollowupFlow}
               disabled={isTransitioning || isTooFewProducts}
               whileTap={(isTransitioning || isTooFewProducts) ? undefined : { scale: 0.98 }}
-              className={`flex-[7] h-14 rounded-2xl font-bold text-base flex items-center justify-center ${
-                isTransitioning || isTooFewProducts
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-[#111827] text-white'
-              }`}
+              className={`w-20 h-14 rounded-2xl font-bold text-base flex items-center justify-center ${isTransitioning || isTooFewProducts
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-[#111827] text-white'
+                }`}
             >
               <span>다음</span>
             </motion.button>
@@ -3645,7 +3630,7 @@ export default function RecommendV2Page() {
               priority
             />
           </button>
-          
+
           <FeedbackButton source={`recommend-v2-${categoryKey}`} variant="minimal" className="ml-auto" />
         </header>
 
@@ -3672,9 +3657,8 @@ export default function RecommendV2Page() {
 
           {/* Messages */}
           {currentStep > -1 && (
-            <div className={`space-y-4 pt-4 transition-opacity duration-300 ${
-              showFollowupCarousel || isLoadingFollowup ? 'opacity-30 pointer-events-none' : ''
-            }`}>
+            <div className={`space-y-4 pt-4 transition-opacity duration-300 ${showFollowupCarousel || isLoadingFollowup ? 'opacity-30 pointer-events-none' : ''
+              }`}>
               {messages.map(renderMessage)}
               {isChatLoading && <ThinkingMessage />}
             </div>
@@ -3814,20 +3798,20 @@ export default function RecommendV2Page() {
                 const effectivePrice = p.lowestPrice ?? p.price ?? 0;
                 return effectivePrice > budget.max || effectivePrice < budget.min;
               }) && (
-                <motion.button
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleRestrictToBudget}
-                  className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
-                >
-                  <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  정확한 예산으로 다시 추천
-                </motion.button>
-              )}
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleRestrictToBudget}
+                    className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    정확한 예산으로 다시 추천
+                  </motion.button>
+                )}
 
               {/* 다시 추천받기 버튼 */}
               <motion.button
@@ -3841,9 +3825,9 @@ export default function RecommendV2Page() {
                 }}
                 className="px-4 py-3 bg-gray-900 rounded-2xl text-sm font-semibold text-white flex items-center gap-2"
               >
-                <motion.svg 
-                  className="w-4 h-4" 
-                  viewBox="0 0 24 24" 
+                <motion.svg
+                  className="w-4 h-4"
+                  viewBox="0 0 24 24"
                   fill="none"
                   animate={{
                     rotate: [0, -15, 15, -15, 0],
