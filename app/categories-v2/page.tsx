@@ -648,6 +648,43 @@ export default function CategoriesV2Page() {
               <p className="text-gray-500">아직 등록된 카테고리가 없습니다.</p>
             </div>
           )}
+
+          {/* 실험실 - Knowledge Agent */}
+          <div className="mt-10 mb-8">
+            <div className="mb-4 px-1">
+              <h3 className="text-[17px] font-bold text-gray-900 flex items-center gap-2">
+                <span className="text-purple-600">✨</span> 실험실
+                <div className="h-px flex-1 bg-gray-100" />
+              </h3>
+              <p className="text-[13px] text-gray-400 font-medium mt-1">
+                AI 전문 상담원과 대화해보세요
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  logButtonClick('Knowledge Agent: 에어프라이어', 'categories-v2');
+                  router.push('/knowledge-agent/airfryer');
+                }}
+                className="rounded-2xl p-4 transition-all duration-200 text-left relative overflow-hidden group bg-linear-to-br from-purple-50 to-white border border-purple-100 hover:border-purple-200 hover:shadow-sm"
+              >
+                <div className="flex items-center gap-3 relative z-10">
+                  <span className="text-[22px] w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full group-hover:bg-purple-200 transition-colors">
+                    🍟
+                  </span>
+                  <span className="text-[15px] font-semibold tracking-tight text-gray-900">
+                    에어프라이어
+                  </span>
+                </div>
+                <div className="mt-2 ml-11">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-purple-100 text-purple-700 text-[10px] font-bold rounded-full">
+                    AI 상담
+                  </span>
+                </div>
+              </motion.button>
+            </div>
+          </div>
         </motion.div>
       </div>
 

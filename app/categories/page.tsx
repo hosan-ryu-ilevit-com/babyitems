@@ -445,6 +445,29 @@ export default function CategoriesPage() {
                 )}
               </motion.div>
             </AnimatePresence>
+
+            {/* 실험실 - Knowledge Agent */}
+            <motion.div variants={itemVariants} className="mt-6 mb-10">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-purple-600">✨</span>
+                <h3 className="text-[16px] font-bold text-gray-900">실험실</h3>
+              </div>
+             
+              <div className="grid grid-cols-2 gap-3">
+                <motion.button
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    logButtonClick('Knowledge Agent: 에어프라이어', 'categories');
+                    router.push('/knowledge-agent/airfryer');
+                  }}
+                  className="relative h-[50px] w-full rounded-xl flex items-center px-4 gap-2.5 bg-linear-to-br from-purple-50 to-white border border-purple-100"
+                >
+                  <span className="text-[18px]">🍟</span>
+                  <span className="text-[15px] font-medium text-left text-gray-700">에어프라이어</span>
+                  <span className="absolute right-3 text-[10px] font-bold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded-md">AI</span>
+                </motion.button>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
