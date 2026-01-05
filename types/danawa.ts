@@ -79,3 +79,41 @@ export interface DanawaIntegratedResponse {
   error?: string;
   cached?: boolean;
 }
+
+// ============================================================================
+// Knowledge Agent용 검색 결과 타입
+// ============================================================================
+
+// 검색 옵션
+export interface DanawaSearchOptions {
+  query: string;
+  limit?: number;           // default: 40
+  sort?: 'saveDESC' | 'opinionDESC' | 'priceASC' | 'priceDESC';
+  minPrice?: number;
+  maxPrice?: number;
+}
+
+// 검색 결과 목록의 개별 상품
+export interface DanawaSearchListItem {
+  pcode: string;            // 다나와 상품 코드
+  name: string;             // 상품명
+  brand: string | null;     // 브랜드
+  price: number | null;     // 가격
+  thumbnail: string | null; // 썸네일 URL
+  reviewCount: number;      // 리뷰 수
+  rating: number | null;    // 평점 (1-5)
+  specSummary: string;      // 스펙 요약 (예: "용량: 5L | 소비전력: 1400W")
+  productUrl: string;       // 상품 상세 URL
+}
+
+// 검색 결과 응답
+export interface DanawaSearchListResponse {
+  success: boolean;
+  query: string;
+  totalCount: number;
+  items: DanawaSearchListItem[];
+  searchUrl: string;
+  cached?: boolean;
+  cachedAt?: string;
+  error?: string;
+}

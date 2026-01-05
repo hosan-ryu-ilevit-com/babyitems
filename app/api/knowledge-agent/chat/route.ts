@@ -1,44 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
- * Knowledge Agent Chat API v9 (Todo-based Dynamic Flow)
+ * Knowledge Agent Chat API v12 (Memory System Integration)
  *
- * 핵심 철학:
- * - Todo 리스트 기반 동적 질문 흐름
- * - 리뷰 기반 "내가 몰랐던 고려사항" 발굴
- * - 충분한 정보 수집 후 밸런스게임 → 결과
+ * V12 변경사항:
+ * - 단기기억 시스템 통합
+ * - 질문 답변 → 단기기억에 저장
+ * - 웹서치 인사이트 → 단기기억에 저장
+ * - 밸런스/단점 선택 → 단기기억에 저장
+ * - 최종 추천 → 단기기억에 저장
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import * as fs from 'fs';
 import * as path from 'path';
+import {
+  crawlDanawaSearchList,
+  type DanawaSearchListItem,
+  type DanawaSearchOptions
+} from '@/lib/danawa/search-crawler';
+import {
+  getQueryCache,
+  setQueryCache
+} from '@/lib/knowledge-agent/cache-manager';
 
-// Supabase
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// 메모리 시스템
+import { loadShortTermMemory, saveShortTermMemory } from '@/lib/knowledge-agent/memory-manager';
+import type { 
+  WebSearchInsight, 
+  BalanceSelection, 
+  Recommendation,
+  BalanceQuestion,
+  NegativeOption,
+  QuestionTodo
+} from '@/lib/knowledge-agent/types';
+import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
 
 // Gemini
-const geminiApiKey = process.env.GEMINI_API_KEY;
+const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
 const MODEL_NAME = 'gemini-2.5-flash-lite';
 
 // ============================================================================
 // Types
 // ============================================================================
-
-interface QuestionTodo {
-  id: string;
-  question: string;
-  reason: string;
-  options: Array<{ value: string; label: string; description?: string }>;
-  type: 'single' | 'multi';
-  priority: number;
-  dataSource: string;
-  completed: boolean;
-  answer?: string | string[];
-}
 
 interface ToolExecution {
   tool: string;
@@ -48,7 +53,6 @@ interface ToolExecution {
 }
 
 // Global state for tool execution
-let currentCategoryKey = '';
 let allProducts: any[] = [];
 
 // ============================================================================
@@ -101,30 +105,34 @@ const tools = [
 ];
 
 // ============================================================================
-// Tool Execution
+// Tool Execution (크롤링 데이터 기반)
 // ============================================================================
 
 async function executeSearchProducts(args: any): Promise<{ result: any; displayText: string }> {
-  let query = supabase
-    .from('knowledge_products')
-    .select('pcode, name, brand, price, thumbnail, rating, review_count, pros, cons, spec_summary_text, buying_point, popularity_rank')
-    .eq('category_key', currentCategoryKey);
+  // 크롤링된 allProducts에서 필터링
+  let filtered = [...allProducts];
 
-  if (args.min_price) query = query.gte('price', args.min_price);
-  if (args.max_price) query = query.lte('price', args.max_price);
-  if (args.brands?.length) query = query.in('brand', args.brands);
-
-  query = query.order('popularity_rank', { ascending: true }).limit(args.limit || 10);
-
-  const { data } = await query;
-  let filtered = data || [];
-
+  if (args.min_price) {
+    filtered = filtered.filter((p: any) => p.price && p.price >= args.min_price);
+  }
+  if (args.max_price) {
+    filtered = filtered.filter((p: any) => p.price && p.price <= args.max_price);
+  }
+  if (args.brands?.length) {
+    filtered = filtered.filter((p: any) =>
+      args.brands.some((b: string) => p.brand?.toLowerCase().includes(b.toLowerCase()))
+    );
+  }
   if (args.keywords?.length) {
     filtered = filtered.filter((p: any) => {
-      const text = `${p.name} ${p.spec_summary_text} ${p.buying_point}`.toLowerCase();
+      const text = `${p.name} ${p.specSummary || ''}`.toLowerCase();
       return args.keywords.some((kw: string) => text.includes(kw.toLowerCase()));
     });
   }
+
+  // 리뷰 수 기준 정렬
+  filtered.sort((a: any, b: any) => (b.reviewCount || 0) - (a.reviewCount || 0));
+  filtered = filtered.slice(0, args.limit || 10);
 
   return {
     result: filtered,
@@ -133,40 +141,53 @@ async function executeSearchProducts(args: any): Promise<{ result: any; displayT
 }
 
 async function executeGetProductReviews(args: any): Promise<{ result: any; displayText: string }> {
-  let query = supabase
-    .from('knowledge_reviews')
-    .select('content, rating, sentiment, mentioned_pros, mentioned_cons')
-    .eq('pcode', args.pcode);
+  // Phase 2에서 pcode 기반 리뷰 크롤러 추가 예정
+  // 현재는 크롤링 데이터의 기본 정보만 반환
+  const product = allProducts.find((p: any) => p.pcode === args.pcode);
 
-  if (args.filter === 'positive') query = query.eq('sentiment', 'positive');
-  if (args.filter === 'negative') query = query.eq('sentiment', 'negative');
+  if (!product) {
+    return {
+      result: [],
+      displayText: `📝 상품을 찾을 수 없습니다`
+    };
+  }
 
-  query = query.limit(args.limit || 5);
-  const { data } = await query;
+  // 크롤링된 기본 정보로 대체
+  const mockReview = {
+    content: `${product.name} - 리뷰 ${product.reviewCount}개, 평점 ${product.rating || 'N/A'}`,
+    rating: product.rating || 0,
+    sentiment: (product.rating || 0) >= 4 ? 'positive' : 'neutral',
+    specSummary: product.specSummary || ''
+  };
 
   return {
-    result: data || [],
-    displayText: `📝 **${(data || []).length}개 리뷰** 확인`
+    result: [mockReview],
+    displayText: `📝 **${product.name}** 기본 정보 확인 (리뷰 ${product.reviewCount}개)`
   };
 }
 
 async function executeAnalyzeReviews(args: any): Promise<{ result: any; displayText: string }> {
   const criteria = args.criteria.toLowerCase();
-  const pcodes = allProducts.slice(0, 10).map((p: any) => p.pcode);
 
-  const { data: reviews } = await supabase
-    .from('knowledge_reviews')
-    .select('content, rating, sentiment')
-    .in('pcode', pcodes)
-    .ilike('content', `%${criteria}%`)
-    .limit(20);
+  // 크롤링 데이터에서 키워드 매칭
+  const matchedProducts = allProducts.filter((p: any) => {
+    const text = `${p.name} ${p.specSummary || ''}`.toLowerCase();
+    return text.includes(criteria);
+  });
 
-  const positive = (reviews || []).filter((r: any) => r.rating >= 4).length;
-  const negative = (reviews || []).filter((r: any) => r.rating <= 2).length;
+  const totalReviewCount = matchedProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0);
+  const avgRating = matchedProducts.length > 0
+    ? matchedProducts.reduce((sum: number, p: any) => sum + (p.rating || 0), 0) / matchedProducts.length
+    : 0;
 
   return {
-    result: { criteria, total: (reviews || []).length, positive, negative },
-    displayText: `📊 **"${args.criteria}"** 리뷰 ${(reviews || []).length}건 분석`
+    result: {
+      criteria,
+      matchedProducts: matchedProducts.length,
+      totalReviewCount,
+      avgRating: Math.round(avgRating * 10) / 10
+    },
+    displayText: `📊 **"${args.criteria}"** 관련 상품 ${matchedProducts.length}개 (리뷰 ${totalReviewCount}개)`
   };
 }
 
@@ -204,27 +225,68 @@ async function loadKnowledgeContext(categoryKey: string): Promise<string> {
   return '';
 }
 
-async function getProducts(categoryKey: string) {
-  const { data } = await supabase
-    .from('knowledge_products')
-    .select('pcode, name, brand, price, thumbnail, product_url, spec_summary_text, buying_point, review_insight, pros, cons, rating, review_count, popularity_rank')
-    .eq('category_key', categoryKey)
-    .order('popularity_rank', { ascending: true })
-    .limit(30);
+/**
+ * 상품 목록 가져오기 (캐시 또는 크롤링)
+ */
+async function getProducts(categoryKey: string, searchOptions?: Partial<DanawaSearchOptions>): Promise<any[]> {
+  // 카테고리 키를 검색어로 변환
+  const categoryNameMap: Record<string, string> = {
+    airfryer: '에어프라이어',
+    robotcleaner: '로봇청소기',
+    humidifier: '가습기',
+    airpurifier: '공기청정기',
+    // 필요시 추가
+  };
 
-  return data || [];
+  const query = searchOptions?.query || categoryNameMap[categoryKey] || categoryKey;
+
+  // 캐시 확인
+  const cached = getQueryCache(query);
+  if (cached && cached.items.length > 0) {
+    console.log(`[Chat] Using cached products for "${query}": ${cached.items.length} items`);
+    return cached.items;
+  }
+
+  // 캐시 미스 → 크롤링
+  console.log(`[Chat] Cache miss, crawling for "${query}"...`);
+  const crawlOptions: DanawaSearchOptions = {
+    query,
+    limit: searchOptions?.limit || 40,
+    sort: searchOptions?.sort || 'saveDESC',
+    minPrice: searchOptions?.minPrice,
+    maxPrice: searchOptions?.maxPrice,
+  };
+
+  try {
+    const response = await crawlDanawaSearchList(crawlOptions);
+
+    if (response.success && response.items.length > 0) {
+      // 캐시 저장
+      setQueryCache(response);
+      return response.items;
+    }
+  } catch (error) {
+    console.error('[Chat] Crawling failed:', error);
+  }
+
+  return [];
 }
 
+
 // ============================================================================
-// Contextual Web Search (답변 기반 실시간 검색)
+// Contextual Web Search (답변 기반 실시간 웹서치 - Google Search Grounding)
 // ============================================================================
 
 interface SearchContext {
   query: string;
   insight: string;
   relevantTip: string;
+  sources?: Array<{ title: string; url: string }>;
 }
 
+/**
+ * 사용자 답변 기반 실시간 웹서치 (Google Search Grounding 활용)
+ */
 async function performContextualSearch(
   categoryName: string,
   userAnswer: string,
@@ -233,194 +295,271 @@ async function performContextualSearch(
   if (!ai) return null;
 
   try {
+    // Google Search Grounding 활성화
     const model = ai.getGenerativeModel({
       model: MODEL_NAME,
-      generationConfig: { temperature: 0.3 }
+      generationConfig: { temperature: 0.3 },
+      tools: [{ google_search: {} } as never]  // 실제 웹서치 활성화
     });
 
-    // 검색 쿼리 및 인사이트 생성
+    const year = new Date().getFullYear();
     const searchPrompt = `
 사용자가 ${categoryName} 구매 상담 중입니다.
 질문: "${questionContext}"
 사용자 답변: "${userAnswer}"
 
-이 답변을 바탕으로:
-1. 관련 검색어 생성 (예: "${categoryName} ${userAnswer} 추천")
-2. 이 선택에 대한 전문가 인사이트 제공
-3. 다음 질문에서 참고할 팁 제공
+${year}년 최신 정보를 검색하여:
+1. "${userAnswer}" 선택에 대한 전문가 인사이트
+2. 이 선택 시 주의해야 할 점
+3. 관련 추천 팁
 
-JSON 형식:
+JSON 형식으로 응답:
 {
-  "query": "검색 쿼리",
-  "insight": "이 선택에 대한 전문가 코멘트 1문장",
+  "query": "실제 검색한 쿼리",
+  "insight": "웹 검색 결과 기반 전문가 코멘트 1-2문장",
   "relevantTip": "다음 단계에서 고려할 점 1문장"
 }
 `;
 
     const result = await model.generateContent(searchPrompt);
-    const text = result.response.text();
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const response = result.response;
+    const text = response.text();
 
+    // groundingMetadata에서 실제 검색 정보 추출
+    const candidate = (response as { candidates?: Array<{ groundingMetadata?: {
+      webSearchQueries?: string[];
+      groundingChunks?: Array<{ web?: { uri?: string; title?: string } }>;
+    } }> }).candidates?.[0];
+    const groundingMetadata = candidate?.groundingMetadata;
+    
+    // 실제 사용된 검색 쿼리
+    const webSearchQueries = groundingMetadata?.webSearchQueries || [];
+    
+    // 실제 출처 추출
+    const groundingChunks = groundingMetadata?.groundingChunks || [];
+    const sources = groundingChunks
+      .filter((chunk) => chunk.web?.uri)
+      .map((chunk) => ({
+        title: chunk.web?.title || 'Unknown',
+        url: chunk.web?.uri || ''
+      }))
+      .slice(0, 3);
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+      const parsed = JSON.parse(jsonMatch[0]);
+      
+      console.log(`[Chat] Real web search queries: ${webSearchQueries.join(', ')}`);
+      console.log(`[Chat] Sources found: ${sources.length}`);
+      
+      return {
+        query: webSearchQueries[0] || parsed.query || `${categoryName} ${userAnswer}`,
+        insight: parsed.insight || '',
+        relevantTip: parsed.relevantTip || '',
+        sources
+      };
     }
   } catch (e) {
-    console.error('[Chat] Contextual search failed:', e);
+    console.error('[Chat] Contextual web search failed:', e);
   }
 
   return null;
 }
 
 // ============================================================================
-// AI 기반 동적 질문 생성
+// AI 기반 동적 질문 생성 (밸런스 게임 & 단점 필터 통합)
 // ============================================================================
 
-async function generateDynamicBalanceQuestionsAI(
+/**
+ * 후보군 상품 리스트를 LLM이 분석할 수 있는 텍스트로 변환
+ */
+function formatProductsForLLM(products: any[], maxCount: number = 20): string {
+  if (!products || products.length === 0) return '(후보 상품 없음)';
+  
+  return products.slice(0, maxCount).map((p, i) => {
+    const specs = p.specSummary || p.specs?.map((s: any) => `${s.label}: ${s.value}`).join(', ') || '';
+    return `${i + 1}. [${p.brand || '브랜드미상'}] ${p.name} (${p.price?.toLocaleString()}원)
+   - 주요스펙: ${specs.slice(0, 100)}...
+   - 리뷰요약: ${p.reviewSummary?.slice(0, 50) || '정보 없음'}`;
+  }).join('\n\n');
+}
+
+async function generateDynamicQuestionsAI(
   categoryKey: string,
-  categoryName: string,
   collectedInfo: Record<string, unknown>,
-  knowledge: string,
   products: any[]
-): Promise<any[]> {
-  if (!ai) return [];
+): Promise<{ balance_questions: BalanceQuestion[]; negative_filter_options: NegativeOption[] }> {
+  if (!ai) return { balance_questions: [], negative_filter_options: [] };
 
   try {
+    const insights = await loadCategoryInsights(categoryKey);
+    // insights 없어도 계속 진행 - 웹서치 데이터 + 상품 데이터 기반으로 생성
+
     const model = ai.getGenerativeModel({ model: MODEL_NAME });
 
-    // 상품들의 주요 특성 추출
-    const productFeatures = products.slice(0, 10).map(p => ({
-      name: p.name,
-      brand: p.brand,
-      price: p.price,
-      pros: p.pros,
-      cons: p.cons
-    }));
+    // 카테고리 이름 (insights 없으면 categoryKey 디코딩해서 사용)
+    const categoryName = insights?.category_name || decodeURIComponent(categoryKey);
 
-    const prompt = `
-당신은 ${categoryName} 전문 구매 상담사입니다.
+    // 1. 사용자 컨텍스트 텍스트 생성 (설문 응답 + 주관식 답변)
+    const hardFilterLines = Object.entries(collectedInfo)
+      .map(([key, value]) => `- ${key}: ${value}`);
+    const userContextText = hardFilterLines.length > 0 ? hardFilterLines.join('\n') : '(선택된 조건 없음)';
 
-## 사용자가 지금까지 선택한 정보
-${JSON.stringify(collectedInfo, null, 2)}
+    // 2. 단기 기억에서 데이터 가져오기 (밸런스 선택, 웹서치 결과 등)
+    const shortTermMemory = loadShortTermMemory(categoryKey);
+    const balanceSelectionsText = shortTermMemory?.balanceSelections?.length
+      ? shortTermMemory.balanceSelections.map(s => `- ${s.selectedLabel} 선택`).join('\n')
+      : '(아직 선택 없음)';
 
-## 카테고리 전문 지식
-${knowledge.slice(0, 2000)}
+    // 2-1. 웹서치 인사이트 데이터 (init 단계에서 수집됨)
+    const webInsights = shortTermMemory?.webSearchInsights || [];
+    const latestInsight = webInsights[0]; // 가장 최근 인사이트
+    const webInsightText = latestInsight?.insight || '';
+    const webSources = latestInsight?.sources?.slice(0, 3) || [];
 
-## 현재 후보 상품들의 특성
-${JSON.stringify(productFeatures.slice(0, 5), null, 2)}
+    // 3. 상품 텍스트
+    const productsText = formatProductsForLLM(products);
 
-## 과제
-사용자의 선택을 기반으로, **트레이드오프가 있는** 밸런스 게임 질문 2-3개를 생성하세요.
-- 이미 선택한 내용과 관련된 심화 질문
-- 리뷰에서 의견이 갈리는 포인트
-- 둘 다 장단점이 있어서 고민되는 선택지
+    // 4. 트레이드오프 텍스트 (insights 있으면 사용, 없으면 웹서치/상품 기반 생성 유도)
+    const tradeoffsText = insights?.tradeoffs?.length
+      ? insights.tradeoffs.map((t, i) => `${i+1}. ${t.title}: A(${t.option_a.text}) vs B(${t.option_b.text})`).join('\n')
+      : '(사전 정의 없음 → 상품 스펙/가격대/브랜드 차이를 분석해서 트레이드오프 생성 필요)';
 
-## JSON 형식 (배열)
-[
-  {
-    "id": "unique_id",
-    "optionA": { "label": "A 선택지 (예: 소음이 좀 있어도 강력한 성능)", "ruleKey": "power_priority" },
-    "optionB": { "label": "B 선택지 (예: 성능은 보통이지만 조용한 제품)", "ruleKey": "quiet_priority" },
-    "insight": "이 질문의 배경 설명 (예: 리뷰에서 소음과 성능 사이 의견이 갈립니다)"
-  }
-]
+    // 5. 단점 텍스트 (insights 있으면 사용, 없으면 기본 안내)
+    let consText: string;
+    if (insights?.cons?.length) {
+      consText = insights.cons.slice(0, 8).map((c, i) => `${i+1}. ${c.text}`).join('\n');
+    } else {
+      consText = '(사전 정의 없음 → 상품 리뷰/스펙에서 일반적인 단점 추출 필요)';
+    }
 
-2-3개의 질문을 JSON 배열로만 응답하세요.
-`;
+    // 6. 웹서치 컨텍스트 (insights 없을 때 추가 정보 제공)
+    const webSearchContext = !insights && webInsightText ? `
+═══════════════════════════════════════
+🌐 웹서치 기반 시장 분석 (최신)
+═══════════════════════════════════════
+${webInsightText}
+
+${webSources.length > 0 ? `📎 참고 출처: ${webSources.map(s => s.title).join(', ')}` : ''}
+` : '';
+
+    const prompt = `당신은 ${categoryName} 구매 상담 전문가입니다.
+사용자가 하드필터로 후보군을 좁힌 상태입니다. 이제 **후보군 상품들을 직접 분석**해서 의미있는 질문을 생성해주세요.
+
+═══════════════════════════════════════
+👤 사용자가 이미 선택한 조건 (하드필터)
+═══════════════════════════════════════
+${userContextText}
+
+═══════════════════════════════════════
+🎮 사용자가 밸런스 게임에서 선택한 결과
+═══════════════════════════════════════
+${balanceSelectionsText}
+
+═══════════════════════════════════════
+📦 현재 후보군 상품 (하드필터 통과)
+═══════════════════════════════════════
+${productsText}
+
+═══════════════════════════════════════
+💡 참고: 이 카테고리의 일반적인 트레이드오프
+═══════════════════════════════════════
+${tradeoffsText}
+
+═══════════════════════════════════════
+⚠️ 참고: 이 카테고리의 주요 단점/불만 (리뷰 기반)
+═══════════════════════════════════════
+${consText}
+${webSearchContext}
+═══════════════════════════════════════
+🎯 생성 규칙 (매우 중요!)
+═══════════════════════════════════════
+
+**[공통 규칙]**
+1. ❌ 가격/예산 관련 질문 절대 금지 (따로 필터링함)
+2. 전문용어나 일상에서 안 쓰는 단어는 풀어서 설명
+   예: "PPSU(열에 강한 플라스틱) 소재", "BPA-free(환경호르몬 없는)"
+3. 초보 부모도 바로 이해할 수 있는 쉬운 말로 작성
+
+**[밸런스 게임 질문 - 1~3개]**
+
+⚠️ **Rule 1. 하드필터 중복 질문 절대 금지**
+위 '사용자가 이미 선택한 조건(하드필터)'을 확인하세요. 사용자가 이미 명확히 의사를 밝힌 속성은 밸런스 게임에서 다시 묻지 마세요.
+- ❌ 상황: 하드필터에서 "가벼운 무게(휴대용)"를 이미 선택함
+- ❌ 금지된 질문: "가벼움 vs 튼튼함" (사용자는 이미 가벼움을 선택했으므로 이 질문은 불필요)
+- ✅ 행동: 이미 선택된 속성과 관련된 트레이드오프는 건너뛰고, 아직 결정하지 않았지만 구매에 중요한 다른 속성을 물어보세요.
+
+⚠️ **Rule 1-1. 복수 선택 속성 처리 (중요!)**
+사용자가 같은 질문에서 2개 이상 선택한 경우 "둘 다 괜찮아요"라는 의미입니다.
+- ✅ **올바른 행동**:
+  1. 다른 질문이 충분하면(2개 이상) → 해당 트레이드오프 질문 생략
+  2. 다른 질문이 부족하면(1개 이하) → 질문을 변형하여 포함:
+     - option_A.text와 option_B.text 앞에 "둘 다 좋다고 하셨는데, 정말 하나만 고르자면 " 추가
+
+⚠️ **Rule 2. 물리적/직관적 트레이드오프만 허용 (Strong)**
+부모들이 실제로 고민하는 **물리적/구조적 상반 관계**만 질문하세요. 기술적으로 둘 다 만족시킬 수 있는 "좋은 기능 vs 좋은 기능"은 가짜 트레이드오프입니다.
+
+형식 요구사항:
+- id: "balance_1", "balance_2" 등
+- type: "tradeoff" (기본)
+- title: 상반 관계가 명확히 드러나는 제목 (예: "무게 vs 안정감")
+- option_A.text: **A를 선택하면 B를 포기해야 함이 암시된 문장** (30~50자)
+- option_B.text: **B를 선택하면 A를 포기해야 함이 암시된 문장** (30~50자)
+- target_rule_key: 영문 소문자+언더스코어 (⚠️ 필수: A와 B는 서로 다른 고유한 키여야 함)
+
+**[피하고 싶은 단점 옵션 - 4~6개]**
+
+⚠️ **Rule 3. 충돌/중복 방지**
+- 밸런스 게임에서 이미 선택한 긍정적 가치와 정반대되는 단점은 제외하세요.
+  예: 밸런스 게임에서 "작고 가벼움"을 선택했는데, 단점 옵션에 "크기가 큼"을 넣지 마세요.
+- 하드필터에서 선택한 조건과 상충하는 옵션은 제외하세요.
+
+형식 요구사항:
+- id: "neg_1", "neg_2" 등
+- label: "소음이 크다는 후기가 많아요", "세척이 번거로워요" 등 구체적인 문장
+- target_rule_key: 필터링에 사용할 rule_key (insights.cons의 rule_key 활용)
+- exclude_mode: "drop_if_has" | "drop_if_lacks" | "penalize" 중 하나
+
+═══════════════════════════════════════
+최종 응답은 반드시 아래 JSON 형식을 지키세요:
+{
+  "balance_questions": [ ... ],
+  "negative_filter_options": [ ... ]
+}
+═══════════════════════════════════════`;
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    const jsonMatch = text.match(/\[[\s\S]*\]/);
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
 
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+      const parsed = JSON.parse(jsonMatch[0]);
+      return {
+        balance_questions: (parsed.balance_questions || []).map((q: any) => ({
+          ...q,
+          option_A: q.option_A || { text: q.optionA?.label || '', target_rule_key: q.optionA?.ruleKey || '' },
+          option_B: q.option_B || { text: q.optionB?.label || '', target_rule_key: q.optionB?.ruleKey || '' }
+        })),
+        negative_filter_options: parsed.negative_filter_options || []
+      };
     }
   } catch (e) {
-    console.error('[Chat] Dynamic balance generation failed:', e);
+    console.error('[Chat] Dynamic questions generation failed:', e);
   }
 
   // Fallback: 기본 질문 반환
-  return [
-    {
-      id: 'default_balance_1',
-      optionA: { label: '가성비가 좋은 제품', ruleKey: 'value' },
-      optionB: { label: '프리미엄 고급 제품', ruleKey: 'premium' },
-      insight: '가격과 품질 사이의 균형점을 찾아드립니다'
-    },
-    {
-      id: 'default_balance_2',
-      optionA: { label: '기능이 다양한 제품', ruleKey: 'features' },
-      optionB: { label: '사용이 간편한 제품', ruleKey: 'simple' },
-      insight: '복잡한 기능 vs 직관적인 사용성'
-    }
-  ];
-}
-
-async function generateDynamicNegativeOptionsAI(
-  categoryKey: string,
-  categoryName: string,
-  collectedInfo: Record<string, unknown>,
-  knowledge: string,
-  products: any[]
-): Promise<any[]> {
-  if (!ai) return [];
-
-  try {
-    const model = ai.getGenerativeModel({ model: MODEL_NAME });
-
-    // 상품들의 단점 추출
-    const productCons = products.slice(0, 10)
-      .flatMap(p => p.cons || [])
-      .filter(Boolean);
-
-    const prompt = `
-당신은 ${categoryName} 전문 구매 상담사입니다.
-
-## 사용자가 지금까지 선택한 정보
-${JSON.stringify(collectedInfo, null, 2)}
-
-## 카테고리 전문 지식 (자주 언급되는 단점)
-${knowledge.slice(0, 1500)}
-
-## 현재 후보 상품들에서 언급된 단점들
-${[...new Set(productCons)].slice(0, 10).join(', ')}
-
-## 과제
-사용자가 **꼭 피하고 싶어할 만한 단점** 4-5개를 생성하세요.
-- 리뷰에서 자주 언급되는 불만사항
-- 특정 사용자에게 치명적일 수 있는 단점
-- 구매 후 후회하는 포인트
-
-## JSON 형식 (배열)
-[
-  {
-    "id": "unique_id",
-    "label": "피하고 싶은 단점 (예: 소음이 너무 큰 제품)",
-    "ruleKey": "noise_issue",
-    "excludeMode": "penalize"
-  }
-]
-
-4-5개의 옵션을 JSON 배열로만 응답하세요.
-`;
-
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-    const jsonMatch = text.match(/\[[\s\S]*\]/);
-
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
-  } catch (e) {
-    console.error('[Chat] Dynamic negative generation failed:', e);
-  }
-
-  // Fallback: 기본 옵션 반환
-  return [
-    { id: 'neg_noise', label: '소음이 큰 제품', ruleKey: 'noise', excludeMode: 'penalize' },
-    { id: 'neg_size', label: '크기가 너무 큰 제품', ruleKey: 'size', excludeMode: 'penalize' },
-    { id: 'neg_clean', label: '세척이 불편한 제품', ruleKey: 'cleaning', excludeMode: 'penalize' },
-    { id: 'neg_durability', label: '내구성이 약한 제품', ruleKey: 'durability', excludeMode: 'penalize' }
-  ];
+  return {
+    balance_questions: [
+      {
+        id: 'default_balance_1',
+        type: 'tradeoff',
+        title: '가성비 vs 프리미엄',
+        option_A: { text: '가성비가 좋은 실속 있는 제품이 좋아요', target_rule_key: 'value' },
+        option_B: { text: '가격이 비싸더라도 품질이 좋은 프리미엄 제품이 좋아요', target_rule_key: 'premium' }
+      }
+    ],
+    negative_filter_options: []
+  };
 }
 
 // ============================================================================
@@ -444,16 +583,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'categoryKey required' }, { status: 400 });
     }
 
-    currentCategoryKey = categoryKey;
-    allProducts = await getProducts(categoryKey);
+    // 사용자가 입력한 키워드를 그대로 검색어로 사용
+    const searchKeyword = categoryKey;
+
+    // 상품 로드 (캐시 또는 크롤링)
+    allProducts = await getProducts(categoryKey, { query: searchKeyword });
 
     // ============================================================================
-    // Phase: Questions (Todo 기반 질문 흐름)
+    // Phase: Questions (Todo 기반 질문 흐름 + 실시간 웹서치)
     // ============================================================================
     if (phase === 'questions') {
       // 현재 질문에 대한 답변 처리
       const updatedTodos = [...questionTodos];
       const updatedInfo = { ...collectedInfo };
+
+      // 웹서치 결과 (답변 기반)
+      let webSearchResult: SearchContext | null = null;
 
       if (currentQuestionId && userMessage) {
         const todoIndex = updatedTodos.findIndex((t: QuestionTodo) => t.id === currentQuestionId);
@@ -502,6 +647,50 @@ JSON 형식으로 응답:
           updatedTodos[todoIndex].completed = true;
           updatedTodos[todoIndex].answer = processedAnswer;
           updatedInfo[currentQuestionId] = processedAnswer;
+
+          // ============================================================================
+          // 실시간 웹서치 (Google Search Grounding) - 답변 기반 인사이트 수집
+          // ============================================================================
+          webSearchResult = await performContextualSearch(
+            searchKeyword,
+            processedAnswer,
+            currentTodo.question
+          );
+
+          if (webSearchResult) {
+            console.log(`[Chat] Web search completed: "${webSearchResult.query}"`);
+            if (webSearchResult.sources?.length) {
+              console.log(`[Chat] Sources: ${webSearchResult.sources.map(s => s.title).join(', ')}`);
+            }
+          }
+
+          // ============================================================================
+          // V12: 단기기억 업데이트 (질문 답변 + 웹서치 인사이트)
+          // ============================================================================
+          const shortTermMemory = loadShortTermMemory(categoryKey);
+          if (shortTermMemory) {
+            // collectedInfo 업데이트
+            shortTermMemory.collectedInfo = { ...shortTermMemory.collectedInfo, ...updatedInfo };
+
+            // 웹서치 인사이트 저장
+            if (webSearchResult) {
+              const webInsight: WebSearchInsight = {
+                phase: 'question',
+                questionId: currentQuestionId,
+                question: currentTodo.question,
+                userAnswer: processedAnswer,
+                query: webSearchResult.query,
+                insight: webSearchResult.insight,
+                sources: webSearchResult.sources?.map(s => ({ title: s.title, url: s.url })) || [],
+                timestamp: new Date().toISOString(),
+              };
+              shortTermMemory.webSearchInsights.push(webInsight);
+            }
+
+            // 저장
+            saveShortTermMemory(categoryKey, shortTermMemory);
+            console.log(`[Chat V12] Short-term memory updated with Q: ${currentQuestionId}`);
+          }
         }
       }
 
@@ -512,41 +701,36 @@ JSON 형식으로 응답:
 
       // 모든 질문 완료 → 밸런스 게임으로 전환 (순서: balance → negative_filter → result)
       if (!nextQuestion) {
-        const categoryName = categoryKey === 'airfryer' ? '에어프라이어' : categoryKey;
-        const knowledge = await loadKnowledgeContext(categoryKey);
-
-        // AI 기반 동적 밸런스 질문 생성
-        const balanceQuestions = await generateDynamicBalanceQuestionsAI(
+        // AI 기반 동적 밸런스/단점 질문 생성
+        const { balance_questions, negative_filter_options } = await generateDynamicQuestionsAI(
           categoryKey,
-          categoryName,
           updatedInfo,
-          knowledge,
           allProducts
         );
 
-        if (balanceQuestions.length > 0) {
+        if (balance_questions.length > 0) {
+          // V12: 단기기억 업데이트 (밸런스 질문 + 나중을 위해 단점 옵션도 미리 저장)
+          const shortTermMemory = loadShortTermMemory(categoryKey);
+          if (shortTermMemory) {
+            shortTermMemory.balanceQuestions = balance_questions;
+            shortTermMemory.negativeOptions = negative_filter_options;
+            saveShortTermMemory(categoryKey, shortTermMemory);
+          }
+
           return NextResponse.json({
             success: true,
             phase: 'balance',
             content: `좋아요! 지금까지 말씀해주신 내용을 정리했어요.\n\n이제 **우선순위를 더 정확히 파악**하기 위해 간단한 선택 게임을 해볼게요. 직관적으로 골라주세요!`,
             tip: `💡 선택하신 조건을 기반으로 생성된 맞춤 질문입니다`,
             ui_type: 'balance_game',
-            balanceQuestions,
+            balanceQuestions: balance_questions,
             questionTodos: updatedTodos,
             collectedInfo: updatedInfo
           });
         }
 
-        // 밸런스 게임 생성 실패 시 단점 필터로
-        const negativeOptions = await generateDynamicNegativeOptionsAI(
-          categoryKey,
-          categoryName,
-          updatedInfo,
-          knowledge,
-          allProducts
-        );
-
-        if (negativeOptions.length > 0) {
+        // 밸런스 게임 생성 실패 시 단점 필터로 (이미 위에서 생성되었을 수 있으므로 확인)
+        if (negative_filter_options.length > 0) {
           const totalReviewCount = allProducts.reduce((sum, p) => sum + (p.review_count || 0), 0);
 
           return NextResponse.json({
@@ -555,7 +739,7 @@ JSON 형식으로 응답:
             content: `좋아요! 지금까지 말씀해주신 내용을 정리했어요.\n\n혹시 **꼭 피하고 싶은 단점**이 있으신가요? (복수 선택 가능)`,
             tip: `${allProducts.length}개 상품, ${totalReviewCount.toLocaleString()}개 리뷰 분석 결과입니다`,
             ui_type: 'negative_filter',
-            negativeOptions,
+            negativeOptions: negative_filter_options,
             questionTodos: updatedTodos,
             collectedInfo: updatedInfo
           });
@@ -576,40 +760,37 @@ JSON 형식으로 응답:
       // 다음 질문 응답 생성
       const completedCount = updatedTodos.filter((t: QuestionTodo) => t.completed).length;
       const totalCount = updatedTodos.length;
-      const categoryName = categoryKey === 'airfryer' ? '에어프라이어' : categoryKey;
 
-      // 답변 기반 컨텍스트 검색 (병렬 실행)
+      // AI로 자연스러운 전환 멘트 생성 (웹서치 인사이트 포함)
       const currentTodo = updatedTodos.find((t: QuestionTodo) => t.id === currentQuestionId);
-      const [searchContext, transitionResult] = await Promise.all([
-        currentTodo ? performContextualSearch(categoryName, userMessage, currentTodo.question) : Promise.resolve(null),
-        // AI로 자연스러운 전환 멘트 생성
-        (async () => {
-          if (completedCount > 0 && ai) {
-            try {
-              const model = ai.getGenerativeModel({ model: MODEL_NAME });
-              const prompt = `
-사용자가 ${categoryName} 구매 상담 중입니다.
+      let transitionText = '';
+
+      if (completedCount > 0 && ai) {
+        try {
+          const model = ai.getGenerativeModel({ model: MODEL_NAME });
+          
+          // 웹서치 결과가 있으면 인사이트 포함
+          const searchInsight = webSearchResult?.insight || '';
+          
+          const prompt = `
+사용자가 ${searchKeyword} 구매 상담 중입니다.
 질문: "${currentTodo?.question || ''}"
 답변: "${userMessage}"
+${searchInsight ? `\n웹서치 인사이트: ${searchInsight}` : ''}
 
 이 답변에 대해:
 1. 짧은 공감/확인 멘트 (1문장)
-2. 이 선택이 의미하는 바 간단히 설명 (1문장)
+2. ${searchInsight ? '웹서치 결과 기반' : '이 선택이 의미하는 바'} 간단히 설명 (1문장)
 
 따옴표 없이 자연스럽게 2문장으로 응답하세요.
 예: 3~4인 가족이시군요! 그 정도 인원이면 중형(10L 이상) 사이즈가 적당해요.
 `;
-              const result = await model.generateContent(prompt);
-              return result.response.text().trim();
-            } catch (e) {
-              console.error('[Chat] Transition generation failed:', e);
-            }
-          }
-          return '';
-        })()
-      ]);
-
-      const transitionText = transitionResult ? transitionResult + '\n\n' : '';
+          const result = await model.generateContent(prompt);
+          transitionText = result.response.text().trim() + '\n\n';
+        } catch (e) {
+          console.error('[Chat] Transition generation failed:', e);
+        }
+      }
 
       return NextResponse.json({
         success: true,
@@ -623,11 +804,13 @@ JSON 형식으로 응답:
         questionTodos: updatedTodos,
         collectedInfo: updatedInfo,
         dataSource: nextQuestion.dataSource,
-        // 검색 컨텍스트 (UI에서 검색 프로세스 표시용)
-        searchContext: searchContext ? {
-          query: searchContext.query,
-          insight: searchContext.insight
-        } : null
+        // 실시간 웹서치 결과 (UI에서 검색 프로세스 & 출처 표시용)
+        searchContext: webSearchResult ? {
+          query: webSearchResult.query,
+          insight: webSearchResult.insight,
+          sources: webSearchResult.sources || []
+        } : null,
+        productCount: allProducts.length
       });
     }
 
@@ -640,14 +823,66 @@ JSON 형식으로 응답:
       const categoryName = categoryKey === 'airfryer' ? '에어프라이어' : categoryKey;
       const knowledge = await loadKnowledgeContext(categoryKey);
 
-      // AI 기반 동적 단점 옵션 생성
-      const negativeOptions = await generateDynamicNegativeOptionsAI(
-        categoryKey,
-        categoryName,
-        updatedInfo,
-        knowledge,
-        allProducts
-      );
+      // ============================================================================
+      // V12: 단기기억 업데이트 (밸런스 선택)
+      // ============================================================================
+      const shortTermMemory = loadShortTermMemory(categoryKey);
+      if (shortTermMemory) {
+        // 밸런스 질문들 저장 (body에서 전달받은 경우)
+        const balanceQuestions = body.balanceQuestions || [];
+        if (balanceQuestions.length > 0) {
+          shortTermMemory.balanceQuestions = balanceQuestions.map((q: any): BalanceQuestion => ({
+            id: q.id,
+            type: q.type || 'tradeoff',
+            title: q.title || '',
+            option_A: { text: q.option_A?.text || q.optionA?.label || '', target_rule_key: q.option_A?.target_rule_key || q.optionA?.ruleKey || '' },
+            option_B: { text: q.option_B?.text || q.optionB?.label || '', target_rule_key: q.option_B?.target_rule_key || q.optionB?.ruleKey || '' },
+          }));
+        }
+
+        // 밸런스 선택 결과 저장 (userMessage가 배열 또는 JSON 형태)
+        try {
+          const selections = typeof userMessage === 'string' && (userMessage.startsWith('[') || userMessage.startsWith('{')) 
+            ? JSON.parse(userMessage) 
+            : userMessage;
+          
+          if (Array.isArray(selections)) {
+            shortTermMemory.balanceSelections = selections.map((s: any): BalanceSelection => ({
+              questionId: s.questionId || s.id || '',
+              selected: s.selected || 'A',
+              selectedLabel: s.selectedLabel || s.label || '',
+              selectedRuleKey: s.selectedRuleKey || s.ruleKey,
+            }));
+          } else if (typeof selections === 'object' && selections !== null) {
+            // Map 형태의 Map<string, 'A' | 'B'> 가 JSON으로 넘어올 때 처리
+            shortTermMemory.balanceSelections = Object.entries(selections).map(([id, choice]) => {
+              const q = shortTermMemory.balanceQuestions.find(bq => bq.id === id);
+              return {
+                questionId: id,
+                selected: choice as 'A' | 'B',
+                selectedLabel: choice === 'A' ? q?.option_A.text || '' : q?.option_B.text || '',
+                selectedRuleKey: choice === 'A' ? q?.option_A.target_rule_key : q?.option_B.target_rule_key
+              };
+            });
+          }
+        } catch (e) {
+          console.error('[Chat] Failed to parse balance selections:', e);
+          // 단순 문자열인 경우 - 단일 선택으로 처리
+          if (typeof userMessage === 'string' && userMessage.trim()) {
+            shortTermMemory.balanceSelections = [{
+              questionId: 'balance_1',
+              selected: 'A',
+              selectedLabel: userMessage,
+            }];
+          }
+        }
+
+        saveShortTermMemory(categoryKey, shortTermMemory);
+        console.log(`[Chat V12] Short-term memory updated with balance selections`);
+      }
+
+      // 저장된 단점 옵션이 있으면 사용
+      const negativeOptions = shortTermMemory?.negativeOptions || [];
 
       if (negativeOptions.length > 0) {
         const totalReviewCount = allProducts.reduce((sum, p) => sum + (p.review_count || 0), 0);
@@ -673,6 +908,16 @@ JSON 형식으로 응답:
       // 피할 단점 선택 저장 후 결과 단계로
       const selectedNegatives = userMessage ? userMessage.split(',').map((s: string) => s.trim()) : [];
       const updatedInfo = { ...collectedInfo, negativeSelections: selectedNegatives };
+
+      // ============================================================================
+      // V12: 단기기억 업데이트 (단점 선택)
+      // ============================================================================
+      const shortTermMemory = loadShortTermMemory(categoryKey);
+      if (shortTermMemory) {
+        shortTermMemory.negativeSelections = selectedNegatives;
+        saveShortTermMemory(categoryKey, shortTermMemory);
+        console.log(`[Chat V12] Short-term memory updated with negative selections: ${selectedNegatives.join(', ')}`);
+      }
 
       // 결과 생성 로직으로 이동 (아래 balance → result 로직 재사용)
       // 최종 추천 생성
@@ -725,13 +970,32 @@ JSON 형식으로 응답:
           const recommendedProducts = allProducts.filter(p =>
             parsed.recommended_pcodes?.includes(p.pcode)
           );
+          const finalProducts = recommendedProducts.length > 0 ? recommendedProducts : allProducts.slice(0, 3);
+
+          // ============================================================================
+          // V12: 단기기억 업데이트 (최종 추천)
+          // ============================================================================
+          const shortTermMemoryForResult = loadShortTermMemory(categoryKey);
+          if (shortTermMemoryForResult) {
+            shortTermMemoryForResult.finalRecommendations = finalProducts.slice(0, 3).map((p: any, idx: number): Recommendation => ({
+              rank: idx + 1,
+              pcode: p.pcode,
+              name: p.name,
+              brand: p.brand || '',
+              price: p.price || 0,
+              score: 0,
+              reason: parsed.reasons?.[p.pcode] || '',
+            }));
+            saveShortTermMemory(categoryKey, shortTermMemoryForResult);
+            console.log(`[Chat V12] Short-term memory updated with final recommendations`);
+          }
 
           return NextResponse.json({
             success: true,
             phase: 'result',
             content: parsed.content || '추천 상품을 확인해주세요.',
             ui_type: 'result',
-            products: recommendedProducts.length > 0 ? recommendedProducts : allProducts.slice(0, 3),
+            products: finalProducts,
             all_products: allProducts,
             collectedInfo: updatedInfo
           });
@@ -741,12 +1005,29 @@ JSON 형식으로 응답:
       }
 
       // Fallback
+      const fallbackProducts = allProducts.slice(0, 3);
+
+      // Fallback에서도 단기기억 업데이트
+      const shortTermMemoryFallback = loadShortTermMemory(categoryKey);
+      if (shortTermMemoryFallback) {
+        shortTermMemoryFallback.finalRecommendations = fallbackProducts.map((p: any, idx: number): Recommendation => ({
+          rank: idx + 1,
+          pcode: p.pcode,
+          name: p.name,
+          brand: p.brand || '',
+          price: p.price || 0,
+          score: 0,
+          reason: '자동 추천',
+        }));
+        saveShortTermMemory(categoryKey, shortTermMemoryFallback);
+      }
+
       return NextResponse.json({
         success: true,
         phase: 'result',
         content: '분석이 완료되었습니다. 추천 상품을 확인해주세요.',
         ui_type: 'result',
-        products: allProducts.slice(0, 3),
+        products: fallbackProducts,
         all_products: allProducts,
         collectedInfo: updatedInfo
       });
@@ -811,6 +1092,24 @@ JSON 형식으로 응답:
             return p ? { ...p, recommendReason: parsed.reasons?.[pcode] || '' } : null;
           }).filter(Boolean);
 
+          // ============================================================================
+          // V12: 단기기억 업데이트 (최종 추천 - balance fallback)
+          // ============================================================================
+          const shortTermMemoryBalance = loadShortTermMemory(categoryKey);
+          if (shortTermMemoryBalance) {
+            shortTermMemoryBalance.finalRecommendations = products.slice(0, 3).map((p: any, idx: number): Recommendation => ({
+              rank: idx + 1,
+              pcode: p.pcode,
+              name: p.name,
+              brand: p.brand || '',
+              price: p.price || 0,
+              score: 0,
+              reason: p.recommendReason || '',
+            }));
+            saveShortTermMemory(categoryKey, shortTermMemoryBalance);
+            console.log(`[Chat V12] Short-term memory updated with final recommendations (balance fallback)`);
+          }
+
           return NextResponse.json({
             success: true,
             phase: 'result',
@@ -826,12 +1125,29 @@ JSON 형식으로 응답:
       }
 
       // Fallback
+      const fallbackProductsBalance = allProducts.slice(0, 3);
+
+      // Fallback에서도 단기기억 업데이트
+      const shortTermMemoryBalanceFallback = loadShortTermMemory(categoryKey);
+      if (shortTermMemoryBalanceFallback) {
+        shortTermMemoryBalanceFallback.finalRecommendations = fallbackProductsBalance.map((p: any, idx: number): Recommendation => ({
+          rank: idx + 1,
+          pcode: p.pcode,
+          name: p.name,
+          brand: p.brand || '',
+          price: p.price || 0,
+          score: 0,
+          reason: '자동 추천',
+        }));
+        saveShortTermMemory(categoryKey, shortTermMemoryBalanceFallback);
+      }
+
       return NextResponse.json({
         success: true,
         phase: 'result',
         content: '분석이 완료되었습니다. 추천 상품을 확인해주세요.',
         ui_type: 'result',
-        products: allProducts.slice(0, 3),
+        products: fallbackProductsBalance,
         all_products: allProducts,
         collectedInfo: updatedInfo
       });
@@ -926,7 +1242,7 @@ JSON 형식: {"content": "답변", "options": ["후속 질문 옵션"]}`,
           displayText: t.displayText,
           resultCount: Array.isArray(t.result) ? t.result.length : 0
         })),
-        ...parsed
+        ...(parsed || {})
       });
     } catch (freeChatError) {
       console.error('[FreeChat] Error:', freeChatError);
@@ -938,7 +1254,6 @@ JSON 형식: {"content": "답변", "options": ["후속 질문 옵션"]}`,
         options: []
       });
     }
-
   } catch (error) {
     console.error('[Chat Error]:', error);
     return NextResponse.json({ error: 'Chat failed' }, { status: 500 });

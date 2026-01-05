@@ -457,13 +457,13 @@ export default function CategoriesPage() {
                 <motion.button
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
-                    logButtonClick('Knowledge Agent: 에어프라이어', 'categories');
-                    router.push('/knowledge-agent/airfryer');
+                    logButtonClick('Knowledge Agent: 실험실', 'categories');
+                    router.push('/knowledge-agent');
                   }}
                   className="relative h-[50px] w-full rounded-xl flex items-center px-4 gap-2.5 bg-linear-to-br from-purple-50 to-white border border-purple-100"
                 >
-                  <span className="text-[18px]">🍟</span>
-                  <span className="text-[15px] font-medium text-left text-gray-700">에어프라이어</span>
+                  <span className="text-[18px]">🧪</span>
+                  <span className="text-[15px] font-medium text-left text-gray-700">실험실</span>
                   <span className="absolute right-3 text-[10px] font-bold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded-md">AI</span>
                 </motion.button>
               </div>

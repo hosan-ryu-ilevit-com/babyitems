@@ -2,7 +2,19 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Coins, Prohibit, Scales, Check, CaretLeft, CaretRight } from '@phosphor-icons/react/dist/ssr';
+import { 
+  CaretLeft, 
+  CaretRight, 
+  Check, 
+  Warning, 
+  Coin 
+} from '@phosphor-icons/react/dist/ssr';
+import { 
+  FcSurvey, 
+  FcCancel, 
+  FcMoneyTransfer, 
+  FcCheckmark
+} from "react-icons/fc";
 
 // ============================================================================
 // Types
@@ -10,15 +22,17 @@ import { Coins, Prohibit, Scales, Check, CaretLeft, CaretRight } from '@phosphor
 
 interface BalanceQuestion {
   id: string;
-  optionA: { label: string; description?: string };
-  optionB: { label: string; description?: string };
-  insight: string;
+  type: string;
+  title: string;
+  option_A: { text: string; target_rule_key: string };
+  option_B: { text: string; target_rule_key: string };
 }
 
 interface NegativeOption {
   id: string;
   label: string;
-  description?: string;
+  target_rule_key: string;
+  exclude_mode: string;
 }
 
 interface BudgetPreset {
@@ -64,24 +78,27 @@ export function InlineBalanceCarousel({
   if (!currentQuestion) return null;
 
   return (
-    <div className="p-5 bg-blue-50/50 border border-blue-100 rounded-3xl mt-3 animate-in fade-in slide-in-from-bottom-2">
+    <motion.div 
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="p-6 bg-white border border-gray-100 rounded-[28px] mt-3 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
+    >
       {/* 헤더 */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-blue-700">
-          <Scales size={20} weight="fill" />
-          <span className="text-sm font-bold">어떤 가치를 더 우선하시나요?</span>
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center">
+            <FcSurvey size={20} />
+          </div>
+          <div>
+            <span className="text-[15px] font-bold text-gray-900">{currentQuestion.title}</span>
+            <p className="text-[11px] text-gray-400 font-medium">취향에 더 가까운 쪽을 골라주세요</p>
+          </div>
         </div>
         {questions.length > 1 && (
-          <div className="flex items-center gap-1">
-            {questions.map((_, idx) => (
-              <div
-                key={idx}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  idx === currentIndex ? 'bg-blue-600 w-4' :
-                  selections.has(questions[idx].id) ? 'bg-blue-400' : 'bg-blue-200'
-                }`}
-              />
-            ))}
+          <div className="flex items-center gap-1.5 bg-gray-50 px-2.5 py-1 rounded-full">
+            <span className="text-[11px] font-bold text-blue-600">{currentIndex + 1}</span>
+            <span className="text-[11px] font-bold text-gray-300">/</span>
+            <span className="text-[11px] font-bold text-gray-400">{questions.length}</span>
           </div>
         )}
       </div>
@@ -93,102 +110,87 @@ export function InlineBalanceCarousel({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="space-y-3"
         >
           {/* Option A */}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => handleSelect('A')}
-            className={`w-full p-4 rounded-2xl text-left transition-all border-2 ${
+            className={`w-full p-4 rounded-2xl text-left transition-all border-2 relative overflow-hidden ${
               selections.get(currentQuestion.id) === 'A'
-                ? 'bg-blue-600 border-blue-600 text-white shadow-lg'
-                : 'bg-white border-blue-200 hover:border-blue-400 hover:bg-blue-50'
+                ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100'
+                : 'bg-white border-gray-100 hover:border-blue-200 hover:bg-blue-50/30'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <span className={`text-sm font-bold ${
+            <div className="flex items-center justify-between relative z-10">
+              <div className="flex-1">
+                <span className={`text-[14px] font-bold leading-relaxed ${
                   selections.get(currentQuestion.id) === 'A' ? 'text-white' : 'text-gray-800'
                 }`}>
-                  {currentQuestion.optionA.label}
+                  {currentQuestion.option_A.text}
                 </span>
-                {currentQuestion.optionA.description && (
-                  <p className={`text-xs mt-1 ${
-                    selections.get(currentQuestion.id) === 'A' ? 'text-blue-100' : 'text-gray-500'
-                  }`}>
-                    {currentQuestion.optionA.description}
-                  </p>
-                )}
               </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ml-3 ${
                 selections.get(currentQuestion.id) === 'A'
                   ? 'border-white bg-white'
-                  : 'border-blue-200'
+                  : 'border-gray-200'
               }`}>
                 {selections.get(currentQuestion.id) === 'A' && (
-                  <Check size={14} weight="bold" className="text-blue-600" />
+                  <FcCheckmark size={14} />
                 )}
               </div>
             </div>
-          </button>
+          </motion.button>
 
           {/* VS 구분선 */}
-          <div className="flex items-center gap-3 px-4">
-            <div className="h-px flex-1 bg-blue-200" />
-            <span className="text-[10px] font-bold text-blue-400 bg-blue-100 px-2 py-0.5 rounded-full">VS</span>
-            <div className="h-px flex-1 bg-blue-200" />
+          <div className="flex items-center gap-4 px-4 py-1">
+            <div className="h-[1px] flex-1 bg-gray-100" />
+            <span className="text-[10px] font-black text-gray-300 tracking-widest">VS</span>
+            <div className="h-[1px] flex-1 bg-gray-100" />
           </div>
 
           {/* Option B */}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => handleSelect('B')}
-            className={`w-full p-4 rounded-2xl text-left transition-all border-2 ${
+            className={`w-full p-4 rounded-2xl text-left transition-all border-2 relative overflow-hidden ${
               selections.get(currentQuestion.id) === 'B'
-                ? 'bg-blue-600 border-blue-600 text-white shadow-lg'
-                : 'bg-white border-blue-200 hover:border-blue-400 hover:bg-blue-50'
+                ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100'
+                : 'bg-white border-gray-100 hover:border-blue-200 hover:bg-blue-50/30'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <span className={`text-sm font-bold ${
+            <div className="flex items-center justify-between relative z-10">
+              <div className="flex-1">
+                <span className={`text-[14px] font-bold leading-relaxed ${
                   selections.get(currentQuestion.id) === 'B' ? 'text-white' : 'text-gray-800'
                 }`}>
-                  {currentQuestion.optionB.label}
+                  {currentQuestion.option_B.text}
                 </span>
-                {currentQuestion.optionB.description && (
-                  <p className={`text-xs mt-1 ${
-                    selections.get(currentQuestion.id) === 'B' ? 'text-blue-100' : 'text-gray-500'
-                  }`}>
-                    {currentQuestion.optionB.description}
-                  </p>
-                )}
               </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ml-3 ${
                 selections.get(currentQuestion.id) === 'B'
                   ? 'border-white bg-white'
-                  : 'border-blue-200'
+                  : 'border-gray-200'
               }`}>
                 {selections.get(currentQuestion.id) === 'B' && (
-                  <Check size={14} weight="bold" className="text-blue-600" />
+                  <FcCheckmark size={14} />
                 )}
               </div>
             </div>
-          </button>
+          </motion.button>
 
-          {/* 인사이트 */}
-          {currentQuestion.insight && (
-            <p className="text-xs text-blue-600 text-center mt-2 px-4 py-2 bg-blue-100/50 rounded-xl">
-              💡 {currentQuestion.insight}
-            </p>
-          )}
         </motion.div>
       </AnimatePresence>
 
       {/* 네비게이션 / 완료 버튼 */}
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-blue-100">
+      <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-50">
         {questions.length > 1 && currentIndex > 0 ? (
           <button
             onClick={() => setCurrentIndex(prev => prev - 1)}
-            className="flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-700"
+            className="flex items-center gap-1.5 text-[13px] text-gray-400 font-bold hover:text-gray-600 transition-colors"
           >
             <CaretLeft size={16} weight="bold" />
             이전
@@ -198,16 +200,20 @@ export function InlineBalanceCarousel({
         )}
 
         {isLastQuestion && allAnswered ? (
-          <button
+          <motion.button
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleComplete}
-            className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all"
+            className="px-8 py-3 bg-gray-900 text-white rounded-2xl text-[14px] font-bold shadow-xl shadow-gray-200 hover:bg-black transition-all"
           >
             선택 완료
-          </button>
+          </motion.button>
         ) : questions.length > 1 && !isLastQuestion && selections.has(currentQuestion.id) ? (
           <button
             onClick={() => setCurrentIndex(prev => prev + 1)}
-            className="flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-700"
+            className="flex items-center gap-1.5 text-[13px] text-blue-600 font-bold hover:text-blue-700 transition-colors"
           >
             다음
             <CaretRight size={16} weight="bold" />
@@ -216,7 +222,7 @@ export function InlineBalanceCarousel({
           <div />
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -246,66 +252,72 @@ export function InlineNegativeFilter({
   };
 
   return (
-    <div className="p-5 bg-rose-50/50 border border-rose-100 rounded-3xl mt-3 animate-in fade-in slide-in-from-bottom-2">
-      <div className="flex items-center gap-2 mb-4 text-rose-700">
-        <Prohibit size={20} weight="fill" />
-        <span className="text-sm font-bold">절대 피하고 싶은 단점이 있나요?</span>
+    <motion.div 
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="p-6 bg-white border border-gray-100 rounded-[28px] mt-3 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
+    >
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-9 h-9 bg-rose-50 rounded-xl flex items-center justify-center">
+          <FcCancel size={20} />
+        </div>
+        <div>
+          <span className="text-[15px] font-bold text-gray-900">제외하고 싶은 단점</span>
+          <p className="text-[11px] text-gray-400 font-medium">이 단점이 있는 상품은 추천에서 제외합니다</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-2.5">
         {options.map((opt) => (
-          <button
+          <motion.button
             key={opt.id}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => toggle(opt.id)}
-            className={`p-3 rounded-xl text-left transition-all border-2 ${
+            className={`p-4 rounded-2xl text-left transition-all border-2 relative ${
               selected.has(opt.id)
-                ? 'bg-rose-600 border-rose-600 text-white shadow-md'
-                : 'bg-white border-rose-200 hover:border-rose-400'
+                ? 'bg-rose-50 border-rose-200 text-rose-700'
+                : 'bg-white border-gray-100 hover:border-rose-100'
             }`}
           >
-            <div className="flex items-start gap-2">
-              <div className={`w-5 h-5 rounded-md border-2 flex-shrink-0 flex items-center justify-center mt-0.5 ${
-                selected.has(opt.id) ? 'border-white bg-white' : 'border-rose-300'
+            <div className="flex flex-col gap-2">
+              <div className={`w-5 h-5 rounded-lg border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+                selected.has(opt.id) ? 'border-rose-500 bg-rose-500' : 'border-gray-200 bg-white'
               }`}>
                 {selected.has(opt.id) && (
-                  <Check size={12} weight="bold" className="text-rose-600" />
+                  <FcCheckmark size={12} />
                 )}
               </div>
               <div>
-                <span className={`text-sm font-bold block ${
-                  selected.has(opt.id) ? 'text-white' : 'text-gray-800'
+                <span className={`text-[14px] font-bold block leading-tight ${
+                  selected.has(opt.id) ? 'text-rose-900' : 'text-gray-800'
                 }`}>
                   {opt.label}
                 </span>
-                {opt.description && (
-                  <span className={`text-[11px] ${
-                    selected.has(opt.id) ? 'text-rose-100' : 'text-gray-500'
-                  }`}>
-                    {opt.description}
-                  </span>
-                )}
               </div>
             </div>
-          </button>
+          </motion.button>
         ))}
       </div>
 
-      <div className="flex gap-2 mt-4">
+      <div className="flex gap-2.5 mt-6 pt-5 border-t border-gray-50">
         <button
           onClick={onSkip}
-          className="flex-1 py-3 bg-white border border-rose-200 rounded-xl text-sm font-bold text-rose-600 hover:bg-rose-50 transition-all"
+          className="flex-1 py-3.5 bg-gray-50 rounded-2xl text-[14px] font-bold text-gray-500 hover:bg-gray-100 transition-all"
         >
-          없음
+          건너뛰기
         </button>
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => onSelect(Array.from(selected))}
           disabled={selected.size === 0}
-          className="flex-[2] py-3 bg-rose-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-rose-200 hover:bg-rose-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-[2] py-3.5 bg-rose-600 text-white rounded-2xl text-[14px] font-bold shadow-lg shadow-rose-100 hover:bg-rose-700 transition-all disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
         >
-          선택 완료 {selected.size > 0 && `(${selected.size}개)`}
-        </button>
+          {selected.size > 0 ? `${selected.size}개 필터링 적용` : '단점 선택'}
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -343,40 +355,46 @@ export function InlineBudgetSelector({
   };
 
   return (
-    <div className="p-5 bg-purple-50/50 border border-purple-100 rounded-3xl mt-3 animate-in fade-in slide-in-from-bottom-2">
-      <div className="flex items-center gap-2 mb-4 text-purple-700">
-        <Coins size={20} weight="fill" />
-        <span className="text-sm font-bold">예산은 어느 정도 생각하고 계세요?</span>
+    <motion.div 
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="p-6 bg-white border border-gray-100 rounded-[28px] mt-3 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
+    >
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-9 h-9 bg-purple-50 rounded-xl flex items-center justify-center">
+          <FcMoneyTransfer size={20} />
+        </div>
+        <div>
+          <span className="text-[15px] font-bold text-gray-900">희망 예산 설정</span>
+          <p className="text-[11px] text-gray-400 font-medium">생각하시는 가격대를 알려주세요</p>
+        </div>
       </div>
 
       {/* 프리셋 버튼 */}
-      <div className="grid grid-cols-3 gap-2 mb-4">
+      <div className="grid grid-cols-3 gap-2.5 mb-5">
         {presets.map((preset) => (
-          <button
+          <motion.button
             key={preset.type}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => handlePresetClick(preset)}
-            className={`p-3 rounded-xl text-center transition-all border-2 ${
+            className={`p-3.5 rounded-2xl text-center transition-all border-2 flex flex-col items-center gap-1 ${
               selectedPreset === preset.type
-                ? 'bg-purple-600 border-purple-600 text-white shadow-md'
-                : 'bg-white border-purple-200 hover:border-purple-400'
+                ? 'bg-purple-50 border-purple-200'
+                : 'bg-white border-gray-100 hover:border-purple-100'
             }`}
           >
-            <span className={`text-sm font-bold block ${
-              selectedPreset === preset.type ? 'text-white' : 'text-gray-800'
+            <span className={`text-[13px] font-bold block ${
+              selectedPreset === preset.type ? 'text-purple-700' : 'text-gray-800'
             }`}>
               {preset.label}
             </span>
-            <span className={`text-[11px] block mt-0.5 ${
-              selectedPreset === preset.type ? 'text-purple-100' : 'text-gray-500'
+            <span className={`text-[10px] block font-bold ${
+              selectedPreset === preset.type ? 'text-purple-500' : 'text-gray-400'
             }`}>
-              {(preset.range.min / 10000).toFixed(0)}~{(preset.range.max / 10000).toFixed(0)}만원
+              {(preset.range.min / 10000).toFixed(0)}~{(preset.range.max / 10000).toFixed(0)}만
             </span>
-            <span className={`text-[10px] block mt-1 ${
-              selectedPreset === preset.type ? 'text-purple-200' : 'text-gray-400'
-            }`}>
-              {preset.description}
-            </span>
-          </button>
+          </motion.button>
         ))}
       </div>
 
@@ -386,11 +404,11 @@ export function InlineBudgetSelector({
           setShowCustom(!showCustom);
           setSelectedPreset(null);
         }}
-        className={`w-full py-2 text-sm font-medium rounded-lg transition-all ${
-          showCustom ? 'text-purple-700 bg-purple-100' : 'text-gray-500 hover:text-purple-600'
+        className={`w-full py-2.5 text-[12px] font-bold rounded-xl transition-all ${
+          showCustom ? 'text-purple-700 bg-purple-50' : 'text-gray-400 hover:text-purple-600'
         }`}
       >
-        {showCustom ? '프리셋으로 선택' : '직접 입력하기'}
+        {showCustom ? '프리셋 다시보기' : '직접 예산 입력하기'}
       </button>
 
       {/* 커스텀 슬라이더 */}
@@ -400,73 +418,54 @@ export function InlineBudgetSelector({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mt-4 space-y-3"
+            className="mt-5 space-y-4 px-1"
           >
-            <input
-              type="range"
-              min="50000"
-              max="500000"
-              step="10000"
-              value={customMax}
-              onChange={(e) => setCustomMax(parseInt(e.target.value))}
-              className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
-            />
-            <div className="flex justify-between text-xs font-medium text-gray-500">
-              <span>5만원</span>
-              <span className="text-lg font-bold text-purple-700">
-                ~{(customMax / 10000).toFixed(0)}만원
-              </span>
-              <span>50만원+</span>
+            <div className="relative h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+               <motion.div 
+                className="absolute left-0 top-0 h-full bg-purple-500"
+                style={{ width: `${((customMax - 50000) / (500000 - 50000)) * 100}%` }}
+               />
+               <input
+                type="range"
+                min="50000"
+                max="500000"
+                step="10000"
+                value={customMax}
+                onChange={(e) => setCustomMax(parseInt(e.target.value))}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+            </div>
+            <div className="flex justify-between items-center px-1">
+              <span className="text-[11px] font-bold text-gray-300 uppercase">Budget Range</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-[18px] font-black text-purple-700">
+                  {(customMax / 10000).toFixed(0)}
+                </span>
+                <span className="text-[13px] font-bold text-purple-700">만원 이하</span>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* 버튼 */}
-      <div className="flex gap-2 mt-4">
+      <div className="flex gap-2.5 mt-6 pt-5 border-t border-gray-50">
         <button
           onClick={onSkip}
-          className="flex-1 py-3 bg-white border border-purple-200 rounded-xl text-sm font-bold text-purple-600 hover:bg-purple-50 transition-all"
+          className="flex-1 py-3.5 bg-gray-50 rounded-2xl text-[14px] font-bold text-gray-500 hover:bg-gray-100 transition-all"
         >
-          상관없어요
+          상관없음
         </button>
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={handleComplete}
           disabled={!selectedPreset && !showCustom}
-          className="flex-[2] py-3 bg-purple-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-purple-200 hover:bg-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-[2] py-3.5 bg-purple-600 text-white rounded-2xl text-[14px] font-bold shadow-lg shadow-purple-100 hover:bg-purple-700 transition-all disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
         >
-          선택 완료
-        </button>
+          설정 완료
+        </motion.button>
       </div>
-    </div>
-  );
-}
-
-// ============================================================================
-// Legacy exports (호환성)
-// ============================================================================
-
-export function InlineBalanceGame({
-  optionA,
-  optionB,
-  onSelect
-}: {
-  optionA: string;
-  optionB: string;
-  onSelect: (choice: string) => void;
-}) {
-  return (
-    <InlineBalanceCarousel
-      questions={[{
-        id: 'single',
-        optionA: { label: optionA },
-        optionB: { label: optionB },
-        insight: ''
-      }]}
-      onComplete={(selections) => {
-        const choice = selections.get('single');
-        onSelect(choice === 'A' ? optionA : optionB);
-      }}
-    />
+    </motion.div>
   );
 }

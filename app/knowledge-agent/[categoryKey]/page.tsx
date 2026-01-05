@@ -5,12 +5,28 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  CaretLeft, CheckCircle, Circle, Spinner,
-  Sparkle, Lightning, CaretRight
+  CaretLeft, CaretDown, CaretUp, CheckCircle, Spinner, Lightning,
+  PaperPlaneRight
 } from '@phosphor-icons/react/dist/ssr';
+import {
+  FcAssistant,
+  FcSearch,
+  FcIdea,
+  FcSurvey,
+  FcPrevious,
+  FcPositiveDynamic,
+  FcClock,
+  FcDataConfiguration,
+  FcRight,
+  FcCancel,
+  FcCheckmark
+} from "react-icons/fc";
 import { KnowledgePDPModal } from '@/components/knowledge-agent/KnowledgePDPModal';
+import { KnowledgeComparisonTable } from '@/components/knowledge-agent/KnowledgeComparisonTable';
+import { AgenticLoadingPhase, createDefaultSteps, type AnalysisStep } from '@/components/knowledge-agent/AgenticLoadingPhase';
 import { AssistantMessage } from '@/components/recommend-v2';
 import { V2ResultProductCard } from '@/components/recommend-v2/V2ResultProductCard';
+import { InlineBalanceCarousel, InlineNegativeFilter, InlineBudgetSelector } from '@/components/knowledge-agent/ChatUIComponents';
 
 // ============================================================================
 // Types
@@ -34,16 +50,22 @@ function SearchingIndicator({ queries }: { queries: string[] }) {
   }, [queries]);
 
   if (queries.length === 0) {
-    // 기본 ThinkingMessage 스타일
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex justify-start"
+        className="flex justify-start items-center gap-3 px-1"
       >
-        <div className="bg-gray-100 rounded-2xl px-4 py-3 flex items-center gap-2">
-          <Spinner size={16} className="text-gray-400 animate-spin" />
-          <span className="text-sm text-gray-500">생각 중...</span>
+        <div className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          >
+            <FcDataConfiguration size={16} />
+          </motion.div>
+        </div>
+        <div className="bg-white border border-gray-100 rounded-2xl px-4 py-2.5 shadow-sm">
+          <span className="text-[13px] text-gray-400 font-bold tracking-tight">AI Thinking...</span>
         </div>
       </motion.div>
     );
@@ -53,31 +75,45 @@ function SearchingIndicator({ queries }: { queries: string[] }) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-2"
+      className="space-y-3"
     >
-      {/* 검색 중 표시 */}
-      <div className="bg-gray-900 rounded-xl p-3">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="text-xs text-gray-400 font-medium">관련 정보 검색 중</span>
+      <div className="bg-gray-900 rounded-[24px] p-5 shadow-xl border border-white/10 relative overflow-hidden">
+        {/* 그라데이션 오버레이 */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[60px] rounded-full" />
+        
+        <div className="flex items-center gap-3 mb-4 relative z-10">
+          <div className="flex items-center justify-center w-6 h-6 rounded-full bg-green-400/20">
+             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          </div>
+          <span className="text-[11px] text-gray-400 font-black uppercase tracking-widest">Global Database Search</span>
         </div>
+
         <AnimatePresence mode="wait">
-          <motion.p
+          <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, x: 10 }}
+            initial={{ opacity: 0, x: 15 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            className="text-sm text-white font-mono"
+            exit={{ opacity: 0, x: -15 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="flex items-center gap-3 relative z-10"
           >
-            🔍 {queries[currentIndex]}
-          </motion.p>
+            <FcSearch size={22} />
+            <p className="text-[15px] text-white font-bold leading-tight">
+              {queries[currentIndex]}
+            </p>
+          </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* 분석 중 표시 */}
-      <div className="flex items-center gap-2 pl-1">
-        <Spinner size={14} className="text-purple-500 animate-spin" />
-        <span className="text-xs text-gray-500">답변 분석 중...</span>
+      <div className="flex items-center gap-3 pl-2">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          className="shrink-0"
+        >
+          <FcDataConfiguration size={14} />
+        </motion.div>
+        <span className="text-[12px] font-black text-gray-400 uppercase tracking-tighter">Analyzing real-time results...</span>
       </div>
     </motion.div>
   );
@@ -97,16 +133,17 @@ interface QuestionTodo {
 
 interface BalanceQuestion {
   id: string;
-  optionA: { label: string; description?: string; ruleKey?: string };
-  optionB: { label: string; description?: string; ruleKey?: string };
-  insight: string;
+  type: string;
+  title: string;
+  option_A: { text: string; target_rule_key: string };
+  option_B: { text: string; target_rule_key: string };
 }
 
 interface NegativeOption {
   id: string;
   label: string;
-  ruleKey: string;
-  excludeMode: string;
+  target_rule_key: string;
+  exclude_mode: string;
 }
 
 interface ChatMessage {
@@ -123,6 +160,26 @@ interface ChatMessage {
   negativeFilterOptions?: NegativeOption[];
   // 결과 카드 표시용
   resultProducts?: any[];
+  // 분석 보고서 토글 (요약 메시지에서 확장 가능)
+  reportData?: {
+    marketSummary: MarketSummary | null;
+    trendAnalysis: TrendAnalysis | null;
+    crawledProducts: CrawledProductPreview[];
+  };
+  // Agentic 분석 단계 (채팅 내 표시용)
+  analysisData?: {
+    steps: AnalysisStep[];
+    crawledProducts: CrawledProductPreview[];
+    generatedQuestions?: Array<{ id: string; question: string }>;
+    isComplete: boolean;
+    summary?: {
+      productCount: number;
+      reviewCount: number;
+      topBrands: string[];
+      trends: string[];
+      sources: Array<{ title: string; url: string; snippet?: string }>;
+    };
+  };
 }
 
 interface MarketSummary {
@@ -135,109 +192,6 @@ interface MarketSummary {
   trend: string | null;
 }
 
-// ============================================================================
-// Loading Phase Component (검색 프로세스 시각화)
-// ============================================================================
-
-function LoadingPhase({
-  steps,
-  searchQueries = []
-}: {
-  steps: Array<{ label: string; done: boolean; active: boolean }>;
-  searchQueries?: string[];
-}) {
-  const [currentQueryIndex, setCurrentQueryIndex] = useState(0);
-
-  // 검색 쿼리 순환 표시
-  useEffect(() => {
-    if (searchQueries.length === 0) return;
-    const interval = setInterval(() => {
-      setCurrentQueryIndex(prev => (prev + 1) % searchQueries.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [searchQueries]);
-
-  return (
-    <div className="flex-1 flex flex-col items-center justify-center p-8">
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="w-full max-w-sm space-y-6"
-      >
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
-            <Sparkle size={32} weight="fill" className="text-purple-600 animate-pulse" />
-          </div>
-          <h2 className="text-xl font-bold text-gray-900">실시간 분석 중...</h2>
-          <p className="text-sm text-gray-500 mt-1">
-            {new Date().toLocaleDateString('ko-KR')} 기준 데이터 수집
-          </p>
-        </div>
-
-        {/* 검색 쿼리 표시 */}
-        {searchQueries.length > 0 && (
-          <motion.div
-            className="bg-gray-900 rounded-xl p-4 mb-4"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-xs text-gray-400 font-medium">웹 검색 중</span>
-            </div>
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={currentQueryIndex}
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                className="text-sm text-white font-mono"
-              >
-                🔍 {searchQueries[currentQueryIndex]}
-              </motion.p>
-            </AnimatePresence>
-          </motion.div>
-        )}
-
-        <div className="space-y-3">
-          {steps.map((step, i) => (
-            <motion.div
-              key={i}
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: i * 0.15 }}
-              className={`flex items-center gap-3 p-3 rounded-xl border ${
-                step.done ? 'bg-green-50 border-green-100' :
-                step.active ? 'bg-purple-50 border-purple-100' :
-                'bg-gray-50 border-gray-100'
-              }`}
-            >
-              {step.done ? (
-                <CheckCircle size={20} weight="fill" className="text-green-500" />
-              ) : step.active ? (
-                <Spinner size={20} className="text-purple-500 animate-spin" />
-              ) : (
-                <Circle size={20} className="text-gray-300" />
-              )}
-              <span className={`text-sm font-medium ${
-                step.done ? 'text-green-700' :
-                step.active ? 'text-purple-700' :
-                'text-gray-400'
-              }`}>
-                {step.label}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-// ============================================================================
-// Report Phase Component (분석 리포트 + 다음 버튼)
-// ============================================================================
-
 interface TrendAnalysis {
   timestamp: string;
   top10Summary: string;
@@ -245,140 +199,20 @@ interface TrendAnalysis {
   pros: string[];
   cons: string[];
   priceInsight: string;
-  searchQueries: string[];
+  searchQueries?: string[];
+  sources?: Array<{ title: string; url: string; snippet?: string }>;
 }
 
-function ReportPhase({
-  marketSummary,
-  trendAnalysis,
-  onNext
-}: {
-  marketSummary: MarketSummary | null;
-  trendAnalysis: TrendAnalysis | null;
-  onNext: () => void;
-}) {
-  return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 pb-32">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="space-y-5"
-      >
-        {/* 헤더 */}
-        <div className="text-center mb-6">
-          <div className="w-14 h-14 mx-auto mb-3 bg-green-100 rounded-full flex items-center justify-center">
-            <CheckCircle size={28} weight="fill" className="text-green-500" />
-          </div>
-          <h2 className="text-xl font-bold text-gray-900">실시간 분석 완료!</h2>
-          <p className="text-sm text-gray-500 mt-1">
-            {trendAnalysis?.timestamp || new Date().toLocaleDateString('ko-KR')} 기준
-          </p>
-        </div>
+// ============================================================================
+// CrawledProductPreview 타입 (로딩 화면용)
+// ============================================================================
 
-        {/* 분석 요약 카드 */}
-        <div className="bg-gradient-to-br from-purple-900 to-purple-800 rounded-2xl p-5 text-white">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkle size={18} weight="fill" className="text-purple-300" />
-            <span className="text-sm font-semibold text-purple-200">시장 분석 리포트</span>
-          </div>
-
-          {/* 수치 요약 */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="bg-white/10 rounded-xl p-3">
-              <p className="text-2xl font-bold">{marketSummary?.productCount || 0}개</p>
-              <p className="text-xs text-purple-200">분석 상품</p>
-            </div>
-            <div className="bg-white/10 rounded-xl p-3">
-              <p className="text-2xl font-bold">{marketSummary?.reviewCount || 0}개</p>
-              <p className="text-xs text-purple-200">리뷰 분석</p>
-            </div>
-          </div>
-
-          {/* Top 10 요약 */}
-          {trendAnalysis?.top10Summary && (
-            <p className="text-sm leading-relaxed opacity-90 mb-3">
-              {trendAnalysis.top10Summary}
-            </p>
-          )}
-
-          {/* 가격 인사이트 */}
-          {trendAnalysis?.priceInsight && (
-            <p className="text-xs text-purple-200 bg-white/5 rounded-lg px-3 py-2">
-              💰 {trendAnalysis.priceInsight}
-            </p>
-          )}
-        </div>
-
-        {/* 트렌드 */}
-        {trendAnalysis?.trends && trendAnalysis.trends.length > 0 && (
-          <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
-            <h3 className="text-sm font-bold text-blue-900 mb-2">📈 최근 트렌드</h3>
-            <ul className="space-y-1.5">
-              {trendAnalysis.trends.map((t, i) => (
-                <li key={i} className="text-sm text-blue-800 flex items-start gap-2">
-                  <span className="text-blue-400">•</span>
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* 장단점 */}
-        <div className="grid grid-cols-2 gap-3">
-          {trendAnalysis?.pros && trendAnalysis.pros.length > 0 && (
-            <div className="bg-green-50 border border-green-100 rounded-xl p-4">
-              <h3 className="text-sm font-bold text-green-900 mb-2">✓ 장점</h3>
-              <ul className="space-y-1">
-                {trendAnalysis.pros.slice(0, 3).map((p, i) => (
-                  <li key={i} className="text-xs text-green-700">{p}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {trendAnalysis?.cons && trendAnalysis.cons.length > 0 && (
-            <div className="bg-amber-50 border border-amber-100 rounded-xl p-4">
-              <h3 className="text-sm font-bold text-amber-900 mb-2">⚠ 주의점</h3>
-              <ul className="space-y-1">
-                {trendAnalysis.cons.slice(0, 3).map((c, i) => (
-                  <li key={i} className="text-xs text-amber-700">{c}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        {/* 검색한 쿼리들 표시 */}
-        {trendAnalysis?.searchQueries && trendAnalysis.searchQueries.length > 0 && (
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
-            <h3 className="text-xs font-medium text-gray-500 mb-2">🔍 분석에 사용된 검색</h3>
-            <div className="flex flex-wrap gap-2">
-              {trendAnalysis.searchQueries.map((q, i) => (
-                <span key={i} className="text-xs bg-white border border-gray-200 px-2 py-1 rounded-lg text-gray-600">
-                  {q}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-      </motion.div>
-
-      {/* 다음 버튼 (하단 고정) */}
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white/90 backdrop-blur-xl border-t border-gray-100 p-4 pb-8">
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={onNext}
-          className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold text-base hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
-        >
-          맞춤 상담 시작하기
-          <CaretRight size={20} weight="bold" />
-        </motion.button>
-      </div>
-    </div>
-  );
+interface CrawledProductPreview {
+  pcode: string;
+  name: string;
+  brand: string | null;
+  price: number | null;
+  thumbnail: string | null;
 }
 
 // ============================================================================
@@ -398,103 +232,322 @@ function OptionButton({
 }) {
   return (
     <motion.button
+      whileHover={{ scale: 1.01, x: 4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={`w-full py-3 px-4 rounded-xl border text-left transition-all ${
+      className={`w-full py-4 px-5 rounded-[20px] border-2 text-left transition-all flex items-center justify-between group ${
         isSelected
-          ? 'bg-blue-50 border-blue-200 text-blue-700'
-          : 'bg-white border-gray-100 text-gray-700 hover:border-gray-200 active:bg-gray-50'
+          ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100'
+          : 'bg-white border-gray-100 text-gray-700 hover:border-blue-200 hover:bg-blue-50/30'
       }`}
     >
-      <span className="text-[14px] font-medium">{label}</span>
-      {description && (
-        <span className="block text-[12px] text-gray-400 mt-0.5">{description}</span>
-      )}
+      <div className="flex flex-col gap-0.5">
+        <span className={`text-[15px] font-bold ${isSelected ? 'text-white' : 'text-gray-900'}`}>{label}</span>
+        {description && (
+          <span className={`text-[12px] font-medium ${isSelected ? 'text-blue-100' : 'text-gray-400'}`}>{description}</span>
+        )}
+      </div>
+      <div className={`transition-all duration-300 ${isSelected ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`}>
+        <FcRight size={20} />
+      </div>
     </motion.button>
   );
 }
 
 // ============================================================================
-// Balance Game Component
+// Report Toggle Component (분석 보고서 토글)
 // ============================================================================
 
-function BalanceGameUI({
-  questions,
-  onComplete
+function ReportToggle({
+  reportData
 }: {
-  questions: BalanceQuestion[];
-  onComplete: (selections: Map<string, 'A' | 'B'>) => void;
-}) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selections, setSelections] = useState<Map<string, 'A' | 'B'>>(new Map());
-
-  const currentQ = questions[currentIndex];
-  const selectedOption = selections.get(currentQ?.id);
-
-  const handleSelect = (option: 'A' | 'B') => {
-    const newSelections = new Map(selections);
-    newSelections.set(currentQ.id, option);
-    setSelections(newSelections);
-
-    // 마지막 질문이면 완료
-    if (currentIndex === questions.length - 1) {
-      setTimeout(() => onComplete(newSelections), 300);
-    } else {
-      setTimeout(() => setCurrentIndex(prev => prev + 1), 300);
-    }
+  reportData: {
+    marketSummary: MarketSummary | null;
+    trendAnalysis: TrendAnalysis | null;
+    crawledProducts: CrawledProductPreview[];
   };
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { marketSummary, trendAnalysis, crawledProducts } = reportData;
 
-  if (!currentQ) return null;
+  if (!marketSummary) return null;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.3 }}
+      className="mt-3"
     >
-      {/* Progress */}
-      <div className="flex items-center gap-2 mb-2">
-        <span className="text-sm text-gray-400 font-medium">밸런스 게임</span>
-        <span className="text-sm text-gray-300">{currentIndex + 1}/{questions.length}</span>
-      </div>
-
-      {/* Insight */}
-      <p className="text-sm text-purple-600 bg-purple-50 rounded-xl px-4 py-2">
-        💡 {currentQ.insight}
-      </p>
-
-      {/* Options */}
-      <div className="grid grid-cols-2 gap-3">
-        <motion.button
-          whileTap={{ scale: 0.98 }}
-          onClick={() => handleSelect('A')}
-          className={`p-4 rounded-xl border-2 text-left transition-all ${
-            selectedOption === 'A'
-              ? 'border-blue-400 bg-blue-50'
-              : 'border-gray-100 bg-white hover:border-gray-200'
-          }`}
-        >
-          <span className="block text-[15px] font-semibold text-gray-900">{currentQ.optionA.label}</span>
-          {currentQ.optionA.description && (
-            <span className="block text-[12px] text-gray-500 mt-1">{currentQ.optionA.description}</span>
+      {/* 상품 그리드 - 항상 표시 */}
+      {crawledProducts && crawledProducts.length > 0 && (
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="text-xs font-semibold text-gray-500">
+              📦 분석 완료된 상품
+            </h4>
+            <span className="text-[10px] text-gray-400">
+              {crawledProducts.length}개
+            </span>
+          </div>
+          <div className="grid grid-cols-5 gap-2">
+            {crawledProducts.slice(0, 10).map((product, i) => (
+              <motion.div
+                key={product.pcode || i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.05 }}
+                className="text-center"
+              >
+                {product.thumbnail ? (
+                  <img
+                    src={product.thumbnail}
+                    alt=""
+                    className="w-full aspect-square rounded-lg object-cover bg-white border border-gray-100"
+                  />
+                ) : (
+                  <div className="w-full aspect-square rounded-lg bg-gray-100 flex items-center justify-center">
+                    <span className="text-[8px] text-gray-400">N/A</span>
+                  </div>
+                )}
+                <p className="text-[9px] text-gray-500 mt-1 truncate">{product.brand || ''}</p>
+              </motion.div>
+            ))}
+          </div>
+          {crawledProducts.length > 10 && (
+            <p className="text-[10px] text-gray-400 text-center mt-2">
+              +{crawledProducts.length - 10}개 더 분석됨
+            </p>
           )}
-        </motion.button>
+        </div>
+      )}
 
-        <motion.button
-          whileTap={{ scale: 0.98 }}
-          onClick={() => handleSelect('B')}
-          className={`p-4 rounded-xl border-2 text-left transition-all ${
-            selectedOption === 'B'
-              ? 'border-blue-400 bg-blue-50'
-              : 'border-gray-100 bg-white hover:border-gray-200'
-          }`}
-        >
-          <span className="block text-[15px] font-semibold text-gray-900">{currentQ.optionB.label}</span>
-          {currentQ.optionB.description && (
-            <span className="block text-[12px] text-gray-500 mt-1">{currentQ.optionB.description}</span>
-          )}
-        </motion.button>
-      </div>
+      {/* Toggle Button */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors py-1"
+      >
+        {isExpanded ? (
+          <CaretUp size={16} weight="bold" />
+        ) : (
+          <CaretDown size={16} weight="bold" />
+        )}
+        <span className="font-medium">
+          {isExpanded ? '상세 분석 접기' : '상세 분석 보기'}
+        </span>
+      </button>
+
+      {/* Expanded Content */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="mt-3 space-y-4 bg-gray-50 rounded-xl p-4">
+              {/* 인기 브랜드 */}
+              {marketSummary.topBrands && marketSummary.topBrands.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">🏷️ 인기 브랜드</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {marketSummary.topBrands.slice(0, 5).map((brand, i) => (
+                      <span
+                        key={i}
+                        className="px-2 py-1 bg-white border border-gray-200 rounded-md text-xs text-gray-700"
+                      >
+                        {brand}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 주요 장점 */}
+              {marketSummary.topPros && marketSummary.topPros.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">👍 자주 언급되는 장점</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {marketSummary.topPros.slice(0, 4).map((item, i) => (
+                      <span
+                        key={i}
+                        className="px-2 py-1 bg-green-50 border border-green-100 rounded-md text-xs text-green-700"
+                      >
+                        {item.keyword}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 주요 단점 */}
+              {marketSummary.topCons && marketSummary.topCons.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">👎 자주 언급되는 단점</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {marketSummary.topCons.slice(0, 4).map((item, i) => (
+                      <span
+                        key={i}
+                        className="px-2 py-1 bg-red-50 border border-red-100 rounded-md text-xs text-red-700"
+                      >
+                        {item.keyword}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 트렌드 요약 */}
+              {trendAnalysis && trendAnalysis.top10Summary && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">📊 시장 현황</h4>
+                  <p className="text-xs text-gray-600 leading-relaxed">{trendAnalysis.top10Summary}</p>
+                </div>
+              )}
+
+              {/* 최근 트렌드 */}
+              {trendAnalysis && trendAnalysis.trends && trendAnalysis.trends.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">🔥 최근 트렌드</h4>
+                  <ul className="space-y-1.5">
+                    {trendAnalysis.trends.slice(0, 3).map((trend: string, i: number) => (
+                      <li key={i} className="text-xs text-gray-600 leading-relaxed flex items-start gap-1.5">
+                        <span className="text-orange-400 mt-0.5">•</span>
+                        {trend}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* 장점 */}
+              {trendAnalysis && trendAnalysis.pros && trendAnalysis.pros.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">👍 구매자들이 좋아하는 점</h4>
+                  <ul className="space-y-1">
+                    {trendAnalysis.pros.slice(0, 3).map((pro: string, i: number) => (
+                      <li key={i} className="text-xs text-green-700 leading-relaxed flex items-start gap-1.5">
+                        <span className="mt-0.5">✓</span>
+                        {pro}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* 단점/주의점 */}
+              {trendAnalysis && trendAnalysis.cons && trendAnalysis.cons.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">⚠️ 주의해야 할 점</h4>
+                  <ul className="space-y-1">
+                    {trendAnalysis.cons.slice(0, 3).map((con: string, i: number) => (
+                      <li key={i} className="text-xs text-red-600 leading-relaxed flex items-start gap-1.5">
+                        <span className="mt-0.5">!</span>
+                        {con}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* 가격 인사이트 */}
+              {trendAnalysis && trendAnalysis.priceInsight && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">💰 가격 정보</h4>
+                  <p className="text-xs text-gray-600 leading-relaxed">{trendAnalysis.priceInsight}</p>
+                </div>
+              )}
+
+              {/* 검색 키워드 */}
+              {trendAnalysis && trendAnalysis.searchQueries && trendAnalysis.searchQueries.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">🔍 분석에 사용된 검색어</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {trendAnalysis.searchQueries.map((query: string, i: number) => (
+                      <span
+                        key={i}
+                        className="px-2 py-1 bg-blue-50 border border-blue-100 rounded-md text-[11px] text-blue-700"
+                      >
+                        {query}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 참고 출처 */}
+              {trendAnalysis && trendAnalysis.sources && trendAnalysis.sources.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 mb-2">📎 참고 출처</h4>
+                  <ul className="space-y-2">
+                    {trendAnalysis.sources.map((source: { title: string; url: string; snippet?: string }, i: number) => (
+                      <li key={i} className="bg-white border border-gray-100 rounded-lg p-2">
+                        <a
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs font-medium text-blue-600 hover:underline line-clamp-1"
+                        >
+                          {source.title}
+                        </a>
+                        {source.snippet && (
+                          <p className="text-[10px] text-gray-500 mt-0.5 line-clamp-2">{source.snippet}</p>
+                        )}
+                        <p className="text-[9px] text-gray-400 mt-0.5 truncate">{source.url}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* 분석된 상품 미리보기 (최대 10개) */}
+              {crawledProducts && crawledProducts.length > 0 && (
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-xs font-semibold text-gray-500">
+                      📦 분석 중인 상품
+                    </h4>
+                    <span className="text-[10px] text-purple-600 font-medium">
+                      {crawledProducts.length}개
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-5 gap-2">
+                    {crawledProducts.slice(0, 10).map((product, i) => (
+                      <motion.div
+                        key={product.pcode || i}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="text-center"
+                      >
+                        {product.thumbnail ? (
+                          <img
+                            src={product.thumbnail}
+                            alt=""
+                            className="w-full aspect-square rounded-lg object-cover bg-white border border-gray-100"
+                          />
+                        ) : (
+                          <div className="w-full aspect-square rounded-lg bg-gray-200 flex items-center justify-center">
+                            <span className="text-[8px] text-gray-400">N/A</span>
+                          </div>
+                        )}
+                        <p className="text-[9px] text-gray-500 mt-1 truncate">{product.brand || ''}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                  {crawledProducts.length > 10 && (
+                    <p className="text-[10px] text-gray-400 text-center mt-2">
+                      +{crawledProducts.length - 10}개 더 분석 중...
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -507,7 +560,8 @@ export default function KnowledgeAgentPage() {
   const router = useRouter();
   const params = useParams();
   const categoryKey = params.categoryKey as string;
-  const categoryName = categoryKey === 'airfryer' ? '에어프라이어' : categoryKey;
+  // URL 디코딩하여 한글 키워드 지원
+  const categoryName = decodeURIComponent(categoryKey);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isInitializedRef = useRef(false);
@@ -519,14 +573,19 @@ export default function KnowledgeAgentPage() {
   const [isTyping, setIsTyping] = useState(false);
   const [activeSearchQueries, setActiveSearchQueries] = useState<string[]>([]);
 
-  // Loading steps
-  const [loadingSteps, setLoadingSteps] = useState([
-    { label: '웹 검색으로 최신 트렌드 수집...', done: false, active: true },
-    { label: '인기 Top 10 상품 분석...', done: false, active: false },
-    { label: '실구매자 리뷰 키워드 추출...', done: false, active: false },
-    { label: '맞춤 상담 질문 생성...', done: false, active: false }
-  ]);
-  const [searchQueries, setSearchQueries] = useState<string[]>([]);
+  // Loading steps (Agentic Style) - 메시지 내 analysisData로 관리
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [analysisSteps, setAnalysisSteps] = useState<AnalysisStep[]>(() => createDefaultSteps(categoryName));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [analysisSummary, setAnalysisSummary] = useState<{
+    productCount: number;
+    reviewCount: number;
+    topBrands: string[];
+    trends: string[];
+    sources: Array<{ title: string; url: string; snippet?: string }>;
+  } | undefined>(undefined);
 
   // Question flow
   const [questionTodos, setQuestionTodos] = useState<QuestionTodo[]>([]);
@@ -543,9 +602,9 @@ export default function KnowledgeAgentPage() {
   // Results
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
-  // Market summary & trend analysis (for report phase)
-  const [marketSummary, setMarketSummary] = useState<MarketSummary | null>(null);
-  const [trendAnalysis, setTrendAnalysis] = useState<TrendAnalysis | null>(null);
+  // 크롤링된 상품 목록 (실시간 UX용) - 메시지 내 analysisData로 관리
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [crawledProducts, setCrawledProducts] = useState<CrawledProductPreview[]>([]);
 
 
   // ============================================================================
@@ -565,119 +624,249 @@ export default function KnowledgeAgentPage() {
   const initializeAgent = async () => {
     // 검색 쿼리 초기 설정 (로딩 중 표시용)
     const initialQueries = [
-      `${categoryName} 인기 순위 2025`,
+      `${categoryName} 인기 순위 2026`,
       `${categoryName} 추천 베스트`,
       `${categoryName} 구매가이드`,
       `${categoryName} 장단점 비교`
     ];
-    setSearchQueries(initialQueries);
 
-    // Step 1: 웹 검색
-    await new Promise(r => setTimeout(r, 800));
-    setLoadingSteps(prev => prev.map((s, i) =>
-      i === 0 ? { ...s, done: true, active: false } :
-      i === 1 ? { ...s, active: true } : s
-    ));
+    // 로컬 상태로 단계 관리 (메시지 업데이트와 함께)
+    let localSteps = createDefaultSteps(categoryName);
+    let localProducts: CrawledProductPreview[] = [];
 
-    // Step 2: Top 10 분석
-    await new Promise(r => setTimeout(r, 600));
-    setLoadingSteps(prev => prev.map((s, i) =>
-      i === 1 ? { ...s, done: true, active: false } :
-      i === 2 ? { ...s, active: true } : s
-    ));
+    // Helper: 단계 업데이트 + 메시지 업데이트
+    const updateStepAndMessage = (stepId: string, updates: Partial<AnalysisStep>) => {
+      localSteps = localSteps.map(s =>
+        s.id === stepId ? { ...s, ...updates } : s
+      );
+      setAnalysisSteps([...localSteps]);
 
-    // Step 3: 리뷰 분석
-    await new Promise(r => setTimeout(r, 500));
-    setLoadingSteps(prev => prev.map((s, i) =>
-      i === 2 ? { ...s, done: true, active: false } :
-      i === 3 ? { ...s, active: true } : s
-    ));
-
-    // API 호출
-    try {
-      const res = await fetch('/api/knowledge-agent/init', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ categoryKey })
+      // 분석 메시지도 함께 업데이트
+      setMessages(prev => {
+        const analysisMsg = prev.find(m => m.id === 'analysis-progress');
+        if (analysisMsg) {
+          return prev.map(m => m.id === 'analysis-progress' ? {
+            ...m,
+            analysisData: {
+              steps: [...localSteps],
+              crawledProducts: localProducts,
+              isComplete: false,
+            }
+          } : m);
+        }
+        return prev;
       });
-      const data = await res.json();
+    };
+
+    // 바로 questions phase로 전환 + 분석 메시지 추가
+    setPhase('questions');
+
+    // 분석 진행 메시지를 채팅에 추가
+    const analysisMsg: ChatMessage = {
+      id: 'analysis-progress',
+      role: 'assistant',
+      content: '',
+      timestamp: Date.now(),
+      analysisData: {
+        steps: localSteps,
+        crawledProducts: [],
+        isComplete: false,
+      }
+    };
+    setMessages([analysisMsg]);
+
+    // Step 1 & 2: 인기상품 분석 + 웹검색 동시에 시작 (실제로 병렬 실행됨)
+    const parallelStartTime = Date.now();
+    localSteps = localSteps.map(s => {
+      if (s.id === 'product_analysis' || s.id === 'web_search') {
+        return {
+          ...s,
+          status: 'active' as const,
+          startTime: parallelStartTime,
+          searchQueries: s.id === 'web_search' ? initialQueries : undefined,
+        };
+      }
+      return s;
+    });
+    setAnalysisSteps([...localSteps]);
+    setMessages([{ ...analysisMsg, analysisData: { steps: [...localSteps], crawledProducts: [], isComplete: false } }]);
+
+    // API 호출 (병렬로 시작)
+    const fetchPromise = fetch('/api/knowledge-agent/init', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ categoryKey })
+    }).then(res => res.json());
+
+    // API 결과 대기
+    try {
+      const data = await fetchPromise;
 
       if (data.success) {
-        // 실제 검색 쿼리로 업데이트 (있으면)
-        if (data.searchQueries?.length) {
-          setSearchQueries(data.searchQueries);
+        const products = data.products || [];
+        const webSearchSources = data.trendAnalysis?.sources || [];
+        const actualQueries = data.searchQueries || initialQueries;
+        const topBrands = data.marketSummary?.topBrands || [];
+
+        // 병렬 스트리밍: 상품 + 웹검색 소스를 동시에 표시
+        const maxProductBatches = Math.ceil(Math.min(products.length, 15) / 3);
+        const maxSourceBatches = Math.min(webSearchSources.length, 5);
+        const totalBatches = Math.max(maxProductBatches, maxSourceBatches, 6); // 최소 6번 반복
+
+        for (let batch = 0; batch < totalBatches; batch++) {
+          // 상품 스트리밍 (3개씩)
+          const productIdx = batch * 3;
+          if (productIdx < products.length && productIdx < 15) {
+            const newProducts = products.slice(productIdx, Math.min(productIdx + 3, 15));
+            localProducts = [...localProducts, ...newProducts];
+          }
+
+          // 웹검색 소스 스트리밍 (1개씩)
+          if (batch < webSearchSources.length && batch < 5) {
+            localSteps = localSteps.map(s => s.id === 'web_search' ? {
+              ...s,
+              searchResults: webSearchSources.slice(0, batch + 1),
+            } : s);
+          }
+
+          // UI 업데이트
+          setCrawledProducts([...localProducts]);
+          setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
+            ...m,
+            analysisData: { steps: [...localSteps], crawledProducts: [...localProducts], isComplete: false }
+          } : m));
+
+          await new Promise(r => setTimeout(r, 400)); // 각 배치당 400ms
         }
 
-        // Step 4 완료
-        setLoadingSteps(prev => prev.map(s => ({ ...s, done: true, active: false })));
+        // 남은 상품 추가 (15개 초과분)
+        if (products.length > 15) {
+          localProducts = products;
+          setCrawledProducts(products);
+        }
 
+        // Step 1 완료 - 인기상품 분석 (먼저 완료)
         await new Promise(r => setTimeout(r, 300));
+        updateStepAndMessage('product_analysis', {
+          status: 'done',
+          endTime: Date.now(),
+          analyzedCount: products.length,
+          analyzedItems: topBrands.slice(0, 8),
+          thinking: `${products.length}개 상품 분석 완료. 인기 브랜드: ${topBrands.slice(0, 3).join(', ')}`,
+        });
+
+        // Step 2 완료 - 웹 검색 (0.5초 후 완료)
+        await new Promise(r => setTimeout(r, 500));
+        updateStepAndMessage('web_search', {
+          status: 'done',
+          endTime: Date.now(),
+          searchQueries: actualQueries,
+          searchResults: webSearchSources.slice(0, 5),
+          thinking: data.trendAnalysis?.top10Summary || '',
+        });
+
+        await new Promise(r => setTimeout(r, 400));
+
+        // Step 3: 리뷰 분석 시작
+        updateStepAndMessage('review_extraction', {
+          status: 'active',
+          startTime: Date.now(),
+        });
+
+        await new Promise(r => setTimeout(r, 1000));
+        const topPros = (data.marketSummary?.topPros || []).map((p: any) => p.keyword || p);
+        const topCons = (data.marketSummary?.topCons || []).map((c: any) => c.keyword || c);
+        updateStepAndMessage('review_extraction', {
+          status: 'done',
+          endTime: Date.now(),
+          analyzedCount: data.marketSummary?.reviewCount || 0,
+          analyzedItems: [...topPros.slice(0, 3), ...topCons.slice(0, 2)],
+          thinking: `리뷰 ${(data.marketSummary?.reviewCount || 0).toLocaleString()}개 분석. 주요 키워드: ${topPros.slice(0, 3).join(', ')}`,
+        });
+
+        await new Promise(r => setTimeout(r, 400));
+
+        // Step 4: 질문 생성 시작
+        updateStepAndMessage('question_generation', {
+          status: 'active',
+          startTime: Date.now(),
+        });
+
+        await new Promise(r => setTimeout(r, 600));
+
+        // 생성된 질문들을 analysisData에 추가
+        const generatedQuestions = (data.questionTodos || []).map((q: any) => ({
+          id: q.id,
+          question: q.question,
+        }));
+
+        updateStepAndMessage('question_generation', {
+          status: 'done',
+          endTime: Date.now(),
+          analyzedCount: (data.questionTodos || []).length,
+          thinking: `맞춤 질문 ${(data.questionTodos || []).length}개 생성 완료`,
+        });
+
+        // 생성된 질문을 메시지에 추가
+        setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
+          ...m,
+          analysisData: {
+            ...m.analysisData!,
+            generatedQuestions,
+          }
+        } : m));
+
+        // 완료 상태 설정
+        setIsLoadingComplete(true);
+        const summaryData = {
+          productCount: products.length,
+          reviewCount: data.marketSummary?.reviewCount || 0,
+          topBrands: topBrands,
+          trends: data.trendAnalysis?.trends || [],
+          sources: webSearchSources,
+        };
+        setAnalysisSummary(summaryData);
+
+        // 분석 메시지 완료 상태로 업데이트
+        setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
+          ...m,
+          analysisData: {
+            steps: [...localSteps],
+            crawledProducts: products,
+            isComplete: true,
+            summary: summaryData,
+          }
+        } : m));
+
+        await new Promise(r => setTimeout(r, 500));
 
         // 데이터 설정
-        setMarketSummary(data.marketSummary);
-        setTrendAnalysis(data.trendAnalysis);
         setQuestionTodos(data.questionTodos || []);
         setCurrentQuestion(data.currentQuestion);
         setProgress({ current: 1, total: (data.questionTodos || []).length });
 
-        // Phase 전환 → 리포트 화면으로
-        setPhase('report');
+        // 최종 상품 목록 확정
+        setCrawledProducts(products);
+
+        // 첫 질문 추가
+        if (data.currentQuestion) {
+          await new Promise(r => setTimeout(r, 800));
+          const questionMsg: ChatMessage = {
+            id: `q_${data.currentQuestion.id}`,
+            role: 'assistant',
+            content: data.currentQuestion.question,
+            options: data.currentQuestion.options.map((o: any) => o.label),
+            dataSource: data.currentQuestion.dataSource,
+            tip: data.currentQuestion.reason,
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, questionMsg]);
+        }
       }
     } catch (e) {
       console.error('[Init] Failed:', e);
       setPhase('free_chat');
-    }
-  };
-
-  // ============================================================================
-  // Report → Questions 전환 핸들러
-  // ============================================================================
-
-  const handleStartQuestions = () => {
-    // Phase 전환
-    setPhase('questions');
-
-    // 1. 가벼운 요약 메시지 (2-3문장)
-    const summaryText = marketSummary
-      ? `${marketSummary.productCount}개 상품과 ${marketSummary.reviewCount}개 리뷰를 분석했어요. 평균 가격은 ${Math.round((marketSummary.priceRange?.avg || 0) / 10000)}만원대입니다.`
-      : `시장 분석을 완료했어요.`;
-
-    const summaryMsg: ChatMessage = {
-      id: 'summary',
-      role: 'assistant',
-      content: summaryText,
-      typing: true,
-      timestamp: Date.now()
-    };
-    setMessages([summaryMsg]);
-
-    // 2. 질문 시작 멘트 (1초 후)
-    setTimeout(() => {
-      const introMsg: ChatMessage = {
-        id: 'intro',
-        role: 'assistant',
-        content: '이제 몇 가지 질문으로 딱 맞는 제품을 찾아드릴게요.',
-        typing: true,
-        timestamp: Date.now()
-      };
-      setMessages(prev => [...prev, introMsg]);
-    }, 1000);
-
-    // 3. 첫 질문 메시지 (2초 후)
-    if (currentQuestion) {
-      setTimeout(() => {
-        const questionMsg: ChatMessage = {
-          id: `q_${currentQuestion.id}`,
-          role: 'assistant',
-          content: currentQuestion.question,
-          options: currentQuestion.options.map((o: any) => o.label),
-          dataSource: currentQuestion.dataSource,
-          tip: currentQuestion.reason,
-          typing: true,
-          timestamp: Date.now()
-        };
-        setMessages(prev => [...prev, questionMsg]);
-      }, 2000);
     }
   };
 
@@ -805,10 +994,13 @@ export default function KnowledgeAgentPage() {
     const selectionsStr = Array.from(selections.entries())
       .map(([id, choice]) => {
         const q = balanceQuestions.find(bq => bq.id === id);
-        return q ? (choice === 'A' ? q.optionA.label : q.optionB.label) : '';
+        return q ? (choice === 'A' ? q.option_A.text : q.option_B.text) : '';
       })
       .filter(Boolean)
       .join(', ');
+
+    // selections 맵을 평탄한 객체로 변환 (Map은 JSON.stringify가 안되므로)
+    const selectionsObj = Object.fromEntries(selections);
 
     // 사용자 선택 메시지
     const userMsg: ChatMessage = {
@@ -825,9 +1017,10 @@ export default function KnowledgeAgentPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           categoryKey,
-          userMessage: selectionsStr,
+          userMessage: JSON.stringify(selectionsObj),
           collectedInfo,
-          phase: 'balance'
+          phase: 'balance',
+          balanceQuestions // 컨텍스트 유지를 위해 전달
         })
       });
       const data = await res.json();
@@ -1019,39 +1212,34 @@ export default function KnowledgeAgentPage() {
   // ============================================================================
 
   return (
-    <div className="min-h-screen bg-[#FBFBFD] flex flex-col">
-      <div className="max-w-[480px] mx-auto w-full flex-1 flex flex-col relative border-x border-gray-100 bg-white">
+    <div className="min-h-screen bg-[#F8F9FB] flex flex-col font-sans">
+      <div className="max-w-[480px] mx-auto w-full flex-1 flex flex-col relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100 px-4 h-14 flex items-center justify-between">
-          <button onClick={() => router.push('/categories')} className="p-2 -ml-2 text-gray-400">
-            <CaretLeft size={24} weight="bold" />
-          </button>
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-gray-900">{categoryName} 구매 상담</span>
-            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-purple-100 text-purple-700">AI</span>
+        <header className="sticky top-0 z-[100] bg-white/80 backdrop-blur-2xl border-b border-gray-50/50 px-4 h-16 flex items-center justify-between">
+          <motion.button 
+            whileHover={{ x: -2 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => router.push('/knowledge-agent')} 
+            className="p-2.5 -ml-2.5 rounded-full hover:bg-gray-50 transition-colors"
+          >
+            <FcPrevious size={20} />
+          </motion.button>
+          
+          <div className="flex flex-col items-center gap-0.5">
+            <div className="flex items-center gap-1.5">
+              <span className="font-black text-[15px] text-gray-900 tracking-tight">{categoryName}</span>
+              <div className="w-1 h-1 bg-gray-300 rounded-full" />
+              <span className="font-bold text-[13px] text-gray-400">Assistant</span>
+            </div>
           </div>
-          <div className="w-10" />
+
+          <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-blue-50 border border-blue-100/50 shadow-sm">
+             <FcAssistant size={24} />
+          </div>
         </header>
 
-        {/* Todo Progress는 내부 관리용 - UI에서 숨김 */}
-
-        {/* Loading Phase */}
-        {phase === 'loading' && (
-          <LoadingPhase steps={loadingSteps} searchQueries={searchQueries} />
-        )}
-
-        {/* Report Phase (분석 결과 + 다음 버튼) */}
-        {phase === 'report' && (
-          <ReportPhase
-            marketSummary={marketSummary}
-            trendAnalysis={trendAnalysis}
-            onNext={handleStartQuestions}
-          />
-        )}
-
         {/* Chat Area */}
-        {phase !== 'loading' && phase !== 'report' && (
-          <main className="flex-1 overflow-y-auto px-4 py-6 space-y-6 pb-40">
+        <main className="flex-1 overflow-y-auto px-5 py-8 space-y-8 pb-44">
             {messages.map((msg) => (
               <MessageBubble
                 key={msg.id}
@@ -1065,7 +1253,7 @@ export default function KnowledgeAgentPage() {
 
             {/* Balance Game UI - 메시지 아래에 표시 */}
             {phase === 'balance' && balanceQuestions.length > 0 && !isTyping && (
-              <BalanceGameUI
+              <InlineBalanceCarousel
                 questions={balanceQuestions}
                 onComplete={handleBalanceComplete}
               />
@@ -1073,63 +1261,61 @@ export default function KnowledgeAgentPage() {
 
             {isTyping && <SearchingIndicator queries={activeSearchQueries} />}
             <div ref={messagesEndRef} />
-          </main>
-        )}
+        </main>
 
         {/* Input Bar */}
-        {phase !== 'loading' && phase !== 'report' && (
-          <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white/80 backdrop-blur-xl border-t border-gray-100 p-4 pb-8 z-[110]">
-            <div className="relative overflow-hidden rounded-[20px] border border-gray-200 flex items-end">
-              <div
-                className="absolute pointer-events-none"
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-10 pt-4 z-[110] bg-gradient-to-t from-white via-white/95 to-transparent">
+            <div className="relative group">
+              {/* 스마트 에이전트 느낌의 글로우 효과 */}
+              <div 
+                className="absolute -inset-6 -z-10 blur-[40px] opacity-40 pointer-events-none group-focus-within:opacity-70 transition-opacity duration-500"
                 style={{
-                  width: '358px',
-                  height: '176px',
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%, -50%) translateY(-20px)',
-                  background: 'radial-gradient(50% 50% at 50% 50%, rgba(217, 233, 255, 0.65) 0%, rgba(217, 233, 255, 0) 100%)',
-                  zIndex: 0
+                  background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.2) 50%, transparent 100%)',
                 }}
               />
-
-              <textarea
-                value={inputValue}
-                onChange={(e) => {
-                  setInputValue(e.target.value);
-                  e.target.style.height = 'auto';
-                  e.target.style.height = `${Math.max(48, Math.min(e.target.scrollHeight, 120))}px`;
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleFreeChat(inputValue);
-                  }
-                }}
-                placeholder="추가로 궁금한 점이 있으신가요?"
-                className="relative z-10 w-full min-h-[48px] max-h-[120px] py-[13px] pl-4 pr-12 rounded-[20px] bg-white/70 backdrop-blur-md text-base text-gray-800 placeholder:text-gray-400 placeholder:font-medium focus:outline-none transition-all resize-none overflow-y-auto"
-                disabled={isTyping}
-                rows={1}
-              />
-              <button
-                onClick={() => handleFreeChat(inputValue)}
-                disabled={!inputValue.trim() || isTyping}
-                className="absolute right-1.5 bottom-2 w-8 h-8 z-20 flex items-center justify-center disabled:opacity-50 transition-all active:scale-95"
-              >
-                {isTyping ? (
-                  <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center">
-                    <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                  </div>
-                ) : (
-                  <img src="/icons/sendreal.png" alt="send" className="w-8 h-8 object-contain" />
-                )}
-              </button>
+              
+              <div className="relative w-full overflow-hidden rounded-[24px] border border-gray-200/80 focus-within:border-blue-400/50 flex items-end bg-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] focus-within:shadow-[0_10px_50px_rgba(59,130,246,0.12)] transition-all duration-300">
+                <textarea
+                  value={inputValue}
+                  onChange={(e) => {
+                    setInputValue(e.target.value);
+                    e.target.style.height = 'auto';
+                    e.target.style.height = `${Math.max(86, Math.min(e.target.scrollHeight, 160))}px`;
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleFreeChat(inputValue);
+                    }
+                  }}
+                  placeholder={`무엇이든 물어보세요...`}
+                  className="relative z-10 w-full min-h-[86px] max-h-[160px] py-[17px] pl-5 pr-14 rounded-[24px] bg-transparent text-[16px] text-gray-800 placeholder:text-gray-300 placeholder:font-bold focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line"
+                  disabled={isTyping}
+                  rows={2}
+                />
+                
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleFreeChat(inputValue)}
+                  disabled={!inputValue.trim() || isTyping}
+                  className={`absolute right-2 bottom-2 w-10 h-10 z-20 flex items-center justify-center rounded-2xl transition-all ${
+                    inputValue.trim() ? 'bg-gray-900 shadow-lg shadow-gray-200' : 'bg-gray-50'
+                  } disabled:opacity-50`}
+                >
+                  {isTyping ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <PaperPlaneRight 
+                      size={20} 
+                      weight="fill" 
+                      className={inputValue.trim() ? 'text-white' : 'text-gray-300'} 
+                    />
+                  )}
+                </motion.button>
+              </div>
             </div>
           </div>
-        )}
       </div>
 
       {/* Product Modal */}
@@ -1192,55 +1378,77 @@ function MessageBubble({
         {/* Search Context (검색 결과 표시) */}
         {!isUser && message.searchContext && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gray-900 rounded-xl p-3 mb-2"
+            className="bg-gray-900 rounded-[24px] p-5 mb-4 shadow-xl border border-white/10 relative overflow-hidden"
           >
-            <div className="flex items-center gap-2 mb-1.5">
-              <div className="w-2 h-2 bg-green-400 rounded-full" />
-              <span className="text-xs text-gray-400 font-medium">검색 완료</span>
+            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 blur-[50px] rounded-full" />
+            <div className="flex items-center gap-2.5 mb-3 relative z-10">
+              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+              <span className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Knowledge Retrieval Complete</span>
             </div>
-            <p className="text-xs text-gray-300 font-mono mb-2">🔍 {message.searchContext.query}</p>
-            <p className="text-sm text-white/90 leading-relaxed">
-              💡 {message.searchContext.insight}
+            <div className="flex items-start gap-3 mb-3 relative z-10">
+              <FcSearch size={20} className="shrink-0 mt-0.5" />
+              <p className="text-[14px] text-white/60 font-medium italic">"{message.searchContext.query}"</p>
+            </div>
+            <p className="text-[15px] text-white font-bold leading-relaxed relative z-10">
+              {message.searchContext.insight}
             </p>
           </motion.div>
         )}
 
         {/* Data Source Badge */}
         {!isUser && message.dataSource && (
-          <div className="flex items-center gap-1.5 mb-1">
-            <span className="text-[11px] font-medium text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">
-              📊 {message.dataSource}
+          <div className="flex items-center gap-2 mb-2 px-1">
+            <FcPositiveDynamic size={14} />
+            <span className="text-[11px] font-black text-gray-400 uppercase tracking-tighter">
+              Source: {message.dataSource}
             </span>
           </div>
         )}
 
+        {/* Agentic Analysis (분석 진행 상황) */}
+        {!isUser && message.analysisData && (
+          <AgenticLoadingPhase
+            categoryName=""
+            steps={message.analysisData.steps}
+            crawledProducts={message.analysisData.crawledProducts}
+            generatedQuestions={message.analysisData.generatedQuestions}
+            isComplete={message.analysisData.isComplete}
+            summary={message.analysisData.summary}
+          />
+        )}
+
         {/* Message Content */}
         {isUser ? (
-          <div className="bg-gray-100 text-gray-800 rounded-[20px] px-4 py-3 text-base font-medium leading-[140%]">
+          <div className="bg-blue-600 text-white rounded-[24px] rounded-tr-none px-5 py-3.5 text-[15px] font-bold shadow-lg shadow-blue-100 leading-relaxed">
             {message.content}
           </div>
-        ) : (
+        ) : message.content ? (
           <div className="w-full">
             <AssistantMessage
               content={message.content}
               typing={message.typing}
-              speed={12}
+              speed={10}
             />
           </div>
+        ) : null}
+
+        {/* Report Toggle (분석 보고서 토글) */}
+        {!isUser && message.reportData && (
+          <ReportToggle reportData={message.reportData} />
         )}
 
         {/* Tip Box (별도 디자인) */}
         {!isUser && message.tip && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-            className="flex items-start gap-2 bg-amber-50/80 border border-amber-100 rounded-xl px-3 py-2.5"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="flex items-start gap-3 bg-amber-50/50 border border-amber-100/50 rounded-[20px] px-4 py-3.5 shadow-sm"
           >
-            <span className="text-amber-500 text-sm mt-0.5">💡</span>
-            <p className="text-[12px] text-amber-700 leading-relaxed font-medium">
+            <FcIdea size={20} className="shrink-0" />
+            <p className="text-[13px] text-amber-900/80 leading-relaxed font-bold">
               {message.tip}
             </p>
           </motion.div>
@@ -1267,50 +1475,70 @@ function MessageBubble({
         {/* Negative Filter Options (채팅 내 표시) */}
         {!isUser && message.negativeFilterOptions && message.negativeFilterOptions.length > 0 && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="space-y-3 pt-2"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-6 bg-white border border-gray-100 rounded-[28px] mt-3 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
           >
-            <div className="w-full h-[1px] bg-gray-100 mb-3" />
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-[14px] text-gray-400 font-semibold">피할 단점</span>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-9 h-9 bg-rose-50 rounded-xl flex items-center justify-center">
+                <FcCancel size={20} />
+              </div>
+              <div>
+                <span className="text-[15px] font-bold text-gray-900">제외하고 싶은 단점</span>
+                <p className="text-[11px] text-gray-400 font-medium">이 단점이 있는 상품은 추천에서 제외합니다</p>
+              </div>
             </div>
-            <h3 className="text-[16px] font-semibold text-gray-900 leading-snug mb-3">
-              피하고 싶은 단점을 선택하세요 <span className="text-gray-500 text-[13px] font-normal">(건너뛰기 가능)</span>
-            </h3>
-            <div className="space-y-2">
+
+            <div className="grid grid-cols-2 gap-2.5">
               {message.negativeFilterOptions.map((opt) => (
                 <motion.button
                   key={opt.id}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => toggleNegativeOption(opt.id)}
-                  className={`w-full p-3 rounded-xl border-2 text-left transition-all flex items-center gap-3 ${
+                  className={`p-4 rounded-2xl text-left transition-all border-2 relative ${
                     selectedNegativeIds.has(opt.id)
-                      ? 'border-red-300 bg-red-50'
-                      : 'border-gray-100 bg-white hover:border-gray-200'
+                      ? 'bg-rose-50 border-rose-200 text-rose-700'
+                      : 'bg-white border-gray-100 hover:border-rose-100'
                   }`}
                 >
-                  <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${
-                    selectedNegativeIds.has(opt.id)
-                      ? 'border-red-400 bg-red-400'
-                      : 'border-gray-300'
-                  }`}>
-                    {selectedNegativeIds.has(opt.id) && (
-                      <CheckCircle size={14} weight="fill" className="text-white" />
-                    )}
+                  <div className="flex flex-col gap-2">
+                    <div className={`w-5 h-5 rounded-lg border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+                      selectedNegativeIds.has(opt.id) ? 'border-rose-500 bg-rose-500' : 'border-gray-200 bg-white'
+                    }`}>
+                      {selectedNegativeIds.has(opt.id) && (
+                        <FcCheckmark size={12} className="text-white" />
+                      )}
+                    </div>
+                    <div>
+                      <span className={`text-[14px] font-bold block leading-tight ${
+                        selectedNegativeIds.has(opt.id) ? 'text-rose-900' : 'text-gray-800'
+                      }`}>
+                        {opt.label}
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-[14px] font-medium text-gray-700">{opt.label}</span>
                 </motion.button>
               ))}
             </div>
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              onClick={handleNegativeSubmit}
-              className="w-full py-3 px-4 rounded-xl bg-gray-900 text-white font-semibold text-[15px] hover:bg-gray-800 transition-all mt-3"
-            >
-              {selectedNegativeIds.size > 0 ? `${selectedNegativeIds.size}개 선택 완료` : '없음 (다음으로)'}
-            </motion.button>
+
+            <div className="flex gap-2.5 mt-6 pt-5 border-t border-gray-50">
+              <button
+                onClick={() => onNegativeFilterComplete([])}
+                className="flex-1 py-3.5 bg-gray-50 rounded-2xl text-[14px] font-bold text-gray-500 hover:bg-gray-100 transition-all"
+              >
+                건너뛰기
+              </button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleNegativeSubmit}
+                disabled={selectedNegativeIds.size === 0}
+                className="flex-[2] py-3.5 bg-rose-600 text-white rounded-2xl text-[14px] font-bold shadow-lg shadow-rose-100 hover:bg-rose-700 transition-all disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
+              >
+                {selectedNegativeIds.size > 0 ? `${selectedNegativeIds.size}개 필터링 적용` : '단점 선택'}
+              </motion.button>
+            </div>
           </motion.div>
         )}
 
@@ -1358,6 +1586,30 @@ function MessageBubble({
                 />
               ))}
             </div>
+
+            {/* 비교표 */}
+            {message.resultProducts.length >= 2 && (
+              <div className="mt-6 pt-4 border-t border-gray-100">
+                <KnowledgeComparisonTable
+                  products={message.resultProducts.map((p: any) => ({
+                    pcode: p.pcode || p.id,
+                    name: p.name || p.title,
+                    brand: p.brand || null,
+                    price: p.price || null,
+                    thumbnail: p.thumbnail || null,
+                    rating: p.rating || p.averageRating || null,
+                    reviewCount: p.reviewCount || null,
+                    specs: p.specs || p.spec || {},
+                    specSummary: p.specSummary || '',
+                    prosFromReviews: p.prosFromReviews || [],
+                    consFromReviews: p.consFromReviews || [],
+                    recommendedFor: p.recommendedFor || '',
+                    recommendReason: p.recommendReason || '',
+                  }))}
+                  showRank={true}
+                />
+              </div>
+            )}
           </motion.div>
         )}
       </div>
