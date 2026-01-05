@@ -4,14 +4,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import {
-  CaretLeft, Star, CheckCircle, Circle, Spinner,
-  Sparkle, Lightning, Scales, X, CaretRight
+  CaretLeft, CheckCircle, Circle, Spinner,
+  Sparkle, Lightning, CaretRight
 } from '@phosphor-icons/react/dist/ssr';
 import { KnowledgePDPModal } from '@/components/knowledge-agent/KnowledgePDPModal';
-import DetailedComparisonTable from '@/components/DetailedComparisonTable';
 import { AssistantMessage } from '@/components/recommend-v2';
+import { V2ResultProductCard } from '@/components/recommend-v2/V2ResultProductCard';
 
 // ============================================================================
 // Types
@@ -120,6 +119,10 @@ interface ChatMessage {
   tip?: string;  // 💡 팁 (reason) - 별도 표시
   searchContext?: { query: string; insight: string };  // 검색 컨텍스트 결과
   timestamp: number;
+  // 단점 필터 UI 표시용
+  negativeFilterOptions?: NegativeOption[];
+  // 결과 카드 표시용
+  resultProducts?: any[];
 }
 
 interface MarketSummary {
@@ -497,81 +500,6 @@ function BalanceGameUI({
 }
 
 // ============================================================================
-// Negative Filter UI Component
-// ============================================================================
-
-function NegativeFilterUI({
-  options,
-  onComplete
-}: {
-  options: NegativeOption[];
-  onComplete: (selected: string[]) => void;
-}) {
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-
-  const toggleOption = (id: string) => {
-    const newSelected = new Set(selectedIds);
-    if (newSelected.has(id)) {
-      newSelected.delete(id);
-    } else {
-      newSelected.add(id);
-    }
-    setSelectedIds(newSelected);
-  };
-
-  const handleSubmit = () => {
-    const selectedLabels = options
-      .filter(opt => selectedIds.has(opt.id))
-      .map(opt => opt.label);
-    onComplete(selectedLabels);
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-4"
-    >
-      {/* Options */}
-      <div className="space-y-2">
-        {options.map((opt) => (
-          <motion.button
-            key={opt.id}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => toggleOption(opt.id)}
-            className={`w-full p-3 rounded-xl border-2 text-left transition-all flex items-center gap-3 ${
-              selectedIds.has(opt.id)
-                ? 'border-red-300 bg-red-50'
-                : 'border-gray-100 bg-white hover:border-gray-200'
-            }`}
-          >
-            <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${
-              selectedIds.has(opt.id)
-                ? 'border-red-400 bg-red-400'
-                : 'border-gray-300'
-            }`}>
-              {selectedIds.has(opt.id) && (
-                <CheckCircle size={14} weight="fill" className="text-white" />
-              )}
-            </div>
-            <span className="text-[14px] font-medium text-gray-700">{opt.label}</span>
-          </motion.button>
-        ))}
-      </div>
-
-      {/* Submit Button */}
-      <motion.button
-        whileTap={{ scale: 0.98 }}
-        onClick={handleSubmit}
-        className="w-full py-3 px-4 rounded-xl bg-gray-900 text-white font-semibold text-[15px] hover:bg-gray-800 transition-all"
-      >
-        {selectedIds.size > 0 ? `${selectedIds.size}개 선택 완료` : '없음 (다음으로)'}
-      </motion.button>
-    </motion.div>
-  );
-}
-
-// ============================================================================
 // Main Component
 // ============================================================================
 
@@ -610,15 +538,10 @@ export default function KnowledgeAgentPage() {
   // Balance game
   const [balanceQuestions, setBalanceQuestions] = useState<BalanceQuestion[]>([]);
 
-  // Negative filter
-  const [negativeOptions, setNegativeOptions] = useState<NegativeOption[]>([]);
+  // Negative filter - options are now stored in messages
 
   // Results
-  const [allProducts, setAllProducts] = useState<any[]>([]);
-  const [resultProducts, setResultProducts] = useState<any[]>([]);
-  const [showResult, setShowResult] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
-  const [expertSummary, setExpertSummary] = useState('');
 
   // Market summary & trend analysis (for report phase)
   const [marketSummary, setMarketSummary] = useState<MarketSummary | null>(null);
@@ -808,31 +731,58 @@ export default function KnowledgeAgentPage() {
         // Phase 전환
         if (data.phase === 'negative_filter') {
           setPhase('negative_filter');
-          setNegativeOptions(data.negativeOptions || []);
+
+          // 단점 필터 메시지에 옵션 포함
+          const negativeFilterMsg: ChatMessage = {
+            id: `a_negative_${Date.now()}`,
+            role: 'assistant',
+            content: data.content || '꼭 피하고 싶은 단점이 있으신가요?',
+            negativeFilterOptions: data.negativeOptions || [],
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, negativeFilterMsg]);
         } else if (data.phase === 'balance') {
           setPhase('balance');
           setBalanceQuestions(data.balanceQuestions || []);
+
+          // 밸런스 게임 메시지 추가
+          const balanceMsg: ChatMessage = {
+            id: `a_balance_${Date.now()}`,
+            role: 'assistant',
+            content: data.content || '취향에 맞는 제품을 찾기 위해 몇 가지 선택을 해주세요.',
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, balanceMsg]);
         } else if (data.phase === 'result') {
           setPhase('result');
-          setResultProducts(data.products || []);
-          setAllProducts(data.all_products || []);
-          setExpertSummary(data.content);
-          setShowResult(true);
-        }
 
-        // 메시지 추가 (검색 컨텍스트 포함)
-        const assistantMsg: ChatMessage = {
-          id: `a_${Date.now()}`,
-          role: 'assistant',
-          content: data.content,
-          options: data.options,
-          dataSource: data.dataSource,
-          tip: data.tip,
-          searchContext: data.searchContext || null,
-          typing: true,
-          timestamp: Date.now()
-        };
-        setMessages(prev => [...prev, assistantMsg]);
+          // 결과 메시지에 제품 카드 포함 (모달 대신)
+          const resultMsg: ChatMessage = {
+            id: `a_result_${Date.now()}`,
+            role: 'assistant',
+            content: data.content,
+            resultProducts: data.products || [],
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, resultMsg]);
+        } else {
+          // 일반 메시지 추가 (검색 컨텍스트 포함)
+          const assistantMsg: ChatMessage = {
+            id: `a_${Date.now()}`,
+            role: 'assistant',
+            content: data.content,
+            options: data.options,
+            dataSource: data.dataSource,
+            tip: data.tip,
+            searchContext: data.searchContext || null,
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, assistantMsg]);
+        }
       }
     } catch (e) {
       console.error('[Chat] Failed:', e);
@@ -883,20 +833,34 @@ export default function KnowledgeAgentPage() {
       const data = await res.json();
 
       if (data.success) {
-        setPhase('result');
-        setResultProducts(data.products || []);
-        setAllProducts(data.all_products || []);
-        setExpertSummary(data.content);
-        setShowResult(true);
+        // API 응답의 phase에 따라 분기
+        if (data.phase === 'negative_filter') {
+          setPhase('negative_filter');
 
-        const resultMsg: ChatMessage = {
-          id: `a_result_${Date.now()}`,
-          role: 'assistant',
-          content: data.content,
-          typing: true,
-          timestamp: Date.now()
-        };
-        setMessages(prev => [...prev, resultMsg]);
+          // 단점 필터 메시지에 옵션 포함
+          const negativeFilterMsg: ChatMessage = {
+            id: `a_negative_${Date.now()}`,
+            role: 'assistant',
+            content: data.content || '꼭 피하고 싶은 단점이 있으신가요?',
+            negativeFilterOptions: data.negativeOptions || [],
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, negativeFilterMsg]);
+        } else {
+          setPhase('result');
+
+          // 결과 메시지에 제품 카드 포함 (모달 대신 채팅 내 표시)
+          const resultMsg: ChatMessage = {
+            id: `a_result_${Date.now()}`,
+            role: 'assistant',
+            content: data.content,
+            resultProducts: data.products || [],
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, resultMsg]);
+        }
       }
     } catch (e) {
       console.error('[Balance] Failed:', e);
@@ -941,27 +905,43 @@ export default function KnowledgeAgentPage() {
       const data = await res.json();
 
       if (data.success) {
+        if (data.collectedInfo) setCollectedInfo(data.collectedInfo);
+
         if (data.phase === 'balance') {
           setPhase('balance');
           setBalanceQuestions(data.balanceQuestions || []);
+
+          const balanceMsg: ChatMessage = {
+            id: `a_balance_${Date.now()}`,
+            role: 'assistant',
+            content: data.content || '취향에 맞는 제품을 찾기 위해 몇 가지 선택을 해주세요.',
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, balanceMsg]);
         } else if (data.phase === 'result') {
           setPhase('result');
-          setResultProducts(data.products || []);
-          setAllProducts(data.all_products || []);
-          setExpertSummary(data.content);
-          setShowResult(true);
+
+          // 결과 메시지에 제품 카드 포함 (모달 대신 채팅 내 표시)
+          const resultMsg: ChatMessage = {
+            id: `a_result_${Date.now()}`,
+            role: 'assistant',
+            content: data.content,
+            resultProducts: data.products || [],
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, resultMsg]);
+        } else {
+          const assistantMsg: ChatMessage = {
+            id: `a_negative_resp_${Date.now()}`,
+            role: 'assistant',
+            content: data.content,
+            typing: true,
+            timestamp: Date.now()
+          };
+          setMessages(prev => [...prev, assistantMsg]);
         }
-
-        if (data.collectedInfo) setCollectedInfo(data.collectedInfo);
-
-        const assistantMsg: ChatMessage = {
-          id: `a_negative_${Date.now()}`,
-          role: 'assistant',
-          content: data.content,
-          typing: true,
-          timestamp: Date.now()
-        };
-        setMessages(prev => [...prev, assistantMsg]);
       }
     } catch (e) {
       console.error('[NegativeFilter] Failed:', e);
@@ -1077,19 +1057,13 @@ export default function KnowledgeAgentPage() {
                 key={msg.id}
                 message={msg}
                 onOptionClick={handleOptionClick}
+                onNegativeFilterComplete={handleNegativeFilterComplete}
+                onProductClick={setSelectedProduct}
                 phase={phase}
               />
             ))}
 
-            {/* Negative Filter UI */}
-            {phase === 'negative_filter' && negativeOptions.length > 0 && !isTyping && (
-              <NegativeFilterUI
-                options={negativeOptions}
-                onComplete={handleNegativeFilterComplete}
-              />
-            )}
-
-            {/* Balance Game UI */}
+            {/* Balance Game UI - 메시지 아래에 표시 */}
             {phase === 'balance' && balanceQuestions.length > 0 && !isTyping && (
               <BalanceGameUI
                 questions={balanceQuestions}
@@ -1102,30 +1076,8 @@ export default function KnowledgeAgentPage() {
           </main>
         )}
 
-        {/* Result Modal */}
-        <AnimatePresence>
-          {showResult && (
-            <ResultModal
-              expertSummary={expertSummary}
-              products={resultProducts}
-              allProducts={allProducts}
-              onClose={() => setShowResult(false)}
-              onProductClick={setSelectedProduct}
-              onRestart={() => {
-                setShowResult(false);
-                setMessages([]);
-                setPhase('loading');
-                setQuestionTodos([]);
-                setCollectedInfo({});
-                isInitializedRef.current = false;
-                initializeAgent();
-              }}
-            />
-          )}
-        </AnimatePresence>
-
         {/* Input Bar */}
-        {phase !== 'loading' && phase !== 'report' && !showResult && (
+        {phase !== 'loading' && phase !== 'report' && (
           <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white/80 backdrop-blur-xl border-t border-gray-100 p-4 pb-8 z-[110]">
             <div className="relative overflow-hidden rounded-[20px] border border-gray-200 flex items-end">
               <div
@@ -1199,13 +1151,36 @@ export default function KnowledgeAgentPage() {
 function MessageBubble({
   message,
   onOptionClick,
+  onNegativeFilterComplete,
+  onProductClick,
   phase
 }: {
   message: ChatMessage;
   onOptionClick: (opt: string) => void;
+  onNegativeFilterComplete: (selectedLabels: string[]) => void;
+  onProductClick: (product: any) => void;
   phase: Phase;
 }) {
   const isUser = message.role === 'user';
+  const [selectedNegativeIds, setSelectedNegativeIds] = useState<Set<string>>(new Set());
+
+  const toggleNegativeOption = (id: string) => {
+    const newSelected = new Set(selectedNegativeIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedNegativeIds(newSelected);
+  };
+
+  const handleNegativeSubmit = () => {
+    if (!message.negativeFilterOptions) return;
+    const selectedLabels = message.negativeFilterOptions
+      .filter(opt => selectedNegativeIds.has(opt.id))
+      .map(opt => opt.label);
+    onNegativeFilterComplete(selectedLabels);
+  };
 
   return (
     <motion.div
@@ -1288,151 +1263,105 @@ function MessageBubble({
             ))}
           </motion.div>
         )}
-      </div>
-    </motion.div>
-  );
-}
 
-// ============================================================================
-// Result Modal Component
-// ============================================================================
-
-function ResultModal({
-  expertSummary,
-  products,
-  allProducts,
-  onClose,
-  onProductClick,
-  onRestart
-}: {
-  expertSummary: string;
-  products: any[];
-  allProducts: any[];
-  onClose: () => void;
-  onProductClick: (p: any) => void;
-  onRestart: () => void;
-}) {
-  return (
-    <motion.div
-      initial={{ y: '100%' }}
-      animate={{ y: 0 }}
-      exit={{ y: '100%' }}
-      transition={{ type: 'spring', damping: 30, stiffness: 200 }}
-      className="fixed inset-0 z-[60] bg-white overflow-y-auto"
-    >
-      <div className="max-w-[480px] mx-auto min-h-screen pb-20 border-x border-gray-100">
-        <div className="sticky top-0 bg-white/90 backdrop-blur-md px-4 py-4 border-b border-gray-100 flex items-center justify-between z-10">
-          <h2 className="text-xl font-extrabold text-gray-950">분석 리포트</h2>
-          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-900 transition-colors">
-            <X size={24} weight="bold" />
-          </button>
-        </div>
-
-        <div className="p-5 space-y-10">
-          {/* Expert Summary */}
+        {/* Negative Filter Options (채팅 내 표시) */}
+        {!isUser && message.negativeFilterOptions && message.negativeFilterOptions.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="bg-purple-900 text-white p-6 rounded-[32px] shadow-2xl shadow-purple-200"
+            className="space-y-3 pt-2"
           >
-            <h3 className="font-bold text-lg mb-3 flex items-center gap-2 text-purple-200">
-              <Sparkle weight="fill" /> AI 분석 결론
+            <div className="w-full h-[1px] bg-gray-100 mb-3" />
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[14px] text-gray-400 font-semibold">피할 단점</span>
+            </div>
+            <h3 className="text-[16px] font-semibold text-gray-900 leading-snug mb-3">
+              피하고 싶은 단점을 선택하세요 <span className="text-gray-500 text-[13px] font-normal">(건너뛰기 가능)</span>
             </h3>
-            <p className="text-[15px] leading-relaxed opacity-95">
-              {expertSummary}
-            </p>
-          </motion.div>
-
-          {/* Comparison Table */}
-          {allProducts.length > 1 && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 px-1">
-                <Scales size={20} weight="fill" className="text-gray-400" />
-                <h3 className="font-bold text-gray-900">전수 비교표</h3>
-              </div>
-              <div className="bg-gray-50 rounded-3xl p-1 overflow-hidden border border-gray-100 shadow-inner">
-                <DetailedComparisonTable
-                  recommendations={allProducts.slice(0, 5).map((p, idx) => ({
-                    id: p.pcode || p.id,
-                    rank: (idx + 1) as 1 | 2 | 3 | 4,
-                    finalScore: 0,
-                    reasoning: p.recommendReason || '',
-                    selectedTagsEvaluation: [],
-                    additionalPros: [],
-                    cons: [],
-                    anchorComparison: [],
-                    product: {
-                      id: p.pcode || p.id,
-                      title: p.name || p.title,
-                      brand: p.brand,
-                      price: p.price,
-                      thumbnail: p.thumbnail,
-                      reviewUrl: p.reviewUrl || '',
-                      reviewCount: p.reviewCount || 0
-                    }
-                  })) as any}
-                  showScore={false}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Recommended Products */}
-          <div className="space-y-5">
-            <div className="flex items-center gap-2 px-1">
-              <Lightning size={20} weight="fill" className="text-yellow-500" />
-              <h3 className="font-bold text-gray-900">추천 상품</h3>
-            </div>
-            <div className="grid gap-4">
-              {products.slice(0, 3).map((p, i) => (
+            <div className="space-y-2">
+              {message.negativeFilterOptions.map((opt) => (
                 <motion.button
-                  key={p.pcode}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  onClick={() => onProductClick(p)}
-                  className="w-full bg-white border border-gray-100 rounded-3xl p-4 flex gap-4 text-left hover:shadow-xl hover:border-purple-200 transition-all shadow-sm"
+                  key={opt.id}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => toggleNegativeOption(opt.id)}
+                  className={`w-full p-3 rounded-xl border-2 text-left transition-all flex items-center gap-3 ${
+                    selectedNegativeIds.has(opt.id)
+                      ? 'border-red-300 bg-red-50'
+                      : 'border-gray-100 bg-white hover:border-gray-200'
+                  }`}
                 >
-                  <div className="relative w-24 h-24 rounded-2xl bg-gray-50 flex-shrink-0 overflow-hidden border border-gray-100">
-                    {p.thumbnail ? (
-                      <Image src={p.thumbnail} alt={p.name} fill className="object-contain p-2" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-3xl">🍳</div>
+                  <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${
+                    selectedNegativeIds.has(opt.id)
+                      ? 'border-red-400 bg-red-400'
+                      : 'border-gray-300'
+                  }`}>
+                    {selectedNegativeIds.has(opt.id) && (
+                      <CheckCircle size={14} weight="fill" className="text-white" />
                     )}
-                    <div className="absolute top-0 left-0 bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded-br-xl">
-                      {i + 1}위
-                    </div>
                   </div>
-                  <div className="flex-1 min-w-0 py-1 flex flex-col justify-between">
-                    <div>
-                      <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">{p.brand}</p>
-                      <h4 className="text-[15px] font-bold text-gray-900 leading-tight line-clamp-2">{p.name}</h4>
-                    </div>
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-base font-black text-gray-950">{p.price?.toLocaleString()}원</span>
-                      {p.rating && (
-                        <div className="flex items-center gap-1 bg-yellow-50 px-2 py-0.5 rounded-lg border border-yellow-100">
-                          <Star weight="fill" size={12} className="text-yellow-500" />
-                          <span className="text-[11px] font-bold text-yellow-700">{p.rating}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <CaretRight size={20} className="text-gray-300 self-center" />
+                  <span className="text-[14px] font-medium text-gray-700">{opt.label}</span>
                 </motion.button>
               ))}
             </div>
-          </div>
+            <motion.button
+              whileTap={{ scale: 0.98 }}
+              onClick={handleNegativeSubmit}
+              className="w-full py-3 px-4 rounded-xl bg-gray-900 text-white font-semibold text-[15px] hover:bg-gray-800 transition-all mt-3"
+            >
+              {selectedNegativeIds.size > 0 ? `${selectedNegativeIds.size}개 선택 완료` : '없음 (다음으로)'}
+            </motion.button>
+          </motion.div>
+        )}
 
-          <button
-            onClick={onRestart}
-            className="w-full py-4 bg-gray-100 text-gray-600 rounded-2xl font-bold text-sm hover:bg-gray-200 transition-all"
+        {/* Result Products (채팅 내 표시) */}
+        {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="space-y-3 pt-4"
           >
-            처음부터 다시 시작하기
-          </button>
-        </div>
+            <div className="flex items-center gap-2 px-1">
+              <Lightning size={20} weight="fill" className="text-yellow-500" />
+              <h3 className="font-bold text-gray-900">맞춤 추천 Top 3</h3>
+            </div>
+            <div className="space-y-2">
+              {message.resultProducts.slice(0, 3).map((product: any, i: number) => (
+                <V2ResultProductCard
+                  key={product.pcode || product.id || i}
+                  product={{
+                    pcode: product.pcode || product.id,
+                    title: product.name || product.title,
+                    brand: product.brand || null,
+                    price: product.price || null,
+                    thumbnail: product.thumbnail || null,
+                    rank: i + 1,
+                    spec: product.spec || {},
+                    reviewCount: product.reviewCount || null,
+                    averageRating: product.rating || product.averageRating || null,
+                    recommendationReason: product.recommendReason || product.recommendationReason,
+                    // ScoredProduct 필수 필드들
+                    baseScore: 0,
+                    negativeScore: 0,
+                    hardFilterScore: 0,
+                    budgetScore: 0,
+                    directInputScore: 0,
+                    totalScore: 0,
+                    matchedRules: [],
+                    isOverBudget: false,
+                    overBudgetAmount: 0,
+                    overBudgetPercent: 0,
+                  }}
+                  rank={i + 1}
+                  onClick={() => onProductClick(product)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </motion.div>
   );
 }
+
