@@ -380,74 +380,6 @@ ${productList}
 // ============================================================================
 
 /**
- * LLM 기반 스펙 분포 분석 (지능적 파싱)
- * - 다양한 형식의 specSummary를 자연어 처리
- * - 상품명에서도 스펙 정보 추출
- * - 카테고리별 중요 스펙 자동 식별
- */
-async function analyzeSpecDistributionWithLLM(
-  categoryName: string,
-  products: DanawaSearchListItem[]
-): Promise<string> {
-  if (!ai || products.length === 0) {
-    return analyzeSpecDistributionFallback(products);
-  }
-
-  const model = ai.getGenerativeModel({
-    model: 'gemini-2.5-flash-lite',
-    generationConfig: {
-      temperature: 0.2,
-      maxOutputTokens: 1500,
-    },
-  });
-
-  // 상위 20개 상품의 스펙 정보 수집
-  const productSpecs = products.slice(0, 20).map((p, i) => {
-    return `${i + 1}. ${p.name}\n   스펙: ${p.specSummary || '(없음)'}`;
-  }).join('\n');
-
-  const prompt = `## 역할
-"${categoryName}" 상품들의 스펙 데이터를 분석하여 **구매 결정에 중요한 스펙 분포**를 추출하세요.
-
-## 상품 데이터
-${productSpecs}
-
-## 분석 규칙
-1. **다양한 형식 파싱**: "용량: 2L", "2L 용량", "용량 2리터", "2000ml" 등 모두 같은 스펙으로 인식
-2. **상품명에서도 추출**: 상품명에 포함된 스펙 정보도 파악 (예: "3L 대용량", "무선", "저소음")
-3. **선택지가 갈리는 스펙만**: 2개 이상 다양한 값이 있는 스펙만 추출
-4. **구매 결정에 중요한 것 우선**: 용량, 크기, 무게, 기능, 타입, 재질 등
-
-## 출력 형식 (마크다운)
-- **스펙키**: 값1(N개), 값2(M개), 값3(K개)
-
-예시:
-- **용량**: 2L(8개), 3L(6개), 5L(4개)
-- **타입**: 무선(12개), 유선(6개)
-- **재질**: 스테인리스(10개), PP(5개), 트라이탄(3개)
-
-## 출력
-최대 8개의 핵심 스펙만 출력하세요. 마크다운 리스트 형식으로만 응답.`;
-
-  try {
-    const startTime = Date.now();
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
-    console.log(`[Step4] LLM spec analysis completed in ${Date.now() - startTime}ms`);
-
-    // 결과가 유효한지 확인
-    if (text.includes('- **') && text.length > 20) {
-      return text;
-    }
-  } catch (error) {
-    console.error('[Step4] LLM spec analysis failed:', error);
-  }
-
-  // Fallback to regex-based parsing
-  return analyzeSpecDistributionFallback(products);
-}
-
-/**
  * Fallback: 정규식 기반 스펙 분포 분석
  * 상품들의 스펙 분포를 분석하여 "선택지가 갈리는 스펙"을 추출
  * 예: 용량이 1L/2L/3L로 나뉘면 → "용량: 1L, 2L, 3L" 반환
@@ -541,8 +473,11 @@ async function generateQuestions(
   const avgPrice = prices.length ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 150000;
   const brands = [...new Set(products.map(p => p.brand).filter(Boolean))];
 
-  // 스펙 분포 분석 (핵심!) - LLM 기반 지능적 파싱
-  const specDistribution = await analyzeSpecDistributionWithLLM(categoryName, products);
+  // 스펙 분포 분석을 별도 LLM 호출 대신 텍스트로 준비하여 메인 프롬프트에 포함 (시간 단축)
+  const productSpecsForAnalysis = products.slice(0, 20).map((p, i) => {
+    return `${i + 1}. ${p.name} | 스펙: ${p.specSummary || '(없음)'}`;
+  }).join('\n');
+
   const productKeywords = extractProductPatterns(products);
 
   // 다나와 필터 정보 (핵심 스펙 분류 기준)
@@ -557,11 +492,6 @@ async function generateQuestions(
   const trendsText = trendAnalysis?.trends.map((t, i) => `${i + 1}. ${t}`).join('\n') || '';
   const prosFromWeb = trendAnalysis?.pros.map(p => `- ${p}`).join('\n') || '';
   const consFromWeb = trendAnalysis?.cons.map(c => `- ${c}`).join('\n') || '';
-
-  // 상위 5개 상품 샘플 (LLM이 카테고리 특성 파악하도록)
-  const topProductsSample = products.slice(0, 5)
-    .map((p, i) => `${i + 1}. ${p.name} (${p.price?.toLocaleString()}원) - ${p.specSummary || ''}`)
-    .join('\n');
 
   const prompt = `당신은 "${categoryName}" 구매 전문 컨설턴트입니다.
 
@@ -585,7 +515,7 @@ ${consFromWeb || '(분석 중)'}
 **가격 동향:** ${trendAnalysis.priceInsight || '(분석 중)'}
 ` : '(웹서치 데이터 없음)'}
 
-### 2️⃣ 인기 상품 스펙 분석 (${products.length}개 상품)
+### 2️⃣ 인기 상품 데이터 (${products.length}개 상품)
 - **가격대**: ${minPrice.toLocaleString()}원 ~ ${maxPrice.toLocaleString()}원 (평균 ${avgPrice.toLocaleString()}원)
 - **주요 브랜드**: ${brands.slice(0, 8).join(', ')}
 - **상품명 키워드**: ${productKeywords.join(', ') || '(분석 중)'}
@@ -593,11 +523,8 @@ ${consFromWeb || '(분석 중)'}
 **📌 다나와 하드필터 (핵심 스펙 분류 기준):**
 ${filterSummary}
 
-**📌 스펙별 분포 (선택지가 갈리는 부분):**
-${specDistribution}
-
-**상위 인기상품 예시:**
-${topProductsSample}
+**📌 상위 20개 상품 상세 스펙 (이를 분석하여 선택지가 갈리는 질문을 만드세요):**
+${productSpecsForAnalysis}
 
 ### 3️⃣ 축적된 지식
 ${knowledge.slice(0, 1500) || '(신규 카테고리)'}
@@ -606,78 +533,64 @@ ${knowledge.slice(0, 1500) || '(신규 카테고리)'}
 🎯 질문 생성 규칙
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-## ❌ 절대 하지 말 것
-1. **위 데이터와 무관한 범용 질문 금지**
-   - 나쁜 예: 스펙 분포에 "용량"이 없는데 "용량이 얼마나 필요하세요?" 질문
-   - 나쁜 예: 개인용 제품인데 "몇 명이 사용하나요?" 질문 (카시트, 스마트폰, 이어폰 등)
-
-2. **전문용어를 설명 없이 사용 금지**
-   - 나쁜 예: "ISOFIX를 원하시나요?"
-   - 좋은 예: "ISOFIX(카시트를 차에 단단히 고정하는 장치)가 필요하신가요?"
-
 ## ✅ 반드시 해야 할 것
-1. **스펙 분포에서 선택지가 갈리는 부분 → 질문으로**
-   - 예: 스펙에 "용량: 1L(5개), 2L(8개), 3L(7개)"가 있으면 → 용량 질문 생성
+1. **스펙 분석**: 제공된 20개 상품의 스펙을 보고, "용량", "타입", "재질" 등 값의 차이가 명확히 갈리는 부분을 질문으로 만드세요.
+2. **트렌드 반영**: 웹서치 트렌드에서 언급된 핵심 기능이나 장단점(트레이드오프)을 질문에 녹이세요.
+3. **사용 맥락**: 이 카테고리에 맞는 실제 사용 상황을 질문하세요.
+4. **reason(팁)**: 데이터 근거를 포함하여 왜 이 질문이 중요한지 설명하세요.
 
-2. **웹서치 트렌드에서 장/단점이 갈리는 부분 → 트레이드오프 질문으로**
-   - 예: 장점에 "가벼움", 단점에 "흔들림"이 있으면 → "가벼움 vs 안정감" 질문
-
-3. **트렌드에서 중요한 기능 → 해당 기능 필요 여부 질문**
-   - 예: 트렌드에 "360도 회전"이 있으면 → 회전 기능 필요 여부 질문
-
-4. **reason(팁)에서 "왜 중요한지" 친절하게 설명**
-   - 데이터 근거 포함: "최근 트렌드 분석 결과..."
-   - 실용적 조언: "~한 분들은 ~를 선택하면 후회가 적어요"
-
-## 📋 질문 우선순위
-1. **핵심 스펙** - 스펙 분포에서 선택지가 명확히 갈리는 것 (데이터 기반!)
-2. **사용 맥락** - 이 카테고리에 맞는 실제 사용 상황 (데이터 기반!)
-3. **트레이드오프** - 웹서치에서 장단점이 갈리는 부분 (데이터 기반!)
-4. **예산** - 실제 가격대 기반, 마지막 질문으로
+## 📋 질문 구성 (3-5개)
+1. **핵심 스펙/타입** (데이터 기반)
+2. **사용 환경/맥락** (데이터 기반)
+3. **취향/트레이드오프** (웹서치 기반)
+4. **예산** (항상 마지막)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📤 JSON 출력 (3-5개 질문)
+📤 JSON 출력
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 \`\`\`json
 [
   {
     "id": "영문_snake_case_id",
-    "question": "쉽고 자연스러운 질문 (전문용어는 괄호 안에 쉬운 설명)",
-    "reason": "💡 [데이터 근거] 왜 중요한지 친절하게 2문장. 예: 최근 트렌드 분석 결과, ~한 분들이 많았어요. ~를 선택하면 ~한 장점이 있어요.",
+    "question": "자연스러운 질문",
+    "reason": "💡 왜 중요한지 설명 (데이터 근거 포함)",
     "options": [
-      { "value": "option1", "label": "선택지1 (쉬운 말)", "description": "어떤 분에게 맞는지" },
-      { "value": "option2", "label": "선택지2 (쉬운 말)", "description": "어떤 분에게 맞는지" }
+      { "value": "val1", "label": "라벨", "description": "설명" }
     ],
     "type": "single",
     "priority": 1,
-    "dataSource": "근거 출처 (예: 스펙 분포 분석, 리뷰 127건)"
+    "dataSource": "분석 근거"
   }
 ]
 \`\`\`
-
-위 데이터를 꼼꼼히 분석하여, "${categoryName}"을 처음 사는 사람이 **"아, 이런 것도 생각해야 하는구나!"** 하고 감동할 수 있는 질문을 만들어주세요.`;
+`;
 
   try {
-    console.log(`[Step4] Generating questions for "${categoryName}" with ${products.length} products`);
+    console.log(`[Step3] Generating questions for "${categoryName}" with ${products.length} products (Combined Spec Analysis)`);
     const startTime = Date.now();
 
-    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
+    const model = ai.getGenerativeModel({ 
+      model: 'gemini-2.5-flash-lite',
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 1500,
+      }
+    });
+    
     const result = await model.generateContent(prompt);
     const text = result.response.text();
 
-    console.log(`[Step4] LLM response received in ${Date.now() - startTime}ms, length: ${text.length}`);
-    console.log(`[Step4] Response preview: ${text.slice(0, 200)}...`);
-
+    console.log(`[Step3] LLM response received in ${Date.now() - startTime}ms`);
+    
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     if (jsonMatch) {
       try {
         let questions = JSON.parse(jsonMatch[0]) as QuestionTodo[];
         questions = questions.map(q => ({ ...q, completed: false }));
-        console.log(`[Step4] ✅ Successfully parsed ${questions.length} questions`);
-
-        // 예산 질문 보정
-        const budgetQ = questions.find(q =>
+        
+        // 예산 질문 보정 (생략 가능하나 기존 로직 유지)
+        const budgetQ = questions.find(q => 
           q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격')
         );
         if (budgetQ && prices.length > 0) {
@@ -691,19 +604,13 @@ ${knowledge.slice(0, 1500) || '(신규 카테고리)'}
         }
 
         return questions;
-      } catch (parseError) {
-        console.error(`[Step4] ❌ JSON parse error:`, parseError);
-        console.error(`[Step4] Failed JSON: ${jsonMatch[0].slice(0, 500)}`);
+      } catch (e) {
+        console.error('[Step3] JSON parse error:', e);
       }
-    } else {
-      console.error(`[Step4] ❌ No JSON array found in response`);
-      console.error(`[Step4] Full response: ${text.slice(0, 1000)}`);
     }
   } catch (e) {
-    console.error('[Step4] ❌ Question generation failed:', e);
+    console.error('[Step3] Question generation failed:', e);
   }
-
-  console.log(`[Step4] ⚠️ Falling back to default questions`)
 
   return getDefaultQuestions(categoryName, products, trendAnalysis);
 }

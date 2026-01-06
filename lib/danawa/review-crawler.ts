@@ -148,12 +148,33 @@ function parseReview($review: CheerioSelection, $: CheerioAPI): Review | null {
     }
 
     // 리뷰 내용 추출 (.atc 클래스)
-    const contentEl = $review.find('.atc');
-    let content = contentEl.first().text().trim();
+    // .atc_exp가 있으면 그것만 사용 (펼쳐보기 클릭 시 나타나는 전체 내용)
+    const $atcExp = $review.find('.atc_exp');
+    const $atcCont = $review.find('.atc_cont');
+    
+    let content = '';
+    if ($atcExp.length > 0 && $atcExp.text().trim().length > 10) {
+      content = $atcExp.text().trim();
+    } else if ($atcCont.length > 0) {
+      content = $atcCont.text().trim();
+    } else {
+      // 최후의 수단으로 부모 요소에서 텍스트 추출하되 "펼쳐보기" 등의 버튼 텍스트 제외 시도
+      const $atc = $review.find('.atc, .rvw_atc, .atc_cont').clone();
+      if ($atc.length === 0) {
+        $atc = $review.find('.rvw_atc, .atc_cont').clone();
+      }
+      $atc.find('.btn_more, .btn_atc_exp, .btn_rvw_atc, style, script').remove();
+      content = $atc.text().trim();
+    }
 
-    // content가 비어있으면 다른 선택자 시도
-    if (!content) {
-      content = $review.find('.rvw_atc, .atc_cont').text().trim();
+    // "펼쳐보기" 문자열이 포함되어 있다면 정리
+    if (content.includes('펼쳐보기')) {
+      const parts = content.split('펼쳐보기');
+      if (parts[1] && parts[1].trim().length > parts[0].trim().length) {
+        content = parts[1].trim();
+      } else {
+        content = parts[0].trim();
+      }
     }
 
     if (!content || content.length < 5) {

@@ -38,10 +38,19 @@ function getShortTermPath(categoryKey: string): string {
   return path.join(KNOWLEDGE_BASE_PATH, categoryKey, 'session.md');
 }
 
+/**
+ * 카테고리 디렉토리 생성
+ * Vercel 등 서버리스 환경에서는 /tmp 외 쓰기 불가 → graceful fail
+ */
 function ensureCategoryDir(categoryKey: string): void {
   const categoryPath = path.join(KNOWLEDGE_BASE_PATH, categoryKey);
-  if (!fs.existsSync(categoryPath)) {
-    fs.mkdirSync(categoryPath, { recursive: true });
+  try {
+    if (!fs.existsSync(categoryPath)) {
+      fs.mkdirSync(categoryPath, { recursive: true });
+    }
+  } catch (e) {
+    // 서버리스 환경에서 디렉토리 생성 실패 시 무시
+    console.log(`⚠️ [MemoryManager] Cannot create directory (serverless env): ${categoryPath}`);
   }
 }
 

@@ -163,9 +163,36 @@ export async function fetchReviewsLite(
 
             const $item = $review(el);
 
-            // 내용 추출 (.atc 클래스)
-            const content = $item.find('.atc, .rvw_atc').text().trim();
+            // 내용 추출: .atc_exp가 있으면 그것만 사용 (펼쳐보기 클릭 시 나타나는 전체 내용)
+            // 없으면 .atc_cont 또는 .atc, .rvw_atc 사용
+            const $atcExp = $item.find('.atc_exp');
+            const $atcCont = $item.find('.atc_cont');
+            
+            let content = '';
+            if ($atcExp.length > 0 && $atcExp.text().trim().length > 10) {
+              content = $atcExp.text().trim();
+            } else if ($atcCont.length > 0) {
+              content = $atcCont.text().trim();
+            } else {
+              // 최후의 수단으로 부모 요소에서 텍스트 추출하되 "펼쳐보기" 등의 버튼 텍스트 제외 시도
+              const $atc = $item.find('.atc, .rvw_atc').clone();
+              $atc.find('.btn_more, .btn_atc_exp, .btn_rvw_atc, style, script').remove();
+              content = $atc.text().trim();
+            }
+
             if (!content || content.length < 5) return;
+
+            // "펼쳐보기" 문자열이 포함되어 있다면 그 이전까지만 자르거나 정리
+            if (content.includes('펼쳐보기')) {
+              const parts = content.split('펼쳐보기');
+              // 보통 "요약내용... 펼쳐보기 ...전체내용" 구조임
+              // 두 번째 파트가 충분히 길면 두 번째 파트 사용, 아니면 첫 번째 파트 사용
+              if (parts[1] && parts[1].trim().length > parts[0].trim().length) {
+                content = parts[1].trim();
+              } else {
+                content = parts[0].trim();
+              }
+            }
 
             // 별점 (.star_mask의 width 스타일에서)
             let rating = 5;

@@ -239,7 +239,13 @@ export async function POST(request: NextRequest) {
         const send = (event: string, data: any) => controller.enqueue(encoder.encode(formatSSEMessage(event, data)));
         try {
           send('status', { message: '답변 분석 및 정보 로드 중...' });
-          allProducts = await getProducts(categoryKey, { query: searchKeyword });
+          // 클라이언트에서 전송한 products 우선 사용 (Vercel 배포 환경 호환)
+          if (body.products && body.products.length > 0) {
+            allProducts = body.products;
+            console.log(`[Chat] Using ${allProducts.length} products from client`);
+          } else {
+            allProducts = await getProducts(categoryKey, { query: searchKeyword });
+          }
           const response = await processChatLogic(body, categoryKey, searchKeyword, send);
           if (response) send('complete', response);
         } catch (error) {
@@ -305,7 +311,7 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
 
     const nextQuestion = updatedTodos.filter((t: any) => !t.completed).sort((a: any, b: any) => a.priority - b.priority)[0];
     if (!nextQuestion) {
-      send('status', { message: '취향 분석 게임 생성 중...' });
+      send('status', { message: '밸런스게임 생성 중...' });
       const { balance_questions, negative_filter_options } = await generateDynamicQuestionsAI(categoryKey, updatedInfo, allProducts);
       
       // 메모리에 저장

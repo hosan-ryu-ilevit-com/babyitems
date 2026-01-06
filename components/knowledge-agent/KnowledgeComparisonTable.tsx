@@ -44,6 +44,7 @@ interface KnowledgeProduct {
   specSummary?: string;
   prosFromReviews?: string[];
   consFromReviews?: string[];
+  oneLiner?: string;
   recommendedFor?: string;
   recommendReason?: string;
   reviews?: ReviewItem[];  // 리뷰 목록 추가
@@ -258,33 +259,6 @@ export function KnowledgeComparisonTable({
                 </td>
               </tr>
 
-              {/* 평점 */}
-              <tr className="border-b border-gray-100">
-                <td className="py-3 px-2 text-center w-[40%]">
-                  <div className="flex items-center justify-center gap-1">
-                    <span className={`text-[14px] font-bold ${isEmpty(selectedProducts[0]?.rating) ? 'text-gray-400' : 'text-gray-800'}`}>
-                      {isEmpty(selectedProducts[0]?.rating) ? '정보없음' : selectedProducts[0]!.rating!.toFixed(1)}
-                    </span>
-                    {!isEmpty(selectedProducts[0]?.reviewCount) && (
-                      <span className="text-gray-300 text-[10px] font-bold">({selectedProducts[0]!.reviewCount})</span>
-                    )}
-                  </div>
-                </td>
-                <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">
-                  평점
-                </td>
-                <td className="py-3 px-2 text-center w-[40%]">
-                  <div className="flex items-center justify-center gap-1">
-                    <span className={`text-[14px] font-bold ${isEmpty(selectedProducts[1]?.rating) ? 'text-gray-400' : 'text-gray-800'}`}>
-                      {isEmpty(selectedProducts[1]?.rating) ? '정보없음' : selectedProducts[1]!.rating!.toFixed(1)}
-                    </span>
-                    {!isEmpty(selectedProducts[1]?.reviewCount) && (
-                      <span className="text-gray-300 text-[10px] font-bold">({selectedProducts[1]!.reviewCount})</span>
-                    )}
-                  </div>
-                </td>
-              </tr>
-
               {/* 장점 */}
               <tr className="border-b border-gray-100 bg-[#E6FAD2]">
                 <td className="py-4 px-3 align-top w-[40%] text-center">
@@ -374,82 +348,47 @@ export function KnowledgeComparisonTable({
                   </tr>
                 );
               })}
+
+              {/* 한줄 비교 정리 */}
+              {(() => {
+                const hasComparison1 = selectedProducts[0]?.oneLiner && selectedProducts[0].oneLiner.trim().length > 0;
+                const hasComparison2 = selectedProducts[1]?.oneLiner && selectedProducts[1].oneLiner.trim().length > 0;
+
+                if (!hasComparison1 && !hasComparison2) return null;
+
+                return (
+                  <tr className="bg-[#F8F9FA]">
+                    <td colSpan={3} className="py-5 px-4 rounded-b-2xl border-t border-gray-100">
+                      <h4 className="text-[14px] font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        📊 한줄 비교 정리
+                      </h4>
+                      <div className="space-y-4">
+                        {selectedProducts.map((product, index) => {
+                          if (!product || !product.oneLiner || product.oneLiner.trim().length === 0) return null;
+
+                          return (
+                            <div key={product.pcode} className="flex items-start gap-3">
+                              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-800 text-white text-[11px] font-bold shrink-0 mt-0.5">
+                                {index + 1}
+                              </span>
+                              <div className="flex-1">
+                                <p className="text-[13px] text-gray-800 leading-relaxed">
+                                  <span className="font-bold text-gray-900">{product.brand} {product.name}</span>
+                                </p>
+                                <p className="text-[13px] text-gray-600 leading-relaxed mt-1">
+                                  {product.oneLiner}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })()}
             </tbody>
           </table>
-        </div>
-      )}
-
-      {/* 리뷰 목록 섹션 */}
-      {selectedIds.length === 2 && selectedProducts.length === 2 && (
-        <div className="mt-6 space-y-4">
-          <h4 className="text-[14px] font-semibold text-gray-700 flex items-center gap-2">
-            <FcPodiumWithSpeaker size={18} />
-            실제 구매자 리뷰
-          </h4>
-          
-          <div className="grid grid-cols-2 gap-4">
-            {/* 왼쪽 상품 리뷰 */}
-            <div className="space-y-2">
-              <p className="text-[12px] font-medium text-gray-500 text-center mb-2">
-                {selectedProducts[0]?.name?.slice(0, 20)}...
-              </p>
-              {(selectedProducts[0]?.reviews || []).length > 0 ? (
-                <div className="space-y-2 max-h-48 overflow-y-auto">
-                  {selectedProducts[0]!.reviews!.slice(0, 5).map((review, idx) => (
-                    <div 
-                      key={review.reviewId || idx} 
-                      className="bg-gray-50 rounded-lg p-3 border border-gray-100"
-                    >
-                      <div className="flex items-center gap-1 mb-1">
-                        <span className="text-yellow-500 text-[11px]">{'★'.repeat(Math.floor(review.rating))}</span>
-                        <span className="text-gray-300 text-[11px]">{'★'.repeat(5 - Math.floor(review.rating))}</span>
-                        <span className="text-[11px] text-gray-400 ml-1">{review.rating.toFixed(1)}</span>
-                      </div>
-                      <p className="text-[12px] text-gray-700 leading-relaxed line-clamp-3">
-                        "{review.content}"
-                      </p>
-                      {review.mallName && (
-                        <p className="text-[10px] text-gray-400 mt-1">- {review.mallName}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-[12px] text-gray-400 text-center py-4">리뷰 없음</p>
-              )}
-            </div>
-
-            {/* 오른쪽 상품 리뷰 */}
-            <div className="space-y-2">
-              <p className="text-[12px] font-medium text-gray-500 text-center mb-2">
-                {selectedProducts[1]?.name?.slice(0, 20)}...
-              </p>
-              {(selectedProducts[1]?.reviews || []).length > 0 ? (
-                <div className="space-y-2 max-h-48 overflow-y-auto">
-                  {selectedProducts[1]!.reviews!.slice(0, 5).map((review, idx) => (
-                    <div 
-                      key={review.reviewId || idx} 
-                      className="bg-gray-50 rounded-lg p-3 border border-gray-100"
-                    >
-                      <div className="flex items-center gap-1 mb-1">
-                        <span className="text-yellow-500 text-[11px]">{'★'.repeat(Math.floor(review.rating))}</span>
-                        <span className="text-gray-300 text-[11px]">{'★'.repeat(5 - Math.floor(review.rating))}</span>
-                        <span className="text-[11px] text-gray-400 ml-1">{review.rating.toFixed(1)}</span>
-                      </div>
-                      <p className="text-[12px] text-gray-700 leading-relaxed line-clamp-3">
-                        "{review.content}"
-                      </p>
-                      {review.mallName && (
-                        <p className="text-[10px] text-gray-400 mt-1">- {review.mallName}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-[12px] text-gray-400 text-center py-4">리뷰 없음</p>
-              )}
-            </div>
-          </div>
         </div>
       )}
     </motion.div>

@@ -37,11 +37,17 @@ const TREND_CACHE_TTL = 7 * 24 * 60 * 60 * 1000;   // 1주일
 
 /**
  * 디렉토리 생성 (없으면)
+ * Vercel 등 서버리스 환경에서는 /tmp 외 쓰기 불가 → graceful fail
  */
 function ensureDir(dir: string): void {
-  if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true });
-    console.log(`📁 Created cache directory: ${dir}`);
+  try {
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+      console.log(`📁 Created cache directory: ${dir}`);
+    }
+  } catch (e) {
+    // 서버리스 환경에서 디렉토리 생성 실패 시 무시
+    console.log(`⚠️ [Cache] Cannot create directory (serverless env): ${dir}`);
   }
 }
 
