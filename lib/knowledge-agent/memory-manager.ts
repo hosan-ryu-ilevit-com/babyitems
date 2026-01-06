@@ -26,6 +26,9 @@ const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
 // 경로 설정
 const KNOWLEDGE_BASE_PATH = path.join(process.cwd(), 'data', 'knowledge');
 
+// 서버리스 환경 감지 (Vercel, AWS Lambda 등)
+const IS_SERVERLESS = !!(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NETLIFY);
+
 // ============================================================================
 // 경로 유틸리티
 // ============================================================================
@@ -90,8 +93,14 @@ export function loadLongTermMemory(categoryKey: string): LongTermMemoryData | nu
 
 /**
  * 장기기억 저장
+ * 서버리스 환경에서는 파일 쓰기 불가 → 스킵
  */
 export function saveLongTermMemory(categoryKey: string, data: LongTermMemoryData): boolean {
+  if (IS_SERVERLESS) {
+    console.log(`[MemoryManager] Skipping long-term memory save (serverless env): ${categoryKey}`);
+    return true; // 성공으로 처리하여 플로우 계속 진행
+  }
+
   ensureCategoryDir(categoryKey);
   const filePath = getLongTermPath(categoryKey);
 
@@ -149,8 +158,14 @@ export function loadShortTermMemory(categoryKey: string): ShortTermMemoryData | 
 
 /**
  * 단기기억 저장
+ * 서버리스 환경에서는 파일 쓰기 불가 → 스킵
  */
 export function saveShortTermMemory(categoryKey: string, data: ShortTermMemoryData): boolean {
+  if (IS_SERVERLESS) {
+    console.log(`[MemoryManager] Skipping short-term memory save (serverless env): ${categoryKey}`);
+    return true; // 성공으로 처리하여 플로우 계속 진행
+  }
+
   ensureCategoryDir(categoryKey);
   const filePath = getShortTermPath(categoryKey);
 
@@ -167,8 +182,13 @@ export function saveShortTermMemory(categoryKey: string, data: ShortTermMemoryDa
 
 /**
  * 단기기억 삭제
+ * 서버리스 환경에서는 파일 삭제 불가 → 스킵
  */
 export function deleteShortTermMemory(categoryKey: string): boolean {
+  if (IS_SERVERLESS) {
+    return true; // 성공으로 처리
+  }
+
   const filePath = getShortTermPath(categoryKey);
   try {
     if (fs.existsSync(filePath)) {

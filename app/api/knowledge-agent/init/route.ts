@@ -34,6 +34,9 @@ import { crawlDanawaSearchListLite } from '@/lib/danawa/search-crawler-lite';
 import type { DanawaSearchListItem, DanawaFilterSection } from '@/lib/danawa/search-crawler';
 import { getQueryCache, setQueryCache } from '@/lib/knowledge-agent/cache-manager';
 
+// Vercel 서버리스 타임아웃 설정 (기본 10초 → 60초)
+export const maxDuration = 60;
+
 // Gemini
 const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;

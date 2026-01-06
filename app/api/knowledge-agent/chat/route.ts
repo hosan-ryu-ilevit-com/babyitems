@@ -30,6 +30,9 @@ import type {
 } from '@/lib/knowledge-agent/types';
 import { loadCategoryInsights } from '@/lib/recommend-v2/insightsLoader';
 
+// Vercel 서버리스 타임아웃 설정
+export const maxDuration = 30;
+
 // Gemini
 const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
