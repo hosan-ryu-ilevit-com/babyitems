@@ -1,5 +1,5 @@
-# 세션: 20260106_044012_8si9
-> 시작: 2026-01-06T04:40:12.086Z
+# 세션: 20260106_055320_epdv
+> 시작: 2026-01-06T05:53:20.051Z
 > 카테고리키: 가습기
 > 카테고리: 가습기
 
@@ -7,23 +7,8 @@
 
 ### Init 단계
 - 쿼리: 가습기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 가습기 시장은 다양한 기술 발전과 소비자 니즈 변화에 따라 경쟁이 치열해지고 있습니다. 특히, 살균 기능, 스마트 기능, 그리고 편리한 사용성을 갖춘 제품들이 인기를 얻고 있으며, 가열식, 초음파식, 복합식 등 다양한 방식의 가습기가 출시되어 소비자의 선택 폭을 넓히고 있습니다. 시장은 2026년에 23억 2610만 달러 규모로 예상되며, 2035년까지 3661억 4000만 달러에 달할 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7zbXLw2zR-K2OHhAus2RiaF32lHNgO74cJl0zx9yqM4FXvdxDvCUqHnJ1xTHlx0Vbvk3DHeAAfpaDzP1Ik6_zbIlglqcv_udSScDYitCEOL-wnqn6PdrllMuQU6vyySKkrio38rU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSM1gYxEwnoYcRczrqRYxsYVagrC5Lv5VUCvNENs5yZkp9FigijalujDuh_GZIJOreU8hoE7XvtreVZGVEOfzF6kZF76YCepXLM39XKPTBDJox6dFteENxESl-01tDw8Ewfseikvo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNxfARC5yrvXZgtMFEC9ZPIZEH92m4TLbFGwtGNYtYHzzbKrqrFJA1ho4LKCSq2SYWiKu1YkC4wJlk9HOHhudsBmKYy5IztkuTF5Al_OkWsdZo06ZelwyHTRxliG0AmCJMap3r_wU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaF1rjL79OX6JsZwj7ejzwBHvNVYvJoj2OLZL0wb-_loYC9F1Outfs8bX0AUGo4ghb4IIgCEhch9SyVwEkZMEHnh1mKpxrCa0_O1SLoTNYNxu2ZIfcsbw5PU9OxEWXGELYsAuIH9k=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEiTXnAYpbIP3Ud_icmMhrOV8FFuvXtIjNk92Py6mRHd4sARkFJfaItOszGBzfrPoSkw9D1GE-6a9soQ1JjkMDaL-OgHaTLBAW4U_FILMVWd64r0uaDN0zOTBYQP8HMmOvLjk_iupn4kkIS5WqJD07fRG0Df89YmVawGjx07DeGiGRJqyUqgA6MmEZ8
-
-### Q1: 가습기를 주로 사용하실 공간의 크기는 어느 정도인가요?
-- 사용자 답변: 작은 공간 (원룸, 방 1개)
-- 웹서치 쿼리: 가습기 작은 공간 (원룸, 방 1개) 추천 2026
-- 인사이트: 작은 공간(원룸, 방 1개)에 적합한 가습기는 2~3L 용량의 초음파식 또는 자연기화식 가습기가 추천됩니다. 초음파식은 저렴하고 조용하지만 세균 번식 우려가 있어 매일 세척이 중요하며, 자연기화식은 안전하고 위생적이지만 가습 속도가 느릴 수 있습니다.
-
-### Q2: 가습기의 위생 관리에 얼마나 신경 쓰고 싶으신가요?
-- 사용자 답변: 덜 중요 (가격을 우선하거나, 직접 관리할 의향 있음)
-- 웹서치 쿼리: 가습기 위생 관리 덜 중요 가격 우선 추천 2026
-- 인사이트: 가격을 우선시하고 직접 관리할 의향이 있다면, 위생 관리가 용이한 가열식 가습기나 UV 살균 기능이 탑재된 모델을 고려해볼 수 있습니다. 이러한 제품들은 세균 번식 위험을 줄여주면서도 상대적으로 저렴한 가격대의 제품들이 출시되고 있습니다.
-
-### Q3: 스마트 기능과 편의성, 그리고 전기료 사이에서 어떤 점을 더 중요하게 생각하시나요?
-- 사용자 답변: 적절한 균형
-- 웹서치 쿼리: 가습기 스마트 기능 편의성 전기료 적절한 균형 2026
-- 인사이트: 스마트 기능, 편의성, 전기료 사이에서 '적절한 균형'을 찾는 것은 사용자의 우선순위에 따라 달라질 수 있습니다. 일부 사용자는 앱 연동 등 스마트 기능으로 인한 편리함을 중시할 수 있지만, 다른 사용자는 낮은 전기료를 더 중요하게 생각할 수 있습니다. 따라서 자신의 생활 패턴과 예산을 고려하여 최적의 균형점을 찾는 것이 중요합니다.
+- 인사이트: 2026년 현재 가습기 시장은 위생, 디자인, 편의성을 갖춘 제품들이 인기를 얻고 있습니다. 특히 케어프(Keliff)와 같은 브랜드는 UV-C 살균 및 자동 건조 기능을 탑재한 신형 모델을 선보이며 시장을 선도하고 있습니다. LG 퓨리케어와 같은 프리미엄 브랜드는 스마트 습도 조절 및 자동 세척 기능으로 사용자 편의성을 높이고 있으며, 카카오프렌즈 캐릭터를 활용한 디자인 가습기도 젊은 층에게 인기를 끌고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6nfdk5bt5IRSuQOJ1IFd3_f7BHuXfI9mSnAgrmJL4lupa5SWfTMFZBtaGZq8y2i2jEbip41bwr8MiLwmwWeEIVPkzzYIizcsGC3HzPcqfxKgXNuHWGjPDjvK7eEb80Ozyg57nGUZMghTbomA6N9HVBzjA3zV_dYo6JN9zDRI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2mAW_ma_hp_Yh1-Wu1yR7PKviH-CX56SFyADfRF2neE8KkQNJL13XAU9sKm2Rh9m95Y2jw4fqi6y5CI-HMd4jzz7bmPrFetOdSfvFNKeX6IxHYb8kuCc_5fN1b6u23tCvIW6u-OeJVFeO7F4YUTsUMa7crUyyxZ3Ta6PKEu3r6I24M1hzuPE-QZNbvoHWUJ3QElQ3PDSEWrvK-XECmpCUjsC4ncZTRXa_-N_OGG0r-UOzQUR-KD_Zt258CwCEukFnDgpiQNLTNmbhJM2_qdllNOavN7KVxDDLOk2UOa3p9Naz8SKBJsTDC0FT6uJvMcc8gF3QHB-RQNp4-OHDWbKQhLK1nBmYTY7dyMJi0wLH1thjklfeDmL00RH_iA3CP3hl5wTzMS5Wn-1FIiuOxnEyX8SfsTtywJMM3PVL1uo0M3BqvWn9qP89u087IJS33adM5VkQ4chqk_XQ3C7DX_uYn4GZFiDZAJumNmNe1QwjZgPXqA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFIYPoG1JsDJATxr8oRBAM1IysmQA4sStRIQWWRv-Uf4jQXYNbhCqt53dssf2VRFZ7zlUwbMFUaMuywCOkEKh9sdwxylS24yJzYoF9gG7DU_G1PT6vaY5lddQhWNRrYZeMmcM4yYU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtbm65iNm76_kFsVfcreHhRw_MjuVuKgrtKyF15jfVgHjkraonSoBP0hqNev4wYfrtq1TF0SkTOQB7MHZqTgh89XELnRN2NpbjwB_0qKd6iK-E-7aINSjz7eU84HCi0BRDbGc8Smc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSqzovkQPGFVQ5Kzfq3-4zvQmFzcXgt19KeOx0tKMudegXNqcOH9X-903TWhXn3_Zp145FpVeU_fpNdgIDKjNAyUp3YrG4NxfW3ChfJEHLOQ6_37nU2MyCIMHeT05PfO689umLU18=
 
 ---
 
@@ -31,9 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| usage_area_size | 작은 공간 (원룸, 방 1개) |
-| hygiene_focus | 덜 중요 (가격을 우선하거나, 직접 관리할 의향 있음) |
-| convenience_vs_cost | 적절한 균형 |
 
 ---
 

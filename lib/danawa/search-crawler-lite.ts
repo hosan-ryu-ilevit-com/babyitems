@@ -15,6 +15,8 @@ import type {
   DanawaSearchOptions,
   DanawaSearchListItem,
   DanawaSearchListResponse,
+  DanawaFilterSection,
+  DanawaFilterOption,
 } from './search-crawler';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -280,6 +282,76 @@ function parseProductCard(
 }
 
 /**
+ * 다나와 검색 필터 파싱
+ *
+ * 검색 결과 페이지의 좌측 필터 영역에서 카테고리별 핵심 필터 정보를 추출
+ * - 필터 제목 (예: "통신망", "용량", "화면크기")
+ * - 옵션 목록 (예: "5G", "LTE", "256GB")
+ * - 하이라이트 여부 (CM추천)
+ */
+function parseFilters($: ReturnType<typeof load>): DanawaFilterSection[] {
+  const filters: DanawaFilterSection[] = [];
+
+  $('.basic_cate_area').each((_: number, filterEl: CheerioElement) => {
+    const $filter = $(filterEl);
+    const titleEl = $filter.find('.cate_tit');
+
+    // 제목 추출 - a.btn_dic 안의 텍스트 또는 직접 텍스트
+    // 불필요한 텍스트 제거 (리서치 보기, 닫기 등)
+    let title = '';
+    const btnDic = titleEl.find('a.btn_dic');
+    if (btnDic.length) {
+      title = btnDic.find('span.name').text().trim() || btnDic.text().trim();
+    }
+    if (!title) {
+      // 직접 텍스트에서 제목만 추출 (첫 줄만)
+      const rawText = titleEl.text().trim();
+      title = rawText.split('\n')[0].trim().split('\t')[0].trim();
+    }
+
+    // 빈 제목이나 "카테고리" 같은 기본 필터는 스킵
+    if (!title || title === '카테고리' || title.length > 30) return;
+
+    // 리서치 보기 버튼 유무
+    const hasResearch = $filter.find('button.button__graph').length > 0;
+
+    // 옵션 추출
+    const options: DanawaFilterOption[] = [];
+    $filter.find('.basic_cate_item').each((_: number, itemEl: CheerioElement) => {
+      const $item = $(itemEl);
+      const nameEl = $item.find('span.name');
+      const inputEl = $item.find('input[type="checkbox"]');
+      const isHighlight = $item.hasClass('highlight');
+
+      if (nameEl.length && inputEl.length) {
+        const name = nameEl.text().trim();
+        const value = inputEl.attr('value') || '';
+
+        // 유효한 옵션만 추가
+        if (name && name.length < 50) {
+          options.push({
+            name,
+            value,
+            highlight: isHighlight || undefined,
+          });
+        }
+      }
+    });
+
+    // 옵션이 있는 필터만 추가
+    if (options.length > 0) {
+      filters.push({
+        title,
+        options,
+        hasResearch: hasResearch || undefined,
+      });
+    }
+  });
+
+  return filters;
+}
+
+/**
  * Axios + Cheerio 기반 다나와 검색 크롤러
  *
  * Puppeteer 대비 장점:
@@ -316,6 +388,12 @@ export async function crawlDanawaSearchListLite(
     const $ = load(response.data);
     const items: DanawaSearchListItem[] = [];
     const seenPcodes = new Set<string>();
+
+    // 필터 파싱
+    const filters = parseFilters($);
+    if (filters.length > 0) {
+      console.log(`   🔍 Found ${filters.length} filter sections`);
+    }
 
     // 상품 카드 선택자 (광고 제외)
     const productSelectors = [
@@ -417,7 +495,7 @@ export async function crawlDanawaSearchListLite(
       });
     }
 
-    console.log(`\n📦 [SearchCrawler-Lite] 크롤링 완료: ${items.length}개 상품`);
+    console.log(`\n📦 [SearchCrawler-Lite] 크롤링 완료: ${items.length}개 상품, ${filters.length}개 필터`);
 
     return {
       success: true,
@@ -425,6 +503,7 @@ export async function crawlDanawaSearchListLite(
       totalCount: items.length,
       items,
       searchUrl,
+      filters: filters.length > 0 ? filters : undefined,
     };
 
   } catch (error) {

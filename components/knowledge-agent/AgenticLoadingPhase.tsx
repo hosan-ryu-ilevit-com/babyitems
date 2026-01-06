@@ -11,7 +11,7 @@
  * - 스트리밍 + Shimmer 효과
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CaretDown,
@@ -27,7 +27,8 @@ import {
   FcElectricity,
   FcBullish,
   FcCheckmark,
-  FcProcess
+  FcProcess,
+  FcDataConfiguration
 } from "react-icons/fc";
 
 // ============================================================================
@@ -236,7 +237,7 @@ function RealTimeTimer({ startTime }: { startTime: number }) {
 }
 
 /**
- * 인기상품 분석 컨텐츠 - 상품 리스트 형식
+ * 인기상품 분석 컨텐츠 - 상품 리스트 형식 + 필터 정보
  */
 function ProductAnalysisContent({
   step,
@@ -247,6 +248,8 @@ function ProductAnalysisContent({
 }) {
   const products = crawledProducts || [];
   const count = step.analyzedCount || products.length;
+  const filters = step.result?.filters || [];
+  const filterCount = step.result?.filterCount || filters.length;
 
   return (
     <AnimatePresence mode="wait">
@@ -278,80 +281,127 @@ function ProductAnalysisContent({
           key="content"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="space-y-2"
+          className="space-y-3"
         >
-          <div className="flex items-center gap-1.5">
-            <FcBullish size={14} className="grayscale opacity-70" />
-            <p className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">
-              수집된 상품 ({count}개)
-            </p>
-          </div>
-
-          {/* 상품 리스트 - 최대 8개 */}
-          <div className="space-y-1 max-h-48 overflow-y-auto">
-            {products.slice(0, 8).map((p, i) => (
-              <motion.div
-                key={p.pcode || i}
-                initial={{ opacity: 0, x: -5 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.03 }}
-                className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                {/* 순번 */}
-                <span className="text-[9px] text-gray-400 font-medium w-3 shrink-0">
-                  {i + 1}
-                </span>
-                {/* 썸네일 */}
-                <div className="w-8 h-8 rounded overflow-hidden bg-gray-100 border border-gray-100 shrink-0">
-                  {p.thumbnail ? (
-                    <img
-                      src={p.thumbnail}
-                      alt=""
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-[7px] text-gray-400">{p.brand?.substring(0, 2) || '?'}</span>
+          {/* 핵심 필터 정보 (상단) */}
+          {filters.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-2"
+            >
+              <div className="flex items-center gap-1.5">
+                <FcDataConfiguration size={14} className="grayscale opacity-70" />
+                <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
+                  핵심 스펙 필터 ({filterCount}개)
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {filters.slice(0, 8).map((filter: { title: string; options: string[]; optionCount: number }, i: number) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.03 }}
+                    className="group relative"
+                  >
+                    <span className="px-2 py-1 bg-purple-50 border border-purple-100/50 rounded-lg text-[11px] font-semibold text-purple-700 cursor-default">
+                      {filter.title}
+                      <span className="text-purple-400 ml-1">({filter.optionCount})</span>
+                    </span>
+                    {/* 호버 시 옵션 표시 */}
+                    <div className="absolute bottom-full left-0 mb-1 hidden group-hover:block z-10">
+                      <div className="bg-gray-900 text-white text-[10px] rounded-lg px-2 py-1.5 whitespace-nowrap shadow-lg">
+                        {filter.options.slice(0, 4).join(', ')}
+                        {filter.optionCount > 4 && ` 외 ${filter.optionCount - 4}개`}
+                      </div>
                     </div>
-                  )}
-                </div>
-                {/* 상품 정보 */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] text-gray-700 font-medium truncate leading-tight">
-                    {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
-                  </p>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    {p.brand && (
-                      <span className="text-[9px] text-gray-400">{p.brand}</span>
-                    )}
-                    {p.price && (
-                      <span className="text-[9px] text-blue-600 font-bold">
-                        {p.price.toLocaleString()}원
-                      </span>
+                  </motion.div>
+                ))}
+                {filters.length > 8 && (
+                  <span className="px-2 py-1 text-[11px] text-gray-400">
+                    +{filters.length - 8}개 더
+                  </span>
+                )}
+              </div>
+            </motion.div>
+          )}
+
+          {/* 상품 리스트 */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5">
+              <FcBullish size={14} className="grayscale opacity-70" />
+              <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
+                수집된 상품 ({count}개)
+              </p>
+            </div>
+
+            {/* 상품 리스트 - 최대 8개 */}
+            <div className="space-y-1 max-h-48 overflow-y-auto">
+              {products.slice(0, 8).map((p, i) => (
+                <motion.div
+                  key={p.pcode || i}
+                  initial={{ opacity: 0, x: -5 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.03 }}
+                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  {/* 순번 */}
+                  <span className="text-[11px] text-gray-400 font-medium w-4 shrink-0">
+                    {i + 1}
+                  </span>
+                  {/* 썸네일 */}
+                  <div className="w-8 h-8 rounded overflow-hidden bg-gray-100 border border-gray-100 shrink-0">
+                    {p.thumbnail ? (
+                      <img
+                        src={p.thumbnail}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-[7px] text-gray-400">{p.brand?.substring(0, 2) || '?'}</span>
+                      </div>
                     )}
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  {/* 상품 정보 */}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[12px] text-gray-700 font-medium truncate leading-tight">
+                      {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
+                    </p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      {p.brand && (
+                        <span className="text-[11px] text-gray-400">{p.brand}</span>
+                      )}
+                      {p.price && (
+                        <span className="text-[11px] text-blue-600 font-bold">
+                          {p.price.toLocaleString()}원
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-          {/* 더 보기 */}
-          {products.length > 8 && (
-            <p className="text-[9px] text-gray-400 text-center">
-              +{products.length - 8}개 더 분석됨
-            </p>
-          )}
+            {/* 더 보기 */}
+            {products.length > 8 && (
+              <p className="text-[11px] text-gray-400 text-center">
+                +{products.length - 8}개 더 분석됨
+              </p>
+            )}
+          </div>
 
           {/* 인기 브랜드 */}
           {step.analyzedItems && step.analyzedItems.length > 0 && (
             <div className="flex items-center gap-1 pt-1 border-t border-gray-100">
-              <span className="text-[9px] text-gray-400">인기:</span>
+              <span className="text-[11px] text-gray-400">인기:</span>
               {step.analyzedItems.slice(0, 4).map((brand, i) => (
-                <span key={i} className="text-[9px] px-1.5 py-0.5 bg-blue-50 rounded text-blue-600">
+                <span key={i} className="text-[11px] px-1.5 py-0.5 bg-blue-50 rounded text-blue-600">
                   {brand}
                 </span>
               ))}
@@ -404,7 +454,7 @@ function WebSearchContent({ step }: { step: AnalysisStep }) {
                   className="flex items-center gap-2 text-[12px]"
                 >
                   <FcSearch size={12} className="shrink-0 grayscale opacity-70" />
-                  <span className="text-gray-500 font-medium">"{query}" 검색 중...</span>
+                  <span className="text-gray-500 font-medium">"{query.length > 25 ? query.substring(0, 25) + '...' : query}" 검색 중...</span>
                 </motion.div>
               ))}
             </div>
@@ -436,11 +486,11 @@ function WebSearchContent({ step }: { step: AnalysisStep }) {
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-1.5">
                     <FcBullish size={14} className="grayscale opacity-70" />
-                    <p className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">
+                    <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
                       트렌드 요약
                     </p>
                   </div>
-                  <p className="text-[11px] text-gray-700 leading-relaxed whitespace-pre-line pl-1">
+                  <p className="text-[13px] text-gray-700 leading-relaxed whitespace-pre-line pl-1">
                     {thinking}
                   </p>
                 </div>
@@ -451,7 +501,7 @@ function WebSearchContent({ step }: { step: AnalysisStep }) {
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-1.5">
                     <FcSearch size={14} className="grayscale opacity-70" />
-                    <p className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">
+                    <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
                       참고 자료 ({sources.length})
                     </p>
                   </div>
@@ -462,10 +512,10 @@ function WebSearchContent({ step }: { step: AnalysisStep }) {
                         href={source.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-gray-50 text-gray-600 text-[10px] hover:bg-gray-100 transition-colors"
+                        className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-gray-50 text-gray-600 text-[11px] hover:bg-gray-100 transition-colors"
                       >
                         <Favicon url={source.url} title={source.title} />
-                        <span className="truncate max-w-20">
+                        <span className="truncate max-w-24">
                           {(() => {
                             try {
                               const hostname = new URL(source.url).hostname.replace('www.', '');
@@ -494,7 +544,7 @@ function WebSearchContent({ step }: { step: AnalysisStep }) {
                   {queries.slice(0, 2).map((query, i) => (
                     <div key={i} className="flex items-center gap-2 text-[11px]">
                       <FcSearch size={11} className="shrink-0 grayscale opacity-70" />
-                      <span className="text-gray-500">"{query}"</span>
+                      <span className="text-gray-500">"{query.length > 25 ? query.substring(0, 25) + '...' : query}"</span>
                     </div>
                   ))}
                 </div>
@@ -505,7 +555,7 @@ function WebSearchContent({ step }: { step: AnalysisStep }) {
                 <div className="space-y-2">
                   <div className="flex items-center gap-1.5">
                     <FcSearch size={14} className="grayscale opacity-70" />
-                    <p className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">
+                    <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
                       수집 중... ({sources.length})
                     </p>
                   </div>
@@ -523,10 +573,10 @@ function WebSearchContent({ step }: { step: AnalysisStep }) {
                       >
                         <Favicon url={sources[activeSourceIndex].url} title={sources[activeSourceIndex].title} />
                         <div className="flex-1 min-w-0">
-                          <p className="text-[11px] font-medium text-gray-700 line-clamp-1">
+                          <p className="text-[12px] font-medium text-gray-700 line-clamp-1">
                             {sources[activeSourceIndex].title || sources[activeSourceIndex].url}
                           </p>
-                          <p className="text-[9px] text-gray-400 line-clamp-1">
+                          <p className="text-[11px] text-gray-400 line-clamp-1">
                             {(() => {
                               try {
                                 const hostname = new URL(sources[activeSourceIndex].url).hostname;
@@ -605,7 +655,7 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
           {count > 0 && (
             <div className="flex items-center gap-1.5">
               <FcMindMap size={14} className="grayscale opacity-70" />
-              <p className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">
+              <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
                 리뷰 {count.toLocaleString()}개 분석
               </p>
             </div>
@@ -620,7 +670,7 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.05 }}
-                  className={`px-2.5 py-1 rounded-[6px] text-[10px] font-semibold ${
+                  className={`px-2.5 py-1 rounded-[6px] text-[12px] font-semibold ${
                     i < 3
                       ? 'bg-green-50 text-green-800 border border-green-200/50'
                       : i < 5
@@ -637,7 +687,7 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
           {/* 분석 결과 */}
           {thinking && (
             <div className="bg-gray-50 rounded-lg p-2 mt-2">
-              <p className="text-[10px] text-gray-600 leading-relaxed">
+              <p className="text-[12px] text-gray-600 leading-relaxed">
                 {thinking}
               </p>
             </div>
@@ -691,7 +741,7 @@ function QuestionGenerationContent({
         >
           <div className="flex items-center gap-1.5">
             <FcElectricity size={14} className="grayscale opacity-70" />
-            <p className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">
+            <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
               생성된 질문 ({questions.length}개)
             </p>
           </div>
@@ -711,7 +761,7 @@ function QuestionGenerationContent({
                 ) : (
                   <Circle size={14} className="text-gray-300 mt-0.5 shrink-0" />
                 )}
-                <span className="text-[11px] text-gray-700 leading-relaxed">
+                <span className="text-[13px] text-gray-700 leading-relaxed">
                   {q.question}
                 </span>
               </motion.div>
@@ -719,7 +769,7 @@ function QuestionGenerationContent({
             {questions.length > 5 && (
               <div className="flex items-center gap-2 pt-1 border-t border-gray-200 mt-2">
                 <Circle size={14} className="text-gray-300 shrink-0" />
-                <span className="text-[10px] text-gray-400">
+                <span className="text-[11px] text-gray-400">
                   +{questions.length - 5}개 더
                 </span>
               </div>
@@ -728,7 +778,7 @@ function QuestionGenerationContent({
 
           {/* 분석 결과 메시지 */}
           {step.thinking && (
-            <p className="text-[10px] text-gray-500 italic">
+            <p className="text-[12px] text-gray-500 italic">
               {step.thinking}
             </p>
           )}
@@ -747,12 +797,14 @@ function StepCard({
   onToggle,
   crawledProducts,
   generatedQuestions,
+  onRefChange,
 }: {
   step: AnalysisStep;
   isExpanded: boolean;
   onToggle: () => void;
   crawledProducts?: AgenticLoadingPhaseProps['crawledProducts'];
   generatedQuestions?: GeneratedQuestion[];
+  onRefChange?: (el: HTMLDivElement | null) => void;
 }) {
   const duration = step.endTime && step.startTime
     ? ((step.endTime - step.startTime) / 1000).toFixed(1)
@@ -787,15 +839,16 @@ function StepCard({
 
   return (
     <motion.div
+      ref={onRefChange}
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       className={`group transition-all duration-300 rounded-2xl overflow-hidden ${
         step.status === 'active'
-          ? 'bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-blue-100'
+          ? 'bg-white border border-blue-100'
           : step.status === 'done'
-          ? 'bg-white border border-gray-100/80 shadow-sm'
+          ? 'bg-white border border-gray-100/80'
           : 'bg-gray-50/50 border border-transparent'
       }`}
     >
@@ -892,6 +945,26 @@ export function AgenticLoadingPhase({
   summary,
 }: AgenticLoadingPhaseProps) {
   const [expandedStepIds, setExpandedStepIds] = useState<Set<string>>(new Set());
+  const [lastActiveStepId, setLastActiveStepId] = useState<string | null>(null);
+
+  // 각 step에 대한 refs
+  const stepRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
+
+  // 특정 step으로 스크롤하는 함수
+  const scrollToStep = useCallback((stepId: string) => {
+    const element = stepRefs.current.get(stepId);
+    if (element) {
+      // 헤더 높이(64px)를 고려하여 스크롤
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  }, []);
 
   // 디버그 로그
   console.log('[AgenticLoadingPhase] crawledProducts:', crawledProducts?.length);
@@ -901,11 +974,13 @@ export function AgenticLoadingPhase({
   useEffect(() => {
     const stepOrder = ['product_analysis', 'web_search', 'review_extraction', 'question_generation'];
     const newExpandedIds: string[] = [];
+    let currentActiveStepId: string | null = null;
 
     steps.forEach((step) => {
       // active 상태인 step 확장
       if (step.status === 'active') {
         newExpandedIds.push(step.id);
+        currentActiveStepId = step.id;
       }
 
       // done 상태가 되면, 다음 순서의 step이 있으면 그것도 확장
@@ -931,7 +1006,16 @@ export function AgenticLoadingPhase({
         return next;
       });
     }
-  }, [steps]);
+
+    // active step이 변경되면 스크롤
+    if (currentActiveStepId && currentActiveStepId !== lastActiveStepId) {
+      setLastActiveStepId(currentActiveStepId);
+      // 약간의 딜레이 후 스크롤 (DOM 업데이트 대기)
+      setTimeout(() => {
+        scrollToStep(currentActiveStepId!);
+      }, 100);
+    }
+  }, [steps, lastActiveStepId, scrollToStep]);
 
   // 진행률 계산
   const progress = useMemo(() => {
@@ -954,8 +1038,8 @@ export function AgenticLoadingPhase({
               {categoryName}
             </h3>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-              <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">
+              <span className={`w-1.5 h-1.5 bg-green-500 rounded-full ${!isComplete ? 'animate-pulse' : ''}`} />
+              <p className="text-[12px] font-medium text-gray-400 uppercase tracking-wider">
                 실시간 분석 • {new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })} {new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}분
               </p>
             </div>
@@ -982,6 +1066,7 @@ export function AgenticLoadingPhase({
               })}
               crawledProducts={step.id === 'product_analysis' ? crawledProducts : undefined}
               generatedQuestions={step.id === 'question_generation' ? generatedQuestions : undefined}
+              onRefChange={(el) => stepRefs.current.set(step.id, el)}
             />
           ))}
         </AnimatePresence>

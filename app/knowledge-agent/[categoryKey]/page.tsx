@@ -44,76 +44,109 @@ function SearchingIndicator({ queries }: { queries: string[] }) {
     if (queries.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % queries.length);
-    }, 1500);
+    }, 2000);
     return () => clearInterval(interval);
   }, [queries]);
 
-  if (queries.length === 0) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex justify-start items-center gap-3 px-1"
-      >
-        <div className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          >
-            <FcDataConfiguration size={16} />
-          </motion.div>
-        </div>
-        <div className="bg-white border border-gray-100 rounded-2xl px-4 py-2.5 shadow-sm">
-          <span className="text-[13px] text-gray-400 font-bold tracking-tight">AI Thinking...</span>
-        </div>
-      </motion.div>
-    );
-  }
+  const currentQuery = queries.length > 0 ? queries[currentIndex] : null;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-3"
+      exit={{ opacity: 0, y: -10 }}
+      className="flex items-center gap-3 py-3 px-1"
     >
-      <div className="bg-gray-900 rounded-[24px] p-5 shadow-xl border border-white/10 relative overflow-hidden">
-        {/* 그라데이션 오버레이 */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[60px] rounded-full" />
-        
-        <div className="flex items-center gap-3 mb-4 relative z-10">
-          <div className="flex items-center justify-center w-6 h-6 rounded-full bg-green-400/20">
-             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          </div>
-          <span className="text-[11px] text-gray-400 font-black uppercase tracking-widest">Global Database Search</span>
-        </div>
-
-        <AnimatePresence mode="wait">
+      <div className="flex gap-1">
+        {[0, 1, 2].map(i => (
           <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 15 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -15 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="flex items-center gap-3 relative z-10"
-          >
-            <FcSearch size={22} />
-            <p className="text-[15px] text-white font-bold leading-tight">
-              {queries[currentIndex]}
-            </p>
-          </motion.div>
-        </AnimatePresence>
+            key={i}
+            animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1, 0.8] }}
+            transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
+            className="w-1.5 h-1.5 rounded-full bg-blue-500"
+          />
+        ))}
       </div>
-
-      <div className="flex items-center gap-3 pl-2">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="shrink-0"
+      <AnimatePresence mode="wait">
+        <motion.p
+          key={currentQuery || 'thinking'}
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -5 }}
+          transition={{ duration: 0.2 }}
+          className="text-[14px] text-gray-500 font-medium"
         >
-          <FcDataConfiguration size={14} />
-        </motion.div>
-        <span className="text-[12px] font-black text-gray-400 uppercase tracking-tighter">Analyzing real-time results...</span>
-      </div>
+          {currentQuery ? (
+            <>
+              <span className="text-gray-400">&quot;</span>
+              <motion.span
+                animate={{ backgroundPosition: ["-100% 0", "100% 0"] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="bg-gradient-to-r from-gray-600 via-gray-400 to-gray-600 bg-[length:200%_auto] bg-clip-text text-transparent font-semibold"
+              >
+                {currentQuery.length > 25 ? currentQuery.substring(0, 25) + '...' : currentQuery}
+              </motion.span>
+              <span className="text-gray-400">&quot;</span>
+              <span className="text-gray-400 ml-1">검색 중...</span>
+            </>
+          ) : (
+            <motion.span
+              animate={{ backgroundPosition: ["-100% 0", "100% 0"] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 bg-[length:200%_auto] bg-clip-text text-transparent"
+            >
+              답변 분석 중...
+            </motion.span>
+          )}
+        </motion.p>
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+// ============================================================================
+// Search Context Toggle Component (웹서치 결과 토글)
+// ============================================================================
+
+function SearchContextToggle({ searchContext }: { searchContext: { query: string; insight: string } }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="mb-3"
+    >
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="flex items-center gap-2 text-[12px] text-gray-400 hover:text-gray-600 transition-colors py-1.5 px-2 -ml-2 rounded-lg hover:bg-gray-50"
+      >
+        <FcSearch size={14} />
+        <span className="font-medium text-gray-500">
+          &quot;{searchContext.query.length > 25 ? searchContext.query.substring(0, 25) + '...' : searchContext.query}&quot;
+        </span>
+        <span className="text-gray-300">|</span>
+        <span className="text-gray-400">웹 검색</span>
+        {isExpanded ? <CaretUp size={12} weight="bold" /> : <CaretDown size={12} weight="bold" />}
+      </button>
+
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="mt-2 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+              <p className="text-[13px] text-gray-700 leading-relaxed font-medium">
+                {searchContext.insight}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -241,21 +274,16 @@ function OptionButton({
       disabled={disabled}
       className={`w-full py-4 px-5 rounded-[20px] border text-left transition-all flex items-center justify-between group ${
         isSelected
-          ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-100'
+          ? 'bg-blue-50 border-blue-100'
           : 'bg-white border-gray-100 text-gray-700 hover:border-blue-200 hover:bg-blue-50/30'
       } ${disabled && !isSelected ? 'opacity-50 cursor-default' : ''}`}
     >
       <div className="flex flex-col gap-0.5">
-        <span className={`text-[15px] font-medium ${isSelected ? 'text-white' : 'text-gray-800'}`}>{label}</span>
+        <span className={`text-[15px] font-medium ${isSelected ? 'text-blue-500' : 'text-gray-800'}`}>{label}</span>
         {description && (
-          <span className={`text-[12px] font-medium ${isSelected ? 'text-blue-100' : 'text-gray-400'}`}>{description}</span>
+          <span className={`text-[12px] font-medium ${isSelected ? 'text-blue-400' : 'text-gray-400'}`}>{description}</span>
         )}
       </div>
-      {isSelected && (
-        <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center">
-          <FcCheckmark size={12} />
-        </div>
-      )}
     </motion.button>
   );
 }
@@ -289,10 +317,10 @@ function ReportToggle({
       {crawledProducts && crawledProducts.length > 0 && (
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-xs font-semibold text-gray-500">
+            <h4 className="text-[12px] font-semibold text-gray-500">
               📦 분석 완료된 상품
             </h4>
-            <span className="text-[10px] text-gray-400">
+            <span className="text-[11px] text-gray-400">
               {crawledProducts.length}개
             </span>
           </div>
@@ -313,15 +341,15 @@ function ReportToggle({
                   />
                 ) : (
                   <div className="w-full aspect-square rounded-lg bg-gray-100 flex items-center justify-center">
-                    <span className="text-[8px] text-gray-400">N/A</span>
+                    <span className="text-[10px] text-gray-400">N/A</span>
                   </div>
                 )}
-                <p className="text-[9px] text-gray-500 mt-1 truncate">{product.brand || ''}</p>
+                <p className="text-[11px] text-gray-500 mt-1 truncate">{product.brand || ''}</p>
               </motion.div>
             ))}
           </div>
           {crawledProducts.length > 10 && (
-            <p className="text-[10px] text-gray-400 text-center mt-2">
+            <p className="text-[11px] text-gray-400 text-center mt-2">
               +{crawledProducts.length - 10}개 더 분석됨
             </p>
           )}
@@ -357,12 +385,12 @@ function ReportToggle({
               {/* 인기 브랜드 */}
               {marketSummary.topBrands && marketSummary.topBrands.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">🏷️ 인기 브랜드</h4>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">🏷️ 인기 브랜드</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {marketSummary.topBrands.slice(0, 5).map((brand, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-white border border-gray-200 rounded-md text-xs text-gray-700"
+                        className="px-2 py-1 bg-white border border-gray-200 rounded-md text-[12px] text-gray-700"
                       >
                         {brand}
                       </span>
@@ -374,12 +402,12 @@ function ReportToggle({
               {/* 주요 장점 */}
               {marketSummary.topPros && marketSummary.topPros.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">👍 자주 언급되는 장점</h4>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">👍 자주 언급되는 장점</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {marketSummary.topPros.slice(0, 4).map((item, i) => (
                       <span
                         key={i}
-                        className="px-2.5 py-1 bg-green-50 border border-green-200/50 rounded-[6px] text-[11px] font-semibold text-green-800"
+                        className="px-2.5 py-1 bg-green-50 border border-green-200/50 rounded-[6px] text-[12px] font-semibold text-green-800"
                       >
                         {item.keyword}
                       </span>
@@ -391,12 +419,12 @@ function ReportToggle({
               {/* 주요 단점 */}
               {marketSummary.topCons && marketSummary.topCons.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">👎 자주 언급되는 단점</h4>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">👎 자주 언급되는 단점</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {marketSummary.topCons.slice(0, 4).map((item, i) => (
                       <span
                         key={i}
-                        className="px-2.5 py-1 bg-rose-50 border border-rose-200/50 rounded-[6px] text-[11px] font-semibold text-rose-700"
+                        className="px-2.5 py-1 bg-rose-50 border border-rose-200/50 rounded-[6px] text-[12px] font-semibold text-rose-700"
                       >
                         {item.keyword}
                       </span>
@@ -408,18 +436,18 @@ function ReportToggle({
               {/* 트렌드 요약 */}
               {trendAnalysis && trendAnalysis.top10Summary && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">📊 시장 현황</h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">{trendAnalysis.top10Summary}</p>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">📊 시장 현황</h4>
+                  <p className="text-[12px] text-gray-600 leading-relaxed">{trendAnalysis.top10Summary}</p>
                 </div>
               )}
 
               {/* 최근 트렌드 */}
               {trendAnalysis && trendAnalysis.trends && trendAnalysis.trends.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">🔥 최근 트렌드</h4>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">🔥 최근 트렌드</h4>
                   <ul className="space-y-1.5">
                     {trendAnalysis.trends.slice(0, 3).map((trend: string, i: number) => (
-                      <li key={i} className="text-xs text-gray-600 leading-relaxed flex items-start gap-1.5">
+                      <li key={i} className="text-[12px] text-gray-600 leading-relaxed flex items-start gap-1.5">
                         <span className="text-orange-400 mt-0.5">•</span>
                         {trend}
                       </li>
@@ -431,10 +459,10 @@ function ReportToggle({
               {/* 장점 */}
               {trendAnalysis && trendAnalysis.pros && trendAnalysis.pros.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">👍 구매자들이 좋아하는 점</h4>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">👍 구매자들이 좋아하는 점</h4>
                   <ul className="space-y-1">
                     {trendAnalysis.pros.slice(0, 3).map((pro: string, i: number) => (
-                      <li key={i} className="text-xs text-green-700 leading-relaxed flex items-start gap-1.5">
+                      <li key={i} className="text-[12px] text-green-700 leading-relaxed flex items-start gap-1.5">
                         <span className="mt-0.5">✓</span>
                         {pro}
                       </li>
@@ -446,10 +474,10 @@ function ReportToggle({
               {/* 단점/주의점 */}
               {trendAnalysis && trendAnalysis.cons && trendAnalysis.cons.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">⚠️ 주의해야 할 점</h4>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">⚠️ 주의해야 할 점</h4>
                   <ul className="space-y-1">
                     {trendAnalysis.cons.slice(0, 3).map((con: string, i: number) => (
-                      <li key={i} className="text-xs text-red-600 leading-relaxed flex items-start gap-1.5">
+                      <li key={i} className="text-[12px] text-red-600 leading-relaxed flex items-start gap-1.5">
                         <span className="mt-0.5">!</span>
                         {con}
                       </li>
@@ -461,20 +489,20 @@ function ReportToggle({
               {/* 가격 인사이트 */}
               {trendAnalysis && trendAnalysis.priceInsight && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">💰 가격 정보</h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">{trendAnalysis.priceInsight}</p>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">💰 가격 정보</h4>
+                  <p className="text-[12px] text-gray-600 leading-relaxed">{trendAnalysis.priceInsight}</p>
                 </div>
               )}
 
               {/* 검색 키워드 */}
               {trendAnalysis && trendAnalysis.searchQueries && trendAnalysis.searchQueries.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">🔍 분석에 사용된 검색어</h4>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">🔍 분석에 사용된 검색어</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {trendAnalysis.searchQueries.map((query: string, i: number) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-blue-50 border border-blue-100 rounded-md text-[11px] text-blue-700"
+                        className="px-2 py-1 bg-blue-50 border border-blue-100 rounded-md text-[12px] text-blue-700"
                       >
                         {query}
                       </span>
@@ -486,7 +514,7 @@ function ReportToggle({
               {/* 참고 출처 */}
               {trendAnalysis && trendAnalysis.sources && trendAnalysis.sources.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-gray-500 mb-2">📎 참고 출처</h4>
+                  <h4 className="text-[12px] font-semibold text-gray-500 mb-2">📎 참고 출처</h4>
                   <ul className="space-y-2">
                     {trendAnalysis.sources.map((source: { title: string; url: string; snippet?: string }, i: number) => (
                       <li key={i} className="bg-white border border-gray-100 rounded-lg p-2">
@@ -494,14 +522,14 @@ function ReportToggle({
                           href={source.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs font-medium text-blue-600 hover:underline line-clamp-1"
+                          className="text-[12px] font-medium text-blue-600 hover:underline line-clamp-1"
                         >
                           {source.title}
                         </a>
                         {source.snippet && (
-                          <p className="text-[10px] text-gray-500 mt-0.5 line-clamp-2">{source.snippet}</p>
+                          <p className="text-[11px] text-gray-500 mt-0.5 line-clamp-2">{source.snippet}</p>
                         )}
-                        <p className="text-[9px] text-gray-400 mt-0.5 truncate">{source.url}</p>
+                        <p className="text-[10px] text-gray-400 mt-0.5 truncate">{source.url}</p>
                       </li>
                     ))}
                   </ul>
@@ -512,10 +540,10 @@ function ReportToggle({
               {crawledProducts && crawledProducts.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-xs font-semibold text-gray-500">
+                    <h4 className="text-[12px] font-semibold text-gray-500">
                       📦 분석 중인 상품
                     </h4>
-                    <span className="text-[10px] text-purple-600 font-medium">
+                    <span className="text-[11px] text-purple-600 font-medium">
                       {crawledProducts.length}개
                     </span>
                   </div>
@@ -536,15 +564,15 @@ function ReportToggle({
                           />
                         ) : (
                           <div className="w-full aspect-square rounded-lg bg-gray-200 flex items-center justify-center">
-                            <span className="text-[8px] text-gray-400">N/A</span>
+                            <span className="text-[10px] text-gray-400">N/A</span>
                           </div>
                         )}
-                        <p className="text-[9px] text-gray-500 mt-1 truncate">{product.brand || ''}</p>
+                        <p className="text-[11px] text-gray-500 mt-1 truncate">{product.brand || ''}</p>
                       </motion.div>
                     ))}
                   </div>
                   {crawledProducts.length > 10 && (
-                    <p className="text-[10px] text-gray-400 text-center mt-2">
+                    <p className="text-[11px] text-gray-400 text-center mt-2">
                       +{crawledProducts.length - 10}개 더 분석 중...
                     </p>
                   )}
@@ -599,6 +627,10 @@ export default function KnowledgeAgentPage() {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [crawledProducts, setCrawledProducts] = useState<CrawledProductPreview[]>([]);
 
+  // 애니메이션 및 입력 제어용
+  const [barAnimationKey, setBarAnimationKey] = useState(0);
+  const [isHighlighting, setIsHighlighting] = useState(false);
+
   // ============================================================================
   // Initialize
   // ============================================================================
@@ -612,6 +644,21 @@ export default function KnowledgeAgentPage() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // 입력창 높이 자동 조절 및 하이라이트 리셋
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.height = `${Math.max(56, Math.min(inputRef.current.scrollHeight, 160))}px`;
+    }
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (isHighlighting) {
+      const timer = setTimeout(() => setIsHighlighting(false), 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [isHighlighting]);
 
   // 내비게이션 가능 여부 업데이트
   useEffect(() => {
@@ -666,14 +713,22 @@ export default function KnowledgeAgentPage() {
     };
     setMessages([analysisMsg]);
 
+    // 인기상품 분석만 먼저 시작 (순차적 진행)
     const parallelStartTime = Date.now();
     localSteps = localSteps.map(s => {
-      if (s.id === 'product_analysis' || s.id === 'web_search') {
+      if (s.id === 'product_analysis') {
         return {
           ...s,
           status: 'active' as const,
           startTime: parallelStartTime,
-          searchQueries: s.id === 'web_search' ? initialQueries : undefined,
+        };
+      }
+      // web_search는 pending 상태로 대기
+      if (s.id === 'web_search') {
+        return {
+          ...s,
+          status: 'pending' as const,
+          searchQueries: initialQueries,
         };
       }
       return s;
@@ -722,11 +777,37 @@ export default function KnowledgeAgentPage() {
                     } : m));
                   }
                   if (data.isComplete) {
+                    // 인기상품 분석 완료 (웹검색 토글은 filters 수신 후 열림)
                     updateStepAndMessage('product_analysis', {
                       status: 'done',
                       endTime: Date.now(),
                       analyzedCount: localProducts.length,
                       thinking: `${localProducts.length}개 상품 분석 완료`,
+                    });
+                  }
+                  break;
+                case 'filters':
+                  // 필터 정보 수신 - product_analysis step에 저장
+                  if (data.filters && data.filters.length > 0) {
+                    localSteps = localSteps.map(s => s.id === 'product_analysis' ? {
+                      ...s,
+                      result: {
+                        ...s.result,
+                        filters: data.filters,
+                        filterCount: data.totalCount,
+                      },
+                    } : s);
+                    setAnalysisSteps([...localSteps]);
+                    setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
+                      ...m,
+                      analysisData: { steps: [...localSteps], crawledProducts: localProducts, isComplete: false }
+                    } : m));
+
+                    // 필터 수신 완료 → 웹검색 토글 열기 (순차적 진행)
+                    updateStepAndMessage('web_search', {
+                      status: 'active',
+                      startTime: Date.now(),
+                      searchQueries: initialQueries,
                     });
                   }
                   break;
@@ -821,136 +902,71 @@ export default function KnowledgeAgentPage() {
   // ============================================================================
 
   const handleOptionToggle = (option: string, messageId: string) => {
-    setMessages(prev => prev.map(m => {
-      if (m.id === messageId) {
-        const currentSelected = m.selectedOptions || [];
-        const isSelected = currentSelected.includes(option);
-        return {
-          ...m,
-          selectedOptions: isSelected 
+    setMessages(prev => {
+      const newMessages = prev.map(m => {
+        if (m.id === messageId) {
+          const currentSelected = m.selectedOptions || [];
+          const isSelected = currentSelected.includes(option);
+          const updatedSelected = isSelected 
             ? currentSelected.filter(o => o !== option)
-            : [...currentSelected, option]
-        };
-      }
-      return m;
-    }));
-  };
-
-  const handleNextStep = async () => {
-    if (isTyping) return;
-
-    // 현재 활성화된 질문 찾기
-    const activeMsg = [...messages].reverse().find(m => m.role === 'assistant' && m.options && !m.isFinalized);
-    if (!activeMsg || !activeMsg.selectedOptions || activeMsg.selectedOptions.length === 0) return;
-
-    const selectionsStr = activeMsg.selectedOptions.join(', ');
-
-    // 메시지 확정
-    setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
-
-    // 사용자 응답 메시지 추가 (시각적 흐름용)
-    const userMsg: ChatMessage = {
-      id: `u_${Date.now()}`,
-      role: 'user',
-      content: selectionsStr,
-      timestamp: Date.now()
-    };
-    setMessages(prev => [...prev, userMsg]);
-    setIsTyping(true);
-
-    try {
-      const res = await fetch('/api/knowledge-agent/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          categoryKey,
-          userMessage: selectionsStr,
-          questionTodos,
-          collectedInfo,
-          currentQuestionId: currentQuestion?.id,
-          phase
-        })
+            : [...currentSelected, option];
+          return {
+            ...m,
+            selectedOptions: updatedSelected
+          };
+        }
+        return m;
       });
-      const data = await res.json();
 
-      if (data.success) {
-        if (data.questionTodos) setQuestionTodos(data.questionTodos);
-        if (data.collectedInfo) setCollectedInfo(data.collectedInfo);
-        if (data.progress) setProgress(data.progress);
-        if (data.currentQuestion) setCurrentQuestion(data.currentQuestion);
-
-        if (data.phase === 'negative_filter') {
-          setPhase('negative_filter');
-          setMessages(prev => [...prev, {
-            id: `a_negative_${Date.now()}`,
-            role: 'assistant',
-            content: data.content || '꼭 피하고 싶은 단점이 있으신가요?',
-            negativeFilterOptions: data.negativeOptions || [],
-            typing: true,
-            timestamp: Date.now()
-          }]);
-        } else if (data.phase === 'balance') {
-          setPhase('balance');
-          setBalanceQuestions(data.balanceQuestions || []);
-          setMessages(prev => [...prev, {
-            id: `a_balance_${Date.now()}`,
-            role: 'assistant',
-            content: data.content || '취향에 맞는 제품을 찾기 위해 몇 가지 선택을 해주세요.',
-            typing: true,
-            timestamp: Date.now()
-          }]);
-        } else if (data.phase === 'result') {
-          setPhase('result');
-          setMessages(prev => [...prev, {
-            id: `a_result_${Date.now()}`,
-            role: 'assistant',
-            content: data.content,
-            resultProducts: data.products || [],
-            typing: true,
-            timestamp: Date.now()
-          }]);
-        } else {
-          setMessages(prev => [...prev, {
-            id: `a_${Date.now()}`,
-            role: 'assistant',
-            content: data.content,
-            options: data.options,
-            dataSource: data.dataSource,
-            tip: data.tip,
-            searchContext: data.searchContext || null,
-            typing: true,
-            timestamp: Date.now()
-          }]);
+      // 현재 수정된 메시지의 선택 옵션들로 입력창 업데이트
+      const activeMsg = newMessages.find(m => m.id === messageId);
+      if (activeMsg && activeMsg.selectedOptions) {
+        const text = activeMsg.selectedOptions.join(', ');
+        setInputValue(text);
+        if (text) {
+          setBarAnimationKey(prev => prev + 1);
+          setIsHighlighting(true);
         }
       }
-    } catch (e) {
-    } finally {
-      setIsTyping(false);
-    }
+
+      return newMessages;
+    });
   };
 
   const handlePrevStep = () => {
-    // 마지막 어시스턴트 질문과 그 이후 메시지들을 제거하고
-    // 그 전 질문을 활성화 상태(isFinalized: false)로 되돌림
     setMessages(prev => {
       const newMessages = [...prev];
-      // 마지막 어시스턴트 질문 메시지 인덱스 찾기
       const lastQuestionIdx = [...newMessages].reverse().findIndex(m => m.role === 'assistant' && m.options);
       if (lastQuestionIdx === -1) return prev;
 
       const actualIdx = newMessages.length - 1 - lastQuestionIdx;
-      // 현재 질문 및 그 이후 메시지 제거
-      const trimmed = newMessages.slice(0, actualIdx);
       
-      // 그 전 어시스턴트 질문 찾아서 isFinalized 해제
+      // 현재 질문(assistant)과 그 바로 앞의 사용자 답변(user)을 모두 제거
+      let cutIndex = actualIdx;
+      if (actualIdx > 0 && newMessages[actualIdx - 1].role === 'user') {
+        cutIndex = actualIdx - 1;
+      }
+      
+      const trimmed = newMessages.slice(0, cutIndex);
+      
+      // 이전 질문을 찾아 활성화 상태로 되돌림
       const prevQuestionIdx = [...trimmed].reverse().findIndex(m => m.role === 'assistant' && m.options);
       if (prevQuestionIdx !== -1) {
         const actualPrevIdx = trimmed.length - 1 - prevQuestionIdx;
-        trimmed[actualPrevIdx] = { ...trimmed[actualPrevIdx], isFinalized: false };
+        trimmed[actualPrevIdx] = { 
+          ...trimmed[actualPrevIdx], 
+          isFinalized: false,
+          selectedOptions: [] // 선택했던 옵션도 초기화
+        };
       }
       
       return trimmed;
     });
+
+    // 메시지 삭제 후 약간의 지연을 주어 스크롤이 자연스럽게 위로 올라가도록 함
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 100);
   };
 
   const handleBalanceComplete = async (selections: Map<string, 'A' | 'B'>) => {
@@ -1018,6 +1034,13 @@ export default function KnowledgeAgentPage() {
 
   const handleFreeChat = async (message: string) => {
     if (!message.trim() || isTyping) return;
+
+    // 현재 활성화된 질문 찾기 및 확정 처리
+    const activeMsg = [...messages].reverse().find(m => m.role === 'assistant' && m.options && !m.isFinalized);
+    if (activeMsg) {
+      setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
+    }
+
     setMessages(prev => [...prev, { id: `u_${Date.now()}`, role: 'user', content: message, timestamp: Date.now() }]);
     setInputValue('');
     setIsTyping(true);
@@ -1026,11 +1049,67 @@ export default function KnowledgeAgentPage() {
       const res = await fetch('/api/knowledge-agent/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ categoryKey, userMessage: message, conversationHistory: messages.map(m => ({ role: m.role, content: m.content })), phase: phase === 'result' ? 'free_chat' : phase })
+        body: JSON.stringify({ 
+          categoryKey, 
+          userMessage: message, 
+          conversationHistory: messages.map(m => ({ role: m.role, content: m.content })), 
+          phase: phase === 'result' ? 'free_chat' : phase, 
+          questionTodos, 
+          collectedInfo,
+          currentQuestionId: activeMsg?.id?.startsWith('q_') ? activeMsg.id.slice(2) : currentQuestion?.id
+        })
       });
       const data = await res.json();
       if (data.success) {
-        setMessages(prev => [...prev, { id: `a_${Date.now()}`, role: 'assistant', content: data.content, options: data.options, typing: true, timestamp: Date.now() }]);
+        // Update state if returned
+        if (data.questionTodos) setQuestionTodos(data.questionTodos);
+        if (data.collectedInfo) setCollectedInfo(data.collectedInfo);
+        if (data.progress) setProgress(data.progress);
+        if (data.currentQuestion) setCurrentQuestion(data.currentQuestion);
+
+        if (data.phase === 'balance') {
+          setPhase('balance');
+          setBalanceQuestions(data.balanceQuestions || []);
+          setMessages(prev => [...prev, {
+            id: `a_balance_${Date.now()}`,
+            role: 'assistant',
+            content: data.content || '취향에 맞는 제품을 찾기 위해 몇 가지 선택을 해주세요.',
+            typing: true,
+            timestamp: Date.now()
+          }]);
+        } else if (data.phase === 'negative_filter') {
+          setPhase('negative_filter');
+          setMessages(prev => [...prev, {
+            id: `a_negative_${Date.now()}`,
+            role: 'assistant',
+            content: data.content || '꼭 피하고 싶은 단점이 있으신가요?',
+            negativeFilterOptions: data.negativeOptions || [],
+            typing: true,
+            timestamp: Date.now()
+          }]);
+        } else if (data.phase === 'result') {
+          setPhase('result');
+          setMessages(prev => [...prev, {
+            id: `a_result_${Date.now()}`,
+            role: 'assistant',
+            content: data.content,
+            resultProducts: data.products || [],
+            typing: true,
+            timestamp: Date.now()
+          }]);
+        } else {
+          setMessages(prev => [...prev, {
+            id: `a_${Date.now()}`,
+            role: 'assistant',
+            content: data.content,
+            options: data.options,
+            dataSource: data.dataSource,
+            tip: data.tip,
+            searchContext: data.searchContext || null,
+            typing: true,
+            timestamp: Date.now()
+          }]);
+        }
       }
     } catch (e) {
     } finally {
@@ -1071,52 +1150,45 @@ export default function KnowledgeAgentPage() {
             {phase === 'balance' && balanceQuestions.length > 0 && !isTyping && (
               <InlineBalanceCarousel questions={balanceQuestions} onComplete={handleBalanceComplete} />
             )}
-            {isTyping && <SearchingIndicator queries={activeSearchQueries} />}
+            <AnimatePresence>
+              {isTyping && <SearchingIndicator queries={activeSearchQueries} />}
+            </AnimatePresence>
             <div ref={messagesEndRef} />
         </main>
 
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[110] bg-gradient-to-t from-white via-white/95 to-transparent">
-            {/* Navigation Buttons (Prev/Next) */}
-            {activeQuestion && (
-              <div className="flex gap-2 mb-4">
-                {canGoPrev && (
-                  <button
-                    onClick={handlePrevStep}
-                    className="flex-1 py-3.5 bg-gray-50 text-gray-500 rounded-2xl text-[14px] font-bold hover:bg-gray-100 transition-all flex items-center justify-center gap-1.5"
-                  >
-                    <CaretLeft size={16} weight="bold" />
-                    이전
-                  </button>
-                )}
+            {/* Navigation Buttons (Prev Only) */}
+            {activeQuestion && canGoPrev && (
+              <div className="flex mb-4">
                 <button
-                  onClick={handleNextStep}
-                  disabled={selectedCount === 0 || isTyping}
-                  className={`flex-[2] py-3.5 rounded-2xl text-[14px] font-bold transition-all flex items-center justify-center gap-1.5 ${
-                    selectedCount > 0 
-                      ? 'bg-gray-900 text-white shadow-xl shadow-gray-200' 
-                      : 'bg-gray-50 text-gray-300'
-                  }`}
+                  onClick={handlePrevStep}
+                  className="w-[80px] py-3.5 bg-white text-gray-500 border border-gray-100 rounded-2xl text-[14px] font-bold hover:bg-gray-50 transition-all flex items-center justify-center"
                 >
-                  {selectedCount > 0 ? `${selectedCount}개 선택 완료` : '옵션을 선택해주세요'}
-                  <FcCheckmark size={16} className={selectedCount > 0 ? '' : 'grayscale opacity-30'} />
+                  이전
                 </button>
               </div>
             )}
 
             <div className="relative group">
               <div className="absolute -inset-6 -z-10 blur-[40px] opacity-40 pointer-events-none group-focus-within:opacity-70 transition-opacity duration-500" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.2) 50%, transparent 100%)' }} />
-              <div className="relative w-full overflow-hidden rounded-[24px] border border-gray-200/80 focus-within:border-blue-400/50 flex items-end bg-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] focus-within:shadow-[0_10px_50px_rgba(59,130,246,0.12)] transition-all duration-300">
+              <motion.div 
+                key={barAnimationKey}
+                initial={barAnimationKey > 0 ? { scale: 1.02, borderColor: '#3b82f6', boxShadow: '0 0 20px rgba(59, 130, 246, 0.1)' } : {}}
+                animate={{ scale: 1, borderColor: 'rgba(229, 231, 235, 0.8)', boxShadow: '0 10px 40px rgba(0,0,0,0.04)' }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="relative w-full overflow-hidden rounded-[24px] border border-gray-200/80 focus-within:border-blue-400/50 flex items-end bg-white focus-within:shadow-[0_10px_50px_rgba(59,130,246,0.12)] transition-all duration-300"
+              >
                 <textarea
                   ref={inputRef}
                   value={inputValue}
-                  onChange={(e) => {
-                    setInputValue(e.target.value);
-                    e.target.style.height = 'auto';
-                    e.target.style.height = `${Math.max(56, Math.min(e.target.scrollHeight, 160))}px`;
-                  }}
+                  onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleFreeChat(inputValue); } }}
                   placeholder={`무엇이든 물어보세요...`}
-                  className="relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 rounded-[24px] bg-transparent text-[16px] text-gray-800 placeholder:text-gray-300 placeholder:font-medium focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line"
+                  className={`relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 rounded-[24px] bg-transparent text-[16px] placeholder:text-gray-300 placeholder:font-medium focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line ${
+                    isHighlighting 
+                      ? 'text-blue-600 font-bold' 
+                      : 'text-gray-800 font-medium'
+                  }`}
                   disabled={isTyping}
                   rows={1}
                 />
@@ -1129,7 +1201,7 @@ export default function KnowledgeAgentPage() {
                 >
                   {isTyping ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <PaperPlaneRight size={20} weight="fill" className={inputValue.trim() ? 'text-white' : 'text-gray-300'} />}
                 </motion.button>
-              </div>
+              </motion.div>
             </div>
           </div>
       </div>
@@ -1176,25 +1248,7 @@ function MessageBubble({
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={`flex ${isUser ? 'justify-end' : 'justify-start'} w-full ${isInactive ? 'opacity-40 pointer-events-none' : ''} transition-opacity duration-300`}>
       <div className={`${isUser ? 'max-w-[85%]' : 'w-full'} space-y-3`}>
         {!isUser && message.searchContext && (
-          <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="bg-gray-900 rounded-[24px] p-5 mb-4 shadow-xl border border-white/10 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 blur-[50px] rounded-full" />
-            <div className="flex items-center gap-2.5 mb-3 relative z-10">
-              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Knowledge Retrieval Complete</span>
-            </div>
-            <div className="flex items-start gap-3 mb-3 relative z-10">
-              <FcSearch size={20} className="shrink-0 mt-0.5" />
-              <p className="text-[14px] text-white/60 font-medium italic">"{message.searchContext.query}"</p>
-            </div>
-            <p className="text-[15px] text-white font-bold leading-relaxed relative z-10">{message.searchContext.insight}</p>
-          </motion.div>
-        )}
-
-        {!isUser && message.dataSource && (
-          <div className="flex items-center gap-2 mb-2 px-1">
-            <FcPositiveDynamic size={14} className="grayscale opacity-70" />
-            <span className="text-[11px] font-black text-gray-400 uppercase tracking-tighter">Source: {message.dataSource}</span>
-          </div>
+          <SearchContextToggle searchContext={message.searchContext} />
         )}
 
         {!isUser && message.analysisData && (
@@ -1212,8 +1266,15 @@ function MessageBubble({
         {!isUser && message.tip && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex items-start gap-3 bg-amber-50/50 border border-amber-100/50 rounded-[20px] px-4 py-3.5">
             <FcIdea size={20} className="shrink-0" />
-            <p className="text-[13px] text-amber-900/80 leading-relaxed font-medium">{message.tip.replace(/^[💡\s]+/, '')}</p>
+            <p className="text-[14px] text-amber-900/80 leading-relaxed font-medium">{message.tip.replace(/^[💡\s]+/, '')}</p>
           </motion.div>
+        )}
+
+        {!isUser && message.dataSource && (
+          <div className="flex items-center gap-2 mt-1 mb-2 px-1">
+            <FcPositiveDynamic size={14} className="grayscale opacity-70" />
+            <span className="text-[12px] font-bold text-gray-400 uppercase tracking-tighter">Source: {message.dataSource}</span>
+          </div>
         )}
 
         {!isUser && message.options && message.options.length > 0 && (

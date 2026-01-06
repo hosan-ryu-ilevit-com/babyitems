@@ -120,26 +120,17 @@ export function InlineBalanceCarousel({
             onClick={() => handleSelect('A')}
             className={`w-full p-4 rounded-2xl text-left transition-all border-2 relative overflow-hidden ${
               selections.get(currentQuestion.id) === 'A'
-                ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100'
+                ? 'bg-blue-50 border-blue-100'
                 : 'bg-white border-gray-100 hover:border-blue-200 hover:bg-blue-50/30'
             }`}
           >
             <div className="flex items-center justify-between relative z-10">
               <div className="flex-1">
                 <span className={`text-[14px] font-bold leading-relaxed ${
-                  selections.get(currentQuestion.id) === 'A' ? 'text-white' : 'text-gray-800'
+                  selections.get(currentQuestion.id) === 'A' ? 'text-blue-500' : 'text-gray-800'
                 }`}>
                   {currentQuestion.option_A.text}
                 </span>
-              </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ml-3 ${
-                selections.get(currentQuestion.id) === 'A'
-                  ? 'border-white bg-white'
-                  : 'border-gray-200'
-              }`}>
-                {selections.get(currentQuestion.id) === 'A' && (
-                  <FcCheckmark size={14} />
-                )}
               </div>
             </div>
           </motion.button>
@@ -158,26 +149,17 @@ export function InlineBalanceCarousel({
             onClick={() => handleSelect('B')}
             className={`w-full p-4 rounded-2xl text-left transition-all border-2 relative overflow-hidden ${
               selections.get(currentQuestion.id) === 'B'
-                ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100'
+                ? 'bg-blue-50 border-blue-100'
                 : 'bg-white border-gray-100 hover:border-blue-200 hover:bg-blue-50/30'
             }`}
           >
             <div className="flex items-center justify-between relative z-10">
               <div className="flex-1">
                 <span className={`text-[14px] font-bold leading-relaxed ${
-                  selections.get(currentQuestion.id) === 'B' ? 'text-white' : 'text-gray-800'
+                  selections.get(currentQuestion.id) === 'B' ? 'text-blue-500' : 'text-gray-800'
                 }`}>
                   {currentQuestion.option_B.text}
                 </span>
-              </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ml-3 ${
-                selections.get(currentQuestion.id) === 'B'
-                  ? 'border-white bg-white'
-                  : 'border-gray-200'
-              }`}>
-                {selections.get(currentQuestion.id) === 'B' && (
-                  <FcCheckmark size={14} />
-                )}
               </div>
             </div>
           </motion.button>

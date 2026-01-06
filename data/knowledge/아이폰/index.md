@@ -1,27 +1,31 @@
 # 아이폰 전문가 지식
 
-> 마지막 업데이트: 2026-01-06T05:19:18.986Z
+> 마지막 업데이트: 2026-01-06T06:28:08.008Z
 > 분석 상품: 40개 | 분석 리뷰: 7,065개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 폴더블 아이폰 출시: 2026년에는 폴더블 아이폰이 출시될 예정이며, 얇고 주름 없는 디스플레이를 목표로 하고 있습니다.
-- A20 칩셋 탑재: 아이폰 18 시리즈에 A20 칩셋이 탑재되어 성능 향상이 예상됩니다.
-- 실시간 번역 기능: iOS 26 업데이트를 통해 실시간 번역 기능이 메시지, FaceTime, 전화 앱에 통합될 예정입니다.
+- 폴더블 아이폰 출시 및 다양한 폼팩터 등장
+- 보급형 라인업(아이폰 17e)의 사양 업그레이드 및 맥세이프 지원
+- AI 처리 능력 강화 및 전력 효율성 증대에 초점
 
 ### 구매자 만족 포인트
-- ✓ 향상된 성능: A19 또는 A20 칩셋 탑재로 전반적인 성능 향상
-- ✓ 다양한 디자인 및 색상: 새로운 디자인과 다양한 색상 옵션 제공
-- ✓ 향상된 카메라 기능: 48MP 울트라 와이드 렌즈, 더 나은 셀피 카메라
+- ✓ 애플 생태계 연동성
+- ✓ 뛰어난 카메라 성능
+- ✓ 안정적인 iOS 운영체제 및 업데이트 지원
+- ✓ 높은 중고가 방어
+- ✓ 사용 편의성
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격: 폴더블 아이폰의 경우 2,000달러 이상으로 예상
-- ⚠ 배터리 성능: 일부 모델의 경우 배터리 성능이 약하다는 평가
-- ⚠ 구식 충전 포트: Lightning 포트 사용으로 인한 불편함
+- ⚠ 높은 가격
+- ⚠ 제한적인 사용자 맞춤 설정
+- ⚠ 저장 공간 확장 불가
+- ⚠ 60Hz 주사율 (일부 모델)
+- ⚠ 발열 (일부 모델)
 
 ### 가격대 인사이트
-2026년 아이폰은 엔트리 모델인 아이폰 17e가 599달러부터 시작하며, 아이폰 17은 800달러부터, 프로 모델은 더 높은 가격대로 출시될 것으로 예상됩니다. 폴더블 아이폰은 2,000달러 이상으로 예상되어 가격대별로 다양한 선택지를 제공할 것입니다.
+2026년 현재, 아이폰은 보급형 모델(아이폰 17e 등)이 약 99만원부터 시작하며, 표준 모델은 129만원 이상, 프로 및 프리미엄 모델은 200만원 이상으로 형성되어 있습니다. 특히 폴더블 아이폰은 289만원 이상의 고가로 출시될 것으로 예상됩니다.
 
 ---
 
@@ -240,8 +244,4 @@
 ---
 
 ## 📊 데이터 출처
-- [itworld.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE47Em--MX6ZDmJXwc7d8wt9ioGVDVouZ0S-ACOSmGhsRp3yPTpbKukXI5y-fDHjsFZxqEARHRtv69hTN6sfMT1C1fSw-NyqclgeSDn_Kd8_5LBPmIxW5FoDpa3zpJegic5yd4nYWZNGfhrOioIZnTvDO98t67oeZGvnhQ8Qjj2_dkggbj73LNR1FhLCgTi-kyDJRYV39qEUux0q77xTA6nNxqhGQPkr4G3RC9DzNWqahhT4iSczfVk1-jWpGnTQIhXIYO-ZeduUDx8__CUxa4DHpTjtIWE4PUUs5tqxCbrwrT-08tltu86JzFRR9TXKpgjxYKahPmGoUZ1OgSMGQlWgM90wWHYCsUZBVq-GsXKcUVEqacRFcf9hGG6i6S3lIDSvmsEMDGc5EoVGLI=)
-- [asoworld.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqMdOnP7dPuiQCMaUUqfbK7ic4zayHJ6oxQreMStNj8ZctgKj3NVF53bSWJkggJi78CvOftrym10b8NSn7WzXEdHZzkqrGCP4p_nCoxgY5-Vc3GBcN_X31IFb3KOH7hLHeahqvJb5eWhuV8iw2yHq3UkrkOzLQTniPs-pI88QYZoelZ0NiHeSV1c7sVUv-nlG7Tt4OOiMJ2g==)
-- [apple.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHl4f1oOm285UjHzoixFGowEA9tfvAeoqXo1DtIskQ0GyZHXurP3ioSVXZf8BKn5krpo1rcrvSm4qVRwdjEu6t75osQXBS6vJO-1IOEAkEWpwIjhtdc3SZFHSJN)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlS2ZEY8xhLKuIWK73zN0_wiOhuqRDKqDMUVC9OLXmW8kbqnwk80NxbV4Et5lj8B1Az1-BnXemJW-cZnUb4ElzmO5eFvdbFJAXWQZOJuUhTJ80aNc97bcTSFCRLTQH6GKzGrIj7cQ=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFQl4rJxAdL1lIQGa4z4vSMvjTNa-2X37fecZsKUIkjIHBVx_P0DziX3WvGUeE1d7KE5VRBmyUgKQXdSzWq9EuSSPXKk2wqOxhspPAi2mvAM3ezYvJBftSOgWtsyeUIskdmSOhoo8=)
+- [다나와 아이폰 인기순위](https://search.danawa.com/dsearch.php?query=%EC%95%84%EC%9D%B4%ED%8F%B0&sort=saveDESC)

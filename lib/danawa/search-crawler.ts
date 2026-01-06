@@ -40,6 +40,20 @@ export interface DanawaSearchListItem {
   productUrl: string;       // 상품 상세 URL
 }
 
+// 다나와 검색 필터 옵션
+export interface DanawaFilterOption {
+  name: string;           // 옵션명 (예: "5G", "256GB")
+  value: string;          // 필터값 (URL 파라미터용)
+  highlight?: boolean;    // CM추천 하이라이트 여부
+}
+
+// 다나와 검색 필터 섹션
+export interface DanawaFilterSection {
+  title: string;                   // 필터 제목 (예: "통신망", "용량")
+  options: DanawaFilterOption[];   // 옵션 목록
+  hasResearch?: boolean;           // 리서치 보기 버튼 유무
+}
+
 // 검색 결과 응답
 export interface DanawaSearchListResponse {
   success: boolean;
@@ -50,6 +64,7 @@ export interface DanawaSearchListResponse {
   cached?: boolean;
   cachedAt?: string;
   error?: string;
+  filters?: DanawaFilterSection[];  // 검색 필터 (optional)
 }
 
 // Gemini API 초기화

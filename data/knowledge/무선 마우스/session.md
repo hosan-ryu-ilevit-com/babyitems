@@ -1,34 +1,14 @@
-# 세션: 20260106_044437_t4hw
-> 시작: 2026-01-06T04:44:37.485Z
-> 카테고리키: 무선
+# 세션: 20260106_054602_bczp
+> 시작: 2026-01-06T05:46:02.118Z
+> 카테고리키: 무선 마우스
 > 카테고리: 무선 마우스
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 무선 마우스 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 무선 마우스 시장은 게이밍과 사무용을 중심으로 다양한 기능과 디자인을 갖춘 제품들이 경쟁할 것으로 예상됩니다. 로지텍, 한성 등 주요 브랜드들이 꾸준히 인기를 얻고 있으며, 가성비와 사용자 편의성을 강조하는 제품들이 주를 이룰 것입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3YGxrx7NkCYgKiDDPZ7dTStzHPbdgdJJbJrhDh-tkek79-W_ipWH6uMtK4agy_zqJOWaRtQTrBClyDCf3XnTZD4CioIELM_16iv570ByUlJg06QqillxyEylWzDC4c_eGAPimbQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3iAXe5nUIio66mA1jQ_2rsQa46AZ9BvD8a7dPZuIoZEPbVQEumNLa8ulVpjizaFAiM4qUTk8RIwNLyF59iZJKIAPCzXPPYjiEG_n3Z-jTqTvO8TphuooDhO8jQb3LFCSh8bseCg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMpg3WUxcx7n-UzPOIA1AaeXZcuAfvAv9EuZN6uCPzUrCR7mFp8wfyK1oh8D9qdz6jSYPaHqUV1GBak857RX2NldKGKCevNjX11Dn99CkRsIgVqsDk9FS1i92_GtT18weflz4kD_KSGaEjqCZ3wuEzVvF2P6-sAtJE2MXfx1x064_wK0oZYlqp_a0OmszqlK_JO7XJzk8URy_kWt8XiSC-Xfg7c5I2t_PUt13UZ84WXn4ySF4dtSHae_4_ukkVq9INvBq7MH1tsElFYBMWMW4ce5tBwUv64j9T1P4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOlOOQwr0AUIUqeCajefQYvJHA9726gUatINtVLajt8kmF84mIFW5CwFHwu6nsdSJXJB3BLUqRQWw8ZNN_EjQarK7sUiNJSvvigphE93e2Re7guUxvGpnQfDsLSUz4zjdYXD5B8MUhZzx5m2MdplZbGnA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErLKu4ze_C9Ztn0cuB2X8ik6L0DRwTsd9SkGDehwZM4-7N7gnYoNiD2LlzMF7Qm385ScoAdmnjhHxuqHH4ZjC1Es7TVPxYgWk9T_JHXXEDlWhYxVbhkVnp89xy7k4ynH58buzPViGuaes8AxrOuYx56cszaBaiK75hyk2Abprf5NBFEF3j1wxjdp30vl8l6dXvB0cNum1KEoXG7MinEeYrMQ9Oe5gcraOBHcUWbiRE9qqMrw==
-
-### Q1: 블루투스와 전용 동글(USB 리시버) 방식 중 어떤 연결 방식을 더 선호하시나요?
-- 사용자 답변: 블루투스
-- 웹서치 쿼리: 무선 마우스 블루투스 추천 2026
-- 인사이트: 블루투스 방식은 USB 포트를 차지하지 않고 다양한 기기에 연결할 수 있다는 장점이 있어 노트북 사용자에게 특히 유용합니다. 다만, 2.4GHz 동글 방식에 비해 폴링레이트가 낮고 지연 시간이 길 수 있어 빠른 조작이 필요한 게임에는 다소 부적합할 수 있습니다.
-
-### Q2: 주로 어떤 용도로 무선 마우스를 사용하실 예정인가요? (특히 게임 시)
-- 사용자 답변: 일반적인 사무 작업 및 웹서핑
-- 웹서치 쿼리: 무선 마우스 일반적인 사무 작업 및 웹서핑 추천 2026
-- 인사이트: 일반적인 사무 작업 및 웹서핑용 무선 마우스는 손목의 피로를 줄여주는 인체공학적 디자인, 특히 세미 버티컬 또는 버티컬 형태가 장시간 사용 시 편안함을 제공합니다. 로지텍 MX Master 3S와 같은 모델은 뛰어난 사용성과 그립감을 제공하며, 사이드 휠은 웹서핑 및 다양한 작업에서 효율성을 높여줍니다.
-
-### Q3: 무선 마우스의 배터리 방식에 대해 어떻게 생각하시나요?
-- 사용자 답변: 내장 충전식 배터리
-- 웹서치 쿼리: 무선 마우스 내장 충전식 배터리 추천 2026
-- 인사이트: 내장 충전식 배터리를 갖춘 무선 마우스는 편리함을 제공하지만, 배터리 수명 저하 및 교체 가능성에 대한 고려가 필요합니다. 일부 최신 모델은 USB-C 충전 방식을 채택하여 편의성을 높였습니다.
-
-### Q4: 마우스를 주로 사용하는 손의 크기가 어느 정도 되시나요? 그리고 손목 편안함이 얼마나 중요하신가요?
-- 사용자 답변: 보통 크기의 손이며, 균형 잡힌 사용감이면 좋겠음
-- 웹서치 쿼리: 무선 마우스 보통 크기 손 균형 잡힌 사용감 추천 2026
-- 인사이트: 보통 크기의 손에 균형 잡힌 사용감을 제공하는 무선 마우스는 사용자의 손 크기와 그립 스타일에 따라 편안함이 달라질 수 있습니다. 손목의 편안함을 위해서는 인체공학적 디자인이나 손목 지지 기능이 있는 제품을 고려하는 것이 좋습니다.
+- 인사이트: 2026년 무선 마우스 시장은 경량화, 고성능 센서, 그리고 사용자 맞춤형 디자인을 중심으로 발전하고 있습니다. 로지텍, 앱코 등 다양한 브랜드에서 게이밍 및 일반 사용자를 위한 제품을 출시하며 경쟁하고 있으며, 특히 가성비와 그립감, 그리고 무선 연결의 안정성이 중요한 구매 요소로 부각되고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EB%AC%B4%EC%84%A0%20%EB%A7%88%EC%9A%B0%EC%8A%A4&sort=saveDESC
 
 ---
 
@@ -36,10 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| wireless_connection_preference | 블루투스 |
-| weight_preference_for_gaming | 일반적인 사무 작업 및 웹서핑 |
-| battery_type_preference | 내장 충전식 배터리 |
-| ergonomics_and_hand_size | 보통 크기의 손이며, 균형 잡힌 사용감이면 좋겠음 |
 
 ---
 
@@ -73,9 +49,7 @@
 
 ## ⚖️ 밸런스 게임 선택
 
-| 질문 | 선택 |
-|------|------|
-| default_balance_1 | 가성비가 좋은 실속 있는 제품이 좋아요 |
+(아직 선택 없음)
 
 ---
 
@@ -87,6 +61,4 @@
 
 ## 🏆 최종 추천
 
-1. 로지텍 MX MASTER 4 (정품) - 로지텍 MX Master 4는 인체공학적 디자인과 뛰어난 그립감으로 보통 크기의 손에 잘 맞으며, 장시간 사용에도 편안함을 제공합니다. 블루투스 연결과 내장 배터리를 지원하여 사용자 선호도에 부합하며, "업무 효율성을 높여준다"는 긍정적인 리뷰가 많습니다. 가격대는 다소 높지만, 프리미엄급 성능과 편의성을 고려하면 충분한 가치를 합니다.
-2. 로지텍 MX Master 3S (정품) - 로지텍 MX Master 3S는 MX Master 4와 마찬가지로 편안한 그립감과 균형 잡힌 사용감을 제공합니다. 블루투스 연결 및 내장 충전식 배터리로 사용자 편의성을 높였으며, "매끄러운 스크롤링과 정확한 포인팅이 인상적"이라는 리뷰처럼 일반적인 사무 작업 및 웹서핑에 탁월한 성능을 보여줍니다. 합리적인 가격에 만족스러운 경험을 제공합니다.
-3. ATK A9 ULTRA 유무선 브라보텍 - ATK A9 ULTRA는 42000DPI의 높은 성능과 블루투스 연결, 내장 배터리를 지원하여 사용자 선호 사항을 모두 충족합니다. 일반적인 사무 작업 및 웹서핑에 충분한 성능을 제공하며, "가격 대비 뛰어난 성능과 마감"이라는 리뷰처럼 가성비가 우수하여 예산 내에서 좋은 선택이 될 수 있습니다. 균형 잡힌 사용감을 원하는 분들에게 적합합니다.
+(아직 추천 없음)

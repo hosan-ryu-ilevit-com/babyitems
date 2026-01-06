@@ -31,7 +31,7 @@ import { CATEGORY_NAME_MAP } from '@/lib/knowledge-agent/types';
 
 // 다나와 크롤러
 import { crawlDanawaSearchListLite } from '@/lib/danawa/search-crawler-lite';
-import type { DanawaSearchListItem } from '@/lib/danawa/search-crawler';
+import type { DanawaSearchListItem, DanawaFilterSection } from '@/lib/danawa/search-crawler';
 import { getQueryCache, setQueryCache } from '@/lib/knowledge-agent/cache-manager';
 
 // Gemini
@@ -121,7 +121,7 @@ async function performWebSearchAnalysis(searchKeyword: string): Promise<TrendAna
 
   try {
     const model = ai.getGenerativeModel({
-      model: 'gemini-2.0-flash-lite',
+      model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.3,
         maxOutputTokens: 800,
@@ -240,7 +240,7 @@ async function crawlProductsWithStreaming(
   _categoryKey: string,
   categoryName: string,
   onProductBatch?: (products: DanawaSearchListItem[], isComplete: boolean) => void
-): Promise<{ products: DanawaSearchListItem[]; cached: boolean; searchUrl: string }> {
+): Promise<{ products: DanawaSearchListItem[]; cached: boolean; searchUrl: string; filters?: DanawaFilterSection[] }> {
   console.log(`[Step2] Crawling products for: ${categoryName}`);
 
   // 캐시 확인
@@ -256,7 +256,8 @@ async function crawlProductsWithStreaming(
         onProductBatch(batch, isComplete);
       }
     }
-    return { products: cached.items, cached: true, searchUrl: cached.searchUrl };
+    // 캐시에는 필터가 없을 수 있음
+    return { products: cached.items, cached: true, searchUrl: cached.searchUrl, filters: cached.filters };
   }
 
   // Lite 크롤러 사용 - 콜백으로 실시간 스트리밍
@@ -292,8 +293,8 @@ async function crawlProductsWithStreaming(
 
   if (response.success && response.items.length > 0) {
     setQueryCache(response);
-    console.log(`[Step2] Crawled ${response.items.length} products`);
-    return { products: response.items, cached: false, searchUrl: response.searchUrl };
+    console.log(`[Step2] Crawled ${response.items.length} products, ${response.filters?.length || 0} filters`);
+    return { products: response.items, cached: false, searchUrl: response.searchUrl, filters: response.filters };
   }
 
   console.error('[Step2] Crawling failed:', response.error);
@@ -460,7 +461,8 @@ async function generateQuestions(
   categoryName: string,
   products: DanawaSearchListItem[],
   trendAnalysis: TrendAnalysis | null,
-  knowledge: string
+  knowledge: string,
+  filters?: DanawaFilterSection[]
 ): Promise<QuestionTodo[]> {
   if (!ai) return getDefaultQuestions(categoryName, products, trendAnalysis);
 
@@ -473,6 +475,14 @@ async function generateQuestions(
   // 스펙 분포 분석 (핵심!)
   const specDistribution = analyzeSpecDistribution(products);
   const productKeywords = extractProductPatterns(products);
+
+  // 다나와 필터 정보 (핵심 스펙 분류 기준)
+  const filterSummary = filters && filters.length > 0
+    ? filters.slice(0, 12).map(f => {
+        const sampleOptions = f.options.slice(0, 5).map(o => o.name).join(', ');
+        return `- **${f.title}**: ${sampleOptions}${f.options.length > 5 ? ` 외 ${f.options.length - 5}개` : ''}`;
+      }).join('\n')
+    : '(필터 정보 없음)';
 
   // 웹서치 트렌드
   const trendsText = trendAnalysis?.trends.map((t, i) => `${i + 1}. ${t}`).join('\n') || '';
@@ -510,6 +520,9 @@ ${consFromWeb || '(분석 중)'}
 - **가격대**: ${minPrice.toLocaleString()}원 ~ ${maxPrice.toLocaleString()}원 (평균 ${avgPrice.toLocaleString()}원)
 - **주요 브랜드**: ${brands.slice(0, 8).join(', ')}
 - **상품명 키워드**: ${productKeywords.join(', ') || '(분석 중)'}
+
+**📌 다나와 하드필터 (핵심 스펙 분류 기준):**
+${filterSummary}
 
 **📌 스펙별 분포 (선택지가 갈리는 부분):**
 ${specDistribution}
@@ -876,8 +889,22 @@ export async function POST(request: NextRequest) {
           searchUrl = crawlResult.searchUrl;
           wasCached = crawlResult.cached;
           allProducts = crawlResult.products;
+          const crawledFilters = crawlResult.filters;
 
           const phase1Duration = Date.now() - phase1Start;
+
+          // 필터 정보 전송 (인기상품 분석 토글에서 표시)
+          if (crawledFilters && crawledFilters.length > 0) {
+            console.log(`[Phase1] Extracted ${crawledFilters.length} filter sections`);
+            send('filters', {
+              filters: crawledFilters.slice(0, 15).map(f => ({
+                title: f.title,
+                options: f.options.slice(0, 6).map(o => o.name),
+                optionCount: f.options.length,
+              })),
+              totalCount: crawledFilters.length,
+            });
+          }
 
           // 웹검색 결과 전송
           if (trendAnalysis) {
@@ -917,7 +944,8 @@ export async function POST(request: NextRequest) {
             categoryName,
             filteredProducts,
             trendAnalysis,
-            knowledge || generateLongTermMarkdown(longTermData)
+            knowledge || generateLongTermMarkdown(longTermData),
+            crawledFilters
           );
 
           const phase3Duration = Date.now() - phase3Start;
@@ -1064,6 +1092,7 @@ async function handleNonStreamingRequest(
   let products = crawlResult.products;
   const wasCached = crawlResult.cached;
   const searchUrl = crawlResult.searchUrl;
+  const crawledFilters = crawlResult.filters;
 
   // Phase 2: 필터링
   const phase2Start = Date.now();
@@ -1087,7 +1116,8 @@ async function handleNonStreamingRequest(
     categoryName,
     products,
     trendAnalysis,
-    knowledge || generateLongTermMarkdown(longTermData)
+    knowledge || generateLongTermMarkdown(longTermData),
+    crawledFilters
   );
   const phase3Duration = Date.now() - phase3Start;
   timings.push({ step: 'phase3_questions', duration: phase3Duration, details: `${questionTodos.length}개 질문` });
