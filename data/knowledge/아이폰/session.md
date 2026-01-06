@@ -1,5 +1,5 @@
-# 세션: 20260106_062815_id39
-> 시작: 2026-01-06T06:28:15.641Z
+# 세션: 20260106_072029_5rj3
+> 시작: 2026-01-06T07:20:29.184Z
 > 카테고리키: 아이폰
 > 카테고리: 아이폰
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아이폰 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 아이폰 시장은 혁신적인 변화를 앞두고 있으며, 폴더블폰 출시와 함께 라인업 전반의 재정비가 예상됩니다. 특히 보급형 라인업인 아이폰 17e와 새로운 폼팩터의 아이폰 폴드가 주목받고 있습니다. 기존 모델들은 꾸준한 성능 개선과 사용자 편의 기능 강화로 인기를 이어갈 것으로 보입니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EC%95%84%EC%9D%B4%ED%8F%B0&sort=saveDESC
+- 인사이트: 2026년 현재 아이폰은 혁신적인 디자인과 강력한 성능을 바탕으로 여전히 높은 인기를 누리고 있습니다. 특히 애플 생태계와의 뛰어난 호환성과 OS 효율성은 사용자들에게 큰 만족감을 제공하며, 최신 모델인 아이폰 17 시리즈와 아이폰 에어 등이 시장을 주도하고 있습니다. 또한, 폴더블 아이폰 출시 루머는 시장의 기대감을 높이고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPu66SNwSKAHi4ZmboQo4cxyoU_Cj_AeKT5DhzinL5TMEMP6IcVCWAEEUTs9dsOgRMzmFlQxdem5853yCVugAiy4YHXV-OVaXCZtrct3c36HelPEMaI6EvSl-HaUo5WJut7uAJ6s1IBSs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEh-2Xqvo5BqhG64Ra47_EWCbFO4lASmDnwZa8Crg972pk8F3nsyR83XxYmz731ghYYKyHk7k2opIvL6808m2hp0Zko3R9dKrmiOQI-2FM7hlPSlxlcyG-J5dQr
 
 ---
 

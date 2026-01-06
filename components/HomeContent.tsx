@@ -217,9 +217,9 @@ export function HomeContent() {
     .filter((p): p is Product => p !== undefined);
 
   return (
-    <div className="flex min-h-screen items-start justify-center bg-gray-100">
+    <div className="flex min-h-screen items-start justify-center bg-white">
       {/* 모바일 최적화 컨테이너 */}
-      <div className="relative w-full max-w-[480px] min-h-screen shadow-lg" style={{ backgroundColor: '#FDFDFD' }}>
+      <div className="relative w-full max-w-[480px] min-h-screen shadow-lg" style={{ backgroundColor: '#FFFFFF' }}>
         {/* Header */}
         <header className="flex items-center justify-between px-5 h-[54px]">
           <h1 className="text-[17px] font-bold tracking-tight flex items-center gap-1.5">
@@ -249,7 +249,7 @@ export function HomeContent() {
                 <span className="text-purple-600">내게 딱 맞는 하나</span> 찾기
               </h1>
 
-              {/* Video Character Animation with Soft Glow */}
+              {/* Baby Image with Soft Glow */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -257,15 +257,13 @@ export function HomeContent() {
                 className="w-56 h-56 mx-auto relative"
               >
                 <div className="absolute inset-0 bg-purple-200/20 blur-3xl rounded-full" />
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-contain relative z-10"
-                >
-                  <source src="/animations/character.mp4" type="video/mp4" />
-                </video>
+                <Image
+                  src="/images/img-baby.png"
+                  alt="아기 이미지"
+                  fill
+                  className="object-contain relative z-10"
+                  priority
+                />
               </motion.div>
 
 

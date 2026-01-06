@@ -1,5 +1,5 @@
-# 세션: 20260106_062725_69m6
-> 시작: 2026-01-06T06:27:25.333Z
+# 세션: 20260106_072701_ciob
+> 시작: 2026-01-06T07:27:01.858Z
 > 카테고리키: 디럭스 유모차
 > 카테고리: 디럭스 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 디럭스 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 디럭스 유모차 시장은 안정감과 편안한 주행성을 중시하는 트렌드를 보이며, 스토케, 부가부, 오이스터, 줄즈, 실버크로스 등의 브랜드가 꾸준히 인기를 얻고 있습니다. 특히 고급스러운 디자인과 뛰어난 성능을 갖춘 프리미엄 라인이 강세를 보이고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaYgk6mxGQnCvaZ0IXwIhkJ9IWhnY0hGoI1akBrfCHOKgKRRV-ry3Y0ogKhr1GK-JuWYGSjyGEiQM7YwjsNc9mMWWxss75oKuucMSKKvPW-SSB6hWAfpXQI9CfytcXGBMQyq8TWJT3DY-f_UG1M6gNL6W3_44hAHgaGwWSUY11QEPytIyN3XRoi5vxhPm8SpGf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCOvfyQNRjoyei84WO1EMBRJKgY7C8Uaa01vHaxKQ2zP8hdIV0CTisIiJfeH19ACAeQVq7af2BJ8wUyQbsP6OyrSsN2mjDC5ouKRn9dXNBO_PSs_sxFGTG6S7GKUIuLQOnqCKbG6XW5_NV0uH_tYdBnIawq6AmCp5A-5-O1jXl3ajexOe-1Du5NZl8tW1Ph7HSxdGrzBIW75LbV5GXkVstA5KrqajWEchdzlijbV0NIfs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpdv0PFPDO5pwxsDPimNMtiJ4shx1PWG12CxUO3COwN_ZpaQjIxIYgSCdnqJWKDc-tlsFUpg4CH3e_3j3DEydNfD-AxFZZ1COt-ONFlqRKJxF8AZjsnRjr-t8XNwZtDJpcL58NGA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlFrHTUSEFCuwLAO8_SBepu5YVW91y7hGsHM4Tzx2HXwZnCzmpFpK6SyAqtxqo-0RbMX-CKtP9ME9mKfQr_wVpGiJhkFzSDTx2I03G4oxEbKEL4EF8mb6WiYbp_W10B4XTMxzUUkY=
+- 인사이트: 2026년 1월 현재, 디럭스 유모차 시장은 안정감과 핸들링을 중시하는 트렌드를 보이며, 스토케, 부가부, 줄즈, 오이스터, 실버크로스 등의 브랜드가 인기를 얻고 있습니다. 특히 프리미엄 라인업이 강세를 보이며, 고급 소재와 디자인, 그리고 다양한 편의 기능이 탑재된 모델들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMMM4pkbVUIZuT3BZMc0JHd0xr0EHciI9KsfzlexXCUTow6uGZeWnIUx0AsUK7QdX3mEJK3LbMMiFqfAJcjRE57ZpBsPdqVTYFVlnu7ZEt6MHkB0fPWCnq7AW0rXYRLUrz7pf8_I3H4wFreuvyNCQm3ymQpi8ghp5SUka5Fne5ptbokUOmOWqiIhROC73lMr4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlr3Yhl48F_4SwzV-2NUFg8xip75nxQkXLr9Vix_1zecxQADdqat0Zq-evldW2JgHt4mPXogSJqYqV9zZyLqAmlltPLBC52lz09rTu41GSCRsuDXjOxkrABiXt5l7n_SDGw3HjcuyLjPfk6LlIzF6eAXjr4gSllGFgMCDtWlFlGrkxOKzGL0hksjErx7wNWwu7LQH5QxaAizlsDOCimIlXyyWlzbON32KYcOopOc3Ucg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5-wXcLs8ZzlxaiHP5udFz4ifIyR46UoTaQP56_tgc1DGMyCStML8Rz6rBCM-RprD4crT8GRJ1lCWxITeHLp_q8C0gCGXMbuBZk5sjyzYX3nIvg0JRUXA52xQItyLH-IMsngVd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5zyPM9uTsd8fqIDluU9Qr4VVUCxlcZw6CP9i9Di4KXPa73itnLVBaKcweUFnNMlRfMXifvwlP8mXSo1fgxcnpkG0YXgqBOY_HJdGg1_5it5I3kmzRGChjcQm0Q4Z7awfFKs493w==
 
 ---
 

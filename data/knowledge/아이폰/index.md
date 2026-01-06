@@ -1,31 +1,29 @@
 # 아이폰 전문가 지식
 
-> 마지막 업데이트: 2026-01-06T06:28:08.008Z
+> 마지막 업데이트: 2026-01-06T07:20:21.152Z
 > 분석 상품: 40개 | 분석 리뷰: 7,065개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 폴더블 아이폰 출시 및 다양한 폼팩터 등장
-- 보급형 라인업(아이폰 17e)의 사양 업그레이드 및 맥세이프 지원
-- AI 처리 능력 강화 및 전력 효율성 증대에 초점
+- 폴더블 아이폰 출시 루머 및 다양한 폼팩터 등장
+- AI 기능 강화 및 칩셋 성능 향상
+- 애플 생태계 확장 및 기기 간 연동성 강화
 
 ### 구매자 만족 포인트
-- ✓ 애플 생태계 연동성
+- ✓ 애플 생태계 호환성
+- ✓ OS 효율성 및 안정성
 - ✓ 뛰어난 카메라 성능
-- ✓ 안정적인 iOS 운영체제 및 업데이트 지원
-- ✓ 높은 중고가 방어
-- ✓ 사용 편의성
+- ✓ 높은 중고가 방어율
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격
+- ⚠ 높은 가격대
 - ⚠ 제한적인 사용자 맞춤 설정
+- ⚠ 통화 녹음 불가
 - ⚠ 저장 공간 확장 불가
-- ⚠ 60Hz 주사율 (일부 모델)
-- ⚠ 발열 (일부 모델)
 
 ### 가격대 인사이트
-2026년 현재, 아이폰은 보급형 모델(아이폰 17e 등)이 약 99만원부터 시작하며, 표준 모델은 129만원 이상, 프로 및 프리미엄 모델은 200만원 이상으로 형성되어 있습니다. 특히 폴더블 아이폰은 289만원 이상의 고가로 출시될 것으로 예상됩니다.
+2026년 현재 아이폰은 엔트리급 모델인 아이폰 16e가 99만원부터 시작하며, 중급 모델인 아이폰 17은 129만원부터, 프리미엄 모델인 아이폰 17 Pro 및 Pro Max는 179만원부터 시작하는 등 다양한 가격대로 출시되고 있습니다.
 
 ---
 
@@ -244,4 +242,5 @@
 ---
 
 ## 📊 데이터 출처
-- [다나와 아이폰 인기순위](https://search.danawa.com/dsearch.php?query=%EC%95%84%EC%9D%B4%ED%8F%B0&sort=saveDESC)
+- [itread.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPu66SNwSKAHi4ZmboQo4cxyoU_Cj_AeKT5DhzinL5TMEMP6IcVCWAEEUTs9dsOgRMzmFlQxdem5853yCVugAiy4YHXV-OVaXCZtrct3c36HelPEMaI6EvSl-HaUo5WJut7uAJ6s1IBSs=)
+- [apple.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEh-2Xqvo5BqhG64Ra47_EWCbFO4lASmDnwZa8Crg972pk8F3nsyR83XxYmz731ghYYKyHk7k2opIvL6808m2hp0Zko3R9dKrmiOQI-2FM7hlPSlxlcyG-J5dQr)

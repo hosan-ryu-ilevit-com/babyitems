@@ -10,12 +10,42 @@
 - 인사이트: 2026년 현재, 아기 책상은 아이의 성장 단계에 맞춰 높이 조절이 가능하고 안전하며, 학습 및 놀이 활동에 적합한 디자인이 인기를 얻고 있습니다. 헬로디노, 코아코아, 리바트, 일룸, 한샘 등의 브랜드가 꾸준히 사랑받고 있으며, 특히 높이 조절 기능과 넉넉한 상판 크기, 그리고 가격 대비 우수한 가성비를 갖춘 제품들이 주목받고 있습니다.
 - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFovL6rXxLSE5IjE_qukppb3PT3CEoYB_yd8UEnkipSbB-zNZpZpVjgPTUxkXFjOO4Dhqr39SOynhQN9lJ_GWu1_xacRC34fh43Ob-nHOGiekqt-h3v3P3D2ndp345hODFGta2DMMahHJhm4G5M91O4olemtWpf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4mKgHFJSzg77H5YQ7JWHBKIL1cUMxNZF-QgWVAkYma0ckynRPiyucoLDqbSwv7QO3GSujvJcqPco1hiz8Ia8j8kC1JcxfLRb3_zIgmsF0G9Hjw0mf3ZThLkZgzS5XRHiIq6bdRns=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEotH4epE9i8DPvTjdhuP5saCyr5DX32quL20aeab47bAt0AVr1-30lGyrmkJbTGMp1TLrHfLaHrZlzuUdsC6GPEvr5_0--4JvoaxCbz-9k6Jr5l3dJ5DomRRZoAOvp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9tRNqrGAvBcMK4F0KjscWC7-OjvOH6vwNWKbn9ocB5Ri2gRpbN1P9bYeOQ_kpOYozCB0DWHyn9na2Xg-p0LMqRLsftakhxRcTf84o8xlcsvQSD8X0387PucXDB9wziyAAhXbCpB5IGpJkjg-ivNK1nsCyCendI-aYaXH9cTFDzXKLKn9OlNtMD97QMaJLKBk6sSmyBYzW
 
+### Q1: 우리 아이가 커가는 동안 책상 높이를 아이 키에 맞춰 조절하며 오래 사용하고 싶으신가요?
+- 사용자 답변: 아니요, 괜찮아요
+- 웹서치 쿼리: 아기책상 높이 조절 안 되는 제품 추천 2026
+- 인사이트: 아이가 커가는 동안 책상 높이를 아이 키에 맞춰 조절하며 오래 사용하고 싶지 않다는 선택은, 초기 투자 비용을 절감하거나, 아이의 성장에 맞춰 책상을 자주 교체할 계획이 있을 때 합리적일 수 있습니다. 하지만 고정 높이 책상은 아이의 성장 속도에 따라 불편함을 느낄 수 있으며, 잘못된 자세로 학습하게 될 경우 시력이나 척추 건강에 영향을 줄 수 있다는 점을 유의해야 합니다.
+
+### Q2: 아이의 안전을 위해 책상 모서리가 둥글게 처리되고, KC 인증과 같은 안전 기준을 통과한 제품을 더 선호하시나요?
+- 사용자 답변: 네, 안전이 최우선이에요
+- 웹서치 쿼리: 아기책상 네, 안전이 최우선이에요 추천 2026
+- 인사이트: 아기 책상 선택 시 KC 인증과 같은 국가에서 정한 안전 기준을 통과한 제품인지 확인하는 것은 아이의 안전을 최우선으로 고려하는 부모에게 매우 중요합니다. 이는 제품의 구조, 재질, 사용 방법 등에서 발생할 수 있는 잠재적 위험으로부터 아이를 보호하는 데 필수적입니다.
+
+### Q3: 책상이 가벼워서 아이가 밀기 쉬워도 괜찮은가요, 아니면 아이가 책상에 기대거나 책상을 움직여도 흔들림 없이 안정적인 제품을 원하시나요?
+- 사용자 답변: 안정적인 제품이 좋아요
+- 웹서치 쿼리: 아기책상 안정적인 제품 추천 2026
+- 인사이트: 아이가 책상에 기대거나 움직여도 흔들림 없이 안정적인 제품을 선택하는 것은 아이의 안전과 학습 집중도 향상에 매우 중요합니다. 무게감이 적당하고 하부가 두꺼운 다리 구조를 가진 제품이 안정성이 높습니다.
+
+### Q4: 책상의 수납 공간이 얼마나 중요하신가요? 책과 학용품 등을 깔끔하게 정리할 수 있는 수납 기능이 강화된 디자인을 선호하시나요?
+- 사용자 답변: 기본적인 수납 공간이면 충분해요
+- 웹서치 쿼리: 아기책상 기본적인 수납 공간이면 충분해요 추천 2026
+- 인사이트: 기본적인 수납 공간만으로도 충분하다는 선택은 책상 자체의 기능에 집중하고 싶거나, 별도의 수납 가구를 활용할 계획이 있는 경우에 적합합니다. 다만, 아이의 성장과 함께 학용품이나 책의 양이 늘어날 수 있으므로, 향후 수납 공간 확장이 용이한 디자인인지 고려하는 것이 좋습니다.
+
+### Q5: 예산은 어느 정도로 생각하고 계신가요? (입문용 10만원대 초반 ~ 중급형 10만원대 후반~20만원대 ~ 프리미엄 30만원 이상)
+- 사용자 답변: 6~13만원대
+- 웹서치 쿼리: 아기책상 6~13만원대 추천 2026
+- 인사이트: 6~13만원대 예산으로 아기 책상을 찾는다면, 높이 조절 기능이 있고 안전한 소재로 만들어진 제품을 우선적으로 고려하는 것이 좋습니다. 이 가격대에서는 일룸 팅클팝, 리바트 꼼므, 시디즈 아띠 등 다양한 브랜드의 유아 책상 세트를 찾아볼 수 있습니다. 일부 제품은 추가적인 독서대나 수납 기능을 제공하기도 합니다.
+
 ---
 
 ## 👤 수집된 사용자 정보
 
 | 항목 | 답변 |
 |------|------|
+| height_adjustability | 아니요, 괜찮아요 |
+| safety_features | 네, 안전이 최우선이에요 |
+| stability_vs_portability | 안정적인 제품이 좋아요 |
+| storage_solution | 기본적인 수납 공간이면 충분해요 |
+| budget_and_features | 6~13만원대 |
 
 ---
 
@@ -49,7 +79,10 @@
 
 ## ⚖️ 밸런스 게임 선택
 
-(아직 선택 없음)
+| 질문 | 선택 |
+|------|------|
+| balance_1 | 아이가 다칠 걱정 없는 둥근 모서리가 중요해요. |
+| balance_2 | 장난감이나 책을 더 많이 넣을 수 있는 수납 공간이 있으면 좋겠어요. |
 
 ---
 
@@ -61,4 +94,6 @@
 
 ## 🏆 최종 추천
 
-(아직 추천 없음)
+1. 리바트 꼼므 유아책상 - 안전 최우선! E0등급 소재와 높은 평점을 자랑하며, 아이의 안전한 학습 환경을 위한 최고의 선택입니다.
+2. 아이엔지홈 오즈 스퀘어 책상 - 안정감과 실용성을 모두 잡은 스마트한 선택! 튼튼한 구조와 기본적인 수납으로 아이의 집중력을 높여줍니다.
+3. 에이픽스게이밍 라베스토 어린이 책상 의자 세트 - 가성비 끝판왕! 13만원대의 합리적인 가격에 안전성과 안정성까지 갖춰 만족스러운 구매를 약속합니다.

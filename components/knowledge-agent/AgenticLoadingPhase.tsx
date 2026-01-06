@@ -253,7 +253,7 @@ function ProductAnalysisContent({
 
   return (
     <AnimatePresence mode="wait">
-      {products.length === 0 && step.status === 'active' ? (
+      {(products.length === 0 && step.status !== 'done') ? (
         <motion.div
           key="skeleton"
           initial={{ opacity: 0 }}
@@ -944,7 +944,9 @@ export function AgenticLoadingPhase({
   isComplete = false,
   summary,
 }: AgenticLoadingPhaseProps) {
-  const [expandedStepIds, setExpandedStepIds] = useState<Set<string>>(new Set());
+  // 첫 번째 단계(인기상품 분석)는 시작부터 펼쳐진 상태
+  const [expandedStepIds, setExpandedStepIds] = useState<Set<string>>(new Set(['product_analysis']));
+  const [autoExpandedStepIds, setAutoExpandedStepIds] = useState<Set<string>>(new Set(['product_analysis']));
   const [lastActiveStepId, setLastActiveStepId] = useState<string | null>(null);
 
   // 각 step에 대한 refs
@@ -970,52 +972,30 @@ export function AgenticLoadingPhase({
   console.log('[AgenticLoadingPhase] crawledProducts:', crawledProducts?.length);
   console.log('[AgenticLoadingPhase] generatedQuestions:', generatedQuestions?.length, generatedQuestions);
 
-  // 활성 단계 및 방금 완료된 단계 → 다음 단계 자동 확장
+  // 활성 단계 및 완료된 단계 → 순차적으로 확장 (이미 완료된 단계도 누락 없이 확장)
   useEffect(() => {
-    const stepOrder = ['product_analysis', 'web_search', 'review_extraction', 'question_generation'];
-    const newExpandedIds: string[] = [];
-    let currentActiveStepId: string | null = null;
+    // 자동 확장해야 할 단계들: 활성 상태이거나 이미 완료된 상태
+    const stepsToAutoExpand = steps.filter(s => s.status === 'active' || s.status === 'done');
+    
+    // 아직 자동 확장된 적 없는 단계들 중 가장 빠른 순서의 단계 찾기
+    const nextStepToExpand = stepsToAutoExpand.find(s => !autoExpandedStepIds.has(s.id));
 
-    steps.forEach((step) => {
-      // active 상태인 step 확장
-      if (step.status === 'active') {
-        newExpandedIds.push(step.id);
-        currentActiveStepId = step.id;
-      }
-
-      // done 상태가 되면, 다음 순서의 step이 있으면 그것도 확장
-      if (step.status === 'done') {
-        const currentOrderIndex = stepOrder.indexOf(step.id);
-        if (currentOrderIndex !== -1 && currentOrderIndex < stepOrder.length - 1) {
-          const nextStepId = stepOrder[currentOrderIndex + 1];
-          const nextStep = steps.find(s => s.id === nextStepId);
-          // 다음 단계가 pending이 아닌 경우(active 또는 done)만 확장
-          if (nextStep && nextStep.status !== 'pending') {
-            newExpandedIds.push(nextStepId);
-          }
+    if (nextStepToExpand) {
+      // 약간의 지연을 두어 순차적인 느낌을 줌
+      const timer = setTimeout(() => {
+        setAutoExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
+        setExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
+        
+        // 스크롤 처리
+        if (nextStepToExpand.id !== lastActiveStepId) {
+          setLastActiveStepId(nextStepToExpand.id);
+          scrollToStep(nextStepToExpand.id);
         }
-      }
-    });
+      }, 150); // 0.15초 간격으로 순차 확장
 
-    // 새로 확장할 ID가 있으면 추가 (기존 확장 상태 유지)
-    if (newExpandedIds.length > 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setExpandedStepIds(prev => {
-        const next = new Set(prev);
-        newExpandedIds.forEach(id => next.add(id));
-        return next;
-      });
+      return () => clearTimeout(timer);
     }
-
-    // active step이 변경되면 스크롤
-    if (currentActiveStepId && currentActiveStepId !== lastActiveStepId) {
-      setLastActiveStepId(currentActiveStepId);
-      // 약간의 딜레이 후 스크롤 (DOM 업데이트 대기)
-      setTimeout(() => {
-        scrollToStep(currentActiveStepId!);
-      }, 100);
-    }
-  }, [steps, lastActiveStepId, scrollToStep]);
+  }, [steps, autoExpandedStepIds, lastActiveStepId, scrollToStep]);
 
   // 진행률 계산
   const progress = useMemo(() => {

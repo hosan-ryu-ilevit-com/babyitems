@@ -590,40 +590,58 @@ ${knowledge.slice(0, 1500) || '(신규 카테고리)'}
 위 데이터를 꼼꼼히 분석하여, "${categoryName}"을 처음 사는 사람이 **"아, 이런 것도 생각해야 하는구나!"** 하고 감동할 수 있는 질문을 만들어주세요.`;
 
   try {
+    console.log(`[Step4] Generating questions for "${categoryName}" with ${products.length} products`);
+    const startTime = Date.now();
+
     const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
     const result = await model.generateContent(prompt);
     const text = result.response.text();
 
+    console.log(`[Step4] LLM response received in ${Date.now() - startTime}ms, length: ${text.length}`);
+    console.log(`[Step4] Response preview: ${text.slice(0, 200)}...`);
+
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     if (jsonMatch) {
-      let questions = JSON.parse(jsonMatch[0]) as QuestionTodo[];
-      questions = questions.map(q => ({ ...q, completed: false }));
+      try {
+        let questions = JSON.parse(jsonMatch[0]) as QuestionTodo[];
+        questions = questions.map(q => ({ ...q, completed: false }));
+        console.log(`[Step4] ✅ Successfully parsed ${questions.length} questions`);
 
-      // 예산 질문 보정
-      const budgetQ = questions.find(q =>
-        q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격')
-      );
-      if (budgetQ && prices.length > 0) {
-        const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
-        const midMax = Math.round(avgPrice * 1.3);
-        budgetQ.options = [
-          { value: 'entry', label: `${Math.round(minPrice/10000)}~${Math.round(entryMax/10000)}만원대`, description: '가성비 모델' },
-          { value: 'mid', label: `${Math.round(entryMax/10000)}~${Math.round(midMax/10000)}만원대`, description: '인기 가격대' },
-          { value: 'premium', label: `${Math.round(midMax/10000)}만원 이상`, description: '프리미엄' }
-        ];
+        // 예산 질문 보정
+        const budgetQ = questions.find(q =>
+          q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격')
+        );
+        if (budgetQ && prices.length > 0) {
+          const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
+          const midMax = Math.round(avgPrice * 1.3);
+          budgetQ.options = [
+            { value: 'entry', label: `${Math.round(minPrice/10000)}~${Math.round(entryMax/10000)}만원대`, description: '가성비 모델' },
+            { value: 'mid', label: `${Math.round(entryMax/10000)}~${Math.round(midMax/10000)}만원대`, description: '인기 가격대' },
+            { value: 'premium', label: `${Math.round(midMax/10000)}만원 이상`, description: '프리미엄' }
+          ];
+        }
+
+        return questions;
+      } catch (parseError) {
+        console.error(`[Step4] ❌ JSON parse error:`, parseError);
+        console.error(`[Step4] Failed JSON: ${jsonMatch[0].slice(0, 500)}`);
       }
-
-      return questions;
+    } else {
+      console.error(`[Step4] ❌ No JSON array found in response`);
+      console.error(`[Step4] Full response: ${text.slice(0, 1000)}`);
     }
   } catch (e) {
-    console.error('[Step4] Question generation failed:', e);
+    console.error('[Step4] ❌ Question generation failed:', e);
   }
+
+  console.log(`[Step4] ⚠️ Falling back to default questions`)
 
   return getDefaultQuestions(categoryName, products, trendAnalysis);
 }
 
 /**
  * LLM 호출 실패 시 fallback - 데이터 기반 기본 질문 생성
+ * 스펙 분포를 분석하여 동적으로 질문 생성
  */
 function getDefaultQuestions(
   categoryName: string,
@@ -632,52 +650,184 @@ function getDefaultQuestions(
 ): QuestionTodo[] {
   const prices = products.map(p => p.price).filter((p): p is number => p !== null && p > 0);
   const minPrice = prices.length ? Math.min(...prices) : 50000;
+  const maxPrice = prices.length ? Math.max(...prices) : 500000;
   const avgPrice = prices.length ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 150000;
-
-  // 스펙 분포에서 가장 다양한 스펙 찾기
-  const specDistribution = analyzeSpecDistribution(products);
 
   const questions: QuestionTodo[] = [];
 
-  // 1. 웹서치 트렌드 기반 트레이드오프 질문 (장점 vs 단점이 있으면)
+  // 스펙 분포 분석 - 선택지가 갈리는 스펙을 질문으로 변환
+  const specMap: Record<string, Map<string, number>> = {};
+  products.forEach(p => {
+    if (!p.specSummary) return;
+    const parts = p.specSummary.split(/[|\/,]/).map(s => s.trim());
+    parts.forEach(part => {
+      let key = '', value = '';
+      const colonIdx = part.indexOf(':');
+      if (colonIdx > 0) {
+        key = part.slice(0, colonIdx).trim();
+        value = part.slice(colonIdx + 1).trim();
+      }
+      if (key && value && key.length < 15 && value.length < 30) {
+        if (!specMap[key]) specMap[key] = new Map();
+        specMap[key].set(value, (specMap[key].get(value) || 0) + 1);
+      }
+    });
+  });
+
+  // 선택지가 갈리는 스펙들 (2개 이상 다양한 값)
+  const meaningfulSpecs = Object.entries(specMap)
+    .filter(([, values]) => values.size >= 2 && values.size <= 6)
+    .map(([key, values]) => ({
+      key,
+      values: [...values.entries()].sort((a, b) => b[1] - a[1])
+    }))
+    .slice(0, 5);
+
+  // 1. 핵심 스펙 질문들 (스펙 분포 기반 - 최대 3개)
+  const specPriority: Record<string, number> = {
+    '단계': 1, '형태': 2, '타입': 2, '용량': 3, '사이즈': 3,
+    '권장무게': 4, '대상': 4, '성별': 4,
+  };
+
+  const sortedSpecs = meaningfulSpecs.sort((a, b) => {
+    const priorityA = specPriority[a.key] || 10;
+    const priorityB = specPriority[b.key] || 10;
+    return priorityA - priorityB;
+  });
+
+  sortedSpecs.slice(0, 3).forEach((spec, idx) => {
+    const topOptions = spec.values.slice(0, 4);
+    const totalCount = topOptions.reduce((sum, [, count]) => sum + count, 0);
+
+    // 질문 텍스트 생성
+    let questionText = '';
+    let reasonText = '';
+
+    if (spec.key === '단계' || spec.key.includes('단계')) {
+      questionText = '아기가 현재 어느 단계인가요?';
+      reasonText = `💡 기저귀 단계는 아기 몸무게에 맞춰 선택해요. 단계별로 흡수량과 사이즈가 달라집니다.`;
+    } else if (spec.key === '형태' || spec.key === '타입') {
+      questionText = `${categoryName} 형태는 어떤 것을 선호하시나요?`;
+      reasonText = `💡 형태에 따라 사용 편의성과 맞춤도가 달라져요.`;
+    } else if (spec.key.includes('무게') || spec.key.includes('권장')) {
+      questionText = '아기 몸무게가 어느 정도인가요?';
+      reasonText = `💡 몸무게에 맞는 제품을 선택해야 샘 방지와 착용감이 좋아요.`;
+    } else {
+      questionText = `${spec.key}은(는) 어떤 것을 원하시나요?`;
+      reasonText = `💡 ${spec.key}에 따라 제품 특성이 달라집니다. ${products.length}개 상품 분석 결과입니다.`;
+    }
+
+    questions.push({
+      id: `spec_${spec.key.replace(/\s/g, '_')}_${idx}`,
+      question: questionText,
+      reason: reasonText,
+      options: topOptions.map(([value, count]) => ({
+        value: value.toLowerCase().replace(/\s/g, '_'),
+        label: value,
+        description: `${count}개 상품 (${Math.round(count / totalCount * 100)}%)`
+      })),
+      type: 'single',
+      priority: idx + 1,
+      dataSource: `${products.length}개 상품 스펙 분석`,
+      completed: false
+    });
+  });
+
+  // 2. 웹서치 트렌드 기반 트레이드오프 질문
   const topPros = trendAnalysis?.pros || [];
   const topCons = trendAnalysis?.cons || [];
 
-  if (topPros.length > 0 && topCons.length > 0) {
+  if (topPros.length >= 2) {
     questions.push({
       id: 'tradeoff_trend',
       question: `${categoryName} 선택 시 더 중요한 것은?`,
-      reason: `💡 최근 트렌드 분석 결과, "${topPros[0]}"를 선호하는 분과 "${topCons[0]}"를 걱정하는 분이 많았어요.`,
-      options: [
-        { value: 'pro', label: topPros[0].slice(0, 20), description: '많은 분들이 선호' },
-        { value: 'avoid_con', label: `${topCons[0].slice(0, 15)} 피하기`, description: '주의가 필요한 부분' }
-      ],
+      reason: `💡 최근 트렌드 분석 결과, 구매자들이 가장 중요하게 생각하는 요소들이에요.`,
+      options: topPros.slice(0, 3).map((pro, i) => ({
+        value: `pro_${i}`,
+        label: pro.slice(0, 20),
+        description: i === 0 ? '가장 많이 선호' : '많은 분들이 선호'
+      })),
       type: 'single',
-      priority: 1,
+      priority: questions.length + 1,
       dataSource: '웹서치 트렌드 분석',
       completed: false
     });
   }
 
-  // 2. 예산 질문 (실제 가격대 기반)
+  // 3. 피하고 싶은 단점 (multi-select)
+  if (topCons.length >= 2) {
+    questions.push({
+      id: 'avoid_cons',
+      question: '피하고 싶은 단점이 있으신가요? (복수 선택 가능)',
+      reason: `💡 실사용자 리뷰에서 자주 언급되는 주의점들이에요. 선택하시면 해당 제품은 제외해드려요.`,
+      options: topCons.slice(0, 4).map((con, i) => ({
+        value: `con_${i}`,
+        label: con.slice(0, 20),
+        description: '선택 시 해당 제품 제외'
+      })),
+      type: 'multi',
+      priority: questions.length + 1,
+      dataSource: '웹서치 리뷰 분석',
+      completed: false
+    });
+  }
+
+  // 4. 브랜드 선호도 질문 (상위 브랜드가 3개 이상이면)
+  const brandCounts: Record<string, number> = {};
+  products.forEach(p => {
+    if (p.brand) brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1;
+  });
+  const topBrands = Object.entries(brandCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4);
+
+  if (topBrands.length >= 3 && questions.length < 5) {
+    questions.push({
+      id: 'brand_preference',
+      question: '선호하는 브랜드가 있으신가요?',
+      reason: `💡 브랜드별로 특징이 달라요. 특별한 선호가 없다면 "상관없음"을 선택해주세요.`,
+      options: [
+        ...topBrands.map(([brand, count]) => ({
+          value: brand.toLowerCase().replace(/\s/g, '_'),
+          label: brand,
+          description: `${count}개 상품`
+        })),
+        { value: 'any', label: '상관없음', description: '모든 브랜드 포함' }
+      ],
+      type: 'single',
+      priority: questions.length + 1,
+      dataSource: `${products.length}개 상품 브랜드 분석`,
+      completed: false
+    });
+  }
+
+  // 5. 예산 질문 (항상 마지막)
   const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
   const midMax = Math.round(avgPrice * 1.3);
+
+  // 만원 단위로 표시 (0만원 방지)
+  const formatPrice = (price: number) => {
+    const man = Math.round(price / 10000);
+    return man > 0 ? `${man}만원` : `${Math.round(price / 1000)}천원`;
+  };
+
   questions.push({
     id: 'budget',
     question: '예산은 어느 정도 생각하시나요?',
-    reason: `💡 현재 ${categoryName} 가격대는 ${Math.round(minPrice/10000)}만원~${Math.round(prices.length ? Math.max(...prices)/10000 : avgPrice*2/10000)}만원이에요. 가격대별로 기능 차이가 있어요.`,
+    reason: `💡 현재 ${categoryName} 가격대는 ${formatPrice(minPrice)}~${formatPrice(maxPrice)}이에요. 가격대별로 기능 차이가 있어요.`,
     options: [
-      { value: 'entry', label: `${Math.round(minPrice/10000)}~${Math.round(entryMax/10000)}만원대`, description: '가성비 모델' },
-      { value: 'mid', label: `${Math.round(entryMax/10000)}~${Math.round(midMax/10000)}만원대`, description: '인기 가격대' },
-      { value: 'premium', label: `${Math.round(midMax/10000)}만원 이상`, description: '프리미엄' }
+      { value: 'entry', label: `${formatPrice(minPrice)}~${formatPrice(entryMax)}`, description: '가성비 모델' },
+      { value: 'mid', label: `${formatPrice(entryMax)}~${formatPrice(midMax)}`, description: '인기 가격대' },
+      { value: 'premium', label: `${formatPrice(midMax)} 이상`, description: '프리미엄' },
+      { value: 'any', label: '상관없음', description: '예산 무관' }
     ],
     type: 'single',
-    priority: 5,
+    priority: 99,
     dataSource: `${products.length}개 상품 가격 분석`,
     completed: false
   });
 
-  console.log(`[DefaultQuestions] Generated ${questions.length} fallback questions (spec: ${specDistribution.slice(0, 50)}...)`);
+  console.log(`[DefaultQuestions] Generated ${questions.length} fallback questions from spec analysis`);
   return questions;
 }
 

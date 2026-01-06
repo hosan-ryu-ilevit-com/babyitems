@@ -104,33 +104,21 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* 메인 비주얼 영역 (동영상) */}
+          {/* 메인 비주얼 영역 (이미지) */}
           <div className="relative w-full max-w-[340px] flex items-center justify-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative w-[220px] aspect-square flex items-center justify-center"
+              className="relative w-[280px] aspect-square flex items-center justify-center"
             >
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-contain z-10"
-              >
-                <source src="/animations/character.mp4" type="video/mp4" />
-              </video>
-              {/* 경계선을 부드럽게 만드는 화이트 그라데이션 마스크 */}
-              <div 
-                className="absolute inset-0 z-20 pointer-events-none" 
-                style={{ 
-                  background: 'radial-gradient(circle, transparent 65%, #FFFFFF 100%)',
-                  transform: 'scale(1.05)'
-                }} 
+              <Image
+                src="/images/img-baby.png"
+                alt="아기 이미지"
+                fill
+                className="object-contain z-10"
+                priority
               />
-              {/* 소프트 글로우 효과 */}
-              <div className="absolute inset-0 bg-indigo-100/30 blur-3xl rounded-full scale-110" />
             </motion.div>
           </div>
         </main>

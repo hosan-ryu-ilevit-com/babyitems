@@ -26,12 +26,13 @@ import { AgenticLoadingPhase, createDefaultSteps, type AnalysisStep } from '@/co
 import { AssistantMessage } from '@/components/recommend-v2';
 import { V2ResultProductCard } from '@/components/recommend-v2/V2ResultProductCard';
 import { InlineBalanceCarousel, InlineNegativeFilter, InlineBudgetSelector } from '@/components/knowledge-agent/ChatUIComponents';
+import { HardcutVisualization } from '@/components/knowledge-agent/HardcutVisualization';
 
 // ============================================================================
 // Types
 // ============================================================================
 
-type Phase = 'loading' | 'report' | 'questions' | 'balance' | 'negative_filter' | 'result' | 'free_chat';
+type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' | 'negative_filter' | 'result' | 'free_chat';
 
 // ============================================================================
 // Searching Indicator Component (검색 프로세스 시각화)
@@ -620,12 +621,29 @@ export default function KnowledgeAgentPage() {
   // Navigation state
   const [canGoPrev, setCanGoPrev] = useState(false);
 
-  // Balance game
+  // Balance game & Negative filter
   const [balanceQuestions, setBalanceQuestions] = useState<BalanceQuestion[]>([]);
+  const [negativeOptions, setNegativeOptions] = useState<NegativeOption[]>([]);
 
   // Results
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [crawledProducts, setCrawledProducts] = useState<CrawledProductPreview[]>([]);
+
+  // V2 Flow: 확장 크롤링 + 하드컷팅 + 리뷰 크롤링
+  const [expandedProducts, setExpandedProducts] = useState<any[]>([]);
+  const [hardCutProducts, setHardCutProducts] = useState<any[]>([]);
+  const [reviewsData, setReviewsData] = useState<Record<string, any[]>>({});
+  const [isReviewsLoading, setIsReviewsLoading] = useState(false);
+  const [v2FlowEnabled] = useState(true); // V2 플로우 활성화 여부
+  const [v2FlowStarted, setV2FlowStarted] = useState(false); // V2 플로우 시작 여부
+  const [savedBalanceSelections, setSavedBalanceSelections] = useState<any[]>([]); // 밸런스 선택 저장
+  const [hardcutResult, setHardcutResult] = useState<{
+    totalBefore: number;
+    totalAfter: number;
+    appliedRules: Array<{ rule: string; matchedCount: number }>;
+  } | null>(null); // 하드컷팅 결과 (시각화용)
+  const [isExpandCrawling, setIsExpandCrawling] = useState(false); // 확장 크롤링 진행 중
+  const [isExpandComplete, setIsExpandComplete] = useState(false); // 확장 크롤링 완료 여부
 
   // 애니메이션 및 입력 제어용
   const [barAnimationKey, setBarAnimationKey] = useState(0);
@@ -678,6 +696,18 @@ export default function KnowledgeAgentPage() {
     let localProducts: CrawledProductPreview[] = [];
     let trendData: any = null;
 
+    // UI 단계 전환을 위한 리졸버 및 제어 로직 (버퍼링)
+    const stepDataResolvers: Record<string, (data?: any) => void> = {};
+
+    // 모든 Promise를 미리 생성하여 resolver를 즉시 등록 (이벤트 손실 방지)
+    const stepPromises: Record<string, Promise<any>> = {};
+    const stepIds = ['product_analysis', 'filters', 'web_search', 'review_extraction', 'question_generation', 'complete'];
+    for (const stepId of stepIds) {
+      stepPromises[stepId] = new Promise(resolve => {
+        stepDataResolvers[stepId] = resolve;
+      });
+    }
+
     const updateStepAndMessage = (stepId: string, updates: Partial<AnalysisStep>) => {
       localSteps = localSteps.map(s => s.id === stepId ? { ...s, ...updates } : s);
       setAnalysisSteps([...localSteps]);
@@ -698,6 +728,104 @@ export default function KnowledgeAgentPage() {
       });
     };
 
+    // UI 흐름 제어 (비동기) - 미리 생성된 Promise 사용
+    const driveUIFlow = async () => {
+        // 1. 인기상품 분석 대기
+        await stepPromises['product_analysis'];
+        updateStepAndMessage('product_analysis', {
+            status: 'done',
+            endTime: Date.now(),
+            analyzedCount: localProducts.length,
+            thinking: `${localProducts.length}개 상품 분석 완료`,
+        });
+        await new Promise(r => setTimeout(r, 1000)); // 완료 후 최소 1초 대기
+
+        // 2. 웹검색 시작
+        updateStepAndMessage('web_search', {
+            status: 'active',
+            startTime: Date.now(),
+            searchQueries: initialQueries,
+        });
+
+        const trendResult = await stepPromises['web_search'] as { searchQueries?: string[]; sources?: any[]; trendAnalysis?: { top10Summary?: string } };
+        updateStepAndMessage('web_search', {
+            status: 'done',
+            endTime: Date.now(),
+            searchQueries: trendResult?.searchQueries || initialQueries,
+            searchResults: (trendResult?.sources || []).slice(0, 5),
+            thinking: trendResult?.trendAnalysis?.top10Summary || '',
+        });
+        await new Promise(r => setTimeout(r, 1000)); // 완료 후 최소 1초 대기
+
+        // 3. 리뷰 추출 시작 & 대기
+        updateStepAndMessage('review_extraction', {
+            status: 'active',
+            startTime: Date.now(),
+        });
+        await stepPromises['review_extraction'];
+        updateStepAndMessage('review_extraction', {
+            status: 'done',
+            endTime: Date.now(),
+            analyzedCount: localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
+            analyzedItems: [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
+            thinking: `리뷰 키워드 분석 완료`,
+        });
+        await new Promise(r => setTimeout(r, 1000)); // 완료 후 최소 1초 대기
+
+        // 4. 질문 생성 시작 & 대기
+        updateStepAndMessage('question_generation', {
+            status: 'active',
+            startTime: Date.now(),
+        });
+        const questionResult = await stepPromises['question_generation'] as { questionTodos?: any[] };
+        const generatedQuestions = (questionResult?.questionTodos || []).map((q: any) => ({ id: q.id, question: q.question }));
+        localSteps = localSteps.map(s => s.id === 'question_generation' ? {
+          ...s, status: 'done' as const, endTime: Date.now(), analyzedCount: generatedQuestions.length, thinking: `맞춤 질문 ${generatedQuestions.length}개 생성 완료`,
+        } : s);
+        setAnalysisSteps([...localSteps]);
+        await new Promise(r => setTimeout(r, 1000)); // 완료 후 최소 1초 대기
+
+        // 최종 완료 처리
+        const completeData = await stepPromises['complete'] as { products?: any[]; marketSummary?: { reviewCount?: number; topBrands?: string[] }; trendAnalysis?: { trends?: any[]; sources?: any[] }; questionTodos?: any[]; currentQuestion?: any };
+        const finalProducts = completeData?.products || localProducts;
+        setIsLoadingComplete(true);
+        const summaryData = {
+          productCount: finalProducts.length,
+          reviewCount: completeData.marketSummary?.reviewCount || 0,
+          topBrands: completeData.marketSummary?.topBrands || [],
+          trends: completeData.trendAnalysis?.trends || [],
+          sources: completeData.trendAnalysis?.sources || [],
+        };
+        setAnalysisSummary(summaryData);
+        setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
+          ...m,
+          analysisData: { steps: [...localSteps], crawledProducts: finalProducts, generatedQuestions: completeData.questionTodos, isComplete: true, summary: summaryData }
+        } : m));
+        setQuestionTodos(completeData.questionTodos || []);
+        setCurrentQuestion(completeData.currentQuestion);
+        setProgress({ current: 1, total: (completeData.questionTodos || []).length });
+        setCrawledProducts(finalProducts);
+
+        // V2 Flow: 질문 응답 중 백그라운드에서 확장 크롤링 시작
+        if (v2FlowEnabled) {
+          startBackgroundExpandCrawl(finalProducts);
+        }
+
+        if (completeData.currentQuestion) {
+          await new Promise(r => setTimeout(r, 300)); // 첫 질문 표시 전 짧은 대기
+          setMessages(prev => [...prev, {
+            id: `q_${completeData.currentQuestion.id}`,
+            role: 'assistant',
+            content: completeData.currentQuestion.question,
+            options: completeData.currentQuestion.options.map((o: any) => o.label),
+            dataSource: completeData.currentQuestion.dataSource,
+            tip: completeData.currentQuestion.reason,
+            typing: true,
+            timestamp: Date.now()
+          }]);
+        }
+    };
+
     setPhase('questions');
 
     const analysisMsg: ChatMessage = {
@@ -713,28 +841,10 @@ export default function KnowledgeAgentPage() {
     };
     setMessages([analysisMsg]);
 
-    // 인기상품 분석만 먼저 시작 (순차적 진행)
-    const parallelStartTime = Date.now();
-    localSteps = localSteps.map(s => {
-      if (s.id === 'product_analysis') {
-        return {
-          ...s,
-          status: 'active' as const,
-          startTime: parallelStartTime,
-        };
-      }
-      // web_search는 pending 상태로 대기
-      if (s.id === 'web_search') {
-        return {
-          ...s,
-          status: 'pending' as const,
-          searchQueries: initialQueries,
-        };
-      }
-      return s;
-    });
+    // 초기 활성화 및 UI 드라이버 시작
+    localSteps = localSteps.map(s => s.id === 'product_analysis' ? { ...s, status: 'active' as const, startTime: Date.now() } : s);
     setAnalysisSteps([...localSteps]);
-    setMessages([{ ...analysisMsg, analysisData: { steps: [...localSteps], crawledProducts: [], isComplete: false } }]);
+    driveUIFlow();
 
     try {
       const response = await fetch('/api/knowledge-agent/init', {
@@ -750,6 +860,7 @@ export default function KnowledgeAgentPage() {
 
       const decoder = new TextDecoder();
       let buffer = '';
+      let currentEvent = ''; // while 바깥에서 선언 (청크 간 이벤트 유지)
 
       while (true) {
         const { done, value } = await reader.read();
@@ -759,7 +870,6 @@ export default function KnowledgeAgentPage() {
         const lines = buffer.split('\n');
         buffer = lines.pop() || '';
 
-        let currentEvent = '';
         for (const line of lines) {
           if (line.startsWith('event: ')) {
             currentEvent = line.slice(7).trim();
@@ -777,114 +887,36 @@ export default function KnowledgeAgentPage() {
                     } : m));
                   }
                   if (data.isComplete) {
-                    // 인기상품 분석 완료 (웹검색 토글은 filters 수신 후 열림)
-                    updateStepAndMessage('product_analysis', {
-                      status: 'done',
-                      endTime: Date.now(),
-                      analyzedCount: localProducts.length,
-                      thinking: `${localProducts.length}개 상품 분석 완료`,
-                    });
+                    stepDataResolvers['product_analysis']?.(data);
                   }
                   break;
                 case 'filters':
-                  // 필터 정보 수신 - product_analysis step에 저장
-                  if (data.filters && data.filters.length > 0) {
-                    localSteps = localSteps.map(s => s.id === 'product_analysis' ? {
-                      ...s,
-                      result: {
-                        ...s.result,
-                        filters: data.filters,
-                        filterCount: data.totalCount,
-                      },
-                    } : s);
-                    setAnalysisSteps([...localSteps]);
-                    setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
-                      ...m,
-                      analysisData: { steps: [...localSteps], crawledProducts: localProducts, isComplete: false }
-                    } : m));
-
-                    // 필터 수신 완료 → 웹검색 토글 열기 (순차적 진행)
-                    updateStepAndMessage('web_search', {
-                      status: 'active',
-                      startTime: Date.now(),
-                      searchQueries: initialQueries,
-                    });
-                  }
-                  break;
-                case 'trend':
-                  trendData = data.trendAnalysis;
-                  // 웹검색 완료
-                  updateStepAndMessage('web_search', {
-                    status: 'done',
-                    endTime: Date.now(),
-                    searchQueries: data.searchQueries || initialQueries,
-                    searchResults: (data.sources || []).slice(0, 5),
-                    thinking: trendData?.top10Summary || '',
-                  });
-                  // 웹검색 완료 → 리뷰 키워드 추출 시작 (3번째 토글 열기)
-                  updateStepAndMessage('review_extraction', {
-                    status: 'active',
-                    startTime: Date.now(),
-                  });
-                  break;
-                case 'questions':
-                  const generatedQuestions = (data.questionTodos || []).map((q: any) => ({ id: q.id, question: q.question }));
-                  // 리뷰 키워드 추출 완료
-                  updateStepAndMessage('review_extraction', {
-                    status: 'done',
-                    endTime: Date.now(),
-                    analyzedCount: localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
-                    analyzedItems: [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
-                    thinking: `리뷰 키워드 분석 완료`,
-                  });
-                  // 리뷰 추출 완료 → 맞춤 질문 생성 시작 (4번째 토글 열기)
-                  updateStepAndMessage('question_generation', {
-                    status: 'active',
-                    startTime: Date.now(),
-                  });
-                  // 잠시 후 질문 생성 완료 표시
-                  await new Promise(r => setTimeout(r, 300));
-                  localSteps = localSteps.map(s => s.id === 'question_generation' ? {
-                    ...s, status: 'done' as const, endTime: Date.now(), analyzedCount: generatedQuestions.length, thinking: `맞춤 질문 ${generatedQuestions.length}개 생성 완료`,
+                  localSteps = localSteps.map(s => s.id === 'product_analysis' ? {
+                    ...s,
+                    result: {
+                      ...s.result,
+                      filters: data.filters,
+                      filterCount: data.totalCount,
+                    },
                   } : s);
                   setAnalysisSteps([...localSteps]);
                   setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
                     ...m,
-                    analysisData: { steps: [...localSteps], crawledProducts: localProducts, generatedQuestions, isComplete: false }
+                    analysisData: { steps: [...localSteps], crawledProducts: localProducts, isComplete: false }
                   } : m));
+                  stepDataResolvers['filters']?.(data);
+                  break;
+                case 'trend':
+                  trendData = data.trendAnalysis;
+                  stepDataResolvers['web_search']?.(data);
+                  break;
+                case 'questions':
+                  // 리뷰 추출 데이터와 질문 데이터를 버퍼링
+                  stepDataResolvers['review_extraction']?.(data);
+                  stepDataResolvers['question_generation']?.(data);
                   break;
                 case 'complete':
-                  const finalProducts = data.products || localProducts;
-                  setIsLoadingComplete(true);
-                  const summaryData = {
-                    productCount: finalProducts.length,
-                    reviewCount: data.marketSummary?.reviewCount || 0,
-                    topBrands: data.marketSummary?.topBrands || [],
-                    trends: data.trendAnalysis?.trends || [],
-                    sources: data.trendAnalysis?.sources || [],
-                  };
-                  setAnalysisSummary(summaryData);
-                  setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
-                    ...m,
-                    analysisData: { steps: [...localSteps], crawledProducts: finalProducts, generatedQuestions: data.questionTodos, isComplete: true, summary: summaryData }
-                  } : m));
-                  setQuestionTodos(data.questionTodos || []);
-                  setCurrentQuestion(data.currentQuestion);
-                  setProgress({ current: 1, total: (data.questionTodos || []).length });
-                  setCrawledProducts(finalProducts);
-                  if (data.currentQuestion) {
-                    await new Promise(r => setTimeout(r, 500));
-                    setMessages(prev => [...prev, {
-                      id: `q_${data.currentQuestion.id}`,
-                      role: 'assistant',
-                      content: data.currentQuestion.question,
-                      options: data.currentQuestion.options.map((o: any) => o.label),
-                      dataSource: data.currentQuestion.dataSource,
-                      tip: data.currentQuestion.reason,
-                      typing: true,
-                      timestamp: Date.now()
-                    }]);
-                  }
+                  stepDataResolvers['complete']?.(data);
                   break;
               }
               currentEvent = '';
@@ -969,6 +1001,309 @@ export default function KnowledgeAgentPage() {
     }, 100);
   };
 
+  // ============================================================================
+  // V2 Flow: 확장 크롤링 + 하드컷팅 + 리뷰 병렬 크롤링
+  // ============================================================================
+
+  /**
+   * 백그라운드 확장 크롤링 (init 완료 직후 시작)
+   * - 질문 답변하는 동안 백그라운드에서 120개까지 크롤링
+   * - 질문 완료 시점에 이미 크롤링 완료되어 있음
+   */
+  const startBackgroundExpandCrawl = async (initialProducts: any[]) => {
+    if (!v2FlowEnabled || isExpandCrawling || isExpandComplete) return;
+
+    console.log('[V2 Flow] Starting background expand crawl...');
+    setIsExpandCrawling(true);
+
+    try {
+      const existingPcodes = initialProducts.map((p: any) => p.pcode);
+      const expandRes = await fetch('/api/knowledge-agent/expand-crawl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryName,
+          existingPcodes,
+          limit: 120,
+        }),
+      });
+
+      // SSE 스트리밍 처리
+      const reader = expandRes.body?.getReader();
+      const decoder = new TextDecoder();
+      let allProducts: any[] = [...initialProducts];
+
+      if (reader) {
+        let buffer = '';
+        let currentEvent = ''; // while 바깥에서 선언 (청크 간 이벤트 유지)
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            if (line.startsWith('event: ')) {
+              currentEvent = line.slice(7).trim();
+            } else if (line.startsWith('data: ') && currentEvent) {
+              try {
+                const data = JSON.parse(line.slice(6));
+                if (currentEvent === 'complete' && data.products) {
+                  allProducts = [...initialProducts, ...data.products];
+                  setExpandedProducts(allProducts);
+                  console.log(`[V2 Flow] Background expand complete: ${allProducts.length} products`);
+                }
+              } catch {}
+              currentEvent = '';
+            }
+          }
+        }
+      }
+
+      setIsExpandComplete(true);
+      console.log(`[V2 Flow] Background expand crawl finished: ${allProducts.length} products`);
+    } catch (error) {
+      console.error('[V2 Flow] Background expand crawl error:', error);
+    } finally {
+      setIsExpandCrawling(false);
+    }
+  };
+
+  /**
+   * V2 플로우 시작 (질문 완료 후)
+   * - 이미 확장 크롤링이 완료되었으면 바로 하드컷팅
+   * - 아직 진행 중이면 완료 대기 후 하드컷팅
+   */
+  const startV2Flow = async () => {
+    if (!v2FlowEnabled) return;
+
+    console.log('[V2 Flow] Starting hard cut phase...');
+    setIsTyping(true);
+
+    try {
+      // 확장 크롤링 완료 대기 (이미 백그라운드에서 진행 중)
+      let allProducts = expandedProducts.length > 0 ? expandedProducts : [...crawledProducts];
+
+      // 확장 크롤링이 아직 진행 중이면 대기 (최대 10초)
+      if (isExpandCrawling && expandedProducts.length === 0) {
+        console.log('[V2 Flow] Waiting for background expand to complete...');
+        const startWait = Date.now();
+        while (isExpandCrawling && expandedProducts.length === 0 && Date.now() - startWait < 10000) {
+          await new Promise(r => setTimeout(r, 500));
+        }
+        allProducts = expandedProducts.length > 0 ? expandedProducts : [...crawledProducts];
+      }
+
+      console.log(`[V2 Flow] Using ${allProducts.length} products for hard cut`);
+
+      // 2. 하드컷팅 (15개)
+      const hardCutRes = await fetch('/api/knowledge-agent/hard-cut', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryName,
+          products: allProducts,
+          collectedInfo,
+          targetCount: 15,
+        }),
+      });
+
+      const hardCutData = await hardCutRes.json();
+      if (hardCutData.success) {
+        setHardCutProducts(hardCutData.filteredProducts);
+        console.log(`[V2 Flow] Hard cut to ${hardCutData.filteredProducts.length} products`);
+
+        // 3. 하드컷팅 결과 저장 및 시각화 단계로 전환
+        setHardcutResult({
+          totalBefore: allProducts.length,
+          totalAfter: hardCutData.filteredProducts.length,
+          appliedRules: hardCutData.appliedRules || [],
+        });
+        setPhase('hardcut_visual');
+
+        // 4. 리뷰 크롤링 시작 (백그라운드 - 시각화 표시 중에 진행)
+        startReviewCrawling(hardCutData.filteredProducts.map((p: any) => p.pcode));
+
+        // 5. 밸런스/단점 질문 생성 (하드컷팅된 15개 상품 기반)
+        try {
+          const dynamicQRes = await fetch('/api/knowledge-agent/generate-dynamic-questions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              categoryName,
+              hardcutProducts: hardCutData.filteredProducts,
+              collectedInfo,
+              reviews: reviewsData,
+            }),
+          });
+          const dynamicQData = await dynamicQRes.json();
+          if (dynamicQData.success) {
+            // 중복 방지를 위한 이전 선택 키워드 추출
+            const previousKeywords = Object.values(collectedInfo)
+              .flatMap((v: string) => v.split(/[,\s]+/).map(s => s.trim().toLowerCase()))
+              .filter(k => k.length > 1);
+
+            // 밸런스 질문 필터링 (이전 선택과 겹치는 것 제거)
+            let filteredBalance = dynamicQData.balanceQuestions || [];
+            if (filteredBalance.length > 0 && previousKeywords.length > 0) {
+              filteredBalance = filteredBalance.filter((q: any) => {
+                const optAText = (q.option_A?.text || '').toLowerCase();
+                const optBText = (q.option_B?.text || '').toLowerCase();
+                // 둘 다 이전 키워드와 겹치면 제외
+                const aOverlap = previousKeywords.some(k => optAText.includes(k));
+                const bOverlap = previousKeywords.some(k => optBText.includes(k));
+                if (aOverlap && bOverlap) {
+                  console.log(`[V2 Flow] Filtered duplicate balance: ${q.title}`);
+                  return false;
+                }
+                return true;
+              });
+            }
+            if (filteredBalance.length > 0) {
+              setBalanceQuestions(filteredBalance);
+              console.log(`[V2 Flow] Generated ${filteredBalance.length} balance questions from hardcut products`);
+            }
+
+            // 단점 옵션 필터링 (이전 선택과 겹치는 것 제거)
+            let filteredNegative = dynamicQData.negativeOptions || [];
+            if (filteredNegative.length > 0 && previousKeywords.length > 0) {
+              filteredNegative = filteredNegative.filter((n: any) => {
+                const label = (n.label || '').toLowerCase();
+                const overlap = previousKeywords.some(k => label.includes(k));
+                if (overlap) {
+                  console.log(`[V2 Flow] Filtered duplicate negative: ${n.label}`);
+                  return false;
+                }
+                return true;
+              });
+            }
+            if (filteredNegative.length > 0) {
+              setNegativeOptions(filteredNegative);
+              console.log(`[V2 Flow] Generated ${filteredNegative.length} negative options from hardcut products`);
+            }
+          }
+        } catch (error) {
+          console.error('[V2 Flow] Generate dynamic questions error:', error);
+        }
+      }
+
+    } catch (error) {
+      console.error('[V2 Flow] Error:', error);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  /**
+   * 리뷰 크롤링 (백그라운드)
+   */
+  const startReviewCrawling = async (pcodes: string[]) => {
+    if (pcodes.length === 0) return;
+
+    console.log(`[V2 Flow] Starting review crawl for ${pcodes.length} products...`);
+    setIsReviewsLoading(true);
+
+    try {
+      const reviewRes = await fetch('/api/knowledge-agent/crawl-reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pcodes, maxPerProduct: 5 }),
+      });
+
+      // SSE 스트리밍 처리 (이벤트 타입별로 파싱)
+      const reader = reviewRes.body?.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let currentEvent = ''; // while 바깥에서 선언 (청크 간 이벤트 유지)
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || ''; // 마지막 불완전한 라인은 버퍼에 유지
+
+          for (const line of lines) {
+            if (line.startsWith('event: ')) {
+              currentEvent = line.slice(7).trim();
+            } else if (line.startsWith('data: ') && currentEvent) {
+              try {
+                const data = JSON.parse(line.slice(6));
+
+                if (currentEvent === 'progress') {
+                  console.log(`[V2 Flow] Review progress: ${data.completed}/${data.total} - ${data.pcode}`);
+                } else if (currentEvent === 'complete' && data.reviews) {
+                  setReviewsData(data.reviews);
+                  console.log(`[V2 Flow] Reviews complete: ${Object.keys(data.reviews).length} products, ${data.totalReviews} total reviews`);
+                } else if (currentEvent === 'error') {
+                  console.error('[V2 Flow] Review crawl server error:', data.message);
+                }
+              } catch {}
+              currentEvent = '';
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('[V2 Flow] Review crawl error:', error);
+    } finally {
+      setIsReviewsLoading(false);
+    }
+  };
+
+  /**
+   * V2 최종 추천 생성
+   */
+  const handleV2FinalRecommend = async (balanceSelections: any[], negativeSelections: string[]) => {
+    if (!v2FlowEnabled || hardCutProducts.length === 0) return null;
+
+    console.log('[V2 Flow] Generating final recommendations...');
+
+    try {
+      const res = await fetch('/api/knowledge-agent/final-recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryKey,
+          categoryName,
+          candidates: hardCutProducts,
+          reviews: reviewsData,
+          collectedInfo,
+          balanceSelections,
+          negativeSelections,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        console.log(`[V2 Flow] Final recommendations: ${data.recommendations.length}`);
+        return data.recommendations;
+      }
+    } catch (error) {
+      console.error('[V2 Flow] Final recommend error:', error);
+    }
+
+    return null;
+  };
+
+  /**
+   * 하드컷팅 시각화에서 '계속' 클릭 시 밸런스 단계로 전환
+   */
+  const handleHardcutContinue = () => {
+    setPhase('balance');
+    setMessages(prev => [...prev, {
+      id: `a_balance_${Date.now()}`,
+      role: 'assistant',
+      content: '이제 취향에 맞는 제품을 더 정확히 골라볼게요. 몇 가지 선택지 중에서 더 끌리는 쪽을 골라주세요!',
+      typing: true,
+      timestamp: Date.now()
+    }]);
+  };
+
   const handleBalanceComplete = async (selections: Map<string, 'A' | 'B'>) => {
     setIsTyping(true);
     const selectionsStr = Array.from(selections.entries())
@@ -978,8 +1313,36 @@ export default function KnowledgeAgentPage() {
       })
       .filter(Boolean).join(', ');
 
+    // V2 Flow: 밸런스 선택 저장
+    const balanceSelectionsForV2 = Array.from(selections.entries()).map(([id, choice]) => {
+      const q = balanceQuestions.find(bq => bq.id === id);
+      return {
+        questionId: id,
+        selectedOption: choice,
+        selectedLabel: q ? (choice === 'A' ? q.option_A.text : q.option_B.text) : '',
+        targetRuleKey: q ? (choice === 'A' ? q.option_A.target_rule_key : q.option_B.target_rule_key) : '',
+      };
+    });
+    setSavedBalanceSelections(balanceSelectionsForV2);
+
     setMessages(prev => [...prev, { id: `u_balance_${Date.now()}`, role: 'user', content: `선택: ${selectionsStr}`, timestamp: Date.now() }]);
 
+    // V2 Flow: 하드컷 상품 기반으로 생성된 negativeOptions가 있으면 바로 단점 필터로
+    if (v2FlowEnabled && negativeOptions.length > 0) {
+      setPhase('negative_filter');
+      setMessages(prev => [...prev, {
+        id: `a_negative_${Date.now()}`,
+        role: 'assistant',
+        content: '취향을 파악했어요! 마지막으로 꼭 피하고 싶은 단점이 있으신가요? (복수 선택 가능)',
+        negativeFilterOptions: negativeOptions,
+        typing: true,
+        timestamp: Date.now()
+      }]);
+      setIsTyping(false);
+      return;
+    }
+
+    // V2 비활성화 또는 negativeOptions 없음: 기존 chat API 호출
     try {
       const res = await fetch('/api/knowledge-agent/chat', {
         method: 'POST',
@@ -1008,6 +1371,53 @@ export default function KnowledgeAgentPage() {
     setMessages(prev => [...prev, { id: `u_negative_${Date.now()}`, role: 'user', content: selectedLabels.length > 0 ? `피하고 싶은 단점: ${selectionsStr}` : '특별히 없어요', timestamp: Date.now() }]);
 
     try {
+      // V2 Flow: 하드컷팅된 상품이 있으면 V2 최종 추천 사용
+      if (v2FlowEnabled && hardCutProducts.length > 0) {
+        // 리뷰 로딩 대기 (최대 5초)
+        if (isReviewsLoading) {
+          console.log('[V2 Flow] Waiting for reviews to load...');
+          const startWait = Date.now();
+          while (isReviewsLoading && Date.now() - startWait < 5000) {
+            await new Promise(r => setTimeout(r, 500));
+          }
+        }
+
+        const v2Recommendations = await handleV2FinalRecommend(savedBalanceSelections, selectedLabels);
+        if (v2Recommendations && v2Recommendations.length > 0) {
+          setPhase('result');
+          const resultProducts = v2Recommendations.map((rec: any) => ({
+            ...rec.product,
+            // PDP 모달용 속성 매핑
+            id: rec.pcode || rec.product?.pcode,
+            title: rec.product?.name || rec.product?.title,
+            reasoning: rec.reason,
+            recommendReason: rec.reason,
+            highlights: rec.highlights,
+            concerns: rec.concerns,
+            bestFor: rec.bestFor,
+            reviewQuotes: rec.reviewQuotes || [],
+            // 정규화된 스펙 (비교표용) - API에서 생성된 것 우선 사용
+            specs: rec.normalizedSpecs || rec.product?.specs || {},
+            // 장단점 (API에서 LLM으로 생성된 것)
+            prosFromReviews: rec.prosFromReviews || rec.highlights || [],
+            consFromReviews: rec.consFromReviews || rec.concerns || [],
+            // 리뷰 데이터 (API에서 전달받은 것 우선, fallback으로 로컬 데이터)
+            reviews: rec.reviews || reviewsData[rec.pcode] || [],
+          }));
+          setMessages(prev => [...prev, {
+            id: `a_result_${Date.now()}`,
+            role: 'assistant',
+            content: `${categoryName} 추천 결과입니다! 사용자님의 선택과 리뷰 분석을 종합하여 최적의 상품 ${v2Recommendations.length}개를 선정했습니다.`,
+            resultProducts,
+            typing: true,
+            timestamp: Date.now()
+          }]);
+          setIsTyping(false);
+          return;
+        }
+      }
+
+      // Fallback: 기존 플로우 사용
       const res = await fetch('/api/knowledge-agent/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1027,6 +1437,7 @@ export default function KnowledgeAgentPage() {
         }
       }
     } catch (e) {
+      console.error('[NegativeFilter] Error:', e);
     } finally {
       setIsTyping(false);
     }
@@ -1068,15 +1479,33 @@ export default function KnowledgeAgentPage() {
         if (data.currentQuestion) setCurrentQuestion(data.currentQuestion);
 
         if (data.phase === 'balance') {
-          setPhase('balance');
+          // 밸런스 질문 저장 (나중에 사용)
           setBalanceQuestions(data.balanceQuestions || []);
-          setMessages(prev => [...prev, {
-            id: `a_balance_${Date.now()}`,
-            role: 'assistant',
-            content: data.content || '취향에 맞는 제품을 찾기 위해 몇 가지 선택을 해주세요.',
-            typing: true,
-            timestamp: Date.now()
-          }]);
+
+          // V2 Flow: 질문 완료 후 확장 크롤링 + 하드컷팅 시작
+          if (v2FlowEnabled && !v2FlowStarted) {
+            setV2FlowStarted(true);
+            // 처리중 메시지 추가
+            setMessages(prev => [...prev, {
+              id: `a_processing_${Date.now()}`,
+              role: 'assistant',
+              content: '응답해주신 내용을 바탕으로 딱 맞는 상품을 골라내고 있어요...',
+              typing: true,
+              timestamp: Date.now()
+            }]);
+            // V2 플로우 시작 -> 완료되면 hardcut_visual 단계로 전환
+            startV2Flow();
+          } else {
+            // V2 비활성화 시 기존 플로우
+            setPhase('balance');
+            setMessages(prev => [...prev, {
+              id: `a_balance_${Date.now()}`,
+              role: 'assistant',
+              content: data.content || '취향에 맞는 제품을 찾기 위해 몇 가지 선택을 해주세요.',
+              typing: true,
+              timestamp: Date.now()
+            }]);
+          }
         } else if (data.phase === 'negative_filter') {
           setPhase('negative_filter');
           setMessages(prev => [...prev, {
@@ -1147,6 +1576,23 @@ export default function KnowledgeAgentPage() {
                 isLatestAssistantMessage={msg.role === 'assistant' && msg.options && !msg.isFinalized}
               />
             ))}
+            {/* 하드컷팅 시각화 단계 */}
+            {phase === 'hardcut_visual' && hardcutResult && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="py-4"
+              >
+                <HardcutVisualization
+                  totalBefore={hardcutResult.totalBefore}
+                  totalAfter={hardcutResult.totalAfter}
+                  filteredProducts={hardCutProducts}
+                  appliedRules={hardcutResult.appliedRules}
+                  onContinue={handleHardcutContinue}
+                />
+              </motion.div>
+            )}
+
             {phase === 'balance' && balanceQuestions.length > 0 && !isTyping && (
               <InlineBalanceCarousel questions={balanceQuestions} onComplete={handleBalanceComplete} />
             )}

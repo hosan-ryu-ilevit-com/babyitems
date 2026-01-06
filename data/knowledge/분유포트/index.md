@@ -1,18 +1,30 @@
 # 분유포트 전문가 지식
 
-> 마지막 업데이트: 2026-01-06T06:02:07.647Z
+> 마지막 업데이트: 2026-01-06T08:12:07.351Z
 > 분석 상품: 40개 | 분석 리뷰: 5,773개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 앱 연동을 통한 원격 제어 및 스마트 기능 강화
+- 안전한 소재(스테인리스, 붕규산 유리 등) 사용 및 위생 관리 기능 강조
+- 휴대성과 편의성을 높인 컴팩트한 디자인의 여행용/휴대용 분유포트 인기
 
 ### 구매자 만족 포인트
+- ✓ 정확한 온도 조절 및 유지 기능
+- ✓ 빠른 가열 및 냉각 속도
+- ✓ 간편한 세척 및 위생 관리
+- ✓ 앱 연동 등 스마트 기능
+- ✓ 안전한 소재 사용
 
 ### 주의해야 할 단점
+- ⚠ 상대적으로 높은 가격대
+- ⚠ 일부 모델의 물 용량 확인 어려움
+- ⚠ 주전자형의 경우 무게감
+- ⚠ 통합형 모델의 경우 분리 세척의 불편함
 
 ### 가격대 인사이트
-
+분유포트의 가격대는 3만원대부터 20만원대까지 다양하게 형성되어 있습니다. 3~6만원대의 가성비 제품들은 기본적인 기능에 충실하며, 7~10만원대의 중급 제품들은 온도 조절, 보온 기능 등이 강화됩니다. 10만원 이상의 프리미엄 제품들은 스마트 기능, 고급 소재, 디자인 등을 차별화하여 제공합니다.
 
 ---
 
@@ -231,8 +243,4 @@
 ---
 
 ## 📊 데이터 출처
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEODPDHfTQ02JtrEdeSwCJNDrQ89-SefQRZ8F6LvgMw-tHr5aUZ8KxSNEnQ5Gf6Q2G64mGXqb-qG0OdSnPdEgS9sa7zkliJzFPVs21sV6NQn0AgTv4gNu62n54ks08Rjck7wcaG1tw=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvkM4CiDw8JE326K2atQE-6FApdxXcafvRIaGwcaF7PMOkMsQcc3pM72pX60UqewO5ckXMJgoO2cHvavefspi2C0I8Q26LZCKkTHbNNXOQmGtttydi7yVH88ch5sM60h38HixTY6g=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHxrQggCHHFULr1yeZvN_pWhrhtdB-iSALFHM8mmVmLCpBEBXWUkc1i6JAY8cULE6jc2YloLLHQVu5kKgMlj6SEmZGJMEEjOFJd6_6TmwEPekyIyIIKqHTc4wv3htaEqkYgo5X1cQU=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ2JQN9MysCU1C59SjPf_YdlZB4buRn7403YPSVRy0iky9EfC7el-SaFK0d9154YZWfY7Fhe8zv4QNQU4aZ9ecrD0AaAj4XCAoqJpmSmk8sbl3goTMRgR6m-M353J_He_yr_4rsSQ=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGc_EPzMyhXdBuxOxJkfDxoqauB5maJNwA4sCr7e-jiPeRlSocE8B98atrluCzEnwyQa88tuLL6yyd5FzCVeZjPVSnoMa3Uy0khpBWNpJ12l8qMIGUHScXGA302AHVyKY8d_gxd3WI=)
+- [다나와 분유포트 인기순위](https://search.danawa.com/dsearch.php?query=%EB%B6%84%EC%9C%A0%ED%8F%AC%ED%8A%B8&sort=saveDESC)

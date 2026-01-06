@@ -23,6 +23,15 @@ import {
   FcFlashOn
 } from "react-icons/fc";
 
+interface ReviewItem {
+  reviewId?: string;
+  rating: number;
+  content: string;
+  author?: string;
+  date?: string;
+  mallName?: string;
+}
+
 interface KnowledgeProduct {
   pcode: string;
   name: string;
@@ -37,6 +46,7 @@ interface KnowledgeProduct {
   consFromReviews?: string[];
   recommendedFor?: string;
   recommendReason?: string;
+  reviews?: ReviewItem[];  // 리뷰 목록 추가
 }
 
 interface KnowledgeComparisonTableProps {
@@ -366,6 +376,80 @@ export function KnowledgeComparisonTable({
               })}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* 리뷰 목록 섹션 */}
+      {selectedIds.length === 2 && selectedProducts.length === 2 && (
+        <div className="mt-6 space-y-4">
+          <h4 className="text-[14px] font-semibold text-gray-700 flex items-center gap-2">
+            <FcPodiumWithSpeaker size={18} />
+            실제 구매자 리뷰
+          </h4>
+          
+          <div className="grid grid-cols-2 gap-4">
+            {/* 왼쪽 상품 리뷰 */}
+            <div className="space-y-2">
+              <p className="text-[12px] font-medium text-gray-500 text-center mb-2">
+                {selectedProducts[0]?.name?.slice(0, 20)}...
+              </p>
+              {(selectedProducts[0]?.reviews || []).length > 0 ? (
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  {selectedProducts[0]!.reviews!.slice(0, 5).map((review, idx) => (
+                    <div 
+                      key={review.reviewId || idx} 
+                      className="bg-gray-50 rounded-lg p-3 border border-gray-100"
+                    >
+                      <div className="flex items-center gap-1 mb-1">
+                        <span className="text-yellow-500 text-[11px]">{'★'.repeat(Math.floor(review.rating))}</span>
+                        <span className="text-gray-300 text-[11px]">{'★'.repeat(5 - Math.floor(review.rating))}</span>
+                        <span className="text-[11px] text-gray-400 ml-1">{review.rating.toFixed(1)}</span>
+                      </div>
+                      <p className="text-[12px] text-gray-700 leading-relaxed line-clamp-3">
+                        "{review.content}"
+                      </p>
+                      {review.mallName && (
+                        <p className="text-[10px] text-gray-400 mt-1">- {review.mallName}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[12px] text-gray-400 text-center py-4">리뷰 없음</p>
+              )}
+            </div>
+
+            {/* 오른쪽 상품 리뷰 */}
+            <div className="space-y-2">
+              <p className="text-[12px] font-medium text-gray-500 text-center mb-2">
+                {selectedProducts[1]?.name?.slice(0, 20)}...
+              </p>
+              {(selectedProducts[1]?.reviews || []).length > 0 ? (
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  {selectedProducts[1]!.reviews!.slice(0, 5).map((review, idx) => (
+                    <div 
+                      key={review.reviewId || idx} 
+                      className="bg-gray-50 rounded-lg p-3 border border-gray-100"
+                    >
+                      <div className="flex items-center gap-1 mb-1">
+                        <span className="text-yellow-500 text-[11px]">{'★'.repeat(Math.floor(review.rating))}</span>
+                        <span className="text-gray-300 text-[11px]">{'★'.repeat(5 - Math.floor(review.rating))}</span>
+                        <span className="text-[11px] text-gray-400 ml-1">{review.rating.toFixed(1)}</span>
+                      </div>
+                      <p className="text-[12px] text-gray-700 leading-relaxed line-clamp-3">
+                        "{review.content}"
+                      </p>
+                      {review.mallName && (
+                        <p className="text-[10px] text-gray-400 mt-1">- {review.mallName}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[12px] text-gray-400 text-center py-4">리뷰 없음</p>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </motion.div>

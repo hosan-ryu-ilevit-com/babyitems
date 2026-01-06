@@ -38,6 +38,11 @@ function buildSearchUrl(options: DanawaSearchOptions): string {
 
   let url = `https://search.danawa.com/dsearch.php?query=${encodeURIComponent(query)}`;
 
+  // limit 파라미터 추가 (다나와에서 한 페이지에 가져올 상품 수)
+  if (options.limit) {
+    url += `&limit=${options.limit}`;
+  }
+
   if (options.sort) {
     url += `&sort=${options.sort}`;
   }

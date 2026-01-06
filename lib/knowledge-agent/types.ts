@@ -233,3 +233,92 @@ export function getCategoryName(categoryKey: string): string {
 export function getCategoryKey(categoryName: string): string {
   return CATEGORY_KEY_MAP[categoryName] || categoryName;
 }
+
+// ============================================================================
+// 하드컷팅 관련 타입
+// ============================================================================
+
+export interface HardCutProduct extends CandidateProduct {
+  matchScore: number;              // 스펙 매칭 점수 (0-100)
+  matchedConditions: string[];     // 매칭된 조건들
+  specSummary?: string;            // 원본 스펙 요약
+  thumbnail?: string | null;       // 썸네일 URL
+  productUrl?: string;             // 상품 URL
+}
+
+export interface HardCutRule {
+  questionId: string;              // 연결된 질문 ID
+  specKey: string;                 // 매칭할 스펙 키 (예: "용량", "크기")
+  matchType: 'exact' | 'range' | 'contains' | 'regex';
+  matchValue: string | number | { min: number; max: number };
+  weight: number;                  // 가중치 (0-1)
+  mandatory: boolean;              // 필수 조건 여부
+}
+
+export interface HardCutResult {
+  success: boolean;
+  filteredProducts: HardCutProduct[];
+  totalBefore: number;
+  totalAfter: number;
+  appliedRules: Array<{
+    rule: string;
+    matchedCount: number;
+    filteredCount: number;
+  }>;
+}
+
+// ============================================================================
+// 리뷰 크롤링 관련 타입
+// ============================================================================
+
+export interface ReviewLite {
+  reviewId: string;
+  rating: number;
+  content: string;
+  author?: string;
+  date?: string;
+  mallName?: string;
+}
+
+export interface ReviewCrawlStatus {
+  loading: boolean;
+  phase: 'idle' | 'crawling' | 'complete' | 'error';
+  progress: {
+    current: number;
+    total: number;
+  };
+  reviews: Record<string, ReviewLite[]>;
+  error?: string;
+}
+
+// ============================================================================
+// 최종 추천 관련 타입
+// ============================================================================
+
+export interface FinalRecommendation {
+  rank: number;
+  pcode: string;
+  product: HardCutProduct;
+  reason: string;                  // 추천 이유 (LLM 생성)
+  highlights: string[];            // 핵심 장점
+  concerns?: string[];             // 주의점 (있다면)
+  reviewQuotes?: string[];         // 리뷰 인용
+  bestFor?: string;                // 이런 분께 추천
+}
+
+export interface FinalRecommendationRequest {
+  categoryKey: string;
+  categoryName: string;
+  candidates: HardCutProduct[];
+  reviews: Record<string, ReviewLite[]>;
+  collectedInfo: Record<string, string>;
+  balanceSelections: BalanceSelection[];
+  negativeSelections: string[];
+}
+
+export interface FinalRecommendationResponse {
+  success: boolean;
+  recommendations: FinalRecommendation[];
+  summary?: string;                // 전체 추천 요약
+  error?: string;
+}

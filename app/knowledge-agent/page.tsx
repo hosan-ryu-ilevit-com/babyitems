@@ -3,28 +3,17 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MagnifyingGlass, Sparkle, Lightning, ArrowRight, CaretRight, CaretLeft, PaperPlaneRight } from '@phosphor-icons/react/dist/ssr';
-import { 
-  FcSearch, 
-  FcMindMap, 
-  FcElectricity, 
-  FcPrevious, 
-  FcIdea, 
-  FcDataConfiguration,
-  FcAssistant
-} from "react-icons/fc";
-
+import { ArrowRight, Sparkle } from '@phosphor-icons/react/dist/ssr';
+import { FcIdea } from "react-icons/fc";
 
 export default function KnowledgeAgentLanding() {
   const router = useRouter();
   const inputRef = useRef<HTMLTextAreaElement>(null);
-
   const [inputValue, setInputValue] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [clarificationMessage, setClarificationMessage] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
-  // 자동 포커스
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -38,7 +27,6 @@ export default function KnowledgeAgentLanding() {
     setSuggestions([]);
 
     try {
-      // 키워드 추출 API 호출
       const res = await fetch('/api/knowledge-agent/extract-keyword', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -47,19 +35,15 @@ export default function KnowledgeAgentLanding() {
       const data = await res.json();
 
       if (data.success && data.keyword && data.confidence !== 'low') {
-        // 키워드 추출 성공 → 해당 카테고리 페이지로 이동
-        // URL 인코딩된 키워드를 categoryKey로 사용
         const categoryKey = encodeURIComponent(data.keyword);
         router.push(`/knowledge-agent/${categoryKey}`);
       } else if (data.clarificationNeeded) {
-        // 명확화 필요
         setClarificationMessage(data.clarificationQuestion || '어떤 제품을 찾고 계신가요?');
         if (data.suggestions?.length > 0) {
           setSuggestions(data.suggestions);
         }
         setIsProcessing(false);
       } else {
-        // 알 수 없는 에러
         setClarificationMessage('죄송합니다. 다시 한 번 말씀해 주시겠어요?');
         setIsProcessing(false);
       }
@@ -70,11 +54,6 @@ export default function KnowledgeAgentLanding() {
     }
   };
 
-  const handleKeywordClick = (keyword: string) => {
-    setInputValue(keyword);
-    handleSearch(keyword);
-  };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -83,178 +62,173 @@ export default function KnowledgeAgentLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FB] flex flex-col font-sans">
-      <div className="max-w-[480px] mx-auto w-full flex-1 flex flex-col relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50">
-        {/* Header */}
-        <header className="sticky top-0 z-[100] bg-white/80 backdrop-blur-2xl border-b border-gray-50/50 px-4 h-16 flex items-center justify-between">
-          <motion.button 
-            whileHover={{ x: -2 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => router.push('/categories')} 
-            className="p-2.5 -ml-2.5 rounded-full hover:bg-gray-50 transition-colors"
-          >
-            <FcPrevious size={20} />
-          </motion.button>
-          
-          <div className="flex flex-col items-center gap-0.5">
-            <h1 className="font-black text-[15px] text-gray-900 tracking-tight uppercase">
-              가전/아기용품 구매 도우미
-            </h1>
-          </div>
+    <div className="min-h-screen bg-[#FDFDFF] text-gray-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+        {/* Abstract Background Shapes */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            <motion.div 
+                animate={{ 
+                    y: [0, -40, 0],
+                    rotate: [0, 5, 0],
+                    scale: [1, 1.05, 1]
+                }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-indigo-200/20 rounded-full blur-3xl mix-blend-multiply" 
+            />
+            <motion.div 
+                animate={{ 
+                    y: [0, 50, 0],
+                    x: [0, 30, 0],
+                    scale: [1, 1.1, 1]
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-200/20 rounded-full blur-3xl mix-blend-multiply" 
+            />
+        </div>
 
-          <div className="w-9" />
+      <div className="max-w-[480px] mx-auto w-full min-h-screen flex flex-col relative z-10 border-x border-gray-100/50 bg-white/40 backdrop-blur-sm shadow-2xl shadow-indigo-100/40">
+        
+        {/* Header */}
+        <header className="px-6 py-8 flex justify-between items-center">
+            <motion.button 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                onClick={() => router.push('/categories')}
+                className="group flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors"
+            >
+                <div className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-gray-900 transition-colors">
+                    <ArrowRight size={14} className="rotate-180" />
+                </div>
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 duration-300">이전으로</span>
+            </motion.button>
+            <motion.div 
+                 initial={{ opacity: 0, scale: 0.8 }}
+                 animate={{ opacity: 1, scale: 1 }}
+                 className="px-3 py-1 bg-gray-900 text-white text-[10px] font-black tracking-widest uppercase rounded-full"
+            >
+                Beta
+            </motion.div>
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 flex flex-col items-center justify-center px-6 pb-40">
-          {/* Logo & Title */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center mb-12"
-          >
+        <main className="flex-1 flex flex-col px-6 pb-12 pt-10">
             
-            
-            <h1 className="text-[26px] font-black text-gray-900 mb-3 tracking-tight leading-tight">
-              어떤 상품을<br />찾고 계신가요?
-            </h1>
-            <p className="text-[14px] font-bold text-gray-400">
-              광고 없는 AI 분석으로 고민을 줄여보세요
-            </p>
-          </motion.div>
-
-          {/* Search Box */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, type: "spring" }}
-            className="w-full relative"
-          >
-            <div className="relative group">
-              {/* 스마트 에이전트 느낌의 글로우 효과 */}
-              <div 
-                className="absolute -inset-8 -z-10 blur-[50px] opacity-40 pointer-events-none group-focus-within:opacity-80 transition-opacity duration-700"
-                style={{
-                  background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.2) 50%, transparent 100%)',
-                }}
-              />
-
-              {/* Input container */}
-              <div className="relative bg-white rounded-[28px] border-2 border-gray-100 focus-within:border-blue-500/50 overflow-hidden shadow-[0_15px_45px_rgba(0,0,0,0.04)] focus-within:shadow-[0_20px_60px_rgba(59,130,246,0.1)] transition-all duration-500">
-                <div className="flex items-start p-5">
-                  <FcSearch
-                    size={24}
-                    className={`mt-1 mr-4 shrink-0 transition-all duration-300 ${
-                      isProcessing ? 'scale-125' : ''
-                    }`}
-                  />
-                  <textarea
-                    ref={inputRef}
-                    value={inputValue}
-                    onChange={(e) => {
-                      setInputValue(e.target.value);
-                      setClarificationMessage(null);
-                      e.target.style.height = 'auto';
-                      e.target.style.height = `${Math.min(e.target.scrollHeight, 140)}px`;
-                    }}
-                    onKeyDown={handleKeyDown}
-                    placeholder={`구매하고 싶은 상품을 입력하세요\n(예: 분유포트, 기저귀, 가습기...)`}
-                    className="flex-1 bg-transparent text-[16px] font-semibold text-gray-800 placeholder:text-gray-300 placeholder:font-medium focus:outline-none resize-none min-h-[54px] max-h-[140px] leading-relaxed py-0.5"
-                    disabled={isProcessing}
-                    rows={1}
-                  />
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="mb-10"
+            >
+                <div className="flex items-center gap-2 mb-4 text-indigo-600 font-bold text-sm tracking-wide">
+                    <Sparkle weight="fill" />
+                    <span>AI SHOPPING ASSISTANT</span>
                 </div>
+                <h1 className="text-[40px] font-black text-gray-900 leading-[1.15] tracking-tight mb-5">
+                    복잡한 비교 검색,<br/>
+                    <span className="relative inline-block">
+                        <span className="relative z-10">대신 해드릴게요</span>
+                        <span className="absolute bottom-2 left-0 w-full h-3 bg-indigo-200/60 -z-0 transform -rotate-1"></span>
+                    </span>
+                </h1>
+                <p className="text-gray-500 text-[17px] font-medium leading-relaxed max-w-[90%]">
+                    찾으시는 육아용품을 알려주시면<br/>
+                    리뷰와 스펙을 분석해 추천해드려요.
+                </p>
+            </motion.div>
 
-                {/* Submit button */}
-                <div className="px-5 pb-5 flex justify-end">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => handleSearch()}
-                    disabled={!inputValue.trim() || isProcessing}
-                    className={`h-12 px-6 rounded-2xl font-black text-[14px] flex items-center gap-2.5 transition-all ${
-                      inputValue.trim() ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-300'
-                    } disabled:opacity-50`}
-                  >
-                    {isProcessing ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span>분석 중...</span>
-                      </div>
-                    ) : (
-                      <>
-                        시작하기
-                        <PaperPlaneRight size={18} weight="fill" />
-                      </>
-                    )}
-                  </motion.button>
-                </div>
-              </div>
-            </div>
-
-            {/* Clarification Message */}
-            <AnimatePresence>
-              {clarificationMessage && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  className="mt-6 p-5 bg-white border border-gray-100 rounded-[24px] shadow-lg relative overflow-hidden"
-                >
-                  <div className="flex items-start gap-3 relative z-10">
-                    <FcIdea size={20} className="shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-[14px] text-gray-800 font-bold leading-relaxed mb-4">
-                        {clarificationMessage}
-                      </p>
-                      {suggestions.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                          {suggestions.map((suggestion, i) => (
-                            <motion.button
-                              key={i}
-                              whileHover={{ y: -2 }}
-                              whileTap={{ scale: 0.98 }}
-                              onClick={() => handleKeywordClick(suggestion)}
-                              className="px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-[13px] font-bold text-gray-600 hover:bg-gray-100 transition-colors"
-                            >
-                              {suggestion}
-                            </motion.button>
-                          ))}
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="relative group"
+            >
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-[32px] opacity-20 group-focus-within:opacity-40 blur transition-opacity duration-500" />
+                
+                <div className="relative bg-white rounded-[28px] p-2 shadow-xl shadow-indigo-100/50 border border-gray-100 transition-transform duration-300 group-focus-within:-translate-y-1">
+                    <div className="relative flex flex-col">
+                        <textarea
+                            ref={inputRef}
+                            value={inputValue}
+                            onChange={(e) => {
+                                setInputValue(e.target.value);
+                                setClarificationMessage(null);
+                                e.target.style.height = 'auto';
+                                e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+                            }}
+                            onKeyDown={handleKeyDown}
+                            placeholder="예: 튼튼하고 안전한 카시트 추천해줘"
+                            className="w-full bg-transparent p-4 text-lg font-medium text-gray-900 placeholder:text-gray-300 focus:outline-none resize-none min-h-[60px] max-h-[120px]"
+                            disabled={isProcessing}
+                            rows={1}
+                        />
+                        
+                        <div className="flex justify-between items-center px-2 pb-2 mt-2">
+                             <div className="flex gap-2">
+                                {/* Optional: Add quick chips here later if needed */}
+                             </div>
+                             <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => handleSearch()}
+                                disabled={!inputValue.trim() || isProcessing}
+                                className={`h-12 w-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+                                    inputValue.trim() 
+                                    ? 'bg-gray-900 text-white shadow-lg shadow-gray-900/20' 
+                                    : 'bg-gray-100 text-gray-400'
+                                }`}
+                             >
+                                {isProcessing ? (
+                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                ) : (
+                                    <ArrowRight size={20} weight="bold" />
+                                )}
+                             </motion.button>
                         </div>
-                      )}
                     </div>
-                  </div>
-                </motion.div>
-              )}
+                </div>
+            </motion.div>
+
+            {/* Clarification & Suggestions */}
+            <AnimatePresence mode="wait">
+                {clarificationMessage && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: "auto" }}
+                        exit={{ opacity: 0, y: 20, height: 0 }}
+                        className="mt-8"
+                    >
+                         <div className="flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 shrink-0">
+                                <FcIdea size={24} />
+                            </div>
+                            <div className="space-y-4 pt-1">
+                                <p className="text-gray-800 font-bold leading-relaxed text-lg">
+                                    {clarificationMessage}
+                                </p>
+                                {suggestions.length > 0 && (
+                                    <div className="flex flex-wrap gap-2">
+                                        {suggestions.map((suggestion, i) => (
+                                            <motion.button
+                                                key={i}
+                                                whileHover={{ scale: 1.05, backgroundColor: "#EEF2FF" }} // indigo-50
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => {
+                                                    setInputValue(suggestion);
+                                                    handleSearch(suggestion);
+                                                }}
+                                                className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-600 shadow-sm transition-colors hover:border-indigo-200 hover:text-indigo-700"
+                                            >
+                                                {suggestion}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
             </AnimatePresence>
-          </motion.div>
-
-       
-        
         </main>
-
-   
       </div>
-    </div>
-  );
-}
-
-function FeatureCard({
-  icon,
-  title,
-  description
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="bg-gray-50 rounded-xl p-3 text-center">
-      <div className="w-10 h-10 mx-auto mb-2 bg-white rounded-lg flex items-center justify-center">
-        {icon}
-      </div>
-      <p className="text-xs font-semibold text-gray-800">{title}</p>
-      <p className="text-[10px] text-gray-500">{description}</p>
     </div>
   );
 }

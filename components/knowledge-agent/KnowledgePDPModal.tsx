@@ -4,16 +4,28 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star, ShoppingCart, ArrowRight } from '@phosphor-icons/react/dist/ssr';
-import { 
-  FcIdea, 
-  FcApproval, 
-  FcSearch, 
+import {
+  FcIdea,
+  FcApproval,
+  FcSearch,
   FcLike,
   FcMindMap,
   FcPodiumWithSpeaker,
   FcCurrencyExchange,
-  FcRating
+  FcRating,
+  FcSpeaker,
+  FcHighPriority,
+  FcBusinessman
 } from "react-icons/fc";
+
+interface ReviewData {
+  reviewId: string;
+  rating: number;
+  content: string;
+  author?: string;
+  date?: string;
+  mallName?: string;
+}
 
 interface KnowledgePDPModalProps {
   product: {
@@ -27,6 +39,10 @@ interface KnowledgePDPModalProps {
     reasoning?: string;
     highlights?: string[];
     matchScore?: number;
+    reviews?: ReviewData[];
+    reviewQuotes?: string[];
+    bestFor?: string;
+    concerns?: string[];
   };
   categoryKey: string;
   onClose: () => void;
@@ -199,7 +215,7 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
 
           {/* Highlights */}
           {product.highlights && product.highlights.length > 0 && (
-            <div className="px-6 pb-20">
+            <div className="px-6 pb-8">
                <div className="flex items-center gap-2 mb-4">
                   <FcIdea size={18} />
                   <h4 className="text-[14px] font-black text-gray-900 uppercase tracking-widest">
@@ -208,8 +224,8 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
                </div>
               <div className="grid grid-cols-1 gap-3">
                 {product.highlights.map((highlight, i) => (
-                  <motion.div 
-                    key={i} 
+                  <motion.div
+                    key={i}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 + (i * 0.1) }}
@@ -219,6 +235,153 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
                       <FcLike size={16} />
                     </div>
                     <span className="text-[14px] font-bold text-gray-700 leading-snug">{highlight}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 이런 분께 추천 */}
+          {product.bestFor && (
+            <div className="px-6 pb-8">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="p-5 rounded-[24px] bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-100/50"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <FcBusinessman size={18} />
+                  <h4 className="text-[13px] font-black text-gray-600 uppercase tracking-wider">
+                    이런 분께 추천
+                  </h4>
+                </div>
+                <p className="text-[15px] font-bold text-gray-800 leading-relaxed">
+                  {product.bestFor}
+                </p>
+              </motion.div>
+            </div>
+          )}
+
+          {/* 주의점 */}
+          {product.concerns && product.concerns.length > 0 && (
+            <div className="px-6 pb-8">
+               <div className="flex items-center gap-2 mb-4">
+                  <FcHighPriority size={18} />
+                  <h4 className="text-[14px] font-black text-gray-900 uppercase tracking-widest">
+                    구매 전 참고하세요
+                  </h4>
+               </div>
+              <div className="space-y-2">
+                {product.concerns.map((concern, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 + (i * 0.1) }}
+                    className="flex items-start gap-2 px-4 py-3 bg-amber-50 rounded-xl border border-amber-100"
+                  >
+                    <span className="text-amber-500 mt-0.5">⚠️</span>
+                    <span className="text-[13px] font-medium text-amber-800 leading-snug">{concern}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 실제 구매자 리뷰 */}
+          {product.reviews && product.reviews.length > 0 && (
+            <div className="px-6 pb-20">
+               <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <FcSpeaker size={18} />
+                    <h4 className="text-[14px] font-black text-gray-900 uppercase tracking-widest">
+                      실제 구매자 리뷰
+                    </h4>
+                  </div>
+                  <span className="text-[12px] font-bold text-gray-400">
+                    {product.reviews.length}개
+                  </span>
+               </div>
+              <div className="space-y-3">
+                {product.reviews.map((review, i) => (
+                  <motion.div
+                    key={review.reviewId || i}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + (i * 0.08) }}
+                    className="p-4 bg-white rounded-[20px] border border-gray-100 shadow-sm"
+                  >
+                    {/* 리뷰 헤더 */}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-1.5">
+                        {/* 별점 */}
+                        <div className="flex items-center gap-0.5">
+                          {[...Array(5)].map((_, idx) => (
+                            <Star
+                              key={idx}
+                              size={12}
+                              weight="fill"
+                              className={idx < review.rating ? 'text-yellow-400' : 'text-gray-200'}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-[12px] font-bold text-gray-600 ml-1">
+                          {review.rating}점
+                        </span>
+                      </div>
+                      {review.mallName && (
+                        <span className="text-[11px] font-medium text-gray-400 px-2 py-0.5 bg-gray-50 rounded-full">
+                          {review.mallName}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* 리뷰 내용 */}
+                    <p className="text-[14px] text-gray-700 font-medium leading-relaxed line-clamp-4">
+                      {review.content}
+                    </p>
+
+                    {/* 작성자/날짜 */}
+                    <div className="flex items-center gap-2 mt-3 pt-2 border-t border-gray-50">
+                      {review.author && (
+                        <span className="text-[11px] font-medium text-gray-400">
+                          {review.author}
+                        </span>
+                      )}
+                      {review.date && (
+                        <span className="text-[11px] text-gray-300">
+                          {review.date}
+                        </span>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 리뷰가 없을 때 reviewQuotes 표시 */}
+          {(!product.reviews || product.reviews.length === 0) && product.reviewQuotes && product.reviewQuotes.length > 0 && (
+            <div className="px-6 pb-20">
+               <div className="flex items-center gap-2 mb-4">
+                  <FcSpeaker size={18} />
+                  <h4 className="text-[14px] font-black text-gray-900 uppercase tracking-widest">
+                    주요 리뷰 요약
+                  </h4>
+               </div>
+              <div className="space-y-2">
+                {product.reviewQuotes.map((quote, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 + (i * 0.1) }}
+                    className="flex items-start gap-2 px-4 py-3 bg-gray-50 rounded-xl border border-gray-100"
+                  >
+                    <span className="text-gray-400 mt-0.5">"</span>
+                    <span className="text-[13px] font-medium text-gray-700 leading-snug italic">{quote}</span>
+                    <span className="text-gray-400 mt-0.5">"</span>
                   </motion.div>
                 ))}
               </div>

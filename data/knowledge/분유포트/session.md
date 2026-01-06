@@ -1,34 +1,39 @@
-# 세션: 20260106_060213_ppxg
-> 시작: 2026-01-06T06:02:13.504Z
+# 세션: 20260106_081215_z0wu
+> 시작: 2026-01-06T08:12:15.850Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 분유포트
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEODPDHfTQ02JtrEdeSwCJNDrQ89-SefQRZ8F6LvgMw-tHr5aUZ8KxSNEnQ5Gf6Q2G64mGXqb-qG0OdSnPdEgS9sa7zkliJzFPVs21sV6NQn0AgTv4gNu62n54ks08Rjck7wcaG1tw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvkM4CiDw8JE326K2atQE-6FApdxXcafvRIaGwcaF7PMOkMsQcc3pM72pX60UqewO5ckXMJgoO2cHvavefspi2C0I8Q26LZCKkTHbNNXOQmGtttydi7yVH88ch5sM60h38HixTY6g=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHxrQggCHHFULr1yeZvN_pWhrhtdB-iSALFHM8mmVmLCpBEBXWUkc1i6JAY8cULE6jc2YloLLHQVu5kKgMlj6SEmZGJMEEjOFJd6_6TmwEPekyIyIIKqHTc4wv3htaEqkYgo5X1cQU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ2JQN9MysCU1C59SjPf_YdlZB4buRn7403YPSVRy0iky9EfC7el-SaFK0d9154YZWfY7Fhe8zv4QNQU4aZ9ecrD0AaAj4XCAoqJpmSmk8sbl3goTMRgR6m-M353J_He_yr_4rsSQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGc_EPzMyhXdBuxOxJkfDxoqauB5maJNwA4sCr7e-jiPeRlSocE8B98atrluCzEnwyQa88tuLL6yyd5FzCVeZjPVSnoMa3Uy0khpBWNpJ12l8qMIGUHScXGA302AHVyKY8d_gxd3WI=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEODPDHfTQ02JtrEdeSwCJNDrQ89-SefQRZ8F6LvgMw-tHr5aUZ8KxSNEnQ5Gf6Q2G64mGXqb-qG0OdSnPdEgS9sa7zkliJzFPVs21sV6NQn0AgTv4gNu62n54ks08Rjck7wcaG1tw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvkM4CiDw8JE326K2atQE-6FApdxXcafvRIaGwcaF7PMOkMsQcc3pM72pX60UqewO5ckXMJgoO2cHvavefspi2C0I8Q26LZCKkTHbNNXOQmGtttydi7yVH88ch5sM60h38HixTY6g=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHxrQggCHHFULr1yeZvN_pWhrhtdB-iSALFHM8mmVmLCpBEBXWUkc1i6JAY8cULE6jc2YloLLHQVu5kKgMlj6SEmZGJMEEjOFJd6_6TmwEPekyIyIIKqHTc4wv3htaEqkYgo5X1cQU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ2JQN9MysCU1C59SjPf_YdlZB4buRn7403YPSVRy0iky9EfC7el-SaFK0d9154YZWfY7Fhe8zv4QNQU4aZ9ecrD0AaAj4XCAoqJpmSmk8sbl3goTMRgR6m-M353J_He_yr_4rsSQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGc_EPzMyhXdBuxOxJkfDxoqauB5maJNwA4sCr7e-jiPeRlSocE8B98atrluCzEnwyQa88tuLL6yyd5FzCVeZjPVSnoMa3Uy0khpBWNpJ12l8qMIGUHScXGA302AHVyKY8d_gxd3WI=
+- 쿼리: 분유포트 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재 분유포트 시장은 육아 편의성을 높이는 스마트 기능과 안전한 소재를 갖춘 제품들이 인기를 얻고 있습니다. 특히 아이닉, 보르르, 릴리브 등의 브랜드가 꾸준히 언급되며, 휴대용 분유포트 또한 여행이나 외출 시 필수템으로 자리 잡고 있습니다. 온도 조절, 자동 출수, 저소음 설계 등 육아맘들의 니즈를 반영한 기능들이 트렌드를 이끌고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EB%B6%84%EC%9C%A0%ED%8F%AC%ED%8A%B8&sort=saveDESC
 
-### Q1: 포트 재질은 어떤 것을 선호하시나요?
-- 사용자 답변: 스테인리스, 유리
-- 웹서치 쿼리: 분유포트 스테인리스 유리 추천 2026
-- 인사이트: 스테인리스와 유리 소재 분유포트는 각각의 장단점을 가지고 있습니다. 스테인리스는 내구성이 좋고 위생적이며 열전도율이 높아 빠른 가열이 가능하지만, 내부 확인이 어렵다는 단점이 있습니다. 반면 유리는 내부가 투명하여 물 상태 확인이 용이하고 위생적이지만, 충격에 약할 수 있습니다. 2026년 최신 정보에 따르면, 붕규산 내열 강화 유리가 많이 사용되며, 스테인리스는 열판과 뚜껑 안쪽 등 물과 직접 닿는 부분에 주로 사용됩니다.
+### Q1: 아기가 사용할 분유포트, 어떤 소재가 가장 안심되시나요?
+- 사용자 답변: 기타/상관없음
+- 웹서치 쿼리: 분유포트 기타/상관없음 추천 2026
+- 인사이트: 분유포트 소재는 주로 내열 유리나 스테인리스 스틸이 사용되며, 아기의 안전을 위해서는 내부 전체가 스테인리스인지, 또는 붕규산 내열 강화유리와 같은 안전한 소재인지 확인하는 것이 중요합니다. 또한, 제품별 성능 차이가 존재하므로 물 끓임 성능, 보온 정확성, 소비전력량 등을 종합적으로 고려해야 합니다.
 
-### Q2: 전기포트 본체와 전원 받침대가 분리되는 '분리형'과 일체형 중 어떤 방식을 더 선호하시나요?
-- 사용자 답변: 분리형 (이동 및 세척 편리)
-- 웹서치 쿼리: 분유포트 분리형 (이동 및 세척 편리) 추천 2026
-- 인사이트: 분리형 분유포트는 이동과 세척이 편리하여 선호도가 높습니다. 특히 물통과 전원 받침대가 분리되는 구조는 위생적인 관리에 용이하며, 휴대성을 높여 외출 시에도 유용하게 사용할 수 있습니다.
+### Q2: 육아에 스마트한 기술을 더하고 싶으신가요? 앱 연동 기능이 필요하신가요?
+- 사용자 답변: 아니요, 기본적인 기능이면 충분해요
+- 웹서치 쿼리: 분유포트 기본적인 기능 추천 2026
+- 인사이트: 기본적인 기능의 분유포트는 물을 100도까지 끓여 살균하고, 설정한 온도로 빠르게 식혀 보온하는 핵심 기능을 제공합니다. 이는 복잡한 스마트 기능 없이도 아기에게 안전하고 적절한 온도의 분유를 준비하는 데 충분합니다.
 
-### Q3: 분유 온도를 정확하게 맞추기 위해, 특정 온도로 설정 가능한 '온도 조절' 기능이 얼마나 중요하신가요?
-- 사용자 답변: 있으면 좋음 (기본 보온 기능)
-- 웹서치 쿼리: 분유포트 온도 조절 기능 중요성 2026
-- 인사이트: 분유포트의 기본 보온 기능은 아기에게 적절한 온도의 분유를 언제든 준비할 수 있도록 도와주어 육아의 편리성을 높여줍니다. 특히 밤중 수유 시 유용하며, 끓였다 식히는 번거로움 없이 바로 사용할 수 있다는 장점이 있습니다.
+### Q3: 집에서 주로 사용하시나요, 아니면 외출이나 여행 시에도 휴대하며 사용하실 계획이신가요?
+- 사용자 답변: 주로 집에서 사용, 넉넉한 용량이면 좋겠어요
+- 웹서치 쿼리: 분유포트 집에서 사용 넉넉한 용량 추천 2026
+- 인사이트: 집에서 주로 사용하고 넉넉한 용량을 선호하는 경우, 1.5L 이상의 대용량 분유포트가 적합합니다. 이는 분유 수유량이 많거나 여러 번 수유할 때 물을 끓이고 식히는 과정을 여러 번 반복할 필요 없이 한 번에 준비할 수 있어 편리합니다. 또한, 넉넉한 용량은 분유뿐만 아니라 가족들이 함께 마실 차나 커피를 위한 물을 데우는 데도 활용할 수 있어 다용도로 사용하기 좋습니다.
 
-### Q4: 분유포트 구매 시, 예산을 어느 정도로 생각하고 계신가요? (기능별 차이 고려)
-- 사용자 답변: 3~8만원대
-- 웹서치 쿼리: 분유포트 3~8만원대 추천 2026
-- 인사이트: 3~8만원대의 분유포트는 가성비를 중요하게 생각하는 소비자들에게 적합하며, 기본적인 보온 및 가열 기능을 충실히 갖춘 제품들이 많습니다. 다만, 이 가격대에서는 자동 출수 기능이나 고급 소재, 또는 복잡한 부가 기능이 제한적일 수 있으므로, 필수 기능과 사용 편의성을 우선적으로 고려하는 것이 좋습니다.
+### Q4: 매일 사용하는 제품이라 세척이 간편해야 하는데요, 분리 세척이 쉬운 제품이 좋을까요?
+- 사용자 답변: 네, 부품이 분리되어 꼼꼼하게 세척하고 싶어요
+- 웹서치 쿼리: 분유포트 부품 분리 세척 추천 2026
+- 인사이트: 부품 분리가 쉬운 분유포트는 꼼꼼한 세척에 유리하며, 특히 뚜껑과 실리콘 패킹까지 분리되는 제품이 세척 편의성이 높습니다.
+
+### Q5: 분유포트 구매 시, 가격대를 어느 정도로 생각하고 계신가요? 예산에 따라 선택할 수 있는 기능이나 디자인이 달라질 수 있습니다.
+- 사용자 답변: 8만원 이상, 3~8만원대
+- 웹서치 쿼리: 분유포트 8만원 이상 추천 2026
+- 인사이트: 8만원 이상대 분유포트는 염소 제거, 영구 보온, 자동 출수, 자동 세척 등 고급 기능이 탑재된 제품이 많으며, 3~8만원대 제품은 휴대용, 접이식, 가성비 좋은 모델들이 주를 이룹니다. 예산에 따라 염소 제거 기능, 자동 출수 기능, 물통 분리 및 세척 편의성 등을 우선적으로 고려할 수 있습니다.
 
 ---
 
@@ -36,10 +41,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| material_type | 스테인리스, 유리 |
-| portability_feature | 분리형 (이동 및 세척 편리) |
-| temperature_control_precision | 있으면 좋음 (기본 보온 기능) |
-| budget_and_features | 3~8만원대 |
+| material_preference | 기타/상관없음 |
+| smart_features_need | 아니요, 기본적인 기능이면 충분해요 |
+| capacity_and_portability | 주로 집에서 사용, 넉넉한 용량이면 좋겠어요 |
+| cleaning_convenience | 네, 부품이 분리되어 꼼꼼하게 세척하고 싶어요 |
+| budget_priority | 8만원 이상, 3~8만원대 |
 
 ---
 
@@ -73,10 +79,7 @@
 
 ## ⚖️ 밸런스 게임 선택
 
-| 질문 | 선택 |
-|------|------|
-| balance_1 | 많은 양의 물을 한 번에 준비할 수 있는 넉넉한 용량 |
-| balance_2 | 분유 온도에 딱! 미세한 온도 설정까지 가능한 정밀함 |
+(아직 선택 없음)
 
 ---
 
@@ -88,6 +91,4 @@
 
 ## 🏆 최종 추천
 
-1. 테팔 인퓨자 BJ800D - 테팔 인퓨자 BJ800D는 유리 소재에 분리형 설계로 세척이 용이하며, 온도 조절과 보온 기능으로 분유포트로 사용하기에 적합합니다.
-2. 하트만 HMF-M0803ABK - 하트만 HMF-M0803ABK는 스테인리스 소재의 분리형 포트로 위생적이며, 디지털 디스플레이와 온도 조절 기능으로 정밀한 온도 관리가 가능합니다.
-3. 보아르 이지 전기포트C VPEP-003IV - 보아르 이지 전기포트C VPEP-003IV는 스테인리스 소재에 분리형으로 휴대 및 세척이 간편하며, 보온 및 온도 조절 기능까지 갖춰 가성비 좋은 선택이 될 수 있습니다.
+(아직 추천 없음)

@@ -1,14 +1,14 @@
-# 세션: 20260106_054602_bczp
-> 시작: 2026-01-06T05:46:02.118Z
+# 세션: 20260106_064632_3qzz
+> 시작: 2026-01-06T06:46:32.513Z
 > 카테고리키: 무선 마우스
 > 카테고리: 무선 마우스
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 무선 마우스 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 무선 마우스 시장은 경량화, 고성능 센서, 그리고 사용자 맞춤형 디자인을 중심으로 발전하고 있습니다. 로지텍, 앱코 등 다양한 브랜드에서 게이밍 및 일반 사용자를 위한 제품을 출시하며 경쟁하고 있으며, 특히 가성비와 그립감, 그리고 무선 연결의 안정성이 중요한 구매 요소로 부각되고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EB%AC%B4%EC%84%A0%20%EB%A7%88%EC%9A%B0%EC%8A%A4&sort=saveDESC
+- 쿼리: 무선 마우스
+- 인사이트: 
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwMH-QbIzxVfanJLELTU44lCibxt1O9sGKzVYU7lj-rMgmGBZNztdVLAw3XqAuYaSKqj1bHvV4l71KEwsiAhrzZiGy7fWKhg9Dc_TkyQFPccl-d0Fhmw6co5_2w5XpxhtBOn5vvaNavHT5pA3IJI61Q0WpbierVQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMrjvE50qncrVEarPLG1YayZcMxrO0os4sXwJS2uGgrBE1uzSlM5Ke5njD-4daj_maVnqsRngPBNWgOTjPRECZpRg8BVfzp2fknGTv4DLq0GQ2_H4vZz7cbcqA06886WAl-HoAjro=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbxDlV4FvJA3bk0dOCMzv5y2iLN_O5gUCbTD9blTsLpUsJ8jpUyE1XOi5rNO8l98qyIAyf1Dc-tl8pc2d45wvUhiGJcPxp5SbrJy94gjLoAfl7DCbnbh2ogh_JasW3SIiTBvzCWGPHkD31r-gzCQxb6cNOZGew7Gsrs3tYtjotMC6Z1U54RjfGgRw0d0A=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjJmbp2_eAu1dl8StgFQgSpodLGKZyLFMUjITziFEWD8lnOs9xH99ZOWN5aHOQH3mF66AqLYRbA2WZA-orExbHs2KFL8iTOmC5TFQLb4FvpZWLZS0Q2NXo--_7eUKK9HiR6OCHzxpIEGpQoXL4UxOmTKhD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQKAN5IjK_WhuwG9p3I5nm1_UGCzsKQ1L2tmx-RbtION-bhNfKOp3Z2A21f1LlHEKJH1ehjLeb02fVJQDrRQSM9IstpEpJC5HggkQ6DRUQrcBzqYCt9XenCByMKbBNp_y3wYXZOHM=
 
 ---
 
