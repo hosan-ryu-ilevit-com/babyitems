@@ -380,10 +380,79 @@ ${productList}
 // ============================================================================
 
 /**
+ * LLM 기반 스펙 분포 분석 (지능적 파싱)
+ * - 다양한 형식의 specSummary를 자연어 처리
+ * - 상품명에서도 스펙 정보 추출
+ * - 카테고리별 중요 스펙 자동 식별
+ */
+async function analyzeSpecDistributionWithLLM(
+  categoryName: string,
+  products: DanawaSearchListItem[]
+): Promise<string> {
+  if (!ai || products.length === 0) {
+    return analyzeSpecDistributionFallback(products);
+  }
+
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: {
+      temperature: 0.2,
+      maxOutputTokens: 1500,
+    },
+  });
+
+  // 상위 20개 상품의 스펙 정보 수집
+  const productSpecs = products.slice(0, 20).map((p, i) => {
+    return `${i + 1}. ${p.name}\n   스펙: ${p.specSummary || '(없음)'}`;
+  }).join('\n');
+
+  const prompt = `## 역할
+"${categoryName}" 상품들의 스펙 데이터를 분석하여 **구매 결정에 중요한 스펙 분포**를 추출하세요.
+
+## 상품 데이터
+${productSpecs}
+
+## 분석 규칙
+1. **다양한 형식 파싱**: "용량: 2L", "2L 용량", "용량 2리터", "2000ml" 등 모두 같은 스펙으로 인식
+2. **상품명에서도 추출**: 상품명에 포함된 스펙 정보도 파악 (예: "3L 대용량", "무선", "저소음")
+3. **선택지가 갈리는 스펙만**: 2개 이상 다양한 값이 있는 스펙만 추출
+4. **구매 결정에 중요한 것 우선**: 용량, 크기, 무게, 기능, 타입, 재질 등
+
+## 출력 형식 (마크다운)
+- **스펙키**: 값1(N개), 값2(M개), 값3(K개)
+
+예시:
+- **용량**: 2L(8개), 3L(6개), 5L(4개)
+- **타입**: 무선(12개), 유선(6개)
+- **재질**: 스테인리스(10개), PP(5개), 트라이탄(3개)
+
+## 출력
+최대 8개의 핵심 스펙만 출력하세요. 마크다운 리스트 형식으로만 응답.`;
+
+  try {
+    const startTime = Date.now();
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim();
+    console.log(`[Step4] LLM spec analysis completed in ${Date.now() - startTime}ms`);
+
+    // 결과가 유효한지 확인
+    if (text.includes('- **') && text.length > 20) {
+      return text;
+    }
+  } catch (error) {
+    console.error('[Step4] LLM spec analysis failed:', error);
+  }
+
+  // Fallback to regex-based parsing
+  return analyzeSpecDistributionFallback(products);
+}
+
+/**
+ * Fallback: 정규식 기반 스펙 분포 분석
  * 상품들의 스펙 분포를 분석하여 "선택지가 갈리는 스펙"을 추출
  * 예: 용량이 1L/2L/3L로 나뉘면 → "용량: 1L, 2L, 3L" 반환
  */
-function analyzeSpecDistribution(products: DanawaSearchListItem[]): string {
+function analyzeSpecDistributionFallback(products: DanawaSearchListItem[]): string {
   const specMap: Record<string, Map<string, number>> = {};
 
   products.forEach(p => {
@@ -472,8 +541,8 @@ async function generateQuestions(
   const avgPrice = prices.length ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 150000;
   const brands = [...new Set(products.map(p => p.brand).filter(Boolean))];
 
-  // 스펙 분포 분석 (핵심!)
-  const specDistribution = analyzeSpecDistribution(products);
+  // 스펙 분포 분석 (핵심!) - LLM 기반 지능적 파싱
+  const specDistribution = await analyzeSpecDistributionWithLLM(categoryName, products);
   const productKeywords = extractProductPatterns(products);
 
   // 다나와 필터 정보 (핵심 스펙 분류 기준)

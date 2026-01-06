@@ -1,14 +1,34 @@
-# 세션: 20260106_072701_ciob
-> 시작: 2026-01-06T07:27:01.858Z
-> 카테고리키: 디럭스 유모차
+# 세션: 20260106_085725_pwme
+> 시작: 2026-01-06T08:57:25.338Z
+> 카테고리키: 디럭스
 > 카테고리: 디럭스 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 디럭스 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 디럭스 유모차 시장은 안정감과 핸들링을 중시하는 트렌드를 보이며, 스토케, 부가부, 줄즈, 오이스터, 실버크로스 등의 브랜드가 인기를 얻고 있습니다. 특히 프리미엄 라인업이 강세를 보이며, 고급 소재와 디자인, 그리고 다양한 편의 기능이 탑재된 모델들이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMMM4pkbVUIZuT3BZMc0JHd0xr0EHciI9KsfzlexXCUTow6uGZeWnIUx0AsUK7QdX3mEJK3LbMMiFqfAJcjRE57ZpBsPdqVTYFVlnu7ZEt6MHkB0fPWCnq7AW0rXYRLUrz7pf8_I3H4wFreuvyNCQm3ymQpi8ghp5SUka5Fne5ptbokUOmOWqiIhROC73lMr4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlr3Yhl48F_4SwzV-2NUFg8xip75nxQkXLr9Vix_1zecxQADdqat0Zq-evldW2JgHt4mPXogSJqYqV9zZyLqAmlltPLBC52lz09rTu41GSCRsuDXjOxkrABiXt5l7n_SDGw3HjcuyLjPfk6LlIzF6eAXjr4gSllGFgMCDtWlFlGrkxOKzGL0hksjErx7wNWwu7LQH5QxaAizlsDOCimIlXyyWlzbON32KYcOopOc3Ucg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5-wXcLs8ZzlxaiHP5udFz4ifIyR46UoTaQP56_tgc1DGMyCStML8Rz6rBCM-RprD4crT8GRJ1lCWxITeHLp_q8C0gCGXMbuBZk5sjyzYX3nIvg0JRUXA52xQItyLH-IMsngVd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5zyPM9uTsd8fqIDluU9Qr4VVUCxlcZw6CP9i9Di4KXPa73itnLVBaKcweUFnNMlRfMXifvwlP8mXSo1fgxcnpkG0YXgqBOY_HJdGg1_5it5I3kmzRGChjcQm0Q4Z7awfFKs493w==
+- 쿼리: 디럭스 유모차
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5oKd-3vMP-ZM3PoyLPFTME-c7tz3KbQ83MFWs9XvlR32yB8QKAh0cm9-6FTuzn16Dq5FEeMlgm2h1y6KlRAQctAs-1fMlmU6O31ukeeMBx5GZOVNCdiHuuIIgIbbDXM8gOItQh0S0wJifiXqVrA_f7iFaCIdyjUk5ZBKRyOOAjmzxBUTOIq0mFBZxO8KBFJw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbdvZtii7h_cOQTc_FHfdoqWnSFhZUToxldYDYGOpIcraWUlae6Ibk49QrnEuoPbpnDDWDwN90hiJgS1ic8I-YCVBATem0OnVjclDmlG2QlFtUmAklQCpPBntJIOq8hiXEuq8P7AnjSqD3kB2i_PvcyA5ePSrvd2RHX0to9u97ltApSvzTio5ikp6pkePP0Ig9cG8luLphVkntJgIx0V9dX8Ir1A8Sd7-tyA8OtpMmDw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFegMft1eQo_ZZ3PIJON7wZu9drz75spsD4cJGeUNC8cHNHnzhUD2-ccqIGSoRkeiEISomcr2hkdxeT3lLdo_RLmfP8hMMoLZ7mgTJcw228kIDebWwE3Xecff8RjIW_TZom1Uzu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXSfayMsSYiRnOGfrTiIRjHH5RFYrE8tecLcrG2B5TAHWDb91UzNpW9x5xhHtdxOfM6XNrWLQmA4PnJGVD0m80z65MSv2MTzr7EUQ8DyisVql7SrCE9r8GVbelmyJ9G9Y4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiWtlGivJ8rRjGp3sN5L5LNQL0P57MGiNA2QzBrOb2Np3EKQJ0Q72-aLr253uqnh0zkEo--hJjy5ihOzbVvUg2ye3Pa_mW8eDFFPTn3MhWyMp-UW2JhIzGSUIgy71mv3V4
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5oKd-3vMP-ZM3PoyLPFTME-c7tz3KbQ83MFWs9XvlR32yB8QKAh0cm9-6FTuzn16Dq5FEeMlgm2h1y6KlRAQctAs-1fMlmU6O31ukeeMBx5GZOVNCdiHuuIIgIbbDXM8gOItQh0S0wJifiXqVrA_f7iFaCIdyjUk5ZBKRyOOAjmzxBUTOIq0mFBZxO8KBFJw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbdvZtii7h_cOQTc_FHfdoqWnSFhZUToxldYDYGOpIcraWUlae6Ibk49QrnEuoPbpnDDWDwN90hiJgS1ic8I-YCVBATem0OnVjclDmlG2QlFtUmAklQCpPBntJIOq8hiXEuq8P7AnjSqD3kB2i_PvcyA5ePSrvd2RHX0to9u97ltApSvzTio5ikp6pkePP0Ig9cG8luLphVkntJgIx0V9dX8Ir1A8Sd7-tyA8OtpMmDw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFegMft1eQo_ZZ3PIJON7wZu9drz75spsD4cJGeUNC8cHNHnzhUD2-ccqIGSoRkeiEISomcr2hkdxeT3lLdo_RLmfP8hMMoLZ7mgTJcw228kIDebWwE3Xecff8RjIW_TZom1Uzu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXSfayMsSYiRnOGfrTiIRjHH5RFYrE8tecLcrG2B5TAHWDb91UzNpW9x5xhHtdxOfM6XNrWLQmA4PnJGVD0m80z65MSv2MTzr7EUQ8DyisVql7SrCE9r8GVbelmyJ9G9Y4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiWtlGivJ8rRjGp3sN5L5LNQL0P57MGiNA2QzBrOb2Np3EKQJ0Q72-aLr253uqnh0zkEo--hJjy5ihOzbVvUg2ye3Pa_mW8eDFFPTn3MhWyMp-UW2JhIzGSUIgy71mv3V4
+
+### Q1: 아기가 태어나서 언제까지 유모차를 사용하실 예정인가요?
+- 사용자 답변: 48개월 이상 또는 더 오래
+- 웹서치 쿼리: 디럭스 유모차 48개월 이상 추천 2026
+- 인사이트: 디럭스 유모차는 일반적으로 신생아부터 48개월까지 사용 가능하며, 48개월 이상 사용을 고려한다면 아이의 성장 발달과 활동량을 고려하여 휴대성이나 기능성을 추가로 갖춘 절충형 또는 휴대용 유모차로 전환하는 것을 고려해볼 수 있습니다.
+
+### Q2: 유모차를 접었다 폈다 하거나 이동하실 때, 무게가 얼마나 중요하신가요?
+- 사용자 답변: 적당한 무게도 괜찮음
+- 웹서치 쿼리: 디럭스 유모차 적당한 무게도 괜찮음 추천 2026
+- 인사이트: 디럭스 유모차는 안정감과 핸들링이 우수하지만 무게가 나가는 편입니다. '적당한 무게도 괜찮음'이라는 선택은 안정성과 휴대성의 균형을 고려한 것으로, 9kg 내외의 가벼운 디럭스 유모차나 절충형 유모차와 비교하며 선택하는 것이 좋습니다.
+
+### Q3: 유모차를 사용할 때, 접고 펴는 과정이 얼마나 간편해야 할까요?
+- 사용자 답변: 적당한 편리함이면 충분해요
+- 웹서치 쿼리: 디럭스 유모차 적당한 편리함이면 충분해요 추천 2026
+- 인사이트: 디럭스 유모차를 사용할 때 접고 펴는 과정의 간편함은 '적당한 편리함'으로 충분하다는 사용자의 니즈는, 원터치 폴딩 기능이 있는 제품을 고려해볼 수 있습니다. 이는 복잡한 과정 없이 버튼 하나로 유모차를 접고 펼 수 있어 편리함을 제공합니다.
+
+### Q4: 디럭스 유모차 구매 시, 어느 정도 예산을 생각하고 계신가요?
+- 사용자 답변: 50~127만원대
+- 웹서치 쿼리: 디럭스 유모차 50~127만원대 추천 2026
+- 인사이트: 50~127만원대의 디럭스 유모차는 프리미엄급의 퀄리티와 기능을 갖추면서도, 일부 고가 브랜드의 최상위 모델보다는 합리적인 선택이 가능합니다. 이 가격대에서는 뛰어난 승차감과 안정성, 그리고 고급스러운 소재와 디자인을 기대할 수 있습니다.
 
 ---
 
@@ -16,6 +36,10 @@
 
 | 항목 | 답변 |
 |------|------|
+| usage_period | 48개월 이상 또는 더 오래 |
+| weight_consideration | 적당한 무게도 괜찮음 |
+| folding_convenience | 적당한 편리함이면 충분해요 |
+| budget_range | 50~127만원대 |
 
 ---
 

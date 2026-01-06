@@ -1,29 +1,18 @@
 # 디럭스 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-06T07:26:50.274Z
+> 마지막 업데이트: 2026-01-06T08:57:20.723Z
 > 분석 상품: 40개 | 분석 리뷰: 248개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안정감과 뛰어난 핸들링을 제공하는 디럭스 유모차 선호
-- 신생아부터 사용 가능한 편안함과 안전성 강조
-- 하이포지션 시트, 양대면 기능, 넉넉한 수납공간 등 편의 기능 강화
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 핸들링
-- ✓ 안정감 있는 주행
-- ✓ 신생아에게 편안한 승차감
-- ✓ 높은 시트 포지션
-- ✓ 넉넉한 수납공간
 
 ### 주의해야 할 단점
-- ⚠ 무거운 무게
-- ⚠ 부피가 커서 휴대 및 보관의 어려움
-- ⚠ 높은 가격대
 
 ### 가격대 인사이트
-디럭스 유모차는 일반적으로 100만원대부터 시작하여 200만원 이상까지 가격대가 형성되어 있습니다. 100-120만원대에서는 오이스터3, 120-140만원대에서는 잉글레시나 앱티카, 140-160만원대에서는 줄즈 데이5, 160-180만원대에서는 실버크로스 리프2, 180만원 이상에서는 부가부 폭스5 등이 인기 모델로 꼽히며, 브랜드 가치와 기능에 따라 가격이 상승하는 경향을 보입니다.
+
 
 ---
 
@@ -242,7 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMMM4pkbVUIZuT3BZMc0JHd0xr0EHciI9KsfzlexXCUTow6uGZeWnIUx0AsUK7QdX3mEJK3LbMMiFqfAJcjRE57ZpBsPdqVTYFVlnu7ZEt6MHkB0fPWCnq7AW0rXYRLUrz7pf8_I3H4wFreuvyNCQm3ymQpi8ghp5SUka5Fne5ptbokUOmOWqiIhROC73lMr4=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlr3Yhl48F_4SwzV-2NUFg8xip75nxQkXLr9Vix_1zecxQADdqat0Zq-evldW2JgHt4mPXogSJqYqV9zZyLqAmlltPLBC52lz09rTu41GSCRsuDXjOxkrABiXt5l7n_SDGw3HjcuyLjPfk6LlIzF6eAXjr4gSllGFgMCDtWlFlGrkxOKzGL0hksjErx7wNWwu7LQH5QxaAizlsDOCimIlXyyWlzbON32KYcOopOc3Ucg==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5-wXcLs8ZzlxaiHP5udFz4ifIyR46UoTaQP56_tgc1DGMyCStML8Rz6rBCM-RprD4crT8GRJ1lCWxITeHLp_q8C0gCGXMbuBZk5sjyzYX3nIvg0JRUXA52xQItyLH-IMsngVd)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5zyPM9uTsd8fqIDluU9Qr4VVUCxlcZw6CP9i9Di4KXPa73itnLVBaKcweUFnNMlRfMXifvwlP8mXSo1fgxcnpkG0YXgqBOY_HJdGg1_5it5I3kmzRGChjcQm0Q4Z7awfFKs493w==)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5oKd-3vMP-ZM3PoyLPFTME-c7tz3KbQ83MFWs9XvlR32yB8QKAh0cm9-6FTuzn16Dq5FEeMlgm2h1y6KlRAQctAs-1fMlmU6O31ukeeMBx5GZOVNCdiHuuIIgIbbDXM8gOItQh0S0wJifiXqVrA_f7iFaCIdyjUk5ZBKRyOOAjmzxBUTOIq0mFBZxO8KBFJw=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbdvZtii7h_cOQTc_FHfdoqWnSFhZUToxldYDYGOpIcraWUlae6Ibk49QrnEuoPbpnDDWDwN90hiJgS1ic8I-YCVBATem0OnVjclDmlG2QlFtUmAklQCpPBntJIOq8hiXEuq8P7AnjSqD3kB2i_PvcyA5ePSrvd2RHX0to9u97ltApSvzTio5ikp6pkePP0Ig9cG8luLphVkntJgIx0V9dX8Ir1A8Sd7-tyA8OtpMmDw==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFegMft1eQo_ZZ3PIJON7wZu9drz75spsD4cJGeUNC8cHNHnzhUD2-ccqIGSoRkeiEISomcr2hkdxeT3lLdo_RLmfP8hMMoLZ7mgTJcw228kIDebWwE3Xecff8RjIW_TZom1Uzu)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXSfayMsSYiRnOGfrTiIRjHH5RFYrE8tecLcrG2B5TAHWDb91UzNpW9x5xhHtdxOfM6XNrWLQmA4PnJGVD0m80z65MSv2MTzr7EUQ8DyisVql7SrCE9r8GVbelmyJ9G9Y4)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiWtlGivJ8rRjGp3sN5L5LNQL0P57MGiNA2QzBrOb2Np3EKQJ0Q72-aLr253uqnh0zkEo--hJjy5ihOzbVvUg2ye3Pa_mW8eDFFPTn3MhWyMp-UW2JhIzGSUIgy71mv3V4)

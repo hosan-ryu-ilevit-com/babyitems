@@ -1,14 +1,34 @@
-# 세션: 20260106_064059_xnc9
-> 시작: 2026-01-06T06:40:59.198Z
+# 세션: 20260106_084032_w007
+> 시작: 2026-01-06T08:40:32.935Z
 > 카테고리키: 체온계
 > 카테고리: 체온계
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 체온계 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 체온계 시장은 브라운(Braun) 브랜드가 높은 신뢰도와 인지도를 바탕으로 시장을 선도하고 있습니다. 특히 병원 및 소아과에서도 표준 장비로 사용될 만큼 측정값의 정확성과 사용 편의성에서 좋은 평가를 받고 있습니다. 최근에는 스마트 기능 연동, 연령별 맞춤 측정 등 사용자 편의성을 높이는 방향으로 트렌드가 이어지고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EC%B2%B4%EC%98%A8%EA%B3%84&sort=saveDESC
+- 쿼리: 체온계
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsSWkz0IL2biprAWZ_XS6p8Nm7BCoRZCS7gbNpwCQthNrVSI_hOVnD6BfIEqai1z-SFH0D4A4oHTYznpzuCbyTDfeT9AFGOlicpp6jOsePwG1Utj4nHppqmRMo3XWlvztxGt8tBLMNbcWmYnw8ds-r4tUD8_0kWrhIbBbL-oWl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGN0RFJKWk_orgd_xMyrT5EbU0AWO6xiLKTxKMA0Ewdpk6BGlkBZ-KeSDdXi10QWpDBfKdVD-35s4SdrtdbFRJPwiBXFjOm5VpfVeq6_sv0pfSIX0pryzA_viMaoDQDVuuKd8XYJ8w8d37_4MlK7umw7RjC9_wCr2t_c6fXMVXKrId8wAU-FkCE_0DQ6MGxHFTfcsqCy7FG48B8TutwBNXvPrKEQmu8CVBogg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqprGqpOsb1zo8uKzlzgMaPxFltrDC6rHj5v0AlgpIfkp_gq5Cx-X_iO_S7_jRyMO_yR0pDGF9Buy1RcuLd6el0yOTDK11-6oC4riu7FAP1SqqJWquAXYgK04RYjf5nYaZw3KKezQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUQ_7zbDs14-ny_BZYaIgy5wrAmAzJeQyyZt8X3hzaDrz6S8YQ7tFe4sJvOKzPCFOk0Lgjuxv6-GiKSSz8-e2l6RzxhGpiOeN28_-OsBjLr7EchRwttHbiH4jvHXAmys1w9mSQzoA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpvd220D_1gfT8AK4ZJzzcHUjrfSCq_LYNdtBEIsVemPRfzTIJrZWjMdp_DDgOaRlgJoj73Cg-DPvsNvAjNoxbXuGwqw-A3Iqup39FLyytj_w25xR0dEmEE3kpUmLudcqxoPp9aPrAo6UwwhmB1aS0mGaGJP_yknX7YIoo6HYhNgYhjCVnOjnv13Sjlk7KyJ3um-8RWM93llarL-rLvw9Rlu0=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsSWkz0IL2biprAWZ_XS6p8Nm7BCoRZCS7gbNpwCQthNrVSI_hOVnD6BfIEqai1z-SFH0D4A4oHTYznpzuCbyTDfeT9AFGOlicpp6jOsePwG1Utj4nHppqmRMo3XWlvztxGt8tBLMNbcWmYnw8ds-r4tUD8_0kWrhIbBbL-oWl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGN0RFJKWk_orgd_xMyrT5EbU0AWO6xiLKTxKMA0Ewdpk6BGlkBZ-KeSDdXi10QWpDBfKdVD-35s4SdrtdbFRJPwiBXFjOm5VpfVeq6_sv0pfSIX0pryzA_viMaoDQDVuuKd8XYJ8w8d37_4MlK7umw7RjC9_wCr2t_c6fXMVXKrId8wAU-FkCE_0DQ6MGxHFTfcsqCy7FG48B8TutwBNXvPrKEQmu8CVBogg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqprGqpOsb1zo8uKzlzgMaPxFltrDC6rHj5v0AlgpIfkp_gq5Cx-X_iO_S7_jRyMO_yR0pDGF9Buy1RcuLd6el0yOTDK11-6oC4riu7FAP1SqqJWquAXYgK04RYjf5nYaZw3KKezQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUQ_7zbDs14-ny_BZYaIgy5wrAmAzJeQyyZt8X3hzaDrz6S8YQ7tFe4sJvOKzPCFOk0Lgjuxv6-GiKSSz8-e2l6RzxhGpiOeN28_-OsBjLr7EchRwttHbiH4jvHXAmys1w9mSQzoA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpvd220D_1gfT8AK4ZJzzcHUjrfSCq_LYNdtBEIsVemPRfzTIJrZWjMdp_DDgOaRlgJoj73Cg-DPvsNvAjNoxbXuGwqw-A3Iqup39FLyytj_w25xR0dEmEE3kpUmLudcqxoPp9aPrAo6UwwhmB1aS0mGaGJP_yknX7YIoo6HYhNgYhjCVnOjnv13Sjlk7KyJ3um-8RWM93llarL-rLvw9Rlu0=
+
+### Q1: 체온을 어디로 측정하는 것이 더 편하신가요?
+- 사용자 답변: 귀체온계
+- 웹서치 쿼리: 체온계 귀체온계 추천 2026
+- 인사이트: 귀체온계는 정확하고 빠르게 체온을 측정할 수 있어 효율적인 방식입니다. 다만, 귀 내부에 염증이 있거나 분비물이 나오는 경우에는 사용하지 않는 것이 좋습니다.
+
+### Q2: 체온 측정 시 속도가 얼마나 중요하신가요? 1초 안에 측정을 원하시나요, 아니면 조금 더 걸려도 괜찮으신가요?
+- 사용자 답변: 상관없수
+- 웹서치 쿼리: 체온계 추천 2026
+- 인사이트: 체온 측정 시 속도가 중요하지 않다면, 정확도와 사용 편의성을 우선적으로 고려할 수 있습니다. 특히 귀 체온계는 1~2초 내에 측정이 가능하여 편리하며, 병원에서도 많이 사용될 정도로 정확도가 높습니다.
+
+### Q3: 측정된 체온 값을 얼마나 많이 저장하고 싶으신가요? 자주 기록을 보관해야 하는 편이신가요?
+- 사용자 답변: 적당히 저장 (10회 내외)
+- 웹서치 쿼리: 체온계 10회 저장 추천 2026
+- 인사이트: 10회 내외의 체온 기록 저장은 일반적인 가정에서 건강 상태를 추적하는 데 충분할 수 있습니다. 하지만 더 세밀한 건강 관리가 필요하거나 여러 가족 구성원의 체온을 기록해야 하는 경우, 더 많은 저장 용량을 가진 체온계를 고려하는 것이 좋습니다.
+
+### Q4: 귀체온계를 사용하실 때, 측정 시마다 필터를 교체하는 방식이 괜찮으신가요?
+- 사용자 답변: 필터 미사용
+- 웹서치 쿼리: 체온계 필터 미사용 추천 2026
+- 인사이트: 귀체온계 사용 시 필터 미사용은 위생 및 정확도 저하의 위험이 있습니다. 필터 미사용 시 교차 감염의 위험이 높아지며, 먼지 등으로 인해 측정값이 부정확해질 수 있습니다.
 
 ---
 
@@ -16,6 +36,10 @@
 
 | 항목 | 답변 |
 |------|------|
+| measurement_type_preference | 귀체온계 |
+| measurement_speed_priority | 상관없수 |
+| memory_storage_need | 적당히 저장 (10회 내외) |
+| filter_usage_preference | 필터 미사용 |
 
 ---
 

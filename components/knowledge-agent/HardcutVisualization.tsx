@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, Funnel, CaretDown, Sparkle } from '@phosphor-icons/react/dist/ssr';
-import { FcCheckmark, FcProcess, FcFilledFilter } from 'react-icons/fc';
+import { FcCheckmark, FcProcess, FcFilledFilter, FcSurvey } from 'react-icons/fc';
 
 interface HardcutProduct {
   pcode: string;
@@ -103,7 +103,7 @@ export function HardcutVisualization({
       {/* 메인 카드 - AgenticLoadingPhase 스타일 */}
       <div className={`rounded-2xl overflow-hidden transition-all duration-300 ${
         phase === 'result'
-          ? 'bg-white border border-green-100'
+          ? 'bg-white border border-gray-100/80 shadow-[0_2px_8px_rgba(0,0,0,0.02)]'
           : 'bg-white border border-blue-100'
       }`}>
         {/* 헤더 */}
@@ -116,8 +116,9 @@ export function HardcutVisualization({
           </div>
 
           <div className="flex items-center gap-2 flex-1 min-w-0">
-            <FcFilledFilter size={16} />
-            <span className="text-[14px] font-semibold text-gray-900">
+            <span className={`text-[14px] font-semibold truncate ${
+              phase === 'result' ? 'text-gray-900' : 'text-blue-600'
+            }`}>
               {phase === 'counting' && '상품 분석 중...'}
               {phase === 'filtering' && '조건에 맞는 상품 선별 중...'}
               {phase === 'result' && '맞춤 상품 선별 완료'}
@@ -125,7 +126,7 @@ export function HardcutVisualization({
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <span className={`text-[13px] font-bold tabular-nums ${
+            <span className={`text-[12px] font-bold tabular-nums ${
               phase === 'result' ? 'text-green-600' : 'text-blue-500'
             }`}>
               {totalBefore}개 → {displayCount}개
@@ -149,26 +150,26 @@ export function HardcutVisualization({
               transition={{ type: "spring", duration: 0.4, bounce: 0 }}
               className="overflow-hidden"
             >
-              <div className="px-4 pb-4 pt-0 space-y-4">
+              <div className="px-4 pb-5 pt-0 space-y-5">
                 <div className="h-px bg-gray-50 -mx-4 mb-3" />
 
                 {/* 적용된 조건 태그 */}
                 {appliedRules.length > 0 && (
-                  <div className="space-y-2">
-                    <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
-                      적용된 조건
+                  <div className="space-y-2.5">
+                    <p className="text-[11px] uppercase tracking-widest text-gray-400 font-bold">
+                      적용된 선별 조건
                     </p>
                     <div className="flex flex-wrap gap-1.5">
-                      {appliedRules.slice(0, 5).map((rule, i) => (
+                      {appliedRules.slice(0, 6).map((rule, i) => (
                         <motion.div
                           key={i}
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: i * 0.05 }}
-                          className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 border border-blue-100/50 rounded-lg"
+                          className="flex items-center gap-1 px-2.5 py-1.5 bg-gray-50 border border-gray-100 rounded-lg"
                         >
-                          <CheckCircle size={12} weight="fill" className="text-blue-500" />
-                          <span className="text-[11px] font-semibold text-blue-700">{rule.rule}</span>
+                          <CheckCircle size={12} weight="fill" className="text-green-500" />
+                          <span className="text-[11px] font-bold text-gray-600">{rule.rule}</span>
                         </motion.div>
                       ))}
                     </div>
@@ -181,46 +182,57 @@ export function HardcutVisualization({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="space-y-2"
+                    className="space-y-3"
                   >
-                    <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
-                      선별된 상품 ({filteredProducts.length}개)
-                    </p>
-                    <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
-                      {filteredProducts.slice(0, 8).map((product, i) => (
+                    <div className="flex items-center justify-between">
+                      <p className="text-[11px] uppercase tracking-widest text-gray-400 font-bold">
+                        선별된 후보 ({filteredProducts.length}개)
+                      </p>
+                    </div>
+                    
+                    <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
+                      {filteredProducts.slice(0, 15).map((product, i) => (
                         <motion.div
                           key={product.pcode}
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: 0.1 + i * 0.03 }}
-                          className="relative shrink-0"
+                          className="flex flex-col gap-1.5 w-[60px] shrink-0"
                         >
-                          <div className="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 border border-gray-100">
-                            {product.thumbnail ? (
-                              <img
-                                src={product.thumbnail}
-                                alt=""
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center">
-                                <span className="text-[8px] text-gray-400">{product.brand?.slice(0, 3)}</span>
-                              </div>
-                            )}
+                          <div className="relative">
+                            <div className="w-[60px] h-[60px] rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+                              {product.thumbnail ? (
+                                <img
+                                  src={product.thumbnail}
+                                  alt=""
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                                  <span className="text-[10px] text-gray-300 font-bold">{product.brand?.slice(0, 2)}</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                          {/* 매칭 점수 뱃지 */}
-                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center shadow-sm">
-                            <span className="text-[8px] font-bold text-white">
-                              {Math.round(product.matchScore)}
+                          
+                          {/* 브랜드 & 타이틀 */}
+                          <div className="flex flex-col gap-0 px-0.5">
+                            <span className="text-[9px] text-gray-400 font-bold truncate">
+                              {product.brand || '기타'}
+                            </span>
+                            <span className="text-[10px] text-gray-700 font-semibold line-clamp-1 leading-tight">
+                              {product.name}
                             </span>
                           </div>
                         </motion.div>
                       ))}
-                      {filteredProducts.length > 8 && (
-                        <div className="shrink-0 w-14 h-14 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center">
-                          <span className="text-[11px] font-bold text-gray-400">
-                            +{filteredProducts.length - 8}
-                          </span>
+                      {filteredProducts.length > 15 && (
+                        <div className="shrink-0 flex flex-col gap-1.5 w-[60px]">
+                          <div className="w-[60px] h-[60px] rounded-xl bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center">
+                            <span className="text-[11px] font-black text-gray-300">
+                              +{filteredProducts.length - 15}
+                            </span>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -239,15 +251,16 @@ export function HardcutVisualization({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
+            className="pt-2"
           >
             <motion.button
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
+              whileHover={{ scale: 1.01, translateY: -1 }}
+              whileTap={{ scale: 0.98 }}
               onClick={onContinue}
-              className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl shadow-lg flex items-center justify-center gap-2"
+              className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all"
             >
-              <Sparkle size={18} weight="fill" />
-              <span>취향 맞추기 시작</span>
+              <FcSurvey size={20} />
+              <span className="text-[16px] tracking-tight">후보 추리기 시작</span>
             </motion.button>
           </motion.div>
         )}

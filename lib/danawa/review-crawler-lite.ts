@@ -67,9 +67,10 @@ export interface FetchReviewsOptions {
 /**
  * 단일 상품 리뷰 크롤링 (Axios 버전 - 최적화)
  *
- * 2025년 업데이트: 다나와 API 변경으로 인해
+ * 2026년 1월 업데이트: 다나와 API 변경
  * 1. 상품 페이지에서 Schema.org 메타데이터로 reviewCount, averageRating 추출
- * 2. productOpinion.ajax.php API로 "다나와 상품의견" 리뷰 가져오기
+ * 2. companyProductReview.ajax.php API로 "쇼핑몰 상품리뷰" 가져오기 (5000개+)
+ *    (기존 companyReview.ajax.php API는 제거됨)
  */
 export async function fetchReviewsLite(
   pcode: string,
@@ -95,7 +96,7 @@ export async function fetchReviewsLite(
 
   try {
     // 1. 상품 페이지에서 메타데이터 + 카테고리 정보 추출
-    let cate1 = '', cate2 = '', cate3 = '';
+    let cate1 = '';
     
     try {
       const productResponse = await axios.get(productUrl, {
@@ -122,31 +123,109 @@ export async function fetchReviewsLite(
         }
       });
 
-      // 카테고리 정보 추출 (productOpinion API에 필요)
+      // 카테고리 정보 추출 (companyProductReview API에 필요)
+      // 형식: cate1Code = '861';
       const htmlStr = productResponse.data as string;
-      const cate1Match = htmlStr.match(/cate1Code['":\s]+(\d+)/);
-      const cate2Match = htmlStr.match(/cate2Code['":\s]+(\d+)/);
-      const cate3Match = htmlStr.match(/cate3Code['":\s]+(\d+)/);
-      
+      const cate1Match = htmlStr.match(/cate1Code\s*=\s*['"]?(\d+)['"]?/);
       if (cate1Match) cate1 = cate1Match[1];
-      if (cate2Match) cate2 = cate2Match[1];
-      if (cate3Match) cate3 = cate3Match[1];
 
-    } catch (err) {
+    } catch {
       // 메타데이터 실패해도 리뷰 크롤링 시도
       console.log(`   ⚠️ [${pcode}] 메타데이터 추출 실패`);
     }
 
-    // 2. productOpinion API로 "다나와 상품의견" 가져오기
-    // (쇼핑몰 리뷰 API인 companyReview.ajax.php는 2025년 제거됨)
-    if (cate1 && cate2) {
+    // 2. companyProductReview API로 "쇼핑몰 상품리뷰" 가져오기
+    // (기존 companyReview.ajax.php는 2025년 제거됨)
+    // sortType: usefull (유용한 순), recent (최신순)
+    if (cate1) {
       try {
         const timestamp = Math.random();
-        const opinionUrl = `https://prod.danawa.com/info/dpg/ajax/productOpinion.ajax.php?t=${timestamp}&prodCode=${pcode}&keyword=&condition=&page=1&limit=${maxReviews * 2}&past=N&sort=1&headTextSeq=0&cate1Code=${cate1}&cate2Code=${cate2}&cate3Code=${cate3}`;
+        const reviewUrl = `https://prod.danawa.com/info/dpg/ajax/companyProductReview.ajax.php?t=${timestamp}&prodCode=${pcode}&cate1Code=${cate1}&page=1&limit=${maxReviews * 2}&score=0&sortType=usefull&usefullScore=Y`;
+        
+        const reviewResponse = await axios.get(reviewUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': '*/*',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Referer': productUrl,
+          },
+          timeout,
+        });
+
+        const reviewHtml = reviewResponse.data;
+        if (typeof reviewHtml === 'string' && reviewHtml.length > 100) {
+          const $review = load(reviewHtml);
+
+          // 쇼핑몰 상품리뷰 아이템 파싱
+          // 선택자: .rvw_list > li 또는 .danawa-prodBlog-companyReview-clazz-more
+          $review('.rvw_list > li, li.danawa-prodBlog-companyReview-clazz-more').each((i: number, el: CheerioElement) => {
+            if (result.reviews.length >= maxReviews) return false;
+
+            const $item = $review(el);
+
+            // 내용 추출 (.atc 클래스)
+            const content = $item.find('.atc, .rvw_atc').text().trim();
+            if (!content || content.length < 5) return;
+
+            // 별점 (.star_mask의 width 스타일에서)
+            let rating = 5;
+            const starMask = $item.find('.star_mask');
+            if (starMask.length) {
+              rating = parseRatingFromStyle(starMask.attr('style') || '');
+            }
+
+            // 쇼핑몰명 (.mall 클래스)
+            const mallName = $item.find('.mall').text().trim() || undefined;
+
+            // 작성자 (.name 클래스)
+            const author = $item.find('.name').text().trim() || undefined;
+
+            // 날짜 (.date 클래스)
+            const date = $item.find('.date').text().trim() || undefined;
+
+            const reviewId = generateReviewId(content, author, date);
+
+            // 중복 체크
+            if (!result.reviews.some(r => r.reviewId === reviewId)) {
+              // 불필요한 공백/탭/줄바꿈 정리
+              const cleanContent = content
+                .replace(/[\t\n\r]+/g, ' ')
+                .replace(/\s{2,}/g, ' ')
+                .trim()
+                .slice(0, 500);
+              
+              result.reviews.push({
+                reviewId,
+                rating: Math.min(5, Math.max(1, rating)), // 1-5 범위 보장
+                content: cleanContent,
+                author,
+                date,
+                mallName,
+              });
+            }
+          });
+          
+          // 리뷰 정렬: 길이가 긴 순으로 (더 유용한 정보 포함 가능성)
+          result.reviews.sort((a, b) => b.content.length - a.content.length);
+          
+          // maxReviews 개수로 제한
+          result.reviews = result.reviews.slice(0, maxReviews);
+        }
+      } catch {
+        // API 실패 시 무시
+        console.log(`   ⚠️ [${pcode}] companyProductReview API 실패`);
+      }
+    }
+
+    // 3. 쇼핑몰 리뷰가 없으면 productOpinion (다나와 상품의견) 시도 (Fallback)
+    if (result.reviews.length === 0 && cate1) {
+      try {
+        const timestamp = Math.random();
+        const opinionUrl = `https://prod.danawa.com/info/dpg/ajax/productOpinion.ajax.php?t=${timestamp}&prodCode=${pcode}&page=1&limit=${maxReviews * 2}&cate1Code=${cate1}`;
         
         const opinionResponse = await axios.get(opinionUrl, {
           headers: {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
             'Accept': '*/*',
             'X-Requested-With': 'XMLHttpRequest',
             'Referer': productUrl,
@@ -158,63 +237,52 @@ export async function fetchReviewsLite(
         if (typeof opinionHtml === 'string' && opinionHtml.length > 100) {
           const $opinion = load(opinionHtml);
 
-          // 리뷰 아이템 파싱 (다나와 상품의견 구조)
-          $opinion('.cmt_item, .rvw_item, li.type_buyer').each((i: number, el: CheerioElement) => {
+          // 다나와 상품의견 파싱
+          $opinion('.cmt_item, .rvw_item').each((i: number, el: CheerioElement) => {
             if (result.reviews.length >= maxReviews) return false;
 
             const $item = $opinion(el);
-
-            // 내용 추출
-            const content = $item.find('.cmt_txt, .rvw_atc, .txt_wrap, .atc').text().trim();
+            const content = $item.find('.cmt_txt, .rvw_atc, .atc').text().trim();
             if (!content || content.length < 5) return;
 
-            // 별점 (다나와 상품의견은 별점이 없는 경우가 많음)
-            let rating = 4;
+            let rating = 4; // 상품의견은 별점이 없는 경우가 많음
             const starMask = $item.find('.star_mask');
             if (starMask.length) {
               rating = parseRatingFromStyle(starMask.attr('style') || '');
             }
-            // 텍스트에서 점수 추출 시도
-            const ratingTextMatch = $item.find('.point, .star_point').text().match(/(\d+(\.\d)?)/);
-            if (ratingTextMatch) {
-              rating = Math.round(parseFloat(ratingTextMatch[1]));
-            }
 
-            // 작성자
-            const author = $item.find('.name, .nick, .writer').text().trim() || undefined;
-
-            // 날짜
+            const author = $item.find('.name, .nick').text().trim() || undefined;
             const date = $item.find('.date, .time').text().trim() || undefined;
-
             const reviewId = generateReviewId(content, author, date);
 
-            // 중복 체크
             if (!result.reviews.some(r => r.reviewId === reviewId)) {
+              // 불필요한 공백/탭/줄바꿈 정리
+              const cleanContent = content
+                .replace(/[\t\n\r]+/g, ' ')
+                .replace(/\s{2,}/g, ' ')
+                .trim()
+                .slice(0, 500);
+                
               result.reviews.push({
                 reviewId,
-                rating: Math.min(5, Math.max(1, rating)), // 1-5 범위 보장
-                content: content.slice(0, 500), // 최대 500자
+                rating: Math.min(5, Math.max(1, rating)),
+                content: cleanContent,
                 author,
                 date,
               });
             }
           });
         }
-      } catch (err) {
+      } catch {
         // productOpinion API 실패 시 무시
-        console.log(`   ⚠️ [${pcode}] productOpinion API 실패`);
       }
-    }
-
-    // 3. 리뷰가 없으면 상품 페이지에서 직접 파싱 시도 (Fallback)
-    if (result.reviews.length === 0 && result.reviewCount > 0) {
-      // 최소한 메타데이터는 있으니 성공으로 처리
-      console.log(`   ⚠️ [${pcode}] 리뷰 내용 없음 (메타데이터만 수집: ${result.reviewCount}개, ${result.averageRating}점)`);
     }
 
     result.success = true;
     if (result.reviews.length > 0) {
       console.log(`   ✅ [${pcode}] ${result.reviews.length}개 리뷰 수집 (총 ${result.reviewCount}개, 평점 ${result.averageRating})`);
+    } else if (result.reviewCount > 0) {
+      console.log(`   ⚠️ [${pcode}] 리뷰 내용 없음 (메타데이터: ${result.reviewCount}개, ${result.averageRating}점)`);
     }
 
   } catch (error) {

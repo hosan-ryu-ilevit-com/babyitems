@@ -246,8 +246,9 @@ function ProductAnalysisContent({
   step: AnalysisStep;
   crawledProducts?: AgenticLoadingPhaseProps['crawledProducts'];
 }) {
+  const PREVIEW_COUNT = 10; // 미리보기 개수
   const products = crawledProducts || [];
-  const count = step.analyzedCount || products.length;
+  const count = step.analyzedCount || products.length; // 전체 수집 개수
   const filters = step.result?.filters || [];
   const filterCount = step.result?.filterCount || filters.length;
 
@@ -336,9 +337,9 @@ function ProductAnalysisContent({
               </p>
             </div>
 
-            {/* 상품 리스트 - 최대 8개 */}
-            <div className="space-y-1 max-h-48 overflow-y-auto">
-              {products.slice(0, 8).map((p, i) => (
+            {/* 상품 리스트 - 최대 10개 미리보기 */}
+            <div className="space-y-1 max-h-64 overflow-y-auto">
+              {products.slice(0, PREVIEW_COUNT).map((p, i) => (
                 <motion.div
                   key={p.pcode || i}
                   initial={{ opacity: 0, x: -5 }}
@@ -388,10 +389,10 @@ function ProductAnalysisContent({
               ))}
             </div>
 
-            {/* 더 보기 */}
-            {products.length > 8 && (
+            {/* 더 보기 - 전체 수집 개수 기준 */}
+            {count > PREVIEW_COUNT && (
               <p className="text-[11px] text-gray-400 text-center">
-                +{products.length - 8}개 더 분석됨
+                +{count - PREVIEW_COUNT}개 더 분석됨
               </p>
             )}
           </div>
@@ -806,11 +807,42 @@ function StepCard({
   generatedQuestions?: GeneratedQuestion[];
   onRefChange?: (el: HTMLDivElement | null) => void;
 }) {
+  // 로컬 타이머 시작 시간 (펼쳐진 순간부터 시작)
+  const [localStartTime, setLocalStartTime] = useState<number | null>(null);
+
+  // 펼쳐지고 아직 완료되지 않았을 때 로컬 타이머 시작
+  useEffect(() => {
+    if (isExpanded && step.status !== 'done' && !localStartTime) {
+      setLocalStartTime(Date.now());
+    }
+    // 완료되면 로컬 타이머 초기화
+    if (step.status === 'done') {
+      setLocalStartTime(null);
+    }
+  }, [isExpanded, step.status, localStartTime]);
+
   const duration = step.endTime && step.startTime
     ? ((step.endTime - step.startTime) / 1000).toFixed(1)
     : null;
 
+  // 타이머에 사용할 시작 시간 (API startTime 우선, 없으면 로컬)
+  const effectiveStartTime = step.startTime || localStartTime;
+  const shouldShowTimer = isExpanded && step.status !== 'done' && effectiveStartTime;
+
   const getStatusIcon = () => {
+    // 펼쳐져 있고 완료되지 않았으면 로딩 아이콘 표시
+    if (isExpanded && step.status !== 'done') {
+      return (
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          className="flex items-center justify-center w-5 h-5"
+        >
+          <FcProcess size={16} />
+        </motion.div>
+      );
+    }
+
     switch (step.status) {
       case 'done':
         return (
@@ -849,6 +881,8 @@ function StepCard({
           ? 'bg-white border border-blue-100'
           : step.status === 'done'
           ? 'bg-white border border-gray-100/80'
+          : isExpanded
+          ? 'bg-white border border-gray-100/80'  // 펼쳐져 있으면 흰색 배경
           : 'bg-gray-50/50 border border-transparent'
       }`}
     >
@@ -866,7 +900,8 @@ function StepCard({
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <span className={`text-[14px] font-semibold truncate ${
             step.status === 'done' ? 'text-gray-700' :
-            step.status === 'active' ? 'text-gray-900' : 'text-gray-400'
+            step.status === 'active' ? 'text-gray-900' :
+            isExpanded ? 'text-gray-900' : 'text-gray-400'
           }`}>
             {step.label}
           </span>
@@ -874,8 +909,8 @@ function StepCard({
 
         {/* 소요 시간 / 상태 정보 */}
         <div className="flex items-center gap-2 shrink-0">
-          {step.status === 'active' && step.startTime ? (
-            <RealTimeTimer startTime={step.startTime} />
+          {shouldShowTimer && effectiveStartTime ? (
+            <RealTimeTimer startTime={effectiveStartTime} />
           ) : duration ? (
             <span className="text-[11px] font-medium text-gray-400 tabular-nums">
               {duration}s
