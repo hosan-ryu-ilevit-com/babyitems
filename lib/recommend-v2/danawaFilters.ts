@@ -911,7 +911,7 @@ export async function enhanceHardFilterQuestionsWithLLM(
       }
     }
 
-    const prompt = `당신은 10년 경력의 ${categoryName} 전문 상담사이자 육아 전문가입니다.
+    const prompt = `당신은 10년 경력의 ${categoryName} 전문 상담사이자 쇼핑 전문가입니다.
 ${insightsContext}
 아래 필터 질문들을 처음 구매하는 초보 부모를 위해 친절하고 전문적인 가이드 질문으로 변환해주세요.
 

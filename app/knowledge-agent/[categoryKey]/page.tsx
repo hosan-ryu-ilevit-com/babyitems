@@ -26,7 +26,10 @@ import { V2ResultProductCard } from '@/components/recommend-v2/V2ResultProductCa
 import { InlineBudgetSelector } from '@/components/knowledge-agent/ChatUIComponents';
 import { BalanceGameCarousel } from '@/components/recommend-v2/BalanceGameCarousel';
 import { NegativeFilterList } from '@/components/recommend-v2/NegativeFilterList';
-import type { BalanceQuestion as V2BalanceQuestion } from '@/types/recommend-v2';
+import { AIHelperButton } from '@/components/recommend-v2/AIHelperButton';
+import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
+import { NegativeFilterAIHelperBottomSheet } from '@/components/recommend-v2/NegativeFilterAIHelperBottomSheet';
+import type { BalanceQuestion as V2BalanceQuestion, UserSelections } from '@/types/recommend-v2';
 import { HardcutVisualization } from '@/components/knowledge-agent/HardcutVisualization';
 
 // ============================================================================
@@ -639,8 +642,41 @@ export default function KnowledgeAgentPage() {
   const [balanceCurrentSelections, setBalanceCurrentSelections] = useState<Set<string>>(new Set()); // 현재 선택된 rule keys
   const [selectedNegativeKeys, setSelectedNegativeKeys] = useState<string[]>([]); // 단점 필터 선택된 rule keys (부모 컴포넌트에서 관리)
 
+  // AI Helper (뭘 고를지 모르겠어요) 상태
+  const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+  const [isNegativeAIHelperOpen, setIsNegativeAIHelperOpen] = useState(false);
+  const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
+  const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+  const [aiHelperData, setAiHelperData] = useState<{
+    questionId: string;
+    questionText: string;
+    options: any;
+    type: 'hard_filter' | 'balance_game';
+  } | null>(null);
+
+  // collectedInfo를 recommend-v2의 UserSelections 형식으로 변환
+  const getUserSelections = (): UserSelections => {
+    return {
+      hardFilters: Object.entries(collectedInfo).map(([key, value]) => ({
+        questionText: key,
+        selectedLabels: [value]
+      })),
+      balanceGames: savedBalanceSelections.map(s => ({
+        title: s.questionId, // ID를 타이틀로 사용 (정확한 타이틀은 찾기 어려움)
+        selectedOption: s.selectedLabel
+      })),
+      initialContext: messages.find(m => m.role === 'user')?.content || ''
+    };
+  };
+
   // Results
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [modalInitialTab, setModalInitialTab] = useState<'price' | 'danawa_reviews'>('price');
+
+  const handleProductClick = (product: any, tab: 'price' | 'danawa_reviews' = 'price') => {
+    setModalInitialTab(tab);
+    setSelectedProduct(product);
+  };
   const [crawledProducts, setCrawledProducts] = useState<CrawledProductPreview[]>([]);
 
   // V2 Flow: 확장 크롤링 + 하드컷팅 + 리뷰 크롤링
@@ -1902,12 +1938,45 @@ export default function KnowledgeAgentPage() {
                 key={msg.id}
                 message={msg}
                 onOptionToggle={handleOptionToggle}
-                onProductClick={setSelectedProduct}
+                onProductClick={handleProductClick}
                 phase={phase}
                 inputRef={inputRef}
-                isLatestAssistantMessage={msg.role === 'assistant' && msg.options && !msg.isFinalized}
+                isLatestAssistantMessage={msg.role === 'assistant' && (msg.options || msg.negativeFilterOptions) && !msg.isFinalized}
                 selectedNegativeKeys={selectedNegativeKeys}
                 onNegativeKeyToggle={(key) => setSelectedNegativeKeys(prev => prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key])}
+                categoryKey={categoryKey}
+                categoryName={categoryName}
+                userSelections={getUserSelections()}
+                onAIHelperOpen={(data) => {
+                  setAiHelperData(data);
+                  setIsAIHelperOpen(true);
+                }}
+                onPopularRecommend={(query) => {
+                  setAiHelperData({
+                    questionId: msg.id,
+                    questionText: msg.content,
+                    options: msg.options!.map(o => ({ value: o, label: o })),
+                    type: 'hard_filter'
+                  });
+                  setAiHelperAutoSubmitText(query);
+                  setIsAIHelperOpen(true);
+                }}
+                onContextRecommend={(query) => {
+                  setAiHelperData({
+                    questionId: msg.id,
+                    questionText: msg.content,
+                    options: msg.options!.map(o => ({ value: o, label: o })),
+                    type: 'hard_filter'
+                  });
+                  setAiHelperAutoSubmitText(query);
+                  setIsAIHelperOpen(true);
+                }}
+                onNegativeAIHelperOpen={(autoSubmitText) => {
+                  if (autoSubmitText) {
+                    setAiHelperAutoSubmitText(autoSubmitText);
+                  }
+                  setIsNegativeAIHelperOpen(true);
+                }}
               />
             ))}
             {/* 하드컷팅 시각화 단계 */}
@@ -1935,6 +2004,10 @@ export default function KnowledgeAgentPage() {
                   setBalanceAllAnswered(state.allAnswered);
                   setBalanceCurrentSelections(state.currentSelections);
                 }}
+                showAIHelper={true}
+                category={categoryKey}
+                categoryName={categoryName}
+                userSelections={getUserSelections()}
               />
             )}
             <AnimatePresence>
@@ -2033,6 +2106,7 @@ export default function KnowledgeAgentPage() {
 
       {selectedProduct && (
         <ProductDetailModal
+          initialTab={modalInitialTab}
           productData={{
             product: {
               id: selectedProduct.id || selectedProduct.pcode,
@@ -2065,6 +2139,68 @@ export default function KnowledgeAgentPage() {
           }))}
         />
       )}
+
+      {/* AI 도움 바텀시트 (하드필터/밸런스게임) */}
+      {aiHelperData && (
+        <AIHelperBottomSheet
+          isOpen={isAIHelperOpen}
+          onClose={() => {
+            setIsAIHelperOpen(false);
+            setAiHelperAutoSubmitText(undefined);
+            setIsAIHelperAutoSubmit(false);
+          }}
+          questionType={aiHelperData.type}
+          questionId={aiHelperData.questionId}
+          questionText={aiHelperData.questionText}
+          options={aiHelperData.options}
+          category={categoryKey}
+          categoryName={categoryName}
+          userSelections={getUserSelections()}
+          onSelectOptions={(selectedOptions) => {
+            // AI가 추천한 옵션들로 교체
+            setMessages(prev => {
+              const newMessages = prev.map(m => {
+                if (m.id === aiHelperData.questionId) {
+                  return { ...m, selectedOptions: selectedOptions };
+                }
+                return m;
+              });
+
+              // 입력창 업데이트
+              if (selectedOptions.length > 0) {
+                setInputValue(selectedOptions.join(', '));
+                setBarAnimationKey(prev => prev + 1);
+                setIsHighlighting(true);
+              }
+
+              return newMessages;
+            });
+            setIsAIHelperOpen(false);
+          }}
+          autoSubmitText={aiHelperAutoSubmitText}
+          autoSubmitContext={isAIHelperAutoSubmit}
+        />
+      )}
+
+      {/* 단점 필터 AI 도움 바텀시트 */}
+      <NegativeFilterAIHelperBottomSheet
+        isOpen={isNegativeAIHelperOpen}
+        onClose={() => setIsNegativeAIHelperOpen(false)}
+        options={negativeOptions.map(opt => ({
+          id: opt.id,
+          label: opt.label,
+          target_rule_key: opt.target_rule_key,
+          exclude_mode: (opt.exclude_mode || 'drop_if_has') as 'drop_if_lacks' | 'drop_if_has',
+        }))}
+        category={categoryKey}
+        categoryName={categoryName}
+        userSelections={getUserSelections()}
+        onSelectOptions={(selectedRuleKeys) => {
+          // AI가 추천한 단점들을 선택
+          setSelectedNegativeKeys(selectedRuleKeys);
+          setIsNegativeAIHelperOpen(false);
+        }}
+      />
     </div>
   );
 }
@@ -2077,16 +2213,32 @@ function MessageBubble({
   inputRef,
   isLatestAssistantMessage,
   selectedNegativeKeys,
-  onNegativeKeyToggle
+  onNegativeKeyToggle,
+  categoryKey,
+  categoryName,
+  userSelections,
+  onAIHelperOpen,
+  onPopularRecommend,
+  onContextRecommend,
+  negativeOptions,
+  onNegativeAIHelperOpen,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
-  onProductClick: (product: any) => void;
+  onProductClick: (product: any, tab?: 'price' | 'danawa_reviews') => void;
   phase: Phase;
   inputRef?: React.RefObject<HTMLTextAreaElement | null>;
   isLatestAssistantMessage?: boolean;
   selectedNegativeKeys: string[];
   onNegativeKeyToggle: (key: string) => void;
+  categoryKey?: string;
+  categoryName?: string;
+  userSelections?: UserSelections;
+  onAIHelperOpen?: (data: { questionId: string; questionText: string; options: any; type: 'hard_filter' }) => void;
+  onPopularRecommend?: (query: string) => void;
+  onContextRecommend?: (query: string) => void;
+  negativeOptions?: NegativeOption[];
+  onNegativeAIHelperOpen?: (autoSubmitText?: string) => void;
 }) {
   const isUser = message.role === 'user';
 
@@ -2132,6 +2284,27 @@ function MessageBubble({
 
         {!isUser && message.options && message.options.length > 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="space-y-2 pt-2">
+            {isLatestAssistantMessage && (
+              <div className="mb-3">
+                <AIHelperButton
+                  onClick={() => onAIHelperOpen?.({
+                    questionId: message.id,
+                    questionText: message.content,
+                    options: message.options!.map(o => ({ value: o, label: o })),
+                    type: 'hard_filter'
+                  })}
+                  label="뭘 고를지 모르겠어요"
+                  questionType="hard_filter"
+                  questionId={message.id}
+                  questionText={message.content}
+                  category={categoryKey}
+                  categoryName={categoryName}
+                  hasContext={!!userSelections?.initialContext}
+                  onPopularRecommend={() => onPopularRecommend?.("가장 많은 사람들이 구매하는게 뭔가요?")}
+                  onContextRecommend={() => onContextRecommend?.("지금까지 입력한 정보로 추천해줘")}
+                />
+              </div>
+            )}
             {message.options.map((opt, i) => (
               <OptionButton key={i} label={opt} isSelected={message.selectedOptions?.includes(opt)} onClick={() => onOptionToggle(opt, message.id)} disabled={isInactive} />
             ))}
@@ -2147,18 +2320,39 @@ function MessageBubble({
         )}
 
         {!isUser && message.negativeFilterOptions && message.negativeFilterOptions.length > 0 && (
-          <NegativeFilterList
-            data={{
-              options: message.negativeFilterOptions.map(opt => ({
-                id: opt.id,
-                label: opt.label,
-                target_rule_key: opt.target_rule_key,
-                exclude_mode: (opt.exclude_mode || 'drop_if_has') as 'drop_if_lacks' | 'drop_if_has',
-              })),
-              selectedKeys: selectedNegativeKeys,
-            }}
-            onToggle={onNegativeKeyToggle}
-          />
+          <div className="space-y-3">
+            {isLatestAssistantMessage && (
+              <AIHelperButton
+                onClick={() => onNegativeAIHelperOpen?.()}
+                label="뭘 고를지 모르겠어요"
+                questionType="negative"
+                questionId="negative_filter"
+                questionText="꼭 피하고 싶은 단점이 있으신가요?"
+                category={categoryKey}
+                categoryName={categoryName}
+                hasContext={!!userSelections?.initialContext}
+                onPopularRecommend={() => {
+                  onNegativeAIHelperOpen?.("가장 많은 사람들이 피하는 옵션이 뭔가요?");
+                }}
+                onContextRecommend={() => {
+                  onNegativeAIHelperOpen?.("지금까지 입력한 정보로 추천해줘");
+                }}
+              />
+            )}
+            <NegativeFilterList
+              data={{
+                options: message.negativeFilterOptions.map(opt => ({
+                  id: opt.id,
+                  label: opt.label,
+                  target_rule_key: opt.target_rule_key,
+                  exclude_mode: (opt.exclude_mode || 'drop_if_has') as 'drop_if_lacks' | 'drop_if_has',
+                })),
+                selectedKeys: selectedNegativeKeys,
+              }}
+              onToggle={onNegativeKeyToggle}
+              showAIHelper={false} // 이미 위에서 AIHelperButton을 직접 렌더링함
+            />
+          </div>
         )}
 
         {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
@@ -2166,7 +2360,34 @@ function MessageBubble({
             <div className="flex items-center gap-2 px-1"><Lightning size={20} weight="fill" className="text-yellow-500" /><h3 className="font-bold text-gray-900">맞춤 추천 Top 3</h3></div>
             <div className="space-y-2">
               {message.resultProducts.slice(0, 3).map((product: any, i: number) => (
-                <V2ResultProductCard key={product.pcode || product.id || i} product={{ pcode: product.pcode || product.id, title: product.name || product.title, brand: product.brand || null, price: product.price || null, thumbnail: product.thumbnail || null, rank: i + 1, spec: product.spec || {}, reviewCount: product.reviewCount || null, averageRating: product.rating || product.averageRating || null, recommendationReason: product.recommendReason || product.recommendationReason, baseScore: 0, negativeScore: 0, hardFilterScore: 0, budgetScore: 0, directInputScore: 0, totalScore: 0, matchedRules: [], isOverBudget: false, overBudgetAmount: 0, overBudgetPercent: 0 }} rank={i + 1} onClick={() => onProductClick(product)} />
+                <V2ResultProductCard
+                  key={product.pcode || product.id || i}
+                  product={{
+                    pcode: product.pcode || product.id,
+                    title: product.name || product.title,
+                    brand: product.brand || null,
+                    price: product.price || null,
+                    thumbnail: product.thumbnail || null,
+                    rank: i + 1,
+                    spec: product.spec || {},
+                    reviewCount: product.reviewCount || null,
+                    averageRating: product.rating || product.averageRating || null,
+                    recommendationReason: product.recommendReason || product.recommendationReason,
+                    baseScore: 0,
+                    negativeScore: 0,
+                    hardFilterScore: 0,
+                    budgetScore: 0,
+                    directInputScore: 0,
+                    totalScore: 0,
+                    matchedRules: [],
+                    isOverBudget: false,
+                    overBudgetAmount: 0,
+                    overBudgetPercent: 0
+                  }}
+                  rank={i + 1}
+                  onClick={() => onProductClick(product, 'price')}
+                  onReviewClick={() => onProductClick(product, 'danawa_reviews')}
+                />
               ))}
             </div>
             {message.resultProducts.length >= 2 && (

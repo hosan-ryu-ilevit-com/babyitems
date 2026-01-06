@@ -79,6 +79,7 @@ interface ProductDetailModalProps {
     matchedPoints: string[];  // ["저소음", "급속 가열", "야간 조명"]
   };
   scrollToSellers?: boolean;
+  initialTab?: 'price' | 'danawa_reviews';
   // 미리 크롤링된 리뷰 (knowledge-agent 플로우에서 사용)
   preloadedReviews?: Array<{
     content: string;
@@ -198,8 +199,8 @@ function parseMarkdownBold(text: string) {
 // }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, scrollToSellers = false, preloadedReviews }: ProductDetailModalProps) {
-  const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>('price');
+export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, scrollToSellers = false, initialTab = 'price', preloadedReviews }: ProductDetailModalProps) {
+  const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>(initialTab);
   const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
   const [showHighlight, setShowHighlight] = useState(false);
@@ -252,6 +253,15 @@ export default function ProductDetailModal({ productData, category, danawaData, 
       window.removeEventListener('openReviewTab', handleOpenReviewTab);
     };
   }, []);
+
+  // 초기 탭이 리뷰인 경우 스크롤
+  useEffect(() => {
+    if (initialTab === 'danawa_reviews') {
+      setTimeout(() => {
+        reviewTabRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500); // 모달 애니메이션 고려하여 충분한 딜레이
+    }
+  }, [initialTab]);
 
   // 최저가 구매하기 자동 스크롤 및 하이라이트 효과
   useEffect(() => {

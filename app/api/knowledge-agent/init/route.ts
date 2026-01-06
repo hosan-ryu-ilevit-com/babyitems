@@ -680,14 +680,14 @@ function getDefaultQuestions(
     let reasonText = '';
 
     if (spec.key === '단계' || spec.key.includes('단계')) {
-      questionText = '아기가 현재 어느 단계인가요?';
-      reasonText = `💡 기저귀 단계는 아기 몸무게에 맞춰 선택해요. 단계별로 흡수량과 사이즈가 달라집니다.`;
+      questionText = '현재 어느 단계를 찾으시나요?';
+      reasonText = `💡 단계에 따라 기능이나 사이즈가 달라집니다. 본인 상황에 맞춰 선택해주세요.`;
     } else if (spec.key === '형태' || spec.key === '타입') {
       questionText = `${categoryName} 형태는 어떤 것을 선호하시나요?`;
-      reasonText = `💡 형태에 따라 사용 편의성과 맞춤도가 달라져요.`;
+      reasonText = `💡 형태에 따라 사용 편의성과 특징이 달라져요.`;
     } else if (spec.key.includes('무게') || spec.key.includes('권장')) {
-      questionText = '아기 몸무게가 어느 정도인가요?';
-      reasonText = `💡 몸무게에 맞는 제품을 선택해야 샘 방지와 착용감이 좋아요.`;
+      questionText = '어느 정도의 무게/하중 범위를 찾으시나요?';
+      reasonText = `💡 권장 무게에 맞는 제품을 선택해야 안전하고 편리합니다.`;
     } else {
       questionText = `${spec.key}은(는) 어떤 것을 원하시나요?`;
       reasonText = `💡 ${spec.key}에 따라 제품 특성이 달라집니다. ${products.length}개 상품 분석 결과입니다.`;

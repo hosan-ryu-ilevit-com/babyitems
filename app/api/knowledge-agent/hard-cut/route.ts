@@ -66,8 +66,9 @@ ${availableSpecs.slice(0, 30).join(', ')}
 ## 추출 규칙
 1. 사용자 답변에서 스펙 관련 조건만 추출
 2. 각 조건의 중요도(weight)를 0.3~1.0 사이로 설정
-3. 필수 조건(mandatory)은 미충족 시 제외됨
-4. matchType: "contains"(포함), "range"(범위), "exact"(정확)
+3. mandatory=true: 사용자가 명시적으로 요청한 핵심 조건 (미충족 시 큰 감점)
+4. mandatory=false: 있으면 좋지만 필수는 아닌 조건
+5. matchType: "contains"(포함), "range"(범위), "exact"(정확)
 
 ## 응답 형식 (JSON 배열)
 [
@@ -166,10 +167,11 @@ function calculateConditionMatch(
 }
 
 /**
- * 상품 스펙 매칭 점수 계산 (OR 기반 - 제외 없이 모두 점수화)
+ * 상품 스펙 매칭 점수 계산 (OR 기반 + mandatory 페널티)
  * - 조건 충족 개수에 비례한 점수
  * - 리뷰/평점 기반 기본 점수
- * - 절대 제외하지 않음 (최소 15개 보장을 위해)
+ * - mandatory 미충족 시 큰 감점 (순위 하락)
+ * - 절대 제외하지 않음 (최소 30개 보장을 위해)
  */
 function calculateProductScore(
   product: DanawaSearchListItem,
@@ -192,6 +194,7 @@ function calculateProductScore(
   let matchCount = 0;
   let totalWeight = 0;
   let weightedMatchSum = 0;
+  let mandatoryPenalty = 0;
 
   for (const condition of conditions) {
     const matchScore = calculateConditionMatch(product.specSummary || '', condition);
@@ -201,6 +204,9 @@ function calculateProductScore(
       matchedConditions.push(condition.reason);
       matchCount++;
       weightedMatchSum += condition.weight;
+    } else if (condition.mandatory) {
+      // mandatory 조건 미충족 시 페널티 (-30점 * weight)
+      mandatoryPenalty += 30 * condition.weight;
     }
   }
 
@@ -214,8 +220,11 @@ function calculateProductScore(
     ? (matchCount / conditions.length) * 20
     : 0;
 
+  // 최종 점수 (mandatory 페널티 적용, 최소 0점)
+  const finalScore = Math.max(0, Math.round(baseScore + conditionScore + matchCountBonus - mandatoryPenalty));
+
   return {
-    score: Math.round(baseScore + conditionScore + matchCountBonus),
+    score: finalScore,
     matchedConditions,
   };
 }
@@ -270,7 +279,11 @@ export async function POST(request: NextRequest) {
       collectedInfo,
       availableSpecs
     );
-    console.log(`   Extracted ${conditions.length} filter conditions`);
+    const mandatoryConditions = conditions.filter(c => c.mandatory);
+    console.log(`   Extracted ${conditions.length} filter conditions (${mandatoryConditions.length} mandatory)`);
+    if (mandatoryConditions.length > 0) {
+      console.log(`   Mandatory: ${mandatoryConditions.map(c => c.reason).join(', ')}`);
+    }
 
     // 3. 각 상품 점수 계산 (OR 기반 - 모든 상품 점수화, 제외 없음)
     const scoredProducts: HardCutProduct[] = products.map(product => {
@@ -307,7 +320,9 @@ export async function POST(request: NextRequest) {
     scoredProducts.sort((a, b) => b.matchScore - a.matchScore);
     const filteredProducts = scoredProducts.slice(0, targetCount);
 
-    console.log(`   Top scores: ${filteredProducts.slice(0, 3).map(p => `${p.matchScore}점`).join(', ')}`);
+    // 점수 분포 로그
+    const lowScoreCount = scoredProducts.filter(p => p.matchScore < 30).length;
+    console.log(`   Score distribution: Top3=${filteredProducts.slice(0, 3).map(p => p.matchScore).join(',')} | LowScore(<30)=${lowScoreCount}개`);
 
     const elapsedMs = Date.now() - startTime;
     console.log(`✅ [HardCut] 완료: ${products.length}개 → ${filteredProducts.length}개 (${(elapsedMs / 1000).toFixed(1)}초)`);

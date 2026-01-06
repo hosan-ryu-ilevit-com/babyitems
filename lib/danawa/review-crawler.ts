@@ -159,7 +159,7 @@ function parseReview($review: CheerioSelection, $: CheerioAPI): Review | null {
       content = $atcCont.text().trim();
     } else {
       // 최후의 수단으로 부모 요소에서 텍스트 추출하되 "펼쳐보기" 등의 버튼 텍스트 제외 시도
-      const $atc = $review.find('.atc, .rvw_atc, .atc_cont').clone();
+      let $atc = $review.find('.atc, .rvw_atc, .atc_cont').clone();
       if ($atc.length === 0) {
         $atc = $review.find('.rvw_atc, .atc_cont').clone();
       }

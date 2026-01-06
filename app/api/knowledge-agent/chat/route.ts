@@ -169,13 +169,13 @@ async function classifyUserIntent(userMessage: string, question: string, options
   return { type: 'A', matchedOption: options[0]?.label };
 }
 
-async function performContextualSearch(categoryName: string, userAnswer: string, questionContext: string, dynamicSearchQuery?: string, intentType: 'A' | 'B' = 'A'): Promise<SearchContext | null> {
+async function performContextualSearch(categoryName: string, userSelection: string, questionContext: string, dynamicSearchQuery?: string, intentType: 'A' | 'B' = 'A'): Promise<SearchContext | null> {
   if (!ai) return null;
-  const searchQuery = dynamicSearchQuery || `${categoryName} ${userAnswer}`;
+  const searchQuery = dynamicSearchQuery || `${categoryName} ${userSelection}`;
   const model = ai.getGenerativeModel({ model: MODEL_NAME, generationConfig: { temperature: 0.3 }, tools: [{ google_search: {} } as any] });
-  const prompt = intentType === 'B' 
-    ? `"${categoryName}" 관련 "${userAnswer}" 검색하여 답변 JSON: {"query":"...","insight":"답변 2-3문장","relevantTip":"팁","followUpQuestion":"추가질문"}`
-    : `"${categoryName}" ${userAnswer} 선택 인사이트 검색 JSON: {"query":"...","insight":"전문가 코멘트","relevantTip":"팁"}`;
+  const prompt = intentType === 'B'
+    ? `"${categoryName}" 관련 "${userSelection}" 키워드로 웹 검색하여 정보를 찾아주세요. JSON 형식: {"query":"검색어","insight":"웹에서 찾은 정보 2-3문장","relevantTip":"관련 팁","followUpQuestion":"추가질문"}`
+    : `"${categoryName}" "${userSelection}" 선택에 대해 웹 검색으로 전문가 정보를 찾아주세요. JSON 형식: {"query":"검색어","insight":"웹에서 찾은 전문가 코멘트","relevantTip":"관련 팁"}`;
   try {
     const result = await model.generateContent(prompt);
     const text = result.response.text();
@@ -343,7 +343,13 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
     if (ai) {
       try {
         const model = ai.getGenerativeModel({ model: MODEL_NAME });
-        const prompt = `사용자 답변에 대해 공감과 설명 2문장 응답. 답변: "${userMessage}" 인사이트: "${webSearchResult?.insight || ''}"`;
+        const prompt = `당신은 상품 추천 챗봇입니다. 사용자의 선택에 대해 공감하고 간단히 설명해주세요.
+
+[사용자가 선택한 답변]: "${userMessage}"
+${webSearchResult?.insight ? `[웹 검색에서 찾은 참고 정보]: ${webSearchResult.insight}` : ''}
+
+위 정보를 바탕으로 2문장 이내로 자연스럽게 응답하세요.
+주의: [웹 검색에서 찾은 참고 정보]는 인터넷에서 검색한 전문가 의견이며, 사용자가 말한 내용이 아닙니다.`;
         const result = await model.generateContent(prompt);
         transitionText = result.response.text().trim() + '\n\n';
       } catch (e) {}

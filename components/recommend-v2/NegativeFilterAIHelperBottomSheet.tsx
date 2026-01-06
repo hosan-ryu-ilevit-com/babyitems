@@ -165,9 +165,9 @@ export function NegativeFilterAIHelperBottomSheet({
 
       // Fallback: 사용자 상황 기반 예시
       const fallbackExamples = [
-        '맞벌이라 시간이 부족해요',
-        '집이 좁은 편이에요',
-        '아이가 예민한 편이에요',
+        '가성비를 중요하게 생각해요',
+        '직장 생활하느라 시간이 부족해요',
+        '공간이 좁아서 걱정이에요',
       ];
       setExamples(fallbackExamples);
     } finally {
@@ -331,7 +331,7 @@ export function NegativeFilterAIHelperBottomSheet({
                     {/* 질문 표시 */}
                     <h3 className="text-[18px] font-bold text-gray-900 leading-[1.4] mb-6">
                       어떤 상황인지 알려주시면,<br />
-                      피해야 할 단점을 추천해드려요
+                      피하는 것이 좋은 옵션을 추천해드려요
                     </h3>
 
                     {/* 예시 버튼들 */}
@@ -376,7 +376,7 @@ export function NegativeFilterAIHelperBottomSheet({
                         ref={inputRef}
                         value={userInput}
                         onChange={e => setUserInput(e.target.value)}
-                        placeholder="위 질문과 관련된 육아 상황을 알려주세요"
+                        placeholder="위 질문과 관련된 상황을 알려주세요"
                         className="w-full p-4 bg-gray-50 border-none rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px]"
                         disabled={isQuickMode || isLoading || !!aiResponse}
                       />

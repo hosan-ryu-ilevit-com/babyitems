@@ -20,6 +20,7 @@ interface V2ResultProductCardProps {
   product: V2ResultProduct;
   rank: number;
   onClick?: () => void;
+  onReviewClick?: () => void;
 }
 
 /**
@@ -32,6 +33,7 @@ export function V2ResultProductCard({
   product,
   rank,
   onClick,
+  onReviewClick,
 }: V2ResultProductCardProps) {
   const danawaPrice = product.danawaPrice;
   const hasLowestPrice = danawaPrice && danawaPrice.lowest_price && danawaPrice.lowest_price > 0;
@@ -212,17 +214,19 @@ export function V2ResultProductCard({
       {/* 버튼 그룹 */}
       <div className="mt-4 flex gap-2 px-1">
         {/* 리뷰 보기 버튼 */}
-        <a
-          href={`https://prod.danawa.com/info/?pcode=${product.pcode}#bookmark_cm_opinion`}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
           onClick={(e) => {
             e.stopPropagation();
+            if (onReviewClick) {
+              onReviewClick();
+            } else {
+              window.open(`https://prod.danawa.com/info/?pcode=${product.pcode}#bookmark_cm_opinion`, '_blank');
+            }
           }}
           className="flex-1 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
         >
           리뷰 보기
-        </a>
+        </button>
         {/* 최저가 구매하기 버튼 */}
         <a
           href={`https://prod.danawa.com/info/?pcode=${product.pcode}`}

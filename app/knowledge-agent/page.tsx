@@ -130,7 +130,7 @@ export default function KnowledgeAgentLanding() {
                     </span>
                 </h1>
                 <p className="text-gray-500 text-[17px] font-medium leading-relaxed max-w-[90%]">
-                    찾으시는 육아용품을 알려주시면<br/>
+                    찾으시는 제품을 알려주시면<br/>
                     리뷰와 스펙을 분석해 추천해드려요.
                 </p>
             </motion.div>
