@@ -1,34 +1,34 @@
-# 세션: 20260105_131126_q7w6
-> 시작: 2026-01-05T13:11:26.541Z
+# 세션: 20260106_022854_4gds
+> 시작: 2026-01-06T02:28:54.236Z
 > 카테고리키: %EC%97%90%EC%96%B4%ED%94%84%EB%9D%BC%EC%9D%B4%EC%96%B4
 > 카테고리: %EC%97%90%EC%96%B4%ED%94%84%EB%9D%BC%EC%9D%B4%EC%96%B4
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: %EC%97%90%EC%96%B4%ED%94%84%EB%9D%BC%EC%9D%B4%EC%96%B4 2026 추천
-- 인사이트: 2026년 에어프라이어 시장은 청소 편의성과 내구성이 향상된 제품이 인기를 얻을 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQpdGs5IHaedsoUcZJ9t2_4mq-TY3K-ywdD4K9SBzdnRKgDJbQLtoS0t3BGa-VoYBXgPDfV8ARNh24-oo3Zi3UZaJfPNjZhX05PzMjsokmITv_Qz-8y3G7CyLlTSfvJwlobqX27eb36inLfsAYKQ9jNTpBdG0ndsy9wQYwPwUjlHHVuK4mwCQ2EOtJwaIm52tSkKu0_hfMYlFxRNEX_w4GIokjOP9DUCd6xgXNCvS1qw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_nLnhtf-w3eUPfnA5-2HDpgOBZVtdfey69Jnk8J-xsZb7Vaoz0AcFrLZYV5mSXk5M5GV8vHg6pmClVstg7DrVCX9KwVueYtF9ykNsy_q9LNWAEqVPeN7zpqTd5gmUwdyE_ZpPZaY9DkPYKKeiEwE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEuOLfd7n22jDzi8YiI20T-cgEpuWZYxYPKUg_4obTrfGzHyayUjDIGRqfDCihNDz_tbUWBR2IZmztTY5P9AApkpM9iysXD1baaADpjGWX6P77erTaLryvwQk3d3xDf4FpJA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5WX71AURRBYi9lWvqVr4-8jhgYkFeiE0m98SMtexMFiapi6vLBEUWjtV9RbjgN8j0fAxeZukvioEpK1u4b5DIIwgSu91OFVVwle3HpH8y4zx0fFXMOcQYCCMSk_7S0A6YxLyT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFzKhG0C5mP64x8-sSVFm0YfI-hWWX1T9EKzDiMUw6DP08UViBTLu67TZ9KNgu25PCa64IdUzf4Rav9uULb9szt8m89iPM2RoDCEvKz-dRhC3f-GY9q_6gGk6Axx2SzZ5l9393xk5OiBIxXVs6ho4IcNnmdQBrONro-IYlHHydETAnilb60hA=
+- 쿼리: 에어프라이어 2026년 추천 순위
+- 인사이트: 2026년 에어프라이어 시장은 다양한 브랜드와 모델이 경쟁하며, 소비자들의 다양한 요구를 충족시키기 위해 기술 혁신을 거듭하고 있습니다. 인기 브랜드로는 필립스, 닌자, 아이닉 등이 있으며, 가성비와 성능을 모두 갖춘 제품들이 인기를 얻고 있습니다. 주요 트렌드로는 대용량, 올스텐 소재, 스마트 기능, 그리고 오븐형 디자인 등이 있습니다. 시장은 2026년 18억 8천만 달러 규모로 성장할 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjy1s0qQWby_EaiB9OPBlwFguCyxPJJAXBF2UAs3IodZ_gMo76TtWXZ_alZP089ii_bsAnLkT1SyK-aDvHlWROMq2XwUXI7Fl_ao8k4KrHsmvuyFNgkab46WFrjYPkfmw5WM-qAA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQER1FIoNm64T90i9H4adGG3wgIRdffjWDx_ZuKRe3HRqNA6QeCngzID6b2Q--6q4u7lv4y4d_9U12tMUdKsOtqK_UaKZ2K3LnBoAyoP_oIeQQl6mr1LPD7vv9hqhj5f8wI5Z60snP58ERrXBR4s-lImx2Ys0ksYS6hgAztT2KSs4TJ4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcMbyeTLn7KOC3srEdELwv92r_VuiNI2ukxToLPiIXSdSZCqMTZLrYhQflj9BnVp9MTUuu99WvkUMACVXzR3gn-bzZNvNCIMSutF8czMMaHsAdZP9zAWd9LiPzCvF1P4hKcsfnIA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2jR1l3ngfhOv5p2KaV3RLrg_b_UzuzYf9A-P3mF-Gesj3fKUr4q1Ul2wJxTg6ICYh6IZBOIfB-WS4mRdM1iac3AJmI4xSJwvePiwvaYtsMtCictUfFoksU73vF6CYwUrOgF7fxnxaY67v_HiUrKPTaairKclPsf03zCT1T_MlUyWkRODRntEANPblatxxdG_5zgrEFm_Nvb8L2Q-bSx6zsM7HzuvRs3350S58oiV-QMhtjnJ-xDv-cUcheQ3F02pXHQ-BDC8TLm4MX3rStGCtJaMjFNOeVwlofTkmkY9LBzVpjFU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEnDNh4EsRWEwBo8BUypqK8MzvqTJ8-Y1QK4yALEjmP60LfF1tQ9LZjq7eEc1CV0llarkbSDbkm1sNnZqyiA0RmvLjnq3T_QjLDKb7cFxP5owrGzBD-M1QP3WeP8S3tw9cdFbHBg==
 
-### Q1: 주로 몇 분이 함께 식사하시나요? 에어프라이어는 용량에 따라 한 번에 조리할 수 있는 양이 달라져요.
-- 사용자 답변: 1~2명
-- 웹서치 쿼리: 1-2인 가구 에어프라이어 용량 추천 2026
-- 인사이트: 1~2인 가구에게는 2L에서 4L 사이의 소형 에어프라이어가 적합합니다. 이 용량은 냉동식품이나 간단한 간식을 조리하기에 충분하며, 공간 활용도 면에서도 유리합니다. 다만, 통닭과 같이 부피가 큰 음식을 조리하기에는 다소 부족할 수 있습니다.
+### Q1: 요리할 때 어떤 형태가 더 편리하실까요?
+- 사용자 답변: 바스켓형
+- 웹서치 쿼리: 에어프라이어 바스켓형 장단점 2026
+- 인사이트: 바스켓형 에어프라이어는 빠른 조리 시간과 간편한 사용법, 그리고 컴팩트한 사이즈가 장점입니다. 특히 1인 가구나 좁은 주방 공간에 적합하며, 분리 가능한 바스켓으로 세척이 용이합니다.
 
-### Q2: 요리를 할 때 어떤 방식으로 조작하는 것을 선호하시나요?
-- 사용자 답변: touch_digital
-- 웹서치 쿼리: 에어프라이어 터치 디지털 방식 장단점
-- 인사이트: 터치 디지털 방식의 에어프라이어는 깔끔하고 현대적인 디자인을 자랑하며, LED 디스플레이를 통해 온도와 시간을 정확하게 설정할 수 있어 편리합니다. 하지만 다이얼 방식에 비해 조작 속도가 느릴 수 있으며, 젖은 손으로 조작 시 반응이 둔감해질 수 있다는 단점이 있습니다.
+### Q2: 에어프라이어를 주로 몇 분이 함께 사용하시나요? (혹은 몇 인분 요리를 자주 하시나요?)
+- 사용자 답변: 1~2명 (소량)
+- 웹서치 쿼리: 1-2인 가구 에어프라이어 추천
+- 인사이트: 1~2인 가구의 경우 2~4L 용량의 소형 에어프라이어가 적합하며, 이는 혼자 사용하거나 간단한 간식을 조리하기에 충분합니다. 만약 1~2인 가구라도 고기 요리를 자주 한다면 5L 이상의 용량을 고려하는 것이 좋습니다.
 
-### Q3: 조리 후 세척이 얼마나 중요하신가요? 최근 트렌드에서 청소 편의성이 많이 강조되고 있어요.
-- 사용자 답변: 보통이에요.
-- 웹서치 쿼리: 에어프라이어 세척 중요도 트렌드 2026
-- 인사이트: 최근 에어프라이어 트렌드에서 청소 편의성이 강조되고 있지만, '보통'이라고 응답하신 경우에도 위생과 음식 맛 유지를 위해 조리 후 바로 세척하는 습관이 중요합니다.
+### Q3: 건강한 조리를 위해 기름 사용을 최소화하는 것을 중요하게 생각하시나요, 아니면 다양한 요리를 쉽고 빠르게 하는 편의성을 더 중요하게 생각하시나요?
+- 사용자 답변: 다양한 요리 편의성을 중요하게
+- 웹서치 쿼리: 에어프라이어 다양한 요리 편의성 중요 전문가 인사이트 2026
+- 인사이트: 다양한 요리를 쉽고 빠르게 하는 편의성을 중요하게 생각하신다면, 에어프라이어는 여러 기능을 통해 이러한 요구를 충족시킬 수 있습니다. 최신 에어프라이어는 요거트 제조, 건조 기능 등 다재다능함을 갖추고 있어 요리의 폭을 넓혀줍니다.
 
-### Q4: 다양한 요리를 즐기고 싶으신가요, 아니면 특정 요리 위주로 사용하실 건가요?
-- 사용자 답변: 아니요, 특정 요리 위주로 사용해요.
-- 웹서치 쿼리: 에어프라이어 특정 요리 위주 사용 전문가 조언 2026
-- 인사이트: 특정 요리 위주로 에어프라이어를 사용하신다면, 해당 요리에 최적화된 기능이나 용량을 가진 제품을 선택하는 것이 좋습니다. 예를 들어, 튀김 요리를 주로 하신다면 높은 온도로 빠르게 조리되는 모델이 유리할 수 있습니다.
+### Q4: 예산은 어느 정도로 생각하고 계신가요? (추후 더 상세한 상담을 위해)
+- 사용자 답변: 9~13만원대
+- 웹서치 쿼리: 2026년 에어프라이어 추천 9~13만원대
+- 인사이트: 9~13만원대의 예산으로 에어프라이어를 구매하신다면, 가성비가 뛰어나면서도 다양한 기능을 갖춘 모델을 선택할 수 있습니다. 특히 이 가격대에서는 대용량 모델이나 투명창이 있어 조리 과정을 확인할 수 있는 제품들이 인기가 많습니다.
 
 ---
 
@@ -36,38 +36,25 @@
 
 | 항목 | 답변 |
 |------|------|
-| capacity_consideration | 1~2명 |
-| control_type_preference | touch_digital |
-| cleaning_preference | 보통이에요. |
-| multifunctionality_need | 아니요, 특정 요리 위주로 사용해요. |
+| cooker_type | 바스켓형 |
+| capacity_vs_usage | 1~2명 (소량) |
+| health_vs_convenience | 다양한 요리 편의성을 중요하게 |
+| budget_vs_features | 9~13만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 25개 (전체 25개 중)
+현재 후보: 7개 (전체 7개 중)
 
 ### 후보 상품
-1. 풀무원건강생활 스팀쿡 플러스 AV15D11 - 199,640원 - ⭐4.4
-2. 아이닉 4세대 올스텐 에어프라이어 iSA6L - 86,130원 - ⭐4.6
-3. 코렐브랜드 인스턴트 옴니 플러스 18 - 81,860원 - ⭐4.6
-4. 풀무원건강생활 스팀쿡 마스터 듀얼스팀 AV20D11W - 295,400원 - ⭐4.8
-5. 브레빌 BOV860 - 571,990원 - ⭐4.9
-6. 쿠쿠전자 CAFO-C1810EDG - 170,890원 - ⭐4.7
-7. 샤크닌자 닌자 에어그릴 AG301 - 222,760원 - ⭐4.7
-8. 아이닉 대용량 스텐 에어프라이어 16L AO-16L - 158,760원 - ⭐4.8
-9. 풀무원건강생활 스팀쿡 베이직 AV12E10CC - 146,840원 - ⭐4.6
-10. 필립스 2000시리즈 NA229/00 - 73,500원 - ⭐4.6
-11. 아이닉 올인원 스팀 에어프라이어 iSTA15 - 193,620원 - ⭐4.5
-12. 쿠쿠전자 CAF-G0610TB - 76,080원 - ⭐4.7
-13. 쿠쿠전자 CAF-E0810TW - 120,830원 - ⭐4.8
-14. 아이닉 new 올스텐 에어프라이어 iSA7 - 113,600원 - ⭐4.7
-15. 샤크닌자 닌자 콤비 SFP701 - 319,700원 - ⭐4.6
-16. 필립스 2000시리즈 NA230/00 - 100,270원 - ⭐4.8
-17. 쿠쿠전자 CAF-D0710T - 80,000원 - ⭐4.7
-18. 마이어 GY-2401 - 87,200원 - ⭐4.5
-19. 필립스 3000시리즈 NA342/00 - 158,990원 - ⭐5
-20. 디온리 글라스 큐브 NAA321BK - 87,220원 - ⭐4.8
+1. 아이닉 4세대 올스텐 에어프라이어 iSA6L - 91,490원 - ⭐4.6
+2. 아이닉 대용량 스텐 에어프라이어 16L AO-16L - 151,050원 - ⭐4.8
+3. 샤크닌자 닌자 에어그릴 AG301 - 212,090원 - ⭐4.7
+4. 아이닉 올인원 스팀 에어프라이어 iSTA15 - 209,800원 - ⭐4.5
+5. 아이닉 new 올스텐 에어프라이어 iSA7 - 112,850원 - ⭐4.7
+6. 재원전자 이지클린 올스텐 바스켓 오븐형 에어프라이어 - 149,000원 - ⭐4.7
+7. 테팔 이지프라이 FW-6058KR - 205,700원 - ⭐5
 
 ---
 
@@ -75,18 +62,18 @@
 
 | 질문 | 선택 |
 |------|------|
-| balance_1 | 세척이 간편한 것이 우선이며, 약간 건조해지더라도 괜찮습니다., 1~2인용에 맞는 컴팩트한 사이즈로 주방 공간을 효율적으로 사용하고 싶습니다., 자주 하는 특정 요리(예: 삼겹살, 치킨)에 최적화된 성능을 가진 제품이 좋습니다. |
+| default_balance_1 | 가격이 비싸더라도 품질이 좋은 프리미엄 제품이 좋아요 |
 
 ---
 
 ## 🚫 피하고 싶은 단점
 
-- 없음
+(아직 선택 없음)
 
 ---
 
 ## 🏆 최종 추천
 
-1. 아이닉 4세대 올스텐 에어프라이어 iSA6L - 1~2인 가구에 적합한 6L 용량이며, 터치/디지털 방식의 조작부가 있습니다. '다양한 요리가 가능하고 세척이 간편하다'는 긍정적인 리뷰와 함께 8만원대의 합리적인 가격으로 가성비가 뛰어납니다.
-2. 코렐브랜드 인스턴트 옴니 플러스 18 - 18L 대용량 오븐형 에어프라이어로, 1~2인이 사용하기에는 다소 크지만 다양한 조리 기능(식품건조, 토스트 등)을 제공합니다. 다이얼, 터치, 디지털 디스플레이 등 다양한 조작 방식을 지원하며, 8만원대의 가격으로 경쟁력이 있습니다.
-3. 아이닉 new 올스텐 에어프라이어 iSA7 - 1~2인 가구에 적합한 용량으로, 스테인리스 내부로 위생적이며 올스텐 디자인으로 세척이 용이합니다. 디지털 디스플레이와 터치 방식을 지원하여 편리하게 조작할 수 있으며, 11만원대의 가격으로 아이닉 브랜드의 신뢰성을 더합니다.
+1. 아이닉 4세대 올스텐 에어프라이어 iSA6L - 사용자님의 예산(9~13만원대)과 용량(1~2명, 소량)에 가장 적합한 제품입니다. 바스켓형이며 6L 용량으로 1~2인이 사용하기에 충분합니다. 스테인리스 내부, 디지털 디스플레이, 내부 투시창, 내부 조명 등 다양한 편의 기능을 갖추고 있어 요리 편의성을 중요하게 생각하는 사용자에게 만족감을 줄 것입니다. 가격 또한 91,490원으로 예산 범위 안에 있습니다. "내부 투시창과 조명이 있어 요리 과정을 확인하기 편리하다"는 리뷰가 있습니다.
+2. 필립스 2000시리즈 NA230/00 - 사용자님의 예산 범위(9~13만원대)에 약간 벗어나지만, 1~2인 사용에 적합한 콤팩트한 용량과 다양한 요리 편의 기능을 갖춘 모델입니다. 특히 필립스 브랜드는 에어프라이어 시장에서 높은 인지도를 가지고 있으며, 사용자들의 만족도가 높은 편입니다. 96,310원의 가격으로 예산 범위 내에서 고려해볼 수 있습니다. "사용하기 편리하고 세척이 간편하다"는 리뷰는 사용자님의 편의성 요구를 충족시킬 수 있습니다.
+3. 필립스 3000시리즈 NA342/00 - 사용자님의 예산 범위를 초과하지만 (152,484원), 1~2인이 사용하기에 충분한 용량과 뛰어난 성능, 다양한 조리 기능을 제공하는 프리미엄 모델입니다. 5점 만점에 5점의 높은 평점은 제품 만족도가 매우 높음을 시사하며, "다양한 기능을 활용하여 여러 요리를 해먹기 좋다"는 리뷰는 사용자님의 다양한 요리 편의성 요구를 충족시킬 수 있습니다. 예산을 조금 초과하더라도 최고의 만족감을 원한다면 고려해볼 만한 제품입니다.

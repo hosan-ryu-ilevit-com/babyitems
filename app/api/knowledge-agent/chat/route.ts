@@ -23,6 +23,7 @@ import {
   getQueryCache,
   setQueryCache
 } from '@/lib/knowledge-agent/cache-manager';
+import { getModel, parseJSONResponse } from '@/lib/ai/gemini';
 
 // 메모리 시스템
 import { loadShortTermMemory, saveShortTermMemory } from '@/lib/knowledge-agent/memory-manager';
@@ -274,6 +275,96 @@ async function getProducts(categoryKey: string, searchOptions?: Partial<DanawaSe
 
 
 // ============================================================================
+// 사용자 의도 분류 (A/B/C)
+// ============================================================================
+
+type UserIntentType = 'A' | 'B' | 'C';
+
+interface UserIntentResult {
+  type: UserIntentType;
+  matchedOption?: string;        // A: 매핑된 옵션
+  interpretation?: string;       // 해석
+  followUpQuestion?: string;     // B: 사용자의 궁금증 (웹서치용)
+  suggestedSearchQuery?: string; // B: 검색 키워드
+}
+
+/**
+ * 사용자 입력 의도 분류
+ * A: 옵션 매핑 가능 (직접 선택 또는 의미상 매핑)
+ * B: 추가 질문/궁금증 (제품 관련 질문)
+ * C: 관련 없는 말 (잡담, 무관한 내용)
+ */
+async function classifyUserIntent(
+  userMessage: string,
+  question: string,
+  options: Array<{ label: string; value: string }>,
+  categoryName: string
+): Promise<UserIntentResult> {
+  if (!ai) {
+    return { type: 'A', matchedOption: options[0]?.label };
+  }
+
+  try {
+    const model = ai.getGenerativeModel({
+      model: MODEL_NAME,
+      generationConfig: { temperature: 0.2 }
+    });
+
+    const prompt = `당신은 "${categoryName}" 구매 상담 챗봇입니다.
+
+## 현재 상황
+- 질문: "${question}"
+- 선택지: ${options.map(o => `"${o.label}"`).join(', ')}
+- 사용자 입력: "${userMessage}"
+
+## 과제
+사용자 입력의 의도를 분류하세요:
+
+**A (옵션 선택)**: 선택지 중 하나를 선택하려는 의도
+- 정확히 일치하거나 의미상 매핑 가능
+- 예: "두번째거요", "가성비 좋은거", "1번", "그냥 싼거"
+
+**B (추가 질문)**: ${categoryName} 관련 궁금증/질문
+- 현재 질문에 답하기 전에 알고 싶은 것
+- 예: "그거 세척 힘들어요?", "브랜드별 차이가 뭐예요?", "A랑 B 뭐가 달라요?"
+
+**C (관련 없음)**: 현재 맥락과 무관한 내용
+- 잡담, 인사, 전혀 다른 주제
+- 예: "안녕", "오늘 날씨 어때?", "ㅋㅋㅋ"
+
+JSON으로 응답:
+{
+  "type": "A" | "B" | "C",
+  "matchedOption": "A일 때만: 매핑된 선택지 label",
+  "interpretation": "사용자 의도 해석 1문장",
+  "followUpQuestion": "B일 때만: 사용자가 궁금해하는 것",
+  "suggestedSearchQuery": "B일 때만: 웹검색에 적합한 키워드 (한국어)"
+}`;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      console.log(`[Intent] "${userMessage}" → Type ${parsed.type}: ${parsed.interpretation}`);
+      return {
+        type: parsed.type || 'A',
+        matchedOption: parsed.matchedOption,
+        interpretation: parsed.interpretation,
+        followUpQuestion: parsed.followUpQuestion,
+        suggestedSearchQuery: parsed.suggestedSearchQuery
+      };
+    }
+  } catch (e) {
+    console.error('[Intent] Classification failed:', e);
+  }
+
+  // 폴백: 첫 번째 옵션으로 매핑
+  return { type: 'A', matchedOption: options[0]?.label };
+}
+
+// ============================================================================
 // Contextual Web Search (답변 기반 실시간 웹서치 - Google Search Grounding)
 // ============================================================================
 
@@ -282,29 +373,67 @@ interface SearchContext {
   insight: string;
   relevantTip: string;
   sources?: Array<{ title: string; url: string }>;
+  followUpQuestion?: string;  // B케이스에서 추가 질문
 }
 
 /**
  * 사용자 답변 기반 실시간 웹서치 (Google Search Grounding 활용)
+ * @param searchQuery - 동적으로 생성된 검색 쿼리 (optional)
+ * @param intentType - 사용자 의도 타입 (A/B)
  */
 async function performContextualSearch(
   categoryName: string,
   userAnswer: string,
-  questionContext: string
+  questionContext: string,
+  dynamicSearchQuery?: string,
+  intentType: 'A' | 'B' = 'A'
 ): Promise<SearchContext | null> {
   if (!ai) return null;
+
+  const searchQuery = dynamicSearchQuery || `${categoryName} ${userAnswer}`;
+  console.log(`[Chat] performContextualSearch called:`);
+  console.log(`  - categoryName: "${categoryName}"`);
+  console.log(`  - userAnswer: "${userAnswer}"`);
+  console.log(`  - searchQuery: "${searchQuery}"`);
+  console.log(`  - intentType: ${intentType}`);
 
   try {
     // Google Search Grounding 활성화
     const model = ai.getGenerativeModel({
       model: MODEL_NAME,
       generationConfig: { temperature: 0.3 },
-      tools: [{ google_search: {} } as never]  // 실제 웹서치 활성화
+      tools: [{ google_search: {} } as never]
     });
 
     const year = new Date().getFullYear();
-    const searchPrompt = `
-사용자가 ${categoryName} 구매 상담 중입니다.
+
+    // 의도에 따라 다른 프롬프트 - 검색어를 명시적으로 강제
+    const searchPrompt = intentType === 'B'
+      ? `## 검색 지시사항
+⚠️ 중요: 정확히 "${categoryName}"과 관련된 "${userAnswer}" 내용을 검색하세요.
+다른 제품이나 유사 단어로 바꾸지 마세요.
+검색어: "${searchQuery}"
+
+사용자가 "${categoryName}" 구매 상담 중 궁금한 점을 물었습니다.
+사용자 질문: "${userAnswer}"
+
+${year}년 최신 정보를 검색하여:
+1. 사용자 질문에 대한 정확하고 친절한 답변
+2. 추가로 알면 좋은 팁 (있다면)
+
+JSON 형식으로 응답:
+{
+  "query": "실제 검색한 쿼리 (반드시 ${categoryName} 포함)",
+  "insight": "사용자 질문에 대한 답변 2-3문장. 구체적인 정보 포함.",
+  "relevantTip": "추가 팁 1문장 (없으면 빈 문자열)",
+  "followUpQuestion": "답변 후 사용자에게 물어볼 추가 질문 1개 (제품 선택에 도움되는 질문, 없으면 빈 문자열)"
+}`
+      : `## 검색 지시사항
+⚠️ 중요: 정확히 "${categoryName}" 제품에 대해 검색하세요.
+다른 제품이나 유사 단어로 바꾸지 마세요.
+${dynamicSearchQuery ? `검색어: "${dynamicSearchQuery}"` : `검색어: "${categoryName} ${userAnswer}"`}
+
+사용자가 "${categoryName}" 구매 상담 중입니다.
 질문: "${questionContext}"
 사용자 답변: "${userAnswer}"
 
@@ -315,11 +444,10 @@ ${year}년 최신 정보를 검색하여:
 
 JSON 형식으로 응답:
 {
-  "query": "실제 검색한 쿼리",
+  "query": "실제 검색한 쿼리 (반드시 ${categoryName} 포함)",
   "insight": "웹 검색 결과 기반 전문가 코멘트 1-2문장",
   "relevantTip": "다음 단계에서 고려할 점 1문장"
-}
-`;
+}`;
 
     const result = await model.generateContent(searchPrompt);
     const response = result.response;
@@ -331,10 +459,10 @@ JSON 형식으로 응답:
       groundingChunks?: Array<{ web?: { uri?: string; title?: string } }>;
     } }> }).candidates?.[0];
     const groundingMetadata = candidate?.groundingMetadata;
-    
+
     // 실제 사용된 검색 쿼리
     const webSearchQueries = groundingMetadata?.webSearchQueries || [];
-    
+
     // 실제 출처 추출
     const groundingChunks = groundingMetadata?.groundingChunks || [];
     const sources = groundingChunks
@@ -348,15 +476,30 @@ JSON 형식으로 응답:
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       const parsed = JSON.parse(jsonMatch[0]);
-      
-      console.log(`[Chat] Real web search queries: ${webSearchQueries.join(', ')}`);
-      console.log(`[Chat] Sources found: ${sources.length}`);
-      
+
+      // 🔴 중요: 실제로 Gemini가 검색한 쿼리 로깅
+      console.log(`[Chat] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+      console.log(`[Chat] 🔍 요청한 검색어: "${searchQuery}"`);
+      console.log(`[Chat] 🔍 실제 검색 쿼리: ${webSearchQueries.join(', ') || '(없음)'}`);
+      console.log(`[Chat] 📄 Sources found: ${sources.length}`);
+
+      // 검색어 불일치 경고
+      if (webSearchQueries.length > 0) {
+        const requestedWords = searchQuery.toLowerCase().split(/\s+/);
+        const actualQuery = webSearchQueries[0].toLowerCase();
+        const hasKeyword = requestedWords.some(word => actualQuery.includes(word));
+        if (!hasKeyword) {
+          console.warn(`[Chat] ⚠️ 검색어 불일치! 요청: "${searchQuery}" → 실제: "${webSearchQueries[0]}"`);
+        }
+      }
+      console.log(`[Chat] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+
       return {
-        query: webSearchQueries[0] || parsed.query || `${categoryName} ${userAnswer}`,
+        query: webSearchQueries[0] || parsed.query || dynamicSearchQuery || `${categoryName} ${userAnswer}`,
         insight: parsed.insight || '',
         relevantTip: parsed.relevantTip || '',
-        sources
+        sources,
+        followUpQuestion: parsed.followUpQuestion || ''
       };
     }
   } catch (e) {
@@ -563,6 +706,91 @@ ${webSearchContext}
 }
 
 // ============================================================================
+// Spec Normalization (비교표용 스펙 정규화)
+// ============================================================================
+
+/**
+ * 스펙 정규화 함수 - Flash Lite를 사용해 여러 제품의 스펙 요약을 비교표 형식으로 정규화
+ */
+async function normalizeSpecsForComparison(
+  products: any[],
+  categoryName: string
+): Promise<any[]> {
+  if (!ai || products.length === 0) return [];
+
+  const model = getModel(0.2); // 정규화 작업이므로 낮은 temperature
+
+  // 각 제품의 스펙 요약 정보를 텍스트로 변환
+  const productsSpecText = products.map((p) => {
+    return `### 제품 ${p.pcode} (${p.brand || ''} ${p.name})
+스펙 요약: ${p.specSummary || '(정보 없음)'}`;
+  }).join('\n\n');
+
+  const pcodes = products.map(p => p.pcode);
+
+  const prompt = `당신은 ${categoryName} 스펙 비교 전문가입니다.
+아래 ${products.length}개 제품의 스펙 요약 정보를 **비교표 형식**으로 정규화해주세요.
+
+## 제품별 스펙 정보
+${productsSpecText}
+
+## 정규화 규칙
+
+### 1. 의미 중심의 스펙 추출
+스펙 요약 텍스트에서 제품 간 비교에 유용한 핵심 스펙들을 추출하세요.
+예: "용량", "재질", "무게", "크기", "소비전력", "주요 기능" 등
+
+### 2. 동일 의미 스펙 키 통일 (가장 중요!)
+같은 의미의 스펙은 하나의 표준 키로 통일하세요:
+- "용량", "물통 용량", "물통용량" → **"용량"**
+- "재질", "내부 재질", "소재" → **"재질"**
+- "무게", "중량" → **"무게"**
+- "크기", "사이즈" → **"크기"**
+
+### 3. 값 정규화
+- 한쪽에만 있는 스펙도 포함 (없는 쪽은 null)
+- 값은 원본의 수치와 단위를 최대한 유지
+
+## 응답 JSON 형식
+\`\`\`json
+{
+  "normalizedSpecs": [
+    {
+      "key": "용량",
+      "values": {
+        "${pcodes[0]}": "500ml",
+        "${pcodes[1]}": "600ml"${pcodes[2] ? `,\n        "${pcodes[2]}": "450ml"` : ''}
+      }
+    },
+    {
+      "key": "재질",
+      "values": {
+        "${pcodes[0]}": "스테인리스",
+        "${pcodes[1]}": "트라이탄"${pcodes[2] ? `,\n        "${pcodes[2]}": "PP"` : ''}
+      }
+    }
+  ]
+}
+\`\`\`
+
+JSON만 응답하세요.`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+    const parsed = parseJSONResponse(responseText) as { normalizedSpecs?: any[] };
+
+    if (parsed.normalizedSpecs && Array.isArray(parsed.normalizedSpecs)) {
+      return parsed.normalizedSpecs;
+    }
+  } catch (error) {
+    console.error('[Chat] Spec normalization failed:', error);
+  }
+
+  return [];
+}
+
+// ============================================================================
 // Main Handler
 // ============================================================================
 
@@ -570,7 +798,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const {
-      categoryKey,
+      categoryKey: rawCategoryKey,
       userMessage = '',
       questionTodos = [],
       collectedInfo = {},
@@ -579,12 +807,17 @@ export async function POST(request: NextRequest) {
       phase = 'questions'  // 'questions' | 'balance' | 'result'
     } = body;
 
-    if (!categoryKey) {
+    if (!rawCategoryKey) {
       return NextResponse.json({ error: 'categoryKey required' }, { status: 400 });
     }
 
+    // URL 인코딩된 키를 디코딩 (예: %EC%A0%96%EA%BC%AD%EC%A7%80 → 젖꼭지)
+    const categoryKey = decodeURIComponent(rawCategoryKey);
+
     // 사용자가 입력한 키워드를 그대로 검색어로 사용
     const searchKeyword = categoryKey;
+
+    console.log(`[Chat] categoryKey decoded: "${rawCategoryKey}" → "${categoryKey}"`);
 
     // 상품 로드 (캐시 또는 크롤링)
     allProducts = await getProducts(categoryKey, { query: searchKeyword });
@@ -605,56 +838,132 @@ export async function POST(request: NextRequest) {
         if (todoIndex >= 0) {
           const currentTodo = updatedTodos[todoIndex];
 
-          // 자연어 응답인지 체크 (옵션과 정확히 일치하지 않는 경우)
+          // 옵션과 정확히 일치하는지 체크
           const isExactMatch = currentTodo.options.some(
             (o: any) => o.label === userMessage || o.value === userMessage
           );
 
-          let processedAnswer = userMessage;
+          // ============================================================================
+          // A/B/C 의도 분류 (정확히 일치하지 않는 경우만)
+          // ============================================================================
+          let intentResult: UserIntentResult = { type: 'A', matchedOption: userMessage };
 
-          // 자연어 응답이면 AI로 의도 파악
-          if (!isExactMatch && ai) {
-            try {
-              const model = ai.getGenerativeModel({ model: MODEL_NAME });
-              const parsePrompt = `
-사용자가 질문 "${currentTodo.question}"에 대해 "${userMessage}"라고 답했습니다.
-
-가능한 옵션:
-${currentTodo.options.map((o: any) => `- ${o.label} (value: ${o.value})`).join('\n')}
-
-사용자의 응답이 어떤 옵션에 해당하는지 분석하세요.
-- 정확히 일치하지 않아도 의미상 가장 가까운 옵션을 선택
-- 어떤 옵션에도 해당하지 않으면 가장 적절한 옵션을 추론
-
-JSON 형식으로 응답:
-{"matched_label": "선택된 옵션 label", "confidence": "high|medium|low", "interpretation": "사용자 의도 해석 1문장"}
-`;
-              const result = await model.generateContent(parsePrompt);
-              const text = result.response.text();
-              const jsonMatch = text.match(/\{[\s\S]*\}/);
-
-              if (jsonMatch) {
-                const parsed = JSON.parse(jsonMatch[0]);
-                processedAnswer = parsed.matched_label || userMessage;
-                console.log(`[Chat] Natural language parsed: "${userMessage}" → "${processedAnswer}" (${parsed.confidence})`);
-              }
-            } catch (e) {
-              console.error('[Chat] Natural language parsing failed:', e);
-              // 파싱 실패 시 원본 메시지 사용
-            }
+          if (!isExactMatch) {
+            // 카테고리명 추출 (URL-safe key → 한글명)
+            const categoryName = searchKeyword;
+            intentResult = await classifyUserIntent(
+              userMessage,
+              currentTodo.question,
+              currentTodo.options,
+              categoryName
+            );
           }
+
+          // ============================================================================
+          // Type C: 관련 없는 말 → 안내 후 원래 질문 다시
+          // ============================================================================
+          if (intentResult.type === 'C') {
+            console.log(`[Chat] Type C detected: "${userMessage}" - redirecting to question`);
+
+            return NextResponse.json({
+              success: true,
+              phase: 'questions',
+              content: `음, 질문과 조금 다른 내용인 것 같아요! 😊\n\n다시 질문드릴게요.\n\n${currentTodo.question}`,
+              tip: currentTodo.reason,
+              options: currentTodo.options.map((o: any) => o.label),
+              ui_type: 'chat',
+              currentQuestion: currentTodo,
+              progress: { current: updatedTodos.filter((t: QuestionTodo) => t.completed).length + 1, total: updatedTodos.length },
+              questionTodos: updatedTodos,
+              collectedInfo: updatedInfo,
+              dataSource: currentTodo.dataSource,
+              productCount: allProducts.length
+            });
+          }
+
+          // ============================================================================
+          // Type B: 추가 질문/궁금증 → 웹서치로 답변 후 원래 질문 다시
+          // ============================================================================
+          if (intentResult.type === 'B') {
+            console.log(`[Chat] Type B detected: "${userMessage}" - searching for answer`);
+
+            // 웹서치로 답변 찾기
+            webSearchResult = await performContextualSearch(
+              searchKeyword,
+              userMessage,
+              currentTodo.question,
+              intentResult.suggestedSearchQuery,
+              'B'
+            );
+
+            // 웹서치 인사이트 저장
+            const shortTermMemory = loadShortTermMemory(categoryKey);
+            if (shortTermMemory && webSearchResult) {
+              const webInsight: WebSearchInsight = {
+                phase: 'followup',
+                questionId: currentQuestionId,
+                question: intentResult.followUpQuestion || userMessage,
+                userAnswer: userMessage,
+                query: webSearchResult.query,
+                insight: webSearchResult.insight,
+                sources: webSearchResult.sources?.map(s => ({ title: s.title, url: s.url })) || [],
+                timestamp: new Date().toISOString(),
+              };
+              shortTermMemory.webSearchInsights.push(webInsight);
+              saveShortTermMemory(categoryKey, shortTermMemory);
+            }
+
+            // 답변 생성 + 원래 질문 다시
+            const answerText = webSearchResult?.insight || '죄송해요, 관련 정보를 찾지 못했어요.';
+            const tipText = webSearchResult?.relevantTip || '';
+
+            // 추가 질문이 있으면 포함 (답변당 최대 1개)
+            let responseContent = answerText;
+            if (tipText) {
+              responseContent += `\n\n💡 ${tipText}`;
+            }
+            responseContent += `\n\n---\n\n다시 질문드릴게요!\n\n${currentTodo.question}`;
+
+            return NextResponse.json({
+              success: true,
+              phase: 'questions',
+              content: responseContent,
+              tip: currentTodo.reason,
+              options: currentTodo.options.map((o: any) => o.label),
+              ui_type: 'chat',
+              currentQuestion: currentTodo,
+              progress: { current: updatedTodos.filter((t: QuestionTodo) => t.completed).length + 1, total: updatedTodos.length },
+              questionTodos: updatedTodos,
+              collectedInfo: updatedInfo,
+              dataSource: currentTodo.dataSource,
+              searchContext: webSearchResult ? {
+                query: webSearchResult.query,
+                insight: webSearchResult.insight,
+                sources: webSearchResult.sources || []
+              } : null,
+              productCount: allProducts.length
+            });
+          }
+
+          // ============================================================================
+          // Type A: 옵션 선택 → 매핑 + 웹서치 + 다음 질문
+          // ============================================================================
+          const processedAnswer = isExactMatch ? userMessage : (intentResult.matchedOption || userMessage);
+          console.log(`[Chat] Type A: "${userMessage}" → "${processedAnswer}"`);
 
           updatedTodos[todoIndex].completed = true;
           updatedTodos[todoIndex].answer = processedAnswer;
           updatedInfo[currentQuestionId] = processedAnswer;
 
-          // ============================================================================
-          // 실시간 웹서치 (Google Search Grounding) - 답변 기반 인사이트 수집
-          // ============================================================================
+          // 동적 웹서치 키워드 생성 (A 타입)
+          const dynamicSearchQuery = `${searchKeyword} ${processedAnswer} 추천 ${new Date().getFullYear()}`;
+
           webSearchResult = await performContextualSearch(
             searchKeyword,
             processedAnswer,
-            currentTodo.question
+            currentTodo.question,
+            dynamicSearchQuery,
+            'A'
           );
 
           if (webSearchResult) {
@@ -746,12 +1055,28 @@ JSON 형식으로 응답:
         }
 
         // 둘 다 없으면 바로 결과로
+        const finalProducts = allProducts.slice(0, 3);
+        const normalizedSpecs = await normalizeSpecsForComparison(
+          finalProducts,
+          categoryKey
+        );
+
+        const finalProductsWithSpecs = finalProducts.map((p: any) => {
+          const productSpecs: Record<string, string> = {};
+          normalizedSpecs.forEach((spec: any) => {
+            if (spec.values[p.pcode]) {
+              productSpecs[spec.key] = spec.values[p.pcode];
+            }
+          });
+          return { ...p, specs: productSpecs };
+        });
+
         return NextResponse.json({
           success: true,
           phase: 'result',
           content: '분석이 완료되었습니다. 추천 상품을 확인해주세요.',
           ui_type: 'result',
-          products: allProducts.slice(0, 3),
+          products: finalProductsWithSpecs,
           all_products: allProducts,
           collectedInfo: updatedInfo
         });
@@ -936,26 +1261,65 @@ ${searchInsight ? `\n웹서치 인사이트: ${searchInsight}` : ''}
         `${i + 1}. [${p.pcode}] ${p.brand} ${p.name} - ${p.price?.toLocaleString()}원 (리뷰 ${p.review_count}개, ⭐${p.rating})`
       ).join('\n');
 
+      // ============================================================================
+      // 웹서치 인사이트, 밸런스 선택, 단점 선택 통합
+      // ============================================================================
+      const memoryForPrompt = shortTermMemory || loadShortTermMemory(categoryKey);
+
+      // 웹서치 인사이트 정리
+      const webInsightsText = memoryForPrompt?.webSearchInsights?.length
+        ? memoryForPrompt.webSearchInsights.map(w =>
+            `- [${w.phase}] ${w.question || ''}: ${w.insight}`
+          ).join('\n')
+        : '(없음)';
+
+      // 밸런스 선택 정리 (사용자가 중시하는 가치)
+      const balanceText = memoryForPrompt?.balanceSelections?.length
+        ? memoryForPrompt.balanceSelections.map(b =>
+            `- ${b.selectedLabel}${b.selectedRuleKey ? ` (${b.selectedRuleKey})` : ''}`
+          ).join('\n')
+        : '(없음)';
+
+      // 피하고 싶은 단점
+      const negativeText = selectedNegatives.length
+        ? selectedNegatives.map((n: string) => `- ${n}`).join('\n')
+        : '(없음)';
+
       const prompt = `
-## 수집된 사용자 정보
+## 📋 수집된 사용자 정보
 ${JSON.stringify(updatedInfo, null, 2)}
 
-## 전문 지식
-${knowledge.slice(0, 2000)}
+## 🔍 웹서치 인사이트 (최신 트렌드 & 전문가 조언)
+${webInsightsText}
 
-## 상품 목록
+## ⚖️ 사용자가 중시하는 가치 (밸런스 게임 선택)
+${balanceText}
+
+## ❌ 피하고 싶은 단점
+${negativeText}
+
+## 📚 전문 지식
+${knowledge.slice(0, 1500)}
+
+## 🛒 상품 목록
 ${productList}
 
-위 정보를 바탕으로 최적의 상품 3개를 추천하세요.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## 추천 규칙
+1. **사용자 선택 우선**: 밸런스 게임에서 선택한 가치를 가진 상품 우대
+2. **단점 회피**: 피하고 싶다고 한 단점이 있는 상품은 제외/감점
+3. **웹서치 인사이트 반영**: 최신 트렌드와 전문가 조언 고려
+4. **다양성**: 가격대/브랜드가 다른 3개 추천
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 JSON 형식으로 응답:
 {
-  "content": "추천 요약 (리뷰 인용 포함, 2-3문장)",
+  "content": "추천 요약 (사용자 선택 반영 + 리뷰 인용, 2-3문장)",
   "recommended_pcodes": ["pcode1", "pcode2", "pcode3"],
   "reasons": {
-    "pcode1": "추천 이유 (리뷰 기반)",
-    "pcode2": "추천 이유",
-    "pcode3": "추천 이유"
+    "pcode1": "핵심 추천 이유 (반드시 1줄로 작성. 사용자가 선택한 가치, 피하고 싶은 단점, 최신 트렌드/리뷰를 요약하여 매력적으로 표현)",
+    "pcode2": "핵심 추천 이유 (1줄)",
+    "pcode3": "핵심 추천 이유 (1줄)"
   }
 }
 `;
@@ -972,19 +1336,40 @@ JSON 형식으로 응답:
           );
           const finalProducts = recommendedProducts.length > 0 ? recommendedProducts : allProducts.slice(0, 3);
 
+          // 스펙 정규화 추가 (상위 3개 제품)
+          const normalizedSpecs = await normalizeSpecsForComparison(
+            finalProducts.slice(0, 3),
+            categoryKey
+          );
+
+          // 정규화된 스펙을 각 제품 객체에 주입 (컴포넌트 호환성용)
+          const finalProductsWithSpecs = finalProducts.map((p: any) => {
+            const productSpecs: Record<string, string> = {};
+            normalizedSpecs.forEach((spec: any) => {
+              if (spec.values[p.pcode]) {
+                productSpecs[spec.key] = spec.values[p.pcode];
+              }
+            });
+            return {
+              ...p,
+              specs: productSpecs,
+              recommendReason: parsed.reasons?.[p.pcode] || ''
+            };
+          });
+
           // ============================================================================
           // V12: 단기기억 업데이트 (최종 추천)
           // ============================================================================
           const shortTermMemoryForResult = loadShortTermMemory(categoryKey);
           if (shortTermMemoryForResult) {
-            shortTermMemoryForResult.finalRecommendations = finalProducts.slice(0, 3).map((p: any, idx: number): Recommendation => ({
+            shortTermMemoryForResult.finalRecommendations = finalProductsWithSpecs.slice(0, 3).map((p: any, idx: number): Recommendation => ({
               rank: idx + 1,
               pcode: p.pcode,
               name: p.name,
               brand: p.brand || '',
               price: p.price || 0,
               score: 0,
-              reason: parsed.reasons?.[p.pcode] || '',
+              reason: p.recommendReason || '',
             }));
             saveShortTermMemory(categoryKey, shortTermMemoryForResult);
             console.log(`[Chat V12] Short-term memory updated with final recommendations`);
@@ -995,7 +1380,7 @@ JSON 형식으로 응답:
             phase: 'result',
             content: parsed.content || '추천 상품을 확인해주세요.',
             ui_type: 'result',
-            products: finalProducts,
+            products: finalProductsWithSpecs,
             all_products: allProducts,
             collectedInfo: updatedInfo
           });
@@ -1073,9 +1458,9 @@ JSON 형식으로 응답:
   "content": "추천 요약 (리뷰 인용 포함, 2-3문장)",
   "recommended_pcodes": ["pcode1", "pcode2", "pcode3"],
   "reasons": {
-    "pcode1": "추천 이유 (리뷰 기반)",
-    "pcode2": "추천 이유",
-    "pcode3": "추천 이유"
+    "pcode1": "핵심 추천 이유 (반드시 1줄로 작성. 사용자가 선택한 가치, 최신 트렌드/리뷰를 요약하여 매력적으로 표현)",
+    "pcode2": "핵심 추천 이유 (1줄)",
+    "pcode3": "핵심 추천 이유 (1줄)"
   }
 }
 `;
@@ -1087,17 +1472,39 @@ JSON 형식으로 응답:
 
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
-          const products = (parsed.recommended_pcodes || []).map((pcode: string) => {
+          const recommendedProducts = (parsed.recommended_pcodes || []).map((pcode: string) => {
             const p = allProducts.find(prod => prod.pcode === pcode);
             return p ? { ...p, recommendReason: parsed.reasons?.[pcode] || '' } : null;
           }).filter(Boolean);
+
+          const finalProducts = recommendedProducts.length > 0 ? recommendedProducts : allProducts.slice(0, 3);
+
+          // 스펙 정규화 추가 (상위 3개 제품)
+          const normalizedSpecs = await normalizeSpecsForComparison(
+            finalProducts.slice(0, 3),
+            categoryKey
+          );
+
+          // 정규화된 스펙을 각 제품 객체에 주입
+          const finalProductsWithSpecs = finalProducts.map((p: any) => {
+            const productSpecs: Record<string, string> = {};
+            normalizedSpecs.forEach((spec: any) => {
+              if (spec.values[p.pcode]) {
+                productSpecs[spec.key] = spec.values[p.pcode];
+              }
+            });
+            return {
+              ...p,
+              specs: productSpecs
+            };
+          });
 
           // ============================================================================
           // V12: 단기기억 업데이트 (최종 추천 - balance fallback)
           // ============================================================================
           const shortTermMemoryBalance = loadShortTermMemory(categoryKey);
           if (shortTermMemoryBalance) {
-            shortTermMemoryBalance.finalRecommendations = products.slice(0, 3).map((p: any, idx: number): Recommendation => ({
+            shortTermMemoryBalance.finalRecommendations = finalProductsWithSpecs.slice(0, 3).map((p: any, idx: number): Recommendation => ({
               rank: idx + 1,
               pcode: p.pcode,
               name: p.name,
@@ -1115,7 +1522,7 @@ JSON 형식으로 응답:
             phase: 'result',
             content: parsed.content,
             ui_type: 'result',
-            products,
+            products: finalProductsWithSpecs,
             all_products: allProducts,
             collectedInfo: updatedInfo
           });

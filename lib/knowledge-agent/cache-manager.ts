@@ -47,9 +47,22 @@ function ensureDir(dir: string): void {
 
 /**
  * 쿼리를 파일명으로 변환 (특수문자 제거)
+ * URL 인코딩된 쿼리도 자동으로 디코딩
  */
 function sanitizeQuery(query: string): string {
-  return query
+  // URL 인코딩된 경우 디코딩 시도
+  let decodedQuery = query;
+  try {
+    // %로 시작하는 패턴이 있으면 URL 인코딩된 것으로 간주
+    if (query.includes('%')) {
+      decodedQuery = decodeURIComponent(query);
+    }
+  } catch {
+    // 디코딩 실패시 원본 사용
+    decodedQuery = query;
+  }
+
+  return decodedQuery
     .toLowerCase()
     .replace(/[^가-힣a-z0-9]/g, '_')
     .replace(/_+/g, '_')

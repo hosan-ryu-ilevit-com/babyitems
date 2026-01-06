@@ -85,7 +85,7 @@ export interface ShortTermMemoryData {
 }
 
 export interface WebSearchInsight {
-  phase: 'init' | 'question';
+  phase: 'init' | 'question' | 'followup';
   questionId?: string;
   question?: string;
   userAnswer?: string;

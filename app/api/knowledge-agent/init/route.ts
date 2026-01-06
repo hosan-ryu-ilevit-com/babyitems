@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
- * Knowledge Agent Initialization API v5
+ * Knowledge Agent Initialization API v6 (Streaming)
  *
- * V5 변경사항:
- * - 리뷰 크롤링 제거 (속도 개선)
- * - 상품 스펙 크롤링 강화
- * - 웹검색 트렌드 기반 분석
+ * V6 변경사항:
+ * - SSE(Server-Sent Events) 스트리밍 지원
+ * - 상품 데이터 실시간 전송 (5개씩 배치)
+ * - 단계별 진행상황 실시간 업데이트
  *
  * 플로우:
- * [Phase 1] 병렬: 웹검색 + 상품크롤링 (5-10초)
- * [Phase 2] Flash Lite 필터링 (1-2초)
- * [Phase 3] 질문 생성 + 메모리 업데이트 (2-4초)
+ * [Phase 1] 병렬: 웹검색 + 상품크롤링 (스트리밍)
+ * [Phase 2] Flash Lite 필터링
+ * [Phase 3] 질문 생성 + 메모리 업데이트
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -81,13 +81,21 @@ const WEB_SEARCH_CACHE_TTL = 60 * 60 * 1000; // 1시간
 function getWebSearchCache(keyword: string): TrendAnalysis | null {
   const cached = webSearchCache.get(keyword);
   if (cached && cached.expiry > Date.now()) {
-    console.log(`[Step1] Web search cache HIT for: ${keyword}`);
+    console.log(`[Step1] Web search cache HIT for: "${keyword}"`);
     return cached.data;
   }
   if (cached) {
+    console.log(`[Step1] Web search cache EXPIRED for: "${keyword}"`);
     webSearchCache.delete(keyword); // 만료된 캐시 삭제
   }
   return null;
+}
+
+// 캐시 클리어 함수 (디버깅용)
+export function clearWebSearchCache(): void {
+  const size = webSearchCache.size;
+  webSearchCache.clear();
+  console.log(`[WebSearchCache] Cleared ${size} entries`);
 }
 
 function setWebSearchCache(keyword: string, data: TrendAnalysis): void {
@@ -109,6 +117,8 @@ async function performWebSearchAnalysis(searchKeyword: string): Promise<TrendAna
   const timestamp = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
   const year = today.getFullYear();
 
+  console.log(`[Step1] performWebSearchAnalysis called with keyword: "${searchKeyword}"`);
+
   try {
     const model = ai.getGenerativeModel({
       model: 'gemini-2.0-flash-lite',
@@ -119,16 +129,41 @@ async function performWebSearchAnalysis(searchKeyword: string): Promise<TrendAna
       tools: [{ google_search: {} } as never]
     });
 
-    // 디테일한 프롬프트 (캐싱으로 속도 보완)
-    const analysisPrompt = `"${searchKeyword} ${year}년 추천 순위" 검색하여 분석 후 JSON 응답:
+    // 검색어를 명확하게 지정하는 프롬프트
+    const analysisPrompt = `## 검색 지시사항
+⚠️ 중요: 정확히 "${searchKeyword}"를 검색하세요. 유사한 단어나 다른 제품으로 바꾸지 마세요.
+검색어: "${searchKeyword} ${year}년 추천 순위 및 실사용 후기"
+
+📅 **오늘 날짜: ${timestamp}**
+
+⚠️ **정보 신선도 주의사항:**
+- 오늘은 ${year}년 ${today.getMonth() + 1}월입니다. 이미 출시되어 판매 중인 제품을 "출시 예정"이라고 하지 마세요.
+- 검색 결과의 날짜를 확인하고, 1년 이상 지난 정보는 "과거 정보"로 표시하세요.
+- 현재 쇼핑몰에서 판매 중인 모델은 "현재 인기", "판매 중"으로 표현하세요.
+- 예: 아이폰 17이 이미 판매 중이라면 "2026년 출시 예정"이 아니라 "현재 인기 모델"로 표현
+
+"${searchKeyword}" 제품에 대한 검색 결과를 분석 후 JSON 응답:
 
 {
-  "top10Summary": "${searchKeyword} 시장 현황 2-3문장 (인기 브랜드, 주요 트렌드 포함)",
-  "trends": ["${year}년 핵심 트렌드 1 (구체적)", "${year}년 핵심 트렌드 2", "최근 인기 기능/특징"],
-  "pros": ["구매자들이 자주 언급하는 장점 1 (구체적)", "장점 2", "장점 3"],
-  "cons": ["자주 언급되는 단점/주의점 1 (구체적)", "단점 2", "단점 3"],
-  "priceInsight": "현재 가격대별 특징 1-2문장 (엔트리/중급/프리미엄)"
-}`;
+  "top10Summary": "${searchKeyword} 시장 현황 2-3문장 (현재 인기 브랜드, ${year}년 현재 트렌드 - 이미 출시된 제품 기준)",
+  "trends": ["${year}년 ${today.getMonth() + 1}월 현재 핵심 트렌드 1", "현재 인기 기능/특징 2", "최신 기술 동향 3"],
+  "pros": [
+    "실제 사용자가 리뷰에서 가장 많이 칭찬하는 핵심 키워드 1 (예: '압도적인 흡입력', '가벼운 무게')",
+    "리뷰 키워드 2",
+    "리뷰 키워드 3"
+  ],
+  "cons": [
+    "실제 사용자가 리뷰에서 가장 많이 불평하는 핵심 키워드 1 (예: '짧은 배터리', '느린 충전 속도')",
+    "리뷰 키워드 2",
+    "리뷰 키워드 3"
+  ],
+  "priceInsight": "현재 판매 중인 제품의 가격대별 특징 1-2문장 (엔트리/중급/프리미엄)"
+}
+
+주의:
+- pros와 cons는 마치 수천 건의 실제 구매 리뷰에서 자연어 처리(NLP)로 추출한 것 같은 짧고 명확한 '키워드' 형태여야 합니다.
+- "~해서 좋아요" 보다는 "뛰어난 가성비", "간편한 세척" 처럼 명사형 키워드를 선호합니다.
+- "출시 예정", "발표 예정" 표현은 실제로 아직 출시되지 않은 제품에만 사용하세요.`;
 
     const startTime = Date.now();
     const result = await model.generateContent(analysisPrompt);
@@ -141,6 +176,20 @@ async function performWebSearchAnalysis(searchKeyword: string): Promise<TrendAna
     const groundingMetadata = candidate?.groundingMetadata;
     const webSearchQueries: string[] = groundingMetadata?.webSearchQueries || [];
     const groundingChunks = groundingMetadata?.groundingChunks || [];
+
+    // 🔴 중요: 실제로 Gemini가 검색한 쿼리 로깅
+    console.log(`[Step1] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    console.log(`[Step1] 🔍 요청한 검색어: "${searchKeyword}"`);
+    console.log(`[Step1] 🔍 실제 검색 쿼리: ${webSearchQueries.join(', ') || '(없음)'}`);
+
+    // 검색어 불일치 경고
+    if (webSearchQueries.length > 0) {
+      const hasKeyword = webSearchQueries.some(q => q.includes(searchKeyword));
+      if (!hasKeyword) {
+        console.warn(`[Step1] ⚠️ 검색어 불일치! 요청: "${searchKeyword}" → 실제: "${webSearchQueries[0]}"`);
+      }
+    }
+    console.log(`[Step1] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
     const sources = groundingChunks
       .filter((chunk: any) => chunk.web?.uri)
@@ -184,12 +233,13 @@ async function performWebSearchAnalysis(searchKeyword: string): Promise<TrendAna
 }
 
 // ============================================================================
-// Step 2: Product Crawling (Danawa)
+// Step 2: Product Crawling (Danawa) - 스트리밍 지원
 // ============================================================================
 
-async function crawlProducts(
+async function crawlProductsWithStreaming(
   _categoryKey: string,
-  categoryName: string
+  categoryName: string,
+  onProductBatch?: (products: DanawaSearchListItem[], isComplete: boolean) => void
 ): Promise<{ products: DanawaSearchListItem[]; cached: boolean; searchUrl: string }> {
   console.log(`[Step2] Crawling products for: ${categoryName}`);
 
@@ -197,15 +247,48 @@ async function crawlProducts(
   const cached = getQueryCache(categoryName);
   if (cached && cached.items.length > 0) {
     console.log(`[Step2] Cache hit: ${cached.items.length} products`);
+    // 캐시된 경우에도 배치로 스트리밍
+    if (onProductBatch) {
+      const batchSize = 5;
+      for (let i = 0; i < cached.items.length; i += batchSize) {
+        const batch = cached.items.slice(i, i + batchSize);
+        const isComplete = i + batchSize >= cached.items.length;
+        onProductBatch(batch, isComplete);
+      }
+    }
     return { products: cached.items, cached: true, searchUrl: cached.searchUrl };
   }
 
-  // Lite 크롤러 사용 (0.5-2초)
-  const response = await crawlDanawaSearchListLite({
-    query: categoryName,
-    limit: 40,
-    sort: 'saveDESC',
-  });
+  // Lite 크롤러 사용 - 콜백으로 실시간 스트리밍
+  const collectedProducts: DanawaSearchListItem[] = [];
+  let pendingBatch: DanawaSearchListItem[] = [];
+  const batchSize = 5;
+
+  const response = await crawlDanawaSearchListLite(
+    {
+      query: categoryName,
+      limit: 40,
+      sort: 'saveDESC',
+    },
+    // onProductFound 콜백 - 상품이 발견될 때마다 호출
+    (product, _index) => {
+      collectedProducts.push(product);
+      pendingBatch.push(product);
+
+      // 5개가 모이면 배치 전송
+      if (pendingBatch.length >= batchSize && onProductBatch) {
+        onProductBatch([...pendingBatch], false);
+        pendingBatch = [];
+      }
+    }
+  );
+
+  // 남은 배치 전송
+  if (pendingBatch.length > 0 && onProductBatch) {
+    onProductBatch(pendingBatch, true);
+  } else if (onProductBatch && collectedProducts.length > 0) {
+    onProductBatch([], true); // 완료 신호만
+  }
 
   if (response.success && response.items.length > 0) {
     setQueryCache(response);
@@ -227,25 +310,45 @@ async function filterRelevantProducts(
 ): Promise<DanawaSearchListItem[]> {
   if (!ai || products.length === 0) return products;
 
+  // 상품이 25개 이하면 필터링 스킵 (대부분 관련 상품일 확률 높음)
+  if (products.length <= 25) {
+    console.log(`[Step2.5] Skipping filter (${products.length} products - likely all relevant)`);
+    return products;
+  }
+
   console.log(`[Step2.5] Filtering ${products.length} products for relevance`);
 
   try {
-    const model = ai.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
+    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
 
-    const productList = products.map((p, i) => `${i + 1}. ${p.name}`).join('\n');
+    // 상품명 + 스펙 요약을 함께 제공 (더 정확한 판단을 위해)
+    const productList = products.map((p, i) => {
+      const spec = p.specSummary ? ` [${p.specSummary.slice(0, 50)}]` : '';
+      return `${i + 1}. ${p.name}${spec}`;
+    }).join('\n');
 
     const prompt = `사용자가 "${query}"를 검색했습니다.
 
-아래 상품 목록에서 "${query}"와 관련된 상품의 번호만 콤마로 구분해서 출력하세요.
-관련 없는 상품(다른 카테고리, 악세서리, 소모품, 부품)은 제외합니다.
+아래 상품 목록에서 "${query}"와 **관련된 상품의 번호**를 모두 출력하세요.
+
+## 관련 상품으로 포함할 것:
+- "${query}" 제품 자체 (브랜드/모델 상관없이)
+- "${query}"와 함께 사용하는 세트 상품
+- "${query}"의 다양한 변형/버전
+
+## 제외할 것 (명확히 다른 카테고리만):
+- 완전히 다른 제품군 (예: 마우스 검색 시 키보드)
+- 소모품/부품 단품 (예: 마우스 패드, 배터리, 케이블 단품)
 
 상품 목록:
 ${productList}
 
-관련 상품 번호 (예: 1,2,5,7):`;
+관련 상품 번호만 콤마로 구분 (예: 1,2,3,5,7):`;
 
     const result = await model.generateContent(prompt);
     const response = result.response.text().trim();
+
+    console.log(`[Step2.5] LLM response: ${response.slice(0, 100)}`);
 
     const relevantIndices = response
       .split(/[,\s]+/)
@@ -256,10 +359,17 @@ ${productList}
     const filtered = relevantIndices.map(i => products[i]).filter(Boolean);
 
     console.log(`[Step2.5] Filtered: ${products.length} → ${filtered.length} products`);
-    return filtered.length > 0 ? filtered : products.slice(0, 20);
+
+    // 필터링 결과가 너무 적으면 (10개 미만) 원본 상품 사용
+    if (filtered.length < 10) {
+      console.log(`[Step2.5] Filter result too small (${filtered.length}), using original products`);
+      return products.slice(0, 40);
+    }
+
+    return filtered;
   } catch (e) {
     console.error('[Step2.5] Filtering failed:', e);
-    return products.slice(0, 20);
+    return products.slice(0, 40);
   }
 }
 
@@ -659,200 +769,417 @@ function loadKnowledgeMarkdown(categoryKey: string): string {
 }
 
 // ============================================================================
-// Main Handler
+// SSE Helper Functions
+// ============================================================================
+
+function createSSEResponse(stream: ReadableStream): Response {
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    },
+  });
+}
+
+function formatSSEMessage(event: string, data: any): string {
+  return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+}
+
+// ============================================================================
+// Main Handler (Streaming)
 // ============================================================================
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
-  const timings: StepTiming[] = [];
 
   try {
-    const { categoryKey } = await request.json();
+    const { categoryKey: rawCategoryKey, streaming = true } = await request.json();
 
-    if (!categoryKey) {
+    if (!rawCategoryKey) {
       return NextResponse.json({ error: 'categoryKey required' }, { status: 400 });
     }
 
+    // URL 인코딩된 키를 디코딩
+    const categoryKey = decodeURIComponent(rawCategoryKey);
     const categoryName = CATEGORY_NAME_MAP[categoryKey] || categoryKey;
+
+    console.log(`[Init] Raw categoryKey: "${rawCategoryKey}" → Decoded: "${categoryKey}" → categoryName: "${categoryName}"`);
     console.log(`\n========================================`);
-    console.log(`[Init V5] Starting for: ${categoryName}`);
+    console.log(`[Init V6 Streaming] Starting for: ${categoryName}`);
     console.log(`========================================\n`);
 
-    // ============================================================================
-    // Phase 1: Parallel Execution (웹검색 + 상품크롤링)
-    // ============================================================================
-    const phase1Start = Date.now();
-    console.log(`[Phase 1] Starting parallel: Web Search + Product Crawling`);
-
-    const [trendAnalysis, crawlResult] = await Promise.all([
-      performWebSearchAnalysis(categoryName),
-      crawlProducts(categoryKey, categoryName),
-    ]);
-
-    const phase1Duration = Date.now() - phase1Start;
-    timings.push({ step: 'phase1_parallel', duration: phase1Duration, details: `웹검색+크롤링` });
-    console.log(`[Phase 1] Completed in ${phase1Duration}ms`);
-
-    let products = crawlResult.products;
-    const wasCached = crawlResult.cached;
-    const searchUrl = crawlResult.searchUrl;
-
-    // ============================================================================
-    // Phase 2: Category Filtering (Flash Lite)
-    // ============================================================================
-    const phase2Start = Date.now();
-    console.log(`\n[Phase 2] Starting: Category Filtering`);
-
-    if (!wasCached && products.length > 20) {
-      products = await filterRelevantProducts(categoryName, products);
-    } else {
-      products = products.slice(0, 40); // 캐시된 경우 상위 25개만
+    // 스트리밍 모드가 아니면 기존 방식으로 처리
+    if (!streaming) {
+      return handleNonStreamingRequest(categoryKey, categoryName, startTime);
     }
 
-    const phase2Duration = Date.now() - phase2Start;
-    timings.push({ step: 'phase2_filter', duration: phase2Duration, details: `${products.length}개 필터링` });
-    console.log(`[Phase 2] Completed in ${phase2Duration}ms - ${products.length} products`);
+    // SSE 스트리밍 응답
+    const stream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
 
-    // ============================================================================
-    // Phase 3: Question Generation + Memory Update (리뷰 크롤링 제거)
-    // ============================================================================
-    const phase3Start = Date.now();
-    console.log(`\n[Phase 3] Starting: Question Generation + Memory Update`);
+        const send = (event: string, data: any) => {
+          controller.enqueue(encoder.encode(formatSSEMessage(event, data)));
+        };
 
-    // 장기기억 업데이트 (병렬)
-    const [longTermData, knowledge] = await Promise.all([
-      Promise.resolve(updateLongTermMemory(categoryKey, categoryName, products, trendAnalysis)),
-      Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
-    ]);
+        try {
+          // 초기 이벤트 전송
+          send('init', { categoryKey, categoryName, timestamp: Date.now() });
 
-    // 질문 생성 (리뷰 데이터 없이 웹서치 트렌드 + 상품 스펙 기반)
-    const questionTodos = await generateQuestions(
-      categoryKey,
-      categoryName,
-      products,
-      trendAnalysis,
-      knowledge || generateLongTermMarkdown(longTermData)
-    );
+          // 수집된 상품 저장
+          let allProducts: DanawaSearchListItem[] = [];
+          let searchUrl = '';
+          let wasCached = false;
 
-    const phase3Duration = Date.now() - phase3Start;
-    timings.push({ step: 'phase3_questions', duration: phase3Duration, details: `${questionTodos.length}개 질문` });
-    console.log(`[Phase 3] Completed in ${phase3Duration}ms - ${questionTodos.length} questions`);
+          // Phase 1: 웹검색과 상품 크롤링 병렬 실행
+          const phase1Start = Date.now();
 
-    // ============================================================================
-    // Finalize: Short-term Memory + Response
-    // ============================================================================
-    const shortTermMemory = initializeShortTermMemory(categoryKey, categoryName, products.length);
+          // 웹검색 Promise
+          const webSearchPromise = performWebSearchAnalysis(categoryName);
 
-    if (trendAnalysis) {
-      const webSearchInsight: WebSearchInsight = {
-        phase: 'init',
-        query: trendAnalysis.searchQueries[0] || categoryName,
-        insight: trendAnalysis.top10Summary,
-        sources: trendAnalysis.sources.map(s => ({ title: s.title, url: s.url })),
-        timestamp: new Date().toISOString(),
-      };
-      shortTermMemory.webSearchInsights.push(webSearchInsight);
-    }
+          // 상품 크롤링 (스트리밍 콜백 사용)
+          const crawlPromise = crawlProductsWithStreaming(
+            categoryKey,
+            categoryName,
+            (products, isComplete) => {
+              // 상품 배치가 도착할 때마다 전송
+              if (products.length > 0) {
+                allProducts = [...allProducts, ...products];
+              }
+              // isComplete가 true이거나 products가 있으면 전송 (빈 배열 + isComplete도 전송해야 완료 처리됨)
+              if (products.length > 0 || isComplete) {
+                send('products', {
+                  batch: products.map(p => ({
+                    pcode: p.pcode,
+                    name: p.name,
+                    brand: p.brand,
+                    price: p.price,
+                    thumbnail: p.thumbnail,
+                    reviewCount: p.reviewCount || 0,
+                    rating: p.rating || 0,
+                    specSummary: p.specSummary,
+                  })),
+                  total: allProducts.length,
+                  isComplete,
+                });
+              }
+            }
+          );
 
-    shortTermMemory.filteredCandidates = products.slice(0, 20).map(p => ({
-      pcode: p.pcode,
-      name: p.name,
-      brand: p.brand || '',
-      price: p.price || 0,
-      rating: p.rating || 0,
-      reviewCount: p.reviewCount || 0,
-      specs: {},
-    }));
+          // 병렬 실행 대기
+          const [trendAnalysis, crawlResult] = await Promise.all([
+            webSearchPromise,
+            crawlPromise,
+          ]);
 
-    saveShortTermMemory(categoryKey, shortTermMemory);
+          searchUrl = crawlResult.searchUrl;
+          wasCached = crawlResult.cached;
+          allProducts = crawlResult.products;
 
-    const totalTime = Date.now() - startTime;
-    console.log(`\n========================================`);
-    console.log(`[Init V5] Total time: ${totalTime}ms`);
-    timings.forEach(t => console.log(`  - ${t.step}: ${t.duration}ms (${t.details})`));
-    console.log(`========================================\n`);
+          const phase1Duration = Date.now() - phase1Start;
 
-    // 가격 통계
-    const prices = products.map(p => p.price).filter((p): p is number => p !== null && p > 0);
-    const priceStats = {
-      min: prices.length ? Math.min(...prices) : 0,
-      max: prices.length ? Math.max(...prices) : 500000,
-      avg: prices.length ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 150000,
-    };
+          // 웹검색 결과 전송
+          if (trendAnalysis) {
+            send('trend', {
+              trendAnalysis,
+              searchQueries: trendAnalysis.searchQueries,
+              sources: trendAnalysis.sources,
+            });
+          }
 
-    // 브랜드 통계
-    const brandCounts: Record<string, number> = {};
-    products.forEach(p => {
-      if (p.brand) brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1;
-    });
-    const topBrands = Object.entries(brandCounts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([name]) => name);
+          // Phase 2: 필터링
+          const phase2Start = Date.now();
+          let filteredProducts = allProducts;
 
-    // 마켓 요약 (리뷰 크롤링 제거 - 웹서치 트렌드 기반)
-    const totalReviewCount = products.reduce((sum, p) => sum + (p.reviewCount || 0), 0);
-    const avgRating = products.filter(p => p.rating).reduce((sum, p, _, arr) => sum + (p.rating || 0) / arr.length, 0);
+          if (!wasCached && allProducts.length > 20) {
+            filteredProducts = await filterRelevantProducts(categoryName, allProducts);
+            send('filter_complete', {
+              originalCount: allProducts.length,
+              filteredCount: filteredProducts.length,
+            });
+          } else {
+            filteredProducts = allProducts.slice(0, 40);
+          }
 
-    const marketSummary = {
-      productCount: products.length,
-      reviewCount: totalReviewCount,
-      priceRange: priceStats,
-      topBrands,
-      // 웹서치 트렌드에서 장단점 가져오기
-      topPros: (trendAnalysis?.pros || []).slice(0, 5).map(p => ({ keyword: p, count: 0 })),
-      topCons: (trendAnalysis?.cons || []).slice(0, 5).map(c => ({ keyword: c, count: 0 })),
-      avgRating: Math.round(avgRating * 10) / 10,
-    };
+          const phase2Duration = Date.now() - phase2Start;
 
-    return NextResponse.json({
-      success: true,
-      sessionId: shortTermMemory.sessionId,
-      categoryKey,
-      categoryName,
+          // Phase 3: 질문 생성 + 메모리 업데이트
+          const phase3Start = Date.now();
 
-      // 타이밍 정보 (클라이언트 UI용)
-      timing: {
-        phase1_webSearch_crawl: phase1Duration,
-        phase2_filter: phase2Duration,
-        phase3_questions: phase3Duration,
-        total: totalTime,
-        steps: timings,
+          const [longTermData, knowledge] = await Promise.all([
+            Promise.resolve(updateLongTermMemory(categoryKey, categoryName, filteredProducts, trendAnalysis)),
+            Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
+          ]);
+
+          const questionTodos = await generateQuestions(
+            categoryKey,
+            categoryName,
+            filteredProducts,
+            trendAnalysis,
+            knowledge || generateLongTermMarkdown(longTermData)
+          );
+
+          const phase3Duration = Date.now() - phase3Start;
+
+          // 질문 전송
+          send('questions', {
+            questionTodos,
+            currentQuestion: questionTodos[0] || null,
+          });
+
+          // Short-term Memory 저장
+          const shortTermMemory = initializeShortTermMemory(categoryKey, categoryName, filteredProducts.length);
+
+          if (trendAnalysis) {
+            const webSearchInsight: WebSearchInsight = {
+              phase: 'init',
+              query: trendAnalysis.searchQueries[0] || categoryName,
+              insight: trendAnalysis.top10Summary,
+              sources: trendAnalysis.sources.map((s: { title: string; url: string }) => ({ title: s.title, url: s.url })),
+              timestamp: new Date().toISOString(),
+            };
+            shortTermMemory.webSearchInsights.push(webSearchInsight);
+          }
+
+          shortTermMemory.filteredCandidates = filteredProducts.slice(0, 20).map((p: DanawaSearchListItem) => ({
+            pcode: p.pcode,
+            name: p.name,
+            brand: p.brand || '',
+            price: p.price || 0,
+            rating: p.rating || 0,
+            reviewCount: p.reviewCount || 0,
+            specs: {},
+          }));
+
+          saveShortTermMemory(categoryKey, shortTermMemory);
+
+          // 가격/브랜드 통계
+          const prices = filteredProducts.map((p: DanawaSearchListItem) => p.price).filter((p): p is number => p !== null && p > 0);
+          const priceStats = {
+            min: prices.length ? Math.min(...prices) : 0,
+            max: prices.length ? Math.max(...prices) : 500000,
+            avg: prices.length ? Math.round(prices.reduce((a: number, b: number) => a + b, 0) / prices.length) : 150000,
+          };
+
+          const brandCounts: Record<string, number> = {};
+          filteredProducts.forEach((p: DanawaSearchListItem) => {
+            if (p.brand) brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1;
+          });
+          const topBrands = Object.entries(brandCounts)
+            .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([name]: [string, number]) => name);
+
+          const totalReviewCount = filteredProducts.reduce((sum: number, p: DanawaSearchListItem) => sum + (p.reviewCount || 0), 0);
+          const avgRating = filteredProducts.filter((p: DanawaSearchListItem) => p.rating).reduce((sum: number, p: DanawaSearchListItem, _: number, arr: DanawaSearchListItem[]) => sum + (p.rating || 0) / arr.length, 0);
+
+          const marketSummary = {
+            productCount: filteredProducts.length,
+            reviewCount: totalReviewCount,
+            priceRange: priceStats,
+            topBrands,
+            topPros: (trendAnalysis?.pros || []).slice(0, 5).map((p: string) => ({ keyword: p, count: 0 })),
+            topCons: (trendAnalysis?.cons || []).slice(0, 5).map((c: string) => ({ keyword: c, count: 0 })),
+            avgRating: Math.round(avgRating * 10) / 10,
+          };
+
+          const totalTime = Date.now() - startTime;
+
+          // 최종 완료 이벤트
+          send('complete', {
+            success: true,
+            sessionId: shortTermMemory.sessionId,
+            categoryKey,
+            categoryName,
+            timing: {
+              phase1_webSearch_crawl: phase1Duration,
+              phase2_filter: phase2Duration,
+              phase3_questions: phase3Duration,
+              total: totalTime,
+            },
+            marketSummary,
+            trendAnalysis,
+            memoryStatus: {
+              hasLongTermMemory: true,
+              longTermLastUpdated: longTermData.lastUpdated,
+              shortTermSessionId: shortTermMemory.sessionId,
+            },
+            searchUrl,
+            wasCached,
+            questionTodos,
+            currentQuestion: questionTodos[0] || null,
+            products: filteredProducts.map((p: DanawaSearchListItem) => ({
+              pcode: p.pcode,
+              name: p.name,
+              brand: p.brand,
+              price: p.price,
+              thumbnail: p.thumbnail,
+              reviewCount: p.reviewCount || 0,
+              rating: p.rating || 0,
+              specSummary: p.specSummary,
+            })),
+          });
+
+          console.log(`[Init V6] Total time: ${totalTime}ms`);
+
+        } catch (error) {
+          console.error('[Init V6 Error]:', error);
+          send('error', { error: 'Initialization failed' });
+        } finally {
+          controller.close();
+        }
       },
-
-      // 분석 결과
-      marketSummary,
-      trendAnalysis,
-
-      // 메모리 상태
-      memoryStatus: {
-        hasLongTermMemory: true,
-        longTermLastUpdated: longTermData.lastUpdated,
-        shortTermSessionId: shortTermMemory.sessionId,
-      },
-
-      // UI용 데이터
-      searchQueries: trendAnalysis?.searchQueries || [],
-      searchUrl,
-      wasCached,
-      questionTodos,
-      currentQuestion: questionTodos[0] || null,
-
-      // 상품 목록
-      products: products.map(p => ({
-        pcode: p.pcode,
-        name: p.name,
-        brand: p.brand,
-        price: p.price,
-        thumbnail: p.thumbnail,
-        reviewCount: p.reviewCount || 0,
-        rating: p.rating || 0,
-        specSummary: p.specSummary,
-      })),
     });
+
+    return createSSEResponse(stream);
 
   } catch (error) {
-    console.error('[Init V5 Error]:', error);
-    return NextResponse.json({ error: 'Initialization failed' }, { status: 500 });
+    console.error('[Init V6 Parse Error]:', error);
+    return NextResponse.json({ error: 'Request parsing failed' }, { status: 500 });
   }
+}
+
+// ============================================================================
+// Non-Streaming Handler (기존 방식 호환)
+// ============================================================================
+
+async function handleNonStreamingRequest(
+  categoryKey: string,
+  categoryName: string,
+  startTime: number
+): Promise<Response> {
+  const timings: StepTiming[] = [];
+
+  // Phase 1: 병렬 실행
+  const phase1Start = Date.now();
+  const [trendAnalysis, crawlResult] = await Promise.all([
+    performWebSearchAnalysis(categoryName),
+    crawlProductsWithStreaming(categoryKey, categoryName),
+  ]);
+
+  const phase1Duration = Date.now() - phase1Start;
+  timings.push({ step: 'phase1_parallel', duration: phase1Duration, details: '웹검색+크롤링' });
+
+  let products = crawlResult.products;
+  const wasCached = crawlResult.cached;
+  const searchUrl = crawlResult.searchUrl;
+
+  // Phase 2: 필터링
+  const phase2Start = Date.now();
+  if (!wasCached && products.length > 20) {
+    products = await filterRelevantProducts(categoryName, products);
+  } else {
+    products = products.slice(0, 40);
+  }
+  const phase2Duration = Date.now() - phase2Start;
+  timings.push({ step: 'phase2_filter', duration: phase2Duration, details: `${products.length}개 필터링` });
+
+  // Phase 3: 질문 생성
+  const phase3Start = Date.now();
+  const [longTermData, knowledge] = await Promise.all([
+    Promise.resolve(updateLongTermMemory(categoryKey, categoryName, products, trendAnalysis)),
+    Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
+  ]);
+
+  const questionTodos = await generateQuestions(
+    categoryKey,
+    categoryName,
+    products,
+    trendAnalysis,
+    knowledge || generateLongTermMarkdown(longTermData)
+  );
+  const phase3Duration = Date.now() - phase3Start;
+  timings.push({ step: 'phase3_questions', duration: phase3Duration, details: `${questionTodos.length}개 질문` });
+
+  // Short-term Memory 저장
+  const shortTermMemory = initializeShortTermMemory(categoryKey, categoryName, products.length);
+  if (trendAnalysis) {
+    const webSearchInsight: WebSearchInsight = {
+      phase: 'init',
+      query: trendAnalysis.searchQueries[0] || categoryName,
+      insight: trendAnalysis.top10Summary,
+      sources: trendAnalysis.sources.map((s: { title: string; url: string }) => ({ title: s.title, url: s.url })),
+      timestamp: new Date().toISOString(),
+    };
+    shortTermMemory.webSearchInsights.push(webSearchInsight);
+  }
+  shortTermMemory.filteredCandidates = products.slice(0, 20).map((p: DanawaSearchListItem) => ({
+    pcode: p.pcode,
+    name: p.name,
+    brand: p.brand || '',
+    price: p.price || 0,
+    rating: p.rating || 0,
+    reviewCount: p.reviewCount || 0,
+    specs: {},
+  }));
+  saveShortTermMemory(categoryKey, shortTermMemory);
+
+  // 통계
+  const prices = products.map((p: DanawaSearchListItem) => p.price).filter((p): p is number => p !== null && p > 0);
+  const priceStats = {
+    min: prices.length ? Math.min(...prices) : 0,
+    max: prices.length ? Math.max(...prices) : 500000,
+    avg: prices.length ? Math.round(prices.reduce((a: number, b: number) => a + b, 0) / prices.length) : 150000,
+  };
+
+  const brandCounts: Record<string, number> = {};
+  products.forEach((p: DanawaSearchListItem) => {
+    if (p.brand) brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1;
+  });
+  const topBrands = Object.entries(brandCounts)
+    .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([name]: [string, number]) => name);
+
+  const totalReviewCount = products.reduce((sum: number, p: DanawaSearchListItem) => sum + (p.reviewCount || 0), 0);
+  const avgRating = products.filter((p: DanawaSearchListItem) => p.rating).reduce((sum: number, p: DanawaSearchListItem, _: number, arr: DanawaSearchListItem[]) => sum + (p.rating || 0) / arr.length, 0);
+
+  const marketSummary = {
+    productCount: products.length,
+    reviewCount: totalReviewCount,
+    priceRange: priceStats,
+    topBrands,
+    topPros: (trendAnalysis?.pros || []).slice(0, 5).map((p: string) => ({ keyword: p, count: 0 })),
+    topCons: (trendAnalysis?.cons || []).slice(0, 5).map((c: string) => ({ keyword: c, count: 0 })),
+    avgRating: Math.round(avgRating * 10) / 10,
+  };
+
+  const totalTime = Date.now() - startTime;
+
+  return NextResponse.json({
+    success: true,
+    sessionId: shortTermMemory.sessionId,
+    categoryKey,
+    categoryName,
+    timing: {
+      phase1_webSearch_crawl: phase1Duration,
+      phase2_filter: phase2Duration,
+      phase3_questions: phase3Duration,
+      total: totalTime,
+      steps: timings,
+    },
+    marketSummary,
+    trendAnalysis,
+    memoryStatus: {
+      hasLongTermMemory: true,
+      longTermLastUpdated: longTermData.lastUpdated,
+      shortTermSessionId: shortTermMemory.sessionId,
+    },
+    searchQueries: trendAnalysis?.searchQueries || [],
+    searchUrl,
+    wasCached,
+    questionTodos,
+    currentQuestion: questionTodos[0] || null,
+    products: products.map((p: DanawaSearchListItem) => ({
+      pcode: p.pcode,
+      name: p.name,
+      brand: p.brand,
+      price: p.price,
+      thumbnail: p.thumbnail,
+      reviewCount: p.reviewCount || 0,
+      rating: p.rating || 0,
+      specSummary: p.specSummary,
+    })),
+  });
 }

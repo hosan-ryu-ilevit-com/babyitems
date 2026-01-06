@@ -139,18 +139,32 @@ function parseProductCard(
       }
     }
 
-    // 썸네일
+    // 썸네일 - 다양한 속성과 fallback 시도
     let thumbnail: string | null = null;
     const imgEl = element.find('.thumb_image img').first();
     if (imgEl.length) {
-      thumbnail = imgEl.attr('src') || imgEl.attr('data-src') || null;
+      // 다양한 속성에서 이미지 URL 추출 시도
+      thumbnail = imgEl.attr('data-original')
+        || imgEl.attr('data-src')
+        || imgEl.attr('data-lazy-src')
+        || imgEl.attr('src')
+        || null;
+
       if (thumbnail && thumbnail.startsWith('//')) {
         thumbnail = `https:${thumbnail}`;
       }
       // 플레이스홀더 제외
-      if (thumbnail && (thumbnail.includes('noImg') || thumbnail.includes('blank'))) {
+      if (thumbnail && (thumbnail.includes('noImg') || thumbnail.includes('blank') || thumbnail.includes('noData'))) {
         thumbnail = null;
       }
+    }
+
+    // 썸네일이 없으면 pcode 기반으로 다나와 CDN URL 생성
+    // 패턴: https://img.danawa.com/prod_img/500000/{끝3자리}/{끝6자리중3-6}/{img}/{pcode}_1.jpg
+    if (!thumbnail && pcode && pcode.length >= 6) {
+      const last3 = pcode.slice(-3);                    // 661
+      const mid3 = pcode.slice(-6, -3);                 // 011
+      thumbnail = `https://img.danawa.com/prod_img/500000/${last3}/${mid3}/img/${pcode}_1.jpg?shrink=130:130`;
     }
 
     // 리뷰 수 - SSR에서는 .text__number

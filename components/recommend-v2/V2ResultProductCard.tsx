@@ -44,13 +44,6 @@ export function V2ResultProductCard({
       onClick={onClick}
       className="relative bg-white py-4 px-1 cursor-pointer hover:bg-gray-50 transition-colors"
     >
-      {/* 클릭 어포던스 - 우상단 chevron */}
-      <div className="absolute top-4 right-3 text-gray-400">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
-
       {/* 제품 정보 */}
       <div className="flex gap-3 mb-0">
         {/* 제품 썸네일 */}
@@ -198,26 +191,51 @@ export function V2ResultProductCard({
 
       {/* 추천 이유 (recommendationReason이 있는 경우) */}
       {product.recommendationReason && (
-        <div className="mt-3">
-          <div className="rounded-xl p-3 bg-[#E8E6FD] border border-[#D6D3FC]">
-            <div className="flex items-start gap-2">
-              <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="url(#ai_gradient_v2_card)" />
-                <defs>
-                  <linearGradient id="ai_gradient_v2_card" x1="21" y1="12" x2="3" y2="12" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#77A0FF" />
-                    <stop offset="0.7" stopColor="#907FFF" />
-                    <stop offset="1" stopColor="#6947FF" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <p className="text-sm text-gray-600 leading-normal font-medium flex-1">
-                {parseMarkdownBold(product.recommendationReason)}
-              </p>
-            </div>
+        <div className="mt-4">
+          {/* 한줄 평 헤더 */}
+          <div className="flex items-center gap-1.5 mb-2.5 px-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
+            <span className="text-[16px] font-medium ai-gradient-text">한줄 평</span>
+          </div>
+
+          {/* 추천 이유 (인용구 스타일) */}
+          <div className="relative pl-3 mb-2 ml-2 mr-1">
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full ai-gradient-bg opacity-50" />
+            <p className="text-[14px] text-gray-600 leading-[1.4] font-medium">
+              {parseMarkdownBold(product.recommendationReason)}
+            </p>
           </div>
         </div>
       )}
+
+      {/* 버튼 그룹 */}
+      <div className="mt-4 flex gap-2 px-1">
+        {/* 리뷰 보기 버튼 */}
+        <a
+          href={`https://prod.danawa.com/info/?pcode=${product.pcode}#bookmark_cm_opinion`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          className="flex-1 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
+        >
+          리뷰 보기
+        </a>
+        {/* 최저가 구매하기 버튼 */}
+        <a
+          href={`https://prod.danawa.com/info/?pcode=${product.pcode}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          className="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl transition-colors flex items-center justify-center gap-1 bg-black hover:bg-gray-900"
+        >
+          구매하기 (다나와)
+        </a>
+      </div>
     </motion.div>
   );
 }

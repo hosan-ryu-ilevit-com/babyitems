@@ -159,9 +159,9 @@ export default function KnowledgeAgentLanding() {
                     }}
                     onKeyDown={handleKeyDown}
                     placeholder={`구매하고 싶은 상품을 입력하세요\n(예: 분유포트, 기저귀, 가습기...)`}
-                    className="flex-1 bg-transparent text-[16px] font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none resize-none min-h-[54px] max-h-[140px] leading-relaxed py-0.5"
+                    className="flex-1 bg-transparent text-[16px] font-semibold text-gray-800 placeholder:text-gray-300 placeholder:font-medium focus:outline-none resize-none min-h-[54px] max-h-[140px] leading-relaxed py-0.5"
                     disabled={isProcessing}
-                    rows={2}
+                    rows={1}
                   />
                 </div>
 
@@ -173,7 +173,7 @@ export default function KnowledgeAgentLanding() {
                     onClick={() => handleSearch()}
                     disabled={!inputValue.trim() || isProcessing}
                     className={`h-12 px-6 rounded-2xl font-black text-[14px] flex items-center gap-2.5 transition-all ${
-                      inputValue.trim() ? 'bg-gray-900 text-white shadow-xl shadow-gray-200' : 'bg-gray-50 text-gray-300'
+                      inputValue.trim() ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-300'
                     } disabled:opacity-50`}
                   >
                     {isProcessing ? (
