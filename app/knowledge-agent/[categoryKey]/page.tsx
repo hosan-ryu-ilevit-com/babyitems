@@ -36,7 +36,18 @@ import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
 import {
   logV2ReRecommendModalOpened,
   logV2ReRecommendSameCategory,
-  logV2ReRecommendDifferentCategory
+  logV2ReRecommendDifferentCategory,
+  logKAPageView,
+  logKALoadingPhaseStarted,
+  logKALoadingPhaseCompleted,
+  logKAQuestionAnswered,
+  logKAQuestionSkipped,
+  logKAChatMessage,
+  logKAProductModalOpened,
+  logKAExternalLinkClicked,
+  logKAFavoriteToggled,
+  logKAComparisonViewed,
+  logKAComparisonChatMessage
 } from '@/lib/logging/clientLogger';
 
 // ============================================================================
@@ -756,6 +767,7 @@ export default function KnowledgeAgentPage() {
   const [modalInitialTab, setModalInitialTab] = useState<'price' | 'danawa_reviews'>('price');
 
   const handleProductClick = (product: any, tab: 'price' | 'danawa_reviews' = 'price') => {
+    logKAProductModalOpened(categoryKey, product.pcode, product.title);
     setModalInitialTab(tab);
     setSelectedProduct(product);
   };
@@ -905,6 +917,7 @@ export default function KnowledgeAgentPage() {
   useEffect(() => {
     if (isInitializedRef.current) return;
     isInitializedRef.current = true;
+    logKAPageView(`ka-agent-${categoryName}`);
     initializeAgent();
   }, [categoryKey]);
 
@@ -1019,6 +1032,13 @@ export default function KnowledgeAgentPage() {
     }
 
     const updateStepAndMessage = (stepId: string, updates: Partial<AnalysisStep>) => {
+      const prevStep = localSteps.find(s => s.id === stepId);
+      if (updates.status === 'active' && prevStep?.status !== 'active') {
+        logKALoadingPhaseStarted(categoryKey, stepId);
+      } else if (updates.status === 'done' && prevStep?.status !== 'done') {
+        logKALoadingPhaseCompleted(categoryKey, stepId, updates.endTime ? updates.endTime - (prevStep?.startTime || updates.endTime) : undefined);
+      }
+
       localSteps = localSteps.map(s => s.id === stepId ? { ...s, ...updates } : s);
       setAnalysisSteps([...localSteps]);
 
@@ -2381,7 +2401,10 @@ export default function KnowledgeAgentPage() {
     // 현재 활성화된 질문 찾기 및 확정 처리
     const activeMsg = [...messages].reverse().find(m => m.role === 'assistant' && m.options && !m.isFinalized);
     if (activeMsg) {
+      logKAQuestionAnswered(categoryKey, activeMsg.content, message);
       setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
+    } else {
+      logKAChatMessage(categoryKey, message, ''); // AI 응답은 나중에 업데이트되거나 stream 완료 시 로깅
     }
 
     const newMsgId = `u_${Date.now()}`;
@@ -2437,6 +2460,10 @@ export default function KnowledgeAgentPage() {
         setResultProducts(resultProducts);
         setPhase('result');
         const chatResultMsgId = `a_result_${Date.now()}`;
+        
+        // 결과 채팅 응답 로깅
+        logKAChatMessage(categoryKey, '', data.content);
+
         setMessages(prev => [...prev, {
           id: chatResultMsgId,
           role: 'assistant',
@@ -2448,6 +2475,9 @@ export default function KnowledgeAgentPage() {
         // 결과 메시지로 스크롤
         scrollToMessage(chatResultMsgId, 200);
       } else {
+        // 일반 AI 응답 로깅
+        logKAChatMessage(categoryKey, '', data.content);
+
         setMessages(prev => [...prev, {
           id: `a_${Date.now()}`,
           role: 'assistant',

@@ -1780,3 +1780,138 @@ export function logV2BudgetRestrictClicked(
     },
   });
 }
+
+// ============================================
+// Knowledge Agent (KA) Logging Functions
+// ============================================
+
+export function logKAPageView(page: string = 'ka-landing'): void {
+  sendLogEvent('ka_page_view', { page });
+}
+
+export function logKAMainCategorySelected(category: string): void {
+  sendLogEvent('ka_main_category_selected', {
+    page: 'ka-landing',
+    buttonLabel: `메인 카테고리: ${category}`,
+    metadata: { category }
+  });
+}
+
+export function logKASubCategorySelected(subCategory: string | null): void {
+  sendLogEvent('ka_sub_category_selected', {
+    page: 'ka-landing',
+    buttonLabel: subCategory ? `서브 카테고리: ${subCategory}` : '모두보기',
+    metadata: { subCategory }
+  });
+}
+
+export function logKACategoryButtonClicked(child: string): void {
+  sendLogEvent('ka_category_button_clicked', {
+    page: 'ka-landing',
+    buttonLabel: `카테고리 선택: ${child}`,
+    metadata: { child }
+  });
+}
+
+export function logKAKeywordExtractionRequested(userInput: string, extractedKeyword: string): void {
+  sendLogEvent('ka_keyword_extraction_requested', {
+    page: 'ka-landing',
+    userInput,
+    metadata: { extractedKeyword }
+  });
+}
+
+export function logKASearchConfirmed(keyword: string): void {
+  sendLogEvent('ka_search_confirmed', {
+    page: 'ka-landing',
+    buttonLabel: '분석 시작',
+    metadata: { keyword }
+  });
+}
+
+export function logKASearchCancelled(keyword: string): void {
+  sendLogEvent('ka_search_cancelled', {
+    page: 'ka-landing',
+    buttonLabel: '취소',
+    metadata: { keyword }
+  });
+}
+
+export function logKALoadingPhaseStarted(categoryKey: string, phase: string): void {
+  sendLogEvent('ka_loading_phase_started', {
+    page: 'ka-loading',
+    metadata: { categoryKey, phase }
+  });
+}
+
+export function logKALoadingPhaseCompleted(categoryKey: string, phase: string, durationMs?: number): void {
+  sendLogEvent('ka_loading_phase_completed', {
+    page: 'ka-loading',
+    metadata: { categoryKey, phase, durationMs }
+  });
+}
+
+export function logKAQuestionAnswered(categoryKey: string, question: string, answer: string): void {
+  sendLogEvent('ka_question_answered', {
+    page: 'ka-question',
+    buttonLabel: `답변: ${answer}`,
+    userInput: answer,
+    metadata: { categoryKey, question, answer }
+  });
+}
+
+export function logKAQuestionSkipped(categoryKey: string, question: string): void {
+  sendLogEvent('ka_question_skipped', {
+    page: 'ka-question',
+    buttonLabel: '건너뛰기',
+    metadata: { categoryKey, question }
+  });
+}
+
+export function logKAChatMessage(categoryKey: string, userMessage: string, aiResponse: string): void {
+  sendLogEvent('ka_chat_message', {
+    page: 'ka-result',
+    userInput: userMessage,
+    aiResponse,
+    metadata: { categoryKey }
+  });
+}
+
+export function logKAProductModalOpened(categoryKey: string, pcode: string, title: string): void {
+  sendLogEvent('ka_product_modal_opened', {
+    page: 'ka-result',
+    metadata: { categoryKey, pcode, title }
+  });
+}
+
+export function logKAExternalLinkClicked(categoryKey: string, pcode: string, title: string, mall: string, url: string): void {
+  sendLogEvent('ka_external_link_clicked', {
+    page: 'ka-result',
+    buttonLabel: `외부 링크 클릭: ${mall}`,
+    metadata: { categoryKey, pcode, title, mall, url }
+  });
+}
+
+export function logKAFavoriteToggled(categoryKey: string, pcode: string, title: string, isFavorite: boolean): void {
+  sendLogEvent('ka_favorite_toggled', {
+    page: 'ka-result',
+    buttonLabel: isFavorite ? '찜하기' : '찜 해제',
+    metadata: { categoryKey, pcode, title, isFavorite }
+  });
+}
+
+export function logKAComparisonViewed(categoryKey: string, productIds: string[]): void {
+  sendLogEvent('ka_comparison_viewed', {
+    page: 'ka-result',
+    metadata: { categoryKey, productIds }
+  });
+}
+
+export function logKAComparisonChatMessage(categoryKey: string, userMessage: string, aiResponse: string): void {
+  sendLogEvent('ka_comparison_chat_message', {
+    page: 'ka-result',
+    userInput: userMessage,
+    aiResponse,
+    metadata: { categoryKey }
+  });
+}

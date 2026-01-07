@@ -77,7 +77,25 @@ export type LogEventType =
   | 'result_chat_message' // 결과 페이지 채팅 메시지 (사용자 + AI 응답)
   | 'result_chat_full_history' // 결과 페이지 채팅 전체 대화 내역
   // 예산 관련 추가 이벤트
-  | 'v2_budget_restrict_clicked'; // 정확한 예산 범위로 추천받기 클릭
+  | 'v2_budget_restrict_clicked' // 정확한 예산 범위로 추천받기 클릭
+  // Knowledge Agent (KA) events
+  | 'ka_page_view'
+  | 'ka_main_category_selected'
+  | 'ka_sub_category_selected'
+  | 'ka_category_button_clicked'
+  | 'ka_keyword_extraction_requested'
+  | 'ka_search_confirmed'
+  | 'ka_search_cancelled'
+  | 'ka_loading_phase_started'
+  | 'ka_loading_phase_completed'
+  | 'ka_question_answered'
+  | 'ka_question_skipped'
+  | 'ka_chat_message'
+  | 'ka_product_modal_opened'
+  | 'ka_external_link_clicked'
+  | 'ka_favorite_toggled'
+  | 'ka_comparison_viewed'
+  | 'ka_comparison_chat_message';
 
 export interface LogEvent {
   sessionId: string;

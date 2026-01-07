@@ -1,9 +1,18 @@
 'use client';
 
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MagnifyingGlass, X, ArrowRight, CaretLeft } from '@phosphor-icons/react';
+import { 
+  logKAPageView, 
+  logKAMainCategorySelected, 
+  logKASubCategorySelected, 
+  logKACategoryButtonClicked, 
+  logKAKeywordExtractionRequested, 
+  logKASearchConfirmed, 
+  logKASearchCancelled 
+} from '@/lib/logging/clientLogger';
 
 // --- Data Configuration ---
 
@@ -206,6 +215,10 @@ export default function KnowledgeAgentLanding() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [extractedKeyword, setExtractedKeyword] = useState('');
 
+  useEffect(() => {
+    logKAPageView();
+  }, []);
+
   const displayCategories = useMemo(() => {
     if (selectedSubCategory === null) {
       return Object.entries(CATEGORIES_DATA[selectedMainCategory]);
@@ -215,6 +228,7 @@ export default function KnowledgeAgentLanding() {
   }, [selectedMainCategory, selectedSubCategory]);
 
   const handleMainCategoryChange = (category: string) => {
+    logKAMainCategorySelected(category);
     setSelectedMainCategory(category);
     setSelectedSubCategory(null);
   };
@@ -225,6 +239,7 @@ export default function KnowledgeAgentLanding() {
 
     // 카테고리 버튼 클릭 시에는 이미 키워드가 명확하므로 별도 추출 없이 바로 모달 오픈
     if (query) {
+      logKACategoryButtonClicked(query);
       setActiveSearchItem(query);
       setExtractedKeyword(query);
       setShowConfirmModal(true);
@@ -240,10 +255,13 @@ export default function KnowledgeAgentLanding() {
         body: JSON.stringify({ userInput: searchQuery })
       });
       const data = await res.json();
-      setExtractedKeyword(data.success && data.keyword ? data.keyword : searchQuery);
+      const finalKeyword = data.success && data.keyword ? data.keyword : searchQuery;
+      logKAKeywordExtractionRequested(searchQuery, finalKeyword);
+      setExtractedKeyword(finalKeyword);
       setShowConfirmModal(true);
     } catch (error) {
       console.error('[Landing] Search failed:', error);
+      logKAKeywordExtractionRequested(searchQuery, searchQuery);
       setExtractedKeyword(searchQuery);
       setShowConfirmModal(true);
     } finally {
@@ -253,11 +271,13 @@ export default function KnowledgeAgentLanding() {
 
   const handleConfirmSearch = () => {
     if (!extractedKeyword) return;
+    logKASearchConfirmed(extractedKeyword);
     setIsProcessing(true);
     router.push(`/knowledge-agent/${encodeURIComponent(extractedKeyword)}`);
   };
 
   const handleCancelSearch = () => {
+    logKASearchCancelled(extractedKeyword);
     setShowConfirmModal(false);
     setExtractedKeyword('');
     setActiveSearchItem(null);
@@ -332,7 +352,10 @@ export default function KnowledgeAgentLanding() {
         {/* Sub Tabs - Natural Wrapping */}
         <div className="flex flex-wrap px-5 py-2 gap-2 mb-4">
           <button
-            onClick={() => setSelectedSubCategory(null)}
+            onClick={() => {
+              logKASubCategorySelected(null);
+              setSelectedSubCategory(null);
+            }}
             className={`shrink-0 px-4 py-2 rounded-full text-[13px] font-bold transition-all border ${
               selectedSubCategory === null 
                 ? 'bg-gray-900 text-white border-gray-900' 
@@ -344,7 +367,10 @@ export default function KnowledgeAgentLanding() {
           {subCategories.map((sub) => (
             <button
               key={sub}
-              onClick={() => setSelectedSubCategory(sub)}
+              onClick={() => {
+                logKASubCategorySelected(sub);
+                setSelectedSubCategory(sub);
+              }}
               className={`shrink-0 px-4 py-2 rounded-full text-[13px] font-bold transition-all border whitespace-nowrap ${
                 selectedSubCategory === sub 
                   ? 'bg-gray-900 text-white border-gray-900' 
