@@ -191,11 +191,7 @@ export function HardcutVisualization({
                     transition={{ delay: 0.2 }}
                     className="space-y-3"
                   >
-                    <div className="flex items-center justify-between">
-                      <p className="text-[11px] uppercase tracking-widest text-gray-400 font-bold">
-                        선별된 후보 ({filteredProducts.length}개)
-                      </p>
-                    </div>
+                  
                     
                     <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
                       {filteredProducts.slice(0, 15).map((product, i) => (

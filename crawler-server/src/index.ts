@@ -563,7 +563,7 @@ async function extractPricesFromPage(page: Page): Promise<{
 
   try {
     // 스크롤하여 가격 영역 로딩
-    await page.evaluate(() => window.scrollTo(0, 500));
+    await page.evaluate(() => scrollTo(0, 500));
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // 가격비교 탭 클릭 시도
@@ -583,7 +583,7 @@ async function extractPricesFromPage(page: Page): Promise<{
 
     // 가격 영역 로딩 대기
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.evaluate(() => window.scrollTo(0, 800));
+    await page.evaluate(() => scrollTo(0, 800));
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // HTML 파싱
