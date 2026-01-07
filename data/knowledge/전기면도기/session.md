@@ -1,14 +1,14 @@
-# 세션: 20260107_130502_80ut
-> 시작: 2026-01-07T13:05:02.433Z
+# 세션: 20260107_130909_tgrc
+> 시작: 2026-01-07T13:09:09.585Z
 > 카테고리키: 전기면도기
 > 카테고리: 전기면도기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 전기면도기
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0TiDtVB28Ir_S_QCRl0cplDeZXoYfkEoqf8_1XP9_6Lpnecrw24ySn60R5SfjFDihE5xNtvh6jbcnEsn0eRjfYxp-kfuPQvaxF2vWiCghUAxzKAPpzue-YnzQvv80Pi3_qJUQeunK8EmISO1EHKFGzQhgD-39xzITE4xuXDuIJXc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHr2savEhlAGGr-kSB4gBzZm8k41ewSMIRVv83DtZFwuaOvQNDT877ESuouUImGvR91ztTThR6_3eu5MEcVRMrKnaUYo-dPgfT6mEv6AZAmpGqwLiIb-Xg2c4dLIKp6DorgiEs1g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUN_Vyrwmfl8UlTco8WI14drlw_kDg4_w1FwreynjsGCPGCmXYdZJGyZ8wR0GezAAkURHBnhTOaMELtSWcYfo-980jaKmKNaiuhpwkER1-Y7l24OpOeUpjSjkXCaXRo0v0an08oQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8tidBImBxdHY9fmenW8C6Wb6UtvS5Ni49Do1Zr8Z8ExmWUEjrEMTaq2w3ESsO5ijP8d9BDZnd3XDfAPle8fDlFu74fDhD5NtPu3kH2JmCWx22tdnx-EyniBH5gdXxwSVGBv00Og==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuOvVNXY0E5fCyQ-0uVcfXIVhs9bhgDtNgz2KI1S4zMAYC1K86NcKVcuoOpdlvLvTeujzvcDd7c-y2ogTRUA6qSQn0hR7T0f9EcRds73ZeW67ASEx8sTOVEgSn4HMNb8Mhyz_t
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0TiDtVB28Ir_S_QCRl0cplDeZXoYfkEoqf8_1XP9_6Lpnecrw24ySn60R5SfjFDihE5xNtvh6jbcnEsn0eRjfYxp-kfuPQvaxF2vWiCghUAxzKAPpzue-YnzQvv80Pi3_qJUQeunK8EmISO1EHKFGzQhgD-39xzITE4xuXDuIJXc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHr2savEhlAGGr-kSB4gBzZm8k41ewSMIRVv83DtZFwuaOvQNDT877ESuouUImGvR91ztTThR6_3eu5MEcVRMrKnaUYo-dPgfT6mEv6AZAmpGqwLiIb-Xg2c4dLIKp6DorgiEs1g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUN_Vyrwmfl8UlTco8WI14drlw_kDg4_w1FwreynjsGCPGCmXYdZJGyZ8wR0GezAAkURHBnhTOaMELtSWcYfo-980jaKmKNaiuhpwkER1-Y7l24OpOeUpjSjkXCaXRo0v0an08oQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8tidBImBxdHY9fmenW8C6Wb6UtvS5Ni49Do1Zr8Z8ExmWUEjrEMTaq2w3ESsO5ijP8d9BDZnd3XDfAPle8fDlFu74fDhD5NtPu3kH2JmCWx22tdnx-EyniBH5gdXxwSVGBv00Og==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuOvVNXY0E5fCyQ-0uVcfXIVhs9bhgDtNgz2KI1S4zMAYC1K86NcKVcuoOpdlvLvTeujzvcDd7c-y2ogTRUA6qSQn0hR7T0f9EcRds73ZeW67ASEx8sTOVEgSn4HMNb8Mhyz_t
+- 쿼리: 전기면도기 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재 전기면도기 시장은 브라운, 필립스, 파나소닉 등 주요 브랜드들이 경쟁을 주도하고 있으며, 기술 혁신과 소비자 편의성을 강조하는 제품들이 인기를 얻고 있습니다. 특히, AI 피부 센서, 저자극 면도, 빠른 충전 및 긴 배터리 시간 등이 주요 트렌드로 부상하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzZQb4TXckFGEzjzseqsjmZL0RjKak8Es7ipzbudoEdZQixPY-J6UfOI7yrysI6PT2AO1GwC0sHCq9hXI5mDyCkXQ_1oThRZbKZSxrkJ1sag-LP2-LNRVoLCYO3sEgTn07dBQQCoYDnywhny9fGSjxAzvz7ES2n4m7pmq6N_fy7E9ISUCNGuJKfV70Wfkv9itk_1t-5pzud2Y37kGCnRdvDhrqHnsx45d-QtTaaTdTzn-Sjl5qEBc_Iu7rMwWlFeozGXoYCquNv_WtNSRHxDAxnmvq9-IfmGfwzeqORek7fbjJiWj-HVtiqzktmM60iogQ0gq1xP-mBj2iGSdxJGnLtftkKsse8EFkWHa-e2Tft_Hxt6N7hw6bNDuq08euhBjceJ0fxOXCdZiryB43RTQ1M-UHIDUVWymukO2bVrmxHvMR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnseY2vSWY__tTW8tNC2kfS6lSW6i1wZWKH_L--7zWbx_jRsshWBK7XlxMAbtIL-QfVkwe1PgMcRL693-BwEwJ1vuh2rDWShh2rRueywrMLhTmj2Dn-2Tg0oqMAmuHVoTvUlGmM0fcIG8Ink78HESLqHqLBcfvRm8RQC70ML6BI8tWl9N7RvQHV2WLHUauMDiTczRyPw4U20AOzoiMtSfNMWkMxs_a49DwgjMNqJTgdQmHp87zB6szgzf2ovg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyDigz9U4URAbK6gb1zL_vyrzI-PAwhX_7qAeToGqy6OZ8LQURAotiShKYqfDwjUdwvn31g5vXYG3-eVS9MXlInYWhOtUBQ099sjkBct-scV4jhpx4zIez3bNIg1_ALiFsLH4-yd0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHgFXFKK9LP5Y0SlZFopY7x7ZuSp59-xY5ELYp9R4Vw6p0RCtFNlshDz5rET5DC0R4zZeRvs5nuYjHP21RZFPLmBv5hyqR8QzTqnNb8CiMrsIABUuTteEV1xrHto8xdTCTYwQAQvKE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5oeTicEE_iSps-EuIWarK4ij5uGt1SmFNv3M9BT94yj2Itqx-Gx7U5gUb-NlAyBzOs5Pj2WB6UZZSrWvi9OByvV8qsaYZkBpfM_bee77gucdU6Oj_tZcWVXmfsNt3dvepWR1lk9s=
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| shaving_type | 상관없어요 |
-| features | 1. "물 사용 (건식/습식)" |
+| shaving_type | 건식 면도 |
+| skin_sensitivity | 약간 예민함 |
 | budget | 12만원 이하 |
-| __avoid_negatives__ | 청소 및 관리 |
+| __avoid_negatives__ | 2. 충전 속도,3. 세척 및 관리 |
 
 ---
 
@@ -59,7 +59,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 청소 및 관리
+- 2. 충전 속도
+- 3. 세척 및 관리
 
 ---
 
