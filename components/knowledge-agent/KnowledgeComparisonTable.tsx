@@ -293,7 +293,7 @@ export function KnowledgeComparisonTable({
                     )}
                   </div>
                 </td>
-                <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-blue-400 bg-blue-50/30">
+                <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-gray-400 bg-gray-50/50">
                   장점
                 </td>
                 <td className="py-4 px-3 align-top text-center bg-[#E6FAD2]/30">
@@ -328,7 +328,7 @@ export function KnowledgeComparisonTable({
                     )}
                   </div>
                 </td>
-                <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-red-400 bg-red-50/30">
+                <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-gray-400 bg-gray-50/50">
                   단점
                 </td>
                 <td className="py-4 px-3 align-top text-center bg-[#FFEDEE]/30">

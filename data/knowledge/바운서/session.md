@@ -7,7 +7,7 @@
 
 ### Init 단계
 - 쿼리: 바운서
-- 인사이트: 
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrqxUIjxghCBMq8-5-fpjUV-fZ-TNLzNOCLWHpIse1y-nsZC_P0UNHTG7fgZJPKFDNVFNqrCW4G4uEXNrk9ZBxWJI57KLQmMOwm_3VHLio9_KGMqIvwzdXP5wJwsU_NjPfqt7o_mFObw-hIa4f5AXZGXbT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHj08ndvFPlNoaRG41FOkVESDluiRsdQZWJviJQcYkhkqnJCnQkz93QpLIKiQ7QOQP3bushvtxPQ0g_gd0Q-AVvsWz3XalE0jFFES-KAO2KfQ9pNK3OtKoU9P-i-ic1oleJdmq1plegru251xQ3ZVzIOqsV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHieIV4pDNU-zdIwVno9N7mYLDJt01EnMdnHIL5vyUWjKF2w1j2ydv6NjBNKrjdpxH8daonz4EoUgSzvIyl5G-psMwhj-0n89bEGuyRYapCj7ICVnWRAnqHwDly3wYOJ17nthk8A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFh5BFgDkhSUTSYbsbTlFiFgOHqlnL5rmzJ8_06qiFjUSwsvfezS-OAbdzy_qO7TIpdtHKHcSGtMZO3DcK4wZTBH_dE09jA2ZV63Qey6QHDMXgAYwxjy43e_O3-d1H0a2aidtrcXg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9YG9dTWAwf73IlvvCQynpYgz2j0B1An_vhFXaIvqHhoOJ8K5oPURLhvXgpXmIovjZPCp_g_DB_ZbEbkOD4HayUSH7Zk6OEt3Kku6dy8ayPyyodbhX9bzrLtFhHbfrhkYwxhlSfw==
 - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrqxUIjxghCBMq8-5-fpjUV-fZ-TNLzNOCLWHpIse1y-nsZC_P0UNHTG7fgZJPKFDNVFNqrCW4G4uEXNrk9ZBxWJI57KLQmMOwm_3VHLio9_KGMqIvwzdXP5wJwsU_NjPfqt7o_mFObw-hIa4f5AXZGXbT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHj08ndvFPlNoaRG41FOkVESDluiRsdQZWJviJQcYkhkqnJCnQkz93QpLIKiQ7QOQP3bushvtxPQ0g_gd0Q-AVvsWz3XalE0jFFES-KAO2KfQ9pNK3OtKoU9P-i-ic1oleJdmq1plegru251xQ3ZVzIOqsV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHieIV4pDNU-zdIwVno9N7mYLDJt01EnMdnHIL5vyUWjKF2w1j2ydv6NjBNKrjdpxH8daonz4EoUgSzvIyl5G-psMwhj-0n89bEGuyRYapCj7ICVnWRAnqHwDly3wYOJ17nthk8A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFh5BFgDkhSUTSYbsbTlFiFgOHqlnL5rmzJ8_06qiFjUSwsvfezS-OAbdzy_qO7TIpdtHKHcSGtMZO3DcK4wZTBH_dE09jA2ZV63Qey6QHDMXgAYwxjy43e_O3-d1H0a2aidtrcXg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9YG9dTWAwf73IlvvCQynpYgz2j0B1An_vhFXaIvqHhoOJ8K5oPURLhvXgpXmIovjZPCp_g_DB_ZbEbkOD4HayUSH7Zk6OEt3Kku6dy8ayPyyodbhX9bzrLtFhHbfrhkYwxhlSfw==
 
 ---
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| baby_age_weight | 신생아 (0-3개월) |
+| power_source | 수동 (아기 또는 보호자 조작) |
+| material_type | 패브릭 (부드러움), 메쉬 (통기성) |
+| additional_features | 휴대 및 보관 용이 |
+| budget | 5만~13만원대 |
 
 ---
 

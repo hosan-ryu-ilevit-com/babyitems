@@ -267,23 +267,11 @@ export default function KnowledgeAgentLanding() {
       />
 
       <div className="max-w-[480px] mx-auto min-h-screen bg-[#F8F8FA] flex flex-col">
-        {/* Header */}
-        <header className="sticky top-0 z-50 bg-[#F8F8FA]/80 backdrop-blur-md border-b border-gray-100 h-[54px] flex items-center px-5">
-          <button onClick={() => router.push('/categories')} className="p-1 -ml-1 text-gray-500 hover:text-gray-900 transition-colors">
-            <CaretLeft size={24} weight="bold" />
-          </button>
-          <div className="absolute left-1/2 -translate-x-1/2">
-            <h1 className="text-[17px] font-bold text-gray-900 tracking-tight whitespace-nowrap">
-              AI 구매 비서
-            </h1>
-          </div>
-          <div className="w-6" />
-        </header>
-
+      
         {/* Hero & Search Section */}
         <div className="px-5 pt-8 pb-6">
           <div className="mb-8">
-            <h2 className="text-[24px] font-bold text-gray-900 mb-1 tracking-tight leading-tight">💬 어떤 상품을 구매하시나요?</h2>
+            <h2 className="text-[24px] font-bold text-gray-900 mb-1 tracking-tight leading-tight">🛍️ 어떤 상품을 구매하시나요?</h2>
             <p className="text-[15px] text-gray-400 font-medium">AI가 제품을 비교분석하고 딱 맞는 제품을 추천해요</p>
           </div>
 
@@ -296,8 +284,8 @@ export default function KnowledgeAgentLanding() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearchRequest()}
-                  placeholder="찾으시는 상품 카테고리를 입력해주세요"
-                  className="flex-1 bg-transparent py-3 px-3 text-[16px] font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none"
+                  placeholder="아래에서 고르거나, 여기에 직접 입력해서 시작하기"
+                  className="flex-1 bg-transparent py-3 px-3 text-[16px] font-semibold text-gray-800 placeholder:text-gray-400 focus:outline-none"
                   disabled={isProcessing}
                 />
                 <button

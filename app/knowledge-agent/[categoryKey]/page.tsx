@@ -43,7 +43,7 @@ import {
 // Types
 // ============================================================================
 
-type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' | 'negative_filter' | 'result' | 'free_chat';
+type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' | 'negative_filter' | 'final_input' | 'result' | 'free_chat';
 
 // ============================================================================
 // Step Indicator Component (4단계 진행 표시 - recommend-v2 스타일)
@@ -52,7 +52,7 @@ type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' |
 const STEPS = [
   { id: 1, label: '트렌드 분석', phases: ['loading'] },
   { id: 2, label: '맞춤 질문', phases: ['questions', 'report'] },
-  { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'balance', 'negative_filter'] },
+  { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'balance', 'negative_filter', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
 ];
 
@@ -788,6 +788,7 @@ export default function KnowledgeAgentPage() {
     additionalPros: Array<{ text: string; citations: number[] }>;
     cons: Array<{ text: string; citations: number[] }>;
   }>>({});
+  const [isProductAnalysisLoading, setIsProductAnalysisLoading] = useState(false); // PDP 분석 로딩 상태
   const [v2FlowEnabled] = useState(true); // V2 플로우 활성화 여부
   const [v2FlowStarted, setV2FlowStarted] = useState(false); // V2 플로우 시작 여부
   const [savedBalanceSelections, setSavedBalanceSelections] = useState<any[]>([]); // 밸런스 선택 저장
@@ -957,13 +958,6 @@ export default function KnowledgeAgentPage() {
     prevMessagesLengthRef.current = messages.length;
   }, [messages, scrollToMessage]);
 
-  // phase 변경 시 해당 컴포넌트로 스크롤
-  useEffect(() => {
-    if (phase === 'balance' && balanceQuestions.length > 0) {
-      // 밸런스 게임 컴포넌트로 스크롤
-      scrollToMessage('balance-game-carousel', 250);
-    }
-  }, [phase, balanceQuestions.length, scrollToMessage]);
 
   // 입력창 높이 자동 조절 및 하이라이트 리셋
   useEffect(() => {
@@ -1448,75 +1442,8 @@ export default function KnowledgeAgentPage() {
         // 하드컷 시각화 컴포넌트로 스크롤
         scrollToMessage('hardcut-visual', 300);
 
-        // 4. 밸런스/단점 질문 생성 (하드컷팅된 15개 상품 기반 + 웹서치 context)
-        // ⚠️ 리뷰 크롤링은 Top 3 선정 후에 3개만 대상으로 진행 (더 효율적)
-        // ⚠️ 리뷰 크롤링 완료 전이므로 스펙 + 웹서치 context 기반으로 생성
-        try {
-          const dynamicQRes = await fetch('/api/knowledge-agent/generate-dynamic-questions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              categoryName,
-              hardcutProducts: hardCutData.filteredProducts,
-              collectedInfo,
-              webSearchContext, // 리뷰 대신 웹서치 context 전달
-            }),
-          });
-          const dynamicQData = await dynamicQRes.json();
-          if (dynamicQData.success) {
-            // 중복 방지를 위한 이전 선택 키워드 추출
-            const previousKeywords = Object.values(collectedInfo)
-              .flatMap((v: string) => v.split(/[,\s]+/).map(s => s.trim().toLowerCase()))
-              .filter(k => k.length > 1);
-
-            // 밸런스 질문 필터링 (이전 선택과 겹치는 것 제거, 최소 1개 유지)
-            let filteredBalance = dynamicQData.balanceQuestions || [];
-            const originalBalance = [...filteredBalance];
-            if (filteredBalance.length > 0 && previousKeywords.length > 0) {
-              filteredBalance = filteredBalance.filter((q: any) => {
-                const optAText = (q.option_A?.text || '').toLowerCase();
-                const optBText = (q.option_B?.text || '').toLowerCase();
-                // 둘 다 이전 키워드와 겹치면 제외
-                const aOverlap = previousKeywords.some(k => optAText.includes(k));
-                const bOverlap = previousKeywords.some(k => optBText.includes(k));
-                if (aOverlap && bOverlap) {
-                  console.log(`[V2 Flow] Filtered duplicate balance: ${q.title}`);
-                  return false;
-                }
-                return true;
-              });
-              // 모든 질문이 필터링되면 원본 첫 번째 질문 유지
-              if (filteredBalance.length === 0 && originalBalance.length > 0) {
-                filteredBalance = [originalBalance[0]];
-                console.log(`[V2 Flow] All balance questions filtered, keeping first one: ${originalBalance[0].title}`);
-              }
-            }
-            if (filteredBalance.length > 0) {
-              setBalanceQuestions(filteredBalance);
-              console.log(`[V2 Flow] Generated ${filteredBalance.length} balance questions from hardcut products`);
-            }
-
-            // 단점 옵션 필터링 (이전 선택과 겹치는 것 제거)
-            let filteredNegative = dynamicQData.negativeOptions || [];
-            if (filteredNegative.length > 0 && previousKeywords.length > 0) {
-              filteredNegative = filteredNegative.filter((n: any) => {
-                const label = (n.label || '').toLowerCase();
-                const overlap = previousKeywords.some(k => label.includes(k));
-                if (overlap) {
-                  console.log(`[V2 Flow] Filtered duplicate negative: ${n.label}`);
-                  return false;
-                }
-                return true;
-              });
-            }
-            if (filteredNegative.length > 0) {
-              setNegativeOptions(filteredNegative);
-              console.log(`[V2 Flow] Generated ${filteredNegative.length} negative options from hardcut products`);
-            }
-          }
-        } catch (error) {
-          console.error('[V2 Flow] Generate dynamic questions error:', error);
-        }
+        // ✅ 밸런스 게임 제거 - 단점 질문은 맞춤 질문에 이미 포함됨 (init에서 생성)
+        // 하드컷팅 후 바로 결과 단계로 진행
       }
 
     } catch (error) {
@@ -1622,53 +1549,52 @@ export default function KnowledgeAgentPage() {
   };
 
   /**
-   * 하드컷팅 시각화에서 '계속' 클릭 시 밸런스/단점/결과 단계로 전환
-   * - 밸런스 질문이 있으면 → 밸런스 단계
-   * - 밸런스 없고 단점 옵션 있으면 → 단점 필터 단계
-   * - 둘 다 없으면 → 바로 결과 단계
+   * 하드컷팅 시각화에서 '계속' 클릭 시 자연어 입력 단계로 전환
+   * - 마지막으로 추가하고 싶은 조건 입력받기
    */
   const handleHardcutContinue = async () => {
-    // 1. 밸런스 질문이 있으면 밸런스 단계로
-    if (balanceQuestions.length > 0) {
-      setPhase('balance');
-      const balanceMsgId = `a_balance_${Date.now()}`;
+    console.log('[V2 Flow] Moving to final input phase');
+    setPhase('final_input');
+    const finalInputMsgId = `a_final_input_${Date.now()}`;
+    setMessages(prev => [...prev, {
+      id: finalInputMsgId,
+      role: 'assistant',
+      content: '후보 상품이 추려졌어요! 🎯\n\n마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없으시면 바로 "추천받기" 버튼을 눌러주세요!',
+      typing: true,
+      timestamp: Date.now()
+    }]);
+    scrollToMessage(finalInputMsgId, 200);
+  };
+
+  // 자연어 입력 후 최종 추천으로 진행
+  const handleFinalInputSubmit = async (additionalCondition?: string) => {
+    console.log('[V2 Flow] Final input submitted:', additionalCondition || '(none)');
+    
+    // 추가 조건이 있으면 collectedInfo에 저장
+    if (additionalCondition && additionalCondition.trim()) {
+      const updatedInfo = { ...collectedInfo, __additional_condition__: additionalCondition.trim() };
+      setCollectedInfo(updatedInfo);
+      
+      // 사용자 메시지 추가
       setMessages(prev => [...prev, {
-        id: balanceMsgId,
-        role: 'assistant',
-        content: '이제 취향에 맞는 제품을 더 정확히 골라볼게요. 몇 가지 선택지 중에서 더 끌리는 쪽을 골라주세요!',
-        typing: true,
+        id: `u_final_${Date.now()}`,
+        role: 'user',
+        content: additionalCondition.trim(),
         timestamp: Date.now()
       }]);
-      // 밸런스 메시지로 스크롤
-      scrollToMessage(balanceMsgId, 200);
-      return;
     }
-
-    // 2. 밸런스 없고 단점 옵션이 있으면 단점 필터로
-    if (negativeOptions.length > 0) {
-      setPhase('negative_filter');
-      const negativeMsgId = `a_negative_${Date.now()}`;
-      setMessages(prev => [...prev, {
-        id: negativeMsgId,
-        role: 'assistant',
-        content: '꼭 피하고 싶은 단점이 있으신가요? (복수 선택 가능, 없으면 건너뛰기)',
-        negativeFilterOptions: negativeOptions,
-        typing: true,
-        timestamp: Date.now()
-      }]);
-      // 단점 필터 메시지로 스크롤
-      scrollToMessage(negativeMsgId, 200);
-      return;
-    }
-
-    // 3. 둘 다 없으면 바로 결과로
-    console.log('[V2 Flow] No balance/negative questions, going directly to result');
+    
     setIsTyping(true);
     
     try {
+      // 회피조건 추출
+      const avoidNegatives: string[] = Array.isArray(collectedInfo['__avoid_negatives__'])
+        ? collectedInfo['__avoid_negatives__']
+        : [];
+
       // 타임라인 UX와 실제 추천 생성을 병렬로 실행
-      const uxPromise = runFinalTimelineUX(hardCutProducts.length, [], []);
-      const apiPromise = handleV2FinalRecommend([], []);
+      const uxPromise = runFinalTimelineUX(hardCutProducts.length, [], avoidNegatives);
+      const apiPromise = handleV2FinalRecommend([], avoidNegatives);
       
       const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
 
@@ -1700,6 +1626,66 @@ export default function KnowledgeAgentPage() {
         }]);
         // 결과 메시지로 스크롤
         scrollToMessage(resultMsgId, 200);
+
+        // Product Analysis 비동기 호출 (PDP 모달용)
+        const fetchProductAnalysisForFinal = async () => {
+          setIsProductAnalysisLoading(true);
+          try {
+            console.log('[V2 Flow - FinalInput] Fetching product analysis for PDP...');
+            const analysisRes = await fetch('/api/knowledge-agent/product-analysis', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                categoryKey,
+                categoryName,
+                products: v2Recommendations.slice(0, 3).map((rec: any) => ({
+                  pcode: rec.pcode,
+                  name: rec.product?.name,
+                  brand: rec.product?.brand,
+                  price: rec.product?.price,
+                  specSummary: rec.product?.specSummary,
+                  recommendReason: rec.reason,
+                  highlights: rec.highlights,
+                  concerns: rec.concerns,
+                  reviews: [],
+                })),
+                userContext: {
+                  collectedInfo,
+                  balanceSelections: [],
+                  negativeSelections: avoidNegatives,
+                  conversationSummary: messages
+                    .filter((m: ChatMessage) => m.role === 'assistant' && m.content)
+                    .slice(-3)
+                    .map((m: ChatMessage) => m.content)
+                    .join(' ')
+                    .slice(0, 500),
+                },
+              }),
+            });
+
+            if (analysisRes.ok) {
+              const analysisData = await analysisRes.json();
+              if (analysisData.success && analysisData.data?.analyses) {
+                const newAnalyses: Record<string, any> = {};
+                analysisData.data.analyses.forEach((a: any) => {
+                  newAnalyses[String(a.pcode)] = {
+                    selectedConditionsEvaluation: a.selectedConditionsEvaluation || [],
+                    contextMatch: a.contextMatch,
+                    additionalPros: a.additionalPros || [],
+                    cons: a.cons || [],
+                  };
+                });
+                setProductAnalyses(prev => ({ ...prev, ...newAnalyses }));
+                console.log('[V2 Flow - FinalInput] Product analysis complete:', Object.keys(newAnalyses));
+              }
+            }
+          } catch (e) {
+            console.error('[V2 Flow - FinalInput] Product analysis failed:', e);
+          } finally {
+            setIsProductAnalysisLoading(false);
+          }
+        };
+        fetchProductAnalysisForFinal();
       }
     } finally {
       setIsTyping(false);
@@ -1959,6 +1945,7 @@ export default function KnowledgeAgentPage() {
           // Product Analysis 비동기 호출 (PDP 모달용 - 조건 충족도, 상황 적합성)
           // 결과 화면은 먼저 보여주고, 분석 데이터는 백그라운드에서 로딩
           const fetchProductAnalysis = async () => {
+            setIsProductAnalysisLoading(true);
             try {
               console.log('[V2 Flow] Fetching product analysis for PDP...');
               const analysisRes = await fetch('/api/knowledge-agent/product-analysis', {
@@ -1980,6 +1967,11 @@ export default function KnowledgeAgentPage() {
                   })),
                   userContext: {
                     collectedInfo,
+                    // questionTodos 추가 (질문 텍스트 복원용)
+                    questionTodos: questionTodos.map((q: QuestionTodo) => ({
+                      id: q.id,
+                      question: q.question,
+                    })),
                     balanceSelections: savedBalanceSelections.map((s: any) => ({
                       questionId: s.questionId,
                       selectedLabel: s.selectedLabel,
@@ -2013,6 +2005,8 @@ export default function KnowledgeAgentPage() {
               }
             } catch (e) {
               console.error('[V2 Flow] Product analysis failed:', e);
+            } finally {
+              setIsProductAnalysisLoading(false);
             }
           };
           // 비동기 실행 (await 없이)
@@ -2202,8 +2196,8 @@ export default function KnowledgeAgentPage() {
       if (data.progress) setProgress(data.progress);
       if (data.currentQuestion) setCurrentQuestion(data.currentQuestion);
 
-      if (data.phase === 'balance') {
-        setBalanceQuestions(data.balanceQuestions || []);
+      // ✅ 모든 맞춤 질문 완료 → 하드컷팅 플로우 시작
+      if (data.phase === 'complete') {
         if (v2FlowEnabled && !v2FlowStarted) {
           setV2FlowStarted(true);
           const processingMsgId = `a_processing_${Date.now()}`;
@@ -2217,32 +2211,7 @@ export default function KnowledgeAgentPage() {
           // 처리 중 메시지로 스크롤
           scrollToMessage(processingMsgId, 200);
           startV2Flow();
-        } else {
-          setPhase('balance');
-          const chatBalanceMsgId = `a_balance_${Date.now()}`;
-          setMessages(prev => [...prev, {
-            id: chatBalanceMsgId,
-            role: 'assistant',
-            content: data.content || '취향에 맞는 제품을 찾기 위해 몇 가지 선택을 해주세요.',
-            typing: true,
-            timestamp: Date.now()
-          }]);
-          // 밸런스 메시지로 스크롤
-          scrollToMessage(chatBalanceMsgId, 200);
         }
-      } else if (data.phase === 'negative_filter') {
-        setPhase('negative_filter');
-        const negativeMsgId = `a_negative_${Date.now()}`;
-        setMessages(prev => [...prev, {
-          id: negativeMsgId,
-          role: 'assistant',
-          content: data.content || '꼭 피하고 싶은 단점이 있으신가요?',
-          negativeFilterOptions: data.negativeOptions || [],
-          typing: true,
-          timestamp: Date.now()
-        }]);
-        // 단점 필터 메시지로 스크롤
-        scrollToMessage(negativeMsgId, 200);
       } else if (data.phase === 'result') {
         const resultProducts = (data.products || []).map((rec: any) => ({
           ...rec,
@@ -2367,22 +2336,6 @@ export default function KnowledgeAgentPage() {
               </motion.div>
             )}
 
-            {phase === 'balance' && balanceQuestions.length > 0 && !isTyping && (
-              <div data-message-id="balance-game-carousel" className="scroll-mt-[52px]">
-                <BalanceGameCarousel
-                  questions={balanceQuestions as V2BalanceQuestion[]}
-                  onComplete={handleBalanceComplete}
-                  onStateChange={(state) => {
-                    setBalanceAllAnswered(state.allAnswered);
-                    setBalanceCurrentSelections(state.currentSelections);
-                  }}
-                  showAIHelper={true}
-                  category={categoryKey}
-                  categoryName={categoryName}
-                  userSelections={getUserSelections()}
-                />
-              </div>
-            )}
             <AnimatePresence>
               {isCalculating && (
                 <div className="py-12">
@@ -2423,40 +2376,44 @@ export default function KnowledgeAgentPage() {
               </motion.button>
             )}
 
-            {/* 밸런스 게임 완료 시 "다음" 버튼 */}
-            {phase === 'balance' && balanceAllAnswered && !isTyping && (
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => handleBalanceComplete(balanceCurrentSelections)}
-                className="w-full py-4 bg-gray-900 text-white rounded-2xl text-[15px] font-bold shadow-xl shadow-gray-200 hover:bg-black transition-all"
-              >
-                다음
-              </motion.button>
-            )}
-
-            {/* 단점 필터 완료 시 CTA 버튼 */}
-            {phase === 'negative_filter' && !isTyping && (
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  // rule keys를 labels로 변환
-                  const selectedLabels = selectedNegativeKeys
-                    .map(key => negativeOptions.find(opt => opt.target_rule_key === key)?.label)
-                    .filter((label): label is string => !!label);
-                  handleNegativeFilterComplete(selectedLabels);
-                }}
-                className="w-full py-4 bg-gray-900 text-white rounded-2xl text-[15px] font-bold shadow-xl shadow-gray-200 hover:bg-black transition-all"
-              >
-                {selectedNegativeKeys.length === 0
-                  ? '넘어가기'
-                  : `${selectedNegativeKeys.length}개 선택하고 넘어가기`}
-              </motion.button>
+            {/* 마지막 자연어 입력 단계 */}
+            {phase === 'final_input' && !isTyping && (
+              <div className="space-y-3">
+                <div className="relative">
+                  <textarea
+                    ref={inputRef}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => { 
+                      if (e.key === 'Enter' && !e.shiftKey) { 
+                        e.preventDefault(); 
+                        if (inputValue.trim()) {
+                          handleFinalInputSubmit(inputValue);
+                          setInputValue('');
+                        }
+                      } 
+                    }}
+                    placeholder="추가 조건을 자유롭게 입력하세요... (선택)"
+                    className="w-full min-h-[56px] max-h-[120px] py-4 px-5 rounded-2xl bg-white border border-gray-200 text-[15px] placeholder:text-gray-400 focus:outline-none focus:border-blue-400 transition-all resize-none"
+                    rows={1}
+                  />
+                </div>
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    handleFinalInputSubmit(inputValue.trim() || undefined);
+                    setInputValue('');
+                  }}
+                  className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all"
+                >
+                  <span className="text-[16px] tracking-tight">
+                    {inputValue.trim() ? '조건 추가하고 추천받기' : '바로 추천받기'}
+                  </span>
+                </motion.button>
+              </div>
             )}
 
             {phase === 'result' && !showReRecommendModal ? (
@@ -2488,7 +2445,7 @@ export default function KnowledgeAgentPage() {
                   .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
                 }
               />
-            ) : phase !== 'hardcut_visual' && phase !== 'balance' && phase !== 'negative_filter' && (
+            ) : phase !== 'hardcut_visual' && phase !== 'final_input' && (
               <div className="relative group">
                 <div className="absolute -inset-6 -z-10 blur-[40px] opacity-40 pointer-events-none group-focus-within:opacity-70 transition-opacity duration-500" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.2) 50%, transparent 100%)' }} />
                 <motion.div 
@@ -2560,6 +2517,7 @@ export default function KnowledgeAgentPage() {
           }}
           category={categoryKey}
           onClose={() => setSelectedProduct(null)}
+          isAnalysisLoading={isProductAnalysisLoading}
           // V2 조건 충족도 평가 ("왜 추천했나요?", "선호 속성", "피할 단점" 표시용)
           selectedConditionsEvaluation={analysis?.selectedConditionsEvaluation?.map((e: any) => ({
             condition: e.condition,

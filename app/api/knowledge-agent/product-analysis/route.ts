@@ -35,7 +35,7 @@ interface ProductInfo {
 
 // 사용자 컨텍스트 타입
 interface UserContext {
-  collectedInfo?: Record<string, string>;  // 하드필터 질문-응답
+  collectedInfo?: Record<string, string>;  // 하드필터 질문-응답 (questionId -> 답변)
   balanceSelections?: Array<{
     questionId: string;
     selectedLabel: string;
@@ -43,6 +43,10 @@ interface UserContext {
   }>;
   negativeSelections?: string[];  // 피할 단점 레이블
   conversationSummary?: string;   // 대화 요약
+  questionTodos?: Array<{         // 질문 목록 (질문 텍스트 복원용)
+    id: string;
+    question: string;
+  }>;
 }
 
 // 조건 충족도 평가 타입
@@ -114,12 +118,23 @@ async function analyzeProduct(
       ).join('\n')
     : '리뷰 없음';
 
-  // 사용자 선택 조건들 준비
-  const hardFilterConditions: Array<{ questionId: string; label: string }> = [];
+  // 사용자 선택 조건들 준비 (questionId -> 질문 텍스트 매핑)
+  const questionIdToText: Record<string, string> = {};
+  if (userContext.questionTodos) {
+    userContext.questionTodos.forEach(q => {
+      questionIdToText[q.id] = q.question;
+    });
+  }
+
+  const hardFilterConditions: Array<{ questionId: string; questionText: string; label: string }> = [];
   if (userContext.collectedInfo) {
-    Object.entries(userContext.collectedInfo).forEach(([question, answer]) => {
+    Object.entries(userContext.collectedInfo).forEach(([questionId, answer]) => {
+      // 내부 키(__로 시작)는 제외
+      if (questionId.startsWith('__')) return;
       if (answer && answer !== '상관없어요' && answer !== 'any') {
-        hardFilterConditions.push({ questionId: question, label: answer });
+        // questionTodos에서 질문 텍스트 복원, 없으면 questionId 그대로 사용
+        const questionText = questionIdToText[questionId] || questionId;
+        hardFilterConditions.push({ questionId, questionText, label: answer });
       }
     });
   }
@@ -130,12 +145,12 @@ async function analyzeProduct(
   const hasUserConditions = hardFilterConditions.length > 0 || balanceConditions.length > 0 || negativeConditions.length > 0;
   const hasConversation = !!userContext.conversationSummary;
 
-  // 조건 평가 섹션
+  // 조건 평가 섹션 (질문 텍스트 + 답변 함께 표시)
   const conditionSection = hasUserConditions ? `
 ## 사용자 선택 조건
-${hardFilterConditions.length > 0 ? `### 필수 조건
-${hardFilterConditions.map((c, i) => `${i + 1}. ${c.label}`).join('\n')}` : ''}
-${balanceConditions.length > 0 ? `### 선호 속성
+${hardFilterConditions.length > 0 ? `### 필수 조건 (맞춤 질문 응답)
+${hardFilterConditions.map((c, i) => `${i + 1}. **${c.questionText}** → "${c.label}"`).join('\n')}` : ''}
+${balanceConditions.length > 0 ? `### 선호 속성 (밸런스 게임 선택)
 ${balanceConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 ${negativeConditions.length > 0 ? `### 피할 단점
 ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
@@ -144,7 +159,7 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
   const conditionFormat = hasUserConditions ? `
   "selectedConditionsEvaluation": [
     ${hardFilterConditions.map(c => `{
-      "condition": "${c.label}",
+      "condition": "${c.questionText}: ${c.label}",
       "conditionType": "hardFilter",
       "questionId": "${c.questionId}",
       "status": "충족 또는 불충족",
@@ -245,14 +260,25 @@ function generateFallbackAnalysis(
 ): ProductAnalysis {
   const selectedConditionsEvaluation: ConditionEvaluation[] = [];
 
+  // questionId -> 질문 텍스트 매핑
+  const questionIdToText: Record<string, string> = {};
+  if (userContext.questionTodos) {
+    userContext.questionTodos.forEach(q => {
+      questionIdToText[q.id] = q.question;
+    });
+  }
+
   // 하드필터 조건
   if (userContext.collectedInfo) {
-    Object.entries(userContext.collectedInfo).forEach(([question, answer]) => {
+    Object.entries(userContext.collectedInfo).forEach(([questionId, answer]) => {
+      // 내부 키(__로 시작)는 제외
+      if (questionId.startsWith('__')) return;
       if (answer && answer !== '상관없어요' && answer !== 'any') {
+        const questionText = questionIdToText[questionId] || questionId;
         selectedConditionsEvaluation.push({
-          condition: answer,
+          condition: `${questionText}: ${answer}`,
           conditionType: 'hardFilter',
-          questionId: question,
+          questionId: questionId,
           status: '부분충족',
           evidence: '스펙 정보로 정확한 확인이 어렵습니다.',
         });

@@ -704,10 +704,19 @@ async function generateQuestions(
    - 모든 제품이 공통으로 가진 스펙은 질문하지 마세요. (변별력 없음)
    - 사용자 취향이나 환경에 따라 제품 추천이 달라지는 항목을 우선순위로 두세요.
 3. **Budget Logic (Priority 99):**
-   - 마지막 질문은 반드시 예산입니다.
+   - 예산 질문은 반드시 포함하세요.
    - 단순 등분하지 말고, [가격 분포] 데이터를 참고하여 '입문형', '중급형', '프리미엄형' 구간이 나뉘는 지점을 포착하여 선택지를 구성하세요.
-4. **Constraint:**
-   - "단점 피하기" 질문은 생성하지 마세요. (추후 단계에서 처리됨)
+4. **Avoid Negatives (Priority 100, 가장 마지막 질문):**
+   - 예산 질문 다음, **가장 마지막**에 "피하고 싶은 단점" 질문을 추가하세요.
+   - id는 "avoid_negatives", type is "multi" (복수 선택 가능)
+   - 옵션은 **웹 트렌드에서 자주 언급되는 단점/주의사항** 을 참고하여 4~5개 생성
+   - **중요: 단순한 단점 나열이 아니라, 사용자의 걱정이나 불편함이 드러나는 구체적인 문장 형태로 작성하세요.**
+   - **예시 (체온계의 경우):**
+     - "삐- 소리가 너무 커서 자는 아기가 깰까 봐 걱정돼요"
+     - "배터리 교체 주기가 너무 짧아서 매번 신경 쓰는 게 번거로워요"
+     - "측정 후 닦아도 귀지나 이물질이 남을까 봐 위생적으로 찝찝해요"
+     - "전용 위생 캡을 매번 새로 사야 하는 추가 비용이 부담스러워요"
+5. **Constraint:**
    - 오직 JSON 배열만 출력하세요. 설명은 필요 없습니다.
 
 ## [출력 포맷 예시]
@@ -724,6 +733,29 @@ async function generateQuestions(
     "type": "single",
     "priority": 1,
     "dataSource": "데이터 출처 (예: 웹 트렌드, 상위 스펙 분석)"
+  },
+  {
+    "id": "budget",
+    "question": "예산은 어느 정도로 생각하세요?",
+    "reason": "💡 가격대별로 기능과 품질 차이가 있어요",
+    "options": [{"value": "entry", "label": "입문형", "description": "..."}, {"value": "mid", "label": "중급형", "description": "..."}, {"value": "premium", "label": "프리미엄", "description": "..."}],
+    "type": "single",
+    "priority": 99,
+    "dataSource": "가격 분포 분석"
+  },
+  {
+    "id": "avoid_negatives",
+    "question": "혹시 피하고 싶은 단점이 있으신가요?",
+    "reason": "💡 선택하신 단점이 있는 상품은 추천에서 제외해드릴게요",
+    "options": [
+      {"value": "noise", "label": "소음이 커서 아기가 깰까 봐 걱정돼요", "description": "조용한 사용을 원하신다면"},
+      {"value": "cleaning", "label": "필터 청소나 관리가 너무 번거로울 것 같아요", "description": "간편한 관리를 원하신다면"},
+      {"value": "heavy", "label": "무게가 무거워 이동할 때 손목에 무리가 갈까 봐요", "description": "가벼운 무게를 원하신다면"},
+      {"value": "size", "label": "부피가 너무 커서 공간을 많이 차지하는 건 싫어요", "description": "컴팩트한 크기를 원하신다면"}
+    ],
+    "type": "multi",
+    "priority": 100,
+    "dataSource": "웹 트렌드 단점 분석"
   }
 ]
 \`\`\`
