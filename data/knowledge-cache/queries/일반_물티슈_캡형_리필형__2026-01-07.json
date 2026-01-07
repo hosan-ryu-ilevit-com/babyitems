@@ -1,0 +1,53 @@
+{
+  "query": "일반 물티슈 (캡형/리필형)",
+  "items": [
+    {
+      "pcode": "TH201_8606473434",
+      "name": "SJ 아리아 물티슈 캡형 일반 100매 240g 10개/부드러운/일회용/순한/학교/물휴지/사무실/리필/가정용/간편",
+      "brand": "SJ",
+      "price": 45400,
+      "thumbnail": "https://ep-cdn.011st.com/11dims/resize/900x900/quality/75/11src/product/8606473434/B.webp?568689767",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=TH201_8606473434"
+    },
+    {
+      "pcode": "EE128_4483988904",
+      "name": "호야스토어 물티슈워머 화이트 보온물티슈 물티슈리필 일반형 물티슈캡",
+      "brand": "호야스토어",
+      "price": 25290,
+      "thumbnail": "https://gdimg.gmarket.co.kr/4483988904/goodsimage?ver=34410072246",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=EE128_4483988904"
+    },
+    {
+      "pcode": "EE128_4422685967",
+      "name": "가인인터내셔널 아리아(물티슈) SJ 아리아 물티슈 캡형 일반 100매 240g 10개/물휴지/휴대용/리필/가정용/간편/기본/깨끗한/다용도/대용량",
+      "brand": "가인인터내셔널",
+      "price": 47870,
+      "thumbnail": "https://gdimg.gmarket.co.kr/4422685967/goodsimage?ver=35399782741",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=EE128_4422685967"
+    },
+    {
+      "pcode": "EE128_4342422818",
+      "name": "가인인터내셔널 아리아(물티슈) SJ 아리아 물티슈 캡형 일반 100매 240g 10개/부드러운/일회용/순한/학교/물휴지/사무실/리필/가정용/간편",
+      "brand": "가인인터내셔널",
+      "price": 47390,
+      "thumbnail": "https://gdimg.gmarket.co.kr/4342422818/goodsimage?ver=35394523428",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=EE128_4342422818"
+    }
+  ],
+  "searchUrl": "https://search.danawa.com/dsearch.php?query=%EC%9D%BC%EB%B0%98%20%EB%AC%BC%ED%8B%B0%EC%8A%88%20(%EC%BA%A1%ED%98%95%2F%EB%A6%AC%ED%95%84%ED%98%95)&limit=40&sort=saveDESC",
+  "totalCount": 4,
+  "cachedAt": "2026-01-07T04:35:33.970Z",
+  "expiresAt": "2026-01-08T04:35:33.970Z"
+}

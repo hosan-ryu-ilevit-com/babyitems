@@ -10,6 +10,7 @@ import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
 import { load } from 'cheerio';
+import puppeteer, { Browser, Page } from 'puppeteer';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -411,7 +412,395 @@ app.post('/crawl/reviews', async (req, res) => {
   });
 });
 
+// =====================================================
+// 가격 크롤링 (Puppeteer)
+// =====================================================
+
+interface MallPrice {
+  mall: string;
+  price: number;
+  delivery: string;
+  seller?: string;
+  link?: string;
+}
+
+interface PriceResult {
+  pcode: string;
+  lowestPrice: number | null;
+  lowestMall: string | null;
+  lowestDelivery: string | null;
+  lowestLink: string | null;
+  mallPrices: MallPrice[];
+  mallCount: number;
+  priceMin: number | null;
+  priceMax: number | null;
+  success: boolean;
+  error?: string;
+}
+
+// 브라우저 풀 (재사용을 위해)
+let browserInstance: Browser | null = null;
+
+async function getBrowser(): Promise<Browser> {
+  if (!browserInstance) {
+    console.log('[Puppeteer] Launching browser...');
+    browserInstance = await puppeteer.launch({
+      headless: true,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--no-first-run',
+        '--no-zygote',
+        '--single-process',
+        '--disable-web-security',
+        '--disable-blink-features=AutomationControlled',
+      ],
+    });
+    console.log('[Puppeteer] Browser launched');
+  }
+  return browserInstance;
+}
+
+// 가격 행 파싱
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function parsePriceRow($row: any, $: ReturnType<typeof load>): MallPrice | null {
+  let mall: string | null = null;
+
+  // 1. 이미지 alt/title에서 쇼핑몰명
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  $row.find('img').each((_: number, img: any) => {
+    const alt = $(img).attr('alt')?.trim();
+    const title = $(img).attr('title')?.trim();
+    if (alt && alt.length > 1 && !['상품이미지', '이미지'].includes(alt)) {
+      mall = alt;
+      return false;
+    }
+    if (title && title.length > 1) {
+      mall = title;
+      return false;
+    }
+  });
+
+  // 2. 링크 텍스트에서 쇼핑몰명
+  if (!mall) {
+    const mallLink = $row.find('a.mall_name, a.logo_over, td.mall a').first();
+    if (mallLink.length) {
+      mall = mallLink.text().trim();
+    }
+  }
+
+  // 3. data 속성에서 쇼핑몰명
+  if (!mall) {
+    const elem = $row.find('[data-mall-name], [data-shop-name]').first();
+    if (elem.length) {
+      mall = elem.attr('data-mall-name') || elem.attr('data-shop-name') || null;
+    }
+  }
+
+  // 4. 키워드 패턴 매칭
+  if (!mall) {
+    const knownMalls = ['쿠팡', '11번가', 'G마켓', '옥션', 'SSG', '롯데', '하이마트', '네이버', '위메프', '티몬', '인터파크'];
+    const rowHtml = $.html($row) || '';
+    for (const m of knownMalls) {
+      if (rowHtml.toLowerCase().includes(m.toLowerCase())) {
+        mall = m;
+        break;
+      }
+    }
+  }
+
+  // 가격 추출
+  const priceElem = $row.find('.price_sect em, .prc, .price em, .txt_prc, em.prc').first();
+  let price: number | null = null;
+  if (priceElem.length) {
+    const priceText = priceElem.text().replace(/[^\d]/g, '');
+    if (priceText) {
+      price = parseInt(priceText, 10);
+    }
+  }
+
+  if (!price) {
+    return null;
+  }
+
+  // 배송비 추출
+  const deliveryElem = $row.find('.ship, .delivery, .dlv_info, .stxt').first();
+  const delivery = deliveryElem.length ? deliveryElem.text().trim() : '';
+
+  // 판매자 추출
+  const sellerElem = $row.find('.seller_nm, .seller, .txt_shop').first();
+  const seller = sellerElem.length ? sellerElem.text().trim() : undefined;
+
+  // 링크 추출
+  const linkElem = $row.find('a[href*="link.danawa"], a[href*="prod.danawa"]').first();
+  const link = linkElem.length ? linkElem.attr('href') : undefined;
+
+  return {
+    mall: mall || '알 수 없음',
+    price,
+    delivery,
+    seller,
+    link,
+  };
+}
+
+// 페이지에서 가격 정보 추출
+async function extractPricesFromPage(page: Page): Promise<{
+  lowestPrice: number | null;
+  lowestMall: string | null;
+  lowestDelivery: string | null;
+  lowestLink: string | null;
+  mallPrices: MallPrice[];
+}> {
+  let lowestPrice: number | null = null;
+  let lowestMall: string | null = null;
+  let lowestDelivery: string | null = null;
+  let lowestLink: string | null = null;
+  const mallPrices: MallPrice[] = [];
+
+  try {
+    // 스크롤하여 가격 영역 로딩
+    await page.evaluate(() => window.scrollTo(0, 500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // 가격비교 탭 클릭 시도
+    try {
+      const tabs = await page.$$('.tab_item a, .product_tab a');
+      for (const tab of tabs) {
+        const text = await page.evaluate((el) => el.textContent, tab);
+        if (text?.includes('가격')) {
+          await tab.click();
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          break;
+        }
+      }
+    } catch {
+      // 탭 클릭 실패해도 계속 진행
+    }
+
+    // 가격 영역 로딩 대기
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await page.evaluate(() => window.scrollTo(0, 800));
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // HTML 파싱
+    const html = await page.content();
+    const $ = load(html);
+
+    // 쇼핑몰별 가격 목록 추출
+    const priceRows = $('.mall_list tbody tr, .diff_item, .ProductList tr');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    priceRows.each((_: number, row: any) => {
+      const priceInfo = parsePriceRow($(row), $);
+      if (priceInfo && priceInfo.price) {
+        mallPrices.push(priceInfo);
+      }
+    });
+
+    // Alternative format
+    if (mallPrices.length === 0) {
+      const altRows = $('.product_list .prod_item, .price_sect .item');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      altRows.each((_: number, row: any) => {
+        const priceInfo = parsePriceRow($(row), $);
+        if (priceInfo && priceInfo.price) {
+          mallPrices.push(priceInfo);
+        }
+      });
+    }
+
+    // 최저가 계산 (정렬 후 첫 번째)
+    if (mallPrices.length > 0) {
+      mallPrices.sort((a, b) => a.price - b.price);
+      const lowest = mallPrices[0];
+      lowestPrice = lowest.price;
+      lowestMall = lowest.mall;
+      lowestDelivery = lowest.delivery;
+      lowestLink = lowest.link || null;
+    }
+
+    // 요약 영역에서 최저가 시도 (mallPrices가 비어있을 때 fallback)
+    if (!lowestPrice) {
+      const lowestElem = $('.lowest_price em.prc, .lowest_area .lwst_prc, .bnft_price em').first();
+      if (lowestElem.length) {
+        const priceText = lowestElem.text().replace(/[^\d]/g, '');
+        if (priceText) {
+          lowestPrice = parseInt(priceText, 10);
+        }
+      }
+
+      const lowestMallElem = $('.lowest_price .mall_name, .lowest_area .logo_over img').first();
+      if (lowestMallElem.length) {
+        if (lowestMallElem.is('img')) {
+          lowestMall = lowestMallElem.attr('alt') || null;
+        } else {
+          lowestMall = lowestMallElem.text().trim() || null;
+        }
+      }
+    }
+  } catch (error) {
+    console.error('[Prices] Extraction error:', error);
+  }
+
+  return { lowestPrice, lowestMall, lowestDelivery, lowestLink, mallPrices };
+}
+
+// 단일 상품 가격 크롤링
+async function crawlPrice(pcode: string): Promise<PriceResult> {
+  const result: PriceResult = {
+    pcode,
+    lowestPrice: null,
+    lowestMall: null,
+    lowestDelivery: null,
+    lowestLink: null,
+    mallPrices: [],
+    mallCount: 0,
+    priceMin: null,
+    priceMax: null,
+    success: false,
+  };
+
+  let page: Page | null = null;
+
+  try {
+    const browser = await getBrowser();
+    page = await browser.newPage();
+
+    // 리소스 차단 (속도 최적화)
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+      const resourceType = req.resourceType();
+      if (['image', 'stylesheet', 'font', 'media'].includes(resourceType)) {
+        req.abort();
+      } else {
+        req.continue();
+      }
+    });
+
+    // User-Agent 설정
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    );
+
+    // 상품 페이지 접속
+    const url = `https://prod.danawa.com/info/?pcode=${pcode}`;
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
+
+    // 가격 정보 추출
+    const { lowestPrice, lowestMall, lowestDelivery, lowestLink, mallPrices } = await extractPricesFromPage(page);
+
+    // 결과 설정
+    result.lowestPrice = lowestPrice;
+    result.lowestMall = lowestMall;
+    result.lowestDelivery = lowestDelivery;
+    result.lowestLink = lowestLink;
+    result.mallPrices = mallPrices;
+    result.mallCount = mallPrices.length;
+
+    // 가격 범위 계산
+    if (mallPrices.length > 0) {
+      const prices = mallPrices.map(p => p.price);
+      result.priceMin = Math.min(...prices);
+      result.priceMax = Math.max(...prices);
+    }
+
+    result.success = lowestPrice !== null || mallPrices.length > 0;
+
+  } catch (error) {
+    result.error = error instanceof Error ? error.message : 'Unknown error';
+    console.error(`[Prices] Crawl failed for ${pcode}:`, result.error);
+  } finally {
+    if (page) {
+      try {
+        await page.close();
+      } catch {
+        // 페이지 닫기 실패 무시
+      }
+    }
+  }
+
+  return result;
+}
+
+// 가격 크롤링 엔드포인트
+app.post('/crawl/prices', async (req, res) => {
+  const { pcodes, maxPerProduct = 10 } = req.body;
+
+  if (!pcodes || !Array.isArray(pcodes) || pcodes.length === 0) {
+    return res.status(400).json({ error: 'pcodes array is required' });
+  }
+
+  console.log(`\n[Prices] Starting for ${pcodes.length} products`);
+  const startTime = Date.now();
+
+  const results: Record<string, PriceResult> = {};
+
+  // 순차 처리 (Puppeteer는 병렬 처리가 어려움)
+  for (let i = 0; i < pcodes.length; i++) {
+    const pcode = pcodes[i];
+    console.log(`[Prices] ${i + 1}/${pcodes.length} - ${pcode}`);
+
+    const result = await crawlPrice(pcode);
+    results[pcode] = result;
+
+    if (result.success) {
+      console.log(`  ✅ ${result.lowestPrice?.toLocaleString()}원 (${result.lowestMall}) - ${result.mallCount}개 쇼핑몰`);
+    } else {
+      console.log(`  ❌ Failed: ${result.error || 'No price found'}`);
+    }
+
+    // 짧은 딜레이 (rate limit)
+    if (i < pcodes.length - 1) {
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+  }
+
+  const elapsed = Date.now() - startTime;
+  console.log(`[Prices] Complete: ${pcodes.length} products (${elapsed}ms)`);
+
+  res.json({
+    success: true,
+    results,
+    totalProducts: pcodes.length,
+    elapsed,
+  });
+});
+
+// 단일 상품 가격 크롤링 (GET)
+app.get('/crawl/price/:pcode', async (req, res) => {
+  const { pcode } = req.params;
+
+  if (!pcode) {
+    return res.status(400).json({ error: 'pcode is required' });
+  }
+
+  console.log(`[Prices] Single price for ${pcode}`);
+  const startTime = Date.now();
+
+  const result = await crawlPrice(pcode);
+  const elapsed = Date.now() - startTime;
+
+  if (result.success) {
+    console.log(`  ✅ ${result.lowestPrice?.toLocaleString()}원 (${result.lowestMall}) - ${result.mallCount}개 쇼핑몰 (${elapsed}ms)`);
+  } else {
+    console.log(`  ❌ Failed: ${result.error || 'No price found'} (${elapsed}ms)`);
+  }
+
+  res.json({
+    ...result,
+    elapsed,
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Danawa Crawler Server running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/health`);
+  console.log(`Endpoints:`);
+  console.log(`  - POST /crawl/search (Axios)`);
+  console.log(`  - POST /crawl/reviews (Axios)`);
+  console.log(`  - POST /crawl/prices (Puppeteer)`);
+  console.log(`  - GET /crawl/price/:pcode (Puppeteer)`);
 });

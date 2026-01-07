@@ -45,6 +45,7 @@ interface KnowledgeProduct {
   prosFromReviews?: string[];
   consFromReviews?: string[];
   oneLiner?: string;
+  comparativeOneLiner?: string; // 다른 상품과 비교한 한줄 정리
   recommendedFor?: string;
   recommendReason?: string;
   reviews?: ReviewItem[];  // 리뷰 목록 추가
@@ -107,6 +108,18 @@ export function KnowledgeComparisonTable({
   if (displayProducts.length < 2) return null;
 
   const isEmpty = (v: any) => v === null || v === undefined || v === '' || v === '-' || v === '정보없음' || String(v).toLowerCase() === 'null';
+
+  // **...** 를 <strong>...</strong> 으로 변환하는 함수
+  const renderFormattedText = (text: string) => {
+    if (!text) return null;
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={i} className="font-bold text-gray-900">{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
+  };
 
   return (
     <motion.div
@@ -176,6 +189,11 @@ export function KnowledgeComparisonTable({
       {selectedIds.length === 2 && selectedProducts.length === 2 && (
         <div className="mt-[33px] border border-gray-200 rounded-[12px] overflow-hidden">
           <table className="w-full border-collapse table-fixed">
+            <colgroup>
+              <col style={{ width: '43%' }} />
+              <col style={{ width: '14%' }} />
+              <col style={{ width: '43%' }} />
+            </colgroup>
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="py-5 px-1.5 text-center" colSpan={3}>
@@ -200,7 +218,7 @@ export function KnowledgeComparisonTable({
                     </div>
 
                     {/* 중앙 여백 */}
-                    <div className="w-16 shrink-0 pt-3"></div>
+                    <div className="w-8 shrink-0 pt-3"></div>
 
                     {/* 오른쪽 제품 */}
                     <div className="flex-1 flex flex-col items-center gap-2">
@@ -227,15 +245,15 @@ export function KnowledgeComparisonTable({
             <tbody>
               {/* 브랜드 */}
               <tr className="border-b border-gray-100">
-                <td className="py-3 px-2 text-center w-[40%]">
+                <td className="py-3 px-2 text-center">
                   <p className={`text-[13px] leading-tight font-medium ${isEmpty(selectedProducts[0]?.brand) ? 'text-gray-400' : 'text-gray-700'}`}>
                     {isEmpty(selectedProducts[0]?.brand) ? '정보없음' : selectedProducts[0]?.brand}
                   </p>
                 </td>
-                <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">
+                <td className="py-3 px-2 text-center text-[10px] font-medium text-gray-400 bg-gray-50/50">
                   브랜드
                 </td>
-                <td className="py-3 px-2 text-center w-[40%]">
+                <td className="py-3 px-2 text-center">
                   <p className={`text-[13px] leading-tight font-medium ${isEmpty(selectedProducts[1]?.brand) ? 'text-gray-400' : 'text-gray-700'}`}>
                     {isEmpty(selectedProducts[1]?.brand) ? '정보없음' : selectedProducts[1]?.brand}
                   </p>
@@ -244,15 +262,15 @@ export function KnowledgeComparisonTable({
 
               {/* 가격 */}
               <tr className="border-b border-gray-100">
-                <td className="py-3 px-2 text-center w-[40%]">
+                <td className="py-3 px-2 text-center">
                   <p className={`text-[14px] font-bold ${isEmpty(selectedProducts[0]?.price) ? 'text-gray-400' : 'text-gray-900'}`}>
                     {isEmpty(selectedProducts[0]?.price) ? '정보없음' : `${selectedProducts[0]!.price!.toLocaleString()}원`}
                   </p>
                 </td>
-                <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">
+                <td className="py-3 px-2 text-center text-[10px] font-medium text-gray-400 bg-gray-50/50">
                   가격
                 </td>
-                <td className="py-3 px-2 text-center w-[40%]">
+                <td className="py-3 px-2 text-center">
                   <p className={`text-[14px] font-bold ${isEmpty(selectedProducts[1]?.price) ? 'text-gray-400' : 'text-gray-900'}`}>
                     {isEmpty(selectedProducts[1]?.price) ? '정보없음' : `${selectedProducts[1]!.price!.toLocaleString()}원`}
                   </p>
@@ -260,14 +278,14 @@ export function KnowledgeComparisonTable({
               </tr>
 
               {/* 장점 */}
-              <tr className="border-b border-gray-100 bg-[#E6FAD2]">
-                <td className="py-4 px-3 align-top w-[40%] text-center">
+              <tr className="border-b border-gray-100">
+                <td className="py-4 px-3 align-top text-center bg-[#E6FAD2]/30">
                   <div className="space-y-2 inline-block text-center">
                     {(selectedProducts[0]?.prosFromReviews || []).length > 0 ? (
                       selectedProducts[0]!.prosFromReviews!.slice(0, 3).map((pro, idx) => (
                         <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                          <span className="text-center">{pro}</span>
+                          <span className="text-center">{renderFormattedText(pro)}</span>
                         </div>
                       ))
                     ) : (
@@ -275,16 +293,16 @@ export function KnowledgeComparisonTable({
                     )}
                   </div>
                 </td>
-                <td className="py-4 px-2 text-center align-middle text-[12px] font-medium text-gray-400 w-[20%]">
+                <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-blue-400 bg-blue-50/30">
                   장점
                 </td>
-                <td className="py-4 px-3 align-top w-[40%] text-center">
+                <td className="py-4 px-3 align-top text-center bg-[#E6FAD2]/30">
                   <div className="space-y-2 inline-block text-center">
                     {(selectedProducts[1]?.prosFromReviews || []).length > 0 ? (
                       selectedProducts[1]!.prosFromReviews!.slice(0, 3).map((pro, idx) => (
                         <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                          <span className="text-center">{pro}</span>
+                          <span className="text-center">{renderFormattedText(pro)}</span>
                         </div>
                       ))
                     ) : (
@@ -295,14 +313,14 @@ export function KnowledgeComparisonTable({
               </tr>
 
               {/* 단점 */}
-              <tr className="border-b border-gray-100 bg-[#FFEDEE]">
-                <td className="py-4 px-3 align-top w-[40%] text-center">
+              <tr className="border-b border-gray-100">
+                <td className="py-4 px-3 align-top text-center bg-[#FFEDEE]/30">
                   <div className="space-y-2 inline-block text-center">
                     {(selectedProducts[0]?.consFromReviews || []).length > 0 ? (
                       selectedProducts[0]!.consFromReviews!.slice(0, 3).map((con, idx) => (
                         <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                          <span className="text-center">{con}</span>
+                          <span className="text-center">{renderFormattedText(con)}</span>
                         </div>
                       ))
                     ) : (
@@ -310,16 +328,16 @@ export function KnowledgeComparisonTable({
                     )}
                   </div>
                 </td>
-                <td className="py-4 px-2 text-center align-middle text-[12px] font-medium text-gray-400 w-[20%]">
+                <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-red-400 bg-red-50/30">
                   단점
                 </td>
-                <td className="py-4 px-3 align-top w-[40%] text-center">
+                <td className="py-4 px-3 align-top text-center bg-[#FFEDEE]/30">
                   <div className="space-y-2 inline-block text-center">
                     {(selectedProducts[1]?.consFromReviews || []).length > 0 ? (
                       selectedProducts[1]!.consFromReviews!.slice(0, 3).map((con, idx) => (
                         <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                          <span className="text-center">{con}</span>
+                          <span className="text-center">{renderFormattedText(con)}</span>
                         </div>
                       ))
                     ) : (
@@ -336,13 +354,13 @@ export function KnowledgeComparisonTable({
                 
                 return (
                   <tr key={key} className="border-b border-gray-100">
-                    <td className={`py-3 px-2 text-center text-[12px] w-[40%] ${isEmpty(val1) ? 'text-gray-400' : 'text-gray-700'}`}>
+                    <td className={`py-3 px-2 text-center text-[12px] ${isEmpty(val1) ? 'text-gray-400' : 'text-gray-700'}`}>
                       {isEmpty(val1) ? '정보없음' : val1}
                     </td>
-                    <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">
+                    <td className="py-3 px-2 text-center text-[10px] font-medium text-gray-400 bg-gray-50/50">
                       {key}
                     </td>
-                    <td className={`py-3 px-2 text-center text-[12px] w-[40%] ${isEmpty(val2) ? 'text-gray-400' : 'text-gray-700'}`}>
+                    <td className={`py-3 px-2 text-center text-[12px] ${isEmpty(val2) ? 'text-gray-400' : 'text-gray-700'}`}>
                       {isEmpty(val2) ? '정보없음' : val2}
                     </td>
                   </tr>
@@ -351,8 +369,12 @@ export function KnowledgeComparisonTable({
 
               {/* 한줄 비교 정리 */}
               {(() => {
-                const hasComparison1 = selectedProducts[0]?.oneLiner && selectedProducts[0].oneLiner.trim().length > 0;
-                const hasComparison2 = selectedProducts[1]?.oneLiner && selectedProducts[1].oneLiner.trim().length > 0;
+                // comparativeOneLiner 우선, 없으면 oneLiner 사용
+                const getComparison = (product: KnowledgeProduct | undefined) => 
+                  product?.comparativeOneLiner?.trim() || product?.oneLiner?.trim() || '';
+                
+                const hasComparison1 = getComparison(selectedProducts[0]).length > 0;
+                const hasComparison2 = getComparison(selectedProducts[1]).length > 0;
 
                 if (!hasComparison1 && !hasComparison2) return null;
 
@@ -364,7 +386,8 @@ export function KnowledgeComparisonTable({
                       </h4>
                       <div className="space-y-4">
                         {selectedProducts.map((product, index) => {
-                          if (!product || !product.oneLiner || product.oneLiner.trim().length === 0) return null;
+                          const comparisonText = getComparison(product);
+                          if (!product || comparisonText.length === 0) return null;
 
                           return (
                             <div key={product.pcode} className="flex items-start gap-3">
@@ -376,7 +399,7 @@ export function KnowledgeComparisonTable({
                                   <span className="font-bold text-gray-900">{product.brand} {product.name}</span>
                                 </p>
                                 <p className="text-[13px] text-gray-600 leading-relaxed mt-1">
-                                  {product.oneLiner}
+                                  {renderFormattedText(comparisonText)}
                                 </p>
                               </div>
                             </div>

@@ -291,10 +291,10 @@ function OptionButton({
           : 'bg-white border-gray-100 text-gray-700 hover:border-blue-200 hover:bg-blue-50/30'
       } ${disabled && !isSelected ? 'opacity-50 cursor-default' : ''}`}
     >
-      <div className="flex flex-col gap-0.5">
-        <span className={`text-[15px] font-medium ${isSelected ? 'text-blue-500' : 'text-gray-800'}`}>{label}</span>
+      <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+        <span className={`text-[15px] font-medium wrap-break-word ${isSelected ? 'text-blue-500' : 'text-gray-800'}`}>{label}</span>
         {description && (
-          <span className={`text-[12px] font-medium ${isSelected ? 'text-blue-400' : 'text-gray-400'}`}>{description}</span>
+          <span className={`text-[12px] font-medium wrap-break-word ${isSelected ? 'text-blue-400' : 'text-gray-400'}`}>{description}</span>
         )}
       </div>
     </motion.button>
@@ -683,7 +683,30 @@ export default function KnowledgeAgentPage() {
   const [expandedProducts, setExpandedProducts] = useState<any[]>([]);
   const [hardCutProducts, setHardCutProducts] = useState<any[]>([]);
   const [reviewsData, setReviewsData] = useState<Record<string, any[]>>({});
+  const [pricesData, setPricesData] = useState<Record<string, {
+    lowestPrice: number | null;
+    lowestMall: string | null;
+    lowestDelivery: string | null;
+    lowestLink: string | null;
+    prices: Array<{ mall: string; price: number; delivery: string; link?: string }>;
+  }>>({});
   const [isReviewsLoading, setIsReviewsLoading] = useState(false);
+  // Product Analysis 데이터 (조건 충족도, 상황 적합성 등)
+  const [productAnalyses, setProductAnalyses] = useState<Record<string, {
+    selectedConditionsEvaluation: Array<{
+      condition: string;
+      conditionType: 'hardFilter' | 'balance' | 'negative';
+      status: string;
+      evidence: string;
+      questionId?: string;
+    }>;
+    contextMatch?: {
+      explanation: string;
+      matchedPoints: string[];
+    };
+    additionalPros: Array<{ text: string; citations: number[] }>;
+    cons: Array<{ text: string; citations: number[] }>;
+  }>>({});
   const [v2FlowEnabled] = useState(true); // V2 플로우 활성화 여부
   const [v2FlowStarted, setV2FlowStarted] = useState(false); // V2 플로우 시작 여부
   const [savedBalanceSelections, setSavedBalanceSelections] = useState<any[]>([]); // 밸런스 선택 저장
@@ -1616,6 +1639,7 @@ export default function KnowledgeAgentPage() {
           const decoder = new TextDecoder();
           let buffer = '';
           let currentEvent = ''; // SSE 이벤트명 추적
+          let top3Prices: Record<string, any> = {};
           if (reader) {
             while (true) {
               const { done, value } = await reader.read();
@@ -1629,11 +1653,24 @@ export default function KnowledgeAgentPage() {
                 } else if (line.startsWith('data: ')) {
                   try {
                     const data = JSON.parse(line.slice(6));
-                    if (currentEvent === 'complete' && data.reviews) {
-                      top3Reviews = data.reviews;
-                      console.log(`[V2 Flow] Reviews received: ${Object.keys(data.reviews).length} products`);
+                    if (currentEvent === 'complete') {
+                      if (data.reviews) {
+                        top3Reviews = data.reviews;
+                        console.log(`[V2 Flow] Reviews received: ${Object.keys(data.reviews).length} products`);
+                      }
+                      if (data.prices) {
+                        top3Prices = data.prices;
+                        setPricesData(data.prices);
+                        console.log(`[V2 Flow] Prices received: ${Object.keys(data.prices).length} products`);
+                      }
                     } else if (currentEvent === 'progress') {
-                      setActiveStatusMessage(`${data.completed}/${data.total} 상품 리뷰 수집 중...`);
+                      if (data.type === 'reviews') {
+                        setActiveStatusMessage(`${data.completed}/${data.total} 상품 리뷰 수집 중...`);
+                      } else if (data.type === 'prices') {
+                        setActiveStatusMessage(`${data.completed}/${data.total} 상품 가격 수집 중...`);
+                      } else {
+                        setActiveStatusMessage(`${data.completed}/${data.total} 상품 리뷰 수집 중...`);
+                      }
                     }
                   } catch { /* ignore */ }
                   currentEvent = ''; // 이벤트 처리 후 초기화
@@ -1644,14 +1681,24 @@ export default function KnowledgeAgentPage() {
           
           // 리뷰 크롤링 완료 - 장단점 재생성 API 호출
           setActiveStatusMessage('리뷰 기반 장단점 분석 중...');
-          const prosConsResults: Record<string, { prosFromReviews: string[]; consFromReviews: string[]; oneLiner: string }> = {};
+          const prosConsResults: Record<string, { prosFromReviews: string[]; consFromReviews: string[]; oneLiner: string; comparativeOneLiner: string }> = {};
 
           try {
             const balanceLabels = savedBalanceSelections.map((s: any) => s.selectedLabel);
-            console.log('[V2 Flow] Calling generate-pros-cons API with:');
+            console.log('[V2 Flow] === generate-pros-cons DEBUG ===');
             console.log('  - balanceSelections:', balanceLabels);
             console.log('  - negativeSelections:', selectedLabels);
-            console.log('  - collectedInfo:', collectedInfo);
+            console.log('  - collectedInfo:', JSON.stringify(collectedInfo));
+            console.log('  - top3Reviews keys:', Object.keys(top3Reviews));
+            console.log('  - top3Reviews counts:', Object.entries(top3Reviews).map(([k, v]) => `${k}: ${(v as any[]).length}개`));
+            console.log('  - v2Recommendations:', v2Recommendations.map((rec: any) => ({
+              pcode: rec.pcode,
+              hasProduct: !!rec.product,
+              productName: rec.product?.name,
+              specSummary: rec.product?.specSummary?.slice(0, 30),
+              matchedConditions: rec.product?.matchedConditions,
+            })));
+            console.log('[V2 Flow] === END DEBUG ===');
             const prosConsRes = await fetch('/api/knowledge-agent/generate-pros-cons', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -1686,6 +1733,7 @@ export default function KnowledgeAgentPage() {
                     prosFromReviews: result.prosFromReviews || [],
                     consFromReviews: result.consFromReviews || [],
                     oneLiner: result.oneLiner || '',
+                    comparativeOneLiner: result.comparativeOneLiner || '',
                   };
                 });
                 console.log('[V2 Flow] Pros/Cons keys:', Object.keys(prosConsResults));
@@ -1698,14 +1746,79 @@ export default function KnowledgeAgentPage() {
             console.error('[V2 Flow] Pros/Cons generation failed:', e);
           }
 
+          // Product Analysis 비동기 호출 (PDP 모달용 - 조건 충족도, 상황 적합성)
+          // 결과 화면은 먼저 보여주고, 분석 데이터는 백그라운드에서 로딩
+          const fetchProductAnalysis = async () => {
+            try {
+              console.log('[V2 Flow] Fetching product analysis for PDP...');
+              const analysisRes = await fetch('/api/knowledge-agent/product-analysis', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  categoryKey,
+                  categoryName,
+                  products: v2Recommendations.slice(0, 3).map((rec: any) => ({
+                    pcode: rec.pcode,
+                    name: rec.product?.name,
+                    brand: rec.product?.brand,
+                    price: rec.product?.price,
+                    specSummary: rec.product?.specSummary,
+                    recommendReason: rec.reason,
+                    highlights: rec.highlights,
+                    concerns: rec.concerns,
+                    reviews: (top3Reviews[rec.pcode] || []).slice(0, 5),
+                  })),
+                  userContext: {
+                    collectedInfo,
+                    balanceSelections: savedBalanceSelections.map((s: any) => ({
+                      questionId: s.questionId,
+                      selectedLabel: s.selectedLabel,
+                      selectedKey: s.targetRuleKey,
+                    })),
+                    negativeSelections: selectedLabels,
+                    conversationSummary: messages
+                      .filter((m: ChatMessage) => m.role === 'assistant' && m.content)
+                      .slice(-3)
+                      .map((m: ChatMessage) => m.content)
+                      .join(' ')
+                      .slice(0, 500),
+                  },
+                }),
+              });
+
+              if (analysisRes.ok) {
+                const analysisData = await analysisRes.json();
+                if (analysisData.success && analysisData.data?.analyses) {
+                  const newAnalyses: Record<string, any> = {};
+                  analysisData.data.analyses.forEach((a: any) => {
+                    newAnalyses[String(a.pcode)] = {
+                      selectedConditionsEvaluation: a.selectedConditionsEvaluation || [],
+                      contextMatch: a.contextMatch,
+                      additionalPros: a.additionalPros || [],
+                      cons: a.cons || [],
+                    };
+                  });
+                  setProductAnalyses(prev => ({ ...prev, ...newAnalyses }));
+                  console.log('[V2 Flow] Product analysis loaded:', Object.keys(newAnalyses));
+                }
+              }
+            } catch (e) {
+              console.error('[V2 Flow] Product analysis failed:', e);
+            }
+          };
+          // 비동기 실행 (await 없이)
+          fetchProductAnalysis();
+
           setPhase('result');
           const resultProducts = v2Recommendations.map((rec: any, idx: number) => {
             // pcode를 문자열로 통일하여 조회
             const pcodeStr = String(rec.pcode);
             const productReviews = top3Reviews[rec.pcode] || top3Reviews[pcodeStr] || [];
             const prosConsData = prosConsResults[pcodeStr];
+            const productPrices = top3Prices[rec.pcode] || top3Prices[pcodeStr] || null;
 
             console.log(`[V2 Flow] Looking up pcode: "${pcodeStr}", found prosConsData:`, !!prosConsData, prosConsData?.oneLiner);
+            console.log(`[V2 Flow] Looking up pcode: "${pcodeStr}", found prices:`, !!productPrices, productPrices?.prices?.length || 0);
 
             // 한줄평 우선순위: 1) oneLiner 2) 리뷰 기반 reason 3) highlights 조합
             let finalReasoning = '';
@@ -1717,8 +1830,14 @@ export default function KnowledgeAgentPage() {
               finalReasoning = prosConsData.prosFromReviews.slice(0, 2).join(', ');
             } else if (rec.highlights?.length > 0) {
               finalReasoning = rec.highlights.slice(0, 2).join(', ');
+            } else if (rec.bestFor && rec.bestFor.trim()) {
+              finalReasoning = rec.bestFor;
+            } else if (rec.product?.specSummary) {
+              // 스펙 기반 간단 설명 생성
+              const specParts = rec.product.specSummary.split('/').slice(0, 2).join(', ');
+              finalReasoning = `📦 ${specParts || categoryName} 추천 상품`;
             } else {
-              finalReasoning = rec.bestFor || `${rec.product?.brand || ''} 인기 상품`;
+              finalReasoning = `⭐ ${rec.product?.brand || categoryName} 추천 상품`;
             }
             console.log(`[V2 Flow] Product ${pcodeStr} final reasoning: "${finalReasoning}"`);
 
@@ -1738,7 +1857,15 @@ export default function KnowledgeAgentPage() {
               prosFromReviews: prosConsData?.prosFromReviews?.length > 0 ? prosConsData.prosFromReviews : (rec.prosFromReviews || rec.highlights || []),
               consFromReviews: prosConsData?.consFromReviews?.length > 0 ? prosConsData.consFromReviews : (rec.consFromReviews || rec.concerns || []),
               oneLiner: prosConsData?.oneLiner || '',
+              comparativeOneLiner: prosConsData?.comparativeOneLiner || '',
               reviews: productReviews,
+              // 가격 비교 데이터 (다나와 크롤링)
+              danawaData: productPrices ? {
+                lowestPrice: productPrices.lowestPrice,
+                lowestMall: productPrices.lowestMall,
+                productName: rec.product?.name || rec.product?.title,
+                prices: productPrices.prices || [],
+              } : null,
             };
           });
           setReviewsData(top3Reviews);
@@ -2104,7 +2231,12 @@ export default function KnowledgeAgentPage() {
           </div>
       </div>
 
-      {selectedProduct && (
+      {selectedProduct && (() => {
+        // Product Analysis 데이터 조회
+        const productId = String(selectedProduct.id || selectedProduct.pcode);
+        const analysis = productAnalyses[productId];
+
+        return (
         <ProductDetailModal
           initialTab={modalInitialTab}
           productData={{
@@ -2119,9 +2251,25 @@ export default function KnowledgeAgentPage() {
             rank: selectedProduct.rank || 1,
             finalScore: selectedProduct.matchScore || 0,
             reasoning: selectedProduct.reasoning || selectedProduct.recommendReason || '',
-            selectedTagsEvaluation: [],
-            additionalPros: (selectedProduct.prosFromReviews || selectedProduct.highlights || []).map((text: string) => ({ text, citations: [] })),
-            cons: (selectedProduct.consFromReviews || selectedProduct.concerns || []).map((text: string) => ({ text, citations: [] })),
+            // 조건 충족도 평가 (product-analysis API 결과)
+            selectedTagsEvaluation: analysis?.selectedConditionsEvaluation?.map((e: any, idx: number) => ({
+              userTag: e.condition,
+              tagType: e.conditionType === 'negative' ? 'cons' as const : 'pros' as const,
+              priority: idx + 1,
+              status: e.status as '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨',
+              evidence: e.evidence || '',
+              citations: [],
+            })) || [],
+            // 상황 적합성 (대화 기반) - contextMatch는 ProductDetailModal에서 별도 처리 필요
+            // contextMatch: analysis?.contextMatch,
+            // 추가 장점 (analysis 우선, 없으면 기존 데이터)
+            additionalPros: analysis?.additionalPros?.length > 0
+              ? analysis.additionalPros
+              : (selectedProduct.prosFromReviews || selectedProduct.highlights || []).map((text: string) => ({ text, citations: [] })),
+            // 단점 (analysis 우선, 없으면 기존 데이터)
+            cons: analysis?.cons?.length > 0
+              ? analysis.cons
+              : (selectedProduct.consFromReviews || selectedProduct.concerns || []).map((text: string) => ({ text, citations: [] })),
             citedReviews: (selectedProduct.reviews || []).slice(0, 5).map((r: any, i: number) => ({
               index: i + 1,
               text: r.content || r.text || '',
@@ -2137,8 +2285,15 @@ export default function KnowledgeAgentPage() {
             date: r.date || r.review_date || null,
             mallName: r.mallName || r.mall_name || null,
           }))}
+          danawaData={selectedProduct.danawaData ? {
+            lowestPrice: selectedProduct.danawaData.lowestPrice || selectedProduct.price || 0,
+            lowestMall: selectedProduct.danawaData.lowestMall || '',
+            productName: selectedProduct.danawaData.productName || selectedProduct.title || selectedProduct.name || '',
+            prices: selectedProduct.danawaData.prices || [],
+          } : undefined}
         />
-      )}
+        );
+      })()}
 
       {/* AI 도움 바텀시트 (하드필터/밸런스게임) */}
       {aiHelperData && (
@@ -2392,7 +2547,7 @@ function MessageBubble({
             </div>
             {message.resultProducts.length >= 2 && (
               <div className="mt-6 pt-4 border-t border-gray-100">
-                <KnowledgeComparisonTable products={message.resultProducts.map((p: any) => ({ pcode: p.pcode || p.id, name: p.name || p.title, brand: p.brand || null, price: p.price || null, thumbnail: p.thumbnail || null, rating: p.rating || p.averageRating || null, reviewCount: p.reviewCount || null, specs: p.specs || p.spec || {}, specSummary: p.specSummary || '', prosFromReviews: p.prosFromReviews || [], consFromReviews: p.consFromReviews || [], oneLiner: p.oneLiner || '', recommendedFor: p.recommendedFor || '', recommendReason: p.recommendReason || '' }))} showRank={true} />
+                <KnowledgeComparisonTable products={message.resultProducts.map((p: any) => ({ pcode: p.pcode || p.id, name: p.name || p.title, brand: p.brand || null, price: p.price || null, thumbnail: p.thumbnail || null, rating: p.rating || p.averageRating || null, reviewCount: p.reviewCount || null, specs: p.specs || p.spec || {}, specSummary: p.specSummary || '', prosFromReviews: p.prosFromReviews || [], consFromReviews: p.consFromReviews || [], oneLiner: p.oneLiner || '', comparativeOneLiner: p.comparativeOneLiner || '', recommendedFor: p.recommendedFor || '', recommendReason: p.recommendReason || '' }))} showRank={true} />
               </div>
             )}
           </motion.div>

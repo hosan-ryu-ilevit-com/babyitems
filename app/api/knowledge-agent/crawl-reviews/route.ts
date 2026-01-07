@@ -1,17 +1,22 @@
 /**
- * Knowledge Agent - Crawl Reviews API
+ * Knowledge Agent - Crawl Reviews & Prices API
  *
- * 하드컷팅된 상품들의 리뷰 병렬 크롤링
- * - 최적화된 배치 크롤링 사용
+ * Top3 상품의 리뷰 + 가격 병렬 크롤링
+ * - 리뷰: review-crawler-lite 사용
+ * - 가격: price-crawler-lite 사용
  * - SSE 스트리밍으로 진행상황 전송
  */
 
 import { NextRequest } from 'next/server';
 import {
   fetchReviewsBatchParallel,
-  type ReviewCrawlResult,
   type ReviewLite,
 } from '@/lib/danawa/review-crawler-lite';
+import {
+  fetchPricesBatchParallel,
+  type PriceCrawlResult,
+} from '@/lib/danawa/price-crawler-lite';
+import type { DanawaPriceInfo } from '@/types/danawa';
 
 export const maxDuration = 60;
 
@@ -19,6 +24,7 @@ interface CrawlReviewsRequest {
   pcodes: string[];
   maxPerProduct?: number;
   concurrency?: number;
+  includePrices?: boolean;  // 가격 크롤링 포함 여부 (기본: true)
 }
 
 export async function POST(request: NextRequest) {
@@ -34,7 +40,7 @@ export async function POST(request: NextRequest) {
 
       try {
         const body: CrawlReviewsRequest = await request.json();
-        const { pcodes, maxPerProduct = 5, concurrency = 8 } = body;
+        const { pcodes, maxPerProduct = 5, concurrency = 8, includePrices = true } = body;
 
         if (!pcodes || pcodes.length === 0) {
           sendEvent('error', { message: 'No pcodes provided' });
@@ -42,45 +48,99 @@ export async function POST(request: NextRequest) {
           return;
         }
 
-        console.log(`\n📝 [CrawlReviews] Starting: ${pcodes.length}개 상품, 상품당 ${maxPerProduct}개 리뷰`);
+        console.log(`\n📝 [CrawlReviews] Starting: ${pcodes.length}개 상품, 상품당 ${maxPerProduct}개 리뷰${includePrices ? ' + 가격' : ''}`);
         const startTime = Date.now();
 
         sendEvent('start', {
           totalProducts: pcodes.length,
           maxPerProduct,
           concurrency,
+          includePrices,
         });
 
-        // 병렬 크롤링 (최적화된 옵션 사용)
-        const results = await fetchReviewsBatchParallel(pcodes, {
-          maxReviewsPerProduct: maxPerProduct,
-          concurrency,
-          delayBetweenChunks: 200,
-          skipMetadata: true,  // 메타데이터 생략으로 속도 향상
-          timeout: 5000,
-          onProgress: (completed, total, result) => {
-            sendEvent('progress', {
-              completed,
-              total,
-              pcode: result.pcode,
-              reviewCount: result.reviews.length,
-              success: result.success,
-            });
-          },
-        });
+        // 리뷰 + 가격 병렬 크롤링
+        let reviewsCompleted = 0;
+        let pricesCompleted = 0;
+
+        const [reviewResults, priceResults] = await Promise.all([
+          // 리뷰 크롤링
+          fetchReviewsBatchParallel(pcodes, {
+            maxReviewsPerProduct: maxPerProduct,
+            concurrency,
+            delayBetweenChunks: 200,
+            skipMetadata: true,
+            timeout: 5000,
+            onProgress: (completed, total, result) => {
+              reviewsCompleted = completed;
+              sendEvent('progress', {
+                type: 'reviews',
+                completed,
+                total,
+                pcode: result.pcode,
+                reviewCount: result.reviews.length,
+                success: result.success,
+              });
+            },
+          }),
+
+          // 가격 크롤링 (includePrices가 true일 때만)
+          includePrices
+            ? fetchPricesBatchParallel(pcodes, {
+                maxPricesPerProduct: 10,
+                concurrency: 4,  // 가격 크롤링은 더 보수적으로
+                delayBetweenChunks: 300,
+                timeout: 10000,
+                onProgress: (completed, total, result) => {
+                  pricesCompleted = completed;
+                  sendEvent('progress', {
+                    type: 'prices',
+                    completed,
+                    total,
+                    pcode: result.pcode,
+                    priceCount: result.prices.length,
+                    lowestPrice: result.lowestPrice,
+                    success: result.success,
+                  });
+                },
+              })
+            : Promise.resolve([]),
+        ]);
 
         const elapsedMs = Date.now() - startTime;
 
         // pcode별 리뷰 맵 생성
         const reviewMap: Record<string, ReviewLite[]> = {};
         let totalReviews = 0;
-        let successCount = 0;
+        let reviewSuccessCount = 0;
 
-        for (const result of results) {
+        for (const result of reviewResults) {
           if (result.success) {
-            successCount++;
+            reviewSuccessCount++;
             reviewMap[result.pcode] = result.reviews;
             totalReviews += result.reviews.length;
+          }
+        }
+
+        // pcode별 가격 맵 생성
+        const priceMap: Record<string, {
+          lowestPrice: number | null;
+          lowestMall: string | null;
+          lowestDelivery: string | null;
+          lowestLink: string | null;
+          prices: DanawaPriceInfo[];
+        }> = {};
+        let priceSuccessCount = 0;
+
+        for (const result of priceResults) {
+          if (result.success) {
+            priceSuccessCount++;
+            priceMap[result.pcode] = {
+              lowestPrice: result.lowestPrice,
+              lowestMall: result.lowestMall,
+              lowestDelivery: result.lowestDelivery,
+              lowestLink: result.lowestLink,
+              prices: result.prices,
+            };
           }
         }
 
@@ -88,14 +148,16 @@ export async function POST(request: NextRequest) {
         sendEvent('complete', {
           success: true,
           totalProducts: pcodes.length,
-          successCount,
+          reviewSuccessCount,
+          priceSuccessCount,
           totalReviews,
           reviews: reviewMap,
+          prices: priceMap,
           elapsedMs,
-          message: `${successCount}/${pcodes.length} 상품에서 ${totalReviews}개 리뷰 수집 (${(elapsedMs / 1000).toFixed(1)}초)`,
+          message: `${reviewSuccessCount}/${pcodes.length} 상품 리뷰, ${priceSuccessCount}/${pcodes.length} 상품 가격 수집 (${(elapsedMs / 1000).toFixed(1)}초)`,
         });
 
-        console.log(`✅ [CrawlReviews] 완료: ${totalReviews}개 리뷰 (${(elapsedMs / 1000).toFixed(1)}초)`);
+        console.log(`✅ [CrawlReviews] 완료: ${totalReviews}개 리뷰, ${priceSuccessCount}개 가격 (${(elapsedMs / 1000).toFixed(1)}초)`);
 
       } catch (error) {
         console.error('[CrawlReviews] Error:', error);
@@ -123,6 +185,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const pcodesParam = searchParams.get('pcodes');
+  const includePrices = searchParams.get('includePrices') !== 'false';
 
   if (!pcodesParam) {
     return new Response(JSON.stringify({ error: 'pcodes parameter required' }), {
@@ -134,22 +197,46 @@ export async function GET(request: NextRequest) {
   const pcodes = pcodesParam.split(',').filter(p => p.trim());
 
   try {
-    const results = await fetchReviewsBatchParallel(pcodes, {
-      maxReviewsPerProduct: 5,
-      concurrency: 8,
-      skipMetadata: true,
-    });
+    const [reviewResults, priceResults] = await Promise.all([
+      fetchReviewsBatchParallel(pcodes, {
+        maxReviewsPerProduct: 5,
+        concurrency: 8,
+        skipMetadata: true,
+      }),
+      includePrices
+        ? fetchPricesBatchParallel(pcodes, {
+            maxPricesPerProduct: 10,
+            concurrency: 4,
+          })
+        : Promise.resolve([]),
+    ]);
 
     const reviewMap: Record<string, ReviewLite[]> = {};
-    for (const result of results) {
+    for (const result of reviewResults) {
       if (result.success) {
         reviewMap[result.pcode] = result.reviews;
+      }
+    }
+
+    const priceMap: Record<string, {
+      lowestPrice: number | null;
+      lowestMall: string | null;
+      prices: DanawaPriceInfo[];
+    }> = {};
+    for (const result of priceResults) {
+      if (result.success) {
+        priceMap[result.pcode] = {
+          lowestPrice: result.lowestPrice,
+          lowestMall: result.lowestMall,
+          prices: result.prices,
+        };
       }
     }
 
     return new Response(JSON.stringify({
       success: true,
       reviews: reviewMap,
+      prices: priceMap,
     }), {
       headers: { 'Content-Type': 'application/json' },
     });

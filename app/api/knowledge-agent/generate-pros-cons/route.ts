@@ -26,6 +26,7 @@ interface ProductProsConsResult {
   prosFromReviews: string[];
   consFromReviews: string[];
   oneLiner: string; // 한줄평
+  comparativeOneLiner: string; // 다른 상품과 비교한 한줄 정리
 }
 
 interface RequestBody {
@@ -113,12 +114,13 @@ async function generateProsConsWithOneLiner(
       prosFromReviews: [],
       consFromReviews: [],
       oneLiner: '',
+      comparativeOneLiner: '',
     }));
   }
 
   const model = ai.getGenerativeModel({
     model: PROS_CONS_MODEL,
-    generationConfig: { temperature: 0.4, maxOutputTokens: 3500 },
+    generationConfig: { temperature: 0.4, maxOutputTokens: 6000 },
   });
 
   // 사용자 컨텍스트 (질문 응답)
@@ -182,30 +184,49 @@ ${productInfos}
 ## ✍️ 작성 규칙
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-### 1️⃣ 맞춤형 추천 이유 (oneLiner) - 가장 중요!
-- **사용자가 중요시하는 가치**와 **리뷰 원문 인용**을 조합하여 작성
-- 반드시 리뷰에서 실제로 언급된 표현("~~", '~~')을 1개 이상 포함
-- 40~80자 (2문장 OK, 구체적일수록 좋음)
-- 작성 공식: "[사용자 선택 기반 추천 포인트] + [리뷰 인용 근거]"
-- 좋은 예시:
-  - "세척 편의성 중시하셨죠! '분리가 쉽고 구석구석 씻기 편해요'라는 리뷰 많음"
-  - "소음 민감하시다면 추천! 실 구매자 90%가 '조용하다'고 평가했어요"
-  - "가성비 우선이시라면, '가격 대비 성능 만족'이란 리뷰가 압도적"
-  - "안전성 걱정되셨죠? 'ISOFIX 고정 확실하다'는 후기 다수"
-- 나쁜 예시 (너무 일반적):
-  - ❌ "피로 회복 집중! 꾸준히 챙기세요"
-  - ❌ "인기 제품입니다"
-  - ❌ "품질 좋은 제품"
+### 1️⃣ 맞춤형 추천 이유 (oneLiner) - 구매 확신 주기
+- **목표:** 사용자가 선택한 조건이 이 제품에서 **어떻게 완벽하게 구현되는지** 증명하여 구매를 확신시킵니다.
+- **작성 톤:** 쇼핑 큐레이터가 옆에서 귓속말하듯 신뢰감 있고 간결하게.
+- **필수 요소:**
+  1. **User Context:** 사용자가 선택한 핵심 가치를 '상황'이나 '페르소나'로 녹일 것. (예: "밤잠 예민한 아기를 위해", "손목이 약한 분들에게")
+  2. **Social Proof:** 단순 인용("~라고 함")이 아니라, 리뷰의 **구체적인 칭찬 포인트**를 근거로 제시할 것.
+- **금지:** "당신은 ~를 선택했으므로", "리뷰에 따르면" 같은 기계적인 접속사 사용 금지.
+- **길이:** 45~70자 내외 (임팩트 있는 한 문장 또는 자연스러운 두 문장)
 
-### 2️⃣ 장점 (prosFromReviews)
-- 리뷰에서 자주 언급되는 구체적 장점 3개
-- 15~25자씩
-- 사용자 우선순위와 관련된 내용 우선
+- **Good Example:**
+  - 🤫 **소리에 민감한 아기도 꿀잠 자요!** "숨소리보다 조용해서 켜둔 줄도 몰랐다"는 평이 압도적이에요.
+  - 🧼 **매일 닦는 게 일인 육아맘 필수템.** "통세척이 가능해서 물때 걱정이 싹 사라졌다"는 극찬을 받았어요.
+  - 💪 **손목 시린 분들 주목!** "한 손으로도 거뜬히 들어올린다"는 후기가 많아요.
+- **Bad Example:**
+  - ❌ 소음을 중요하게 여기셔서 추천해요. 조용하다는 리뷰가 많아요.
+  - ❌ 세척이 편리해서 추천합니다. 분리된다는 말이 있어요.
+  - ❌ 인기 제품입니다. / 품질 좋은 제품
 
-### 3️⃣ 단점 (consFromReviews)
-- 리뷰에서 언급된 실제 단점 2개 (없으면 빈 배열)
-- 15~25자씩
-- 사용자가 피하고 싶다고 한 단점은 반드시 언급
+### 2️⃣ 장점 (prosFromReviews) - 3가지
+- 단순 스펙 나열이 아닌 **사용자가 얻게 되는 구체적 이익(Benefit)**을 작성
+- 경쟁 제품들과 구별되는 **이 제품만의 고유한 강점(USP)**을 최우선으로 배치
+- **형식:** "**키워드**: 구체적 설명" (예: "**압도적 분사력**: 거실 전체가 금방 촉촉해져요")
+
+### 3️⃣ 단점 (consFromReviews) - 2가지
+- 제품을 비하하지 말고, **"구매 전 고려해야 할 현실적 특징(Trade-off)"**으로 작성
+- 치명적인 결함보다는 사용 환경에 따른 호불호나, 감수할 수 있는 불편함을 언급하여 **신뢰도**를 높이기
+- **형식:** "**키워드**: 구체적 설명" (예: "**소음**: 터보 모드에서는 팬 소리가 들릴 수 있어요")
+- ❌ "무거워요" → ⭕ "**무게감**: 안정감은 있지만, 자주 이동하기엔 조금 무거워요"
+
+### 4️⃣ 상대 비교 한줄 정리 (comparativeOneLiner) - 다른 상품들과 비교
+- **목표:** 이 상품이 다른 추천 상품들과 비교했을 때 **어떤 점에서 차별화되는지** 핵심 포인트로 정리
+- **필수 요소:**
+  1. **비교 관점:** 가격, 기능, 스펙, 장단점 중 가장 큰 차이점을 강조
+  2. **상대적 포지셔닝:** "다른 상품 대비", "가장 ~한", "유일하게 ~" 같은 비교 표현 사용
+  3. **볼드 강조:** 핵심 차별점은 **굵게** 표시
+- **길이:** 35~60자 (비교 핵심을 짧게)
+- **Good Example:**
+  - **가격 대비 성능**이 가장 뛰어나며, 세척 편의성도 우수해요
+  - 3개 중 **유일하게 무선** 지원, 대신 가격대가 높아요
+  - **소음이 가장 적어** 밤중 사용에 최적, 다만 용량은 작은 편이에요
+- **Bad Example:**
+  - ❌ 좋은 제품입니다 (비교 없음)
+  - ❌ 추천합니다 (구체성 없음)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 📤 응답 JSON
@@ -215,16 +236,18 @@ ${productInfos}
   "results": [
     {
       "pcode": "상품코드",
-      "prosFromReviews": ["장점1", "장점2", "장점3"],
-      "consFromReviews": ["단점1", "단점2"],
-      "oneLiner": "맞춤형 추천 이유 (40~80자, 리뷰 인용 포함)"
+      "prosFromReviews": ["**키워드**: 장점 설명1", "**키워드**: 장점2", "**키워드**: 장점3"],
+      "consFromReviews": ["**키워드**: 고려사항1", "**키워드**: 고려사항2"],
+      "oneLiner": "🎯 페르소나 타겟팅 + 리뷰 기반 Social Proof (45~70자)",
+      "comparativeOneLiner": "다른 상품 대비 **차별점** 핵심 요약 (35~60자)"
     }
   ]
 }
 
 ⚠️ JSON만 출력
-⚠️ oneLiner는 반드시 리뷰 원문 인용('~~')을 포함하여 작성
-⚠️ 일반적인 문구 금지 - 구체적이고 설득력 있게!`;
+⚠️ oneLiner에 이모지 1개 + 핵심 메시지 + 리뷰 인용 구조로 작성
+⚠️ comparativeOneLiner는 다른 추천 상품들과의 비교 관점에서 작성 (단독 평가 아님!)
+⚠️ 뻔한 문구 금지 - Hook이 있는 카피로!`;
 
   try {
     console.log(`[GenerateProsCons] Generating for ${products.length} products with reviews...`);
@@ -241,12 +264,35 @@ ${productInfos}
       console.log(`[GenerateProsCons] Parsed JSON:`, JSON.stringify(parsed, null, 2).slice(0, 1000));
 
       if (parsed.results && Array.isArray(parsed.results)) {
-        // oneLiner 검증 및 보정
+        // oneLiner 및 comparativeOneLiner 검증 및 보정
         const validatedResults = parsed.results.map((r: ProductProsConsResult) => ({
           ...r,
           oneLiner: r.oneLiner && r.oneLiner.trim() ? r.oneLiner.trim() : '',
+          comparativeOneLiner: r.comparativeOneLiner && r.comparativeOneLiner.trim() ? r.comparativeOneLiner.trim() : '',
         }));
+
+        // LLM 응답에서 누락된 상품들에 대해 빈 결과 추가 (pcode 매칭)
+        const resultPcodes = new Set(validatedResults.map((r: ProductProsConsResult) => String(r.pcode)));
+        const missingProducts = products.filter(p => !resultPcodes.has(String(p.pcode)));
+
+        if (missingProducts.length > 0) {
+          console.log(`[GenerateProsCons] ⚠️ Missing ${missingProducts.length} products in LLM response:`, missingProducts.map(p => p.pcode));
+          missingProducts.forEach(p => {
+            // 리뷰가 있는데 누락된 경우 vs 리뷰가 없어서 누락된 경우 구분
+            const hasReviewsForProduct = (reviews[p.pcode] || reviews[String(p.pcode)] || []).length > 0;
+            validatedResults.push({
+              pcode: p.pcode,
+              prosFromReviews: [],
+              consFromReviews: [],
+              // 리뷰 없는 상품은 스펙 기반 간단 메시지
+              oneLiner: hasReviewsForProduct ? '' : (p.specSummary ? `📦 ${p.brand || ''} ${categoryName} 상품` : ''),
+              comparativeOneLiner: '',
+            });
+          });
+        }
+
         console.log(`[GenerateProsCons] Generated for ${validatedResults.length} products, oneLiners:`, validatedResults.map((r: ProductProsConsResult) => `${r.pcode}: "${r.oneLiner}"`));
+        console.log(`[GenerateProsCons] comparativeOneLiners:`, validatedResults.map((r: ProductProsConsResult) => `${r.pcode}: "${r.comparativeOneLiner}"`));
         return validatedResults;
       }
     } else {
@@ -263,6 +309,7 @@ ${productInfos}
     prosFromReviews: [],
     consFromReviews: [],
     oneLiner: '',
+    comparativeOneLiner: '',
   }));
 }
 
@@ -279,11 +326,17 @@ export async function POST(request: NextRequest) {
     }
 
     // 리뷰가 있는지 확인
-    const hasReviews = Object.keys(reviews || {}).length > 0 &&
+    const reviewKeys = Object.keys(reviews || {});
+    const reviewCounts = reviewKeys.map(k => `${k}: ${(reviews[k] || []).length}개`);
+    const hasReviews = reviewKeys.length > 0 &&
       Object.values(reviews || {}).some(r => r.length > 0);
 
+    console.log(`[GenerateProsCons] Review check: keys=${reviewKeys.length}, hasReviews=${hasReviews}`);
+    console.log(`[GenerateProsCons] Review counts: ${reviewCounts.join(', ') || '(없음)'}`);
+
     if (!hasReviews) {
-      console.log('[GenerateProsCons] No reviews available, returning empty results');
+      console.log('[GenerateProsCons] ⚠️ No reviews available, returning empty results');
+      console.log('[GenerateProsCons] Product pcodes:', products.map(p => p.pcode).join(', '));
       return NextResponse.json({
         success: true,
         results: products.map(p => ({
@@ -291,6 +344,7 @@ export async function POST(request: NextRequest) {
           prosFromReviews: [],
           consFromReviews: [],
           oneLiner: '',
+          comparativeOneLiner: '',
         })),
       });
     }
@@ -298,6 +352,25 @@ export async function POST(request: NextRequest) {
     console.log(`\n📝 [GenerateProsCons] Starting: ${products.length}개 상품, 리뷰 ${Object.keys(reviews).length}개 상품`);
     console.log(`[GenerateProsCons] User priorities: ${balanceSelections?.join(', ') || '없음'}`);
     console.log(`[GenerateProsCons] User avoid: ${negativeSelections?.join(', ') || '없음'}`);
+    console.log(`[GenerateProsCons] collectedInfo: ${JSON.stringify(collectedInfo || {})}`);
+
+    // 상세 디버깅 로그
+    console.log(`[GenerateProsCons] === DEBUG DATA ===`);
+    products.forEach(p => {
+      const reviewKey = p.pcode;
+      const reviewKeyStr = String(p.pcode);
+      const reviewsForProduct = reviews[reviewKey] || reviews[reviewKeyStr] || [];
+      console.log(`  - ${p.brand || ''} ${p.name} (pcode: ${p.pcode})`);
+      console.log(`    specSummary: ${p.specSummary?.slice(0, 50) || '(없음)'}...`);
+      console.log(`    matchedConditions: ${p.matchedConditions?.join(', ') || '(없음)'}`);
+      console.log(`    reviews: ${reviewsForProduct.length}개 (key tried: "${reviewKey}", "${reviewKeyStr}")`);
+      if (reviewsForProduct.length > 0) {
+        console.log(`    첫 리뷰: "${reviewsForProduct[0].content?.slice(0, 50)}..."`);
+      }
+    });
+    console.log(`[GenerateProsCons] Review keys in request: ${Object.keys(reviews).join(', ')}`);
+    console.log(`[GenerateProsCons] === END DEBUG ===`);
+
     const startTime = Date.now();
 
     const results = await generateProsConsWithOneLiner(

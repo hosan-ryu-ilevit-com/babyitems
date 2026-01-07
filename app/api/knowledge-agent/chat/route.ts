@@ -163,13 +163,62 @@ async function getProducts(categoryKey: string, searchOptions?: Partial<DanawaSe
 async function classifyUserIntent(userMessage: string, question: string, options: any[], categoryName: string): Promise<UserIntentResult> {
   if (!ai) return { type: 'A', matchedOption: options[0]?.label };
   const model = ai.getGenerativeModel({ model: MODEL_NAME, generationConfig: { temperature: 0.2 } });
-  const prompt = `당신은 "${categoryName}" 상담 챗봇입니다.\n질문: "${question}"\n선택지: ${options.map(o => `"${o.label}"`).join(', ')}\n사용자: "${userMessage}"\n\nA(선택), B(질문), C(무관) 분류하여 JSON 응답: {"type":"A"|"B"|"C", "matchedOption":"A일때 label", "interpretation":"해석", "followUpQuestion":"B일때", "suggestedSearchQuery":"B일때 검색어"}`;
+
+  const optionsText = options.map((o, i) => `${i + 1}. "${o.label}"`).join('\n');
+  const prompt = `당신은 "${categoryName}" 상담 챗봇입니다.
+
+[현재 질문]: "${question}"
+[선택지]:
+${optionsText}
+[사용자 입력]: "${userMessage}"
+
+## 분류 기준
+- **A (선택)**: 선택지 중 하나를 선택하려는 의도
+  - 정확히 일치하지 않아도 의미상 매칭 가능하면 A
+  - 예: "첫번째요", "위에꺼", "가벼운게 좋아요" → A
+
+- **B (관련 질문)**: 현재 질문/선택지에 대한 추가 정보 요청
+  - 선택지 간 차이 질문 → B (예: "LCD랑 LED 뭐가 달라요?")
+  - 현재 질문 맥락의 조언 요청 → B (예: "뭐가 좋을까요?", "추천해줘")
+  - 잘 모르겠다는 표현 → B (예: "잘 모르겠어요", "어떤게 나아요?")
+  - 현재 카테고리(${categoryName}) 관련 질문 → B
+
+- **C (무관)**: 현재 질문과 전혀 상관없는 주제
+  - 완전히 다른 제품/주제 질문 → C
+  - 단순 인사, 잡담 → C
+
+⚠️ 애매하면 B로 분류 (웹서치로 도움 제공)
+
+JSON만 응답: {"type":"A"|"B"|"C", "matchedOption":"A일때 매칭된 label", "interpretation":"사용자 의도 1줄 해석", "suggestedSearchQuery":"B일때 검색어"}`;
+
   try {
     const result = await model.generateContent(prompt);
     const jsonMatch = result.response.text().match(/\{[\s\S]*\}/);
     if (jsonMatch) return JSON.parse(jsonMatch[0]);
   } catch (e) {}
   return { type: 'A', matchedOption: options[0]?.label };
+}
+
+async function generateNaturalRedirect(userMessage: string, question: string, categoryName: string): Promise<string> {
+  if (!ai) return `다시 질문드릴게요!\n\n${question}`;
+
+  const model = ai.getGenerativeModel({ model: MODEL_NAME, generationConfig: { temperature: 0.5 } });
+  const prompt = `사용자가 "${userMessage}"라고 했는데, 현재 "${categoryName}" 추천을 위해 "${question}"을 물어보는 중입니다.
+
+사용자 입력이 현재 질문과 관련 없어 보입니다. 친절하고 자연스럽게 다시 질문으로 유도하는 1-2문장 응답을 작성하세요.
+- 딱딱하지 않게, 공감하는 톤으로
+- 사용자 입력을 부정하지 않고
+- "다시 질문드릴게요" 같은 표현으로 마무리
+- 이모지 1개 정도 사용 OK
+
+응답만 출력 (설명 없이):`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    return result.response.text().trim();
+  } catch (e) {
+    return `다시 질문드릴게요!\n\n${question}`;
+  }
 }
 
 async function performContextualSearch(categoryName: string, userSelection: string, questionContext: string, dynamicSearchQuery?: string, intentType: 'A' | 'B' = 'A'): Promise<SearchContext | null> {
@@ -283,7 +332,9 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
         if (!isExactMatch) intentResult = await classifyUserIntent(userMessage, currentTodo.question, currentTodo.options, searchKeyword);
 
         if (intentResult.type === 'C') {
-          return { success: true, phase: 'questions', content: `음, 질문과 조금 다른 내용인 것 같아요! 😊\n\n다시 질문드릴게요.\n\n${currentTodo.question}`, options: currentTodo.options.map((o:any)=>o.label), currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo };
+          send('status', { message: '자연스러운 응답 생성 중...' });
+          const naturalResponse = await generateNaturalRedirect(userMessage, currentTodo.question, searchKeyword);
+          return { success: true, phase: 'questions', content: `${naturalResponse}\n\n${currentTodo.question}`, options: currentTodo.options.map((o:any)=>o.label), currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo };
         }
 
         if (intentResult.type === 'B') {

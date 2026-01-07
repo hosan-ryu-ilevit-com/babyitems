@@ -381,6 +381,20 @@ export default function DetailedComparisonTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productIds, category, isTagBasedFlow]); // cachedDetails 의존성 제거 - 별도 useEffect에서 동기화
 
+  const isEmpty = (v: any) => v === null || v === undefined || v === '' || v === '-' || v === '정보없음' || String(v).toLowerCase() === 'null';
+
+  // **...** 를 <strong>...</strong> 으로 변환하는 함수
+  const renderFormattedText = (text: string) => {
+    if (!text) return null;
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={i} className="font-bold text-gray-900">{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
+  };
+
   if (allProducts.length === 0) return null;
 
   return (
@@ -467,7 +481,12 @@ export default function DetailedComparisonTable({
       {/* 비교표 - 2개 선택 시에만 표시 */}
       {selectedProductIds.length === 2 && selectedProducts.length === 2 && (
         <div className="mt-[33px] border border-gray-200 rounded-[12px] overflow-hidden">
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse table-fixed">
+            <colgroup>
+              <col style={{ width: '43%' }} />
+              <col style={{ width: '14%' }} />
+              <col style={{ width: '43%' }} />
+            </colgroup>
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="py-5 px-1.5 text-center" colSpan={3}>
@@ -499,7 +518,7 @@ export default function DetailedComparisonTable({
                     </div>
 
                     {/* 중앙 레이블 영역 (너비 유지) */}
-                    <div className="w-16 shrink-0 flex items-center justify-center h-full pt-3">
+                    <div className="w-12 shrink-0 flex items-center justify-center h-full pt-3">
                     </div>
 
                     {/* 오른쪽 제품 */}
@@ -534,15 +553,15 @@ export default function DetailedComparisonTable({
             <tbody>
               {/* 브랜드 */}
               <tr className="border-b border-gray-100">
-                <td className="py-3 px-2 text-center w-[40%]">
+                <td className="py-3 px-2 text-center">
                   <p className="text-[13px] text-gray-700 leading-tight font-medium">
                     {selectedRecommendations[0]?.product.brand || '-'}
                   </p>
                 </td>
-                <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">
+                <td className="py-3 px-2 text-center text-[10px] font-medium text-gray-400">
                   브랜드
                 </td>
-                <td className="py-3 px-2 text-center w-[40%]">
+                <td className="py-3 px-2 text-center">
                   <p className="text-[13px] text-gray-700 leading-tight font-medium">
                     {selectedRecommendations[1]?.product.brand || '-'}
                   </p>
@@ -551,15 +570,15 @@ export default function DetailedComparisonTable({
 
               {/* 가격 */}
               <tr className="border-b border-gray-100">
-                <td className="py-3 px-2 text-center w-[40%]">
+                <td className="py-3 px-2 text-center">
                   <p className="text-[14px] font-bold text-gray-900">
                     {selectedRecommendations[0]?.product.price.toLocaleString()}원
                   </p>
                 </td>
-                <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">
+                <td className="py-3 px-2 text-center text-[10px] font-medium text-gray-400">
                   가격
                 </td>
-                <td className="py-3 px-2 text-center w-[40%]">
+                <td className="py-3 px-2 text-center">
                   <p className="text-[14px] font-bold text-gray-900">
                     {selectedRecommendations[1]?.product.price.toLocaleString()}원
                   </p>
@@ -569,15 +588,15 @@ export default function DetailedComparisonTable({
               {/* 적합도 */}
               {showScore && (
                 <tr className="border-b border-gray-100">
-                  <td className="py-3 px-2 text-center w-[40%]">
+                  <td className="py-3 px-2 text-center">
                     <p className="text-[14px] font-bold" style={{ color: '#009896' }}>
                       {selectedRecommendations[0]?.finalScore}%
                     </p>
                   </td>
-                  <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">
+                  <td className="py-3 px-2 text-center text-[10px] font-medium text-gray-400">
                     적합도
                   </td>
-                  <td className="py-3 px-2 text-center w-[40%]">
+                  <td className="py-3 px-2 text-center">
                     <p className="text-[14px] font-bold" style={{ color: '#009896' }}>
                       {selectedRecommendations[1]?.finalScore}%
                     </p>
@@ -601,7 +620,7 @@ export default function DetailedComparisonTable({
 
                 return (
                   <tr className="border-b border-gray-100 bg-[#E6FAD2]">
-                    <td className="py-4 px-3 align-top w-[40%] text-center">
+                    <td className="py-4 px-3 align-top text-center">
                       {isLoading1 ? (
                         <div className="flex items-center justify-center gap-2 py-2">
                           <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
@@ -612,7 +631,7 @@ export default function DetailedComparisonTable({
                         {details1!.pros.slice(0, 3).map((pro, idx) => (
                           <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
                             <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                            <span className="text-center">{pro}</span>
+                            <span className="text-center">{renderFormattedText(pro)}</span>
                           </div>
                         ))}
                       </div>
@@ -620,10 +639,10 @@ export default function DetailedComparisonTable({
                         <p className="text-xs text-gray-400">-</p>
                       )}
                     </td>
-                    <td className="py-4 px-2 text-center align-middle text-[12px] font-medium text-gray-400 w-[20%]">
+                    <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-gray-400">
                       장점
                     </td>
-                    <td className="py-4 px-3 align-top w-[40%] text-center">
+                    <td className="py-4 px-3 align-top text-center">
                       {isLoading2 ? (
                         <div className="flex items-center justify-center gap-2 py-2">
                           <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
@@ -634,7 +653,7 @@ export default function DetailedComparisonTable({
                         {details2!.pros.slice(0, 3).map((pro, idx) => (
                           <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
                             <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                            <span className="text-center">{pro}</span>
+                            <span className="text-center">{renderFormattedText(pro)}</span>
                           </div>
                         ))}
                       </div>
@@ -662,7 +681,7 @@ export default function DetailedComparisonTable({
 
                 return (
                   <tr className="border-b border-gray-100 bg-[#FFEDEE]">
-                    <td className="py-4 px-3 align-top w-[40%] text-center">
+                    <td className="py-4 px-3 align-top text-center">
                       {isLoading1 ? (
                         <div className="flex items-center justify-center gap-2 py-2">
                           <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
@@ -673,7 +692,7 @@ export default function DetailedComparisonTable({
                         {details1!.cons.slice(0, 3).map((con, idx) => (
                           <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
                             <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                            <span className="text-center">{con}</span>
+                            <span className="text-center">{renderFormattedText(con)}</span>
                           </div>
                         ))}
                       </div>
@@ -681,10 +700,10 @@ export default function DetailedComparisonTable({
                         <p className="text-xs text-gray-400">-</p>
                       )}
                     </td>
-                    <td className="py-4 px-2 text-center align-middle text-[12px] font-medium text-gray-400 w-[20%]">
+                    <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-gray-400">
                       단점
                     </td>
-                    <td className="py-4 px-3 align-top w-[40%] text-center">
+                    <td className="py-4 px-3 align-top text-center">
                       {isLoading2 ? (
                         <div className="flex items-center justify-center gap-2 py-2">
                           <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
@@ -695,7 +714,7 @@ export default function DetailedComparisonTable({
                         {details2!.cons.slice(0, 3).map((con, idx) => (
                           <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
                             <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                            <span className="text-center">{con}</span>
+                            <span className="text-center">{renderFormattedText(con)}</span>
                           </div>
                         ))}
                       </div>
@@ -742,9 +761,9 @@ export default function DetailedComparisonTable({
 
                         return (
                           <tr key={`normalized-${idx}`} className="border-b border-gray-100">
-                            <td className={`py-2 px-2 text-center text-xs w-[40%] ${isEmpty1 ? 'text-gray-400' : 'text-gray-700'}`}>{value1}</td>
-                            <td className="py-2 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">{row.key}</td>
-                            <td className={`py-2 px-2 text-center text-xs w-[40%] ${isEmpty2 ? 'text-gray-400' : 'text-gray-700'}`}>{value2}</td>
+                            <td className={`py-2 px-2 text-center text-xs ${isEmpty1 ? 'text-gray-400' : 'text-gray-700'}`}>{value1}</td>
+                            <td className="py-2 px-2 text-center text-[10px] font-medium text-gray-400">{row.key}</td>
+                            <td className={`py-2 px-2 text-center text-xs ${isEmpty2 ? 'text-gray-400' : 'text-gray-700'}`}>{value2}</td>
                           </tr>
                         );
                       })}
@@ -782,6 +801,11 @@ export default function DetailedComparisonTable({
                   <tr className="border-b border-gray-100">
                     <td colSpan={3} className="py-3 px-3">
                       <table className="w-full text-xs">
+                        <colgroup>
+                          <col style={{ width: '43%' }} />
+                          <col style={{ width: '14%' }} />
+                          <col style={{ width: '43%' }} />
+                        </colgroup>
                         <tbody>
                           {metaSpecKeys.map((key, idx) => {
                             const rawVal1 = specs1[key];
@@ -792,9 +816,9 @@ export default function DetailedComparisonTable({
 
                             return (
                               <tr key={`meta-${idx}`} className="border-b border-gray-100">
-                                <td className="py-3 px-2 text-center text-[12px] text-gray-700 w-[40%]">{value1}</td>
-                                <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">{key}</td>
-                                <td className="py-3 px-2 text-center text-[12px] text-gray-700 w-[40%]">{value2}</td>
+                                <td className="py-3 px-2 text-center text-[12px] text-gray-700">{value1}</td>
+                                <td className="py-3 px-2 text-center text-[10px] font-medium text-gray-400">{key}</td>
+                                <td className="py-3 px-2 text-center text-[12px] text-gray-700">{value2}</td>
                               </tr>
                             );
                           })}
@@ -820,7 +844,7 @@ export default function DetailedComparisonTable({
 
                               return Array.from({ length: maxLen }).map((_, i) => (
                                 <tr key={`spec-${idx}-${i}`} className="border-b border-gray-100 last:border-0">
-                                  <td className="py-2 px-2 text-center text-[12px] text-gray-700 w-[40%]">
+                                  <td className="py-2 px-2 text-center text-[12px] text-gray-700">
                                     {items1[i] ? (
                                       <span className="inline-flex items-center">
                                         {items1[i].includes(':') ? items1[i] : (
@@ -834,10 +858,10 @@ export default function DetailedComparisonTable({
                                       </span>
                                     ) : '-'}
                                   </td>
-                                  <td className="py-2 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">
+                                  <td className="py-2 px-2 text-center text-[10px] font-medium text-gray-400">
                                     {i === 0 ? key : ''}
                                   </td>
-                                  <td className="py-2 px-2 text-center text-[12px] text-gray-700 w-[40%]">
+                                  <td className="py-2 px-2 text-center text-[12px] text-gray-700">
                                     {items2[i] ? (
                                       <span className="inline-flex items-center justify-end">
                                         {items2[i]}
@@ -855,9 +879,9 @@ export default function DetailedComparisonTable({
 
                             return (
                               <tr key={`spec-${idx}`} className="border-b border-gray-100 last:border-0">
-                                <td className="py-3 px-2 text-center text-[12px] text-gray-700 w-[40%]">{value1}</td>
-                                <td className="py-3 px-2 text-center text-xs font-medium text-gray-400 w-[20%]">{key}</td>
-                                <td className="py-3 px-2 text-center text-[12px] text-gray-700 w-[40%]">{value2}</td>
+                                <td className="py-3 px-2 text-center text-[12px] text-gray-700">{value1}</td>
+                                <td className="py-3 px-2 text-center text-[10px] font-medium text-gray-400">{key}</td>
+                                <td className="py-3 px-2 text-center text-[12px] text-gray-700">{value2}</td>
                               </tr>
                             );
                           })}

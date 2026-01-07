@@ -434,30 +434,72 @@ function analyzeSpecDistributionFallback(products: DanawaSearchListItem[]): stri
   return meaningfulSpecs || '(스펙 데이터 분석 중)';
 }
 
-/**
- * 상품명에서 공통 키워드/패턴 추출 (카테고리 특성 파악용)
- */
-function extractProductPatterns(products: DanawaSearchListItem[]): string[] {
-  const wordCount: Record<string, number> = {};
+// extractProductPatterns 함수는 프롬프트 간소화로 제거됨
 
-  products.forEach(p => {
-    // 상품명에서 의미있는 단어 추출 (2-10자)
-    const words = p.name.match(/[가-힣a-zA-Z0-9]{2,10}/g) || [];
-    words.forEach(word => {
-      // 브랜드명, 숫자만 있는 것 제외
-      if (!/^\d+$/.test(word) && word !== p.brand) {
-        wordCount[word] = (wordCount[word] || 0) + 1;
-      }
-    });
+/**
+ * 선택지 정제 함수 - 중복/유사 선택지 병합 및 일관된 포맷으로 정규화
+ */
+async function refineQuestionOptions(
+  questions: QuestionTodo[]
+): Promise<QuestionTodo[]> {
+  if (!ai || questions.length === 0) return questions;
+
+  // 예산 질문은 별도 로직으로 처리되므로 제외
+  const questionsToRefine = questions.filter(q =>
+    !q.id.includes('budget') && !q.question.includes('예산') && !q.question.includes('가격')
+  );
+
+  if (questionsToRefine.length === 0) return questions;
+
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: {
+      temperature: 0.25,
+      maxOutputTokens: 800,
+    }
   });
 
-  // 30% 이상 상품에서 등장하는 키워드
-  const threshold = Math.max(2, products.length * 0.3);
-  return Object.entries(wordCount)
-    .filter(([, count]) => count >= threshold)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10)
-    .map(([word]) => word);
+  // 질문별 선택지를 정제
+  const questionsData = questionsToRefine.map(q => ({
+    id: q.id,
+    options: q.options.map(o => o.label)
+  }));
+
+  const refinePrompt = `선택지 정제: 중복 병합, 일관된 포맷, 3-4개 유지
+입력: ${JSON.stringify(questionsData)}
+출력 JSON만: {"질문id":["정제된 선택지1","정제된 선택지2"]}`;
+
+  try {
+    const startTime = Date.now();
+    const result = await model.generateContent(refinePrompt);
+    const text = result.response.text();
+    console.log(`[Step3.5] Options refined in ${Date.now() - startTime}ms`);
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const refined = JSON.parse(jsonMatch[0]) as Record<string, string[]>;
+
+      // 정제된 선택지를 원본 questions에 반영
+      return questions.map(q => {
+        if (refined[q.id] && Array.isArray(refined[q.id])) {
+          const newLabels = refined[q.id];
+          return {
+            ...q,
+            options: newLabels.map((label, i) => ({
+              value: `opt_${i + 1}`,
+              label,
+              description: q.options[i]?.description || ''
+            }))
+          };
+        }
+        return q;
+      });
+    }
+  } catch (e) {
+    console.error('[Step3.5] Options refine failed:', e);
+  }
+
+  return questions;
 }
 
 async function generateQuestions(
@@ -465,7 +507,7 @@ async function generateQuestions(
   categoryName: string,
   products: DanawaSearchListItem[],
   trendAnalysis: TrendAnalysis | null,
-  knowledge: string,
+  _knowledge: string,
   filters?: DanawaFilterSection[]
 ): Promise<QuestionTodo[]> {
   if (!ai) return getDefaultQuestions(categoryName, products, trendAnalysis);
@@ -481,7 +523,8 @@ async function generateQuestions(
     return `${i + 1}. ${p.name} | 스펙: ${p.specSummary || '(없음)'}`;
   }).join('\n');
 
-  const productKeywords = extractProductPatterns(products);
+  // productKeywords는 프롬프트 간소화로 사용 안함
+  // const productKeywords = extractProductPatterns(products);
 
   // 다나와 필터 정보 (핵심 스펙 분류 기준)
   const filterSummary = filters && filters.length > 0
@@ -493,90 +536,72 @@ async function generateQuestions(
 
   // 웹서치 트렌드
   const trendsText = trendAnalysis?.trends.map((t, i) => `${i + 1}. ${t}`).join('\n') || '';
-  const prosFromWeb = trendAnalysis?.pros.map(p => `- ${p}`).join('\n') || '';
-  const consFromWeb = trendAnalysis?.cons.map(c => `- ${c}`).join('\n') || '';
 
-  const prompt = `당신은 "${categoryName}" 구매 전문 컨설턴트입니다.
+  const prompt = `
+당신은 "${categoryName}" 구매 결정을 돕는 전문 AI 쇼핑 컨시어지입니다.
+당신의 목표는 방대한 정보를 나열하는 것이 아니라, **사용자가 가장 적은 문답으로 최적의 제품군으로 좁혀갈 수 있도록 돕는 것**입니다.
 
-아래 **실시간 데이터**를 꼼꼼히 분석하여, 이 제품을 **처음 구매하는 사람**이 정말 도움받을 수 있는 핵심 질문들을 생성하세요.
+사용자는 제품을 탐색(Search)하는 것이 아니라, 당신의 제안을 승인(Approve)하고 싶어 합니다.
+제공된 [시장 데이터]를 분석하여, 구매 결정에 가장 결정적인 영향을 미치는 **핵심 질문 4~5개**를 JSON 배열로 생성하세요.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📊 실시간 분석 데이터 (${new Date().toLocaleDateString('ko-KR')})
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## [시장 데이터]
+<MarketContext>
+- **카테고리:** ${categoryName}
+- **웹 트렌드/리뷰 요약:** ${trendAnalysis ? `${trendsText || '-'} (주요 장점: ${(trendAnalysis.pros || []).slice(0,3).join(', ')} / 주요 단점: ${(trendAnalysis.cons || []).join(', ')})` : '정보 없음'}
+- **가격 분포:** 최저 ${minPrice.toLocaleString()}원 ~ 최고 ${maxPrice.toLocaleString()}원 (평균 ${avgPrice.toLocaleString()}원)
+- **주요 브랜드:** ${brands.slice(0, 6).join(', ')}
+- **필터링 옵션(다나와):** ${filterSummary}
+- **상위 제품 스펙 분석:** ${productSpecsForAnalysis}
+</MarketContext>
 
-### 1️⃣ 웹서치 트렌드
-${trendAnalysis ? `
-**요즘 트렌드:**
-${trendsText || '(분석 중)'}
+## [질문 생성 전략 (Thinking Process)]
+1. **결정적 요인 식별:** 상위 제품들의 스펙과 필터 정보를 대조하여, 제품이 가장 크게 갈리는 기준(Factor)을 찾으세요. (예: 가습기의 가열식 vs 초음파식)
+2. **트렌드 반영:** '웹 트렌드'를 참고하여 사람들이 왜 그 옵션을 고민하는지 파악하고 \`reason\` 필드에 반영하세요. 단순한 사실 전달이 아닌, **"선택의 가이드"**가 되어야 합니다.
+3. **사용자 언어:** 기술 용어보다는 사용자가 얻을 **효익(Benefit)이나 상황(Context)** 중심으로 질문하세요.
+4. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE).
 
-**구매자들이 좋아하는 점:**
-${prosFromWeb || '(분석 중)'}
+## [작성 규칙]
+1. **Target Audience Check:**
+   - "${categoryName}"이 아기용품(기저귀, 분유, 유모차, 카시트 등)이라면 **반드시** 첫 질문으로 '아기 월령/몸무게'를 물어보세요. (아기용품이 아니라면 생략)
+2. **Spec Filtering:**
+   - 모든 제품이 공통으로 가진 스펙은 질문하지 마세요. (변별력 없음)
+   - 사용자 취향이나 환경에 따라 제품 추천이 달라지는 항목을 우선순위로 두세요.
+3. **Budget Logic (Priority 99):**
+   - 마지막 질문은 반드시 예산입니다.
+   - 단순 등분하지 말고, [가격 분포] 데이터를 참고하여 '입문형', '중급형', '프리미엄형' 구간이 나뉘는 지점을 포착하여 선택지를 구성하세요.
+4. **Constraint:**
+   - "단점 피하기" 질문은 생성하지 마세요. (추후 단계에서 처리됨)
+   - 오직 JSON 배열만 출력하세요. 설명은 필요 없습니다.
 
-**주의해야 할 점:**
-${consFromWeb || '(분석 중)'}
-
-**가격 동향:** ${trendAnalysis.priceInsight || '(분석 중)'}
-` : '(웹서치 데이터 없음)'}
-
-### 2️⃣ 인기 상품 데이터 (${products.length}개 상품)
-- **가격대**: ${minPrice.toLocaleString()}원 ~ ${maxPrice.toLocaleString()}원 (평균 ${avgPrice.toLocaleString()}원)
-- **주요 브랜드**: ${brands.slice(0, 8).join(', ')}
-- **상품명 키워드**: ${productKeywords.join(', ') || '(분석 중)'}
-
-**📌 다나와 하드필터 (핵심 스펙 분류 기준):**
-${filterSummary}
-
-**📌 상위 20개 상품 상세 스펙 (이를 분석하여 선택지가 갈리는 질문을 만드세요):**
-${productSpecsForAnalysis}
-
-### 3️⃣ 축적된 지식
-${knowledge.slice(0, 1500) || '(신규 카테고리)'}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 질문 생성 규칙
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-## ✅ 반드시 해야 할 것
-1. **스펙 분석**: 제공된 20개 상품의 스펙을 보고, "용량", "타입", "재질" 등 값의 차이가 명확히 갈리는 부분을 질문으로 만드세요.
-2. **트렌드 반영**: 웹서치 트렌드에서 언급된 핵심 기능이나 장단점(트레이드오프)을 질문에 녹이세요.
-3. **사용 맥락**: 이 카테고리에 맞는 실제 사용 상황을 질문하세요.
-4. **reason(팁)**: 데이터 근거를 포함하여 왜 이 질문이 중요한지 설명하세요.
-
-## 📋 질문 구성 (3-5개)
-1. **핵심 스펙/타입** (데이터 기반)
-2. **사용 환경/맥락** (데이터 기반)
-3. **취향/트레이드오프** (웹서치 기반)
-4. **예산** (항상 마지막)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📤 JSON 출력
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
+## [출력 포맷 예시]
 \`\`\`json
 [
   {
-    "id": "영문_snake_case_id",
-    "question": "자연스러운 질문",
-    "reason": "💡 왜 중요한지 설명 (데이터 근거 포함)",
+    "id": "unique_key_name",
+    "question": "질문은 대화하듯 자연스럽게 (예: 어떤 용도로 주로 쓰시나요?)",
+    "reason": "💡 이 질문을 하는 이유와 팁 (트렌드 데이터를 기반으로 작성. 예: 신생아라면 00기능이 필수예요)",
     "options": [
-      { "value": "val1", "label": "라벨", "description": "설명" }
+      {"value": "option_val_1", "label": "사용자 친화적 라벨", "description": "해당 옵션의 특징이나 적합한 대상 요약"},
+      {"value": "option_val_2", "label": "...", "description": "..."}
     ],
     "type": "single",
     "priority": 1,
-    "dataSource": "분석 근거"
+    "dataSource": "데이터 출처 (예: 웹 트렌드, 상위 스펙 분석)"
   }
 ]
 \`\`\`
+
+위 전략과 규칙에 따라 "${categoryName}"에 최적화된 질문 JSON을 생성하세요.
 `;
 
   try {
     console.log(`[Step3] Generating questions for "${categoryName}" with ${products.length} products (Combined Spec Analysis)`);
     const startTime = Date.now();
 
-    const model = ai.getGenerativeModel({ 
+    const model = ai.getGenerativeModel({
       model: 'gemini-2.5-flash-lite',
       generationConfig: {
-        temperature: 0.2,
+        temperature: 0.35,
         maxOutputTokens: 1500,
       }
     });
@@ -593,7 +618,7 @@ ${knowledge.slice(0, 1500) || '(신규 카테고리)'}
         questions = questions.map(q => ({ ...q, completed: false }));
         
         // 예산 질문 보정 (생략 가능하나 기존 로직 유지)
-        const budgetQ = questions.find(q => 
+        const budgetQ = questions.find(q =>
           q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격')
         );
         if (budgetQ && prices.length > 0) {
@@ -606,7 +631,9 @@ ${knowledge.slice(0, 1500) || '(신규 카테고리)'}
           ];
         }
 
-        return questions;
+        // 선택지 정제 (중복/유사 제거, 일관된 포맷)
+        const refinedQuestions = await refineQuestionOptions(questions);
+        return refinedQuestions;
       } catch (e) {
         console.error('[Step3] JSON parse error:', e);
       }
@@ -619,19 +646,14 @@ ${knowledge.slice(0, 1500) || '(신규 카테고리)'}
 }
 
 /**
- * LLM 호출 실패 시 fallback - 데이터 기반 기본 질문 생성
- * 스펙 분포를 분석하여 동적으로 질문 생성
+ * LLM 호출 실패 시 fallback - 스펙 기반 질문만 생성
+ * 하드코딩 질문 없이 상품 스펙 분포만 분석
  */
 function getDefaultQuestions(
   categoryName: string,
   products: DanawaSearchListItem[],
-  trendAnalysis: TrendAnalysis | null
+  _trendAnalysis: TrendAnalysis | null
 ): QuestionTodo[] {
-  const prices = products.map(p => p.price).filter((p): p is number => p !== null && p > 0);
-  const minPrice = prices.length ? Math.min(...prices) : 50000;
-  const maxPrice = prices.length ? Math.max(...prices) : 500000;
-  const avgPrice = prices.length ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 150000;
-
   const questions: QuestionTodo[] = [];
 
   // 스펙 분포 분석 - 선택지가 갈리는 스펙을 질문으로 변환
@@ -712,101 +734,11 @@ function getDefaultQuestions(
     });
   });
 
-  // 2. 웹서치 트렌드 기반 트레이드오프 질문
-  const topPros = trendAnalysis?.pros || [];
-  const topCons = trendAnalysis?.cons || [];
+  // NOTE: 하드코딩 질문 (트레이드오프/브랜드/예산) 제거
+  // - LLM이 웹서치 + 스펙 데이터 기반으로 동적 생성하도록 함
+  // - fallback은 스펙 기반 질문만 제공
 
-  if (topPros.length >= 2) {
-    questions.push({
-      id: 'tradeoff_trend',
-      question: `${categoryName} 선택 시 더 중요한 것은?`,
-      reason: `💡 최근 트렌드 분석 결과, 구매자들이 가장 중요하게 생각하는 요소들이에요.`,
-      options: topPros.slice(0, 3).map((pro, i) => ({
-        value: `pro_${i}`,
-        label: pro.slice(0, 20),
-        description: i === 0 ? '가장 많이 선호' : '많은 분들이 선호'
-      })),
-      type: 'single',
-      priority: questions.length + 1,
-      dataSource: '웹서치 트렌드 분석',
-      completed: false
-    });
-  }
-
-  // 3. 피하고 싶은 단점 (multi-select)
-  if (topCons.length >= 2) {
-    questions.push({
-      id: 'avoid_cons',
-      question: '피하고 싶은 단점이 있으신가요? (복수 선택 가능)',
-      reason: `💡 실사용자 리뷰에서 자주 언급되는 주의점들이에요. 선택하시면 해당 제품은 제외해드려요.`,
-      options: topCons.slice(0, 4).map((con, i) => ({
-        value: `con_${i}`,
-        label: con.slice(0, 20),
-        description: '선택 시 해당 제품 제외'
-      })),
-      type: 'multi',
-      priority: questions.length + 1,
-      dataSource: '웹서치 리뷰 분석',
-      completed: false
-    });
-  }
-
-  // 4. 브랜드 선호도 질문 (상위 브랜드가 3개 이상이면)
-  const brandCounts: Record<string, number> = {};
-  products.forEach(p => {
-    if (p.brand) brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1;
-  });
-  const topBrands = Object.entries(brandCounts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 4);
-
-  if (topBrands.length >= 3 && questions.length < 5) {
-    questions.push({
-      id: 'brand_preference',
-      question: '선호하는 브랜드가 있으신가요?',
-      reason: `💡 브랜드별로 특징이 달라요. 특별한 선호가 없다면 "상관없음"을 선택해주세요.`,
-      options: [
-        ...topBrands.map(([brand, count]) => ({
-          value: brand.toLowerCase().replace(/\s/g, '_'),
-          label: brand,
-          description: `${count}개 상품`
-        })),
-        { value: 'any', label: '상관없음', description: '모든 브랜드 포함' }
-      ],
-      type: 'single',
-      priority: questions.length + 1,
-      dataSource: `${products.length}개 상품 브랜드 분석`,
-      completed: false
-    });
-  }
-
-  // 5. 예산 질문 (항상 마지막)
-  const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
-  const midMax = Math.round(avgPrice * 1.3);
-
-  // 만원 단위로 표시 (0만원 방지)
-  const formatPrice = (price: number) => {
-    const man = Math.round(price / 10000);
-    return man > 0 ? `${man}만원` : `${Math.round(price / 1000)}천원`;
-  };
-
-  questions.push({
-    id: 'budget',
-    question: '예산은 어느 정도 생각하시나요?',
-    reason: `💡 현재 ${categoryName} 가격대는 ${formatPrice(minPrice)}~${formatPrice(maxPrice)}이에요. 가격대별로 기능 차이가 있어요.`,
-    options: [
-      { value: 'entry', label: `${formatPrice(minPrice)}~${formatPrice(entryMax)}`, description: '가성비 모델' },
-      { value: 'mid', label: `${formatPrice(entryMax)}~${formatPrice(midMax)}`, description: '인기 가격대' },
-      { value: 'premium', label: `${formatPrice(midMax)} 이상`, description: '프리미엄' },
-      { value: 'any', label: '상관없음', description: '예산 무관' }
-    ],
-    type: 'single',
-    priority: 99,
-    dataSource: `${products.length}개 상품 가격 분석`,
-    completed: false
-  });
-
-  console.log(`[DefaultQuestions] Generated ${questions.length} fallback questions from spec analysis`);
+  console.log(`[DefaultQuestions] Generated ${questions.length} fallback questions from spec analysis only`);
   return questions;
 }
 
