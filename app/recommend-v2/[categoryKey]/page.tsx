@@ -274,15 +274,14 @@ export default function RecommendV2Page() {
 
   // Step Indicator Prop Mapping
   const indicatorStep = useMemo(() => {
-    // 1단계: 조건 고르기 (체감속성, 하드필터)
-    // 2단계: 밸런스 게임 (밸런스게임)
-    // 3단계: 피할 단점 (부정필터)
-    // 4단계: 예산 설정 (예산설택, 마지막질문)
-    if (currentStep === 1 || currentStep === 2) return 1;
-    if (currentStep === 3) return 2;
-    if (currentStep === 4) return 3;
-    if (currentStep === 5) return 4;
-    return 1;
+    // 1단계: 카테고리 설정 (CategoriesPage에서 처리)
+    // 2단계: 구매 조건 (체감속성, 하드필터, 후보요약)
+    // 3단계: 취향 선택 (밸런스 게임)
+    // 4단계: 단점·예산 (부정필터, 예산설택, 마지막질문)
+    if (currentStep === 1 || currentStep === 2) return 2;
+    if (currentStep === 3) return 3;
+    if (currentStep === 4 || currentStep === 5) return 4;
+    return 2;
   }, [currentStep]);
 
   // Sub-category state (for stroller, car_seat, diaper) - 다중 선택 지원
@@ -3634,17 +3633,17 @@ export default function RecommendV2Page() {
           <FeedbackButton source={`recommend-v2-${categoryKey}`} variant="minimal" className="ml-auto" />
         </header>
 
+        {/* Step Indicator - Moved outside main for consistency with categories page */}
+        {currentStep >= 1 && !isCalculating && scoredProducts.length === 0 && (
+          <StepIndicator currentStep={indicatorStep} className="sticky top-[54px]" />
+        )}
+
         {/* Content */}
         <main
           ref={scrollContainerRef}
           className="flex-1 overflow-y-auto px-4 pb-6 pt-0 bg-white relative"
           style={{ paddingBottom: currentStep === 5 && scoredProducts.length > 0 ? '350px' : '102px' }}
         >
-          {/* Step Indicator - Moved inside main for true floating effect */}
-          {currentStep >= 1 && !isCalculating && scoredProducts.length === 0 && (
-            <StepIndicator currentStep={indicatorStep} className="top-0" />
-          )}
-
           <AnimatePresence mode="wait">
             {/* Step 0: Scan Animation */}
             {currentStep === 0 && showScanAnimation && (

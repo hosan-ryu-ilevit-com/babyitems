@@ -7,15 +7,15 @@ interface StepIndicatorProps {
 
 export function StepIndicator({ currentStep = 1, className }: StepIndicatorProps) {
   const steps = [
-    { id: 1, label: '조건 고르기' },
-    { id: 2, label: '밸런스 게임' },
-    { id: 3, label: '피할 단점' },
-    { id: 4, label: '예산 설정' },
+    { id: 1, label: '카테고리 설정' },
+    { id: 2, label: '구매 조건' },
+    { id: 3, label: '취향 선택' },
+    { id: 4, label: '단점·예산' },
   ];
 
   return (
     <div className={`sticky left-0 right-0 z-40 flex justify-center pointer-events-none ${className ?? 'top-0'}`}>
-      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white pt-[12px] pb-[10px] pointer-events-auto">
+      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white pt-[12px] pb-[10px] px-5 pointer-events-auto">
         <div className="flex w-full justify-between items-center mb-[6px]">
           {steps.map((step) => {
             const isCompleted = step.id < currentStep;

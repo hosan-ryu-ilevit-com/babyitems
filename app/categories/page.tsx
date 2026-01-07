@@ -5,6 +5,7 @@ import { motion, Variants, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { logPageView, logButtonClick, logAIHelperButtonClicked } from '@/lib/logging/clientLogger';
 import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
+import { StepIndicator } from '@/components/StepIndicator';
 import FeedbackButton from '@/components/FeedbackButton';
 import Image from 'next/image';
 
@@ -20,13 +21,12 @@ interface DanawaCategory {
 interface UnifiedCategory {
   id: string;
   name: string;
-  emoji: string;
+  image: string;
 }
 
 interface DisplayGroup {
   id: string;
   name: string;
-  emoji: string;
   categories: UnifiedCategory[];
 }
 
@@ -110,43 +110,43 @@ const AGE_FILTERS: AgeFilter[] = [
 
 const CATEGORY_GROUPS: DisplayGroup[] = [
   {
-    id: 'mobility', name: '이동수단', emoji: '🚗',
+    id: 'mobility', name: '이동수단',
     categories: [
-      { id: 'stroller', name: '유모차', emoji: '🛒' },
-      { id: 'car_seat', name: '카시트', emoji: '🚘' },
+      { id: 'stroller', name: '유모차', image: '/images/categories/유모차.png' },
+      { id: 'car_seat', name: '카시트', image: '/images/categories/카시트.png' },
     ],
   },
   {
-    id: 'feeding', name: '수유용품', emoji: '🍼',
+    id: 'feeding', name: '수유용품',
     categories: [
-      { id: 'formula', name: '분유', emoji: '🥛' },
-      { id: 'baby_formula_dispenser', name: '분유제조기', emoji: '🤖' },
-      { id: 'milk_powder_port', name: '분유포트', emoji: '🫖' },
-      { id: 'baby_bottle', name: '젖병', emoji: '🍼' },
-      { id: 'pacifier', name: '쪽쪽이/노리개', emoji: '👶' },
+      { id: 'formula', name: '분유', image: '/images/categories/분유.png' },
+      { id: 'baby_formula_dispenser', name: '분유제조기', image: '/images/categories/분유제조기.png' },
+      { id: 'milk_powder_port', name: '분유포트', image: '/images/categories/분유포트.png' },
+      { id: 'pacifier', name: '쪽쪽이/노리개', image: '/images/categories/쪽쪽이:노리개.png' },
+      { id: 'baby_bottle', name: '젖병', image: '/images/categories/젖병.png' },
     ],
   },
   {
-    id: 'diaper', name: '기저귀/위생', emoji: '👶',
+    id: 'diaper', name: '기저귀/위생',
     categories: [
-      { id: 'diaper', name: '기저귀', emoji: '🚼' },
-      { id: 'baby_wipes', name: '아기물티슈', emoji: '🧻' },
+      { id: 'diaper', name: '기저귀', image: '/images/categories/기저귀.png' },
+      { id: 'baby_wipes', name: '아기물티슈', image: '/images/categories/아기물티슈.png' },
     ],
   },
   {
-    id: 'health', name: '건강/안전', emoji: '🏥',
+    id: 'health', name: '건강/안전',
     categories: [
-      { id: 'thermometer', name: '체온계', emoji: '🌡️' },
-      { id: 'nasal_aspirator', name: '코흡입기', emoji: '👃' },
+      { id: 'thermometer', name: '체온계', image: '/images/categories/체온계.png' },
+      { id: 'nasal_aspirator', name: '코흡입기', image: '/images/categories/코흡입기.png' },
     ],
   },
   {
-    id: 'furniture', name: '유아가구', emoji: '🛌',
+    id: 'furniture', name: '유아가구',
     categories: [
-      { id: 'baby_bed', name: '유아침대', emoji: '🛏️' },
-      { id: 'high_chair', name: '유아의자', emoji: '🪑' },
-      { id: 'baby_sofa', name: '유아소파', emoji: '🛋️' },
-      { id: 'baby_desk', name: '유아책상', emoji: '📝' },
+      { id: 'baby_bed', name: '유아침대', image: '/images/categories/유아침대.png' },
+      { id: 'high_chair', name: '유아의자', image: '/images/categories/유아:식탁의자.png' },
+      { id: 'baby_sofa', name: '유아소파', image: '/images/categories/유아소파.png' },
+      { id: 'baby_desk', name: '유아책상', image: '/images/categories/유아책상.png' },
     ],
   },
 ];
@@ -156,7 +156,7 @@ const CATEGORY_GROUPS: DisplayGroup[] = [
 // 연령대 탭 (디자인 변경)
 function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: (id: string) => void }) {
   return (
-    <div className="overflow-x-auto scrollbar-hide -mx-5 px-5 mb-6">
+    <div className="overflow-x-auto scrollbar-hide -mx-5 px-5 mb-4">
       <div className="flex items-center gap-2">
         {AGE_FILTERS.map((filter) => (
           <motion.button
@@ -177,32 +177,43 @@ function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: 
 }
 
 // 카테고리 카드 (디자인 변경)
-function CategoryCard({ name, emoji, isSelected, onClick, isLoading }: { name: string; emoji: string; isSelected: boolean; onClick: () => void; isLoading: boolean }) {
+function CategoryCard({ name, image, isSelected, onClick, isLoading }: { name: string; image: string; isSelected: boolean; onClick: () => void; isLoading: boolean }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col items-center">
       <motion.button
         onClick={onClick}
         disabled={isLoading}
         whileTap={isLoading ? undefined : { scale: 0.98 }}
-        className={`relative h-[50px] w-full rounded-xl border flex items-center px-4 gap-2.5 ${isSelected
-            ? 'bg-purple-50 border-purple-200 text-purple-700'
-            : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200'
+        className={`relative w-[112px] h-[112px] rounded-2xl border flex flex-col items-center pt-3 pb-2 gap-1 ${isSelected
+            ? 'bg-purple-50 border-purple-200 shadow-xs'
+            : 'bg-white border-gray-100 hover:border-gray-200 shadow-xs'
           }`}
       >
         {isLoading ? (
-          <div className="w-5 h-5 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto" />
+          <div className="w-6 h-6 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin my-auto" />
         ) : (
           <>
-            <span className="text-[18px]">{emoji}</span>
-            <span className="text-[15px] font-medium text-left">{name}</span>
+            <span className="text-[14px] font-medium text-gray-600">{name}</span>
+            <div className="relative w-[54px] h-[54px] mt-auto">
+              <Image
+                src={image}
+                alt={name}
+                fill
+                className="object-contain"
+                sizes="54px"
+              />
+            </div>
           </>
         )}
+
+        {isSelected && !isLoading && (
+          <div className="absolute -top-1.5 -right-1.5 z-10">
+            <div className="bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">
+              선택됨
+            </div>
+          </div>
+        )}
       </motion.button>
-      {isSelected && !isLoading && (
-        <div className="flex px-1">
-          <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded-md">추천완료</span>
-        </div>
-      )}
     </div>
   );
 }
@@ -356,20 +367,29 @@ export default function CategoriesPage() {
               priority
             />
           </button>
-          <div className="absolute left-1/2 -translate-x-1/2">
-            <h1 className="text-[17px] font-bold text-gray-900 tracking-tight whitespace-nowrap">
-              카테고리 선택
-            </h1>
-          </div>
         </header>
+
+        <StepIndicator currentStep={1} className="sticky top-[54px]" />
 
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex-1 flex flex-col pt-4"
+          className="flex-1 flex flex-col pt-0"
         >
-          <div className="px-5 pt-0 pb-12">
+          <div className="px-4 pt-0 pb-12">
+            {/* 질문 헤더 */}
+            <motion.div variants={itemVariants} className="mt-[11px] mb-[16px]">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[15px] text-gray-400 font-semibold">
+                  카테고리 설정
+                </span>
+              </div>
+              <h3 className="text-[18px] font-bold text-gray-900 leading-snug break-keep">
+                찾으시는 상품을 선택하세요
+              </h3>
+            </motion.div>
+
             {/* 5. AI 도움받기 버튼 (인사형 애니메이션 적용) */}
             <motion.button
               variants={itemVariants}
@@ -378,7 +398,7 @@ export default function CategoriesPage() {
                 logAIHelperButtonClicked('category_selection', 'category_select', '어떤 상품을 찾으시나요?', 'all', '전체');
                 setIsAIHelperOpen(true);
               }}
-              className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mt-4 mb-4 bg-white"
+              className="w-full h-[48px] rounded-xl ai-gradient-border flex items-center justify-center gap-2 mb-4 bg-white"
             >
               <motion.img
                 src="/icons/ic-ai.svg"
@@ -415,16 +435,16 @@ export default function CategoriesPage() {
               >
                 {selectedAgeId === 'all' ? (
                   CATEGORY_GROUPS.map((group) => (
-                    <div key={group.id} className="mb-10">
-                      <div className="flex items-center gap-2 mb-4">
-                        <h3 className="text-[16px] font-bold text-gray-900">{group.name}</h3>
+                    <div key={group.id} className="mb-8">
+                      <div className="flex items-center py-[10px]">
+                        <h3 className="text-[16px] font-semibold text-gray-800">{group.name}</h3>
                       </div>
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-3 gap-y-4 gap-x-2">
                         {group.categories.map((cat) => (
                           <CategoryCard
                             key={cat.id}
                             name={cat.name}
-                            emoji={cat.emoji}
+                            image={cat.image}
                             isSelected={completedCategories.has(cat.id)}
                             isLoading={loadingCategoryId === cat.id}
                             onClick={() => handleCategorySelect(cat.id, cat.name)}
@@ -450,16 +470,16 @@ export default function CategoriesPage() {
                       if (categories.length === 0) return null;
 
                       return (
-                        <div key={`${selectedAgeId}-${idx}`} className="mb-10">
-                          <div className="flex items-center gap-2 mb-4">
-                            <h3 className="text-[16px] font-bold text-gray-900">{ageGroup.name}</h3>
+                        <div key={`${selectedAgeId}-${idx}`} className="mb-8">
+                          <div className="flex items-center py-[10px]">
+                            <h3 className="text-[16px] font-semibold text-gray-800">{ageGroup.name}</h3>
                           </div>
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="grid grid-cols-3 gap-y-4 gap-x-2">
                             {categories.map((cat) => (
                               <CategoryCard
                                 key={cat.id}
                                 name={cat.name}
-                                emoji={cat.emoji}
+                                image={cat.image}
                                 isSelected={completedCategories.has(cat.id)}
                                 isLoading={loadingCategoryId === cat.id}
                                 onClick={() => handleCategorySelect(cat.id, cat.name)}
