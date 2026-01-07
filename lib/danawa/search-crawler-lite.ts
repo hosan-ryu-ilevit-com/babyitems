@@ -373,36 +373,63 @@ export async function crawlDanawaSearchListLite(
   console.log(`   URL: ${searchUrl}`);
 
   try {
-    // ZenRows 프록시 사용 여부 (환경변수 또는 하드코딩)
-    const ZENROWS_API_KEY = process.env.ZENROWS_API_KEY || '1d9442d1cd5d9b2dd345f16796489bcd3ca3e7ed';
-    const USE_PROXY = process.env.USE_ZENROWS_PROXY === 'true' || process.env.VERCEL === '1';
+    // Fly.io 크롤러 서버 사용 여부 (Vercel 배포 환경)
+    const FLY_CRAWLER_URL = process.env.FLY_CRAWLER_URL || 'https://danawa-crawler.fly.dev';
+    const USE_FLY_CRAWLER = process.env.VERCEL === '1';
 
-    let response;
+    // Vercel 환경에서는 Fly.io 크롤러 서버 사용
+    if (USE_FLY_CRAWLER) {
+      console.log(`   🚀 Using Fly.io crawler server`);
 
-    if (USE_PROXY && ZENROWS_API_KEY) {
-      // ZenRows 프록시를 통한 요청 (Vercel 배포 환경)
-      const proxyUrl = `https://api.zenrows.com/v1/?apikey=${ZENROWS_API_KEY}&url=${encodeURIComponent(searchUrl)}`;
-      console.log(`   🔄 Using ZenRows proxy (Vercel environment detected)`);
-
-      response = await axios.get(proxyUrl, {
-        timeout: 30000, // 프록시 경유로 시간 여유 있게
-        responseType: 'text',
+      const flyResponse = await axios.post(`${FLY_CRAWLER_URL}/crawl/search`, {
+        query: options.query,
+        limit: options.limit || 40,
+        sort: options.sort || 'saveDESC',
+        minPrice: options.minPrice,
+        maxPrice: options.maxPrice,
+      }, {
+        timeout: 60000, // 60초 (Fly.io는 타임아웃 없음)
+        headers: { 'Content-Type': 'application/json' },
       });
-    } else {
-      // 직접 요청 (로컬 개발 환경)
-      response = await axios.get(searchUrl, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Connection': 'keep-alive',
-          'Cache-Control': 'max-age=0',
-        },
-        timeout: 15000,
-        responseType: 'text',
-      });
+
+      const data = flyResponse.data;
+      console.log(`   ✅ Fly.io response: ${data.items?.length || 0} products (${data.elapsed}ms)`);
+
+      // Fly.io 응답을 그대로 반환
+      if (data.success && data.items) {
+        // onProductFound 콜백 호출
+        if (onProductFound) {
+          data.items.forEach((item: DanawaSearchListItem, index: number) => {
+            onProductFound(item, index);
+          });
+        }
+
+        return {
+          success: true,
+          query: data.query,
+          totalCount: data.totalCount,
+          items: data.items,
+          searchUrl: data.searchUrl,
+          filters: data.filters,
+        };
+      }
+
+      throw new Error(data.error || 'Fly.io crawler failed');
     }
+
+    // 로컬 환경에서는 직접 요청
+    const response = await axios.get(searchUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'max-age=0',
+      },
+      timeout: 15000,
+      responseType: 'text',
+    });
 
     console.log(`   ✅ HTML fetched (${Math.round(response.data.length / 1024)}KB)`);
 
