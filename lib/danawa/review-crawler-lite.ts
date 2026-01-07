@@ -164,20 +164,22 @@ export async function fetchReviewsLite(
             const $item = $review(el);
 
             // 내용 추출: .atc_exp가 있으면 그것만 사용 (펼쳐보기 클릭 시 나타나는 전체 내용)
-            // 없으면 .atc_cont 또는 .atc, .rvw_atc 사용
+            // 없으면 .atc_cont 내의 .atc 사용 (주의: .atc_cont 전체를 사용하면 .tit과 .atc가 합쳐져 중복됨)
             const $atcExp = $item.find('.atc_exp');
-            const $atcCont = $item.find('.atc_cont');
+            const $atcInCont = $item.find('.atc_cont .atc');  // .atc_cont 내의 .atc만 선택
+            const $atcDirect = $item.find('.atc, .rvw_atc');  // 직접 .atc 선택
             
             let content = '';
             if ($atcExp.length > 0 && $atcExp.text().trim().length > 10) {
               content = $atcExp.text().trim();
-            } else if ($atcCont.length > 0) {
-              content = $atcCont.text().trim();
-            } else {
-              // 최후의 수단으로 부모 요소에서 텍스트 추출하되 "펼쳐보기" 등의 버튼 텍스트 제외 시도
-              const $atc = $item.find('.atc, .rvw_atc').clone();
-              $atc.find('.btn_more, .btn_atc_exp, .btn_rvw_atc, style, script').remove();
-              content = $atc.text().trim();
+            } else if ($atcInCont.length > 0) {
+              // .atc_cont 내의 .atc만 가져옴 (중복 방지)
+              content = $atcInCont.text().trim();
+            } else if ($atcDirect.length > 0) {
+              // 최후의 수단으로 .atc 또는 .rvw_atc에서 직접 텍스트 추출
+              const $cloned = $atcDirect.clone();
+              $cloned.find('.btn_more, .btn_atc_exp, .btn_rvw_atc, .tit_W, .tit, style, script').remove();
+              content = $cloned.text().trim();
             }
 
             if (!content || content.length < 5) return;

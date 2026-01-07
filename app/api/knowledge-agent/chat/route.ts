@@ -247,16 +247,142 @@ async function performContextualSearch(categoryName: string, userSelection: stri
   return null;
 }
 
+/**
+ * 밸런스 게임 + 단점 필터 동적 생성 (개선된 버전)
+ * - 후보 상품들의 스펙을 분석하여 "실제로 갈리는" 속성 기반 질문 생성
+ * - 트레이드오프가 명확한 질문만 생성
+ */
 async function generateDynamicQuestionsAI(categoryKey: string, collectedInfo: any, products: any[]) {
-  if (!ai) return { balance_questions: [], negative_filter_options: [] };
-  const model = ai.getGenerativeModel({ model: MODEL_NAME });
-  const prompt = `후보 상품 분석하여 밸런스 게임(1-3개)과 단점 옵션(4-6개) JSON 생성.\n정보: ${JSON.stringify(collectedInfo)}\n상품: ${products.slice(0,10).map(p=>p.name).join(', ')}`;
+  if (!ai || products.length === 0) return { balance_questions: [], negative_filter_options: [] };
+
+  // 1. 상품 스펙 분포 분석 (어떤 속성이 갈리는지 파악)
+  const specDistribution = analyzeSpecDistribution(products);
+  const divergingSpecs = specDistribution.filter(s => s.divergence > 0.3).slice(0, 5);
+
+  const model = ai.getGenerativeModel({
+    model: MODEL_NAME,
+    generationConfig: { temperature: 0.4, maxOutputTokens: 1500 }
+  });
+
+  // 2. 상품 데이터 요약 (토큰 절약)
+  const productSummary = products.slice(0, 15).map(p => ({
+    name: p.name?.slice(0, 30),
+    brand: p.brand,
+    price: p.price,
+    spec: p.specSummary?.slice(0, 100) || '',
+  }));
+
+  const prompt = `## 역할
+${categoryKey} 구매 결정을 돕는 밸런스 게임과 단점 필터를 생성하세요.
+
+## 사용자 정보
+${JSON.stringify(collectedInfo)}
+
+## 후보 상품 (${products.length}개 중 상위 15개)
+${JSON.stringify(productSummary, null, 1)}
+
+## 스펙 분포 분석 (상품들이 갈리는 속성)
+${divergingSpecs.map(s => `- ${s.key}: ${s.values.slice(0, 4).map(v => `"${v.value}"(${v.count}개)`).join(', ')}`).join('\n')}
+
+## 밸런스 게임 생성 규칙
+1. **실제로 상품이 갈리는 속성**으로만 질문 생성 (위 스펙 분포 참고)
+2. 선택에 따라 추천 상품이 달라지는 트레이드오프 질문
+3. 2~3개의 핵심 질문만 (너무 많으면 피로감)
+4. option_A, option_B 각각 target_rule_key 지정 (스펙 키워드)
+
+## 단점 필터 생성 규칙
+1. 실제 상품 스펙에서 발견되는 단점/주의사항
+2. 4~5개 옵션 (선택 시 해당 상품 감점)
+3. 각 옵션에 target_rule_key와 exclude_mode 지정
+
+## 응답 형식 (JSON만)
+{
+  "balance_questions": [
+    {
+      "id": "balance_1",
+      "type": "tradeoff",
+      "title": "A vs B 형식 질문",
+      "option_A": { "text": "옵션A 설명", "target_rule_key": "스펙키워드A" },
+      "option_B": { "text": "옵션B 설명", "target_rule_key": "스펙키워드B" }
+    }
+  ],
+  "negative_filter_options": [
+    {
+      "id": "neg_1",
+      "label": "피하고 싶은 단점",
+      "target_rule_key": "관련스펙키워드",
+      "exclude_mode": "penalty"
+    }
+  ]
+}
+
+⚠️ JSON만 응답. 밸런스 질문 2-3개, 단점 옵션 4-5개.`;
+
   try {
     const result = await model.generateContent(prompt);
-    const jsonMatch = result.response.text().match(/\{[\s\S]*\}/);
-    if (jsonMatch) return JSON.parse(jsonMatch[0]);
-  } catch (e) {}
+    const text = result.response.text();
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      console.log(`[BalanceGame] Generated ${parsed.balance_questions?.length || 0} questions, ${parsed.negative_filter_options?.length || 0} negative options`);
+      return parsed;
+    }
+  } catch (e) {
+    console.error('[BalanceGame] Generation failed:', e);
+  }
   return { balance_questions: [], negative_filter_options: [] };
+}
+
+/**
+ * 상품 스펙 분포 분석 - 어떤 속성에서 상품들이 갈리는지 파악
+ */
+function analyzeSpecDistribution(products: any[]): Array<{
+  key: string;
+  values: Array<{ value: string; count: number }>;
+  divergence: number;  // 0~1 (1에 가까울수록 다양한 값)
+}> {
+  const specMap: Record<string, Map<string, number>> = {};
+
+  for (const product of products.slice(0, 30)) {
+    if (!product.specSummary) continue;
+
+    // 스펙 문자열 파싱 (예: "용량:5L / 타입:디지털 / 무선")
+    const parts = product.specSummary.split(/[\/|,]/).map((s: string) => s.trim());
+    for (const part of parts) {
+      let key = '', value = '';
+      const colonIdx = part.indexOf(':');
+      if (colonIdx > 0) {
+        key = part.slice(0, colonIdx).trim();
+        value = part.slice(colonIdx + 1).trim();
+      } else if (part.length > 1 && part.length < 15) {
+        // 콜론 없는 단독 키워드 (예: "무선", "디지털")
+        key = '기타';
+        value = part;
+      }
+
+      if (key && value && key.length < 12 && value.length < 25) {
+        if (!specMap[key]) specMap[key] = new Map();
+        specMap[key].set(value, (specMap[key].get(value) || 0) + 1);
+      }
+    }
+  }
+
+  // divergence 계산: 값의 다양성 (entropy-like)
+  return Object.entries(specMap)
+    .filter(([, values]) => values.size >= 2 && values.size <= 8)
+    .map(([key, valuesMap]) => {
+      const total = [...valuesMap.values()].reduce((a, b) => a + b, 0);
+      const values = [...valuesMap.entries()]
+        .map(([value, count]) => ({ value, count }))
+        .sort((a, b) => b.count - a.count);
+
+      // 가장 많은 값의 비율이 낮을수록 divergence 높음
+      const maxRatio = values[0].count / total;
+      const divergence = 1 - maxRatio;
+
+      return { key, values, divergence };
+    })
+    .sort((a, b) => b.divergence - a.divergence);
 }
 
 async function normalizeSpecsForComparison(products: any[], categoryName: string): Promise<any[]> {
@@ -350,14 +476,12 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
         updatedTodos[todoIndex].answer = processedAnswer;
         updatedInfo[currentQuestionId] = processedAnswer;
 
-        const dynamicSearchQuery = `${searchKeyword} ${processedAnswer} 추천 ${new Date().getFullYear()}`;
-        send('status', { message: `"${dynamicSearchQuery}" 분석 중...`, query: dynamicSearchQuery });
-        webSearchResult = await performContextualSearch(searchKeyword, processedAnswer, currentTodo.question, dynamicSearchQuery, 'A');
-        
+        // ✅ Type A (선택)에서는 웹검색 제거 - init에서 충분한 컨텍스트를 이미 수집했음
+        // 웹검색은 Type B (사용자가 질문할 때)에서만 수행
+
         const shortTermMemory = loadShortTermMemory(categoryKey);
         if (shortTermMemory) {
           shortTermMemory.collectedInfo = { ...shortTermMemory.collectedInfo, ...updatedInfo };
-          if (webSearchResult) shortTermMemory.webSearchInsights.push({ phase: 'question', questionId: currentQuestionId, question: currentTodo.question, userAnswer: processedAnswer, query: webSearchResult.query, insight: webSearchResult.insight, sources: webSearchResult.sources || [], timestamp: new Date().toISOString() });
           saveShortTermMemory(categoryKey, shortTermMemory);
         }
       }
@@ -367,48 +491,62 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
     if (!nextQuestion) {
       send('status', { message: '밸런스게임 생성 중...' });
       const { balance_questions, negative_filter_options } = await generateDynamicQuestionsAI(categoryKey, updatedInfo, allProducts);
-      
+
       // 메모리에 저장
       const sm = loadShortTermMemory(categoryKey);
-      if (sm) { 
-        sm.balanceQuestions = balance_questions || []; 
-        sm.negativeOptions = negative_filter_options || []; 
-        saveShortTermMemory(categoryKey, sm); 
+      if (sm) {
+        sm.balanceQuestions = balance_questions || [];
+        sm.negativeOptions = negative_filter_options || [];
+        saveShortTermMemory(categoryKey, sm);
       }
-      
+
       // ⚠️ 항상 phase: 'balance' 반환 (프론트엔드 V2 플로우에서 밸런스/단점 질문을 별도 API로 생성)
       // 밸런스 질문이 비어있어도 V2 플로우가 시작되어야 함
-      return { 
-        success: true, 
-        phase: 'balance', 
-        content: balance_questions?.length > 0 
-          ? '좋아요! 이제 우선순위를 파악하기 위해 간단한 선택 게임을 해볼게요.' 
+      return {
+        success: true,
+        phase: 'balance',
+        content: balance_questions?.length > 0
+          ? '좋아요! 이제 우선순위를 파악하기 위해 간단한 선택 게임을 해볼게요.'
           : '입력해주신 정보를 바탕으로 최적의 상품을 찾고 있어요.',
-        ui_type: 'balance_game', 
-        balanceQuestions: balance_questions || [], 
+        ui_type: 'balance_game',
+        balanceQuestions: balance_questions || [],
         negativeOptions: negative_filter_options || [],
-        questionTodos: updatedTodos, 
-        collectedInfo: updatedInfo 
+        questionTodos: updatedTodos,
+        collectedInfo: updatedInfo
       };
     }
 
-    send('status', { message: '자연스러운 답변 생성 중...' });
+    // ✅ 전환 텍스트 - 웹검색 없이 컨텍스트 기반 공감 + 설명
     let transitionText = '';
-    if (ai) {
+    if (ai && userMessage) {
       try {
-        const model = ai.getGenerativeModel({ model: MODEL_NAME });
-        const prompt = `당신은 상품 추천 챗봇입니다. 사용자의 선택에 대해 공감하고 간단히 설명해주세요.
+        const categoryName = loadShortTermMemory(categoryKey)?.categoryName || categoryKey;
+        const completedQuestion = updatedTodos.find((t: any) => t.id === currentQuestionId);
+        const currentQ = completedQuestion?.question || '';
 
-[사용자가 선택한 답변]: "${userMessage}"
-${webSearchResult?.insight ? `[웹 검색에서 찾은 참고 정보]: ${webSearchResult.insight}` : ''}
+        const model = ai.getGenerativeModel({
+          model: MODEL_NAME,
+          generationConfig: { temperature: 0.6, maxOutputTokens: 250 }
+        });
+        const prompt = `## 역할
+${categoryName} 구매 상담 어시스턴트입니다.
 
-위 정보를 바탕으로 2문장 이내로 자연스럽게 응답하세요.
-주의: [웹 검색에서 찾은 참고 정보]는 인터넷에서 검색한 전문가 의견이며, 사용자가 말한 내용이 아닙니다.`;
+## 상황
+- 질문: "${currentQ}"
+- 사용자 선택: "${userMessage}"
+
+## 요청
+1. 사용자의 선택에 공감 (1문장)
+2. 이 선택이 ${categoryName} 선택에 어떤 의미인지 간단히 설명 (1-2문장)
+
+⚠️ 총 2-3문장. 다음 질문은 별도로 표시되니 연결 문장 불필요. 이모지 금지.`;
         const result = await model.generateContent(prompt);
         transitionText = result.response.text().trim() + '\n\n';
-      } catch (e) {}
+      } catch (e) {
+        console.error('[TransitionText] Generation failed:', e);
+      }
     }
-    return { success: true, phase: 'questions', content: `${transitionText}${nextQuestion.question}`, tip: nextQuestion.reason, options: nextQuestion.options.map((o: any) => o.label), ui_type: 'chat', currentQuestion: nextQuestion, questionTodos: updatedTodos, collectedInfo: updatedInfo, searchContext: webSearchResult };
+    return { success: true, phase: 'questions', content: `${transitionText}${nextQuestion.question}`, tip: nextQuestion.reason, options: nextQuestion.options.map((o: any) => o.label), ui_type: 'chat', currentQuestion: nextQuestion, questionTodos: updatedTodos, collectedInfo: updatedInfo };
   }
 
   if (phase === 'balance' || phase === 'negative_filter') {

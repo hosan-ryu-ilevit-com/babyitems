@@ -21,6 +21,7 @@ interface HardcutVisualizationProps {
   filteredProducts: HardcutProduct[];
   appliedRules: Array<{ rule: string; matchedCount: number }>;
   onContinue: () => void;
+  onComplete?: () => void;
 }
 
 export function HardcutVisualization({
@@ -29,6 +30,7 @@ export function HardcutVisualization({
   filteredProducts,
   appliedRules,
   onContinue,
+  onComplete,
 }: HardcutVisualizationProps) {
   const [phase, setPhase] = useState<'counting' | 'filtering' | 'result'>('counting');
   const [displayCount, setDisplayCount] = useState(totalBefore);
@@ -58,6 +60,7 @@ export function HardcutVisualization({
           setDisplayCount(totalAfter);
           setTimeout(() => {
             setPhase('result');
+            onComplete?.();
           }, 200);
         }
       }, duration / steps);
@@ -243,28 +246,6 @@ export function HardcutVisualization({
           )}
         </AnimatePresence>
       </div>
-
-      {/* 계속하기 버튼 */}
-      <AnimatePresence>
-        {phase === 'result' && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="pt-2"
-          >
-            <motion.button
-              whileHover={{ scale: 1.01, translateY: -1 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={onContinue}
-              className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all"
-            >
-              <FcSurvey size={20} />
-              <span className="text-[16px] tracking-tight">후보 추리기 시작</span>
-            </motion.button>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }

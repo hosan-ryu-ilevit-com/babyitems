@@ -379,6 +379,102 @@ ${productList}
 
 
 // ============================================================================
+// Step 3.5: Budget Options Generation (저가 상품 대응)
+// ============================================================================
+
+/**
+ * 예산 옵션 생성 - 저가/고가 상품 모두 대응
+ * - 1만원 이하: 천원 단위 표기
+ * - 1만원~10만원: 만원 단위 표기
+ * - 10만원 이상: 10만원 단위 표기
+ * - 중복 방지 로직 포함
+ */
+function generateBudgetOptions(
+  minPrice: number,
+  avgPrice: number,
+  maxPrice: number
+): Array<{ value: string; label: string; description: string }> {
+  // 가격 구간 계산
+  const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
+  const midMax = Math.round(avgPrice * 1.3);
+
+  // 표기 단위 결정 (평균가 기준 - 저가 상품 대응)
+  const useThousandUnit = avgPrice < 30000; // 평균 3만원 미만이면 천원 단위
+  const useTenThousandUnit = avgPrice >= 30000 && avgPrice < 500000; // 평균 50만원 미만이면 만원 단위
+
+  // 가격을 문자열로 변환하는 헬퍼
+  const formatPrice = (price: number): string => {
+    if (useThousandUnit) {
+      // 천원 단위 (5천원, 1만원, 1만5천원 등)
+      const thousands = Math.round(price / 1000);
+      if (thousands >= 10 && thousands % 10 === 0) {
+        return `${thousands / 10}만`;
+      } else if (thousands >= 10) {
+        const man = Math.floor(thousands / 10);
+        const cheon = thousands % 10;
+        return `${man}만${cheon}천`;
+      }
+      return `${thousands}천`;
+    } else if (useTenThousandUnit) {
+      // 만원 단위
+      return `${Math.round(price / 10000)}만`;
+    } else {
+      // 10만원 단위
+      return `${Math.round(price / 100000) * 10}만`;
+    }
+  };
+
+  // 구간 레이블 생성
+  const entryLabel = `${formatPrice(minPrice)}~${formatPrice(entryMax)}원대`;
+  const midLabel = `${formatPrice(entryMax)}~${formatPrice(midMax)}원대`;
+  const premiumLabel = `${formatPrice(midMax)}원 이상`;
+
+  // 중복 체크 및 보정
+  const options: Array<{ value: string; label: string; description: string }> = [];
+
+  // Entry 옵션
+  options.push({
+    value: 'entry',
+    label: entryLabel,
+    description: '가성비 모델'
+  });
+
+  // Mid 옵션 - Entry와 중복되면 스킵
+  if (midLabel !== entryLabel && formatPrice(entryMax) !== formatPrice(midMax)) {
+    options.push({
+      value: 'mid',
+      label: midLabel,
+      description: '인기 가격대'
+    });
+  }
+
+  // Premium 옵션 - 이전 옵션과 시작 가격이 겹치지 않으면 추가
+  const lastOption = options[options.length - 1];
+  if (!lastOption.label.includes(formatPrice(midMax))) {
+    options.push({
+      value: 'premium',
+      label: premiumLabel,
+      description: '프리미엄'
+    });
+  }
+
+  // 옵션이 2개 미만이면 단순 분할로 재생성
+  if (options.length < 2) {
+    const third = (maxPrice - minPrice) / 3;
+    const lowMax = minPrice + third;
+    const highMin = maxPrice - third;
+
+    return [
+      { value: 'low', label: `${formatPrice(minPrice)}~${formatPrice(lowMax)}원대`, description: '저가형' },
+      { value: 'mid', label: `${formatPrice(lowMax)}~${formatPrice(highMin)}원대`, description: '중간 가격대' },
+      { value: 'high', label: `${formatPrice(highMin)}원 이상`, description: '고가형' }
+    ];
+  }
+
+  return options;
+}
+
+// ============================================================================
 // Step 4: Question Generation (Data-Driven)
 // ============================================================================
 
@@ -502,6 +598,47 @@ async function refineQuestionOptions(
   return questions;
 }
 
+/**
+ * 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
+ * - 예산 질문은 제외 (예산은 명시적으로 선택해야 함)
+ */
+function addSkipOptionToQuestions(questions: QuestionTodo[]): QuestionTodo[] {
+  return questions.map(q => {
+    // 예산 질문은 건너뛰기 옵션 제외
+    const isBudgetQuestion = q.id.includes('budget') ||
+      q.question.includes('예산') ||
+      q.question.includes('가격');
+
+    if (isBudgetQuestion) {
+      return q;
+    }
+
+    // 이미 "상관없어요" 옵션이 있는지 확인
+    const hasSkipOption = q.options.some(o =>
+      o.value === 'skip' ||
+      o.label.includes('상관없') ||
+      o.label.includes('건너뛰기')
+    );
+
+    if (hasSkipOption) {
+      return q;
+    }
+
+    // "상관없어요" 옵션 추가
+    return {
+      ...q,
+      options: [
+        ...q.options,
+        {
+          value: 'skip',
+          label: '상관없어요',
+          description: '이 조건은 크게 신경 안 써요'
+        }
+      ]
+    };
+  });
+}
+
 async function generateQuestions(
   _categoryKey: string,
   categoryName: string,
@@ -617,23 +754,20 @@ async function generateQuestions(
         let questions = JSON.parse(jsonMatch[0]) as QuestionTodo[];
         questions = questions.map(q => ({ ...q, completed: false }));
         
-        // 예산 질문 보정 (생략 가능하나 기존 로직 유지)
+        // 예산 질문 보정 - 저가 상품 대응 개선
         const budgetQ = questions.find(q =>
           q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격')
         );
         if (budgetQ && prices.length > 0) {
-          const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
-          const midMax = Math.round(avgPrice * 1.3);
-          budgetQ.options = [
-            { value: 'entry', label: `${Math.round(minPrice/10000)}~${Math.round(entryMax/10000)}만원대`, description: '가성비 모델' },
-            { value: 'mid', label: `${Math.round(entryMax/10000)}~${Math.round(midMax/10000)}만원대`, description: '인기 가격대' },
-            { value: 'premium', label: `${Math.round(midMax/10000)}만원 이상`, description: '프리미엄' }
-          ];
+          budgetQ.options = generateBudgetOptions(minPrice, avgPrice, maxPrice);
         }
 
         // 선택지 정제 (중복/유사 제거, 일관된 포맷)
         const refinedQuestions = await refineQuestionOptions(questions);
-        return refinedQuestions;
+
+        // ✅ 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
+        const questionsWithSkip = addSkipOptionToQuestions(refinedQuestions);
+        return questionsWithSkip;
       } catch (e) {
         console.error('[Step3] JSON parse error:', e);
       }
@@ -739,7 +873,9 @@ function getDefaultQuestions(
   // - fallback은 스펙 기반 질문만 제공
 
   console.log(`[DefaultQuestions] Generated ${questions.length} fallback questions from spec analysis only`);
-  return questions;
+
+  // ✅ fallback 질문에도 "상관없어요" 옵션 추가
+  return addSkipOptionToQuestions(questions);
 }
 
 // ============================================================================

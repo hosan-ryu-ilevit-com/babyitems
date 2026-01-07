@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  CaretLeft, CaretDown, CaretUp, CheckCircle, Spinner, Lightning,
+  CaretLeft, CaretDown, CaretUp, Lightning,
   PaperPlaneRight
 } from '@phosphor-icons/react/dist/ssr';
 import {
@@ -21,7 +21,7 @@ import {
 import ProductDetailModal from '@/components/ProductDetailModal';
 import { KnowledgeComparisonTable } from '@/components/knowledge-agent/KnowledgeComparisonTable';
 import { AgenticLoadingPhase, createDefaultSteps, type AnalysisStep } from '@/components/knowledge-agent/AgenticLoadingPhase';
-import { AssistantMessage } from '@/components/recommend-v2';
+import { AssistantMessage, LoadingAnimation } from '@/components/recommend-v2';
 import { V2ResultProductCard } from '@/components/recommend-v2/V2ResultProductCard';
 import { InlineBudgetSelector } from '@/components/knowledge-agent/ChatUIComponents';
 import { BalanceGameCarousel } from '@/components/recommend-v2/BalanceGameCarousel';
@@ -29,14 +29,82 @@ import { NegativeFilterList } from '@/components/recommend-v2/NegativeFilterList
 import { AIHelperButton } from '@/components/recommend-v2/AIHelperButton';
 import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
 import { NegativeFilterAIHelperBottomSheet } from '@/components/recommend-v2/NegativeFilterAIHelperBottomSheet';
-import type { BalanceQuestion as V2BalanceQuestion, UserSelections } from '@/types/recommend-v2';
+import type { BalanceQuestion as V2BalanceQuestion, UserSelections, TimelineStep } from '@/types/recommend-v2';
 import { HardcutVisualization } from '@/components/knowledge-agent/HardcutVisualization';
+import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
+import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
+import {
+  logV2ReRecommendModalOpened,
+  logV2ReRecommendSameCategory,
+  logV2ReRecommendDifferentCategory
+} from '@/lib/logging/clientLogger';
 
 // ============================================================================
 // Types
 // ============================================================================
 
 type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' | 'negative_filter' | 'result' | 'free_chat';
+
+// ============================================================================
+// Step Indicator Component (4단계 진행 표시 - recommend-v2 스타일)
+// ============================================================================
+
+const STEPS = [
+  { id: 1, label: '트렌드 분석', phases: ['loading'] },
+  { id: 2, label: '맞춤 질문', phases: ['questions', 'report'] },
+  { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'balance', 'negative_filter'] },
+  { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
+];
+
+function StepIndicator({ currentPhase }: { currentPhase: Phase }) {
+  const currentStepIndex = STEPS.findIndex(step => step.phases.includes(currentPhase));
+  const currentStep = currentStepIndex >= 0 ? currentStepIndex + 1 : 1;
+
+  return (
+    <div className="sticky top-16 left-0 right-0 z-50 flex justify-center pointer-events-none">
+      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white/95 backdrop-blur-sm pt-[12px] pb-[10px] pointer-events-auto px-4 shadow-sm border-b border-gray-100/50">
+        {/* 텍스트 라벨 */}
+        <div className="flex w-full justify-between items-center mb-[6px]">
+          {STEPS.map((step) => {
+            const isCompleted = step.id < currentStep;
+            const isCurrent = step.id === currentStep;
+
+            let textColorClass = 'text-gray-300 font-medium';
+            if (isCompleted) textColorClass = 'text-gray-400 font-medium';
+            if (isCurrent) textColorClass = 'text-gray-600 font-semibold';
+
+            return (
+              <div
+                key={step.id}
+                className={`text-[13px] transition-colors text-center flex-1 ${textColorClass}`}
+              >
+                {step.label}
+              </div>
+            );
+          })}
+        </div>
+        {/* 프로그레스 바 */}
+        <div className="flex w-full gap-[6px] px-1">
+          {STEPS.map((step) => {
+            const isCompleted = step.id < currentStep;
+            const isCurrent = step.id === currentStep;
+
+            let barColorClass = 'bg-gray-100';
+            if (isCompleted) barColorClass = 'bg-gray-400';
+            if (isCurrent) barColorClass = 'bg-gray-600';
+
+            return (
+              <div
+                key={step.id}
+                className={`h-[2px] flex-1 rounded-full transition-all duration-300 ${barColorClass}`}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ============================================================================
 // Searching Indicator Component (검색 프로세스 시각화)
@@ -227,6 +295,11 @@ interface ChatMessage {
       sources: Array<{ title: string; url: string; snippet?: string }>;
     };
   };
+  // 재추천 확인 데이터 (결과 페이지 채팅에서 재추천 의도 감지 시)
+  reRecommendData?: {
+    description: string;
+    naturalLanguageCondition: string;
+  };
 }
 
 interface MarketSummary {
@@ -292,7 +365,7 @@ function OptionButton({
       } ${disabled && !isSelected ? 'opacity-50 cursor-default' : ''}`}
     >
       <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-        <span className={`text-[15px] font-medium wrap-break-word ${isSelected ? 'text-blue-500' : 'text-gray-800'}`}>{label}</span>
+        <span className={`text-[16px] font-medium wrap-break-word ${isSelected ? 'text-blue-500' : 'text-gray-800'}`}>{label}</span>
         {description && (
           <span className={`text-[12px] font-medium wrap-break-word ${isSelected ? 'text-blue-400' : 'text-gray-400'}`}>{description}</span>
         )}
@@ -616,11 +689,19 @@ export default function KnowledgeAgentPage() {
 
   // State
   const [phase, setPhase] = useState<Phase>('loading');
+  const [resultProducts, setResultProducts] = useState<any[]>([]);
+  const [showReRecommendModal, setShowReRecommendModal] = useState(false);
+  const [isChatLoading, setIsChatLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [activeSearchQueries, setActiveSearchQueries] = useState<string[]>([]);
   const [activeStatusMessage, setActiveStatusMessage] = useState<string | null>(null);
+
+  // 로딩 애니메이션 관련 state
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [timelineSteps, setTimelineSteps] = useState<TimelineStep[]>([]);
 
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
   const [analysisSteps, setAnalysisSteps] = useState<AnalysisStep[]>(() => createDefaultSteps(categoryName));
@@ -714,8 +795,69 @@ export default function KnowledgeAgentPage() {
     totalBefore: number;
     totalAfter: number;
     appliedRules: Array<{ rule: string; matchedCount: number }>;
-  } | null>(null); // 하드컷팅 결과 (시각화용)
+  } | null>(null);
+  const [isHardcutVisualDone, setIsHardcutVisualDone] = useState(false); // 하드컷팅 결과 (시각화용)
   
+  // 최종 추천 단계의 타임라인 UX 헬퍼
+  const runFinalTimelineUX = useCallback(async (candidateCount: number, balanceSelections: any[], negativeSelections: string[]) => {
+    setIsCalculating(true);
+    setTimelineSteps([]);
+    setLoadingProgress(0);
+
+    const steps: TimelineStep[] = [];
+    
+    // 1단계: 선호도 및 제약사항 분석
+    const step1: TimelineStep = {
+      id: 'step-1',
+      title: '고객님의 선호도 및 제약사항 정밀 분석 중',
+      icon: '',
+      details: [
+        `선택하신 ${balanceSelections.length}개의 주요 취향과 ${negativeSelections.length}개의 회피 조건을 바탕으로 추천 로직을 구성하고 있습니다.`,
+        '각 제품의 스펙 데이터와 실사용자들의 리뷰 키워드를 대조 분석합니다.'
+      ],
+      timestamp: Date.now(),
+      status: 'completed'
+    };
+    steps.push(step1);
+    setTimelineSteps([...steps]);
+    setLoadingProgress(33);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // 2단계: 후보군 필터링 및 점수 계산
+    const step2: TimelineStep = {
+      id: 'step-2',
+      title: `${candidateCount}개 후보 제품군 시뮬레이션 중`,
+      icon: '',
+      details: [
+        '각 제품별 장단점을 점수화하여 고객님께 가장 적합한 순서로 정렬하고 있습니다.',
+        '최신 가격 정보와 재고 현황을 함께 확인하고 있습니다.'
+      ],
+      timestamp: Date.now(),
+      status: 'completed'
+    };
+    steps.push(step2);
+    setTimelineSteps([...steps]);
+    setLoadingProgress(66);
+    await new Promise(resolve => setTimeout(resolve, 4000));
+
+    // 3단계: 최종 TOP 3 선정 및 리포트 작성
+    const step3: TimelineStep = {
+      id: 'step-3',
+      title: '최종 TOP 3 추천 상품 선정 완료',
+      icon: '',
+      details: [
+        '가장 만족도가 높을 것으로 예상되는 3가지 제품을 최종 선정했습니다.',
+        '각 제품을 추천하는 상세 근거와 구매 팁을 정리하고 있습니다.'
+      ],
+      timestamp: Date.now(),
+      status: 'completed'
+    };
+    steps.push(step3);
+    setTimelineSteps([...steps]);
+    setLoadingProgress(100);
+    await new Promise(resolve => setTimeout(resolve, 4000));
+  }, [categoryName]);
+
   // 웹서치 Context (밸런스게임/단점 생성용 - 리뷰 크롤링 전에 사용)
   const [webSearchContext, setWebSearchContext] = useState<{
     marketSummary?: {
@@ -751,31 +893,77 @@ export default function KnowledgeAgentPage() {
     initializeAgent();
   }, [categoryKey]);
 
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
+  // 특정 메시지로 스크롤 (상단 정렬 - 스텝 인디케이터 바로 아래)
+  const scrollToMessage = useCallback((messageId: string, delay: number = 100) => {
+    let attempts = 0;
+    const maxAttempts = 40; // 2초까지 시도 (렌더링 지연 대응)
     
-    // 만약 결과 상품이 포함된 마지막 메시지라면, 해당 메시지의 시작 지점으로 스크롤 (헤더 바로 아래)
-    if (lastMessage?.role === 'assistant' && lastMessage?.resultProducts && lastMessage.resultProducts.length > 0) {
-      setTimeout(() => {
-        const element = document.getElementById(lastMessage.id);
-        if (element && mainRef.current) {
-          const mainElement = mainRef.current;
-          const elementRect = element.getBoundingClientRect();
-          const mainRect = mainElement.getBoundingClientRect();
-          
-          // main 요소 내에서의 상대적 위치 계산
-          const relativeTop = elementRect.top - mainRect.top + mainElement.scrollTop;
-          
-          mainElement.scrollTo({
-            top: relativeTop - 20, // 상단 여유 공간 20px
-            behavior: 'smooth'
-          });
-        }
-      }, 100);
-    } else {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const tryScroll = () => {
+      const container = mainRef.current;
+      const el = document.querySelector(`[data-message-id="${messageId}"]`) as HTMLElement;
+      
+      if (container && el) {
+        const containerRect = container.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        const offset = 52; // 헤더 높이
+
+        // 현재 스크롤 위치 + (요소의 화면상 위치 - 컨테이너의 화면상 위치) - 오프셋
+        const relativeTop = elRect.top - containerRect.top;
+        const currentScrollTop = container.scrollTop;
+        const targetScrollTop = currentScrollTop + relativeTop - offset;
+        
+        // 이미 목표 위치 근처라면 스킵 (불필요한 움직임 방지)
+        if (Math.abs(relativeTop - offset) < 10) return;
+        
+        container.scrollTo({
+          top: Math.max(0, targetScrollTop),
+          behavior: 'smooth'
+        });
+        return;
+      }
+      
+      attempts++;
+      if (attempts < maxAttempts) {
+        requestAnimationFrame(() => setTimeout(tryScroll, 50));
+      }
+    };
+    
+    requestAnimationFrame(() => setTimeout(tryScroll, delay));
+  }, []);
+
+  // [자동 스크롤] 메시지가 추가되거나 분석이 업데이트될 때 스크롤 처리
+  const prevMessagesLengthRef = useRef(messages.length);
+
+  useEffect(() => {
+    const prevLength = prevMessagesLengthRef.current;
+    
+    // 1. 새 메시지가 추가된 경우
+    if (messages.length > prevLength) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage) {
+        // 새 메시지로 스크롤 (사용자/AI 모두)
+        scrollToMessage(lastMessage.id, 150);
+      }
     }
-  }, [messages]);
+    // 2. 메시지 내용은 업데이트되었으나 개수는 그대로인 경우 (예: 실시간 분석 진행)
+    else if (messages.length > 0 && messages.length === prevLength) {
+      const lastMessage = messages[messages.length - 1];
+      // 분석 데이터가 있고 진행 중인 경우, 스크롤을 유지하여 진행 상황을 보여줌
+      if (lastMessage.role === 'assistant' && lastMessage.analysisData && !lastMessage.analysisData.isComplete) {
+         scrollToMessage(lastMessage.id, 100);
+      }
+    }
+
+    prevMessagesLengthRef.current = messages.length;
+  }, [messages, scrollToMessage]);
+
+  // phase 변경 시 해당 컴포넌트로 스크롤
+  useEffect(() => {
+    if (phase === 'balance' && balanceQuestions.length > 0) {
+      // 밸런스 게임 컴포넌트로 스크롤
+      scrollToMessage('balance-game-carousel', 250);
+    }
+  }, [phase, balanceQuestions.length, scrollToMessage]);
 
   // 입력창 높이 자동 조절 및 하이라이트 리셋
   useEffect(() => {
@@ -943,8 +1131,9 @@ export default function KnowledgeAgentPage() {
 
         if (completeData.currentQuestion) {
           await new Promise(r => setTimeout(r, 300)); // 첫 질문 표시 전 짧은 대기
+          const firstQuestionMsgId = `q_${completeData.currentQuestion.id}`;
           setMessages(prev => [...prev, {
-            id: `q_${completeData.currentQuestion.id}`,
+            id: firstQuestionMsgId,
             role: 'assistant',
             content: completeData.currentQuestion.question,
             options: completeData.currentQuestion.options.map((o: any) => o.label),
@@ -953,6 +1142,8 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
+          // 첫 질문 메시지로 스크롤
+          scrollToMessage(firstQuestionMsgId, 200);
         }
     };
 
@@ -1252,7 +1443,10 @@ export default function KnowledgeAgentPage() {
           totalAfter: hardCutData.filteredProducts.length,
           appliedRules: hardCutData.appliedRules || [],
         });
+        setIsHardcutVisualDone(false);
         setPhase('hardcut_visual');
+        // 하드컷 시각화 컴포넌트로 스크롤
+        scrollToMessage('hardcut-visual', 300);
 
         // 4. 밸런스/단점 질문 생성 (하드컷팅된 15개 상품 기반 + 웹서치 context)
         // ⚠️ 리뷰 크롤링은 Top 3 선정 후에 3개만 대상으로 진행 (더 효율적)
@@ -1437,42 +1631,52 @@ export default function KnowledgeAgentPage() {
     // 1. 밸런스 질문이 있으면 밸런스 단계로
     if (balanceQuestions.length > 0) {
       setPhase('balance');
+      const balanceMsgId = `a_balance_${Date.now()}`;
       setMessages(prev => [...prev, {
-        id: `a_balance_${Date.now()}`,
+        id: balanceMsgId,
         role: 'assistant',
         content: '이제 취향에 맞는 제품을 더 정확히 골라볼게요. 몇 가지 선택지 중에서 더 끌리는 쪽을 골라주세요!',
         typing: true,
         timestamp: Date.now()
       }]);
+      // 밸런스 메시지로 스크롤
+      scrollToMessage(balanceMsgId, 200);
       return;
     }
 
     // 2. 밸런스 없고 단점 옵션이 있으면 단점 필터로
     if (negativeOptions.length > 0) {
       setPhase('negative_filter');
+      const negativeMsgId = `a_negative_${Date.now()}`;
       setMessages(prev => [...prev, {
-        id: `a_negative_${Date.now()}`,
+        id: negativeMsgId,
         role: 'assistant',
         content: '꼭 피하고 싶은 단점이 있으신가요? (복수 선택 가능, 없으면 건너뛰기)',
         negativeFilterOptions: negativeOptions,
         typing: true,
         timestamp: Date.now()
       }]);
+      // 단점 필터 메시지로 스크롤
+      scrollToMessage(negativeMsgId, 200);
       return;
     }
 
     // 3. 둘 다 없으면 바로 결과로
     console.log('[V2 Flow] No balance/negative questions, going directly to result');
     setIsTyping(true);
-    setActiveStatusMessage('최종 추천 상품 선정 중...');
     
     try {
-      const v2Recommendations = await handleV2FinalRecommend([], []);
+      // 타임라인 UX와 실제 추천 생성을 병렬로 실행
+      const uxPromise = runFinalTimelineUX(hardCutProducts.length, [], []);
+      const apiPromise = handleV2FinalRecommend([], []);
+      
+      const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
+
       if (v2Recommendations && v2Recommendations.length > 0) {
-        setPhase('result');
-        const resultProducts = v2Recommendations.map((rec: any) => ({
+        const mappedResultProducts = v2Recommendations.map((rec: any) => ({
           ...rec.product,
           id: rec.pcode || rec.product?.pcode,
+          pcode: rec.pcode || rec.product?.pcode,
           title: rec.product?.name || rec.product?.title,
           reasoning: rec.reason,
           recommendationReason: rec.reason,
@@ -1483,18 +1687,23 @@ export default function KnowledgeAgentPage() {
           prosFromReviews: rec.prosFromReviews || rec.highlights || [],
           consFromReviews: rec.consFromReviews || rec.concerns || [],
         }));
+        setResultProducts(mappedResultProducts);
+        setPhase('result');
+        const resultMsgId = `a_result_${Date.now()}`;
         setMessages(prev => [...prev, {
-          id: `a_result_${Date.now()}`,
+          id: resultMsgId,
           role: 'assistant',
           content: `${categoryName} 추천 결과입니다! 선택하신 조건을 기반으로 최적의 상품을 선정했습니다.`,
-          resultProducts,
+          resultProducts: mappedResultProducts,
           typing: true,
           timestamp: Date.now()
         }]);
+        // 결과 메시지로 스크롤
+        scrollToMessage(resultMsgId, 200);
       }
     } finally {
       setIsTyping(false);
-      setActiveStatusMessage(null);
+      setIsCalculating(false);
     }
   };
 
@@ -1548,14 +1757,17 @@ export default function KnowledgeAgentPage() {
     // V2 Flow: 하드컷 상품 기반으로 생성된 negativeOptions가 있으면 단점 필터로
     if (v2FlowEnabled && negativeOptions.length > 0) {
       setPhase('negative_filter');
+      const negativeMsgId = `a_negative_${Date.now()}`;
       setMessages(prev => [...prev, {
-        id: `a_negative_${Date.now()}`,
+        id: negativeMsgId,
         role: 'assistant',
         content: '취향을 파악했어요! 마지막으로 꼭 피하고 싶은 단점이 있으신가요? (복수 선택 가능)',
         negativeFilterOptions: negativeOptions,
         typing: true,
         timestamp: Date.now()
       }]);
+      // 단점 필터 메시지로 스크롤
+      scrollToMessage(negativeMsgId, 200);
       return;
     }
 
@@ -1563,15 +1775,19 @@ export default function KnowledgeAgentPage() {
     if (v2FlowEnabled && hardCutProducts.length > 0) {
       console.log('[V2 Flow] No negative options after balance, going to result');
       setIsTyping(true);
-      setActiveStatusMessage('최종 추천 상품 선정 중...');
       
       try {
-        const v2Recommendations = await handleV2FinalRecommend(balanceSelectionsForV2, []);
+        // 타임라인 UX와 실제 추천 생성을 병렬로 실행
+        const uxPromise = runFinalTimelineUX(hardCutProducts.length, balanceSelectionsForV2, []);
+        const apiPromise = handleV2FinalRecommend(balanceSelectionsForV2, []);
+        
+        const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
+
         if (v2Recommendations && v2Recommendations.length > 0) {
-          setPhase('result');
-          const resultProducts = v2Recommendations.map((rec: any) => ({
+          const mappedResultProducts = v2Recommendations.map((rec: any) => ({
             ...rec.product,
             id: rec.pcode || rec.product?.pcode,
+            pcode: rec.pcode || rec.product?.pcode,
             title: rec.product?.name || rec.product?.title,
             reasoning: rec.reason,
             recommendationReason: rec.reason,
@@ -1582,19 +1798,24 @@ export default function KnowledgeAgentPage() {
             prosFromReviews: rec.prosFromReviews || rec.highlights || [],
             consFromReviews: rec.consFromReviews || rec.concerns || [],
           }));
+          setResultProducts(mappedResultProducts);
+          setPhase('result');
+          const resultMsgId = `a_result_${Date.now()}`;
           setMessages(prev => [...prev, {
-            id: `a_result_${Date.now()}`,
+            id: resultMsgId,
             role: 'assistant',
             content: `${categoryName} 추천 결과입니다! 선택하신 취향을 기반으로 최적의 상품을 선정했습니다.`,
-            resultProducts,
+            resultProducts: mappedResultProducts,
             typing: true,
             timestamp: Date.now()
           }]);
+          // 결과 메시지로 스크롤
+          scrollToMessage(resultMsgId, 200);
           return;
         }
       } finally {
         setIsTyping(false);
-        setActiveStatusMessage(null);
+        setIsCalculating(false);
       }
     }
 
@@ -1616,17 +1837,17 @@ export default function KnowledgeAgentPage() {
     // V2 Flow: 하드컷팅된 상품이 있으면 V2 최종 추천 사용
     if (v2FlowEnabled && hardCutProducts.length > 0) {
       setIsTyping(true);
-      setActiveStatusMessage('최종 후보군 리뷰 분석 중...');
-      // ⚠️ 새 플로우: Top 3 먼저 선정 (리뷰 없이) → 그 후 리뷰 크롤링
-      console.log('[V2 Flow] Step 1: Selecting Top 3 without reviews...');
       
-      // ... (existing V2 logic remains same but needs typing control)
-      // I'll wrap the existing V2 logic in a try-finally to handle typing state correctly
       try {
+        // 타임라인 UX와 실제 추천 생성을 병렬로 실행
+        const uxPromise = runFinalTimelineUX(hardCutProducts.length, savedBalanceSelections, selectedLabels);
+
+        // ⚠️ 새 플로우: Top 3 먼저 선정 (리뷰 없이) → 그 후 리뷰 크롤링
+        console.log('[V2 Flow] Step 1: Selecting Top 3 without reviews...');
         const v2Recommendations = await handleV2FinalRecommend(savedBalanceSelections, selectedLabels);
+        
         if (v2Recommendations && v2Recommendations.length > 0) {
           const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
-          setActiveStatusMessage(`최종 ${v2Recommendations.length}개 후보 상세 분석 중...`);
           
           let top3Reviews: Record<string, any[]> = {};
           const reviewRes = await fetch('/api/knowledge-agent/crawl-reviews', {
@@ -1634,12 +1855,36 @@ export default function KnowledgeAgentPage() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ pcodes: top3Pcodes, maxPerProduct: 30 }),
           });
-          
+
           const reader = reviewRes.body?.getReader();
           const decoder = new TextDecoder();
           let buffer = '';
           let currentEvent = ''; // SSE 이벤트명 추적
           let top3Prices: Record<string, any> = {};
+
+          // SSE 라인 처리 헬퍼 함수
+          const processSSELine = (line: string) => {
+            if (line.startsWith('event: ')) {
+              currentEvent = line.slice(7).trim();
+            } else if (line.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(line.slice(6));
+                if (currentEvent === 'complete') {
+                  if (data.reviews) {
+                    top3Reviews = data.reviews;
+                    console.log(`[V2 Flow] Reviews received: ${Object.keys(data.reviews).length} products`);
+                  }
+                  if (data.prices) {
+                    top3Prices = data.prices;
+                    setPricesData(data.prices);
+                    console.log(`[V2 Flow] Prices received: ${Object.keys(data.prices).length} products`);
+                  }
+                }
+              } catch { /* ignore */ }
+              currentEvent = ''; // 이벤트 처리 후 초기화
+            }
+          };
+
           if (reader) {
             while (true) {
               const { done, value } = await reader.read();
@@ -1648,57 +1893,28 @@ export default function KnowledgeAgentPage() {
               const lines = buffer.split('\n');
               buffer = lines.pop() || '';
               for (const line of lines) {
-                if (line.startsWith('event: ')) {
-                  currentEvent = line.slice(7).trim();
-                } else if (line.startsWith('data: ')) {
-                  try {
-                    const data = JSON.parse(line.slice(6));
-                    if (currentEvent === 'complete') {
-                      if (data.reviews) {
-                        top3Reviews = data.reviews;
-                        console.log(`[V2 Flow] Reviews received: ${Object.keys(data.reviews).length} products`);
-                      }
-                      if (data.prices) {
-                        top3Prices = data.prices;
-                        setPricesData(data.prices);
-                        console.log(`[V2 Flow] Prices received: ${Object.keys(data.prices).length} products`);
-                      }
-                    } else if (currentEvent === 'progress') {
-                      if (data.type === 'reviews') {
-                        setActiveStatusMessage(`${data.completed}/${data.total} 상품 리뷰 수집 중...`);
-                      } else if (data.type === 'prices') {
-                        setActiveStatusMessage(`${data.completed}/${data.total} 상품 가격 수집 중...`);
-                      } else {
-                        setActiveStatusMessage(`${data.completed}/${data.total} 상품 리뷰 수집 중...`);
-                      }
-                    }
-                  } catch { /* ignore */ }
-                  currentEvent = ''; // 이벤트 처리 후 초기화
-                }
+                processSSELine(line);
+              }
+            }
+            // 스트림 종료 후 버퍼에 남은 마지막 데이터 처리
+            if (buffer.trim()) {
+              const remainingLines = buffer.split('\n');
+              for (const line of remainingLines) {
+                processSSELine(line);
               }
             }
           }
-          
+
+          // 리뷰 크롤링 완료 확인
+          const reviewCount = Object.keys(top3Reviews).length;
+          const totalReviewCount = Object.values(top3Reviews).reduce((acc, reviews) => acc + (reviews as any[]).length, 0);
+          console.log(`[V2 Flow] Review crawling complete: ${reviewCount} products, ${totalReviewCount} total reviews`);
+
           // 리뷰 크롤링 완료 - 장단점 재생성 API 호출
-          setActiveStatusMessage('리뷰 기반 장단점 분석 중...');
           const prosConsResults: Record<string, { prosFromReviews: string[]; consFromReviews: string[]; oneLiner: string; comparativeOneLiner: string }> = {};
 
           try {
             const balanceLabels = savedBalanceSelections.map((s: any) => s.selectedLabel);
-            console.log('[V2 Flow] === generate-pros-cons DEBUG ===');
-            console.log('  - balanceSelections:', balanceLabels);
-            console.log('  - negativeSelections:', selectedLabels);
-            console.log('  - collectedInfo:', JSON.stringify(collectedInfo));
-            console.log('  - top3Reviews keys:', Object.keys(top3Reviews));
-            console.log('  - top3Reviews counts:', Object.entries(top3Reviews).map(([k, v]) => `${k}: ${(v as any[]).length}개`));
-            console.log('  - v2Recommendations:', v2Recommendations.map((rec: any) => ({
-              pcode: rec.pcode,
-              hasProduct: !!rec.product,
-              productName: rec.product?.name,
-              specSummary: rec.product?.specSummary?.slice(0, 30),
-              matchedConditions: rec.product?.matchedConditions,
-            })));
-            console.log('[V2 Flow] === END DEBUG ===');
             const prosConsRes = await fetch('/api/knowledge-agent/generate-pros-cons', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -1721,10 +1937,8 @@ export default function KnowledgeAgentPage() {
               }),
             });
 
-            console.log('[V2 Flow] generate-pros-cons response status:', prosConsRes.status);
             if (prosConsRes.ok) {
               const prosConsData = await prosConsRes.json();
-              console.log('[V2 Flow] generate-pros-cons response:', prosConsData);
               if (prosConsData.success && prosConsData.results) {
                 prosConsData.results.forEach((result: any) => {
                   // pcode를 문자열로 통일하여 저장
@@ -1736,11 +1950,7 @@ export default function KnowledgeAgentPage() {
                     comparativeOneLiner: result.comparativeOneLiner || '',
                   };
                 });
-                console.log('[V2 Flow] Pros/Cons keys:', Object.keys(prosConsResults));
-                console.log('[V2 Flow] Pros/Cons data:', JSON.stringify(prosConsResults, null, 2));
               }
-            } else {
-              console.error('[V2 Flow] generate-pros-cons failed with status:', prosConsRes.status);
             }
           } catch (e) {
             console.error('[V2 Flow] Pros/Cons generation failed:', e);
@@ -1799,7 +2009,6 @@ export default function KnowledgeAgentPage() {
                     };
                   });
                   setProductAnalyses(prev => ({ ...prev, ...newAnalyses }));
-                  console.log('[V2 Flow] Product analysis loaded:', Object.keys(newAnalyses));
                 }
               }
             } catch (e) {
@@ -1809,16 +2018,12 @@ export default function KnowledgeAgentPage() {
           // 비동기 실행 (await 없이)
           fetchProductAnalysis();
 
-          setPhase('result');
-          const resultProducts = v2Recommendations.map((rec: any, idx: number) => {
+          const mappedResultProducts = v2Recommendations.map((rec: any, idx: number) => {
             // pcode를 문자열로 통일하여 조회
             const pcodeStr = String(rec.pcode);
             const productReviews = top3Reviews[rec.pcode] || top3Reviews[pcodeStr] || [];
             const prosConsData = prosConsResults[pcodeStr];
             const productPrices = top3Prices[rec.pcode] || top3Prices[pcodeStr] || null;
-
-            console.log(`[V2 Flow] Looking up pcode: "${pcodeStr}", found prosConsData:`, !!prosConsData, prosConsData?.oneLiner);
-            console.log(`[V2 Flow] Looking up pcode: "${pcodeStr}", found prices:`, !!productPrices, productPrices?.prices?.length || 0);
 
             // 한줄평 우선순위: 1) oneLiner 2) 리뷰 기반 reason 3) highlights 조합
             let finalReasoning = '';
@@ -1839,11 +2044,11 @@ export default function KnowledgeAgentPage() {
             } else {
               finalReasoning = `⭐ ${rec.product?.brand || categoryName} 추천 상품`;
             }
-            console.log(`[V2 Flow] Product ${pcodeStr} final reasoning: "${finalReasoning}"`);
 
             return {
               ...rec.product,
               id: rec.pcode || rec.product?.pcode,
+              pcode: rec.pcode || rec.product?.pcode,
               title: rec.product?.name || rec.product?.title,
               rank: idx + 1,
               reasoning: finalReasoning,
@@ -1868,20 +2073,29 @@ export default function KnowledgeAgentPage() {
               } : null,
             };
           });
+
+          // 타임라인 UX가 끝날 때까지 대기 (최소 11초 보장)
+          await uxPromise;
+
+          setResultProducts(mappedResultProducts);
+          setPhase('result');
           setReviewsData(top3Reviews);
+          const resultMsgId = `a_result_${Date.now()}`;
           setMessages(prev => [...prev, {
-            id: `a_result_${Date.now()}`,
+            id: resultMsgId,
             role: 'assistant',
             content: `${categoryName} 추천 결과입니다! 사용자님의 선택을 기반으로 최적의 상품 ${v2Recommendations.length}개를 선정했습니다.`,
-            resultProducts,
+            resultProducts: mappedResultProducts,
             typing: true,
             timestamp: Date.now()
           }]);
+          // 결과 메시지로 스크롤
+          scrollToMessage(resultMsgId, 200);
           return;
         }
       } finally {
         setIsTyping(false);
-        setActiveStatusMessage(null);
+        setIsCalculating(false);
       }
     }
 
@@ -1961,8 +2175,12 @@ export default function KnowledgeAgentPage() {
       setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
     }
 
-    setMessages(prev => [...prev, { id: `u_${Date.now()}`, role: 'user', content: message, timestamp: Date.now() }]);
+    const newMsgId = `u_${Date.now()}`;
+    setMessages(prev => [...prev, { id: newMsgId, role: 'user', content: message, timestamp: Date.now() }]);
     setInputValue('');
+    
+    // 챗바에서 직접 입력한 경우에만 상단 정렬 스크롤
+    scrollToMessage(newMsgId, 200);
 
     await fetchChatStream({ 
       categoryKey, 
@@ -1988,44 +2206,63 @@ export default function KnowledgeAgentPage() {
         setBalanceQuestions(data.balanceQuestions || []);
         if (v2FlowEnabled && !v2FlowStarted) {
           setV2FlowStarted(true);
+          const processingMsgId = `a_processing_${Date.now()}`;
           setMessages(prev => [...prev, {
-            id: `a_processing_${Date.now()}`,
+            id: processingMsgId,
             role: 'assistant',
             content: '응답해주신 내용을 바탕으로 딱 맞는 상품을 골라내고 있어요...',
             typing: true,
             timestamp: Date.now()
           }]);
+          // 처리 중 메시지로 스크롤
+          scrollToMessage(processingMsgId, 200);
           startV2Flow();
         } else {
           setPhase('balance');
+          const chatBalanceMsgId = `a_balance_${Date.now()}`;
           setMessages(prev => [...prev, {
-            id: `a_balance_${Date.now()}`,
+            id: chatBalanceMsgId,
             role: 'assistant',
             content: data.content || '취향에 맞는 제품을 찾기 위해 몇 가지 선택을 해주세요.',
             typing: true,
             timestamp: Date.now()
           }]);
+          // 밸런스 메시지로 스크롤
+          scrollToMessage(chatBalanceMsgId, 200);
         }
       } else if (data.phase === 'negative_filter') {
         setPhase('negative_filter');
+        const negativeMsgId = `a_negative_${Date.now()}`;
         setMessages(prev => [...prev, {
-          id: `a_negative_${Date.now()}`,
+          id: negativeMsgId,
           role: 'assistant',
           content: data.content || '꼭 피하고 싶은 단점이 있으신가요?',
           negativeFilterOptions: data.negativeOptions || [],
           typing: true,
           timestamp: Date.now()
         }]);
+        // 단점 필터 메시지로 스크롤
+        scrollToMessage(negativeMsgId, 200);
       } else if (data.phase === 'result') {
+        const resultProducts = (data.products || []).map((rec: any) => ({
+          ...rec,
+          pcode: rec.pcode || rec.id,
+          title: rec.title || rec.name,
+          recommendationReason: rec.reason || rec.recommendationReason,
+        }));
+        setResultProducts(resultProducts);
         setPhase('result');
+        const chatResultMsgId = `a_result_${Date.now()}`;
         setMessages(prev => [...prev, {
-          id: `a_result_${Date.now()}`,
+          id: chatResultMsgId,
           role: 'assistant',
           content: data.content,
-          resultProducts: data.products || [],
+          resultProducts: resultProducts,
           typing: true,
           timestamp: Date.now()
         }]);
+        // 결과 메시지로 스크롤
+        scrollToMessage(chatResultMsgId, 200);
       } else {
         setMessages(prev => [...prev, {
           id: `a_${Date.now()}`,
@@ -2059,7 +2296,11 @@ export default function KnowledgeAgentPage() {
           <div className="w-10" />
         </header>
 
-        <main ref={mainRef} className="flex-1 overflow-y-auto px-5 py-8 space-y-8 pb-44">
+        {/* 스텝 인디케이터 (4단계) - 항상 상단 플로팅 */}
+        <StepIndicator currentPhase={phase} />
+
+        <main ref={mainRef} className="flex-1 overflow-y-auto px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px' }}>
+          <div className="space-y-8 pt-2">
             {messages.map((msg, idx) => (
               <MessageBubble
                 key={msg.id}
@@ -2098,20 +2339,22 @@ export default function KnowledgeAgentPage() {
                   setAiHelperAutoSubmitText(query);
                   setIsAIHelperOpen(true);
                 }}
-                onNegativeAIHelperOpen={(autoSubmitText) => {
-                  if (autoSubmitText) {
-                    setAiHelperAutoSubmitText(autoSubmitText);
-                  }
-                  setIsNegativeAIHelperOpen(true);
-                }}
-              />
+                  onNegativeAIHelperOpen={(autoSubmitText) => {
+                    if (autoSubmitText) {
+                      setAiHelperAutoSubmitText(autoSubmitText);
+                    }
+                    setIsNegativeAIHelperOpen(true);
+                  }}
+                  onFreeChat={handleFreeChat}
+                />
             ))}
             {/* 하드컷팅 시각화 단계 */}
             {phase === 'hardcut_visual' && hardcutResult && (
               <motion.div
+                data-message-id="hardcut-visual"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="py-4"
+                className="py-4 scroll-mt-[52px]"
               >
                 <HardcutVisualization
                   totalBefore={hardcutResult.totalBefore}
@@ -2119,33 +2362,42 @@ export default function KnowledgeAgentPage() {
                   filteredProducts={hardCutProducts}
                   appliedRules={hardcutResult.appliedRules}
                   onContinue={handleHardcutContinue}
+                  onComplete={() => setIsHardcutVisualDone(true)}
                 />
               </motion.div>
             )}
 
             {phase === 'balance' && balanceQuestions.length > 0 && !isTyping && (
-              <BalanceGameCarousel
-                questions={balanceQuestions as V2BalanceQuestion[]}
-                onComplete={handleBalanceComplete}
-                onStateChange={(state) => {
-                  setBalanceAllAnswered(state.allAnswered);
-                  setBalanceCurrentSelections(state.currentSelections);
-                }}
-                showAIHelper={true}
-                category={categoryKey}
-                categoryName={categoryName}
-                userSelections={getUserSelections()}
-              />
+              <div data-message-id="balance-game-carousel" className="scroll-mt-[52px]">
+                <BalanceGameCarousel
+                  questions={balanceQuestions as V2BalanceQuestion[]}
+                  onComplete={handleBalanceComplete}
+                  onStateChange={(state) => {
+                    setBalanceAllAnswered(state.allAnswered);
+                    setBalanceCurrentSelections(state.currentSelections);
+                  }}
+                  showAIHelper={true}
+                  category={categoryKey}
+                  categoryName={categoryName}
+                  userSelections={getUserSelections()}
+                />
+              </div>
             )}
             <AnimatePresence>
-              {isTyping && <SearchingIndicator queries={activeSearchQueries} statusMessage={activeStatusMessage} />}
+              {isCalculating && (
+                <div className="py-12">
+                  <LoadingAnimation progress={loadingProgress} timelineSteps={timelineSteps} />
+                </div>
+              )}
+              {isTyping && !isCalculating && <SearchingIndicator queries={activeSearchQueries} statusMessage={activeStatusMessage} />}
             </AnimatePresence>
             <div ref={messagesEndRef} />
+          </div>
         </main>
 
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[110] bg-gradient-to-t from-white via-white/95 to-transparent">
             {/* Navigation Buttons (Prev Only) */}
-            {activeQuestion && canGoPrev && (
+            {activeQuestion && canGoPrev && !isTyping && (
               <div className="flex mb-4">
                 <button
                   onClick={handlePrevStep}
@@ -2156,8 +2408,23 @@ export default function KnowledgeAgentPage() {
               </div>
             )}
 
+            {/* 하드컷팅 시각화 완료 시 버튼 */}
+            {phase === 'hardcut_visual' && isHardcutVisualDone && !isTyping && (
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.01, translateY: -1 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleHardcutContinue}
+                className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all shadow-xl shadow-gray-200"
+              >
+                <FcSurvey size={20} />
+                <span className="text-[16px] tracking-tight">후보 추리기 시작</span>
+              </motion.button>
+            )}
+
             {/* 밸런스 게임 완료 시 "다음" 버튼 */}
-            {phase === 'balance' && balanceAllAnswered && (
+            {phase === 'balance' && balanceAllAnswered && !isTyping && (
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -2171,7 +2438,7 @@ export default function KnowledgeAgentPage() {
             )}
 
             {/* 단점 필터 완료 시 CTA 버튼 */}
-            {phase === 'negative_filter' && (
+            {phase === 'negative_filter' && !isTyping && (
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -2192,7 +2459,36 @@ export default function KnowledgeAgentPage() {
               </motion.button>
             )}
 
-            {phase !== 'hardcut_visual' && phase !== 'balance' && phase !== 'negative_filter' && (
+            {phase === 'result' && !showReRecommendModal ? (
+              <ResultChatContainer
+                products={resultProducts}
+                categoryKey={categoryKey}
+                categoryName={categoryName}
+                existingConditions={{
+                  hardFilterAnswers: Object.fromEntries(
+                    Object.entries(collectedInfo).map(([k, v]) => [k, String(v)])
+                  ),
+                  balanceSelections: savedBalanceSelections.map(s => s.selectedLabel),
+                  negativeSelections: selectedNegativeKeys,
+                  budget: { min: 0, max: 0 },
+                }}
+                onUserMessage={(content) => {
+                  const msgId = `u_${Date.now()}`;
+                  setMessages(prev => [...prev, { id: msgId, role: 'user', content, timestamp: Date.now() }]);
+                  setTimeout(() => scrollToMessage(msgId), 100);
+                }}
+                onAssistantMessage={(content, typing = false) => {
+                  const msgId = `a_${Date.now()}`;
+                  setMessages(prev => [...prev, { id: msgId, role: 'assistant', content, typing, timestamp: Date.now() }]);
+                  setTimeout(() => scrollToMessage(msgId), 100);
+                }}
+                onLoadingChange={setIsChatLoading}
+                chatHistory={messages
+                  .filter(m => (m.role === 'user' || m.role === 'assistant'))
+                  .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+                }
+              />
+            ) : phase !== 'hardcut_visual' && phase !== 'balance' && phase !== 'negative_filter' && (
               <div className="relative group">
                 <div className="absolute -inset-6 -z-10 blur-[40px] opacity-40 pointer-events-none group-focus-within:opacity-70 transition-opacity duration-500" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.2) 50%, transparent 100%)' }} />
                 <motion.div 
@@ -2251,25 +2547,11 @@ export default function KnowledgeAgentPage() {
             rank: selectedProduct.rank || 1,
             finalScore: selectedProduct.matchScore || 0,
             reasoning: selectedProduct.reasoning || selectedProduct.recommendReason || '',
-            // 조건 충족도 평가 (product-analysis API 결과)
-            selectedTagsEvaluation: analysis?.selectedConditionsEvaluation?.map((e: any, idx: number) => ({
-              userTag: e.condition,
-              tagType: e.conditionType === 'negative' ? 'cons' as const : 'pros' as const,
-              priority: idx + 1,
-              status: e.status as '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨',
-              evidence: e.evidence || '',
-              citations: [],
-            })) || [],
-            // 상황 적합성 (대화 기반) - contextMatch는 ProductDetailModal에서 별도 처리 필요
-            // contextMatch: analysis?.contextMatch,
-            // 추가 장점 (analysis 우선, 없으면 기존 데이터)
-            additionalPros: analysis?.additionalPros?.length > 0
-              ? analysis.additionalPros
-              : (selectedProduct.prosFromReviews || selectedProduct.highlights || []).map((text: string) => ({ text, citations: [] })),
-            // 단점 (analysis 우선, 없으면 기존 데이터)
-            cons: analysis?.cons?.length > 0
-              ? analysis.cons
-              : (selectedProduct.consFromReviews || selectedProduct.concerns || []).map((text: string) => ({ text, citations: [] })),
+            // 기존 태그 기반 평가 비활성화 (V2 조건 평가만 사용)
+            selectedTagsEvaluation: [],
+            // 추가 장점/단점도 비활성화 (V2 스타일만 사용)
+            additionalPros: [],
+            cons: [],
             citedReviews: (selectedProduct.reviews || []).slice(0, 5).map((r: any, i: number) => ({
               index: i + 1,
               text: r.content || r.text || '',
@@ -2278,6 +2560,21 @@ export default function KnowledgeAgentPage() {
           }}
           category={categoryKey}
           onClose={() => setSelectedProduct(null)}
+          // V2 조건 충족도 평가 ("왜 추천했나요?", "선호 속성", "피할 단점" 표시용)
+          selectedConditionsEvaluation={analysis?.selectedConditionsEvaluation?.map((e: any) => ({
+            condition: e.condition,
+            conditionType: e.conditionType as 'hardFilter' | 'balance' | 'negative',
+            status: e.status as '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨',
+            evidence: e.evidence || '',
+            tradeoff: e.tradeoff,
+            questionId: e.questionId,
+          })) || []}
+          // 내 상황과의 적합성 (contextMatch 데이터)
+          initialContext={collectedInfo?.initialContext || collectedInfo?.context || ''}
+          contextMatchData={analysis?.contextMatch ? {
+            explanation: analysis.contextMatch.explanation || '',
+            matchedPoints: analysis.contextMatch.matchedPoints || [],
+          } : undefined}
           preloadedReviews={(selectedProduct.reviews || []).map((r: any) => ({
             content: r.content || r.text || '',
             rating: r.rating || 0,
@@ -2356,6 +2653,179 @@ export default function KnowledgeAgentPage() {
           setIsNegativeAIHelperOpen(false);
         }}
       />
+
+      {/* 다시 추천받기 플로팅 버튼 (추천 완료 상태에서 표시) */}
+      {(phase === 'result' || phase === 'free_chat' || messages.some(m => !!m.resultProducts)) && !selectedProduct && (
+          <div className="fixed inset-x-0 bottom-0 pointer-events-none z-[115]">
+            <div className="max-w-[480px] mx-auto w-full relative h-full">
+            {/* 회전하는 그라데이션 테두리 스타일 */}
+            <style jsx>{`
+              @property --angle {
+                syntax: '<angle>';
+                initial-value: 0deg;
+                inherits: false;
+              }
+
+              @keyframes rotate {
+                to {
+                  --angle: 360deg;
+                }
+              }
+
+              .gradient-border-button {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem 2rem;
+                border-radius: 1rem;
+                background: #111827;
+                overflow: hidden;
+              }
+
+              .gradient-border-button.w-full {
+                width: 100%;
+              }
+
+              .gradient-border-button::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 1rem;
+                padding: 3px;
+                background: conic-gradient(
+                  from var(--angle),
+                  #5855ff,
+                  #5cdcdc,
+                  #71c4fd,
+                  #5855ff
+                );
+                -webkit-mask:
+                  linear-gradient(#fff 0 0) content-box,
+                  linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                animation: rotate 2s linear infinite;
+                pointer-events: none;
+                opacity: 0.5;
+              }
+
+              .gradient-border-button-inner {
+                position: relative;
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                font-weight: 700;
+                font-size: 1rem;
+                color: white;
+              }
+            `}</style>
+
+            {/* 배경 오버레이 */}
+            <AnimatePresence>
+              {showReRecommendModal && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[116] pointer-events-auto"
+                  onClick={() => setShowReRecommendModal(false)}
+                />
+              )}
+            </AnimatePresence>
+
+            {/* 모달 옵션 버튼들 */}
+            <AnimatePresence>
+              {showReRecommendModal && (
+                <div
+                  className="absolute right-4 z-[117] flex flex-col items-end gap-2 pointer-events-auto"
+                  style={{ bottom: '100px' }}
+                >
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                    transition={{ type: 'spring', damping: 20, stiffness: 300, delay: 0.05 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => {
+                      logV2ReRecommendDifferentCategory(categoryKey || '', categoryName || '');
+                      router.push('/knowledge-agent');
+                    }}
+                    className="px-4 py-3 bg-white/95 backdrop-blur-sm rounded-2xl text-sm font-semibold text-gray-700 flex items-center gap-2 shadow-lg border border-gray-100/50"
+                  >
+                    <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    다른 카테고리
+                  </motion.button>
+
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                    transition={{ type: 'spring', damping: 20, stiffness: 300, delay: 0 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => {
+                      logV2ReRecommendSameCategory(categoryKey || '', categoryName || '');
+                      window.location.reload();
+                    }}
+                    className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
+                    style={{ background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)' }}
+                  >
+                    <motion.svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" animate={{ rotate: [0, -15, 15, -15, 0], y: [0, -2, 0] }} transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}>
+                      <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+                    </motion.svg>
+                    {categoryName} 처음부터
+                  </motion.button>
+
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ type: 'spring', damping: 20, stiffness: 300, delay: 0.1 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setShowReRecommendModal(false)}
+                    className="px-4 py-2.5 rounded-xl text-sm font-medium text-gray-500 bg-gray-100/80 backdrop-blur-sm"
+                  >
+                    취소
+                  </motion.button>
+                </div>
+              )}
+            </AnimatePresence>
+
+            {!showReRecommendModal && !isChatLoading && (
+              <div className="absolute right-4 z-[116] flex flex-row items-center gap-2 pointer-events-auto" style={{ bottom: '100px' }}>
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    logV2ReRecommendModalOpened(categoryKey || '', categoryName || '');
+                    setShowReRecommendModal(true);
+                  }}
+                  className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
+                  style={{ background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)' }}
+                >
+                  <motion.svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" animate={{ rotate: [0, -15, 15, -15, 0], y: [0, -2.5, 0] }} transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}>
+                    <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+                  </motion.svg>
+                  다시 추천받기
+                </motion.button>
+              </div>
+            )}
+            </div>
+          </div>
+        )}
     </div>
   );
 }
@@ -2377,6 +2847,7 @@ function MessageBubble({
   onContextRecommend,
   negativeOptions,
   onNegativeAIHelperOpen,
+  onFreeChat,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -2394,17 +2865,45 @@ function MessageBubble({
   onContextRecommend?: (query: string) => void;
   negativeOptions?: NegativeOption[];
   onNegativeAIHelperOpen?: (autoSubmitText?: string) => void;
+  onFreeChat?: (message: string) => void;
 }) {
   const isUser = message.role === 'user';
 
   const isInactive = !isUser && !isLatestAssistantMessage && message.options && message.options.length > 0;
 
+  if (!isUser && message.role === 'assistant' && message.reRecommendData) {
+    return (
+      <div id={message.id} data-message-id={message.id} className="scroll-mt-[52px]">
+        <ResultChatMessage
+          message={{
+            id: message.id,
+            role: 'assistant',
+            content: message.content || '',
+            timestamp: message.timestamp ?? 0,
+            reRecommendData: message.reRecommendData,
+          }}
+          typing={message.typing}
+          speed={10}
+          isReRecommending={false} // knowledge-agent handles its own loading
+          onTypingComplete={() => {}}
+          onReRecommendConfirm={async () => {
+            if (message.reRecommendData?.naturalLanguageCondition) {
+              onFreeChat?.(message.reRecommendData.naturalLanguageCondition);
+            }
+          }}
+          onReRecommendCancel={() => {}}
+        />
+      </div>
+    );
+  }
+
   return (
     <motion.div
       id={message.id}
+      data-message-id={message.id}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`flex ${isUser ? 'justify-end' : 'justify-start'} w-full ${isInactive ? 'opacity-40 pointer-events-none' : ''} transition-opacity duration-300`}
+      className={`scroll-mt-[52px] flex ${isUser ? 'justify-end' : 'justify-start'} w-full ${isInactive ? 'opacity-40 pointer-events-none' : ''} transition-opacity duration-300`}
     >
       <div className={`${isUser ? 'max-w-[85%]' : 'w-full'} space-y-3`}>
         {!isUser && message.searchContext && (

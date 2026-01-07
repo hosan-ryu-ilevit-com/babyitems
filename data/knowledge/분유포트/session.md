@@ -1,39 +1,14 @@
-# 세션: 20260106_081215_z0wu
-> 시작: 2026-01-06T08:12:15.850Z
+# 세션: 20260107_070107_zrc6
+> 시작: 2026-01-07T07:01:07.795Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 분유포트 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 분유포트 시장은 육아 편의성을 높이는 스마트 기능과 안전한 소재를 갖춘 제품들이 인기를 얻고 있습니다. 특히 아이닉, 보르르, 릴리브 등의 브랜드가 꾸준히 언급되며, 휴대용 분유포트 또한 여행이나 외출 시 필수템으로 자리 잡고 있습니다. 온도 조절, 자동 출수, 저소음 설계 등 육아맘들의 니즈를 반영한 기능들이 트렌드를 이끌고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EB%B6%84%EC%9C%A0%ED%8F%AC%ED%8A%B8&sort=saveDESC
-
-### Q1: 아기가 사용할 분유포트, 어떤 소재가 가장 안심되시나요?
-- 사용자 답변: 기타/상관없음
-- 웹서치 쿼리: 분유포트 기타/상관없음 추천 2026
-- 인사이트: 분유포트 소재는 주로 내열 유리나 스테인리스 스틸이 사용되며, 아기의 안전을 위해서는 내부 전체가 스테인리스인지, 또는 붕규산 내열 강화유리와 같은 안전한 소재인지 확인하는 것이 중요합니다. 또한, 제품별 성능 차이가 존재하므로 물 끓임 성능, 보온 정확성, 소비전력량 등을 종합적으로 고려해야 합니다.
-
-### Q2: 육아에 스마트한 기술을 더하고 싶으신가요? 앱 연동 기능이 필요하신가요?
-- 사용자 답변: 아니요, 기본적인 기능이면 충분해요
-- 웹서치 쿼리: 분유포트 기본적인 기능 추천 2026
-- 인사이트: 기본적인 기능의 분유포트는 물을 100도까지 끓여 살균하고, 설정한 온도로 빠르게 식혀 보온하는 핵심 기능을 제공합니다. 이는 복잡한 스마트 기능 없이도 아기에게 안전하고 적절한 온도의 분유를 준비하는 데 충분합니다.
-
-### Q3: 집에서 주로 사용하시나요, 아니면 외출이나 여행 시에도 휴대하며 사용하실 계획이신가요?
-- 사용자 답변: 주로 집에서 사용, 넉넉한 용량이면 좋겠어요
-- 웹서치 쿼리: 분유포트 집에서 사용 넉넉한 용량 추천 2026
-- 인사이트: 집에서 주로 사용하고 넉넉한 용량을 선호하는 경우, 1.5L 이상의 대용량 분유포트가 적합합니다. 이는 분유 수유량이 많거나 여러 번 수유할 때 물을 끓이고 식히는 과정을 여러 번 반복할 필요 없이 한 번에 준비할 수 있어 편리합니다. 또한, 넉넉한 용량은 분유뿐만 아니라 가족들이 함께 마실 차나 커피를 위한 물을 데우는 데도 활용할 수 있어 다용도로 사용하기 좋습니다.
-
-### Q4: 매일 사용하는 제품이라 세척이 간편해야 하는데요, 분리 세척이 쉬운 제품이 좋을까요?
-- 사용자 답변: 네, 부품이 분리되어 꼼꼼하게 세척하고 싶어요
-- 웹서치 쿼리: 분유포트 부품 분리 세척 추천 2026
-- 인사이트: 부품 분리가 쉬운 분유포트는 꼼꼼한 세척에 유리하며, 특히 뚜껑과 실리콘 패킹까지 분리되는 제품이 세척 편의성이 높습니다.
-
-### Q5: 분유포트 구매 시, 가격대를 어느 정도로 생각하고 계신가요? 예산에 따라 선택할 수 있는 기능이나 디자인이 달라질 수 있습니다.
-- 사용자 답변: 8만원 이상, 3~8만원대
-- 웹서치 쿼리: 분유포트 8만원 이상 추천 2026
-- 인사이트: 8만원 이상대 분유포트는 염소 제거, 영구 보온, 자동 출수, 자동 세척 등 고급 기능이 탑재된 제품이 많으며, 3~8만원대 제품은 휴대용, 접이식, 가성비 좋은 모델들이 주를 이룹니다. 예산에 따라 염소 제거 기능, 자동 출수 기능, 물통 분리 및 세척 편의성 등을 우선적으로 고려할 수 있습니다.
+- 쿼리: 분유포트
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz0jSUdwGwie0mnTxMDEyh4fXdzYMHKzw5MGKAeRv_T-MCuEQWTjZAexQihksZAJcKaVFpOwxcd6NyiZF2qcIYFqmp31psXupGUUaW-4x8iJJdNSmgM5A6EHMiweOZUjTVicbonjE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH36M6qdrmP_MnW3c7ZhmBsJtsKIBYB3cX8cNqV174PUsDmGYwBsKjUEShnqyGdZywkwhsaUyYIKFgbsYbg3yhXml01NwUweKMAn-KfEst8JH78ktZDZqaFVcXuI3nB3TMhthJb5R0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwSo8kYaaweG2thHzPzm5VkXqR6-6ga1XHoIv6ND-43b_9-tX-UMfTLjJuH64Bg9N3Wx0skVOOndu1AW21Q0SYnx_3CclD2OJ1h-kYSnjYr09t7DvwJCzD0h85DDtocj_XMQ1LkbZtZqZbMeFMG7CdV1-V91K0zNoLxWrwdn5mgTqxGe6psc-VtiWUdj7t607g0YbehSP9rE5pvvU5z4KlPmO4zptPTNyKDQvODu5gN9POt1QKnH2bTON1n1kjqUzlQ7lkbF2HTA7dFoFxhcCy5HXesNlOcYWqnfTK2w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZNUOolPuS0apFCQ_i3V8iOu4dwM5SI_EKhVk3BoDcddz7tIBEsUgOQmZaR9kZyu2KbNEqTsN6g4llfYjwzo_AypbEq7whqeWJSTdrQ5CbGe3FP8jg5flLIKo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfRn2a3sVoSZMxldZeUrwVnky4_cDcimjgczkx-nnzt-mhrT462no-mFM8BAvfQLPslaCAH2MB87-AS5AxBdmU0kWHHDE0ZWVUYUZgjipd22p_vKkWBhu8zNsfGgU=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz0jSUdwGwie0mnTxMDEyh4fXdzYMHKzw5MGKAeRv_T-MCuEQWTjZAexQihksZAJcKaVFpOwxcd6NyiZF2qcIYFqmp31psXupGUUaW-4x8iJJdNSmgM5A6EHMiweOZUjTVicbonjE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH36M6qdrmP_MnW3c7ZhmBsJtsKIBYB3cX8cNqV174PUsDmGYwBsKjUEShnqyGdZywkwhsaUyYIKFgbsYbg3yhXml01NwUweKMAn-KfEst8JH78ktZDZqaFVcXuI3nB3TMhthJb5R0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwSo8kYaaweG2thHzPzm5VkXqR6-6ga1XHoIv6ND-43b_9-tX-UMfTLjJuH64Bg9N3Wx0skVOOndu1AW21Q0SYnx_3CclD2OJ1h-kYSnjYr09t7DvwJCzD0h85DDtocj_XMQ1LkbZtZqZbMeFMG7CdV1-V91K0zNoLxWrwdn5mgTqxGe6psc-VtiWUdj7t607g0YbehSP9rE5pvvU5z4KlPmO4zptPTNyKDQvODu5gN9POt1QKnH2bTON1n1kjqUzlQ7lkbF2HTA7dFoFxhcCy5HXesNlOcYWqnfTK2w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZNUOolPuS0apFCQ_i3V8iOu4dwM5SI_EKhVk3BoDcddz7tIBEsUgOQmZaR9kZyu2KbNEqTsN6g4llfYjwzo_AypbEq7whqeWJSTdrQ5CbGe3FP8jg5flLIKo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfRn2a3sVoSZMxldZeUrwVnky4_cDcimjgczkx-nnzt-mhrT462no-mFM8BAvfQLPslaCAH2MB87-AS5AxBdmU0kWHHDE0ZWVUYUZgjipd22p_vKkWBhu8zNsfGgU=
 
 ---
 
@@ -41,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| material_preference | 기타/상관없음 |
-| smart_features_need | 아니요, 기본적인 기능이면 충분해요 |
-| capacity_and_portability | 주로 집에서 사용, 넉넉한 용량이면 좋겠어요 |
-| cleaning_convenience | 네, 부품이 분리되어 꼼꼼하게 세척하고 싶어요 |
-| budget_priority | 8만원 이상, 3~8만원대 |
+| material_preference | 스테인리스 |
+| capacity_need | 1.5L 이하, 1.5L ~ 1.8L |
+| temperature_control_feature | 보온 기능, 단순 가열 |
+| convenience_features | 쉬운 세척/관리, 자동 전원 차단/디지털 디스플레이 |
+| budget | 3~8만원대, 1~3만원대 |
 
 ---
 
@@ -54,26 +29,26 @@
 현재 후보: 40개 (전체 40개 중)
 
 ### 후보 상품
-1. 신일전자 SEP-WH17KP - 34,020원 - ⭐5
-2. 테팔 인퓨자 BJ800D - 74,030원 - ⭐4.6
-3. 보랄 BR-P30L - 73,260원 - ⭐4.6
+1. 신일전자 SEP-WH17KP - 34,470원 - ⭐5
+2. 테팔 인퓨자 BJ800D - 73,980원 - ⭐4.6
+3. 보랄 BR-P30L - 70,450원 - ⭐4.6
 4. 보르르 B17-505 - 95,000원 - ⭐4.8
-5. 보아르 이지 전기포트C VPEP-003IV - 49,410원 - ⭐4.8
+5. 보아르 이지 전기포트C VPEP-003IV - 48,860원 - ⭐4.8
 6. 하트만 HMF-M0803ABK - 66,410원 - ⭐5
 7. 키친아트 소렐 KIA-EK15 - 42,000원 - ⭐4.5
 8. 모즈 MC-1700 - 43,700원 - ⭐4.7
-9. 테팔 테이스티 BJ551BKR - 74,270원 - ⭐4.7
-10. 엘프슈타펠 BNB-7500W - 101,200원 - ⭐4.8
+9. 엘프슈타펠 BNB-7500W - 101,200원 - ⭐4.8
+10. 테팔 테이스티 BJ551BKR - 73,210원 - ⭐4.7
 11. 아이닉 iEK01 - 138,570원 - ⭐4.8
-12. 블루필 힛백 가열식 텀블러 BHT210 - 112,640원 - ⭐5
-13. 락앤락 EJK814WHT - 38,400원 - ⭐0
-14. 리빙센스 리젠 LS-1731T - 37,280원 - ⭐5
-15. 보랄 BR-T95WK - 38,120원 - ⭐4.6
-16. 보랄 BR-602D - 39,800원 - ⭐0
-17. LINSHU SY-618 - 25,900원 - ⭐0
-18. 보아르 VHEP-004WH - 50,160원 - ⭐0
-19. 풀무원건강생활 바른 분유포트 PC13DWCT - 59,740원 - ⭐5
-20. 남양키친플라워 KEK-JP750WH - 53,280원 - ⭐4.6
+12. 블루필 힛백 가열식 텀블러 BHT210 - 117,390원 - ⭐5
+13. 풀무원건강생활 바른 분유포트 PC13DWCT - 38,450원 - ⭐5
+14. 락앤락 EJK814WHT - 38,400원 - ⭐0
+15. 보아르 VHEP-004WH - 50,160원 - ⭐0
+16. 보랄 BR-T95WK - 38,120원 - ⭐4.6
+17. 휴롬 TM-B22 - 156,450원 - ⭐3.5
+18. 디프 스마트 원터치 분유포트 - 36,500원 - ⭐0
+19. 보랄 BR-602D - 39,800원 - ⭐0
+20. 마이어 ME-820 - 63,700원 - ⭐0
 
 ---
 

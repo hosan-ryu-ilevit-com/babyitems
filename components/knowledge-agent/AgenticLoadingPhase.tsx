@@ -991,15 +991,25 @@ export function AgenticLoadingPhase({
   const scrollToStep = useCallback((stepId: string) => {
     const element = stepRefs.current.get(stepId);
     if (element) {
-      // 헤더 높이(64px)를 고려하여 스크롤
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      // scrollContainer(main)를 찾아 직접 스크롤
+      const scrollContainer = document.querySelector('main');
+      if (scrollContainer) {
+        // StepIndicator가 main 외부로 나갔으므로, main의 최상단이 인디케이터 바로 아래입니다.
+        // 여백(20px)만 고려하여 스크롤합니다.
+        const headerOffset = 20;
+        
+        const elementRect = element.getBoundingClientRect();
+        const containerRect = scrollContainer.getBoundingClientRect();
+        
+        // 컨테이너 내부에서의 상대적 위치 계산
+        const relativeTop = elementRect.top - containerRect.top + scrollContainer.scrollTop;
+        const offsetPosition = relativeTop - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+        scrollContainer.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   }, []);
 

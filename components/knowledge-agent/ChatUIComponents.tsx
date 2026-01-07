@@ -126,7 +126,7 @@ export function InlineBalanceCarousel({
           >
             <div className="flex items-center justify-between relative z-10">
               <div className="flex-1">
-                <span className={`text-[14px] font-bold leading-relaxed ${
+                <span className={`text-[16px] font-bold leading-relaxed ${
                   selections.get(currentQuestion.id) === 'A' ? 'text-blue-500' : 'text-gray-800'
                 }`}>
                   {currentQuestion.option_A.text}
@@ -155,7 +155,7 @@ export function InlineBalanceCarousel({
           >
             <div className="flex items-center justify-between relative z-10">
               <div className="flex-1">
-                <span className={`text-[14px] font-bold leading-relaxed ${
+                <span className={`text-[16px] font-bold leading-relaxed ${
                   selections.get(currentQuestion.id) === 'B' ? 'text-blue-500' : 'text-gray-800'
                 }`}>
                   {currentQuestion.option_B.text}
@@ -271,7 +271,7 @@ export function InlineNegativeFilter({
                 )}
               </div>
               <div>
-                <span className={`text-[14px] font-bold block leading-tight ${
+                <span className={`text-[16px] font-bold block leading-tight ${
                   selected.has(opt.id) ? 'text-rose-900' : 'text-gray-800'
                 }`}>
                   {opt.label}

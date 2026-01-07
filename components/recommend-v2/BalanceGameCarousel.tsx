@@ -464,7 +464,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <span className={`text-[14px] font-medium leading-tight break-keep ${
+                  <span className={`text-[16px] font-medium leading-tight break-keep ${
                     isCurrentSkipped
                       ? 'text-gray-300'
                       : (currentQuestion.option_A.target_rule_key && selections.get(currentQuestion.id) === currentQuestion.option_A.target_rule_key)
@@ -498,7 +498,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <span className={`text-[14px] font-medium leading-tight break-keep ${
+                  <span className={`text-[16px] font-medium leading-tight break-keep ${
                     isCurrentSkipped
                       ? 'text-gray-300'
                       : (currentQuestion.option_B.target_rule_key && selections.get(currentQuestion.id) === currentQuestion.option_B.target_rule_key)
@@ -522,12 +522,12 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
-                  <span className={`text-[14px] font-medium ${
+                  <span className={`text-[16px] font-medium ${
                     isCurrentBoth ? 'text-blue-500' : 'text-gray-600'
                   }`}>
                     상관없어요
                   </span>
-                  <span className={`text-[14px] font-medium ${
+                  <span className={`text-[16px] font-medium ${
                     isCurrentBoth ? 'text-blue-300' : 'text-gray-300'
                   }`}>
                     Skip

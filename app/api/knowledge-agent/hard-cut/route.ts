@@ -1,8 +1,9 @@
 /**
- * Knowledge Agent - Hard Cut API
+ * Knowledge Agent - Hard Cut API v2 (Hybrid)
  *
- * 스펙 매칭 기반 하드컷팅
- * - 질문 답변에서 필터 조건 추출 (LLM)
+ * 하이브리드 스펙 매칭 기반 하드컷팅
+ * - 1단계: 규칙 기반 필터링 (명확한 조건)
+ * - 2단계: LLM으로 애매한 조건 해석
  * - 스펙 매칭 점수 계산
  * - 상위 N개 선별 (기본 15개)
  */
@@ -31,18 +32,142 @@ interface FilterCondition {
   weight: number;
   mandatory: boolean;
   reason: string;
+  source: 'rule' | 'llm';  // 조건 출처
 }
 
+// ============================================================================
+// 규칙 기반 필터 조건 추출 (1단계)
+// ============================================================================
+
 /**
- * 질문 답변에서 필터 조건 추출 (LLM)
+ * 명확한 패턴을 규칙 기반으로 추출
+ * - 숫자 + 단위 (용량, 무게, 크기 등)
+ * - 키워드 매칭 (무선/유선, 형태 등)
+ * - "상관없어요" 답변은 건너뜀
  */
-async function extractFilterConditions(
+function extractRuleBasedConditions(
+  collectedInfo: Record<string, string>
+): { conditions: FilterCondition[]; processedKeys: string[] } {
+  const conditions: FilterCondition[] = [];
+  const processedKeys: string[] = [];
+
+  // 건너뛸 답변 패턴
+  const SKIP_PATTERNS = ['skip', '상관없', '건너뛰기', '모르겠', '아무거나'];
+
+  for (const [questionId, answer] of Object.entries(collectedInfo)) {
+    // "상관없어요" 등 건너뛰기 답변은 제외
+    if (SKIP_PATTERNS.some(p => answer.toLowerCase().includes(p))) {
+      processedKeys.push(questionId);
+      console.log(`[RuleFilter] Skipping "${questionId}": "${answer}" (skip pattern)`);
+      continue;
+    }
+
+    // 1. 숫자 + 단위 패턴 추출 (예: "3L 이상", "5kg 미만", "10~20만원")
+    const numericPatterns = [
+      // "3L 이상", "5kg 이상"
+      { regex: /(\d+(?:\.\d+)?)\s*(L|ml|kg|g|W|인치|mm|cm|만원|원)\s*(이상|이하|미만|초과)?/i, type: 'range' },
+      // "10~20만원", "5-10L"
+      { regex: /(\d+(?:\.\d+)?)\s*[~\-]\s*(\d+(?:\.\d+)?)\s*(L|ml|kg|g|W|인치|mm|cm|만원|원)?/i, type: 'between' },
+    ];
+
+    for (const pattern of numericPatterns) {
+      const match = answer.match(pattern.regex);
+      if (match) {
+        const unit = match[2] || match[3] || '';
+        let specKey = '';
+        let matchValue: string | { min?: number; max?: number } = '';
+
+        // 단위에 따른 스펙 키 매핑
+        if (['L', 'ml', '리터'].includes(unit)) specKey = '용량';
+        else if (['kg', 'g'].includes(unit)) specKey = '무게';
+        else if (['W', '와트'].includes(unit)) specKey = '소비전력';
+        else if (['인치'].includes(unit)) specKey = '화면크기';
+        else if (['mm', 'cm'].includes(unit)) specKey = '크기';
+        else if (['만원', '원'].includes(unit)) specKey = '가격';
+
+        if (specKey) {
+          if (pattern.type === 'between' && match[2]) {
+            matchValue = { min: parseFloat(match[1]), max: parseFloat(match[2]) };
+          } else if (match[3] === '이상' || match[3] === '초과') {
+            matchValue = { min: parseFloat(match[1]) };
+          } else if (match[3] === '이하' || match[3] === '미만') {
+            matchValue = { max: parseFloat(match[1]) };
+          } else {
+            matchValue = match[1] + unit;
+          }
+
+          conditions.push({
+            specKey,
+            matchType: typeof matchValue === 'object' ? 'range' : 'contains',
+            matchValue,
+            weight: 0.8,
+            mandatory: false,
+            reason: `${specKey} ${answer} 조건 반영`,
+            source: 'rule',
+          });
+          processedKeys.push(questionId);
+          console.log(`[RuleFilter] Extracted: ${specKey} = ${JSON.stringify(matchValue)} from "${answer}"`);
+          break;
+        }
+      }
+    }
+
+    // 2. 키워드 매칭 (무선/유선, 형태 등)
+    const keywordMappings: Array<{ keywords: string[]; specKey: string; matchValue: string }> = [
+      { keywords: ['무선', '코드리스', '배터리'], specKey: '연결방식', matchValue: '무선' },
+      { keywords: ['유선', '코드'], specKey: '연결방식', matchValue: '유선' },
+      { keywords: ['디지털', '전자식'], specKey: '타입', matchValue: '디지털' },
+      { keywords: ['아날로그', '기계식'], specKey: '타입', matchValue: '아날로그' },
+      { keywords: ['스테인리스', '스텐'], specKey: '재질', matchValue: '스테인리스' },
+      { keywords: ['플라스틱', 'PP', 'ABS'], specKey: '재질', matchValue: '플라스틱' },
+      { keywords: ['가열식', '스팀'], specKey: '방식', matchValue: '가열식' },
+      { keywords: ['초음파'], specKey: '방식', matchValue: '초음파' },
+      { keywords: ['자연기화'], specKey: '방식', matchValue: '자연기화' },
+    ];
+
+    if (!processedKeys.includes(questionId)) {
+      for (const mapping of keywordMappings) {
+        if (mapping.keywords.some(kw => answer.includes(kw))) {
+          conditions.push({
+            specKey: mapping.specKey,
+            matchType: 'contains',
+            matchValue: mapping.matchValue,
+            weight: 0.9,
+            mandatory: true,
+            reason: `${mapping.matchValue} ${mapping.specKey} 선호 반영`,
+            source: 'rule',
+          });
+          processedKeys.push(questionId);
+          console.log(`[RuleFilter] Keyword match: ${mapping.specKey} = "${mapping.matchValue}" from "${answer}"`);
+          break;
+        }
+      }
+    }
+  }
+
+  return { conditions, processedKeys };
+}
+
+// ============================================================================
+// LLM 기반 필터 조건 추출 (2단계 - 애매한 조건만)
+// ============================================================================
+
+/**
+ * 규칙으로 처리되지 않은 답변에서 필터 조건 추출 (LLM)
+ */
+async function extractLLMConditions(
   categoryName: string,
-  collectedInfo: Record<string, string>,
+  remainingInfo: Record<string, string>,
   availableSpecs: string[]
 ): Promise<FilterCondition[]> {
+  // 처리할 답변이 없으면 스킵
+  if (Object.keys(remainingInfo).length === 0) {
+    console.log('[LLMFilter] No remaining info to process');
+    return [];
+  }
+
   if (!ai) {
-    console.log('[HardCut] No AI available, using fallback');
+    console.log('[LLMFilter] No AI available, using fallback');
     return [];
   }
 
@@ -50,51 +175,47 @@ async function extractFilterConditions(
     model: 'gemini-2.5-flash-lite',
     generationConfig: {
       temperature: 0.2,
-      maxOutputTokens: 1000,
+      maxOutputTokens: 800,
     },
   });
 
   const prompt = `## 역할
 사용자의 ${categoryName} 구매 조건을 분석하여 스펙 필터링 조건을 추출하세요.
 
-## 사용자 답변
-${Object.entries(collectedInfo).map(([q, a]) => `- ${q}: ${a}`).join('\n')}
+## 사용자 답변 (아직 처리되지 않은 것들)
+${Object.entries(remainingInfo).map(([q, a]) => `- ${q}: ${a}`).join('\n')}
 
 ## 상품에서 발견된 스펙 키워드
-${availableSpecs.slice(0, 30).join(', ')}
+${availableSpecs.slice(0, 25).join(', ')}
 
 ## 추출 규칙
 1. 사용자 답변에서 스펙 관련 조건만 추출
-2. 각 조건의 중요도(weight)를 0.3~1.0 사이로 설정
-3. mandatory=true: 사용자가 명시적으로 요청한 핵심 조건 (미충족 시 큰 감점)
-4. mandatory=false: 있으면 좋지만 필수는 아닌 조건
-5. matchType: "contains"(포함), "range"(범위), "exact"(정확)
+2. "상관없어요", "건너뛰기" 등은 빈 배열 반환
+3. 각 조건의 중요도(weight)를 0.3~1.0 사이로 설정
+4. mandatory=true: 명시적으로 요청한 핵심 조건
+5. mandatory=false: 있으면 좋지만 필수는 아닌 조건
+6. reason(설명) 작성 시 주의사항:
+   - "사용자가 ~을 언급했습니다" 같이 메타적으로 설명하지 마세요.
+   - "실리콘 소재 선호 반영", "6개월 아기용 조건 적용" 처럼 구체적인 선택 내용과 결과를 자연스럽게 기술하세요.
+   - "~ 조건 반영", "~ 선호 적용" 등의 문구로 끝내세요.
 
-## 응답 형식 (JSON 배열)
-[
-  {
-    "specKey": "스펙 키워드 (예: 용량, 크기, 무선)",
-    "matchType": "contains",
-    "matchValue": "찾을 값 또는 {min:숫자, max:숫자}",
-    "weight": 0.8,
-    "mandatory": false,
-    "reason": "조건 설명"
-  }
-]
+## 응답 형식 (JSON 배열만)
+[{"specKey":"키워드","matchType":"contains","matchValue":"값","weight":0.7,"mandatory":false,"reason":"실리콘 소재 선호 반영"}]
 
-⚠️ JSON 배열만 응답하세요. 다른 텍스트 없이.`;
+⚠️ JSON 배열만 응답. 조건 없으면 빈 배열 []`;
 
   try {
     const result = await model.generateContent(prompt);
     const text = result.response.text().trim();
 
-    // JSON 추출
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+      const parsed = JSON.parse(jsonMatch[0]) as Array<Omit<FilterCondition, 'source'>>;
+      // source: 'llm' 추가
+      return parsed.map(c => ({ ...c, source: 'llm' as const }));
     }
   } catch (error) {
-    console.error('[HardCut] LLM extraction failed:', error);
+    console.error('[LLMFilter] Extraction failed:', error);
   }
 
   return [];
@@ -266,23 +387,35 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    console.log(`\n🔪 [HardCut] Starting: ${products.length}개 → ${targetCount}개`);
+    console.log(`\n🔪 [HardCut v2 Hybrid] Starting: ${products.length}개 → ${targetCount}개`);
     const startTime = Date.now();
 
     // 1. 상품에서 사용 가능한 스펙 키워드 추출
     const availableSpecs = extractAvailableSpecs(products);
     console.log(`   Found ${availableSpecs.length} spec keywords`);
 
-    // 2. LLM으로 필터 조건 추출
-    const conditions = await extractFilterConditions(
-      categoryName,
-      collectedInfo,
-      availableSpecs
-    );
-    const mandatoryConditions = conditions.filter(c => c.mandatory);
-    console.log(`   Extracted ${conditions.length} filter conditions (${mandatoryConditions.length} mandatory)`);
+    // 2. 하이브리드 필터 조건 추출
+    // 2-1. 규칙 기반 필터링 (명확한 조건: 숫자+단위, 키워드)
+    const { conditions: ruleConditions, processedKeys } = extractRuleBasedConditions(collectedInfo);
+    console.log(`   [Rule] ${ruleConditions.length} conditions from ${processedKeys.length} answers`);
+
+    // 2-2. 규칙으로 처리 안된 답변만 LLM에 전달
+    const remainingInfo: Record<string, string> = {};
+    for (const [key, value] of Object.entries(collectedInfo)) {
+      if (!processedKeys.includes(key)) {
+        remainingInfo[key] = value;
+      }
+    }
+
+    const llmConditions = await extractLLMConditions(categoryName, remainingInfo, availableSpecs);
+    console.log(`   [LLM] ${llmConditions.length} conditions from ${Object.keys(remainingInfo).length} remaining answers`);
+
+    // 2-3. 조건 통합
+    const conditions: FilterCondition[] = [...ruleConditions, ...llmConditions];
+    const mandatoryConditions = conditions.filter((c: FilterCondition) => c.mandatory);
+    console.log(`   [Total] ${conditions.length} conditions (${mandatoryConditions.length} mandatory)`);
     if (mandatoryConditions.length > 0) {
-      console.log(`   Mandatory: ${mandatoryConditions.map(c => c.reason).join(', ')}`);
+      console.log(`   Mandatory: ${mandatoryConditions.map((c: FilterCondition) => c.reason).join(', ')}`);
     }
 
     // 3. 각 상품 점수 계산 (OR 기반 - 모든 상품 점수화, 제외 없음)
@@ -305,7 +438,7 @@ export async function POST(request: NextRequest) {
     });
 
     // 조건별 통계 (매칭된 상품 수)
-    const appliedRules: HardCutResult['appliedRules'] = conditions.map(condition => {
+    const appliedRules: HardCutResult['appliedRules'] = conditions.map((condition: FilterCondition) => {
       const matched = scoredProducts.filter(p =>
         p.matchedConditions.includes(condition.reason)
       ).length;
