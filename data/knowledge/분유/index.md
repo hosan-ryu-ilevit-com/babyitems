@@ -1,27 +1,28 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T08:44:06.606Z
-> 분석 상품: 39개 | 분석 리뷰: 23,363개
+> 마지막 업데이트: 2026-01-07T12:38:34.015Z
+> 분석 상품: 20개 | 분석 리뷰: 9,431개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄 분유 및 고기능성 제품 수요 증가
-- 소화 용이성 (A2 단백질, 중쇄지방산 등) 및 장 건강 관련 성분 강화
-- 유기농 및 특정 성분(예: 산양유)을 강조한 제품
+- A2 단백질, 산양유, 유기농 성분 등 차별화된 성분 강조
+- HMO, Whole Milk Base 등 기능성 성분 강화
+- 프리미엄 제품군 중심의 경쟁 심화 및 1인당 소비 단가 상승
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 소화 용이성
-- ✓ 영양 흡수율 높음
-- ✓ 아기 성장 발달에 도움
-- ✓ 다양한 기능성 제품 출시
+- ✓ 소화 용이성 (배앓이 완화, 황금똥)
+- ✓ 모유 유사 성분 함유
+- ✓ 물에 잘 녹는 점 (편리한 조유)
+- ✓ 안전한 성분 (팜유, 덱스트린 미함유 등)
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대
-- ⚠ 구하기 어려운 특정 제품
+- ⚠ 높은 가격대 (특히 산양분유)
+- ⚠ 특정 성분 (팜유 등)에 대한 소비자 우려
+- ⚠ 유산균 별도 섭취 필요성 (일부 제품)
 
 ### 가격대 인사이트
-분유 시장은 엔트리급부터 프리미엄까지 다양한 가격대의 제품이 존재합니다. 특히 수입 프리미엄 분유의 경우 가격대가 높은 편이며, 국내 브랜드들도 기능성 강화 제품을 중심으로 가격 경쟁력을 확보하려는 움직임을 보이고 있습니다.
+분유 가격대는 제품별로 다양하며, 특히 산양분유나 프리미엄 라인의 경우 일반 분유보다 높은 가격대를 형성하고 있습니다. 800g 용량 기준으로 약 2만원대부터 시작하여 4만원대 이상까지 분포하며, 해외 직구 제품의 경우 가격 변동성이 있을 수 있습니다.
 
 ---
 
@@ -240,8 +241,8 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfClb6lYXESYLrH61kVH_589S_0nISJQhRrYWiB6TIGIFjDr1RbA6ctFn3CpDNJBMP2o6F-g33ErM0gWLKAfzKjamL3YUXgaICBpsD93Vl86SQ87FEc0yxdqf7ivy7rLoMW0lApV4h8Sku)
-- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcmeUnjRfUh20bV2kNsiZ7wS3mIuyUPqu31O-8afOiM91-UPia3gNKpeqx2g8EY2BNHtHDfxC1MfRdbyMwz9Z1DkPuPQEUTuLE9n6Db0Z9dK7w0OE4qnNAy9I3tvNRaVTr6GxwPAVBk2u0xzMCAgNmGQ==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPFczKSRvEqiV29UEAdqxwBoZFQ-ClhFbAl0QaGQ46SBhjZbc63cF9SMzjTJwhh-7idc9ZZK4CzknOVeQEvPKeMNyUhL57XAxvEMxs5LEk95Og73SaNVecahCcMCBZ)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGe650dhE_bqquSfvTmz8w2Iifq0MeMGMsbGnw-htKAzVMJgYUS-3mdEspbLz27Afj1eUub1_sXCbLnfAiJTPOkzAuDewbv2UZ3biy66VKCV28aUwNtY0Bxi1qbxGxUn3uzvf_DTvg=)
-- [reddit.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTprx7_Ax1XV__vcr8ZMyQO7OFJR9qOwXmV4xOvZCojiPw6IkCssO4FZj3FJfSBap6MF5OBfLR0LB6wuredF4LwoBxfV9zcagqtRmMoBBjBEw1NDKBfB8L8FI1XXo3HNxA1IXmF833W80PrDDz5xsjyifoq-uHgbQrG7EmAQjDubSdRJeBui6ox0eqDIgeHIEJ8-MTzTda5Vma7DFhzHY=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKU345FQxILjQzJfqaQfPCXpXW1LDsEKz-0BYZoYB11SzJbIhcVpq4_bydgYeUFDKmSmBAMhksHjqpRaKqfV2kYplFQ-YtKR8K3PPKlwD3W4H5xRYhx_f_romWoz67)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERhpVxnAi0pWVFuhDMWVk6Ya4jWAOTQXfyALTuT4PLsqOetL4z4wfvT1OwbDuZjmVd2019bndy2wWFLUT-6JRjWYKTg0ItjJ_HuEbXVoQLngaXZwdrQKGPcmiiIzaZwlJqWzK9xN47FBDpGM-TPBDcysdVMTCbCpjv8y1U6bPGdo4meNW2PG5b1wIP_H_9LrJepD2tFaDYGtvcLumhTd6XDznuT2SrHI4=)
+- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4vT_8bQbmEEB5_smJpsIkoptgnofj-OL1a6FypJKagP9YBPeaK0dCc4bbSy5xq-2MQugUhzd7fgZyUQAQI25ojLkUahdbiTavQncSW2LlevgkP8pQ7QO-gfDIzEpiHIpDvLU-aYeCDffbdV2yu7tBoQ==)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEnvDzEVN_npT8juwwlyhwO7UX9WRyqTAl3uZagTD3bylhTHbcI_rmtJciydloczU5nQIbEsyBmT1arx4v4b_iDSUKM5vR1U845h9L2ao0mXo7vRHC_5ZML-SR7eS7pMNTmbpOLW5pF4r_n)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjVL56O1AgkmUgajn9N0jGLhF_VktJOF_9HdmZ9BnbVLXCdcADLUyF-XoiIMbH86cDTGi3HzEJwutp_H8nz4S_zuXhfBWBwzmspgWcdWPOY4dvQkdDr_YfTWAEvhi5zgN0gN_XP3k=)

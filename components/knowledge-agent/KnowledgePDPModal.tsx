@@ -55,6 +55,8 @@ interface KnowledgePDPModalProps {
     reviewCount?: number;
     rating?: number;
     reasoning?: string;
+    oneLiner?: string;
+    personalReason?: string;
     highlights?: string[];
     matchScore?: number;
     reviews?: ReviewData[];
@@ -64,6 +66,36 @@ interface KnowledgePDPModalProps {
   };
   categoryKey: string;
   onClose: () => void;
+}
+
+/**
+ * reasoning을 "한줄 평"과 "추천 이유"로 분리
+ * 첫 번째 문장: 이모지로 시작하는 제품 강점 (한줄 평)
+ * 두 번째 문장: 사용자 맞춤형 추천 이유
+ */
+function splitReasoning(reasoning: string | undefined): { oneLiner: string; personalReason: string } {
+  if (!reasoning) return { oneLiner: '', personalReason: '' };
+  
+  const trimmed = reasoning.trim();
+  
+  // 마침표, 느낌표, 물음표 + 공백으로 문장 분리 시도
+  // 예: "🧼 **핵심 강점** 설명이에요. 맞춤형 이유입니다."
+  const sentenceEndPattern = /([.!?])\s+(?=[🎯💰🧼🤫🛡️✨💪🔥⭐🏆👶🍼]|[가-힣a-zA-Z])/;
+  const match = trimmed.match(sentenceEndPattern);
+  
+  if (match && match.index !== undefined) {
+    const splitIndex = match.index + 1; // 마침표 포함
+    const oneLiner = trimmed.slice(0, splitIndex).trim();
+    const personalReason = trimmed.slice(splitIndex).trim();
+    
+    // 두 번째 문장이 충분히 길면 분리
+    if (personalReason.length >= 15) {
+      return { oneLiner, personalReason };
+    }
+  }
+  
+  // 분리 실패 시 전체를 한줄 평으로
+  return { oneLiner: trimmed, personalReason: '' };
 }
 
 export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePDPModalProps) {
@@ -77,6 +109,11 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
     mallPrices: [],
     mallCount: 0,
   });
+  
+  // reasoning을 두 부분으로 분리
+  const { oneLiner: splitOneLiner, personalReason: splitPersonalReason } = splitReasoning(product.reasoning);
+  const oneLiner = product.oneLiner || splitOneLiner;
+  const personalReason = product.personalReason || splitPersonalReason;
 
   // Fetch prices from Danawa
   const fetchPrices = useCallback(async (pcode: string) => {
@@ -392,24 +429,48 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
             </div>
           </div>
 
-          {/* AI Reasoning */}
-          {product.reasoning && (
+          {/* 한줄 평 (One-liner) */}
+          {oneLiner && (
+            <div className="px-6 pb-4">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="p-6 rounded-[32px] bg-white border border-gray-100 shadow-sm relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-[50px] rounded-full" />
+                <div className="flex items-center gap-2.5 mb-4 relative z-10">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/ic-ai.svg" alt="" width={20} height={20} style={{ filter: 'sepia(1) saturate(3) hue-rotate(-10deg) brightness(1.1)' }} />
+                  <h4 className="text-[15px] font-black tracking-tight uppercase bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                    한줄 평
+                  </h4>
+                </div>
+                <p className="text-[15px] text-gray-700 font-medium leading-[1.6] relative z-10">
+                  {oneLiner}
+                </p>
+              </motion.div>
+            </div>
+          )}
+
+          {/* 추천 이유 (Personalized Reason) */}
+          {personalReason && (
             <div className="px-6 pb-8">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                transition={{ delay: 0.25 }}
                 className="p-6 rounded-[32px] bg-white border border-gray-100 shadow-sm relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-[50px] rounded-full" />
                 <div className="flex items-center gap-2.5 mb-4 relative z-10">
                   <FcMindMap size={24} />
                   <h4 className="text-[15px] font-black text-gray-900 tracking-tight uppercase">
-                    AI recommendation logic
+                    추천 이유
                   </h4>
                 </div>
                 <p className="text-[15px] text-gray-700 font-medium leading-[1.6] relative z-10">
-                  {product.reasoning}
+                  {personalReason}
                 </p>
               </motion.div>
             </div>

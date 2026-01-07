@@ -366,7 +366,8 @@ function parseFilters($: ReturnType<typeof load>): DanawaFilterSection[] {
  */
 export async function crawlDanawaSearchListLite(
   options: DanawaSearchOptions,
-  onProductFound?: (product: DanawaSearchListItem, index: number) => void
+  onProductFound?: (product: DanawaSearchListItem, index: number) => void,
+  onHeaderParsed?: (header: { query: string; totalCount: number; searchUrl: string; filters?: DanawaFilterSection[] }) => void
 ): Promise<DanawaSearchListResponse> {
   const searchUrl = buildSearchUrl(options);
   console.log(`\n🚀 [SearchCrawler-Lite] Starting search: "${options.query}"`);
@@ -397,6 +398,16 @@ export async function crawlDanawaSearchListLite(
 
       // Fly.io 응답을 그대로 반환
       if (data.success && data.items) {
+        // onHeaderParsed 콜백 호출 (Fly.io는 통째로 오므로 여기서 호출)
+        if (onHeaderParsed) {
+          onHeaderParsed({
+            query: data.query,
+            totalCount: data.totalCount,
+            searchUrl: data.searchUrl,
+            filters: data.filters,
+          });
+        }
+
         // onProductFound 콜백 호출
         if (onProductFound) {
           data.items.forEach((item: DanawaSearchListItem, index: number) => {
@@ -442,6 +453,16 @@ export async function crawlDanawaSearchListLite(
     const filters = parseFilters($);
     if (filters.length > 0) {
       console.log(`   🔍 Found ${filters.length} filter sections`);
+    }
+
+    // 헤더 파싱 완료 콜백 (로컬 파싱 시 즉시 호출)
+    if (onHeaderParsed) {
+      onHeaderParsed({
+        query: options.query,
+        totalCount: 0, // 나중에 채워짐
+        searchUrl,
+        filters: filters.length > 0 ? filters : undefined,
+      });
     }
 
     // 상품 카드 선택자 (광고 제외)

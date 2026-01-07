@@ -1,7 +1,7 @@
 # 젖병 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T06:34:03.527Z
-> 분석 상품: 40개 | 분석 리뷰: 3,460개
+> 마지막 업데이트: 2026-01-07T12:26:24.509Z
+> 분석 상품: 20개 | 분석 리뷰: 2,615개
 
 ## 📈 2026년 시장 트렌드
 
@@ -231,8 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHklKk1F07Xdz9ejKB_Dsw60ucGWBUYQLyFofh3STuiaTEv2jYUcnxnqlLP20bjlkA53QUAo42kN4HbCkc892j14CegzBCm57artDaCfXE1Y1r39_VY_TpyqSZG0auXtvtnJdnlW-ytnUo=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJa73eItORRPBIvQmbrcmvplGew6PdHZM6wcXIJqXvBnDAsU4U0_J1tA4RFn9_r_5zaWQnQPGb6NmmoZ2wKxkCZWZ1CdrzvNrsn0P0jWQ7qVpMEZLphy-P6GHmXA==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEL0Xwv4EAwbEV1QUws81Wz5KIH_fCCLl5tch91gQ1PeNdt-bjjasSXqc1mCMgHTm-HtImfKXkYqA3S6tdTyNM9qOq9nmhxwXir3Bsywy3EZeR2H0H913CifZRQwbUItvEbCO1Lhw==)
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_BQKFBpR0YG7_H30nGWZQcsG_dF9pW9MuaycT39gJOVT-FONz9tx1PV3GiA5-y25OIM2qBhbrDk93M5UqHX1pr2vSjOjr1bVW1A18ZGXbf-9cfqXo79eVxNwqAncVMXl2xPb4eq-dfveDZs2bfrQGb-Mt)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxdyFZhtZtXEccZ5iD220jRPS-6h-4Q6dygX4e1nxuULZ3g3R1niG5jw-7uGp2VnOIaKM8zWL_v56i7bC4IAOFB4JXybgM1tihJEme2uTPLaCjEsioFAo1VyB8PBxJ0yqXmm0yKg==)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAkLIni6uwEQK_pcvVu3GoMGqrSJ3X_tYWXFHEUDoUm_IJAndCCwSWeZhZQVKlXgi3XRnmj2dVTHAm76rG_nVQPHYSYz0cof4qyUDPk3814GZd8tIqSysgyhWhUuN_geGZ43TxxRI002EW)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFP2cT5Hzn1mvh-GaYrxlQSIlbeTyEP2DnDJGNZPPl8iyIYVV4HZPT85M0QhbqsZpYQgZYe4284Au5s7E391XGkfKfdBGa4mavZSreZ6WqShCtTSP_A-DgI7HF11SDjuzyYu5_cKYk=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJi2Z54yiCd_bRdsuo59bdCYb3cf1Nx-HTDNHzAOIIqwiGdDFsbFtYajxMe5lbwESWsV_5EKE3x3cEGJkgPF-feFYDJ9podSWVIyd9QlVHksxK-B1YVVg7yGPg3beKOe5JNopH5vebX17NQ5Zpo7Jqs0txW3sC8FDuxw==)
+- [ajd.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_q5vhkEyuGx451ceGmgPlS6uimaU3bddcPv17isqt_7Laj68JbPgaZpk0oX-6XOQWWC9VHQJ9T3tsnFuKiNXMlrULakQGCU3R430Ftx-yS6A01pBiHC4BdXOIbKbfHUtRJoEsh2LQ21EcDWJDxGAkJqjxVvR10tgfUglj)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkKHSClL_-zUIXBOHr2MTTXlul0mtP0_HpACB77IN8MWLGRCdWumWowGa5Gq2PFsDN-GhBgm3IA6Wq6-dL6zUoWgJlyBjmM66iLgWBdE5Bkv-37bpSajZLx0somqg=)

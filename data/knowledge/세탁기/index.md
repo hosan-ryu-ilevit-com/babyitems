@@ -1,29 +1,30 @@
 # 세탁기 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T08:31:22.675Z
+> 마지막 업데이트: 2026-01-07T11:30:02.568Z
 > 분석 상품: 40개 | 분석 리뷰: 25,730개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- AI 기능 강화 및 스마트 홈 연동 (AI 가전, 스마트싱스 등)
-- 에너지 효율성 (고효율 기준 충족, 에너지 절감 성능 강조)
-- 편의성 및 위생 기능 (자동 세제함, 통세척, AI 맞춤 세탁 등)
+- AI 기반의 스마트 기능 강화 (옷감 인식, 맞춤 코스 추천 등)
+- 에너지 효율성 및 친환경 설계
+- 세탁과 건조를 통합한 올인원 제품의 인기 증가
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 세척력
-- ✓ 다양한 맞춤 코스
-- ✓ 스마트 기능
+- ✓ 다양한 AI 스마트 기능
 - ✓ 에너지 효율성
+- ✓ 편리한 올인원 기능 (세탁건조기)
 - ✓ 세련된 디자인
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격대
-- ⚠ 일부 모델의 소음
-- ⚠ 복잡한 기능
+- ⚠ 세탁기 건조기 겸용 시 긴 건조 시간 및 전기 요금 부담
+- ⚠ 일부 모델의 소음 문제
+- ⚠ 세탁기 건조기 겸용 시 세탁물 이동의 번거로움
 
 ### 가격대 인사이트
-2026년 현재, 세탁기 가격대는 보급형 모델의 경우 20만원대부터 시작하며, 중급형은 40~80만원대, 프리미엄 AI 기능이 탑재된 대용량 모델은 100만원 이상으로 형성되어 있습니다. 특히 삼성전자와 LG전자의 프리미엄 라인업은 200만원대 이상을 호가하기도 합니다.
+2026년 현재, 세탁기 가격대는 용량, AI 기능 탑재 여부, 디자인 등에 따라 다양하게 형성되어 있습니다. 보급형 모델은 70만 원대부터 시작하며, 프리미엄 올인원 세탁건조기 모델은 300만 원 이상까지 가격대가 형성되어 있습니다.
 
 ---
 
@@ -242,8 +243,8 @@
 ---
 
 ## 📊 데이터 출처
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbB_xj-zmmcym66ivg4oWCZGFpU5MtH2ydTqv7kQLu7YE4jmEx9TGM9HW9dKpEVa_trr5IOc5qvFkuMCzZfhew9Lv9gW_Ri7QYDuoAPY-miXhkYbO3kA-Kdp-QND-ewiz3Gk6uaPXhqH0=)
-- [zum.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPMw6a2aNhhtQ-kmaw2BfS10CvUGXmEQeGt9ft397Xw4TWQONWAS89F3bpKyH4DH651wUzRhae_ylYBS26CLXXgmX6sD8do5-OURSWB3yXAVlEP-GrnSa6hYPGNhxJGpOWWQGEaVrRvhl4XjOpxyV1tnIT9vmAAohyWUrbwdxiUwLA37nZ8sNUgt5NNsYr8m-hdAhafXZspt2IJ-EgcYQ7zcCKok0GhpyvTT3X7rIfKK_jqlDNQld3oCtAfF-7neizYwyldaRhiBQdGbrE5vWXuWui8G6m--xtbhwKfpbs89XRWNXj6aXZWLIeKIZSVhvVKUcy5Tmt-XqK7Krd3RZElPmQS-aL6jhM4xDR6hQg8R1wljCSCXc=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOKBJ4F43AL9tiYA9eXxKiqV5fxxdTzsuoppcmLGqB9sFwWSiKl-XvCp9v9G2UixrgpadbSJyxnxXT99_qCXGLpRS6WsUHltUNt1jQm_IX9sK9re-I7MppQ6453rYs4qPagTVy45g=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFolorLmg6ocgIFAQVAgNsVa0fBtBOOVDQnOUaa37cIK-FhdkDluLyNQ96ueOidWqGGp-TJTfQl3QqN5GBZ6nIsYjcAoAaz5tYmWs0U3IbYbX1oL44FRs7-srRuuDpsbx6ZPmritKY=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGy1YrZ_Ww9bo0fGyeNZOEicxC6SUFWZzYTGzc-_xdmRX5XlpL4LVc_i1TMjb9HJIvLsD0IzqOnjV9WNZkz9SGikoTl9OCf268imJtSD2DXa_0xO44Iqm58rnl2GsIwMnH8oBTiQNo=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFb-M7EgLpHQV5tlSjs8GtYm2dnPu1xs3CEvz2Ki-bzTuuRcNxJIdwzAODojkf_qGMm0w8f1ZezmFsJfsRbgO5gINlFcZNexyBuG4ZstNULRn2w-3b11mXwJWs4l6cW-F5Wx1teuQA=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqWDBMuJQjqV3NgXG9I4ynk7FT8PHy8A85lvvdW1rlb9ejALQzlJaIygbrNNxXXZWvrytsSGFutXAVoHly5AkR3yT6lbuRIwQwEvaPX48ueu2eEOh0JbDfJd4DFFLLpljizY48gqE=)
+- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmrWy1P-eEKjRxT1nwoqlWbn79-eeL4ZlWVvQSH53uWF-MMMBU7990aRxzO_asCn_EUMlBOrNOtBaSeXGSsg2fhHNCoycNHWm5rOdiTtbTTZRVU7lr6t1oqyVecFIpMLx9zUjoHMLy6iM=)
+- [vietnam.vn](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcjkwBpic20hwjgIOe5cpjMaOrSek1V3nWPwjRK_sDDYjxCmQ1OHCfiiuxv22ai0SLlpxl_fYmr4GDyiIqUbd-xzEs0zBwxqLKZTtXCkxIIVoT7SWFeft3owf5Hu-tztHgBqmXdkY13xTsixcq_u3v_ZPfS8XZ-y-cUDPdujssYIDZE5-yIfYd)
+- [the-pr.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSQKl_ti3NH_6-fdSBV0hPa001WTIR3Z3ozR4h6yTWvjz1HA0TgCIHPPWoGyy9iXyosA3-ZfZG6XG4S2qBouz0OoScSA8KaVj_fY6cl5KHJFvWf6W3LetTKpcCbd_nBfFKQkpkxB6u5uvJ9kAek9eMpx11xoc=)

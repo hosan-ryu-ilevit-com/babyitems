@@ -1,18 +1,29 @@
 # 전자레인지 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T05:43:02.512Z
-> 분석 상품: 40개 | 분석 리뷰: 51,243개
+> 마지막 업데이트: 2026-01-07T11:53:51.741Z
+> 분석 상품: 20개 | 분석 리뷰: 34,655개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 스마트 기능 및 AI 기반 편의 기능 강화
+- 다양한 조리 기능 (해동, 자동 메뉴, 오븐 기능 등)
+- 에너지 효율성 및 친환경 설계
 
 ### 구매자 만족 포인트
+- ✓ 뛰어난 가성비
+- ✓ 간편한 사용법
+- ✓ 후기 좋은 상품
+- ✓ 콤팩트한 디자인
+- ✓ 적은 작동 소음
 
 ### 주의해야 할 단점
+- ⚠ 일부 모델의 높은 가격대
+- ⚠ 복잡한 기능으로 인한 사용 어려움 (일부 사용자)
+- ⚠ 내구성 문제 (일부 리뷰)
 
 ### 가격대 인사이트
-
+전자레인지는 3만원대의 보급형 모델부터 10만원대 이상의 고급형 모델까지 가격대가 다양하게 형성되어 있습니다. 특히 10만원대 모델들은 다양한 조리 기능과 편의 기능을 갖추고 있어 인기가 많습니다..
 
 ---
 
@@ -231,8 +242,8 @@
 ---
 
 ## 📊 데이터 출처
-- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETMqux29hn6G6oNM8mSznYXw299mnxezYcmxSMRtqFIYK0NJhsz0yfN_NC88vRWhRYgPs6GDRFfT2RR2ba2iCdbpUs0mMCFntKDNWyCJoS_xdFsjRoRaMaLQyBsYugNW2A_NE4227vbImX7BqEasGH8I05Q56V79arflVDbL0TcMHsKj28ErQ=)
-- [aitimes.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFomGvPBv06bFPqHiVq28RGbtF1vstrqFR-goLDCphfIjr821jgyGsVrCuBPE7OPfv4Xg8Sof38RdWzLKztkxo-ccfr3OJjNphyUCblZ2gNsmdllZ5NsC4npoZUktRFomAPJoYIEaCod5OZUFtubH7WWaN4)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwXNTCO4Ag8wHUd2LsoLLTDyyBzME8kEK59oed432jdQ-cf-pHupezlVDrlqsOvVFQMintLYRyRZio86XR8kA5_x9ztLusPf33-NozEOfWGArQ0xoSlni6QjBnXeuFewycwwDCYPQ3eP2yCFXyzySxCCHoFsc=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCsTd9IMUcuBUI8ivpHsyki8YiL3Cst9OcmEsI7-b1TCfIOT5ck2bEcr5Fq-j9lvdz5dCN14r76Cwu_ucDaQGzjTLfiG6tIfgHMXANt2adEIIuEtFFncTz8hZ1J9jHcYLRGj1d0zk=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEatOArtY4MQ7YCA4KRO5Lcct1YvT71oloAxd8EhZU44zELwMXAQYRSxPMyyq5en_GBNz_Tu8ow-APkShxpgr3yTbvyNTAlmOIbcCKXiBpIMYOSJ_x3LiQEJTutnGG9lVproR5aJ4hSwgDd6vmfrCGDQpzHNxHvumUw9W0vZgjn7SEGwRuS620vAYFOzqlmgwUMCZMj3MhMp2Qu8nh392Q3ypOWiBoq8m-_2Zp37Kka-xRbbHqLQna_0q9fyH2z23F-KdLmBsPhBR4h2otNmc7Wk4Dxs1fEnylefVKZuLxfsyRRhvnKqQIdS9u3JBJaDtZOBzUlHRmAxLpG15K--Wu6P4m8uk3iQyNv1w373eNX6fJlFxhUc6TB4JxaI94lsyHp7JufR26PYLJMOLc5QbFcGo8j6Ja4sm7ubI-Ss6ioEklrkbVrnVRjJIFkM8kCCpBck51-t00BpBZRQLCJTHRv53SzlrsLuExJrvxxmt9crpb4LoqghnmERwt8j2NF0g==)
+- [toptip.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWYhBCGqT_otiIZ2XWcI56oUOhkhSWN9msae2YeCgMoDsfzp6gn9O12KyepDiUMgy26N8n1g7M4n2_Sn5GVKaRufA6VGdU9i266SvoQTbtfHf9mLhCJ_aAc7AYkB-a2Q==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlMycx5GoB-sImaEFjiMpZ2R-3JjoIiwK6T2kca6N5kwEDonfAlWVJ-xL0y2E1jPZQ68LsAsxHzqml9Hf4v1kz2GUDkDqxWeEjhlcO1Lnc4BoGv6zUIgEB683dOXh7TIGi9t8Zw_U=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzP2TJgtRpusXdA1aXw43Tlu_KgvxAZPmyvRz_3FNyGlvpMtFETOifgjLWAABtuDKw2EbJVsvfBaJLCi3LCtnlIzSY9JDmLnt_UZ7fWPu-hUu8zmPGbasuDuugnRK5s7QIrea2_1s=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyI7q8keGhbPrLxY-vemKKX57JMs-P9Cv_wmgJbQsjfDrLtuA7BXVuRzFtkwD25r-fC5m8uG2n42jHYTA-JWhwhtMuvsTMa13kaRZe_PRRolyT433iAyrxQsiKw-bI6RwEKQ3XvaY=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2DHbZcPM5M0SOKVyjOYtsLdY-5Q-X4aYE5p88KO4M5NM6Ija8RFFc4_xVQ5B4ClRR4wpqm7QwINnKBey2-CISuAgHJXsZLSH_RDWZN4BH88lO7E10bT_Ah94IcFm_A1qs04E0kOo=)

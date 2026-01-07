@@ -464,6 +464,10 @@ export interface V2ResultProduct extends ScoredProduct {
   }>;
   // LLM 생성 추천 이유 (선택적)
   recommendationReason?: string;
+  // 분리된 추천 이유 필드
+  oneLiner?: string;       // 맞춤 추천 포인트 (이모지 + 한 문장)
+  personalReason?: string; // 사용자 맞춤형 추천 이유
+  reviewProof?: string;    // 리뷰 인용 근거 (한 문장)
 }
 
 export interface V2ResultPageState {

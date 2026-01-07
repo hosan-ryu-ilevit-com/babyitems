@@ -1355,7 +1355,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                       {/* 리뷰 개수 + 정렬 필터 */}
                       <div className="px-4 py-3 flex items-center justify-between border-b border-gray-100">
                         <span className="text-sm text-gray-500">
-                          리뷰 <span className="font-semibold text-blue-600">{preloadedReviews.length.toLocaleString()}건</span>
+                          리뷰 <span className="font-semibold text-blue-600">{displayReviewCount.toLocaleString()}건</span>
                         </span>
                         <div className="flex items-center gap-1">
                           <button

@@ -1,14 +1,14 @@
-# 세션: 20260107_083131_orxf
-> 시작: 2026-01-07T08:31:31.797Z
+# 세션: 20260107_113008_k2p3
+> 시작: 2026-01-07T11:30:08.399Z
 > 카테고리키: 세탁기
 > 카테고리: 세탁기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 2026년 세탁기 추천 순위 실사용 후기
-- 인사이트: 2026년 현재 세탁기 시장은 LG전자와 삼성전자가 주도하고 있으며, AI 기능 강화와 에너지 효율성을 갖춘 모델들이 인기를 얻고 있습니다. 특히, 스마트 홈 생태계와의 연동성을 강조한 제품들이 트렌드를 이끌고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbB_xj-zmmcym66ivg4oWCZGFpU5MtH2ydTqv7kQLu7YE4jmEx9TGM9HW9dKpEVa_trr5IOc5qvFkuMCzZfhew9Lv9gW_Ri7QYDuoAPY-miXhkYbO3kA-Kdp-QND-ewiz3Gk6uaPXhqH0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPMw6a2aNhhtQ-kmaw2BfS10CvUGXmEQeGt9ft397Xw4TWQONWAS89F3bpKyH4DH651wUzRhae_ylYBS26CLXXgmX6sD8do5-OURSWB3yXAVlEP-GrnSa6hYPGNhxJGpOWWQGEaVrRvhl4XjOpxyV1tnIT9vmAAohyWUrbwdxiUwLA37nZ8sNUgt5NNsYr8m-hdAhafXZspt2IJ-EgcYQ7zcCKok0GhpyvTT3X7rIfKK_jqlDNQld3oCtAfF-7neizYwyldaRhiBQdGbrE5vWXuWui8G6m--xtbhwKfpbs89XRWNXj6aXZWLIeKIZSVhvVKUcy5Tmt-XqK7Krd3RZElPmQS-aL6jhM4xDR6hQg8R1wljCSCXc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOKBJ4F43AL9tiYA9eXxKiqV5fxxdTzsuoppcmLGqB9sFwWSiKl-XvCp9v9G2UixrgpadbSJyxnxXT99_qCXGLpRS6WsUHltUNt1jQm_IX9sK9re-I7MppQ6453rYs4qPagTVy45g=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFolorLmg6ocgIFAQVAgNsVa0fBtBOOVDQnOUaa37cIK-FhdkDluLyNQ96ueOidWqGGp-TJTfQl3QqN5GBZ6nIsYjcAoAaz5tYmWs0U3IbYbX1oL44FRs7-srRuuDpsbx6ZPmritKY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGy1YrZ_Ww9bo0fGyeNZOEicxC6SUFWZzYTGzc-_xdmRX5XlpL4LVc_i1TMjb9HJIvLsD0IzqOnjV9WNZkz9SGikoTl9OCf268imJtSD2DXa_0xO44Iqm58rnl2GsIwMnH8oBTiQNo=
+- 쿼리: 세탁기 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재 세탁기 시장은 삼성과 LG가 주도하고 있으며, AI 기능 강화와 에너지 효율성을 갖춘 모델들이 인기를 얻고 있습니다. 특히, 세탁과 건조를 한 번에 해결하는 올인원 세탁건조기가 주목받고 있으며, 사용자 편의성을 높이는 스마트 기능들이 탑재된 제품들이 트렌드를 이끌고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFb-M7EgLpHQV5tlSjs8GtYm2dnPu1xs3CEvz2Ki-bzTuuRcNxJIdwzAODojkf_qGMm0w8f1ZezmFsJfsRbgO5gINlFcZNexyBuG4ZstNULRn2w-3b11mXwJWs4l6cW-F5Wx1teuQA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqWDBMuJQjqV3NgXG9I4ynk7FT8PHy8A85lvvdW1rlb9ejALQzlJaIygbrNNxXXZWvrytsSGFutXAVoHly5AkR3yT6lbuRIwQwEvaPX48ueu2eEOh0JbDfJd4DFFLLpljizY48gqE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmrWy1P-eEKjRxT1nwoqlWbn79-eeL4ZlWVvQSH53uWF-MMMBU7990aRxzO_asCn_EUMlBOrNOtBaSeXGSsg2fhHNCoycNHWm5rOdiTtbTTZRVU7lr6t1oqyVecFIpMLx9zUjoHMLy6iM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcjkwBpic20hwjgIOe5cpjMaOrSek1V3nWPwjRK_sDDYjxCmQ1OHCfiiuxv22ai0SLlpxl_fYmr4GDyiIqUbd-xzEs0zBwxqLKZTtXCkxIIVoT7SWFeft3owf5Hu-tztHgBqmXdkY13xTsixcq_u3v_ZPfS8XZ-y-cUDPdujssYIDZE5-yIfYd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSQKl_ti3NH_6-fdSBV0hPa001WTIR3Z3ozR4h6yTWvjz1HA0TgCIHPPWoGyy9iXyosA3-ZfZG6XG4S2qBouz0OoScSA8KaVj_fY6cl5KHJFvWf6W3LetTKpcCbd_nBfFKQkpkxB6u5uvJ9kAek9eMpx11xoc=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| capacity | 3~4인 가구 (15kg ~ 21kg) |
-| laundry_type | 드럼세탁기 |
-| smart_features | 스마트 기능보다 성능/내구성 중요 |
-| budget | 30만~100만원대 |
-| __avoid_negatives__ | 청소/관리 번거로움 |
+| product_type | 올인원 세탁건조기 |
+| capacity | 소량 (1~2인) |
+| smart_features | 스마트 기능 없음 (기본 성능 집중) |
+| budget | 100만원 이하 |
+| __avoid_negatives__ | 상관없어요 |
 
 ---
 
@@ -60,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 청소/관리 번거로움
+- 상관없어요
 
 ---
 

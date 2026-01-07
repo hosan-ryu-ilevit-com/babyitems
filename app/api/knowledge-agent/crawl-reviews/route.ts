@@ -58,53 +58,70 @@ export async function POST(request: NextRequest) {
           includePrices,
         });
 
-        // 리뷰 + 가격 병렬 크롤링
+        // 리뷰 + 가격 병렬 크롤링 (리뷰 완료 시 즉시 이벤트 전송)
         let reviewsCompleted = 0;
         let pricesCompleted = 0;
 
-        const [reviewResults, priceResults] = await Promise.all([
-          // 리뷰 크롤링
-          fetchReviewsBatchParallel(pcodes, {
-            maxReviewsPerProduct: maxPerProduct,
-            concurrency,
-            delayBetweenChunks: 200,
-            skipMetadata: true,
-            timeout: 5000,
-            onProgress: (completed, total, result) => {
-              reviewsCompleted = completed;
-              sendEvent('progress', {
-                type: 'reviews',
-                completed,
-                total,
-                pcode: result.pcode,
-                reviewCount: result.reviews.length,
-                success: result.success,
-              });
-            },
-          }),
+        // 리뷰 크롤링 Promise (완료 시 즉시 reviews_complete 이벤트 전송)
+        const reviewPromise = fetchReviewsBatchParallel(pcodes, {
+          maxReviewsPerProduct: maxPerProduct,
+          concurrency,
+          delayBetweenChunks: 200,
+          skipMetadata: true,
+          timeout: 5000,
+          onProgress: (completed, total, result) => {
+            reviewsCompleted = completed;
+            sendEvent('progress', {
+              type: 'reviews',
+              completed,
+              total,
+              pcode: result.pcode,
+              reviewCount: result.reviews.length,
+              success: result.success,
+            });
+          },
+        }).then(results => {
+          // 리뷰 완료 즉시 reviews_complete 이벤트 전송
+          const reviewMap: Record<string, ReviewLite[]> = {};
+          let totalReviews = 0;
+          for (const result of results) {
+            if (result.success) {
+              reviewMap[result.pcode] = result.reviews;
+              totalReviews += result.reviews.length;
+            }
+          }
+          console.log(`📝 [CrawlReviews] 리뷰 완료 즉시 전송: ${Object.keys(reviewMap).length}개 상품, ${totalReviews}개 리뷰`);
+          sendEvent('reviews_complete', {
+            reviews: reviewMap,
+            totalReviews,
+            successCount: Object.keys(reviewMap).length,
+          });
+          return results;
+        });
 
-          // 가격 크롤링 (includePrices가 true일 때만)
-          includePrices
-            ? fetchPricesBatchParallel(pcodes, {
-                maxPricesPerProduct: 10,
-                concurrency: 4,  // 가격 크롤링은 더 보수적으로
-                delayBetweenChunks: 300,
-                timeout: 10000,
-                onProgress: (completed, total, result) => {
-                  pricesCompleted = completed;
-                  sendEvent('progress', {
-                    type: 'prices',
-                    completed,
-                    total,
-                    pcode: result.pcode,
-                    priceCount: result.prices.length,
-                    lowestPrice: result.lowestPrice,
-                    success: result.success,
-                  });
-                },
-              })
-            : Promise.resolve([]),
-        ]);
+        // 가격 크롤링 Promise
+        const pricePromise = includePrices
+          ? fetchPricesBatchParallel(pcodes, {
+              maxPricesPerProduct: 10,
+              concurrency: 4,
+              delayBetweenChunks: 300,
+              timeout: 10000,
+              onProgress: (completed, total, result) => {
+                pricesCompleted = completed;
+                sendEvent('progress', {
+                  type: 'prices',
+                  completed,
+                  total,
+                  pcode: result.pcode,
+                  priceCount: result.prices.length,
+                  lowestPrice: result.lowestPrice,
+                  success: result.success,
+                });
+              },
+            })
+          : Promise.resolve([]);
+
+        const [reviewResults, priceResults] = await Promise.all([reviewPromise, pricePromise]);
 
         const elapsedMs = Date.now() - startTime;
 

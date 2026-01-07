@@ -687,11 +687,9 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
 
           {/* 분석 결과 */}
           {thinking && (
-            <div className="bg-gray-50 rounded-lg p-2 mt-2">
-              <p className="text-[12px] text-gray-600 leading-relaxed">
-                {thinking}
-              </p>
-            </div>
+            <p className="text-[12px] text-gray-500 italic">
+              {thinking}
+            </p>
           )}
         </motion.div>
       )}

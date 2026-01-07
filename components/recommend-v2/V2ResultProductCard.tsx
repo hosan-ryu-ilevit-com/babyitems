@@ -16,6 +16,33 @@ function parseMarkdownBold(text: string) {
   });
 }
 
+/**
+ * reasoning/recommendationReason을 "한줄 평"과 "추천 이유"로 분리
+ * 첫 번째 문장: 이모지로 시작하는 제품 강점 (한줄 평)
+ * 두 번째 문장: 사용자 맞춤형 추천 이유
+ */
+function splitReasoning(reasoning: string | undefined): { oneLiner: string; personalReason: string } {
+  if (!reasoning) return { oneLiner: '', personalReason: '' };
+  
+  const trimmed = reasoning.trim();
+  
+  // 마침표, 느낌표, 물음표 + 공백으로 문장 분리 시도
+  const sentenceEndPattern = /([.!?])\s+(?=[🎯💰🧼🤫🛡️✨💪🔥⭐🏆👶🍼]|[가-힣a-zA-Z])/;
+  const match = trimmed.match(sentenceEndPattern);
+  
+  if (match && match.index !== undefined) {
+    const splitIndex = match.index + 1;
+    const oneLiner = trimmed.slice(0, splitIndex).trim();
+    const personalReason = trimmed.slice(splitIndex).trim();
+    
+    if (personalReason.length >= 15) {
+      return { oneLiner, personalReason };
+    }
+  }
+  
+  return { oneLiner: trimmed, personalReason: '' };
+}
+
 interface V2ResultProductCardProps {
   product: V2ResultProduct;
   rank: number;
@@ -191,54 +218,106 @@ export function V2ResultProductCard({
         </div>
       )}
 
-      {/* 추천 이유 (recommendationReason이 있는 경우) */}
-      {product.recommendationReason && (
-        <div className="mt-4">
-          {/* 추천 이유 헤더 */}
-          <div className="flex items-center gap-1.5 mb-2.5 px-1">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-            <span className="text-[16px] font-medium ai-gradient-text">추천 이유</span>
-          </div>
+      {/* 한줄 평 & 추천 이유 (추천 이유가 있는 경우) */}
+      {(product.oneLiner || product.personalReason || product.recommendationReason) && (() => {
+        // 별도 필드로 전달된 경우 우선 사용
+        const directOneLiner = (product as any).oneLiner;
+        const directPersonalReason = (product as any).personalReason;
 
-          {/* 추천 이유 (인용구 스타일) */}
-          <div className="relative pl-3 mb-2 ml-2 mr-1">
-            <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full ai-gradient-bg opacity-50" />
-            <p className="text-[14px] text-gray-600 leading-[1.4] font-medium">
-              {parseMarkdownBold(product.recommendationReason)}
-            </p>
+        // ✅ 디버그: 실제 전달된 값 확인
+        console.log(`[V2Card] pcode=${product.pcode}, oneLiner=${directOneLiner?.slice(0, 20)}, personalReason=${directPersonalReason?.slice(0, 20)}`);
+
+        // fallback: 분리 필드 없으면 기존 방식 (recommendationReason splitting)
+        const { oneLiner: splitOneLiner, personalReason: splitPersonalReason } =
+          (!directOneLiner && !directPersonalReason && product.recommendationReason)
+            ? splitReasoning(product.recommendationReason)
+            : { oneLiner: '', personalReason: '' };
+
+        const displayOneLiner = directOneLiner || splitOneLiner;
+        const displayPersonalReason = directPersonalReason || splitPersonalReason;
+
+        return (
+          <div className="mt-4 space-y-3">
+            {/* 한줄 평 */}
+            {displayOneLiner && (
+              <div>
+                <div className="flex items-center gap-1.5 mb-2.5 px-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/ic-ai.svg" alt="" width={14} height={14} style={{ filter: 'sepia(1) saturate(3) hue-rotate(-10deg) brightness(1.1)' }} />
+                  <span className="text-[16px] font-medium bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">한줄 평</span>
+                </div>
+                <div className="relative pl-3 mb-2 ml-2 mr-1">
+                  <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full bg-gradient-to-b from-amber-400 to-orange-400 opacity-60" />
+                  <p className="text-[14px] text-gray-600 leading-[1.4] font-medium">
+                    {parseMarkdownBold(displayOneLiner)}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* 추천 이유 (맞춤형) */}
+            {displayPersonalReason && (
+              <div>
+                <div className="flex items-center gap-1.5 mb-2.5 px-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
+                  <span className="text-[16px] font-medium ai-gradient-text">추천 이유</span>
+                </div>
+                <div className="relative pl-3 mb-2 ml-2 mr-1">
+                  <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full ai-gradient-bg opacity-50" />
+                  <p className="text-[14px] text-gray-600 leading-[1.4] font-medium">
+                    {parseMarkdownBold(displayPersonalReason)}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* 버튼 그룹 */}
-      <div className="mt-4 flex gap-2 px-1">
-        {/* 리뷰 보기 버튼 */}
+      <div className="mt-4 space-y-2 px-1">
+        <div className="flex gap-2">
+          {/* 리뷰 모두보기 버튼 */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onReviewClick) {
+                onReviewClick();
+              } else {
+                window.open(`https://prod.danawa.com/info/?pcode=${product.pcode}#bookmark_cm_opinion`, '_blank');
+              }
+            }}
+            className="flex-1 py-2.5 text-sm font-bold text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
+          >
+            리뷰 모두보기
+          </button>
+          {/* 구매하기 버튼 */}
+          <a
+            href={`https://prod.danawa.com/info/?pcode=${product.pcode}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="flex-1 py-2.5 text-sm font-semibold text-white bg-black hover:bg-gray-900 rounded-xl transition-colors flex items-center justify-center gap-1"
+          >
+            구매하기
+          </a>
+        </div>
+        {/* 상세보기 / 최저가비교 버튼 */}
         <button
           onClick={(e) => {
             e.stopPropagation();
-            if (onReviewClick) {
-              onReviewClick();
-            } else {
-              window.open(`https://prod.danawa.com/info/?pcode=${product.pcode}#bookmark_cm_opinion`, '_blank');
-            }
+            if (onClick) onClick();
           }}
-          className="flex-1 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
+          className="w-full py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
         >
-          리뷰 보기
+          <span>상세보기 / 최저가비교</span>
+          <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
         </button>
-        {/* 최저가 구매하기 버튼 */}
-        <a
-          href={`https://prod.danawa.com/info/?pcode=${product.pcode}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          className="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl transition-colors flex items-center justify-center gap-1 bg-black hover:bg-gray-900"
-        >
-          구매하기 (다나와)
-        </a>
       </div>
     </motion.div>
   );

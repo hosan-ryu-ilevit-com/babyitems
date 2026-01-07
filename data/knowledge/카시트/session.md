@@ -1,5 +1,5 @@
-# 세션: 20260107_102411_4vv0
-> 시작: 2026-01-07T10:24:11.952Z
+# 세션: 20260107_124521_2d38
+> 시작: 2026-01-07T12:45:21.928Z
 > 카테고리키: 카시트
 > 카테고리: 카시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 카시트 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 카시트 시장은 브라이텍스, 다이치, 조이 등 주요 브랜드들이 강세를 보이고 있으며, 안전성과 사용 편의성을 갖춘 회전형 카시트가 인기를 얻고 있습니다. 또한, 친환경 소재와 스마트 기술을 접목한 제품들도 주목받고 있습니다..
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnqjljjbLRJHsNN7UcLcY4XKj0VUgVFQlxiYmsMWlokVqR55xYwEv85-mnwTiFdDpYzwW5DlBYvUd0axtG5v5PoCubbSUT1eB_XvZoMQe_8dJnsdB49my8dAfafl5GbBgGEqVqJUsgdEAWSCTBg8bGAeKxER6oUJKOdwT69Fkc3f0c0nkx8LuV161HImVemiG1, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_yBboyAidoUaNLat4lMbXYEIiAm5FQ8pl9Q9oOSH_L7_bZVltyDtbDSBlCT7dIYY4wUVYkLEUhui5Kv8cUx2Owh1pue-I7Dp4tYrKMvbDtbLO9CRDd4hBCZlfSg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKsufwNqfzU3e4ysxYCf8VFObHdKphXSBUYgfgwOmJvs1NDolsD58p0sVvKxWHw0v4cUb2InqWH7y-4VKl98PaCfc5Cwc3FMfkdXdU3NWymbe7YDtypmt--MpobZ4d1MgzxwyR71SHtsb641NV5v9Z6wIdm-tQ1q6brPTqpGEhG6kvK-O37KN51rrfss0nexL6, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaUUW614YdPctGPudogfy4krc6lwU8Mq-xrPyIEJx1GbwnNwFnrlH8cG6zpBt9Bk-1AVGSjwjAgaiERY68cXvemnGjyGKxPSFLbrq86Qe2s6M0EE-dX-9j0MQWr8BKw37dBYgHtZY8NV9Q4xqc0LRO3xiW9HTjQysLft92xyoWTTB28vBIbqVZlDmgK-YY9cnI56A_mYZhcg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETM7kiGuACUd-czcgq2kZBlSnJlof6tfvA_CYyt0jMlbmIM-RHyTI8Sdn3WTzOXYwSFFZE_DYfGF5l-k_dZgOpuOt437R-PerMgphkqLzu7UL7vrlgRTu_9RYTiynKP5cciBLrhzI3Omw4Jn6Pizsm0-A-RFxbC4yX4KYie0enI4HV_kpp
+- 인사이트: 2026년 1월 현재, 카시트 시장은 브라이텍스, 다이치, 조이 등 전통적인 강자들이 여전히 인기를 끌고 있으며, 신생아부터 주니어까지 다양한 연령대를 아우르는 제품들이 주를 이루고 있습니다. 안전성과 편의성을 강화한 회전형 카시트와 ISOFIX 장착 시스템이 보편화되는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENPAyGvZnh0G4OBOjwjUN37TPFsdwiVilm-5Ea40IEkQr0_imlT5eWpK0ipuweAiLa83UTFOak-pOVkLtIg7A0vyHUPCFViTSn23LYcu50PHoGUqqgkLsmd8q_o5UG9Hrg7Dgt6Zn19RlvJyhJ4wt4XqgUffDGe1Zg9JDYmEAYQ178fYBARuKKLWmZ-FZgYVVM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExufjNvwsA3BqF47hgUzH4faQnUXRoQ5dZXAl1jNn5D6CPc_lqlThZBi7TsFf98d4l7166P-jFti2g9-TdnK8DU4Hjax2oHPQULx1JB0tocUmzEofFlRP6ZWpRYHdoomwjNc9BdEyEfj2hFkk15g4g7uZidXDCvqWeyDtkuYpFwtZDtQABm-FOMSWD3OqIsvdD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVNXdBU20wQu5dt8nxHaktx-4BBExvjbzjTt1ufk4fefPoEKSh-9lIYV4_8uPKo7hYsPNTo5rDXB1jAuP9LItJi2tQaak2TIKklyXEh1hU3Th8Wx-GFPA08Tfqz6cMAhdlgsRWKoNE1j0U0XNIeaQRNDIm_aNqr33GWmi11_sEaNCFkeG3, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-p6Y6fW9MrJ7tGMw7UbxtHl2PAf7PmHxAXx3ip_OzxA72yMgsCa0lCl0k0lKZcToaqONt7W7a8lMiwLlYo2CV155iZQoNfg8MknvA3bIxgL6c0rGNGQNGhYhvDCDKYX4fhDQ6OlW0ei2mDCsKW8UdO8jjqt4Ht4CHaiQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNhuEO4M4CfYwTLKtBpxzyke5outc_avZFUEj99Vt8zTDzKccRgh3zuntTTr2TNs6sKkn6uMEiI3rkWfFFJYkPqQmfL7OZe77kM-eiuPFswuk6D8_cwsRo5rtHDdmQsIcmpaYTL8I=
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| child_age_weight | 유아 (10kg ~ 20kg) |
-| installation_type | ISOFIX |
-| convenience_feature | 2. 휴대 및 보관 용이성, 1. 360도 회전 기능 |
-| budget | 40만원 이하 |
-| __avoid_negatives__ | 3. 복잡한 설치/사용법,2. 설치/이동 어려움 |
 
 ---
 
@@ -60,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 3. 복잡한 설치/사용법
-- 2. 설치/이동 어려움
+(아직 선택 없음)
 
 ---
 

@@ -399,12 +399,13 @@ async function performWebSearchAnalysis(searchKeyword: string): Promise<TrendAna
 // 새 아키텍처: 120개 상품 + 리뷰 10개씩 병렬 크롤링
 const PRODUCT_CRAWL_LIMIT = 120; // 40 → 120개로 확장
 const REVIEWS_PER_PRODUCT = 10;  // 리뷰 10개씩
-const FIRST_BATCH_COMPLETE_COUNT = 10; // 10개 도착 시 '실시간 인기상품 분석' 토글 완료
+const FIRST_BATCH_COMPLETE_COUNT = 5; // 5개 도착 시 '실시간 인기상품 분석' 토글 완료
 
 async function crawlProductsWithStreaming(
   _categoryKey: string,
   categoryName: string,
-  onProductBatch?: (products: DanawaSearchListItem[], isComplete: boolean, isFirstBatchComplete?: boolean) => void
+  onProductBatch?: (products: DanawaSearchListItem[], isComplete: boolean, isFirstBatchComplete?: boolean) => void,
+  onHeaderParsed?: (data: { searchUrl: string; filters?: DanawaFilterSection[] }) => void
 ): Promise<{ products: DanawaSearchListItem[]; cached: boolean; searchUrl: string; filters?: DanawaFilterSection[] }> {
   console.log(`[Step2] Crawling products for: ${categoryName} (limit: ${PRODUCT_CRAWL_LIMIT})`);
 
@@ -412,6 +413,12 @@ async function crawlProductsWithStreaming(
   const cached = getQueryCache(categoryName);
   if (cached && cached.items.length > 0) {
     console.log(`[Step2] Cache hit: ${cached.items.length} products`);
+    
+    // 캐시 히트 시 헤더 정보 즉시 전달
+    if (onHeaderParsed) {
+      onHeaderParsed({ searchUrl: cached.searchUrl, filters: cached.filters });
+    }
+
     // 캐시된 경우에도 배치로 스트리밍
     if (onProductBatch) {
       const batchSize = 5;
@@ -451,6 +458,12 @@ async function crawlProductsWithStreaming(
         
         onProductBatch([...pendingBatch], false, isFirstBatchComplete);
         pendingBatch = [];
+      }
+    },
+    // onHeaderParsed 콜백 - 필터/URL 파싱 즉시 호출
+    (header) => {
+      if (onHeaderParsed) {
+        onHeaderParsed({ searchUrl: header.searchUrl, filters: header.filters });
       }
     }
   );
@@ -1304,9 +1317,12 @@ export async function POST(request: NextRequest) {
     console.log(`[Init V6 Streaming] Starting for: ${categoryName}`);
     console.log(`========================================\n`);
 
+    // 🔴 개선 1: 웹검색을 스트림 생성 전, 가장 먼저 시작합니다. (동시성 극대화)
+    const earlyWebSearchPromise = performWebSearchAnalysis(categoryName);
+
     // 스트리밍 모드가 아니면 기존 방식으로 처리
     if (!streaming) {
-      return handleNonStreamingRequest(categoryKey, categoryName, startTime);
+      return handleNonStreamingRequest(categoryKey, categoryName, startTime, earlyWebSearchPromise);
     }
 
     // SSE 스트리밍 응답
@@ -1331,8 +1347,41 @@ export async function POST(request: NextRequest) {
           const phase1Start = Date.now();
           let firstBatchComplete = false;
 
-          // 웹검색 Promise
-          const webSearchPromise = performWebSearchAnalysis(categoryName);
+          // 🔴 개선 2: 웹검색 완료 시 즉시 trend 이벤트 전송 (상품 수집 대기 안 함)
+          const webSearchPromise = earlyWebSearchPromise.then(data => {
+            if (data) {
+              console.log(`[Phase1] Web search finished early, sending trend event immediately`);
+              send('trend', {
+                trendAnalysis: data,
+                searchQueries: data.searchQueries,
+                sources: data.sources,
+              });
+            }
+            return data;
+          });
+
+          // 🔴 조기 데이터용 Promise (20개 상품 + 필터 + URL)
+          let resolveInitialData: (data: { products: DanawaSearchListItem[], filters: DanawaFilterSection[], searchUrl: string }) => void;
+          const initialDataPromise = new Promise<{ products: DanawaSearchListItem[], filters: DanawaFilterSection[], searchUrl: string }>(resolve => {
+            resolveInitialData = resolve;
+          });
+
+          let currentFilters: DanawaFilterSection[] = [];
+          let currentSearchUrl = '';
+          let initialDataResolved = false;
+
+          const checkAndResolveInitialData = (force = false) => {
+            if (initialDataResolved) return;
+            if (force || (allProducts.length >= 20 && currentSearchUrl)) {
+              initialDataResolved = true;
+              console.log(`[Phase1] Resolving initial data for questions: ${allProducts.length} products`);
+              resolveInitialData({
+                products: allProducts.slice(0, 20),
+                filters: currentFilters,
+                searchUrl: currentSearchUrl,
+              });
+            }
+          };
 
           // 상품 크롤링 (스트리밍 콜백 사용)
           const crawlPromise = crawlProductsWithStreaming(
@@ -1344,7 +1393,7 @@ export async function POST(request: NextRequest) {
                 allProducts = [...allProducts, ...products];
               }
               
-              // 10개 도착 시 "실시간 인기상품 분석" 토글 완료 신호
+              // 5개 도착 시 "실시간 인기상품 분석" 토글 완료 신호
               if (isFirstBatchComplete && !firstBatchComplete) {
                 firstBatchComplete = true;
                 send('first_batch_complete', {
@@ -1353,6 +1402,9 @@ export async function POST(request: NextRequest) {
                 });
               }
               
+              // 🔴 20개 시점 체크
+              checkAndResolveInitialData();
+
               // isComplete가 true이거나 products가 있으면 전송 (빈 배열 + isComplete도 전송해야 완료 처리됨)
               if (products.length > 0 || isComplete) {
                 send('products', {
@@ -1370,54 +1422,128 @@ export async function POST(request: NextRequest) {
                   isComplete,
                 });
               }
+
+              if (isComplete) {
+                checkAndResolveInitialData(true);
+              }
+            },
+            // 🔴 헤더/필터 파싱 즉시 호출됨
+            (header) => {
+              currentFilters = header.filters || [];
+              currentSearchUrl = header.searchUrl;
+              
+              // 필터 정보 전송 (인기상품 분석 토글에서 표시)
+              if (currentFilters.length > 0) {
+                console.log(`[Phase1] Extracted ${currentFilters.length} filter sections (Early)`);
+                send('filters', {
+                  filters: currentFilters.slice(0, 15).map(f => ({
+                    title: f.title,
+                    options: f.options.slice(0, 6).map(o => o.name),
+                    optionCount: f.options.length,
+                  })),
+                  totalCount: currentFilters.length,
+                });
+              }
+              
+              checkAndResolveInitialData();
             }
           );
 
-          // 병렬 실행 대기
-          const [trendAnalysis, crawlResult] = await Promise.all([
+          // 🔴 개선 3: 질문 생성을 위한 최소 요건(상품 20개 + 웹서치 완료) 대기
+          const [trendAnalysis, initialData] = await Promise.all([
             webSearchPromise,
-            crawlPromise,
+            initialDataPromise,
           ]);
 
-          searchUrl = crawlResult.searchUrl;
-          wasCached = crawlResult.cached;
-          allProducts = crawlResult.products;
-          const crawledFilters = crawlResult.filters;
+          searchUrl = initialData.searchUrl;
+          const top20ForQuestions = initialData.products;
+          const crawledFilters = initialData.filters;
 
-          const phase1Duration = Date.now() - phase1Start;
-          
-          // Phase 1.5: 리뷰 크롤링 (상품 크롤링 완료 후 병렬 실행)
+          // Phase 1.5 & 3 준비 (백그라운드에서 crawlPromise는 계속 진행 중)
           const phase15Start = Date.now();
-          send('reviews_start', { 
-            productCount: allProducts.length,
-            reviewsPerProduct: REVIEWS_PER_PRODUCT,
-          });
-          
-          let allReviews: Record<string, ReviewCrawlResult> = {};
-          let totalReviewsCrawled = 0;
-          
-          try {
-            const reviewResult = await crawlReviewsForProducts(
-              allProducts,
-              (completed, total, reviewCount) => {
-                send('reviews_progress', { completed, total, reviewCount });
-              }
+          console.log(`[Phase1.5] Starting parallel: question generation (${top20ForQuestions.length} products) + review crawling (Background)`);
+
+          // 1. 질문 생성 Promise
+          const questionPromise = (async () => {
+            const phase3Start = Date.now();
+
+            const [longTermData, knowledge] = await Promise.all([
+              Promise.resolve(updateLongTermMemory(categoryKey, categoryName, top20ForQuestions, trendAnalysis)),
+              Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
+            ]);
+
+            const questions = await generateQuestions(
+              categoryKey,
+              categoryName,
+              top20ForQuestions,
+              trendAnalysis,
+              knowledge || generateLongTermMarkdown(longTermData),
+              crawledFilters
             );
-            allReviews = reviewResult.reviews;
-            totalReviewsCrawled = reviewResult.totalReviews;
-            
-            send('reviews_complete', {
-              productCount: Object.keys(allReviews).length,
-              totalReviews: totalReviewsCrawled,
+
+            const phase3Duration = Date.now() - phase3Start;
+            console.log(`[Phase3] Question generation completed in ${phase3Duration}ms (${questions.length} questions)`);
+
+            // ✅ 질문 생성 완료 즉시 전송!
+            send('questions', {
+              questionTodos: questions,
+              currentQuestion: questions[0] || null,
             });
-          } catch (error) {
-            console.error('[Phase1.5] Review crawling failed:', error);
-            send('reviews_error', { error: 'Review crawling failed' });
-          }
-          
+
+            return { questions, longTermData, phase3Duration };
+          })();
+
+          // 2. 리뷰 크롤링 Promise (나머지 상품들이 다 올 때까지 기다린 후 시작)
+          const reviewPromise = (async () => {
+            // 나머지 120개 수집 완료 대기
+            const crawlResult = await crawlPromise;
+            allProducts = crawlResult.products;
+            searchUrl = crawlResult.searchUrl;
+            wasCached = crawlResult.cached;
+
+            send('reviews_start', {
+              productCount: allProducts.length,
+              reviewsPerProduct: REVIEWS_PER_PRODUCT,
+            });
+
+            let allReviews: Record<string, ReviewCrawlResult> = {};
+            let totalReviewsCrawled = 0;
+
+            try {
+              const reviewResult = await crawlReviewsForProducts(
+                allProducts,
+                (completed, total, reviewCount) => {
+                  send('reviews_progress', { completed, total, reviewCount });
+                }
+              );
+              allReviews = reviewResult.reviews;
+              totalReviewsCrawled = reviewResult.totalReviews;
+
+              send('reviews_complete', {
+                productCount: Object.keys(allReviews).length,
+                totalReviews: totalReviewsCrawled,
+              });
+            } catch (error) {
+              console.error('[Phase1.5] Review crawling failed:', error);
+              send('reviews_error', { error: 'Review crawling failed' });
+            }
+
+            return { allReviews, totalReviewsCrawled };
+          })();
+
+          // 3. 병렬 실행 대기
+          const [questionResult, reviewResult] = await Promise.all([
+            questionPromise,
+            reviewPromise,
+          ]);
+
+          const { questions: questionTodos, longTermData, phase3Duration } = questionResult;
+          const { allReviews, totalReviewsCrawled } = reviewResult;
+
           const phase15Duration = Date.now() - phase15Start;
-          
-          // 리뷰 0개인 상품 필터링 (품질 향상)
+          const phase1Duration = Date.now() - phase1Start; // Phase 1 전체 시간 (120개 포함)
+
+          // 리뷰 0개인 상품 필터링 (품질 향상) - 최종 추천용
           const productsBeforeFilter = allProducts.length;
           allProducts = allProducts.filter(p => {
             const review = allReviews[p.pcode];
@@ -1425,34 +1551,12 @@ export async function POST(request: NextRequest) {
             return review && review.reviews.length > 0;
           });
           console.log(`[Phase1.5] Filtered out ${productsBeforeFilter - allProducts.length} products with 0 reviews (${productsBeforeFilter} → ${allProducts.length})`);
-          
+
           send('products_filtered', {
             before: productsBeforeFilter,
             after: allProducts.length,
             reason: '리뷰 0개 상품 제외',
           });
-
-          // 필터 정보 전송 (인기상품 분석 토글에서 표시)
-          if (crawledFilters && crawledFilters.length > 0) {
-            console.log(`[Phase1] Extracted ${crawledFilters.length} filter sections`);
-            send('filters', {
-              filters: crawledFilters.slice(0, 15).map(f => ({
-                title: f.title,
-                options: f.options.slice(0, 6).map(o => o.name),
-                optionCount: f.options.length,
-              })),
-              totalCount: crawledFilters.length,
-            });
-          }
-
-          // 웹검색 결과 전송
-          if (trendAnalysis) {
-            send('trend', {
-              trendAnalysis,
-              searchQueries: trendAnalysis.searchQueries,
-              sources: trendAnalysis.sources,
-            });
-          }
 
           // Phase 2: 카테고리 관련성 필터링 (불필요한 상품 제거, 120개 유지)
           const phase2Start = Date.now();
@@ -1471,30 +1575,7 @@ export async function POST(request: NextRequest) {
 
           const phase2Duration = Date.now() - phase2Start;
 
-          // Phase 3: 질문 생성 + 메모리 업데이트
-          const phase3Start = Date.now();
-
-          const [longTermData, knowledge] = await Promise.all([
-            Promise.resolve(updateLongTermMemory(categoryKey, categoryName, filteredProducts, trendAnalysis)),
-            Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
-          ]);
-
-          const questionTodos = await generateQuestions(
-            categoryKey,
-            categoryName,
-            filteredProducts,
-            trendAnalysis,
-            knowledge || generateLongTermMarkdown(longTermData),
-            crawledFilters
-          );
-
-          const phase3Duration = Date.now() - phase3Start;
-
-          // 질문 전송
-          send('questions', {
-            questionTodos,
-            currentQuestion: questionTodos[0] || null,
-          });
+          // ✅ 질문은 이미 questionPromise 내에서 전송됨 (리뷰 크롤링 대기 없이 즉시)
 
           // Short-term Memory 저장
           const shortTermMemory = initializeShortTermMemory(categoryKey, categoryName, filteredProducts.length);
@@ -1645,14 +1726,15 @@ export async function POST(request: NextRequest) {
 async function handleNonStreamingRequest(
   categoryKey: string,
   categoryName: string,
-  startTime: number
+  startTime: number,
+  earlyWebSearchPromise?: Promise<TrendAnalysis | null>
 ): Promise<Response> {
   const timings: StepTiming[] = [];
 
   // Phase 1: 병렬 실행
   const phase1Start = Date.now();
   const [trendAnalysis, crawlResult] = await Promise.all([
-    performWebSearchAnalysis(categoryName),
+    earlyWebSearchPromise || performWebSearchAnalysis(categoryName),
     crawlProductsWithStreaming(categoryKey, categoryName),
   ]);
 

@@ -137,24 +137,34 @@ export async function fetchReviewsLite(
     // 2. companyProductReview API로 "쇼핑몰 상품리뷰" 가져오기
     // (기존 companyReview.ajax.php는 2025년 제거됨)
     // sortType: usefull (유용한 순), recent (최신순)
+    // 🔧 페이지네이션 추가: 한 페이지당 20개씩, 필요한 만큼 여러 페이지 요청
     if (cate1) {
-      try {
-        const timestamp = Math.random();
-        const reviewUrl = `https://prod.danawa.com/info/dpg/ajax/companyProductReview.ajax.php?t=${timestamp}&prodCode=${pcode}&cate1Code=${cate1}&page=1&limit=${maxReviews * 2}&score=0&sortType=usefull&usefullScore=Y`;
-        
-        const reviewResponse = await axios.get(reviewUrl, {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': '*/*',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Referer': productUrl,
-          },
-          timeout,
-        });
+      const PAGE_SIZE = 20; // 다나와 API는 보통 20개씩 반환
+      const maxPages = Math.ceil(maxReviews / PAGE_SIZE); // 50개면 3페이지
+      
+      for (let page = 1; page <= maxPages && result.reviews.length < maxReviews; page++) {
+        try {
+          const timestamp = Math.random();
+          const reviewUrl = `https://prod.danawa.com/info/dpg/ajax/companyProductReview.ajax.php?t=${timestamp}&prodCode=${pcode}&cate1Code=${cate1}&page=${page}&limit=${PAGE_SIZE}&score=0&sortType=usefull&usefullScore=Y`;
+          
+          const reviewResponse = await axios.get(reviewUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              'Accept': '*/*',
+              'X-Requested-With': 'XMLHttpRequest',
+              'Referer': productUrl,
+            },
+            timeout,
+          });
 
-        const reviewHtml = reviewResponse.data;
-        if (typeof reviewHtml === 'string' && reviewHtml.length > 100) {
+          const reviewHtml = reviewResponse.data;
+          if (typeof reviewHtml !== 'string' || reviewHtml.length < 100) {
+            // 빈 응답이면 더 이상 페이지 없음
+            break;
+          }
+          
           const $review = load(reviewHtml);
+          let pageReviewCount = 0;
 
           // 쇼핑몰 상품리뷰 아이템 파싱
           // 선택자: .rvw_list > li 또는 .danawa-prodBlog-companyReview-clazz-more
@@ -231,19 +241,29 @@ export async function fetchReviewsLite(
                 date,
                 mallName,
               });
+              pageReviewCount++;
             }
           });
           
-          // 리뷰 정렬: 길이가 긴 순으로 (더 유용한 정보 포함 가능성)
-          result.reviews.sort((a, b) => b.content.length - a.content.length);
+          // 이 페이지에서 리뷰가 없으면 더 이상 페이지 없음
+          if (pageReviewCount === 0) break;
           
-          // maxReviews 개수로 제한
-          result.reviews = result.reviews.slice(0, maxReviews);
+          // Rate limit 방지: 페이지 간 짧은 딜레이
+          if (page < maxPages && result.reviews.length < maxReviews) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+        } catch {
+          // API 실패 시 다음 페이지 시도
+          console.log(`   ⚠️ [${pcode}] companyProductReview page ${page} 실패`);
+          break; // 실패 시 중단 (rate limit 등)
         }
-      } catch {
-        // API 실패 시 무시
-        console.log(`   ⚠️ [${pcode}] companyProductReview API 실패`);
       }
+      
+      // 리뷰 정렬: 길이가 긴 순으로 (더 유용한 정보 포함 가능성)
+      result.reviews.sort((a, b) => b.content.length - a.content.length);
+      
+      // maxReviews 개수로 제한
+      result.reviews = result.reviews.slice(0, maxReviews);
     }
 
     // 3. 쇼핑몰 리뷰가 없으면 productOpinion (다나와 상품의견) 시도 (Fallback)

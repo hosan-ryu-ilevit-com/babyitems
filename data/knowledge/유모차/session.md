@@ -1,14 +1,14 @@
-# 세션: 20260107_094052_6r60
-> 시작: 2026-01-07T09:40:52.643Z
+# 세션: 20260107_121350_75zb
+> 시작: 2026-01-07T12:13:50.351Z
 > 카테고리키: 유모차
 > 카테고리: 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 유모차 시장은 휴대성과 스마트 기능이 결합된 제품들이 인기를 얻고 있으며, 특히 기내 반입이 가능한 초경량 유모차에 대한 수요가 높습니다. 스토케, 부가부, 줄즈, 리안, 잉글레시나 등 프리미엄 브랜드들이 높은 가격대에도 불구하고 견고한 입지를 유지하고 있으며, 중저가 브랜드들도 가성비와 특정 기능(예: 오토폴딩)을 강조하며 경쟁하고 있습니다..
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGszyAfD0pf6jtEyOH8Vs4RjFnaShd7olL7-YZfMvVj78uZW8emWVasBHFIQplkzuCamfGf43xiv6rikhNM3tNE1TdKaS3txMt9duwekHlwN200Ty7B8HUW88MPPGjKDtxPhhY0NhmP0EhW8KSOsSsnJ6ldoMRNXpB0hIIsoLcf5e94lo83oVSJFZfZO85ZaNdOTZ-VXY3vRyC4f3F1T9vE, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGi7SzV-z2vGQXQumz7kDdOBlKpYa4lgmWRkFIDOnXaiYgQ_62AZddtbAm7eNrDR4cCUfpq78IOe-T1ehAoNcTpOw5bF2fg7NOfdUeg7oRgmOIrVRjyn5V8IemqyEn5SUJbJXB2V7I6Lf-VLL55uxOp09edC381jRYGBc3E8B-IDnIqETn1Is6ECsUf1bJ0Wq8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnxi_f5fbzUC-IZb4Z5XtmLS7LM2H4NrGcs--_Rmf1QffZ8p6iKIzVPGHRPZb9-Epa07yqmht8KCeDk1m1qvQ-m--PMsJ5uJ-77j7r4ErxrH47ePyJF_-Xa86OHH25ug-mbTRAOTEZF_Beux9JmaY1z5MLoayqYpJtH29WGON2Hh4I56G8R0X-J6IoTRGuNpp-hKfYIGZFb6AQ6ih8xVO6Yl2HhMeV1Fe8, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECvS9DzNusdfqe9EkMGk31xudZ1pdSCzRyjFkwKEF7OTP8O1Mz3FMqDYNTvnf-e1yEROv7HT-VIrH3Pebhc20HqauiUnv9s7jS0pgF0DwFpalo4JL7TsYNgMM9AJpfBDnRxjVPFg==
+- 쿼리: 2026년 유모차 추천 순위
+- 인사이트: 2026년 1월 현재, 유모차 시장은 휴대용 및 절충형 유모차가 인기를 끌고 있으며, 특히 부가부, 리안, 줄즈, 스토케 등의 브랜드가 주목받고 있습니다. 소비자들은 휴대성, 편의 기능, 그리고 가격 대비 성능을 중요하게 고려하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECj-1_OcLBp8amTaaRuLRtgk-TR2QheHpTjrQpGW50jlbNaVp1tJpUZJvg-F4n0rJiucVrdhi_ddXwv31HK3ltz_Ijmll3GTsTr-Uv5iwIX6i7Eh7mNPK6ASV-WV_1tcU0FXlOOzwV5XPU_FMLK7Mzk20QJFpqOmGtyNLy_dAm5x6RtyaOxaL0oIEflpAW6vQ2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnw36bgsoorgKr5-DsDyqL8dapzeA_pfcKgtZXcSvE8jcCkcpRAsTLWUsILmTgAni5W-Ti1XHn2IpQ_mzirgcxJr7l8B58TP0dx84JGENRfVQbemUu_JLH6qUmhZAz23RAwfWF4ei5O3IXA3w9If_kRniM_h4-wwAqntyz33AULbiOyUVO0whToCBLJB8Vmxs-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHL2qma51AEayQokxsxJIXoXPsKyoz_q9lky--YH6YHv6FUvuiKwrWDM02W0eFECSzeI0dWKJ7xbWSeQ3gSPnvY6ZYvHlWkgTGWX5qQl03exVKg63c1jTex5aB1kAaYDExiloGJixA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERrNE1g9WldQGRguVUOvaF10PjBMsB6rmi87mc08z57b2SvGQAafSY1P0uCZ2KARHfRALeihazj2FlNYjr_vWZhlndkFfAjG_l66AptNg98F10k11NCabWe5ab5sAaUHcnFEb9N5tpKXiR5Hd6No60G6HqDWExlAtd7r1LvXLnGJLSdG6tvLmN-Eko7uKqncKyCK-HaU2KIg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLjaNDJuKyhbEcZg5TAmCuIqunYAyTtET753hjvnCHX6_Y7kKuUc6VbxC5v5PbI2VoV9ZEXrP-YbzRDCStG_HrmMcJTgbJrlrQ1dj9pODo2Y5EQnK9xKPuG57BmOG8FR58uc7wSLdAQ5bbhDqVHVpMaKf3o6vgVeP8SedYaFaB7lm8_RGckx9ZfvmeA37Bjd7SSLg9opmKu7wkfWPUVDqQ_w==
 
 ---
 
@@ -16,11 +16,9 @@
 
 | 항목 | 답변 |
 |------|------|
-| baby_age_weight | 6개월~2세 |
-| usage_scenario | 여행 및 외출 |
-| folding_mechanism | 자동 폴딩, 원터치 폴딩 |
-| budget | 40만~90만원대 |
-| __avoid_negatives__ | 기능 복잡성,내구성 우려,무게 부담 |
+| baby_age_weight | 신생아 ~ 22kg |
+| portability_needs | 자주 여행하거나 대중교통 이용 |
+| folding_convenience | 자동으로 접히는 기능 |
 
 ---
 
@@ -60,9 +58,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 기능 복잡성
-- 내구성 우려
-- 무게 부담
+(아직 선택 없음)
 
 ---
 
