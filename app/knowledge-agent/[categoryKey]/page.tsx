@@ -3275,6 +3275,7 @@ function MessageBubble({
                     averageRating: product.rating || product.averageRating || null,
                     recommendationReason: product.recommendReason || product.recommendationReason,
                     oneLiner: product.oneLiner || '',
+                    personalReason: product.personalReason || '',
                     reviewProof: product.reviewProof || '',
                     baseScore: 0,
                     negativeScore: 0,

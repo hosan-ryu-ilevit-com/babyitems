@@ -1,6 +1,6 @@
 # 전기면도기 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T12:58:32.700Z
+> 마지막 업데이트: 2026-01-07T13:04:52.229Z
 > 분석 상품: 20개 | 분석 리뷰: 7,762개
 
 ## 📈 2026년 시장 트렌드
@@ -231,8 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYwW-2M8VLfG21LrOlD_u4RwRDH9cjnzCAP2DSMmBIwEMIG5_a4Mw6m8pgVpempS5f0RW6OP5yFJr0cl-DKPYaUEbywg9oAjXRJXhotWMLKeXjXYK1V43K-DNOLYkLKvKgTbz2JLPewL2o8iR2okwZ9fkFVp0B9Ioq8NGAGwO9O_qhT_n0OZJB8L9eWZIXXm0sWhl3ilDp06oZ0IWdRX2O6NOrZxt7DKSO6BwUL9joiC5pqFpYjrS-kGihvtQ=)
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_ZmanL7UOjWAg0u9VlpfszyVVjwDgnjj3yJ5K-G7SSZgezxrnnWWN2MlNJippoiYmYVIXjvQE529RCyqPQPt2-8BGpn4Y2rCKBd9KcSasjxnA4SNrOecGjcTMyTQ5Z5bWRp3cSp9d-Hi9KTU4fPGOCXCeuB_0Fjhn-yEaPZarm8ed)
-- [databridgemarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6g1h6VHPGfECk_vuryv1146d_KtxnOk1O-r_PeL15nGmqp_sy12QnBwM-tKdaJcaYexsm8JEftMttV8_cLqsQrhEj2dn6BR-RAoaB_vhXVh53DyGChthwczjsFsfN6VfvMmfe8yPKX4QwY7sgRnowFq1UH1NlN5HmdMiaxoopqzdBaI_X5aLkHGGpe_I=)
-- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGHEFx-IyXy08riR6eHejXFa9PSMuK-CTiy5uZJhO6mW2ZrwqL5XKGt0WQHA4r_gxE777Rg1Sr4lm0tSneZa6OYrgKSSZe826DCCuVwmg5jj6N1A-xY-zZ99SxnDD1RXyiB2rMATg==)
-- [proguide.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhWwYPYGP3yE0fStdHtz-ictle1Q4WKR09JwSjqOtMpo1nYzAxIh6cryU0POj7dcrq4lXKRx1GNdvewFl-W295FelUzxLFLFfOIjJsXBnTmhnmlfEj_N1oHfnvtSDlKj4ylK4PB-E=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0TiDtVB28Ir_S_QCRl0cplDeZXoYfkEoqf8_1XP9_6Lpnecrw24ySn60R5SfjFDihE5xNtvh6jbcnEsn0eRjfYxp-kfuPQvaxF2vWiCghUAxzKAPpzue-YnzQvv80Pi3_qJUQeunK8EmISO1EHKFGzQhgD-39xzITE4xuXDuIJXc=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHr2savEhlAGGr-kSB4gBzZm8k41ewSMIRVv83DtZFwuaOvQNDT877ESuouUImGvR91ztTThR6_3eu5MEcVRMrKnaUYo-dPgfT6mEv6AZAmpGqwLiIb-Xg2c4dLIKp6DorgiEs1g==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUN_Vyrwmfl8UlTco8WI14drlw_kDg4_w1FwreynjsGCPGCmXYdZJGyZ8wR0GezAAkURHBnhTOaMELtSWcYfo-980jaKmKNaiuhpwkER1-Y7l24OpOeUpjSjkXCaXRo0v0an08oQ==)
+- [proguide.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8tidBImBxdHY9fmenW8C6Wb6UtvS5Ni49Do1Zr8Z8ExmWUEjrEMTaq2w3ESsO5ijP8d9BDZnd3XDfAPle8fDlFu74fDhD5NtPu3kH2JmCWx22tdnx-EyniBH5gdXxwSVGBv00Og==)
+- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuOvVNXY0E5fCyQ-0uVcfXIVhs9bhgDtNgz2KI1S4zMAYC1K86NcKVcuoOpdlvLvTeujzvcDd7c-y2ogTRUA6qSQn0hR7T0f9EcRds73ZeW67ASEx8sTOVEgSn4HMNb8Mhyz_t)

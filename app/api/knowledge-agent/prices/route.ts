@@ -43,11 +43,19 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 // =====================================================
 
 async function fetchPriceFromFlyio(pcode: string): Promise<PriceResult> {
+  const TIMEOUT_MS = 10000; // 10초 타임아웃
+
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
     const response = await fetch(`${CRAWLER_SERVER_URL}/crawl/price/${pcode}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`Fly.io error: ${response.status}`);
@@ -65,6 +73,11 @@ async function fetchPriceFromFlyio(pcode: string): Promise<PriceResult> {
       error: data.error,
     };
   } catch (error) {
+    const errorMsg = error instanceof Error
+      ? (error.name === 'AbortError' ? 'Fly.io timeout (10s)' : error.message)
+      : 'Fly.io request failed';
+    console.warn(`[PriceCrawl] Fly.io failed for ${pcode}: ${errorMsg}`);
+
     return {
       pcode,
       lowestPrice: null,
@@ -73,18 +86,26 @@ async function fetchPriceFromFlyio(pcode: string): Promise<PriceResult> {
       mallPrices: [],
       mallCount: 0,
       success: false,
-      error: error instanceof Error ? error.message : 'Fly.io request failed',
+      error: errorMsg,
     };
   }
 }
 
 async function fetchPricesFromFlyioBatch(pcodes: string[]): Promise<Record<string, PriceResult>> {
+  const TIMEOUT_MS = 15000; // 배치는 15초 타임아웃
+
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
     const response = await fetch(`${CRAWLER_SERVER_URL}/crawl/prices`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ pcodes }),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`Fly.io batch error: ${response.status}`);
@@ -93,7 +114,11 @@ async function fetchPricesFromFlyioBatch(pcodes: string[]): Promise<Record<strin
     const data = await response.json();
     return data.results || {};
   } catch (error) {
-    console.error('[PriceCrawl] Fly.io batch error:', error);
+    const errorMsg = error instanceof Error
+      ? (error.name === 'AbortError' ? 'Fly.io timeout (15s)' : error.message)
+      : 'Fly.io batch request failed';
+    console.warn(`[PriceCrawl] Fly.io batch failed: ${errorMsg}`);
+
     // 개별 실패 결과 반환
     const results: Record<string, PriceResult> = {};
     for (const pcode of pcodes) {
@@ -105,7 +130,7 @@ async function fetchPricesFromFlyioBatch(pcodes: string[]): Promise<Record<strin
         mallPrices: [],
         mallCount: 0,
         success: false,
-        error: 'Fly.io batch request failed',
+        error: errorMsg,
       };
     }
     return results;
