@@ -1,14 +1,14 @@
-# 세션: 20260107_072718_vvx8
-> 시작: 2026-01-07T07:27:18.266Z
+# 세션: 20260107_092903_ex8z
+> 시작: 2026-01-07T09:29:03.150Z
 > 카테고리키: 유아침대
 > 카테고리: 유아침대
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아침대 2026년 추천 순위
-- 인사이트: 2026년 1월 현재, 유아침대 시장은 안전성과 편의성을 갖춘 원목 침대가 강세를 보이며, 리안, 벨라, 쁘띠라뺑, 이케아, 보니 스마트 등이 인기 브랜드로 주목받고 있습니다. 특히 높낮이 조절 및 간편한 설치 기능이 중요한 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHW9QfenGvt70PNP7LzUvs5Tck7UoSKPMbKUp8zYqnAZzEtWPLWJXg2ZBoW78DqEFXwwlnGPmydmfNkaF0SRIyhUTjULJUNwuOyMCx94bgTZkRqp_fW539FmWUfvYCpUmuXbl-49rpczg5_JjGGNyLrgs38N67-2yEnujA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEZOW4qOLs_4AW5RHVZ1UB_k4LU-kokhu8ljjfXq3tencw7FoyzNloLP3BSlCIJLVZ297rRquGWAv1q0Hjz2KsYUeiYjq9gOLdp2AqIJNo0kQvr9nG2-ttL480RfBkuY8oMP8gx6vvkDo78y_15IYadSbTJw8GDzhVUY-T397yZgzZ27rI5pBNL8z9vvN1Xbsd_OUFVa9931puIZvNc4lX1GWXNEnUxNYCJJX55F8uiidxF-A4bEBvzCEK-fTDpCnriG3hDfe2-iamp9lls-xD8HJs56OV3txbsh2pW-9XfzVVxjXC10nigoJImDF54d7T-CHe_GWmOfX_LP5QbLhKAxero95AIfh0GTNWbLGzYQ-jXZop9pEaJG7Ayw-Xir0W, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFyJZZuolsr3pKl_lPFhBmVj2kcWCl2OlbBFpY2IO9DT8EHzNMq-rxgAjpvtR5ZTBhxosvdVLBWGrx3FcjXMGLcH9TB1MjyL2fvTYfnJh37QcAnNpL93TBgC1rmA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbFy9prFJcJGd5o_-TX-deUT9CkP6fwOfdLRDS_xoyp52vf3ccyKRWLUb2s6vmeX3IQObHKXeh2HHCzROOUnDPReriFjmjIPkAXzlpRVkSQI9ONGLAMadJZlFZs9zg_to0G3rWL-zYNyaB4B48INAXv7TpD_OjVD9D
+- 쿼리: 유아침대
+- 인사이트: 
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_GtReYo_32FZimrCvDdJcgA4XXbf_RATfJcalKTEwRgq1pO5w9PeugcVhGzX_4giNawDBmPpePf92rYNwQH1BJ0cwjuBn8bxQYZOnfOivsdhtjEEGTUS9n9mp3t4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHodd7XZwM-8cNv3TaPI0xQOdfEsKasP8lXYLn_Ght4hXECWi97uuvumb8j5BSEJC-MnOmX0Az8kr-kyVAQCzF9wq9i11Eavmr6MhGattBGcAPSpPIZdS7aqNXRwumt2xTZoylccIi9qqwk7dtrnueh4NQ-vRQgCnljPtkD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERMjjZGwNhxbGpxrXrzBxQwCLRiXqW_zeMVVAeViJ1GbHZZeTFkDcHuSdNA0rohk90aU0kBgms6VZZHqF-2cbYH3Vs70P-FwkBzAesIgIvNj6_U1zSNi0OH5Weyl2naZWFuztSkgw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaT6r916SaUBkr9PO34ui7NSsHdTfQp_-rks6vt5P7mKP18LWpFQ0i-zyb3GDiFBzPagdOWR_DVre4jmb1rtEA4cTNlPpyddLCDE6cCx0AZibKSYgd0Tt5SjmaXUlaPbYhncloChw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFV6dO5fce5JPUnJkm6GRmyZTM00jkA66M6g48Cl8KyX-qCya_-l7TWjYKcanMWsIgTl7xH7ZoBAlUAlVNx3B9HpwQfMX4gzbEZbIDilaIUPuHuThR6q2rSGri9AgbcVtjl1UKfMew=
 
 ---
 
@@ -16,17 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| usage_purpose | 잠자는 공간 + 놀이 공간 |
-| material_preference | 원목, 패브릭 |
-| mobility_need | 2. 접어서 보관 또는 이동, 1. 바퀴 달린 제품으로 쉽게 이동 |
-| height_adjustment | 필수 (성장 단계 맞춰 조절) |
-| budget | 5~22만원대, 22~52만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 40개 (전체 40개 중)
+현재 후보: 30개 (전체 30개 중)
 
 ### 후보 상품
 1. 벨라 멀티형 원목 아기침대 - 143,000원 - ⭐4.6
@@ -36,19 +31,19 @@
 5. 도노도노 튼튼 하이가드 멀티 범퍼침대 - 326,020원 - ⭐4.8
 6. 다이치 리우 아기침대+트래블백 - 265,050원 - ⭐4.9
 7. 꿈비 하이가드 범퍼침대 - 216,900원 - ⭐4.8
-8. 레이디가구 스칸딕 코코 데이베드 침대 SS - 435,530원 - ⭐0
-9. 치코 넥스투미 매직 사이드 흔들침대 - 142,790원 - ⭐4
-10. 도노도노 먼지제로 라운드 범퍼침대 - 255,340원 - ⭐4.8
-11. 상일리베가구 헤이 원목 키즈 침대 SS - 348,040원 - ⭐5
-12. 에이원 리안 드림콧 아기침대+기저귀교환대 - 275,500원 - ⭐4.8
-13. 비비엔다 아기 특대형 범퍼침대 - 239,920원 - ⭐4.7
-14. 알집매트 포레스트 범퍼침대 - 356,290원 - ⭐4.6
-15. 레이디가구 스칸딕 로맨틱 오픈형 데이베드 원목 침대 SS - 439,000원 - ⭐5
-16. 알레르망베이비 베어트리 범퍼침대 - 310,060원 - ⭐4.5
-17. 비비엔다 한샘몰 샘키즈 아기 범퍼침대 - 278,070원 - ⭐4.6
-18. 아이엔지홈 토리 저상형 어린이 침대 SS - 235,679원 - ⭐0
-19. 장인가구 하랑 패브릭 볼드헤드 기본형 침대 SS - 423,270원 - ⭐0
-20. 스토케 스누지 신생아 아기 침대 - 429,660원 - ⭐5
+8. 치코 넥스투미 매직 사이드 흔들침대 - 142,790원 - ⭐4
+9. 도노도노 먼지제로 라운드 범퍼침대 - 255,340원 - ⭐4.8
+10. 상일리베가구 헤이 원목 키즈 침대 SS - 348,040원 - ⭐5
+11. 에이원 리안 드림콧 아기침대+기저귀교환대 - 275,500원 - ⭐4.8
+12. 비비엔다 아기 특대형 범퍼침대 - 239,920원 - ⭐4.7
+13. 알집매트 포레스트 범퍼침대 - 356,290원 - ⭐4.6
+14. 레이디가구 스칸딕 로맨틱 오픈형 데이베드 원목 침대 SS - 439,000원 - ⭐5
+15. 알레르망베이비 베어트리 범퍼침대 - 310,060원 - ⭐4.5
+16. 비비엔다 한샘몰 샘키즈 아기 범퍼침대 - 278,070원 - ⭐4.6
+17. 스토케 스누지 신생아 아기 침대 - 429,660원 - ⭐5
+18. 이케아 SNIGLAR 아기침대 - 126,900원 - ⭐5
+19. 레이디가구 레브 기능성 패브릭 데이베드 볼드헤드 침대 SS+높은형 안전가드 - 683,050원 - ⭐4.7
+20. 도노도노 튼튼 멀티 패밀리킹 범퍼침대+모달토퍼 - 462,223원 - ⭐5
 
 ---
 

@@ -1,5 +1,5 @@
-# 세션: 20260107_070107_zrc6
-> 시작: 2026-01-07T07:01:07.795Z
+# 세션: 20260107_092816_2k0i
+> 시작: 2026-01-07T09:28:16.175Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유포트
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz0jSUdwGwie0mnTxMDEyh4fXdzYMHKzw5MGKAeRv_T-MCuEQWTjZAexQihksZAJcKaVFpOwxcd6NyiZF2qcIYFqmp31psXupGUUaW-4x8iJJdNSmgM5A6EHMiweOZUjTVicbonjE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH36M6qdrmP_MnW3c7ZhmBsJtsKIBYB3cX8cNqV174PUsDmGYwBsKjUEShnqyGdZywkwhsaUyYIKFgbsYbg3yhXml01NwUweKMAn-KfEst8JH78ktZDZqaFVcXuI3nB3TMhthJb5R0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwSo8kYaaweG2thHzPzm5VkXqR6-6ga1XHoIv6ND-43b_9-tX-UMfTLjJuH64Bg9N3Wx0skVOOndu1AW21Q0SYnx_3CclD2OJ1h-kYSnjYr09t7DvwJCzD0h85DDtocj_XMQ1LkbZtZqZbMeFMG7CdV1-V91K0zNoLxWrwdn5mgTqxGe6psc-VtiWUdj7t607g0YbehSP9rE5pvvU5z4KlPmO4zptPTNyKDQvODu5gN9POt1QKnH2bTON1n1kjqUzlQ7lkbF2HTA7dFoFxhcCy5HXesNlOcYWqnfTK2w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZNUOolPuS0apFCQ_i3V8iOu4dwM5SI_EKhVk3BoDcddz7tIBEsUgOQmZaR9kZyu2KbNEqTsN6g4llfYjwzo_AypbEq7whqeWJSTdrQ5CbGe3FP8jg5flLIKo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfRn2a3sVoSZMxldZeUrwVnky4_cDcimjgczkx-nnzt-mhrT462no-mFM8BAvfQLPslaCAH2MB87-AS5AxBdmU0kWHHDE0ZWVUYUZgjipd22p_vKkWBhu8zNsfGgU=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz0jSUdwGwie0mnTxMDEyh4fXdzYMHKzw5MGKAeRv_T-MCuEQWTjZAexQihksZAJcKaVFpOwxcd6NyiZF2qcIYFqmp31psXupGUUaW-4x8iJJdNSmgM5A6EHMiweOZUjTVicbonjE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH36M6qdrmP_MnW3c7ZhmBsJtsKIBYB3cX8cNqV174PUsDmGYwBsKjUEShnqyGdZywkwhsaUyYIKFgbsYbg3yhXml01NwUweKMAn-KfEst8JH78ktZDZqaFVcXuI3nB3TMhthJb5R0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwSo8kYaaweG2thHzPzm5VkXqR6-6ga1XHoIv6ND-43b_9-tX-UMfTLjJuH64Bg9N3Wx0skVOOndu1AW21Q0SYnx_3CclD2OJ1h-kYSnjYr09t7DvwJCzD0h85DDtocj_XMQ1LkbZtZqZbMeFMG7CdV1-V91K0zNoLxWrwdn5mgTqxGe6psc-VtiWUdj7t607g0YbehSP9rE5pvvU5z4KlPmO4zptPTNyKDQvODu5gN9POt1QKnH2bTON1n1kjqUzlQ7lkbF2HTA7dFoFxhcCy5HXesNlOcYWqnfTK2w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZNUOolPuS0apFCQ_i3V8iOu4dwM5SI_EKhVk3BoDcddz7tIBEsUgOQmZaR9kZyu2KbNEqTsN6g4llfYjwzo_AypbEq7whqeWJSTdrQ5CbGe3FP8jg5flLIKo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfRn2a3sVoSZMxldZeUrwVnky4_cDcimjgczkx-nnzt-mhrT462no-mFM8BAvfQLPslaCAH2MB87-AS5AxBdmU0kWHHDE0ZWVUYUZgjipd22p_vKkWBhu8zNsfGgU=
+- 인사이트: 
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-gOZmRAC1Js4-8iuE8xghK2mwdnqgI66-sS2iVOh2WKKxRsZMgI5MVI24n4BjFmrQNj3ntRvvaZR6hc66CpBrNcsLo6YWEryVCIt8lsZcatXsrDFXtlbgMj2DFmW4i1jTfCLwPebP0UaipCayVxAlKSENtBYFm6F5Cch4vbBn9QfRSx3W, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyYZ1Y-QKxYJ0ZEfafsK7IiW7-ELg2cTmNUYsXxw2o-BkFM2CWqaRfYaGM_Z3_Rl5HOopQJ9qbPCdZRQBYOgt01nVamK9EmhkFfep_aJteN_0YcM-keGzRkUIp1AvYtj2xX2mmHAA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuKneco_t6P2I12n31Pvqk6MCe6O9o_fb_eBXk5rtc7kzxXPzQex84qttNsl9OGKQq1JivKuM5OXDdiJHHbvB0XF6w0ZRtyWt3YkZQQCrov1hNcBfVVLCB-P64ZccraCh-S0ree8s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe-o_32czQSZNmixN1Pp17pZw7NbscWnfLtq-ZHPWdXenuFogD9q3X-nef7KAUpnkHyCkNZB8TSW4S7OIBUGcmHt3ImwxMFETgIJvXDBX4dgY_VAmtgyFPcTY8ZIRFkTMc58zeShA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPgu5yzWeaSmyW7qjZWnpJkOtXWu0nfw25g9uoLveD5XEde-an9rzDLqx0WDwBF4JuKMQ5BB1MgFxk8ftqCeZhsICu8xUtPSLXjXGLxqfH7zseyb7pRRluoA==
 
 ---
 
@@ -16,17 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| material_preference | 스테인리스 |
-| capacity_need | 1.5L 이하, 1.5L ~ 1.8L |
-| temperature_control_feature | 보온 기능, 단순 가열 |
-| convenience_features | 쉬운 세척/관리, 자동 전원 차단/디지털 디스플레이 |
-| budget | 3~8만원대, 1~3만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 40개 (전체 40개 중)
+현재 후보: 28개 (전체 28개 중)
 
 ### 후보 상품
 1. 신일전자 SEP-WH17KP - 34,470원 - ⭐5
@@ -42,13 +37,13 @@
 11. 아이닉 iEK01 - 138,570원 - ⭐4.8
 12. 블루필 힛백 가열식 텀블러 BHT210 - 117,390원 - ⭐5
 13. 풀무원건강생활 바른 분유포트 PC13DWCT - 38,450원 - ⭐5
-14. 락앤락 EJK814WHT - 38,400원 - ⭐0
-15. 보아르 VHEP-004WH - 50,160원 - ⭐0
-16. 보랄 BR-T95WK - 38,120원 - ⭐4.6
-17. 휴롬 TM-B22 - 156,450원 - ⭐3.5
-18. 디프 스마트 원터치 분유포트 - 36,500원 - ⭐0
-19. 보랄 BR-602D - 39,800원 - ⭐0
-20. 마이어 ME-820 - 63,700원 - ⭐0
+14. 보랄 BR-T95WK - 38,120원 - ⭐4.6
+15. 휴롬 TM-B22 - 156,450원 - ⭐3.5
+16. 신일전자 SEP-D800WSN - 54,390원 - ⭐4.8
+17. 휴빅 HB-90TW - 37,800원 - ⭐5
+18. 남양키친플라워 KEK-JP750WH - 53,280원 - ⭐4.6
+19. 한경희생활과학 HEK-B176 - 36,800원 - ⭐4.3
+20. 신일전자 SEP-S16LKP - 51,060원 - ⭐5
 
 ---
 

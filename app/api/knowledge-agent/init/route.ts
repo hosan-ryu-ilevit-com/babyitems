@@ -33,6 +33,7 @@ import { CATEGORY_NAME_MAP } from '@/lib/knowledge-agent/types';
 import { crawlDanawaSearchListLite } from '@/lib/danawa/search-crawler-lite';
 import type { DanawaSearchListItem, DanawaFilterSection } from '@/lib/danawa/search-crawler';
 import { getQueryCache, setQueryCache } from '@/lib/knowledge-agent/cache-manager';
+import { fetchReviewsBatchParallel, type ReviewCrawlResult } from '@/lib/danawa/review-crawler-lite';
 
 // Vercel 서버리스 타임아웃 설정 (기본 10초 → 60초)
 export const maxDuration = 60;
@@ -71,6 +72,162 @@ interface StepTiming {
   step: string;
   duration: number;
   details?: string;
+}
+
+// ============================================================================
+// JSON Repair Utility - LLM 출력 JSON 복구
+// ============================================================================
+
+/**
+ * LLM이 출력한 잘못된 JSON을 복구 시도
+ * 흔한 오류: trailing commas, unescaped quotes, control characters
+ */
+function repairJSON(jsonStr: string): string {
+  let repaired = jsonStr;
+
+  // 1. Control characters 제거 (newline, tab 제외)
+  repaired = repaired.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g, '');
+
+  // 2. 문자열 내부의 이스케이프되지 않은 줄바꿈 처리
+  // JSON 문자열 내부에서 실제 줄바꿈은 \n으로 이스케이프 필요
+  repaired = repaired.replace(/"([^"]*)\n([^"]*)"/g, (_match, p1, p2) => {
+    return `"${p1}\\n${p2}"`;
+  });
+
+  // 3. Trailing commas 제거 (배열/객체 끝의 불필요한 쉼표)
+  repaired = repaired.replace(/,(\s*[}\]])/g, '$1');
+
+  // 4. 객체/배열 사이 누락된 쉼표 추가
+  // }{ → },{  또는 ][ → ],[
+  repaired = repaired.replace(/}(\s*){/g, '},$1{');
+  repaired = repaired.replace(/](\s*)\[/g, '],$1[');
+
+  // 5. 문자열 값 뒤 쉼표 누락 복구 (간단한 패턴만)
+  // "value"  "nextKey" → "value", "nextKey"
+  repaired = repaired.replace(/"(\s+)"/g, '", "');
+
+  // 6. 중첩 따옴표 이스케이프 (예: "label": "이건 "중요" 합니다")
+  // 복잡한 케이스는 처리 어려움, 간단한 패턴만
+
+  return repaired;
+}
+
+/**
+ * 잘린 JSON 배열에서 완전한 객체들만 추출
+ * 마지막 불완전한 객체는 제거
+ */
+function extractCompleteObjects(brokenJSON: string): QuestionTodo[] | null {
+  try {
+    const trimmed = brokenJSON.trim();
+    if (!trimmed.startsWith('[')) return null;
+
+    const results: QuestionTodo[] = [];
+    let depth = 0;
+    let objectStart = -1;
+    let inString = false;
+    let escapeNext = false;
+
+    for (let i = 1; i < trimmed.length; i++) {
+      const char = trimmed[i];
+
+      if (escapeNext) {
+        escapeNext = false;
+        continue;
+      }
+
+      if (char === '\\') {
+        escapeNext = true;
+        continue;
+      }
+
+      if (char === '"' && !escapeNext) {
+        inString = !inString;
+        continue;
+      }
+
+      if (inString) continue;
+
+      if (char === '{') {
+        if (depth === 0) objectStart = i;
+        depth++;
+      } else if (char === '}') {
+        depth--;
+        if (depth === 0 && objectStart !== -1) {
+          const objectStr = trimmed.slice(objectStart, i + 1);
+          try {
+            const obj = JSON.parse(objectStr);
+            if (obj.id && obj.question && obj.options) {
+              results.push(obj as QuestionTodo);
+            }
+          } catch {
+            // 개별 객체 파싱 실패 - 스킵
+          }
+          objectStart = -1;
+        }
+      }
+    }
+
+    console.log(`[extractCompleteObjects] Extracted ${results.length} complete objects`);
+    return results.length > 0 ? results : null;
+  } catch (e) {
+    console.error('[extractCompleteObjects] Failed:', e);
+    return null;
+  }
+}
+
+/**
+ * LLM을 사용하여 잘못된 JSON을 정제
+ * 먼저 완전한 객체 추출 시도 → 실패 시 LLM으로 복구
+ */
+async function repairJSONWithLLM(brokenJSON: string): Promise<QuestionTodo[] | null> {
+  // 1차: 완전한 객체 추출 (LLM 없이 더 안전함)
+  const extracted = extractCompleteObjects(brokenJSON);
+  if (extracted && extracted.length >= 3) {
+    console.log('[repairJSONWithLLM] Using extracted complete objects');
+    return extracted;
+  }
+
+  if (!ai) return extracted;
+
+  // 2차: LLM으로 JSON 복구 시도
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.0-flash-lite',
+    generationConfig: {
+      temperature: 0.0,
+      maxOutputTokens: 2500,
+    }
+  });
+
+  const prompt = `아래 JSON 배열은 끝이 잘려서 문법 오류가 있습니다.
+
+**규칙:**
+1. 기존 내용(id, question, reason, options의 값들)을 절대 변경하지 마세요
+2. 잘린 부분만 적절히 닫아서 유효한 JSON으로 만드세요
+3. 불완전한 마지막 객체는 제거해도 됩니다
+4. 설명 없이 수정된 JSON 배열만 출력하세요
+
+잘린 JSON:
+${brokenJSON.slice(0, 3500)}
+
+수정된 JSON:`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    const jsonMatch = text.match(/\[[\s\S]*\]/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]) as QuestionTodo[];
+      // 원본 내용 보존 확인
+      if (parsed.length > 0 && parsed[0].id && brokenJSON.includes(parsed[0].id)) {
+        return parsed;
+      }
+      console.warn('[repairJSONWithLLM] LLM changed content, using extracted objects');
+    }
+  } catch (e) {
+    console.error('[repairJSONWithLLM] LLM repair failed:', e);
+  }
+
+  return extracted;
 }
 
 // ============================================================================
@@ -239,12 +396,17 @@ async function performWebSearchAnalysis(searchKeyword: string): Promise<TrendAna
 // Step 2: Product Crawling (Danawa) - 스트리밍 지원
 // ============================================================================
 
+// 새 아키텍처: 120개 상품 + 리뷰 10개씩 병렬 크롤링
+const PRODUCT_CRAWL_LIMIT = 120; // 40 → 120개로 확장
+const REVIEWS_PER_PRODUCT = 10;  // 리뷰 10개씩
+const FIRST_BATCH_COMPLETE_COUNT = 10; // 10개 도착 시 '실시간 인기상품 분석' 토글 완료
+
 async function crawlProductsWithStreaming(
   _categoryKey: string,
   categoryName: string,
-  onProductBatch?: (products: DanawaSearchListItem[], isComplete: boolean) => void
+  onProductBatch?: (products: DanawaSearchListItem[], isComplete: boolean, isFirstBatchComplete?: boolean) => void
 ): Promise<{ products: DanawaSearchListItem[]; cached: boolean; searchUrl: string; filters?: DanawaFilterSection[] }> {
-  console.log(`[Step2] Crawling products for: ${categoryName}`);
+  console.log(`[Step2] Crawling products for: ${categoryName} (limit: ${PRODUCT_CRAWL_LIMIT})`);
 
   // 캐시 확인
   const cached = getQueryCache(categoryName);
@@ -256,7 +418,8 @@ async function crawlProductsWithStreaming(
       for (let i = 0; i < cached.items.length; i += batchSize) {
         const batch = cached.items.slice(i, i + batchSize);
         const isComplete = i + batchSize >= cached.items.length;
-        onProductBatch(batch, isComplete);
+        const isFirstBatchComplete = i + batchSize >= FIRST_BATCH_COMPLETE_COUNT && i < FIRST_BATCH_COMPLETE_COUNT;
+        onProductBatch(batch, isComplete, isFirstBatchComplete);
       }
     }
     // 캐시에는 필터가 없을 수 있음
@@ -267,11 +430,12 @@ async function crawlProductsWithStreaming(
   const collectedProducts: DanawaSearchListItem[] = [];
   let pendingBatch: DanawaSearchListItem[] = [];
   const batchSize = 5;
+  let firstBatchNotified = false;
 
   const response = await crawlDanawaSearchListLite(
     {
       query: categoryName,
-      limit: 40,
+      limit: PRODUCT_CRAWL_LIMIT, // 120개로 확장
       sort: 'saveDESC',
     },
     // onProductFound 콜백 - 상품이 발견될 때마다 호출
@@ -281,7 +445,11 @@ async function crawlProductsWithStreaming(
 
       // 5개가 모이면 배치 전송
       if (pendingBatch.length >= batchSize && onProductBatch) {
-        onProductBatch([...pendingBatch], false);
+        // 10개 도착 시점에 firstBatchComplete 플래그 전송
+        const isFirstBatchComplete = !firstBatchNotified && collectedProducts.length >= FIRST_BATCH_COMPLETE_COUNT;
+        if (isFirstBatchComplete) firstBatchNotified = true;
+        
+        onProductBatch([...pendingBatch], false, isFirstBatchComplete);
         pendingBatch = [];
       }
     }
@@ -302,6 +470,44 @@ async function crawlProductsWithStreaming(
 
   console.error('[Step2] Crawling failed:', response.error);
   return { products: [], cached: false, searchUrl: response.searchUrl };
+}
+
+/**
+ * 병렬 리뷰 크롤링 (모든 상품에 대해 10개씩)
+ */
+async function crawlReviewsForProducts(
+  products: DanawaSearchListItem[],
+  onProgress?: (completed: number, total: number, reviewCount: number) => void
+): Promise<{ reviews: Record<string, ReviewCrawlResult>; totalReviews: number }> {
+  const pcodes = products.map(p => p.pcode);
+  console.log(`[Step2.5] Starting review crawling for ${pcodes.length} products (${REVIEWS_PER_PRODUCT} reviews each)`);
+  
+  const startTime = Date.now();
+  let totalReviewsCollected = 0;
+  
+  const results = await fetchReviewsBatchParallel(pcodes, {
+    maxReviewsPerProduct: REVIEWS_PER_PRODUCT,
+    concurrency: 12,           // 높은 동시성
+    delayBetweenChunks: 150,   // 낮은 딜레이
+    timeout: 5000,
+    onProgress: (completed, total, result) => {
+      totalReviewsCollected += result.reviews.length;
+      if (onProgress && completed % 10 === 0) {
+        onProgress(completed, total, totalReviewsCollected);
+      }
+    }
+  });
+  
+  const elapsedMs = Date.now() - startTime;
+  console.log(`[Step2.5] Review crawling complete: ${results.length} products, ${totalReviewsCollected} reviews (${(elapsedMs / 1000).toFixed(1)}s)`);
+  
+  // pcode → result 맵으로 변환
+  const reviewMap: Record<string, ReviewCrawlResult> = {};
+  results.forEach(r => {
+    reviewMap[r.pcode] = r;
+  });
+  
+  return { reviews: reviewMap, totalReviews: totalReviewsCollected };
 }
 
 // ============================================================================
@@ -364,16 +570,16 @@ ${productList}
 
     console.log(`[Step2.5] Filtered: ${products.length} → ${filtered.length} products`);
 
-    // 필터링 결과가 너무 적으면 (10개 미만) 원본 상품 사용
-    if (filtered.length < 10) {
+    // 필터링 결과가 너무 적으면 (20개 미만) 원본 상품 사용
+    if (filtered.length < 20) {
       console.log(`[Step2.5] Filter result too small (${filtered.length}), using original products`);
-      return products.slice(0, 40);
+      return products; // 전체 반환 (120개 유지)
     }
 
     return filtered;
   } catch (e) {
     console.error('[Step2.5] Filtering failed:', e);
-    return products.slice(0, 40);
+    return products; // 전체 반환 (120개 유지)
   }
 }
 
@@ -779,11 +985,15 @@ async function generateQuestions(
     const text = result.response.text();
 
     console.log(`[Step3] LLM response received in ${Date.now() - startTime}ms`);
-    
+
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     if (jsonMatch) {
       try {
-        let questions = JSON.parse(jsonMatch[0]) as QuestionTodo[];
+        // JSON 복구 시도
+        let jsonStr = jsonMatch[0];
+        jsonStr = repairJSON(jsonStr);
+
+        let questions = JSON.parse(jsonStr) as QuestionTodo[];
         questions = questions.map(q => ({ ...q, completed: false }));
         
         // 예산 질문 보정 - 저가 상품 대응 개선
@@ -799,10 +1009,38 @@ async function generateQuestions(
 
         // ✅ 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
         const questionsWithSkip = addSkipOptionToQuestions(refinedQuestions);
+        console.log(`[Step3] Successfully generated ${questionsWithSkip.length} questions`);
         return questionsWithSkip;
       } catch (e) {
         console.error('[Step3] JSON parse error:', e);
+        console.error('[Step3] Failed JSON sample:', jsonMatch[0].slice(0, 500));
+
+        // Flash Lite로 JSON 정제 시도
+        try {
+          console.log('[Step3] Attempting JSON repair with Flash Lite...');
+          const repairedQuestions = await repairJSONWithLLM(jsonMatch[0]);
+          if (repairedQuestions && repairedQuestions.length > 0) {
+            const questions = repairedQuestions.map((q: QuestionTodo) => ({ ...q, completed: false }));
+
+            const budgetQ = questions.find((q: QuestionTodo) =>
+              q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격')
+            );
+            if (budgetQ && prices.length > 0) {
+              budgetQ.options = generateBudgetOptions(minPrice, avgPrice, maxPrice);
+            }
+
+            const refinedQuestions = await refineQuestionOptions(questions);
+            const questionsWithSkip = addSkipOptionToQuestions(refinedQuestions);
+            console.log(`[Step3] JSON repair succeeded: ${questionsWithSkip.length} questions`);
+            return questionsWithSkip;
+          }
+        } catch (repairError) {
+          console.error('[Step3] JSON repair with LLM failed:', repairError);
+        }
       }
+    } else {
+      console.error('[Step3] No JSON array found in LLM response');
+      console.error('[Step3] Response sample:', text.slice(0, 300));
     }
   } catch (e) {
     console.error('[Step3] Question generation failed:', e);
@@ -1076,6 +1314,7 @@ export async function POST(request: NextRequest) {
 
           // Phase 1: 웹검색과 상품 크롤링 병렬 실행
           const phase1Start = Date.now();
+          let firstBatchComplete = false;
 
           // 웹검색 Promise
           const webSearchPromise = performWebSearchAnalysis(categoryName);
@@ -1084,11 +1323,21 @@ export async function POST(request: NextRequest) {
           const crawlPromise = crawlProductsWithStreaming(
             categoryKey,
             categoryName,
-            (products, isComplete) => {
+            (products, isComplete, isFirstBatchComplete) => {
               // 상품 배치가 도착할 때마다 전송
               if (products.length > 0) {
                 allProducts = [...allProducts, ...products];
               }
+              
+              // 10개 도착 시 "실시간 인기상품 분석" 토글 완료 신호
+              if (isFirstBatchComplete && !firstBatchComplete) {
+                firstBatchComplete = true;
+                send('first_batch_complete', {
+                  count: allProducts.length,
+                  message: '실시간 인기상품 분석 완료',
+                });
+              }
+              
               // isComplete가 true이거나 products가 있으면 전송 (빈 배열 + isComplete도 전송해야 완료 처리됨)
               if (products.length > 0 || isComplete) {
                 send('products', {
@@ -1121,6 +1370,52 @@ export async function POST(request: NextRequest) {
           const crawledFilters = crawlResult.filters;
 
           const phase1Duration = Date.now() - phase1Start;
+          
+          // Phase 1.5: 리뷰 크롤링 (상품 크롤링 완료 후 병렬 실행)
+          const phase15Start = Date.now();
+          send('reviews_start', { 
+            productCount: allProducts.length,
+            reviewsPerProduct: REVIEWS_PER_PRODUCT,
+          });
+          
+          let allReviews: Record<string, ReviewCrawlResult> = {};
+          let totalReviewsCrawled = 0;
+          
+          try {
+            const reviewResult = await crawlReviewsForProducts(
+              allProducts,
+              (completed, total, reviewCount) => {
+                send('reviews_progress', { completed, total, reviewCount });
+              }
+            );
+            allReviews = reviewResult.reviews;
+            totalReviewsCrawled = reviewResult.totalReviews;
+            
+            send('reviews_complete', {
+              productCount: Object.keys(allReviews).length,
+              totalReviews: totalReviewsCrawled,
+            });
+          } catch (error) {
+            console.error('[Phase1.5] Review crawling failed:', error);
+            send('reviews_error', { error: 'Review crawling failed' });
+          }
+          
+          const phase15Duration = Date.now() - phase15Start;
+          
+          // 리뷰 0개인 상품 필터링 (품질 향상)
+          const productsBeforeFilter = allProducts.length;
+          allProducts = allProducts.filter(p => {
+            const review = allReviews[p.pcode];
+            // 리뷰 데이터가 있고 리뷰가 1개 이상인 상품만 유지
+            return review && review.reviews.length > 0;
+          });
+          console.log(`[Phase1.5] Filtered out ${productsBeforeFilter - allProducts.length} products with 0 reviews (${productsBeforeFilter} → ${allProducts.length})`);
+          
+          send('products_filtered', {
+            before: productsBeforeFilter,
+            after: allProducts.length,
+            reason: '리뷰 0개 상품 제외',
+          });
 
           // 필터 정보 전송 (인기상품 분석 토글에서 표시)
           if (crawledFilters && crawledFilters.length > 0) {
@@ -1144,19 +1439,20 @@ export async function POST(request: NextRequest) {
             });
           }
 
-          // Phase 2: 필터링
+          // Phase 2: 카테고리 관련성 필터링 (불필요한 상품 제거, 120개 유지)
           const phase2Start = Date.now();
           let filteredProducts = allProducts;
 
-          if (!wasCached && allProducts.length > 20) {
+          // 새 아키텍처: 120개 전체를 유지 (hard-cut 제거)
+          // 카테고리 관련성 필터링만 수행 (예: 가습기 검색 시 가습기만 남김)
+          if (!wasCached && allProducts.length > 30) {
             filteredProducts = await filterRelevantProducts(categoryName, allProducts);
             send('filter_complete', {
               originalCount: allProducts.length,
               filteredCount: filteredProducts.length,
             });
-          } else {
-            filteredProducts = allProducts.slice(0, 40);
           }
+          // 더 이상 40개로 제한하지 않음 - 전체 120개 유지
 
           const phase2Duration = Date.now() - phase2Start;
 
@@ -1242,6 +1538,24 @@ export async function POST(request: NextRequest) {
           };
 
           const totalTime = Date.now() - startTime;
+          
+          // 리뷰 데이터를 간소화하여 전송 (full 리뷰 대신 리뷰 요약)
+          const reviewSummaryByProduct: Record<string, {
+            reviewCount: number;
+            avgRating: number | null;
+            reviews: Array<{ rating: number; content: string }>;
+          }> = {};
+          
+          Object.entries(allReviews).forEach(([pcode, result]) => {
+            reviewSummaryByProduct[pcode] = {
+              reviewCount: result.reviewCount,
+              avgRating: result.averageRating,
+              reviews: result.reviews.map(r => ({
+                rating: r.rating,
+                content: r.content,
+              })),
+            };
+          });
 
           // 최종 완료 이벤트
           send('complete', {
@@ -1251,6 +1565,7 @@ export async function POST(request: NextRequest) {
             categoryName,
             timing: {
               phase1_webSearch_crawl: phase1Duration,
+              phase15_reviews: phase15Duration,
               phase2_filter: phase2Duration,
               phase3_questions: phase3Duration,
               total: totalTime,
@@ -1266,7 +1581,8 @@ export async function POST(request: NextRequest) {
             wasCached,
             questionTodos,
             currentQuestion: questionTodos[0] || null,
-            products: filteredProducts.map((p: DanawaSearchListItem) => ({
+            // 모든 상품 + 리뷰 데이터 (hard-cut 제거로 120개 전체 전송)
+            products: allProducts.map((p: DanawaSearchListItem) => ({
               pcode: p.pcode,
               name: p.name,
               brand: p.brand,
@@ -1275,7 +1591,17 @@ export async function POST(request: NextRequest) {
               reviewCount: p.reviewCount || 0,
               rating: p.rating || 0,
               specSummary: p.specSummary,
+              productUrl: p.productUrl,
             })),
+            // 리뷰 데이터 (pcode → 리뷰 배열)
+            reviews: reviewSummaryByProduct,
+            reviewStats: {
+              productsWithReviews: Object.keys(allReviews).length,
+              totalReviews: totalReviewsCrawled,
+              avgReviewsPerProduct: Object.keys(allReviews).length > 0 
+                ? Math.round(totalReviewsCrawled / Object.keys(allReviews).length * 10) / 10 
+                : 0,
+            },
           });
 
           console.log(`[Init V6] Total time: ${totalTime}ms`);
@@ -1322,14 +1648,29 @@ async function handleNonStreamingRequest(
   const wasCached = crawlResult.cached;
   const searchUrl = crawlResult.searchUrl;
   const crawledFilters = crawlResult.filters;
-
-  // Phase 2: 필터링
-  const phase2Start = Date.now();
-  if (!wasCached && products.length > 20) {
-    products = await filterRelevantProducts(categoryName, products);
-  } else {
-    products = products.slice(0, 40);
+  
+  // Phase 1.5: 리뷰 크롤링
+  const phase15Start = Date.now();
+  let allReviews: Record<string, ReviewCrawlResult> = {};
+  let totalReviewsCrawled = 0;
+  
+  try {
+    const reviewResult = await crawlReviewsForProducts(products);
+    allReviews = reviewResult.reviews;
+    totalReviewsCrawled = reviewResult.totalReviews;
+  } catch (error) {
+    console.error('[Non-streaming] Review crawling failed:', error);
   }
+  
+  const phase15Duration = Date.now() - phase15Start;
+  timings.push({ step: 'phase15_reviews', duration: phase15Duration, details: `${totalReviewsCrawled}개 리뷰` });
+
+  // Phase 2: 필터링 (120개 유지)
+  const phase2Start = Date.now();
+  if (!wasCached && products.length > 30) {
+    products = await filterRelevantProducts(categoryName, products);
+  }
+  // 더 이상 40개로 제한하지 않음
   const phase2Duration = Date.now() - phase2Start;
   timings.push({ step: 'phase2_filter', duration: phase2Duration, details: `${products.length}개 필터링` });
 
@@ -1405,6 +1746,24 @@ async function handleNonStreamingRequest(
   };
 
   const totalTime = Date.now() - startTime;
+  
+  // 리뷰 데이터를 간소화하여 전송
+  const reviewSummaryByProduct: Record<string, {
+    reviewCount: number;
+    avgRating: number | null;
+    reviews: Array<{ rating: number; content: string }>;
+  }> = {};
+  
+  Object.entries(allReviews).forEach(([pcode, result]) => {
+    reviewSummaryByProduct[pcode] = {
+      reviewCount: result.reviewCount,
+      avgRating: result.averageRating,
+      reviews: result.reviews.map(r => ({
+        rating: r.rating,
+        content: r.content,
+      })),
+    };
+  });
 
   return NextResponse.json({
     success: true,
@@ -1413,6 +1772,7 @@ async function handleNonStreamingRequest(
     categoryName,
     timing: {
       phase1_webSearch_crawl: phase1Duration,
+      phase15_reviews: phase15Duration,
       phase2_filter: phase2Duration,
       phase3_questions: phase3Duration,
       total: totalTime,
@@ -1439,6 +1799,15 @@ async function handleNonStreamingRequest(
       reviewCount: p.reviewCount || 0,
       rating: p.rating || 0,
       specSummary: p.specSummary,
+      productUrl: p.productUrl,
     })),
+    reviews: reviewSummaryByProduct,
+    reviewStats: {
+      productsWithReviews: Object.keys(allReviews).length,
+      totalReviews: totalReviewsCrawled,
+      avgReviewsPerProduct: Object.keys(allReviews).length > 0 
+        ? Math.round(totalReviewsCrawled / Object.keys(allReviews).length * 10) / 10 
+        : 0,
+    },
   });
 }

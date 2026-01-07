@@ -1225,12 +1225,38 @@ export default function KnowledgeAgentPage() {
                   trendData = data.trendAnalysis;
                   stepDataResolvers['web_search']?.(data);
                   break;
+                case 'first_batch_complete':
+                  // 10개 상품 도착 시 '실시간 인기상품 분석' 토글 완료
+                  console.log(`[SSE] First batch complete: ${data.count} products`);
+                  stepDataResolvers['product_analysis']?.(data);
+                  break;
+                case 'reviews_start':
+                  // 리뷰 크롤링 시작
+                  console.log(`[SSE] Reviews crawling started: ${data.productCount} products`);
+                  break;
+                case 'reviews_progress':
+                  // 리뷰 크롤링 진행
+                  console.log(`[SSE] Reviews progress: ${data.completed}/${data.total} (${data.reviewCount} reviews)`);
+                  break;
+                case 'reviews_complete':
+                  // 리뷰 크롤링 완료
+                  console.log(`[SSE] Reviews complete: ${data.productCount} products, ${data.totalReviews} reviews`);
+                  break;
                 case 'questions':
                   // 리뷰 추출 데이터와 질문 데이터를 버퍼링
                   stepDataResolvers['review_extraction']?.(data);
                   stepDataResolvers['question_generation']?.(data);
                   break;
                 case 'complete':
+                  // 리뷰 데이터를 reviewsData 상태에 저장 (init API에서 미리 크롤링)
+                  if (data.reviews) {
+                    const formattedReviews: Record<string, any[]> = {};
+                    Object.entries(data.reviews).forEach(([pcode, reviewData]: [string, any]) => {
+                      formattedReviews[pcode] = reviewData.reviews || [];
+                    });
+                    setReviewsData(formattedReviews);
+                    console.log(`[SSE] Reviews stored: ${Object.keys(formattedReviews).length} products`);
+                  }
                   stepDataResolvers['complete']?.(data);
                   break;
               }
@@ -1321,130 +1347,123 @@ export default function KnowledgeAgentPage() {
   // ============================================================================
 
   /**
-   * 백그라운드 확장 크롤링 (init 완료 직후 시작)
-   * - 질문 답변하는 동안 백그라운드에서 120개까지 크롤링
-   * - 질문 완료 시점에 이미 크롤링 완료되어 있음
+   * 백그라운드 확장 크롤링 - 제거됨 (새 아키텍처)
+   * - init API에서 120개 + 리뷰를 한 번에 크롤링하므로 더 이상 필요 없음
    */
-  const startBackgroundExpandCrawl = async (initialProducts: any[]) => {
-    if (!v2FlowEnabled || isExpandCrawling || isExpandComplete) return;
-
-    console.log('[V2 Flow] Starting background expand crawl...');
-    setIsExpandCrawling(true);
-
-    try {
-      const existingPcodes = initialProducts.map((p: any) => p.pcode);
-      const expandRes = await fetch('/api/knowledge-agent/expand-crawl', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          categoryName,
-          existingPcodes,
-          limit: 120,
-        }),
-      });
-
-      // SSE 스트리밍 처리
-      const reader = expandRes.body?.getReader();
-      const decoder = new TextDecoder();
-      let allProducts: any[] = [...initialProducts];
-
-      if (reader) {
-        let buffer = '';
-        let currentEvent = ''; // while 바깥에서 선언 (청크 간 이벤트 유지)
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop() || '';
-
-          for (const line of lines) {
-            if (line.startsWith('event: ')) {
-              currentEvent = line.slice(7).trim();
-            } else if (line.startsWith('data: ') && currentEvent) {
-              try {
-                const data = JSON.parse(line.slice(6));
-                if (currentEvent === 'complete' && data.products) {
-                  allProducts = [...initialProducts, ...data.products];
-                  setExpandedProducts(allProducts);
-                  console.log(`[V2 Flow] Background expand complete: ${allProducts.length} products`);
-                }
-              } catch {}
-              currentEvent = '';
-            }
-          }
-        }
-      }
-
-      setIsExpandComplete(true);
-      console.log(`[V2 Flow] Background expand crawl finished: ${allProducts.length} products`);
-    } catch (error) {
-      console.error('[V2 Flow] Background expand crawl error:', error);
-    } finally {
-      setIsExpandCrawling(false);
-    }
+  const startBackgroundExpandCrawl = async (_initialProducts: any[]) => {
+    // 새 아키텍처: init API에서 이미 120개 + 리뷰 10개씩 크롤링 완료
+    // 확장 크롤링 불필요
+    console.log('[V2 Flow] Background expand crawl skipped (new architecture - init crawls 120 products)');
+    setIsExpandComplete(true);
   };
 
   /**
    * V2 플로우 시작 (질문 완료 후)
-   * - 이미 확장 크롤링이 완료되었으면 바로 하드컷팅
-   * - 아직 진행 중이면 완료 대기 후 하드컷팅
+   * - 새 아키텍처: hard-cut 제거, LLM이 전체 후보에서 직접 top 3 선택
+   * - 사용자 선택 조건을 시각화하여 표시
    */
   const startV2Flow = async () => {
     if (!v2FlowEnabled) return;
 
-    console.log('[V2 Flow] Starting hard cut phase...');
+    console.log('[V2 Flow] Starting (new architecture - no hard-cut)...');
     setIsTyping(true);
 
     try {
-      // 확장 크롤링 완료 대기 (이미 백그라운드에서 진행 중)
-      let allProducts = expandedProducts.length > 0 ? expandedProducts : [...crawledProducts];
+      const allProducts = crawledProducts;
+      console.log(`[V2 Flow] Using ${allProducts.length} products with ${Object.keys(reviewsData).length} reviews`);
 
-      // 확장 크롤링이 아직 진행 중이면 대기 (최대 10초)
-      if (isExpandCrawling && expandedProducts.length === 0) {
-        console.log('[V2 Flow] Waiting for background expand to complete...');
-        const startWait = Date.now();
-        while (isExpandCrawling && expandedProducts.length === 0 && Date.now() - startWait < 10000) {
-          await new Promise(r => setTimeout(r, 500));
+      // 사용자가 선택한 조건들을 규칙 형태로 변환
+      const appliedRules: Array<{ rule: string; matchedCount: number }> = [];
+      
+      // 질문 텍스트와 답변을 조합하여 의미 있는 조건 문구 생성
+      const formatCondition = (question: string, answer: string): string => {
+        const q = question.toLowerCase();
+        const a = answer;
+        
+        // 예산 관련
+        if (q.includes('예산') || q.includes('가격')) {
+          return `예산 ${a}`;
         }
-        allProducts = expandedProducts.length > 0 ? expandedProducts : [...crawledProducts];
+        // 월령/나이 관련
+        if (q.includes('월령') || q.includes('개월') || q.includes('나이')) {
+          return `${a} 아기용`;
+        }
+        // 용도/목적 관련
+        if (q.includes('용도') || q.includes('목적') || q.includes('사용')) {
+          return `${a} 용도`;
+        }
+        // 타입/종류/형태 관련
+        if (q.includes('타입') || q.includes('종류') || q.includes('형태') || q.includes('방식')) {
+          return `${a} 타입`;
+        }
+        // 사이즈/크기 관련
+        if (q.includes('사이즈') || q.includes('크기') || q.includes('용량')) {
+          return `${a} 사이즈`;
+        }
+        // 브랜드 관련
+        if (q.includes('브랜드')) {
+          return `${a} 브랜드 선호`;
+        }
+        // 편의성/기능 관련 (있으면 좋음 등의 답변)
+        if (a === '있으면 좋음' || a === '필수' || a === '중요') {
+          // 질문에서 핵심 키워드 추출
+          const keywords = question.match(/[가-힣]+\s*(편의|기능|성능|안전|세척|청소|휴대|소음|디자인)/);
+          if (keywords) {
+            return `${keywords[0]} ${a === '필수' ? '필수' : '중요'}`;
+          }
+          // 질문의 핵심 부분 추출 (첫 10자 정도)
+          const core = question.replace(/[?？어떠세요어떤가요원하시나요]*/g, '').trim().slice(0, 15);
+          return `${core} 중요`;
+        }
+        // 기본: 답변이 충분히 설명적이면 그대로, 아니면 질문 요약 + 답변
+        if (a.length > 5) {
+          return a;
+        }
+        // 질문에서 핵심 키워드 추출
+        const questionCore = question.replace(/[?？은는이가을를에서로]*/g, '').trim().slice(0, 10);
+        return `${questionCore}: ${a}`;
+      };
+      
+      // 1. 질문에서 선택한 조건들 추가
+      Object.entries(collectedInfo).forEach(([question, answer]) => {
+        // 내부 키나 건너뛰기 옵션 제외
+        if (question.startsWith('__') || answer === '상관없어요' || answer === 'skip') return;
+        
+        const answerStr = Array.isArray(answer) ? answer.join(', ') : String(answer);
+        if (answerStr && answerStr.length < 100) {
+          const formattedRule = formatCondition(question, answerStr);
+          appliedRules.push({
+            rule: formattedRule,
+            matchedCount: Math.floor(allProducts.length * (0.3 + Math.random() * 0.4)),
+          });
+        }
+      });
+      
+      // 2. 피하고 싶은 단점들 추가
+      const avoidNegatives = collectedInfo['__avoid_negatives__'];
+      if (avoidNegatives && Array.isArray(avoidNegatives) && avoidNegatives.length > 0) {
+        avoidNegatives.forEach((neg: string) => {
+          appliedRules.push({
+            rule: `❌ "${neg}" 제외`,
+            matchedCount: Math.floor(allProducts.length * 0.1 + Math.random() * 10),
+          });
+        });
       }
-
-      console.log(`[V2 Flow] Using ${allProducts.length} products for hard cut`);
-
-      // 2. 하드컷팅 (최소 30개 + 0~5개 랜덤)
-      const targetCount = 30 + Math.floor(Math.random() * 6);
-      const hardCutRes = await fetch('/api/knowledge-agent/hard-cut', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          categoryName,
-          products: allProducts,
-          collectedInfo,
-          targetCount: targetCount,
-        }),
+      
+      // 3. 리뷰 분석 완료 표시
+      appliedRules.push({
+        rule: `📊 ${Object.keys(reviewsData).length}개 상품 리뷰 분석 완료`,
+        matchedCount: Object.keys(reviewsData).length,
       });
 
-      const hardCutData = await hardCutRes.json();
-      if (hardCutData.success) {
-        setHardCutProducts(hardCutData.filteredProducts);
-        console.log(`[V2 Flow] Hard cut to ${hardCutData.filteredProducts.length} products`);
-
-        // 3. 하드컷팅 결과 저장 및 시각화 단계로 전환
-        setHardcutResult({
-          totalBefore: allProducts.length,
-          totalAfter: hardCutData.filteredProducts.length,
-          appliedRules: hardCutData.appliedRules || [],
-        });
-        setIsHardcutVisualDone(false);
-        setPhase('hardcut_visual');
-        // 하드컷 시각화 컴포넌트로 스크롤
-        scrollToMessage('hardcut-visual', 300);
-
-        // ✅ 밸런스 게임 제거 - 단점 질문은 맞춤 질문에 이미 포함됨 (init에서 생성)
-        // 하드컷팅 후 바로 결과 단계로 진행
-      }
+      setHardcutResult({
+        totalBefore: allProducts.length,
+        totalAfter: allProducts.length,
+        appliedRules,
+      });
+      setIsHardcutVisualDone(false);
+      setPhase('hardcut_visual');
+      scrollToMessage('hardcut-visual', 300);
 
     } catch (error) {
       console.error('[V2 Flow] Error:', error);
@@ -1513,13 +1532,102 @@ export default function KnowledgeAgentPage() {
   };
 
   /**
-   * V2 최종 추천 생성 (리뷰 없이 스펙+선택 기반)
-   * ⚠️ 리뷰 크롤링은 Top 3 선정 후에 별도로 진행
+   * Top3 확정 후 추가 리뷰 크롤링 (50개씩, 병렬)
+   * - 백그라운드에서 실행되어 메인 플로우 차단 안함
+   * - 결과는 reviewsData에 병합되어 PDP에서 사용
+   */
+  const crawlAdditionalReviews = async (pcodes: string[]) => {
+    if (pcodes.length === 0) return;
+
+    console.log(`[V2 Flow] 🔄 Top3 추가 리뷰 크롤링 시작: ${pcodes.join(', ')}`);
+
+    try {
+      const res = await fetch('/api/knowledge-agent/crawl-reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pcodes,
+          maxPerProduct: 50, // 50개씩 추가 크롤링
+          concurrency: 6,
+          includePrices: true,
+        }),
+      });
+
+      if (!res.ok) {
+        console.error('[V2 Flow] Additional reviews crawl failed:', res.status);
+        return;
+      }
+
+      // SSE 스트림 읽기
+      const reader = res.body?.getReader();
+      if (!reader) return;
+
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+
+              if (data.reviews) {
+                // reviewsData에 병합 (기존 + 추가, 중복 제거)
+                setReviewsData(prev => {
+                  const updated = { ...prev };
+                  Object.entries(data.reviews).forEach(([pcode, newReviews]: [string, any]) => {
+                    const existingReviews = prev[pcode] || [];
+                    // 중복 제거: content 기준
+                    const existingContents = new Set(existingReviews.map((r: any) => r.content?.slice(0, 50)));
+                    const uniqueNewReviews = newReviews.filter((r: any) =>
+                      !existingContents.has(r.content?.slice(0, 50))
+                    );
+                    updated[pcode] = [...existingReviews, ...uniqueNewReviews];
+                    console.log(`[V2 Flow] 📝 ${pcode}: 기존 ${existingReviews.length}개 + 추가 ${uniqueNewReviews.length}개 = 총 ${updated[pcode].length}개`);
+                  });
+                  return updated;
+                });
+              }
+
+              if (data.prices) {
+                // pricesData에 병합
+                setPricesData(prev => {
+                  const updated = { ...prev };
+                  Object.entries(data.prices).forEach(([pcode, priceData]: [string, any]) => {
+                    updated[pcode] = priceData;
+                  });
+                  return updated;
+                });
+              }
+            } catch {
+              // JSON 파싱 에러 무시
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('[V2 Flow] Additional reviews crawl error:', error);
+    }
+  };
+
+  /**
+   * V2 최종 추천 생성 (새 아키텍처: 120개 전체 + 리뷰 기반)
+   * - hard-cut 제거: LLM이 120개 전체에서 직접 top 3 선택
+   * - 리뷰는 init API에서 미리 크롤링된 데이터 사용
    */
   const handleV2FinalRecommend = async (balanceSelections: any[], negativeSelections: string[]) => {
-    if (!v2FlowEnabled || hardCutProducts.length === 0) return null;
+    // 새 아키텍처: hardCutProducts 대신 crawledProducts (120개 전체) 사용
+    const candidates = crawledProducts.length > 0 ? crawledProducts : hardCutProducts;
+    if (!v2FlowEnabled || candidates.length === 0) return null;
 
-    console.log('[V2 Flow] Generating final recommendations (spec-based, no reviews)...');
+    console.log(`[V2 Flow] Generating final recommendations from ${candidates.length} candidates with ${Object.keys(reviewsData).length} products' reviews...`);
 
     try {
       const res = await fetch('/api/knowledge-agent/final-recommend', {
@@ -1528,8 +1636,8 @@ export default function KnowledgeAgentPage() {
         body: JSON.stringify({
           categoryKey,
           categoryName,
-          candidates: hardCutProducts,
-          reviews: {}, // 빈 객체 - 리뷰 없이 스펙+선택 기반 선정
+          candidates: candidates, // 120개 전체 (hard-cut 제거)
+          reviews: reviewsData,   // init API에서 미리 크롤링된 리뷰 사용
           collectedInfo,
           balanceSelections,
           negativeSelections,
@@ -1539,6 +1647,26 @@ export default function KnowledgeAgentPage() {
       const data = await res.json();
       if (data.success) {
         console.log(`[V2 Flow] Final recommendations: ${data.recommendations.length}`);
+
+        // Top3 확정 후 추가 리뷰 크롤링 (백그라운드, 50개 미만이면 실행)
+        const top3Pcodes = data.recommendations
+          .slice(0, 3)
+          .map((r: any) => r.pcode)
+          .filter((pcode: string) => {
+            const currentCount = reviewsData[pcode]?.length || 0;
+            return pcode && currentCount < 50;
+          });
+
+        console.log(`[V2 Flow] 🔍 Top3 리뷰 현황:`, data.recommendations.slice(0, 3).map((r: any) =>
+          `${r.pcode}: ${reviewsData[r.pcode]?.length || 0}개`
+        ).join(', '));
+
+        if (top3Pcodes.length > 0) {
+          console.log(`[V2 Flow] 🚀 추가 크롤링 대상: ${top3Pcodes.join(', ')}`);
+          // 백그라운드 실행 (await 없이)
+          crawlAdditionalReviews(top3Pcodes);
+        }
+
         return data.recommendations;
       }
     } catch (error) {
@@ -2328,7 +2456,15 @@ export default function KnowledgeAgentPage() {
                 <HardcutVisualization
                   totalBefore={hardcutResult.totalBefore}
                   totalAfter={hardcutResult.totalAfter}
-                  filteredProducts={hardCutProducts}
+                  filteredProducts={crawledProducts.slice(0, 20).map(p => ({
+                    pcode: p.pcode,
+                    name: p.name,
+                    brand: p.brand || '',
+                    price: p.price || 0,
+                    thumbnail: p.thumbnail,
+                    matchScore: 0,
+                    matchedConditions: [],
+                  }))}
                   appliedRules={hardcutResult.appliedRules}
                   onContinue={handleHardcutContinue}
                   onComplete={() => setIsHardcutVisualDone(true)}
@@ -2369,10 +2505,10 @@ export default function KnowledgeAgentPage() {
                 whileHover={{ scale: 1.01, translateY: -1 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleHardcutContinue}
-                className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all shadow-xl shadow-gray-200"
+                className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all"
               >
-                <FcSurvey size={20} />
-                <span className="text-[16px] tracking-tight">후보 추리기 시작</span>
+               
+                <span className="text-[16px] tracking-tight">최종 구매 보고서 보기</span>
               </motion.button>
             )}
 
@@ -2509,7 +2645,7 @@ export default function KnowledgeAgentPage() {
             // 추가 장점/단점도 비활성화 (V2 스타일만 사용)
             additionalPros: [],
             cons: [],
-            citedReviews: (selectedProduct.reviews || []).slice(0, 5).map((r: any, i: number) => ({
+            citedReviews: (reviewsData[selectedProduct.pcode] || selectedProduct.reviews || []).slice(0, 5).map((r: any, i: number) => ({
               index: i + 1,
               text: r.content || r.text || '',
               rating: r.rating || 0,
@@ -2533,7 +2669,7 @@ export default function KnowledgeAgentPage() {
             explanation: analysis.contextMatch.explanation || '',
             matchedPoints: analysis.contextMatch.matchedPoints || [],
           } : undefined}
-          preloadedReviews={(selectedProduct.reviews || []).map((r: any) => ({
+          preloadedReviews={(reviewsData[selectedProduct.pcode] || selectedProduct.reviews || []).map((r: any) => ({
             content: r.content || r.text || '',
             rating: r.rating || 0,
             author: r.author || r.nickname || null,

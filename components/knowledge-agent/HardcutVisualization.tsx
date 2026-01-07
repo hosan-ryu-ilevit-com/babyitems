@@ -124,7 +124,7 @@ export function HardcutVisualization({
             }`}>
               {phase === 'counting' && '상품 분석 중...'}
               {phase === 'filtering' && '조건에 맞는 상품 선별 중...'}
-              {phase === 'result' && '맞춤 상품 선별 완료'}
+              {phase === 'result' && '선별 조건 적용 완료'}
             </span>
           </div>
 
@@ -132,7 +132,11 @@ export function HardcutVisualization({
             <span className={`text-[12px] font-bold tabular-nums ${
               phase === 'result' ? 'text-green-600' : 'text-blue-500'
             }`}>
-              {totalBefore}개 → {displayCount}개
+              {/* 필터링 없을 때는 총 개수만 표시 */}
+              {totalBefore === totalAfter 
+                ? `${displayCount}개 분석 완료`
+                : `${totalBefore}개 → ${displayCount}개`
+              }
             </span>
             <motion.span
               animate={{ rotate: isExpanded ? 180 : 0 }}

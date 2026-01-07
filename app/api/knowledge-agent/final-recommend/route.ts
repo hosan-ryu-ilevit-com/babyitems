@@ -1,11 +1,9 @@
 /**
- * Knowledge Agent - Final Recommend API
+ * Knowledge Agent - Final Recommend API (새 아키텍처)
  *
- * 모든 데이터를 종합하여 LLM으로 Top 3 선정
- * - 스펙 매칭 점수
- * - 리뷰 데이터
- * - 밸런스 선택
- * - 단점 필터
+ * 120개 전체 후보에서 LLM으로 Top 3 직접 선정
+ * - hard-cut 제거: LLM이 전체 후보에서 직접 선택
+ * - 스펙 + 리뷰 + 사용자 선택 기반 평가
  * - 스펙 정규화 (비교표용)
  * - 장단점 리스트 생성 (Flash Lite)
  */
@@ -403,8 +401,70 @@ ${productInfos}
 }
 
 /**
- * LLM으로 Top 3 선정 (최신 모델 사용)
- * ⚠️ 리뷰가 없어도 스펙 + 사용자 선택 기반으로 선정 가능
+ * 120개 후보에서 사전 스크리닝 (규칙 기반)
+ * - 가격, 리뷰 수, 평점 기반으로 빠르게 상위 30개 추출
+ */
+function prescreenCandidates(
+  candidates: HardCutProduct[],
+  reviews: Record<string, ReviewLite[]>,
+  collectedInfo: Record<string, string>,
+  negativeSelections: string[]
+): HardCutProduct[] {
+  console.log(`[FinalRecommend] Pre-screening ${candidates.length} candidates...`);
+  
+  // 각 상품에 점수 부여
+  const scored = candidates.map(p => {
+    let score = 0;
+    
+    // 1. 리뷰 수 점수 (리뷰가 많을수록 높음)
+    const productReviews = reviews[p.pcode] || [];
+    score += Math.min(productReviews.length * 2, 20); // 최대 20점
+    
+    // 2. 평점 점수
+    const avgRating = productReviews.length > 0
+      ? productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length
+      : p.rating || 0;
+    score += avgRating * 4; // 5점 만점 → 최대 20점
+    
+    // 3. 기존 matchScore 활용
+    score += (p.matchScore || 0) * 0.5;
+    
+    // 4. 피하고 싶은 단점 체크 (스펙에서 키워드 매칭)
+    const specText = (p.specSummary || '').toLowerCase();
+    const reviewText = productReviews.map(r => r.content).join(' ').toLowerCase();
+    for (const neg of negativeSelections) {
+      const negLower = neg.toLowerCase();
+      if (specText.includes(negLower) || reviewText.includes(negLower)) {
+        score -= 15; // 단점 언급 시 감점
+      }
+    }
+    
+    // 5. 사용자 조건 매칭
+    for (const [key, value] of Object.entries(collectedInfo)) {
+      // value가 배열이거나 객체일 수 있음
+      const valueStr = Array.isArray(value) 
+        ? value.join(' ') 
+        : (typeof value === 'string' ? value : String(value || ''));
+      const valueLower = valueStr.toLowerCase();
+      if (valueLower && specText.includes(valueLower)) {
+        score += 5;
+      }
+    }
+    
+    return { product: p, score };
+  });
+  
+  // 점수순 정렬 후 상위 30개 반환
+  scored.sort((a, b) => b.score - a.score);
+  const top30 = scored.slice(0, 30).map(s => s.product);
+  
+  console.log(`[FinalRecommend] Pre-screened to ${top30.length} candidates`);
+  return top30;
+}
+
+/**
+ * LLM으로 Top 3 선정 (새 아키텍처: 120개 → 30개 사전 스크리닝 → Top 3)
+ * - 대량 후보 처리를 위해 2단계 필터링
  */
 async function generateRecommendations(
   categoryName: string,
@@ -414,36 +474,42 @@ async function generateRecommendations(
   balanceSelections: BalanceSelection[],
   negativeSelections: string[]
 ): Promise<FinalRecommendation[]> {
+  // 120개 이상이면 사전 스크리닝으로 30개로 줄임
+  let filteredCandidates = candidates;
+  if (candidates.length > 30) {
+    filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections);
+  }
+  
   // 리뷰가 있는지 확인
   const hasReviews = Object.keys(reviews).length > 0 && 
     Object.values(reviews).some(r => r.length > 0);
   
-  console.log(`[FinalRecommend] Reviews available: ${hasReviews}`);
+  console.log(`[FinalRecommend] Candidates: ${candidates.length} → ${filteredCandidates.length}, Reviews: ${hasReviews}`);
   
   if (!ai) {
     // AI 없으면 점수 기반 정렬
-    return candidates.slice(0, 3).map((p, i) => ({
+    return filteredCandidates.slice(0, 3).map((p, i) => ({
       rank: i + 1,
       pcode: p.pcode,
       product: p,
       reason: `스펙 매칭 점수 ${p.matchScore}점으로 상위에 선정되었습니다.`,
-      highlights: p.matchedConditions.slice(0, 3),
+      highlights: p.matchedConditions?.slice(0, 3) || [],
     }));
   }
 
-  // 최신 모델 사용 (gemini-2.5-flash-preview-05-20)
+  // 최신 모델 사용
   const model = ai.getGenerativeModel({
     model: FINAL_RECOMMEND_MODEL,
     generationConfig: {
       temperature: 0.5,
-      maxOutputTokens: 2000,
+      maxOutputTokens: 2500,
     },
   });
   
   console.log(`[FinalRecommend] Using model: ${FINAL_RECOMMEND_MODEL}`);
 
   // 후보 상품 정보 구성 (리뷰 있으면 정성적 분석 포함, 없으면 스펙만)
-  const candidateInfo = candidates.map((p, i) => {
+  const candidateInfo = filteredCandidates.map((p, i) => {
     const productReviews = reviews[p.pcode] || [];
     
     // 기본 정보 (항상 포함)
@@ -453,7 +519,7 @@ async function generateRecommendations(
 **기본 정보**
 - 가격: ${p.price?.toLocaleString()}원
 - 스펙 매칭 점수: ${p.matchScore}점
-- 매칭된 조건: ${p.matchedConditions.join(', ') || '없음'}
+- 매칭된 조건: ${p.matchedConditions?.join(', ') || '없음'}
 - 스펙: ${p.specSummary || '정보 없음'}`;
 
     // 리뷰가 있으면 정성적 분석 추가
@@ -539,7 +605,7 @@ ${balanceSelections.map(b => `- ${b.selectedLabel}`).join('\n') || '없음'}
 ${negativeSelections.join(', ') || '없음'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 📦 후보 상품 ${hasReviews ? '+ 리뷰 분석' : '(스펙 기반)'} (${candidates.length}개)
+## 📦 후보 상품 ${hasReviews ? '+ 리뷰 분석' : '(스펙 기반)'} (${filteredCandidates.length}개 / 전체 ${candidates.length}개 중 사전 스크리닝)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${candidateInfo}
 
@@ -555,6 +621,28 @@ ${reviewRules}
 ### 5️⃣ 다양성 확보
 - 가능하면 다른 가격대/브랜드를 포함해 3가지 선택지 제공
 
+### 6️⃣ 맞춤형 추천 이유 (reason) - 구매 확신 주기 ⚠️ 가장 중요!
+- **목표:** 사용자가 선택한 조건이 이 제품에서 **어떻게 완벽하게 구현되는지** 증명하여 구매를 확신시킵니다.
+- **작성 톤:** 쇼핑 큐레이터가 옆에서 귓속말하듯 신뢰감 있고 간결하게.
+- **필수 요소:**
+  1. **User Context:** 사용자가 선택한 핵심 가치(예: 세척, 소음)를 '상황'이나 '페르소나'로 녹일 것. (예: "밤잠 예민한 아기를 위해", "손목이 약한 분들에게")
+  2. **Social Proof:** 단순 인용("~라고 함")이 아니라, 리뷰의 **구체적인 칭찬 포인트**를 근거로 제시할 것.
+  3. **이모지 필수:** 문장 시작에 관련 이모지 하나 넣어서 시각적 임팩트 주기
+- **🚫 절대 금지 패턴 (이 패턴이 보이면 0점 처리):**
+  - "실제 사용자들이 '...'라고 평가한 제품입니다" ❌
+  - "리뷰에 따르면..." ❌
+  - "당신은 ~를 선택했으므로" ❌
+  - "~해서 추천합니다" / "~이기 때문에 추천해요" ❌
+  - 리뷰 원문만 따옴표로 나열하기 ❌
+- **길이:** 45~70자 내외 (임팩트 있는 한 문장 또는 자연스러운 두 문장)
+- **✅ Good vs ❌ Bad Example:**
+  - ❌ 소음을 중요하게 여기셔서 추천해요. 조용하다는 리뷰가 많아요.
+  - ✅ 🤫 **소리에 민감한 아기도 꿀잠!** "숨소리보다 조용해서 켜둔 줄도 몰랐다"는 평이 압도적이에요.
+  - ❌ 세척이 편리해서 추천합니다. 분리된다는 말이 있어요.
+  - ✅ 🧼 **매일 닦는 게 일인 육아맘 필수템.** "통세척 가능해서 물때 걱정 싹 사라졌다"는 극찬!
+  - ❌ 실제 사용자들이 "가격만큼 성능 우수하고..."라고 평가한 제품입니다.
+  - ✅ 💰 **가성비 끝판왕!** "이 가격에 이 성능 대박"이라며 재구매율 높은 인기템이에요.
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 📤 응답 형식 (JSON만)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -564,7 +652,7 @@ ${reviewRules}
     {
       "rank": 1,
       "pcode": "상품코드",
-      "reason": "추천 이유 한줄평 (실제 리뷰 인용 필수! 예: '\"조용하고 세척 편해요\"라는 리뷰가 많아 추천해요')",
+      "reason": "🧼 **매일 닦는 게 일인 육아맘 필수템.** \"통세척 가능해서 물때 걱정 싹 사라졌다\"는 극찬!",
       "highlights": ["리뷰에서 자주 언급된 장점 1", "장점 2", "장점 3"],
       "concerns": ["리뷰에서 언급된 주의점 (있다면)"],
       "bestFor": "이런 분께 추천 (사용자 프로필 기반)",
@@ -575,30 +663,49 @@ ${reviewRules}
   "summary": "전체 추천 요약 (리뷰 분석 기반, 1-2문장)"
 }
 
-⚠️ JSON만 출력
-⚠️ reason에 반드시 실제 리뷰 "인용" 포함
+⚠️ JSON만 출력하세요.
+⚠️ reason 작성 시 6️⃣ 가이드라인 엄격히 준수! (이모지+볼드+리뷰인용 형식)
+⚠️ "실제 사용자들이...라고 평가한 제품입니다" 같은 형식 절대 금지!
 ⚠️ 리뷰가 없거나 부실한 상품은 순위를 낮추세요`;
 
   try {
     const result = await model.generateContent(prompt);
     const text = result.response.text().trim();
 
+    console.log('[FinalRecommend] LLM raw response length:', text.length);
+
     // JSON 추출
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       const parsed = JSON.parse(jsonMatch[0]);
 
+      console.log('[FinalRecommend] ✅ LLM 파싱 성공, recommendations:', parsed.recommendations?.length || 0);
+
       // 결과 구성
       return (parsed.recommendations || []).slice(0, 3).map((rec: any, i: number) => {
-        const product = candidates.find(c => c.pcode === rec.pcode);
+        const product = filteredCandidates.find(c => c.pcode === rec.pcode);
+
+        // reason 검증: 금지 패턴이면 재작성
+        let cleanedReason = rec.reason || '';
+        const forbiddenPatterns = [
+          /실제 사용자들이.*라고 평가/,
+          /리뷰에 따르면/,
+          /당신은.*선택했으므로/,
+          /추천합니다\s*$/,
+        ];
+        const hasForbiddenPattern = forbiddenPatterns.some(p => p.test(cleanedReason));
+        if (hasForbiddenPattern || cleanedReason.length < 20) {
+          console.log(`[FinalRecommend] ⚠️ reason 품질 낮음 (${i+1}위), 원본:`, cleanedReason.slice(0, 50));
+        }
+
         if (!product) {
           // pcode가 없으면 순서대로 매핑
-          const fallbackProduct = candidates[i];
+          const fallbackProduct = filteredCandidates[i];
           return {
             rank: i + 1,
             pcode: fallbackProduct?.pcode || '',
             product: fallbackProduct,
-            reason: rec.reason || '',
+            reason: cleanedReason,
             highlights: rec.highlights || [],
             concerns: rec.concerns,
             bestFor: rec.bestFor,
@@ -610,30 +717,39 @@ ${reviewRules}
           rank: rec.rank || i + 1,
           pcode: rec.pcode,
           product,
-          reason: rec.reason || '',
+          reason: cleanedReason,
           highlights: rec.highlights || [],
           concerns: rec.concerns,
           bestFor: rec.bestFor,
           reviewQuotes: rec.reviewQuotes || [],
         };
       });
+    } else {
+      console.error('[FinalRecommend] ❌ JSON 추출 실패, response:', text.slice(0, 200));
     }
   } catch (error) {
     console.error('[FinalRecommend] LLM error:', error);
   }
 
-  // 실패 시 점수 기반 정렬 (리뷰에서 첫 번째 내용 인용)
-  return candidates.slice(0, 3).map((p, i) => {
+  console.log('[FinalRecommend] ⚠️ 폴백 사용됨');
+
+  // 실패 시 점수 기반 정렬 - 개선된 폴백
+  return filteredCandidates.slice(0, 3).map((p, i) => {
     const productReviews = reviews[p.pcode] || [];
-    const sampleQuotes = productReviews.slice(0, 2).map(r => r.content.slice(0, 30));
+    const sampleQuotes = productReviews.slice(0, 2).map(r => r.content.slice(0, 50));
+
+    // 개선된 폴백 reason: 스펙 기반으로 작성
+    const specs = p.specSummary || '';
+    const brand = p.brand || '';
+
     return {
       rank: i + 1,
       pcode: p.pcode,
       product: p,
-      reason: sampleQuotes.length > 0
-        ? `실제 사용자들이 "${sampleQuotes[0]}..."라고 평가한 제품입니다.`
-        : `스펙 매칭 점수 ${p.matchScore}점으로 상위에 선정되었습니다.`,
-      highlights: p.matchedConditions.slice(0, 3),
+      reason: specs
+        ? `${brand} 제품으로, ${specs.slice(0, 60)}${specs.length > 60 ? '...' : ''}`
+        : `${brand || '해당'} 제품이 요청하신 조건에 가장 부합합니다.`,
+      highlights: p.matchedConditions?.slice(0, 3) || [],
       reviewQuotes: sampleQuotes,
     };
   });
@@ -659,31 +775,40 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    console.log(`\n🏆 [FinalRecommend] Starting: ${candidates.length}개 후보`);
+    console.log(`\n🏆 [FinalRecommend] Starting: ${candidates.length}개 후보 (새 아키텍처)`);
     const startTime = Date.now();
     const catName = categoryName || categoryKey;
 
     // ============================================================================
-    // 병렬 실행: LLM 추천 생성 + 스펙 정규화 + 장단점 생성
+    // 1단계: LLM으로 Top 3 선정 (120개 → 30개 사전 스크리닝 → Top 3)
     // ============================================================================
-    const [recommendations, normalizedSpecs, prosConsResults] = await Promise.all([
-      // 1. LLM으로 Top 3 선정
-      generateRecommendations(
-        catName,
-        candidates,
-        reviews || {},
-        collectedInfo || {},
-        balanceSelections || [],
-        negativeSelections || []
-      ),
-      // 2. 스펙 정규화 (Top 후보 3개만)
+    const recommendations = await generateRecommendations(
+      catName,
+      candidates,
+      reviews || {},
+      collectedInfo || {},
+      balanceSelections || [],
+      negativeSelections || []
+    );
+    
+    // 추천된 상품들의 pcode 추출
+    const recommendedPcodes = recommendations.map(r => r.pcode);
+    const recommendedProducts = recommendations.map(r => r.product).filter(Boolean);
+    
+    console.log(`[FinalRecommend] Top 3 selected: ${recommendedPcodes.join(', ')}`);
+
+    // ============================================================================
+    // 2단계: 추천된 3개에 대해서만 스펙 정규화 + 장단점 생성 (병렬)
+    // ============================================================================
+    const [normalizedSpecs, prosConsResults] = await Promise.all([
+      // 스펙 정규화 (추천된 3개만)
       normalizeSpecsForComparison(
-        candidates.slice(0, 3),
+        recommendedProducts as HardCutProduct[],
         catName
       ),
-      // 3. 장단점 생성 (Top 후보 3개만)
+      // 장단점 생성 (추천된 3개만)
       generateProsConsForProducts(
-        candidates.slice(0, 3),
+        recommendedProducts as HardCutProduct[],
         reviews || {},
         collectedInfo || {},
         catName

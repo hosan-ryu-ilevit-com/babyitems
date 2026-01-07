@@ -1,7 +1,7 @@
 # 분유포트 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T07:00:59.147Z
-> 분석 상품: 40개 | 분석 리뷰: 3,744개
+> 마지막 업데이트: 2026-01-07T09:28:09.767Z
+> 분석 상품: 28개 | 분석 리뷰: 3,744개
 
 ## 📈 2026년 시장 트렌드
 
@@ -148,27 +148,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=62275430)
 
-### 14. 락앤락 EJK814WHT
-- **브랜드**: 락앤락
-- **가격**: 38,400원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 무선포트 / 0.8L / 스테인리스 / 분리형 / 600W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 접이식포트 / 계란홀더
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=97957196)
-
-### 15. 보아르 VHEP-004WH
-- **브랜드**: 보아르
-- **가격**: 50,160원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 무선포트 / 1.5L / 스테인리스 / 일체형 / 1300W / 분유포트겸용 / 통주물 / 디지털디스플레이 / 보온기능 / 온도조절 / 타이머 / 전원표시램프 / 표면열차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93699128)
-
-### 16. 보랄 BR-T95WK
+### 14. 보랄 BR-T95WK
 - **브랜드**: 보랄
 - **가격**: 38,120원
 - **평점**: ⭐4.6 (34개 리뷰)
@@ -178,7 +158,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=19563770)
 
-### 17. 휴롬 TM-B22
+### 15. 휴롬 TM-B22
 - **브랜드**: 휴롬
 - **가격**: 156,450원
 - **평점**: ⭐3.5 (2개 리뷰)
@@ -188,35 +168,55 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=61841846)
 
-### 18. 디프 스마트 원터치 분유포트
-- **브랜드**: 디프
-- **가격**: 36,500원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 보온포트 / 1.3L / 유리 / 분리형 / 600W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 염소배출기능
+### 16. 신일전자 SEP-D800WSN
+- **브랜드**: 신일전자
+- **가격**: 54,390원
+- **평점**: ⭐4.8 (26개 리뷰)
+- **핵심 스펙**: 티포트 / 1.5L / 유리 / 분리형 / 800W / 분유포트겸용 / 디지털디스플레이 / 평면열판 / 수위표시창 / 코드수납 / 자동전원차단 / 계란홀더
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=102489293)
+- [상세보기](https://prod.danawa.com/info/?pcode=19976012)
 
-### 19. 보랄 BR-602D
-- **브랜드**: 보랄
-- **가격**: 39,800원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 무선포트 / 1.7L / 유리 / 일체형 / 1850W~2200W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 수위표시창 / 이물질거름망 / 코드수납 / 표면열차단 / 원터치뚜껑열림 / 자동전원차단
+### 17. 휴빅 HB-90TW
+- **브랜드**: 휴빅
+- **가격**: 37,800원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 티포트 / 0.4L / 유리 / 분리형 / 500W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 수위표시창 / 자동전원차단
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=102491495)
+- [상세보기](https://prod.danawa.com/info/?pcode=102002999)
 
-### 20. 마이어 ME-820
-- **브랜드**: 마이어
-- **가격**: 63,700원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 무선포트 / 1.7L / 스테인리스 / 분리형 / 1850~2200W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 전원표시램프 / 코드수납 / 표면열차단
+### 18. 남양키친플라워 KEK-JP750WH
+- **브랜드**: 남양키친플라워
+- **가격**: 53,280원
+- **평점**: ⭐4.6 (93개 리뷰)
+- **핵심 스펙**: 보온포트 / 5L / 스테인리스 / 일체형 / 750~890W / 자동급수 / 컵급수 / 재가열 / 분유포트겸용 / 보온기능 / 온도조절 / 염소배출기능 / 수위표시창 / 전원표시램프 / 버튼잠금
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=73324721)
+- [상세보기](https://prod.danawa.com/info/?pcode=12861284)
+
+### 19. 한경희생활과학 HEK-B176
+- **브랜드**: 한경희생활과학
+- **가격**: 36,800원
+- **평점**: ⭐4.3 (21개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.7L / 스테인리스 / 2200W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 전원표시램프 / 코드수납 / 표면열차단 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=69699149)
+
+### 20. 신일전자 SEP-S16LKP
+- **브랜드**: 신일전자
+- **가격**: 51,060원
+- **평점**: ⭐5 (4개 리뷰)
+- **핵심 스펙**: 티포트 / 2L / 유리 / 분리형 / 800W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 타이머 / 수위표시창 / 이물질거름망 / 전원표시램프 / 자동전원차단 / 버튼잠금
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=57659630)
 
 ---
 
@@ -231,8 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz0jSUdwGwie0mnTxMDEyh4fXdzYMHKzw5MGKAeRv_T-MCuEQWTjZAexQihksZAJcKaVFpOwxcd6NyiZF2qcIYFqmp31psXupGUUaW-4x8iJJdNSmgM5A6EHMiweOZUjTVicbonjE=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH36M6qdrmP_MnW3c7ZhmBsJtsKIBYB3cX8cNqV174PUsDmGYwBsKjUEShnqyGdZywkwhsaUyYIKFgbsYbg3yhXml01NwUweKMAn-KfEst8JH78ktZDZqaFVcXuI3nB3TMhthJb5R0=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwSo8kYaaweG2thHzPzm5VkXqR6-6ga1XHoIv6ND-43b_9-tX-UMfTLjJuH64Bg9N3Wx0skVOOndu1AW21Q0SYnx_3CclD2OJ1h-kYSnjYr09t7DvwJCzD0h85DDtocj_XMQ1LkbZtZqZbMeFMG7CdV1-V91K0zNoLxWrwdn5mgTqxGe6psc-VtiWUdj7t607g0YbehSP9rE5pvvU5z4KlPmO4zptPTNyKDQvODu5gN9POt1QKnH2bTON1n1kjqUzlQ7lkbF2HTA7dFoFxhcCy5HXesNlOcYWqnfTK2w==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZNUOolPuS0apFCQ_i3V8iOu4dwM5SI_EKhVk3BoDcddz7tIBEsUgOQmZaR9kZyu2KbNEqTsN6g4llfYjwzo_AypbEq7whqeWJSTdrQ5CbGe3FP8jg5flLIKo=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfRn2a3sVoSZMxldZeUrwVnky4_cDcimjgczkx-nnzt-mhrT462no-mFM8BAvfQLPslaCAH2MB87-AS5AxBdmU0kWHHDE0ZWVUYUZgjipd22p_vKkWBhu8zNsfGgU=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-gOZmRAC1Js4-8iuE8xghK2mwdnqgI66-sS2iVOh2WKKxRsZMgI5MVI24n4BjFmrQNj3ntRvvaZR6hc66CpBrNcsLo6YWEryVCIt8lsZcatXsrDFXtlbgMj2DFmW4i1jTfCLwPebP0UaipCayVxAlKSENtBYFm6F5Cch4vbBn9QfRSx3W)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyYZ1Y-QKxYJ0ZEfafsK7IiW7-ELg2cTmNUYsXxw2o-BkFM2CWqaRfYaGM_Z3_Rl5HOopQJ9qbPCdZRQBYOgt01nVamK9EmhkFfep_aJteN_0YcM-keGzRkUIp1AvYtj2xX2mmHAA=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuKneco_t6P2I12n31Pvqk6MCe6O9o_fb_eBXk5rtc7kzxXPzQex84qttNsl9OGKQq1JivKuM5OXDdiJHHbvB0XF6w0ZRtyWt3YkZQQCrov1hNcBfVVLCB-P64ZccraCh-S0ree8s=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe-o_32czQSZNmixN1Pp17pZw7NbscWnfLtq-ZHPWdXenuFogD9q3X-nef7KAUpnkHyCkNZB8TSW4S7OIBUGcmHt3ImwxMFETgIJvXDBX4dgY_VAmtgyFPcTY8ZIRFkTMc58zeShA=)
+- [edwg.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPgu5yzWeaSmyW7qjZWnpJkOtXWu0nfw25g9uoLveD5XEde-an9rzDLqx0WDwBF4JuKMQ5BB1MgFxk8ftqCeZhsICu8xUtPSLXjXGLxqfH7zseyb7pRRluoA==)

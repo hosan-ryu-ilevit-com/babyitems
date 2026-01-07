@@ -1065,7 +1065,7 @@ export function AgenticLoadingPhase({
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className={`w-1.5 h-1.5 bg-green-500 rounded-full ${!isComplete ? 'animate-pulse' : ''}`} />
               <p className="text-[12px] font-medium text-gray-400 uppercase tracking-wider">
-                실시간 분석 • {new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })} {new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}분
+                실시간 분석 • {new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })} {new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
               </p>
             </div>
           </div>
@@ -1108,25 +1108,25 @@ export function createDefaultSteps(categoryName: string): AnalysisStep[] {
   return [
     {
       id: 'product_analysis',
-      label: '실시간 인기상품 분석',
+      label: '실시간 인기 TOP 100 분석',
       type: 'analyze',
       status: 'pending',
     },
     {
       id: 'web_search',
-      label: '웹검색으로 트렌드 수집',
+      label: '웹검색 트렌드 수집',
       type: 'search',
       status: 'pending',
     },
     {
       id: 'review_extraction',
-      label: '리뷰 키워드 추출',
+      label: '내돈내산 리뷰 분석',
       type: 'analyze',
       status: 'pending',
     },
     {
       id: 'question_generation',
-      label: '맞춤 질문 생성',
+      label: '맞춤 구매질문 생성',
       type: 'generate',
       status: 'pending',
     },

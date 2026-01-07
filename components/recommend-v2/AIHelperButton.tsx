@@ -74,7 +74,7 @@ export function AIHelperButton({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsExpanded(false)}
-            className="fixed inset-0 bg-black/50 z-[90]"
+            className="fixed inset-0 bg-black/50 z-[111]"
           />
         )}
       </AnimatePresence>
@@ -88,7 +88,7 @@ export function AIHelperButton({
         onClick={handleClick}
         disabled={disabled}
         className={`flex items-center justify-center h-[46px] rounded-xl ai-gradient-border w-full bg-white relative ${
-          isExpanded ? 'z-[100]' : 'z-auto'
+          isExpanded ? 'z-[112]' : 'z-auto'
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         <div className="flex items-center gap-2">
@@ -124,7 +124,7 @@ export function AIHelperButton({
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="w-full overflow-hidden z-[100] relative"
+            className="w-full overflow-hidden z-[112] relative"
           >
             <div className="flex flex-col gap-2 w-full">
               {/* AI에게 직접 물어보기 */}

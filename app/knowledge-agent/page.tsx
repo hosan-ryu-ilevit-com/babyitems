@@ -9,18 +9,11 @@ import { MagnifyingGlass, X, ArrowRight, CaretLeft } from '@phosphor-icons/react
 
 const CATEGORIES_DATA: Record<string, any> = {
   "출산/육아용품": {
-    "유아 가구": {
-      "code": "BABY_001",
-      "emoji": "🛌",
+    "외출용품": {
+      "code": "BABY_008",
+      "emoji": "🛒",
       "children": [
-        "유아침대", "유아식탁의자", "유아소파", "유아책상", "하이체어"
-      ]
-    },
-    "신생아/영유아 완구": {
-      "code": "BABY_002",
-      "emoji": "🧸",
-      "children": [
-        "아기체육관", "러닝홈", "모빌", "바운서", "쏘서", "점퍼루", "보행기", "애착인형", "딸랑이"
+        "유모차", "카시트", "아기띠", "힙시트", "유모차용품"
       ]
     },
     "젖병/수유용품": {
@@ -30,6 +23,13 @@ const CATEGORIES_DATA: Record<string, any> = {
         "젖병", "쪽쪽이", "분유포트", "분유제조기", "보틀워머", "젖병솔", "유축기", "수유패드"
       ]
     },
+    "기저귀/위생": {
+      "code": "BABY_006",
+      "emoji": "👶",
+      "children": [
+        "기저귀", "아기물티슈", "분유", "이유식", "유아간식"
+      ]
+    },
     "이유식용품": {
       "code": "BABY_004",
       "emoji": "🥣",
@@ -37,69 +37,76 @@ const CATEGORIES_DATA: Record<string, any> = {
         "빨대컵", "이유식기", "유아수저세트", "턱받이", "치발기", "이유식조리기"
       ]
     },
-    "위생/목욕용품": {
+    "건강/목욕용품": {
       "code": "BABY_005",
       "emoji": "🧼",
       "children": [
-        "아기욕조", "콧물흡입기", "유아치약", "유아칫솔", "유아변기", "샴푸캡", "목욕장난감", "손톱깎이", "탕온계", "유아세제", "유아화장품"
+        "아기욕조", "콧물흡입기", "체온계", "유아치약", "유아칫솔", "유아변기", "손톱깎이", "유아세제"
       ]
     },
-    "기저귀/식품": {
-      "code": "BABY_006",
-      "emoji": "👶",
+    "유아 가구": {
+      "code": "BABY_001",
+      "emoji": "🛌",
       "children": [
-        "기저귀", "물티슈", "분유", "이유식", "유아간식"
+        "유아침대", "유아의자", "유아소파", "유아책상"
+      ]
+    },
+    "신생아/영유아 완구": {
+      "code": "BABY_002",
+      "emoji": "🧸",
+      "children": [
+        "아기체육관", "바운서", "점퍼루", "보행기", "애착인형"
       ]
     },
     "인기 완구/교구": {
       "code": "BABY_007",
       "emoji": "🎨",
       "children": [
-        "캐릭터완구", "레고", "로봇장난감", "소꿉놀이", "인형", "킥보드", "미술놀이", "과학완구", "놀이방매트"
-      ]
-    },
-    "외출용품": {
-      "code": "BABY_008",
-      "emoji": "🛒",
-      "children": [
-        "유모차", "카시트", "아기띠", "유모차용품", "카시트용품"
+        "블록장난감", "로봇장난감", "소꿉놀이", "인형", "킥보드", "놀이방매트"
       ]
     }
   },
   "생활/주방가전": {
-    "세탁/건조가전": {
-      "code": "APP_001",
-      "emoji": "👕",
-      "children": [
-        "워시타워", "세탁기", "건조기", "스타일러", "신발건조기"
-      ]
-    },
     "청소가전": {
       "code": "APP_002",
       "emoji": "🧹",
       "children": [
-        "로봇청소기", "무선청소기", "물걸레청소기", "침구청소기", "스팀청소기", "창문청소기"
+        "로봇청소기", "무선청소기", "물걸레청소기", "침구청소기"
       ]
     },
     "계절/환경가전": {
       "code": "APP_003",
       "emoji": "🌡️",
       "children": [
-        "가습기", "공기청정기", "제습기", "에어컨", "선풍기", "전기히터", "온수매트"
+        "가습기", "공기청정기", "제습기", "에어컨", "선풍기", "전기히터"
       ]
     },
     "주방가전": {
       "code": "APP_004",
       "emoji": "🍳",
       "children": [
-        "에어프라이어", "전기밥솥", "전자레인지", "식기세척기", "음식물처리기", "커피머신", "전기포트", "믹서기"
+        "에어프라이어", "전기밥솥", "전자레인지", "식기세척기", "음식물처리기", "전기포트"
+      ]
+    },
+    "세탁/건조가전": {
+      "code": "APP_001",
+      "emoji": "👕",
+      "children": [
+        "세탁기", "건조기", "의류관리기"
       ]
     },
     "이미용/건강가전": {
       "code": "APP_005",
       "emoji": "💇",
       "children": [
-        "헤어드라이어", "고데기", "전동칫솔", "체중계", "안마의자"
+        "헤어드라이어", "고데기", "전동칫솔", "체중계"
+      ]
+    },
+    "PC/주변기기": {
+      "code": "APP_006",
+      "emoji": "🖥️",
+      "children": [
+        "모니터", "4K모니터", "무선마우스", "기계식키보드", "노트북거치대", "웹캠"
       ]
     }
   }
@@ -125,7 +132,7 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading }: Confi
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
         >
           <motion.div 
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/50"
             onClick={onCancel}
           />
           <motion.div
@@ -147,12 +154,12 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading }: Confi
               </div>
               
               <p className="text-[14px] text-gray-500 mb-5 leading-relaxed">
-                해당 키워드를 바탕으로 실시간 트렌드와 상품을 분석하여 최적의 추천을 도와드릴게요.
+                실시간 트렌드와 인기 상품을 분석하여 최적의 추천을 도와드릴게요.
               </p>
               
               <div className="p-4 bg-purple-50 rounded-2xl border border-purple-100 mb-6">
                 <p className="text-center text-[18px] font-bold text-purple-600 break-keep">
-                  "{keyword}"
+                  {keyword}
                 </p>
               </div>
               
@@ -172,7 +179,7 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading }: Confi
                   {isLoading ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
-                    <>분석 시작 <ArrowRight size={18} weight="bold" /></>
+                    <>분석 시작</>
                   )}
                 </button>
               </div>
