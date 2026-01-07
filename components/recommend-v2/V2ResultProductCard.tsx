@@ -194,11 +194,11 @@ export function V2ResultProductCard({
       {/* 추천 이유 (recommendationReason이 있는 경우) */}
       {product.recommendationReason && (
         <div className="mt-4">
-          {/* 한줄 평 헤더 */}
+          {/* 추천 이유 헤더 */}
           <div className="flex items-center gap-1.5 mb-2.5 px-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-            <span className="text-[16px] font-medium ai-gradient-text">한줄 평</span>
+            <span className="text-[16px] font-medium ai-gradient-text">추천 이유</span>
           </div>
 
           {/* 추천 이유 (인용구 스타일) */}

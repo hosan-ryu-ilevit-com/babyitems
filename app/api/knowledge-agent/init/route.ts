@@ -590,10 +590,11 @@ ${productList}
 
 /**
  * 예산 옵션 생성 - 저가/고가 상품 모두 대응
+ * - "~원 이하" 형식으로 최대치만 표시 (더 직관적)
+ * - 가격 분포 정보 (평균, 중앙값, 프리미엄 라인) 포함
  * - 1만원 이하: 천원 단위 표기
  * - 1만원~10만원: 만원 단위 표기
  * - 10만원 이상: 10만원 단위 표기
- * - 중복 방지 로직 포함
  */
 function generateBudgetOptions(
   minPrice: number,
@@ -603,6 +604,7 @@ function generateBudgetOptions(
   // 가격 구간 계산
   const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
   const midMax = Math.round(avgPrice * 1.3);
+  const premiumStart = Math.round(avgPrice * 1.5);
 
   // 표기 단위 결정 (평균가 기준 - 저가 상품 대응)
   const useThousandUnit = avgPrice < 30000; // 평균 3만원 미만이면 천원 단위
@@ -618,7 +620,7 @@ function generateBudgetOptions(
       } else if (thousands >= 10) {
         const man = Math.floor(thousands / 10);
         const cheon = thousands % 10;
-        return `${man}만${cheon}천`;
+        return `${man}만 ${cheon}천`;
       }
       return `${thousands}천`;
     } else if (useTenThousandUnit) {
@@ -630,37 +632,50 @@ function generateBudgetOptions(
     }
   };
 
-  // 구간 레이블 생성
-  const entryLabel = `${formatPrice(minPrice)}~${formatPrice(entryMax)}원대`;
-  const midLabel = `${formatPrice(entryMax)}~${formatPrice(midMax)}원대`;
-  const premiumLabel = `${formatPrice(midMax)}원 이상`;
+  // 숫자 포맷 헬퍼 (description용)
+  const formatPriceNum = (price: number): string => {
+    if (price >= 10000) {
+      const man = Math.floor(price / 10000);
+      const cheon = Math.round((price % 10000) / 1000);
+      if (cheon > 0) {
+        return `${man}만${cheon}천`;
+      }
+      return `${man}만`;
+    }
+    return `${Math.round(price / 1000)}천`;
+  };
+
+  // 구간 레이블 생성 - "~원 이하" 형식 (최대치만 표시)
+  const entryLabel = `${formatPrice(entryMax)}원 이하`;
+  const midLabel = `${formatPrice(midMax)}원 이하`;
+  const premiumLabel = `${formatPrice(premiumStart)}원 이상`;
 
   // 중복 체크 및 보정
   const options: Array<{ value: string; label: string; description: string }> = [];
 
-  // Entry 옵션
+  // Entry 옵션 - 가격 분포 정보 포함
   options.push({
     value: 'entry',
     label: entryLabel,
-    description: '가성비 모델'
+    description: `가성비 모델 · 최저가 ${formatPriceNum(minPrice)}원부터`
   });
 
   // Mid 옵션 - Entry와 중복되면 스킵
-  if (midLabel !== entryLabel && formatPrice(entryMax) !== formatPrice(midMax)) {
+  if (entryLabel !== midLabel && formatPrice(entryMax) !== formatPrice(midMax)) {
     options.push({
       value: 'mid',
       label: midLabel,
-      description: '인기 가격대'
+      description: `평균가 ${formatPriceNum(avgPrice)}원 · 인기 가격대`
     });
   }
 
   // Premium 옵션 - 이전 옵션과 시작 가격이 겹치지 않으면 추가
   const lastOption = options[options.length - 1];
-  if (!lastOption.label.includes(formatPrice(midMax))) {
+  if (!lastOption.label.includes(formatPrice(premiumStart))) {
     options.push({
       value: 'premium',
       label: premiumLabel,
-      description: '프리미엄'
+      description: `프리미엄 라인 · 최고가 ${formatPriceNum(maxPrice)}원`
     });
   }
 
@@ -671,9 +686,9 @@ function generateBudgetOptions(
     const highMin = maxPrice - third;
 
     return [
-      { value: 'low', label: `${formatPrice(minPrice)}~${formatPrice(lowMax)}원대`, description: '저가형' },
-      { value: 'mid', label: `${formatPrice(lowMax)}~${formatPrice(highMin)}원대`, description: '중간 가격대' },
-      { value: 'high', label: `${formatPrice(highMin)}원 이상`, description: '고가형' }
+      { value: 'low', label: `${formatPrice(lowMax)}원 이하`, description: `가성비 · 최저가 ${formatPriceNum(minPrice)}원부터` },
+      { value: 'mid', label: `${formatPrice(highMin)}원 이하`, description: `평균가 ${formatPriceNum(avgPrice)}원 · 인기 가격대` },
+      { value: 'high', label: `${formatPrice(highMin)}원 이상`, description: `프리미엄 · 최고가 ${formatPriceNum(maxPrice)}원` }
     ];
   }
 

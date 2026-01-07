@@ -800,21 +800,33 @@ export default function KnowledgeAgentPage() {
   const [isHardcutVisualDone, setIsHardcutVisualDone] = useState(false); // 하드컷팅 결과 (시각화용)
   
   // 최종 추천 단계의 타임라인 UX 헬퍼
-  const runFinalTimelineUX = useCallback(async (candidateCount: number, balanceSelections: any[], negativeSelections: string[]) => {
+  const runFinalTimelineUX = useCallback(async (candidateCount: number, userSelectionCount: number, negativeCount: number) => {
     setIsCalculating(true);
     setTimelineSteps([]);
     setLoadingProgress(0);
 
     const steps: TimelineStep[] = [];
-    
-    // 1단계: 선호도 및 제약사항 분석
+
+    // 선택 조건 텍스트 동적 생성
+    const conditionParts: string[] = [];
+    if (userSelectionCount > 0) {
+      conditionParts.push(`${userSelectionCount}개의 선호 조건`);
+    }
+    if (negativeCount > 0) {
+      conditionParts.push(`${negativeCount}개의 피하고 싶은 조건`);
+    }
+    const conditionText = conditionParts.length > 0
+      ? conditionParts.join('과 ')
+      : '선택하신 조건';
+
+    // 1단계: 선호도 분석
     const step1: TimelineStep = {
       id: 'step-1',
-      title: '고객님의 선호도 및 제약사항 정밀 분석 중',
+      title: '선호도 맞춤 분석 중',
       icon: '',
       details: [
-        `선택하신 ${balanceSelections.length}개의 주요 취향과 ${negativeSelections.length}개의 회피 조건을 바탕으로 추천 로직을 구성하고 있습니다.`,
-        '각 제품의 스펙 데이터와 실사용자들의 리뷰 키워드를 대조 분석합니다.'
+        `${conditionText}을 기반으로 맞춤 추천을 준비하고 있어요.`,
+        '제품 스펙과 실사용자 리뷰를 꼼꼼히 비교 분석합니다.'
       ],
       timestamp: Date.now(),
       status: 'completed'
@@ -824,14 +836,15 @@ export default function KnowledgeAgentPage() {
     setLoadingProgress(33);
     await new Promise(resolve => setTimeout(resolve, 3000));
 
-    // 2단계: 후보군 필터링 및 점수 계산
+    // 2단계: 후보군 비교
+    const candidateText = candidateCount > 0 ? `${candidateCount}개` : '전체';
     const step2: TimelineStep = {
       id: 'step-2',
-      title: `${candidateCount}개 후보 제품군 시뮬레이션 중`,
+      title: `${candidateText} 제품 꼼꼼히 비교 중`,
       icon: '',
       details: [
-        '각 제품별 장단점을 점수화하여 고객님께 가장 적합한 순서로 정렬하고 있습니다.',
-        '최신 가격 정보와 재고 현황을 함께 확인하고 있습니다.'
+        '각 제품의 장단점을 하나하나 점수로 환산하고 있어요.',
+        '가격 대비 만족도가 높은 제품을 찾고 있습니다.'
       ],
       timestamp: Date.now(),
       status: 'completed'
@@ -841,14 +854,14 @@ export default function KnowledgeAgentPage() {
     setLoadingProgress(66);
     await new Promise(resolve => setTimeout(resolve, 4000));
 
-    // 3단계: 최종 TOP 3 선정 및 리포트 작성
+    // 3단계: 최종 TOP 3 선정
     const step3: TimelineStep = {
       id: 'step-3',
-      title: '최종 TOP 3 추천 상품 선정 완료',
+      title: '딱 맞는 TOP 3 선정 완료!',
       icon: '',
       details: [
-        '가장 만족도가 높을 것으로 예상되는 3가지 제품을 최종 선정했습니다.',
-        '각 제품을 추천하는 상세 근거와 구매 팁을 정리하고 있습니다.'
+        '고객님께 가장 잘 맞을 것 같은 3가지 제품을 골랐어요.',
+        '왜 이 제품을 추천하는지 상세한 이유도 함께 정리했습니다.'
       ],
       timestamp: Date.now(),
       status: 'completed'
@@ -1532,6 +1545,61 @@ export default function KnowledgeAgentPage() {
   };
 
   /**
+   * Top3 확정 즉시 가격 정보 병렬 프리페치
+   * - 리뷰 크롤링과 별도로 빠르게 가격만 가져옴
+   * - PDP 열기 전에 미리 캐싱하여 즉시 표시
+   */
+  const fetchPricesForTop3 = async (pcodes: string[]) => {
+    if (pcodes.length === 0) return;
+
+    console.log(`[V2 Flow] 💰 Top3 가격 프리페치 시작: ${pcodes.join(', ')}`);
+
+    // 병렬로 모든 가격 정보 가져오기
+    const pricePromises = pcodes.map(async (pcode) => {
+      // 이미 캐시된 경우 스킵
+      if (pricesData[pcode]?.lowestPrice) {
+        console.log(`[V2 Flow] 💰 ${pcode} 이미 캐시됨`);
+        return null;
+      }
+
+      try {
+        const res = await fetch(`/api/knowledge-agent/prices?pcode=${pcode}`);
+        const data = await res.json();
+        
+        if (data.success) {
+          console.log(`[V2 Flow] 💰 ${pcode} 가격 로드 완료: ${data.lowestPrice?.toLocaleString()}원`);
+          return {
+            pcode,
+            lowestPrice: data.lowestPrice,
+            lowestMall: data.lowestMall,
+            lowestDelivery: data.lowestDelivery,
+            lowestLink: data.lowestLink || null,
+            prices: data.mallPrices || [],
+          };
+        }
+      } catch (error) {
+        console.error(`[V2 Flow] 💰 ${pcode} 가격 로드 실패:`, error);
+      }
+      return null;
+    });
+
+    const results = await Promise.all(pricePromises);
+    
+    // 성공한 결과들을 pricesData에 병합
+    const newPrices: Record<string, any> = {};
+    results.forEach((result) => {
+      if (result) {
+        newPrices[result.pcode] = result;
+      }
+    });
+
+    if (Object.keys(newPrices).length > 0) {
+      setPricesData(prev => ({ ...prev, ...newPrices }));
+      console.log(`[V2 Flow] 💰 가격 캐시 업데이트: ${Object.keys(newPrices).length}개 상품`);
+    }
+  };
+
+  /**
    * Top3 확정 후 추가 리뷰 크롤링 (50개씩, 병렬)
    * - 백그라운드에서 실행되어 메인 플로우 차단 안함
    * - 결과는 reviewsData에 병합되어 PDP에서 사용
@@ -1648,23 +1716,32 @@ export default function KnowledgeAgentPage() {
       if (data.success) {
         console.log(`[V2 Flow] Final recommendations: ${data.recommendations.length}`);
 
-        // Top3 확정 후 추가 리뷰 크롤링 (백그라운드, 50개 미만이면 실행)
-        const top3Pcodes = data.recommendations
+        // Top3 pcode 추출
+        const allTop3Pcodes = data.recommendations
           .slice(0, 3)
           .map((r: any) => r.pcode)
-          .filter((pcode: string) => {
-            const currentCount = reviewsData[pcode]?.length || 0;
-            return pcode && currentCount < 50;
-          });
+          .filter(Boolean);
+
+        // ⚡ Top3 확정 즉시 가격 프리페치 (백그라운드, 리뷰 크롤링보다 빠름)
+        if (allTop3Pcodes.length > 0) {
+          console.log(`[V2 Flow] 💰 가격 프리페치 시작: ${allTop3Pcodes.join(', ')}`);
+          fetchPricesForTop3(allTop3Pcodes); // await 없이 백그라운드 실행
+        }
+
+        // Top3 확정 후 추가 리뷰 크롤링 (백그라운드, 50개 미만이면 실행)
+        const top3PcodesForReview = allTop3Pcodes.filter((pcode: string) => {
+          const currentCount = reviewsData[pcode]?.length || 0;
+          return currentCount < 50;
+        });
 
         console.log(`[V2 Flow] 🔍 Top3 리뷰 현황:`, data.recommendations.slice(0, 3).map((r: any) =>
           `${r.pcode}: ${reviewsData[r.pcode]?.length || 0}개`
         ).join(', '));
 
-        if (top3Pcodes.length > 0) {
-          console.log(`[V2 Flow] 🚀 추가 크롤링 대상: ${top3Pcodes.join(', ')}`);
+        if (top3PcodesForReview.length > 0) {
+          console.log(`[V2 Flow] 🚀 추가 크롤링 대상: ${top3PcodesForReview.join(', ')}`);
           // 백그라운드 실행 (await 없이)
-          crawlAdditionalReviews(top3Pcodes);
+          crawlAdditionalReviews(top3PcodesForReview);
         }
 
         return data.recommendations;
@@ -1687,7 +1764,7 @@ export default function KnowledgeAgentPage() {
     setMessages(prev => [...prev, {
       id: finalInputMsgId,
       role: 'assistant',
-      content: '후보 상품이 추려졌어요! 🎯\n\n마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없으시면 바로 "추천받기" 버튼을 눌러주세요!',
+      content: '추천 상품들을 잘 추렸어요! 🎯\n\n마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없다면 아래 [바로 추천받기] 버튼을 눌러주세요!',
       typing: true,
       timestamp: Date.now()
     }]);
@@ -1720,8 +1797,12 @@ export default function KnowledgeAgentPage() {
         ? collectedInfo['__avoid_negatives__']
         : [];
 
+      // 사용자 선택 조건 수 계산 (__로 시작하는 내부 키 제외)
+      const userSelectionCount = Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length;
+      const candidateCount = crawledProducts.length || hardCutProducts.length;
+
       // 타임라인 UX와 실제 추천 생성을 병렬로 실행
-      const uxPromise = runFinalTimelineUX(hardCutProducts.length, [], avoidNegatives);
+      const uxPromise = runFinalTimelineUX(candidateCount, userSelectionCount, avoidNegatives.length);
       const apiPromise = handleV2FinalRecommend([], avoidNegatives);
       
       const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
@@ -1760,6 +1841,21 @@ export default function KnowledgeAgentPage() {
           setIsProductAnalysisLoading(true);
           try {
             console.log('[V2 Flow - FinalInput] Fetching product analysis for PDP...');
+
+            // collectedInfo에서 선호 조건 추출 (__로 시작하는 내부 키 제외)
+            const userPreferences = Object.entries(collectedInfo)
+              .filter(([key]) => !key.startsWith('__'))
+              .map(([questionId, value]) => {
+                // questionTodos에서 해당 질문 찾기
+                const question = questionTodos.find((q: QuestionTodo) => q.id === questionId);
+                const selectedLabel = Array.isArray(value) ? value.join(', ') : String(value);
+                return {
+                  questionId,
+                  selectedLabel,
+                  questionText: question?.question || questionId,
+                };
+              });
+
             const analysisRes = await fetch('/api/knowledge-agent/product-analysis', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -1779,7 +1875,11 @@ export default function KnowledgeAgentPage() {
                 })),
                 userContext: {
                   collectedInfo,
-                  balanceSelections: [],
+                  questionTodos: questionTodos.map((q: QuestionTodo) => ({
+                    id: q.id,
+                    question: q.question,
+                  })),
+                  balanceSelections: userPreferences,
                   negativeSelections: avoidNegatives,
                   conversationSummary: messages
                     .filter((m: ChatMessage) => m.role === 'assistant' && m.content)
@@ -1889,10 +1989,11 @@ export default function KnowledgeAgentPage() {
     if (v2FlowEnabled && hardCutProducts.length > 0) {
       console.log('[V2 Flow] No negative options after balance, going to result');
       setIsTyping(true);
-      
+
       try {
         // 타임라인 UX와 실제 추천 생성을 병렬로 실행
-        const uxPromise = runFinalTimelineUX(hardCutProducts.length, balanceSelectionsForV2, []);
+        const candidateCount = crawledProducts.length || hardCutProducts.length;
+        const uxPromise = runFinalTimelineUX(candidateCount, balanceSelectionsForV2.length, 0);
         const apiPromise = handleV2FinalRecommend(balanceSelectionsForV2, []);
         
         const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
@@ -1951,10 +2052,11 @@ export default function KnowledgeAgentPage() {
     // V2 Flow: 하드컷팅된 상품이 있으면 V2 최종 추천 사용
     if (v2FlowEnabled && hardCutProducts.length > 0) {
       setIsTyping(true);
-      
+
       try {
         // 타임라인 UX와 실제 추천 생성을 병렬로 실행
-        const uxPromise = runFinalTimelineUX(hardCutProducts.length, savedBalanceSelections, selectedLabels);
+        const candidateCount = crawledProducts.length || hardCutProducts.length;
+        const uxPromise = runFinalTimelineUX(candidateCount, savedBalanceSelections.length, selectedLabels.length);
 
         // ⚠️ 새 플로우: Top 3 먼저 선정 (리뷰 없이) → 그 후 리뷰 크롤링
         console.log('[V2 Flow] Step 1: Selecting Top 3 without reviews...');
@@ -2628,6 +2730,7 @@ export default function KnowledgeAgentPage() {
         return (
         <ProductDetailModal
           initialTab={modalInitialTab}
+          initialAverageRating={selectedProduct.rating || selectedProduct.averageRating}
           productData={{
             product: {
               id: selectedProduct.id || selectedProduct.pcode,
@@ -2676,12 +2779,22 @@ export default function KnowledgeAgentPage() {
             date: r.date || r.review_date || null,
             mallName: r.mallName || r.mall_name || null,
           }))}
-          danawaData={selectedProduct.danawaData ? {
-            lowestPrice: selectedProduct.danawaData.lowestPrice || selectedProduct.price || 0,
-            lowestMall: selectedProduct.danawaData.lowestMall || '',
-            productName: selectedProduct.danawaData.productName || selectedProduct.title || selectedProduct.name || '',
-            prices: selectedProduct.danawaData.prices || [],
-          } : undefined}
+          danawaData={(() => {
+            // pricesData 캐시 우선 사용 (프리페치된 데이터)
+            const pcode = selectedProduct.pcode || selectedProduct.id;
+            const cachedPrice = pricesData[pcode];
+            const existingData = selectedProduct.danawaData;
+            
+            if (cachedPrice?.lowestPrice || existingData?.lowestPrice) {
+              return {
+                lowestPrice: cachedPrice?.lowestPrice || existingData?.lowestPrice || selectedProduct.price || 0,
+                lowestMall: cachedPrice?.lowestMall || existingData?.lowestMall || '',
+                productName: existingData?.productName || selectedProduct.title || selectedProduct.name || '',
+                prices: cachedPrice?.prices || existingData?.prices || [],
+              };
+            }
+            return undefined;
+          })()}
         />
         );
       })()}

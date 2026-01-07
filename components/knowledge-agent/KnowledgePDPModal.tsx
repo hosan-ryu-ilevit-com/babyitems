@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Star, ShoppingCart, ArrowRight } from '@phosphor-icons/react/dist/ssr';
+import { X, Star, ShoppingCart, ArrowRight, CaretDown, CaretUp, Storefront, Truck, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
 import {
   FcIdea,
   FcApproval,
@@ -27,9 +27,27 @@ interface ReviewData {
   mallName?: string;
 }
 
+interface MallPrice {
+  mall: string;
+  price: number;
+  delivery: string;
+  link?: string;
+}
+
+interface PriceData {
+  loading: boolean;
+  lowestPrice: number | null;
+  lowestMall: string | null;
+  lowestDelivery: string | null;
+  mallPrices: MallPrice[];
+  mallCount: number;
+  error?: string;
+}
+
 interface KnowledgePDPModalProps {
   product: {
     id: string;
+    pcode?: string;  // 다나와 pcode
     title: string;
     brand?: string;
     price: number;
@@ -50,6 +68,56 @@ interface KnowledgePDPModalProps {
 
 export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePDPModalProps) {
   const [isExiting, setIsExiting] = useState(false);
+  const [showAllPrices, setShowAllPrices] = useState(false);
+  const [priceData, setPriceData] = useState<PriceData>({
+    loading: false,
+    lowestPrice: null,
+    lowestMall: null,
+    lowestDelivery: null,
+    mallPrices: [],
+    mallCount: 0,
+  });
+
+  // Fetch prices from Danawa
+  const fetchPrices = useCallback(async (pcode: string) => {
+    setPriceData(prev => ({ ...prev, loading: true, error: undefined }));
+
+    try {
+      const res = await fetch(`/api/knowledge-agent/prices?pcode=${pcode}`);
+      const data = await res.json();
+
+      if (data.success) {
+        setPriceData({
+          loading: false,
+          lowestPrice: data.lowestPrice,
+          lowestMall: data.lowestMall,
+          lowestDelivery: data.lowestDelivery,
+          mallPrices: data.mallPrices || [],
+          mallCount: data.mallCount || 0,
+        });
+      } else {
+        setPriceData(prev => ({
+          ...prev,
+          loading: false,
+          error: data.error || 'Failed to fetch prices',
+        }));
+      }
+    } catch (error) {
+      setPriceData(prev => ({
+        ...prev,
+        loading: false,
+        error: error instanceof Error ? error.message : 'Network error',
+      }));
+    }
+  }, []);
+
+  // Fetch prices on mount if pcode exists
+  useEffect(() => {
+    const pcode = product.pcode || product.id;
+    if (pcode && /^\d+$/.test(pcode)) {
+      fetchPrices(pcode);
+    }
+  }, [product.pcode, product.id, fetchPrices]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -166,27 +234,161 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
               {product.title}
             </h2>
 
-            <div className="flex items-center justify-between bg-white p-5 rounded-[24px] border border-gray-100 shadow-sm">
-               <div className="flex flex-col gap-0.5">
-                  <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Expected Price</span>
-                  <div className="flex items-center gap-1">
-                    <FcCurrencyExchange size={18} />
-                    <span className="text-[22px] font-black text-blue-600">
-                      {product.price.toLocaleString()}
-                    </span>
-                    <span className="text-[15px] font-bold text-blue-600">원</span>
+            {/* 실시간 가격 비교 */}
+            <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden">
+              {/* 최저가 헤더 */}
+              <div className="p-5 border-b border-gray-50">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">
+                        실시간 최저가
+                      </span>
+                      {priceData.loading && (
+                        <SpinnerGap size={12} className="animate-spin text-blue-500" />
+                      )}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <FcCurrencyExchange size={18} />
+                      {priceData.loading ? (
+                        <span className="text-[22px] font-black text-gray-300">...</span>
+                      ) : priceData.lowestPrice ? (
+                        <>
+                          <span className="text-[22px] font-black text-blue-600">
+                            {priceData.lowestPrice.toLocaleString()}
+                          </span>
+                          <span className="text-[15px] font-bold text-blue-600">원</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-[22px] font-black text-gray-600">
+                            {product.price.toLocaleString()}
+                          </span>
+                          <span className="text-[15px] font-bold text-gray-600">원</span>
+                        </>
+                      )}
+                    </div>
+                    {priceData.lowestMall && !priceData.loading && (
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <Storefront size={12} className="text-gray-400" />
+                        <span className="text-[12px] font-medium text-gray-500">
+                          {priceData.lowestMall}
+                        </span>
+                        {priceData.lowestDelivery && (
+                          <span className="text-[11px] text-gray-400">
+                            {priceData.lowestDelivery}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
-               </div>
-               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  window.open(`https://search.danawa.com/dsearch.php?query=${encodeURIComponent(product.title)}`, '_blank');
-                }}
-                className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-gray-200"
-               >
-                 <FcSearch size={22} />
-               </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      const pcode = product.pcode || product.id;
+                      if (pcode && /^\d+$/.test(pcode)) {
+                        window.open(`https://prod.danawa.com/info/?pcode=${pcode}`, '_blank');
+                      } else {
+                        window.open(`https://search.danawa.com/dsearch.php?query=${encodeURIComponent(product.title)}`, '_blank');
+                      }
+                    }}
+                    className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-gray-200"
+                  >
+                    <FcSearch size={22} />
+                  </motion.button>
+                </div>
+              </div>
+
+              {/* 쇼핑몰 가격 목록 */}
+              {priceData.mallPrices.length > 0 && (
+                <div className="px-5 pb-4">
+                  <button
+                    onClick={() => setShowAllPrices(!showAllPrices)}
+                    className="w-full flex items-center justify-between py-3 text-[13px] font-bold text-gray-500 hover:text-gray-700 transition-colors"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <Storefront size={14} />
+                      {priceData.mallCount}개 쇼핑몰 비교
+                    </span>
+                    {showAllPrices ? <CaretUp size={14} /> : <CaretDown size={14} />}
+                  </button>
+
+                  <AnimatePresence>
+                    {showAllPrices && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="space-y-2 pt-2">
+                          {priceData.mallPrices.slice(0, 10).map((mp, i) => (
+                            <motion.div
+                              key={`${mp.mall}-${mp.price}-${i}`}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: i * 0.03 }}
+                              className={`flex items-center justify-between p-3 rounded-xl ${
+                                i === 0 ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2">
+                                {i === 0 && (
+                                  <span className="px-1.5 py-0.5 bg-blue-500 text-white text-[9px] font-black rounded">
+                                    최저
+                                  </span>
+                                )}
+                                <span className={`text-[13px] font-bold ${
+                                  i === 0 ? 'text-blue-700' : 'text-gray-700'
+                                }`}>
+                                  {mp.mall}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className={`text-[14px] font-black ${
+                                  i === 0 ? 'text-blue-600' : 'text-gray-800'
+                                }`}>
+                                  {mp.price.toLocaleString()}원
+                                </span>
+                                {mp.delivery && (
+                                  <span className="flex items-center gap-0.5 text-[10px] text-gray-400">
+                                    <Truck size={10} />
+                                    {mp.delivery.replace(/[()]/g, '')}
+                                  </span>
+                                )}
+                              </div>
+                            </motion.div>
+                          ))}
+                          {priceData.mallPrices.length > 10 && (
+                            <button
+                              onClick={() => {
+                                const pcode = product.pcode || product.id;
+                                if (pcode) {
+                                  window.open(`https://prod.danawa.com/info/?pcode=${pcode}`, '_blank');
+                                }
+                              }}
+                              className="w-full py-2 text-[12px] font-bold text-blue-500 hover:text-blue-700"
+                            >
+                              +{priceData.mallPrices.length - 10}개 더보기
+                            </button>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
+
+              {/* 에러 메시지 */}
+              {priceData.error && !priceData.loading && (
+                <div className="px-5 pb-4">
+                  <p className="text-[12px] text-gray-400 text-center py-2">
+                    가격 정보를 불러올 수 없습니다
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -300,7 +502,7 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
                     </h4>
                   </div>
                   <span className="text-[12px] font-bold text-gray-400">
-                    {product.reviews.length}개
+                    {(product.reviewCount || product.reviews.length).toLocaleString()}개
                   </span>
                </div>
               <div className="space-y-3">
@@ -391,17 +593,17 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
 
         {/* Bottom CTA */}
         <div className="shrink-0 w-full bg-white/80 backdrop-blur-xl border-t border-gray-50/50 px-5 pt-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] z-30">
-          <motion.button
+          <motion.a
+            href={`https://prod.danawa.com/info/?pcode=${product.pcode || product.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              window.open(`https://search.danawa.com/dsearch.php?query=${encodeURIComponent(product.title)}`, '_blank');
-            }}
             className="w-full h-14 flex items-center justify-center gap-3 font-black rounded-[20px] text-[16px] transition-all text-white bg-gray-900 shadow-xl shadow-gray-200 hover:bg-black"
           >
-            최저가 바로가기
+            다나와에서 보기
             <FcSearch size={22} />
-          </motion.button>
+          </motion.a>
         </div>
       </motion.div>
     </motion.div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import DanawaReviewTab from '@/components/DanawaReviewTab';
@@ -9,6 +9,16 @@ import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
 import OptionSelector from '@/components/ui/OptionSelector';
 import type { ProductVariant } from '@/types/recommend-v2';
+
+// 실시간 가격 크롤링 결과 타입
+interface LivePriceData {
+  loading: boolean;
+  lowestPrice: number | null;
+  lowestMall: string | null;
+  lowestDelivery: string | null;
+  prices: Array<{ mall: string; price: number; delivery: string; link?: string; mallLogo?: string }>;
+  error?: string;
+}
 
 // V2 조건 충족도 평가 타입
 interface V2ConditionEvaluation {
@@ -221,6 +231,75 @@ export default function ProductDetailModal({ productData, category, danawaData, 
   // 가격 비교 토글 상태
   const [showPriceComparison, setShowPriceComparison] = useState(false);
 
+  // 실시간 가격 크롤링 상태
+  const [livePrice, setLivePrice] = useState<LivePriceData>({
+    loading: false,
+    lowestPrice: null,
+    lowestMall: null,
+    lowestDelivery: null,
+    prices: [],
+  });
+
+  // 실시간 가격 fetch 함수
+  const fetchLivePrices = useCallback(async (pcode: string) => {
+    setLivePrice(prev => ({ ...prev, loading: true, error: undefined }));
+
+    try {
+      const res = await fetch(`/api/knowledge-agent/prices?pcode=${pcode}`);
+      const data = await res.json();
+
+      if (data.success) {
+        setLivePrice({
+          loading: false,
+          lowestPrice: data.lowestPrice,
+          lowestMall: data.lowestMall,
+          lowestDelivery: data.lowestDelivery,
+          prices: (data.mallPrices || []).map((mp: { mall: string; price: number; delivery: string; link?: string }) => ({
+            mall: mp.mall,
+            price: mp.price,
+            delivery: mp.delivery,
+            link: mp.link,
+          })),
+        });
+      } else {
+        setLivePrice(prev => ({
+          ...prev,
+          loading: false,
+          error: data.error || 'Failed to fetch prices',
+        }));
+      }
+    } catch (error) {
+      setLivePrice(prev => ({
+        ...prev,
+        loading: false,
+        error: error instanceof Error ? error.message : 'Network error',
+      }));
+    }
+  }, []);
+
+  // danawaData가 없고 pcode가 숫자형일 때 실시간 크롤링
+  useEffect(() => {
+    const pcode = productData.product.id;
+    const hasDanawaData = danawaData && danawaData.prices && danawaData.prices.length > 0;
+
+    // danawaData가 없고, pcode가 숫자형(다나와 코드)일 때만 실시간 크롤링
+    if (!hasDanawaData && pcode && /^\d+$/.test(pcode)) {
+      fetchLivePrices(pcode);
+    }
+  }, [productData.product.id, danawaData, fetchLivePrices]);
+
+  // 실제 사용할 가격 데이터 (danawaData 우선, 없으면 livePrice)
+  const effectivePriceData = (danawaData && danawaData.prices && danawaData.prices.length > 0)
+    ? danawaData
+    : livePrice.prices.length > 0
+      ? {
+          lowestPrice: livePrice.lowestPrice || productData.product.price,
+          lowestMall: livePrice.lowestMall || '',
+          productName: productData.product.title,
+          prices: livePrice.prices,
+        }
+      : null;
+
   // 리뷰 정렬 상태 (preloadedReviews용)
   const [reviewSortOrder, setReviewSortOrder] = useState<'high' | 'low'>('high');
 
@@ -382,11 +461,19 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     {productData.product.title}
                   </h2>
                   <div className="text-lg font-bold text-gray-900">
-                    {(danawaData?.lowestPrice || productData.product.price).toLocaleString()}원
+                    {livePrice.loading ? (
+                      <span className="text-gray-400">...</span>
+                    ) : (
+                      <>{(effectivePriceData?.lowestPrice || productData.product.price).toLocaleString()}원</>
+                    )}
                   </div>
-                  {danawaData?.lowestMall && (
+                  {(effectivePriceData?.lowestMall || livePrice.loading) && (
                     <div className="flex items-center gap-1 mt-1">
-                      <span className="text-xs text-gray-500">{danawaData.lowestMall} 최저가</span>
+                      {livePrice.loading ? (
+                        <span className="text-xs text-gray-400">가격 조회 중...</span>
+                      ) : (
+                        <span className="text-xs text-gray-500">{effectivePriceData?.lowestMall} 최저가</span>
+                      )}
                     </div>
                   )}
                 </div>
@@ -594,10 +681,23 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                 </AnimatePresence>
 
                 <div className="relative z-10">
-                  {danawaData && danawaData.prices.length > 0 ? (
+                  {/* 실시간 가격 로딩 중 */}
+                  {livePrice.loading && !effectivePriceData && (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="flex items-center gap-2 text-gray-400">
+                        <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                        <span className="text-sm">실시간 가격 조회 중...</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {effectivePriceData && effectivePriceData.prices.length > 0 ? (
                   <div className="space-y-2">
                     {/* 기본 3개 표시 */}
-                    {danawaData.prices.slice(0, 3).map((priceInfo, index) => (
+                    {effectivePriceData.prices.slice(0, 3).map((priceInfo, index) => (
                       <a
                         key={index}
                         href={priceInfo.link || '#'}
@@ -671,7 +771,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                           transition={{ duration: 0.25, ease: 'easeInOut' }}
                           className="space-y-2 overflow-hidden"
                         >
-                          {danawaData.prices.slice(3).map((priceInfo, index) => (
+                          {effectivePriceData.prices.slice(3).map((priceInfo, index) => (
                             <a
                               key={index + 3}
                               href={priceInfo.link || '#'}
@@ -736,7 +836,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     </AnimatePresence>
 
                     {/* 판매처 더보기 버튼 */}
-                    {danawaData.prices.length > 3 && (
+                    {effectivePriceData.prices.length > 3 && (
                       <div className="flex justify-center pt-2">
                         <button
                           onClick={() => {
@@ -1161,10 +1261,14 @@ export default function ProductDetailModal({ productData, category, danawaData, 
               {/* 미리 크롤링된 리뷰가 있으면 직접 표시, 없으면 DanawaReviewTab */}
               {preloadedReviews && preloadedReviews.length > 0 ? (
                 (() => {
-                  // 평균 별점 계산
-                  const avgRating = preloadedReviews.reduce((sum, r) => sum + r.rating, 0) / preloadedReviews.length;
+                  // 평균 별점: 메타데이터 우선, 없으면 계산
+                  const calculatedAvg = preloadedReviews.reduce((sum, r) => sum + r.rating, 0) / preloadedReviews.length;
+                  const avgRating = initialAverageRating ?? calculatedAvg;
                   
-                  // 별점 분포 계산
+                  // 리뷰 개수: 메타데이터 우선, 없으면 현재 로드된 리뷰 수
+                  const displayReviewCount = productData.product.reviewCount || preloadedReviews.length;
+                  
+                  // 별점 분포 계산 (현재 로드된 리뷰 기준)
                   const ratingDistribution = preloadedReviews.reduce((acc, review) => {
                     const rating = Math.round(review.rating);
                     if (rating >= 1 && rating <= 5) {
@@ -1211,7 +1315,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                 </svg>
                               ))}
                             </div>
-                            <div className="text-sm text-gray-500">({preloadedReviews.length.toLocaleString()}건)</div>
+                            <div className="text-sm text-gray-500">({displayReviewCount.toLocaleString()}건)</div>
                           </div>
 
                           {/* 별점 분포 차트 */}

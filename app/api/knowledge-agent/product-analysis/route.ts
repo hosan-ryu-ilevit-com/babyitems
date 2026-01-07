@@ -139,7 +139,12 @@ async function analyzeProduct(
     });
   }
 
-  const balanceConditions = (userContext.balanceSelections || []).map(b => b.selectedLabel);
+  // balanceSelections에서 questionText 포함된 객체로 변환
+  const balanceConditions = (userContext.balanceSelections || []).map(b => ({
+    questionId: b.questionId,
+    questionText: (b as any).questionText || b.selectedLabel, // questionText가 있으면 사용, 없으면 selectedLabel
+    selectedLabel: b.selectedLabel,
+  }));
   const negativeConditions = userContext.negativeSelections || [];
 
   const hasUserConditions = hardFilterConditions.length > 0 || balanceConditions.length > 0 || negativeConditions.length > 0;
@@ -150,8 +155,8 @@ async function analyzeProduct(
 ## 사용자 선택 조건
 ${hardFilterConditions.length > 0 ? `### 필수 조건 (맞춤 질문 응답)
 ${hardFilterConditions.map((c, i) => `${i + 1}. **${c.questionText}** → "${c.label}"`).join('\n')}` : ''}
-${balanceConditions.length > 0 ? `### 선호 속성 (밸런스 게임 선택)
-${balanceConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
+${balanceConditions.length > 0 ? `### 선호 속성 (사용자 선호)
+${balanceConditions.map((c, i) => `${i + 1}. **${c.questionText}** → "${c.selectedLabel}"`).join('\n')}` : ''}
 ${negativeConditions.length > 0 ? `### 피할 단점
 ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 ` : '';
@@ -166,8 +171,9 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
       "evidence": "근거 1문장"
     }`).join(',\n    ')}${hardFilterConditions.length > 0 && balanceConditions.length > 0 ? ',' : ''}
     ${balanceConditions.map(c => `{
-      "condition": "${c}",
+      "condition": "${c.questionText}: ${c.selectedLabel}",
       "conditionType": "balance",
+      "questionId": "${c.questionId}",
       "status": "충족/부분충족/불충족 중 하나",
       "evidence": "근거 1문장"
     }`).join(',\n    ')}${(hardFilterConditions.length > 0 || balanceConditions.length > 0) && negativeConditions.length > 0 ? ',' : ''}
@@ -286,11 +292,13 @@ function generateFallbackAnalysis(
     });
   }
 
-  // 밸런스 선택
+  // 밸런스 선택 (선호 속성)
   userContext.balanceSelections?.forEach(b => {
+    const questionText = (b as any).questionText || b.selectedLabel;
     selectedConditionsEvaluation.push({
-      condition: b.selectedLabel,
+      condition: `${questionText}: ${b.selectedLabel}`,
       conditionType: 'balance',
+      questionId: b.questionId,
       status: '부분충족',
       evidence: '스펙 정보로 정확한 확인이 어렵습니다.',
     });

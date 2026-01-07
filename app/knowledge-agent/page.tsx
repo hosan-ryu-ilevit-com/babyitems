@@ -13,7 +13,7 @@ const CATEGORIES_DATA: Record<string, any> = {
       "code": "BABY_008",
       "emoji": "🛒",
       "children": [
-        "유모차", "카시트", "아기띠", "힙시트", "유모차용품"
+        "유모차", "카시트", "아기띠", "힙시트"
       ]
     },
     "젖병/수유용품": {
@@ -55,7 +55,7 @@ const CATEGORIES_DATA: Record<string, any> = {
       "code": "BABY_002",
       "emoji": "🧸",
       "children": [
-        "아기체육관", "바운서", "점퍼루", "보행기", "애착인형"
+        "아기체육관", "바운서", "점퍼루", "보행기"
       ]
     },
     "인기 완구/교구": {
@@ -67,11 +67,18 @@ const CATEGORIES_DATA: Record<string, any> = {
     }
   },
   "생활/주방가전": {
-    "청소가전": {
-      "code": "APP_002",
-      "emoji": "🧹",
+    "PC/주변기기": {
+      "code": "APP_006",
+      "emoji": "🖥️",
       "children": [
-        "로봇청소기", "무선청소기", "물걸레청소기", "침구청소기"
+        "모니터", "4K모니터", "무선마우스", "기계식키보드", "노트북거치대", "웹캠"
+      ]
+    },
+    "주방가전": {
+      "code": "APP_004",
+      "emoji": "🍳",
+      "children": [
+        "에어프라이어", "전기밥솥", "전자레인지", "식기세척기", "음식물처리기", "전기포트"
       ]
     },
     "계절/환경가전": {
@@ -81,11 +88,11 @@ const CATEGORIES_DATA: Record<string, any> = {
         "가습기", "공기청정기", "제습기", "에어컨", "선풍기", "전기히터"
       ]
     },
-    "주방가전": {
-      "code": "APP_004",
-      "emoji": "🍳",
+    "청소가전": {
+      "code": "APP_002",
+      "emoji": "🧹",
       "children": [
-        "에어프라이어", "전기밥솥", "전자레인지", "식기세척기", "음식물처리기", "전기포트"
+        "로봇청소기", "무선청소기", "물걸레청소기", "침구청소기"
       ]
     },
     "세탁/건조가전": {
@@ -100,13 +107,6 @@ const CATEGORIES_DATA: Record<string, any> = {
       "emoji": "💇",
       "children": [
         "헤어드라이어", "고데기", "전동칫솔", "체중계"
-      ]
-    },
-    "PC/주변기기": {
-      "code": "APP_006",
-      "emoji": "🖥️",
-      "children": [
-        "모니터", "4K모니터", "무선마우스", "기계식키보드", "노트북거치대", "웹캠"
       ]
     }
   }
@@ -291,19 +291,19 @@ export default function KnowledgeAgentLanding() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearchRequest()}
-                  placeholder="아래에서 고르거나, 여기에 직접 입력해서 시작하기"
+                  placeholder="아래에서 고르거나, 여기에 직접 입력..."
                   className="flex-1 bg-transparent py-3 px-3 text-[16px] font-semibold text-gray-800 placeholder:text-gray-400 focus:outline-none"
                   disabled={isProcessing}
                 />
                 <button
                   onClick={() => handleSearchRequest()}
                   disabled={!inputValue.trim() || isProcessing}
-                  className="mr-2 p-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-100 text-white disabled:text-gray-400 rounded-[12px] transition-all active:scale-95 flex items-center justify-center"
+                  className="mr-2 p-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-100 text-white disabled:text-gray-400 rounded-[999px] transition-all active:scale-95 flex items-center justify-center"
                 >
                   {isProcessing ? (
                     <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
-                    <MagnifyingGlass size={24} weight="bold" />
+                    <MagnifyingGlass size={16} weight="bold" />
                   )}
                 </button>
               </div>

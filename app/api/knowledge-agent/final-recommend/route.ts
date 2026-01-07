@@ -29,6 +29,71 @@ const FINAL_RECOMMEND_MODEL = 'gemini-3-flash-preview'; // 최종 추천용 (최
 const SPEC_NORMALIZE_MODEL = 'gemini-2.5-flash-lite'; // 스펙 정규화용
 const PROS_CONS_MODEL = 'gemini-2.5-flash-lite'; // 장단점 생성용
 
+// ============================================================================
+// JSON Repair - Flash Lite로 형식만 수정 (원본 내용 유지)
+// ============================================================================
+
+/**
+ * 간단한 JSON 정리 함수
+ * - 제어 문자 제거
+ * - 따옴표 정리
+ * - 줄바꿈 정리
+ */
+function repairJSON(brokenJSON: string): string {
+  return brokenJSON
+    // 제어 문자 제거 (탭, 줄바꿈 제외)
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '')
+    // 문자열 내부 줄바꿈을 공백으로
+    .replace(/(?<!\\)\\n/g, ' ')
+    // 연속 공백을 하나로
+    .replace(/\s+/g, ' ')
+    // JSON 객체/배열 앞뒤 정리
+    .trim();
+}
+
+/**
+ * Flash Lite를 사용하여 잘못된 JSON 형식을 수정
+ * 원본 내용은 그대로 유지하고 형식만 올바르게 변환
+ */
+async function repairJSONWithFlashLite(brokenJSON: string): Promise<any | null> {
+  if (!ai) return null;
+
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.0-flash-lite',
+    generationConfig: {
+      temperature: 0.0,
+      maxOutputTokens: 2000,
+    }
+  });
+
+  const prompt = `아래 JSON은 형식 오류가 있습니다. 원본 내용(pcode, reason, highlights 등)을 절대 변경하지 말고, 형식만 수정하여 유효한 JSON으로 만들어주세요.
+
+잘못된 JSON:
+${brokenJSON.slice(0, 4000)}
+
+규칙:
+1. 내용(텍스트, 숫자, pcode 등)은 절대 변경 금지
+2. 잘린 부분은 적절히 닫아서 유효한 JSON으로
+3. 불완전한 마지막 객체는 제거 가능
+4. JSON만 출력 (설명 없이)
+
+수정된 JSON:`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    let text = result.response.text().trim();
+    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+  } catch (e) {
+    console.error('[repairJSONWithFlashLite] Failed:', e);
+  }
+  return null;
+}
+
 /**
  * 리뷰에서 주요 키워드 추출
  */
@@ -402,8 +467,11 @@ ${productInfos}
 
 /**
  * 120개 후보에서 사전 스크리닝 (규칙 기반)
- * - 가격, 리뷰 수, 평점 기반으로 빠르게 상위 30개 추출
+ * - matchScore(사용자 선택 기반) 우선 + 리뷰/평점 보조
+ * - 상위 50개 추출
  */
+const PRESCREEN_LIMIT = 50;
+
 function prescreenCandidates(
   candidates: HardCutProduct[],
   reviews: Record<string, ReviewLite[]>,
@@ -411,55 +479,54 @@ function prescreenCandidates(
   negativeSelections: string[]
 ): HardCutProduct[] {
   console.log(`[FinalRecommend] Pre-screening ${candidates.length} candidates...`);
-  
+
   // 각 상품에 점수 부여
   const scored = candidates.map(p => {
     let score = 0;
-    
-    // 1. 리뷰 수 점수 (리뷰가 많을수록 높음)
+
+    // 1. matchScore 우선 (사용자 선택 기반 점수) - 가중치 높임
+    score += (p.matchScore || 0) * 2; // 0.5 → 2배로 상향
+
+    // 2. 리뷰 수 점수 (리뷰가 많을수록 높음, 약간 낮춤)
     const productReviews = reviews[p.pcode] || [];
-    score += Math.min(productReviews.length * 2, 20); // 최대 20점
-    
-    // 2. 평점 점수
+    score += Math.min(productReviews.length * 1.5, 15); // 최대 15점
+
+    // 3. 평점 점수
     const avgRating = productReviews.length > 0
       ? productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length
       : p.rating || 0;
-    score += avgRating * 4; // 5점 만점 → 최대 20점
-    
-    // 3. 기존 matchScore 활용
-    score += (p.matchScore || 0) * 0.5;
-    
+    score += avgRating * 3; // 5점 만점 → 최대 15점
+
     // 4. 피하고 싶은 단점 체크 (스펙에서 키워드 매칭)
     const specText = (p.specSummary || '').toLowerCase();
     const reviewText = productReviews.map(r => r.content).join(' ').toLowerCase();
     for (const neg of negativeSelections) {
       const negLower = neg.toLowerCase();
       if (specText.includes(negLower) || reviewText.includes(negLower)) {
-        score -= 15; // 단점 언급 시 감점
+        score -= 10; // 단점 언급 시 감점
       }
     }
-    
+
     // 5. 사용자 조건 매칭
-    for (const [key, value] of Object.entries(collectedInfo)) {
-      // value가 배열이거나 객체일 수 있음
-      const valueStr = Array.isArray(value) 
-        ? value.join(' ') 
+    for (const [, value] of Object.entries(collectedInfo)) {
+      const valueStr = Array.isArray(value)
+        ? value.join(' ')
         : (typeof value === 'string' ? value : String(value || ''));
       const valueLower = valueStr.toLowerCase();
       if (valueLower && specText.includes(valueLower)) {
         score += 5;
       }
     }
-    
+
     return { product: p, score };
   });
-  
-  // 점수순 정렬 후 상위 30개 반환
+
+  // 점수순 정렬 후 상위 50개 반환
   scored.sort((a, b) => b.score - a.score);
-  const top30 = scored.slice(0, 30).map(s => s.product);
-  
-  console.log(`[FinalRecommend] Pre-screened to ${top30.length} candidates`);
-  return top30;
+  const topN = scored.slice(0, PRESCREEN_LIMIT).map(s => s.product);
+
+  console.log(`[FinalRecommend] Pre-screened to ${topN.length} candidates`);
+  return topN;
 }
 
 /**
@@ -474,9 +541,9 @@ async function generateRecommendations(
   balanceSelections: BalanceSelection[],
   negativeSelections: string[]
 ): Promise<FinalRecommendation[]> {
-  // 120개 이상이면 사전 스크리닝으로 30개로 줄임
+  // 50개 이상이면 사전 스크리닝으로 50개로 줄임
   let filteredCandidates = candidates;
-  if (candidates.length > 30) {
+  if (candidates.length > PRESCREEN_LIMIT) {
     filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections);
   }
   
@@ -502,7 +569,7 @@ async function generateRecommendations(
     model: FINAL_RECOMMEND_MODEL,
     generationConfig: {
       temperature: 0.5,
-      maxOutputTokens: 2500,
+      maxOutputTokens: 4000, // 3개 추천 + 상세 정보를 위해 충분히 확보
     },
   });
   
@@ -522,39 +589,24 @@ async function generateRecommendations(
 - 매칭된 조건: ${p.matchedConditions?.join(', ') || '없음'}
 - 스펙: ${p.specSummary || '정보 없음'}`;
 
-    // 리뷰가 있으면 정성적 분석 추가
+    // 리뷰가 있으면 간결한 요약만 추가 (프롬프트 경량화)
     if (productReviews.length > 0) {
       const { pros, cons } = extractReviewKeywords(productReviews);
       const qualitative = analyzeReviewsQualitative(productReviews);
-      
-      const detailedReviews = productReviews.slice(0, 5).map((r, idx) =>
-        `  [리뷰${idx + 1}] ${r.rating}점: "${r.content.slice(0, 120)}${r.content.length > 120 ? '...' : ''}"`
-      ).join('\n');
-      
-      const ratingViz = Object.entries(qualitative.ratingDistribution)
-        .filter(([, count]) => count > 0)
-        .map(([rating, count]) => `${rating}점(${count}개)`)
-        .join(', ');
-      
-      const sentimentLabel = qualitative.sentimentScore > 0.3 ? '😊매우긍정' 
-        : qualitative.sentimentScore > 0 ? '🙂긍정적' 
+
+      const sentimentLabel = qualitative.sentimentScore > 0.3 ? '😊매우긍정'
+        : qualitative.sentimentScore > 0 ? '🙂긍정적'
         : qualitative.sentimentScore > -0.3 ? '😐보통'
         : '😟부정적';
 
+      // 핵심 리뷰 1개만 (가장 도움되는 리뷰)
+      const topReview = productReviews[0];
+      const reviewSnippet = topReview ? `"${topReview.content.slice(0, 80)}..."` : '';
+
       info += `
-
-**📊 리뷰 정성 분석** (총 ${productReviews.length}개 분석)
-- 평균 평점: ${qualitative.avgRating}점 | 감정: ${sentimentLabel}(${qualitative.sentimentScore})
-- 별점 분포: ${ratingViz || '데이터 없음'}
-- 리뷰 신뢰도: ${(qualitative.reliabilityScore * 100).toFixed(0)}%
-- 자주 언급: ${qualitative.topMentions.join(', ') || '없음'}
-- 키워드: 장점[${pros.join(', ')}] / 단점[${cons.join(', ')}]
-
-**💬 핵심 인사이트**
-${qualitative.keyInsights.length > 0 ? qualitative.keyInsights.map(insight => `  - ${insight}`).join('\n') : '  (충분한 리뷰 없음)'}
-
-**📝 실제 리뷰 원문**
-${detailedReviews || '  (리뷰 없음)'}`;
+- 리뷰: ${productReviews.length}개, ${qualitative.avgRating}점, ${sentimentLabel}
+- 장점: ${pros.slice(0, 3).join(', ') || '없음'} / 단점: ${cons.slice(0, 2).join(', ') || '없음'}
+- 대표리뷰: ${reviewSnippet}`;
     }
     
     return info;
@@ -670,60 +722,144 @@ ${reviewRules}
 
   try {
     const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    let text = result.response.text().trim();
 
     console.log('[FinalRecommend] LLM raw response length:', text.length);
 
-    // JSON 추출
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    // markdown 코드 블록 제거
+    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+    // JSON 추출 (불완전한 JSON도 처리 - 여는 괄호만 있어도 매칭)
+    let jsonMatch = text.match(/\{[\s\S]*\}/);
+
+    // 닫는 괄호가 없는 불완전한 JSON도 처리
+    if (!jsonMatch) {
+      const openBraceIdx = text.indexOf('{');
+      if (openBraceIdx !== -1) {
+        // 여는 괄호부터 끝까지 가져옴
+        jsonMatch = [text.slice(openBraceIdx)];
+        console.log('[FinalRecommend] 불완전한 JSON 감지, 복구 시도...');
+      }
+    }
+
     if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
+      let recommendations: any[] = [];
+      let parseSuccess = false;
 
-      console.log('[FinalRecommend] ✅ LLM 파싱 성공, recommendations:', parsed.recommendations?.length || 0);
+      // 1차: 직접 파싱 시도
+      try {
+        const parsed = JSON.parse(jsonMatch[0]);
+        recommendations = parsed.recommendations || [];
+        parseSuccess = recommendations.length > 0;
+        if (parseSuccess) console.log('[FinalRecommend] ✅ 1차 직접 파싱 성공');
+      } catch {
+        console.log('[FinalRecommend] 1차 파싱 실패, 간단한 정리 후 재시도...');
+      }
 
-      // 결과 구성
-      return (parsed.recommendations || []).slice(0, 3).map((rec: any, i: number) => {
-        const product = filteredCandidates.find(c => c.pcode === rec.pcode);
-
-        // reason 검증: 금지 패턴이면 재작성
-        let cleanedReason = rec.reason || '';
-        const forbiddenPatterns = [
-          /실제 사용자들이.*라고 평가/,
-          /리뷰에 따르면/,
-          /당신은.*선택했으므로/,
-          /추천합니다\s*$/,
-        ];
-        const hasForbiddenPattern = forbiddenPatterns.some(p => p.test(cleanedReason));
-        if (hasForbiddenPattern || cleanedReason.length < 20) {
-          console.log(`[FinalRecommend] ⚠️ reason 품질 낮음 (${i+1}위), 원본:`, cleanedReason.slice(0, 50));
+      // 2차: 간단한 문자열 정리 후 재시도
+      if (!parseSuccess) {
+        try {
+          const cleanedJSON = repairJSON(jsonMatch[0]);
+          const parsed = JSON.parse(cleanedJSON);
+          recommendations = parsed.recommendations || [];
+          parseSuccess = recommendations.length > 0;
+          if (parseSuccess) console.log('[FinalRecommend] ✅ 2차 정리 후 파싱 성공');
+        } catch {
+          console.log('[FinalRecommend] 2차 정리 후 파싱 실패, Flash Lite 복구 시도...');
         }
+      }
 
-        if (!product) {
-          // pcode가 없으면 순서대로 매핑
-          const fallbackProduct = filteredCandidates[i];
+      // 3차: Flash Lite로 JSON 형식 복구 (원본 내용 유지)
+      if (!parseSuccess) {
+        try {
+          const repairedResult = await repairJSONWithFlashLite(jsonMatch[0]);
+          if (repairedResult && repairedResult.recommendations) {
+            recommendations = repairedResult.recommendations;
+            parseSuccess = recommendations.length > 0;
+            if (parseSuccess) console.log(`[FinalRecommend] ✅ Flash Lite 복구 성공: ${recommendations.length}개`);
+          }
+        } catch (flashError) {
+          console.error('[FinalRecommend] Flash Lite 복구 실패:', flashError);
+        }
+      }
+
+      if (parseSuccess && recommendations.length > 0) {
+        console.log('[FinalRecommend] ✅ 추천 생성 성공:', recommendations.length);
+
+        // 결과 구성
+        const llmResults = recommendations.slice(0, 3).map((rec: any, i: number) => {
+          const product = filteredCandidates.find(c => c.pcode === rec.pcode);
+
+          // reason 검증: 금지 패턴이면 재작성
+          let cleanedReason = rec.reason || '';
+          const forbiddenPatterns = [
+            /실제 사용자들이.*라고 평가/,
+            /리뷰에 따르면/,
+            /당신은.*선택했으므로/,
+            /추천합니다\s*$/,
+          ];
+          const hasForbiddenPattern = forbiddenPatterns.some(p => p.test(cleanedReason));
+          if (hasForbiddenPattern || cleanedReason.length < 20) {
+            console.log(`[FinalRecommend] ⚠️ reason 품질 낮음 (${i+1}위), 원본:`, cleanedReason.slice(0, 50));
+          }
+
+          if (!product) {
+            // pcode가 없으면 순서대로 매핑
+            const fallbackProduct = filteredCandidates[i];
+            return {
+              rank: i + 1,
+              pcode: fallbackProduct?.pcode || '',
+              product: fallbackProduct,
+              reason: cleanedReason,
+              highlights: rec.highlights || [],
+              concerns: rec.concerns,
+              bestFor: rec.bestFor,
+              reviewQuotes: rec.reviewQuotes || [],
+            };
+          }
+
           return {
-            rank: i + 1,
-            pcode: fallbackProduct?.pcode || '',
-            product: fallbackProduct,
+            rank: rec.rank || i + 1,
+            pcode: rec.pcode,
+            product,
             reason: cleanedReason,
             highlights: rec.highlights || [],
             concerns: rec.concerns,
             bestFor: rec.bestFor,
             reviewQuotes: rec.reviewQuotes || [],
           };
+        });
+
+        // 3개 미만이면 폴백으로 나머지 채우기
+        if (llmResults.length < 3) {
+          console.log(`[FinalRecommend] ⚠️ ${llmResults.length}개만 생성됨, 나머지 폴백으로 채움`);
+          const existingPcodes = new Set(llmResults.map(r => r.pcode));
+          const remainingCandidates = filteredCandidates.filter(c => !existingPcodes.has(c.pcode));
+
+          for (let i = llmResults.length; i < 3 && remainingCandidates.length > 0; i++) {
+            const p = remainingCandidates.shift()!;
+            const productReviews = reviews[p.pcode] || [];
+            const sampleQuotes = productReviews.slice(0, 2).map(r => r.content.slice(0, 50));
+            const specs = p.specSummary || '';
+            const brand = p.brand || '';
+
+            llmResults.push({
+              rank: i + 1,
+              pcode: p.pcode,
+              product: p,
+              reason: specs
+                ? `✨ ${brand} 제품, ${specs.slice(0, 50)}${specs.length > 50 ? '...' : ''}`
+                : `✨ ${brand || '해당'} 제품이 조건에 부합합니다.`,
+              highlights: p.matchedConditions?.slice(0, 3) || [],
+              concerns: undefined,
+              bestFor: undefined,
+              reviewQuotes: sampleQuotes,
+            });
+          }
         }
 
-        return {
-          rank: rec.rank || i + 1,
-          pcode: rec.pcode,
-          product,
-          reason: cleanedReason,
-          highlights: rec.highlights || [],
-          concerns: rec.concerns,
-          bestFor: rec.bestFor,
-          reviewQuotes: rec.reviewQuotes || [],
-        };
-      });
+        return llmResults;
+      } // if (recommendations.length > 0)
     } else {
       console.error('[FinalRecommend] ❌ JSON 추출 실패, response:', text.slice(0, 200));
     }
