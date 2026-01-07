@@ -373,19 +373,36 @@ export async function crawlDanawaSearchListLite(
   console.log(`   URL: ${searchUrl}`);
 
   try {
-    // Axios로 HTML 가져오기
-    const response = await axios.get(searchUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-        'Cache-Control': 'max-age=0',
-      },
-      timeout: 15000, // 15초 (Puppeteer 45초 대비 대폭 감소)
-      responseType: 'text',
-    });
+    // ZenRows 프록시 사용 여부 (환경변수 또는 하드코딩)
+    const ZENROWS_API_KEY = process.env.ZENROWS_API_KEY || '1d9442d1cd5d9b2dd345f16796489bcd3ca3e7ed';
+    const USE_PROXY = process.env.USE_ZENROWS_PROXY === 'true' || process.env.VERCEL === '1';
+
+    let response;
+
+    if (USE_PROXY && ZENROWS_API_KEY) {
+      // ZenRows 프록시를 통한 요청 (Vercel 배포 환경)
+      const proxyUrl = `https://api.zenrows.com/v1/?apikey=${ZENROWS_API_KEY}&url=${encodeURIComponent(searchUrl)}`;
+      console.log(`   🔄 Using ZenRows proxy (Vercel environment detected)`);
+
+      response = await axios.get(proxyUrl, {
+        timeout: 30000, // 프록시 경유로 시간 여유 있게
+        responseType: 'text',
+      });
+    } else {
+      // 직접 요청 (로컬 개발 환경)
+      response = await axios.get(searchUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive',
+          'Cache-Control': 'max-age=0',
+        },
+        timeout: 15000,
+        responseType: 'text',
+      });
+    }
 
     console.log(`   ✅ HTML fetched (${Math.round(response.data.length / 1024)}KB)`);
 
