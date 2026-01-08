@@ -778,20 +778,133 @@ function generateBudgetOptions(
 // ============================================================================
 
 /**
- * 예산 질문 생성 (데이터 기반 - LLM 불필요)
+ * 예산 질문 생성 (LLM 기반 - 가격 분포 분석으로 신빙성 있는 설명 생성)
  */
-function generateBudgetQuestion(
+async function generateBudgetQuestion(
+  categoryName: string,
   minPrice: number,
   avgPrice: number,
   maxPrice: number
-): QuestionTodo {
-  const options = generateBudgetOptions(minPrice, avgPrice, maxPrice);
+): Promise<QuestionTodo> {
+  // 기본 옵션 (LLM 실패 시 폴백용)
+  const fallbackOptions = generateBudgetOptions(minPrice, avgPrice, maxPrice);
   
+  // 가격 구간 계산
+  const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
+  const midMax = Math.round(avgPrice * 1.3);
+  const premiumStart = Math.round(avgPrice * 1.5);
+
+  // 숫자 포맷 헬퍼 (원 단위 그대로 - LLM이 적절한 형식으로 변환)
+  const formatPriceRaw = (price: number): string => {
+    return price.toLocaleString() + '원';
+  };
+
+  // 질문 텍스트는 LLM이 생성하도록 (가격대에 맞는 자연스러운 표현)
+  const defaultQuestionText = `예산은 어느 정도로 생각하세요?`;
+
+  if (!ai) {
+    return {
+      id: 'budget',
+      question: defaultQuestionText,
+      reason: '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
+      options: fallbackOptions,
+      type: 'single',
+      priority: 99,
+      dataSource: '가격 분포 분석',
+      completed: false,
+    };
+  }
+
+  try {
+    const model = ai.getGenerativeModel({
+      model: 'gemini-2.5-flash-lite',
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 800,
+      }
+    });
+
+    const prompt = `"${categoryName}" 제품의 가격 분포를 분석하여 예산 질문을 생성해주세요.
+
+## 가격 분포 데이터 (원 단위)
+- **최저가:** ${formatPriceRaw(minPrice)}
+- **평균가:** ${formatPriceRaw(avgPrice)}  
+- **최고가:** ${formatPriceRaw(maxPrice)}
+- **가성비 라인 상한:** ${formatPriceRaw(entryMax)}
+- **중간 라인 상한:** ${formatPriceRaw(midMax)}
+- **프리미엄 라인 시작:** ${formatPriceRaw(premiumStart)}
+
+## 생성 규칙
+
+### 1. question (질문)
+- 형식: "예산은 어느 정도로 생각하세요? (평균 XX원, YY~ZZ가 가장 많아요)"
+- 평균가와 인기 가격대 정보를 자연스럽게 포함
+
+### 2. 가격 표기 방식 (중요!)
+가격대에 따라 자연스러운 단위 선택:
+- **평균가 1만원 미만:** 천원 단위 (예: "5천원 이하", "8천원대", "1만 2천원")  
+- **평균가 1~5만원:** 천원/만원 혼용 (예: "1만 5천원 이하", "3만원대")
+- **평균가 5만원 이상:** 만원 단위 (예: "30만원 이하", "50만원대")
+- 절대 "37만10천원" 같은 어색한 표현 금지! 자연스럽게!
+
+### 3. reason (팁)
+- 💡 이모지로 시작
+- 이 카테고리에서 가격대별로 어떤 기능/품질 차이가 있는지 구체적으로 설명
+
+### 4. options (3개)
+- entry: 가성비 라인
+- mid: 평균/인기 가격대  
+- premium: 프리미엄 라인
+- description: 해당 가격대 제품의 특징 (간결하게)
+
+## 출력 JSON 형식
+{
+  "question": "예산은 어느 정도로 생각하세요? (평균 OO원, XX~YY가 가장 많아요)",
+  "reason": "💡 가격대별 차이점 설명",
+  "options": [
+    {"value": "entry", "label": "자연스러운 가격 표현", "description": "특징"},
+    {"value": "mid", "label": "자연스러운 가격 표현", "description": "특징"},
+    {"value": "premium", "label": "자연스러운 가격 표현", "description": "특징"}
+  ]
+}
+
+JSON만 출력하세요:`;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]) as { 
+        question?: string;
+        reason: string; 
+        options: Array<{ value: string; label: string; description: string }> 
+      };
+      
+      if (parsed.options && parsed.options.length >= 2) {
+        console.log(`[Step3.6] Generated budget question with LLM-enhanced descriptions`);
+        return {
+          id: 'budget',
+          question: parsed.question || defaultQuestionText,
+          reason: parsed.reason || '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
+          options: parsed.options,
+          type: 'single',
+          priority: 99,
+          dataSource: '가격 분포 분석 (LLM)',
+          completed: false,
+        };
+      }
+    }
+  } catch (e) {
+    console.error('[Step3.6] Budget question LLM generation failed, using fallback:', e);
+  }
+
+  // LLM 실패 시 기본값
   return {
     id: 'budget',
-    question: '예산은 어느 정도로 생각하세요?',
+    question: defaultQuestionText,
     reason: '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
-    options,
+    options: fallbackOptions,
     type: 'single',
     priority: 99,
     dataSource: '가격 분포 분석',
@@ -819,7 +932,7 @@ async function generateAvoidNegativesQuestion(
   if (ai && trendAnalysis?.cons && trendAnalysis.cons.length > 0) {
     try {
       const model = ai.getGenerativeModel({
-        model: 'gemini-2.0-flash-lite',
+        model: 'gemini-2.5-flash-lite',
         generationConfig: {
           temperature: 0.3,
           maxOutputTokens: 600,
@@ -903,11 +1016,11 @@ async function generateRequiredQuestions(
 ): Promise<{ budgetQuestion: QuestionTodo; avoidNegativesQuestion: QuestionTodo }> {
   console.log(`[Step3.6] Generating required questions (budget + avoid_negatives)`);
   
-  // 예산 질문 (동기, 빠름)
-  const budgetQuestion = generateBudgetQuestion(minPrice, avgPrice, maxPrice);
-  
-  // 단점 질문 (비동기, LLM 호출 가능)
-  const avoidNegativesQuestion = await generateAvoidNegativesQuestion(categoryName, trendAnalysis);
+  // 예산 질문과 단점 질문을 병렬로 생성 (둘 다 LLM 호출)
+  const [budgetQuestion, avoidNegativesQuestion] = await Promise.all([
+    generateBudgetQuestion(categoryName, minPrice, avgPrice, maxPrice),
+    generateAvoidNegativesQuestion(categoryName, trendAnalysis)
+  ]);
   
   return { budgetQuestion, avoidNegativesQuestion };
 }

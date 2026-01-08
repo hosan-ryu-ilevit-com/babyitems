@@ -6,7 +6,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CaretLeft, CaretDown, CaretUp, Lightning,
-  PaperPlaneRight
+  PaperPlaneRight, ArrowClockwise
 } from '@phosphor-icons/react/dist/ssr';
 import {
   FcSearch,
@@ -2715,7 +2715,16 @@ export default function KnowledgeAgentPage() {
           <div className="flex flex-col items-center gap-0.5">
             <span className="font-black text-[15px] text-gray-900 tracking-tight">{categoryName} 추천받기</span>
           </div>
-          <div className="w-10" />
+          <motion.button 
+            whileHover={{ rotate: 180 }} 
+            whileTap={{ rotate: 360, scale: 0.9 }} 
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+            onClick={() => window.location.reload()}
+            className="p-2.5 -mr-2.5 rounded-full hover:bg-gray-50 active:bg-gray-100 transition-colors"
+            title="처음부터 다시 시작"
+          >
+            <ArrowClockwise size={18} weight="bold" className="text-gray-400" />
+          </motion.button>
         </header>
 
         {/* 스텝 인디케이터 (4단계) - 항상 상단 플로팅 */}
@@ -2841,7 +2850,7 @@ export default function KnowledgeAgentPage() {
         </main>
 
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[110] bg-gradient-to-t from-white via-white/95 to-transparent">
-            {/* Navigation Buttons (Prev Only) */}
+            {/* Navigation Buttons (Prev Only)
             {activeQuestion && canGoPrev && !isTyping && (
               <div className="flex mb-4">
                 <button
@@ -2851,7 +2860,7 @@ export default function KnowledgeAgentPage() {
                   이전
                 </button>
               </div>
-            )}
+            )} */}
 
             {/* 하드컷팅 시각화 완료 시 버튼 */}
             {phase === 'hardcut_visual' && isHardcutVisualDone && !isTyping && (

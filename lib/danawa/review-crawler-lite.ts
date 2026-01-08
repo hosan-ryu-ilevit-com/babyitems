@@ -3,8 +3,9 @@
  *
  * Knowledge Agent V3용 - 빠른 리뷰 수집
  * - Axios + Cheerio 기반 (Puppeteer 대비 10배 빠름)
- * - 상품당 5개 리뷰만 수집 (요약용)
+ * - 상품당 최대 200개 리뷰 수집 (최신순)
  * - 병렬 처리 최적화
+ * - 중복 리뷰 효율적 스킵 (Set 기반 O(1) lookup)
  */
 
 import axios from 'axios';
@@ -82,8 +83,8 @@ export async function fetchReviewsLite(
     ? { maxReviews: options }
     : options;
 
-  const maxReviews = opts.maxReviews ?? 5;
-  const timeout = opts.timeout ?? 8000;
+  const maxReviews = opts.maxReviews ?? 200;  // 기본값 200개로 증가
+  const timeout = opts.timeout ?? 15000;      // 타임아웃 15초로 증가
 
   const result: ReviewCrawlResult = {
     pcode,
@@ -137,16 +138,22 @@ export async function fetchReviewsLite(
 
     // 2. companyProductReview API로 "쇼핑몰 상품리뷰" 가져오기
     // (기존 companyReview.ajax.php는 2025년 제거됨)
-    // sortType: usefull (유용한 순), recent (최신순)
-    // 🔧 페이지네이션 추가: 한 페이지당 20개씩, 필요한 만큼 여러 페이지 요청
+    // sortType: recent (최신순) - 중복이 적고 최신 리뷰 우선
+    // 🔧 페이지네이션: 한 페이지당 20개씩, 중복 제거하며 수집
     if (cate1) {
-      const PAGE_SIZE = 20; // 다나와 API는 보통 20개씩 반환
-      const maxPages = Math.ceil(maxReviews / PAGE_SIZE); // 50개면 3페이지
-      
+      const PAGE_SIZE = 20;
+      // 중복률 ~45% 감안하여 필요 페이지 계산 (200개 목표 → 약 20페이지)
+      const maxPages = Math.ceil(maxReviews * 1.8 / PAGE_SIZE);
+      const seenIds = new Set<string>();  // 중복 체크용 Set (O(1) lookup)
+      let consecutiveEmptyPages = 0;      // 연속 빈 페이지 카운터
+
       for (let page = 1; page <= maxPages && result.reviews.length < maxReviews; page++) {
+        // 연속 3페이지 새 리뷰 없으면 조기 종료
+        if (consecutiveEmptyPages >= 3) break;
+
         try {
           const timestamp = Math.random();
-          const reviewUrl = `https://prod.danawa.com/info/dpg/ajax/companyProductReview.ajax.php?t=${timestamp}&prodCode=${pcode}&cate1Code=${cate1}&page=${page}&limit=${PAGE_SIZE}&score=0&sortType=usefull&usefullScore=Y`;
+          const reviewUrl = `https://prod.danawa.com/info/dpg/ajax/companyProductReview.ajax.php?t=${timestamp}&prodCode=${pcode}&cate1Code=${cate1}&page=${page}&limit=${PAGE_SIZE}&score=0&sortType=recent&usefullScore=Y`;
           
           const reviewResponse = await axios.get(reviewUrl, {
             headers: {
@@ -255,8 +262,10 @@ export async function fetchReviewsLite(
 
             const reviewId = generateReviewId(content, author, date);
 
-            // 중복 체크
-            if (!result.reviews.some(r => r.reviewId === reviewId)) {
+            // 중복 체크 (Set 기반 O(1) lookup)
+            if (!seenIds.has(reviewId)) {
+              seenIds.add(reviewId);
+
               // 불필요한 공백/탭/줄바꿈 정리
               const cleanContent = content
                 .replace(/[\t\n\r]+/g, ' ')
@@ -276,9 +285,13 @@ export async function fetchReviewsLite(
               pageReviewCount++;
             }
           });
-          
-          // 이 페이지에서 리뷰가 없으면 더 이상 페이지 없음
-          if (pageReviewCount === 0) break;
+
+          // 연속 빈 페이지 카운터 업데이트
+          if (pageReviewCount === 0) {
+            consecutiveEmptyPages++;
+          } else {
+            consecutiveEmptyPages = 0;
+          }
           
           // Rate limit 방지: 페이지 간 짧은 딜레이
           if (page < maxPages && result.reviews.length < maxReviews) {
@@ -291,9 +304,7 @@ export async function fetchReviewsLite(
         }
       }
       
-      // 리뷰 정렬: 길이가 긴 순으로 (더 유용한 정보 포함 가능성)
-      result.reviews.sort((a, b) => b.content.length - a.content.length);
-      
+      // 최신순으로 크롤링했으므로 정렬 불필요 (이미 최신순)
       // maxReviews 개수로 제한
       result.reviews = result.reviews.slice(0, maxReviews);
     }
