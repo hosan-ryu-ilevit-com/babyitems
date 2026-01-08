@@ -709,31 +709,34 @@ function ReportToggle({
 }
 
 // ============================================================================
-// Auto Scroll Hook - 채팅 앱 스타일 하단 자동 스크롤
+// Auto Scroll Hook - 새 메시지를 화면 상단(헤더 아래)에 위치시키는 스크롤
 // ============================================================================
 function useAutoScroll(containerRef: React.RefObject<HTMLDivElement | null>) {
-  // 하단으로 스크롤
-  const scrollToBottom = useCallback(() => {
+  const scrollToMessage = useCallback((messageId: string) => {
     const container = containerRef.current;
-    if (!container) {
-      console.log('[AutoScroll] container not found');
-      return;
-    }
+    if (!container) return;
 
-    const { scrollTop, scrollHeight, clientHeight } = container;
-    console.log('[AutoScroll] before:', { scrollTop, scrollHeight, clientHeight, canScroll: scrollHeight > clientHeight });
-
-    // 약간의 딜레이 후 스크롤 (DOM 업데이트 대기)
     requestAnimationFrame(() => {
       setTimeout(() => {
-        const targetTop = container.scrollHeight - container.clientHeight;
-        container.scrollTop = targetTop; // 직접 할당 방식으로 변경
-        console.log('[AutoScroll] after scrollTop:', container.scrollTop);
-      }, 50);
+        const el = document.querySelector(`[data-message-id="${messageId}"]`) as HTMLElement;
+        if (!el) return;
+
+        const containerRect = container.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        const offset = 60; // 헤더 + 스텝 인디케이터 높이 여유
+
+        const relativeTop = elRect.top - containerRect.top;
+        const targetScrollTop = container.scrollTop + relativeTop - offset;
+
+        container.scrollTo({
+          top: Math.max(0, targetScrollTop),
+          behavior: 'smooth'
+        });
+      }, 100);
     });
   }, [containerRef]);
 
-  return { scrollToBottom };
+  return { scrollToMessage };
 }
 
 // ============================================================================
@@ -752,7 +755,7 @@ export default function KnowledgeAgentPage() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // 자동 스크롤 훅
-  const { scrollToBottom } = useAutoScroll(mainRef);
+  const { scrollToMessage } = useAutoScroll(mainRef);
 
   // State
   const [phase, setPhase] = useState<Phase>('loading');
@@ -981,33 +984,26 @@ export default function KnowledgeAgentPage() {
     initializeAgent();
   }, [categoryKey]);
 
-  // [자동 스크롤] 메시지가 추가되거나 업데이트될 때 하단으로 스크롤
+  // [자동 스크롤] 새 메시지가 추가될 때 해당 메시지를 화면 상단에 위치
   const prevMessagesLengthRef = useRef(messages.length);
 
   useEffect(() => {
     const prevLength = prevMessagesLengthRef.current;
 
-    // 새 메시지가 추가된 경우 - 하단으로 스크롤
+    // 새 메시지가 추가된 경우에만 스크롤
     if (messages.length > prevLength) {
-      setTimeout(() => scrollToBottom(), 100);
-    }
-    // 메시지 내용이 업데이트된 경우 (실시간 분석 진행 등)
-    else if (messages.length > 0 && messages.length === prevLength) {
-      const lastMessage = messages[messages.length - 1];
-      if (lastMessage.role === 'assistant' && lastMessage.analysisData && !lastMessage.analysisData.isComplete) {
-        scrollToBottom();
+      const newMessage = messages[messages.length - 1];
+
+      // 사용자 메시지 또는 AI 텍스트 응답일 때만 스크롤
+      // (로딩 중 analysisData 업데이트, 옵션/팁 렌더링 시에는 스크롤 안 함)
+      if (newMessage.role === 'user' ||
+          (newMessage.role === 'assistant' && newMessage.content && !newMessage.analysisData)) {
+        scrollToMessage(newMessage.id);
       }
     }
 
     prevMessagesLengthRef.current = messages.length;
-  }, [messages, scrollToBottom]);
-
-  // phase 변경 시 스크롤 (중요한 UI 전환)
-  useEffect(() => {
-    if (phase !== 'loading') {
-      setTimeout(() => scrollToBottom(), 200);
-    }
-  }, [phase, scrollToBottom]);
+  }, [messages, scrollToMessage]);
 
 
   // 입력창 높이 자동 조절 및 하이라이트 리셋
