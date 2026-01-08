@@ -1,5 +1,5 @@
-# 세션: 20260108_050143_7d5r
-> 시작: 2026-01-08T05:01:43.676Z
+# 세션: 20260108_053525_5o5s
+> 시작: 2026-01-08T05:35:25.770Z
 > 카테고리키: 디럭스
 > 카테고리: 디럭스 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 디럭스 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 디럭스 유모차 시장은 부가부, 줄즈, 오이스터, 스토케 등 프리미엄 브랜드들이 강세를 보이고 있습니다. 특히 부가부 폭스 5와 줄즈 데이 5 모델이 높은 인기를 누리고 있으며, 고급스러운 디자인과 탁월한 핸들링, 안정감 있는 주행 성능이 주요 트렌드로 자리 잡고 있습니다. 또한, 디럭스급 성능을 갖춘 절충형 유모차의 등장으로 선택의 폭이 넓어지고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EB%94%94%EB%9F%AD%EC%8A%A4%20%EC%9C%A0%EB%AA%A8%EC%B0%A8&sort=saveDESC
+- 인사이트: 2026년 1월 현재, 디럭스 유모차 시장은 부가부, 줄즈, 오이스터, 스토케 등의 브랜드가 인기를 얻고 있습니다. 특히 프리미엄 라인업이 강세를 보이며, 디자인과 기능성을 겸비한 제품들이 트렌드를 이끌고 있습니다..
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGORlBZZh-i3S10w32HV7Fy-7P-MgIjVNBmJcxR63v0BlpjMKdD55eqQPRkEAv4MkXQpBCrUFhmWQne-_ogBM7vLbXznVbixF0NgllUX8TURL53inNflzvvxsV23HC4iSjOWaTF1C_cgFzYzSLohntZJUxj4F936TdGTceAmrcDcR3GtQpsyJkHkS-ofh0D2UnF, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFIK-_K-jSyLl5qi6ZWbxfN8Aa68XfB8il2sPyxkU92IZV4I471wp6zjG2iPVND4PQYT1SNQLks2RBcuUTLiByz1PB5ZDhPqReKv9ReRi9XMZc0vgYahNi23hI69tlIWSYYdCl-qDOfa-xvv3QadHUpm4EyMv9i4GQAXca9OwM3nXOfxBMfihEFRD5XYomsvZbaRKoBVqNLr3EiydvLU6dkIQemE7Z2KPTNRknFTiF9MjI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkkmC7NH-PJJFiritMsYOR6ZkfgyWYFkTZprbJnqS_hzLWBXXOLbxBChhtw_0ivGiHg7HfsDPO9ZYwwkuggrFuTnWlL-7_4cMqgbqv868KTC1jBAF8U9yUIc0FuFalBqtgL20NliE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGSLw8b3__wkfNswjHB2rw_Go6aNXcqXRxaTiTC8udGEbM7j5uEGS0ZR7CuwKE71ZHVZj3Kq1fgChefY_XunmvZNVyJYvYa71u77ljEh0Ud3k3Zv7Vt-VYFbnTijlSuoC50orikZXfnVMDSoU9Y-dow6DNkHDf8XG2iWiZ4S2St6XR2mTzBTxk7fCnGRGUQC16OEgj6yUG7CHNt1ePoTy3Fu8M0plstmI6xQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZlBl9Qp8UolcAld3EpPFP-y2Wx1Vm0wuDpOo0JAcZgIJGM12bu1Zpm6XUHaJ5mHhzIP4jmpcIDEypML3h81ZhaoK3mjYahMw8QL-M1ZVdIimv0t1zfkJD67NUQMafJq774r7mwQ==
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| usage_frequency | 주로 실내 |
-| handling_preference | 다양한 지형 주행, 안정적인 승차감 |
-| seat_height_preference | 일반적인 높이의 시트 |
+| usage_environment | 주로 도심, 평탄한 길 |
+| folding_convenience | 1. 한 손으로 간편하게 접고 펴기, 2. 작은 부피로 보관 용이 |
+| seat_features | 높은 시트 포지션 |
 | budget | 160만원 이하 |
-| __avoid_negatives__ | 유모차 가격이 너무 비싸서 예산 초과될까봐 부담돼요 |
+| __avoid_negatives__ | 엘리베이터 없는 집에 살아서 유모차를 매일 들고 오르내리는 게 너무 힘들 것 같아요 |
 
 ---
 
@@ -60,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 유모차 가격이 너무 비싸서 예산 초과될까봐 부담돼요
+- 엘리베이터 없는 집에 살아서 유모차를 매일 들고 오르내리는 게 너무 힘들 것 같아요
 
 ---
 

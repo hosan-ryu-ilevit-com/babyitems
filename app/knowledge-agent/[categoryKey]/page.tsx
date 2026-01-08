@@ -868,6 +868,7 @@ export default function KnowledgeAgentPage() {
   const [v2FlowEnabled] = useState(true); // V2 플로우 활성화 여부
   const [v2FlowStarted, setV2FlowStarted] = useState(false); // V2 플로우 시작 여부
   const [savedBalanceSelections, setSavedBalanceSelections] = useState<any[]>([]); // 밸런스 선택 저장
+  const [savedNegativeLabels, setSavedNegativeLabels] = useState<string[]>([]); // 단점 필터 선택 저장 (labels)
   const [hardcutResult, setHardcutResult] = useState<{
     totalBefore: number;
     totalAfter: number;
@@ -1164,6 +1165,20 @@ export default function KnowledgeAgentPage() {
         setCurrentQuestion(firstQuestion);
         setProgress({ current: 1, total: questionTodosFromQuestions.length });
         setCrawledProducts(localProducts);
+
+        // ✅ avoid_negatives 질문의 옵션들을 negativeOptions로 설정
+        const avoidNegativesQuestion = questionTodosFromQuestions.find(
+          (q: any) => q.id === 'avoid_negatives' || q.id?.includes('negative') || q.id?.includes('avoid')
+        );
+        if (avoidNegativesQuestion?.options && avoidNegativesQuestion.options.length > 0) {
+          const negativeOpts: NegativeOption[] = avoidNegativesQuestion.options.map((opt: any, idx: number) => ({
+            id: `neg_${idx}`,
+            label: opt.label || opt.value || opt,
+            target_rule_key: opt.value || opt.label || `neg_key_${idx}`,
+          }));
+          setNegativeOptions(negativeOpts);
+          console.log('[V2 Flow] negativeOptions set from avoid_negatives question:', negativeOpts.length);
+        }
 
         // V2 Flow: 질문 응답 중 백그라운드에서 확장 크롤링 시작
         if (v2FlowEnabled) {
@@ -1524,10 +1539,12 @@ export default function KnowledgeAgentPage() {
         }
       });
       
-      // 2. 피하고 싶은 단점들 추가
-      const avoidNegatives = collectedInfo['__avoid_negatives__'];
-      if (avoidNegatives && Array.isArray(avoidNegatives) && avoidNegatives.length > 0) {
-        avoidNegatives.forEach((neg: string) => {
+      // 2. 피하고 싶은 단점들 추가 - selectedNegativeKeys에서 negativeOptions를 사용하여 레이블로 변환
+      const avoidNegativeLabels = selectedNegativeKeys
+        .map(key => negativeOptions.find(opt => opt.target_rule_key === key)?.label)
+        .filter((label): label is string => !!label);
+      if (avoidNegativeLabels.length > 0) {
+        avoidNegativeLabels.forEach((neg: string) => {
           appliedRules.push({
             rule: `❌ "${neg}" 제외`,
             matchedCount: Math.floor(allProducts.length * 0.1 + Math.random() * 10),
@@ -1759,10 +1776,14 @@ export default function KnowledgeAgentPage() {
 
   // 자연어 입력 후 최종 추천으로 진행
   const handleFinalInputSubmit = async (additionalCondition?: string) => {
-    // 회피조건 추출
-    const avoidNegatives: string[] = Array.isArray(collectedInfo['__avoid_negatives__'])
-      ? collectedInfo['__avoid_negatives__']
-      : [];
+    // ✅ 회피조건 추출 - savedNegativeLabels 우선 사용 (handleNegativeFilterComplete에서 저장됨)
+    const avoidNegatives: string[] = savedNegativeLabels.length > 0
+      ? savedNegativeLabels
+      : selectedNegativeKeys
+          .map(key => negativeOptions.find(opt => opt.target_rule_key === key)?.label)
+          .filter((label): label is string => !!label);
+
+    console.log('[V2 Flow] handleFinalInputSubmit - avoidNegatives:', avoidNegatives);
 
     // 사용자 선택 조건 수 계산 (__로 시작하는 내부 키 제외)
     const userSelectionCount = Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length;
@@ -2144,6 +2165,10 @@ export default function KnowledgeAgentPage() {
   };
 
   const handleNegativeFilterComplete = async (selectedLabels: string[]) => {
+    // ✅ 선택된 단점 레이블을 저장 (PDP에서 사용)
+    setSavedNegativeLabels(selectedLabels);
+    console.log('[V2 Flow] savedNegativeLabels set:', selectedLabels);
+
     const selectionsStr = selectedLabels.join(', ') || '없음';
     setMessages(prev => [...prev, { id: `u_negative_${Date.now()}`, role: 'user', content: selectedLabels.length > 0 ? `피하고 싶은 단점: ${selectionsStr}` : '특별히 없어요', timestamp: Date.now() }]);
 
@@ -2475,6 +2500,15 @@ export default function KnowledgeAgentPage() {
     // 현재 활성화된 질문 찾기 및 확정 처리
     const activeMsg = [...messages].reverse().find(m => m.role === 'assistant' && m.options && !m.isFinalized);
     if (activeMsg) {
+      // ✅ 피하고 싶은 단점 질문인지 확인하고 선택된 옵션들을 savedNegativeLabels에 저장
+      // 메시지 ID가 'q_'로 시작하지 않으면 currentQuestion?.id 사용 (knowledge-agent 로직)
+      const questionId = activeMsg.id?.startsWith('q_') ? activeMsg.id.slice(2) : (currentQuestion?.id || '');
+      if (questionId === 'avoid_negatives' || questionId.includes('negative') || questionId.includes('avoid')) {
+        const selectedOptions = activeMsg.selectedOptions || [];
+        setSavedNegativeLabels(selectedOptions);
+        console.log('[KA Flow] handleFreeChat - avoid_negatives detected, savedNegativeLabels set:', selectedOptions);
+      }
+
       // 상세 로깅 추가
       if (categoryKey) {
         logKAQuestionAnswered(categoryKey, activeMsg.content, message);
@@ -2750,6 +2784,32 @@ export default function KnowledgeAgentPage() {
               </div>
             )}
 
+            {/* 피하고 싶은 단점 선택 완료 버튼 */}
+            {phase === 'negative_filter' && !isTyping && (
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.01, translateY: -1 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  // selectedNegativeKeys에서 negativeOptions를 사용하여 레이블로 변환
+                  const selectedLabels = selectedNegativeKeys
+                    .map(key => negativeOptions.find(opt => opt.target_rule_key === key)?.label)
+                    .filter((label): label is string => !!label);
+                  console.log('[V2 Flow] Negative filter complete - selectedLabels:', selectedLabels);
+                  handleNegativeFilterComplete(selectedLabels);
+                }}
+                className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all"
+              >
+                <span className="text-[16px] tracking-tight">
+                  {selectedNegativeKeys.length > 0 
+                    ? `${selectedNegativeKeys.length}개 선택 완료` 
+                    : '선택 없이 다음으로'}
+                </span>
+                <FcRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </motion.button>
+            )}
+
             {phase === 'result' && !showReRecommendModal ? (
               <ResultChatContainer
                 products={resultProducts}
@@ -2761,7 +2821,11 @@ export default function KnowledgeAgentPage() {
                     Object.entries(collectedInfo).map(([k, v]) => [k, String(v)])
                   ),
                   balanceSelections: savedBalanceSelections.map(s => s.selectedLabel),
-                  negativeSelections: selectedNegativeKeys,
+                  negativeSelections: savedNegativeLabels.length > 0 
+                    ? savedNegativeLabels 
+                    : selectedNegativeKeys
+                        .map(key => negativeOptions.find(opt => opt.target_rule_key === key)?.label)
+                        .filter((label): label is string => !!label),
                   budget: { min: 0, max: 0 },
                 }}
                 onUserMessage={(content) => {
@@ -2780,7 +2844,7 @@ export default function KnowledgeAgentPage() {
                   .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
                 }
               />
-            ) : phase !== 'hardcut_visual' && phase !== 'final_input' && (
+            ) : phase !== 'hardcut_visual' && phase !== 'final_input' && phase !== 'negative_filter' && phase !== 'result' && (
               <div className="relative group">
                 <div className="absolute -inset-6 -z-10 blur-[40px] opacity-40 pointer-events-none group-focus-within:opacity-70 transition-opacity duration-500" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.2) 50%, transparent 100%)' }} />
                 <motion.div 
@@ -3086,8 +3150,8 @@ export default function KnowledgeAgentPage() {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => {
                       logKnowledgeAgentReRecommendSameCategory(categoryKey || '', categoryName || '');
-                      // router.push로 변경하여 DB 연결된 로직 사용
-                      router.push(`/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}`);
+                      // 새로고침을 위해 window.location.href 사용
+                      window.location.href = `/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}`;
                     }}
                     className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
                     style={{ background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)' }}

@@ -598,15 +598,34 @@ function prescreenCandidates(
       : p.rating || 0;
     score += avgRating * 3; // 5점 만점 → 최대 15점
 
-    // 4. 피하고 싶은 단점 체크 (스펙에서 키워드 매칭)
+    // 4. 피하고 싶은 단점 체크 (키워드 추출 + 부분 매칭으로 개선)
     const specText = (p.specSummary || '').toLowerCase();
     const reviewText = productReviews.map(r => r.content).join(' ').toLowerCase();
+    const combinedText = `${specText} ${reviewText}`;
+
+    // 단점 레이블에서 핵심 키워드 추출 (한글 단어 추출)
+    const negativeKeywords = new Set<string>();
     for (const neg of negativeSelections) {
-      const negLower = neg.toLowerCase();
-      if (specText.includes(negLower) || reviewText.includes(negLower)) {
-        score -= 10; // 단점 언급 시 감점
+      // "소음이 예상보다 커요" → ["소음", "예상", "커요"] 등 추출
+      const words = neg.match(/[가-힣]{2,}/g) || [];
+      words.forEach(w => negativeKeywords.add(w.toLowerCase()));
+      // 핵심 단어 직접 추가 (예: "무거움" → "무겁", "무거")
+      if (neg.includes('무거') || neg.includes('무게')) negativeKeywords.add('무거');
+      if (neg.includes('소음') || neg.includes('시끄')) negativeKeywords.add('소음');
+      if (neg.includes('세척') || neg.includes('청소')) negativeKeywords.add('세척');
+      if (neg.includes('가격') || neg.includes('비싸')) negativeKeywords.add('비싸');
+      if (neg.includes('고장') || neg.includes('내구')) negativeKeywords.add('고장');
+      if (neg.includes('크기') || neg.includes('부피')) negativeKeywords.add('크기');
+    }
+
+    let negativeMatchCount = 0;
+    for (const keyword of negativeKeywords) {
+      if (combinedText.includes(keyword)) {
+        negativeMatchCount++;
       }
     }
+    // 키워드 매칭 수에 따라 감점 (최대 -30점)
+    score -= Math.min(negativeMatchCount * 10, 30);
 
     // 5. 사용자 조건 매칭
     for (const [, value] of Object.entries(collectedInfo)) {
@@ -798,9 +817,11 @@ async function generateRecommendations(
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ${reviewRules}
 
-  ### 4️⃣ 사용자 우선순위 반영
+  ### 4️⃣ 사용자 우선순위 반영 (스펙 검증 필수!)
   - 밸런스 게임에서 선택한 가치와 매칭되는 상품 우선
   - 질문 응답에서 표현한 니즈와 부합하는 상품 우선
+  - ⚠️ **단, 해당 기능이 제품 스펙/리뷰에서 실제로 확인되는 경우에만!**
+  - 사용자가 원한 기능이 제품에 없으면, 그 기능 대신 제품이 실제로 가진 장점을 추천 이유로 작성
 
   ### 5️⃣ 다양성 확보
   - 가능하면 다른 가격대/브랜드를 포함해 3가지 선택지 제공
@@ -825,7 +846,8 @@ async function generateRecommendations(
        - 🧼 **매일 닦는 게 일인 육아맘 필수템.** "통세척이 가능해서 물때 걱정이 싹 사라졌다"는 극찬을 받았어요.
 
   2. **personalReason (추천 이유):** 왜 "이 사용자에게" 이 제품이 딱인지 (절대 생략 금지)
-     - **작성 기준:** 사용자가 앞에서 입력한/선택한 조건들과 회피한 조건들을 기반으로, 이 제품이 당신에게 왜 꼭 맞는지 확신시키는 한 문장.
+     - **작성 기준:** 사용자가 앞에서 입력한/선택한 조건들 중 **이 제품의 스펙/리뷰에서 실제로 확인된 것만** 언급하여, 이 제품이 당신에게 왜 꼭 맞는지 확신시키는 한 문장.
+     - **⚠️ 필수 검증:** 사용자가 원한 기능이라도 해당 제품 스펙/리뷰에 없으면 **절대 언급 금지**. 대신 제품이 실제로 가진 다른 장점을 언급하세요.
      - **형식:** "~님처럼 ~을/를 중요하게 여기시면 딱이에요" 또는 "~하신다고 하셨는데, 이 제품이 그 부분에서 최고예요"
      - **길이:** 40~60자
 
@@ -835,10 +857,17 @@ async function generateRecommendations(
     - "당신은 ~를 선택했으므로" ❌ (너무 딱딱함)
     - "~해서 추천합니다" / "~이기 때문에 추천해요" ❌
     - 리뷰 원문만 따옴표로 나열하기 ❌
+    - **제품 스펙/리뷰에 없는 기능을 마치 있는 것처럼 언급** ❌ (예: 자동급수 기능이 없는데 "자동급수를 원하시면 딱이에요")
 
   - **✅ Good 예시:**
     - **oneLiner:** 🤫 **소리에 민감한 아기도 꿀잠!** "숨소리보다 조용해서 켜둔 줄도 몰랐다"는 평이 압도적이에요.
     - **personalReason:** 밤중 수유가 잦다고 하셨는데, 이 정도 정숙성이면 아기 깨울 걱정 없으실 거예요.
+    (↑ 이 예시는 제품 스펙/리뷰에서 "정숙성"이 실제로 확인되었기 때문에 OK)
+
+  - **❌ Bad 예시 (스펙 미검증):**
+    - 사용자가 "자동급수" 선호 → 제품 스펙에 자동급수 없음
+    - **personalReason:** "자동급수를 중요하게 생각하신다면 딱이에요~" ← **거짓 정보! 절대 금지**
+    - **올바른 대안:** 제품이 실제로 가진 "3L 대용량" 등 다른 장점을 언급
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ## 📤 응답 형식 (JSON만)

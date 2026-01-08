@@ -1,14 +1,14 @@
-# 세션: 20260107_122633_qhkc
-> 시작: 2026-01-07T12:26:33.752Z
+# 세션: 20260108_054616_3de7
+> 시작: 2026-01-08T05:46:16.260Z
 > 카테고리키: 젖병
 > 카테고리: 젖병
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 젖병
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAkLIni6uwEQK_pcvVu3GoMGqrSJ3X_tYWXFHEUDoUm_IJAndCCwSWeZhZQVKlXgi3XRnmj2dVTHAm76rG_nVQPHYSYz0cof4qyUDPk3814GZd8tIqSysgyhWhUuN_geGZ43TxxRI002EW, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFP2cT5Hzn1mvh-GaYrxlQSIlbeTyEP2DnDJGNZPPl8iyIYVV4HZPT85M0QhbqsZpYQgZYe4284Au5s7E391XGkfKfdBGa4mavZSreZ6WqShCtTSP_A-DgI7HF11SDjuzyYu5_cKYk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJi2Z54yiCd_bRdsuo59bdCYb3cf1Nx-HTDNHzAOIIqwiGdDFsbFtYajxMe5lbwESWsV_5EKE3x3cEGJkgPF-feFYDJ9podSWVIyd9QlVHksxK-B1YVVg7yGPg3beKOe5JNopH5vebX17NQ5Zpo7Jqs0txW3sC8FDuxw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_q5vhkEyuGx451ceGmgPlS6uimaU3bddcPv17isqt_7Laj68JbPgaZpk0oX-6XOQWWC9VHQJ9T3tsnFuKiNXMlrULakQGCU3R430Ftx-yS6A01pBiHC4BdXOIbKbfHUtRJoEsh2LQ21EcDWJDxGAkJqjxVvR10tgfUglj, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkKHSClL_-zUIXBOHr2MTTXlul0mtP0_HpACB77IN8MWLGRCdWumWowGa5Gq2PFsDN-GhBgm3IA6Wq6-dL6zUoWgJlyBjmM66iLgWBdE5Bkv-37bpSajZLx0somqg=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAkLIni6uwEQK_pcvVu3GoMGqrSJ3X_tYWXFHEUDoUm_IJAndCCwSWeZhZQVKlXgi3XRnmj2dVTHAm76rG_nVQPHYSYz0cof4qyUDPk3814GZd8tIqSysgyhWhUuN_geGZ43TxxRI002EW, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFP2cT5Hzn1mvh-GaYrxlQSIlbeTyEP2DnDJGNZPPl8iyIYVV4HZPT85M0QhbqsZpYQgZYe4284Au5s7E391XGkfKfdBGa4mavZSreZ6WqShCtTSP_A-DgI7HF11SDjuzyYu5_cKYk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJi2Z54yiCd_bRdsuo59bdCYb3cf1Nx-HTDNHzAOIIqwiGdDFsbFtYajxMe5lbwESWsV_5EKE3x3cEGJkgPF-feFYDJ9podSWVIyd9QlVHksxK-B1YVVg7yGPg3beKOe5JNopH5vebX17NQ5Zpo7Jqs0txW3sC8FDuxw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_q5vhkEyuGx451ceGmgPlS6uimaU3bddcPv17isqt_7Laj68JbPgaZpk0oX-6XOQWWC9VHQJ9T3tsnFuKiNXMlrULakQGCU3R430Ftx-yS6A01pBiHC4BdXOIbKbfHUtRJoEsh2LQ21EcDWJDxGAkJqjxVvR10tgfUglj, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkKHSClL_-zUIXBOHr2MTTXlul0mtP0_HpACB77IN8MWLGRCdWumWowGa5Gq2PFsDN-GhBgm3IA6Wq6-dL6zUoWgJlyBjmM66iLgWBdE5Bkv-37bpSajZLx0somqg=
+- 쿼리: 젖병 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 1월 현재, 젖병 시장에서는 모유실감 디자인의 더블하트, 배앓이 방지 기능의 닥터브라운, 디자인이 우수한 헤겐 등이 인기 브랜드로 자리 잡고 있습니다. 최근 트렌드는 아기의 편안한 수유를 돕는 기능성과 안전한 소재에 대한 관심이 높습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNs8c6SAJ9uZUs5BWsN8tlhvOdjhaeLb2aCxSlH1PjI6C4Cd-Dy__ateZWHFRXHSrQZi4CnzH1-CxGUy7jJZ25zhIjiN9_XSUThJ9RGRt1yhLfDjphnUWAY0ZyuiicdIwSN51NAmU1CZY=
 
 ---
 
@@ -16,38 +16,39 @@
 
 | 항목 | 답변 |
 |------|------|
-| baby_age | 영아 (4-6개월) |
-| material | 유리, PPSU |
+| bottle_material | PPSU, 유리 |
+| anti_colic_feature | 네 |
+| bottle_size_preference | 240ml |
 | budget | 2만원 이하 |
-| __avoid_negatives__ | 1. 세척/관리 번거로움,3. 젖병 누수/젖꼭지 문제,4. 스크래치/변색 |
+| __avoid_negatives__ | 젖꼭지가 쉽게 닳아서 자주 교체해야 하는 상황이 부담돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 34개 (전체 34개 중)
+현재 후보: 68개 (전체 68개 중)
 
 ### 후보 상품
 1. 더블하트 모유실감 3세대 PPSU 베이직 160ml - 61,930원 - ⭐4.8
 2. 루피너스 PPSU 젖병 240ml 트윈팩 세트 더블하트 젖꼭지 호환 - 12,660원 - ⭐4.9
-3. 더블하트 트리플팩 240ml + 젖꼭지 4개 - 39,840원 - ⭐4.8
-4. 헤겐 애착젖병 PPSU 240ml - 81,170원 - ⭐4.8
+3. 헤겐 애착젖병 PPSU 240ml - 85,100원 - ⭐4.8
+4. 더블하트 트리플팩 240ml + 젖꼭지 4개 - 39,840원 - ⭐4.8
 5. 헤겐 애착젖병 PPSU 150ml - 57,180원 - ⭐4.9
 6. 헤겐 애착젖병 PPSU 150ml + 240ml - 85,760원 - ⭐5
-7. 누크 네이처센스 유리 젖병 240ml - 14,040원 - ⭐4.6
-8. 더블하트 3세대 330ml 트윈팩 젖병2개/노꼭지 - 30,470원 - ⭐4.8
-9. 더블하트 젖병 전용 추스트로우 2P+세척솔1P - 13,490원 - ⭐4.7
-10. 헤겐 애착젖병 PPSU 330ml - 88,373원 - ⭐4.8
-11. 더블하트 3세대 160ml 디자인 트윈팩2개 젖병4개 + 젖꼭지4개 - 46,060원 - ⭐5
+7. 누크 네이처센스 유리 젖병 240ml - 13,730원 - ⭐4.6
+8. 더블하트 3세대 330ml 트윈팩 젖병2개/노꼭지 - 30,350원 - ⭐4.8
+9. 더블하트 3세대 160ml 디자인 트윈팩2개 젖병4개 + 젖꼭지4개 - 46,060원 - ⭐5
+10. 더블하트 젖병 전용 추스트로우 2P+세척솔1P - 13,490원 - ⭐4.7
+11. 닥터브라운 와이드넥 옵션스 플러스 데코 PPSU 젖병 270ml - 48,900원 - ⭐5
 12. 더블하트 소프트터치 모유실감 PPSU 젖병 240ml - 29,830원 - ⭐4.7
 13. 그린핑거 베베그로우 PPSU 노랑붓꽃 젖병 160ml (노꼭지) - 22,380원 - ⭐5
-14. 더블하트 젖병 전용 젖병손잡이 2P 옐로우1P+그린1P - 4,610원 - ⭐4.6
-15. 더블하트 3세대 240ml 트윈팩 젖병2개 + 젖꼭지 4개 - 39,850원 - ⭐4.9
-16. 란시노 유리젖병 240ml - 27,800원 - ⭐5
-17. 닥터브라운 내로우넥 옵션스 플러스 PP 젖병 250ml - 30,600원 - ⭐4.8
-18. 더블하트 모유실감 3세대 PPSU 오후의베이지 240ml - 21,980원 - ⭐5
-19. 스펙트라 올셋 PP 젖병 160ml - 11,040원 - ⭐5
-20. 더블하트 모유실감 3세대 PPSU 노꼭지 240ml 트윈팩 - 27,930원 - ⭐4.8
+14. 더블하트 3세대 240ml 트윈팩 젖병2개 + 젖꼭지 4개 - 40,050원 - ⭐4.9
+15. 닥터브라운 내로우넥 옵션스 플러스 PP 젖병 250ml - 30,500원 - ⭐4.8
+16. 더블하트 모유실감 3세대 PPSU 오후의베이지 240ml - 21,510원 - ⭐5
+17. 란시노 유리젖병 240ml - 27,800원 - ⭐5
+18. 그린핑거 베베그로우 PPSU 단풍 젖병 160ml (노꼭지) - 26,800원 - ⭐5
+19. 더블하트 3세대 240ml 모먼트 트윈팩 3개 젖병6개 +젖꼭지 6개 - 99,590원 - ⭐4.9
+20. 그린맘 베이직 PP 슬림 젖병 140ml - 13,300원 - ⭐4
 
 ---
 
@@ -59,9 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 1. 세척/관리 번거로움
-- 3. 젖병 누수/젖꼭지 문제
-- 4. 스크래치/변색
+- 젖꼭지가 쉽게 닳아서 자주 교체해야 하는 상황이 부담돼요
 
 ---
 
