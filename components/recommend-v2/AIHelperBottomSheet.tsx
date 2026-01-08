@@ -141,15 +141,15 @@ export function AIHelperBottomSheet({
       if (questionType === 'category_selection') {
         const baseExamples = [
           FIXED_FIRST_EXAMPLE,
-          '신생아 출산 준비 중이에요',
+          '처음 사는 거라 잘 몰라요',
           '맞벌이라 시간이 부족해요',
         ];
         setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       } else {
         const fallbackExamples = [
-          '쌍둥이라 자주 사용해요',
+          '자주 사용할 것 같아요',
           '맞벌이라 시간이 부족해요',
-          '집이 좁은 편이에요',
+          '공간이 좁은 편이에요',
         ];
         setExamples(fallbackExamples);
       }
@@ -511,7 +511,7 @@ export function AIHelperBottomSheet({
                         ref={inputRef}
                         value={userInput}
                         onChange={e => setUserInput(e.target.value)}
-                        placeholder="위 질문과 관련된 육아 상황을 알려주세요"
+                        placeholder="위 질문과 관련된 상황을 알려주세요"
                         className="w-full p-4 bg-gray-50 border-none rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px]"
                         disabled={isQuickMode || isLoading || !!aiResponse}
                       />

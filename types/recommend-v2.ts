@@ -807,6 +807,7 @@ export interface ResultChatMessage {
 export interface ResultChatApiRequest {
   message: string;
   categoryKey: string;
+  categoryName: string;
   products: Array<{
     pcode: string;
     title: string;

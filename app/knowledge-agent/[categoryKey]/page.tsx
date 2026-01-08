@@ -998,14 +998,15 @@ export default function KnowledgeAgentPage() {
       // 사용자 메시지 또는 AI 텍스트 응답일 때만 스크롤
       // (로딩 중 analysisData 업데이트, 옵션/팁 렌더링 시에는 스크롤 안 함)
       // ✅ 결과 메시지(resultProducts 포함)는 별도 처리 - 비교표 전체가 아닌 메시지 상단으로만 스크롤
+      // ✅ result phase에서 AI 응답(결과 채팅)은 스크롤 건너뛰기 - 스크롤 점핑 방지
       if (newMessage.role === 'user' ||
-          (newMessage.role === 'assistant' && newMessage.content && !newMessage.analysisData && !newMessage.resultProducts)) {
+          (newMessage.role === 'assistant' && newMessage.content && !newMessage.analysisData && !newMessage.resultProducts && phase !== 'result')) {
         scrollToMessage(newMessage.id);
       }
     }
 
     prevMessagesLengthRef.current = messages.length;
-  }, [messages, scrollToMessage]);
+  }, [messages, scrollToMessage, phase]);
 
 
   // 입력창 높이 자동 조절 및 하이라이트 리셋
@@ -2682,6 +2683,37 @@ export default function KnowledgeAgentPage() {
                   onFreeChat={handleFreeChat}
                 />
             ))}
+
+            {/* 결과 채팅 로딩 인디케이터 */}
+            <AnimatePresence>
+              {isChatLoading && phase === 'result' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex items-center gap-3 py-3 px-1"
+                >
+                  <div className="flex gap-1">
+                    {[0, 1, 2].map(i => (
+                      <motion.div
+                        key={i}
+                        animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1, 0.8] }}
+                        transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
+                        className="w-1.5 h-1.5 rounded-full bg-blue-500"
+                      />
+                    ))}
+                  </div>
+                  <motion.span
+                    animate={{ backgroundPosition: ["-100% 0", "100% 0"] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="text-[14px] bg-gradient-to-r from-gray-600 via-gray-400 to-gray-600 bg-[length:200%_auto] bg-clip-text text-transparent font-medium"
+                  >
+                    답변 생성 중...
+                  </motion.span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* 하드컷팅 시각화 단계 */}
             {phase === 'hardcut_visual' && hardcutResult && (
               <motion.div

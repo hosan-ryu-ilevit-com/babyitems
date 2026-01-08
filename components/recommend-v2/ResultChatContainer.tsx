@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import type {
   ResultChatApiRequest,
   ResultChatApiResponse,
@@ -90,6 +89,7 @@ export function ResultChatContainer({
       const request: ResultChatApiRequest = {
         message: content,
         categoryKey,
+        categoryName,
         products: products.map((p) => ({
           pcode: p.pcode,
           title: p.title,
@@ -150,8 +150,6 @@ export function ResultChatContainer({
 
   return (
     <div className="w-full relative">
-     
-
       {/* 채팅 입력창 */}
       <div className="relative flex items-end group">
         {/* 항상 보이는 파란색 그라데이션 글로우 효과 */}
