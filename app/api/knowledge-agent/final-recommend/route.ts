@@ -25,7 +25,7 @@ const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE
 const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
 
 // 모델 상수
-const FINAL_RECOMMEND_MODEL = 'gemini-2.5-flash-lite'; // 최종 추천용
+const FINAL_RECOMMEND_MODEL = 'gemini-3-flash-preview'; // 최종 추천용 (가장 똑똑한 모델)
 const SPEC_NORMALIZE_MODEL = 'gemini-2.5-flash-lite'; // 스펙 정규화용
 const PROS_CONS_MODEL = 'gemini-2.5-flash-lite'; // 장단점 생성용
 

@@ -934,7 +934,7 @@ export default function KnowledgeAgentPage() {
     // 3단계: 최종 TOP 3 선정
     const step3: TimelineStep = {
       id: 'step-3',
-      title: '딱 맞는 TOP 3 선정 완료!',
+      title: '딱 맞는 TOP 3 선정 완료! 10초 정도만 더 기다려주세요...',
       icon: '',
       details: [
         '고객님께 가장 잘 맞을 것 같은 3가지 제품을 골랐어요.',
@@ -997,8 +997,9 @@ export default function KnowledgeAgentPage() {
 
       // 사용자 메시지 또는 AI 텍스트 응답일 때만 스크롤
       // (로딩 중 analysisData 업데이트, 옵션/팁 렌더링 시에는 스크롤 안 함)
+      // ✅ 결과 메시지(resultProducts 포함)는 별도 처리 - 비교표 전체가 아닌 메시지 상단으로만 스크롤
       if (newMessage.role === 'user' ||
-          (newMessage.role === 'assistant' && newMessage.content && !newMessage.analysisData)) {
+          (newMessage.role === 'assistant' && newMessage.content && !newMessage.analysisData && !newMessage.resultProducts)) {
         scrollToMessage(newMessage.id);
       }
     }
@@ -1882,7 +1883,8 @@ export default function KnowledgeAgentPage() {
           typing: true,
           timestamp: Date.now()
         }]);
-        // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
+        // ✅ 결과 메시지 상단으로 스크롤 (비교표 전체가 아닌 메시지 위치로)
+        setTimeout(() => scrollToMessage(resultMsgId), 50);
 
         // ✅ 백그라운드에서 Top 3 리뷰 50개씩 크롤링 (PDP용) - 블로킹 없음
         const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
@@ -2144,7 +2146,8 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
-          // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
+          // ✅ 결과 메시지 상단으로 스크롤 (비교표 전체가 아닌 메시지 위치로)
+          setTimeout(() => scrollToMessage(resultMsgId), 50);
           return;
         }
       } finally {
@@ -2237,7 +2240,8 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
-          // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
+          // ✅ 결과 메시지 상단으로 스크롤 (비교표 전체가 아닌 메시지 위치로)
+          setTimeout(() => scrollToMessage(resultMsgId), 50);
 
           // ✅ 백그라운드에서 50개 리뷰 크롤링 + 장단점 재생성 + 분석 (블로킹 없음)
           const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
@@ -2588,7 +2592,8 @@ export default function KnowledgeAgentPage() {
           typing: true,
           timestamp: Date.now()
         }]);
-        // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
+        // ✅ 결과 메시지 상단으로 스크롤 (비교표 전체가 아닌 메시지 위치로)
+        setTimeout(() => scrollToMessage(chatResultMsgId), 50);
       } else {
         // 일반 AI 응답 로깅
         logKAChatMessage(categoryKey, userMessage, data.content);
