@@ -1,14 +1,14 @@
-# 세션: 20260106_062427_7m2y
-> 시작: 2026-01-06T06:24:27.392Z
-> 카테고리키: 휴대용 유모차
+# 세션: 20260108_022438_p9py
+> 시작: 2026-01-08T02:24:38.404Z
+> 카테고리키: 휴대용
 > 카테고리: 휴대용 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 휴대용 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 휴대용 유모차 시장은 스토케, 부가부, 줄즈와 같은 프리미엄 브랜드가 인기를 끌고 있으며, 와이업, 타보 등 가성비 좋은 브랜드도 주목받고 있습니다. 2026년 트렌드는 경량화, 원터치 폴딩, 기내 반입 가능 여부, 그리고 친환경 소재 사용이 핵심입니다. 특히 스마트 기능(예: 자동 접이식)이 탑재된 제품에 대한 관심이 높아지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEr0KyRQl_-YlTL8XNJZI7SIKio7ZqtJfLIutuxr4vS0h0SBgKpr7rSLokZfMsvr9F6W53qeWPoWMlUcUvqJtxytVWPhxWxaMSWsbJZs4RyzfF0vHUt0oVZITccXViHkrO3iqO0g1iVWkGVk7dO3Y_ql_OdtXXlF8vMcHedzxR-kzzcRpnU2RXeg_tnXrXJfe09, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGJVO96GTrO5-YspzYPaGF76_2YTpO5ovhj_TvDfJi42rKkGnisajdbUNKvMdS1mFZHxkOyUuKkqh3CvRRnbDvx-dagVLXSyloG1pg4vdahaq9csxr9NxzIAONilgXyA3KYrVm8XY2fsKpKMD_PEM0ISjZC4N-56_MYo3Vyh1kV2wZtiwfplUyYwLdZxEU0MOmS1kBuiD4Sf5_FnF4tH-eRl2epuaSn-qYTQw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9hwkmZgxnL6I6NQEvTju3jRQqAlv16UPcKFJYgtFrUoTbGHxjgDKq1-KXxHfYN1xZvk2W761DRCMRzKcJ35J8gu_hQqVJRH7S0ZX_D_QywsmtOtX2CFpA2kEJ77uk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi1v09w06s6mhkH2P5KQt58Tmw8yvhuTT12TJv1oDZPlxbNGVBgl8WFSc-O4_tiZrZig4SzWhrgTkHgLszlKgzMtA52A0ezMiBgs2tKWPSjeRXDG71bQyvH95SoEypf9rLhXf1IJVq1ukmkEKsw5jPH5mEjdtV_BgQQl0c2XBy8K7D_JJdzGUR2zFiqyrjcH6qlBtNNnBlQ2xOcYDv4P6RIhfOgTXC2p4tbGXFARao1qTb_lhgwXN7itpLtuEzdjJRHg2_zceMF1Hl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8vXXChzNO3XDCXI3z58Hmp58FKUD849DszNjBJ2I-k0ggVLpyyR1ZmqM2GLiEYXyYfz3TtvHp3-HoIUC60M6v-mU0gTakZFAuRH3NqboVaTlUx3BM3Cg-4YsRLg28IVay-oFF2-U=
+- 인사이트: 2026년 1월 현재, 휴대용 유모차 시장은 스토케, 부가부, 줄즈 등 프리미엄 브랜드가 강세를 보이며, 와이업, 타보 등 가성비 브랜드도 인기를 얻고 있습니다. 2026년 트렌드는 초경량화, 원터치 폴딩, 기내 반입 가능 여부, 그리고 친환경 소재 적용이 핵심입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTKouWs3Fzs5pmS4cFuROwiZ3iWfEa4JDHqDSj_keuXaTHpfZqpY2ksBYpLp9ghBi3G4GA5CKhyzTl_alYndnacpOZEfs8RS-rshHiqltH05cKDCHtxibIzyhpNss0La_la3bvCQ_TOHtdeScv8Dv8wQ6QhOY2TJlJINqLY9b0AE0BPz7_9ERYWQS5XfojCfys, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGatOhL69fDb_P0ez2s11_RDAgM_P8Jy0NbcRm1dp9P5EhyIrfc0yiwjR2O2QbuIfkVZtTavtmiY33ZDn6h1owRY6sXR2Cw4RM0uQy-EWWBbhOz8QFpi70Qm0FCVnI5, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2i9Njkdc3qqRlG7Nm5s13lscyt5vViSmdbXK8X9CsZAL2pw_PnaMaH1CHlUnqGppkwi4j7X4NFW19iZMdhIO5S8rDf3Wp0F9FE8XPawHXkZ59oNUlGFNnZ_2HDX0l5w9E2dc-dJFAOQA9901X5o_b5sat6S0KOG7K1CH_PLf6SzD4MTRHEu-sSIXTmRT6zjEPtbGPgVg2O3jKn0cWZ4xn0IfHIEgzmrX_SN73Et-lS_w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdZBAJzyxMFTRrsU7_85HtPjLYNDVvvmpbXsRIMgm6CcodV8Jpdey4n4eVwEvyXcu-6kRRWvzxyfm5gmCwNoQ63X_w6kb2GAR-6UDyIqgYhD6DrCVjhZwXUOsNpsgWac7RjWwKrXvy8XvOdOdurLLKtRK0doNGZ5gGZCzSrG9fMl1BIoiRR3URtrontcqWOybaXdQ4_i6rAwr9OE6PIbeae_q7eBxtkvi-NcGmn0i9usTvcFTZ6bi0F6IJA_oGSVUXEr2rQzuWo7xK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTcLz3NSzIsEvRCacx8U2Fee9VR_qVh_Ri24rILhQAGXiVvXfpuQn2nxxpgWwx4oePMBXZI0lqVbJWw51lC84-aCcMdtOSiISqAcOHfc5LAwBacLwW4mwoUaTuC8r772qWBG2L0R4=
 
 ---
 
@@ -16,34 +16,35 @@
 
 | 항목 | 답변 |
 |------|------|
+| baby_age_weight | 10kg ~ 15kg |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 40개 (전체 40개 중)
+현재 후보: 54개 (전체 54개 중)
 
 ### 후보 상품
 1. 리안 그램플러스 기내반입형 휴대용 유모차 - 248,400원 - ⭐4.6
 2. 부가부 버터플라이 휴대용 유모차 - 785,170원 - ⭐5
-3. 베이블퓨어리 트라이크 유모차 T2 - 53,400원 - ⭐3.5
-4. 스토케 요요3 프리미엄 휴대용 유모차 - 665,880원 - ⭐4.8
-5. 에그 2025 에그 스카이 에이로 기내반입 유모차 휴대용 - 560,500원 - ⭐5
-6. 리안 2025 프라임 맥스 오토폴딩 휴대용 유모차 - 530,100원 - ⭐0
-7. 웰본 뉴 로브스또 라이트 유모차[일반] - 76,070원 - ⭐4.6
-8. 다이치 다이치 더 스페이스 휴대용 유모차 - 389,500원 - ⭐5
-9. 에그 에그Z 플러스 휴대용 유모차 - 803,220원 - ⭐5
-10. 스토케 요요3 프리미엄 휴대용 쌍둥이 유모차(커넥트 포함) - 1,275,000원 - ⭐0
-11. 보브코리아 타보 2025년형 레노 휴대용 유모차 기내반입형 - 349,000원 - ⭐0
-12. 스토케 요요2 프리미엄 휴대용 유모차 - 749,000원 - ⭐5
-13. 다이치 타보 플렉스 탭3 - 299,250원 - ⭐4.8
-14. 조이 파르셀 시그니처 휴대용 유모차 - 387,940원 - ⭐5
-15. 싸이벡스 코야 휴대용 유모차+트래블시스템 바구니카시트 - 1,530,000원 - ⭐0
-16. 싸이벡스 코야 휴대용 유모차 - 873,000원 - ⭐4.9
-17. 보브코리아 타보 트래블러 S3 트라이크 유모카[색상선택] - 299,000원 - ⭐0
-18. 에어보스 2020 V90 오토폴딩 유모차 - 150,100원 - ⭐5
-19. 리안 리안 프라임 맥스 오토폴딩 휴대용 유모차 - 444,540원 - ⭐5
-20. 에어보스 리머X 엣지 기내반입 유모차 바닐라 크림 - 151,050원 - ⭐0
+3. 스토케 요요3 프리미엄 휴대용 유모차 - 665,880원 - ⭐4.8
+4. 에그 2025 에그 스카이 에이로 기내반입 유모차 휴대용 - 560,500원 - ⭐5
+5. 베이블퓨어리 트라이크 유모차 T2 - 51,290원 - ⭐4.7
+6. 에그 에그Z 플러스 휴대용 유모차 - 748,120원 - ⭐5
+7. 다이치 다이치 더 스페이스 휴대용 유모차 - 389,500원 - ⭐5
+8. 스토케 요요2 프리미엄 휴대용 유모차 - 749,000원 - ⭐5
+9. 다이치 타보 플렉스 탭3 - 355,000원 - ⭐4.8
+10. 쿨키즈 CK 플러스 유모차 - 148,500원 - ⭐4.7
+11. 웰본 뉴 로브스또 라이트 유모차[일반] - 76,070원 - ⭐4.6
+12. 웰본 로보스또 트리플 유모차 - 76,070원 - ⭐4.8
+13. 잉글레시나 잉글레시나 퀴드3 기내반입 휴대용 유모차 - 650,070원 - ⭐5
+14. 싸이벡스 코야 휴대용 유모차 - 970,000원 - ⭐4.9
+15. 베이블퓨어리 유아 트라이크 T4 휴대용 접이식 양대면 유모카 - 113,740원 - ⭐3.4
+16. 뉴나 트래블 lx 휴대용 유모차 - 890,000원 - ⭐5
+17. 조이 파르셀 시그니처 휴대용 유모차 - 387,940원 - ⭐5
+18. 킨즈 올뉴 에어플러스 기내반입 휴대용 접이식 유모차 - 417,730원 - ⭐4.8
+19. 엘레니어 세스토 라이트 유모차 - 459,000원 - ⭐4.8
+20. 페도라 2021 폴디 오토폴딩 휴대용 유모차 - 215,000원 - ⭐5
 
 ---
 

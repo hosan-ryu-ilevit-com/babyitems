@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS knowledge_reviews_cache (
   author TEXT,                            -- 작성자
   review_date TEXT,                       -- 작성 날짜 (문자열)
   mall_name TEXT,                         -- 쇼핑몰명
+  image_urls JSONB,                       -- 포토 리뷰 이미지 URL 배열
   crawled_at TIMESTAMPTZ DEFAULT NOW(),   -- 크롤링 시점
 
   UNIQUE(pcode, review_id)

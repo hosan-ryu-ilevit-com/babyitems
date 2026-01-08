@@ -109,6 +109,7 @@ interface PrefetchOptions {
   productLimit: number;
   reviewsTopN: number;
   reviewsPerProduct: number;
+  skipProducts: boolean;  // DB 캐시에서 제품 로드 (크롤링 스킵)
   skipReviews: boolean;
   skipPrices: boolean;
   dryRun: boolean;
@@ -128,7 +129,7 @@ interface PrefetchResult {
 // ============================================================================
 
 async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> {
-  const { query, productLimit, reviewsTopN, reviewsPerProduct, skipReviews, skipPrices, dryRun } = options;
+  const { query, productLimit, reviewsTopN, reviewsPerProduct, skipProducts, skipReviews, skipPrices, dryRun } = options;
   const startTime = Date.now();
   const errors: string[] = [];
 
@@ -139,41 +140,81 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
   console.log(`\n${'='.repeat(60)}`);
   console.log(`🚀 [Prefetch] 시작: "${query}"`);
   console.log(`   제품: ${productLimit}개, 리뷰 대상: 상위 ${reviewsTopN}개 x ${reviewsPerProduct}개`);
+  if (skipProducts) console.log(`   📂 제품은 DB 캐시에서 로드`);
   console.log(`${'='.repeat(60)}`);
 
   // -------------------------------------------------------------------------
-  // 1. 제품 메타데이터 크롤링
+  // 1. 제품 메타데이터 (크롤링 또는 DB 캐시에서 로드)
   // -------------------------------------------------------------------------
-  console.log(`\n📦 [Step 1] 제품 크롤링 중...`);
-
   let products: DanawaSearchListItem[] = [];
-  try {
-    const searchResult = await crawlers.crawlDanawaSearchListLite(
-      { query, limit: productLimit },
-      (product: DanawaSearchListItem, index: number) => {
-        if (index % 20 === 0) {
-          console.log(`   진행: ${index + 1}/${productLimit}`);
-        }
+
+  if (skipProducts) {
+    // DB 캐시에서 제품 로드
+    console.log(`\n📂 [Step 1] DB 캐시에서 제품 로드 중...`);
+    try {
+      const { data, error } = await db
+        .from('knowledge_products_cache')
+        .select('*')
+        .eq('query', query)
+        .order('rank', { ascending: true })
+        .limit(productLimit);
+
+      if (error) throw new Error(error.message);
+
+      if (data && data.length > 0) {
+        products = data.map((row: { pcode: string; name: string; brand: string | null; price: number | null; thumbnail: string | null; review_count: number; rating: number | null; spec_summary: string; product_url: string }) => ({
+          pcode: row.pcode,
+          name: row.name,
+          brand: row.brand,
+          price: row.price,
+          thumbnail: row.thumbnail,
+          reviewCount: row.review_count || 0,
+          rating: row.rating,
+          specSummary: row.spec_summary || '',
+          productUrl: row.product_url || `https://prod.danawa.com/info/?pcode=${row.pcode}`,
+        }));
+        console.log(`   ✅ ${products.length}개 제품 캐시 로드 완료`);
+      } else {
+        console.log(`   ⚠️ DB 캐시에 "${query}" 데이터가 없습니다.`);
+        return { query, productsCount: 0, reviewsCount: 0, pricesCount: 0, elapsed: Date.now() - startTime, errors };
       }
-    );
-    products = searchResult.items;
-    console.log(`   ✅ ${products.length}개 제품 크롤링 완료`);
-  } catch (error) {
-    const msg = `제품 크롤링 실패: ${error instanceof Error ? error.message : 'Unknown'}`;
-    console.error(`   ❌ ${msg}`);
-    errors.push(msg);
-    return { query, productsCount: 0, reviewsCount: 0, pricesCount: 0, elapsed: Date.now() - startTime, errors };
+    } catch (error) {
+      const msg = `제품 캐시 로드 실패: ${error instanceof Error ? error.message : 'Unknown'}`;
+      console.error(`   ❌ ${msg}`);
+      errors.push(msg);
+      return { query, productsCount: 0, reviewsCount: 0, pricesCount: 0, elapsed: Date.now() - startTime, errors };
+    }
+  } else {
+    // 실시간 크롤링
+    console.log(`\n📦 [Step 1] 제품 크롤링 중...`);
+    try {
+      const searchResult = await crawlers.crawlDanawaSearchListLite(
+        { query, limit: productLimit },
+        (product: DanawaSearchListItem, index: number) => {
+          if (index % 20 === 0) {
+            console.log(`   진행: ${index + 1}/${productLimit}`);
+          }
+        }
+      );
+      products = searchResult.items;
+      console.log(`   ✅ ${products.length}개 제품 크롤링 완료`);
+    } catch (error) {
+      const msg = `제품 크롤링 실패: ${error instanceof Error ? error.message : 'Unknown'}`;
+      console.error(`   ❌ ${msg}`);
+      errors.push(msg);
+      return { query, productsCount: 0, reviewsCount: 0, pricesCount: 0, elapsed: Date.now() - startTime, errors };
+    }
   }
 
   if (products.length === 0) {
-    console.log(`   ⚠️ 크롤링된 제품이 없습니다.`);
+    console.log(`   ⚠️ 제품이 없습니다.`);
     return { query, productsCount: 0, reviewsCount: 0, pricesCount: 0, elapsed: Date.now() - startTime, errors };
   }
 
   // -------------------------------------------------------------------------
-  // 2. DB 저장 - 제품
+  // 2. DB 저장 - 제품 (skipProducts일 때는 스킵)
   // -------------------------------------------------------------------------
-  if (!dryRun) {
+  if (!dryRun && !skipProducts) {
     console.log(`\n💾 [Step 2] 제품 DB 저장 중...`);
     try {
       // 기존 데이터 삭제 (upsert 대신 clean insert)
@@ -390,6 +431,7 @@ async function main() {
   const productLimit = parseInt(getArg('products') || '120', 10);
   const reviewsTopN = parseInt(getArg('reviews-top') || '10', 10);  // 상위 10개 제품 리뷰
   const reviewsPerProduct = parseInt(getArg('reviews-per') || '5', 10);  // 제품당 5개 = 총 50개 리뷰
+  const skipProducts = hasFlag('skip-products');  // DB 캐시에서 제품 로드
   const skipReviews = hasFlag('skip-reviews');
   const skipPrices = hasFlag('skip-prices');
   const dryRun = hasFlag('dry-run');
@@ -408,8 +450,9 @@ Knowledge Agent 캐시 프리페치 스크립트
   --query=<키워드>     검색 키워드 (단일)
   --all                모든 기본 카테고리 실행
   --products=<N>       크롤링할 제품 수 (기본: 120)
-  --reviews-top=<N>    리뷰를 가져올 상위 제품 수 (기본: 30)
+  --reviews-top=<N>    리뷰를 가져올 상위 제품 수 (기본: 10)
   --reviews-per=<N>    제품당 리뷰 수 (기본: 5)
+  --skip-products      제품 크롤링 스킵 (DB 캐시 사용)
   --skip-reviews       리뷰 크롤링 건너뛰기
   --skip-prices        가격 크롤링 건너뛰기
   --dry-run            DB 저장 없이 크롤링만 테스트
@@ -427,7 +470,7 @@ ${DEFAULT_QUERIES.map(q => `  - ${q}`).join('\n')}
   console.log(`#  Knowledge Cache Prefetch`);
   console.log(`#  쿼리: ${queries.length}개`);
   console.log(`#  제품: ${productLimit}개, 리뷰 대상: ${reviewsTopN}개 x ${reviewsPerProduct}개`);
-  console.log(`#  옵션: ${skipReviews ? 'skip-reviews ' : ''}${skipPrices ? 'skip-prices ' : ''}${dryRun ? 'dry-run' : ''}`);
+  console.log(`#  옵션: ${skipProducts ? 'skip-products ' : ''}${skipReviews ? 'skip-reviews ' : ''}${skipPrices ? 'skip-prices ' : ''}${dryRun ? 'dry-run' : ''}`);
   console.log(`${'#'.repeat(60)}`);
 
   const results: PrefetchResult[] = [];
@@ -439,6 +482,7 @@ ${DEFAULT_QUERIES.map(q => `  - ${q}`).join('\n')}
       productLimit,
       reviewsTopN,
       reviewsPerProduct,
+      skipProducts,
       skipReviews,
       skipPrices,
       dryRun,
