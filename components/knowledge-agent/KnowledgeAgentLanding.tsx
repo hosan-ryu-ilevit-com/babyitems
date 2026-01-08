@@ -434,7 +434,7 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
           >
              <Sparkle weight="fill" className={isBaby ? "text-rose-400" : "text-teal-400"} />
              <span className="text-[11px] font-bold text-gray-500 tracking-wider uppercase">
-               AI 비서 추천
+               올웨이즈 AI 쇼핑 비서
              </span>
           </motion.div>
 

@@ -299,7 +299,7 @@ export function V2ResultProductCard({
             }}
             className="flex-1 py-2.5 text-sm font-bold text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
           >
-            리뷰 모두보기
+            리뷰 보기
           </button>
           {/* 구매하기 버튼 */}
           <a
@@ -332,7 +332,7 @@ export function V2ResultProductCard({
           }}
           className="w-full py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
         >
-          <span>상세보기 / 최저가 비교하기</span>
+          <span>상세보기 · 최저가비교</span>
          
         </button>
       </div>
