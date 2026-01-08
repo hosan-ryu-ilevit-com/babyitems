@@ -934,7 +934,7 @@ export default function KnowledgeAgentPage() {
     // 3단계: 최종 TOP 3 선정
     const step3: TimelineStep = {
       id: 'step-3',
-      title: '딱 맞는 TOP 3 선정 완료! 10초 정도만 더 기다려주세요...',
+      title: '딱 맞는 TOP 3 선정 완료! 잠시만 더 기다려주세요 (총 소요시간 30초 내외)',
       icon: '',
       details: [
         '고객님께 가장 잘 맞을 것 같은 3가지 제품을 골랐어요.',
