@@ -122,7 +122,7 @@ async function generateProsConsWithOneLiner(
 
   const model = ai.getGenerativeModel({
     model: PROS_CONS_MODEL,
-    generationConfig: { temperature: 0.4, maxOutputTokens: 6000 },
+    generationConfig: { temperature: 0.4, maxOutputTokens: 10000 },
   });
 
   // 사용자 컨텍스트 (질문 응답)
@@ -285,6 +285,12 @@ ${productInfos}
    - oneLiner의 포인트를 뒷받침하는 실제 리뷰 인용 (따옴표 필수)
    - "~"는 후기가 많아요 / "~"는 평이 압도적이에요 형식
    - 35~55자
+⚠️ comparativeOneLiner 작성 규칙 (필수!):
+   - oneLiner와 완전히 다른 내용으로 작성! 상품 간 비교에 집중!
+   - 반드시 "다른 추천 상품 대비", "3개 중 가장 ~", "유일하게 ~" 같은 비교 표현 포함
+   - 가격/성능/기능 면에서 다른 상품과의 차이점 강조
+   - 35~60자
+   - 예시: "3개 중 **가격이 가장 저렴**하면서 기본 기능은 충실해요", "**유일하게 무선** 지원, 이동 편의성 최고"
 ⚠️ 금지 패턴: "당신은 ~를 선택했으므로", "리뷰에 따르면", "~이기 때문에 추천합니다"
 ⚠️ 뻔한 문구 금지 - Hook이 있는 카피로!`;
 
@@ -334,6 +340,7 @@ ${productInfos}
 
         console.log(`[GenerateProsCons] Generated for ${validatedResults.length} products, oneLiners:`, validatedResults.map((r: ProductProsConsResult) => `${r.pcode}: "${r.oneLiner}"`));
         console.log(`[GenerateProsCons] reviewProofs:`, validatedResults.map((r: ProductProsConsResult) => `${r.pcode}: "${r.reviewProof}"`));
+        console.log(`[GenerateProsCons] comparativeOneLiners:`, validatedResults.map((r: ProductProsConsResult) => `${r.pcode}: "${r.comparativeOneLiner}"`));
         return validatedResults;
       }
     } else {

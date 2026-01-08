@@ -900,6 +900,9 @@ async function generateRecommendations(
     let text = result.response.text().trim();
 
     console.log('[FinalRecommend] LLM raw response length:', text.length);
+    // 🔍 디버그: 원본 응답 앞뒤 500자 확인
+    console.log('[FinalRecommend] 📝 Raw response START:', text.slice(0, 500));
+    console.log('[FinalRecommend] 📝 Raw response END:', text.slice(-500));
 
     // markdown 코드 블록 제거
     text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
@@ -927,8 +930,15 @@ async function generateRecommendations(
         recommendations = parsed.recommendations || [];
         parseSuccess = recommendations.length > 0;
         if (parseSuccess) console.log('[FinalRecommend] ✅ 1차 직접 파싱 성공');
-      } catch {
+      } catch (e1) {
         console.log('[FinalRecommend] 1차 파싱 실패, 간단한 정리 후 재시도...');
+        console.log('[FinalRecommend] 🔴 1차 에러:', (e1 as Error).message);
+        // 파싱 실패 위치 근처 출력
+        const errorMatch = (e1 as Error).message.match(/position (\d+)/);
+        if (errorMatch) {
+          const pos = parseInt(errorMatch[1]);
+          console.log('[FinalRecommend] 🔴 에러 위치 근처:', jsonMatch[0].slice(Math.max(0, pos - 50), pos + 50));
+        }
       }
 
       // 2차: 간단한 문자열 정리 후 재시도
@@ -939,8 +949,9 @@ async function generateRecommendations(
           recommendations = parsed.recommendations || [];
           parseSuccess = recommendations.length > 0;
           if (parseSuccess) console.log('[FinalRecommend] ✅ 2차 정리 후 파싱 성공');
-        } catch {
+        } catch (e2) {
           console.log('[FinalRecommend] 2차 정리 후 파싱 실패, Flash Lite 복구 시도...');
+          console.log('[FinalRecommend] 🔴 2차 에러:', (e2 as Error).message);
         }
       }
 

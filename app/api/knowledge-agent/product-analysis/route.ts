@@ -199,10 +199,12 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
     "matchedPoints": ["매칭 포인트1", "매칭 포인트2"]
   },` : '';
 
-  const prompt = `당신은 ${categoryName} 전문 리뷰어입니다.
-아래 제품에 대해 분석해주세요.
+  const prompt = `당신은 ${categoryName} 전문 큐레이터입니다.
+사용자가 선택한 조건을 이 제품이 얼마나 충족하는지 분석해주세요.
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 제품 정보
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 - 제품명: ${product.name}
 - 브랜드: ${product.brand || '미상'}
 - 가격: ${product.price ? `${product.price.toLocaleString()}원` : '미정'}
@@ -212,8 +214,33 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 ## 리뷰
 ${reviewStr}
 ${conditionSection}${contextSection}
-## 분석 요청
-다음 JSON 형식으로 응답해주세요:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## evidence 작성 규칙 (매우 중요!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+evidence는 PDP 상단 "왜 추천했나요?" 섹션에 표시되는 핵심 문장입니다.
+전문적이면서도 친근한 톤으로, 사용자에게 확신을 주는 문장을 작성하세요.
+
+### 작성 원칙
+1. 스펙 또는 리뷰에서 명확한 근거를 찾아 작성
+2. 근거가 없으면 절대 추측하지 말고, "확인 필요" 문장 사용
+3. 사용자 조건과 제품 특성을 자연스럽게 연결
+
+### Good Example
+- 텐키리스(87키) 배열로 책상 공간을 효율적으로 활용할 수 있어요.
+- 무선 연결을 지원해 깔끔한 데스크 환경을 만들 수 있어요.
+- 적축 스위치 채용으로 빠른 반응 속도를 제공해요.
+- 3단계 가열 조절이 가능해 상황에 맞게 사용할 수 있어요.
+- 리뷰에서 "소음이 거의 없다"는 평가가 많아요.
+
+### 근거 부족 시
+스펙이나 리뷰에서 해당 조건을 확인할 수 없을 때:
+- status: "부분충족" 또는 "불충족"
+- evidence: "상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## 응답 JSON 형식
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 {${conditionFormat}${contextFormat}
   "additionalPros": [
@@ -226,10 +253,14 @@ ${conditionSection}${contextSection}
   ]
 }
 
-중요:
-- 실제 스펙과 리뷰를 기반으로 구체적으로 작성
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## 주의사항
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- JSON만 응답
 - status 값은 정확히 지정된 값만 사용
-- JSON만 응답`;
+- evidence에 이모티콘, 볼드(**) 사용 금지
+- 추측성 표현 금지
+- "사용자는 ~를 선택했습니다" 같은 기계적 표현 금지`;
 
   try {
     const result = await model.generateContent(prompt);
@@ -286,7 +317,7 @@ function generateFallbackAnalysis(
           conditionType: 'hardFilter',
           questionId: questionId,
           status: '부분충족',
-          evidence: '스펙 정보로 정확한 확인이 어렵습니다.',
+          evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
         });
       }
     });
@@ -300,7 +331,7 @@ function generateFallbackAnalysis(
       conditionType: 'balance',
       questionId: b.questionId,
       status: '부분충족',
-      evidence: '스펙 정보로 정확한 확인이 어렵습니다.',
+      evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
     });
   });
 
@@ -310,7 +341,7 @@ function generateFallbackAnalysis(
       condition: neg,
       conditionType: 'negative',
       status: '부분회피',
-      evidence: '스펙 정보로 정확한 확인이 어렵습니다.',
+      evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
     });
   });
 
@@ -329,7 +360,7 @@ function generateFallbackAnalysis(
     pcode: product.pcode,
     selectedConditionsEvaluation,
     contextMatch: userContext.conversationSummary ? {
-      explanation: '대화 내용을 기반으로 선정된 제품입니다.',
+      explanation: '말씀하신 조건들을 종합적으로 고려해 선정한 제품이에요.',
       matchedPoints: [],
     } : undefined,
     additionalPros,

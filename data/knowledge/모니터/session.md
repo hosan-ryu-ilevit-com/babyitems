@@ -1,5 +1,5 @@
-# 세션: 20260108_041751_jjrh
-> 시작: 2026-01-08T04:17:51.959Z
+# 세션: 20260108_081156_d4xm
+> 시작: 2026-01-08T08:11:56.419Z
 > 카테고리키: 모니터
 > 카테고리: 모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 모니터 시장은 OLED 기술의 확장이 두드러지며, 스마트폰을 넘어 모니터와 노트북까지 그 영역을 넓히고 있습니다. 삼성디스플레이와 LG디스플레이가 OLED 시장을 주도하고 있으며, 중국 기업들의 추격도 거세지고 있습니다. 고해상도, 고주사율, 그리고 USB-C 연결성과 같은 기능들이 중요 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFkEPXTcTjTtdBUuN8qZpNTNeukpxeZjN1V9W3RNCGu_37PM8dQSUxSdCHJP6LGDGRejOjtBdln1uHBMu87WLnsEVr5f6dgW5yU2KCJfM-jPGWrCAiXAbgAuK5s5cqBVGeo-eLCh6thkM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErpzm4pWMIPu4-ptOx1JM1PhJlQjK3ByvPcl_fseEv9mwutQpTYGzxWYo9J5vqFJ4io7jLtvinMLvH8WPQgnY7fDVw3BDM8yzd5VbpUYs2RfGK0taw0bnrDUjxS_w2tZHmC1HYAsIs_t2pbdcf3DwrHAab-VfWiPalXD9Wy09WBsVptGmFv3eCmXOccv4jUI17WopnDUy7xamu4w5f2a9VmLW_9UR4Pyxb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVZdcok-l5T1qM0caP9rZPue3bNHYyKCAfCKJdMtA-jijyBWlt7-blAAg_f4ExXhv_bfw04b57ldsKqxgqsxP6ZJuLuT0yh1QThHQhUbkKjFT1W0l-jq64TCli1EYkFoWrad9OfTzfHweVxNljb21grgUdEHoqPBY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBqLHaB-7H8XJuxiEjZfOq8Dn7sia27Q2QKtLiRPO00AtwdUQXhqjVBIAfiPlMePDbvU8O3QTFOLWoqVEhpOnIaznDe4AfG6q-ZYajE3eM1LHi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_qt0E8gOPsmOfCVJQl5J4hUmx18YqrR2-UoOnHvwg0vuOki1Os-_N9a5BoBgnMRc1HFQ_y-ulCeI5pqvI3rY48ABk59g4DQtQsukmT4gQXpqnmBy0UZMlMLxb_1U-wxii5wlgFULfDKB1GSz1vz77CaH5PfE=
+- 인사이트: 2026년 현재 모니터 시장은 OLED와 미니 LED 기술이 주도하며, USB-C 연결을 통한 편의성과 고해상도, 고주사율이 핵심 트렌드로 자리 잡고 있습니다. Dell, ASUS, BenQ 등 다양한 브랜드에서 이러한 기술을 적용한 제품들을 선보이며, 특히 업무 효율성과 몰입감 있는 사용자 경험을 제공하는 데 초점을 맞추고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcXXRyTh3WU1cJ9IcMp19QJ3lJEWSM9b5bAAu0mD3ljZt9eYgc-V09CsZVbN6fc5KpnL_Ny5PmeA6RzQdD5TMao8PRSAprNlGoBUPwxgNCUIZN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEx5rbrv7vyo8rW8zumYqpeby_7cyRxVupzNrrtbgcrrtoBRwQXFv1NGKArfbiJNxq1-ddWjYruupW81qUFwwoyV5usFxImgPvL3trPoV9Z0NevEzwrt2Pu454YHveUsEAZExdkHv7OlIw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnY-bnsw_kzuk5znrqfsXeYRV4L5GfTHWORK25PKOi6BbWymPZtICmCr_47RFxkMJKvlfhCeT-uvwzqIn2UQlgQuGr-vmwXsvCpr08OtuM1jh8zuFnS5Fc5EGcZbGVgLIqdTdUOEGvrAKNS-2KV476rc8DC5PejgaK2a8e_pk439f4BOfkKWBoRnjEaqUzFlQMtkzCfI22GiV9UQeKthhZOIxz3UVRDGzNP619rbrrxa2h7rQ6c9qI1gVdR6hxwSLO4YTzB1h3Ohc66ezl7FM3PvBPlnUhMY205MTq_hcYuvRtFFKZDw4kOsFJYiPZ4g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJr1wADQeipnbxaUCR5_kspGAE5wyGvoSlHe2SVcIl1dXXUEOlHjccmqSvxI3ZxxckM94RkSPSobTGWXseDGEzLpiaUmVRp64H20_uJ1sEehQYieNThK8n1L61XDLK4UJj2WyCRvRaOfJYJ0gdO2x4waq_RK0T9ZTuywcGgL-7Q1kcIdKqDyIHo2D1BT0uhXHnsO0XKplT21ZsXmJrVHw_YRtleL0aIpdL, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-8AlG7_oeYiCpgDu4OmkbRZIe7XMRg9FbziE1vCyRbJhPoP_5MeOIeq0k9uiEpuRODkIZCrCpIa4XbWYIN1KTL0c_TgsxAgpEqnbDsZuN09lUYJFC9nHlmjTyANN3zsW1qq-lg6U=
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 모니터를 주로 어떤 용도로 사용하시나요? | 게임, 업무 및 생산성 |
+| 선호하시는 모니터 화면 크기가 있으신가요? | 27인치, 32인치 이상 |
+| 어느 정도의 해상도와 화면 주사율을 원하시나요? | 4K UHD & 60Hz~120Hz |
+| 예산은 어느 정도로 생각하세요? | 30만원 이하요 |
+| __avoid_negatives__ | 미니 LED 모니터의 응답 속도가 느려서 게임 시 화면 전환이 답답할까 봐 불편해요~ |
 
 ---
 
@@ -55,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 미니 LED 모니터의 응답 속도가 느려서 게임 시 화면 전환이 답답할까 봐 불편해요~
 
 ---
 

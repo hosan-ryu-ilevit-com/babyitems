@@ -318,7 +318,8 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
         if (intentResult.type === 'C') {
           send('status', { message: '자연스러운 응답 생성 중...' });
           const naturalResponse = await generateNaturalRedirect(userMessage, currentTodo.question, searchKeyword);
-          return { success: true, phase: 'questions', content: `${naturalResponse}\n\n${currentTodo.question}`, options: currentTodo.options.map((o:any)=>o.label), currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo };
+          const completedCount = updatedTodos.filter((t: any) => t.completed).length;
+          return { success: true, phase: 'questions', content: `${naturalResponse}\n\n${currentTodo.question}`, options: currentTodo.options.map((o:any)=>o.label), currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCount + 1, total: updatedTodos.length } };
         }
 
         if (intentResult.type === 'B') {
@@ -326,7 +327,8 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
           send('status', { message: `"${query}" 관련 정보 검색 중...`, query });
           webSearchResult = await performContextualSearch(searchKeyword, userMessage, currentTodo.question, intentResult.suggestedSearchQuery, 'B');
           const responseContent = `${webSearchResult?.insight || '정보를 찾지 못했어요.'}${webSearchResult?.relevantTip ? `\n\n💡 ${webSearchResult.relevantTip}` : ''}\n\n---\n\n다시 질문드릴게요!\n\n${currentTodo.question}`;
-          return { success: true, phase: 'questions', content: responseContent, options: currentTodo.options.map((o:any)=>o.label), currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, searchContext: webSearchResult };
+          const completedCountB = updatedTodos.filter((t: any) => t.completed).length;
+          return { success: true, phase: 'questions', content: responseContent, options: currentTodo.options.map((o:any)=>o.label), currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, searchContext: webSearchResult, progress: { current: completedCountB + 1, total: updatedTodos.length } };
         }
 
         // ✅ 수정: 자연어 응답은 원본 그대로 저장 (LLM이 의미론적으로 해석)
@@ -417,7 +419,8 @@ ${categoryName} 구매 상담 어시스턴트입니다.
         console.error('[TransitionText] Generation failed:', e);
       }
     }
-    return { success: true, phase: 'questions', content: `${transitionText}${nextQuestion.question}`, tip: nextQuestion.reason, options: nextQuestion.options.map((o: any) => o.label), ui_type: 'chat', currentQuestion: nextQuestion, questionTodos: updatedTodos, collectedInfo: updatedInfo };
+    const completedCountNext = updatedTodos.filter((t: any) => t.completed).length;
+    return { success: true, phase: 'questions', content: `${transitionText}${nextQuestion.question}`, tip: nextQuestion.reason, options: nextQuestion.options.map((o: any) => o.label), ui_type: 'chat', currentQuestion: nextQuestion, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCountNext + 1, total: updatedTodos.length } };
   }
 
   // Free chat fallback

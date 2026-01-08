@@ -1,29 +1,31 @@
 # 가습기 전문가 지식
 
-> 마지막 업데이트: 2026-01-08T04:11:28.446Z
+> 마지막 업데이트: 2026-01-08T08:08:05.118Z
 > 분석 상품: 20개 | 분석 리뷰: 3,800개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- UV-C 살균 및 자동 건조(애프터 블로우) 기능 탑재
-- 스마트 습도 조절 및 IoT 통합 기능
-- 대용량 수조와 간편한 세척 및 유지보수 기능
+- UV 저온 살균 및 100도 고온 살균 기능
+- 간편한 세척 및 완전 분해 가능한 구조
+- 대용량 물통 (4L 이상) 및 스마트 기능 (앱 연동, 자동 습도 조절)
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 가습 성능
-- ✓ 간편한 세척 및 관리
-- ✓ 저소음 작동
-- ✓ 자동 습도 조절 기능
+- ✓ 뛰어난 살균 기능 (UV, 가열)
+- ✓ 간편한 세척 및 관리 용이성
+- ✓ 대용량 및 긴 연속 사용 시간
+- ✓ 자동 습도 조절 및 스마트 기능
+- ✓ 조용한 작동 소음 (BLDC 모터 등)
 
 ### 주의해야 할 단점
-- ⚠ 작은 물통 용량으로 인한 잦은 물 보충
-- ⚠ 일부 모델의 복잡한 조작부
-- ⚠ 초음파식의 경우 세균 번식 우려 (살균 기능 필수)
-- ⚠ 초기 구매 비용 부담
+- ⚠ 작은 물통 용량으로 인한 잦은 보충 필요
+- ⚠ 일부 모델의 소음 발생
+- ⚠ 높은 가격대 (프리미엄 모델)
+- ⚠ 복잡한 세척 과정 (일부 모델)
+- ⚠ 물 넘침 및 오류 발생 가능성
 
 ### 가격대 인사이트
-현재 판매 중인 가습기는 다양한 가격대로 형성되어 있습니다. 2~3만원대의 보급형 모델부터 10~20만원대의 프리미엄 모델까지 선택의 폭이 넓습니다. 특히 10~15만원대 제품이 2026년 시장에서 높은 점유율을 확보할 것으로 예상됩니다.
+현재 판매 중인 가습기는 2만원대의 보급형 미니 가습기부터 10만원대 중급 모델, 그리고 10만원 이상의 프리미엄 모델까지 다양하게 분포되어 있습니다. 특히 위생 기능과 스마트 기능이 강화된 모델들이 높은 가격대를 형성하고 있습니다.
 
 ---
 
@@ -242,8 +244,8 @@
 ---
 
 ## 📊 데이터 출처
-- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAlVBpAPYEQURT9AuA85UMgwcNcBnLI10x6nWS6sCEgc10mtoOTG-b8AiTc01E-20slELnOhX6a0UnrbcWN-uhYGCbUIJvAxshzaLbchbFIOlqMDpA67YJkTYEcThVsR5CYCtxA01eL3gzM245xQ9V0JyPQl_oPSAvcLDp5bw=)
-- [ajd.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4WhxTL9asu0lTCYUrL7GmalHNTpAfRidkkecQva-cE-5js68GXHLI2c083AvxXNpmV206BXNqRhvmfbp7bSdszfd0HglegZIMInUl_YT30ANzXu49And-d3Rzgcb-6-B8QrvfloxsJfY4QPGRvJU7H9y1tg2kKBBS7502Z-qEYqpFIrY7XJ76J8vDmQR8hl9htbPsfmgnZ8bSrLVUPnN0BK-kiql-o-WTMQvKOVWJ9LVxbGP_avbKqPhof1D_2TgfgoCV0WpMrRy8dvCYRwK2Vl68lv1Y9-rRh9IqevPoSRo4mDr3rC9KoTVsIDAsZImdH5nYI4wI_rXBbCLSX8YJXvZx2aPqNuEIhfxQN-lqbuzLoJeUxsIMYKuvKhrs1NnQUs6aO6i3upb4zNy64q01WQzF99PvEnOW_-XNIpzpoAvrw_nzm4glri1EfDcIMl3x1ycg2RL_r-1QoHfa_2B4XNolp2O7xo1Dc6k2CZS0SrhPOg==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXQ26zjPl-DQ37XuOy9dXh2ZkB3UBYlEEIir3gPauQ4GW3xMalvm4PVdANGeK0SEpnfHR8kp23IBDXBAC9B2YF1E5nE9fFo4EmJ-hBC_MNKF3Hnhu4ERPm8zjoUs8_bftIUtyCjTA=)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEoxaJHBBXbcZiHDjh6HcNsbK1dUuTMoj-A_RvlaVKbAePyQvQI8EWrCtj8EJr6KlKDU2b-9o8RoYyKqUUdjwAMyQdDdsSdbtvzb117sjfUSLkhY-KlGDwrnfbHsmwi5ENxwTyImExxMHnb9JvZV1Bxpmpt0sviyvPdnde_PYuiLXUHhhJouwUrXcu_kFhtZvMNTdwfwbSBxQ==)
-- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8RLlb-7GrnqeW5OrTD3FCoZhyIGbrBz0MLzLyYYNkYTzYDm2bk50Wj-WrANvWOp6_fN4qMNHHcqVV-PjGzYdwROla4NO0kPK6lT3OcVq076TBNgvMc7U7vpZdoG2ecOemMgnz7iARcEQbskvd0IDzgbvCSo3Hpg==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-pS4e3P7CGQVUsIw3fLJtt-kornabnAOymFbUpxG-ICUErJ5jRxdiQYi9V-3q8dWTtykWu3vGeOvJ9z0DO3XqY5_xQk04hyWa-X0BfaqQdMkeqTdHhLsWqxkg2cV_m97hNKmvyhE=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFv-5bUvFljzI_334XQ5tXocdmPNIHNeoFq-zRXg9YP9gWx7nbNWh7Kd8zqLsjAjdSN2G-GeMfWKryeZ5tvDL7_dXu6S9Lcj6u6RyVu6Rk-C111VYSHHTLTYInYEgGkKeA53Aki3y8=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFTcV4FRHrAQSRdX7rQ_YAIpsaXOkXms7k4GwLxqbrvJne4Cj5FaegLkvHIg-X2eGn6w0beRagb7AHzNT9_mbKXuHL2YeOW4fCuNkfAfq9x-Vyo8Hm4MxtADHQZrIH85qeZTky2Lk=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3lJnUN6CikKdQeTLoTWZUYYOxjVHN2_PCWLdffka1iaqfQXityaba_aEr250w4fuA5LPe2b8PzqHNnD6WXSeSMq2n8kD93cjHNA1GGV70ehxxpX1eHtAJDBBCfukp57yfrX2xOe4=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfmMulqDydazMBZRhY78iQIvc56WLZWe7wq2hX-DoHwlRBC2fP2SkFS1-W9nZtNR3K8zpLTlhJa9GFEMyIyUpvFirBWC6R9KRT01oWyw7xiOo8AQarfDdTEvI6boRZPJUhYpOOH9yKIUWxXccEILqnl1rn3X_WUvZQOLauydC1MXovvBV_dt_2TvZegh7dbrfLuUQVJVleP0kzELyCSheAeUrxj_NHwSaLAhLnVK9_w6LVTkgw1j_pJhIXkC-NJ7_06mui8ED8xzpqgJYiehp5U_9WXpw9t2TVddhcfKAXdTBmvBdOgPlCHLusanojpsHdRTE305iF5rjE7BppVNb-uGQ7LFOJ8auzTmLnfP7FofmIUMZoWdS8n_8615jy35COrE6PFmUIHYIkoUIjga4wrkCUuYIRb-fPgspyuqd-v10QS_nMrh5vVVcBYxskNapafw_0bB1oBull0vGiKiL3mA==)

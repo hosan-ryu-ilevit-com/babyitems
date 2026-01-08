@@ -1,5 +1,5 @@
-# 세션: 20260108_044126_t527
-> 시작: 2026-01-08T04:41:26.644Z
+# 세션: 20260108_075342_o5w2
+> 시작: 2026-01-08T07:53:42.998Z
 > 카테고리키: 로봇청소기
 > 카테고리: 로봇청소기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 로봇청소기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 로봇청소기 시장은 로보락, 에코백스, 드리미 등 중국 브랜드가 강세를 보이며, 삼성전자와 LG전자도 프리미엄 라인업을 강화하고 있습니다. CES 2026에서는 혁신적인 기술력을 선보이며 스마트홈 생태계 주도권을 잡기 위한 경쟁이 치열합니다. 특히, AI 기반의 스마트 기능과 강력한 흡입력, 그리고 향상된 물걸레 성능이 주요 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqfNsAYVfuNql0qmUEis-ONevf0Q6AGwgYFE_75w-zabCZDIs67pRTRvNkIGZY8JehrpIzD-hfYR6WIxQ-J3d-DK_EoCXoghrpAqCtaCZssiJqj45YhgodNAdsLYI6fXgF5c1hjEebTV4XFKzPNHcwGDJ6GLCtTSOK9MeBy-j3C2NfZ4NlwLggd8Q7tGuGVA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHA6nnzcLfj02rLNhWQe2YeToHrTU7KUgwbTpVu6xs6VpOV-XD1G9548kQX5sFdCynM3naYdVZquaOm9mFiw96ER8n_daAB64hvMbiq3fLNpHROGU03ZXkI82wvQD5xwBY1lT_ZWUxESx7atw571bXlVKumgmZTa5k_yUF5ozu1j5PU9e4_VMk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPPg8WeIl5ErxU70PqGfCpnMrUmlB2QJ7idOBiQySqL1x6uYQj27Fvqpto1Zdq5nSWkP_Q68gIeyF51ZJ_xCDznd5OABdAqSMYaRsR4gTHq4fOogxC2P7WrRMuPTltya8t7hJGdjc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERrM15GVjTYgvvbkinMHFCysddaa62kti5rdoCkfpA35O3eKFkWuPB4sBvEOK8Vy682M_Jio0CFM1vzIcgpwk_cGT0KHm7dgrpAqyHUyIa8Yoq1e_PjL4_BxWkPowE2Dw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0I7_8FHTaGlTm7UVVtOUoY5NrgSwsamid-_x7l4FOTSD0Ab8QFJgWLiIWprwbwKShjajpe9elOgRBEJu8hSaIjKKl9uF1QL47_lcaTgz3nUlZVYlCU9HMzQJUKmKkwzJroz2ch5EOEgw0OFp2pMFLP16dSXm8KJ9Vn_oIyfmNW08wXQVcP81XRKjfuSNeBFSQoNOXRu7UjejjsHfbDmitJgYh31bKlqzWQvZRz9k0NE-Nqku8Yzpi5nEPUzohveR6D4CdHGVf53ds6FPNsQ8kfDE5xGYHYn3Hf1-qoEEtP62944aQjNgGkUYGvD0oel41
+- 인사이트: 2026년 현재 로봇청소기 시장은 중국 브랜드들이 강세를 보이며 다양한 스마트 기능을 탑재한 신제품을 출시하고 있습니다. 삼성전자와 LG전자 등 국내 브랜드들도 이에 대응하며 신제품 출시 및 홈 로봇 기술에 집중하는 등 경쟁이 치열합니다. 특히 CES 2026에서는 이동성과 지능을 강화한 혁신적인 로봇청소기들이 대거 공개되었습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EB%A1%9C%EB%B4%87%EC%B2%AD%EC%86%8C%EA%B8%B0&sort=saveDESC
 
 ---
 
@@ -16,6 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
+| 청소하실 때 주로 어떤 방식에 더 집중하고 싶으신가요? | 먼지 흡입만 |
+| 스마트홈 생태계를 얼마나 중요하게 생각하시나요? | 기본 스마트 기능 선호 (앱 원격 조작 등) |
+| 예산은 어느 정도로 생각하세요? | 40만원이요 |
+| __avoid_negatives__ | 로봇청소기가 구석이나 좁은 공간을 제대로 청소하지 못할까 봐 걱정돼요,로봇청소기 관리에 필요한 부품 교체나 관리가 번거로울까 봐 부담돼요,가구 배치 때문에 로봇청소기가 제대로 작동하지 못할까 봐 걱정돼요 |
 
 ---
 
@@ -55,7 +59,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 로봇청소기가 구석이나 좁은 공간을 제대로 청소하지 못할까 봐 걱정돼요
+- 로봇청소기 관리에 필요한 부품 교체나 관리가 번거로울까 봐 부담돼요
+- 가구 배치 때문에 로봇청소기가 제대로 작동하지 못할까 봐 걱정돼요
 
 ---
 

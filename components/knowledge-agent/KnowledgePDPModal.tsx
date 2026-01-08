@@ -26,6 +26,7 @@ interface ReviewData {
   author?: string;
   date?: string;
   mallName?: string;
+  imageUrls?: string[] | null;
 }
 
 interface MallPrice {
@@ -103,6 +104,7 @@ function splitReasoning(reasoning: string | undefined): { oneLiner: string; pers
 export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose }: KnowledgePDPModalProps) {
   const [isExiting, setIsExiting] = useState(false);
   const [showAllPrices, setShowAllPrices] = useState(false);
+  const [expandedImages, setExpandedImages] = useState<{reviewId: string; images: string[]; currentIndex: number} | null>(null);
   const [priceData, setPriceData] = useState<PriceData>({
     loading: false,
     lowestPrice: null,
@@ -624,6 +626,42 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                       {review.content}
                     </p>
 
+                    {/* 리뷰 이미지 썸네일 */}
+                    {review.imageUrls && review.imageUrls.length > 0 && (
+                      <div className="flex gap-2 mt-3 overflow-x-auto">
+                        {review.imageUrls.slice(0, 4).map((imageUrl, idx) => (
+                          <div
+                            key={idx}
+                            className="relative shrink-0 cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setExpandedImages({
+                                reviewId: review.reviewId || String(i),
+                                images: review.imageUrls!,
+                                currentIndex: idx
+                              });
+                            }}
+                          >
+                            <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
+                              <Image
+                                src={imageUrl}
+                                alt={`리뷰 이미지 ${idx + 1}`}
+                                width={64}
+                                height={64}
+                                className="w-full h-full object-cover"
+                                unoptimized
+                              />
+                            </div>
+                            {idx === 3 && review.imageUrls!.length > 4 && (
+                              <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
+                                <span className="text-white text-xs font-semibold">+{review.imageUrls!.length - 4}</span>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     {/* 작성자/날짜 */}
                     <div className="flex items-center gap-2 mt-3 pt-2 border-t border-gray-50">
                       {review.author && (
@@ -701,6 +739,111 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
           </motion.button>
         </div>
       </motion.div>
+
+      {/* 이미지 확대 뷰어 */}
+      <AnimatePresence>
+        {expandedImages && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[130] bg-black/90 flex flex-col"
+            onClick={() => setExpandedImages(null)}
+          >
+            {/* 닫기 버튼 */}
+            <div className="absolute top-4 right-4 z-10">
+              <button
+                onClick={() => setExpandedImages(null)}
+                className="p-2 bg-white/10 rounded-full text-white hover:bg-white/20 transition-colors"
+              >
+                <X size={24} weight="bold" />
+              </button>
+            </div>
+
+            {/* 이미지 카운터 */}
+            <div className="absolute top-4 left-4 text-white text-sm font-medium">
+              {expandedImages.currentIndex + 1} / {expandedImages.images.length}
+            </div>
+
+            {/* 메인 이미지 */}
+            <div
+              className="flex-1 flex items-center justify-center p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative w-full max-w-md aspect-square">
+                <Image
+                  src={expandedImages.images[expandedImages.currentIndex]}
+                  alt="확대 이미지"
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+            </div>
+
+            {/* 네비게이션 버튼 */}
+            {expandedImages.images.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpandedImages(prev => prev ? {
+                      ...prev,
+                      currentIndex: prev.currentIndex === 0 ? prev.images.length - 1 : prev.currentIndex - 1
+                    } : null);
+                  }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 rounded-full text-white hover:bg-white/20 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpandedImages(prev => prev ? {
+                      ...prev,
+                      currentIndex: prev.currentIndex === prev.images.length - 1 ? 0 : prev.currentIndex + 1
+                    } : null);
+                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 rounded-full text-white hover:bg-white/20 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </>
+            )}
+
+            {/* 하단 썸네일 */}
+            <div className="p-4 bg-black/50">
+              <div className="flex justify-center gap-2 overflow-x-auto">
+                {expandedImages.images.map((image, idx) => (
+                  <button
+                    key={idx}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setExpandedImages(prev => prev ? { ...prev, currentIndex: idx } : null);
+                    }}
+                    className={`shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-colors ${
+                      idx === expandedImages.currentIndex ? 'border-white' : 'border-transparent opacity-50'
+                    }`}
+                  >
+                    <Image
+                      src={image}
+                      alt={`썸네일 ${idx + 1}`}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover"
+                      unoptimized
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

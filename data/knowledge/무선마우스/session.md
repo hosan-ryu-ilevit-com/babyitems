@@ -1,14 +1,14 @@
-# 세션: 20260107_122439_ku4j
-> 시작: 2026-01-07T12:24:39.247Z
+# 세션: 20260108_082226_i5r1
+> 시작: 2026-01-08T08:22:26.210Z
 > 카테고리키: 무선마우스
 > 카테고리: 무선마우스
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 무선마우스
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIPsIpruHYF16_kWa76v6iV0eI3jML-kOb0W1goN3GtzBsM3JRnvlA12fyS7im0H86XJfQuw5pM4g1o3C-4keoNi7wFh1OgYPExTMIcosNMLNjWwGoeXgMBhTHVp4kLIbYIsjmFpuoTkmEijSub4LA5lvHW12IYhlLM2sDyc4QkW1bbA4qfS4s3U69oG9kOcowVPLlOd1Hj7frOYf7TEBNTFA1Xgeg-Dhm2h0l6dAU369IhVFERByGo4Bp1ksmNvqi6ce9pJH8HD7uo0MHKhc01CTvsm6Ud-8S7vbEC_HVgHwZsotzxGxk92WyAtjaFMc0tEjIE3W5sB-VlfkNfSzUQ9g_pJwLJmoo0AZQ-jZ9KflQdRmUv5AbcNK-TrovHdXdaNw_Y8LN7IoQzZg1a9Zz039neE0dTuFBWYwvE71Zi8D289ih-ei4-pETKlcl3S9CC2Ya25M70Nb-iQU005B95NKftczTDcmEVsW3, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwFxUeSmmxovBfm4g3shrT0Z-aSvrx8-51mRNtUE9KBMczGRdNe2xP8WkE1DeCSk28RGa-cxycsHIyZVV9WghlOLypD4SWPEJVNTLwAqltPNhnEGK95BdP85j-BUpAKqbOBhhsyAD2ojBm625UknHnKDYVPskjh1aHmM8Bd-5HtvIEAyxUqH-3lY42KpvB9Di0hjfqQrQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqzlxPNJkf8W8NoaXrPANNzOro31xenp0OjT8zjmRTizgCSOIzQthbYgpZTJh4PSJ0NepN9BHUUl_CWk9DUMn8fykKyHaIYuy4xGQ1OpRjXp_EKH1uB1pAWNC_5HcQ5Mk2LW_2TPaYLNx0fI1ExtWwrzyYFwneWw7jvgts2UaZa7AQ8KC1jJKoJyTVond17r-2bJwubJ1Gts_BRyhbbeAc-U1CQFMgLzxlk-nGG8jBb4AkKPdq2Q0iuAUlUTH7Uh8KKua0uoTHx3Spnp-uxeH3a5sS8EL2xOFnaj3T_7TV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGDMhSEavFS4E4orY-K6JEd3JlA844lqsppdWycyCiE_VInbU1uJK3dFGszZmapOM19iNQe3ZfxVwilyKuQeCe1dqYLWxXh5oLHFMf1L1VtPPoYLFDuH5GjcJorM2N0rLnOwXIb_8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEC5x8uYkQoF03qiJ4rh4A3f6-j9RS4WLoJ2SGEoUFfqt4-XwnGEOmNjN6Pe1agYQiKdNUBSbxbSjsOQJTHUruUHA5FeKSk8LPcl-MDd8KUoYRDQX5aGDb9YJKDi0qWZVK7ebpHP2httM3coqWbEWz1GHDhxrym2QAXFDT1tJtr4PfRIZTbH1tKhJ3V4Ag=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIPsIpruHYF16_kWa76v6iV0eI3jML-kOb0W1goN3GtzBsM3JRnvlA12fyS7im0H86XJfQuw5pM4g1o3C-4keoNi7wFh1OgYPExTMIcosNMLNjWwGoeXgMBhTHVp4kLIbYIsjmFpuoTkmEijSub4LA5lvHW12IYhlLM2sDyc4QkW1bbA4qfS4s3U69oG9kOcowVPLlOd1Hj7frOYf7TEBNTFA1Xgeg-Dhm2h0l6dAU369IhVFERByGo4Bp1ksmNvqi6ce9pJH8HD7uo0MHKhc01CTvsm6Ud-8S7vbEC_HVgHwZsotzxGxk92WyAtjaFMc0tEjIE3W5sB-VlfkNfSzUQ9g_pJwLJmoo0AZQ-jZ9KflQdRmUv5AbcNK-TrovHdXdaNw_Y8LN7IoQzZg1a9Zz039neE0dTuFBWYwvE71Zi8D289ih-ei4-pETKlcl3S9CC2Ya25M70Nb-iQU005B95NKftczTDcmEVsW3, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwFxUeSmmxovBfm4g3shrT0Z-aSvrx8-51mRNtUE9KBMczGRdNe2xP8WkE1DeCSk28RGa-cxycsHIyZVV9WghlOLypD4SWPEJVNTLwAqltPNhnEGK95BdP85j-BUpAKqbOBhhsyAD2ojBm625UknHnKDYVPskjh1aHmM8Bd-5HtvIEAyxUqH-3lY42KpvB9Di0hjfqQrQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqzlxPNJkf8W8NoaXrPANNzOro31xenp0OjT8zjmRTizgCSOIzQthbYgpZTJh4PSJ0NepN9BHUUl_CWk9DUMn8fykKyHaIYuy4xGQ1OpRjXp_EKH1uB1pAWNC_5HcQ5Mk2LW_2TPaYLNx0fI1ExtWwrzyYFwneWw7jvgts2UaZa7AQ8KC1jJKoJyTVond17r-2bJwubJ1Gts_BRyhbbeAc-U1CQFMgLzxlk-nGG8jBb4AkKPdq2Q0iuAUlUTH7Uh8KKua0uoTHx3Spnp-uxeH3a5sS8EL2xOFnaj3T_7TV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGDMhSEavFS4E4orY-K6JEd3JlA844lqsppdWycyCiE_VInbU1uJK3dFGszZmapOM19iNQe3ZfxVwilyKuQeCe1dqYLWxXh5oLHFMf1L1VtPPoYLFDuH5GjcJorM2N0rLnOwXIb_8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEC5x8uYkQoF03qiJ4rh4A3f6-j9RS4WLoJ2SGEoUFfqt4-XwnGEOmNjN6Pe1agYQiKdNUBSbxbSjsOQJTHUruUHA5FeKSk8LPcl-MDd8KUoYRDQX5aGDb9YJKDi0qWZVK7ebpHP2httM3coqWbEWz1GHDhxrym2QAXFDT1tJtr4PfRIZTbH1tKhJ3V4Ag=
+- 쿼리: 무선마우스 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재 무선 마우스 시장은 로지텍이 강세를 보이며, 게이밍 및 생산성 향상에 초점을 맞춘 제품들이 인기를 얻고 있습니다. 초경량화, 고성능 센서, 무선 기술의 발전이 주요 트렌드를 이끌고 있으며, 사용자들은 편의성과 성능을 모두 만족시키는 제품을 선호합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2awOaZKihBTDuw7R7yyCTJ6aVXfcEdyvGAtLVxIFNJciI6dK5CdAu5bIM_7KHBLvrpdm-xChhzz74KSyqfo74WXTKo5s7Ekj11ZFxnWyLBxHKDadXLao8zDrbThaJ8tRpnb1bo11EDnCB5TA1Xddgpw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEOg8XHFiuciRZRMfwtB8FDfApFfshZztoyekdDUKsRIV9YEJL_o8Y-dP4bIjBynR5yd-RxGtOh5pvGcQRDVI7sxPbJi-PkoyNd1JXdpINGI4x975DwZ5OILZNqQty5_e5suCPZ_V6rQgCCS6-424C2jju, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGl0IkG1XyOwsIFwYN1n62P1CXBUt2B4eLSoBQGeeteKkp3ZNQbSa1g2ZXP1OgoZYeNex5g326KGOiAoHZPLDzIrkx9g7AC0eBpF4-KyoijfMdi9EdA6e2vJ9rn9gMb5T0DxJXLcJY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMknkvql5VRL5j3fk_FevC3CbDAfZNu3QHknuyX36oXlAfk6hgQnIe7QF2rcYljKwOptHwJo_AuBpE_7wm_medCdZ0YaMsinldxgId2bDSPWG2539KK2qxku_XwuIeTRQhYED3H5AtiCTRODPUpIFLSgPxmtGSolPfPhCtaR5TW2hvm090CxyB2sSqbSx59lY87poUY6LzCUszFFj-ZeIABMqlVW8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFp2GNB7dTfI2a-M9lwepATvAa3xnxPsa49J9mym-d4HhzXUuDhfrGunspj4jwrkPGs3pvGGE5vlgzJJJNx4Q7xaWdTZlhFHXbZ7l3uD0N1Ry6BmVlwawjby_sVPxmq7I-Oep_7jlrM1XXRpSKTk0djsgA=
 
 ---
 
@@ -16,39 +16,35 @@
 
 | 항목 | 답변 |
 |------|------|
-| usage_scenario | 사무/업무용, 일상/웹서핑용 |
-| connectivity | 블루투스만 |
-| ergonomics | 어느 정도 고려 |
-| budget | 6만원 이하 |
-| __avoid_negatives__ | 3. 배터리 관리 (교체/충전),4. 소프트웨어 설정 복잡성 |
+| 무선 마우스를 주로 어떤 용도로 사용하시나요? | 게임 (FPS, RPG 등) |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 96개 (전체 96개 중)
+현재 후보: 97개 (전체 97개 중)
 
 ### 후보 상품
 1. ATK VXE R1 SE+ 유무선 브라보텍 - 24,350원 - ⭐4.6
-2. CORSAIR 세이버 v2 PRO 초경량 무선 게이밍 - 125,760원 - ⭐5
-3. 로지텍 G PRO X SUPERLIGHT 2 (정품) - 173,500원 - ⭐4.8
-4. ATK A9 ULTRA 유무선 브라보텍 - 69,920원 - ⭐4.3
-5. Razer DeathAdder V4 Pro - 240,870원 - ⭐4.7
-6. 로지텍 MX MASTER 4 (정품) - 175,240원 - ⭐4.7
-7. 로지텍 G502 X LIGHTSPEED - 79,499원 - ⭐5
-8. 로지텍 G304 LIGHTSPEED WIRELESS (정품) - 39,900원 - ⭐4.8
-9. Razer Viper V3 Pro (정품) - 209,890원 - ⭐4.8
+2. CORSAIR 세이버 v2 PRO 초경량 무선 게이밍 - 125,750원 - ⭐5
+3. 로지텍 MX MASTER 4 (정품) - 175,240원 - ⭐4.7
+4. 로지텍 G PRO X SUPERLIGHT 2 (정품) - 173,500원 - ⭐4.8
+5. ATK A9 ULTRA 유무선 브라보텍 - 69,920원 - ⭐4.3
+6. Razer Viper V3 Pro (정품) - 209,890원 - ⭐4.8
+7. 로지텍 G304 LIGHTSPEED WIRELESS (정품) - 39,900원 - ⭐4.8
+8. Razer DeathAdder V4 Pro - 246,050원 - ⭐4.7
+9. 로지텍 G502 X LIGHTSPEED - 81,050원 - ⭐5
 10. 로지텍 LIFT VERTICAL (정품) - 79,000원 - ⭐4.8
 11. ATK VXE R1 SE+ - 11,900원 - ⭐4.6
-12. 로지텍 MX Master 3S (정품) - 122,810원 - ⭐4.8
-13. Razer DeathAdder V3 HyperSpeed (정품) - 129,000원 - ⭐4.9
-14. 로지텍 M331 (정품) - 25,400원 - ⭐4.8
-15. 로지텍 MX Anywhere 3S (정품) - 99,890원 - ⭐4.9
-16. 앱코 WEM65 인체공학 WIRELESS FREE 무선 버티컬 - 19,900원 - ⭐3.8
-17. 로지텍 MX VERTICAL (정품) - 111,840원 - ⭐4.7
-18. 로지텍 M240 Silent 블루투스 (정품) - 19,900원 - ⭐4.7
-19. 로지텍 PRO X SUPERLIGHT 2c (정품) - 218,970원 - ⭐5
-20. 로지텍 G PRO X SUPERLIGHT 2 DEX (정품) - 178,990원 - ⭐4.9
+12. 로지텍 M331 (정품) - 25,400원 - ⭐4.8
+13. 로지텍 MX Master 3S (정품) - 122,810원 - ⭐4.8
+14. 앱코 WEM65 인체공학 WIRELESS FREE 무선 버티컬 - 19,900원 - ⭐3.8
+15. 삼성전자 SM-M1300Q 무선 블루투스 - 41,900원 - ⭐4.6
+16. 로지텍 MX VERTICAL (정품) - 111,800원 - ⭐4.7
+17. 로지텍 G309 (정품) - 66,880원 - ⭐4.8
+18. Razer DeathAdder V2 X HyperSpeed - 49,700원 - ⭐4.8
+19. 로지텍 G PRO X SUPERLIGHT 2 DEX (정품) - 179,000원 - ⭐4.9
+20. Razer DeathAdder V3 HyperSpeed (정품) - 129,000원 - ⭐4.9
 
 ---
 
@@ -60,8 +56,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 3. 배터리 관리 (교체/충전)
-- 4. 소프트웨어 설정 복잡성
+(아직 선택 없음)
 
 ---
 

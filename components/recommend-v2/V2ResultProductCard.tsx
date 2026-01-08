@@ -332,10 +332,8 @@ export function V2ResultProductCard({
           }}
           className="w-full py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"
         >
-          <span>상세보기 / 최저가비교</span>
-          <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
+          <span>상세보기 / 최저가 비교하기</span>
+         
         </button>
       </div>
     </motion.div>

@@ -1,5 +1,5 @@
-# 세션: 20260108_040718_aek6
-> 시작: 2026-01-08T04:07:18.432Z
+# 세션: 20260108_075614_fmxf
+> 시작: 2026-01-08T07:56:14.545Z
 > 카테고리키: 기계식키보드
 > 카테고리: 기계식키보드
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기계식키보드 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 기계식 키보드 시장은 뛰어난 타이핑 감각과 내구성을 앞세워 꾸준한 인기를 얻고 있으며, 게임 및 장시간 컴퓨터 사용자들에게 특히 선호됩니다. AULA, Ajazz, Akko, Logitech, Corsair 등이 현재 인기 있는 브랜드로 꼽히고 있으며, 게이밍 성능 향상을 위한 자석축, 래피드 트리거 등의 최신 기술이 적용된 제품들이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGW9AUInVvEuqmeLjbP8wK49KHThIGgVq6L6eyNs2k7pwSW3PCE88fkFX7s-R6Jxttoxt4EZlJFwzms6ulXThOo_STR-i0aXYQ22zOIkZHaY8NrixpVfU5Jjq3ey9GeGkWSqTsr3Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkziGLzEnaHlgpf3IjIyQTkaBJGB1GjsQW0ACcfcZXnfJi2AwCVEv-BHyiTAPhkVhjwNKc365hklIhC0kV0CAbe4p3XFEHm9j2iyYOArgUr7QmfNGsakWhb08aRxIsp4Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzaMGc63skoogTh4EP0aQ1fI8WI0v0wkNhqjPnSNRzSOj8kNvNGWGkAQQhSScdmBeBpKxahfF1C2JwVtFfKbL8WvYHghoFLWvJ3Ji-8vBxBL-s1ugDE4uJFPTxPrMBhEb1HoIWaNEnnqJun3k5rJoHfMBqx3w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG68bv7K5Omc35fOvJsLWDZYaYd1uMCwYwfAkDJyDsZ1ysh-6DesPPaGovht_nmva7I3T1qYhpHy7NK9q7x6GOq0VooIdbKZXOk3c_f5fjIe2NNy4hSo-uHE9YdNpcGXHHP0dCMyg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSj4NeTc-r0YM406k1P4mswLubizJnADj79_7QhlssSGAlWuPalC4Y3Db9DkD4RNHVC-XPc8gkVw5ACveLQcbb4WFRzgHhAK-G1xwVicw6UPG-YXONu0iJJ9AkxL3XE_icgVcSEK0jRYk8oNSNOa0=
+- 인사이트: 2026년 현재 기계식 키보드 시장은 뛰어난 타이핑 경험, 내구성, 그리고 높은 커스터마이징 가능성을 바탕으로 꾸준한 인기를 이어가고 있습니다. 특히 게이머와 장시간 컴퓨터 사용자들 사이에서 선호도가 높으며, 다양한 스위치 옵션과 디자인으로 사용자의 취향을 만족시키는 제품들이 주를 이루고 있습니다. 최근에는 빠른 반응 속도와 정밀한 입력 제어를 위한 자석축(Hall Effect) 기술이 적용된 게이밍 키보드가 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7qxb0p7P_qdvnZyFw3IfJfqRfmlYUQVf-eq4rErOykKyBOcKUh-b1PlTfffYLiylUSbumu5YDCMtCn_HI1fRcHJhJA6Qlik9U1ZROgkiGUykevBR6Lu0QKrEzGO9S8jT-qlx39lRkC12YcY_6GIYeKOikIZA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE29G7elljhFpIm0cIVqog79Kelfm5QdqyZiUi0w7kdnFIN-rFkkZ7z13UcoVaq6_CVVhJNLl2Q0kpcvDw-YCCx81SvVcBbs2EBzhvkmJBDlmO43NN4_gOoA0XZd_RHMYLDrRPbaK67Yc2r5DT_Gf4WayPbjyMEpWvf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTUDdqLS12RTPWYbXPNOyiUJciZJOI8da6xIs8egLoeORInH-smabsubwQKO1kN3HC8TaVjED1xUc5S0lXXLsP9ph6mn6FZrQBIV6afnyiOjvH4iivIi8pIxMSiHXu-t6Nk1jH3A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhcUCnucPVOmjqJSNVQ8eNeHkWbIYE-7B4vWsa4bWs0VWvJB8xX4OO2A6eDxIUKYhoxDEMdAekh6TK98QizxDVYtSnp0dJ73dgFi7DT2cIJgOflffCVxnp6U1AKRR0fuY56YZeug==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE90mIOFMTG9zfBGVGEotP5n7yl-wQQGzAR8wcDiR85e6aFQPLVZ_T7MG8VaaugGzEByHOIsL5HzL8m59d7HWqBg5huAVUqBrWSEMh1voEj19vQr6x3BwrMxnZlIls0RXz7FLIMdA083dQLyrXTng==
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 어떤 크기의 키보드를 선호하시나요? | 텐키리스 (87키) |
+| 키보드를 어떤 방식으로 연결하시겠어요? | 무선 (동글/블루투스) |
+| 키보드 타건 시 어떤 느낌을 선호하시나요? | 상관없어요, 빠르고 즉각적인 반응 속도, 명확하고 구분감 있는 타건감 |
+| 키보드를 자신만의 스타일로 꾸미는 것에 관심이 있으신가요? | 적극적인 커스터마이징 |
+| 예산은 어느 정도로 생각하세요? | 8만원 |
+| __avoid_negatives__ | 키보드 소리가 너무 커서 주변 사람들에게 방해가 될까봐 걱정돼요,새로운 키보드 타건감에 적응하는 시간이 오래 걸릴까봐 불편해요 |
 
 ---
 
@@ -55,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 키보드 소리가 너무 커서 주변 사람들에게 방해가 될까봐 걱정돼요
+- 새로운 키보드 타건감에 적응하는 시간이 오래 걸릴까봐 불편해요
 
 ---
 

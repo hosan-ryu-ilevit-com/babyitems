@@ -1,5 +1,5 @@
-# 세션: 20260108_041140_vcb7
-> 시작: 2026-01-08T04:11:40.406Z
+# 세션: 20260108_080818_i8ww
+> 시작: 2026-01-08T08:08:18.742Z
 > 카테고리키: 가습기
 > 카테고리: 가습기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 가습기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 가습기 시장은 위생, 디자인, 편의성을 갖춘 제품들이 인기를 얻고 있습니다. 특히 UV 살균, 자동 건조 기능 등 위생 관리가 용이한 제품과 스마트 기능이 탑재된 제품들이 주목받고 있습니다. 케리프와 같은 브랜드는 2026년형 신제품을 출시하며 시장 경쟁에 나서고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAlVBpAPYEQURT9AuA85UMgwcNcBnLI10x6nWS6sCEgc10mtoOTG-b8AiTc01E-20slELnOhX6a0UnrbcWN-uhYGCbUIJvAxshzaLbchbFIOlqMDpA67YJkTYEcThVsR5CYCtxA01eL3gzM245xQ9V0JyPQl_oPSAvcLDp5bw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4WhxTL9asu0lTCYUrL7GmalHNTpAfRidkkecQva-cE-5js68GXHLI2c083AvxXNpmV206BXNqRhvmfbp7bSdszfd0HglegZIMInUl_YT30ANzXu49And-d3Rzgcb-6-B8QrvfloxsJfY4QPGRvJU7H9y1tg2kKBBS7502Z-qEYqpFIrY7XJ76J8vDmQR8hl9htbPsfmgnZ8bSrLVUPnN0BK-kiql-o-WTMQvKOVWJ9LVxbGP_avbKqPhof1D_2TgfgoCV0WpMrRy8dvCYRwK2Vl68lv1Y9-rRh9IqevPoSRo4mDr3rC9KoTVsIDAsZImdH5nYI4wI_rXBbCLSX8YJXvZx2aPqNuEIhfxQN-lqbuzLoJeUxsIMYKuvKhrs1NnQUs6aO6i3upb4zNy64q01WQzF99PvEnOW_-XNIpzpoAvrw_nzm4glri1EfDcIMl3x1ycg2RL_r-1QoHfa_2B4XNolp2O7xo1Dc6k2CZS0SrhPOg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXQ26zjPl-DQ37XuOy9dXh2ZkB3UBYlEEIir3gPauQ4GW3xMalvm4PVdANGeK0SEpnfHR8kp23IBDXBAC9B2YF1E5nE9fFo4EmJ-hBC_MNKF3Hnhu4ERPm8zjoUs8_bftIUtyCjTA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEoxaJHBBXbcZiHDjh6HcNsbK1dUuTMoj-A_RvlaVKbAePyQvQI8EWrCtj8EJr6KlKDU2b-9o8RoYyKqUUdjwAMyQdDdsSdbtvzb117sjfUSLkhY-KlGDwrnfbHsmwi5ENxwTyImExxMHnb9JvZV1Bxpmpt0sviyvPdnde_PYuiLXUHhhJouwUrXcu_kFhtZvMNTdwfwbSBxQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8RLlb-7GrnqeW5OrTD3FCoZhyIGbrBz0MLzLyYYNkYTzYDm2bk50Wj-WrANvWOp6_fN4qMNHHcqVV-PjGzYdwROla4NO0kPK6lT3OcVq076TBNgvMc7U7vpZdoG2ecOemMgnz7iARcEQbskvd0IDzgbvCSo3Hpg==
+- 인사이트: 2026년 현재 가습기 시장은 위생과 편의성을 강조한 제품들이 인기를 얻고 있습니다. 특히 UV 살균 기능, 자동 세척 기능, 그리고 간편한 세척 구조를 갖춘 제품들이 주목받고 있으며, 대용량 모델과 스마트 기능이 탑재된 제품들도 꾸준히 판매되고 있습니다. 한경희생활과학, 신일, 쿠쿠, 위닉스 등의 브랜드가 현재 인기 있는 브랜드로 나타납니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-pS4e3P7CGQVUsIw3fLJtt-kornabnAOymFbUpxG-ICUErJ5jRxdiQYi9V-3q8dWTtykWu3vGeOvJ9z0DO3XqY5_xQk04hyWa-X0BfaqQdMkeqTdHhLsWqxkg2cV_m97hNKmvyhE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFv-5bUvFljzI_334XQ5tXocdmPNIHNeoFq-zRXg9YP9gWx7nbNWh7Kd8zqLsjAjdSN2G-GeMfWKryeZ5tvDL7_dXu6S9Lcj6u6RyVu6Rk-C111VYSHHTLTYInYEgGkKeA53Aki3y8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFTcV4FRHrAQSRdX7rQ_YAIpsaXOkXms7k4GwLxqbrvJne4Cj5FaegLkvHIg-X2eGn6w0beRagb7AHzNT9_mbKXuHL2YeOW4fCuNkfAfq9x-Vyo8Hm4MxtADHQZrIH85qeZTky2Lk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3lJnUN6CikKdQeTLoTWZUYYOxjVHN2_PCWLdffka1iaqfQXityaba_aEr250w4fuA5LPe2b8PzqHNnD6WXSeSMq2n8kD93cjHNA1GGV70ehxxpX1eHtAJDBBCfukp57yfrX2xOe4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfmMulqDydazMBZRhY78iQIvc56WLZWe7wq2hX-DoHwlRBC2fP2SkFS1-W9nZtNR3K8zpLTlhJa9GFEMyIyUpvFirBWC6R9KRT01oWyw7xiOo8AQarfDdTEvI6boRZPJUhYpOOH9yKIUWxXccEILqnl1rn3X_WUvZQOLauydC1MXovvBV_dt_2TvZegh7dbrfLuUQVJVleP0kzELyCSheAeUrxj_NHwSaLAhLnVK9_w6LVTkgw1j_pJhIXkC-NJ7_06mui8ED8xzpqgJYiehp5U_9WXpw9t2TVddhcfKAXdTBmvBdOgPlCHLusanojpsHdRTE305iF5rjE7BppVNb-uGQ7LFOJ8auzTmLnfP7FofmIUMZoWdS8n_8615jy35COrE6PFmUIHYIkoUIjga4wrkCUuYIRb-fPgspyuqd-v10QS_nMrh5vVVcBYxskNapafw_0bB1oBull0vGiKiL3mA==
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 어떤 방식의 가습 방식을 선호하시나요? | 복합식 (초음파+가열) |
+| 가습기 관리 시 가장 중요하게 생각하는 부분은 무엇인가요? | 자동 세척 및 건조 기능, 그리고 좋은 성능 |
+| 한 번 물을 채웠을 때 얼마나 오래 사용하고 싶으신가요? | 너무 자주만 아니면 됨. 일주일에 한번정도만 채우면,, |
+| 예산은 어느 정도로 생각하세요? | 15만원 이하 |
+| __avoid_negatives__ | 물통 용량이 작아서 매일 여러 번 물을 채워야 하는 상황은 너무 번거로울 것 같아요,가습기 작동 시 발생하는 소음 때문에 잠자리에 방해가 될까 봐 걱정돼요 |
 
 ---
 
@@ -55,7 +60,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 물통 용량이 작아서 매일 여러 번 물을 채워야 하는 상황은 너무 번거로울 것 같아요
+- 가습기 작동 시 발생하는 소음 때문에 잠자리에 방해가 될까 봐 걱정돼요
 
 ---
 

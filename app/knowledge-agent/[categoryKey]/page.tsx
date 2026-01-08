@@ -307,6 +307,8 @@ interface ChatMessage {
   tip?: string;  // 💡 팁 (reason) - 별도 표시
   searchContext?: { query: string; insight: string };  // 검색 컨텍스트 결과
   timestamp: number;
+  // 질문 진행도 표시용
+  questionProgress?: { current: number; total: number };
   // 단점 필터 UI 표시용
   negativeFilterOptions?: NegativeOption[];
   // 결과 카드 표시용
@@ -1204,6 +1206,7 @@ export default function KnowledgeAgentPage() {
             role: 'assistant',
             content: firstQuestion.question,
             options: firstQuestion.options.map((o: any) => o.label),
+            questionProgress: { current: 1, total: questionTodosFromQuestions.length },
             dataSource: firstQuestion.dataSource,
             tip: firstQuestion.reason,
             typing: true,
@@ -2687,6 +2690,7 @@ export default function KnowledgeAgentPage() {
           role: 'assistant',
           content: data.content,
           options: data.options,
+          questionProgress: data.progress,
           dataSource: data.dataSource,
           tip: data.tip,
           searchContext: data.searchContext || null,
@@ -3083,6 +3087,7 @@ export default function KnowledgeAgentPage() {
               author: r.author || r.nickname || null,
               date: r.date || r.review_date || null,
               mallName: r.mallName || r.mall_name || null,
+              imageUrls: r.imageUrls || r.image_urls || null,
             }));
           })()}
           danawaData={(() => {
@@ -3500,7 +3505,14 @@ function MessageBubble({
         {isUser ? (
           <div className="bg-gray-50 text-gray-800 rounded-[20px] px-5 py-2.5 text-[16px] font-medium min-h-[46px] flex items-center w-fit ml-auto leading-relaxed">{message.content}</div>
         ) : message.content ? (
-          <div className="w-full"><AssistantMessage content={message.content} typing={message.typing} speed={10} /></div>
+          <div className="w-full">
+            {message.questionProgress && (
+              <span className="text-[12px] font-semibold text-gray-300 bg-gray-50 px-2 py-0.5 rounded-full mb-1.5 inline-block">
+                {message.questionProgress.current}/{message.questionProgress.total}
+              </span>
+            )}
+            <AssistantMessage content={message.content} typing={message.typing} speed={10} />
+          </div>
         ) : null}
 
         {!isUser && message.reportData && <ReportToggle reportData={message.reportData} />}
