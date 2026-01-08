@@ -329,7 +329,9 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
           return { success: true, phase: 'questions', content: responseContent, options: currentTodo.options.map((o:any)=>o.label), currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, searchContext: webSearchResult };
         }
 
-        const processedAnswer = isExactMatch ? userMessage : (intentResult.matchedOption || userMessage);
+        // ✅ 수정: 자연어 응답은 원본 그대로 저장 (LLM이 의미론적으로 해석)
+        // matchedOption은 옵션 매칭 확인용으로만 사용, 저장 시에는 원본 userMessage 사용
+        const processedAnswer = userMessage;
         updatedTodos[todoIndex].completed = true;
         updatedTodos[todoIndex].answer = processedAnswer;
         
@@ -344,7 +346,8 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
           updatedInfo['__avoid_negatives__'] = negativeSelections;
           console.log(`[Chat] Avoid negatives saved:`, negativeSelections);
         } else {
-          updatedInfo[currentQuestionId] = processedAnswer;
+          // ✅ 수정: 질문 ID 대신 질문 텍스트를 키로 사용 (LLM이 맥락 이해 가능)
+          updatedInfo[currentTodo.question] = processedAnswer;
         }
 
         // ✅ Type A (선택)에서는 웹검색 제거 - init에서 충분한 컨텍스트를 이미 수집했음

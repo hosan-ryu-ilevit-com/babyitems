@@ -865,6 +865,13 @@ export default function KnowledgeAgentPage() {
     cons: Array<{ text: string; citations: number[] }>;
   }>>({});
   const [isProductAnalysisLoading, setIsProductAnalysisLoading] = useState(false); // PDP 분석 로딩 상태
+  // ✅ 추가: 자유 입력 분석 결과 (PDP 선호/회피 조건 표시용)
+  const [freeInputAnalysis, setFreeInputAnalysis] = useState<{
+    preferredAttributes: string[];
+    avoidAttributes: string[];
+    usageContext: string | null;
+    summary: string;
+  } | null>(null);
   const [v2FlowEnabled] = useState(true); // V2 플로우 활성화 여부
   const [v2FlowStarted, setV2FlowStarted] = useState(false); // V2 플로우 시작 여부
   const [savedBalanceSelections, setSavedBalanceSelections] = useState<any[]>([]); // 밸런스 선택 저장
@@ -934,7 +941,7 @@ export default function KnowledgeAgentPage() {
     // 3단계: 최종 TOP 3 선정
     const step3: TimelineStep = {
       id: 'step-3',
-      title: '딱 맞는 TOP 3 선정 완료! 잠시만 더 기다려주세요 (총 소요시간 30초 내외)',
+      title: '딱 맞는 TOP 3 제품 고르는 중... 잠시만 더 기다려주세요 (총 소요시간 30초 내외)',
       icon: '',
       details: [
         '고객님께 가장 잘 맞을 것 같은 3가지 제품을 골랐어요.',
@@ -1694,13 +1701,25 @@ export default function KnowledgeAgentPage() {
    * V2 최종 추천 생성 (새 아키텍처: 120개 전체 + 리뷰 기반)
    * - hard-cut 제거: LLM이 120개 전체에서 직접 top 3 선택
    * - 리뷰는 init API에서 미리 크롤링된 데이터 사용
+   * @param collectedInfoOverride - 비동기 setState 문제 해결용: 업데이트된 collectedInfo 직접 전달
    */
-  const handleV2FinalRecommend = async (balanceSelections: any[], negativeSelections: string[]) => {
+  const handleV2FinalRecommend = async (
+    balanceSelections: any[],
+    negativeSelections: string[],
+    collectedInfoOverride?: Record<string, string>
+  ) => {
     // 새 아키텍처: hardCutProducts 대신 crawledProducts (120개 전체) 사용
     const candidates = crawledProducts.length > 0 ? crawledProducts : hardCutProducts;
     if (!v2FlowEnabled || candidates.length === 0) return null;
 
+    // collectedInfoOverride가 있으면 우선 사용 (비동기 setState 문제 해결)
+    const finalCollectedInfo = collectedInfoOverride || collectedInfo;
+
     console.log(`[V2 Flow] Generating final recommendations from ${candidates.length} candidates with ${Object.keys(reviewsData).length} products' reviews...`);
+    console.log(`[V2 Flow] collectedInfo keys:`, Object.keys(finalCollectedInfo));
+    if (finalCollectedInfo['__additional_condition__']) {
+      console.log(`[V2 Flow] __additional_condition__:`, finalCollectedInfo['__additional_condition__']);
+    }
 
     try {
       const res = await fetch('/api/knowledge-agent/final-recommend', {
@@ -1711,7 +1730,7 @@ export default function KnowledgeAgentPage() {
           categoryName,
           candidates: candidates, // 120개 전체 (hard-cut 제거)
           reviews: reviewsData,   // init API에서 미리 크롤링된 리뷰 사용
-          collectedInfo,
+          collectedInfo: finalCollectedInfo,
           balanceSelections,
           negativeSelections,
         }),
@@ -1720,6 +1739,12 @@ export default function KnowledgeAgentPage() {
       const data = await res.json();
       if (data.success) {
         console.log(`[V2 Flow] Final recommendations: ${data.recommendations.length}`);
+
+        // ✅ 추가: 자유 입력 분석 결과 저장 (PDP 선호/회피 조건 표시용)
+        if (data.freeInputAnalysis) {
+          setFreeInputAnalysis(data.freeInputAnalysis);
+          console.log(`[V2 Flow] freeInputAnalysis saved:`, data.freeInputAnalysis);
+        }
 
         // Top3 pcode 추출
         const allTop3Pcodes = data.recommendations
@@ -1815,12 +1840,16 @@ export default function KnowledgeAgentPage() {
     }
     
     console.log('[V2 Flow] Final input submitted:', additionalCondition || '(none)');
-    
-    // 추가 조건이 있으면 collectedInfo에 저장
+
+    // ✅ 수정: updatedInfo를 먼저 생성하여 API에 직접 전달 (비동기 setState 문제 해결)
+    const updatedInfo = additionalCondition?.trim()
+      ? { ...collectedInfo, __additional_condition__: additionalCondition.trim() }
+      : { ...collectedInfo };
+
+    // 추가 조건이 있으면 state도 업데이트 (UI용)
     if (additionalCondition && additionalCondition.trim()) {
-      const updatedInfo = { ...collectedInfo, __additional_condition__: additionalCondition.trim() };
       setCollectedInfo(updatedInfo);
-      
+
       // 사용자 메시지 추가
       setMessages(prev => [...prev, {
         id: `u_final_${Date.now()}`,
@@ -1829,15 +1858,16 @@ export default function KnowledgeAgentPage() {
         timestamp: Date.now()
       }]);
     }
-    
+
     setIsTyping(true);
-    
+
     try {
       const candidateCount = crawledProducts.length || hardCutProducts.length;
 
       // 타임라인 UX와 실제 추천 생성을 병렬로 실행
       const uxPromise = runFinalTimelineUX(candidateCount, userSelectionCount, avoidNegatives.length);
-      const apiPromise = handleV2FinalRecommend([], avoidNegatives);
+      // ✅ 수정: updatedInfo를 직접 전달하여 비동기 문제 해결
+      const apiPromise = handleV2FinalRecommend([], avoidNegatives, updatedInfo);
       
       const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
 
@@ -2347,7 +2377,60 @@ export default function KnowledgeAgentPage() {
                 if (prosConsRes.ok) {
                   const prosConsData = await prosConsRes.json();
                   console.log('[V2 Flow] ✅ Background pros/cons generated');
-                  // 필요시 상태 업데이트 가능
+                  console.log('[V2 Flow] prosConsData.results:', prosConsData.results?.map((r: any) => ({
+                    pcode: r.pcode,
+                    oneLiner: r.oneLiner?.slice(0, 30),
+                    comparativeOneLiner: r.comparativeOneLiner?.slice(0, 50) || '(empty)',
+                  })));
+
+                  // ✅ comparativeOneLiner 등 생성된 데이터를 상태에 반영
+                  if (prosConsData.success && prosConsData.results) {
+                    const resultsMap = new Map(
+                      prosConsData.results.map((r: any) => [String(r.pcode), r])
+                    );
+
+                    // resultProducts 상태 업데이트
+                    setResultProducts((prev: any[]) => prev.map((p: any) => {
+                      const prosConsResult = resultsMap.get(String(p.pcode)) as any;
+                      if (prosConsResult) {
+                        return {
+                          ...p,
+                          prosFromReviews: prosConsResult.prosFromReviews || p.prosFromReviews,
+                          consFromReviews: prosConsResult.consFromReviews || p.consFromReviews,
+                          oneLiner: prosConsResult.oneLiner || p.oneLiner,
+                          reviewProof: prosConsResult.reviewProof || p.reviewProof,
+                          comparativeOneLiner: prosConsResult.comparativeOneLiner || '',
+                        };
+                      }
+                      return p;
+                    }));
+
+                    // messages의 resultProducts도 업데이트
+                    setMessages((prev: ChatMessage[]) => prev.map((msg: ChatMessage) => {
+                      if (msg.resultProducts) {
+                        return {
+                          ...msg,
+                          resultProducts: msg.resultProducts.map((p: any) => {
+                            const prosConsResult = resultsMap.get(String(p.pcode)) as any;
+                            if (prosConsResult) {
+                              return {
+                                ...p,
+                                prosFromReviews: prosConsResult.prosFromReviews || p.prosFromReviews,
+                                consFromReviews: prosConsResult.consFromReviews || p.consFromReviews,
+                                oneLiner: prosConsResult.oneLiner || p.oneLiner,
+                                reviewProof: prosConsResult.reviewProof || p.reviewProof,
+                                comparativeOneLiner: prosConsResult.comparativeOneLiner || '',
+                              };
+                            }
+                            return p;
+                          }),
+                        };
+                      }
+                      return msg;
+                    }));
+
+                    console.log('[V2 Flow] ✅ comparativeOneLiner updated for', prosConsData.results.length, 'products');
+                  }
                 }
               } catch (e) {
                 console.error('[V2 Flow] Background pros/cons generation failed:', e);
@@ -2956,14 +3039,33 @@ export default function KnowledgeAgentPage() {
           onClose={() => setSelectedProduct(null)}
           isAnalysisLoading={isProductAnalysisLoading}
           // V2 조건 충족도 평가 ("왜 추천했나요?", "선호 속성", "피할 단점" 표시용)
-          selectedConditionsEvaluation={analysis?.selectedConditionsEvaluation?.map((e: any) => ({
-            condition: e.condition,
-            conditionType: e.conditionType as 'hardFilter' | 'balance' | 'negative',
-            status: e.status as '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨',
-            evidence: e.evidence || '',
-            tradeoff: e.tradeoff,
-            questionId: e.questionId,
-          })) || []}
+          selectedConditionsEvaluation={[
+            // 기존 분석 결과
+            ...(analysis?.selectedConditionsEvaluation?.map((e: any) => ({
+              condition: e.condition,
+              conditionType: e.conditionType as 'hardFilter' | 'balance' | 'negative',
+              status: e.status as '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨',
+              evidence: e.evidence || '',
+              tradeoff: e.tradeoff,
+              questionId: e.questionId,
+            })) || []),
+            // ✅ 추가: 마지막 자유 입력에서 추출한 선호 속성
+            ...(freeInputAnalysis?.preferredAttributes?.map((attr: string) => ({
+              condition: attr,
+              conditionType: 'balance' as const,
+              status: '충족' as const,
+              evidence: `자유 입력에서 요청: "${collectedInfo?.['__additional_condition__'] || ''}"`,
+              questionId: '__free_input_preferred__',
+            })) || []),
+            // ✅ 추가: 마지막 자유 입력에서 추출한 피할 단점
+            ...(freeInputAnalysis?.avoidAttributes?.map((attr: string) => ({
+              condition: attr,
+              conditionType: 'negative' as const,
+              status: '회피됨' as const,
+              evidence: `자유 입력에서 요청: "${collectedInfo?.['__additional_condition__'] || ''}"`,
+              questionId: '__free_input_avoid__',
+            })) || []),
+          ]}
           // 내 상황과의 적합성 (contextMatch 데이터)
           initialContext={collectedInfo?.initialContext || collectedInfo?.context || ''}
           contextMatchData={analysis?.contextMatch ? {

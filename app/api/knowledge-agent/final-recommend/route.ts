@@ -1114,6 +1114,16 @@ export async function POST(request: NextRequest) {
     const catName = categoryName || categoryKey;
 
     // ============================================================================
+    // 0단계: 마지막 자유 입력 분석 (프론트엔드 전달용)
+    // ============================================================================
+    const additionalCondition = collectedInfo?.['__additional_condition__'] || '';
+    let freeInputAnalysisResult: FreeInputAnalysis | null = null;
+    if (additionalCondition && additionalCondition.trim().length >= 2) {
+      freeInputAnalysisResult = await analyzeFreeInput(catName, additionalCondition);
+      console.log(`[FinalRecommend] Free input analyzed:`, freeInputAnalysisResult);
+    }
+
+    // ============================================================================
     // 1단계: LLM으로 Top 3 선정 (120개 → 30개 사전 스크리닝 → Top 3)
     // ============================================================================
     const recommendations = await generateRecommendations(
@@ -1193,6 +1203,8 @@ export async function POST(request: NextRequest) {
       // 추가 데이터
       specKeys: normalizedSpecs.map(s => s.key),
       normalizedSpecs,
+      // ✅ 추가: 자유 입력 분석 결과 (PDP 선호/회피 조건 표시용)
+      freeInputAnalysis: freeInputAnalysisResult,
     };
 
     return NextResponse.json(response);
