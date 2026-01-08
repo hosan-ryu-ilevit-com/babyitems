@@ -283,7 +283,7 @@ function CategoryCard({
       whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(category)}
       disabled={isLoading}
-        className={`rounded-2xl p-4 transition-all duration-200 text-left border relative overflow-hidden group ${
+      className={`w-full rounded-2xl p-3 transition-all duration-200 text-left border relative overflow-hidden group ${
         isLoading
           ? 'bg-purple-50 border-purple-200'
           : isSelected
@@ -297,22 +297,22 @@ function CategoryCard({
       )}
 
       {/* Emoji/Spinner + Category Name */}
-      <div className="flex items-center gap-3 relative z-10">
-        <span className="text-[22px] w-8 h-8 flex items-center justify-center bg-gray-50 rounded-full group-hover:bg-white transition-colors">
+      <div className="flex items-center gap-2 relative z-10 w-full overflow-hidden">
+        <span className="text-lg w-7 h-7 flex items-center justify-center bg-gray-50 rounded-full group-hover:bg-white transition-colors shrink-0">
           {isLoading ? (
-            <div className="w-5 h-5 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
           ) : (
             category.emoji
           )}
         </span>
-        <span className={`text-[15px] font-semibold tracking-tight ${isLoading ? 'text-purple-700' : 'text-gray-900'}`}>
+        <span className={`text-sm font-semibold tracking-tight flex-1 min-w-0 truncate ${isLoading ? 'text-purple-700' : 'text-gray-900'}`}>
           {category.name}
         </span>
       </div>
 
       {/* 추천 완료 태그 - 텍스트 아래 배치 */}
       {hasCompletedRecommendation && !isLoading && (
-        <div className="mt-2 ml-11">
+        <div className="mt-2 ml-9">
           <span className="inline-flex items-center px-2 py-0.5 bg-purple-100 text-purple-700 text-[10px] font-bold rounded-full">
             추천 완료
           </span>
@@ -347,7 +347,7 @@ function GroupSection({
           <div className="h-px flex-1 bg-gray-100" /> {/* Divider Line */}
         </h3>
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2 sm:gap-3">
         {group.categories.map((category) => (
           <CategoryCard
             key={category.id}
@@ -406,7 +406,7 @@ function AgeGroupSection({
           <p className="text-[13px] text-gray-400 font-medium leading-normal">{description}</p>
         )}
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2 sm:gap-3">
         {categories.map((category) => (
           <CategoryCard
             key={category.id}

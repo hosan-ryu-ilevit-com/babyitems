@@ -179,12 +179,12 @@ function AgeFilterBar({ selectedId, onSelect }: { selectedId: string; onSelect: 
 // 카테고리 카드 (디자인 변경)
 function CategoryCard({ name, image, isSelected, onClick, isLoading }: { name: string; image: string; isSelected: boolean; onClick: () => void; isLoading: boolean }) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-full min-w-0">
       <motion.button
         onClick={onClick}
         disabled={isLoading}
         whileTap={isLoading ? undefined : { scale: 0.98 }}
-        className={`relative w-[112px] h-[112px] rounded-2xl border flex flex-col items-center pt-3 pb-2 gap-1 ${isSelected
+        className={`relative w-full aspect-square rounded-2xl border flex flex-col items-center pt-3 pb-2 gap-1 ${isSelected
             ? 'bg-purple-50 border-purple-200 shadow-xs'
             : 'bg-white border-gray-100 hover:border-gray-200 shadow-xs'
           }`}
@@ -193,14 +193,14 @@ function CategoryCard({ name, image, isSelected, onClick, isLoading }: { name: s
           <div className="w-6 h-6 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin my-auto" />
         ) : (
           <>
-            <span className="text-[14px] font-medium text-gray-600">{name}</span>
-            <div className="relative w-[54px] h-[54px] mt-auto">
+            <span className="text-[13px] sm:text-[14px] font-medium text-gray-600 px-1 truncate w-full text-center">{name}</span>
+            <div className="relative w-[55%] h-[55%] mt-auto mb-1">
               <Image
                 src={image}
                 alt={name}
                 fill
                 className="object-contain"
-                sizes="54px"
+                sizes="(max-width: 480px) 30vw, 100px"
               />
             </div>
           </>
@@ -439,7 +439,7 @@ export default function CategoriesPage() {
                       <div className="flex items-center py-[10px]">
                         <h3 className="text-[16px] font-semibold text-gray-800">{group.name}</h3>
                       </div>
-                      <div className="grid grid-cols-3 gap-y-4 gap-x-2">
+                      <div className="grid grid-cols-3 gap-y-4 gap-x-1.5 sm:gap-x-2">
                         {group.categories.map((cat) => (
                           <CategoryCard
                             key={cat.id}
@@ -474,7 +474,7 @@ export default function CategoriesPage() {
                           <div className="flex items-center py-[10px]">
                             <h3 className="text-[16px] font-semibold text-gray-800">{ageGroup.name}</h3>
                           </div>
-                          <div className="grid grid-cols-3 gap-y-4 gap-x-2">
+                          <div className="grid grid-cols-3 gap-y-4 gap-x-1.5 sm:gap-x-2">
                             {categories.map((cat) => (
                               <CategoryCard
                                 key={cat.id}
