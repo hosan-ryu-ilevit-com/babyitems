@@ -35,6 +35,9 @@ import type { DanawaSearchListItem, DanawaFilterSection } from '@/lib/danawa/sea
 import { getQueryCache, setQueryCache } from '@/lib/knowledge-agent/cache-manager';
 import { fetchReviewsBatchParallel, type ReviewCrawlResult } from '@/lib/danawa/review-crawler-lite';
 
+// Supabase 캐시 (프리페치된 데이터)
+import { getProductsFromCache, getReviewsFromCache, isCacheFresh } from '@/lib/knowledge-agent/supabase-cache';
+
 // Vercel 서버리스 타임아웃 설정 (기본 10초 → 60초)
 export const maxDuration = 60;
 
@@ -409,11 +412,36 @@ async function crawlProductsWithStreaming(
 ): Promise<{ products: DanawaSearchListItem[]; cached: boolean; searchUrl: string; filters?: DanawaFilterSection[] }> {
   console.log(`[Step2] Crawling products for: ${categoryName} (limit: ${PRODUCT_CRAWL_LIMIT})`);
 
-  // 캐시 확인
+  // 1. Supabase 캐시 우선 확인 (프리페치된 데이터)
+  const supabaseCache = await getProductsFromCache(categoryName, PRODUCT_CRAWL_LIMIT);
+  if (supabaseCache.hit && supabaseCache.products.length > 0 && isCacheFresh(supabaseCache.cachedAt, 3)) {
+    console.log(`[Step2] Supabase cache HIT: ${supabaseCache.products.length} products (${supabaseCache.cachedAt})`);
+
+    const searchUrl = `https://search.danawa.com/dsearch.php?query=${encodeURIComponent(categoryName)}`;
+
+    // 캐시 히트 시 헤더 정보 즉시 전달
+    if (onHeaderParsed) {
+      onHeaderParsed({ searchUrl, filters: undefined });
+    }
+
+    // 캐시된 경우에도 배치로 스트리밍
+    if (onProductBatch) {
+      const batchSize = 5;
+      for (let i = 0; i < supabaseCache.products.length; i += batchSize) {
+        const batch = supabaseCache.products.slice(i, i + batchSize);
+        const isComplete = i + batchSize >= supabaseCache.products.length;
+        const isFirstBatchComplete = i + batchSize >= FIRST_BATCH_COMPLETE_COUNT && i < FIRST_BATCH_COMPLETE_COUNT;
+        onProductBatch(batch, isComplete, isFirstBatchComplete);
+      }
+    }
+    return { products: supabaseCache.products, cached: true, searchUrl, filters: undefined };
+  }
+
+  // 2. 파일 기반 캐시 확인 (기존 로직)
   const cached = getQueryCache(categoryName);
   if (cached && cached.items.length > 0) {
-    console.log(`[Step2] Cache hit: ${cached.items.length} products`);
-    
+    console.log(`[Step2] File cache hit: ${cached.items.length} products`);
+
     // 캐시 히트 시 헤더 정보 즉시 전달
     if (onHeaderParsed) {
       onHeaderParsed({ searchUrl: cached.searchUrl, filters: cached.filters });
@@ -487,6 +515,7 @@ async function crawlProductsWithStreaming(
 
 /**
  * 병렬 리뷰 크롤링 (모든 상품에 대해 10개씩)
+ * Supabase 캐시 우선 조회 후, 캐시 미스인 경우에만 크롤링
  */
 async function crawlReviewsForProducts(
   products: DanawaSearchListItem[],
@@ -494,10 +523,46 @@ async function crawlReviewsForProducts(
 ): Promise<{ reviews: Record<string, ReviewCrawlResult>; totalReviews: number }> {
   const pcodes = products.map(p => p.pcode);
   console.log(`[Step2.5] Starting review crawling for ${pcodes.length} products (${REVIEWS_PER_PRODUCT} reviews each)`);
-  
+
   const startTime = Date.now();
+
+  // 1. Supabase 캐시에서 리뷰 조회
+  const cacheResult = await getReviewsFromCache(pcodes);
+  if (cacheResult.hit && cacheResult.totalReviews > 0) {
+    console.log(`[Step2.5] Supabase review cache HIT: ${cacheResult.totalReviews} reviews`);
+
+    // 캐시된 리뷰를 ReviewCrawlResult 형식으로 변환
+    const reviewMap: Record<string, ReviewCrawlResult> = {};
+    for (const pcode of pcodes) {
+      const cachedReviews = cacheResult.reviews[pcode] || [];
+      // 평균 평점 계산
+      const avgRating = cachedReviews.length > 0
+        ? cachedReviews.reduce((sum, r) => sum + r.rating, 0) / cachedReviews.length
+        : null;
+      reviewMap[pcode] = {
+        pcode,
+        success: cachedReviews.length > 0,
+        reviews: cachedReviews,
+        reviewCount: cachedReviews.length,
+        averageRating: avgRating,
+      };
+    }
+
+    // 진행 콜백 호출 (즉시 완료)
+    if (onProgress) {
+      onProgress(pcodes.length, pcodes.length, cacheResult.totalReviews);
+    }
+
+    const elapsedMs = Date.now() - startTime;
+    console.log(`[Step2.5] Review cache complete: ${Object.keys(cacheResult.reviews).length} products, ${cacheResult.totalReviews} reviews (${(elapsedMs / 1000).toFixed(1)}s)`);
+
+    return { reviews: reviewMap, totalReviews: cacheResult.totalReviews };
+  }
+
+  // 2. 캐시 미스 - 실시간 크롤링
+  console.log(`[Step2.5] Cache miss, starting live crawl...`);
   let totalReviewsCollected = 0;
-  
+
   const results = await fetchReviewsBatchParallel(pcodes, {
     maxReviewsPerProduct: REVIEWS_PER_PRODUCT,
     concurrency: 12,           // 높은 동시성
@@ -510,16 +575,16 @@ async function crawlReviewsForProducts(
       }
     }
   });
-  
+
   const elapsedMs = Date.now() - startTime;
   console.log(`[Step2.5] Review crawling complete: ${results.length} products, ${totalReviewsCollected} reviews (${(elapsedMs / 1000).toFixed(1)}s)`);
-  
+
   // pcode → result 맵으로 변환
   const reviewMap: Record<string, ReviewCrawlResult> = {};
   results.forEach(r => {
     reviewMap[r.pcode] = r;
   });
-  
+
   return { reviews: reviewMap, totalReviews: totalReviewsCollected };
 }
 

@@ -95,7 +95,35 @@ export type LogEventType =
   | 'ka_external_link_clicked'
   | 'ka_favorite_toggled'
   | 'ka_comparison_viewed'
-  | 'ka_comparison_chat_message';
+  | 'ka_comparison_chat_message'
+  | 'ka_comparison_view'
+  | 'ka_product_purchase_click'
+  | 'ka_balance_selection'
+  | 'ka_balance_completed'
+  | 'ka_balance_skipped'
+  | 'ka_negative_toggle'
+  | 'ka_negative_completed'
+  | 'ka_budget_changed'
+  | 'ka_budget_preset_clicked'
+  | 'ka_budget_confirm'
+  | 'ka_budget_skip'
+  | 'knowledge_agent_search_request' // 지식 에이전트 검색 요청 (입력창 또는 버튼 클릭)
+  | 'knowledge_agent_search_confirm' // 지식 에이전트 검색 확인 (모달에서)
+  | 'knowledge_agent_search_cancel' // 지식 에이전트 검색 취소 (모달에서)
+  | 'knowledge_agent_category_select' // 지식 에이전트 메인 카테고리 선택
+  | 'knowledge_agent_subcategory_select' // 지식 에이전트 서브 카테고리 선택
+  | 'knowledge_agent_product_select' // 지식 에이전트 PLP 상품 클릭
+  | 'knowledge_agent_product_modal_open' // 지식 에이전트 PDP 모달 열기
+  | 'knowledge_agent_product_purchase_click' // 지식 에이전트 PDP 모달 구매 링크 클릭
+  | 'knowledge_agent_product_review_click' // 지식 에이전트 PDP 모달 리뷰 보기 클릭
+  | 'knowledge_agent_comparison_view' // 지식 에이전트 비교표 보기
+  | 'knowledge_agent_comparison_product_action' // 지식 에이전트 비교표 내 상품 액션 (구매, 리뷰 등)
+  | 'knowledge_agent_hardcut_continue' // 지식 에이전트 하드컷팅 완료 후 계속하기
+  | 'knowledge_agent_final_input_submit' // 지식 에이전트 최종 자연어 입력 제출
+  | 'knowledge_agent_re_recommend_modal_open' // 지식 에이전트 다시 추천받기 모달 열기
+  | 'knowledge_agent_re_recommend_same_category' // 지식 에이전트 같은 카테고리 다시 추천받기
+  | 'knowledge_agent_re_recommend_different_category' // 지식 에이전트 다른 카테고리 추천받기
+  | 'knowledge_agent_ai_helper_action'; // 지식 에이전트 AI 헬퍼 관련 액션
 
 export interface LogEvent {
   sessionId: string;
@@ -387,6 +415,38 @@ export interface LogEvent {
       reviewIndex?: number; // citedReviews 배열 인덱스
     }>;
   }>;
+  knowledgeAgentData?: {
+    category?: string;
+    subCategory?: string;
+    searchKeyword?: string;
+    extractedKeyword?: string;
+    productId?: string;
+    productTitle?: string;
+    brand?: string;
+    rank?: number;
+    action?: string; // e.g., 'search_input', 'button_click', 'confirm', 'cancel'
+    purchaseData?: {
+      mall: string;
+      price: number;
+      isLowestPrice: boolean;
+    };
+    comparisonProductIds?: string[];
+    comparisonActionType?: 'purchase_click' | 'review_click' | 'detail_view';
+    hardcutData?: {
+      totalBefore: number;
+      totalAfter: number;
+      appliedRules: string[];
+    };
+    finalInputText?: string;
+    reRecommendAction?: 'modal_opened' | 'same_category' | 'different_category';
+    targetCategory?: string;
+    aiHelper?: {
+      action: 'opened' | 'example_clicked' | 'example_applied' | 'direct_input';
+      exampleText?: string;
+      questionId?: string;
+      questionText?: string;
+    };
+  };
   metadata?: Record<string, unknown>; // 추가 정보
 }
 

@@ -1,5 +1,5 @@
-# 세션: 20260107_131234_xjxf
-> 시작: 2026-01-07T13:12:34.564Z
+# 세션: 20260107_132412_du6a
+> 시작: 2026-01-07T13:24:12.528Z
 > 카테고리키: 전기면도기
 > 카테고리: 전기면도기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 전기면도기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 전기면도기 시장은 브라운, 필립스, 파나소닉 등 주요 브랜드들이 경쟁을 주도하고 있으며, 기술 혁신과 소비자 편의성을 강조하는 제품들이 인기를 얻고 있습니다. 특히, AI 피부 센서, 저자극 면도, 빠른 충전 및 긴 배터리 시간 등이 주요 트렌드로 부상하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzZQb4TXckFGEzjzseqsjmZL0RjKak8Es7ipzbudoEdZQixPY-J6UfOI7yrysI6PT2AO1GwC0sHCq9hXI5mDyCkXQ_1oThRZbKZSxrkJ1sag-LP2-LNRVoLCYO3sEgTn07dBQQCoYDnywhny9fGSjxAzvz7ES2n4m7pmq6N_fy7E9ISUCNGuJKfV70Wfkv9itk_1t-5pzud2Y37kGCnRdvDhrqHnsx45d-QtTaaTdTzn-Sjl5qEBc_Iu7rMwWlFeozGXoYCquNv_WtNSRHxDAxnmvq9-IfmGfwzeqORek7fbjJiWj-HVtiqzktmM60iogQ0gq1xP-mBj2iGSdxJGnLtftkKsse8EFkWHa-e2Tft_Hxt6N7hw6bNDuq08euhBjceJ0fxOXCdZiryB43RTQ1M-UHIDUVWymukO2bVrmxHvMR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnseY2vSWY__tTW8tNC2kfS6lSW6i1wZWKH_L--7zWbx_jRsshWBK7XlxMAbtIL-QfVkwe1PgMcRL693-BwEwJ1vuh2rDWShh2rRueywrMLhTmj2Dn-2Tg0oqMAmuHVoTvUlGmM0fcIG8Ink78HESLqHqLBcfvRm8RQC70ML6BI8tWl9N7RvQHV2WLHUauMDiTczRyPw4U20AOzoiMtSfNMWkMxs_a49DwgjMNqJTgdQmHp87zB6szgzf2ovg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyDigz9U4URAbK6gb1zL_vyrzI-PAwhX_7qAeToGqy6OZ8LQURAotiShKYqfDwjUdwvn31g5vXYG3-eVS9MXlInYWhOtUBQ099sjkBct-scV4jhpx4zIez3bNIg1_ALiFsLH4-yd0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHgFXFKK9LP5Y0SlZFopY7x7ZuSp59-xY5ELYp9R4Vw6p0RCtFNlshDz5rET5DC0R4zZeRvs5nuYjHP21RZFPLmBv5hyqR8QzTqnNb8CiMrsIABUuTteEV1xrHto8xdTCTYwQAQvKE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5oeTicEE_iSps-EuIWarK4ij5uGt1SmFNv3M9BT94yj2Itqx-Gx7U5gUb-NlAyBzOs5Pj2WB6UZZSrWvi9OByvV8qsaYZkBpfM_bee77gucdU6Oj_tZcWVXmfsNt3dvepWR1lk9s=
+- 인사이트: 2026년 현재 전기면도기 시장은 브라운, 필립스, 파나소닉 등 전통적인 강자들이 여전히 강세를 보이며, 라이펀(Laifen)과 같은 신흥 브랜드도 가성비 좋은 제품으로 주목받고 있습니다. 최신 트렌드는 피부 자극을 최소화하면서도 강력한 절삭력을 제공하는 기술과 사용자 맞춤형 기능에 초점을 맞추고 있습니다. 특히 AI 피부 센서, 자동 모터 파워 조절 등 스마트 기능이 탑재된 모델들이 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyeyVWDgkkaMJVY0XvDQ5xX_9CsI8IcNC94oVzX-5P4xc32y8LzVqGvkrJGZFoC-HTvBvGI7bqEohwRNiP6Dnuvt4RSdu9nZJP7eao5WvRFZ04wbTqLic8Vcry4_FcWo7dhf0n7Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEnfMAjGIFWHB4SUOpuoBM9mq3-UvkAT4lezqcTjQAcAb15_YwO1O7hrXbvCT_BkR1QHqE9SFqVkknJiw7uAlYp6YLlE0WJ3r-Axrbu0Zv9u53W9oKeRSXiE-C6thA6nodzTQDu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHT0_ekw07ceYoG2xrUN1ac5FdlPcoJ2Gjb-8AbsgLrmJIaOzmSe_SiMnXYuTRhelCamt_Gw-56QPTmOhQCNm7lGzEGu9WJvIiWkgWldYAucnRPq2Cirj8ZKqkrQUATr2JHr87cTw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTpGs9eVbeUTLRpMjlAY3aGCm2Yge4szVAZVXvRgjKVopD9BZFECjE5rYlkA1fzEckpkpPO3QfObpjn4daVfXdyrcbWc1CpMlJWEVL15_9bLbeuQ8CbYjMT8_o1dyjsV3hU1zKGw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGy3RDxfVtEJ2fHeeUUNDWMPL8zn33mqutTpHtXuiNXHbLmErrDPF-DXJIi6yBeVC4abt8xmj3eqsYcEQjksYLaAf_d_P2dX3QUvSMJ8hX2msxNG56ks2alhq6Zx6KCmf9cuES6oA==
 
 ---
 
@@ -16,10 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| shaving_type | 건식 면도만 사용 |
-| skin_sensitivity | 조금 예민함 |
-| budget | 31만원 이상 |
-| __avoid_negatives__ | 3. 면도날 관리 번거로움,4. 교체 날망 비용 부담 |
 
 ---
 
@@ -59,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 3. 면도날 관리 번거로움
-- 4. 교체 날망 비용 부담
+(아직 선택 없음)
 
 ---
 

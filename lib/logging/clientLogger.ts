@@ -1915,3 +1915,387 @@ export function logKAComparisonChatMessage(categoryKey: string, userMessage: str
     metadata: { categoryKey }
   });
 }
+
+// Knowledge Agent 추가 로깅 함수들
+export function logKnowledgeAgentComparisonView(categoryKey: string, categoryName: string, productIds: string[]): void {
+  sendLogEvent('ka_comparison_view', {
+    page: 'ka-result',
+    metadata: { categoryKey, categoryName, productIds }
+  });
+}
+
+export function logKnowledgeAgentProductPurchaseClick(categoryKey: string, pcode: string, title: string, mall: string, url: string): void {
+  sendLogEvent('ka_product_purchase_click', {
+    page: 'ka-pdp',
+    metadata: { categoryKey, pcode, title, mall, url }
+  });
+}
+
+export function logKnowledgeAgentBalanceSelection(
+  categoryKey: string,
+  categoryName: string,
+  questionId: string,
+  questionIndex: number,
+  totalQuestions: number,
+  selectedOption: 'A' | 'B' | 'both',
+  optionALabel: string,
+  optionBLabel: string,
+  ruleKey: string
+): void {
+  sendLogEvent('ka_balance_selection', {
+    page: 'ka-flow',
+    metadata: { 
+      categoryKey, 
+      categoryName, 
+      questionId, 
+      questionIndex, 
+      totalQuestions, 
+      selectedOption, 
+      optionALabel, 
+      optionBLabel, 
+      ruleKey 
+    }
+  });
+}
+
+export function logKnowledgeAgentBalanceCompleted(
+  categoryKey: string,
+  categoryName: string,
+  selections: Array<{ questionId: string; choice: 'A' | 'B' }>
+): void {
+  sendLogEvent('ka_balance_completed', {
+    page: 'ka-flow',
+    metadata: { categoryKey, categoryName, selections }
+  });
+}
+
+export function logKnowledgeAgentBalanceSkipped(categoryKey: string, categoryName: string): void {
+  sendLogEvent('ka_balance_skipped', {
+    page: 'ka-flow',
+    metadata: { categoryKey, categoryName }
+  });
+}
+
+export function logKnowledgeAgentNegativeToggle(
+  categoryKey: string,
+  categoryName: string,
+  optionId: string,
+  optionLabel: string,
+  isSelected: boolean,
+  totalSelected: number
+): void {
+  sendLogEvent('ka_negative_toggle', {
+    page: 'ka-flow',
+    metadata: { categoryKey, categoryName, optionId, optionLabel, isSelected, totalSelected }
+  });
+}
+
+export function logKnowledgeAgentNegativeCompleted(categoryKey: string, categoryName: string, selectedOptions: string[]): void {
+  sendLogEvent('ka_negative_completed', {
+    page: 'ka-flow',
+    metadata: { categoryKey, categoryName, selectedOptions }
+  });
+}
+
+export function logKnowledgeAgentBudgetChanged(categoryKey: string, categoryName: string, min: number, max: number): void {
+  sendLogEvent('ka_budget_changed', {
+    page: 'ka-flow',
+    metadata: { categoryKey, categoryName, min, max }
+  });
+}
+
+export function logKnowledgeAgentBudgetPresetClicked(categoryKey: string, categoryName: string, preset: string, min: number, max: number): void {
+  sendLogEvent('ka_budget_preset_clicked', {
+    page: 'ka-flow',
+    metadata: { categoryKey, categoryName, preset, min, max }
+  });
+}
+
+export function logKnowledgeAgentBudgetConfirm(categoryKey: string, categoryName: string, min: number, max: number, type: 'preset' | 'custom'): void {
+  sendLogEvent('ka_budget_confirm', {
+    page: 'ka-flow',
+    metadata: { categoryKey, categoryName, min, max, type }
+  });
+}
+
+export function logKnowledgeAgentBudgetSkip(categoryKey: string, categoryName: string): void {
+  sendLogEvent('ka_budget_skip', {
+    page: 'ka-flow',
+    metadata: { categoryKey, categoryName }
+  });
+}
+
+/**
+ * 지식 에이전트 상세 로깅 함수들
+ */
+
+export function logKnowledgeAgentSearchRequest(
+  searchKeyword: string,
+  action: 'search_input' | 'button_click',
+  category?: string,
+  subCategory?: string
+): void {
+  sendLogEvent('knowledge_agent_search_request', {
+    page: 'knowledge-agent-landing',
+    userInput: searchKeyword,
+    buttonLabel: action === 'search_input' ? `검색 입력: "${searchKeyword}"` : `카테고리 버튼 클릭: "${searchKeyword}"`,
+    knowledgeAgentData: {
+      searchKeyword,
+      action,
+      category,
+      subCategory,
+    },
+  });
+}
+
+export function logKnowledgeAgentSearchConfirm(
+  extractedKeyword: string,
+  originalSearchKeyword?: string
+): void {
+  sendLogEvent('knowledge_agent_search_confirm', {
+    page: 'knowledge-agent-landing',
+    buttonLabel: `맞춤 추천 시작: "${extractedKeyword}"`,
+    knowledgeAgentData: {
+      extractedKeyword,
+      searchKeyword: originalSearchKeyword,
+      action: 'confirm',
+    },
+  });
+}
+
+export function logKnowledgeAgentSearchCancel(
+  extractedKeyword: string
+): void {
+  sendLogEvent('knowledge_agent_search_cancel', {
+    page: 'knowledge-agent-landing',
+    buttonLabel: `취소`,
+    knowledgeAgentData: {
+      extractedKeyword,
+      action: 'cancel',
+    },
+  });
+}
+
+export function logKnowledgeAgentCategorySelect(category: string): void {
+  sendLogEvent('knowledge_agent_category_select', {
+    page: 'knowledge-agent-landing',
+    buttonLabel: `메인 카테고리: ${category}`,
+    knowledgeAgentData: { category },
+  });
+}
+
+export function logKnowledgeAgentSubCategorySelect(category: string, subCategory: string | null): void {
+  sendLogEvent('knowledge_agent_subcategory_select', {
+    page: 'knowledge-agent-landing',
+    buttonLabel: subCategory ? `서브 카테고리: ${subCategory}` : '모두보기',
+    knowledgeAgentData: { category, subCategory: subCategory || undefined },
+  });
+}
+
+export function logKnowledgeAgentProductSelect(
+  category: string,
+  categoryName: string,
+  pcode: string,
+  title: string,
+  brand?: string,
+  rank?: number
+): void {
+  sendLogEvent('knowledge_agent_product_select', {
+    page: 'knowledge-agent-result',
+    buttonLabel: `상품 클릭: ${title}`,
+    knowledgeAgentData: {
+      category,
+      productId: pcode,
+      productTitle: title,
+      brand,
+      rank,
+    },
+  });
+}
+
+export function logKnowledgeAgentProductModalOpen(
+  category: string,
+  categoryName: string,
+  pcode: string,
+  title: string,
+  brand?: string,
+  rank?: number
+): void {
+  sendLogEvent('knowledge_agent_product_modal_open', {
+    page: 'knowledge-agent-result',
+    buttonLabel: `상세보기 열기: ${title}`,
+    knowledgeAgentData: {
+      category,
+      productId: pcode,
+      productTitle: title,
+      brand,
+      rank,
+    },
+  });
+}
+
+export function logKnowledgeAgentProductReviewClick(
+  category: string,
+  pcode: string,
+  title: string
+): void {
+  sendLogEvent('knowledge_agent_product_review_click', {
+    page: 'knowledge-agent-result',
+    buttonLabel: `리뷰 모두보기 클릭`,
+    knowledgeAgentData: {
+      category,
+      productId: pcode,
+      productTitle: title,
+    },
+  });
+}
+
+export function logKnowledgeAgentComparisonAction(
+  category: string,
+  pcode: string,
+  title: string,
+  actionType: 'purchase_click' | 'review_click' | 'detail_view'
+): void {
+  sendLogEvent('knowledge_agent_comparison_product_action', {
+    page: 'knowledge-agent-comparison',
+    buttonLabel: `비교표 액션: ${actionType}`,
+    knowledgeAgentData: {
+      category,
+      productId: pcode,
+      productTitle: title,
+      comparisonActionType: actionType,
+    },
+  });
+}
+
+export function logKnowledgeAgentHardcutContinue(
+  category: string,
+  categoryName: string,
+  totalBefore: number,
+  totalAfter: number,
+  appliedRules: string[]
+): void {
+  sendLogEvent('knowledge_agent_hardcut_continue', {
+    page: 'knowledge-agent-hardcut',
+    buttonLabel: `하드컷팅 후 계속하기`,
+    knowledgeAgentData: {
+      category,
+      hardcutData: {
+        totalBefore,
+        totalAfter,
+        appliedRules,
+      },
+    },
+  });
+}
+
+export function logKnowledgeAgentFinalInputSubmit(
+  category: string,
+  categoryName: string,
+  inputText: string,
+  selectionCount: number,
+  negativeCount: number
+): void {
+  sendLogEvent('knowledge_agent_final_input_submit', {
+    page: 'knowledge-agent-flow',
+    userInput: inputText,
+    buttonLabel: `최종 조건 제출`,
+    knowledgeAgentData: {
+      category,
+      finalInputText: inputText,
+    },
+    metadata: { selectionCount, negativeCount }
+  });
+}
+
+export function logKnowledgeAgentReRecommendModalOpened(
+  category: string,
+  categoryName: string
+): void {
+  sendLogEvent('knowledge_agent_re_recommend_modal_open', {
+    page: 'knowledge-agent-result',
+    buttonLabel: `다시 추천받기 모달 열기`,
+    knowledgeAgentData: {
+      category,
+      reRecommendAction: 'modal_opened',
+    },
+  });
+}
+
+export function logKnowledgeAgentReRecommendSameCategory(
+  category: string,
+  categoryName: string
+): void {
+  sendLogEvent('knowledge_agent_re_recommend_same_category', {
+    page: 'knowledge-agent-result',
+    buttonLabel: `같은 카테고리 다시 추천받기`,
+    knowledgeAgentData: {
+      category,
+      reRecommendAction: 'same_category',
+    },
+  });
+}
+
+export function logKnowledgeAgentReRecommendDifferentCategory(
+  category: string,
+  categoryName: string,
+  targetCategory?: string
+): void {
+  sendLogEvent('knowledge_agent_re_recommend_different_category', {
+    page: 'knowledge-agent-result',
+    buttonLabel: `다른 카테고리 추천받기`,
+    knowledgeAgentData: {
+      category,
+      reRecommendAction: 'different_category',
+      targetCategory,
+    },
+  });
+}
+
+export function logKnowledgeAgentAIHelperAction(
+  category: string,
+  categoryName: string,
+  questionId: string,
+  questionText: string,
+  action: 'opened' | 'example_clicked' | 'example_applied' | 'direct_input',
+  exampleText?: string
+): void {
+  sendLogEvent('knowledge_agent_ai_helper_action', {
+    page: 'knowledge-agent-flow',
+    buttonLabel: `AI 헬퍼 액션: ${action}`,
+    knowledgeAgentData: {
+      category,
+      aiHelper: {
+        action,
+        exampleText,
+        questionId,
+        questionText,
+      },
+    },
+  });
+}
+
+export function logKnowledgeAgentHardFilterSelection(
+  category: string,
+  categoryName: string,
+  questionId: string,
+  questionText: string,
+  selection: string,
+  isMultiple: boolean,
+  totalSelected: number
+): void {
+  sendLogEvent('ka_question_answered', {
+    page: 'ka-flow',
+    buttonLabel: `답변: ${selection}`,
+    userInput: selection,
+    metadata: { 
+      category, 
+      categoryName, 
+      questionId, 
+      questionText, 
+      selection, 
+      isMultiple, 
+      totalSelected 
+    }
+  });
+}

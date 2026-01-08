@@ -5,6 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { BalanceQuestion, UserSelections } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { AIHelperBottomSheet } from './AIHelperBottomSheet';
+import { 
+  logKnowledgeAgentBalanceSelection, 
+  logKnowledgeAgentBalanceCompleted,
+  logKnowledgeAgentBalanceSkipped
+} from '@/lib/logging/clientLogger';
 
 export interface BalanceGameCarouselRef {
   goToPrevious: () => boolean; // returns true if moved, false if already at first
@@ -177,17 +182,32 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
 
         // 로깅 콜백 호출 (새로 선택한 경우에만)
         const question = questions.find(q => q.id === questionId);
-        if (question && onSelectionMade) {
+        if (question) {
           const isOptionA = ruleKey === question.option_A.target_rule_key;
-          onSelectionMade({
+          if (onSelectionMade) {
+            onSelectionMade({
+              questionId,
+              questionIndex: currentIndex,
+              totalQuestions: questions.length,
+              selectedOption: isOptionA ? 'A' : 'B',
+              optionALabel: question.option_A.text,
+              optionBLabel: question.option_B.text,
+              ruleKey,
+            });
+          }
+          
+          // 상세 로깅 추가
+          logKnowledgeAgentBalanceSelection(
+            category,
+            categoryName,
             questionId,
-            questionIndex: currentIndex,
-            totalQuestions: questions.length,
-            selectedOption: isOptionA ? 'A' : 'B',
-            optionALabel: question.option_A.text,
-            optionBLabel: question.option_B.text,
-            ruleKey,
-          });
+            currentIndex,
+            questions.length,
+            isOptionA ? 'A' : 'B',
+            question.option_A.text,
+            question.option_B.text,
+            ruleKey
+          );
         }
 
         // 미리 선택된 것을 변경한 경우 콜백 호출
@@ -234,6 +254,13 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
       } else {
         // 스킵 처리
         newSkipped.add(questionId);
+        
+        // 상세 로깅 추가
+        logKnowledgeAgentBalanceSkipped(
+          category,
+          categoryName
+        );
+
         // 스킵하면 선택 해제
         const newSelections = new Map(selections);
         newSelections.delete(questionId);
@@ -271,6 +298,20 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
           question.option_A.target_rule_key,
           question.option_B.target_rule_key,
         ]);
+        
+        // 상세 로깅 추가
+        logKnowledgeAgentBalanceSelection(
+          category,
+          categoryName,
+          questionId,
+          currentIndex,
+          questions.length,
+          'both',
+          question.option_A.text,
+          question.option_B.text,
+          `${question.option_A.target_rule_key},${question.option_B.target_rule_key}`
+        );
+
         // 단일 선택은 해제
         const newSelections = new Map(selections);
         newSelections.delete(questionId);

@@ -5,13 +5,12 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MagnifyingGlass, X, ArrowRight, CaretLeft } from '@phosphor-icons/react';
 import { 
-  logKAPageView, 
-  logKAMainCategorySelected, 
-  logKASubCategorySelected, 
-  logKACategoryButtonClicked, 
-  logKAKeywordExtractionRequested, 
-  logKASearchConfirmed, 
-  logKASearchCancelled 
+  logKnowledgeAgentSearchRequest,
+  logKnowledgeAgentSearchConfirm,
+  logKnowledgeAgentSearchCancel,
+  logKnowledgeAgentCategorySelect,
+  logKnowledgeAgentSubCategorySelect,
+  logKAPageView
 } from '@/lib/logging/clientLogger';
 
 // --- Data Configuration ---
@@ -22,14 +21,16 @@ const CATEGORIES_DATA: Record<string, any> = {
       "code": "BABY_008",
       "emoji": "🛒",
       "children": [
-        "유모차", "카시트", "아기띠", "힙시트"
+        "휴대용 유모차", "디럭스 유모차", "절충형 유모차", "트라이크 유모차", 
+        "신생아용 카시트", "유아용 카시트", "주니어용 카시트", 
+        "아기띠", "힙시트"
       ]
     },
     "젖병/수유용품": {
       "code": "BABY_003",
       "emoji": "🍼",
       "children": [
-        "젖병", "쪽쪽이", "분유포트", "분유제조기", "보틀워머", "젖병솔", "유축기", "수유패드"
+        "젖병", "젖병소독기", "쪽쪽이", "분유포트", "분유제조기", "보틀워머", "젖병솔", "유축기", "수유패드"
       ]
     },
     "기저귀/위생": {
@@ -43,7 +44,7 @@ const CATEGORIES_DATA: Record<string, any> = {
       "code": "BABY_004",
       "emoji": "🥣",
       "children": [
-        "빨대컵", "이유식기", "유아수저세트", "턱받이", "치발기", "이유식조리기"
+        "빨대컵", "이유식기", "유아수저세트", "턱받이", "치발기", "이유식조리기", "하이체어"
       ]
     },
     "건강/목욕용품": {
@@ -64,7 +65,7 @@ const CATEGORIES_DATA: Record<string, any> = {
       "code": "BABY_002",
       "emoji": "🧸",
       "children": [
-        "아기체육관", "바운서", "점퍼루", "보행기"
+        "아기체육관", "바운서", "점퍼루", "보행기", "모빌"
       ]
     },
     "인기 완구/교구": {
@@ -87,7 +88,7 @@ const CATEGORIES_DATA: Record<string, any> = {
       "code": "APP_004",
       "emoji": "🍳",
       "children": [
-        "에어프라이어", "전기밥솥", "전자레인지", "식기세척기", "음식물처리기", "전기포트"
+        "에어프라이어", "전기밥솥", "전자레인지", "식기세척기", "음식물처리기", "전기포트", "커피머신", "믹서기"
       ]
     },
     "계절/환경가전": {
@@ -108,14 +109,14 @@ const CATEGORIES_DATA: Record<string, any> = {
       "code": "APP_001",
       "emoji": "👕",
       "children": [
-        "세탁기", "건조기", "올인원 세탁건조기", "의류관리기"
+        "세탁기", "건조기", "올인원 세탁건조기", "의류관리기", "스팀다리미"
       ]
     },
-    "이미용/건강가전": {
+    "미용/건강가전": {
       "code": "APP_005",
       "emoji": "💇",
       "children": [
-        "헤어드라이어", "고데기", "전동칫솔", "체중계"
+        "헤어드라이어", "고데기", "전동칫솔", "체중계", "전기면도기", "안마의자"
       ]
     }
   }
@@ -228,7 +229,7 @@ export default function KnowledgeAgentLanding() {
   }, [selectedMainCategory, selectedSubCategory]);
 
   const handleMainCategoryChange = (category: string) => {
-    logKAMainCategorySelected(category);
+    logKnowledgeAgentCategorySelect(category);
     setSelectedMainCategory(category);
     setSelectedSubCategory(null);
   };
@@ -239,7 +240,7 @@ export default function KnowledgeAgentLanding() {
 
     // 카테고리 버튼 클릭 시에는 이미 키워드가 명확하므로 별도 추출 없이 바로 모달 오픈
     if (query) {
-      logKACategoryButtonClicked(query);
+      logKnowledgeAgentSearchRequest(query, 'button_click', selectedMainCategory, selectedSubCategory || undefined);
       setActiveSearchItem(query);
       setExtractedKeyword(query);
       setShowConfirmModal(true);
@@ -248,6 +249,7 @@ export default function KnowledgeAgentLanding() {
 
     // 입력창 검색 시에만 추출 로직 실행
     setIsProcessing(true);
+    logKnowledgeAgentSearchRequest(searchQuery, 'search_input');
     try {
       const res = await fetch('/api/knowledge-agent/extract-keyword', {
         method: 'POST',
@@ -256,12 +258,11 @@ export default function KnowledgeAgentLanding() {
       });
       const data = await res.json();
       const finalKeyword = data.success && data.keyword ? data.keyword : searchQuery;
-      logKAKeywordExtractionRequested(searchQuery, finalKeyword);
+      // 키워드 추출 성공 시에는 confirm 로깅을 따로 하므로 여기서는 skip하거나 보조 정보로 남김
       setExtractedKeyword(finalKeyword);
       setShowConfirmModal(true);
     } catch (error) {
       console.error('[Landing] Search failed:', error);
-      logKAKeywordExtractionRequested(searchQuery, searchQuery);
       setExtractedKeyword(searchQuery);
       setShowConfirmModal(true);
     } finally {
@@ -271,13 +272,13 @@ export default function KnowledgeAgentLanding() {
 
   const handleConfirmSearch = () => {
     if (!extractedKeyword) return;
-    logKASearchConfirmed(extractedKeyword);
+    logKnowledgeAgentSearchConfirm(extractedKeyword, inputValue);
     setIsProcessing(true);
     router.push(`/knowledge-agent/${encodeURIComponent(extractedKeyword)}`);
   };
 
   const handleCancelSearch = () => {
-    logKASearchCancelled(extractedKeyword);
+    logKnowledgeAgentSearchCancel(extractedKeyword);
     setShowConfirmModal(false);
     setExtractedKeyword('');
     setActiveSearchItem(null);
@@ -297,38 +298,12 @@ export default function KnowledgeAgentLanding() {
       
         {/* Hero & Search Section */}
         <div className="px-5 pt-8 pb-6">
-          <div className="mb-8">
+          <div className="mb-1">
             <h2 className="text-[24px] font-bold text-gray-900 mb-1 tracking-tight leading-tight">🛍️ 어떤 상품을 구매하시나요?</h2>
             <p className="text-[15px] text-gray-400 font-medium">AI가 제품을 비교분석하고 딱 맞는 제품을 추천해요</p>
           </div>
 
-          {/* Large Smart Gradient Search Bar */}
-          <div className="relative group">
-            <div className="flex items-center bg-white rounded-2xl border-2 border-transparent ai-gradient-border p-[3px] transition-all overflow-hidden">
-              <div className="flex flex-1 items-center bg-white rounded-[13px]">
-                <input
-                  ref={inputRef}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSearchRequest()}
-                  placeholder="아래에서 고르거나, 여기에 직접 입력..."
-                  className="flex-1 bg-transparent py-3 px-3 text-[16px] font-semibold text-gray-800 placeholder:text-gray-400 focus:outline-none"
-                  disabled={isProcessing}
-                />
-                <button
-                  onClick={() => handleSearchRequest()}
-                  disabled={!inputValue.trim() || isProcessing}
-                  className="mr-2 p-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-100 text-white disabled:text-gray-400 rounded-[999px] transition-all active:scale-95 flex items-center justify-center"
-                >
-                  {isProcessing ? (
-                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  ) : (
-                    <MagnifyingGlass size={16} weight="bold" />
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
+       
         </div>
 
         {/* Main Tabs */}
@@ -353,7 +328,7 @@ export default function KnowledgeAgentLanding() {
         <div className="flex flex-wrap px-5 py-2 gap-2 mb-4">
           <button
             onClick={() => {
-              logKASubCategorySelected(null);
+              logKnowledgeAgentSubCategorySelect(selectedMainCategory, null);
               setSelectedSubCategory(null);
             }}
             className={`shrink-0 px-4 py-2 rounded-full text-[13px] font-bold transition-all border ${
@@ -368,7 +343,7 @@ export default function KnowledgeAgentLanding() {
             <button
               key={sub}
               onClick={() => {
-                logKASubCategorySelected(sub);
+                logKnowledgeAgentSubCategorySelect(selectedMainCategory, sub);
                 setSelectedSubCategory(sub);
               }}
               className={`shrink-0 px-4 py-2 rounded-full text-[13px] font-bold transition-all border whitespace-nowrap ${

@@ -10,6 +10,12 @@
 import { NextResponse } from 'next/server';
 import puppeteer, { Browser } from 'puppeteer';
 import { load } from 'cheerio';
+import { createClient } from '@supabase/supabase-js';
+
+// Supabase 클라이언트 (캐시 fallback용)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // =====================================================
 // Types
@@ -34,16 +40,83 @@ interface PriceResult {
   error?: string;
 }
 
+export const maxDuration = 60;
+
 // Fly.io 크롤러 서버 URL
 const CRAWLER_SERVER_URL = process.env.CRAWLER_SERVER_URL || 'https://danawa-crawler.fly.dev';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
+// =====================================================
+// Supabase 캐시 조회 (Fallback)
+// =====================================================
+
+async function fetchPriceFromCache(pcode: string): Promise<PriceResult | null> {
+  try {
+    const { data, error } = await supabase
+      .from('danawa_prices')
+      .select('*')
+      .eq('pcode', pcode)
+      .single();
+
+    if (error || !data) {
+      return null;
+    }
+
+    console.log(`[PriceCrawl] Cache hit for ${pcode}: ${data.lowest_price?.toLocaleString()}원`);
+    return {
+      pcode,
+      lowestPrice: data.lowest_price,
+      lowestMall: data.lowest_mall,
+      lowestDelivery: data.lowest_delivery,
+      mallPrices: data.mall_prices || [],
+      mallCount: data.mall_count || 0,
+      success: true,
+    };
+  } catch (error) {
+    console.warn(`[PriceCrawl] Cache lookup failed for ${pcode}:`, error);
+    return null;
+  }
+}
+
+async function fetchPricesFromCache(pcodes: string[]): Promise<Record<string, PriceResult>> {
+  const results: Record<string, PriceResult> = {};
+
+  try {
+    const { data, error } = await supabase
+      .from('danawa_prices')
+      .select('*')
+      .in('pcode', pcodes);
+
+    if (error || !data) {
+      return results;
+    }
+
+    for (const row of data) {
+      results[row.pcode] = {
+        pcode: row.pcode,
+        lowestPrice: row.lowest_price,
+        lowestMall: row.lowest_mall,
+        lowestDelivery: row.lowest_delivery,
+        mallPrices: row.mall_prices || [],
+        mallCount: row.mall_count || 0,
+        success: true,
+      };
+    }
+
+    console.log(`[PriceCrawl] Cache hit for ${Object.keys(results).length}/${pcodes.length} products`);
+  } catch (error) {
+    console.warn('[PriceCrawl] Cache batch lookup failed:', error);
+  }
+
+  return results;
+}
 
 // =====================================================
 // Fly.io 서버 호출 (프로덕션)
 // =====================================================
 
 async function fetchPriceFromFlyio(pcode: string): Promise<PriceResult> {
-  const TIMEOUT_MS = 10000; // 10초 타임아웃
+  const TIMEOUT_MS = 30000; // 30초 타임아웃 (콜드스타트 고려 상향)
 
   try {
     const controller = new AbortController();
@@ -74,7 +147,7 @@ async function fetchPriceFromFlyio(pcode: string): Promise<PriceResult> {
     };
   } catch (error) {
     const errorMsg = error instanceof Error
-      ? (error.name === 'AbortError' ? 'Fly.io timeout (10s)' : error.message)
+      ? (error.name === 'AbortError' ? 'Fly.io timeout (30s)' : error.message)
       : 'Fly.io request failed';
     console.warn(`[PriceCrawl] Fly.io failed for ${pcode}: ${errorMsg}`);
 
@@ -92,7 +165,7 @@ async function fetchPriceFromFlyio(pcode: string): Promise<PriceResult> {
 }
 
 async function fetchPricesFromFlyioBatch(pcodes: string[]): Promise<Record<string, PriceResult>> {
-  const TIMEOUT_MS = 15000; // 배치는 15초 타임아웃
+  const TIMEOUT_MS = 90000; // 배치는 90초 타임아웃 (콜드스타트 + 순차처리 고려 대폭 상향)
 
   try {
     const controller = new AbortController();
@@ -115,7 +188,7 @@ async function fetchPricesFromFlyioBatch(pcodes: string[]): Promise<Record<strin
     return data.results || {};
   } catch (error) {
     const errorMsg = error instanceof Error
-      ? (error.name === 'AbortError' ? 'Fly.io timeout (15s)' : error.message)
+      ? (error.name === 'AbortError' ? 'Fly.io timeout (90s)' : error.message)
       : 'Fly.io batch request failed';
     console.warn(`[PriceCrawl] Fly.io batch failed: ${errorMsg}`);
 
@@ -322,11 +395,23 @@ async function crawlPriceLocal(pcode: string): Promise<PriceResult> {
 }
 
 // =====================================================
-// 통합 함수: 환경에 따라 Fly.io 또는 로컬 사용
+// 통합 함수: 환경에 따라 Fly.io 또는 로컬 사용 + 캐시 Fallback
 // =====================================================
 
 async function fetchPrice(pcode: string): Promise<PriceResult> {
   if (IS_PRODUCTION) {
+    // 전략: 캐시 먼저 확인 (빠름) → Fly.io 크롤링 (느림)
+    // Fly.io가 현재 불안정하므로 캐시 우선
+
+    // 1. 캐시에서 먼저 확인
+    const cacheResult = await fetchPriceFromCache(pcode);
+    if (cacheResult) {
+      console.log(`[PriceCrawl] Using cached price for ${pcode}`);
+      return cacheResult;
+    }
+
+    // 2. 캐시 없으면 Fly.io 크롤러 시도
+    console.log(`[PriceCrawl] No cache, trying Fly.io for ${pcode}`);
     return fetchPriceFromFlyio(pcode);
   }
   return crawlPriceLocal(pcode);
@@ -334,8 +419,26 @@ async function fetchPrice(pcode: string): Promise<PriceResult> {
 
 async function fetchPricesBatch(pcodes: string[]): Promise<Record<string, PriceResult>> {
   if (IS_PRODUCTION) {
-    // 프로덕션: Fly.io 서버에서 병렬 처리
-    return fetchPricesFromFlyioBatch(pcodes);
+    // 전략: 캐시 먼저 확인 (빠름) → 없는 것만 Fly.io 크롤링
+    // Fly.io가 현재 불안정하므로 캐시 우선
+
+    // 1. 캐시에서 먼저 조회
+    const cacheResults = await fetchPricesFromCache(pcodes);
+    const cachedPcodes = Object.keys(cacheResults);
+    const missingPcodes = pcodes.filter(pcode => !cacheResults[pcode]);
+
+    console.log(`[PriceCrawl] Cache: ${cachedPcodes.length}/${pcodes.length}, Missing: ${missingPcodes.length}`);
+
+    // 2. 모두 캐시 히트면 바로 반환
+    if (missingPcodes.length === 0) {
+      return cacheResults;
+    }
+
+    // 3. 캐시에 없는 것만 Fly.io 크롤링
+    const flyioResults = await fetchPricesFromFlyioBatch(missingPcodes);
+
+    // 4. 결과 병합
+    return { ...cacheResults, ...flyioResults };
   }
 
   // 개발: 로컬에서 병렬 처리 (브라우저 인스턴스 여러 개)

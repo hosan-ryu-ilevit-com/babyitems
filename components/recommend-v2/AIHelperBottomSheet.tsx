@@ -6,6 +6,7 @@ import {
   logExampleQuestionClicked,
   logExampleQuestionApplied,
   logNaturalLanguageInput,
+  logKnowledgeAgentAIHelperAction,
 } from '@/lib/logging/clientLogger';
 import type { UserSelections } from '@/types/recommend-v2';
 
@@ -237,6 +238,16 @@ export function AIHelperBottomSheet({
       categoryName
     );
 
+    // 상세 로깅 추가
+    logKnowledgeAgentAIHelperAction(
+      category,
+      categoryName,
+      questionId,
+      questionText,
+      'direct_input',
+      userInput.trim()
+    );
+
     try {
       const res = await fetch('/api/ai-selection-helper', {
         method: 'POST',
@@ -282,6 +293,16 @@ export function AIHelperBottomSheet({
       categoryName
     );
 
+    // 상세 로깅 추가
+    logKnowledgeAgentAIHelperAction(
+      category,
+      categoryName,
+      questionId,
+      questionText,
+      'example_applied',
+      userInput
+    );
+
     // 밸런스게임에서 "both" 선택 시 특별 처리
     if (questionType === 'balance_game') {
       onSelectOptions(aiResponse.recommendation.selectedOptions);
@@ -314,6 +335,16 @@ export function AIHelperBottomSheet({
       index,
       category,
       categoryName
+    );
+
+    // 상세 로깅 추가
+    logKnowledgeAgentAIHelperAction(
+      category,
+      categoryName,
+      questionId,
+      questionText,
+      'example_clicked',
+      example
     );
 
     setUserInput(example);

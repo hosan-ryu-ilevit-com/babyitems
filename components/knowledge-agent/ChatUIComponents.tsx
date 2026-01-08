@@ -3,6 +3,19 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
+  logKAQuestionAnswered, 
+  logKAQuestionSkipped,
+  logKnowledgeAgentBalanceSelection,
+  logKnowledgeAgentBalanceCompleted,
+  logKnowledgeAgentBalanceSkipped,
+  logKnowledgeAgentNegativeToggle,
+  logKnowledgeAgentNegativeCompleted,
+  logKnowledgeAgentBudgetChanged,
+  logKnowledgeAgentBudgetPresetClicked,
+  logKnowledgeAgentBudgetConfirm,
+  logKnowledgeAgentBudgetSkip
+} from '@/lib/logging/clientLogger';
+import { 
   CaretLeft, 
   CaretRight, 
   Check, 
@@ -48,10 +61,14 @@ interface BudgetPreset {
 
 export function InlineBalanceCarousel({
   questions,
-  onComplete
+  onComplete,
+  categoryKey,
+  categoryName
 }: {
   questions: BalanceQuestion[];
   onComplete: (selections: Map<string, 'A' | 'B'>) => void;
+  categoryKey: string;
+  categoryName?: string;
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selections, setSelections] = useState<Map<string, 'A' | 'B'>>(new Map());
@@ -61,6 +78,22 @@ export function InlineBalanceCarousel({
   const allAnswered = selections.size === questions.length;
 
   const handleSelect = (choice: 'A' | 'B') => {
+    const choiceText = choice === 'A' ? currentQuestion.option_A.text : currentQuestion.option_B.text;
+    logKAQuestionAnswered(categoryKey, currentQuestion.title, choiceText);
+    
+    // 상세 로깅 추가
+    logKnowledgeAgentBalanceSelection(
+      categoryKey,
+      categoryName || '',
+      currentQuestion.id,
+      currentIndex,
+      questions.length,
+      choice,
+      currentQuestion.option_A.text,
+      currentQuestion.option_B.text,
+      choice === 'A' ? currentQuestion.option_A.target_rule_key : currentQuestion.option_B.target_rule_key
+    );
+
     const newSelections = new Map(selections);
     newSelections.set(currentQuestion.id, choice);
     setSelections(newSelections);
@@ -72,6 +105,15 @@ export function InlineBalanceCarousel({
   };
 
   const handleComplete = () => {
+    // 상세 로깅 추가
+    logKnowledgeAgentBalanceCompleted(
+      categoryKey,
+      categoryName || '',
+      Array.from(selections.entries()).map(([qId, choice]) => ({
+        questionId: qId,
+        choice
+      }))
+    );
     onComplete(selections);
   };
 
@@ -215,21 +257,40 @@ export function InlineBalanceCarousel({
 export function InlineNegativeFilter({
   options,
   onSelect,
-  onSkip
+  onSkip,
+  categoryKey,
+  categoryName
 }: {
   options: NegativeOption[];
   onSelect: (selected: string[]) => void;
   onSkip: () => void;
+  categoryKey: string;
+  categoryName?: string;
 }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const toggle = (id: string) => {
+    const opt = options.find(o => o.id === id);
     const newSelected = new Set(selected);
-    if (newSelected.has(id)) {
-      newSelected.delete(id);
-    } else {
+    const isAdding = !newSelected.has(id);
+    
+    if (isAdding) {
       newSelected.add(id);
+    } else {
+      newSelected.delete(id);
     }
+    
+    if (opt) {
+      logKnowledgeAgentNegativeToggle(
+        categoryKey,
+        categoryName || '',
+        opt.target_rule_key,
+        opt.label,
+        isAdding,
+        newSelected.size
+      );
+    }
+    
     setSelected(newSelected);
   };
 
@@ -284,7 +345,12 @@ export function InlineNegativeFilter({
 
       <div className="flex gap-2.5 mt-6 pt-5 border-t border-gray-50">
         <button
-          onClick={onSkip}
+          onClick={() => {
+            logKAQuestionSkipped(categoryKey, '피하고 싶은 단점');
+            // 상세 로깅 추가
+            logKnowledgeAgentNegativeCompleted(categoryKey, categoryName || '', []);
+            onSkip();
+          }}
           className="flex-1 py-3.5 bg-gray-50 rounded-2xl text-[14px] font-bold text-gray-500 hover:bg-gray-100 transition-all"
         >
           건너뛰기
@@ -292,7 +358,20 @@ export function InlineNegativeFilter({
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => onSelect(Array.from(selected))}
+          onClick={() => {
+            const selectedOptions = options.filter(o => selected.has(o.id));
+            const selectedLabels = selectedOptions.map(o => o.label).join(', ');
+            logKAQuestionAnswered(categoryKey, '피하고 싶은 단점', selectedLabels);
+            
+            // 상세 로깅 추가
+            logKnowledgeAgentNegativeCompleted(
+              categoryKey,
+              categoryName || '',
+              selectedOptions.map(o => o.target_rule_key)
+            );
+            
+            onSelect(Array.from(selected));
+          }}
           disabled={selected.size === 0}
           className="flex-[2] py-3.5 bg-rose-600 text-white rounded-2xl text-[14px] font-bold shadow-lg shadow-rose-100 hover:bg-rose-700 transition-all disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
         >
@@ -310,11 +389,15 @@ export function InlineNegativeFilter({
 export function InlineBudgetSelector({
   presets,
   onSelect,
-  onSkip
+  onSkip,
+  categoryKey,
+  categoryName
 }: {
   presets: BudgetPreset[];
   onSelect: (min: number, max: number) => void;
   onSkip: () => void;
+  categoryKey: string;
+  categoryName?: string;
 }) {
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
   const [customMax, setCustomMax] = useState(200000);
@@ -323,15 +406,46 @@ export function InlineBudgetSelector({
   const handlePresetClick = (preset: BudgetPreset) => {
     setSelectedPreset(preset.type);
     setShowCustom(false);
+    
+    // 상세 로깅 추가
+    logKnowledgeAgentBudgetPresetClicked(
+      categoryKey,
+      categoryName || '',
+      preset.type,
+      preset.range.min,
+      preset.range.max
+    );
   };
 
   const handleComplete = () => {
     if (selectedPreset) {
       const preset = presets.find(p => p.type === selectedPreset);
       if (preset) {
+        logKAQuestionAnswered(categoryKey, '희망 예산', preset.label);
+        
+        // 상세 로깅 추가
+        logKnowledgeAgentBudgetConfirm(
+          categoryKey,
+          categoryName || '',
+          preset.range.min,
+          preset.range.max,
+          'preset'
+        );
+        
         onSelect(preset.range.min, preset.range.max);
       }
     } else if (showCustom) {
+      logKAQuestionAnswered(categoryKey, '희망 예산', `${(customMax / 10000).toFixed(0)}만원 이하`);
+      
+      // 상세 로깅 추가
+      logKnowledgeAgentBudgetConfirm(
+        categoryKey,
+        categoryName || '',
+        0,
+        customMax,
+        'custom'
+      );
+      
       onSelect(0, customMax);
     }
   };
@@ -413,7 +527,11 @@ export function InlineBudgetSelector({
                 max="500000"
                 step="10000"
                 value={customMax}
-                onChange={(e) => setCustomMax(parseInt(e.target.value))}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value);
+                  setCustomMax(val);
+                  logKnowledgeAgentBudgetChanged(categoryKey, categoryName || '', 0, val);
+                }}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               />
             </div>
@@ -433,7 +551,12 @@ export function InlineBudgetSelector({
       {/* 버튼 */}
       <div className="flex gap-2.5 mt-6 pt-5 border-t border-gray-50">
         <button
-          onClick={onSkip}
+          onClick={() => {
+            logKAQuestionSkipped(categoryKey, '희망 예산');
+            // 상세 로깅 추가
+            logKnowledgeAgentBudgetSkip(categoryKey, categoryName || '');
+            onSkip();
+          }}
           className="flex-1 py-3.5 bg-gray-50 rounded-2xl text-[14px] font-bold text-gray-500 hover:bg-gray-100 transition-all"
         >
           상관없음

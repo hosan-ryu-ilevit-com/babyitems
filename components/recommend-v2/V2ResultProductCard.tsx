@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import type { V2ResultProduct } from '@/types/recommend-v2';
+import { logKAExternalLinkClicked, logKAProductModalOpened } from '@/lib/logging/clientLogger';
 
 // 마크다운 볼드 처리
 function parseMarkdownBold(text: string) {
@@ -48,6 +49,8 @@ interface V2ResultProductCardProps {
   rank: number;
   onClick?: () => void;
   onReviewClick?: () => void;
+  categoryKey?: string;
+  categoryName?: string;
 }
 
 /**
@@ -61,6 +64,8 @@ export function V2ResultProductCard({
   rank,
   onClick,
   onReviewClick,
+  categoryKey,
+  categoryName,
 }: V2ResultProductCardProps) {
   const danawaPrice = product.danawaPrice;
   const hasLowestPrice = danawaPrice && danawaPrice.lowest_price && danawaPrice.lowest_price > 0;
@@ -282,10 +287,14 @@ export function V2ResultProductCard({
           <button
             onClick={(e) => {
               e.stopPropagation();
+              const url = `https://prod.danawa.com/info/?pcode=${product.pcode}#bookmark_cm_opinion`;
+              if (categoryKey) {
+                logKAExternalLinkClicked(categoryKey, product.pcode, product.title, '다나와 리뷰', url);
+              }
               if (onReviewClick) {
                 onReviewClick();
               } else {
-                window.open(`https://prod.danawa.com/info/?pcode=${product.pcode}#bookmark_cm_opinion`, '_blank');
+                window.open(url, '_blank');
               }
             }}
             className="flex-1 py-2.5 text-sm font-bold text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors flex items-center justify-center gap-1"
@@ -299,6 +308,13 @@ export function V2ResultProductCard({
             rel="noopener noreferrer"
             onClick={(e) => {
               e.stopPropagation();
+              if (categoryKey) {
+                logKAExternalLinkClicked(categoryKey, product.pcode, product.title, '다나와 구매', (e.currentTarget as HTMLAnchorElement).href);
+                // PDP 모달 열기 전에 구매 클릭 로깅은 PDP 모달 내부에서 하는 것이 맞지만, 
+                // PLP에서 바로 구매하기를 누르는 경우에도 로깅이 필요할 수 있음. 
+                // 여기서는 Product purchase click 로깅 함수가 modal용이므로 
+                // 일단 외부 링크 클릭 로깅으로 대체 (이미 위에서 logKAExternalLinkClicked 호출됨)
+              }
             }}
             className="flex-1 py-2.5 text-sm font-semibold text-white bg-black hover:bg-gray-900 rounded-xl transition-colors flex items-center justify-center gap-1"
           >
@@ -309,6 +325,9 @@ export function V2ResultProductCard({
         <button
           onClick={(e) => {
             e.stopPropagation();
+            if (categoryKey) {
+              logKAProductModalOpened(categoryKey, product.pcode, product.title);
+            }
             if (onClick) onClick();
           }}
           className="w-full py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex items-center justify-center gap-1"

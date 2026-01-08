@@ -26,6 +26,7 @@ export interface ReviewLite {
   author?: string;
   date?: string;
   mallName?: string;
+  imageUrls?: string[];  // 포토 리뷰 이미지 URL 목록
 }
 
 export interface ReviewCrawlResult {
@@ -166,6 +167,28 @@ export async function fetchReviewsLite(
           const $review = load(reviewHtml);
           let pageReviewCount = 0;
 
+          // 📸 포토 리뷰 매핑 생성: 리뷰ID -> 이미지URL[]
+          // photo_rvw 영역의 썸네일에서 추출
+          const photoMap = new Map<string, string[]>();
+          $review('.photo_rvw .p_list li a[id^="danawa-prodBlog-companyReview-thumbnail-item-"]').each((_, thumbEl: CheerioElement) => {
+            const $thumb = $review(thumbEl);
+            const thumbId = $thumb.attr('id');
+            if (!thumbId) return;
+
+            // ID에서 리뷰ID 추출: danawa-prodBlog-companyReview-thumbnail-item-{reviewId}
+            const photoReviewId = thumbId.replace('danawa-prodBlog-companyReview-thumbnail-item-', '');
+
+            // 이미지 URL 추출
+            const imgSrc = $thumb.find('img').attr('src');
+            if (imgSrc && !imgSrc.includes('noImg')) {
+              const fullUrl = imgSrc.startsWith('//') ? `https:${imgSrc}` : imgSrc;
+              if (!photoMap.has(photoReviewId)) {
+                photoMap.set(photoReviewId, []);
+              }
+              photoMap.get(photoReviewId)!.push(fullUrl);
+            }
+          });
+
           // 쇼핑몰 상품리뷰 아이템 파싱
           // 선택자: .rvw_list > li 또는 .danawa-prodBlog-companyReview-clazz-more
           $review('.rvw_list > li, li.danawa-prodBlog-companyReview-clazz-more').each((i: number, el: CheerioElement) => {
@@ -222,6 +245,14 @@ export async function fetchReviewsLite(
             // 날짜 (.date 클래스)
             const date = $item.find('.date').text().trim() || undefined;
 
+            // 📸 다나와 리뷰 ID 추출 (button-side-{reviewId} 형식)
+            const buttonEl = $item.find('[id^="danawa-prodBlog-companyReview-button-side-"]');
+            const buttonId = buttonEl.attr('id') || '';
+            const danawaReviewId = buttonId.replace('danawa-prodBlog-companyReview-button-side-', '');
+
+            // 이미지 URL 매핑 (다나와 리뷰 ID로 매핑)
+            const imageUrls = danawaReviewId ? (photoMap.get(danawaReviewId) || []) : [];
+
             const reviewId = generateReviewId(content, author, date);
 
             // 중복 체크
@@ -232,7 +263,7 @@ export async function fetchReviewsLite(
                 .replace(/\s{2,}/g, ' ')
                 .trim()
                 .slice(0, 500);
-              
+
               result.reviews.push({
                 reviewId,
                 rating: Math.min(5, Math.max(1, rating)), // 1-5 범위 보장
@@ -240,6 +271,7 @@ export async function fetchReviewsLite(
                 author,
                 date,
                 mallName,
+                imageUrls: imageUrls.length > 0 ? imageUrls : undefined,
               });
               pageReviewCount++;
             }

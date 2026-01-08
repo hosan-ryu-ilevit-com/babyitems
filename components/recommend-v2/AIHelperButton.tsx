@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChatCircleDots, TrendUp } from '@phosphor-icons/react';
-import { logAIHelperButtonClicked } from '@/lib/logging/clientLogger';
+import { logAIHelperButtonClicked, logKnowledgeAgentAIHelperAction } from '@/lib/logging/clientLogger';
 
 interface AIHelperButtonProps {
   onClick: () => void;
@@ -57,9 +57,24 @@ export function AIHelperButton({
         import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
           logButtonClick('recommend-v2', '💚 AI 도움 요청 (옵션 열기)');
         });
+        // 상세 로깅 추가
+        logKnowledgeAgentAIHelperAction(
+          category || '',
+          categoryName || '',
+          questionId || '',
+          questionText || '',
+          'opened'
+        );
       }
     } else {
       // 옵션이 없는 경우 기존 동작 (바로 바텀시트 열기 등)
+      logKnowledgeAgentAIHelperAction(
+        category || '',
+        categoryName || '',
+        questionId || '',
+        questionText || '',
+        'opened'
+      );
       onClick();
     }
   };
@@ -141,6 +156,14 @@ export function AIHelperButton({
                       categoryName,
                       step
                     );
+                    // 상세 로깅 추가
+                    logKnowledgeAgentAIHelperAction(
+                      category,
+                      categoryName,
+                      questionId,
+                      questionText,
+                      'example_clicked'
+                    );
                   }
                   onClick();
                   setIsExpanded(false);
@@ -165,6 +188,14 @@ export function AIHelperButton({
                     import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
                       logButtonClick('recommend-v2', '💚 AI 도움 요청 (인기 제품)');
                     });
+                    // 상세 로깅 추가
+                    logKnowledgeAgentAIHelperAction(
+                      category || '',
+                      categoryName || '',
+                      questionId || '',
+                      questionText || '',
+                      'example_clicked'
+                    );
                     onPopularRecommend();
                     setIsExpanded(false);
                   }}
@@ -189,6 +220,14 @@ export function AIHelperButton({
                     import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
                       logButtonClick('recommend-v2', '💚 AI 도움 요청 (컨텍스트 기반)');
                     });
+                    // 상세 로깅 추가
+                    logKnowledgeAgentAIHelperAction(
+                      category || '',
+                      categoryName || '',
+                      questionId || '',
+                      questionText || '',
+                      'example_clicked'
+                    );
                     onContextRecommend();
                     setIsExpanded(false);
                   }}

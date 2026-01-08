@@ -1,14 +1,14 @@
-# 세션: 20260107_105546_6ywt
-> 시작: 2026-01-07T10:55:46.694Z
+# 세션: 20260107_132750_lcvp
+> 시작: 2026-01-07T13:27:50.389Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 분유포트
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5C9lJW6x0M8PPkowemFgBBIbFwNFVKK_LBMtg_r0vJePuL736GDBL0K-RKKH5ZwLll8F2PhrFUVgfQz9BaXaRxU06kUOVg8FjSnIOkmwuuEAVucJP6OfjbIUrP-PsLO3bZnM21kc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnxEbhHeaU2UXS9ar9esYxeak4MC8glXRCvKHdwKgKVsMPiQMs7gekWBjaQY-4DLYJehb3oZXD8N4hxiKu2FtenkqDz_ZvqGOjahHxVG6NeDA9PpQ2CoCRU3fDKV37nwnMFnP7ccQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfHxEmhbIZXJQ_TrxZjv45OR8MI9NWg2Ib72-LxP4od8ASiGNe-dYb8CZFs2o77JFBbspNF0gJd_9DjJ-w5fiWQq9T3b9Lko6yWv4W7urr-BxIzD4rV-Cyq2SlCYcoRiMubqr4isA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6ut3aIrExxwimm5TUoHAW58TKENa0q4yNi37vLnHjQ6xilZr9UfBy9VabJB5hatVPaqcj6HsJcXom5M49bHt8TDJ55DfE_VdB3aZUMlwFSS0ysH4LLTvHJNND5iTupzwcbIirKfs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAyGjJr2sTYEubeK8evGS2mHDvDxMpL5pMJs7Gy5qp4uxZoyIbOe_dmJsLMWKxIX3jjNYZDlXBfjOVw8Hsla1O7dVEcmip3KMs5nvBRcA7O1K35dhx8kGiN_DCRfSoI9osdPcllAhXctDYpyOOx2OyCKYQDsqyyEidArJV
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5C9lJW6x0M8PPkowemFgBBIbFwNFVKK_LBMtg_r0vJePuL736GDBL0K-RKKH5ZwLll8F2PhrFUVgfQz9BaXaRxU06kUOVg8FjSnIOkmwuuEAVucJP6OfjbIUrP-PsLO3bZnM21kc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnxEbhHeaU2UXS9ar9esYxeak4MC8glXRCvKHdwKgKVsMPiQMs7gekWBjaQY-4DLYJehb3oZXD8N4hxiKu2FtenkqDz_ZvqGOjahHxVG6NeDA9PpQ2CoCRU3fDKV37nwnMFnP7ccQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfHxEmhbIZXJQ_TrxZjv45OR8MI9NWg2Ib72-LxP4od8ASiGNe-dYb8CZFs2o77JFBbspNF0gJd_9DjJ-w5fiWQq9T3b9Lko6yWv4W7urr-BxIzD4rV-Cyq2SlCYcoRiMubqr4isA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6ut3aIrExxwimm5TUoHAW58TKENa0q4yNi37vLnHjQ6xilZr9UfBy9VabJB5hatVPaqcj6HsJcXom5M49bHt8TDJ55DfE_VdB3aZUMlwFSS0ysH4LLTvHJNND5iTupzwcbIirKfs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAyGjJr2sTYEubeK8evGS2mHDvDxMpL5pMJs7Gy5qp4uxZoyIbOe_dmJsLMWKxIX3jjNYZDlXBfjOVw8Hsla1O7dVEcmip3KMs5nvBRcA7O1K35dhx8kGiN_DCRfSoI9osdPcllAhXctDYpyOOx2OyCKYQDsqyyEidArJV
+- 쿼리: 분유포트 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 1월 현재, 분유포트 시장은 보르르, 릴리브, 라비킷 등의 브랜드가 인기 있으며, 자동 출수, 정밀 온도 조절, 염소 제거 기능 등이 주요 트렌드로 자리 잡고 있습니다. 휴대용 및 여행용 분유포트 또한 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBNQ9CUlkvni3HYkfbTHdnRnhjsdE1JNvvvfs-ZK8_mcg6suH005YIXdO8Qyq303y-h7HjwezBVUh0vMHbjWIOzaayIGGx3RcxyhS99SKyu_Sb7i5nN0hINFAEyEzmZMRDOiaeceBNGb1pKZlmgL4j6ad4wloHl5lPY9Zx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUNcdpjP7fXCH1LOfsQWaqQmQBQz6f41-4EtVsYs5GPVclmdrT0kdtMTkF8nbB2TYVM4wr8BbEI3CNgMIKb3XjD-Ui9Hxt9J3MtDOYe4gSH01u9RdIlMQYObRaMSpAdmBCaoujP1E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDYt1XPXvB3naNZnpP55C9PKmN-dn8g9BFhFVtLrdW6ORhBmUmigPVN3S1YGrBYJn0GgYMFuD3QRrcYICnEVAUUVXGsg4SojnuuBimY7g9TW4sG0WuAaGdIQQL1GhKBx0zErotml0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3Z0GBrfNRsQn_qTMwj4q-7gwNag7CUanfjm1IgM6A5gMuI9mKvP50VR8-Rfno35dbWrcdb-pWIPr1SOIIZqFw53ezYaJhTa5e3ID6rZP4cGUSgqFdlMBAYktpu7bJuzLoLK29VSI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEI5Q3Obr38tja0VFGK9aD_9-lQCJEfagxIN9jt-GH5xcvkKJ4d7RgdUx-nwXI7jKTC2W5HH0Z5BSrORtkZ-oyzzYr5n0QiCU5_FMeOunpp3cxGp6ltoaeCYUdD40IWrU4UjZ3XXAeprTpgGrr_7RHJJLUJ39AwXiafamvvBtoQ
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| capacity | 1.7L 이상, 1L ~ 1.7L |
-| material | 스테인리스 |
-| heating_type | 2. "정밀한 온도 조절", 1. "빠른 가열" |
-| budget | 8만원 이하 |
-| __avoid_negatives__ | 세척/관리 번거로움,안전 기능 부족 |
 
 ---
 
@@ -60,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 세척/관리 번거로움
-- 안전 기능 부족
+(아직 선택 없음)
 
 ---
 

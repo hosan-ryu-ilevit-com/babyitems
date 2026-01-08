@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star, ShoppingCart, ArrowRight, CaretDown, CaretUp, Storefront, Truck, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
+import { logKAExternalLinkClicked, logKnowledgeAgentProductPurchaseClick } from '@/lib/logging/clientLogger';
 import {
   FcIdea,
   FcApproval,
@@ -65,6 +66,7 @@ interface KnowledgePDPModalProps {
     concerns?: string[];
   };
   categoryKey: string;
+  categoryName?: string;
   onClose: () => void;
 }
 
@@ -98,7 +100,7 @@ function splitReasoning(reasoning: string | undefined): { oneLiner: string; pers
   return { oneLiner: trimmed, personalReason: '' };
 }
 
-export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePDPModalProps) {
+export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose }: KnowledgePDPModalProps) {
   const [isExiting, setIsExiting] = useState(false);
   const [showAllPrices, setShowAllPrices] = useState(false);
   const [priceData, setPriceData] = useState<PriceData>({
@@ -324,11 +326,12 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
                       const pcode = product.pcode || product.id;
-                      if (pcode && /^\d+$/.test(pcode)) {
-                        window.open(`https://prod.danawa.com/info/?pcode=${pcode}`, '_blank');
-                      } else {
-                        window.open(`https://search.danawa.com/dsearch.php?query=${encodeURIComponent(product.title)}`, '_blank');
-                      }
+                      const url = pcode && /^\d+$/.test(pcode) 
+                        ? `https://prod.danawa.com/info/?pcode=${pcode}`
+                        : `https://search.danawa.com/dsearch.php?query=${encodeURIComponent(product.title)}`;
+                      
+                      logKAExternalLinkClicked(categoryKey, pcode || '', product.title, '다나와', url);
+                      window.open(url, '_blank');
                     }}
                     className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-gray-200"
                   >
@@ -367,8 +370,24 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: i * 0.03 }}
-                              className={`flex items-center justify-between p-3 rounded-xl ${
-                                i === 0 ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50'
+                              onClick={() => {
+                                if (mp.link) {
+                                  logKAExternalLinkClicked(categoryKey, product.pcode || '', product.title, mp.mall, mp.link);
+                                  
+                                  // 상세 구매 로깅 추가
+                                  logKnowledgeAgentProductPurchaseClick(
+                                    categoryKey,
+                                    product.pcode || product.id,
+                                    product.title,
+                                    mp.mall,
+                                    mp.link
+                                  );
+
+                                  window.open(mp.link, '_blank');
+                                }
+                              }}
+                              className={`flex items-center justify-between p-3 rounded-xl cursor-pointer transition-colors ${
+                                i === 0 ? 'bg-blue-50 border border-blue-100 hover:bg-blue-100' : 'bg-gray-50 hover:bg-gray-100'
                               }`}
                             >
                               <div className="flex items-center gap-2">
@@ -654,17 +673,30 @@ export function KnowledgePDPModal({ product, categoryKey, onClose }: KnowledgePD
 
         {/* Bottom CTA */}
         <div className="shrink-0 w-full bg-white/80 backdrop-blur-xl border-t border-gray-50/50 px-5 pt-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] z-30">
-          <motion.a
-            href={`https://prod.danawa.com/info/?pcode=${product.pcode || product.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <motion.button
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => {
+              const pcode = product.pcode || product.id;
+              const url = `https://prod.danawa.com/info/?pcode=${pcode}`;
+              logKAExternalLinkClicked(categoryKey, pcode || '', product.title, '다나와', url);
+              
+              // 상세 구매 로깅 추가
+              logKnowledgeAgentProductPurchaseClick(
+                categoryKey,
+                pcode || '',
+                product.title,
+                priceData.lowestMall || '다나와',
+                url
+              );
+
+              window.open(url, '_blank');
+            }}
             className="w-full h-14 flex items-center justify-center gap-3 font-black rounded-[20px] text-[16px] transition-all text-white bg-gray-900 shadow-xl shadow-gray-200 hover:bg-black"
           >
             다나와에서 보기
             <FcSearch size={22} />
-          </motion.a>
+          </motion.button>
         </div>
       </motion.div>
     </motion.div>

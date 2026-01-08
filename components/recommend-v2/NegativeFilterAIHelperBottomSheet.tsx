@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { logKnowledgeAgentAIHelperAction } from '@/lib/logging/clientLogger';
 
 interface NegativeFilterOption {
   id: string;
@@ -181,6 +182,16 @@ export function NegativeFilterAIHelperBottomSheet({
     setIsLoading(true);
     setError(null);
 
+    // 상세 로깅 추가
+    logKnowledgeAgentAIHelperAction(
+      category,
+      categoryName,
+      'negative_filter',
+      '피할 단점이 있나요?',
+      'direct_input',
+      userInput.trim()
+    );
+
     try {
       const res = await fetch('/api/ai-selection-helper', {
         method: 'POST',
@@ -212,6 +223,17 @@ export function NegativeFilterAIHelperBottomSheet({
 
   const handleSelectRecommendation = () => {
     if (!aiResponse) return;
+
+    // 상세 로깅 추가
+    logKnowledgeAgentAIHelperAction(
+      category,
+      categoryName,
+      'negative_filter',
+      '피할 단점이 있나요?',
+      'example_applied',
+      userInput
+    );
+
     onSelectOptions(aiResponse.recommendation.selectedOptions);
     onClose();
   };
@@ -226,10 +248,30 @@ export function NegativeFilterAIHelperBottomSheet({
       // "지금까지 입력한 상황에 맞춰 추천해주세요" 텍스트 설정
       setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
 
+      // 상세 로깅 추가
+      logKnowledgeAgentAIHelperAction(
+        category,
+        categoryName,
+        'negative_filter',
+        '피할 단점이 있나요?',
+        'example_clicked',
+        "지금까지 입력한 상황에 맞춰 추천해주세요"
+      );
+
       // 자동 제출 트리거 설정 (useEffect가 감지하여 실행)
       setShouldAutoSubmit(true);
       return;
     }
+
+    // 상세 로깅 추가
+    logKnowledgeAgentAIHelperAction(
+      category,
+      categoryName,
+      'negative_filter',
+      '피할 단점이 있나요?',
+      'example_clicked',
+      example
+    );
 
     setUserInput(example);
     // 모바일에서 키보드가 불필요하게 올라오지 않도록 focus 안 함

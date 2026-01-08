@@ -1,18 +1,28 @@
 # 분유포트 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T10:55:39.840Z
-> 분석 상품: 28개 | 분석 리뷰: 3,744개
+> 마지막 업데이트: 2026-01-07T13:27:41.081Z
+> 분석 상품: 20개 | 분석 리뷰: 3,353개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 자동 출수 및 터치형 기능
+- 염소 제거 및 영구 보온 기능
+- 휴대용 및 여행용 분유포트의 다양화
 
 ### 구매자 만족 포인트
+- ✓ 정밀한 온도 조절
+- ✓ 자동 출수 기능
+- ✓ 휴대 및 여행 용이성
+- ✓ 간편한 세척
 
 ### 주의해야 할 단점
+- ⚠ 상대적으로 높은 가격대 (일부 모델)
+- ⚠ 휴대용 모델의 작은 용량
+- ⚠ 충전 시간 (일부 휴대용 모델)
 
 ### 가격대 인사이트
-
+분유포트의 가격대는 3만원대부터 10만원대 이상까지 다양하게 분포합니다. 3~5만원대의 보아르 제품은 가성비 좋은 휴대용 모델로, 7~10만원대의 보르르, 꿈비, 벤브와 등은 기능성과 편의성을 갖춘 인기 모델이며, 10만원대 이상의 라비킷 등은 프리미엄 라인으로 정밀한 기능과 디자인을 제공합니다.
 
 ---
 
@@ -148,7 +158,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=62275430)
 
-### 14. 보랄 BR-T95WK
+### 14. 락앤락 EJK814WHT
+- **브랜드**: 락앤락
+- **가격**: 38,400원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 무선포트 / 0.8L / 스테인리스 / 분리형 / 600W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 접이식포트 / 계란홀더
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=97957196)
+
+### 15. 보아르 VHEP-004WH
+- **브랜드**: 보아르
+- **가격**: 50,160원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.5L / 스테인리스 / 일체형 / 1300W / 분유포트겸용 / 통주물 / 디지털디스플레이 / 보온기능 / 온도조절 / 타이머 / 전원표시램프 / 표면열차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=93699128)
+
+### 16. 보랄 BR-T95WK
 - **브랜드**: 보랄
 - **가격**: 38,120원
 - **평점**: ⭐4.6 (34개 리뷰)
@@ -158,7 +188,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=19563770)
 
-### 15. 휴롬 TM-B22
+### 17. 휴롬 TM-B22
 - **브랜드**: 휴롬
 - **가격**: 156,450원
 - **평점**: ⭐3.5 (2개 리뷰)
@@ -168,55 +198,35 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=61841846)
 
-### 16. 신일전자 SEP-D800WSN
-- **브랜드**: 신일전자
-- **가격**: 54,390원
-- **평점**: ⭐4.8 (26개 리뷰)
-- **핵심 스펙**: 티포트 / 1.5L / 유리 / 분리형 / 800W / 분유포트겸용 / 디지털디스플레이 / 평면열판 / 수위표시창 / 코드수납 / 자동전원차단 / 계란홀더
+### 18. 디프 스마트 원터치 분유포트
+- **브랜드**: 디프
+- **가격**: 36,500원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 보온포트 / 1.3L / 유리 / 분리형 / 600W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 염소배출기능
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=19976012)
+- [상세보기](https://prod.danawa.com/info/?pcode=102489293)
 
-### 17. 휴빅 HB-90TW
-- **브랜드**: 휴빅
-- **가격**: 37,800원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 티포트 / 0.4L / 유리 / 분리형 / 500W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 수위표시창 / 자동전원차단
+### 19. 보랄 BR-602D
+- **브랜드**: 보랄
+- **가격**: 39,800원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.7L / 유리 / 일체형 / 1850W~2200W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 수위표시창 / 이물질거름망 / 코드수납 / 표면열차단 / 원터치뚜껑열림 / 자동전원차단
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=102002999)
+- [상세보기](https://prod.danawa.com/info/?pcode=102491495)
 
-### 18. 남양키친플라워 KEK-JP750WH
-- **브랜드**: 남양키친플라워
-- **가격**: 53,280원
-- **평점**: ⭐4.6 (93개 리뷰)
-- **핵심 스펙**: 보온포트 / 5L / 스테인리스 / 일체형 / 750~890W / 자동급수 / 컵급수 / 재가열 / 분유포트겸용 / 보온기능 / 온도조절 / 염소배출기능 / 수위표시창 / 전원표시램프 / 버튼잠금
+### 20. 마이어 ME-820
+- **브랜드**: 마이어
+- **가격**: 63,700원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.7L / 스테인리스 / 분리형 / 1850~2200W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 전원표시램프 / 코드수납 / 표면열차단
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12861284)
-
-### 19. 한경희생활과학 HEK-B176
-- **브랜드**: 한경희생활과학
-- **가격**: 36,800원
-- **평점**: ⭐4.3 (21개 리뷰)
-- **핵심 스펙**: 무선포트 / 1.7L / 스테인리스 / 2200W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 전원표시램프 / 코드수납 / 표면열차단 / 자동전원차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=69699149)
-
-### 20. 신일전자 SEP-S16LKP
-- **브랜드**: 신일전자
-- **가격**: 51,060원
-- **평점**: ⭐5 (4개 리뷰)
-- **핵심 스펙**: 티포트 / 2L / 유리 / 분리형 / 800W / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 타이머 / 수위표시창 / 이물질거름망 / 전원표시램프 / 자동전원차단 / 버튼잠금
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=57659630)
+- [상세보기](https://prod.danawa.com/info/?pcode=73324721)
 
 ---
 
@@ -231,8 +241,8 @@
 ---
 
 ## 📊 데이터 출처
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5C9lJW6x0M8PPkowemFgBBIbFwNFVKK_LBMtg_r0vJePuL736GDBL0K-RKKH5ZwLll8F2PhrFUVgfQz9BaXaRxU06kUOVg8FjSnIOkmwuuEAVucJP6OfjbIUrP-PsLO3bZnM21kc=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnxEbhHeaU2UXS9ar9esYxeak4MC8glXRCvKHdwKgKVsMPiQMs7gekWBjaQY-4DLYJehb3oZXD8N4hxiKu2FtenkqDz_ZvqGOjahHxVG6NeDA9PpQ2CoCRU3fDKV37nwnMFnP7ccQ=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfHxEmhbIZXJQ_TrxZjv45OR8MI9NWg2Ib72-LxP4od8ASiGNe-dYb8CZFs2o77JFBbspNF0gJd_9DjJ-w5fiWQq9T3b9Lko6yWv4W7urr-BxIzD4rV-Cyq2SlCYcoRiMubqr4isA=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6ut3aIrExxwimm5TUoHAW58TKENa0q4yNi37vLnHjQ6xilZr9UfBy9VabJB5hatVPaqcj6HsJcXom5M49bHt8TDJ55DfE_VdB3aZUMlwFSS0ysH4LLTvHJNND5iTupzwcbIirKfs=)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAyGjJr2sTYEubeK8evGS2mHDvDxMpL5pMJs7Gy5qp4uxZoyIbOe_dmJsLMWKxIX3jjNYZDlXBfjOVw8Hsla1O7dVEcmip3KMs5nvBRcA7O1K35dhx8kGiN_DCRfSoI9osdPcllAhXctDYpyOOx2OyCKYQDsqyyEidArJV)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBNQ9CUlkvni3HYkfbTHdnRnhjsdE1JNvvvfs-ZK8_mcg6suH005YIXdO8Qyq303y-h7HjwezBVUh0vMHbjWIOzaayIGGx3RcxyhS99SKyu_Sb7i5nN0hINFAEyEzmZMRDOiaeceBNGb1pKZlmgL4j6ad4wloHl5lPY9Zx)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUNcdpjP7fXCH1LOfsQWaqQmQBQz6f41-4EtVsYs5GPVclmdrT0kdtMTkF8nbB2TYVM4wr8BbEI3CNgMIKb3XjD-Ui9Hxt9J3MtDOYe4gSH01u9RdIlMQYObRaMSpAdmBCaoujP1E=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDYt1XPXvB3naNZnpP55C9PKmN-dn8g9BFhFVtLrdW6ORhBmUmigPVN3S1YGrBYJn0GgYMFuD3QRrcYICnEVAUUVXGsg4SojnuuBimY7g9TW4sG0WuAaGdIQQL1GhKBx0zErotml0=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3Z0GBrfNRsQn_qTMwj4q-7gwNag7CUanfjm1IgM6A5gMuI9mKvP50VR8-Rfno35dbWrcdb-pWIPr1SOIIZqFw53ezYaJhTa5e3ID6rZP4cGUSgqFdlMBAYktpu7bJuzLoLK29VSI=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEI5Q3Obr38tja0VFGK9aD_9-lQCJEfagxIN9jt-GH5xcvkKJ4d7RgdUx-nwXI7jKTC2W5HH0Z5BSrORtkZ-oyzzYr5n0QiCU5_FMeOunpp3cxGp6ltoaeCYUdD40IWrU4UjZ3XXAeprTpgGrr_7RHJJLUJ39AwXiafamvvBtoQ)

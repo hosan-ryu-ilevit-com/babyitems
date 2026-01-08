@@ -34,16 +34,20 @@ import { HardcutVisualization } from '@/components/knowledge-agent/HardcutVisual
 import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
 import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
 import {
-  logV2ReRecommendModalOpened,
-  logV2ReRecommendSameCategory,
-  logV2ReRecommendDifferentCategory,
+  logKnowledgeAgentReRecommendModalOpened,
+  logKnowledgeAgentReRecommendSameCategory,
+  logKnowledgeAgentReRecommendDifferentCategory,
+  logKnowledgeAgentProductModalOpen,
+  logKnowledgeAgentProductReviewClick,
+  logKnowledgeAgentHardcutContinue,
+  logKnowledgeAgentFinalInputSubmit,
+  logKnowledgeAgentHardFilterSelection,
   logKAPageView,
   logKALoadingPhaseStarted,
   logKALoadingPhaseCompleted,
   logKAQuestionAnswered,
   logKAQuestionSkipped,
   logKAChatMessage,
-  logKAProductModalOpened,
   logKAExternalLinkClicked,
   logKAFavoriteToggled,
   logKAComparisonViewed,
@@ -767,7 +771,11 @@ export default function KnowledgeAgentPage() {
   const [modalInitialTab, setModalInitialTab] = useState<'price' | 'danawa_reviews'>('price');
 
   const handleProductClick = (product: any, tab: 'price' | 'danawa_reviews' = 'price') => {
-    logKAProductModalOpened(categoryKey, product.pcode, product.title);
+    if (tab === 'danawa_reviews') {
+      logKnowledgeAgentProductReviewClick(categoryKey, product.pcode || product.id, product.name || product.title);
+    } else {
+      logKnowledgeAgentProductModalOpen(categoryKey, categoryName, product.pcode || product.id, product.name || product.title, product.brand, product.rank);
+    }
     setModalInitialTab(tab);
     setSelectedProduct(product);
   };
@@ -1323,6 +1331,9 @@ export default function KnowledgeAgentPage() {
 
   const handleOptionToggle = (option: string, messageId: string) => {
     setMessages(prev => {
+      const activeMsgForLog = prev.find(m => m.id === messageId);
+      const isSelectedForLog = activeMsgForLog?.selectedOptions?.includes(option);
+      
       const newMessages = prev.map(m => {
         if (m.id === messageId) {
           const currentSelected = m.selectedOptions || [];
@@ -1330,6 +1341,18 @@ export default function KnowledgeAgentPage() {
           const updatedSelected = isSelected 
             ? currentSelected.filter(o => o !== option)
             : [...currentSelected, option];
+          
+          // 로깅 추가
+          logKnowledgeAgentHardFilterSelection(
+            categoryKey,
+            categoryName,
+            messageId,
+            m.content,
+            option,
+            true,
+            updatedSelected.length
+          );
+
           return {
             ...m,
             selectedOptions: updatedSelected
@@ -1354,6 +1377,9 @@ export default function KnowledgeAgentPage() {
   };
 
   const handlePrevStep = () => {
+    import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
+      logButtonClick('knowledge-agent-prev-step', '이전');
+    });
     setMessages(prev => {
       const newMessages = [...prev];
       const lastQuestionIdx = [...newMessages].reverse().findIndex(m => m.role === 'assistant' && m.options);
@@ -1693,6 +1719,19 @@ export default function KnowledgeAgentPage() {
    * - 마지막으로 추가하고 싶은 조건 입력받기
    */
   const handleHardcutContinue = async () => {
+    logKALoadingPhaseCompleted(categoryKey, 'hardcut_visual');
+    
+    // 상세 로깅 추가
+    if (hardcutResult) {
+      logKnowledgeAgentHardcutContinue(
+        categoryKey,
+        categoryName,
+        hardcutResult.totalBefore,
+        hardcutResult.totalAfter,
+        hardcutResult.appliedRules.map(r => r.rule)
+      );
+    }
+
     console.log('[V2 Flow] Moving to final input phase');
     setPhase('final_input');
     const finalInputMsgId = `a_final_input_${Date.now()}`;
@@ -1708,6 +1747,38 @@ export default function KnowledgeAgentPage() {
 
   // 자연어 입력 후 최종 추천으로 진행
   const handleFinalInputSubmit = async (additionalCondition?: string) => {
+    // 회피조건 추출
+    const avoidNegatives: string[] = Array.isArray(collectedInfo['__avoid_negatives__'])
+      ? collectedInfo['__avoid_negatives__']
+      : [];
+
+    // 사용자 선택 조건 수 계산 (__로 시작하는 내부 키 제외)
+    const userSelectionCount = Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length;
+
+    if (additionalCondition && additionalCondition.trim()) {
+      // 상세 로깅 추가
+      if (categoryKey) {
+        logKAQuestionAnswered(categoryKey, '마지막 자연어 입력', additionalCondition.trim());
+      }
+      logKnowledgeAgentFinalInputSubmit(
+        categoryKey,
+        categoryName,
+        additionalCondition.trim(),
+        userSelectionCount,
+        avoidNegatives.length
+      );
+    } else {
+      logKAQuestionSkipped(categoryKey, '마지막 자연어 입력');
+      // 상세 로깅 추가
+      logKnowledgeAgentFinalInputSubmit(
+        categoryKey,
+        categoryName,
+        '',
+        userSelectionCount,
+        avoidNegatives.length
+      );
+    }
+    
     console.log('[V2 Flow] Final input submitted:', additionalCondition || '(none)');
     
     // 추가 조건이 있으면 collectedInfo에 저장
@@ -1727,13 +1798,6 @@ export default function KnowledgeAgentPage() {
     setIsTyping(true);
     
     try {
-      // 회피조건 추출
-      const avoidNegatives: string[] = Array.isArray(collectedInfo['__avoid_negatives__'])
-        ? collectedInfo['__avoid_negatives__']
-        : [];
-
-      // 사용자 선택 조건 수 계산 (__로 시작하는 내부 키 제외)
-      const userSelectionCount = Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length;
       const candidateCount = crawledProducts.length || hardCutProducts.length;
 
       // 타임라인 UX와 실제 추천 생성을 병렬로 실행
@@ -2339,6 +2403,7 @@ export default function KnowledgeAgentPage() {
   };
 
   const fetchChatStream = async (payload: any) => {
+    const { userMessage } = payload;
     setIsTyping(true);
     setActiveStatusMessage('생각 중...');
     
@@ -2378,7 +2443,7 @@ export default function KnowledgeAgentPage() {
                   setActiveSearchQueries(prev => [...new Set([...prev, data.query])]);
                 }
               } else if (currentEvent === 'complete') {
-                handleChatResponse(data);
+                handleChatResponse(data, userMessage);
               } else if (currentEvent === 'error') {
                 console.error('[Chat] Stream error:', data.message);
               }
@@ -2401,10 +2466,20 @@ export default function KnowledgeAgentPage() {
     // 현재 활성화된 질문 찾기 및 확정 처리
     const activeMsg = [...messages].reverse().find(m => m.role === 'assistant' && m.options && !m.isFinalized);
     if (activeMsg) {
-      logKAQuestionAnswered(categoryKey, activeMsg.content, message);
+      // 상세 로깅 추가
+      if (categoryKey) {
+        logKAQuestionAnswered(categoryKey, activeMsg.content, message);
+        logKnowledgeAgentHardFilterSelection(
+          categoryKey,
+          categoryName,
+          activeMsg.id,
+          activeMsg.content,
+          message,
+          true,
+          0
+        );
+      }
       setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
-    } else {
-      logKAChatMessage(categoryKey, message, ''); // AI 응답은 나중에 업데이트되거나 stream 완료 시 로깅
     }
 
     const newMsgId = `u_${Date.now()}`;
@@ -2426,7 +2501,7 @@ export default function KnowledgeAgentPage() {
     });
   };
 
-  const handleChatResponse = (data: any) => {
+  const handleChatResponse = (data: any, userMessage: string) => {
     if (data.success) {
       // Update state if returned
       if (data.questionTodos) setQuestionTodos(data.questionTodos);
@@ -2462,7 +2537,7 @@ export default function KnowledgeAgentPage() {
         const chatResultMsgId = `a_result_${Date.now()}`;
         
         // 결과 채팅 응답 로깅
-        logKAChatMessage(categoryKey, '', data.content);
+        logKAChatMessage(categoryKey, userMessage, data.content);
 
         setMessages(prev => [...prev, {
           id: chatResultMsgId,
@@ -2476,7 +2551,7 @@ export default function KnowledgeAgentPage() {
         scrollToMessage(chatResultMsgId, 200);
       } else {
         // 일반 AI 응답 로깅
-        logKAChatMessage(categoryKey, '', data.content);
+        logKAChatMessage(categoryKey, userMessage, data.content);
 
         setMessages(prev => [...prev, {
           id: `a_${Date.now()}`,
@@ -2674,6 +2749,7 @@ export default function KnowledgeAgentPage() {
                 products={resultProducts}
                 categoryKey={categoryKey}
                 categoryName={categoryName}
+                flowType="ka"
                 existingConditions={{
                   hardFilterAnswers: Object.fromEntries(
                     Object.entries(collectedInfo).map(([k, v]) => [k, String(v)])
@@ -2983,7 +3059,7 @@ export default function KnowledgeAgentPage() {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => {
-                      logV2ReRecommendDifferentCategory(categoryKey || '', categoryName || '');
+                      logKnowledgeAgentReRecommendDifferentCategory(categoryKey || '', categoryName || '');
                       router.push('/knowledge-agent');
                     }}
                     className="px-4 py-3 bg-white/95 backdrop-blur-sm rounded-2xl text-sm font-semibold text-gray-700 flex items-center gap-2 shadow-lg border border-gray-100/50"
@@ -3002,7 +3078,7 @@ export default function KnowledgeAgentPage() {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => {
-                      logV2ReRecommendSameCategory(categoryKey || '', categoryName || '');
+                      logKnowledgeAgentReRecommendSameCategory(categoryKey || '', categoryName || '');
                       window.location.reload();
                     }}
                     className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
@@ -3038,7 +3114,7 @@ export default function KnowledgeAgentPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
-                    logV2ReRecommendModalOpened(categoryKey || '', categoryName || '');
+                    logKnowledgeAgentReRecommendModalOpened(categoryKey || '', categoryName || '');
                     setShowReRecommendModal(true);
                   }}
                   className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
@@ -3087,13 +3163,23 @@ export default function KnowledgeAgentPage() {
                 </div>
                 <div className="flex flex-col gap-2 px-5 pb-5">
                   <button
-                    onClick={() => router.push('/knowledge-agent')}
+                    onClick={() => {
+                      import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
+                        logButtonClick('knowledge-agent-exit-confirm', 'confirm');
+                      });
+                      router.push('/knowledge-agent');
+                    }}
                     className="w-full py-4 rounded-2xl font-bold text-base text-white bg-[#111827] hover:bg-black transition-all active:scale-[0.98]"
                   >
                     확인
                   </button>
                   <button
-                    onClick={() => setShowExitConfirmModal(false)}
+                    onClick={() => {
+                      import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
+                        logButtonClick('knowledge-agent-exit-confirm', 'cancel');
+                      });
+                      setShowExitConfirmModal(false);
+                    }}
                     className="w-full py-3 rounded-2xl font-semibold text-sm text-gray-500 bg-transparent hover:bg-gray-100 transition-all active:scale-[0.98]"
                   >
                     취소
@@ -3187,8 +3273,16 @@ function MessageBubble({
           <SearchContextToggle searchContext={message.searchContext} />
         )}
 
-        {!isUser && message.analysisData && (
-          <AgenticLoadingPhase categoryName="" steps={message.analysisData.steps} crawledProducts={message.analysisData.crawledProducts} generatedQuestions={message.analysisData.generatedQuestions} isComplete={message.analysisData.isComplete} summary={message.analysisData.summary} />
+        {!isUser && message.analysisData && categoryKey && (
+          <AgenticLoadingPhase
+            categoryName={categoryName || categoryKey}
+            categoryKey={categoryKey}
+            steps={message.analysisData.steps}
+            crawledProducts={message.analysisData.crawledProducts}
+            generatedQuestions={message.analysisData.generatedQuestions}
+            isComplete={message.analysisData.isComplete}
+            summary={message.analysisData.summary}
+          />
         )}
 
         {isUser ? (
@@ -3237,10 +3331,59 @@ function MessageBubble({
               </div>
             )}
             {message.options.map((opt, i) => (
-              <OptionButton key={i} label={opt} isSelected={message.selectedOptions?.includes(opt)} onClick={() => onOptionToggle(opt, message.id)} disabled={isInactive} />
+              <OptionButton 
+                key={i} 
+                label={opt} 
+                isSelected={message.selectedOptions?.includes(opt)} 
+                onClick={() => {
+                  const isSelected = !message.selectedOptions?.includes(opt);
+                  const totalSelected = isSelected 
+                    ? (message.selectedOptions?.length || 0) + 1 
+                    : (message.selectedOptions?.length || 0) - 1;
+                  
+                  // 상세 로깅 추가
+                  if (categoryKey) {
+                    logKAQuestionAnswered(categoryKey, message.content, opt);
+                    logKnowledgeAgentHardFilterSelection(
+                      categoryKey,
+                      categoryName || '',
+                      message.id,
+                      message.content,
+                      opt,
+                      isSelected,
+                      totalSelected
+                    );
+                  }
+                  
+                  onOptionToggle(opt, message.id);
+                }} 
+                disabled={isInactive} 
+              />
             ))}
             {!isInactive && (!message.selectedOptions || message.selectedOptions.length === 0) && (
-              <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }} onClick={() => { inputRef?.current?.focus(); setTimeout(() => { inputRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100); }} className="w-full py-4 px-5 rounded-[20px] border border-dashed border-gray-200 text-left transition-all flex items-center justify-between group hover:border-blue-300 hover:bg-blue-50/30">
+              <motion.button 
+                whileHover={{ scale: 1.01 }} 
+                whileTap={{ scale: 0.98 }} 
+                onClick={() => {
+                  // 상세 로깅 추가
+                  if (categoryKey) {
+                    logKAQuestionAnswered(categoryKey, message.content, '직접 입력하기 클릭');
+                    logKnowledgeAgentHardFilterSelection(
+                      categoryKey,
+                      categoryName || '',
+                      message.id,
+                      message.content,
+                      '직접 입력하기',
+                      true,
+                      0
+                    );
+                  }
+                  
+                  inputRef?.current?.focus(); 
+                  setTimeout(() => { inputRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100); 
+                }} 
+                className="w-full py-4 px-5 rounded-[20px] border border-dashed border-gray-200 text-left transition-all flex items-center justify-between group hover:border-blue-300 hover:bg-blue-50/30"
+              >
                 <div className="flex items-center gap-3">
                   <span className="text-[15px] font-medium text-gray-800 group-hover:text-blue-600">직접 입력하기</span>
                   <span className="text-[12px] text-gray-400 group-hover:text-blue-400">궁금한 점이나 다른 답변</span>
@@ -3282,6 +3425,8 @@ function MessageBubble({
               }}
               onToggle={onNegativeKeyToggle}
               showAIHelper={false} // 이미 위에서 AIHelperButton을 직접 렌더링함
+              category={categoryKey}
+              categoryName={categoryName}
             />
           </div>
         )}
@@ -3319,6 +3464,8 @@ function MessageBubble({
                     overBudgetPercent: 0
                   }}
                   rank={i + 1}
+                  categoryKey={categoryKey}
+                  categoryName={categoryName}
                   onClick={() => onProductClick(product, 'price')}
                   onReviewClick={() => onProductClick(product, 'danawa_reviews')}
                 />
@@ -3326,7 +3473,12 @@ function MessageBubble({
             </div>
             {message.resultProducts.length >= 2 && (
               <div className="mt-6 pt-4 border-t border-gray-100">
-                <KnowledgeComparisonTable products={message.resultProducts.map((p: any) => ({ pcode: p.pcode || p.id, name: p.name || p.title, brand: p.brand || null, price: p.price || null, thumbnail: p.thumbnail || null, rating: p.rating || p.averageRating || null, reviewCount: p.reviewCount || null, specs: p.specs || p.spec || {}, specSummary: p.specSummary || '', prosFromReviews: p.prosFromReviews || [], consFromReviews: p.consFromReviews || [], oneLiner: p.oneLiner || '', comparativeOneLiner: p.comparativeOneLiner || '', recommendedFor: p.recommendedFor || '', recommendReason: p.recommendReason || '' }))} showRank={true} />
+                <KnowledgeComparisonTable
+                  products={message.resultProducts.map((p: any) => ({ pcode: p.pcode || p.id, name: p.name || p.title, brand: p.brand || null, price: p.price || null, thumbnail: p.thumbnail || null, rating: p.rating || p.averageRating || null, reviewCount: p.reviewCount || null, specs: p.specs || p.spec || {}, specSummary: p.specSummary || '', prosFromReviews: p.prosFromReviews || [], consFromReviews: p.consFromReviews || [], oneLiner: p.oneLiner || '', comparativeOneLiner: p.comparativeOneLiner || '', recommendedFor: p.recommendedFor || '', recommendReason: p.recommendReason || '' }))}
+                  categoryKey={categoryKey || ''}
+                  categoryName={categoryName}
+                  showRank={true}
+                />
               </div>
             )}
           </motion.div>

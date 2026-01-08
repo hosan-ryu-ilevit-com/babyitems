@@ -5,6 +5,7 @@
  * - 리뷰: review-crawler-lite 사용
  * - 가격: price-crawler-lite 사용
  * - SSE 스트리밍으로 진행상황 전송
+ * - Supabase 캐시 우선 조회
  */
 
 import { NextRequest } from 'next/server';
@@ -17,6 +18,7 @@ import {
   type PriceCrawlResult,
 } from '@/lib/danawa/price-crawler-lite';
 import type { DanawaPriceInfo } from '@/types/danawa';
+import { getReviewsFromCache, getPricesFromCache } from '@/lib/knowledge-agent/supabase-cache';
 
 export const maxDuration = 60;
 
@@ -57,6 +59,73 @@ export async function POST(request: NextRequest) {
           concurrency,
           includePrices,
         });
+
+        // ====================================================================
+        // 1. Supabase 캐시 우선 조회 (리뷰 + 가격)
+        // ====================================================================
+        const [reviewCache, priceCache] = await Promise.all([
+          getReviewsFromCache(pcodes),
+          includePrices ? getPricesFromCache(pcodes) : Promise.resolve({ hit: false, prices: {}, source: 'crawl' as const }),
+        ]);
+
+        // 캐시에서 충분히 데이터를 가져온 경우 바로 반환
+        if (reviewCache.hit && reviewCache.totalReviews > 0) {
+          console.log(`📝 [CrawlReviews] Supabase 캐시 HIT - 리뷰: ${reviewCache.totalReviews}개`);
+
+          // 리뷰 캐시 결과 전송
+          sendEvent('reviews_complete', {
+            reviews: reviewCache.reviews,
+            totalReviews: reviewCache.totalReviews,
+            successCount: Object.keys(reviewCache.reviews).length,
+            source: 'cache',
+          });
+
+          // 가격 캐시도 있으면 같이 전송
+          if (priceCache.hit && Object.keys(priceCache.prices).length > 0) {
+            console.log(`💰 [CrawlReviews] Supabase 가격 캐시 HIT - ${Object.keys(priceCache.prices).length}개`);
+
+            const priceMap: Record<string, {
+              lowestPrice: number | null;
+              lowestMall: string | null;
+              lowestDelivery: string | null;
+              lowestLink: string | null;
+              prices: DanawaPriceInfo[];
+            }> = {};
+
+            for (const [pcode, priceData] of Object.entries(priceCache.prices)) {
+              priceMap[pcode] = {
+                lowestPrice: priceData.lowestPrice,
+                lowestMall: priceData.lowestMall,
+                lowestDelivery: priceData.lowestDelivery,
+                lowestLink: priceData.lowestLink,
+                prices: priceData.mallPrices as DanawaPriceInfo[],
+              };
+            }
+
+            const elapsedMs = Date.now() - startTime;
+            sendEvent('complete', {
+              success: true,
+              totalProducts: pcodes.length,
+              reviewSuccessCount: Object.keys(reviewCache.reviews).length,
+              priceSuccessCount: Object.keys(priceMap).length,
+              totalReviews: reviewCache.totalReviews,
+              reviews: reviewCache.reviews,
+              prices: priceMap,
+              elapsedMs,
+              source: 'cache',
+              message: `캐시에서 ${Object.keys(reviewCache.reviews).length}개 상품 리뷰, ${Object.keys(priceMap).length}개 가격 조회 (${(elapsedMs / 1000).toFixed(1)}초)`,
+            });
+
+            console.log(`✅ [CrawlReviews] 캐시 완료: ${reviewCache.totalReviews}개 리뷰, ${Object.keys(priceMap).length}개 가격 (${(elapsedMs / 1000).toFixed(1)}초)`);
+            controller.close();
+            return;
+          }
+        }
+
+        // ====================================================================
+        // 2. 캐시 미스 - 실시간 크롤링
+        // ====================================================================
+        console.log(`📝 [CrawlReviews] 캐시 미스, 실시간 크롤링 시작...`);
 
         // 리뷰 + 가격 병렬 크롤링 (리뷰 완료 시 즉시 이벤트 전송)
         let reviewsCompleted = 0;

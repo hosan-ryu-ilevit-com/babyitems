@@ -7,7 +7,7 @@ import type {
   ResultChatApiResponse,
   V2ResultProduct,
 } from '@/types/recommend-v2';
-import { logResultChatMessage } from '@/lib/logging/clientLogger';
+import { logResultChatMessage, logKAChatMessage } from '@/lib/logging/clientLogger';
 
 interface ResultChatContainerProps {
   products: V2ResultProduct[];
@@ -26,6 +26,7 @@ interface ResultChatContainerProps {
   // 채팅 히스토리 (API 요청에 사용)
   chatHistory?: Array<{ role: 'user' | 'assistant'; content: string }>;
   hideHelpBubble?: boolean;
+  flowType?: 'v2' | 'ka';
 }
 
 /**
@@ -43,6 +44,7 @@ export function ResultChatContainer({
   onLoadingChange,
   chatHistory = [],
   hideHelpBubble = false,
+  flowType = 'v2',
 }: ResultChatContainerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showHelpBubble, setShowHelpBubble] = useState(true);
@@ -116,14 +118,18 @@ export function ResultChatContainer({
       // 3. AI 응답 추가 (부모에게 전달)
       if (result.success && result.data) {
         // 로깅: 결과 페이지 채팅 메시지
-        logResultChatMessage(
-          categoryKey,
-          categoryName,
-          content,
-          result.data.content,
-          [...chatHistory, { role: 'user' as const, content }, { role: 'assistant' as const, content: result.data.content }],
-          result.data.type === 're-recommendation' ? 're-recommendation' : 'answer'
-        );
+        if (flowType === 'ka') {
+          logKAChatMessage(categoryKey, content, result.data.content);
+        } else {
+          logResultChatMessage(
+            categoryKey,
+            categoryName,
+            content,
+            result.data.content,
+            [...chatHistory, { role: 'user' as const, content }, { role: 'assistant' as const, content: result.data.content }],
+            result.data.type === 're-recommendation' ? 're-recommendation' : 'answer'
+          );
+        }
 
         onAssistantMessage(
           result.data.content,

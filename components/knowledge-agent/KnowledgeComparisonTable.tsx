@@ -8,9 +8,10 @@
  * - 장단점 비교 (리뷰 요약 기반)
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { logKnowledgeAgentComparisonView } from '@/lib/logging/clientLogger';
 import { 
   FcLineChart, 
   FcLike, 
@@ -53,11 +54,15 @@ interface KnowledgeProduct {
 
 interface KnowledgeComparisonTableProps {
   products: KnowledgeProduct[];
+  categoryKey: string;
+  categoryName?: string;
   showRank?: boolean;
 }
 
 export function KnowledgeComparisonTable({
   products,
+  categoryKey,
+  categoryName,
   showRank = true,
 }: KnowledgeComparisonTableProps) {
   // 최대 4개 상품까지만 표시
@@ -76,6 +81,12 @@ export function KnowledgeComparisonTable({
     displayProducts.filter(p => selectedIds.includes(p.pcode)),
     [displayProducts, selectedIds]
   );
+
+  useEffect(() => {
+    if (selectedIds.length === 2) {
+      logKnowledgeAgentComparisonView(categoryKey, categoryName || '', selectedIds);
+    }
+  }, [selectedIds, categoryKey, categoryName]);
 
   // 스펙 키 통합
   const allSpecKeys = useMemo(() => {

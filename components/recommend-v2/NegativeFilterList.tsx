@@ -6,6 +6,7 @@ import type { NegativeFilterData } from '@/types/recommend-v2';
 import { AIHelperButton } from './AIHelperButton';
 import { NegativeFilterAIHelperBottomSheet } from './NegativeFilterAIHelperBottomSheet';
 import DirectInputField from './DirectInputField';
+import { logKnowledgeAgentNegativeToggle } from '@/lib/logging/clientLogger';
 
 interface UserSelections {
   hardFilters?: Array<{ questionText: string; selectedLabels: string[] }>;
@@ -136,6 +137,16 @@ export function NegativeFilterList({
                 const newTotalSelected = willBeSelected ? selectedKeys.length + 1 : selectedKeys.length - 1;
                 onToggle(option.target_rule_key);
                 onToggleWithLabel?.(option.target_rule_key, option.label, willBeSelected, newTotalSelected);
+                
+                // 상세 로깅 추가
+                logKnowledgeAgentNegativeToggle(
+                  category || '',
+                  categoryName || '',
+                  option.target_rule_key,
+                  option.label,
+                  willBeSelected,
+                  newTotalSelected
+                );
               }}
               whileTap={{ scale: 0.98 }}
               className={`w-full min-h-10 py-2.5 px-4 rounded-xl border text-left flex items-center justify-between gap-3 ${

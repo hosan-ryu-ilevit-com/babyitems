@@ -21,6 +21,7 @@ import {
   Circle,
   Globe,
 } from '@phosphor-icons/react/dist/ssr';
+import { logKAExternalLinkClicked } from '@/lib/logging/clientLogger';
 import {
   FcSearch,
   FcMindMap,
@@ -68,6 +69,7 @@ export interface GeneratedQuestion {
 
 interface AgenticLoadingPhaseProps {
   categoryName: string;
+  categoryKey: string;
   // 단계별 데이터
   steps: AnalysisStep[];
   // 크롤링된 상품 미리보기
@@ -417,7 +419,7 @@ function ProductAnalysisContent({
 /**
  * 웹검색 컨텐츠 - 완료 시 요약 보고서, 진행 중 전환 효과
  */
-function WebSearchContent({ step }: { step: AnalysisStep }) {
+function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryKey: string }) {
   const [activeSourceIndex, setActiveSourceIndex] = useState(0);
   const sources = step.searchResults || [];
   const queries = step.searchQueries || [];
@@ -513,6 +515,7 @@ function WebSearchContent({ step }: { step: AnalysisStep }) {
                         href={source.url}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => logKAExternalLinkClicked(categoryKey, '', source.title, '출처', source.url)}
                         className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-gray-50 text-gray-600 text-[11px] hover:bg-gray-100 transition-colors"
                       >
                         <Favicon url={source.url} title={source.title} />
@@ -796,6 +799,7 @@ function StepCard({
   onToggle,
   crawledProducts,
   generatedQuestions,
+  categoryKey,
   onRefChange,
 }: {
   step: AnalysisStep;
@@ -803,6 +807,7 @@ function StepCard({
   onToggle: () => void;
   crawledProducts?: AgenticLoadingPhaseProps['crawledProducts'];
   generatedQuestions?: GeneratedQuestion[];
+  categoryKey: string;
   onRefChange?: (el: HTMLDivElement | null) => void;
 }) {
   // 로컬 타이머 시작 시간 (펼쳐진 순간부터 시작)
@@ -939,7 +944,7 @@ function StepCard({
               
               {/* 웹검색 - 쿼리 스트리밍 + 출처 전환 효과 */}
               {step.id === 'web_search' && (
-                <WebSearchContent step={step} />
+                <WebSearchContent step={step} categoryKey={categoryKey} />
               )}
 
               {/* 리뷰 키워드 추출 - 키워드 표시 */}
@@ -971,6 +976,7 @@ function StepCard({
 
 export function AgenticLoadingPhase({
   categoryName,
+  categoryKey,
   steps,
   crawledProducts = [],
   generatedQuestions = [],
@@ -1089,6 +1095,7 @@ export function AgenticLoadingPhase({
               })}
               crawledProducts={step.id === 'product_analysis' ? crawledProducts : undefined}
               generatedQuestions={step.id === 'question_generation' ? generatedQuestions : undefined}
+              categoryKey={categoryKey}
               onRefChange={(el) => stepRefs.current.set(step.id, el)}
             />
           ))}
