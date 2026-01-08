@@ -166,11 +166,12 @@ async function extractPrices(page: Page): Promise<{
   const mallPrices: MallPrice[] = [];
 
   try {
-    // 가격비교 탭 클릭 시도
-    try {
-      await page.evaluate(() => window.scrollTo(0, 500));
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    // 페이지 로딩 및 동적 콘텐츠 대기
+    await page.evaluate(() => window.scrollTo(0, 500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
+    // 가격 탭 클릭 시도
+    try {
       const tabs = await page.$$('.tab_item a, .product_tab a');
       for (const tab of tabs) {
         const text = await page.evaluate((el) => el.textContent, tab);
@@ -184,8 +185,10 @@ async function extractPrices(page: Page): Promise<{
       // 탭 클릭 실패해도 계속 진행
     }
 
-    // 가격 영역 로딩 대기
+    // 가격 영역이 로드될 시간 부여
     await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // 더 스크롤 (추가 가격 정보 로드)
     await page.evaluate(() => window.scrollTo(0, 800));
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -370,6 +373,158 @@ export async function fetchDanawaPricesBatch(
       await new Promise(resolve => setTimeout(resolve, delayMs));
     }
   }
+
+  return results;
+}
+
+/**
+ * 여러 상품 가격 병렬 배치 크롤링
+ * 동시에 N개의 브라우저 인스턴스를 사용하여 속도 향상
+ * @param pcodes 상품 코드 배열
+ * @param concurrency 동시 처리 수 (기본: 4)
+ * @param delayMs 같은 인스턴스 내 요청 간 딜레이 (기본 500ms)
+ * @param onProgress 진행 콜백
+ */
+export async function fetchDanawaPricesBatchParallel(
+  pcodes: string[],
+  concurrency: number = 4,
+  delayMs: number = 500,
+  onProgress?: (current: number, total: number, result: DanawaPriceResult) => void
+): Promise<DanawaPriceResult[]> {
+  const results: DanawaPriceResult[] = new Array(pcodes.length);
+  const total = pcodes.length;
+  let completed = 0;
+
+  console.log(`🚀 [PriceCrawler] 병렬 배치 시작: ${total}개 상품, 동시 처리: ${concurrency}개`);
+
+  // 작업 큐 (인덱스)
+  const queue = pcodes.map((_, i) => i);
+
+  // 워커 함수 - 각 브라우저 인스턴스가 실행
+  async function worker(workerId: number): Promise<void> {
+    let browser: Browser | null = null;
+
+    try {
+      browser = await createBrowser();
+
+      while (queue.length > 0) {
+        const index = queue.shift();
+        if (index === undefined) break;
+
+        const pcode = pcodes[index];
+
+        try {
+          const page = await browser.newPage();
+
+          // 리소스 차단 (속도 최적화)
+          await page.setRequestInterception(true);
+          page.on('request', (req) => {
+            const resourceType = req.resourceType();
+            if (['image', 'stylesheet', 'font', 'media'].includes(resourceType)) {
+              req.abort();
+            } else {
+              req.continue();
+            }
+          });
+
+          await page.setUserAgent(
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          );
+
+          const url = `https://prod.danawa.com/info/?pcode=${pcode}`;
+
+          try {
+            await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+            await page.waitForSelector('.lowest_price, .price_sect, #lowPriceMall', { timeout: 5000 }).catch(() => {});
+
+            const { lowestPrice, lowestMall, lowestDelivery, lowestLink, mallPrices } = await extractPrices(page);
+
+            const result: DanawaPriceResult = {
+              pcode,
+              lowestPrice,
+              lowestMall,
+              lowestDelivery,
+              lowestLink,
+              mallPrices,
+              mallCount: mallPrices.length,
+              priceMin: mallPrices.length > 0 ? Math.min(...mallPrices.map(m => m.price)) : null,
+              priceMax: mallPrices.length > 0 ? Math.max(...mallPrices.map(m => m.price)) : null,
+              updatedAt: new Date(),
+              success: lowestPrice !== null || mallPrices.length > 0,
+            };
+
+            results[index] = result;
+            completed++;
+
+            if (result.success) {
+              console.log(`   [W${workerId}] ✅ ${pcode}: ${result.lowestPrice?.toLocaleString()}원 (${result.lowestMall})`);
+            } else {
+              console.log(`   [W${workerId}] ⚠️ ${pcode}: 가격 정보 없음`);
+            }
+
+            onProgress?.(completed, total, result);
+
+          } catch (navError) {
+            const result: DanawaPriceResult = {
+              pcode,
+              lowestPrice: null,
+              lowestMall: null,
+              lowestDelivery: null,
+              lowestLink: null,
+              mallPrices: [],
+              mallCount: 0,
+              priceMin: null,
+              priceMax: null,
+              updatedAt: new Date(),
+              success: false,
+              error: navError instanceof Error ? navError.message : 'Navigation error',
+            };
+            results[index] = result;
+            completed++;
+            console.log(`   [W${workerId}] ❌ ${pcode}: ${result.error}`);
+            onProgress?.(completed, total, result);
+          }
+
+          await page.close();
+
+          // 딜레이
+          if (queue.length > 0) {
+            await new Promise(resolve => setTimeout(resolve, delayMs));
+          }
+
+        } catch (pageError) {
+          console.error(`   [W${workerId}] Page error for ${pcode}:`, pageError);
+          results[index] = {
+            pcode,
+            lowestPrice: null,
+            lowestMall: null,
+            lowestDelivery: null,
+            lowestLink: null,
+            mallPrices: [],
+            mallCount: 0,
+            priceMin: null,
+            priceMax: null,
+            updatedAt: new Date(),
+            success: false,
+            error: pageError instanceof Error ? pageError.message : 'Page error',
+          };
+          completed++;
+          onProgress?.(completed, total, results[index]);
+        }
+      }
+    } finally {
+      if (browser) {
+        await browser.close();
+      }
+    }
+  }
+
+  // 워커 병렬 실행
+  const workers = Array.from({ length: concurrency }, (_, i) => worker(i));
+  await Promise.all(workers);
+
+  const successCount = results.filter(r => r.success).length;
+  console.log(`✅ [PriceCrawler] 병렬 배치 완료: ${successCount}/${total} 성공`);
 
   return results;
 }

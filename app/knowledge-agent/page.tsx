@@ -62,8 +62,7 @@ export default function KnowledgeAgentPage() {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-700 to-gray-500"> 찾고 계신가요?</span>
               </h1>
               <p className="text-[15px] sm:text-[16px] text-gray-500 font-medium leading-relaxed">
-                복잡한 비교는 AI에게 맡기세요.<br></br>
-                실시간 인기템들의 수천 개의 리뷰를 분석해 <br></br>딱 맞는 제품을 골라드립니다.
+                실시간 인기템들의 수천 개의 리뷰를 분석해 <br></br>딱 맞는 제품을 골라드려요.
               </p>
             </div>
           </motion.div>

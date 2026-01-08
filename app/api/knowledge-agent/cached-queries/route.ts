@@ -1,7 +1,7 @@
 /**
  * Knowledge Agent - 캐시된 쿼리 목록 조회 API
  *
- * Supabase knowledge_products_cache 테이블에서 캐시된 쿼리(카테고리) 목록 반환
+ * Supabase knowledge_categories 테이블에서 활성화된 카테고리 목록 반환
  */
 
 import { createClient } from '@supabase/supabase-js';
@@ -14,19 +14,19 @@ export async function GET() {
   try {
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-    // 캐시된 쿼리 목록 조회 (distinct query)
+    // knowledge_categories 테이블에서 활성화된 카테고리 조회
     const { data, error } = await supabase
-      .from('knowledge_products_cache')
+      .from('knowledge_categories')
       .select('query')
-      .order('crawled_at', { ascending: false });
+      .eq('is_active', true)
+      .order('query', { ascending: true });
 
     if (error) {
       console.error('[CachedQueries] Error:', error.message);
       return NextResponse.json({ success: false, queries: [], error: error.message });
     }
 
-    // 중복 제거
-    const queries = [...new Set((data || []).map(row => row.query))];
+    const queries = (data || []).map(row => row.query);
 
     return NextResponse.json({
       success: true,
