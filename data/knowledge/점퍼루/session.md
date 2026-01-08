@@ -1,5 +1,5 @@
-# 세션: 20260107_093114_kpyx
-> 시작: 2026-01-07T09:31:14.044Z
+# 세션: 20260108_045416_de7p
+> 시작: 2026-01-08T04:54:16.200Z
 > 카테고리키: 점퍼루
 > 카테고리: 점퍼루
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 점퍼루 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 점퍼루 시장은 다양한 브랜드와 모델이 경쟁하고 있으며, 특히 안전성과 아기 발달에 미치는 영향에 대한 부모들의 관심이 높습니다. 과거에는 점퍼루 사용에 대한 우려가 있었으나, 최근에는 아기의 신체 발달을 돕는 긍정적인 측면을 강조하는 제품들이 주목받고 있습니다. 이븐플로, 피셔프라이스 등 전통적인 강자들이 여전히 인기를 얻고 있으며, 중고 거래도 활발하게 이루어지고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EC%A0%90%ED%8D%BC%EB%A3%A8&sort=saveDESC
+- 인사이트: 2026년 현재, 점퍼루 시장은 육아 필수템으로 꾸준한 인기를 누리고 있으며, 특히 안전성과 아기 발달에 미치는 영향에 대한 부모들의 관심이 높아지고 있습니다. 다양한 브랜드에서 기능성과 디자인을 강화한 제품들을 선보이고 있으며, 중고 거래나 대여를 통해 합리적인 소비를 하는 경향도 보입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFCYglr6WjHZHJzgowwjkw0SpROrRQNPfMmQA-hhR2_qMnQnd_-xrZ-t68X7t4xVmPb0RQqhcDpQbeOuJ6MBUrYwUxVVgUZ0MP9bKj9Rw2L32LWWnt1Nuj2cwTOh2_ehE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErhLq3nvcwiaXcxxVGIvJ0iEoOX23h6EJWDEvfi2sBbZRwUMqjx7b9Zz433zRgKtPwe6SOLtg1FpJoZHIxPiH0tVdyno93x2Fmrm8oE1xxbiw0Bgn6DyeRsRV9K6Bhny4-_3RmW7Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFc_tL4ATqEoewTf8sPl3kOcKxeFrnCuBb7t1kAGtpSHuhbORe-bcWRzN8G0L59rG_3mIECMmFrf6IyWRaLAAOMuvMSK5Ki7yYOMRSPk-yVKElw2YGoK2xSk9vWWVNRLFe6QUsA3w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6AjQut0mq1maBaxzx-43dp6hlzTBKb5qoZ5T5976NZxePX-hndqGvWuMaw8gbWyNlnrLh4tqzt8KXlqUph66K7i1V41REAgoJnsmhD8Tc9pfyp4Bs09pGIp9--HedGl0wlLY1uws=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjw2JKjXZaLJZuE-5c-ujZaCpdtSlOsRFr08LwreY0dMrXxXkD1nZwEYjqvtjsYKU2QYaaqCh-NpDFfkaVbwQCqc4ZKY_KhemEuF2ZqYIilLzlCx9SdyJ26YPsvYVBlyTrvao4-U4=
 
 ---
 

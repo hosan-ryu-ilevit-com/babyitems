@@ -149,6 +149,92 @@ function extractRuleBasedConditions(
 }
 
 // ============================================================================
+// 조건 reason 자연스럽게 정제 (flash-lite 사용)
+// ============================================================================
+
+/**
+ * 규칙 기반 조건들의 reason을 자연스러운 문장으로 정제
+ * - "용량 3L 이상 조건 반영" → "넉넉한 3L 용량 선호"
+ * - "무선 연결방식 선호 반영" → "자유로운 무선 사용"
+ */
+async function refineConditionReasons(
+  categoryName: string,
+  conditions: FilterCondition[]
+): Promise<FilterCondition[]> {
+  // 정제할 조건이 없으면 스킵
+  const ruleConditions = conditions.filter(c => c.source === 'rule');
+  if (ruleConditions.length === 0) {
+    return conditions;
+  }
+
+  if (!ai) {
+    console.log('[RefineReasons] No AI available, keeping original reasons');
+    return conditions;
+  }
+
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: {
+      temperature: 0.3,
+      maxOutputTokens: 400,
+    },
+  });
+
+  const reasonsToRefine = ruleConditions.map((c, i) => `${i}: ${c.reason}`).join('\n');
+
+  const prompt = `## 역할
+${categoryName} 상품 필터링 조건의 설명을 자연스러운 선호도 문장으로 다듬어주세요.
+
+## 원본 조건 설명
+${reasonsToRefine}
+
+## 변환 규칙
+1. 딱딱한 조건 설명을 부드러운 선호도 표현으로 변환
+2. 4~10자 내외의 간결한 태그 형태로 작성
+3. "~ 선호", "~ 중시", "~ 스타일" 등 사용자 관점 표현 사용
+4. 구체적인 스펙 정보는 유지하되 자연스럽게 표현
+
+## 예시
+- "용량 3L 이상 조건 반영" → "넉넉한 3L+ 용량"
+- "무선 연결방식 선호 반영" → "무선 사용 선호"
+- "가격 10~20만원 조건 반영" → "10~20만원대 예산"
+- "스테인리스 재질 선호 반영" → "스테인리스 소재"
+- "소비전력 1000W 이상 조건 반영" → "강력한 1000W+"
+
+## 응답 형식 (JSON만)
+{"0":"변환된문장","1":"변환된문장",...}
+
+⚠️ JSON만 응답. 원본 인덱스를 키로 사용.`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim();
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const refinedMap = JSON.parse(jsonMatch[0]) as Record<string, string>;
+      
+      // 정제된 reason으로 업데이트
+      let ruleIndex = 0;
+      return conditions.map(c => {
+        if (c.source === 'rule') {
+          const refined = refinedMap[String(ruleIndex)];
+          ruleIndex++;
+          if (refined) {
+            return { ...c, reason: refined };
+          }
+        }
+        return c;
+      });
+    }
+  } catch (error) {
+    console.error('[RefineReasons] Refinement failed:', error);
+  }
+
+  return conditions;
+}
+
+// ============================================================================
 // LLM 기반 필터 조건 추출 (2단계 - 애매한 조건만)
 // ============================================================================
 
@@ -411,7 +497,12 @@ export async function POST(request: NextRequest) {
     console.log(`   [LLM] ${llmConditions.length} conditions from ${Object.keys(remainingInfo).length} remaining answers`);
 
     // 2-3. 조건 통합
-    const conditions: FilterCondition[] = [...ruleConditions, ...llmConditions];
+    const rawConditions: FilterCondition[] = [...ruleConditions, ...llmConditions];
+    
+    // 2-4. 규칙 기반 조건들의 reason을 자연스럽게 정제 (flash-lite)
+    const conditions = await refineConditionReasons(categoryName, rawConditions);
+    console.log(`   [Refine] Refined ${ruleConditions.length} rule-based reasons`);
+    
     const mandatoryConditions = conditions.filter((c: FilterCondition) => c.mandatory);
     console.log(`   [Total] ${conditions.length} conditions (${mandatoryConditions.length} mandatory)`);
     if (mandatoryConditions.length > 0) {

@@ -1,14 +1,9 @@
-# 세션: 20260108_015710_kc17
-> 시작: 2026-01-08T01:57:10.121Z
+# 세션: 20260108_050627_1zi3
+> 시작: 2026-01-08T05:06:27.143Z
 > 카테고리키: 트라이크 유모차
 > 카테고리: 트라이크 유모차
 
 ## 🔍 웹서치 인사이트
-
-### Init 단계
-- 쿼리: 트라이크 유모차 2026년 추천 순위 실사용 후기
-- 인사이트: 2026년 현재 트라이크 유모차 시장은 휴대성과 편의성을 갖춘 제품들이 인기를 얻고 있으며, 에이블, 베이블퓨어리, 맘앤리틀 등의 브랜드가 주목받고 있습니다. 특히, 기내 반입이 가능한 초경량 모델과 다양한 편의 기능이 탑재된 제품들이 트렌드를 이끌고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFo4Xyw-Cbb1edZff_HgCxFah3Xn717MYXQGRLVGoqaW4tgeJxN-CDBmE0d1XxzfFAqBvLgDeY2d64mqUuMqTV6JvFZ7oi2mwWTx6LmnYiDaZWZ9Qgts1CMbgM4RGMs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXMTacOyU-x-dqrM_g3DfmuJQ6CcQh4-ZYi45rEogGY-pH3yLzZqdryn5BSLPhP5uovH943pNUXgKyMBvxi_oWxkXmVtGeDcIJey4vP_ePgWnoOeGprBBleco=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPH9CLUwp6hYY5tuL5NyQozTJsY7F6SaG7kCuZuoGmr7WpquF-76MhcYXLDaKe_jV6i3iirBqud5dcPnzgmRd5H8mik8n3Xtjlcoe8VkzSEIs10bQV9looSbDtYvZG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9auJ3_apYjFLYUfOqUNhRqjGS4zlm52RUUmtmOUPqYlXypHOaqeuvamMbeJyV31sfLuQFsaxuiRBYnJWEEHasN_p7YpqcrMJjTMZA8n-lW5evkiSuMVfCpIviMNQ442SG-MhrrLX8u9YdMl10jBa4YXn79BrbDu4uMSJ3rlNNsfmHyUYCOsuaYmt69NU-0KZYwPe5OfLljUCjPHWYfQ2HirNnribnc7j9iyCD9grDIoUUs2jMPcB71V-y8IEbxRL6_Zbpz-QfwKp1BG2vig07R-Rz1fH2VuTJdNGkQ2FkUuNLPA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUfLBSffLrZ3WW3qj7178JYlj-aj8MQGrW7zvpbvnAY08BXYNKWtb3RYt9y-RYSLGhO9TpPM26jsCBVAxCC5yywvSltcdYQ0vJynoRoZffI4Vhjih_UBNdtLGP-PQjq0bVbRho8Bk=
 
 ---
 

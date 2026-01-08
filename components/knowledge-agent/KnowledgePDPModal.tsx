@@ -678,6 +678,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
             whileTap={{ scale: 0.98 }}
             onClick={() => {
               const pcode = product.pcode || product.id;
+              // 가격 정보 업데이트 여부와 상관없이 pcode 기반 다나와 URL로 이동
               const url = `https://prod.danawa.com/info/?pcode=${pcode}`;
               logKAExternalLinkClicked(categoryKey, pcode || '', product.title, '다나와', url);
               
@@ -694,8 +695,9 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
             }}
             className="w-full h-14 flex items-center justify-center gap-3 font-black rounded-[20px] text-[16px] transition-all text-white bg-gray-900 shadow-xl shadow-gray-200 hover:bg-black"
           >
-            다나와에서 보기
-            <FcSearch size={22} />
+            <ShoppingCart size={20} weight="fill" />
+            최저가로 구매하기
+            <ArrowRight size={18} weight="bold" />
           </motion.button>
         </div>
       </motion.div>

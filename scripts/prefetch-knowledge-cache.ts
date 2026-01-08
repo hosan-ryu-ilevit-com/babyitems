@@ -333,22 +333,48 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
   // -------------------------------------------------------------------------
   let totalPrices = 0;
   // 다나와 pcode만 필터링 (숫자로만 이루어진 것만 - TH201_, TP40F_ 등 타사 pcode 제외)
-  const allPcodes = products
+  let allPcodes = products
     .map(p => p.pcode)
     .filter(pcode => /^\d+$/.test(pcode));
 
-  const skippedCount = products.length - allPcodes.length;
+  const skippedNonDanawa = products.length - allPcodes.length;
 
   if (!skipPrices && allPcodes.length > 0) {
-    console.log(`\n💰 [Step 4] 가격 크롤링 중... (${allPcodes.length}개 다나와 제품, 순차 Puppeteer)`);
-    if (skippedCount > 0) {
-      console.log(`   ⚠️ ${skippedCount}개 타사 pcode 스킵 (다나와 외 제품)`);
+    // 이미 캐시된 pcode 조회 (스킵 처리)
+    console.log(`\n💰 [Step 4] 가격 크롤링 준비 중...`);
+    try {
+      const { data: cachedPrices } = await db
+        .from('knowledge_prices_cache')
+        .select('pcode')
+        .in('pcode', allPcodes);
+
+      const cachedPcodeSet = new Set((cachedPrices || []).map((r: { pcode: string }) => r.pcode));
+      const skippedCached = cachedPcodeSet.size;
+
+      // 이미 캐시된 pcode 제외
+      allPcodes = allPcodes.filter(pcode => !cachedPcodeSet.has(pcode));
+
+      console.log(`   📂 이미 캐시됨: ${skippedCached}개 (스킵)`);
+      if (skippedNonDanawa > 0) {
+        console.log(`   ⚠️ 타사 pcode: ${skippedNonDanawa}개 (스킵)`);
+      }
+      console.log(`   🎯 크롤링 대상: ${allPcodes.length}개`);
+    } catch (error) {
+      console.error(`   ⚠️ 캐시 조회 실패, 전체 크롤링 진행:`, error);
     }
+
+    if (allPcodes.length === 0) {
+      console.log(`   ✅ 모든 가격이 이미 캐시되어 있습니다.`);
+    } else {
+      console.log(`\n💰 [Step 4-1] 가격 크롤링 중... (${allPcodes.length}개)`);
+    }
+
+    if (allPcodes.length > 0) {
     try {
       // 로컬 Puppeteer 순차 배치 크롤링 (최적화된 딜레이)
       const priceResults: DanawaPriceResult[] = await crawlers.fetchDanawaPricesBatch(
         allPcodes,
-        500,   // delayMs: 0.5초 간격 (최적화됨)
+        300,   // delayMs: 0.3초 간격 (최소화)
         (current: number, total: number, result: DanawaPriceResult) => {
           if (current % 10 === 0 || current === total) {
             console.log(`   진행: ${current}/${total} ${result.success ? '✅' : '❌'}`);
@@ -394,6 +420,7 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
       console.error(`   ❌ ${msg}`);
       errors.push(msg);
     }
+    } // if (allPcodes.length > 0)
   }
 
   // -------------------------------------------------------------------------

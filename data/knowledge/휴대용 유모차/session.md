@@ -1,5 +1,5 @@
-# 세션: 20260108_022438_p9py
-> 시작: 2026-01-08T02:24:38.404Z
+# 세션: 20260108_045541_jtg9
+> 시작: 2026-01-08T04:55:41.478Z
 > 카테고리키: 휴대용
 > 카테고리: 휴대용 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 휴대용 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 휴대용 유모차 시장은 스토케, 부가부, 줄즈 등 프리미엄 브랜드가 강세를 보이며, 와이업, 타보 등 가성비 브랜드도 인기를 얻고 있습니다. 2026년 트렌드는 초경량화, 원터치 폴딩, 기내 반입 가능 여부, 그리고 친환경 소재 적용이 핵심입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTKouWs3Fzs5pmS4cFuROwiZ3iWfEa4JDHqDSj_keuXaTHpfZqpY2ksBYpLp9ghBi3G4GA5CKhyzTl_alYndnacpOZEfs8RS-rshHiqltH05cKDCHtxibIzyhpNss0La_la3bvCQ_TOHtdeScv8Dv8wQ6QhOY2TJlJINqLY9b0AE0BPz7_9ERYWQS5XfojCfys, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGatOhL69fDb_P0ez2s11_RDAgM_P8Jy0NbcRm1dp9P5EhyIrfc0yiwjR2O2QbuIfkVZtTavtmiY33ZDn6h1owRY6sXR2Cw4RM0uQy-EWWBbhOz8QFpi70Qm0FCVnI5, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2i9Njkdc3qqRlG7Nm5s13lscyt5vViSmdbXK8X9CsZAL2pw_PnaMaH1CHlUnqGppkwi4j7X4NFW19iZMdhIO5S8rDf3Wp0F9FE8XPawHXkZ59oNUlGFNnZ_2HDX0l5w9E2dc-dJFAOQA9901X5o_b5sat6S0KOG7K1CH_PLf6SzD4MTRHEu-sSIXTmRT6zjEPtbGPgVg2O3jKn0cWZ4xn0IfHIEgzmrX_SN73Et-lS_w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdZBAJzyxMFTRrsU7_85HtPjLYNDVvvmpbXsRIMgm6CcodV8Jpdey4n4eVwEvyXcu-6kRRWvzxyfm5gmCwNoQ63X_w6kb2GAR-6UDyIqgYhD6DrCVjhZwXUOsNpsgWac7RjWwKrXvy8XvOdOdurLLKtRK0doNGZ5gGZCzSrG9fMl1BIoiRR3URtrontcqWOybaXdQ4_i6rAwr9OE6PIbeae_q7eBxtkvi-NcGmn0i9usTvcFTZ6bi0F6IJA_oGSVUXEr2rQzuWo7xK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTcLz3NSzIsEvRCacx8U2Fee9VR_qVh_Ri24rILhQAGXiVvXfpuQn2nxxpgWwx4oePMBXZI0lqVbJWw51lC84-aCcMdtOSiISqAcOHfc5LAwBacLwW4mwoUaTuC8r772qWBG2L0R4=
+- 인사이트: 2026년 1월 현재, 휴대용 유모차 시장은 스토케, 부가부, 줄즈와 같은 프리미엄 브랜드가 강세를 보이며, 와이업, 타보, 리안 등 가성비 좋은 브랜드들도 인기를 얻고 있습니다. 최신 트렌드는 경량화, 한 손 폴딩, 컴팩트한 사이즈, 그리고 기내 반입 가능 여부에 집중되고 있으며, 스마트 기능 및 친환경 소재 적용 제품에 대한 관심도 증가하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfH4o21hMjHqQS_wOpjYVFa1AxfPjikQaQ3wY57WKzP6RAae886NPG_n5aji98GkOSUH0F7DfGWFXN4p-EEX0hkxFmCNyzdWDhmoIKIeeB_Mq6J3LZ4Ex6kFuZ1nEOV-0-CBQOhNzq9n5rvjb-_ynQ6Ekr8_ZdgbEL75lgm52Vhu_-P89XM7P4cftb8PwKGD6R, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXXW32TLmi9Hd0BLiSHOqgaC4sfzbiHp_Ygn38VtbTovbF1IHTOOmF6h8b6MuyAx0I6vlMQyY8iZVpa5ggHUW3Iml5h8UpfpoxfzbOhw0ZhqOcpBCoAMDU94mX8ecK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEnwIwuiQ73g-D_GoKw-NiohRqep7rCKKxDI847Hb9bRI-GPdNqjOO6EmqQstU2PCVzqX66AwH89U23zycdnYysHanLv7zHtS-M6_T4wDcE6Kv1JoOKH1lGKLh2B0kYLIM1YEU2aUcN3Or1IqphJEWExBk-vchZNR3AZTPq84iuB-jvUXnxcWITv-4YHIecd6N4Lg9Ij5V5M8xB47FN4fsmuKUWmUSqD5FZzsU0AJ17lKQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZySqNJq8AG8Q7L0SCROiZSDkZNV5NvfUQX_4MLfLT5XXf6vPKqnuSWkQZ7wR-DOgIhUjFqxuLuEgVC6JVgo-dbMm_v6dHeOf82CGZF_obPyzMVCZbXouAU3jf92X52Jte-7XFLkktybaHdQwTgCX3xZyZ_kkRoLNWT1PBEDCAXsYovorBN29FoxjpEzKy_auQiRngez6kan4jT_akzqKxwIHBGhb8zV1EMKnkjiSmcPmzmy_akNRSkSgwf70o89tHgHIer_oDy7gj, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRqPFJ_hVL9DLPRuP4pJ5zAW606NLe8_8fnY1CBwam8oYJRqIO1DqrjiXi9zIuvVcXitUBONzJ11_Ie7-3yWt9Oa5eKsVau-fv5u1ShBEciNjPSn8zKgLeqShmZuKITEVG5Z8RzBE=
 
 ---
 
@@ -16,7 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| baby_age_weight | 10kg ~ 15kg |
+| portability_focus | 최대한 작게 접히는 것 |
+| usage_period | 신생아부터 (0~6개월) |
+| terrain_and_durability | 다양한 지형 (공원, 비포장도로 등) |
+| budget | 30만원 이하 |
+| __avoid_negatives__ | 2,1 |
 
 ---
 
@@ -56,7 +60,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 2
+- 1
 
 ---
 

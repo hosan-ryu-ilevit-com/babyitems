@@ -1,5 +1,5 @@
-# 세션: 20260108_040319_1xvx
-> 시작: 2026-01-08T04:03:19.190Z
+# 세션: 20260108_041751_jjrh
+> 시작: 2026-01-08T04:17:51.959Z
 > 카테고리키: 모니터
 > 카테고리: 모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 모니터 시장은 OLED 기술의 확장이 두드러지며, 스마트폰을 넘어 모니터와 노트북까지 그 영향력을 넓히고 있습니다. LG와 삼성 등 한국 기업들이 OLED 시장을 주도하고 있으며, 중국 기업들의 추격도 거세지고 있습니다. USB-C 연결을 통한 편의성 증대와 미니LED, OLED 기술이 최신 트렌드를 이끌고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7H1yBxVC9isjxcrRkR574ubWgguGIu4kmrXTs9UoiyBhxcYAg_UcjP_JZuAsGkps2_3mTfWJ3Z3Uxkmj_Lz29p908Z8d5xOigTcybOUdm3zfFfjcOlh9zVxjhjlOVyOKU0zBOO6nMY8g=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpTs_-73L2G4B7G7h35Chr1XA-Np_Ce4ZnTJVi3kjOj_iRLQAF04quRH2nEXpdyahyVx4ndsCYHQlNMJ8PuSg-w8nqwrvHlJs8igVz4gXcS9aD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgPnR48Y0pnHPInTN2nxoIRzz4oRw1v2a5FLVh7aGNUTk1XyJK8aQpQAKQrrM5Gc-N2ZHHauCItY4d9kYEkpw-jWlacbH5zTgCZagqg8HVcmO8wixRdF7sU7KMANHgmG0QmR93vtWOJuNTjNn8ziCkdqt2mOH7yOo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXVDiAQBwyAkvuLbYMEAxa1q0GCkRBBhqwQjYdnvhqCmpjrYMfixfK4u0ft0LIC4tPDFunAKwZ9rJYy1A6p6BNGnAPKRZV5SWcZSmSTFSHUpy0kNI-iH7bcir5YF7RoRwKZ_J0AjY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjdcKXwU56MyP1jdBQ0ddoFR_iujr3OabM445oz0Q_gSVilvQ-YIWHL6IuEG7DWvMdR-5c4iKov9Xo3hDg7sFYHedGjnmgf8_Z_4QrJRgtsbdr8H7nmRykfJt5fj5-tiutKZPZ2AA=
+- 인사이트: 2026년 현재, 모니터 시장은 OLED 기술의 확장이 두드러지며, 스마트폰을 넘어 모니터와 노트북까지 그 영역을 넓히고 있습니다. 삼성디스플레이와 LG디스플레이가 OLED 시장을 주도하고 있으며, 중국 기업들의 추격도 거세지고 있습니다. 고해상도, 고주사율, 그리고 USB-C 연결성과 같은 기능들이 중요 트렌드로 자리 잡고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFkEPXTcTjTtdBUuN8qZpNTNeukpxeZjN1V9W3RNCGu_37PM8dQSUxSdCHJP6LGDGRejOjtBdln1uHBMu87WLnsEVr5f6dgW5yU2KCJfM-jPGWrCAiXAbgAuK5s5cqBVGeo-eLCh6thkM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErpzm4pWMIPu4-ptOx1JM1PhJlQjK3ByvPcl_fseEv9mwutQpTYGzxWYo9J5vqFJ4io7jLtvinMLvH8WPQgnY7fDVw3BDM8yzd5VbpUYs2RfGK0taw0bnrDUjxS_w2tZHmC1HYAsIs_t2pbdcf3DwrHAab-VfWiPalXD9Wy09WBsVptGmFv3eCmXOccv4jUI17WopnDUy7xamu4w5f2a9VmLW_9UR4Pyxb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVZdcok-l5T1qM0caP9rZPue3bNHYyKCAfCKJdMtA-jijyBWlt7-blAAg_f4ExXhv_bfw04b57ldsKqxgqsxP6ZJuLuT0yh1QThHQhUbkKjFT1W0l-jq64TCli1EYkFoWrad9OfTzfHweVxNljb21grgUdEHoqPBY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBqLHaB-7H8XJuxiEjZfOq8Dn7sia27Q2QKtLiRPO00AtwdUQXhqjVBIAfiPlMePDbvU8O3QTFOLWoqVEhpOnIaznDe4AfG6q-ZYajE3eM1LHi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_qt0E8gOPsmOfCVJQl5J4hUmx18YqrR2-UoOnHvwg0vuOki1Os-_N9a5BoBgnMRc1HFQ_y-ulCeI5pqvI3rY48ABk59g4DQtQsukmT4gQXpqnmBy0UZMlMLxb_1U-wxii5wlgFULfDKB1GSz1vz77CaH5PfE=
 
 ---
 
@@ -16,8 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| usage_purpose | 업무/학습 |
-| screen_size | 27인치 |
 
 ---
 

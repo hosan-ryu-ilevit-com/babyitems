@@ -681,18 +681,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                 </AnimatePresence>
 
                 <div className="relative z-10">
-                  {/* 실시간 가격 로딩 중 */}
-                  {livePrice.loading && !effectivePriceData && (
-                    <div className="flex items-center justify-center py-8">
-                      <div className="flex items-center gap-2 text-gray-400">
-                        <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
-                        <span className="text-sm">실시간 가격 조회 중...</span>
-                      </div>
-                    </div>
-                  )}
+                 
 
                   {effectivePriceData && effectivePriceData.prices.length > 0 ? (
                   <div className="space-y-2">
@@ -852,7 +841,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                   </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-8">
-                      <div className="text-gray-400 text-sm">가격 정보가 없습니다</div>
+                      <div className="text-gray-400 text-sm">가격 정보가 아직 업데이트 되지 않았어요. 아래 구매하기 버튼을 눌러 확인해보세요!</div>
                     </div>
                   )}
                 </div>
@@ -1472,10 +1461,11 @@ export default function ProductDetailModal({ productData, category, danawaData, 
               <button
                 onClick={() => {
                   logButtonClick('최저가로 구매하기', 'product-modal');
-                  // 다나와 최저가 링크가 있으면 사용, 없으면 쿠팡 링크로 fallback
-                  const lowestPriceLink = danawaData?.prices?.[0]?.link;
+                  // pcode 기반 다나와 상품 페이지로 이동 (가격 정보 업데이트 여부 상관없이)
+                  const pcode = productData.product.id;
+                  const url = `https://prod.danawa.com/info/?pcode=${pcode}`;
                   const lowestPrice = danawaData?.prices?.[0]?.price;
-                  const lowestMall = danawaData?.prices?.[0]?.mall || '쿠팡';
+                  const lowestMall = danawaData?.prices?.[0]?.mall || '다나와';
 
                   // 가격 정보 로깅
                   logProductModalPurchaseClick(
@@ -1487,11 +1477,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     'product-modal'
                   );
 
-                  if (lowestPriceLink) {
-                    window.open(lowestPriceLink, '_blank');
-                  } else {
-                    window.open(`https://www.coupang.com/vp/products/${productData.product.id}`, '_blank');
-                  }
+                  window.open(url, '_blank');
                 }}
                 className="flex-1 h-14 font-semibold rounded-2xl text-base transition-colors text-white bg-black hover:bg-gray-900"
               >

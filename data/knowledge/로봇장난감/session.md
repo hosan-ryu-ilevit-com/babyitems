@@ -1,5 +1,5 @@
-# 세션: 20260107_124906_k995
-> 시작: 2026-01-07T12:49:06.480Z
+# 세션: 20260108_050417_50jg
+> 시작: 2026-01-08T05:04:17.797Z
 > 카테고리키: 로봇장난감
 > 카테고리: 로봇장난감
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 로봇장난감 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 로봇 장난감 시장은 기술 발전과 함께 더욱 다양해지고 있습니다. 특히 CES 2026에서 공개된 레고의 '스마트 브릭'은 물리적 놀이와 디지털 경험을 결합하며 새로운 트렌드를 제시하고 있습니다. 또한, 가정용 소형 휴머노이드 로봇 '제로스 M1'과 같이 일상생활 지원 기능을 갖춘 로봇 장난감도 주목받고 있습니다. 현재 인기 브랜드로는 또봇, 헬로카봇, 메탈카드봇 등이 있으며, 이들은 변신합체 기능과 함께 다양한 캐릭터를 선보이며 아이들의 사랑을 받고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EB%A1%9C%EB%B4%87%EC%9E%A5%EB%82%9C%EA%B0%90&sort=saveDESC
+- 인사이트: 2026년 현재, 로봇 장난감 시장은 기술 발전과 함께 더욱 정교하고 상호작용적인 제품으로 진화하고 있습니다. 특히 인공지능(AI) 기반의 휴머노이드 로봇과 교육용 코딩 로봇이 주목받고 있으며, 변신 및 합체 기능은 여전히 인기 있는 요소로 남아있습니다. 레고와 같은 전통적인 장난감 회사들도 스마트 브릭과 같은 혁신적인 기술을 도입하며 시장 경쟁에 뛰어들고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3QqjZx32o_C41qcA5L2b-OvkrgvbQlPJMKsLNgTwaeUvE2MQpB409caZ3ZJSPlm87t_ThyN-CqMkLNDp89k3Dz-shkz-8SiHYzep8pZJGKTGLazj9BVASPBYJCPx55FHMmjsa7RvPpX0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcXg86lTCpO64hancjpcRHgcU1K_5MMAAqKNeBQ_ukdYEl_BtwDXI2RJZZeSODbJtvGHYyKv8NhuVS41CJ2V0VwmYUwsfHbDON3EJnnBTKhAcNGOrH0QQGvQ2ef2p4h03xwhKSgtI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8lkKOd9wgpt0U_JUcrfN-CKAJbouXPFqc_fJYMQg1yNlnpUqqd68jcjo7ePRetlc4cx-DtS86hyYaZy-FQNjqz1pdCLRaifB0ARIwZ1khLpTeSW3hE409O4feHeeC27d0e5w2sXhy6qa30qS68jDGr-S1H7l7EuyZQFN6K4VJzMesKTSQg-Q6KNDGZQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE12ebNByKhGVbbxMN81fADcG--ty23R6w9UnvHWiAI2E-ojgAsTbzVYCpi9aQy_2nu1WnISfMzFR1MdmdDDI4-vd649V1lorQLKAfUWzxDrtGDKwGqwkTxBUN_8G4tAHO53bFv0NqieZRFpfXIq0Ssv9AqJJ9JZw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHM9vTRTBqeed8scwU0Qo_T_aorUy8iudOGDLMavNVa8HJnmmCfEUE0mxAiX8LTdL62PWqVkJyodoFzAaiHiw4Y71nKY1QY4p96KGHcoEiD6tqHCUr_PG17v6M-WKodHuenB1WvvCf4
 
 ---
 
@@ -16,38 +16,34 @@
 
 | 항목 | 답변 |
 |------|------|
-| play_style | 직접 조립 및 변신, 캐릭터와 함께 놀기 |
-| age_appropriateness | 7세 ~ 11세 |
-| budget | 7만원 이하 |
-| __avoid_negatives__ | 가격 부담,교육적 효과 부족 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 95개 (전체 95개 중)
+현재 후보: 100개 (전체 100개 중)
 
 ### 후보 상품
-1. 에스에이엠지엔터테인먼트 메탈카드봇W 블루캅W - 45,900원 - ⭐4.8
-2. 에스에이엠지엔터테인먼트 메탈카드봇W 헤비아이언W - 84,670원 - ⭐5
-3. 파워레인저 애니멀포스 DX 동물합체 라이드킹 - 64,800원 - ⭐4.8
-4. 레고 콜의 타이탄 드래곤 로봇 (71821) - 102,990원 - ⭐4.7
-5. 에스에이엠지엔터테인먼트 최강공룡 미니특공대 스톰테라 - 37,530원 - ⭐4.7
-6. 영실업 또봇 붐 - 42,300원 - ⭐4.8
-7. 주영이앤씨 고고다이노 공룡탐험대 사운드 변신로봇 페리 - 9,900원 - ⭐4.6
-8. 초이락컨텐츠컴퍼니 헬로카봇 아이누크 올스타 - 43,450원 - ⭐5
-9. 영실업 또봇X 화이트 스페셜팩 - 40,060원 - ⭐5
-10. 초이락컨텐츠컴퍼니 헬로카봇 펜타스톰X 빅큐브 - 136,470원 - ⭐4.8
-11. 초이락컨텐츠컴퍼니 헬로카봇 나이트X - 21,410원 - ⭐4.9
-12. 파워레인저 젠카이저 DX 젠카이킹 무적정글 세트 - 20,030원 - ⭐4.9
-13. 에스에이엠지엔터테인먼트 메탈카드봇W 타이건 - 44,260원 - ⭐4.6
-14. 영실업 또봇 팝 - 30,590원 - ⭐4.8
-15. 에스에이엠지엔터테인먼트 최강공룡 미니특공대 렉스카이저 - 195,310원 - ⭐4.9
-16. 초이락컨텐츠컴퍼니 터닝메카드 갓 트리플 배틀세트 - 58,070원 - ⭐4.8
-17. 영실업 또봇 A - 29,050원 - ⭐4.9
-18. 레고 카이의 닌자 클라이머 로봇 (71812) - 74,500원 - ⭐4.7
-19. 레고 쟌의 울트라 합체 로봇 (71834) - 102,130원 - ⭐4.8
-20. EMO AI 애완용 로봇 - 620,210원 - ⭐5
+1. 아카데미과학 메가포스 KAR98K 스나이퍼건 어린이 장난감총 - 68,870원 - ⭐4.6
+2. 파워레인저 애니멀포스 DX 동물합체 라이드킹 - 64,800원 - ⭐4.8
+3. 에스에이엠지엔터테인먼트 메탈카드봇W 헤비아이언W - 86,340원 - ⭐5
+4. 에스에이엠지엔터테인먼트 메탈카드봇W 블루캅W - 45,900원 - ⭐4.8
+5. 영실업 또봇 테트란 스페셜팩 - 67,630원 - ⭐5
+6. 에스에이엠지엔터테인먼트 최강공룡 미니특공대 스톰테라 - 37,530원 - ⭐4.7
+7. 초이락컨텐츠컴퍼니 헬로카봇 아이누크 올스타 - 43,450원 - ⭐5
+8. 레고 콜의 타이탄 드래곤 로봇 (71821) - 102,990원 - ⭐4.7
+9. 초이락컨텐츠컴퍼니 헬로카봇 프론 경찰차 올스타 - 48,720원 - ⭐4.7
+10. 주영이앤씨 고고다이노 공룡탐험대 사운드 변신로봇 페리 - 9,900원 - ⭐4.6
+11. 영실업 또봇X 화이트 스페셜팩 - 40,060원 - ⭐5
+12. 초이락컨텐츠컴퍼니 헬로카봇 펜타스톰X 빅큐브 - 139,410원 - ⭐4.8
+13. 초이락컨텐츠컴퍼니 헬로카봇 레포스 - 30,900원 - ⭐4.8
+14. 초이락컨텐츠컴퍼니 헬로카봇 나이트X - 21,410원 - ⭐4.9
+15. 파워레인저 젠카이저 DX 젠카이킹 무적정글 세트 - 20,030원 - ⭐4.9
+16. 영실업 또봇 붐 - 42,300원 - ⭐4.8
+17. 에스에이엠지엔터테인먼트 메탈카드봇W 타이건 - 44,260원 - ⭐4.7
+18. 버스 자동차 완구 장난감 - 3,110원 - ⭐4.7
+19. 영실업 또봇 팝 - 30,590원 - ⭐4.8
+20. 초이락컨텐츠컴퍼니 터닝메카드 갓 트리플 배틀세트 - 59,100원 - ⭐4.8
 
 ---
 
@@ -59,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 가격 부담
-- 교육적 효과 부족
+(아직 선택 없음)
 
 ---
 

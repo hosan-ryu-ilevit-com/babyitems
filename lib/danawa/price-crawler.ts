@@ -166,9 +166,9 @@ async function extractPrices(page: Page): Promise<{
   const mallPrices: MallPrice[] = [];
 
   try {
-    // 페이지 로딩 및 동적 콘텐츠 대기
+    // 페이지 로딩 및 동적 콘텐츠 대기 (최소화된 딜레이)
     await page.evaluate(() => window.scrollTo(0, 500));
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 300));
 
     // 가격 탭 클릭 시도
     try {
@@ -177,7 +177,7 @@ async function extractPrices(page: Page): Promise<{
         const text = await page.evaluate((el) => el.textContent, tab);
         if (text?.includes('가격')) {
           await tab.click();
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise(resolve => setTimeout(resolve, 800));
           break;
         }
       }
@@ -186,11 +186,11 @@ async function extractPrices(page: Page): Promise<{
     }
 
     // 가격 영역이 로드될 시간 부여
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 800));
 
     // 더 스크롤 (추가 가격 정보 로드)
     await page.evaluate(() => window.scrollTo(0, 800));
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 300));
 
     // HTML 파싱
     const html = await page.content();

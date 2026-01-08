@@ -774,6 +774,144 @@ function generateBudgetOptions(
 }
 
 // ============================================================================
+// Step 3.6: Required Questions Generation (예산 + 피하고 싶은 단점)
+// ============================================================================
+
+/**
+ * 예산 질문 생성 (데이터 기반 - LLM 불필요)
+ */
+function generateBudgetQuestion(
+  minPrice: number,
+  avgPrice: number,
+  maxPrice: number
+): QuestionTodo {
+  const options = generateBudgetOptions(minPrice, avgPrice, maxPrice);
+  
+  return {
+    id: 'budget',
+    question: '예산은 어느 정도로 생각하세요?',
+    reason: '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
+    options,
+    type: 'single',
+    priority: 99,
+    dataSource: '가격 분포 분석',
+    completed: false,
+  };
+}
+
+/**
+ * 피하고 싶은 단점 질문 생성 (트렌드 데이터 + LLM 기반)
+ */
+async function generateAvoidNegativesQuestion(
+  categoryName: string,
+  trendAnalysis: TrendAnalysis | null
+): Promise<QuestionTodo> {
+  // 기본 단점 옵션 (공통적으로 자주 언급되는 단점)
+  const defaultNegativeOptions = [
+    { value: 'noise', label: '작동 소리가 커서 사용할 때 신경 쓰여요', description: '조용한 사용을 원하신다면' },
+    { value: 'size', label: '부피가 커서 수납이나 보관 공간이 걱정돼요', description: '컴팩트한 크기를 원하신다면' },
+    { value: 'cleaning', label: '청소나 관리가 번거로울 것 같아요', description: '간편한 관리를 원하신다면' },
+    { value: 'weight', label: '무거워서 이동하거나 들기 힘들 것 같아요', description: '가벼운 무게를 원하신다면' },
+    { value: 'consumables', label: '소모품 교체 비용이 계속 들어서 부담돼요', description: '유지비가 적은 제품을 원하신다면' },
+  ];
+
+  // 트렌드 데이터의 cons가 있으면 LLM으로 라벨 확장
+  if (ai && trendAnalysis?.cons && trendAnalysis.cons.length > 0) {
+    try {
+      const model = ai.getGenerativeModel({
+        model: 'gemini-2.0-flash-lite',
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 600,
+        }
+      });
+
+      const consKeywords = trendAnalysis.cons.slice(0, 6).join(', ');
+      
+      const prompt = `"${categoryName}" 제품의 실제 사용자들이 자주 언급하는 단점 키워드입니다: ${consKeywords}
+
+이 키워드들을 바탕으로, 사용자가 "피하고 싶은 단점"으로 선택할 수 있는 옵션 4~5개를 JSON 배열로 생성하세요.
+
+## 규칙
+1. **label은 반드시 15자 이상의 완전한 문장**으로 작성
+2. 문장 끝은 "~싫어요", "~걱정돼요", "~불편해요", "~부담돼요" 등으로 마무리
+3. 사용자의 구체적인 걱정/불편/상황이 드러나야 함
+4. 키워드를 그대로 사용하지 말고 **자연스러운 문장으로 변환**
+
+## 출력 예시
+[
+  {"value": "noise", "label": "작동 소리가 너무 커서 밤에 사용하기 어려울 것 같아요", "description": "조용한 사용을 원하신다면"},
+  {"value": "cleaning", "label": "필터 청소나 관리가 자주 필요해서 번거로울 것 같아요", "description": "간편한 관리를 원하신다면"}
+]
+
+JSON 배열만 출력하세요:`;
+
+      const result = await model.generateContent(prompt);
+      const text = result.response.text();
+      const jsonMatch = text.match(/\[[\s\S]*\]/);
+      
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]) as Array<{ value: string; label: string; description?: string }>;
+        if (parsed.length >= 3) {
+          console.log(`[Step3.6] Generated ${parsed.length} avoid_negatives options from trend data`);
+          return {
+            id: 'avoid_negatives',
+            question: '혹시 꼭 피하고 싶은 단점이 있으신가요?',
+            reason: '💡 선택하신 단점이 있는 상품은 추천에서 제외하거나 순위를 낮출게요.',
+            options: parsed.map(opt => ({
+              value: opt.value || opt.label.slice(0, 10).replace(/\s/g, '_'),
+              label: opt.label,
+              description: opt.description || ''
+            })),
+            type: 'multi',
+            priority: 100,
+            dataSource: '웹 트렌드 단점 분석',
+            completed: false,
+          };
+        }
+      }
+    } catch (e) {
+      console.error('[Step3.6] Avoid negatives generation failed, using defaults:', e);
+    }
+  }
+
+  // 트렌드 데이터 없거나 LLM 실패 시 기본값 사용
+  console.log(`[Step3.6] Using default avoid_negatives options`);
+  return {
+    id: 'avoid_negatives',
+    question: '혹시 꼭 피하고 싶은 단점이 있으신가요?',
+    reason: '💡 선택하신 단점이 있는 상품은 추천에서 제외하거나 순위를 낮출게요.',
+    options: defaultNegativeOptions,
+    type: 'multi',
+    priority: 100,
+    dataSource: '일반 단점 분석',
+    completed: false,
+  };
+}
+
+/**
+ * 필수 질문(예산 + 피하고 싶은 단점) 생성
+ * - 맞춤질문과 분리하여 항상 생성됨을 보장
+ */
+async function generateRequiredQuestions(
+  categoryName: string,
+  minPrice: number,
+  avgPrice: number,
+  maxPrice: number,
+  trendAnalysis: TrendAnalysis | null
+): Promise<{ budgetQuestion: QuestionTodo; avoidNegativesQuestion: QuestionTodo }> {
+  console.log(`[Step3.6] Generating required questions (budget + avoid_negatives)`);
+  
+  // 예산 질문 (동기, 빠름)
+  const budgetQuestion = generateBudgetQuestion(minPrice, avgPrice, maxPrice);
+  
+  // 단점 질문 (비동기, LLM 호출 가능)
+  const avoidNegativesQuestion = await generateAvoidNegativesQuestion(categoryName, trendAnalysis);
+  
+  return { budgetQuestion, avoidNegativesQuestion };
+}
+
+// ============================================================================
 // Step 4: Question Generation (Data-Driven)
 // ============================================================================
 
@@ -978,7 +1116,9 @@ async function generateQuestions(
 당신의 목표는 방대한 정보를 나열하는 것이 아니라, **사용자가 가장 적은 문답으로 최적의 제품군으로 좁혀갈 수 있도록 돕는 것**입니다.
 
 사용자는 제품을 탐색(Search)하는 것이 아니라, 당신의 제안을 승인(Approve)하고 싶어 합니다.
-제공된 [시장 데이터]를 분석하여, 구매 결정에 가장 결정적인 영향을 미치는 **핵심 질문 4~5개**를 JSON 배열로 생성하세요.
+제공된 [시장 데이터]를 분석하여, 구매 결정에 가장 결정적인 영향을 미치는 **핵심 질문 3~4개**를 JSON 배열로 생성하세요.
+
+⚠️ **중요: 예산 질문과 "피하고 싶은 단점" 질문은 별도로 생성되므로, 여기서는 생성하지 마세요!**
 
 ## [시장 데이터]
 <MarketContext>
@@ -1002,20 +1142,9 @@ async function generateQuestions(
 2. **Spec Filtering:**
    - 모든 제품이 공통으로 가진 스펙은 질문하지 마세요. (변별력 없음)
    - 사용자 취향이나 환경에 따라 제품 추천이 달라지는 항목을 우선순위로 두세요.
-3. **Budget Logic (Priority 99):**
-   - 예산 질문은 반드시 포함하세요.
-   - 단순 등분하지 말고, [가격 분포] 데이터를 참고하여 '입문형', '중급형', '프리미엄형' 구간이 나뉘는 지점을 포착하여 선택지를 구성하세요.
-4. **Avoid Negatives (Priority 100, 가장 마지막 질문):**
-   - 예산 질문 다음, **가장 마지막**에 "피하고 싶은 단점" 질문을 추가하세요.
-   - id는 "avoid_negatives", type is "multi" (복수 선택 가능)
-   - 옵션은 **웹 트렌드에서 자주 언급되는 단점/주의사항** 을 참고하여 4~5개 생성
-   - **중요: 단순한 단점 나열이 아니라, 사용자의 걱정이나 불편함이 드러나는 구체적인 문장 형태로 작성하세요.**
-   - **예시 (체온계의 경우):**
-     - "삐- 소리가 너무 커서 자는 아기가 깰까 봐 걱정돼요"
-     - "배터리 교체 주기가 너무 짧아서 매번 신경 쓰는 게 번거로워요"
-     - "측정 후 닦아도 귀지나 이물질이 남을까 봐 위생적으로 찝찝해요"
-     - "전용 위생 캡을 매번 새로 사야 하는 추가 비용이 부담스러워요"
-5. **Constraint:**
+3. **예산/단점 질문 생성 금지:**
+   - 예산 질문과 "피하고 싶은 단점" 질문은 별도 시스템에서 생성하므로, 여기서는 생성하지 마세요.
+4. **Constraint:**
    - 오직 JSON 배열만 출력하세요. 설명은 필요 없습니다.
 
 ## [출력 포맷 예시]
@@ -1032,35 +1161,23 @@ async function generateQuestions(
     "type": "single",
     "priority": 1,
     "dataSource": "데이터 출처 (예: 웹 트렌드, 상위 스펙 분석)"
-  },
-  {
-    "id": "budget",
-    "question": "예산은 어느 정도로 생각하세요?",
-    "reason": "💡 가격대별로 기능과 품질 차이가 있어요",
-    "options": [{"value": "entry", "label": "입문형", "description": "..."}, {"value": "mid", "label": "중급형", "description": "..."}, {"value": "premium", "label": "프리미엄", "description": "..."}],
-    "type": "single",
-    "priority": 99,
-    "dataSource": "가격 분포 분석"
-  },
-  {
-    "id": "avoid_negatives",
-    "question": "혹시 피하고 싶은 단점이 있으신가요?",
-    "reason": "💡 선택하신 단점이 있는 상품은 추천에서 제외해드릴게요",
-    "options": [
-      {"value": "noise", "label": "소음이 커서 아기가 깰까 봐 걱정돼요", "description": "조용한 사용을 원하신다면"},
-      {"value": "cleaning", "label": "필터 청소나 관리가 너무 번거로울 것 같아요", "description": "간편한 관리를 원하신다면"},
-      {"value": "heavy", "label": "무게가 무거워 이동할 때 손목에 무리가 갈까 봐요", "description": "가벼운 무게를 원하신다면"},
-      {"value": "size", "label": "부피가 너무 커서 공간을 많이 차지하는 건 싫어요", "description": "컴팩트한 크기를 원하신다면"}
-    ],
-    "type": "multi",
-    "priority": 100,
-    "dataSource": "웹 트렌드 단점 분석"
   }
 ]
 \`\`\`
 
 위 전략과 규칙에 따라 "${categoryName}"에 최적화된 질문 JSON을 생성하세요.
 `;
+
+  // ✅ 필수 질문(예산 + 단점)을 맞춤질문과 병렬로 생성 시작
+  const requiredQuestionsPromise = generateRequiredQuestions(
+    categoryName,
+    minPrice,
+    avgPrice,
+    maxPrice,
+    trendAnalysis
+  );
+
+  let customQuestions: QuestionTodo[] = [];
 
   try {
     console.log(`[Step3] Generating questions for "${categoryName}" with ${products.length} products (Combined Spec Analysis)`);
@@ -1070,7 +1187,7 @@ async function generateQuestions(
       model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.35,
-        maxOutputTokens: 1500,
+        maxOutputTokens: 1200, // 예산/단점 제거로 토큰 감소
       }
     });
     
@@ -1089,21 +1206,16 @@ async function generateQuestions(
         let questions = JSON.parse(jsonStr) as QuestionTodo[];
         questions = questions.map(q => ({ ...q, completed: false }));
         
-        // 예산 질문 보정 - 저가 상품 대응 개선
-        const budgetQ = questions.find(q =>
-          q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격')
-        );
-        if (budgetQ && prices.length > 0) {
-          budgetQ.options = generateBudgetOptions(minPrice, avgPrice, maxPrice);
-        }
+        // ✅ LLM이 혹시 예산/단점 질문을 생성했다면 제거 (별도 생성되므로)
+        questions = questions.filter(q => {
+          const isBudget = q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격');
+          const isNegative = q.id.includes('negative') || q.id.includes('avoid') || q.question.includes('단점') || q.question.includes('피하고');
+          return !isBudget && !isNegative;
+        });
 
         // 선택지 정제 (중복/유사 제거, 일관된 포맷)
-        const refinedQuestions = await refineQuestionOptions(questions);
-
-        // ✅ 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
-        const questionsWithSkip = addSkipOptionToQuestions(refinedQuestions);
-        console.log(`[Step3] Successfully generated ${questionsWithSkip.length} questions`);
-        return questionsWithSkip;
+        customQuestions = await refineQuestionOptions(questions);
+        console.log(`[Step3] Successfully generated ${customQuestions.length} custom questions`);
       } catch (e) {
         console.error('[Step3] JSON parse error:', e);
         console.error('[Step3] Failed JSON sample:', jsonMatch[0].slice(0, 500));
@@ -1113,19 +1225,17 @@ async function generateQuestions(
           console.log('[Step3] Attempting JSON repair with Flash Lite...');
           const repairedQuestions = await repairJSONWithLLM(jsonMatch[0]);
           if (repairedQuestions && repairedQuestions.length > 0) {
-            const questions = repairedQuestions.map((q: QuestionTodo) => ({ ...q, completed: false }));
+            let questions = repairedQuestions.map((q: QuestionTodo) => ({ ...q, completed: false }));
 
-            const budgetQ = questions.find((q: QuestionTodo) =>
-              q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격')
-            );
-            if (budgetQ && prices.length > 0) {
-              budgetQ.options = generateBudgetOptions(minPrice, avgPrice, maxPrice);
-            }
+            // 예산/단점 질문 제거
+            questions = questions.filter((q: QuestionTodo) => {
+              const isBudget = q.id.includes('budget') || q.question.includes('예산') || q.question.includes('가격');
+              const isNegative = q.id.includes('negative') || q.id.includes('avoid') || q.question.includes('단점') || q.question.includes('피하고');
+              return !isBudget && !isNegative;
+            });
 
-            const refinedQuestions = await refineQuestionOptions(questions);
-            const questionsWithSkip = addSkipOptionToQuestions(refinedQuestions);
-            console.log(`[Step3] JSON repair succeeded: ${questionsWithSkip.length} questions`);
-            return questionsWithSkip;
+            customQuestions = await refineQuestionOptions(questions);
+            console.log(`[Step3] JSON repair succeeded: ${customQuestions.length} custom questions`);
           }
         } catch (repairError) {
           console.error('[Step3] JSON repair with LLM failed:', repairError);
@@ -1139,7 +1249,26 @@ async function generateQuestions(
     console.error('[Step3] Question generation failed:', e);
   }
 
-  return getDefaultQuestions(categoryName, products, trendAnalysis);
+  // 맞춤질문 생성 실패 시 fallback
+  if (customQuestions.length === 0) {
+    customQuestions = getDefaultQuestions(categoryName, products, trendAnalysis);
+  }
+
+  // ✅ 필수 질문 대기 및 합치기
+  const { budgetQuestion, avoidNegativesQuestion } = await requiredQuestionsPromise;
+
+  // 맞춤질문 + 예산(priority 99) + 피하고싶은단점(priority 100) 순서로 합치기
+  const allQuestions = [
+    ...customQuestions,
+    budgetQuestion,
+    avoidNegativesQuestion,
+  ];
+
+  // ✅ 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
+  const questionsWithSkip = addSkipOptionToQuestions(allQuestions);
+  console.log(`[Step3] Final questions: ${questionsWithSkip.length} (custom: ${customQuestions.length}, required: 2)`);
+  
+  return questionsWithSkip;
 }
 
 /**

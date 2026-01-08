@@ -53,6 +53,27 @@ import {
   logKAComparisonViewed,
   logKAComparisonChatMessage
 } from '@/lib/logging/clientLogger';
+import { CATEGORIES_DATA, CATEGORY_PATH_MAP } from '@/components/knowledge-agent/KnowledgeAgentLanding';
+
+// ============================================================================
+// Helper function to determine parent category tab (baby/living)
+// ============================================================================
+function getParentCategoryTab(categoryName: string): 'baby' | 'living' {
+  // Check if categoryName exists in 출산/육아용품
+  for (const subCategory of Object.values(CATEGORIES_DATA['출산/육아용품'])) {
+    if ((subCategory as any).children?.includes(categoryName)) {
+      return 'baby';
+    }
+  }
+  // Check if categoryName exists in 생활/주방가전
+  for (const subCategory of Object.values(CATEGORIES_DATA['생활/주방가전'])) {
+    if ((subCategory as any).children?.includes(categoryName)) {
+      return 'living';
+    }
+  }
+  // Default to baby if not found
+  return 'baby';
+}
 
 // ============================================================================
 // Types
@@ -688,6 +709,34 @@ function ReportToggle({
 }
 
 // ============================================================================
+// Auto Scroll Hook - 채팅 앱 스타일 하단 자동 스크롤
+// ============================================================================
+function useAutoScroll(containerRef: React.RefObject<HTMLDivElement | null>) {
+  // 하단으로 스크롤
+  const scrollToBottom = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) {
+      console.log('[AutoScroll] container not found');
+      return;
+    }
+
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    console.log('[AutoScroll] before:', { scrollTop, scrollHeight, clientHeight, canScroll: scrollHeight > clientHeight });
+
+    // 약간의 딜레이 후 스크롤 (DOM 업데이트 대기)
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const targetTop = container.scrollHeight - container.clientHeight;
+        container.scrollTop = targetTop; // 직접 할당 방식으로 변경
+        console.log('[AutoScroll] after scrollTop:', container.scrollTop);
+      }, 50);
+    });
+  }, [containerRef]);
+
+  return { scrollToBottom };
+}
+
+// ============================================================================
 // Main Component
 // ============================================================================
 
@@ -701,6 +750,9 @@ export default function KnowledgeAgentPage() {
   const mainRef = useRef<HTMLDivElement>(null);
   const isInitializedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // 자동 스크롤 훅
+  const { scrollToBottom } = useAutoScroll(mainRef);
 
   // State
   const [phase, setPhase] = useState<Phase>('loading');
@@ -929,69 +981,33 @@ export default function KnowledgeAgentPage() {
     initializeAgent();
   }, [categoryKey]);
 
-  // 특정 메시지로 스크롤 (상단 정렬 - 스텝 인디케이터 바로 아래)
-  const scrollToMessage = useCallback((messageId: string, delay: number = 100) => {
-    let attempts = 0;
-    const maxAttempts = 40; // 2초까지 시도 (렌더링 지연 대응)
-    
-    const tryScroll = () => {
-      const container = mainRef.current;
-      const el = document.querySelector(`[data-message-id="${messageId}"]`) as HTMLElement;
-      
-      if (container && el) {
-        const containerRect = container.getBoundingClientRect();
-        const elRect = el.getBoundingClientRect();
-        const offset = 52; // 헤더 높이
-
-        // 현재 스크롤 위치 + (요소의 화면상 위치 - 컨테이너의 화면상 위치) - 오프셋
-        const relativeTop = elRect.top - containerRect.top;
-        const currentScrollTop = container.scrollTop;
-        const targetScrollTop = currentScrollTop + relativeTop - offset;
-        
-        // 이미 목표 위치 근처라면 스킵 (불필요한 움직임 방지)
-        if (Math.abs(relativeTop - offset) < 10) return;
-        
-        container.scrollTo({
-          top: Math.max(0, targetScrollTop),
-          behavior: 'smooth'
-        });
-        return;
-      }
-      
-      attempts++;
-      if (attempts < maxAttempts) {
-        requestAnimationFrame(() => setTimeout(tryScroll, 50));
-      }
-    };
-    
-    requestAnimationFrame(() => setTimeout(tryScroll, delay));
-  }, []);
-
-  // [자동 스크롤] 메시지가 추가되거나 분석이 업데이트될 때 스크롤 처리
+  // [자동 스크롤] 메시지가 추가되거나 업데이트될 때 하단으로 스크롤
   const prevMessagesLengthRef = useRef(messages.length);
 
   useEffect(() => {
     const prevLength = prevMessagesLengthRef.current;
-    
-    // 1. 새 메시지가 추가된 경우
+
+    // 새 메시지가 추가된 경우 - 하단으로 스크롤
     if (messages.length > prevLength) {
-      const lastMessage = messages[messages.length - 1];
-      if (lastMessage) {
-        // 새 메시지로 스크롤 (사용자/AI 모두)
-        scrollToMessage(lastMessage.id, 150);
-      }
+      setTimeout(() => scrollToBottom(), 100);
     }
-    // 2. 메시지 내용은 업데이트되었으나 개수는 그대로인 경우 (예: 실시간 분석 진행)
+    // 메시지 내용이 업데이트된 경우 (실시간 분석 진행 등)
     else if (messages.length > 0 && messages.length === prevLength) {
       const lastMessage = messages[messages.length - 1];
-      // 분석 데이터가 있고 진행 중인 경우, 스크롤을 유지하여 진행 상황을 보여줌
       if (lastMessage.role === 'assistant' && lastMessage.analysisData && !lastMessage.analysisData.isComplete) {
-         scrollToMessage(lastMessage.id, 100);
+        scrollToBottom();
       }
     }
 
     prevMessagesLengthRef.current = messages.length;
-  }, [messages, scrollToMessage]);
+  }, [messages, scrollToBottom]);
+
+  // phase 변경 시 스크롤 (중요한 UI 전환)
+  useEffect(() => {
+    if (phase !== 'loading') {
+      setTimeout(() => scrollToBottom(), 200);
+    }
+  }, [phase, scrollToBottom]);
 
 
   // 입력창 높이 자동 조절 및 하이라이트 리셋
@@ -1160,6 +1176,7 @@ export default function KnowledgeAgentPage() {
 
         // 첫 질문 즉시 표시 (리뷰 크롤링 기다리지 않음!)
         if (firstQuestion) {
+          setPhase('questions'); // 첫 질문 렌더링 시점에 '맞춤 질문' 단계로 전환
           await new Promise(r => setTimeout(r, 300)); // 첫 질문 표시 전 짧은 대기
           const firstQuestionMsgId = `q_${firstQuestion.id}`;
           setMessages(prev => [...prev, {
@@ -1172,8 +1189,7 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
-          // 첫 질문 메시지로 스크롤
-          scrollToMessage(firstQuestionMsgId, 200);
+          // 자동 스크롤은 useEffect에서 처리됨
         }
 
         // 백그라운드에서 complete 이벤트 데이터 업데이트 (리뷰 크롤링 완료 후)
@@ -1196,7 +1212,7 @@ export default function KnowledgeAgentPage() {
         }).catch((e: any) => console.error('[SSE] Complete event error:', e));
     };
 
-    setPhase('questions');
+    // phase는 'loading' 상태 유지 (첫 질문 렌더링 시점에 'questions'로 변경)
 
     const analysisMsg: ChatMessage = {
       id: 'analysis-progress',
@@ -1536,7 +1552,7 @@ export default function KnowledgeAgentPage() {
       });
       setIsHardcutVisualDone(false);
       setPhase('hardcut_visual');
-      scrollToMessage('hardcut-visual', 300);
+      // 자동 스크롤은 phase 변경 시 useEffect에서 처리됨
 
     } catch (error) {
       console.error('[V2 Flow] Error:', error);
@@ -1742,7 +1758,7 @@ export default function KnowledgeAgentPage() {
       typing: true,
       timestamp: Date.now()
     }]);
-    scrollToMessage(finalInputMsgId, 200);
+    // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
   };
 
   // 자연어 입력 후 최종 추천으로 진행
@@ -1849,8 +1865,7 @@ export default function KnowledgeAgentPage() {
           typing: true,
           timestamp: Date.now()
         }]);
-        // 결과 메시지로 스크롤
-        scrollToMessage(resultMsgId, 200);
+        // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
 
         // ✅ 백그라운드에서 Top 3 리뷰 50개씩 크롤링 (PDP용) - 블로킹 없음
         const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
@@ -2069,8 +2084,7 @@ export default function KnowledgeAgentPage() {
         typing: true,
         timestamp: Date.now()
       }]);
-      // 단점 필터 메시지로 스크롤
-      scrollToMessage(negativeMsgId, 200);
+      // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
       return;
     }
 
@@ -2113,8 +2127,7 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
-          // 결과 메시지로 스크롤
-          scrollToMessage(resultMsgId, 200);
+          // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
           return;
         }
       } finally {
@@ -2203,7 +2216,7 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
-          scrollToMessage(resultMsgId, 200);
+          // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
 
           // ✅ 백그라운드에서 50개 리뷰 크롤링 + 장단점 재생성 + 분석 (블로킹 없음)
           const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
@@ -2485,9 +2498,8 @@ export default function KnowledgeAgentPage() {
     const newMsgId = `u_${Date.now()}`;
     setMessages(prev => [...prev, { id: newMsgId, role: 'user', content: message, timestamp: Date.now() }]);
     setInputValue('');
-    
-    // 챗바에서 직접 입력한 경우에만 상단 정렬 스크롤
-    scrollToMessage(newMsgId, 200);
+
+    // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
 
     await fetchChatStream({ 
       categoryKey, 
@@ -2521,8 +2533,7 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
-          // 처리 중 메시지로 스크롤
-          scrollToMessage(processingMsgId, 200);
+          // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
           startV2Flow();
         }
       } else if (data.phase === 'result') {
@@ -2547,8 +2558,7 @@ export default function KnowledgeAgentPage() {
           typing: true,
           timestamp: Date.now()
         }]);
-        // 결과 메시지로 스크롤
-        scrollToMessage(chatResultMsgId, 200);
+        // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
       } else {
         // 일반 AI 응답 로깅
         logKAChatMessage(categoryKey, userMessage, data.content);
@@ -2573,8 +2583,8 @@ export default function KnowledgeAgentPage() {
   const selectedCount = activeQuestion?.selectedOptions?.length || 0;
 
   return (
-    <div className="min-h-screen bg-[#F8F9FB] flex flex-col font-sans">
-      <div className="max-w-[480px] mx-auto w-full flex-1 flex flex-col relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50">
+    <div className="h-screen bg-[#F8F9FB] flex flex-col font-sans overflow-hidden">
+      <div className="max-w-[480px] mx-auto w-full flex-1 flex flex-col relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50 min-h-0">
         <header className="sticky top-0 z-[100] bg-white/80 backdrop-blur-2xl border-b border-gray-50/50 px-4 h-16 flex items-center justify-between">
           <motion.button whileHover={{ x: -2 }} whileTap={{ scale: 0.95 }} onClick={() => setShowExitConfirmModal(true)} className="p-2.5 -ml-2.5 rounded-full hover:bg-gray-50 transition-colors">
             <FcPrevious size={20} />
@@ -2588,7 +2598,7 @@ export default function KnowledgeAgentPage() {
         {/* 스텝 인디케이터 (4단계) - 항상 상단 플로팅 */}
         <StepIndicator currentPhase={phase} />
 
-        <main ref={mainRef} className="flex-1 overflow-y-auto px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px' }}>
+        <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px' }}>
           <div className="space-y-8 pt-2">
             {messages.map((msg, idx) => (
               <MessageBubble
@@ -2761,12 +2771,12 @@ export default function KnowledgeAgentPage() {
                 onUserMessage={(content) => {
                   const msgId = `u_${Date.now()}`;
                   setMessages(prev => [...prev, { id: msgId, role: 'user', content, timestamp: Date.now() }]);
-                  setTimeout(() => scrollToMessage(msgId), 100);
+                  // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
                 }}
                 onAssistantMessage={(content, typing = false) => {
                   const msgId = `a_${Date.now()}`;
                   setMessages(prev => [...prev, { id: msgId, role: 'assistant', content, typing, timestamp: Date.now() }]);
-                  setTimeout(() => scrollToMessage(msgId), 100);
+                  // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
                 }}
                 onLoadingChange={setIsChatLoading}
                 chatHistory={messages
@@ -3060,7 +3070,8 @@ export default function KnowledgeAgentPage() {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => {
                       logKnowledgeAgentReRecommendDifferentCategory(categoryKey || '', categoryName || '');
-                      router.push('/knowledge-agent');
+                      const parentTab = getParentCategoryTab(categoryName || '');
+                      router.push(`/knowledge-agent/${parentTab}`);
                     }}
                     className="px-4 py-3 bg-white/95 backdrop-blur-sm rounded-2xl text-sm font-semibold text-gray-700 flex items-center gap-2 shadow-lg border border-gray-100/50"
                   >
@@ -3079,7 +3090,8 @@ export default function KnowledgeAgentPage() {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => {
                       logKnowledgeAgentReRecommendSameCategory(categoryKey || '', categoryName || '');
-                      window.location.reload();
+                      // router.push로 변경하여 DB 연결된 로직 사용
+                      router.push(`/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}`);
                     }}
                     className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
                     style={{ background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)' }}
@@ -3167,7 +3179,8 @@ export default function KnowledgeAgentPage() {
                       import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
                         logButtonClick('knowledge-agent-exit-confirm', 'confirm');
                       });
-                      router.push('/knowledge-agent');
+                      const parentTab = getParentCategoryTab(categoryName || '');
+                      router.push(`/knowledge-agent/${parentTab}`);
                     }}
                     className="w-full py-4 rounded-2xl font-bold text-base text-white bg-[#111827] hover:bg-black transition-all active:scale-[0.98]"
                   >

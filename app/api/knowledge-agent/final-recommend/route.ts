@@ -94,6 +94,101 @@ ${brokenJSON.slice(0, 4000)}
   return null;
 }
 
+// ============================================================================
+// 자유 입력 분석 - 선호 속성 / 피할 단점 분류
+// ============================================================================
+
+interface FreeInputAnalysis {
+  preferredAttributes: string[];  // 선호하는 속성
+  avoidAttributes: string[];      // 피하고 싶은 단점
+  usageContext: string | null;    // 사용 맥락 (예: 여행용, 신생아용)
+  summary: string;                // 한 줄 요약
+}
+
+/**
+ * 자유 입력을 분석하여 선호 속성과 피할 단점으로 분류
+ * - flash-lite로 빠르게 분석
+ * - 사용자의 숨은 니즈를 파악
+ */
+async function analyzeFreeInput(
+  categoryName: string,
+  freeInput: string
+): Promise<FreeInputAnalysis> {
+  const defaultResult: FreeInputAnalysis = {
+    preferredAttributes: [],
+    avoidAttributes: [],
+    usageContext: null,
+    summary: freeInput,
+  };
+
+  if (!freeInput || freeInput.trim().length < 2) {
+    return defaultResult;
+  }
+
+  if (!ai) {
+    console.log('[analyzeFreeInput] No AI available');
+    return defaultResult;
+  }
+
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: {
+      temperature: 0.2,
+      maxOutputTokens: 500,
+    },
+  });
+
+  const prompt = `## 역할
+사용자가 ${categoryName} 구매 시 추가로 입력한 자유 조건을 분석합니다.
+
+## 사용자 입력
+"${freeInput}"
+
+## 분석 규칙
+1. **preferredAttributes**: 사용자가 원하는/선호하는 속성 추출
+   - 예: "가벼운 게 좋겠어요" → ["경량"]
+   - 예: "세척이 편했으면" → ["세척 용이"]
+   - 예: "디자인 예쁜 거" → ["디자인 우수"]
+
+2. **avoidAttributes**: 피하고 싶은 단점/특성 추출
+   - 예: "소음 심한 건 싫어요" → ["소음"]
+   - 예: "무겁지 않았으면" → ["무거움"]
+   - 예: "복잡한 건 NO" → ["조작 복잡"]
+
+3. **usageContext**: 특정 사용 맥락이 있다면 추출
+   - 예: "여행갈 때 쓸 거예요" → "여행용"
+   - 예: "신생아용으로" → "신생아용"
+   - 예: "사무실에서" → "사무실용"
+
+4. **summary**: 입력 내용을 자연스러운 한 문장으로 정리
+
+## 응답 형식 (JSON만)
+{"preferredAttributes":["속성1","속성2"],"avoidAttributes":["단점1"],"usageContext":"맥락"|null,"summary":"요약문장"}
+
+⚠️ JSON만 응답. 빈 배열도 OK.`;
+
+  try {
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim();
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]) as FreeInputAnalysis;
+      console.log(`[analyzeFreeInput] Analyzed: preferred=${parsed.preferredAttributes.length}, avoid=${parsed.avoidAttributes.length}, context=${parsed.usageContext}`);
+      return {
+        preferredAttributes: parsed.preferredAttributes || [],
+        avoidAttributes: parsed.avoidAttributes || [],
+        usageContext: parsed.usageContext || null,
+        summary: parsed.summary || freeInput,
+      };
+    }
+  } catch (error) {
+    console.error('[analyzeFreeInput] Analysis failed:', error);
+  }
+
+  return defaultResult;
+}
+
 /**
  * 리뷰에서 주요 키워드 추출
  */
@@ -557,6 +652,22 @@ async function generateRecommendations(
   const hasReviews = Object.keys(reviews).length > 0 && 
     Object.values(reviews).some(r => r.length > 0);
   
+  // 🆕 자유 입력 분석 (선호 속성 / 피할 단점 분류)
+  const additionalCondition = collectedInfo['__additional_condition__'] || '';
+  let freeInputAnalysis: FreeInputAnalysis | null = null;
+  
+  if (additionalCondition && additionalCondition.trim().length >= 2) {
+    console.log(`[FinalRecommend] Analyzing free input: "${additionalCondition.slice(0, 50)}..."`);
+    freeInputAnalysis = await analyzeFreeInput(categoryName, additionalCondition);
+  }
+  
+  // 자유 입력에서 추출한 피할 단점을 negativeSelections에 추가
+  const enhancedNegativeSelections = [...negativeSelections];
+  if (freeInputAnalysis?.avoidAttributes?.length) {
+    enhancedNegativeSelections.push(...freeInputAnalysis.avoidAttributes);
+    console.log(`[FinalRecommend] Added ${freeInputAnalysis.avoidAttributes.length} avoid attributes from free input`);
+  }
+  
   console.log(`[FinalRecommend] Candidates: ${candidates.length} → ${filteredCandidates.length}, Reviews: ${hasReviews}`);
   
   if (!ai) {
@@ -648,6 +759,17 @@ async function generateRecommendations(
 - reason에 **구체적인 스펙을 인용**하세요
 - 예: "3L 대용량으로 가족 단위 사용에 적합합니다"`;
 
+  // 자유 입력 섹션 구성
+  const freeInputSection = freeInputAnalysis ? `
+  ### ⭐ 추가 요청사항 (자유 입력 - 중요!)
+  **원문:** "${additionalCondition}"
+  ${freeInputAnalysis.usageContext ? `**사용 맥락:** ${freeInputAnalysis.usageContext}` : ''}
+  ${freeInputAnalysis.preferredAttributes.length > 0 ? `**선호 속성 (가점):** ${freeInputAnalysis.preferredAttributes.join(', ')}` : ''}
+  ${freeInputAnalysis.avoidAttributes.length > 0 ? `**피할 단점 (감점):** ${freeInputAnalysis.avoidAttributes.join(', ')}` : ''}
+  **요약:** ${freeInputAnalysis.summary}
+  
+  ⚠️ 위 추가 요청사항은 사용자가 마지막으로 강조한 조건입니다. **반드시 높은 가중치로 반영**하세요!` : '';
+
   const prompt = `## 역할
   당신은 ${categoryName} 구매 전문 컨설턴트입니다.
   ${hasReviews ? '**리뷰 데이터를 정성적으로 분석**하여' : '**스펙과 사용자 선택을 기반으로**'} 최적의 상품 3개를 추천해주세요.
@@ -657,13 +779,14 @@ async function generateRecommendations(
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   ### 질문 응답
-  ${Object.entries(collectedInfo).map(([q, a]) => `- ${q}: ${a}`).join('\n') || '없음'}
+  ${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]) => `- ${q}: ${a}`).join('\n') || '없음'}
 
   ### 우선순위 (밸런스 게임)
   ${balanceSelections.map(b => `- ${b.selectedLabel}`).join('\n') || '없음'}
 
   ### 피하고 싶은 단점
-  ${negativeSelections.join(', ') || '없음'}
+  ${enhancedNegativeSelections.join(', ') || '없음'}
+  ${freeInputSection}
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ## 📦 후보 상품 ${hasReviews ? '+ 리뷰 분석' : '(스펙 기반)'} (${filteredCandidates.length}개 / 전체 ${candidates.length}개 중 사전 스크리닝)
