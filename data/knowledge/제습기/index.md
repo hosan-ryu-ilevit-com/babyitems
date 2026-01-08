@@ -1,30 +1,18 @@
 # 제습기 전문가 지식
 
-> 마지막 업데이트: 2026-01-08T08:39:56.117Z
+> 마지막 업데이트: 2026-01-08T11:51:25.116Z
 > 분석 상품: 20개 | 분석 리뷰: 13,009개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- IoT 기반 스마트 기술 통합 및 AI 알고리즘 활용 예측 분석
-- 에너지 효율성 증대 및 친환경 기술 적용
-- 소형화 및 휴대성을 강조한 디자인
 
 ### 구매자 만족 포인트
-- ✓ 쾌적한 실내 환경 유지
-- ✓ 빠른 빨래 건조
-- ✓ 곰팡이 예방 및 냄새 제거
-- ✓ 이동 편의성 (바퀴 장착)
-- ✓ 낮은 소음 수준 (저소음 모드)
 
 ### 주의해야 할 단점
-- ⚠ 물통 관리의 번거로움 (잦은 세척 필요)
-- ⚠ 미니 제습기의 부족한 제습 성능
-- ⚠ 뜨거운 바람 배출 (일부 모델)
-- ⚠ 초기 구매 비용 부담 (고가 모델)
 
 ### 가격대 인사이트
-현재 판매되는 제습기는 용량과 기능에 따라 가격대가 다양합니다. 10만 원대의 소형/미니 제습기부터 20-40만 원대의 일반 가정용 제습기, 그리고 40만 원 이상의 프리미엄/대용량 모델까지 선택의 폭이 넓습니다. 특히 에너지 효율 1등급 제품이나 스마트 기능이 탑재된 모델은 가격대가 다소 높게 형성되어 있습니다.
+
 
 ---
 
@@ -243,8 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuJLoXUuxqYyJvfOJt-y146xcwtVvMAO8g_JcbsYIXKHNDEJbTI9m4ref8XDbj54w_0_wsjoDsVFW3ewQG3Mew3Cm9Mhu1erGjLnhkJTKyi2l1bJnf70Kibp3cvWJDFZKLnkss6xg=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbv6b7pNVUMM2Hg8_Oy7HMEu9QAWrITD43wUP4zuEMShpA863A_pBxi6lQ0OANu6Kq2G7oP61xkhCqHMrr2Ky_jdp8Xztjc94vEeB6sgjqob2QG7jkpzBt_ZIB3Szqdd75k5-_ndE=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFehm5L1Kmuz76JMONdfxKnBYUmZUDqpvjEcKJgqs82tnHKySt_9TI5f3j5OrhwjYjgTeUsSzW4aIirHeLZlxQK604GgIGF8-Oe1khMC_s63xAC1eHNJBnQY68Si2S-dFUsXy63t4A=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYJrGBjyznBqgKprLnfoc8-BVtlbX--D2w1q91CGhmtwL7l8jtlIlyO7SIunXvVxQjR-pqXJSaf_sH7x0Dd6hKpiq9deHLJffKWfq_Tg4oz64I0EpgfTthnG9qRVg=)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv9OGrJy_MlikbKKiMiC8td2_l-6bZ2l9TNP42kR_qt4GuxBWIF1LlyfZWPCqFja8A71CQujtDWLnj88xZBzCsLgC9ln0d7GqEdNFnVbByc-lj2_GOIWAC3dzJNJiGI3vFMyBjwjL0SLitDsiUiP-rnQrHf6WxYZYgfxnf-uOilPGhDYEJy3pS8cB8QuwBbRNZId93KF8aAaA2ditnYtfwZ3zvRdLssSt22A==)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDXPRj08Wi2j5A4LQTw7R3A6TiHJl4XIy-lIYg8iVK-NkCEi8URfh7q6YKKu4EQ5IOx3N_ZRbhXdOcNl74pR_rBCCFy1BUTlhPenvyM_PLrkcOHkHrsFgsOZESUqBxXGjCWRlI3NIH)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH84pyLtixYi9RW6qMAL0Gyi5qtCaJM27FoqJ3p4ACOyUYSBJ-jCOwf6hcIc2DeieM8vhG_NihIkk01mwd38OZmHCE8oYOgVfeFazzDnVVI_i-30Kc4eczWAeohOo_UxYUnBq_9USg=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrdHqXDM0xuoAcEkOq6qFC-PdNmx3FlIXKAruteuOOChZo7n_J-w11JrL0CdIDP3Ixms22hQcqGdc37DMLAGm6c6MmI3Q6_6HCFsww0t6shm5Y6QYl5Bi1J65n4ow=)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENEkRodEIx6LaPj41ZxWVrrOvcTS6T8Z_2627TB1KFoAt8Ug239k4gnadPas6NrGAwWrdnZpAUeBgcWstIkbxwY0aAl7YEiHhFyhKQEbJ2kKvND78NVkMsg78DZkLv96HvJ3ktbB0f0cpwg3IJuK4ID7fkovuQCe2QyBST3MOb7KJOYtv2EPRNKeRmfp81kJ31A52yoYxLL26sb_np63vwbm9gKvkzqhmn7w==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_6OAIab7vj1UgFP0E2ZS8oLSD46UxvyFbWYp9_RROgQP1-pOhbWsVDtxaBMm20YA3maky173-FfD1rft62KYGl84-p2DjFtbvRlN-JXsv6uZytwrYO9W46t9danVXgVrXpPPMnHQ=)

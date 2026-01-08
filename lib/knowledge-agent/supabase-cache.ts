@@ -190,13 +190,12 @@ export async function getReviewsFromCache(
     const cachedPcodes = Object.keys(reviewMap);
     const totalReviews = data.length;
 
-    // 일부만 캐시에 있어도 hit으로 처리 (나머지는 crawl)
-    const hitRatio = cachedPcodes.length / pcodes.length;
-    const hit = hitRatio >= 0.5; // 50% 이상 캐시 히트면 캐시 사용
+    // 캐시에 데이터가 하나라도 있으면 hit으로 처리 (크롤링 방지)
+    const hit = cachedPcodes.length > 0;
 
-    console.log(`[KnowledgeCache] 리뷰 캐시 ${hit ? 'HIT' : 'PARTIAL'}: ${cachedPcodes.length}/${pcodes.length}개 pcode, ${totalReviews}개 리뷰`);
+    console.log(`[KnowledgeCache] 리뷰 캐시 ${hit ? 'HIT' : 'MISS'}: ${cachedPcodes.length}/${pcodes.length}개 pcode, ${totalReviews}개 리뷰`);
 
-    return { hit, reviews: reviewMap, totalReviews, source: hit ? 'cache' : 'crawl' };
+    return { hit, reviews: reviewMap, totalReviews, source: 'cache' };
   } catch (error) {
     console.error(`[KnowledgeCache] 리뷰 캐시 조회 에러:`, error);
     return { hit: false, reviews: {}, totalReviews: 0, source: 'crawl' };
@@ -250,12 +249,13 @@ export async function getPricesFromCache(
     }
 
     const cachedCount = Object.keys(priceMap).length;
-    const hitRatio = cachedCount / pcodes.length;
-    const hit = hitRatio >= 0.5;
 
-    console.log(`[KnowledgeCache] 가격 캐시 ${hit ? 'HIT' : 'PARTIAL'}: ${cachedCount}/${pcodes.length}개`);
+    // 캐시에 데이터가 하나라도 있으면 hit으로 처리 (크롤링 방지)
+    const hit = cachedCount > 0;
 
-    return { hit, prices: priceMap, source: hit ? 'cache' : 'crawl' };
+    console.log(`[KnowledgeCache] 가격 캐시 ${hit ? 'HIT' : 'MISS'}: ${cachedCount}/${pcodes.length}개`);
+
+    return { hit, prices: priceMap, source: 'cache' };
   } catch (error) {
     console.error(`[KnowledgeCache] 가격 캐시 조회 에러:`, error);
     return { hit: false, prices: {}, source: 'crawl' };

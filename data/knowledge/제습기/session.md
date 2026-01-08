@@ -1,14 +1,14 @@
-# 세션: 20260108_084009_v58m
-> 시작: 2026-01-08T08:40:09.200Z
+# 세션: 20260108_115136_gx7k
+> 시작: 2026-01-08T11:51:36.456Z
 > 카테고리키: 제습기
 > 카테고리: 제습기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 제습기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 제습기 시장은 LG, 삼성, 위닉스 등 주요 브랜드들이 치열한 경쟁을 벌이고 있으며, 에너지 효율성과 스마트 기술 통합이 핵심 트렌드로 자리 잡고 있습니다. 소비자들은 강력한 제습 성능과 더불어 사용 편의성, 디자인까지 고려하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuJLoXUuxqYyJvfOJt-y146xcwtVvMAO8g_JcbsYIXKHNDEJbTI9m4ref8XDbj54w_0_wsjoDsVFW3ewQG3Mew3Cm9Mhu1erGjLnhkJTKyi2l1bJnf70Kibp3cvWJDFZKLnkss6xg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbv6b7pNVUMM2Hg8_Oy7HMEu9QAWrITD43wUP4zuEMShpA863A_pBxi6lQ0OANu6Kq2G7oP61xkhCqHMrr2Ky_jdp8Xztjc94vEeB6sgjqob2QG7jkpzBt_ZIB3Szqdd75k5-_ndE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFehm5L1Kmuz76JMONdfxKnBYUmZUDqpvjEcKJgqs82tnHKySt_9TI5f3j5OrhwjYjgTeUsSzW4aIirHeLZlxQK604GgIGF8-Oe1khMC_s63xAC1eHNJBnQY68Si2S-dFUsXy63t4A=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYJrGBjyznBqgKprLnfoc8-BVtlbX--D2w1q91CGhmtwL7l8jtlIlyO7SIunXvVxQjR-pqXJSaf_sH7x0Dd6hKpiq9deHLJffKWfq_Tg4oz64I0EpgfTthnG9qRVg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv9OGrJy_MlikbKKiMiC8td2_l-6bZ2l9TNP42kR_qt4GuxBWIF1LlyfZWPCqFja8A71CQujtDWLnj88xZBzCsLgC9ln0d7GqEdNFnVbByc-lj2_GOIWAC3dzJNJiGI3vFMyBjwjL0SLitDsiUiP-rnQrHf6WxYZYgfxnf-uOilPGhDYEJy3pS8cB8QuwBbRNZId93KF8aAaA2ditnYtfwZ3zvRdLssSt22A==
+- 쿼리: 제습기
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDXPRj08Wi2j5A4LQTw7R3A6TiHJl4XIy-lIYg8iVK-NkCEi8URfh7q6YKKu4EQ5IOx3N_ZRbhXdOcNl74pR_rBCCFy1BUTlhPenvyM_PLrkcOHkHrsFgsOZESUqBxXGjCWRlI3NIH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH84pyLtixYi9RW6qMAL0Gyi5qtCaJM27FoqJ3p4ACOyUYSBJ-jCOwf6hcIc2DeieM8vhG_NihIkk01mwd38OZmHCE8oYOgVfeFazzDnVVI_i-30Kc4eczWAeohOo_UxYUnBq_9USg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrdHqXDM0xuoAcEkOq6qFC-PdNmx3FlIXKAruteuOOChZo7n_J-w11JrL0CdIDP3Ixms22hQcqGdc37DMLAGm6c6MmI3Q6_6HCFsww0t6shm5Y6QYl5Bi1J65n4ow=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENEkRodEIx6LaPj41ZxWVrrOvcTS6T8Z_2627TB1KFoAt8Ug239k4gnadPas6NrGAwWrdnZpAUeBgcWstIkbxwY0aAl7YEiHhFyhKQEbJ2kKvND78NVkMsg78DZkLv96HvJ3ktbB0f0cpwg3IJuK4ID7fkovuQCe2QyBST3MOb7KJOYtv2EPRNKeRmfp81kJ31A52yoYxLL26sb_np63vwbm9gKvkzqhmn7w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_6OAIab7vj1UgFP0E2ZS8oLSD46UxvyFbWYp9_RROgQP1-pOhbWsVDtxaBMm20YA3maky173-FfD1rft62KYGl84-p2DjFtbvRlN-JXsv6uZytwrYO9W46t9danVXgVrXpPPMnHQ=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDXPRj08Wi2j5A4LQTw7R3A6TiHJl4XIy-lIYg8iVK-NkCEi8URfh7q6YKKu4EQ5IOx3N_ZRbhXdOcNl74pR_rBCCFy1BUTlhPenvyM_PLrkcOHkHrsFgsOZESUqBxXGjCWRlI3NIH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH84pyLtixYi9RW6qMAL0Gyi5qtCaJM27FoqJ3p4ACOyUYSBJ-jCOwf6hcIc2DeieM8vhG_NihIkk01mwd38OZmHCE8oYOgVfeFazzDnVVI_i-30Kc4eczWAeohOo_UxYUnBq_9USg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrdHqXDM0xuoAcEkOq6qFC-PdNmx3FlIXKAruteuOOChZo7n_J-w11JrL0CdIDP3Ixms22hQcqGdc37DMLAGm6c6MmI3Q6_6HCFsww0t6shm5Y6QYl5Bi1J65n4ow=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENEkRodEIx6LaPj41ZxWVrrOvcTS6T8Z_2627TB1KFoAt8Ug239k4gnadPas6NrGAwWrdnZpAUeBgcWstIkbxwY0aAl7YEiHhFyhKQEbJ2kKvND78NVkMsg78DZkLv96HvJ3ktbB0f0cpwg3IJuK4ID7fkovuQCe2QyBST3MOb7KJOYtv2EPRNKeRmfp81kJ31A52yoYxLL26sb_np63vwbm9gKvkzqhmn7w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_6OAIab7vj1UgFP0E2ZS8oLSD46UxvyFbWYp9_RROgQP1-pOhbWsVDtxaBMm20YA3maky173-FfD1rft62KYGl84-p2DjFtbvRlN-JXsv6uZytwrYO9W46t9danVXgVrXpPPMnHQ=
 
 ---
 
@@ -16,11 +16,9 @@
 
 | 항목 | 답변 |
 |------|------|
-| 주로 어느 정도 크기의 공간에서 제습기를 사용하실 예정인가요? | 작은 공간 (10평 이하) |
-| 제습기를 사용하는 가장 주된 목적은 무엇인가요? | 습도 조절 및 쾌적함 유지, 빨래 건조 |
-| 스마트 기능(IoT, AI)이 탑재된 제습기에 관심이 있으신가요? | 기본 제습 기능으로 충분 |
-| 예산은 어느 정도로 생각하세요? | 20만원 |
-| __avoid_negatives__ | 물통을 자주 비우고 세척해야 한다면 너무 번거로울 것 같아 싫어요 |
+| 제습기를 주로 어느 공간에서 사용하실 예정인가요? | 중간 크기 방 (~20평) |
+| 하루에 어느 정도의 제습량을 원하시나요? | 10L ~ 15L |
+| 제습기 작동 시 소음에 얼마나 민감하신가요? | 매우 민감함 |
 
 ---
 
@@ -60,7 +58,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 물통을 자주 비우고 세척해야 한다면 너무 번거로울 것 같아 싫어요
+(아직 선택 없음)
 
 ---
 

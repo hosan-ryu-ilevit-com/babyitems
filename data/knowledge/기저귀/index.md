@@ -1,7 +1,7 @@
 # 기저귀 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T08:15:27.856Z
-> 분석 상품: 40개 | 분석 리뷰: 3,629개
+> 마지막 업데이트: 2026-01-08T14:02:26.056Z
+> 분석 상품: 20개 | 분석 리뷰: 5,871개
 
 ## 📈 2026년 시장 트렌드
 
@@ -20,7 +20,7 @@
 
 ### 1. 팸퍼스 2025 터치오브네이처 팬티형 5단계-공용
 - **브랜드**: 팸퍼스
-- **가격**: 64,920원
+- **가격**: 66,310원
 - **평점**: ⭐4.8 (50개 리뷰)
 - **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 12시간샘방지 / 파워흡수 / 시어버터 / 알로에로션 기저귀 / 알로에로션
 - **장점 요약**: 분석 중
@@ -30,7 +30,7 @@
 
 ### 2. 하기스 2024 보송보송 팬티형 5단계-공용
 - **브랜드**: 하기스
-- **가격**: 39,600원
+- **가격**: 39,400원
 - **평점**: ⭐0 (0개 리뷰)
 - **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 11~16kg / 공용 / 샘방지안심포켓 / 와이드흡수 / 스피드흡수 / 강력흡수 / 교체시기알림 / 판테놀시어버터 기저귀 / 판테놀시어버터
 - **장점 요약**: 분석 중
@@ -38,57 +38,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=71906519)
 
-### 3. 팸퍼스 2025 엔젤브리즈 팬티형 6-7단계-공용
-- **브랜드**: 팸퍼스
-- **가격**: 21,910원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 여름기저귀 / 6단계 / 팬티형 / 권장무게: 15kg~ / 공용 / 샘방지밴드 / 에어홀 / 12시간흡수유지 여름기저귀 / 12시간흡수유지
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93447638)
-
-### 4. 팸퍼스 2024 베이비 드라이 팬티형 5단계-공용
-- **브랜드**: 팸퍼스
-- **가격**: 20,900원
-- **평점**: ⭐4.8 (66개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=31989599)
-
-### 5. 하기스 크린베베 일자형 소형-공용
-- **브랜드**: 하기스
-- **가격**: 9,900원
-- **평점**: ⭐4.8 (18개 리뷰)
-- **핵심 스펙**: 기저귀 / 일자형 기저귀 / 일자형
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=55047527)
-
-### 6. 팸퍼스 2025 통잠팬티 팬티형 5단계-공용
-- **브랜드**: 팸퍼스
-- **가격**: 48,400원
-- **평점**: ⭐4.7 (287개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지안심포켓 / 샘방지밴드 / 3중샘방지밴드 / 슈퍼흡수 / 12시간흡수유지 기저귀 / 12시간흡수유지
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=74816324)
-
-### 7. 소베맘 프리미엄 원터치 기저귀교환대
-- **브랜드**: 소베맘
-- **가격**: 74,900원
-- **평점**: ⭐4.9 (224개 리뷰)
-- **핵심 스펙**: 기저귀교환대 기저귀교환대
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21232751)
-
-### 8. 하기스 2024 네이처메이드 팬티형 5단계-여아용
+### 3. 하기스 2024 네이처메이드 팬티형 5단계-여아용
 - **브랜드**: 하기스
 - **가격**: 38,970원
 - **평점**: ⭐5 (4개 리뷰)
@@ -98,7 +48,107 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=37830692)
 
-### 9. 하기스 2024 네이처메이드 밴드형 2단계-공용
+### 4. 팸퍼스 2025 베이비드라이 팬티형 4단계-공용
+- **브랜드**: 팸퍼스
+- **가격**: 61,400원
+- **평점**: ⭐4.8 (105개 리뷰)
+- **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 9~14kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=68369555)
+
+### 5. 팸퍼스 2025 엔젤브리즈 팬티형 6-7단계-공용
+- **브랜드**: 팸퍼스
+- **가격**: 21,910원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 여름기저귀 / 6단계 / 팬티형 / 권장무게: 15kg~ / 공용 / 샘방지밴드 / 에어홀 / 12시간흡수유지 여름기저귀 / 12시간흡수유지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=93447638)
+
+### 6. 하기스 크린베베 일자형 소형-공용
+- **브랜드**: 하기스
+- **가격**: 9,900원
+- **평점**: ⭐4.8 (19개 리뷰)
+- **핵심 스펙**: 기저귀 / 일자형 기저귀 / 일자형
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=55047527)
+
+### 7. 팸퍼스 2024 베이비 드라이 팬티형 5단계-공용
+- **브랜드**: 팸퍼스
+- **가격**: 20,900원
+- **평점**: ⭐4.8 (66개 리뷰)
+- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=31989599)
+
+### 8. 하기스 2022 보송보송 팬티형 5단계-공용
+- **브랜드**: 하기스
+- **가격**: 19,550원
+- **평점**: ⭐4.7 (641개 리뷰)
+- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 11~16kg / 공용 / 와이드흡수 / 스피드흡수 / 강력흡수 / 교체시기알림 기저귀 / 교체시기알림
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21665930)
+
+### 9. 하기스 2022 보송보송 팬티형 4단계-공용
+- **브랜드**: 하기스
+- **가격**: 19,410원
+- **평점**: ⭐4.8 (476개 리뷰)
+- **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 9~13kg / 공용 / 와이드흡수 / 스피드흡수 / 강력흡수 / 교체시기알림 기저귀 / 교체시기알림
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21230840)
+
+### 10. 팸퍼스 2025 통잠팬티 팬티형 5단계-공용
+- **브랜드**: 팸퍼스
+- **가격**: 48,400원
+- **평점**: ⭐4.7 (287개 리뷰)
+- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지안심포켓 / 샘방지밴드 / 3중샘방지밴드 / 슈퍼흡수 / 12시간흡수유지 기저귀 / 12시간흡수유지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=74816324)
+
+### 11. 하기스 2021 굿나이트 안심팬티-여아용
+- **브랜드**: 하기스
+- **가격**: 47,690원
+- **평점**: ⭐4.7 (710개 리뷰)
+- **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 27~44kg / 여아용 / 안심샘방지밴드 / 안심흡수 / 와이드흡수 기저귀 / 와이드흡수
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21226784)
+
+### 12. 나비잠 울트라씬 듀얼핏 팬티형 중형-공용
+- **브랜드**: 나비잠
+- **가격**: 9,450원
+- **평점**: ⭐4.8 (2,816개 리뷰)
+- **핵심 스펙**: 기저귀 / 3단계 / 팬티형 / 권장무게: 6~11kg / 공용 / 3중샘방지밴드 / 에어쿠션흡수패드 / 초강력흡수 / 파워흡수 / 無자극 기저귀 / 無자극
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21217892)
+
+### 13. 소베맘 프리미엄 원터치 기저귀교환대
+- **브랜드**: 소베맘
+- **가격**: 74,900원
+- **평점**: ⭐4.9 (224개 리뷰)
+- **핵심 스펙**: 기저귀교환대 기저귀교환대
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21232751)
+
+### 14. 하기스 2024 네이처메이드 밴드형 2단계-공용
 - **브랜드**: 하기스
 - **가격**: 21,300원
 - **평점**: ⭐4.7 (79개 리뷰)
@@ -108,29 +158,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=37279874)
 
-### 10. 밤보네이처 그린 팬티형 5단계 특대형-공용
-- **브랜드**: 밤보네이처
-- **가격**: 65,790원
-- **평점**: ⭐4.5 (4개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~16kg / 공용 / 2중샘방지밴드 / SAP흡수층 / 스피드흡수 / 3중흡수 / 교체시기알림 / 천연펄프 / 부드러운감촉 / 친환경 / 통기성 / 無염소
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25958021)
-
-### 11. 리베로 뉴본 밴드형 2단계-공용
-- **브랜드**: 리베로
-- **가격**: 91,070원
-- **평점**: ⭐5 (5개 리뷰)
-- **핵심 스펙**: 기저귀 / 2단계 / 밴드형 / 권장무게: 3~6kg / 공용 기저귀 / 공용
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=37935707)
-
-### 12. 팸퍼스 2025 베이비드라이 팬티형 6단계-공용
+### 15. 팸퍼스 2025 베이비드라이 팬티형 6단계-공용
 - **브랜드**: 팸퍼스
-- **가격**: 20,880원
+- **가격**: 20,850원
 - **평점**: ⭐5 (14개 리뷰)
 - **핵심 스펙**: 기저귀 / 6단계 / 팬티형 / 권장무게: 15kg~ / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
 - **장점 요약**: 분석 중
@@ -138,17 +168,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=68369606)
 
-### 13. 하기스 2024 매직컴포트 팬티형 6단계-공용
+### 16. 하기스 2024 네이처메이드 밤부 팬티형 5단계-여아용
 - **브랜드**: 하기스
-- **가격**: 20,790원
+- **가격**: 65,720원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 기저귀 / 6단계 / 팬티형 / 권장무게: 14~19kg / 공용 / 흡수액션시트 / 통기홀 / 교체시기알림 / 판테딘시카케어로션 기저귀 / 판테딘시카케어로션
+- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 11~16kg / 여아용 / 샘방지안심포켓 / 샘방지밴드 / 흡수액션시트 / 통기홀 / 교체시기알림 / 소프트안커버 / 천연식물성커버: 사탕수수 / 식물성분로션 / 병풀 / 판테딘시카케어로션 기저귀
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=47851781)
+- [상세보기](https://prod.danawa.com/info/?pcode=42729617)
 
-### 14. 팸퍼스 베이비드라이 밴드형 2단계-공용
+### 17. 팸퍼스 베이비드라이 밴드형 2단계-공용
 - **브랜드**: 팸퍼스
 - **가격**: 65,790원
 - **평점**: ⭐4.9 (61개 리뷰)
@@ -158,27 +188,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21233957)
 
-### 15. 마미포코 무표백 밴드형 4단계-공용
-- **브랜드**: 마미포코
-- **가격**: 50,270원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 기저귀 / 4단계 / 밴드형 / 권장무게: 9~14kg / 공용 / 샘방지밴드 기저귀 / 샘방지밴드
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93447455)
-
-### 16. 팸퍼스 2025 베이비드라이 팬티형 5단계-공용
-- **브랜드**: 팸퍼스
-- **가격**: 61,400원
-- **평점**: ⭐4.8 (295개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=68369591)
-
-### 17. 보솜이 NEW 메가드라이 팬티형 4단계-공용
+### 18. 보솜이 NEW 메가드라이 팬티형 4단계-공용
 - **브랜드**: 보솜이
 - **가격**: 5,450원
 - **평점**: ⭐4.9 (15개 리뷰)
@@ -188,17 +198,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=71221508)
 
-### 18. 하기스 2024 네이처메이드 밴드형 5단계-공용
-- **브랜드**: 하기스
-- **가격**: 21,300원
-- **평점**: ⭐4.8 (9개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 밴드형 / 권장무게: 11~16kg / 공용 / 교체시기알림 / 에어커버 / 천연식물성커버: 사탕수수 / 식물성분로션 / 병풀 / 판테딘시카케어로션 기저귀 / 판테딘시카케어로션
+### 19. 팸퍼스 2025 베이비드라이 팬티형 5단계-공용
+- **브랜드**: 팸퍼스
+- **가격**: 61,400원
+- **평점**: ⭐4.8 (298개 리뷰)
+- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=37279526)
+- [상세보기](https://prod.danawa.com/info/?pcode=68369591)
 
-### 19. 마미포코 슈퍼컴포트 팬티형 4단계-남아용
+### 20. 마미포코 슈퍼컴포트 팬티형 4단계-남아용
 - **브랜드**: 마미포코
 - **가격**: 40,830원
 - **평점**: ⭐5 (6개 리뷰)
@@ -207,16 +217,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=65922101)
-
-### 20. 팸퍼스 2025 터치오브네이처 썸머 팬티형 6단계-공용
-- **브랜드**: 팸퍼스
-- **가격**: 69,580원
-- **평점**: ⭐4.9 (49개 리뷰)
-- **핵심 스펙**: 여름기저귀 / 6단계 / 팬티형 / 권장무게: 15kg~ / 공용 / 슬림시트 / -3도쿨케어시스템 / 울트라소프트 / 시어버터 / 알로에 여름기저귀 / 알로에
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=78536237)
 
 ---
 
@@ -231,8 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsekfubL57_Wzde_QQZQtgRGQeUbifV_jKwvAxzxmV6LMmxBqQQmJvFdyVXz6g5_7f7l_BNTKPoyW5yLp7c15qD8ecFZrAhaaoEplddrDKUIwtkzdZToleJaFli8uaUUwVEiZT5a7LGv4sp4SC3GvUgMU=)
-- [babylist.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgOfYOcRmq0Zu35OAEA17TxnZ4uL9JDrqy2F1Y4OTeE53_O0xSGRCaxnPJEcM3kRnpv92HERcNXHKVyypQc5UxMbfRbCH_URD4Vu5sgaDdAM_615ju0HQDMJpEjh7hexDwTzgAmgZE9C6IeUiGq7bKfCL0V7YtF5PglcWh83D45vnaJY2woQd-RkkPssBibqaRfnYxrFy_5ZZBmtbiM961GWN_Yz9LOH5yfEM3wBUP1iRTMHNLp61DwRgGhjEDkXs=)
-- [marketgrowthreports.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQElAk2hkXCv5sHj8lVCpIiiYa-EV0jC77Y-QWR-OFkmYjsWlVs7jhOA3yCGKPin0ZPwaa0dFbuIeuxXvAQ8DUKG4TptXbWCbywdKQGAw8mf1H5qNY0wF3eabQozuz4V63XwuzRlxdwUFKuufvSyDR5QuKpFF-lWgs1k7JYsp0BGYM5p904wFV3OMWbWGrlh)
-- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEKlbH0nswzqdy9DDuHlVYn46yCu9A9KP5hzY134RG4aFzjtic0J-seOCakfR8qi03xoGxt2Thhd1khcgmTM-Up69u9xHA4ttECsJ28RhJFJVcWh--dt_4KZH-M0bx0AVfKrERsDBjmsHfY7RwZ7KLtN8nnS9wVVnMdp_rY4uHmqFkpUk9Me-qLKeRlPoLNTuNCJUv99c=)
-- [theinsightpartners.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHg4gyH7RbuUR3-DYWPgPkSImbKi1t3piE6Oxk7Fn1Xag-eYu-zj6ZeNb3-1or644o23QmMAqzP8LaJOrsA7M438QPz0UFF-huXAyhnmYWRqyWRCWs8acWknXtqH-WbYK65q4vfC5QdqCdBTO9-2vh8C73QD_glbi_jxKo=)
+- [marketgrowthreports.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSKWTZvWObjPrzNPMxNo6kG2FjheSYJGdE5A5olDsmbitMM_6abdVmuL1JGLrov7lwb4iaEFbxbxbTeD1mkcV6XeJaNr9MhGyfozRQ_VhsHa46US2bPN7DD_5dLCKWRynGuYadtIX9xYFtti5eXr5HoU4bB6oH_R8W_KzzoSt8RZRD2WaYCuhGJWmSDC1G8A==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIjxXN2OVtyZJDiyeRqqBUSoaHFONB7QmyYHzj667oTD_2wpYsBWWjVyAH0fxxhchptXaRPsiNmkyw6LagwOrA9RYrcM17MYBINt0CIpa07BNJ4qxq8FwIpG8Tt-9m5Z3_iC_eNHo=)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDDUApjSQYxpG6oIZBCTxp3kZMF0vAnSJGbmg2nTWSG5HD8EqjgXc1kKXNaqOh9-GeQcOAieu6agYcfswBpiPqs7QqULJgH0MN-mHhMkVdLaP7lktMBue2yFEB7XUPmqHJ0UPajIo_zSSlbZhpds6YnJ_tNQ==)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMdnnCbhF0K6p5uZDc3vsqF9HFO2paio0iIC_EivQjfSCk0-6ohwrZyqGiK80FQRtuZCElo8PkZU8LmdtMg1hNK4Ryq77nYVrWvDBUpgTyE8R-X8XnDpXYH4hRusPt9JmKzfZf30xp7DcSukvRj010Mn-cjg==)
+- [babylist.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-iXwE0kaKl2l0eL3kIIQoZ43YvmiCXLcl6DgXlhA0RMe3VT-j53kALume8BB_OVFJwA-PTSk6edItMBh74N2AaQjNHVIx4I81WWgItCfMMyNJc7gO8mZVTbtkvN7waMbGmGijiiWFI36lI3aF0R3fV0laT6SWUDmDXCW_HOsBF7xia11TTxw2w4BRRbDDBInYBo-INiCr1RSI_NcyoW_aacw4c_8ObjUj4N8SSO6YBtyZYNs68hbPOw1QLKoFtmPE)

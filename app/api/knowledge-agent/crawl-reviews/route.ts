@@ -80,17 +80,17 @@ export async function POST(request: NextRequest) {
             source: 'cache',
           });
 
-          // 가격 캐시도 있으면 같이 전송
+          // 가격 캐시 맵 생성 (있든 없든)
+          const priceMap: Record<string, {
+            lowestPrice: number | null;
+            lowestMall: string | null;
+            lowestDelivery: string | null;
+            lowestLink: string | null;
+            prices: DanawaPriceInfo[];
+          }> = {};
+
           if (priceCache.hit && Object.keys(priceCache.prices).length > 0) {
             console.log(`💰 [CrawlReviews] Supabase 가격 캐시 HIT - ${Object.keys(priceCache.prices).length}개`);
-
-            const priceMap: Record<string, {
-              lowestPrice: number | null;
-              lowestMall: string | null;
-              lowestDelivery: string | null;
-              lowestLink: string | null;
-              prices: DanawaPriceInfo[];
-            }> = {};
 
             for (const [pcode, priceData] of Object.entries(priceCache.prices)) {
               priceMap[pcode] = {
@@ -101,25 +101,25 @@ export async function POST(request: NextRequest) {
                 prices: priceData.mallPrices as DanawaPriceInfo[],
               };
             }
-
-            const elapsedMs = Date.now() - startTime;
-            sendEvent('complete', {
-              success: true,
-              totalProducts: pcodes.length,
-              reviewSuccessCount: Object.keys(reviewCache.reviews).length,
-              priceSuccessCount: Object.keys(priceMap).length,
-              totalReviews: reviewCache.totalReviews,
-              reviews: reviewCache.reviews,
-              prices: priceMap,
-              elapsedMs,
-              source: 'cache',
-              message: `캐시에서 ${Object.keys(reviewCache.reviews).length}개 상품 리뷰, ${Object.keys(priceMap).length}개 가격 조회 (${(elapsedMs / 1000).toFixed(1)}초)`,
-            });
-
-            console.log(`✅ [CrawlReviews] 캐시 완료: ${reviewCache.totalReviews}개 리뷰, ${Object.keys(priceMap).length}개 가격 (${(elapsedMs / 1000).toFixed(1)}초)`);
-            controller.close();
-            return;
           }
+
+          const elapsedMs = Date.now() - startTime;
+          sendEvent('complete', {
+            success: true,
+            totalProducts: pcodes.length,
+            reviewSuccessCount: Object.keys(reviewCache.reviews).length,
+            priceSuccessCount: Object.keys(priceMap).length,
+            totalReviews: reviewCache.totalReviews,
+            reviews: reviewCache.reviews,
+            prices: priceMap,
+            elapsedMs,
+            source: 'cache',
+            message: `캐시에서 ${Object.keys(reviewCache.reviews).length}개 상품 리뷰${Object.keys(priceMap).length > 0 ? `, ${Object.keys(priceMap).length}개 가격` : ''} 조회 (${(elapsedMs / 1000).toFixed(1)}초)`,
+          });
+
+          console.log(`✅ [CrawlReviews] 캐시 완료: ${reviewCache.totalReviews}개 리뷰${Object.keys(priceMap).length > 0 ? `, ${Object.keys(priceMap).length}개 가격` : ''} (${(elapsedMs / 1000).toFixed(1)}초)`);
+          controller.close();
+          return;
         }
 
         // ====================================================================
