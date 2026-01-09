@@ -1,29 +1,18 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T05:33:33.116Z
+> 마지막 업데이트: 2026-01-09T09:16:02.437Z
 > 분석 상품: 20개 | 분석 리뷰: 196,934개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전한 성분 (EWG 그린 등급, 무자극)
-- 도톰하고 부드러운 원단 (고평량, 엠보싱)
-- 친환경 및 생분해성 소재
 
 ### 구매자 만족 포인트
-- ✓ 안전한 성분
-- ✓ 도톰하고 부드러운 원단
-- ✓ 뛰어난 가성비
-- ✓ 휴대 용이성
-- ✓ 촉촉함 유지력
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대 (일부 프리미엄 제품)
-- ⚠ 캡이 잘 열리지 않는 경우 (일부 제품)
-- ⚠ 환경 부담 (대량 소비 시)
 
 ### 가격대 인사이트
-아기 물티슈는 팩당 가격, 매당 가격, 면적당 가격, 무게당 가격 등 다양한 기준으로 가격을 비교할 수 있습니다. 일반적으로 1팩 당 1,000원 이하의 제품은 가성비가 좋은 편이며, 70gsm 이상의 고평량 제품은 1매당 20원 이상인 경우가 많으나, 슈퍼대디 엑설런트82와 같이 1매당 10원 후반대의 합리적인 가격으로 고평량 제품을 구매할 수도 있습니다.
+
 
 ---
 
@@ -242,8 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGYDG9E6f6p9KfmitMmLVwQiS8WctTVV-6-iZjjpDqecKlJc85Ynpx2hBSrBVHrR919m8OUOrkWtaHgZAKUe2AumGG-MpEyVGJwpHXLt1LQ93Dx9PZVqTPYzK1bI-6H1PKQd-7eQUsUp1xfTGGOZcitAQ=)
-- [hwahae.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGVGQ17iULy59rGe4l-HK5svaI4riirJWa87-WX4FtxwG3LKUETzeZxPzJrubWEgmzZGxOct9hgbGuBrNr73DIDmuDDMb_xmN7ng4gSE9xRmXnDYojpdZRK0lt3zLegf_D8BxKtNy3s7ZizSrePXb4C5SNRO4HwsWzIgffLRy9S)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-jpUZMQLx8rEL8J6F18lm9Z0Tb8qX-kw5EpXmO8bX-C7FVYOh8JiDJQIb2UU8u43sq-PpS_Uhki8HzSJMAEqzFwjhpFyZjJQP9Nr8ZmRJfK3p1foHRPEXfme4m8BbCW_SzUABOcoZ_wRdHmSGrayjFJsmNFzdaCT9)
-- [thefairnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHziRnuMmNVc44fStyONHUqVdieg1j72HEMRrKinOiHB8LnZaNV7g1BsOTB0baOGHbcJY8iNkrj9gCKsPj_hXoQlb5yzlUZKuUv9JTpWl2Bfr37xd1wFE9afKt23UDcGXKlqpuKteFtYAnYTmaPY7jpJ2cVF8RZPSvb)
-- [brikorea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuWHk59LzB-FlehB7xF6i_tW0dwTz9paVRKoGao6Y60xnvzGO6AX5nPl44ZdBze-7CalE2E17t9oZaUDabo09sbH2_wE8UZPV9egtO7COtXA7AgzhzAdVD-Mild9r7_511IE-tjWTlvnKQYbBDkMrHKB2kURF1)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxp1L9cTy5OXHcSIN73xWk1IEqpy5Zy_eA68SWOlImxYM9EbN_SOEKFTc_2oo1e4iy3SxNcTVUCvhlpAkM3FsyHEiPG4HImJdcKstM7EHlxxmoL9Jcjeh9dLKyRdEJM2Z4QSj903RipaxZfKac0Wfhlwk_JHwOdP_oEw-x1UGLk-tesBFsZxaKGB0Wrazk32nRWfpSf6o-z2sKaQqRdCYJVcpdEckWQuc=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKp9aeGcSyLKCXYT8qAB2OnkBKh8x3BPsjfV0gDOAFO-3uf_v30-EAUUeKwUUoQLuYLRKy_SflpRHEep9_7EQD7jp9WbReXfCY7h-OsigYeTXXJmYfGgXiHnJcRnP4L5X_jONnng==)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFA3zUMcT0Ax6nXez4Oo9enNKWWt1ksuxB2a3GYtG3wrpL4NSGwPiEF2nlLRG8ZUHHu2KC8M8uyyHL1JdvVdMY5clzP5PG7qcFzygN1YDPlz6KKz5wzlax5zXuFk4CzV0OuC-HhW50v9QkKwiDIFIJVv5VIszaMWKuu)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHs3LgQ0oyYvuAXl4Y8usDQiwCemIhVuS_ILuJMwTG74TqF3RlzdBC0uJFLyPq0aZYpQNXuwgpAux59FI7aWR7FnKkYJ1smjMTdIKcTfsmadaseCrq7GjrnVSG43WOa8Z6FHkCJr9QH_349KIxtc-tr9T4mj-iM)
+- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGm-AjypZNaE1_3lW1uJM4XvCW_SPgLSqS804qbLMylfHoLO7PNH-TIWYRcVfzlbEFgyMZHU7aZ9ZNSAU2bx_lXicsJjy8iZuK-xpSzGf_oaAGAwFQFNKIX4R7wZI9K3EDGeAlEpzrTQuBz0i3Dvw==)

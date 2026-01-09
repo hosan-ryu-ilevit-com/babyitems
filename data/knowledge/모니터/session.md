@@ -1,14 +1,9 @@
-# 세션: 20260109_072252_iwdi
-> 시작: 2026-01-09T07:22:52.941Z
+# 세션: 20260109_085047_76dm
+> 시작: 2026-01-09T08:50:47.233Z
 > 카테고리키: 모니터
 > 카테고리: 모니터
 
 ## 🔍 웹서치 인사이트
-
-### Init 단계
-- 쿼리: 모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 모니터 시장은 OLED와 Mini-LED 기술이 주도하며, USB-C 연결을 통한 편의성과 고해상도, 고주사율이 핵심 트렌드로 자리 잡고 있습니다. LG와 삼성 등 주요 브랜드들이 이러한 기술을 탑재한 다양한 제품을 선보이며 경쟁하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCXGDm2CxpCgLDuKFd04fOgTZ8Uvzpcl5XgREOH5hVGlG3hfIQpqgLoJtgcobSkfNwVtKHaG8AC06rKdiUq4-XV1EyIbf8Pu64H5tH_Pmg980C, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpdrpjjGYDtjwW86Vtgfsc6YpP8X3aOv3Zw_er-k5Xw7cNxrGSGbx4U2xMqukzKgM5vyrMnRGFZ7A_vXKeIO4IGIoDayW8Hu8pE2OE28OQDmDwPkvEHouvpiFO0XC0BTu3qrBkfRoFq4EhMpKRChGETZoLVfl6xEptA5xjz7AC7J4VMwaH8iFCkyXi_iMqmL2XuW3HUQqhRwyY1qHqDvbGAze83vhLwSWUMnmDUL_0fWbpn9O0CcHCWAhftKn_1OBwierPtsySnLyxQRWk9iZoAwDvcVXNfi4L2I40bDweM61r5JlnO0JgxoMJ8UHe7Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGHhpfwjs1AbMkBeXUNU29jHCiPU50MGQULuMZfeDGZyBMzg1IDw1riKaDufNqwvUKKKox6dqj1vTk8BFGCRB5nS3avfJeZnRkKRxWN4_CYgl8DErP8M-kPmRMMQHs6U-vbx4aC_lKLeRo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJjslEW_A0g41-3QOE49Ciypml24r0ySWT-H0faNixyNuHiiey34g2qNkAPUmQfRwmH2Xu_ejcgtKLUc1AK94zTAQyVOJ0z2yrzQmXmk0F9j__ejxV8YSiWZ8bAuVx7eLVAi9z8sujJbhKNk65GcU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFWoY2ltfJsTr86FqxaxjWAS70N7yjbBaQRWgLUG2r8Dz9vCg8tka56Xd2GS7b6-ibeDyWEdRabSatcq-1SqnsKXXSKFzd-Dq_SKj49CfcFRZwrRp-pGDyFpKNxlXOpYh-GrNGmaNkC1BjERVGdsPHIoVUCvcaf19zWMmiF_iXW1uQEUZydRaR_AUE2DlC_8RBGGnEKIjnADRkJefezy3NyuDHxzTcR17CQ
 
 ---
 
@@ -16,12 +11,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 모니터를 주로 어떤 용도로 사용하실 예정인가요? | 전문 작업 (디자인, 영상 편집 등), 일반 사무 및 웹 서핑 |
-| 선호하시는 화면 해상도와 크기가 있으신가요? | QHD (2560x1440), FHD (1920x1080) |
-| 노트북과의 연결 편의성을 얼마나 중요하게 생각하시나요? | 일반적인 연결 (HDMI, DP 등), USB-C 하나로 모두 해결 |
-| 화면의 색감과 명암비에 대한 선호도가 있으신가요? | 균형 잡힌 화질 (IPS), 최고 수준의 화질 (OLED, Mini-LED) |
-| 예산은 어느 정도로 생각하세요? (평균 30만원, 20~40만원대가 가장 많아요) | 20만원 ~ 40만원대, 20만원 이하 |
-| __avoid_negatives__ | 장시간 같은 이미지를 띄워두면 화면에 얼룩이 남을까 봐 걱정돼요,어두운 화면에서 밝은 부분이 빛 번짐처럼 보여서 몰입감이 떨어질까 봐 불편해요 |
 
 ---
 
@@ -59,8 +48,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 장시간 같은 이미지를 띄워두면 화면에 얼룩이 남을까 봐 걱정돼요
-- 어두운 화면에서 밝은 부분이 빛 번짐처럼 보여서 몰입감이 떨어질까 봐 불편해요
+(아직 선택 없음)
 
 ---
 

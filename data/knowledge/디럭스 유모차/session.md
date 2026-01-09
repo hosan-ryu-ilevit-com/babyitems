@@ -1,5 +1,5 @@
-# 세션: 20260109_072017_iyrf
-> 시작: 2026-01-09T07:20:17.641Z
+# 세션: 20260109_082031_oqvd
+> 시작: 2026-01-09T08:20:31.854Z
 > 카테고리키: 디럭스
 > 카테고리: 디럭스 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 디럭스 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 디럭스 유모차 시장은 안정감과 핸들링을 중시하는 경향을 보이며, 부가부, 스토케, 오이스터 등의 브랜드가 꾸준히 인기를 얻고 있습니다. 특히 프리미엄 라인업이 강세를 보이며, 디자인과 고급 소재를 강조하는 트렌드가 이어지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2ltcvPwmpFKDJU_p_VM4H2lDAmi4xetQiOH_Fakqs8tEfRdZ0Oq4GjRBV5bP4LWQ_Fwb5TrtK4yKjHUX5Ey-tNYeVjEoAopPUpZF_a4fXZNkluAjGIg7UfhaYqjEU9Dy_HauZj28rsuRsoU63HStw5OMBUYRsy0eDMsUO2ws1Th0IaNcRhDFH8lE-Sgo92zaJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE878JT8V7-GTzShdoBNU8cabkwpv-RlWPQO4QJ4GJ4z1Jtz2_h1R-zTOubuhTtSMcM4PXNXz6rjyFH1BkKFjpZdyiwiGzGPYdSQZi9C1W8SfFBcsoLw54=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqXBEOZnXIg1CvgfqacipBndkGj_jrRbXxf9hWp1PhToFnRGSX0VLLDeVzw5wyDecgyaeC-ckS8yTbu-RF4VC3KqSggHUckJ4dJ3avx1CtPpbrb6n7bIxcRWsTpO1k3cdVwY4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIUVNbF1p6AtmzjEywbBoHLPFXaORdv0xuHyVPZyok_MrE-8whrHKzhC4Cl8-m6Kyf1WGuoUdyiHYnV0rHq9OHBhDhuET2ttk2ZXwYm45FB4mTsfw8lp8wWs1kMrM8vJiP4FFSFw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-arqdXNrfyU-bJ8zpPb_7vZG47C7RMLDlwRyK5xwpgiB9LXeyU7HTBRgnd3eX42x25YbCB7S53vfqCI5tb0yJvK_sXSz4Tjh7h9OcQ8ZsoJhFskh5pV4zXM2CR2VpVlsK3GQxv3N5Qqh05KyZdn0zllUXTTrIJKabObjqKkBXvWVLqRNfKL4sHlToYjrGpjYo
+- 인사이트: 2026년 1월 현재, 디럭스 유모차 시장은 안정감과 뛰어난 핸들링을 갖춘 프리미엄 브랜드들이 강세를 보이고 있습니다. 특히 부가부, 스토케, 오이스터 등이 인기 브랜드로 꾸준히 언급되며, 사용자들은 편안한 승차감과 높은 시트 포지션, 그리고 견고한 프레임을 선호하는 추세입니다..
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDePTJn0PwcQQTpat8XS64iSiRLrtj9JvBX7tbuuaxMV_09WjIzjini8jzQriKI8Wy2q_3hw2hXNejseYNa0HhI2tC3rTaSYpob9YCQKwFfZqeL8aL6wWPzRFfyUz0W0HV32XXF9J0cIUvYTY8STW7gh_i0v5rmpcW3TE6gfxv-F8sQQuG7n9C5hYSrtxenrGmNvXc7QPeKl7D8RR6eVVBxciTy3QQGS0NfxAvBppUGeLWKtc6RmsEQb2TTgiFh6XSNSfOBa0nhPDVUDKXoT5ke3LnNy-WvlK8nw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1gf_MmS_vOLu0ub0qWoZBWCkAlkPtBmcn_xzDTXzejB7u16RVuUU21JZy1_LzU7MfI9Rr3am5UjBfSzt84bwj62ppsfZWDHRwRFDTxdG9cLDq0W0zbKOjqboGvkFkRDX0iUzmf1IAq7ORRU-x9MQ1JK4_bfQmpOapDZYpJL5hcb71F1SXF_daoFBDPSzvyUXR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFS6hekvdenTQPAYc_mlyufZwvA3q4-5aS2WIqEWBQyjCHeUmGMFPRfjG0T5Ww9gT2XszqYTyy7w4GJM8tGR1jno4K2oBCgaAIebIxGUHGWnbWcRXppKQ2iZ5w7gdZOOaiCtf8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTIGWdYRu9P3jqkshimtGafPbea-N6iJ7AnnKM9NGn3ycmiKtTm5bt3qA-SJDgxWZYPjxQnaEcBCHoqDkjoWaKJ7Y132wtNeU9iGPbPPI4kzH-h6lNa3OczBSrqBwGsFy6KrzaymNRXIybucpLIGnaVk6m1Bx_wuLNPOdyRTbPwXGwH1GpTIYtwV56Ic_JIFL1, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNZjkCrWhUGxIFq2JjAOcv0iRC_a_XprM_-p0XfZaFgyhB1dkX5zO3Gv183PPHOWq_GpeplcgL3efnLB6HBAm8p7RNUdNJC8Qjh3kcPKj-_8psCeEeXDReWw==
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 월령과 예상되는 최대 몸무게는 어떻게 되나요? | 12개월 ~ 24개월 (최대 20kg), 24개월 이상 (최대 25kg 이상) |
-| 주로 어떤 환경에서 유모차를 사용하시나요? | 다양한 지형 (울퉁불퉁한 길, 경사로 등), 도심, 평탄한 길 위주 |
-| 유모차를 접고 펼치는 방식과 휴대성에 대해 얼마나 중요하게 생각하시나요? | 휴대하기에 가벼움, 한 손으로 간편하게 접고 펼 수 있음 |
-| 디럭스 유모차 예산은 어느 정도로 생각하세요? (평균 약 127만원, 70만원~160만원대가 가장 많아요) | 70만원 이하 |
-| __avoid_negatives__ | 유모차를 들거나 옮길 때 너무 무거워서 계단을 오르내리기 힘들까 봐 걱정돼요,차량 트렁크에 싣거나 대중교통 이용 시 부피가 커서 이동이 불편할 것 같아요 |
+| 주로 어떤 환경에서 유모차를 사용하시나요? | 도심 위주, 대중교통 이용 |
+| 유모차를 접고 펴는 과정에서 가장 중요하게 생각하는 부분은 무엇인가요? | 최대한 작게 접힘 |
+| 아이가 앉는 시트에서 가장 중요하게 생각하는 기능은 무엇인가요? | 쉬운 양대면 전환 |
+| 디럭스 유모차 예산은 어느 정도로 생각하세요? (평균 약 127만원, 70만원~160만원대가 가장 많아요) | 70만원 ~ 160만원 |
+| __avoid_negatives__ | 집이나 차에 보관할 때 부피가 커서 공간을 많이 차지할까 봐 불편해요 |
 
 ---
 
@@ -60,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 유모차를 들거나 옮길 때 너무 무거워서 계단을 오르내리기 힘들까 봐 걱정돼요
-- 차량 트렁크에 싣거나 대중교통 이용 시 부피가 커서 이동이 불편할 것 같아요
+- 집이나 차에 보관할 때 부피가 커서 공간을 많이 차지할까 봐 불편해요
 
 ---
 

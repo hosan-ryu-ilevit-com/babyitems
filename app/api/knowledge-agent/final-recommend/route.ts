@@ -769,9 +769,277 @@ function prescreenCandidates(
   return topN;
 }
 
+// ============================================================================
+// 2단계 추천 시스템: 1단계(Top3 선정) + 2단계(상세 이유 생성)
+// ============================================================================
+
 /**
- * LLM으로 Top 3 선정 (새 아키텍처: 120개 → 30개 사전 스크리닝 → Top 3)
- * - 대량 후보 처리를 위해 2단계 필터링
+ * 1단계: Top 3 pcode 선정 (가벼운 호출)
+ * - 입력: 후보 목록 (스펙 요약 + 리뷰 키워드만, 원문 제외)
+ * - 출력: pcode 3개 + 간단한 선정 이유
+ */
+async function selectTop3Pcodes(
+  categoryName: string,
+  candidates: HardCutProduct[],
+  reviews: Record<string, ReviewLite[]>,
+  collectedInfo: Record<string, string>,
+  balanceSelections: BalanceSelection[],
+  negativeSelections: string[],
+): Promise<{ pcode: string; briefReason: string }[]> {
+  if (!ai) {
+    return candidates.slice(0, 3).map(p => ({
+      pcode: p.pcode,
+      briefReason: `매칭 점수 ${p.matchScore}점`,
+    }));
+  }
+
+  // 1단계는 가벼운 선정 작업이므로 flash-lite 사용 (속도 최적화)
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: {
+      temperature: 0.3,
+      maxOutputTokens: 1500,
+      responseMimeType: 'application/json',
+    },
+  });
+
+  // 후보 정보 (간략화: 리뷰 원문 제외)
+  const candidateInfo = candidates.map((p, i) => {
+    const productReviews = reviews[p.pcode] || [];
+    const { pros, cons } = extractReviewKeywords(productReviews);
+    const qualitative = analyzeReviewsQualitative(productReviews);
+
+    return `${i + 1}. ${p.brand} ${p.name} (pcode:${p.pcode})
+   가격:${p.price?.toLocaleString()}원 | 매칭:${p.matchScore}점 | 리뷰:${productReviews.length}개,${qualitative.avgRating}점
+   스펙:${(p.specSummary || '').slice(0, 100)}
+   장점:${pros.slice(0, 4).join(',')} | 단점:${cons.slice(0, 3).join(',')}`;
+  }).join('\n');
+
+  const prompt = `## ${categoryName} Top 3 선정
+
+## 사용자 조건
+${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]) => `- ${q}: ${a}`).join('\n') || '없음'}
+
+## 우선순위: ${balanceSelections.map(b => b.selectedLabel).join(', ') || '없음'}
+## 피할 단점: ${negativeSelections.join(', ') || '없음'}
+
+## 후보 (${candidates.length}개)
+${candidateInfo}
+
+## 작업
+사용자 조건에 가장 적합한 상품 3개를 선정하세요.
+- 리뷰 평점/개수 + 스펙 매칭 + 사용자 우선순위 종합 고려
+- 피할 단점과 관련된 상품은 제외
+
+## 응답 (JSON만)
+{"top3":[{"pcode":"코드1","briefReason":"선정이유(15자)"},{"pcode":"코드2","briefReason":"이유"},{"pcode":"코드3","briefReason":"이유"}]}`;
+
+  try {
+    console.log('[Step1] Selecting Top 3 pcodes...');
+    const startTime = Date.now();
+    const result = await model.generateContent(prompt);
+    let text = result.response.text().trim();
+    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      if (parsed.top3 && Array.isArray(parsed.top3) && parsed.top3.length > 0) {
+        console.log(`[Step1] ✅ Top 3 selected in ${Date.now() - startTime}ms:`, parsed.top3.map((t: any) => t.pcode).join(', '));
+        return parsed.top3;
+      }
+    }
+  } catch (error) {
+    console.error('[Step1] Error:', error);
+  }
+
+  console.log('[Step1] ⚠️ Fallback to score-based selection');
+  return candidates.slice(0, 3).map(p => ({
+    pcode: p.pcode,
+    briefReason: `매칭 점수 ${p.matchScore}점`,
+  }));
+}
+
+/**
+ * 2단계: 상세 추천 이유 생성 (선정된 3개에 대해서만)
+ * - 입력: 3개 상품 + 리뷰 원문 10개
+ * - 출력: oneLiner, personalReason, highlights, concerns
+ */
+async function generateDetailedReasons(
+  categoryName: string,
+  selectedProducts: HardCutProduct[],
+  reviews: Record<string, ReviewLite[]>,
+  collectedInfo: Record<string, string>,
+  balanceSelections: BalanceSelection[],
+  negativeSelections: string[],
+  freeInputAnalysis?: FreeInputAnalysis | null,
+): Promise<FinalRecommendation[]> {
+  if (!ai || selectedProducts.length === 0) {
+    return selectedProducts.map((p, i) => ({
+      rank: i + 1,
+      pcode: p.pcode,
+      product: p,
+      reason: `${p.brand} ${p.name}`,
+      oneLiner: `✨ ${p.brand} 제품`,
+      personalReason: '',
+      highlights: p.matchedConditions?.slice(0, 3) || [],
+    }));
+  }
+
+  const model = ai.getGenerativeModel({
+    model: FINAL_RECOMMEND_MODEL,
+    generationConfig: {
+      temperature: 0.5,
+      maxOutputTokens: 4000,
+      responseMimeType: 'application/json',
+    },
+  });
+
+  // 자유 입력 섹션
+  const additionalCondition = collectedInfo['__additional_condition__'] || '';
+  const freeInputSection = freeInputAnalysis ? `
+### ⭐ 추가 요청사항 (중요!)
+**원문:** "${additionalCondition}"
+${freeInputAnalysis.usageContext ? `**사용 맥락:** ${freeInputAnalysis.usageContext}` : ''}
+${freeInputAnalysis.preferredAttributes.length > 0 ? `**선호 속성:** ${freeInputAnalysis.preferredAttributes.join(', ')}` : ''}
+${freeInputAnalysis.avoidAttributes.length > 0 ? `**피할 단점:** ${freeInputAnalysis.avoidAttributes.join(', ')}` : ''}` : '';
+
+  // 3개 상품 상세 정보 (리뷰 원문 10개 포함)
+  const productDetails = selectedProducts.map((p, i) => {
+    const productReviews = reviews[p.pcode] || [];
+    const qualitative = analyzeReviewsQualitative(productReviews);
+
+    // 리뷰 균형 샘플링 (고평점 5 + 저평점 5)
+    const sortedByHigh = [...productReviews].sort((a, b) => b.rating - a.rating);
+    const sortedByLow = [...productReviews].sort((a, b) => a.rating - b.rating);
+    const seenIds = new Set<string>();
+    const balancedReviews: ReviewLite[] = [];
+
+    for (const r of [...sortedByHigh.slice(0, 5), ...sortedByLow.slice(0, 5)]) {
+      const id = r.reviewId || r.content.slice(0, 50);
+      if (!seenIds.has(id)) {
+        seenIds.add(id);
+        balancedReviews.push(r);
+      }
+    }
+
+    const reviewTexts = balancedReviews.slice(0, 10).map(r =>
+      `[${r.rating}점] "${r.content.slice(0, 120)}${r.content.length > 120 ? '...' : ''}"`
+    ).join('\n  ');
+
+    return `### ${i + 1}위. ${p.brand} ${p.name} (pcode: ${p.pcode})
+- 가격: ${p.price?.toLocaleString()}원
+- 스펙: ${p.specSummary || '정보 없음'}
+- 리뷰: ${productReviews.length}개, 평균 ${qualitative.avgRating}점
+- 리뷰 원문 (${balancedReviews.length}개):
+  ${reviewTexts || '(리뷰 없음)'}`;
+  }).join('\n\n');
+
+  const prompt = `## 역할
+${categoryName} 구매 컨설턴트로서 선정된 Top 3 상품의 **맞춤형 추천 이유**를 작성합니다.
+
+## 사용자 프로필
+### 질문 응답
+${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]) => `- ${q}: ${a}`).join('\n') || '없음'}
+
+### 우선순위
+${balanceSelections.map(b => `- ${b.selectedLabel}`).join('\n') || '없음'}
+
+### 피할 단점
+${negativeSelections.join(', ') || '없음'}
+${freeInputSection}
+
+## 선정된 Top 3 상품
+${productDetails}
+
+## 작성 규칙
+
+### oneLiner (한줄 평) - 45~70자
+- 이모지 + 핵심 강점 + 리뷰 인용
+- 예: 🤫 **밤잠 예민한 분들도 걱정 없는 정숙함!** "숨소리보다 조용해요"라는 평이 압도적!
+
+### personalReason (추천 이유) - 40~60자
+- 사용자 조건과 제품 스펙/리뷰가 **실제로 매칭**되는 부분만 언급
+- 예: 소음이 중요하다고 하셨는데, 수면풍 모드가 있어 딱이에요.
+
+### highlights - 장점 3개
+- "**키워드**: 설명" 형식
+
+### concerns - 주의점 1-2개 (있다면)
+
+## 🚫 금지 패턴
+- "실제 사용자들이...라고 평가한 제품입니다"
+- "리뷰에 따르면..."
+- 제품에 없는 기능을 있는 것처럼 언급
+
+## 응답 (JSON만)
+{"recommendations":[{"rank":1,"pcode":"코드","oneLiner":"한줄평","personalReason":"추천이유","highlights":["장점1","장점2","장점3"],"concerns":["주의점"]}]}`;
+
+  try {
+    console.log('[Step2] Generating detailed reasons for 3 products...');
+    const startTime = Date.now();
+    const result = await model.generateContent(prompt);
+    let text = result.response.text().trim();
+    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+    console.log('[Step2] Response length:', text.length);
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      let parsed;
+      try {
+        parsed = JSON.parse(jsonMatch[0]);
+      } catch (e1) {
+        const cleaned = repairJSON(jsonMatch[0]);
+        try {
+          parsed = JSON.parse(cleaned);
+        } catch (e2) {
+          parsed = await repairJSONWithFlashLite(jsonMatch[0]);
+        }
+      }
+
+      if (parsed?.recommendations && Array.isArray(parsed.recommendations)) {
+        console.log(`[Step2] ✅ Detailed reasons generated in ${Date.now() - startTime}ms`);
+
+        return parsed.recommendations.map((rec: any, i: number) => {
+          const product = selectedProducts.find(p => p.pcode === rec.pcode) || selectedProducts[i];
+          const oneLiner = rec.oneLiner || '';
+          const personalReason = rec.personalReason || '';
+
+          return {
+            rank: rec.rank || i + 1,
+            pcode: rec.pcode || product?.pcode,
+            product,
+            reason: `${oneLiner} ${personalReason}`.trim(),
+            oneLiner,
+            personalReason,
+            highlights: rec.highlights || [],
+            concerns: rec.concerns,
+            bestFor: rec.bestFor,
+          };
+        });
+      }
+    }
+  } catch (error) {
+    console.error('[Step2] Error:', error);
+  }
+
+  console.log('[Step2] ⚠️ Fallback to basic reasons');
+  return selectedProducts.map((p, i) => ({
+    rank: i + 1,
+    pcode: p.pcode,
+    product: p,
+    reason: `${p.brand} ${p.name} - ${(p.specSummary || '').slice(0, 60)}`,
+    oneLiner: `✨ ${p.brand} 제품`,
+    personalReason: '',
+    highlights: p.matchedConditions?.slice(0, 3) || [],
+  }));
+}
+
+/**
+ * LLM으로 Top 3 선정 (2단계 아키텍처)
+ * - 1단계: Top 3 pcode 선정 (가벼운 호출, ~3초)
+ * - 2단계: 상세 추천 이유 생성 (무거운 호출, ~5초)
  */
 async function generateRecommendations(
   categoryName: string,
@@ -780,18 +1048,14 @@ async function generateRecommendations(
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
   negativeSelections: string[],
-  expandedKeywords?: ExpandedKeywords,           // 🆕 외부에서 전달
-  freeInputAnalysis?: FreeInputAnalysis | null   // 🆕 외부에서 전달
+  expandedKeywords?: ExpandedKeywords,
+  freeInputAnalysis?: FreeInputAnalysis | null
 ): Promise<FinalRecommendation[]> {
   // 50개 이상이면 사전 스크리닝으로 25개로 줄임
   let filteredCandidates = candidates;
   if (candidates.length > PRESCREEN_LIMIT) {
     filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections, expandedKeywords);
   }
-
-  // 리뷰가 있는지 확인
-  const hasReviews = Object.keys(reviews).length > 0 &&
-    Object.values(reviews).some(r => r.length > 0);
 
   // 자유 입력에서 추출한 피할 단점을 negativeSelections에 추가
   const enhancedNegativeSelections = [...negativeSelections];
@@ -800,449 +1064,50 @@ async function generateRecommendations(
     console.log(`[FinalRecommend] Added ${freeInputAnalysis.avoidAttributes.length} avoid attributes from free input`);
   }
 
-  console.log(`[FinalRecommend] Candidates: ${candidates.length} → ${filteredCandidates.length}, Reviews: ${hasReviews}`);
+  console.log(`[FinalRecommend] 2-Step Architecture: ${candidates.length} → ${filteredCandidates.length} candidates`);
 
-  if (!ai) {
-    // AI 없으면 점수 기반 정렬
-    return filteredCandidates.slice(0, 3).map((p, i) => ({
-      rank: i + 1,
-      pcode: p.pcode,
-      product: p,
-      reason: `스펙 매칭 점수 ${p.matchScore}점으로 상위에 선정되었습니다.`,
-      highlights: p.matchedConditions?.slice(0, 3) || [],
-    }));
+  // ============================================================================
+  // 1단계: Top 3 pcode 선정 (가벼운 호출)
+  // ============================================================================
+  const top3Selection = await selectTop3Pcodes(
+    categoryName,
+    filteredCandidates,
+    reviews,
+    collectedInfo,
+    balanceSelections,
+    enhancedNegativeSelections,
+  );
+
+  // 선정된 pcode로 제품 찾기
+  const selectedProducts = top3Selection
+    .map(sel => filteredCandidates.find(c => c.pcode === sel.pcode))
+    .filter((p): p is HardCutProduct => p !== undefined);
+
+  // 3개 미만이면 점수순으로 채우기
+  if (selectedProducts.length < 3) {
+    const existingPcodes = new Set(selectedProducts.map(p => p.pcode));
+    const remaining = filteredCandidates.filter(c => !existingPcodes.has(c.pcode));
+    while (selectedProducts.length < 3 && remaining.length > 0) {
+      selectedProducts.push(remaining.shift()!);
+    }
   }
 
-  // 최신 모델 사용
-  const model = ai.getGenerativeModel({
-    model: FINAL_RECOMMEND_MODEL,
-    generationConfig: {
-      temperature: 0.5,
-      maxOutputTokens: 6000, // 3개 추천 + 상세 정보 (출력 truncation 방지)
-      responseMimeType: 'application/json',
-    },
-  });
-
-  console.log(`[FinalRecommend] Using model: ${FINAL_RECOMMEND_MODEL}`);
-
-  // 후보 상품 정보 구성 (리뷰 있으면 정성적 분석 포함, 없으면 스펙만)
-  const candidateInfo = filteredCandidates.map((p, i) => {
-    const productReviews = reviews[p.pcode] || [];
-
-    // 기본 정보 (항상 포함)
-    let info = `
-### ${i + 1}. ${p.brand} ${p.name} (pcode: ${p.pcode})
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-**기본 정보**
-- 가격: ${p.price?.toLocaleString()}원
-- 스펙 매칭 점수: ${p.matchScore}점
-- 매칭된 조건: ${p.matchedConditions?.join(', ') || '없음'}
-- 스펙: ${p.specSummary || '정보 없음'}`;
-
-    // 리뷰가 있으면 간결한 요약만 추가 (프롬프트 경량화)
-    if (productReviews.length > 0) {
-      const { pros, cons } = extractReviewKeywords(productReviews);
-      const qualitative = analyzeReviewsQualitative(productReviews);
-
-      const sentimentLabel = qualitative.sentimentScore > 0.3 ? '😊매우긍정'
-        : qualitative.sentimentScore > 0 ? '🙂긍정적'
-          : qualitative.sentimentScore > -0.3 ? '😐보통'
-            : '😟부정적';
-
-      // ✅ 리뷰 균형 샘플링: 별점 높은순 + 낮은순 (중복 제거)
-      // 후보 수에 따라 리뷰 개수 동적 조절 (프롬프트 크기 관리)
-      // 목표: 총 리뷰 ~150-200개 유지 (프롬프트 15,000-20,000자)
-      // 🚀 최적화: 고정 10개 리뷰 (고평점 5 + 저평점 5, 중복 제거)
-      // 25개 후보 × 10리뷰 = 250개 리뷰 (품질 유지하면서 컨텍스트 최적화)
-      const reviewsPerSide = 5;
-
-      const sortedByHighRating = [...productReviews].sort((a, b) => b.rating - a.rating);
-      const sortedByLowRating = [...productReviews].sort((a, b) => a.rating - b.rating);
-
-      const highRatingReviews = sortedByHighRating.slice(0, reviewsPerSide);
-      const lowRatingReviews = sortedByLowRating.slice(0, reviewsPerSide);
-
-      // 중복 제거 (reviewId 기준, 없으면 content 앞 50자로 판단)
-      const seenIds = new Set<string>();
-      const balancedReviews: typeof productReviews = [];
-
-      for (const r of [...highRatingReviews, ...lowRatingReviews]) {
-        const id = r.reviewId || r.content.slice(0, 50);
-        if (!seenIds.has(id)) {
-          seenIds.add(id);
-          balancedReviews.push(r);
-        }
-      }
-
-      // 동적 최대 개수 (reviewsPerSide × 2)
-      const maxReviews = reviewsPerSide * 2;
-      const sampledReviews = balancedReviews.slice(0, maxReviews);
-
-      const reviewTexts = sampledReviews.map(r =>
-        `[${r.rating}점] "${r.content.slice(0, 100)}${r.content.length > 100 ? '...' : ''}"`
-      ).join('\n  ');
-
-      info += `
-- 리뷰: ${productReviews.length}개, ${qualitative.avgRating}점, ${sentimentLabel}
-- 장점 키워드: ${pros.slice(0, 3).join(', ') || '없음'} / 단점 키워드: ${cons.slice(0, 2).join(', ') || '없음'}
-- 리뷰 샘플 (고평점+저평점 균형, ${sampledReviews.length}개):
-  ${reviewTexts}`;
-    }
-
-    return info;
-  }).join('\n\n');
-
-  // 프롬프트 크기 로그 (디버그용)
-  console.log(`[FinalRecommend] 📊 Prompt stats: ${filteredCandidates.length}개 후보, candidateInfo=${candidateInfo.length}자`);
-
-  // 리뷰 유무에 따라 다른 프롬프트 사용
-  const reviewRules = hasReviews ? `
-### 1️⃣ 리뷰 정성 분석 우선
-- **감정 점수가 높은 상품** (😊매우긍정 > 🙂긍정적) 우선
-- **리뷰 신뢰도가 높은 상품** (80% 이상) 우선
-- 별점 분포가 고르고 평균이 높은 상품 우선
-- "핵심 인사이트"의 👍긍정 리뷰가 많은 상품 우선
-
-### 2️⃣ 단점 회피 (리뷰 기반)
-- 피하고 싶다고 한 단점이 **리뷰에서 실제로 언급**되면 강력 감점
-- 핵심 인사이트에 ⚠️부정 리뷰가 많으면 감점
-
-### 3️⃣ 리뷰 원문 인용 필수
-- reason에 **실제 리뷰 내용을 "따옴표"로 인용**하세요
-- 추상적 표현 금지, 구체적인 사용자 경험 인용` : `
-### 1️⃣ 스펙 매칭 점수 우선
-- **스펙 매칭 점수가 높은 상품** 우선
-- 매칭된 조건이 많은 상품 우선
-
-### 2️⃣ 사용자 선택 기반 필터링
-- 밸런스 게임에서 선택한 가치와 스펙이 부합하는 상품 우선
-- 피하고 싶은 단점과 관련된 스펙이 있으면 감점
-
-### 3️⃣ 스펙 기반 설명
-- reason에 **구체적인 스펙을 인용**하세요
-- 예: "3L 대용량으로 가족 단위 사용에 적합합니다"`;
-
-  // 자유 입력 섹션 구성
-  const additionalCondition = collectedInfo['__additional_condition__'] || '';
-  const freeInputSection = freeInputAnalysis ? `
-  ### ⭐ 추가 요청사항 (자유 입력 - 중요!)
-  **원문:** "${additionalCondition}"
-  ${freeInputAnalysis.usageContext ? `**사용 맥락:** ${freeInputAnalysis.usageContext}` : ''}
-  ${freeInputAnalysis.preferredAttributes.length > 0 ? `**선호 속성 (가점):** ${freeInputAnalysis.preferredAttributes.join(', ')}` : ''}
-  ${freeInputAnalysis.avoidAttributes.length > 0 ? `**피할 단점 (감점):** ${freeInputAnalysis.avoidAttributes.join(', ')}` : ''}
-  **요약:** ${freeInputAnalysis.summary}
-  
-  ⚠️ 위 추가 요청사항은 사용자가 마지막으로 강조한 조건입니다. **반드시 높은 가중치로 반영**하세요!` : '';
-
-  const prompt = `## 역할
-  당신은 ${categoryName} 구매 전문 컨설턴트입니다.
-  ${hasReviews ? '**리뷰 데이터를 정성적으로 분석**하여' : '**스펙과 사용자 선택을 기반으로**'} 최적의 상품 3개를 추천해주세요.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ## 👤 사용자 프로필
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  ### 질문 응답
-  ${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]) => `- ${q}: ${a}`).join('\n') || '없음'}
-
-  ### 우선순위 (밸런스 게임)
-  ${balanceSelections.map(b => `- ${b.selectedLabel}`).join('\n') || '없음'}
-
-  ### 피하고 싶은 단점
-  ${enhancedNegativeSelections.join(', ') || '없음'}
-  ${freeInputSection}
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ## 📦 후보 상품 ${hasReviews ? '+ 리뷰 분석' : '(스펙 기반)'} (${filteredCandidates.length}개 / 전체 ${candidates.length}개 중 사전 스크리닝)
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ${candidateInfo}
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ## 🎯 추천 규칙 (엄격히 준수!)
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ${reviewRules}
-
-  ### 4️⃣ 사용자 우선순위 반영 (스펙 검증 필수!)
-  - 밸런스 게임에서 선택한 가치와 매칭되는 상품 우선
-  - 질문 응답에서 표현한 니즈와 부합하는 상품 우선
-  - ⚠️ **단, 해당 기능이 제품 스펙/리뷰에서 실제로 확인되는 경우에만!**
-  - 사용자가 원한 기능이 제품에 없으면, 그 기능 대신 제품이 실제로 가진 장점을 추천 이유로 작성
-
-  ### 5️⃣ 다양성 확보
-  - 가능하면 다른 가격대/브랜드를 포함해 3가지 선택지 제공
-
-  ### 6️⃣ 맞춤형 추천 이유 - 구매 확신 주기 ⚠️ 가장 중요!
-  - **목표:** 사용자가 선택한 조건이 이 제품에서 **어떻게 완벽하게 구현되는지** 증명하여 구매를 확신시킵니다.
-  - **작성 톤:** 쇼핑 큐레이터가 옆에서 귓속말하듯 신뢰감 있고 간결하게.
-
-  ### ⚠️ 필수: 두 부분으로 나누어 작성 (반드시 지켜야 함!)
-  추천 이유는 반드시 **oneLiner**와 **personalReason** 두 필드를 모두 포함해야 합니다.
-
-  1. **oneLiner (한줄 평):** 이모지 + 제품의 핵심 강점/리뷰 인용
-     - **목표:** 사용자가 선택한 조건이 이 제품에서 **어떻게 완벽하게 구현되는지** 증명하여 구매를 확신시킵니다.
-     - **작성 톤:** 쇼핑 큐레이터가 옆에서 귓속말하듯 신뢰감 있고 간결하게.
-     - **필수 요소:**
-       1. **User Context:** 사용자가 선택한 핵심 가치(예: 세척, 소음)를 '상황'이나 '페르소나'로 녹일 것. (예: "밤잠 예민한 아기를 위해", "손목이 약한 분들에게")
-       2. **Social Proof:** 단순 인용("~라고 함")이 아니라, 리뷰의 **구체적인 칭찬 포인트**를 근거로 제시할 것.
-     - **금지:** "당신은 ~를 선택했으므로", "리뷰에 따르면" 같은 기계적인 접속사 사용 금지.
-     - **길이:** 45~70자 내외 (임팩트 있는 한 문장 또는 자연스러운 두 문장)
-     - **Good Examples:**
-       - 🤫 **소리에 민감한 아기도 꿀잠 자요!** "숨소리보다 조용해서 켜둔 줄도 몰랐다"는 평이 압도적이에요.
-       - 🧼 **매일 닦는 게 일인 육아맘 필수템.** "통세척이 가능해서 물때 걱정이 싹 사라졌다"는 극찬을 받았어요.
-
-  2. **personalReason (추천 이유):** 왜 "이 사용자에게" 이 제품이 딱인지 (절대 생략 금지)
-     - **작성 기준:** 사용자가 앞에서 입력한/선택한 조건들 중 **이 제품의 스펙/리뷰에서 실제로 확인된 것만** 언급하여, 이 제품이 당신에게 왜 꼭 맞는지 확신시키는 한 문장.
-     - **⚠️ 필수 검증:** 사용자가 원한 기능이라도 해당 제품 스펙/리뷰에 없으면 **절대 언급 금지**. 대신 제품이 실제로 가진 다른 장점을 언급하세요.
-     - **형식:** "~님처럼 ~을/를 중요하게 여기시면 딱이에요" 또는 "~하신다고 하셨는데, 이 제품이 그 부분에서 최고예요"
-     - **길이:** 40~60자
-
-  - **🚫 절대 금지 패턴 (이 패턴이 보이면 0점 처리):**
-    - "실제 사용자들이 '...'라고 평가한 제품입니다" ❌
-    - "리뷰에 따르면..." ❌
-    - "당신은 ~를 선택했으므로" ❌ (너무 딱딱함)
-    - "~해서 추천합니다" / "~이기 때문에 추천해요" ❌
-    - 리뷰 원문만 따옴표로 나열하기 ❌
-    - **제품 스펙/리뷰에 없는 기능을 마치 있는 것처럼 언급** ❌ (예: 자동급수 기능이 없는데 "자동급수를 원하시면 딱이에요")
-
-  - **✅ Good 예시:**
-    - **oneLiner:** 🤫 **소리에 민감한 아기도 꿀잠!** "숨소리보다 조용해서 켜둔 줄도 몰랐다"는 평이 압도적이에요.
-    - **personalReason:** 밤중 수유가 잦다고 하셨는데, 이 정도 정숙성이면 아기 깨울 걱정 없으실 거예요.
-    (↑ 이 예시는 제품 스펙/리뷰에서 "정숙성"이 실제로 확인되었기 때문에 OK)
-
-  - **❌ Bad 예시 (스펙 미검증):**
-    - 사용자가 "자동급수" 선호 → 제품 스펙에 자동급수 없음
-    - **personalReason:** "자동급수를 중요하게 생각하신다면 딱이에요~" ← **거짓 정보! 절대 금지**
-    - **올바른 대안:** 제품이 실제로 가진 "3L 대용량" 등 다른 장점을 언급
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ## 📤 응답 형식 (JSON만)
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  {
-    "recommendations": [
-      {
-        "rank": 1,
-        "pcode": "상품코드",
-        "oneLiner": "🧼 **매일 닦는 게 일인 육아맘 필수템.** \"통세척 가능해서 물때 걱정 싹 사라졌다\"는 극찬!",
-        "personalReason": "세척 편의성을 중요하게 생각하신다고 하셨는데, 분리세척까지 되니 딱이에요.",
-        "highlights": ["리뷰에서 자주 언급된 장점 1", "장점 2", "장점 3"],
-        "concerns": ["리뷰에서 언급된 주의점 (있다면)"],
-        "bestFor": "이런 분께 추천 (사용자 프로필 기반)",
-        "reviewQuotes": ["실제 리뷰 인용 1 (30자 내외)", "실제 리뷰 인용 2"],
-        "reviewScore": { "sentiment": 0.5, "reliability": 0.8 }
-      }
-    ],
-    "summary": "전체 추천 요약 (리뷰 분석 기반, 1-2문장)"
-  }
-
-  ⚠️ JSON 포맷을 정확히 지키세요.
-  ⚠️ oneLiner와 personalReason 필드는 필수입니다.
-  ⚠️ "실제 사용자들이...라고 평가한 제품입니다" 같은 형식 절대 금지!
-  ⚠️ 리뷰가 없거나 부실한 상품은 순위를 낮추세요`;
-
-  try {
-    const result = await model.generateContent(prompt);
-    let text = result.response.text().trim();
-
-    console.log('[FinalRecommend] LLM raw response length:', text.length);
-    // 🔍 디버그: 원본 응답 앞뒤 500자 확인
-    console.log('[FinalRecommend] 📝 Raw response START:', text.slice(0, 500));
-    console.log('[FinalRecommend] 📝 Raw response END:', text.slice(-500));
-
-    // markdown 코드 블록 제거
-    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
-
-    // JSON 추출 (불완전한 JSON도 처리 - 여는 괄호만 있어도 매칭)
-    let jsonMatch = text.match(/\{[\s\S]*\}/);
-
-    // 닫는 괄호가 없는 불완전한 JSON도 처리
-    if (!jsonMatch) {
-      const openBraceIdx = text.indexOf('{');
-      if (openBraceIdx !== -1) {
-        // 여는 괄호부터 끝까지 가져옴
-        jsonMatch = [text.slice(openBraceIdx)];
-        console.log('[FinalRecommend] 불완전한 JSON 감지, 복구 시도...');
-      }
-    }
-
-    if (jsonMatch) {
-      let recommendations: any[] = [];
-      let parseSuccess = false;
-
-      // 1차: 직접 파싱 시도
-      try {
-        const parsed = JSON.parse(jsonMatch[0]);
-        recommendations = parsed.recommendations || [];
-        parseSuccess = recommendations.length > 0;
-        if (parseSuccess) console.log('[FinalRecommend] ✅ 1차 직접 파싱 성공');
-      } catch (e1) {
-        console.log('[FinalRecommend] 1차 파싱 실패, 간단한 정리 후 재시도...');
-        console.log('[FinalRecommend] 🔴 1차 에러:', (e1 as Error).message);
-        // 파싱 실패 위치 근처 출력
-        const errorMatch = (e1 as Error).message.match(/position (\d+)/);
-        if (errorMatch) {
-          const pos = parseInt(errorMatch[1]);
-          console.log('[FinalRecommend] 🔴 에러 위치 근처:', jsonMatch[0].slice(Math.max(0, pos - 50), pos + 50));
-        }
-      }
-
-      // 2차: 간단한 문자열 정리 후 재시도
-      if (!parseSuccess) {
-        try {
-          const cleanedJSON = repairJSON(jsonMatch[0]);
-          const parsed = JSON.parse(cleanedJSON);
-          recommendations = parsed.recommendations || [];
-          parseSuccess = recommendations.length > 0;
-          if (parseSuccess) console.log('[FinalRecommend] ✅ 2차 정리 후 파싱 성공');
-        } catch (e2) {
-          console.log('[FinalRecommend] 2차 정리 후 파싱 실패, Flash Lite 복구 시도...');
-          console.log('[FinalRecommend] 🔴 2차 에러:', (e2 as Error).message);
-        }
-      }
-
-      // 3차: Flash Lite로 JSON 형식 복구 (원본 내용 유지)
-      if (!parseSuccess) {
-        try {
-          const repairedResult = await repairJSONWithFlashLite(jsonMatch[0]);
-          if (repairedResult && repairedResult.recommendations) {
-            recommendations = repairedResult.recommendations;
-            parseSuccess = recommendations.length > 0;
-            if (parseSuccess) console.log(`[FinalRecommend] ✅ Flash Lite 복구 성공: ${recommendations.length}개`);
-          }
-        } catch (flashError) {
-          console.error('[FinalRecommend] Flash Lite 복구 실패:', flashError);
-        }
-      }
-
-      if (parseSuccess && recommendations.length > 0) {
-        console.log('[FinalRecommend] ✅ 추천 생성 성공:', recommendations.length);
-
-        // 결과 구성
-        // ✅ 디버그: LLM 응답에서 personalReason 확인
-        console.log('[FinalRecommend] LLM recommendations:', recommendations.map((r: any) => ({
-          pcode: r.pcode,
-          oneLiner: r.oneLiner?.slice(0, 30),
-          personalReason: r.personalReason?.slice(0, 30),
-          reason: r.reason?.slice(0, 30),
-        })));
-
-        const llmResults = recommendations.slice(0, 3).map((rec: any, i: number) => {
-          const product = filteredCandidates.find(c => c.pcode === rec.pcode);
-
-          // oneLiner, personalReason 결합하여 reason 생성 (호환성용)
-          const oneLiner = rec.oneLiner || '';
-          const personalReason = rec.personalReason || '';
-          const combinedReason = `${oneLiner} ${personalReason}`.trim();
-
-          // reason 검증: 금지 패턴이면 재작성
-          const forbiddenPatterns = [
-            /실제 사용자들이.*라고 평가/,
-            /리뷰에 따르면/,
-            /당신은.*선택했으므로/,
-            /추천합니다\s*$/,
-          ];
-          const hasForbiddenPattern = forbiddenPatterns.some(p => p.test(combinedReason));
-          if (hasForbiddenPattern || combinedReason.length < 20) {
-            console.log(`[FinalRecommend] ⚠️ reason 품질 낮음 (${i + 1}위), 원본:`, combinedReason.slice(0, 50));
-          }
-
-          if (!product) {
-            // pcode가 없으면 순서대로 매핑
-            const fallbackProduct = filteredCandidates[i];
-            return {
-              rank: i + 1,
-              pcode: fallbackProduct?.pcode || '',
-              product: fallbackProduct,
-              reason: combinedReason,
-              oneLiner,
-              personalReason,
-              highlights: rec.highlights || [],
-              concerns: rec.concerns,
-              bestFor: rec.bestFor,
-              reviewQuotes: rec.reviewQuotes || [],
-            };
-          }
-
-          return {
-            rank: rec.rank || i + 1,
-            pcode: rec.pcode,
-            product,
-            reason: combinedReason,
-            oneLiner,
-            personalReason,
-            highlights: rec.highlights || [],
-            concerns: rec.concerns,
-            bestFor: rec.bestFor,
-            reviewQuotes: rec.reviewQuotes || [],
-          };
-        });
-
-        // 3개 미만이면 폴백으로 나머지 채우기
-        if (llmResults.length < 3) {
-          console.log(`[FinalRecommend] ⚠️ ${llmResults.length}개만 생성됨, 나머지 폴백으로 채움`);
-          const existingPcodes = new Set(llmResults.map(r => r.pcode));
-          const remainingCandidates = filteredCandidates.filter(c => !existingPcodes.has(c.pcode));
-
-          for (let i = llmResults.length; i < 3 && remainingCandidates.length > 0; i++) {
-            const p = remainingCandidates.shift()!;
-            const productReviews = reviews[p.pcode] || [];
-            const sampleQuotes = productReviews.slice(0, 2).map(r => r.content.slice(0, 50));
-            const specs = p.specSummary || '';
-            const brand = p.brand || '';
-
-            const fallbackOneLiner = specs
-              ? `✨ ${brand} 제품, ${specs.slice(0, 50)}${specs.length > 50 ? '...' : ''}`
-              : `✨ ${brand || '해당'} 제품이 조건에 부합합니다.`;
-
-            llmResults.push({
-              rank: i + 1,
-              pcode: p.pcode,
-              product: p,
-              reason: fallbackOneLiner,
-              oneLiner: fallbackOneLiner,
-              personalReason: '',
-              highlights: p.matchedConditions?.slice(0, 3) || [],
-              concerns: undefined,
-              bestFor: undefined,
-              reviewQuotes: sampleQuotes,
-            });
-          }
-        }
-
-        return llmResults;
-      } // if (recommendations.length > 0)
-    } else {
-      console.error('[FinalRecommend] ❌ JSON 추출 실패, response:', text.slice(0, 200));
-    }
-  } catch (error) {
-    console.error('[FinalRecommend] LLM error:', error);
-  }
-
-  console.log('[FinalRecommend] ⚠️ 폴백 사용됨');
-
-  // 실패 시 점수 기반 정렬 - 개선된 폴백
-  return filteredCandidates.slice(0, 3).map((p, i) => {
-    const productReviews = reviews[p.pcode] || [];
-    const sampleQuotes = productReviews.slice(0, 2).map(r => r.content.slice(0, 50));
-
-    // 개선된 폴백 reason: 스펙 기반으로 작성
-    const specs = p.specSummary || '';
-    const brand = p.brand || '';
-    const fallbackOneLiner = specs
-      ? `${brand} 제품으로, ${specs.slice(0, 60)}${specs.length > 60 ? '...' : ''}`
-      : `${brand || '해당'} 제품이 요청하신 조건에 가장 부합합니다.`;
-
-    return {
-      rank: i + 1,
-      pcode: p.pcode,
-      product: p,
-      reason: fallbackOneLiner,
-      oneLiner: fallbackOneLiner,
-      personalReason: '',
-      highlights: p.matchedConditions?.slice(0, 3) || [],
-      reviewQuotes: sampleQuotes,
-    };
-  });
+  console.log(`[FinalRecommend] Step1 완료: ${selectedProducts.map(p => p.pcode).join(', ')}`);
+
+  // ============================================================================
+  // 2단계: 상세 추천 이유 생성 (선정된 3개만)
+  // ============================================================================
+  const recommendations = await generateDetailedReasons(
+    categoryName,
+    selectedProducts,
+    reviews,
+    collectedInfo,
+    balanceSelections,
+    enhancedNegativeSelections,
+    freeInputAnalysis,
+  );
+
+  return recommendations;
 }
 
 export async function POST(request: NextRequest) {

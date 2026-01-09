@@ -163,7 +163,7 @@ export function HardcutVisualization({
                 {/* 적용된 조건 태그 */}
                 {appliedRules.length > 0 && (
                   <div className="space-y-2.5">
-                    <p className="text-[11px] uppercase tracking-widest text-gray-400 font-bold">
+                    <p className="text-[11px] uppercase tracking-widest text-gray-400 font-semibold">
                       적용된 선별 조건
                     </p>
                     <div className="flex flex-wrap gap-1.5">
@@ -173,10 +173,10 @@ export function HardcutVisualization({
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: i * 0.05 }}
-                          className="flex items-center gap-1 px-2.5 py-1.5 bg-gray-50 border border-gray-100 rounded-lg"
+                          className="flex items-center gap-1 px-2.5 py-1.5 bg-gray-50  rounded-lg"
                         >
                           <CheckCircle size={12} weight="fill" className="text-green-500" />
-                          <span className="text-[11px] font-bold text-gray-600">{rule.rule}</span>
+                          <span className="text-[11px] font-medium text-gray-600">{rule.rule}</span>
                         </motion.div>
                       ))}
                     </div>
@@ -220,7 +220,7 @@ export function HardcutVisualization({
                           
                           {/* 브랜드 & 타이틀 */}
                           <div className="flex flex-col gap-0 px-0.5">
-                            <span className="text-[9px] text-gray-400 font-bold truncate">
+                            <span className="text-[9px] text-gray-400 font-semibold truncate">
                               {product.brand || '기타'}
                             </span>
                             <span className="text-[10px] text-gray-700 font-semibold line-clamp-1 leading-tight">
