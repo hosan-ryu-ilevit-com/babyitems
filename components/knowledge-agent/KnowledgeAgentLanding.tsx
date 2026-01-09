@@ -3,7 +3,7 @@
 import { useState, useRef, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Warning, Sparkle, ArrowRight } from '@phosphor-icons/react';
+import { X, Sparkle, ArrowRight, TrendUp, MagnifyingGlass, ChatTeardropText, Question, CaretRight } from '@phosphor-icons/react';
 import {
   logKnowledgeAgentSearchRequest,
   logKnowledgeAgentSearchConfirm,
@@ -226,76 +226,6 @@ export const CATEGORY_PATH_MAP: Record<string, string> = {
   '생활/주방가전': 'living'
 };
 
-// --- Not Ready Modal (캐시되지 않은 카테고리) ---
-interface NotReadyModalProps {
-  isOpen: boolean;
-  keyword: string;
-  onClose: () => void;
-}
-
-function NotReadyModal({ isOpen, keyword, onClose }: NotReadyModalProps) {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-        >
-          <motion.div
-            className="absolute inset-0 bg-black/50"
-            onClick={onClose}
-          />
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 10 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 10 }}
-            transition={{ type: "spring", duration: 0.3, bounce: 0.15 }}
-            className="relative w-full max-w-[320px] bg-white rounded-[24px] overflow-hidden border border-gray-100 shadow-2xl"
-          >
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-[17px] font-bold text-gray-900">준비 중이에요</h3>
-                <button
-                  onClick={onClose}
-                  className="p-1 -mr-1 text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  <X size={20} weight="bold" />
-                </button>
-              </div>
-
-              <div className="flex items-center justify-center mb-5">
-                <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center">
-                  <Warning size={32} weight="fill" className="text-amber-500" />
-                </div>
-              </div>
-
-              <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100 mb-4">
-                <p className="text-center text-[16px] font-bold text-gray-700 break-keep">
-                  {keyword}
-                </p>
-              </div>
-
-              <p className="text-[14px] text-gray-500 mb-5 leading-relaxed text-center">
-                해당 카테고리는 아직 데이터 준비 중이에요.<br />
-                빠른 시일 내에 지원 예정입니다!
-              </p>
-
-              <button
-                onClick={onClose}
-                className="w-full px-4 py-3.5 bg-gray-900 hover:bg-gray-800 text-white font-bold text-[15px] rounded-xl transition-colors"
-              >
-                확인
-              </button>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
 // --- Confirmation Modal ---
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -303,9 +233,23 @@ interface ConfirmModalProps {
   onConfirm: () => void;
   onCancel: () => void;
   isLoading?: boolean;
+  isBaby: boolean;
 }
 
-function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading }: ConfirmModalProps) {
+function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby }: ConfirmModalProps) {
+  // Theme colors
+  const themeColor = isBaby ? 'rose' : 'teal';
+  const buttonBg = isBaby ? 'bg-rose-500 hover:bg-rose-600' : 'bg-teal-600 hover:bg-teal-700';
+  const iconColor = isBaby ? 'text-rose-500' : 'text-teal-600';
+  const lightBg = isBaby ? 'bg-rose-50' : 'bg-teal-50';
+  
+  const steps = [
+    { icon: TrendUp, label: '실시간\n인기상품 분석' },
+    { icon: MagnifyingGlass, label: '웹 트렌드\n검색' },
+    { icon: ChatTeardropText, label: '실사용 리뷰\n정밀 분석' },
+    { icon: Question, label: '맞춤 구매질문\n생성' },
+  ];
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -316,57 +260,91 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading }: Confi
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
         >
           <motion.div
-            className="absolute inset-0 bg-black/50"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={onCancel}
           />
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 10 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 10 }}
-            transition={{ type: "spring", duration: 0.3, bounce: 0.15 }}
-            className="relative w-full max-w-[320px] bg-white rounded-[24px] overflow-hidden border border-gray-100 shadow-2xl"
+            transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
+            className="relative w-full max-w-[340px] bg-white rounded-[32px] overflow-hidden shadow-2xl ring-1 ring-black/5"
           >
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-[17px] font-bold text-gray-900">맞춤 추천 시작</h3>
-                <button
-                  onClick={onCancel}
-                  className="p-1 -mr-1 text-gray-400 hover:text-gray-600 transition-colors"
+            <div className="p-6 pt-8 pb-7">
+              {/* Header */}
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                   <span className={`inline-block text-[11px] font-bold tracking-wider uppercase mb-1.5 ${isBaby ? 'text-rose-400' : 'text-teal-500'}`}>
+                     AI 쇼핑 비서
+                   </span>
+                   <h3 className="text-[22px] font-bold text-gray-900 leading-tight">
+                     맞춤 추천 시작
+                   </h3>
+                </div>
+                <button 
+                  onClick={onCancel} 
+                  className="p-2 -mr-2 -mt-2 text-gray-300 hover:text-gray-500 transition-colors rounded-full hover:bg-gray-50"
                 >
                   <X size={20} weight="bold" />
                 </button>
               </div>
 
-              <p className="text-[14px] text-gray-500 mb-5 leading-relaxed">
-                실시간 트렌드와 인기 상품을 분석하여 최적의 추천을 도와드릴게요.
+              <p className="text-[15px] text-gray-500 mb-8 leading-relaxed font-medium">
+                 <span className="text-gray-900 font-bold decoration-2 underline-offset-2 decoration-gray-200 underline">{keyword}</span>에 대해 상세히 분석하고 <br/>
+                 추천에 필요한 맞춤 질문을 드릴게요.
               </p>
 
-              <div className="p-4 bg-purple-50 rounded-2xl border border-purple-100 mb-6">
-                <p className="text-center text-[18px] font-bold text-purple-600 break-keep">
-                  {keyword}
-                </p>
+              {/* Steps Visualization */}
+              <div className="relative mb-9 px-1">
+                 
+                 <div className="flex justify-between items-start relative z-10">
+                   {steps.map((step, idx) => (
+                      <div key={idx} className="flex flex-col items-center gap-2.5 relative group flex-1">
+                         <div className={`
+                            w-10 h-10 rounded-2xl ${lightBg} flex items-center justify-center 
+                            ${iconColor} ring-1 ring-black/5
+                            group-hover:scale-110 transition-transform duration-300 z-10
+                         `}>
+                            <step.icon weight="fill" size={18} />
+                         </div>
+                         
+                         {/* Arrow for Flow (except last item) */}
+                         {idx < steps.length - 1 && (
+                           <div className="absolute top-[18px] -right-[10px] text-gray-300 z-0">
+                             <CaretRight weight="bold" size={12} />
+                           </div>
+                         )}
+
+                         <span className="text-[11px] font-bold text-gray-400 text-center leading-tight whitespace-pre-line group-hover:text-gray-600 transition-colors">
+                            {step.label}
+                         </span>
+                      </div>
+                   ))}
+                 </div>
               </div>
 
-              <div className="flex gap-2">
-                <button
-                  onClick={onCancel}
-                  disabled={isLoading}
-                  className="flex-1 px-4 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold text-[15px] rounded-xl transition-colors"
-                >
-                  취소
-                </button>
-                <button
+              {/* Action Button */}
+              <button
                   onClick={onConfirm}
                   disabled={isLoading}
-                  className="flex-1 px-4 py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-[15px] rounded-xl transition-all flex items-center justify-center gap-2"
+                  className={`
+                    w-full py-4 rounded-[22px] font-bold text-[16px] text-white
+                    shadow-[0_8px_20px_-6px_rgba(0,0,0,0.15)] 
+                    hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.2)]
+                    transform active:scale-[0.98] transition-all duration-300
+                    flex items-center justify-center gap-2
+                    ${buttonBg}
+                    ${isLoading ? 'opacity-80 cursor-wait' : ''}
+                  `}
                 >
                   {isLoading ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
-                    <>분석 시작</>
+                    <>
+                      <span>분석 시작하기</span>
+                    </>
                   )}
                 </button>
-              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -394,12 +372,6 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [extractedKeyword, setExtractedKeyword] = useState('');
 
-  // 캐시된 쿼리 목록 (준비된 카테고리)
-  const [cachedQueries, setCachedQueries] = useState<Set<string>>(new Set());
-  const [isCacheLoading, setIsCacheLoading] = useState(true);
-  const [showNotReadyModal, setShowNotReadyModal] = useState(false);
-  const [notReadyKeyword, setNotReadyKeyword] = useState('');
-
   // Theme Colors
   const isBaby = defaultTab === 'baby';
   const accentColor = isBaby ? 'text-rose-500' : 'text-teal-600';
@@ -409,17 +381,6 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
 
   useEffect(() => {
     logKAPageView();
-
-    // 캐시된 쿼리 목록 가져오기
-    fetch('/api/knowledge-agent/cached-queries')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && Array.isArray(data.queries)) {
-          setCachedQueries(new Set(data.queries));
-        }
-      })
-      .catch(err => console.error('[Landing] Failed to fetch cached queries:', err))
-      .finally(() => setIsCacheLoading(false));
   }, []);
 
   const displayCategories = useMemo(() => {
@@ -436,14 +397,6 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
 
     // 카테고리 버튼 클릭 시에는 이미 키워드가 명확하므로 별도 추출 없이 바로 모달 오픈
     if (query) {
-      // 캐시 여부 확인 (캐시 로딩 중이면 통과)
-      if (!isCacheLoading && !cachedQueries.has(query)) {
-        // 캐시되지 않은 카테고리 - "준비 중" 모달 표시
-        setNotReadyKeyword(query);
-        setShowNotReadyModal(true);
-        return;
-      }
-
       logKnowledgeAgentSearchRequest(query, 'button_click', selectedMainCategory, selectedSubCategory || undefined);
       setActiveSearchItem(query);
       setExtractedKeyword(query);
@@ -508,12 +461,7 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
         onConfirm={handleConfirmSearch}
         onCancel={handleCancelSearch}
         isLoading={isProcessing}
-      />
-
-      <NotReadyModal
-        isOpen={showNotReadyModal}
-        keyword={notReadyKeyword}
-        onClose={() => setShowNotReadyModal(false)}
+        isBaby={isBaby}
       />
 
       <div className="max-w-[480px] mx-auto min-h-screen relative z-10 flex flex-col">

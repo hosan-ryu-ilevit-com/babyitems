@@ -660,7 +660,7 @@ ${productInfos}
  * - matchScore(사용자 선택 기반) 우선 + 리뷰/평점 보조
  * - 상위 50개 추출
  */
-const PRESCREEN_LIMIT = 50;
+const PRESCREEN_LIMIT = 25;  // 🚀 최적화: 50 → 25 (입력 토큰 50% 감소)
 
 function prescreenCandidates(
   candidates: HardCutProduct[],
@@ -779,21 +779,11 @@ async function generateRecommendations(
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
-  negativeSelections: string[]
+  negativeSelections: string[],
+  expandedKeywords?: ExpandedKeywords,           // 🆕 외부에서 전달
+  freeInputAnalysis?: FreeInputAnalysis | null   // 🆕 외부에서 전달
 ): Promise<FinalRecommendation[]> {
-  // 🆕 키워드 확장 (flash-lite 사용) - prescreenCandidates 전에 실행
-  let expandedKeywords: ExpandedKeywords | undefined;
-  if (candidates.length > PRESCREEN_LIMIT) {
-    console.log(`[FinalRecommend] Extracting expanded keywords for prescreening...`);
-    expandedKeywords = await extractExpandedKeywords(
-      categoryName,
-      collectedInfo,
-      negativeSelections
-    );
-    console.log(`[FinalRecommend] Expanded keywords: prefer=${expandedKeywords.preferKeywords.length}, avoid=${expandedKeywords.avoidKeywords.length}`);
-  }
-
-  // 50개 이상이면 사전 스크리닝으로 50개로 줄임
+  // 50개 이상이면 사전 스크리닝으로 25개로 줄임
   let filteredCandidates = candidates;
   if (candidates.length > PRESCREEN_LIMIT) {
     filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections, expandedKeywords);
@@ -802,15 +792,6 @@ async function generateRecommendations(
   // 리뷰가 있는지 확인
   const hasReviews = Object.keys(reviews).length > 0 &&
     Object.values(reviews).some(r => r.length > 0);
-
-  // 🆕 자유 입력 분석 (선호 속성 / 피할 단점 분류)
-  const additionalCondition = collectedInfo['__additional_condition__'] || '';
-  let freeInputAnalysis: FreeInputAnalysis | null = null;
-
-  if (additionalCondition && additionalCondition.trim().length >= 2) {
-    console.log(`[FinalRecommend] Analyzing free input: "${additionalCondition.slice(0, 50)}..."`);
-    freeInputAnalysis = await analyzeFreeInput(categoryName, additionalCondition);
-  }
 
   // 자유 입력에서 추출한 피할 단점을 negativeSelections에 추가
   const enhancedNegativeSelections = [...negativeSelections];
@@ -871,13 +852,9 @@ async function generateRecommendations(
       // ✅ 리뷰 균형 샘플링: 별점 높은순 + 낮은순 (중복 제거)
       // 후보 수에 따라 리뷰 개수 동적 조절 (프롬프트 크기 관리)
       // 목표: 총 리뷰 ~150-200개 유지 (프롬프트 15,000-20,000자)
-      const candidateCount = filteredCandidates.length;
-      const reviewsPerSide = candidateCount > 40 ? 2  // 50개 × 4리뷰 = 200개
-        : candidateCount > 30 ? 3   // 40개 × 6리뷰 = 240개
-        : candidateCount > 20 ? 4   // 25개 × 8리뷰 = 200개
-        : candidateCount > 15 ? 6   // 18개 × 12리뷰 = 216개
-        : candidateCount > 10 ? 8   // 12개 × 16리뷰 = 192개
-        : 10; // 10개 이하 × 20리뷰 = 200개
+      // 🚀 최적화: 고정 10개 리뷰 (고평점 5 + 저평점 5, 중복 제거)
+      // 25개 후보 × 10리뷰 = 250개 리뷰 (품질 유지하면서 컨텍스트 최적화)
+      const reviewsPerSide = 5;
 
       const sortedByHighRating = [...productReviews].sort((a, b) => b.rating - a.rating);
       const sortedByLowRating = [...productReviews].sort((a, b) => a.rating - b.rating);
@@ -946,6 +923,7 @@ async function generateRecommendations(
 - 예: "3L 대용량으로 가족 단위 사용에 적합합니다"`;
 
   // 자유 입력 섹션 구성
+  const additionalCondition = collectedInfo['__additional_condition__'] || '';
   const freeInputSection = freeInputAnalysis ? `
   ### ⭐ 추가 요청사항 (자유 입력 - 중요!)
   **원문:** "${additionalCondition}"
@@ -1287,22 +1265,35 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    console.log(`\n🏆 [FinalRecommend] Starting: ${candidates.length}개 후보 (새 아키텍처)`);
+    console.log(`\n🏆 [FinalRecommend] Starting: ${candidates.length}개 후보 (최적화 아키텍처)`);
     const startTime = Date.now();
     const catName = categoryName || categoryKey;
 
     // ============================================================================
-    // 0단계: 마지막 자유 입력 분석 (프론트엔드 전달용)
+    // 0단계: 키워드 확장 + 자유 입력 분석 (병렬 실행) 🚀
     // ============================================================================
     const additionalCondition = collectedInfo?.['__additional_condition__'] || '';
-    let freeInputAnalysisResult: FreeInputAnalysis | null = null;
-    if (additionalCondition && additionalCondition.trim().length >= 2) {
-      freeInputAnalysisResult = await analyzeFreeInput(catName, additionalCondition);
+
+    console.log(`[FinalRecommend] ⚡ Starting parallel: extractExpandedKeywords + analyzeFreeInput`);
+    const parallelStartTime = Date.now();
+
+    const [expandedKeywords, freeInputAnalysisResult] = await Promise.all([
+      // 키워드 확장 (prescreening용)
+      extractExpandedKeywords(catName, collectedInfo || {}, negativeSelections || []),
+      // 자유 입력 분석
+      (additionalCondition && additionalCondition.trim().length >= 2)
+        ? analyzeFreeInput(catName, additionalCondition)
+        : Promise.resolve(null)
+    ]);
+
+    console.log(`[FinalRecommend] ⚡ Parallel completed in ${Date.now() - parallelStartTime}ms`);
+    console.log(`[FinalRecommend] Keywords: prefer=${expandedKeywords.preferKeywords.length}, avoid=${expandedKeywords.avoidKeywords.length}`);
+    if (freeInputAnalysisResult) {
       console.log(`[FinalRecommend] Free input analyzed:`, freeInputAnalysisResult);
     }
 
     // ============================================================================
-    // 1단계: LLM으로 Top 3 선정 (120개 → 30개 사전 스크리닝 → Top 3)
+    // 1단계: LLM으로 Top 3 선정 (120개 → 25개 사전 스크리닝 → Top 3)
     // ============================================================================
     const recommendations = await generateRecommendations(
       catName,
@@ -1310,7 +1301,9 @@ export async function POST(request: NextRequest) {
       reviews || {},
       collectedInfo || {},
       balanceSelections || [],
-      negativeSelections || []
+      negativeSelections || [],
+      expandedKeywords,        // 🆕 병렬로 미리 계산된 키워드
+      freeInputAnalysisResult  // 🆕 병렬로 미리 분석된 자유입력
     );
 
     // 추천된 상품들의 pcode 추출
