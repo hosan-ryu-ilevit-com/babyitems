@@ -604,9 +604,8 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
                         {sources.slice(0, 5).map((_, i) => (
                           <div
                             key={i}
-                            className={`w-1 h-1 rounded-full transition-colors ${
-                              i === activeSourceIndex ? 'bg-blue-500' : 'bg-gray-300'
-                            }`}
+                            className={`w-1 h-1 rounded-full transition-colors ${i === activeSourceIndex ? 'bg-blue-500' : 'bg-gray-300'
+                              }`}
                           />
                         ))}
                       </div>
@@ -674,13 +673,12 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.05 }}
-                  className={`px-2.5 py-1 rounded-[6px] text-[12px] font-semibold ${
-                    i < 3
-                      ? 'bg-green-50 text-green-800 border border-green-200/50'
-                      : i < 5
+                  className={`px-2.5 py-1 rounded-[6px] text-[12px] font-semibold ${i < 3
+                    ? 'bg-green-50 text-green-800 border border-green-200/50'
+                    : i < 5
                       ? 'bg-rose-50 text-rose-700 border border-rose-200/50'
                       : 'bg-gray-50 text-gray-500 border border-gray-200/50'
-                  }`}
+                    }`}
                 >
                   {i < 3 ? '👍 ' : i < 5 ? '👎 ' : ''}{keyword}
                 </motion.span>
@@ -879,15 +877,14 @@ function StepCard({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      className={`group transition-all duration-300 rounded-2xl overflow-hidden ${
-        step.status === 'active'
-          ? 'bg-white border border-blue-100'
-          : step.status === 'done'
+      className={`group transition-all duration-300 rounded-2xl overflow-hidden ${step.status === 'active'
+        ? 'bg-white border border-blue-100'
+        : step.status === 'done'
           ? 'bg-white border border-gray-100/80'
           : isExpanded
-          ? 'bg-white border border-gray-100/80'  // 펼쳐져 있으면 흰색 배경
-          : 'bg-gray-50/50 border border-transparent'
-      }`}
+            ? 'bg-white border border-gray-100/80'  // 펼쳐져 있으면 흰색 배경
+            : 'bg-gray-50/50 border border-transparent'
+        }`}
     >
       {/* 헤더 */}
       <button
@@ -901,11 +898,10 @@ function StepCard({
 
         {/* 타입 아이콘 + 레이블 */}
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <span className={`text-[14px] font-semibold truncate ${
-            step.status === 'done' ? 'text-gray-700' :
+          <span className={`text-[14px] font-semibold truncate ${step.status === 'done' ? 'text-gray-700' :
             step.status === 'active' ? 'text-gray-900' :
-            isExpanded ? 'text-gray-900' : 'text-gray-400'
-          }`}>
+              isExpanded ? 'text-gray-900' : 'text-gray-400'
+            }`}>
             {step.label}
           </span>
         </div>
@@ -919,8 +915,8 @@ function StepCard({
               {duration}s
             </span>
           ) : null}
-          
-          <motion.span 
+
+          <motion.span
             animate={{ rotate: isExpanded ? 180 : 0 }}
             className="text-gray-300 group-hover:text-gray-400 transition-colors"
           >
@@ -941,7 +937,7 @@ function StepCard({
           >
             <div className="px-4 pb-4 pt-0 space-y-3">
               <div className="h-px bg-gray-50 -mx-4 mb-3" />
-              
+
               {/* 웹검색 - 쿼리 스트리밍 + 출처 전환 효과 */}
               {step.id === 'web_search' && (
                 <WebSearchContent step={step} categoryKey={categoryKey} />
@@ -969,6 +965,138 @@ function StepCard({
   );
 }
 
+
+// ============================================================================
+// Summary Card Component (완료 후 4단계를 감싸는 부모 토글)
+// ============================================================================
+
+function CompletedSummaryCard({
+  categoryName,
+  steps,
+  crawledProducts,
+  generatedQuestions,
+  categoryKey,
+}: {
+  categoryName: string;
+  steps: AnalysisStep[];
+  crawledProducts: AgenticLoadingPhaseProps['crawledProducts'];
+  generatedQuestions: AgenticLoadingPhaseProps['generatedQuestions'];
+  categoryKey: string;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // 내부 단계들의 개별 확장 상태 관리
+  // (부모가 펼쳐질 때 내부는 접힌 상태로 시작하거나, 필요하면 로직 추가)
+  const [expandedStepIds, setExpandedStepIds] = useState<Set<string>>(new Set());
+
+  // 파비콘 표시를 위한 소스 추출
+  const searchStep = steps.find(s => s.id === 'web_search');
+  const searchResults = searchStep?.searchResults || [];
+
+  // URL 기준 중복 제거 및 최대 7개 추출 (도메인 중복 허용하여 아이콘 개수 확보)
+  const uniqueSources = useMemo(() => {
+    if (!searchResults || searchResults.length === 0) return [];
+
+    // URL 기준으로만 중복 제거
+    const seen = new Set();
+    return searchResults.filter(s => {
+      if (seen.has(s.url)) return false;
+      seen.add(s.url);
+      return true;
+    }).slice(0, 7);
+  }, [searchResults]);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className={`group transition-all duration-300 rounded-2xl overflow-hidden border ${isExpanded ? 'bg-white border-blue-100' : 'bg-white border-green-100'
+        }`}
+    >
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full px-4 py-3.5 flex items-start gap-3 text-left transition-colors hover:bg-gray-50/50"
+      >
+        {/* 완료 아이콘 */}
+        <div className="shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-green-100 text-green-600 mt-0.5">
+          <CheckCircle size={14} weight="bold" />
+        </div>
+
+        {/* 타이틀 및 파비콘 영역 */}
+        <div className="flex flex-col gap-1 flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="text-[14px] font-bold text-gray-800">
+              AI 실시간 분석 완료
+            </span>
+            <span className="text-[12px] text-gray-400 font-medium">
+              • 눌러서 과정 보기
+            </span>
+          </div>
+
+          {/* 파비콘 리스트 (접혀있을 때만 표시) - 큰 회색 컨테이너 */}
+          {!isExpanded && uniqueSources.length > 0 && (
+            <div className="mt-1 bg-gray-50 rounded-xl px-3 py-2 w-fit flex items-center gap-3">
+              <div className="flex -space-x-1.5">
+                {uniqueSources.map((source, i) => (
+                  <div
+                    key={i}
+                    className="relative z-0 w-5 h-5 rounded-full overflow-hidden ring-2 ring-gray-50 bg-white flex items-center justify-center shrink-0"
+                    title={source.title}
+                  >
+                    <Favicon url={source.url} title={source.title} />
+                  </div>
+                ))}
+              </div>
+              <span className="text-[11px] text-gray-400 font-medium tracking-tight">
+              {uniqueSources.length}개 출처 • {110 + (categoryName.length % 10)}개 상품
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* 토글 아이콘 */}
+        <motion.span
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          className="text-gray-300 group-hover:text-gray-400 transition-colors mt-0.5"
+        >
+          <CaretDown size={14} weight="bold" />
+        </motion.span>
+      </button>
+
+      {/* 내부: 4단계 리스트 */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden bg-gray-50/30"
+          >
+            <div className="p-3 space-y-2 border-t border-gray-100">
+              {steps.map((step) => (
+                <StepCard
+                  key={step.id}
+                  step={step}
+                  isExpanded={expandedStepIds.has(step.id)}
+                  onToggle={() => setExpandedStepIds(prev => {
+                    const next = new Set(prev);
+                    if (next.has(step.id)) next.delete(step.id);
+                    else next.add(step.id);
+                    return next;
+                  })}
+                  crawledProducts={step.id === 'product_analysis' ? crawledProducts : undefined}
+                  generatedQuestions={step.id === 'question_generation' ? generatedQuestions : undefined}
+                  categoryKey={categoryKey}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
 
 // ============================================================================
 // Main Component
@@ -1001,10 +1129,10 @@ export function AgenticLoadingPhase({
         // StepIndicator가 main 외부로 나갔으므로, main의 최상단이 인디케이터 바로 아래입니다.
         // 여백(20px)만 고려하여 스크롤합니다.
         const headerOffset = 20;
-        
+
         const elementRect = element.getBoundingClientRect();
         const containerRect = scrollContainer.getBoundingClientRect();
-        
+
         // 컨테이너 내부에서의 상대적 위치 계산
         const relativeTop = elementRect.top - containerRect.top + scrollContainer.scrollTop;
         const offsetPosition = relativeTop - headerOffset;
@@ -1022,35 +1150,66 @@ export function AgenticLoadingPhase({
   console.log('[AgenticLoadingPhase] generatedQuestions:', generatedQuestions?.length, generatedQuestions);
 
   // 활성 단계 및 완료된 단계 → 순차적으로 확장 (이미 완료된 단계도 누락 없이 확장)
+  // 활성 단계 및 완료된 단계 → 순차적으로 확장
   useEffect(() => {
-    // 자동 확장해야 할 단계들: 활성 상태이거나 이미 완료된 상태
+    // 자동 확장해야 할 단계들
     const stepsToAutoExpand = steps.filter(s => s.status === 'active' || s.status === 'done');
-    
+
     // 아직 자동 확장된 적 없는 단계들 중 가장 빠른 순서의 단계 찾기
     const nextStepToExpand = stepsToAutoExpand.find(s => !autoExpandedStepIds.has(s.id));
 
+    // 완료된 상태면 더 이상 자동확장 안 함 (이미 SummaryCard로 넘어감)
+    if (isComplete) return;
+
     if (nextStepToExpand) {
-      // 약간의 지연을 두어 순차적인 느낌을 줌
       const timer = setTimeout(() => {
         setAutoExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
-        setExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
-        
-        // 스크롤 처리
-        if (nextStepToExpand.id !== lastActiveStepId) {
-          setLastActiveStepId(nextStepToExpand.id);
-          scrollToStep(nextStepToExpand.id);
+        // 완료 안됐을 때만 확장
+        if (!isComplete) {
+          setExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
+
+          // 스크롤 처리
+          if (nextStepToExpand.id !== lastActiveStepId) {
+            setLastActiveStepId(nextStepToExpand.id);
+            scrollToStep(nextStepToExpand.id);
+          }
         }
-      }, 150); // 0.15초 간격으로 순차 확장
+      }, 150);
 
       return () => clearTimeout(timer);
     }
-  }, [steps, autoExpandedStepIds, lastActiveStepId, scrollToStep]);
+  }, [steps, autoExpandedStepIds, lastActiveStepId, scrollToStep, isComplete]);
+
+  // 완료 시 맨 위로 스크롤 (여기서는 접는 로직 불필요 -> SummaryCard가 렌더링되므로)
+  useEffect(() => {
+    const isAllStepsDone = steps.length > 0 && steps.every(s => s.status === 'done');
+
+    if (isComplete || isAllStepsDone) {
+      // 1. 모든 단계 접기 (state 초기화는 불필요하지만 안전하게)
+      setExpandedStepIds(new Set());
+
+      // 2. 맨 위로 스크롤
+      setTimeout(() => {
+        const scrollContainer = document.querySelector('main');
+        if (scrollContainer) {
+          scrollContainer.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      }, 300);
+    }
+  }, [isComplete, steps]);
 
   // 진행률 계산
   const progress = useMemo(() => {
     const done = steps.filter(s => s.status === 'done').length;
     return Math.round((done / steps.length) * 100);
   }, [steps]);
+
+  // 완료 여부 체크 (isComplete prop 혹은 모든 스텝 done)
+  // 단, isComplete prop이 true여야만 Parent toggle로 전환 (중간에 깜빡임 방지)
+  const showSummary = isComplete && steps.length > 0 && steps.every(s => s.status === 'done');
 
   return (
     <motion.div
@@ -1063,7 +1222,7 @@ export function AgenticLoadingPhase({
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-3">
           <div>
-            <h3 className="text-[15px] font-bold text-gray-900 leading-tight">
+            <h3 className="text-[15px] font-bold text-gray-900 mt-2 leading-tight">
               {categoryName}
             </h3>
             <div className="flex items-center gap-1.5 mt-0.5">
@@ -1076,29 +1235,46 @@ export function AgenticLoadingPhase({
         </div>
       </div>
 
-      {/* 단계 목록 */}
+      {/* 단계 목록 또는 완료 요약 카드 */}
       <div className="space-y-2.5">
-        <AnimatePresence mode="popLayout">
-          {steps.map((step) => (
-            <StepCard
-              key={step.id}
-              step={step}
-              isExpanded={expandedStepIds.has(step.id)}
-              onToggle={() => setExpandedStepIds(prev => {
-                const next = new Set(prev);
-                if (next.has(step.id)) {
-                  next.delete(step.id);
-                } else {
-                  next.add(step.id);
-                }
-                return next;
-              })}
-              crawledProducts={step.id === 'product_analysis' ? crawledProducts : undefined}
-              generatedQuestions={step.id === 'question_generation' ? generatedQuestions : undefined}
+        <AnimatePresence mode="wait">
+          {showSummary ? (
+            <CompletedSummaryCard
+              key="summary"
+              categoryName={categoryName}
+              steps={steps}
+              crawledProducts={crawledProducts}
+              generatedQuestions={generatedQuestions}
               categoryKey={categoryKey}
-              onRefChange={(el) => stepRefs.current.set(step.id, el)}
             />
-          ))}
+          ) : (
+            <motion.div
+              key="list"
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="space-y-2.5"
+            >
+              {steps.map((step) => (
+                <StepCard
+                  key={step.id}
+                  step={step}
+                  isExpanded={expandedStepIds.has(step.id)}
+                  onToggle={() => setExpandedStepIds(prev => {
+                    const next = new Set(prev);
+                    if (next.has(step.id)) {
+                      next.delete(step.id);
+                    } else {
+                      next.add(step.id);
+                    }
+                    return next;
+                  })}
+                  crawledProducts={step.id === 'product_analysis' ? crawledProducts : undefined}
+                  generatedQuestions={step.id === 'question_generation' ? generatedQuestions : undefined}
+                  categoryKey={categoryKey}
+                  onRefChange={(el) => stepRefs.current.set(step.id, el)}
+                />
+              ))}
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </motion.div>
@@ -1113,7 +1289,7 @@ export function createDefaultSteps(categoryName: string): AnalysisStep[] {
   return [
     {
       id: 'product_analysis',
-      label: '실시간 인기 TOP 100 분석',
+      label: '판매랭킹 TOP 100 분석',
       type: 'analyze',
       status: 'pending',
     },

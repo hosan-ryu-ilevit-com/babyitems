@@ -28,6 +28,101 @@ const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
 const FINAL_RECOMMEND_MODEL = 'gemini-3-flash-preview'; // 최종 추천용 (가장 똑똑한 모델)
 const SPEC_NORMALIZE_MODEL = 'gemini-2.5-flash-lite'; // 스펙 정규화용
 const PROS_CONS_MODEL = 'gemini-2.5-flash-lite'; // 장단점 생성용
+const KEYWORD_EXPAND_MODEL = 'gemini-2.5-flash-lite'; // 키워드 확장용
+
+// ============================================================================
+// 선호 키워드 확장 (flash-lite) - prescreenCandidates에서 리뷰 검색용
+// ============================================================================
+
+interface ExpandedKeywords {
+  preferKeywords: string[];
+  avoidKeywords: string[];
+}
+
+/**
+ * collectedInfo와 negativeSelections에서 리뷰 검색용 키워드 추출 + 동의어 확장
+ * - "조용한 거 원해요" → ["조용", "소음", "정숙", "저소음", "시끄럽"]
+ * - "세척 쉬운 거" → ["세척", "청소", "분해", "씻", "닦"]
+ */
+async function extractExpandedKeywords(
+  categoryName: string,
+  collectedInfo: Record<string, string>,
+  negativeSelections: string[]
+): Promise<ExpandedKeywords> {
+  // 기본 키워드 (LLM 실패 시 fallback)
+  const fallback: ExpandedKeywords = {
+    preferKeywords: [],
+    avoidKeywords: [],
+  };
+
+  // collectedInfo가 없으면 빈 결과 반환
+  const infoEntries = Object.entries(collectedInfo).filter(
+    ([key]) => !key.startsWith('__') // 내부 키 제외
+  );
+  if (infoEntries.length === 0 && negativeSelections.length === 0) {
+    return fallback;
+  }
+
+  if (!ai) {
+    console.log('[KeywordExpand] No AI available, using fallback');
+    return fallback;
+  }
+
+  const model = ai.getGenerativeModel({
+    model: KEYWORD_EXPAND_MODEL,
+    generationConfig: {
+      temperature: 0.3,
+      maxOutputTokens: 600,
+    },
+  });
+
+  const userConditions = infoEntries
+    .map(([q, a]) => `- ${q}: ${a}`)
+    .join('\n') || '(없음)';
+
+  const prompt = `## ${categoryName} 구매 조건에서 리뷰 검색용 키워드 추출
+
+## 사용자 선호 조건
+${userConditions}
+
+## 피하고 싶은 단점
+${negativeSelections.join(', ') || '없음'}
+
+## 작업
+1. 선호 조건에서 리뷰 검색용 핵심 키워드 추출 (동의어/유사어 포함)
+2. 피할 단점에서 리뷰 검색용 핵심 키워드 추출 (동의어/유사어 포함)
+3. 각 키워드는 2-4글자의 한글 단어로 (조사 제외)
+
+## 예시
+- "조용한 거 원해요" → ["조용", "소음", "정숙", "저소음", "시끄럽"]
+- "세척 쉬운 거" → ["세척", "청소", "분해", "씻"]
+- "무거워요" (피할 단점) → ["무거", "무게", "휴대"]
+- "6개월 아기" → ["개월", "신생아", "아기"]
+
+## 응답 (JSON만, 설명 없이)
+{"preferKeywords":["키워드1","키워드2"],"avoidKeywords":["키워드1","키워드2"]}`;
+
+  try {
+    const startTime = Date.now();
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim();
+    const elapsed = Date.now() - startTime;
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]) as ExpandedKeywords;
+      console.log(`[KeywordExpand] Extracted ${parsed.preferKeywords?.length || 0} prefer, ${parsed.avoidKeywords?.length || 0} avoid keywords (${elapsed}ms)`);
+      return {
+        preferKeywords: parsed.preferKeywords || [],
+        avoidKeywords: parsed.avoidKeywords || [],
+      };
+    }
+  } catch (error) {
+    console.error('[KeywordExpand] Failed:', error);
+  }
+
+  return fallback;
+}
 
 // ============================================================================
 // JSON Repair - Flash Lite로 형식만 수정 (원본 내용 유지)
@@ -257,21 +352,21 @@ function analyzeReviewsQualitative(reviews: ReviewLite[]): {
   // 2. 감정 분석 (간단한 키워드 기반)
   const positiveWords = ['좋', '만족', '추천', '최고', '훌륭', '편리', '깨끗', '빠르', '조용', '예쁘', '튼튼', '가성비', '완벽', '대박', '굿', '굳', '짱', '최애'];
   const negativeWords = ['아쉽', '불편', '소음', '느리', '비싸', '별로', '실망', '고장', '뜨겁', '무거', '작', '냄새', '누수', '불량', '최악', '후회', '환불'];
-  
+
   let positiveCount = 0;
   let negativeCount = 0;
   const mentionCounter: Record<string, number> = {};
   const keyInsights: string[] = [];
-  
+
   // 구체적 특징 추출 패턴
   const featurePatterns = [
     /(\d+(?:ml|l|리터|kg|g|w|시간|분))/gi, // 수치 + 단위
     /(세척|청소|분해|조립|설치|배송|소음|무게|크기|용량|전력|배터리|충전)/gi, // 기능 키워드
   ];
-  
+
   reviews.forEach(r => {
     const content = r.content.toLowerCase();
-    
+
     // 긍정/부정 카운트
     positiveWords.forEach(w => {
       if (content.includes(w)) positiveCount++;
@@ -279,7 +374,7 @@ function analyzeReviewsQualitative(reviews: ReviewLite[]): {
     negativeWords.forEach(w => {
       if (content.includes(w)) negativeCount++;
     });
-    
+
     // 구체적 특징 추출
     featurePatterns.forEach(pattern => {
       const matches = r.content.match(pattern);
@@ -290,7 +385,7 @@ function analyzeReviewsQualitative(reviews: ReviewLite[]): {
         });
       }
     });
-    
+
     // 핵심 인사이트 추출 (50자 이상, 높은 평점 또는 낮은 평점)
     if (r.content.length > 50) {
       if (r.rating >= 4.5) {
@@ -306,19 +401,19 @@ function analyzeReviewsQualitative(reviews: ReviewLite[]): {
       }
     }
   });
-  
+
   // 감정 점수 계산 (-1 ~ 1)
   const totalSentiment = positiveCount + negativeCount;
-  const sentimentScore = totalSentiment > 0 
-    ? (positiveCount - negativeCount) / totalSentiment 
+  const sentimentScore = totalSentiment > 0
+    ? (positiveCount - negativeCount) / totalSentiment
     : 0;
-  
+
   // 상위 언급 특징
   const topMentions = Object.entries(mentionCounter)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
     .map(([key]) => key);
-  
+
   // 리뷰 신뢰도 (리뷰 수, 내용 길이, 별점 분포 다양성 기반)
   const hasVariedRatings = Object.values(ratingDistribution).filter(v => v > 0).length >= 3;
   const avgContentLength = reviews.reduce((sum, r) => sum + r.content.length, 0) / reviews.length;
@@ -327,7 +422,7 @@ function analyzeReviewsQualitative(reviews: ReviewLite[]): {
     (hasVariedRatings ? 0.3 : 0.1) +
     (avgContentLength > 50 ? 0.4 : avgContentLength * 0.008)
   ));
-  
+
   return {
     avgRating: Math.round(avgRating * 10) / 10,
     ratingDistribution,
@@ -415,7 +510,7 @@ JSON만 응답하세요.`;
     const result = await model.generateContent(prompt);
     const responseText = result.response.text();
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    
+
     if (jsonMatch) {
       const parsed = JSON.parse(jsonMatch[0]);
       if (parsed.normalizedSpecs && Array.isArray(parsed.normalizedSpecs)) {
@@ -462,12 +557,12 @@ async function generateProsConsForProducts(
   const productInfos = products.map((p) => {
     const productReviews = reviews[p.pcode] || [];
     const qualitative = analyzeReviewsQualitative(productReviews);
-    
+
     // 리뷰 원문 (최대 7개로 확대)
-    const reviewTexts = productReviews.slice(0, 7).map((r, i) => 
-      `[리뷰${i+1}] ${r.rating}점: "${r.content.slice(0, 100)}${r.content.length > 100 ? '...' : ''}"`
+    const reviewTexts = productReviews.slice(0, 7).map((r, i) =>
+      `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 100)}${r.content.length > 100 ? '...' : ''}"`
     ).join('\n');
-    
+
     // 핵심 인사이트 포함
     const insightsText = qualitative.keyInsights.length > 0
       ? `\n핵심 인사이트:\n${qualitative.keyInsights.map(i => `  ${i}`).join('\n')}`
@@ -537,7 +632,7 @@ ${productInfos}
     const result = await model.generateContent(prompt);
     const responseText = result.response.text();
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    
+
     if (jsonMatch) {
       const parsed = JSON.parse(jsonMatch[0]);
       if (parsed.results && Array.isArray(parsed.results)) {
@@ -571,9 +666,12 @@ function prescreenCandidates(
   candidates: HardCutProduct[],
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
-  negativeSelections: string[]
+  negativeSelections: string[],
+  expandedKeywords?: ExpandedKeywords // 🆕 확장된 키워드 (flash-lite로 추출)
 ): HardCutProduct[] {
   console.log(`[FinalRecommend] Pre-screening ${candidates.length} candidates...`);
+
+  const { preferKeywords = [], avoidKeywords = [] } = expandedKeywords || {};
 
   // 각 상품에 점수 부여
   const scored = candidates.map(p => {
@@ -598,28 +696,48 @@ function prescreenCandidates(
       : p.rating || 0;
     score += avgRating * 3; // 5점 만점 → 최대 15점
 
-    // 4. 피하고 싶은 단점 체크 (키워드 추출 + 부분 매칭으로 개선)
+    // 4. 스펙 + 리뷰 통합 텍스트 (검색 대상)
     const specText = (p.specSummary || '').toLowerCase();
     const reviewText = productReviews.map(r => r.content).join(' ').toLowerCase();
     const combinedText = `${specText} ${reviewText}`;
 
-    // 단점 레이블에서 핵심 키워드 추출 (한글 단어 추출)
-    const negativeKeywords = new Set<string>();
-    for (const neg of negativeSelections) {
-      // "소음이 예상보다 커요" → ["소음", "예상", "커요"] 등 추출
-      const words = neg.match(/[가-힣]{2,}/g) || [];
-      words.forEach(w => negativeKeywords.add(w.toLowerCase()));
-      // 핵심 단어 직접 추가 (예: "무거움" → "무겁", "무거")
-      if (neg.includes('무거') || neg.includes('무게')) negativeKeywords.add('무거');
-      if (neg.includes('소음') || neg.includes('시끄')) negativeKeywords.add('소음');
-      if (neg.includes('세척') || neg.includes('청소')) negativeKeywords.add('세척');
-      if (neg.includes('가격') || neg.includes('비싸')) negativeKeywords.add('비싸');
-      if (neg.includes('고장') || neg.includes('내구')) negativeKeywords.add('고장');
-      if (neg.includes('크기') || neg.includes('부피')) negativeKeywords.add('크기');
+    // 5. 🆕 선호 키워드 매칭 (확장된 키워드로 스펙+리뷰 검색)
+    // - 스펙에 있으면 가점, 긍정 리뷰(4점+)에 있으면 추가 가점
+    for (const keyword of preferKeywords) {
+      const kwLower = keyword.toLowerCase();
+      // 스펙에 있으면 +3점
+      if (specText.includes(kwLower)) {
+        score += 3;
+      }
+      // 긍정 리뷰(4점 이상)에 있으면 +2점
+      const inPositiveReview = productReviews.some(
+        r => r.rating >= 4 && r.content.toLowerCase().includes(kwLower)
+      );
+      if (inPositiveReview) {
+        score += 2;
+      }
+    }
+
+    // 6. 피할 키워드 매칭 (확장된 키워드 우선, 없으면 기존 로직)
+    const effectiveAvoidKeywords = new Set<string>(
+      avoidKeywords.map(k => k.toLowerCase())
+    );
+    // 기존 negativeSelections에서도 키워드 추출 (fallback)
+    if (effectiveAvoidKeywords.size === 0) {
+      for (const neg of negativeSelections) {
+        const words = neg.match(/[가-힣]{2,}/g) || [];
+        words.forEach(w => effectiveAvoidKeywords.add(w.toLowerCase()));
+        if (neg.includes('무거') || neg.includes('무게')) effectiveAvoidKeywords.add('무거');
+        if (neg.includes('소음') || neg.includes('시끄')) effectiveAvoidKeywords.add('소음');
+        if (neg.includes('세척') || neg.includes('청소')) effectiveAvoidKeywords.add('세척');
+        if (neg.includes('가격') || neg.includes('비싸')) effectiveAvoidKeywords.add('비싸');
+        if (neg.includes('고장') || neg.includes('내구')) effectiveAvoidKeywords.add('고장');
+        if (neg.includes('크기') || neg.includes('부피')) effectiveAvoidKeywords.add('크기');
+      }
     }
 
     let negativeMatchCount = 0;
-    for (const keyword of negativeKeywords) {
+    for (const keyword of effectiveAvoidKeywords) {
       if (combinedText.includes(keyword)) {
         negativeMatchCount++;
       }
@@ -627,13 +745,15 @@ function prescreenCandidates(
     // 키워드 매칭 수에 따라 감점 (최대 -30점)
     score -= Math.min(negativeMatchCount * 10, 30);
 
-    // 5. 사용자 조건 매칭
-    for (const [, value] of Object.entries(collectedInfo)) {
+    // 7. 사용자 조건 직접 매칭 (combinedText에서 검색 - 스펙+리뷰 모두)
+    for (const [key, value] of Object.entries(collectedInfo)) {
+      if (key.startsWith('__')) continue; // 내부 키 제외
       const valueStr = Array.isArray(value)
         ? value.join(' ')
         : (typeof value === 'string' ? value : String(value || ''));
       const valueLower = valueStr.toLowerCase();
-      if (valueLower && specText.includes(valueLower)) {
+      // 🆕 스펙뿐 아니라 리뷰에서도 검색
+      if (valueLower && combinedText.includes(valueLower)) {
         score += 5;
       }
     }
@@ -661,34 +781,46 @@ async function generateRecommendations(
   balanceSelections: BalanceSelection[],
   negativeSelections: string[]
 ): Promise<FinalRecommendation[]> {
+  // 🆕 키워드 확장 (flash-lite 사용) - prescreenCandidates 전에 실행
+  let expandedKeywords: ExpandedKeywords | undefined;
+  if (candidates.length > PRESCREEN_LIMIT) {
+    console.log(`[FinalRecommend] Extracting expanded keywords for prescreening...`);
+    expandedKeywords = await extractExpandedKeywords(
+      categoryName,
+      collectedInfo,
+      negativeSelections
+    );
+    console.log(`[FinalRecommend] Expanded keywords: prefer=${expandedKeywords.preferKeywords.length}, avoid=${expandedKeywords.avoidKeywords.length}`);
+  }
+
   // 50개 이상이면 사전 스크리닝으로 50개로 줄임
   let filteredCandidates = candidates;
   if (candidates.length > PRESCREEN_LIMIT) {
-    filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections);
+    filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections, expandedKeywords);
   }
-  
+
   // 리뷰가 있는지 확인
-  const hasReviews = Object.keys(reviews).length > 0 && 
+  const hasReviews = Object.keys(reviews).length > 0 &&
     Object.values(reviews).some(r => r.length > 0);
-  
+
   // 🆕 자유 입력 분석 (선호 속성 / 피할 단점 분류)
   const additionalCondition = collectedInfo['__additional_condition__'] || '';
   let freeInputAnalysis: FreeInputAnalysis | null = null;
-  
+
   if (additionalCondition && additionalCondition.trim().length >= 2) {
     console.log(`[FinalRecommend] Analyzing free input: "${additionalCondition.slice(0, 50)}..."`);
     freeInputAnalysis = await analyzeFreeInput(categoryName, additionalCondition);
   }
-  
+
   // 자유 입력에서 추출한 피할 단점을 negativeSelections에 추가
   const enhancedNegativeSelections = [...negativeSelections];
   if (freeInputAnalysis?.avoidAttributes?.length) {
     enhancedNegativeSelections.push(...freeInputAnalysis.avoidAttributes);
     console.log(`[FinalRecommend] Added ${freeInputAnalysis.avoidAttributes.length} avoid attributes from free input`);
   }
-  
+
   console.log(`[FinalRecommend] Candidates: ${candidates.length} → ${filteredCandidates.length}, Reviews: ${hasReviews}`);
-  
+
   if (!ai) {
     // AI 없으면 점수 기반 정렬
     return filteredCandidates.slice(0, 3).map((p, i) => ({
@@ -705,17 +837,17 @@ async function generateRecommendations(
     model: FINAL_RECOMMEND_MODEL,
     generationConfig: {
       temperature: 0.5,
-      maxOutputTokens: 4000, // 3개 추천 + 상세 정보를 위해 충분히 확보
+      maxOutputTokens: 6000, // 3개 추천 + 상세 정보 (출력 truncation 방지)
       responseMimeType: 'application/json',
     },
   });
-  
+
   console.log(`[FinalRecommend] Using model: ${FINAL_RECOMMEND_MODEL}`);
 
   // 후보 상품 정보 구성 (리뷰 있으면 정성적 분석 포함, 없으면 스펙만)
   const candidateInfo = filteredCandidates.map((p, i) => {
     const productReviews = reviews[p.pcode] || [];
-    
+
     // 기본 정보 (항상 포함)
     let info = `
 ### ${i + 1}. ${p.brand} ${p.name} (pcode: ${p.pcode})
@@ -733,23 +865,58 @@ async function generateRecommendations(
 
       const sentimentLabel = qualitative.sentimentScore > 0.3 ? '😊매우긍정'
         : qualitative.sentimentScore > 0 ? '🙂긍정적'
-        : qualitative.sentimentScore > -0.3 ? '😐보통'
-        : '😟부정적';
+          : qualitative.sentimentScore > -0.3 ? '😐보통'
+            : '😟부정적';
 
-      // ✅ 수정: 핵심 리뷰 1개 -> 3개로 확대 (Social Proof 강화용)
-      const reviewTexts = productReviews.slice(0, 3).map(r => 
-        `"${r.content.slice(0, 80)}${r.content.length > 80 ? '...' : ''}"`
+      // ✅ 리뷰 균형 샘플링: 별점 높은순 + 낮은순 (중복 제거)
+      // 후보 수에 따라 리뷰 개수 동적 조절 (프롬프트 크기 관리)
+      // 목표: 총 리뷰 ~150-200개 유지 (프롬프트 15,000-20,000자)
+      const candidateCount = filteredCandidates.length;
+      const reviewsPerSide = candidateCount > 40 ? 2  // 50개 × 4리뷰 = 200개
+        : candidateCount > 30 ? 3   // 40개 × 6리뷰 = 240개
+        : candidateCount > 20 ? 4   // 25개 × 8리뷰 = 200개
+        : candidateCount > 15 ? 6   // 18개 × 12리뷰 = 216개
+        : candidateCount > 10 ? 8   // 12개 × 16리뷰 = 192개
+        : 10; // 10개 이하 × 20리뷰 = 200개
+
+      const sortedByHighRating = [...productReviews].sort((a, b) => b.rating - a.rating);
+      const sortedByLowRating = [...productReviews].sort((a, b) => a.rating - b.rating);
+
+      const highRatingReviews = sortedByHighRating.slice(0, reviewsPerSide);
+      const lowRatingReviews = sortedByLowRating.slice(0, reviewsPerSide);
+
+      // 중복 제거 (reviewId 기준, 없으면 content 앞 50자로 판단)
+      const seenIds = new Set<string>();
+      const balancedReviews: typeof productReviews = [];
+
+      for (const r of [...highRatingReviews, ...lowRatingReviews]) {
+        const id = r.reviewId || r.content.slice(0, 50);
+        if (!seenIds.has(id)) {
+          seenIds.add(id);
+          balancedReviews.push(r);
+        }
+      }
+
+      // 동적 최대 개수 (reviewsPerSide × 2)
+      const maxReviews = reviewsPerSide * 2;
+      const sampledReviews = balancedReviews.slice(0, maxReviews);
+
+      const reviewTexts = sampledReviews.map(r =>
+        `[${r.rating}점] "${r.content.slice(0, 100)}${r.content.length > 100 ? '...' : ''}"`
       ).join('\n  ');
 
       info += `
 - 리뷰: ${productReviews.length}개, ${qualitative.avgRating}점, ${sentimentLabel}
-- 장점: ${pros.slice(0, 3).join(', ') || '없음'} / 단점: ${cons.slice(0, 2).join(', ') || '없음'}
-- 주요리뷰:
+- 장점 키워드: ${pros.slice(0, 3).join(', ') || '없음'} / 단점 키워드: ${cons.slice(0, 2).join(', ') || '없음'}
+- 리뷰 샘플 (고평점+저평점 균형, ${sampledReviews.length}개):
   ${reviewTexts}`;
     }
-    
+
     return info;
   }).join('\n\n');
+
+  // 프롬프트 크기 로그 (디버그용)
+  console.log(`[FinalRecommend] 📊 Prompt stats: ${filteredCandidates.length}개 후보, candidateInfo=${candidateInfo.length}자`);
 
   // 리뷰 유무에 따라 다른 프롬프트 사용
   const reviewRules = hasReviews ? `
@@ -998,7 +1165,7 @@ async function generateRecommendations(
           ];
           const hasForbiddenPattern = forbiddenPatterns.some(p => p.test(combinedReason));
           if (hasForbiddenPattern || combinedReason.length < 20) {
-            console.log(`[FinalRecommend] ⚠️ reason 품질 낮음 (${i+1}위), 원본:`, combinedReason.slice(0, 50));
+            console.log(`[FinalRecommend] ⚠️ reason 품질 낮음 (${i + 1}위), 원본:`, combinedReason.slice(0, 50));
           }
 
           if (!product) {
@@ -1145,11 +1312,11 @@ export async function POST(request: NextRequest) {
       balanceSelections || [],
       negativeSelections || []
     );
-    
+
     // 추천된 상품들의 pcode 추출
     const recommendedPcodes = recommendations.map(r => r.pcode);
     const recommendedProducts = recommendations.map(r => r.product).filter(Boolean);
-    
+
     console.log(`[FinalRecommend] Top 3 selected: ${recommendedPcodes.join(', ')}`);
 
     // ============================================================================
@@ -1176,7 +1343,7 @@ export async function POST(request: NextRequest) {
     const enrichedRecommendations = recommendations.map((rec) => {
       // 장단점 찾기
       const prosConsData = prosConsResults.find(pc => pc.pcode === rec.pcode);
-      
+
       // 정규화된 스펙 객체로 변환
       const normalizedSpecsObj: Record<string, string> = {};
       normalizedSpecs.forEach((spec) => {

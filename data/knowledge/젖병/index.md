@@ -1,30 +1,29 @@
 # 젖병 전문가 지식
 
-> 마지막 업데이트: 2026-01-08T05:55:53.073Z
+> 마지막 업데이트: 2026-01-09T05:33:07.212Z
 > 분석 상품: 20개 | 분석 리뷰: 2,636개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 모유실감 디자인 및 배앓이 방지 기능 강화
-- 안전한 소재(PPSU, 유리 등) 선호
-- 디자인 및 사용 편의성 고려
+- 모유실감 기능 강화
+- 배앓이 방지 설계
+- PPSU 소재의 높은 내구성과 내열성
 
 ### 구매자 만족 포인트
-- ✓ 모유실감 디자인
-- ✓ 배앓이 방지 기능
-- ✓ 안전한 소재
-- ✓ 간편한 세척
-- ✓ 다양한 디자인
+- ✓ 모유실감
+- ✓ 배앓이 방지
+- ✓ 가벼운 무게
+- ✓ 눈금선 선명
+- ✓ 안전한 소재 (FDA 인증, 열탕 소독 가능)
 
 ### 주의해야 할 단점
-- ⚠ 플라스틱 젖병의 변색 가능성
-- ⚠ 젖꼭지 마모 속도
-- ⚠ 일부 제품의 눈금 부정확성
-- ⚠ 세척의 어려움 (좁은 입구, 복잡한 부품)
+- ⚠ 눈금선 불분명 (실리콘 소재)
+- ⚠ 젖병 소독기 사용 시 변색 가능성
+- ⚠ 가격대 높은 편 (일부 브랜드)
 
 ### 가격대 인사이트
-젖병 가격대는 1만원대부터 5만원대까지 다양하게 형성되어 있으며, 브랜드와 소재에 따라 가격 차이가 있습니다. 1만원대의 가성비 좋은 제품부터 5만원대의 프리미엄 제품까지 소비자의 선택 폭이 넓습니다.
+2026년 1월 현재, 젖병은 브랜드와 소재에 따라 가격대가 다양합니다. 그로미미와 같은 가성비 브랜드는 1만원 내외로 구매 가능하며, 더블하트, 닥터브라운 등은 1~2만원대에 형성되어 있습니다. 헤겐과 같이 프리미엄 라인은 5만원대 이상으로 가격대가 높게 나타납니다.
 
 ---
 
@@ -243,4 +242,4 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNs8c6SAJ9uZUs5BWsN8tlhvOdjhaeLb2aCxSlH1PjI6C4Cd-Dy__ateZWHFRXHSrQZi4CnzH1-CxGUy7jJZ25zhIjiN9_XSUThJ9RGRt1yhLfDjphnUWAY0ZyuiicdIwSN51NAmU1CZY=)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0DT4d2PYQ-oFu-Nru_gHNaiMFAJOD_TWtujhELquGqZkFTmd4gXASRO9IeRjQyxCq5oWk8UDYaf0SNmDwkzkUCwchy3ZXWO2l65XSS9AHJ4S39DyCzPFAYkWsmVl_9WOcjspbwVWPX5o=)

@@ -1,14 +1,14 @@
-# 세션: 20260107_115740_ygq5
-> 시작: 2026-01-07T11:57:40.161Z
+# 세션: 20260109_053338_off3
+> 시작: 2026-01-09T05:33:38.887Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 아기물티슈
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8wVaHDaUBGWWLHN8i9YzcOaiEIB6XDyv38YBLNiGwjDPqo_VfO1CCnh-yssvBvznonckVe52tZ3RfQAXAKa9Lzzws4wAoCFoCJ_Txx3GVD7h7EQ-MUAId-NsU3Y0Kd1lf9OzsPXclQ50N91KdbiR6dov5Pn0Ft4MSWadyR-uICitrvfaghcsIyb3AxtUYcBhPmK01ASPm0OeG93gs8jmXVb8nrzm02YIo, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmYBhZnf0O33L4l5M42k3PSHVdZNITP08A-WI6IveAUra_tMriCo_nAMh5EUZFArGTH9MbhkzFURXNSpRRJeEKD-pcPmXUjTB5Bgd777iuEM8BDcfJ0NQiRQosER4y33Gjk9hlOQACpCmKQoSh6SHyVwpZzHKeSkYSFV0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9w8l7leiAVbNae9Van_-tGUOpBMko60k6vtPQL5PV8gEWHYrrzTmx0hzBtrTPAJBC_MXOUi610474ntPYxDQiJHWgXqZQDWNvmeMT4xkiBtVXHwreXfaJ3vO1qtnHQUIY4AiBQD0pY9u_xBYNNMlUm-3U, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeu32NTb8hXSD2yhzeVDra1L4RGGUUIa_QOJIsASR2Ur_wH7pGmpsZxIaUu-3aumlXplSJ0FijZ6kL3N9NQP0h-g3d6zIK3f8b3EeP8lg29dAB4LnKewpOufxKWP5nhEroF6QPuKrEMVu2WGPviICI2a0TngKlegMNiS1aEyDUfZfdupkIqGly4zss, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJ9S2_PatvumkaC5dT36liqABR6EbZYlVKxVoC9tEKVzpDP5dE5FTgy88edEdD6cj3XknM8X42OcwhAdk6fjtyNCCT7_Mf9LV9OReJh3ddzzLqid2aA9PfrbzLX-PzYZpN1GDY8Wk=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8wVaHDaUBGWWLHN8i9YzcOaiEIB6XDyv38YBLNiGwjDPqo_VfO1CCnh-yssvBvznonckVe52tZ3RfQAXAKa9Lzzws4wAoCFoCJ_Txx3GVD7h7EQ-MUAId-NsU3Y0Kd1lf9OzsPXclQ50N91KdbiR6dov5Pn0Ft4MSWadyR-uICitrvfaghcsIyb3AxtUYcBhPmK01ASPm0OeG93gs8jmXVb8nrzm02YIo, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmYBhZnf0O33L4l5M42k3PSHVdZNITP08A-WI6IveAUra_tMriCo_nAMh5EUZFArGTH9MbhkzFURXNSpRRJeEKD-pcPmXUjTB5Bgd777iuEM8BDcfJ0NQiRQosER4y33Gjk9hlOQACpCmKQoSh6SHyVwpZzHKeSkYSFV0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9w8l7leiAVbNae9Van_-tGUOpBMko60k6vtPQL5PV8gEWHYrrzTmx0hzBtrTPAJBC_MXOUi610474ntPYxDQiJHWgXqZQDWNvmeMT4xkiBtVXHwreXfaJ3vO1qtnHQUIY4AiBQD0pY9u_xBYNNMlUm-3U, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeu32NTb8hXSD2yhzeVDra1L4RGGUUIa_QOJIsASR2Ur_wH7pGmpsZxIaUu-3aumlXplSJ0FijZ6kL3N9NQP0h-g3d6zIK3f8b3EeP8lg29dAB4LnKewpOufxKWP5nhEroF6QPuKrEMVu2WGPviICI2a0TngKlegMNiS1aEyDUfZfdupkIqGly4zss, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJ9S2_PatvumkaC5dT36liqABR6EbZYlVKxVoC9tEKVzpDP5dE5FTgy88edEdD6cj3XknM8X42OcwhAdk6fjtyNCCT7_Mf9LV9OReJh3ddzzLqid2aA9PfrbzLX-PzYZpN1GDY8Wk=
+- 쿼리: 아기물티슈 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 1월 현재, 아기 물티슈 시장은 안전한 성분과 도톰한 원단을 갖춘 제품들이 인기를 얻고 있습니다. 베베숲, 브라운, 앙블랑 등의 브랜드가 꾸준히 사랑받고 있으며, 가성비와 휴대성을 겸비한 제품들도 주목받고 있습니다. 친환경 소재와 저자극 성분에 대한 소비자들의 관심이 높아지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGYDG9E6f6p9KfmitMmLVwQiS8WctTVV-6-iZjjpDqecKlJc85Ynpx2hBSrBVHrR919m8OUOrkWtaHgZAKUe2AumGG-MpEyVGJwpHXLt1LQ93Dx9PZVqTPYzK1bI-6H1PKQd-7eQUsUp1xfTGGOZcitAQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGVGQ17iULy59rGe4l-HK5svaI4riirJWa87-WX4FtxwG3LKUETzeZxPzJrubWEgmzZGxOct9hgbGuBrNr73DIDmuDDMb_xmN7ng4gSE9xRmXnDYojpdZRK0lt3zLegf_D8BxKtNy3s7ZizSrePXb4C5SNRO4HwsWzIgffLRy9S, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-jpUZMQLx8rEL8J6F18lm9Z0Tb8qX-kw5EpXmO8bX-C7FVYOh8JiDJQIb2UU8u43sq-PpS_Uhki8HzSJMAEqzFwjhpFyZjJQP9Nr8ZmRJfK3p1foHRPEXfme4m8BbCW_SzUABOcoZ_wRdHmSGrayjFJsmNFzdaCT9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHziRnuMmNVc44fStyONHUqVdieg1j72HEMRrKinOiHB8LnZaNV7g1BsOTB0baOGHbcJY8iNkrj9gCKsPj_hXoQlb5yzlUZKuUv9JTpWl2Bfr37xd1wFE9afKt23UDcGXKlqpuKteFtYAnYTmaPY7jpJ2cVF8RZPSvb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuWHk59LzB-FlehB7xF6i_tW0dwTz9paVRKoGao6Y60xnvzGO6AX5nPl44ZdBze-7CalE2E17t9oZaUDabo09sbH2_wE8UZPV9egtO7COtXA7AgzhzAdVD-Mild9r7_511IE-tjWTlvnKQYbBDkMrHKB2kURF1
 
 ---
 
@@ -16,39 +16,19 @@
 
 | 항목 | 답변 |
 |------|------|
-| usage_frequency | 3. 특정 용도로만 사용 |
-| material_texture | 2. 도톰하고 부드러운 원단, 3. 엠보싱 원단 |
-| water_purification | 표준 정수 (7~8단계) |
-| budget | 1만 7천원 이하 |
-| __avoid_negatives__ | 1. 피부 자극 성분 걱정,2. 건조함 걱정,3. 강한 향 걱정,4. 원단 내구성 걱정 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 108개 (전체 108개 중)
+현재 후보: 5개 (전체 5개 중)
 
 ### 후보 상품
-1. 순둥이 베이직 물티슈 리필형 80매 - 31,800원 - ⭐4.8
-2. 미엘 클래식 물티슈 캡형 100매 - 13,110원 - ⭐4.8
-3. 베베숲 시그니처 블루 에코 물티슈 캡형 70매 - 21,680원 - ⭐4
-4. 순둥이 베이직 물티슈 캡형 80매 - 17,400원 - ⭐4.5
-5. 아이러브베베 시그니앙 블랙라벨 물티슈 캡형 70매 - 14,240원 - ⭐4.7
-6. 베베숲 시그니처 위드 레드 물티슈 캡형 70매 - 18,980원 - ⭐4.8
-7. 코멧 오리지널 물티슈 캡형 100매 - 10,300원 - ⭐4.3
-8. 베베숲 시그니처 위드 블루 물티슈 캡형 70매 - 1,750원 - ⭐4.8
-9. 베베숲 프리미어 물티슈 캡형 70매 - 1,090원 - ⭐4.8
-10. 베베앙 120 물티슈 캡형 120매 - 11,430원 - ⭐4.3
-11. 미엘 더 클래식 시그니처 물티슈 캡형 100매 - 12,550원 - ⭐4.6
-12. 페넬로페 본보야지 에펠 물티슈 캡형 70매 - 34,770원 - ⭐4.8
-13. 베베숲 트러스트 프리미엄 물티슈 캡형 80매 - 990원 - ⭐4.8
-14. 베베앙 프리미엄 골드 물티슈 캡형 70매 - 20,870원 - ⭐4.7
-15. 베베앙 오리지널 플러스 물티슈 캡형 100매 - 6,010원 - ⭐4.7
-16. 베베앙 시그니처 물티슈 캡형 100매 - 1,900원 - ⭐4.7
-17. 리벤스 시그니처 블랙라벨 물티슈 캡형 70매 - 10,400원 - ⭐5
-18. 마렌비 프리셔스 퍼플터치 물티슈 캡형 72매 - 13,690원 - ⭐4.6
-19. 아이러브베베 블루 물티슈 캡형 80매 - 13,460원 - ⭐4.7
-20. 페넬로페 본보야지 세느 물티슈 캡형 70매 - 22,150원 - ⭐4.7
+1. 아이러브베베 시그니앙 오가든 물티슈 캡형 77매 - 13,570원 - ⭐4.8
+2. 베베숲 시그니처 그린 물티슈 캡형 70매 - 22,870원 - ⭐4.8
+3. 베베숲 시그니처 블루 물티슈 리필형 70매 - 22,900원 - ⭐4.6
+4. 아이러브베베 플러스옐로우 물티슈 캡형 120매 - 12,380원 - ⭐4.6
+5. 베베숲 시그니처 브라운 물티슈 캡형 70매 - 19,220원 - ⭐4.8
 
 ---
 
@@ -60,10 +40,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 1. 피부 자극 성분 걱정
-- 2. 건조함 걱정
-- 3. 강한 향 걱정
-- 4. 원단 내구성 걱정
+(아직 선택 없음)
 
 ---
 

@@ -1,18 +1,29 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T11:57:19.587Z
-> 분석 상품: 20개 | 분석 리뷰: 257,934개
+> 마지막 업데이트: 2026-01-09T05:33:33.116Z
+> 분석 상품: 20개 | 분석 리뷰: 196,934개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 안전한 성분 (EWG 그린 등급, 무자극)
+- 도톰하고 부드러운 원단 (고평량, 엠보싱)
+- 친환경 및 생분해성 소재
 
 ### 구매자 만족 포인트
+- ✓ 안전한 성분
+- ✓ 도톰하고 부드러운 원단
+- ✓ 뛰어난 가성비
+- ✓ 휴대 용이성
+- ✓ 촉촉함 유지력
 
 ### 주의해야 할 단점
+- ⚠ 높은 가격대 (일부 프리미엄 제품)
+- ⚠ 캡이 잘 열리지 않는 경우 (일부 제품)
+- ⚠ 환경 부담 (대량 소비 시)
 
 ### 가격대 인사이트
-
+아기 물티슈는 팩당 가격, 매당 가격, 면적당 가격, 무게당 가격 등 다양한 기준으로 가격을 비교할 수 있습니다. 일반적으로 1팩 당 1,000원 이하의 제품은 가성비가 좋은 편이며, 70gsm 이상의 고평량 제품은 1매당 20원 이상인 경우가 많으나, 슈퍼대디 엑설런트82와 같이 1매당 10원 후반대의 합리적인 가격으로 고평량 제품을 구매할 수도 있습니다.
 
 ---
 
@@ -31,7 +42,7 @@
 ### 2. 미엘 클래식 물티슈 캡형 100매
 - **브랜드**: 미엘
 - **가격**: 13,110원
-- **평점**: ⭐4.8 (46,040개 리뷰)
+- **평점**: ⭐4.8 (46,041개 리뷰)
 - **핵심 스펙**: 물티슈 / 캡형 / 평량: 50gsm / 플레인 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 7단계정수 / 크기(1장): 190x150mm / 인증: 더마테스트 물티슈 / 인증: 더마테스트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
@@ -71,7 +82,7 @@
 ### 6. 아이러브베베 시그니앙 블랙라벨 물티슈 캡형 70매
 - **브랜드**: 아이러브베베
 - **가격**: 14,240원
-- **평점**: ⭐4.7 (9,388개 리뷰)
+- **평점**: ⭐4.7 (9,396개 리뷰)
 - **핵심 스펙**: 물티슈 / 캡형 / 평량: 82gsm / 엠보싱 / 용도: 유아용, 피부용 / 8단계정수 / 크기(1장): 190x170mm / 원단: 레이온 / 인증: 더마테스트, 경구독성테스트 물티슈 / 인증: 더마테스트, 경구독성테스트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
@@ -80,8 +91,8 @@
 
 ### 7. 베베숲 시그니처 위드 레드 물티슈 캡형 70매
 - **브랜드**: 베베숲
-- **가격**: 18,980원
-- **평점**: ⭐4.8 (7,422개 리뷰)
+- **가격**: 18,220원
+- **평점**: ⭐4.8 (7,425개 리뷰)
 - **핵심 스펙**: 물티슈 / 캡형 / 평량: 80gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 200x170mm / 원단: 레이온 물티슈 / 원단: 레이온
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
@@ -98,27 +109,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=7626574)
 
-### 9. 베베숲 시그니처 위드 블루 물티슈 캡형 70매
-- **브랜드**: 베베숲
-- **가격**: 1,750원
-- **평점**: ⭐4.8 (14,186개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 75gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 200x170mm / 원단: 레이온 물티슈 / 원단: 레이온
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=15755225)
-
-### 10. 베베숲 프리미어 물티슈 캡형 70매
-- **브랜드**: 베베숲
-- **가격**: 1,090원
-- **평점**: ⭐4.8 (53,410개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 70gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 200x160mm 물티슈 / 크기(1장): 200x160mm
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=3670991)
-
-### 11. 베베앙 120 물티슈 캡형 120매
+### 9. 베베앙 120 물티슈 캡형 120매
 - **브랜드**: 베베앙
 - **가격**: 11,430원
 - **평점**: ⭐4.3 (26개 리뷰)
@@ -128,49 +119,29 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=18417347)
 
-### 12. 미엘 더 클래식 시그니처 물티슈 캡형 100매
-- **브랜드**: 미엘
-- **가격**: 12,550원
-- **평점**: ⭐4.6 (334개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 55gsm / 플레인 / 용도: 유아용, 피부용 / 유해성분 무첨가 / 7단계정수 물티슈 / 7단계정수
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=102024356)
-
-### 13. 페넬로페 본보야지 에펠 물티슈 캡형 70매
-- **브랜드**: 페넬로페
-- **가격**: 34,770원
-- **평점**: ⭐4.8 (858개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 75gsm / 엠보싱 / 용도: 유아용 / 보습효과 / 유해성분 무첨가 / 10단계정수 / 인증: 더마테스트, cGMP 물티슈 / 인증: 더마테스트, cGMP
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16665026)
-
-### 14. 베베숲 트러스트 프리미엄 물티슈 캡형 80매
+### 10. 베베숲 시그니처 위드 블루 물티슈 캡형 70매
 - **브랜드**: 베베숲
-- **가격**: 990원
-- **평점**: ⭐4.8 (15,906개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 50gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 물티슈 / 유해성분 무첨가
+- **가격**: 1,750원
+- **평점**: ⭐4.8 (14,187개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 75gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 200x170mm / 원단: 레이온 물티슈 / 원단: 레이온
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=6957154)
+- [상세보기](https://prod.danawa.com/info/?pcode=15755225)
 
-### 15. 베베앙 프리미엄 골드 물티슈 캡형 70매
-- **브랜드**: 베베앙
-- **가격**: 20,870원
-- **평점**: ⭐4.7 (3,804개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 75gsm / 엠보싱 / 용도: 유아용, 피부용 / 손·입 사용 / 9단계정수 / 인증: 더마테스트, EWG 그린등급, cGMP, 경구독성테스트, ISO22716 물티슈 / 인증: 더마테스트, EWG 그린등급, cGMP, 경구독성테스트, ISO22716
+### 11. 베베숲 프리미어 물티슈 캡형 70매
+- **브랜드**: 베베숲
+- **가격**: 1,150원
+- **평점**: ⭐4.8 (53,415개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 70gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 200x160mm 물티슈 / 크기(1장): 200x160mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=27498230)
+- [상세보기](https://prod.danawa.com/info/?pcode=3670991)
 
-### 16. 베베앙 오리지널 플러스 물티슈 캡형 100매
+### 12. 베베앙 오리지널 플러스 물티슈 캡형 100매
 - **브랜드**: 베베앙
-- **가격**: 6,010원
+- **가격**: 6,150원
 - **평점**: ⭐4.7 (278개 리뷰)
 - **핵심 스펙**: 물티슈 / 캡형 / 평량: 55gsm / 플레인 / 용도: 유아용, 피부용 / 손·입 사용 / 유해성분 무첨가 / 약산성 / 9단계정수 / 인증: 더마테스트, EWG 그린등급, cGMP, 경구독성테스트, ISO22716 물티슈 / 인증: 더마테스트, EWG 그린등급, cGMP, 경구독성테스트, ISO22716
 - **장점 요약**: 분석 중
@@ -178,29 +149,69 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=4937563)
 
-### 17. 베베앙 시그니처 물티슈 캡형 100매
+### 13. 베베앙 프리미엄 골드 물티슈 캡형 70매
 - **브랜드**: 베베앙
-- **가격**: 1,900원
-- **평점**: ⭐4.7 (3,274개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 50gsm / 플레인 / 용도: 유아용, 피부용 / 손·입 사용 / 보습효과 / 유해성분 무첨가 / 약산성 / 무향 / 6단계정수 / 인증: 더마테스트, EWG 그린등급, 경구독성테스트 물티슈 / 인증: 더마테스트, EWG 그린등급, 경구독성테스트
+- **가격**: 21,910원
+- **평점**: ⭐4.7 (3,804개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 75gsm / 엠보싱 / 용도: 유아용, 피부용 / 손·입 사용 / 9단계정수 / 인증: 더마테스트, EWG 그린등급, cGMP, 경구독성테스트, ISO22716 물티슈 / 인증: 더마테스트, EWG 그린등급, cGMP, 경구독성테스트, ISO22716
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=8044747)
+- [상세보기](https://prod.danawa.com/info/?pcode=27498230)
 
-### 18. 리벤스 시그니처 블랙라벨 물티슈 캡형 70매
-- **브랜드**: 리벤스
-- **가격**: 10,400원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 70gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 6단계정수 / 크기(1장): 160x200mm / 인증: 더마테스트, 경구독성테스트 물티슈 / 인증: 더마테스트, 경구독성테스트
+### 14. 베베숲 트러스트 프리미엄 물티슈 캡형 80매
+- **브랜드**: 베베숲
+- **가격**: 990원
+- **평점**: ⭐4.8 (15,908개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 50gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 물티슈 / 유해성분 무첨가
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=79701491)
+- [상세보기](https://prod.danawa.com/info/?pcode=6957154)
+
+### 15. 베베숲 오리진 물티슈 캡형 100매
+- **브랜드**: 베베숲
+- **가격**: 6,400원
+- **평점**: ⭐4.8 (44개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 50gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 195x140mm 물티슈 / 크기(1장): 195x140mm
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20280362)
+
+### 16. 미엘 더 클래식 시그니처 물티슈 캡형 100매
+- **브랜드**: 미엘
+- **가격**: 10,780원
+- **평점**: ⭐4.6 (335개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 55gsm / 플레인 / 용도: 유아용, 피부용 / 유해성분 무첨가 / 7단계정수 물티슈 / 7단계정수
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=102024356)
+
+### 17. 페넬로페 본보야지 에펠 물티슈 캡형 70매
+- **브랜드**: 페넬로페
+- **가격**: 36,790원
+- **평점**: ⭐4.8 (858개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 75gsm / 엠보싱 / 용도: 유아용 / 보습효과 / 유해성분 무첨가 / 10단계정수 / 인증: 더마테스트, cGMP 물티슈 / 인증: 더마테스트, cGMP
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=16665026)
+
+### 18. 베베숲 시그니처 레드 물티슈 캡형 70매
+- **브랜드**: 베베숲
+- **가격**: 24,300원
+- **평점**: ⭐4.8 (3,919개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 80gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 200x180mm / 원단: 레이온 물티슈 / 원단: 레이온
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=11309568)
 
 ### 19. 마렌비 프리셔스 퍼플터치 물티슈 캡형 72매
 - **브랜드**: 마렌비
-- **가격**: 13,690원
+- **가격**: 13,720원
 - **평점**: ⭐4.6 (1,449개 리뷰)
 - **핵심 스펙**: 물티슈 / 캡형 / 평량: 80gsm / 엠보싱 / 용도: 유아용, 피부용 / 10단계정수 / 크기(1장): 200x185mm / 인증: 더마테스트, EWG 그린등급, ISO22716 물티슈 / 인증: 더마테스트, EWG 그린등급, ISO22716
 - **장점 요약**: 분석 중
@@ -208,15 +219,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=71069675)
 
-### 20. 아이러브베베 블루 물티슈 캡형 80매
-- **브랜드**: 아이러브베베
-- **가격**: 13,460원
-- **평점**: ⭐4.7 (61,709개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 52gsm / 엠보싱 / 용도: 유아용 / 6단계정수 / 인증: 더마테스트 물티슈 / 인증: 더마테스트
+### 20. 베베앙 포유 프리미엄 물티슈 캡형 70매
+- **브랜드**: 베베앙
+- **가격**: 13,900원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 75gsm / 엠보싱 / 용도: 유아용, 피부용 / 손·입 사용 / 9단계정수 / 크기(1장): 160x195mm / 인증: 더마테스트, EWG 그린등급, cGMP, 경구독성테스트, ISO22716 물티슈 / 인증: 더마테스트, EWG 그린등급, cGMP, 경구독성테스트, ISO22716
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=3887285)
+- [상세보기](https://prod.danawa.com/info/?pcode=58824917)
 
 ---
 
@@ -231,8 +242,8 @@
 ---
 
 ## 📊 데이터 출처
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8wVaHDaUBGWWLHN8i9YzcOaiEIB6XDyv38YBLNiGwjDPqo_VfO1CCnh-yssvBvznonckVe52tZ3RfQAXAKa9Lzzws4wAoCFoCJ_Txx3GVD7h7EQ-MUAId-NsU3Y0Kd1lf9OzsPXclQ50N91KdbiR6dov5Pn0Ft4MSWadyR-uICitrvfaghcsIyb3AxtUYcBhPmK01ASPm0OeG93gs8jmXVb8nrzm02YIo)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmYBhZnf0O33L4l5M42k3PSHVdZNITP08A-WI6IveAUra_tMriCo_nAMh5EUZFArGTH9MbhkzFURXNSpRRJeEKD-pcPmXUjTB5Bgd777iuEM8BDcfJ0NQiRQosER4y33Gjk9hlOQACpCmKQoSh6SHyVwpZzHKeSkYSFV0=)
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9w8l7leiAVbNae9Van_-tGUOpBMko60k6vtPQL5PV8gEWHYrrzTmx0hzBtrTPAJBC_MXOUi610474ntPYxDQiJHWgXqZQDWNvmeMT4xkiBtVXHwreXfaJ3vO1qtnHQUIY4AiBQD0pY9u_xBYNNMlUm-3U)
-- [bebesup.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeu32NTb8hXSD2yhzeVDra1L4RGGUUIa_QOJIsASR2Ur_wH7pGmpsZxIaUu-3aumlXplSJ0FijZ6kL3N9NQP0h-g3d6zIK3f8b3EeP8lg29dAB4LnKewpOufxKWP5nhEroF6QPuKrEMVu2WGPviICI2a0TngKlegMNiS1aEyDUfZfdupkIqGly4zss)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJ9S2_PatvumkaC5dT36liqABR6EbZYlVKxVoC9tEKVzpDP5dE5FTgy88edEdD6cj3XknM8X42OcwhAdk6fjtyNCCT7_Mf9LV9OReJh3ddzzLqid2aA9PfrbzLX-PzYZpN1GDY8Wk=)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGYDG9E6f6p9KfmitMmLVwQiS8WctTVV-6-iZjjpDqecKlJc85Ynpx2hBSrBVHrR919m8OUOrkWtaHgZAKUe2AumGG-MpEyVGJwpHXLt1LQ93Dx9PZVqTPYzK1bI-6H1PKQd-7eQUsUp1xfTGGOZcitAQ=)
+- [hwahae.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGVGQ17iULy59rGe4l-HK5svaI4riirJWa87-WX4FtxwG3LKUETzeZxPzJrubWEgmzZGxOct9hgbGuBrNr73DIDmuDDMb_xmN7ng4gSE9xRmXnDYojpdZRK0lt3zLegf_D8BxKtNy3s7ZizSrePXb4C5SNRO4HwsWzIgffLRy9S)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-jpUZMQLx8rEL8J6F18lm9Z0Tb8qX-kw5EpXmO8bX-C7FVYOh8JiDJQIb2UU8u43sq-PpS_Uhki8HzSJMAEqzFwjhpFyZjJQP9Nr8ZmRJfK3p1foHRPEXfme4m8BbCW_SzUABOcoZ_wRdHmSGrayjFJsmNFzdaCT9)
+- [thefairnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHziRnuMmNVc44fStyONHUqVdieg1j72HEMRrKinOiHB8LnZaNV7g1BsOTB0baOGHbcJY8iNkrj9gCKsPj_hXoQlb5yzlUZKuUv9JTpWl2Bfr37xd1wFE9afKt23UDcGXKlqpuKteFtYAnYTmaPY7jpJ2cVF8RZPSvb)
+- [brikorea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuWHk59LzB-FlehB7xF6i_tW0dwTz9paVRKoGao6Y60xnvzGO6AX5nPl44ZdBze-7CalE2E17t9oZaUDabo09sbH2_wE8UZPV9egtO7COtXA7AgzhzAdVD-Mild9r7_511IE-tjWTlvnKQYbBDkMrHKB2kURF1)

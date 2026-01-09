@@ -14,68 +14,59 @@ interface TimelineStreamingViewProps {
  */
 export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  // 스트리밍이 완료된 step index들을 추적
-  const [completedStepIndices, setCompletedStepIndices] = useState<Set<number>>(new Set());
-  // 현재 스트리밍 중인 step index
+  // 각 단계별 텍스트 스트리밍 완료 여부 추적
+  const [textCompletedIndices, setTextCompletedIndices] = useState<Set<number>>(new Set());
+  // 현재 활성화된(스트리밍 중이거나 대기 중인) step index
   const [currentStreamingIndex, setCurrentStreamingIndex] = useState(0);
 
-  // step 스트리밍 완료 핸들러
-  const handleStepComplete = useCallback((stepIndex: number) => {
-    setCompletedStepIndices(prev => new Set([...prev, stepIndex]));
-    // 다음 step이 있으면 스트리밍 시작
-    setCurrentStreamingIndex(prev => {
-      if (stepIndex + 1 < steps.length && stepIndex + 1 > prev) {
-        return stepIndex + 1;
+  // 텍스트 스트리밍 완료 핸들러
+  const handleTextComplete = useCallback((stepIndex: number) => {
+    setTextCompletedIndices(prev => new Set([...prev, stepIndex]));
+  }, []);
+
+  // 단계 전환 로직: 텍스트 완료 + 상태 완료(completed) 모두 만족 시 다음 단계로
+  useEffect(() => {
+    const currentStep = steps[currentStreamingIndex];
+    if (!currentStep) return;
+
+    const isTextDone = textCompletedIndices.has(currentStreamingIndex);
+    const isStatusDone = currentStep.status === 'completed';
+
+    if (isTextDone && isStatusDone) {
+      // 다음 단계가 있고, 아직 넘어가지 않았다면
+      if (currentStreamingIndex < steps.length - 1) {
+        // 잠시 대기 후 넘어가는 느낌을 주기 위해 약간의 지연 추가 가능 (선택사항)
+        const timer = setTimeout(() => {
+          setCurrentStreamingIndex(prev => prev + 1);
+        }, 500);
+        return () => clearTimeout(timer);
       }
-      return prev;
-    });
-  }, [steps.length]);
-
-  // 새 step이 추가되었을 때, 이전 step이 완료되었으면 바로 시작
-  const effectiveStreamingIndex = (() => {
-    const lastIndex = steps.length - 1;
-    if (lastIndex > 0 && completedStepIndices.has(lastIndex - 1) && currentStreamingIndex < lastIndex) {
-      return lastIndex;
     }
-    return currentStreamingIndex;
-  })();
+  }, [currentStreamingIndex, steps, textCompletedIndices]);
 
-  // 자동 스크롤: 내부 콘텐츠 변화(스트리밍 등) 감지하여 하단 유지
+  // 자동 스크롤
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
     const observer = new MutationObserver(() => {
-      container.scrollTo({
-        top: container.scrollHeight,
-        behavior: 'smooth'
-      });
+      container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
     });
-
-    observer.observe(container, {
-      childList: true,
-      subtree: true,
-      characterData: true
-    });
-
+    observer.observe(container, { childList: true, subtree: true, characterData: true });
     return () => observer.disconnect();
   }, []);
 
   if (steps.length === 0) return null;
 
-  // 현재 보여줄 step: 스트리밍 중이거나 완료된 것만
-  const visibleStepCount = effectiveStreamingIndex + 1;
-  const currentStep = steps[Math.min(effectiveStreamingIndex, steps.length - 1)];
+  const currentStep = steps[Math.min(currentStreamingIndex, steps.length - 1)];
 
   return (
     <div className="w-full flex flex-col gap-8">
-      {/* 상단: 현재 진행 중인 메인 작업 (AI 그라데이션) */}
+      {/* 상단: 현재 진행 중인 메인 작업 */}
       <div className="flex items-start gap-2.5 px-1">
         <div className="w-4 h-4 flex items-center justify-center shrink-0 mt-0.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/icons/ic-ai.svg" alt="" width={16} height={16} />
         </div>
-
         <div className="flex flex-col gap-1">
           <motion.h2
             key={currentStep.id}
@@ -101,9 +92,12 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
           }}
         >
-          {steps.slice(0, visibleStepCount).map((step, idx) => {
-            const isCurrentlyStreaming = idx === effectiveStreamingIndex;
-            const isCompleted = completedStepIndices.has(idx);
+          {steps.slice(0, currentStreamingIndex + 1).map((step, idx) => {
+            const isTextDone = textCompletedIndices.has(idx);
+
+            // 아이콘 결정: 완료됨(체크) vs 진행중(스피너)
+            // 텍스트가 다 나왔어도 status가 completed가 아니면 아직 진행중인 것임
+            const isFullyCompleted = isTextDone && step.status === 'completed';
 
             return (
               <motion.div
@@ -113,24 +107,35 @@ export function TimelineStreamingView({ steps }: TimelineStreamingViewProps) {
                 transition={{ duration: 0.3 }}
                 className="relative flex gap-4"
               >
-                {/* 왼쪽 라인 및 아이콘 */}
+                {/* 아이콘 */}
                 <div className="flex flex-col items-center shrink-0">
-                  <div className="w-6 h-6 flex items-center justify-center z-10">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-gray-400">
-                      <circle cx="11" cy="11" r="8" />
-                      <path d="m21 21-4.3-4.3" />
-                    </svg>
+                  <div className="w-6 h-6 flex items-center justify-center z-10 transition-all duration-500">
+                    {isFullyCompleted ? (
+                      <motion.div
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="text-blue-500"
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </motion.div>
+                    ) : (
+                      <div className="w-5 h-5 border-2 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+                    )}
                   </div>
-                  <div className="w-[1px] flex-1 bg-gray-200 my-1" />
+                  {idx < steps.length - 1 && (
+                    <div className={`w-[1px] flex-1 my-1 transition-colors duration-500 ${isFullyCompleted ? 'bg-blue-100' : 'bg-gray-100'}`} />
+                  )}
                 </div>
 
                 {/* 콘텐츠 */}
                 <div className="flex-1 space-y-2">
                   <StepContent
                     step={step}
-                    isStreaming={isCurrentlyStreaming}
-                    isCompleted={isCompleted}
-                    onComplete={() => handleStepComplete(idx)}
+                    isStreaming={idx === currentStreamingIndex}
+                    isCompleted={isTextDone}
+                    onComplete={() => handleTextComplete(idx)}
                   />
                 </div>
               </motion.div>

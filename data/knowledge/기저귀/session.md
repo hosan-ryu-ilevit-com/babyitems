@@ -1,14 +1,14 @@
-# 세션: 20260108_140240_y6vq
-> 시작: 2026-01-08T14:02:40.146Z
+# 세션: 20260109_055435_5mgl
+> 시작: 2026-01-09T05:54:35.181Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 기저귀
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSKWTZvWObjPrzNPMxNo6kG2FjheSYJGdE5A5olDsmbitMM_6abdVmuL1JGLrov7lwb4iaEFbxbxbTeD1mkcV6XeJaNr9MhGyfozRQ_VhsHa46US2bPN7DD_5dLCKWRynGuYadtIX9xYFtti5eXr5HoU4bB6oH_R8W_KzzoSt8RZRD2WaYCuhGJWmSDC1G8A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIjxXN2OVtyZJDiyeRqqBUSoaHFONB7QmyYHzj667oTD_2wpYsBWWjVyAH0fxxhchptXaRPsiNmkyw6LagwOrA9RYrcM17MYBINt0CIpa07BNJ4qxq8FwIpG8Tt-9m5Z3_iC_eNHo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDDUApjSQYxpG6oIZBCTxp3kZMF0vAnSJGbmg2nTWSG5HD8EqjgXc1kKXNaqOh9-GeQcOAieu6agYcfswBpiPqs7QqULJgH0MN-mHhMkVdLaP7lktMBue2yFEB7XUPmqHJ0UPajIo_zSSlbZhpds6YnJ_tNQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMdnnCbhF0K6p5uZDc3vsqF9HFO2paio0iIC_EivQjfSCk0-6ohwrZyqGiK80FQRtuZCElo8PkZU8LmdtMg1hNK4Ryq77nYVrWvDBUpgTyE8R-X8XnDpXYH4hRusPt9JmKzfZf30xp7DcSukvRj010Mn-cjg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-iXwE0kaKl2l0eL3kIIQoZ43YvmiCXLcl6DgXlhA0RMe3VT-j53kALume8BB_OVFJwA-PTSk6edItMBh74N2AaQjNHVIx4I81WWgItCfMMyNJc7gO8mZVTbtkvN7waMbGmGijiiWFI36lI3aF0R3fV0laT6SWUDmDXCW_HOsBF7xia11TTxw2w4BRRbDDBInYBo-INiCr1RSI_NcyoW_aacw4c_8ObjUj4N8SSO6YBtyZYNs68hbPOw1QLKoFtmPE
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSKWTZvWObjPrzNPMxNo6kG2FjheSYJGdE5A5olDsmbitMM_6abdVmuL1JGLrov7lwb4iaEFbxbxbTeD1mkcV6XeJaNr9MhGyfozRQ_VhsHa46US2bPN7DD_5dLCKWRynGuYadtIX9xYFtti5eXr5HoU4bB6oH_R8W_KzzoSt8RZRD2WaYCuhGJWmSDC1G8A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIjxXN2OVtyZJDiyeRqqBUSoaHFONB7QmyYHzj667oTD_2wpYsBWWjVyAH0fxxhchptXaRPsiNmkyw6LagwOrA9RYrcM17MYBINt0CIpa07BNJ4qxq8FwIpG8Tt-9m5Z3_iC_eNHo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDDUApjSQYxpG6oIZBCTxp3kZMF0vAnSJGbmg2nTWSG5HD8EqjgXc1kKXNaqOh9-GeQcOAieu6agYcfswBpiPqs7QqULJgH0MN-mHhMkVdLaP7lktMBue2yFEB7XUPmqHJ0UPajIo_zSSlbZhpds6YnJ_tNQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMdnnCbhF0K6p5uZDc3vsqF9HFO2paio0iIC_EivQjfSCk0-6ohwrZyqGiK80FQRtuZCElo8PkZU8LmdtMg1hNK4Ryq77nYVrWvDBUpgTyE8R-X8XnDpXYH4hRusPt9JmKzfZf30xp7DcSukvRj010Mn-cjg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-iXwE0kaKl2l0eL3kIIQoZ43YvmiCXLcl6DgXlhA0RMe3VT-j53kALume8BB_OVFJwA-PTSk6edItMBh74N2AaQjNHVIx4I81WWgItCfMMyNJc7gO8mZVTbtkvN7waMbGmGijiiWFI36lI3aF0R3fV0laT6SWUDmDXCW_HOsBF7xia11TTxw2w4BRRbDDBInYBo-INiCr1RSI_NcyoW_aacw4c_8ObjUj4N8SSO6YBtyZYNs68hbPOw1QLKoFtmPE
+- 쿼리: 기저귀 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 1월 현재, 기저귀 시장에서는 페넬로페, 하기스, 슈퍼대디가 가장 인기 있는 브랜드로 꾸준히 상위권을 차지하고 있습니다. 친환경 소재와 뛰어난 흡수력, 그리고 아기 피부 자극을 최소화하는 부드러운 소재가 주요 트렌드로 자리 잡고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6oze77ZzBgtXxq_QZBi_L2ZcpR5Or6usy4BfCBOVCDcw3B_d-FwNE2vY3-e1XJmjEQg6c88TQVAb8DOlYGbuQ-Gkp8FA_cadfWE4SQgJbtb8_wIZYTEnQh3gMF7yMQlVSJQMIxATgwUd_Jj-qobpVrxUb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCUAoQF6X94qdgL3GXRjZYgyb8LZSFHeGS4hmwjyBqqm5sRX7CkXE5M3mtgSQmfcM9dd5nM8bnSTGnW-TildjmZW6sZMAdxLqNIz52vxmxVV-reiqnY7pGniwZSZx_0eAEKia1z-JYuGs0STv8BNJSgeDD9VuYdA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEI2RgTILL1WXC25WVPQG0l0hBqG0wop8e-NzYZLXlrxxPqsv0_9J2OnrHQJTFfO2KJMPSHLfe-VsPkzqWrN8cfWjy24_PXj5m3ahCoRKfsnIsv1-YmgETFRQP2poot0umIcJtYpotCsAAIefxHqdmrdq8GvmhUWgoNXcY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErSWg4x-J67d5IbH2WbI2Sp92TaRY4istBJrM13Q5dX2VJnoQdmenxl1caD98QqKgP33dO1sEJAtivGD-9tfo4DByasx-P1Xo4iV91AbcLhLrFhiDa59RyAsmV9tNjhSqg-BPNAgLHz4ut_P2YdFciPSFFzV4Lsw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGEBIIbtBrbZ1FNo84q68SEVcMZgT_69GwkfMzf7JIxGS_YjsYZggmjMKcrPVL4ior3gT1F7JtI6iwm6gsSMaDxg6IoszySUEPFACaC7cQjfV2wA0iuv8JrVZHyQBkOyK3cMm2oNniqdmm20qxA_kZqYjj
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 몸무게는 어떻게 되나요? | 9kg ~ 13kg |
-| 어떤 형태의 기저귀를 선호하시나요? | 밴드형 |
-| 기저귀에서 가장 중요하게 생각하는 기능은 무엇인가요? | 샘 방지 및 빠른 흡수력, 뛰어난 통기성, 천연 소재 및 저자극 |
-| 기저귀 예산은 어느 정도로 생각하세요? (평균 약 3만 8천원, 2만원대~5만원대가 가장 많아요) | 2만원대 ~ 5만원 |
-| __avoid_negatives__ | 청소나 관리가 번거로울 것 같아요,부피가 커서 수납이나 보관 공간이 걱정돼요 |
 
 ---
 
@@ -45,8 +40,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 청소나 관리가 번거로울 것 같아요
-- 부피가 커서 수납이나 보관 공간이 걱정돼요
+(아직 선택 없음)
 
 ---
 

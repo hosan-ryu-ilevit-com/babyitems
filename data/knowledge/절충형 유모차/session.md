@@ -1,14 +1,14 @@
-# 세션: 20260108_044156_luv7
-> 시작: 2026-01-08T04:41:56.296Z
+# 세션: 20260109_051352_3uwa
+> 시작: 2026-01-09T05:13:52.959Z
 > 카테고리키: 절충형 유모차
 > 카테고리: 절충형 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 절충형 유모차 2026년 추천 순위 실사용 후기
-- 인사이트: 2026년 1월 현재, 절충형 유모차 시장은 부가부, 리안, 실버크로스 등의 브랜드가 인기를 끌고 있습니다. 최신 트렌드는 디럭스급의 안정성과 휴대용의 경량성을 결합한 실용적인 디자인과 다양한 편의 기능에 맞춰지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFipdojRZ-m0GVGYzZc1Dl0fz3jid2-3iQhEEpKxN5GD4pXeRjTLtilkRdWdfBRDdnK4bJ6LtOsQ46QKfBC87CfRspDGdmy2_HEYWokNLV6Ww96fnnmSpznwtGfSQ2Z-Laz5JSjIPf5e5ITwRpLIkbH5Ojl52KZgE1tDOLy2b6j-PIzbxHpBakPw6oq3SFaix48, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9Kd9jxmOLuAcr4sOREH3pQoyx3QQEOrwu0KBl9Fz15-JIaB0RLKB9NQkYUTcLV08rfR_xTBSIsH1y5Y6pziVIUa5YNCNt0kdJrsQMlyc-3M8bsveyEKjJ_v7BcqzI-SQJ6Wmsysg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfAqawnVjMRPEK4FBJhtcc0lSAELKtKoZh_6Lyt9ys5O0X1w7JReldKIYKtgRI1YbpKVGhsCOmVpe725Ixi6qdaBryPLt7G1_HkxfKW4PatA3qdUOcFarmcDZEPdDg_7RDKPIImaU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGy0cjA_rr1HFZ0OMntrf3rQKpAiDEZhPbG9ObNMQR7yv0O7c9-HtyimciEv9kgUN0b6PWuBvNXWnlJeLpHckX-cCFyGa-1u2kaf6bJdH9Tr2tjig21tkbQN-pj69232qNGQirzpubf6ddzQoDatgcOlVsJFwLjtRNC5tYkAZ2x_U0uT7IVsxqNrZckT9P8YbADLdi7BlVK7owRvigVMb_EDLnLu7bVzduU9OVHCYgkYiU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXp9P4td4rLzh68N4rJjRE5vEa-ry7oLUMn7RjAd1wcT4_RsnVub312L-DEhebyaHheQQo6HH8DzVUVVJRfzTWj5Nb06n5mkbMvR0SSXXST1tRSrci2MUjmZT7oUMI57tciVJVkmU6vnJ2HxoH8mbSkujGWdlAA3ShWM8-IEL_19q9d5ZQ43loqpj5q8-a4l4EOrCrcsBrzQ==
+- 쿼리: 절충형 유모차 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재 절충형 유모차 시장은 디럭스의 안정성과 휴대용의 경량성을 결합한 제품들이 인기를 얻고 있습니다. 실버크로스, 부가부, 리안, 시크 등의 브랜드가 강세를 보이며, 고급스러운 디자인과 소재, 그리고 편리한 기능들이 트렌드를 이끌고 있습니다. 특히 한 손 폴딩, 양대면 전환, 충격 흡수 서스펜션 등 실용성과 편의성을 높인 모델들이 소비자들의 선택을 받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXVIogn0Kr3kXu7tlLwPWkQ4Qb3JwpvWt3nKtplVO9TK2zFV3U0ltdsKqw2bpfQH6t-ojM9EkDYuwcUmVZCruNU_zpmOOwvPgIR0Cn8xFrzcoW6PkjOsaumHjaiOaQK2Bm-_ZME0UktU1ESZUy7k3jbW19sx7gnbPxWlRGC9oczchzTIljAHEkJFTOBNUQmHPFK9tnojg6v7ivU08Hxzaoh7C1idHO6Yjcuwklih6iyQs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXhtY3ygTWnx8VUh7H4q-vI2oTpW_xyLk8ZkmgWeeizefsdJTQqAb6MKSsGl3eQIY3W4Rf82M_7keVZREec3wjDnvVcLWQ8nZynkFc9qRxl4t685bAILHqspQD_-RTzvsQ2rnYH50gzON8C86ZvivdelmjXRVF9y515m4NLKh6wZvS9aq1NVxaxBBOGolHHyL-knsOG6I1Hg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErheMeclg3cnkXljh4at5Of0NCa7mXBAaGH40PSjuk7VvJxu5kqsZquK36iz345-wUWr5UEiDC9JEBJv3mUX2GafbarNTySfRymRdtzYzDr6fU5fLKLNCwLCZBAg_5X7zI1fKgL5Sk4FG4wjW-ax8d7hUUgsyW8_1mM3bD0nrJp2WEP2YZEhQdRexrVyaOHF2p, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqSfuqqnSTfTvqgJs0OQxfJ2VdajoKCCbVx_u_2H5hR3Hg-Ud8Bl08MEj2c0-i358a3d3BTsTvn_bT_t_sqbzaAdBov_BfyFyh_IxmXEWAfzw3N260BrmChZCDWm8NfLo5ZXqYb4s30a-8R5w52YXjKBIeqEKrN30PS7PdTFyYxKY2rhc1sElOLsXqdVx_BFlBFuiRNf8KuSgB3m81KG8S97Itle9-qWj7EJCyPUOg7m3YKLQG1OOwLlo2Ti2QZgSkBQ0y8PMqXwg3lRdaiOug3lT9IyVX_3uEO0wkWQa3MMvI653-7v2QaIJdPsZfgjNGBUw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGegauHQPQen-mAsmc_WhMCZILkANUIlwUFKf7ZJ46cpKpcyRRVMAXHo-7QcidgBGDFn8csALfTHvjGP1UQbBDhEtqhCRnUZ_5ZXiEXO9rj366uHDj853uV2x7c1hoRhw5wpPTVxOE=
 
 ---
 
