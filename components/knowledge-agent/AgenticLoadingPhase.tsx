@@ -1185,19 +1185,28 @@ export function AgenticLoadingPhase({
     const isAllStepsDone = steps.length > 0 && steps.every(s => s.status === 'done');
 
     if (isComplete || isAllStepsDone) {
-      // 1. 모든 단계 접기 (state 초기화는 불필요하지만 안전하게)
-      setExpandedStepIds(new Set());
+      // 모바일에서 이전 스크롤과 충돌 방지를 위해 충분한 딜레이
+      // - 이전 auto-expand 스크롤이 끝날 때까지 대기 (smooth scroll ~400ms)
+      // - AnimatePresence 전환 완료 대기
+      const scrollDelay = 600;  // 300ms → 600ms (모바일 안정성)
 
-      // 2. 맨 위로 스크롤
-      setTimeout(() => {
-        const scrollContainer = document.querySelector('main');
-        if (scrollContainer) {
-          scrollContainer.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        }
-      }, 300);
+      const timer = setTimeout(() => {
+        // 1. 모든 단계 접기 (비동기로 처리하여 cascading render 방지)
+        setExpandedStepIds(new Set());
+
+        // 2. requestAnimationFrame으로 DOM 렌더링 완료 보장 후 스크롤
+        requestAnimationFrame(() => {
+          const scrollContainer = document.querySelector('main');
+          if (scrollContainer) {
+            scrollContainer.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          }
+        });
+      }, scrollDelay);
+
+      return () => clearTimeout(timer);
     }
   }, [isComplete, steps]);
 
