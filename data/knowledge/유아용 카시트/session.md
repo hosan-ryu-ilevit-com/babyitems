@@ -1,14 +1,9 @@
-# 세션: 20260108_052215_mq5i
-> 시작: 2026-01-08T05:22:15.609Z
-> 카테고리키: 유아용
+# 세션: 20260109_015044_lhhk
+> 시작: 2026-01-09T01:50:44.470Z
+> 카테고리키: 유아용 카시트
 > 카테고리: 유아용 카시트
 
 ## 🔍 웹서치 인사이트
-
-### Init 단계
-- 쿼리: 유아용 카시트 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 유아용 카시트 시장은 브라이텍스, 다이치, 조이 등 전통적인 강자들이 여전히 높은 인기를 누리고 있습니다. 특히 회전형 카시트와 아이 성장 단계별 맞춤 설계된 제품들이 주목받고 있으며, 안전성과 편의성을 동시에 갖춘 제품들이 소비자들의 선택을 받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH65C38EyBM0XrFbIlXlEyKvpY6xMoMzyyS3iEUH52MPZ25FAzruHtRwLHct6Ku2bSckjzC_kLeUTS0LmATkR7NQ2I-qkoLmrgm4THQQNr4dO-QYMy6-nQTjspCfq8_781b3jlHaewEON1CdExvH1TKol_tSYTTtdaCjW36JvtdsCpRj0S9RajAeUH_B1de49k=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpebXkqoYayPrI_9ji8N21kuJRCez1inDagDASDsrJTKzx1tINR_R8gLSMVpHHrOMKEX3Q4irjkTMe7b6Bhds1_Pxx4vZT7Mg0xaWDsmMHUmHXV5NSEgmkd8Pb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFc6CZ2dIMpO370J0FA7SdJlTk8UjYAq5-HDl5iju-5FAmSecAwKqLWrrIG4KrFR_vFZy_h17u_NecmoqElHMqJ4pzSwnpq0b3XV5xBRrblE9mMfDv1Po_akDDeaiE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7h-jxHCJz0OcT9e_FzSRQRMcXAoKwANWoiJlN_irnODaMcqQ5fthsCegzxKz1cOODpPhYsrxYgOO_P1oCUbnfhRffyaysnBZe8cIQoS1vTNW-JR307kkXcWz5ma6ZgUBmobWlmaCGiiI0g6zKpnawTojGPpVdj_9LBOA7a8AnjJcRQ7fgQKXW3si7KE68YwEsblSKRniPXD5T35iiUnZpsDs1YR13HTVwPfdWkJAIZA==
 
 ---
 
@@ -16,11 +11,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| baby_age_or_weight | 영아/유아 (12개월-4세 또는 10-18kg) |
-| installation_method | 둘 다 고려 |
-| convenience_features | 3. 가벼운 무게 및 휴대성, 2. 간편한 세척 기능 |
-| budget | 18만원 이하 |
-| __avoid_negatives__ | 2,3 |
 
 ---
 
@@ -60,8 +50,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 2
-- 3
+(아직 선택 없음)
 
 ---
 

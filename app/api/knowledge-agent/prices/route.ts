@@ -53,7 +53,7 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 async function fetchPriceFromCache(pcode: string): Promise<PriceResult | null> {
   try {
     const { data, error } = await supabase
-      .from('danawa_prices')
+      .from('knowledge_prices_cache')
       .select('*')
       .eq('pcode', pcode)
       .single();
@@ -83,7 +83,7 @@ async function fetchPricesFromCache(pcodes: string[]): Promise<Record<string, Pr
 
   try {
     const { data, error } = await supabase
-      .from('danawa_prices')
+      .from('knowledge_prices_cache')
       .select('*')
       .in('pcode', pcodes);
 
