@@ -310,10 +310,19 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
       if (todoIndex >= 0) {
         const currentTodo = updatedTodos[todoIndex];
         const isExactMatch = currentTodo.options.some((o: any) => o.label === userMessage || o.value === userMessage);
-        
+
+        // ✅ 다중 선택 체크: 쉼표로 구분된 옵션들이 모두 유효한 옵션인지 확인
+        const isMultiSelectMatch = (() => {
+          if (isExactMatch) return false; // 이미 단일 매칭됨
+          const selectedOptions = userMessage.split(',').map((s: string) => s.trim()).filter(Boolean);
+          if (selectedOptions.length <= 1) return false; // 다중 선택 아님
+          const optionLabels = currentTodo.options.map((o: any) => o.label || o.value);
+          return selectedOptions.every((sel: string) => optionLabels.includes(sel));
+        })();
+
         send('status', { message: '사용자 의도 분석 중...' });
         let intentResult: UserIntentResult = { type: 'A', matchedOption: userMessage };
-        if (!isExactMatch) intentResult = await classifyUserIntent(userMessage, currentTodo.question, currentTodo.options, searchKeyword);
+        if (!isExactMatch && !isMultiSelectMatch) intentResult = await classifyUserIntent(userMessage, currentTodo.question, currentTodo.options, searchKeyword);
 
         if (intentResult.type === 'C') {
           send('status', { message: '자연스러운 응답 생성 중...' });
