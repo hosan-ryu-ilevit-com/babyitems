@@ -1,5 +1,5 @@
-# 세션: 20260108_103845_23r1
-> 시작: 2026-01-08T10:38:45.204Z
+# 세션: 20260109_071407_d913
+> 시작: 2026-01-09T07:14:07.016Z
 > 카테고리키: 4K모니터
 > 카테고리: 4K모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 4K모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 4K 모니터 시장은 OLED와 Mini-LED 기술을 중심으로 더욱 발전하고 있으며, 높은 주사율과 뛰어난 색 재현율을 갖춘 제품들이 인기를 얻고 있습니다. ASUS ROG Swift PG32UCDM과 같은 OLED 모니터는 뛰어난 화질과 성능으로 주목받고 있으며, LG, 삼성, 벤큐 등 주요 브랜드들이 다양한 가격대의 4K 모니터를 선보이고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-60JKGPfeaAv28FMh8u_D5RCkxJV4iaVQQddfL_wYqngWFFZvDSEhqutaBIG464Wz2aq0EJE4pLQQyYUU2ACXDfEf2k9pxK3dYbPNfCLJU2XGeL3oBLIBnQm2DW0lc9qq6kiu8_4bYCiwn6RnR2qQdUPd6dX5vtZtI1rLaheHAJvwnIaqqcb8RxqUT8ChqYA0jbZCEg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEK4b1O2FnFVGqNDzdnS4BABpjrpRUOHkAruqzVqteE2tfCluyLPl0933tj0Cx6ko4xMZRRd4y-pTKRxpK2PIhUb5AHPagBFLaZ1ZjeBib6jgXTTVSi4VBnqlvdFxZYTjJPQaXl-5E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_U3ZQ96ar1Q_m6Yq-OSu1Lk-hANdWS0qBjJKr_RDVNKpDcPRQ1LEjNFXHkFLVTlmRhfCtpHjNIIiKHj7iKEvTatqoyBac0fW9ptLnefJOiG2D, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqvGC7Hibkz9VkFCR5we9AFXEI6wrasgCrUONFm0T369BGQDedIux2e2YnMDbZAeAOz00QmVUvrenIh474-IM8XIRStcMG85eCT8kaDah1UbifvulzH6NmrVfo_48eG4Jp-XOmlJdqhw2fRzBWRvtjt8hvMBvTvJAn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyyp-Hib7ACI9OeKngPM9Zy1omOhwiphrEAxYtGOQD1KCypaHQGKSjSHzqE0Bn2w5Mpvx_S2Y4B0ORW0d1duRT6EJ5gJQdnYIm5SDXJBPAIr_sTSPYwiZoTDaJmbeOV_jReZLvw-6ToQ==
+- 인사이트: 2026년 현재 4K 모니터 시장은 OLED와 Mini-LED 기술을 중심으로 프리미엄 라인업이 강화되고 있으며, 높은 주사율과 뛰어난 색 재현율을 갖춘 제품들이 인기를 얻고 있습니다. LG, 삼성, ASUS 등 주요 브랜드들이 경쟁적으로 신제품을 출시하며 기술 혁신을 이끌고 있습니다. 특히 CES 2026에서는 LG의 새로운 탠덤 WOLED 패널 기술이 공개되어 OLED 모니터의 성능을 한 단계 끌어올릴 것으로 기대됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjtB0SSP11kXOnpXgcWNML4LKltdKdhlJ1fJI3FrYQZjm2JqWzon6o12QAVYml47RwDd7GypAFxjd95uhYkVvdychZnSzK1-_aGMXQjuod5e8znMy9Vly0jvS2l57MptVACLQSpLvQUaK64ytuKjdRv-_RU4TKl6rKggkKeR8s_bBPYY6NBfoMHXhMO9BCEgrh7YZR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHh4Ua1n29obIQcewhvGz-CH3kqvCDVJpMVF29fU3hL0AzKL2Kq9zSrvSYd2qp7A7MHOdXl4FszMzJ4IkYsh4pwtRQwP0a51HIQURIb3rqOOiE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-kkt5FN3Wn1nIapwZEd2Nu5ACmTHaOo8Kf3ozSneDcqdLaFMXNwyU-Y7iy7WtAVfeY5xAev-46B7Rw1P2-SL7GBlnqdFyaJ8YpEa9OQUfCz1dRHFePar1kfc1L9Lhkd1fNEzDY1eI861OTEC6mCF36JRhRSgmFx9tl0Od9QdC_ADcfQGE8Gr5hL7s_KxaCMZrSUdCQKMuzZ_DG_Z-BGHNdwxpoJzoYw7-3cIFmJTVcdE5kBXypVuOYTvqZe-OXJ8SMHKp4UHnG0eYrkqIxQgfMu-9XjEB7rG1b5PggKO9AhQuPb-k84GPWzPdjq3F, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcUnNxaBFvPrT0m5aZTCrswTv0HzB-l61D3RlXNkHqD3vnY4amrTQ3L2DaJtbvmtqcWgjnEl9ynaWqCnUsvadAi9nKRaNx3BoNJ2w1991u0wNsKVIMcyhxdv8gFFXQRYxK1nJjada79gLHx4Ezqg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmX5y5WJ4h-FOi30L4VK2mWZ9kVgzLJdKbYwlLpiW5hCnQy8ctOIc013D5S5u9VhlxquRiWSsGn5tnFfNTgqjD7BqlJU0oSqVU4QC3XuUY4FSw2rOwnEGjLb84Wv3bkrZK_rCwUw==
 
 ---
 
@@ -16,38 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 주로 어떤 용도로 4K 모니터를 사용하시나요? | 영상 편집, 디자인, 사진 작업, 게임 |
-| 어떤 종류의 디스플레이 기술을 선호하시나요? | OLED 또는 Mini-LED, IPS |
-| 모니터 연결 시 어떤 편의 기능을 중요하게 생각하시나요? | USB-C (PD 충전 포함) |
-| 화면 전환 속도(주사율)는 어느 정도가 필요하신가요? | 60Hz ~ 120Hz (일반/작업) |
+| 주로 어떤 용도로 4K 모니터를 사용하실 예정인가요? | 최신 고사양 게임 |
+| 모니터 패널 기술에 대해 특별히 선호하는 것이 있으신가요? | IPS |
+| 화면의 부드러움과 반응 속도가 얼마나 중요하신가요? | 게이밍에 적합 (144Hz 이상, 1ms 이하) |
+| 선호하는 모니터 화면 크기가 있으신가요? | 27인치 |
+| 4K 모니터 예산은 어느 정도로 생각하세요? (평균 55만원, 30~70만원대가 가장 많아요) | 38만원 ~ 71만원대 |
+| __avoid_negatives__ | 장시간 동일한 화면이 켜져 있을 때 화면에 얼룩이 남을까 봐 걱정돼요,화면 품질에 문제가 생겨서 몰입감을 해치는 현상이 나타날까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 101개 (전체 101개 중)
+현재 후보: 20개 (전체 20개 중)
 
 ### 후보 상품
-1. 알파스캔 AOC U32V11 4K UHD 프리싱크 HDR 시력보호 무결점 - 305,960원 - ⭐4.8
-2. 필립스 에브니아 32M2N8800 UHD OLED 240 프리싱크 HDR 게이밍 화이트 무결점 - 1,090,000원 - ⭐5
-3. LG전자 울트라HD 27US550 - 289,420원 - ⭐4.9
-4. 삼성전자 오디세이 G7 S32DG700 - 690,310원 - ⭐4.8
-5. LG전자 울트라HD 32UP830K - 458,990원 - ⭐4.8
-6. 크로스오버 32UCA950 UHD4K IPS USB-C PD65 프로아트 멀티스탠드 무결점 - 342,240원 - ⭐4.8
-7. LG전자 울트라HD 32UN650K - 395,000원 - ⭐4.9
-8. MSI MAG 272URDF700 E16 듀얼모드 게이밍 4K AI Vision 무결점 - 379,050원 - ⭐5
-9. 알파스캔 AOC U32G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점 - 538,460원 - ⭐4.9
-10. MSI MD271UL 4K IPS 아이에르고 PD65 무결점 - 229,970원 - ⭐4.8
-11. LG전자 울트라HD 27UP850K - 409,700원 - ⭐4.8
-12. 알파스캔 AOC U27G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점 - 408,260원 - ⭐5
-13. LG전자 울트라기어 올레드 32GX870A - 1,459,100원 - ⭐4.8
-14. DELL UltraSharp U3225QE - 1,169,100원 - ⭐4.6
-15. DELL UltraSharp U2725QE - 809,100원 - ⭐5
-16. MSI MAG 322URDF700 E16 듀얼모드 게이밍 4K AI Vision 무결점 - 414,500원 - ⭐4.9
-17. 크로스오버 27USW9 UHD4K-iPS USB-C 화이트 무결점 - 209,280원 - ⭐4.8
-18. DELL P3225QE - 716,900원 - ⭐5
-19. DELL S2725QC - 436,050원 - ⭐5
-20. MSI MD272UPSWDN 4K UHD 스마트 화이트 PD65 무결점 - 260,220원 - ⭐4.9
+1. MSI MD271UL 4K IPS 아이에르고 PD65 무결점 - 229,970원 - ⭐4.8
+2. 알파스캔 콘퀘스트 27U60G 게이밍 4K UHD 160 FAST IPS USB-C HDR 멀티스탠드 무결점 - 386,560원 - ⭐5
+3. 필립스 에브니아 32M2N5800 4K UHD 듀얼 모드 320 HDR 400 게이밍 무결점 - 517,280원 - ⭐5
+4. MSI MAG 321CUP 게이밍 4K 160 HDR400 무결점 - 319,520원 - ⭐4.8
+5. 한성컴퓨터 TFG32U14VM1152ZMW UHD 4K QD Mini LED 144 게이밍 화이트 무결점 - 538,470원 - ⭐5
+6. 알파스캔 AOC U27B35 4K UHD IPS 보더리스 HDR 시력보호 무결점 - 251,030원 - ⭐5
+7. ASUS ProArt PA279CRV - 596,520원 - ⭐4.6
+8. BenQ PD3205U 아이케어 무결점 - 920,700원 - ⭐5
+9. 필립스 438P1 4K UHD 시력보호 무결점 - 849,000원 - ⭐4.8
+10. 알파스캔 2725UN 4K UHD 보더리스 IPS 시력보호 HDR 무결점 - 263,290원 - ⭐5
+11. 한성컴퓨터 TFG32U16PM2304ZMW Fast IPS QD Mini LED UHD 160 FHD 320 듀얼모드 게이밍 화이트 무결점 - 826,040원 - ⭐5
+12. 크로스오버 27USD35 IPS UHD 4K DCI-P3 하이라이트 무결점 - 188,100원 - ⭐4.8
+13. 주연테크 V27UI-60M - 304,700원 - ⭐4.7
+14. GIGABYTE M32U UHD 4K 게이밍 144 피씨디렉트 - 536,480원 - ⭐4.7
+15. 한성컴퓨터 TFG27U14P UHD IPS 리얼 144 게이밍 USB Type-C 400 - 417,570원 - ⭐3.4
+16. 알파스캔 AOC U27U2DP 나노 IPS 블랙 도킹스테이션 HDR 400 피벗 무결점 - 559,590원 - ⭐4.6
+17. 알파스캔 AOC U32N3C 4K UHD USB-C 프리싱크 높낮이 HDR 무결점 - 578,550원 - ⭐4.8
+18. 주연테크 V32UE 4K UHD HDR USB-C 무결점 - 379,000원 - ⭐4.6
+19. 크로스오버 27USD35 IPS UHD 4K DCI-P3 하이라이트 - 179,100원 - ⭐4.6
+20. 삼성전자 SMART M7 S43BM700 - 548,990원 - ⭐4.8
 
 ---
 
@@ -59,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 장시간 동일한 화면이 켜져 있을 때 화면에 얼룩이 남을까 봐 걱정돼요
+- 화면 품질에 문제가 생겨서 몰입감을 해치는 현상이 나타날까 봐 걱정돼요
 
 ---
 

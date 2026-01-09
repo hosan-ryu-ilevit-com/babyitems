@@ -1,5 +1,5 @@
-# 세션: 20260109_043436_a5r5
-> 시작: 2026-01-09T04:34:36.917Z
+# 세션: 20260109_064627_lams
+> 시작: 2026-01-09T06:46:27.840Z
 > 카테고리키: 유아용
 > 카테고리: 유아용 카시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아용 카시트 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 유아용 카시트 시장은 브라이텍스, 다이치, 조이 등 전통적인 강자들이 여전히 인기를 끌고 있으며, 안전성과 편의성을 겸비한 회전형 카시트와 신생아부터 사용 가능한 바구니형 카시트가 주목받고 있습니다. 특히, 아이의 성장 단계에 맞춰 변형 가능한 올인원 카시트와 친환경 소재를 사용한 제품들이 트렌드로 떠오르고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwIXjfRUMorzJwXn7xMLHvBAs-OMRoRYVawS9dqmXEcQA1KpZN7v5AJyAd9o1I8WTs8hqKyqkmy16X_837E0GLmZL2XLA90gv4tKxlMqfiW2HFwMtEJnHC4uKoLxAReXSyWewy7M1i1wCCNZTrRwFL-YVbJTe7_Of_gpHyTisKWZhVYRWD1Nor8kchyBb1Pg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUpkCHLBnORm8qVRhxcROsVrVk9NNpoaJmIGND9_bZZUmRWSbARumLzs4F6x7t97pjmTZvIjYtVcfRcjfyHL5wvHB3PzK6kVvMZbqAJigY0rb_DyFbNoQG0mUAsD424t4EfZ6_99AnJ9SWMX8vVo51vyDhRjk0JH1Gjlvpb01y6vXyLg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJBqRM2VVHHEyWm5AZcENsWoTdxREi4q1mmjbFXNCh3RBDpB0q6_55LE3gJ2t9RKoCtnKmrHk04NK3dERAvwLOJyIHCvvBAl8p71njZTvzNN65TTKXNMZCzFC1w721nuin6-U8mWmYiKjW1A_aVehzIPAOXrSgD1xjk0GbU8ImWmVysGl3wOAx0xChOVWLXg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUDXWBt_80YlKB20VvVSBod77T8vmwqXDeZNs__EYWha_i3s3MoZSJSgmXQFR_XoszASKL9esLZb4NjQdxKsUMnfdm9gTY7H08KO2tYW3wrO4mc3FmWHmcf5MD4j0Kg74V1cAgeYecPZQf20v_oZ9GoFx2dxVQNeYLuDENn7UtFzHmCXw62yYQ0qwUt5U9ig==
+- 인사이트: 2026년 1월 현재, 유아용 카시트 시장은 브라이텍스, 다이치, 조이 등 전통적인 강자들이 여전히 인기를 유지하고 있으며, 안전성과 편의성을 겸비한 제품들이 주목받고 있습니다. 특히 회전형 카시트와 신생아부터 사용 가능한 컨버터블 카시트의 수요가 높습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKG64ESwIIHKpLYWYNoF-VWeGeIcI-pBYyMeORY3ny9xh0YEFP4db99gqsuSkLHZzjhukQDy8qsJ1Gemg3VJmpKtmyap-1YeDrC9LmsKC8o-EeVbq0_JoSwlFq1A0V-WZJOGoc0SB5op1EAXBMxyyZF4wjdHFectOBfzzhFHHqPxnTAEJSyib_ICZ-tjb9heNz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEh37qsEvNO7PYQj1-DHSOzVtYHf0I2iCNPVK2YpxqTEfQHlgasbv4-GTucs_Y4ilwauillEEoh0cWWm9qgamdK6Md6_4MObtmj05d97lmxR52-Qke6_4o3RMypB8l1pB8yOP7lsIBME-To7RwTteLA8ALSC7qQlCk41kPHpweHE6581n-m, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwYpkKW7bum4o837BO5ssHxjblQWgr1bFQHSBJ6oBOXKIuPrcvugrIrlQ8CFX5DBLVEpNmnUhnLMwyih3fRap20jaD700IF-QEAdxo3LZywDT3xSGPOcP95buOYl6p9LbDDWkO4pkig33YD0mHEAznqrtk9D8-3cFF7b105jcaWfksDRJejVdL6VbrGrmVXHdG
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수나 몸무지가 어떻게 되나요? | 12~36개월, 0~12개월 |
-| 차량에 카시트를 설치하는 방식은 어떤 것을 선호하시나요? | ISOFIX + 안전벨트 |
-| 카시트 좌석이 회전하는 기능이 필요한가요? | 회전 기능 불필요 |
-| 카시트를 주로 어떤 상황에서 사용하시나요? | 잦은 장거리 여행 |
-| 유아용 카시트 예산은 어느 정도로 생각하세요? (평균 13만 5천원, 7만원~17만원대가 가장 많아요) | 7만원 ~ 17만원, 20만원 이상 |
-| __avoid_negatives__ | 무겁고 부피가 커서 차량 이동이나 보관이 불편할까 봐 염려돼요,아이 성장 속도에 비해 사용 기간이 너무 짧아 금방 바꿔야 할까 봐 걱정돼요 |
+| 아기의 현재 월령 또는 몸무게는 어떻게 되나요? | 상관없어요 |
+| 차량에 카시트를 설치하실 때 어떤 방식을 선호하시나요? | ISOFIX |
+| 카시트 사용 시 어떤 편의 기능이 중요하신가요? | 360도 회전, 간편 세척 |
+| 카시트 소재에 대해 특별히 고려하시는 부분이 있으신가요? | 친환경/무독성 |
+| 유아용 카시트 예산은 어느 정도로 생각하세요? (평균 13만 5천원, 7만원~17만원대가 가장 많아요) | 7만원 ~ 17만원 |
+| __avoid_negatives__ | 아이가 금방 자라서 오래 사용하지 못할까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 무겁고 부피가 커서 차량 이동이나 보관이 불편할까 봐 염려돼요
-- 아이 성장 속도에 비해 사용 기간이 너무 짧아 금방 바꿔야 할까 봐 걱정돼요
+- 아이가 금방 자라서 오래 사용하지 못할까 봐 걱정돼요
 
 ---
 

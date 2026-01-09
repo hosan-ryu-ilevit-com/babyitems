@@ -1,5 +1,5 @@
-# 세션: 20260109_052148_2f7d
-> 시작: 2026-01-09T05:21:48.682Z
+# 세션: 20260109_075034_pvqs
+> 시작: 2026-01-09T07:50:34.034Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유포트 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 분유포트 시장은 보르르, 릴리브, 라비킷 등 다양한 브랜드가 인기리에 판매되고 있습니다. 특히 자동 출수, 스마트 온도 조절, 간편한 세척 기능이 트렌드를 이끌고 있으며, 휴대용 및 휴대용 분유포트도 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbH_Rp6HhxrR0z460KFK0wa7H9BtYTE8KOz02OBY06U5FAUKoIMZaYxjhioGeM3dpxLXTg0TiJKXth3MOFj9YdTl2P-gc2Zfu8eSfextlAlWD2wc_q53e2wmfuhlieA7WphE0qzuUgxIP0XTrI0pnxi_ANwnU9NXVLjKI2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF67W8OeuteVNT71SEQuK9tBHc0fqLqM3qHKvthUyfWDDQSr_OGKz550DcHt9JlVtWySU3olVs9weEp3Ymjc8yCiV4lZyL0l8juP_p91L9FRPWry1MYN_JcPMMqKE-KGcwt2KbC16Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpw2eYhDI-hA2we6ZjyCigyJSZOkBqmqz4OrEXzPXlpQ62eYr0-9dntx2B04VrtwwIBscEA_32MuTTmrbj7NhnFzaNEurLaU-RX8SxwBbVcpXZikSMkKM3hCqLX8tbsp9yg3gQAj8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG4SB20wYu9i0eaVYGJFdW6XD1aWEWra8620dQalRrxC9Vv2l4qZbWk1YPztIt1lfzgmPpeVRKgs507SfJTplLM0L8_s3yfTQsbV3eCr3iVDwVIcmlXWlTx80KmlFcyOooK5rdg-mM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH4poDcPmEDLLC9Lp58Vw3Dyz3LFXMTbUN_BLV5W5AS7zL7Fia0U4t5aqZoXLZr0sFzIFdfJlFCCz6ooEJcOJf4-M0wN5D46UM0xfFBPOlJQIoNP_rnuSZAVdQI_hsB4C-YUbfgzI=
+- 인사이트: 2026년 1월 현재, 분유포트 시장은 보르르, 릴리브, 라비킷 등의 브랜드가 인기를 끌고 있으며, 자동 출수, 물통 분리, 정밀 온도 조절 기능이 트렌드로 자리 잡고 있습니다. 휴대용 및 여행용 분유포트의 수요도 꾸준히 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQnw0Zw8jnE4dkxdZzcj-0nD9PgZ2JEFRtpvYkBEkBh_gTxBoMRZNxBUoiW_ojMwo6sjoT2d-jq0oBiADJLMx1x90F2mXrFKDNHlGl7BkZXgka1pmKnwQkiBHXgJZefQIX3u5e_Q7JzxE-yT-UYWsLE5KxG_wRDvM1FBgM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_7FdVbYWVUtDiR6UWauFxl6ijD7H_Du-4ib81WSy0Fux3HGMW97F5AjulD6IgoKdaX90-qR2yZ1yDT7Jcw3wzKmCJc4GZjkPjL2nubzUcPZZMrdLwnpBqnYYnmN2-mdYTgeOIPYA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTRAnM6jB0qX5vn-ZmUjn6zotvOkoH6uEpLIlpQQ6pCDDaPnGZPdwg0-5Qy3VLqXrm-fMIwfa5zQ4vN0_o-swWlKolqUWkPZ-VuExfe7l23MUg7z7_cHRteMvrYgj-c8umq_UcZnk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJWn3blTwo358RSzIeWdmzcUB9QqpQ1PH1b8HXsdYpAoxoOHLsGxRhQ_DWembtaHJ7yOW9G-JOpTUaTffwmbQlPEhVzuWnCbq-Vi9g1KP-g_0lTx6mHwocyZvzWDKaAodqBI0JiUc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_zb_-uqliAVr7YuwdjjTLAEsauY6-iElaKAsX40ezfgS5V0A4q5s7B3u_xtjexkHteq2n5Az9eWIAF0_XJo8sW4w-aK3vsNUFReUWLLzwY3vVtXxs3V_HntcKAYXi1bpyTpHr1ik=
 
 ---
 
