@@ -280,7 +280,8 @@ export default function ProductDetailModal({ productData, category, danawaData, 
   // danawaData가 없고 pcode가 숫자형일 때 실시간 크롤링
   useEffect(() => {
     const pcode = productData.product.id;
-    const hasDanawaData = danawaData && danawaData.prices && danawaData.prices.length > 0;
+    // lowestPrice 또는 prices가 있으면 danawaData 있는 것으로 간주
+    const hasDanawaData = danawaData && (danawaData.prices?.length > 0 || danawaData.lowestPrice);
 
     // danawaData가 없고, pcode가 숫자형(다나와 코드)일 때만 실시간 크롤링
     if (!hasDanawaData && pcode && /^\d+$/.test(pcode)) {
@@ -289,16 +290,28 @@ export default function ProductDetailModal({ productData, category, danawaData, 
   }, [productData.product.id, danawaData, fetchLivePrices]);
 
   // 실제 사용할 가격 데이터 (danawaData 우선, 없으면 livePrice)
-  const effectivePriceData = (danawaData && danawaData.prices && danawaData.prices.length > 0)
-    ? danawaData
-    : livePrice.prices.length > 0
-      ? {
-          lowestPrice: livePrice.lowestPrice || productData.product.price,
-          lowestMall: livePrice.lowestMall || '',
-          productName: productData.product.title,
-          prices: livePrice.prices,
-        }
-      : null;
+  const effectivePriceData = (() => {
+    // danawaData에 prices 또는 lowestPrice가 있으면 사용
+    if (danawaData && (danawaData.prices?.length > 0 || danawaData.lowestPrice)) {
+      // prices가 비어있지만 lowestPrice가 있으면 합성 price 엔트리 생성
+      const prices = danawaData.prices?.length > 0
+        ? danawaData.prices
+        : danawaData.lowestPrice
+          ? [{ mall: danawaData.lowestMall || '최저가', price: danawaData.lowestPrice, delivery: '' }]
+          : [];
+      return { ...danawaData, prices };
+    }
+    // livePrice 사용
+    if (livePrice.prices.length > 0) {
+      return {
+        lowestPrice: livePrice.lowestPrice || productData.product.price,
+        lowestMall: livePrice.lowestMall || '',
+        productName: productData.product.title,
+        prices: livePrice.prices,
+      };
+    }
+    return null;
+  })();
 
   // 리뷰 정렬 상태 (preloadedReviews용)
   const [reviewSortOrder, setReviewSortOrder] = useState<'newest' | 'high' | 'low'>('newest');
@@ -1126,12 +1139,25 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                   badgeText = '불충족';
                                 }
 
+                                // 질문:답변 형식 분리
+                                const colonIdx = cond.condition.indexOf(':');
+                                const hasColon = colonIdx > 0 && colonIdx < cond.condition.length - 1;
+                                const questionPart = hasColon ? cond.condition.slice(0, colonIdx) : '';
+                                const answerPart = hasColon ? cond.condition.slice(colonIdx + 1).trim() : cond.condition;
+
                                 return (
                                   <div key={i}>
                                     <div className="flex items-start justify-between mb-2 gap-2">
-                                      <strong className="text-[14px] font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
-                                        {cond.condition}
-                                      </strong>
+                                      <div className="text-[14px] max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
+                                        {hasColon ? (
+                                          <>
+                                            <span className="font-normal text-gray-800">{questionPart}</span>{' '}
+                                            <span className="font-bold text-gray-900">{answerPart}</span>
+                                          </>
+                                        ) : (
+                                          <span className="font-bold text-gray-900">{cond.condition}</span>
+                                        )}
+                                      </div>
                                       <span className={`px-2 py-0.5 rounded-md text-xs font-semibold shrink-0 ${badgeColor}`}>
                                         {badgeText}
                                       </span>
@@ -1180,12 +1206,25 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                   badgeText = '회피안됨';
                                 }
 
+                                // 질문:답변 형식 분리
+                                const colonIdx = cond.condition.indexOf(':');
+                                const hasColon = colonIdx > 0 && colonIdx < cond.condition.length - 1;
+                                const questionPart = hasColon ? cond.condition.slice(0, colonIdx) : '';
+                                const answerPart = hasColon ? cond.condition.slice(colonIdx + 1).trim() : cond.condition;
+
                                 return (
                                   <div key={i}>
                                     <div className="flex items-start justify-between mb-2 gap-2">
-                                      <strong className="text-[14px] font-bold text-gray-900 max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
-                                        {cond.condition}
-                                      </strong>
+                                      <div className="text-[14px] max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
+                                        {hasColon ? (
+                                          <>
+                                            <span className="font-normal text-gray-800">{questionPart}</span>{' '}
+                                            <span className="font-bold text-gray-900">{answerPart}</span>
+                                          </>
+                                        ) : (
+                                          <span className="font-bold text-gray-900">{cond.condition}</span>
+                                        )}
+                                      </div>
                                       <span className={`px-2 py-0.5 rounded-md text-xs font-semibold shrink-0 ${badgeColor}`}>
                                         {badgeText}
                                       </span>

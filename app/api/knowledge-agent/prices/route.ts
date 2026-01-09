@@ -399,59 +399,53 @@ async function crawlPriceLocal(pcode: string): Promise<PriceResult> {
 // =====================================================
 
 async function fetchPrice(pcode: string): Promise<PriceResult> {
+  // 모든 환경에서 캐시 먼저 확인 (빠름)
+  const cacheResult = await fetchPriceFromCache(pcode);
+  if (cacheResult) {
+    console.log(`[PriceCrawl] Using cached price for ${pcode}`);
+    return cacheResult;
+  }
+
+  // 캐시 없으면 환경별 크롤링
   if (IS_PRODUCTION) {
-    // 전략: 캐시 먼저 확인 (빠름) → Fly.io 크롤링 (느림)
-    // Fly.io가 현재 불안정하므로 캐시 우선
-
-    // 1. 캐시에서 먼저 확인
-    const cacheResult = await fetchPriceFromCache(pcode);
-    if (cacheResult) {
-      console.log(`[PriceCrawl] Using cached price for ${pcode}`);
-      return cacheResult;
-    }
-
-    // 2. 캐시 없으면 Fly.io 크롤러 시도
     console.log(`[PriceCrawl] No cache, trying Fly.io for ${pcode}`);
     return fetchPriceFromFlyio(pcode);
   }
+
+  console.log(`[PriceCrawl] No cache, trying local Puppeteer for ${pcode}`);
   return crawlPriceLocal(pcode);
 }
 
 async function fetchPricesBatch(pcodes: string[]): Promise<Record<string, PriceResult>> {
+  // 모든 환경에서 캐시 먼저 확인 (빠름)
+  const cacheResults = await fetchPricesFromCache(pcodes);
+  const cachedPcodes = Object.keys(cacheResults);
+  const missingPcodes = pcodes.filter(pcode => !cacheResults[pcode]);
+
+  console.log(`[PriceCrawl] Cache: ${cachedPcodes.length}/${pcodes.length}, Missing: ${missingPcodes.length}`);
+
+  // 모두 캐시 히트면 바로 반환
+  if (missingPcodes.length === 0) {
+    return cacheResults;
+  }
+
+  // 캐시에 없는 것만 환경별 크롤링
   if (IS_PRODUCTION) {
-    // 전략: 캐시 먼저 확인 (빠름) → 없는 것만 Fly.io 크롤링
-    // Fly.io가 현재 불안정하므로 캐시 우선
-
-    // 1. 캐시에서 먼저 조회
-    const cacheResults = await fetchPricesFromCache(pcodes);
-    const cachedPcodes = Object.keys(cacheResults);
-    const missingPcodes = pcodes.filter(pcode => !cacheResults[pcode]);
-
-    console.log(`[PriceCrawl] Cache: ${cachedPcodes.length}/${pcodes.length}, Missing: ${missingPcodes.length}`);
-
-    // 2. 모두 캐시 히트면 바로 반환
-    if (missingPcodes.length === 0) {
-      return cacheResults;
-    }
-
-    // 3. 캐시에 없는 것만 Fly.io 크롤링
     const flyioResults = await fetchPricesFromFlyioBatch(missingPcodes);
-
-    // 4. 결과 병합
     return { ...cacheResults, ...flyioResults };
   }
 
   // 개발: 로컬에서 병렬 처리 (브라우저 인스턴스 여러 개)
-  console.log(`[PriceCrawl] Local parallel crawl for ${pcodes.length} products`);
+  console.log(`[PriceCrawl] Local parallel crawl for ${missingPcodes.length} products`);
 
-  const results: Record<string, PriceResult> = {};
+  const results: Record<string, PriceResult> = { ...cacheResults };
 
-  // 병렬 처리 (최대 3개 동시)
-  const promises = pcodes.slice(0, 5).map(pcode => crawlPriceLocal(pcode));
+  // 병렬 처리 (최대 5개 동시)
+  const promises = missingPcodes.slice(0, 5).map(pcode => crawlPriceLocal(pcode));
   const priceResults = await Promise.all(promises);
 
   for (let i = 0; i < priceResults.length; i++) {
-    results[pcodes[i]] = priceResults[i];
+    results[missingPcodes[i]] = priceResults[i];
   }
 
   return results;
