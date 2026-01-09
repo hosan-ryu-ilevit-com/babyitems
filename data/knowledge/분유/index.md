@@ -1,28 +1,27 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-01-07T12:38:34.015Z
-> 분석 상품: 20개 | 분석 리뷰: 9,431개
+> 마지막 업데이트: 2026-01-09T10:01:41.160Z
+> 분석 상품: 20개 | 분석 리뷰: 9,376개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- A2 단백질, 산양유, 유기농 성분 등 차별화된 성분 강조
-- HMO, Whole Milk Base 등 기능성 성분 강화
-- 프리미엄 제품군 중심의 경쟁 심화 및 1인당 소비 단가 상승
+- 강화 분유, 무유당 분유, 유기농 분유 등 부가가치 제품의 성장
+- 수입 분유의 점유율 증가
+- 온라인 채널의 중요성 확대 (단, 베트남 시장은 오프라인 중심)
 
 ### 구매자 만족 포인트
-- ✓ 소화 용이성 (배앓이 완화, 황금똥)
-- ✓ 모유 유사 성분 함유
-- ✓ 물에 잘 녹는 점 (편리한 조유)
-- ✓ 안전한 성분 (팜유, 덱스트린 미함유 등)
+- ✓ 영양 균형 및 모유 대체 가능
+- ✓ 아빠도 수유 참여 가능 및 육아 분담
+- ✓ 외출 시 수유 용이성
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대 (특히 산양분유)
-- ⚠ 특정 성분 (팜유 등)에 대한 소비자 우려
-- ⚠ 유산균 별도 섭취 필요성 (일부 제품)
+- ⚠ 높은 가격 및 가격 인상
+- ⚠ 분유 가루/물/젖병 등 외출 시 챙길 물품 번거로움
+- ⚠ 만들어진 분유는 24시간 내 사용해야 함
 
 ### 가격대 인사이트
-분유 가격대는 제품별로 다양하며, 특히 산양분유나 프리미엄 라인의 경우 일반 분유보다 높은 가격대를 형성하고 있습니다. 800g 용량 기준으로 약 2만원대부터 시작하여 4만원대 이상까지 분포하며, 해외 직구 제품의 경우 가격 변동성이 있을 수 있습니다.
+분유 시장은 다양한 가격대의 제품이 존재하며, 수입 분유의 경우 상대적으로 높은 가격대를 형성하는 경향이 있습니다. 하지만 최근에는 가성비를 고려한 제품들도 많이 출시되고 있습니다.
 
 ---
 
@@ -48,9 +47,19 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=37830821)
 
-### 3. Hipp 힙 콤비오틱 유기농 1단계 800g
+### 3. 매일유업 앱솔루트 명작 2FL 1단계 800g
+- **브랜드**: 매일유업
+- **가격**: 22,000원
+- **평점**: ⭐4.8 (325개 리뷰)
+- **핵심 스펙**: 분유 / 일반분유 / 분말 / 1단계 / 최소연령: 0개월~ 분유 / 최소연령: 0개월~
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21229022)
+
+### 4. Hipp 힙 콤비오틱 유기농 1단계 800g
 - **브랜드**: Hipp
-- **가격**: 126,450원
+- **가격**: 129,170원
 - **평점**: ⭐4.9 (2,891개 리뷰)
 - **핵심 스펙**: 분유 / 일반분유 / 분말 / 1단계 / 최소연령: 0개월~ / 유기농 분유 / 유기농
 - **장점 요약**: 분석 중
@@ -58,7 +67,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21213386)
 
-### 4. 와이어스 일루마 1단계 810g
+### 5. 와이어스 일루마 1단계 810g
 - **브랜드**: 와이어스
 - **가격**: 59,560원
 - **평점**: ⭐4.9 (1,376개 리뷰)
@@ -68,25 +77,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=52267367)
 
-### 5. Hipp 힙 콤비오틱 유기농 2단계 800g
+### 6. Hipp 힙 콤비오틱 유기농 2단계 800g
 - **브랜드**: Hipp
-- **가격**: 126,450원
+- **가격**: 129,170원
 - **평점**: ⭐4.9 (415개 리뷰)
 - **핵심 스펙**: 분유 / 일반분유 / 분말 / 2단계 / 최소연령: 6개월~ / 유기농 분유 / 유기농
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21213410)
-
-### 6. 매일유업 앱솔루트 명작 2FL 3단계 800g
-- **브랜드**: 매일유업
-- **가격**: 19,330원
-- **평점**: ⭐4.6 (712개 리뷰)
-- **핵심 스펙**: 분유 / 일반분유 / 분말 / 3단계 / 최소연령: 12개월~ 분유 / 최소연령: 12개월~
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21229919)
 
 ### 7. 남양유업 2023 아이엠마더 1단계 800g
 - **브랜드**: 남양유업
@@ -118,29 +117,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21230516)
 
-### 10. 매일유업 앱솔루트 명작 2FL 1단계 800g
+### 10. 매일유업 앱솔루트 명작 2FL 2단계 800g
 - **브랜드**: 매일유업
-- **가격**: 22,000원
-- **평점**: ⭐4.8 (325개 리뷰)
-- **핵심 스펙**: 분유 / 일반분유 / 분말 / 1단계 / 최소연령: 0개월~ 분유 / 최소연령: 0개월~
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21229022)
-
-### 11. 압타밀 프로푸트라 듀오 어드밴스 프레 800g (해외구매)
-- **브랜드**: 압타밀
-- **가격**: 190,608원
-- **평점**: ⭐4.8 (483개 리뷰)
-- **핵심 스펙**: 분유 / 일반분유 / 분말 / 최소연령: 0개월~ 분유 / 최소연령: 0개월~
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=28652894)
-
-### 12. 매일유업 앱솔루트 명작 2FL 2단계 800g
-- **브랜드**: 매일유업
-- **가격**: 19,330원
+- **가격**: 19,120원
 - **평점**: ⭐4.7 (575개 리뷰)
 - **핵심 스펙**: 분유 / 일반분유 / 분말 / 2단계 / 최소연령: 7개월~ 분유 / 최소연령: 7개월~
 - **장점 요약**: 분석 중
@@ -148,39 +127,39 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21229214)
 
-### 13. 일동후디스 산양분유 시그니처 2단계 800g
-- **브랜드**: 일동후디스
-- **가격**: 48,850원
-- **평점**: ⭐4.8 (15개 리뷰)
-- **핵심 스펙**: 분유 / 산양분유 / 분말 / 2단계 / 최소연령: 6개월~ / 산양유고형분51.5% / 로하스인증 분유 / 로하스인증
+### 11. 압타밀 프로푸트라 듀오 어드밴스 프레 800g (해외구매)
+- **브랜드**: 압타밀
+- **가격**: 40,000원
+- **평점**: ⭐4.8 (483개 리뷰)
+- **핵심 스펙**: 분유 / 일반분유 / 분말 / 최소연령: 0개월~ 분유 / 최소연령: 0개월~
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=65318780)
+- [상세보기](https://prod.danawa.com/info/?pcode=28652894)
 
-### 14. 일동후디스 산양분유 시그니처 1단계 800g
-- **브랜드**: 일동후디스
-- **가격**: 48,780원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 분유 / 산양분유 / 분말 / 1단계 / 최소연령: 0개월~ / 산양유고형분39.5% / 로하스인증 분유 / 로하스인증
+### 12. 파스퇴르 2023 올곧게 만든 위드맘 2단계 750g
+- **브랜드**: 파스퇴르
+- **가격**: 29,140원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 분유 / 일반분유 / 분말 / 2단계 / 최소연령: 7개월~ / 무항생제인증 분유 / 무항생제인증
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=70532180)
+- [상세보기](https://prod.danawa.com/info/?pcode=21236345)
 
-### 15. 일동후디스 산양분유 시그니처 1단계 400g
-- **브랜드**: 일동후디스
-- **가격**: 22,750원
-- **평점**: ⭐5 (4개 리뷰)
-- **핵심 스펙**: 분유 / 산양분유 / 분말 / 1단계 / 최소연령: 0개월~ / 산양유고형분39.5% / 로하스인증 분유 / 로하스인증
+### 13. 매일유업 2021 앱솔루트 유기농 궁 1단계 800g
+- **브랜드**: 매일유업
+- **가격**: 27,400원
+- **평점**: ⭐4.5 (14개 리뷰)
+- **핵심 스펙**: 분유 / 일반분유 / 분말 / 1단계 / 최소연령: 0개월~ / 유기가공식품 분유 / 유기가공식품
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75471911)
+- [상세보기](https://prod.danawa.com/info/?pcode=21225926)
 
-### 16. 노발락 골드 1단계 800g
+### 14. 노발락 골드 1단계 800g
 - **브랜드**: 노발락
-- **가격**: 39,900원
+- **가격**: 42,790원
 - **평점**: ⭐4 (29개 리뷰)
 - **핵심 스펙**: 분유 / 일반분유 / 분말 / 1단계 / 최소연령: 0개월~ 분유 / 최소연령: 0개월~
 - **장점 요약**: 분석 중
@@ -188,7 +167,47 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21428621)
 
-### 17. 남양유업 2023 아이엠마더 2단계 800g
+### 15. 매일유업 앱솔루트 플래티넘 산양 1단계 350g
+- **브랜드**: 매일유업
+- **가격**: 17,890원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 분유 / 산양분유 / 분말 / 1단계 / 최소연령: 0개월~ / 산양고형분38% 분유 / 산양고형분38%
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76331885)
+
+### 16. 매일유업 2023 앱솔루트 센서티브 1단계 900g
+- **브랜드**: 매일유업
+- **가격**: 33,000원
+- **평점**: ⭐5 (2개 리뷰)
+- **핵심 스펙**: 분유 / 특수분유 / 분말 / 1단계 / 최소연령: 0개월~ / 소화불량방지 / 토방지 분유 / 토방지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=31274681)
+
+### 17. 매일유업 앱솔루트 명작 2FL 3단계 800g
+- **브랜드**: 매일유업
+- **가격**: 19,120원
+- **평점**: ⭐4.6 (712개 리뷰)
+- **핵심 스펙**: 분유 / 일반분유 / 분말 / 3단계 / 최소연령: 12개월~ 분유 / 최소연령: 12개월~
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21229919)
+
+### 18. 일동후디스 산양분유 시그니처 1단계 800g
+- **브랜드**: 일동후디스
+- **가격**: 47,890원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 분유 / 산양분유 / 분말 / 1단계 / 최소연령: 0개월~ / 산양유고형분39.5% / 로하스인증 분유 / 로하스인증
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=70532180)
+
+### 19. 남양유업 2023 아이엠마더 2단계 800g
 - **브랜드**: 남양유업
 - **가격**: 72,540원
 - **평점**: ⭐4.7 (200개 리뷰)
@@ -198,35 +217,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21235754)
 
-### 18. 일동후디스 2024 NEW 트루맘 뉴클래스 슈퍼프리미엄 1단계 800g
-- **브랜드**: 일동후디스
-- **가격**: 39,000원
-- **평점**: ⭐4.8 (83개 리뷰)
-- **핵심 스펙**: 분유 / 일반분유 / 분말 / 1단계 / 최소연령: 0개월~ / 초유성분 / 로하스인증 / 알레르기성분: 대두, 우유 분유 / 알레르기성분: 대두, 우유
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=42295529)
-
-### 19. 압타밀 프로푸트라 듀오 어드밴스 킨더밀쉬 1단계 800g (해외구매)
-- **브랜드**: 압타밀
-- **가격**: 37,554원
-- **평점**: ⭐4.9 (27개 리뷰)
-- **핵심 스펙**: 분유 / 일반분유 / 분말 / 최소연령: 12개월~ 분유 / 최소연령: 12개월~
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=41499842)
-
-### 20. 파스퇴르 쏭스오가닉 베이비 골든라벨 1단계 750g
+### 20. 파스퇴르 위드맘 제왕 1단계 750g
 - **브랜드**: 파스퇴르
-- **가격**: 41,260원
-- **평점**: ⭐4.6 (12개 리뷰)
-- **핵심 스펙**: 분유 / 분말 / 1단계 / 최소연령: 0개월~ / 유기농 / 알레르기성분: 대두, 우유 분유 / 알레르기성분: 대두, 우유
+- **가격**: 32,000원
+- **평점**: ⭐4.6 (69개 리뷰)
+- **핵심 스펙**: 분유 / 일반분유 / 분말 / 1단계 / 최소연령: 0개월~ 분유 / 최소연령: 0개월~
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29571197)
+- [상세보기](https://prod.danawa.com/info/?pcode=21236399)
 
 ---
 
@@ -241,8 +240,8 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKU345FQxILjQzJfqaQfPCXpXW1LDsEKz-0BYZoYB11SzJbIhcVpq4_bydgYeUFDKmSmBAMhksHjqpRaKqfV2kYplFQ-YtKR8K3PPKlwD3W4H5xRYhx_f_romWoz67)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERhpVxnAi0pWVFuhDMWVk6Ya4jWAOTQXfyALTuT4PLsqOetL4z4wfvT1OwbDuZjmVd2019bndy2wWFLUT-6JRjWYKTg0ItjJ_HuEbXVoQLngaXZwdrQKGPcmiiIzaZwlJqWzK9xN47FBDpGM-TPBDcysdVMTCbCpjv8y1U6bPGdo4meNW2PG5b1wIP_H_9LrJepD2tFaDYGtvcLumhTd6XDznuT2SrHI4=)
-- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4vT_8bQbmEEB5_smJpsIkoptgnofj-OL1a6FypJKagP9YBPeaK0dCc4bbSy5xq-2MQugUhzd7fgZyUQAQI25ojLkUahdbiTavQncSW2LlevgkP8pQ7QO-gfDIzEpiHIpDvLU-aYeCDffbdV2yu7tBoQ==)
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEnvDzEVN_npT8juwwlyhwO7UX9WRyqTAl3uZagTD3bylhTHbcI_rmtJciydloczU5nQIbEsyBmT1arx4v4b_iDSUKM5vR1U845h9L2ao0mXo7vRHC_5ZML-SR7eS7pMNTmbpOLW5pF4r_n)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjVL56O1AgkmUgajn9N0jGLhF_VktJOF_9HdmZ9BnbVLXCdcADLUyF-XoiIMbH86cDTGi3HzEJwutp_H8nz4S_zuXhfBWBwzmspgWcdWPOY4dvQkdDr_YfTWAEvhi5zgN0gN_XP3k=)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOAfm1UCamH5e2vuK7rIe74mH0WFwa-5CvnRz2uYCoGrF2KW9N3KIOT7UIK5HNEnsJqnz53lPpeYYKudy7UhCQPjIHC8dTjIo1893DldI3Qw8MIDYSxpS4V0oFS5bV62M7UBYnXKlG4ug=)
+- [namu.wiki](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGitDHtF34lEDuQtHl9j8pXmh6bQV3iSm9BxZys9hvn_MxwkPwVCdbm2iRnQS7QkaAsA4SLomZr-sdEu9bKPja1N5QvS3cmu1Nen8efYEE-TWMXLrLePZsDvrdRu0EEmEAItez5r4m2uHRKArvdVWaJaH0lOUauhntcNMg5)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjl1wVy67d9wJSJaGlvzQl2woLLfm9r87Or7wTwaNq8sgSOLhzRiFex3_ZQ8cmTXxy8dcDPPbOoSj-bZJQeZkg0VQKeuccCZOTpSqMnlFYEPt2ohNdhl46ratKbpMO3xfW-NrI3F8Krgol-8m_zKks-_ITXNRQHU1QI-9ISYD3QmzMZv3xZBOCXfE=)
+- [bizwnews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_bLO9xa_MCeBKdFuB8BYGN3KzF2rrpcl9CdDRtJvkXoWYpSUOqCk6BYYGG2qpzphn6KTpJibs8YXuLTJ07k9TBSQTHvTqc7UyMelR6TyqR_D-DxmfXLQUmnyrJaP0NaX9xv6LRBVNsT5Q9u3u4bIltjrg55o=)
+- [ibabynews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFus8w4JG2JmNbao-7C3ULjQQBs8ip13zzG01G1Byji_h9vHy-Pj2rkgJB99Q_ilmx8vgOlztqdX7D7oYa9l3tBEV61_0XbQb-jQSPYH-z61bKvZZQe9L9uL3wCLi8lFMfXVlzvj0WG9e5774i2g4jt5YSxGIU=)

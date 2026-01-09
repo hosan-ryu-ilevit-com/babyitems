@@ -1,5 +1,5 @@
-# 세션: 20260109_070540_qr08
-> 시작: 2026-01-09T07:05:40.673Z
+# 세션: 20260109_105400_6ij7
+> 시작: 2026-01-09T10:54:00.590Z
 > 카테고리키: 젖병소독기
 > 카테고리: 젖병소독기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 젖병소독기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 젖병소독기 시장은 UV LED 기술을 중심으로 발전하고 있으며, 유팡, 해님, 스펙트라, 폴레드 등 다양한 브랜드가 경쟁하고 있습니다. 사용자 편의성과 위생력을 강화한 신제품들이 꾸준히 출시되며 시장을 이끌고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBuZAz0UlLVS9EPRFuVWXElUCZYL-Oec7Zn2vqtBc0UaeJ3loyunLuDO4AXLFi1pqvJ1Fiix9KMYc1xzA_E3nU82qvXrH-VbSgs_MvbavXLxBsh4zru51wrhvH3XXIRmuOVhTCvGDXGBWM47lzh3iBfSt8_uOgjgn1kS4I7xXOxbZUOGeeRofBmYmQILPrPJVD3jE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEEs1yYnyO0LXTq54mq7t_eYIlYjI2GbUCrqK3n5oky2vcmdjqv4j-9K-zdfOIrvlkflaEbOSIclv_MOzK_fMfZl5sg3tEa3l7u0MKcbbWdQZA-5z1LM8IKm8lKq2DS3XQ5Y6QbPPSbZP31YxtDsw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAxh3Tf4bjep6AKBvtMcZxWMS4r81Mzb4NNVUmiM1E4DCUepgX_Yd8WCb3R1vUCIlayAw3iW7peWiEu0xqJev5JTrXvTilg_9YIUogdC8XvYCDrwiShG4j4ro2fkl_kOIjLIZPCLg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6rWql_G8oeTpI9YYMVSVD4eDRtkDX850Y3KbaYIO1qF1Ys8rOuh48FUf-6bdojed0UQncP9b1dTEzbQADTE8u42BToZfeyr2b6C7yUJ_-eF94a0exqND-SiTgHAel8TxQnNIIHr2IINfgeGUNjsSaNQ4PZiweRolKCQ5ZEVcas3deZszib5yJQsav_Qlf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi7yjXzM8w1qugCw5E2eePEU3ClQAYhNYeyeK33vQO-WhWmlBg7Z_96DGqKjn3aL-iZWTdixQccm7RIARhxLAItQ5L7JK00lMgfKqTGG9Y9ecubaDt72vI0dFlBTtZcI71iK-LhFAw7ZepcSjUbXtDOEAIOp7_r77T7RGcDMO9aTy0
+- 인사이트: 2026년 현재, 젖병소독기 시장은 UV LED 기술을 기반으로 한 제품들이 주를 이루고 있으며, 살균력과 건조 성능을 강화한 모델들이 인기입니다. 유팡, 해님, 스펙트라, 폴레드 등의 브랜드가 시장을 선도하고 있으며, 디자인과 편의 기능을 갖춘 제품들이 소비자들에게 좋은 반응을 얻고 있습니다..
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3k87TzBT4RUa4OKdy_Wh5HDCH2q8Wt_a8LDmA9fob6OY1BEasqDFMBJlEbkLL2XvzXmMP-VwnIkf5no5yqwowTqqf8gzxsL79MxiT3_3yvkMW0oAx2qIqwJdBL1CkjMAMSuIHY0qz4MXfOs58UIvG2xEBMXrjlPcrC1dMC6FtdXTkDqCDk7_vQ-N_qPW1XOxqyxU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHw3Aop_RBGqfhJW-HBABt050UEOVv23AHUke-Uh1IQkWD-DIpUhhXu768qIiG9bwll4ciBkdl7Ztog1TCwIoGM5aU82xnkoTZyhljniNJfMA6UBy0-OSI6BEimzi1MuwqglE0Ugaw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERVqwgMdGYG56bjvcck6Ncb4N_XaV2i0Bux-YOPR-aLlJYbfV_aVHHHGXeQkxSas4yBPvhJy-jFS_6t4g-4V0jGf78syBV6t7XZqDUD7PlIwEv0bNf9j8SHCLrII_c7StH5QRII_blgdPe2HnhQDsW_CrO0-JY_Hu1I0X3ezbtgwfzWH61, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHM1qeKMDNfiO2s0-NW-II8m96_zEC9PglyL_FrUwcml0w0i6K8Cb8svXgkz1y_BM98JJlTwO3eVjD47v_NzmEb9ounz0TytFdqj1Rj0vBmbU3gbPYRD4XjoEZvY0wQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErFw5lztrxlNYe00xE7SvdU92JTjb9SfPuzI2rp72ZzRyNvzqMVSqTO-jhKY6tNUXn1TzIc3h4FH7__deEMdUAjQE1m_mzzTJbM2veCVausSYxdQIv1L2QkjQHlvuIJrK2hsk9IR5yNLASbLxJ3ve58gHfrupc9TbnFSGzvzP6IgBSuHTF6jDcZUPcrMz_
 
 ---
 
@@ -16,6 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
+| 젖병을 어떤 방식으로 살균하는 것을 선호하시나요? | 스팀 살균 |
+| 젖병 건조 기능은 어떤 점을 중요하게 생각하시나요? | 빠른 열풍 건조, 자동 건조 (자연건조/온풍건조) |
+| 주로 어떤 종류의 육아용품을 함께 살균하고 싶으신가요? | 주로 젖병만 살균, 젖병 및 작은 용품 (젖꼭지, 치발기 등) |
+| 젖병 소독기 예산은 어느 정도로 생각하세요? (평균 약 11만원, 5만원~14만원대가 가장 많아요) | 5만원 ~ 14만원대 |
 
 ---
 

@@ -1,18 +1,27 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T09:16:02.437Z
+> 마지막 업데이트: 2026-01-09T10:08:40.110Z
 > 분석 상품: 20개 | 분석 리뷰: 196,934개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 안전한 성분 및 저자극성 (EWG 그린 등급, 피부 자극 테스트 완료 제품 선호)
+- 도톰하고 부드러운 엠보싱 원단
+- 친환경 소재 및 생분해성 제품에 대한 관심 증가
 
 ### 구매자 만족 포인트
+- ✓ 안전한 성분
+- ✓ 부드러운 원단
+- ✓ 뛰어난 세정력
+- ✓ 가성비
 
 ### 주의해야 할 단점
+- ⚠ 높은 가격대 (일부 프리미엄 제품)
+- ⚠ 건조함 (제품에 따라 상이)
 
 ### 가격대 인사이트
-
+아기 물티슈는 1팩당 가격이 1,000원 이하인 가성비 제품부터 1팩당 1,500원 내외의 대용량 제품까지 다양하게 분포합니다. 평량, 크기, 성분 등을 종합적으로 고려하여 가격 대비 만족도를 높일 수 있습니다.
 
 ---
 
@@ -231,8 +240,7 @@
 ---
 
 ## 📊 데이터 출처
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxp1L9cTy5OXHcSIN73xWk1IEqpy5Zy_eA68SWOlImxYM9EbN_SOEKFTc_2oo1e4iy3SxNcTVUCvhlpAkM3FsyHEiPG4HImJdcKstM7EHlxxmoL9Jcjeh9dLKyRdEJM2Z4QSj903RipaxZfKac0Wfhlwk_JHwOdP_oEw-x1UGLk-tesBFsZxaKGB0Wrazk32nRWfpSf6o-z2sKaQqRdCYJVcpdEckWQuc=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKp9aeGcSyLKCXYT8qAB2OnkBKh8x3BPsjfV0gDOAFO-3uf_v30-EAUUeKwUUoQLuYLRKy_SflpRHEep9_7EQD7jp9WbReXfCY7h-OsigYeTXXJmYfGgXiHnJcRnP4L5X_jONnng==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFA3zUMcT0Ax6nXez4Oo9enNKWWt1ksuxB2a3GYtG3wrpL4NSGwPiEF2nlLRG8ZUHHu2KC8M8uyyHL1JdvVdMY5clzP5PG7qcFzygN1YDPlz6KKz5wzlax5zXuFk4CzV0OuC-HhW50v9QkKwiDIFIJVv5VIszaMWKuu)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHs3LgQ0oyYvuAXl4Y8usDQiwCemIhVuS_ILuJMwTG74TqF3RlzdBC0uJFLyPq0aZYpQNXuwgpAux59FI7aWR7FnKkYJ1smjMTdIKcTfsmadaseCrq7GjrnVSG43WOa8Z6FHkCJr9QH_349KIxtc-tr9T4mj-iM)
-- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGm-AjypZNaE1_3lW1uJM4XvCW_SPgLSqS804qbLMylfHoLO7PNH-TIWYRcVfzlbEFgyMZHU7aZ9ZNSAU2bx_lXicsJjy8iZuK-xpSzGf_oaAGAwFQFNKIX4R7wZI9K3EDGeAlEpzrTQuBz0i3Dvw==)
+- [thefairnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcwpAmrY5xFFfjuPW5vSpeS6akmBW4hNgSmv3RgJScvswnc_wrcXDBRiB24gnAPkBsQGdt8E8bT2afoLvdH0pkA4iALp--IaAAktvDvh5upfwYx6awbGZK27eMWbjY5m17VedIGn8up2wS3tDslQKrBeBWTP0mRodLyw==)
+- [brikorea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQfZBmCmEQUP4p9tTceXKEJRqFJperHwrTE2G9_ELrJC-4vtW8zSdwYIXWqAgbObti4z4YXfZU-knu0WfrXfppzS6DxLi-9WzZkiRR9rk6fFdYJdNNMByVC1DeRQD1fBP5KNTGdR1Y9X9Gnv335NXtZ5-XWYALBQ==)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFx8irKGCMwknx9z325w_Dfm9Rx1F99RUcC_a2qhCk5-OU-2RQWXunmmjomQUYo0k4xjrDiy9DeZBcitaB2unzdKl0EblgPel3ICgUvlF1iUTnJKSTyt0G2CESYcVLb78Bz7QgdgLDcch_phZ_cOuathRgCL_CeRBSznzg=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4loACzAWs9pcDf-f8sL3UAtj6DHy3Z8IRbdJnvpBy-mo5mt56v_PkD8x6MDRLhpatAvXg2D9hLaxckAb_hglSxZMPiDKnKFd9FJehWU6IIlV_WeMgmaAYgPmx1HO5vVgw9Xk_quIO0Cc8x_xUv3_sTk0gOMY7Ww==)

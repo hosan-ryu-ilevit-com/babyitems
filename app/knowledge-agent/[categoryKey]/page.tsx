@@ -791,6 +791,12 @@ export default function KnowledgeAgentPage() {
   // Balance game & Negative filter
   const [balanceQuestions, setBalanceQuestions] = useState<BalanceQuestion[]>([]);
   const [negativeOptions, setNegativeOptions] = useState<NegativeOption[]>([]);
+  const [needsDynamicNegativeOptions, setNeedsDynamicNegativeOptions] = useState(false); // 동적 옵션 생성 필요 플래그
+  const needsDynamicNegativeOptionsRef = useRef(false); // 클로저 문제 해결용 ref
+  const prefetchedNegativeOptionsRef = useRef<string[] | null>(null); // 프리페치된 단점 옵션
+  const [isLoadingNegativeOptions, setIsLoadingNegativeOptions] = useState(false); // 동적 옵션 로딩 중
+  const [trendCons, setTrendCons] = useState<string[]>([]); // Init에서 받은 트렌드 단점 키워드
+  const trendConsRef = useRef<string[]>([]); // 클로저 문제 해결용 ref
   const [balanceAllAnswered, setBalanceAllAnswered] = useState(false); // 밸런스 게임 모든 질문 완료 여부
   const [balanceCurrentSelections, setBalanceCurrentSelections] = useState<Set<string>>(new Set()); // 현재 선택된 rule keys
   const [selectedNegativeKeys, setSelectedNegativeKeys] = useState<string[]>([]); // 단점 필터 선택된 rule keys (부모 컴포넌트에서 관리)
@@ -1158,6 +1164,7 @@ export default function KnowledgeAgentPage() {
       setAnalysisSteps([...localSteps]);
 
       // ✅ 질문 생성 완료 즉시 첫 질문 표시! (리뷰 크롤링 기다리지 않음)
+      // avoid_negatives도 맞춤 질문 마지막에 포함 (동적 옵션은 해당 질문 표시 시점에 로드)
       const questionTodosFromQuestions = questionResult?.questionTodos || [];
       const firstQuestion = questionTodosFromQuestions[0];
 
@@ -1184,11 +1191,17 @@ export default function KnowledgeAgentPage() {
       setProgress({ current: 1, total: questionTodosFromQuestions.length });
       setCrawledProducts(localProducts);
 
-      // ✅ avoid_negatives 질문의 옵션들을 negativeOptions로 설정
+      // ✅ avoid_negatives 질문 처리: 동적 옵션 vs 정적 옵션
       const avoidNegativesQuestion = questionTodosFromQuestions.find(
-        (q: any) => q.id === 'avoid_negatives' || q.id?.includes('negative') || q.id?.includes('avoid')
+        (q: any) => q.id === 'avoid_negatives'
       );
-      if (avoidNegativesQuestion?.options && avoidNegativesQuestion.options.length > 0) {
+      if (avoidNegativesQuestion?.dynamicOptions) {
+        // 동적 옵션 필요 - 런타임에 API 호출로 생성
+        setNeedsDynamicNegativeOptions(true);
+        needsDynamicNegativeOptionsRef.current = true; // ref도 업데이트 (클로저 문제 해결)
+        console.log('[V2 Flow] avoid_negatives requires dynamic options generation');
+      } else if (avoidNegativesQuestion?.options && avoidNegativesQuestion.options.length > 0) {
+        // 정적 옵션 - 바로 설정 (폴백 또는 이전 버전 호환)
         const negativeOpts: NegativeOption[] = avoidNegativesQuestion.options.map((opt: any, idx: number) => ({
           id: `neg_${idx}`,
           label: opt.label || opt.value || opt,
@@ -1324,6 +1337,11 @@ export default function KnowledgeAgentPage() {
                   break;
                 case 'trend':
                   trendData = data.trendAnalysis;
+                  // 트렌드 단점 키워드 저장 (동적 negative options 생성에 사용)
+                  if (data.trendAnalysis?.cons && Array.isArray(data.trendAnalysis.cons)) {
+                    setTrendCons(data.trendAnalysis.cons);
+                    trendConsRef.current = data.trendAnalysis.cons; // ref도 업데이트 (클로저 문제 해결)
+                  }
                   stepDataResolvers['web_search']?.(data);
                   break;
                 case 'first_batch_complete':
@@ -2132,20 +2150,89 @@ export default function KnowledgeAgentPage() {
 
     setMessages(prev => [...prev, { id: `u_balance_${Date.now()}`, role: 'user', content: `선택: ${selectionsStr.join(', ')}`, timestamp: Date.now() }]);
 
-    // V2 Flow: 하드컷 상품 기반으로 생성된 negativeOptions가 있으면 단점 필터로
-    if (v2FlowEnabled && negativeOptions.length > 0) {
-      setPhase('negative_filter');
-      const negativeMsgId = `a_negative_${Date.now()}`;
-      setMessages(prev => [...prev, {
-        id: negativeMsgId,
-        role: 'assistant',
-        content: '취향을 파악했어요! 마지막으로 꼭 피하고 싶은 단점이 있으신가요? (복수 선택 가능)',
-        negativeFilterOptions: negativeOptions,
-        typing: true,
-        timestamp: Date.now()
-      }]);
-      // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
-      return;
+    // V2 Flow: 단점 필터로 전환 (동적 옵션 생성 또는 정적 옵션 사용)
+    if (v2FlowEnabled) {
+      // 동적 옵션이 필요하면 API 호출 (ref 사용 - 클로저 문제 해결)
+      if (needsDynamicNegativeOptionsRef.current && negativeOptions.length === 0) {
+        console.log('[V2 Flow] Generating negative options dynamically...');
+        setIsLoadingNegativeOptions(true);
+        setPhase('negative_filter');
+
+        // 로딩 메시지 먼저 표시
+        const loadingMsgId = `a_negative_loading_${Date.now()}`;
+        setMessages(prev => [...prev, {
+          id: loadingMsgId,
+          role: 'assistant',
+          content: '취향을 파악했어요! 맞춤 단점 옵션을 준비하고 있어요...',
+          typing: true,
+          timestamp: Date.now()
+        }]);
+
+        try {
+          const response = await fetch('/api/knowledge-agent/generate-negative-options', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              categoryKey,
+              categoryName,
+              collectedInfo,
+              balanceSelections: balanceSelectionsForV2,
+              trendCons: trendConsRef.current, // ref 사용
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success && data.options?.length > 0) {
+            const negativeOpts: NegativeOption[] = data.options.map((opt: any, idx: number) => ({
+              id: `neg_${idx}`,
+              label: opt.label,
+              target_rule_key: opt.value,
+            }));
+            setNegativeOptions(negativeOpts);
+
+            // 로딩 메시지를 실제 질문으로 교체
+            setMessages(prev => prev.map(m =>
+              m.id === loadingMsgId
+                ? {
+                    ...m,
+                    content: '취향을 파악했어요! 마지막으로 꼭 피하고 싶은 단점이 있으신가요? (복수 선택 가능)',
+                    negativeFilterOptions: negativeOpts,
+                  }
+                : m
+            ));
+            console.log(`[V2 Flow] Dynamic negative options generated: ${negativeOpts.length} (source: ${data.source})`);
+            return; // 성공 시 여기서 종료 - 사용자가 옵션 선택
+          } else {
+            // API 실패 시 바로 결과로 이동 (fall through)
+            console.log('[V2 Flow] Failed to generate negative options, skipping to result');
+            setMessages(prev => prev.filter(m => m.id !== loadingMsgId));
+            setPhase('result'); // 결과 phase로 전환
+          }
+        } catch (error) {
+          console.error('[V2 Flow] Error generating negative options:', error);
+          setMessages(prev => prev.filter(m => m.id !== loadingMsgId));
+          setPhase('result'); // 에러 시에도 결과로
+        } finally {
+          setIsLoadingNegativeOptions(false);
+        }
+        // fall through to result generation below
+      }
+
+      // 정적 옵션이 있으면 바로 사용
+      else if (negativeOptions.length > 0) {
+        setPhase('negative_filter');
+        const negativeMsgId = `a_negative_${Date.now()}`;
+        setMessages(prev => [...prev, {
+          id: negativeMsgId,
+          role: 'assistant',
+          content: '취향을 파악했어요! 마지막으로 꼭 피하고 싶은 단점이 있으신가요? (복수 선택 가능)',
+          negativeFilterOptions: negativeOptions,
+          typing: true,
+          timestamp: Date.now()
+        }]);
+        return;
+      }
     }
 
     // V2 플로우: negativeOptions 없으면 바로 결과로
@@ -2629,6 +2716,33 @@ export default function KnowledgeAgentPage() {
 
     // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
 
+    // ✅ 프리페치: avoid_negatives 2개 전 질문부터 미리 옵션 로드 시작 (API ~2초 소요)
+    const currentQId = activeMsg?.id?.startsWith('q_') ? activeMsg.id.slice(2) : currentQuestion?.id;
+    const currentIdx = questionTodos.findIndex((q: any) => q.id === currentQId);
+    const avoidNegativesIdx = questionTodos.findIndex((q: any) => q.id === 'avoid_negatives');
+    const questionsUntilNegative = avoidNegativesIdx - currentIdx;
+
+    // 2개 전 또는 1개 전에 프리페치 시작 (아직 안 했으면)
+    if (questionsUntilNegative > 0 && questionsUntilNegative <= 2 && needsDynamicNegativeOptionsRef.current && !prefetchedNegativeOptionsRef.current) {
+      console.log(`[KA Flow] ⚡ Prefetching negative options (${questionsUntilNegative} questions ahead)...`);
+      // 병렬로 프리페치 (await 안 함)
+      fetch('/api/knowledge-agent/generate-negative-options', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryKey,
+          categoryName,
+          collectedInfo: { ...collectedInfo, [currentQuestion?.question || '']: message },
+          trendCons: trendConsRef.current,
+        }),
+      }).then(res => res.json()).then(result => {
+        if (result.success && result.options?.length > 0) {
+          prefetchedNegativeOptionsRef.current = result.options.map((opt: any) => opt.label);
+          console.log('[KA Flow] ⚡ Prefetch complete:', prefetchedNegativeOptionsRef.current?.length, 'options');
+        }
+      }).catch(err => console.error('[KA Flow] Prefetch error:', err));
+    }
+
     await fetchChatStream({
       categoryKey,
       userMessage: message,
@@ -2636,7 +2750,7 @@ export default function KnowledgeAgentPage() {
       phase: phase === 'result' ? 'free_chat' : phase,
       questionTodos,
       collectedInfo,
-      currentQuestionId: activeMsg?.id?.startsWith('q_') ? activeMsg.id.slice(2) : currentQuestion?.id,
+      currentQuestionId: currentQId,
       products: crawledProducts  // Vercel 배포 환경 호환
     });
   };
@@ -2692,18 +2806,121 @@ export default function KnowledgeAgentPage() {
         // 일반 AI 응답 로깅
         logKAChatMessage(categoryKey, userMessage, data.content);
 
-        setMessages(prev => [...prev, {
-          id: `a_${Date.now()}`,
-          role: 'assistant',
-          content: data.content,
-          options: data.options,
-          questionProgress: data.progress,
-          dataSource: data.dataSource,
-          tip: data.tip,
-          searchContext: data.searchContext || null,
-          typing: true,
-          timestamp: Date.now()
-        }]);
+        // ✅ avoid_negatives 질문이고 동적 옵션이 필요한 경우
+        const isAvoidNegatives = data.currentQuestion?.id === 'avoid_negatives';
+        const hasDynamicFlag = data.currentQuestion?.dynamicOptions || needsDynamicNegativeOptionsRef.current;
+        const hasEmptyOptions = !data.options || data.options.length === 0;
+        const needsDynamic = isAvoidNegatives && hasDynamicFlag && hasEmptyOptions;
+
+        if (needsDynamic) {
+          const msgId = `a_${Date.now()}`;
+
+          // ✅ 프리페치된 옵션이 있으면 즉시 사용 (지연 없음)
+          const prefetchedOptions = prefetchedNegativeOptionsRef.current;
+          if (prefetchedOptions && prefetchedOptions.length > 0) {
+            console.log('[KA Flow] ⚡ Using prefetched options:', prefetchedOptions.length);
+            setMessages(prev => [...prev, {
+              id: msgId,
+              role: 'assistant',
+              content: data.content,
+              options: prefetchedOptions,
+              questionProgress: data.progress,
+              dataSource: data.dataSource,
+              tip: data.tip,
+              searchContext: data.searchContext || null,
+              typing: true,
+              timestamp: Date.now()
+            }]);
+            // 프리페치 사용 후 초기화
+            prefetchedNegativeOptionsRef.current = null;
+            return;
+          }
+
+          // 프리페치 없으면 로딩 중 메시지 표시 후 로드
+          setMessages(prev => [...prev, {
+            id: msgId,
+            role: 'assistant',
+            content: data.content,
+            options: [], // 옵션은 로드 후 추가
+            questionProgress: data.progress,
+            dataSource: data.dataSource,
+            tip: data.tip,
+            searchContext: data.searchContext || null,
+            typing: true,
+            isLoadingOptions: true, // 옵션 로딩 중 플래그
+            timestamp: Date.now()
+          }]);
+
+          // 동적 옵션 비동기 로드
+          (async () => {
+            try {
+              console.log('[KA Flow] Fetching dynamic negative options (no prefetch)...');
+              const response = await fetch('/api/knowledge-agent/generate-negative-options', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  categoryKey,
+                  categoryName,
+                  collectedInfo,
+                  trendCons: trendConsRef.current,
+                }),
+              });
+
+              if (response.ok) {
+                const result = await response.json();
+                if (result.success && result.options?.length > 0) {
+                  const dynamicOptions = result.options.map((opt: any) => opt.label);
+                  console.log('[KA Flow] Dynamic negative options loaded:', dynamicOptions.length);
+
+                  // 메시지 업데이트 (옵션 추가)
+                  setMessages(prev => prev.map(m => m.id === msgId ? {
+                    ...m,
+                    options: dynamicOptions,
+                    isLoadingOptions: false,
+                  } : m));
+
+                  // negativeOptions 상태도 업데이트
+                  const negOpts: NegativeOption[] = result.options.map((opt: any, idx: number) => ({
+                    id: `neg_${idx}`,
+                    label: opt.label,
+                    target_rule_key: opt.value || `neg_key_${idx}`,
+                  }));
+                  setNegativeOptions(negOpts);
+                } else {
+                  // 옵션 로드 실패 - 폴백 옵션 사용
+                  console.warn('[KA Flow] No dynamic options returned, using fallback');
+                  setMessages(prev => prev.map(m => m.id === msgId ? {
+                    ...m,
+                    options: data.options || ['상관없어요'],
+                    isLoadingOptions: false,
+                  } : m));
+                }
+              }
+            } catch (err) {
+              console.error('[KA Flow] Error fetching dynamic negative options:', err);
+              // 에러 시 기존 옵션 사용
+              setMessages(prev => prev.map(m => m.id === msgId ? {
+                ...m,
+                options: data.options || ['상관없어요'],
+                isLoadingOptions: false,
+              } : m));
+            }
+          })();
+        } else {
+          // 일반 질문 - 기존 로직
+          setMessages(prev => [...prev, {
+            id: `a_${Date.now()}`,
+            role: 'assistant',
+            content: data.content,
+            options: data.options,
+            questionProgress: data.progress,
+            dataSource: data.dataSource,
+            tip: data.tip,
+            searchContext: data.searchContext || null,
+            typing: true,
+            timestamp: Date.now()
+          }]);
+        }
       }
     }
   };

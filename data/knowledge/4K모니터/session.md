@@ -1,5 +1,5 @@
-# 세션: 20260109_071407_d913
-> 시작: 2026-01-09T07:14:07.016Z
+# 세션: 20260109_095156_r7ys
+> 시작: 2026-01-09T09:51:56.609Z
 > 카테고리키: 4K모니터
 > 카테고리: 4K모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 4K모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 4K 모니터 시장은 OLED와 Mini-LED 기술을 중심으로 프리미엄 라인업이 강화되고 있으며, 높은 주사율과 뛰어난 색 재현율을 갖춘 제품들이 인기를 얻고 있습니다. LG, 삼성, ASUS 등 주요 브랜드들이 경쟁적으로 신제품을 출시하며 기술 혁신을 이끌고 있습니다. 특히 CES 2026에서는 LG의 새로운 탠덤 WOLED 패널 기술이 공개되어 OLED 모니터의 성능을 한 단계 끌어올릴 것으로 기대됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjtB0SSP11kXOnpXgcWNML4LKltdKdhlJ1fJI3FrYQZjm2JqWzon6o12QAVYml47RwDd7GypAFxjd95uhYkVvdychZnSzK1-_aGMXQjuod5e8znMy9Vly0jvS2l57MptVACLQSpLvQUaK64ytuKjdRv-_RU4TKl6rKggkKeR8s_bBPYY6NBfoMHXhMO9BCEgrh7YZR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHh4Ua1n29obIQcewhvGz-CH3kqvCDVJpMVF29fU3hL0AzKL2Kq9zSrvSYd2qp7A7MHOdXl4FszMzJ4IkYsh4pwtRQwP0a51HIQURIb3rqOOiE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-kkt5FN3Wn1nIapwZEd2Nu5ACmTHaOo8Kf3ozSneDcqdLaFMXNwyU-Y7iy7WtAVfeY5xAev-46B7Rw1P2-SL7GBlnqdFyaJ8YpEa9OQUfCz1dRHFePar1kfc1L9Lhkd1fNEzDY1eI861OTEC6mCF36JRhRSgmFx9tl0Od9QdC_ADcfQGE8Gr5hL7s_KxaCMZrSUdCQKMuzZ_DG_Z-BGHNdwxpoJzoYw7-3cIFmJTVcdE5kBXypVuOYTvqZe-OXJ8SMHKp4UHnG0eYrkqIxQgfMu-9XjEB7rG1b5PggKO9AhQuPb-k84GPWzPdjq3F, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcUnNxaBFvPrT0m5aZTCrswTv0HzB-l61D3RlXNkHqD3vnY4amrTQ3L2DaJtbvmtqcWgjnEl9ynaWqCnUsvadAi9nKRaNx3BoNJ2w1991u0wNsKVIMcyhxdv8gFFXQRYxK1nJjada79gLHx4Ezqg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmX5y5WJ4h-FOi30L4VK2mWZ9kVgzLJdKbYwlLpiW5hCnQy8ctOIc013D5S5u9VhlxquRiWSsGn5tnFfNTgqjD7BqlJU0oSqVU4QC3XuUY4FSw2rOwnEGjLb84Wv3bkrZK_rCwUw==
+- 인사이트: 2026년 1월 현재, 4K 모니터 시장은 LG전자, 삼성전자, MSI, 크로스오버 등 다양한 브랜드가 경쟁하고 있으며, 특히 가성비와 고화질을 앞세운 모델들이 인기를 얻고 있습니다. USB-C 연결, 미니 LED 및 OLED 패널 탑재 등 최신 기술 트렌드를 반영한 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEppvvgqry5_pJUrEWg-M3B-tgNt2OCmeBdHtN4gKlQoC0T1V2ntkFNbVG4X696tEPOy9U--MytGM7Q8gSsi6hfFRCBs43Hvq5vbKXesMpDj5hU9mvwJJnetCaxahnO-uAMl_qrZoA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBYjlYbVsFRi-gvV1GWgSjLC8ziMDfRUFDXQw1YtHWP5aOyvM2mOI8JuHn2Y6KQwXfenGfwyX9vZATdv2hbxyq-TWk5k9xfxlOwZbsNoKrWGpDsHmW8o_SbxRYBhLevNPIqJ7xd4XxRcNtgQSkOY22rdu_JWBMNBOY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDBI6omokW6pdIGwrX6aQZtVMH78efRHVjXEt7ivKUUL5bb0E_dDpdXjf8SMb7yhMhPTsvMXCXYBeIhVJh64rbV_Rc95pXnywRkvhNZmpMi0HxQhascJn2gZj9_fb_0eJQXMcW-61PqVNgRTUEA8BZ4Ck-I3hiQa3nOz8KnFE4_K2XcpuZmcLw4GJg0ix3oR4w4jHAqBuVcb8I, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbJ_05W0jf6OPay7RDwfvg6hE53quh7w4BZ8FvxkPJsln7b-QAt_bR5-tDQNFQZ9zRbznlMjBZ2i4Pxpz3uEAnPprFdBL8SRo0HXoKnnMjQL5F, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH74W52QIWjznf0ezUtJlfhVPZtQM2zi6m8Ve_0JGR-E7vczHViY-XZGINHvuD4YLs0s3I3fmcT4bp2_M3BYWXCL3QgCCk4Qd-nPyKAoYe8Al9qVedhFWixFLoGWpbAyaLAH_ugelIwujmqL7Tc0ge6TamENqnuQC4Vi5vMB_iMUW_rcERvISOCCNfp5RDlzddtYLHx5pZJ0YUa46qd_fu36Oda-9b0YiqIgcpxBnTRP7UT8RicczXhYHMKZ40NIuaVtR8AC1NfozDolEnpbUXacWeLnBqfzx5ND_OZub8cGDKy66jFg3MamDXKfLwrj-TZUi9rd1RnA-wbi1kxlNajRN1r_uYmT_kxOTDvlynsZ2pODjWwucSQp2sTp9XHkk-qWirEiKQg6kCUYZRMQ48wL6SqImk1fVaDN4W6NqxqMJMqcfc=
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 주로 어떤 용도로 4K 모니터를 사용하실 예정인가요? | 최신 고사양 게임 |
-| 모니터 패널 기술에 대해 특별히 선호하는 것이 있으신가요? | IPS |
-| 화면의 부드러움과 반응 속도가 얼마나 중요하신가요? | 게이밍에 적합 (144Hz 이상, 1ms 이하) |
-| 선호하는 모니터 화면 크기가 있으신가요? | 27인치 |
-| 4K 모니터 예산은 어느 정도로 생각하세요? (평균 55만원, 30~70만원대가 가장 많아요) | 38만원 ~ 71만원대 |
-| __avoid_negatives__ | 장시간 동일한 화면이 켜져 있을 때 화면에 얼룩이 남을까 봐 걱정돼요,화면 품질에 문제가 생겨서 몰입감을 해치는 현상이 나타날까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 장시간 동일한 화면이 켜져 있을 때 화면에 얼룩이 남을까 봐 걱정돼요
-- 화면 품질에 문제가 생겨서 몰입감을 해치는 현상이 나타날까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

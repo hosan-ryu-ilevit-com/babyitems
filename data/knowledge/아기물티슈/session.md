@@ -1,14 +1,14 @@
-# 세션: 20260109_091608_ai3e
-> 시작: 2026-01-09T09:16:08.796Z
+# 세션: 20260109_100846_87bm
+> 시작: 2026-01-09T10:08:46.429Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 아기물티슈
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxp1L9cTy5OXHcSIN73xWk1IEqpy5Zy_eA68SWOlImxYM9EbN_SOEKFTc_2oo1e4iy3SxNcTVUCvhlpAkM3FsyHEiPG4HImJdcKstM7EHlxxmoL9Jcjeh9dLKyRdEJM2Z4QSj903RipaxZfKac0Wfhlwk_JHwOdP_oEw-x1UGLk-tesBFsZxaKGB0Wrazk32nRWfpSf6o-z2sKaQqRdCYJVcpdEckWQuc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKp9aeGcSyLKCXYT8qAB2OnkBKh8x3BPsjfV0gDOAFO-3uf_v30-EAUUeKwUUoQLuYLRKy_SflpRHEep9_7EQD7jp9WbReXfCY7h-OsigYeTXXJmYfGgXiHnJcRnP4L5X_jONnng==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFA3zUMcT0Ax6nXez4Oo9enNKWWt1ksuxB2a3GYtG3wrpL4NSGwPiEF2nlLRG8ZUHHu2KC8M8uyyHL1JdvVdMY5clzP5PG7qcFzygN1YDPlz6KKz5wzlax5zXuFk4CzV0OuC-HhW50v9QkKwiDIFIJVv5VIszaMWKuu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHs3LgQ0oyYvuAXl4Y8usDQiwCemIhVuS_ILuJMwTG74TqF3RlzdBC0uJFLyPq0aZYpQNXuwgpAux59FI7aWR7FnKkYJ1smjMTdIKcTfsmadaseCrq7GjrnVSG43WOa8Z6FHkCJr9QH_349KIxtc-tr9T4mj-iM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGm-AjypZNaE1_3lW1uJM4XvCW_SPgLSqS804qbLMylfHoLO7PNH-TIWYRcVfzlbEFgyMZHU7aZ9ZNSAU2bx_lXicsJjy8iZuK-xpSzGf_oaAGAwFQFNKIX4R7wZI9K3EDGeAlEpzrTQuBz0i3Dvw==
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxp1L9cTy5OXHcSIN73xWk1IEqpy5Zy_eA68SWOlImxYM9EbN_SOEKFTc_2oo1e4iy3SxNcTVUCvhlpAkM3FsyHEiPG4HImJdcKstM7EHlxxmoL9Jcjeh9dLKyRdEJM2Z4QSj903RipaxZfKac0Wfhlwk_JHwOdP_oEw-x1UGLk-tesBFsZxaKGB0Wrazk32nRWfpSf6o-z2sKaQqRdCYJVcpdEckWQuc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKp9aeGcSyLKCXYT8qAB2OnkBKh8x3BPsjfV0gDOAFO-3uf_v30-EAUUeKwUUoQLuYLRKy_SflpRHEep9_7EQD7jp9WbReXfCY7h-OsigYeTXXJmYfGgXiHnJcRnP4L5X_jONnng==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFA3zUMcT0Ax6nXez4Oo9enNKWWt1ksuxB2a3GYtG3wrpL4NSGwPiEF2nlLRG8ZUHHu2KC8M8uyyHL1JdvVdMY5clzP5PG7qcFzygN1YDPlz6KKz5wzlax5zXuFk4CzV0OuC-HhW50v9QkKwiDIFIJVv5VIszaMWKuu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHs3LgQ0oyYvuAXl4Y8usDQiwCemIhVuS_ILuJMwTG74TqF3RlzdBC0uJFLyPq0aZYpQNXuwgpAux59FI7aWR7FnKkYJ1smjMTdIKcTfsmadaseCrq7GjrnVSG43WOa8Z6FHkCJr9QH_349KIxtc-tr9T4mj-iM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGm-AjypZNaE1_3lW1uJM4XvCW_SPgLSqS804qbLMylfHoLO7PNH-TIWYRcVfzlbEFgyMZHU7aZ9ZNSAU2bx_lXicsJjy8iZuK-xpSzGf_oaAGAwFQFNKIX4R7wZI9K3EDGeAlEpzrTQuBz0i3Dvw==
+- 쿼리: 아기물티슈 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 1월 현재, 아기 물티슈 시장은 브라운, 슈퍼대디, 페넬로페 브랜드가 높은 선호도를 보이며 인기 순위 상위권을 차지하고 있습니다. 소비자들은 안전한 성분, 부드러운 원단, 뛰어난 세정력, 그리고 합리적인 가격대를 중요하게 고려하는 추세입니다. 특히, 휴대성과 편리성을 갖춘 제품들이 꾸준히 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcwpAmrY5xFFfjuPW5vSpeS6akmBW4hNgSmv3RgJScvswnc_wrcXDBRiB24gnAPkBsQGdt8E8bT2afoLvdH0pkA4iALp--IaAAktvDvh5upfwYx6awbGZK27eMWbjY5m17VedIGn8up2wS3tDslQKrBeBWTP0mRodLyw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQfZBmCmEQUP4p9tTceXKEJRqFJperHwrTE2G9_ELrJC-4vtW8zSdwYIXWqAgbObti4z4YXfZU-knu0WfrXfppzS6DxLi-9WzZkiRR9rk6fFdYJdNNMByVC1DeRQD1fBP5KNTGdR1Y9X9Gnv335NXtZ5-XWYALBQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFx8irKGCMwknx9z325w_Dfm9Rx1F99RUcC_a2qhCk5-OU-2RQWXunmmjomQUYo0k4xjrDiy9DeZBcitaB2unzdKl0EblgPel3ICgUvlF1iUTnJKSTyt0G2CESYcVLb78Bz7QgdgLDcch_phZ_cOuathRgCL_CeRBSznzg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4loACzAWs9pcDf-f8sL3UAtj6DHy3Z8IRbdJnvpBy-mo5mt56v_PkD8x6MDRLhpatAvXg2D9hLaxckAb_hglSxZMPiDKnKFd9FJehWU6IIlV_WeMgmaAYgPmx1HO5vVgw9Xk_quIO0Cc8x_xUv3_sTk0gOMY7Ww==
 
 ---
 
@@ -16,12 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 물티슈의 원단 느낌은 어떤 것을 선호하시나요? | 부드러운 플레인 |
-| 물티슈의 정수 단계는 어느 정도가 좋을까요? | 7~8단계 |
-| 물티슈를 주로 어떤 용도로 사용하실 예정인가요? | 아기 피부용, 아기 입/손 겸용 |
-| 물티슈의 크기는 어느 정도를 선호하시나요? | 일반적인 크기, 상관없어요 |
-| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원대 |
-| __avoid_negatives__ | 상관없어요 |
+| 물티슈 원단의 두께감과 촉감은 어떤 것을 선호하시나요? | 도톰하고 부드러운 엠보싱 |
+| 물티슈 성분에 대해 얼마나 신경 쓰시는 편인가요? | 유해 성분 무첨가 |
+| 물티슈 선택 시 환경적인 부분도 고려하시나요? | 환경적인 부분은 크게 고려하지 않음 |
+| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원 |
 
 ---
 
@@ -46,7 +44,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 상관없어요
+(아직 선택 없음)
 
 ---
 

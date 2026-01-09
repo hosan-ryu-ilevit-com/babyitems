@@ -913,94 +913,24 @@ JSON만 출력하세요:`;
 }
 
 /**
- * 피하고 싶은 단점 질문 생성 (트렌드 데이터 + LLM 기반)
+ * 피하고 싶은 단점 질문 생성 (placeholder만 - 옵션은 런타임에 동적 생성)
+ *
+ * 옵션 생성은 사용자가 해당 질문에 도달했을 때 /api/knowledge-agent/generate-negative-options 호출
+ * → 카테고리 + 앞선 답변 맥락을 반영한 맞춤 옵션 생성
  */
-async function generateAvoidNegativesQuestion(
-  categoryName: string,
-  trendAnalysis: TrendAnalysis | null
-): Promise<QuestionTodo> {
-  // 기본 단점 옵션 (공통적으로 자주 언급되는 단점)
-  const defaultNegativeOptions = [
-    { value: 'noise', label: '작동 소리가 커서 사용할 때 신경 쓰여요', description: '조용한 사용을 원하신다면' },
-    { value: 'size', label: '부피가 커서 수납이나 보관 공간이 걱정돼요', description: '컴팩트한 크기를 원하신다면' },
-    { value: 'cleaning', label: '청소나 관리가 번거로울 것 같아요', description: '간편한 관리를 원하신다면' },
-    { value: 'weight', label: '무거워서 이동하거나 들기 힘들 것 같아요', description: '가벼운 무게를 원하신다면' },
-    { value: 'consumables', label: '소모품 교체 비용이 계속 들어서 부담돼요', description: '유지비가 적은 제품을 원하신다면' },
-  ];
-
-  // 트렌드 데이터의 cons가 있으면 LLM으로 라벨 확장
-  if (ai && trendAnalysis?.cons && trendAnalysis.cons.length > 0) {
-    try {
-      const model = ai.getGenerativeModel({
-        model: 'gemini-2.5-flash-lite',
-        generationConfig: {
-          temperature: 0.3,
-          maxOutputTokens: 600,
-        }
-      });
-
-      const consKeywords = trendAnalysis.cons.slice(0, 6).join(', ');
-      
-      const prompt = `"${categoryName}" 제품의 실제 사용자들이 자주 언급하는 단점 키워드입니다: ${consKeywords}
-
-이 키워드들을 바탕으로, 사용자가 "피하고 싶은 단점"으로 선택할 수 있는 옵션 4~5개를 JSON 배열로 생성하세요.
-
-## 규칙
-1. **label은 반드시 15자 이상의 완전한 문장**으로 작성
-2. 문장 끝은 "싫어요", "걱정돼요", "불편해요", "부담돼요" 등으로 자연스럽게 마무리
-3. 사용자의 구체적인 걱정/불편/상황이 드러나야 함
-4. 키워드를 그대로 사용하지 말고 **자연스러운 문장으로 변환**
-5. **금지: "가격이 비싸다", "예산이 초과된다" 등 가격/비용/예산과 관련된 단점은 절대 생성하지 마세요.** (예산은 별도로 질문합니다.)
-
-## 출력 예시
-[
-  {"value": "noise", "label": "작동 소리가 너무 커서 밤에 사용하기 어려울 것 같아요", "description": "조용한 사용을 원하신다면"},
-  {"value": "cleaning", "label": "필터 청소나 관리가 자주 필요해서 번거로울 것 같아요", "description": "간편한 관리를 원하신다면"}
-]
-
-JSON 배열만 출력하세요:`;
-
-      const result = await model.generateContent(prompt);
-      const text = result.response.text();
-      const jsonMatch = text.match(/\[[\s\S]*\]/);
-      
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]) as Array<{ value: string; label: string; description?: string }>;
-        if (parsed.length >= 3) {
-          console.log(`[Step3.6] Generated ${parsed.length} avoid_negatives options from trend data`);
-          return {
-            id: 'avoid_negatives',
-            question: '혹시 꼭 피하고 싶은 단점이 있으신가요?',
-            reason: '💡 선택하신 단점이 있는 상품은 추천에서 제외하거나 순위를 낮출게요.',
-            options: parsed.map(opt => ({
-              value: opt.value || opt.label.slice(0, 10).replace(/\s/g, '_'),
-              label: opt.label,
-              description: opt.description || ''
-            })),
-            type: 'multi',
-            priority: 100,
-            dataSource: '웹 트렌드 단점 분석',
-            completed: false,
-          };
-        }
-      }
-    } catch (e) {
-      console.error('[Step3.6] Avoid negatives generation failed, using defaults:', e);
-    }
-  }
-
-  // 트렌드 데이터 없거나 LLM 실패 시 기본값 사용
-  console.log(`[Step3.6] Using default avoid_negatives options`);
+function generateAvoidNegativesQuestion(): QuestionTodo {
+  console.log(`[Step3.6] Created avoid_negatives placeholder (options will be generated dynamically)`);
   return {
     id: 'avoid_negatives',
     question: '혹시 꼭 피하고 싶은 단점이 있으신가요?',
     reason: '💡 선택하신 단점이 있는 상품은 추천에서 제외하거나 순위를 낮출게요.',
-    options: defaultNegativeOptions,
+    options: [],  // 빈 배열 - 런타임에 동적으로 채워짐
     type: 'multi',
     priority: 100,
-    dataSource: '일반 단점 분석',
+    dataSource: '맞춤 분석',
     completed: false,
-  };
+    dynamicOptions: true,  // 동적 옵션 필요 플래그
+  } as QuestionTodo & { dynamicOptions: boolean };
 }
 
 /**
@@ -1012,16 +942,13 @@ async function generateRequiredQuestions(
   minPrice: number,
   avgPrice: number,
   maxPrice: number,
-  trendAnalysis: TrendAnalysis | null
 ): Promise<{ budgetQuestion: QuestionTodo; avoidNegativesQuestion: QuestionTodo }> {
   console.log(`[Step3.6] Generating required questions (budget + avoid_negatives)`);
-  
-  // 예산 질문과 단점 질문을 병렬로 생성 (둘 다 LLM 호출)
-  const [budgetQuestion, avoidNegativesQuestion] = await Promise.all([
-    generateBudgetQuestion(categoryName, minPrice, avgPrice, maxPrice),
-    generateAvoidNegativesQuestion(categoryName, trendAnalysis)
-  ]);
-  
+
+  // 예산 질문은 LLM 호출, 단점 질문은 placeholder만 (동적 생성)
+  const budgetQuestion = await generateBudgetQuestion(categoryName, minPrice, avgPrice, maxPrice);
+  const avoidNegativesQuestion = generateAvoidNegativesQuestion();
+
   return { budgetQuestion, avoidNegativesQuestion };
 }
 
@@ -1164,6 +1091,11 @@ function addSkipOptionToQuestions(questions: QuestionTodo[]): QuestionTodo[] {
       return q;
     }
 
+    // 동적 옵션 질문은 건너뛰기 옵션 제외 (런타임에 옵션 생성됨)
+    if ((q as any).dynamicOptions) {
+      return q;
+    }
+
     // 이미 "상관없어요" 옵션이 있는지 확인
     const hasSkipOption = q.options.some(o =>
       o.value === 'skip' ||
@@ -1283,12 +1215,12 @@ async function generateQuestions(
 `;
 
   // ✅ 필수 질문(예산 + 단점)을 맞춤질문과 병렬로 생성 시작
+  // 단점 옵션은 placeholder만 생성 (런타임에 동적 생성됨)
   const requiredQuestionsPromise = generateRequiredQuestions(
     categoryName,
     minPrice,
     avgPrice,
     maxPrice,
-    trendAnalysis
   );
 
   let customQuestions: QuestionTodo[] = [];

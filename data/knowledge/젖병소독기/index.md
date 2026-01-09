@@ -1,28 +1,29 @@
 # 젖병소독기 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T07:05:35.699Z
+> 마지막 업데이트: 2026-01-09T10:53:53.379Z
 > 분석 상품: 20개 | 분석 리뷰: 0개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- UV LED 기술을 활용한 강력하고 위생적인 살균력
-- 다단계 건조 기능 (열풍, 자연건조) 탑재로 젖병 재질 및 상황에 맞는 맞춤 건조
-- 내부 스테인리스 소재를 활용한 자외선 반사율 극대화 및 쉬운 세척
+- 강력한 UV LED 살균 및 입체 살균 시스템
+- 다단계 맞춤형 건조 기능 (자연건조, 온풍건조, 열풍건조)
+- 다양한 육아용품 동시 살균 가능 (젖병 외 이유식 용기, 장난감 등)
+- 스마트 기능 및 편의 기능 강화 (앱 연동, 음성 지원 등)
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 살균력
-- ✓ 빠르고 효과적인 건조
-- ✓ 넓은 수납 공간
-- ✓ 사용 편의성
+- ✓ 간편한 사용법
+- ✓ 다용도 활용 가능
+- ✓ 깔끔한 디자인
 
 ### 주의해야 할 단점
-- ⚠ 일부 모델의 소음 발생
-- ⚠ 건조 불충분 시 물기 잔존 가능성
-- ⚠ 높은 가격대
+- ⚠ 내부 용량 부족 (일부 모델)
+- ⚠ 물기 잔존 가능성 (일부 모델)
+- ⚠ 작동 시 소음 발생 (일부 모델)
 
 ### 가격대 인사이트
-20만원 이하의 가성비 모델부터 30만원 이상의 프리미엄 모델까지 다양하게 출시되고 있습니다. 특히 20만원 이하 모델은 가성비를 중시하는 소비자에게 적합하며, 프리미엄 모델은 다양한 부가 기능과 뛰어난 성능을 제공합니다.
+현재 판매 중인 젖병소독기는 10만원대 초반의 가성비 모델부터 30만원대 이상의 프리미엄 모델까지 다양하게 출시되어 있습니다. 20만원 이하의 모델은 기본 살균 및 건조 기능에 충실하며, 20만원 이상의 모델은 대용량 수납, 스마트 기능, 고급 소재 등을 갖춘 경우가 많습니다.
 
 ---
 
@@ -241,8 +242,8 @@
 ---
 
 ## 📊 데이터 출처
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBuZAz0UlLVS9EPRFuVWXElUCZYL-Oec7Zn2vqtBc0UaeJ3loyunLuDO4AXLFi1pqvJ1Fiix9KMYc1xzA_E3nU82qvXrH-VbSgs_MvbavXLxBsh4zru51wrhvH3XXIRmuOVhTCvGDXGBWM47lzh3iBfSt8_uOgjgn1kS4I7xXOxbZUOGeeRofBmYmQILPrPJVD3jE=)
-- [fetv.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEEs1yYnyO0LXTq54mq7t_eYIlYjI2GbUCrqK3n5oky2vcmdjqv4j-9K-zdfOIrvlkflaEbOSIclv_MOzK_fMfZl5sg3tEa3l7u0MKcbbWdQZA-5z1LM8IKm8lKq2DS3XQ5Y6QbPPSbZP31YxtDsw=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAxh3Tf4bjep6AKBvtMcZxWMS4r81Mzb4NNVUmiM1E4DCUepgX_Yd8WCb3R1vUCIlayAw3iW7peWiEu0xqJev5JTrXvTilg_9YIUogdC8XvYCDrwiShG4j4ro2fkl_kOIjLIZPCLg=)
-- [abc-d.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6rWql_G8oeTpI9YYMVSVD4eDRtkDX850Y3KbaYIO1qF1Ys8rOuh48FUf-6bdojed0UQncP9b1dTEzbQADTE8u42BToZfeyr2b6C7yUJ_-eF94a0exqND-SiTgHAel8TxQnNIIHr2IINfgeGUNjsSaNQ4PZiweRolKCQ5ZEVcas3deZszib5yJQsav_Qlf)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi7yjXzM8w1qugCw5E2eePEU3ClQAYhNYeyeK33vQO-WhWmlBg7Z_96DGqKjn3aL-iZWTdixQccm7RIARhxLAItQ5L7JK00lMgfKqTGG9Y9ecubaDt72vI0dFlBTtZcI71iK-LhFAw7ZepcSjUbXtDOEAIOp7_r77T7RGcDMO9aTy0)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3k87TzBT4RUa4OKdy_Wh5HDCH2q8Wt_a8LDmA9fob6OY1BEasqDFMBJlEbkLL2XvzXmMP-VwnIkf5no5yqwowTqqf8gzxsL79MxiT3_3yvkMW0oAx2qIqwJdBL1CkjMAMSuIHY0qz4MXfOs58UIvG2xEBMXrjlPcrC1dMC6FtdXTkDqCDk7_vQ-N_qPW1XOxqyxU=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHw3Aop_RBGqfhJW-HBABt050UEOVv23AHUke-Uh1IQkWD-DIpUhhXu768qIiG9bwll4ciBkdl7Ztog1TCwIoGM5aU82xnkoTZyhljniNJfMA6UBy0-OSI6BEimzi1MuwqglE0Ugaw=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERVqwgMdGYG56bjvcck6Ncb4N_XaV2i0Bux-YOPR-aLlJYbfV_aVHHHGXeQkxSas4yBPvhJy-jFS_6t4g-4V0jGf78syBV6t7XZqDUD7PlIwEv0bNf9j8SHCLrII_c7StH5QRII_blgdPe2HnhQDsW_CrO0-JY_Hu1I0X3ezbtgwfzWH61)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHM1qeKMDNfiO2s0-NW-II8m96_zEC9PglyL_FrUwcml0w0i6K8Cb8svXgkz1y_BM98JJlTwO3eVjD47v_NzmEb9ounz0TytFdqj1Rj0vBmbU3gbPYRD4XjoEZvY0wQ)
+- [abc-d.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErFw5lztrxlNYe00xE7SvdU92JTjb9SfPuzI2rp72ZzRyNvzqMVSqTO-jhKY6tNUXn1TzIc3h4FH7__deEMdUAjQE1m_mzzTJbM2veCVausSYxdQIv1L2QkjQHlvuIJrK2hsk9IR5yNLASbLxJ3ve58gHfrupc9TbnFSGzvzP6IgBSuHTF6jDcZUPcrMz_)
