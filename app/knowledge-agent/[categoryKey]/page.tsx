@@ -20,9 +20,9 @@ import {
 } from "react-icons/fc";
 import ProductDetailModal from '@/components/ProductDetailModal';
 import { KnowledgeComparisonTable } from '@/components/knowledge-agent/KnowledgeComparisonTable';
+import { KnowledgeAgentResultCarousel } from '@/components/knowledge-agent/KnowledgeAgentResultCarousel';
 import { AgenticLoadingPhase, createDefaultSteps, type AnalysisStep } from '@/components/knowledge-agent/AgenticLoadingPhase';
 import { AssistantMessage, LoadingAnimation } from '@/components/recommend-v2';
-import { V2ResultProductCard } from '@/components/recommend-v2/V2ResultProductCard';
 import { InlineBudgetSelector } from '@/components/knowledge-agent/ChatUIComponents';
 import { BalanceGameCarousel } from '@/components/recommend-v2/BalanceGameCarousel';
 import { NegativeFilterList } from '@/components/recommend-v2/NegativeFilterList';
@@ -928,7 +928,7 @@ export default function KnowledgeAgentPage() {
       title: `${candidateText} 제품 데이터를 정밀하게 비교 분석합니다...`,
       icon: '',
       details: [
-        '전체 후보 제품의 상세 스펙 데이터, 제조사 공식 정보, 그리고 실제 구매자들이 남긴 수천 건의 리뷰를 꼼꼼하게 대조 분석하고 있습니다. 특히 장기 사용 후기에 주목하여 내구성과 실사용 만족도를 파악합니다.',
+        '전체 후보 제품의 상세 스펙 데이터, 제조사 공식 정보, 그리고 실제 구매자들이 남긴 수천 건의 리뷰를 꼼꼼하게 대조 분석하고 있습니다. 특히 내돈내산 사용 후기에 주목하여 내구성과 실사용 만족도를 파악합니다.',
         '가격 대비 성능 비율, 실사용자 만족도 지수, 자주 언급되는 장점과 주의해야 할 단점들을 종합적으로 평가하여 각 제품의 최종 점수를 계산하고 있습니다. 사용자님의 우선순위에 따라 가중치를 적용 중입니다.'
       ],
       timestamp: Date.now(),
@@ -947,8 +947,9 @@ export default function KnowledgeAgentPage() {
       title: '분석된 데이터를 바탕으로 최적의 TOP 3 제품을 최종 선정 중입니다...',
       icon: '',
       details: [
-        '지금까지 분석한 모든 데이터를 종합하여, 사용자님의 선호도와 예산에 가장 적합한 상위 3개 제품을 신중하게 선별하고 있습니다. 각 제품이 사용자님께 왜 적합한지 근거를 정리하는 중이에요.',
-        '각 제품별로 "왜 이 제품을 추천하는지", "어떤 점이 사용자님께 맞는지"에 대한 맞춤형 추천 이유를 작성하고 있습니다. 최상의 결과를 위해 잠시만 기다려주세요. (최대 30초 소요될 수 있습니다)'
+        '지금까지 분석한 모든 데이터를 종합하여, 사용자님의 선호도와 예산에 가장 적합한 상위 3개 제품을 신중하게 선별하고 있습니다. 단순히 인기 있는 제품이 아닌, 사용자님의 답변에 가장 부합하는 제품을 고르는 중입니다.',
+        '선정된 제품들의 핵심 스펙을 한눈에 비교하실 수 있도록 상세 비교표를 생성하고 있습니다. 각 제품의 강점과 약점이 한눈에 드러나도록 데이터를 가공하고, 사용자님이 중요하게 생각하시는 항목들을 우선 배치합니다.',
+        '각 제품별로 "왜 이 제품을 추천하는지", "어떤 점이 사용자님께 맞는지"에 대한 맞춤형 추천 이유와 함께, 실사용 시 주의해야 할 팁까지 정리하고 있습니다. 최상의 결과를 위해 잠시만 기다려주세요. (전체 시간 약 30초 소요될 수 있습니다)'
       ],
       timestamp: Date.now(),
       status: 'in_progress'
@@ -2733,8 +2734,10 @@ export default function KnowledgeAgentPage() {
           </motion.button>
         </header>
 
-        {/* 스텝 인디케이터 (4단계) - 항상 상단 플로팅 */}
-        <StepIndicator currentPhase={phase} />
+        {/* 스텝 인디케이터 (4단계) - 추천 완료 단계에서는 숨김 */}
+        {phase !== 'result' && phase !== 'free_chat' && (
+          <StepIndicator currentPhase={phase} />
+        )}
 
         <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px', overflowAnchor: 'none' }}>
           <div className="space-y-8 pt-2">
@@ -3670,45 +3673,14 @@ function MessageBubble({
         )}
 
         {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-3 pt-4 overflow-hidden">
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-3 pt-4">
             <div className="flex items-center gap-2 px-1"><h3 className="font-bold text-gray-900">🛍️ 맞춤 추천 Top 3</h3></div>
-            <div className="space-y-2">
-              {message.resultProducts.slice(0, 3).map((product: any, i: number) => (
-                <V2ResultProductCard
-                  key={product.pcode || product.id || i}
-                  product={{
-                    pcode: product.pcode || product.id,
-                    title: product.name || product.title,
-                    brand: product.brand || null,
-                    price: product.price || null,
-                    thumbnail: product.thumbnail || null,
-                    rank: i + 1,
-                    spec: product.spec || {},
-                    reviewCount: product.reviewCount || null,
-                    averageRating: product.rating || product.averageRating || null,
-                    recommendationReason: product.recommendReason || product.recommendationReason,
-                    oneLiner: product.oneLiner || '',
-                    personalReason: product.personalReason || '',
-                    reviewProof: product.reviewProof || '',
-                    baseScore: 0,
-                    negativeScore: 0,
-                    hardFilterScore: 0,
-                    budgetScore: 0,
-                    directInputScore: 0,
-                    totalScore: 0,
-                    matchedRules: [],
-                    isOverBudget: false,
-                    overBudgetAmount: 0,
-                    overBudgetPercent: 0
-                  }}
-                  rank={i + 1}
-                  categoryKey={categoryKey}
-                  categoryName={categoryName}
-                  onClick={() => onProductClick(product, 'price')}
-                  onReviewClick={() => onProductClick(product, 'danawa_reviews')}
-                />
-              ))}
-            </div>
+            <KnowledgeAgentResultCarousel
+              products={message.resultProducts}
+              categoryKey={categoryKey || ''}
+              categoryName={categoryName}
+              onProductClick={onProductClick}
+            />
             {message.resultProducts.length >= 2 && (
               <div className="mt-6 pt-4 border-t border-gray-100">
                 <KnowledgeComparisonTable
