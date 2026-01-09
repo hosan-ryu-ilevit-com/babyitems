@@ -1,27 +1,32 @@
 # 휴대용 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T05:02:02.012Z
+> 마지막 업데이트: 2026-01-09T06:41:02.897Z
 > 분석 상품: 20개 | 분석 리뷰: 3,903개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 초경량화 및 기내 반입 가능 모델 인기 증가
-- 원터치 폴딩 및 오토폴딩 기능의 보편화
-- 친환경 소재 적용 및 세련된 디자인 강화
+- 초경량화 (7kg 미만 제품 선호)
+- 원터치 폴딩 및 간편한 휴대성
+- 기내 반입 가능 여부
+- 친환경 소재 사용
+- 스마트 기능 (예: 자동 접이식) 도입 확대
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 휴대성 및 컴팩트한 사이즈
-- ✓ 간편한 원터치/오토폴딩 기능
-- ✓ 가벼운 무게로 이동 용이
+- ✓ 가벼운 무게
+- ✓ 간편한 폴딩 (원터치)
+- ✓ 기내 반입 가능
+- ✓ 세련된 디자인
+- ✓ 합리적인 가격대 (일부 모델)
 
 ### 주의해야 할 단점
 - ⚠ 작은 바퀴로 인한 요철 주행의 어려움
 - ⚠ 디럭스 대비 부족한 승차감
-- ⚠ 일부 모델의 핸들링 성능 저하
+- ⚠ 일부 모델의 짧은 선바이저
+- ⚠ 핸들 길이 조절 불가 (일부 모델)
 
 ### 가격대 인사이트
-휴대용 유모차는 20만원대의 가성비 모델부터 100만원 이상의 프리미엄 모델까지 가격대가 다양하게 형성되어 있습니다. 30-50만원대의 모델들이 가장 많은 선택을 받고 있으며, 브랜드와 기능에 따라 가격 차이가 크게 나타납니다.
+휴대용 유모차는 30만원대부터 80만원대까지 다양한 가격대를 형성하고 있으며, 30만원대의 타보, 40만원대의 와이업 및 리안, 50만원대 이상의 잉글레시나, 줄즈 등 브랜드별로 가격대가 다양하게 분포되어 있습니다.
 
 ---
 
@@ -240,8 +245,7 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3Rc-8kNjx7bECEfh3Gfjy0_j3-VddhBGkUlFZEp0Q32CJQpqaWE2awiH5QHthEC7u2yPxRKSqwlTdD8L_M5M-iVIgrIpNi_ZmNi1xBQsMGb5MQWEpaa57Rv--whDKxerPzezKkHFXwJZghzNNQYS_g4Go4u1LWdwzsizydeSQOmGNwNhN1SrfjHfRBpi2TQ45)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELykguDW-9QcBmHwkvj1qOjCIX0QGX99hweTS1xslWhMScCOYmU90aPkDCZrS-b0IrbfbHdMwDY9CmPjOX3KTBvhCZHCZAGQq1bvQBwIej0Cx4jXmWjCutGxcclNqqQdEycXSmFeySbuxhNh2HUntxiqu6y8f-u5bjboaKU0U6apCqWYq4Tx8OdRlEv9FlK_x82YrpggZbq0S-34VmGjKyQRYkO8ZSGVoMzw==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIolfWXRDzYNxEpU-aInsMn39cqoC80tw5GyAyYCwYjYh3MAaN1-6kdPOfvZcB1Emq1aRu9stwkVM4ZKQ_Ddc9MV4Y9L_F7s2MDXPvf3DRLhtzuxEXr_ZziYNsLnkG)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEl6_SA3PiK9r4iWe6urKNUNYZQg5nE3VeRcTUlsW8yk3ZJ_R3f_jozGOr7KDgnI4KKtVG8Wf6AOd2d0ZlrDmKAuelP51Iro3yr4T7B4PuEMwh8yM3ddosn4CqK3fK4iK4V0LI2T3-ffujei034pSuAzjYlO_JIXF--T2HXR4ePt2zBvqf4RuQBccbUrluxespXyG1JQKmyRw6SfYquNYqkZaTEFYUxRgr7Eo2seknHRBDPp8NpymFADY6apRdoSUz_jUv4S6oZvx08)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6PBlJqLuJBJXxGLObScmDtK6EBVCYdTpsTwVJ3J6Svw8Qfvdw3K7mBymBByQI0Tl9bQBjlaBMrjdpsw_IpMRCn7dgi9RQDuv5SaqLIErW61aUAgauV1fy2BPpzK-RKAMyYyGV7nM=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOJDnQfNyz8QxNcJdB_sYm_Fg4dHMnAd6QHfmIRLb5zCX0YNuYOoCZGwHQyXecmErYCKy8tdcx5CPsQtqgBjFV_iwUtcKabc54A6qmyHzO7S-dqvpqNmBvbzBJZqQ=)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxHAw2hD4X0rh3sseS3K9p7S5TsKkhCyZg05SD4N6WafDGwMOR4YAXvNFuYZSAjEwmJBJ0HsNaD7UBfZqRKXH68dYpQ3Tj3ButCKM6geAx9U5qraZT8AqGaNaiBPLVW62vpL2Gq3JIOCZFGgKQN_zn8ipnf4NRvFLSe8IRvbY4tg6ucHfz8ZANhviYGfFOi19roNOk00k-EfVKozvzG1Lhvq2cJyEzMqltPalKHlNTA-ZQHsMFg6lrZdugO5zQZ9EE5Gh6MUE21Bw=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-8sse9ea5oKeFceGFpccwDR3q2pJVqMhX2hjdBCpOmgK6e7CRwD5-m_l5zXuSEi_l5ICVpI4K9ZqoYpMoXWUBhjESgrJCQ1z_0AJGYq9XJucDcmLX6l3UTexsDgXYMZWp_NpJ3g==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG38cLBDLpYCYjbMfrULvsuogPsVpL9z0VX-PaMfm7t0IsV8jB4IL9CZKvLxC_Jf07GfyljC_4Xi2ERD7Rn0yQbt75RtITnk9XlbWxO_z9zcq1QuraDxePKII8TirXOn1ANPZKsfw==)

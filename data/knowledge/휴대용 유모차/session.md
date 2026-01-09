@@ -1,14 +1,14 @@
-# 세션: 20260109_050208_8qnp
-> 시작: 2026-01-09T05:02:08.603Z
-> 카테고리키: 휴대용 유모차
+# 세션: 20260109_064112_uc3a
+> 시작: 2026-01-09T06:41:12.404Z
+> 카테고리키: 휴대용
 > 카테고리: 휴대용 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 휴대용 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 휴대용 유모차 시장은 스토케, 부가부, 줄즈 등 프리미엄 브랜드가 강세를 보이며, 와이업, 타보 등 가성비 브랜드도 꾸준히 인기를 얻고 있습니다. 2026년 트렌드는 초경량화, 원터치 폴딩, 기내 반입 가능 여부, 그리고 친환경 소재 적용에 집중되고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3Rc-8kNjx7bECEfh3Gfjy0_j3-VddhBGkUlFZEp0Q32CJQpqaWE2awiH5QHthEC7u2yPxRKSqwlTdD8L_M5M-iVIgrIpNi_ZmNi1xBQsMGb5MQWEpaa57Rv--whDKxerPzezKkHFXwJZghzNNQYS_g4Go4u1LWdwzsizydeSQOmGNwNhN1SrfjHfRBpi2TQ45, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELykguDW-9QcBmHwkvj1qOjCIX0QGX99hweTS1xslWhMScCOYmU90aPkDCZrS-b0IrbfbHdMwDY9CmPjOX3KTBvhCZHCZAGQq1bvQBwIej0Cx4jXmWjCutGxcclNqqQdEycXSmFeySbuxhNh2HUntxiqu6y8f-u5bjboaKU0U6apCqWYq4Tx8OdRlEv9FlK_x82YrpggZbq0S-34VmGjKyQRYkO8ZSGVoMzw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIolfWXRDzYNxEpU-aInsMn39cqoC80tw5GyAyYCwYjYh3MAaN1-6kdPOfvZcB1Emq1aRu9stwkVM4ZKQ_Ddc9MV4Y9L_F7s2MDXPvf3DRLhtzuxEXr_ZziYNsLnkG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEl6_SA3PiK9r4iWe6urKNUNYZQg5nE3VeRcTUlsW8yk3ZJ_R3f_jozGOr7KDgnI4KKtVG8Wf6AOd2d0ZlrDmKAuelP51Iro3yr4T7B4PuEMwh8yM3ddosn4CqK3fK4iK4V0LI2T3-ffujei034pSuAzjYlO_JIXF--T2HXR4ePt2zBvqf4RuQBccbUrluxespXyG1JQKmyRw6SfYquNYqkZaTEFYUxRgr7Eo2seknHRBDPp8NpymFADY6apRdoSUz_jUv4S6oZvx08, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6PBlJqLuJBJXxGLObScmDtK6EBVCYdTpsTwVJ3J6Svw8Qfvdw3K7mBymBByQI0Tl9bQBjlaBMrjdpsw_IpMRCn7dgi9RQDuv5SaqLIErW61aUAgauV1fy2BPpzK-RKAMyYyGV7nM=
+- 인사이트: 2026년 현재 휴대용 유모차 시장은 '경량화'와 '편리성'을 핵심 트렌드로 삼고 있으며, 특히 기내 반입 가능 여부가 중요한 선택 기준으로 떠오르고 있습니다. 와이업, 타보, 리안, 잉글레시나, 줄즈 등의 브랜드가 인기 있으며, 초경량, 원터치 폴딩, 리클라이닝 기능, 세련된 디자인을 갖춘 제품들이 선호됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOJDnQfNyz8QxNcJdB_sYm_Fg4dHMnAd6QHfmIRLb5zCX0YNuYOoCZGwHQyXecmErYCKy8tdcx5CPsQtqgBjFV_iwUtcKabc54A6qmyHzO7S-dqvpqNmBvbzBJZqQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxHAw2hD4X0rh3sseS3K9p7S5TsKkhCyZg05SD4N6WafDGwMOR4YAXvNFuYZSAjEwmJBJ0HsNaD7UBfZqRKXH68dYpQ3Tj3ButCKM6geAx9U5qraZT8AqGaNaiBPLVW62vpL2Gq3JIOCZFGgKQN_zn8ipnf4NRvFLSe8IRvbY4tg6ucHfz8ZANhviYGfFOi19roNOk00k-EfVKozvzG1Lhvq2cJyEzMqltPalKHlNTA-ZQHsMFg6lrZdugO5zQZ9EE5Gh6MUE21Bw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-8sse9ea5oKeFceGFpccwDR3q2pJVqMhX2hjdBCpOmgK6e7CRwD5-m_l5zXuSEi_l5ICVpI4K9ZqoYpMoXWUBhjESgrJCQ1z_0AJGYq9XJucDcmLX6l3UTexsDgXYMZWp_NpJ3g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG38cLBDLpYCYjbMfrULvsuogPsVpL9z0VX-PaMfm7t0IsV8jB4IL9CZKvLxC_Jf07GfyljC_4Xi2ERD7Rn0yQbt75RtITnk9XlbWxO_z9zcq1QuraDxePKII8TirXOn1ANPZKsfw==
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기의 현재 월령 또는 예상되는 사용 시점을 알려주세요. | 6개월 ~ 24개월 |
+| 휴대용 유모차를 사용하실 때 가장 중요하게 생각하는 휴대성은 무엇인가요? | 원터치 폴딩 및 콤팩트한 사이즈 |
+| 주로 어떤 환경에서 유모차를 사용하시나요? | 다양한 노면 환경, 잦은 이동 및 여행 |
+| 휴대용 유모차 예산은 어느 정도로 생각하세요? (평균 50만원대, 20만원대~60만원대가 가장 많아요) | 20만원대 ~ 60만원대 |
+| __avoid_negatives__ | 디럭스 유모차에 비해 승차감이 떨어져서 아기가 오래 타기 힘들어할까 봐 염려돼요,햇빛이 강한 날에 선바이저가 짧아서 아기 얼굴에 햇빛이 그대로 닿을까 봐 걱정돼요,핸들 높이 조절이 안 되면 키가 큰 제가 사용하기 불편할 것 같아요 |
 
 ---
 
@@ -53,7 +58,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 디럭스 유모차에 비해 승차감이 떨어져서 아기가 오래 타기 힘들어할까 봐 염려돼요
+- 햇빛이 강한 날에 선바이저가 짧아서 아기 얼굴에 햇빛이 그대로 닿을까 봐 걱정돼요
+- 핸들 높이 조절이 안 되면 키가 큰 제가 사용하기 불편할 것 같아요
 
 ---
 
