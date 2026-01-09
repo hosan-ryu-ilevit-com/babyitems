@@ -301,7 +301,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
       : null;
 
   // 리뷰 정렬 상태 (preloadedReviews용)
-  const [reviewSortOrder, setReviewSortOrder] = useState<'high' | 'low'>('high');
+  const [reviewSortOrder, setReviewSortOrder] = useState<'newest' | 'high' | 'low'>('newest');
 
   // 리뷰 탭 영역 ref (스크롤용)
   const reviewTabRef = useRef<HTMLDivElement>(null);
@@ -1269,8 +1269,21 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                   const maxCount = Math.max(...Object.values(ratingDistribution), 1);
                   const totalReviews = preloadedReviews.length || 1;
                   
+                  // 날짜 파싱 함수 (최신순 정렬용)
+                  const parseDate = (dateStr: string | undefined): number => {
+                    if (!dateStr) return 0;
+                    const nums = dateStr.match(/\d+/g);
+                    if (!nums || nums.length < 3) return 0;
+                    const [rawY, m, d] = nums.map(Number);
+                    const y = rawY < 100 ? rawY + 2000 : rawY;
+                    return new Date(y, m - 1, d).getTime();
+                  };
+
                   // 정렬된 리뷰
                   const sortedReviews = [...preloadedReviews].sort((a, b) => {
+                    if (reviewSortOrder === 'newest') {
+                      return parseDate(b.date) - parseDate(a.date);
+                    }
                     if (reviewSortOrder === 'high') {
                       return b.rating - a.rating;
                     }
@@ -1347,6 +1360,16 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                           리뷰 <span className="font-semibold text-blue-600">{displayReviewCount.toLocaleString()}건</span>
                         </span>
                         <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => setReviewSortOrder('newest')}
+                            className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${
+                              reviewSortOrder === 'newest'
+                                ? 'bg-gray-900 text-white'
+                                : 'text-gray-500 hover:bg-gray-100'
+                            }`}
+                          >
+                            최신순
+                          </button>
                           <button
                             onClick={() => setReviewSortOrder('high')}
                             className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${

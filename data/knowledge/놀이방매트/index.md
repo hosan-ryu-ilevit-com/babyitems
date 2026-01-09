@@ -1,29 +1,18 @@
 # 놀이방매트 전문가 지식
 
-> 마지막 업데이트: 2026-01-08T14:18:50.328Z
+> 마지막 업데이트: 2026-01-09T03:25:30.083Z
 > 분석 상품: 20개 | 분석 리뷰: 9,355개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 층간소음 완화 및 충격 흡수 기능 강화
-- 친환경 소재 및 무독성 인증 제품 선호
-- 청소 및 관리의 용이성 (제로갭, 자이언트 매트 등)
 
 ### 구매자 만족 포인트
-- ✓ 층간소음 완화 (경량 충격음)
-- ✓ 아이 안전 (넘어짐 방지)
-- ✓ 생활 방수 및 쉬운 오염 제거
-- ✓ 다양한 디자인 및 색상 옵션
 
 ### 주의해야 할 단점
-- ⚠ 중량 충격음 완화 효과 미미
-- ⚠ 틈새 먼지 끼임 (폴더 매트)
-- ⚠ 바닥 환기 어려움 (일부 매트)
-- ⚠ 인테리어를 해치는 디자인 (일부 제품)
 
 ### 가격대 인사이트
-놀이방 매트의 가격대는 소재, 두께, 브랜드에 따라 다양합니다. 에코폼이나 봄봄과 같은 퍼즐 매트는 10만원 이하의 저렴한 가격대로 구매 가능하며, 파크론, 알집, 꿈비, 크림하우스 등 주요 브랜드의 폴더 매트나 롤 매트는 20만원대에서 30만원대 이상으로 형성되어 있습니다.
+
 
 ---
 
@@ -242,7 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9FfG1uh7kwdmz1-mKgWnRYd1StRnEAhzxvbm3tZfu1l3j_2aAEXxsqH_HRPr5Bemc6akYr3-KIuTOWXkWyAnT9RtRtYqJaF-3EuB2oqUBV1KBGKnVF8Ggs74gduhm-Hy-x_c_K4Web6OHVZo8YtD9YOs57KU7vg==)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQiiiZUyJv-Yed9FqOyhF8h0u3vxTlSLlyK1nG5eU0nq13h-9k5gJ2Ze8sV9AMTm9WgfT_e_7NH0qIxVwUYvLuuVfeNzkPnpQKEWAJwrphAsTmNObnnJPW5zOT7uW6RkD_yb_7qohojP6aWDEPo0-Ie7qcw4GVYGKjS-xH_eyI3gmx)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6oELZdcZp9fq2dHDdRk9HpivNO4i0Fygr1c0Beroe9eIYqzSwOfcCNSPo0_BokFoQFWgQjg9iZk-iT09l2_b8j6GbiVIBJ7r0NZ5Iv0-XHU96LehcidXLTGlPNr1yOUe41uqyz9I=)
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEh8bqtJ07hrybODAp-y3fMcAxlnLMnP1c6g1eJ3DqUloO2T7rgdjaKMVeBEBIjcIr6LqGOjfid5gTlGkIfNj-oOkoIm8eWmnXVD33bGj07ea5jFUD4aWfafMisisDk5JdpQMYrQ9MwLYc49Lk9MpmUO_VSdZ-o5ic064hsXDqS)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyy3-libUui65sx_CGNw9IaBS6AbBfZjurMqbHGliQ5z1egGrEc6yc0YmGviHG_rufw1ZrV2fum9IZ3rKH6B8JOraeVV_hLKXytWKLv3dOqSKISArdretAOG7paehzUyiYepO2TgPQXvlKF9Jal3Oe0qaumPc0jpSYKbOYHDmI)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqMdEzAhF1zuwmyeOBVPYQELxUbSAM0CxHNLRqiAaP5mnLRn86UzglsjV2i1StgCKaQkzfYC2PrJ3bRzYbqhUE0jGSG_s4Qx2ejFmP9goWLv1bxo85Kk1ixxKsltPShRo6H-RR6yxk-FTXa3AThy1NDNMAaC4JULmtdNttyN69_C7GTzeal5SCRLXMGZGk)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVdBTCbcEPS0t3EzA4iLMyyiMCqdOSuFuovGpyfM_31j00qX2Me1Xo6XEQW0mxHcK3xady9M25209nbQv8VK9iwaAWEZ9eL1NXxi1OIECrG--enBdLYlwl9PFRghIRrU1-QKUjHcjOqLypmJjXXNI1K-ssI9UJLw==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmWMQtq1Qtb02b8NHHSW_v0iZ_wSBPUGJWVE1VsReNsSy7ulbRBNYIqvlAYkVJLEd6HhSebjkxG0FuTAP1gSMYKdDbxQ0mhYdspJ-HiT7focxgp0ldC5JtIEmMBzuvCXoQCGtbLaw=)
+- [enuri.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZMnYFjROq77MqVZusXJaVOcZOvxzOeeXOE-k6XXMCaI115Fu3Qo6EmaTuowFKSSz5-dmjIx1a7PWihcHVY-Q6Jp2yVv-KXfZCRyYQ47FSzLd3BwjUs_s_lbGSs36V6k-dmW2o69haMO9EwAktc94=)

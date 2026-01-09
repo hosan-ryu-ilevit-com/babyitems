@@ -1,9 +1,14 @@
-# 세션: 20260109_015044_lhhk
-> 시작: 2026-01-09T01:50:44.470Z
-> 카테고리키: 유아용 카시트
+# 세션: 20260109_032340_bq0h
+> 시작: 2026-01-09T03:23:40.093Z
+> 카테고리키: 유아용
 > 카테고리: 유아용 카시트
 
 ## 🔍 웹서치 인사이트
+
+### Init 단계
+- 쿼리: 유아용 카시트 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 1월 현재, 유아용 카시트 시장은 브라이텍스, 다이치, 조이 등 전통적인 강자들이 여전히 높은 인기를 누리고 있습니다. 안전성과 편의성을 겸비한 회전형 카시트와 신생아부터 사용 가능한 바구니형 카시트가 주목받고 있으며, 친환경 소재 및 스마트 기술 접목이 트렌드로 자리 잡고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVVDNAT7NYw5CS0g55j7Z4bq2DIwtvBxG9qtZftgMJUr9WPJ_LTJkOBJNqMMCAoTC-xwpHB-BDGipIDEYhUOfKwJQbRmOOg5weN-WhoIp_7RJMsoBCUjmumjZuav7CNRB3395GdNJqPlp8iDGDnMtcC_Xg04P1jpyoSeEB7IgGw-Ji8u9izgNjfYrAUkjW9-vc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUwzt-1KuSeNqMHy01OGBvstOWkxljwQW9j8LkILekkZIyWkNlO921jnLiIsZI97oFwicI8sXqE_B8AgxMLmufYRzzmB3AHqDLFuPd-7tKQ4CFztNb28GrPBV3Xl3jZYZmCcd4_5djicAXJuJfYnM8mja6zrgG2Hlmkq6mKFaTm0r8Ta5oXAc9844537_yPIfe, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIue7tO14AR7th9cbL-TpmoUajDV_HA_GiFk_5oHN3f_awn-HuilXnF1mZM_7liL0bb8UX4VDKqzpoth8AjOr1MkNix3lpMqg7Kcb0k2u9TjgRIAPBpQWZ_HqRlKhMAA0pxzNciMfNPPhzQc6XWqweIxksBNkPtahpxa_VxtR3O1yMm7qkpajUw9a2Yn9Xa2YZ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTR6BIPB-HzI_gDr-EWbsTfa66tKTEUYF24g5yWEFzeipMo9DdFfRBNPOh89rhRJrwXAdJzhhwO24c-r_yQE49Ji4IuT-BOmRUzBAYTXXBGa4RGjDupHBxJ8ssYOgFXPXOCLcMiHc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUK05YKiB56wV_puqL3zwGRI0SDV_NObdF3zcO-SuPD72mz0jq-m_lYP1--64egBJTDoTDfKLty8PSN9DEu3xAYxyAaXjNW2b_C6295KYtYzxMA_dPyxIsJyyuICjTTA3-bWGIWHyMd3D7QtnjBMkPk6Y=
 
 ---
 
@@ -11,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기가 주로 어떤 형태로 카시트를 사용하게 될까요? | 바구니형 |
+| 차량에 카시트를 설치하는 방식은 어떤 것을 선호하시나요? | ISOFIX, 안전벨트 |
+| 카시트 소재는 어떤 점을 중요하게 생각하시나요? | 통기성 |
+| 유아용 카시트 예산은 어느 정도로 생각하세요? (평균 13만 5천원, 7만원~17만원대가 가장 많아요) | 7만원 ~ 17만원 |
+| __avoid_negatives__ | 설치가 복잡해서 잘못 설치하면 아이 안전에 문제가 생길까 봐 걱정돼요,무겁고 부피가 커서 차에 옮기거나 이동할 때마다 너무 힘들 것 같아요,아이들이 흘리는 음식물이나 오염을 자주 닦고 세탁해야 하는데 관리가 어려울까 봐 불편해요 |
 
 ---
 
@@ -50,7 +60,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 설치가 복잡해서 잘못 설치하면 아이 안전에 문제가 생길까 봐 걱정돼요
+- 무겁고 부피가 커서 차에 옮기거나 이동할 때마다 너무 힘들 것 같아요
+- 아이들이 흘리는 음식물이나 오염을 자주 닦고 세탁해야 하는데 관리가 어려울까 봐 불편해요
 
 ---
 

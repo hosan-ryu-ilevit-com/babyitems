@@ -105,6 +105,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
   const [isExiting, setIsExiting] = useState(false);
   const [showAllPrices, setShowAllPrices] = useState(false);
   const [expandedImages, setExpandedImages] = useState<{reviewId: string; images: string[]; currentIndex: number} | null>(null);
+  const [reviewSortBy, setReviewSortBy] = useState<'newest' | 'rating_high' | 'rating_low'>('newest');
   const [priceData, setPriceData] = useState<PriceData>({
     loading: false,
     lowestPrice: null,
@@ -118,6 +119,30 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
   const { oneLiner: splitOneLiner, personalReason: splitPersonalReason } = splitReasoning(product.reasoning);
   const oneLiner = product.oneLiner || splitOneLiner;
   const personalReason = product.personalReason || splitPersonalReason;
+
+  // 날짜 파싱 함수 (최신순 정렬용)
+  const parseReviewDate = (dateStr: string | undefined): number => {
+    if (!dateStr) return 0;
+    const nums = dateStr.match(/\d+/g);
+    if (!nums || nums.length < 3) return 0;
+    const [rawY, m, d] = nums.map(Number);
+    const y = rawY < 100 ? rawY + 2000 : rawY;
+    return new Date(y, m - 1, d).getTime();
+  };
+
+  // 리뷰 정렬 함수
+  const sortedReviews = (product.reviews || []).slice().sort((a, b) => {
+    switch (reviewSortBy) {
+      case 'newest':
+        return parseReviewDate(b.date) - parseReviewDate(a.date);
+      case 'rating_high':
+        return b.rating - a.rating;
+      case 'rating_low':
+        return a.rating - b.rating;
+      default:
+        return 0;
+    }
+  });
 
   // Fetch prices from Danawa
   const fetchPrices = useCallback(async (pcode: string) => {
@@ -576,7 +601,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
           {/* 실제 구매자 리뷰 */}
           {product.reviews && product.reviews.length > 0 && (
             <div className="px-6 pb-20">
-               <div className="flex items-center justify-between mb-4">
+               <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <FcSpeaker size={18} />
                     <h4 className="text-[14px] font-black text-gray-900 uppercase tracking-widest">
@@ -587,8 +612,30 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                     {(product.reviewCount || product.reviews.length).toLocaleString()}개
                   </span>
                </div>
+
+               {/* 리뷰 정렬 필터 */}
+               <div className="flex gap-2 mb-4">
+                 {[
+                   { key: 'newest' as const, label: '최신순' },
+                   { key: 'rating_high' as const, label: '별점 높은순' },
+                   { key: 'rating_low' as const, label: '별점 낮은순' },
+                 ].map(({ key, label }) => (
+                   <button
+                     key={key}
+                     onClick={() => setReviewSortBy(key)}
+                     className={`px-3 py-1.5 text-[12px] font-bold rounded-full transition-colors ${
+                       reviewSortBy === key
+                         ? 'bg-gray-900 text-white'
+                         : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                     }`}
+                   >
+                     {label}
+                   </button>
+                 ))}
+               </div>
+
               <div className="space-y-3">
-                {product.reviews.map((review, i) => (
+                {sortedReviews.map((review, i) => (
                   <motion.div
                     key={review.reviewId || i}
                     initial={{ opacity: 0, y: 10 }}
