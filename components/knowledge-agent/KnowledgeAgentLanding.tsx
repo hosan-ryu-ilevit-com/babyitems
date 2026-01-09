@@ -110,13 +110,11 @@ const CATEGORY_IMAGES: Record<string, string> = {
 
 export const CATEGORIES_DATA: Record<string, any> = {
   "출산/육아용품": {
-    "외출용품": {
-      "code": "BABY_008",
-      "emoji": "🛒",
+    "기저귀/위생": {
+      "code": "BABY_006",
+      "emoji": "👶",
       "children": [
-        "휴대용 유모차", "디럭스 유모차", "절충형 유모차", "트라이크 유모차",
-        "신생아용 카시트", "유아용 카시트", "주니어용 카시트",
-        "아기띠", "힙시트"
+        "기저귀", "아기물티슈", "분유", "이유식", "유아간식"
       ]
     },
     "젖병/수유용품": {
@@ -126,11 +124,20 @@ export const CATEGORIES_DATA: Record<string, any> = {
         "젖병", "젖병소독기", "쪽쪽이", "분유포트", "분유제조기", "보틀워머", "젖병솔", "유축기", "수유패드"
       ]
     },
-    "기저귀/위생": {
-      "code": "BABY_006",
-      "emoji": "👶",
+    "외출용품": {
+      "code": "BABY_008",
+      "emoji": "🛒",
       "children": [
-        "기저귀", "아기물티슈", "분유", "이유식", "유아간식"
+        "휴대용 유모차", "디럭스 유모차", "절충형 유모차", "트라이크 유모차",
+        "신생아용 카시트", "유아용 카시트", "주니어용 카시트",
+        "아기띠", "힙시트"
+      ]
+    },
+    "유아 가구": {
+      "code": "BABY_001",
+      "emoji": "🛌",
+      "children": [
+        "유아침대", "유아의자", "유아소파", "유아책상"
       ]
     },
     "이유식용품": {
@@ -145,13 +152,6 @@ export const CATEGORIES_DATA: Record<string, any> = {
       "emoji": "🧼",
       "children": [
         "아기욕조", "콧물흡입기", "체온계", "유아치약", "유아칫솔", "유아변기", "손톱깎이", "유아세제"
-      ]
-    },
-    "유아 가구": {
-      "code": "BABY_001",
-      "emoji": "🛌",
-      "children": [
-        "유아침대", "유아의자", "유아소파", "유아책상"
       ]
     },
     "신생아/영유아 완구": {
@@ -260,7 +260,11 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
         >
           <motion.div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-black/50"
             onClick={onCancel}
           />
           <motion.div
@@ -302,7 +306,7 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
                       <div key={idx} className="flex flex-col items-center gap-2.5 relative group flex-1">
                          <div className={`
                             w-10 h-10 rounded-2xl ${lightBg} flex items-center justify-center 
-                            ${iconColor} ring-1 ring-black/5
+                            ${iconColor}
                             group-hover:scale-110 transition-transform duration-300 z-10
                          `}>
                             <step.icon weight="fill" size={18} />
@@ -329,8 +333,6 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
                   disabled={isLoading}
                   className={`
                     w-full py-4 rounded-[22px] font-bold text-[16px] text-white
-                    shadow-[0_8px_20px_-6px_rgba(0,0,0,0.15)] 
-                    hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.2)]
                     transform active:scale-[0.98] transition-all duration-300
                     flex items-center justify-center gap-2
                     ${buttonBg}
