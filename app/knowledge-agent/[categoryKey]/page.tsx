@@ -168,13 +168,22 @@ function SearchingIndicator({ queries, statusMessage }: { queries: string[], sta
       exit={{ opacity: 0, y: -10 }}
       className="flex items-center gap-3 py-3 px-1"
     >
-      <div className="flex gap-1">
+      <div className="flex items-center justify-center gap-1.5 h-6">
         {[0, 1, 2].map(i => (
           <motion.div
             key={i}
-            animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1, 0.8] }}
-            transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
-            className="w-1.5 h-1.5 rounded-full bg-blue-500"
+            initial={{ opacity: 0.3, y: 0 }}
+            animate={{ 
+              opacity: [0.3, 1, 0.3],
+              y: [0, -4, 0]
+            }}
+            transition={{
+              duration: 0.8,
+              repeat: Infinity,
+              delay: i * 0.15,
+              ease: "easeInOut"
+            }}
+            className="w-[5.4px] h-[5.4px] rounded-full bg-gray-400"
           />
         ))}
       </div>
@@ -408,7 +417,7 @@ function OptionButton({
       whileTap={!disabled ? { scale: 0.99 } : {}}
       onClick={onClick}
       disabled={disabled}
-      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all flex items-center justify-between group ${isSelected
+      className={`w-full p-3.5 rounded-[12px] border text-left transition-all flex items-center justify-between group ${isSelected
         ? (isNegative ? 'bg-red-50 border-red-100' : 'bg-blue-50 border-blue-100')
         : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
         } ${disabled ? 'cursor-default' : ''}`}
@@ -3116,13 +3125,22 @@ export default function KnowledgeAgentPage() {
                   exit={{ opacity: 0, y: -10 }}
                   className="flex items-center gap-3 py-3 px-1"
                 >
-                  <div className="flex gap-1">
+                  <div className="flex items-center justify-center gap-1.5 h-6">
                     {[0, 1, 2].map(i => (
                       <motion.div
                         key={i}
-                        animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1, 0.8] }}
-                        transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
-                        className="w-1.5 h-1.5 rounded-full bg-blue-500"
+                        initial={{ opacity: 0.3, y: 0 }}
+                        animate={{ 
+                          opacity: [0.3, 1, 0.3],
+                          y: [0, -4, 0]
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          repeat: Infinity,
+                          delay: i * 0.15,
+                          ease: "easeInOut"
+                        }}
+                        className="w-[5.4px] h-[5.4px] rounded-full bg-gray-400"
                       />
                     ))}
                   </div>
@@ -4007,7 +4025,7 @@ function MessageBubble({
                   inputRef?.current?.focus();
                   setTimeout(() => { inputRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
                 }}
-                className="w-full py-4 px-5 text-center transition-all flex items-center justify-center group hover:bg-blue-50/30"
+                className="w-full p-3.5 text-center transition-all flex items-center justify-center group hover:bg-blue-50/30"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%239CA3AF' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
                   borderRadius: '12px'

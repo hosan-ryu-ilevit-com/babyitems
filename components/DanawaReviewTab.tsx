@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { CaretDown } from '@phosphor-icons/react/dist/ssr';
 
 interface DanawaReviewImage {
   thumbnail: string;
@@ -36,7 +37,14 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
   const [expandedImages, setExpandedImages] = useState<{reviewId: number; images: DanawaReviewImage[]; currentIndex: number} | null>(null);
   const [visibleCount, setVisibleCount] = useState(5);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [sortOrder, setSortOrder] = useState<'high' | 'low'>('high');
+  const [sortOrder, setSortOrder] = useState<'newest' | 'high' | 'low'>('newest');
+  const [isSortBottomSheetOpen, setIsSortBottomSheetOpen] = useState(false);
+
+  const sortLabels = {
+    newest: '최신순',
+    high: '별점 높은순',
+    low: '별점 낮은순'
+  };
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -125,12 +133,13 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
 
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return '';
-    // "2024-05-05" 형식을 "24.05.05" 형식으로
-    const date = new Date(dateStr);
-    const year = date.getFullYear().toString().slice(2);
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}.${month}.${day}`;
+    const nums = dateStr.match(/\d+/g);
+    if (!nums || nums.length < 3) return dateStr;
+    let [y, m, d] = nums;
+    const yy = y.length === 4 ? y.slice(2) : y;
+    const mm = m.padStart(2, '0');
+    const dd = d.padStart(2, '0');
+    return `${yy}.${mm}.${dd}`;
   };
 
   const renderStars = (rating: number) => {
@@ -186,6 +195,11 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
 
   // 정렬된 리뷰
   const sortedReviews = [...reviews].sort((a, b) => {
+    if (sortOrder === 'newest') {
+      const dateA = a.review_date ? new Date(a.review_date).getTime() : 0;
+      const dateB = b.review_date ? new Date(b.review_date).getTime() : 0;
+      return dateB - dateA;
+    }
     if (sortOrder === 'high') {
       return b.rating - a.rating;
     }
@@ -193,157 +207,74 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
   });
 
   return (
-    <div className="pb-4">
-      {/* 리뷰 요약 - 새로운 디자인 */}
-      <div className="px-4 py-5 border-b border-gray-100">
-        {/* 상품리뷰 헤더 */}
-        <div className="flex items-center gap-1.5 mb-4">
-          <h3 className="text-base font-bold text-gray-900">상품리뷰</h3>
-          
-        </div>
-
-        {/* 평점 + 분포 차트 */}
-        <div className="flex items-center justify-center gap-8">
-          {/* 평균 별점 */}
-          <div className="text-center">
-            <div className="text-4xl font-bold text-gray-900 mb-1">
-              {averageRating ? averageRating.toFixed(1) : '0.0'}
-            </div>
-            <div className="flex items-center justify-center gap-0.5 mb-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <svg
-                  key={star}
-                  className={`w-4 h-4 ${star <= Math.round(averageRating || 0) ? 'text-orange-400' : 'text-gray-200'}`}
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-            </div>
-            <div className="text-sm text-gray-500">({reviewCount.toLocaleString()}건)</div>
-          </div>
-
-          {/* 별점 분포 차트 */}
-          <div className="flex items-end justify-center gap-2 h-24">
-            {[5, 4, 3, 2, 1].map((rating) => {
-              const count = ratingDistribution[rating] || 0;
-              const percentage = Math.round((count / totalReviews) * 100);
-              const height = maxCount > 0 ? (count / maxCount) * 100 : 0;
-              const isHighest = count === maxCount && count > 0;
-
-              return (
-                <div key={rating} className="flex flex-col items-center gap-1">
-                  {/* 퍼센트 말풍선 (가장 높은 것만) */}
-                  <div className="h-5 flex items-end">
-                    {isHighest && percentage > 0 && (
-                      <div className="relative">
-                        <div className="px-1.5 py-0.5 bg-orange-400 text-white text-[10px] font-bold rounded">
-                          {percentage}%
-                        </div>
-                        <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-orange-400" />
-                      </div>
-                    )}
-                  </div>
-                  {/* 바 */}
-                  <div className="w-6 h-16 bg-gray-100 rounded-sm overflow-hidden flex flex-col justify-end">
-                    <div
-                      className={`w-full transition-all duration-300 ${isHighest ? 'bg-orange-400' : 'bg-gray-300'}`}
-                      style={{ height: `${height}%` }}
-                    />
-                  </div>
-                  {/* 점수 라벨 */}
-                  <span className="text-xs text-gray-500">{rating}점</span>
-                </div>
-              );
-            })}
-          </div>
+    <div className="pb-4 relative">
+      {/* 리뷰 요약 - 새 디자인 */}
+      <div className="px-4 pt-5 pb-0 flex items-center justify-between">
+        <h3 className="text-[18px] font-semibold text-gray-900">상품 리뷰</h3>
+        <div className="flex items-center gap-1">
+          <Image src="/icons/ic-star.png" alt="" width={18} height={18} />
+          <span className="text-[16px] font-semibold text-gray-800">{averageRating ? averageRating.toFixed(1) : '—'}</span>
+          <span className="text-[16px] font-semibold text-gray-800 ml-0.5">({reviewCount})</span>
         </div>
       </div>
 
-      {/* 리뷰 개수 + 정렬 필터 */}
-      <div className="px-4 py-3 flex items-center justify-between border-b border-gray-100">
-        {/* 리뷰 개수 */}
-        <span className="text-sm text-gray-500">
-          리뷰 <span className="font-semibold text-blue-600">{reviewCount.toLocaleString()}건</span>
-        </span>
-        {/* 정렬 셀렉터 */}
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => setSortOrder('high')}
-            className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${
-              sortOrder === 'high'
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-500 hover:bg-gray-100'
-            }`}
-          >
-            별점 높은순
-          </button>
-          <button
-            onClick={() => setSortOrder('low')}
-            className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${
-              sortOrder === 'low'
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-500 hover:bg-gray-100'
-            }`}
-          >
-            별점 낮은순
-          </button>
-        </div>
+      {/* 필터 뱃지 */}
+      <div className="px-4 pt-5 pb-3">
+        <button 
+          onClick={() => setIsSortBottomSheetOpen(true)}
+          className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+        >
+          {sortLabels[sortOrder]}
+          <CaretDown size={14} />
+        </button>
       </div>
 
       {/* 리뷰 목록 */}
-      <div className="divide-y divide-gray-100">
+      <div className="px-4 divide-y divide-gray-200">
         {sortedReviews.slice(0, visibleCount).map((review) => (
-          <div key={review.id} className="px-4 py-4">
-            {/* 헤더: 별점 + 쇼핑몰 */}
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                {renderStars(review.rating)}
-                {review.mall_name && (
-                  <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
-                    {review.mall_name}
-                  </span>
-                )}
+          <div key={review.id} className="py-4">
+            {/* Row 1: Profile, Nickname, Mall */}
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-[22px] h-[22px] rounded-full bg-gray-100 flex items-center justify-center overflow-hidden shrink-0">
+                <Image src="/icons/ic-user.png" alt="" width={22} height={22} className="object-contain" />
               </div>
-            </div>
-
-            {/* 작성자 + 작성일 */}
-            <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-              {review.author && <span>{review.author}</span>}
-              {review.author && review.review_date && <span>|</span>}
-              {review.review_date && <span>{formatDate(review.review_date)}</span>}
-            </div>
-
-            {/* 리뷰 내용 */}
-            <div className="mb-3">
-              <p
-                className={`text-sm text-gray-700 leading-relaxed ${
-                  !expandedReviews.has(review.id) ? 'line-clamp-3' : ''
-                }`}
-              >
-                {review.content}
-              </p>
-              {review.content.length > 100 && (
-                <button
-                  onClick={() => toggleExpand(review.id)}
-                  className="text-sm text-blue-600 mt-1 font-medium"
-                >
-                  {expandedReviews.has(review.id) ? '접기' : '펼쳐보기'}
-                </button>
+              <span className="text-[14px] font-semibold text-gray-800 truncate">
+                {review.author || '*'.repeat(3 + (review.id % 6))}
+              </span>
+              {review.mall_name && (
+                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-[12px] font-medium rounded-[6px] shrink-0">
+                  {review.mall_name}
+                </span>
               )}
             </div>
 
-            {/* 이미지 썸네일 */}
+            {/* Row 2: Stars, Date */}
+            <div className="flex items-center gap-2 mb-3">
+              <div className="flex gap-0">
+                {[1, 2, 3, 4, 5].map(star => (
+                  <Image 
+                    key={star} 
+                    src={star <= review.rating ? "/icons/ic-star.png" : "/icons/ic-star-gray.svg"} 
+                    alt="" 
+                    width={18} 
+                    height={18} 
+                    className="object-contain" 
+                  />
+                ))}
+              </div>
+              {review.review_date && <span className="text-[12px] font-medium text-gray-400">{formatDate(review.review_date)}</span>}
+            </div>
+
+            {/* Row 3: Photos */}
             {review.images && review.images.length > 0 && (
-              <div className="flex gap-2 overflow-x-auto">
-                {review.images.slice(0, 4).map((image, idx) => (
+              <div className="flex gap-2 mb-3 overflow-x-auto pb-1 scrollbar-hide">
+                {review.images.map((image, idx) => (
                   <div
                     key={idx}
                     className="relative shrink-0 cursor-pointer"
                     onClick={() => openImageViewer(review.id, review.images, idx)}
                   >
-                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
+                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
                       <Image
                         src={image.thumbnail}
                         alt={`리뷰 이미지 ${idx + 1}`}
@@ -353,18 +284,72 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
                         unoptimized
                       />
                     </div>
-                    {idx === 3 && review.images.length > 4 && (
-                      <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                        <span className="text-white font-semibold">+{review.images.length - 4}</span>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
             )}
+
+            {/* Row 4: Content */}
+            <div className="relative">
+              <p className={`text-[14px] font-medium text-gray-800 leading-[1.4] ${!expandedReviews.has(review.id) ? 'line-clamp-3' : ''}`}>
+                {review.content}
+              </p>
+              {review.content.length > 120 && (
+                <button 
+                  onClick={() => toggleExpand(review.id)}
+                  className="mt-2 text-[14px] font-medium text-blue-500 hover:text-blue-600 transition-colors"
+                >
+                  {expandedReviews.has(review.id) ? '접기' : '더보기'}
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>
+
+      {/* 정렬 바텀시트 */}
+      <AnimatePresence>
+        {isSortBottomSheetOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSortBottomSheetOpen(false)}
+              className="fixed inset-0 bg-black/40 z-[100]"
+            />
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-[12px] z-[101] px-4 pt-[34px] pb-8 h-[285px]"
+            >
+              <div className="flex flex-col gap-6">
+                {(['newest', 'high', 'low'] as const).map((order) => (
+                  <button
+                    key={order}
+                    onClick={() => {
+                      setSortOrder(order);
+                      setIsSortBottomSheetOpen(false);
+                    }}
+                    className="w-full flex items-center justify-between px-2 text-[16px] transition-colors"
+                  >
+                    <span className={sortOrder === order ? 'text-gray-800 font-semibold' : 'text-gray-400 font-medium'}>
+                      {sortLabels[order]}
+                    </span>
+                    {sortOrder === order && (
+                      <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* 더보기 / 무한 스크롤 */}
       {visibleCount < reviews.length && (

@@ -642,7 +642,7 @@ export function BudgetSlider({
           <div className="text-[14px] text-gray-400 font-medium mb-2">최저</div>
           <div
             onClick={() => !disabled && handleMinClick()}
-            className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
+            className="w-full p-3.5 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
           >
             {isEditingMin ? (
               <input
@@ -668,7 +668,7 @@ export function BudgetSlider({
           <div className="text-[14px] text-gray-400 font-medium mb-2">최고</div>
           <div
             onClick={() => !disabled && handleMaxClick()}
-            className="w-full px-5 py-4 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
+            className="w-full p-3.5 text-[18px] font-semibold text-gray-800 bg-gray-50 rounded-2xl transition-colors text-left flex items-center justify-between cursor-pointer"
           >
             {isEditingMax ? (
               <input

@@ -299,7 +299,7 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                             onClick={() => handleOptionSelect(currentItem.question.id, option.value, option.label)}
                             disabled={isLoading}
                             className={`
-                              w-full text-left p-4 rounded-2xl border transition-all duration-200
+                              w-full text-left p-3.5 rounded-2xl border transition-all duration-200
                               ${isSelected
                                 ? 'border-gray-900 bg-gray-900 text-white'
                                 : 'border-gray-200 bg-white hover:border-gray-300 text-gray-900'
@@ -321,7 +321,7 @@ export const FollowupCarousel = forwardRef<FollowupCarouselRef, FollowupCarousel
                       <div
                         onClick={() => !isLoading && handleOtherSelect(currentItem.question.id)}
                         className={`
-                          w-full text-left p-4 rounded-2xl border transition-all duration-200
+                          w-full text-left p-3.5 rounded-2xl border transition-all duration-200
                           ${showOtherInput === currentItem.question.id || answers.get(currentItem.question.id)?.isOther
                             ? 'border-gray-900 bg-gray-50'
                             : 'border-gray-200 bg-white hover:border-gray-300'

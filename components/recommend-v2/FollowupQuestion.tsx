@@ -131,7 +131,7 @@ export function FollowupQuestion({
             onClick={() => handleOptionSelect(option.value)}
             disabled={isLoading}
             className={`
-              w-full text-left p-4 rounded-2xl border transition-all duration-200
+              w-full text-left p-3.5 rounded-2xl border transition-all duration-200
               ${selectedValue === option.value
                 ? 'border-gray-900 bg-gray-900 text-white'
                 : 'border-gray-200 bg-white hover:border-gray-300 text-gray-900'
@@ -154,7 +154,7 @@ export function FollowupQuestion({
         <div
           onClick={handleOtherSelect}
           className={`
-            w-full text-left p-4 rounded-2xl border transition-all duration-200
+                          w-full text-left p-3.5 rounded-2xl border transition-all duration-200
             ${isOther
               ? 'border-gray-900 bg-gray-50'
               : 'border-gray-200 bg-white hover:border-gray-300'

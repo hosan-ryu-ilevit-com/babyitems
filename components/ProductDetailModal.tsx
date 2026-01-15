@@ -9,6 +9,7 @@ import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
 import OptionSelector from '@/components/ui/OptionSelector';
 import type { ProductVariant } from '@/types/recommend-v2';
+import { CaretDown } from '@phosphor-icons/react/dist/ssr';
 
 // 실시간 가격 크롤링 결과 타입
 interface LivePriceData {
@@ -90,13 +91,14 @@ interface ProductDetailModalProps {
   scrollToSellers?: boolean;
   initialTab?: 'price' | 'danawa_reviews';
   // 미리 크롤링된 리뷰 (knowledge-agent 플로우에서 사용)
-  preloadedReviews?: Array<{
-    content: string;
-    rating: number;
-    author?: string;
-    date?: string;
-    mallName?: string;
-  }>;
+    preloadedReviews?: Array<{
+      content: string;
+      rating: number;
+      author?: string;
+      date?: string;
+      mallName?: string;
+      images?: string[];
+    }>;
 }
 
 // 쇼핑몰 이름 → 로고 파일 매핑
@@ -315,6 +317,23 @@ export default function ProductDetailModal({ productData, category, danawaData, 
 
   // 리뷰 정렬 상태 (preloadedReviews용)
   const [reviewSortOrder, setReviewSortOrder] = useState<'newest' | 'high' | 'low'>('newest');
+  const [isSortBottomSheetOpen, setIsSortBottomSheetOpen] = useState(false);
+  const [expandedReviewIds, setExpandedReviewIds] = useState<Set<number>>(new Set());
+
+  const toggleReviewExpand = (idx: number) => {
+    setExpandedReviewIds(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
+
+  const sortLabels = {
+    newest: '최신순',
+    high: '별점 높은순',
+    low: '별점 낮은순'
+  };
 
   // 리뷰 탭 영역 ref (스크롤용)
   const reviewTabRef = useRef<HTMLDivElement>(null);
@@ -439,54 +458,92 @@ export default function ProductDetailModal({ productData, category, danawaData, 
         </header>
 
         {/* Scrollable Content Area */}
-        <div className="flex-1 overflow-y-auto">
-          {/* Thumbnail - knowledge-agent(preloadedReviews)일 때는 작은 PLP 스타일, 아니면 큰 썸네일 */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+          {/* Thumbnail - knowledge-agent(preloadedReviews)일 때는 PDP 스타일 */}
           {preloadedReviews && preloadedReviews.length > 0 ? (
-            // Knowledge-agent 스타일: 작은 썸네일 + 메타데이터 (PLP 스타일)
-            <div className="px-4 pt-4 pb-4 border-b border-gray-100">
-              <div className="flex gap-4">
-                {/* 작은 썸네일 */}
-                <div className="relative w-24 h-24 bg-gray-100 rounded-xl overflow-hidden shrink-0">
-                  {productData.product.thumbnail ? (
-                    <Image
-                      src={productData.product.thumbnail}
-                      alt={productData.product.title}
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-                {/* 메타데이터 */}
-                <div className="flex-1 min-w-0">
+            <div className="px-4 pt-4 pb-5 border-b border-gray-100">
+              <div className="relative w-full aspect-square bg-gray-100 rounded-[12px] overflow-hidden">
+                {productData.product.thumbnail ? (
+                  <Image
+                    src={productData.product.thumbnail}
+                    alt={productData.product.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-4 space-y-2">
+                <div className="flex items-center justify-between">
                   {productData.product.brand && (
-                    <span className="text-sm font-medium text-gray-500 mb-1 block">
+                    <span className="text-[16px] font-medium text-gray-500">
                       {productData.product.brand}
                     </span>
                   )}
-                  <h2 className="text-[15px] font-semibold text-gray-900 leading-snug line-clamp-2 mb-2">
-                    {productData.product.title}
-                  </h2>
-                  <div className="text-lg font-bold text-gray-900">
+
+                  {(averageRating > 0 || productData.product.reviewCount > 0) && (
+                    <button
+                      onClick={() => {
+                        setPriceTab('danawa_reviews');
+                        setTimeout(() => {
+                          reviewTabRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 150);
+                        logButtonClick('브랜드_리뷰정보_클릭', 'product-modal');
+                      }}
+                      className="flex items-center gap-1"
+                    >
+                      <div className="shrink-0">
+                        <Image src="/icons/ic-star.png" alt="" width={18} height={18} className="object-contain" />
+                      </div>
+                      <span className="text-[14px] font-semibold text-gray-800">
+                        {averageRating > 0 ? averageRating.toFixed(1) : '—'}
+                      </span>
+                      <span className="text-[13px] font-medium text-gray-400 underline decoration-gray-400">
+                        리뷰 {productData.product.reviewCount.toLocaleString()}개
+                      </span>
+                    </button>
+                  )}
+                </div>
+
+                <h2 className="text-[16px] font-medium text-gray-800 leading-snug">
+                  {productData.product.title}
+                </h2>
+
+                <div className="flex items-center justify-between pt-1">
+                  <div className="text-[18px] font-bold text-black">
                     {livePrice.loading ? (
                       <span className="text-gray-400">...</span>
                     ) : (
                       <>{(effectivePriceData?.lowestPrice || productData.product.price).toLocaleString()}원</>
                     )}
                   </div>
-                  {(effectivePriceData?.lowestMall || livePrice.loading) && (
-                    <div className="flex items-center gap-1 mt-1">
-                      {livePrice.loading ? (
-                        <span className="text-xs text-gray-400">가격 조회 중...</span>
-                      ) : (
-                        <span className="text-xs text-gray-500">{effectivePriceData?.lowestMall} 최저가</span>
-                      )}
+
+                  {effectivePriceData?.lowestMall && (
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gray-50 rounded-[20px]">
+                      {(() => {
+                        const priceInfo = danawaData?.prices.find(p => p.mall === effectivePriceData.lowestMall);
+                        const mallLogo = priceInfo?.mallLogo || getMallLogoPath(effectivePriceData.lowestMall);
+
+                        return mallLogo && (
+                          <div className="w-6 h-6 rounded-full overflow-hidden border border-gray-100 bg-white flex items-center justify-center shrink-0">
+                            <img
+                              src={mallLogo}
+                              alt={effectivePriceData.lowestMall}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        );
+                      })()}
+                      <span className="text-[14px] font-medium text-gray-700">
+                        {effectivePriceData.lowestMall}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -617,6 +674,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
           )}
 
         {/* 상품정보 | 상품리뷰 탭 (전체 너비) */}
+        <div className="h-[10px] bg-gray-50 border-y border-gray-100" />
         <div ref={reviewTabRef}>
           <div className="flex">
             <button
@@ -1079,10 +1137,10 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     <div className="space-y-4">
                       {/* 필수 조건 (하드 필터) - 문장 리스트 형태로 변경 */}
                       {recommendationSentences.length > 0 && (
-                        <div className="-mt-4">
-                          <div className="h-[10px] bg-gray-50 border-y border-gray-100 -mx-4" />
+                        <div className="-mt-6 -mx-4">
+                          <div className="h-[10px] bg-gray-50 border-y border-gray-100" />
                           <div 
-                            className="pt-4 px-6 pb-2 -mx-4" 
+                            className="pt-4 px-4 pb-2" 
                             style={{ 
                               background: 'linear-gradient(180deg, #F3F0FF 0%, #FFFFFF 100%)' 
                             }}
@@ -1306,6 +1364,18 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     return new Date(y, m - 1, d).getTime();
                   };
 
+                  // 날짜 포맷팅 함수 (YY.MM.DD)
+                  const formatDate = (dateStr: string | undefined): string => {
+                    if (!dateStr) return '';
+                    const nums = dateStr.match(/\d+/g);
+                    if (!nums || nums.length < 3) return dateStr;
+                    let [y, m, d] = nums;
+                    const yy = y.length === 4 ? y.slice(2) : y;
+                    const mm = m.padStart(2, '0');
+                    const dd = d.padStart(2, '0');
+                    return `${yy}.${mm}.${dd}`;
+                  };
+
                   // 정렬된 리뷰
                   const sortedReviews = [...preloadedReviews].sort((a, b) => {
                     if (reviewSortOrder === 'newest') {
@@ -1318,152 +1388,136 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                   });
 
                   return (
-                    <div className="pb-4">
-                      {/* 리뷰 요약 - DanawaReviewTab 스타일 */}
-                      <div className="px-4 py-5 border-b border-gray-100">
-                        <div className="flex items-center gap-1.5 mb-4">
-                          <h3 className="text-base font-bold text-gray-900">상품리뷰</h3>
-                        </div>
-
-                        {/* 평점 + 분포 차트 */}
-                        <div className="flex items-center justify-center gap-8">
-                          {/* 평균 별점 */}
-                          <div className="text-center">
-                            <div className="text-4xl font-bold text-gray-900 mb-1">
-                              {avgRating.toFixed(1)}
-                            </div>
-                            <div className="flex items-center justify-center gap-0.5 mb-1">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <svg
-                                  key={star}
-                                  className={`w-4 h-4 ${star <= Math.round(avgRating) ? 'text-orange-400' : 'text-gray-200'}`}
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                              ))}
-                            </div>
-                            <div className="text-sm text-gray-500">({displayReviewCount.toLocaleString()}건)</div>
-                          </div>
-
-                          {/* 별점 분포 차트 */}
-                          <div className="flex items-end justify-center gap-2 h-24">
-                            {[5, 4, 3, 2, 1].map((rating) => {
-                              const count = ratingDistribution[rating] || 0;
-                              const percentage = Math.round((count / totalReviews) * 100);
-                              const height = maxCount > 0 ? (count / maxCount) * 100 : 0;
-                              const isHighest = count === maxCount && count > 0;
-
-                              return (
-                                <div key={rating} className="flex flex-col items-center gap-1">
-                                  <div className="h-5 flex items-end">
-                                    {isHighest && percentage > 0 && (
-                                      <div className="relative">
-                                        <div className="px-1.5 py-0.5 bg-orange-400 text-white text-[10px] font-bold rounded">
-                                          {percentage}%
-                                        </div>
-                                        <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-orange-400" />
-                                      </div>
-                                    )}
-                                  </div>
-                                  <div className="w-6 h-16 bg-gray-100 rounded-sm overflow-hidden flex flex-col justify-end">
-                                    <div
-                                      className={`w-full transition-all duration-300 ${isHighest ? 'bg-orange-400' : 'bg-gray-300'}`}
-                                      style={{ height: `${height}%` }}
-                                    />
-                                  </div>
-                                  <span className="text-xs text-gray-500">{rating}점</span>
-                                </div>
-                              );
-                            })}
-                          </div>
+                    <div className="pb-4 relative">
+                      {/* 리뷰 요약 - 새 디자인 */}
+                      <div className="px-4 pt-5 pb-0 flex items-center justify-between">
+                        <h3 className="text-[18px] font-semibold text-gray-900">상품 리뷰</h3>
+                        <div className="flex items-center gap-1">
+                          <Image src="/icons/ic-star.png" alt="" width={18} height={18} />
+                          <span className="text-[16px] font-semibold text-gray-800">{avgRating.toFixed(1)}</span>
+                          <span className="text-[16px] font-semibold text-gray-800 ml-0.5">({displayReviewCount})</span>
                         </div>
                       </div>
 
-                      {/* 리뷰 개수 + 정렬 필터 */}
-                      <div className="px-4 py-3 flex items-center justify-between border-b border-gray-100">
-                        <span className="text-sm text-gray-500">
-                          리뷰 <span className="font-semibold text-blue-600">{displayReviewCount.toLocaleString()}건</span>
-                        </span>
-                        <div className="flex items-center gap-1">
-                          <button
-                            onClick={() => setReviewSortOrder('newest')}
-                            className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${
-                              reviewSortOrder === 'newest'
-                                ? 'bg-gray-900 text-white'
-                                : 'text-gray-500 hover:bg-gray-100'
-                            }`}
-                          >
-                            최신순
-                          </button>
-                          <button
-                            onClick={() => setReviewSortOrder('high')}
-                            className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${
-                              reviewSortOrder === 'high'
-                                ? 'bg-gray-900 text-white'
-                                : 'text-gray-500 hover:bg-gray-100'
-                            }`}
-                          >
-                            별점 높은순
-                          </button>
-                          <button
-                            onClick={() => setReviewSortOrder('low')}
-                            className={`px-2.5 py-1 text-sm font-medium rounded-md transition-colors ${
-                              reviewSortOrder === 'low'
-                                ? 'bg-gray-900 text-white'
-                                : 'text-gray-500 hover:bg-gray-100'
-                            }`}
-                          >
-                            별점 낮은순
-                          </button>
-                        </div>
+                      {/* 필터 뱃지 */}
+                      <div className="px-4 pt-5 pb-3">
+                        <button 
+                          onClick={() => setIsSortBottomSheetOpen(true)}
+                          className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          {sortLabels[reviewSortOrder]}
+                          <CaretDown size={14} />
+                        </button>
                       </div>
 
                       {/* 리뷰 목록 */}
-                      <div className="divide-y divide-gray-100">
+                      <div className="px-4 divide-y divide-gray-200">
                         {sortedReviews.map((review, idx) => (
-                          <div key={idx} className="px-4 py-4">
-                            {/* 헤더: 별점 + 쇼핑몰 */}
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="flex items-center gap-2">
-                                <div className="flex items-center gap-0.5">
-                                  {[1, 2, 3, 4, 5].map((star) => (
-                                    <svg
-                                      key={star}
-                                      className={`w-4 h-4 ${star <= review.rating ? 'text-yellow-400' : 'text-gray-300'}`}
-                                      fill="currentColor"
-                                      viewBox="0 0 20 20"
-                                    >
-                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                  ))}
-                                  <span className="ml-1 text-sm font-semibold text-gray-900">{review.rating}</span>
-                                </div>
-                                {review.mallName && (
-                                  <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
-                                    {review.mallName}
-                                  </span>
-                                )}
+                          <div key={idx} className="py-4">
+                            {/* Row 1: Profile, Nickname, Mall */}
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="w-[22px] h-[22px] rounded-full bg-gray-100 flex items-center justify-center overflow-hidden shrink-0">
+                                <Image src="/icons/ic-user.png" alt="" width={22} height={22} className="object-contain" />
                               </div>
+                              <span className="text-[14px] font-semibold text-gray-800 truncate">
+                                {review.author || '*'.repeat(3 + (idx % 6))}
+                              </span>
+                              {review.mallName && (
+                                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-[12px] font-medium rounded-[6px] shrink-0">
+                                  {review.mallName}
+                                </span>
+                              )}
                             </div>
 
-                            {/* 작성자 + 작성일 */}
-                            {(review.author || review.date) && (
-                              <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                                {review.author && <span>{review.author}</span>}
-                                {review.author && review.date && <span>|</span>}
-                                {review.date && <span>{review.date}</span>}
+                            {/* Row 2: Stars, Date */}
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className="flex gap-0">
+                                {[1, 2, 3, 4, 5].map(star => (
+                                  <Image 
+                                    key={star} 
+                                    src={star <= review.rating ? "/icons/ic-star.png" : "/icons/ic-star-gray.svg"} 
+                                    alt="" 
+                                    width={18} 
+                                    height={18} 
+                                    className="object-contain" 
+                                  />
+                                ))}
+                              </div>
+                              {review.date && <span className="text-[12px] font-medium text-gray-400">{formatDate(review.date)}</span>}
+                            </div>
+
+                            {/* Row 3: Photos */}
+                            {review.images && review.images.length > 0 && (
+                              <div className="flex gap-2 mb-3 overflow-x-auto pb-1 scrollbar-hide">
+                                {review.images.map((img, i) => (
+                                  <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-gray-100">
+                                    <img src={img} alt="" className="w-full h-full object-cover" />
+                                  </div>
+                                ))}
                               </div>
                             )}
 
-                            {/* 리뷰 내용 */}
-                            <p className="text-sm text-gray-700 leading-relaxed">
-                              {review.content}
-                            </p>
+                            {/* Row 4: Content */}
+                            <div className="relative">
+                              <p className={`text-[14px] font-medium text-gray-800 leading-[1.4] ${!expandedReviewIds.has(idx) ? 'line-clamp-3' : ''}`}>
+                                {review.content}
+                              </p>
+                              {review.content.length > 120 && (
+                                <button 
+                                  onClick={() => toggleReviewExpand(idx)}
+                                  className="mt-2 text-[14px] font-medium text-blue-500 hover:text-blue-600 transition-colors"
+                                >
+                                  {expandedReviewIds.has(idx) ? '접기' : '더보기'}
+                                </button>
+                              )}
+                            </div>
                           </div>
                         ))}
                       </div>
+
+                      {/* 정렬 바텀시트 */}
+                      <AnimatePresence>
+                        {isSortBottomSheetOpen && (
+                          <>
+                            <motion.div
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              onClick={() => setIsSortBottomSheetOpen(false)}
+                              className="fixed inset-0 bg-black/40 z-[100]"
+                            />
+                            <motion.div
+                              initial={{ y: '100%' }}
+                              animate={{ y: 0 }}
+                              exit={{ y: '100%' }}
+                              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                              className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-[12px] z-[101] px-4 pt-[34px] pb-8 h-[285px]"
+                            >
+                              <div className="flex flex-col gap-6">
+                                {(['newest', 'high', 'low'] as const).map((order) => (
+                                  <button
+                                    key={order}
+                                    onClick={() => {
+                                      setReviewSortOrder(order);
+                                      setIsSortBottomSheetOpen(false);
+                                    }}
+                                    className="w-full flex items-center justify-between px-2 text-[16px] transition-colors"
+                                  >
+                                    <span className={reviewSortOrder === order ? 'text-gray-800 font-semibold' : 'text-gray-400 font-medium'}>
+                                      {sortLabels[order]}
+                                    </span>
+                                    {reviewSortOrder === order && (
+                                      <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                      </svg>
+                                    )}
+                                  </button>
+                                ))}
+                              </div>
+                            </motion.div>
+                          </>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })()

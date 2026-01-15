@@ -446,7 +446,7 @@ export function NegativeFilterAIHelperBottomSheet({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-600 font-medium text-[16px] text-left break-keep"
+                          className="p-3.5 rounded-2xl bg-rose-50 border border-rose-100 text-rose-600 font-medium text-[16px] text-left break-keep"
                         >
                           {label}
                         </motion.div>

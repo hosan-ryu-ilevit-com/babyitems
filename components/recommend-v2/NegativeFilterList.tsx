@@ -149,7 +149,7 @@ export function NegativeFilterList({
                 );
               }}
               whileTap={{ scale: 0.98 }}
-              className={`w-full py-4 px-5 rounded-[12px] border text-left flex items-center justify-between gap-3 transition-all ${
+              className={`w-full p-3.5 rounded-[12px] border text-left flex items-center justify-between gap-3 transition-all ${
                 isSelected
                   ? 'border-red-100 bg-red-50'
                   : 'border-gray-100 bg-white hover:border-red-100/50 hover:bg-red-50/30 text-gray-600'

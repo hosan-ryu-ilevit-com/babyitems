@@ -539,7 +539,7 @@ export function AIHelperBottomSheet({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className={`p-4 rounded-2xl font-medium text-[16px] text-left break-keep border ${
+                          className={`p-3.5 rounded-2xl font-medium text-[16px] text-left break-keep border ${
                             questionType === 'negative'
                               ? 'bg-rose-50 border-rose-100 text-rose-600'
                               : 'bg-blue-50 border-blue-100 text-blue-600'

@@ -160,7 +160,7 @@ export function InlineBalanceCarousel({
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleSelect('A')}
-            className={`w-full p-4 rounded-2xl text-left transition-all border-2 relative overflow-hidden ${
+            className={`w-full p-3.5 rounded-2xl text-left transition-all border-2 relative overflow-hidden ${
               selections.get(currentQuestion.id) === 'A'
                 ? 'bg-blue-50 border-blue-100'
                 : 'bg-white border-gray-100 hover:border-blue-200 hover:bg-blue-50/30'
@@ -189,7 +189,7 @@ export function InlineBalanceCarousel({
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleSelect('B')}
-            className={`w-full p-4 rounded-2xl text-left transition-all border-2 relative overflow-hidden ${
+            className={`w-full p-3.5 rounded-2xl text-left transition-all border-2 relative overflow-hidden ${
               selections.get(currentQuestion.id) === 'B'
                 ? 'bg-blue-50 border-blue-100'
                 : 'bg-white border-gray-100 hover:border-blue-200 hover:bg-blue-50/30'
@@ -317,7 +317,7 @@ export function InlineNegativeFilter({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => toggle(opt.id)}
-            className={`p-4 rounded-2xl text-left transition-all border-2 relative ${
+            className={`p-3.5 rounded-2xl text-left transition-all border-2 relative ${
               selected.has(opt.id)
                 ? 'bg-rose-50 border-rose-200 text-rose-700'
                 : 'bg-white border-gray-100 hover:border-rose-100'
