@@ -1,5 +1,5 @@
-# 세션: 20260115_022835_xzyb
-> 시작: 2026-01-15T02:28:35.894Z
+# 세션: 20260115_111105_n9wc
+> 시작: 2026-01-15T11:11:05.080Z
 > 카테고리키: 음식물처리기
 > 카테고리: 음식물처리기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 음식물처리기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 음식물처리기 시장은 휴렉, 미닉스, 쉘퍼, 쿠쿠 등 다양한 브랜드가 경쟁하고 있으며, 소비자들은 성능, 편의성, 위생을 중요하게 고려하고 있습니다. 특히 대용량, 저소음, 냄새 제거 기능이 강화된 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8zii8mrmnIztfnpToWkNSb1-cpKEL2Az8F-rjVp5sHxHpsXk_ZXReb14cvNdzoGW57d3PSLsmsQc1xo7uLX0RRwnwOYK6UyRQD6L5aS8rr54xu7KfuNaz8EjY4BS-qIUmRPsyUzue-ZArGyzHZS47yyqhAKo4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6oyC-DPRK1LDpBEnv9aQeXrp8JTr89ugCWD3ZAkzU4y49LB2_ZTTendcVcGwT-GxGapQF_vDIMkiEIUotHn93kihQeVEN3AHmwVrpAaBxG7or4empOrEOytGLmIMHdWldjgCjnA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7WwJA2uu-wMa0SZNy3OAFMcAAM5KqYokkkqoAzXEgMpRfL7kCqLS5zVle2MuNK6PR1dlid_SR1sF90zSQHkoWZvFmZLHIXOdV9Ir446MJU7aGRoH8x5MdZfAoj2AdonllPiajsw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGS214ZpUi6tT21vaHiVuyiyIUWNBGsPO_fqmSOPJVLzgrJ2szmZClsrI66qtNiRlNRwt4TBUmB3FE4w-vdhwzEqOpUR2vnmphJ07ueRhA3le1VHy1c68TyiFhrYO6s2l48gCs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERLt29awWbfaan9YlhdAta_uKVnIKjPTaNo815P8R6_QwZLvHqmcnsShKwBhwLBTnsKTjK5q2DryZKrqajt4TleVF0YeKjj1tSgLWmDBqUX9K2ry0aoLHDkvWWKi6o5w==
+- 인사이트: 2026년 현재 음식물처리기 시장은 다양한 브랜드들이 경쟁하며 소비자들의 니즈에 맞춰 기능과 디자인을 강화한 제품들이 인기를 얻고 있습니다. 특히 4인 가구 이상을 위한 대용량 모델과 1-2인 가구를 위한 소형 모델 모두 꾸준히 출시되고 있으며, 건조분쇄형 방식이 미생물발효형 방식보다 높은 점유율을 보이고 있습니다. 휴렉, 린클, 쿠쿠, 미닉스, 쉘퍼, 아이닉 등이 현재 인기 있는 브랜드로 언급됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEf6fScEEG-R1d9DrH9pmF8I5a8QaDdsSCfPfW92sp2tbsBdnr7SN1AbXvp9fthB0sJz3PwhShuhMyqNy341LXkUYpcLSqxOoCOuZQFut_Voo5knPzn3158q0CYHsQjrIs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH82v23dZSxeC1SaFOw5a3pootfH1fSowasehkgNx8SyptdtN_E3RdehpPcr8xfcaoitArf14x_2wbo8gBOPMs8Ors6Wxsj8pIYO2yXlx4z4igDd9KfJp3Tq8vxSQQBw4PK_RAbDVMcy32E9B8dvvR9HF6azJeFbw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6wjDk3UWIdSuWGegZg9HLLoM8ZeBA6hztOhNc-rIiZiTC15WF6ruvXKzaGptR8qHF6mAo4ZLzvFLSVMmWWh17ysgLzxsxAHUWgwZBKcl61LQ-tpdYRV5HL2koDtVMD--Nh3_I2oQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxq5KbZTh3eirVBOaeDe4m44LutwNf0SFLKal85f8nCRR_jt7yv5J24XJzfYJG38CEw4j0f30SVsHnKHyTZjEIGUf91Dx1ydp1LmDcOC38wg1xtgYJwzwBFOQ_YAxx7BfsPAKK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrk_PFJqG-sQ9uOSjPTPmbI105ya7TVkKUSqbZpZH9IVWUq8Prvjg6sQ_KaBYFAdKo5eiv8uE_oFaz6oLP7JrnXCh4msYjnnbCCHtanFVrgsCUcJ4HDGvJz4oE_ErQ3tufKIOGeZQ=
 
 ---
 

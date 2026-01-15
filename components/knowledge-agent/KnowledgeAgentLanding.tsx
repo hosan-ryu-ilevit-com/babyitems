@@ -265,9 +265,9 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-[480px] bg-white rounded-t-[32px] overflow-hidden shadow-2xl"
+            className="relative w-full max-w-[480px] bg-white rounded-t-[12px] overflow-hidden shadow-2xl"
           >
-            <div className="p-6 pt-8 pb-12">
+            <div className="p-4 pt-6 pb-10">
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-2">
@@ -301,7 +301,7 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
                           {step.label}
                        </span>
 
-                       <div className="w-8 h-8 rounded-lg bg-[#F0F2FF] flex items-center justify-center shrink-0">
+                       <div className="w-8 h-8 flex items-center justify-center shrink-0">
                           <img src={step.icon} alt="" className="w-6 h-6 object-contain" />
                        </div>
                     </div>
