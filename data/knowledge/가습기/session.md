@@ -1,5 +1,5 @@
-# 세션: 20260108_080818_i8ww
-> 시작: 2026-01-08T08:08:18.742Z
+# 세션: 20260115_132103_j776
+> 시작: 2026-01-15T13:21:03.049Z
 > 카테고리키: 가습기
 > 카테고리: 가습기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 가습기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 가습기 시장은 위생과 편의성을 강조한 제품들이 인기를 얻고 있습니다. 특히 UV 살균 기능, 자동 세척 기능, 그리고 간편한 세척 구조를 갖춘 제품들이 주목받고 있으며, 대용량 모델과 스마트 기능이 탑재된 제품들도 꾸준히 판매되고 있습니다. 한경희생활과학, 신일, 쿠쿠, 위닉스 등의 브랜드가 현재 인기 있는 브랜드로 나타납니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-pS4e3P7CGQVUsIw3fLJtt-kornabnAOymFbUpxG-ICUErJ5jRxdiQYi9V-3q8dWTtykWu3vGeOvJ9z0DO3XqY5_xQk04hyWa-X0BfaqQdMkeqTdHhLsWqxkg2cV_m97hNKmvyhE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFv-5bUvFljzI_334XQ5tXocdmPNIHNeoFq-zRXg9YP9gWx7nbNWh7Kd8zqLsjAjdSN2G-GeMfWKryeZ5tvDL7_dXu6S9Lcj6u6RyVu6Rk-C111VYSHHTLTYInYEgGkKeA53Aki3y8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFTcV4FRHrAQSRdX7rQ_YAIpsaXOkXms7k4GwLxqbrvJne4Cj5FaegLkvHIg-X2eGn6w0beRagb7AHzNT9_mbKXuHL2YeOW4fCuNkfAfq9x-Vyo8Hm4MxtADHQZrIH85qeZTky2Lk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3lJnUN6CikKdQeTLoTWZUYYOxjVHN2_PCWLdffka1iaqfQXityaba_aEr250w4fuA5LPe2b8PzqHNnD6WXSeSMq2n8kD93cjHNA1GGV70ehxxpX1eHtAJDBBCfukp57yfrX2xOe4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfmMulqDydazMBZRhY78iQIvc56WLZWe7wq2hX-DoHwlRBC2fP2SkFS1-W9nZtNR3K8zpLTlhJa9GFEMyIyUpvFirBWC6R9KRT01oWyw7xiOo8AQarfDdTEvI6boRZPJUhYpOOH9yKIUWxXccEILqnl1rn3X_WUvZQOLauydC1MXovvBV_dt_2TvZegh7dbrfLuUQVJVleP0kzELyCSheAeUrxj_NHwSaLAhLnVK9_w6LVTkgw1j_pJhIXkC-NJ7_06mui8ED8xzpqgJYiehp5U_9WXpw9t2TVddhcfKAXdTBmvBdOgPlCHLusanojpsHdRTE305iF5rjE7BppVNb-uGQ7LFOJ8auzTmLnfP7FofmIUMZoWdS8n_8615jy35COrE6PFmUIHYIkoUIjga4wrkCUuYIRb-fPgspyuqd-v10QS_nMrh5vVVcBYxskNapafw_0bB1oBull0vGiKiL3mA==
+- 인사이트: 2026년 현재 가습기 시장은 위생, 디자인, 편의성을 갖춘 제품들이 인기를 얻고 있으며, 특히 UV 살균 및 자동 건조 기능이 탑재된 모델들이 주목받고 있습니다. 자연 기화식 가습기는 저렴한 가격과 친환경적인 특성으로 꾸준히 사랑받고 있으며, 스마트 기능과 건강 관리 기능을 통합한 프리미엄 제품군도 성장세를 보이고 있습니다. 케리프, 위닉스, 신일전자, 한경희 등이 주요 브랜드로 언급됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEy4isgVk_RCH5O8srdLjGEa0THGI0cjhV4meG6mNKoBez8Va9_85JxDeflJUw97KvwyIh31DeB5XYrDJultpGwbE9_oX0RxwKxbb2yYUnU00G5-CAO4Ie6m6NHG3PYW0NkTDm0yxckCsC1hjmao6W9LpX0y2WoOJIiNbsonow=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKYjzCoTYjhu-Qvon_HKgiSegL-KpGVRROn_0HE9cE7EfhXSIT0hZjlrDF29wbT1--VShpVF9pI6CMz5uswA-BY0odSASHgRl8augW3B0tuieBGKGjLW9qkvAjW-hl1ef85QGGy84=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPoRpXzGL6bFlfuz_6h83RXavmd4fTSLpoDCP7EL8EOFfH9ThQcVKuwP1WUBUy7JY1qhKkb9iguitZoCcOly4musZPBqZBt4RIhTvgPI1FDbMZgYZOGggcLjEeWsMQgenafjMC3YI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWjT5BVTuPvLhBU9klgIo7aifMXGOsuDOfm-K7WLupo1oBB80T5_vIeQ7FuVagm5uOmsUAhX1l8sKKvo7wtEnZjgZ-1QvbD9-rfm1rpVnI_xWS_7HcXCC9O91yGI4mX3Sx-lAIeTU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZJIEgfLeJ15LaRvXvD8ZMxoBF5unoiStY2u__viU3dOQGRTe6zc9XOwY3ZgtMvrNDq8XPCFvhBrS-CQvy6h5L-1mkPGVArZjGyjURj9vC74U-UdG4YV8uQf1a0I004ZgyXPxxbT0=
 
 ---
 
@@ -16,39 +16,36 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 방식의 가습 방식을 선호하시나요? | 복합식 (초음파+가열) |
-| 가습기 관리 시 가장 중요하게 생각하는 부분은 무엇인가요? | 자동 세척 및 건조 기능, 그리고 좋은 성능 |
-| 한 번 물을 채웠을 때 얼마나 오래 사용하고 싶으신가요? | 너무 자주만 아니면 됨. 일주일에 한번정도만 채우면,, |
-| 예산은 어느 정도로 생각하세요? | 15만원 이하 |
-| __avoid_negatives__ | 물통 용량이 작아서 매일 여러 번 물을 채워야 하는 상황은 너무 번거로울 것 같아요,가습기 작동 시 발생하는 소음 때문에 잠자리에 방해가 될까 봐 걱정돼요 |
+| 어떤 방식의 가습기를 선호하시나요? | 가열식, 자연 기화식 |
+| 가습기를 주로 사용하실 공간의 크기는 어느 정도인가요? | 10~20평 |
+| 가습기 세척 및 관리에 어느 정도의 노력을 기울이실 의향이 있으신가요? | 어느 정도 신경 씀 |
+| 스마트폰 연동 등 스마트 기능이 필요하신가요? | 스마트폰 제어 불필요 |
+| 가습기 예산은 어느 정도로 생각하세요? (평균 약 28만원, 15만원~36만원대가 가장 많아요) | 15만원 ~ 36만원대 |
+| __avoid_negatives__ | 정기적으로 필터를 교체해야 해서 신경 쓰이고 부담될 것 같아요,물통 용량이 작아서 자주 물을 보충해야 하는 점이 번거로울 것 같아요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 86개 (전체 86개 중)
+현재 후보: 16개 (전체 16개 중)
 
 ### 후보 상품
-1. 루메나 MIST TOWER MAX - 163,620원 - ⭐4.8
-2. 조지루시 EE-DVH35K - 280,770원 - ⭐4.8
-3. 신일전자 물멍 SUH-CV600ZA - 150,100원 - ⭐4.6
-4. LG전자 오브제컬렉션 퓨리케어 하이드로에센셜 HY505RWLAH - 684,500원 - ⭐4.9
-5. 샤오미 미지아 3세대 CJSJSQ04ZMZ - 115,840원 - ⭐4.4
-6. 아이닉 iH12 Pro - 126,330원 - ⭐4.8
-7. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RSUABM - 1,120,330원 - ⭐5
-8. 르젠 퓨어미스트 2세대 LZHD-H05 - 167,690원 - ⭐4.4
-9. 조지루시 EE-TAH60K - 388,990원 - ⭐5
-10. 루메나 듀얼 H3 X - 35,600원 - ⭐4.8
-11. 한경희생활과학 HAAN-HD700M - 27,900원 - ⭐4.3
-12. 에어메이드 AMH-4502 - 246,450원 - ⭐4.7
-13. 위닉스 올바른 가습기 WLTE750-JKK - 56,040원 - ⭐4.6
-14. 조지루시 EE-DCH35K - 243,680원 - ⭐4.7
-15. 루메나 HUMID H7 - 132,650원 - ⭐1
-16. 퀸센스 QSHD-V150 - 26,750원 - ⭐4.3
-17. 신일전자 SUH-4A60ST - 47,950원 - ⭐4.6
-18. 에어메이드 THE 순수한 가습기 AMH-7000 - 76,140원 - ⭐4.5
-19. 위닉스 올케어 올바른가습기 WL4M400-NWK - 110,810원 - ⭐4.5
-20. 쿠쿠전자 아이편한 CH-GS301FW - 52,390원 - ⭐4.1
+1. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RSUABM - 1,120,330원 - ⭐5
+2. 조지루시 EE-TAH60K - 388,990원 - ⭐5
+3. 에어메이드 AMH-4502 - 246,450원 - ⭐4.7
+4. 위닉스 올바른 가습기 WLTE750-JKK - 56,040원 - ⭐4.6
+5. 조지루시 EE-DCH35K - 243,680원 - ⭐4.7
+6. 루메나 HUMID H7 - 132,650원 - ⭐1
+7. 비타그램 VG-HF2510W - 18,900원 - ⭐4.9
+8. 드웰러 SHA-32GS - 204,350원 - ⭐4.8
+9. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RWUABM - 1,118,750원 - ⭐5
+10. 신일전자 SUH-R60HP - 44,900원 - ⭐4.8
+11. 위닉스 올바른 가습기 WLTM750-JWK - 85,550원 - ⭐4.7
+12. 위닉스 올케어 올바른가습기 WL3M400-KWK - 129,000원 - ⭐4.7
+13. 신일전자 SUH-CT70 - 52,220원 - ⭐4
+14. 한경희이지라이프 HAAN-HD700HA - 47,100원 - ⭐5
+15. 샤오미 스마트미 레인포레스트 CJJSQ06ZM - 87,970원 - ⭐4.2
+16. 원더스리빙 원더스 미스킹 H7 Plus - 27,900원 - ⭐4.4
 
 ---
 
@@ -60,8 +57,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 물통 용량이 작아서 매일 여러 번 물을 채워야 하는 상황은 너무 번거로울 것 같아요
-- 가습기 작동 시 발생하는 소음 때문에 잠자리에 방해가 될까 봐 걱정돼요
+- 정기적으로 필터를 교체해야 해서 신경 쓰이고 부담될 것 같아요
+- 물통 용량이 작아서 자주 물을 보충해야 하는 점이 번거로울 것 같아요
 
 ---
 

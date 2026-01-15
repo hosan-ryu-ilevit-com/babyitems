@@ -1,31 +1,29 @@
 # 가습기 전문가 지식
 
-> 마지막 업데이트: 2026-01-08T08:08:05.118Z
+> 마지막 업데이트: 2026-01-15T13:20:56.594Z
 > 분석 상품: 20개 | 분석 리뷰: 3,800개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- UV 저온 살균 및 100도 고온 살균 기능
-- 간편한 세척 및 완전 분해 가능한 구조
-- 대용량 물통 (4L 이상) 및 스마트 기능 (앱 연동, 자동 습도 조절)
+- UV-C 살균 및 애프터 블로우(자동 건조) 기능 탑재
+- 스마트 제어, 친환경 소재, 건강 관리 기능 통합
+- 자연 기화식 가습기의 꾸준한 인기 및 가성비
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 살균 기능 (UV, 가열)
-- ✓ 간편한 세척 및 관리 용이성
-- ✓ 대용량 및 긴 연속 사용 시간
-- ✓ 자동 습도 조절 및 스마트 기능
-- ✓ 조용한 작동 소음 (BLDC 모터 등)
+- ✓ 뛰어난 가성비
+- ✓ 간편한 세척 및 관리
+- ✓ 위생적인 살균 기능 (UV, 가열식)
+- ✓ 무소음/저소음 작동
 
 ### 주의해야 할 단점
-- ⚠ 작은 물통 용량으로 인한 잦은 보충 필요
-- ⚠ 일부 모델의 소음 발생
-- ⚠ 높은 가격대 (프리미엄 모델)
-- ⚠ 복잡한 세척 과정 (일부 모델)
-- ⚠ 물 넘침 및 오류 발생 가능성
+- ⚠ 작은 물통 용량으로 인한 짧은 사용 시간
+- ⚠ 필터 교체 비용 부담
+- ⚠ 복잡한 구조로 인한 세척의 어려움
+- ⚠ 백색 가루 발생 가능성 (초음파식)
 
 ### 가격대 인사이트
-현재 판매 중인 가습기는 2만원대의 보급형 미니 가습기부터 10만원대 중급 모델, 그리고 10만원 이상의 프리미엄 모델까지 다양하게 분포되어 있습니다. 특히 위생 기능과 스마트 기능이 강화된 모델들이 높은 가격대를 형성하고 있습니다.
+가습기 가격대는 매우 다양하며, 1만 원대의 초저가 자연 기화식 제품부터 10만 원 이상의 프리미엄 복합식 또는 스마트 기능이 탑재된 제품까지 폭넓게 분포합니다. 가성비를 중시한다면 1~3만 원대의 제품도 좋은 선택지가 될 수 있으며, 고급 기능과 편의성을 원한다면 10만 원 이상의 제품을 고려해볼 수 있습니다.
 
 ---
 
@@ -244,8 +242,8 @@
 ---
 
 ## 📊 데이터 출처
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-pS4e3P7CGQVUsIw3fLJtt-kornabnAOymFbUpxG-ICUErJ5jRxdiQYi9V-3q8dWTtykWu3vGeOvJ9z0DO3XqY5_xQk04hyWa-X0BfaqQdMkeqTdHhLsWqxkg2cV_m97hNKmvyhE=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFv-5bUvFljzI_334XQ5tXocdmPNIHNeoFq-zRXg9YP9gWx7nbNWh7Kd8zqLsjAjdSN2G-GeMfWKryeZ5tvDL7_dXu6S9Lcj6u6RyVu6Rk-C111VYSHHTLTYInYEgGkKeA53Aki3y8=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFTcV4FRHrAQSRdX7rQ_YAIpsaXOkXms7k4GwLxqbrvJne4Cj5FaegLkvHIg-X2eGn6w0beRagb7AHzNT9_mbKXuHL2YeOW4fCuNkfAfq9x-Vyo8Hm4MxtADHQZrIH85qeZTky2Lk=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3lJnUN6CikKdQeTLoTWZUYYOxjVHN2_PCWLdffka1iaqfQXityaba_aEr250w4fuA5LPe2b8PzqHNnD6WXSeSMq2n8kD93cjHNA1GGV70ehxxpX1eHtAJDBBCfukp57yfrX2xOe4=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfmMulqDydazMBZRhY78iQIvc56WLZWe7wq2hX-DoHwlRBC2fP2SkFS1-W9nZtNR3K8zpLTlhJa9GFEMyIyUpvFirBWC6R9KRT01oWyw7xiOo8AQarfDdTEvI6boRZPJUhYpOOH9yKIUWxXccEILqnl1rn3X_WUvZQOLauydC1MXovvBV_dt_2TvZegh7dbrfLuUQVJVleP0kzELyCSheAeUrxj_NHwSaLAhLnVK9_w6LVTkgw1j_pJhIXkC-NJ7_06mui8ED8xzpqgJYiehp5U_9WXpw9t2TVddhcfKAXdTBmvBdOgPlCHLusanojpsHdRTE305iF5rjE7BppVNb-uGQ7LFOJ8auzTmLnfP7FofmIUMZoWdS8n_8615jy35COrE6PFmUIHYIkoUIjga4wrkCUuYIRb-fPgspyuqd-v10QS_nMrh5vVVcBYxskNapafw_0bB1oBull0vGiKiL3mA==)
+- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEy4isgVk_RCH5O8srdLjGEa0THGI0cjhV4meG6mNKoBez8Va9_85JxDeflJUw97KvwyIh31DeB5XYrDJultpGwbE9_oX0RxwKxbb2yYUnU00G5-CAO4Ie6m6NHG3PYW0NkTDm0yxckCsC1hjmao6W9LpX0y2WoOJIiNbsonow=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKYjzCoTYjhu-Qvon_HKgiSegL-KpGVRROn_0HE9cE7EfhXSIT0hZjlrDF29wbT1--VShpVF9pI6CMz5uswA-BY0odSASHgRl8augW3B0tuieBGKGjLW9qkvAjW-hl1ef85QGGy84=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPoRpXzGL6bFlfuz_6h83RXavmd4fTSLpoDCP7EL8EOFfH9ThQcVKuwP1WUBUy7JY1qhKkb9iguitZoCcOly4musZPBqZBt4RIhTvgPI1FDbMZgYZOGggcLjEeWsMQgenafjMC3YI=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWjT5BVTuPvLhBU9klgIo7aifMXGOsuDOfm-K7WLupo1oBB80T5_vIeQ7FuVagm5uOmsUAhX1l8sKKvo7wtEnZjgZ-1QvbD9-rfm1rpVnI_xWS_7HcXCC9O91yGI4mX3Sx-lAIeTU=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZJIEgfLeJ15LaRvXvD8ZMxoBF5unoiStY2u__viU3dOQGRTe6zc9XOwY3ZgtMvrNDq8XPCFvhBrS-CQvy6h5L-1mkPGVArZjGyjURj9vC74U-UdG4YV8uQf1a0I004ZgyXPxxbT0=)
