@@ -905,7 +905,7 @@ function StepCard({
       );
     }
 
-    if (step.status === 'active' || (isExpanded && step.status !== 'done')) {
+    if (step.status === 'active' || isExpanded) {
       return (
         <div className="flex items-center justify-center w-4 h-4 rounded-full border-[1.5px] border-purple-500 border-t-transparent animate-spin" />
       );

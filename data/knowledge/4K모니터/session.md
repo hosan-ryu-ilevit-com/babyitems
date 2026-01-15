@@ -1,5 +1,5 @@
-# 세션: 20260115_015212_kz38
-> 시작: 2026-01-15T01:52:12.826Z
+# 세션: 20260115_101740_2mbe
+> 시작: 2026-01-15T10:17:40.605Z
 > 카테고리키: 4K모니터
 > 카테고리: 4K모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 4K모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 4K 모니터 시장은 OLED와 고주사율 기술이 주목받고 있으며, LG, 삼성, ASUS 등 주요 브랜드들이 경쟁을 주도하고 있습니다. CES 2026에서는 텍스트 가독성을 개선한 새로운 QD-OLED 패널과 1000Hz 이상의 초고주사율 모니터가 공개되며 기술 발전의 방향성을 제시했습니다. 전반적으로 모니터 주사율은 상향 평준화되는 추세입니다.
-- 출처: https://search.danawa.com/dsearch.php?query=4K%EB%AA%A8%EB%8B%88%ED%84%B0&sort=saveDESC
+- 인사이트: 2026년 현재 4K 모니터 시장은 LG전자, 삼성전자, MSI, 벤큐 등 다양한 브랜드가 경쟁하고 있으며, 고해상도와 뛰어난 화질을 바탕으로 콘텐츠 소비 및 게임 환경을 향상시키는 트렌드가 이어지고 있습니다. 특히, 휴대용 4K 모니터와 스마트 기능이 통합된 모델들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF93IWEibY36U9VD3QA8tHqobafILQiqMf4YBpUpJmk6kncBH36fcQHeLmscMRhKpRlX30zcQxgy4C08A8K1EptTdg_iTmfYC4dNiEIp2hRTX5Ejc92u6pXCsdgLKVpgT508EshUHI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkmYJtwmu7Rx1PUbsL1vAOM_6XxhtZiRzlG0zUk37KGOykE3cygq5A1K8ADWWPGExwmcNAupOC-euGoSnWfD4ToOj1MspxbADHNz6Gi2b8brNC3phyPnpUjo09FbS9K_FLB08=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHD5RTz58Fd0vMmTREraCSih-g7mJJM4KuUHnkBpCu7-kR3OsIWSZsxQY8R60mxUWRvjbamZpXhJwZvW9CCzGZVA3jNBwgolckTxHXVAkTlHTQGQll0emTcEeXpS6H0wRpbjA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2ZvTNjbWprrBE6hDTrS_qxrqfJzIfjbhEYMrMYVgZ4G5PVP8tH-4lh1XD_Z9UDsQKm7Y_NC2UB8EBM1osiseF46o_XdE6X-Grd4GdR8J3-fakXYyzIST2t6Ufb5nOM7MuI5jAmsNOUqFz36ceiB6Q36f4_kDIkti8, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQKRK9XDhOLDjh53gnQR04774JzTe8ESFClIfytDsrlCXXPZp7_HsgSMyyEL8XgSKIeBKq2NdduH_Mf_nTViP8wdxETuP_xZqV_X9pNAK845sytUt2UlJzWd28Lx0mNya9GxOYUMs=
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 주로 어떤 용도로 4K 모니터를 사용하실 예정인가요? | 영화/영상 시청 및 웹 서핑 |
-| 화면 전환의 부드러움은 어느 정도를 중요하게 생각하시나요? | 144Hz 이상, 240Hz 이상 |
-| 어떤 종류의 패널 기술에 관심이 있으신가요? | OLED / QD-OLED |
-| 4K 모니터 예산은 어느 정도로 생각하세요? (평균 55만원, 30만원대~70만원대가 가장 많아요) | 30만원대 ~ 70만원대 |
-| __avoid_negatives__ | 영화/영상 시청 시에도 144Hz 이상의 높은 주사율을 제대로 활용하려면 고사양 그래픽카드가 필수적이라 부담스러울 것 같아요 |
 
 ---
 
@@ -60,7 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 영화/영상 시청 시에도 144Hz 이상의 높은 주사율을 제대로 활용하려면 고사양 그래픽카드가 필수적이라 부담스러울 것 같아요
+(아직 선택 없음)
 
 ---
 
