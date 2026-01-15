@@ -1,0 +1,27 @@
+--- components/knowledge-agent/AgenticLoadingPhase.tsx
++++ components/knowledge-agent/AgenticLoadingPhase.tsx
+@@ -940,15 +940,22 @@
+       animate={{ opacity: 1, y: 0 }}
+       exit={{ opacity: 0, scale: 0.95 }}
+-      className="group transition-all duration-300 overflow-hidden bg-white border-b border-gray-200"
++      className={`relative group transition-all duration-300 overflow-hidden bg-white ${step.id === 'question_generation' ? '' : 'border-b border-gray-200'}`}
+     >
++      {/* 세로 디바이더 라인 */}
++      {step.id !== 'question_generation' && (
++        <div className="absolute left-[26px] top-[36px] bottom-0 w-px bg-gray-200 z-0" />
++      )}
++      {step.id !== 'product_analysis' && (
++        <div className="absolute left-[26px] top-0 h-[36px] w-px bg-gray-200 z-0" />
++      )}
++
+       {/* 헤더 */}
+       <button
+         onClick={onToggle}
+-        className="w-full px-4 py-4 flex items-center gap-3 text-left transition-colors"
++        className="w-full px-4 py-4 flex items-center gap-3 text-left transition-colors relative z-10"
+       >
+         {/* 상태 아이콘 */}
+-        <div className="shrink-0">
++        <div className="shrink-0 w-5 h-5 flex items-center justify-center bg-white">
+           {getStatusIcon()}
+         </div>

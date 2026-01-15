@@ -8,11 +8,30 @@ interface AssistantMessageProps {
   typing?: boolean;
   speed?: number;
   className?: string;
+  textClassName?: string; // 강조될 텍스트(주로 질문) 스타일
+  explanationClassName?: string; // 부가 설명 텍스트 스타일
+  suffix?: React.ReactNode;
   onTypingComplete?: () => void;
 }
 
 // 스트리밍 텍스트 컴포넌트 (글자가 하나씩 나타남) - export for reuse
-export function StreamingText({ content, speed = 10, onComplete, className = '' }: { content: string; speed?: number; onComplete?: () => void; className?: string }) {
+export function StreamingText({ 
+  content, 
+  speed = 10, 
+  onComplete, 
+  className = '', 
+  suffix,
+  textClassName = '',
+  explanationClassName = ''
+}: { 
+  content: string; 
+  speed?: number; 
+  onComplete?: () => void; 
+  className?: string; 
+  suffix?: React.ReactNode;
+  textClassName?: string;
+  explanationClassName?: string;
+}) {
   const [displayedContent, setDisplayedContent] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDone, setIsDone] = useState(false);
@@ -43,10 +62,17 @@ export function StreamingText({ content, speed = 10, onComplete, className = '' 
   }, [currentIndex, content, speed, onComplete, isDone]);
 
   // 마크다운 볼드 처리
-  const formatMarkdown = (text: string) => {
-    const lines = text.split('\n');
+  const formatMarkdown = (currentText: string, fullText: string, suffix?: React.ReactNode) => {
+    const lines = currentText.split('\n');
+    const fullLines = fullText.split('\n').filter(l => l.trim() !== '');
+    const hasMultipleParagraphs = fullLines.length > 1;
+    const lastParagraphText = fullLines[fullLines.length - 1];
 
     return lines.map((line, lineIndex) => {
+      const isLastParagraph = line.trim() === lastParagraphText;
+      const isExplanation = hasMultipleParagraphs && !isLastParagraph;
+      const isLastLine = lineIndex === lines.length - 1;
+      
       const parts = line.split(/(\*\*.*?\*\*)/g);
       const formattedLine = parts.map((part, index) => {
         if (part.startsWith('**') && part.endsWith('**')) {
@@ -66,14 +92,15 @@ export function StreamingText({ content, speed = 10, onComplete, className = '' 
       }
 
       return (
-        <div key={lineIndex} className={`break-all ${lineIndex > 0 ? 'mt-0.5' : ''}`}>
+        <div key={lineIndex} className={`break-all ${lineIndex > 0 ? 'mt-0.5' : ''} ${isExplanation ? explanationClassName : textClassName}`}>
           {formattedLine}
+          {isLastLine && isDone && suffix}
         </div>
       );
     });
   };
 
-  return <>{formatMarkdown(displayedContent)}</>;
+  return <>{formatMarkdown(displayedContent, content, suffix)}</>;
 }
 
 /**
@@ -86,13 +113,23 @@ export function AssistantMessage({
   typing = false,
   speed = 10,
   className = '',
+  textClassName = '',
+  explanationClassName = '',
+  suffix,
   onTypingComplete,
 }: AssistantMessageProps) {
   // 마크다운 볼드 처리 (**텍스트** → <strong>)
-  const formatMarkdown = (text: string) => {
+  const formatMarkdown = (text: string, suffix?: React.ReactNode) => {
     const lines = text.split('\n');
+    const nonEmptyLines = lines.filter(l => l.trim() !== '');
+    const hasMultipleParagraphs = nonEmptyLines.length > 1;
+    const lastParagraphText = nonEmptyLines[nonEmptyLines.length - 1];
 
     return lines.map((line, lineIndex) => {
+      const isLastParagraph = line.trim() === lastParagraphText;
+      const isExplanation = hasMultipleParagraphs && !isLastParagraph;
+      const isLastLine = lineIndex === lines.length - 1;
+      
       const parts = line.split(/(\*\*.*?\*\*)/g);
       const formattedLine = parts.map((part, index) => {
         if (part.startsWith('**') && part.endsWith('**')) {
@@ -112,8 +149,9 @@ export function AssistantMessage({
       }
 
       return (
-        <div key={lineIndex} className={`break-all ${lineIndex > 0 ? 'mt-0.5' : ''}`}>
+        <div key={lineIndex} className={`break-all ${lineIndex > 0 ? 'mt-0.5' : ''} ${isExplanation ? (explanationClassName || 'text-base text-gray-800 font-medium') : (textClassName || 'text-base text-gray-800 font-medium')}`}>
           {formattedLine}
+          {isLastLine && suffix}
         </div>
       );
     });
@@ -128,11 +166,18 @@ export function AssistantMessage({
     >
       {/* 메시지 버블 */}
       <div className="w-full flex justify-start">
-        <div className="py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl text-base text-gray-800 font-medium leading-[1.4] whitespace-pre-wrap">
+        <div className={`py-1 rounded-tl-md rounded-tr-2xl rounded-bl-2xl rounded-br-2xl leading-[1.4] whitespace-pre-wrap`}>
           {typing ? (
-            <StreamingText content={content} speed={speed} onComplete={onTypingComplete} />
+            <StreamingText 
+              content={content} 
+              speed={speed} 
+              onComplete={onTypingComplete} 
+              suffix={suffix} 
+              textClassName={textClassName}
+              explanationClassName={explanationClassName}
+            />
           ) : (
-            formatMarkdown(content)
+            formatMarkdown(content, suffix)
           )}
         </div>
       </div>

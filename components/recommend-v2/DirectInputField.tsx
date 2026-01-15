@@ -94,14 +94,14 @@ export default function DirectInputField({
           initial={{ scale: 0.98 }}
           animate={{ scale: 1 }}
           onClick={handleEdit}
-          className={`w-full p-3.5 rounded-xl border text-left transition-all ${
+          className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
             isNegative 
               ? 'border-red-100 bg-red-50' 
               : 'border-blue-100 bg-blue-50'
           }`}
         >
           <div className="flex items-center gap-3">
-            <span className={`text-[14px] font-medium flex-1 ${
+            <span className={`text-[16px] font-medium leading-[1.4] flex-1 ${
               isNegative ? 'text-red-500' : 'text-blue-500'
             }`}>
               {value}

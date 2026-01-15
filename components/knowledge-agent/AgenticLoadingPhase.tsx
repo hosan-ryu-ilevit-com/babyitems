@@ -157,7 +157,7 @@ function StreamingText({ text, delay = 0 }: { text: string; delay?: number }) {
  * 파비콘 가져오기 (Google Favicon API 사용)
  * - vertexaisearch URL인 경우 title에서 도메인 추출 시도
  */
-function Favicon({ url, title }: { url: string; title?: string }) {
+function Favicon({ url, title, size = 16 }: { url: string; title?: string; size?: number }) {
   const [error, setError] = useState(false);
 
   try {
@@ -197,26 +197,27 @@ function Favicon({ url, title }: { url: string; title?: string }) {
 
       // 여전히 vertexaisearch면 기본 아이콘 표시
       if (domain.includes('vertexaisearch') || domain.includes('googleapis')) {
-        return <Globe size={14} className="text-blue-400" />;
+        return <Globe size={size} className="text-blue-400" />;
       }
     }
 
     const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
 
     if (error) {
-      return <Globe size={14} className="text-gray-400" />;
+      return <Globe size={size} className="text-gray-400" />;
     }
 
     return (
       <img
         src={faviconUrl}
         alt=""
-        className="w-4 h-4 rounded-sm"
+        style={{ width: size, height: size }}
+        className="rounded-sm shrink-0"
         onError={() => setError(true)}
       />
     );
   } catch {
-    return <Globe size={14} className="text-gray-400" />;
+    return <Globe size={size} className="text-gray-400" />;
   }
 }
 
@@ -369,10 +370,10 @@ function ProductAnalysisContent({
 
           {/* 상품 리스트 */}
           <div className="space-y-2">
-            <div className="flex items-center gap-1.5">
-              <FcBullish size={14} className="grayscale opacity-70" />
-              <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
-                수집된 상품 ({count}개)
+            <div className="flex items-center">
+              <p className="text-[14px] tracking-tight font-medium">
+                <span className="text-gray-400">수집된 상품 </span>
+                <span className="text-gray-500">{count}개</span>
               </p>
             </div>
 
@@ -384,14 +385,14 @@ function ProductAnalysisContent({
                   initial={{ opacity: 0, x: -5 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.03 }}
-                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex items-center gap-3 p-1.5 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   {/* 순번 */}
-                  <span className="text-[11px] text-gray-400 font-medium w-4 shrink-0">
+                  <span className="text-[14px] text-gray-600 font-medium w-4 shrink-0">
                     {i + 1}
                   </span>
                   {/* 썸네일 */}
-                  <div className="w-8 h-8 rounded overflow-hidden bg-gray-100 border border-gray-100 shrink-0">
+                  <div className="w-10 h-10 rounded overflow-hidden bg-gray-100 border border-gray-100 shrink-0">
                     {p.thumbnail ? (
                       <img
                         src={p.thumbnail}
@@ -410,15 +411,15 @@ function ProductAnalysisContent({
                   </div>
                   {/* 상품 정보 */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-[12px] text-gray-700 font-medium truncate leading-tight">
+                    <p className="text-[13px] text-gray-600 font-medium truncate leading-tight">
                       {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
                     </p>
                     <div className="flex items-center gap-2 mt-0.5">
                       {p.brand && (
-                        <span className="text-[11px] text-gray-400">{p.brand}</span>
+                        <span className="text-[13px] text-gray-400 font-medium">{p.brand}</span>
                       )}
                       {p.price && (
-                        <span className="text-[11px] text-blue-600 font-bold">
+                        <span className="text-[13px] text-blue-500 font-medium">
                           {p.price.toLocaleString()}원
                         </span>
                       )}
@@ -563,9 +564,8 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
               {/* 요약 보고서 */}
               {thinking && (
                 <div className="space-y-1.5">
-                  <div className="flex items-center gap-1.5">
-                    <FcBullish size={14} className="grayscale opacity-70" />
-                    <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
+                  <div className="flex items-center">
+                    <p className="text-[14px] tracking-tight font-medium text-gray-400">
                       트렌드 요약
                     </p>
                   </div>
@@ -578,10 +578,10 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
               {/* 출처 목록 (정적) */}
               {sources.length > 0 && (
                 <div className="space-y-1.5">
-                  <div className="flex items-center gap-1.5">
-                    <FcSearch size={14} className="grayscale opacity-70" />
-                    <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
-                      참고 자료 ({sources.length})
+                  <div className="flex items-center">
+                    <p className="text-[14px] tracking-tight font-medium">
+                      <span className="text-gray-400">참고 자료 </span>
+                      <span className="text-gray-500">{sources.length}개</span>
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -592,9 +592,9 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => logKAExternalLinkClicked(categoryKey, '', source.title, '출처', source.url)}
-                        className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-gray-50 text-gray-600 text-[11px] hover:bg-gray-100 transition-colors"
+                        className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-gray-100 text-gray-600 text-[12px] font-medium hover:bg-gray-200 transition-colors"
                       >
-                        <Favicon url={source.url} title={source.title} />
+                        <Favicon url={source.url} title={source.title} size={14} />
                         <span className="truncate max-w-24">
                           {(() => {
                             try {
@@ -633,15 +633,15 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
               {/* 출처 - 전환 효과 */}
               {sources.length > 0 && (
                 <div className="space-y-2">
-                  <div className="flex items-center gap-1.5">
-                    <FcSearch size={14} className="grayscale opacity-70" />
-                    <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
-                      수집 중... ({sources.length})
+                  <div className="flex items-center">
+                    <p className="text-[14px] tracking-tight font-medium">
+                      <span className="text-gray-400">수집 중... </span>
+                      <span className="text-gray-500">{sources.length}개</span>
                     </p>
                   </div>
 
                   {/* 메인 출처 - 전환 애니메이션 */}
-                  <div className="relative h-14 overflow-hidden rounded-xl bg-gray-50 border border-gray-100">
+                  <div className="relative h-14 overflow-hidden rounded-xl bg-gray-100 border border-gray-100">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={activeSourceIndex}
@@ -651,7 +651,7 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
                         transition={{ duration: 0.25 }}
                         className="absolute inset-0 p-2.5 flex items-center gap-2.5"
                       >
-                        <Favicon url={sources[activeSourceIndex].url} title={sources[activeSourceIndex].title} />
+                        <Favicon url={sources[activeSourceIndex].url} title={sources[activeSourceIndex].title} size={14} />
                         <div className="flex-1 min-w-0">
                           <p className="text-[12px] font-medium text-gray-700 line-clamp-1">
                             {sources[activeSourceIndex].title || sources[activeSourceIndex].url}
@@ -732,10 +732,10 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
           className="space-y-2"
         >
           {count > 0 && (
-            <div className="flex items-center gap-1.5">
-              <FcMindMap size={14} className="grayscale opacity-70" />
-              <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
-                리뷰 {count.toLocaleString()}개 분석
+            <div className="flex items-center">
+              <p className="text-[14px] tracking-tight font-medium">
+                <span className="text-gray-400">리뷰 분석 </span>
+                <span className="text-gray-500">{count.toLocaleString()}개</span>
               </p>
             </div>
           )}
@@ -753,7 +753,7 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
                     ? 'bg-green-50 text-green-800 border border-green-200/50'
                     : i < 5
                       ? 'bg-rose-50 text-rose-700 border border-rose-200/50'
-                      : 'bg-gray-50 text-gray-500 border border-gray-200/50'
+                      : 'bg-gray-100 text-gray-600 border border-gray-200/50'
                     }`}
                 >
                   {i < 3 ? '👍 ' : i < 5 ? '👎 ' : ''}{keyword}
@@ -762,12 +762,7 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
             </div>
           )}
 
-          {/* 분석 결과 */}
-          {thinking && (
-            <p className="text-[12px] text-gray-500 italic">
-              {thinking}
-            </p>
-          )}
+          {/* 분석 결과 메시지 제거됨 */}
         </motion.div>
       )}
     </AnimatePresence>
@@ -815,49 +810,40 @@ function QuestionGenerationContent({
           animate={{ opacity: 1 }}
           className="space-y-2"
         >
-          <div className="flex items-center gap-1.5">
-            <FcElectricity size={14} className="grayscale opacity-70" />
-            <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
-              생성된 질문 ({questions.length}개)
+          <div className="flex items-center">
+            <p className="text-[14px] tracking-tight font-medium">
+              <span className="text-gray-400">생성된 질문 </span>
+              <span className="text-gray-500">{questions.length}개</span>
             </p>
           </div>
 
-          {/* Todo List 형식 */}
-          <div className="space-y-1.5 bg-gray-50 rounded-xl p-3">
+          {/* 질문 리스트 */}
+          <div className="space-y-1.5">
             {questions.slice(0, 5).map((q, i) => (
-              <motion.div
+                <motion.div
                 key={q.id || i}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="flex items-start gap-2 group"
+                className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-gray-100 text-gray-600 text-[12px] font-medium"
               >
-                {step.status === 'done' ? (
-                  <CheckCircle size={14} weight="fill" className="text-green-500 mt-0.5 shrink-0" />
-                ) : (
-                  <Circle size={14} className="text-gray-300 mt-0.5 shrink-0" />
-                )}
-                <span className="text-[13px] text-gray-700 leading-relaxed">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" className="shrink-0 mt-[3px] text-gray-300">
+                  <path d="M2.5 1.5V8.5H9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span className="leading-[1.5]">
                   {q.question}
                 </span>
               </motion.div>
             ))}
             {questions.length > 5 && (
-              <div className="flex items-center gap-2 pt-1 border-t border-gray-200 mt-2">
-                <Circle size={14} className="text-gray-300 shrink-0" />
-                <span className="text-[11px] text-gray-400">
-                  +{questions.length - 5}개 더
+              <div className="px-3">
+                <span className="text-[11px] text-gray-400 font-medium">
+                  외 {questions.length - 5}개의 질문이 더 생성되었습니다.
                 </span>
               </div>
             )}
           </div>
 
-          {/* 분석 결과 메시지 */}
-          {step.thinking && (
-            <p className="text-[12px] text-gray-500 italic">
-              {step.thinking}
-            </p>
-          )}
         </motion.div>
       )}
     </AnimatePresence>
@@ -907,29 +893,25 @@ function StepCard({
   const shouldShowTimer = isExpanded && step.status !== 'done' && effectiveStartTime;
 
   const getStatusIcon = () => {
-    // 펼쳐져 있고 완료되지 않았으면 로딩 아이콘 표시
-    if (isExpanded && step.status !== 'done') {
+    if (step.status === 'done') {
       return (
-        <div className="flex items-center justify-center w-4 h-4 rounded-full border-2 border-purple-300" />
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="flex items-center justify-center w-5 h-5"
+        >
+          <Image src="/icons/check.png" alt="" width={20} height={20} />
+        </motion.div>
       );
     }
 
-    switch (step.status) {
-      case 'done':
-        return (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="flex items-center justify-center w-5 h-5"
-          >
-            <Image src="/icons/check.png" alt="" width={20} height={20} />
-          </motion.div>
-        );
-      case 'active':
-        return <div className="flex items-center justify-center w-4 h-4 rounded-full border-2 border-purple-300" />;
-      default:
-        return <div className="w-4 h-4 rounded-full border-2 border-purple-300" />;
+    if (step.status === 'active' || (isExpanded && step.status !== 'done')) {
+      return (
+        <div className="flex items-center justify-center w-4 h-4 rounded-full border-[1.5px] border-purple-500 border-t-transparent animate-spin" />
+      );
     }
+
+    return <div className="w-4 h-4 rounded-full border-[1.5px] border-purple-500" />;
   };
 
   return (
@@ -947,7 +929,7 @@ function StepCard({
         className="w-full py-4 flex items-center gap-3 text-left transition-colors"
       >
         {/* 상태 아이콘 */}
-        <div className="shrink-0">
+        <div className="shrink-0 w-5 h-5 flex items-center justify-center">
           {getStatusIcon()}
         </div>
 
@@ -982,9 +964,13 @@ function StepCard({
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: "spring", duration: 0.4, bounce: 0 }}
-            className="overflow-hidden"
+            className="overflow-hidden relative"
           >
-            <div className="pb-4 pt-0 space-y-3">
+      {/* 세로 디바이더 라인 - 아이콘 중심 (10px), 하단 16px 간격 */}
+            <div className="absolute left-[10px] top-0 bottom-4 w-px bg-gray-200" />
+            
+            {/* 내용 - 세로선 우측 배치를 위해 좌측 패딩 추가, 하단 16px */}
+            <div className="pl-8 pb-4 space-y-3">
               {/* 웹검색 - 쿼리 스트리밍 + 출처 전환 효과 */}
               {step.id === 'web_search' && (
                 <WebSearchContent step={step} categoryKey={categoryKey} />
@@ -1058,7 +1044,7 @@ function CompletedSummaryCard({
       layout
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="group transition-all duration-300 rounded-2xl overflow-hidden bg-white"
+      className="group transition-all duration-300 bg-white"
     >
       <button
         onClick={() => setIsExpanded(!isExpanded)}
@@ -1118,7 +1104,7 @@ function CompletedSummaryCard({
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden bg-white"
           >
-            <div className="space-y-2 border-t border-gray-200">
+            <div className="border-t border-gray-200">
               {steps.map((step) => (
                 <StepCard
                   key={step.id}
@@ -1326,15 +1312,15 @@ export function createDefaultSteps(categoryName: string): AnalysisStep[] {
       status: 'pending',
     },
     {
-      id: 'web_search',
-      label: '웹검색 트렌드 수집',
-      type: 'search',
-      status: 'pending',
-    },
-    {
       id: 'review_extraction',
       label: '내돈내산 리뷰 분석',
       type: 'analyze',
+      status: 'pending',
+    },
+    {
+      id: 'web_search',
+      label: '웹검색 트렌드 수집',
+      type: 'search',
       status: 'pending',
     },
     {

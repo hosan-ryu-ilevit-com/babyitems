@@ -23,7 +23,7 @@ interface BalanceGameOption {
 interface AIHelperBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  questionType: 'hard_filter' | 'balance_game' | 'category_selection';
+  questionType: 'hard_filter' | 'balance_game' | 'category_selection' | 'negative';
   questionId: string;
   questionText: string;
   options: HardFilterOption[] | { A: BalanceGameOption; B: BalanceGameOption };
@@ -402,7 +402,7 @@ export function AIHelperBottomSheet({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-100"
+            className="fixed inset-0 bg-black/60 z-100"
           />
 
           {/* Bottom Sheet */}
@@ -512,7 +512,7 @@ export function AIHelperBottomSheet({
                         value={userInput}
                         onChange={e => setUserInput(e.target.value)}
                         placeholder="위 질문과 관련된 상황을 알려주세요"
-                        className="w-full p-4 bg-gray-50 border-none rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px]"
+                        className="w-full p-4 bg-gray-50 border border-gray-100 focus:border-gray-500 rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px] transition-colors"
                         disabled={isQuickMode || isLoading || !!aiResponse}
                       />
                     </div>
@@ -528,7 +528,7 @@ export function AIHelperBottomSheet({
                   >
                     {/* 결과 헤더 */}
                     <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
-                      추천 구매조건
+                      {questionType === 'negative' ? '피해야 할 단점 추천' : '추천 구매조건'}
                     </h3>
 
                     {/* 추천 결과 아이템 */}
@@ -539,7 +539,11 @@ export function AIHelperBottomSheet({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="p-4 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 font-medium text-[16px] text-left break-keep"
+                          className={`p-4 rounded-2xl font-medium text-[16px] text-left break-keep border ${
+                            questionType === 'negative'
+                              ? 'bg-rose-50 border-rose-100 text-rose-600'
+                              : 'bg-blue-50 border-blue-100 text-blue-600'
+                          }`}
                         >
                           {label}
                         </motion.div>

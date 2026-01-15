@@ -149,15 +149,15 @@ export function NegativeFilterList({
                 );
               }}
               whileTap={{ scale: 0.98 }}
-              className={`w-full min-h-10 py-2.5 px-4 rounded-xl border text-left flex items-center justify-between gap-3 ${
+              className={`w-full py-4 px-5 rounded-[12px] border text-left flex items-center justify-between gap-3 transition-all ${
                 isSelected
                   ? 'border-red-100 bg-red-50'
-                  : 'border-gray-100 bg-white hover:border-gray-200'
+                  : 'border-gray-100 bg-white hover:border-red-100/50 hover:bg-red-50/30 text-gray-600'
               }`}
             >
               {/* 옵션 텍스트 */}
               <span
-                className={`text-[16px] font-medium leading-snug flex-1 ${
+                className={`text-[16px] font-medium leading-[1.4] flex-1 ${
                   isSelected ? 'text-red-500' : 'text-gray-600'
                 }`}
               >

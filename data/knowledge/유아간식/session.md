@@ -1,5 +1,5 @@
-# 세션: 20260115_022329_l4w8
-> 시작: 2026-01-15T02:23:29.845Z
+# 세션: 20260115_073416_3fwv
+> 시작: 2026-01-15T07:34:16.176Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아간식 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 유아 간식 시장은 건강과 안전을 최우선으로 하는 트렌드를 보이며, 유기농, 무첨가, 저알레르기 성분을 강조하는 브랜드들이 인기를 얻고 있습니다. 베베쿡, 아이배냇 등은 꾸준히 사랑받는 브랜드이며, 다양한 맛과 제형으로 아이들의 흥미를 유발하는 제품들이 주목받고 있습니다. 특히 핑거푸드 형태, 씹는 능력 발달을 고려한 간식, 그리고 편리한 섭취를 위한 짜먹는 형태의 제품들이 인기를 끌고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKLv0hESqd-0yFoFLtt8AiQEqIZS0OgKgsKbe1WHuw83_1T-gmA0bl1WoO2DCOTveXdXwYIkfnnf5X7o_322COnFGqIUELhLNjgznaWopnYYYcVj_-jkcDpW9K2Xo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2b7H7YNdT5DEfxQDgKWlMuiTHSwkKW3ag8n9JJeE-SPcFXvqLTyin8Rg7faK9BJIxRumH6csvX9k1p_GNdHijn2Xigve5SWotR5mZAsOsoDtottl-vlVDdISAWamuRn2K02TqaPqxrK9CrYA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsQyWB4TxlkN46R-XXpy79wjwcXiN2aZcNaZHzKQEe8D6qzE2PpZroidzS_MjGiKuzvaCP6DQlGXSBeZzV4PtHD7jKUBV1wQADR9oAapkcqKbX0cwNjldWZh8aIWtwB1olwMwLXw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZEUULcIq2lgXjRdOVK-8mlzfIXsv31whNGqYXSaPQghD189TN9wRhCfdZOIy08zWKbV7Fi1iTjeESzKp8hOFhoXDsbhKvXSVe3kF1SG8WRRDW7ZzC1q4TrlbE_IvsgDdjcHGOe8H3D04n2GY44W1KsnJAyVqtIzr0HHWIaG-YgUJPrMN1PzFU84t_XFL1CpqUmiFxROAOdYwGu-CPAd7Ww00R-6oMYZLMWOaAYPt3Q5vwdydSe9y7aIFAi4mS
+- 인사이트: 2026년 현재 유아 간식 시장은 건강과 안전을 최우선으로 하는 트렌드를 보이며, 유기농 원료, 무첨가, 저당 등의 키워드가 주목받고 있습니다. 풀무원, 베베당, 엘빈즈, 베베쿡 등 다양한 브랜드들이 이러한 트렌드에 맞춰 제품을 선보이고 있으며, 특히 성장 단계별 맞춤 영양과 편리성을 갖춘 간식들이 인기를 얻고 있습니다. 또한, 놀이와 교육 요소를 결합한 체험형 간식 세트도 새로운 시장을 개척하고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EC%9C%A0%EC%95%84%EA%B0%84%EC%8B%9D&sort=saveDESC
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 우리 아이에게 어떤 재료로 만든 간식을 선호하시나요? | 천연 재료, 유기농/무농약 |
+| 간식에 특별히 기대하는 영양이나 기능이 있나요? | 두뇌 발달, 뼈 건강 |
+| 어떤 형태의 간식을 가장 선호하시나요? | 부드러운 식감, 바삭한 식감 |
+| 유아 간식 예산은 어느 정도로 생각하세요? (평균 약 1만 9천원, 1만원~2만 5천원대가 가장 많아요) | 1만 1천원 ~ 2만 5천원대, 1만 1천원 이하 |
+| __avoid_negatives__ | 아이가 먹다가 흘리는 부스러기가 너무 많아서 치우기 힘들 것 같아요,간식 양이 너무 적어서 아이가 금방 다 먹고 더 달라고 할까 봐 걱정돼요 |
 
 ---
 
@@ -55,7 +60,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 아이가 먹다가 흘리는 부스러기가 너무 많아서 치우기 힘들 것 같아요
+- 간식 양이 너무 적어서 아이가 금방 다 먹고 더 달라고 할까 봐 걱정돼요
 
 ---
 
