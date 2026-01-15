@@ -4,15 +4,15 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import {
   CaretLeft, CaretDown, CaretUp, Lightning,
-  PaperPlaneRight, ArrowClockwise
+  PaperPlaneRight, ArrowClockwise, ArrowsLeftRight, Sparkle, CaretRight
 } from '@phosphor-icons/react/dist/ssr';
 import {
   FcSearch,
   FcIdea,
   FcSurvey,
-  FcPrevious,
   FcPositiveDynamic,
   FcClock,
   FcDataConfiguration,
@@ -33,6 +33,7 @@ import type { BalanceQuestion as V2BalanceQuestion, UserSelections, TimelineStep
 import { HardcutVisualization } from '@/components/knowledge-agent/HardcutVisualization';
 import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
 import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
+import SimpleConfirmModal from '@/components/SimpleConfirmModal';
 import {
   logKnowledgeAgentReRecommendModalOpened,
   logKnowledgeAgentReRecommendSameCategory,
@@ -87,7 +88,7 @@ type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' |
 // ============================================================================
 
 const STEPS = [
-  { id: 1, label: '트렌드 분석', phases: ['loading'] },
+  { id: 1, label: '카테고리 설정', phases: ['loading'] },
   { id: 2, label: '맞춤 질문', phases: ['questions', 'report'] },
   { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'balance', 'negative_filter', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
@@ -99,7 +100,7 @@ function StepIndicator({ currentPhase }: { currentPhase: Phase }) {
 
   return (
     <div className="sticky top-16 left-0 right-0 z-50 flex justify-center pointer-events-none">
-      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white/95 backdrop-blur-sm pt-[12px] pb-[10px] pointer-events-auto px-4 shadow-sm border-b border-gray-100/50">
+      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white pt-[12px] pb-[10px] pointer-events-auto px-4">
         {/* 텍스트 라벨 */}
         <div className="flex w-full justify-between items-center mb-[6px]">
           {STEPS.map((step) => {
@@ -298,6 +299,7 @@ interface NegativeOption {
 
 interface ChatMessage {
   id: string;
+  questionId?: string; // 실제 질문의 ID (예: avoid_negatives)
   role: 'user' | 'assistant';
   content: string;
   options?: string[];
@@ -338,6 +340,13 @@ interface ChatMessage {
   reRecommendData?: {
     description: string;
     naturalLanguageCondition: string;
+  };
+  // 하드컷팅 시각화 데이터
+  hardcutData?: {
+    totalBefore: number;
+    totalAfter: number;
+    filteredProducts: any[];
+    appliedRules: Array<{ rule: string; matchedCount: number }>;
   };
 }
 
@@ -383,13 +392,15 @@ function OptionButton({
   isSelected,
   onClick,
   description,
-  disabled
+  disabled,
+  isNegative
 }: {
   label: string;
   isSelected?: boolean;
   onClick: () => void;
   description?: string;
   disabled?: boolean;
+  isNegative?: boolean;
 }) {
   return (
     <motion.button
@@ -397,15 +408,15 @@ function OptionButton({
       whileTap={!disabled ? { scale: 0.99 } : {}}
       onClick={onClick}
       disabled={disabled}
-      className={`w-full py-4 px-5 rounded-[20px] border text-left transition-all flex items-center justify-between group ${isSelected
-        ? 'bg-blue-50 border-blue-100'
-        : 'bg-white border-gray-100 text-gray-700 hover:border-blue-200 hover:bg-blue-50/30'
-        } ${disabled && !isSelected ? 'opacity-50 cursor-default' : ''}`}
+      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all flex items-center justify-between group ${isSelected
+        ? (isNegative ? 'bg-red-50 border-red-100' : 'bg-blue-50 border-blue-100')
+        : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
+        } ${disabled ? 'cursor-default' : ''}`}
     >
       <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-        <span className={`text-[16px] font-medium wrap-break-word ${isSelected ? 'text-blue-500' : 'text-gray-800'}`}>{label}</span>
+        <span className={`text-[16px] font-medium leading-[1.4] wrap-break-word ${isSelected ? (isNegative ? 'text-red-500' : 'text-blue-500') : 'text-gray-600'}`}>{label}</span>
         {description && (
-          <span className={`text-[12px] font-medium wrap-break-word ${isSelected ? 'text-blue-400' : 'text-gray-400'}`}>{description}</span>
+          <span className={`text-[12px] font-medium wrap-break-word ${isSelected ? (isNegative ? 'text-red-400' : 'text-blue-400') : 'text-gray-400'}`}>{description}</span>
         )}
       </div>
     </motion.button>
@@ -811,7 +822,7 @@ export default function KnowledgeAgentPage() {
     questionId: string;
     questionText: string;
     options: any;
-    type: 'hard_filter' | 'balance_game';
+    type: 'hard_filter' | 'balance_game' | 'negative';
   } | null>(null);
 
   // collectedInfo를 recommend-v2의 UserSelections 형식으로 변환
@@ -890,6 +901,7 @@ export default function KnowledgeAgentPage() {
     appliedRules: Array<{ rule: string; matchedCount: number }>;
   } | null>(null);
   const [isHardcutVisualDone, setIsHardcutVisualDone] = useState(false); // 하드컷팅 결과 (시각화용)
+  const [showComparisonOnly, setShowComparisonOnly] = useState(false); // 비교표 토글 상태
 
   // 최종 추천 단계의 타임라인 UX 헬퍼
   const runFinalTimelineUX = useCallback(async (candidateCount: number, userSelectionCount: number, negativeCount: number) => {
@@ -991,6 +1003,7 @@ export default function KnowledgeAgentPage() {
   // 애니메이션 및 입력 제어용
   const [barAnimationKey, setBarAnimationKey] = useState(0);
   const [isHighlighting, setIsHighlighting] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   // ============================================================================
   // Initialize
@@ -1042,7 +1055,7 @@ export default function KnowledgeAgentPage() {
 
   useEffect(() => {
     if (isHighlighting) {
-      const timer = setTimeout(() => setIsHighlighting(false), 1200);
+      const timer = setTimeout(() => setIsHighlighting(false), 2000);
       return () => clearTimeout(timer);
     }
   }, [isHighlighting]);
@@ -1116,24 +1129,7 @@ export default function KnowledgeAgentPage() {
       });
       await new Promise(r => setTimeout(r, 200));
 
-      // 2. 웹검색 시작
-      updateStepAndMessage('web_search', {
-        status: 'active',
-        startTime: Date.now(),
-        searchQueries: initialQueries,
-      });
-
-      const trendResult = await stepPromises['web_search'] as { searchQueries?: string[]; sources?: any[]; trendAnalysis?: { top10Summary?: string } };
-      updateStepAndMessage('web_search', {
-        status: 'done',
-        endTime: Date.now(),
-        searchQueries: trendResult?.searchQueries || initialQueries,
-        searchResults: (trendResult?.sources || []).slice(0, 5),
-        thinking: trendResult?.trendAnalysis?.top10Summary || '',
-      });
-      await new Promise(r => setTimeout(r, 200));
-
-      // 3. 리뷰 추출 시작 (페이크 단계이므로 trendData 기반으로 즉시 처리)
+      // 2. 리뷰 추출 시작 (페이크 단계이므로 trendData 기반으로 즉시 처리)
       updateStepAndMessage('review_extraction', {
         status: 'active',
         startTime: Date.now(),
@@ -1141,7 +1137,8 @@ export default function KnowledgeAgentPage() {
 
       // 8-9초 걸리던 원인: questions 이벤트를 기다렸기 때문. 
       // 데이터는 이미 trendResult에 있으므로 인공적인 짧은 지연 후 완료 처리.
-      await new Promise(r => setTimeout(r, 1000));
+      // 웹검색 결과를 기다려야 하므로, web_search 완료 후에 처리하도록 드라이버 흐름 유지
+      const trendResult = await stepPromises['web_search'] as { searchQueries?: string[]; sources?: any[]; trendAnalysis?: { top10Summary?: string } };
 
       updateStepAndMessage('review_extraction', {
         status: 'done',
@@ -1149,6 +1146,22 @@ export default function KnowledgeAgentPage() {
         analyzedCount: localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
         analyzedItems: [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
         thinking: `리뷰 키워드 분석 완료`,
+      });
+      await new Promise(r => setTimeout(r, 200));
+
+      // 3. 웹검색 시작
+      updateStepAndMessage('web_search', {
+        status: 'active',
+        startTime: Date.now(),
+        searchQueries: initialQueries,
+      });
+
+      updateStepAndMessage('web_search', {
+        status: 'done',
+        endTime: Date.now(),
+        searchQueries: trendResult?.searchQueries || initialQueries,
+        searchResults: (trendResult?.sources || []).slice(0, 5),
+        thinking: trendResult?.trendAnalysis?.top10Summary || '',
       });
       await new Promise(r => setTimeout(r, 200));
 
@@ -1224,6 +1237,7 @@ export default function KnowledgeAgentPage() {
         const firstQuestionMsgId = `q_${firstQuestion.id}`;
         setMessages(prev => [...prev, {
           id: firstQuestionMsgId,
+          questionId: firstQuestion.id,
           role: 'assistant',
           content: firstQuestion.question,
           options: firstQuestion.options.map((o: any) => o.label),
@@ -1596,6 +1610,31 @@ export default function KnowledgeAgentPage() {
         matchedCount: Object.keys(reviewsData).length,
       });
 
+      // ✅ 기존 state 대신 메시지로 추가하여 순서 및 스타일 제어
+      setMessages(prev => [
+        ...prev,
+        {
+          id: 'hardcut-visual',
+          role: 'assistant',
+          content: '',
+          timestamp: Date.now(),
+          hardcutData: {
+            totalBefore: allProducts.length,
+            totalAfter: allProducts.length,
+            appliedRules,
+            filteredProducts: allProducts.slice(0, 20).map(p => ({
+              pcode: p.pcode,
+              name: p.name,
+              brand: p.brand || '',
+              price: p.price || 0,
+              thumbnail: p.thumbnail,
+              matchScore: 0,
+              matchedConditions: [],
+            }))
+          }
+        }
+      ]);
+
       setHardcutResult({
         totalBefore: allProducts.length,
         totalAfter: allProducts.length,
@@ -1819,14 +1858,6 @@ export default function KnowledgeAgentPage() {
 
     console.log('[V2 Flow] Moving to final input phase');
     setPhase('final_input');
-    const finalInputMsgId = `a_final_input_${Date.now()}`;
-    setMessages(prev => [...prev, {
-      id: finalInputMsgId,
-      role: 'assistant',
-      content: '추천 상품들을 잘 추렸어요! 🎯\n\n마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없다면 아래 [바로 추천받기] 버튼을 눌러주세요!',
-      typing: true,
-      timestamp: Date.now()
-    }]);
     // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
   };
 
@@ -1953,7 +1984,7 @@ export default function KnowledgeAgentPage() {
         setMessages(prev => [...prev, {
           id: resultMsgId,
           role: 'assistant',
-          content: `${categoryName} 추천 결과입니다!`,
+          content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n상세 분석을 확인하고, 구매해보세요.`,
           resultProducts: mappedResultProducts,
           typing: true,
           timestamp: Date.now()
@@ -2300,7 +2331,7 @@ export default function KnowledgeAgentPage() {
           setMessages(prev => [...prev, {
             id: resultMsgId,
             role: 'assistant',
-            content: `${categoryName} 추천 결과입니다! 선택하신 취향을 기반으로 최적의 상품을 선정했습니다.`,
+            content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n상세 분석을 확인하고, 구매해보세요.`,
             resultProducts: mappedResultProducts,
             typing: true,
             timestamp: Date.now()
@@ -2409,7 +2440,7 @@ export default function KnowledgeAgentPage() {
           setMessages(prev => [...prev, {
             id: resultMsgId,
             role: 'assistant',
-            content: `${categoryName} 추천 결과입니다! 사용자님의 선택을 기반으로 최적의 상품 ${v2Recommendations.length}개를 선정했습니다.`,
+            content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n상세 분석을 확인하고, 구매해보세요.`,
             resultProducts: mappedResultProducts,
             typing: true,
             timestamp: Date.now()
@@ -2729,7 +2760,7 @@ export default function KnowledgeAgentPage() {
     if (!message.trim() || isTyping) return;
 
     // 현재 활성화된 질문 찾기 및 확정 처리
-    const activeMsg = [...messages].reverse().find(m => m.role === 'assistant' && m.options && !m.isFinalized);
+    const activeMsg = [...messages].reverse().find(m => m.role === 'assistant' && (m.options || m.negativeFilterOptions) && !m.isFinalized);
     if (activeMsg) {
       // ✅ 피하고 싶은 단점 질문인지 확인하고 선택된 옵션들을 savedNegativeLabels에 저장
       // 메시지 ID가 'q_'로 시작하지 않으면 currentQuestion?.id 사용 (knowledge-agent 로직)
@@ -2804,15 +2835,6 @@ export default function KnowledgeAgentPage() {
       if (data.phase === 'complete') {
         if (v2FlowEnabled && !v2FlowStarted) {
           setV2FlowStarted(true);
-          const processingMsgId = `a_processing_${Date.now()}`;
-          setMessages(prev => [...prev, {
-            id: processingMsgId,
-            role: 'assistant',
-            content: '응답해주신 내용을 바탕으로 딱 맞는 상품을 골라내고 있어요...',
-            typing: true,
-            timestamp: Date.now()
-          }]);
-          // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
           startV2Flow();
         }
       } else if (data.phase === 'result') {
@@ -2947,6 +2969,7 @@ export default function KnowledgeAgentPage() {
           // 일반 질문 - 기존 로직
           setMessages(prev => [...prev, {
             id: `a_${Date.now()}`,
+            questionId: data.currentQuestion?.id,
             role: 'assistant',
             content: data.content,
             options: data.options,
@@ -2963,7 +2986,7 @@ export default function KnowledgeAgentPage() {
   };
 
   // 현재 활성화된 질문의 선택된 옵션 개수 확인
-  const activeQuestion = [...messages].reverse().find(m => m.role === 'assistant' && m.options && !m.isFinalized);
+  const activeQuestion = [...messages].reverse().find(m => m.role === 'assistant' && (m.options || m.negativeFilterOptions) && !m.isFinalized);
   const selectedCount = activeQuestion?.selectedOptions?.length || 0;
 
   return (
@@ -2971,11 +2994,8 @@ export default function KnowledgeAgentPage() {
       <div className="max-w-[480px] mx-auto w-full flex-1 flex flex-col relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50 min-h-0">
         <header className="sticky top-0 z-[100] bg-white/80 backdrop-blur-2xl border-b border-gray-50/50 px-4 h-16 flex items-center justify-between">
           <motion.button whileHover={{ x: -2 }} whileTap={{ scale: 0.95 }} onClick={() => setShowExitConfirmModal(true)} className="p-2.5 -ml-2.5 rounded-full hover:bg-gray-50 transition-colors">
-            <FcPrevious size={20} />
+            <img src="/icons/back.png" alt="뒤로가기" className="w-5 h-5" />
           </motion.button>
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="font-black text-[15px] text-gray-900 tracking-tight">{categoryName} 추천받기</span>
-          </div>
           <motion.button
             whileHover={{ rotate: 180 }}
             whileTap={{ rotate: 360, scale: 0.9 }}
@@ -2995,16 +3015,29 @@ export default function KnowledgeAgentPage() {
 
         <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px', overflowAnchor: 'none' }}>
           <div className="space-y-8 pt-2">
-            {messages.map((msg, idx) => (
-              <MessageBubble
-                key={msg.id}
-                message={msg}
-                onOptionToggle={handleOptionToggle}
-                onProductClick={handleProductClick}
-                phase={phase}
-                inputRef={inputRef}
-                isLatestAssistantMessage={msg.role === 'assistant' && (msg.options || msg.negativeFilterOptions) && !msg.isFinalized}
-                selectedNegativeKeys={selectedNegativeKeys}
+            {messages.map((msg, idx) => {
+              const isLatestAssistant = msg.role === 'assistant' && (msg.options || msg.negativeFilterOptions) && !msg.isFinalized;
+              // 후속 채팅 메시지(options/questionProgress 없는 일반 응답)는 투명도 적용 안 함
+              const isFollowUpChat = msg.role === 'assistant' && !msg.options && !msg.questionProgress && !msg.negativeFilterOptions;
+              const isInactive = msg.role === 'user'
+                ? idx < messages.length - 1
+                : !isFollowUpChat && !!(!isLatestAssistant && (
+                    (msg.options && msg.options.length > 0) ||
+                    (msg.negativeFilterOptions && msg.negativeFilterOptions.length > 0) ||
+                    (msg.questionId && msg.isFinalized)
+                  ));
+
+              return (
+                <MessageBubble
+                  key={msg.id}
+                  message={msg}
+                  onOptionToggle={handleOptionToggle}
+                  onProductClick={handleProductClick}
+                  phase={phase}
+                  inputRef={inputRef}
+                  isLatestAssistantMessage={isLatestAssistant}
+                  isInactive={isInactive}
+                  selectedNegativeKeys={selectedNegativeKeys}
                 onNegativeKeyToggle={(key) => setSelectedNegativeKeys(prev => prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key])}
                 categoryKey={categoryKey}
                 categoryName={categoryName}
@@ -3014,21 +3047,31 @@ export default function KnowledgeAgentPage() {
                   setIsAIHelperOpen(true);
                 }}
                 onPopularRecommend={(query) => {
+                  const isNegQ = msg.questionId === 'avoid_negatives' || 
+                                msg.id?.includes('avoid_negatives') ||
+                                msg.content?.toLowerCase().includes('단점') ||
+                                msg.content?.toLowerCase().includes('피하고') ||
+                                msg.content?.toLowerCase().includes('피할');
                   setAiHelperData({
                     questionId: msg.id,
                     questionText: msg.content,
                     options: msg.options!.map(o => ({ value: o, label: o })),
-                    type: 'hard_filter'
+                    type: isNegQ ? 'negative' : 'hard_filter'
                   });
                   setAiHelperAutoSubmitText(query);
                   setIsAIHelperOpen(true);
                 }}
                 onContextRecommend={(query) => {
+                  const isNegQ = msg.questionId === 'avoid_negatives' || 
+                                msg.id?.includes('avoid_negatives') ||
+                                msg.content?.toLowerCase().includes('단점') ||
+                                msg.content?.toLowerCase().includes('피하고') ||
+                                msg.content?.toLowerCase().includes('피할');
                   setAiHelperData({
                     questionId: msg.id,
                     questionText: msg.content,
                     options: msg.options!.map(o => ({ value: o, label: o })),
-                    type: 'hard_filter'
+                    type: isNegQ ? 'negative' : 'hard_filter'
                   });
                   setAiHelperAutoSubmitText(query);
                   setIsAIHelperOpen(true);
@@ -3040,8 +3083,31 @@ export default function KnowledgeAgentPage() {
                   setIsNegativeAIHelperOpen(true);
                 }}
                 onFreeChat={handleFreeChat}
+                onHardcutContinue={handleHardcutContinue}
+                onHardcutComplete={() => {
+                  setIsHardcutVisualDone(true);
+                  // ✅ 로딩 완료 후 가이드 메시지 추가 (hardcutData 바로 다음에 추가됨)
+                  const finalInputMsgId = `a_final_input_${Date.now()}`;
+                  setMessages(prev => {
+                    if (prev.some(m => m.id.startsWith('a_final_input_'))) return prev;
+                    return [...prev, {
+                      id: finalInputMsgId,
+                      role: 'assistant',
+                      questionId: 'final_guide',
+                      content: `추천 상품들을 잘 추렸어요! 🎯
+
+마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없다면 아래 [최종 구매 보고서 보기] 버튼을 눌러주세요!`,
+                      typing: true,
+                      timestamp: Date.now()
+                    }];
+                  });
+                }}
+                showComparisonOnly={showComparisonOnly}
+                setShowComparisonOnly={setShowComparisonOnly}
+                pricesData={pricesData}
               />
-            ))}
+            );
+          })}
 
             {/* 결과 채팅 로딩 인디케이터 */}
             <AnimatePresence>
@@ -3073,32 +3139,7 @@ export default function KnowledgeAgentPage() {
               )}
             </AnimatePresence>
 
-            {/* 하드컷팅 시각화 단계 */}
-            {phase === 'hardcut_visual' && hardcutResult && (
-              <motion.div
-                data-message-id="hardcut-visual"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="py-4 scroll-mt-[52px]"
-              >
-                <HardcutVisualization
-                  totalBefore={hardcutResult.totalBefore}
-                  totalAfter={hardcutResult.totalAfter}
-                  filteredProducts={crawledProducts.slice(0, 20).map(p => ({
-                    pcode: p.pcode,
-                    name: p.name,
-                    brand: p.brand || '',
-                    price: p.price || 0,
-                    thumbnail: p.thumbnail,
-                    matchScore: 0,
-                    matchedConditions: [],
-                  }))}
-                  appliedRules={hardcutResult.appliedRules}
-                  onContinue={handleHardcutContinue}
-                  onComplete={() => setIsHardcutVisualDone(true)}
-                />
-              </motion.div>
-            )}
+            {/* 하드컷팅 시각화 단계 - 메시지로 이동됨 */}
 
             <AnimatePresence>
               {isCalculating && (
@@ -3125,25 +3166,50 @@ export default function KnowledgeAgentPage() {
               </div>
             )} */}
 
-          {/* 하드컷팅 시각화 완료 시 버튼 */}
+          {/* 하드컷팅 시각화 완료 시 버튼 및 채팅 바 */}
           {phase === 'hardcut_visual' && isHardcutVisualDone && !isTyping && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.01, translateY: -1 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleHardcutContinue}
-              className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all"
-            >
-
-              <span className="text-[16px] tracking-tight">최종 구매 보고서 보기</span>
-            </motion.button>
-          )}
-
-          {/* 마지막 자연어 입력 단계 */}
-          {phase === 'final_input' && !isTyping && (
             <div className="space-y-3">
-              <div className="relative">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.01, translateY: -1 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  handleFinalInputSubmit(inputValue.trim() || undefined);
+                  setInputValue('');
+                }}
+                className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all"
+              >
+                <div className="shrink-0 w-5 h-5 flex items-center justify-center">
+                  <Image src="/icons/ic-ai.svg" alt="" width={16} height={16} />
+                </div>
+                <span className="text-[16px] tracking-tight">최종 구매 보고서 보기</span>
+              </motion.button>
+
+              <div
+                className="relative flex items-end overflow-hidden"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(15px)',
+                  WebkitBackdropFilter: 'blur(15px)',
+                  borderRadius: '20px',
+                  boxShadow: '0px 5px 15px 0px rgba(21, 21, 21, 0.04)',
+                  border: '1px solid #e2e2e7',
+                }}
+              >
+                {/* 그라데이션 ellipse */}
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    width: '100%',
+                    height: '176px',
+                    left: 0,
+                    top: '-16px',
+                    transform: 'translateY(-50%)',
+                    background: 'radial-gradient(50% 50% at 50% 50%, rgba(217, 233, 255, 0.40) 0%, rgba(217, 233, 255, 0.00) 100%)',
+                    zIndex: 0,
+                  }}
+                />
                 <textarea
                   ref={inputRef}
                   value={inputValue}
@@ -3151,32 +3217,37 @@ export default function KnowledgeAgentPage() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
-                      if (inputValue.trim()) {
-                        handleFinalInputSubmit(inputValue);
-                        setInputValue('');
-                      }
+                      handleFinalInputSubmit(inputValue.trim() || undefined);
+                      setInputValue('');
                     }
                   }}
                   placeholder="추가 조건을 자유롭게 입력하세요... (선택)"
-                  className="w-full min-h-[56px] max-h-[120px] py-4 px-5 rounded-2xl bg-white border border-gray-200 text-[15px] placeholder:text-gray-400 focus:outline-none focus:border-blue-400 transition-all resize-none"
+                  className="relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] text-[#71737c] placeholder:text-[#71737c] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c]"
                   rows={1}
                 />
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onMouseDown={(e) => {
+                    if (inputValue.trim()) {
+                      handleFinalInputSubmit(inputValue.trim());
+                      setInputValue('');
+                    }
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                  disabled={!inputValue.trim()}
+                  className={`absolute right-3 bottom-3 z-30 flex-shrink-0 transition-all duration-200 ${inputValue.trim() ? '' : 'opacity-50'} disabled:opacity-50`}
+                >
+                  <Image 
+                    src="/icons/sendreal.png" 
+                    alt="전송" 
+                    width={32} 
+                    height={32} 
+                  />
+                </motion.button>
               </div>
-              <motion.button
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  handleFinalInputSubmit(inputValue.trim() || undefined);
-                  setInputValue('');
-                }}
-                className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all"
-              >
-                <span className="text-[16px] tracking-tight">
-                  {inputValue.trim() ? '조건 추가하고 추천받기' : '바로 추천받기'}
-                </span>
-              </motion.button>
             </div>
           )}
 
@@ -3241,36 +3312,78 @@ export default function KnowledgeAgentPage() {
               }
             />
           ) : phase !== 'hardcut_visual' && phase !== 'final_input' && phase !== 'negative_filter' && phase !== 'result' && (
-            <div className="relative group">
-              <div className="absolute -inset-6 -z-10 blur-[40px] opacity-40 pointer-events-none group-focus-within:opacity-70 transition-opacity duration-500" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.2) 50%, transparent 100%)' }} />
+            <div className="relative">
               <motion.div
                 key={barAnimationKey}
-                initial={barAnimationKey > 0 ? { scale: 1.02, borderColor: '#3b82f6', boxShadow: '0 0 20px rgba(59, 130, 246, 0.1)' } : {}}
-                animate={{ scale: 1, borderColor: 'rgba(229, 231, 235, 0.8)', boxShadow: '0 10px 40px rgba(0,0,0,0.04)' }}
+                initial={barAnimationKey > 0 ? { scale: 1.02 } : {}}
+                animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                className="relative w-full overflow-hidden rounded-[24px] border border-gray-200/80 focus-within:border-blue-400/50 flex items-end bg-white focus-within:shadow-[0_10px_50px_rgba(59,130,246,0.12)] transition-all duration-300"
+                className="relative flex items-end overflow-hidden"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(15px)',
+                  WebkitBackdropFilter: 'blur(15px)',
+                  borderRadius: '20px',
+                  boxShadow: '0px 5px 15px 0px rgba(21, 21, 21, 0.04)',
+                  border: '1px solid #e2e2e7',
+                }}
               >
+                {/* 그라데이션 ellipse */}
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    width: '100%',
+                    height: '176px',
+                    left: 0,
+                    top: '-16px',
+                    transform: 'translateY(-50%)',
+                    background: 'radial-gradient(50% 50% at 50% 50%, rgba(217, 233, 255, 0.40) 0%, rgba(217, 233, 255, 0.00) 100%)',
+                    zIndex: 0,
+                  }}
+                />
                 <textarea
                   ref={inputRef}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleFreeChat(inputValue); } }}
-                  placeholder={`무엇이든 물어보세요...`}
-                  className={`relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 rounded-[24px] bg-transparent text-[16px] placeholder:text-gray-300 placeholder:font-medium focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line ${isHighlighting
+                  onFocus={() => setIsInputFocused(true)}
+                  onBlur={() => setIsInputFocused(false)}
+                  placeholder={isInputFocused ? "직접 입력해보세요" : "무엇이든 찾아보세요"}
+                  className={`relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c] ${isHighlighting
                     ? 'text-blue-600 font-bold'
-                    : 'text-gray-800 font-medium'
-                    }`}
+                    : 'text-[#71737c]'
+                    } placeholder:text-[#71737c]`}
                   disabled={isTyping}
                   rows={1}
                 />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handleFreeChat(inputValue)}
+                  onMouseDown={(e) => {
+                    // onBlur보다 먼저 실행되도록 하기 위해 mousedown에서 preventDefault를 하지 않고 이벤트만 처리
+                    if (!(!inputValue.trim() || isTyping)) {
+                      handleFreeChat(inputValue);
+                    }
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // 이미 handleFreeChat이 mousedown에서 호출되었을 수 있으므로 안전장치
+                  }}
                   disabled={!inputValue.trim() || isTyping}
-                  className={`absolute right-2 bottom-2 w-10 h-10 z-20 flex items-center justify-center rounded-full transition-all ${inputValue.trim() ? 'bg-gray-900' : 'bg-gray-50'} disabled:opacity-50`}
+                  className={`absolute right-3 bottom-3 z-30 flex-shrink-0 transition-all duration-200 ${inputValue.trim() ? '' : 'opacity-50'} disabled:opacity-50`}
                 >
-                  {isTyping ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <PaperPlaneRight size={20} weight="fill" className={inputValue.trim() ? 'text-white' : 'text-gray-300'} />}
+                  {isTyping ? (
+                    <div className="w-8 h-8 flex items-center justify-center">
+                      <div className="w-5 h-5 border-2 border-gray-900/30 border-t-gray-900 rounded-full animate-spin" />
+                    </div>
+                  ) : (
+                    <Image 
+                      src="/icons/sendreal.png" 
+                      alt="전송" 
+                      width={32} 
+                      height={32} 
+                    />
+                  )}
                 </motion.button>
               </motion.div>
             </div>
@@ -3515,83 +3628,75 @@ export default function KnowledgeAgentPage() {
               }
             `}</style>
 
-            {/* 배경 오버레이 */}
-            <AnimatePresence>
-              {showReRecommendModal && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25, ease: 'easeInOut' }}
-                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[116] pointer-events-auto"
-                  onClick={() => setShowReRecommendModal(false)}
-                />
-              )}
-            </AnimatePresence>
-
-            {/* 모달 옵션 버튼들 */}
-            <AnimatePresence>
-              {showReRecommendModal && (
-                <div
-                  className="absolute right-4 z-[117] flex flex-col items-end gap-2 pointer-events-auto"
-                  style={{ bottom: '100px' }}
-                >
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                    transition={{ type: 'spring', damping: 20, stiffness: 300, delay: 0.05 }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
+      {/* Re-recommend Confirmation Modal */}
+      <AnimatePresence>
+        {showReRecommendModal && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowReRecommendModal(false)}
+              className="fixed inset-0 bg-black/60 z-[200]"
+            />
+            <div className="fixed inset-x-0 bottom-0 z-[210] p-4 pointer-events-none flex justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 100 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                className="w-full max-w-[480px] space-y-3 pointer-events-auto pb-6"
+              >
+                {/* Action Buttons Container */}
+                <div className="space-y-2">
+                  <button
                     onClick={() => {
                       logKnowledgeAgentReRecommendDifferentCategory(categoryKey || '', categoryName || '');
                       const parentTab = getParentCategoryTab(categoryName || '');
                       router.push(`/knowledge-agent/${parentTab}`);
                     }}
-                    className="px-4 py-3 bg-white/95 backdrop-blur-sm rounded-2xl text-sm font-semibold text-gray-700 flex items-center gap-2 shadow-lg border border-gray-100/50"
+                    className="w-full h-[72px] bg-[#191D28]/80 border border-gray-800 rounded-[12px] flex items-center px-4 group active:scale-[0.98] transition-all backdrop-blur-[6px]"
                   >
-                    <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    다른 카테고리
-                  </motion.button>
+                    <div className="w-[48px] h-[48px] bg-[#1A1C22]/50 rounded-[10px] flex items-center justify-center mr-4">
+                      <ArrowsLeftRight size={22} weight="bold" className="text-blue-300" />
+                    </div>
+                    <span className="text-[14px] font-semibold text-gray-50 flex-1 text-left">
+                      다른 카테고리 추천
+                    </span>
+                    <CaretRight size={18} weight="bold" className="text-gray-100 group-active:translate-x-1 transition-transform" />
+                  </button>
 
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                    transition={{ type: 'spring', damping: 20, stiffness: 300, delay: 0 }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
+                  <button
                     onClick={() => {
                       logKnowledgeAgentReRecommendSameCategory(categoryKey || '', categoryName || '');
-                      // 새로고침을 위해 window.location.href 사용
                       window.location.href = `/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}`;
                     }}
-                    className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
-                    style={{ background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)' }}
+                    className="w-full h-[72px] bg-[#191D28]/80 border border-gray-800 rounded-[12px] flex items-center px-4 group active:scale-[0.98] transition-all backdrop-blur-[6px]"
                   >
-                    <motion.svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" animate={{ rotate: [0, -15, 15, -15, 0], y: [0, -2, 0] }} transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}>
-                      <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
-                    </motion.svg>
-                    {categoryName} 처음부터
-                  </motion.button>
-
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ type: 'spring', damping: 20, stiffness: 300, delay: 0.1 }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => setShowReRecommendModal(false)}
-                    className="px-4 py-2.5 rounded-xl text-sm font-medium text-gray-500 bg-gray-100/80 backdrop-blur-sm"
-                  >
-                    취소
-                  </motion.button>
+                    <div className="w-[48px] h-[48px] bg-[#1A1C22]/50 rounded-[10px] flex items-center justify-center mr-4">
+                      <img src="/icons/ic-ai.svg" alt="" className="w-6 h-6" />
+                    </div>
+                    <span className="text-[14px] font-semibold text-gray-50 flex-1 text-left">
+                      {categoryName} 처음부터 새로 추천
+                    </span>
+                    <CaretRight size={18} weight="bold" className="text-gray-100 group-active:translate-x-1 transition-transform" />
+                  </button>
                 </div>
-              )}
-            </AnimatePresence>
+
+                {/* Cancel Button */}
+                <button
+                  onClick={() => setShowReRecommendModal(false)}
+                  className="w-full h-[56px] bg-[#E2E2E7] rounded-[12px] text-[17px] font-bold text-[#4B4B4B] active:scale-[0.98] transition-all"
+                >
+                  취소
+                </button>
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Exit Confirmation Modal */}
 
             {!showReRecommendModal && !isChatLoading && (
               <div className="absolute right-4 z-[116] flex flex-row items-center gap-2 pointer-events-auto" style={{ bottom: '100px' }}>
@@ -3619,66 +3724,36 @@ export default function KnowledgeAgentPage() {
       )}
 
       {/* Exit Confirmation Modal */}
-      <AnimatePresence>
-        {showExitConfirmModal && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setShowExitConfirmModal(false)}
-              className="fixed inset-0 bg-black/50 z-[200]"
-            />
-            {/* Modal */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[210] w-[320px] bg-white rounded-3xl shadow-2xl overflow-hidden"
-            >
-              <div className="px-6 pt-8 pb-6 text-center">
-                <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">메인 페이지로 돌아가겠어요?</h3>
-                <p className="text-sm text-gray-500">현재 진행 중인 추천이 초기화됩니다.</p>
-              </div>
-              <div className="flex flex-col gap-2 px-5 pb-5">
-                <button
-                  onClick={() => {
-                    import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
-                      logButtonClick('knowledge-agent-exit-confirm', 'confirm');
-                    });
-                    const parentTab = getParentCategoryTab(categoryName || '');
-                    router.push(`/knowledge-agent/${parentTab}`);
-                  }}
-                  className="w-full py-4 rounded-2xl font-bold text-base text-white bg-[#111827] hover:bg-black transition-all active:scale-[0.98]"
-                >
-                  확인
-                </button>
-                <button
-                  onClick={() => {
-                    import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
-                      logButtonClick('knowledge-agent-exit-confirm', 'cancel');
-                    });
-                    setShowExitConfirmModal(false);
-                  }}
-                  className="w-full py-3 rounded-2xl font-semibold text-sm text-gray-500 bg-transparent hover:bg-gray-100 transition-all active:scale-[0.98]"
-                >
-                  취소
-                </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      <SimpleConfirmModal
+        isOpen={showExitConfirmModal}
+        onClose={() => setShowExitConfirmModal(false)}
+        title="메인 페이지로 돌아가겠어요?"
+        primaryLabel="돌아가기"
+        primaryColor="text-red-500"
+        onPrimaryClick={() => {
+          import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
+            logButtonClick('knowledge-agent-exit-confirm', 'confirm');
+          });
+          const parentTab = getParentCategoryTab(categoryName || '');
+          router.push(`/knowledge-agent/${parentTab}`);
+        }}
+        secondaryLabel="취소"
+      />
     </div>
   );
+}
+
+// 마크다운 볼드 처리 (**텍스트** → <strong>)
+function parseMarkdownBold(text: string) {
+  if (!text) return null;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const boldText = part.slice(2, -2);
+      return <strong key={index} className="font-bold">{boldText}</strong>;
+    }
+    return <span key={index}>{part}</span>;
+  });
 }
 
 function MessageBubble({
@@ -3688,6 +3763,7 @@ function MessageBubble({
   phase,
   inputRef,
   isLatestAssistantMessage,
+  isInactive,
   selectedNegativeKeys,
   onNegativeKeyToggle,
   categoryKey,
@@ -3699,6 +3775,11 @@ function MessageBubble({
   negativeOptions,
   onNegativeAIHelperOpen,
   onFreeChat,
+  onHardcutContinue,
+  onHardcutComplete,
+  showComparisonOnly,
+  setShowComparisonOnly,
+  pricesData,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -3706,21 +3787,25 @@ function MessageBubble({
   phase: Phase;
   inputRef?: React.RefObject<HTMLTextAreaElement | null>;
   isLatestAssistantMessage?: boolean;
+  isInactive?: boolean;
   selectedNegativeKeys: string[];
   onNegativeKeyToggle: (key: string) => void;
   categoryKey?: string;
   categoryName?: string;
   userSelections?: UserSelections;
-  onAIHelperOpen?: (data: { questionId: string; questionText: string; options: any; type: 'hard_filter' }) => void;
+  onAIHelperOpen?: (data: { questionId: string; questionText: string; options: any; type: 'hard_filter' | 'balance_game' | 'negative' }) => void;
   onPopularRecommend?: (query: string) => void;
   onContextRecommend?: (query: string) => void;
   negativeOptions?: NegativeOption[];
   onNegativeAIHelperOpen?: (autoSubmitText?: string) => void;
   onFreeChat?: (message: string) => void;
+  onHardcutContinue?: () => void;
+  onHardcutComplete?: () => void;
+  showComparisonOnly: boolean;
+  setShowComparisonOnly: (show: boolean) => void;
+  pricesData?: Record<string, any>;
 }) {
   const isUser = message.role === 'user';
-
-  const isInactive = !isUser && !isLatestAssistantMessage && message.options && message.options.length > 0;
 
   if (!isUser && message.role === 'assistant' && message.reRecommendData) {
     return (
@@ -3753,8 +3838,8 @@ function MessageBubble({
       id={message.id}
       data-message-id={message.id}
       initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={`scroll-mt-[52px] flex ${isUser ? 'justify-end' : 'justify-start'} w-full ${isInactive ? 'opacity-40 pointer-events-none' : ''} transition-opacity duration-300`}
+      animate={{ opacity: isInactive ? 0.5 : 1, y: 0 }}
+      className={`scroll-mt-[52px] flex ${isUser ? 'justify-end' : 'justify-start'} w-full ${isInactive ? 'pointer-events-none' : ''} transition-opacity duration-300`}
     >
       <div className={`${isUser ? 'max-w-[85%]' : 'w-full'} space-y-3`}>
         {!isUser && message.searchContext && (
@@ -3773,48 +3858,112 @@ function MessageBubble({
           />
         )}
 
+        {!isUser && message.hardcutData && (
+          <div className="py-2">
+            <HardcutVisualization
+              totalBefore={message.hardcutData.totalBefore}
+              totalAfter={message.hardcutData.totalAfter}
+              filteredProducts={message.hardcutData.filteredProducts}
+              appliedRules={message.hardcutData.appliedRules}
+              onContinue={onHardcutContinue || (() => { })}
+              onComplete={onHardcutComplete}
+            />
+          </div>
+        )}
+
         {isUser ? (
           <div className="bg-gray-50 text-gray-800 rounded-[20px] px-5 py-2.5 text-[16px] font-medium min-h-[46px] flex items-center w-fit ml-auto leading-relaxed">{message.content}</div>
         ) : message.content ? (
           <div className="w-full">
-            {message.questionProgress && (
-              <span className="text-[12px] font-semibold text-gray-300 bg-gray-50 px-2 py-0.5 rounded-full mb-1.5 inline-block">
-                {message.questionProgress.current}/{message.questionProgress.total}
-              </span>
+            {/* 결과 메시지인 경우 상단 구분선 추가 */}
+            {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
+              <div className="h-px bg-gray-200 w-full mb-6" />
             )}
-            <AssistantMessage content={message.content} typing={message.typing} speed={10} />
+
+            {/* 실제 질문일 때만 헤더 표시 (options나 questionProgress가 있는 경우) */}
+            {message.questionId !== 'final_guide' &&
+             (!message.resultProducts || message.resultProducts.length === 0) &&
+             (message.options || message.questionProgress) && (
+              <div className="flex items-center justify-between mb-1 px-0.5">
+                <span className="text-[16px] font-semibold text-gray-400">구매 조건</span>
+                {message.questionProgress && (
+                  <span className="text-[12px] font-semibold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-[6px]">
+                    {message.questionProgress.current}/{message.questionProgress.total}
+                  </span>
+                )}
+              </div>
+            )}
+            <AssistantMessage
+              content={message.content}
+              typing={message.typing}
+              speed={10}
+              textClassName={
+                // 일반 채팅 응답 (질문이 아닌 경우): 단순 스타일
+                (!message.options && !message.questionProgress && message.questionId !== 'final_guide' && (!message.resultProducts || message.resultProducts.length === 0))
+                  ? "text-[16px] font-medium text-gray-800 leading-[1.4] break-keep"
+                  // final_guide나 결과 메시지: 단순 스타일
+                  : (message.questionId === 'final_guide' || (message.resultProducts && message.resultProducts.length > 0))
+                    ? "text-[16px] font-medium text-gray-800 leading-[1.4] break-keep"
+                    // 실제 질문: 강조 스타일
+                    : "text-[18px] font-semibold text-gray-900 leading-snug break-keep"
+              }
+              explanationClassName={
+                (!message.options && !message.questionProgress && message.questionId !== 'final_guide' && (!message.resultProducts || message.resultProducts.length === 0))
+                  ? "text-[16px] font-medium text-gray-800 leading-[1.4]"
+                  : (message.questionId === 'final_guide' || (message.resultProducts && message.resultProducts.length > 0))
+                    ? "text-[16px] font-medium text-gray-800 leading-[1.4]"
+                    : "text-[16px] font-medium text-gray-600 leading-[1.4]"
+              }
+              suffix={
+                // 실제 질문일 때만 * 표시
+                (message.options || message.questionProgress) &&
+                message.questionId !== 'final_guide' &&
+                (!message.resultProducts || message.resultProducts.length === 0)
+                  ? <span className="text-blue-500"> *</span>
+                  : null
+              }
+            />
           </div>
         ) : null}
 
         {!isUser && message.reportData && <ReportToggle reportData={message.reportData} />}
 
         {!isUser && message.tip && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex items-start gap-3 bg-amber-50/50 border border-amber-100/50 rounded-[20px] px-4 py-3.5">
-            <FcIdea size={20} className="shrink-0" />
-            <p className="text-[14px] text-amber-900/80 leading-relaxed font-medium">{message.tip.replace(/^[💡\s]+/, '')}</p>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: isInactive ? 0.5 : 1, y: 0 }} transition={{ delay: 0.4 }} className="flex items-start gap-3 bg-gray-50 border border-gray-100 rounded-[12px] px-4 py-3.5">
+            <div className="shrink-0 w-5 h-5 mt-0.5">
+              <Image src="/icons/mdi_lightbulb.png" alt="" width={20} height={20} />
+            </div>
+            <p className="text-[13px] text-gray-600 leading-[1.5] font-medium">{message.tip.replace(/^[💡\s]+/, '')}</p>
           </motion.div>
         )}
 
-        {!isUser && message.dataSource && (
-          <div className="flex items-center gap-2 mt-1 mb-2 px-1">
-            <FcPositiveDynamic size={14} className="grayscale opacity-70" />
-            <span className="text-[12px] font-bold text-gray-400 uppercase tracking-tighter">Source: {message.dataSource}</span>
-          </div>
-        )}
 
         {!isUser && message.options && message.options.length > 0 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="space-y-2 pt-2">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: isInactive ? 0.5 : 1 }} transition={{ delay: 0.5 }} className="space-y-2 pt-2">
             {isLatestAssistantMessage && (
               <div className="mb-3">
                 <AIHelperButton
-                  onClick={() => onAIHelperOpen?.({
-                    questionId: message.id,
-                    questionText: message.content,
-                    options: message.options!.map(o => ({ value: o, label: o })),
-                    type: 'hard_filter'
-                  })}
+                  onClick={() => {
+                    const isNegQ = message.questionId === 'avoid_negatives' || 
+                                  message.id?.includes('avoid_negatives') ||
+                                  message.content?.toLowerCase().includes('단점') ||
+                                  message.content?.toLowerCase().includes('피하고') ||
+                                  message.content?.toLowerCase().includes('피할');
+                    onAIHelperOpen?.({
+                      questionId: message.id,
+                      questionText: message.content,
+                      options: message.options!.map(o => ({ value: o, label: o })),
+                      type: isNegQ ? 'negative' : 'hard_filter'
+                    });
+                  }}
                   label="뭘 고를지 모르겠어요"
-                  questionType="hard_filter"
+                  questionType={
+                    (message.questionId === 'avoid_negatives' || 
+                     message.id?.includes('avoid_negatives') ||
+                     message.content?.toLowerCase().includes('단점') ||
+                     message.content?.toLowerCase().includes('피하고') ||
+                     message.content?.toLowerCase().includes('피할')) ? 'negative' : 'hard_filter'
+                  }
                   questionId={message.id}
                   questionText={message.content}
                   category={categoryKey}
@@ -3830,6 +3979,11 @@ function MessageBubble({
                 key={i}
                 label={opt}
                 isSelected={message.selectedOptions?.includes(opt)}
+                isNegative={
+                  message.questionId === 'avoid_negatives' || 
+                  message.id?.includes('avoid_negatives') ||
+                  message.content?.includes('단점')
+                }
                 onClick={() => {
                   const isSelected = !message.selectedOptions?.includes(opt);
                   const totalSelected = isSelected
@@ -3866,7 +4020,7 @@ function MessageBubble({
                       categoryName || '',
                       message.id,
                       message.content,
-                      '직접 입력하기',
+                      '직접 추가',
                       true,
                       0
                     );
@@ -3875,11 +4029,17 @@ function MessageBubble({
                   inputRef?.current?.focus();
                   setTimeout(() => { inputRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
                 }}
-                className="w-full py-4 px-5 rounded-[20px] border border-dashed border-gray-200 text-left transition-all flex items-center justify-between group hover:border-blue-300 hover:bg-blue-50/30"
+                className="w-full py-4 px-5 text-center transition-all flex items-center justify-center group hover:bg-blue-50/30"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%239CA3AF' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
+                  borderRadius: '12px'
+                }}
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-[15px] font-medium text-gray-800 group-hover:text-blue-600">직접 입력하기</span>
-                  <span className="text-[12px] text-gray-400 group-hover:text-blue-400">궁금한 점이나 다른 답변</span>
+                <div className="flex items-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 group-hover:text-blue-500">
+                    <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="text-[16px] font-medium text-gray-400 group-hover:text-blue-600">직접 추가</span>
                 </div>
               </motion.button>
             )}
@@ -3925,24 +4085,209 @@ function MessageBubble({
         )}
 
         {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-3 pt-4">
-            <div className="flex items-center gap-2 px-1"><h3 className="font-bold text-gray-900">🛍️ 맞춤 추천 Top 3</h3></div>
-            <KnowledgeAgentResultCarousel
-              products={message.resultProducts}
-              categoryKey={categoryKey || ''}
-              categoryName={categoryName}
-              onProductClick={onProductClick}
-            />
-            {message.resultProducts.length >= 2 && (
-              <div className="mt-6 pt-4 border-t border-gray-100">
-                <KnowledgeComparisonTable
-                  products={message.resultProducts.map((p: any) => ({ pcode: p.pcode || p.id, name: p.name || p.title, brand: p.brand || null, price: p.price || null, thumbnail: p.thumbnail || null, rating: p.rating || p.averageRating || null, reviewCount: p.reviewCount || null, specs: p.specs || p.spec || {}, specSummary: p.specSummary || '', prosFromReviews: p.prosFromReviews || [], consFromReviews: p.consFromReviews || [], oneLiner: p.oneLiner || '', comparativeOneLiner: p.comparativeOneLiner || '', recommendedFor: p.recommendedFor || '', recommendReason: p.recommendReason || '' }))}
-                  categoryKey={categoryKey || ''}
-                  categoryName={categoryName}
-                  showRank={true}
-                />
-              </div>
-            )}
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-4">
+            {/* 상단 구분선 */}
+            <div className="h-px bg-gray-200 w-full mb-6" />
+
+            {/* 타이틀 및 비교표 토글 */}
+            <div className="px-1 mb-2">
+              <h3 className="text-[18px] font-bold text-gray-900 mb-3">
+                조건에 맞는 {categoryName} 추천
+              </h3>
+              
+              {/* 비교표 토글 */}
+              <button
+                onClick={() => setShowComparisonOnly(!showComparisonOnly)}
+                className={`flex items-center justify-between w-[104px] h-[34px] px-2.5 rounded-lg transition-all duration-200 ${
+                  showComparisonOnly
+                    ? 'bg-blue-50 border border-blue-100'
+                    : 'bg-gray-50 border border-gray-100'
+                }`}
+              >
+                <span className={`text-[14px] font-medium transition-colors whitespace-nowrap ${
+                  showComparisonOnly ? 'text-blue-500' : 'text-gray-600'
+                }`}>
+                  비교표
+                </span>
+                <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0 ${
+                  showComparisonOnly ? 'bg-blue-500' : 'bg-gray-300'
+                }`}>
+                  <div
+                    className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200"
+                    style={{ transform: showComparisonOnly ? 'translateX(16px)' : 'translateX(0)' }}
+                  />
+                </div>
+              </button>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {!showComparisonOnly ? (
+                <motion.div
+                  key="list"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="space-y-4"
+                >
+                  {message.resultProducts.map((product, index) => {
+                    const title = product.name || product.title || '';
+                    const danawaPrice = product.danawaPrice;
+                    const hasLowestPrice = danawaPrice && danawaPrice.lowest_price && danawaPrice.lowest_price > 0;
+                    const price = hasLowestPrice ? danawaPrice!.lowest_price! : product.price;
+                    const rating = product.rating || product.averageRating || 0;
+                    const reviewCount = product.reviewCount || 0;
+                    const aiSummary = product.personalReason || product.recommendReason || product.recommendationReason || '';
+                    const reviewOneLiner = product.oneLiner || '';
+
+                    return (
+                      <div key={product.pcode || product.id || index} className="relative bg-white py-6 border-b border-gray-100 last:border-0 space-y-5">
+                        <div className="flex gap-4">
+                          {/* 제품 썸네일 */}
+                          <div className="relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
+                            {product.thumbnail ? (
+                              <Image
+                                src={product.thumbnail}
+                                alt={title}
+                                width={128}
+                                height={128}
+                                className="w-full h-full object-cover"
+                                quality={90}
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                              </div>
+                            )}
+                            {/* 랭킹 배지 */}
+                            <div className="absolute top-0 left-0 w-[32px] h-[26px] bg-gray-900 rounded-br-[12px] flex items-center justify-center">
+                              <span className="text-white font-bold text-[12px] leading-none">{index + 1}위</span>
+                            </div>
+                          </div>
+
+                          {/* 제품 정보 */}
+                          <div className="flex-1 min-w-0 flex flex-col pt-0.5">
+                            <h4 className="text-[14px] font-medium text-gray-800 leading-[1.4] line-clamp-2 mb-1">
+                              {title}
+                            </h4>
+                            {product.brand && (
+                              <div className="text-[12px] text-gray-400 font-medium mb-1.5">
+                                {product.brand}
+                              </div>
+                            )}
+
+                            {/* 별점 & 리뷰 */}
+                            <div className="flex items-center gap-1 mb-auto">
+                              <Image src="/icons/ic-star.png" width={14} height={14} alt="" />
+                              <span className="text-[14px] font-bold text-gray-800">{rating.toFixed(1)}</span>
+                              <span className="text-[14px] text-gray-400">({reviewCount.toLocaleString()})</span>
+                            </div>
+
+                            {/* 가격 */}
+                            {price && (
+                              <div className="mt-2">
+                                <span className="text-[16px] font-bold text-gray-900">{price.toLocaleString()}원</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* 버튼 */}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => onProductClick(product, 'price')}
+                            className="flex-1 h-[40px] rounded-[12px] border border-gray-200 bg-white text-[14px] font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                          >
+                            상세 보기
+                          </button>
+                          <a
+                            href={(pricesData && pricesData[product.pcode]?.lowestLink) || `https://prod.danawa.com/info/?pcode=${product.pcode || product.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 h-[40px] rounded-[12px] bg-[#1e2329] text-[14px] font-semibold text-white flex items-center justify-center hover:bg-black transition-colors"
+                          >
+                            최저가 구매하기
+                          </a>
+                        </div>
+
+                        {/* 요약 섹션 */}
+                        <div className="space-y-4 mt-2">
+                          {/* AI 요약 */}
+                          {aiSummary && (
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-1.5">
+                                <Image src="/icons/ic-ai.svg" width={16} height={16} alt="" />
+                                <span className="text-[16px] font-semibold ai-gradient-text">AI 요약</span>
+                              </div>
+                              <div className="relative pl-3">
+                                <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gray-100 rounded-full" />
+                                <p className="text-[15px] text-gray-800 leading-[1.55] font-medium">
+                                  {aiSummary}
+                                </p>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* 리뷰 한줄 평 */}
+                          {reviewOneLiner && (
+                            <div className="bg-gray-50 rounded-xl p-3 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-1.5">
+                                  <Image src="/icons/ic-star.png" width={16} height={16} alt="" />
+                                  <span className="text-[16px] font-semibold text-gray-700">리뷰 한줄 평</span>
+                                </div>
+                                <button 
+                                  onClick={() => onProductClick(product, 'danawa_reviews')}
+                                  className="text-[13px] text-gray-400 font-medium underline"
+                                >
+                                  전체보기
+                                </button>
+                              </div>
+                              <p className="text-[15px] text-gray-700 leading-[1.55]">
+                                {parseMarkdownBold(reviewOneLiner)}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="table"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <KnowledgeComparisonTable
+                    products={message.resultProducts.map((p: any) => ({
+                      pcode: p.pcode || p.id,
+                      name: p.name || p.title,
+                      brand: p.brand || null,
+                      price: p.price || null,
+                      thumbnail: p.thumbnail || null,
+                      rating: p.rating || p.averageRating || null,
+                      reviewCount: p.reviewCount || null,
+                      specs: p.specs || p.spec || {},
+                      specSummary: p.specSummary || '',
+                      prosFromReviews: p.prosFromReviews || [],
+                      consFromReviews: p.consFromReviews || [],
+                      oneLiner: p.oneLiner || '',
+                      comparativeOneLiner: p.comparativeOneLiner || '',
+                      recommendedFor: p.recommendedFor || '',
+                      recommendReason: p.recommendReason || ''
+                    }))}
+                    categoryKey={categoryKey || ''}
+                    categoryName={categoryName}
+                    showRank={true}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </div>

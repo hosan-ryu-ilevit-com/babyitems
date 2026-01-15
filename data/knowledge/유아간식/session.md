@@ -1,5 +1,5 @@
-# 세션: 20260115_022329_l4w8
-> 시작: 2026-01-15T02:23:29.845Z
+# 세션: 20260115_123418_trgj
+> 시작: 2026-01-15T12:34:18.829Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아간식 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 유아 간식 시장은 건강과 안전을 최우선으로 하는 트렌드를 보이며, 유기농, 무첨가, 저알레르기 성분을 강조하는 브랜드들이 인기를 얻고 있습니다. 베베쿡, 아이배냇 등은 꾸준히 사랑받는 브랜드이며, 다양한 맛과 제형으로 아이들의 흥미를 유발하는 제품들이 주목받고 있습니다. 특히 핑거푸드 형태, 씹는 능력 발달을 고려한 간식, 그리고 편리한 섭취를 위한 짜먹는 형태의 제품들이 인기를 끌고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKLv0hESqd-0yFoFLtt8AiQEqIZS0OgKgsKbe1WHuw83_1T-gmA0bl1WoO2DCOTveXdXwYIkfnnf5X7o_322COnFGqIUELhLNjgznaWopnYYYcVj_-jkcDpW9K2Xo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2b7H7YNdT5DEfxQDgKWlMuiTHSwkKW3ag8n9JJeE-SPcFXvqLTyin8Rg7faK9BJIxRumH6csvX9k1p_GNdHijn2Xigve5SWotR5mZAsOsoDtottl-vlVDdISAWamuRn2K02TqaPqxrK9CrYA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsQyWB4TxlkN46R-XXpy79wjwcXiN2aZcNaZHzKQEe8D6qzE2PpZroidzS_MjGiKuzvaCP6DQlGXSBeZzV4PtHD7jKUBV1wQADR9oAapkcqKbX0cwNjldWZh8aIWtwB1olwMwLXw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZEUULcIq2lgXjRdOVK-8mlzfIXsv31whNGqYXSaPQghD189TN9wRhCfdZOIy08zWKbV7Fi1iTjeESzKp8hOFhoXDsbhKvXSVe3kF1SG8WRRDW7ZzC1q4TrlbE_IvsgDdjcHGOe8H3D04n2GY44W1KsnJAyVqtIzr0HHWIaG-YgUJPrMN1PzFU84t_XFL1CpqUmiFxROAOdYwGu-CPAd7Ww00R-6oMYZLMWOaAYPt3Q5vwdydSe9y7aIFAi4mS
+- 인사이트: 2026년 현재 유아 간식 시장은 건강과 안전을 최우선으로 하는 트렌드를 보이며, 유기농 및 식물성 원료를 사용한 제품들이 인기를 얻고 있습니다. 또한, 핑거푸드 형태, 다양한 맛, 분량 조절 팩 등 아이들의 편의성과 발달 단계를 고려한 제품들이 주목받고 있습니다. 아이배냇, 후디스, 베베쿡 등은 꾸준히 인기 있는 브랜드로 자리매김하고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EC%9C%A0%EC%95%84%EA%B0%84%EC%8B%9D&sort=saveDESC
 
 ---
 
@@ -16,6 +16,7 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아이에게 어떤 종류의 원료로 만든 간식을 선호하시나요? | 유기농 또는 식물성 원료, 일반적인 원료 |
 
 ---
 

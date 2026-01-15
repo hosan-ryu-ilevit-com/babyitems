@@ -1,27 +1,27 @@
 # 유아간식 전문가 지식
 
-> 마지막 업데이트: 2026-01-15T02:23:25.829Z
+> 마지막 업데이트: 2026-01-15T12:34:14.988Z
 > 분석 상품: 20개 | 분석 리뷰: 63개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 유기농 및 무첨가 성분 강조
-- 핑거푸드 형태 및 씹는 능력 발달 고려
-- 다양한 맛과 제형으로 아이들의 흥미 유발
+- 유기농 및 식물성 원료 사용
+- 핑거푸드 형태, 다양한 맛, 분량 조절 팩
+- 식이섬유 강화 및 기능성 성분 함유
 
 ### 구매자 만족 포인트
-- ✓ 건강한 재료와 안전한 성분
-- ✓ 다양한 맛과 흥미로운 형태
-- ✓ 부모의 안심과 아이의 만족도
+- ✓ 건강한 원료 사용
+- ✓ 다양한 맛과 형태
+- ✓ 안전한 성분
 
 ### 주의해야 할 단점
-- ⚠ 일부 제품의 높은 가격대
-- ⚠ 부스러기가 많이 생기는 제품
-- ⚠ 양이 부족하다는 의견
+- ⚠ 부스러기가 많이 생김
+- ⚠ 양이 부족함
+- ⚠ 개별 포장 부재
 
 ### 가격대 인사이트
-유아 간식은 브랜드와 성분에 따라 가격대가 다양하게 형성되어 있습니다. 기본적인 쌀과자나 퓨레 형태의 제품은 비교적 합리적인 가격대로 구매 가능하며, 유기농 인증을 받거나 특정 영양 성분이 강화된 프리미엄 제품은 가격대가 높게 형성되는 경향이 있습니다.
+유아 간식은 브랜드와 원료에 따라 가격대가 다양합니다. 일반적으로 유기농 또는 프리미엄 원료를 사용한 제품은 가격대가 높게 형성되는 편이며, 대용량 제품이나 세트 상품은 가성비가 좋습니다.
 
 ---
 
@@ -240,7 +240,4 @@
 ---
 
 ## 📊 데이터 출처
-- [goodranking.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKLv0hESqd-0yFoFLtt8AiQEqIZS0OgKgsKbe1WHuw83_1T-gmA0bl1WoO2DCOTveXdXwYIkfnnf5X7o_322COnFGqIUELhLNjgznaWopnYYYcVj_-jkcDpW9K2Xo=)
-- [ivenet.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2b7H7YNdT5DEfxQDgKWlMuiTHSwkKW3ag8n9JJeE-SPcFXvqLTyin8Rg7faK9BJIxRumH6csvX9k1p_GNdHijn2Xigve5SWotR5mZAsOsoDtottl-vlVDdISAWamuRn2K02TqaPqxrK9CrYA=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsQyWB4TxlkN46R-XXpy79wjwcXiN2aZcNaZHzKQEe8D6qzE2PpZroidzS_MjGiKuzvaCP6DQlGXSBeZzV4PtHD7jKUBV1wQADR9oAapkcqKbX0cwNjldWZh8aIWtwB1olwMwLXw==)
-- [kakao.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZEUULcIq2lgXjRdOVK-8mlzfIXsv31whNGqYXSaPQghD189TN9wRhCfdZOIy08zWKbV7Fi1iTjeESzKp8hOFhoXDsbhKvXSVe3kF1SG8WRRDW7ZzC1q4TrlbE_IvsgDdjcHGOe8H3D04n2GY44W1KsnJAyVqtIzr0HHWIaG-YgUJPrMN1PzFU84t_XFL1CpqUmiFxROAOdYwGu-CPAd7Ww00R-6oMYZLMWOaAYPt3Q5vwdydSe9y7aIFAi4mS)
+- [다나와 유아간식 인기순위](https://search.danawa.com/dsearch.php?query=%EC%9C%A0%EC%95%84%EA%B0%84%EC%8B%9D&sort=saveDESC)

@@ -1,5 +1,5 @@
-# 세션: 20260115_021323_n08h
-> 시작: 2026-01-15T02:13:23.882Z
+# 세션: 20260115_120448_nzzz
+> 시작: 2026-01-15T12:04:48.518Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 아기 물티슈 시장은 베베숲, 브라운, 페넬로페, 슈퍼대디, 앙블랑 등 다양한 브랜드가 경쟁하고 있습니다. 안전한 성분과 피부 자극 최소화를 중시하는 트렌드가 지속되며, 일부 브랜드는 친환경 소재 사용을 확대하고 있습니다. 또한, 변기에 버릴 수 있는 비데형 물티슈의 인기가 꾸준히 이어지고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EC%95%84%EA%B8%B0%EB%AC%BC%ED%8B%B0%EC%8A%88&sort=saveDESC
+- 인사이트: 2026년 현재 아기 물티슈 시장은 안전성과 순한 성분을 최우선으로 고려하는 트렌드를 보이며, 베베숲, 브라운, 앙블랑, 페넬로페 등 다양한 브랜드가 인기리에 판매되고 있습니다. 특히 가성비와 대용량 제품에 대한 수요가 높으며, EWG 그린 등급 성분 및 피부 저자극 테스트 완료 제품들이 소비자들에게 좋은 반응을 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEME94NkvfzI8ioAQ2aSXKMEQE5NyUlrnzpL3yi_c5t438glE80IcGgu5ANItojXkBrf8hG5iuIqBKEsgAGssw8Ee_x4NV48G58ZfHzgTYSzPfj279kAmRBUviYtK-L3mCerv4luXQt_LsUeA0caII=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLIQ0286vNVBHKPwL4ogJntv6rIgj25X2KJNTX4J6xvYerWCzEiSKk-yh7zehhm1dfOoTNhniNsOrsA720BtqlogyNoJvOnD2Pr7DFjvE3VwqnkvfyCvMxIdV4HU0pN_rvqnB3HY6XoZSMfT4uwBK7AsBtwYCm3c5Er14pbg5VIW5MSjGEnENJQEOtaHAN574Ey52LGSaZFx4V-Q0zXWBQa0ICV3jJTO1T, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFiNa2sbA6x1R2tcXtcMjgfrFyqpEXpMieKK5PsU6Yw6X7LZX0bMSaPMsgwDgsoYEksR3iokaevAIWAntq3UnWFaslG1ZGsbf-PFcTWtTHTqUOV-07XRoiOMb4gdUdU6x9wI_SL3vmx6VWXOqPjPY9c7H71, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEr1TatfioYEz3fQErByjHScyKyilhIIGdgVGRIgzsr91-gmM4oVNq-YfAcFW6ojn_GsZq_0Z-jHWpeUArNOmYu6w7dmAWBe6h08_XqZ2JDhnGsXKdp428JMKJdO6thku7xVodXFr-nLuAMUBtJq5gMwXA9dzoubpqOGDs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrFGf4hKIGXVjN8fkapNxljxiiSV2nLSGcsGH3KYz9aMf5V_f361yXnrxPZkzQemdARGmfS-51QPkb0ylRhlBEyV6Myn_E77tke4OzFJTMIHIyEzdH
 
 ---
 

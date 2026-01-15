@@ -1109,137 +1109,125 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                         </div>
                       )}
 
-                      {/* 선호 속성 (밸런스 게임) */}
-                      {balanceConditions.length > 0 && (
-                        <div className="bg-gray-50 rounded-xl p-4 !mt-0 border border-gray-100">
-                          <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-2">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-                              <h4 className="text-[16px] font-bold text-[#4E43E1] leading-tight">
-                                선호 속성
-                              </h4>
-                            </div>
-                            {/* <CircularProgress score={balanceScore} total={balanceConditions.length} color="green" /> */}
+                      {/* 주요 포인트 (선호 속성 + 피할 단점) */}
+                      {(balanceConditions.length > 0 || negativeConditions.length > 0) && (
+                        <div className="mt-8 space-y-4">
+                          <div className="flex items-center gap-2 mb-2">
+                             <span className="text-[#6344FF] text-lg">✦</span>
+                             <h4 className="text-[16px] font-bold text-[#6344FF] leading-tight">
+                               주요 포인트
+                             </h4>
                           </div>
-                          <div className="border-t border-gray-200 pt-3">
-                            <div className="space-y-4">
-                              {balanceConditions.map((cond, i) => {
-                                let badgeColor = '';
-                                let badgeText = '';
 
-                                if (cond.status === '충족') {
-                                  badgeColor = 'bg-green-100 text-green-700';
-                                  badgeText = '충족';
-                                } else if (cond.status === '부분충족') {
-                                  badgeColor = 'bg-yellow-100 text-yellow-700';
-                                  badgeText = '부분충족';
-                                } else {
-                                  badgeColor = 'bg-red-100 text-red-700';
-                                  badgeText = '불충족';
-                                }
+                          {/* 선호 속성 */}
+                          {balanceConditions.length > 0 && (
+                            <div className="bg-gray-50 rounded-xl p-5">
+                              <h5 className="text-[15px] font-bold text-gray-900 mb-5">선호속성</h5>
+                              <div className="space-y-8">
+                                {balanceConditions.map((cond, i) => {
+                                  let badgeColor = '';
+                                  let badgeText = '';
 
-                                // 질문:답변 형식 분리
-                                const colonIdx = cond.condition.indexOf(':');
-                                const hasColon = colonIdx > 0 && colonIdx < cond.condition.length - 1;
-                                const questionPart = hasColon ? cond.condition.slice(0, colonIdx) : '';
-                                const answerPart = hasColon ? cond.condition.slice(colonIdx + 1).trim() : cond.condition;
+                                  if (cond.status === '충족') {
+                                    badgeColor = 'bg-green-100 text-green-700';
+                                    badgeText = '충족';
+                                  } else if (cond.status === '부분충족') {
+                                    badgeColor = 'bg-yellow-100 text-yellow-700';
+                                    badgeText = '부분충족';
+                                  } else {
+                                    badgeColor = 'bg-red-100 text-red-700';
+                                    badgeText = '불충족';
+                                  }
 
-                                return (
-                                  <div key={i}>
-                                    <div className="flex items-start justify-between mb-2 gap-2">
-                                      <div className="text-[14px] max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
-                                        {hasColon ? (
-                                          <>
-                                            <span className="font-normal text-gray-800">{questionPart}</span>{' '}
-                                            <span className="font-bold text-gray-900">{answerPart}</span>
-                                          </>
-                                        ) : (
-                                          <span className="font-bold text-gray-900">{cond.condition}</span>
-                                        )}
+                                  const colonIdx = cond.condition.indexOf(':');
+                                  const hasColon = colonIdx > 0 && colonIdx < cond.condition.length - 1;
+                                  const questionPart = hasColon ? cond.condition.slice(0, colonIdx) : '선호 조건';
+                                  const answerPart = hasColon ? cond.condition.slice(colonIdx + 1).trim() : cond.condition;
+
+                                  return (
+                                    <div key={i} className="flex flex-col gap-3">
+                                      <div className="space-y-1">
+                                        <div className="text-[15px] text-gray-600">
+                                          <span className="font-semibold mr-1">Q.</span>
+                                          {questionPart}
+                                        </div>
+                                        <div className="text-[15px] text-gray-900 font-bold">
+                                          <span className="font-semibold mr-1 text-gray-600">A.</span>
+                                          {answerPart}
+                                        </div>
                                       </div>
-                                      <span className={`px-2 py-0.5 rounded-md text-xs font-semibold shrink-0 ${badgeColor}`}>
-                                        {badgeText}
-                                      </span>
-                                    </div>
-                                    <p
-                                      className="text-[14px] text-gray-700 font-medium"
-                                      style={{ lineHeight: '1.4' }}
-                                    >
-                                      {parseMarkdownBold(cond.evidence)}
-                                    </p>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* 피할 단점 */}
-                      {negativeConditions.length > 0 && (
-                        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                          <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-                            <h4 className="text-[16px] font-bold text-[#4E43E1] leading-tight">
-                              피할 단점
-                            </h4>
-                          </div>
-                            {/* <CircularProgress score={negativeScore} total={negativeConditions.length} color="green" /> */}
-                          </div>
-                          <div className="border-t border-gray-200 pt-3">
-                            <div className="space-y-4">
-                              {negativeConditions.map((cond, i) => {
-                                let badgeColor = '';
-                                let badgeText = '';
-
-                                if (cond.status === '회피됨') {
-                                  badgeColor = 'bg-green-100 text-green-700';
-                                  badgeText = '회피됨';
-                                } else if (cond.status === '부분회피') {
-                                  badgeColor = 'bg-yellow-100 text-yellow-700';
-                                  badgeText = '부분회피';
-                                } else {
-                                  badgeColor = 'bg-red-100 text-red-700';
-                                  badgeText = '회피안됨';
-                                }
-
-                                // 질문:답변 형식 분리
-                                const colonIdx = cond.condition.indexOf(':');
-                                const hasColon = colonIdx > 0 && colonIdx < cond.condition.length - 1;
-                                const questionPart = hasColon ? cond.condition.slice(0, colonIdx) : '';
-                                const answerPart = hasColon ? cond.condition.slice(colonIdx + 1).trim() : cond.condition;
-
-                                return (
-                                  <div key={i}>
-                                    <div className="flex items-start justify-between mb-2 gap-2">
-                                      <div className="text-[14px] max-w-[70%] flex-1" style={{ wordBreak: 'keep-all' }}>
-                                        {hasColon ? (
-                                          <>
-                                            <span className="font-normal text-gray-800">{questionPart}</span>{' '}
-                                            <span className="font-bold text-gray-900">{answerPart}</span>
-                                          </>
-                                        ) : (
-                                          <span className="font-bold text-gray-900">{cond.condition}</span>
-                                        )}
+                                      
+                                      <div className="bg-gray-100 rounded-[12px] p-4">
+                                        <div className="mb-2">
+                                          <span className={`px-2 py-1 rounded text-xs font-bold ${badgeColor}`}>
+                                            {badgeText}
+                                          </span>
+                                        </div>
+                                        <p className="text-[14px] font-medium text-gray-700 leading-[1.55]">
+                                          {parseMarkdownBold(cond.evidence)}
+                                        </p>
                                       </div>
-                                      <span className={`px-2 py-0.5 rounded-md text-xs font-semibold shrink-0 ${badgeColor}`}>
-                                        {badgeText}
-                                      </span>
                                     </div>
-                                    <p
-                                      className="text-[14px] text-gray-700 font-medium"
-                                      style={{ lineHeight: '1.4' }}
-                                    >
-                                      {parseMarkdownBold(cond.evidence)}
-                                    </p>
-                                  </div>
-                                );
-                              })}
+                                  );
+                                })}
+                              </div>
                             </div>
-                          </div>
+                          )}
+
+                          {/* 피할 단점 */}
+                          {negativeConditions.length > 0 && (
+                            <div className="bg-gray-50 rounded-xl p-5">
+                              <h5 className="text-[15px] font-bold text-gray-900 mb-5">피할 단점</h5>
+                              <div className="space-y-8">
+                                {negativeConditions.map((cond, i) => {
+                                  let badgeColor = '';
+                                  let badgeText = '';
+
+                                  if (cond.status === '회피됨') {
+                                    badgeColor = 'bg-green-100 text-green-700';
+                                    badgeText = '회피됨';
+                                  } else if (cond.status === '부분회피') {
+                                    badgeColor = 'bg-yellow-100 text-yellow-700';
+                                    badgeText = '부분회피';
+                                  } else {
+                                    badgeColor = 'bg-red-100 text-red-700';
+                                    badgeText = '회피안됨';
+                                  }
+
+                                  const colonIdx = cond.condition.indexOf(':');
+                                  const hasColon = colonIdx > 0 && colonIdx < cond.condition.length - 1;
+                                  const questionPart = hasColon ? cond.condition.slice(0, colonIdx) : '피해야 할 점';
+                                  const answerPart = hasColon ? cond.condition.slice(colonIdx + 1).trim() : cond.condition;
+
+                                  return (
+                                    <div key={i} className="flex flex-col gap-3">
+                                      <div className="space-y-1">
+                                        <div className="text-[15px] text-gray-600">
+                                          <span className="font-semibold mr-1">Q.</span>
+                                          {questionPart}
+                                        </div>
+                                        <div className="text-[15px] text-gray-900 font-bold">
+                                          <span className="font-semibold mr-1 text-gray-600">A.</span>
+                                          {answerPart}
+                                        </div>
+                                      </div>
+                                      
+                                      <div className="bg-gray-100 rounded-[12px] p-4">
+                                        <div className="mb-2">
+                                          <span className={`px-2 py-1 rounded text-xs font-bold ${badgeColor}`}>
+                                            {badgeText}
+                                          </span>
+                                        </div>
+                                        <p className="text-[14px] font-medium text-gray-700 leading-[1.55]">
+                                          {parseMarkdownBold(cond.evidence)}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

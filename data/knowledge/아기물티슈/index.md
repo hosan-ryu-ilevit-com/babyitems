@@ -1,29 +1,28 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-15T02:13:19.792Z
+> 마지막 업데이트: 2026-01-15T12:04:43.730Z
 > 분석 상품: 20개 | 분석 리뷰: 196,934개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전한 성분 및 저자극 포뮬러 강조
-- 친환경 소재 및 생분해성 원단 사용 확대
-- 변기에 버릴 수 있는 비데형 물티슈의 편의성 및 위생성
+- EWG 그린 등급 및 무자극 성분 강조
+- 두께감과 흡수력, 부드러운 원단 선호
+- 가성비와 대용량 패키지 인기
 
 ### 구매자 만족 포인트
-- ✓ 안전한 성분
+- ✓ 저자극 무향 구성
+- ✓ 우수한 가성비
 - ✓ 부드러운 원단
-- ✓ 뛰어난 세정력
-- ✓ 휴대 용이성
-- ✓ 변기 배출 가능 (비데형)
+- ✓ 뛰어난 닦임력
+- ✓ 안전한 성분
 
 ### 주의해야 할 단점
-- ⚠ 상대적으로 높은 가격
-- ⚠ 일부 제품의 건조함
-- ⚠ 환경 문제 (일회용품 사용)
+- ⚠ 가끔 여러 장이 함께 나오는 현상
+- ⚠ 프리미엄 라인 대비 보통 수준의 원단 두께
 
 ### 가격대 인사이트
-아기 물티슈는 일반적으로 10매당 100원 내외의 가격대를 형성하고 있으며, 프리미엄 라인이나 특정 기능성 제품의 경우 가격이 더 높게 책정될 수 있습니다. 가성비를 중요시하는 소비자들을 위한 저렴한 제품부터 안전성과 품질을 최우선으로 하는 고가 제품까지 다양하게 출시되어 소비자의 선택 폭이 넓습니다.
+대용량 물티슈의 경우 1팩당 1,000원 이하의 제품부터 1,500원 이상까지 다양하게 분포하며, 가격 대비 품질 만족도가 높은 제품들이 인기를 얻고 있습니다.
 
 ---
 
@@ -242,4 +241,8 @@
 ---
 
 ## 📊 데이터 출처
-- [다나와 아기물티슈 인기순위](https://search.danawa.com/dsearch.php?query=%EC%95%84%EA%B8%B0%EB%AC%BC%ED%8B%B0%EC%8A%88&sort=saveDESC)
+- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEME94NkvfzI8ioAQ2aSXKMEQE5NyUlrnzpL3yi_c5t438glE80IcGgu5ANItojXkBrf8hG5iuIqBKEsgAGssw8Ee_x4NV48G58ZfHzgTYSzPfj279kAmRBUviYtK-L3mCerv4luXQt_LsUeA0caII=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLIQ0286vNVBHKPwL4ogJntv6rIgj25X2KJNTX4J6xvYerWCzEiSKk-yh7zehhm1dfOoTNhniNsOrsA720BtqlogyNoJvOnD2Pr7DFjvE3VwqnkvfyCvMxIdV4HU0pN_rvqnB3HY6XoZSMfT4uwBK7AsBtwYCm3c5Er14pbg5VIW5MSjGEnENJQEOtaHAN574Ey52LGSaZFx4V-Q0zXWBQa0ICV3jJTO1T)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFiNa2sbA6x1R2tcXtcMjgfrFyqpEXpMieKK5PsU6Yw6X7LZX0bMSaPMsgwDgsoYEksR3iokaevAIWAntq3UnWFaslG1ZGsbf-PFcTWtTHTqUOV-07XRoiOMb4gdUdU6x9wI_SL3vmx6VWXOqPjPY9c7H71)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEr1TatfioYEz3fQErByjHScyKyilhIIGdgVGRIgzsr91-gmM4oVNq-YfAcFW6ojn_GsZq_0Z-jHWpeUArNOmYu6w7dmAWBe6h08_XqZ2JDhnGsXKdp428JMKJdO6thku7xVodXFr-nLuAMUBtJq5gMwXA9dzoubpqOGDs=)
+- [mamanote2024.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrFGf4hKIGXVjN8fkapNxljxiiSV2nLSGcsGH3KYz9aMf5V_f361yXnrxPZkzQemdARGmfS-51QPkb0ylRhlBEyV6Myn_E77tke4OzFJTMIHIyEzdH)

@@ -1,14 +1,14 @@
-# 세션: 20260115_022727_jz9n
-> 시작: 2026-01-15T02:27:27.865Z
+# 세션: 20260115_115719_n2uo
+> 시작: 2026-01-15T11:57:19.027Z
 > 카테고리키: 노트북거치대
 > 카테고리: 노트북거치대
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 노트북거치대
-- 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGX-JeqlHY_BgQmGU0feRess7EOf8uHH5HiMYjC7JVrn_Cf6urBuDVgMEEJnM4pVBQ2cuPaOEsNnItfMa6s3Byb7FFJ7Juqs2OHeagT-7zh2AU41q0yzV4CoigKqvyHrXmeWWqs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE4lRevuQCiK0MHvaDZxVgEbFNfGzZ8ZRONd45DzKdFuTrmb3C0BrjFqh7QCHP4yM65u6RzKrVWitkZ1wYJf7aTGC9QnM_lBTkbvmAXJ0oLMFYLscbsPb54IA4BfmbRnZ-PA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-3cI3G4sK_py0GWD-IouAxCxKHX6E3jq9PLsNcNDNn_g2DONPOUDT1hKcEWNBAmrncX91Pu9XZwhgMH_WqIRIjAyIk8wPM7etuHXo4YnpNmn0-i4ZghMZdKTxbi9lGb0S, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7FOK9-Rq5OZ3Hh8jTbYc27kfIWACfG900YJTWjVMhmsRJITvEwcEud68xkYp_Fxuj5pBZ2BjT53V9HcDHLyibnzhCXcYSvUdXEtO6yrezyqexg1KuUzx_USq6pB-9gHwtodpccxQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEN7OwcyqoX95iXZUkro3-mIrovYiP1V_hZEhhqO2WXW2dqTx0mAAQtxotQK2uWk-xbhXiuh09vzFVM4a4nx-DOphUGHFB9wCET7i1x3qvMr1_cRZn4Bl50j8MfQVsYwn8SNLXtFUU=
+- 쿼리: 노트북거치대 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재 노트북 거치대 시장은 휴대성과 인체공학적 디자인을 중심으로 발전하고 있습니다. 특히 알루미늄 소재의 경량 접이식 거치대가 인기를 얻고 있으며, 다양한 각도 및 높이 조절 기능이 탑재된 제품들이 주목받고 있습니다. 홈플래닛, ZIO, 레토, 애니클리어, 감비앤코 등의 브랜드가 현재 인기 있는 것으로 나타납니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEau6wgeK798oRGSmgkBrEg_LQp8WQLdv0n4PFTPeqcBcT6rFPXaEMROEBOQZvsMxHt9Gx_wGJwZ3yaZf7mbiKXbqSw43uZr2srC6C5QDPEc96jj7bKGgxc594EtM2Q7-oXf169EDU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG39_914SURsv-W0Rtm5AgE8feWiU9mcZV6DEJ21JgGXWMNROXVYo6n6W60fV88GvQstmV766hR7f5TAIoq6tWbQRGKnx9cKdu8l3oLbEXEmUiE4_GROoNc2hF0y_el8B7JbvTbeGg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmwgLuyg_1OupK52YlIKDsSklCoCz-JCKzWrBxsWMvdDiy6hZhFPItiRz7BH2I3laBik-QTZ1Z2aO87dFO8Bm9D2sM5i8fP4XoJuxKFUP6-IgzDHB13rH223ZfHevDtn4Y, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyEM9fPBKWAc9MI2_k-LdVjf9Z3KXwF-UOVXPqss6R9PwgSAGJgh3cwwFxcw_zUZUn9mcjakk5OMLU3ry37unvl592n_uGFgUERqtSNfyxsw8UH0HoOQ9PQTgG3SmEeHiSOQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEotQMh9nM3BvGycoBihdSTjrzLfbjSXbjs1EzIr11ht5S4tmvXEEBEsFcRgHVY6FTp_5rpjdwbl9AKDw61m3HadI2sDPYtGjqsZpmN6GIsnhBTUR6gPU8H_0U9wFPL_scGFt2l
 
 ---
 

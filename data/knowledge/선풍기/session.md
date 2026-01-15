@@ -1,5 +1,5 @@
-# 세션: 20260109_085630_gryi
-> 시작: 2026-01-09T08:56:30.115Z
+# 세션: 20260115_114656_z934
+> 시작: 2026-01-15T11:46:56.001Z
 > 카테고리키: 선풍기
 > 카테고리: 선풍기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 선풍기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 선풍기 시장은 BLDC 모터를 탑재한 프리미엄 제품이 인기를 끌고 있으며, 저전력 고효율을 앞세워 판매량이 증가하는 추세입니다. 샤오미, 르젠, 신일 등의 브랜드가 경쟁하고 있으며, 스마트 기능과 디자인을 갖춘 제품들이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWaLwU_mmvzbQ9bhtOQGly2chJZB0o3pUObjhoCdEa3nW90DkvTCqhuahi5t-x3fVgWx5NfKAQzVWosaxa2JoXrnBWd26n6UFceUZ1C6GUlLzOi9GOSbFY6Os=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8IQyjJP2lTJsDxVKnSD_C85FameWmgAvPQRuntqY1HCqffiTMAGQeEit2lAf_vtd8pKKs-1ruHRQr2fzIChmT4wSJgYpg3wlKEHTsfVugC7k9r6Vmpuu_stKOKtw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGsuOxufjuc09vUjpSO_f7QuTwF7d9z2LUjpK7e8XfWcdwIRk-Db6Mz2F2XoLvP_pSK6JNZ-6nmmztL6FEDRcMCkbylTouY40EQyIvgDr4stG4BKVx-f9wTLgwd26bTuBvycv565RDqrv4limF0kDSCISB08rX8Gi2CakfEq1alJNLEvr9qACTge30=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR05fSVK8euj2XXrwSXuKfILNYmerM45fr-iOoTCyQczOdgoAofb_aMEc_VwjnHf0UMbGWs2rhPnhIMO956020ULZVN2x0vFod1BcuxKQflWmsjkFdkFSKUyfxB9s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFe7iOl3VhdwgDdPcxlkmKO6VdYAehiFsFmVNosMqzDp8DOboAUO2y0PNFm1y_ZLVogIx28ILIBs8rux2jdDnjUs0ta-gDweN7ajUv28EeoBxpaPn61Y2QaDjJQZxA49jC5IMNNYi_gnjju8jIN0F549aSQ8dQ0a2p4yYh8fpSl80gUtmoW7PTzEiWZRM007QlJQBNmVAiSdcJG8nqE9yzNQwbbKxg02dE8J0sLaL-H7926OiqnpV8CrfMBK9E1
+- 인사이트: 2026년 현재 선풍기 시장은 BLDC 모터 탑재, 무선 기능 강화, 스마트 기능 연동 등 기술 혁신을 중심으로 트렌드가 형성되고 있습니다. 샤오미, 신일, 르젠 등 다양한 브랜드에서 이러한 특징을 갖춘 제품들을 선보이며 소비자들의 선택 폭을 넓히고 있습니다. 특히, 휴대성과 편의성을 높인 무선 선풍기와 공기 순환에 특화된 서큘레이터가 인기를 얻고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EC%84%A0%ED%92%8D%EA%B8%B0&sort=saveDESC
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 선풍기를 주로 어디에 설치해서 사용하실 건가요? | 그냥 바닥에 둘것같은디 |
-| 선풍기 작동 시 소음과 전력 소비에 얼마나 신경 쓰시나요? | 상관없어요 소음만 없으면 됨 |
-| 스마트폰 앱 연동이나 음성 제어 같은 스마트 기능을 선호하시나요? | 뭐 있으면 좋지만 그렇게 중요하진 않음 |
-| 선풍기 예산은 어느 정도로 생각하세요? (평균 약 13만원, 20만원 이하가 가장 많아요) | 7만 7천원 ~ 17만 3천원, 7만 6천원 이하 |
-| __avoid_negatives__ | 기능 대비 너무 높은 가격대의 제품은 구매하기 부담스러워요 |
 
 ---
 
@@ -49,7 +44,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 기능 대비 너무 높은 가격대의 제품은 구매하기 부담스러워요
+(아직 선택 없음)
 
 ---
 

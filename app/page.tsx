@@ -1,20 +1,18 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
-import { logPageView, logButtonClick } from '@/lib/logging/clientLogger';
-import FeedbackButton from '@/components/FeedbackButton';
 import Image from 'next/image';
-
-// 플로팅 고민 버블 컴포넌트 삭제됨
+import { logButtonClick, logPageView } from '@/lib/logging/clientLogger';
+import FeedbackButton from '@/components/FeedbackButton';
 
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
     logPageView('home');
-    
+
     // 채널톡 스크립트 초기화
     if (typeof window !== 'undefined' && !(window as any).ChannelIO) {
       const w = window as any;
@@ -47,7 +45,6 @@ export default function Home() {
         window.addEventListener('load', loadChannelIO);
       }
 
-      // 채널톡 부트
       setTimeout(() => {
         if (w.ChannelIO) {
           w.ChannelIO('boot', {
@@ -60,78 +57,77 @@ export default function Home() {
   }, []);
 
   const handleStart = () => {
-    logButtonClick('바로 추천 받기', 'home');
-    router.push('/categories');
+    logButtonClick('시작하기', 'home');
+    router.push('/knowledge-agent/baby');
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF] font-sans text-gray-900">
+    <div className="min-h-screen bg-white font-sans text-gray-900">
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col relative">
         {/* 헤더 */}
-        <header className="h-[60px] flex items-center px-6 sticky top-0 z-50 bg-[#FFFFFF]">
-          <div className="flex items-center">
-            <Image
-              src="/icons/logo.svg"
-              alt="아기용품 AI 로고"
-              width={82}
-              height={26}
-              priority
-              className="opacity-90"
-            />
-          </div>
+        <header className="h-[54px] flex items-center px-5 sticky top-0 z-50 bg-[#FBFBFD]">
+          <Image
+            src="/icons/logo.svg"
+            alt="아기용품 AI 로고"
+            width={79}
+            height={25}
+            priority
+          />
         </header>
 
         {/* 메인 컨텐츠 */}
-        <main className="flex-1 flex flex-col items-center px-6 pt-[24px] pb-48">
+        <main className="flex-1 flex flex-col items-center px-4 pt-[36px] pb-48">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-10"
+            className="text-center"
           >
-            <h1 
-              className="font-bold text-gray-900 tracking-tight"
-              style={{ fontSize: '26px', lineHeight: '1.35' }}
+            <h1
+              className="font-bold text-gray-800"
+              style={{ fontSize: '25px', lineHeight: '1.3' }}
             >
-              수천 개 아기용품 중<br />
-              <span className="ai-gradient-text">아이에게 딱 맞는 하나</span> 찾기
+              수천 개 아기용품 중<br /><span className="text-blue-500">아이에게 딱 맞는 하나</span> 찾기
             </h1>
             <p
-              className="text-gray-500 mt-3"
-              style={{ fontSize: '15px', lineHeight: '1.5', fontWeight: 400 }}
+              className="text-gray-600"
+              style={{ fontSize: '16px', lineHeight: '1.4', marginTop: '16px', fontFamily: 'Abel', fontWeight: 400 }}
             >
-              광고 없는 AI 분석으로 고민하는 시간을 줄여보세요.
+              인기 아기용품들의 후기를 분석해서<br />나와 딱 맞는 상품을 찾아드려요
             </p>
           </motion.div>
 
-          {/* 메인 비주얼 영역 (이미지) */}
-          <div className="relative w-full max-w-[340px] flex items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative w-[280px] aspect-square flex items-center justify-center"
-            >
+          {/* 메인 이미지 영역 */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex items-center justify-center w-full max-w-[380px] relative"
+            style={{ marginTop: '45px' }}
+          >
+            <div className="relative w-full aspect-[326/330]">
               <Image
                 src="/images/img-baby.png"
-                alt="아기 이미지"
+                alt="Baby Product"
                 fill
-                className="object-contain z-10"
+                className="object-contain"
                 priority
               />
-            </motion.div>
-          </div>
+              {/* 하단 그라데이션 오버레이 */}
+              <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+            </div>
+          </motion.div>
         </main>
 
-        {/* 하단 고정 버튼 */}
-        <div className="fixed bottom-0 left-0 right-0 px-6 pb-8 pt-4 z-50 max-w-[480px] mx-auto bg-gradient-to-t from-[#FFFFFF] via-[#FFFFFF] to-transparent">
+        {/* 하단 고정 버튼 및 의견 영역 */}
+        <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-5 z-50 max-w-[480px] mx-auto flex flex-col items-center bg-gradient-to-t from-white via-white to-transparent">
+        
           <motion.button
-            whileTap={{ scale: 0.97 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleStart}
-            className="w-full h-[58px] bg-[#1F2228] text-white rounded-[20px] text-[17px] font-bold flex items-center justify-center gap-2"
+            className="w-full h-[50px] bg-[#1F2228] text-white rounded-xl text-[16px] font-semibold"
           >
-            <span>시작하기</span>
-            <span className="text-[12px] font-normal mt-0.5 ai-gradient-text-light">with AI</span>
+            바로 추천 받기
           </motion.button>
         </div>
       </div>
