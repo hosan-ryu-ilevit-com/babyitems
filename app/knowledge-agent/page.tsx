@@ -77,7 +77,7 @@ export default function KnowledgeAgentPage() {
                 transition={{ duration: 0.6, delay: 0.3 + (index * 0.15), ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -4 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => router.push(`/knowledge-agent/${category.key}`)}
+                onClick={() => router.push(`/knowledge-agent/${category.key}/intro`)}
                 className={`
                   group relative w-full text-left p-7 rounded-[32px] bg-white
                   border border-gray-100 transition-all duration-500 ease-out

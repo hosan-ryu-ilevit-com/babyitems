@@ -21,6 +21,7 @@ import {
   Circle,
   Globe,
 } from '@phosphor-icons/react/dist/ssr';
+import Image from 'next/image';
 import { logKAExternalLinkClicked } from '@/lib/logging/clientLogger';
 import {
   FcSearch,
@@ -233,8 +234,7 @@ function RealTimeTimer({ startTime }: { startTime: number }) {
   }, [startTime]);
 
   return (
-    <span className="flex items-center gap-1 text-xs text-blue-500 font-medium tabular-nums">
-      <Clock size={12} className="animate-pulse" />
+    <span className="text-[13px] text-gray-300 font-medium tabular-nums">
       {(elapsed / 1000).toFixed(1)}s
     </span>
   );
@@ -910,13 +910,7 @@ function StepCard({
     // 펼쳐져 있고 완료되지 않았으면 로딩 아이콘 표시
     if (isExpanded && step.status !== 'done') {
       return (
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="flex items-center justify-center w-5 h-5"
-        >
-          <FcProcess size={16} />
-        </motion.div>
+        <div className="flex items-center justify-center w-4 h-4 rounded-full border-2 border-purple-300" />
       );
     }
 
@@ -926,23 +920,15 @@ function StepCard({
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="flex items-center justify-center w-5 h-5 rounded-full bg-green-50"
+            className="flex items-center justify-center w-5 h-5"
           >
-            <FcCheckmark size={12} />
+            <Image src="/icons/check.png" alt="" width={20} height={20} />
           </motion.div>
         );
       case 'active':
-        return (
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="flex items-center justify-center w-5 h-5"
-          >
-            <FcProcess size={16} />
-          </motion.div>
-        );
+        return <div className="flex items-center justify-center w-4 h-4 rounded-full border-2 border-purple-300" />;
       default:
-        return <div className="w-5 h-5 rounded-full border-2 border-gray-100" />;
+        return <div className="w-4 h-4 rounded-full border-2 border-purple-300" />;
     }
   };
 
@@ -953,19 +939,12 @@ function StepCard({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      className={`group transition-all duration-300 rounded-2xl overflow-hidden ${step.status === 'active'
-        ? 'bg-white border border-blue-100'
-        : step.status === 'done'
-          ? 'bg-white border border-gray-100/80'
-          : isExpanded
-            ? 'bg-white border border-gray-100/80'  // 펼쳐져 있으면 흰색 배경
-            : 'bg-gray-50/50 border border-transparent'
-        }`}
+      className={`group transition-all duration-300 overflow-hidden bg-white ${step.id === 'question_generation' ? '' : 'border-b border-gray-200'}`}
     >
       {/* 헤더 */}
       <button
         onClick={onToggle}
-        className="w-full px-4 py-3.5 flex items-center gap-3 text-left transition-colors"
+        className="w-full py-4 flex items-center gap-3 text-left transition-colors"
       >
         {/* 상태 아이콘 */}
         <div className="shrink-0">
@@ -974,31 +953,25 @@ function StepCard({
 
         {/* 타입 아이콘 + 레이블 */}
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <span className={`text-[14px] font-semibold truncate ${step.status === 'done' ? 'text-gray-700' :
-            step.status === 'active' ? 'text-gray-900' :
-              isExpanded ? 'text-gray-900' : 'text-gray-400'
-            }`}>
+          <span className="text-[14px] font-semibold text-gray-600 truncate">
             {step.label}
           </span>
-        </div>
-
-        {/* 소요 시간 / 상태 정보 */}
-        <div className="flex items-center gap-2 shrink-0">
           {shouldShowTimer && effectiveStartTime ? (
             <RealTimeTimer startTime={effectiveStartTime} />
           ) : duration ? (
-            <span className="text-[11px] font-medium text-gray-400 tabular-nums">
+            <span className="text-[13px] font-medium text-gray-300 tabular-nums">
               {duration}s
             </span>
           ) : null}
-
-          <motion.span
-            animate={{ rotate: isExpanded ? 180 : 0 }}
-            className="text-gray-300 group-hover:text-gray-400 transition-colors"
-          >
-            <CaretDown size={14} weight="bold" />
-          </motion.span>
         </div>
+
+        {/* 소요 시간 / 상태 정보 */}
+        <motion.span
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          className="text-gray-500 transition-colors"
+        >
+          <CaretDown size={16} weight="bold" />
+        </motion.span>
       </button>
 
       {/* 상세 내용 */}
@@ -1011,9 +984,7 @@ function StepCard({
             transition={{ type: "spring", duration: 0.4, bounce: 0 }}
             className="overflow-hidden"
           >
-            <div className="px-4 pb-4 pt-0 space-y-3">
-              <div className="h-px bg-gray-50 -mx-4 mb-3" />
-
+            <div className="pb-4 pt-0 space-y-3">
               {/* 웹검색 - 쿼리 스트리밍 + 출처 전환 효과 */}
               {step.id === 'web_search' && (
                 <WebSearchContent step={step} categoryKey={categoryKey} />
@@ -1087,58 +1058,56 @@ function CompletedSummaryCard({
       layout
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={`group transition-all duration-300 rounded-2xl overflow-hidden border ${isExpanded ? 'bg-white border-blue-100' : 'bg-white border-green-100'
-        }`}
+      className="group transition-all duration-300 rounded-2xl overflow-hidden bg-white"
     >
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full px-4 py-3.5 flex items-start gap-3 text-left transition-colors hover:bg-gray-50/50"
+        className="w-full py-3.5 flex items-start gap-3 text-left transition-colors hover:bg-gray-50/50"
       >
-        {/* 완료 아이콘 */}
-        <div className="shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-green-100 text-green-600 mt-0.5">
-          <CheckCircle size={14} weight="bold" />
+        <div className="shrink-0 w-[16px] h-[16px] mt-0.5 flex items-center justify-center">
+          <Image src="/icons/ic-ai.svg" alt="" width={16} height={16} />
         </div>
 
-        {/* 타이틀 및 파비콘 영역 */}
         <div className="flex flex-col gap-1 flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[14px] font-bold text-gray-800">
-              AI 실시간 분석 완료
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[16px] font-medium ai-gradient-text">
+              {categoryName} AI 실시간 분석
             </span>
-            <span className="text-[12px] text-gray-400 font-medium">
-              • 눌러서 과정 보기
+            <span className="text-[13px] text-gray-400 font-medium">
+              {new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}{' '}
+              {new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
             </span>
           </div>
 
-          {/* 파비콘 리스트 (접혀있을 때만 표시) - 큰 회색 컨테이너 */}
           {!isExpanded && uniqueSources.length > 0 && (
-            <div className="mt-1 bg-gray-50 rounded-xl px-3 py-2 w-fit flex items-center gap-3">
+            <div className="mt-2 bg-gray-100 rounded-[20px] px-3 py-2 w-fit flex items-center gap-3">
               <div className="flex -space-x-1.5">
                 {uniqueSources.map((source, i) => (
                   <div
                     key={i}
-                    className="relative z-0 w-5 h-5 rounded-full overflow-hidden ring-2 ring-gray-50 bg-white flex items-center justify-center shrink-0"
+                    className="relative z-0 w-5 h-5 rounded-full overflow-hidden ring-2 ring-gray-100 bg-white flex items-center justify-center shrink-0"
                     title={source.title}
                   >
                     <Favicon url={source.url} title={source.title} />
                   </div>
                 ))}
               </div>
-              <span className="text-[11px] text-gray-400 font-medium tracking-tight">
-              {uniqueSources.length}개 출처 • {110 + (categoryName.length % 10)}개 상품
+              <span className="text-[13px] text-gray-500 font-medium tracking-tight">
+                {uniqueSources.length}개 출처·{110 + (categoryName.length % 10)}개 상품
               </span>
             </div>
           )}
         </div>
 
-        {/* 토글 아이콘 */}
         <motion.span
           animate={{ rotate: isExpanded ? 180 : 0 }}
-          className="text-gray-300 group-hover:text-gray-400 transition-colors mt-0.5"
+          className="text-gray-600 transition-colors mt-0.5"
         >
-          <CaretDown size={14} weight="bold" />
+          <CaretDown size={16} weight="bold" />
         </motion.span>
       </button>
+
+      {!isExpanded && <div className="border-b border-gray-200" />}
 
       {/* 내부: 4단계 리스트 */}
       <AnimatePresence>
@@ -1147,9 +1116,9 @@ function CompletedSummaryCard({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden bg-gray-50/30"
+            className="overflow-hidden bg-white"
           >
-            <div className="p-3 space-y-2 border-t border-gray-100">
+            <div className="space-y-2 border-t border-gray-200">
               {steps.map((step) => (
                 <StepCard
                   key={step.id}
@@ -1299,23 +1268,6 @@ export function AgenticLoadingPhase({
       animate={{ opacity: 1, y: 0 }}
       className="space-y-4"
     >
-      {/* 헤더 */}
-      <div className="flex items-center justify-between px-1">
-        <div className="flex items-center gap-3">
-          <div>
-            <h3 className="text-[15px] font-bold text-gray-900 mt-2 leading-tight">
-              {categoryName}
-            </h3>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className={`w-1.5 h-1.5 bg-green-500 rounded-full ${!isComplete ? 'animate-pulse' : ''}`} />
-              <p className="text-[12px] font-medium text-gray-400 uppercase tracking-wider">
-                실시간 분석 • {new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })} {new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* 단계 목록 또는 완료 요약 카드 */}
       <div className="space-y-2.5">
         <AnimatePresence mode="wait">

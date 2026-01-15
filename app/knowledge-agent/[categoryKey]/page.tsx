@@ -87,7 +87,7 @@ type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' |
 // ============================================================================
 
 const STEPS = [
-  { id: 1, label: '트렌드 분석', phases: ['loading'] },
+  { id: 1, label: '카테고리 설정', phases: ['loading'] },
   { id: 2, label: '맞춤 질문', phases: ['questions', 'report'] },
   { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'balance', 'negative_filter', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },

@@ -12,6 +12,7 @@ import {
   logKnowledgeAgentSubCategorySelect,
   logKAPageView
 } from '@/lib/logging/clientLogger';
+import { KnowledgeAgentStepIndicator } from '@/components/knowledge-agent/KnowledgeAgentStepIndicator';
 
 
 // --- Category Images (Pre-fetched) ---
@@ -104,6 +105,62 @@ const CATEGORY_IMAGES: Record<string, string> = {
   "안마의자": "https://img.danawa.com/prod_img/500000/756/540/img/14540756_1.jpg?shrink=130:130&_v=20251213055950",
   "전기면도기": "https://img.danawa.com/prod_img/500000/470/769/img/11769470_1.jpg?shrink=130:130&_v=20240715144118",
   "체중계": "https://img.danawa.com/prod_img/500000/807/783/img/98783807_1.jpg?shrink=130:130&_v=20251015045128"
+};
+
+const BABY_CATEGORY_ICONS: Record<string, string> = {
+  '기저귀': '/images/카테고리 아이콘/기저귀.png',
+  '아기물티슈': '/images/카테고리 아이콘/아기물티슈.png',
+  '분유': '/images/카테고리 아이콘/분유.png',
+  '이유식': '/images/카테고리 아이콘/이유식.png',
+  '유아간식': '/images/카테고리 아이콘/유아간식.png',
+  '젖병': '/images/카테고리 아이콘/젖병.png',
+  '젖병소독기': '/images/카테고리 아이콘/젖병 소독기.png',
+  '쪽쪽이': '/images/카테고리 아이콘/쪽쪽이노리개.png',
+  '분유포트': '/images/카테고리 아이콘/분유포트.png',
+  '분유제조기': '/images/카테고리 아이콘/분유제조기.png',
+  '보틀워머': '/images/카테고리 아이콘/보틀워머.png',
+  '젖병솔': '/images/카테고리 아이콘/젖병솔.png',
+  '유축기': '/images/카테고리 아이콘/유축기.png',
+  '수유패드': '/images/카테고리 아이콘/수유패드.png',
+  '휴대용 유모차': '/images/카테고리 아이콘/휴대용 유모차.png',
+  '디럭스 유모차': '/images/카테고리 아이콘/디럭스 유모차.png',
+  '절충형 유모차': '/images/카테고리 아이콘/절충형 유모차.png',
+  '트라이크 유모차': '/images/카테고리 아이콘/트라이크 유모차.png',
+  '신생아용 카시트': '/images/카테고리 아이콘/신생아용 카시트.png',
+  '유아용 카시트': '/images/카테고리 아이콘/유아용 카시트.png',
+  '주니어용 카시트': '/images/카테고리 아이콘/주니어용 카시트.png',
+  '아기띠': '/images/카테고리 아이콘/아기띠.png',
+  '힙시트': '/images/카테고리 아이콘/힙시트.png',
+  '유아침대': '/images/카테고리 아이콘/유아침대.png',
+  '유아의자': '/images/카테고리 아이콘/유아의자.png',
+  '유아소파': '/images/카테고리 아이콘/유아소파.png',
+  '유아책상': '/images/카테고리 아이콘/유아책상.png',
+  '빨대컵': '/images/카테고리 아이콘/빨대컵.png',
+  '이유식기': '/images/카테고리 아이콘/이유식기.png',
+  '유아수저세트': '/images/카테고리 아이콘/유아수저세트.png',
+  '턱받이': '/images/카테고리 아이콘/턱받이.png',
+  '치발기': '/images/카테고리 아이콘/치발기.png',
+  '이유식조리기': '/images/카테고리 아이콘/이유식조리기.png',
+  '하이체어': '/images/카테고리 아이콘/하이체어.png',
+  '아기욕조': '/images/카테고리 아이콘/아기욕조.png',
+  '콧물흡입기': '/images/카테고리 아이콘/콧물흡입기.png',
+  '체온계': '/images/카테고리 아이콘/체온계.png',
+  '유아치약': '/images/카테고리 아이콘/유아치약.png',
+  '유아칫솔': '/images/카테고리 아이콘/유아칫솔.png',
+  '유아변기': '/images/카테고리 아이콘/유아변기.png',
+  '손톱깎이': '/images/카테고리 아이콘/손톱깎이.png',
+  '유아세제': '/images/카테고리 아이콘/유아세제.png',
+  '아기체육관': '/images/카테고리 아이콘/아기체육관.png',
+  '바운서': '/images/카테고리 아이콘/바운서.png',
+  '점퍼루': '/images/카테고리 아이콘/점퍼루.png',
+  '보행기': '/images/카테고리 아이콘/보행기.png',
+  '모빌': '/images/카테고리 아이콘/모빌.png',
+  '블록장난감': '/images/카테고리 아이콘/블록장난감.png',
+  '로봇장난감': '/images/카테고리 아이콘/로봇장난감.png',
+  '소꿉놀이': '/images/카테고리 아이콘/소꿉놀이.png',
+  '인형': '/images/카테고리 아이콘/인형.png',
+  '킥보드': '/images/카테고리 아이콘/킥보드.png',
+  '놀이방매트': '/images/카테고리 아이콘/놀이방매트.png',
 };
 
 // --- Data Configuration ---
@@ -376,10 +433,6 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
 
   // Theme Colors
   const isBaby = defaultTab === 'baby';
-  const accentColor = isBaby ? 'text-rose-500' : 'text-teal-600';
-  const accentBg = isBaby ? 'bg-rose-500' : 'bg-teal-600';
-  const subTabActiveBg = isBaby ? 'bg-rose-500' : 'bg-teal-600';
-  const subTabActiveBorder = isBaby ? 'border-rose-500' : 'border-teal-600';
 
   useEffect(() => {
     logKAPageView();
@@ -444,18 +497,7 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF9] relative overflow-hidden">
-      {/* Ambient Background */}
-      <div className="fixed inset-0 w-full h-full pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]" />
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white/0 via-white/80 to-[#FDFBF9]" />
-
-        {isBaby ? (
-          <div className="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] bg-rose-100/40 rounded-full blur-[100px] mix-blend-multiply opacity-60" />
-        ) : (
-          <div className="absolute top-[20%] -left-[10%] w-[500px] h-[500px] bg-teal-100/40 rounded-full blur-[80px] mix-blend-multiply opacity-60" />
-        )}
-      </div>
+    <div className="min-h-screen bg-white">
 
       <ConfirmModal
         isOpen={showConfirmModal}
@@ -466,153 +508,131 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
         isBaby={isBaby}
       />
 
-      <div className="max-w-[480px] mx-auto min-h-screen relative z-10 flex flex-col">
+      <div className="max-w-[480px] mx-auto min-h-screen flex flex-col">
+        {/* Header Bar */}
+        <header className="sticky top-0 z-50 bg-[#FBFBFD] h-[54px] flex items-center px-5">
+          <button onClick={() => router.push('/knowledge-agent')} className="p-2 -ml-2">
+            <img src="/icons/back.png" alt="뒤로가기" className="w-5 h-5" />
+          </button>
+        </header>
 
-        {/* Header Section */}
-        <div className="px-6 pt-10 pb-6">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 border border-gray-200/60 backdrop-blur-md"
-          >
-            <Sparkle weight="fill" className={isBaby ? "text-rose-400" : "text-teal-400"} />
-            <span className="text-[11px] font-bold text-gray-500 tracking-wider uppercase">
-              올웨이즈 AI 쇼핑 비서
-            </span>
-          </motion.div>
+        <KnowledgeAgentStepIndicator currentStep={1} className="top-[54px]" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <h2 className="text-[28px] font-bold text-gray-900 mb-2 tracking-tight leading-tight">
-              {defaultTab === 'baby' ? '출산 · 육아용품' : '생활 · 주방가전'}
-            </h2>
-            <p className="text-[15px] text-gray-500 font-medium leading-relaxed">
-              찾으시는 상품의 카테고리를 선택해주세요.<br />
-              AI가 꼼꼼하게 비교해드릴게요.
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Sub Tabs */}
-        <div className="flex flex-wrap px-6 py-2 gap-2 mb-4">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              logKnowledgeAgentSubCategorySelect(selectedMainCategory, null);
-              setSelectedSubCategory(null);
-            }}
-            className={`shrink-0 px-4 py-2 rounded-full text-[13px] font-bold transition-all border ${selectedSubCategory === null
-              ? `${subTabActiveBg} text-white ${subTabActiveBorder}`
-              : 'bg-white/40 backdrop-blur-md text-gray-500 border-gray-100 hover:bg-white/60 hover:border-gray-200 shadow-none'
-              }`}
-          >
-            모두보기
-          </motion.button>
-          {subCategories.map((sub) => (
-            <motion.button
-              key={sub}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                logKnowledgeAgentSubCategorySelect(selectedMainCategory, sub);
-                setSelectedSubCategory(sub);
-              }}
-              className={`shrink-0 px-4 py-2 rounded-full text-[13px] font-bold transition-all border whitespace-nowrap ${selectedSubCategory === sub
-                ? `${subTabActiveBg} text-white ${subTabActiveBorder}`
-                : 'bg-white/50 backdrop-blur-md text-gray-500 border-gray-100 hover:bg-white/60 hover:border-gray-200 shadow-none'
-                }`}
-            >
-              {sub}
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Content Area */}
-        <main className="flex-1 overflow-y-auto px-6 py-4 pb-20">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`${selectedMainCategory}-${selectedSubCategory}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-10"
-            >
-              {(displayCategories as [string, any][]).map(([subTitle, data], categoryIdx) => {
-                return (
-                  <div key={subTitle} className="mb-6">
-                    <div className="mb-4 px-1 flex items-center gap-3">
-                      <div className={`w-8 h-8 ${isBaby ? 'bg-rose-50 text-rose-500' : 'bg-teal-50 text-teal-600'} rounded-xl flex items-center justify-center shrink-0 text-[18px]`}>
-                        {data.emoji || "📦"}
-                      </div>
-                      <h3 className="text-[17px] font-bold text-gray-900 flex items-center gap-2 flex-1">
-                        {subTitle}
-                        <div className="h-px flex-1 bg-gray-100 ml-2" />
-                      </h3>
-                    </div>
-                    <div className="grid grid-cols-3 gap-3">
-                      {data.children.map((child: string, idx: number) => {
-                        const isLoading = activeSearchItem === child && !showConfirmModal;
-                        const imageUrl = CATEGORY_IMAGES[child];
-
-                        return (
-                          <motion.button
-                            key={child}
-                            whileHover={{ y: -4, scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => handleSearchRequest(child)}
-                            disabled={isLoading || isProcessing}
-                            className={`
-                              group relative w-full aspect-square rounded-2xl bg-white
-                              shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)]
-                              transition-all duration-300 overflow-hidden
-                              ${isBaby ? 'hover:shadow-[0_8px_30px_-10px_rgba(251,113,133,0.25)]' : 'hover:shadow-[0_8px_30px_-10px_rgba(13,148,136,0.25)]'}
-                              flex flex-col items-center justify-center p-2.5
-                            `}
-                          >
-                            {/* Image Area */}
-                            <div className="relative flex-1 w-full flex items-center justify-center min-h-0">
-                              {imageUrl ? (
-                                <img
-                                  src={imageUrl}
-                                  alt={child}
-                                  className="w-[85%] h-[85%] object-contain mix-blend-multiply opacity-95 group-hover:scale-110 transition-transform duration-500"
-                                />
-                              ) : (
-                                <div className="text-3xl opacity-50">
-                                  {data.emoji || "📦"}
-                                </div>
-                              )}
-
-                              {/* Loading Overlay */}
-                              {isLoading && (
-                                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10">
-                                  <div className={`w-5 h-5 border-2 ${isBaby ? 'border-rose-200 border-t-rose-500' : 'border-teal-200 border-t-teal-600'} rounded-full animate-spin`} />
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Text Area */}
-                            <div className="w-full mt-1.5 flex flex-col items-center">
-                              <span className={`
-                                block text-[13px] font-normal text-gray-500 text-center leading-tight break-keep line-clamp-1
-                                group-hover:text-gray-900 transition-colors
-                              `}>
-                                {child}
-                              </span>
-                            </div>
-                          </motion.button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          className="flex-1 flex flex-col pt-0"
+        >
+          <div className="px-4 pt-0 pb-12">
+            {/* Title */}
+            <motion.div className="mt-[11px] mb-[16px]">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[15px] text-gray-400 font-semibold">
+                  카테고리 설정
+                </span>
+              </div>
+              <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
+                찾으시는 상품을 선택하세요
+                <span className="text-blue-500"> *</span>
+              </h3>
             </motion.div>
-          </AnimatePresence>
-        </main>
+
+            {/* Sub Tabs */}
+            <div className="-mx-4 px-4 mb-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => {
+                    logKnowledgeAgentSubCategorySelect(selectedMainCategory, null);
+                    setSelectedSubCategory(null);
+                  }}
+                  className={`px-4 py-1.5 rounded-full text-[14px] font-medium border ${selectedSubCategory === null
+                    ? 'bg-gray-800 border-gray-800 text-white shadow-sm'
+                    : 'bg-white border-gray-200 text-gray-500'
+                    }`}
+                >
+                  모두보기
+                </motion.button>
+                {subCategories.map((sub) => (
+                  <motion.button
+                    key={sub}
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => {
+                      logKnowledgeAgentSubCategorySelect(selectedMainCategory, sub);
+                      setSelectedSubCategory(sub);
+                    }}
+                    className={`px-4 py-1.5 rounded-full text-[14px] font-medium border ${selectedSubCategory === sub
+                      ? 'bg-gray-800 border-gray-800 text-white shadow-sm'
+                      : 'bg-white border-gray-200 text-gray-500'
+                      }`}
+                  >
+                    {sub}
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+
+            {/* Category List */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${selectedMainCategory}-${selectedSubCategory}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                {(displayCategories as [string, any][]).map(([subTitle, data]) => {
+                  return (
+                    <div key={subTitle} className="mb-8">
+                      <div className="flex items-center py-[10px]">
+                        <h3 className="text-[16px] font-semibold text-gray-800">{subTitle}</h3>
+                      </div>
+                      <div className="grid grid-cols-3 gap-y-4 gap-x-1.5 sm:gap-x-2">
+                        {data.children.map((child: string) => {
+                          const isLoading = activeSearchItem === child && !showConfirmModal;
+                          const imageUrl = isBaby ? BABY_CATEGORY_ICONS[child] : CATEGORY_IMAGES[child];
+                          const imageSrc = imageUrl ? encodeURI(imageUrl) : undefined;
+
+                          return (
+                            <div key={child} className="flex flex-col items-center w-full min-w-0">
+                              <motion.button
+                                onClick={() => handleSearchRequest(child)}
+                                disabled={isLoading || isProcessing}
+                                whileTap={isLoading ? undefined : { scale: 0.98 }}
+                                className={`relative w-full aspect-square rounded-2xl border flex flex-col items-center pt-3 pb-2 gap-1 bg-white border-gray-100 hover:border-gray-200 ${isBaby ? '' : 'shadow-xs'}`}
+                              >
+                                {isLoading ? (
+                                  <div className="w-6 h-6 border-2 border-gray-200 border-t-gray-600 rounded-full animate-spin my-auto" />
+                                ) : (
+                                  <>
+                                    <span className={`font-medium text-gray-600 px-1 truncate w-full text-center ${isBaby ? 'text-[14px]' : 'text-[13px] sm:text-[14px]'}`}>
+                                      {child}
+                                    </span>
+                                    <div className={`relative mt-auto mb-1 flex items-center justify-center ${isBaby ? 'w-[62%] h-[62%]' : 'w-[55%] h-[55%]'}`}>
+                                      {imageSrc ? (
+                                        <img
+                                          src={imageSrc}
+                                          alt={child}
+                                          className="w-full h-full object-contain"
+                                        />
+                                      ) : (
+                                        <span className="text-2xl opacity-40">{data.emoji || '📦'}</span>
+                                      )}
+                                    </div>
+                                  </>
+                                )}
+                              </motion.button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
