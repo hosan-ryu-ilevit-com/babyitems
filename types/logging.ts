@@ -107,6 +107,7 @@ export type LogEventType =
   | 'ka_budget_preset_clicked'
   | 'ka_budget_confirm'
   | 'ka_budget_skip'
+  | 'ka_recommendation_received' // Knowledge Agent top3 추천 결과 수신
   | 'knowledge_agent_search_request' // 지식 에이전트 검색 요청 (입력창 또는 버튼 클릭)
   | 'knowledge_agent_search_confirm' // 지식 에이전트 검색 확인 (모달에서)
   | 'knowledge_agent_search_cancel' // 지식 에이전트 검색 취소 (모달에서)
@@ -465,7 +466,7 @@ export interface SessionSummary {
   events: LogEvent[];
   journey: string[]; // 페이지 이동 경로
   completed: boolean; // result 페이지까지 도달 여부
-  recommendationMethods: ('quick' | 'chat' | 'v2')[]; // 사용한 추천 방식들 (배열로 여러 개 가능)
+  recommendationMethods: ('quick' | 'chat' | 'v2' | 'ka')[]; // 사용한 추천 방식들 (배열로 여러 개 가능)
 }
 
 // 통계 대시보드 타입

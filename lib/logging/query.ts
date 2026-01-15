@@ -154,6 +154,13 @@ export function groupEventsBySession(events: LogEvent[]): SessionSummary[] {
         session.recommendationMethods.push('v2');
       }
     }
+    // Knowledge Agent 추천 완료 여부
+    if (event.eventType === 'ka_recommendation_received') {
+      session.completed = true;
+      if (!session.recommendationMethods.includes('ka')) {
+        session.recommendationMethods.push('ka');
+      }
+    }
     if (event.eventType === 'page_view') {
       if (event.page === 'result' || event.page === 'result-v2') {
         session.completed = true;
@@ -171,6 +178,13 @@ export function groupEventsBySession(events: LogEvent[]): SessionSummary[] {
           }
         } else if (session.recommendationMethods.length === 0) {
           session.recommendationMethods.push('quick');
+        }
+      }
+      // Knowledge Agent 결과 페이지
+      if (event.page === 'ka-result' || event.page === 'knowledge-agent-result') {
+        session.completed = true;
+        if (!session.recommendationMethods.includes('ka')) {
+          session.recommendationMethods.push('ka');
         }
       }
     }

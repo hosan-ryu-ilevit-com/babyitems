@@ -196,6 +196,8 @@ export default function AdminPage() {
       // 결과 채팅 로깅
       result_chat_message: '💬 결과 채팅',
       result_chat_full_history: '📜 채팅 전체 내역',
+      // Knowledge Agent 이벤트
+      ka_recommendation_received: '🧠 KA 추천 결과',
     };
     return labels[type] || type;
   };
@@ -466,8 +468,13 @@ export default function AdminPage() {
       event => event.eventType === 'result_v2_received' && event.resultV2Data?.recommendedProductIds
     );
 
-    let products: Array<{ id: string; title?: string }> = [];
-    let flowType: 'main' | 'v2' | null = null;
+    // Knowledge Agent: ka_recommendation_received 이벤트 찾기
+    const kaFlowEvent = session.events.find(
+      event => event.eventType === 'ka_recommendation_received' && event.metadata?.recommendations
+    );
+
+    let products: Array<{ id: string; title?: string; brand?: string; price?: number; rank?: number; score?: number }> = [];
+    let flowType: 'main' | 'v2' | 'ka' | null = null;
 
     if (mainFlowEvent?.recommendations?.fullReport?.recommendations) {
       // Main Flow (Priority 기반)
@@ -493,6 +500,25 @@ export default function AdminPage() {
         title: undefined // V2 Flow는 제품 ID만 있음
       }));
       flowType = 'v2';
+    } else if (kaFlowEvent?.metadata?.recommendations) {
+      // Knowledge Agent Flow
+      const recommendations = kaFlowEvent.metadata.recommendations as Array<{
+        pcode: string;
+        name: string;
+        brand?: string;
+        price?: number;
+        rank: number;
+        score?: number;
+      }>;
+      products = recommendations.map((rec) => ({
+        id: rec.pcode,
+        title: rec.name,
+        brand: rec.brand,
+        price: rec.price,
+        rank: rec.rank,
+        score: rec.score,
+      }));
+      flowType = 'ka';
     }
 
     // 백업: result_v2_received 이벤트가 없어도 result-v2 페이지뷰가 있으면 최소 정보 표시
@@ -538,6 +564,60 @@ export default function AdminPage() {
         }
       }
 
+      // 백업: Knowledge Agent 플로우 (ka-result 페이지뷰가 있는 경우)
+      const hasKAResultPageView = session.events.some(e =>
+        e.eventType === 'page_view' && (e.page === 'ka-result' || e.page === 'knowledge-agent-result')
+      );
+
+      if (hasKAResultPageView) {
+        // KA 플로우에서 본 상품들 추출 (product_modal_open 이벤트에서)
+        const productModalEvents = session.events.filter(e =>
+          e.eventType === 'knowledge_agent_product_modal_open' && e.knowledgeAgentData
+        );
+
+        // 카테고리 정보 추출
+        const kaCategoryEvent = session.events.find(e =>
+          e.eventType === 'ka_loading_phase_started' ||
+          e.eventType === 'knowledge_agent_hardcut_continue'
+        );
+        const categoryName = String(
+          kaCategoryEvent?.metadata?.categoryName ||
+          kaCategoryEvent?.knowledgeAgentData?.category ||
+          '알 수 없음'
+        );
+
+        return (
+          <div className="mt-3 pt-3 border-t border-gray-200">
+            <p className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+              🧠 Knowledge Agent 추천 완료
+              <span className="text-xs font-normal text-gray-500">(상세 로깅 미적용)</span>
+            </p>
+            <div className="text-xs text-gray-600 mb-2">
+              📂 카테고리: <span className="font-medium">{categoryName}</span>
+            </div>
+            {productModalEvents.length > 0 && (
+              <div className="text-xs text-gray-600">
+                <p className="font-medium mb-1">상세 조회한 상품 ({productModalEvents.length}개):</p>
+                <ul className="space-y-1 pl-3">
+                  {productModalEvents.map((event, idx) => (
+                    <li key={idx} className="text-gray-700">
+                      <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full mr-1 ${
+                        idx === 0 ? 'bg-yellow-100 text-yellow-800' :
+                        idx === 1 ? 'bg-gray-100 text-gray-700' :
+                        'bg-orange-100 text-orange-700'
+                      } font-bold text-xs`}>
+                        {idx + 1}
+                      </span>
+                      {event.knowledgeAgentData?.productTitle || event.buttonLabel?.replace('상세보기 열기: ', '')}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        );
+      }
+
       return null;
     }
 
@@ -572,7 +652,7 @@ export default function AdminPage() {
         <p className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
           🎯 추천받은 상품:
           <span className="text-xs font-normal text-gray-500">
-            ({flowType === 'main' ? 'Priority' : 'Category'})
+            ({flowType === 'main' ? 'Priority' : flowType === 'ka' ? 'Knowledge Agent' : 'Category'})
           </span>
         </p>
         <div className="space-y-3">
@@ -597,6 +677,14 @@ export default function AdminPage() {
                     <p className="text-gray-900 font-medium text-sm leading-tight">
                       {product.title || product.id}
                     </p>
+                    {/* KA 플로우: 브랜드, 가격 정보 표시 */}
+                    {flowType === 'ka' && (product.brand || product.price) && (
+                      <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
+                        {product.brand && <span>{product.brand}</span>}
+                        {product.brand && product.price && <span>·</span>}
+                        {product.price && <span className="text-blue-600 font-medium">{product.price.toLocaleString()}원</span>}
+                      </div>
+                    )}
                   </div>
                 </div>
 

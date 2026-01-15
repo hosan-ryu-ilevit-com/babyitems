@@ -2026,6 +2026,39 @@ export function logKnowledgeAgentBudgetSkip(categoryKey: string, categoryName: s
 }
 
 /**
+ * Knowledge Agent Top3 추천 결과 수신 로깅
+ */
+export function logKnowledgeAgentRecommendationReceived(
+  categoryKey: string,
+  categoryName: string,
+  recommendations: Array<{
+    pcode: string;
+    name: string;
+    brand?: string;
+    price?: number;
+    rank: number;
+    score?: number;
+  }>
+): void {
+  sendLogEvent('ka_recommendation_received', {
+    page: 'ka-flow',
+    buttonLabel: `Top ${recommendations.length} 추천 완료`,
+    metadata: {
+      categoryKey,
+      categoryName,
+      recommendations: recommendations.map(rec => ({
+        pcode: rec.pcode,
+        name: rec.name,
+        brand: rec.brand,
+        price: rec.price,
+        rank: rec.rank,
+        score: rec.score,
+      })),
+    },
+  });
+}
+
+/**
  * 지식 에이전트 상세 로깅 함수들
  */
 

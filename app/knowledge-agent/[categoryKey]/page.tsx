@@ -42,6 +42,7 @@ import {
   logKnowledgeAgentHardcutContinue,
   logKnowledgeAgentFinalInputSubmit,
   logKnowledgeAgentHardFilterSelection,
+  logKnowledgeAgentRecommendationReceived,
   logKAPageView,
   logKALoadingPhaseStarted,
   logKALoadingPhaseCompleted,
@@ -1933,6 +1934,21 @@ export default function KnowledgeAgentPage() {
         });
         setResultProducts(mappedResultProducts);
         setPhase('result');
+
+        // ✅ Top3 추천 결과 로깅
+        logKnowledgeAgentRecommendationReceived(
+          categoryKey || '',
+          categoryName || '',
+          mappedResultProducts.map((p: any, idx: number) => ({
+            pcode: p.pcode,
+            name: p.name || p.title,
+            brand: p.brand,
+            price: p.price,
+            rank: idx + 1,
+            score: p.score,
+          }))
+        );
+
         const resultMsgId = `a_result_${Date.now()}`;
         setMessages(prev => [...prev, {
           id: resultMsgId,
@@ -2265,6 +2281,21 @@ export default function KnowledgeAgentPage() {
           }));
           setResultProducts(mappedResultProducts);
           setPhase('result');
+
+          // ✅ Top3 추천 결과 로깅
+          logKnowledgeAgentRecommendationReceived(
+            categoryKey || '',
+            categoryName || '',
+            mappedResultProducts.map((p: any, idx: number) => ({
+              pcode: p.pcode,
+              name: p.name || p.title,
+              brand: p.brand,
+              price: p.price,
+              rank: idx + 1,
+              score: p.score,
+            }))
+          );
+
           const resultMsgId = `a_result_${Date.now()}`;
           setMessages(prev => [...prev, {
             id: resultMsgId,
@@ -2359,6 +2390,21 @@ export default function KnowledgeAgentPage() {
 
           setResultProducts(mappedResultProducts);
           setPhase('result');
+
+          // ✅ Top3 추천 결과 로깅
+          logKnowledgeAgentRecommendationReceived(
+            categoryKey || '',
+            categoryName || '',
+            mappedResultProducts.map((p: any, idx: number) => ({
+              pcode: p.pcode,
+              name: p.name || p.title,
+              brand: p.brand,
+              price: p.price,
+              rank: idx + 1,
+              score: p.score,
+            }))
+          );
+
           const resultMsgId = `a_result_${Date.now()}`;
           setMessages(prev => [...prev, {
             id: resultMsgId,
@@ -2694,18 +2740,9 @@ export default function KnowledgeAgentPage() {
         console.log('[KA Flow] handleFreeChat - avoid_negatives detected, savedNegativeLabels set:', selectedOptions);
       }
 
-      // 상세 로깅 추가
+      // 질문 완료 로깅 (옵션 토글은 별도로 logKnowledgeAgentHardFilterSelection에서 처리)
       if (categoryKey) {
         logKAQuestionAnswered(categoryKey, activeMsg.content, message);
-        logKnowledgeAgentHardFilterSelection(
-          categoryKey,
-          categoryName,
-          activeMsg.id,
-          activeMsg.content,
-          message,
-          true,
-          0
-        );
       }
       setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
     }
@@ -3799,9 +3836,8 @@ function MessageBubble({
                     ? (message.selectedOptions?.length || 0) + 1
                     : (message.selectedOptions?.length || 0) - 1;
 
-                  // 상세 로깅 추가
+                  // 옵션 토글 로깅 (logKAQuestionAnswered는 최종 제출 시에만 호출)
                   if (categoryKey) {
-                    logKAQuestionAnswered(categoryKey, message.content, opt);
                     logKnowledgeAgentHardFilterSelection(
                       categoryKey,
                       categoryName || '',
@@ -3823,9 +3859,8 @@ function MessageBubble({
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  // 상세 로깅 추가
+                  // 직접 입력 버튼 클릭 로깅
                   if (categoryKey) {
-                    logKAQuestionAnswered(categoryKey, message.content, '직접 입력하기 클릭');
                     logKnowledgeAgentHardFilterSelection(
                       categoryKey,
                       categoryName || '',
