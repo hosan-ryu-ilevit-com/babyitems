@@ -1,5 +1,5 @@
-# 세션: 20260115_022727_jz9n
-> 시작: 2026-01-15T02:27:27.865Z
+# 세션: 20260115_132644_dwbz
+> 시작: 2026-01-15T13:26:44.072Z
 > 카테고리키: 노트북거치대
 > 카테고리: 노트북거치대
 
@@ -8,7 +8,7 @@
 ### Init 단계
 - 쿼리: 노트북거치대
 - 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGX-JeqlHY_BgQmGU0feRess7EOf8uHH5HiMYjC7JVrn_Cf6urBuDVgMEEJnM4pVBQ2cuPaOEsNnItfMa6s3Byb7FFJ7Juqs2OHeagT-7zh2AU41q0yzV4CoigKqvyHrXmeWWqs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE4lRevuQCiK0MHvaDZxVgEbFNfGzZ8ZRONd45DzKdFuTrmb3C0BrjFqh7QCHP4yM65u6RzKrVWitkZ1wYJf7aTGC9QnM_lBTkbvmAXJ0oLMFYLscbsPb54IA4BfmbRnZ-PA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-3cI3G4sK_py0GWD-IouAxCxKHX6E3jq9PLsNcNDNn_g2DONPOUDT1hKcEWNBAmrncX91Pu9XZwhgMH_WqIRIjAyIk8wPM7etuHXo4YnpNmn0-i4ZghMZdKTxbi9lGb0S, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7FOK9-Rq5OZ3Hh8jTbYc27kfIWACfG900YJTWjVMhmsRJITvEwcEud68xkYp_Fxuj5pBZ2BjT53V9HcDHLyibnzhCXcYSvUdXEtO6yrezyqexg1KuUzx_USq6pB-9gHwtodpccxQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEN7OwcyqoX95iXZUkro3-mIrovYiP1V_hZEhhqO2WXW2dqTx0mAAQtxotQK2uWk-xbhXiuh09vzFVM4a4nx-DOphUGHFB9wCET7i1x3qvMr1_cRZn4Bl50j8MfQVsYwn8SNLXtFUU=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGjj5ANAZUg8KEfj-_mMHFDrL1P0r5MiJ6CJ00tg7-F7sFqAS00KnlnA_p-N8ioZbZoKxHOllfjffEbUz29dpSab85_pPZzjo7v_txSkcfsDS6ZeOOGY31rP82ymuNAHsGfKlM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGuQDzJwv4-7XIguFr7iCw6F6l6rsM8z7suJOVITLLk8bsfHGP9m7Q9yK7FdPxDzY7Rl7mauJTXS_kHl_hbfvG_B4KXlIMGvkE3sxKqjIGrUyl7jFRACtUDqsR471AptA5Y2w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGrDlm-_qN1DMmLaUnhk5KSoEAndaq2A91230X1zNtX19OdyzAGBB1pBhj4XLeDJTsv9IhgMTPgdvgo48e8kvnTYRYV5hVi9G5vy89vz3MXkgdHP1zkUsT175mQwGvbzMp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOai1EjsR-3muJjN6kAoWor2KxordJIsGzkGnpN4a_e0V-VsaI9gOJFs3yfVuVtnu5hj_qnKKD3tXNr1PfIM53iItJcTGYMqodGVRD4GRvTk3Qc_Oqq3tqBMHHzAtQQ-8iyExVBNA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnpiadgJrXSsEbu1XR7rBX1ns9I_pAnAEIXR6dLFUJHZhix87zbe9qVg6JaK3ARUhpx5iz-eDNxBLfKeo1ay6Y4lMsV2QO5720-IsoiV37EsOGRG56jDl-kA-oozSPT3KNGWcIK6nUBUyvjW2uB_OjxDerF2GvlyCI3jo24f4QLiY2tJR2D-VguCCN_y5YRssr_l_t-sNBK-KOt7OQmpVYjrnY9JIA4Ao18lA6toZ1uhuvUg==
 
 ---
 

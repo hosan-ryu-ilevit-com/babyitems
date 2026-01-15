@@ -3238,7 +3238,7 @@ export default function KnowledgeAgentPage() {
                     }
                   }}
                   placeholder="추가 조건을 자유롭게 입력하세요... (선택)"
-                  className="relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] text-[#71737c] placeholder:text-[#71737c] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c]"
+                  className="relative z-10 w-full min-h-[56px] max-h-[160px] pt-[18px] pb-[14px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] text-[#71737c] placeholder:text-[#71737c] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c]"
                   rows={1}
                 />
                 <motion.button
@@ -3365,7 +3365,7 @@ export default function KnowledgeAgentPage() {
                   onFocus={() => setIsInputFocused(true)}
                   onBlur={() => setIsInputFocused(false)}
                   placeholder={isInputFocused ? "직접 입력해보세요" : "무엇이든 찾아보세요"}
-                  className={`relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c] ${isHighlighting
+                  className={`relative z-10 w-full min-h-[56px] max-h-[160px] pt-[18px] pb-[14px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c] ${isHighlighting
                     ? 'text-blue-600 font-bold'
                     : 'text-[#71737c]'
                     } placeholder:text-[#71737c]`}
