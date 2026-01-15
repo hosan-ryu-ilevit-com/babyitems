@@ -1269,6 +1269,9 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         <AnalysisTimelineComponent timeline={analysisTimeline} />
       )}
 
+      {/* 상단 구분선 추가 */}
+      <div className="h-px bg-gray-200 w-full mb-6" />
+
       {/* AI 완료 메시지 */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -1282,8 +1285,8 @@ export function ResultCards({ products, categoryName, categoryKey, selectionReas
         </p>
       </motion.div>
 
-      {/* 구분선 */}
-      <div className="h-[1px] bg-gray-100 w-full mb-5" />
+      {/* 구분선 (하단) */}
+      <div className="h-px bg-gray-200 w-full mb-5" />
 
       {/* 헤더 - 카테고리 추천 타이틀 */}
       <motion.div

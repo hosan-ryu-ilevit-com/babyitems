@@ -1163,13 +1163,17 @@ export function AgenticLoadingPhase({
     if (isComplete) return;
 
     if (nextStepToExpand) {
+      // 사용자가 결과를 볼 수 있도록 이전 단계가 완료된 후 약간의 딜레이를 둠
+      const isFirstStep = nextStepToExpand.id === 'product_analysis';
+      const expansionDelay = isFirstStep ? 150 : 2500;
+
       const timer = setTimeout(() => {
         setAutoExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
         // 완료 안됐을 때만 확장 (개별 단계 진행 중에는 스크롤하지 않음)
         if (!isComplete) {
           setExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
         }
-      }, 150);
+      }, expansionDelay);
 
       return () => clearTimeout(timer);
     }
@@ -1189,7 +1193,7 @@ export function AgenticLoadingPhase({
 
     if (activeIndex > 0) {
       const stepsToCollapse = stepOrder.slice(0, activeIndex);
-      // 사용자가 결과를 확인할 수 있도록 1.5초 딜레이 후 접기
+      // 사용자가 결과를 확인할 수 있도록 딜레이 후 접기
       const timer = setTimeout(() => {
         setExpandedStepIds(prev => {
           const next = new Set(prev);
@@ -1201,7 +1205,7 @@ export function AgenticLoadingPhase({
           });
           return next;
         });
-      }, 700); // 결과 확인 시간 확보
+      }, 3000); // 결과 확인 시간 확보
 
       return () => clearTimeout(timer);
     }
@@ -1215,7 +1219,7 @@ export function AgenticLoadingPhase({
       // 모바일에서 이전 스크롤과 충돌 방지를 위해 충분한 딜레이
       // - 이전 auto-expand 스크롤이 끝날 때까지 대기 (smooth scroll ~400ms)
       // - AnimatePresence 전환 완료 대기
-      const scrollDelay = 600;  // 300ms → 600ms (모바일 안정성)
+      const scrollDelay = 3000;  // 사용자가 마지막 단계를 볼 수 있도록 딜레이 증가
 
       const timer = setTimeout(() => {
         // 1. 모든 단계 접기 (비동기로 처리하여 cascading render 방지)

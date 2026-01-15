@@ -152,20 +152,36 @@ export function ResultChatContainer({
     <div className="w-full relative">
       {/* 채팅 입력창 */}
       <div className="relative flex items-end group">
-        {/* 항상 보이는 파란색 그라데이션 글로우 효과 */}
-        <div 
-          className="absolute -inset-4 -z-10 blur-2xl opacity-60 pointer-events-none"
+        <div
+          className="relative w-full flex items-end overflow-hidden"
           style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(217, 233, 255, 1) 0%, rgba(217, 233, 255, 0) 70%)',
+            background: 'rgba(255, 255, 255, 0.9)',
+            backdropFilter: 'blur(15px)',
+            WebkitBackdropFilter: 'blur(15px)',
+            borderRadius: '20px',
+            boxShadow: '0px 5px 15px 0px rgba(21, 21, 21, 0.04)',
+            border: '1px solid #e2e2e7',
           }}
-        />
-        <div className="relative w-full overflow-hidden rounded-[20px] border border-blue-200/50 flex items-end bg-white/70 backdrop-blur-md shadow-[0_0_20px_rgba(217,233,255,0.5)]">
+        >
+          {/* 그라데이션 ellipse */}
+          <div
+            className="absolute pointer-events-none"
+            style={{
+              width: '100%',
+              height: '176px',
+              left: 0,
+              top: '-16px',
+              transform: 'translateY(-50%)',
+              background: 'radial-gradient(50% 50% at 50% 50%, rgba(217, 233, 255, 0.40) 0%, rgba(217, 233, 255, 0.00) 100%)',
+              zIndex: 0,
+            }}
+          />
           <textarea
             ref={textareaRef}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="추천 결과에 대해 궁금한게 있으신가요?"
-            className="relative z-10 w-full min-h-[48px] max-h-[120px] py-[13px] pl-4 pr-12 rounded-[20px] bg-transparent text-base text-gray-800 placeholder:text-gray-400 placeholder:font-medium focus:outline-none transition-all resize-none overflow-y-auto"
+            className="relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] text-[#71737c] placeholder:text-[#71737c] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c]"
             onFocus={handleInteraction}
             onClick={handleInteraction}
             onKeyDown={(e) => {
@@ -187,8 +203,8 @@ export function ResultChatContainer({
                 handleSend(inputValue.trim());
               }
             }}
-            disabled={isLoading}
-            className="absolute right-1.5 bottom-2 w-8 h-8 z-20 flex items-center justify-center disabled:opacity-50 transition-all active:scale-95"
+            disabled={isLoading || !inputValue.trim()}
+            className={`absolute right-3 bottom-3 z-30 flex-shrink-0 transition-all duration-200 ${inputValue.trim() ? '' : 'opacity-50'} disabled:opacity-50 active:scale-95`}
           >
             {isLoading ? (
               <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center">
@@ -198,7 +214,7 @@ export function ResultChatContainer({
                 </svg>
               </div>
             ) : (
-              <img src="/icons/sendreal.png" alt="send" className="w-full h-full object-contain" />
+              <img src="/icons/sendreal.png" alt="send" className="w-8 h-8 object-contain" />
             )}
           </button>
         </div>

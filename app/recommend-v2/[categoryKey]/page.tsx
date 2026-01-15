@@ -5,6 +5,7 @@ import { flushSync } from 'react-dom';
 import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowsLeftRight, Sparkle, CaretRight } from '@phosphor-icons/react/dist/ssr';
 // import FeedbackButton from '@/components/FeedbackButton';
 import { StepIndicator } from '@/components/StepIndicator';
 
@@ -3789,42 +3790,90 @@ export default function RecommendV2Page() {
             `}</style>
 
         {/* Re-recommend Confirmation Modal */}
-        <SimpleConfirmModal
-          isOpen={showReRecommendModal}
-          onClose={() => setShowReRecommendModal(false)}
-          title="다시 추천받으시겠어요?"
-          primaryLabel="현재 카테고리 다시 추천"
-          onPrimaryClick={() => {
-            logV2ReRecommendSameCategory(categoryKey, categoryName);
-            sessionStorage.removeItem(`v2_result_${categoryKey}`);
-            setIsRestoredFromStorage(false);
-            setCurrentStep(1);
-            setUserContext(null);
-            setCurrentHardFilterIndex(0);
-            setHardFilterAnswers({});
-            setBalanceSelections(new Set());
-            setNegativeSelections([]);
-            setScoredProducts([]);
-            setConditionSummary([]);
-            setMessages([]);
-            setShowReRecommendModal(false);
-            hasTriggeredGuideRef.current = false;
-            if (requiresSubCategory) {
-              setSelectedSubCategoryCodes([]);
-              setShowSubCategorySelector(false);
-            }
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-              });
-            });
-          }}
-          secondaryLabel="다른 카테고리 추천"
-          onSecondaryClick={() => {
-            logV2ReRecommendDifferentCategory(categoryKey, categoryName);
-            router.push('/categories');
-          }}
-        />
+        <AnimatePresence>
+          {showReRecommendModal && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setShowReRecommendModal(false)}
+                className="fixed inset-0 bg-black/60 z-[200]"
+              />
+              <div className="fixed inset-x-0 bottom-0 z-[210] p-4 pointer-events-none flex justify-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 100 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 100 }}
+                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                  className="w-full max-w-[480px] space-y-3 pointer-events-auto pb-6"
+                >
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => {
+                        logV2ReRecommendDifferentCategory(categoryKey, categoryName);
+                        router.push('/categories');
+                      }}
+                      className="w-full h-[72px] bg-[#191D28]/80 border border-gray-800 rounded-[12px] flex items-center px-4 group active:scale-[0.98] transition-all backdrop-blur-[6px]"
+                    >
+                      <div className="w-[48px] h-[48px] bg-[#1A1C22]/50 rounded-[10px] flex items-center justify-center mr-4">
+                        <ArrowsLeftRight size={22} weight="bold" className="text-blue-300" />
+                      </div>
+                      <span className="text-[14px] font-semibold text-gray-50 flex-1 text-left">
+                        다른 카테고리 추천
+                      </span>
+                      <CaretRight size={18} weight="bold" className="text-gray-100 group-active:translate-x-1 transition-transform" />
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        logV2ReRecommendSameCategory(categoryKey, categoryName);
+                        sessionStorage.removeItem(`v2_result_${categoryKey}`);
+                        setIsRestoredFromStorage(false);
+                        setCurrentStep(1);
+                        setUserContext(null);
+                        setCurrentHardFilterIndex(0);
+                        setHardFilterAnswers({});
+                        setBalanceSelections(new Set());
+                        setNegativeSelections([]);
+                        setScoredProducts([]);
+                        setConditionSummary([]);
+                        setMessages([]);
+                        setShowReRecommendModal(false);
+                        hasTriggeredGuideRef.current = false;
+                        if (requiresSubCategory) {
+                          setSelectedSubCategoryCodes([]);
+                          setShowSubCategorySelector(false);
+                        }
+                        requestAnimationFrame(() => {
+                          requestAnimationFrame(() => {
+                            scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+                          });
+                        });
+                      }}
+                      className="w-full h-[72px] bg-[#191D28]/80 border border-gray-800 rounded-[12px] flex items-center px-4 group active:scale-[0.98] transition-all backdrop-blur-[6px]"
+                    >
+                      <div className="w-[48px] h-[48px] bg-[#1A1C22]/50 rounded-[10px] flex items-center justify-center mr-4">
+                        <img src="/icons/ic-ai.svg" alt="" className="w-6 h-6" />
+                      </div>
+                      <span className="text-[14px] font-semibold text-gray-50 flex-1 text-left">
+                        {categoryName} 처음부터 새로 추천
+                      </span>
+                      <CaretRight size={18} weight="bold" className="text-gray-100 group-active:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => setShowReRecommendModal(false)}
+                    className="w-full h-[56px] bg-[#E2E2E7] rounded-[12px] text-[17px] font-bold text-[#4B4B4B] active:scale-[0.98] transition-all"
+                  >
+                    취소
+                  </button>
+                </motion.div>
+              </div>
+            </>
+          )}
+        </AnimatePresence>
 
             {/* 플로팅 버튼 영역 (우측 하단) */}
             {!showReRecommendModal && (

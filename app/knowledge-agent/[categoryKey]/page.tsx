@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
   CaretLeft, CaretDown, CaretUp, Lightning,
-  PaperPlaneRight, ArrowClockwise
+  PaperPlaneRight, ArrowClockwise, ArrowsLeftRight, Sparkle, CaretRight
 } from '@phosphor-icons/react/dist/ssr';
 import {
   FcSearch,
@@ -3627,22 +3627,72 @@ export default function KnowledgeAgentPage() {
             `}</style>
 
       {/* Re-recommend Confirmation Modal */}
-      <SimpleConfirmModal
-        isOpen={showReRecommendModal}
-        onClose={() => setShowReRecommendModal(false)}
-        title={`${categoryName} 처음부터 다시 추천받으시겠어요?`}
-        primaryLabel="현재 카테고리 처음부터"
-        onPrimaryClick={() => {
-          logKnowledgeAgentReRecommendSameCategory(categoryKey || '', categoryName || '');
-          window.location.href = `/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}`;
-        }}
-        secondaryLabel="다른 카테고리 추천"
-        onSecondaryClick={() => {
-          logKnowledgeAgentReRecommendDifferentCategory(categoryKey || '', categoryName || '');
-          const parentTab = getParentCategoryTab(categoryName || '');
-          router.push(`/knowledge-agent/${parentTab}`);
-        }}
-      />
+      <AnimatePresence>
+        {showReRecommendModal && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowReRecommendModal(false)}
+              className="fixed inset-0 bg-black/60 z-[200]"
+            />
+            <div className="fixed inset-x-0 bottom-0 z-[210] p-4 pointer-events-none flex justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 100 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                className="w-full max-w-[480px] space-y-3 pointer-events-auto pb-6"
+              >
+                {/* Action Buttons Container */}
+                <div className="space-y-2">
+                  <button
+                    onClick={() => {
+                      logKnowledgeAgentReRecommendDifferentCategory(categoryKey || '', categoryName || '');
+                      const parentTab = getParentCategoryTab(categoryName || '');
+                      router.push(`/knowledge-agent/${parentTab}`);
+                    }}
+                    className="w-full h-[72px] bg-[#191D28]/80 border border-gray-800 rounded-[12px] flex items-center px-4 group active:scale-[0.98] transition-all backdrop-blur-[6px]"
+                  >
+                    <div className="w-[48px] h-[48px] bg-[#1A1C22]/50 rounded-[10px] flex items-center justify-center mr-4">
+                      <ArrowsLeftRight size={22} weight="bold" className="text-blue-300" />
+                    </div>
+                    <span className="text-[14px] font-semibold text-gray-50 flex-1 text-left">
+                      다른 카테고리 추천
+                    </span>
+                    <CaretRight size={18} weight="bold" className="text-gray-100 group-active:translate-x-1 transition-transform" />
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      logKnowledgeAgentReRecommendSameCategory(categoryKey || '', categoryName || '');
+                      window.location.href = `/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}`;
+                    }}
+                    className="w-full h-[72px] bg-[#191D28]/80 border border-gray-800 rounded-[12px] flex items-center px-4 group active:scale-[0.98] transition-all backdrop-blur-[6px]"
+                  >
+                    <div className="w-[48px] h-[48px] bg-[#1A1C22]/50 rounded-[10px] flex items-center justify-center mr-4">
+                      <img src="/icons/ic-ai.svg" alt="" className="w-6 h-6" />
+                    </div>
+                    <span className="text-[14px] font-semibold text-gray-50 flex-1 text-left">
+                      {categoryName} 처음부터 새로 추천
+                    </span>
+                    <CaretRight size={18} weight="bold" className="text-gray-100 group-active:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+
+                {/* Cancel Button */}
+                <button
+                  onClick={() => setShowReRecommendModal(false)}
+                  className="w-full h-[56px] bg-[#E2E2E7] rounded-[12px] text-[17px] font-bold text-[#4B4B4B] active:scale-[0.98] transition-all"
+                >
+                  취소
+                </button>
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Exit Confirmation Modal */}
 
@@ -3823,6 +3873,11 @@ function MessageBubble({
           <div className="bg-gray-50 text-gray-800 rounded-[20px] px-5 py-2.5 text-[16px] font-medium min-h-[46px] flex items-center w-fit ml-auto leading-relaxed">{message.content}</div>
         ) : message.content ? (
           <div className="w-full">
+            {/* 결과 메시지인 경우 상단 구분선 추가 */}
+            {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
+              <div className="h-px bg-gray-200 w-full mb-6" />
+            )}
+
             {/* 'final_guide' 질문이 아니고 결과 제품이 없을 때만 헤더 표시 */}
             {message.questionId !== 'final_guide' && (!message.resultProducts || message.resultProducts.length === 0) && (
               <div className="flex items-center justify-between mb-1 px-0.5">

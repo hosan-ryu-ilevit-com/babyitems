@@ -1,5 +1,5 @@
-# 세션: 20260115_083400_ubog
-> 시작: 2026-01-15T08:34:00.265Z
+# 세션: 20260115_105232_qu9u
+> 시작: 2026-01-15T10:52:32.125Z
 > 카테고리키: 웹캠
 > 카테고리: 웹캠
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 웹캠
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6NVkFaUUYTuEWvvgiXAfdIkvuKgkPlezqMbCUuAWV5B7Xytz7ztJIlMpEM-5Cpf0DYUgqzj1cLy7PdCPohpG9qsBYm1qjP40vsSzBQbY4X3lkwZfGRn6HOw5jSLaSmVIsvFAxpiuQjAqTDj6ejd34Phl5zJS5FqYJhl3-464xkkEMNri4k586Ev4f4itmE08ONK2FgDEyJK1DM39g, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDXqyW5620wDCWKR9wPcoTHQfsrlB3jq3WUoOeNT5WshF44HrHiq2wB0wCj0Dy5TssSDTl-S8JiKam7ZnZVlmgKEWSuj1yfAFCWhF0cyhpD7rZw32g_pJ0YQiDcRQb5ME3IMlf5QE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLF1KQOgHGTf9Rb8JQlTQtLo6KpXDNvtik5_dQVT0AxipaDezod4RlZ8k-2Tw3QS-LJHNcfYlE7fJSp72fm9kYwoiY-hR5Td43lF3Xu2OJIR9XkFHgESngzShV6-tFvsV3ekLKwZs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEi4XjSskJKokUu3ahnz70QOLCs7QXOb8Tc5EbJdlLIkYep2MsUdwZcN7CR64tGur2tjd5y8Gfsq97kOaRHx71SFuZ9Q6qmUKEFMUAB1v118GjPPACTCsSVPE7eRPRWVDXhEc_qCMcHCzx3sWu2WRZt7SRW-TQtOnUgmvPLAFj7aDGcLyr78Bg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjdlcVWeA0Nml6erqATP7xcE3nONojX69XbRWM3g_AHYkiiZjpmYxmBhuKz7OJmxGxzwKGBteLuCo8Oyc5BU7OE3rLS74daURm5Y8Gk_oh-H1rpr5rQoZO09Sqq2MvcKtD4LugidM=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6NVkFaUUYTuEWvvgiXAfdIkvuKgkPlezqMbCUuAWV5B7Xytz7ztJIlMpEM-5Cpf0DYUgqzj1cLy7PdCPohpG9qsBYm1qjP40vsSzBQbY4X3lkwZfGRn6HOw5jSLaSmVIsvFAxpiuQjAqTDj6ejd34Phl5zJS5FqYJhl3-464xkkEMNri4k586Ev4f4itmE08ONK2FgDEyJK1DM39g, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDXqyW5620wDCWKR9wPcoTHQfsrlB3jq3WUoOeNT5WshF44HrHiq2wB0wCj0Dy5TssSDTl-S8JiKam7ZnZVlmgKEWSuj1yfAFCWhF0cyhpD7rZw32g_pJ0YQiDcRQb5ME3IMlf5QE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLF1KQOgHGTf9Rb8JQlTQtLo6KpXDNvtik5_dQVT0AxipaDezod4RlZ8k-2Tw3QS-LJHNcfYlE7fJSp72fm9kYwoiY-hR5Td43lF3Xu2OJIR9XkFHgESngzShV6-tFvsV3ekLKwZs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEi4XjSskJKokUu3ahnz70QOLCs7QXOb8Tc5EbJdlLIkYep2MsUdwZcN7CR64tGur2tjd5y8Gfsq97kOaRHx71SFuZ9Q6qmUKEFMUAB1v118GjPPACTCsSVPE7eRPRWVDXhEc_qCMcHCzx3sWu2WRZt7SRW-TQtOnUgmvPLAFj7aDGcLyr78Bg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjdlcVWeA0Nml6erqATP7xcE3nONojX69XbRWM3g_AHYkiiZjpmYxmBhuKz7OJmxGxzwKGBteLuCo8Oyc5BU7OE3rLS74daURm5Y8Gk_oh-H1rpr5rQoZO09Sqq2MvcKtD4LugidM=
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq5u0KHooSAGkZNkoS9Vd6auKKgLSId2yB9QZF7luh7nCI_9JSTJeAVaqWmjDTmDf3w5HMA3rSHKtOmYx-4GMlhsg1nQbIoDZrfkGmWRex6k784fijGn0u578IcvkUjkcSoC0aYSf-J42cBwz9Nhp-2VMu0UUG4uotQ7O_mE1L-qC_l3HMkGRX31CbPRk14NA9WPRhaNS8K5s7uaia, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlXWBdPsHWXnwzzMwRggwJFI8LvxQT5hmgzqwnHjXUAfwK7I8cu0SofcPUQLF0jXsIHMiKMkNMmnLhPZGOvpEiDn_lnHabeIPkEf_YcQ_ZzsXgu0dIFauMTDjw2CBaLTBcG8Rycd4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGayTHx67omJUU6D39SN_UiQgH8utlsIdN24_XEvZI83t_3jC5nilsTy9g0lceDfhCQ7FF2pN4O1ku4UsMa2_0TcXwdYgRyVq5y7W5ryLuRiJU-N1ePED_za65_gYb71KTUJ6kItiw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEpCClkMv5mZCzG4hmsqaDfifIJ-JLEwk7SxKOxvtVebp_ZI94IqPJ1EruwUSbq2ynmjWbpuuK315y0u7r5KP1bQLUKcKLaz8jdSmBHddqR9AmqXMDIbrVTvNBQqkuVm7QwjNhZEQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPkPFz6Owp-Ki_32ohrvxu06VabD1rGJiJAfPgvW6Sv-I_NI9A2yEE3aLJgv5H2xMsgr_IJQNxa78t3KzgDZT2D9IT7MiKQ_2NoJJaCzP6L2N-4offbzbBXgYzXYKDruFlEGlRLBw=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq5u0KHooSAGkZNkoS9Vd6auKKgLSId2yB9QZF7luh7nCI_9JSTJeAVaqWmjDTmDf3w5HMA3rSHKtOmYx-4GMlhsg1nQbIoDZrfkGmWRex6k784fijGn0u578IcvkUjkcSoC0aYSf-J42cBwz9Nhp-2VMu0UUG4uotQ7O_mE1L-qC_l3HMkGRX31CbPRk14NA9WPRhaNS8K5s7uaia, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlXWBdPsHWXnwzzMwRggwJFI8LvxQT5hmgzqwnHjXUAfwK7I8cu0SofcPUQLF0jXsIHMiKMkNMmnLhPZGOvpEiDn_lnHabeIPkEf_YcQ_ZzsXgu0dIFauMTDjw2CBaLTBcG8Rycd4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGayTHx67omJUU6D39SN_UiQgH8utlsIdN24_XEvZI83t_3jC5nilsTy9g0lceDfhCQ7FF2pN4O1ku4UsMa2_0TcXwdYgRyVq5y7W5ryLuRiJU-N1ePED_za65_gYb71KTUJ6kItiw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEpCClkMv5mZCzG4hmsqaDfifIJ-JLEwk7SxKOxvtVebp_ZI94IqPJ1EruwUSbq2ynmjWbpuuK315y0u7r5KP1bQLUKcKLaz8jdSmBHddqR9AmqXMDIbrVTvNBQqkuVm7QwjNhZEQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPkPFz6Owp-Ki_32ohrvxu06VabD1rGJiJAfPgvW6Sv-I_NI9A2yEE3aLJgv5H2xMsgr_IJQNxa78t3KzgDZT2D9IT7MiKQ_2NoJJaCzP6L2N-4offbzbBXgYzXYKDruFlEGlRLBw=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 웹캠을 주로 어떤 용도로 사용하실 예정인가요? | 게임 스트리밍 및 전문 영상 제작, 화상 회의 및 온라인 강의 |
-| 어느 정도의 화질을 중요하게 생각하시나요? | 고화질 (QHD), 최고 화질 (UHD 4K) |
-| 웹캠으로 얼마나 넓은 영역을 담고 싶으신가요? | 매우 넓게 (100° 이상) |
-| 웹캠 예산은 어느 정도로 생각하세요? (평균 약 15만원, 8만원~19만원대가 가장 많아요) | 8만원 ~ 19만원대 |
-| __avoid_negatives__ | 게임 스트리밍이나 전문 영상 제작 시 고화질을 원하는데,해상도가 낮아 선명하지 않을까 봐 걱정돼요.,어두운 환경에서도 화상 회의나 온라인 강의를 해야 하는데,영상이 너무 어둡게 나올까 봐 걱정돼요.,움직임이 많은 게임 스트리밍이나 전문 영상 제작 시 초점이 계속 흐려져서 영상 품질이 떨어질까 봐 부담돼요. |
+| 주로 어떤 용도로 웹캠을 사용하실 예정인가요? | 게임 스트리밍, 콘텐츠 제작 |
+| 영상 품질은 어느 정도를 원하시나요? | QHD (2560x1440 이상) |
+| 한 번에 얼마나 넓은 범위를 담고 싶으신가요? | 표준 시야각 (70° ~ 90°), 좁은 시야각 (최대 70°) |
+| 웹캠 예산은 어느 정도로 생각하세요? (평균 약 15만원, 8만원~19만원대가 가장 많아요) | 8만원 이하, 8만원 ~ 19만원대 |
+| __avoid_negatives__ | QHD 이상의 고화질을 원하는데,영상이 흐릿하게 나와서 콘텐츠 제작에 아쉬움이 남을까 봐 걱정돼요.,게임 스트리밍 시 제 모습만 겨우 담겨서 주변 환경이나 다른 요소를 보여주기 어려울까 봐 불편해요. |
 
 ---
 
@@ -52,11 +52,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 게임 스트리밍이나 전문 영상 제작 시 고화질을 원하는데
-- 해상도가 낮아 선명하지 않을까 봐 걱정돼요.
-- 어두운 환경에서도 화상 회의나 온라인 강의를 해야 하는데
-- 영상이 너무 어둡게 나올까 봐 걱정돼요.
-- 움직임이 많은 게임 스트리밍이나 전문 영상 제작 시 초점이 계속 흐려져서 영상 품질이 떨어질까 봐 부담돼요.
+- QHD 이상의 고화질을 원하는데
+- 영상이 흐릿하게 나와서 콘텐츠 제작에 아쉬움이 남을까 봐 걱정돼요.
+- 게임 스트리밍 시 제 모습만 겨우 담겨서 주변 환경이나 다른 요소를 보여주기 어려울까 봐 불편해요.
 
 ---
 
