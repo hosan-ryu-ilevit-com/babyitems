@@ -1,18 +1,30 @@
 # 무선청소기 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T08:52:55.703Z
+> 마지막 업데이트: 2026-01-15T08:04:56.690Z
 > 분석 상품: 20개 | 분석 리뷰: 17,232개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 자동 먼지 비움 기능이 포함된 충전 및 보관 스테이션
+- 강력한 흡입력과 긴 배터리 수명
+- 가벼운 무게와 사용 편의성
+- UV 살균 기능 및 녹색 LED 라이트 등 부가 기능 탑재
 
 ### 구매자 만족 포인트
+- ✓ 압도적인 흡입력
+- ✓ 가성비 우수
+- ✓ 편리한 먼지 비움 기능
+- ✓ 가벼운 무게
+- ✓ 깔끔한 디자인의 스테이션
 
 ### 주의해야 할 단점
+- ⚠ 상대적으로 짧은 배터리 시간 (일부 모델)
+- ⚠ 높은 가격대 (프리미엄 모델)
+- ⚠ 브러시 엉킴 문제 (일부 모델)
 
 ### 가격대 인사이트
-
+2026년 현재 무선청소기는 20만원 이하의 가성비 모델부터 70-80만원대의 프리미엄 모델까지 다양하게 출시되고 있습니다. 20만원대의 아이닉 i50 타워와 같은 모델은 뛰어난 흡입력과 편의 기능으로 가성비 끝판왕으로 평가받고 있으며, 삼성 비스포크 제트나 LG 코드제로 오브제컬렉션과 같은 프리미엄 모델은 강력한 성능과 고급 기능을 제공합니다.
 
 ---
 
@@ -231,8 +243,4 @@
 ---
 
 ## 📊 데이터 출처
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH19vlra07aIlrc3i0UfW4D2oLy24jYt7GsqxN3mY07LsjFBMfgFi6KotyOofc-hGR7diBxXJhYZlAi7re60wowKiH2ODXdc-NwvQQiKqgVLBE9tOJUGLJGqb_jDuxLLzS_LjdjCFo=)
-- [boscofreshfest17.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_KkDroMliM85WU-CXmtYTKBiHf_vGs5p1ea9lO_p03dVi5HlIbdHbkQp8AyV2dZF6W_czkBE2RzcgjDisQaJR9H8cPf1j1axEmk9uwEieJtdUm_dpjIa-YDIsx4n8gs5_TN9Qsy2-Cg==)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKLCNTAGAqsQRHDmS3oNr5tcFJtBDasdHAPzqo4Ool9sfc0Yof2UQPpgsOVIcune-gB20QGFkjU1WSi_rhwvOnADiboo1Cxc_ZrI5BzJGnancC5jEDxYTWQNqnChw9CTj70kcNES0GL_ivm6RwfWhEsUebLVkMSDlugqrzGecBUzpU)
-- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg0ilt3zLX_7jDi_tAIE9i2cvlFNSvfwHcaaTHS9--5mSRfUCYQjSoLJ8B1Kr0YOK2cHW9vxmnx2zBV_QCafTt1h7OfJkpDgM-JCSEgaY8o0Z_JecFGB6Yd5YKfoGdmQR1reJYzavFaw==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpRlPkADACnP9lzt5DJhcjvARF1uTPfetBrBlfpjPSWnxA5wt3SV2ynYZsYvVp8Xuln9ZiRiZRQpmIyOJEjtiEmHOnVzhy8Cml61zniPiUMZ7YhQf6lRF4w_nYToo-XyXMFyjxIWs=)
+- [다나와 무선청소기 인기순위](https://search.danawa.com/dsearch.php?query=%EB%AC%B4%EC%84%A0%EC%B2%AD%EC%86%8C%EA%B8%B0&sort=saveDESC)

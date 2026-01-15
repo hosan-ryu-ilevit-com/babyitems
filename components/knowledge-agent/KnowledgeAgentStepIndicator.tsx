@@ -18,7 +18,7 @@ export function KnowledgeAgentStepIndicator({
 }: KnowledgeAgentStepIndicatorProps) {
   return (
     <div className={`sticky left-0 right-0 z-50 flex justify-center pointer-events-none ${className ?? 'top-0'}`}>
-      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white/95 backdrop-blur-sm pt-[12px] pb-[10px] pointer-events-auto px-4 border-b border-gray-100/50">
+      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white pt-[12px] pb-[10px] pointer-events-auto px-4">
         <div className="flex w-full justify-between items-center mb-[6px]">
           {STEPS.map((step) => {
             const isCompleted = step.id < currentStep;

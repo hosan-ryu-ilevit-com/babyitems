@@ -47,6 +47,7 @@ import {
   LoadingDots,
 } from '@/components/recommend-v2';
 import ContextInput from '@/components/recommend-v2/ContextInput';
+import SimpleConfirmModal from '@/components/SimpleConfirmModal';
 import type { BalanceGameCarouselRef } from '@/components/recommend-v2';
 import { SubCategorySelector } from '@/components/recommend-v2/SubCategorySelector';
 import { FollowupCarousel } from '@/components/recommend-v2/FollowupCarousel';
@@ -3787,136 +3788,43 @@ export default function RecommendV2Page() {
               }
             `}</style>
 
-            {/* 배경 오버레이 */}
-            <AnimatePresence>
-              {showReRecommendModal && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25, ease: 'easeInOut' }}
-                  className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[100]"
-                  onClick={() => setShowReRecommendModal(false)}
-                />
-              )}
-            </AnimatePresence>
-
-            {/* 모달 옵션 버튼들 - 우측 정렬, 플로팅 버튼 확장 느낌 */}
-            <AnimatePresence>
-              {showReRecommendModal && (
-                <div
-                  className="fixed right-4 z-[110] flex flex-col items-end gap-2"
-                  style={{ bottom: '72px', maxWidth: '480px' }}
-                >
-                  {/* 다른 카테고리 추천받기 버튼 */}
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                    transition={{
-                      type: 'spring',
-                      damping: 20,
-                      stiffness: 300,
-                      delay: 0.05
-                    }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => {
-                      logV2ReRecommendDifferentCategory(categoryKey, categoryName);
-                      router.push('/categories');
-                    }}
-                    className="px-4 py-3 bg-white/95 backdrop-blur-sm rounded-2xl text-sm font-semibold text-gray-700 flex items-center gap-2 shadow-lg border border-gray-100/50"
-                  >
-                    <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    다른 카테고리
-                  </motion.button>
-
-                  {/* 현재 카테고리 다시 추천받기 버튼 */}
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                    transition={{
-                      type: 'spring',
-                      damping: 20,
-                      stiffness: 300,
-                      delay: 0
-                    }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => {
-                      logV2ReRecommendSameCategory(categoryKey, categoryName);
-                      sessionStorage.removeItem(`v2_result_${categoryKey}`);
-                      setIsRestoredFromStorage(false);
-                      setCurrentStep(1);
-                      setUserContext(null);
-                      setCurrentHardFilterIndex(0);
-                      setHardFilterAnswers({});
-                      setBalanceSelections(new Set());
-                      setNegativeSelections([]);
-                      setScoredProducts([]);
-                      setConditionSummary([]);
-                      setMessages([]);
-                      setShowReRecommendModal(false);
-                      hasTriggeredGuideRef.current = false;
-                      if (requiresSubCategory) {
-                        setSelectedSubCategoryCodes([]);
-                        setShowSubCategorySelector(false);
-                      }
-                      requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                          scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-                        });
-                      });
-                    }}
-                    className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
-                    style={{
-                      background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)'
-                    }}
-                  >
-                    <motion.svg
-                      className="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      animate={{
-                        rotate: [0, -15, 15, -15, 0],
-                        y: [0, -2, 0],
-                      }}
-                      transition={{
-                        duration: 0.8,
-                        repeat: Infinity,
-                        repeatDelay: 2,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
-                    </motion.svg>
-                    {categoryName} 처음부터
-                  </motion.button>
-
-                  {/* 취소 버튼 */}
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{
-                      type: 'spring',
-                      damping: 20,
-                      stiffness: 300,
-                      delay: 0.1
-                    }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => setShowReRecommendModal(false)}
-                    className="px-4 py-2.5 rounded-xl text-sm font-medium text-gray-500 bg-gray-100/80 backdrop-blur-sm"
-                  >
-                    취소
-                  </motion.button>
-                </div>
-              )}
-            </AnimatePresence>
+        {/* Re-recommend Confirmation Modal */}
+        <SimpleConfirmModal
+          isOpen={showReRecommendModal}
+          onClose={() => setShowReRecommendModal(false)}
+          title="다시 추천받으시겠어요?"
+          primaryLabel="현재 카테고리 다시 추천"
+          onPrimaryClick={() => {
+            logV2ReRecommendSameCategory(categoryKey, categoryName);
+            sessionStorage.removeItem(`v2_result_${categoryKey}`);
+            setIsRestoredFromStorage(false);
+            setCurrentStep(1);
+            setUserContext(null);
+            setCurrentHardFilterIndex(0);
+            setHardFilterAnswers({});
+            setBalanceSelections(new Set());
+            setNegativeSelections([]);
+            setScoredProducts([]);
+            setConditionSummary([]);
+            setMessages([]);
+            setShowReRecommendModal(false);
+            hasTriggeredGuideRef.current = false;
+            if (requiresSubCategory) {
+              setSelectedSubCategoryCodes([]);
+              setShowSubCategorySelector(false);
+            }
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+              });
+            });
+          }}
+          secondaryLabel="다른 카테고리 추천"
+          onSecondaryClick={() => {
+            logV2ReRecommendDifferentCategory(categoryKey, categoryName);
+            router.push('/categories');
+          }}
+        />
 
             {/* 플로팅 버튼 영역 (우측 하단) */}
             {!showReRecommendModal && (
@@ -4035,45 +3943,14 @@ export default function RecommendV2Page() {
         )}
 
         {/* Back Modal */}
-        <AnimatePresence>
-          {showBackModal && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 z-[200]"
-                onClick={() => setShowBackModal(false)}
-              />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 0 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 0 }}
-                className="fixed inset-0 flex items-center justify-center z-[210] px-4"
-              >
-                <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-auto">
-                  <p className="text-base text-gray-800 mb-6">
-                    카테고리 선택으로 돌아가시겠어요?
-                  </p>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setShowBackModal(false)}
-                      className="flex-1 px-4 py-3 bg-gray-100 text-gray-900 font-semibold rounded-xl"
-                    >
-                      취소
-                    </button>
-                    <button
-                      onClick={() => router.push('/categories')}
-                      className="flex-1 px-4 py-3 bg-[#111827] text-white font-semibold rounded-xl"
-                    >
-                      돌아가기
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
+        <SimpleConfirmModal
+          isOpen={showBackModal}
+          onClose={() => setShowBackModal(false)}
+          title="카테고리 선택으로 돌아가시겠어요?"
+          primaryLabel="돌아가기"
+          onPrimaryClick={() => router.push('/categories')}
+          secondaryLabel="취소"
+        />
 
         {/* Favorites Modal - 나중에 사용할 수 있도록 임시 숨김 */}
         {/* <AnimatePresence>

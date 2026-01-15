@@ -92,7 +92,7 @@ export function StreamingText({
       }
 
       return (
-        <div key={lineIndex} className={`break-all ${lineIndex > 0 ? 'mt-0.5' : ''} ${isExplanation ? explanationClassName : textClassName}`}>
+        <div key={lineIndex} className={`break-all ${isExplanation ? explanationClassName : textClassName}`}>
           {formattedLine}
           {isLastLine && isDone && suffix}
         </div>
@@ -149,7 +149,7 @@ export function AssistantMessage({
       }
 
       return (
-        <div key={lineIndex} className={`break-all ${lineIndex > 0 ? 'mt-0.5' : ''} ${isExplanation ? (explanationClassName || 'text-base text-gray-800 font-medium') : (textClassName || 'text-base text-gray-800 font-medium')}`}>
+        <div key={lineIndex} className={`break-all ${isExplanation ? (explanationClassName || 'text-base text-gray-800 font-medium') : (textClassName || 'text-base text-gray-800 font-medium')}`}>
           {formattedLine}
           {isLastLine && suffix}
         </div>

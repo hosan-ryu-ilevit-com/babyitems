@@ -1,14 +1,14 @@
-# 세션: 20260109_085303_92bp
-> 시작: 2026-01-09T08:53:03.554Z
+# 세션: 20260115_080501_3bwn
+> 시작: 2026-01-15T08:05:01.988Z
 > 카테고리키: 무선청소기
 > 카테고리: 무선청소기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 무선청소기
-- 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH19vlra07aIlrc3i0UfW4D2oLy24jYt7GsqxN3mY07LsjFBMfgFi6KotyOofc-hGR7diBxXJhYZlAi7re60wowKiH2ODXdc-NwvQQiKqgVLBE9tOJUGLJGqb_jDuxLLzS_LjdjCFo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_KkDroMliM85WU-CXmtYTKBiHf_vGs5p1ea9lO_p03dVi5HlIbdHbkQp8AyV2dZF6W_czkBE2RzcgjDisQaJR9H8cPf1j1axEmk9uwEieJtdUm_dpjIa-YDIsx4n8gs5_TN9Qsy2-Cg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKLCNTAGAqsQRHDmS3oNr5tcFJtBDasdHAPzqo4Ool9sfc0Yof2UQPpgsOVIcune-gB20QGFkjU1WSi_rhwvOnADiboo1Cxc_ZrI5BzJGnancC5jEDxYTWQNqnChw9CTj70kcNES0GL_ivm6RwfWhEsUebLVkMSDlugqrzGecBUzpU, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg0ilt3zLX_7jDi_tAIE9i2cvlFNSvfwHcaaTHS9--5mSRfUCYQjSoLJ8B1Kr0YOK2cHW9vxmnx2zBV_QCafTt1h7OfJkpDgM-JCSEgaY8o0Z_JecFGB6Yd5YKfoGdmQR1reJYzavFaw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpRlPkADACnP9lzt5DJhcjvARF1uTPfetBrBlfpjPSWnxA5wt3SV2ynYZsYvVp8Xuln9ZiRiZRQpmIyOJEjtiEmHOnVzhy8Cml61zniPiUMZ7YhQf6lRF4w_nYToo-XyXMFyjxIWs=
+- 쿼리: 무선청소기 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재 무선청소기 시장은 다이슨의 독주 체제가 끝나고 삼성, LG 등 국내 브랜드와 가성비 좋은 중국산 브랜드들이 경쟁하며 상향 평준화된 성능과 가격 대비 만족도를 중심으로 재편되고 있습니다. 특히 자동 먼지 비움 기능이 탑재된 스테이션이 인기를 얻고 있으며, 흡입력, 배터리 수명, 편의 기능 등이 주요 구매 결정 요인이 되고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EB%AC%B4%EC%84%A0%EC%B2%AD%EC%86%8C%EA%B8%B0&sort=saveDESC
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 청소는 주로 얼마나 자주, 그리고 어느 정도 넓은 공간을 하시나요? | 주 1~2회, 15~30평 |
+| 주로 어떤 바닥 재질을 청소하시고, 특별히 신경 쓰는 청소 방식이 있나요? | 딱딱한 바닥 (마루, 타일), 모든 바닥 + 물걸레 |
+| 청소기 사용 시 어떤 편의 기능을 중요하게 생각하시나요? | 가벼운 무게 및 쉬운 조작, 자동 먼지 비움 스테이션 |
+| 무선청소기 예산은 어느 정도로 생각하세요? (평균 55만원, 30~70만원대가 가장 많아요) | 33만원 ~ 71만원 |
+| __avoid_negatives__ | 넓은 공간을 한 번에 청소하기에 배터리가 부족할까 봐 걱정돼요,머리카락이나 반려동물 털이 브러시에 자주 엉켜서 청소 후 관리가 불편해요 |
 
 ---
 
@@ -41,7 +46,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 넓은 공간을 한 번에 청소하기에 배터리가 부족할까 봐 걱정돼요
+- 머리카락이나 반려동물 털이 브러시에 자주 엉켜서 청소 후 관리가 불편해요
 
 ---
 

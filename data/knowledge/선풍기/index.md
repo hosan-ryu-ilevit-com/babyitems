@@ -1,29 +1,34 @@
 # 선풍기 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T08:56:24.232Z
+> 마지막 업데이트: 2026-01-15T08:26:48.944Z
 > 분석 상품: 20개 | 분석 리뷰: 7,642개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- BLDC 모터 탑재로 인한 저전력 및 저소음 구현
-- 스마트폰 앱 연동 및 AI 음성 제어 기능
-- 사용자 편의성을 높이는 자석 충전 도크 및 다양한 조작 방식
+- BLDC 모터 탑재 및 보편화
+- 무선 기능 강화 및 휴대성 증대
+- 스마트 기능 연동 (앱 제어, AI 자동풍 조절)
+- 저소음 설계 강화 (수면용, 사무실용)
+- 친환경 및 에너지 절감 기술 적용
 
 ### 구매자 만족 포인트
-- ✓ 저전력 고효율 (BLDC 모터)
-- ✓ 스마트 기능 (앱 연동, 음성 제어)
-- ✓ 다양한 풍속 조절 (100단계 등)
-- ✓ 편리한 충전 방식 (자석 도크)
-- ✓ 조용한 작동 소음
+- ✓ 저소음 설계
+- ✓ 강력한 바람 성능
+- ✓ 편리한 무선 기능
+- ✓ 스마트 기능 (앱 연동, AI 조절)
+- ✓ 간편한 세척 및 유지보수
+- ✓ 뛰어난 가성비 (일부 모델)
 
 ### 주의해야 할 단점
-- ⚠ 상대적으로 높은 가격대
-- ⚠ 일부 모델의 디자인 단순함
-- ⚠ 앱 사용 시 국가/언어 설정 번거로움 (해외 구매 시)
+- ⚠ 짧은 배터리 지속 시간 (강풍 모드 시)
+- ⚠ 높은 가격대 (프리미엄 모델)
+- ⚠ 소음 (일부 모델, 고풍량 시)
+- ⚠ 날개 없는 선풍기의 상대적으로 약한 바람 세기
+- ⚠ 충전 속도
 
 ### 가격대 인사이트
-현재 판매 중인 선풍기는 약 8만 원대의 샤오미 스마트 선풍기부터 10만 원대 이상의 프리미엄 BLDC 선풍기까지 다양하게 분포되어 있습니다. 가격대는 성능, 기능, 브랜드에 따라 차이가 있습니다.
+현재 판매 중인 선풍기는 다양한 가격대로 출시되고 있습니다. 1만원대의 보급형 모델부터 10만원 이상의 프리미엄 모델까지 선택의 폭이 넓습니다. 특히 BLDC 모터 탑재, 무선 기능, 스마트 기능 등 최신 기술이 적용된 모델은 5만원에서 15만원 사이의 가격대를 형성하고 있으며, 성능과 편의성을 고려할 때 합리적인 선택이 가능합니다.
 
 ---
 
@@ -242,8 +247,4 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWaLwU_mmvzbQ9bhtOQGly2chJZB0o3pUObjhoCdEa3nW90DkvTCqhuahi5t-x3fVgWx5NfKAQzVWosaxa2JoXrnBWd26n6UFceUZ1C6GUlLzOi9GOSbFY6Os=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8IQyjJP2lTJsDxVKnSD_C85FameWmgAvPQRuntqY1HCqffiTMAGQeEit2lAf_vtd8pKKs-1ruHRQr2fzIChmT4wSJgYpg3wlKEHTsfVugC7k9r6Vmpuu_stKOKtw=)
-- [g-enews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGsuOxufjuc09vUjpSO_f7QuTwF7d9z2LUjpK7e8XfWcdwIRk-Db6Mz2F2XoLvP_pSK6JNZ-6nmmztL6FEDRcMCkbylTouY40EQyIvgDr4stG4BKVx-f9wTLgwd26bTuBvycv565RDqrv4limF0kDSCISB08rX8Gi2CakfEq1alJNLEvr9qACTge30=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR05fSVK8euj2XXrwSXuKfILNYmerM45fr-iOoTCyQczOdgoAofb_aMEc_VwjnHf0UMbGWs2rhPnhIMO956020ULZVN2x0vFod1BcuxKQflWmsjkFdkFSKUyfxB9s=)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFe7iOl3VhdwgDdPcxlkmKO6VdYAehiFsFmVNosMqzDp8DOboAUO2y0PNFm1y_ZLVogIx28ILIBs8rux2jdDnjUs0ta-gDweN7ajUv28EeoBxpaPn61Y2QaDjJQZxA49jC5IMNNYi_gnjju8jIN0F549aSQ8dQ0a2p4yYh8fpSl80gUtmoW7PTzEiWZRM007QlJQBNmVAiSdcJG8nqE9yzNQwbbKxg02dE8J0sLaL-H7926OiqnpV8CrfMBK9E1)
+- [다나와 선풍기 인기순위](https://search.danawa.com/dsearch.php?query=%EC%84%A0%ED%92%8D%EA%B8%B0&sort=saveDESC)

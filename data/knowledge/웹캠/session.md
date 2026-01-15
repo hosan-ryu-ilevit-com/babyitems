@@ -1,14 +1,14 @@
-# 세션: 20260109_095829_6aut
-> 시작: 2026-01-09T09:58:29.839Z
+# 세션: 20260115_083400_ubog
+> 시작: 2026-01-15T08:34:00.265Z
 > 카테고리키: 웹캠
 > 카테고리: 웹캠
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 웹캠 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 웹캠 시장은 고화질(4K HDR)과 AI 기반 기능이 트렌드를 주도하고 있습니다. Logitech, Insta360, Razer, Elgato 등 다양한 브랜드에서 전문가 수준의 영상 품질과 자동 추적 기능을 갖춘 제품들을 선보이며 경쟁하고 있습니다. 특히 원격 근무, 온라인 교육, 콘텐츠 제작 등 다목적 활용성을 갖춘 웹캠이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7EJ1Zqs4VOgIWjWATqU1qQ6Fn0DyRfnDGCtZBbjedCcM2shquDAIhGAtLZLvshorX90k361VijwMgCV6WFag-_xCxUrqfoqoMSiv-Ry7Ubm1ocmWPvd-orxLOMWLg4rQ1hqkazzA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7QM4frt8rLEIBGsErcCzmxgdkEy_D5XPH7bDtWsa2hKBa7p24U1u067NhhD-AhzIJcENZfOPV76meRl6yJtvJ6qynyQYmDICq25ihrh-VGf2TeCHsRbzlnXWwl8xMP8kOqIn53F24BbCrhR3WbAIcLuJuKE5ubASmTDvzHw4Och3jxFnv8Ow=
+- 쿼리: 웹캠
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6NVkFaUUYTuEWvvgiXAfdIkvuKgkPlezqMbCUuAWV5B7Xytz7ztJIlMpEM-5Cpf0DYUgqzj1cLy7PdCPohpG9qsBYm1qjP40vsSzBQbY4X3lkwZfGRn6HOw5jSLaSmVIsvFAxpiuQjAqTDj6ejd34Phl5zJS5FqYJhl3-464xkkEMNri4k586Ev4f4itmE08ONK2FgDEyJK1DM39g, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDXqyW5620wDCWKR9wPcoTHQfsrlB3jq3WUoOeNT5WshF44HrHiq2wB0wCj0Dy5TssSDTl-S8JiKam7ZnZVlmgKEWSuj1yfAFCWhF0cyhpD7rZw32g_pJ0YQiDcRQb5ME3IMlf5QE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLF1KQOgHGTf9Rb8JQlTQtLo6KpXDNvtik5_dQVT0AxipaDezod4RlZ8k-2Tw3QS-LJHNcfYlE7fJSp72fm9kYwoiY-hR5Td43lF3Xu2OJIR9XkFHgESngzShV6-tFvsV3ekLKwZs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEi4XjSskJKokUu3ahnz70QOLCs7QXOb8Tc5EbJdlLIkYep2MsUdwZcN7CR64tGur2tjd5y8Gfsq97kOaRHx71SFuZ9Q6qmUKEFMUAB1v118GjPPACTCsSVPE7eRPRWVDXhEc_qCMcHCzx3sWu2WRZt7SRW-TQtOnUgmvPLAFj7aDGcLyr78Bg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjdlcVWeA0Nml6erqATP7xcE3nONojX69XbRWM3g_AHYkiiZjpmYxmBhuKz7OJmxGxzwKGBteLuCo8Oyc5BU7OE3rLS74daURm5Y8Gk_oh-H1rpr5rQoZO09Sqq2MvcKtD4LugidM=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6NVkFaUUYTuEWvvgiXAfdIkvuKgkPlezqMbCUuAWV5B7Xytz7ztJIlMpEM-5Cpf0DYUgqzj1cLy7PdCPohpG9qsBYm1qjP40vsSzBQbY4X3lkwZfGRn6HOw5jSLaSmVIsvFAxpiuQjAqTDj6ejd34Phl5zJS5FqYJhl3-464xkkEMNri4k586Ev4f4itmE08ONK2FgDEyJK1DM39g, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDXqyW5620wDCWKR9wPcoTHQfsrlB3jq3WUoOeNT5WshF44HrHiq2wB0wCj0Dy5TssSDTl-S8JiKam7ZnZVlmgKEWSuj1yfAFCWhF0cyhpD7rZw32g_pJ0YQiDcRQb5ME3IMlf5QE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLF1KQOgHGTf9Rb8JQlTQtLo6KpXDNvtik5_dQVT0AxipaDezod4RlZ8k-2Tw3QS-LJHNcfYlE7fJSp72fm9kYwoiY-hR5Td43lF3Xu2OJIR9XkFHgESngzShV6-tFvsV3ekLKwZs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEi4XjSskJKokUu3ahnz70QOLCs7QXOb8Tc5EbJdlLIkYep2MsUdwZcN7CR64tGur2tjd5y8Gfsq97kOaRHx71SFuZ9Q6qmUKEFMUAB1v118GjPPACTCsSVPE7eRPRWVDXhEc_qCMcHCzx3sWu2WRZt7SRW-TQtOnUgmvPLAFj7aDGcLyr78Bg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjdlcVWeA0Nml6erqATP7xcE3nONojX69XbRWM3g_AHYkiiZjpmYxmBhuKz7OJmxGxzwKGBteLuCo8Oyc5BU7OE3rLS74daURm5Y8Gk_oh-H1rpr5rQoZO09Sqq2MvcKtD4LugidM=
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 웹캠을 주로 어떤 용도로 사용하실 예정인가요? | 게임 스트리밍 및 전문 영상 제작, 화상 회의 및 온라인 강의 |
+| 어느 정도의 화질을 중요하게 생각하시나요? | 고화질 (QHD), 최고 화질 (UHD 4K) |
+| 웹캠으로 얼마나 넓은 영역을 담고 싶으신가요? | 매우 넓게 (100° 이상) |
+| 웹캠 예산은 어느 정도로 생각하세요? (평균 약 15만원, 8만원~19만원대가 가장 많아요) | 8만원 ~ 19만원대 |
+| __avoid_negatives__ | 게임 스트리밍이나 전문 영상 제작 시 고화질을 원하는데,해상도가 낮아 선명하지 않을까 봐 걱정돼요.,어두운 환경에서도 화상 회의나 온라인 강의를 해야 하는데,영상이 너무 어둡게 나올까 봐 걱정돼요.,움직임이 많은 게임 스트리밍이나 전문 영상 제작 시 초점이 계속 흐려져서 영상 품질이 떨어질까 봐 부담돼요. |
 
 ---
 
@@ -47,7 +52,11 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 게임 스트리밍이나 전문 영상 제작 시 고화질을 원하는데
+- 해상도가 낮아 선명하지 않을까 봐 걱정돼요.
+- 어두운 환경에서도 화상 회의나 온라인 강의를 해야 하는데
+- 영상이 너무 어둡게 나올까 봐 걱정돼요.
+- 움직임이 많은 게임 스트리밍이나 전문 영상 제작 시 초점이 계속 흐려져서 영상 품질이 떨어질까 봐 부담돼요.
 
 ---
 

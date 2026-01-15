@@ -290,7 +290,7 @@ export function KnowledgeComparisonTable({
 
               {/* 장점 */}
               <tr className="border-b border-gray-100">
-                <td className="py-4 px-3 align-top text-center bg-[#E6FAD2]/30">
+                <td className="py-4 px-3 align-top text-center bg-green-50">
                   <div className="space-y-2 inline-block text-center">
                     {(selectedProducts[0]?.prosFromReviews || []).length > 0 ? (
                       selectedProducts[0]!.prosFromReviews!.slice(0, 3).map((pro, idx) => (
@@ -307,7 +307,7 @@ export function KnowledgeComparisonTable({
                 <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-gray-400 bg-gray-50/50">
                   장점
                 </td>
-                <td className="py-4 px-3 align-top text-center bg-[#E6FAD2]/30">
+                <td className="py-4 px-3 align-top text-center bg-green-50">
                   <div className="space-y-2 inline-block text-center">
                     {(selectedProducts[1]?.prosFromReviews || []).length > 0 ? (
                       selectedProducts[1]!.prosFromReviews!.slice(0, 3).map((pro, idx) => (
@@ -325,7 +325,7 @@ export function KnowledgeComparisonTable({
 
               {/* 단점 */}
               <tr className="border-b border-gray-100">
-                <td className="py-4 px-3 align-top text-center bg-[#FFEDEE]/30">
+                <td className="py-4 px-3 align-top text-center bg-red-50">
                   <div className="space-y-2 inline-block text-center">
                     {(selectedProducts[0]?.consFromReviews || []).length > 0 ? (
                       selectedProducts[0]!.consFromReviews!.slice(0, 3).map((con, idx) => (
@@ -342,7 +342,7 @@ export function KnowledgeComparisonTable({
                 <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-gray-400 bg-gray-50/50">
                   단점
                 </td>
-                <td className="py-4 px-3 align-top text-center bg-[#FFEDEE]/30">
+                <td className="py-4 px-3 align-top text-center bg-red-50">
                   <div className="space-y-2 inline-block text-center">
                     {(selectedProducts[1]?.consFromReviews || []).length > 0 ? (
                       selectedProducts[1]!.consFromReviews!.slice(0, 3).map((con, idx) => (

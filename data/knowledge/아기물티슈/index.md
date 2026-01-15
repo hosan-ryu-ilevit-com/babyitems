@@ -1,28 +1,29 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-15T07:36:29.927Z
+> 마지막 업데이트: 2026-01-15T08:45:53.850Z
 > 분석 상품: 20개 | 분석 리뷰: 196,934개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전한 성분 (무향료, 무색소, EWG 그린 등급)
-- 도톰하고 부드러운 원단
-- 휴대 및 사용 편의성을 높인 캡형 또는 휴대용 소형 포장
+- 안전한 성분 (EWG 그린 등급, 저자극)
+- 부드러운 플레인 원단
+- 뛰어난 가성비 및 대용량 구성
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 보습력
-- ✓ 자극 없는 순한 성분
+- ✓ 순한 성분 및 저자극
+- ✓ 부드러운 원단
+- ✓ 뛰어난 가성비
+- ✓ 무향
 - ✓ 도톰한 두께감
-- ✓ 우수한 휴대성
 
 ### 주의해야 할 단점
-- ⚠ 가격 대비 아쉬운 개수
-- ⚠ 간혹 새는 포장 불량
-- ⚠ 건조함
+- ⚠ 가격대가 다소 높은 편
+- ⚠ 한 번에 여러 장이 나올 때가 있음
+- ⚠ 원단 두께가 프리미엄 라인 대비 평균 수준
 
 ### 가격대 인사이트
-현재 판매 중인 아기물티슈는 10개입 묶음 기준으로 약 1만 원대부터 3만 원대까지 다양하게 분포되어 있습니다. 가성비를 중시하는 소비자는 10개입에 1만 원 초중반대의 제품을, 프리미엄 성분이나 특별한 기능을 선호하는 소비자는 2만 원 이상의 제품을 선택하는 경향을 보입니다.
+아기 물티슈는 가격대가 다양하게 형성되어 있으며, 1장당 가격은 약 12.9원에서 75원까지 분포합니다. 베베앙 물티슈와 같이 12.9원/장의 초저가 제품부터 프리미엄 라인의 제품까지 선택의 폭이 넓습니다. 가성비를 중요하게 생각한다면 1팩당 1,000원 이하의 제품을, 두께와 크기를 고려한다면 면적당 또는 무게당 가격을 비교하는 것이 좋습니다.
 
 ---
 
@@ -241,4 +242,7 @@
 ---
 
 ## 📊 데이터 출처
-- [다나와 아기물티슈 인기순위](https://search.danawa.com/dsearch.php?query=%EC%95%84%EA%B8%B0%EB%AC%BC%ED%8B%B0%EC%8A%88&sort=saveDESC)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4iFg34uPo83kIdUPl3h3gCSjdaqFKKlgY5xkH48knkm-MmTs6FQ-HD_GOKqZpFgCOD2oLr4ZY4YIyh4ugnlwFW-3nRAt0O7H2EjWywx1z8cUyyf87PLkcK3aL6dPEPbdtcf8iXvi5LZTIhpHN3kjCEw5-)
+- [brikorea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1XR2IzuPHwfMaZYTneGHBpiNd8N3Vh-cMOM0vHqONYKgtpJFaXHdgvcF220jDOipZkPfKsE57AUpXQpqVUXlqATKWEz7gvS-kxn92MNGEhnIsuV4i9Cw5wQJIrQmNKS5KY87JWZfyTEdCW7IRMCe2ouQIWf-zaw==)
+- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHK13Fd2h7vsKAx3n8QTpA5g7n5mznwBB7R315QHkz6R3fCEewyCJ2RbS87ErUV4TcjTu43cRuLxB9VHK_dlSjtkWmH308dsUYsP1UUTj43vQ9A5FqZ4xRg35S9dmJsrL4PAzQlaT13oZkbe1DI1rY=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEooqe0MF55TMZUIWno2pzqdolaF9HYCWgqGyXTiPdjXGKrehp9WadMyH9zS_4zgrZ48yXn685OIqem-_saGnf-EuqdHXGwUznjI5YotmqHhJvE_dIeQ67NOQHdRjN7eVPQu8MJdbBAmrYo0rkfqSbJi0me_31k6HM0G8M=)
