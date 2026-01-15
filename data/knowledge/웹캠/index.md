@@ -1,6 +1,6 @@
 # 웹캠 전문가 지식
 
-> 마지막 업데이트: 2026-01-15T10:52:21.088Z
+> 마지막 업데이트: 2026-01-15T11:22:56.549Z
 > 분석 상품: 20개 | 분석 리뷰: 6,110개
 
 ## 📈 2026년 시장 트렌드
@@ -231,8 +231,7 @@
 ---
 
 ## 📊 데이터 출처
-- [reddit.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq5u0KHooSAGkZNkoS9Vd6auKKgLSId2yB9QZF7luh7nCI_9JSTJeAVaqWmjDTmDf3w5HMA3rSHKtOmYx-4GMlhsg1nQbIoDZrfkGmWRex6k784fijGn0u578IcvkUjkcSoC0aYSf-J42cBwz9Nhp-2VMu0UUG4uotQ7O_mE1L-qC_l3HMkGRX31CbPRk14NA9WPRhaNS8K5s7uaia)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlXWBdPsHWXnwzzMwRggwJFI8LvxQT5hmgzqwnHjXUAfwK7I8cu0SofcPUQLF0jXsIHMiKMkNMmnLhPZGOvpEiDn_lnHabeIPkEf_YcQ_ZzsXgu0dIFauMTDjw2CBaLTBcG8Rycd4=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGayTHx67omJUU6D39SN_UiQgH8utlsIdN24_XEvZI83t_3jC5nilsTy9g0lceDfhCQ7FF2pN4O1ku4UsMa2_0TcXwdYgRyVq5y7W5ryLuRiJU-N1ePED_za65_gYb71KTUJ6kItiw=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEpCClkMv5mZCzG4hmsqaDfifIJ-JLEwk7SxKOxvtVebp_ZI94IqPJ1EruwUSbq2ynmjWbpuuK315y0u7r5KP1bQLUKcKLaz8jdSmBHddqR9AmqXMDIbrVTvNBQqkuVm7QwjNhZEQ=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPkPFz6Owp-Ki_32ohrvxu06VabD1rGJiJAfPgvW6Sv-I_NI9A2yEE3aLJgv5H2xMsgr_IJQNxa78t3KzgDZT2D9IT7MiKQ_2NoJJaCzP6L2N-4offbzbBXgYzXYKDruFlEGlRLBw=)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqpzmLsSCpB2aKue4PtB_gyzX-ViiEglzXUuDmFzjW4i0ZaflbrI6kXjORz9fbn2Y68BzyKBtt6DabeDfz1rdikb6iMmh4apf1adGJK6aPxj28HBPCuF_uH8Q5L00EjBPlrzfUG3iD_fK49KMRwCN_UBC8l2I6JowwD6zbDXk8t2kD15V-Y8o=)
+- [reddit.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHabW0vCcjbSTF6Rxmai1rLCo9c-JEXzHlhHKjZWhE5G80JZQToHmsU5IlKxevfzDsVv08QzlfVR1-kUn72FqR9Kh5PnAZvnPY9dPnFzQxnAFX2Fpgtk0fnJk8ZDXO6iZX8NxTHFS8ZGNgAFNYPTSKviRPumim67mIHkG1ufNRkZRyFrbbFUI84RMAhIFZ8UUfs7xg_1utAxWOF8qiv)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdoj5dZGauo99b63I4rhezasBr0tDA819l36G9Ao0NI1v5sgxKE00-k8BFkcIY8XdDzddk97MgJZpVGWLzhksxDXYZrEnPdlpOEMxxvFDx2FmnzSYFMn8pOx31fkR35xlnuRv7Y-c=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGx3xhZiRQS-yqOY7zTw7063twR4Ixj6hQN2OYDCz84smE63asp9VKrHD5ku1Z_4XpPxUHxnpfXDZdSH5cnkC98SC1DlqzPZ0UlkQSVoAw6lL3h0TOKUdLy3nr7SfguMRJPH9paXMs=)

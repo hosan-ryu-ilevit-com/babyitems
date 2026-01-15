@@ -1,5 +1,5 @@
-# 세션: 20260115_105232_qu9u
-> 시작: 2026-01-15T10:52:32.125Z
+# 세션: 20260115_112301_v2d3
+> 시작: 2026-01-15T11:23:01.630Z
 > 카테고리키: 웹캠
 > 카테고리: 웹캠
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 웹캠
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq5u0KHooSAGkZNkoS9Vd6auKKgLSId2yB9QZF7luh7nCI_9JSTJeAVaqWmjDTmDf3w5HMA3rSHKtOmYx-4GMlhsg1nQbIoDZrfkGmWRex6k784fijGn0u578IcvkUjkcSoC0aYSf-J42cBwz9Nhp-2VMu0UUG4uotQ7O_mE1L-qC_l3HMkGRX31CbPRk14NA9WPRhaNS8K5s7uaia, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlXWBdPsHWXnwzzMwRggwJFI8LvxQT5hmgzqwnHjXUAfwK7I8cu0SofcPUQLF0jXsIHMiKMkNMmnLhPZGOvpEiDn_lnHabeIPkEf_YcQ_ZzsXgu0dIFauMTDjw2CBaLTBcG8Rycd4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGayTHx67omJUU6D39SN_UiQgH8utlsIdN24_XEvZI83t_3jC5nilsTy9g0lceDfhCQ7FF2pN4O1ku4UsMa2_0TcXwdYgRyVq5y7W5ryLuRiJU-N1ePED_za65_gYb71KTUJ6kItiw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEpCClkMv5mZCzG4hmsqaDfifIJ-JLEwk7SxKOxvtVebp_ZI94IqPJ1EruwUSbq2ynmjWbpuuK315y0u7r5KP1bQLUKcKLaz8jdSmBHddqR9AmqXMDIbrVTvNBQqkuVm7QwjNhZEQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPkPFz6Owp-Ki_32ohrvxu06VabD1rGJiJAfPgvW6Sv-I_NI9A2yEE3aLJgv5H2xMsgr_IJQNxa78t3KzgDZT2D9IT7MiKQ_2NoJJaCzP6L2N-4offbzbBXgYzXYKDruFlEGlRLBw=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq5u0KHooSAGkZNkoS9Vd6auKKgLSId2yB9QZF7luh7nCI_9JSTJeAVaqWmjDTmDf3w5HMA3rSHKtOmYx-4GMlhsg1nQbIoDZrfkGmWRex6k784fijGn0u578IcvkUjkcSoC0aYSf-J42cBwz9Nhp-2VMu0UUG4uotQ7O_mE1L-qC_l3HMkGRX31CbPRk14NA9WPRhaNS8K5s7uaia, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlXWBdPsHWXnwzzMwRggwJFI8LvxQT5hmgzqwnHjXUAfwK7I8cu0SofcPUQLF0jXsIHMiKMkNMmnLhPZGOvpEiDn_lnHabeIPkEf_YcQ_ZzsXgu0dIFauMTDjw2CBaLTBcG8Rycd4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGayTHx67omJUU6D39SN_UiQgH8utlsIdN24_XEvZI83t_3jC5nilsTy9g0lceDfhCQ7FF2pN4O1ku4UsMa2_0TcXwdYgRyVq5y7W5ryLuRiJU-N1ePED_za65_gYb71KTUJ6kItiw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEpCClkMv5mZCzG4hmsqaDfifIJ-JLEwk7SxKOxvtVebp_ZI94IqPJ1EruwUSbq2ynmjWbpuuK315y0u7r5KP1bQLUKcKLaz8jdSmBHddqR9AmqXMDIbrVTvNBQqkuVm7QwjNhZEQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPkPFz6Owp-Ki_32ohrvxu06VabD1rGJiJAfPgvW6Sv-I_NI9A2yEE3aLJgv5H2xMsgr_IJQNxa78t3KzgDZT2D9IT7MiKQ_2NoJJaCzP6L2N-4offbzbBXgYzXYKDruFlEGlRLBw=
+- 인사이트: 
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqpzmLsSCpB2aKue4PtB_gyzX-ViiEglzXUuDmFzjW4i0ZaflbrI6kXjORz9fbn2Y68BzyKBtt6DabeDfz1rdikb6iMmh4apf1adGJK6aPxj28HBPCuF_uH8Q5L00EjBPlrzfUG3iD_fK49KMRwCN_UBC8l2I6JowwD6zbDXk8t2kD15V-Y8o=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHabW0vCcjbSTF6Rxmai1rLCo9c-JEXzHlhHKjZWhE5G80JZQToHmsU5IlKxevfzDsVv08QzlfVR1-kUn72FqR9Kh5PnAZvnPY9dPnFzQxnAFX2Fpgtk0fnJk8ZDXO6iZX8NxTHFS8ZGNgAFNYPTSKviRPumim67mIHkG1ufNRkZRyFrbbFUI84RMAhIFZ8UUfs7xg_1utAxWOF8qiv, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdoj5dZGauo99b63I4rhezasBr0tDA819l36G9Ao0NI1v5sgxKE00-k8BFkcIY8XdDzddk97MgJZpVGWLzhksxDXYZrEnPdlpOEMxxvFDx2FmnzSYFMn8pOx31fkR35xlnuRv7Y-c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGx3xhZiRQS-yqOY7zTw7063twR4Ixj6hQN2OYDCz84smE63asp9VKrHD5ku1Z_4XpPxUHxnpfXDZdSH5cnkC98SC1DlqzPZ0UlkQSVoAw6lL3h0TOKUdLy3nr7SfguMRJPH9paXMs=
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 주로 어떤 용도로 웹캠을 사용하실 예정인가요? | 게임 스트리밍, 콘텐츠 제작 |
-| 영상 품질은 어느 정도를 원하시나요? | QHD (2560x1440 이상) |
-| 한 번에 얼마나 넓은 범위를 담고 싶으신가요? | 표준 시야각 (70° ~ 90°), 좁은 시야각 (최대 70°) |
-| 웹캠 예산은 어느 정도로 생각하세요? (평균 약 15만원, 8만원~19만원대가 가장 많아요) | 8만원 이하, 8만원 ~ 19만원대 |
-| __avoid_negatives__ | QHD 이상의 고화질을 원하는데,영상이 흐릿하게 나와서 콘텐츠 제작에 아쉬움이 남을까 봐 걱정돼요.,게임 스트리밍 시 제 모습만 겨우 담겨서 주변 환경이나 다른 요소를 보여주기 어려울까 봐 불편해요. |
 
 ---
 
@@ -52,9 +47,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- QHD 이상의 고화질을 원하는데
-- 영상이 흐릿하게 나와서 콘텐츠 제작에 아쉬움이 남을까 봐 걱정돼요.
-- 게임 스트리밍 시 제 모습만 겨우 담겨서 주변 환경이나 다른 요소를 보여주기 어려울까 봐 불편해요.
+(아직 선택 없음)
 
 ---
 
