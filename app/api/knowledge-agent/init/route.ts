@@ -36,7 +36,7 @@ import { getQueryCache, setQueryCache } from '@/lib/knowledge-agent/cache-manage
 import { fetchReviewsBatchParallel, type ReviewCrawlResult } from '@/lib/danawa/review-crawler-lite';
 
 // Supabase 캐시 (프리페치된 데이터)
-import { getProductsFromCache, getReviewsFromCache, isCacheFresh } from '@/lib/knowledge-agent/supabase-cache';
+import { getProductsFromCache, getReviewsFromCache } from '@/lib/knowledge-agent/supabase-cache';
 
 // Vercel 서버리스 타임아웃 설정 (기본 10초 → 60초)
 export const maxDuration = 60;
@@ -412,9 +412,9 @@ async function crawlProductsWithStreaming(
 ): Promise<{ products: DanawaSearchListItem[]; cached: boolean; searchUrl: string; filters?: DanawaFilterSection[] }> {
   console.log(`[Step2] Crawling products for: ${categoryName} (limit: ${PRODUCT_CRAWL_LIMIT})`);
 
-  // 1. Supabase 캐시 우선 확인 (프리페치된 데이터)
+  // 1. Supabase 캐시에서 제품 조회 (캐시 전용 - 신선도 체크 제거)
   const supabaseCache = await getProductsFromCache(categoryName, PRODUCT_CRAWL_LIMIT);
-  if (supabaseCache.hit && supabaseCache.products.length > 0 && isCacheFresh(supabaseCache.cachedAt, 3)) {
+  if (supabaseCache.hit && supabaseCache.products.length > 0) {
     console.log(`[Step2] Supabase cache HIT: ${supabaseCache.products.length} products (${supabaseCache.cachedAt})`);
 
     const searchUrl = `https://search.danawa.com/dsearch.php?query=${encodeURIComponent(categoryName)}`;
@@ -424,14 +424,17 @@ async function crawlProductsWithStreaming(
       onHeaderParsed({ searchUrl, filters: undefined });
     }
 
-    // 캐시된 경우에도 배치로 스트리밍
+    // 캐시된 경우: 첫 배치 + 전체 완료 신호만 전송 (빠른 UI 업데이트)
     if (onProductBatch) {
-      const batchSize = 5;
-      for (let i = 0; i < supabaseCache.products.length; i += batchSize) {
-        const batch = supabaseCache.products.slice(i, i + batchSize);
-        const isComplete = i + batchSize >= supabaseCache.products.length;
-        const isFirstBatchComplete = i + batchSize >= FIRST_BATCH_COMPLETE_COUNT && i < FIRST_BATCH_COMPLETE_COUNT;
-        onProductBatch(batch, isComplete, isFirstBatchComplete);
+      // 첫 5개로 product_analysis 완료 신호
+      const firstBatch = supabaseCache.products.slice(0, FIRST_BATCH_COMPLETE_COUNT);
+      onProductBatch(firstBatch, false, true);
+      // 나머지 한번에 전송 + 완료 신호
+      const rest = supabaseCache.products.slice(FIRST_BATCH_COMPLETE_COUNT);
+      if (rest.length > 0) {
+        onProductBatch(rest, true, false);
+      } else {
+        onProductBatch([], true, false);
       }
     }
     return { products: supabaseCache.products, cached: true, searchUrl, filters: undefined };

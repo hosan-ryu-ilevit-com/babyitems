@@ -11,7 +11,7 @@
  * - 스트리밍 + Shimmer 효과
  */
 
-import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CaretDown,
@@ -59,6 +59,8 @@ export interface AnalysisStep {
   thinking?: string;
   // 결과 데이터
   result?: any;
+  // 로딩 중 상태 텍스트 (스켈레톤 위에 표시)
+  loadingText?: string;
 }
 
 export interface GeneratedQuestion {
@@ -254,6 +256,23 @@ function ProductAnalysisContent({
   const filters = step.result?.filters || [];
   const filterCount = step.result?.filterCount || filters.length;
 
+  // 로딩 상태 텍스트 (전환 효과용)
+  const loadingTexts = [
+    '판매 데이터 조회 중...',
+    '인기 상품 분석 중...',
+    '필터 정보 추출 중...',
+    '브랜드 정보 수집 중...',
+  ];
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+
+  useEffect(() => {
+    if (products.length > 0 || step.status === 'done') return;
+    const interval = setInterval(() => {
+      setLoadingTextIndex(prev => (prev + 1) % loadingTexts.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [products.length, step.status, loadingTexts.length]);
+
   return (
     <AnimatePresence mode="wait">
       {(products.length === 0 && step.status !== 'done') ? (
@@ -264,8 +283,26 @@ function ProductAnalysisContent({
           exit={{ opacity: 0 }}
           className="space-y-2"
         >
-          <div className="flex items-center gap-1.5">
-            <Shimmer className="h-3 w-24" />
+          {/* 로딩 상태 텍스트 */}
+          <div className="flex items-center gap-2 mb-2">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            >
+              <FcProcess size={14} />
+            </motion.div>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={loadingTextIndex}
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.2 }}
+                className="text-[12px] text-gray-500 font-medium"
+              >
+                {step.loadingText || loadingTexts[loadingTextIndex]}
+              </motion.span>
+            </AnimatePresence>
           </div>
           <div className="space-y-1.5">
             {[1, 2, 3, 4].map(i => (
@@ -425,6 +462,24 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
   const queries = step.searchQueries || [];
   const thinking = step.thinking || '';
 
+  // 로딩 상태 텍스트 (전환 효과용)
+  const loadingTexts = [
+    '웹에서 트렌드 검색 중...',
+    '최신 리뷰 정보 수집 중...',
+    '전문가 의견 분석 중...',
+    '트렌드 데이터 정리 중...',
+  ];
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+
+  // 로딩 텍스트 전환
+  useEffect(() => {
+    if (sources.length > 0 || step.status === 'done') return;
+    const interval = setInterval(() => {
+      setLoadingTextIndex(prev => (prev + 1) % loadingTexts.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [sources.length, step.status, loadingTexts.length]);
+
   // 진행 중일 때만 출처 전환 효과
   useEffect(() => {
     if (step.status === 'done' || sources.length <= 1) return;
@@ -446,6 +501,27 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
           exit={{ opacity: 0 }}
           className="space-y-3"
         >
+          {/* 로딩 상태 텍스트 */}
+          <div className="flex items-center gap-2 mb-1">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            >
+              <FcProcess size={14} />
+            </motion.div>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={loadingTextIndex}
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.2 }}
+                className="text-[12px] text-gray-500 font-medium"
+              >
+                {step.loadingText || loadingTexts[loadingTextIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </div>
           {queries.length > 0 && (
             <div className="space-y-1.5">
               {queries.slice(0, 2).map((query, i) => (
@@ -1114,43 +1190,13 @@ export function AgenticLoadingPhase({
   // 첫 번째 단계(인기상품 분석)는 시작부터 펼쳐진 상태
   const [expandedStepIds, setExpandedStepIds] = useState<Set<string>>(new Set(['product_analysis']));
   const [autoExpandedStepIds, setAutoExpandedStepIds] = useState<Set<string>>(new Set(['product_analysis']));
-  const [lastActiveStepId, setLastActiveStepId] = useState<string | null>(null);
-
-  // 각 step에 대한 refs
-  const stepRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
-
-  // 특정 step으로 스크롤하는 함수
-  const scrollToStep = useCallback((stepId: string) => {
-    const element = stepRefs.current.get(stepId);
-    if (element) {
-      // scrollContainer(main)를 찾아 직접 스크롤
-      const scrollContainer = document.querySelector('main');
-      if (scrollContainer) {
-        // StepIndicator가 main 외부로 나갔으므로, main의 최상단이 인디케이터 바로 아래입니다.
-        // 여백(20px)만 고려하여 스크롤합니다.
-        const headerOffset = 20;
-
-        const elementRect = element.getBoundingClientRect();
-        const containerRect = scrollContainer.getBoundingClientRect();
-
-        // 컨테이너 내부에서의 상대적 위치 계산
-        const relativeTop = elementRect.top - containerRect.top + scrollContainer.scrollTop;
-        const offsetPosition = relativeTop - headerOffset;
-
-        scrollContainer.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    }
-  }, []);
 
   // 디버그 로그
   console.log('[AgenticLoadingPhase] crawledProducts:', crawledProducts?.length);
   console.log('[AgenticLoadingPhase] generatedQuestions:', generatedQuestions?.length, generatedQuestions);
 
   // 활성 단계 및 완료된 단계 → 순차적으로 확장 (이미 완료된 단계도 누락 없이 확장)
-  // 활성 단계 및 완료된 단계 → 순차적으로 확장
+  // 완료된 단계는 자동 접기
   useEffect(() => {
     // 자동 확장해야 할 단계들
     const stepsToAutoExpand = steps.filter(s => s.status === 'active' || s.status === 'done');
@@ -1164,21 +1210,47 @@ export function AgenticLoadingPhase({
     if (nextStepToExpand) {
       const timer = setTimeout(() => {
         setAutoExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
-        // 완료 안됐을 때만 확장
+        // 완료 안됐을 때만 확장 (개별 단계 진행 중에는 스크롤하지 않음)
         if (!isComplete) {
           setExpandedStepIds(prev => new Set([...prev, nextStepToExpand.id]));
-
-          // 스크롤 처리
-          if (nextStepToExpand.id !== lastActiveStepId) {
-            setLastActiveStepId(nextStepToExpand.id);
-            scrollToStep(nextStepToExpand.id);
-          }
         }
       }, 150);
 
       return () => clearTimeout(timer);
     }
-  }, [steps, autoExpandedStepIds, lastActiveStepId, scrollToStep, isComplete]);
+  }, [steps, autoExpandedStepIds, isComplete]);
+
+  // 개별 단계 완료 시 자동 접기 (다음 단계가 active 되면 이전 단계 접기)
+  useEffect(() => {
+    if (isComplete) return;
+
+    // 현재 active인 단계 찾기
+    const activeStep = steps.find(s => s.status === 'active');
+    if (!activeStep) return;
+
+    // active 단계 이전의 done 단계들 접기
+    const stepOrder = ['product_analysis', 'web_search', 'review_extraction', 'question_generation'];
+    const activeIndex = stepOrder.indexOf(activeStep.id);
+
+    if (activeIndex > 0) {
+      const stepsToCollapse = stepOrder.slice(0, activeIndex);
+      // 사용자가 결과를 확인할 수 있도록 1.5초 딜레이 후 접기
+      const timer = setTimeout(() => {
+        setExpandedStepIds(prev => {
+          const next = new Set(prev);
+          stepsToCollapse.forEach(stepId => {
+            const step = steps.find(s => s.id === stepId);
+            if (step?.status === 'done') {
+              next.delete(stepId);
+            }
+          });
+          return next;
+        });
+      }, 700); // 결과 확인 시간 확보
+
+      return () => clearTimeout(timer);
+    }
+  }, [steps, isComplete]);
 
   // 완료 시 맨 위로 스크롤 (여기서는 접는 로직 불필요 -> SummaryCard가 렌더링되므로)
   useEffect(() => {
@@ -1279,7 +1351,6 @@ export function AgenticLoadingPhase({
                   crawledProducts={step.id === 'product_analysis' ? crawledProducts : undefined}
                   generatedQuestions={step.id === 'question_generation' ? generatedQuestions : undefined}
                   categoryKey={categoryKey}
-                  onRefChange={(el) => stepRefs.current.set(step.id, el)}
                 />
               ))}
             </motion.div>
