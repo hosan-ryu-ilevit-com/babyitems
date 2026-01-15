@@ -331,7 +331,13 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
           return { success: true, phase: 'questions', content: `${naturalResponse}\n\n${currentTodo.question}`, options: currentTodo.options.map((o:any)=>o.label), currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCount + 1, total: updatedTodos.length } };
         }
 
-        if (intentResult.type === 'B') {
+        // ✅ 단점 선택(avoid_negatives) 질문에서는 웹서치 건너뛰기
+        const isNegativeQuestion = currentQuestionId === 'avoid_negatives' ||
+          currentTodo.id === 'avoid_negatives' ||
+          currentTodo.question?.includes('피하고 싶은 단점') ||
+          currentTodo.question?.includes('피할');
+
+        if (intentResult.type === 'B' && !isNegativeQuestion) {
           const query = intentResult.suggestedSearchQuery || `${searchKeyword} ${userMessage}`;
           send('status', { message: `"${query}" 관련 정보 검색 중...`, query });
           webSearchResult = await performContextualSearch(searchKeyword, userMessage, currentTodo.question, intentResult.suggestedSearchQuery, 'B');

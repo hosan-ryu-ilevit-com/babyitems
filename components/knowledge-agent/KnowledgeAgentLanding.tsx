@@ -264,7 +264,7 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="relative w-full max-w-[480px] bg-white rounded-t-[12px] overflow-hidden shadow-2xl"
           >
             <div className="p-4 pt-6 pb-10">
@@ -354,9 +354,54 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [extractedKeyword, setExtractedKeyword] = useState('');
+  const [savedCategories, setSavedCategories] = useState<Set<string>>(new Set());
 
   // Theme Colors
   const isBaby = defaultTab === 'baby';
+
+  // 로컬스토리지에서 저장된 결과가 있는 카테고리 확인
+  useEffect(() => {
+    const checkSavedResults = () => {
+      const saved = new Set<string>();
+
+      // 모든 localStorage 키 확인 (디버깅)
+      const allKeys = Object.keys(localStorage).filter(k => k.startsWith('ka-result-'));
+      console.log('[KA Landing] All ka-result keys:', allKeys);
+
+      // 모든 카테고리를 순회하며 저장된 결과 확인
+      Object.values(CATEGORIES_DATA).forEach((mainCat) => {
+        Object.values(mainCat).forEach((subCat) => {
+          const sub = subCat as { children?: string[] };
+          if (sub.children) {
+            sub.children.forEach((child: string) => {
+              const key = `ka-result-${child}`;
+              try {
+                const data = localStorage.getItem(key);
+                if (data) {
+                  const parsed = JSON.parse(data);
+                  console.log(`[KA Landing] Found ${key}:`, { savedAt: parsed.savedAt, age: Date.now() - parsed.savedAt });
+                  // 7일 이내의 결과만 유효
+                  if (Date.now() - parsed.savedAt <= 7 * 24 * 60 * 60 * 1000) {
+                    saved.add(child);
+                    console.log(`[KA Landing] ✅ Valid: ${child}`);
+                  }
+                }
+              } catch {
+                // ignore
+              }
+            });
+          }
+        });
+      });
+      console.log('[KA Landing] savedCategories:', Array.from(saved));
+      setSavedCategories(saved);
+    };
+
+    checkSavedResults();
+    // 페이지 포커스 시 다시 확인 (다른 탭에서 결과가 저장되었을 수 있음)
+    window.addEventListener('focus', checkSavedResults);
+    return () => window.removeEventListener('focus', checkSavedResults);
+  }, []);
 
   useEffect(() => {
     logKAPageView();
@@ -374,8 +419,16 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
     const searchQuery = query || inputValue.trim();
     if (!searchQuery || isProcessing) return;
 
-    // 카테고리 버튼 클릭 시에는 이미 키워드가 명확하므로 별도 추출 없이 바로 모달 오픈
+    // 카테고리 버튼 클릭 시
     if (query) {
+      // 저장된 결과가 있으면 바로 결과 페이지로 이동 (바텀시트 스킵)
+      if (savedCategories.has(query)) {
+        logKnowledgeAgentSearchRequest(query, 'button_click', selectedMainCategory, selectedSubCategory || undefined);
+        router.push(`/knowledge-agent/${encodeURIComponent(query)}`);
+        return;
+      }
+
+      // 저장된 결과가 없으면 모달 오픈
       logKnowledgeAgentSearchRequest(query, 'button_click', selectedMainCategory, selectedSubCategory || undefined);
       setActiveSearchItem(query);
       setExtractedKeyword(query);
@@ -516,6 +569,7 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
                           const isLoading = activeSearchItem === child && !showConfirmModal;
                           const imageUrl = isBaby ? BABY_CATEGORY_ICONS[child] : LIVING_CATEGORY_ICONS[child];
                           const imageSrc = imageUrl ? encodeURI(imageUrl) : undefined;
+                          const hasSavedResult = savedCategories.has(child);
 
                           return (
                             <div key={child} className="flex flex-col items-center w-full min-w-0">
@@ -523,16 +577,26 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
                                 onClick={() => handleSearchRequest(child)}
                                 disabled={isLoading || isProcessing}
                                 whileTap={isLoading ? undefined : { scale: 0.98 }}
-                                className={`relative w-full aspect-square rounded-2xl border flex flex-col items-center pt-3 pb-2 gap-1 bg-white border-gray-100 hover:border-gray-200`}
+                                className={`relative w-full aspect-square rounded-2xl flex flex-col items-center pt-3 pb-2 gap-1 bg-white ${
+                                  hasSavedResult
+                                    ? 'border-2 border-blue-400'
+                                    : 'border border-gray-100 hover:border-gray-200'
+                                }`}
                               >
                                 {isLoading ? (
                                   <div className="w-6 h-6 border-2 border-gray-200 border-t-gray-600 rounded-full animate-spin my-auto" />
                                 ) : (
                                   <>
-                                    <span className={`font-medium text-gray-600 px-1 truncate w-full text-center ${isBaby ? 'text-[14px]' : 'text-[13px] sm:text-[14px]'}`}>
+                                    <span className={`font-medium px-1 truncate w-full text-center text-gray-600 ${isBaby ? 'text-[14px]' : 'text-[13px] sm:text-[14px]'}`}>
                                       {child}
                                     </span>
                                     <div className={`relative mt-auto mb-1 flex items-center justify-center ${isBaby ? 'w-[62%] h-[62%]' : 'w-[55%] h-[55%]'}`}>
+                                      {/* 추천 완료 뱃지 - 썸네일 위쪽 */}
+                                      {hasSavedResult && (
+                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-blue-500 rounded-md flex items-center justify-center z-10 whitespace-nowrap">
+                                          <span className="text-[10px] font-bold text-white leading-none">추천완료</span>
+                                        </div>
+                                      )}
                                       {imageSrc ? (
                                         <img
                                           src={imageSrc}

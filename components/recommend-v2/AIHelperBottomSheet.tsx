@@ -410,7 +410,7 @@ export function AIHelperBottomSheet({
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-110 flex flex-col overflow-hidden"
             style={{ maxWidth: '480px', margin: '0 auto', height: '85vh' }}
           >

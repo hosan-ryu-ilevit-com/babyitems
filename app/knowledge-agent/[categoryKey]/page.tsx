@@ -722,6 +722,52 @@ function ReportToggle({
 }
 
 // ============================================================================
+// Tip Toggle Component (팁 토글)
+// ============================================================================
+function TipToggle({ tip }: { tip: string }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.4 }}
+    >
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="flex items-center gap-1 text-[13px] text-gray-500 hover:text-gray-700 transition-colors py-1"
+      >
+        <Image src="/icons/mdi_lightbulb.png" alt="" width={16} height={16} />
+        <span className="font-medium">
+          {isExpanded ? '팁 접기' : '팁 펼치기'}
+        </span>
+        {isExpanded ? (
+          <CaretUp size={14} weight="bold" />
+        ) : (
+          <CaretDown size={14} weight="bold" />
+        )}
+      </button>
+
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="bg-gray-50 border border-gray-100 rounded-[12px] px-4 py-3.5 mt-2">
+              <p className="text-[13px] text-gray-600 leading-[1.5] font-medium">{tip.replace(/^[💡\s]+/, '')}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+// ============================================================================
 // Auto Scroll Hook - 새 메시지를 화면 상단(헤더 아래)에 위치시키는 스크롤
 // ============================================================================
 function useAutoScroll(containerRef: React.RefObject<HTMLDivElement | null>) {
@@ -1006,6 +1052,65 @@ export default function KnowledgeAgentPage() {
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   // ============================================================================
+  // LocalStorage 저장/복원 (Top 3 결과)
+  // ============================================================================
+
+  const STORAGE_KEY = `ka-result-${categoryName}`;
+
+  const saveResultToStorage = useCallback((products: any[], msgs: ChatMessage[], reviews?: Record<string, any>, prices?: Record<string, any>) => {
+    try {
+      const resultMessage = msgs.find(m => m.resultProducts && m.resultProducts.length > 0);
+      if (!resultMessage || products.length === 0) return;
+
+      const dataToSave = {
+        resultProducts: products,
+        resultMessage: {
+          id: resultMessage.id,
+          role: resultMessage.role,
+          content: resultMessage.content,
+          resultProducts: resultMessage.resultProducts,
+          timestamp: resultMessage.timestamp,
+        },
+        reviewsData: reviews || {},
+        pricesData: prices || {},
+        savedAt: Date.now(),
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+      console.log('[KA] ✅ Result saved to localStorage');
+    } catch (e) {
+      console.error('[KA] Failed to save result:', e);
+    }
+  }, [STORAGE_KEY]);
+
+  const loadResultFromStorage = useCallback((): boolean => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return false;
+
+      const data = JSON.parse(saved);
+      // 7일 이내의 결과만 복원
+      if (Date.now() - data.savedAt > 7 * 24 * 60 * 60 * 1000) {
+        localStorage.removeItem(STORAGE_KEY);
+        return false;
+      }
+
+      if (data.resultProducts?.length > 0 && data.resultMessage) {
+        setResultProducts(data.resultProducts);
+        setMessages([data.resultMessage as ChatMessage]);
+        setPhase('result');
+        if (data.reviewsData) setReviewsData(data.reviewsData);
+        if (data.pricesData) setPricesData(data.pricesData);
+        console.log('[KA] ✅ Result restored from localStorage');
+        return true;
+      }
+      return false;
+    } catch (e) {
+      console.error('[KA] Failed to load result:', e);
+      return false;
+    }
+  }, [STORAGE_KEY]);
+
+  // ============================================================================
   // Initialize
   // ============================================================================
 
@@ -1013,7 +1118,14 @@ export default function KnowledgeAgentPage() {
     if (isInitializedRef.current) return;
     isInitializedRef.current = true;
     logKAPageView(`ka-agent-${categoryName}`);
+
+    // 저장된 결과가 있으면 복원하고 초기화 건너뛰기
+    if (loadResultFromStorage()) {
+      return;
+    }
+
     initializeAgent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryKey]);
 
   // [자동 스크롤] 새 메시지가 추가될 때 해당 메시지를 화면 상단에 위치
@@ -1065,6 +1177,16 @@ export default function KnowledgeAgentPage() {
     const assistantQuestions = messages.filter(m => m.role === 'assistant' && m.options);
     setCanGoPrev(assistantQuestions.length > 1);
   }, [messages]);
+
+  // 결과가 생성되면 로컬스토리지에 저장
+  useEffect(() => {
+    if (phase === 'result' && resultProducts.length > 0) {
+      const hasResultMessage = messages.some(m => m.resultProducts && m.resultProducts.length > 0);
+      if (hasResultMessage) {
+        saveResultToStorage(resultProducts, messages, reviewsData, pricesData);
+      }
+    }
+  }, [phase, resultProducts, messages, reviewsData, pricesData, saveResultToStorage]);
 
   const initializeAgent = async () => {
     const initialQueries = [
@@ -3015,7 +3137,17 @@ export default function KnowledgeAgentPage() {
 
         <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px', overflowAnchor: 'none' }}>
           <div className="space-y-8 pt-2">
-            {messages.map((msg, idx) => {
+            {(() => {
+              // top3 결과가 있는지 확인하고, 있다면 그 인덱스 찾기
+              const resultMessageIndex = messages.findIndex(m => m.resultProducts && m.resultProducts.length > 0);
+              const hasResult = resultMessageIndex !== -1;
+
+              return messages.map((msg, idx) => {
+              // top3 결과가 있으면 그 이전의 모든 메시지들은 숨김 (결과 메시지만 표시)
+              if (hasResult && idx < resultMessageIndex) {
+                return null;
+              }
+
               const isLatestAssistant = msg.role === 'assistant' && (msg.options || msg.negativeFilterOptions) && !msg.isFinalized;
               // 후속 채팅 메시지(options/questionProgress 없는 일반 응답)는 투명도 적용 안 함
               const isFollowUpChat = msg.role === 'assistant' && !msg.options && !msg.questionProgress && !msg.negativeFilterOptions;
@@ -3107,7 +3239,8 @@ export default function KnowledgeAgentPage() {
                 pricesData={pricesData}
               />
             );
-          })}
+          });
+            })()}
 
             {/* 결과 채팅 로딩 인디케이터 */}
             <AnimatePresence>
@@ -3669,6 +3802,8 @@ export default function KnowledgeAgentPage() {
                   <button
                     onClick={() => {
                       logKnowledgeAgentReRecommendSameCategory(categoryKey || '', categoryName || '');
+                      // 로컬스토리지에서 저장된 결과 삭제
+                      localStorage.removeItem(STORAGE_KEY);
                       window.location.href = `/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}`;
                     }}
                     className="w-full h-[72px] bg-[#191D28]/80 border border-gray-800 rounded-[12px] flex items-center px-4 group active:scale-[0.98] transition-all backdrop-blur-[6px]"
@@ -3929,12 +4064,7 @@ function MessageBubble({
         {!isUser && message.reportData && <ReportToggle reportData={message.reportData} />}
 
         {!isUser && message.tip && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: isInactive ? 0.5 : 1, y: 0 }} transition={{ delay: 0.4 }} className="flex items-start gap-3 bg-gray-50 border border-gray-100 rounded-[12px] px-4 py-3.5">
-            <div className="shrink-0 w-5 h-5 mt-0.5">
-              <Image src="/icons/mdi_lightbulb.png" alt="" width={20} height={20} />
-            </div>
-            <p className="text-[13px] text-gray-600 leading-[1.5] font-medium">{message.tip.replace(/^[💡\s]+/, '')}</p>
-          </motion.div>
+          <TipToggle tip={message.tip} />
         )}
 
 
