@@ -1,30 +1,18 @@
 # 노트북거치대 전문가 지식
 
-> 마지막 업데이트: 2026-01-08T10:47:51.543Z
+> 마지막 업데이트: 2026-01-15T02:27:22.564Z
 > 분석 상품: 20개 | 분석 리뷰: 601개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 인체공학적 디자인 및 높이/각도 조절 기능 강화
-- 휴대성과 내구성을 갖춘 알루미늄 소재 인기
-- 발열 해소를 위한 통풍 구조 설계
 
 ### 구매자 만족 포인트
-- ✓ 목/어깨 통증 완화
-- ✓ 작업 효율성 증대
-- ✓ 안정적인 거치
-- ✓ 휴대성 용이
-- ✓ 뛰어난 내구성
 
 ### 주의해야 할 단점
-- ⚠ 무게에 대한 호불호
-- ⚠ 일부 제품의 각도 조절 고정력 아쉬움
-- ⚠ 휴대 시 부피 차지
-- ⚠ 가격대가 다소 높을 수 있음
 
 ### 가격대 인사이트
-현재 판매 중인 노트북 거치대는 1만원대부터 8만원대까지 다양하게 분포되어 있습니다. 1~3만원대의 보급형 제품들은 기본적인 높이 조절과 휴대성을 갖추고 있으며, 3만원 이상의 중급형 및 고급형 제품들은 더 정교한 각도 조절, 뛰어난 내구성, 추가 기능(예: 쿨링 팬, USB 허브) 등을 제공합니다.
+
 
 ---
 
@@ -243,4 +231,8 @@
 ---
 
 ## 📊 데이터 출처
-- [다나와 노트북거치대 인기순위](https://search.danawa.com/dsearch.php?query=%EB%85%B8%ED%8A%B8%EB%B6%81%EA%B1%B0%EC%B9%98%EB%8C%80&sort=saveDESC)
+- [proguide.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGX-JeqlHY_BgQmGU0feRess7EOf8uHH5HiMYjC7JVrn_Cf6urBuDVgMEEJnM4pVBQ2cuPaOEsNnItfMa6s3Byb7FFJ7Juqs2OHeagT-7zh2AU41q0yzV4CoigKqvyHrXmeWWqs)
+- [guidewell.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE4lRevuQCiK0MHvaDZxVgEbFNfGzZ8ZRONd45DzKdFuTrmb3C0BrjFqh7QCHP4yM65u6RzKrVWitkZ1wYJf7aTGC9QnM_lBTkbvmAXJ0oLMFYLscbsPb54IA4BfmbRnZ-PA==)
+- [rocket-mart.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-3cI3G4sK_py0GWD-IouAxCxKHX6E3jq9PLsNcNDNn_g2DONPOUDT1hKcEWNBAmrncX91Pu9XZwhgMH_WqIRIjAyIk8wPM7etuHXo4YnpNmn0-i4ZghMZdKTxbi9lGb0S)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7FOK9-Rq5OZ3Hh8jTbYc27kfIWACfG900YJTWjVMhmsRJITvEwcEud68xkYp_Fxuj5pBZ2BjT53V9HcDHLyibnzhCXcYSvUdXEtO6yrezyqexg1KuUzx_USq6pB-9gHwtodpccxQ=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEN7OwcyqoX95iXZUkro3-mIrovYiP1V_hZEhhqO2WXW2dqTx0mAAQtxotQK2uWk-xbhXiuh09vzFVM4a4nx-DOphUGHFB9wCET7i1x3qvMr1_cRZn4Bl50j8MfQVsYwn8SNLXtFUU=)

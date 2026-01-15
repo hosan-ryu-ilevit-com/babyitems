@@ -1,27 +1,29 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T10:08:40.110Z
+> 마지막 업데이트: 2026-01-15T02:13:19.792Z
 > 분석 상품: 20개 | 분석 리뷰: 196,934개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전한 성분 및 저자극성 (EWG 그린 등급, 피부 자극 테스트 완료 제품 선호)
-- 도톰하고 부드러운 엠보싱 원단
-- 친환경 소재 및 생분해성 제품에 대한 관심 증가
+- 안전한 성분 및 저자극 포뮬러 강조
+- 친환경 소재 및 생분해성 원단 사용 확대
+- 변기에 버릴 수 있는 비데형 물티슈의 편의성 및 위생성
 
 ### 구매자 만족 포인트
 - ✓ 안전한 성분
 - ✓ 부드러운 원단
 - ✓ 뛰어난 세정력
-- ✓ 가성비
+- ✓ 휴대 용이성
+- ✓ 변기 배출 가능 (비데형)
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대 (일부 프리미엄 제품)
-- ⚠ 건조함 (제품에 따라 상이)
+- ⚠ 상대적으로 높은 가격
+- ⚠ 일부 제품의 건조함
+- ⚠ 환경 문제 (일회용품 사용)
 
 ### 가격대 인사이트
-아기 물티슈는 1팩당 가격이 1,000원 이하인 가성비 제품부터 1팩당 1,500원 내외의 대용량 제품까지 다양하게 분포합니다. 평량, 크기, 성분 등을 종합적으로 고려하여 가격 대비 만족도를 높일 수 있습니다.
+아기 물티슈는 일반적으로 10매당 100원 내외의 가격대를 형성하고 있으며, 프리미엄 라인이나 특정 기능성 제품의 경우 가격이 더 높게 책정될 수 있습니다. 가성비를 중요시하는 소비자들을 위한 저렴한 제품부터 안전성과 품질을 최우선으로 하는 고가 제품까지 다양하게 출시되어 소비자의 선택 폭이 넓습니다.
 
 ---
 
@@ -240,7 +242,4 @@
 ---
 
 ## 📊 데이터 출처
-- [thefairnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcwpAmrY5xFFfjuPW5vSpeS6akmBW4hNgSmv3RgJScvswnc_wrcXDBRiB24gnAPkBsQGdt8E8bT2afoLvdH0pkA4iALp--IaAAktvDvh5upfwYx6awbGZK27eMWbjY5m17VedIGn8up2wS3tDslQKrBeBWTP0mRodLyw==)
-- [brikorea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQfZBmCmEQUP4p9tTceXKEJRqFJperHwrTE2G9_ELrJC-4vtW8zSdwYIXWqAgbObti4z4YXfZU-knu0WfrXfppzS6DxLi-9WzZkiRR9rk6fFdYJdNNMByVC1DeRQD1fBP5KNTGdR1Y9X9Gnv335NXtZ5-XWYALBQ==)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFx8irKGCMwknx9z325w_Dfm9Rx1F99RUcC_a2qhCk5-OU-2RQWXunmmjomQUYo0k4xjrDiy9DeZBcitaB2unzdKl0EblgPel3ICgUvlF1iUTnJKSTyt0G2CESYcVLb78Bz7QgdgLDcch_phZ_cOuathRgCL_CeRBSznzg=)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4loACzAWs9pcDf-f8sL3UAtj6DHy3Z8IRbdJnvpBy-mo5mt56v_PkD8x6MDRLhpatAvXg2D9hLaxckAb_hglSxZMPiDKnKFd9FJehWU6IIlV_WeMgmaAYgPmx1HO5vVgw9Xk_quIO0Cc8x_xUv3_sTk0gOMY7Ww==)
+- [다나와 아기물티슈 인기순위](https://search.danawa.com/dsearch.php?query=%EC%95%84%EA%B8%B0%EB%AC%BC%ED%8B%B0%EC%8A%88&sort=saveDESC)

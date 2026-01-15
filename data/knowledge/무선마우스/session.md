@@ -1,5 +1,5 @@
-# 세션: 20260109_085151_kya7
-> 시작: 2026-01-09T08:51:51.646Z
+# 세션: 20260115_020441_uyf7
+> 시작: 2026-01-15T02:04:41.045Z
 > 카테고리키: 무선마우스
 > 카테고리: 무선마우스
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 무선마우스 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 무선 마우스 시장은 로지텍, 삼성전자, 아이리버, 마이크로소프트 등 다양한 브랜드가 경쟁하고 있으며, 특히 로지텍은 게이밍 및 사무용 시장에서 강세를 보이고 있습니다. 최신 트렌드는 초경량화, 고감도 센서 탑재, 그리고 사용자의 편의성을 높이는 다양한 기능(멀티페어링, 무소음 클릭 등)이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEydxBbPD87shcY_a3GwvxOLUupUrNJjyK4LGpr5eo8PFA18GgAHgyOxHEqTzk-pLC2_HO8LUD-YQ48APNcMBcUj4fajGXDHDv48HOW_kSwMsLnORzA-4aCRA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHT6Ro2ehziUnSU-5g32I8_5JAEUheSTSIGphTMdcMCaCVJm5oicipQCSUNX0n3eDRIp3wfK5l5ydFVYCj0mJajrNj7aDY4gbkSxt9GwyoZvQf4jKPGt0noHXH--cAOmwCJPoDrWq1WdvSSQurzDvQg9FI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNoTUAD_ULO_2MoRZ_reGQvOyWfAPWDh6V3zUMaxT0mgE9nkfoFh5kJb1GX64--EP2DGn-6uX99Hdf3h_-R8nWwTAbyQsQh7kNtj-UrFovrfu9DABiXAUULg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGT11aL15zwK5T8K0Q5poaELpux6oamGlgZkaEXisnFXIbYjmCGBxZ4mxPjr9KrHGJWHGdvEBQzu8ip6hzUIR7jD7AlwLcswgFt9FJ1sHa4btePsnObpj8DfGIvTWN8vsktCOspOA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdv4C39aCLkfRzW7He_iKLF-p9LgQZemG42R72qh65ByV9ABJKsEDWz8GtJctYmzSFJYHkRqUUdWbMdpZhV_rjnLA3Q97soJEO9GInviyJIM9z-pAuUeP9Zyx3fHgXk5kVLKoGL-0m_BwFWrXFGI-QpRJ0fm1QPZIGiAxyefRmkXTNOzYT2P5rRv4c-I0hMtdc2TSH6VPnI9WBzK9USILHFIO1DQ==
+- 인사이트: 2026년 현재 무선 마우스 시장은 AI 기반 맞춤화, 친환경 소재 사용, 멀티 디바이스 연결 기능 강화 등 혁신적인 트렌드를 중심으로 성장하고 있습니다. 로지텍과 같은 주요 브랜드들이 이러한 트렌드를 주도하며 사용자 경험 향상에 집중하고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EB%AC%B4%EC%84%A0%EB%A7%88%EC%9A%B0%EC%8A%A4&sort=saveDESC
 
 ---
 

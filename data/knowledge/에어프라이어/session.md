@@ -1,5 +1,5 @@
-# 세션: 20260109_093416_1gj9
-> 시작: 2026-01-09T09:34:16.914Z
+# 세션: 20260115_022815_io3s
+> 시작: 2026-01-15T02:28:15.241Z
 > 카테고리키: 에어프라이어
 > 카테고리: 에어프라이어
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 에어프라이어 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 에어프라이어 시장은 가성비와 편의성을 갖춘 모델들이 인기를 얻고 있습니다. 특히 1인 가구부터 대가족까지 만족시킬 수 있는 다양한 용량과 기능의 제품들이 출시되고 있으며, 올스텐 소재와 디지털 인터페이스를 갖춘 제품들이 트렌드를 이끌고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJBAWebKP8v_JC7JYGsDYti5L7x1EfaajgSTHvhaqoh-NpEyMiEI6YWqFwXuE3xRPvS4oLQs8_OBiD0W3wJNMBGJD3FI_F0B-VZsA-ZFjba41wxy0Y7minZDQlElqkL3mlzbMNqN8wJsbOSe6tO9UfSL1mbVZeKXPTmC6KWjoz6EYvTYtQLwmfmj6ABgjOZURcr2kcNnUImj00hM8iqUIQSU27d0IoQPUqzxLLrXgx-k3pX98Ot_VDEZ7Bqf8LMz4t2cQmMbZVYX0J-m-oT1LRHBDzgGkGmnG3ts0qYiG0WaHz1K6nOWFrHZZSaeiwJvvEYWuoRH3SFgoIptjjidqrG1Oyadg3cjX9wWciQAgE8br76RHEuGJX, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUQbVKGFqs1ni4QUuzQb04LdrxTMFvgRsF7_5_GFRkoHAIubvnQyoYa_S8Zv_KUV1vG7waqleu44xany4hIV-iAZ6X3EqgXx2sHqhzUe4V0NTADpCpviPcJvTAGiTU0GFPmOZtDd4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHTAbN5ekBszPz9A0xhoN9cVU5mmtLRySVnL3miUIv1Pq2H1oHtVUQSrbp9a7SEOHDVxB9c4eJn577Vjq0jDWIXwXY9eiTSlSzXUnD_6pgM_TyTCBWmijxUSuKnUUhGl9eBAMLcfM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEb5_URDmc6gEEcM9esBr1PyBk8gwF1yGN2HHos0n-QKllZelOMWk3avdSIKV0vtgg_k2NhJt5t276LsVBf038X6zkpL7Si7PKr1DevbVd1g9WeQgaWydufhIYqW6Nb82Unfl_rga4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGyil2GBdZlbVpAc-Sl_ZIRhNOKqYzalBOFTjWOzJlw3yzFcT77b9XGuV4UTwRqR0m8tW-JDmANuvBZwJ_1GvCmRlFyPvmd2j2Fw5GtmXYMN7SGuqrIfWyzxTkoaX_NxWZE446BDF1jC0eBSqC8Hxlj3MLlMW6xfXRUj4fx7agwmL-DwQ1Bq7j41ODYbGpX2BEmi2Wpoc5I-5oFtM4W5pJOzac3hO7g4lmAbZO7VHZMrtwnocxHDz8TwXoKntE_LqLwYn0D5gcYkNnZQTSFsUxBTXylWCr7IY=
+- 인사이트: 2026년 현재 에어프라이어 시장은 건강한 조리 방식에 대한 수요 증가와 함께 꾸준히 성장하고 있습니다. 필립스, 닌자, 코소리, 테팔, 미디어, 조양 등 다양한 브랜드들이 스마트 제어, 다기능, 에너지 효율성 등 혁신적인 기능을 선보이며 경쟁하고 있습니다. 특히 북미, 유럽, 아시아 태평양 지역에서 수요가 높으며, 전자상거래와 소셜 미디어 광고가 시장 성장에 중요한 역할을 하고 있습니다. AI 기반 요리, 대용량화, 스마트 앱 통합 등의 기술 발전이 지속적으로 이루어지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRbiqebiGx3XudkPlK4o1vzvCSY-wlRHHUV29fFqN_iQY8NoAbqXLeSlwjbMmX_Spu6T66cW6utO2Z6O9EbYAnzXa53jl3j84ZbAvleTfumPiAjjfqKyZ0PuSoeec18-07qxBF5i5KcSSWz7-0Cb9E68By0Zlj5QeyYCJN8XHKBbwxv8LH-ypRydoXMAI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8EFpwJTsq_PYUZEeAoCljoBUuzpaaLMiOgjGlrvbd_Ntil8bhXjRf25rZbE5syUxfLHnXWnuuPNjCJYI48Sjq384X4i7kjpFEiVnTCmcFpa4_4c8JLy3OuvKvB4Vy5n2u0-FR7qmVqH6o7d4Bj2K3BeO2GpMb5Uw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCoP6_jYlqDnFMMJeeFOAvagnCiLgQ9a_pbjDVs6y_KeshDWyZf9DJUEXc5GC9b9wGaxes8C7ejg7SJETRSOF2UxE7YS5AvyaFjCtuOJ-oC9yNcZnA2E3W0CU8Q9U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnrtrpb5Rhmix728dB8oGv88UPY6zLWS_fjhn-dbjAU0JiZA3S-CHPj-ZvjJ5uFwhy10UYWcElm5b4BXJl92c0XKFaTM3z3QSqR2K_Q9hmGZ5gpF1jxdeWzaWmB8i9zyFViHbl7OofY54wLZG9Jl1O-5JYEPOi-Ful5XPJ83LSqrYb8SyZArwOBCnKA8QZgI4vJqQdwF85ieHlfR0kAmr6RAB2PVSzYOz4De9hUtIAxD_Z8a-GSQOrEISxIQ0DiXrypMgfqkfcLHhRt3a1Yrc5leXsq4ZtHNJH0JsUG0kBMPvCQW4LG1mBqKJLk2lyJqzsDV1Hgm1H9zhr6Fc8fDrq2T6ZiDL6VFqhbkQfcjzA6ksmo_JL3CcTZg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGJxMjXs70OVMvayl7EuqNRLmKwf2ZPUsUExI6iywrcIoCls3H2hTr9NeKcJyHmKQjwWyDNiTS6MV8Dto5lGHk5OXN5C1MpBYhOq2jRZMk5ZHJVTBFjRcsseHpDkBshPXFJ3Tl6o04=
 
 ---
 
@@ -16,10 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 몇 인 가족이 주로 사용하시나요? 혹은 한 번에 얼마나 많은 양을 조리하시나요? | 5L ~ 10L (3-4인 가구) |
-| 내부 소재는 어떤 것을 선호하시나요? 위생과 내구성을 중요하게 생각하시나요? | 올스텐 |
-| 에어프라이어 외에 어떤 추가 기능이 필요하신가요? | 스팀 기능 |
-| 에어프라이어 예산은 어느 정도로 생각하세요? (평균 15만원, 10만 원대~20만 원대가 가장 많아요) | 10만원 ~ 20만원 |
 
 ---
 

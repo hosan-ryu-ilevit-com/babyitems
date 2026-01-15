@@ -1,27 +1,31 @@
 # 에어프라이어 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T09:34:10.636Z
+> 마지막 업데이트: 2026-01-15T02:28:05.346Z
 > 분석 상품: 20개 | 분석 리뷰: 21,765개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 대용량 및 스마트 기능 강화 모델의 성장
-- 올스텐 소재 및 위생/내구성 강조
-- 디지털 인터페이스 및 AI 기반 요리 기능의 발전
+- 기름 없이 건강하게 튀김 요리를 할 수 있는 기능
+- 자동 뒤집기 기능, 회전 바스켓 등 조리 편의성 증대
+- 오븐 기능 통합으로 베이킹까지 가능한 멀티 기능
 
 ### 구매자 만족 포인트
+- ✓ 간편한 세척
 - ✓ 뛰어난 가성비
-- ✓ 간편한 세척 (일부 모델)
-- ✓ 다양한 요리 기능 (구이, 베이킹 등)
+- ✓ 대용량 조리 가능
+- ✓ 올 스테인리스 소재
+- ✓ 다양한 조리 기능
 
 ### 주의해야 할 단점
-- ⚠ 번거로운 세척 (일부 모델)
+- ⚠ 세척의 번거로움
 - ⚠ 조리 시간 소요
-- ⚠ 재료에 따른 맛 편차
+- ⚠ 재료에 따른 맛의 편차
+- ⚠ 생각보다 큰 크기
+- ⚠ 소음 발생 가능성
 
 ### 가격대 인사이트
-저가형 에어프라이어는 10만 원 이하로 기본 튀김 및 간단한 요리에 적합하며, 중가형(10~25만 원)은 용량과 열 균일성, 활용도 면에서 균형을 이룹니다. 고가형(25만 원 이상)은 대용량, 스마트 기능, 오븐 대체 기능 등을 제공합니다.
+에어프라이어는 가격대에 따라 체감 성능 차이가 분명합니다. 10만 원 이하의 저가형은 기본적인 튀김 및 간단한 요리에 적합하며, 10만 원에서 25만 원 사이의 중급형은 용량, 열 균일성, 활용도 면에서 균형을 이룹니다. 25만 원 이상의 고가형은 대용량, 스마트 기능, 오븐 대체 기능까지 갖춘 프리미엄 제품군입니다.
 
 ---
 
@@ -240,8 +244,8 @@
 ---
 
 ## 📊 데이터 출처
-- [eatreviewer.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJBAWebKP8v_JC7JYGsDYti5L7x1EfaajgSTHvhaqoh-NpEyMiEI6YWqFwXuE3xRPvS4oLQs8_OBiD0W3wJNMBGJD3FI_F0B-VZsA-ZFjba41wxy0Y7minZDQlElqkL3mlzbMNqN8wJsbOSe6tO9UfSL1mbVZeKXPTmC6KWjoz6EYvTYtQLwmfmj6ABgjOZURcr2kcNnUImj00hM8iqUIQSU27d0IoQPUqzxLLrXgx-k3pX98Ot_VDEZ7Bqf8LMz4t2cQmMbZVYX0J-m-oT1LRHBDzgGkGmnG3ts0qYiG0WaHz1K6nOWFrHZZSaeiwJvvEYWuoRH3SFgoIptjjidqrG1Oyadg3cjX9wWciQAgE8br76RHEuGJX)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUQbVKGFqs1ni4QUuzQb04LdrxTMFvgRsF7_5_GFRkoHAIubvnQyoYa_S8Zv_KUV1vG7waqleu44xany4hIV-iAZ6X3EqgXx2sHqhzUe4V0NTADpCpviPcJvTAGiTU0GFPmOZtDd4=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHTAbN5ekBszPz9A0xhoN9cVU5mmtLRySVnL3miUIv1Pq2H1oHtVUQSrbp9a7SEOHDVxB9c4eJn577Vjq0jDWIXwXY9eiTSlSzXUnD_6pgM_TyTCBWmijxUSuKnUUhGl9eBAMLcfM=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEb5_URDmc6gEEcM9esBr1PyBk8gwF1yGN2HHos0n-QKllZelOMWk3avdSIKV0vtgg_k2NhJt5t276LsVBf038X6zkpL7Si7PKr1DevbVd1g9WeQgaWydufhIYqW6Nb82Unfl_rga4=)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGyil2GBdZlbVpAc-Sl_ZIRhNOKqYzalBOFTjWOzJlw3yzFcT77b9XGuV4UTwRqR0m8tW-JDmANuvBZwJ_1GvCmRlFyPvmd2j2Fw5GtmXYMN7SGuqrIfWyzxTkoaX_NxWZE446BDF1jC0eBSqC8Hxlj3MLlMW6xfXRUj4fx7agwmL-DwQ1Bq7j41ODYbGpX2BEmi2Wpoc5I-5oFtM4W5pJOzac3hO7g4lmAbZO7VHZMrtwnocxHDz8TwXoKntE_LqLwYn0D5gcYkNnZQTSFsUxBTXylWCr7IY=)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRbiqebiGx3XudkPlK4o1vzvCSY-wlRHHUV29fFqN_iQY8NoAbqXLeSlwjbMmX_Spu6T66cW6utO2Z6O9EbYAnzXa53jl3j84ZbAvleTfumPiAjjfqKyZ0PuSoeec18-07qxBF5i5KcSSWz7-0Cb9E68By0Zlj5QeyYCJN8XHKBbwxv8LH-ypRydoXMAI=)
+- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8EFpwJTsq_PYUZEeAoCljoBUuzpaaLMiOgjGlrvbd_Ntil8bhXjRf25rZbE5syUxfLHnXWnuuPNjCJYI48Sjq384X4i7kjpFEiVnTCmcFpa4_4c8JLy3OuvKvB4Vy5n2u0-FR7qmVqH6o7d4Bj2K3BeO2GpMb5Uw=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCoP6_jYlqDnFMMJeeFOAvagnCiLgQ9a_pbjDVs6y_KeshDWyZf9DJUEXc5GC9b9wGaxes8C7ejg7SJETRSOF2UxE7YS5AvyaFjCtuOJ-oC9yNcZnA2E3W0CU8Q9U=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnrtrpb5Rhmix728dB8oGv88UPY6zLWS_fjhn-dbjAU0JiZA3S-CHPj-ZvjJ5uFwhy10UYWcElm5b4BXJl92c0XKFaTM3z3QSqR2K_Q9hmGZ5gpF1jxdeWzaWmB8i9zyFViHbl7OofY54wLZG9Jl1O-5JYEPOi-Ful5XPJ83LSqrYb8SyZArwOBCnKA8QZgI4vJqQdwF85ieHlfR0kAmr6RAB2PVSzYOz4De9hUtIAxD_Z8a-GSQOrEISxIQ0DiXrypMgfqkfcLHhRt3a1Yrc5leXsq4ZtHNJH0JsUG0kBMPvCQW4LG1mBqKJLk2lyJqzsDV1Hgm1H9zhr6Fc8fDrq2T6ZiDL6VFqhbkQfcjzA6ksmo_JL3CcTZg==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGJxMjXs70OVMvayl7EuqNRLmKwf2ZPUsUExI6iywrcIoCls3H2hTr9NeKcJyHmKQjwWyDNiTS6MV8Dto5lGHk5OXN5C1MpBYhOq2jRZMk5ZHJVTBFjRcsseHpDkBshPXFJ3Tl6o04=)

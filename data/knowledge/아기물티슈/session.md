@@ -1,5 +1,5 @@
-# 세션: 20260109_100846_87bm
-> 시작: 2026-01-09T10:08:46.429Z
+# 세션: 20260115_021323_n08h
+> 시작: 2026-01-15T02:13:23.882Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 아기 물티슈 시장은 브라운, 슈퍼대디, 페넬로페 브랜드가 높은 선호도를 보이며 인기 순위 상위권을 차지하고 있습니다. 소비자들은 안전한 성분, 부드러운 원단, 뛰어난 세정력, 그리고 합리적인 가격대를 중요하게 고려하는 추세입니다. 특히, 휴대성과 편리성을 갖춘 제품들이 꾸준히 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcwpAmrY5xFFfjuPW5vSpeS6akmBW4hNgSmv3RgJScvswnc_wrcXDBRiB24gnAPkBsQGdt8E8bT2afoLvdH0pkA4iALp--IaAAktvDvh5upfwYx6awbGZK27eMWbjY5m17VedIGn8up2wS3tDslQKrBeBWTP0mRodLyw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQfZBmCmEQUP4p9tTceXKEJRqFJperHwrTE2G9_ELrJC-4vtW8zSdwYIXWqAgbObti4z4YXfZU-knu0WfrXfppzS6DxLi-9WzZkiRR9rk6fFdYJdNNMByVC1DeRQD1fBP5KNTGdR1Y9X9Gnv335NXtZ5-XWYALBQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFx8irKGCMwknx9z325w_Dfm9Rx1F99RUcC_a2qhCk5-OU-2RQWXunmmjomQUYo0k4xjrDiy9DeZBcitaB2unzdKl0EblgPel3ICgUvlF1iUTnJKSTyt0G2CESYcVLb78Bz7QgdgLDcch_phZ_cOuathRgCL_CeRBSznzg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4loACzAWs9pcDf-f8sL3UAtj6DHy3Z8IRbdJnvpBy-mo5mt56v_PkD8x6MDRLhpatAvXg2D9hLaxckAb_hglSxZMPiDKnKFd9FJehWU6IIlV_WeMgmaAYgPmx1HO5vVgw9Xk_quIO0Cc8x_xUv3_sTk0gOMY7Ww==
+- 인사이트: 2026년 1월 현재, 아기 물티슈 시장은 베베숲, 브라운, 페넬로페, 슈퍼대디, 앙블랑 등 다양한 브랜드가 경쟁하고 있습니다. 안전한 성분과 피부 자극 최소화를 중시하는 트렌드가 지속되며, 일부 브랜드는 친환경 소재 사용을 확대하고 있습니다. 또한, 변기에 버릴 수 있는 비데형 물티슈의 인기가 꾸준히 이어지고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EC%95%84%EA%B8%B0%EB%AC%BC%ED%8B%B0%EC%8A%88&sort=saveDESC
 
 ---
 
@@ -16,10 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 물티슈 원단의 두께감과 촉감은 어떤 것을 선호하시나요? | 도톰하고 부드러운 엠보싱 |
-| 물티슈 성분에 대해 얼마나 신경 쓰시는 편인가요? | 유해 성분 무첨가 |
-| 물티슈 선택 시 환경적인 부분도 고려하시나요? | 환경적인 부분은 크게 고려하지 않음 |
-| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원 |
 
 ---
 

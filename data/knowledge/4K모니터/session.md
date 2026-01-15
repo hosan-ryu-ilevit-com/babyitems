@@ -1,5 +1,5 @@
-# 세션: 20260109_095156_r7ys
-> 시작: 2026-01-09T09:51:56.609Z
+# 세션: 20260115_015212_kz38
+> 시작: 2026-01-15T01:52:12.826Z
 > 카테고리키: 4K모니터
 > 카테고리: 4K모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 4K모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 4K 모니터 시장은 LG전자, 삼성전자, MSI, 크로스오버 등 다양한 브랜드가 경쟁하고 있으며, 특히 가성비와 고화질을 앞세운 모델들이 인기를 얻고 있습니다. USB-C 연결, 미니 LED 및 OLED 패널 탑재 등 최신 기술 트렌드를 반영한 제품들이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEppvvgqry5_pJUrEWg-M3B-tgNt2OCmeBdHtN4gKlQoC0T1V2ntkFNbVG4X696tEPOy9U--MytGM7Q8gSsi6hfFRCBs43Hvq5vbKXesMpDj5hU9mvwJJnetCaxahnO-uAMl_qrZoA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBYjlYbVsFRi-gvV1GWgSjLC8ziMDfRUFDXQw1YtHWP5aOyvM2mOI8JuHn2Y6KQwXfenGfwyX9vZATdv2hbxyq-TWk5k9xfxlOwZbsNoKrWGpDsHmW8o_SbxRYBhLevNPIqJ7xd4XxRcNtgQSkOY22rdu_JWBMNBOY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDBI6omokW6pdIGwrX6aQZtVMH78efRHVjXEt7ivKUUL5bb0E_dDpdXjf8SMb7yhMhPTsvMXCXYBeIhVJh64rbV_Rc95pXnywRkvhNZmpMi0HxQhascJn2gZj9_fb_0eJQXMcW-61PqVNgRTUEA8BZ4Ck-I3hiQa3nOz8KnFE4_K2XcpuZmcLw4GJg0ix3oR4w4jHAqBuVcb8I, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbJ_05W0jf6OPay7RDwfvg6hE53quh7w4BZ8FvxkPJsln7b-QAt_bR5-tDQNFQZ9zRbznlMjBZ2i4Pxpz3uEAnPprFdBL8SRo0HXoKnnMjQL5F, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH74W52QIWjznf0ezUtJlfhVPZtQM2zi6m8Ve_0JGR-E7vczHViY-XZGINHvuD4YLs0s3I3fmcT4bp2_M3BYWXCL3QgCCk4Qd-nPyKAoYe8Al9qVedhFWixFLoGWpbAyaLAH_ugelIwujmqL7Tc0ge6TamENqnuQC4Vi5vMB_iMUW_rcERvISOCCNfp5RDlzddtYLHx5pZJ0YUa46qd_fu36Oda-9b0YiqIgcpxBnTRP7UT8RicczXhYHMKZ40NIuaVtR8AC1NfozDolEnpbUXacWeLnBqfzx5ND_OZub8cGDKy66jFg3MamDXKfLwrj-TZUi9rd1RnA-wbi1kxlNajRN1r_uYmT_kxOTDvlynsZ2pODjWwucSQp2sTp9XHkk-qWirEiKQg6kCUYZRMQ48wL6SqImk1fVaDN4W6NqxqMJMqcfc=
+- 인사이트: 2026년 현재 4K 모니터 시장은 OLED와 고주사율 기술이 주목받고 있으며, LG, 삼성, ASUS 등 주요 브랜드들이 경쟁을 주도하고 있습니다. CES 2026에서는 텍스트 가독성을 개선한 새로운 QD-OLED 패널과 1000Hz 이상의 초고주사율 모니터가 공개되며 기술 발전의 방향성을 제시했습니다. 전반적으로 모니터 주사율은 상향 평준화되는 추세입니다.
+- 출처: https://search.danawa.com/dsearch.php?query=4K%EB%AA%A8%EB%8B%88%ED%84%B0&sort=saveDESC
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 주로 어떤 용도로 4K 모니터를 사용하실 예정인가요? | 영화/영상 시청 및 웹 서핑 |
+| 화면 전환의 부드러움은 어느 정도를 중요하게 생각하시나요? | 144Hz 이상, 240Hz 이상 |
+| 어떤 종류의 패널 기술에 관심이 있으신가요? | OLED / QD-OLED |
+| 4K 모니터 예산은 어느 정도로 생각하세요? (평균 55만원, 30만원대~70만원대가 가장 많아요) | 30만원대 ~ 70만원대 |
+| __avoid_negatives__ | 영화/영상 시청 시에도 144Hz 이상의 높은 주사율을 제대로 활용하려면 고사양 그래픽카드가 필수적이라 부담스러울 것 같아요 |
 
 ---
 
@@ -55,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 영화/영상 시청 시에도 144Hz 이상의 높은 주사율을 제대로 활용하려면 고사양 그래픽카드가 필수적이라 부담스러울 것 같아요
 
 ---
 
