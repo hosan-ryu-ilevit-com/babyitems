@@ -3187,8 +3187,9 @@ export default function KnowledgeAgentPage() {
               const isLatestAssistant = msg.role === 'assistant' && (msg.options || msg.negativeFilterOptions) && !msg.isFinalized;
               // 후속 채팅 메시지(options/questionProgress 없는 일반 응답)는 투명도 적용 안 함
               const isFollowUpChat = msg.role === 'assistant' && !msg.options && !msg.questionProgress && !msg.negativeFilterOptions;
+              // result/free_chat 단계에서는 사용자 메시지에 투명도 적용 안 함
               const isInactive = msg.role === 'user'
-                ? idx < messages.length - 1
+                ? (phase !== 'result' && phase !== 'free_chat') && idx < messages.length - 1
                 : !isFollowUpChat && !!(!isLatestAssistant && (
                     (msg.options && msg.options.length > 0) ||
                     (msg.negativeFilterOptions && msg.negativeFilterOptions.length > 0) ||
@@ -4368,7 +4369,7 @@ function MessageBubble({
                             {hasDanawaRank && (
                               <div className="flex items-center gap-1 mt-1">
                                 <span className="text-[13px] text-gray-400 font-medium">
-                                  {categoryName} 판매 많은순 <span className="font-semibold text-gray-500">{danawaRank}위</span>
+                                  {categoryName} <span className="font-semibold text-gray-500">판매 랭킹 {danawaRank}위</span>
                                 </span>
                               </div>
                             )}
