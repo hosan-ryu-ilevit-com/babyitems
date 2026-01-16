@@ -320,6 +320,8 @@ export default function ProductDetailModal({ productData, category, danawaData, 
   const [isSortBottomSheetOpen, setIsSortBottomSheetOpen] = useState(false);
   const [expandedReviewIds, setExpandedReviewIds] = useState<Set<number>>(new Set());
   const [showPhotoReviewsOnly, setShowPhotoReviewsOnly] = useState(false);
+  const [displayedReviewsCount, setDisplayedReviewsCount] = useState(30); // 리뷰 lazy loading
+  const loadMoreReviewsRef = useRef<HTMLDivElement>(null);
 
   // PDP 상단 이미지 캐러셀 상태
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -369,6 +371,34 @@ export default function ProductDetailModal({ productData, category, danawaData, 
       carouselRef.current.scrollLeft = width;
     }
   }, [hasMultipleImages]);
+
+  // 리뷰 무한 스크롤 (Intersection Observer)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && preloadedReviews) {
+          setDisplayedReviewsCount(prev => {
+            const filtered = showPhotoReviewsOnly
+              ? preloadedReviews.filter(r => r.images && r.images.length > 0)
+              : preloadedReviews;
+            return Math.min(prev + 20, filtered.length);
+          });
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreReviewsRef.current) {
+      observer.observe(loadMoreReviewsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [preloadedReviews, showPhotoReviewsOnly]);
+
+  // 필터 변경 시 표시 개수 초기화
+  useEffect(() => {
+    setDisplayedReviewsCount(30);
+  }, [showPhotoReviewsOnly, reviewSortOrder]);
 
   // 캐러셀 스크롤 핸들러 (무한 루프 처리)
   const handleCarouselScroll = useCallback(() => {
@@ -1606,7 +1636,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
 
                       {/* 리뷰 목록 */}
                       <div className="px-4 divide-y divide-gray-200">
-                        {sortedReviews.map((review, idx) => (
+                        {sortedReviews.slice(0, displayedReviewsCount).map((review, idx) => (
                           <div key={idx} className="py-4">
                             {/* Row 1: Profile, Nickname, Mall */}
                             <div className="flex items-center gap-2 mb-2">
@@ -1678,6 +1708,15 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                           </div>
                         ))}
                       </div>
+
+                      {/* 무한 스크롤 트리거 */}
+                      {sortedReviews.length > displayedReviewsCount && (
+                        <div ref={loadMoreReviewsRef} className="py-4 text-center">
+                          <span className="text-[12px] text-gray-400">
+                            스크롤하여 더 보기 ({displayedReviewsCount}/{sortedReviews.length})
+                          </span>
+                        </div>
+                      )}
 
                       {/* 정렬 바텀시트 */}
                       <AnimatePresence>

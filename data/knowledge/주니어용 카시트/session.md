@@ -1,14 +1,14 @@
-# 세션: 20260108_122736_txo3
-> 시작: 2026-01-08T12:27:36.739Z
-> 카테고리키: 주니어용
+# 세션: 20260116_110948_2ywz
+> 시작: 2026-01-16T11:09:48.447Z
+> 카테고리키: 주니어용 카시트
 > 카테고리: 주니어용 카시트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 주니어용 카시트 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 주니어용 카시트 시장은 안전성과 사용 편의성을 중심으로 다양한 브랜드들이 경쟁하고 있습니다. 다이치, 브라이텍스, 싸이벡스 등의 브랜드가 인기 있으며, 특히 아이사이즈(i-size) 인증과 ADAC 점수가 높은 제품들이 주목받고 있습니다. 가격대는 20만원대부터 70만원대까지 다양하게 형성되어 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EC%A3%BC%EB%8B%88%EC%96%B4%EC%9A%A9%20%EC%B9%B4%EC%8B%9C%ED%8A%B8&sort=saveDESC
+- 인사이트: 2026년 1월 현재, 주니어 카시트 시장은 다이치, 브라이텍스, 싸이벡스 등 전통적인 강자들이 여전히 인기를 유지하고 있으며, 안전성과 사용 편의성을 갖춘 다양한 모델들이 경쟁하고 있습니다. 특히 아이의 성장에 맞춰 조절 가능한 기능과 편안한 착좌감이 중요한 트렌드로 자리 잡고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcUZ-gKTSLSt8mP0Kz_e4sjblMiSN5XSa38ou3P4HKJ14SjP99XrSKLJIPdyaHKhZ8-Qb4RWlXIWLFlQr9QFy6pUU-hTm3Iu3QupmAVQwkeBLOnX_PbUcgWXg2tu6or3uVlf1Axl9BdQW3yRIiwlsEueHv9IKUAvQ44De3YiqrAF40VzF060_9hCuLEPWTiUXf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZpXMk7_LDC07dvFZsBUQ-IEKBaV2_U6RW9zRJjTBWxdqU25P9cPnm7K5GbeOjPvFZhKhPn6_AKpcSxmC4YjVIgT7ubl1yrFz58eQG37RltlbWEsAeVKjSmVxrUv5KutMryU9A8ax25ib-UaDbvnD7ITo2CvG4NimoFwoKmV_7MRjvauAsRjIhqPzfikFxdkGJhplEov2jPrIlr8ogza-Po8zq-Is2HcdTruOlPa6CInLAhv37cVsFYocEeMF1DwsnMLUQYOg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHID_WEKU7Vnzdrxbl2PjOZVQ3t7Kslf-y2ch4qYzYTIUz6HMu29Vqhyv5xQiKvuuUi3AX1emP0GhBN6bQcijTSoeUfjcEHl33FX2LiO6Ebxrs4mUlnLR2FFEsmrBRMytK3zOk8mN6LIdgtMSPU35YLgDnMeA2MB1vLhSi5IqsNI8mPILVDrU5qmtmCmkepDYr-i6OHHbPclx5bnTmV8Xw50OJ9ZNRKyqcQfp47q8oOaQBdcx4S_tyaS96ICQe9vU7itsgq_PamXyrZQJgvgDRngTCxD_uO-GRflUbqUy-2Fru1wUjvIFk-emDamlObUDQoBUxQmGoj82r8zMenSM4ievfZvss_rRp5, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELOrWlPvLr05va_9G9pV4fTrfqpQghyQrv_UfLziIdKNE-teHfhaFqIUjmbAx9A0LkvSZ-Iifcko4X5DxfaAvhWToO0PUZgzjoT1Ls1U-aTW5P9SqsUBd4Zl4ZcJ9x6pQfD_wyc-ZzvLVes9Y1ZmoYMuaQ3INtvre2XbyvhlcJ4JGWG_sOy29ySoxq5Q23ZA08
 
 ---
 
@@ -16,39 +16,34 @@
 
 | 항목 | 답변 |
 |------|------|
-| 가장 중요하게 생각하시는 안전 인증은 무엇인가요? | 특별히 선호하는 인증 없음, ADAC 점수 (높은 점수), i-size 인증 |
-| 아이가 카시트에 앉았을 때 가장 편안함을 느낄 수 있도록 어떤 기능이 중요하신가요? | 푹신한 쿠션감, 등받이 각도 및 헤드레스트 높이 조절 |
-| 카시트 사용 및 관리에 있어 어떤 점을 중요하게 생각하시나요? | 휴대 및 보관 용이성 (접이식 등), 간편한 설치 |
-| 주니어 카시트 예산은 어느 정도로 생각하세요? (평균 약 30만원, 16만원~38만원대가 가장 많아요) | 16만원 ~ 38만원 |
-| __avoid_negatives__ | 차량 시트 각도에 따라 등받이 각도 조절이 제한될까 봐 불편해요,고가의 프리미엄 모델은 기능은 좋겠지만,그만큼의 가치를 할지 망설여져요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 29개 (전체 29개 중)
+현재 후보: 28개 (전체 28개 중)
 
 ### 후보 상품
-1. 브라이텍스 키드픽스 아이사이즈 일체형 주니어 카시트 - 488,210원 - ⭐5
-2. SEEC 아이 폴드 아이사이즈 주니어 휴대용 카시트 - 238,220원 - ⭐4.9
-3. 브라이텍스 어드밴스픽스 프로 아이사이즈 토들러 주니어 카시트 (ISOFIX) - 614,690원 - ⭐5
-4. 다이치 브이가드 주니어 ISOFIX 시즌2 프리미엄 - 249,900원 - ⭐5
-5. 싸이벡스 솔루션 티 플러스 아이사이즈 주니어 카시트 - 608,000원 - ⭐5
-6. 브라이텍스 NEW 하이포인트 주니어 카시트 (ISOFIX) - 206,480원 - ⭐5
-7. 토드비 코쿤 엠플러스 ISOFIX 주니어 부스터카시트+헤드레스트 SET - 117,570원 - ⭐4.7
-8. 리안 주니어 부스터 카시트 - 30,000원 - ⭐5
-9. 조이 아이트래버 시그니처 주니어 ISOFIX 카시트 - 266,800원 - ⭐5
-10. 싸이벡스 솔루션 티 컴포트 아이사이즈 주니어 카시트 - 500,000원 - ⭐5
-11. 브라이텍스 키드픽스 M 아이사이즈 주니어 카시트 (ISOFIX) - 540,020원 - ⭐5
-12. 조이 듀알로 주니어 카시트 (ISOFIX) - 178,600원 - ⭐4.8
-13. 브라이텍스 하이포인트 주니어 카시트 (ISOFIX) - 306,090원 - ⭐4.9
-14. 토드비 코쿤 G7 ISOFIX 주니어카시트 - 231,980원 - ⭐4.7
-15. 폴레드 볼픽스 아이사이즈 i-Size 주니어 카시트 - 340,034원 - ⭐4.9
-16. 포브 보네떼 토들러 주니어 카시트 - 363,090원 - ⭐4.7
-17. 조이 듀알로 주니어 아이소픽스 카시트 ISOFIX 포르치니 - 178,600원 - ⭐4.9
-18. 다이치 스포티 주니어 와이드 카시트 (ISOFIX) - 409,800원 - ⭐5
-19. 하이폴드 트랜스포밍 주니어 카시트 - 94,050원 - ⭐5
-20. 순성산업 제나 주니어 플러스 ISOFIX 카시트 - 264,000원 - ⭐4.8
+1. SEEC 아이 폴드 아이사이즈 주니어 휴대용 카시트 - 238,213원 - ⭐4.9
+2. 싸이벡스 솔루션 티 플러스 아이사이즈 주니어 카시트 - 576,000원 - ⭐5
+3. 다이치 브이가드 주니어 ISOFIX 시즌2 프리미엄 - 327,500원 - ⭐5
+4. 브라이텍스 키드픽스 아이사이즈 일체형 주니어 카시트 - 494,000원 - ⭐5
+5. 브라이텍스 NEW 하이포인트 주니어 카시트 (ISOFIX) - 203,910원 - ⭐5
+6. 브라이텍스 어드밴스픽스 프로 아이사이즈 토들러 주니어 카시트 (ISOFIX) - 622,250원 - ⭐5
+7. 토드비 코쿤 엠플러스 ISOFIX 주니어 부스터카시트+헤드레스트 SET - 111,331원 - ⭐4.7
+8. 조이 아이트릴로 FX 아이사이즈 주니어 카시트 - 169,820원 - ⭐4.7
+9. 조이 아이트래버 시그니처 주니어 ISOFIX 카시트 - 256,500원 - ⭐5
+10. 리안 주니어 부스터 카시트 - 30,000원 - ⭐5
+11. 조이 듀알로 주니어 카시트 (ISOFIX) - 169,100원 - ⭐4.8
+12. 싸이벡스 솔루션 티 컴포트 아이사이즈 주니어 카시트 - 500,000원 - ⭐5
+13. 토드비 코쿤 G7 ISOFIX 주니어카시트 - 231,980원 - ⭐4.7
+14. 하이폴드 트랜스포밍 주니어 카시트 - 94,050원 - ⭐5
+15. 폴레드 볼픽스 아이사이즈 i-Size 주니어 카시트 - 297,075원 - ⭐4.9
+16. 다이치 V가드 주니어 카시트 (ISOFIX) - 235,840원 - ⭐4.8
+17. 순성산업 제나 주니어 플러스 ISOFIX 카시트 - 262,000원 - ⭐4.8
+18. 조이 듀알로 시그니처 주니어 카시트 (ISOFIX) - 256,500원 - ⭐4.9
+19. 피에고 부스터 카시트 휴대용 주니어카시트 - 54,900원 - ⭐4.7
+20. 니스툴그로우 빌트인 아이소픽스 주니어 카시트 퍼플 ISOFIX - 112,800원 - ⭐4.6
 
 ---
 
@@ -60,9 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 차량 시트 각도에 따라 등받이 각도 조절이 제한될까 봐 불편해요
-- 고가의 프리미엄 모델은 기능은 좋겠지만
-- 그만큼의 가치를 할지 망설여져요
+(아직 선택 없음)
 
 ---
 

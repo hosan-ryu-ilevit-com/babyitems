@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star, ShoppingCart, ArrowRight, CaretDown, CaretUp, Storefront, Truck, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
@@ -106,6 +106,9 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
   const [showAllPrices, setShowAllPrices] = useState(false);
   const [expandedImages, setExpandedImages] = useState<{reviewId: string; images: string[]; currentIndex: number} | null>(null);
   const [reviewSortBy, setReviewSortBy] = useState<'newest' | 'rating_high' | 'rating_low'>('newest');
+  const [showPhotoOnly, setShowPhotoOnly] = useState(false); // 포토리뷰만 보기
+  const [displayedReviewsCount, setDisplayedReviewsCount] = useState(30); // 리뷰 lazy loading
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const [priceData, setPriceData] = useState<PriceData>({
     loading: false,
     lowestPrice: null,
@@ -130,19 +133,43 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
     return new Date(y, m - 1, d).getTime();
   };
 
-  // 리뷰 정렬 함수
-  const sortedReviews = (product.reviews || []).slice().sort((a, b) => {
-    switch (reviewSortBy) {
-      case 'newest':
-        return parseReviewDate(b.date) - parseReviewDate(a.date);
-      case 'rating_high':
-        return b.rating - a.rating;
-      case 'rating_low':
-        return a.rating - b.rating;
-      default:
-        return 0;
+  // 리뷰 정렬 + 필터 함수
+  const filteredAndSortedReviews = (product.reviews || [])
+    .filter(r => !showPhotoOnly || (r.imageUrls && r.imageUrls.length > 0))
+    .slice()
+    .sort((a, b) => {
+      switch (reviewSortBy) {
+        case 'newest':
+          return parseReviewDate(b.date) - parseReviewDate(a.date);
+        case 'rating_high':
+          return b.rating - a.rating;
+        case 'rating_low':
+          return a.rating - b.rating;
+        default:
+          return 0;
+      }
+    });
+
+  // 포토리뷰 개수 계산
+  const photoReviewCount = (product.reviews || []).filter(r => r.imageUrls && r.imageUrls.length > 0).length;
+
+  // Intersection Observer로 무한 스크롤
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && displayedReviewsCount < filteredAndSortedReviews.length) {
+          setDisplayedReviewsCount(prev => Math.min(prev + 20, filteredAndSortedReviews.length));
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
     }
-  });
+
+    return () => observer.disconnect();
+  }, [displayedReviewsCount, filteredAndSortedReviews.length]);
 
   // Fetch prices from Danawa
   const fetchPrices = useCallback(async (pcode: string) => {
@@ -613,8 +640,8 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                   </span>
                </div>
 
-               {/* 리뷰 정렬 필터 */}
-               <div className="flex gap-2 mb-4">
+               {/* 리뷰 필터 (정렬 + 포토리뷰) */}
+               <div className="flex flex-wrap gap-2 mb-4">
                  {[
                    { key: 'newest' as const, label: '최신순' },
                    { key: 'rating_high' as const, label: '별점 높은순' },
@@ -622,7 +649,10 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                  ].map(({ key, label }) => (
                    <button
                      key={key}
-                     onClick={() => setReviewSortBy(key)}
+                     onClick={() => {
+                       setReviewSortBy(key);
+                       setDisplayedReviewsCount(30);
+                     }}
                      className={`px-3 py-1.5 text-[12px] font-bold rounded-full transition-colors ${
                        reviewSortBy === key
                          ? 'bg-gray-900 text-white'
@@ -632,15 +662,31 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                      {label}
                    </button>
                  ))}
+                 {/* 포토리뷰 필터 */}
+                 {photoReviewCount > 0 && (
+                   <button
+                     onClick={() => {
+                       setShowPhotoOnly(!showPhotoOnly);
+                       setDisplayedReviewsCount(30);
+                     }}
+                     className={`px-3 py-1.5 text-[12px] font-bold rounded-full transition-colors flex items-center gap-1 ${
+                       showPhotoOnly
+                         ? 'bg-blue-500 text-white'
+                         : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                     }`}
+                   >
+                     📷 포토리뷰 ({photoReviewCount})
+                   </button>
+                 )}
                </div>
 
               <div className="space-y-3">
-                {sortedReviews.map((review, i) => (
+                {filteredAndSortedReviews.slice(0, displayedReviewsCount).map((review, i) => (
                   <motion.div
                     key={review.reviewId || i}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + (i * 0.08) }}
+                    transition={{ delay: Math.min(0.4 + (i * 0.03), 1.2) }}
                     className="p-4 bg-white rounded-[20px] border border-gray-100 shadow-sm"
                   >
                     {/* 리뷰 헤더 */}
@@ -725,6 +771,15 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                   </motion.div>
                 ))}
               </div>
+
+              {/* 무한 스크롤 트리거 */}
+              {filteredAndSortedReviews.length > displayedReviewsCount && (
+                <div ref={loadMoreRef} className="py-4 text-center">
+                  <span className="text-[12px] text-gray-400">
+                    스크롤하여 더 보기 ({displayedReviewsCount}/{filteredAndSortedReviews.length})
+                  </span>
+                </div>
+              )}
             </div>
           )}
 

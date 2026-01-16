@@ -1,29 +1,28 @@
 # 절충형 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-16T10:58:58.650Z
+> 마지막 업데이트: 2026-01-16T13:15:36.137Z
 > 분석 상품: 20개 | 분석 리뷰: 577개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 휴대성과 안정성을 겸비한 절충형 유모차
-- 경량화 및 컴팩트한 폴딩 기능
-- 스마트 기능 (예: 자동 접이식) 탑재 유모차의 부상 (2026년 하반기부터 전망)
+- 디럭스급 핸들링과 휴대용의 편리함을 겸비한 절충형 유모차
+- 양대면 기능, 간편한 폴딩 및 셀프 스탠딩 기능
+- 스마트 기능 (예: 자동 접이식) 및 친환경 소재 적용 제품의 확대
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 가성비
-- ✓ 안정적인 주행 성능
-- ✓ 편리한 휴대성 및 폴딩 기능
-- ✓ 다양한 각도 조절 (수면 모드 포함)
-- ✓ 신생아부터 사용 가능
+- ✓ 뛰어난 핸들링과 안정성
+- ✓ 가볍고 컴팩트한 휴대성
+- ✓ 넓은 수납공간
+- ✓ 합리적인 가격대 및 가성비
 
 ### 주의해야 할 단점
-- ⚠ 디럭스 대비 부족한 안정감 (일부 모델)
-- ⚠ 무게감 (일부 모델)
-- ⚠ 부피 (트렁크 적재 시)
+- ⚠ 휴대용 대비 무거운 무게와 부피
+- ⚠ 바퀴 사이즈가 작아 안정감이 떨어짐 (휴대용 대비)
+- ⚠ 일부 모델의 내구성 부족
 
 ### 가격대 인사이트
-절충형 유모차는 약 29만 원대의 다이치 스무즈부터 199만 원대의 부가부 유모차까지 폭넓은 가격대를 형성하고 있습니다. 50~80만 원대의 리안, 시크 유모차는 가성비와 성능을 갖춘 중급형으로, 100만 원 이상의 부가부, 실버크로스, 잉글레시나 등은 프리미엄 라인으로 분류됩니다.
+절충형 유모차는 가격대가 다양하며, 30만원대의 가성비 좋은 모델부터 100만원 이상의 프리미엄 모델까지 선택의 폭이 넓습니다. 리안 솔로와 같은 모델은 50만원대에서 100만원대 초반에 형성되어 있으며, 부가부나 실버크로스 등 프리미엄 브랜드는 100만원대 중반에서 200만원대까지 가격대가 형성되어 있습니다.
 
 ---
 
@@ -242,4 +241,8 @@
 ---
 
 ## 📊 데이터 출처
-- [다나와 절충형 유모차 인기순위](https://search.danawa.com/dsearch.php?query=%EC%A0%88%EC%B6%A9%ED%98%95%20%EC%9C%A0%EB%AA%A8%EC%B0%A8&sort=saveDESC)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgZpz61ecgnQFSqDvw_G5STs0mQ5YokRtAdZBbRdevts_Q8scHvb2WvTFizPL387NLsTa7QRm4myQLwCdvzzkUIBDbvwwlewgBHmBRxe_ADxQTkRegtoA1BXT0XiKXeQcY2EKqpQq5s5EFtaJUWoJVYahWyIT2r7g3yHIxIs76rq-G2weCLxab8CZutcUNnJSu)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1F2aYMudTd--JYUqhxNS_GI_ou-utw6IRnyertCcsPBwIQWrdaTLpOVfGgw4MV35mzVkEoLngV7L0dx66YYDntTQ0g5vw64FslBhTruETUirabNVVqLAS9AOKfuO5lVdlGJhQD_o=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEMlvKlkq6rZjWhKf_9VS8smMoS32_QB0K3vzZdvoxQocu5p6W0XiTJmkpnwf47KqD8Hxt4nqd1RZZQaBhuqJGZxqqs6bwIOo7oaYNMyXj45-OAevfll8jXAfNR1UDKPdz2dS7yUS0=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdyOXqg1HGYqwRXC70KtYj5UYOy3uQ94J8dc6EnryNXEciO2aPAXbADhXpSkew9eVo-bTtht_48COv1WBPgg5bOiFdFQtD4gwFWnjCMLH7pendJUQ1nZwtBHo0pvbQQP0b3rxtpwc=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZTRULmR0ig8C6mbdt-S_c67XCx-fwmO5JKeuBcAkIRq4M5Gy3H_zrvPQPTmYI79XyUVef5wl0qwMcvRq3IH4DBVw3KSe-R1xwxnl4pLw3SY4Ig6-dWyagL3Hyy_k07mtp8uSyDhk=)

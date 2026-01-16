@@ -142,13 +142,7 @@ async function saveReviews(pcode: string, reviews: ReviewLite[], dryRun: boolean
     return reviews.length;
   }
 
-  // 기존 리뷰 삭제
-  await supabase
-    .from('knowledge_reviews_cache')
-    .delete()
-    .eq('pcode', pcode);
-
-  // 새 리뷰 저장 (배치)
+  // 순수 UPSERT - DELETE 없이 기존 리뷰 보존 + 새 리뷰만 추가
   const batchSize = 50;
   let saved = 0;
 
@@ -167,7 +161,7 @@ async function saveReviews(pcode: string, reviews: ReviewLite[], dryRun: boolean
 
     const { error } = await supabase
       .from('knowledge_reviews_cache')
-      .upsert(batch, { onConflict: 'pcode,review_id' });
+      .upsert(batch, { onConflict: 'pcode,review_id', ignoreDuplicates: true });
 
     if (error) {
       console.error(`   ⚠️ 배치 저장 실패 (${pcode}):`, error.message);

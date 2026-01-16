@@ -1,14 +1,14 @@
-# 세션: 20260116_105904_t9wa
-> 시작: 2026-01-16T10:59:04.027Z
-> 카테고리키: 절충형 유모차
+# 세션: 20260116_131544_lcgu
+> 시작: 2026-01-16T13:15:44.940Z
+> 카테고리키: 절충형
 > 카테고리: 절충형 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 절충형 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 절충형 유모차 시장은 디럭스의 안정성과 휴대용의 편리성을 결합한 모델들이 인기를 끌고 있습니다. 아이빌리브, 리안, 다이치 등의 브랜드가 현재 인기 있으며, 특히 가성비와 다양한 기능성을 갖춘 제품들이 주목받고 있습니다. 2026년 트렌드는 이미 출시된 제품들을 중심으로 경량화, 휴대성 강화, 그리고 스마트 기능 탑재 등이 예상됩니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EC%A0%88%EC%B6%A9%ED%98%95%20%EC%9C%A0%EB%AA%A8%EC%B0%A8&sort=saveDESC
+- 인사이트: 2026년 1월 현재, 절충형 유모차 시장은 부가부, 리안, 실버크로스, 잉글레시나, 시크 등의 브랜드가 인기를 얻고 있습니다. 특히 디럭스의 안정성과 휴대용의 경량성을 결합한 절충형 유모차는 도심 생활에 적합한 구조와 기능으로 많은 부모들에게 사랑받고 있으며, 가성비와 디자인, 편의 기능을 갖춘 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgZpz61ecgnQFSqDvw_G5STs0mQ5YokRtAdZBbRdevts_Q8scHvb2WvTFizPL387NLsTa7QRm4myQLwCdvzzkUIBDbvwwlewgBHmBRxe_ADxQTkRegtoA1BXT0XiKXeQcY2EKqpQq5s5EFtaJUWoJVYahWyIT2r7g3yHIxIs76rq-G2weCLxab8CZutcUNnJSu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1F2aYMudTd--JYUqhxNS_GI_ou-utw6IRnyertCcsPBwIQWrdaTLpOVfGgw4MV35mzVkEoLngV7L0dx66YYDntTQ0g5vw64FslBhTruETUirabNVVqLAS9AOKfuO5lVdlGJhQD_o=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEMlvKlkq6rZjWhKf_9VS8smMoS32_QB0K3vzZdvoxQocu5p6W0XiTJmkpnwf47KqD8Hxt4nqd1RZZQaBhuqJGZxqqs6bwIOo7oaYNMyXj45-OAevfll8jXAfNR1UDKPdz2dS7yUS0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdyOXqg1HGYqwRXC70KtYj5UYOy3uQ94J8dc6EnryNXEciO2aPAXbADhXpSkew9eVo-bTtht_48COv1WBPgg5bOiFdFQtD4gwFWnjCMLH7pendJUQ1nZwtBHo0pvbQQP0b3rxtpwc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZTRULmR0ig8C6mbdt-S_c67XCx-fwmO5JKeuBcAkIRq4M5Gy3H_zrvPQPTmYI79XyUVef5wl0qwMcvRq3IH4DBVw3KSe-R1xwxnl4pLw3SY4Ig6-dWyagL3Hyy_k07mtp8uSyDhk=
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기의 개월 수와 예상되는 최대 몸무게는 어떻게 되나요? | 6개월 ~ 15kg, 신생아 ~ 10kg |
+| 유모차를 주로 어떤 상황에서 접고 펼치게 되나요? | 자주 차 트렁크에 싣습니다. |
+| 주로 어떤 환경에서 유모차를 사용하시나요? | 공원, 약간의 비포장도로 등 다양한 지면 |
+| 예산은 어느 정도로 생각하세요? (평균 67만원, 35만원~87만원대가 가장 많아요) | 35만원 ~ 87만원, 35만원 이하 |
+| __avoid_negatives__ | 자주 사용하고 험한 지면에서도 다녀야 하는데,일부 모델은 내구성이 약하다는 후기를 보고 걱정돼요,공원이나 약간의 비포장도로를 다닐 때 바퀴가 작아 흔들림이 많아 아기가 불편해할까 봐 걱정돼요 |
 
 ---
 
@@ -55,7 +60,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 자주 사용하고 험한 지면에서도 다녀야 하는데
+- 일부 모델은 내구성이 약하다는 후기를 보고 걱정돼요
+- 공원이나 약간의 비포장도로를 다닐 때 바퀴가 작아 흔들림이 많아 아기가 불편해할까 봐 걱정돼요
 
 ---
 

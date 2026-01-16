@@ -83,8 +83,8 @@ export async function fetchReviewsLite(
     ? { maxReviews: options }
     : options;
 
-  const maxReviews = opts.maxReviews ?? 200;  // 기본값 200개로 증가
-  const timeout = opts.timeout ?? 15000;      // 타임아웃 15초로 증가
+  const maxReviews = opts.maxReviews ?? 500;  // 기본값 500개로 증가
+  const timeout = opts.timeout ?? 25000;      // 타임아웃 25초로 증가
 
   const result: ReviewCrawlResult = {
     pcode,
@@ -142,8 +142,8 @@ export async function fetchReviewsLite(
     // 🔧 페이지네이션: 한 페이지당 20개씩, 중복 제거하며 수집
     if (cate1) {
       const PAGE_SIZE = 20;
-      // 중복률 ~45% 감안하여 필요 페이지 계산 (200개 목표 → 약 20페이지)
-      const maxPages = Math.ceil(maxReviews * 1.8 / PAGE_SIZE);
+      // 중복률 ~55% 감안하여 필요 페이지 계산 (500개 목표 → 약 55페이지)
+      const maxPages = Math.ceil(maxReviews * 2.2 / PAGE_SIZE);
       const seenIds = new Set<string>();  // 중복 체크용 Set (O(1) lookup)
       let consecutiveEmptyPages = 0;      // 연속 빈 페이지 카운터
 

@@ -164,6 +164,17 @@ function parseProductCard(
       if (thumbnail && (thumbnail.includes('noImg') || thumbnail.includes('blank') || thumbnail.includes('noData'))) {
         thumbnail = null;
       }
+
+      // 모든 다나와 썸네일에 shrink=500:500 적용
+      if (thumbnail && thumbnail.includes('img.danawa.com')) {
+        try {
+          const url = new URL(thumbnail);
+          url.searchParams.set('shrink', '500:500');
+          thumbnail = url.toString();
+        } catch {
+          // URL 파싱 실패 시 그대로 사용
+        }
+      }
     }
 
     // 썸네일이 없으면 pcode 기반으로 다나와 CDN URL 생성

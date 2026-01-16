@@ -216,15 +216,10 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
   // 2. DB 저장 - 제품 (skipProducts일 때는 스킵)
   // -------------------------------------------------------------------------
   if (!dryRun && !skipProducts) {
-    console.log(`\n💾 [Step 2] 제품 DB 저장 중...`);
+    console.log(`\n💾 [Step 2] 제품 DB 저장 중... (UPSERT 방식)`);
     try {
-      // 기존 데이터 삭제 (upsert 대신 clean insert)
-      await db
-        .from('knowledge_products_cache')
-        .delete()
-        .eq('query', query);
-
-      // 배치 insert (50개씩)
+      // 순수 UPSERT - 기존 제품은 메타데이터 업데이트, 새 제품은 추가
+      // DELETE 없이 기존 rank 유지 + 새 크롤링 결과로 업데이트
       const batchSize = 50;
       for (let i = 0; i < products.length; i += batchSize) {
         const batch = products.slice(i, i + batchSize).map((p, idx) => ({
@@ -244,7 +239,7 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
 
         const { error } = await db
           .from('knowledge_products_cache')
-          .insert(batch);
+          .upsert(batch, { onConflict: 'query,pcode' });
 
         if (error) {
           console.error(`   ⚠️ 배치 ${i}-${i + batch.length} 저장 실패:`, error.message);
@@ -283,14 +278,9 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
 
       // DB 저장
       if (!dryRun) {
-        console.log(`\n💾 [Step 3-1] 리뷰 DB 저장 중...`);
+        console.log(`\n💾 [Step 3-1] 리뷰 DB 저장 중... (UPSERT 방식 - 기존 리뷰 보존)`);
 
-        // 기존 리뷰 삭제
-        await db
-          .from('knowledge_reviews_cache')
-          .delete()
-          .in('pcode', topPcodes);
-
+        // 순수 UPSERT - DELETE 없이 기존 리뷰 보존 + 새 리뷰만 추가
         for (const result of reviewResults) {
           if (!result.success || result.reviews.length === 0) continue;
 
@@ -308,7 +298,7 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
 
           const { error } = await db
             .from('knowledge_reviews_cache')
-            .upsert(reviewBatch, { onConflict: 'pcode,review_id' });
+            .upsert(reviewBatch, { onConflict: 'pcode,review_id', ignoreDuplicates: true });
 
           if (error) {
             console.error(`   ⚠️ 리뷰 저장 실패 (${result.pcode}):`, error.message);

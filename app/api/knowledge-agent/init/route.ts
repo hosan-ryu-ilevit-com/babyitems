@@ -1898,9 +1898,9 @@ export async function POST(request: NextRequest) {
           const reviewSummaryByProduct: Record<string, {
             reviewCount: number;
             avgRating: number | null;
-            reviews: Array<{ rating: number; content: string }>;
+            reviews: Array<{ rating: number; content: string; imageUrls?: string[] }>;
           }> = {};
-          
+
           Object.entries(allReviews).forEach(([pcode, result]) => {
             reviewSummaryByProduct[pcode] = {
               reviewCount: result.reviewCount,
@@ -1908,6 +1908,7 @@ export async function POST(request: NextRequest) {
               reviews: result.reviews.map(r => ({
                 rating: r.rating,
                 content: r.content,
+                imageUrls: r.imageUrls,  // 포토 리뷰 이미지 URL
               })),
             };
           });
@@ -2107,9 +2108,9 @@ async function handleNonStreamingRequest(
   const reviewSummaryByProduct: Record<string, {
     reviewCount: number;
     avgRating: number | null;
-    reviews: Array<{ rating: number; content: string }>;
+    reviews: Array<{ rating: number; content: string; imageUrls?: string[] }>;
   }> = {};
-  
+
   Object.entries(allReviews).forEach(([pcode, result]) => {
     reviewSummaryByProduct[pcode] = {
       reviewCount: result.reviewCount,
@@ -2117,6 +2118,7 @@ async function handleNonStreamingRequest(
       reviews: result.reviews.map(r => ({
         rating: r.rating,
         content: r.content,
+        imageUrls: r.imageUrls,  // 포토 리뷰 이미지 URL
       })),
     };
   });
