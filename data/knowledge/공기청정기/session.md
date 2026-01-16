@@ -1,5 +1,5 @@
-# 세션: 20260115_022856_6baa
-> 시작: 2026-01-15T02:28:56.394Z
+# 세션: 20260115_133404_qbho
+> 시작: 2026-01-15T13:34:04.311Z
 > 카테고리키: 공기청정기
 > 카테고리: 공기청정기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 공기청정기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 공기청정기 시장은 필터 성능과 유지비 효율성을 중시하는 소비 트렌드를 보입니다. 삼성, 샤오미, 위닉스 등 다양한 브랜드에서 가성비 모델부터 프리미엄 모델까지 폭넓은 선택지를 제공하고 있습니다. 특히 스마트 기능 연동과 디자인 또한 중요한 구매 요소로 작용하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbe52ApkAey8BI3Ia49JSFjPwPHOJpzZxwDD0kXq2dik8klagnJQCmIwV9gRIKN9GhvHi5zLIxwZ6SMJw_lLz3Uv_8ecPBJH8uQE-Ds6yO-mCBoClCBX-qndt2sjE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvjwGu8s9Y9AOcn7bwzgcfWtLBUwxO4FxcSJoNqHvu8sczR5dqgRKyl6vbHQ93FKZ1xqlB8KbJqQnmCSssfIN7h9ZQGfcYzx3m1x_j4DfASxlDnwwEHZ3nFArQ038Fgp4LJfcdOXYi-WXevEYNJnvfd17huHJS0r1q0mKv4pE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGci1aPJDJ-LZcCSLeyuEuiSs8YS7bZZJreslEeQDGwy7xKRW40tpL_3a3lN-vtK6Q2vqqdBiadqQraYRxEbzAcfLQOVLbSQnUaJpJUn_fO3u-CdgzFlr6GrkPNaU-Lc8UPIZK4pQM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-MckGNMEavDsQwKBTN7yEN0Abf33dF-_b2rbb-OzI64ZgT9OidPeSJfxmCw_hgBCB2eDhZWkBtWTPJcJ3VOUKbMbEcz8P7T-urzo7qJD1xrGcKQDc4djMpbqTfBDsPC4BRw-QjkQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGp9ahNq-JTNfvDPDiDn0Z4E4Ey4lTT_JZTkhDUCYXHAOhwCuwpakZ7m4r6pCPOsTtLDut1x2jo3Bf5GkyhKdt3BBN_yUfRHMUqcbz1SvDLZhv_8BN7DYcaj5jFnW5gEpbTtdg1
+- 인사이트: 2026년 현재 공기청정기 시장은 필터 성능과 유지비 효율성을 중시하는 추세입니다. 삼성, 샤오미, 위닉스 등 다양한 브랜드에서 가성비 모델부터 스마트 기능이 강화된 제품까지 폭넓게 출시되고 있습니다. 특히 H13 등급의 헤파 필터와 효율적인 에너지 소비를 갖춘 제품들이 인기를 얻고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EA%B3%B5%EA%B8%B0%EC%B2%AD%EC%A0%95%EA%B8%B0&sort=saveDESC
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 공기청정기를 주로 사용하실 공간의 크기는 어느 정도인가요? | 작은 방 (~10평) |
+| 공기청정기를 통해 가장 해결하고 싶은 문제는 무엇인가요? | 미세먼지 및 초미세먼지 제거, 생활 냄새 제거 |
+| 스마트 기능에 대한 선호도는 어떠신가요? | 아니요, 스마트 기능 불필요 |
+| 공기청정기 작동 시 소음에 얼마나 민감하신가요? | 어느 정도 신경 쓰임 |
+| 공기청정기 예산은 어느 정도로 생각하세요? (평균 약 54만원, 27만원~70만원대가 가장 많아요) | 30만원 ~ 70만원대 |
+| __avoid_negatives__ | 미세먼지나 냄새 감지 센서가 정확하지 않아 제대로 작동하지 않을까 걱정돼요 |
 
 ---
 
@@ -48,7 +54,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 미세먼지나 냄새 감지 센서가 정확하지 않아 제대로 작동하지 않을까 걱정돼요
 
 ---
 

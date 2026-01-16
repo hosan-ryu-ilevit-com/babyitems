@@ -1,28 +1,30 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-15T12:04:43.730Z
+> 마지막 업데이트: 2026-01-15T14:20:15.669Z
 > 분석 상품: 20개 | 분석 리뷰: 196,934개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- EWG 그린 등급 및 무자극 성분 강조
-- 두께감과 흡수력, 부드러운 원단 선호
-- 가성비와 대용량 패키지 인기
+- EWG 그린 등급 및 순한 성분 함유
+- 무향, 무알콜, 파라벤 무첨가
+- 도톰하고 부드러운 원단
+- 7단계 정수 시스템 등 안전성 강화 공정
+- 대용량 구성 및 가성비
 
 ### 구매자 만족 포인트
-- ✓ 저자극 무향 구성
-- ✓ 우수한 가성비
+- ✓ 순한 성분
+- ✓ 저자극
 - ✓ 부드러운 원단
-- ✓ 뛰어난 닦임력
-- ✓ 안전한 성분
+- ✓ 뛰어난 가성비
+- ✓ 무향
 
 ### 주의해야 할 단점
-- ⚠ 가끔 여러 장이 함께 나오는 현상
+- ⚠ 가끔 여러 장이 함께 나오는 경우
 - ⚠ 프리미엄 라인 대비 보통 수준의 원단 두께
 
 ### 가격대 인사이트
-대용량 물티슈의 경우 1팩당 1,000원 이하의 제품부터 1,500원 이상까지 다양하게 분포하며, 가격 대비 품질 만족도가 높은 제품들이 인기를 얻고 있습니다.
+아기 물티슈는 대용량 기준으로 100매당 가격을 비교하는 것이 일반적입니다. 1팩당 1,000원 이하의 가성비 제품부터 프리미엄 라인까지 다양하게 출시되어 있으며, 브랜드와 라인업에 따라 가격대가 형성됩니다.
 
 ---
 
@@ -241,8 +243,8 @@
 ---
 
 ## 📊 데이터 출처
-- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEME94NkvfzI8ioAQ2aSXKMEQE5NyUlrnzpL3yi_c5t438glE80IcGgu5ANItojXkBrf8hG5iuIqBKEsgAGssw8Ee_x4NV48G58ZfHzgTYSzPfj279kAmRBUviYtK-L3mCerv4luXQt_LsUeA0caII=)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLIQ0286vNVBHKPwL4ogJntv6rIgj25X2KJNTX4J6xvYerWCzEiSKk-yh7zehhm1dfOoTNhniNsOrsA720BtqlogyNoJvOnD2Pr7DFjvE3VwqnkvfyCvMxIdV4HU0pN_rvqnB3HY6XoZSMfT4uwBK7AsBtwYCm3c5Er14pbg5VIW5MSjGEnENJQEOtaHAN574Ey52LGSaZFx4V-Q0zXWBQa0ICV3jJTO1T)
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFiNa2sbA6x1R2tcXtcMjgfrFyqpEXpMieKK5PsU6Yw6X7LZX0bMSaPMsgwDgsoYEksR3iokaevAIWAntq3UnWFaslG1ZGsbf-PFcTWtTHTqUOV-07XRoiOMb4gdUdU6x9wI_SL3vmx6VWXOqPjPY9c7H71)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEr1TatfioYEz3fQErByjHScyKyilhIIGdgVGRIgzsr91-gmM4oVNq-YfAcFW6ojn_GsZq_0Z-jHWpeUArNOmYu6w7dmAWBe6h08_XqZ2JDhnGsXKdp428JMKJdO6thku7xVodXFr-nLuAMUBtJq5gMwXA9dzoubpqOGDs=)
-- [mamanote2024.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrFGf4hKIGXVjN8fkapNxljxiiSV2nLSGcsGH3KYz9aMf5V_f361yXnrxPZkzQemdARGmfS-51QPkb0ylRhlBEyV6Myn_E77tke4OzFJTMIHIyEzdH)
+- [reviewpro.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTaXcswwZ10drmaJJBzShZlbLtIzYzItyUGHVLNYQtyy3KR78YFwa33dRdpLCaP3qy-uODW40H4h3F9boKKmwvsHpMG1YiptrHDf2pUmPVbhVpAUccMa7df5Me0YcMEQZ1nHGXfFn9RZAVfksMAg==)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZXK6ARynTYCpj_OWIcxaYhmbNvEd3mLXEZGJrF0f2eu-khf_hR57UloKnXXU1ZY2eSiN1Y8FI33XmJnngwwicMxnlgA3NxVJofeI24MNYy0vP3jITYbu-wsL5wyrZfPpivZueEsGAy203XVMwhBHHt52PJE0KocKrVlsahUdRqlYVf_-A3vYxbzaX3ct9HgRmAlPPTiIhGW_tcVNWr8aSZgeUCQgoeOY=)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVUORoApKzmamx42joizBTD088yQSnPktDwVZ9zADO66mJ26aa5yAbi-WMhFI0LNDSX_aQKjTNDu8g-2x0GzpbEqS1mVKhekx76U8bSznYIVZA9gYSm_XT_p_RH6R_LxBePo_uJXqsmQzT3w3v39pnag4=)
+- [mamanote2024.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmbdOtu75ECbZB-Gdb_Ax6c0zdwwn5kZHarpj66bLwduvBqqKyOVVspJs3ewybE0oPWf4cM1KrbOsgrh9s4uzOR8EEP6a17ZgE6MieGzjPTjd0MvE=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTENVtUh7MhxF6uNT0E43QSl5idGxemsyQUEX5IVpKg26U45qrjrUjl3Qbg_LK1LMEC8PqnaaK4uvV5ZXy5ezKrPnJp9V5PHYrz5DfkRdVnIN506TxuSCja6oEsVQHY2mABZrgOpw2xFHRScikyf9tyXVwTJGnm0CGBQ==)

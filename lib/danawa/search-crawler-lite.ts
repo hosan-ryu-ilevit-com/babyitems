@@ -171,7 +171,7 @@ function parseProductCard(
     if (!thumbnail && pcode && pcode.length >= 6) {
       const last3 = pcode.slice(-3);                    // 661
       const mid3 = pcode.slice(-6, -3);                 // 011
-      thumbnail = `https://img.danawa.com/prod_img/500000/${last3}/${mid3}/img/${pcode}_1.jpg?shrink=130:130`;
+      thumbnail = `https://img.danawa.com/prod_img/500000/${last3}/${mid3}/img/${pcode}_1.jpg?shrink=500:500`;
     }
 
     // 리뷰 수 - SSR에서는 .text__number

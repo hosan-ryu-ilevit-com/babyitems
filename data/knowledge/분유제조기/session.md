@@ -1,5 +1,5 @@
-# 세션: 20260109_041007_fsdk
-> 시작: 2026-01-09T04:10:07.533Z
+# 세션: 20260115_134706_tkge
+> 시작: 2026-01-15T13:47:06.056Z
 > 카테고리키: 분유제조기
 > 카테고리: 분유제조기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유제조기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 분유제조기 시장은 베이비브레짜가 압도적인 점유율을 차지하며 인기를 이어가고 있습니다. 특히 정확한 분유 농도와 온도 조절 기능이 강점으로 꼽히며, 국내외 다양한 분유와의 호환성도 높습니다. 최근 트렌드는 사용자 편의성을 높이는 스마트 기능과 위생 관리 강화에 맞춰지고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EB%B6%84%EC%9C%A0%EC%A0%9C%EC%A1%B0%EA%B8%B0&sort=saveDESC
+- 인사이트: 2026년 현재, 분유제조기 시장은 육아의 편리성을 극대화하는 방향으로 발전하고 있으며, 베이비브레짜(Baby Brezza)와 같은 브랜드가 꾸준히 인기를 얻고 있습니다. 특히 밤중 수유의 번거로움을 덜어주는 기능과 정확한 분유 조유가 핵심 트렌드로 자리 잡고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEr4p80DFiSEdfWyDbYaMfnTCZ01X2il1LiAhcxC9RMLhCO6S3zCTpy1YomPNFqR_aSyblbAGGNZeW8EmKq07npQRYXfwdyjz744Vs07etgWUzbNyAWqyQ7JXdWRA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTxgjrWf060D0S0vieAT1syiqrqOiKaXm41jiM8blIfA0-gBeIpWuWOBgKBUJw_rpCPpXF5X6OTXpQD5o3zBcdF1hEUI9xPZ5pj83xCMsSnR7TdwxyxvDIUwaDyTqbBACDd5w0NMvfVTynBkc6fs4n4aMrb0vYaKRxG0eoeSXCryymOWuDuW8fs-ba, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdsNX1rX7iByEsmK3sXgNYfwQ5WJIJ1ru7CaFLP4e-KshSNWoPkr7GXg6hDYeFzTX-V9PfGDdFPJc3e9pIXZ8jExHEVT5eeJV1vHEFG54a-UMVYk9dezhBcNAAM6Cvy0MOyNFDTk-ymik-FmQvm8d_xFByuJYxA3TYMNaCH-5yDgKMkts-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEBaAmy2etJB-ukvK139Z-qUUG9SvR_TopNL-5pAJdQ-ogpKRy1GP3m1UJr21DzMX2lGODcQTlg581gikK2IHDoQYuQyjqenDfNW6M9pZVBIQz1kmWyVYA6Wztpv3jFPgIA6pZ9rPA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG4KCI1ByPNxryy0Vogt6Y0XUoSagZvGp6qprwAoW5tmNgVXp4rueFi2s4HhQL4k2xudAN7RaG1QrSy_Om_vbrLo_25SB2l2bFixD1C9JGmHpoheAx3vpSxVxQtiA==
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 분유 제조 시 스마트폰 연동이나 원격 제어 기능이 필요하신가요? | 기본 기능만으로 충분 |
-| 분유 제조 시 위생 관리를 얼마나 중요하게 생각하시나요? | 기본 세척 및 관리 기능으로 충분 |
-| 분유 제조 시 물의 양을 얼마나 세밀하게 조절하고 싶으신가요? | 10ml 단위 세밀한 용량 조절 필요 |
-| 분유 제조기 예산은 어느 정도로 생각하세요? (평균 약 26만원, 15만원~33만원대가 가장 많아요) | 15만원 ~ 33만원, 15만원 이하 |
-| __avoid_negatives__ | 정확한 양 조절이 어려워 아기가 원하는 농도를 맞추기 힘들까 봐 걱정돼요,기기 작동 시 발생하는 소음과 진동이 아기를 깨우거나 신경 쓰일까 봐 걱정돼요,원하는 물 양을 정확하게 맞추지 못해 분유 제조에 불편함이 있을까 봐 걱정돼요 |
 
 ---
 
@@ -47,9 +42,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 정확한 양 조절이 어려워 아기가 원하는 농도를 맞추기 힘들까 봐 걱정돼요
-- 기기 작동 시 발생하는 소음과 진동이 아기를 깨우거나 신경 쓰일까 봐 걱정돼요
-- 원하는 물 양을 정확하게 맞추지 못해 분유 제조에 불편함이 있을까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

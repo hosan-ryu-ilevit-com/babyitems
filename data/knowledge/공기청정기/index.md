@@ -1,29 +1,29 @@
 # 공기청정기 전문가 지식
 
-> 마지막 업데이트: 2026-01-15T02:28:51.004Z
+> 마지막 업데이트: 2026-01-15T13:33:58.008Z
 > 분석 상품: 20개 | 분석 리뷰: 15,019개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 고성능 필터 시스템 (H13 등급 HEPA 필터 등) 및 탈취 기능 강화
-- AI 및 IoT 연동을 통한 스마트폰 원격 제어 및 실시간 공기질 모니터링
-- 저소음 및 에너지 효율성 증대, 친환경 제품 선호
+- 고성능 필터 시스템 (H13 등급 헤파 필터, 활성탄 필터 등)
+- 스마트 기능 강화 (IoT 연동, AI 센서, 앱 제어)
+- 저소음 및 에너지 효율성
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 필터 성능 (미세먼지, 알레르겐, 냄새 제거)
-- ✓ 스마트 기능 및 앱 연동 편의성
-- ✓ 깔끔하고 다양한 디자인 옵션
-- ✓ 대기업의 확실한 AS 및 사용자 만족도
+- ✓ 뛰어난 필터 성능
+- ✓ 압도적인 가성비
+- ✓ 스마트폰 연동 편리성
+- ✓ 대기업 AS
+- ✓ 저소음 설계
 
 ### 주의해야 할 단점
 - ⚠ 필터 교체 비용 부담
-- ⚠ 일부 제품의 센서 정확도 및 오작동 가능성
-- ⚠ 가습기 등 다른 제품과의 배치 시 주의 필요
-- ⚠ 필터 교체 주기 관리의 번거로움
+- ⚠ 일부 모델 센서 미흡
+- ⚠ 디자인 투박함 (일부 모델)
 
 ### 가격대 인사이트
-공기청정기 가격대는 10만 원대 이하의 보급형부터 100만 원 이상의 프리미엄급까지 다양하게 형성되어 있습니다. 15~30만 원대의 가성비형 모델은 합리적인 가격에 우수한 성능을 제공하며, 50~100만 원대의 고급형 모델은 강력한 필터 성능과 정밀 센서를 갖추고 있습니다. 100만 원 이상의 프리미엄급 모델은 AI 센서, 스마트 홈 연동 등 첨단 기술을 탑재하고 있습니다.
+10만 원대 이하의 보급형 모델은 개인 소형 공간에 적합하며, 15만 원에서 30만 원대의 가성비형 모델은 합리적인 가격에 우수한 성능을 제공합니다. 50만 원에서 100만 원대의 고급형 모델은 강력한 필터 성능과 정밀 센서를 갖추고 있으며, 100만 원 이상의 프리미엄 모델은 AI 센서, 스마트 홈 연동 등 최첨단 기술을 탑재하고 있습니다.
 
 ---
 
@@ -242,8 +242,4 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbe52ApkAey8BI3Ia49JSFjPwPHOJpzZxwDD0kXq2dik8klagnJQCmIwV9gRIKN9GhvHi5zLIxwZ6SMJw_lLz3Uv_8ecPBJH8uQE-Ds6yO-mCBoClCBX-qndt2sjE=)
-- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvjwGu8s9Y9AOcn7bwzgcfWtLBUwxO4FxcSJoNqHvu8sczR5dqgRKyl6vbHQ93FKZ1xqlB8KbJqQnmCSssfIN7h9ZQGfcYzx3m1x_j4DfASxlDnwwEHZ3nFArQ038Fgp4LJfcdOXYi-WXevEYNJnvfd17huHJS0r1q0mKv4pE=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGci1aPJDJ-LZcCSLeyuEuiSs8YS7bZZJreslEeQDGwy7xKRW40tpL_3a3lN-vtK6Q2vqqdBiadqQraYRxEbzAcfLQOVLbSQnUaJpJUn_fO3u-CdgzFlr6GrkPNaU-Lc8UPIZK4pQM=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-MckGNMEavDsQwKBTN7yEN0Abf33dF-_b2rbb-OzI64ZgT9OidPeSJfxmCw_hgBCB2eDhZWkBtWTPJcJ3VOUKbMbEcz8P7T-urzo7qJD1xrGcKQDc4djMpbqTfBDsPC4BRw-QjkQ=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGp9ahNq-JTNfvDPDiDn0Z4E4Ey4lTT_JZTkhDUCYXHAOhwCuwpakZ7m4r6pCPOsTtLDut1x2jo3Bf5GkyhKdt3BBN_yUfRHMUqcbz1SvDLZhv_8BN7DYcaj5jFnW5gEpbTtdg1)
+- [다나와 공기청정기 인기순위](https://search.danawa.com/dsearch.php?query=%EA%B3%B5%EA%B8%B0%EC%B2%AD%EC%A0%95%EA%B8%B0&sort=saveDESC)
