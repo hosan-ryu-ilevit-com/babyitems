@@ -1,5 +1,5 @@
-# 세션: 20260115_131733_8y46
-> 시작: 2026-01-15T13:17:33.096Z
+# 세션: 20260116_015424_s9by
+> 시작: 2026-01-16T01:54:24.280Z
 > 카테고리키: 4K모니터
 > 카테고리: 4K모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 4K모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 4K 모니터 시장은 LG전자, 삼성전자, MSI, 크로스오버 등 다양한 브랜드가 경쟁하고 있으며, 특히 가성비와 고화질을 앞세운 제품들이 인기를 얻고 있습니다. 2026년 트렌드는 고주사율, USB-C 타입 연결성 강화, 그리고 OLED 및 Mini-LED와 같은 고급 패널 기술의 적용 확대입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcrlLT_tB7CX7SH26cW3UTvK3rJO0aigh0IQHNtAHG3X5pwJB2vBE_DfDHSTXqrtlYVF0OUh4a0mVuF7FK10YHlQbiMjJsqQUtmmxlx5q6g-AXB-1JGy5f-ghwh2uxP6lL2WjALcc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCz1aIbjHxegwP9qwdArmEtd7TTr2S8BU9FmaV4nGyJv15Bgf01AH0Gy2Rk3AqXROV5W-cOV_KqS4bZKKC3edsqSP2CjgCpAAGr5f74vwybShqn0N4UFMKlKERA8LNcm_ZvLV1mbnOiM-u6zlRoW0rBghfVfgCDMYm, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlZsRGRSeZjRu7I6PsgSbb1kngcJrU322ZkioyYstuZsGcMzYYqyVlRxr1V3No9VUNSTjiqv57UtEbGVisTeq0N4e2BqpVJ9bZffZqeIcQLjk6zZ0fucaN7YUAsB7uJJLp25E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6mikQdfvNQvbyuQ5V_RLRFlMgx7bqoJ0gFPe4CPmd5b2BMLz1Zg8Z-kWHfh6ZoW3GHM2ASM9vstFc6eMVX9jk8vu2mZtyh5sSeVo7YLRImxCVsZLFdMhb-3qXxv8K0tOdJKhqD7xEOybMLdsOK45U2Lcw6O0XR5SEtX47JL_eFRVdSOLVgqN7B1eQajhzDQfAWCpL1fkpW-kxTLofg6OvQgu08U4pwchaxU-l6_SZn4WytsK6DszE6nZRp6GMKjl5rOg53fpw4c72WKNzG7CF23nJaOAXxwlNQOiinYJbz0i1bar7Bq3rFK4Od931wi02, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOJe6yLNzyGlhEr6PdrfkqIydFODWv0z7FqPfiKeMj04jMOU-zRtFnPyu-1CtbQ3j80qxIayCZnkiIgpqzyBnX8f-SiEqr92f6TL_003sx91rkhCl7IROtUKwRv6orfeg-YLnftgo=
+- 인사이트: 2026년 현재, 4K 모니터 시장은 LG, 삼성, MSI, 벤큐 등 다양한 브랜드가 경쟁하며, 고해상도와 뛰어난 화질을 앞세운 제품들이 인기를 얻고 있습니다. 특히 게이밍 성능을 강화한 고주사율 모델과 전문가용 디스플레이까지 선택의 폭이 넓어졌습니다. CES 2026에서는 탠덤 OLED, QD-OLED 등 차세대 디스플레이 기술이 주목받으며 미래 시장을 예고하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYzEwnyNKDhrlpH6owpvrx2zsWH3LHueihiPE0TE6P16NESljiS_gVjY2fO3Jkizr7p5g8TMabWaLD2AuwWAGOulja0IKRuwh33aypCC0KFOduTSPJzKLlhxu6SZ0b83lAKs6gKQw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDFkddsW0tlKFg2kWIIArLP9J5PggrMgux2_IANRffvhpqAdXf7Cb_wv66NEIDbMmwyj6Sob1_JGkBmTzp3pdsd1kZ2nFuXbatYmfxIvMTCByzRR5pmtOwNzIfrAcjZeFy-IR7uYp12VUVd4nHLvctjk8XCfWSQq7lsBeeREyV4HK_8TdumZAoXMjJicv8v2dDiRxL2ls0o3lj0qrE59hZdSXQMtHv7ZHKVfHg_BdFA0AGGrjX2JVxUxDD-xDgUVOoPDsyTKpfBtumpnj0XsKOoNRPV0C7RUUfdXLzmvzj8tJ2MqbX9BxgIJf_Pr0abQ1d, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRs-H3J_J4T8I1Q42Wp8IP2P02emTVn1HVLdMNJ_ELCO67P6tq7uppOOCfZkWqS2SpYphTU_MsvAfQym4D7i5bxMQKQ_biuLoXUXX6OpKnxKLpSx9zqQAyiRhurD1aw60DvQGjSfKRh-A-I8DhB0zyAPn4p5w9fVMvLNk9u_c8JoadGqJ1o90gpz_U3LepQ8DN1UIJoCKSpzf9yOuEoOe3zkxXgpfoLlqKHz9e4GaKOZVVnogi1OZ4w2c49Tk7cjsFGdz10tekjV9IOlfuvuawpxYQidPq23GzPsUmauIlO-cITahjkM3LHu8HfOQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHSql4_G4lT09Wljlux4YczQqYjFCXlSQgQaZdnjnTBvJM-2af6KqvfLWv1cpmVV1w4q3qhGb-MQmC2ngXezqeMWzQn-akZMndeRBs_HmVeXOD4lA5BL_CsUuvz6bpojNgDF5JF1sbLsp0kgPWKb8FJ6h1ks7wuW3wafrhvmamGxoXhj4xhO3vgM-Cq9QP_kQgtcZdcJe1WBZ_Wuk_W7C50WEl-sikpXjj-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFT61wUg0IUUtlwf_GEGH__JGdYNB801_e0vJlIwNUxcC1uFVxVm5AuZuYXM3UAl9EglP57p35g697T0eZ7638l1GdrD_dvqBJhmIv7lqcWgh9ZIVfAXnxdQo2MP6oK5W-5-dj6QXk=
 
 ---
 
@@ -16,39 +16,31 @@
 
 | 항목 | 답변 |
 |------|------|
-| 새로운 4K 모니터를 주로 어떤 용도로 사용하실 예정인가요? | 콘텐츠 제작 (영상 편집, 그래픽 디자인) |
-| 모니터 화면의 색감과 몰입감에 가장 큰 영향을 주는 패널 기술 중 어떤 것을 선호하시나요? | IPS, OLED 또는 Mini-LED |
-| 모니터를 연결할 기기(노트북, 콘솔 게임기 등)가 많거나, 하나의 케이블로 영상/데이터 전송 및 충전까지 원하시나요? | USB-C (PD 충전 포함), 썬더볼트 (Thunderbolt) |
-| 4K 모니터 예산은 어느 정도로 생각하세요? (평균 55만원, 30~70만원대가 가장 많아요) | 38만원 ~ 71만원대 |
-| __avoid_negatives__ | 처음 설정할 때 UI나 텍스트가 너무 작게 보여서 눈이 피로해질까 봐 불편해요. |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 20개 (전체 20개 중)
+현재 후보: 17개 (전체 17개 중)
 
 ### 후보 상품
 1. MSI MD271UL 4K IPS 아이에르고 PD65 무결점 - 229,970원 - ⭐4.8
-2. 알파스캔 콘퀘스트 27U60G 게이밍 4K UHD 160 FAST IPS USB-C HDR 멀티스탠드 무결점 - 386,560원 - ⭐5
-3. 필립스 에브니아 32M2N5800 4K UHD 듀얼 모드 320 HDR 400 게이밍 무결점 - 517,280원 - ⭐5
-4. MSI MAG 321CUP 게이밍 4K 160 HDR400 무결점 - 319,520원 - ⭐4.8
-5. 한성컴퓨터 TFG32U14VM1152ZMW UHD 4K QD Mini LED 144 게이밍 화이트 무결점 - 538,470원 - ⭐5
-6. 알파스캔 AOC U27B35 4K UHD IPS 보더리스 HDR 시력보호 무결점 - 251,030원 - ⭐5
-7. ASUS ProArt PA279CRV - 596,520원 - ⭐4.6
-8. BenQ PD3205U 아이케어 무결점 - 920,700원 - ⭐5
-9. 필립스 438P1 4K UHD 시력보호 무결점 - 849,000원 - ⭐4.8
-10. 알파스캔 2725UN 4K UHD 보더리스 IPS 시력보호 HDR 무결점 - 263,290원 - ⭐5
-11. 한성컴퓨터 TFG32U16PM2304ZMW Fast IPS QD Mini LED UHD 160 FHD 320 듀얼모드 게이밍 화이트 무결점 - 826,040원 - ⭐5
+2. 알파스캔 AOC U27B35 4K UHD IPS 보더리스 HDR 시력보호 무결점 - 250,160원 - ⭐4.9
+3. MSI MAG 321CUP 게이밍 4K 160 HDR400 무결점 - 402,990원 - ⭐4.8
+4. ASUS ProArt PA279CRV - 542,690원 - ⭐4.6
+5. 필립스 에브니아 32M2N5800 4K UHD 듀얼 모드 320 HDR 400 게이밍 무결점 - 525,910원 - ⭐5
+6. 한성컴퓨터 TFG32U14VM1152ZMW UHD 4K QD Mini LED 144 게이밍 화이트 무결점 - 538,470원 - ⭐5
+7. BenQ PD3205U 아이케어 무결점 - 871,200원 - ⭐5
+8. 알파스캔 콘퀘스트 27U60G 게이밍 4K UHD 160 FAST IPS USB-C HDR 멀티스탠드 무결점 - 399,000원 - ⭐5
+9. 알파스캔 AOC U27U2DP 나노 IPS 블랙 도킹스테이션 HDR 400 피벗 무결점 - 559,590원 - ⭐4.6
+10. 알파스캔 2725UN 4K UHD 보더리스 IPS 시력보호 HDR 무결점 - 259,000원 - ⭐5
+11. 필립스 438P1 4K UHD 시력보호 무결점 - 849,000원 - ⭐4.8
 12. 크로스오버 27USD35 IPS UHD 4K DCI-P3 하이라이트 무결점 - 188,100원 - ⭐4.8
-13. 주연테크 V27UI-60M - 304,700원 - ⭐4.7
-14. GIGABYTE M32U UHD 4K 게이밍 144 피씨디렉트 - 536,480원 - ⭐4.7
-15. 한성컴퓨터 TFG27U14P UHD IPS 리얼 144 게이밍 USB Type-C 400 - 417,570원 - ⭐3.4
-16. 알파스캔 AOC U27U2DP 나노 IPS 블랙 도킹스테이션 HDR 400 피벗 무결점 - 559,590원 - ⭐4.6
-17. 알파스캔 AOC U32N3C 4K UHD USB-C 프리싱크 높낮이 HDR 무결점 - 578,550원 - ⭐4.8
-18. 주연테크 V32UE 4K UHD HDR USB-C 무결점 - 379,000원 - ⭐4.6
-19. 크로스오버 27USD35 IPS UHD 4K DCI-P3 하이라이트 - 179,100원 - ⭐4.6
-20. 삼성전자 SMART M7 S43BM700 - 548,990원 - ⭐4.8
+13. 크로스오버 27USD35 IPS UHD 4K DCI-P3 하이라이트 - 179,100원 - ⭐4.6
+14. 주연테크 V27UI-60M - 324,570원 - ⭐4.7
+15. 삼성전자 SMART M7 S43BM700 - 510,570원 - ⭐4.8
+16. 알파스캔 AOC U32N3C 4K UHD USB-C 프리싱크 높낮이 HDR 무결점 - 578,550원 - ⭐4.8
+17. GIGABYTE M32U UHD 4K 게이밍 144 피씨디렉트 - 569,040원 - ⭐4.7
 
 ---
 
@@ -60,7 +52,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 처음 설정할 때 UI나 텍스트가 너무 작게 보여서 눈이 피로해질까 봐 불편해요.
+(아직 선택 없음)
 
 ---
 
