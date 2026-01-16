@@ -1,14 +1,14 @@
-# 세션: 20260109_085303_92bp
-> 시작: 2026-01-09T08:53:03.554Z
+# 세션: 20260116_055815_8vkm
+> 시작: 2026-01-16T05:58:15.694Z
 > 카테고리키: 무선청소기
 > 카테고리: 무선청소기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 무선청소기
-- 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH19vlra07aIlrc3i0UfW4D2oLy24jYt7GsqxN3mY07LsjFBMfgFi6KotyOofc-hGR7diBxXJhYZlAi7re60wowKiH2ODXdc-NwvQQiKqgVLBE9tOJUGLJGqb_jDuxLLzS_LjdjCFo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_KkDroMliM85WU-CXmtYTKBiHf_vGs5p1ea9lO_p03dVi5HlIbdHbkQp8AyV2dZF6W_czkBE2RzcgjDisQaJR9H8cPf1j1axEmk9uwEieJtdUm_dpjIa-YDIsx4n8gs5_TN9Qsy2-Cg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKLCNTAGAqsQRHDmS3oNr5tcFJtBDasdHAPzqo4Ool9sfc0Yof2UQPpgsOVIcune-gB20QGFkjU1WSi_rhwvOnADiboo1Cxc_ZrI5BzJGnancC5jEDxYTWQNqnChw9CTj70kcNES0GL_ivm6RwfWhEsUebLVkMSDlugqrzGecBUzpU, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg0ilt3zLX_7jDi_tAIE9i2cvlFNSvfwHcaaTHS9--5mSRfUCYQjSoLJ8B1Kr0YOK2cHW9vxmnx2zBV_QCafTt1h7OfJkpDgM-JCSEgaY8o0Z_JecFGB6Yd5YKfoGdmQR1reJYzavFaw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpRlPkADACnP9lzt5DJhcjvARF1uTPfetBrBlfpjPSWnxA5wt3SV2ynYZsYvVp8Xuln9ZiRiZRQpmIyOJEjtiEmHOnVzhy8Cml61zniPiUMZ7YhQf6lRF4w_nYToo-XyXMFyjxIWs=
+- 쿼리: 무선청소기 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재 무선청소기 시장은 강력한 흡입력과 편의성을 갖춘 제품들이 인기를 얻고 있습니다. 특히 다이슨, 삼성, LG 등 주요 브랜드들은 자동 먼지 비움 기능, 물걸레 겸용, 스마트 기능 등을 탑재하며 경쟁력을 강화하고 있습니다. 가성비를 중시하는 소비자들을 위한 차이슨, 클래파 등 중저가 브랜드들도 다양한 라인업을 선보이며 시장 점유율을 높여가고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGZYy8Gb-Oo4AHMEaUv4uRU0npqEIJUGhluiytb-UIsYjx_n3YrIbK06m7dXxFvW3P_zw5L8pLorxmRpbXZB14eC23f_2LLfCa6YWomGib046ntHdmaip8PDTywp-KWacx0qndntCKH1Z-X-QtaCrkr7yooEZeKJMTiqPCXFjky7fq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErAmFj3-8RwYb5-LBiZolM2wdOGoXZPnMbP8BxK2rtXYX_lo_wFs0aQyzDguU1qt6kcqtRdjvNbqPnPmwE79Yh7_D7FMh22ukDJ6DTZLhHZ773xPIMt-8E_4kywbBwqm0IR-S0nnY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPfRylDyU8e0XY5QqLhTyMEgJEOc9lsNIicDnrH1LXkzAXGwI_1aXvOBiiP1rRAVyuHjWh6KsuRNtH9F4l_YaqSsPQZYOyrDYGIeA-7EPw3g8eyZFfUCZ6DRljbRjx_QrxW9Q2UOM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1us1nCpohk1-zbbgeLdVCh7zqVyPFXajOhlL0C3LfULoWdHhTjwmUsqIj1HYwnRsuax-BxH-AtqAPiywz8rStS8E8y5He-flDzd9aAKOogWKxP4qIdgUbPSToT9KFOqaBue_fLwo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvb5u19lwNyOnjSYkkcJW5aGiniHnKIXRfNYOCytcvW61as_1U3gtRdg9y1qavjmmxIrofa8FQYLO2O66nq8A6HxtExu0HehTtF3jn4O9oQx15PSL7nzrROdRPGpbCsGmZDwSxE7M=
 
 ---
 
@@ -24,12 +24,12 @@
 현재 후보: 6개 (전체 6개 중)
 
 ### 후보 상품
-1. 일렉트로룩스 WELL Q6 WQ61-1OGG - 153,340원 - ⭐4.7
-2. 신일전자 SVC-BL999 - 55,920원 - ⭐0
-3. 샤크닌자 샤크 에보 파워 플러스 WV250KR - 127,084원 - ⭐4.5
-4. 드리미 V11 - 212,990원 - ⭐4.6
-5. 일렉트로룩스 WELL Q6 WQ61-1EDB - 164,240원 - ⭐4.8
-6. 신일전자 SVC-PB195BUP - 94,900원 - ⭐4.4
+1. 에어메이드 THE 500 플러스 AMC-4500 - 242,090원 - ⭐4.8
+2. 일렉트로룩스 WELL Q6 WQ61-1OGG - 153,450원 - ⭐4.7
+3. 일렉트로룩스 WELL Q6 WQ61-1EDB - 178,200원 - ⭐4.8
+4. 신일전자 SVC-BL999 - 55,920원 - ⭐5
+5. 다이슨 V10 플러피 오리진 - 341,500원 - ⭐4.8
+6. 아이닉 i20 엘리트 - 147,240원 - ⭐4.7
 
 ---
 

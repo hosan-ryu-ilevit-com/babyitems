@@ -110,6 +110,18 @@ export async function getProductsFromCache(
       return { hit: false, products: [], cachedAt: null, source: 'crawl' };
     }
 
+    // ✅ 디버그: DB에서 rank 값 확인
+    console.log(`[SupabaseCache] DB rank 샘플 (처음 3개):`, data.slice(0, 3).map(r => ({ pcode: r.pcode, rank: r.rank })));
+
+    const normalizeRank = (rank: unknown): number | null => {
+      if (typeof rank === 'number' && Number.isFinite(rank)) return rank;
+      if (typeof rank === 'string') {
+        const parsed = parseInt(rank.replace(/[^\d]/g, ''), 10);
+        return Number.isFinite(parsed) ? parsed : null;
+      }
+      return null;
+    };
+
     // DB 데이터를 DanawaSearchListItem 형식으로 변환
     const products: DanawaSearchListItem[] = data.map(row => ({
       pcode: row.pcode,
@@ -121,6 +133,7 @@ export async function getProductsFromCache(
       rating: row.rating,
       specSummary: row.spec_summary || '',
       productUrl: row.product_url || `https://prod.danawa.com/info/?pcode=${row.pcode}`,
+      danawaRank: normalizeRank(row.rank),
     }));
 
     const cachedAt = data[0]?.crawled_at || null;
@@ -234,97 +247,29 @@ export async function getPricesFromCache(
       return { hit: false, prices: {}, source: 'crawl' };
     }
 
-    // pcode별 맵 생성
     const priceMap: Record<string, CachedPrice> = {};
     for (const row of data) {
+      // mall_prices JSONB 처리
+      const mallPrices = row.mall_prices && Array.isArray(row.mall_prices)
+        ? row.mall_prices
+        : [];
+
       priceMap[row.pcode] = {
         pcode: row.pcode,
         lowestPrice: row.lowest_price,
         lowestMall: row.lowest_mall,
         lowestDelivery: row.lowest_delivery,
         lowestLink: row.lowest_link,
-        mallPrices: row.mall_prices || [],
+        mallPrices: mallPrices,
         mallCount: row.mall_count || 0,
       };
     }
 
-    const cachedCount = Object.keys(priceMap).length;
+    console.log(`[KnowledgeCache] 가격 캐시 HIT: ${Object.keys(priceMap).length}/${pcodes.length}개 pcode`);
 
-    // 캐시에 데이터가 하나라도 있으면 hit으로 처리 (크롤링 방지)
-    const hit = cachedCount > 0;
-
-    console.log(`[KnowledgeCache] 가격 캐시 ${hit ? 'HIT' : 'MISS'}: ${cachedCount}/${pcodes.length}개`);
-
-    return { hit, prices: priceMap, source: 'cache' };
+    return { hit: true, prices: priceMap, source: 'cache' };
   } catch (error) {
     console.error(`[KnowledgeCache] 가격 캐시 조회 에러:`, error);
     return { hit: false, prices: {}, source: 'crawl' };
-  }
-}
-
-// ============================================================================
-// 캐시 신선도 확인
-// ============================================================================
-
-/**
- * 캐시가 유효한지 (N일 이내) 확인
- * @param cachedAt 캐시 저장 시점
- * @param maxAgeDays 최대 허용 일수 (기본: 3일)
- */
-export function isCacheFresh(cachedAt: string | null, maxAgeDays: number = 3): boolean {
-  if (!cachedAt) return false;
-
-  const cachedDate = new Date(cachedAt);
-  const now = new Date();
-  const diffMs = now.getTime() - cachedDate.getTime();
-  const diffDays = diffMs / (1000 * 60 * 60 * 24);
-
-  return diffDays <= maxAgeDays;
-}
-
-// ============================================================================
-// 캐시 통계
-// ============================================================================
-
-/**
- * 캐시 통계 조회
- */
-export async function getCacheStats(): Promise<{
-  queries: string[];
-  totalProducts: number;
-  totalReviews: number;
-  totalPrices: number;
-}> {
-  try {
-    // 쿼리 목록
-    const { data: queryData } = await supabase
-      .from('knowledge_products_cache')
-      .select('query')
-      .order('crawled_at', { ascending: false });
-
-    const queries = [...new Set((queryData || []).map(r => r.query))];
-
-    // 카운트
-    const { count: productCount } = await supabase
-      .from('knowledge_products_cache')
-      .select('*', { count: 'exact', head: true });
-
-    const { count: reviewCount } = await supabase
-      .from('knowledge_reviews_cache')
-      .select('*', { count: 'exact', head: true });
-
-    const { count: priceCount } = await supabase
-      .from('knowledge_prices_cache')
-      .select('*', { count: 'exact', head: true });
-
-    return {
-      queries,
-      totalProducts: productCount || 0,
-      totalReviews: reviewCount || 0,
-      totalPrices: priceCount || 0,
-    };
-  } catch (error) {
-    console.error(`[KnowledgeCache] 통계 조회 에러:`, error);
-    return { queries: [], totalProducts: 0, totalReviews: 0, totalPrices: 0 };
   }
 }

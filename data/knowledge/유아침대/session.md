@@ -1,14 +1,14 @@
-# 세션: 20260107_092903_ex8z
-> 시작: 2026-01-07T09:29:03.150Z
+# 세션: 20260116_064405_jdz5
+> 시작: 2026-01-16T06:44:05.608Z
 > 카테고리키: 유아침대
 > 카테고리: 유아침대
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아침대
-- 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_GtReYo_32FZimrCvDdJcgA4XXbf_RATfJcalKTEwRgq1pO5w9PeugcVhGzX_4giNawDBmPpePf92rYNwQH1BJ0cwjuBn8bxQYZOnfOivsdhtjEEGTUS9n9mp3t4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHodd7XZwM-8cNv3TaPI0xQOdfEsKasP8lXYLn_Ght4hXECWi97uuvumb8j5BSEJC-MnOmX0Az8kr-kyVAQCzF9wq9i11Eavmr6MhGattBGcAPSpPIZdS7aqNXRwumt2xTZoylccIi9qqwk7dtrnueh4NQ-vRQgCnljPtkD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERMjjZGwNhxbGpxrXrzBxQwCLRiXqW_zeMVVAeViJ1GbHZZeTFkDcHuSdNA0rohk90aU0kBgms6VZZHqF-2cbYH3Vs70P-FwkBzAesIgIvNj6_U1zSNi0OH5Weyl2naZWFuztSkgw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaT6r916SaUBkr9PO34ui7NSsHdTfQp_-rks6vt5P7mKP18LWpFQ0i-zyb3GDiFBzPagdOWR_DVre4jmb1rtEA4cTNlPpyddLCDE6cCx0AZibKSYgd0Tt5SjmaXUlaPbYhncloChw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFV6dO5fce5JPUnJkm6GRmyZTM00jkA66M6g48Cl8KyX-qCya_-l7TWjYKcanMWsIgTl7xH7ZoBAlUAlVNx3B9HpwQfMX4gzbEZbIDilaIUPuHuThR6q2rSGri9AgbcVtjl1UKfMew=
+- 쿼리: 유아침대 2026년 추천 순위
+- 인사이트: 2026년 현재 유아침대 시장은 리안, 벨라, 쁘띠라뺑, 이케아, 뉴나 등의 브랜드가 인기를 얻고 있습니다. 원목 소재의 클래식한 디자인과 함께 이동성과 안전성을 갖춘 제품들이 트렌드를 이끌고 있습니다. 특히, 부모 침대와 나란히 배치하는 '코슬리핑' 구조가 적용된 제품들이 정서적 안정과 유대감 형성에 도움을 준다는 점에서 주목받고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EC%9C%A0%EC%95%84%EC%B9%A8%EB%8C%80&sort=saveDESC
 
 ---
 
@@ -16,34 +16,36 @@
 
 | 항목 | 답변 |
 |------|------|
+| 어떤 형태의 유아침대를 찾으시나요? | 범퍼 침대 |
+| 유아침대를 자주 이동하거나 보관해야 하나요? | 한 곳에 고정 |
+| 어떤 소재의 유아침대를 선호하시나요? | 패브릭 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 30개 (전체 30개 중)
+현재 후보: 19개 (전체 19개 중)
 
 ### 후보 상품
-1. 벨라 멀티형 원목 아기침대 - 143,000원 - ⭐4.6
-2. 에이원 리안 드림콧 아기침대 - 230,000원 - ⭐4.8
-3. 도노도노 패밀리 멀티 범퍼침대 패밀리킹 - 387,860원 - ⭐4.8
-4. 퍼니코 빈 아쿠아텍스 패브릭 데이베드 침대 SS - 266,313원 - ⭐5
-5. 도노도노 튼튼 하이가드 멀티 범퍼침대 - 326,020원 - ⭐4.8
-6. 다이치 리우 아기침대+트래블백 - 265,050원 - ⭐4.9
-7. 꿈비 하이가드 범퍼침대 - 216,900원 - ⭐4.8
-8. 치코 넥스투미 매직 사이드 흔들침대 - 142,790원 - ⭐4
-9. 도노도노 먼지제로 라운드 범퍼침대 - 255,340원 - ⭐4.8
-10. 상일리베가구 헤이 원목 키즈 침대 SS - 348,040원 - ⭐5
-11. 에이원 리안 드림콧 아기침대+기저귀교환대 - 275,500원 - ⭐4.8
-12. 비비엔다 아기 특대형 범퍼침대 - 239,920원 - ⭐4.7
-13. 알집매트 포레스트 범퍼침대 - 356,290원 - ⭐4.6
-14. 레이디가구 스칸딕 로맨틱 오픈형 데이베드 원목 침대 SS - 439,000원 - ⭐5
-15. 알레르망베이비 베어트리 범퍼침대 - 310,060원 - ⭐4.5
-16. 비비엔다 한샘몰 샘키즈 아기 범퍼침대 - 278,070원 - ⭐4.6
-17. 스토케 스누지 신생아 아기 침대 - 429,660원 - ⭐5
-18. 이케아 SNIGLAR 아기침대 - 126,900원 - ⭐5
-19. 레이디가구 레브 기능성 패브릭 데이베드 볼드헤드 침대 SS+높은형 안전가드 - 683,050원 - ⭐4.7
-20. 도노도노 튼튼 멀티 패밀리킹 범퍼침대+모달토퍼 - 462,223원 - ⭐5
+1. 에이원 리안 드림콧 아기침대 - 237,500원 - ⭐4.8
+2. 레이디가구 레브 패브릭 슬림헤드 데이베드 침대 SS+높은형 안전가드 - 659,370원 - ⭐4.7
+3. 비비엔다 한샘몰 샘키즈 아기 범퍼침대 - 278,070원 - ⭐4.6
+4. 알레르망베이비 베어트리 범퍼침대 - 295,450원 - ⭐4.5
+5. 치코 넥스투미 매직 사이드 흔들침대 - 140,310원 - ⭐4
+6. 비비엔다 아기 특대형 범퍼침대 - 239,920원 - ⭐4.7
+7. 보니타베베 구르구르 하이가드60 멀티 범퍼침대+확장멀티가드 - 400,200원 - ⭐4.5
+8. 히트디자인 일레스 책상형 벙커침대 SS - 737,723원 - ⭐5
+9. 베이비캠프 스너글네스트 서라운드 아기침대 XL - 80,750원 - ⭐5
+10. 꿈비 럭키스타 변신 범퍼침대+순면패드 - 212,970원 - ⭐4.9
+11. 꿈비 월드스타 클린 범퍼침대 - 276,200원 - ⭐4.6
+12. 뉴나 세나 에어 침대 - 752,020원 - ⭐5
+13. 이케아 GULLIVER 유아침대 - 304,024원 - ⭐5
+14. 보니타베베 구르구르 하이가드60 멀티 범퍼침대 - 256,090원 - ⭐4.8
+15. 꿈비 월드스타 클린 범퍼침대+소파커버 - 283,190원 - ⭐4.8
+16. 도노도노 패밀리 멀티 범퍼침대+패드 - 427,750원 - ⭐4.8
+17. 쁘띠라뺑 로이 자작나무 침대 SS - 990,000원 - ⭐5
+18. 디자인스킨 디킨 하이가드 패밀리 범퍼침대 - 334,800원 - ⭐5
+19. 꿈비 트윈스타 PLUS 범퍼침대+패드+쿠션가드 - 426,870원 - ⭐4.8
 
 ---
 

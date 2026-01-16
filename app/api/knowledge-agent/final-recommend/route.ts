@@ -10,6 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { createClient } from '@supabase/supabase-js';
 import type {
   HardCutProduct,
   BalanceSelection,
@@ -23,6 +24,11 @@ export const maxDuration = 60;
 
 const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
+
+// Supabase 클라이언트
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // 모델 상수
 const FINAL_RECOMMEND_MODEL = 'gemini-3-flash-preview'; // 최종 추천용 (가장 똑똑한 모델)
@@ -1198,6 +1204,24 @@ export async function POST(request: NextRequest) {
     // ============================================================================
     // 결과 병합: 각 추천 상품에 정규화된 스펙, 장단점, 리뷰 추가
     // ============================================================================
+    
+    // ✅ Supabase에서 rank 조회 (pcode 기준)
+    const recommendedPcodesForRank = recommendations.map(r => r.pcode);
+    let rankMap: Record<string, number> = {};
+    try {
+      const { data: rankData } = await supabase
+        .from('knowledge_products_cache')
+        .select('pcode, rank')
+        .in('pcode', recommendedPcodesForRank);
+      
+      if (rankData) {
+        rankMap = Object.fromEntries(rankData.map(r => [r.pcode, r.rank]));
+        console.log(`[FinalRecommend] ✅ DB rank 조회 완료:`, rankMap);
+      }
+    } catch (e) {
+      console.error('[FinalRecommend] rank 조회 실패:', e);
+    }
+    
     const enrichedRecommendations = recommendations.map((rec) => {
       // 장단점 찾기
       const prosConsData = prosConsResults.find(pc => pc.pcode === rec.pcode);
@@ -1216,6 +1240,8 @@ export async function POST(request: NextRequest) {
 
       return {
         ...rec,
+        // ✅ Supabase에서 조회한 다나와 판매순위
+        danawaRank: rankMap[rec.pcode] || null,
         // 정규화된 스펙 (비교표용)
         normalizedSpecs: normalizedSpecsObj,
         // LLM 생성 장단점

@@ -180,7 +180,7 @@ export function HardcutVisualization({
                       <Image src="/icons/check.png" alt="" width={24} height={24} />
                     </div>
                     <p className="text-[16px] font-semibold text-gray-600">
-                      분석 상품 {displayCount}개
+                      후보 상품 {displayCount}개
                     </p>
                   </div>
                   

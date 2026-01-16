@@ -1,5 +1,5 @@
-# 세션: 20260107_103647_g197
-> 시작: 2026-01-07T10:36:47.885Z
+# 세션: 20260116_074407_8dys
+> 시작: 2026-01-16T07:44:07.707Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 쪽쪽이 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, '쪽쪽이(공갈 젖꼭지)' 시장은 아기의 빨기 욕구 충족과 심리적 안정감 제공이라는 본질적인 기능에 더해, 디자인과 소재의 다양성을 갖춘 제품들이 인기를 얻고 있습니다. 특히 필립스 아벤트, 빕스(Bibs)와 같은 브랜드들이 꾸준히 사랑받고 있으며, 감성적인 색감과 심플한 디자인이 트렌드로 자리 잡고 있습니다..
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxXgiOBhw3uGxsVqyPvTa-QAhkib8QyOna1MuXPPldW3vNid4qL1eA0HCA-BSrZRv1eOlphoLKazSfEl0m1Hgz5m0YpYDn-wx5twpfKP-Ah4AFj8vR-bl_zWMIO49yQcnWxx7LqoQ=
+- 인사이트: 2026년 1월 현재, 쪽쪽이 시장에서는 모윰, 아벤트, 스와비넥스 등의 브랜드가 인기를 얻고 있습니다. 특히 모윰 쪽쪽이는 예쁜 디자인과 높은 후기 수로 주목받고 있으며, 아벤트 울트라소프트는 '국민 쪽쪽이'로 꾸준한 사랑을 받고 있습니다. 올실리콘 소재의 제품들도 선호되는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEW4csDmn-kPrRxQ0AJ0fMo8duJBvIgiGS2T1BAjSW5dgzwGER9eAP5jyR0qlAuOEuBS_9tustuMFAizgLa8Nba2dbxt5LUSU9xL1dq3lX0xfBVV01gGyCOd7VudZ8lMyQcFZQEhUpUhCNLIouOtLVrbwhX, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGECc54v3YOy-7o7NXNNzVVsX7-ZfWZPG_V1q38-BkklVze13D5nbZFOXWAGBOGPKmtrYAgpy-fmQBCw05oFYs3svmXveEDYKZvkx1pVo2bIDxP1l-53zAYuAyutAQ9XG2uqGAqOpHpGJUeTf6xF0yRWpRwPBcF-4320APAO19wKOcYbg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_duqclDYs2nukLdhDkjMgxXY05bSW_w6mvIz9kuJFCD-hnLaR6J_79bUUaM0tjiArMP4JxJAtfc9x4sQgSdBTOD7vwmTE2EwpagVRSDzs17ZenTXVYb1bKtaPoZYbbsz9oWXXe5A=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFEgSHVlMhvFrOmFynUCIY2_R1RePkLCh2hwxrLarZwIGf4aiVPVyPJrhMBl0E0LuBPYebhK6HrfqNma8hQlCx1WLGC8oBWzdo490zazVMBsJOADt-lohsseJwPF0t1V1X6EuewSaBvtbyQ727HTPrqMmjpQ7ET2xHrA5qnmGrF3kuHc8MdiKgOaZ3ApQKq1RAiZUvBPiXh7-jEWhdWSeY6a1X, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIl07baan08-39178weUVn-ELN46MJ31e2TnPQib87wQiSeBqr24Uoq9IQG6NZGYN4K3WLKH0gzeHGRtgww2tCTNDrmu8v42Qt7u75MbFoG3q660AIzSdN8z-xWG62kvYSiY9MQzefILYBsXqm8pDdVwIHHe_RrxSkLCuHeQOaDdHLGbh9gTWgjJDwdC4=
 
 ---
 
@@ -16,38 +16,30 @@
 
 | 항목 | 답변 |
 |------|------|
-| baby_age | 6주 ~ 6개월 |
-| material_preference | 천연고무, 실리콘 |
-| design_preference | 심플하고 실용적인 디자인 |
-| budget | 1만 4천원 이하 |
-| __avoid_negatives__ | 쪽쪽이 과도한 의존 걱정 |
+| 쪽쪽이 소재는 어떤 것을 선호하시나요? | 올실리콘 |
+| 쪽쪽이 디자인에서 특별히 고려하는 부분이 있으신가요? | 치아 발달 고려 디자인 |
+| 쪽쪽이를 주로 어떤 상황에서 사용하실 예정인가요? | 수면 시 |
+| 쪽쪽이는 몇 개 세트로 구매하시겠어요? | 3개 세트 |
+| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 1만 2천원, 8천원~1만 5천원대가 가장 많아요) | 1만원 이하 |
+| __avoid_negatives__ | 아이가 쪽쪽이에 너무 의존하게 되어 나중에 떼기 어려워할까 봐 염려돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 19개 (전체 19개 중)
+현재 후보: 10개 (전체 10개 중)
 
 ### 후보 상품
-1. 모윰 올실리콘 마카롱 쪽쪽이 3개세트 (전용케이스 포함) - 34,020원 - ⭐4.8
+1. 모윰 올실리콘 마카롱 쪽쪽이 2개세트 (전용케이스 포함) - 17,860원 - ⭐4.8
 2. 더블하트 노리개 젖꼭지 2단계 1P - 5,740원 - ⭐4.5
-3. 모윰 올실리콘 마카롱 쪽쪽이 2개세트 (전용케이스 포함) - 21,690원 - ⭐4.8
-4. 더블하트 Soft Buddy 노리개젖꼭지 - 11,600원 - ⭐4.7
-5. 소셜빈 퍼기 TPE 노리개 꿀벌 - 8,720원 - ⭐4.5
-6. 스와비넥스 제로 올실리콘 쪽쪽이 - 13,830원 - ⭐4.9
-7. BIBS 빕스 컬러 천연고무 쪽쪽이 - 9,900원 - ⭐5
-8. 더블하트 소프트버디 노리개젖꼭지 1단계/2단계/3단계 S/M/L 선택 - 9,370원 - ⭐4.5
-9. BIBS 빕스 데니쉬 2단계 노리개젖꼭지 - 8,900원 - ⭐4.8
-10. 스와비넥스 모유촉감 올실리콘 쪽쪽이 일자형 1단계 블루 - 8,540원 - ⭐4.7
-11. 유피스 애착 쪽쪽이 1단계 - 6,040원 - ⭐4.9
-12. 유피스 애착 쪽쪽이 2단계 - 5,520원 - ⭐4.7
-13. 더블하트 노리개젖꼭지2단계 얼룩말 - 5,850원 - ⭐5
-14. 쇼콜라 애착 노리개젖꼭지 - 8,100원 - ⭐4.5
-15. 그린핑거 올 실리콘 나비 쪽쪽이 2단계 - 10,950원 - ⭐4.6
-16. 더블하트 쪽쪽이 유아 노리개 젖꼭지 0개월/3개월/6개월 - 6,900원 - ⭐4.7
-17. 누크 아기 노리개젖꼭지/쪽쪽이/디즈니/야광/빨대컵/유아컵/물컵 - 14,960원 - ⭐3.8
-18. 마더케이 베이직 고리세트 30p 아기고리 소근육발달 - 10,110원 - ⭐5
-19. 누크 센서티브 노리개젖꼭지 S1 핑크 1개 - 9,790원 - ⭐5
+3. 더블하트 Soft Buddy 노리개젖꼭지 - 11,600원 - ⭐4.7
+4. 더블하트 소프트버디 노리개젖꼭지 퍼플 M (3개월) - 9,310원 - ⭐4.9
+5. 스와비넥스 모유촉감 올실리콘 쪽쪽이 일자형 1단계 블루 - 8,290원 - ⭐4.7
+6. 닥터브라운 실리콘 노리개 젖꼭지 3P - 12,900원 - ⭐5
+7. 유피스 애착 쪽쪽이 2단계 - 5,510원 - ⭐4.7
+8. 유피스 애착 쪽쪽이 1단계 - 5,520원 - ⭐4.9
+9. 더블하트 펀 프렌즈 노랑곰 M사이즈 - 5,870원 - ⭐5
+10. 더블하트 펀 프렌즈 백곰 S사이즈 - 5,870원 - ⭐5
 
 ---
 
@@ -59,7 +51,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 쪽쪽이 과도한 의존 걱정
+- 아이가 쪽쪽이에 너무 의존하게 되어 나중에 떼기 어려워할까 봐 염려돼요
 
 ---
 

@@ -97,6 +97,18 @@ const GENERIC_NEGATIVE_OPTIONS: NegativeOption[] = [
   { value: 'size', label: '크기가 맞지 않을 것 같아요', description: '적당한 크기를 원하신다면' },
 ];
 
+// '상관없어요' 옵션 (모든 응답에 추가)
+const SKIP_OPTION: NegativeOption = {
+  value: 'skip',
+  label: '상관없어요',
+  description: '특별히 피하고 싶은 단점이 없어요'
+};
+
+// 옵션 배열에 '상관없어요' 추가 헬퍼
+function addSkipOption(options: NegativeOption[]): NegativeOption[] {
+  return [...options, SKIP_OPTION];
+}
+
 function getCategoryFallbackOptions(categoryKey: string, categoryName: string): NegativeOption[] {
   // 정확한 키 매칭
   if (CATEGORY_NEGATIVE_DEFAULTS[categoryKey]) {
@@ -129,7 +141,7 @@ export async function POST(request: NextRequest) {
       console.log('[GenerateNegativeOptions] No AI, using fallback');
       return NextResponse.json({
         success: true,
-        options: getCategoryFallbackOptions(categoryKey, categoryName),
+        options: addSkipOption(getCategoryFallbackOptions(categoryKey, categoryName)),
         source: 'fallback',
         elapsed: Date.now() - startTime,
       });
@@ -214,7 +226,7 @@ JSON 배열만 출력하세요 (4~5개):`;
           console.log(`[GenerateNegativeOptions] Generated ${options.length} options in ${Date.now() - startTime}ms`);
           return NextResponse.json({
             success: true,
-            options,
+            options: addSkipOption(options),
             source: 'llm',
             elapsed: Date.now() - startTime,
           });
@@ -228,7 +240,7 @@ JSON 배열만 출력하세요 (4~5개):`;
     console.log('[GenerateNegativeOptions] LLM failed, using fallback');
     return NextResponse.json({
       success: true,
-      options: getCategoryFallbackOptions(categoryKey, categoryName),
+      options: addSkipOption(getCategoryFallbackOptions(categoryKey, categoryName)),
       source: 'fallback',
       elapsed: Date.now() - startTime,
     });
@@ -238,7 +250,7 @@ JSON 배열만 출력하세요 (4~5개):`;
     return NextResponse.json({
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
-      options: GENERIC_NEGATIVE_OPTIONS,
+      options: addSkipOption(GENERIC_NEGATIVE_OPTIONS),
       source: 'error_fallback',
     }, { status: 500 });
   }

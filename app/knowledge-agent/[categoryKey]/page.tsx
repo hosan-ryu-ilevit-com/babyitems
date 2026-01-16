@@ -381,6 +381,7 @@ interface CrawledProductPreview {
   brand: string | null;
   price: number | null;
   thumbnail: string | null;
+  danawaRank?: number | null;
 }
 
 // ============================================================================
@@ -1392,6 +1393,10 @@ export default function KnowledgeAgentPage() {
       stepPromises['complete'].then((completeData: any) => {
         console.log('[SSE] Complete event received in background');
         const finalProducts = completeData?.products || localProducts;
+        
+        // ✅ 디버그: danawaRank 값 확인
+        console.log('[SSE] finalProducts danawaRank 샘플:', finalProducts.slice(0, 3).map((p: any) => ({ pcode: p.pcode, danawaRank: p.danawaRank })));
+        
         const updatedSummary = {
           productCount: finalProducts.length,
           reviewCount: completeData.marketSummary?.reviewCount || tempSummaryData.reviewCount,
@@ -2080,9 +2085,14 @@ export default function KnowledgeAgentPage() {
         );
 
         // ✅ 먼저 결과 화면 렌더링 (init API의 기존 리뷰 사용)
+        // ✅ 디버그: crawledProducts의 danawaRank 확인
+        console.log('[V2 Flow - FinalInput] crawledProducts 총:', crawledProducts.length);
+        console.log('[V2 Flow - FinalInput] crawledProducts danawaRank 샘플:', crawledProducts.slice(0, 5).map(p => ({ pcode: p.pcode, danawaRank: p.danawaRank })));
+        
         const mappedResultProducts = v2Recommendations.map((rec: any) => {
           const pcodeStr = String(rec.pcode);
           const existingReviews = reviewsData[pcodeStr] || [];
+          const originalProduct = crawledProducts.find(p => String(p.pcode) === pcodeStr);
           return {
             ...rec.product,
             id: rec.pcode || rec.product?.pcode,
@@ -2099,6 +2109,7 @@ export default function KnowledgeAgentPage() {
             prosFromReviews: rec.prosFromReviews || rec.highlights || [],
             consFromReviews: rec.consFromReviews || rec.concerns || [],
             reviews: existingReviews,
+            danawaRank: rec.danawaRank || rec.product?.danawaRank || originalProduct?.danawaRank || null,
           };
         });
         setResultProducts(mappedResultProducts);
@@ -2434,20 +2445,26 @@ export default function KnowledgeAgentPage() {
         const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
 
         if (v2Recommendations && v2Recommendations.length > 0) {
-          const mappedResultProducts = v2Recommendations.map((rec: any) => ({
-            ...rec.product,
-            id: rec.pcode || rec.product?.pcode,
-            pcode: rec.pcode || rec.product?.pcode,
-            title: rec.product?.name || rec.product?.title,
-            reasoning: rec.reason,
-            recommendationReason: rec.reason,
-            highlights: rec.highlights,
-            concerns: rec.concerns,
-            bestFor: rec.bestFor,
-            specs: rec.normalizedSpecs || rec.product?.specs || {},
-            prosFromReviews: rec.prosFromReviews || rec.highlights || [],
-            consFromReviews: rec.consFromReviews || rec.concerns || [],
-          }));
+          const mappedResultProducts = v2Recommendations.map((rec: any) => {
+            const pcodeStr = String(rec.pcode);
+            const originalProduct = crawledProducts.find(p => String(p.pcode) === pcodeStr);
+            console.log(`[V2 Flow] Product ${pcodeStr} danawaRank from originalProduct:`, originalProduct?.danawaRank);
+            return {
+              ...rec.product,
+              id: rec.pcode || rec.product?.pcode,
+              pcode: rec.pcode || rec.product?.pcode,
+              title: rec.product?.name || rec.product?.title,
+              reasoning: rec.reason,
+              recommendationReason: rec.reason,
+              highlights: rec.highlights,
+              concerns: rec.concerns,
+              bestFor: rec.bestFor,
+              specs: rec.normalizedSpecs || rec.product?.specs || {},
+              prosFromReviews: rec.prosFromReviews || rec.highlights || [],
+              consFromReviews: rec.consFromReviews || rec.concerns || [],
+              danawaRank: rec.danawaRank || rec.product?.danawaRank || originalProduct?.danawaRank || null,
+            };
+          });
           setResultProducts(mappedResultProducts);
           setPhase('result');
 
@@ -2530,6 +2547,8 @@ export default function KnowledgeAgentPage() {
           const mappedResultProducts = v2Recommendations.map((rec: any, idx: number) => {
             const pcodeStr = String(rec.pcode);
             const existingReviews = reviewsData[pcodeStr] || [];
+            const originalProduct = crawledProducts.find(p => String(p.pcode) === pcodeStr);
+            console.log(`[V2 Flow] Product ${pcodeStr} danawaRank from originalProduct:`, originalProduct?.danawaRank);
             return {
               ...rec.product,
               id: rec.pcode || rec.product?.pcode,
@@ -2551,6 +2570,7 @@ export default function KnowledgeAgentPage() {
               comparativeOneLiner: '',
               reviews: existingReviews,
               danawaData: null,
+              danawaRank: rec.danawaRank || rec.product?.danawaRank || originalProduct?.danawaRank || null,
             };
           });
 
@@ -4282,13 +4302,22 @@ function MessageBubble({
                 >
                   {message.resultProducts.map((product, index) => {
                     const title = product.name || product.title || '';
-                    const danawaPrice = product.danawaPrice;
-                    const hasLowestPrice = danawaPrice && danawaPrice.lowest_price && danawaPrice.lowest_price > 0;
-                    const price = hasLowestPrice ? danawaPrice!.lowest_price! : product.price;
-                    const rating = product.rating || product.averageRating || 0;
-                    const reviewCount = product.reviewCount || 0;
-                    const aiSummary = product.personalReason || product.recommendReason || product.recommendationReason || '';
-                    const reviewOneLiner = product.oneLiner || '';
+                   const danawaPrice = product.danawaPrice;
+                   const hasLowestPrice = danawaPrice && danawaPrice.lowest_price && danawaPrice.lowest_price > 0;
+                   const price = hasLowestPrice ? danawaPrice!.lowest_price! : product.price;
+                   const rating = product.rating || product.averageRating || 0;
+                   const reviewCount = product.reviewCount || 0;
+                   const aiSummary = product.personalReason || product.recommendReason || product.recommendationReason || '';
+                   const reviewOneLiner = product.oneLiner || '';
+                   
+                   // ✅ danawaRank: API 응답에서 직접 가져옴 (Supabase DB rank 컬럼)
+                   const rawDanawaRank = product.danawaRank;
+                   const danawaRank = typeof rawDanawaRank === 'string'
+                     ? parseInt(rawDanawaRank.replace(/[^\d]/g, ''), 10)
+                     : rawDanawaRank;
+                   const hasDanawaRank = typeof danawaRank === 'number'
+                     && Number.isFinite(danawaRank)
+                     && danawaRank > 0;
 
                     return (
                       <div key={product.pcode || product.id || index} className="relative bg-white py-6 border-b border-gray-100 last:border-0 space-y-5">
@@ -4322,19 +4351,27 @@ function MessageBubble({
                             <h4 className="text-[14px] font-medium text-gray-800 leading-[1.4] line-clamp-2 mb-1">
                               {title}
                             </h4>
-                            {product.brand && (
+                            {/* {product.brand && (
                               <div className="text-[12px] text-gray-400 font-medium mb-1.5">
                                 {product.brand}
                               </div>
-                            )}
+                            )} */}
 
                             {/* 별점 & 리뷰 */}
-                            <div className="flex items-center gap-1 mb-auto">
+                            <div className="flex items-center gap-1 mb-0">
                               <Image src="/icons/ic-star.png" width={14} height={14} alt="" />
                               <span className="text-[14px] font-bold text-gray-800">{rating.toFixed(1)}</span>
                               <span className="text-[14px] text-gray-400">({reviewCount.toLocaleString()})</span>
                             </div>
 
+                            {/* 다나와 판매 랭킹 */}
+                            {hasDanawaRank && (
+                              <div className="flex items-center gap-1 mt-1">
+                                <span className="text-[13px] text-gray-400 font-medium">
+                                  {categoryName} 판매 많은순 <span className="font-semibold text-gray-500">{danawaRank}위</span>
+                                </span>
+                              </div>
+                            )}
                             {/* 가격 */}
                             {price && (
                               <div className="mt-2">

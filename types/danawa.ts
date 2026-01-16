@@ -104,6 +104,7 @@ export interface DanawaSearchListItem {
   rating: number | null;    // 평점 (1-5)
   specSummary: string;      // 스펙 요약 (예: "용량: 5L | 소비전력: 1400W")
   productUrl: string;       // 상품 상세 URL
+  danawaRank?: number | null; // 다나와 판매 랭킹
 }
 
 // 검색 결과 응답

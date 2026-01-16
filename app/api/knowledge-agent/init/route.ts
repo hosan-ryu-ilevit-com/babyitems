@@ -806,11 +806,16 @@ async function generateBudgetQuestion(
   const defaultQuestionText = `예산은 어느 정도로 생각하세요?`;
 
   if (!ai) {
+    // '상관없어요' 옵션 추가
+    const optionsWithSkip = [
+      ...fallbackOptions,
+      { value: 'skip', label: '상관없어요', description: '예산에 상관없이 추천받을게요' }
+    ];
     return {
       id: 'budget',
       question: defaultQuestionText,
       reason: '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
-      options: fallbackOptions,
+      options: optionsWithSkip,
       type: 'single',
       priority: 99,
       dataSource: '가격 분포 분석',
@@ -886,11 +891,16 @@ JSON만 출력하세요:`;
       
       if (parsed.options && parsed.options.length >= 2) {
         console.log(`[Step3.6] Generated budget question with LLM-enhanced descriptions`);
+        // '상관없어요' 옵션 추가 (스킵 가능하도록)
+        const optionsWithSkip = [
+          ...parsed.options,
+          { value: 'skip', label: '상관없어요', description: '예산에 상관없이 추천받을게요' }
+        ];
         return {
           id: 'budget',
           question: parsed.question || defaultQuestionText,
           reason: parsed.reason || '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
-          options: parsed.options,
+          options: optionsWithSkip,
           type: 'single',
           priority: 99,
           dataSource: '가격 분포 분석 (LLM)',
@@ -902,12 +912,16 @@ JSON만 출력하세요:`;
     console.error('[Step3.6] Budget question LLM generation failed, using fallback:', e);
   }
 
-  // LLM 실패 시 기본값
+  // LLM 실패 시 기본값 ('상관없어요' 옵션 추가)
+  const fallbackWithSkip = [
+    ...fallbackOptions,
+    { value: 'skip', label: '상관없어요', description: '예산에 상관없이 추천받을게요' }
+  ];
   return {
     id: 'budget',
     question: defaultQuestionText,
     reason: '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
-    options: fallbackOptions,
+    options: fallbackWithSkip,
     type: 'single',
     priority: 99,
     dataSource: '가격 분포 분석',
@@ -1661,6 +1675,7 @@ export async function POST(request: NextRequest) {
                     reviewCount: p.reviewCount || 0,
                     rating: p.rating || 0,
                     specSummary: p.specSummary,
+                    danawaRank: p.danawaRank || null,
                   })),
                   total: allProducts.length,
                   isComplete,
@@ -2141,6 +2156,7 @@ async function handleNonStreamingRequest(
       rating: p.rating || 0,
       specSummary: p.specSummary,
       productUrl: p.productUrl,
+      danawaRank: p.danawaRank || null,
     })),
     reviews: reviewSummaryByProduct,
     reviewStats: {

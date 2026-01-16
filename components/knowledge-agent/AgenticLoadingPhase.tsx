@@ -1200,12 +1200,7 @@ function CompletedSummaryCard({
 
   return (
     <>
-      <motion.div
-        layout
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="group transition-all duration-300 bg-white"
-      >
+      <div className="group transition-all duration-300 bg-white">
         <button
           onClick={() => setIsBottomSheetOpen(true)}
           className="w-full py-3.5 flex items-start gap-3 text-left transition-colors hover:bg-gray-50/50"
@@ -1256,7 +1251,7 @@ function CompletedSummaryCard({
         </button>
 
         <div className="border-b border-gray-200" />
-      </motion.div>
+      </div>
 
       {/* 바텀시트 */}
       <AnalysisDetailBottomSheet
@@ -1280,11 +1275,13 @@ function SlideStepContent({
   crawledProducts,
   generatedQuestions,
   categoryKey,
+  globalStartTime,
 }: {
   step: AnalysisStep;
   crawledProducts?: AgenticLoadingPhaseProps['crawledProducts'];
   generatedQuestions?: GeneratedQuestion[];
   categoryKey: string;
+  globalStartTime?: number; // 전체 분석 시작 시간 (연속 타이머용)
 }) {
   const getStatusIcon = () => {
     if (step.status === 'done') {
@@ -1307,9 +1304,9 @@ function SlideStepContent({
           <span className="text-[14px] font-semibold text-gray-600 truncate">
             {step.label}
           </span>
-          {/* 화면에 표시되는 동안은 타이머 계속 (대기 시간 포함) */}
-          {step.startTime && (
-            <RealTimeTimer startTime={step.startTime} />
+          {/* 전체 분석 시작 시간 기준 연속 타이머 */}
+          {(globalStartTime || step.startTime) && (
+            <RealTimeTimer startTime={globalStartTime || step.startTime!} />
           )}
         </div>
       </div>
@@ -1398,6 +1395,11 @@ export function AgenticLoadingPhase({
   // 현재 표시할 단계
   const currentStep = steps[displayIndex] || null;
 
+  // 전체 분석 시작 시간 (첫 번째 단계의 startTime)
+  const globalStartTime = useMemo(() => {
+    return steps[0]?.startTime || undefined;
+  }, [steps]);
+
   // 완료 여부 체크 (모든 단계 done + displayIndex가 끝까지 도달)
   const showSummary = isComplete && steps.length > 0 && steps.every(s => s.status === 'done') && displayIndex >= steps.length;
 
@@ -1411,11 +1413,7 @@ export function AgenticLoadingPhase({
   }, [showSummary, onSummaryShow]);
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-    >
+    <div>
       <AnimatePresence mode="wait">
         {showSummary ? (
           <CompletedSummaryCard
@@ -1439,11 +1437,12 @@ export function AgenticLoadingPhase({
               crawledProducts={currentStep.id === 'product_analysis' ? crawledProducts : undefined}
               generatedQuestions={currentStep.id === 'question_generation' ? generatedQuestions : undefined}
               categoryKey={categoryKey}
+              globalStartTime={globalStartTime}
             />
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
