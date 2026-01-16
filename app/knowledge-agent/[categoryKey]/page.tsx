@@ -31,6 +31,7 @@ import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomShe
 import { NegativeFilterAIHelperBottomSheet } from '@/components/recommend-v2/NegativeFilterAIHelperBottomSheet';
 import type { BalanceQuestion as V2BalanceQuestion, UserSelections, TimelineStep } from '@/types/recommend-v2';
 import { HardcutVisualization } from '@/components/knowledge-agent/HardcutVisualization';
+import { PLPImageCarousel } from '@/components/knowledge-agent/PLPImageCarousel';
 import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
 import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
 import SimpleConfirmModal from '@/components/SimpleConfirmModal';
@@ -3272,6 +3273,7 @@ export default function KnowledgeAgentPage() {
                 setShowComparisonOnly={setShowComparisonOnly}
                 pricesData={pricesData}
                 onAnalysisSummaryShow={handleAnalysisSummaryShow}
+                reviewsData={reviewsData}
               />
             );
           });
@@ -3955,6 +3957,7 @@ function MessageBubble({
   setShowComparisonOnly,
   pricesData,
   onAnalysisSummaryShow,
+  reviewsData,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -3980,6 +3983,7 @@ function MessageBubble({
   setShowComparisonOnly: (show: boolean) => void;
   pricesData?: Record<string, any>;
   onAnalysisSummaryShow?: () => void;
+  reviewsData?: Record<string, any[]>;
 }) {
   const isUser = message.role === 'user';
 
@@ -4321,35 +4325,37 @@ function MessageBubble({
                      && Number.isFinite(danawaRank)
                      && danawaRank > 0;
 
+                    // 리뷰 이미지 추출
+                    const pcodeForReviews = String(product.pcode || product.id);
+                    const productReviews = (reviewsData || {})[pcodeForReviews] || [];
+                    const reviewImagesForCarousel: string[] = [];
+                    for (const review of productReviews) {
+                      const imgs = review.imageUrls || review.image_urls || review.images || [];
+                      for (const img of imgs) {
+                        if (reviewImagesForCarousel.length >= 4) break; // 제품 썸네일 제외 4장
+                        if (img && !reviewImagesForCarousel.includes(img)) {
+                          reviewImagesForCarousel.push(img);
+                        }
+                      }
+                      if (reviewImagesForCarousel.length >= 4) break;
+                    }
+
                     return (
                       <div key={product.pcode || product.id || index} className="relative bg-white py-6 border-b border-gray-100 last:border-0 space-y-5">
                         <div
                           className="flex gap-4 cursor-pointer"
                           onClick={() => onProductClick(product, 'price')}
                         >
-                          {/* 제품 썸네일 */}
-                          <div className="relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
-                            {product.thumbnail ? (
-                              <Image
-                                src={product.thumbnail}
-                                alt={title}
-                                width={128}
-                                height={128}
-                                className="w-full h-full object-cover"
-                                quality={90}
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                                <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                              </div>
-                            )}
-                            {/* 랭킹 배지 */}
-                            <div className="absolute top-0 left-0 w-[32px] h-[26px] bg-gray-900 rounded-br-[12px] flex items-center justify-center">
-                              <span className="text-white font-bold text-[12px] leading-none">{index + 1}위</span>
-                            </div>
-                          </div>
+                          {/* 제품 썸네일 캐러셀 */}
+                          <PLPImageCarousel
+                            productThumbnail={product.thumbnail}
+                            reviewImages={reviewImagesForCarousel}
+                            productTitle={title}
+                            rank={index + 1}
+                            maxImages={5}
+                            autoScrollInterval={2000}
+                            pauseAfterSwipe={3000}
+                          />
 
                           {/* 제품 정보 */}
                           <div className="flex-1 min-w-0 flex flex-col pt-0.5">

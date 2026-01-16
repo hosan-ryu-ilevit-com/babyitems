@@ -323,9 +323,10 @@ export default function ProductDetailModal({ productData, category, danawaData, 
 
   // PDP 상단 이미지 캐러셀 상태
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isCarouselTransitioning, setIsCarouselTransitioning] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // 캐러셀 이미지 배열 생성 (제품 썸네일 + 리뷰 이미지 최대 5장)
+  // 캐러셀 이미지 배열 생성 (제품 썸네일 + 리뷰 이미지 최대 10장)
   const carouselImages = useMemo(() => {
     const images: string[] = [];
 
@@ -352,14 +353,79 @@ export default function ProductDetailModal({ productData, category, danawaData, 
     return images;
   }, [productData.product.thumbnail, preloadedReviews]);
 
-  // 캐러셀 스크롤 핸들러
+  const imageCount = carouselImages.length;
+  const hasMultipleImages = imageCount > 1;
+
+  // 무한 루프용 확장 배열: [마지막] + [원본들] + [첫번째]
+  const extendedCarouselImages = useMemo(() => {
+    if (!hasMultipleImages) return carouselImages;
+    return [carouselImages[imageCount - 1], ...carouselImages, carouselImages[0]];
+  }, [carouselImages, imageCount, hasMultipleImages]);
+
+  // 초기 스크롤 위치 설정 (첫 번째 실제 이미지로)
+  useEffect(() => {
+    if (hasMultipleImages && carouselRef.current) {
+      const width = carouselRef.current.offsetWidth;
+      carouselRef.current.scrollLeft = width;
+    }
+  }, [hasMultipleImages]);
+
+  // 캐러셀 스크롤 핸들러 (무한 루프 처리)
   const handleCarouselScroll = useCallback(() => {
-    if (!carouselRef.current) return;
+    if (!carouselRef.current || !hasMultipleImages || isCarouselTransitioning) return;
+
     const scrollLeft = carouselRef.current.scrollLeft;
     const width = carouselRef.current.offsetWidth;
-    const newIndex = Math.round(scrollLeft / width);
-    setCarouselIndex(newIndex);
-  }, []);
+    const scrollIndex = Math.round(scrollLeft / width);
+
+    // 무한 루프 처리: 클론 위치에 도달하면 실제 위치로 점프
+    if (scrollIndex === 0) {
+      // 맨 앞 클론(마지막 이미지) → 실제 마지막 이미지로 점프
+      setIsCarouselTransitioning(true);
+      setTimeout(() => {
+        if (carouselRef.current) {
+          carouselRef.current.scrollTo({
+            left: width * imageCount,
+            behavior: 'instant',
+          });
+        }
+        setCarouselIndex(imageCount - 1);
+        setIsCarouselTransitioning(false);
+      }, 50);
+    } else if (scrollIndex === imageCount + 1) {
+      // 맨 뒤 클론(첫 번째 이미지) → 실제 첫 번째 이미지로 점프
+      setIsCarouselTransitioning(true);
+      setTimeout(() => {
+        if (carouselRef.current) {
+          carouselRef.current.scrollTo({
+            left: width,
+            behavior: 'instant',
+          });
+        }
+        setCarouselIndex(0);
+        setIsCarouselTransitioning(false);
+      }, 50);
+    } else {
+      // 일반 스크롤: 실제 인덱스 업데이트
+      const realIndex = scrollIndex - 1;
+      if (realIndex >= 0 && realIndex < imageCount && realIndex !== carouselIndex) {
+        setCarouselIndex(realIndex);
+      }
+    }
+  }, [hasMultipleImages, imageCount, carouselIndex, isCarouselTransitioning]);
+
+  // 스크롤 종료 감지 (scrollend 이벤트)
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel || !hasMultipleImages) return;
+
+    const handleScrollEnd = () => {
+      handleCarouselScroll();
+    };
+
+    carousel.addEventListener('scrollend', handleScrollEnd);
+    return () => carousel.removeEventListener('scrollend', handleScrollEnd);
+  }, [hasMultipleImages, handleCarouselScroll]);
 
   // 리뷰 이미지 확대 뷰어 상태
   const [imageViewer, setImageViewer] = useState<{
@@ -532,41 +598,43 @@ export default function ProductDetailModal({ productData, category, danawaData, 
           {/* Thumbnail - knowledge-agent(preloadedReviews)일 때는 PDP 스타일 */}
           {preloadedReviews && preloadedReviews.length > 0 ? (
             <div className="px-4 pt-4 pb-5 border-b border-gray-100">
-              {/* 이미지 캐러셀 */}
+              {/* 이미지 캐러셀 (무한 루프) */}
               <div className="relative w-full aspect-square rounded-[12px] overflow-hidden">
                 {carouselImages.length > 0 ? (
                   <>
                     {/* 스크롤 캐러셀 */}
                     <div
                       ref={carouselRef}
-                      onScroll={handleCarouselScroll}
                       className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide"
                       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
-                      {carouselImages.map((img, idx) => (
-                        <div
-                          key={idx}
-                          className="w-full h-full flex-shrink-0 snap-center bg-gray-100"
-                          style={{ scrollSnapStop: 'always' }}
-                        >
-                          <img
-                            src={img}
-                            alt={idx === 0 ? productData.product.title : `리뷰 이미지 ${idx}`}
-                            className="w-full h-full object-cover"
-                            loading={idx === 0 ? 'eager' : 'lazy'}
-                          />
-                        </div>
-                      ))}
+                      {extendedCarouselImages.map((img, idx) => {
+                        const isClone = hasMultipleImages && (idx === 0 || idx === extendedCarouselImages.length - 1);
+                        return (
+                          <div
+                            key={`${idx}-${img}`}
+                            className="w-full h-full shrink-0 snap-center bg-gray-100"
+                            style={{ scrollSnapStop: 'always' }}
+                          >
+                            <img
+                              src={img}
+                              alt={productData.product.title}
+                              className="w-full h-full object-cover"
+                              loading={isClone ? 'eager' : (idx <= 2 ? 'eager' : 'lazy')}
+                            />
+                          </div>
+                        );
+                      })}
                     </div>
 
                     {/* 페이지 인디케이터 (2장 이상일 때만) */}
-                    {carouselImages.length > 1 && (
+                    {hasMultipleImages && (
                       <div
                         className="absolute top-3 right-3 px-2 py-[2px] h-[22px] rounded-[20px] backdrop-blur-[10px] flex items-center"
                         style={{ backgroundColor: 'rgba(25, 29, 40, 0.5)' }}
                       >
                         <span className="text-white text-[12px] font-medium">
-                          {carouselIndex + 1}/{carouselImages.length}
+                          {carouselIndex + 1}/{imageCount}
                         </span>
                       </div>
                     )}
