@@ -1276,12 +1276,16 @@ function SlideStepContent({
   generatedQuestions,
   categoryKey,
   globalStartTime,
+  stepIndex,
+  totalSteps,
 }: {
   step: AnalysisStep;
   crawledProducts?: AgenticLoadingPhaseProps['crawledProducts'];
   generatedQuestions?: GeneratedQuestion[];
   categoryKey: string;
   globalStartTime?: number; // 전체 분석 시작 시간 (연속 타이머용)
+  stepIndex: number; // 현재 단계 인덱스 (0-based)
+  totalSteps: number; // 전체 단계 수
 }) {
   const getStatusIcon = () => {
     if (step.status === 'done') {
@@ -1309,6 +1313,10 @@ function SlideStepContent({
             <RealTimeTimer startTime={globalStartTime || step.startTime!} />
           )}
         </div>
+        {/* n/4 진행 태그 */}
+        <span className="text-[12px] font-semibold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-[6px]">
+          {stepIndex + 1}/{totalSteps}
+        </span>
       </div>
 
       {/* 상세 내용 - 슬라이드 전환 시 애니메이션 리트리거 */}
@@ -1438,6 +1446,8 @@ export function AgenticLoadingPhase({
               generatedQuestions={currentStep.id === 'question_generation' ? generatedQuestions : undefined}
               categoryKey={categoryKey}
               globalStartTime={globalStartTime}
+              stepIndex={displayIndex}
+              totalSteps={steps.length}
             />
           </motion.div>
         ) : null}
@@ -1459,15 +1469,15 @@ export function createDefaultSteps(categoryName: string): AnalysisStep[] {
       status: 'pending',
     },
     {
-      id: 'review_extraction',
-      label: '내돈내산 리뷰 분석',
-      type: 'analyze',
-      status: 'pending',
-    },
-    {
       id: 'web_search',
       label: '웹검색 트렌드 수집',
       type: 'search',
+      status: 'pending',
+    },
+    {
+      id: 'review_extraction',
+      label: '내돈내산 리뷰 분석',
+      type: 'analyze',
       status: 'pending',
     },
     {

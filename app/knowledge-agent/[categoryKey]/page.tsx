@@ -1279,32 +1279,14 @@ export default function KnowledgeAgentPage() {
       });
       await new Promise(r => setTimeout(r, 200));
 
-      // 2. 리뷰 추출 시작 (페이크 단계이므로 trendData 기반으로 즉시 처리)
-      updateStepAndMessage('review_extraction', {
-        status: 'active',
-        startTime: Date.now(),
-      });
-
-      // 8-9초 걸리던 원인: questions 이벤트를 기다렸기 때문. 
-      // 데이터는 이미 trendResult에 있으므로 인공적인 짧은 지연 후 완료 처리.
-      // 웹검색 결과를 기다려야 하므로, web_search 완료 후에 처리하도록 드라이버 흐름 유지
-      const trendResult = await stepPromises['web_search'] as { searchQueries?: string[]; sources?: any[]; trendAnalysis?: { top10Summary?: string } };
-
-      updateStepAndMessage('review_extraction', {
-        status: 'done',
-        endTime: Date.now(),
-        analyzedCount: localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
-        analyzedItems: [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
-        thinking: `리뷰 키워드 분석 완료`,
-      });
-      await new Promise(r => setTimeout(r, 200));
-
-      // 3. 웹검색 시작
+      // 2. 웹검색 시작 (순서 변경: 웹검색 → 리뷰분석)
       updateStepAndMessage('web_search', {
         status: 'active',
         startTime: Date.now(),
         searchQueries: initialQueries,
       });
+
+      const trendResult = await stepPromises['web_search'] as { searchQueries?: string[]; sources?: any[]; trendAnalysis?: { top10Summary?: string } };
 
       updateStepAndMessage('web_search', {
         status: 'done',
@@ -1312,6 +1294,21 @@ export default function KnowledgeAgentPage() {
         searchQueries: trendResult?.searchQueries || initialQueries,
         searchResults: (trendResult?.sources || []).slice(0, 5),
         thinking: trendResult?.trendAnalysis?.top10Summary || '',
+      });
+      await new Promise(r => setTimeout(r, 200));
+
+      // 3. 리뷰 분석 시작
+      updateStepAndMessage('review_extraction', {
+        status: 'active',
+        startTime: Date.now(),
+      });
+
+      updateStepAndMessage('review_extraction', {
+        status: 'done',
+        endTime: Date.now(),
+        analyzedCount: localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
+        analyzedItems: [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
+        thinking: `리뷰 키워드 분석 완료`,
       });
       await new Promise(r => setTimeout(r, 200));
 

@@ -1,5 +1,5 @@
-# 세션: 20260108_075342_o5w2
-> 시작: 2026-01-08T07:53:42.998Z
+# 세션: 20260116_103438_he17
+> 시작: 2026-01-16T10:34:38.879Z
 > 카테고리키: 로봇청소기
 > 카테고리: 로봇청소기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 로봇청소기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 로봇청소기 시장은 중국 브랜드들이 강세를 보이며 다양한 스마트 기능을 탑재한 신제품을 출시하고 있습니다. 삼성전자와 LG전자 등 국내 브랜드들도 이에 대응하며 신제품 출시 및 홈 로봇 기술에 집중하는 등 경쟁이 치열합니다. 특히 CES 2026에서는 이동성과 지능을 강화한 혁신적인 로봇청소기들이 대거 공개되었습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EB%A1%9C%EB%B4%87%EC%B2%AD%EC%86%8C%EA%B8%B0&sort=saveDESC
+- 인사이트: 2026년 현재 로봇청소기 시장은 중국 브랜드들이 글로벌 점유율의 약 70%를 차지하며 강세를 보이고 있습니다. 로보락, 에코백스, 드리미 등이 AI 기반의 인지, 의사 결정, 실행 능력을 갖춘 첨단 로봇청소기를 선보이며 기술 경쟁을 이끌고 있습니다. CES 2026에서는 단순히 청소 기능을 넘어, 다리나 비행 기능까지 갖춘 미래형 로봇청소기들이 공개되며 스마트 홈 생태계 주도권을 향한 경쟁이 치열해지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEMVojfrWab7i7r5DGg5-3MWa91kQ22z_Vn2q24fXlnZBO4aaVBdtXjGECdm0zVzeN0z0C8-tQLs5B9bh4-4riFuicCyCFw5j1LGgs4eTp_VZMqsjUvvBGnkg_EuKOm4pfI9TNdm_s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_eHUiq5s4zgKCfdzsxN-fjvkd9gaByyYiyv32pyX4_7TmnAxl235Axah0mv9mH251c7IQ546N7BupSqEUaPjBqL_DwNXF36fcSmVMilYUZKfz3sTBpBfyS30bC-lMn-aJd2ivIeL64gNH8R_oHsIQpyCqcMV32pae, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1bUEaT-JcMXrcC0qdhXYCxh43OZbqroeM-ubcFKdza2dthZHzHAHcbf22iwKF1HnrYL1ttwnZBg9dxox-nbxSfHMJ2xsvtPLtFemBP5xNw0X4zu4WmLJLQ-KgyaJr2x8EuGcKWMU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZSf4WeuajB2vBdpjDeDxNqgnWUSBlQDB4zrdY8G1FA3_WlQr07Z0AjC1163EyjGdjO4yQuf_TJRKECdJ5f-wLjVJzwiVZ_uAlBBU2aCIP28rdHEv-3TJQCbS4I-Kgh91lQG3nV5CoWa6h2yFmyCcphyBD-IVMxI7htYQR1jOYUMjYNlLaanHx7U9mnoJIr6f4lT4VTlN87hRXPuSmO2yVm52UGQL86ExKzhwkFET9yaaur9LLyWy3Jy7KpAEUooq31JVTKSeCt2qyoValKs3hwK1txCBaQEVAyN8wxphjbgbdlbaU6NiuE5T52FCo3P_nH_qVpty4S4ziScnJEKETqdWgAudWZBIYhPDR_zuz350=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcVlo4UK1IkQ74uJgomKj4aw5TXQV_CfV-nqe_LrkxzcIjqMdcTiL9veLAvteZ0Fk7mtJswqEs90iHl0F7wFpfFgwGIoPxubTs4GRmawN4tep1eb_cuB4pKaC2lC0Eol_hEXTsL2WtMn59xuZP
 
 ---
 
@@ -16,38 +16,22 @@
 
 | 항목 | 답변 |
 |------|------|
-| 청소하실 때 주로 어떤 방식에 더 집중하고 싶으신가요? | 먼지 흡입만 |
-| 스마트홈 생태계를 얼마나 중요하게 생각하시나요? | 기본 스마트 기능 선호 (앱 원격 조작 등) |
-| 예산은 어느 정도로 생각하세요? | 40만원이요 |
-| __avoid_negatives__ | 로봇청소기가 구석이나 좁은 공간을 제대로 청소하지 못할까 봐 걱정돼요,로봇청소기 관리에 필요한 부품 교체나 관리가 번거로울까 봐 부담돼요,가구 배치 때문에 로봇청소기가 제대로 작동하지 못할까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 109개 (전체 109개 중)
+현재 후보: 8개 (전체 8개 중)
 
 ### 후보 상품
-1. 삼성전자 비스포크 스팀 VR7MD96516G - 781,220원 - ⭐4.8
-2. 로보락 S9 MaxV Ultra - 1,510,000원 - ⭐4.8
-3. LG전자 오브제컬렉션 코드제로 로보킹 AI 올인원 B95AWBH - 1,141,690원 - ⭐4.8
-4. 드리미 L40s Pro Ultra - 705,850원 - ⭐4.8
-5. 로보락 S9 MaxV Ultra 직배수 - 1,660,000원 - ⭐4.8
-6. 드리미 X50s Pro Ultra - 989,990원 - ⭐4.8
-7. 드리미 X50s Pro Master 직배수 - 1,089,990원 - ⭐4.7
-8. 에코백스 윈봇 W2 옴니 - 499,000원 - ⭐4.8
-9. 로보락 Qrevo Edge C - 919,710원 - ⭐4.8
-10. JONR P20 Pro - 395,200원 - ⭐4.7
-11. 삼성전자 비스포크 AI 스팀 VR7MD97716G - 1,436,550원 - ⭐4.8
-12. 로보락 S8 Pro Plus - 479,000원 - ⭐4.7
-13. LG전자 코드제로 R5 R585WKA1 - 404,470원 - ⭐4.8
-14. 드리미 아쿠아10 울트라 롤러 - 1,287,000원 - ⭐4.8
-15. 로보락 S9 MaxV Slim 직배수 - 1,590,000원 - ⭐4.9
-16. 에코백스 디봇 T30 프로 옴니 DDX14 - 554,790원 - ⭐4.7
-17. LG전자 오브제컬렉션 코드제로 로보킹 AI 올인원 직배수 B95AWBTH - 1,546,130원 - ⭐4.8
-18. 샤오미 미지아 M40S - 456,150원 - ⭐4.9
-19. 에코백스 윈봇 미니 WG841 - 269,000원 - ⭐4.8
-20. 드리미 L10s Ultra GEN2 - 645,290원 - ⭐4.8
+1. 드리미 L10s Ultra Gen3 - 603,570원 - ⭐4.6
+2. 웨이코스 씽크에어 RV50 - 477,000원 - ⭐4.7
+3. 삼성전자 비스포크 제트 봇 VR30T85513W - 627,200원 - ⭐4.8
+4. 로보락 S8 Pro Ultra - 1,457,900원 - ⭐4.9
+5. 에브리봇 쓰리스핀 슬림 TS450 - 448,000원 - ⭐5
+6. SoberGo 스마트 - 62,220원 - ⭐4.5
+7. 에코백스 디봇 X1 옴니 - 499,000원 - ⭐4.8
+8. 샤오미 미홀 C66S - 54,850원 - ⭐4.5
 
 ---
 
@@ -59,9 +43,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 로봇청소기가 구석이나 좁은 공간을 제대로 청소하지 못할까 봐 걱정돼요
-- 로봇청소기 관리에 필요한 부품 교체나 관리가 번거로울까 봐 부담돼요
-- 가구 배치 때문에 로봇청소기가 제대로 작동하지 못할까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

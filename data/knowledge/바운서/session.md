@@ -1,5 +1,5 @@
-# 세션: 20260107_075401_csk3
-> 시작: 2026-01-07T07:54:01.392Z
+# 세션: 20260116_102934_ayeh
+> 시작: 2026-01-16T10:29:34.794Z
 > 카테고리키: 바운서
 > 카테고리: 바운서
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 바운서
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrqxUIjxghCBMq8-5-fpjUV-fZ-TNLzNOCLWHpIse1y-nsZC_P0UNHTG7fgZJPKFDNVFNqrCW4G4uEXNrk9ZBxWJI57KLQmMOwm_3VHLio9_KGMqIvwzdXP5wJwsU_NjPfqt7o_mFObw-hIa4f5AXZGXbT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHj08ndvFPlNoaRG41FOkVESDluiRsdQZWJviJQcYkhkqnJCnQkz93QpLIKiQ7QOQP3bushvtxPQ0g_gd0Q-AVvsWz3XalE0jFFES-KAO2KfQ9pNK3OtKoU9P-i-ic1oleJdmq1plegru251xQ3ZVzIOqsV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHieIV4pDNU-zdIwVno9N7mYLDJt01EnMdnHIL5vyUWjKF2w1j2ydv6NjBNKrjdpxH8daonz4EoUgSzvIyl5G-psMwhj-0n89bEGuyRYapCj7ICVnWRAnqHwDly3wYOJ17nthk8A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFh5BFgDkhSUTSYbsbTlFiFgOHqlnL5rmzJ8_06qiFjUSwsvfezS-OAbdzy_qO7TIpdtHKHcSGtMZO3DcK4wZTBH_dE09jA2ZV63Qey6QHDMXgAYwxjy43e_O3-d1H0a2aidtrcXg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9YG9dTWAwf73IlvvCQynpYgz2j0B1An_vhFXaIvqHhoOJ8K5oPURLhvXgpXmIovjZPCp_g_DB_ZbEbkOD4HayUSH7Zk6OEt3Kku6dy8ayPyyodbhX9bzrLtFhHbfrhkYwxhlSfw==
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrqxUIjxghCBMq8-5-fpjUV-fZ-TNLzNOCLWHpIse1y-nsZC_P0UNHTG7fgZJPKFDNVFNqrCW4G4uEXNrk9ZBxWJI57KLQmMOwm_3VHLio9_KGMqIvwzdXP5wJwsU_NjPfqt7o_mFObw-hIa4f5AXZGXbT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHj08ndvFPlNoaRG41FOkVESDluiRsdQZWJviJQcYkhkqnJCnQkz93QpLIKiQ7QOQP3bushvtxPQ0g_gd0Q-AVvsWz3XalE0jFFES-KAO2KfQ9pNK3OtKoU9P-i-ic1oleJdmq1plegru251xQ3ZVzIOqsV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHieIV4pDNU-zdIwVno9N7mYLDJt01EnMdnHIL5vyUWjKF2w1j2ydv6NjBNKrjdpxH8daonz4EoUgSzvIyl5G-psMwhj-0n89bEGuyRYapCj7ICVnWRAnqHwDly3wYOJ17nthk8A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFh5BFgDkhSUTSYbsbTlFiFgOHqlnL5rmzJ8_06qiFjUSwsvfezS-OAbdzy_qO7TIpdtHKHcSGtMZO3DcK4wZTBH_dE09jA2ZV63Qey6QHDMXgAYwxjy43e_O3-d1H0a2aidtrcXg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9YG9dTWAwf73IlvvCQynpYgz2j0B1An_vhFXaIvqHhoOJ8K5oPURLhvXgpXmIovjZPCp_g_DB_ZbEbkOD4HayUSH7Zk6OEt3Kku6dy8ayPyyodbhX9bzrLtFhHbfrhkYwxhlSfw==
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFx7PfWBsSDY5Jb1vv62Bi0jfxstxkZPUoZJN7HTTAd7AnEuUHBokzWzmgZ2uUnihXjcdQv_t_iJE2UaeoXIetUmn_-hjPl2BWlH2dshP_tABfHnCwuqGss-qZOxpMspUy7k1MO-A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH4v5sqnv5xqKBuxRqaZuiecGpOQBWeZKx0JKYgb93ZKx9kwA3GQSuD-e2Nn2XiFU4xxtGHiokkVE5s6R_qnXPMZw-WTAzbhiCPG6I2thR7WFwvJmAIojDuIsTXQNN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-1IFRbdWMj-ka9sPrRO3EYYyyoRQdRGbuLei-r1K63NG-qzYb9OwI9v_NMtj0CJxyqWjHGvrhBIqPYhWEbVu-494nkle0Ikhk6XkFKumdRsdJtN9JAF8MP3zwc_0zMvU9Yiki8uRo0WWIAdx-z0jGkeZgFA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHe8u4fsBSZ_-74kiUQbz7-ez81hY5bR30Y8n-AXsxGV0JLnvej4P7lbnn3hKy3t31muEX9El-2yPHh7X3u_emarsEJeODtLBMXu9YYptxrv3VMal_Of4-kUNQNRVAs9Gl5V5MzchRZTO88OeIyenLHpvW9w==
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFx7PfWBsSDY5Jb1vv62Bi0jfxstxkZPUoZJN7HTTAd7AnEuUHBokzWzmgZ2uUnihXjcdQv_t_iJE2UaeoXIetUmn_-hjPl2BWlH2dshP_tABfHnCwuqGss-qZOxpMspUy7k1MO-A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH4v5sqnv5xqKBuxRqaZuiecGpOQBWeZKx0JKYgb93ZKx9kwA3GQSuD-e2Nn2XiFU4xxtGHiokkVE5s6R_qnXPMZw-WTAzbhiCPG6I2thR7WFwvJmAIojDuIsTXQNN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-1IFRbdWMj-ka9sPrRO3EYYyyoRQdRGbuLei-r1K63NG-qzYb9OwI9v_NMtj0CJxyqWjHGvrhBIqPYhWEbVu-494nkle0Ikhk6XkFKumdRsdJtN9JAF8MP3zwc_0zMvU9Yiki8uRo0WWIAdx-z0jGkeZgFA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHe8u4fsBSZ_-74kiUQbz7-ez81hY5bR30Y8n-AXsxGV0JLnvej4P7lbnn3hKy3t31muEX9El-2yPHh7X3u_emarsEJeODtLBMXu9YYptxrv3VMal_Of4-kUNQNRVAs9Gl5V5MzchRZTO88OeIyenLHpvW9w==
 
 ---
 
@@ -16,39 +16,39 @@
 
 | 항목 | 답변 |
 |------|------|
-| baby_age_weight | 신생아 (0-3개월) |
-| power_source | 수동 (아기 또는 보호자 조작) |
-| material_type | 패브릭 (부드러움), 메쉬 (통기성) |
-| additional_features | 휴대 및 보관 용이 |
-| budget | 5만~13만원대 |
+| 아이가 바운서를 주로 어떤 용도로 사용하게 될까요? | 놀이 및 활동 목적 |
+| 바운서를 주로 어디에 두고 사용하시나요? 이동이나 보관이 중요하신가요? | 집 안에서 이동하며 사용 |
+| 바운서의 흔들림이나 기능이 어떤 방식이면 좋을까요? | 자동 전동 |
+| 바운서 예산은 어느 정도로 생각하세요? (평균 약 13만원, 7만원~17만원대가 가장 많아요) | 7만원 ~ 17만원 |
+| __avoid_negatives__ | 아이가 활동적으로 사용하다 보면 금방 낡거나 고장 나지는 않을지 내구성이 걱정돼요,집 안에서 자주 옮겨 다니며 사용해야 하는데,너무 무겁거나 부피가 커서 이동이 불편할까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 40개 (전체 40개 중)
+현재 후보: 26개 (전체 26개 중)
 
 ### 후보 상품
-1. 베이비뵨 베이비비욘 바운서 - 214,340원 - ⭐4.9
-2. 베이비뵨 블리스 메쉬 바운서 - 311,450원 - ⭐4.9
-3. 키즈투 브라이트스타트 기글사파리 바운서II - 31,910원 - ⭐4.8
-4. 콤비 네무리라 전동 자동 바운서 - 588,050원 - ⭐4.8
-5. 베이비 전동 스윙바운서 아기 흔들의자 유아 스마트 전동 흔들침대 - 90,160원 - ⭐4
-6. 키즈투 브라이트스타트 딜  기글사파리 바운서2 - 33,580원 - ⭐4.2
-7. 키즈투 브라이트스타트 딜 브라이트스타트 바운서 - 10,760원 - ⭐4.6
-8. [해외] 베이비 진동 요람침대 바운서 아기요람 흔들침대 흔들의자 달래기 요람대 - 60,660원 - ⭐0
-9. 디즈니베이비 미키마우스 락커 바운서  혼합색상  49 x 68 x 64 cm - 62,900원 - ⭐0
-10. 콤비(Combi) 네무리라 플러스 신생아 전동 자동 아기 바운서 흔들침대 - 619,000원 - ⭐0
-11. [중고] 뉴나 뉴 리프 신생아 바운서  티크  H 45cm x W 71cm x L 72cm - 154,160원 - ⭐0
-12. 꿈비 토이 착착블록 176PCS - 68,446원 - ⭐5
-13. 쁘띠엘린 세이지폴 스튜디오 원목 코지핏 바운서 세트 - 92,950원 - ⭐5
-14. 인제뉴어티 인저누티 신생아 바운서 아기 흔들침대 피셔프라이스 대체 - 165,900원 - ⭐5
-15. 킨즈 오토스윙 전동바운서 - 74,480원 - ⭐5
-16. 몽스쿨 KY2050 봄꽃 북아트 - 3,010원 - ⭐0
-17. BABOCUSH 신생아 바운서 - 224,970원 - ⭐5
-18. 몽스쿨 KY2055 교통안전 북아트 안전하게 건너요 - 2,210원 - ⭐0
-19. 가베가족 몽스쿨 KY2055-4 교통안전 북아트 안전하게 건너요 4개 - 9,020원 - ⭐0
-20. 스킵합 스킵합  애니멀 유아 스낵컵 상어 9I237010 - 18,400원 - ⭐1
+1. 베이비뵨 베이비비욘 바운서 - 214,030원 - ⭐4.9
+2. 베이비뵨 블리스 메쉬 바운서 - 320,750원 - ⭐4.9
+3. 베이비 전동 스윙바운서 아기 흔들의자 유아 스마트 전동 흔들침대 - 98,000원 - ⭐4
+4. 키즈투 브라이트스타트 딜  기글사파리 바운서2 - 33,580원 - ⭐4.2
+5. 이오맘 베이비 스윙 바운서 풀패키지 - 139,000원 - ⭐5
+6. DW 아기 전동 바운서 아기요람 흔들요람 흔들침대 - 181,700원 - ⭐5
+7. 키즈투 브라이트스타트 기글사파리 바운서II - 30,810원 - ⭐4.8
+8. 콤비 네무리라 전동 자동 바운서 - 594,909원 - ⭐4.8
+9. 인제뉴어티 인저누티 신생아 바운서 아기 흔들침대 피셔프라이스 대체 - 165,900원 - ⭐5
+10. 꿈비 토이 착착블록 176PCS - 68,379원 - ⭐5
+11. BABOCUSH 신생아 바운서 - 224,970원 - ⭐5
+12. 스킵합 스킵합  스킵합  애니멀 유아 보온 도시락 부엉이 252375 - 17,630원 - ⭐5
+13. 키즈투 브라이트스타트 플라밍고 바운서 - 32,460원 - ⭐5
+14. 스킵합 스킵합  애니멀 유아 스낵컵 상어 9I237010 - 18,000원 - ⭐1
+15. 쁘띠엘린 세이지폴 스튜디오 원목 코지핏 바운서 세트 - 92,950원 - ⭐5
+16. 아가방앤컴퍼니 에뜨와 아이린기저귀/07I0-85001 - 31,200원 - ⭐5
+17. 킨즈 오토스윙 전동바운서 - 76,080원 - ⭐5
+18. 스킵합 스킵합  애니멀 유아 포크 & 스푼세트 여우 252369 - 11,230원 - ⭐5
+19. 러닝리소스 러닝리소스 LER3821 비커크리쳐 실험가운 세트 - 35,280원 - ⭐3
+20. 베이비뵨 바운서 전용 토이 구글리아이즈 - 63,240원 - ⭐5
 
 ---
 
@@ -60,7 +60,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 아이가 활동적으로 사용하다 보면 금방 낡거나 고장 나지는 않을지 내구성이 걱정돼요
+- 집 안에서 자주 옮겨 다니며 사용해야 하는데
+- 너무 무겁거나 부피가 커서 이동이 불편할까 봐 걱정돼요
 
 ---
 
