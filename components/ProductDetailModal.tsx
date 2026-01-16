@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import DanawaReviewTab from '@/components/DanawaReviewTab';
@@ -319,6 +319,76 @@ export default function ProductDetailModal({ productData, category, danawaData, 
   const [reviewSortOrder, setReviewSortOrder] = useState<'newest' | 'high' | 'low'>('newest');
   const [isSortBottomSheetOpen, setIsSortBottomSheetOpen] = useState(false);
   const [expandedReviewIds, setExpandedReviewIds] = useState<Set<number>>(new Set());
+  const [showPhotoReviewsOnly, setShowPhotoReviewsOnly] = useState(false);
+
+  // PDP 상단 이미지 캐러셀 상태
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  // 캐러셀 이미지 배열 생성 (제품 썸네일 + 리뷰 이미지 최대 5장)
+  const carouselImages = useMemo(() => {
+    const images: string[] = [];
+
+    // 1. 제품 썸네일
+    if (productData.product.thumbnail) {
+      images.push(productData.product.thumbnail);
+    }
+
+    // 2. 리뷰 이미지 추가 (최대 9장, 총 10장까지)
+    if (preloadedReviews) {
+      for (const review of preloadedReviews) {
+        if (review.images && review.images.length > 0) {
+          for (const img of review.images) {
+            if (images.length >= 10) break;
+            if (!images.includes(img)) {
+              images.push(img);
+            }
+          }
+        }
+        if (images.length >= 10) break;
+      }
+    }
+
+    return images;
+  }, [productData.product.thumbnail, preloadedReviews]);
+
+  // 캐러셀 스크롤 핸들러
+  const handleCarouselScroll = useCallback(() => {
+    if (!carouselRef.current) return;
+    const scrollLeft = carouselRef.current.scrollLeft;
+    const width = carouselRef.current.offsetWidth;
+    const newIndex = Math.round(scrollLeft / width);
+    setCarouselIndex(newIndex);
+  }, []);
+
+  // 리뷰 이미지 확대 뷰어 상태
+  const [imageViewer, setImageViewer] = useState<{
+    isOpen: boolean;
+    images: string[];
+    currentIndex: number;
+  }>({ isOpen: false, images: [], currentIndex: 0 });
+
+  const openImageViewer = (images: string[], index: number) => {
+    setImageViewer({ isOpen: true, images, currentIndex: index });
+  };
+
+  const closeImageViewer = () => {
+    setImageViewer({ isOpen: false, images: [], currentIndex: 0 });
+  };
+
+  const goToPrevImage = () => {
+    setImageViewer(prev => ({
+      ...prev,
+      currentIndex: prev.currentIndex > 0 ? prev.currentIndex - 1 : prev.images.length - 1
+    }));
+  };
+
+  const goToNextImage = () => {
+    setImageViewer(prev => ({
+      ...prev,
+      currentIndex: prev.currentIndex < prev.images.length - 1 ? prev.currentIndex + 1 : 0
+    }));
+  };
 
   const toggleReviewExpand = (idx: number) => {
     setExpandedReviewIds(prev => {
@@ -462,17 +532,47 @@ export default function ProductDetailModal({ productData, category, danawaData, 
           {/* Thumbnail - knowledge-agent(preloadedReviews)일 때는 PDP 스타일 */}
           {preloadedReviews && preloadedReviews.length > 0 ? (
             <div className="px-4 pt-4 pb-5 border-b border-gray-100">
-              <div className="relative w-full aspect-square bg-gray-100 rounded-[12px] overflow-hidden">
-                {productData.product.thumbnail ? (
-                  <Image
-                    src={productData.product.thumbnail}
-                    alt={productData.product.title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
+              {/* 이미지 캐러셀 */}
+              <div className="relative w-full aspect-square rounded-[12px] overflow-hidden">
+                {carouselImages.length > 0 ? (
+                  <>
+                    {/* 스크롤 캐러셀 */}
+                    <div
+                      ref={carouselRef}
+                      onScroll={handleCarouselScroll}
+                      className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+                      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
+                      {carouselImages.map((img, idx) => (
+                        <div
+                          key={idx}
+                          className="w-full h-full flex-shrink-0 snap-center bg-gray-100"
+                          style={{ scrollSnapStop: 'always' }}
+                        >
+                          <img
+                            src={img}
+                            alt={idx === 0 ? productData.product.title : `리뷰 이미지 ${idx}`}
+                            className="w-full h-full object-cover"
+                            loading={idx === 0 ? 'eager' : 'lazy'}
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* 페이지 인디케이터 (2장 이상일 때만) */}
+                    {carouselImages.length > 1 && (
+                      <div
+                        className="absolute top-3 right-3 px-2 py-[2px] h-[22px] rounded-[20px] backdrop-blur-[10px] flex items-center"
+                        style={{ backgroundColor: 'rgba(25, 29, 40, 0.5)' }}
+                      >
+                        <span className="text-white text-[12px] font-medium">
+                          {carouselIndex + 1}/{carouselImages.length}
+                        </span>
+                      </div>
+                    )}
+                  </>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
                     <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
@@ -1376,16 +1476,22 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     return `${yy}.${mm}.${dd}`;
                   };
 
-                  // 정렬된 리뷰
-                  const sortedReviews = [...preloadedReviews].sort((a, b) => {
-                    if (reviewSortOrder === 'newest') {
-                      return parseDate(b.date) - parseDate(a.date);
-                    }
-                    if (reviewSortOrder === 'high') {
-                      return b.rating - a.rating;
-                    }
-                    return a.rating - b.rating;
-                  });
+                  // 포토 리뷰 개수 확인
+                  const photoReviewCount = preloadedReviews.filter(r => r.images && r.images.length > 0).length;
+                  const hasPhotoReviews = photoReviewCount > 0;
+
+                  // 정렬 및 필터링된 리뷰
+                  const sortedReviews = [...preloadedReviews]
+                    .filter(r => !showPhotoReviewsOnly || (r.images && r.images.length > 0))
+                    .sort((a, b) => {
+                      if (reviewSortOrder === 'newest') {
+                        return parseDate(b.date) - parseDate(a.date);
+                      }
+                      if (reviewSortOrder === 'high') {
+                        return b.rating - a.rating;
+                      }
+                      return a.rating - b.rating;
+                    });
 
                   return (
                     <div className="pb-4 relative">
@@ -1400,14 +1506,34 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                       </div>
 
                       {/* 필터 뱃지 */}
-                      <div className="px-4 pt-5 pb-3">
-                        <button 
+                      <div className="px-4 pt-5 pb-3 flex items-center gap-2">
+                        <button
                           onClick={() => setIsSortBottomSheetOpen(true)}
                           className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                         >
                           {sortLabels[reviewSortOrder]}
                           <CaretDown size={14} />
                         </button>
+
+                        {/* 포토 리뷰 토글 - 포토 리뷰가 있을 때만 표시 */}
+                        {hasPhotoReviews && (
+                          <button
+                            onClick={() => setShowPhotoReviewsOnly(prev => !prev)}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors ${
+                              showPhotoReviewsOnly
+                                ? 'bg-gray-800 text-white'
+                                : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                            }`}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                              <circle cx="8.5" cy="8.5" r="1.5"/>
+                              <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            포토 리뷰만 보기
+                            {showPhotoReviewsOnly && <span className="text-[12px] opacity-80">({photoReviewCount})</span>}
+                          </button>
+                        )}
                       </div>
 
                       {/* 리뷰 목록 */}
@@ -1448,10 +1574,20 @@ export default function ProductDetailModal({ productData, category, danawaData, 
 
                             {/* Row 3: Photos */}
                             {review.images && review.images.length > 0 && (
-                              <div className="flex gap-2 mb-3 overflow-x-auto pb-1 scrollbar-hide">
+                              <div className="flex gap-2.5 mb-3 overflow-x-auto pb-1 scrollbar-hide">
                                 {review.images.map((img, i) => (
-                                  <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-gray-100">
+                                  <div
+                                    key={i}
+                                    className="relative w-[110px] h-[110px] rounded-xl overflow-hidden shrink-0 border border-gray-100 cursor-pointer hover:opacity-90 transition-opacity"
+                                    onClick={() => openImageViewer(review.images!, i)}
+                                  >
                                     <img src={img} alt="" className="w-full h-full object-cover" />
+                                    {/* 여러 장일 때 개수 표시 (첫 번째 이미지에만) */}
+                                    {i === 0 && review.images!.length > 1 && (
+                                      <div className="absolute bottom-1.5 right-1.5 bg-black/60 text-white text-[11px] font-semibold px-1.5 py-0.5 rounded">
+                                        1/{review.images!.length}
+                                      </div>
+                                    )}
                                   </div>
                                 ))}
                               </div>
@@ -1655,6 +1791,100 @@ export default function ProductDetailModal({ productData, category, danawaData, 
           type={toastType}
         />
       </motion.div>
+
+      {/* 리뷰 이미지 확대 뷰어 */}
+      <AnimatePresence>
+        {imageViewer.isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center"
+            onClick={(e) => {
+              e.stopPropagation(); // PDP 모달 닫힘 방지
+              closeImageViewer();
+            }}
+          >
+            {/* 닫기 버튼 */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                closeImageViewer();
+              }}
+              className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* 이미지 카운터 */}
+            {imageViewer.images.length > 1 && (
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/80 text-[14px] font-medium">
+                {imageViewer.currentIndex + 1} / {imageViewer.images.length}
+              </div>
+            )}
+
+            {/* 이전 버튼 */}
+            {imageViewer.images.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goToPrevImage(); }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center text-white/60 hover:text-white bg-black/30 hover:bg-black/50 rounded-full transition-all"
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+            )}
+
+            {/* 메인 이미지 */}
+            <motion.div
+              key={imageViewer.currentIndex}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="max-w-[90vw] max-h-[85vh] relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={imageViewer.images[imageViewer.currentIndex]}
+                alt=""
+                className="max-w-full max-h-[85vh] object-contain rounded-lg"
+              />
+            </motion.div>
+
+            {/* 다음 버튼 */}
+            {imageViewer.images.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goToNextImage(); }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center text-white/60 hover:text-white bg-black/30 hover:bg-black/50 rounded-full transition-all"
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            )}
+
+            {/* 하단 썸네일 (3장 이상일 때) */}
+            {imageViewer.images.length > 2 && (
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                {imageViewer.images.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={(e) => { e.stopPropagation(); setImageViewer(prev => ({ ...prev, currentIndex: i })); }}
+                    className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+                      i === imageViewer.currentIndex ? 'border-white opacity-100' : 'border-transparent opacity-50 hover:opacity-75'
+                    }`}
+                  >
+                    <img src={img} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 

@@ -3633,14 +3633,18 @@ export default function KnowledgeAgentPage() {
               const pcodeStr = String(selectedProduct.pcode || selectedProduct.id);
               const reviews = reviewsData[pcodeStr] || selectedProduct.reviews || [];
               console.log(`[PDP] Loading reviews for pcode ${pcodeStr}: reviewsData has ${reviewsData[pcodeStr]?.length || 0}, product.reviews has ${selectedProduct.reviews?.length || 0}, using ${reviews.length}`);
-              return reviews.map((r: any) => ({
-                content: r.content || r.text || '',
-                rating: r.rating || 0,
-                author: r.author || r.nickname || null,
-                date: r.date || r.review_date || null,
-                mallName: r.mallName || r.mall_name || null,
-                imageUrls: r.imageUrls || r.image_urls || null,
-              }));
+              return reviews.map((r: any) => {
+                const imgUrls = r.imageUrls || r.image_urls || null;
+                return {
+                  content: r.content || r.text || '',
+                  rating: r.rating || 0,
+                  author: r.author || r.nickname || null,
+                  date: r.date || r.review_date || null,
+                  mallName: r.mallName || r.mall_name || null,
+                  imageUrls: imgUrls,
+                  images: imgUrls,  // ProductDetailModal에서 사용하는 필드명
+                };
+              });
             })()}
             danawaData={(() => {
               // pricesData 캐시 우선 사용 (프리페치된 데이터)
