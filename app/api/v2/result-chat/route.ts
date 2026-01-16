@@ -64,7 +64,7 @@ async function generateConversationResponse(
 - ${insights.guide?.summary || ''}
 - 주요 고려사항: ${insights.guide?.key_points?.slice(0, 3).join(', ') || ''}`;
     }
-  } catch (e) {
+  } catch {
     console.log('[generateConversationResponse] No insights for category:', categoryKey);
   }
 

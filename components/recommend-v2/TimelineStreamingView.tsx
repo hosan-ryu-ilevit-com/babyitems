@@ -288,4 +288,3 @@ function Timer({ className }: { className?: string }) {
 
   return <span className={className}>{time.toFixed(2)}s</span>;
 }
-

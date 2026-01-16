@@ -1,14 +1,14 @@
-# 세션: 20260116_061335_v8i3
-> 시작: 2026-01-16T06:13:35.234Z
+# 세션: 20260116_082309_el59
+> 시작: 2026-01-16T08:23:09.113Z
 > 카테고리키: 유아의자
 > 카테고리: 유아의자
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아의자 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 유아의자 시장은 안전성과 편의성을 갖춘 제품들이 인기를 얻고 있습니다. 특히 아이의 성장 단계에 맞춰 조절 가능한 기능과 세척의 용이성이 중요한 트렌드로 자리 잡고 있습니다. 스토케(STOKKE)와 시디즈(Sidiz)와 같은 브랜드들이 꾸준히 사랑받고 있으며, 친환경 소재와 지속가능성을 고려한 제품들도 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFIbK_B0sUSsEWpyLvVSCbII8LNeO4e9Jfar4FlRAbF7qcMGBlXfK2Iz2w-6qep-q0ykH3BC7rMVUHQjZOIA9agSrtBoR1CbwInXdKp_wrzow4aeB4hcCcp_nI7eGFJ57T2w3IYWNI50lsytsk0-J1nIDFIwTRBJ-YL, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZv0PainLUQSCKwkvqQo3T_wMpotupd_HsrG5q7UH-my-oNDUbGEoI_DjlSPbHhfYGSkN4UjhT-l8O0mGIyXdQxxTgss7zn7gxsCy-DypCXoDkRFf_ZtWHpzf-9yo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcUikEXBKYPObvKRai_YOKC77GyQJj63xtLoqxLkq7qK7eXv80jSWl7xpKqa653kvHNeNDsIRoO8rEKNjXXuZ5MCQEpPRexoutyYjNZdzm8gEwQnXQMa2ngWq2D_prtLP9xmxqjG2C8DF1qVVgST7W4wauZg0WByNDnkQaFtCaFNO0zjF8QKpyf9De4TIbHM47IdFQ8bcWnRY8wSq9VWLBAcPRT1rdxLfkpPbtkCnyw69iPBUhGYawZY1ceQZ8WUg-YGpp1dOQoSol7XPbmmvPvwVuKVseNg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkd2wLcC22zGHVcOpOCP0PPgsb-Wxrn3Rm8alNlbJTnXFkOVuTlmJmKTI1GWeskQKTUiNTKRxu-1B3O2eu5EbhSP8ZFySHNvEVIRmrjH3bkLzA5wYjDzupMtG129lvRDbCRTD_hpY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpvF-Xmoo4L7r7pdrAkBuVpHo42FIQknn45kFt2xt9ZRInmQ910R3S5-OVYpb8KlVrNOfMPZMy9ldQ-nAwHxEckQts2atNkRUQjPUGERyIcTLoiHcQsvBM_yVLuHfb0syFSiYGoBe53j81W0LMhdwpYZvA6Myo3QJIqlVZ3RKRHYlsdzyjLWL5qbfmgZDnXyp6W_v66bz7AcvKfMNz0XLSF3CEPYPcyZlz-FLm3qDnV3oikI9jWNTV0k3_qjdWR-DNqa3yi6hDwF9ReNOjGIqase6t4_FCbJWPgpwHX1KMVu8b
+- 쿼리: 유아의자
+- 인사이트: 
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUUcZTiDc_1vPh377pEPsPxHjXnYE-PMVeOzOVFKGKMRpF6H3GwS8ssZiGDDlGL5FxziQZEFOBHj7clD24to0-JLnfoxGIhfOs3g_PMeRJdNXSA26D05fWyf2hC4PcYKHDwRrwLNPKcG2dx7s2NtXmpITyLdvmShM5CWqWpVp7T6eXw-ro7ByVlv7f9EbT4ynhLaaVpRMzmOFWBYEpvp27oaQJGfqjlrV6I5ivIDnkz5dbNnT3vuRPcZr3bcmVy6sD314byV2riAtA7cfSwHw-i62oK-JjQw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOCtcd6PVMkmdzkj_Lj0uJUPl9DBH0zvijbARLYuqN1iVzaHMHazJU3PBiHdTmRDYP89WsV3VGTK5KEHm2eyi-WIKQzTTFxxYFRhMc3TWT5luZMR3jI2kqaJB-U-p2YO79P0etQJRbCiHnQiF0W-oboPq5CpUW-bqK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuzudsIry0P4PGubBmxJMA3Bk9ImpMQxdArlzx0RhA7Sgm5gIALywr1Es18nHpS-7r8RAjbc-8KIFc9PTPZCeZ-oLG9Ej90QlDfmN2r7-xVxpvvNVpiumUY3e0Y01fR1hrl3I6N4Eb4GsIapzioSGMjAdgJf8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFS7Fy1o8h6WhbRQ7x2S7287FEMOEMjjSzQQ04bI7a9QcedQIHdEU3H3u5eQkIkhDA9egSuUmf5P3SLS2ry5zNbM7t-p92uUrcYf26_85e5N4jalNZvJusDewmQp9vgJzoiaxiVFP66qhQn9djpAltJl1HPtYGUGmMpBOg7Xx8QziOpCOvJqaRXFyhT7hyY8kLS_FkM1l90n0lrP0XF03XbEIBb1H6l70DM91U7PVDk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE89uiYVM9oHnf2jcsNJRTrqY4kZry1aDPCIx4DUL3wJhrOW2PYwEy-I6j_wQlv50iH6MnyFVQArc_oZdb2sHAdPTEywz7B4FRYGC6ZkDrKDvPSuglrwu69-gxmCg5qFN2A6-_muwE=
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 현재 어느 정도 성장 단계인가요? 의자를 주로 사용할 시기를 알려주세요. | 12개뤌 |
-| 유아의자를 주로 어디에서, 어떤 용도로 사용하실 예정인가요? | 아이 방/거실 |
-| 의자 소재나 디자인에서 세척 및 관리 용이성을 얼마나 중요하게 생각하시나요? | 크게 신경 쓰지 않음 |
-| 유아의자 예산은 어느 정도로 생각하세요? (평균 23만원, 13만원~30만원대가 가장 많아요) | 13만원 ~ 30만원, 13만원 이하 |
-| __avoid_negatives__ | 아이가 활동적으로 움직일 때 의자가 쉽게 흔들리거나 넘어질까 봐 불안해요 |
 
 ---
 
@@ -60,7 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아이가 활동적으로 움직일 때 의자가 쉽게 흔들리거나 넘어질까 봐 불안해요
+(아직 선택 없음)
 
 ---
 

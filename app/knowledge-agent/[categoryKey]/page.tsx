@@ -4322,7 +4322,10 @@ function MessageBubble({
 
                     return (
                       <div key={product.pcode || product.id || index} className="relative bg-white py-6 border-b border-gray-100 last:border-0 space-y-5">
-                        <div className="flex gap-4">
+                        <div
+                          className="flex gap-4 cursor-pointer"
+                          onClick={() => onProductClick(product, 'price')}
+                        >
                           {/* 제품 썸네일 */}
                           <div className="relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
                             {product.thumbnail ? (
@@ -4369,7 +4372,7 @@ function MessageBubble({
                             {hasDanawaRank && (
                               <div className="flex items-center gap-1 mt-1">
                                 <span className="text-[13px] text-gray-400 font-medium">
-                                  {categoryName} <span className="font-semibold text-gray-500">판매 랭킹 {danawaRank}위</span>
+                                  {categoryName} 인기순위 <span className="font-semibold text-gray-500">{danawaRank}위</span>
                                 </span>
                               </div>
                             )}
