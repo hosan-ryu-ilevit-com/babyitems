@@ -267,24 +267,38 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="relative w-full max-w-[480px] bg-white rounded-t-[12px] overflow-hidden shadow-2xl"
           >
-            <div className="p-4 pt-6 pb-10">
+            <div className="p-4 pt-[26px] pb-4">
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-2">
-                   <img src="/icons/ic-ai.svg" alt="AI" className="w-[20px] h-[20px]" />
+                   <motion.img
+                     src="/icons/ic-ai.svg"
+                     alt="AI"
+                     className="w-[20px] h-[20px]"
+                     animate={{
+                       rotate: [0, -15, 15, -15, 0],
+                       y: [0, -2.5, 0],
+                     }}
+                     transition={{
+                       duration: 0.8,
+                       repeat: Infinity,
+                       repeatDelay: 2,
+                       ease: "easeInOut"
+                     }}
+                   />
                    <h3 className="text-[20px] font-bold text-[#6366F1] leading-tight">
                      맞춤 추천 시작
                    </h3>
                 </div>
-                <button 
-                  onClick={onCancel} 
-                  className="p-2 -mr-2 -mt-2 text-gray-300 hover:text-gray-500 transition-colors rounded-full hover:bg-gray-50"
+                <button
+                  onClick={onCancel}
+                  className="p-2 -mr-2 -mt-2 text-gray-400 hover:text-gray-500 transition-colors rounded-full hover:bg-gray-50"
                 >
-                  <X size={24} weight="bold" />
+                  <X size={24} weight="regular" />
                 </button>
               </div>
 
-              <p className="text-[17px] text-gray-700 mb-8 leading-[1.4] font-medium">
+              <p className="text-[17px] text-gray-700 mb-4 leading-[1.4] font-medium">
                  <span className="font-bold text-gray-900">{keyword}</span>에 대해 상세히 분석하고 <br/>
                  추천에 필요한 맞춤 질문을 드릴게요
               </p>
@@ -302,7 +316,22 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
                        </span>
 
                        <div className="w-8 h-8 flex items-center justify-center shrink-0">
-                          <img src={step.icon} alt="" className="w-6 h-6 object-contain" />
+                          <motion.img
+                            src={step.icon}
+                            alt=""
+                            className="w-[23px] h-[23px] object-contain"
+                            animate={{
+                              y: [0, -3, 0],
+                              scale: [1, 1.2, 1],
+                            }}
+                            transition={{
+                              duration: 0.6,
+                              repeat: Infinity,
+                              repeatDelay: 1.5,
+                              delay: idx * 0.15,
+                              ease: "easeInOut"
+                            }}
+                          />
                        </div>
                     </div>
                  ))}

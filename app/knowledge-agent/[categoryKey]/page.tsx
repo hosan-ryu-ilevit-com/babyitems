@@ -841,6 +841,8 @@ export default function KnowledgeAgentPage() {
   const [questionTodos, setQuestionTodos] = useState<QuestionTodo[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionTodo | null>(null);
   const [collectedInfo, setCollectedInfo] = useState<Record<string, string>>({});
+  // 첫 질문 대기 (분석 요약 카드로 접힌 후 표시)
+  const pendingFirstQuestionRef = useRef<{ question: QuestionTodo; total: number } | null>(null);
   const [_progress, setProgress] = useState({ current: 0, total: 0 });
 
   // Navigation state
@@ -899,6 +901,31 @@ export default function KnowledgeAgentPage() {
     setModalInitialTab(tab);
     setSelectedProduct(product);
   };
+
+  // 분석 요약 카드로 접힐 때 호출 - 대기 중인 첫 질문 표시
+  const handleAnalysisSummaryShow = () => {
+    const pending = pendingFirstQuestionRef.current;
+    if (!pending) return;
+
+    const { question: firstQuestion, total } = pending;
+    pendingFirstQuestionRef.current = null; // 중복 방지
+
+    setPhase('questions');
+    const firstQuestionMsgId = `q_${firstQuestion.id}`;
+    setMessages(prev => [...prev, {
+      id: firstQuestionMsgId,
+      questionId: firstQuestion.id,
+      role: 'assistant',
+      content: firstQuestion.question,
+      options: firstQuestion.options.map((o: any) => o.label),
+      questionProgress: { current: 1, total },
+      dataSource: firstQuestion.dataSource,
+      tip: firstQuestion.reason,
+      typing: true,
+      timestamp: Date.now()
+    }]);
+  };
+
   const [crawledProducts, setCrawledProducts] = useState<CrawledProductPreview[]>([]);
 
   // V2 Flow: 확장 크롤링 + 하드컷팅 + 리뷰 크롤링
@@ -1352,24 +1379,13 @@ export default function KnowledgeAgentPage() {
         startBackgroundExpandCrawl(localProducts);
       }
 
-      // 첫 질문 즉시 표시 (리뷰 크롤링 기다리지 않음!)
+      // 첫 질문은 분석 요약 카드로 접힌 후 표시 (onSummaryShow 콜백에서 처리)
       if (firstQuestion) {
-        setPhase('questions'); // 첫 질문 렌더링 시점에 '맞춤 질문' 단계로 전환
-        await new Promise(r => setTimeout(r, 300)); // 첫 질문 표시 전 짧은 대기
-        const firstQuestionMsgId = `q_${firstQuestion.id}`;
-        setMessages(prev => [...prev, {
-          id: firstQuestionMsgId,
-          questionId: firstQuestion.id,
-          role: 'assistant',
-          content: firstQuestion.question,
-          options: firstQuestion.options.map((o: any) => o.label),
-          questionProgress: { current: 1, total: questionTodosFromQuestions.length },
-          dataSource: firstQuestion.dataSource,
-          tip: firstQuestion.reason,
-          typing: true,
-          timestamp: Date.now()
-        }]);
-        // 자동 스크롤은 useEffect에서 처리됨
+        pendingFirstQuestionRef.current = {
+          question: firstQuestion,
+          total: questionTodosFromQuestions.length
+        };
+        // handleAnalysisSummaryShow 콜백이 호출되면 첫 질문이 표시됨
       }
 
       // 백그라운드에서 complete 이벤트 데이터 업데이트 (리뷰 크롤링 완료 후)
@@ -3237,6 +3253,7 @@ export default function KnowledgeAgentPage() {
                 showComparisonOnly={showComparisonOnly}
                 setShowComparisonOnly={setShowComparisonOnly}
                 pricesData={pricesData}
+                onAnalysisSummaryShow={handleAnalysisSummaryShow}
               />
             );
           });
@@ -3915,6 +3932,7 @@ function MessageBubble({
   showComparisonOnly,
   setShowComparisonOnly,
   pricesData,
+  onAnalysisSummaryShow,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -3939,6 +3957,7 @@ function MessageBubble({
   showComparisonOnly: boolean;
   setShowComparisonOnly: (show: boolean) => void;
   pricesData?: Record<string, any>;
+  onAnalysisSummaryShow?: () => void;
 }) {
   const isUser = message.role === 'user';
 
@@ -3990,6 +4009,7 @@ function MessageBubble({
             generatedQuestions={message.analysisData.generatedQuestions}
             isComplete={message.analysisData.isComplete}
             summary={message.analysisData.summary}
+            onSummaryShow={onAnalysisSummaryShow}
           />
         )}
 
