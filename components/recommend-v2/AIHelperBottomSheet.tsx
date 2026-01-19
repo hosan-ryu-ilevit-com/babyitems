@@ -35,6 +35,8 @@ interface AIHelperBottomSheetProps {
   onNaturalLanguageInput?: (stage: string, input: string) => void;
   autoSubmitContext?: boolean; // 하위 호환성을 위해 유지
   autoSubmitText?: string; // 새로 추가된 prop
+  categoryIcons?: Record<string, string>; // 카테고리 선택용 아이콘
+  isBaby?: boolean; // 아기용품/가전제품 분기 처리
 }
 
 interface AIResponse {
@@ -72,6 +74,8 @@ export function AIHelperBottomSheet({
   onNaturalLanguageInput,
   autoSubmitContext = false,
   autoSubmitText,
+  categoryIcons,
+  isBaby = true,
 }: AIHelperBottomSheetProps) {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -99,6 +103,7 @@ export function AIHelperBottomSheet({
           category,
           categoryName,
           userSelections,
+          isBaby,
         }),
       });
       const data = await res.json();
@@ -139,11 +144,17 @@ export function AIHelperBottomSheet({
         !!userSelections?.ageContext;
 
       if (questionType === 'category_selection') {
-        const baseExamples = [
-          FIXED_FIRST_EXAMPLE,
-          '처음 사는 거라 잘 몰라요',
-          '맞벌이라 시간이 부족해요',
-        ];
+        const baseExamples = category === 'baby'
+          ? [
+              FIXED_FIRST_EXAMPLE,
+              '첫째 출산 준비 중이에요',
+              '맞벌이라 시간이 부족해요',
+            ]
+          : [
+              FIXED_FIRST_EXAMPLE,
+              '자취 시작해서 필요해요',
+              '기존 제품이 너무 오래됐어요',
+            ];
         setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
       } else {
         const fallbackExamples = [
@@ -453,8 +464,17 @@ export function AIHelperBottomSheet({
                   >
                     {/* 질문 표시 */}
                     <h3 className="text-[18px] font-bold text-gray-900 leading-[1.4] mb-6">
-                      어떤 상황인지 알려주시면,<br />
-                      구매조건을 추천해드려요
+                      {questionType === 'category_selection' ? (
+                        <>
+                          어떤 상황인지 알려주시면,<br />
+                          구매해야 할 {isBaby ? '아기용품' : '가전제품'}을 추천해드려요
+                        </>
+                      ) : (
+                        <>
+                          어떤 상황인지 알려주시면,<br />
+                          구매조건을 추천해드려요
+                        </>
+                      )}
                     </h3>
 
                     {/* 예시 버튼들 */}
@@ -511,7 +531,7 @@ export function AIHelperBottomSheet({
                         ref={inputRef}
                         value={userInput}
                         onChange={e => setUserInput(e.target.value)}
-                        placeholder="위 질문과 관련된 상황을 알려주세요"
+                        placeholder={questionType === 'category_selection' ? "고객님의 상황을 알려주세요" : "위 질문과 관련된 상황을 알려주세요"}
                         className="w-full p-4 bg-gray-50 border border-gray-100 focus:border-gray-500 rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px] transition-colors"
                         disabled={isQuickMode || isLoading || !!aiResponse}
                       />
@@ -528,26 +548,63 @@ export function AIHelperBottomSheet({
                   >
                     {/* 결과 헤더 */}
                     <h3 className="text-[20px] font-bold text-gray-900 leading-snug">
-                      {questionType === 'negative' ? '피해야 할 단점 추천' : '추천 구매조건'}
+                      {questionType === 'negative' 
+                        ? '피해야 할 단점 추천' 
+                        : questionType === 'category_selection'
+                          ? '추천 구매 카테고리'
+                          : '추천 구매조건'}
                     </h3>
 
                     {/* 추천 결과 아이템 */}
                     <div className="space-y-2">
-                      {getRecommendationLabels().map((label, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.1 }}
-                          className={`p-4 rounded-2xl font-medium text-[16px] text-left break-keep border ${
-                            questionType === 'negative'
-                              ? 'bg-rose-50 border-rose-100 text-rose-600'
-                              : 'bg-blue-50 border-blue-100 text-blue-600'
-                          }`}
-                        >
-                          {label}
-                        </motion.div>
-                      ))}
+                      {questionType === 'category_selection' && categoryIcons ? (
+                        // 카테고리 선택: 썸네일 카드
+                        getRecommendationLabels().map((label, idx) => {
+                          const iconUrl = categoryIcons[label];
+                          return (
+                            <motion.div
+                              key={idx}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: idx * 0.1 }}
+                              className="flex items-center gap-4 p-4 rounded-2xl bg-blue-50 border-2 border-blue-200"
+                            >
+                              <div className="w-16 h-16 rounded-xl bg-white border border-blue-100 flex items-center justify-center overflow-hidden shrink-0">
+                                {iconUrl ? (
+                                  <img 
+                                    src={encodeURI(iconUrl)} 
+                                    alt={label} 
+                                    className="w-12 h-12 object-contain"
+                                  />
+                                ) : (
+                                  <span className="text-2xl">📦</span>
+                                )}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[18px] font-bold text-blue-700">{label}</p>
+                                <p className="text-[13px] text-blue-500 font-medium mt-0.5">AI 추천 카테고리</p>
+                              </div>
+                            </motion.div>
+                          );
+                        })
+                      ) : (
+                        // 기존: 텍스트 카드
+                        getRecommendationLabels().map((label, idx) => (
+                          <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className={`p-4 rounded-2xl font-medium text-[16px] text-left break-keep border ${
+                              questionType === 'negative'
+                                ? 'bg-rose-50 border-rose-100 text-rose-600'
+                                : 'bg-blue-50 border-blue-100 text-blue-600'
+                            }`}
+                          >
+                            {label}
+                          </motion.div>
+                        ))
+                      )}
                     </div>
 
                     {/* 분석 근거 */}

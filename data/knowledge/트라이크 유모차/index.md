@@ -1,30 +1,28 @@
 # 트라이크 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-16T08:19:20.889Z
+> 마지막 업데이트: 2026-01-19T06:07:58.160Z
 > 분석 상품: 20개 | 분석 리뷰: 604개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 2026년 하반기부터 스마트 기능(예: 자동 접이식)을 탑재한 휴대용 트라이크 유모차가 시장을 주도할 전망입니다.
-- 마주보기 기능, 175도 침대형 등받이 조절, 간편한 폴딩 및 언폴딩 기능이 현재 인기 있는 특징입니다.
-- 친환경 소재 적용 제품에 대한 수요가 유럽 및 북미 시장에서 증가할 것으로 예상됩니다.
+- 콤팩트한 폴딩 사이즈 및 기내 반입 가능 여부
+- 가벼운 무게와 휴대성 강조
+- 안전 인증 및 생후 6개월부터 사용 가능한 모델
 
 ### 구매자 만족 포인트
-- ✓ 압도적인 휴대성 (가벼운 무게, 컴팩트한 폴딩 사이즈, 기내 반입 가능)
-- ✓ 간편한 폴딩 및 언폴딩
+- ✓ 압도적인 휴대성 및 작은 폴딩 사이즈
+- ✓ 간편한 휴대 및 기내 반입 가능
 - ✓ 뛰어난 가성비
 - ✓ 부드러운 핸들링
-- ✓ 마주보기 및 회전 기능
-- ✓ 넓은 수납공간
 
 ### 주의해야 할 단점
-- ⚠ 익숙해질 때까지 시간 소요 (폴딩/언폴딩)
-- ⚠ 일부 모델의 핸들링 부족 (과거 정보)
-- ⚠ 배터리 수명 (스마트 기능 탑재 모델의 경우)
+- ⚠ 익숙해질 때까지 시간 소요되는 접고 펴는 방식
+- ⚠ 일부 모델의 높은 가격대
+- ⚠ 무게가 있는 모래 주머니를 놓고 끌었을 때 핸들링이 직결되는 느낌
 
 ### 가격대 인사이트
-트라이크 유모차는 5만 원대의 가성비 좋은 제품부터 20만 원대 이상의 프리미엄 제품까지 다양하게 출시되고 있습니다.
+트라이크 유모차는 5만 원대의 가성비 모델부터 20만 원대 이상의 프리미엄 모델까지 다양하게 출시되고 있습니다. 베이블퓨어리 T2와 같은 모델은 5만 원대로 높은 가성비를 자랑하며, 씨투엠뉴 에이블 스핀 플러스 트라이크 등은 20만 원 이상의 가격대를 형성하고 있습니다.
 
 ---
 
@@ -70,7 +68,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20793233)
 
-### 5. 보브코리아 타보 트래블러 S3 트라이크 유모카[색상선택]
+### 5. 삼천리자전거 삼천리 샘트라이크콤팩트 형 유모차형 세발자전거 35199245
+- **브랜드**: 삼천리자전거
+- **가격**: 201,790원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 완구 / 블록 / 매트 / 승용 / 스포츠완구 / 자전거 완구 / 자전거
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=89932550)
+
+### 6. 보브코리아 타보 트래블러 S3 트라이크 유모카[색상선택]
 - **브랜드**: 보브코리아
 - **가격**: 299,000원
 - **평점**: ⭐0 (0개 리뷰)
@@ -80,7 +88,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=75990122)
 
-### 6. 베이블퓨어리 유아 트라이크 T3
+### 7. 베이블퓨어리 유아 트라이크 T3
 - **브랜드**: 베이블퓨어리
 - **가격**: 129,000원
 - **평점**: ⭐0 (0개 리뷰)
@@ -90,37 +98,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20793158)
 
-### 7. 에이블 씨투엠뉴 에이블 코지쉘 트라이크 휴대용 유모차
-- **브랜드**: 에이블
-- **가격**: 434,150원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 트라이크 / 사용대상: 6개월~36개월 / 허용무게: 22kg / 유모차무게: 9.4kg / 출시년도: 2024년 / 기내반입가능 / 원핸드폴딩 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76514237)
-
-### 8. 매트릭스 트라이크 세발유모차
-- **브랜드**: 매트릭스
-- **가격**: 50,840원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 3세~6세 / 출시년도: 2019년 이전 유모차 / 출시년도: 2019년 이전
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20833592)
-
-### 9. 삼천리자전거 삼천리 샘트라이크콤팩트 형 유모차형 세발자전거 35199245
-- **브랜드**: 삼천리자전거
-- **가격**: 200,660원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 승용 / 스포츠완구 / 자전거 완구 / 자전거
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=89932550)
-
-### 10. 파파야9 컴팩트 트라이크 디나인
+### 8. 파파야9 컴팩트 트라이크 디나인
 - **브랜드**: 
 - **가격**: 145,949원
 - **평점**: ⭐0 (0개 리뷰)
@@ -130,27 +108,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29625203)
 
-### 11. 와이업 와이업 라온 트라이크
-- **브랜드**: 와이업
-- **가격**: 303,050원
-- **평점**: ⭐5 (4개 리뷰)
-- **핵심 스펙**: 유모차 / 트라이크 / 사용대상: 0~6세 / 허용무게: ~25kg / 유모차무게: 10.9kg / 출시년도: 2023년 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76514255)
-
-### 12. 씨투엠뉴 에이블 스핀 플러스 트라이크 휴대용 유모차  블랙
-- **브랜드**: 씨투엠뉴
-- **가격**: 227,000원
+### 9. 에이블 씨투엠뉴 에이블 코지쉘 트라이크 휴대용 유모차
+- **브랜드**: 에이블
+- **가격**: 434,150원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 
+- **핵심 스펙**: 유모차 / 트라이크 / 사용대상: 6개월~36개월 / 허용무게: 22kg / 유모차무게: 9.4kg / 출시년도: 2024년 / 기내반입가능 / 원핸드폴딩 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I21762613885)
+- [상세보기](https://prod.danawa.com/info/?pcode=76514237)
 
-### 13. 토탈키즈 마니또 멜란지 패딩 트라이크 전용 유모차 방한커버[색상선택]
+### 10. 토탈키즈 마니또 멜란지 패딩 트라이크 전용 유모차 방한커버[색상선택]
 - **브랜드**: 토탈키즈
 - **가격**: 55,800원
 - **평점**: ⭐0 (0개 리뷰)
@@ -160,17 +128,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=103880597)
 
-### 14. 씨투엠뉴 에이블 코지 프리미엄 트라이크 유모차  블랙
+### 11. 씨투엠뉴 에이블 스핀 플러스 트라이크 휴대용 유모차  블랙
 - **브랜드**: 씨투엠뉴
-- **가격**: 367,000원
+- **가격**: 227,000원
 - **평점**: ⭐0 (0개 리뷰)
 - **핵심 스펙**: 
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I14475958479)
+- [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I21762613885)
 
-### 15. 씨투엠뉴 에이블 코지 프리미엄 트라이크 유모차  샴페인골드
+### 12. 씨투엠뉴 에이블 코지 프리미엄 트라이크 유모차  샴페인골드
 - **브랜드**: 씨투엠뉴
 - **가격**: 367,000원
 - **평점**: ⭐0 (0개 리뷰)
@@ -180,7 +148,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I25043973444)
 
-### 16. 삼천리자전거,중국 펠리즈 트라이크 2025년형 세발자전거 유모차형 케디 폴딩
+### 13. 삼천리자전거,중국 펠리즈 트라이크 2025년형 세발자전거 유모차형 케디 폴딩
 - **브랜드**: 
 - **가격**: 266,970원
 - **평점**: ⭐0 (0개 리뷰)
@@ -190,9 +158,39 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=TH201_8304439211)
 
+### 14. 와이업 와이업 라온 트라이크
+- **브랜드**: 와이업
+- **가격**: 303,050원
+- **평점**: ⭐5 (4개 리뷰)
+- **핵심 스펙**: 유모차 / 트라이크 / 사용대상: 0~6세 / 허용무게: ~25kg / 유모차무게: 10.9kg / 출시년도: 2023년 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76514255)
+
+### 15. 씨투엠뉴 에이블 코지 프리미엄 트라이크 유모차  블랙
+- **브랜드**: 씨투엠뉴
+- **가격**: 367,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I14475958479)
+
+### 16. 매트릭스 트라이크 세발유모차
+- **브랜드**: 매트릭스
+- **가격**: 50,840원
+- **평점**: ⭐5 (2개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 3세~6세 / 출시년도: 2019년 이전 유모차 / 출시년도: 2019년 이전
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20833592)
+
 ### 17. 이알씨에듀케이션 벤틀리 트라이시클 뮬리너
 - **브랜드**: 이알씨에듀케이션
-- **가격**: 595,820원
+- **가격**: 595,810원
 - **평점**: ⭐4.8 (589개 리뷰)
 - **핵심 스펙**: 유모차 / 트라이크 / 사용대상: 6~48개월 / 허용무게: 30kg까지 / 유모차무게: 13.5kg / 출시년도: 2023년 / 양대면전환: 시트 전환 / 5점식벨트
 - **장점 요약**: 분석 중
@@ -200,7 +198,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21294236)
 
-### 18. 삼천리자전거 2026 샘트라이크200 세발자전거 폴딩 접이식 유모차  소프트클라우드  1개
+### 18. [해외] 일본YSB 고품질휴대용 접이식 높이조절 초경량 유모차 간편 납 키즈 트라이크 대한민국의 트렌드 트랜드
+- **브랜드**: 
+- **가격**: 19,140원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=EE715_F455503678)
+
+### 19. [해외] 신상품/황제의 추천휴대용 접이식 높이조절 초경량 유모차 간편 수납 키즈 트라이크
+- **브랜드**: 
+- **가격**: 15,420원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=EE715_F455467308)
+
+### 20. 삼천리자전거 2026 샘트라이크200 세발자전거 폴딩 접이식 유모차  소프트클라우드  1개
 - **브랜드**: 삼천리자전거
 - **가격**: 130,000원
 - **평점**: ⭐0 (0개 리뷰)
@@ -209,26 +227,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I27585743975)
-
-### 19. 삼천리자전거 2026 샘트라이크200 세발자전거 폴딩 접이식 유모차  아이보리  1개
-- **브랜드**: 삼천리자전거
-- **가격**: 130,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I27585743976)
-
-### 20. 삼천리자전거 2026 샘트라이크200 세발자전거 폴딩 접이식 유모차  코코아  1개
-- **브랜드**: 삼천리자전거
-- **가격**: 130,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I27585743977)
 
 ---
 
@@ -243,8 +241,8 @@
 ---
 
 ## 📊 데이터 출처
-- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFj7glUStDJgWAsP3j06W_0_E5322xaQJO-PujvaHJ6sJGkOUB9uRI48yApOT-vVbnBWCC_zau3_5x72N4VpyWd2npr6rbSG8qm8utx7x2XkfbN0sQueYGzoYH7x38R3HQJZTnhqO0NlDCjDu5whiXyFBALZMdcKcgPisrWzo3EZFE_W8HTDCoTCXM6Sc2qaXs=)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQER7BzX6NI93Sn7PMl89G6yR0_eUMh9Lag3iCwMPZjdp1OijNitwqLcpVxTeEQ_LHeOc26OWa7p3QNey7W8K4sV_cvCKNiNHK1FRHijlQljcIg5X1KHIyKP9AylDMtxZ4qqfcDKQ0u6cTk=)
-- [daum.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgi8krIjTo3a9F2VfiggEX_xyUB4lRVdtButAE9C4ljtf-QwwZf3pVWtIXNrnB-QaYHvGETF4i7bwbE1lrpYi2CdLh0Ba9Z9bo2BMrCjhgBf6NKnupR1j0OnY=)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGt7t3ius7k3X3c_TJF15K83T00hB3gleGUgCo3-RnKvmXl-oAZAj0U5J0ZTkK_FCNscre-e1WJkqesPtY7tTr8gb4paHwC1NYSfLFK8GYvCafCnFN_ByMMa8-x1ggh5UWeltwmOBzvIIgpMvr3pw2cU_QuZWeaBQHYv04uOtEA0QLQklWTTmyYhsiAeGUjj6V0Z_K7WAPO6rn8QnLZqCWw68bZ8zYbl8hog==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVxyeLMakJk_W_spbWumXmBd1sJE_DgjJFlVkinpIISDIn_t6Pt0HTAWUitKV31e-1za5vRgV0JpZ85iHokGU0Dxttdqcr48qCwBWbphu9pbbNIgkbLZIVp4bIdwCb2VK6wqizMVE=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuqdRUMX1LSgV4vYbvJ2RQ73ToMD7HzT5W7j_8_PBU9-nd9ebjHEC6YsKtfLsxT5FUruVZSq5Xb8891k9l4lr62nDbnqHcqdcFuwINDJ34BesIFzimbh7mNEUyn00izfmxT8E7sDw=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1ridffmwgxQSbLGuTi-yyxwHRUhpY0A1cqImsiNg0O07L3BO54wmmGPthYMtI6kQJb7MLmV8p4EA8oeFzRghZ0J7KKlnnsNg9SGMHs6pManBFgy8qFU1Sd0F_yM5sIY6h6KpUV9k=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvNllMUu92y502zsuyR3QdVDXgA5yIiJkZgt3hUAlwDzxScXB0Uev9VmlnkWlD-8cCbkHwtyHjOGOSFLowCOueAu0LIW4jErTQW3U5f1OZlWWBvXz-YUrNldRT50GLXe1bkTBZhpE=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuLjyiriJ0v2IpAdBkRopNSAwg9GHnqJ4LYp8xNTIaKaPsojOPJ4Xh7zOKlWFiCXd_2PkKz8iGJXX-imCSjbHV_euUMwXihExv-CVk1O60boy_-VAIDlG-_PPx8axWnA_OrYJy7CU=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq_YFLORf8Dpbmjs6QxSrhtzrPfP6wyLM5-oN1JsKrjtWB6lc_a4tbBrvmr6bPQ2cCT0d_deeLoXgE_1TyP_tmCJbKBzESznte4oeFhU7Yw2JTFHyIbCigb-6Q1KbpkbSBrVvisO4=)

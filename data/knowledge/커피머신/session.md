@@ -1,14 +1,14 @@
-# 세션: 20260116_105320_2vxy
-> 시작: 2026-01-16T10:53:20.232Z
+# 세션: 20260119_064419_jfu9
+> 시작: 2026-01-19T06:44:19.070Z
 > 카테고리키: 커피머신
 > 카테고리: 커피머신
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 커피머신 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 커피머신 시장은 세척 편의성, 다양한 메뉴, 우유 거품 기능, 원두 향 보존력, 자동화 정도가 주요 선택 기준으로 자리 잡았습니다. 필립스, 드롱기, 돌체구스토 등 다양한 브랜드가 경쟁하고 있으며, 특히 전자동 에스프레소 머신과 캡슐 커피 머신이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHw0UqT-pDZwK9UfxEsGSIwgXtg4m4eZsofiWZ9p8O6dZJEFSXI0rO1enh0YVkVsKPURuG9sARJzv8LtBmHZFH96nKqJoySyd8ZwFEw53IyNX9RhkdchcJnUczii2-TrI0gkIiQII2WJntZTeqw6s1T6MAOGKoo_7pEnTRfqtlR-oBGvaVpwfU2p6XyCexpaXn1ch7z9yT6I86Ex78ygthbM3QtB1-g3WldONubmu9_lS71hT73MKuHWZKRUlVI3xDq2CPqHdpo2HpYRjCku687pv1u3w5f3q6kMifi_8c6QMJk_VGaTOaCpPOZmf51qSHlCnpzv1aunpAqgXR7Xxl7wb_AuJ88sZMLkmjDxPUMd-fEXOlNa2u2SqQ4Hy1oXnu7KSnIi2RmhP0fwiUI6BzOiP9YZAXbFt9i09SLRLJq3cIhutkAMcObtEQh7UvEFYkxCmjc95YhayJINgtapZxafi8yuQIg4ohcLQDtmEqWitODmWqV7gbmIPLXTw40HJpWcUiWcVMW0556f7t5PSVovotMs_ZS-YCb5D05V8xia_cql--qotQgPTc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjRE35dcX72fp4mPeixnAKIQgXeefN1Jzk35TXbDRgnJ4G55iRGgYlwPJsmIIR9GYcF6vUHwqslLQuSe_x4VuqbaDu4c3OaGzMQhgU3vMBWT5ox-X6ptDioW7V5SsoFk_-EOF729k=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZygSwNk5XuESD1sybtVDTrJdxjtzVXJxe2E1tV7NVJ6cWRWCwV0XN2893KhaQ4hqrr-sSlDImSTeAUdmX7_PqodJQ94U4ifWBRcvLa8NHK_TD1wxevjHyQHlUvC8Y2CzCyzv1SNA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTnc6Bcwgehd9q7lwde89YHMzO1hi7f5EthfgggDOWn1xs0QtPfF6BnRWUTRN4kIMHDOwgepcXnbpMxxYDw3uUj1xxlpIqY9q8grfpkL4p6CoWQO5VyoV1tZ8VdYLLuoQR40so2MQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYdHJ4V5YsQhU74jFWlmp7_4O1YiJc0Ks8ITtRc6JkkZmfzFm5vQi1aIXUh5LnF8DaFEAt5zOjRJ4I7AgyO8DZAqStp-P_Yp10Ig2_ne0uKhdKAQgqz4P-7aSkNaIK1MR8IbIXqgw=
+- 쿼리: 커피머신 시장 현황
+- 인사이트: 글로벌 커피머신 시장은 2023년 약 66억 달러 규모였으며, 2035년까지 193억 달러 규모로 성장할 것으로 예상됩니다. 특히 가정용 커피머신 시장의 성장세가 두드러지며, 편의성과 홈카페 트렌드에 힘입어 지속적인 성장이 전망됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEIEeojvGwSnMFjHnsq4zZoQRVVYPoBBiQ2F4uuxXsbWHvHw2UNmfxiTp2boBTFRFujczQBjLDvXb6YZQksgvfiG_hoccZCf3SB3uae1O8V4yVax0wsFdMczxo9uF9obSDoRExhIRL9mMO7ENf3E16SqiMyCME_LeMouB-fZDPQg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2RHdg8rcI7uLgZ4BANZjj4MGoyvQLtBdXAF5QhKDtkbFwLXuPZ7LmCZDbz29BDT2uo1ATAFTBFoSq5ZurCDzFW7IiJY-hL-Jvp_jKPDB37mGOa6d4bjI9INWMO_cQODw1DE6MBTm4dD8NnpGeGO3E0qErMNkRZlpheWI-t-c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHg4sG4JCqUH7bDt2W6fRsQRc3tSgvjaHDq9MeormvfiiX01pbcQfpjIDcvOvPRUULVyOlaO0ywNRp2LnwCo7CLse7MJoRYnkGTkVzsnvbFvj34JlrKaWLcnMuIZcAOjW1gm7QgQQpXp78F2pQi30tiS5FHQJ_5YrqFBavWw2oqLhDF, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDKIglUA334UKtBE8cq2mrWK7rgz3elVuvw8p45u5O3GXr_O3IbQSz6Dh7fHwnFaLfFZcyiWzXpC0c46H9zQzD4vKAfZyenRMhp5AKSwKT_nbNAsIBBQNKOmvUgNvyGKjflcgkxK9pXspBFwEqxI5ZHISPKFhX6Dxu8DrBZiHT1OJX9zia_LT_pA9a1sGH88qf0hRoP_-sVGtBvMZj92NkBtE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnYAP7HoZ2W08DQU6h-AW9EPwQlbQC5sbqO_oM72REKcOotfMSYTeQpszcL-HYYQ8SfsizvuJhNeWd0lIYsu1Y6Ry5Ffgf9Jvh4mEm426kqu7G8fpLPGM6YtVjOwAKxJj93iURtK7ayUgvTXijw_5ct4z8AW8uGdQ6Ku2uL6FZkWpoQ00H13x7iQ16Xdg36wfKOMZxY39Leo6er4hIsT5KQbkx71dwql0dBti1AMMa4XzN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOe33bVK5GLFC0rAKqfNKWymkmzy3NHqDc9n-hH0LmAaKDp0VqWhbN49UZoDetro_PSPDqxW540ODoQIjJvVVPUKTCOPnsDpXjQvwAHF8nNwOiO7vbJoYq2tG2NU9FXTUtIb8bBUlt7yP4M4ljlKP1WQ==
 
 ---
 
@@ -21,15 +21,13 @@
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 6개 (전체 6개 중)
+현재 후보: 4개 (전체 4개 중)
 
 ### 후보 상품
 1. 필립스 1200시리즈 EP1200/03 - 349,249원 - ⭐4.7
 2. 일리 프란시스 Y3.3 - 99,000원 - ⭐4.8
-3. 드롱기 ICM12011 - 58,300원 - ⭐4.7
-4. 한국맥널티 MCM-6851 - 162,890원 - ⭐4.7
-5. 브라운 KF3100 - 35,470원 - ⭐4.7
-6. 네스카페 돌체구스토 지니오S 플러스 - 84,550원 - ⭐4.8
+3. 스메그 DCF02BLEU - 318,620원 - ⭐4.8
+4. 한국맥널티 MCM-6851 - 168,260원 - ⭐4.7
 
 ---
 

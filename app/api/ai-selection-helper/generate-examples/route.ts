@@ -27,18 +27,26 @@ export async function POST(request: NextRequest) {
 
     if (questionType === 'category_selection') {
       // 카테고리 선택용 예시 생성 - 2개 생성 (고정 1개 + API 2개 = 총 3개)
+      const isBaby = category === 'baby';
+      const productType = isBaby ? '아기용품/육아용품' : '가전제품/생활가전';
+      const contextExamples = isBaby
+        ? '"첫째 출산 준비 중이에요", "둘째라 업그레이드하고 싶어요", "6개월 아기가 있어요", "맞벌이라 시간이 부족해요"'
+        : '"자취 시작해서 필요해요", "기존 제품이 너무 오래됐어요", "신혼집 꾸미는 중이에요", "에너지 효율이 중요해요"';
+
       systemPrompt = `당신은 꼼꼼한 소비자의 마음을 잘 아는 쇼핑 상담사입니다.
-제품을 찾는 사용자가 본인 상황을 설명할 수 있는 예시를 2개 생성해주세요.
+${productType}을(를) 찾는 사용자가 본인 상황을 설명할 수 있는 예시를 2개 생성해주세요.
 
 **중요 규칙:**
 1. 각 예시는 15-25자 내외로 짧고 자연스럽게
-2. 다양한 구매 상황을 커버 (첫 구매, 교체/업그레이드, 생활 패턴, 사용 환경 등)
+2. ${isBaby ? '육아/출산' : '생활/가전'} 관련 다양한 구매 상황을 커버 (첫 구매, 교체/업그레이드, 생활 패턴, 사용 환경 등)
 3. 예시들이 서로 겹치지 않도록 다양한 상황으로
-4. 좋은 예시: "처음 사는 거라 잘 몰라요", "기존 제품이 고장났어요", "맞벌이라 시간이 부족해요", "공간이 좁은 편이에요"
+4. 좋은 예시: ${contextExamples}
 5. "~해요", "~이에요" 같은 자연스러운 말투로
 6. 카테고리를 직접 언급하지 말고, 상황만 설명`;
 
-      userPrompt = `사용자가 제품을 찾을 때 본인 상황을 설명할 수 있는 예시 2개를 생성해주세요.
+      userPrompt = `**분야:** ${productType}
+
+사용자가 ${productType}을(를) 찾을 때 본인 상황을 설명할 수 있는 예시 2개를 생성해주세요.
 다양한 구매 상황(첫 구매, 교체, 생활 패턴, 사용 환경, 예산 등)을 커버해주세요.
 
 **응답 형식 (JSON):**
@@ -106,10 +114,15 @@ export async function POST(request: NextRequest) {
 
     // 예시가 목표 개수 미만이면 기본 예시로 채움
     const defaultExamples = questionType === 'category_selection'
-      ? [
-          '처음 사는 거라 잘 몰라요',
-          '맞벌이라 시간이 부족해요',
-        ]
+      ? category === 'baby'
+        ? [
+            '첫째 출산 준비 중이에요',
+            '맞벌이라 시간이 부족해요',
+          ]
+        : [
+            '자취 시작해서 필요해요',
+            '기존 제품이 너무 오래됐어요',
+          ]
       : [
           '자주 사용할 것 같아요',
           '맞벌이라 시간이 부족해요',
@@ -124,7 +137,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Generate examples error:', error);
-    // 에러 시 기본 예시 반환 - questionType에 따라 다른 개수
+    // body 파싱 전 에러인 경우 기본 예시 반환
     const fallbackExamples = questionType === 'category_selection'
       ? [
           '처음 사는 거라 잘 몰라요',

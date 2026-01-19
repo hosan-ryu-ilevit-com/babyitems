@@ -70,6 +70,18 @@ export interface GeneratedQuestion {
   options?: Array<{ label: string; value: string }>;
 }
 
+// 웹검색 진행 상황 타입
+export interface WebSearchProgressData {
+  currentQuery?: string;
+  completedQueries: string[];
+  results: {
+    trends?: string[];
+    pros?: string[];
+    cons?: string[];
+    buyingFactors?: string[];
+  };
+}
+
 interface AgenticLoadingPhaseProps {
   categoryName: string;
   categoryKey: string;
@@ -97,6 +109,8 @@ interface AgenticLoadingPhaseProps {
   };
   // 요약 카드(토글)로 접힐 때 호출되는 콜백
   onSummaryShow?: () => void;
+  // 웹검색 실시간 진행 상황
+  webSearchProgress?: WebSearchProgressData;
 }
 
 // ============================================================================
@@ -459,29 +473,52 @@ function ProductAnalysisContent({
 /**
  * 웹검색 컨텐츠 - 완료 시 요약 보고서, 진행 중 전환 효과
  */
-function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryKey: string }) {
+function WebSearchContent({
+  step,
+  categoryKey,
+  webSearchProgress
+}: {
+  step: AnalysisStep;
+  categoryKey: string;
+  webSearchProgress?: WebSearchProgressData;
+}) {
   const [activeSourceIndex, setActiveSourceIndex] = useState(0);
   const sources = step.searchResults || [];
   const queries = step.searchQueries || [];
   const thinking = step.thinking || '';
 
-  // 로딩 상태 텍스트 (전환 효과용)
-  const loadingTexts = [
-    '웹에서 트렌드 검색 중...',
-    '최신 리뷰 정보 수집 중...',
-    '전문가 의견 분석 중...',
-    '트렌드 데이터 정리 중...',
-  ];
-  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+  // 실시간 결과 표시용 인덱스
+  const [resultDisplayIndex, setResultDisplayIndex] = useState(0);
 
-  // 로딩 텍스트 전환
+  // 표시할 결과 목록 생성 (트렌드, 장점, 단점, 구매고려사항 순)
+  const { trends, pros, cons, buyingFactors } = webSearchProgress?.results || {};
+  const resultsToShow = useMemo(() => {
+    const items: { type: string; text: string }[] = [];
+
+    trends?.slice(0, 2).forEach(t =>
+      items.push({ type: '트렌드', text: t })
+    );
+    pros?.slice(0, 2).forEach(p =>
+      items.push({ type: '장점', text: p })
+    );
+    cons?.slice(0, 2).forEach(c =>
+      items.push({ type: '주의사항', text: c })
+    );
+    buyingFactors?.slice(0, 2).forEach(b =>
+      items.push({ type: '고려사항', text: b })
+    );
+
+    return items;
+  }, [trends, pros, cons, buyingFactors]);
+
+  // 결과 전환 효과 (완료된 결과가 있을 때만)
   useEffect(() => {
-    if (sources.length > 0 || step.status === 'done') return;
+    if (resultsToShow.length <= 1 || step.status === 'done') return;
     const interval = setInterval(() => {
-      setLoadingTextIndex(prev => (prev + 1) % loadingTexts.length);
-    }, 2500);
+      setResultDisplayIndex(prev => (prev + 1) % resultsToShow.length);
+    }, 2000);
     return () => clearInterval(interval);
-  }, [sources.length, step.status, loadingTexts.length]);
+  }, [resultsToShow.length, step.status]);
 
   // 진행 중일 때만 출처 전환 효과
   useEffect(() => {
@@ -494,6 +531,10 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
     return () => clearInterval(interval);
   }, [sources.length, step.status]);
 
+  // 현재 검색 중인 쿼리 또는 기본 텍스트
+  const currentLoadingText = webSearchProgress?.currentQuery || '웹에서 트렌드 검색 중...';
+  const completedCount = webSearchProgress?.completedQueries?.length || 0;
+
   return (
     <AnimatePresence mode="wait">
       {step.status === 'active' && sources.length === 0 ? (
@@ -504,7 +545,7 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
           exit={{ opacity: 0 }}
           className="space-y-3"
         >
-          {/* 로딩 상태 텍스트 */}
+          {/* 현재 검색 중인 쿼리 */}
           <div className="flex items-center gap-2 mb-1">
             <motion.div
               animate={{ rotate: 360 }}
@@ -514,18 +555,46 @@ function WebSearchContent({ step, categoryKey }: { step: AnalysisStep; categoryK
             </motion.div>
             <AnimatePresence mode="wait">
               <motion.span
-                key={loadingTextIndex}
+                key={currentLoadingText}
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: 0.2 }}
                 className="text-[12px] text-gray-500 font-medium"
               >
-                {step.loadingText || loadingTexts[loadingTextIndex]}
+                {currentLoadingText}
+                {completedCount > 0 && (
+                  <span className="ml-2 text-green-600 font-semibold">({completedCount}/3 완료)</span>
+                )}
               </motion.span>
             </AnimatePresence>
           </div>
-          {queries.length > 0 && (
+
+          {/* 실시간 수집 결과 표시 */}
+          {resultsToShow.length > 0 && (
+            <div className="mt-2 p-2 bg-gray-50 rounded-lg">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={resultDisplayIndex}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-[11px]"
+                >
+                  <span className="text-blue-500 font-medium">{resultsToShow[resultDisplayIndex]?.type}</span>
+                  <span className="text-gray-600 ml-1.5">
+                    {resultsToShow[resultDisplayIndex]?.text.length > 50
+                      ? resultsToShow[resultDisplayIndex]?.text.substring(0, 50) + '...'
+                      : resultsToShow[resultDisplayIndex]?.text}
+                  </span>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          )}
+
+          {/* 기존 쿼리 표시 (webSearchProgress가 없을 때 fallback) */}
+          {!webSearchProgress && queries.length > 0 && (
             <div className="space-y-1.5">
               {queries.slice(0, 2).map((query, i) => (
                 <motion.div
@@ -863,6 +932,7 @@ function StepCard({
   generatedQuestions,
   categoryKey,
   onRefChange,
+  webSearchProgress,
 }: {
   step: AnalysisStep;
   isExpanded: boolean;
@@ -871,6 +941,7 @@ function StepCard({
   generatedQuestions?: GeneratedQuestion[];
   categoryKey: string;
   onRefChange?: (el: HTMLDivElement | null) => void;
+  webSearchProgress?: WebSearchProgressData;
 }) {
   // 로컬 타이머 시작 시간 (펼쳐진 순간부터 시작)
   const [localStartTime, setLocalStartTime] = useState<number | null>(null);
@@ -975,7 +1046,7 @@ function StepCard({
             <div className="pl-8 pb-4 space-y-3">
               {/* 웹검색 - 쿼리 스트리밍 + 출처 전환 효과 */}
               {step.id === 'web_search' && (
-                <WebSearchContent step={step} categoryKey={categoryKey} />
+                <WebSearchContent step={step} categoryKey={categoryKey} webSearchProgress={webSearchProgress} />
               )}
 
               {/* 리뷰 키워드 추출 - 키워드 표시 */}
@@ -1278,6 +1349,7 @@ function SlideStepContent({
   globalStartTime,
   stepIndex,
   totalSteps,
+  webSearchProgress,
 }: {
   step: AnalysisStep;
   crawledProducts?: AgenticLoadingPhaseProps['crawledProducts'];
@@ -1286,6 +1358,7 @@ function SlideStepContent({
   globalStartTime?: number; // 전체 분석 시작 시간 (연속 타이머용)
   stepIndex: number; // 현재 단계 인덱스 (0-based)
   totalSteps: number; // 전체 단계 수
+  webSearchProgress?: WebSearchProgressData;
 }) {
   const getStatusIcon = () => {
     if (step.status === 'done') {
@@ -1328,7 +1401,7 @@ function SlideStepContent({
         <div className="absolute left-[10px] top-0 bottom-4 w-px bg-gray-200" />
         <div className="pl-8 pb-4 space-y-3">
           {step.id === 'web_search' && (
-            <WebSearchContent step={step} categoryKey={categoryKey} />
+            <WebSearchContent step={step} categoryKey={categoryKey} webSearchProgress={webSearchProgress} />
           )}
           {step.id === 'review_extraction' && (
             <ReviewExtractionContent step={step} />
@@ -1357,6 +1430,7 @@ export function AgenticLoadingPhase({
   generatedQuestions = [],
   isComplete = false,
   onSummaryShow,
+  webSearchProgress,
 }: AgenticLoadingPhaseProps) {
   // 최소 표시 시간 (결과를 사용자가 인지할 수 있도록)
   const MIN_DISPLAY_TIME = 1600; // 1.6초
@@ -1447,6 +1521,7 @@ export function AgenticLoadingPhase({
               globalStartTime={globalStartTime}
               stepIndex={displayIndex}
               totalSteps={steps.length}
+              webSearchProgress={currentStep.id === 'web_search' ? webSearchProgress : undefined}
             />
           </motion.div>
         ) : null}

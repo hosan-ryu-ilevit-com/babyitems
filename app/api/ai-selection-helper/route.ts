@@ -157,39 +157,29 @@ ${tipText ? `**팁:** ${tipText}` : ''}
       // 카테고리 선택 도움
       const categoryOptions = options as HardFilterOption[];
       const optionsList = categoryOptions
-        .map(o => `- "${o.value}": ${o.label}`)
+        .map(o => `- "${o.value}"`)
         .join('\n');
 
-      systemPrompt = `당신은 육아용품 전문 상담사입니다. 사용자의 육아 상황을 듣고 지금 가장 필요한 제품 카테고리를 추천해주세요.
+      // baby vs living 분기
+      const isBabyCategory = category === 'baby';
+      const productTypeDesc = isBabyCategory ? '육아용품/아기용품' : '가전제품/생활가전';
+      const roleDesc = isBabyCategory ? '육아용품 전문 상담사' : '가전제품 전문 상담사';
+
+      systemPrompt = `당신은 ${roleDesc}입니다. 사용자의 상황을 듣고 지금 가장 필요한 ${productTypeDesc} 카테고리를 추천해주세요.
 
 **중요 규칙:**
-1. 반드시 제공된 카테고리의 "value" 값만 selectedOptions에 넣으세요 (label이 아닌 value)
-   - ❌ 잘못된 예: ["유모차"]
-   - ✅ 올바른 예: ["stroller"]
+1. 반드시 제공된 카테고리명(한글)을 그대로 selectedOptions에 넣으세요
+   - 예: ["기저귀"], ["유모차"], ["에어프라이어"], ["로봇청소기"]
 2. 사용자 상황에 가장 적합한 카테고리를 **딱 1개만** 추천하세요
 3. 여러 개가 필요해 보여도 가장 우선순위가 높은 1개만 선택하는 것이 필수입니다
 4. 추천 이유는 반드시 사용자의 구체적인 상황과 연결해서 설명하세요
-5. 아기 개월 수, 육아 환경, 현재 불편한 점 등을 고려하세요
-6. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요**
-7. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요**
-8. **reasoning/alternatives에서 카테고리를 언급할 때는 한글 label을 사용하세요 (예: "유모차가 필요합니다")**
-9. **하지만 selectedOptions에는 반드시 영어 value만 넣으세요 (예: ["stroller"])**
-
-**selectedOptions 형식 예시:**
-- 유모차 추천 → selectedOptions: ["stroller"] (❌ ["유모차"])
-- 젖병 추천 → selectedOptions: ["baby_bottle"] (❌ ["젖병"])
-- 유아침대 추천 → selectedOptions: ["baby_bed"] (❌ ["유아침대"])
-
-**카테고리 선택 가이드:**
-- 수유 관련 고민 → formula, baby_formula_dispenser, milk_powder_port, baby_bottle, pacifier
-- 외출 관련 고민 → stroller, car_seat
-- 위생/청결 고민 → diaper, baby_wipes, thermometer, nasal_aspirator
-- 공간/가구 필요 → baby_bed, high_chair, baby_sofa, baby_desk`;
+5. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요**
+6. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요**`;
 
       userPrompt = `**현재 질문:**
 ${questionText}
 
-**선택 가능한 카테고리:**
+**선택 가능한 카테고리 목록:**
 ${optionsList}
 
 **사용자 상황:**
@@ -198,7 +188,7 @@ ${optionsList}
 **응답 형식 (JSON):**
 {
   "recommendation": {
-    "selectedOptions": ["value1"] (딱 1개만),
+    "selectedOptions": ["카테고리명"] (목록에서 정확히 1개만 선택),
     "confidence": "high" | "medium" | "low"
   },
   "reasoning": "추천 이유 (2-3문장, 사용자 상황과 연결)",

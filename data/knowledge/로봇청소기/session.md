@@ -1,14 +1,14 @@
-# 세션: 20260116_103438_he17
-> 시작: 2026-01-16T10:34:38.879Z
+# 세션: 20260119_065757_fgid
+> 시작: 2026-01-19T06:57:57.649Z
 > 카테고리키: 로봇청소기
 > 카테고리: 로봇청소기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 로봇청소기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 로봇청소기 시장은 중국 브랜드들이 글로벌 점유율의 약 70%를 차지하며 강세를 보이고 있습니다. 로보락, 에코백스, 드리미 등이 AI 기반의 인지, 의사 결정, 실행 능력을 갖춘 첨단 로봇청소기를 선보이며 기술 경쟁을 이끌고 있습니다. CES 2026에서는 단순히 청소 기능을 넘어, 다리나 비행 기능까지 갖춘 미래형 로봇청소기들이 공개되며 스마트 홈 생태계 주도권을 향한 경쟁이 치열해지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEMVojfrWab7i7r5DGg5-3MWa91kQ22z_Vn2q24fXlnZBO4aaVBdtXjGECdm0zVzeN0z0C8-tQLs5B9bh4-4riFuicCyCFw5j1LGgs4eTp_VZMqsjUvvBGnkg_EuKOm4pfI9TNdm_s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_eHUiq5s4zgKCfdzsxN-fjvkd9gaByyYiyv32pyX4_7TmnAxl235Axah0mv9mH251c7IQ546N7BupSqEUaPjBqL_DwNXF36fcSmVMilYUZKfz3sTBpBfyS30bC-lMn-aJd2ivIeL64gNH8R_oHsIQpyCqcMV32pae, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1bUEaT-JcMXrcC0qdhXYCxh43OZbqroeM-ubcFKdza2dthZHzHAHcbf22iwKF1HnrYL1ttwnZBg9dxox-nbxSfHMJ2xsvtPLtFemBP5xNw0X4zu4WmLJLQ-KgyaJr2x8EuGcKWMU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZSf4WeuajB2vBdpjDeDxNqgnWUSBlQDB4zrdY8G1FA3_WlQr07Z0AjC1163EyjGdjO4yQuf_TJRKECdJ5f-wLjVJzwiVZ_uAlBBU2aCIP28rdHEv-3TJQCbS4I-Kgh91lQG3nV5CoWa6h2yFmyCcphyBD-IVMxI7htYQR1jOYUMjYNlLaanHx7U9mnoJIr6f4lT4VTlN87hRXPuSmO2yVm52UGQL86ExKzhwkFET9yaaur9LLyWy3Jy7KpAEUooq31JVTKSeCt2qyoValKs3hwK1txCBaQEVAyN8wxphjbgbdlbaU6NiuE5T52FCo3P_nH_qVpty4S4ziScnJEKETqdWgAudWZBIYhPDR_zuz350=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcVlo4UK1IkQ74uJgomKj4aw5TXQV_CfV-nqe_LrkxzcIjqMdcTiL9veLAvteZ0Fk7mtJswqEs90iHl0F7wFpfFgwGIoPxubTs4GRmawN4tep1eb_cuB4pKaC2lC0Eol_hEXTsL2WtMn59xuZP
+- 쿼리: 로봇청소기 시장 현황
+- 인사이트: 로봇청소기 시장은 AI 기술 통합, 스마트홈 생태계 확장, 소비자 편의성 추구에 힘입어 지속적으로 성장하고 있으며, 2025년 글로벌 시장 규모는 약 62억~80억 달러로 예상됩니다. 특히 중국 브랜드의 기술 발전이 두드러지며 시장을 주도하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwsVJ2QKNDKhX6hpzVJhZzBfeuVyCRO3llPK7M0IOVobKCCIAHGHlaeg6iZ3Wi56oTff-lMqpAKg5ywMpd-uLjeuJuN-cAwS8olk5rsjTEx_9ozXsQywBP-YUfnpwL80dy1S3P6Rbi6XQvIIBN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHk6fvwMXJuJ11-FMFoXQNcnI_oT3BwdYAWUWmN9XFLDHV6k40-BtvdtLc9oATlNjPSlrRC9OrXS46dPtFLe-lgHc8m5B6gV4KtI_XFyLhjSkjM6hxQZHUqHYB6eHdsB97vPz4DpdzaPSG_NCy7zodPkpnLAn1gBuNnIG4Xic_s9dV6VasbrGg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRjGNZie2hJZoLzhiOu0yHApLr7WwTWfsvtZDg5SOHzQo7ljQXmZ9NNbQLQUWktPZPvur_QSYeSK0jCzIDZZrWTQYD8rscTN7nw_EP2czJJ-n1YaaiocL0LjRM7KrJAT-tRZCAifixwfwD5TN6nOZr2jfRQTzRBLcv5eYKpPS3jSAyf8N8jl6zHQc3AYruWe7JdDTE13zSK7Gb55FB0_M6aHhch1YeDVNm_mpTkJYzFdZwSA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEz7_QSdybtKloA8SYIyVZUuz4sgwCSiZhjCI1nHkQJcej_ZRW2bFp_fAhC06ZfntL3XK40CPt6t5th3gWpzfDxyz42gsUunws2XdHOudv9ftTnAJ0eVEJeBJV57vxfKqzAElD6I_6zT56, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9xim2iwra0wfptckFbDLUKDvblWIay12B_xDioEYaDHNuD0bKUV2IP1o3XV9H3mo4B0JzLAXS2zBgNU_F02RhnLPzzJDeETj4bELcshU80OXAUXIM1E86kqTykLxk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkBZMGR09JoeVbroex6uKgZQGN84BTg91B5f0Ct6fkZ_i_Ascoabsc3I7v58z6eGmQ_nYXVP0FYufJH2njwSdqseHyn6YSN4J7U0t3eoSNxkSyKLBNjAu45t_wFuQJkOxdAg7SsNPk0chPEJZIUZRv1-Qpl8c5SJbohxHb5kBNOtSi
 
 ---
 
@@ -16,22 +16,24 @@
 
 | 항목 | 답변 |
 |------|------|
+| 주로 어떤 종류의 청소를 원하시나요? | 흡입과 물걸레 청소를 모두 원해요 |
+| 청소 후 관리의 편리함을 얼마나 중요하게 생각하시나요? | 최대한 자동화된 관리를 원해요 |
+| 집 구조를 얼마나 정확하게 파악하고 효율적으로 청소하길 원하시나요? | 최신 매핑 기술로 집 구조를 완벽하게 파악하고 싶어요 |
+| 로봇청소기 예산은 어느 정도로 생각하세요? (평균 약 108만원, 70만원대~140만원대가 가장 많아요) | 70만원 이하 |
+| __avoid_negatives__ | 문턱이 있거나 가구 밑이 낮아서 로봇청소기가 이동하지 못하고 멈출까 봐 불편해요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 8개 (전체 8개 중)
+현재 후보: 5개 (전체 5개 중)
 
 ### 후보 상품
-1. 드리미 L10s Ultra Gen3 - 603,570원 - ⭐4.6
+1. 드리미 L10s Ultra Gen3 - 603,570원 - ⭐4.5
 2. 웨이코스 씽크에어 RV50 - 477,000원 - ⭐4.7
 3. 삼성전자 비스포크 제트 봇 VR30T85513W - 627,200원 - ⭐4.8
-4. 로보락 S8 Pro Ultra - 1,457,900원 - ⭐4.9
-5. 에브리봇 쓰리스핀 슬림 TS450 - 448,000원 - ⭐5
-6. SoberGo 스마트 - 62,220원 - ⭐4.5
-7. 에코백스 디봇 X1 옴니 - 499,000원 - ⭐4.8
-8. 샤오미 미홀 C66S - 54,850원 - ⭐4.5
+4. 에브리봇 쓰리스핀 슬림 TS450 - 448,000원 - ⭐5
+5. 샤오미 미홀 C66S - 54,850원 - ⭐4.5
 
 ---
 
@@ -43,7 +45,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 문턱이 있거나 가구 밑이 낮아서 로봇청소기가 이동하지 못하고 멈출까 봐 불편해요
 
 ---
 

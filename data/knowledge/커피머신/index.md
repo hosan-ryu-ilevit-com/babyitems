@@ -1,28 +1,27 @@
 # 커피머신 전문가 지식
 
-> 마지막 업데이트: 2026-01-16T10:53:14.488Z
-> 분석 상품: 20개 | 분석 리뷰: 23,938개
+> 마지막 업데이트: 2026-01-19T06:44:12.049Z
+> 분석 상품: 20개 | 분석 리뷰: 23,191개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 세척 편의성 및 자동화 기능 강화
-- 다양한 원터치 메뉴 및 맞춤형 커피 추출
-- 스마트 기능 및 앱 연동을 통한 편의성 증대
+- 가정용 커피머신 소비 증가 및 편의성 증대
+- 캡슐/포드 커피머신 시장의 높은 성장률
+- 스마트 기술 접목 및 자동화 기능 강화
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 세척 편의성
-- ✓ 다양한 커피 메뉴 구현
-- ✓ 풍부하고 부드러운 우유 거품
-- ✓ 원두 향 보존력 우수
+- ✓ 뛰어난 가성비
+- ✓ 간편한 추출
+- ✓ 다양한 메뉴
 
 ### 주의해야 할 단점
-- ⚠ 초기 구매 비용 부담
-- ⚠ 정기적인 유지보수 필요
-- ⚠ 일부 모델의 소음 발생
+- ⚠ 청결 유지 어려움
+- ⚠ 높은 가격
+- ⚠ 원두 신선도 관리
 
 ### 가격대 인사이트
-커피머신은 보급형 캡슐 머신부터 프리미엄 전자동 에스프레소 머신까지 가격대가 다양합니다. 10만원대 이하의 가성비 모델부터 100만원 이상의 고급 모델까지 소비자의 예산과 선호도에 따라 선택의 폭이 넓습니다.
+
 
 ---
 
@@ -30,7 +29,7 @@
 
 ### 1. 필립스 1200시리즈 라떼클래식 EP1223/03
 - **브랜드**: 필립스
-- **가격**: 297,950원
+- **가격**: 297,910원
 - **평점**: ⭐4.1 (8개 리뷰)
 - **핵심 스펙**: 커피머신 / 가정용 / 펌프압력 / 1400W / 용량 / 원두투입량 / 추출구높이조절 / 온수추출 / 2잔동시추출 / 추출량조절 / 자동스팀 / 분쇄단계 / 12단 / 찌꺼기통 / 12잔
 - **장점 요약**: 분석 중
@@ -38,17 +37,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20665445)
 
-### 2. 드롱기 디나미카 ECAM350.15.B
-- **브랜드**: 드롱기
-- **가격**: 537,190원
-- **평점**: ⭐4.8 (2,520개 리뷰)
-- **핵심 스펙**: 커피머신 / 가정용 / 펌프압력 / 1450W / 용량 / 원두투입량 / 써모블록 / 프리인퓨전 / 추출구높이조절 / 2잔동시추출 / 수동스팀 / 분쇄단계 / 13단 / 찌꺼기통 / 14잔
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=18155051)
-
-### 3. 드롱기 마그니피카 S ECAM22.110.B
+### 2. 드롱기 마그니피카 S ECAM22.110.B
 - **브랜드**: 드롱기
 - **가격**: 456,750원
 - **평점**: ⭐4.8 (2,261개 리뷰)
@@ -58,7 +47,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=4808917)
 
-### 4. 네스프레소 에센자 미니 C30 스타터팩
+### 3. 네스프레소 에센자 미니 C30 스타터팩
 - **브랜드**: 네스프레소
 - **가격**: 166,570원
 - **평점**: ⭐4.8 (334개 리뷰)
@@ -67,6 +56,16 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21526730)
+
+### 4. 드롱기 디나미카 ECAM350.15.B
+- **브랜드**: 드롱기
+- **가격**: 533,590원
+- **평점**: ⭐4.8 (2,523개 리뷰)
+- **핵심 스펙**: 커피머신 / 가정용 / 펌프압력 / 1450W / 용량 / 원두투입량 / 써모블록 / 프리인퓨전 / 추출구높이조절 / 2잔동시추출 / 수동스팀 / 분쇄단계 / 13단 / 찌꺼기통 / 14잔
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=18155051)
 
 ### 5. 네스프레소 시티즈 D113
 - **브랜드**: 네스프레소
@@ -78,17 +77,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=9543720)
 
-### 6. 드롱기 마그니피카 에보 KRECAM290.31.SB
-- **브랜드**: 드롱기
-- **가격**: 649,050원
-- **평점**: ⭐4.8 (158개 리뷰)
-- **핵심 스펙**: 커피머신 / 가정용 / 펌프압력 / 1450W / 용량 / 원두투입량 / 써모블록 / 추출구높이조절 / 수동스팀 / 분쇄단계 / 13단 / 내장그라인더 / 자동세척 / 분리세척 / 전자동
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21205988)
-
-### 7. 네스프레소 버츄오 플러스 GCB2
+### 6. 네스프레소 버츄오 플러스 GCB2
 - **브랜드**: 네스프레소
 - **가격**: 140,870원
 - **평점**: ⭐4.8 (4,427개 리뷰)
@@ -98,17 +87,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=7330315)
 
-### 8. 필립스 3300시리즈 라떼고 EP3347/93
-- **브랜드**: 필립스
-- **가격**: 538,210원
-- **평점**: ⭐4.2 (4개 리뷰)
-- **핵심 스펙**: 커피머신 / 가정용 / 펌프압력 / 1400W / 용량 / 분쇄단계 / 12단 / 내장그라인더 / 분리세척 / 전자동
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=57508262)
-
-### 9. 드롱기 마그니피카 에보 라떼 KRECAM290.81.TB
+### 7. 드롱기 마그니피카 에보 라떼 KRECAM290.81.TB
 - **브랜드**: 드롱기
 - **가격**: 1,046,250원
 - **평점**: ⭐4.9 (23개 리뷰)
@@ -118,7 +97,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=17772635)
 
-### 10. 필립스 1200시리즈 EP1220/19
+### 8. 필립스 1200시리즈 EP1220/19
 - **브랜드**: 필립스
 - **가격**: 353,490원
 - **평점**: ⭐0 (0개 리뷰)
@@ -128,25 +107,45 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=99837338)
 
-### 11. 네스프레소 시티즈 플래티넘 C140
+### 9. 네스프레소 시티즈 플래티넘 C140
 - **브랜드**: 네스프레소
 - **가격**: 270,750원
-- **평점**: ⭐4.9 (158개 리뷰)
+- **평점**: ⭐4.9 (159개 리뷰)
 - **핵심 스펙**: 캡슐커피머신 / 펌프압력 / 19bar / 1170W / 용량 / 1L / 예열시간 / 30초 / 추출량조절 / 저장개수 / 12개~14개 / 자동전원꺼짐 / 네스프레소오리지널
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=19766477)
 
-### 12. 필립스 1200시리즈 EP1221/69
+### 10. 필립스 1200시리즈 EP1221/69
 - **브랜드**: 필립스
-- **가격**: 345,640원
+- **가격**: 349,240원
 - **평점**: ⭐0 (0개 리뷰)
 - **핵심 스펙**: 커피머신 / 가정용 / 1400W / 용량 / 원두투입량 / 온수추출 / 2잔동시추출 / 자동스팀 / 분쇄단계 / 12단 / 내장그라인더 / 분리세척 / 세척시기 / 필터교환 / 전자동
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=99735287)
+
+### 11. 드롱기 마그니피카 에보 KRECAM290.31.SB
+- **브랜드**: 드롱기
+- **가격**: 664,050원
+- **평점**: ⭐4.8 (159개 리뷰)
+- **핵심 스펙**: 커피머신 / 가정용 / 펌프압력 / 1450W / 용량 / 원두투입량 / 써모블록 / 추출구높이조절 / 수동스팀 / 분쇄단계 / 13단 / 내장그라인더 / 자동세척 / 분리세척 / 전자동
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21205988)
+
+### 12. 드롱기 엘레타 KRECAM450.65.S
+- **브랜드**: 드롱기
+- **가격**: 2,745,500원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 커피머신 / 펌프압력 / 1450W / 용량 / 원두투입량 / 써모블록 / 프리인퓨전 / 추출구높이조절 / 2잔동시추출 / 수동스팀 / 분쇄단계 / 13단 / 자동세척 / 스마트폰제어 / 분리세척
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=91113785)
 
 ### 13. 네스프레소 에센자 미니 C30
 - **브랜드**: 네스프레소
@@ -168,15 +167,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=10519578)
 
-### 15. 드롱기 엘레타 KRECAM450.65.S
-- **브랜드**: 드롱기
-- **가격**: 2,745,500원
+### 15. 필립스 5500시리즈 라떼고 EP5547/93
+- **브랜드**: 필립스
+- **가격**: 905,749원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 커피머신 / 펌프압력 / 1450W / 용량 / 원두투입량 / 써모블록 / 프리인퓨전 / 추출구높이조절 / 2잔동시추출 / 수동스팀 / 분쇄단계 / 13단 / 자동세척 / 스마트폰제어 / 분리세척
+- **핵심 스펙**: 커피머신 / 1400W / 용량 / 2잔동시추출 / 추출량조절 / 자동스팀 / 내장그라인더 / 분리세척
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=91113785)
+- [상세보기](https://prod.danawa.com/info/?pcode=78528860)
 
 ### 16. 네스프레소 시티즈 플래티넘 D140
 - **브랜드**: 네스프레소
@@ -190,7 +189,7 @@
 
 ### 17. 필립스 바리스티나 BAR300/00
 - **브랜드**: 필립스
-- **가격**: 426,550원
+- **가격**: 400,190원
 - **평점**: ⭐5 (4개 리뷰)
 - **핵심 스펙**: 커피머신 / 펌프압력 / 1550W / 내장그라인더 / 전자동
 - **장점 요약**: 분석 중
@@ -198,35 +197,35 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=91909181)
 
-### 18. 네스카페 돌체구스토 지니오S 터치
-- **브랜드**: 네스카페
-- **가격**: 89,100원
-- **평점**: ⭐4.8 (778개 리뷰)
-- **핵심 스펙**: 캡슐커피머신 / 펌프압력 / 15bar / 1340W / 용량 / 0.8L / 컵받침높이조절 / 3단높이조절 / 분리세척 / 에너지절약모드 / 돌체구스토
+### 18. 일리 이지 파드 머신
+- **브랜드**: 일리
+- **가격**: 229,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 캡슐커피머신 / 1250W / 용량 / 0.6L / 추출량조절 / 컵받침높이조절 / 3단높이조절 / 캡슐수거함 / 자동저장 / 자동세척 / 일리
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13812545)
+- [상세보기](https://prod.danawa.com/info/?pcode=45006095)
 
-### 19. 필립스 데일리컬렉션 HD7461/20
-- **브랜드**: 필립스
-- **가격**: 39,080원
-- **평점**: ⭐4.6 (555개 리뷰)
-- **핵심 스펙**: 커피메이커 / 1.2L / 10~15잔 / 1000W / 반영구필터 / 필터홀더 / 삽입형 / 유리 / 타이머 / 아로마 / 누수방지 / 전원표시등
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13410800)
-
-### 20. 유라 E4
+### 19. 유라 E4
 - **브랜드**: 유라
-- **가격**: 2,128,950원
+- **가격**: 2,016,900원
 - **평점**: ⭐5 (7개 리뷰)
 - **핵심 스펙**: 커피머신 / 가정용 / 펌프압력 / 1330W / 용량 / 원두투입량 / 추출구높이조절 / 온수추출 / 2잔동시추출 / 분쇄단계 / 6단 / 찌꺼기통 / 16잔 / 내장그라인더 / 자동세척
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=19081292)
+
+### 20. 브레빌 바리스타 익스프레스 임프레스 BES876
+- **브랜드**: 브레빌
+- **가격**: 1,235,000원
+- **평점**: ⭐4.9 (584개 리뷰)
+- **핵심 스펙**: 커피머신 / 가정용 / 펌프압력 / 1850W / 용량 / 원두투입량 / PID컨트롤 / 온수추출 / 2잔동시추출 / 수동스팀 / 분쇄단계 / 25단 / 내장그라인더 / 스마트탬핑 / 반자동
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=28083089)
 
 ---
 
@@ -241,8 +240,9 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHw0UqT-pDZwK9UfxEsGSIwgXtg4m4eZsofiWZ9p8O6dZJEFSXI0rO1enh0YVkVsKPURuG9sARJzv8LtBmHZFH96nKqJoySyd8ZwFEw53IyNX9RhkdchcJnUczii2-TrI0gkIiQII2WJntZTeqw6s1T6MAOGKoo_7pEnTRfqtlR-oBGvaVpwfU2p6XyCexpaXn1ch7z9yT6I86Ex78ygthbM3QtB1-g3WldONubmu9_lS71hT73MKuHWZKRUlVI3xDq2CPqHdpo2HpYRjCku687pv1u3w5f3q6kMifi_8c6QMJk_VGaTOaCpPOZmf51qSHlCnpzv1aunpAqgXR7Xxl7wb_AuJ88sZMLkmjDxPUMd-fEXOlNa2u2SqQ4Hy1oXnu7KSnIi2RmhP0fwiUI6BzOiP9YZAXbFt9i09SLRLJq3cIhutkAMcObtEQh7UvEFYkxCmjc95YhayJINgtapZxafi8yuQIg4ohcLQDtmEqWitODmWqV7gbmIPLXTw40HJpWcUiWcVMW0556f7t5PSVovotMs_ZS-YCb5D05V8xia_cql--qotQgPTc=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjRE35dcX72fp4mPeixnAKIQgXeefN1Jzk35TXbDRgnJ4G55iRGgYlwPJsmIIR9GYcF6vUHwqslLQuSe_x4VuqbaDu4c3OaGzMQhgU3vMBWT5ox-X6ptDioW7V5SsoFk_-EOF729k=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZygSwNk5XuESD1sybtVDTrJdxjtzVXJxe2E1tV7NVJ6cWRWCwV0XN2893KhaQ4hqrr-sSlDImSTeAUdmX7_PqodJQ94U4ifWBRcvLa8NHK_TD1wxevjHyQHlUvC8Y2CzCyzv1SNA=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTnc6Bcwgehd9q7lwde89YHMzO1hi7f5EthfgggDOWn1xs0QtPfF6BnRWUTRN4kIMHDOwgepcXnbpMxxYDw3uUj1xxlpIqY9q8grfpkL4p6CoWQO5VyoV1tZ8VdYLLuoQR40so2MQ=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYdHJ4V5YsQhU74jFWlmp7_4O1YiJc0Ks8ITtRc6JkkZmfzFm5vQi1aIXUh5LnF8DaFEAt5zOjRJ4I7AgyO8DZAqStp-P_Yp10Ig2_ne0uKhdKAQgqz4P-7aSkNaIK1MR8IbIXqgw=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEIEeojvGwSnMFjHnsq4zZoQRVVYPoBBiQ2F4uuxXsbWHvHw2UNmfxiTp2boBTFRFujczQBjLDvXb6YZQksgvfiG_hoccZCf3SB3uae1O8V4yVax0wsFdMczxo9uF9obSDoRExhIRL9mMO7ENf3E16SqiMyCME_LeMouB-fZDPQg==)
+- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2RHdg8rcI7uLgZ4BANZjj4MGoyvQLtBdXAF5QhKDtkbFwLXuPZ7LmCZDbz29BDT2uo1ATAFTBFoSq5ZurCDzFW7IiJY-hL-Jvp_jKPDB37mGOa6d4bjI9INWMO_cQODw1DE6MBTm4dD8NnpGeGO3E0qErMNkRZlpheWI-t-c=)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHg4sG4JCqUH7bDt2W6fRsQRc3tSgvjaHDq9MeormvfiiX01pbcQfpjIDcvOvPRUULVyOlaO0ywNRp2LnwCo7CLse7MJoRYnkGTkVzsnvbFvj34JlrKaWLcnMuIZcAOjW1gm7QgQQpXp78F2pQi30tiS5FHQJ_5YrqFBavWw2oqLhDF)
+- [hotbot.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDKIglUA334UKtBE8cq2mrWK7rgz3elVuvw8p45u5O3GXr_O3IbQSz6Dh7fHwnFaLfFZcyiWzXpC0c46H9zQzD4vKAfZyenRMhp5AKSwKT_nbNAsIBBQNKOmvUgNvyGKjflcgkxK9pXspBFwEqxI5ZHISPKFhX6Dxu8DrBZiHT1OJX9zia_LT_pA9a1sGH88qf0hRoP_-sVGtBvMZj92NkBtE=)
+- [espressotestlab.me](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnYAP7HoZ2W08DQU6h-AW9EPwQlbQC5sbqO_oM72REKcOotfMSYTeQpszcL-HYYQ8SfsizvuJhNeWd0lIYsu1Y6Ry5Ffgf9Jvh4mEm426kqu7G8fpLPGM6YtVjOwAKxJj93iURtK7ayUgvTXijw_5ct4z8AW8uGdQ6Ku2uL6FZkWpoQ00H13x7iQ16Xdg36wfKOMZxY39Leo6er4hIsT5KQbkx71dwql0dBti1AMMa4XzN)
+- [fieldex.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOe33bVK5GLFC0rAKqfNKWymkmzy3NHqDc9n-hH0LmAaKDp0VqWhbN49UZoDetro_PSPDqxW540ODoQIjJvVVPUKTCOPnsDpXjQvwAHF8nNwOiO7vbJoYq2tG2NU9FXTUtIb8bBUlt7yP4M4ljlKP1WQ==)

@@ -251,7 +251,11 @@ export async function POST(request: NextRequest) {
           message: error instanceof Error ? error.message : 'Unknown error',
         });
       } finally {
-        controller.close();
+        try {
+          controller.close();
+        } catch {
+          // 이미 닫힌 경우 무시 (클라이언트가 먼저 연결 종료)
+        }
       }
     },
   });

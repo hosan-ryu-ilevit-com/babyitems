@@ -847,6 +847,13 @@ export default function KnowledgeAgentPage() {
   const [analysisSteps, setAnalysisSteps] = useState<AnalysisStep[]>(() => createDefaultSteps(categoryName));
   const [analysisSummary, setAnalysisSummary] = useState<any>(undefined);
 
+  // 웹검색 진행 상황 (실시간 UI 업데이트용)
+  const [webSearchProgress, setWebSearchProgress] = useState<{
+    currentQuery?: string;
+    completedQueries: string[];
+    results: { trends?: string[]; pros?: string[]; cons?: string[]; buyingFactors?: string[] };
+  }>({ completedQueries: [], results: {} });
+
   // Question flow
   const [questionTodos, setQuestionTodos] = useState<QuestionTodo[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionTodo | null>(null);
@@ -1504,6 +1511,27 @@ export default function KnowledgeAgentPage() {
                     analysisData: { steps: [...localSteps], crawledProducts: localProducts, isComplete: false }
                   } : m));
                   stepDataResolvers['filters']?.(data);
+                  break;
+                case 'web_search_progress':
+                  // 웹검색 진행 상황 실시간 업데이트
+                  if (data.type === 'query_start') {
+                    setWebSearchProgress(prev => ({
+                      ...prev,
+                      currentQuery: data.queryText,
+                    }));
+                  } else if (data.type === 'query_done') {
+                    setWebSearchProgress(prev => ({
+                      ...prev,
+                      completedQueries: [...prev.completedQueries, data.queryName],
+                      results: { ...prev.results, ...data.result },
+                    }));
+                  } else if (data.type === 'all_done') {
+                    setWebSearchProgress(prev => ({
+                      ...prev,
+                      currentQuery: undefined,
+                      results: data.result || prev.results,
+                    }));
+                  }
                   break;
                 case 'trend':
                   trendData = data.trendAnalysis;
@@ -3301,6 +3329,7 @@ export default function KnowledgeAgentPage() {
                 pricesData={pricesData}
                 onAnalysisSummaryShow={handleAnalysisSummaryShow}
                 reviewsData={reviewsData}
+                webSearchProgress={webSearchProgress}
               />
             );
           });
@@ -3985,6 +4014,7 @@ function MessageBubble({
   pricesData,
   onAnalysisSummaryShow,
   reviewsData,
+  webSearchProgress,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -4011,6 +4041,11 @@ function MessageBubble({
   pricesData?: Record<string, any>;
   onAnalysisSummaryShow?: () => void;
   reviewsData?: Record<string, any[]>;
+  webSearchProgress?: {
+    currentQuery?: string;
+    completedQueries: string[];
+    results: { trends?: string[]; pros?: string[]; cons?: string[]; buyingFactors?: string[] };
+  };
 }) {
   const isUser = message.role === 'user';
 
@@ -4063,6 +4098,7 @@ function MessageBubble({
             isComplete={message.analysisData.isComplete}
             summary={message.analysisData.summary}
             onSummaryShow={onAnalysisSummaryShow}
+            webSearchProgress={webSearchProgress}
           />
         )}
 

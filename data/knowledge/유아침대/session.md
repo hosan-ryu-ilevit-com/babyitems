@@ -1,14 +1,14 @@
-# 세션: 20260116_064405_jdz5
-> 시작: 2026-01-16T06:44:05.608Z
+# 세션: 20260119_062632_mt93
+> 시작: 2026-01-19T06:26:32.202Z
 > 카테고리키: 유아침대
 > 카테고리: 유아침대
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아침대 2026년 추천 순위
-- 인사이트: 2026년 현재 유아침대 시장은 리안, 벨라, 쁘띠라뺑, 이케아, 뉴나 등의 브랜드가 인기를 얻고 있습니다. 원목 소재의 클래식한 디자인과 함께 이동성과 안전성을 갖춘 제품들이 트렌드를 이끌고 있습니다. 특히, 부모 침대와 나란히 배치하는 '코슬리핑' 구조가 적용된 제품들이 정서적 안정과 유대감 형성에 도움을 준다는 점에서 주목받고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EC%9C%A0%EC%95%84%EC%B9%A8%EB%8C%80&sort=saveDESC
+- 쿼리: 유아침대 시장 현황
+- 인사이트: 유아침대 시장은 출산율 증가와 유아 안전에 대한 인식 증대로 꾸준히 성장하고 있습니다. 부모들은 내구성과 안전성을 갖춘 친환경 소재의 유아침대를 선호하며, 목재 유아침대가 시장에서 높은 점유율을 차지하고 있습니다. 온라인 판매 채널의 성장과 함께 지속 가능한 제품에 대한 수요도 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDP2WMrB9UFjpQZAmp5LxDLgUsKwj5a3hel0ig0RbIuMzO8HEhB4JPTrSsKFGx4t0HTauaaW_k1eROuOymFt2LvlP8sIUa_J08eL_6dGtXhQmANgX8tSnWk6E0TOc22_F9fw5Q38PKG-Pr5pf3E4_t3vJQ8CyK2WbSsfnCvnVn9ykT1tFtf45x5I9Rhc2mp7eiE9E5phGy5Fjk9f-FLKXWleF1FAcfiNdQ2mU8tZRnma4RGu3ODBUk2-fl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkJTpOkHYxkAAYRsYNr-3ErQRxA0UeilNh8pD9gEhUsRikVVJiW1r8UZNuef-67asdrOkTcKD_5Z9PIoneF_9KH7xlAckxQNGs8at45NLot41MWykfNmUriKArHIBPM8JrIDCwqgmqMKmJy7T4wP7772jMTn2XS23Zx0fSb69DsD91nYam5RD1ojBJ4Q9a, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRvDLS-eUB9pvyXeD2LqUifPwyMl9ouRXAtZDaxE_7hbYhzK2yyjKNIMdBNOHlzrru9eCFIqrj_gbyjY-x4vZMFgOSYx36jncSzKQkBBxzMqySYhTcRqvvJ_sCCLxeGuEG5qpKvGPvvw6bVM-Zi-x04qp2v-l5Xt_XsL9GllvKJEg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcHKOvcJc250YrnhRYHXARj6ULJd35CNXFYcVPU2J7MDlj_cWpBu5qekbXiw7HgW0vxQg5JoiTA2pzO4i5wPh-WoIt1GG8-X5Ux8vDuh0X3WDe4cZ6U0B7Cq7hJFtmvhKN0GS0y9AfFDdgXC2eUmfkvFXcYWHzjmlh8FbgW05f43hogvSUndCj3SqNTSeWtVUJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGU79dB2qra5Y2F0O5ne4TwY3tV-HmbcNZZKhjH6CuvTxep0mNvq8U94fQrGDUVt5JcYH5vSPE0NRJVtqfOdxn6_yQVJuoCOm772UvNVIo_yMmuPlLaVajOB9RZFkIyqb5ZYigE_krrsCcZqW4FucqHW6p4upkZEFk3L0CMRtQiq2uo2HBN-afVkhh7AUPN1UTL
 
 ---
 
@@ -16,36 +16,23 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 형태의 유아침대를 찾으시나요? | 범퍼 침대 |
-| 유아침대를 자주 이동하거나 보관해야 하나요? | 한 곳에 고정 |
-| 어떤 소재의 유아침대를 선호하시나요? | 패브릭 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 19개 (전체 19개 중)
+현재 후보: 9개 (전체 9개 중)
 
 ### 후보 상품
 1. 에이원 리안 드림콧 아기침대 - 237,500원 - ⭐4.8
 2. 레이디가구 레브 패브릭 슬림헤드 데이베드 침대 SS+높은형 안전가드 - 659,370원 - ⭐4.7
-3. 비비엔다 한샘몰 샘키즈 아기 범퍼침대 - 278,070원 - ⭐4.6
-4. 알레르망베이비 베어트리 범퍼침대 - 295,450원 - ⭐4.5
-5. 치코 넥스투미 매직 사이드 흔들침대 - 140,310원 - ⭐4
-6. 비비엔다 아기 특대형 범퍼침대 - 239,920원 - ⭐4.7
-7. 보니타베베 구르구르 하이가드60 멀티 범퍼침대+확장멀티가드 - 400,200원 - ⭐4.5
-8. 히트디자인 일레스 책상형 벙커침대 SS - 737,723원 - ⭐5
-9. 베이비캠프 스너글네스트 서라운드 아기침대 XL - 80,750원 - ⭐5
-10. 꿈비 럭키스타 변신 범퍼침대+순면패드 - 212,970원 - ⭐4.9
-11. 꿈비 월드스타 클린 범퍼침대 - 276,200원 - ⭐4.6
-12. 뉴나 세나 에어 침대 - 752,020원 - ⭐5
-13. 이케아 GULLIVER 유아침대 - 304,024원 - ⭐5
-14. 보니타베베 구르구르 하이가드60 멀티 범퍼침대 - 256,090원 - ⭐4.8
-15. 꿈비 월드스타 클린 범퍼침대+소파커버 - 283,190원 - ⭐4.8
-16. 도노도노 패밀리 멀티 범퍼침대+패드 - 427,750원 - ⭐4.8
-17. 쁘띠라뺑 로이 자작나무 침대 SS - 990,000원 - ⭐5
-18. 디자인스킨 디킨 하이가드 패밀리 범퍼침대 - 334,800원 - ⭐5
-19. 꿈비 트윈스타 PLUS 범퍼침대+패드+쿠션가드 - 426,870원 - ⭐4.8
+3. 알레르망베이비 베어트리 범퍼침대 - 295,450원 - ⭐4.5
+4. 보니타베베 구르구르 하이가드60 멀티 범퍼침대 - 269,560원 - ⭐4.8
+5. 히트디자인 일레스 책상형 벙커침대 SS - 737,723원 - ⭐5
+6. 꿈비 럭키스타 변신 범퍼침대+순면패드 - 212,970원 - ⭐4.9
+7. 도노도노 패밀리 멀티 범퍼침대+패드 - 427,750원 - ⭐4.8
+8. 보니타베베 구르구르 하이가드60 멀티 범퍼침대+확장멀티가드 - 400,200원 - ⭐4.5
+9. 디자인스킨 디킨 하이가드 패밀리 범퍼침대 - 334,800원 - ⭐5
 
 ---
 

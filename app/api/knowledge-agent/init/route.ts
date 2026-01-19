@@ -58,6 +58,9 @@ interface TrendAnalysis {
   priceInsight: string;
   searchQueries: string[];
   sources: Array<{ title: string; url: string; snippet?: string }>;
+  // 추가: 병렬 웹검색 결과
+  topBrands: string[];      // 인기 브랜드
+  buyingFactors: string[];  // 구매 고려사항 (질문 생성 핵심!)
 }
 
 interface QuestionTodo {
@@ -269,130 +272,271 @@ function setWebSearchCache(keyword: string, data: TrendAnalysis): void {
   console.log(`[Step1] Web search cached for: ${keyword} (expires in 1h)`);
 }
 
-async function performWebSearchAnalysis(searchKeyword: string): Promise<TrendAnalysis | null> {
+/**
+ * 4개 병렬 웹검색으로 트렌드 데이터 수집
+ * 1. 추천 순위 및 실사용 후기 → top10Summary, trends, pros, cons
+ * 2. 트렌드 → trends 보강
+ * 3. 인기 브랜드 → topBrands
+ * 4. 구매 고려사항 → buyingFactors (⭐질문 생성 핵심!)
+ */
+// 웹검색 진행 상황 콜백 타입
+type WebSearchProgressCallback = (event: {
+  type: 'query_start' | 'query_done' | 'all_done';
+  queryName?: string;
+  queryText?: string;
+  result?: { trends?: string[]; pros?: string[]; cons?: string[]; buyingFactors?: string[] };
+}) => void;
+
+async function performWebSearchAnalysis(
+  searchKeyword: string,
+  onProgress?: WebSearchProgressCallback
+): Promise<TrendAnalysis | null> {
   if (!ai) return null;
 
   // 캐시 확인
   const cached = getWebSearchCache(searchKeyword);
-  if (cached) return cached;
+  if (cached) {
+    // 캐시 히트 시에도 결과 전송
+    onProgress?.({
+      type: 'all_done',
+      result: {
+        trends: cached.trends,
+        pros: cached.pros,
+        cons: cached.cons,
+        buyingFactors: cached.buyingFactors,
+      }
+    });
+    return cached;
+  }
 
   const today = new Date();
   const timestamp = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
   const year = today.getFullYear();
 
-  console.log(`[Step1] performWebSearchAnalysis called with keyword: "${searchKeyword}"`);
+  console.log(`[Step1] 🚀 병렬 웹검색 시작: "${searchKeyword}" (3개 쿼리)`);
+  const startTime = Date.now();
 
   try {
     const model = ai.getGenerativeModel({
       model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.3,
-        maxOutputTokens: 800,
+        maxOutputTokens: 600,
       },
       tools: [{ google_search: {} } as never]
     });
 
-    // 검색어를 명확하게 지정하는 프롬프트
-    const analysisPrompt = `## 검색 지시사항
-⚠️ 중요: 정확히 "${searchKeyword}"를 검색하세요. 유사한 단어나 다른 제품으로 바꾸지 마세요.
-검색어: "${searchKeyword} ${year}년 추천 순위 및 실사용 후기"
-
-📅 **오늘 날짜: ${timestamp}**
-
-⚠️ **정보 신선도 주의사항:**
-- 오늘은 ${year}년 ${today.getMonth() + 1}월입니다. 이미 출시되어 판매 중인 제품을 "출시 예정"이라고 하지 마세요.
-- 검색 결과의 날짜를 확인하고, 1년 이상 지난 정보는 "과거 정보"로 표시하세요.
-- 현재 쇼핑몰에서 판매 중인 모델은 "현재 인기", "판매 중"으로 표현하세요.
-- 예: 아이폰 17이 이미 판매 중이라면 "2026년 출시 예정"이 아니라 "현재 인기 모델"로 표현
-
-"${searchKeyword}" 제품에 대한 검색 결과를 분석 후 JSON 응답:
-
+    // 3개 검색 쿼리 정의 (brands, priceInsight 제거 - 효용 낮음)
+    const queries = [
+      {
+        name: 'main',
+        query: `${searchKeyword} ${year}년 추천 순위 및 실사용 후기`,
+        prompt: `"${searchKeyword}" 제품 검색 후 JSON 응답:
 {
-  "top10Summary": "${searchKeyword} 시장 현황 2-3문장 (현재 인기 브랜드, ${year}년 현재 트렌드 - 이미 출시된 제품 기준)",
-  "trends": ["${year}년 ${today.getMonth() + 1}월 현재 핵심 트렌드 1", "현재 인기 기능/특징 2", "최신 기술 동향 3"],
-  "pros": [
-    "실제 사용자가 리뷰에서 가장 많이 칭찬하는 핵심 키워드 1 (예: '압도적인 흡입력', '가벼운 무게')",
-    "리뷰 키워드 2",
-    "리뷰 키워드 3"
-  ],
-  "cons": [
-    "실제 사용자가 리뷰에서 가장 많이 불평하는 핵심 키워드 1 (예: '짧은 배터리', '느린 충전 속도')",
-    "리뷰 키워드 2",
-    "리뷰 키워드 3"
-  ],
-  "priceInsight": "현재 판매 중인 제품의 가격대별 특징 1-2문장 (엔트리/중급/프리미엄)"
+  "top10Summary": "${searchKeyword} 시장 현황 2-3문장",
+  "trends": ["트렌드1", "트렌드2", "트렌드3"],
+  "pros": ["리뷰 장점 키워드1", "키워드2", "키워드3"],
+  "cons": ["리뷰 단점 키워드1", "키워드2", "키워드3"]
 }
+- pros/cons는 "뛰어난 가성비", "짧은 배터리" 같은 명사형 키워드로 작성`
+      },
+      {
+        name: 'trends',
+        query: `${year}년 ${searchKeyword} 트렌드`,
+        prompt: `"${year}년 ${searchKeyword} 트렌드" 검색 후 JSON 응답:
+{
+  "trends": ["${year}년 핵심 트렌드1", "트렌드2", "트렌드3", "트렌드4", "트렌드5"]
+}
+- 기술 발전, 소비자 선호 변화, 신기능 등 최신 트렌드 5개`
+      },
+      {
+        name: 'buyingFactors',
+        query: `${searchKeyword} 구매 고려사항`,
+        prompt: `"${searchKeyword} 구매 시 고려사항" 검색 후 JSON 응답:
+{
+  "buyingFactors": [
+    "고려사항1 (예: 스위치 종류 - 청축/갈축/적축)",
+    "고려사항2 (예: 노이즈캔슬링 유무)",
+    "고려사항3",
+    "고려사항4",
+    "고려사항5"
+  ]
+}
+⚠️ 중요: 이 카테고리 제품을 구매할 때 반드시 확인해야 하는 핵심 스펙/기능을 구체적으로 작성
+- 예시) 기계식키보드: 스위치종류, 키캡재질, 연결방식, 배열, 텐키유무
+- 예시) 에어팟: 노이즈캔슬링, 공간음향, 배터리, 방수등급, 무선충전
+- 예시) 아기물티슈: 성분(무향/저자극), 두께, 매수, 휴대성, 엠보싱유무`
+      }
+    ];
 
-주의:
-- pros와 cons는 마치 수천 건의 실제 구매 리뷰에서 자연어 처리(NLP)로 추출한 것 같은 짧고 명확한 '키워드' 형태여야 합니다.
-- "~해서 좋아요" 보다는 "뛰어난 가성비", "간편한 세척" 처럼 명사형 키워드를 선호합니다.
-- "출시 예정", "발표 예정" 표현은 실제로 아직 출시되지 않은 제품에만 사용하세요.`;
+    // 쿼리별 UI 표시 텍스트
+    const queryDisplayTexts: Record<string, string> = {
+      main: `"${searchKeyword} ${year}년 추천" 검색 중...`,
+      trends: `"${year}년 ${searchKeyword} 트렌드" 검색 중...`,
+      buyingFactors: `"${searchKeyword} 구매 고려사항" 검색 중...`,
+    };
 
-    const startTime = Date.now();
-    const result = await model.generateContent(analysisPrompt);
-    const response = result.response;
-    const text = response.text();
-    console.log(`[Step1] Web search completed in ${Date.now() - startTime}ms`);
+    // 3개 쿼리 병렬 실행 (개별 시간 측정)
+    const queryTimings: { name: string; duration: number }[] = [];
 
-    // groundingMetadata에서 검색 쿼리와 출처 추출
-    const candidate = (response as any).candidates?.[0];
-    const groundingMetadata = candidate?.groundingMetadata;
-    const webSearchQueries: string[] = groundingMetadata?.webSearchQueries || [];
-    const groundingChunks = groundingMetadata?.groundingChunks || [];
+    const results = await Promise.allSettled(
+      queries.map(async (q) => {
+        // 쿼리 시작 알림
+        onProgress?.({
+          type: 'query_start',
+          queryName: q.name,
+          queryText: queryDisplayTexts[q.name] || q.query,
+        });
 
-    // 🔴 중요: 실제로 Gemini가 검색한 쿼리 로깅
-    console.log(`[Step1] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-    console.log(`[Step1] 🔍 요청한 검색어: "${searchKeyword}"`);
-    console.log(`[Step1] 🔍 실제 검색 쿼리: ${webSearchQueries.join(', ') || '(없음)'}`);
+        const queryStart = Date.now();
+        const result = await model.generateContent(q.prompt);
+        const queryDuration = Date.now() - queryStart;
+        queryTimings.push({ name: q.name, duration: queryDuration });
 
-    // 검색어 불일치 경고
-    if (webSearchQueries.length > 0) {
-      const hasKeyword = webSearchQueries.some(q => q.includes(searchKeyword));
-      if (!hasKeyword) {
-        console.warn(`[Step1] ⚠️ 검색어 불일치! 요청: "${searchKeyword}" → 실제: "${webSearchQueries[0]}"`);
+        const response = result.response;
+        const text = response.text();
+
+        // 출처 추출
+        const candidate = (response as any).candidates?.[0];
+        const groundingMetadata = candidate?.groundingMetadata;
+        const webSearchQueries: string[] = groundingMetadata?.webSearchQueries || [];
+        const groundingChunks = groundingMetadata?.groundingChunks || [];
+
+        const sources = groundingChunks
+          .filter((chunk: any) => chunk.web?.uri)
+          .map((chunk: any) => ({
+            title: chunk.web?.title || 'Unknown',
+            url: chunk.web?.uri || '',
+          }))
+          .slice(0, 3);
+
+        console.log(`[Step1] ✅ ${q.name} 완료: ${queryDuration}ms (쿼리: ${webSearchQueries[0] || q.query})`);
+
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        const parsedData = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+
+        // 쿼리 완료 알림 (결과 포함)
+        onProgress?.({
+          type: 'query_done',
+          queryName: q.name,
+          result: parsedData,
+        });
+
+        return {
+          name: q.name,
+          data: parsedData,
+          sources,
+          searchQueries: webSearchQueries
+        };
+      })
+    );
+
+    // 개별 쿼리 시간 정렬 출력
+    const sortedTimings = queryTimings.sort((a, b) => b.duration - a.duration);
+    console.log(`[Step1] ⏱️ 쿼리별 소요시간 (느린 순):`);
+    sortedTimings.forEach((t, i) => {
+      const bar = '█'.repeat(Math.ceil(t.duration / 200));
+      console.log(`[Step1]   ${i + 1}. ${t.name.padEnd(14)} ${t.duration.toString().padStart(4)}ms ${bar}`);
+    });
+    console.log(`[Step1] 🏁 병렬 웹검색 완료: ${Date.now() - startTime}ms (병목: ${sortedTimings[0]?.name})`);
+
+    // 결과 병합
+    const allSources: Array<{ title: string; url: string }> = [];
+    const allSearchQueries: string[] = [];
+    let mainData: any = {};
+    let trendsData: string[] = [];
+    let buyingFactors: string[] = [];
+
+    for (const result of results) {
+      if (result.status === 'fulfilled') {
+        const { name, data, sources, searchQueries } = result.value;
+        allSources.push(...sources);
+        allSearchQueries.push(...searchQueries);
+
+        switch (name) {
+          case 'main':
+            mainData = data;
+            break;
+          case 'trends':
+            trendsData = data.trends || [];
+            break;
+          case 'buyingFactors':
+            buyingFactors = data.buyingFactors || [];
+            break;
+        }
+      } else {
+        console.warn(`[Step1] ⚠️ ${(result as PromiseRejectedResult).reason}`);
       }
     }
-    console.log(`[Step1] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
-    const sources = groundingChunks
-      .filter((chunk: any) => chunk.web?.uri)
-      .map((chunk: any) => ({
-        title: chunk.web?.title || 'Unknown',
-        url: chunk.web?.uri || '',
-      }))
-      .slice(0, 5);
+    // 트렌드 병합 (중복 제거)
+    const mergedTrends = [...new Set([
+      ...(mainData.trends || []),
+      ...trendsData
+    ])].slice(0, 5);
 
-    if (sources.length === 0) {
-      sources.push({
+    // 출처가 없으면 다나와 기본 링크 추가
+    if (allSources.length === 0) {
+      allSources.push({
         title: `다나와 ${searchKeyword} 인기순위`,
         url: `https://search.danawa.com/dsearch.php?query=${encodeURIComponent(searchKeyword)}&sort=saveDESC`,
       });
     }
 
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
-      const trendData: TrendAnalysis = {
-        timestamp,
-        top10Summary: parsed.top10Summary || '',
-        trends: parsed.trends || [],
-        pros: parsed.pros || [],
-        cons: parsed.cons || [],
-        priceInsight: parsed.priceInsight || '',
-        searchQueries: webSearchQueries.length > 0 ? webSearchQueries : [`${searchKeyword} ${year} 추천`],
-        sources
-      };
+    const trendData: TrendAnalysis = {
+      timestamp,
+      top10Summary: mainData.top10Summary || '',
+      trends: mergedTrends,
+      pros: mainData.pros || [],
+      cons: mainData.cons || [],
+      priceInsight: '',  // 제거됨
+      searchQueries: allSearchQueries.length > 0 ? allSearchQueries : queries.map(q => q.query),
+      sources: allSources.slice(0, 8),
+      topBrands: [],  // 제거됨 (효용 낮음)
+      buyingFactors,
+    };
 
-      // 캐시에 저장
-      setWebSearchCache(searchKeyword, trendData);
-      return trendData;
-    }
+    // 결과 로깅
+    console.log(`[Step1] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    console.log(`[Step1] 📊 트렌드: ${mergedTrends.join(', ')}`);
+    console.log(`[Step1] ⭐ 구매고려사항: ${buyingFactors.join(', ')}`);
+    console.log(`[Step1] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
-    return { timestamp, top10Summary: '', trends: [], pros: [], cons: [], priceInsight: '', searchQueries: [], sources };
+    // 최종 결과 콜백
+    onProgress?.({
+      type: 'all_done',
+      result: {
+        trends: mergedTrends,
+        pros: mainData.pros || [],
+        cons: mainData.cons || [],
+        buyingFactors,
+      }
+    });
+
+    // 캐시에 저장
+    setWebSearchCache(searchKeyword, trendData);
+    return trendData;
+
   } catch (e) {
     console.error('[Step1] Web search failed:', e);
     return null;
   }
+}
+
+// 빈 TrendAnalysis 생성 헬퍼
+function createEmptyTrendAnalysis(timestamp: string): TrendAnalysis {
+  return {
+    timestamp,
+    top10Summary: '',
+    trends: [],
+    pros: [],
+    cons: [],
+    priceInsight: '',
+    searchQueries: [],
+    sources: [],
+    topBrands: [],
+    buyingFactors: [],
+  };
 }
 
 // ============================================================================
@@ -1183,6 +1327,15 @@ async function generateQuestions(
   // 웹서치 트렌드
   const trendsText = trendAnalysis?.trends.map((t, i) => `${i + 1}. ${t}`).join('\n') || '';
 
+  // 🔍 질문 생성에 전달되는 웹검색 데이터 확인
+  console.log(`[Step3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  console.log(`[Step3] 📊 질문 생성에 전달되는 웹검색 데이터:`);
+  console.log(`[Step3]   트렌드: ${trendAnalysis?.trends?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   장점: ${trendAnalysis?.pros?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   단점: ${trendAnalysis?.cons?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   ⭐구매고려사항: ${trendAnalysis?.buyingFactors?.join(' / ') || '(없음)'}`);
+  console.log(`[Step3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+
   const prompt = `
 당신은 "${categoryName}" 구매 결정을 돕는 전문 AI 쇼핑 컨시어지입니다.
 당신의 목표는 방대한 정보를 나열하는 것이 아니라, **사용자가 가장 적은 문답으로 최적의 제품군으로 좁혀갈 수 있도록 돕는 것**입니다.
@@ -1196,6 +1349,7 @@ async function generateQuestions(
 <MarketContext>
 - **카테고리:** ${categoryName}
 - **웹 트렌드/리뷰 요약:** ${trendAnalysis ? `${trendsText || '-'} (주요 장점: ${(trendAnalysis.pros || []).slice(0,3).join(', ')} / 주요 단점: ${(trendAnalysis.cons || []).join(', ')})` : '정보 없음'}
+- **⭐ 핵심 구매 고려사항 (웹검색):** ${trendAnalysis?.buyingFactors?.length ? trendAnalysis.buyingFactors.join(' / ') : '정보 없음'}
 - **가격 분포:** 최저 ${minPrice.toLocaleString()}원 ~ 최고 ${maxPrice.toLocaleString()}원 (평균 ${avgPrice.toLocaleString()}원)
 - **주요 브랜드:** ${brands.slice(0, 6).join(', ')}
 - **필터링 옵션(다나와):** ${filterSummary}
@@ -1203,11 +1357,13 @@ async function generateQuestions(
 </MarketContext>
 
 ## [질문 생성 전략 (Thinking Process)]
-1. **결정적 요인 식별:** 상위 제품들의 스펙과 필터 정보를 대조하여, 제품이 가장 크게 갈리는 기준(Factor)을 찾으세요. (예: 가습기의 가열식 vs 초음파식)
-2. **트렌드 반영:** '웹 트렌드'를 참고하여 사람들이 왜 그 옵션을 고민하는지 파악하고 \`reason\` 필드에 반영하세요. 단순한 사실 전달이 아닌, **"선택의 가이드"**가 되어야 합니다.
-3. **사용자 언어:** 기술 용어보다는 사용자가 얻을 **효익(Benefit)이나 상황(Context)** 중심으로 질문하세요.
-4. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE).
-5. **인기 옵션 표시:** 시장 데이터(판매 순위, 리뷰 수, 트렌드)를 기반으로 가장 많이 선택되는 옵션 1~2개에 \`isPopular: true\`를 표시하세요. 인기 옵션이 명확하지 않으면 표시하지 않아도 됩니다.
+1. **⭐ 핵심 구매 고려사항 우선:** '핵심 구매 고려사항'에 나열된 항목을 **반드시** 질문에 반영하세요. 이것이 이 카테고리에서 가장 중요한 선택 기준입니다.
+   - 예: 기계식키보드 → 스위치종류 질문 필수 / 에어팟 → 노이즈캔슬링 질문 필수 / 아기물티슈 → 성분/두께 질문 필수
+2. **결정적 요인 식별:** 상위 제품들의 스펙과 필터 정보를 대조하여, 제품이 가장 크게 갈리는 기준(Factor)을 찾으세요. (예: 가습기의 가열식 vs 초음파식)
+3. **트렌드 반영:** '웹 트렌드'를 참고하여 사람들이 왜 그 옵션을 고민하는지 파악하고 \`reason\` 필드에 반영하세요. 단순한 사실 전달이 아닌, **"선택의 가이드"**가 되어야 합니다.
+4. **사용자 언어:** 기술 용어보다는 사용자가 얻을 **효익(Benefit)이나 상황(Context)** 중심으로 질문하세요.
+5. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE).
+6. **인기 옵션 표시:** 시장 데이터(판매 순위, 리뷰 수, 트렌드)를 기반으로 가장 많이 선택되는 옵션 1~2개에 \`isPopular: true\`를 표시하세요. 인기 옵션이 명확하지 않으면 표시하지 않아도 됩니다.
 
 ## [작성 규칙]
 1. **Target Audience Check:**
@@ -1253,21 +1409,24 @@ async function generateQuestions(
   let customQuestions: QuestionTodo[] = [];
 
   try {
-    console.log(`[Step3] Generating questions for "${categoryName}" with ${products.length} products (Combined Spec Analysis)`);
+    const promptLength = prompt.length;
+    console.log(`[Step3] Generating questions for "${categoryName}" with ${products.length} products`);
+    console.log(`[Step3] 📝 프롬프트 길이: ${promptLength}자 (~${Math.ceil(promptLength / 4)} tokens)`);
     const startTime = Date.now();
 
     const model = ai.getGenerativeModel({
       model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.35,
-        maxOutputTokens: 1200, // 예산/단점 제거로 토큰 감소
+        maxOutputTokens: 2000,  // 1200 → 2000 (JSON 잘림 방지)
       }
     });
-    
+
+    console.log(`[Step3] ⏳ LLM 호출 시작...`);
     const result = await model.generateContent(prompt);
     const text = result.response.text();
 
-    console.log(`[Step3] LLM response received in ${Date.now() - startTime}ms`);
+    console.log(`[Step3] ✅ LLM 응답 완료: ${Date.now() - startTime}ms (응답 ${text.length}자)`);
 
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     if (jsonMatch) {
@@ -1585,11 +1744,9 @@ export async function POST(request: NextRequest) {
     console.log(`[Init V6 Streaming] Starting for: ${categoryName}`);
     console.log(`========================================\n`);
 
-    // 🔴 개선 1: 웹검색을 스트림 생성 전, 가장 먼저 시작합니다. (동시성 극대화)
-    const earlyWebSearchPromise = performWebSearchAnalysis(categoryName);
-
     // 스트리밍 모드가 아니면 기존 방식으로 처리
     if (!streaming) {
+      const earlyWebSearchPromise = performWebSearchAnalysis(categoryName);
       return handleNonStreamingRequest(categoryKey, categoryName, startTime, earlyWebSearchPromise);
     }
 
@@ -1615,10 +1772,13 @@ export async function POST(request: NextRequest) {
           const phase1Start = Date.now();
           let firstBatchComplete = false;
 
-          // 🔴 개선 2: 웹검색 완료 시 즉시 trend 이벤트 전송 (상품 수집 대기 안 함)
-          const webSearchPromise = earlyWebSearchPromise.then(data => {
+          // 🔴 개선: 웹검색 진행 상황을 SSE로 실시간 전송
+          const webSearchPromise = performWebSearchAnalysis(categoryName, (event) => {
+            // 쿼리 시작/완료 시 UI에 실시간 전송
+            send('web_search_progress', event);
+          }).then((data: TrendAnalysis | null) => {
             if (data) {
-              console.log(`[Phase1] Web search finished early, sending trend event immediately`);
+              console.log(`[Phase1] Web search finished, sending trend event`);
               send('trend', {
                 trendAnalysis: data,
                 searchQueries: data.searchQueries,
@@ -1719,10 +1879,12 @@ export async function POST(request: NextRequest) {
           );
 
           // 🔴 개선 3: 질문 생성을 위한 최소 요건(상품 20개 + 웹서치 완료) 대기
+          const waitStartTime = Date.now();
           const [trendAnalysis, initialData] = await Promise.all([
             webSearchPromise,
             initialDataPromise,
           ]);
+          console.log(`[Timing] ⏱️ 웹검색+상품20개 대기 완료: ${Date.now() - waitStartTime}ms`);
 
           searchUrl = initialData.searchUrl;
           const top20ForQuestions = initialData.products;

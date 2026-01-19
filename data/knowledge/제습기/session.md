@@ -1,14 +1,14 @@
-# 세션: 20260108_115136_gx7k
-> 시작: 2026-01-08T11:51:36.456Z
+# 세션: 20260119_064633_v2ps
+> 시작: 2026-01-19T06:46:33.235Z
 > 카테고리키: 제습기
 > 카테고리: 제습기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 제습기
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDXPRj08Wi2j5A4LQTw7R3A6TiHJl4XIy-lIYg8iVK-NkCEi8URfh7q6YKKu4EQ5IOx3N_ZRbhXdOcNl74pR_rBCCFy1BUTlhPenvyM_PLrkcOHkHrsFgsOZESUqBxXGjCWRlI3NIH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH84pyLtixYi9RW6qMAL0Gyi5qtCaJM27FoqJ3p4ACOyUYSBJ-jCOwf6hcIc2DeieM8vhG_NihIkk01mwd38OZmHCE8oYOgVfeFazzDnVVI_i-30Kc4eczWAeohOo_UxYUnBq_9USg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrdHqXDM0xuoAcEkOq6qFC-PdNmx3FlIXKAruteuOOChZo7n_J-w11JrL0CdIDP3Ixms22hQcqGdc37DMLAGm6c6MmI3Q6_6HCFsww0t6shm5Y6QYl5Bi1J65n4ow=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENEkRodEIx6LaPj41ZxWVrrOvcTS6T8Z_2627TB1KFoAt8Ug239k4gnadPas6NrGAwWrdnZpAUeBgcWstIkbxwY0aAl7YEiHhFyhKQEbJ2kKvND78NVkMsg78DZkLv96HvJ3ktbB0f0cpwg3IJuK4ID7fkovuQCe2QyBST3MOb7KJOYtv2EPRNKeRmfp81kJ31A52yoYxLL26sb_np63vwbm9gKvkzqhmn7w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_6OAIab7vj1UgFP0E2ZS8oLSD46UxvyFbWYp9_RROgQP1-pOhbWsVDtxaBMm20YA3maky173-FfD1rft62KYGl84-p2DjFtbvRlN-JXsv6uZytwrYO9W46t9danVXgVrXpPPMnHQ=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDXPRj08Wi2j5A4LQTw7R3A6TiHJl4XIy-lIYg8iVK-NkCEi8URfh7q6YKKu4EQ5IOx3N_ZRbhXdOcNl74pR_rBCCFy1BUTlhPenvyM_PLrkcOHkHrsFgsOZESUqBxXGjCWRlI3NIH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH84pyLtixYi9RW6qMAL0Gyi5qtCaJM27FoqJ3p4ACOyUYSBJ-jCOwf6hcIc2DeieM8vhG_NihIkk01mwd38OZmHCE8oYOgVfeFazzDnVVI_i-30Kc4eczWAeohOo_UxYUnBq_9USg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrdHqXDM0xuoAcEkOq6qFC-PdNmx3FlIXKAruteuOOChZo7n_J-w11JrL0CdIDP3Ixms22hQcqGdc37DMLAGm6c6MmI3Q6_6HCFsww0t6shm5Y6QYl5Bi1J65n4ow=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENEkRodEIx6LaPj41ZxWVrrOvcTS6T8Z_2627TB1KFoAt8Ug239k4gnadPas6NrGAwWrdnZpAUeBgcWstIkbxwY0aAl7YEiHhFyhKQEbJ2kKvND78NVkMsg78DZkLv96HvJ3ktbB0f0cpwg3IJuK4ID7fkovuQCe2QyBST3MOb7KJOYtv2EPRNKeRmfp81kJ31A52yoYxLL26sb_np63vwbm9gKvkzqhmn7w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_6OAIab7vj1UgFP0E2ZS8oLSD46UxvyFbWYp9_RROgQP1-pOhbWsVDtxaBMm20YA3maky173-FfD1rft62KYGl84-p2DjFtbvRlN-JXsv6uZytwrYO9W46t9danVXgVrXpPPMnHQ=
+- 쿼리: 제습기 시장 현황
+- 인사이트: 제습기 시장은 최근 5년간 꾸준히 성장해왔으며, 특히 장마와 무더위가 빨라지면서 구매 시기도 앞당겨지는 추세입니다. 2023년 기준 일일 제습량 20리터 제품이 가장 많이 판매되었으며, 물통 용량은 3~5리터 제품이 선호됩니다. LG전자와 위닉스가 시장을 주도하고 있으며, 에너지 효율 1등급 제품이 높은 판매 비중을 차지합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdnzdbXayfJnaexgv18XLHXXtKyHNGo4_UjAaR6kk81GMBjNM8LQYmJ0Eucusw1D3tuECJ0iCkV4LzFsrCJbd6zoS6CY5-7gcdQG8Klm-NaWiVSzIK52ZE1Yk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwUYF8wJc7MzToPr-xDxcKOkndBaN0wCcc2RWYMVYxjhzycPR3lZ4GROWE0QIXA64z1oYdnnKaTwnvr1XFhinTmtTYbqCRdYrecpYu-nQAom9CdK8-mcIKOBK0kghRFsB8Wu3WvH4oSkFGLez0TQo2ag==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEDV7MrHu6K16sEf2CbVO8tISdi-e7NEtsN-xpvNbWgHtqSkAQYg8PGlGkc1vxHVN2tgjtoaXc44zb_TWPNMEmjYfNksnKNftPYKGtWaiAr7sa1YNdWA6xQVjm2Yw2CUkudntufygqqJyta-43pnC0GOeCSELO7w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6A1FPE06jcQF95tA_ZZgkgPR6X9t42W5GTjOWVIo2ylOj6hos6qPwk8K832gvSYaymfx2INE_ooHyLQuGH_8w_JezWKxoWQqgInF1DBPjQ32NV8uMlkbIEzqz8vvx0wmo_VzbuMYHqmf5hMwpQhZAlG-QWQgdGhiczQ3GouKwfjFr2rlqTd42Byc9UelGN9OR-PftoT8Ya5f917d8E7d5jTiNRKS7R9ZGWRTb2B_9WE_oxZO3LTrTcd6hpJaL0WDwAxY_P3DWO3SB5zYseLZv5vtrVE016YhXWWCSOM4IABET_atAxt5rZidqdkYjto_CddmrjChaba5eMnocVTG99SurTy8jxqrzZbcGMcBhXm5yrMqUXe4WfuQXpu-UL89ohHXAH5JbNj0qatDFRLmU2IQorL-fjxQs08Pq4faXbJNj8DeoaqrqqN0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYha6NQOzlp1aAqCiys0H6rruYkQ2qINSy0jcAEJ2L4dXbsiChbMM6_K2iqk9mKNJWkdx4Ms5wXkSFIL4X181jh7mPWQAImJiNh655lgrWGZdJv06M6GMPLdLRSo_TztBCfECUVds=
 
 ---
 
@@ -16,37 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 제습기를 주로 어느 공간에서 사용하실 예정인가요? | 중간 크기 방 (~20평) |
-| 하루에 어느 정도의 제습량을 원하시나요? | 10L ~ 15L |
-| 제습기 작동 시 소음에 얼마나 민감하신가요? | 매우 민감함 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 97개 (전체 97개 중)
+현재 후보: 3개 (전체 3개 중)
 
 ### 후보 상품
-1. LG전자 휘센 DQ205PSVA - 364,626원 - ⭐4.8
-2. LG전자 오브제컬렉션 DQ235MWGA - 507,978원 - ⭐4.9
-3. LG전자 오브제컬렉션 DQ185MEGA - 402,696원 - ⭐4.9
-4. LG전자 오브제컬렉션 DQ134MWEC - 351,873원 - ⭐4.9
-5. 캐리어 CDHB-180AXLWOXH - 239,200원 - ⭐4.8
-6. 위닉스 뽀송 DO2E160-JWK - 282,550원 - ⭐4.7
-7. 아이리버 IHD-M1 - 107,960원 - ⭐5
-8. 롯데알미늄 LDH-8000 - 150,640원 - ⭐4.6
-9. LG전자 오브제컬렉션 DQ214MEGA - 499,000원 - ⭐4.9
-10. 코오롱글로벌 오토드 에코샤인 P30L - 199,000원 - ⭐4.6
-11. 위닉스 뽀송 DXAE120-NEK - 207,830원 - ⭐4.7
-12. LG전자 오브제컬렉션 DQ185MWGA - 421,561원 - ⭐4.9
-13. LG전자 휘센 DQ205PBBC - 399,100원 - ⭐4.8
-14. FROKOM JDH-1300 - 21,160원 - ⭐5
-15. 듀플렉스 D11 - 153,930원 - ⭐5
-16. 아이리버 IHD-100 - 149,000원 - ⭐5
-17. 캐리어 CDHC-080AONWOYH - 136,040원 - ⭐4.6
-18. 샤오미 미지아 스마트 제습기 DM-CS13BFA5A - 129,950원 - ⭐4.6
-19. RONGEO WE-EDH22-007Pro - 89,000원 - ⭐5
-20. 도어스코리아 홈리아 에어라이트 HA-02DH - 52,610원 - ⭐4.3
+1. 위닉스 뽀송 DO2E160-JWK - 327,710원 - ⭐4.7
+2. 캐리어 YCDHM-C016LROW - 171,501원 - ⭐4.7
+3. 위닉스 뽀송 DXAE100-JWK - 242,000원 - ⭐4.7
 
 ---
 

@@ -13,6 +13,8 @@ import {
   logKAPageView
 } from '@/lib/logging/clientLogger';
 import { KnowledgeAgentStepIndicator } from '@/components/knowledge-agent/KnowledgeAgentStepIndicator';
+import { AIHelperButton } from '@/components/recommend-v2/AIHelperButton';
+import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
 
 
 // --- Data Configuration ---
@@ -385,8 +387,25 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
   const [extractedKeyword, setExtractedKeyword] = useState('');
   const [savedCategories, setSavedCategories] = useState<Set<string>>(new Set());
 
+  // AI Helper 상태
+  const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
+
   // Theme Colors
   const isBaby = defaultTab === 'baby';
+
+  // 모든 하위 카테고리를 options 형태로 변환
+  const allCategoryOptions = useMemo(() => {
+    const options: { value: string; label: string }[] = [];
+    const mainCat = CATEGORIES_DATA[selectedMainCategory];
+    Object.values(mainCat).forEach((subCat: any) => {
+      if (subCat.children) {
+        subCat.children.forEach((child: string) => {
+          options.push({ value: child, label: child });
+        });
+      }
+    });
+    return options;
+  }, [selectedMainCategory]);
 
   // 로컬스토리지에서 저장된 결과가 있는 카테고리 확인
   useEffect(() => {
@@ -502,6 +521,23 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
     setActiveSearchItem(null);
   };
 
+  // AI 추천 결과 핸들러 - 선택된 카테고리로 이동
+  const handleAISelectCategory = (selectedOptions: string[]) => {
+    if (selectedOptions.length > 0) {
+      const selectedCategory = selectedOptions[0];
+      // 바텀시트 닫고 약간의 딜레이 후 카테고리 선택 처리
+      setIsAIHelperOpen(false);
+      setTimeout(() => {
+        // 이미 추천 완료된 카테고리면 바로 결과 페이지로 이동
+        if (savedCategories.has(selectedCategory)) {
+          router.push(`/knowledge-agent/${encodeURIComponent(selectedCategory)}`);
+        } else {
+          handleSearchRequest(selectedCategory);
+        }
+      }, 150);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
 
@@ -511,6 +547,21 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
         onConfirm={handleConfirmSearch}
         onCancel={handleCancelSearch}
         isLoading={isProcessing}
+        isBaby={isBaby}
+      />
+
+      {/* AI 카테고리 추천 바텀시트 */}
+      <AIHelperBottomSheet
+        isOpen={isAIHelperOpen}
+        onClose={() => setIsAIHelperOpen(false)}
+        questionType="category_selection"
+        questionId="category_selection"
+        questionText={isBaby ? "어떤 육아용품을 찾으시나요?" : "어떤 가전제품을 찾으시나요?"}
+        options={allCategoryOptions}
+        category={defaultTab}
+        categoryName={selectedMainCategory}
+        onSelectOptions={handleAISelectCategory}
+        categoryIcons={isBaby ? BABY_CATEGORY_ICONS : LIVING_CATEGORY_ICONS}
         isBaby={isBaby}
       />
 
@@ -530,8 +581,21 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
           className="flex-1 flex flex-col pt-0"
         >
           <div className="px-4 pt-0 pb-12">
+            {/* AI 도움 버튼 */}
+            <div className="mt-3 mb-4">
+              <AIHelperButton
+                onClick={() => setIsAIHelperOpen(true)}
+                label="뭘 사야 할지 모르겠어요"
+                questionType="category_selection"
+                questionId="category_selection"
+                questionText={isBaby ? "어떤 육아용품을 찾으시나요?" : "어떤 가전제품을 찾으시나요?"}
+                category={defaultTab}
+                categoryName={selectedMainCategory}
+              />
+            </div>
+
             {/* Title */}
-            <motion.div className="mt-[11px] mb-[16px]">
+            <motion.div className="mb-[16px]">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-[15px] text-gray-400 font-semibold">
                   카테고리 설정

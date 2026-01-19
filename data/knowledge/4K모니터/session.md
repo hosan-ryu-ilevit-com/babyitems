@@ -1,14 +1,14 @@
-# 세션: 20260115_142948_68if
-> 시작: 2026-01-15T14:29:48.346Z
+# 세션: 20260119_065418_rx38
+> 시작: 2026-01-19T06:54:18.439Z
 > 카테고리키: 4K모니터
 > 카테고리: 4K모니터
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 4K모니터 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 4K 모니터 시장은 고해상도와 고주사율을 중심으로 발전하고 있으며, LG전자, 삼성전자, MSI, 벤큐 등 다양한 브랜드가 경쟁하고 있습니다. 특히 게이밍 성능과 콘텐츠 감상 경험을 향상시키는 기술들이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUmQTuzkInrkhNrjN9dNovqBtJzLIqnrigumiBuucLKbApnFNkDJTJdN-pcdVr2zarfvP1KjqAX99YIvmc0kTFvPgL2sGonrsEMDXNqBI605EepgaUsRpcnrGsxV1l0gFXksRCxw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUcaCsQkMpcc-kwb3yOC2gtGO11MUJbRHslNzbgIP6qB-JEtVGhTNUVrX2c8-8c3im-aEacP3Hp64VUIcLTjZPVejdwBsbI-M8jPX1mEBsWtc8eo3BsJM80a8E_GoaH7fNAwMGT-Qa9LjyWUnXAspj_ioQc9k2Quc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPti_ic-DVKhsmARpiTc-DafZ-lLmnLfeOmDFIxLahLV6_UhpI-yQ6HVmVdwbwsCC4VjVHVaYp2CgJWYnUTY8IWE54xrWyF0-qNwpmkflLA8eL8N3G922pK2EQlBO2jsNT9w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFl1m3QJuQyTxODr7_IoJkAOPXVjhQj0Up6ObdBPhZy94D9cN5c7M-NnOd3mvh6qKMI-Or9_7GCOsyaanAHJBQ0UHf7xKSRXWmmoVyV9AjPUw_62V6vIjopYFTWEothuu6U, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwbSPl_XvC086C8nu0GPWSnccCI__LfC0KYdEDC6_mwPPFJsVyyrvVsyO5UsuFyDwgc4us2vNcgPaG3ER1h_RsxuoSL2LLZvmTnh63T0NgwxA1SU3RGigkHN-wY86fXqbWj3N8Lj__iWv0TM52L6pca8O2rSPdMt6QbVImESHxbnSp9y21r55AnQfb1F5kHkrlnzGsCxXoh9MIh43lh3hNBann27k=
+- 쿼리: 4K 모니터 시장 현황
+- 인사이트: 4K 모니터 시장은 2025년 하반기 32인치 모델의 검색량이 50~60대를 유지하며 꾸준한 성장세를 보일 것으로 예상됩니다. 장기적으로는 2026년까지 연평균 8% 성장이 전망되나, OLED 모니터의 빠른 대체 속도가 위험 요인으로 작용할 수 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFeFMolQ1SUAT-8MStKm1iETrzUASWMM-PfOSENGGSXeUVi5SG0Hmvlp1cbTwR32aFM6KfnPGW9O61PFgU09w0zljYzgY2a12lIKXyWd0D4SEmzTHIIrH4F9iIJWoEFpGLFtcHp34gCUimNGpigmrjijQjr1SATgsM8W7GMYHrpTsFg4b5RgcUnmRVXWmO4C76, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRTb_ckywVwmfuKtlglzeM2vafYBAm5LSlKOXMWMNzvAoXHVRMbMdB0zgX8f_qgKAMxsvkYCKFSp9IYZCJZHZ6Lwc5xjHOcwmxA3-3D_BOC8jg, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaL95212mbFh1gC3FDAGalyhF0MNxS5IZep1wDTua5g2JIEFgdBUWD2vCdvmCPWcjhnt4z4ShgXnCfLvVLWoQHyf4Y38g62gwgIuHCtx3bEpuYykvlqIn_1SabXQZooXr2MdcyVXE0_VlyGoV9bMwYtK0cUBaLRH4hCGQHjQjXb07T6hUGx4DflaY9u-f_fe9PggyBI9Vtx6gG2uaGK7YIUjXtDCPG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKhZGcowFPKMj1P8wbBk6lUXI92TnWHCUDMrLlgUWc7tRmL6jhqlbCDlkknv-3MANZjOqgCB90tkk1adbO28EHvqrwyxB9JyI9pe4QeM8q8YNMqMZBw0wznPFSB0hDjVL42nHpj6huUcsS3o_e1nCfnZ8JvmcAiS5Nj49UO9ltHaH_tzL6f-c-ryHDScRsh7MGth6z2pmLwSy_08EX7eNCKRyh01DS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlivwzLS_nCZf4SUxvBC4dFuMgXKv5mzV-51JappvyVd-cjgDsVZVumsf3YdTJF_CLejypbxMORCzw9zxy-iQJsNiJiJNFM0XSCMRFbBtmHB2Ve9MqsAYxfTTpb6g9fppUdahZ8e0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZfatpx8d7mbIvwGCefLo3fY5jQICq4cE8pKR8jzaPiQqxY7XwsRRCRTh9yOGCMv4tA9EMXjfjg8E3SyAkp0_ZHtMjrVx7tyGEz18kgHOyHPtt7-NXjgkjHkXfJyq6ktxaymnLCLA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcZvpydHbKc-Vn7EqkVoTCcOqQ2gdllRjXS7xjoJum8K77RMmzyNHQupBl-yshen0bGBjM3P1WzA4mv18juM3nhHFrIBIU7JowQoO7C9pok00yxJi31BH-kZ_Uv1d_a4foqMRhSy0=
 
 ---
 
@@ -16,39 +16,31 @@
 
 | 항목 | 답변 |
 |------|------|
-| 주로 어떤 용도로 4K 모니터를 사용하실 예정인가요? | 영상/디자인 작업 |
-| 화면 전환이 얼마나 부드러워야 할까요? (주사율) | 120Hz ~ 144Hz, 60Hz 이하 |
-| 어떤 종류의 패널 기술을 선호하시나요? | IPS |
-| 4K 모니터 예산은 어느 정도로 생각하세요? (평균 55만원, 30만원대~70만원대가 가장 많아요) | 38만원 ~ 71만원대 |
-| __avoid_negatives__ | 4K 해상도에서 프로그램이나 텍스트가 너무 작게 보여서 화면 확대/축소 설정을 자주 바꿔야 하는 불편함이 있을까 봐 염려돼요.,디자인 작업 시 색상 표현의 정확도가 매우 중요한데,IPS 패널이라도 기대했던 만큼의 색 정확도를 보여주지 못할까 봐 걱정돼요. |
+| 4K 모니터를 주로 어떤 용도로 사용하실 예정인가요? | 게임 |
+| 선호하시는 모니터 화면 크기가 있으신가요? | 32인치 |
+| 어떤 종류의 패널을 선호하시나요? | IPS, OLED |
+| 모니터 연결 시 중요하게 생각하는 기능이 있으신가요? | 상관없어요 |
+| 4K 모니터 예산은 어느 정도로 생각하세요? (평균 51만원, 36만원~66만원대가 가장 많아요) | 36만원 ~ 66만원대 |
+| __avoid_negatives__ | 상관없어요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 20개 (전체 20개 중)
+현재 후보: 11개 (전체 11개 중)
 
 ### 후보 상품
-1. MSI MD271UL 4K IPS 아이에르고 PD65 무결점 - 229,970원 - ⭐4.8
-2. 알파스캔 콘퀘스트 27U60G 게이밍 4K UHD 160 FAST IPS USB-C HDR 멀티스탠드 무결점 - 386,560원 - ⭐5
-3. 필립스 에브니아 32M2N5800 4K UHD 듀얼 모드 320 HDR 400 게이밍 무결점 - 517,280원 - ⭐5
-4. MSI MAG 321CUP 게이밍 4K 160 HDR400 무결점 - 319,520원 - ⭐4.8
-5. 한성컴퓨터 TFG32U14VM1152ZMW UHD 4K QD Mini LED 144 게이밍 화이트 무결점 - 538,470원 - ⭐5
-6. 알파스캔 AOC U27B35 4K UHD IPS 보더리스 HDR 시력보호 무결점 - 251,030원 - ⭐5
-7. ASUS ProArt PA279CRV - 596,520원 - ⭐4.6
-8. BenQ PD3205U 아이케어 무결점 - 920,700원 - ⭐5
-9. 필립스 438P1 4K UHD 시력보호 무결점 - 849,000원 - ⭐4.8
-10. 알파스캔 2725UN 4K UHD 보더리스 IPS 시력보호 HDR 무결점 - 263,290원 - ⭐5
-11. 한성컴퓨터 TFG32U16PM2304ZMW Fast IPS QD Mini LED UHD 160 FHD 320 듀얼모드 게이밍 화이트 무결점 - 826,040원 - ⭐5
-12. 크로스오버 27USD35 IPS UHD 4K DCI-P3 하이라이트 무결점 - 188,100원 - ⭐4.8
-13. 주연테크 V27UI-60M - 304,700원 - ⭐4.7
-14. GIGABYTE M32U UHD 4K 게이밍 144 피씨디렉트 - 536,480원 - ⭐4.7
-15. 한성컴퓨터 TFG27U14P UHD IPS 리얼 144 게이밍 USB Type-C 400 - 417,570원 - ⭐3.4
-16. 알파스캔 AOC U27U2DP 나노 IPS 블랙 도킹스테이션 HDR 400 피벗 무결점 - 559,590원 - ⭐4.6
-17. 알파스캔 AOC U32N3C 4K UHD USB-C 프리싱크 높낮이 HDR 무결점 - 578,550원 - ⭐4.8
-18. 주연테크 V32UE 4K UHD HDR USB-C 무결점 - 379,000원 - ⭐4.6
-19. 크로스오버 27USD35 IPS UHD 4K DCI-P3 하이라이트 - 179,100원 - ⭐4.6
-20. 삼성전자 SMART M7 S43BM700 - 548,990원 - ⭐4.8
+1. 알파스캔 AOC U27B35 4K UHD IPS 보더리스 HDR 시력보호 무결점 - 250,160원 - ⭐4.9
+2. 필립스 에브니아 32M2N5800 4K UHD 듀얼 모드 320 HDR 400 게이밍 무결점 - 525,910원 - ⭐5
+3. 한성컴퓨터 TFG32U14VM1152ZMW UHD 4K QD Mini LED 144 게이밍 화이트 무결점 - 538,470원 - ⭐5
+4. 알파스캔 콘퀘스트 27U60G 게이밍 4K UHD 160 FAST IPS USB-C HDR 멀티스탠드 무결점 - 399,000원 - ⭐5
+5. 필립스 438P1 4K UHD 시력보호 무결점 - 849,000원 - ⭐4.8
+6. 삼성전자 SMART M7 S43BM700 - 510,570원 - ⭐4.8
+7. 알파스캔 2725UN 4K UHD 보더리스 IPS 시력보호 HDR 무결점 - 259,000원 - ⭐5
+8. 주연테크 V28UE 4K UHD HDR USB-C - 259,470원 - ⭐4.7
+9. 크로스오버 32UG5 IPS KVM 패스트 144 UHD 4K HDR 게이밍 - 490,820원 - ⭐4.4
+10. 알파스캔 AOC U32N3C 4K UHD USB-C 프리싱크 높낮이 HDR 무결점 - 578,550원 - ⭐4.8
+11. GIGABYTE M32U UHD 4K 게이밍 144 피씨디렉트 - 569,040원 - ⭐4.7
 
 ---
 
@@ -60,9 +52,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 4K 해상도에서 프로그램이나 텍스트가 너무 작게 보여서 화면 확대/축소 설정을 자주 바꿔야 하는 불편함이 있을까 봐 염려돼요.
-- 디자인 작업 시 색상 표현의 정확도가 매우 중요한데
-- IPS 패널이라도 기대했던 만큼의 색 정확도를 보여주지 못할까 봐 걱정돼요.
+- 상관없어요
 
 ---
 
