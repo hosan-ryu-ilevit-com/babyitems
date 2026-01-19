@@ -2076,7 +2076,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                     blogInitialLoadRef.current = true;
                   }
                 }}
-                className="absolute bottom-6 left-4 w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-black/80 transition-colors z-20"
+                className="absolute bottom-12 left-4 w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-black/80 transition-colors z-20"
                 aria-label="뒤로가기"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
