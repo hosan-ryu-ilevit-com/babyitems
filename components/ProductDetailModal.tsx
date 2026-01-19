@@ -1648,7 +1648,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                             height={16}
                             className="rounded-full object-cover"
                           />
-                          블로그 후기
+                          블로그 리뷰
                         </button>
                       </div>
 
@@ -2032,7 +2032,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
               {/* 헤더 */}
               <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between z-10">
                 <div className="flex items-center gap-2">
-                  <span className="text-[16px] font-bold text-gray-900">블로그 후기</span>
+                  <span className="text-[16px] font-bold text-gray-900">블로그 리뷰</span>
                 </div>
                 <button
                   onClick={() => setShowBlogReview(false)}

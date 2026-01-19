@@ -985,7 +985,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
               <div className="flex items-center justify-between px-4 py-2 border-b">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">📝</span>
-                  <h2 className="font-bold text-gray-900">블로그 후기</h2>
+                  <h2 className="font-bold text-gray-900">블로그 리뷰</h2>
                 </div>
                 <button
                   onClick={() => setShowBlogReview(false)}
