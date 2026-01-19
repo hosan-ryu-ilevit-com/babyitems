@@ -19,7 +19,7 @@ import {
   FcRight
 } from "react-icons/fc";
 import ProductDetailModal from '@/components/ProductDetailModal';
-import { KnowledgeComparisonTable } from '@/components/knowledge-agent/KnowledgeComparisonTable';
+import { ProductComparisonGrid } from '@/components/knowledge-agent/ProductComparisonGrid';
 import { KnowledgeAgentResultCarousel } from '@/components/knowledge-agent/KnowledgeAgentResultCarousel';
 import { AgenticLoadingPhase, createDefaultSteps, type AnalysisStep } from '@/components/knowledge-agent/AgenticLoadingPhase';
 import { AssistantMessage, LoadingAnimation } from '@/components/recommend-v2';
@@ -4302,16 +4302,16 @@ function MessageBubble({
               {/* 비교표 토글 */}
               <button
                 onClick={() => setShowComparisonOnly(!showComparisonOnly)}
-                className={`flex items-center justify-between w-[104px] h-[34px] px-2.5 rounded-lg transition-all duration-200 ${
+                className={`flex items-center justify-between w-[120px] h-[34px] px-2.5 rounded-lg transition-all duration-200 ${
                   showComparisonOnly
                     ? 'bg-blue-50 border border-blue-100'
                     : 'bg-gray-50 border border-gray-100'
                 }`}
               >
-                <span className={`text-[14px] font-medium transition-colors whitespace-nowrap ${
+                <span className={`text-[14px] font-semibold transition-colors whitespace-nowrap ${
                   showComparisonOnly ? 'text-blue-500' : 'text-gray-600'
                 }`}>
-                  비교표
+                  AI 비교표
                 </span>
                 <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0 ${
                   showComparisonOnly ? 'bg-blue-500' : 'bg-gray-300'
@@ -4489,27 +4489,25 @@ function MessageBubble({
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <KnowledgeComparisonTable
+                  <ProductComparisonGrid
                     products={message.resultProducts.map((p: any) => ({
                       pcode: p.pcode || p.id,
                       name: p.name || p.title,
                       brand: p.brand || null,
                       price: p.price || null,
                       thumbnail: p.thumbnail || null,
+                      raw: p,
                       rating: p.rating || p.averageRating || null,
                       reviewCount: p.reviewCount || null,
                       specs: p.specs || p.spec || {},
-                      specSummary: p.specSummary || '',
                       prosFromReviews: p.prosFromReviews || [],
                       consFromReviews: p.consFromReviews || [],
                       oneLiner: p.oneLiner || '',
-                      comparativeOneLiner: p.comparativeOneLiner || '',
-                      recommendedFor: p.recommendedFor || '',
-                      recommendReason: p.recommendReason || ''
+                      productUrl: p.productUrl || ''
                     }))}
                     categoryKey={categoryKey || ''}
                     categoryName={categoryName}
-                    showRank={true}
+                    onProductClick={onProductClick}
                   />
                 </motion.div>
               )}
