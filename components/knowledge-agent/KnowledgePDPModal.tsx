@@ -108,6 +108,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
   const [reviewSortBy, setReviewSortBy] = useState<'newest' | 'rating_high' | 'rating_low'>('newest');
   const [showPhotoOnly, setShowPhotoOnly] = useState(false); // 포토리뷰만 보기
   const [displayedReviewsCount, setDisplayedReviewsCount] = useState(30); // 리뷰 lazy loading
+  const [showBlogReview, setShowBlogReview] = useState(false); // 블로그 후기 바텀시트
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [priceData, setPriceData] = useState<PriceData>({
     loading: false,
@@ -625,6 +626,16 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
             </div>
           )}
 
+          {/* 블로그 후기 버튼 (리뷰 유무와 상관없이 항상 표시) */}
+          <div className="px-6 mb-4">
+            <button
+              onClick={() => setShowBlogReview(true)}
+              className="w-full py-3 text-[13px] font-bold rounded-xl transition-colors flex items-center justify-center gap-2 bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"
+            >
+              📝 네이버 블로그 후기 보기
+            </button>
+          </div>
+
           {/* 실제 구매자 리뷰 */}
           {product.reviews && product.reviews.length > 0 && (
             <div className="px-6 pb-20">
@@ -943,6 +954,61 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                 ))}
               </div>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 블로그 후기 바텀시트 */}
+      <AnimatePresence>
+        {showBlogReview && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-60 bg-black/50"
+            onClick={() => setShowBlogReview(false)}
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="absolute bottom-0 left-0 right-0 h-[85vh] bg-white rounded-t-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* 핸들 */}
+              <div className="flex justify-center py-2">
+                <div className="w-10 h-1 bg-gray-300 rounded-full" />
+              </div>
+
+              {/* 헤더 */}
+              <div className="flex items-center justify-between px-4 py-2 border-b">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">📝</span>
+                  <h2 className="font-bold text-gray-900">블로그 후기</h2>
+                </div>
+                <button
+                  onClick={() => setShowBlogReview(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+                >
+                  <X size={20} className="text-gray-500" />
+                </button>
+              </div>
+
+              {/* 검색어 안내 */}
+              <div className="px-4 py-2 bg-gray-50 border-b">
+                <p className="text-[12px] text-gray-500">
+                  &quot;{product.title}&quot; 검색 결과
+                </p>
+              </div>
+
+              {/* iframe */}
+              <iframe
+                src={`https://m.blog.naver.com/SectionPostSearch.naver?orderType=sim&searchValue=${encodeURIComponent(product.title)}`}
+                className="w-full h-[calc(85vh-100px)]"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

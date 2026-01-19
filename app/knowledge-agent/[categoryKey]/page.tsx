@@ -4080,7 +4080,7 @@ function MessageBubble({
         )}
 
         {isUser ? (
-          <div className="bg-gray-50 text-gray-800 rounded-[20px] px-5 py-2.5 text-[16px] font-medium min-h-[46px] flex items-center w-fit ml-auto leading-relaxed">{message.content}</div>
+          <div className="bg-gray-50 text-gray-800 rounded-[20px] px-5 py-2.5 text-[16px] font-medium min-h-[46px] flex items-center w-fit ml-auto leading-[1.4]">{message.content}</div>
         ) : message.content ? (
           <div className="w-full">
             {/* 결과 메시지인 경우 상단 구분선 추가 */}

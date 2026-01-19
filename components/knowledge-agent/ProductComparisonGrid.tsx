@@ -188,7 +188,7 @@ export function ProductComparisonGrid({
         </div>
 
         {/* 별점 + 장단점 섹션 */}
-        <div className="mt-5 pt-4">
+        <div className="mt-3 pt-2">
           <div className="px-4 mb-2">
             <h4 className="text-[12px] font-semibold text-gray-600">장단점 요약</h4>
           </div>
@@ -258,7 +258,7 @@ export function ProductComparisonGrid({
             {allSpecKeys.map((specKey) => (
               <div key={specKey}>
                 {/* 섹션 헤더 */}
-                <div className="px-4 py-2">
+                <div className="px-4 pt-5 pb-1">
                   <h4 className="text-[12px] font-bold text-gray-900">{specKey}</h4>
                 </div>
 

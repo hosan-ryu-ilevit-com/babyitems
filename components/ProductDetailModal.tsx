@@ -321,6 +321,10 @@ export default function ProductDetailModal({ productData, category, danawaData, 
   const [expandedReviewIds, setExpandedReviewIds] = useState<Set<number>>(new Set());
   const [showPhotoReviewsOnly, setShowPhotoReviewsOnly] = useState(false);
   const [displayedReviewsCount, setDisplayedReviewsCount] = useState(30); // 리뷰 lazy loading
+  const [showBlogReview, setShowBlogReview] = useState(false); // 블로그 후기 바텀시트
+  const [blogHasNavigated, setBlogHasNavigated] = useState(false); // 블로그 내부 네비게이션 추적
+  const blogIframeRef = useRef<HTMLIFrameElement>(null);
+  const blogInitialLoadRef = useRef(true);
   const loadMoreReviewsRef = useRef<HTMLDivElement>(null);
 
   // PDP 상단 이미지 캐러셀 상태
@@ -1629,9 +1633,23 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                               <polyline points="21 15 16 10 5 21"/>
                             </svg>
                             포토 리뷰만 보기
-                            {showPhotoReviewsOnly && <span className="text-[12px] opacity-80">({photoReviewCount})</span>}
+                            {showPhotoReviewsOnly}
                           </button>
                         )}
+                        {/* 블로그 후기 버튼 */}
+                        <button
+                          onClick={() => setShowBlogReview(true)}
+                          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-[13px] font-semibold bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
+                        >
+                          <Image
+                            src="/icons/malls/name=naver.png"
+                            alt="네이버"
+                            width={16}
+                            height={16}
+                            className="rounded-full object-cover"
+                          />
+                          블로그 후기
+                        </button>
                       </div>
 
                       {/* 리뷰 목록 */}
@@ -1989,6 +2007,83 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                 ))}
               </div>
             )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 블로그 후기 바텀시트 */}
+      <AnimatePresence>
+        {showBlogReview && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black/50"
+            onClick={() => setShowBlogReview(false)}
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] h-[95vh] bg-white rounded-t-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* 헤더 */}
+              <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between z-10">
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px] font-bold text-gray-900">블로그 후기</span>
+                </div>
+                <button
+                  onClick={() => setShowBlogReview(false)}
+                  className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* 블로그 검색 iframe */}
+              <iframe
+                ref={blogIframeRef}
+                src={`https://m.blog.naver.com/SectionPostSearch.naver?orderType=sim&searchValue=${encodeURIComponent(productData.product.title || '')}`}
+                className="w-full h-[calc(95vh-52px)]"
+                style={{ border: 'none' }}
+                title="네이버 블로그 검색"
+                onLoad={() => {
+                  if (blogInitialLoadRef.current) {
+                    blogInitialLoadRef.current = false;
+                  } else {
+                    setBlogHasNavigated(true);
+                  }
+                }}
+              />
+
+              {/* 뒤로가기 플로팅 버튼 */}
+              <button
+                onClick={() => {
+                  if (blogHasNavigated && blogIframeRef.current) {
+                    // 리스트 화면으로 복귀
+                    const searchUrl = `https://m.blog.naver.com/SectionPostSearch.naver?orderType=sim&searchValue=${encodeURIComponent(productData.product.title || '')}`;
+                    blogIframeRef.current.src = searchUrl;
+                    setBlogHasNavigated(false);
+                    blogInitialLoadRef.current = true;
+                  } else {
+                    // 바텀시트 닫기
+                    setShowBlogReview(false);
+                    setBlogHasNavigated(false);
+                    blogInitialLoadRef.current = true;
+                  }
+                }}
+                className="absolute bottom-6 left-4 w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-black/80 transition-colors z-20"
+                aria-label="뒤로가기"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

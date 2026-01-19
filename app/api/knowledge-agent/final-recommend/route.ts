@@ -673,7 +673,8 @@ function prescreenCandidates(
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
   negativeSelections: string[],
-  expandedKeywords?: ExpandedKeywords // 🆕 확장된 키워드 (flash-lite로 추출)
+  expandedKeywords?: ExpandedKeywords, // 🆕 확장된 키워드 (flash-lite로 추출)
+  rankMap?: Record<string, number> // 🆕 다나와 랭크 맵
 ): HardCutProduct[] {
   console.log(`[FinalRecommend] Pre-screening ${candidates.length} candidates...`);
 
@@ -688,13 +689,13 @@ function prescreenCandidates(
 
     // 2. 리뷰 수 점수 (리뷰가 많을수록 높음) - 가중치 상향!
     const productReviews = reviews[p.pcode] || [];
-    // 리뷰 수 구간별 점수: 1-5개: 기본, 6-15개: 보너스, 16개 이상: 추가 보너스
+    // 리뷰 수 구간별 점수: 1-5개: 기본, 6-15개: 보너스, 16개 이상: 대폭 추가 보너스
     const reviewCount = productReviews.length;
     let reviewScore = 0;
     if (reviewCount >= 1) reviewScore += Math.min(reviewCount, 5) * 2; // 1-5개: 최대 10점
     if (reviewCount >= 6) reviewScore += Math.min(reviewCount - 5, 10) * 3; // 6-15개: 추가 최대 30점
-    if (reviewCount >= 16) reviewScore += Math.min(reviewCount - 15, 10) * 1.5; // 16개 이상: 추가 최대 15점
-    score += Math.min(reviewScore, 55); // 최대 55점 (기존 15점에서 대폭 상향)
+    if (reviewCount >= 16) reviewScore += Math.min(reviewCount - 15, 15) * 3; // 16개 이상: 추가 최대 45점 (기존 15점에서 상향)
+    score += Math.min(reviewScore, 85); // 최대 85점 (기존 55점에서 상향)
 
     // 3. 평점 점수
     const avgRating = productReviews.length > 0
@@ -761,6 +762,15 @@ function prescreenCandidates(
       // 🆕 스펙뿐 아니라 리뷰에서도 검색
       if (valueLower && combinedText.includes(valueLower)) {
         score += 5;
+      }
+    }
+
+    // 8. 🆕 다나와 랭크 점수 (동점 시 랭크 높은 제품 우선)
+    // 랭크 1~20 → 최대 10점 (랭크가 낮을수록 높은 점수)
+    if (rankMap) {
+      const rank = rankMap[p.pcode];
+      if (rank && rank <= 20) {
+        score += Math.max(0, 11 - Math.ceil(rank / 2)); // 1-2위: +10, 3-4위: +9, ... 19-20위: +1
       }
     }
 
@@ -1057,10 +1067,28 @@ async function generateRecommendations(
   expandedKeywords?: ExpandedKeywords,
   freeInputAnalysis?: FreeInputAnalysis | null
 ): Promise<FinalRecommendation[]> {
+  // 🆕 다나와 랭크 조회 (사전 스크리닝용)
+  let rankMap: Record<string, number> = {};
+  if (candidates.length > PRESCREEN_LIMIT) {
+    try {
+      const pcodes = candidates.map(c => c.pcode);
+      const { data: rankData } = await supabase
+        .from('knowledge_products_cache')
+        .select('pcode, rank')
+        .in('pcode', pcodes);
+      if (rankData) {
+        rankMap = Object.fromEntries(rankData.filter(r => r.rank).map(r => [r.pcode, r.rank]));
+        console.log(`[FinalRecommend] ✅ 사전스크리닝용 rank 조회: ${Object.keys(rankMap).length}개`);
+      }
+    } catch (e) {
+      console.error('[FinalRecommend] rank 조회 실패:', e);
+    }
+  }
+
   // 50개 이상이면 사전 스크리닝으로 25개로 줄임
   let filteredCandidates = candidates;
   if (candidates.length > PRESCREEN_LIMIT) {
-    filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections, expandedKeywords);
+    filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections, expandedKeywords, rankMap);
   }
 
   // 자유 입력에서 추출한 피할 단점을 negativeSelections에 추가
