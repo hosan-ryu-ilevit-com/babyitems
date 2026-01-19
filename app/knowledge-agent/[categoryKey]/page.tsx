@@ -275,7 +275,7 @@ interface QuestionTodo {
   id: string;
   question: string;
   reason: string;
-  options: Array<{ value: string; label: string; description?: string }>;
+  options: Array<{ value: string; label: string; description?: string; isPopular?: boolean }>;
   type: 'single' | 'multi';
   priority: number;
   dataSource: string;
@@ -303,7 +303,8 @@ interface ChatMessage {
   questionId?: string; // 실제 질문의 ID (예: avoid_negatives)
   role: 'user' | 'assistant';
   content: string;
-  options?: string[];
+  options?: string[];  // 선택지 라벨 배열
+  popularOptions?: string[];  // 인기 옵션 라벨들 (options 중에서 isPopular인 것들)
   selectedOptions?: string[]; // 복수 선택 저장
   isFinalized?: boolean;      // 선택 완료 여부 (지나간 질문)
   typing?: boolean;
@@ -395,7 +396,8 @@ function OptionButton({
   onClick,
   description,
   disabled,
-  isNegative
+  isNegative,
+  isPopular
 }: {
   label: string;
   isSelected?: boolean;
@@ -403,6 +405,7 @@ function OptionButton({
   description?: string;
   disabled?: boolean;
   isNegative?: boolean;
+  isPopular?: boolean;
 }) {
   return (
     <motion.button
@@ -421,6 +424,11 @@ function OptionButton({
           <span className={`text-[12px] font-medium wrap-break-word ${isSelected ? (isNegative ? 'text-red-400' : 'text-blue-400') : 'text-gray-400'}`}>{description}</span>
         )}
       </div>
+      {isPopular && (
+        <span className="shrink-0 px-1.5 py-0.5 bg-green-100 text-green-700 text-[11px] font-semibold rounded-md">
+          인기
+        </span>
+      )}
     </motion.button>
   );
 }
@@ -856,6 +864,7 @@ export default function KnowledgeAgentPage() {
   const [needsDynamicNegativeOptions, setNeedsDynamicNegativeOptions] = useState(false); // 동적 옵션 생성 필요 플래그
   const needsDynamicNegativeOptionsRef = useRef(false); // 클로저 문제 해결용 ref
   const prefetchedNegativeOptionsRef = useRef<string[] | null>(null); // 프리페치된 단점 옵션
+  const prefetchedPopularOptionsRef = useRef<string[] | null>(null); // 프리페치된 인기 옵션
   const [isLoadingNegativeOptions, setIsLoadingNegativeOptions] = useState(false); // 동적 옵션 로딩 중
   const [trendCons, setTrendCons] = useState<string[]>([]); // Init에서 받은 트렌드 단점 키워드
   const trendConsRef = useRef<string[]>([]); // 클로저 문제 해결용 ref
@@ -914,12 +923,17 @@ export default function KnowledgeAgentPage() {
 
     setPhase('questions');
     const firstQuestionMsgId = `q_${firstQuestion.id}`;
+    // 인기 옵션 추출 (isPopular가 true인 것들의 label)
+    const popularOpts = firstQuestion.options
+      .filter((o: any) => o.isPopular)
+      .map((o: any) => o.label);
     setMessages(prev => [...prev, {
       id: firstQuestionMsgId,
       questionId: firstQuestion.id,
       role: 'assistant',
       content: firstQuestion.question,
       options: firstQuestion.options.map((o: any) => o.label),
+      popularOptions: popularOpts.length > 0 ? popularOpts : undefined,
       questionProgress: { current: 1, total },
       dataSource: firstQuestion.dataSource,
       tip: firstQuestion.reason,
@@ -2962,6 +2976,9 @@ export default function KnowledgeAgentPage() {
       }).then(res => res.json()).then(result => {
         if (result.success && result.options?.length > 0) {
           prefetchedNegativeOptionsRef.current = result.options.map((opt: any) => opt.label);
+          prefetchedPopularOptionsRef.current = result.options
+            .filter((opt: any) => opt.isPopular)
+            .map((opt: any) => opt.label);
           console.log('[KA Flow] ⚡ Prefetch complete:', prefetchedNegativeOptionsRef.current?.length, 'options');
         }
       }).catch(err => console.error('[KA Flow] Prefetch error:', err));
@@ -3032,6 +3049,7 @@ export default function KnowledgeAgentPage() {
 
           // ✅ 프리페치된 옵션이 있으면 즉시 사용 (지연 없음)
           const prefetchedOptions = prefetchedNegativeOptionsRef.current;
+          const prefetchedPopular = prefetchedPopularOptionsRef.current;
           if (prefetchedOptions && prefetchedOptions.length > 0) {
             console.log('[KA Flow] ⚡ Using prefetched options:', prefetchedOptions.length);
             setMessages(prev => [...prev, {
@@ -3039,6 +3057,7 @@ export default function KnowledgeAgentPage() {
               role: 'assistant',
               content: data.content,
               options: prefetchedOptions,
+              popularOptions: prefetchedPopular && prefetchedPopular.length > 0 ? prefetchedPopular : undefined,
               questionProgress: data.progress,
               dataSource: data.dataSource,
               tip: data.tip,
@@ -3048,6 +3067,7 @@ export default function KnowledgeAgentPage() {
             }]);
             // 프리페치 사용 후 초기화
             prefetchedNegativeOptionsRef.current = null;
+            prefetchedPopularOptionsRef.current = null;
             return;
           }
 
@@ -3084,13 +3104,17 @@ export default function KnowledgeAgentPage() {
               if (response.ok) {
                 const result = await response.json();
                 if (result.success && result.options?.length > 0) {
-                  const dynamicOptions = result.options.map((opt: any) => opt.label);
+                  const dynamicOptions: string[] = result.options.map((opt: any) => opt.label);
+                  const dynamicPopular: string[] = result.options
+                    .filter((opt: any) => opt.isPopular)
+                    .map((opt: any) => opt.label);
                   console.log('[KA Flow] Dynamic negative options loaded:', dynamicOptions.length);
 
                   // 메시지 업데이트 (옵션 추가)
                   setMessages(prev => prev.map(m => m.id === msgId ? {
                     ...m,
                     options: dynamicOptions,
+                    popularOptions: dynamicPopular.length > 0 ? dynamicPopular : undefined,
                     isLoadingOptions: false,
                   } : m));
 
@@ -3104,9 +3128,10 @@ export default function KnowledgeAgentPage() {
                 } else {
                   // 옵션 로드 실패 - 폴백 옵션 사용
                   console.warn('[KA Flow] No dynamic options returned, using fallback');
+                  const fallbackOptions: string[] = data.options?.map((o: any) => typeof o === 'string' ? o : o.label) || ['상관없어요'];
                   setMessages(prev => prev.map(m => m.id === msgId ? {
                     ...m,
-                    options: data.options || ['상관없어요'],
+                    options: fallbackOptions,
                     isLoadingOptions: false,
                   } : m));
                 }
@@ -3114,9 +3139,10 @@ export default function KnowledgeAgentPage() {
             } catch (err) {
               console.error('[KA Flow] Error fetching dynamic negative options:', err);
               // 에러 시 기존 옵션 사용
+              const fallbackOptions: string[] = data.options?.map((o: any) => typeof o === 'string' ? o : o.label) || ['상관없어요'];
               setMessages(prev => prev.map(m => m.id === msgId ? {
                 ...m,
-                options: data.options || ['상관없어요'],
+                options: fallbackOptions,
                 isLoadingOptions: false,
               } : m));
             }
@@ -3129,6 +3155,7 @@ export default function KnowledgeAgentPage() {
             role: 'assistant',
             content: data.content,
             options: data.options,
+            popularOptions: data.popularOptions,
             questionProgress: data.progress,
             dataSource: data.dataSource,
             tip: data.tip,
@@ -4155,8 +4182,9 @@ function MessageBubble({
                 key={i}
                 label={opt}
                 isSelected={message.selectedOptions?.includes(opt)}
+                isPopular={message.popularOptions?.includes(opt)}
                 isNegative={
-                  message.questionId === 'avoid_negatives' || 
+                  message.questionId === 'avoid_negatives' ||
                   message.id?.includes('avoid_negatives') ||
                   message.content?.includes('단점')
                 }

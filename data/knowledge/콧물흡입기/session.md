@@ -1,14 +1,14 @@
-# 세션: 20260107_072637_egtd
-> 시작: 2026-01-07T07:26:37.382Z
+# 세션: 20260119_041016_34pl
+> 시작: 2026-01-19T04:10:16.714Z
 > 카테고리키: 콧물흡입기
 > 카테고리: 콧물흡입기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 콧물흡입기
-- 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpU2M6qpOjOXkKaL7VdLZJIxEbCC7zYfdhYMUma45i9CGoTVNaNCd-dZET-D2Pw2jn4leecBOSDdmMCE9PgLc0j88d-8wVNvpvwiCcdSSsSqW6uPRU6dI7nuufXkbf0KuV-rT_bQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuL00KpY8jlvgnyrTAd6qtWQ8JLxTfe2ywUhv_mkKJmbD_1ZoURrumHiAPpJ4XPSuvgfVD4kMD5H6u5gCq2HO3-qegHxwrA2VALKEm1J59f5TMUcu99YDxva1RpiKt6clpVK8VRpCXuVTj3amK_B91u7P4rXTE_kCHVTTWd0JH6Dwe-hg7s4bAtemP6g6ZUto=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCwsNw0SU43zxHkp6axZuGRg07sCRMmYqI9OJUG13MHojVrkwZ67lTw0TmB8dcmJBVLe9FTaQIvbmydUVvilyNZ_8Mb1LB9y29eSWlaoB2BFwpyAEp83ddD2pMIDapdkUTicNm_miBLOQ838siOTt-yNTVlTYuEp6WCHneWw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFj0uvwXsetzL2v61u22I5br_nDcms6YTlCUKJh7-97SmOSnIfO-L6csXJnNko8v3GB9mli09Ju65dz4SD_5zY6NpOBuweTR35FyMtBCmHYdFBpknAYJIfFv7V9UO3rpRghG_-yK9Ij, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEErGoq-bBFrsLPBG7aouDLqRV_owP6UVNXqtrjQCUki3zsq-Jm_kv0En7WOmzzN--xxoBFp2851uagQwJLpEhyesYnPLjN9yqu8Xh82W-6LCdhOAM85helzP_d-U_G0MClMeUG0NOd7aRlJFMXIiZp9jUbibjODxnFbKrek1lQQ-s=
+- 쿼리: 콧물흡입기 2026년 추천 순위 및 실사용 후기
+- 인사이트: 2026년 현재, 콧물흡입기 시장은 전동식 무선 제품이 강세를 보이며 휴대성과 사용 편의성을 중심으로 발전하고 있습니다. 브라운, 휴비딕, 노시부 등의 브랜드가 인기 있으며, 특히 강력한 흡입력과 세척 편의성을 갖춘 제품들이 소비자들의 주목을 받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPN5SQf5EFcuMCmeqsMhL0Z3ZK2-Tp-wipCmnKSBx6Br1DKAMegSMWzHs61Fs0ZzH_cewHmG24mQHSL6F4MNZ3_R2YTXVlEp3o4f6mj4rXdQpFD1VJA7F2psXQCHovudH_zsBR54WLPHiZCNKZ-GGO2LkzPSOVuL8zQAWsPkl60_MVEQK0U2kdKmM4JZNNBzXC, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF68GUnBO6dmgxGx_lLE26sh4Roo-u2iQZAg7Vox5cOnIuAJciH8zU22riNKOCEw55EtD-p50ErkX5sgcuM_LbTXKIkQe2atvBV3Xrr_wyonHatKiO6XyhIApbiEt67Yj-cUp5sGm0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXpkhm1i0mdsRglylf6_lDbl9Al8GDPxMfOQ1336zS0gsxy1jhdrke-dJhKH9LD04sApQyN7Dzpfuz4GFpliRfmP2WNVJLqJFWN5T2nXRdJ9SCvsxIou9hQL1R70t8obtsgD56NotBu7mU4nUwRekGpAGFmbUtxWGdx1IdpYvCY-J-MhnhUYAO-mz5Pg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5D6MnkYoN2rk607TjiZ1BV7jZKeTwrrj_BnWTuKWEtCUdUUc8E3PsdlKxkGF8Fm2weUSxtlKVWGOdb6wXZg4ENdMU0Uh35wifr6vDzzELvzO5vms7zt1f7uMgBMHaTGhJWzXEuC_dEFXkwmbGzwCEz_RzXrvwLz0M
 
 ---
 
@@ -16,34 +16,25 @@
 
 | 항목 | 답변 |
 |------|------|
+| 콧물흡입기, 어떤 방식으로 사용하시겠어요? | 충전식 |
+| 콧물흡입기 사용 시 소음 수준은 어느 정도가 좋을까요? | 저소음 |
+| 콧물흡입기, 의료기기 허가 제품을 선호하시나요? | 의료기기 허가 제품 |
+| 콧물흡입기를 주로 어디서 사용하실 예정인가요? | 휴대용 |
+| 콧물흡입기 예산은 어느 정도로 생각하세요? (평균 3만 7천원대, 2만원 이하~5만원대가 가장 많아요) | 2만원대 ~ 5만원 |
+| __avoid_negatives__ | 세척해야 할 부품이 많아서 매번 꼼꼼하게 관리하기 번거로울 것 같아요,충전식이라 흡입력이 유선 제품보다 약하지는 않을지 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 40개 (전체 40개 중)
+현재 후보: 5개 (전체 5개 중)
 
 ### 후보 상품
-1. 휴비딕 전동식 아기 콧물흡입기 HNA-130 1개 - 35,000원 - ⭐0
-2. 휴비딕 휴비딕 콧물흡입기 크린노즈인아웃 HNA-1000 콧물흡인 - 155,200원 - ⭐4.6
-3. 예꼬맘 예꼬맘 예꼬맘 노스클린업 의료용 아기 콧물흡입기 NS17 - 39,800원 - ⭐5
-4. 우진하이비 코프리골드 수동식 콧물흡입기 펌프식 콧물흡인기 - 6,080원 - ⭐4.8
-5. 휴비딕 크린노즈 인아웃 전동식 흡인기 HNA-1000 - 157,000원 - ⭐4.9
-6. 브라운 전동 콧물 흡입기 BNA100 신생아,아기,유아동 코 흡인 683377_5979687 - 38,140원 - ⭐5
-7. 휴비딕 콧물쏙 HNA-200 - 32,900원 - ⭐4.5
-8. 휴비딕 크린노즈 미니 HNA-130 - 35,000원 - ⭐4.7
-9. 콧물흡입기 코프리 뱅코 노즈비데 코세척 물주머니 - 6,600원 - ⭐3
-10. 뽀로로 콧물흡인기 세트 뽀로로 - 8,950원 - ⭐0
-11. 브라운 콧물 흡입기 BNA-100 - 39,870원 - ⭐4.3
-12. 큐리더 콧물흡입기 마마코 콧물흡입 유아용 코흡인기 - 8,500원 - ⭐4
-13. 웰뷰텍 코크린 앙팡 COE-100 - 26,010원 - ⭐5
-14. 조인메디칼 플라엠노바 코푸리 - 13,200원 - ⭐0
-15. 영화의료기 비가열식 흡입기 HN111 - 80,000원 - ⭐0
-16. 아벤트코리아 마이비 콧물흡입기 - 8,820원 - ⭐4.8
-17. 소아21 코끼리 뺑코 코세척기 어린이 코세정기 콧물 흡입기 - 2,790원 - ⭐0
-18. 유유제약 유유제약 피지오머 베이비 코흡인기 필터리필5개 필터리필20개 일회용피지오머 콧물흡입기 아기피지오머 - 23,000원 - ⭐4.5
-19. 소아21 유아콧물흡입기 뺑코 신형 1개 1개 - 7,900원 - ⭐0
-20. SP-01 수동 석션기 - 101,200원 - ⭐4.5
+1. 브라운 콧물 흡입기 BNA-100 - 40,000원 - ⭐4.3
+2. 웰뷰텍 코크린 뉴 코크린 - 60,340원 - ⭐4.3
+3. 휴비딕 크린노즈 미니 HNA-130 - 35,000원 - ⭐4.7
+4. 휴비딕 크린노즈 2 HNA-300 - 34,120원 - ⭐4.2
+5. 아비타 노스클린 NS1 - 29,800원 - ⭐4.2
 
 ---
 
@@ -55,7 +46,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 세척해야 할 부품이 많아서 매번 꼼꼼하게 관리하기 번거로울 것 같아요
+- 충전식이라 흡입력이 유선 제품보다 약하지는 않을지 걱정돼요
 
 ---
 

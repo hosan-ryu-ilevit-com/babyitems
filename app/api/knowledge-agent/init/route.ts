@@ -64,7 +64,7 @@ interface QuestionTodo {
   id: string;
   question: string;
   reason: string;
-  options: Array<{ value: string; label: string; description?: string }>;
+  options: Array<{ value: string; label: string; description?: string; isPopular?: boolean }>;
   type: 'single' | 'multi';
   priority: number;
   dataSource: string;
@@ -681,7 +681,7 @@ function generateBudgetOptions(
   minPrice: number,
   avgPrice: number,
   maxPrice: number
-): Array<{ value: string; label: string; description: string }> {
+): Array<{ value: string; label: string; description: string; isPopular?: boolean }> {
   // 가격 구간 계산
   const entryMax = Math.round(minPrice + (avgPrice - minPrice) * 0.5);
   const midMax = Math.round(avgPrice * 1.3);
@@ -732,7 +732,7 @@ function generateBudgetOptions(
   const premiumLabel = `${formatPrice(premiumStart)}원 이상`;
 
   // 중복 체크 및 보정
-  const options: Array<{ value: string; label: string; description: string }> = [];
+  const options: Array<{ value: string; label: string; description: string; isPopular?: boolean }> = [];
 
   // Entry 옵션 - 가격 분포 정보 포함
   options.push({
@@ -746,7 +746,8 @@ function generateBudgetOptions(
     options.push({
       value: 'mid',
       label: midLabel,
-      description: `평균가 ${formatPriceNum(avgPrice)}원 · 인기 가격대`
+      description: `평균가 ${formatPriceNum(avgPrice)}원 · 인기 가격대`,
+      isPopular: true
     });
   }
 
@@ -768,7 +769,7 @@ function generateBudgetOptions(
 
     return [
       { value: 'low', label: `${formatPrice(lowMax)}원 이하`, description: `가성비 · 최저가 ${formatPriceNum(minPrice)}원부터` },
-      { value: 'mid', label: `${formatPrice(highMin)}원 이하`, description: `평균가 ${formatPriceNum(avgPrice)}원 · 인기 가격대` },
+      { value: 'mid', label: `${formatPrice(highMin)}원 이하`, description: `평균가 ${formatPriceNum(avgPrice)}원 · 인기 가격대`, isPopular: true },
       { value: 'high', label: `${formatPrice(highMin)}원 이상`, description: `프리미엄 · 최고가 ${formatPriceNum(maxPrice)}원` }
     ];
   }
@@ -861,9 +862,10 @@ async function generateBudgetQuestion(
 
 ### 4. options (3개)
 - entry: 가성비 라인
-- mid: 평균/인기 가격대  
+- mid: 평균/인기 가격대
 - premium: 프리미엄 라인
 - description: 해당 가격대 제품의 특징 (간결하게)
+- isPopular: 가장 많이 선택되는 가격대 1개에만 true (보통 mid)
 
 ## 출력 JSON 형식
 {
@@ -871,7 +873,7 @@ async function generateBudgetQuestion(
   "reason": "💡 가격대별 차이점 설명",
   "options": [
     {"value": "entry", "label": "자연스러운 가격 표현", "description": "특징"},
-    {"value": "mid", "label": "자연스러운 가격 표현", "description": "특징"},
+    {"value": "mid", "label": "자연스러운 가격 표현", "description": "특징", "isPopular": true},
     {"value": "premium", "label": "자연스러운 가격 표현", "description": "특징"}
   ]
 }
@@ -883,10 +885,10 @@ JSON만 출력하세요:`;
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     
     if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]) as { 
+      const parsed = JSON.parse(jsonMatch[0]) as {
         question?: string;
-        reason: string; 
-        options: Array<{ value: string; label: string; description: string }> 
+        reason: string;
+        options: Array<{ value: string; label: string; description: string; isPopular?: boolean }>
       };
       
       if (parsed.options && parsed.options.length >= 2) {
@@ -1076,11 +1078,18 @@ async function refineQuestionOptions(
           const newLabels = refined[q.id];
           return {
             ...q,
-            options: newLabels.map((label, i) => ({
-              value: `opt_${i + 1}`,
-              label,
-              description: q.options[i]?.description || ''
-            }))
+            options: newLabels.map((label, i) => {
+              // 원본 옵션에서 유사한 label을 찾아 isPopular 유지
+              const originalOpt = q.options.find(o =>
+                o.label.includes(label) || label.includes(o.label) || o.label === label
+              ) || q.options[i];
+              return {
+                value: `opt_${i + 1}`,
+                label,
+                description: originalOpt?.description || '',
+                isPopular: originalOpt?.isPopular  // isPopular 유지
+              };
+            })
           };
         }
         return q;
@@ -1198,6 +1207,7 @@ async function generateQuestions(
 2. **트렌드 반영:** '웹 트렌드'를 참고하여 사람들이 왜 그 옵션을 고민하는지 파악하고 \`reason\` 필드에 반영하세요. 단순한 사실 전달이 아닌, **"선택의 가이드"**가 되어야 합니다.
 3. **사용자 언어:** 기술 용어보다는 사용자가 얻을 **효익(Benefit)이나 상황(Context)** 중심으로 질문하세요.
 4. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE).
+5. **인기 옵션 표시:** 시장 데이터(판매 순위, 리뷰 수, 트렌드)를 기반으로 가장 많이 선택되는 옵션 1~2개에 \`isPopular: true\`를 표시하세요. 인기 옵션이 명확하지 않으면 표시하지 않아도 됩니다.
 
 ## [작성 규칙]
 1. **Target Audience Check:**
@@ -1218,7 +1228,7 @@ async function generateQuestions(
     "question": "질문은 대화하듯 자연스럽게 (예: 어떤 용도로 주로 쓰시나요?)",
     "reason": "💡 이 질문을 하는 이유와 팁 (트렌드 데이터를 기반으로 작성. 예: 신생아라면 00기능이 필수예요)",
     "options": [
-      {"value": "option_val_1", "label": "사용자 친화적 라벨", "description": "해당 옵션의 특징이나 적합한 대상 요약"},
+      {"value": "option_val_1", "label": "사용자 친화적 라벨", "description": "해당 옵션의 특징이나 적합한 대상 요약", "isPopular": true},
       {"value": "option_val_2", "label": "...", "description": "..."}
     ],
     "type": "single",

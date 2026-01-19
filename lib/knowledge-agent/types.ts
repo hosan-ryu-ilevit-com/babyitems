@@ -152,6 +152,7 @@ export interface QuestionOption {
   label: string;
   description?: string;
   filterSpec?: Record<string, unknown>;  // 스펙 필터 조건
+  isPopular?: boolean;  // 인기 옵션 여부 (시장 데이터 기반)
 }
 
 export interface BalanceQuestion {
