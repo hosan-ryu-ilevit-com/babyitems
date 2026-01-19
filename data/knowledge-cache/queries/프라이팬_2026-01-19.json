@@ -1,0 +1,75 @@
+{
+  "query": "프라이팬",
+  "items": [
+    {
+      "pcode": "14700986",
+      "name": "PN풍년 마레 카놀리 IH 프라이팬 (24cm)",
+      "brand": null,
+      "price": null,
+      "thumbnail": "https://img.danawa.com/prod_img/500000/986/700/img/14700986_1.jpg?shrink=130:130&_v=20260116151218",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=14700986"
+    },
+    {
+      "pcode": "11722739",
+      "name": "도루코 마이셰프 퓨어 라이트 애쉬블루 IH 프라이팬 (28cm)",
+      "brand": null,
+      "price": null,
+      "thumbnail": "https://img.danawa.com/prod_img/500000/739/722/img/11722739_1.jpg?shrink=130:130&_v=20251207050502",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=11722739"
+    },
+    {
+      "pcode": "12614936",
+      "name": "테팔 언리미티드 IH 프라이팬 (28cm)",
+      "brand": null,
+      "price": null,
+      "thumbnail": "https://img.danawa.com/prod_img/500000/936/614/img/12614936_1.jpg?shrink=130:130&_v=20260109132411",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=12614936"
+    },
+    {
+      "pcode": "20665334",
+      "name": "알텐바흐 디펜더스 바닥5중 프라이팬 (28cm)",
+      "brand": null,
+      "price": null,
+      "thumbnail": "https://img.danawa.com/prod_img/500000/334/665/img/20665334_1.jpg?shrink=130:130&_v=20251207045447",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=20665334"
+    },
+    {
+      "pcode": "15973919",
+      "name": "도루코 마이셰프 클래식 통5중 IH 프라이팬 (28cm)",
+      "brand": null,
+      "price": null,
+      "thumbnail": "https://img.danawa.com/prod_img/500000/919/973/img/15973919_1.jpg?shrink=130:130&_v=20251207050518",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=15973919"
+    },
+    {
+      "pcode": "101641502",
+      "name": "휘슬러 아다만트 컴포트 프라이팬 (24cm)",
+      "brand": null,
+      "price": null,
+      "thumbnail": "https://img.danawa.com/prod_img/500000/502/641/img/101641502_1.jpg?shrink=130:130&_v=20260107123946",
+      "reviewCount": 0,
+      "rating": null,
+      "specSummary": "",
+      "productUrl": "https://prod.danawa.com/info/?pcode=101641502"
+    }
+  ],
+  "searchUrl": "https://search.danawa.com/dsearch.php?query=%ED%94%84%EB%9D%BC%EC%9D%B4%ED%8C%AC&limit=120&sort=saveDESC",
+  "totalCount": 6,
+  "cachedAt": "2026-01-19T12:03:40.038Z",
+  "expiresAt": "2026-01-20T12:03:40.038Z"
+}

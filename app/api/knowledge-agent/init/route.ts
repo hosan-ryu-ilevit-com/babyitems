@@ -1363,7 +1363,7 @@ async function generateQuestions(
 3. **트렌드 반영:** '웹 트렌드'를 참고하여 사람들이 왜 그 옵션을 고민하는지 파악하고 \`reason\` 필드에 반영하세요. 단순한 사실 전달이 아닌, **"선택의 가이드"**가 되어야 합니다.
 4. **사용자 언어:** 기술 용어보다는 사용자가 얻을 **효익(Benefit)이나 상황(Context)** 중심으로 질문하세요.
 5. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE).
-6. **인기 옵션 표시:** 시장 데이터(판매 순위, 리뷰 수, 트렌드)를 기반으로 가장 많이 선택되는 옵션 1~2개에 \`isPopular: true\`를 표시하세요. 인기 옵션이 명확하지 않으면 표시하지 않아도 됩니다.
+6. **인기 옵션 표시:** 시장 데이터(판매 순위, 리뷰 수, 트렌드)를 기반으로 가장 많이 선택되는 옵션에 \`isPopular: true\`를 표시하세요. **한 질문당 인기 옵션은 반드시 0~2개 사이여야 합니다 (3개 이상 절대 금지).** 인기 옵션이 명확하지 않으면 표시하지 않아도 됩니다.
 
 ## [작성 규칙]
 1. **Target Audience Check:**
@@ -1436,7 +1436,22 @@ async function generateQuestions(
         jsonStr = repairJSON(jsonStr);
 
         let questions = JSON.parse(jsonStr) as QuestionTodo[];
-        questions = questions.map(q => ({ ...q, completed: false }));
+        questions = questions.map(q => {
+          // 인기 옵션이 2개 초과인 경우, 상위 2개만 유지
+          const popularCount = q.options.filter(o => o.isPopular).length;
+          if (popularCount > 2) {
+            let count = 0;
+            const fixedOptions = q.options.map(o => {
+              if (o.isPopular) {
+                count++;
+                return { ...o, isPopular: count <= 2 };
+              }
+              return o;
+            });
+            return { ...q, options: fixedOptions, completed: false };
+          }
+          return { ...q, completed: false };
+        });
         
         // ✅ LLM이 혹시 예산/단점 질문을 생성했다면 제거 (별도 생성되므로)
         questions = questions.filter(q => {
@@ -1457,7 +1472,22 @@ async function generateQuestions(
           console.log('[Step3] Attempting JSON repair with Flash Lite...');
           const repairedQuestions = await repairJSONWithLLM(jsonMatch[0]);
           if (repairedQuestions && repairedQuestions.length > 0) {
-            let questions = repairedQuestions.map((q: QuestionTodo) => ({ ...q, completed: false }));
+            let questions = repairedQuestions.map((q: QuestionTodo) => {
+              // 인기 옵션이 2개 초과인 경우, 상위 2개만 유지
+              const popularCount = q.options.filter(o => o.isPopular).length;
+              if (popularCount > 2) {
+                let count = 0;
+                const fixedOptions = q.options.map(o => {
+                  if (o.isPopular) {
+                    count++;
+                    return { ...o, isPopular: count <= 2 };
+                  }
+                  return o;
+                });
+                return { ...q, options: fixedOptions, completed: false };
+              }
+              return { ...q, completed: false };
+            });
 
             // 예산/단점 질문 제거
             questions = questions.filter((q: QuestionTodo) => {
@@ -1974,20 +2004,34 @@ export async function POST(request: NextRequest) {
           const phase15Duration = Date.now() - phase15Start;
           const phase1Duration = Date.now() - phase1Start; // Phase 1 전체 시간 (120개 포함)
 
-          // 리뷰 0개인 상품 필터링 (품질 향상) - 최종 추천용
+          // 리뷰 0개인 상품 필터링 (품질 향상) - review_count 우선 사용
           const productsBeforeFilter = allProducts.length;
-          allProducts = allProducts.filter(p => {
+          const productsWithReviews = allProducts.filter(p => {
+            // Supabase 캐시 review_count가 있으면 우선 사용
+            if (typeof p.reviewCount === 'number') {
+              return p.reviewCount > 0;
+            }
+            // fallback: 리뷰 크롤링 결과
             const review = allReviews[p.pcode];
-            // 리뷰 데이터가 있고 리뷰가 1개 이상인 상품만 유지
             return review && review.reviews.length > 0;
           });
-          console.log(`[Phase1.5] Filtered out ${productsBeforeFilter - allProducts.length} products with 0 reviews (${productsBeforeFilter} → ${allProducts.length})`);
-
-          send('products_filtered', {
-            before: productsBeforeFilter,
-            after: allProducts.length,
-            reason: '리뷰 0개 상품 제외',
-          });
+          // 리뷰 있는 상품이 너무 적으면 필터링을 건너뜀 (특정 카테고리에서 과도한 축소 방지)
+          if (productsWithReviews.length >= 20) {
+            allProducts = productsWithReviews;
+            console.log(`[Phase1.5] Filtered out ${productsBeforeFilter - allProducts.length} products with 0 reviews (${productsBeforeFilter} → ${allProducts.length})`);
+            send('products_filtered', {
+              before: productsBeforeFilter,
+              after: allProducts.length,
+              reason: '리뷰 0개 상품 제외',
+            });
+          } else {
+            console.log(`[Phase1.5] Skipping review=0 filter (productsWithReviews=${productsWithReviews.length}, total=${productsBeforeFilter})`);
+            send('products_filtered', {
+              before: productsBeforeFilter,
+              after: productsBeforeFilter,
+              reason: '리뷰 부족으로 필터링 건너뜀',
+            });
+          }
 
           // Phase 2: 카테고리 관련성 필터링 (불필요한 상품 제거, 120개 유지)
           const phase2Start = Date.now();

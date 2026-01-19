@@ -1,14 +1,14 @@
-# 세션: 20260119_051022_6r07
-> 시작: 2026-01-19T05:10:22.544Z
+# 세션: 20260119_124837_6hwq
+> 시작: 2026-01-19T12:48:37.537Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 쪽쪽이 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 쪽쪽이 시장은 아기의 안정감과 수유 보조 역할을 하는 육아 필수템으로 자리 잡고 있습니다. 모윰, 아벤트, 스와비넥스 등 다양한 브랜드가 인기 있으며, 소재와 디자인의 다양화가 트렌드를 이루고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGpGQmjlx-dwObsyGBRtlX6n01c3PhP0RPjXcsGGKPLPRn6rKaHPG_8iRDP6VtbpVAkT7t-w2_hLfiFH4WrgV_89Rgu_kWHJfKXff-_6i0ZmuVjMC_i8Gx-YMZ5Vzmm4ublR1bAQS6sc1Bq6uLckl5Vn1Y, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyRA3XiLcDc806uhpm7Y6rXjTaW4qln0pQMNGa2J7_9rqFbffu84_RTkc23emVuvfE-fwb8OLLttV9zqlDjd8fCVuAGB3jB-oKnVZ5h-lnDQAdfc8VmusXDPxg0DhiSKf0JOcr9Fg=
+- 쿼리: 쪽쪽이 시장 현황
+- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 아기에게 안정감을 주고 빨기 욕구를 충족시키는 육아 필수템으로 자리 잡고 있습니다. 최근에는 스트레스 해소용으로 성인들 사이에서도 인기를 얻으며 새로운 소비 트렌드로 떠오르고 있습니다. 다양한 소재와 디자인의 제품들이 출시되고 있으며, 온라인 쇼핑몰을 중심으로 활발하게 거래되고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFz-gsL-E6MmyrX6INhsh1n0ueX2i2zSx6rE1Q5Iautqy_ZTHFUsZCCo5BTpNNvF_x-c-7mfcWRwiVGufPR-XRnFm9Htm4gAH8nhlhgu2v225170YtOlO_mbZIZTYElY4j_O1FYrp0dMg31WkcnTa9d4oWS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQED3843PflkyS8MUEPZWX0MFm4C6AS1j4cLXjnAyB7sugrUAnimr-AD94rRGEbIzMnBnwgaQSFr2fLDZV9W67rG1ghVMyrt-xePZLqpZmO1gw2MMI8mMmyAa1mUtW2yhEY3nBS6, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqXrOta40VarTyVheJor6HmNCLQWpfHr8Jwr7GIyOadNJ3rJRWE6AWAGdjMmCvprhS0tohfUuAak7QfKZ5BvHkm0MmbQS-LiUZjdis_ispoXGOLU-B5j_ZJbq3LCu7Op150Jv7Mv8Vg2PtvjVNFySBrdhA2RoP_THARA==
 
 ---
 
@@ -16,26 +16,22 @@
 
 | 항목 | 답변 |
 |------|------|
-| 쪽쪽이 소재는 어떤 것을 선호하시나요? | 전체 실리콘 |
-| 쪽쪽이 디자인에서 가장 중요하게 생각하시는 부분은 무엇인가요? | 아기 구강 구조에 맞는 디자인, 감성적이고 예쁜 디자인 |
-| 아기의 현재 월령이나 사용 단계를 알려주세요. | 3-6개월 |
-| 쪽쪽이 구매 시 함께 제공되면 좋을 구성품이 있나요? | 전용 보관 케이스 포함 |
-| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 약 1만 3천원, 9천원~1만 6천원대가 가장 많아요) | 9천원 ~ 1만 6천원대 |
-| __avoid_negatives__ | 아기가 너무 자주 사용하면 치열이나 말하는 데 부정적인 영향을 줄까 봐 염려돼요. |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 6개 (전체 6개 중)
+현재 후보: 8개 (전체 8개 중)
 
 ### 후보 상품
-1. 모윰 올실리콘 마카롱 쪽쪽이 2개세트 (전용케이스 포함) - 17,860원 - ⭐4.8
-2. 더블하트 노리개 젖꼭지 2단계 1P - 5,800원 - ⭐4.5
-3. 더블하트 Soft Buddy 노리개젖꼭지 - 11,600원 - ⭐4.7
-4. BIBS 빕스 데니쉬 디럭스 쪽쪽이 + 실리콘 화분캡 - 26,210원 - ⭐5
-5. 더블하트 소프트버디 노리개젖꼭지 퍼플 M (3개월) - 9,310원 - ⭐4.9
-6. 스와비넥스 모유촉감 올실리콘 쪽쪽이 일자형 1단계 블루 - 8,290원 - ⭐4.7
+1. 모윰 올실리콘 마카롱 쪽쪽이 2개세트 (전용케이스 포함) - 20,740원 - ⭐4.8
+2. 더블하트 Soft Buddy 노리개젖꼭지 - 11,600원 - ⭐4.7
+3. 스와비넥스 모유촉감 올실리콘 쪽쪽이 일자형 1단계 블루 - 8,290원 - ⭐4.7
+4. 덴티스타 덴티스타 바른치아 노리개 젖꼭지 1단계 - 5,700원 - ⭐4.6
+5. 닥터브라운 실리콘 노리개 젖꼭지 3P - 12,900원 - ⭐5
+6. BIBS 빕스 데니쉬 디럭스 쪽쪽이 + 실리콘 화분캡 - 26,210원 - ⭐5
+7. 유피스 애착 쪽쪽이 2단계 - 5,510원 - ⭐4.7
+8. 더블하트 소프트버디 노리개젖꼭지 퍼플 M (3개월) - 9,310원 - ⭐4.9
 
 ---
 
@@ -47,7 +43,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기가 너무 자주 사용하면 치열이나 말하는 데 부정적인 영향을 줄까 봐 염려돼요.
+(아직 선택 없음)
 
 ---
 

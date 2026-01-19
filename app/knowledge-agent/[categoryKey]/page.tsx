@@ -3412,12 +3412,12 @@ export default function KnowledgeAgentPage() {
           </motion.button>
         </header>
 
-        {/* 스텝 인디케이터 (4단계) - 추천 완료 단계에서는 숨김 */}
-        {phase !== 'result' && phase !== 'free_chat' && (
+        {/* 스텝 인디케이터 (4단계) - 로딩/추천 완료 단계에서는 숨김 */}
+        {phase !== 'loading' && phase !== 'result' && phase !== 'free_chat' && (
           <StepIndicator currentPhase={phase} />
         )}
 
-        <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px', overflowAnchor: 'none' }}>
+        <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto scrollbar-hide px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px', overflowAnchor: 'none' }}>
           <div className="space-y-8 pt-2">
             {(() => {
               // top3 결과가 있는지 확인하고, 있다면 그 인덱스 찾기
@@ -3577,6 +3577,8 @@ export default function KnowledgeAgentPage() {
           </div>
         </main>
 
+        {/* 🆕 로딩 단계(1~4번 분석)에서는 하단 채팅바 숨김 */}
+        {phase !== 'loading' && (
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[110] bg-gradient-to-t from-white via-white/95 to-transparent">
           {/* Navigation Buttons (Prev Only)
             {activeQuestion && canGoPrev && !isTyping && (
@@ -3815,6 +3817,7 @@ export default function KnowledgeAgentPage() {
             </div>
           )}
         </div>
+        )}
       </div>
 
       {selectedProduct && (() => {

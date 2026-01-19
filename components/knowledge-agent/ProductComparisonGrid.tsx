@@ -161,8 +161,8 @@ export function ProductComparisonGrid({
                 )}
               </button>
 
-              {/* 제품명 - 한줄 */}
-              <p className="text-[13px] font-medium text-gray-800 line-clamp-1 leading-tight mb-1">
+              {/* 제품명 - 두줄 */}
+              <p className="text-[13px] font-medium text-gray-800 line-clamp-3 leading-tight mb-1">
                 {product.name}
               </p>
 

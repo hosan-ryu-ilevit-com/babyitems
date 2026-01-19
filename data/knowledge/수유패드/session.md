@@ -1,14 +1,14 @@
-# 세션: 20260119_061648_bhym
-> 시작: 2026-01-19T06:16:48.009Z
+# 세션: 20260119_123901_oskv
+> 시작: 2026-01-19T12:39:01.186Z
 > 카테고리키: 수유패드
 > 카테고리: 수유패드
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 수유패드 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 수유패드 시장은 일회용과 재사용 가능한 제품이 공존하며, 특히 일회용 제품은 편의성과 높은 흡수력으로 여전히 강세를 보이고 있습니다. 친환경 및 지속 가능한 제품에 대한 관심 증가로 재사용 가능한 수유패드 역시 인기를 얻고 있으며, 유기농 면이나 대나무 소재 제품이 주목받고 있습니다. 마더케이, 란시노, 마이비 등의 브랜드가 꾸준히 언급되고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPEB3o8kgO3b4oQz3VexyhQZE6P3y9YwmNYcUjUFWVOOUrN_ZghB2dfedhjqrMB_2RMUFQqUYoeCZ6XhpbrTq6AYeWpA4LpyoM4_6Eyh99gfk68CQXVIsdaKb4oiPi8r58s3GS4w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF014cIGSsbPm71U0pBXHRcX-vCTN3MIIGKAqCCw6L_bAD33c9dTaZvfhQptQlc9VUOlFgDvYip5qmuVQbZhrRwYRnu_-Zy02Yi6gZGwI0CQqvQko0Ix1UUOn3bm49gIwOZNFyDguGAnFyvGuiE4fjYBw6XKNlryyS3ng==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9ze6DhZAHu-txQEToCmCR7pau8sF4x84XljJZwKdtrDylAtzYcUPkkTQDkiAQtm0LsMuyNa71326mmjWFyuv2USYPNOlevs_WU5dc1NqJAqyhOMZA7VQ42zwmIdQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGeXvjCsB8gaWA31QSbf_6vqrFgo3iWzeQkqmG38lztF6ULDeuPLOOjfcRiZ3dpGunbKoU5-DpinKvxNHF8edPTTn2bkduWRjh_J0uDeP28SGkKdSm4nV4GhpFL6sV2e_XBdvN8aOEXiAmzmnQqmiYLArKZmxe3rqChxY9Ffhn-x-OUArVxU3Ape9n9ga8oaJg=
+- 쿼리: 수유패드 시장 현황
+- 인사이트: 수유패드는 모유 수유 중 젖이 새어 속옷이 젖는 것을 방지하고 유두를 보호하는 데 사용되는 필수 육아용품입니다. 일회용과 천 타입이 있으며, 흡수력, 통기성, 고정력, 피부 편안함 등이 주요 고려 사항입니다. 최근에는 친환경적이고 재사용 가능한 제품에 대한 선호도가 높아지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkFI3gDelaepIj8PjDk5iTEfG2cZPZq91x0jV-mnFMobgUTW7ZckidXm6ThK2I8oWjTJIVYgKQH1T6T_gD8-mNTVizu6fmKWOL2p6tZTc2u0-Sfy3bgvBmaAWJKr_eQBF6gGFdPy8unm_IKrk1RXoIpJVepr1d_CVx2VJyqzCpWLRlOjUOX9JXWQl-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGx5FTi8xTlkjj_HtlBxR-n4HH4UDn8TVAW60kkErvlSdJVxyTKjMpXbQSAUCGGmC_a1mQGfZKe061PvVegOXkUDpZteZTzOMkONnP0YIid86wFeVEWDGEzppMqb0tfn0pgcnmR7B-5PM-refs9vhRcHyxTdjw8-2vCX6r2qQ==
 
 ---
 
@@ -16,7 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 수유패드를 어떤 소재로 된 것을 선호하시나요? | 천연/유기농 소재 |
+| 모유 누출량이 많은 편이신가요? 얼마나 강력한 흡수력을 원하시나요? | 보통 |
+| 수유패드를 착용했을 때 어떤 촉감을 가장 중요하게 생각하시나요? | 부드러운 촉감, 얇고 가벼운 느낌 |
+| 수유패드를 일회용으로 사용하시겠어요, 아니면 재사용 가능한 제품을 선호하시나요? | 재사용 가능 |
+| 수유패드가 속옷에 잘 고정되는 것이 중요한가요? | 강력한 고정력 |
+| 예산은 어느 정도로 생각하세요? (평균 2만 1천원, 1만 3천원~2만 8천원대가 가장 많아요) | 1만 3천원 ~ 2만 8천원 |
+| __avoid_negatives__ | 움직일 때마다 수유패드가 속옷에서 떨어져서 새어 나올까 봐 불안해요,피부가 민감한 편인데,오래 착용하면 쓸리거나 자극이 될까 봐 걱정돼요 |
 
 ---
 
@@ -52,7 +57,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 움직일 때마다 수유패드가 속옷에서 떨어져서 새어 나올까 봐 불안해요
+- 피부가 민감한 편인데
+- 오래 착용하면 쓸리거나 자극이 될까 봐 걱정돼요
 
 ---
 
