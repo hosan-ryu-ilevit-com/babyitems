@@ -131,10 +131,10 @@ export function ProductComparisonGrid({
       >
         {/* 상품 헤더 영역 */}
         <div className="flex items-start px-2" style={{ width: totalWidth }}>
-          {displayProducts.map((product, index) => (
+          {displayProducts.map((product) => (
             <div
               key={product.pcode}
-              className={`shrink-0 ${index === 0 ? 'pl-4 pr-2' : 'px-2'}`}
+              className="shrink-0 px-2"
               style={{ width: columnWidth, scrollSnapAlign: 'start' }}
             >
               {/* 이미지 - 회색 배경 없이, 이미지 자체에 곡률 */}
@@ -189,20 +189,20 @@ export function ProductComparisonGrid({
 
         {/* 별점 + 장단점 섹션 */}
         <div className="mt-5 pt-4">
-          <div className="px-6 mb-2">
+          <div className="px-4 mb-2">
             <h4 className="text-[12px] font-semibold text-gray-600">장단점 요약</h4>
           </div>
 
           {/* 디바이더 - 장단점 헤더 아래에 */}
           <div style={{ width: totalWidth }}>
-            <div className="border-t border-gray-200 mx-6" />
+            <div className="border-t border-gray-200 mx-4" />
           </div>
 
           <div className="flex items-start mt-3 px-2" style={{ width: totalWidth }}>
-            {displayProducts.map((product, index) => (
+            {displayProducts.map((product) => (
               <div
                 key={`review-${product.pcode}`}
-                className={`shrink-0 ${index === 0 ? 'pl-4 pr-2' : 'px-2'}`}
+                className="shrink-0 px-2"
                 style={{ width: columnWidth }}
               >
                 {/* 별점 + 리뷰 수 - 노란별 1개만 */}
@@ -258,24 +258,24 @@ export function ProductComparisonGrid({
             {allSpecKeys.map((specKey) => (
               <div key={specKey}>
                 {/* 섹션 헤더 */}
-                <div className="px-6 py-2">
+                <div className="px-4 py-2">
                   <h4 className="text-[12px] font-bold text-gray-900">{specKey}</h4>
                 </div>
 
                 {/* 디바이더 - 스펙 키 아래에 - 전체 너비만큼 */}
                 <div style={{ width: totalWidth }}>
-                  <div className="border-t border-gray-200 mx-6" />
+                  <div className="border-t border-gray-200 mx-4" />
                 </div>
 
                 {/* 각 제품별 스펙 값 */}
                 <div className="flex items-start py-2.5 px-2" style={{ width: totalWidth }}>
-                  {displayProducts.map((product, index) => {
+                  {displayProducts.map((product) => {
                     const value = product.specs?.[specKey];
 
                     return (
                       <div
                         key={`${specKey}-${product.pcode}`}
-                        className={`shrink-0 ${index === 0 ? 'pl-4 pr-2' : 'px-2'}`}
+                        className="shrink-0 px-2"
                         style={{ width: columnWidth }}
                       >
                         <p className={`text-[12px] font-medium leading-snug ${isEmpty(value) ? 'text-gray-400' : 'text-gray-800'}`}>
@@ -292,10 +292,10 @@ export function ProductComparisonGrid({
 
         {/* 최저가 구매하기 하단 버튼 row */}
         <div className="flex items-start mt-8 pb-8 px-2" style={{ width: totalWidth }}>
-          {displayProducts.map((product, index) => (
+          {displayProducts.map((product) => (
             <div
               key={`footer-buy-${product.pcode}`}
-              className={`shrink-0 ${index === 0 ? 'pl-4 pr-2' : 'px-2'}`}
+              className="shrink-0 px-2"
               style={{ width: columnWidth }}
             >
               <a
