@@ -1,14 +1,14 @@
-# 세션: 20260119_053100_qljb
-> 시작: 2026-01-19T05:31:00.257Z
+# 세션: 20260119_112504_yysu
+> 시작: 2026-01-19T11:25:04.709Z
 > 카테고리키: 분유제조기
 > 카테고리: 분유제조기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 분유제조기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 분유제조기 시장은 베이비브레짜가 여전히 강력한 입지를 구축하고 있으며, 사용자 편의성과 정확한 분유 제조 기능이 강점으로 꼽힙니다. 최근 트렌드는 스마트폰 연동 기능 강화와 함께 더욱 세밀한 용량 및 온도 조절 기능이 주목받고 있습니다. 또한, 위생 관리의 중요성이 부각되면서 자동 세척 및 살균 기능이 탑재된 제품들도 인기를 얻고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%EB%B6%84%EC%9C%A0%EC%A0%9C%EC%A1%B0%EA%B8%B0&sort=saveDESC
+- 쿼리: 분유제조기 시장 현황
+- 인사이트: 분유제조기는 버튼 하나로 편리하게 분유를 탈 수 있어 육아 필수템으로 자리 잡았습니다. 특히 밤중 수유 시 유용하며, 거품 없이 분유를 제조할 수 있는 특허 기술을 가진 제품도 있습니다. 국내 분유 시장은 출생아 수 증가와 함께 활기를 띠고 있으며, 전 세계 분유 시장 규모는 2021년 300억 달러에서 2030년 653억 달러로 성장할 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHdn263ofNiyT3M7S_hmhfE9NuO98up0XBRW_mn2d_961AbK3re2zxS4ijHnMJIo0FbKT1ZsvmOsYQyh4KPGXFTlywo0vVNj5tdZLnPgOwv54DV-MN925ntgm7jxQkwctCIjs8TJ4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQlMAG2E7bjL_l2_AVqhCtEfxWfgv_6nztvXxSQgfHgfl0KhWUnjxHgD7qrYeM3pLVNQpEe9b3xOYItEs-Y-2xCm7CcNUgSL7vrk3QgkBMzO_NdfCJPaQLYpDjozD1q1lSFTuTkB4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFopEMyF9p5Yh-YLIIFQQeCKkrSxnTivUOmypzGFhkoAG1mlFYi6VsKt1OoEooAfzlHejX0c7lmee8FnoMyTt1eciNZsnAT843fCSs-B-Mf6xBrJLjb6PDBiHjNSmr3RPYv-u998m-6b7qZBmU5y5-ykl4MvImfAR0HTjPXD_Gn4RZXYOXiH8zhOOU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgzogltA_yw4N7r2RgOYmIJIoq_mhPQ13FyyZDOiKjZXJuRsjNmsDaSDzbrtM4FzqieC_kR-nOUuYiemJl91ZRvntE1wobppy00M6AUI0fPzUV5Jw6kWJaXreaiZKYDV8j5YiMMaXcfRHKzstFFDqlblxxcA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdzCSXAFikV9Re-c65ZhuKhhwXzDCXlO2ybng1bVHosjhR6ZcXNHB-wnYZkBcGN0oFFINPz_-1t_Eu7svONQix4VFvHLy-UPXmiQ1D2QaMn7KekAXWEvzvGarSpE0G04irY9zjddOOOxtz3iUe1XGEp4_nLU3Hgw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3_eNxDLhPPXbjw5dlf-h85uesW6KR2rgejme8dbjnNs5uejXRmC-Gw1oq531qm6zTZYDKE4P8xsIVunSphuc1oWul9cJDW8DXDU6gL0r5iMntBGvHjjciigPwvxqgn-31Gry2TP8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdIDjtkqU6eqvWwUFup3wf1L_UXTdh3uWN3ZKGDj87obCTS4bo_VoK9Z7x2QQShhEvqoGs3Op5H4L6xg2-UkgmVVrGXsqSNFcHKc2_NCAsaJKz8mcLKj7XStZD2X8CdqsSQW5lCFPWSlrZNRpPDcGYWj4NJ7Owr035Y7K4O4IqEA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5cz4R5hpPdHhVGT8sIBuNZ2At6cLHt6MIOYt0gq8SKijMZbjJsNUyWUwbjSVprirEaEFWlF3oPRyMxk8S-eDxZb37XzXv0mb05U_YY1gszur5ZBSpgFAHBwQcY5nIDkN8hDqjBWEkVosKkuEpHAswqKGZxVgIk9KB7KKi0FD2p1VRfXUA
 
 ---
 

@@ -323,5 +323,66 @@ export interface FinalRecommendationResponse {
   success: boolean;
   recommendations: FinalRecommendation[];
   summary?: string;                // 전체 추천 요약
+  filterTags?: FilterTag[];        // 필터 태그
   error?: string;
+}
+
+// ============================================================================
+// 필터 태그 및 충족도 관련 타입
+// ============================================================================
+
+export interface FilterTag {
+  id: string;                      // 고유 ID (예: "tag_usage_remote")
+  label: string;                   // UI 표시 라벨 (예: "원격근무/강의용")
+  category: 'usage' | 'spec' | 'price' | 'feature' | 'avoid';
+  keywords: string[];              // 검색용 키워드 (legacy, 하위호환)
+  priority: number;                // 정렬 우선순위 (1이 높음)
+  sourceQuestion?: string;         // 원본 질문
+  sourceAnswer?: string;           // 원본 응답
+  sourceType?: 'balance' | 'negative' | 'collected' | 'free_input';  // 조건 출처
+  originalCondition?: string;      // 원본 조건 (product-analysis용)
+}
+
+/**
+ * 태그 충족도 점수
+ * - full: 잘 충족 (스펙/리뷰에서 명확히 확인됨)
+ * - partial: 일부 충족 (부분적으로 해당되거나 조건부)
+ * - null: 미충족 또는 해당 없음 (표시하지 않음)
+ */
+export type TagScore = 'full' | 'partial' | null;
+
+/**
+ * 제품별 태그 충족도 평가 결과
+ */
+export interface ProductTagScores {
+  [tagId: string]: {
+    score: TagScore;
+    reason?: string;               // 충족/미충족 이유 (선택적)
+    evidence?: string;             // 상세 근거 (PDP 재사용용)
+    conditionType?: 'hardFilter' | 'balance' | 'negative';  // 조건 유형
+  };
+}
+
+// ============================================================================
+// 하이라이트 관련 타입 (Legacy - 하위호환용)
+// ============================================================================
+
+export interface HighlightRange {
+  tagId: string;                   // 어떤 태그와 매칭되었는지
+  start: number;                   // 시작 인덱스
+  end: number;                     // 끝 인덱스
+  text: string;                    // 매칭된 텍스트
+}
+
+export interface HighlightData {
+  oneLinerHighlights: HighlightRange[];
+  personalReasonHighlights: HighlightRange[];
+  highlightsHighlights: HighlightRange[][];  // 각 highlight 항목별
+  reviewHighlights: Record<string, HighlightRange[]>;  // reviewId -> ranges
+}
+
+// FinalRecommendation에 태그 충족도 및 하이라이트 데이터 포함된 버전
+export interface EnrichedFinalRecommendation extends FinalRecommendation {
+  highlightData?: HighlightData;   // Legacy
+  tagScores?: ProductTagScores;    // 🆕 태그별 충족도
 }

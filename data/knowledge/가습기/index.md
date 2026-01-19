@@ -1,31 +1,35 @@
 # 가습기 전문가 지식
 
-> 마지막 업데이트: 2026-01-08T08:08:05.118Z
-> 분석 상품: 20개 | 분석 리뷰: 3,800개
+> 마지막 업데이트: 2026-01-19T11:54:56.130Z
+> 분석 상품: 20개 | 분석 리뷰: 4,035개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- UV 저온 살균 및 100도 고온 살균 기능
-- 간편한 세척 및 완전 분해 가능한 구조
-- 대용량 물통 (4L 이상) 및 스마트 기능 (앱 연동, 자동 습도 조절)
+- 스마트홈 연동 및 IoT 기능 강화
+- UV 살균, HEPA 필터 등 위생 기능 강화
+- 에너지 효율 및 친환경 소재 사용
+- 미니멀, 슬림, 타워형 등 디자인 다양화
+- 복합식 가습기 인기 증가
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 살균 기능 (UV, 가열)
-- ✓ 간편한 세척 및 관리 용이성
-- ✓ 대용량 및 긴 연속 사용 시간
-- ✓ 자동 습도 조절 및 스마트 기능
-- ✓ 조용한 작동 소음 (BLDC 모터 등)
+- ✓ ✓ 뛰어난 가습 효율
+- ✓ ✓ 스마트 기능 탑재
+- ✓ ✓ 위생 관리 용이
+- ✓ ✓ 다양한 디자인
+- ✓ ✓ 넓은 가습 범위 (기화식)
+- ✓ ✓ 살균 효과 (가열식)
 
 ### 주의해야 할 단점
-- ⚠ 작은 물통 용량으로 인한 잦은 보충 필요
-- ⚠ 일부 모델의 소음 발생
-- ⚠ 높은 가격대 (프리미엄 모델)
-- ⚠ 복잡한 세척 과정 (일부 모델)
-- ⚠ 물 넘침 및 오류 발생 가능성
+- ⚠ ⚠ 세균 번식 위험 (초음파식)
+- ⚠ ⚠ 복잡한 세척 구조
+- ⚠ ⚠ 높은 가격대
+- ⚠ ⚠ 소음 발생 (일부 모델)
+- ⚠ ⚠ 짧은 배터리 (무선 모델의 경우)
+- ⚠ ⚠ 석회질 발생 (초음파식)
 
 ### 가격대 인사이트
-현재 판매 중인 가습기는 2만원대의 보급형 미니 가습기부터 10만원대 중급 모델, 그리고 10만원 이상의 프리미엄 모델까지 다양하게 분포되어 있습니다. 특히 위생 기능과 스마트 기능이 강화된 모델들이 높은 가격대를 형성하고 있습니다.
+
 
 ---
 
@@ -33,115 +37,125 @@
 
 ### 1. 루메나 MIST TOWER MAX
 - **브랜드**: 루메나
-- **가격**: 163,620원
-- **평점**: ⭐4.8 (4개 리뷰)
+- **가격**: 170,050원
+- **평점**: ⭐4.7 (4개 리뷰)
 - **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / UV살균 / 자동건조 / 수조용량 / 11.0L / 550cc / 습도조절 / 습도표시 / 분무량조절 / 자동전원차단 / 타이머 / 무드등 / 소비전력
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=98777885)
 
-### 2. 조지루시 EE-DVH35K
-- **브랜드**: 조지루시
-- **가격**: 280,770원
-- **평점**: ⭐4.8 (1,205개 리뷰)
-- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 수조용량 / 4.0L / 370cc / 습도조절 / 습도표시 / 분무량조절 / 상부급수식 / 타이머 / 버튼잠금 / 소비전력 / 680W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=28461182)
-
-### 3. 신일전자 물멍 SUH-CV600ZA
-- **브랜드**: 신일전자
-- **가격**: 150,100원
-- **평점**: ⭐4.6 (30개 리뷰)
-- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 수조용량 / 3.5L / 450cc / 분무량조절 / 안심스팀 / 자동전원차단 / 상부급수식 / 수위표시 / 타이머 / 무드등 / 버튼잠금 / 소비전력
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=98072192)
-
-### 4. LG전자 오브제컬렉션 퓨리케어 하이드로에센셜 HY505RWLAH
+### 2. LG전자 오브제컬렉션 퓨리케어 하이드로에센셜 HY505RWLAH
 - **브랜드**: LG전자
-- **가격**: 684,500원
-- **평점**: ⭐4.9 (42개 리뷰)
+- **가격**: 676,039원
+- **평점**: ⭐4.9 (50개 리뷰)
 - **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / 자동건조 / 수조용량 / 3.8L / 500cc / 습도조절 / 습도표시 / 분무량조절 / 상부급수식 / 스마트폰제어 / 타이머 / 무드등 / 소비전력
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=99554174)
 
-### 5. 샤오미 미지아 3세대 CJSJSQ04ZMZ
-- **브랜드**: 샤오미
-- **가격**: 115,840원
-- **평점**: ⭐4.4 (27개 리뷰)
-- **핵심 스펙**: 가습기 / 자연기화식 / 간편세척 / 항균필터 / 수조용량 / 6.0L / 800cc / 습도조절 / 습도표시 / 분무량조절 / 자동전원차단 / 상부급수식 / 수위표시 / 스마트폰제어 / 소비전력
+### 3. 조지루시 EE-DVH35K
+- **브랜드**: 조지루시
+- **가격**: 291,920원
+- **평점**: ⭐4.8 (1,231개 리뷰)
+- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 수조용량 / 4.0L / 370cc / 습도조절 / 습도표시 / 분무량조절 / 상부급수식 / 타이머 / 버튼잠금 / 소비전력 / 680W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=71974844)
+- [상세보기](https://prod.danawa.com/info/?pcode=28461182)
 
-### 6. 아이닉 iH12 Pro
-- **브랜드**: 아이닉
-- **가격**: 126,330원
-- **평점**: ⭐4.8 (893개 리뷰)
-- **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / UV살균 / 수조용량 / 11L / 400cc / 습도조절 / 습도표시 / 분무량조절 / 안심스팀 / 분무구회전 / 자동전원차단 / 상부급수식 / 수위표시
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=69560183)
-
-### 7. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RSUABM
+### 4. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RSUABM
 - **브랜드**: LG전자
-- **가격**: 1,120,330원
-- **평점**: ⭐5 (26개 리뷰)
+- **가격**: 1,086,030원
+- **평점**: ⭐5 (44개 리뷰)
 - **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / 자동건조 / 수조용량 / 5.1L / 700cc / 습도조절 / 습도표시 / 분무량조절 / 상부급수식 / 수위표시 / 스마트폰제어 / 타이머 / 무드등
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=101955821)
 
-### 8. 르젠 퓨어미스트 2세대 LZHD-H05
+### 5. 위닉스 올바른 가습기 WLTE750-JKK
+- **브랜드**: 위닉스
+- **가격**: 56,050원
+- **평점**: ⭐4.6 (589개 리뷰)
+- **핵심 스펙**: 가습기 / 복합식 / 간편세척 / 수조용량 / 7.5L / 400cc / 습도조절 / 습도표시 / 분무량조절 / 분무구회전 / 자동전원차단 / 상부급수식 / 타이머 / 무드등 / 소비전력
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=12395729)
+
+### 6. 신일전자 물멍 SUH-CV600ZA
+- **브랜드**: 신일전자
+- **가격**: 131,100원
+- **평점**: ⭐4.6 (33개 리뷰)
+- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 수조용량 / 3.5L / 450cc / 분무량조절 / 안심스팀 / 자동전원차단 / 상부급수식 / 수위표시 / 타이머 / 무드등 / 버튼잠금 / 소비전력
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=98072192)
+
+### 7. 조지루시 EE-DCH35K
+- **브랜드**: 조지루시
+- **가격**: 242,700원
+- **평점**: ⭐4.7 (650개 리뷰)
+- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 수조용량 / 3.1L / 370cc / 습도조절 / 습도표시 / 분무량조절 / 안심스팀 / 상부급수식 / 타이머 / 버튼잠금 / 소비전력 / 680W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=15463106)
+
+### 8. 샤오미 미지아 3세대 CJSJSQ04ZMZ
+- **브랜드**: 샤오미
+- **가격**: 112,126원
+- **평점**: ⭐4.5 (30개 리뷰)
+- **핵심 스펙**: 가습기 / 자연기화식 / 간편세척 / 항균필터 / 수조용량 / 6.0L / 800cc / 습도조절 / 습도표시 / 분무량조절 / 자동전원차단 / 상부급수식 / 수위표시 / 스마트폰제어 / 소비전력
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=71974844)
+
+### 9. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RWUABM
+- **브랜드**: LG전자
+- **가격**: 1,128,530원
+- **평점**: ⭐4.9 (47개 리뷰)
+- **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / 자동건조 / 수조용량 / 5.1L / 700cc / 습도조절 / 습도표시 / 분무량조절 / 자동전원차단 / 상부급수식 / 스마트폰제어 / 타이머 / 무드등
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=101955836)
+
+### 10. 르젠 퓨어미스트 2세대 LZHD-H05
 - **브랜드**: 르젠
-- **가격**: 167,690원
-- **평점**: ⭐4.4 (84개 리뷰)
+- **가격**: 169,000원
+- **평점**: ⭐4.4 (87개 리뷰)
 - **핵심 스펙**: 가습기 / 가열식 / 완벽세척 / 자동세척 / 수조용량 / 4.0L / 510cc / 습도조절 / 습도표시 / 분무량조절 / 스테인리스 수조 / 자동전원차단 / 상부급수식 / 타이머 / 버튼잠금
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=28579265)
 
-### 9. 조지루시 EE-TAH60K
-- **브랜드**: 조지루시
-- **가격**: 388,990원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 자동세척 / 수조용량 / 4.0L / 600cc / 습도조절 / 습도표시 / 분무량조절 / 자동전원차단 / 상부급수식 / 타이머 / 버튼잠금 / 소비전력
+### 11. 아이닉 iH12 Pro
+- **브랜드**: 아이닉
+- **가격**: 127,970원
+- **평점**: ⭐4.8 (931개 리뷰)
+- **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / UV살균 / 수조용량 / 11L / 400cc / 습도조절 / 습도표시 / 분무량조절 / 안심스팀 / 분무구회전 / 자동전원차단 / 상부급수식 / 수위표시
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=102007931)
+- [상세보기](https://prod.danawa.com/info/?pcode=69560183)
 
-### 10. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RSUA
-- **브랜드**: LG전자
-- **가격**: 1,090,250원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / 자동건조 / 수조용량 / 5.1L / 700cc / 습도조절 / 습도표시 / 분무량조절 / 상부급수식 / 수위표시 / 스마트폰제어 / 타이머 / 무드등
+### 12. 신일전자 SUH-4A60ST
+- **브랜드**: 신일전자
+- **가격**: 49,000원
+- **평점**: ⭐4.6 (40개 리뷰)
+- **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / 수조용량 / 4.0L / 405cc / 분무량조절 / 분무구회전 / 자동전원차단 / 상부급수식 / 소비전력 / 115W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=100004411)
+- [상세보기](https://prod.danawa.com/info/?pcode=99476135)
 
-### 11. 루메나 듀얼 H3 X
-- **브랜드**: 루메나
-- **가격**: 35,600원
-- **평점**: ⭐4.8 (180개 리뷰)
-- **핵심 스펙**: 가습기 / 초음파식 / 간편세척 / 수조용량 / 0.7L / 160cc / 분무량조절 / 자동전원차단 / 수위표시 / 무드등 / 소비전력 / 5W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=28641695)
-
-### 12. 한경희생활과학 HAAN-HD700M
+### 13. 한경희생활과학 HAAN-HD700M
 - **브랜드**: 한경희생활과학
 - **가격**: 27,900원
 - **평점**: ⭐4.3 (12개 리뷰)
@@ -151,85 +165,75 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=69059510)
 
-### 13. 에어메이드 AMH-4502
+### 14. 르젠 퓨어미스트 LZHD-H500
+- **브랜드**: 르젠
+- **가격**: 172,370원
+- **평점**: ⭐4.3 (27개 리뷰)
+- **핵심 스펙**: 가습기 / 가열식 / 완벽세척 / 자동세척 / 수조용량 / 4.0L / 510cc / 습도조절 / 습도표시 / 분무량조절 / 스테인리스 수조 / 자동전원차단 / 상부급수식 / 타이머 / 버튼잠금
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=18253403)
+
+### 15. 신일전자 SUH-RT1500X
+- **브랜드**: 신일전자
+- **가격**: 102,600원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 수조용량 / 4.0L / 500cc / 습도조절 / 분무량조절 / 스테인리스 수조 / 자동전원차단 / 수위표시 / 타이머 / 무드등 / 버튼잠금 / 소비전력
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=99710207)
+
+### 16. 조지루시 EE-TAH60K
+- **브랜드**: 조지루시
+- **가격**: 388,990원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 자동세척 / 수조용량 / 4.0L / 600cc / 습도조절 / 습도표시 / 분무량조절 / 자동전원차단 / 상부급수식 / 타이머 / 버튼잠금 / 소비전력
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=102007931)
+
+### 17. 에어메이드 AMH-4502
 - **브랜드**: 에어메이드
-- **가격**: 246,450원
-- **평점**: ⭐4.7 (17개 리뷰)
+- **가격**: 239,160원
+- **평점**: ⭐4.8 (27개 리뷰)
 - **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 자동세척 / 자동건조 / 수조용량 / 4.5L / 560cc / 습도조절 / 습도표시 / 분무량조절 / 스테인리스 수조 / 상부급수식 / 스마트폰제어 / 무드등
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=101079227)
 
-### 14. 위닉스 올바른 가습기 WLTE750-JKK
+### 18. 위닉스 올케어 올바른가습기 WL4M400-NWK
 - **브랜드**: 위닉스
-- **가격**: 56,040원
-- **평점**: ⭐4.6 (587개 리뷰)
-- **핵심 스펙**: 가습기 / 복합식 / 간편세척 / 수조용량 / 7.5L / 400cc / 습도조절 / 습도표시 / 분무량조절 / 분무구회전 / 자동전원차단 / 상부급수식 / 타이머 / 무드등 / 소비전력
+- **가격**: 110,500원
+- **평점**: ⭐4.5 (48개 리뷰)
+- **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / UV살균 / 수조용량 / 4.0L / 400cc / 습도조절 / 분무량조절 / 안심스팀 / 분무구회전 / 스테인리스 수조 / 자동전원차단 / 상부급수식 / 타이머
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12395729)
+- [상세보기](https://prod.danawa.com/info/?pcode=68686337)
 
-### 15. 조지루시 EE-DCH35K
-- **브랜드**: 조지루시
-- **가격**: 243,680원
-- **평점**: ⭐4.7 (647개 리뷰)
-- **핵심 스펙**: 가습기 / 가열식 / 간편세척 / 수조용량 / 3.1L / 370cc / 습도조절 / 습도표시 / 분무량조절 / 안심스팀 / 상부급수식 / 타이머 / 버튼잠금 / 소비전력 / 680W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=15463106)
-
-### 16. 스텐팟 3세대 ST-600RH
-- **브랜드**: 스텐팟
-- **가격**: 311,920원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 가습기 / 가열식 / 완벽세척 / 자동세척 / 수조용량 / 6.0L / 600cc / 분무량조절 / 스테인리스 수조 / 자동전원차단 / 상부급수식 / 타이머 / 버튼잠금 / 소비전력 / 390W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=97308203)
-
-### 17. 루메나 HUMID H7
+### 19. 루메나 듀얼 H3 X
 - **브랜드**: 루메나
-- **가격**: 132,650원
-- **평점**: ⭐1 (1개 리뷰)
-- **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / UV살균 / 자동건조 / 수조용량 / 11.0L / 550cc / 습도조절 / 습도표시 / 분무량조절 / 자동전원차단 / 타이머 / 무드등 / 소비전력
+- **가격**: 34,840원
+- **평점**: ⭐4.8 (180개 리뷰)
+- **핵심 스펙**: 가습기 / 초음파식 / 간편세척 / 수조용량 / 0.7L / 160cc / 분무량조절 / 자동전원차단 / 수위표시 / 무드등 / 소비전력 / 5W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=101542373)
+- [상세보기](https://prod.danawa.com/info/?pcode=28641695)
 
-### 18. 퀸센스 QSHD-V150
-- **브랜드**: 퀸센스
-- **가격**: 26,750원
-- **평점**: ⭐4.3 (9개 리뷰)
-- **핵심 스펙**: 가습기 / 가열식 / 완벽세척 / 수조용량 / 1.5L / 150cc / 자동전원차단 / 수위표시 / 소비전력 / 130W
+### 20. 쿠쿠전자 스팀 100 CH-MS301FW
+- **브랜드**: 쿠쿠전자
+- **가격**: 134,220원
+- **평점**: ⭐4.7 (4개 리뷰)
+- **핵심 스펙**: 가습기 / 가열식 / 완벽세척 / 자동세척 / 수조용량 / 3.8L / 500cc / 습도조절 / 분무량조절 / 스테인리스 수조 / 자동전원차단 / 상부급수식 / 타이머 / 무드등 / 버튼잠금
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=70532339)
-
-### 19. 신일전자 SUH-4A60ST
-- **브랜드**: 신일전자
-- **가격**: 47,950원
-- **평점**: ⭐4.6 (35개 리뷰)
-- **핵심 스펙**: 가습기 / 복합식 / 완벽세척 / 수조용량 / 4.0L / 405cc / 분무량조절 / 분무구회전 / 자동전원차단 / 상부급수식 / 소비전력 / 115W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=99476135)
-
-### 20. 오아 보아르 VHHU-001WH
-- **브랜드**: 오아
-- **가격**: 147,870원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 가습기 / 자연기화식 / 완벽세척 / UV살균 / 자동건조 / 수조용량 / 8.0L / 900cc / 습도조절 / 습도표시 / 분무량조절 / 자동전원차단 / 상부급수식 / 타이머
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=99713573)
+- [상세보기](https://prod.danawa.com/info/?pcode=98919764)
 
 ---
 
@@ -244,8 +248,8 @@
 ---
 
 ## 📊 데이터 출처
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-pS4e3P7CGQVUsIw3fLJtt-kornabnAOymFbUpxG-ICUErJ5jRxdiQYi9V-3q8dWTtykWu3vGeOvJ9z0DO3XqY5_xQk04hyWa-X0BfaqQdMkeqTdHhLsWqxkg2cV_m97hNKmvyhE=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFv-5bUvFljzI_334XQ5tXocdmPNIHNeoFq-zRXg9YP9gWx7nbNWh7Kd8zqLsjAjdSN2G-GeMfWKryeZ5tvDL7_dXu6S9Lcj6u6RyVu6Rk-C111VYSHHTLTYInYEgGkKeA53Aki3y8=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFTcV4FRHrAQSRdX7rQ_YAIpsaXOkXms7k4GwLxqbrvJne4Cj5FaegLkvHIg-X2eGn6w0beRagb7AHzNT9_mbKXuHL2YeOW4fCuNkfAfq9x-Vyo8Hm4MxtADHQZrIH85qeZTky2Lk=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3lJnUN6CikKdQeTLoTWZUYYOxjVHN2_PCWLdffka1iaqfQXityaba_aEr250w4fuA5LPe2b8PzqHNnD6WXSeSMq2n8kD93cjHNA1GGV70ehxxpX1eHtAJDBBCfukp57yfrX2xOe4=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfmMulqDydazMBZRhY78iQIvc56WLZWe7wq2hX-DoHwlRBC2fP2SkFS1-W9nZtNR3K8zpLTlhJa9GFEMyIyUpvFirBWC6R9KRT01oWyw7xiOo8AQarfDdTEvI6boRZPJUhYpOOH9yKIUWxXccEILqnl1rn3X_WUvZQOLauydC1MXovvBV_dt_2TvZegh7dbrfLuUQVJVleP0kzELyCSheAeUrxj_NHwSaLAhLnVK9_w6LVTkgw1j_pJhIXkC-NJ7_06mui8ED8xzpqgJYiehp5U_9WXpw9t2TVddhcfKAXdTBmvBdOgPlCHLusanojpsHdRTE305iF5rjE7BppVNb-uGQ7LFOJ8auzTmLnfP7FofmIUMZoWdS8n_8615jy35COrE6PFmUIHYIkoUIjga4wrkCUuYIRb-fPgspyuqd-v10QS_nMrh5vVVcBYxskNapafw_0bB1oBull0vGiKiL3mA==)
+- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdwSBxqdAAVnXLTpXJ6SHEO1iB75A6byAXKlIxqKI7jj0QK9W0Xy97f1twBu-0D0Qhpxw6MFybxGbzdtlUawMenXVkrtSbIvybs3k01FDOQns4ZfShSQ5SKkzGP-QzKx6BP56Oh9NF-HGVp7bU1hz-bwzPHgHXb_jBY6y6Z6DZ)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeaepZaQZoqS1DPEpZUENzkFAntGzM0J674YpddFb9AUVZWcKU_LLVeQsy_mIoHznRj9GF_sV3JwJOwDp9JNyKd8ddw0VLzWTcddaSDDk5BKZfqYXWiwL3G4g-O32-9R0XjVo2W8bmtsudJdmcK51BlnAd30U761W3aV4graWC)
+- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2OW9sXEWGskcR2wj_fFuSfNQC41BiJOTuirhWoicjOCh1NKZGo_48RmlEwG4M_WgeJOXVhUpsYi2b7wRyD45fmWTatAK9T5d6HnVuXoLon_v5qXcKaJMVR460_jNRU2GOYFc-wkwh_qXfTpIzrStPcB9CAVosH_BWylFKLQ==)
+- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlVnpCXqgIysy1yl1agZD34AKjYuMNYMIkiRTCVX5UM8vnQm8b0Y8BnOtN3WVqdkfFLEG5x6JgWHGcDmcLy4IZTZKHC6oQaHoO4syRNow_RhoNC199A7xZucgkuugYcz4oL0XkqyXEgVpfSlzBTq7hlrpTUBHO)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7kB9VpzfJvn8keTmTepwcfrxQdSLizXKKPy64Xm-6qlwwMRdjL7ECQhjTfAOYaA-MCGE9RU7eztalcHm6e04frrCcEdbCZCRioAcsjSqL0uQFOLyLxvcqYhaXv-_9N750b2P3M5bfvgBX9WlngWvRMB9X8EGZmn01P5HIKuUmSgUM3rduMlqQi4P-JTr_wScNysvGNKa67kGGjPsm9aT1D4fb78luBX_G4O0-fgbyD-UCpg4q_sbNgXtASvgyAi8Yjk6qkrAplALQ7KxG5TdszJfJBuBWQ8W5rYod6R72lBX6Zo89B6_pbjBTXJHry8u1tnzCqVRAx2gokC0Wb6yZV07NvHRu2oBvffmroNumZqbdad2aQfMWq3FCMlSm0fJATPeTnoJ69dobZMuhBViLdkoKixKX5W2zcsWGoCR4Fd8=)

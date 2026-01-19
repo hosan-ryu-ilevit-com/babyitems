@@ -1,14 +1,14 @@
-# 세션: 20260119_051451_3i32
-> 시작: 2026-01-19T05:14:51.369Z
+# 세션: 20260119_110123_x6ij
+> 시작: 2026-01-19T11:01:23.091Z
 > 카테고리키: 유아의자
 > 카테고리: 유아의자
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아의자 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 유아의자 시장은 안전성과 편의성을 갖춘 다양한 브랜드가 경쟁하고 있습니다. 시디즈(Sidiz)는 아기의 성장에 맞춰 사용할 수 있는 '아띠'와 '몰티' 라인으로 인기를 얻고 있으며, IKEA의 제품도 청소 용이성과 가성비로 꾸준히 언급됩니다. 전반적으로는 심플하고 모던한 디자인, 쉬운 세척, 그리고 아이의 바른 자세를 잡아주는 기능이 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvsu3OYZ-5f5i0q3a7vucDa-oE5POAXgI9Q1t9rKyGTQz8W4B5WjFxuezMtA0n6g6bEmy1IkSOUZmQBuWANly0Z4XPlhjDjh_Xmm2VWDLmn7EfZJj3ZW8j-V8AHg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFj8mNctInessbaPg-00F1SilVTuh8gJI9e_OeFtuSeHj-Vf4rZouSc6U_ov-1wYc-DPkq5k4Q5yslpeSoWg60o62mEstYpN2gqek15JKwYj1KhiSZ8Zv3Z95uWBDpmXraOfLYc98LVIXJ26MYNPnEXN_vHLjnpI9iDV-FYHm4iMaRQz3BacLxnBaj-kleJ73vARPYB57c6aiJZ0yQ-GB-wdkYKjYD1K4Hw8Dfh_0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3ts8XdBHD6oC3Jul7J0PqPBo-_u9EbmC7Y8Xn1ThXHRkMrP630vWbaV0ItjgpjULCPI6pXyRkGHBEQzXx0IxQPZgfRl5LID_6-vm3_QyVVJI1ja23Z6uItOv-YpYmtJRBeysacNh1G9r-SMdqsB8UfWpeWpTIGshSdr6wpqJEiQju1mM38qCDefZ9DE4gvffRhqn-toYShJANC3YxtmZ8CQUXordxgNXDyhdCPQeGhafo0dgDSVFbB4RWfvvPTPfemACWhywZTMc3CdlfiausohhYAqwg, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7jO8Yla8N8Guk8R7ZzjS_Ksl_4dObhIKaUueH8HQV1MhV1E_w0H-v_2ZUE2kmzkMss2xTGTSbqZ9gABf6cgGqJA3UqPRF5BnBxf366bwyEx5luy3VtSTQD6VJVTB1D0ZoOYz1VBcIzEERCE1aSHYUz3BQXmcg-EHkGP9EXArItM8LTzE71LdxnybPWfZ4RKNcOqmknyzTtn5LL9j_i1ZHWjKp0OkA951PAuQVkdtdZU81wzpFeBfBcBEjs0NDPvE352MSqq5Ih_eVB8O1VuzWVUyz12_QurG_h--lSBPgQgY=
+- 쿼리: 유아의자 시장 현황
+- 인사이트: 유아의자 시장은 저출산 시대에도 불구하고 프리미엄화, 키즈테크, 캐릭터 IP, 글로벌 시장 진출 등의 트렌드에 힘입어 성장세를 보이고 있습니다. 특히 '하나뿐인 아이에게 좋은 것만 해주고 싶은' 부모들의 심리가 반영되어 고급화, 친환경, 맞춤형 서비스가 강조되는 추세입니다.. 어린이용 의자는 2030년까지 가장 빠른 연평간 성장률을 기록할 것으로 전망되며, 높이 조절, 자세 지지 기능, 스마트 기능 등이 탑재된 프리미엄 제품이 주목받고 있습니다..
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAqBLtJVAP2MvxZkQ1uet2AU8v5b2XEU5RA7czd6KUo8k8vcktwOrYJ4pYzQHtY9phLOiGWAB2nK3-x-TxZQsKORXgqKQpCdNk0P217Vr4KSEHQmE0fY_8zuGr4gEZYa2cC_iAIfQdX-0M7bMwvaOnunOQND7Sw-SLQiUy1DcU6vxmk4g3MhuGN4walA5jgSlbVoB3qiAvXZ3Ra4CiU5mdCNXWpocl8-W33qZfilCtqNefyEkrZ_8IAAncOYWJvj8xzCOodW_yjALboAhZTz4jYYYUr_Ivgqro_XAQT5GW2Gw3IQ_c6xG0yMKTTcnvUEAePOVRLKs4lCMMQycIm4mfmJ_KYhl2Q62P6I-jjBRWqaADvm3c2oVZlOkdeJdAi8vUH0-edgENhGaSmvKz2xO61Nj6n4ddW_qIYtqJWTfJLmqgEF4hvgOxfkQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyRLgW--7p7rGhbyVAfQzSLQkX21U0utRXF9txVzm8PV4MpL-WiqWlVB0mx3kwXjJw8nI7yc6fWqgqwomtU95vzcLDI61fUksxciBDYDkADewSB5C4VqsuydUIrDlNoXobpITlzTsRTnAcir4XqQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwv0HQkOs59N9VrFdf6twO-6VE6tm48cV5b0XXBsaoD0r-fozYXYyAZ7D1HC3O-wAaLV201aXCD7FSb5ofiJuR2rZQDfDSZNEbNDrM2Dl1t9NBYhzhcwBIhL587X-B-XPPcRKXlztUdtihnPewoj-1Rt8p0qerdsBQ19WwzuEinn9CMWWFfXvC2jK6KeDROw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpMSQa3wmRZeNpU0lsCtORz0y9ZjM5uqtu6epNJqc2IbPtT5XAqbxZ0oq4FcsrNRWhPYJUem0TgOSQw-0beOiHJoKSMJNXs0otaeCl_gXyDe5oWgbJEXYXqj7BYRzZqrDHwOwxJ9M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmgd77ughxQ4H1ngNTF2nEKa35Zs9HwahkyxI-XvPxJgCbV8LjzO51qcqv7mkSLE-AOjf8QufY3PpPbiVMGrC5obid4ZT_5bMZD7duyIRLMT4TL1MHnxVIYF-07mt9MzyeC-094Ns=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWWvDW-Dwb8gn6FhB7luORuWDPeMlUhEeR4ilQPfCrImD0NU9qqiaQE53utGVf2nrWJgoYey_Qo2XhoYBwAdAHZ-ib4AL_KWEm3zKaqSsTx3ihmmczm7m1pv6eK04Sdo0rlopsm3Mw-bNSsv-SkR_I0pMJEus=
 
 ---
 
@@ -16,8 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 주로 어떤 활동을 할 때 유아의자를 사용하시나요? | 식사 시간 |
-| 의자 청결 관리는 얼마나 중요하게 생각하시나요? | 매우 중요해요 |
+| 아기의 안전을 위해 가장 중요하게 생각하시는 안전 기능은 무엇인가요? | 5점식 안전벨트, 강화된 측면 충격 보호 |
+| 아기의 현재 월령 또는 성장 단계에 맞는 의자를 찾고 계신가요? | 신생아 ~ 이유식 시작 전 (0~6개월) |
+| 의자 소재와 관리 편의성 중 어떤 점을 더 중요하게 생각하시나요? | 세척 및 관리가 쉬운 소재 |
+| 보호자의 편의를 위해 어떤 조절 기능이 중요하신가요? | 높이 및 등받이 각도 조절, 발판 높이 조절 |
+| 유아의자 예산은 어느 정도로 생각하세요? (평균 약 21만원, 12만원~27만원대가 가장 많아요) | 12만원 ~ 27만원, 12만원 이하 |
+| __avoid_negatives__ | 아기가 금방 자라서 오래 사용하지 못하고 또 사야 할까 봐 부담돼요,복잡한 조립 과정 때문에 설치하다가 시간을 너무 많이 뺏길까 봐 걱정돼요 |
 
 ---
 
@@ -57,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 아기가 금방 자라서 오래 사용하지 못하고 또 사야 할까 봐 부담돼요
+- 복잡한 조립 과정 때문에 설치하다가 시간을 너무 많이 뺏길까 봐 걱정돼요
 
 ---
 

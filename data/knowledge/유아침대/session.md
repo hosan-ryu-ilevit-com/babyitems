@@ -1,5 +1,5 @@
-# 세션: 20260119_062632_mt93
-> 시작: 2026-01-19T06:26:32.202Z
+# 세션: 20260119_081847_5mrr
+> 시작: 2026-01-19T08:18:47.403Z
 > 카테고리키: 유아침대
 > 카테고리: 유아침대
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아침대 시장 현황
-- 인사이트: 유아침대 시장은 출산율 증가와 유아 안전에 대한 인식 증대로 꾸준히 성장하고 있습니다. 부모들은 내구성과 안전성을 갖춘 친환경 소재의 유아침대를 선호하며, 목재 유아침대가 시장에서 높은 점유율을 차지하고 있습니다. 온라인 판매 채널의 성장과 함께 지속 가능한 제품에 대한 수요도 증가하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDP2WMrB9UFjpQZAmp5LxDLgUsKwj5a3hel0ig0RbIuMzO8HEhB4JPTrSsKFGx4t0HTauaaW_k1eROuOymFt2LvlP8sIUa_J08eL_6dGtXhQmANgX8tSnWk6E0TOc22_F9fw5Q38PKG-Pr5pf3E4_t3vJQ8CyK2WbSsfnCvnVn9ykT1tFtf45x5I9Rhc2mp7eiE9E5phGy5Fjk9f-FLKXWleF1FAcfiNdQ2mU8tZRnma4RGu3ODBUk2-fl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkJTpOkHYxkAAYRsYNr-3ErQRxA0UeilNh8pD9gEhUsRikVVJiW1r8UZNuef-67asdrOkTcKD_5Z9PIoneF_9KH7xlAckxQNGs8at45NLot41MWykfNmUriKArHIBPM8JrIDCwqgmqMKmJy7T4wP7772jMTn2XS23Zx0fSb69DsD91nYam5RD1ojBJ4Q9a, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRvDLS-eUB9pvyXeD2LqUifPwyMl9ouRXAtZDaxE_7hbYhzK2yyjKNIMdBNOHlzrru9eCFIqrj_gbyjY-x4vZMFgOSYx36jncSzKQkBBxzMqySYhTcRqvvJ_sCCLxeGuEG5qpKvGPvvw6bVM-Zi-x04qp2v-l5Xt_XsL9GllvKJEg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcHKOvcJc250YrnhRYHXARj6ULJd35CNXFYcVPU2J7MDlj_cWpBu5qekbXiw7HgW0vxQg5JoiTA2pzO4i5wPh-WoIt1GG8-X5Ux8vDuh0X3WDe4cZ6U0B7Cq7hJFtmvhKN0GS0y9AfFDdgXC2eUmfkvFXcYWHzjmlh8FbgW05f43hogvSUndCj3SqNTSeWtVUJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGU79dB2qra5Y2F0O5ne4TwY3tV-HmbcNZZKhjH6CuvTxep0mNvq8U94fQrGDUVt5JcYH5vSPE0NRJVtqfOdxn6_yQVJuoCOm772UvNVIo_yMmuPlLaVajOB9RZFkIyqb5ZYigE_krrsCcZqW4FucqHW6p4upkZEFk3L0CMRtQiq2uo2HBN-afVkhh7AUPN1UTL
+- 인사이트: 유아 침대 시장은 출산율 증가와 유아 안전에 대한 인식 증대로 꾸준히 성장하고 있습니다. 부모들은 내구성과 안전성을 갖춘 친환경 소재의 유아 침대를 선호하며, 목재 소재가 높은 점유율을 차지하고 있습니다. 유통 채널로는 전문 매장이 주요 역할을 하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAKCbfcm5oXLjfZNfe-9RupZH2E10Fqy-0rPAmNjSgo1jD4dQXfQTbFhQT48HIlTYfd49h-Qq9gKZIcMcdACa2klfoVsRcmxScy2mMSEKxjaKV9rXRsimSUWROJ79Cex1f0sSWfV1arx5p7WeYOrfPXeIdLTBoVvHPbLzWMpYYxqYPwVjdgYcoWvCqK6AU4bF3Dq7DqbDUWJwKPdOgb2VG7UZS-gqJ9bzeHTJEQz0MyWDVWtqtl38-OaV4xw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnp1CRb3YUXNZoSqduSfe58vZrYLqQqJdbu6RI8DCZEDl-RR7jl_4rhOtVKh_JG6e6L02ZetilyGIF9n5BcElUdM45p1p_gSut9-ME3PYU1qKZ0YbZXHULCYpk5NLN0Lddd9Peq5lq45EqD2Aboln0G-jLxCeaYHY2gYQL43lRrayqsAKCfn90h8Kyz8PQOA==
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기가 주로 사용할 침대 형태는 어떤 것을 선호하시나요? | 일반 아기 침대, 범퍼 침대 |
+| 침대 소재는 어떤 것을 고려하고 계신가요? | 원목 |
+| 아기 침대를 구매하실 때, 변형 가능한 디자인을 고려하시나요? | 변형 가능 |
+| 침대를 이동하거나 보관할 필요가 있으신가요? | 이동/보관 용이 |
+| 유아침대 예산은 어느 정도로 생각하세요? (평균 31만원, 20만~40만원대가 가장 많아요) | 20만원 ~ 40만원대 |
+| __avoid_negatives__ | 아기가 분리 수면을 거부하면 침대를 활용하기 어려울까 봐 염려돼요,이사나 보관을 위해 자주 해체하고 조립해야 할 때 불편할 것 같아요 |
 
 ---
 
@@ -44,7 +50,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 아기가 분리 수면을 거부하면 침대를 활용하기 어려울까 봐 염려돼요
+- 이사나 보관을 위해 자주 해체하고 조립해야 할 때 불편할 것 같아요
 
 ---
 

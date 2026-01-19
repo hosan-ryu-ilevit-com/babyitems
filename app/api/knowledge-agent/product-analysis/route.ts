@@ -73,12 +73,31 @@ interface ProductAnalysis {
   cons: Array<{ text: string; citations: number[] }>;
 }
 
+// 🆕 FilterTag 타입 (final-recommend에서 전달)
+interface FilterTag {
+  id: string;
+  label: string;
+  category: string;
+  sourceType?: 'balance' | 'negative' | 'collected' | 'free_input';
+  originalCondition?: string;
+}
+
+// 🆕 사전 평가 결과 (final-recommend의 tagScores)
+interface PreEvaluation {
+  score: 'full' | 'partial' | null;
+  evidence?: string;
+  conditionType?: 'hardFilter' | 'balance' | 'negative';
+}
+
 // 요청 타입
 interface ProductAnalysisRequest {
   categoryKey: string;
   categoryName: string;
   products: ProductInfo[];
   userContext: UserContext;
+  // 🆕 final-recommend에서 전달된 사전 평가 결과
+  preEvaluations?: Record<string, Record<string, PreEvaluation>>;  // pcode -> tagId -> evaluation
+  filterTags?: FilterTag[];
 }
 
 // 응답 타입
@@ -93,14 +112,47 @@ interface ProductAnalysisResponse {
 
 /**
  * 단일 제품 분석 생성
+ * @param preEvaluations - final-recommend에서 전달된 사전 평가 결과 (tagScores)
+ * @param filterTags - final-recommend에서 생성된 필터 태그
  */
 async function analyzeProduct(
   product: ProductInfo,
   categoryName: string,
-  userContext: UserContext
+  userContext: UserContext,
+  preEvaluations?: Record<string, PreEvaluation>,
+  filterTags?: FilterTag[]
 ): Promise<ProductAnalysis> {
   if (!ai) {
-    return generateFallbackAnalysis(product, userContext);
+    return generateFallbackAnalysis(product, userContext, preEvaluations, filterTags);
+  }
+
+  // 🆕 preEvaluations가 있고 대부분의 태그에 대한 평가가 있으면 바로 사용 (PLP-PDP 일관성 보장)
+  if (preEvaluations && filterTags && filterTags.length > 0) {
+    const evaluatedCount = filterTags.filter(tag => preEvaluations[tag.id]?.score).length;
+    const coverageRatio = evaluatedCount / filterTags.length;
+
+    // 50% 이상 평가가 있으면 fallback 사용 (PLP와 동일한 결과 보장)
+    if (coverageRatio >= 0.5) {
+      console.log(`[product-analysis] Using preEvaluations directly for ${product.pcode} (${evaluatedCount}/${filterTags.length} tags, ${Math.round(coverageRatio * 100)}%)`);
+      return generateFallbackAnalysis(product, userContext, preEvaluations, filterTags);
+    }
+  }
+
+  // preEvaluations에서 evidence 추출 (LLM 프롬프트에 참고 정보로 제공)
+  const preEvalHints: string[] = [];
+  if (preEvaluations && filterTags) {
+    filterTags.forEach(tag => {
+      const preEval = preEvaluations[tag.id];
+      if (preEval && preEval.score && preEval.evidence) {
+        const statusText = tag.sourceType === 'negative'
+          ? (preEval.score === 'full' ? '회피됨' : preEval.score === 'partial' ? '부분회피' : '회피안됨')
+          : (preEval.score === 'full' ? '충족' : preEval.score === 'partial' ? '부분충족' : '불충족');
+        preEvalHints.push(`- "${tag.label}": ${statusText} - ${preEval.evidence}`);
+      }
+    });
+    if (preEvalHints.length > 0) {
+      console.log(`[product-analysis] Using ${preEvalHints.length} preEvaluation hints for ${product.pcode}`);
+    }
   }
 
   const model = ai.getGenerativeModel({
@@ -213,7 +265,10 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
 
 ## 리뷰
 ${reviewStr}
-${conditionSection}${contextSection}
+${conditionSection}${contextSection}${preEvalHints.length > 0 ? `
+## 참고: 사전 분석 결과 (이 정보를 우선 활용하세요)
+${preEvalHints.join('\n')}
+` : ''}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## evidence 작성 규칙 (매우 중요!)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -284,18 +339,64 @@ evidence는 PDP 상단 "왜 추천했나요?" 섹션에 표시되는 핵심 문�
     };
   } catch (error) {
     console.error(`[product-analysis] Failed to analyze ${product.pcode}:`, error);
-    return generateFallbackAnalysis(product, userContext);
+    return generateFallbackAnalysis(product, userContext, preEvaluations, filterTags);
   }
 }
 
 /**
- * Fallback 분석 생성
+ * Fallback 분석 생성 (preEvaluations 우선 사용)
  */
 function generateFallbackAnalysis(
   product: ProductInfo,
-  userContext: UserContext
+  userContext: UserContext,
+  preEvaluations?: Record<string, PreEvaluation>,
+  filterTags?: FilterTag[]
 ): ProductAnalysis {
   const selectedConditionsEvaluation: ConditionEvaluation[] = [];
+
+  // 🆕 preEvaluations가 있으면 우선 사용
+  if (preEvaluations && filterTags && filterTags.length > 0) {
+    filterTags.forEach(tag => {
+      const preEval = preEvaluations[tag.id];
+      if (preEval && preEval.score) {
+        const conditionType = tag.sourceType === 'balance' ? 'balance' :
+                              tag.sourceType === 'negative' ? 'negative' : 'hardFilter';
+
+        let status: ConditionEvaluation['status'];
+        if (conditionType === 'negative') {
+          status = preEval.score === 'full' ? '회피됨' :
+                   preEval.score === 'partial' ? '부분회피' : '회피안됨';
+        } else {
+          status = preEval.score === 'full' ? '충족' :
+                   preEval.score === 'partial' ? '부분충족' : '불충족';
+        }
+
+        selectedConditionsEvaluation.push({
+          condition: tag.label,  // PLP 태그와 동일한 label 사용 (일관성)
+          conditionType,
+          status,
+          evidence: preEval.evidence || '상세 스펙에서 해당 정보를 확인하기 어려워요.',
+        });
+      }
+    });
+
+    // preEvaluations로 처리했으면 여기서 리턴
+    if (selectedConditionsEvaluation.length > 0) {
+      const additionalPros = (product.highlights || []).map(text => ({ text, citations: [] }));
+      const cons = (product.concerns || []).map(text => ({ text, citations: [] }));
+
+      return {
+        pcode: product.pcode,
+        selectedConditionsEvaluation,
+        contextMatch: userContext.conversationSummary ? {
+          explanation: '말씀하신 조건들을 종합적으로 고려해 선정한 제품이에요.',
+          matchedPoints: [],
+        } : undefined,
+        additionalPros,
+        cons,
+      };
+    }
+  }
 
   // questionId -> 질문 텍스트 매핑
   const questionIdToText: Record<string, string> = {};
@@ -371,7 +472,7 @@ function generateFallbackAnalysis(
 export async function POST(request: NextRequest): Promise<NextResponse<ProductAnalysisResponse>> {
   try {
     const body: ProductAnalysisRequest = await request.json();
-    const { categoryKey, categoryName, products, userContext } = body;
+    const { categoryKey, categoryName, products, userContext, preEvaluations, filterTags } = body;
 
     if (!products || products.length === 0) {
       return NextResponse.json(
@@ -380,12 +481,15 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductAn
       );
     }
 
-    console.log(`[knowledge-agent/product-analysis] Analyzing ${products.length} products for ${categoryKey}`);
+    const hasPreEvaluations = preEvaluations && Object.keys(preEvaluations).length > 0;
+    console.log(`[knowledge-agent/product-analysis] Analyzing ${products.length} products for ${categoryKey}${hasPreEvaluations ? ' (with preEvaluations)' : ''}`);
 
-    // 병렬로 분석
-    const analysisPromises = products.slice(0, 3).map(product =>
-      analyzeProduct(product, categoryName || categoryKey, userContext)
-    );
+    // 병렬로 분석 (preEvaluations 전달) - Top 5 지원
+    const ANALYSIS_LIMIT = 5;  // 기존 3 → 5
+    const analysisPromises = products.slice(0, ANALYSIS_LIMIT).map(product => {
+      const productPreEval = preEvaluations?.[product.pcode];
+      return analyzeProduct(product, categoryName || categoryKey, userContext, productPreEval, filterTags);
+    });
 
     const analyses = await Promise.all(analysisPromises);
     const generated_by = ai ? 'llm' : 'fallback';

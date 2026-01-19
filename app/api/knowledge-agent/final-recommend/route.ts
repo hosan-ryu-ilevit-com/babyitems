@@ -16,8 +16,8 @@ import type {
   BalanceSelection,
   FinalRecommendation,
   FinalRecommendationRequest,
-  FinalRecommendationResponse,
   ReviewLite,
+  FilterTag,
 } from '@/lib/knowledge-agent/types';
 
 export const maxDuration = 60;
@@ -35,6 +35,10 @@ const FINAL_RECOMMEND_MODEL = 'gemini-3-flash-preview'; // 최종 추천용 (가
 const SPEC_NORMALIZE_MODEL = 'gemini-2.5-flash-lite'; // 스펙 정규화용
 const PROS_CONS_MODEL = 'gemini-2.5-flash-lite'; // 장단점 생성용
 const KEYWORD_EXPAND_MODEL = 'gemini-2.5-flash-lite'; // 키워드 확장용
+const FILTER_TAG_MODEL = 'gemini-2.5-flash-lite'; // 필터 태그 생성용
+
+// 추천 개수 상수
+const RECOMMENDATION_COUNT = 5; // 추천 상품 개수 (기존 3 → 5)
 
 // ============================================================================
 // 선호 키워드 확장 (flash-lite) - prescreenCandidates에서 리뷰 검색용
@@ -288,6 +292,318 @@ async function analyzeFreeInput(
   }
 
   return defaultResult;
+}
+
+// ============================================================================
+// 필터 태그 생성 (Flash Lite) - 사용자 응답 기반 태그 생성
+// ============================================================================
+
+/**
+ * 사용자 응답(collectedInfo)을 필터 태그로 변환
+ * - 각 태그에 하이라이트용 키워드 포함
+ */
+async function generateFilterTags(
+  categoryName: string,
+  collectedInfo: Record<string, string>,
+  _balanceSelections: BalanceSelection[],  // 현재 미사용 (밸런스 게임 제거됨)
+  _negativeSelections: string[],           // PLP 필터 태그에서 제외
+  freeInputAnalysis?: FreeInputAnalysis | null
+): Promise<FilterTag[]> {
+  const defaultTags: FilterTag[] = [];
+
+  // collectedInfo가 없으면 빈 배열 반환 (balanceSelections/negativeSelections는 사용 안함)
+  const infoEntries = Object.entries(collectedInfo).filter(
+    ([key]) => !key.startsWith('__')
+  );
+  if (infoEntries.length === 0) {
+    return defaultTags;
+  }
+
+  if (!ai) {
+    console.log('[FilterTags] No AI available');
+    return defaultTags;
+  }
+
+  const model = ai.getGenerativeModel({
+    model: FILTER_TAG_MODEL,
+    generationConfig: {
+      temperature: 0.3,
+      maxOutputTokens: 1500,
+      responseMimeType: 'application/json',
+    },
+  });
+
+  const userConditions = infoEntries
+    .map(([q, a]) => `- ${q}: ${a}`)
+    .join('\n') || '(없음)';
+
+  // 🆕 맞춤질문 응답만으로 짧은 키워드 스타일 태그 생성
+  // balanceSelections, negativeSelections는 PLP 필터 태그에서 제외
+
+  const prompt = `## 역할
+사용자가 ${categoryName} 구매 시 선택한 조건들을 **짧은 키워드 스타일 태그**로 변환합니다.
+
+## 사용자 선택 조건 (맞춤 질문 응답)
+${userConditions}
+
+${freeInputAnalysis ? `## 자유 입력 분석
+- 선호: ${freeInputAnalysis.preferredAttributes.join(', ') || '없음'}
+- 맥락: ${freeInputAnalysis.usageContext || '없음'}` : ''}
+
+## 중요 규칙
+1. **태그는 반드시 2~5단어의 짧은 키워드 형태**로 생성 (문장 X)
+   - 좋은 예: "저소음", "세척 편리", "컴팩트 사이즈", "대용량", "원터치 분리"
+   - 나쁜 예: "음식물 쓰레기가 완전히 처리됨", "필터 성능이 부족해서..."
+2. 각 태그에 검색용 키워드 포함 (동의어, 유사어 2-4글자)
+3. category: usage(용도), spec(스펙), feature(기능)
+4. 최대 5개 태그
+5. 예산/가격 관련 태그는 생성하지 마세요
+
+## 응답 (JSON만)
+{"tags":[{"id":"tag_1","label":"저소음","category":"feature","keywords":["소음","조용","정숙"],"priority":1,"sourceType":"collected","originalCondition":"원본 조건"}]}`;
+
+  try {
+    const startTime = Date.now();
+    const result = await model.generateContent(prompt);
+    let text = result.response.text().trim();
+    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    let tags: FilterTag[] = [];
+
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      if (parsed.tags && Array.isArray(parsed.tags)) {
+        tags = parsed.tags.map((tag: any, i: number) => ({
+          id: tag.id || `tag_${i + 1}`,
+          label: tag.label || '',
+          category: tag.category || 'feature',
+          keywords: tag.keywords || [],
+          priority: tag.priority || i + 1,
+          sourceType: tag.sourceType || 'collected',
+          originalCondition: tag.originalCondition || tag.label,
+        }));
+      }
+    }
+
+    console.log(`[FilterTags] Generated ${tags.length} keyword-style tags in ${Date.now() - startTime}ms`);
+    return tags;
+  } catch (error) {
+    console.error('[FilterTags] Error:', error);
+  }
+
+  return defaultTags;
+}
+
+// ============================================================================
+// 🆕 태그 충족도 평가 (LLM 기반)
+// ============================================================================
+
+import type { ProductTagScores, TagScore } from '@/lib/knowledge-agent/types';
+
+/**
+ * 리뷰에서 골고루 샘플링 (별점 높음/낮음/최신 순)
+ */
+function sampleReviewsForEvaluation(reviews: ReviewLite[], maxCount: number = 20): ReviewLite[] {
+  if (reviews.length <= maxCount) return reviews;
+
+  const sorted = [...reviews];
+  
+  // 별점 높은 순 상위 7개
+  const highRated = [...sorted].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 7);
+  
+  // 별점 낮은 순 상위 7개
+  const lowRated = [...sorted].sort((a, b) => (a.rating || 0) - (b.rating || 0)).slice(0, 7);
+  
+  // 최신순 6개 (날짜 없으면 마지막 6개)
+  const recent = sorted.slice(-6);
+  
+  // 중복 제거하며 병합
+  const seen = new Set<string>();
+  const result: ReviewLite[] = [];
+  
+  for (const review of [...highRated, ...lowRated, ...recent]) {
+    if (!seen.has(review.reviewId) && result.length < maxCount) {
+      seen.add(review.reviewId);
+      result.push(review);
+    }
+  }
+  
+  return result;
+}
+
+/**
+ * 제품별 태그 충족도를 LLM으로 평가 (product-analysis 스타일)
+ * - 스펙 + 리뷰 기반 상세 평가
+ * - full/partial/null 3단계 + evidence 문장
+ * - PDP에서 재사용 가능한 상세 근거 포함
+ */
+async function evaluateTagScoresForProducts(
+  products: Array<{ pcode: string; product: HardCutProduct }>,
+  tags: FilterTag[],
+  reviews: Record<string, ReviewLite[]>,
+  categoryName: string
+): Promise<Record<string, ProductTagScores>> {
+  if (!ai || tags.length === 0 || products.length === 0) {
+    return {};
+  }
+
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: {
+      temperature: 0.3,
+      maxOutputTokens: 6000, // 5개 상품용 상향 (4000 → 6000)
+      responseMimeType: 'application/json',
+    },
+  });
+
+  // 각 제품에 대한 평가 데이터 구성
+  const productInfos = products.map(({ pcode, product }) => {
+    const productReviews = reviews[pcode] || [];
+    const sampledReviews = sampleReviewsForEvaluation(productReviews, 15);
+
+    // 리뷰 상세 포맷 (product-analysis 스타일)
+    const reviewStr = sampledReviews.length > 0
+      ? sampledReviews.map((r, i) =>
+          `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 120)}${r.content.length > 120 ? '...' : ''}"`
+        ).join('\n')
+      : '리뷰 없음';
+
+    return {
+      pcode,
+      name: product.name,
+      brand: product.brand,
+      price: product.price,
+      specs: product.specs || {},
+      specSummary: product.specSummary || '',
+      reviewStr,
+    };
+  });
+
+  // 태그를 조건 형태로 변환 (sourceType별로 구분)
+  const tagConditions = tags.map(t => {
+    const conditionType = t.sourceType === 'balance' ? 'balance' :
+                          t.sourceType === 'negative' ? 'negative' : 'hardFilter';
+    return `- ${t.id}: "${t.originalCondition || t.label}" (${conditionType})`;
+  }).join('\n');
+
+  const prompt = `당신은 ${categoryName} 전문 큐레이터입니다.
+사용자가 선택한 조건들을 각 제품이 얼마나 충족하는지 분석해주세요.
+
+## 평가할 조건 목록
+${tagConditions}
+
+## 제품 정보
+${productInfos.map((p, i) => `
+### 제품 ${i + 1}: ${p.pcode}
+- 제품명: ${p.name}
+- 브랜드: ${p.brand || '미상'}
+- 가격: ${p.price ? `${p.price.toLocaleString()}원` : '미정'}
+- 스펙: ${p.specSummary?.slice(0, 400) || JSON.stringify(p.specs).slice(0, 400)}
+
+리뷰:
+${p.reviewStr}
+`).join('\n')}
+
+## evidence 작성 규칙
+evidence는 사용자에게 보여지는 핵심 문장입니다.
+
+### Good Examples
+- "저소음 설계로 조용한 사용 환경을 제공해요."
+- "리뷰에서 '소음이 거의 없다'는 평가가 많아요."
+- "3단계 온도 조절이 가능해 상황에 맞게 사용할 수 있어요."
+
+### 근거 부족 시
+- status: "partial" 또는 null
+- evidence: "상세 스펙에서 확인이 어려워요."
+
+## 평가 기준
+- **"full"**: 스펙/리뷰에서 명확히 확인됨 → 충족/회피됨
+- **"partial"**: 부분적으로 해당되거나 조건부
+- **null**: 관련 없거나 충족 못함/회피 안됨
+
+⚠️ negative(피할 단점) 조건의 경우:
+- "full" = 해당 단점이 없음 (회피 성공)
+- "partial" = 일부 있지만 심하지 않음
+- null = 해당 단점이 있음 (회피 실패)
+
+## 응답 형식 (JSON)
+{
+  "evaluations": {
+    "제품pcode": {
+      "태그id": { "score": "full" | "partial" | null, "evidence": "근거 문장" },
+      ...
+    },
+    ...
+  }
+}
+
+⚠️ 주의: 근거 없이 추측 금지, evidence에 이모티콘/볼드 금지`;
+
+  try {
+    const startTime = Date.now();
+    const result = await model.generateContent(prompt);
+    let text = result.response.text().trim();
+    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      const evaluations = parsed.evaluations || parsed;
+
+      // 태그 ID → conditionType 매핑
+      const tagTypeMap: Record<string, 'hardFilter' | 'balance' | 'negative'> = {};
+      tags.forEach(t => {
+        tagTypeMap[t.id] = t.sourceType === 'balance' ? 'balance' :
+                          t.sourceType === 'negative' ? 'negative' : 'hardFilter';
+      });
+
+      // 결과를 ProductTagScores 형식으로 변환 (evidence 포함)
+      const tagScoresMap: Record<string, ProductTagScores> = {};
+
+      for (const [pcode, scores] of Object.entries(evaluations)) {
+        tagScoresMap[pcode] = {};
+        for (const [tagId, scoreData] of Object.entries(scores as Record<string, any>)) {
+          // scoreData가 객체인 경우 (새 형식)
+          if (typeof scoreData === 'object' && scoreData !== null) {
+            const normalizedScore: TagScore =
+              scoreData.score === 'full' ? 'full' :
+              scoreData.score === 'partial' ? 'partial' :
+              null;
+
+            if (normalizedScore !== null) {
+              tagScoresMap[pcode][tagId] = {
+                score: normalizedScore,
+                evidence: scoreData.evidence || undefined,
+                conditionType: tagTypeMap[tagId] || 'hardFilter',
+              };
+            }
+          }
+          // scoreData가 문자열인 경우 (레거시 형식 호환)
+          else if (typeof scoreData === 'string') {
+            const normalizedScore: TagScore =
+              scoreData === 'full' ? 'full' :
+              scoreData === 'partial' ? 'partial' :
+              null;
+
+            if (normalizedScore !== null) {
+              tagScoresMap[pcode][tagId] = {
+                score: normalizedScore,
+                conditionType: tagTypeMap[tagId] || 'hardFilter',
+              };
+            }
+          }
+        }
+      }
+
+      console.log(`[TagScores] ✅ 상세 평가 완료 (${Date.now() - startTime}ms): ${Object.keys(tagScoresMap).length}개 제품`);
+      return tagScoresMap;
+    }
+  } catch (error) {
+    console.error('[TagScores] 평가 실패:', error);
+  }
+
+  return {};
 }
 
 /**
@@ -790,20 +1106,21 @@ function prescreenCandidates(
 // ============================================================================
 
 /**
- * 1단계: Top 3 pcode 선정 (가벼운 호출)
+ * 1단계: Top N pcode 선정 (가벼운 호출)
  * - 입력: 후보 목록 (스펙 요약 + 리뷰 키워드만, 원문 제외)
- * - 출력: pcode 3개 + 간단한 선정 이유
+ * - 출력: pcode N개 + 간단한 선정 이유
  */
-async function selectTop3Pcodes(
+async function selectTopNPcodes(
   categoryName: string,
   candidates: HardCutProduct[],
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
   negativeSelections: string[],
+  count: number = RECOMMENDATION_COUNT,
 ): Promise<{ pcode: string; briefReason: string }[]> {
   if (!ai) {
-    return candidates.slice(0, 3).map(p => ({
+    return candidates.slice(0, count).map(p => ({
       pcode: p.pcode,
       briefReason: `매칭 점수 ${p.matchScore}점`,
     }));
@@ -814,7 +1131,7 @@ async function selectTop3Pcodes(
     model: 'gemini-2.5-flash-lite',
     generationConfig: {
       temperature: 0.3,
-      maxOutputTokens: 1500,
+      maxOutputTokens: 2000,
       responseMimeType: 'application/json',
     },
   });
@@ -831,7 +1148,7 @@ async function selectTop3Pcodes(
    장점:${pros.slice(0, 4).join(',')} | 단점:${cons.slice(0, 3).join(',')}`;
   }).join('\n');
 
-  const prompt = `## ${categoryName} Top 3 선정
+  const prompt = `## ${categoryName} Top ${count} 선정
 
 ## 사용자 조건
 ${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]) => `- ${q}: ${a}`).join('\n') || '없음'}
@@ -843,15 +1160,15 @@ ${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]
 ${candidateInfo}
 
 ## 작업
-사용자 조건에 가장 적합한 상품 3개를 선정하세요.
+사용자 조건에 가장 적합한 상품 ${count}개를 선정하세요.
 - 리뷰 평점/개수 + 스펙 매칭 + 사용자 우선순위 종합 고려
 - 피할 단점과 관련된 상품은 제외
 
 ## 응답 (JSON만)
-{"top3":[{"pcode":"코드1","briefReason":"선정이유(15자)"},{"pcode":"코드2","briefReason":"이유"},{"pcode":"코드3","briefReason":"이유"}]}`;
+{"topN":[{"pcode":"코드1","briefReason":"선정이유(15자)"},{"pcode":"코드2","briefReason":"이유"},...]}`;
 
   try {
-    console.log('[Step1] Selecting Top 3 pcodes...');
+    console.log(`[Step1] Selecting Top ${count} pcodes...`);
     const startTime = Date.now();
     const result = await model.generateContent(prompt);
     let text = result.response.text().trim();
@@ -860,9 +1177,10 @@ ${candidateInfo}
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       const parsed = JSON.parse(jsonMatch[0]);
-      if (parsed.top3 && Array.isArray(parsed.top3) && parsed.top3.length > 0) {
-        console.log(`[Step1] ✅ Top 3 selected in ${Date.now() - startTime}ms:`, parsed.top3.map((t: any) => t.pcode).join(', '));
-        return parsed.top3;
+      const topList = parsed.topN || parsed.top3 || parsed.top5;
+      if (topList && Array.isArray(topList) && topList.length > 0) {
+        console.log(`[Step1] ✅ Top ${topList.length} selected in ${Date.now() - startTime}ms:`, topList.map((t: any) => t.pcode).join(', '));
+        return topList;
       }
     }
   } catch (error) {
@@ -870,15 +1188,15 @@ ${candidateInfo}
   }
 
   console.log('[Step1] ⚠️ Fallback to score-based selection');
-  return candidates.slice(0, 3).map(p => ({
+  return candidates.slice(0, count).map(p => ({
     pcode: p.pcode,
     briefReason: `매칭 점수 ${p.matchScore}점`,
   }));
 }
 
 /**
- * 2단계: 상세 추천 이유 생성 (선정된 3개에 대해서만)
- * - 입력: 3개 상품 + 리뷰 원문 10개
+ * 2단계: 상세 추천 이유 생성 (선정된 N개에 대해서만)
+ * - 입력: N개 상품 + 리뷰 원문 10개
  * - 출력: oneLiner, personalReason, highlights, concerns
  */
 async function generateDetailedReasons(
@@ -897,7 +1215,6 @@ async function generateDetailedReasons(
       product: p,
       reason: `${p.brand} ${p.name}`,
       oneLiner: `✨ ${p.brand} 제품`,
-      personalReason: '',
       highlights: p.matchedConditions?.slice(0, 3) || [],
     }));
   }
@@ -906,7 +1223,7 @@ async function generateDetailedReasons(
     model: FINAL_RECOMMEND_MODEL,
     generationConfig: {
       temperature: 0.5,
-      maxOutputTokens: 4000,
+      maxOutputTokens: 8000, // 5개 상품용 (기존 6000 → 8000 상향)
       responseMimeType: 'application/json',
     },
   });
@@ -951,8 +1268,9 @@ ${freeInputAnalysis.avoidAttributes.length > 0 ? `**피할 단점:** ${freeInput
   ${reviewTexts || '(리뷰 없음)'}`;
   }).join('\n\n');
 
+  const productCount = selectedProducts.length;
   const prompt = `## 역할
-${categoryName} 구매 컨설턴트로서 선정된 Top 3 상품의 **맞춤형 추천 이유**를 작성합니다.
+${categoryName} 구매 컨설턴트로서 선정된 Top ${productCount} 상품의 **맞춤형 추천 이유**를 작성합니다.
 
 ## 사용자 프로필
 ### 질문 응답
@@ -965,18 +1283,15 @@ ${balanceSelections.map(b => `- ${b.selectedLabel}`).join('\n') || '없음'}
 ${negativeSelections.join(', ') || '없음'}
 ${freeInputSection}
 
-## 선정된 Top 3 상품
+## 선정된 Top ${productCount} 상품
 ${productDetails}
 
 ## 작성 규칙
 
-### oneLiner (한줄 평) - 45~70자
+### oneLiner (한줄 평) - 50~80자
 - 이모지 + 핵심 강점 + 리뷰 인용
-- 예: 🤫 **밤잠 예민한 분들도 걱정 없는 정숙함!** "숨소리보다 조용해요"라는 평이 압도적!
-
-### personalReason (추천 이유) - 40~60자
-- 사용자 조건과 제품 스펙/리뷰가 **실제로 매칭**되는 부분만 언급
-- 예: 소음이 중요하다고 하셨는데, 수면풍 모드가 있어 딱이에요.
+- 사용자 조건에 맞는 이유도 자연스럽게 포함
+- 예: 🤫 **밤잠 예민한 분들도 걱정 없는 정숙함!** 수면풍 모드가 있어 조용히 사용 가능해요
 
 ### highlights - 장점 3개
 - "**키워드**: 설명" 형식
@@ -989,10 +1304,10 @@ ${productDetails}
 - 제품에 없는 기능을 있는 것처럼 언급
 
 ## 응답 (JSON만)
-{"recommendations":[{"rank":1,"pcode":"코드","oneLiner":"한줄평","personalReason":"추천이유","highlights":["장점1","장점2","장점3"],"concerns":["주의점"]}]}`;
+{"recommendations":[{"rank":1,"pcode":"코드","oneLiner":"한줄평","highlights":["장점1","장점2","장점3"],"concerns":["주의점"]}]}`;
 
   try {
-    console.log('[Step2] Generating detailed reasons for 3 products...');
+    console.log(`[Step2] Generating detailed reasons for ${productCount} products...`);
     const startTime = Date.now();
     const result = await model.generateContent(prompt);
     let text = result.response.text().trim();
@@ -1020,15 +1335,13 @@ ${productDetails}
         return parsed.recommendations.map((rec: any, i: number) => {
           const product = selectedProducts.find(p => p.pcode === rec.pcode) || selectedProducts[i];
           const oneLiner = rec.oneLiner || '';
-          const personalReason = rec.personalReason || '';
 
           return {
             rank: rec.rank || i + 1,
             pcode: rec.pcode || product?.pcode,
             product,
-            reason: `${oneLiner} ${personalReason}`.trim(),
+            reason: oneLiner,
             oneLiner,
-            personalReason,
             highlights: rec.highlights || [],
             concerns: rec.concerns,
             bestFor: rec.bestFor,
@@ -1047,17 +1360,17 @@ ${productDetails}
     product: p,
     reason: `${p.brand} ${p.name} - ${(p.specSummary || '').slice(0, 60)}`,
     oneLiner: `✨ ${p.brand} 제품`,
-    personalReason: '',
     highlights: p.matchedConditions?.slice(0, 3) || [],
   }));
 }
 
 /**
- * LLM으로 Top 3 선정 (2단계 아키텍처)
- * - 1단계: Top 3 pcode 선정 (가벼운 호출, ~3초)
- * - 2단계: 상세 추천 이유 생성 (무거운 호출, ~5초)
+ * 🚀 1단계: Top N 상품 선정 (사전 스크리닝 + pcode 선정)
+ * - 120개 → 25개 사전 스크리닝
+ * - Top N pcode 선정 (가벼운 호출)
+ * - 선정된 HardCutProduct[] 반환
  */
-async function generateRecommendations(
+async function selectTopProducts(
   categoryName: string,
   candidates: HardCutProduct[],
   reviews: Record<string, ReviewLite[]>,
@@ -1066,7 +1379,7 @@ async function generateRecommendations(
   negativeSelections: string[],
   expandedKeywords?: ExpandedKeywords,
   freeInputAnalysis?: FreeInputAnalysis | null
-): Promise<FinalRecommendation[]> {
+): Promise<{ selectedProducts: HardCutProduct[]; enhancedNegativeSelections: string[] }> {
   // 🆕 다나와 랭크 조회 (사전 스크리닝용)
   let rankMap: Record<string, number> = {};
   if (candidates.length > PRESCREEN_LIMIT) {
@@ -1101,47 +1414,48 @@ async function generateRecommendations(
   console.log(`[FinalRecommend] 2-Step Architecture: ${candidates.length} → ${filteredCandidates.length} candidates`);
 
   // ============================================================================
-  // 1단계: Top 3 pcode 선정 (가벼운 호출)
+  // Top N pcode 선정 (가벼운 호출)
   // ============================================================================
-  const top3Selection = await selectTop3Pcodes(
+  const topNSelection = await selectTopNPcodes(
     categoryName,
     filteredCandidates,
     reviews,
     collectedInfo,
     balanceSelections,
     enhancedNegativeSelections,
+    RECOMMENDATION_COUNT,
   );
 
-  // 선정된 pcode로 제품 찾기
-  const selectedProducts = top3Selection
-    .map(sel => filteredCandidates.find(c => c.pcode === sel.pcode))
-    .filter((p): p is HardCutProduct => p !== undefined);
+  // 선정된 pcode로 제품 찾기 (중복 pcode 제거!)
+  const seenPcodes = new Set<string>();
+  const selectedProducts: HardCutProduct[] = [];
 
-  // 3개 미만이면 점수순으로 채우기
-  if (selectedProducts.length < 3) {
-    const existingPcodes = new Set(selectedProducts.map(p => p.pcode));
-    const remaining = filteredCandidates.filter(c => !existingPcodes.has(c.pcode));
-    while (selectedProducts.length < 3 && remaining.length > 0) {
-      selectedProducts.push(remaining.shift()!);
+  for (const sel of topNSelection) {
+    // 이미 추가된 pcode는 스킵 (LLM이 중복 반환하는 경우 방지)
+    if (seenPcodes.has(sel.pcode)) {
+      console.log(`[FinalRecommend] ⚠️ 중복 pcode 제거: ${sel.pcode}`);
+      continue;
+    }
+    const product = filteredCandidates.find(c => c.pcode === sel.pcode);
+    if (product) {
+      selectedProducts.push(product);
+      seenPcodes.add(sel.pcode);
     }
   }
 
-  console.log(`[FinalRecommend] Step1 완료: ${selectedProducts.map(p => p.pcode).join(', ')}`);
+  // N개 미만이면 점수순으로 채우기
+  if (selectedProducts.length < RECOMMENDATION_COUNT) {
+    const remaining = filteredCandidates.filter(c => !seenPcodes.has(c.pcode));
+    while (selectedProducts.length < RECOMMENDATION_COUNT && remaining.length > 0) {
+      const next = remaining.shift()!;
+      selectedProducts.push(next);
+      seenPcodes.add(next.pcode);
+    }
+  }
 
-  // ============================================================================
-  // 2단계: 상세 추천 이유 생성 (선정된 3개만)
-  // ============================================================================
-  const recommendations = await generateDetailedReasons(
-    categoryName,
-    selectedProducts,
-    reviews,
-    collectedInfo,
-    balanceSelections,
-    enhancedNegativeSelections,
-    freeInputAnalysis,
-  );
+  console.log(`[FinalRecommend] Step1 완료: ${selectedProducts.map((p: HardCutProduct) => p.pcode).join(', ')}`);
 
-  return recommendations;
+  return { selectedProducts, enhancedNegativeSelections };
 }
 
 export async function POST(request: NextRequest) {
@@ -1173,28 +1487,37 @@ export async function POST(request: NextRequest) {
     // ============================================================================
     const additionalCondition = collectedInfo?.['__additional_condition__'] || '';
 
-    console.log(`[FinalRecommend] ⚡ Starting parallel: extractExpandedKeywords + analyzeFreeInput`);
+    console.log(`[FinalRecommend] ⚡ Starting parallel: extractExpandedKeywords + analyzeFreeInput + generateFilterTags`);
     const parallelStartTime = Date.now();
 
-    const [expandedKeywords, freeInputAnalysisResult] = await Promise.all([
+    const [expandedKeywords, freeInputAnalysisResult, filterTagsResult] = await Promise.all([
       // 키워드 확장 (prescreening용)
       extractExpandedKeywords(catName, collectedInfo || {}, negativeSelections || []),
       // 자유 입력 분석
       (additionalCondition && additionalCondition.trim().length >= 2)
         ? analyzeFreeInput(catName, additionalCondition)
-        : Promise.resolve(null)
+        : Promise.resolve(null),
+      // 필터 태그 생성 (사용자 응답 기반)
+      generateFilterTags(
+        catName,
+        collectedInfo || {},
+        balanceSelections || [],
+        negativeSelections || [],
+        null // freeInputAnalysis는 아직 없음, 나중에 병합
+      )
     ]);
 
     console.log(`[FinalRecommend] ⚡ Parallel completed in ${Date.now() - parallelStartTime}ms`);
     console.log(`[FinalRecommend] Keywords: prefer=${expandedKeywords.preferKeywords.length}, avoid=${expandedKeywords.avoidKeywords.length}`);
+    console.log(`[FinalRecommend] FilterTags: ${filterTagsResult.length}개 생성`);
     if (freeInputAnalysisResult) {
       console.log(`[FinalRecommend] Free input analyzed:`, freeInputAnalysisResult);
     }
 
     // ============================================================================
-    // 1단계: LLM으로 Top 3 선정 (120개 → 25개 사전 스크리닝 → Top 3)
+    // 1단계: Top N 상품 선정 (120개 → 25개 사전 스크리닝 → Top N)
     // ============================================================================
-    const recommendations = await generateRecommendations(
+    const { selectedProducts, enhancedNegativeSelections } = await selectTopProducts(
       catName,
       candidates,
       reviews || {},
@@ -1206,51 +1529,103 @@ export async function POST(request: NextRequest) {
     );
 
     // 추천된 상품들의 pcode 추출
-    const recommendedPcodes = recommendations.map(r => r.pcode);
-    const recommendedProducts = recommendations.map(r => r.product).filter(Boolean);
+    const recommendedPcodes = selectedProducts.map((p: HardCutProduct) => p.pcode);
 
-    console.log(`[FinalRecommend] Top 3 selected: ${recommendedPcodes.join(', ')}`);
+    console.log(`[FinalRecommend] Top ${RECOMMENDATION_COUNT} selected: ${recommendedPcodes.join(', ')}`);
 
     // ============================================================================
-    // 2단계: 추천된 3개에 대해서만 스펙 정규화 + 장단점 생성 (병렬)
+    // 2단계: 상세 이유 생성 + 스펙 정규화 + 장단점 생성 + 태그 충족도 평가 (병렬!)
+    // 🚀 최적화: generateDetailedReasons와 나머지 3개 작업을 병렬로 실행
+    // - normalizeSpecs, prosCons, tagScores는 selectedProducts(HardCutProduct[])만 필요
+    // - generateDetailedReasons의 결과를 기다릴 필요 없음
+    // ⚠️ Promise.allSettled로 일부 실패해도 나머지는 정상 처리
     // ============================================================================
-    const [normalizedSpecs, prosConsResults] = await Promise.all([
-      // 스펙 정규화 (추천된 3개만)
+    const parallelResults = await Promise.allSettled([
+      // 상세 추천 이유 생성 (선정된 N개만) - 가장 오래 걸림 (~4.5초)
+      generateDetailedReasons(
+        catName,
+        selectedProducts,
+        reviews || {},
+        collectedInfo || {},
+        balanceSelections || [],
+        enhancedNegativeSelections,
+        freeInputAnalysisResult,
+      ),
+      // 스펙 정규화 (추천된 N개만) - HardCutProduct[]만 필요
       normalizeSpecsForComparison(
-        recommendedProducts as HardCutProduct[],
+        selectedProducts,
         catName
       ),
-      // 장단점 생성 (추천된 3개만)
+      // 장단점 생성 (추천된 N개만) - HardCutProduct[]만 필요
       generateProsConsForProducts(
-        recommendedProducts as HardCutProduct[],
+        selectedProducts,
         reviews || {},
         collectedInfo || {},
         catName
       ),
+      // 태그 충족도 평가 (추천된 N개만) - HardCutProduct[]만 필요
+      evaluateTagScoresForProducts(
+        selectedProducts.map((p: HardCutProduct) => ({ pcode: p.pcode, product: p })),
+        filterTagsResult,
+        reviews || {},
+        catName
+      ),
     ]);
 
+    // 안전하게 결과 추출 (실패 시 fallback 사용)
+    const recommendations = parallelResults[0].status === 'fulfilled'
+      ? parallelResults[0].value
+      : selectedProducts.map((p: HardCutProduct, i: number) => ({
+          rank: i + 1,
+          pcode: p.pcode,
+          product: p,
+          reason: `${p.brand} ${p.name}`,
+          oneLiner: `✨ ${p.brand} 제품`,
+          highlights: p.matchedConditions?.slice(0, 3) || [],
+        }));
+
+    const normalizedSpecs = parallelResults[1].status === 'fulfilled'
+      ? parallelResults[1].value
+      : [];
+
+    const prosConsResults = parallelResults[2].status === 'fulfilled'
+      ? parallelResults[2].value
+      : [];
+
+    const tagScoresMap = parallelResults[3].status === 'fulfilled'
+      ? parallelResults[3].value
+      : {};
+
+    // 실패한 작업 로깅
+    parallelResults.forEach((result, i) => {
+      if (result.status === 'rejected') {
+        const taskNames = ['generateDetailedReasons', 'normalizeSpecs', 'prosCons', 'tagScores'];
+        console.error(`[FinalRecommend] ⚠️ ${taskNames[i]} failed:`, result.reason);
+      }
+    });
+
     // ============================================================================
-    // 결과 병합: 각 추천 상품에 정규화된 스펙, 장단점, 리뷰 추가
+    // 결과 병합: 각 추천 상품에 정규화된 스펙, 장단점, 리뷰, 태그 충족도 추가
     // ============================================================================
     
     // ✅ Supabase에서 rank 조회 (pcode 기준)
-    const recommendedPcodesForRank = recommendations.map(r => r.pcode);
+    const recommendedPcodesForRank = recommendations.map((r: FinalRecommendation) => r.pcode);
     let rankMap: Record<string, number> = {};
     try {
       const { data: rankData } = await supabase
         .from('knowledge_products_cache')
         .select('pcode, rank')
         .in('pcode', recommendedPcodesForRank);
-      
+
       if (rankData) {
-        rankMap = Object.fromEntries(rankData.map(r => [r.pcode, r.rank]));
+        rankMap = Object.fromEntries(rankData.map((r: { pcode: string; rank: number }) => [r.pcode, r.rank]));
         console.log(`[FinalRecommend] ✅ DB rank 조회 완료:`, rankMap);
       }
     } catch (e) {
       console.error('[FinalRecommend] rank 조회 실패:', e);
     }
-    
-    const enrichedRecommendations = recommendations.map((rec) => {
+
+    const enrichedRecommendations = recommendations.map((rec: FinalRecommendation) => {
       // 장단점 찾기
       const prosConsData = prosConsResults.find(pc => pc.pcode === rec.pcode);
 
@@ -1266,6 +1641,9 @@ export async function POST(request: NextRequest) {
       // 해당 상품의 리뷰 목록
       const productReviews = reviews?.[rec.pcode] || [];
 
+      // 🆕 태그 충족도 (LLM 평가 결과)
+      const tagScores = tagScoresMap[rec.pcode] || {};
+
       return {
         ...rec,
         // ✅ Supabase에서 조회한 다나와 판매순위
@@ -1277,6 +1655,8 @@ export async function POST(request: NextRequest) {
         consFromReviews: prosConsData?.cons || rec.concerns || [],
         // 리뷰 목록 (PLP 표시용)
         reviews: productReviews,
+        // 태그 충족도 (full/partial/null)
+        tagScores,
       };
     });
 
@@ -1295,6 +1675,8 @@ export async function POST(request: NextRequest) {
       normalizedSpecs,
       // ✅ 추가: 자유 입력 분석 결과 (PDP 선호/회피 조건 표시용)
       freeInputAnalysis: freeInputAnalysisResult,
+      // 🆕 필터 태그 (사용자 조건 기반 동적 생성)
+      filterTags: filterTagsResult,
     };
 
     return NextResponse.json(response);

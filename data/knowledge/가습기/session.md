@@ -1,14 +1,14 @@
-# 세션: 20260108_080818_i8ww
-> 시작: 2026-01-08T08:08:18.742Z
+# 세션: 20260119_083758_joko
+> 시작: 2026-01-19T08:37:58.711Z
 > 카테고리키: 가습기
 > 카테고리: 가습기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 가습기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 가습기 시장은 위생과 편의성을 강조한 제품들이 인기를 얻고 있습니다. 특히 UV 살균 기능, 자동 세척 기능, 그리고 간편한 세척 구조를 갖춘 제품들이 주목받고 있으며, 대용량 모델과 스마트 기능이 탑재된 제품들도 꾸준히 판매되고 있습니다. 한경희생활과학, 신일, 쿠쿠, 위닉스 등의 브랜드가 현재 인기 있는 브랜드로 나타납니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-pS4e3P7CGQVUsIw3fLJtt-kornabnAOymFbUpxG-ICUErJ5jRxdiQYi9V-3q8dWTtykWu3vGeOvJ9z0DO3XqY5_xQk04hyWa-X0BfaqQdMkeqTdHhLsWqxkg2cV_m97hNKmvyhE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFv-5bUvFljzI_334XQ5tXocdmPNIHNeoFq-zRXg9YP9gWx7nbNWh7Kd8zqLsjAjdSN2G-GeMfWKryeZ5tvDL7_dXu6S9Lcj6u6RyVu6Rk-C111VYSHHTLTYInYEgGkKeA53Aki3y8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFTcV4FRHrAQSRdX7rQ_YAIpsaXOkXms7k4GwLxqbrvJne4Cj5FaegLkvHIg-X2eGn6w0beRagb7AHzNT9_mbKXuHL2YeOW4fCuNkfAfq9x-Vyo8Hm4MxtADHQZrIH85qeZTky2Lk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3lJnUN6CikKdQeTLoTWZUYYOxjVHN2_PCWLdffka1iaqfQXityaba_aEr250w4fuA5LPe2b8PzqHNnD6WXSeSMq2n8kD93cjHNA1GGV70ehxxpX1eHtAJDBBCfukp57yfrX2xOe4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfmMulqDydazMBZRhY78iQIvc56WLZWe7wq2hX-DoHwlRBC2fP2SkFS1-W9nZtNR3K8zpLTlhJa9GFEMyIyUpvFirBWC6R9KRT01oWyw7xiOo8AQarfDdTEvI6boRZPJUhYpOOH9yKIUWxXccEILqnl1rn3X_WUvZQOLauydC1MXovvBV_dt_2TvZegh7dbrfLuUQVJVleP0kzELyCSheAeUrxj_NHwSaLAhLnVK9_w6LVTkgw1j_pJhIXkC-NJ7_06mui8ED8xzpqgJYiehp5U_9WXpw9t2TVddhcfKAXdTBmvBdOgPlCHLusanojpsHdRTE305iF5rjE7BppVNb-uGQ7LFOJ8auzTmLnfP7FofmIUMZoWdS8n_8615jy35COrE6PFmUIHYIkoUIjga4wrkCUuYIRb-fPgspyuqd-v10QS_nMrh5vVVcBYxskNapafw_0bB1oBull0vGiKiL3mA==
+- 쿼리: 가습기 시장 현황
+- 인사이트: 가습기 시장은 지속적으로 성장하고 있으며, 2035년에는 20억 달러 규모에 이를 것으로 예상됩니다. 북미와 아시아 태평양 지역이 시장을 주도할 것으로 보이며, 스마트 홈 연동 기능과 위생 관리가 강화된 제품이 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdwSBxqdAAVnXLTpXJ6SHEO1iB75A6byAXKlIxqKI7jj0QK9W0Xy97f1twBu-0D0Qhpxw6MFybxGbzdtlUawMenXVkrtSbIvybs3k01FDOQns4ZfShSQ5SKkzGP-QzKx6BP56Oh9NF-HGVp7bU1hz-bwzPHgHXb_jBY6y6Z6DZ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeaepZaQZoqS1DPEpZUENzkFAntGzM0J674YpddFb9AUVZWcKU_LLVeQsy_mIoHznRj9GF_sV3JwJOwDp9JNyKd8ddw0VLzWTcddaSDDk5BKZfqYXWiwL3G4g-O32-9R0XjVo2W8bmtsudJdmcK51BlnAd30U761W3aV4graWC, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2OW9sXEWGskcR2wj_fFuSfNQC41BiJOTuirhWoicjOCh1NKZGo_48RmlEwG4M_WgeJOXVhUpsYi2b7wRyD45fmWTatAK9T5d6HnVuXoLon_v5qXcKaJMVR460_jNRU2GOYFc-wkwh_qXfTpIzrStPcB9CAVosH_BWylFKLQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlVnpCXqgIysy1yl1agZD34AKjYuMNYMIkiRTCVX5UM8vnQm8b0Y8BnOtN3WVqdkfFLEG5x6JgWHGcDmcLy4IZTZKHC6oQaHoO4syRNow_RhoNC199A7xZucgkuugYcz4oL0XkqyXEgVpfSlzBTq7hlrpTUBHO, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7kB9VpzfJvn8keTmTepwcfrxQdSLizXKKPy64Xm-6qlwwMRdjL7ECQhjTfAOYaA-MCGE9RU7eztalcHm6e04frrCcEdbCZCRioAcsjSqL0uQFOLyLxvcqYhaXv-_9N750b2P3M5bfvgBX9WlngWvRMB9X8EGZmn01P5HIKuUmSgUM3rduMlqQi4P-JTr_wScNysvGNKa67kGGjPsm9aT1D4fb78luBX_G4O0-fgbyD-UCpg4q_sbNgXtASvgyAi8Yjk6qkrAplALQ7KxG5TdszJfJBuBWQ8W5rYod6R72lBX6Zo89B6_pbjBTXJHry8u1tnzCqVRAx2gokC0Wb6yZV07NvHRu2oBvffmroNumZqbdad2aQfMWq3FCMlSm0fJATPeTnoJ69dobZMuhBViLdkoKixKX5W2zcsWGoCR4Fd8=
 
 ---
 
@@ -16,39 +16,37 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 방식의 가습 방식을 선호하시나요? | 복합식 (초음파+가열) |
-| 가습기 관리 시 가장 중요하게 생각하는 부분은 무엇인가요? | 자동 세척 및 건조 기능, 그리고 좋은 성능 |
-| 한 번 물을 채웠을 때 얼마나 오래 사용하고 싶으신가요? | 너무 자주만 아니면 됨. 일주일에 한번정도만 채우면,, |
-| 예산은 어느 정도로 생각하세요? | 15만원 이하 |
-| __avoid_negatives__ | 물통 용량이 작아서 매일 여러 번 물을 채워야 하는 상황은 너무 번거로울 것 같아요,가습기 작동 시 발생하는 소음 때문에 잠자리에 방해가 될까 봐 걱정돼요 |
+| 어떤 방식의 가습기를 선호하시나요? | 자연기화식, 초음파식 |
+| 가습기를 주로 사용하실 공간의 크기는 어느 정도인가요? | 작은 방 (~10평) |
+| 가습기 세척 및 관리 편의성은 어느 정도가 중요하신가요? | 중요 (간편 세척) |
+| 스마트홈 연동이나 IoT 기능이 얼마나 필요하신가요? | 있으면 좋음 (습도 조절, 타이머 등 기본 기능) |
+| 가습기 예산은 어느 정도로 생각하세요? (평균 약 27만원, 15만원~35만원대가 가장 많아요) | 15만원 이하 |
+| __avoid_negatives__ | 초음파식 가습기에서 세균이 번식할까 봐 걱정돼요,가습기 구조가 복잡해서 꼼꼼하게 세척하기 어려울 것 같아요,초음파식 가습기에서 물때나 석회질이 생길까 봐 신경 쓰여요,일부 가습기 모델에서 나는 소음이 수면에 방해가 될까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 86개 (전체 86개 중)
+현재 후보: 17개 (전체 17개 중)
 
 ### 후보 상품
-1. 루메나 MIST TOWER MAX - 163,620원 - ⭐4.8
-2. 조지루시 EE-DVH35K - 280,770원 - ⭐4.8
-3. 신일전자 물멍 SUH-CV600ZA - 150,100원 - ⭐4.6
-4. LG전자 오브제컬렉션 퓨리케어 하이드로에센셜 HY505RWLAH - 684,500원 - ⭐4.9
-5. 샤오미 미지아 3세대 CJSJSQ04ZMZ - 115,840원 - ⭐4.4
-6. 아이닉 iH12 Pro - 126,330원 - ⭐4.8
-7. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RSUABM - 1,120,330원 - ⭐5
-8. 르젠 퓨어미스트 2세대 LZHD-H05 - 167,690원 - ⭐4.4
-9. 조지루시 EE-TAH60K - 388,990원 - ⭐5
-10. 루메나 듀얼 H3 X - 35,600원 - ⭐4.8
-11. 한경희생활과학 HAAN-HD700M - 27,900원 - ⭐4.3
-12. 에어메이드 AMH-4502 - 246,450원 - ⭐4.7
-13. 위닉스 올바른 가습기 WLTE750-JKK - 56,040원 - ⭐4.6
-14. 조지루시 EE-DCH35K - 243,680원 - ⭐4.7
-15. 루메나 HUMID H7 - 132,650원 - ⭐1
-16. 퀸센스 QSHD-V150 - 26,750원 - ⭐4.3
-17. 신일전자 SUH-4A60ST - 47,950원 - ⭐4.6
-18. 에어메이드 THE 순수한 가습기 AMH-7000 - 76,140원 - ⭐4.5
-19. 위닉스 올케어 올바른가습기 WL4M400-NWK - 110,810원 - ⭐4.5
-20. 쿠쿠전자 아이편한 CH-GS301FW - 52,390원 - ⭐4.1
+1. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RSUABM - 1,086,030원 - ⭐5
+2. 위닉스 올바른 가습기 WLTE750-JKK - 56,050원 - ⭐4.6
+3. LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY705RWUABM - 1,128,530원 - ⭐4.9
+4. 조지루시 EE-TAH60K - 388,990원 - ⭐5
+5. 에어메이드 AMH-4502 - 239,160원 - ⭐4.8
+6. 샤오미 미지아 3 CJSJSQ05ZMZ - 61,330원 - ⭐5
+7. 비타그램 VG-HF2510W - 18,710원 - ⭐4.9
+8. 루메나 HUMID H7 - 154,420원 - ⭐1
+9. 신일전자 SUH-SS600W - 107,100원 - ⭐4
+10. 원더스리빙 원더스 미스킹 H7 Plus - 24,600원 - ⭐4.4
+11. 신일전자 SUH-CT70 - 52,220원 - ⭐4
+12. 한경희이지라이프 HAAN-HD700HA - 42,100원 - ⭐3.5
+13. 위닉스 올바른 가습기 WLTM750-JWK - 85,550원 - ⭐4.7
+14. 대웅모닝컴 VN-CZH7845R - 100,030원 - ⭐5
+15. 신일전자 SUH-R60HP - 44,540원 - ⭐4.7
+16. 블라우드 워터박스 N350 - 22,780원 - ⭐4.5
+17. 드웰러 SHA-32GS - 206,190원 - ⭐4.9
 
 ---
 
@@ -60,8 +58,10 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 물통 용량이 작아서 매일 여러 번 물을 채워야 하는 상황은 너무 번거로울 것 같아요
-- 가습기 작동 시 발생하는 소음 때문에 잠자리에 방해가 될까 봐 걱정돼요
+- 초음파식 가습기에서 세균이 번식할까 봐 걱정돼요
+- 가습기 구조가 복잡해서 꼼꼼하게 세척하기 어려울 것 같아요
+- 초음파식 가습기에서 물때나 석회질이 생길까 봐 신경 쓰여요
+- 일부 가습기 모델에서 나는 소음이 수면에 방해가 될까 봐 걱정돼요
 
 ---
 

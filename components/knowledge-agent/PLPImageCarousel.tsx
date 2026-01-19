@@ -34,20 +34,26 @@ export function PLPImageCarousel({
   const [isInViewport, setIsInViewport] = useState(false);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const autoScrollTimerRef = useRef<NodeJS.Timeout | null>(null);
   const userPauseTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isAutoScrollingRef = useRef(false);
 
-  // 이미지 배열 생성 (제품 썸네일 + 리뷰 이미지, 최대 maxImages장)
+  // 이미지 로딩 실패 핸들러
+  const handleImageError = useCallback((imgUrl: string) => {
+    setFailedImages(prev => new Set(prev).add(imgUrl));
+  }, []);
+
+  // 이미지 배열 생성 (제품 썸네일 + 리뷰 이미지, 최대 maxImages장, 실패한 이미지 제외)
   const images: string[] = [];
-  if (productThumbnail) {
+  if (productThumbnail && !failedImages.has(productThumbnail)) {
     images.push(productThumbnail);
   }
   for (const img of reviewImages) {
     if (images.length >= maxImages) break;
-    if (!images.includes(img)) {
+    if (!images.includes(img) && !failedImages.has(img)) {
       images.push(img);
     }
   }
@@ -237,15 +243,16 @@ export function PLPImageCarousel({
   if (!hasMultipleImages) {
     return (
       <div ref={containerRef} className="relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
-        {productThumbnail ? (
+        {images.length > 0 ? (
           <Image
-            src={productThumbnail}
+            src={images[0]}
             alt={productTitle}
             width={128}
             height={128}
             className="w-full h-full object-cover"
             quality={90}
             priority={rank <= 3}
+            onError={() => handleImageError(images[0])}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-100">
@@ -290,6 +297,7 @@ export function PLPImageCarousel({
                   className="w-full h-full object-cover"
                   quality={90}
                   priority={rank <= 3}
+                  onError={() => handleImageError(img)}
                 />
               ) : (
                 <img
@@ -297,6 +305,7 @@ export function PLPImageCarousel({
                   alt={`${productTitle} 이미지`}
                   className="w-full h-full object-cover"
                   loading={isClone ? 'eager' : 'lazy'}
+                  onError={() => handleImageError(img)}
                 />
               )}
             </div>

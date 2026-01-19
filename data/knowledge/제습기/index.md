@@ -1,27 +1,27 @@
 # 제습기 전문가 지식
 
-> 마지막 업데이트: 2026-01-19T06:46:25.780Z
+> 마지막 업데이트: 2026-01-19T10:59:22.841Z
 > 분석 상품: 20개 | 분석 리뷰: 18,918개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 장마 및 무더위로 인한 구매 시기 앞당겨짐
-- 일일 제습량 20리터 제품 인기
-- 에너지 효율 1등급 제품 선호
+- 이른 장마 및 무더위로 인한 수요 증가
+- LG전자와 위닉스의 시장 주도
+- 일일 제습량 20리터 내외 및 3~5리터 물통 용량 선호
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 제습 성능
-- ✓ 이동 편의성
-- ✓ 에너지 효율성
+- ✓ 쾌적한 실내 환경 유지
+- ✓ 곰팡이 및 세균 번식 억제
 - ✓ 빨래 건조 용이
-- ✓ 곰팡이 방지
+- ✓ 이동성
+- ✓ 합리적인 가격
 
 ### 주의해야 할 단점
 - ⚠ 작동 시 소음 발생
 - ⚠ 실내 온도 상승
 - ⚠ 물통 자주 비워야 함
-- ⚠ 미니 제습기 제습 효율 낮음
+- ⚠ 에어컨 대비 제한적인 제습 범위
 
 ### 가격대 인사이트
 
@@ -243,8 +243,7 @@
 ---
 
 ## 📊 데이터 출처
-- [daum.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdnzdbXayfJnaexgv18XLHXXtKyHNGo4_UjAaR6kk81GMBjNM8LQYmJ0Eucusw1D3tuECJ0iCkV4LzFsrCJbd6zoS6CY5-7gcdQG8Klm-NaWiVSzIK52ZE1Yk=)
-- [m-i.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwUYF8wJc7MzToPr-xDxcKOkndBaN0wCcc2RWYMVYxjhzycPR3lZ4GROWE0QIXA64z1oYdnnKaTwnvr1XFhinTmtTYbqCRdYrecpYu-nQAom9CdK8-mcIKOBK0kghRFsB8Wu3WvH4oSkFGLez0TQo2ag==)
-- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEDV7MrHu6K16sEf2CbVO8tISdi-e7NEtsN-xpvNbWgHtqSkAQYg8PGlGkc1vxHVN2tgjtoaXc44zb_TWPNMEmjYfNksnKNftPYKGtWaiAr7sa1YNdWA6xQVjm2Yw2CUkudntufygqqJyta-43pnC0GOeCSELO7w==)
-- [zum.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6A1FPE06jcQF95tA_ZZgkgPR6X9t42W5GTjOWVIo2ylOj6hos6qPwk8K832gvSYaymfx2INE_ooHyLQuGH_8w_JezWKxoWQqgInF1DBPjQ32NV8uMlkbIEzqz8vvx0wmo_VzbuMYHqmf5hMwpQhZAlG-QWQgdGhiczQ3GouKwfjFr2rlqTd42Byc9UelGN9OR-PftoT8Ya5f917d8E7d5jTiNRKS7R9ZGWRTb2B_9WE_oxZO3LTrTcd6hpJaL0WDwAxY_P3DWO3SB5zYseLZv5vtrVE016YhXWWCSOM4IABET_atAxt5rZidqdkYjto_CddmrjChaba5eMnocVTG99SurTy8jxqrzZbcGMcBhXm5yrMqUXe4WfuQXpu-UL89ohHXAH5JbNj0qatDFRLmU2IQorL-fjxQs08Pq4faXbJNj8DeoaqrqqN0=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYha6NQOzlp1aAqCiys0H6rruYkQ2qINSy0jcAEJ2L4dXbsiChbMM6_K2iqk9mKNJWkdx4Ms5wXkSFIL4X181jh7mPWQAImJiNh655lgrWGZdJv06M6GMPLdLRSo_TztBCfECUVds=)
+- [daum.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHeAQb_rsZr-hS-ihtlIWtC9tSKekUzUrwNf610115X7oUdDlHgPpzjA0ZcCT4ub8tktkf_kIn6_ohNgzrw0yeiaInW54Z-9_I-KPXwiG-kIinhkN0KnmlfI50=)
+- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQET8wLYOhfRJAipjZlQ6raMWTHoUveyezECYq6u6lDoOZU93gC-30xqSBVddHh55TOyuHY77_wBo9a4ZlidbAGdA9TObdQbH9_thSFOWF7lBU43kfjQT6zE4sdnC6RE2lP0ztOSczI7SQNxnBQ=)
+- [hvacrj.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjsCmzp00a0WWvV1l0JWwy8HVR2TyDSeMhj180csZjY33BqSFVUNEY99w_K4nnH3jkZKpcYfQsfjJaoVmsSmZ05RKPcrjbjj5ZpDQFUr-X22ZRg3GJ1JRhACEiPWVmARGqtEp9yUVDXclat1v1vWihlPKXJTE=)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEH3bo5zy5FQalQNQFhFAzcEOsb8dldHJrDzUdOowqJ8L6Hn3jVr0Be4Njhbi1amldCzXkaYwJ_1rQPXNiel4Nk7QqA3jgB1EOekoUAMb6lmctN2JlHYlmIbCP7bxEw8eHPFBEoKAfsHWHfbmZzQo45MbTWsNVNDzUzQibG8umWTGA=)

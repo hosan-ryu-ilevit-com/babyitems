@@ -1,14 +1,14 @@
-# 세션: 20260119_035817_2k9t
-> 시작: 2026-01-19T03:58:17.010Z
+# 세션: 20260119_111101_cult
+> 시작: 2026-01-19T11:11:01.762Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 기저귀 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 기저귀 시장은 페넬로페, 하기스, 슈퍼대디가 선두를 유지하고 있으며, 친환경 소재와 뛰어난 흡수력을 갖춘 제품들이 인기를 얻고 있습니다. 소비자들은 가성비와 함께 아기 피부에 자극이 적은 제품을 선호하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfljvTe2evuFh6sPULYfZ4UvIrD6WM_khL8053Stp1AofWJPfJdiHia1KqKtN6nm1jOB1aHBypltrjlxpneXgjM1JazXOnHRk6CZ0a2qGLXRnO93NsCqKU5lQtE-CV-FV18ilA8AalptmPfLOd6GQvaokiqNWYZQ1KYhE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEShQkOrKeWZw2Q4uKopizCivYFdCUx8a9BLSSRFsZ0UVqlQieLni55nuNO0qBOJ_UL53dSR4NqbD8OUrWIF8chPIE_-kpeDAYHRMec50JOfmIHW-5BNkS_O0H1Y6pEMEWF3SSwZW54-gBlaj6AlvQz2RGM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaMbbR61wPN_9j2LIAEVP-iyMkmdH_7n_p3VuXnFEdHMDbcIKfv_Ay-viw8U4oxIDssYvnZsOLYNDqnKdJAd1PFlG9O9Yv6a9lxfyFPZZPa5Pgp2exXcHe5nCqUv7gbOpOnRmWcOuDxDOlo04F1l42b9Xn_th8tw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7MHQczW8_GpvNtgm8TWxAOVxGG6B94semDgeuOft1hNEdW2tGK0kdDHIZD_aKzNLunj1SAWCgPitLiRG_cIV_GKwyVCxBzJCH98Jg0IGOe6XNk7otZDtUEcesneUm_0A2CMg6JKBUCG38z59PE_8S6J5-3YHIH_KtVYzLtS-7OfFJQQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQZtzxZ1wrcKfmDFsVxAQEhqqwoR72ohh1VkEV5kUT25F1HJBUu6cIbGJV2-ah7zVB5l-cinzmR2-F_jhR9iwIKh91QFG1yrtmxrNvclSyVrIzxYo4UFGGokrI-E96LRh0E6tOgXGwBwvhn2Z8NuElv4OG
+- 쿼리: 기저귀 시장 현황
+- 인사이트: 저출산 및 고령화 추세에 따라 국내 기저귀 시장의 판도가 변화하고 있습니다. 어린이용 기저귀 공급량은 감소하는 반면, 성인용 기저귀 공급량은 증가하며 역전 현상이 나타나고 있습니다. 전체 위생용품 시장은 꾸준히 성장세를 보이고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEACxuyHaHdTjSnQrNyrIzvYNUWP6bjTRVYYaMhn1xgX828viiKLecKlA0uE7eLQVR4A9v5qMpjLs2-X6mPEDGUufodksoma053sCn1mCbqf3rtGo70mUQdtVnewQKr-fk62fSYpG2NrjLtSOKWIb1CdGHQqpEA9uYZZ_mrNqQvyI7qgCQnp7RGm4zY5gpVaeDAuGoo0E6FQ9id3-ydB1Wx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbS-Ydu7UYB4A87b5H3UNG01BpvSH1Sq1v8eIEkhXxZskdqrM2QUoulJrvKO4a5V4uwbOmAL-4gPQ8tkB5PIfwRDkoOKC0b0swnNMH2CI64iKd7Ssn8CaSxnjqcEpFkvSFQkus2TkfyI3a5q7NkrXG3UqYYrTCUz24jvMjtBdewqhZQN1jEcpXusTNy0b6M6M7PK-xfQnzNasz9eRNkK0fg9Xcqk4GSf6hO4emp9FI4Q3GOZ4cse-fx3A=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbe4N9QQdnNHYk7cdT3ClNJwpMoDOvn-cwSBylifftuLiyoR_rEBEWycuqS-4FLTtiTSnBKGsYGjWddLSAppVK9xW85lC11B1N2Mlg-bo4aNiPKe_62Rac95uG-dFFVEXNj5uad8CKZJgzPWTEdYg0yav4_6o5lUqfcw9_kHvpv8ovqyw9cojq_2sACPgFrzBGmQJd
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 몸무게는 어떻게 되나요? | 7kg ~ 14kg |
-| 기저귀에서 가장 중요하게 생각하는 기능은 무엇인가요? | 최대 흡수력 |
-| 아기 피부를 위해 어떤 소재를 선호하시나요? | 저자극/무향 소재 |
-| 어떤 형태의 기저귀를 사용하시나요? | 팬티형 |
-| 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 7천원, 2만 5천원~4만 8천원대가 가장 많아요) | 2만 5천원 ~ 4만 8천원 |
-| __avoid_negatives__ | 아기가 움직임이 많아지면서 사이즈가 맞지 않아 새어 나올까 봐 걱정돼요.,연약한 아기 피부에 자극이 되어 발진이 생기지는 않을까 염려돼요. |
+| 아기의 현재 몸무게는 어떻게 되나요? | 7kg ~ 13kg |
+| 아기 피부를 위해 가장 중요하게 생각하는 점은 무엇인가요? | 최대 흡수력 및 샘 방지 |
+| 기저귀를 주로 어떤 상황에서 사용하시나요? | 집에서 주로 사용 (밤 포함), 일상적인 사용 |
+| 기저귀 소재에 특별히 선호하는 점이 있으신가요? | 천연/유기농 소재, 무향/저자극 성분, 극강의 부드러움 |
+| 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 7천원대, 2만 5천원~4만 8천원대가 가장 많아요) | 2만 5천원 ~ 4만 8천원대, 2만 5천원 이하 |
+| __avoid_negatives__ | 흡수력이 부족해서 자주 갈아줘야 하는 번거로움이 불편해요,아기 피부가 숨 쉬기 어려워 발진이 생길까 봐 걱정돼요 |
 
 ---
 
@@ -46,8 +46,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기가 움직임이 많아지면서 사이즈가 맞지 않아 새어 나올까 봐 걱정돼요.
-- 연약한 아기 피부에 자극이 되어 발진이 생기지는 않을까 염려돼요.
+- 흡수력이 부족해서 자주 갈아줘야 하는 번거로움이 불편해요
+- 아기 피부가 숨 쉬기 어려워 발진이 생길까 봐 걱정돼요
 
 ---
 

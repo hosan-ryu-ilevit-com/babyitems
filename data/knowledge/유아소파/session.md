@@ -1,14 +1,14 @@
-# 세션: 20260119_054511_8o7r
-> 시작: 2026-01-19T05:45:11.248Z
+# 세션: 20260119_115134_6zlb
+> 시작: 2026-01-19T11:51:34.315Z
 > 카테고리키: 유아소파
 > 카테고리: 유아소파
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아소파 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 유아소파 시장은 아이들의 안전과 편의성을 최우선으로 고려한 다양한 디자인의 제품들이 인기를 얻고 있습니다. 특히 '레더 유아쇼파', '뒹굴러 키즈소파', '일룸 버니아코 유아 가죽소파' 등은 현재 인기 브랜드로 꼽히며, 심플하면서도 아이들이 좋아하는 디자인이 주를 이룹니다. 가격대는 5만원대부터 10만원대 초반까지 형성되어 있으며, 일부 2인용 소파는 10만원대 중반까지도 찾아볼 수 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpo4utkXABxbSy3_eo8ohMdw83aXj2pLcDBfAdpCTX_IpXAfVEvSvQRazPFF6-0TjEYC0jr5zGeQhFldpbdERdV5XRfhS7rdWDePwGFTO1bLh1TT7heqqJ9hOwwrG_73dUjd9ekL0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0iBuBVwwdImJvwaFLixqLn5j7wcON_etlAZHj1T3MSMTqJPqbIppHM3q_9Y9szxvlDrvaeQvu_dTUNvsxjprqaxSM3LbtpCWk5bNxAdI9L-xyQrRwjugy0Qft1L712wlrJlimboU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWycFlRXZhCNlQROaQqQI8wOlLj6WmMV43Y0X-9DIAKrXohz-JMT706Ps1UmScMH8-w2uLAnBqnG19cXS57SMO9HKNGfD5d6rH7Jk5y3wK1gvvr1c6BkJk6m0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtsMpQGXINgTgw7ugEGvbvJf2gapEzGSSPkU6rb7hd3eNxRfxuMHq_AKLer4eTs4L99jePi1DmfKg4a52J43ehETG0dKXrmqdP3q-TpKsE9AtgMtIyvPxJX2mNmiFqkNh0QWSBJRAIkpnkg7XYrLUNpFBBit6RQAp-3Nh2ryznYVh_Wsd7Lpsi8miwetpkw4qEG2H0I8bHMtaVGtDQvbk=
+- 쿼리: 유아소파 시장 현황
+- 인사이트: 2025년 하반기 유아소파 시장은 지속적인 성장세를 보이며, 5세 이하 유아 및 어린이를 주요 소비층으로 하고 있습니다. 소비자들은 디자인, 내구성, 편의성을 중시하며, 특히 변형 가능한 소파와 모듈식 제품에 대한 수요가 높습니다. 시장은 제품 내구성 향상, 사용자 친화적인 디자인, 다양한 사이즈 및 기능 확대를 중심으로 발전하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHII9aOhM1QpfRdHtrPNrduTaHaWN5_bLUhFXX2-V9YNW449U5AHerhH9_uR8hGkmqLRsJiE6JKfhqtp0dys1zD42-0rad85GgTGX90OaISkimPwwMQyd2tYpp8kUFSv8myt8SlWYuLrwfK9gMHYWEdu2MNosn0NgafWaeHCkMZJ85ekG2pNr4uLJI47Nsf2nLfDRFO9KhF8w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFj7ocJgjF10r4OxPoKcXcxDmZ8dzGRwBusywMkxgkMLq4KgG5onnjUIGcW0ezHQHhTcp2f9K9ZmGMFSBywjVPr2f2aE1dLUcT7QbuEr1i63Rtj3RkqvhzMES2Du1yRYprDWxTlq6ucLlhROAbdAHwab-9Rl8gjg-nMHu0NTEn_nlcWvk1AGDzScNYl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGuIP-x5zWPQuyTnmPTIS36MQO3McMJPRt24XaI2UaDEJEsV9K8D3kZABGrG2P7dXbD-toZ8RAeazYVvjTu-h1vtcfGJ9DMhdKi6laXi6WBzsu8jWWiorL2h3J4sZwpUXWyIw-Hq13_fQ8jD-CDyY0qeEaX-iyc9AqNvevObm3l6Mdm7aO3x7dVIQnRfLpCOurC, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFh9SPxiiVJhGZFhyWYTLjAyOOkiGO6xiAoFdsrSQ0Joqf-TC_qD1kDb2lAMWoJBMYUpROFCPYh0RowXzKrByQYedase7AbDWFts4i4F22LNsxdgvHYb8TqZfcTSMz0ZjG1cTGWu29idTgfeWhykhKjEqeM8Gd3Rx7p5hljx_VoUiyK
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아이가 주로 소파에서 어떤 활동을 하나요? (예: 간식 먹기, 그림 그리기, 편하게 쉬기 등) | 간편하게 닦이는 소재, 부드럽고 포근한 소재 |
+| 소파를 놓을 공간의 크기와 아이의 연령대를 고려했을 때, 어떤 사이즈를 선호하시나요? | 1인용 (좁은 공간) |
+| 아이의 안전을 위해 가장 중요하게 생각하는 부분은 무엇인가요? | 튼튼하고 안정적인 구조, 부드러운 모서리, 유해 물질 미검출 인증 |
+| 예산은 어느 정도로 생각하세요? (평균 약 12만원, 8만원~15만원대가 가장 많아요) | 8만원 ~ 15만원 |
+| __avoid_negatives__ | 1인용으로 찾고 있는데,생각보다 너무 작아서 아이가 불편해할까 봐 걱정돼요,아이가 자주 사용하다 보면 쉽게 낡거나 망가질까 봐 걱정돼요 |
 
 ---
 
@@ -55,7 +60,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 1인용으로 찾고 있는데
+- 생각보다 너무 작아서 아이가 불편해할까 봐 걱정돼요
+- 아이가 자주 사용하다 보면 쉽게 낡거나 망가질까 봐 걱정돼요
 
 ---
 

@@ -20,7 +20,6 @@ import {
 } from "react-icons/fc";
 import ProductDetailModal from '@/components/ProductDetailModal';
 import { ProductComparisonGrid } from '@/components/knowledge-agent/ProductComparisonGrid';
-import { KnowledgeAgentResultCarousel } from '@/components/knowledge-agent/KnowledgeAgentResultCarousel';
 import { AgenticLoadingPhase, createDefaultSteps, type AnalysisStep } from '@/components/knowledge-agent/AgenticLoadingPhase';
 import { AssistantMessage, LoadingAnimation } from '@/components/recommend-v2';
 import { InlineBudgetSelector } from '@/components/knowledge-agent/ChatUIComponents';
@@ -32,7 +31,10 @@ import { NegativeFilterAIHelperBottomSheet } from '@/components/recommend-v2/Neg
 import type { BalanceQuestion as V2BalanceQuestion, UserSelections, TimelineStep } from '@/types/recommend-v2';
 import { HardcutVisualization } from '@/components/knowledge-agent/HardcutVisualization';
 import { PLPImageCarousel } from '@/components/knowledge-agent/PLPImageCarousel';
+import { FilterTagBar } from '@/components/knowledge-agent/FilterTagBar';
+// HighlightedText, HighlightedMarkdownText 제거됨 - tagScores 기반 뱃지 UI로 대체
 import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
+import type { FilterTag } from '@/lib/knowledge-agent/types';
 import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
 import SimpleConfirmModal from '@/components/SimpleConfirmModal';
 import {
@@ -425,7 +427,7 @@ function OptionButton({
         )}
       </div>
       {isPopular && (
-        <span className="shrink-0 px-1.5 py-0.5 bg-green-100 text-green-700 text-[11px] font-semibold rounded-md">
+        <span className="shrink-0 ml-2 px-1.5 py-0.5 bg-green-100 text-green-700 text-[11px] font-semibold rounded-md">
           인기
         </span>
       )}
@@ -829,6 +831,8 @@ export default function KnowledgeAgentPage() {
   // State
   const [phase, setPhase] = useState<Phase>('loading');
   const [resultProducts, setResultProducts] = useState<any[]>([]);
+  const [filterTags, setFilterTags] = useState<FilterTag[]>([]);
+  const [selectedFilterTagIds, setSelectedFilterTagIds] = useState<Set<string>>(new Set());
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
   const [isChatLoading, setIsChatLoading] = useState(false);
@@ -1059,10 +1063,10 @@ export default function KnowledgeAgentPage() {
     // 3단계: 최종 TOP 3 선정 (API 완료될 때까지 계속 in_progress 유지)
     const step3: TimelineStep = {
       id: 'step-3',
-      title: '분석된 데이터를 바탕으로 최적의 TOP 3 제품을 최종 선정 중입니다...',
+      title: '분석된 데이터를 바탕으로 최적의 제품을 최종 선정 중입니다...',
       icon: '',
       details: [
-        '지금까지 분석한 모든 데이터를 종합하여, 사용자님의 선호도와 예산에 가장 적합한 상위 3개 제품을 신중하게 선별하고 있습니다. 단순히 인기 있는 제품이 아닌, 사용자님의 답변에 가장 부합하는 제품을 고르는 중입니다.',
+        '지금까지 분석한 모든 데이터를 종합하여, 사용자님의 선호도와 예산에 가장 적합한 상위 제품을 신중하게 선별하고 있습니다. 단순히 인기 있는 제품이 아닌, 사용자님의 답변에 가장 부합하는 제품을 고르는 중입니다.',
         '선정된 제품들의 핵심 스펙을 한눈에 비교하실 수 있도록 상세 비교표를 생성하고 있습니다. 각 제품의 강점과 약점이 한눈에 드러나도록 데이터를 가공하고, 사용자님이 중요하게 생각하시는 항목들을 우선 배치합니다.',
         '각 제품별로 "왜 이 제품을 추천하는지", "어떤 점이 사용자님께 맞는지"에 대한 맞춤형 추천 이유와 함께, 실사용 시 주의해야 할 팁까지 정리하고 있습니다. 최상의 결과를 위해 잠시만 기다려주세요. (전체 시간 약 30초 소요될 수 있습니다)'
       ],
@@ -1107,28 +1111,65 @@ export default function KnowledgeAgentPage() {
 
   const STORAGE_KEY = `ka-result-${categoryName}`;
 
-  const saveResultToStorage = useCallback((products: any[], msgs: ChatMessage[], reviews?: Record<string, any>, prices?: Record<string, any>) => {
+  const saveResultToStorage = useCallback((
+    products: any[],
+    msgs: ChatMessage[],
+    _reviews?: Record<string, any>,  // 더 이상 저장 안 함 (Supabase에서 가져옴)
+    prices?: Record<string, any>,
+    tags?: FilterTag[]
+  ) => {
+    console.log('[KA Storage] saveResultToStorage called:', {
+      productsLength: products?.length,
+      msgsLength: msgs?.length,
+      tagsLength: tags?.length,
+      STORAGE_KEY
+    });
+
     try {
       const resultMessage = msgs.find(m => m.resultProducts && m.resultProducts.length > 0);
-      if (!resultMessage || products.length === 0) return;
+      console.log('[KA Storage] resultMessage found:', !!resultMessage, resultMessage?.resultProducts?.length);
+
+      if (!resultMessage || products.length === 0) {
+        console.log('[KA Storage] ⚠️ Skip save - no resultMessage or empty products');
+        return;
+      }
+
+      // 🆕 리뷰 데이터 제외 (Supabase에서 가져오므로 저장 불필요)
+      // resultProducts에서 reviews 필드 제거하여 용량 절약
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const lightProducts = products.map(({ reviews, ...rest }) => rest);
 
       const dataToSave = {
-        resultProducts: products,
+        resultProducts: lightProducts,
         resultMessage: {
           id: resultMessage.id,
           role: resultMessage.role,
           content: resultMessage.content,
-          resultProducts: resultMessage.resultProducts,
+          resultProducts: lightProducts,
           timestamp: resultMessage.timestamp,
         },
-        reviewsData: reviews || {},
+        // reviewsData 제외! (Supabase에서 가져옴)
         pricesData: prices || {},
+        filterTags: tags || [],
         savedAt: Date.now(),
       };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
-      console.log('[KA] ✅ Result saved to localStorage');
+
+      const jsonStr = JSON.stringify(dataToSave);
+      console.log('[KA Storage] Saving data size:', (jsonStr.length / 1024).toFixed(1), 'KB');
+
+      localStorage.setItem(STORAGE_KEY, jsonStr);
+      console.log('[KA] ✅ Result saved to localStorage (with', tags?.length || 0, 'tags)');
     } catch (e) {
       console.error('[KA] Failed to save result:', e);
+      // QuotaExceeded 시 오래된 캐시 삭제 후 재시도
+      if (e instanceof DOMException && e.name === 'QuotaExceededError') {
+        console.log('[KA Storage] QuotaExceeded - clearing all old caches...');
+        const allKeys = Object.keys(localStorage).filter(k => k.startsWith('ka-result-') && k !== STORAGE_KEY);
+        allKeys.forEach(k => {
+          localStorage.removeItem(k);
+          console.log('[KA Storage] Removed:', k);
+        });
+      }
     }
   }, [STORAGE_KEY]);
 
@@ -1148,9 +1189,15 @@ export default function KnowledgeAgentPage() {
         setResultProducts(data.resultProducts);
         setMessages([data.resultMessage as ChatMessage]);
         setPhase('result');
-        if (data.reviewsData) setReviewsData(data.reviewsData);
+        // reviewsData 제외 - PDP에서 Supabase로 직접 fetch
         if (data.pricesData) setPricesData(data.pricesData);
-        console.log('[KA] ✅ Result restored from localStorage');
+        // filterTags 복원
+        if (data.filterTags && Array.isArray(data.filterTags)) {
+          setFilterTags(data.filterTags);
+          console.log('[KA] ✅ Result restored from localStorage (with', data.filterTags.length, 'tags)');
+        } else {
+          console.log('[KA] ✅ Result restored from localStorage (no tags)');
+        }
         return true;
       }
       return false;
@@ -1228,15 +1275,114 @@ export default function KnowledgeAgentPage() {
     setCanGoPrev(assistantQuestions.length > 1);
   }, [messages]);
 
+  // 🆕 필터 태그 토글 핸들러
+  const handleFilterTagToggle = useCallback((tagId: string) => {
+    if (tagId === '__all__') {
+      // "모두" 선택 시 전체 해제
+      setSelectedFilterTagIds(new Set());
+      return;
+    }
+
+    setSelectedFilterTagIds(prev => {
+      const next = new Set(prev);
+      if (next.has(tagId)) {
+        next.delete(tagId);
+      } else {
+        next.add(tagId);
+      }
+      return next;
+    });
+  }, []);
+
+  // 🆕 태그 선택에 따른 필터링 + 정렬된 결과 제품 (tagScores 기반)
+  const sortedResultProducts = useMemo(() => {
+    // 태그 미선택 시 AI 순위 유지
+    if (selectedFilterTagIds.size === 0) {
+      return resultProducts;
+    }
+
+    // 1. 필터링: 선택된 태그 중 하나라도 full/partial이면 표시 (OR 조건)
+    const filteredProducts = resultProducts.filter(product => {
+      const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
+      if (!tagScores) return false;
+
+      // OR 조건: 선택된 태그 중 하나라도 충족하면 표시
+      for (const tagId of selectedFilterTagIds) {
+        const scoreData = tagScores[tagId];
+        if (scoreData?.score === 'full' || scoreData?.score === 'partial') {
+          return true;
+        }
+      }
+      return false;
+    });
+
+    // 2. 각 제품의 충족도 점수 계산 (full=2, partial=1, null=0)
+    const productsWithScore = filteredProducts.map(product => {
+      let fulfillmentScore = 0;
+      let fullCount = 0;
+      let partialCount = 0;
+      const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
+
+      if (tagScores) {
+        for (const tagId of selectedFilterTagIds) {
+          const scoreData = tagScores[tagId];
+          if (scoreData?.score === 'full') {
+            fulfillmentScore += 2;
+            fullCount++;
+          } else if (scoreData?.score === 'partial') {
+            fulfillmentScore += 1;
+            partialCount++;
+          }
+        }
+      }
+
+      return { ...product, fulfillmentScore, fullCount, partialCount };
+    });
+
+    // 3. 충족도 점수 높은 순 정렬 (동점 시 full 개수 > partial 개수 > 원래 순서)
+    return [...productsWithScore].sort((a, b) => {
+      if (b.fulfillmentScore !== a.fulfillmentScore) {
+        return b.fulfillmentScore - a.fulfillmentScore;
+      }
+      if (b.fullCount !== a.fullCount) {
+        return b.fullCount - a.fullCount;
+      }
+      return b.partialCount - a.partialCount;
+    });
+  }, [resultProducts, selectedFilterTagIds]);
+
   // 결과가 생성되면 로컬스토리지에 저장
   useEffect(() => {
     if (phase === 'result' && resultProducts.length > 0) {
       const hasResultMessage = messages.some(m => m.resultProducts && m.resultProducts.length > 0);
+      console.log('[KA Storage] Check:', {
+        phase,
+        resultProductsLength: resultProducts.length,
+        hasResultMessage,
+        messagesCount: messages.length,
+        filterTagsCount: filterTags.length  // 🆕 태그 수도 로깅
+      });
+
       if (hasResultMessage) {
-        saveResultToStorage(resultProducts, messages, reviewsData, pricesData);
+        saveResultToStorage(resultProducts, messages, reviewsData, pricesData, filterTags);
+      } else {
+        // ⚠️ messages에 resultProducts가 아직 없으면 다음 렌더에서 다시 시도
+        // 하지만 이미 resultProducts가 있으므로 직접 저장 시도
+        console.log('[KA Storage] ⚠️ No resultMessage yet, will retry on next render or save directly');
+
+        // 🆕 Fallback: messages에 resultProducts가 없어도 resultProducts가 있으면 저장
+        // (state 업데이트 순서로 인한 race condition 방지)
+        const fallbackMessage: ChatMessage = {
+          id: `a_result_fallback_${Date.now()}`,
+          role: 'assistant',
+          content: '추천 결과',
+          resultProducts: resultProducts,
+          timestamp: Date.now()
+        };
+        saveResultToStorage(resultProducts, [fallbackMessage], reviewsData, pricesData, filterTags);
       }
     }
-  }, [phase, resultProducts, messages, reviewsData, pricesData, saveResultToStorage]);
+  }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, saveResultToStorage]);
 
   const initializeAgent = async () => {
     const initialQueries = [
@@ -1997,16 +2143,32 @@ export default function KnowledgeAgentPage() {
           console.log(`[V2 Flow] freeInputAnalysis saved:`, data.freeInputAnalysis);
         }
 
-        // Top3 pcode 추출
-        const allTop3Pcodes = data.recommendations
-          .slice(0, 3)
+        // 🆕 필터 태그 저장 (상품에 매칭되는 태그만)
+        if (data.filterTags && Array.isArray(data.filterTags)) {
+          // 5개 상품 중 하나라도 full/partial인 태그만 남김
+          const matchedTags = data.filterTags.filter((tag: FilterTag) => {
+            return data.recommendations.some((rec: any) => {
+              const tagScores = rec.tagScores || {};
+              const scoreData = tagScores[tag.id];
+              return scoreData?.score === 'full' || scoreData?.score === 'partial';
+            });
+          });
+
+          setFilterTags(matchedTags);
+          setSelectedFilterTagIds(new Set()); // 초기화 (모두 선택 해제 = 전체 보기)
+          console.log(`[V2 Flow] filterTags saved: ${matchedTags.length}개 (원본 ${data.filterTags.length}개)`);
+        }
+
+        // Top N pcode 추출 (5개)
+        const allTopNPcodes = data.recommendations
+          .slice(0, 5)
           .map((r: any) => r.pcode)
           .filter(Boolean);
 
-        // ⚡ Top3 확정 즉시 가격 프리페치 (백그라운드, 리뷰 크롤링보다 빠름)
-        if (allTop3Pcodes.length > 0) {
-          console.log(`[V2 Flow] 💰 가격 프리페치 시작: ${allTop3Pcodes.join(', ')}`);
-          fetchPricesForTop3(allTop3Pcodes); // await 없이 백그라운드 실행
+        // ⚡ Top N 확정 즉시 가격 프리페치 (백그라운드, 리뷰 크롤링보다 빠름)
+        if (allTopNPcodes.length > 0) {
+          console.log(`[V2 Flow] 💰 가격 프리페치 시작: ${allTopNPcodes.join(', ')}`);
+          fetchPricesForTop3(allTopNPcodes); // await 없이 백그라운드 실행
         }
 
         // ✅ 리뷰 크롤링은 handleNegativeFilterComplete에서 50개로 통합 처리
@@ -2115,12 +2277,11 @@ export default function KnowledgeAgentPage() {
       const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
 
       if (v2Recommendations && v2Recommendations.length > 0) {
-        // ✅ 디버그: API 응답에서 personalReason 확인
-        console.log('[V2 Flow - FinalInput] API Response - oneLiner/personalReason:',
+        // ✅ 디버그: API 응답에서 oneLiner 확인
+        console.log('[V2 Flow - FinalInput] API Response - oneLiner:',
           v2Recommendations.map((r: any) => ({
             pcode: r.pcode,
             oneLiner: r.oneLiner?.slice(0, 30),
-            personalReason: r.personalReason?.slice(0, 30)
           }))
         );
 
@@ -2140,7 +2301,6 @@ export default function KnowledgeAgentPage() {
             title: rec.product?.name || rec.product?.title,
             reasoning: rec.oneLiner || rec.reason,
             oneLiner: rec.oneLiner || '',
-            personalReason: rec.personalReason || '',
             recommendationReason: rec.oneLiner || rec.reason,
             highlights: rec.highlights,
             concerns: rec.concerns,
@@ -2150,6 +2310,10 @@ export default function KnowledgeAgentPage() {
             consFromReviews: rec.consFromReviews || rec.concerns || [],
             reviews: existingReviews,
             danawaRank: rec.danawaRank || rec.product?.danawaRank || originalProduct?.danawaRank || null,
+            // Legacy 하이라이트 데이터
+            highlightData: rec.highlightData || null,
+            // 🆕 태그 충족도 (full/partial/null)
+            tagScores: rec.tagScores || {},
           };
         });
         setResultProducts(mappedResultProducts);
@@ -2274,13 +2438,21 @@ export default function KnowledgeAgentPage() {
                 };
               });
 
+            // 🆕 tagScores를 preEvaluations로 변환 (product-analysis에서 재사용)
+            const preEvaluations: Record<string, any> = {};
+            v2Recommendations.slice(0, 5).forEach((rec: any) => {
+              if (rec.tagScores) {
+                preEvaluations[rec.pcode] = rec.tagScores;
+              }
+            });
+
             const analysisRes = await fetch('/api/knowledge-agent/product-analysis', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 categoryKey,
                 categoryName,
-                products: v2Recommendations.slice(0, 3).map((rec: any) => ({
+                products: v2Recommendations.slice(0, 5).map((rec: any) => ({
                   pcode: rec.pcode,
                   name: rec.product?.name,
                   brand: rec.product?.brand,
@@ -2306,6 +2478,9 @@ export default function KnowledgeAgentPage() {
                     .join(' ')
                     .slice(0, 500),
                 },
+                // 🆕 final-recommend에서 생성된 tagScores 전달 (PDP에서 재사용)
+                preEvaluations: Object.keys(preEvaluations).length > 0 ? preEvaluations : undefined,
+                filterTags: filterTags.length > 0 ? filterTags : undefined,
               }),
             });
 
@@ -2495,6 +2670,7 @@ export default function KnowledgeAgentPage() {
               pcode: rec.pcode || rec.product?.pcode,
               title: rec.product?.name || rec.product?.title,
               reasoning: rec.reason,
+              oneLiner: rec.oneLiner || '',
               recommendationReason: rec.reason,
               highlights: rec.highlights,
               concerns: rec.concerns,
@@ -2503,6 +2679,10 @@ export default function KnowledgeAgentPage() {
               prosFromReviews: rec.prosFromReviews || rec.highlights || [],
               consFromReviews: rec.consFromReviews || rec.concerns || [],
               danawaRank: rec.danawaRank || rec.product?.danawaRank || originalProduct?.danawaRank || null,
+              // Legacy 하이라이트 데이터
+              highlightData: rec.highlightData || null,
+              // 🆕 태그 충족도 (full/partial/null)
+              tagScores: rec.tagScores || {},
             };
           });
           setResultProducts(mappedResultProducts);
@@ -2574,12 +2754,11 @@ export default function KnowledgeAgentPage() {
         const v2Recommendations = await handleV2FinalRecommend(savedBalanceSelections, selectedLabels);
 
         if (v2Recommendations && v2Recommendations.length > 0) {
-          // ✅ 디버그: API 응답에서 personalReason 확인
-          console.log('[V2 Flow] API Response - oneLiner/personalReason:',
+          // ✅ 디버그: API 응답에서 oneLiner 확인
+          console.log('[V2 Flow] API Response - oneLiner:',
             v2Recommendations.map((r: any) => ({
               pcode: r.pcode,
               oneLiner: r.oneLiner?.slice(0, 30),
-              personalReason: r.personalReason?.slice(0, 30)
             }))
           );
 
@@ -2596,7 +2775,6 @@ export default function KnowledgeAgentPage() {
               title: rec.product?.name || rec.product?.title,
               rank: idx + 1,
               oneLiner: rec.oneLiner || '',
-              personalReason: rec.personalReason || '',
               reviewProof: rec.reviewProof || '',
               reasoning: rec.oneLiner || rec.reason || '',
               recommendationReason: rec.oneLiner || rec.reason || '',
@@ -2611,6 +2789,10 @@ export default function KnowledgeAgentPage() {
               reviews: existingReviews,
               danawaData: null,
               danawaRank: rec.danawaRank || rec.product?.danawaRank || originalProduct?.danawaRank || null,
+              // Legacy 하이라이트 데이터
+              highlightData: rec.highlightData || null,
+              // 🆕 태그 충족도 (full/partial/null)
+              tagScores: rec.tagScores || {},
             };
           });
 
@@ -2811,13 +2993,21 @@ export default function KnowledgeAgentPage() {
               // 3. Product Analysis (PDP용)
               setIsProductAnalysisLoading(true);
               try {
+                // 🆕 tagScores를 preEvaluations로 변환 (product-analysis에서 재사용)
+                const preEvaluationsForAnalysis: Record<string, any> = {};
+                v2Recommendations.slice(0, 5).forEach((rec: any) => {
+                  if (rec.tagScores) {
+                    preEvaluationsForAnalysis[rec.pcode] = rec.tagScores;
+                  }
+                });
+
                 const analysisRes = await fetch('/api/knowledge-agent/product-analysis', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
                     categoryKey,
                     categoryName,
-                    products: v2Recommendations.slice(0, 3).map((rec: any) => ({
+                    products: v2Recommendations.slice(0, 5).map((rec: any) => ({
                       pcode: rec.pcode,
                       name: rec.product?.name,
                       brand: rec.product?.brand,
@@ -2847,6 +3037,9 @@ export default function KnowledgeAgentPage() {
                         .join(' ')
                         .slice(0, 500),
                     },
+                    // 🆕 final-recommend에서 생성된 tagScores 전달 (PDP에서 재사용)
+                    preEvaluations: Object.keys(preEvaluationsForAnalysis).length > 0 ? preEvaluationsForAnalysis : undefined,
+                    filterTags: filterTags.length > 0 ? filterTags : undefined,
                   }),
                 });
 
@@ -3330,6 +3523,11 @@ export default function KnowledgeAgentPage() {
                 onAnalysisSummaryShow={handleAnalysisSummaryShow}
                 reviewsData={reviewsData}
                 webSearchProgress={webSearchProgress}
+                // 🆕 필터 태그 관련 props
+                selectedFilterTagIds={selectedFilterTagIds}
+                sortedResultProducts={sortedResultProducts}
+                filterTags={filterTags}
+                onFilterTagToggle={handleFilterTagToggle}
               />
             );
           });
@@ -3504,39 +3702,41 @@ export default function KnowledgeAgentPage() {
           )}
 
           {phase === 'result' && !showReRecommendModal ? (
-            <ResultChatContainer
-              products={resultProducts}
-              categoryKey={categoryKey}
-              categoryName={categoryName}
-              flowType="ka"
-              existingConditions={{
-                hardFilterAnswers: Object.fromEntries(
-                  Object.entries(collectedInfo).map(([k, v]) => [k, String(v)])
-                ),
-                balanceSelections: savedBalanceSelections.map(s => s.selectedLabel),
-                negativeSelections: savedNegativeLabels.length > 0
-                  ? savedNegativeLabels
-                  : selectedNegativeKeys
-                    .map(key => negativeOptions.find(opt => opt.target_rule_key === key)?.label)
-                    .filter((label): label is string => !!label),
-                budget: { min: 0, max: 0 },
-              }}
-              onUserMessage={(content) => {
-                const msgId = `u_${Date.now()}`;
-                setMessages(prev => [...prev, { id: msgId, role: 'user', content, timestamp: Date.now() }]);
-                // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
-              }}
-              onAssistantMessage={(content, typing = false) => {
-                const msgId = `a_${Date.now()}`;
-                setMessages(prev => [...prev, { id: msgId, role: 'assistant', content, typing, timestamp: Date.now() }]);
-                // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
-              }}
-              onLoadingChange={setIsChatLoading}
-              chatHistory={messages
-                .filter(m => (m.role === 'user' || m.role === 'assistant'))
-                .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
-              }
-            />
+            <>
+              <ResultChatContainer
+                products={resultProducts}
+                categoryKey={categoryKey}
+                categoryName={categoryName}
+                flowType="ka"
+                existingConditions={{
+                  hardFilterAnswers: Object.fromEntries(
+                    Object.entries(collectedInfo).map(([k, v]) => [k, String(v)])
+                  ),
+                  balanceSelections: savedBalanceSelections.map(s => s.selectedLabel),
+                  negativeSelections: savedNegativeLabels.length > 0
+                    ? savedNegativeLabels
+                    : selectedNegativeKeys
+                      .map(key => negativeOptions.find(opt => opt.target_rule_key === key)?.label)
+                      .filter((label): label is string => !!label),
+                  budget: { min: 0, max: 0 },
+                }}
+                onUserMessage={(content) => {
+                  const msgId = `u_${Date.now()}`;
+                  setMessages(prev => [...prev, { id: msgId, role: 'user', content, timestamp: Date.now() }]);
+                  // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
+                }}
+                onAssistantMessage={(content, typing = false) => {
+                  const msgId = `a_${Date.now()}`;
+                  setMessages(prev => [...prev, { id: msgId, role: 'assistant', content, typing, timestamp: Date.now() }]);
+                  // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
+                }}
+                onLoadingChange={setIsChatLoading}
+                chatHistory={messages
+                  .filter(m => (m.role === 'user' || m.role === 'assistant'))
+                  .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+                }
+              />
+            </>
           ) : phase !== 'hardcut_visual' && phase !== 'final_input' && phase !== 'negative_filter' && phase !== 'result' && (
             <div className="relative">
               <motion.div
@@ -4015,6 +4215,11 @@ function MessageBubble({
   onAnalysisSummaryShow,
   reviewsData,
   webSearchProgress,
+  // 🆕 필터 태그 관련 props
+  selectedFilterTagIds,
+  sortedResultProducts,
+  filterTags,
+  onFilterTagToggle,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -4046,8 +4251,34 @@ function MessageBubble({
     completedQueries: string[];
     results: { trends?: string[]; pros?: string[]; cons?: string[]; buyingFactors?: string[] };
   };
+  // 🆕 필터 태그 관련 props
+  selectedFilterTagIds: Set<string>;
+  sortedResultProducts: any[];
+  filterTags: FilterTag[];
+  onFilterTagToggle: (tagId: string) => void;
 }) {
   const isUser = message.role === 'user';
+  
+  // 🆕 비교표용 선택된 상품 pcodes (2~3개)
+  const [selectedComparisonPcodes, setSelectedComparisonPcodes] = useState<Set<string>>(() => {
+    // 기본값: 상위 3개 선택
+    const defaultPcodes = (message.resultProducts || []).slice(0, 3).map((p: any) => p.pcode || p.id);
+    return new Set(defaultPcodes);
+  });
+
+  const toggleComparisonProduct = (pcode: string) => {
+    setSelectedComparisonPcodes(prev => {
+      const next = new Set(prev);
+      if (next.has(pcode)) {
+        // 0개까지 허용
+        next.delete(pcode);
+      } else {
+        // 제한 없음
+        next.add(pcode);
+      }
+      return next;
+    });
+  };
 
   if (!isUser && message.role === 'assistant' && message.reRecommendData) {
     return (
@@ -4330,7 +4561,7 @@ function MessageBubble({
             <div className="h-px bg-gray-200 w-full mb-6" />
 
             {/* 타이틀 및 비교표 토글 */}
-            <div className="px-1 mb-2">
+            <div className="px-1">
               <h3 className="text-[18px] font-bold text-gray-900 mb-3">
                 조건에 맞는 {categoryName} 추천
               </h3>
@@ -4338,7 +4569,7 @@ function MessageBubble({
               {/* 비교표 토글 */}
               <button
                 onClick={() => setShowComparisonOnly(!showComparisonOnly)}
-                className={`flex items-center justify-between w-[120px] h-[34px] px-2.5 rounded-lg transition-all duration-200 ${
+                className={`flex items-center justify-between w-[120px] h-[34px] px-2.5 rounded-lg transition-all duration-200 mb-2 ${
                   showComparisonOnly
                     ? 'bg-blue-50 border border-blue-100'
                     : 'bg-gray-50 border border-gray-100'
@@ -4358,6 +4589,17 @@ function MessageBubble({
                   />
                 </div>
               </button>
+
+              {/* 🆕 필터 태그 바 - AI 비교표 토글 아래 */}
+              {filterTags.length > 0 && !showComparisonOnly && (
+                <div className="mb-0">
+                  <FilterTagBar
+                    tags={filterTags}
+                    selectedTagIds={selectedFilterTagIds}
+                    onTagToggle={onFilterTagToggle}
+                  />
+                </div>
+              )}
             </div>
 
             <AnimatePresence mode="wait">
@@ -4368,16 +4610,18 @@ function MessageBubble({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="space-y-4"
+                  className="space-y-0"
                 >
-                  {message.resultProducts.map((product, index) => {
+                  {/* 🆕 필터 태그 선택에 따라 정렬된 제품 목록 사용 */}
+                  {(selectedFilterTagIds.size > 0 ? sortedResultProducts : message.resultProducts).map((product, index) => {
                     const title = product.name || product.title || '';
+                    // 원래 추천 순위 유지 (재정렬되어도 변하지 않음)
+                    const originalRank = (message.resultProducts || []).findIndex((p: any) => (p.pcode || p.id) === (product.pcode || product.id)) + 1;
                    const danawaPrice = product.danawaPrice;
                    const hasLowestPrice = danawaPrice && danawaPrice.lowest_price && danawaPrice.lowest_price > 0;
                    const price = hasLowestPrice ? danawaPrice!.lowest_price! : product.price;
                    const rating = product.rating || product.averageRating || 0;
                    const reviewCount = product.reviewCount || 0;
-                   const aiSummary = product.personalReason || product.recommendReason || product.recommendationReason || '';
                    const reviewOneLiner = product.oneLiner || '';
                    
                    // ✅ danawaRank: API 응답에서 직접 가져옴 (Supabase DB rank 컬럼)
@@ -4405,7 +4649,12 @@ function MessageBubble({
                     }
 
                     return (
-                      <div key={product.pcode || product.id || index} className="relative bg-white py-6 border-b border-gray-100 last:border-0 space-y-5">
+                      <div 
+                        key={product.pcode || product.id || index} 
+                        className={`relative bg-white border-b border-gray-100 last:border-0 space-y-5 ${
+                          index === 0 ? 'pt-2 pb-6' : 'py-6'
+                        }`}
+                      >
                         <div
                           className="flex gap-4 cursor-pointer"
                           onClick={() => onProductClick(product, 'price')}
@@ -4415,7 +4664,7 @@ function MessageBubble({
                             productThumbnail={product.thumbnail}
                             reviewImages={reviewImagesForCarousel}
                             productTitle={title}
-                            rank={index + 1}
+                            rank={originalRank}
                             maxImages={5}
                             autoScrollInterval={2000}
                             pauseAfterSwipe={3000}
@@ -4476,22 +4725,6 @@ function MessageBubble({
 
                         {/* 요약 섹션 */}
                         <div className="space-y-4 mt-2">
-                          {/* AI 요약 */}
-                          {aiSummary && (
-                            <div className="space-y-2">
-                              <div className="flex items-center gap-1.5">
-                                <Image src="/icons/ic-ai.svg" width={16} height={16} alt="" />
-                                <span className="text-[16px] font-semibold ai-gradient-text">AI 요약</span>
-                              </div>
-                              <div className="relative pl-3">
-                                <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gray-100 rounded-full" />
-                                <p className="text-[15px] text-gray-800 leading-[1.55] font-medium">
-                                  {aiSummary}
-                                </p>
-                              </div>
-                            </div>
-                          )}
-
                           {/* 리뷰 한줄 평 */}
                           {reviewOneLiner && (
                             <div className="bg-gray-50 rounded-xl p-3 space-y-2">
@@ -4500,7 +4733,7 @@ function MessageBubble({
                                   <Image src="/icons/ic-star.png" width={16} height={16} alt="" />
                                   <span className="text-[16px] font-semibold text-gray-700">리뷰 한줄 평</span>
                                 </div>
-                                <button 
+                                <button
                                   onClick={() => onProductClick(product, 'danawa_reviews')}
                                   className="text-[13px] text-gray-400 font-medium underline"
                                 >
@@ -4512,6 +4745,55 @@ function MessageBubble({
                               </p>
                             </div>
                           )}
+
+                          {/* 🆕 조건 충족 태그 뱃지 */}
+                          {(() => {
+                            const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
+                            if (!tagScores || filterTags.length === 0) return null;
+
+                            // full 또는 partial인 태그만 표시
+                            const matchedTags = filterTags.filter(tag => {
+                              const scoreData = tagScores[tag.id];
+                              return scoreData?.score === 'full' || scoreData?.score === 'partial';
+                            });
+
+                            if (matchedTags.length === 0) return null;
+
+                            // full(○) 태그를 우선 배열 (좌측에)
+                            const sortedMatchedTags = [...matchedTags].sort((a, b) => {
+                              const aScore = tagScores[a.id]?.score === 'full' ? 0 : 1;
+                              const bScore = tagScores[b.id]?.score === 'full' ? 0 : 1;
+                              return aScore - bScore;
+                            });
+
+                            return (
+                              <div className="flex flex-wrap gap-1.5 mt-1">
+                                {sortedMatchedTags.map(tag => {
+                                  const scoreData = tagScores[tag.id];
+                                  const isFull = scoreData?.score === 'full';
+                                  const isPartial = scoreData?.score === 'partial';
+                                  const isSelected = selectedFilterTagIds.has(tag.id);
+
+                                  return (
+                                    <span
+                                      key={tag.id}
+                                      className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[12px] font-medium transition-all ${
+                                        isSelected
+                                          ? 'ai-gradient-border text-[#6366F1]'
+                                          : isFull
+                                            ? 'bg-blue-50 text-blue-600'
+                                            : 'bg-amber-50 text-amber-700'
+                                      }`}
+                                    >
+                                      {isFull && <span className={`text-[10px] ${isSelected ? 'text-[#6366F1]' : ''}`}>●</span>}
+                                      {isPartial && <span className={`text-[10px] ${isSelected ? 'text-[#6366F1]' : ''}`}>▲</span>}
+                                      {tag.label}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            );
+                          })()}
                         </div>
                       </div>
                     );
@@ -4524,23 +4806,77 @@ function MessageBubble({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
+                  className="space-y-4"
                 >
+                  {/* 🆕 상품 선택 UI */}
+                  <div className="space-y-3 -mx-4">
+                    <p className="text-[16px] font-medium text-gray-800 px-4">
+                      비교하고 싶은 상품 3개를 선택하세요
+                    </p>
+                    <div className="flex gap-3 overflow-x-auto scrollbar-hide px-4 py-1">
+                      {message.resultProducts.map((p: any) => {
+                        const pcode = p.pcode || p.id;
+                        const isSelected = selectedComparisonPcodes.has(pcode);
+                        const title = p.name || p.title || '';
+                        const isMaxSelected = selectedComparisonPcodes.size >= 3;
+                        const isDisabled = !isSelected && isMaxSelected;
+                        
+                        return (
+                          <button
+                            key={pcode}
+                            onClick={() => !isDisabled && toggleComparisonProduct(pcode)}
+                            disabled={isDisabled}
+                            className={`shrink-0 w-[80px] flex flex-col items-center gap-1.5 p-2 rounded-xl transition-all ${
+                              isSelected
+                                ? 'bg-blue-50 ring-2 ring-blue-500'
+                                : isDisabled
+                                  ? 'bg-gray-50 opacity-40 cursor-not-allowed'
+                                  : 'bg-gray-50 hover:bg-gray-100'
+                            }`}
+                          >
+                            <div className="w-[64px] h-[64px]">
+                              {p.thumbnail ? (
+                                <img
+                                  src={p.thumbnail}
+                                  alt={title}
+                                  className="w-full h-full object-cover rounded-lg"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
+                                  <span className="text-[10px] text-gray-400">N/A</span>
+                                </div>
+                              )}
+                            </div>
+                            <span className={`text-[11px] font-medium leading-tight text-center line-clamp-2 ${
+                              isSelected ? 'text-blue-700' : 'text-gray-600'
+                            }`}>
+                              {title}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* 비교표 (선택된 상품만) */}
                   <ProductComparisonGrid
-                    products={message.resultProducts.map((p: any) => ({
-                      pcode: p.pcode || p.id,
-                      name: p.name || p.title,
-                      brand: p.brand || null,
-                      price: p.price || null,
-                      thumbnail: p.thumbnail || null,
-                      raw: p,
-                      rating: p.rating || p.averageRating || null,
-                      reviewCount: p.reviewCount || null,
-                      specs: p.specs || p.spec || {},
-                      prosFromReviews: p.prosFromReviews || [],
-                      consFromReviews: p.consFromReviews || [],
-                      oneLiner: p.oneLiner || '',
-                      productUrl: p.productUrl || ''
-                    }))}
+                    products={message.resultProducts
+                      .filter((p: any) => selectedComparisonPcodes.has(p.pcode || p.id))
+                      .map((p: any) => ({
+                        pcode: p.pcode || p.id,
+                        name: p.name || p.title,
+                        brand: p.brand || null,
+                        price: p.price || null,
+                        thumbnail: p.thumbnail || null,
+                        raw: p,
+                        rating: p.rating || p.averageRating || null,
+                        reviewCount: p.reviewCount || null,
+                        specs: p.specs || p.spec || {},
+                        prosFromReviews: p.prosFromReviews || [],
+                        consFromReviews: p.consFromReviews || [],
+                        oneLiner: p.oneLiner || '',
+                        productUrl: p.productUrl || ''
+                      }))}
                     categoryKey={categoryKey || ''}
                     categoryName={categoryName}
                     onProductClick={onProductClick}

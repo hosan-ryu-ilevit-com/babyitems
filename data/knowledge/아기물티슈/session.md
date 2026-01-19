@@ -1,14 +1,14 @@
-# 세션: 20260115_142020_zvyh
-> 시작: 2026-01-15T14:20:20.675Z
+# 세션: 20260119_113609_ybum
+> 시작: 2026-01-19T11:36:09.044Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 아기물티슈 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 아기 물티슈 시장은 안전성과 순한 성분을 최우선으로 하는 트렌드를 보이고 있습니다. 베베숲, 브라운, 앙블랑, 코멧 등 다양한 브랜드가 인기 있으며, 특히 EWG 그린 등급 성분과 무향, 저자극 제품이 소비자들에게 선호되고 있습니다. 대용량 구성과 합리적인 가격대의 제품 또한 꾸준히 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTaXcswwZ10drmaJJBzShZlbLtIzYzItyUGHVLNYQtyy3KR78YFwa33dRdpLCaP3qy-uODW40H4h3F9boKKmwvsHpMG1YiptrHDf2pUmPVbhVpAUccMa7df5Me0YcMEQZ1nHGXfFn9RZAVfksMAg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZXK6ARynTYCpj_OWIcxaYhmbNvEd3mLXEZGJrF0f2eu-khf_hR57UloKnXXU1ZY2eSiN1Y8FI33XmJnngwwicMxnlgA3NxVJofeI24MNYy0vP3jITYbu-wsL5wyrZfPpivZueEsGAy203XVMwhBHHt52PJE0KocKrVlsahUdRqlYVf_-A3vYxbzaX3ct9HgRmAlPPTiIhGW_tcVNWr8aSZgeUCQgoeOY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVUORoApKzmamx42joizBTD088yQSnPktDwVZ9zADO66mJ26aa5yAbi-WMhFI0LNDSX_aQKjTNDu8g-2x0GzpbEqS1mVKhekx76U8bSznYIVZA9gYSm_XT_p_RH6R_LxBePo_uJXqsmQzT3w3v39pnag4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmbdOtu75ECbZB-Gdb_Ax6c0zdwwn5kZHarpj66bLwduvBqqKyOVVspJs3ewybE0oPWf4cM1KrbOsgrh9s4uzOR8EEP6a17ZgE6MieGzjPTjd0MvE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTENVtUh7MhxF6uNT0E43QSl5idGxemsyQUEX5IVpKg26U45qrjrUjl3Qbg_LK1LMEC8PqnaaK4uvV5ZXy5ezKrPnJp9V5PHYrz5DfkRdVnIN506TxuSCja6oEsVQHY2mABZrgOpw2xFHRScikyf9tyXVwTJGnm0CGBQ==
+- 쿼리: 아기물티슈 시장 현황
+- 인사이트: 아기 물티슈 시장은 지속적인 성장세를 보이며, 2025년에는 전체 물티슈 시장 매출의 약 40%를 차지할 것으로 예상됩니다. 이는 위생에 대한 중요성 증가와 일상적인 사용, 그리고 끊임없는 제품 혁신에 기인합니다. 온라인 판매 채널의 성장률도 높을 것으로 전망됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0ur6RebzZbIaUbisULR_kOgFi57zV98PsRV9Vpzk9u0PFqkPHK_1iuN_fH6NuPoSoT_CfRsA79r_cpLDF1DRS6FNE7wAg2c7yr46-Sjvxx7Vy2yja8xsCtaH5dpZa_PofftYaOqnMwglis5UDDRtsrVPOJ6TjkoeK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5aU-ywUX-3Z2noXTk_n5Hlq2iVYJjkSR4onsN7NJNVrm1ROTvX0oDKLawHCJrPzosJy1G5FdnAMfc0Ze-6kIJMfujjXrBKX6cgSbUAjdm0rf-zoAk7EkV7MT6WOVp2hcixbMKbfIrGnEKpgA6FTWvK8i65bjCUYE9Scn6AFN4Z4StzGc0skeAmZKDMf11J2p_oBkPxQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGD9YHa09Ex0DImap2GPhtzLaorFxzafRUHq3-GLwFheh8GXlDhXh0n8SGZX1CK9CoBVgmXm9W4KYxCdRssVHQu6mJSYNv0dB4J7fCYQ5cZo_0ieGBe356tlGn35zOuhmQAG9PdOcKBZdMR5pbl_xTdFUmbuhpnAvPfHw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwm_f6FygEdf6b6dUwKurOR9db9rQiPrad3z9fU9mnobvzxBtcMalWoBw7X67EgDgFPK9EtCIfQ2nqDf1BCSqBmrNzJOl78lUuSoLsvC4dQLq4_dsB9wHpVg8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgv6vuXFm-OOyPQqs17G-xguAL99XilVs3jwpB_XzqkORXuEecrTev_-5S6B5BzSHwOoNYPim00VNk82NzsY5dARaFTsvlsLsBrGzp96DY4H54C6rTt4zwlebigxyCuZvpYGVs2vGbkRWMLsiAoQCvtTJ_GaMKBk1mHjXN0LDsVSQFNeext9Ed6atwMA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyY6iY8BYAP6glkh_hQx862ydxBAJBEqVjy2HzdWAPg8DzEpFri8zwm5POKCPn1ccKZWgFJvhT_Vz-D5LDau7Reh4n_BPXzBTc6NYElfhJE1_MKQrAd7oPAXHSDSmbjuWWi_xK2UljcmHw_COGyCFoguzyg0ThTsf1RGl6t5SCf441vM5JXImRG33KJOgP_okI8eXCL8PW9M6yYSUpSHX-gRA3SMMRdKnt
 
 ---
 
@@ -16,24 +16,26 @@
 
 | 항목 | 답변 |
 |------|------|
-| 물티슈 원단은 어느 정도 두께를 선호하시나요? | 일반적인 두께의 원단 |
-| 물티슈의 정수 과정은 어느 단계까지 중요하게 생각하시나요? | 5~6단계 정수 |
-| 물티슈 표면의 질감은 어떤 것을 선호하시나요? | 플레인 (민무늬) |
-| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 14,164원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원대 |
-| __avoid_negatives__ | 필요한 양만큼만 뽑아 쓰기 어려워 여러 장이 한꺼번에 딸려 나올까 봐 걱정돼요 |
+| 아기 피부에 직접 닿는 만큼, 어떤 성분 구성을 가장 중요하게 생각하시나요? | EWG 그린 등급 & 저자극 |
+| 물티슈를 사용할 때, 어떤 두께감을 선호하시나요? | 두껍고 도톰한 (70gsm 이상) |
+| 물티슈 표면의 엠보싱 처리가 중요하신가요? | 엠보싱 있음 |
+| 물티슈는 어떤 형태로 구매하시는 것을 선호하시나요? | 캡형 |
+| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원대 |
+| __avoid_negatives__ | 금방 말라서 여러 장 사용해야 할 것 같아 아쉬워요,종이처럼 뻣뻣한 느낌이라 아기 피부에 자극이 될까 봐 신경 쓰여요,인공적인 향이 너무 강해서 아기가 싫어할까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 5개 (전체 5개 중)
+현재 후보: 6개 (전체 6개 중)
 
 ### 후보 상품
-1. 아이러브베베 시그니앙 오가든 물티슈 캡형 77매 - 13,570원 - ⭐4.8
-2. 베베숲 시그니처 그린 물티슈 캡형 70매 - 22,870원 - ⭐4.8
-3. 베베숲 시그니처 블루 물티슈 리필형 70매 - 22,900원 - ⭐4.6
-4. 아이러브베베 플러스옐로우 물티슈 캡형 120매 - 12,380원 - ⭐4.6
-5. 베베숲 시그니처 브라운 물티슈 캡형 70매 - 19,220원 - ⭐4.8
+1. 순둥이 프리미엄 엠보싱 물티슈 캡형 70매 + 캡형 20매 - 31,750원 - ⭐4.7
+2. 베베숲 시그니처 블루 물티슈 리필형 70매 - 21,900원 - ⭐4.6
+3. 아이러브베베 시그니앙 오블루 물티슈 캡형 77매 - 5,900원 - ⭐4.8
+4. 순둥이 소프트메이트 65 물티슈 리필형 72매 - 20,800원 - ⭐4.8
+5. 코코토토 데일리 깨끗한 물티슈 캡형 150매 - 11,470원 - ⭐5
+6. 아이러브베베 플러스옐로우 물티슈 캡형 120매 - 12,650원 - ⭐4.6
 
 ---
 
@@ -45,7 +47,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 필요한 양만큼만 뽑아 쓰기 어려워 여러 장이 한꺼번에 딸려 나올까 봐 걱정돼요
+- 금방 말라서 여러 장 사용해야 할 것 같아 아쉬워요
+- 종이처럼 뻣뻣한 느낌이라 아기 피부에 자극이 될까 봐 신경 쓰여요
+- 인공적인 향이 너무 강해서 아기가 싫어할까 봐 걱정돼요
 
 ---
 

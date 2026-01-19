@@ -1,28 +1,31 @@
 # 트라이크 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-19T06:07:58.160Z
+> 마지막 업데이트: 2026-01-19T11:44:44.443Z
 > 분석 상품: 20개 | 분석 리뷰: 604개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 콤팩트한 폴딩 사이즈 및 기내 반입 가능 여부
-- 가벼운 무게와 휴대성 강조
-- 안전 인증 및 생후 6개월부터 사용 가능한 모델
+- 기내 반입 가능한 컴팩트한 폴딩 기능
+- 럭셔리한 디자인과 고급스러운 소재
+- 뛰어난 핸들링과 안정적인 주행 성능
+- 다양한 기능 (양방향 시트, 각도 조절 등)
+- 안전성과 편안함을 강조한 설계
 
 ### 구매자 만족 포인트
-- ✓ 압도적인 휴대성 및 작은 폴딩 사이즈
-- ✓ 간편한 휴대 및 기내 반입 가능
-- ✓ 뛰어난 가성비
-- ✓ 부드러운 핸들링
+- ✓ 뛰어난 핸들링
+- ✓ 콤팩트한 폴딩
+- ✓ 럭셔리한 디자인
+- ✓ 편안한 승차감
+- ✓ 기내 반입 가능
+- ✓ 다양한 기능성
 
 ### 주의해야 할 단점
-- ⚠ 익숙해질 때까지 시간 소요되는 접고 펴는 방식
-- ⚠ 일부 모델의 높은 가격대
-- ⚠ 무게가 있는 모래 주머니를 놓고 끌었을 때 핸들링이 직결되는 느낌
+- ⚠ 높은 가격대
+- ⚠ 무게감
 
 ### 가격대 인사이트
-트라이크 유모차는 5만 원대의 가성비 모델부터 20만 원대 이상의 프리미엄 모델까지 다양하게 출시되고 있습니다. 베이블퓨어리 T2와 같은 모델은 5만 원대로 높은 가성비를 자랑하며, 씨투엠뉴 에이블 스핀 플러스 트라이크 등은 20만 원 이상의 가격대를 형성하고 있습니다.
+
 
 ---
 
@@ -241,8 +244,6 @@
 ---
 
 ## 📊 데이터 출처
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuqdRUMX1LSgV4vYbvJ2RQ73ToMD7HzT5W7j_8_PBU9-nd9ebjHEC6YsKtfLsxT5FUruVZSq5Xb8891k9l4lr62nDbnqHcqdcFuwINDJ34BesIFzimbh7mNEUyn00izfmxT8E7sDw=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1ridffmwgxQSbLGuTi-yyxwHRUhpY0A1cqImsiNg0O07L3BO54wmmGPthYMtI6kQJb7MLmV8p4EA8oeFzRghZ0J7KKlnnsNg9SGMHs6pManBFgy8qFU1Sd0F_yM5sIY6h6KpUV9k=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvNllMUu92y502zsuyR3QdVDXgA5yIiJkZgt3hUAlwDzxScXB0Uev9VmlnkWlD-8cCbkHwtyHjOGOSFLowCOueAu0LIW4jErTQW3U5f1OZlWWBvXz-YUrNldRT50GLXe1bkTBZhpE=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuLjyiriJ0v2IpAdBkRopNSAwg9GHnqJ4LYp8xNTIaKaPsojOPJ4Xh7zOKlWFiCXd_2PkKz8iGJXX-imCSjbHV_euUMwXihExv-CVk1O60boy_-VAIDlG-_PPx8axWnA_OrYJy7CU=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq_YFLORf8Dpbmjs6QxSrhtzrPfP6wyLM5-oN1JsKrjtWB6lc_a4tbBrvmr6bPQ2cCT0d_deeLoXgE_1TyP_tmCJbKBzESznte4oeFhU7Yw2JTFHyIbCigb-6Q1KbpkbSBrVvisO4=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdh2gXC5lPQ3XD8vVn200SaKikpZ7WrFsCna-_dlRKrHwazIcYjU8z8A35e6pKAQUarDntvsr9RpMMoDiynHbMYH4S41nQQDzT7oKl-_YF__8yRIPW4KHG4eqJujYIxnGfbAKq2YU=)
+- [joongang.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCoVFy5X24bLnVzI5lXWJMRpz8w2T_u_7jrep61i98DQiX6kRTj--XQELic2RnUs1mI7gOFD4cUHtoGNAGIfNElKDXY9yGp000d59I79LYCS1kkLFkUze8Bp_293tbnm_gP5fCkGk=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzmhvcTy9TaxJ5yHwqF-_f36EBgwt3h8mPPuJgjOfNgfEX6AqECZI2k8HkGCMjmVmBiRairqtPVlxqOJsk04aScMU0xpQzvQd6NIO5mgjt0Xab0nB1HMNepBHvA6O8JJ5ZvS3fR58=)

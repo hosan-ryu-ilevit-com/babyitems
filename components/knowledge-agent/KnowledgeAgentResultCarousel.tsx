@@ -243,7 +243,7 @@ export function KnowledgeAgentResultCarousel({
 }: KnowledgeAgentResultCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0); // 항상 1위(0번)가 초기 선택
-  const displayProducts = products.slice(0, 3);
+  const displayProducts = products.slice(0, 5); // 5개까지 표시
 
   // 데스크탑 드래그 스크롤 상태
   const [isDragging, setIsDragging] = useState(false);
@@ -339,24 +339,47 @@ export function KnowledgeAgentResultCarousel({
         </div>
       </div>
 
-      {/* Dots 인디케이터 */}
+      {/* 숫자 인디케이터 + 좌우 버튼 */}
       {displayProducts.length > 1 && (
-        <div className="flex justify-center gap-2">
-          {displayProducts.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToIndex(i)}
-              className={`h-2 rounded-full transition-all duration-200 ${
-                i === activeIndex
-                  ? 'w-4'
-                  : 'w-2 bg-gray-300 hover:bg-gray-400'
-              }`}
-              style={i === activeIndex ? {
-                background: indicatorColor
-              } : undefined}
-              aria-label={`${i + 1}번 제품으로 이동`}
-            />
-          ))}
+        <div className="flex justify-center items-center gap-3">
+          {/* 이전 버튼 */}
+          <button
+            onClick={() => scrollToIndex(Math.max(0, activeIndex - 1))}
+            disabled={activeIndex === 0}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+              activeIndex === 0
+                ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+            aria-label="이전 제품"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* 숫자 표시 */}
+          <div className="flex items-center gap-1 text-sm">
+            <span className="font-bold text-gray-900">{activeIndex + 1}</span>
+            <span className="text-gray-400">/</span>
+            <span className="text-gray-500">{displayProducts.length}</span>
+          </div>
+
+          {/* 다음 버튼 */}
+          <button
+            onClick={() => scrollToIndex(Math.min(displayProducts.length - 1, activeIndex + 1))}
+            disabled={activeIndex === displayProducts.length - 1}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+              activeIndex === displayProducts.length - 1
+                ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+            aria-label="다음 제품"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       )}
     </div>

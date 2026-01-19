@@ -1,14 +1,14 @@
-# 세션: 20260119_035552_9x6e
-> 시작: 2026-01-19T03:55:52.917Z
+# 세션: 20260119_112657_31xw
+> 시작: 2026-01-19T11:26:57.488Z
 > 카테고리키: 주니어용
 > 카테고리: 주니어용 카시트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 주니어용 카시트 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 주니어 카시트 시장은 다이치, 브라이텍스, 싸이벡스 등 전통 강자들이 여전히 강세를 보이고 있으며, 가격대는 20만원대부터 70만원대까지 다양하게 형성되어 있습니다. 안전성과 편안함은 물론, 아이의 성장에 따른 조절 기능과 세척 편의성이 중요한 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-Ow247pmRLdBjjnJIi8nVecjGru7m3TcG-oWnKCKQksvIvrNQa9nT8DXrOK0UWl8Cog4BCZITAk9gqxftf8RGS_hjAQeDanByDuIo5WXn0mV85iubd8x9wXGWBwg_AszpA4W-PJaTS-b3PLQL8P0jRahkpJUSzIzYLxOJ3Yt8IxzPfKnqz_cBL0sIB5VCSUO0, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgVITBFOHin70xUGY0tIzTL0AsjfY1PYSWnLjpA229aXI_vLG-WMzCkfUmVclIRMQrln_MSxh5tfjXLDByDfGV1v5QAgnKPvjgKYn2luewDtEqcQTCanxG6LmX2Sp4CDfVuxYi41y1FPCovT6tDWKsJIA1AmAL9BiBn1SiFNms5KNfS4v8P32kY8-nq5wSDw6Ho67JmeywtQdsnxFqNhOUlHyeZpVAPgXzYuaYgA7Ze7rWLW6Ph6gYGBQkInUpgEd0gqj3PuQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnhhfgetou-PHCHePHBZ_35ECUshvvt_Rf7ghu-6JrWxrMMGPP1A5w80v9o3N-LuQuCSLYZ6IE9lR3a9d61QI5SFZBUx2dTJuvorc4MsoBEEJqV9ESSNmDQE_VymhOmaRl4Gi5GTMNyzyxpWsTjJk8aM-sNXjm8-i649mqXs3sVSXVI473YZsRzWZvLI93w71w, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3R6twgByH0hYIfbe7msIeGYLZU-APWb2QZqBoHaZYn69lzP-NLUXi-eFqwqS8d9WozMJvBf-cU41bRDx3bR_n6idRCAkgwoYXkxhsN0rBSVHL0hwmZJchbnOmvCssk7O0qKypbEl8YQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmejSOkgxuADxKkxtgVWq6abHq_eC8xpevrAAcMIOTlTCkdcDjuqYBPfwXNoWZX93N-Vah8I665h-Y4fuGVe_xRiD9MQbtI9gnpKdd28p9rYCTD8xCvQjgUrU6VEYt-xrgZcDr-TijoN-JlmDxsi5qhoRCiRrqknRGymts3Q8=
+- 쿼리: 주니어 카시트 시장 현황
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5Cc63msQFff6R5I6bB6I4r1hPRa1c4bx3zQMOmM9G_zStkdTfOcpi2K0zWvA84-OnaiLd5ONqRagWdvfCqic-JtNZvH1Vf3OmmZd9Ag4mNTHZ8RARo6VI8OQ4F4nD2bwDnARHX35hbTRjOk7VGr9WdkTaodHO5XbcauOF2Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHB9PqAGtQ7So62mrHTqsmih2St6d71-o7MI5Pa35h53mZY7-w__MhI4NaAuoU90dnrYTTwhLy0xJ8jbfZ203M5NBOKzFFqsV6zFYnIsRI_dHLXfqT1Ds5cA9Fj9Oerg96xBykenq51qAU3ShDubrpp3OxxYJmnKkQ4_9GQBi6T5FtJbAwhLrTSZ-aOvQ6owBtCr5U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRmCI_QTldzOzwCG3QjfB7CtGIzNtwOsQDTZ3LtQZZmXrVAm2OXfGclnm1vdQjGvZzHoYP3m_05ld4fcCDjxFQMPKSovcwttJ84A1_sdRDH-7D-3KNZUIL6ASa-PBoOQY0IWhpkTiELjJDH9OdpPOWA7WGqK0aqF9PrBo2g3mN2L771Zy4Feg-0gdPwHcfO5A2vxDXMsj7a3B4MwHXe9XDUneX5vrwgTLcWu8n0vTb6Fx6n88tlPQv3C0NoPFub62wx7EpyWg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELD7rOCLSC2CU0KzvfjcS5YdaWHVlVsDhTbQTxUHZDTx0yluOWnkDNhKDyGzpx-4_VqxUD4oAHkaRMZo6PgTrhOreV4UVmCM04bcFqJmplRn395frLNEElPIPBr_l3_QT3AJtEslqYFpPxf6DtztpKDIi6ovBuIV2S4FOFhhakVfSLP0VSJW1C0DQhKUckZTVAsMiKzp9GPSd74a_J_05nlcpYxH03avyBYdHEGmjuuLAAhnLxogti5XsJz15fIp0Vw9XEnxA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhMiMuiPWX_BRohZq48lQWZDbjD1JPUPqYjr2Csj7jVuO4t-AXno1RY6tGro67aahpqEW1t_wkOiRJ6T49JrFQ0PHAvnz1-UTVt5KWoQBzEHVPSs_fvey9DMbIFNN7KJWjICDy1M1X_IdMGKIiDUhj9DnTnqaRPCSodg1rKoU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRt9JUpzHcJVdHQbWnnF3x8VYXztVFFjAqqGdcXjYtSx7Mw4WyemV_1DG2lNvCSRSg7UuE6D95gZkhZWrNszejpw_41JXzOcuM0h69z6KBI4raQYOG9Ov0RuitmIQK__b8ijZ7zOmZ_HLg1kGLbXo52rsszlZf1O3aSZbx-1i37RZO1AM=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5Cc63msQFff6R5I6bB6I4r1hPRa1c4bx3zQMOmM9G_zStkdTfOcpi2K0zWvA84-OnaiLd5ONqRagWdvfCqic-JtNZvH1Vf3OmmZd9Ag4mNTHZ8RARo6VI8OQ4F4nD2bwDnARHX35hbTRjOk7VGr9WdkTaodHO5XbcauOF2Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHB9PqAGtQ7So62mrHTqsmih2St6d71-o7MI5Pa35h53mZY7-w__MhI4NaAuoU90dnrYTTwhLy0xJ8jbfZ203M5NBOKzFFqsV6zFYnIsRI_dHLXfqT1Ds5cA9Fj9Oerg96xBykenq51qAU3ShDubrpp3OxxYJmnKkQ4_9GQBi6T5FtJbAwhLrTSZ-aOvQ6owBtCr5U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRmCI_QTldzOzwCG3QjfB7CtGIzNtwOsQDTZ3LtQZZmXrVAm2OXfGclnm1vdQjGvZzHoYP3m_05ld4fcCDjxFQMPKSovcwttJ84A1_sdRDH-7D-3KNZUIL6ASa-PBoOQY0IWhpkTiELjJDH9OdpPOWA7WGqK0aqF9PrBo2g3mN2L771Zy4Feg-0gdPwHcfO5A2vxDXMsj7a3B4MwHXe9XDUneX5vrwgTLcWu8n0vTb6Fx6n88tlPQv3C0NoPFub62wx7EpyWg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELD7rOCLSC2CU0KzvfjcS5YdaWHVlVsDhTbQTxUHZDTx0yluOWnkDNhKDyGzpx-4_VqxUD4oAHkaRMZo6PgTrhOreV4UVmCM04bcFqJmplRn395frLNEElPIPBr_l3_QT3AJtEslqYFpPxf6DtztpKDIi6ovBuIV2S4FOFhhakVfSLP0VSJW1C0DQhKUckZTVAsMiKzp9GPSd74a_J_05nlcpYxH03avyBYdHEGmjuuLAAhnLxogti5XsJz15fIp0Vw9XEnxA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhMiMuiPWX_BRohZq48lQWZDbjD1JPUPqYjr2Csj7jVuO4t-AXno1RY6tGro67aahpqEW1t_wkOiRJ6T49JrFQ0PHAvnz1-UTVt5KWoQBzEHVPSs_fvey9DMbIFNN7KJWjICDy1M1X_IdMGKIiDUhj9DnTnqaRPCSodg1rKoU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRt9JUpzHcJVdHQbWnnF3x8VYXztVFFjAqqGdcXjYtSx7Mw4WyemV_1DG2lNvCSRSg7UuE6D95gZkhZWrNszejpw_41JXzOcuM0h69z6KBI4raQYOG9Ov0RuitmIQK__b8ijZ7zOmZ_HLg1kGLbXo52rsszlZf1O3aSZbx-1i37RZO1AM=
 
 ---
 
@@ -16,11 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 카시트 설치는 어떤 방식으로 선호하시나요? | ISOFIX |
-| 안전 인증은 어떤 기준을 중요하게 생각하시나요? | i-Size 인증 |
-| 아이의 성장에 맞춰 카시트를 얼마나 조절할 수 있으면 좋을까요? | 다단계 조절 가능 |
-| 주니어용 카시트 예산은 어느 정도로 생각하세요? (평균 약 27만원, 15만원~35만원대가 가장 많아요) | 15만원 ~ 35만원 |
-| __avoid_negatives__ | ISOFIX 방식이라도 차량과 완벽하게 호환되지 않아 설치가 복잡할까 봐 걱정돼요 |
+| 차량에 카시트를 어떻게 설치하시나요? | ISOFIX 고정형 |
+| 아이의 현재 키와 몸무게는 어떻게 되나요? | 키 100~130cm, 몸무게 15~25kg |
+| 어떤 안전 인증을 중요하게 생각하시나요? | i-size (R129), 상관없어요 |
+| 카시트 사용 시 아이의 편안함을 위해 어떤 기능이 중요하신가요? | 등받이 각도 조절, 통기성 좋은 소재 |
+| 주니어용 카시트 예산은 어느 정도로 생각하세요? (평균 약 27만원, 15만원~35만원대가 가장 많아요) | 15만원 ~ 35만원, 15만원 이하, 35만원 이상 |
+| __avoid_negatives__ | 아이가 성장함에 따라 높이 조절이 복잡하거나 어려울까 봐 걱정돼요,ISOFIX로 설치할 때 차량 좌석에 꽉 고정되지 않아 불안할까 봐 걱정돼요,아이가 잠들었을 때 편안하게 기댈 수 있도록 등받이 각도 조절이 충분하지 않을까 봐 불편해요 |
 
 ---
 
@@ -60,7 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- ISOFIX 방식이라도 차량과 완벽하게 호환되지 않아 설치가 복잡할까 봐 걱정돼요
+- 아이가 성장함에 따라 높이 조절이 복잡하거나 어려울까 봐 걱정돼요
+- ISOFIX로 설치할 때 차량 좌석에 꽉 고정되지 않아 불안할까 봐 걱정돼요
+- 아이가 잠들었을 때 편안하게 기댈 수 있도록 등받이 각도 조절이 충분하지 않을까 봐 불편해요
 
 ---
 

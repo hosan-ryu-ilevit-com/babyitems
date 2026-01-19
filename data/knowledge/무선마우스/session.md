@@ -1,5 +1,5 @@
-# 세션: 20260119_064401_v0vw
-> 시작: 2026-01-19T06:44:01.056Z
+# 세션: 20260119_085252_gixu
+> 시작: 2026-01-19T08:52:52.446Z
 > 카테고리키: 무선마우스
 > 카테고리: 무선마우스
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 무선마우스 시장 현황
-- 인사이트: 무선 마우스 시장은 전반적으로 성장세를 보이고 있으며, 특히 게이머 증가와 편의성에 대한 수요 증가가 주요 동력입니다. 2023년 시장 규모는 약 29억 달러였으며, 2031년까지 53억 달러 규모로 성장할 것으로 예상됩니다. 기술 발전으로 유선 마우스 못지않은 성능을 제공하는 제품들이 늘어나고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGX_aULSM2x6_MX-0ODKjkhAUyT2Uytvs7DPk6LH5xaj4ZDv0BbbevAO-TDK_GC6Ggc3I7cOCEwcZK4Aff9nHoIFfTeYbJteyBV0WoGIAqWZQLT5c47gkA_6hifZjwf9075__ExYIBDHDYcgaKBoTBN7wYbiIi3v9-L9uqsy0Y3SElKXsyJq37S2hWxKjq7IE6tMWXdS_OmkEC2o669kmn4ZHPSK_Fa9GYOHYmltAT2hm5KKAESwDISH6_Qo-2HnAVjuKi3RyIK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvMmEE9nPyx4cUJUGqWsg9v0qzKshJqSDKvQCx6YFh8tignglM-jJATZ6EhLFBqBCUBfb4pbairHDJ2FYcXqhbS_sjFOXmS_qJrx6YFDS_jZBjSogoHz-rf8jhz05RnZRCfRCJq8oL_8SBNARGc5IEEM7i1OlBFHwsXLZIxrUlsMSPmVl291Teug56zBMxIcqYzuEIN-aswLnxUneuInTOQLfqu8bYiRnwZz0o8oyyvteHhlID6MklaycqrD-tR72obdrjwVOf3JqS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdDns1cQCbpFiUtb5w4Bt-1TqG3WwT3miufzhutrwFBgBMHql_N85EMcSuwi-7-FIK056Q3kuNAIRvva-TkKP_UUC5gi6F2rpYSHAjUx398Qnv0tEn30LCvbPUoQnem9BWAy8iN5DyGnokX39iwXiah_Mja74XJ73feQCsbWLzjeyHcSETChHxxaDq_ru5OgFZtEc3-R9Ibwi8DjdxI2X5jHtlVAc14diSCebHeSrAF51Qlzqob1vTkoyN28dr495q
+- 인사이트: 무선 마우스 시장은 지속적인 성장세를 보이며, 소비자들은 편의성, 디자인, 개인화된 경험을 중요하게 생각하고 있습니다. 특히 게이머 증가와 원격 근무 확산이 시장 성장을 견인하고 있으며, 기술 발전으로 무선 마우스의 성능 또한 향상되고 있습니다. 2023년 기준 약 29억 3천만 달러 규모였던 시장은 2031년까지 53억 8천만 달러에 이를 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8UxhH3soZNJGvCnxDemk5iQKqUWrDtjKXGlno8iyDLLHP3XiM0A9_qOs-Np2SDucE_up3WW0qOpfKtC0gBcWQMvM3KPdCKbhoNzy1hTzSIYOvsqZKlG0JJtkrctU8p9YbM5mFRl17m19F7ofeeiHfEOkQs99NPMTX0cMkP06Ioxgn1q37KPFG_Qinli9eBYwoC83SObi1KAjvOCMaDqhwRLvj5KOCrTSK8KZx4EPajGR4wFPoV5MnjGOUe2_mDPgx-4nlEnfU, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUXoe-kl8QbDO7lXb3Y5Ztrfh3OEE84tO-lfqL2kXNZA90SllYIxDbX5JsAJxq9otBQUfG9ylnVHc4wPkB7iCNUQ-okFrK-bcInthFwQGq8Kd8bfMx5htaYgHhMcL5TOmA3YFWDLD7TO5Zs1OCi6OS23VOsvZ1LwproMSAb-xON5Ez-7AuxwUhuzeXJXcv_HYoYKI0Jt7vaSawCXRvAbS5jYapdLkvUN9av79R3WoOrNRrwlBkHlUfUAirZEp-eSzbM5J6hW6c0onf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1ph1vehqUzLE7i7RhbOM0G6PQCwA4bwmnwHvYdWilnwvIL8BXjUO84YqLN_HfV9cjeU6nPLmt9kwuNBdkVJ08iTFMU664Z-RwHVQc668O9tApWrWECY-8jJILxZhw8Hj1SZGcXqqHkxs-5Ky6mRDzAhN-AxIlsztlYBaf0fhSB0CZSxp58a8zamF0cOgqQlLF_pWd0JiQVtLy-KESCl9G6RvfFy48pQWognhQtg_G1Lel5iniXVahA9XYPaKP60PS
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 무선 마우스를 주로 어떤 용도로 사용하시나요? | 게임용 |
+| 어떤 방식으로 마우스를 연결하는 것을 선호하시나요? | USB 동글, 블루투스 |
+| 마우스의 무게와 손에 쥐는 느낌(그립감)은 어느 정도가 적합하신가요? | 중간 무게 |
+| 마우스 배터리는 어떤 방식을 선호하시나요? | 내장 배터리 |
+| 무선 마우스 예산은 어느 정도로 생각하세요? (평균 약 9만 5천원, 5만원~12만원대가 가장 많아요) | 5만원 ~ 12만원대, 5만원 이하 |
+| __avoid_negatives__ | 게임 플레이 중에 갑자기 연결이 끊기거나 입력이 지연될까 봐 걱정돼요,내장 배터리 때문에 마우스가 너무 무거워서 장시간 게임 시 손목에 부담이 될 것 같아요 |
 
 ---
 
@@ -42,7 +48,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 게임 플레이 중에 갑자기 연결이 끊기거나 입력이 지연될까 봐 걱정돼요
+- 내장 배터리 때문에 마우스가 너무 무거워서 장시간 게임 시 손목에 부담이 될 것 같아요
 
 ---
 

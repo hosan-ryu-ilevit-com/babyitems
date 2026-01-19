@@ -1,14 +1,14 @@
-# 세션: 20260119_060803_2gsd
-> 시작: 2026-01-19T06:08:03.489Z
+# 세션: 20260119_114452_czzu
+> 시작: 2026-01-19T11:44:52.538Z
 > 카테고리키: 트라이크
 > 카테고리: 트라이크 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 트라이크 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 트라이크 유모차 시장은 휴대성과 편의성을 강조하는 모델들이 인기를 얻고 있습니다. 베이블퓨어리, 씨투엠뉴, 리안 등의 브랜드가 활발하게 신제품을 출시하며 경쟁하고 있으며, 특히 가볍고 콤팩트하게 접히는 휴대용 트라이크 유모차가 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuqdRUMX1LSgV4vYbvJ2RQ73ToMD7HzT5W7j_8_PBU9-nd9ebjHEC6YsKtfLsxT5FUruVZSq5Xb8891k9l4lr62nDbnqHcqdcFuwINDJ34BesIFzimbh7mNEUyn00izfmxT8E7sDw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1ridffmwgxQSbLGuTi-yyxwHRUhpY0A1cqImsiNg0O07L3BO54wmmGPthYMtI6kQJb7MLmV8p4EA8oeFzRghZ0J7KKlnnsNg9SGMHs6pManBFgy8qFU1Sd0F_yM5sIY6h6KpUV9k=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvNllMUu92y502zsuyR3QdVDXgA5yIiJkZgt3hUAlwDzxScXB0Uev9VmlnkWlD-8cCbkHwtyHjOGOSFLowCOueAu0LIW4jErTQW3U5f1OZlWWBvXz-YUrNldRT50GLXe1bkTBZhpE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuLjyiriJ0v2IpAdBkRopNSAwg9GHnqJ4LYp8xNTIaKaPsojOPJ4Xh7zOKlWFiCXd_2PkKz8iGJXX-imCSjbHV_euUMwXihExv-CVk1O60boy_-VAIDlG-_PPx8axWnA_OrYJy7CU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq_YFLORf8Dpbmjs6QxSrhtzrPfP6wyLM5-oN1JsKrjtWB6lc_a4tbBrvmr6bPQ2cCT0d_deeLoXgE_1TyP_tmCJbKBzESznte4oeFhU7Yw2JTFHyIbCigb-6Q1KbpkbSBrVvisO4=
+- 쿼리: 트라이크 유모차 시장 현황
+- 인사이트: 트라이크 유모차는 휴대용 유모차의 진화된 형태로, 6개월부터 8세까지 사용 가능하며 최대 28kg까지 하중을 견딜 수 있습니다. 럭셔리한 디자인과 뛰어난 핸들링, 편안한 승차감을 제공하며, 기내 반입이 가능한 컴팩트한 폴딩 기능까지 갖춘 제품들이 인기를 얻고 있습니다. 특히 유모차를 거부하는 아이들이나 4세 이상의 아이들에게 적합한 이동 수단으로 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdh2gXC5lPQ3XD8vVn200SaKikpZ7WrFsCna-_dlRKrHwazIcYjU8z8A35e6pKAQUarDntvsr9RpMMoDiynHbMYH4S41nQQDzT7oKl-_YF__8yRIPW4KHG4eqJujYIxnGfbAKq2YU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCoVFy5X24bLnVzI5lXWJMRpz8w2T_u_7jrep61i98DQiX6kRTj--XQELic2RnUs1mI7gOFD4cUHtoGNAGIfNElKDXY9yGp000d59I79LYCS1kkLFkUze8Bp_293tbnm_gP5fCkGk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzmhvcTy9TaxJ5yHwqF-_f36EBgwt3h8mPPuJgjOfNgfEX6AqECZI2k8HkGCMjmVmBiRairqtPVlxqOJsk04aScMU0xpQzvQd6NIO5mgjt0Xab0nB1HMNepBHvA6O8JJ5ZvS3fR58=
 
 ---
 
@@ -16,7 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 트라이크 유모차를 주로 어떤 상황에서 사용하실 예정인가요? | 여행 및 잦은 외출 |
+| 여행이나 외출 시 휴대성을 가장 중요하게 생각하시나요? 주로 어떤 상황에서 트라이크 유모차를 사용하실 예정인가요? | 일상 사용 편의성, 안정성 및 기능성 우선 |
+| 트라이크 유모차의 디자인과 소재에 대해 어떤 점을 선호하시나요? | 고급스럽고 세련된 디자인, 실용적이고 깔끔한 디자인 |
+| 아이가 트라이크 유모차에서 편안하게 지낼 수 있도록 어떤 시트 기능을 중요하게 생각하시나요? | 등받이 각도 조절 및 마주보기 |
+| 트라이크 유모차를 주행할 때 가장 중요하게 생각하는 부분은 무엇인가요? | 안정적인 주행 및 충격 흡수, 부드러운 핸들링 및 쉬운 조작성 |
+| 트라이크 유모차 예산은 어느 정도로 생각하세요? (평균 약 20만원, 10만원대~20만원대가 가장 많아요) | 11만원 ~ 26만원대 |
+| __avoid_negatives__ | 일상적인 외출 시에도 유모차를 들고 옮겨야 할 때 무게감이 부담스러울 것 같아요,집 안이나 차량에 보관할 때 부피가 커서 공간을 많이 차지할까 봐 걱정돼요 |
 
 ---
 
@@ -41,7 +46,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 일상적인 외출 시에도 유모차를 들고 옮겨야 할 때 무게감이 부담스러울 것 같아요
+- 집 안이나 차량에 보관할 때 부피가 커서 공간을 많이 차지할까 봐 걱정돼요
 
 ---
 

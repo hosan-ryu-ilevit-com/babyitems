@@ -162,12 +162,12 @@ export function ProductComparisonGrid({
               </button>
 
               {/* 제품명 - 한줄 */}
-              <p className="text-[12px] font-medium text-gray-800 line-clamp-1 leading-tight mb-1">
+              <p className="text-[13px] font-medium text-gray-800 line-clamp-1 leading-tight mb-1">
                 {product.name}
               </p>
 
               {/* 가격 */}
-              <p className="text-[14px] font-bold text-gray-900 mb-2">
+              <p className="text-[15px] font-bold text-gray-900 mb-2">
                 {isEmpty(product.price)
                   ? '가격 문의'
                   : `${product.price!.toLocaleString()}원`
@@ -179,7 +179,7 @@ export function ProductComparisonGrid({
                 href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-[11px] font-medium rounded-md text-center transition-colors"
+                className="block w-full py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-[13px] font-medium rounded-md text-center transition-colors"
               >
                 최저가 구매하기
               </a>
@@ -190,7 +190,7 @@ export function ProductComparisonGrid({
         {/* 별점 + 장단점 섹션 */}
         <div className="mt-3 pt-2">
           <div className="px-4 mb-2">
-            <h4 className="text-[12px] font-semibold text-gray-600">장단점 요약</h4>
+            <h4 className="text-[14px] font-semibold text-gray-600">장단점 요약</h4>
           </div>
 
           {/* 디바이더 - 장단점 헤더 아래에 */}
@@ -207,11 +207,11 @@ export function ProductComparisonGrid({
               >
                 {/* 별점 + 리뷰 수 - 노란별 1개만 */}
                 <div className="flex items-center gap-1 mb-2">
-                  <Star size={12} weight="fill" className="text-yellow-400" />
-                  <span className="text-[12px] font-bold text-gray-700">
+                  <Star size={14} weight="fill" className="text-yellow-400" />
+                  <span className="text-[14px] font-bold text-gray-700">
                     {product.rating?.toFixed(1) || '—'}
                   </span>
-                  <span className="text-[11px] text-gray-400">
+                  <span className="text-[13px] text-gray-400">
                     ({product.reviewCount?.toLocaleString() || 0})
                   </span>
                 </div>
@@ -221,7 +221,7 @@ export function ProductComparisonGrid({
                   <div className="mb-2">
                     <div className="space-y-1">
                       {product.prosFromReviews.slice(0, 3).map((pro, idx) => (
-                        <div key={idx} className="flex items-start gap-1 text-[11px] text-gray-700 leading-snug">
+                        <div key={idx} className="flex items-start gap-1 text-[12px] text-gray-700 leading-snug">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-green-400" />
                           <span>{renderFormattedText(pro)}</span>
                         </div>
@@ -235,7 +235,7 @@ export function ProductComparisonGrid({
                   <div>
                     <div className="space-y-1">
                       {product.consFromReviews.slice(0, 2).map((con, idx) => (
-                        <div key={idx} className="flex items-start gap-1 text-[11px] text-gray-500 leading-snug">
+                        <div key={idx} className="flex items-start gap-1 text-[12px] text-gray-500 leading-snug">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-red-400" />
                           <span>{renderFormattedText(con)}</span>
                         </div>
@@ -245,7 +245,7 @@ export function ProductComparisonGrid({
                 )}
 
                 {(!product.prosFromReviews?.length && !product.consFromReviews?.length) && (
-                  <p className="text-[11px] text-gray-400">리뷰 분석 중</p>
+                  <p className="text-[12px] text-gray-400">리뷰 분석 중</p>
                 )}
               </div>
             ))}
@@ -259,7 +259,7 @@ export function ProductComparisonGrid({
               <div key={specKey}>
                 {/* 섹션 헤더 */}
                 <div className="px-4 pt-5 pb-1">
-                  <h4 className="text-[12px] font-bold text-gray-900">{specKey}</h4>
+                  <h4 className="text-[14px] font-bold text-gray-900">{specKey}</h4>
                 </div>
 
                 {/* 디바이더 - 스펙 키 아래에 - 전체 너비만큼 */}
@@ -278,7 +278,7 @@ export function ProductComparisonGrid({
                         className="shrink-0 px-2"
                         style={{ width: columnWidth }}
                       >
-                        <p className={`text-[12px] font-medium leading-snug ${isEmpty(value) ? 'text-gray-400' : 'text-gray-800'}`}>
+                        <p className={`text-[14px] font-medium leading-snug ${isEmpty(value) ? 'text-gray-400' : 'text-gray-800'}`}>
                           {isEmpty(value) ? '-' : value}
                         </p>
                       </div>
@@ -302,7 +302,7 @@ export function ProductComparisonGrid({
                 href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full py-2 bg-gray-800 hover:bg-gray-900 text-white text-[12px] font-bold rounded-md text-center transition-colors shadow-sm"
+                className="block w-full py-2 bg-gray-800 hover:bg-gray-900 text-white text-[14px] font-bold rounded-md text-center transition-colors shadow-sm"
               >
                 최저가 구매하기
               </a>

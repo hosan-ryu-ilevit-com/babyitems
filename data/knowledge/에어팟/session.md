@@ -1,5 +1,5 @@
-# 세션: 20260119_062440_125e
-> 시작: 2026-01-19T06:24:40.024Z
+# 세션: 20260119_115515_qp3l
+> 시작: 2026-01-19T11:55:15.551Z
 > 카테고리키: 에어팟
 > 카테고리: 에어팟
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 에어팟 시장 현황
-- 인사이트: 에어팟은 2016년 출시 이후 무선 이어폰 시장을 선도하며 세계적으로 가장 많이 팔린 제품 중 하나입니다. iPhone, iPad, Mac 등 애플 기기와의 뛰어난 호환성, 간편한 연결성, 안정적인 음질과 연결성, 세련된 디자인 등이 인기 요인으로 꼽힙니다. 꾸준한 기술 발전으로 노이즈 캔슬링, 공간 음향 등 혁신적인 기능을 선보이며 스마트 웨어러블 기기로 진화하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGcOQec49eBmZJMutrw9ZLYPb2jo08qT3Z4PiXXioCuPip9r3mKk1r3JbTp1dc7rHc4M-q095ftcHy_XUUvLXO_US8bIpSAlEvqz3LoHTcDDCSLZ8C46a9FumCX40Y56nh0cjFCDywG8lxTruqW9E_TEv0-rD7Ngj-MqV9UIcUQF47DwnSQrZeUxrUOEoUAk2LiilgirtE0uu6l-ksb-6IEUBbZQwPgTA03J0_xsTtpSmvAPyZDeHiutpM8Wu65-FKEGy7HaeHuk33TLoWwXHabMFo5kgfdAY81IZOrLn8WIqCkVuFo7weuNsNTlp4QTKOacwg-JvQCXCUTgu0SHlw4SOl9WAD1ice-epKtmF2Mdv3JiuAKRuHf4HxXTmGAsveREWuSVx3PaD94e3Nc2F0ijVEaSr8GYv3n9S5SG_cdZGugjLIFtkhQw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLYwXZJ05eEKaMMrOl9FgwbMwtP67i1KdN89RcV9vS3qa75t4QPTt2--YNy1Nw8QeZXtypldHKFWZmcvSIW-x3_XCgsTgcJzFkx_W2tZpNg91vyDNBeh8t8DrRv2W6rZ73dNqHp28GlHJrO14D9UdbpSUORxPu5rTzE20vvuBLpYeGuhdfmMN0yZ2rh06-ZclubpjFEv_pCcQtVxtc-tTUoYMANfPy4yibD7hN4iTm_zT-H5IEgR8imLKqn7Xk3_gGh0CM5kjmBBcZQjroBqvQaW_ik-jkRda2iIyc8LGiDX1CRwVmzjDfhN4erCfPYkuNOadut_9ujFnYjUIsvCuGU-6bhwdg27d1FM7W5YL3J9Di6DvMyvH1qvLe2c6L3jFKFSHVYiVK3UH_FaJdP0E3S9NcpKpcRY3KmQhIG5w1nsY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0d_gg5-KTrq2EOHLpIZFbiPRIpdCq804JH7QHX2tQsIvlAAb2QkuZbjppeRyi4PlsRR2AdDdw5B1pPWPRnueXn2qxEwpdIP7tpAmGWwCPS_6hm7SHZQ2FcRHhKIiqBeLun7UyoLyRm8f9Rze8, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESXiUk4NyTWMYl22DYyl6uRYGJba5fV8VjV9Ti4bbVDlG9YJ89E9LirtXLXTKrRS7FRfEITc4h999kxTRHd5gqQKubtTkhIMeaAySEO1V30Nnc-8lnzzm0zJgUBcDije_OUBFNhfZZCNiW73i67zjUpErwQcMyay1sx4R2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGV_2lTFv1fEqBCGExHqFVPPZ4pIozeGLV3KWnWgCFUP_CLz9gT0sA1BqilL3gqWomCaCmOry3chxPfrih1QVNqOAT4jzxP9vL6NnwXwM2m0LGTg147pR5hqFG11rZStNy7FqH-ZNaXeQG8ENqMPtBNWLhw-KREZn59IsB6ply2TuFpkDtlDZg6yJck2kN2MoNOYGxu3jD7hfcFu3f_MPIvAe1qu3PV4nNBiDuWQ_coCCbh3ZWZJoTosuGPHPozsGQRoxszfEjl7kfzDsWmV-Kf7JjdOFSLeV3vZcw5i9jIkRrZwjpYID9JRsPmv8FwWxjiJmwwH3Y5IsH-AaYU5GNFbnwtFvU1yB9Oqj9qTIfBj_AE20bOa2VfEpJUjccbtWpTTnp69jfMFxc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRiT2cYGa1g4_gNNYwb0tOTDJ51TgEiKI1jOkR0yciMBwpYG2w6I5mH2uqxqaYAxi2ykg_0-UeaOVSm7RzzpEyj95BtU0EgngjM-5Syeq2Erz_COwJOh1G766QAv_XFZwFU7WVTEBWnr45gzgHNERlZ5W6jlPE_hymkbDe, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESuM5n_T6NergthPG6NV3pTTGs93i7mdMuUAPuUZK-WdfNDA-vBn4YOBlQwdKPbY3FV4437oqjrY6eyVcaQXqF9uU8FEKRaEkLNda58crmvQaQWSgrEcFDJUzhTicrZO7aKxqHg1dfRLTBHnpu616sop-BJTQ2Rh6JATlhvSRQ8XNXRKb90nXRGpLvQECEhgtN8IeID2bkLHxMDaTLQSaiHOTwl-nvfOR7SSyKovTnNjwBcWCxJfuhCG8uBNabnV63wdxMX-ky0BNCRIM7Jl1a7fdGkCymSTQk_xoCZYBhRUfbFpDuP-xIGO4Mg-_M6W0DAJ1reZDH3-bE3ui6wwKkGpZqy-Qf0IpsKtklDv49e3wM6j5WC2oR8PThEQZ_hQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEttgGxKp2qEC-SKeNvHyJtD8P9E85YiesgF--w6y1pB1ViVd0-KfmKDMk9Jo-aUrf0J1bPumx5DpqZdXPL_2rs7QshHf-My5agsPSqIrBenQIm4cotq5yMWVx3SuFAiqta3Vnxqa8=
+- 인사이트: 에어팟은 2016년 출시 이후 무선 이어폰 시장을 선도하며 높은 점유율을 유지하고 있습니다. 특히 애플 기기와의 뛰어난 호환성, 간편한 연결성, 세련된 디자인 등이 인기 요인으로 꼽힙니다. 경쟁 심화 속에서도 꾸준한 기술 발전과 모델 라인업 다각화를 통해 시장 지배력을 이어가고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnABO6mLCMNazpK_mAd4ogNle1K8bEbj9Bgsif2hQuaBmqisk3ESMMBCUlYwp91rrSdwaDA9lcAtZv3d7rIIgfwNkhwmHxs1ErJ8mwZtmtB44Y27k0zCjfxCpgWGfmWmcVgTPg2J1t7pWb8UaZlNFbJhOArb9Gfk3JlctU, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnsE5vdbqc10-0VyqvO_DdD3aBdlrsk4lBy5vUpSEUo-nU8_cWMYHuWhfCQjTfJ9OajDZ7vU6ENSDLkt5wMP-9URqfltjhnsRJmbr3WlemnkzmzLXNPrQ_G4J7nHOv1uDBHmUD-EwHkZMONFiLr2W6o4sT18Y8Wz47HXfDxKkvAY5JjjS-5knp3Q8reBS-Dg6tZSyMQ6B6ht-0PGD-fdrFwfrviiQ573S0iL2poWtWBaHKw8vGQvO7IiBXEbmnFBVGAZ4zuXY52WW-gO49kFAPxrtc7ZE2AHm9Wy6n0DMgbZ_Z6CrYYVTxIOGuG7e_03N0LzJt7hizARo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpHcegYxBWPNsgibGUs8sBtnIV3BV7RPBwRwwtjwUSKB08eUgsXbjNHIcoBtehUWA7inmdsPoOMhYorwEG2JyHrq3lgAmM_O7vnLdpr181HR1gORpLCKGLr61eEA==
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 주변 소음을 차단하는 노이즈 캔슬링 기능이 얼마나 중요하신가요? | 액티브 노이즈 캔슬링 (최대한 차단) |
+| 귀에 착용하는 방식은 어떤 타입을 선호하시나요? | 커널형 (귀 안쪽 밀착), 오픈형 (귀에 가볍게 걸침), 상관없어요 |
+| 콘서트홀이나 영화관처럼 입체적인 사운드를 경험하고 싶으신가요? | 입체 음향 경험 (공간 음향) |
+| 충전 방식은 어떤 것을 선호하시나요? | 무선 충전, USB-C 타입 충전 |
+| 에어팟 구매 예산은 어느 정도로 생각하세요? (평균 약 24만원, 12만원~30만원대가 가장 많아요) | 12만원 ~ 30만원대 |
+| __avoid_negatives__ | 애플 기기가 아닌 다른 기기에서는 기능이 제한될까 봐 걱정돼요,땀이나 비에 젖었을 때 고장 날까 봐 운동할 때 사용하기 불편해요,애플 기기 외 다른 기기에서는 음질이 기대보다 떨어질까 봐 염려돼요 |
 
 ---
 
@@ -55,7 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 애플 기기가 아닌 다른 기기에서는 기능이 제한될까 봐 걱정돼요
+- 땀이나 비에 젖었을 때 고장 날까 봐 운동할 때 사용하기 불편해요
+- 애플 기기 외 다른 기기에서는 음질이 기대보다 떨어질까 봐 염려돼요
 
 ---
 
