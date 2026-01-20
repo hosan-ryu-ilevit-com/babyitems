@@ -344,7 +344,7 @@ async function generateFilterTags(
   // 3. 각 조건을 태그로 1:1 매핑 (기본 구조)
   const baseTags: FilterTag[] = expandedEntries.map(({ question, answer }, i) => ({
     id: `tag_${i + 1}`,
-    label: answer.slice(0, 20), // 임시 label (LLM이 덮어씀)
+    label: answer.slice(0, 50), // fallback label (LLM 실패 시 사용)
     category: 'feature' as const,
     keywords: [],
     priority: i + 1,
@@ -387,9 +387,9 @@ ${conditionList}
 
 2. **각 조건마다 1개 태그 생성** (조건 개수 = 태그 개수, 병합/생략 금지)
 
-3. label: 2~5단어 키워드 형태 (질문 맥락 + 답변 핵심 결합)
-   - 좋은 예: "저소음", "세척 편리", "대용량", "무선", "텐키리스", "3L 이상"
-   - 나쁜 예: "매우 중요", "필수", "중요함", "있으면 좋겠어요"
+3. label: 2~5단어, **최대 15자** 키워드 형태 (질문 맥락 + 답변 핵심 결합)
+   - 좋은 예: "저소음", "세척 편리", "대용량 3L+", "휴대성 중시"
+   - 나쁜 예: "매우 중요", "자주 이동할 예정이라 트렁크에 넣어야 해요" (너무 김)
 
 4. keywords: 리뷰/스펙 검색용 동의어 2~4개
 5. category: usage(용도), spec(스펙), feature(기능)
@@ -1100,20 +1100,26 @@ async function evaluateAllCandidatesWithLLM(
 ## 리뷰 샘플 (${sampledReviews.length}개)
 ${sampledReviews.join('\n')}
 
-## 사용자 조건
+## 사용자가 원하는 조건 (필수 충족)
 ${userConditions}
+${priorities !== '없음' ? `\n⭐ 특히 중요: ${priorities}` : ''}
 
-## 우선순위: ${priorities}
-## 피할 단점: ${avoidList}
+## 피해야 할 단점 (회피 필수)
+${avoidList !== '없음' ? avoidList.split(', ').map(item => `- ${item}`).join('\n') : '없음'}
 
-## 평가 기준
-1. 사용자 조건 충족도 (40점)
-2. 피할 단점 회피 여부 (30점) - 리뷰에서 해당 단점이 언급되지 않거나, "없다/좋다"로 언급되면 높은 점수
-3. 리뷰 평점/품질 (20점)
-4. 가성비 (10점)
+## 평가 방법
+1. **조건 충족도 (60점)**: 사용자 조건을 이 제품이 얼마나 만족하는가?
+   - 스펙에서 직접 확인되는 기능/수치가 있는가?
+   - 리뷰에서 해당 조건에 대해 긍정적으로 언급하는가?
+   - "특히 중요" 항목은 가중치 높게 평가
+
+2. **단점 회피 (40점)**: 피해야 할 단점이 이 제품에 있는가?
+   - 리뷰에서 해당 단점이 언급되는 빈도와 심각도
+   - "~없다", "~좋다", "~만족" 등 긍정 표현은 회피 성공으로 판단
+   - 저평점(1-2점) 리뷰에서 반복 언급되면 감점
 
 ## 응답 (JSON만)
-{"score":0~100,"avoidanceScore":0~100,"reason":"15자 이내"}`;
+{"score":0~100,"avoidanceScore":0~100,"reason":"15자 이내 핵심 판단"}`;
 
     try {
       const result = await model.generateContent(prompt);
