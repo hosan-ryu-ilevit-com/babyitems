@@ -1013,7 +1013,7 @@ ${productInfos}
 // 🆕 120개 병렬 LLM 평가
 // ============================================================================
 
-const PARALLEL_EVAL_MODEL = 'gemini-3-flash-preview'; // 🧪 테스트: 3.0으로 정확도 비교
+const PARALLEL_EVAL_MODEL = 'gemini-2.5-flash-lite'; // 비용 효율 + 속도
 const REVIEWS_PER_PRODUCT = 50; // 제품당 리뷰 샘플 수
 const PARALLEL_BATCH_SIZE = 120; // 🧪 테스트: 전체 동시 요청
 

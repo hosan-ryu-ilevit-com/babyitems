@@ -1,15 +1,28 @@
 # 놀이방매트 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T03:25:30.083Z
-> 분석 상품: 20개 | 분석 리뷰: 9,355개
+> 마지막 업데이트: 2026-01-20T08:14:50.308Z
+> 분석 상품: 20개 | 분석 리뷰: 4,628개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 디자인 및 친환경성 강화
+- 시공 매트 및 롤 매트 등 다양한 형태의 제품 출시
+- 스마트 및 인터랙티브 기능 탑재
 
 ### 구매자 만족 포인트
+- ✓ 안전성 (넘어짐 방지, 충격 흡수)
+- ✓ 층간소음 완화
+- ✓ 바닥 보호
+- ✓ 뛰어난 복원력 및 내구성 (PVC 소재)
+- ✓ 청소 및 관리 용이성
 
 ### 주의해야 할 단점
+- ⚠ 높은 가격대
+- ⚠ 틈새 청소의 어려움 (폴더 매트)
+- ⚠ 바닥 변색 및 곰팡이 발생 가능성 (환기 부족 시)
+- ⚠ 무게로 인한 이동의 어려움 (일부 제품)
+- ⚠ 층간소음 완화 효과의 한계 (무거운 충격음)
 
 ### 가격대 인사이트
 
@@ -18,17 +31,37 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 아소방 아소방 프라임 안심 롤매트 110x100x2.7cm
-- **브랜드**: 아소방
-- **가격**: 51,920원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 단면 / 롤매트 / 110x100cm / 두께: 2.7cm / 특징: 엠보싱, 생활방수, 항균탈취, 층간소음완화 측정 / 색상: 오슬로러그,러그헤링본 / 재질: 폴리염화비닐(PVC), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리염화비닐(PVC), 폴리에틸렌(PE)
+### 1. 제이월드산업 알집매트 린넨 롤매트 300x110x2.2cm
+- **브랜드**: 제이월드산업
+- **가격**: 133,670원
+- **평점**: ⭐4.6 (9개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 롤매트 / 300x110cm / 두께: 2.2cm / 특징: 엠보싱, 생활방수, 항균탈취 / 쿠션: 11중구조 / 색상: 린넨그레이,린넨베이지 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25300625)
+- [상세보기](https://prod.danawa.com/info/?pcode=21388193)
 
-### 2. 크림하우스 셀프시공 매직 퍼즐매트
+### 2. 민화샵 MDF 다용도 만년달력 만들기 MDF 다용도 만년달력 만들기 S2301200 MDF 다용도 만년달력 만들기 S2301200
+- **브랜드**: 민화샵
+- **가격**: 3,200원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 완구 / 블록 / 매트 / 음악 / 미술놀이 완구 / 미술놀이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=95131865)
+
+### 3. 베일리바오 아기 머리 보호대 아이보리 1개
+- **브랜드**: 베일리바오
+- **가격**: 22,300원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 완구 / 블록 / 매트 / 놀이방매트 / 베이비룸 / 안전용품 완구 / 안전용품
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=25187291)
+
+### 4. 크림하우스 셀프시공 매직 퍼즐매트
 - **브랜드**: 크림하우스
 - **가격**: 16,500원
 - **평점**: ⭐5 (7개 리뷰)
@@ -38,7 +71,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=25176749)
 
-### 3. 파크론 우리가족 다용도 놀이방 매트 2p 해피 테라조 200 140 1 cm
+### 5. 제이월드산업 알집매트 모던 거실매트 L 240x140x1.2cm
+- **브랜드**: 제이월드산업
+- **가격**: 108,090원
+- **평점**: ⭐4.8 (83개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 양면 / 240x140cm / 두께: 1.2cm / 특징: 엠보싱, 생활방수 / 쿠션: 9중구조 / 재질: 폴리염화비닐(PVC) 놀이방매트 / 재질: 폴리염화비닐(PVC)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21407264)
+
+### 6. 파크론 우리가족 다용도 놀이방 매트 2p 해피 테라조 200 140 1 cm
 - **브랜드**: 파크론
 - **가격**: 58,900원
 - **평점**: ⭐0 (0개 리뷰)
@@ -48,49 +91,19 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=45328067)
 
-### 4. 파크론 파크론 베어베베 논슬립 클린 항균 폴더매트 140x200x4cm
-- **브랜드**: 파크론
-- **가격**: 119,200원
-- **평점**: ⭐4.5 (2개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 폴더형 / 200x140cm / 두께: 4cm / 특징: 생활방수, 히든지퍼, 항균탈취, 층간소음완화 측정, 논슬립 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=78619856)
-
-### 5. 파크론 파크론 라퓨어 소프트 놀이방매트 올리브테라조 250x140x1.5cm
-- **브랜드**: 파크론
-- **가격**: 175,200원
+### 7. 아가드 일반형 모서리보호대 2M 아이보리 4개
+- **브랜드**: 아가드
+- **가격**: 15,600원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 250x140cm / 두께: 1.5cm / 특징: 생활방수, 층간소음완화 측정 / 쿠션: 8중구조 / 재질: 폴리염화비닐(PVC) 놀이방매트 / 재질: 폴리염화비닐(PVC)
+- **핵심 스펙**: 완구 / 블록 / 매트 / 놀이방매트 / 베이비룸 / 안전용품 완구 / 안전용품
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=78540497)
-
-### 6. 제이월드산업 알집매트 더블제로매트 320x280x4cm
-- **브랜드**: 제이월드산업
-- **가격**: 460,520원
-- **평점**: ⭐4.9 (3,964개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 폴더형 / 320x280cm / 두께: 4cm / 특징: 생활방수, 커버분리, 히든지퍼, 항균탈취, 층간소음완화 측정 / 쿠션: 9중구조 / 색상: 바닐라밀키,샌드베이지,로즈베이지,어반밀크,어반문그레이 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21356624)
-
-### 7. 영실업 쓱 콩순이 밀고가면 노래하는 콩순이 유모차
-- **브랜드**: 영실업
-- **가격**: 52,700원
-- **평점**: ⭐4.8 (10개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 기타 역할놀이 / 역할놀이 완구 / 역할놀이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=42729164)
+- [상세보기](https://prod.danawa.com/info/?pcode=32853947)
 
 ### 8. 파크론 파크론 라퓨어 소프트 놀이방매트 더블헤링본 210x140x1.5cm
 - **브랜드**: 파크론
-- **가격**: 143,200원
+- **가격**: 133,170원
 - **평점**: ⭐4.8 (302개 리뷰)
 - **핵심 스펙**: 놀이방매트 / 양면 / 210x140cm / 두께: 1.5cm / 특징: 엠보싱, 생활방수, 층간소음완화 측정 / 쿠션: 8중구조 / 재질: 폴리염화비닐(PVC) 놀이방매트 / 재질: 폴리염화비닐(PVC)
 - **장점 요약**: 분석 중
@@ -98,67 +111,57 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21311885)
 
-### 9. 크라크라 이지클린 5단 이지클린매트 190x120x4cm
-- **브랜드**: 크라크라
-- **가격**: 85,010원
+### 9. 파크론 파크론 BIG 베어베베 논슬립 PU 항균 폴더매트 복도형 110x300x4cm
+- **브랜드**: 파크론
+- **가격**: 134,860원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 폴더형 / 190x120cm / 두께: 4cm / 특징: 항균탈취 / 색상: 코지크림,웜그레이 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE)
+- **핵심 스펙**: 놀이방매트 / 양면 / 300x110cm / 두께: 4cm / 특징: 생활방수, 히든지퍼, 논슬립 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=32081480)
+- [상세보기](https://prod.danawa.com/info/?pcode=78619637)
 
-### 10. 아가드 유아 안전문 확장패널 45cm 아이보리
+### 10. 파크론 파크론 베어베베 논슬립 클린 항균 폴더매트 110x200x4cm
+- **브랜드**: 파크론
+- **가격**: 116,100원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 양면 / 폴더형 / 200x110cm / 두께: 4cm / 특징: 생활방수, 히든지퍼, 항균탈취, 층간소음완화 측정, 논슬립 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=78619889)
+
+### 11. 아가드 모서리보호대 초슬림 2m 아이보리 2개
 - **브랜드**: 아가드
-- **가격**: 24,900원
+- **가격**: 11,800원
 - **평점**: ⭐0 (0개 리뷰)
 - **핵심 스펙**: 완구 / 블록 / 매트 / 놀이방매트 / 베이비룸 / 안전용품 완구 / 안전용품
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29990870)
+- [상세보기](https://prod.danawa.com/info/?pcode=31274561)
 
-### 11. 이케아 DUKTIG 둑티그 장난감계산대 602.565.02
-- **브랜드**: 이케아
-- **가격**: 22,820원
-- **평점**: ⭐0 (0개 리뷰)
+### 12. 소브 베리2단폴더매트 200x140x4cm 놀이방 층간소음 유아 아기 복도 거실 매트
+- **브랜드**: 소브
+- **가격**: 84,123원
+- **평점**: ⭐5 (3개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 베이비룸 / 완구 / 블록 / 매트 놀이방매트 / 매트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=25094132)
+
+### 13. 옥스포드 JG3625 짱구는못말려 짱구네집 짱구집 블럭
+- **브랜드**: 옥스포드
+- **가격**: 89,890원
+- **평점**: ⭐4.9 (36개 리뷰)
 - **핵심 스펙**: 완구 / 블록 / 매트 / 역할놀이 / 주방놀이 완구 / 주방놀이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93451112)
+- [상세보기](https://prod.danawa.com/info/?pcode=77532809)
 
-### 12. 제이월드산업 알집매트 더블제로매트 280x200x4cm
-- **브랜드**: 제이월드산업
-- **가격**: 297,840원
-- **평점**: ⭐4.7 (4,104개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 폴더형 / 280x200cm / 두께: 4cm / 특징: 생활방수, 커버분리, 히든지퍼, 항균탈취, 층간소음완화 측정 / 쿠션: 9중구조 / 색상: 바닐라밀키,샌드베이지,로즈베이지,어반밀크,어반문그레이 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21668369)
-
-### 13. 제이월드산업 알집매트 제로매트 280x140x4cm
-- **브랜드**: 제이월드산업
-- **가격**: 183,380원
-- **평점**: ⭐4.6 (443개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 280x140cm / 두께: 4cm / 특징: 생활방수, 커버분리, 히든지퍼, 항균탈취, 층간소음완화 측정 / 쿠션: 9중구조, 알집구조 / 색상: 어반밀크,어반문그레이,샌드베이지,바닐라밀키 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21336215)
-
-### 14. 제이월드산업 알집매트 린넨 롤매트 200x140x2.2cm
-- **브랜드**: 제이월드산업
-- **가격**: 72,550원
-- **평점**: ⭐4.5 (12개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 롤매트 / 200x140cm / 두께: 2.2cm / 특징: 엠보싱, 생활방수, 항균탈취 / 쿠션: 11중구조 / 색상: 린넨그레이,린넨베이지 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21390878)
-
-### 15. 본베베 2단 자이언트 매트 일반 280x240x4cm
+### 14. 본베베 2단 자이언트 매트 일반 280x240x4cm
 - **브랜드**: 본베베
 - **가격**: 258,900원
 - **평점**: ⭐0 (0개 리뷰)
@@ -168,55 +171,65 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=92973050)
 
-### 16. 파크론 파크론 베어베베 논슬립 클린 항균 폴더매트 110x200x4cm
-- **브랜드**: 파크론
-- **가격**: 103,200원
-- **평점**: ⭐5 (3개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 폴더형 / 200x110cm / 두께: 4cm / 특징: 생활방수, 히든지퍼, 항균탈취, 층간소음완화 측정, 논슬립 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=78619841)
-
-### 17. 제이월드산업 알집매트 복도 제로매트 400x120x4cm
+### 15. 제이월드산업 알집매트 더블제로매트 280x200x4cm
 - **브랜드**: 제이월드산업
-- **가격**: 266,320원
-- **평점**: ⭐4.9 (41개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 400x120cm / 두께: 4cm / 특징: 생활방수, 커버분리, 히든지퍼, 항균탈취, 층간소음완화 측정 / 쿠션: 9중구조, 알집구조 / 색상: 바닐라밀키,샌드베이지 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE)
+- **가격**: 291,570원
+- **평점**: ⭐4.7 (4,105개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 양면 / 폴더형 / 280x200cm / 두께: 4cm / 특징: 생활방수, 커버분리, 히든지퍼, 항균탈취, 층간소음완화 측정 / 쿠션: 9중구조 / 색상: 바닐라밀키,샌드베이지,로즈베이지,어반밀크,어반문그레이 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21408053)
+- [상세보기](https://prod.danawa.com/info/?pcode=21668369)
 
-### 18. 파크론 파크론 BIG 베어베베 논슬립 PU 항균 폴더매트 거실형 280x300x4cm
-- **브랜드**: 파크론
-- **가격**: 321,160원
+### 16. 제이월드산업 알집매트 린넨 롤매트 200x110x2.2cm
+- **브랜드**: 제이월드산업
+- **가격**: 77,900원
+- **평점**: ⭐4.5 (8개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 롤매트 / 200x110cm / 두께: 2.2cm / 특징: 엠보싱, 생활방수, 항균탈취 / 쿠션: 11중구조 / 색상: 린넨그레이,린넨베이지 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21390899)
+
+### 17. 제이월드산업 알집매트 모던 롤매트 300x110x2.2cm
+- **브랜드**: 제이월드산업
+- **가격**: 120,380원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 양면 / 300x280cm / 두께: 4cm / 특징: 생활방수, 히든지퍼, 논슬립 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE)
+- **핵심 스펙**: 놀이방매트 / 롤매트 / 300x110cm / 두께: 2.2cm / 특징: 엠보싱, 생활방수 / 쿠션: 11중구조 / 색상: 바닐라밀크,코지코튼,니트그레이 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=78619715)
+- [상세보기](https://prod.danawa.com/info/?pcode=78184622)
 
-### 19. 카라즈 카라즈 시크릿 4단 폴더 놀이방매트 200x140x4cm
-- **브랜드**: 카라즈
-- **가격**: 138,720원
-- **평점**: ⭐4.7 (455개 리뷰)
-- **핵심 스펙**: 놀이방매트 / 폴더형 / 200x140cm / 두께: 4cm / 특징: 생활방수, 히든지퍼 / 쿠션: 8중구조 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리우레탄(PU), 폴리에틸렌(PE)
+### 18. 제이월드산업 알집매트 트리플 제로매트 420x240x4cm
+- **브랜드**: 제이월드산업
+- **가격**: 501,780원
+- **평점**: ⭐4.9 (57개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 양면 / 420x240cm / 두께: 4cm / 특징: 생활방수, 커버분리, 히든지퍼, 항균탈취, 층간소음완화 측정 / 쿠션: 9중구조, 알집구조 / 색상: 어반밀크,바닐라밀키,바닐라밀크 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리에스테르, 폴리우레탄(PU), 폴리에틸렌(PE)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21251867)
+- [상세보기](https://prod.danawa.com/info/?pcode=21419129)
 
-### 20. 아이손 교체용 강화도어손보호대 유리문 손끼임방지 알루미늄 일체형 손보호대
-- **브랜드**: 아이손
-- **가격**: 6,960원
-- **평점**: ⭐4.8 (10개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 놀이방매트 / 베이비룸 / 안전용품 완구 / 안전용품
+### 19. 티지오 우다다 PVC 롤매트 110x50x2cm
+- **브랜드**: 티지오
+- **가격**: 19,520원
+- **평점**: ⭐4.5 (2개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 단면 / 롤매트 / 110x50cm / 두께: 2cm / 특징: 생활방수 / 쿠션: 2중구조 / 재질: 폴리염화비닐(PVC) 놀이방매트 / 재질: 폴리염화비닐(PVC)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=27706121)
+- [상세보기](https://prod.danawa.com/info/?pcode=21408866)
+
+### 20. 제이월드산업 알집매트 린넨 롤매트 400x110x2.2cm
+- **브랜드**: 제이월드산업
+- **가격**: 120,650원
+- **평점**: ⭐4.6 (15개 리뷰)
+- **핵심 스펙**: 놀이방매트 / 롤매트 / 400x110cm / 두께: 2.2cm / 특징: 엠보싱, 생활방수, 항균탈취 / 쿠션: 11중구조 / 색상: 린넨그레이,린넨베이지 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE) 놀이방매트 / 재질: 폴리염화비닐(PVC), LDPE필름, 폴리에틸렌(PE)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21388091)
 
 ---
 
@@ -231,8 +244,9 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyy3-libUui65sx_CGNw9IaBS6AbBfZjurMqbHGliQ5z1egGrEc6yc0YmGviHG_rufw1ZrV2fum9IZ3rKH6B8JOraeVV_hLKXytWKLv3dOqSKISArdretAOG7paehzUyiYepO2TgPQXvlKF9Jal3Oe0qaumPc0jpSYKbOYHDmI)
-- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqMdEzAhF1zuwmyeOBVPYQELxUbSAM0CxHNLRqiAaP5mnLRn86UzglsjV2i1StgCKaQkzfYC2PrJ3bRzYbqhUE0jGSG_s4Qx2ejFmP9goWLv1bxo85Kk1ixxKsltPShRo6H-RR6yxk-FTXa3AThy1NDNMAaC4JULmtdNttyN69_C7GTzeal5SCRLXMGZGk)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVdBTCbcEPS0t3EzA4iLMyyiMCqdOSuFuovGpyfM_31j00qX2Me1Xo6XEQW0mxHcK3xady9M25209nbQv8VK9iwaAWEZ9eL1NXxi1OIECrG--enBdLYlwl9PFRghIRrU1-QKUjHcjOqLypmJjXXNI1K-ssI9UJLw==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmWMQtq1Qtb02b8NHHSW_v0iZ_wSBPUGJWVE1VsReNsSy7ulbRBNYIqvlAYkVJLEd6HhSebjkxG0FuTAP1gSMYKdDbxQ0mhYdspJ-HiT7focxgp0ldC5JtIEmMBzuvCXoQCGtbLaw=)
-- [enuri.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZMnYFjROq77MqVZusXJaVOcZOvxzOeeXOE-k6XXMCaI115Fu3Qo6EmaTuowFKSSz5-dmjIx1a7PWihcHVY-Q6Jp2yVv-KXfZCRyYQ47FSzLd3BwjUs_s_lbGSs36V6k-dmW2o69haMO9EwAktc94=)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsXswuySh1PTEZA175ErPovRFE9bpoRyOqa3dyUwZa3UD0-8R11lzBR7tdkCHk3jZmy8uNK3BzIwrOUDm4fFubGUlMyq9tqpxaXBjQhnDcVg7a3RPE6-Ma-kn93tqrW9YK8yFFKMksEZnxCwdtyOcEur95b_zQMsCLjR324WV_JQ==)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEkD73VoH35wlDuv2cHCLiP-GrmJvGSTxlfnwyOe7DD_U11clMPVwXmVsoOFsJYVT5x6GITsZ6MnBhmE_4VF6VSZcsAHOR4tnbktpLe4lbRShbqBmTyazkakZzxp0DBH8O0tnONcFp6QmZ4XjNSBsetEbTYW3eIkEvCRS0nlW1Jg==)
+- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGy_6mIqp3z8ZlIwMCtw4iQcb4IfTQ2ExIvOJkPwmQHQgPLhmVt_k8FvIUZNZKVIV19HAM4hAVu0WSMS8aVZoSkl2LqqnRHgTicb_12THeUNBXbWbZavbpRvWNQCCg4ePqEsK3RoE9Hl_eiiqeXJVipndnuiUPdzqK50LtAsTUbp6Tmyw==)
+- [beddingbebe.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6SHVKHIJ1hrFnK77VKajvyP9tzJH62cuVpIvVpUJejujhAxUCWJu7MCscZuQJqVPNtFVKDYI3HO6sxbHLqUdyclJQ9qIOHh3DsaQaKu45C1lb8hiynvp__vW5eOrJWV1dsWIz81N1CjDafz2br4fPzzUX4vJxA15coZG2tKwxKysio9jL4jeN7FuyCe1cBx7orNW-Cf4UfMHALBEXBuS0F5hiuXvSn_ZN9hGdHzo89oAeoY8rzwX0fwLhVlt93eoCquNwqGQi9hOzow5lt8TepnqgwbUrx4M6Q3vmTw7WTB9UK-Ec6WhUhYXJrhwrpvcZv0n6NHowhJB1i0AQCyttPrAi1pZIPI5qdGCkqdkxit0FvbLZVjPReg==)
+- [momschool.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6x6wDN1SlTI0gJC2d5UvD_8NqXbc6JH2uRYWjC67Q5t-epmTObdzOEWlOH1Bgt13vGsZ9gquM5RP893n6o9LD6WAGX97xA6yk_e_CFmEpIN6acLZd8jtU1sOaPHXZIzed4w0oXAjGjJ-aU514BSIWvr5FCv01c-bsaw4-nYgmvoI=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEjXEHDAQpGqTNPxwBJuAolZPqPewQKUFf8629vegwNrUQxUewSkxBxCTrmRfjs8T-2nfK2wsE-4LKM7j_nlBQ30Uk17VW4LWdUiN9mlvwidiJOmUqZTYn0Pqmr9K4WkgyitldJCy6-Kp1bRZ4ag0XVkii9Sf0ScTfYK3TJpXahYJ-)
