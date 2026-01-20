@@ -4620,9 +4620,10 @@ function MessageBubble({
                     const title = product.name || product.title || '';
                     // 원래 추천 순위 유지 (재정렬되어도 변하지 않음)
                     const originalRank = (message.resultProducts || []).findIndex((p: any) => (p.pcode || p.id) === (product.pcode || product.id)) + 1;
+                   // pricesData 캐시 우선 사용 (PDP와 동일한 가격)
+                   const cachedPrice = pricesData?.[product.pcode || product.id];
                    const danawaPrice = product.danawaPrice;
-                   const hasLowestPrice = danawaPrice && danawaPrice.lowest_price && danawaPrice.lowest_price > 0;
-                   const price = hasLowestPrice ? danawaPrice!.lowest_price! : product.price;
+                   const price = cachedPrice?.lowestPrice || (danawaPrice?.lowest_price && danawaPrice.lowest_price > 0 ? danawaPrice.lowest_price : product.price);
                    const rating = product.rating || product.averageRating || 0;
                    const reviewCount = product.reviewCount || 0;
                    const reviewOneLiner = product.oneLiner || '';
