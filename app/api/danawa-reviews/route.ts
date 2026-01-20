@@ -55,7 +55,44 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // 1. 먼저 다나와에서 리뷰 조회
+    // 0. 먼저 knowledge_reviews_cache에서 리뷰 조회 (Knowledge Agent 캐시)
+    const { data: knowledgeReviews, error: knowledgeError } = await supabase
+      .from('knowledge_reviews_cache')
+      .select('*')
+      .eq('pcode', pcode)
+      .order('review_date', { ascending: false, nullsFirst: false })
+      .range(offset, offset + limit - 1);
+
+    if (!knowledgeError && knowledgeReviews && knowledgeReviews.length > 0) {
+      // knowledge_reviews_cache 형식을 DanawaReview 형식으로 변환
+      const convertedReviews: DanawaReview[] = knowledgeReviews.map((review, index) => ({
+        id: review.id || index,
+        pcode: review.pcode,
+        rating: review.rating,
+        content: review.content,
+        author: review.author,
+        review_date: review.review_date,
+        mall_name: review.mall_name,
+        images: (review.image_urls || []).map((url: string) => ({ thumbnail: url, original: url })),
+        helpful_count: 0,
+        crawled_at: review.cached_at,
+      }));
+
+      // 평균 별점 계산
+      const avgRating = convertedReviews.reduce((sum, r) => sum + r.rating, 0) / convertedReviews.length;
+
+      const response: DanawaReviewsResponse = {
+        success: true,
+        pcode,
+        reviewCount: convertedReviews.length,
+        averageRating: Math.round(avgRating * 10) / 10,
+        reviews: convertedReviews,
+        dataSource: 'danawa', // knowledge cache지만 다나와 형식으로 반환
+      };
+      return NextResponse.json(response);
+    }
+
+    // 1. knowledge_reviews_cache에 없으면 다나와에서 리뷰 조회
     const { data: danawaProduct } = await supabase
       .from('danawa_products')
       .select('review_count, average_rating')
