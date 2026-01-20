@@ -311,7 +311,6 @@ interface ChatMessage {
   isFinalized?: boolean;      // 선택 완료 여부 (지나간 질문)
   typing?: boolean;
   dataSource?: string;
-  tip?: string;  // 💡 팁 (reason) - 별도 표시
   searchContext?: { query: string; insight: string };  // 검색 컨텍스트 결과
   timestamp: number;
   // 질문 진행도 표시용
@@ -733,51 +732,6 @@ function ReportToggle({
   );
 }
 
-// ============================================================================
-// Tip Toggle Component (팁 토글)
-// ============================================================================
-function TipToggle({ tip }: { tip: string }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4 }}
-    >
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center gap-1 text-[13px] text-gray-500 hover:text-gray-700 transition-colors py-1"
-      >
-        <Image src="/icons/mdi_lightbulb.png" alt="" width={16} height={16} />
-        <span className="font-medium">
-          {isExpanded ? '팁 접기' : '팁 펼치기'}
-        </span>
-        {isExpanded ? (
-          <CaretUp size={14} weight="bold" />
-        ) : (
-          <CaretDown size={14} weight="bold" />
-        )}
-      </button>
-
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <div className="bg-gray-50 border border-gray-100 rounded-[12px] px-4 py-3.5 mt-2">
-              <p className="text-[13px] text-gray-600 leading-[1.5] font-medium">{tip.replace(/^[💡\s]+/, '')}</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
 
 // ============================================================================
 // Auto Scroll Hook - 새 메시지를 화면 상단(헤더 아래)에 위치시키는 스크롤
@@ -947,7 +901,6 @@ export default function KnowledgeAgentPage() {
       popularOptions: popularOpts.length > 0 ? popularOpts : undefined,
       questionProgress: { current: 1, total },
       dataSource: firstQuestion.dataSource,
-      tip: firstQuestion.reason,
       typing: true,
       timestamp: Date.now()
     }]);
@@ -3291,7 +3244,6 @@ export default function KnowledgeAgentPage() {
               popularOptions: prefetchedPopular && prefetchedPopular.length > 0 ? prefetchedPopular : undefined,
               questionProgress: data.progress,
               dataSource: data.dataSource,
-              tip: data.tip,
               searchContext: data.searchContext || null,
               typing: true,
               timestamp: Date.now()
@@ -3310,7 +3262,6 @@ export default function KnowledgeAgentPage() {
             options: [], // 옵션은 로드 후 추가
             questionProgress: data.progress,
             dataSource: data.dataSource,
-            tip: data.tip,
             searchContext: data.searchContext || null,
             typing: true,
             isLoadingOptions: true, // 옵션 로딩 중 플래그
@@ -3389,7 +3340,6 @@ export default function KnowledgeAgentPage() {
             popularOptions: data.popularOptions,
             questionProgress: data.progress,
             dataSource: data.dataSource,
-            tip: data.tip,
             searchContext: data.searchContext || null,
             typing: true,
             timestamp: Date.now()
@@ -4416,11 +4366,6 @@ function MessageBubble({
         ) : null}
 
         {!isUser && message.reportData && <ReportToggle reportData={message.reportData} />}
-
-        {!isUser && message.tip && (
-          <TipToggle tip={message.tip} />
-        )}
-
 
         {!isUser && message.options && message.options.length > 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: isInactive ? 0.5 : 1 }} transition={{ delay: 0.5 }} className="space-y-2 pt-2">

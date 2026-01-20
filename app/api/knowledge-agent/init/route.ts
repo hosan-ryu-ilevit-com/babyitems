@@ -66,7 +66,6 @@ interface TrendAnalysis {
 interface QuestionTodo {
   id: string;
   question: string;
-  reason: string;
   options: Array<{ value: string; label: string; description?: string; isPopular?: boolean }>;
   type: 'single' | 'multi';
   priority: number;
@@ -959,7 +958,6 @@ async function generateBudgetQuestion(
     return {
       id: 'budget',
       question: defaultQuestionText,
-      reason: '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
       options: optionsWithSkip,
       type: 'single',
       priority: 99,
@@ -995,16 +993,12 @@ async function generateBudgetQuestion(
 
 ### 2. 가격 표기 방식 (중요!)
 가격대에 따라 자연스러운 단위 선택:
-- **평균가 1만원 미만:** 천원 단위 (예: "5천원 이하", "8천원대", "1만 2천원")  
+- **평균가 1만원 미만:** 천원 단위 (예: "5천원 이하", "8천원대", "1만 2천원")
 - **평균가 1~5만원:** 천원/만원 혼용 (예: "1만 5천원 이하", "3만원대")
 - **평균가 5만원 이상:** 만원 단위 (예: "30만원 이하", "50만원대")
 - 절대 "37만10천원" 같은 어색한 표현 금지! 자연스럽게!
 
-### 3. reason (팁)
-- 💡 이모지로 시작
-- 이 카테고리에서 가격대별로 어떤 기능/품질 차이가 있는지 구체적으로 설명
-
-### 4. options (3개)
+### 3. options (3개)
 - entry: 가성비 라인
 - mid: 평균/인기 가격대
 - premium: 프리미엄 라인
@@ -1014,7 +1008,6 @@ async function generateBudgetQuestion(
 ## 출력 JSON 형식
 {
   "question": "예산은 어느 정도로 생각하세요? (평균 OO원, XX~YY가 가장 많아요)",
-  "reason": "💡 가격대별 차이점 설명",
   "options": [
     {"value": "entry", "label": "자연스러운 가격 표현", "description": "특징"},
     {"value": "mid", "label": "자연스러운 가격 표현", "description": "특징", "isPopular": true},
@@ -1031,7 +1024,6 @@ JSON만 출력하세요:`;
     if (jsonMatch) {
       const parsed = JSON.parse(jsonMatch[0]) as {
         question?: string;
-        reason: string;
         options: Array<{ value: string; label: string; description: string; isPopular?: boolean }>
       };
       
@@ -1045,7 +1037,6 @@ JSON만 출력하세요:`;
         return {
           id: 'budget',
           question: parsed.question || defaultQuestionText,
-          reason: parsed.reason || '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
           options: optionsWithSkip,
           type: 'single',
           priority: 99,
@@ -1066,7 +1057,6 @@ JSON만 출력하세요:`;
   return {
     id: 'budget',
     question: defaultQuestionText,
-    reason: '💡 가격대별로 기능과 품질 차이가 있어요. 예산에 맞는 최적의 제품을 추천해드릴게요.',
     options: fallbackWithSkip,
     type: 'single',
     priority: 99,
@@ -1086,7 +1076,6 @@ function generateAvoidNegativesQuestion(): QuestionTodo {
   return {
     id: 'avoid_negatives',
     question: '혹시 꼭 피하고 싶은 단점이 있으신가요?',
-    reason: '💡 선택하신 단점이 있는 상품은 추천에서 제외하거나 순위를 낮출게요.',
     options: [],  // 빈 배열 - 런타임에 동적으로 채워짐
     type: 'multi',
     priority: 100,
@@ -1382,7 +1371,6 @@ async function generateQuestions(
   {
     "id": "unique_key_name",
     "question": "질문은 대화하듯 자연스럽게 (예: 어떤 용도로 주로 쓰시나요?)",
-    "reason": "💡 이 질문을 하는 이유와 팁 (트렌드 데이터를 기반으로 작성. 예: 신생아라면 00기능이 필수예요)",
     "options": [
       {"value": "option_val_1", "label": "사용자 친화적 라벨", "description": "해당 옵션의 특징이나 적합한 대상 요약", "isPopular": true},
       {"value": "option_val_2", "label": "...", "description": "..."}
@@ -1590,26 +1578,20 @@ function getDefaultQuestions(
 
     // 질문 텍스트 생성
     let questionText = '';
-    let reasonText = '';
 
     if (spec.key === '단계' || spec.key.includes('단계')) {
       questionText = '현재 어느 단계를 찾으시나요?';
-      reasonText = `💡 단계에 따라 기능이나 사이즈가 달라집니다. 본인 상황에 맞춰 선택해주세요.`;
     } else if (spec.key === '형태' || spec.key === '타입') {
       questionText = `${categoryName} 형태는 어떤 것을 선호하시나요?`;
-      reasonText = `💡 형태에 따라 사용 편의성과 특징이 달라져요.`;
     } else if (spec.key.includes('무게') || spec.key.includes('권장')) {
       questionText = '어느 정도의 무게/하중 범위를 찾으시나요?';
-      reasonText = `💡 권장 무게에 맞는 제품을 선택해야 안전하고 편리합니다.`;
     } else {
       questionText = `${spec.key}은(는) 어떤 것을 원하시나요?`;
-      reasonText = `💡 ${spec.key}에 따라 제품 특성이 달라집니다. ${products.length}개 상품 분석 결과입니다.`;
     }
 
     questions.push({
       id: `spec_${spec.key.replace(/\s/g, '_')}_${idx}`,
       question: questionText,
-      reason: reasonText,
       options: topOptions.map(([value, count]) => ({
         value: value.toLowerCase().replace(/\s/g, '_'),
         label: value,

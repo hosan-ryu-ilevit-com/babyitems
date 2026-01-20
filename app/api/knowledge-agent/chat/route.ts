@@ -410,7 +410,6 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
     let transitionText = '';
     if (ai && userMessage) {
       try {
-        const categoryName = loadShortTermMemory(categoryKey)?.categoryName || categoryKey;
         const completedQuestion = updatedTodos.find((t: any) => t.id === currentQuestionId);
         const currentQ = completedQuestion?.question || '';
 
@@ -418,18 +417,15 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
           model: MODEL_NAME,
           generationConfig: { temperature: 0.6, maxOutputTokens: 250 }
         });
-        const prompt = `## 역할
-${categoryName} 구매 상담 어시스턴트입니다.
+        const prompt = `사용자가 "${currentQ}"라는 질문에 "${userMessage}"를 선택했습니다.
 
-## 상황
-- 질문: "${currentQ}"
-- 사용자 선택: "${userMessage}"
+이 선택에 대해 공감하는 문장 1개만 작성하세요.
 
-## 요청
-1. 사용자의 선택에 공감 (1문장)
-2. 이 선택이 ${categoryName} 선택에 어떤 의미인지 간단히 설명 (1-2문장)
-
-⚠️ 총 2-3문장. 다음 질문은 별도로 표시되니 연결 문장 불필요. 이모지 금지.`;
+⛔ 금지사항:
+- 질문 금지 (물음표 사용 금지)
+- 다음 단계 언급 금지
+- 이모지 금지
+- 2문장 이상 금지`;
         const result = await model.generateContent(prompt);
         transitionText = result.response.text().trim() + '\n\n';
       } catch (e) {
@@ -438,7 +434,7 @@ ${categoryName} 구매 상담 어시스턴트입니다.
     }
     const completedCountNext = updatedTodos.filter((t: any) => t.completed).length;
     const popularOptsNext = nextQuestion.options.filter((o: any) => o.isPopular).map((o: any) => o.label);
-    return { success: true, phase: 'questions', content: `${transitionText}${nextQuestion.question}`, tip: nextQuestion.reason, options: nextQuestion.options.map((o: any) => o.label), popularOptions: popularOptsNext.length > 0 ? popularOptsNext : undefined, ui_type: 'chat', currentQuestion: nextQuestion, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCountNext + 1, total: updatedTodos.length } };
+    return { success: true, phase: 'questions', content: `${transitionText}${nextQuestion.question}`, options: nextQuestion.options.map((o: any) => o.label), popularOptions: popularOptsNext.length > 0 ? popularOptsNext : undefined, ui_type: 'chat', currentQuestion: nextQuestion, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCountNext + 1, total: updatedTodos.length } };
   }
 
   // Free chat fallback
