@@ -323,6 +323,12 @@ export default function ProductDetailModal({ productData, category, categoryName
   const [showPhotoReviewsOnly, setShowPhotoReviewsOnly] = useState(false);
   const [displayedReviewsCount, setDisplayedReviewsCount] = useState(30); // 리뷰 lazy loading
   const [showBlogReview, setShowBlogReview] = useState(false); // 블로그 후기 바텀시트
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set()); // 로딩 실패한 이미지 URL 추적
+
+  // 이미지 로딩 실패 핸들러
+  const handleImageError = useCallback((imgUrl: string) => {
+    setFailedImages(prev => new Set(prev).add(imgUrl));
+  }, []);
   const [blogHasNavigated, setBlogHasNavigated] = useState(false); // 블로그 내부 네비게이션 추적
   const blogIframeRef = useRef<HTMLIFrameElement>(null);
   const blogInitialLoadRef = useRef(true);
@@ -333,22 +339,22 @@ export default function ProductDetailModal({ productData, category, categoryName
   const [isCarouselTransitioning, setIsCarouselTransitioning] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // 캐러셀 이미지 배열 생성 (제품 썸네일 + 리뷰 이미지 최대 10장)
+  // 캐러셀 이미지 배열 생성 (제품 썸네일 + 리뷰 이미지 최대 10장, 실패한 이미지 제외)
   const carouselImages = useMemo(() => {
     const images: string[] = [];
 
-    // 1. 제품 썸네일
-    if (productData.product.thumbnail) {
+    // 1. 제품 썸네일 (실패하지 않은 경우만)
+    if (productData.product.thumbnail && !failedImages.has(productData.product.thumbnail)) {
       images.push(productData.product.thumbnail);
     }
 
-    // 2. 리뷰 이미지 추가 (최대 9장, 총 10장까지)
+    // 2. 리뷰 이미지 추가 (최대 9장, 총 10장까지, 실패한 이미지 제외)
     if (preloadedReviews) {
       for (const review of preloadedReviews) {
         if (review.images && review.images.length > 0) {
           for (const img of review.images) {
             if (images.length >= 10) break;
-            if (!images.includes(img)) {
+            if (!images.includes(img) && !failedImages.has(img)) {
               images.push(img);
             }
           }
@@ -358,7 +364,7 @@ export default function ProductDetailModal({ productData, category, categoryName
     }
 
     return images;
-  }, [productData.product.thumbnail, preloadedReviews]);
+  }, [productData.product.thumbnail, preloadedReviews, failedImages]);
 
   const imageCount = carouselImages.length;
   const hasMultipleImages = imageCount > 1;
@@ -656,6 +662,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                               alt={productData.product.title}
                               className="w-full h-full object-cover"
                               loading={isClone ? 'eager' : (idx <= 2 ? 'eager' : 'lazy')}
+                              onError={() => handleImageError(img)}
                             />
                           </div>
                         );
@@ -1579,13 +1586,20 @@ export default function ProductDetailModal({ productData, category, categoryName
                     return `${yy}.${mm}.${dd}`;
                   };
 
-                  // 포토 리뷰 개수 확인
-                  const photoReviewCount = preloadedReviews.filter(r => r.images && r.images.length > 0).length;
+                  // 포토 리뷰 개수 확인 (실패한 이미지 제외)
+                  const photoReviewCount = preloadedReviews.filter(r => {
+                    const validImages = (r.images || []).filter(img => !failedImages.has(img));
+                    return validImages.length > 0;
+                  }).length;
                   const hasPhotoReviews = photoReviewCount > 0;
 
-                  // 정렬 및 필터링된 리뷰
+                  // 정렬 및 필터링된 리뷰 (실패한 이미지 제외)
                   const sortedReviews = [...preloadedReviews]
-                    .filter(r => !showPhotoReviewsOnly || (r.images && r.images.length > 0))
+                    .filter(r => {
+                      if (!showPhotoReviewsOnly) return true;
+                      const validImages = (r.images || []).filter(img => !failedImages.has(img));
+                      return validImages.length > 0;
+                    })
                     .sort((a, b) => {
                       if (reviewSortOrder === 'newest') {
                         return parseDate(b.date) - parseDate(a.date);
@@ -1716,26 +1730,35 @@ export default function ProductDetailModal({ productData, category, categoryName
                               {review.date && <span className="text-[12px] font-medium text-gray-400">{formatDate(review.date)}</span>}
                             </div>
 
-                            {/* Row 3: Photos */}
-                            {review.images && review.images.length > 0 && (
-                              <div className="flex gap-2.5 mb-3 overflow-x-auto pb-1 scrollbar-hide">
-                                {review.images.map((img, i) => (
-                                  <div
-                                    key={i}
-                                    className="relative w-[110px] h-[110px] rounded-xl overflow-hidden shrink-0 border border-gray-100 cursor-pointer hover:opacity-90 transition-opacity"
-                                    onClick={() => openImageViewer(review.images!, i)}
-                                  >
-                                    <img src={img} alt="" className="w-full h-full object-cover" />
-                                    {/* 여러 장일 때 개수 표시 (첫 번째 이미지에만) */}
-                                    {i === 0 && review.images!.length > 1 && (
-                                      <div className="absolute bottom-1.5 right-1.5 bg-black/60 text-white text-[11px] font-semibold px-1.5 py-0.5 rounded">
-                                        1/{review.images!.length}
-                                      </div>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            )}
+                            {/* Row 3: Photos (실패한 이미지 제외) */}
+                            {(() => {
+                              const validImages = (review.images || []).filter(img => !failedImages.has(img));
+                              if (validImages.length === 0) return null;
+                              return (
+                                <div className="flex gap-2.5 mb-3 overflow-x-auto pb-1 scrollbar-hide">
+                                  {validImages.map((img, i) => (
+                                    <div
+                                      key={i}
+                                      className="relative w-[110px] h-[110px] rounded-xl overflow-hidden shrink-0 border border-gray-100 cursor-pointer hover:opacity-90 transition-opacity"
+                                      onClick={() => openImageViewer(validImages, i)}
+                                    >
+                                      <img 
+                                        src={img} 
+                                        alt="" 
+                                        className="w-full h-full object-cover" 
+                                        onError={() => handleImageError(img)}
+                                      />
+                                      {/* 여러 장일 때 개수 표시 (첫 번째 이미지에만) */}
+                                      {i === 0 && validImages.length > 1 && (
+                                        <div className="absolute bottom-1.5 right-1.5 bg-black/60 text-white text-[11px] font-semibold px-1.5 py-0.5 rounded">
+                                          1/{validImages.length}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              );
+                            })()}
 
                             {/* Row 4: Content */}
                             <div className="relative">

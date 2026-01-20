@@ -761,3 +761,42 @@ export interface V2ProductRecommendationRanking {
   rank3Count: number;
   avgFitScore?: number;
 }
+
+// Knowledge Agent (KA) Flow Funnel Stats
+export interface KAFlowFunnelStats {
+  utmCampaign: string;
+  totalSessions: number;
+  funnel: {
+    homePageViews: FunnelStep;              // 1. 메인 페이지 뷰
+    kaLandingEntry: FunnelStep;             // 2. 바로 추천받기 (KA 랜딩 진입)
+    categorySelected: FunnelStep;           // 3. 특정 카테고리 버튼 누른 수
+    loadingStarted: FunnelStep;             // 4. 분석 시작하기 (로딩 시작)
+    firstQuestionViewed: FunnelStep;        // 5. 첫 맞춤질문 로딩 완료
+    reportRequested: FunnelStep;            // 6. 최종 구매 보고서 보기 버튼
+    recommendationReceived: FunnelStep;     // 7. Top5 추천 결과 수신
+  };
+  // 단계별 평균 소요 시간 (초)
+  avgTimePerStep: {
+    landingToCategory: number;
+    categoryToLoading: number;
+    loadingToFirstQuestion: number;
+    firstQuestionToReport: number;
+    reportToResult: number;
+    totalTime: number;
+  };
+  // 카테고리별 분포
+  categoryDistribution: Array<{
+    category: string;
+    categoryName: string;
+    count: number;
+    percentage: number;
+    completionRate: number;
+  }>;
+  // 결과 페이지 액션
+  resultPageActions: {
+    productModalOpened: PostRecommendationAction;  // PDP 열어본 사람
+    reviewTabViewed: PostRecommendationAction;     // 상품리뷰 탭 본 사람
+    purchaseClicked: PostRecommendationAction;     // 구매하기 버튼 누른 사람
+    comparisonViewed: PostRecommendationAction;    // 비교표 토글
+  };
+}

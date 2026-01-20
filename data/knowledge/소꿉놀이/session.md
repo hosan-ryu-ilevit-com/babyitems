@@ -1,5 +1,5 @@
-# 세션: 20260120_034933_hvla
-> 시작: 2026-01-20T03:49:33.492Z
+# 세션: 20260120_070956_0bfz
+> 시작: 2026-01-20T07:09:56.879Z
 > 카테고리키: 소꿉놀이
 > 카테고리: 소꿉놀이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 소꿉놀이 시장 현황
-- 인사이트: 소꿉놀이 시장은 전반적인 장난감 시장의 성장과 함께 꾸준한 수요를 보이고 있습니다. 특히 교육적 가치와 역할 놀이의 중요성이 강조되면서 아이들의 발달에 긍정적인 영향을 미치는 제품으로 인식되고 있습니다. 최근에는 전통 놀이에 대한 관심 증가와 함께 소꿉놀이 관련 제품들도 재조명받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqhBfa0ZRhoE1-SyO9g9FLYUmtDTDQv33RHWMTqyn3vmCS0fb_a8nyf_r4bA1b-8Ue3TTKRVZ-cD7sKRE45kJWY0MsyUs8Pf3GALtnOlHq4VjaAHs-14gQy4NIzuYyiKpgti1epYqP2vTomeq-Eic7y4adAQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFjE4IOJ6KwiGkXkpYvti0Mv8oaCIeQqjYbR-S6wW7Si4Gurg9a_fJW6fZYjgQ0AZAF55JBORPLpzykTIr7F6iowiIaC5f3TYJHVqUJgnmJc0FaWJ_ODKyqX7dWTmaL7nR-blvl8Fl7YxjHwSt1R8-l6CZnGYWb3d-sinTs2gemvsEzkaigS6SQLA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9M_0_1BuE9KCINVNpjfLXjzYHkzUcPCgpJRye-onMFPB8b2zUWS_nBG1Ap_WwNKzYhl2GYwCSdyM_NYPKZ8_NpdwMB9vsyh4lUcHFwgtKH_P7ee2gkN0T6Kh7-BxusoVpDSiIja7T7f1yHkHP3IqDN_B0IxEnclsFsAdKkBuJE8gh-sAdx1Vx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4W1HzAyJVP20CnKYDSbB8NrwSKaLWMp4ySeWTPF55MR6B_EYhL1grwIfKDvHTJo4lRYhJf-91oCu058jixCfpzkgi1VbMHNU0Ac6sES5DV-gURf6SLkCYu3Uq-V4_hudehxjr4N4ClcJmVPsnkbwnCs_WlF3UXgI14g4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3qA7tpu_nkPNMbfIx6Wi2RI3EtozaEFXLTKqERFvZAWmgvoeZqX_dgyl-CxfPunK4jhqG69ESiDTFtxArCUrFA7DjEZpJ1EC6Wx0FaniZjlKLOfTKeZUBfnWtB3VuG3NgX9jukEohPX0aKgnddMGyv7L7OMi9yfr07OnUn_H9ieI6cI7zXOAXgpReOT3I8SgpHVNEQDnCnCP14x801nw_8ODlaiWNLbg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdbHicLX_TOBJXkYV-tk7K_f_cle_ZZ3d1X-9Gn1mV6vQpVQrsdby1xdJ92Qymh8wcafJUDysGIDZbaYDnQWQde-jwxIm_-_iRzcruftu9kE3UdNBVOQJM-Wkrqrzxm9gEdle3Bqc=
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHy1F9FzbnllqSSTYRFxFkiDy40yPN9blXb2uEWfr4z6w0I8irgAc6W5zcmny5EXYiSMts6KFKeoSWYY3utaKZnfdqJ78c-IwdfU5npj8sAlHX3Pu-PEiMAK4SmWUEQG4LnRb21K2C720kbVjEYMUV8o42gP9d3GF0loqzm1s7qDq8jQ_ajD_WCahoRJkysSEF49_JQei24gc4cvk40zLMgWZRQosNoaOwGX4JN_jw98cGWg9NKx0SzpZhE2dhGo6G2EM3Dc5lDeIPJCveREa2abEzjtZqZKtv-PYOYfAFdMMfRZMMDZsQuLhSs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzX6lgec0BI7SdKiBioi47vzes9MQTHOYVqisYB--VlWgoWQI7vD-PgSBDhtvA20R0_3RwiQCm81_i0ik796D-rJxpTsbfGIaIKcrKqyU0slNV-XuftgV00nj807Ng2sgVsJyNUNAZIcB6genSWT6wd0zd16pPYfc_kRGl9iklfU7cilHo7jt_Jzkqt2FQohpmHEaL2H-buMae0vxUzQ1HJw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQXsTrf8axzjmBvnmwkRdeQ8fMVtlf9AW4uOg_OyC5qSPh1r0vUtqdS9MJ1Zr_44t9YvrNg_4JRGJZKRBBInHeKi8pNFfqZUxl2xHR-v6CMPp4n7mwCkbBxRwTCE80eK-AgGv4r06Ls_DE7zrTBh0VyPNh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmJF9_81b4xEIoaeHijB-LsiWRGa2aEvNW5LCpJZaOZ5VsUB_45ZjqE1mtrvAMz4f5bwPwUCjlVDvwkRN0G5dvEdRhL2ezm1majyzoSq7-r7pqzqHUpZ4Rxpaq-1H5Kp83j5PcZCxxxbhszGxra1OsFdNi_1A1yaqvvkBpQjZqAzQjKzEIZv36, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHifDrwI8CFa91Gzc84Q_vQiadEpM6n4L032c1Y7YQAe8PCYIb8PIp3NjFOVov0yoYhWVb87EpBbCB_aGLwDDSNSo4VAbnxW7wWwZgcXCRsa9P8u3PFcncN27wFLoMIkYl0Dz1RLOvCeBeHG6VKUOu7S-l8wg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0FJ6-pBBQU-MoALu2nko8A9MByvtE-04K83r6ygmKYko1TLG789dKptwX72b-qT1wnN7tILTwGnNdSaRaCWXMczNNHdOP-nbRArdGfpYksQLZgOMWYqR7ZOWgVsOvOK0ekHSyiY91S59VqKj89TSV_e7rcjzk6jjAAi3uTEXXICduvuYOzwXC6rNR7joX2eDT5HTk4kYX
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHy1F9FzbnllqSSTYRFxFkiDy40yPN9blXb2uEWfr4z6w0I8irgAc6W5zcmny5EXYiSMts6KFKeoSWYY3utaKZnfdqJ78c-IwdfU5npj8sAlHX3Pu-PEiMAK4SmWUEQG4LnRb21K2C720kbVjEYMUV8o42gP9d3GF0loqzm1s7qDq8jQ_ajD_WCahoRJkysSEF49_JQei24gc4cvk40zLMgWZRQosNoaOwGX4JN_jw98cGWg9NKx0SzpZhE2dhGo6G2EM3Dc5lDeIPJCveREa2abEzjtZqZKtv-PYOYfAFdMMfRZMMDZsQuLhSs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzX6lgec0BI7SdKiBioi47vzes9MQTHOYVqisYB--VlWgoWQI7vD-PgSBDhtvA20R0_3RwiQCm81_i0ik796D-rJxpTsbfGIaIKcrKqyU0slNV-XuftgV00nj807Ng2sgVsJyNUNAZIcB6genSWT6wd0zd16pPYfc_kRGl9iklfU7cilHo7jt_Jzkqt2FQohpmHEaL2H-buMae0vxUzQ1HJw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQXsTrf8axzjmBvnmwkRdeQ8fMVtlf9AW4uOg_OyC5qSPh1r0vUtqdS9MJ1Zr_44t9YvrNg_4JRGJZKRBBInHeKi8pNFfqZUxl2xHR-v6CMPp4n7mwCkbBxRwTCE80eK-AgGv4r06Ls_DE7zrTBh0VyPNh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmJF9_81b4xEIoaeHijB-LsiWRGa2aEvNW5LCpJZaOZ5VsUB_45ZjqE1mtrvAMz4f5bwPwUCjlVDvwkRN0G5dvEdRhL2ezm1majyzoSq7-r7pqzqHUpZ4Rxpaq-1H5Kp83j5PcZCxxxbhszGxra1OsFdNi_1A1yaqvvkBpQjZqAzQjKzEIZv36, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHifDrwI8CFa91Gzc84Q_vQiadEpM6n4L032c1Y7YQAe8PCYIb8PIp3NjFOVov0yoYhWVb87EpBbCB_aGLwDDSNSo4VAbnxW7wWwZgcXCRsa9P8u3PFcncN27wFLoMIkYl0Dz1RLOvCeBeHG6VKUOu7S-l8wg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0FJ6-pBBQU-MoALu2nko8A9MByvtE-04K83r6ygmKYko1TLG789dKptwX72b-qT1wnN7tILTwGnNdSaRaCWXMczNNHdOP-nbRArdGfpYksQLZgOMWYqR7ZOWgVsOvOK0ekHSyiY91S59VqKj89TSV_e7rcjzk6jjAAi3uTEXXICduvuYOzwXC6rNR7joX2eDT5HTk4kYX
 
 ---
 
@@ -16,11 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 종류의 소꿉놀이를 가장 선호하시나요? | 동물병원/펫케어 |
-| 소꿉놀이 장난감의 재질은 어떤 것을 선호하시나요? | 상관없어요, 혼합 재질 |
-| 소꿉놀이를 통해 어떤 교육적 효과를 기대하시나요? | 역할 놀이 및 사회성 발달, 언어 및 의사소통 능력 향상 |
-| 소꿉놀이 예산은 어느 정도로 생각하세요? (평균 5만 5천원, 3만원대 이하가 가장 많아요) | 3만원대 ~ 7만원대, 3만원 이하 |
-| __avoid_negatives__ | 특정 성별에만 치우친 역할 설정으로 아이의 고정관념이 강화될까 봐 걱정돼요,놀이가 단순하고 반복적이어서 금방 흥미를 잃고 지루해할까 봐 걱정돼요 |
+| 어떤 종류의 소꿉놀이를 찾으시나요? | 주방놀이 |
+| 어떤 소재의 소꿉놀이를 선호하시나요? | 원목 |
+| 소꿉놀이 구성품은 어느 정도가 적당할까요? | 기본 구성 |
+| 안전 인증(KC 마크)은 필수인가요? | 상관없어요 |
+| 소꿉놀이 예산은 어느 정도로 생각하세요? (평균 5만 5천원, 3만원대 이하가 가장 많아요) | 5만원~12만원 |
+| __avoid_negatives__ | 원목 소재라 아이가 던지거나 험하게 다룰 경우 쉽게 파손될까 봐 걱정돼요,작은 부품들이 많아서 아이가 삼킬까 봐 안전이 염려돼요 |
 
 ---
 
@@ -60,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 특정 성별에만 치우친 역할 설정으로 아이의 고정관념이 강화될까 봐 걱정돼요
-- 놀이가 단순하고 반복적이어서 금방 흥미를 잃고 지루해할까 봐 걱정돼요
+- 원목 소재라 아이가 던지거나 험하게 다룰 경우 쉽게 파손될까 봐 걱정돼요
+- 작은 부품들이 많아서 아이가 삼킬까 봐 안전이 염려돼요
 
 ---
 

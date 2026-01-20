@@ -1,30 +1,30 @@
 # 유아간식 전문가 지식
 
-> 마지막 업데이트: 2026-01-19T12:48:07.212Z
+> 마지막 업데이트: 2026-01-20T05:45:43.900Z
 > 분석 상품: 20개 | 분석 리뷰: 677개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - 유기농 및 클린 라벨 제품 선호
-- 맞벌이 부부 증가로 인한 간편식 및 주문배달 유아식 수요 증가
-- 프리미엄 원료 및 건강 기능성 강화 (예: 유산균, 홍삼 등)
-- 휴대 및 섭취가 간편한 파우치형 및 소포장 제품 인기
-- 이유식에서 어린이 간식으로 영역 확대
+- 편의성과 휴대성을 갖춘 파우치형 간식 인기
+- 온라인 채널 및 라이브 커머스 판매 증가
+- 건강 기능성 강화 (유산균, 홍삼 등)
+- 다양한 맛과 형태의 제품 개발
 
 ### 구매자 만족 포인트
+- ✓ 높은 영양가
 - ✓ 안전한 성분
-- ✓ 영양 균형
-- ✓ 편의성
-- ✓ 다양한 맛과 질감
+- ✓ 편리한 휴대성
+- ✓ 다양한 맛과 식감
 - ✓ 유기농 원료 사용
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격
-- ⚠ 첨가물 포함 가능성
-- ⚠ 과다 섭취 시 영양 불균형 우려
-- ⚠ 부족한 정보
-- ⚠ 보존 및 유통 기한 문제
+- ⚠ 높은 가격대
+- ⚠ 과도한 당 함량 (일부 제품)
+- ⚠ 짧은 유통기한 (신선 제품)
+- ⚠ 알레르기 유발 가능성 (원료 확인 필요)
+- ⚠ 과대 포장
 
 ### 가격대 인사이트
 
@@ -105,7 +105,7 @@
 
 ### 8. 해태제과 계란과자 핑크퐁 70g
 - **브랜드**: 해태제과
-- **가격**: 5,450원
+- **가격**: 27,000원
 - **평점**: ⭐0 (0개 리뷰)
 - **핵심 스펙**: 쿠키 / [영양정보] 1회 제공량 70g당 열량: 315 kcal / 나트륨 : 140mg / 탄수화물: 52g / 당류: 24g / 지방: 10g / 트랜스지방: 0g / 포화지방: 6g / 콜레스테롤: 25mg / 단백질 : 4g 쿠키 / 단백질 : 4g
 - **장점 요약**: 분석 중
@@ -173,7 +173,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29095970)
 
-### 15. 핑크퐁 아기상어 스트로우타입 젤리 100개입 어린이 키즈 간식 4가지과일맛 얼려먹는젤리
+### 15. 상품상세설명 참조 (60개입x3통) 롯데 롤리팝 아이스사탕/사탕/어린이/간식/탕비실/병원용/약국용/당충전/유아/칭찬용/스틱
+- **브랜드**: 상품상세설명
+- **가격**: 63,520원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=TH201_8995724049)
+
+### 16. 핑크퐁 아기상어 스트로우타입 젤리 100개입 어린이 키즈 간식 4가지과일맛 얼려먹는젤리
 - **브랜드**: 핑크퐁
 - **가격**: 25,520원
 - **평점**: ⭐0 (0개 리뷰)
@@ -183,7 +193,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=EE715_F406223691)
 
-### 16. [중고] 만나 누룽지 10봉 셋트 국산쌀 옛날과자 다이어트 간식 당뇨 임당 무설탕 어르신 유아 어린이집 사무실  100g  10개
+### 17. 뽀로로 스트로우타입 젤리 유아 어린이 간식  200g  7개  혼합맛(복숭아/리치/망고/샤인머스캣)
+- **브랜드**: 뽀로로
+- **가격**: 17,500원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=TP40F_I27455080244)
+
+### 18. [중고] 만나 누룽지 10봉 셋트 국산쌀 옛날과자 다이어트 간식 당뇨 임당 무설탕 어르신 유아 어린이집 사무실  100g  10개
 - **브랜드**: 
 - **가격**: 29,000원
 - **평점**: ⭐0 (0개 리뷰)
@@ -193,7 +213,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=TP40F_U90179754221)
 
-### 17. 핑크퐁 아기상어 스트로우타입 젤리 100개입 어린이 키즈 간식 4가지과일맛 얼려먹는젤리
+### 19. 핑크퐁 아기상어 스트로우타입 젤리 100개입 어린이 키즈 간식 4가지과일맛 얼려먹는젤리
 - **브랜드**: 핑크퐁
 - **가격**: 25,520원
 - **평점**: ⭐0 (0개 리뷰)
@@ -203,7 +223,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=EE128_4600339282)
 
-### 18. 핑크퐁 아기상어 까꿍 유산균 크리스피롤 24입 딸기 10개 120g
+### 20. 핑크퐁 아기상어 까꿍 유산균 크리스피롤 24입 딸기 10개 120g
 - **브랜드**: 핑크퐁
 - **가격**: 94,900원
 - **평점**: ⭐0 (0개 리뷰)
@@ -212,26 +232,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=51970115)
-
-### 19. 아텍스 산리오캐릭터즈 커커비타쮸 28g 15ea 쿠로미 딸기우유맛 유아 어린이 간식 대용량
-- **브랜드**: 아텍스
-- **가격**: 15,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 사탕
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=31423355)
-
-### 20. 베베스트 칼슘 스틱 유아 쌀과자 바나나 입 40g
-- **브랜드**: 베베스트
-- **가격**: 11,310원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 쿠키 쿠키
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=41789435)
 
 ---
 
@@ -246,6 +246,6 @@
 ---
 
 ## 📊 데이터 출처
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9kIgD0KFHCxQNCXTdSw-TycXbvCtMChzgr3T9Z1-pJvsk9k5rezzwFNXKOv__JkM7ukmlLzt3UuVu4Fk0-yJ4vN5oLeRQMnVwiJ1Hu68-v8Q-EJOmssAq-gjC-8wufg31G1dpK-fSSIlt6dTGcs6o4kLwmWIqUHtZc7C-SENGTZn5W02yUXCnZQ4iZD4n)
-- [wiseguyreports.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVAlK6M6_d5-iFfybNMSoBpDNQCcqbE3-jpSqWyt3mzd_LeXhvH8-U3zi-fSf0WEU2tbYcQ2_lsM3uGismQA_AN2B6ULj1G_sEVJriU5gkrU5b8yNuJAjGv4RnUk9clQGqjsGT-Gd3em9XZ8GyOJatO0pwTVc5)
-- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdUc9jhn9IXFtTgAJQSSI7DbQDxYINdzHFrgEhND4kGEFkgJb2Atk1DZU_FwkLjAD3196E1fV2Z9I7mE60dcKv0d-xhI22MXtp2jf-tUW7SkgGuz45GIHEAcvnOSb_vBTjbKNCeQwzCIfMUAplvDwNLQAHy79r4WKzg6Uh2Vyz63Q_9JYRNtl2ZWxS7G3LsuJ-cAlde0BLuDq6oQ==)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8iFtMyToRF3seIxRaDMtqU27Auy1zjZL8De-PZTGbvcbKWnHDO6-5hO41lDJRb7-Ru-O3TYoGB8j0Ryn9R-RyBXSRSvdD4XvXx0owVjDYDX3ot4HL1rhJT9DonWPI_EcpzaCaE6ja_eYrLlvTsJaVxQuppgiXbaBt39WuNnqEx_KxY7qnV6WM5iXRYG5sQQ==)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvX2UrBTetXT1ARBSHUlZMHWsARrc3zla0lodjs7g-k35AHS6jvktzaENwVYmzuPAWKpeDn_BtCh77UPj3l0mT0Ecd7QjGZTcx3kjqoHhNtHzszwaC46IpWn4SeWMt_E-1rFWLQNXmwuz8jrC92K394_9mMHLnMd1e4AhY3qnS_GljgKC8gfyB44bg7L15VQ==)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDjjDMFLLIjXLHHlDF4DY_b3xjbd7s1bpzj6khDsmsLU-2IR0d0wIw4NIhCf__ACogpj5CPLhR_uVezEAWUljgxvLoZ8isz5fjx76Osh7XEzoW7QRQ8LTFZzePuczQ1Zc6CTB1T3_QFSQKw3Jn519N-bAQihHHH-Ra4od_WQ==)

@@ -977,6 +977,160 @@ ${productInfos}
   });
 }
 
+// ============================================================================
+// 🆕 120개 병렬 LLM 평가 (flash-lite)
+// ============================================================================
+
+const PARALLEL_EVAL_MODEL = 'gemini-2.5-flash-lite';
+const REVIEWS_PER_PRODUCT = 50; // 제품당 리뷰 샘플 수
+const PARALLEL_BATCH_SIZE = 120; // 🧪 테스트: 전체 동시 요청
+
+interface ProductEvaluation {
+  pcode: string;
+  score: number;  // 0-100
+  reason: string;
+  avoidanceScore: number; // 피할단점 회피 점수 (0-100, 높을수록 잘 회피)
+}
+
+/**
+ * 120개 전체 제품을 병렬로 LLM 평가
+ * - 각 제품: 메타데이터 + 리뷰 30개 + 사용자 조건 → 점수 (0-100)
+ * - 피할단점 회피 여부를 맥락 있게 평가
+ */
+async function evaluateAllCandidatesWithLLM(
+  categoryName: string,
+  candidates: HardCutProduct[],
+  reviews: Record<string, ReviewLite[]>,
+  collectedInfo: Record<string, string>,
+  balanceSelections: BalanceSelection[],
+  negativeSelections: string[],
+): Promise<ProductEvaluation[]> {
+  if (!ai) {
+    console.log('[ParallelEval] No AI, fallback to score-based');
+    return candidates.map(p => ({
+      pcode: p.pcode,
+      score: p.matchScore || 50,
+      reason: '기본 점수',
+      avoidanceScore: 50,
+    }));
+  }
+
+  const model = ai.getGenerativeModel({
+    model: PARALLEL_EVAL_MODEL,
+    generationConfig: {
+      temperature: 0.2,
+      maxOutputTokens: 200,
+      responseMimeType: 'application/json',
+    },
+  });
+
+  // 사용자 조건 문자열
+  const userConditions = Object.entries(collectedInfo)
+    .filter(([k]) => !k.startsWith('__'))
+    .map(([q, a]) => `- ${q}: ${a}`)
+    .join('\n') || '없음';
+
+  const priorities = balanceSelections.map(b => b.selectedLabel).join(', ') || '없음';
+  const avoidList = negativeSelections.join(', ') || '없음';
+
+  console.log(`[ParallelEval] Starting evaluation of ${candidates.length} products...`);
+  const startTime = Date.now();
+
+  // 단일 제품 평가 함수
+  const evaluateOne = async (product: HardCutProduct): Promise<ProductEvaluation> => {
+    const productReviews = reviews[product.pcode] || [];
+
+    // 리뷰 균형 샘플링 (고평점 절반 + 저평점 절반, 중복 제거)
+    const sorted = [...productReviews].sort((a, b) => b.rating - a.rating);
+    let sampledReviews: string[];
+
+    if (sorted.length <= REVIEWS_PER_PRODUCT) {
+      // 리뷰가 50개 이하면 전체 사용
+      sampledReviews = sorted.map(r => `[${r.rating}점] ${r.content.slice(0, 150)}`);
+    } else {
+      // 고평점/저평점 균형 샘플링
+      const halfCount = Math.floor(REVIEWS_PER_PRODUCT / 2);
+      const highRated = sorted.slice(0, halfCount);
+      const lowRated = sorted.slice(-halfCount);
+      sampledReviews = [...highRated, ...lowRated]
+        .map(r => `[${r.rating}점] ${r.content.slice(0, 150)}`);
+    }
+
+    const prompt = `## ${categoryName} 제품 평가
+
+## 제품 정보
+- 브랜드: ${product.brand}
+- 제품명: ${product.name}
+- 가격: ${product.price?.toLocaleString()}원
+- 스펙: ${product.specSummary || ''}
+- 리뷰 ${productReviews.length}개, 평균 ${productReviews.length > 0 ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1) : 0}점
+
+## 리뷰 샘플 (${sampledReviews.length}개)
+${sampledReviews.join('\n')}
+
+## 사용자 조건
+${userConditions}
+
+## 우선순위: ${priorities}
+## 피할 단점: ${avoidList}
+
+## 평가 기준
+1. 사용자 조건 충족도 (40점)
+2. 피할 단점 회피 여부 (30점) - 리뷰에서 해당 단점이 언급되지 않거나, "없다/좋다"로 언급되면 높은 점수
+3. 리뷰 평점/품질 (20점)
+4. 가성비 (10점)
+
+## 응답 (JSON만)
+{"score":0~100,"avoidanceScore":0~100,"reason":"15자 이내"}`;
+
+    try {
+      const result = await model.generateContent(prompt);
+      let text = result.response.text().trim();
+      text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+      const jsonMatch = text.match(/\{[\s\S]*?\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        return {
+          pcode: product.pcode,
+          score: parsed.score || 50,
+          avoidanceScore: parsed.avoidanceScore || 50,
+          reason: parsed.reason || '',
+        };
+      }
+    } catch (error) {
+      // 개별 실패는 조용히 처리
+    }
+
+    // Fallback
+    return {
+      pcode: product.pcode,
+      score: product.matchScore || 50,
+      avoidanceScore: 50,
+      reason: 'fallback',
+    };
+  };
+
+  // 배치 병렬 처리 (rate limit 고려)
+  const results: ProductEvaluation[] = [];
+
+  for (let i = 0; i < candidates.length; i += PARALLEL_BATCH_SIZE) {
+    const batch = candidates.slice(i, i + PARALLEL_BATCH_SIZE);
+    const batchResults = await Promise.all(batch.map(evaluateOne));
+    results.push(...batchResults);
+
+    console.log(`[ParallelEval] Batch ${Math.floor(i / PARALLEL_BATCH_SIZE) + 1}/${Math.ceil(candidates.length / PARALLEL_BATCH_SIZE)} complete (${results.length}/${candidates.length})`);
+  }
+
+  const elapsed = Date.now() - startTime;
+  console.log(`[ParallelEval] ✅ Complete: ${results.length} products in ${elapsed}ms (${(elapsed / results.length).toFixed(0)}ms/product)`);
+
+  // 점수순 정렬
+  results.sort((a, b) => b.score - a.score);
+
+  return results;
+}
+
 /**
  * 120개 후보에서 사전 스크리닝 (규칙 기반)
  * - matchScore(사용자 선택 기반) 우선 + 리뷰/평점 보조
@@ -1410,12 +1564,6 @@ async function selectTopProducts(
     }
   }
 
-  // 50개 이상이면 사전 스크리닝으로 25개로 줄임
-  let filteredCandidates = candidates;
-  if (candidates.length > PRESCREEN_LIMIT) {
-    filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections, expandedKeywords, rankMap);
-  }
-
   // 자유 입력에서 추출한 피할 단점을 negativeSelections에 추가
   const enhancedNegativeSelections = [...negativeSelections];
   if (freeInputAnalysis?.avoidAttributes?.length) {
@@ -1423,20 +1571,56 @@ async function selectTopProducts(
     console.log(`[FinalRecommend] Added ${freeInputAnalysis.avoidAttributes.length} avoid attributes from free input`);
   }
 
-  console.log(`[FinalRecommend] 2-Step Architecture: ${candidates.length} → ${filteredCandidates.length} candidates`);
+  // ============================================================================
+  // 🆕 120개 병렬 LLM 평가 vs 기존 규칙 기반 (플래그로 전환)
+  // ============================================================================
+  const USE_PARALLEL_LLM_EVAL = true; // 🧪 테스트용 플래그
 
-  // ============================================================================
-  // Top N pcode 선정 (가벼운 호출)
-  // ============================================================================
-  const topNSelection = await selectTopNPcodes(
-    categoryName,
-    filteredCandidates,
-    reviews,
-    collectedInfo,
-    balanceSelections,
-    enhancedNegativeSelections,
-    RECOMMENDATION_COUNT,
-  );
+  let topNSelection: { pcode: string; briefReason: string }[];
+
+  if (USE_PARALLEL_LLM_EVAL && candidates.length > 10) {
+    // 🆕 새 방식: 120개 전체를 병렬 LLM 평가
+    console.log(`[FinalRecommend] 🆕 Using parallel LLM evaluation for ${candidates.length} candidates`);
+
+    const evaluations = await evaluateAllCandidatesWithLLM(
+      categoryName,
+      candidates,
+      reviews,
+      collectedInfo,
+      balanceSelections,
+      enhancedNegativeSelections,
+    );
+
+    // 상위 N개 선택
+    topNSelection = evaluations.slice(0, RECOMMENDATION_COUNT).map(e => ({
+      pcode: e.pcode,
+      briefReason: `${e.score}점 (회피:${e.avoidanceScore}) ${e.reason}`,
+    }));
+
+    console.log(`[FinalRecommend] 🆕 Top ${RECOMMENDATION_COUNT} by LLM eval:`, topNSelection.map(t => `${t.pcode}(${t.briefReason})`).join(', '));
+  } else {
+    // 기존 방식: 규칙 기반 사전 스크리닝 + LLM Top N 선정
+    console.log(`[FinalRecommend] Using legacy rule-based prescreen`);
+
+    // 50개 이상이면 사전 스크리닝으로 25개로 줄임
+    let filteredCandidates = candidates;
+    if (candidates.length > PRESCREEN_LIMIT) {
+      filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections, expandedKeywords, rankMap);
+    }
+
+    console.log(`[FinalRecommend] 2-Step Architecture: ${candidates.length} → ${filteredCandidates.length} candidates`);
+
+    // Top N pcode 선정 (가벼운 호출)
+    topNSelection = await selectTopNPcodes(
+      categoryName,
+      filteredCandidates,
+      reviews,
+      collectedInfo,
+      balanceSelections,
+      enhancedNegativeSelections,
+      RECOMMENDATION_COUNT,
+    );
+  }
 
   // 선정된 pcode로 제품 찾기 (중복 pcode 제거!)
   const seenPcodes = new Set<string>();
@@ -1448,7 +1632,8 @@ async function selectTopProducts(
       console.log(`[FinalRecommend] ⚠️ 중복 pcode 제거: ${sel.pcode}`);
       continue;
     }
-    const product = filteredCandidates.find(c => c.pcode === sel.pcode);
+    // 🆕 candidates에서 찾기 (병렬 평가에서는 전체 후보에서 선정)
+    const product = candidates.find(c => c.pcode === sel.pcode);
     if (product) {
       selectedProducts.push(product);
       seenPcodes.add(sel.pcode);
@@ -1457,7 +1642,7 @@ async function selectTopProducts(
 
   // N개 미만이면 점수순으로 채우기
   if (selectedProducts.length < RECOMMENDATION_COUNT) {
-    const remaining = filteredCandidates.filter(c => !seenPcodes.has(c.pcode));
+    const remaining = candidates.filter(c => !seenPcodes.has(c.pcode));
     while (selectedProducts.length < RECOMMENDATION_COUNT && remaining.length > 0) {
       const next = remaining.shift()!;
       selectedProducts.push(next);

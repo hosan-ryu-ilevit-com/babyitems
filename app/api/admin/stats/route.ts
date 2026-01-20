@@ -11,7 +11,8 @@ import type {
   V2ProductRecommendationRanking,
   V2NewFlowFunnelStats,
   V2NewFlowCategoryAnalytics,
-  PostRecommendationAction
+  PostRecommendationAction,
+  KAFlowFunnelStats
 } from '@/types/logging';
 
 // 테스트/내부 IP 및 Phone 필터링
@@ -971,6 +972,243 @@ function calculateV2NewFlowCategoryAnalytics(sessions: SessionSummary[]): V2NewF
   return analytics;
 }
 
+// ============================================================
+// KA (Knowledge Agent) FLOW
+// ============================================================
+
+// KA Flow: 퍼널 통계 계산
+function calculateKAFlowFunnel(sessions: SessionSummary[], utmCampaign: string): KAFlowFunnelStats {
+  // UTM 필터링
+  const filteredSessions = sessions.filter(session => {
+    if (utmCampaign === 'all') return true;
+    if (utmCampaign === 'none') return !session.utmCampaign;
+    return session.utmCampaign === utmCampaign;
+  });
+
+  // 퍼널 단계별 세션 Set
+  const homePageViews = new Set<string>();
+  const kaLandingEntry = new Set<string>();      // 바로 추천받기 (KA 랜딩 진입)
+  const categorySelected = new Set<string>();     // 카테고리 선택
+  const loadingStarted = new Set<string>();       // 분석 시작하기
+  const firstQuestionViewed = new Set<string>();  // 첫 맞춤질문 로딩 완료
+  const reportRequested = new Set<string>();      // 최종 보고서 보기 버튼
+  const recommendationReceived = new Set<string>(); // Top5 결과 수신
+
+  // 카테고리별 통계
+  const categoryStats = new Map<string, {
+    categoryName: string;
+    sessions: Set<string>;
+    completed: Set<string>;
+  }>();
+
+  // 타임스탬프 추적
+  const sessionTimestamps = new Map<string, {
+    home?: number;
+    landing?: number;
+    category?: number;
+    loadingStart?: number;
+    firstQuestion?: number;
+    reportRequest?: number;
+    result?: number;
+  }>();
+
+  // 결과 페이지 액션
+  let productModalOpenedTotal = 0;
+  let reviewTabViewedTotal = 0;
+  let purchaseClickedTotal = 0;
+  let comparisonViewedTotal = 0;
+  const productModalOpenedSessions = new Set<string>();
+  const reviewTabViewedSessions = new Set<string>();
+  const purchaseClickedSessions = new Set<string>();
+  const comparisonViewedSessions = new Set<string>();
+
+  filteredSessions.forEach(session => {
+    const sid = session.sessionId;
+    const timestamps: NonNullable<ReturnType<typeof sessionTimestamps.get>> = {};
+
+    session.events.forEach(event => {
+      const eventType = event.eventType;
+      const page = event.page;
+      const ts = new Date(event.timestamp).getTime();
+
+      // 1. 홈 페이지 뷰
+      if (page === 'home' || eventType === 'page_view' && page === 'home') {
+        homePageViews.add(sid);
+        timestamps.home = ts;
+      }
+
+      // 2. KA 랜딩 진입 (바로 추천받기)
+      if (eventType === 'ka_page_view' ||
+          (eventType === 'page_view' && (page === 'knowledge-agent' || page === 'knowledge-agent-landing')) ||
+          (eventType === 'button_click' && event.buttonLabel?.includes('바로 추천받기'))) {
+        kaLandingEntry.add(sid);
+        if (!timestamps.landing) timestamps.landing = ts;
+      }
+
+      // 3. 카테고리 선택 (카테고리 버튼 클릭)
+      if (eventType === 'knowledge_agent_search_request' ||
+          eventType === 'ka_category_button_clicked' ||
+          eventType === 'ka_sub_category_selected' ||
+          eventType === 'knowledge_agent_subcategory_select' ||
+          eventType === 'knowledge_agent_category_select') {
+        categorySelected.add(sid);
+        timestamps.category = ts;
+
+        // 카테고리 통계 수집
+        const category = event.knowledgeAgentData?.category ||
+                         event.knowledgeAgentData?.subCategory ||
+                         event.knowledgeAgentData?.searchKeyword ||
+                         event.buttonLabel?.replace('카테고리 버튼 클릭: ', '') ||
+                         'unknown';
+        const categoryName = event.knowledgeAgentData?.subCategory || category;
+        if (!categoryStats.has(category)) {
+          categoryStats.set(category, {
+            categoryName,
+            sessions: new Set(),
+            completed: new Set()
+          });
+        }
+        categoryStats.get(category)!.sessions.add(sid);
+      }
+
+      // 4. 분석 시작하기 (모달에서 확인 클릭 → 로딩 시작)
+      if (eventType === 'knowledge_agent_search_confirm' ||
+          eventType === 'ka_loading_phase_started' ||
+          eventType === 'knowledge_agent_hardcut_continue') {
+        loadingStarted.add(sid);
+        timestamps.loadingStart = ts;
+      }
+
+      // 5. 첫 맞춤질문 로딩 완료
+      if (eventType === 'ka_loading_phase_completed' ||
+          eventType === 'ka_question_answered') {
+        firstQuestionViewed.add(sid);
+        if (!timestamps.firstQuestion) timestamps.firstQuestion = ts;
+      }
+
+      // 6. 최종 보고서 보기 버튼 (final input submit 또는 관련 버튼 클릭)
+      if (eventType === 'knowledge_agent_final_input_submit' ||
+          (eventType === 'button_click' && (
+            event.buttonLabel?.includes('최종 구매 보고서') ||
+            event.buttonLabel?.includes('추천 결과') ||
+            event.buttonLabel?.includes('맞춤 추천')
+          ))) {
+        reportRequested.add(sid);
+        timestamps.reportRequest = ts;
+      }
+
+      // 7. Top5 추천 결과 수신
+      if (eventType === 'ka_recommendation_received') {
+        recommendationReceived.add(sid);
+        timestamps.result = ts;
+
+        // 카테고리 완료 추적
+        const category = event.knowledgeAgentData?.category || 'unknown';
+        if (categoryStats.has(category)) {
+          categoryStats.get(category)!.completed.add(sid);
+        }
+      }
+
+      // 결과 페이지 액션 추적
+      if (eventType === 'ka_product_modal_opened' || eventType === 'knowledge_agent_product_modal_open') {
+        productModalOpenedTotal++;
+        productModalOpenedSessions.add(sid);
+      }
+      if (eventType === 'knowledge_agent_product_review_click' || eventType === 'review_tab_opened') {
+        reviewTabViewedTotal++;
+        reviewTabViewedSessions.add(sid);
+      }
+      if (eventType === 'ka_product_purchase_click' || eventType === 'ka_external_link_clicked' || eventType === 'knowledge_agent_product_purchase_click') {
+        purchaseClickedTotal++;
+        purchaseClickedSessions.add(sid);
+      }
+      if (eventType === 'ka_comparison_viewed' || eventType === 'ka_comparison_toggle') {
+        comparisonViewedTotal++;
+        comparisonViewedSessions.add(sid);
+      }
+    });
+
+    sessionTimestamps.set(sid, timestamps);
+  });
+
+  const homeCount = homePageViews.size;
+
+  // 카테고리별 분포 계산
+  const categoryDistribution = Array.from(categoryStats.entries())
+    .map(([category, stats]) => ({
+      category,
+      categoryName: stats.categoryName,
+      count: stats.sessions.size,
+      percentage: homeCount > 0 ? Math.round((stats.sessions.size / homeCount) * 100) : 0,
+      completionRate: stats.sessions.size > 0
+        ? Math.round((stats.completed.size / stats.sessions.size) * 100)
+        : 0
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  // 단계별 평균 소요 시간 계산
+  const timeDiffs = {
+    landingToCategory: [] as number[],
+    categoryToLoading: [] as number[],
+    loadingToFirstQuestion: [] as number[],
+    firstQuestionToReport: [] as number[],
+    reportToResult: [] as number[],
+    total: [] as number[],
+  };
+
+  sessionTimestamps.forEach(ts => {
+    if (ts.landing && ts.category) {
+      timeDiffs.landingToCategory.push((ts.category - ts.landing) / 1000);
+    }
+    if (ts.category && ts.loadingStart) {
+      timeDiffs.categoryToLoading.push((ts.loadingStart - ts.category) / 1000);
+    }
+    if (ts.loadingStart && ts.firstQuestion) {
+      timeDiffs.loadingToFirstQuestion.push((ts.firstQuestion - ts.loadingStart) / 1000);
+    }
+    if (ts.firstQuestion && ts.reportRequest) {
+      timeDiffs.firstQuestionToReport.push((ts.reportRequest - ts.firstQuestion) / 1000);
+    }
+    if (ts.reportRequest && ts.result) {
+      timeDiffs.reportToResult.push((ts.result - ts.reportRequest) / 1000);
+    }
+    if (ts.landing && ts.result) {
+      timeDiffs.total.push((ts.result - ts.landing) / 1000);
+    }
+  });
+
+  const avgTime = (arr: number[]) => arr.length > 0 ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : 0;
+
+  return {
+    utmCampaign,
+    totalSessions: filteredSessions.length,
+    funnel: {
+      homePageViews: { count: homeCount, percentage: 100 },
+      kaLandingEntry: calculateFunnelStep(kaLandingEntry.size, homeCount),
+      categorySelected: calculateFunnelStep(categorySelected.size, homeCount),
+      loadingStarted: calculateFunnelStep(loadingStarted.size, homeCount),
+      firstQuestionViewed: calculateFunnelStep(firstQuestionViewed.size, homeCount),
+      reportRequested: calculateFunnelStep(reportRequested.size, homeCount),
+      recommendationReceived: calculateFunnelStep(recommendationReceived.size, homeCount),
+    },
+    avgTimePerStep: {
+      landingToCategory: avgTime(timeDiffs.landingToCategory),
+      categoryToLoading: avgTime(timeDiffs.categoryToLoading),
+      loadingToFirstQuestion: avgTime(timeDiffs.loadingToFirstQuestion),
+      firstQuestionToReport: avgTime(timeDiffs.firstQuestionToReport),
+      reportToResult: avgTime(timeDiffs.reportToResult),
+      totalTime: avgTime(timeDiffs.total),
+    },
+    categoryDistribution,
+    resultPageActions: {
+      productModalOpened: { total: productModalOpenedTotal, unique: productModalOpenedSessions.size },
+      reviewTabViewed: { total: reviewTabViewedTotal, unique: reviewTabViewedSessions.size },
+      purchaseClicked: { total: purchaseClickedTotal, unique: purchaseClickedSessions.size },
+      comparisonViewed: { total: comparisonViewedTotal, unique: comparisonViewedSessions.size },
+    },
+  };
+}
+
 // V2 Flow: 제품별 추천 통계
 function calculateV2ProductRankings(sessions: SessionSummary[]): V2ProductRecommendationRanking[] {
   const productMap = new Map<string, {
@@ -1307,6 +1545,12 @@ export async function GET(request: NextRequest) {
     }
     const v2NewFlowCategoryAnalytics = calculateV2NewFlowCategoryAnalytics(filteredSessions);
 
+    // KA Flow (Knowledge Agent)
+    const kaFlowCampaignStats: KAFlowFunnelStats[] = [];
+    for (const utmCampaign of Array.from(utmCampaigns)) {
+      kaFlowCampaignStats.push(calculateKAFlowFunnel(filteredSessions, utmCampaign));
+    }
+
     // 응답 반환
     return NextResponse.json({
       // Main Flow (Priority-based)
@@ -1324,6 +1568,10 @@ export async function GET(request: NextRequest) {
       v2NewFlow: {
         campaigns: v2NewFlowCampaignStats,
         categoryAnalytics: v2NewFlowCategoryAnalytics,
+      },
+      // KA Flow (Knowledge Agent)
+      kaFlow: {
+        campaigns: kaFlowCampaignStats,
       },
       availableCampaigns: Array.from(utmCampaigns)
     });

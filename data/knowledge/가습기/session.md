@@ -1,5 +1,5 @@
-# 세션: 20260120_040739_4qe3
-> 시작: 2026-01-20T04:07:39.100Z
+# 세션: 20260120_065727_1a1u
+> 시작: 2026-01-20T06:57:27.586Z
 > 카테고리키: 가습기
 > 카테고리: 가습기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 가습기 시장 현황
-- 인사이트: 가습기 시장은 2023년 기준 약 5억 7천만 달러 규모로 추산되며, 2028년까지 연평균 4.8%의 성장률을 기록할 것으로 예상됩니다. 북미와 아시아 태평양 지역이 시장 성장을 주도할 것으로 보이며, 스마트 홈 기술과의 통합 및 건강에 대한 인식 증가가 주요 성장 동력입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwWQGARoHBHOOOF3Cze87XixZGpbx4qu2IaQxdrnQrwSdHj-JMigQsON9fv83X0zIKwKHBD3VGoKD3sDJhP1Z3Er_8ycw6xhfMZqo7NYNoxrElrL6aiMHhxxhrwtSotY4skQEvw-aV6-Gvn-fZjNnZY0Bf9kBgAgKOQg34jQHi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYtXKwkpXeRvEty6MORjwoxdAFTkcs17x7ZWvux5VRxwNfG0lv5G9imkz5akV6lJYDk4CeOUU2tJLNbu3Mpuk1-ploU8ahFSYqvHklN3U0IZWm1Nx0CujUk50bbHHK75ypHMLSQy8Xc7C-LBMa-WO6KJL9LLuXSeKfwFh8damQHw_Q1bUw2qA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBd6m5gh7m1ZuAsqqB9MqLHBpAG1ggOmowN0IOBCUJFmW6cfg7Z8tCLzPNsUoMPJzGdsHaz8ye5Cdf5Eb9IXmKMe_fwR-qlhuePQUAZCOhri0U0qkmPRGKdsOKKLzs_I6VfuOat1EDmihEUF8_8uNNiP8NE3LGoRUhgpYSL4s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETZwc35fdrYiqFCRMFSoN6BoDKA3OVe_SzAeSlSFd1rJdwIMys_AaS-bxuary1uKpKM-LkG-CCnAgtxcHa85wCoEQ8EVJD_-zXrLExfNVS0OQtIlbPiq7d0WYg0J-TpHrcGzBMEQstQ_P-uSlOaUFVLEqFE63DBA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFy5rSx5u-YizGTovg_LX9P3RXyjutml5z9xbPed7q2n4Af9B_DZccxRZqMoV8XgCRwQlvnZcu9BRHcVZQgTBYF6EL1URWEW3O5QneMdEYzeb3nJDrvnWNZLM42oaPiGE75aEhcgLQjnhfJy9uNVcxhb1K_-ET9j3nK7g_esxwtoB4FrWZUcA59zqgdXglWNY2cje4WEIzZlvq_py-5unjK5Eu8FyaR2gTHlnAo25QGN_JsrB4edLtgXkBIyA0gFedbg--b9kQcet5J_1r8cHAgdw5yMWJt6H2mEwN0oHzfCYhYH0e3Rw2E7YVgwLl_BkRJZh8OuEUIVTBM54fbfM0ISiKjN7jfqwWiThDTcLWM1IoLKmfQsPY17EjoBWfxWlomWuaypf8qETZfLN0BCi4MBbbwz9Ol_TSX5JU0rHj2JOxl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSTiCS1_VhlsURMjIKXtxNS9HlQnicUblhbEqB0dwowHbRkAZ2T42546wdbt-iKtibdMhRwCaSIhr52YdgXSYk610AhhCs-mwceqrHPV9YxZ3zsnCDVRDkPdcRaO4KB52MSxoAVUoOWqIvpXdyOf0b, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHq4BIafBB9cpT92Os26pDgYRPdmavYz5ATjpFxL39__J5deC0UziTAbGkAIrY5P3UUw7Z62Opcd9LfOuRAVoY3TDWDflsDsjQrdAJpU5dC1EUnPA3JWm27aVcd0xpoE4u_IDVh1ChiXq8UcZBsNFXhzByw7epdEIqq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfM0k1cJyVqp9LOLiLAPENi4fIJxddrVOg3VigdfC6xwsbL-qMUMrekWqHXh3qSZcJqbzj_JDu4tuPZsPMWdKw4KV27_4eFeAwvPiHFoHLvrIld9FeVGPuyUY=
+- 인사이트: 가습기 시장은 2023년부터 2028년까지 연평균 4.8% 성장하여 2028년에는 5억 7030만 달러 규모에 이를 것으로 예상됩니다. 북미와 아시아 태평양 지역이 시장을 주도할 것으로 보이며, 스마트 홈 기술과의 통합 및 건강에 대한 인식 증가가 성장을 견인할 것입니다. 온라인 판매 채널 또한 빠르게 성장하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_szOfFaQw0AxW7EkkSXjqGLy4DoXJauhg0yE5icSvBZoO2gQ_5LDnucaZuWKQ9yYJnmR8uOq4OcTiXaAzzJ40HBloAWK8SC6XrnaNY9FEG-fMimXzgVM-A3xFaEoJq2mnxkSfW-FWq5PbCF3QXZsdSDxFT5_TqKFkS9D6Rn4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXBQdHe7q2pMy0nH1H1wknAWqeSIT2cqMZUGhc5kd-IQ1pKmym-MZOnruMgDwIKeDo89BN6Ew6Hdus0CmTAXVql0RDsvfpKtCJvZJsmmwo2lSvuKmLhEuxqNPnpAf3jVYwbAN1S-jREprdurr5Y_WZVaXiBWLsmw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfPFPhNpFP-HaDp2QFEYojNSUFjdhSFTeoi4u-yfoznXi9uUsEu7k4KO1G24ZbWVjiwuKm-iPq2r5pOYv5akcRrXHBiI9XHPghEb85sTtjN_VXEBMkao6QDkHkOGgTP8ztZWHQCug=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 방식의 가습기 방식을 선호하시나요? | 상관없어요 |
-| 가습기 세척 및 관리 편의성은 어느 정도가 중요하신가요? | 간편하게 |
-| 스마트 기능이나 IoT 연동 기능이 필요하신가요? | 스마트 기능 불필요, 있으면 좋긴함 |
-| 한 번 물을 채웠을 때 얼마나 오래 사용할 수 있으면 좋을까요? | 대용량 (10L 이상), 중용량 (4~9L) |
-| 가습기 예산은 어느 정도로 생각하세요? (평균 약 26만원, 14만원~34만원대가 가장 많아요) | 15만원 이하 |
-| __avoid_negatives__ | 가습기 내부에서 세균이 번식할까 봐 걱정돼요,가습기 구조가 복잡해서 구석구석 닦기 어려울 것 같아요,가습기 작동 시 나는 소음이 신경 쓰여서 조용하게 사용하기 어려울 것 같아요 |
+| 어떤 방식의 가습기를 선호하시나요? | 초음파식 |
+| 가습기 세척 및 관리는 얼마나 중요하신가요? | 어느 정도 중요 |
+| 가습기를 주로 사용하실 공간의 크기는 어느 정도인가요? | 작은 방 (~10평 미만) |
+| 스마트 기능(원격 제어, 자동 습도 조절 등)이 필요하신가요? | 있으면 좋음 |
+| 가습기 예산은 어느 정도로 생각하세요? (평균 약 26만원, 14만원~34만원대가 가장 많아요) | 14만원 ~ 34만원 |
+| __avoid_negatives__ | 초음파식 가습기라 물통에 세균이 번식할까 봐 걱정돼요,기화식 가습기는 구조가 복잡해서 세척하기 어려울까 봐 걱정돼요 |
 
 ---
 
@@ -61,9 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 가습기 내부에서 세균이 번식할까 봐 걱정돼요
-- 가습기 구조가 복잡해서 구석구석 닦기 어려울 것 같아요
-- 가습기 작동 시 나는 소음이 신경 쓰여서 조용하게 사용하기 어려울 것 같아요
+- 초음파식 가습기라 물통에 세균이 번식할까 봐 걱정돼요
+- 기화식 가습기는 구조가 복잡해서 세척하기 어려울까 봐 걱정돼요
 
 ---
 

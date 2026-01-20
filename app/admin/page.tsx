@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { SessionSummary, CampaignFunnelStats, V2FunnelStats, CategoryAnalytics, V2ProductRecommendationRanking, V2NewFlowFunnelStats } from '@/types/logging';
+import type { SessionSummary, CampaignFunnelStats, V2FunnelStats, CategoryAnalytics, V2ProductRecommendationRanking, V2NewFlowFunnelStats, KAFlowFunnelStats } from '@/types/logging';
 import { ChatCircleDots, Lightning } from '@phosphor-icons/react/dist/ssr';
 
 export default function AdminPage() {
@@ -37,8 +37,12 @@ export default function AdminPage() {
   const [v2NewFlowCampaigns, setV2NewFlowCampaigns] = useState<V2NewFlowFunnelStats[]>([]);
   const [selectedV2NewFlowCampaign, setSelectedV2NewFlowCampaign] = useState<string>('all');
 
-  // Flow 선택 (V2 New가 메인)
-  const [selectedFlow, setSelectedFlow] = useState<'v2new' | 'v2' | 'main'>('v2new');
+  // KA Flow (Knowledge Agent)
+  const [kaFlowCampaigns, setKAFlowCampaigns] = useState<KAFlowFunnelStats[]>([]);
+  const [selectedKAFlowCampaign, setSelectedKAFlowCampaign] = useState<string>('all');
+
+  // Flow 선택 (KA가 메인)
+  const [selectedFlow, setSelectedFlow] = useState<'ka' | 'v2new' | 'v2' | 'main'>('ka');
 
   // 액션 로그 필터
   const [filterUtm, setFilterUtm] = useState<string>('all'); // 'all' | 'none' | 캠페인명
@@ -121,11 +125,15 @@ export default function AdminPage() {
         // V2 New Flow data (recommend-v2)
         setV2NewFlowCampaigns(data.v2NewFlow?.campaigns || []);
 
+        // KA Flow data (Knowledge Agent)
+        setKAFlowCampaigns(data.kaFlow?.campaigns || []);
+
         // Available campaigns (shared)
         setAvailableCampaigns(data.availableCampaigns || []);
         setSelectedCampaign(data.availableCampaigns?.[0] || 'all');
         setSelectedV2Campaign(data.availableCampaigns?.[0] || 'all');
         setSelectedV2NewFlowCampaign(data.availableCampaigns?.[0] || 'all');
+        setSelectedKAFlowCampaign(data.availableCampaigns?.[0] || 'all');
       }
     } catch (error) {
       console.error('Failed to fetch funnel stats:', error);
@@ -1146,8 +1154,18 @@ export default function AdminPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-800">📊 UTM 퍼널 분석</h2>
               <div className="flex items-center gap-4">
-                {/* Flow 선택 (V2 New가 기본) */}
+                {/* Flow 선택 (KA가 기본) */}
                 <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                  <button
+                    onClick={() => setSelectedFlow('ka')}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      selectedFlow === 'ka'
+                        ? 'bg-white text-emerald-700 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    🧠 KA Flow
+                  </button>
                   <button
                     onClick={() => setSelectedFlow('v2new')}
                     className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
@@ -1156,7 +1174,7 @@ export default function AdminPage() {
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
-                    V2 New (추천v2)
+                    V2 New
                   </button>
                   <button
                     onClick={() => setSelectedFlow('v2')}
@@ -1176,15 +1194,16 @@ export default function AdminPage() {
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
-                    Main (Priority)
+                    Main
                   </button>
                 </div>
                 {/* UTM 캠페인 선택 */}
                 {availableCampaigns.length > 0 && (
                   <select
-                    value={selectedFlow === 'v2new' ? selectedV2NewFlowCampaign : selectedFlow === 'v2' ? selectedV2Campaign : selectedCampaign}
+                    value={selectedFlow === 'ka' ? selectedKAFlowCampaign : selectedFlow === 'v2new' ? selectedV2NewFlowCampaign : selectedFlow === 'v2' ? selectedV2Campaign : selectedCampaign}
                     onChange={(e) => {
-                      if (selectedFlow === 'v2new') setSelectedV2NewFlowCampaign(e.target.value);
+                      if (selectedFlow === 'ka') setSelectedKAFlowCampaign(e.target.value);
+                      else if (selectedFlow === 'v2new') setSelectedV2NewFlowCampaign(e.target.value);
                       else if (selectedFlow === 'v2') setSelectedV2Campaign(e.target.value);
                       else setSelectedCampaign(e.target.value);
                     }}
@@ -1204,6 +1223,136 @@ export default function AdminPage() {
               <div className="text-center py-8">
                 <p className="text-gray-600">퍼널 통계 로딩 중...</p>
               </div>
+            ) : selectedFlow === 'ka' ? (
+              // KA Flow (Knowledge Agent) Display
+              kaFlowCampaigns.length > 0 ? (
+                (() => {
+                  const currentCampaign = kaFlowCampaigns.find(c => c.utmCampaign === selectedKAFlowCampaign);
+                  if (!currentCampaign) return null;
+
+                  const funnelSteps = [
+                    { label: '메인 페이지 뷰', data: currentCampaign.funnel.homePageViews, color: 'bg-emerald-500' },
+                    { label: '바로 추천받기 클릭', data: currentCampaign.funnel.kaLandingEntry, color: 'bg-emerald-400' },
+                    { label: '카테고리 선택', data: currentCampaign.funnel.categorySelected, color: 'bg-teal-500' },
+                    { label: '분석 시작하기', data: currentCampaign.funnel.loadingStarted, color: 'bg-teal-400' },
+                    { label: '첫 맞춤질문 표시', data: currentCampaign.funnel.firstQuestionViewed, color: 'bg-cyan-500' },
+                    { label: '최종 보고서 보기', data: currentCampaign.funnel.reportRequested, color: 'bg-cyan-400' },
+                    { label: 'Top5 추천 결과', data: currentCampaign.funnel.recommendationReceived, color: 'bg-green-500' },
+                  ];
+
+                  return (
+                    <div className="space-y-6">
+                      {/* 전체 세션 수 */}
+                      <div className="bg-emerald-50 rounded-lg p-4">
+                        <p className="text-sm text-gray-600 mb-1">총 세션 수</p>
+                        <p className="text-3xl font-bold text-emerald-600">{currentCampaign.totalSessions}</p>
+                      </div>
+
+                      {/* 7단계 퍼널 시각화 */}
+                      <div className="bg-white border border-gray-200 rounded-lg p-6">
+                        <h3 className="text-base font-bold text-gray-900 mb-4">🧠 KA 사용자 여정 퍼널 (7단계)</h3>
+                        <div className="space-y-3">
+                          {funnelSteps.map((step, index) => (
+                            <div key={index}>
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-sm font-semibold text-gray-700">{index + 1}️⃣ {step.label}</span>
+                                <div className="flex items-center gap-3">
+                                  <span className="text-xs font-medium text-gray-500">{step.data.percentage}%</span>
+                                  <span className="text-lg font-bold text-gray-900">{step.data.count}</span>
+                                </div>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-3">
+                                <div className={`${step.color} h-3 rounded-full transition-all`} style={{ width: `${step.data.percentage}%` }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 단계별 소요 시간 */}
+                      {currentCampaign.avgTimePerStep && currentCampaign.avgTimePerStep.totalTime > 0 && (
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                          <h3 className="text-base font-bold text-gray-900 mb-4">단계별 평균 소요 시간</h3>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {currentCampaign.avgTimePerStep.landingToCategory > 0 && (
+                              <div className="bg-emerald-50 rounded-lg p-3">
+                                <p className="text-xs text-gray-500">랜딩→카테고리</p>
+                                <p className="text-lg font-bold text-emerald-600">{currentCampaign.avgTimePerStep.landingToCategory}초</p>
+                              </div>
+                            )}
+                            {currentCampaign.avgTimePerStep.loadingToFirstQuestion > 0 && (
+                              <div className="bg-teal-50 rounded-lg p-3">
+                                <p className="text-xs text-gray-500">분석→첫 질문</p>
+                                <p className="text-lg font-bold text-teal-600">{currentCampaign.avgTimePerStep.loadingToFirstQuestion}초</p>
+                              </div>
+                            )}
+                            {currentCampaign.avgTimePerStep.firstQuestionToReport > 0 && (
+                              <div className="bg-cyan-50 rounded-lg p-3">
+                                <p className="text-xs text-gray-500">질문→보고서</p>
+                                <p className="text-lg font-bold text-cyan-600">{currentCampaign.avgTimePerStep.firstQuestionToReport}초</p>
+                              </div>
+                            )}
+                            {currentCampaign.avgTimePerStep.totalTime > 0 && (
+                              <div className="bg-green-50 rounded-lg p-3">
+                                <p className="text-xs text-gray-500">총 소요시간</p>
+                                <p className="text-lg font-bold text-green-600">{currentCampaign.avgTimePerStep.totalTime}초</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 카테고리별 분포 */}
+                      {currentCampaign.categoryDistribution && currentCampaign.categoryDistribution.length > 0 && (
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                          <h3 className="text-base font-bold text-gray-900 mb-4">카테고리별 분포</h3>
+                          <div className="space-y-2">
+                            {currentCampaign.categoryDistribution.slice(0, 10).map((cat, index) => (
+                              <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                                <span className="text-sm text-gray-700">{cat.categoryName}</span>
+                                <div className="flex items-center gap-4">
+                                  <span className="text-sm text-gray-500">{cat.count}명</span>
+                                  <span className="text-sm font-medium text-emerald-600">완료율 {cat.completionRate}%</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 결과 페이지 액션 */}
+                      {currentCampaign.resultPageActions && (
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                          <h3 className="text-base font-bold text-gray-900 mb-4">결과 페이지 액션</h3>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs text-gray-500">PDP 열어봄</p>
+                              <p className="text-lg font-bold text-gray-700">{currentCampaign.resultPageActions.productModalOpened.total} ({currentCampaign.resultPageActions.productModalOpened.unique}명)</p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs text-gray-500">상품리뷰 탭</p>
+                              <p className="text-lg font-bold text-gray-700">{currentCampaign.resultPageActions.reviewTabViewed?.total || 0} ({currentCampaign.resultPageActions.reviewTabViewed?.unique || 0}명)</p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs text-gray-500">구매하기 클릭</p>
+                              <p className="text-lg font-bold text-gray-700">{currentCampaign.resultPageActions.purchaseClicked.total} ({currentCampaign.resultPageActions.purchaseClicked.unique}명)</p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs text-gray-500">비교표 보기</p>
+                              <p className="text-lg font-bold text-gray-700">{currentCampaign.resultPageActions.comparisonViewed.total} ({currentCampaign.resultPageActions.comparisonViewed.unique}명)</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                    </div>
+                  );
+                })()
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-600">KA Flow 데이터가 없습니다.</p>
+                </div>
+              )
             ) : selectedFlow === 'v2new' ? (
               // V2 New Flow (recommend-v2) Display
               v2NewFlowCampaigns.length > 0 ? (
