@@ -1,14 +1,14 @@
-# 세션: 20260119_123609_0zm9
-> 시작: 2026-01-19T12:36:09.827Z
+# 세션: 20260120_124528_liju
+> 시작: 2026-01-20T12:45:28.821Z
 > 카테고리키: 젖병소독기
 > 카테고리: 젖병소독기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 젖병소독기 시장 현황
-- 인사이트: 젖병소독기 시장은 UV LED 살균 방식이 대세를 이루고 있으며, 스팀 방식과 복합 방식 제품들도 인기를 얻고 있습니다. 소비자들은 살균력, 건조 성능, 수납 용량, 사용 편의성 등을 중요하게 고려하며, 디자인 또한 선택에 영향을 미치는 요소입니다. 최근에는 미세플라스틱 및 환경호르몬 걱정 없는 저온 살균 방식 제품도 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEf52ymm6LWcoKzUvartzjtWtrujTrt0IxAcz-xJ24vt3oJ5DRsaVBExMwTnFwVB9-Jn9-M9eJm1G0kyYM709q3xqLFUI097Q2wLLzq4upTSc9jFFv0Q7vbRSxiAfw0OyxzP3YgbP7fh_ttrGFo-wo8adGJOM0st63vcCG2FhNAay3oaPqhwgXkzyXGxAXi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEt7plKLJjKuxy0rw_eEK6Ovu1HX-M_Bi3cR6ec9Mq0YN7aoYR_0Xxnszz0xowFrJt0A4REwbNIR9usn0WD5w1h7c3BJ8vdZd2OV-nON-rDVjL3G938i0TXRpGAeYZ4UzF5kVvrjMesfmnNLonEQayFhdFf4jngZ6s8SSYGdo4Q5lYQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4ddeYV0m7laa-935PyWEWVxhIY-B6BohciPYQSCkKPjyF5u4cXL8U_5iS1Hwuc0MOcd1bJmrBsYU1Q8EXBUAg2viT-Yl3HINrIlFWM_v36GvFssqHCiZQ05i4VIAwEjiF_83lG0ZxvRG2HJlo77kDqNjFJA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGx2dX0TGC-2UeFz-3AAGvTD3OTxPRlfkmniMCtbjlr-jTw2hq8BYU6rNmMkzXjywy3I5POlSdvImS0fV5tR8rsB8xDhpGNIzLLCRPVWztRdUiWkE3X-vsezomYlwNYW6XSrxAPRS6KJuSdO403Kw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmnd69gGo_HgOJxxYSUm4UxwZ3UqpNPdgGMvPSAW1MDo2PjP9h17_63OE424iWgdcmECwoIWCm9St0cL3_FjndR-sIeIF8swqPvKYhchEffbnxNcgvov1qnMRFb1ILLR1M-2A70ijwL7asEvLbx3ymlxwQu34=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGJBpQ_dQCV3bHYwXs3nprtoHNDQwvyB6HW9tE4u1iURiDH1uC7qEf-LTy8drUThtxN37wjA2Ta5kEaiLf9a-7XRerFBuRfoEalx3svndFUiK-hHCjjfLVyjtNXh4alfznNSpLxB5t9PmNl3XFGPaK0h9EkFyMh2jwPyKYqinxzL91kMna5LUf_zuvNHyo=
+- 쿼리: 젖병소독기 시장 동향
+- 인사이트: 젖병소독기는 신생아 육아 필수템으로 자리 잡았으며, UV 자외선 방식이 가장 대중적으로 사용됩니다. 최근에는 살균 기능 외에 열풍, 자연 건조 등 다양한 기능이 추가된 제품들이 출시되어 선택의 폭이 넓어졌습니다. 특히 유팡, 스펙트라, 해님 등의 브랜드가 시장에서 높은 점유율을 차지하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6q4QmPhojA1O9CbT2xs4UKDZnmycJKGKC7k2sVdM2b0sRqVUCAMrFBa3a-MkOYZmegacIoUQMN9qYUPM3OhJCFl4DZ80Pn8nJ45jAjfl2tCqG04x-k5xPM6nD59UXi9fXpU_rkSbaaSBwx_zV1Cih6QpupBzWy1naMdM-XarF_-FtWXZT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcuzIBPno6LcYsxvSzYgLQU7ycjR3W5qCNZH5nX9EkqgqvEvzV1Xh3C_LZJQkfU39l4o_BNL3ac315dCMuX_ZXVW5JDheCwhCUN__oIiFlPp0cxiph17hOMsvyoYTMkfq7Xalk_zA8vCdJzwfk3eb5Xe__akEHHbW13k5lazetLxkn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAZgKzzzlsDyNai7O9jKkd5xWSyanBcJCSfRa88Uy6xzwb581oKy4IuCC9Q_kPLJQO9xAOlVPPTnfcw5bBluxdwRxp76n6HSoIMaac6a_b-rNR3-n_EENy_qKMjZELoQFeh2o5Z-fv_7hbqaqGWvtU4Jx6rYWcIzajj50hTCdCj8a5YKrX4_X_OvcV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvacEiQNTl0dOQ53HGcLmp3Je2gieUVvlouiJvzL1d09-lKEhONfSRI91iCBOSP380QXK2z2aM55txd2dJPiIbhlaLxAo0Jb6Vy63ZIB8kwzoa7bA58x0f55ihoQFVwev6s9n_2l0ytPlO9mvV5TE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFsk7TYxBE3YI6ChF_x-JSP8GMfvxlVBG3x9tq7rLH1vLgTmuivTvq03QIfHsYWduO0C-0JpsMyfLoRZQnPJa1M_LInydgvhlPx4fpWDNb_8QLcedb6v3B3LCAr4SnquZe0DhP9ARDnz732JRRdzdURnT4DlWDUVwx72ybvDhaWXnn1HYvD2hIOV1P080gY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOTVF3rk5eU-53yc2oNJWTawv_p9CQz9UYb4-WxoVUa4HXZ4jZj0xnzUJjAWTP53t3ChrzuzJ6nArYw_5WWW709MX8CmRPBj2QlbftMKJXxN3AkezoCEQuLm-fEDT7a6Eo32r0CqwJ7JxvfJNr04RGvdgMsy9O6qkcJQIQ-C3BDg2pNmSyJg5hseK4PkSaaUPavvcNTgpyBCgblsKpbUFAM2cgkvjAuKOYEg==
 
 ---
 
@@ -21,21 +21,29 @@
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 12개 (전체 12개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 더블하트 모유실감 3세대 PPSU 베이직 160ml - 60,930원 - ⭐4.8
-2. 헤겐 애착젖병 PPSU 150ml + 240ml - 60,813원 - ⭐5
-3. 헤겐 애착젖병 PPSU 240ml - 44,530원 - ⭐4.8
-4. 헤겐 애착젖병 PPSU 150ml - 112,290원 - ⭐5
-5. 유팡 UP920A - 320,660원 - ⭐4.9
-6. 스펙트라 올셋 PP 젖병 160ml - 10,800원 - ⭐5
-7. 그린핑거 베베그로우 PPSU 수국 젖병 160ml - 28,520원 - ⭐5
-8. 더블하트 모유실감 3세대 PPSU 베이직 240ml - 96,990원 - ⭐5
-9. 더블하트 모유실감 3세대 PPSU 헤리티지 160ml (노꼭지) - 22,140원 - ⭐5
-10. 헤겐 애착젖병 PPSU 150ml - 57,180원 - ⭐4.9
-11. 더블하트 모유실감 3세대 PPSU 제뉴인화이트 160ml (노꼭지) - 22,240원 - ⭐4.7
-12. 란시노 유리젖병 240ml - 27,800원 - ⭐5
+1. 해님 해님 UV LED 젖병소독기 4세대 플러스 HN-04L 그레이메탈 HN-04L-GM - 238,000원 - ⭐0
+2. 해님 해님 UV LED 젖병소독기 4세대 플러스 HN-04L 화이트메탈 HN-04L-WM - 238,000원 - ⭐0
+3. 에코맘 아리 젖병소독기 ECO-202 - 249,000원 - ⭐0
+4. 닥터브라운 전자레인지 스팀소독기 - 28,010원 - ⭐0
+5. 보본 보본 VOBON 맘마 젖병소독기 출산선물 신생아선물 열탕 소독 젖병살균기 VB-BS800W - 113,050원 - ⭐0
+6. 델키 스팀 워머 젖병 소독기 혼합 색상 DKM-5263 - 67,900원 - ⭐0
+7. 오벗 휴대용 UV 살균 소독기 OUV101 유아용 장난감 - 100,500원 - ⭐0
+8. 젖병 소독집게/열탕/소독/집게/휴대용/소독기가정용/다목적/다용도/손잡이/논슬립/큰젖병용/분리형/세척 - 15,210원 - ⭐0
+9. 젖병 열탕집게 컵 위생 장갑 세척 그립 안전 소독기 아기 식기 실리콘 홀더 유아 실리콘 주방 내열 멸균 - 16,720원 - ⭐0
+10. 젖병소독기 유아용품 자외선 살균 건조 음이온 탈취 네일샵 뷰티샵 산후조리원 - 344,990원 - ⭐0
+11. 수니몰 품질 좋고 가성비 뛰어난/ 자외선램프적용 이중살균 휴대용 젖병 젖꼭지 살균기 / 지금 나에게 필요한 MUST HAVE 아이템  상세페이지 참조 - 46,130원 - ⭐0
+12. 칠전몰 휴대용 젖꼭지 살균기 아기용품 휴대용젖병살균 - 32,710원 - ⭐0
+13. 신생아 젖병소독기 자외선 살균 온풍건조 출산선물 젖병보관함 뷰티샵 육아필수템 - 277,870원 - ⭐0
+14. 휴대용 젖병 살균기 / 쪽쪽이 UV 살균 건조기 유아용 아기용 무선 미니 소독 여행용 출산 선물 육아 필수템 - 89,300원 - ⭐0
+15. [해외] Mochae 젖병소독기 스팀 건조 젖병살균기 다기능 젖병건조기 스마트 젖병보관함 가능 가열 이유식 - 51,350원 - ⭐0
+16. [해외] Mochae 젖병소독기 스팀 건조 젖병살균기 다기능 젖병건조기 스마트 젖병보관함 가능 가열 이유식 - 51,350원 - ⭐0
+17. 젖병 소독기 / 살균기 스테인레스 스텐 냄비형 가열식 유리 뚜껑 집게 젖꼭지 수유용품 실리콘 홀더 - 73,480원 - ⭐0
+18. [해외] Haakaa 다용도 실리콘 전자레인지 병 살균기 및 스팀기 - 재사용 가능한 접이식 살균기 아기 젖병 유축기 부품 젖꼭지 액세서리용 169825  Haakaa 다용도 실리콘 전자레 - 85,300원 - ⭐0
+19. 상세 페이지 참고 젖병 소독기 자동 온도조절 2in1 우유 데우기 가열기 - 47,400원 - ⭐0
+20. [해외] Mochae 쌍병젖병 중탕 데우기 살균기 스마트 휴대용 4in1 스팀 젖병소독기 모유중탕기 - 28,350원 - ⭐0
 
 ---
 

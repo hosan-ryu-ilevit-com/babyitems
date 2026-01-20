@@ -1,34 +1,28 @@
 # 에어프라이어 전문가 지식
 
-> 마지막 업데이트: 2026-01-19T09:00:34.576Z
-> 분석 상품: 20개 | 분석 리뷰: 22,175개
+> 마지막 업데이트: 2026-01-20T12:40:02.497Z
+> 분석 상품: 20개 | 분석 리뷰: 24,026개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 대용량 및 오븐형 에어프라이어 인기 증가
-- 스테인리스 내벽 및 트레이 등 위생 및 관리 편의성 강조
-- 스마트 기능 및 IoT 연동을 통한 편의성 증대
-- 간편식(HMR) 조리 최적화 및 관련 레시피 개발 활발
-- 온라인 채널 판매 성장 가속화
+- 대용량 및 오븐형 에어프라이어 인기
+- 스마트 기능 탑재
+- 건강한 조리 및 간편식 선호
+- 세척 편의성 증대
 
 ### 구매자 만족 포인트
-- ✓ 건강한 조리 (적은 기름 사용)
+- ✓ 적은 기름 사용
+- ✓ 다양한 재료 조리 가능
+- ✓ 뛰어난 편의성
 - ✓ 빠른 조리 시간
-- ✓ 에너지 효율성
-- ✓ 사용 편의성
-- ✓ 다용도성 (다양한 요리 가능)
-- ✓ 청소 용이성 (일부 모델)
-- ✓ 뛰어난 가성비 (일부 모델)
+- ✓ 바삭한 식감
 
 ### 주의해야 할 단점
-- ⚠ 제한된 조리 용량
-- ⚠ 불균일한 조리 가능성
-- ⚠ 조리 시간 (일부 메뉴)
-- ⚠ 높은 초기 비용 (일부 모델)
-- ⚠ 소음 발생
-- ⚠ 세척 번거로움 (복잡한 구조)
-- ⚠ 재료에 따른 맛 편차
+- ⚠ 세척 번거로움
+- ⚠ 조리 시간 지연
+- ⚠ 재료별 맛 편차
+- ⚠ 생선 조리 시 유해물질 생성 가능성
 
 ### 가격대 인사이트
 
@@ -39,57 +33,47 @@
 
 ### 1. 아이닉 4세대 올스텐 에어프라이어 iSA6L
 - **브랜드**: 아이닉
-- **가격**: 85,260원
-- **평점**: ⭐4.6 (603개 리뷰)
+- **가격**: 92,070원
+- **평점**: ⭐4.6 (606개 리뷰)
 - **핵심 스펙**: 에어프라이어 / 바스켓형 / 스테인리스 / 6L / 디지털디스플레이 / 내부투시창 / 내부조명 / 자동메뉴 / 해동 / 할로겐램프 / 분리형거름망 / 열선보호망 / 스마트전원차단 / 온도조절 / 시간조절
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=72816731)
 
-### 2. 코렐브랜드 인스턴트 옴니 플러스 18
-- **브랜드**: 코렐브랜드
-- **가격**: 81,750원
-- **평점**: ⭐4.6 (271개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 18L / 다이얼 / 터치 / 디지털디스플레이 / 3단 / 내부투시창 / 더블히팅 / 내부조명 / 자동메뉴 / 로티세리 / 식품건조 / 보온
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16190351)
-
-### 3. 풀무원건강생활 스팀쿡 플러스 AV15D11
-- **브랜드**: 풀무원건강생활
-- **가격**: 238,173원
-- **평점**: ⭐4.5 (13개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 15L / 터치 / 내부조명 / 자동메뉴 / 로티세리 / 스팀 / 열선보호망 / 스마트전원차단 / 1800W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=94694732)
-
-### 4. 풀무원건강생활 스팀쿡 마스터 듀얼스팀 AV20D11W
+### 2. 풀무원건강생활 스팀쿡 마스터 듀얼스팀 AV20D11W
 - **브랜드**: 풀무원건강생활
 - **가격**: 272,750원
-- **평점**: ⭐4.8 (202개 리뷰)
+- **평점**: ⭐4.7 (205개 리뷰)
 - **핵심 스펙**: 에어프라이어 / 오븐형 / 터치 / 내부투시창 / 로티세리 / 2150W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=32860748)
 
-### 5. 아이닉 대용량 스텐 에어프라이어 16L AO-16L
-- **브랜드**: 아이닉
-- **가격**: 131,570원
-- **평점**: ⭐4.8 (15,573개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 16L / 터치 / 디지털디스플레이 / 3단 / 내부투시창 / 내부조명 / 자동메뉴 / 로티세리 / 식품건조 / 스마트전원차단 / 열차단손잡이 / 온도조절
+### 3. 코렐브랜드 인스턴트 옴니 플러스 18
+- **브랜드**: 코렐브랜드
+- **가격**: 80,210원
+- **평점**: ⭐4.6 (273개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 18L / 다이얼 / 터치 / 디지털디스플레이 / 3단 / 내부투시창 / 더블히팅 / 내부조명 / 자동메뉴 / 로티세리 / 식품건조 / 보온
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=18841001)
+- [상세보기](https://prod.danawa.com/info/?pcode=16190351)
 
-### 6. 샤크닌자 닌자 콤비 SFP701
+### 4. 풀무원건강생활 스팀쿡 플러스 AV15D11
+- **브랜드**: 풀무원건강생활
+- **가격**: 227,050원
+- **평점**: ⭐4.5 (15개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 15L / 터치 / 내부조명 / 자동메뉴 / 로티세리 / 스팀 / 열선보호망 / 스마트전원차단 / 1800W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=94694732)
+
+### 5. 샤크닌자 닌자 콤비 SFP701
 - **브랜드**: 샤크닌자
-- **가격**: 290,900원
+- **가격**: 299,900원
 - **평점**: ⭐4.6 (30개 리뷰)
 - **핵심 스펙**: 에어프라이어 / 오븐형 / 12.5L / 터치 / 디지털디스플레이 / 2단 / 자동메뉴 / 예열 / 스팀 / 분리형용기
 - **장점 요약**: 분석 중
@@ -97,7 +81,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=71647319)
 
-### 7. 풀무원건강생활 스팀쿡 베이직 AV12E10CC
+### 6. 풀무원건강생활 스팀쿡 베이직 AV12E10CC
 - **브랜드**: 풀무원건강생활
 - **가격**: 151,050원
 - **평점**: ⭐4.6 (19개 리뷰)
@@ -107,19 +91,19 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=78238583)
 
-### 8. 샤크닌자 닌자 에어그릴 AG301
-- **브랜드**: 샤크닌자
-- **가격**: 212,090원
-- **평점**: ⭐4.7 (217개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 탑오픈형 / 스테인리스 / 세라믹코팅 / 터치 / 디지털디스플레이 / 자동메뉴 / 식품건조 / 분리형용기 / 분리형거름망 / 열선보호망 / 온도조절 / 1760W
+### 7. 아이닉 대용량 스텐 에어프라이어 16L AO-16L
+- **브랜드**: 아이닉
+- **가격**: 147,870원
+- **평점**: ⭐4.8 (15,625개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 16L / 터치 / 디지털디스플레이 / 3단 / 내부투시창 / 내부조명 / 자동메뉴 / 로티세리 / 식품건조 / 스마트전원차단 / 열차단손잡이 / 온도조절
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=15731903)
+- [상세보기](https://prod.danawa.com/info/?pcode=18841001)
 
-### 9. 필립스 2000시리즈 NA230/00
+### 8. 필립스 2000시리즈 NA230/00
 - **브랜드**: 필립스
-- **가격**: 97,340원
+- **가격**: 96,310원
 - **평점**: ⭐4.8 (25개 리뷰)
 - **핵심 스펙**: 에어프라이어 / 바스켓형 / 논스틱코팅 / 6.2L / 터치 / 디지털디스플레이 / 내부투시창 / 자동메뉴 / 식품건조 / 보온 / 해동 / 토스트 / 분리형용기 / 스마트전원차단 / 1700W
 - **장점 요약**: 분석 중
@@ -127,9 +111,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=71504639)
 
-### 10. 필립스 3000시리즈 NA342/00
+### 9. 필립스 3000시리즈 NA342/00
 - **브랜드**: 필립스
-- **가격**: 141,510원
+- **가격**: 161,600원
 - **평점**: ⭐5 (9개 리뷰)
 - **핵심 스펙**: 에어프라이어 / 바스켓형 / 논스틱코팅 / 7.2L / 터치 / 디지털디스플레이 / 내부투시창 / 자동메뉴 / 식품건조 / 보온 / 해동 / 토스트 / 2000W
 - **장점 요약**: 분석 중
@@ -137,29 +121,19 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=73560935)
 
-### 11. 아이닉 new 올스텐 에어프라이어 iSA7
-- **브랜드**: 아이닉
-- **가격**: 115,970원
-- **평점**: ⭐4.7 (3,989개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 바스켓형 / 스테인리스 / 7L / 터치 / 디지털디스플레이 / 내부투시창 / 자동메뉴 / 할로겐램프 / 열선보호망 / 스마트전원차단 / 열차단손잡이 / 온도조절 / 시간조절 / 1500W
+### 10. 샤크닌자 닌자 에어그릴 AG301
+- **브랜드**: 샤크닌자
+- **가격**: 212,090원
+- **평점**: ⭐4.7 (218개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 탑오픈형 / 스테인리스 / 세라믹코팅 / 터치 / 디지털디스플레이 / 자동메뉴 / 식품건조 / 분리형용기 / 분리형거름망 / 열선보호망 / 온도조절 / 1760W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=15550937)
+- [상세보기](https://prod.danawa.com/info/?pcode=15731903)
 
-### 12. 쿠쿠전자 CAFO-C1810EDG
+### 11. 쿠쿠전자 CAF-E0810TW
 - **브랜드**: 쿠쿠전자
-- **가격**: 167,940원
-- **평점**: ⭐4.7 (48개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 18L / 다이얼 / 버튼 / 디지털디스플레이 / 내부투시창 / 더블히팅 / 내부조명 / 자동메뉴 / 식품건조 / 보온 / 해동 / 분리형거름망
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=62164070)
-
-### 13. 쿠쿠전자 CAF-E0810TW
-- **브랜드**: 쿠쿠전자
-- **가격**: 109,190원
+- **가격**: 109,170원
 - **평점**: ⭐4.8 (28개 리뷰)
 - **핵심 스펙**: 에어프라이어 / 바스켓형 / 8L / 터치 / 내부투시창 / 내부조명 / 자동메뉴 / 해동 / 예열 / 분리형거름망 / 온도조절 / 시간조절 / 1750W
 - **장점 요약**: 분석 중
@@ -167,25 +141,45 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=32156642)
 
-### 14. 재원전자 이지클린 올스텐 바스켓 오븐형 에어프라이어
-- **브랜드**: 재원전자
-- **가격**: 149,000원
-- **평점**: ⭐4.8 (20개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 25L / 다이얼 / 3단 / 내부투시창 / 더블히팅 / 내부조명 / 자동메뉴 / 로티세리 / 토스트 / 분리형거름망 / 온도조절 / 시간조절
+### 12. 아이닉 new 올스텐 에어프라이어 iSA7
+- **브랜드**: 아이닉
+- **가격**: 115,420원
+- **평점**: ⭐4.7 (3,992개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 바스켓형 / 스테인리스 / 7L / 터치 / 디지털디스플레이 / 내부투시창 / 자동메뉴 / 할로겐램프 / 열선보호망 / 스마트전원차단 / 열차단손잡이 / 온도조절 / 시간조절 / 1500W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=68332484)
+- [상세보기](https://prod.danawa.com/info/?pcode=15550937)
 
-### 15. 마이디어 MTO38EZMA-ACFBWH
-- **브랜드**: 마이디어
-- **가격**: 169,420원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 오븐형 / 40L / 다이얼 / 버튼 / 디지털디스플레이 / 2단 / 내부투시창 / 더블히팅 / 자동메뉴 / 식품건조 / 스팀 / 분리형거름망 / 2050W
+### 13. 브레빌 BOV860
+- **브랜드**: 브레빌
+- **가격**: 552,900원
+- **평점**: ⭐4.9 (42개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 오븐형 / 논스틱코팅 / 22L / 다이얼 / 버튼 / 디지털디스플레이 / 3단 / 내부투시창 / 내부조명 / 자동메뉴 / 보온 / 토스트 / 스마트전원차단 / 열차단손잡이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=74339501)
+- [상세보기](https://prod.danawa.com/info/?pcode=14488808)
+
+### 14. 쿠쿠전자 CAFO-C1810EDG
+- **브랜드**: 쿠쿠전자
+- **가격**: 166,590원
+- **평점**: ⭐4.7 (48개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 18L / 다이얼 / 버튼 / 디지털디스플레이 / 내부투시창 / 더블히팅 / 내부조명 / 자동메뉴 / 식품건조 / 보온 / 해동 / 분리형거름망
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=62164070)
+
+### 15. 마이어 GY-2401
+- **브랜드**: 마이어
+- **가격**: 90,440원
+- **평점**: ⭐4.5 (345개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 바스켓형 / 5.2L / 터치 / 디지털디스플레이 / 내부투시창 / 자동메뉴 / 분리형거름망 / 열선보호망 / 스마트전원차단 / 유리용기 / 온도조절 / 1400W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=78784838)
 
 ### 16. 필립스 에센셜 HD9270/20
 - **브랜드**: 필립스
@@ -197,45 +191,45 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=16525115)
 
-### 17. 브레빌 BOV860
-- **브랜드**: 브레빌
-- **가격**: 552,900원
-- **평점**: ⭐4.9 (42개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 오븐형 / 논스틱코팅 / 22L / 다이얼 / 버튼 / 디지털디스플레이 / 3단 / 내부투시창 / 내부조명 / 자동메뉴 / 보온 / 토스트 / 스마트전원차단 / 열차단손잡이
+### 17. 코렐브랜드 일렉 DY-1111KC
+- **브랜드**: 코렐브랜드
+- **가격**: 166,980원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 탑오픈형 / 4L, 1.5L / 터치 / 디지털디스플레이 / 내부투시창 / 자동메뉴 / 분리형용기 / 분리형거름망 / 유리용기 / 온도조절 / 1500W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=14488808)
+- [상세보기](https://prod.danawa.com/info/?pcode=103483694)
 
-### 18. 마이어 GY-2401
-- **브랜드**: 마이어
-- **가격**: 95,099원
-- **평점**: ⭐4.5 (339개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 바스켓형 / 5.2L / 터치 / 디지털디스플레이 / 내부투시창 / 자동메뉴 / 분리형거름망 / 열선보호망 / 스마트전원차단 / 유리용기 / 온도조절 / 1400W
+### 18. 쿠쿠전자 CAF-G0610TB
+- **브랜드**: 쿠쿠전자
+- **가격**: 74,560원
+- **평점**: ⭐4.7 (1,799개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 바스켓형 / 테프론코팅 / 5.5L / 터치 / 자동메뉴 / 해동 / 분리형용기 / 분리형거름망 / 분리형손잡이 / 스마트전원차단 / 온도조절 / 시간조절 / 1750W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=78784838)
+- [상세보기](https://prod.danawa.com/info/?pcode=13496378)
 
-### 19. 디온리 글라스 큐브 NAA321BK
+### 19. 마이디어 MTO38EZMA-ACFBWH
+- **브랜드**: 마이디어
+- **가격**: 174,970원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 에어프라이어 / 오븐형 / 40L / 다이얼 / 버튼 / 디지털디스플레이 / 2단 / 내부투시창 / 더블히팅 / 자동메뉴 / 식품건조 / 스팀 / 분리형거름망 / 2050W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=74339501)
+
+### 20. 디온리 글라스 큐브 NAA321BK
 - **브랜드**: 디온리
-- **가격**: 80,320원
+- **가격**: 82,770원
 - **평점**: ⭐4.8 (557개 리뷰)
 - **핵심 스펙**: 에어프라이어 / 바스켓형 / 5.5L / 터치 / 자동메뉴 / 해동 / 열선보호망 / 스마트전원차단 / 열차단손잡이 / 유리용기 / 온도조절 / 1200W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=22063121)
-
-### 20. 쿠쿠전자 CAFO-DS1510GW
-- **브랜드**: 쿠쿠전자
-- **가격**: 147,310원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 에어프라이어 / 오븐형 / 스테인리스 / 15L / 터치 / 디지털디스플레이 / 3단 / 내부투시창 / 내부조명 / 자동메뉴 / 식품건조 / 보온 / 해동 / 토스트 / 예열
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=101186462)
 
 ---
 
@@ -250,8 +244,9 @@
 ---
 
 ## 📊 데이터 출처
-- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbx8omqKpkgdJWwvn3nX-Hw4Gujv3PR4yEnmGkwKZgA-O2TyqwX5g6dI6xqWd70nlvisn6mA2aeHcOWMD5WxA8bZ7dnvXJt8nQyxy_gVG0Q4DjEhoYoFjpCTtji45PbIWfDbGhGwuFlniiYZjcxgZSIb1-GNPTe1XObBQ9MQ==)
-- [dailyenews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw0WbS9nKkaL54G_Ymwn0sPGd0eJqoFMrlR8HT3OPGXxMwRmmAHJzJMK4kpXES_4clyAzTjcqR_yG6RqmvL5gOzIkMHjKeqne3S8HYf2q6dcbPwgpZg9FYnxiPDh0q-ogLokPLHW11LcuaQMysN8dmNhSMIVtUt8TZ)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtaUq_6GIdA3ypWdG1D3RUq03LcESMDdczm0MgYhwzQoBnUaY_kxa8bA45oOkA1vLMcmmgvGRxJzLx7EhgyiABtRp-X3z8VIb80l3mnn__lC3yBgUlhokk3S1GY9udz7-QbrhGBr3kZIh5-akdWdOpiOnDxjzGSr1lZRmHXYcZEtSDvrGqX3EIJ-5ieE3Nv0grjudF9CYCeaa9C2zfhZlKKS5g5pAZhamaDbDupQ==)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZN26A55HcYM0asxzTzKLQqGrzyuRIIjM7OZIOnjZel6BFxHNQ_XFEuzjbwvqHALqvI0KKz9NAZa_tuxB8rdQXp6WdY8m7Np84EMkG4ImOc0pImYkVopRpMr_b_-kwsGRAyGqcTnpp2rnMZH_1yBgKa0SgfEl4SJu8Z53mUfPpHOHVMRYtGcnSBrn4KYlo1ogNMs35gQCh7N-cEA==)
-- [airfryermfr.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7TKNp_xbdGy3AA2PN5IvnKY183GbQdntZI7A4bfi-4BMehm9rWeOy8lCccal_gF3tomiU4KX4x8YM1Pe3kxIxQIob7RRhof13Cez9zzY1HxXMqZtBB7mrC95XikmqI8q_oTCcbmDVKr9aPjTIpJnAJFkhfKuTQYbeMNsdO7hWsn9wfwuzi74TBJWex3RrzrHPe_whl2BsfBub0oA=)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwBuwGhwSkNcjpUPzg9FyCk_SsyCohDvi2Fl-AHcCWihjlOkLKeE8VaB3kZF7QbXLHuD139CjQ5m08ah09wyIXl7_YmafakP7uyeLdnOtQ3KhwVH7SX7LHCRwl6upZ21Fbh7qlyzyiv4ruU9TgH5uaymJkJwVXZqI-bVcpOtJaPeLe2GPduLkDAc7l7fdp16SN9c985daY6kuZkw==)
+- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0l09jLA5OfTHLc9HRw2lRs3Cyb1fuOqWLgSAMhOUd6CmYDo8qeuC8MmNK5H8F4_JrhvdLk1LN69gyiMEjk23QpC47cfNEWt6G3A6qCozhPyYSk2kPiMqXtXQf-cB6byxz2kI-D91veqV_uygaP9HjNVQOXHgv2Mg=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6L06Hw8O7bCPx9tx-0HvG02iQdyTxHYmcoS-fZu5PMzA_KZ9Opvn2LO5HqH4fKU45xvidcRa2t5xOcOJw3543WvJoSjsNIsE5JG4mbzJ4H4T-c414LQ2nSwo-mwkWq5Q98cUwtNA=)
+- [wikitree.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHi6edg6TEQG9N6vb4FdCbyJB8vBtttde5NaQNDFUk4MXW_lbvFAsqH9aT2iSXUH3gOSsmM_Gvr5hbG4ncjkO3nUKa2nwwLrIlixjx8XFrM9Bs-3ksUTE4rqiBErlIAbKvpK9dqEcA=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0VnqAtE71D7gDb5fhL-QOcyqHzRVdlmORH_3nbZiHyU2N4ExQqcDgoyGbpx-_2FOjnBXcli8oEyPpX1lw5y2w8hXB9jge8mlVDAFa_Xs6ixxj8Ha0X_pw1RxtC2SS-2dzS3Dc4NBnYcO52rDxEnrI)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnLJkvh95ZMio3GzfsL1wjavPRcmQT7fXfZbkH8bw_uxESEM8JkarddFANlO83MNojKlw_Ms-LIoooWUynpE1yEDuKsZGH6JWxqy1sWMn2P_tsbp4sCxpcosB9y_DH2jEzmx_RDdw_tjLv8et9c0JJdf0BswaXsGbn7w==)

@@ -1002,8 +1002,8 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="absolute bottom-0 left-0 right-0 h-[85vh] bg-white rounded-t-2xl overflow-hidden"
+              transition={{ type: 'spring', damping: 30, stiffness: 200 }}
+              className="absolute bottom-0 left-0 right-0 h-[85vh] bg-white rounded-t-3xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* 핸들 */}

@@ -1,14 +1,14 @@
-# 세션: 20260116_084351_yy78
-> 시작: 2026-01-16T08:43:51.026Z
+# 세션: 20260120_083432_9xqe
+> 시작: 2026-01-20T08:34:32.320Z
 > 카테고리키: 보틀워머
 > 카테고리: 보틀워머
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 보틀워머 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 보틀워머 시장은 휴대성과 편의성을 갖춘 제품들이 인기를 얻고 있습니다. 특히 USB 충전식이나 차량용 시가잭을 이용하는 휴대용 보틀워머는 외출 시 아기에게 적정 온도의 분유나 모유를 제공하는 데 필수 육아템으로 자리 잡았습니다. 필립스 아벤트와 같은 브랜드가 꾸준히 언급되고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgfpLJ-t63ieJzThQj9d9m9no11YmYbu2_bDYRoTmFnbmb5UyfZdZgeL-OPocGtKI29OzhW_jIrykT3y16dAAsJmKgkwxZwjNMdvuMpbo4iTRrYDi-8r8IfT0c, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETuFPMslg8JlLmLkRkPMyJK3CF78t9HCDO4A3rj33CwBs2VVzpIjKe6sEs3YyEfBJB7PqvuXFbIvp_LSO99BeXD9oaZbw8VIskJ-fBnDEAExVpsMsgZtfFSMTR77mS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAR2-LmPmt7rphbkt8ZvB9bKHyNtnhv-uId_CgYaNaSo7VYoXb7209WZhm6Uvd_Hta6bTiOLzVByaO9SgO_pHCN4R5jOOTFBPPigNwre4m_hHqVIWZ2f2hjjWK7IDf5915JwrtMSE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjQjq3iBK8KcXbb0pyu1NFIn9nihL8NVg1ZptKJtcDqEnhA-c56RbpreHQ3Yg4va00dAxQs6THHWI8-F51Ot5NdGkOHlVEVG2V49TDAiT4TN7byK4hlK8pXM3CcJayejczOz4bk7TXd_YSfC4nTQjlUpxyPtyD1wPgneBwPjLZsPlqWmjRmkgxXJOnoB2kE7vGucR4djHaUHN-7tIUWMb5JrnoNOckAYPTezaPtjKo6GsNtdptlqjpdf5FFbIzIFfm0aoo491lTBRTW51yYDBPOM9HCAuGn8P-3q4tQQKY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfGn9qRyn8xPzgA6TlX_miEWd8NB5zlKk9LIvn-j6p7EtDUrPMrJmecvVgXg9MsFdRjDVANPyQq4G3aPgXXwsgY2O5YHkAJoo_egXSKeZr3B6lRn6xU0_9iwk-EbgGYopm2A0aUjDIBfaa1-L5pWd9DivC3X76EJvdBhRoTlje_537vKjuhbCWoRqan3E=
+- 쿼리: 보틀워머 시장 현황
+- 인사이트: 휴대용 보틀워머는 외출 시 아기의 건강한 수유를 위한 필수 육아용품으로, 적정 온도(36-37도)를 유지하여 아기의 소화와 체온 유지에 도움을 줍니다. USB, 차량용 시가잭, 배터리 등 다양한 전원 공급 방식으로 언제 어디서나 편리하게 사용할 수 있으며, 보온 기능으로 장시간 외출 시에도 유용합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3y5MJd_fsSUJbCyH2RE0keP6Rl-UpxfKJoAtq7kVZY3Q3H3Ez9RhkC4uniZiEi3kCiuH09X8-vnXAnSx3T5cjxCq4P7HXFTsGG4S7Hh9AMB5BmUiQYXeCTPiu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF51GJ8Krb0LDjwf8rLm7BQO5FRk0BgCAk_aBKIqXSbrxj_QKLUSe7cuOJMkEnYS5npsphwsPiDcsbiy5MyTK2BSZtMYTrYBeki1gjfLppmZmjsDAyiLvgn0LQ-RHiNpYaDIOvPfAY3Ti4wM6MufKWzg78_hQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHF-uIS10fYO6hcZBC0kfHjwNdhlnnXXm0zPu_ctokltAak9ZmBuSRttQ_M4tL1_KSyQWbMYmJjstuBUjFlZ4pch0-de7HT7U_tS0X1XKBusFsRW47dNi2jSRAFrqUxH4F-lhyWWRm680PmC6zaw==
 
 ---
 
@@ -16,25 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
+| 보틀워머를 주로 어디서 사용하실 예정인가요? | 차량 내 (시가잭), 휴대용 (USB 충전) |
+| 젖병이나 이유식을 어떤 방식으로 데우는 것을 선호하시나요? | 영양소 보존 (저온 균일 가열) |
+| 온도 조절 기능은 어느 정도 필요하신가요? | 다양한 온도 설정 (정밀 조절) |
+| 보틀워머 외에 추가적으로 필요한 기능이 있으신가요? | 해동 기능, 살균/소독 기능 |
+| 보틀워머 예산은 어느 정도로 생각하세요? (평균 5만 2천원, 3만 원대~6만 원대가 가장 많아요) | 3만원대 ~ 7만원 |
+| __avoid_negatives__ | 차량이나 휴대용으로 사용할 때 젖병이나 이유식을 데우는 데 시간이 너무 오래 걸릴까 봐 걱정돼요. |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 11개 (전체 11개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 필립스 아벤트 온도센서 보틀워머(SCF358/00) - 62,950원 - ⭐4.8
-2. 아벤트 젖병 보틀워머(SCF355) - 45,470원 - ⭐5
-3. 스펙트라 스펙트라 다용도 2 in 1 보틀워머 SPBW-01 베이지 1개 - 49,000원 - ⭐5
-4. 보아르 아가맘마 보틀워머 - 57,900원 - ⭐4.9
-5. 치코 공식수입원 보틀워머 - 14,100원 - ⭐4.7
-6. 아가프라 아가프라 2세대 휴대용 젖병보틀워머 - 33,890원 - ⭐4.3
-7. 스마트 머그워머 사무실 3단 온열 보온 컵 보틀 워머 - 13,950원 - ⭐5
-8. 오아 보아르 보아르 아가 맘마 보틀워머 - 55,010원 - ⭐5
-9. 아이노비아 비레스트 휴대용 USB 젖병 보틀 워머 NNQ3 - 31,990원 - ⭐4
-10. 이오맘 휴대용 보틀워머 젖병워머(EOM-BTWM001) - 47,170원 - ⭐4.7
-11. 프린스라이언하트 프린스라이언하트 휴대용 보틀워머 - 14,000원 - ⭐4.5
+1. 스펙트라 스펙트라 다용도 2 in 1 보틀워머 SPBW-01 베이지 1개 - 49,000원 - ⭐5
+2. 스마트 머그워머 사무실 3단 온열 보온 컵 보틀 워머 - 13,950원 - ⭐5
+3. 아이노비아 비레스트 휴대용 USB 젖병 보틀 워머 NNQ3 - 32,110원 - ⭐4
+4. 치코 공식수입원 보틀워머 - 14,100원 - ⭐4.7
+5. 필립스 아벤트 온도센서 보틀워머(SCF358/00) - 62,950원 - ⭐4.8
+6. 보아르 아가맘마 보틀워머 - 57,900원 - ⭐4.9
+7. 티지엠 베리베리 호박마차 3단 분유 케이스 애쉬그린 1개 - 8,100원 - ⭐0
+8. 아벤트 젖병 보틀워머(SCF355) - 48,890원 - ⭐5
+9. WMF Lono 로노 이유식 분유 젖병 보틀 워머 보온 데우기 중탕기 독일직구 - 128,000원 - ⭐0
+10. 필립스 아벤트 젖병 보틀 워머 분유 이유식 보온기 독일 내수용 - 125,710원 - ⭐0
+11. 나리몽 가열식 분유 쉐이커 보온 중탕기 보틀워머 - 142,500원 - ⭐0
+12. [해외] 젖병소독기 보틀워머 신생아 휴대용살균기 커피포트 오르테젖병세척기 출산가방 민트 스마트 젖꼭지 싱글 선물 스팀건조기 유리 분유포트 중탕기 화이트색 육아용품 세척기 출고chicco - 150,200원 - ⭐0
+13. 오아 보아르 보아르 아가 맘마 보틀워머 - 53,847원 - ⭐5
+14. 프린스라이언하트 휴대용 보틀워머 젖병 데우기 - 9,900원 - ⭐0
+15. 모윰 분유 케이스 3단 모스그린 1개 - 34,500원 - ⭐0
+16. 키니비니 버드 케이지 3단 분유 케이스 키니핑크 1개 - 7,900원 - ⭐0
+17. 이오맘 휴대용 보틀워머 젖병워머(EOM-BTWM001) - 47,600원 - ⭐4.7
+18. 키니비니 버드 케이지 3단 분유 케이스 키니블루 1개 - 9,800원 - ⭐0
+19. 아가프라 아가프라 2세대 휴대용 젖병보틀워머 - 33,890원 - ⭐4.3
+20. 베베멘토 보틀워머 - 14,400원 - ⭐0
 
 ---
 
@@ -46,7 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 차량이나 휴대용으로 사용할 때 젖병이나 이유식을 데우는 데 시간이 너무 오래 걸릴까 봐 걱정돼요.
 
 ---
 

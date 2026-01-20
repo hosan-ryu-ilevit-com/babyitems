@@ -2092,8 +2092,8 @@ export default function ProductDetailModal({ productData, category, categoryName
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] h-[95vh] bg-white rounded-t-2xl overflow-hidden"
+              transition={{ type: 'spring', damping: 30, stiffness: 200 }}
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] h-[95vh] bg-white rounded-t-3xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* 헤더 */}

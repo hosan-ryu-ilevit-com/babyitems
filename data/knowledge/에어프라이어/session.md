@@ -1,5 +1,5 @@
-# 세션: 20260119_090041_3onj
-> 시작: 2026-01-19T09:00:41.719Z
+# 세션: 20260120_124009_7vdb
+> 시작: 2026-01-20T12:40:09.918Z
 > 카테고리키: 에어프라이어
 > 카테고리: 에어프라이어
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 에어프라이어 시장 현황
-- 인사이트: 에어프라이어 시장은 2024년 약 80억 7천만 달러 규모로 추산되며, 2032년까지 연평간 9.47% 성장하여 177억 1천만 달러에 이를 것으로 예상됩니다. 건강한 조리 방식과 간편식에 대한 수요 증가로 인해 에어프라이어는 주방 필수 가전으로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbx8omqKpkgdJWwvn3nX-Hw4Gujv3PR4yEnmGkwKZgA-O2TyqwX5g6dI6xqWd70nlvisn6mA2aeHcOWMD5WxA8bZ7dnvXJt8nQyxy_gVG0Q4DjEhoYoFjpCTtji45PbIWfDbGhGwuFlniiYZjcxgZSIb1-GNPTe1XObBQ9MQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw0WbS9nKkaL54G_Ymwn0sPGd0eJqoFMrlR8HT3OPGXxMwRmmAHJzJMK4kpXES_4clyAzTjcqR_yG6RqmvL5gOzIkMHjKeqne3S8HYf2q6dcbPwgpZg9FYnxiPDh0q-ogLokPLHW11LcuaQMysN8dmNhSMIVtUt8TZ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtaUq_6GIdA3ypWdG1D3RUq03LcESMDdczm0MgYhwzQoBnUaY_kxa8bA45oOkA1vLMcmmgvGRxJzLx7EhgyiABtRp-X3z8VIb80l3mnn__lC3yBgUlhokk3S1GY9udz7-QbrhGBr3kZIh5-akdWdOpiOnDxjzGSr1lZRmHXYcZEtSDvrGqX3EIJ-5ieE3Nv0grjudF9CYCeaa9C2zfhZlKKS5g5pAZhamaDbDupQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZN26A55HcYM0asxzTzKLQqGrzyuRIIjM7OZIOnjZel6BFxHNQ_XFEuzjbwvqHALqvI0KKz9NAZa_tuxB8rdQXp6WdY8m7Np84EMkG4ImOc0pImYkVopRpMr_b_-kwsGRAyGqcTnpp2rnMZH_1yBgKa0SgfEl4SJu8Z53mUfPpHOHVMRYtGcnSBrn4KYlo1ogNMs35gQCh7N-cEA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7TKNp_xbdGy3AA2PN5IvnKY183GbQdntZI7A4bfi-4BMehm9rWeOy8lCccal_gF3tomiU4KX4x8YM1Pe3kxIxQIob7RRhof13Cez9zzY1HxXMqZtBB7mrC95XikmqI8q_oTCcbmDVKr9aPjTIpJnAJFkhfKuTQYbeMNsdO7hWsn9wfwuzi74TBJWex3RrzrHPe_whl2BsfBub0oA=
+- 인사이트: 에어프라이어 시장은 편리하고 건강한 요리를 추구하는 소비자 트렌드에 힘입어 지속적으로 성장하고 있습니다. 특히 대용량, 오븐형, 스마트 기능 탑재 등 소비자 니즈에 맞춘 제품들이 인기를 얻고 있으며, 관련 간편식 시장도 함께 성장하는 추세입니다. 2026년 글로벌 에어프라이어 시장 규모는 약 13억 2천만 달러로 예상되며, 향후에도 꾸준한 성장세를 보일 전망입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwBuwGhwSkNcjpUPzg9FyCk_SsyCohDvi2Fl-AHcCWihjlOkLKeE8VaB3kZF7QbXLHuD139CjQ5m08ah09wyIXl7_YmafakP7uyeLdnOtQ3KhwVH7SX7LHCRwl6upZ21Fbh7qlyzyiv4ruU9TgH5uaymJkJwVXZqI-bVcpOtJaPeLe2GPduLkDAc7l7fdp16SN9c985daY6kuZkw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0l09jLA5OfTHLc9HRw2lRs3Cyb1fuOqWLgSAMhOUd6CmYDo8qeuC8MmNK5H8F4_JrhvdLk1LN69gyiMEjk23QpC47cfNEWt6G3A6qCozhPyYSk2kPiMqXtXQf-cB6byxz2kI-D91veqV_uygaP9HjNVQOXHgv2Mg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6L06Hw8O7bCPx9tx-0HvG02iQdyTxHYmcoS-fZu5PMzA_KZ9Opvn2LO5HqH4fKU45xvidcRa2t5xOcOJw3543WvJoSjsNIsE5JG4mbzJ4H4T-c414LQ2nSwo-mwkWq5Q98cUwtNA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHi6edg6TEQG9N6vb4FdCbyJB8vBtttde5NaQNDFUk4MXW_lbvFAsqH9aT2iSXUH3gOSsmM_Gvr5hbG4ncjkO3nUKa2nwwLrIlixjx8XFrM9Bs-3ksUTE4rqiBErlIAbKvpK9dqEcA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0VnqAtE71D7gDb5fhL-QOcyqHzRVdlmORH_3nbZiHyU2N4ExQqcDgoyGbpx-_2FOjnBXcli8oEyPpX1lw5y2w8hXB9jge8mlVDAFa_Xs6ixxj8Ha0X_pw1RxtC2SS-2dzS3Dc4NBnYcO52rDxEnrI, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnLJkvh95ZMio3GzfsL1wjavPRcmQT7fXfZbkH8bw_uxESEM8JkarddFANlO83MNojKlw_Ms-LIoooWUynpE1yEDuKsZGH6JWxqy1sWMn2P_tsbp4sCxpcosB9y_DH2jEzmx_RDdw_tjLv8et9c0JJdf0BswaXsGbn7w==
 
 ---
 
@@ -16,32 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 주로 몇 분이 함께 식사하시나요? 에어프라이어 용량 선택에 중요한 기준이 됩니다. | 3~4인 가구 |
+| 몇 분이서 주로 사용하시나요? 에어프라이어 용량 선택에 가장 중요한 기준입니다. | 1~2인 가구 |
 | 어떤 형태의 에어프라이어를 선호하시나요? 조리 방식과 편의성에 영향을 미칩니다. | 바스켓형 |
-| 에어프라이어 내부 소재는 어떤 것을 선호하시나요? 위생과 관리 편의성에 영향을 줍니다. | 스테인리스 |
-| 스마트 기능이나 IoT 연동 기능이 필요하신가요? | 필요 없음 |
-| 에어프라이어 예산은 어느 정도로 생각하세요? (평균 약 17만원, 10만원 초반~20만원대가 가장 많아요) | 10만원 이하 |
-| __avoid_negatives__ | 바스켓형이라 내부 구조가 복잡해서 세척하기 번거로울 것 같아요,음식이 골고루 익지 않고 부분적으로 타거나 덜 익을까 봐 걱정돼요,조리 중에 소음이 발생해서 조용하게 사용하기 어려울 것 같아요 |
+| 조리 과정을 확인하는 것이 중요하신가요? 또한, 세척 편의성도 고려하고 계신가요? | 세척 용이성 최우선 |
+| 스마트 기능이나 로티세리, 식품 건조 등 추가적인 기능이 필요하신가요? | 기본 기능만으로 충분 |
+| 에어프라이어 구매 예산은 어느 정도로 생각하세요? (평균 약 17만원, 12만원~22만원대가 가장 많아요) | 12만원 이하 |
+| __avoid_negatives__ | 1~2인 가구인데도 조리 시간이 오래 걸려서 답답할 것 같아요,바스켓형이라 틈새에 낀 음식물 찌꺼기를 닦아내기 어려울까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 12개 (전체 12개 중)
+현재 후보: 82개 (전체 82개 중)
 
 ### 후보 상품
-1. 리빙코리아 리빙웰 AF16 - 137,110원 - ⭐4.7
-2. 보랄 BR-160HAF - 62,510원 - ⭐5
-3. 보랄 더 셰프 BR-X150AF - 177,390원 - ⭐5
-4. 쿠쿠전자 글라스 CAF-L0410EW - 89,100원 - ⭐5
-5. 포스텐 포르테 PMA-700D - 46,520원 - ⭐4.6
-6. 라이녹스 미니 RXZF-AFM2361A - 37,700원 - ⭐4.8
-7. 캐로스 CD-AF20S - 142,680원 - ⭐4.6
-8. 리큅 LAF-MO2301SS - 185,070원 - ⭐4.5
-9. 스텐 에어프라이어 대용량 10L - 56,190원 - ⭐5
-10. 가이타이너 슈라우프 GTKAF-500 - 250,000원 - ⭐4
-11. 재원전자 BD8002S - 43,900원 - ⭐4.6
-12. 한경희이지라이프 HE-A817 - 117,000원 - ⭐4.5
+1. 아이닉 4세대 올스텐 에어프라이어 iSA6L - 92,070원 - ⭐4.6
+2. 풀무원건강생활 스팀쿡 마스터 듀얼스팀 AV20D11W - 272,750원 - ⭐4.7
+3. 코렐브랜드 인스턴트 옴니 플러스 18 - 80,210원 - ⭐4.6
+4. 풀무원건강생활 스팀쿡 플러스 AV15D11 - 227,050원 - ⭐4.5
+5. 샤크닌자 닌자 콤비 SFP701 - 299,900원 - ⭐4.6
+6. 풀무원건강생활 스팀쿡 베이직 AV12E10CC - 151,050원 - ⭐4.6
+7. 아이닉 대용량 스텐 에어프라이어 16L AO-16L - 147,870원 - ⭐4.8
+8. 필립스 2000시리즈 NA230/00 - 96,310원 - ⭐4.8
+9. 필립스 3000시리즈 NA342/00 - 161,600원 - ⭐5
+10. 샤크닌자 닌자 에어그릴 AG301 - 212,090원 - ⭐4.7
+11. 쿠쿠전자 CAF-E0810TW - 109,170원 - ⭐4.8
+12. 아이닉 new 올스텐 에어프라이어 iSA7 - 115,420원 - ⭐4.7
+13. 브레빌 BOV860 - 552,900원 - ⭐4.9
+14. 쿠쿠전자 CAFO-C1810EDG - 166,590원 - ⭐4.7
+15. 마이어 GY-2401 - 90,440원 - ⭐4.5
+16. 필립스 에센셜 HD9270/20 - 200,000원 - ⭐4.7
+17. 쿠쿠전자 CAF-G0610TB - 74,560원 - ⭐4.7
+18. 디온리 글라스 큐브 NAA321BK - 82,770원 - ⭐4.8
+19. 풀무원건강생활 스팀쿡 AV10C11WA - 138,570원 - ⭐4.6
+20. 키친아트 라이트웨이브 KO-121MT - 48,360원 - ⭐4.4
 
 ---
 
@@ -53,9 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 바스켓형이라 내부 구조가 복잡해서 세척하기 번거로울 것 같아요
-- 음식이 골고루 익지 않고 부분적으로 타거나 덜 익을까 봐 걱정돼요
-- 조리 중에 소음이 발생해서 조용하게 사용하기 어려울 것 같아요
+- 1~2인 가구인데도 조리 시간이 오래 걸려서 답답할 것 같아요
+- 바스켓형이라 틈새에 낀 음식물 찌꺼기를 닦아내기 어려울까 봐 걱정돼요
 
 ---
 
