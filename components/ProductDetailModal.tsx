@@ -1783,7 +1783,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                   );
                 })()
               ) : (
-                <DanawaReviewTab pcode={productData.product.id} fullHeight={true} />
+                <DanawaReviewTab pcode={productData.product.id} fullHeight={true} productTitle={productData.product.title} />
               )}
             </motion.div>
           )}

@@ -26,9 +26,10 @@ interface DanawaReview {
 interface DanawaReviewTabProps {
   pcode: string;
   fullHeight?: boolean; // 전체 높이 모드 (상품 리뷰 탭용)
+  productTitle?: string; // 블로그 검색용 상품명
 }
 
-export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaReviewTabProps) {
+export default function DanawaReviewTab({ pcode, fullHeight = false, productTitle }: DanawaReviewTabProps) {
   const [reviews, setReviews] = useState<DanawaReview[]>([]);
   const [loading, setLoading] = useState(true);
   const [reviewCount, setReviewCount] = useState(0);
@@ -39,6 +40,8 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
   const [loadingMore, setLoadingMore] = useState(false);
   const [sortOrder, setSortOrder] = useState<'newest' | 'high' | 'low'>('newest');
   const [isSortBottomSheetOpen, setIsSortBottomSheetOpen] = useState(false);
+  const [showPhotoOnly, setShowPhotoOnly] = useState(false);
+  const [showBlogReview, setShowBlogReview] = useState(false);
 
   const sortLabels = {
     newest: '최신순',
@@ -193,18 +196,24 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
   const maxCount = Math.max(...Object.values(ratingDistribution), 1);
   const totalReviews = reviews.length || 1;
 
-  // 정렬된 리뷰
-  const sortedReviews = [...reviews].sort((a, b) => {
-    if (sortOrder === 'newest') {
-      const dateA = a.review_date ? new Date(a.review_date).getTime() : 0;
-      const dateB = b.review_date ? new Date(b.review_date).getTime() : 0;
-      return dateB - dateA;
-    }
-    if (sortOrder === 'high') {
-      return b.rating - a.rating;
-    }
-    return a.rating - b.rating;
-  });
+  // 포토 리뷰 개수 계산
+  const photoReviewCount = reviews.filter(r => r.images && r.images.length > 0).length;
+  const hasPhotoReviews = photoReviewCount > 0;
+
+  // 정렬 및 필터링된 리뷰
+  const sortedReviews = [...reviews]
+    .filter(r => !showPhotoOnly || (r.images && r.images.length > 0))
+    .sort((a, b) => {
+      if (sortOrder === 'newest') {
+        const dateA = a.review_date ? new Date(a.review_date).getTime() : 0;
+        const dateB = b.review_date ? new Date(b.review_date).getTime() : 0;
+        return dateB - dateA;
+      }
+      if (sortOrder === 'high') {
+        return b.rating - a.rating;
+      }
+      return a.rating - b.rating;
+    });
 
   return (
     <div className="pb-4 relative">
@@ -219,14 +228,50 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
       </div>
 
       {/* 필터 뱃지 */}
-      <div className="px-4 pt-5 pb-3">
-        <button 
+      <div className="px-4 pt-5 pb-3 flex items-center gap-2 flex-wrap">
+        <button
           onClick={() => setIsSortBottomSheetOpen(true)}
           className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-50 transition-colors"
         >
           {sortLabels[sortOrder]}
           <CaretDown size={14} />
         </button>
+
+        {/* 포토 리뷰 토글 - 포토 리뷰가 있을 때만 표시 */}
+        {hasPhotoReviews && (
+          <button
+            onClick={() => setShowPhotoOnly(prev => !prev)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors ${
+              showPhotoOnly
+                ? 'bg-gray-800 text-white'
+                : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            포토 리뷰만 보기
+          </button>
+        )}
+
+        {/* 블로그 후기 버튼 */}
+        {productTitle && (
+          <button
+            onClick={() => setShowBlogReview(true)}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-full text-[13px] font-semibold bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
+          >
+            <Image
+              src="/icons/malls/name=naver.png"
+              alt="네이버"
+              width={16}
+              height={16}
+              className="rounded-full object-cover"
+            />
+            블로그 리뷰
+          </button>
+        )}
       </div>
 
       {/* 리뷰 목록 */}
@@ -467,6 +512,63 @@ export default function DanawaReviewTab({ pcode, fullHeight = false }: DanawaRev
                 ))}
               </div>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 블로그 후기 바텀시트 */}
+      <AnimatePresence>
+        {showBlogReview && productTitle && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black/50"
+            onClick={() => setShowBlogReview(false)}
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="absolute bottom-0 left-0 right-0 h-[85vh] bg-white rounded-t-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* 핸들 */}
+              <div className="flex justify-center py-2">
+                <div className="w-10 h-1 bg-gray-300 rounded-full" />
+              </div>
+
+              {/* 헤더 */}
+              <div className="flex items-center justify-between px-4 py-2 border-b">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">📝</span>
+                  <h2 className="font-bold text-gray-900">블로그 리뷰</h2>
+                </div>
+                <button
+                  onClick={() => setShowBlogReview(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+                >
+                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* 검색어 안내 */}
+              <div className="px-4 py-2 bg-gray-50 border-b">
+                <p className="text-[12px] text-gray-500">
+                  &quot;{productTitle}&quot; 검색 결과
+                </p>
+              </div>
+
+              {/* iframe */}
+              <iframe
+                src={`https://m.blog.naver.com/SectionPostSearch.naver?orderType=sim&searchValue=${encodeURIComponent(productTitle)}`}
+                className="w-full h-[calc(85vh-100px)]"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

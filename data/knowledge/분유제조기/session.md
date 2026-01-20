@@ -1,5 +1,5 @@
-# 세션: 20260119_124328_xcaz
-> 시작: 2026-01-19T12:43:28.273Z
+# 세션: 20260120_020532_v0co
+> 시작: 2026-01-20T02:05:32.560Z
 > 카테고리키: 분유제조기
 > 카테고리: 분유제조기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유제조기 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHW0zp2N6XvNrEHM1457-GsHty1lnXaUagk1qT8aaGWHA5_F4w0LFUMZ5iql_mYHnVJf9HAWXIEyOezUhJcrJNAcINU_AYszH30xwF_YLAh-otap9AQU2f8zl983LUaP4Ew0G_IecyoPz697iv6h8wBR43ax5bVb8z_R27VUw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGr0nmYPhm7cfpsJNYhz-_EtUWSgvB-QSEUM2G-roozuZ0rPLydA3wKCOYVrGcKX7M3Xr1iT3inKbV0sDTQltqFkPTGzd4t2M0TVIEAKpyiJViomdhhzUEEzhVlqm2ocIifl4xUMik=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1x43iNwoKb3qOhg4kZDSt2pRF6pAtaJpa4ighT3HB89ncE-Q50BINcMOp99rpzJt83dlZhiJ-87NVjeFEOuao-bIyTZMgl78ZRilVvszMBQljBvOrTZaKrU0VAasCWzgfAPPpa7eifDT6rIfBZpNHANxve375Ilf28iVLvgL906s8enBDYyx-RbCZeoko53LaNwA_qScI9X52e_0tutIjX6ckQ4Pnd0opCI1nL2myc4_K4sLVTrrdBuZNoqUXZUu4ZDpt75GqAkcmI2-cytiKaYmbuwJE9c6UHxSysqsW79tGhQ6uWO2Yu22P0iUHn4TH-JdfMAw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDWjSZWHsCoFLnnP6J7KFXfJ7Nnn7pPU56NI1jAHgFNhZWTXgb6fVQcMOjaxb9-XOlca4OIGI06n4g6Mnzv9l2VKMKM6-QfHQys3otS_G9iwKDr1nwLHiLwn8dmAYXZ__KCT-fbRU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUbRdFQ-5KabvJaJROxNJypFfDwRJbrBB38UdF70eInBrc6iwIelOThG6jWMawACdMPBav6GvoKU1INUZL2uKLFNAOqld5-5-4mCri_68Ea0zp3Lj4hk8kRWNXvKgXSw0kRlTj1PRuGhd6FOkNaqAtHa--_iO4Iw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHSfCViUn334bYklGpmlHl5DTU6HLw4nxvL6-EB-i_xxVaGClEVQ6qZeYm2H2xKUu_e8Lt4LK0tgWyXYeo1MdUWxeNyYEOe2tD-1iHL5xb8KZavDnIbcTlgPvQdnZ0YxxDVmSpmzcI=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHW0zp2N6XvNrEHM1457-GsHty1lnXaUagk1qT8aaGWHA5_F4w0LFUMZ5iql_mYHnVJf9HAWXIEyOezUhJcrJNAcINU_AYszH30xwF_YLAh-otap9AQU2f8zl983LUaP4Ew0G_IecyoPz697iv6h8wBR43ax5bVb8z_R27VUw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGr0nmYPhm7cfpsJNYhz-_EtUWSgvB-QSEUM2G-roozuZ0rPLydA3wKCOYVrGcKX7M3Xr1iT3inKbV0sDTQltqFkPTGzd4t2M0TVIEAKpyiJViomdhhzUEEzhVlqm2ocIifl4xUMik=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1x43iNwoKb3qOhg4kZDSt2pRF6pAtaJpa4ighT3HB89ncE-Q50BINcMOp99rpzJt83dlZhiJ-87NVjeFEOuao-bIyTZMgl78ZRilVvszMBQljBvOrTZaKrU0VAasCWzgfAPPpa7eifDT6rIfBZpNHANxve375Ilf28iVLvgL906s8enBDYyx-RbCZeoko53LaNwA_qScI9X52e_0tutIjX6ckQ4Pnd0opCI1nL2myc4_K4sLVTrrdBuZNoqUXZUu4ZDpt75GqAkcmI2-cytiKaYmbuwJE9c6UHxSysqsW79tGhQ6uWO2Yu22P0iUHn4TH-JdfMAw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDWjSZWHsCoFLnnP6J7KFXfJ7Nnn7pPU56NI1jAHgFNhZWTXgb6fVQcMOjaxb9-XOlca4OIGI06n4g6Mnzv9l2VKMKM6-QfHQys3otS_G9iwKDr1nwLHiLwn8dmAYXZ__KCT-fbRU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUbRdFQ-5KabvJaJROxNJypFfDwRJbrBB38UdF70eInBrc6iwIelOThG6jWMawACdMPBav6GvoKU1INUZL2uKLFNAOqld5-5-4mCri_68Ea0zp3Lj4hk8kRWNXvKgXSw0kRlTj1PRuGhd6FOkNaqAtHa--_iO4Iw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHSfCViUn334bYklGpmlHl5DTU6HLw4nxvL6-EB-i_xxVaGClEVQ6qZeYm2H2xKUu_e8Lt4LK0tgWyXYeo1MdUWxeNyYEOe2tD-1iHL5xb8KZavDnIbcTlgPvQdnZ0YxxDVmSpmzcI=
+- 인사이트: 분유 제조기는 육아 필수품으로 자리 잡으며 높은 만족도를 보이고 있습니다. 특히 밤중 수유 시 편리함과 분유 거품 없이 정확한 농도로 제조할 수 있다는 장점이 있습니다. 하지만 일부 제품은 물 조절 단위가 제한적이거나 세척이 번거로울 수 있다는 단점도 존재합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLCWLok4CW_HaIHqI5k2olxgdyB2LYJzFCjkCMJEt0lrQZHmfhiqVCzLk0RAtrN-BGcEpPPnYXHcPSDYrHm7vbuKtqi2b9Dxn1VCcExVmSIeJbOIRSHrbXJlgZqq8g8Yq1B7dZgg==
 
 ---
 
@@ -16,23 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 사용하시는 분유 브랜드와 종류는 무엇인가요? (예: 앱솔루트 명작 1단계, 위드마이 베이비 2단계) | 일반적인 분유 사용 |
-| 분유제조기 세척 및 관리에 어느 정도의 노력을 기울일 수 있으신가요? | 자동 세척/살균 기능 선호 |
+| 현재 사용 중이시거나 앞으로 사용하실 분유 브랜드와 종류는 무엇인가요? | 다양한 분유 브랜드 호환 |
+| 분유제조기의 세척 및 위생 관리에 어느 정도의 노력을 기울이실 수 있으신가요? | 자동 세척 선호, 간편 세척 가능 |
+| 분유제조기에서 가장 중요하게 생각하는 조유 성능은 무엇인가요? | 정확한 농도 및 온도 유지 |
+| 한 번에 어느 정도 양의 분유를 제조하시나요? | 중간 (3~4회 수유분) |
+| 분유제조기 예산은 어느 정도로 생각하세요? (평균 약 20만원, 10만원대~20만원대가 가장 많아요) | 10만원대 ~ 20만원대 |
+| __avoid_negatives__ | 정해진 물 양 단위로만 조절되어 원하는 농도를 정확히 맞추기 어려울까 봐 걱정돼요,분유와 물이 완벽하게 섞이지 않아 뭉침이 생길까 봐 염려돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 7개 (전체 7개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 아이닉 iEK01 - 128,330원 - ⭐4.8
-2. 베이비브레짜 포뮬러 프로 어드밴스드 분유제조기 - 293,550원 - ⭐4.9
-3. 버들 버들맘마 자동분유제조기 SMART - 428,650원 - ⭐5
-4. 허밍베베 HBAF-2402W - 244,250원 - ⭐4
-5. 리하스 자동 분유제조기 KHV-001 - 12,890원 - ⭐5
-6. 리하스 KHV-001 - 224,300원 - ⭐4.9
-7. 라이녹스 티엠포 RXMX-T25D - 207,780원 - ⭐4.7
+1. 아이닉 iEK01 - 129,000원 - ⭐4.8
+2. 베이비브레짜 포뮬러 프로 어드밴스드 분유제조기 - 279,000원 - ⭐4.9
+3. 온휴 티메이커 OHA-G15WH - 45,030원 - ⭐0
+4. 리하스 자동 분유제조기 KHV-001 - 12,890원 - ⭐5
+5. 코넘 KONUMSW0025 - 189,000원 - ⭐0
+6. Anygate88 - 56,050원 - ⭐0
+7. 버들 버들맘마 자동분유제조기 SMART - 479,000원 - ⭐5
+8. 베이비브레짜 포뮬러 프로 미니 분유제조기 - 559,800원 - ⭐0
+9. 데비하우스 DB-MK7 - 69,000원 - ⭐0
+10. 에디슨 플러스 BBR1001-CB - 138,570원 - ⭐0
+11. 베이비브레짜 BRZFPA-3A - 329,000원 - ⭐0
+12. [해외] 전기붕어빵기계 업소용 가정용 장사 6구 창업 잉어빵 만들기 메이커 와플 도미빵  전기 5구(분유발송) - 561,700원 - ⭐0
+13. 퍼기 맘편한 분유 쉐이커 휴대용 분유제조기  FG-25MS04CR - 78,040원 - ⭐0
+14. 상품상세설명 참조 자일렉 분유포트 티메이커 전기티포트 주전자 커피포트기 - 33,500원 - ⭐0
+15. 코멜리 CYK-1202SP - 119,000원 - ⭐0
+16. 허밍베베 HBAF-2402W - 236,370원 - ⭐4
+17. 미엘루 AI-GN2202B - 62,900원 - ⭐5
+18. 토미티피 토미티피 분유 제조기 검정색 야간 주간 Tommee Tippee Perfect Prep Day Night Black BB1.. - 299,990원 - ⭐0
+19. 제너 내열 유리 포트 2500ml 분유 약탕기 티포트 주전자 커피포트 티메이커 - 93,200원 - ⭐0
+20. 리하스 KHV-001 - 224,300원 - ⭐4.9
 
 ---
 
@@ -44,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 정해진 물 양 단위로만 조절되어 원하는 농도를 정확히 맞추기 어려울까 봐 걱정돼요
+- 분유와 물이 완벽하게 섞이지 않아 뭉침이 생길까 봐 염려돼요
 
 ---
 
