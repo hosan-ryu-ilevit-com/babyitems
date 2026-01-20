@@ -1093,11 +1093,23 @@ function prescreenCandidates(
     return { product: p, score };
   });
 
-  // 점수순 정렬 후 상위 50개 반환
+  // 점수순 정렬 후 상위 N개 반환
   scored.sort((a, b) => b.score - a.score);
-  const topN = scored.slice(0, PRESCREEN_LIMIT).map(s => s.product);
 
-  console.log(`[FinalRecommend] Pre-screened to ${topN.length} candidates`);
+  // ✅ 리뷰 0개인 상품 제외 (품질 보장)
+  const withReviews = scored.filter(s => {
+    const productReviews = reviews[s.product.pcode] || [];
+    return productReviews.length > 0;
+  });
+
+  // 리뷰 있는 상품이 부족하면 fallback (최소 5개 보장)
+  const finalCandidates = withReviews.length >= 5
+    ? withReviews
+    : scored;
+
+  const topN = finalCandidates.slice(0, PRESCREEN_LIMIT).map(s => s.product);
+
+  console.log(`[FinalRecommend] Pre-screened to ${topN.length} candidates (excluded ${scored.length - withReviews.length} with 0 reviews)`);
   return topN;
 }
 
