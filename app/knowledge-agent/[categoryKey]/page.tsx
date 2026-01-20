@@ -4595,17 +4595,34 @@ function MessageBubble({
                     );
                   });
                 }}
-                className={`flex items-center justify-between w-[120px] h-[34px] px-2.5 rounded-lg transition-all duration-200 mb-2 ${
+                className={`flex items-center justify-between gap-2 h-[34px] px-3 rounded-lg transition-all duration-200 mb-2 ${
                   showComparisonOnly
                     ? 'bg-blue-50 border border-blue-100'
                     : 'bg-gray-50 border border-gray-100'
                 }`}
               >
-                <span className={`text-[14px] font-semibold transition-colors whitespace-nowrap ${
-                  showComparisonOnly ? 'text-blue-500' : 'text-gray-600'
-                }`}>
-                  AI 비교표
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <motion.img 
+                    src="/icons/ic-ai.svg" 
+                    alt="" 
+                    className="w-4 h-4"
+                    animate={{
+                      rotate: [0, -15, 15, -15, 0],
+                      y: [0, -2.5, 0],
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      repeat: Infinity,
+                      repeatDelay: 2,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  <span className={`text-[14px] font-semibold transition-colors whitespace-nowrap ${
+                    showComparisonOnly ? 'text-blue-500' : 'text-gray-600'
+                  }`}>
+                    AI 비교표로 보기
+                  </span>
+                </div>
                 <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0 ${
                   showComparisonOnly ? 'bg-blue-500' : 'bg-gray-300'
                 }`}>
@@ -4836,11 +4853,11 @@ function MessageBubble({
                   className="space-y-4"
                 >
                   {/* 🆕 상품 선택 UI */}
-                  <div className="space-y-3 -mx-4">
-                    <p className="text-[16px] font-medium text-gray-800 px-4">
+                  <div className="space-y-3">
+                    <p className="text-[16px] font-medium text-gray-800">
                       비교하고 싶은 상품 3개를 선택하세요
                     </p>
-                    <div className="flex gap-3 overflow-x-auto scrollbar-hide px-4 py-1">
+                    <div className="flex gap-1.5 w-full">
                       {message.resultProducts.map((p: any) => {
                         const pcode = p.pcode || p.id;
                         const isSelected = selectedComparisonPcodes.has(pcode);
@@ -4853,7 +4870,7 @@ function MessageBubble({
                             key={pcode}
                             onClick={() => !isDisabled && toggleComparisonProduct(pcode)}
                             disabled={isDisabled}
-                            className={`shrink-0 w-[80px] flex flex-col items-center gap-1.5 p-2 rounded-xl transition-all ${
+                            className={`flex-1 min-w-0 flex flex-col items-center gap-1 p-1.5 rounded-xl transition-all ${
                               isSelected
                                 ? 'bg-blue-50 ring-2 ring-blue-500'
                                 : isDisabled
@@ -4861,7 +4878,7 @@ function MessageBubble({
                                   : 'bg-gray-50 hover:bg-gray-100'
                             }`}
                           >
-                            <div className="w-[64px] h-[64px]">
+                            <div className="w-[52px] h-[52px]">
                               {p.thumbnail ? (
                                 <img
                                   src={p.thumbnail}
@@ -4874,7 +4891,7 @@ function MessageBubble({
                                 </div>
                               )}
                             </div>
-                            <span className={`text-[11px] font-medium leading-tight text-center line-clamp-2 ${
+                            <span className={`text-[10px] font-medium leading-tight text-center line-clamp-2 ${
                               isSelected ? 'text-blue-700' : 'text-gray-600'
                             }`}>
                               {title}

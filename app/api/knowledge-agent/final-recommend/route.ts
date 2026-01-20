@@ -299,68 +299,79 @@ async function analyzeFreeInput(
 // ============================================================================
 
 /**
- * 사용자 응답(collectedInfo)을 필터 태그로 변환
- * - 각 태그에 하이라이트용 키워드 포함
+ * 사용자 응답(collectedInfo)을 필터 태그로 1:1 변환
+ * - 각 조건을 개별 태그로 생성 (누락 없음)
+ * - LLM은 label(키워드 요약) + keywords(동의어)만 생성
+ * - originalCondition에 원본 보존 (평가 정확도 향상)
  */
 async function generateFilterTags(
   categoryName: string,
   collectedInfo: Record<string, string>,
   _balanceSelections: BalanceSelection[],  // 현재 미사용 (밸런스 게임 제거됨)
   _negativeSelections: string[],           // PLP 필터 태그에서 제외
-  freeInputAnalysis?: FreeInputAnalysis | null
+  _freeInputAnalysis?: FreeInputAnalysis | null  // TODO: 자유 입력도 태그화 필요시 활용
 ): Promise<FilterTag[]> {
-  const defaultTags: FilterTag[] = [];
+  const skipAnswers = ['상관없어요', 'skip', 'any', ''];
 
-  // collectedInfo가 없으면 빈 배열 반환 (balanceSelections/negativeSelections는 사용 안함)
-  const infoEntries = Object.entries(collectedInfo).filter(
-    ([key]) => !key.startsWith('__')
-  );
-  if (infoEntries.length === 0) {
-    return defaultTags;
+  // 1. collectedInfo 필터링 (내부 키, skip 응답만 제외)
+  const validEntries = Object.entries(collectedInfo).filter(([question, answer]) => {
+    if (question.startsWith('__')) return false;
+    if (skipAnswers.includes(answer)) return false;
+    return true;
+  });
+
+  if (validEntries.length === 0) {
+    console.log('[FilterTags] No valid conditions to generate tags');
+    return [];
   }
 
+  // 2. 각 조건을 태그로 1:1 매핑 (기본 구조)
+  const baseTags: FilterTag[] = validEntries.map(([question, answer], i) => ({
+    id: `tag_${i + 1}`,
+    label: answer.slice(0, 20), // 임시 label (LLM이 덮어씀)
+    category: 'feature' as const,
+    keywords: [],
+    priority: i + 1,
+    sourceType: 'collected' as const,
+    originalCondition: `${question}: ${answer}`, // 원본 보존 (평가용)
+  }));
+
+  // 3. LLM으로 label + keywords 생성
   if (!ai) {
-    console.log('[FilterTags] No AI available');
-    return defaultTags;
+    console.log('[FilterTags] No AI available, using answer as label');
+    return baseTags;
   }
 
   const model = ai.getGenerativeModel({
     model: FILTER_TAG_MODEL,
     generationConfig: {
       temperature: 0.3,
-      maxOutputTokens: 1500,
+      maxOutputTokens: 2000,
       responseMimeType: 'application/json',
     },
   });
 
-  const userConditions = infoEntries
-    .map(([q, a]) => `- ${q}: ${a}`)
-    .join('\n') || '(없음)';
-
-  // 🆕 맞춤질문 응답만으로 짧은 키워드 스타일 태그 생성
-  // balanceSelections, negativeSelections는 PLP 필터 태그에서 제외
+  // 조건 목록 (인덱스 포함)
+  const conditionList = validEntries
+    .map(([q, a], i) => `${i}: "${q}" → "${a}"`)
+    .join('\n');
 
   const prompt = `## 역할
-사용자가 ${categoryName} 구매 시 선택한 조건들을 **짧은 키워드 스타일 태그**로 변환합니다.
+${categoryName} 구매 조건들을 **짧은 키워드 태그**로 요약합니다.
 
-## 사용자 선택 조건 (맞춤 질문 응답)
-${userConditions}
+## 조건 목록 (인덱스: 질문 → 답변)
+${conditionList}
 
-${freeInputAnalysis ? `## 자유 입력 분석
-- 선호: ${freeInputAnalysis.preferredAttributes.join(', ') || '없음'}
-- 맥락: ${freeInputAnalysis.usageContext || '없음'}` : ''}
+## 규칙
+1. **각 조건마다 1개 태그 생성** (조건 개수 = 태그 개수, 병합/생략 금지)
+2. label: 2~5단어 키워드 형태 (답변 핵심만 추출)
+   - 좋은 예: "저소음", "세척 편리", "대용량", "무선", "텐키리스"
+   - 나쁜 예: "소음이 적은 제품을 원함", "세척이 쉬운 것"
+3. keywords: 리뷰/스펙 검색용 동의어 2~4개
+4. category: usage(용도), spec(스펙), feature(기능)
 
-## 중요 규칙
-1. **태그는 반드시 2~5단어의 짧은 키워드 형태**로 생성 (문장 X)
-   - 좋은 예: "저소음", "세척 편리", "컴팩트 사이즈", "대용량", "원터치 분리"
-   - 나쁜 예: "음식물 쓰레기가 완전히 처리됨", "필터 성능이 부족해서..."
-2. 각 태그에 검색용 키워드 포함 (동의어, 유사어 2-4글자)
-3. category: usage(용도), spec(스펙), feature(기능)
-4. 최대 5개 태그
-5. 예산/가격 관련 태그는 생성하지 마세요
-
-## 응답 (JSON만)
-{"tags":[{"id":"tag_1","label":"저소음","category":"feature","keywords":["소음","조용","정숙"],"priority":1,"sourceType":"collected","originalCondition":"원본 조건"}]}`;
+## 응답 (JSON만, 조건 개수만큼 생성)
+{"results":[{"index":0,"label":"저소음","keywords":["소음","조용","정숙"],"category":"feature"}]}`;
 
   try {
     const startTime = Date.now();
@@ -369,30 +380,27 @@ ${freeInputAnalysis ? `## 자유 입력 분석
     text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
 
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-    let tags: FilterTag[] = [];
-
     if (jsonMatch) {
       const parsed = JSON.parse(jsonMatch[0]);
-      if (parsed.tags && Array.isArray(parsed.tags)) {
-        tags = parsed.tags.map((tag: any, i: number) => ({
-          id: tag.id || `tag_${i + 1}`,
-          label: tag.label || '',
-          category: tag.category || 'feature',
-          keywords: tag.keywords || [],
-          priority: tag.priority || i + 1,
-          sourceType: tag.sourceType || 'collected',
-          originalCondition: tag.originalCondition || tag.label,
-        }));
+      if (parsed.results && Array.isArray(parsed.results)) {
+        // LLM 결과를 baseTags에 매핑
+        for (const item of parsed.results) {
+          const idx = item.index;
+          if (idx >= 0 && idx < baseTags.length) {
+            baseTags[idx].label = item.label || baseTags[idx].label;
+            baseTags[idx].keywords = item.keywords || [];
+            baseTags[idx].category = item.category || 'feature';
+          }
+        }
       }
     }
 
-    console.log(`[FilterTags] Generated ${tags.length} keyword-style tags in ${Date.now() - startTime}ms`);
-    return tags;
+    console.log(`[FilterTags] Generated ${baseTags.length} tags (1:1 mapping) in ${Date.now() - startTime}ms`);
   } catch (error) {
-    console.error('[FilterTags] Error:', error);
+    console.error('[FilterTags] LLM error, using fallback labels:', error);
   }
 
-  return defaultTags;
+  return baseTags;
 }
 
 // ============================================================================
