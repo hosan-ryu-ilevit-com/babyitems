@@ -311,22 +311,38 @@ async function generateFilterTags(
   _negativeSelections: string[],           // PLP 필터 태그에서 제외
   _freeInputAnalysis?: FreeInputAnalysis | null  // TODO: 자유 입력도 태그화 필요시 활용
 ): Promise<FilterTag[]> {
-  const skipAnswers = ['상관없어요', 'skip', 'any', ''];
+  // 무의미한 답변 필터링
+  const skipAnswers = ['상관없어요', 'skip', 'any', '', '기타', '없음', '모름', '잘 모르겠어요'];
 
-  // 1. collectedInfo 필터링 (내부 키, skip 응답만 제외)
+  // 1. collectedInfo 필터링 (내부 키, 무의미한 응답 제외)
   const validEntries = Object.entries(collectedInfo).filter(([question, answer]) => {
     if (question.startsWith('__')) return false;
-    if (skipAnswers.includes(answer)) return false;
+    if (skipAnswers.includes(answer.trim())) return false;
     return true;
   });
 
-  if (validEntries.length === 0) {
+  // 2. 쉼표로 구분된 복수 답변을 별도 항목으로 분리
+  // "실리콘, 천연고무" → [{question, answer: "실리콘"}, {question, answer: "천연고무"}]
+  const expandedEntries: Array<{ question: string; answer: string }> = [];
+  for (const [question, answer] of validEntries) {
+    if (answer.includes(',')) {
+      // 쉼표로 분리 후 각각 태그화
+      const parts = answer.split(',').map(p => p.trim()).filter(p => p && !skipAnswers.includes(p));
+      for (const part of parts) {
+        expandedEntries.push({ question, answer: part });
+      }
+    } else {
+      expandedEntries.push({ question, answer });
+    }
+  }
+
+  if (expandedEntries.length === 0) {
     console.log('[FilterTags] No valid conditions to generate tags');
     return [];
   }
 
-  // 2. 각 조건을 태그로 1:1 매핑 (기본 구조)
-  const baseTags: FilterTag[] = validEntries.map(([question, answer], i) => ({
+  // 3. 각 조건을 태그로 1:1 매핑 (기본 구조)
+  const baseTags: FilterTag[] = expandedEntries.map(({ question, answer }, i) => ({
     id: `tag_${i + 1}`,
     label: answer.slice(0, 20), // 임시 label (LLM이 덮어씀)
     category: 'feature' as const,
@@ -351,9 +367,9 @@ async function generateFilterTags(
     },
   });
 
-  // 조건 목록 (인덱스 포함)
-  const conditionList = validEntries
-    .map(([q, a], i) => `${i}: "${q}" → "${a}"`)
+  // 조건 목록 (인덱스 포함) - expandedEntries 사용
+  const conditionList = expandedEntries
+    .map(({ question, answer }, i) => `${i}: "${question}" → "${answer}"`)
     .join('\n');
 
   const prompt = `## 역할
