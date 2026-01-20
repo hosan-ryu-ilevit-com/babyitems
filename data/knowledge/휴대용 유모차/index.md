@@ -1,31 +1,33 @@
 # 휴대용 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-16T13:31:03.262Z
+> 마지막 업데이트: 2026-01-20T03:25:54.062Z
 > 분석 상품: 20개 | 분석 리뷰: 3,068개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 초경량화 (7kg 미만 제품 선호)
-- 원터치 폴딩 및 간편한 휴대성
+- 경량화 및 컴팩트한 디자인
+- 원터치 폴딩 및 자동 접이식 기능
 - 기내 반입 가능 여부
 - 친환경 소재 적용
-- 스마트 기능 (예: 자동 접이식)
+- 스마트 기능 탑재
 
 ### 구매자 만족 포인트
+- ✓ 이동 편의성
+- ✓ 보관 용이성
+- ✓ 여행 활용도 높음
 - ✓ 가벼운 무게
-- ✓ 간편한 폴딩
-- ✓ 뛰어난 휴대성
-- ✓ 안정적인 핸들링
-- ✓ 세련된 디자인
+- ✓ 컴팩트한 크기
+- ✓ 뛰어난 가성비
 
 ### 주의해야 할 단점
-- ⚠ 상대적으로 높은 가격대
-- ⚠ 일부 모델의 서스펜션 부족
-- ⚠ 작은 수납공간
+- ⚠ 짧은 사용 기간
+- ⚠ 수납 공간 부족
+- ⚠ 충격 흡수 미흡
+- ⚠ 조작성 개선 필요
 
 ### 가격대 인사이트
-휴대용 유모차는 20만원대부터 90만원대까지 가격대가 다양하게 형성되어 있습니다. 타보, 리안 등은 30만원대의 가성비 좋은 제품으로, 줄즈, 잉글레시나, 스토케 등은 50만원 이상의 프리미엄 라인으로 분류됩니다.
+
 
 ---
 
@@ -33,7 +35,7 @@
 
 ### 1. 베이블퓨어리 트라이크 유모차 T2
 - **브랜드**: 베이블퓨어리
-- **가격**: 53,400원
+- **가격**: 42,570원
 - **평점**: ⭐3.5 (4개 리뷰)
 - **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 3세부터 / 허용무게: 30kg까지 / 유모차무게: 3.7kg / 출시년도: 2020년 / 기내반입가능 / 양대면전환: 시트 전환 / 3점식벨트 유모차 / 3점식벨트
 - **장점 요약**: 분석 중
@@ -61,37 +63,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=42212519)
 
-### 4. 리안 그램플러스 기내반입형 휴대용 유모차
-- **브랜드**: 리안
-- **가격**: 237,500원
-- **평점**: ⭐4.6 (2,567개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~36개월(15kg까지) / 유모차무게: 5.8kg / 출시년도: 2021년 / 기내반입가능 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20799044)
-
-### 5. 스토케 요요3 프리미엄 휴대용 유모차
-- **브랜드**: 스토케
-- **가격**: 753,300원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 6~36개월 / 허용무게: ~15kg까지 / 유모차무게: 6.2kg / 출시년도: 2024년 / 기내반입가능 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75940436)
-
-### 6. 다이치 다이치 더 스페이스 휴대용 유모차
-- **브랜드**: 다이치
-- **가격**: 389,500원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0개월부터 / 허용무게: ~22kg / 유모차무게: 7.8kg / 출시년도: 2024년 / 기내반입가능 / 오토폴딩 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75940439)
-
-### 7. 스토케 요요3 프리미엄 휴대용 유모차
+### 4. 스토케 요요3 프리미엄 휴대용 유모차
 - **브랜드**: 스토케
 - **가격**: 665,880원
 - **평점**: ⭐4.8 (15개 리뷰)
@@ -101,7 +73,57 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=75941156)
 
-### 8. 베이블퓨어리 유아 트라이크 T4 휴대용 접이식 양대면 유모카
+### 5. 리안 그램플러스 기내반입형 휴대용 유모차
+- **브랜드**: 리안
+- **가격**: 237,500원
+- **평점**: ⭐4.6 (2,567개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~36개월(15kg까지) / 유모차무게: 5.8kg / 출시년도: 2021년 / 기내반입가능 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20799044)
+
+### 6. 스토케 요요3 프리미엄 휴대용 유모차
+- **브랜드**: 스토케
+- **가격**: 753,300원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 6~36개월 / 허용무게: ~15kg까지 / 유모차무게: 6.2kg / 출시년도: 2024년 / 기내반입가능 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=75940436)
+
+### 7. 다이치 다이치 더 스페이스 휴대용 유모차
+- **브랜드**: 다이치
+- **가격**: 389,500원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0개월부터 / 허용무게: ~22kg / 유모차무게: 7.8kg / 출시년도: 2024년 / 기내반입가능 / 오토폴딩 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=75940439)
+
+### 8. 에그 2025 에그 스카이 에이로 기내반입 유모차 휴대용
+- **브랜드**: 에그
+- **가격**: 560,500원
+- **평점**: ⭐5 (52개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0세~4세 / 허용무게: 22kg / 유모차무게: 6.5kg / 출시년도: 2025년 / 기내반입가능 / 셀프스탠딩 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76514957)
+
+### 9. 싸이벡스 코야 휴대용 유모차+트래블시스템 바구니카시트
+- **브랜드**: 싸이벡스
+- **가격**: 1,491,500원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차+카시트 / 휴대용 / 사용대상: 0~24개월(카시트) / 허용무게: ~13kg(카시트) / 유모차무게: 6.6+4.5kg / 출시년도: 2024년 / 기내반입가능 / 원핸드폴딩 / 5점식벨트 유모차+카시트 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=75994235)
+
+### 10. 베이블퓨어리 유아 트라이크 T4 휴대용 접이식 양대면 유모카
 - **브랜드**: 베이블퓨어리
 - **가격**: 113,740원
 - **평점**: ⭐3.4 (5개 리뷰)
@@ -110,26 +132,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=45323387)
-
-### 9. 싸이벡스 코야 휴대용 유모차+트래블시스템 바구니카시트
-- **브랜드**: 싸이벡스
-- **가격**: 1,463,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차+카시트 / 휴대용 / 사용대상: 0~24개월(카시트) / 허용무게: ~13kg(카시트) / 유모차무게: 6.6+4.5kg / 출시년도: 2024년 / 기내반입가능 / 원핸드폴딩 / 5점식벨트 유모차+카시트 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75994235)
-
-### 10. 리안 2025 프라임 맥스 오토폴딩 휴대용 유모차
-- **브랜드**: 리안
-- **가격**: 520,600원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~6세 / 허용무게: 22kg / 유모차무게: 6.9kg / 출시년도: 2025년 / 셀프스탠딩 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=90163964)
 
 ### 11. 스토케 요요2 프리미엄 휴대용 유모차
 - **브랜드**: 스토케
@@ -141,15 +143,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20789276)
 
-### 12. 에그 2025 에그 스카이 에이로 기내반입 유모차 휴대용
-- **브랜드**: 에그
-- **가격**: 560,500원
-- **평점**: ⭐5 (52개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0세~4세 / 허용무게: 22kg / 유모차무게: 6.5kg / 출시년도: 2025년 / 기내반입가능 / 셀프스탠딩 / 5점식벨트 유모차 / 5점식벨트
+### 12. 리안 2025 프라임 맥스 오토폴딩 휴대용 유모차
+- **브랜드**: 리안
+- **가격**: 530,100원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~6세 / 허용무게: 22kg / 유모차무게: 6.9kg / 출시년도: 2025년 / 셀프스탠딩 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76514957)
+- [상세보기](https://prod.danawa.com/info/?pcode=90163964)
 
 ### 13. 다이치 타보 플렉스 탭3
 - **브랜드**: 다이치
@@ -161,7 +163,67 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=76334630)
 
-### 14. 엘레니어 세스토 라이트 유모차
+### 14. 오이스터 미니 플러스
+- **브랜드**: 오이스터
+- **가격**: 660,250원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~48개월 / 허용무게: ~15kg / 유모차무게: 7.5kg / 출시년도: 2023년 / 셀프스탠딩 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=29495837)
+
+### 15. 싸이벡스 코야 휴대용 유모차
+- **브랜드**: 싸이벡스
+- **가격**: 970,000원
+- **평점**: ⭐5 (8개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~4세 / 허용무게: ~22kg / 유모차무게: 6.6kg / 출시년도: 2024년 / 기내반입가능 / 원핸드폴딩 유모차 / 원핸드폴딩
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=56067425)
+
+### 16. 에그 에그Z 플러스 휴대용 유모차
+- **브랜드**: 에그
+- **가격**: 750,500원
+- **평점**: ⭐5 (2개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0개월~36개월 / 허용무게: ~22kg / 유모차무게: 8.9kg / 출시년도: 2025년 / 기내반입가능 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76465769)
+
+### 17. 잉글레시나 잉글레시나 퀴드3 기내반입 휴대용 유모차
+- **브랜드**: 잉글레시나
+- **가격**: 629,850원
+- **평점**: ⭐5 (19개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0~36개월 / 허용무게: ~15kg / 유모차무게: 6.4kg / 출시년도: 2025년 / 기내반입가능 / 셀프스탠딩 / 원핸드폴딩 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76514936)
+
+### 18. 뉴나 트래블 lx 휴대용 유모차
+- **브랜드**: 뉴나
+- **가격**: 860,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아부터 / 허용무게: ~22kg / 유모차무게: 7.1kg / 출시년도: 2024년 / 오토폴딩 / 3점식벨트 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=55047389)
+
+### 19. 에이블 씨투엠뉴 에이블 코지쉘 트라이크 휴대용 유모차
+- **브랜드**: 에이블
+- **가격**: 434,150원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 트라이크 / 사용대상: 6개월~36개월 / 허용무게: 22kg / 유모차무게: 9.4kg / 출시년도: 2024년 / 기내반입가능 / 원핸드폴딩 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76514237)
+
+### 20. 엘레니어 세스토 라이트 유모차
 - **브랜드**: 엘레니어
 - **가격**: 459,000원
 - **평점**: ⭐4.8 (202개 리뷰)
@@ -170,66 +232,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20804111)
-
-### 15. 잉글레시나 잉글레시나 퀴드3 기내반입 휴대용 유모차
-- **브랜드**: 잉글레시나
-- **가격**: 625,100원
-- **평점**: ⭐5 (19개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0~36개월 / 허용무게: ~15kg / 유모차무게: 6.4kg / 출시년도: 2025년 / 기내반입가능 / 셀프스탠딩 / 원핸드폴딩 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76514936)
-
-### 16. 해밀턴 2022 해밀턴 X1 PLUS 휴대용 유모차
-- **브랜드**: 해밀턴
-- **가격**: 727,748원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0~5세 / 허용무게: ~22kg / 유모차무게: 6.9kg / 출시년도: 2022년 / 기내반입가능 / 셀프스탠딩 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76512860)
-
-### 17. 오이스터 미니 플러스
-- **브랜드**: 오이스터
-- **가격**: 635,200원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~48개월 / 허용무게: ~15kg / 유모차무게: 7.5kg / 출시년도: 2023년 / 셀프스탠딩 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29495837)
-
-### 18. 뉴나 트래블 lx 휴대용 유모차
-- **브랜드**: 뉴나
-- **가격**: 825,130원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아부터 / 허용무게: ~22kg / 유모차무게: 7.1kg / 출시년도: 2024년 / 오토폴딩 / 3점식벨트 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=55047389)
-
-### 19. 조이 파르셀 시그니처 휴대용 유모차
-- **브랜드**: 조이
-- **가격**: 387,940원
-- **평점**: ⭐5 (9개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 허용무게: ~22kg / 출시년도: 2023년 유모차 / 출시년도: 2023년
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20789099)
-
-### 20. 에어보스 2020 V90 오토폴딩 유모차
-- **브랜드**: 에어보스
-- **가격**: 150,100원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~48개월 / 유모차무게: 6.9kg / 출시년도: 2020년 / 기내반입가능 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20795354)
 
 ---
 
@@ -244,8 +246,11 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3apQxZvBBWLAT9R55NXZdT89Tak7G7vUwSgSE4VjMZG-f1h10LRLu4Tri8AZtCeU9qN9ceJH1T3iLCoKIy4WrY4QuX9EtUu0MGJvw_wad2fQxUoxrDo6OVLD7upY=)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLeBp7XCTfPRY-OjX46AN342C8jQVGnGjlnTPsivF1TLlWqgNSIU4zFmtRKxnNQN4X2UXrEQsSEjg3qxVCviV_7_An4Cg58JRMTk18hqUgdt13w1pUW3nuXobhyHUiT9uAAOt4M_QywNuPVDzCu29eDGPSY9IwUygGbkXNDR2UD9kDUiCM_QOS8rPZ7ErgpogLuzUL7Dgk2C8TVKTEbI6MtmxYalah72EjdPi4yJ2jDLRHc_vQFQkh_TRnRQcDueI8aufpabTu0iI=)
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcRuungHi0CbWIpEG0CYYw7Bz-esBSUwrH2QOr18iSjmvi04BF6x-fA8vv_g5LSuR-HBk7BnNhHuZK-J7jRgFbfQUslK8zlSzlIKzxyWNLvuHHVzw4xAzpATAU8p9g-udbqhYvUw9Nhy9hMBrWXkSkVW6s62-KBC7WTxFpvSooQGRCv6x1PFNP3DMcH5pmwF0=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfAClIpAv0RFdDbSYlrOElwTn0Rm_TrM-IxM6Wcz4wlUt2yT6SNKKdmRf_AhXsjfgX0nIqfUzjXOoe3EeQRMI7r_uJCMt5TyquBGp3o8fRLazcbgnfXeuoHes0AH1xHmLwBB_2Vg==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOZO3nBhjTupB6OOew8OpD14YWVDeVP0xRdrjfZPBoOrR9WeM1fgh9L6Ogq_kKr_W0Jp5ZnK3Wc_CVotvPbphP2ZqxbZk-g0--IwQzl5VfnqDszXUEGudOBnWm_QbHu8HeWaJ3HA==)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjOzE0kxLa4e29Ts4jDrSem_wiQNCK9DL4wv150G-nwf7lTMbPJVKuq1T7al44ZNiqEaNHTzDc70yuNGUmLYT6ovKKaEF_qm08gLht4YqlRNf8qzHAWKf0fa5f9moy7qaedxa5ZDYhH2H0l5OGq-q5nVL00kG2WxdnmJA4XGxKjhimLOX6q1NK5H5Ds7NHCObClTdd0KM0DpPqDpKJkqhF6j6Xab2To8Hb)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG95EtGKTLT_Ado3cddVqwF-sh4YKIV_0xXkbNbghwDUlpDOBCfEOnXuydfrUGFjl4YRSueDg17b0V-KbxqLFRnyQdXpm80zCknIiimjUXGfqSvrDA5iOdM0wdBMykhBPf1rs3te-a5sV3tN5Yw-cPhhAC6AKaIpcoGGPaRaFBWKecHrZyBf_83n__hSQ2y7fBICw4ZifTg1f7AeQzkgSPoMuamZOH8gELxlmt4n8-N3axi)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUNpUehaBy8qfQCAcndEILbmHvl5lSV6SiEAZVJpJAUc3_PQNdx3b_yPsE6bA0uMGr-ymnFmQbEeHITJUj_wuX-2q0fj8ujx-EitJy6WuyPk2DH89bJRXn5flkscfrrZW1BmlT1whyTuutEM9PIEZns_E2IZioyeJoJIOsGndwWBGWqoi0UiUSWvXroo-V6-F0GpLWvmcHlGqD1YecjKPpHht4sHXVBHw4)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbnyu6qy7P0kGctVxql0Od6NH4T4M7MftIPDRpIxGQCdtROxhIsXmzDt1v5sB8Vm9ytpwcy2wvdScf74S11nnF8i0QPzy6sUfr7MqUSoRNXy9cUBH115co_PuSqLXNqsRVexRaF6at80u7x0Mtdn4hPO28J-uDsLEx_sZ4H38jZtsqSteHAB0h2SYsN9L0axq91Hf_RT3m0l8=)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBiIQ66iod4racgHLSSvTCy6-QbV_hhCcvU-XOq6ufw1XmofaxrrEtb-KFJowSv820XaKN806s3CGBZmKvm1wSCyt04FCVjg1_eoTb-RTusfwnd9NHXYHu0MLHt8aPh7Gi2go-Vi95y-dDrvKoEafAWp5XvNXpNTOr0FOyZ2bYzSYnF6cML99EsGx6dG-lkVNIOfN2rjFM31Yb11eTVNTMHHIcnq6xeUbyt6QankyHKRDSRRTiyX8=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXrvGI2pKXmxaoV1M2V2tjByG2BjV0azA45zFjMe7srmaXOJkkjL05QAhvO7U0yK9Dgr8FGh-A-hBRAWzF8pErd3YWH5wOMe38tAGNprM2v9XCUYBluWCOg_0a2uLsW4f637SHUrgw8hMWmuMSxCiIbuLro6EtKUlFcat7SypdyXNWTNmzFX5k_7qhtdzxgA2SHJ2imfjxfEQTYE0hrhx0685gz7i1V5wTw7t5NO9-AFBiOVGQw3mA1kPQLSMAJQSU-THk9OZnQHRhasJnHKcxiPR9kxvAPY0D6O8tOmVv1W4uujBlGD04r0Rm6vb-MJFANYWV3ZkPJuI35jKT6g1U6V6GE-QkjzaY5HMk0ccnDEyeGgy2c_OuEgMNKOVOOWG-3f67vfVtZbavukNrvqIUipG-bneNKD4xCI3pTob7c5ZkAuEL9KTGUDC7Z-WJnjdGBg402ucKuqwkKsweAi1ORA2C1QJvY9xYQZ-zkfWxhJCWbtFojrw8LXc3YQtnTVdbmSzI_WGmONCJ3m4dXDA3M1rNWM947UIzv0EpLphQ_-I=)
+- [babylist.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlER_-e5TcFhDFIr9dZQTIKQBpRz5re87DZnz3umQ6xp-G1sWXc96TRLTvQw_HR-i9STj6P2cuU3KgMHqRPSmRi7zXdh3TTxB7DjV2BtIGjlhJIKkauoCwXp68Nt4eJsNY9WwhE-avjLtn5AuzekmfMcMWONABxw4HBZHN-aQja10JcMrZP8bxMEDQHNA4bURTlJKJJY5eR5i4vrH4J4ARcmbGwj3XeBTFZBVxF3CJHDioYGEI8zMp_x0=)
+- [riverbabygroup.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBomYlICbebOR-tY68h5oDZW2RrZ67Szb01gXUkLLIZn8W3PjAtaWp_53s-Wl0dgl4gd-lJ8UkZl7rtka2ITuqL6DgrTqk2QWLGLDbr3CXgsxO6xHrsnBOkHh2Sd-ts7_rA9psgUJM_lum7QTNXzX1bkb87lFy5p8HWaH_LUVTDAynwVWXPjpNN7NwpZEPThYQFwssO7bsQumEbiIc7xDFC1txrgotxKk=)

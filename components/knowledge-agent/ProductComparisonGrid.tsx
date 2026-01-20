@@ -130,11 +130,11 @@ export function ProductComparisonGrid({
         }}
       >
         {/* 상품 헤더 영역 */}
-        <div className="flex items-start px-2" style={{ width: totalWidth }}>
+        <div className="flex items-stretch px-2" style={{ width: totalWidth }}>
           {displayProducts.map((product) => (
             <div
               key={product.pcode}
-              className="shrink-0 px-2"
+              className="shrink-0 px-2 flex flex-col"
               style={{ width: columnWidth, scrollSnapAlign: 'start' }}
             >
               {/* 이미지 - 회색 배경 없이, 이미지 자체에 곡률 */}
@@ -161,28 +161,31 @@ export function ProductComparisonGrid({
                 )}
               </button>
 
-              {/* 제품명 - 두줄 */}
-              <p className="text-[13px] font-medium text-gray-800 line-clamp-3 leading-tight mb-1">
+              {/* 제품명 - flex-grow로 공간 채움 */}
+              <p className="text-[13px] font-medium text-gray-800 line-clamp-3 leading-tight mb-1 flex-grow">
                 {product.name}
               </p>
 
-              {/* 가격 */}
-              <p className="text-[15px] font-bold text-gray-900 mb-2">
-                {isEmpty(product.price)
-                  ? '가격 문의'
-                  : `${product.price!.toLocaleString()}원`
-                }
-              </p>
+              {/* 가격 + 버튼: mt-auto로 하단 고정 */}
+              <div className="mt-auto">
+                {/* 가격 */}
+                <p className="text-[15px] font-bold text-gray-900 mb-2">
+                  {isEmpty(product.price)
+                    ? '가격 문의'
+                    : `${product.price!.toLocaleString()}원`
+                  }
+                </p>
 
-              {/* 최저가 구매하기 버튼 */}
-              <a
-                href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-[13px] font-medium rounded-md text-center transition-colors"
-              >
-                최저가 구매하기
-              </a>
+                {/* 최저가 구매하기 버튼 */}
+                <a
+                  href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-[13px] font-medium rounded-md text-center transition-colors"
+                >
+                  최저가 구매하기
+                </a>
+              </div>
             </div>
           ))}
         </div>

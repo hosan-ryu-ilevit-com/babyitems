@@ -1,14 +1,14 @@
-# 세션: 20260116_133116_wfuz
-> 시작: 2026-01-16T13:31:16.491Z
+# 세션: 20260120_032601_8kyh
+> 시작: 2026-01-20T03:26:01.736Z
 > 카테고리키: 휴대용
 > 카테고리: 휴대용 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 휴대용 유모차 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 휴대용 유모차 시장은 '경량화'와 '편리성'을 핵심 가치로 삼고 있으며, 특히 기내 반입 가능한 초경량 모델이 인기를 얻고 있습니다. 와이업, 타보, 리안, 잉글레시나, 줄즈 등 다양한 브랜드가 경쟁하고 있으며, 디자인과 친환경 소재 적용도 중요한 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3apQxZvBBWLAT9R55NXZdT89Tak7G7vUwSgSE4VjMZG-f1h10LRLu4Tri8AZtCeU9qN9ceJH1T3iLCoKIy4WrY4QuX9EtUu0MGJvw_wad2fQxUoxrDo6OVLD7upY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLeBp7XCTfPRY-OjX46AN342C8jQVGnGjlnTPsivF1TLlWqgNSIU4zFmtRKxnNQN4X2UXrEQsSEjg3qxVCviV_7_An4Cg58JRMTk18hqUgdt13w1pUW3nuXobhyHUiT9uAAOt4M_QywNuPVDzCu29eDGPSY9IwUygGbkXNDR2UD9kDUiCM_QOS8rPZ7ErgpogLuzUL7Dgk2C8TVKTEbI6MtmxYalah72EjdPi4yJ2jDLRHc_vQFQkh_TRnRQcDueI8aufpabTu0iI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcRuungHi0CbWIpEG0CYYw7Bz-esBSUwrH2QOr18iSjmvi04BF6x-fA8vv_g5LSuR-HBk7BnNhHuZK-J7jRgFbfQUslK8zlSzlIKzxyWNLvuHHVzw4xAzpATAU8p9g-udbqhYvUw9Nhy9hMBrWXkSkVW6s62-KBC7WTxFpvSooQGRCv6x1PFNP3DMcH5pmwF0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfAClIpAv0RFdDbSYlrOElwTn0Rm_TrM-IxM6Wcz4wlUt2yT6SNKKdmRf_AhXsjfgX0nIqfUzjXOoe3EeQRMI7r_uJCMt5TyquBGp3o8fRLazcbgnfXeuoHes0AH1xHmLwBB_2Vg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOZO3nBhjTupB6OOew8OpD14YWVDeVP0xRdrjfZPBoOrR9WeM1fgh9L6Ogq_kKr_W0Jp5ZnK3Wc_CVotvPbphP2ZqxbZk-g0--IwQzl5VfnqDszXUEGudOBnWm_QbHu8HeWaJ3HA==
+- 쿼리: 휴대용 유모차 시장 현황
+- 인사이트: 휴대용 유모차 시장은 가벼움, 휴대성, 사용 편의성을 중심으로 성장하고 있으며, 특히 여행용, 트윈용, 조깅용 등 특정 상황에 최적화된 제품에 대한 관심이 높습니다. 또한, 친환경 소재 적용 제품의 수요 증가와 스마트 기능(예: 자동 접이식) 탑재가 미래 시장을 주도할 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjOzE0kxLa4e29Ts4jDrSem_wiQNCK9DL4wv150G-nwf7lTMbPJVKuq1T7al44ZNiqEaNHTzDc70yuNGUmLYT6ovKKaEF_qm08gLht4YqlRNf8qzHAWKf0fa5f9moy7qaedxa5ZDYhH2H0l5OGq-q5nVL00kG2WxdnmJA4XGxKjhimLOX6q1NK5H5Ds7NHCObClTdd0KM0DpPqDpKJkqhF6j6Xab2To8Hb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG95EtGKTLT_Ado3cddVqwF-sh4YKIV_0xXkbNbghwDUlpDOBCfEOnXuydfrUGFjl4YRSueDg17b0V-KbxqLFRnyQdXpm80zCknIiimjUXGfqSvrDA5iOdM0wdBMykhBPf1rs3te-a5sV3tN5Yw-cPhhAC6AKaIpcoGGPaRaFBWKecHrZyBf_83n__hSQ2y7fBICw4ZifTg1f7AeQzkgSPoMuamZOH8gELxlmt4n8-N3axi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUNpUehaBy8qfQCAcndEILbmHvl5lSV6SiEAZVJpJAUc3_PQNdx3b_yPsE6bA0uMGr-ymnFmQbEeHITJUj_wuX-2q0fj8ujx-EitJy6WuyPk2DH89bJRXn5flkscfrrZW1BmlT1whyTuutEM9PIEZns_E2IZioyeJoJIOsGndwWBGWqoi0UiUSWvXroo-V6-F0GpLWvmcHlGqD1YecjKPpHht4sHXVBHw4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbnyu6qy7P0kGctVxql0Od6NH4T4M7MftIPDRpIxGQCdtROxhIsXmzDt1v5sB8Vm9ytpwcy2wvdScf74S11nnF8i0QPzy6sUfr7MqUSoRNXy9cUBH115co_PuSqLXNqsRVexRaF6at80u7x0Mtdn4hPO28J-uDsLEx_sZ4H38jZtsqSteHAB0h2SYsN9L0axq91Hf_RT3m0l8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBiIQ66iod4racgHLSSvTCy6-QbV_hhCcvU-XOq6ufw1XmofaxrrEtb-KFJowSv820XaKN806s3CGBZmKvm1wSCyt04FCVjg1_eoTb-RTusfwnd9NHXYHu0MLHt8aPh7Gi2go-Vi95y-dDrvKoEafAWp5XvNXpNTOr0FOyZ2bYzSYnF6cML99EsGx6dG-lkVNIOfN2rjFM31Yb11eTVNTMHHIcnq6xeUbyt6QankyHKRDSRRTiyX8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXrvGI2pKXmxaoV1M2V2tjByG2BjV0azA45zFjMe7srmaXOJkkjL05QAhvO7U0yK9Dgr8FGh-A-hBRAWzF8pErd3YWH5wOMe38tAGNprM2v9XCUYBluWCOg_0a2uLsW4f637SHUrgw8hMWmuMSxCiIbuLro6EtKUlFcat7SypdyXNWTNmzFX5k_7qhtdzxgA2SHJ2imfjxfEQTYE0hrhx0685gz7i1V5wTw7t5NO9-AFBiOVGQw3mA1kPQLSMAJQSU-THk9OZnQHRhasJnHKcxiPR9kxvAPY0D6O8tOmVv1W4uujBlGD04r0Rm6vb-MJFANYWV3ZkPJuI35jKT6g1U6V6GE-QkjzaY5HMk0ccnDEyeGgy2c_OuEgMNKOVOOWG-3f67vfVtZbavukNrvqIUipG-bneNKD4xCI3pTob7c5ZkAuEL9KTGUDC7Z-WJnjdGBg402ucKuqwkKsweAi1ORA2C1QJvY9xYQZ-zkfWxhJCWbtFojrw8LXc3YQtnTVdbmSzI_WGmONCJ3m4dXDA3M1rNWM947UIzv0EpLphQ_-I=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlER_-e5TcFhDFIr9dZQTIKQBpRz5re87DZnz3umQ6xp-G1sWXc96TRLTvQw_HR-i9STj6P2cuU3KgMHqRPSmRi7zXdh3TTxB7DjV2BtIGjlhJIKkauoCwXp68Nt4eJsNY9WwhE-avjLtn5AuzekmfMcMWONABxw4HBZHN-aQja10JcMrZP8bxMEDQHNA4bURTlJKJJY5eR5i4vrH4J4ARcmbGwj3XeBTFZBVxF3CJHDioYGEI8zMp_x0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBomYlICbebOR-tY68h5oDZW2RrZ67Szb01gXUkLLIZn8W3PjAtaWp_53s-Wl0dgl4gd-lJ8UkZl7rtka2ITuqL6DgrTqk2QWLGLDbr3CXgsxO6xHrsnBOkHh2Sd-ts7_rA9psgUJM_lum7QTNXzX1bkb87lFy5p8HWaH_LUVTDAynwVWXPjpNN7NwpZEPThYQFwssO7bsQumEbiIc7xDFC1txrgotxKk=
 
 ---
 
@@ -16,31 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 월령 또는 예상되는 사용 시점은 언제인가요? | 신생아 (0~6개월) |
-| 휴대용 유모차를 주로 어떤 상황에서 사용하실 예정인가요? | 일상생활 (가볍고 간편) |
-| 유모차를 접고 펼치는 방식에 대한 선호도가 있으신가요? | 원핸드 폴딩 |
-| 휴대용 유모차 예산은 어느 정도로 생각하세요? (평균 53만원, 30만원~70만원대가 가장 많아요) | 30만원 ~ 70만원대, 30만원 이하 |
-| __avoid_negatives__ | 아기가 타는 좌석의 충격 흡수가 부족해서 울퉁불퉁한 길에서는 불편할까 봐 걱정돼요,기저귀 가방이나 장바구니를 넣을 공간이 너무 작아서 짐을 많이 못 넣을 것 같아요 |
+| 유모차를 접고 펼치는 방식은 어떤 것을 선호하시나요? | 한 손으로 간편하게 접고 펴기 |
+| 주로 어떤 상황에서 유모차를 사용하시나요? 특히 여행 시 활용도가 중요하신가요? | 기내 반입 가능한 컴팩트한 사이즈 |
+| 아기의 안전과 편안함을 위해 중요하게 생각하는 기능이 있으신가요? | 5점식 안전벨트 |
+| 유모차 사용 시 수납 공간이나 부가적인 기능 중 중요하게 생각하는 부분이 있으신가요? | 넉넉한 수납 공간 (장바구니) |
+| 예산은 어느 정도로 생각하세요? (평균 58만원, 30만원~75만원대가 가장 많아요) | 31만원 ~ 75만원대, 31만원 이하 |
+| __avoid_negatives__ | 장바구니가 너무 작아서 외출 시 짐을 많이 챙기기 어려울 것 같아요,아기가 금방 자라서 유모차를 오래 사용하지 못할까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 12개 (전체 12개 중)
+현재 후보: 49개 (전체 49개 중)
 
 ### 후보 상품
-1. 리안 그램플러스 기내반입형 휴대용 유모차 - 237,500원 - ⭐4.6
-2. 스토케 요요2 프리미엄 휴대용 유모차 - 749,000원 - ⭐5
-3. 엘레니어 세스토 라이트 유모차 - 459,000원 - ⭐4.8
-4. 조이 파르셀 시그니처 휴대용 유모차 - 387,940원 - ⭐5
-5. 웰본 뉴 로브스또 라이트 유모차[일반] - 76,070원 - ⭐4.6
-6. 맘네스트 휴대형 범용 유모차 사계절 커버 - 33,036원 - ⭐4.6
-7. 맘네스트 유모차 레인커버 (디럭스&절충형&휴대용) - 40,527원 - ⭐4.8
-8. 페도라 2021 폴디 오토폴딩 휴대용 유모차 - 215,000원 - ⭐5
-9. 무무브 컴팩T 휴대용 유모차 - 181,440원 - ⭐5
-10. 리안 2022 그램플러스 휴대용 유모차 - 256,500원 - ⭐4.8
-11. 리안 도렐 휴대형 유모차 방풍커버 - 28,900원 - ⭐4.6
-12. 마니또 캐슬 알파 소형 휴대용 유모차커버 (컴팩트형) - 39,840원 - ⭐4.6
+1. 베이블퓨어리 트라이크 유모차 T2 - 42,570원 - ⭐3.5
+2. 부가부 버터플라이 휴대용 유모차 - 785,170원 - ⭐5
+3. 스토케 요요3 프리미엄 휴대용 유모차 - 665,880원 - ⭐4.8
+4. 리안 그램플러스 기내반입형 휴대용 유모차 - 237,500원 - ⭐4.6
+5. 다이치 다이치 더 스페이스 휴대용 유모차 - 389,500원 - ⭐5
+6. 에그 2025 에그 스카이 에이로 기내반입 유모차 휴대용 - 560,500원 - ⭐5
+7. 베이블퓨어리 유아 트라이크 T4 휴대용 접이식 양대면 유모카 - 113,740원 - ⭐3.4
+8. 스토케 요요2 프리미엄 휴대용 유모차 - 749,000원 - ⭐5
+9. 다이치 타보 플렉스 탭3 - 354,990원 - ⭐4.8
+10. 싸이벡스 코야 휴대용 유모차 - 970,000원 - ⭐5
+11. 에그 에그Z 플러스 휴대용 유모차 - 750,500원 - ⭐5
+12. 잉글레시나 잉글레시나 퀴드3 기내반입 휴대용 유모차 - 629,850원 - ⭐5
+13. 엘레니어 세스토 라이트 유모차 - 459,000원 - ⭐4.8
+14. 조이 파르셀 시그니처 휴대용 유모차 - 387,940원 - ⭐5
+15. GB 큐빗 유모차 - 327,342원 - ⭐4.8
+16. 조이 투어리스트 휴대용 유모차 - 393,720원 - ⭐5
+17. 쿨키즈 CK 플러스 유모차 - 148,500원 - ⭐4.7
+18. 에어보스 2020 V90 오토폴딩 유모차 - 150,100원 - ⭐5
+19. 와이업 2024 기내반입 휴대용 유모차 지니에스 - 444,600원 - ⭐4.8
+20. 맘네스트 휴대형 범용 유모차 사계절 커버 - 34,800원 - ⭐4.6
 
 ---
 
@@ -52,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기가 타는 좌석의 충격 흡수가 부족해서 울퉁불퉁한 길에서는 불편할까 봐 걱정돼요
-- 기저귀 가방이나 장바구니를 넣을 공간이 너무 작아서 짐을 많이 못 넣을 것 같아요
+- 장바구니가 너무 작아서 외출 시 짐을 많이 챙기기 어려울 것 같아요
+- 아기가 금방 자라서 유모차를 오래 사용하지 못할까 봐 걱정돼요
 
 ---
 
