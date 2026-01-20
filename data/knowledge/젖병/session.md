@@ -1,14 +1,14 @@
-# 세션: 20260119_031900_rix8
-> 시작: 2026-01-19T03:19:00.876Z
+# 세션: 20260120_014545_1uq0
+> 시작: 2026-01-20T01:45:45.655Z
 > 카테고리키: 젖병
 > 카테고리: 젖병
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 젖병 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 젖병 시장은 더블하트, 닥터브라운, 헤겐 등 전통적인 강자들이 여전히 높은 인기를 유지하고 있습니다. 모유실감 기능, 배앓이 방지 기능이 탑재된 제품들이 꾸준히 사랑받고 있으며, PPSU 소재의 안전성과 내구성을 갖춘 젖병이 대세입니다. 또한, 디자인과 사용 편의성을 고려한 제품들도 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfCUg2Djxzd1kJcXyl89o8zHBgGxBbXMXvY4VIpBucKo_odqpy37R5OOjrS0TV4uwyP_8WvP1goHBXYVWFVEi5wN7z4PZA3PrPOooOPES7JoahigSuQAtup-pzpGz0lXeEVw41v9ScchXk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGgniFmEPagKCfUcqQgqT1vc8MgTriUpgcFaRnpeM3zI1shgZrdDWRU39XKB0gjQ1kj7e-_i2pRHcVc6ucoCn_eZ4h0AUzA5DiA0ejqwLYekJwZuMZFNyfvWE-a, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYBGczpqkHiuEQ8MIZRcWcSOa11XJDHB3cozNsF3DWqOl4ToI8U_rbVbK5vPU9Xm-BtQ-oanJe6OWajtEhQ2Nkz5T1sO3HLCuf9uKgCkc-yLtzThJG2rwB, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeLwKlpIwP_cS25U8mBqu9M7CivBmuVruYeqaYSb33OIeJlnJ9au8lsXQr75KTdhoZ-2ueN8LsMXnCQn3bAoZ8BKJ-lKltG4M0MHCefMxLEU5qrYbSmK-s_dfCTT486SxHQzvEMXTvimRg1iMQ8GgkFcy1DjqVyhlgvg==
+- 쿼리: 젖병 시장 현황
+- 인사이트: 글로벌 유아용 젖병 시장은 2021년 28억 달러 규모에서 연평간 5.1% 성장하여 2030년에는 42억 달러에 이를 것으로 전망됩니다. 또한, 2024년부터 2029년까지 연평균 성장률 6.8%로 12억 300만 달러 증가할 것으로 예상됩니다. 이는 직장 여성 증가, 모유 수유의 어려움, 출산율 변화, 포장 혁신 등 다양한 요인이 복합적으로 작용한 결과입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBUwGdmwX_i0SODj2LoXwUloxCeIirvqQha1rUrNKzE4kiMo49LJlDLqy_KJYuJCE7n2-ukZIVqYdRVfKeSQvbITiUZ26RdRrbJU3iO-f5bby39DKUNaOqbkcsvOZ_AYEe6ntyj9nIagYEYUfMU7tstu_ohbFDeyIZKaO6rA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKBtCk92VX4_N-RibotAMN6NQn_kuRLS_0jcyPiX6Cu4c7HxmXupoMJRWodsZ_XNPGRw03_ZvsaZqUItrPTYT-0zDvVbLpxdBz06v5DhkVB6dmQ3Dg5UXuse29v6I4CBulPxUTWmBfNmUvGZt-3lBjQYVjLh1KrUuLOIGJY-ZyffyF8xhNnvqx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpETigwu1r2lsUtDyWNB31b3XDm6wQJHawSwGu2cLILiuUK_xvY6yLO3iXCncMdvGHub4LulhwKW61IqobA728cpRsdKkw66APByx_7yNT-ILtE94aUgx_3W90BZX3LTq7RuLLj6jBRpB3cATVJZA2AtdG1peSVjfF7HADIVDZE-mN5_3-jAWkyLUM8XmHG4tynuUTFnm6RndYsyf2gUHUnxApL1KpJOcope3q8L47PZtowLu0uJ1tC2FfwyR1Hiw4CPLHI0WeqII074nGx3xpzjfaoT1flCwTjY78TVwvFXyUZF8U6mK_SdB596QqCw9LVfQrMdVRnEBVz-YwtX0LVfsze8mBoqTzf2596tAEKzCqmGUstoqPq-fqSSQK-XZmDmFs_ez76BYXZHZBpD6rknUKmXggED0bHGFBQUB9e375lkuCuN1ByDQH1e6oEWsKwYSR4G7nc-mwNwwUi394CikXpEwkueknvGNpJtT8AvM5SlSfdDTWWktsAAtUUnryPQQkiPuwZlSBfw1DwCneDuhol13-V-5hlM8Bb7chmkV7GqNecV9WS7lHYH-IpBdHW8n0y71J_CIxG4ir4bfYvIWecmJ08DsjeVaVaWv511cTP5sfbJL3ShpzgYdr30tT2jmWqUDucOQT3xePAWg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0mYqblWSmvLtlzNvo8wfH-Ys9oy7CIapUYEeCZbgQHZyJEXJJS2STGIHRb6EDMOQccN6z0IjrSGKw7-0Q0-sbn1H77uo2k6RChaydyI-HxxEX3o5ILYGa3xJnloRmATlT1hB-ixEYi2hlWmTg2jmbZjjt6wjndOu8gSkXC090NENY7g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQt89ATw3-uwJYO9TKqEqTyR0zofTyDLDch1iuDlVEpPv3961nmNIJmpV9f-GWBcsxdPQnYT7dyxAXIrqTbbiYaU_KqR4z-SUyfNLQQQbya-IjzkZe78p5kgz5GnBigObzzEb94lw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZ7Cjbx3LkHb68bD9vmQqMMmn-BJmluX7pKkj-_VeA3_QJP3H_Yj5Ija1o_W62H2t2ptCP19uChFwLIVWEqoSkal7FhJiXKyIb4Bs-pc2qrKmrjPwzpffLVCvTv1mdVgIR-0QbUNT585VH6nCyxDiNmIZaFt_LWvZEbscUXx4GT9qumXT-l6fT_FmPbVBhvlftQMD2CQvkE4G0U7r-KN-Xbfk9AX28gI-8rlgbWq6L_QisteWoEYzGnNusCdeLEnEXCwDG2noVHXv-GwM2YtOcUI14IgdlYbkouI3qjgON11QFwto96bwhcmvFo2KYhuY-rsH5wweDmZliTolA8MvaX127ZC7pjFo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG34QntK9IsuoiHG2udAd10b3D_PuKGd8pnt5bbBZ4sdsHF24GmebZtw_rv8I3nEwpoz83f0g2KDGBZfitR-H-auQ2bn-ly9bPhuxPZCbwiNOb8JUWe7PyynOaUAXxH5sDMc1BJx20SQB7XIb0ikUW81myAq3VmOChLinn6, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVj2YkRasPx7Usk5UMJhXEYn9mERcfK6_UnKhpjXM_3NBlIbXDLcDyiFyqthPzG5pf8Vvp_AQyOLlY_qndN17ngmbhms1gIxM44zF9wYnCECAHTQv4HjJvYTp59_Ma
 
 ---
 
@@ -16,28 +16,34 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 수유 방식에 맞춰 젖꼭지 타입을 선택해 주세요. | 일반 젖꼭지 |
-| 젖병 소재는 어떤 것을 선호하시나요? | PPSU |
-| 아기의 개월 수나 한 번에 먹는 수유량에 맞춰 젖병 사이즈를 선택해 주세요. | 240ml |
-| 젖병 예산은 어느 정도로 생각하세요? (평균 약 3만 7천원, 2만 3천원~4만 8천원대가 가장 많아요) | 2만 3천원 ~ 4만 8천원대, 2만 3천원 이하 |
-| __avoid_negatives__ | PPSU 소재라도 주기적으로 교체해야 해서 부담돼요.,일반 젖꼭지라 틈새 세척이 번거로울까 봐 걱정돼요. |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 9개 (전체 9개 중)
+현재 후보: 81개 (전체 81개 중)
 
 ### 후보 상품
-1. 더블하트 모유실감 3세대 PPSU 젖병 160ml - 19,380원 - ⭐4.8
-2. 모윰 안심코팅 유리젖병 240ml 2개 + 젖꼭지 2P - 55,330원 - ⭐4.6
-3. 그로미미 노꼭지 PPSU 젖병(다크) 300ml - 20,215원 - ⭐4.9
-4. 유피스 PPSU 젖병 SS 화이트 180ml - 17,190원 - ⭐4.9
-5. 닥터브라운 와이드넥 옵션스 플러스 데코 PPSU 젖병 270ml - 49,800원 - ⭐5
-6. 닥터브라운 내로우넥 옵션스 플러스 PP 젖병 120ml - 11,790원 - ⭐4.5
-7. 더블하트 모유실감 3세대 PPSU 노꼭지 240ml 트윈팩 - 26,360원 - ⭐4.8
-8. 더블하트 모유실감 3세대 PPSU 오후의베이지 160ml (노꼭지) - 23,700원 - ⭐5
-9. 더블하트 신 모유실감 PPSU 젖병 M사이즈 240ml - 39,935원 - ⭐4.7
+1. 더블하트 모유실감 3세대 PPSU 베이직 160ml - 60,630원 - ⭐4.8
+2. 헤겐 애착젖병 PPSU 150ml - 125,177원 - ⭐5
+3. 더블하트 트리플팩 240ml + 젖꼭지 4개 - 37,050원 - ⭐4.8
+4. 헤겐 애착젖병 PPSU 150ml + 240ml - 65,880원 - ⭐5
+5. 닥터브라운 와이드넥 옵션스 플러스 데코 PPSU 젖병 150ml - 26,400원 - ⭐5
+6. 헤겐 애착젖병 PPSU 240ml - 44,530원 - ⭐4.8
+7. 마더케이 리필형 스펀지 젖병솔 리필3P - 10,200원 - ⭐4.8
+8. 더블하트 3세대 160ml 디자인 트윈팩2개 젖병4개 + 젖꼭지4개 - 46,060원 - ⭐5
+9. 더블하트 트윈팩160ml+젖꼭지2입 - 22,250원 - ⭐4.8
+10. 더블하트 구순구개열 특수젖병 240ml 젖꼭지2p포함 - 11,210원 - ⭐5
+11. 헤겐 애착젖병 PPSU 240ml - 92,430원 - ⭐4.9
+12. 그린핑거 베베그로우 PPSU 젖병 크림 160ml - 16,340원 - ⭐4.9
+13. 모윰 실리콘 코팅 유리 젖병 240ml (노꼭지) - 64,800원 - ⭐5
+14. 그린핑거 베베그로우 PPSU 수국 젖병 160ml - 28,520원 - ⭐5
+15. 더블하트 3세대 240ml 트윈팩 젖병2개 + 젖꼭지 4개 - 39,850원 - ⭐4.9
+16. 유미 PPSU 젖병 260ml (노꼭지) - 53,490원 - ⭐4.8
+17. 헤겐 애착젖병 PPSU 150ml - 57,180원 - ⭐4.9
+18. 닥터브라운 와이드넥 옵션스 플러스 PPSU 젖병 270ml - 50,080원 - ⭐4.5
+19. 더블하트 3세대 PPSU 한글 240ml 트윈팩 젖병2개/노꼭지 - 26,710원 - ⭐4.6
+20. 닥터브라운 와이드넥 옵션스 플러스 데코 PPSU 젖병 270ml - 49,800원 - ⭐5
 
 ---
 
@@ -49,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- PPSU 소재라도 주기적으로 교체해야 해서 부담돼요.
-- 일반 젖꼭지라 틈새 세척이 번거로울까 봐 걱정돼요.
+(아직 선택 없음)
 
 ---
 

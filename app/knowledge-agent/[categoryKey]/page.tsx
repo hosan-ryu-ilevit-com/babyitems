@@ -4784,12 +4784,12 @@ function MessageBubble({
                                         isSelected
                                           ? 'ai-gradient-border text-[#6366F1]'
                                           : isFull
-                                            ? 'bg-blue-50 text-blue-600'
-                                            : 'bg-amber-50 text-amber-700'
+                                            ? 'bg-green-50 text-green-700'
+                                            : 'bg-yellow-50 text-yellow-700'
                                       }`}
                                     >
-                                      {isFull && <span className={`text-[10px] ${isSelected ? 'text-[#6366F1]' : ''}`}>●</span>}
-                                      {isPartial && <span className={`text-[10px] ${isSelected ? 'text-[#6366F1]' : ''}`}>▲</span>}
+                                      {isFull && <span className={`text-[10px] ${isSelected ? 'text-[#6366F1]' : 'text-green-700'}`}>●</span>}
+                                      {isPartial && <span className={`text-[10px] ${isSelected ? 'text-[#6366F1]' : 'text-yellow-700'}`}>▲</span>}
                                       {tag.label}
                                     </span>
                                   );

@@ -629,11 +629,58 @@ function WebSearchContent({
           animate={{ opacity: 1 }}
           className="space-y-3"
         >
-          {/* 완료 상태: 요약 보고서 + 출처 목록 (애니메이션 없음) */}
+          {/* 완료 상태: 웹검색 수집 데이터 + 출처 목록 (애니메이션 없음) */}
           {step.status === 'done' ? (
             <>
-              {/* 요약 보고서 */}
-              {thinking && (
+              {/* 웹검색 수집 데이터 - 트렌드, 장점, 단점, 구매고려사항 */}
+              {(trends?.length || pros?.length || cons?.length || buyingFactors?.length) ? (
+                <div className="space-y-2.5">
+                  {/* 트렌드 */}
+                  {trends && trends.length > 0 && (
+                    <div className="space-y-0.5">
+                      <p className="text-[12px] text-blue-500 font-semibold">트렌드</p>
+                      <div className="flex items-start gap-1.5">
+                        <span className="shrink-0 text-blue-400 leading-[18px]">•</span>
+                        <span className="text-[12px] text-gray-600 leading-[18px]">{trends.slice(0, 4).join(', ')}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* 장점 */}
+                  {pros && pros.length > 0 && (
+                    <div className="space-y-0.5">
+                      <p className="text-[12px] text-emerald-600 font-semibold">장점</p>
+                      <div className="flex items-start gap-1.5">
+                        <span className="shrink-0 text-emerald-500 leading-[18px]">•</span>
+                        <span className="text-[12px] text-gray-600 leading-[18px]">{pros.slice(0, 4).join(', ')}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* 단점/주의사항 */}
+                  {cons && cons.length > 0 && (
+                    <div className="space-y-0.5">
+                      <p className="text-[12px] text-amber-600 font-semibold">주의사항</p>
+                      <div className="flex items-start gap-1.5">
+                        <span className="shrink-0 text-amber-400 leading-[18px]">•</span>
+                        <span className="text-[12px] text-gray-600 leading-[18px]">{cons.slice(0, 3).join(', ')}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* 구매 고려사항 */}
+                  {buyingFactors && buyingFactors.length > 0 && (
+                    <div className="space-y-0.5">
+                      <p className="text-[12px] text-purple-600 font-semibold">구매 고려사항</p>
+                      <div className="flex items-start gap-1.5">
+                        <span className="shrink-0 text-purple-400 leading-[18px]">•</span>
+                        <span className="text-[12px] text-gray-600 leading-[18px]">{buyingFactors.slice(0, 4).join(', ')}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : thinking && (
+                // fallback: 기존 요약 표시 (웹검색 결과가 없을 경우)
                 <div className="space-y-1.5">
                   <div className="flex items-center">
                     <p className="text-[14px] tracking-tight font-medium text-gray-400">
@@ -1081,11 +1128,13 @@ function StaticStepCard({
   crawledProducts,
   generatedQuestions,
   categoryKey,
+  webSearchProgress,
 }: {
   step: AnalysisStep;
   crawledProducts?: AgenticLoadingPhaseProps['crawledProducts'];
   generatedQuestions?: GeneratedQuestion[];
   categoryKey: string;
+  webSearchProgress?: WebSearchProgressData;
 }) {
   const duration = step.endTime && step.startTime
     ? ((step.endTime - step.startTime) / 1000).toFixed(1)
@@ -1118,7 +1167,7 @@ function StaticStepCard({
         <div className="absolute left-[10px] top-0 bottom-4 w-px bg-gray-200" />
         <div className="pl-8 pb-4 space-y-3">
           {step.id === 'web_search' && (
-            <WebSearchContent step={step} categoryKey={categoryKey} />
+            <WebSearchContent step={step} categoryKey={categoryKey} webSearchProgress={webSearchProgress} />
           )}
           {step.id === 'review_extraction' && (
             <ReviewExtractionContent step={step} />
@@ -1146,6 +1195,7 @@ function AnalysisDetailBottomSheet({
   crawledProducts,
   generatedQuestions,
   categoryKey,
+  webSearchProgress,
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -1153,6 +1203,7 @@ function AnalysisDetailBottomSheet({
   crawledProducts: AgenticLoadingPhaseProps['crawledProducts'];
   generatedQuestions: AgenticLoadingPhaseProps['generatedQuestions'];
   categoryKey: string;
+  webSearchProgress?: WebSearchProgressData;
 }) {
   return (
     <AnimatePresence>
@@ -1216,6 +1267,7 @@ function AnalysisDetailBottomSheet({
                     crawledProducts={step.id === 'product_analysis' ? crawledProducts : undefined}
                     generatedQuestions={step.id === 'question_generation' ? generatedQuestions : undefined}
                     categoryKey={categoryKey}
+                    webSearchProgress={step.id === 'web_search' ? webSearchProgress : undefined}
                   />
                 ))}
               </div>
@@ -1237,12 +1289,14 @@ function CompletedSummaryCard({
   crawledProducts,
   generatedQuestions,
   categoryKey,
+  webSearchProgress,
 }: {
   categoryName: string;
   steps: AnalysisStep[];
   crawledProducts: AgenticLoadingPhaseProps['crawledProducts'];
   generatedQuestions: AgenticLoadingPhaseProps['generatedQuestions'];
   categoryKey: string;
+  webSearchProgress?: WebSearchProgressData;
 }) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
@@ -1332,6 +1386,7 @@ function CompletedSummaryCard({
         crawledProducts={crawledProducts}
         generatedQuestions={generatedQuestions}
         categoryKey={categoryKey}
+        webSearchProgress={webSearchProgress}
       />
     </>
   );
@@ -1504,6 +1559,7 @@ export function AgenticLoadingPhase({
             crawledProducts={crawledProducts}
             generatedQuestions={generatedQuestions}
             categoryKey={categoryKey}
+            webSearchProgress={webSearchProgress}
           />
         ) : currentStep ? (
           <motion.div
