@@ -2332,3 +2332,165 @@ export function logKnowledgeAgentHardFilterSelection(
     }
   });
 }
+
+// ============================================
+// KA 추가 상세 로깅 함수들 (비교표, 리뷰 필터)
+// ============================================
+
+/**
+ * KA 비교표 토글 온/오프 로깅
+ */
+export function logKAComparisonToggle(
+  categoryKey: string,
+  categoryName: string,
+  isEnabled: boolean,
+  productCount: number
+): void {
+  sendLogEvent('ka_comparison_toggle', {
+    page: 'ka-result',
+    buttonLabel: isEnabled ? 'AI 비교표 ON' : 'AI 비교표 OFF',
+    knowledgeAgentData: {
+      category: categoryKey,
+    },
+    metadata: {
+      categoryKey,
+      categoryName,
+      isEnabled,
+      productCount,
+    },
+  });
+}
+
+/**
+ * KA 비교표 내 구매하기 버튼 클릭 로깅
+ */
+export function logKAComparisonPurchaseClick(
+  categoryKey: string,
+  categoryName: string,
+  pcode: string,
+  productName: string,
+  price: number | null,
+  url: string,
+  position: 'header' | 'footer' // 상단 버튼 or 하단 버튼
+): void {
+  sendLogEvent('ka_comparison_purchase_click', {
+    page: 'ka-comparison',
+    buttonLabel: `비교표 구매하기: ${productName.substring(0, 30)}...`,
+    knowledgeAgentData: {
+      category: categoryKey,
+      productId: pcode,
+      productTitle: productName,
+      purchaseData: {
+        mall: '다나와',
+        price: price || 0,
+        isLowestPrice: true,
+      },
+    },
+    metadata: {
+      categoryKey,
+      categoryName,
+      pcode,
+      productName,
+      price,
+      url,
+      position,
+    },
+  });
+}
+
+/**
+ * KA 포토리뷰만 보기 필터 토글 로깅
+ */
+export function logKAPhotoReviewFilterToggle(
+  categoryKey: string,
+  categoryName: string,
+  pcode: string,
+  productName: string,
+  isEnabled: boolean,
+  photoReviewCount: number,
+  source: 'pdp_modal' | 'danawa_review_tab'
+): void {
+  sendLogEvent('ka_photo_review_filter_toggle', {
+    page: 'ka-pdp',
+    buttonLabel: isEnabled ? '포토리뷰만 보기 ON' : '포토리뷰만 보기 OFF',
+    knowledgeAgentData: {
+      category: categoryKey,
+      productId: pcode,
+      productTitle: productName,
+    },
+    metadata: {
+      categoryKey,
+      categoryName,
+      pcode,
+      productName,
+      isEnabled,
+      photoReviewCount,
+      source,
+    },
+  });
+}
+
+/**
+ * KA 블로그 리뷰 보기 클릭 로깅
+ */
+export function logKABlogReviewClick(
+  categoryKey: string,
+  categoryName: string,
+  pcode: string,
+  productName: string,
+  source: 'pdp_modal' | 'danawa_review_tab'
+): void {
+  sendLogEvent('ka_blog_review_click', {
+    page: 'ka-pdp',
+    buttonLabel: '네이버 블로그 후기 보기',
+    knowledgeAgentData: {
+      category: categoryKey,
+      productId: pcode,
+      productTitle: productName,
+    },
+    metadata: {
+      categoryKey,
+      categoryName,
+      pcode,
+      productName,
+      source,
+    },
+  });
+}
+
+/**
+ * KA 리뷰 정렬 변경 로깅
+ */
+export function logKAReviewSortChange(
+  categoryKey: string,
+  categoryName: string,
+  pcode: string,
+  productName: string,
+  sortType: 'newest' | 'rating_high' | 'rating_low',
+  source: 'pdp_modal' | 'danawa_review_tab'
+): void {
+  const sortLabels = {
+    newest: '최신순',
+    rating_high: '별점 높은순',
+    rating_low: '별점 낮은순',
+  };
+
+  sendLogEvent('ka_review_sort_change', {
+    page: 'ka-pdp',
+    buttonLabel: `리뷰 정렬: ${sortLabels[sortType]}`,
+    knowledgeAgentData: {
+      category: categoryKey,
+      productId: pcode,
+      productTitle: productName,
+    },
+    metadata: {
+      categoryKey,
+      categoryName,
+      pcode,
+      productName,
+      sortType,
+      sortLabel: sortLabels[sortType],
+      source,
+    },
+  });
+}

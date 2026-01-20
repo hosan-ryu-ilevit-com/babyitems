@@ -124,7 +124,13 @@ export type LogEventType =
   | 'knowledge_agent_re_recommend_modal_open' // 지식 에이전트 다시 추천받기 모달 열기
   | 'knowledge_agent_re_recommend_same_category' // 지식 에이전트 같은 카테고리 다시 추천받기
   | 'knowledge_agent_re_recommend_different_category' // 지식 에이전트 다른 카테고리 추천받기
-  | 'knowledge_agent_ai_helper_action'; // 지식 에이전트 AI 헬퍼 관련 액션
+  | 'knowledge_agent_ai_helper_action' // 지식 에이전트 AI 헬퍼 관련 액션
+  // KA 추가 상세 로깅 이벤트
+  | 'ka_comparison_toggle' // KA 비교표 토글 온/오프
+  | 'ka_comparison_purchase_click' // KA 비교표 내 구매하기 버튼 클릭
+  | 'ka_photo_review_filter_toggle' // KA 포토리뷰만 보기 필터 토글
+  | 'ka_blog_review_click' // KA 블로그 리뷰 보기 클릭
+  | 'ka_review_sort_change'; // KA 리뷰 정렬 변경 (최신순/별점높은순/별점낮은순)
 
 export interface LogEvent {
   sessionId: string;

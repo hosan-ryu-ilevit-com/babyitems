@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star, ShoppingCart, ArrowRight, CaretDown, CaretUp, Storefront, Truck, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
-import { logKAExternalLinkClicked, logKnowledgeAgentProductPurchaseClick } from '@/lib/logging/clientLogger';
+import { logKAExternalLinkClicked, logKnowledgeAgentProductPurchaseClick, logKAPhotoReviewFilterToggle, logKABlogReviewClick, logKAReviewSortChange } from '@/lib/logging/clientLogger';
 import {
   FcIdea,
   FcApproval,
@@ -629,7 +629,17 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
           {/* 블로그 후기 버튼 (리뷰 유무와 상관없이 항상 표시) */}
           <div className="px-6 mb-4">
             <button
-              onClick={() => setShowBlogReview(true)}
+              onClick={() => {
+                setShowBlogReview(true);
+                // 로깅
+                logKABlogReviewClick(
+                  categoryKey,
+                  categoryName || '',
+                  product.pcode || product.id,
+                  product.title,
+                  'pdp_modal'
+                );
+              }}
               className="w-full py-3 text-[13px] font-bold rounded-xl transition-colors flex items-center justify-center gap-2 bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"
             >
               📝 네이버 블로그 후기 보기
@@ -663,6 +673,15 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                      onClick={() => {
                        setReviewSortBy(key);
                        setDisplayedReviewsCount(30);
+                       // 로깅
+                       logKAReviewSortChange(
+                         categoryKey,
+                         categoryName || '',
+                         product.pcode || product.id,
+                         product.title,
+                         key,
+                         'pdp_modal'
+                       );
                      }}
                      className={`px-3 py-1.5 text-[12px] font-bold rounded-full transition-colors ${
                        reviewSortBy === key
@@ -677,8 +696,19 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                  {photoReviewCount > 0 && (
                    <button
                      onClick={() => {
-                       setShowPhotoOnly(!showPhotoOnly);
+                       const newValue = !showPhotoOnly;
+                       setShowPhotoOnly(newValue);
                        setDisplayedReviewsCount(30);
+                       // 로깅
+                       logKAPhotoReviewFilterToggle(
+                         categoryKey,
+                         categoryName || '',
+                         product.pcode || product.id,
+                         product.title,
+                         newValue,
+                         photoReviewCount,
+                         'pdp_modal'
+                       );
                      }}
                      className={`px-3 py-1.5 text-[12px] font-bold rounded-full transition-colors flex items-center gap-1 ${
                        showPhotoOnly

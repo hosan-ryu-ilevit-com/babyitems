@@ -1,14 +1,14 @@
 # 치발기 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T01:46:15.206Z
+> 마지막 업데이트: 2026-01-20T04:22:29.250Z
 > 분석 상품: 20개 | 분석 리뷰: 3,975개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 실리콘 소재
-- 과일/동물 모양 디자인
-- 손목형/고리형 디자인
+- 실리콘 소재 과일 모양 치발기
+- 손목 착용형 치발기
+- 고리형 디자인 치발기
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 가성비
@@ -19,7 +19,7 @@
 ### 주의해야 할 단점
 - ⚠ 짧은 수명
 - ⚠ 세균 번식 우려
-- ⚠ 아이가 흥미를 못 느끼는 경우
+- ⚠ 아이가 싫어하는 경우
 
 ### 가격대 인사이트
 
@@ -241,6 +241,6 @@
 ---
 
 ## 📊 데이터 출처
-- [ecommercefastlane.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEoRGx028Oww83AZbWnKGKCYnj80VyVqkWq1j7rs3BzZ8Z94XdaV9aq_NAJJS8_Fn99dNZyXa3gz1Q54zCW98RRBcJ3BrNRbCqSPaCVEpQh-2P-I_0ZPsEop19UNRdw7iOInPdiDixgmmKuEMyJeaLmqMPqI6HJ2jcwQYFrtfMC0xdBf-Euy7zQ_LaJ-ENyFC42_3ep)
-- [expertmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkQUGSEpaFSmucdp4ui0XHrMfb3a9hoOXke0aT8TcoDMzoMoFypoEc3vcab5jiaO1wdPCfue9o0vsEAUUC9hpIzGT-ebJ7rlfoL6WT3_2f1JPapf9QkT9-vI4pYIwlnyyy8UseHFEhk6oshYeCQwT88ktIuvs00zOOWe329kPBefn6rG5LXS8CPu0=)
-- [ibabynews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6z8duBR0EUBKtP17VCaeJO-lpUXfE4B2JOwuvxWFV7TdzlEBIXrMseR8lmvJ1MaSPGnvg-ohiQV6KPqr3jdHfu431IbgN88tDYn7jXDz3j06xrGZnNz_qOSjbHvS8Ctm4MSmHKYtBxDRVvPP1rM6yBm6TMvgH)
+- [ecommercefastlane.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkKWlSRJitPxyEYElna9zX-WsQryXAZyzH7FAPaLvQvnOUsvc7gkv4FjQpHKx0wQo9TmkdUsTnI2p6VkvxECI1Jp0zs5-3Ki4aEepP_amYQDU8SOrIh-KHDTCPtW3whSU9r8bxJgixicmmjDXhfmqHRWr86JgTC_rdmtdmd335eqkPXTBe-T4hvxE-JosvmKoVZlsdkg==)
+- [expertmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeQHvVfNeycAc9TAG6onxE3q_jnybcNbngfrrh4oumMvYMR6WM7iv1KvFUvsxBUNkwx_zklZzDHrgLAZvcRrY8LBGIdq-At7899BiOiNYh3Y2b9WBdcqHv1al11joWnptSWdtsb5ImGmvqSMWGCtjzI12Pyqvm0IjjblozaUthP7-H0r4qxCTQFZba)
+- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvIQZ4_dgL9yv_PLpftJo-Gz1vZDAAa-NOd8iGDHAAUEBpkprf51dXMfG9UAhTY_oYH-VwJ66zaS4a3e1xKmx1UcaJv_iT1lXfS4lm2dNS9ehieObUk-K53D4qeBkZWLpWpQX8rfT2Ct3ktVuw67sOcth9nFKlx3tF9fNM5AjACDpQyA==)

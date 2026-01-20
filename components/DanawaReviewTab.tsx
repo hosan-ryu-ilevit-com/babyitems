@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { CaretDown } from '@phosphor-icons/react/dist/ssr';
+import { logKAPhotoReviewFilterToggle, logKABlogReviewClick, logKAReviewSortChange } from '@/lib/logging/clientLogger';
 
 interface DanawaReviewImage {
   thumbnail: string;
@@ -27,9 +28,11 @@ interface DanawaReviewTabProps {
   pcode: string;
   fullHeight?: boolean; // 전체 높이 모드 (상품 리뷰 탭용)
   productTitle?: string; // 블로그 검색용 상품명
+  categoryKey?: string; // KA 로깅용 카테고리 키
+  categoryName?: string; // KA 로깅용 카테고리명
 }
 
-export default function DanawaReviewTab({ pcode, fullHeight = false, productTitle }: DanawaReviewTabProps) {
+export default function DanawaReviewTab({ pcode, fullHeight = false, productTitle, categoryKey, categoryName }: DanawaReviewTabProps) {
   const [reviews, setReviews] = useState<DanawaReview[]>([]);
   const [loading, setLoading] = useState(true);
   const [reviewCount, setReviewCount] = useState(0);
@@ -240,7 +243,22 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
         {/* 포토 리뷰 토글 - 포토 리뷰가 있을 때만 표시 */}
         {hasPhotoReviews && (
           <button
-            onClick={() => setShowPhotoOnly(prev => !prev)}
+            onClick={() => {
+              const newValue = !showPhotoOnly;
+              setShowPhotoOnly(newValue);
+              // KA 로깅 (categoryKey가 있을 때만)
+              if (categoryKey) {
+                logKAPhotoReviewFilterToggle(
+                  categoryKey,
+                  categoryName || '',
+                  pcode,
+                  productTitle || '',
+                  newValue,
+                  photoReviewCount,
+                  'danawa_review_tab'
+                );
+              }
+            }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors ${
               showPhotoOnly
                 ? 'bg-gray-800 text-white'
@@ -259,7 +277,19 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
         {/* 블로그 후기 버튼 */}
         {productTitle && (
           <button
-            onClick={() => setShowBlogReview(true)}
+            onClick={() => {
+              setShowBlogReview(true);
+              // KA 로깅 (categoryKey가 있을 때만)
+              if (categoryKey) {
+                logKABlogReviewClick(
+                  categoryKey,
+                  categoryName || '',
+                  pcode,
+                  productTitle,
+                  'danawa_review_tab'
+                );
+              }
+            }}
             className="flex items-center gap-1.5 px-3 py-2 rounded-full text-[13px] font-semibold bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
           >
             <Image
@@ -377,6 +407,22 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
                     onClick={() => {
                       setSortOrder(order);
                       setIsSortBottomSheetOpen(false);
+                      // KA 로깅 (categoryKey가 있을 때만)
+                      if (categoryKey) {
+                        const sortTypeMap = {
+                          newest: 'newest' as const,
+                          high: 'rating_high' as const,
+                          low: 'rating_low' as const,
+                        };
+                        logKAReviewSortChange(
+                          categoryKey,
+                          categoryName || '',
+                          pcode,
+                          productTitle || '',
+                          sortTypeMap[order],
+                          'danawa_review_tab'
+                        );
+                      }
                     }}
                     className="w-full flex items-center justify-between px-2 text-[16px] transition-colors"
                   >

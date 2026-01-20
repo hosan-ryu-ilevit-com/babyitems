@@ -3863,6 +3863,7 @@ export default function KnowledgeAgentPage() {
               })),
             }}
             category={categoryKey}
+            categoryName={categoryName}
             onClose={() => setSelectedProduct(null)}
             isAnalysisLoading={isProductAnalysisLoading}
             // V2 조건 충족도 평가 ("왜 추천했나요?", "선호 속성", "피할 단점" 표시용)
@@ -4581,7 +4582,19 @@ function MessageBubble({
               
               {/* 비교표 토글 */}
               <button
-                onClick={() => setShowComparisonOnly(!showComparisonOnly)}
+                onClick={() => {
+                  const newValue = !showComparisonOnly;
+                  setShowComparisonOnly(newValue);
+                  // 로깅
+                  import('@/lib/logging/clientLogger').then(({ logKAComparisonToggle }) => {
+                    logKAComparisonToggle(
+                      categoryKey || '',
+                      categoryName || '',
+                      newValue,
+                      message.resultProducts?.length || 0
+                    );
+                  });
+                }}
                 className={`flex items-center justify-between w-[120px] h-[34px] px-2.5 rounded-lg transition-all duration-200 mb-2 ${
                   showComparisonOnly
                     ? 'bg-blue-50 border border-blue-100'

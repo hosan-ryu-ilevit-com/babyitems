@@ -1,5 +1,5 @@
-# 세션: 20260120_014620_hrvq
-> 시작: 2026-01-20T01:46:20.824Z
+# 세션: 20260120_042234_f26m
+> 시작: 2026-01-20T04:22:34.636Z
 > 카테고리키: 치발기
 > 카테고리: 치발기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 치발기 시장 현황
-- 인사이트: 치발기는 아기의 잇몸 불편감을 완화하고 치아 발달을 돕는 육아 필수품입니다. 다양한 디자인과 소재의 제품들이 출시되어 있으며, 안전성과 기능성을 갖춘 제품들이 인기를 얻고 있습니다. 최근에는 실리콘 소재의 과일 모양이나 동물 모양 치발기가 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEoRGx028Oww83AZbWnKGKCYnj80VyVqkWq1j7rs3BzZ8Z94XdaV9aq_NAJJS8_Fn99dNZyXa3gz1Q54zCW98RRBcJ3BrNRbCqSPaCVEpQh-2P-I_0ZPsEop19UNRdw7iOInPdiDixgmmKuEMyJeaLmqMPqI6HJ2jcwQYFrtfMC0xdBf-Euy7zQ_LaJ-ENyFC42_3ep, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkQUGSEpaFSmucdp4ui0XHrMfb3a9hoOXke0aT8TcoDMzoMoFypoEc3vcab5jiaO1wdPCfue9o0vsEAUUC9hpIzGT-ebJ7rlfoL6WT3_2f1JPapf9QkT9-vI4pYIwlnyyy8UseHFEhk6oshYeCQwT88ktIuvs00zOOWe329kPBefn6rG5LXS8CPu0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6z8duBR0EUBKtP17VCaeJO-lpUXfE4B2JOwuvxWFV7TdzlEBIXrMseR8lmvJ1MaSPGnvg-ohiQV6KPqr3jdHfu431IbgN88tDYn7jXDz3j06xrGZnNz_qOSjbHvS8Ctm4MSmHKYtBxDRVvPP1rM6yBm6TMvgH
+- 인사이트: 치발기는 아기의 잇몸 간지러움을 완화하고 치아 발달을 돕는 필수 육아용품입니다. 다양한 디자인과 소재의 제품들이 출시되어 있으며, 안전성과 사용 편의성이 중요한 선택 기준이 됩니다. 최근에는 실리콘 소재의 과일 모양 치발기가 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkKWlSRJitPxyEYElna9zX-WsQryXAZyzH7FAPaLvQvnOUsvc7gkv4FjQpHKx0wQo9TmkdUsTnI2p6VkvxECI1Jp0zs5-3Ki4aEepP_amYQDU8SOrIh-KHDTCPtW3whSU9r8bxJgixicmmjDXhfmqHRWr86JgTC_rdmtdmd335eqkPXTBe-T4hvxE-JosvmKoVZlsdkg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeQHvVfNeycAc9TAG6onxE3q_jnybcNbngfrrh4oumMvYMR6WM7iv1KvFUvsxBUNkwx_zklZzDHrgLAZvcRrY8LBGIdq-At7899BiOiNYh3Y2b9WBdcqHv1al11joWnptSWdtsb5ImGmvqSMWGCtjzI12Pyqvm0IjjblozaUthP7-H0r4qxCTQFZba, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvIQZ4_dgL9yv_PLpftJo-Gz1vZDAAa-NOd8iGDHAAUEBpkprf51dXMfG9UAhTY_oYH-VwJ66zaS4a3e1xKmx1UcaJv_iT1lXfS4lm2dNS9ehieObUk-K53D4qeBkZWLpWpQX8rfT2Ct3ktVuw67sOcth9nFKlx3tF9fNM5AjACDpQyA==
 
 ---
 
@@ -16,7 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 안전하게 사용할 수 있도록, 어떤 소재의 치발기를 선호하시나요? | 실리콘 |
 
 ---
 

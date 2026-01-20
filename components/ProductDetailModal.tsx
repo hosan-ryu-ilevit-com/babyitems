@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import DanawaReviewTab from '@/components/DanawaReviewTab';
-import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick, logReviewTabOpened } from '@/lib/logging/clientLogger';
+import { logButtonClick, logFavoriteAction, logProductModalPurchaseClick, logReviewTabOpened, logKAPhotoReviewFilterToggle, logKABlogReviewClick, logKAReviewSortChange } from '@/lib/logging/clientLogger';
 import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
 import OptionSelector from '@/components/ui/OptionSelector';
@@ -60,6 +60,7 @@ interface ProductDetailModalProps {
     citedReviews: Array<{ index: number; text: string; rating: number }>;
   };
   category: string;
+  categoryName?: string; // KA 로깅용 카테고리명
   danawaData?: {
     lowestPrice: number;
     lowestMall: string;
@@ -210,7 +211,7 @@ function parseMarkdownBold(text: string) {
 // }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ProductDetailModal({ productData, category, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, scrollToSellers = false, initialTab = 'price', preloadedReviews }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, category, categoryName, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, scrollToSellers = false, initialTab = 'price', preloadedReviews }: ProductDetailModalProps) {
   const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>(initialTab);
   const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
@@ -1620,7 +1621,22 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                         {/* 포토 리뷰 토글 - 포토 리뷰가 있을 때만 표시 */}
                         {hasPhotoReviews && (
                           <button
-                            onClick={() => setShowPhotoReviewsOnly(prev => !prev)}
+                            onClick={() => {
+                              const newValue = !showPhotoReviewsOnly;
+                              setShowPhotoReviewsOnly(newValue);
+                              // KA 로깅
+                              if (category) {
+                                logKAPhotoReviewFilterToggle(
+                                  category,
+                                  categoryName || '',
+                                  productData.product.id,
+                                  productData.product.title,
+                                  newValue,
+                                  photoReviewCount,
+                                  'pdp_modal'
+                                );
+                              }
+                            }}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors ${
                               showPhotoReviewsOnly
                                 ? 'bg-gray-800 text-white'
@@ -1638,7 +1654,19 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                         )}
                         {/* 블로그 후기 버튼 */}
                         <button
-                          onClick={() => setShowBlogReview(true)}
+                          onClick={() => {
+                            setShowBlogReview(true);
+                            // KA 로깅
+                            if (category) {
+                              logKABlogReviewClick(
+                                category,
+                                categoryName || '',
+                                productData.product.id,
+                                productData.product.title,
+                                'pdp_modal'
+                              );
+                            }
+                          }}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-full text-[13px] font-semibold bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
                         >
                           <Image
@@ -1761,6 +1789,22 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                                     onClick={() => {
                                       setReviewSortOrder(order);
                                       setIsSortBottomSheetOpen(false);
+                                      // KA 로깅
+                                      if (category) {
+                                        const sortTypeMap = {
+                                          newest: 'newest' as const,
+                                          high: 'rating_high' as const,
+                                          low: 'rating_low' as const,
+                                        };
+                                        logKAReviewSortChange(
+                                          category,
+                                          categoryName || '',
+                                          productData.product.id,
+                                          productData.product.title,
+                                          sortTypeMap[order],
+                                          'pdp_modal'
+                                        );
+                                      }
                                     }}
                                     className="w-full flex items-center justify-between px-2 text-[16px] transition-colors"
                                   >
@@ -1783,7 +1827,7 @@ export default function ProductDetailModal({ productData, category, danawaData, 
                   );
                 })()
               ) : (
-                <DanawaReviewTab pcode={productData.product.id} fullHeight={true} productTitle={productData.product.title} />
+                <DanawaReviewTab pcode={productData.product.id} fullHeight={true} productTitle={productData.product.title} categoryKey={category} categoryName={categoryName} />
               )}
             </motion.div>
           )}

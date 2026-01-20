@@ -11,7 +11,7 @@ import { useMemo, useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Star } from '@phosphor-icons/react/dist/ssr';
-import { logKnowledgeAgentComparisonView } from '@/lib/logging/clientLogger';
+import { logKnowledgeAgentComparisonView, logKAComparisonPurchaseClick } from '@/lib/logging/clientLogger';
 
 interface KnowledgeProduct {
   pcode: string;
@@ -181,6 +181,17 @@ export function ProductComparisonGrid({
                   href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    logKAComparisonPurchaseClick(
+                      categoryKey,
+                      categoryName || '',
+                      product.pcode,
+                      product.name,
+                      product.price,
+                      product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`,
+                      'header'
+                    );
+                  }}
                   className="block w-full py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-[13px] font-medium rounded-md text-center transition-colors"
                 >
                   최저가 구매하기
@@ -305,6 +316,17 @@ export function ProductComparisonGrid({
                 href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => {
+                  logKAComparisonPurchaseClick(
+                    categoryKey,
+                    categoryName || '',
+                    product.pcode,
+                    product.name,
+                    product.price,
+                    product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`,
+                    'footer'
+                  );
+                }}
                 className="block w-full py-2 bg-gray-800 hover:bg-gray-900 text-white text-[14px] font-bold rounded-md text-center transition-colors shadow-sm"
               >
                 최저가 구매하기

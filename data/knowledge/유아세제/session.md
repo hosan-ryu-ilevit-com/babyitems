@@ -1,14 +1,14 @@
-# 세션: 20260116_065329_2ji3
-> 시작: 2026-01-16T06:53:29.561Z
+# 세션: 20260120_040408_raq4
+> 시작: 2026-01-20T04:04:08.208Z
 > 카테고리키: 유아세제
 > 카테고리: 유아세제
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아세제 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 1월 현재, 유아세제 시장은 친환경 성분과 안전성을 강조하는 브랜드들이 인기를 얻고 있습니다. 블랑 101, 레드루트, 토루토루 등이 대표적인 인기 브랜드로 자리매김하고 있으며, 에코서트 인증 원료, 식물 유래 성분, 전 성분 공개 등을 통해 소비자의 신뢰를 얻고 있습니다. 또한, 미세플라스틱 규제 강화와 같은 환경 규제 동향도 제품 개발에 영향을 미치고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHgkNti5ZSUcsP2DKt1I-OO8anZins2e6e-TuVjb-uGEYhiy2jejVs21JrYR1olqxtMBEsP3KCwroCGqMp6zUWax1sc-BR-VFcV0rGKnSONZI5WvWxoHPrDRe8rQsqvzbpWoYGLIqG-2cqsCmmsFHsFDFDRSoPM8rxmzEG4ui9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNGiw89Gj3Y3Imui5PJQ0yoEHsBqqisG862IFpjs3ZFTnfdCqI4wrOQeYD7-BZE_KwhKqv4nKi6WBZ1azhQbRDKBH8a2eT9h187KHEZzVmoqyiv4Es3o_jl-WWa3tgjtlIAIs5Qqt3G59AZEWpBVVlMv5TFJW6f0NGpEgqjU5y5he80vlvf0YsJCbvoH9wTJO0xb4ga-wNS4ydTy8Bu3aQ8YxtjWlZXbhp1uJPJTVzsT0nxP2cQBcL5Y1MJahvJQyTsx0vN2sePxI-zdWHZfLFcdfZ1tk1_Ni9KN9xsV-qXKOFUO5weNFepdx-h-_0MpQyPUX9anNIvO-60pk3DRLdyNs-afLQ7zrDE9XjJ_JSkufAwpLuDzRwFc3UPe7DIZhmlyMDVFJ1sjMLJqxPsYLanJrrIQO9amMliDnvAhddnS7hKdNbK1Bppv2c8svwxeE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmzTJNUETJJP_LePqgdkmT-MwKGWy58b80x4guGQv70eitNs6xTlMpR4yhc8FOIn95dAhZsw7WIKF5F_S49AmFUEWqiLzLbHdol9gPbS9U5xI3efzyPFh6CQ9vc4AIlXsQLnupkHA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5VZ2JQ4RYfjQuZBK5IAzpEhPjkm9x1uKlru8GYvRuJ0ab6njGUX437nlTuijLGlpzaQAnBQj-yQCoI_p6y1gyyjEaH_J9Vw8hLmhCCKFTQ3bWurttKg1Rl0AWFGelc1-jRz24Ya-4oJfvaC2PK9uXYf7NVWdkcVMFjFhkHns9SxRcEc3ZReFHJBbqWQ==
+- 쿼리: 유아세제 시장 현황
+- 인사이트: 유아세제 시장은 2024년 11억 1천만 달러 규모에서 2032년까지 57억 달러로 연평균 8.2% 성장할 것으로 예상됩니다. 이는 유아 피부 민감성에 대한 부모들의 인식 증가와 온라인 유통 채널의 성장, 친환경 및 식물 기반 제품에 대한 수요 증가에 힘입은 결과입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWFK9vG_m8zX89wlII3s9eN58r0gmyBADcQzhlY-GUbyWZvPhjg47RDgQrE6MI1tjIY1VHfr2ntnBmYVg8WpWQtAMFmHeqYew3A7Xq4CYf-3zXfoyJRKzyPmJpbqmyM0qyimnyOCBHiCNFqyUjcdSCetaeIp4A0V1K4GmLJ2OfJQse1TOZoRqrtRk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_uXQ-G4PB-dh6DLOXdoP_hjJ9Irmu-cq29pPGHM1zgZ5T2DcYfRfXEDWZwDyFiSt111D185xGoSP6w5WZ4XdOsJCekO2255hTa8PvCTNuFBxVm9enY5Opn2wYMif3AZWr-OgJHk3-5OzRp4RE1v1ugJVEEIfbPQSZiLA87YbUzTj7uI-31yqCIQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGz5H79z7kcF9JIAJi-ksji82mvfYCnrWtMpSmYVjz9bb0rmvnCeOXAxykYZfKftuN8Jbk3H6fgHO_up-8JqjfaIEUrEW7geS1uCSNS-bNZ0URn1inA1eNBzir70yI9tG8wRODUSV3orj-xu4ldZ0EwtiBu6Vp48xwOeUBnvA4rdeX2TvYeiYbgyphtaBErBTEXTM3eaWMQB2JKr2dVx4vhC9v6SsFiLvku8w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHf2TLnTMwlwYFB-VRKsgAkgowBTP4J5sF29c4mmG8-TiswP0U2k7ch81oPjhCKyZA-oUSotrHO9nlkXuAMpO6GpntxYic9X3pcR0i5rtBr4JUArdKNErcJaXhw-1synSmP85Q1jit0FdFfWWxesdo=
 
 ---
 
@@ -16,35 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 종류의 세탁물을 주로 세탁하시나요? | 아기 옷 |
-| 세제 성분에 대해 특별히 중요하게 생각하는 부분이 있으신가요? | 친환경 인증 (예: 에코서트) |
-| 세제에서 선호하는 향이 있으신가요? | 향은 상관없음 |
-| 유아세제 예산은 어느 정도로 생각하세요? (평균 15,757원, 1만원~2만원대가 가장 많아요) | 상관없어요 |
-| __avoid_negatives__ | 아기 옷에 묻은 얼룩이 잘 지워지지 않을까 봐 세척력 차이가 걱정돼요.,친환경 인증을 받았더라도 실제 세척력이 떨어지지는 않을지 염려돼요. |
+| 어떤 종류의 세제를 찾으시나요? | 아기 옷 세탁세제 |
+| 세제 향에 대한 선호도가 있으신가요? | 상관없음 |
+| 세제 성분에 대해 특별히 중요하게 생각하는 부분이 있으신가요? | 유해 화학물질 불검출, 저자극/천연 성분 |
+| 세척력에 대한 기대치는 어느 정도인가요? | 일반적인 세척력, 강력한 세척력 |
+| 유아세제 예산은 어느 정도로 생각하세요? (평균 약 1만 6천원, 1만원 내외가 가장 많아요) | 1만 5천원 내외 |
+| __avoid_negatives__ | 제품마다 아기 옷의 얼룩을 지우는 세척력 차이가 커서 만족스럽지 못할까 봐 걱정돼요,아기 옷에 닿는 세제 성분이 혹시라도 남아있을까 봐 유해 화학물질 불검출 여부가 신경 쓰여요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 16개 (전체 16개 중)
+현재 후보: 75개 (전체 75개 중)
 
 ### 후보 상품
-1. 이엔에스 아이브제 레드루트 세탁세제 바닐라코튼 1L - 19,900원 - ⭐4.7
-2. 아토엔오투 프리미엄 세탁세제 코튼파우더향 1L - 18,300원 - ⭐5
-3. 마이비 삶기 세탁세제 500g - 7,220원 - ⭐4.7
-4. 모윰 365 씨솔트 아기세탁세제 플로럴머스크향 1L - 12,690원 - ⭐5
-5. 이엔에스 아이브제 레드루트 세탁세제 스위트플로랄 1L - 37,600원 - ⭐4.7
-6. 클라리케 천연 아기세제 스노우플레이크 970ml - 23,400원 - ⭐5
-7. 아토팜 아토팜 세탁세제 1L - 12,230원 - ⭐4.7
-8. 베비언스 핑크퐁 베이비 세탁세제 3L - 9,720원 - ⭐4.9
-9. 마이비 삶기 세탁세제 용기 500g - 18,910원 - ⭐4.6
-10. 아토세이프 유아용 섬유세제 2L + 섬유유연제 2L - 36,300원 - ⭐4.2
-11. 마이비 순한 유아세제 1.5L - 8,180원 - ⭐4.8
-12. 마이비 피부에 순한 유아세제 리필 1.6L - 5,900원 - ⭐5
-13. 한국미라클피플사 탑스텝 3in1 캡슐세제 30개입 - 10,960원 - ⭐4.6
-14. 아토엔오투 1종 젖병&주방세제 레몬향 480g + (리필 480g x 3개) - 26,870원 - ⭐4.6
-15. 아토엔오투 1종 젖병주방세제 로즈마리향 본품1+리필 3 - 28,360원 - ⭐5
-16. 에브리케어 젖병 주방세제 500g - 10,100원 - ⭐5
+1. 프로쉬 알로에베라 고농축 세탁세제 3L - 14,280원 - ⭐4.8
+2. 베비언스 핑크퐁 베이비 세탁세제 리필 2.2L - 18,900원 - ⭐4.8
+3. 아토엔오투 1종 젖병&주방세제 무향 480g - 7,900원 - ⭐4.7
+4. B&B 섬유세제 리필 1.5L - 20,600원 - ⭐4.3
+5. 퍼실 센서티브 젤 1.35L - 17,830원 - ⭐4.5
+6. 슈가버블 구연산 레몬 주방세제 2.5L - 5,010원 - ⭐4.6
+7. 프로쉬 베이비 세탁세제 1.5L - 16,020원 - ⭐4.9
+8. 헬로그린 액상 세탁세제 3000ml - 28,450원 - ⭐4.9
+9. 프로쉬 알로에베라 고농축 세탁세제 1.5L - 12,500원 - ⭐4.9
+10. 이엔에스 아이브제 레드루트 세탁세제 무향 1L - 17,990원 - ⭐4.8
+11. 네이쳐러브메레 유아 세탁세제 오리지널 리필 1.3L - 14,850원 - ⭐4.6
+12. 슈가버블 구연산 레몬 주방세제 2.5L - 4,790원 - ⭐4.7
+13. 넬리 베이비 세탁세제 틴케이스 1kg - 17,760원 - ⭐4.8
+14. 프로쉬 알로에베라 고농축 세탁세제 1.5L - 12,500원 - ⭐4.7
+15. 슈가버블 유아용 세탁세제 1.8L - 29,230원 - ⭐5
+16. 토루토루 아기주방세제 리필 500ml x 3개 + 빈용기 x 1개 - 26,500원 - ⭐4.8
+17. 호호에미 천연 무향 젖병세정제&주방세제 500g - 16,110원 - ⭐4.7
+18. 마더케이 마더케이 디아 세탁세제 1L - 13,830원 - ⭐5
+19. 퍼실 센서티브 젤 1.35L 3개 + 버넬 센서티브 3개 - 18,950원 - ⭐5
+20. B&B 주방세제 1L - 8,700원 - ⭐4.9
 
 ---
 
@@ -56,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기 옷에 묻은 얼룩이 잘 지워지지 않을까 봐 세척력 차이가 걱정돼요.
-- 친환경 인증을 받았더라도 실제 세척력이 떨어지지는 않을지 염려돼요.
+- 제품마다 아기 옷의 얼룩을 지우는 세척력 차이가 커서 만족스럽지 못할까 봐 걱정돼요
+- 아기 옷에 닿는 세제 성분이 혹시라도 남아있을까 봐 유해 화학물질 불검출 여부가 신경 쓰여요
 
 ---
 
