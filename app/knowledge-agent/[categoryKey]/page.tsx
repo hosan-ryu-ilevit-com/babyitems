@@ -1218,6 +1218,10 @@ export default function KnowledgeAgentPage() {
 
     // 저장된 결과가 있으면 복원하고 초기화 건너뛰기
     if (loadResultFromStorage()) {
+      // ✅ localStorage 복원 후 스크롤 맨 위로 (모바일에서 중간 스크롤 방지)
+      setTimeout(() => {
+        mainRef.current?.scrollTo({ top: 0, behavior: 'instant' });
+      }, 100);
       return;
     }
 
@@ -2342,8 +2346,10 @@ export default function KnowledgeAgentPage() {
           typing: true,
           timestamp: Date.now()
         }]);
-        // ✅ 결과 메시지 상단으로 스크롤 (비교표 전체가 아닌 메시지 위치로)
-        setTimeout(() => scrollToMessage(resultMsgId), 50);
+        // ✅ 결과 화면 맨 위로 스크롤 (모바일에서 중간 스크롤 방지)
+        setTimeout(() => {
+          mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 100);
 
         // ✅ 백그라운드에서 Top 3 리뷰 50개씩 크롤링 (PDP용) - 블로킹 없음
         const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
@@ -2711,8 +2717,10 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
-          // ✅ 결과 메시지 상단으로 스크롤 (비교표 전체가 아닌 메시지 위치로)
-          setTimeout(() => scrollToMessage(resultMsgId), 50);
+          // ✅ 결과 화면 맨 위로 스크롤 (모바일에서 중간 스크롤 방지)
+          setTimeout(() => {
+            mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 100);
           return;
         }
       } finally {
@@ -2825,8 +2833,10 @@ export default function KnowledgeAgentPage() {
             typing: true,
             timestamp: Date.now()
           }]);
-          // ✅ 결과 메시지 상단으로 스크롤 (비교표 전체가 아닌 메시지 위치로)
-          setTimeout(() => scrollToMessage(resultMsgId), 50);
+          // ✅ 결과 화면 맨 위로 스크롤 (모바일에서 중간 스크롤 방지)
+          setTimeout(() => {
+            mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 100);
 
           // ✅ 백그라운드에서 50개 리뷰 크롤링 + 장단점 재생성 + 분석 (블로킹 없음)
           const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
