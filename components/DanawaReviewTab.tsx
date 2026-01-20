@@ -540,9 +540,8 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
               </div>
 
               {/* 헤더 */}
-              <div className="flex items-center justify-between px-4 py-2 border-b">
+              <div className="flex items-center justify-between px-4 py-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">📝</span>
                   <h2 className="font-bold text-gray-900">블로그 리뷰</h2>
                 </div>
                 <button
@@ -555,12 +554,7 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
                 </button>
               </div>
 
-              {/* 검색어 안내 */}
-              <div className="px-4 py-2 bg-gray-50 border-b">
-                <p className="text-[12px] text-gray-500">
-                  &quot;{productTitle}&quot; 검색 결과
-                </p>
-              </div>
+              
 
               {/* iframe */}
               <iframe
