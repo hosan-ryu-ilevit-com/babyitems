@@ -1,5 +1,5 @@
-# 세션: 20260121_072139_py1h
-> 시작: 2026-01-21T07:21:39.116Z
+# 세션: 20260121_081738_wyhb
+> 시작: 2026-01-21T08:17:38.867Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 한국 기저귀 시장은 2024년 약 17억 달러 규모로 추산되며, 2033년까지 31억 달러에 이를 것으로 전망됩니다. 이는 연평균 6.1%의 성장률을 나타냅니다. 저출생 및 고령화 현상이 시장 구조에 큰 영향을 미치고 있으며, 특히 성인용 기저귀의 생산량이 유아용을 추월하는 추세입니다. 기술 혁신으로 흡수성, 통기성, 피부 친화성을 갖춘 프리미엄 제품에 대한 수요가 증가하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKK6lN13WKOuUMGo3VBGbkejktYCrpDs6xifY33-3UrJ2ITVKsmGXMHtVOeGv5SQNzigEF3LVpT1JH0MtOckqKzaan5egwoSPmXNtyTkyzaU5KM4YRkkHWTNsxVIztnKVYpxZIMqELcPeAsTGHCcamNBIa6bu1B7wkZ6gxjPJE8PGmUW_WBHQSlk1PLoTg6R_JZq4va-aR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7W1Ldc0bwEeTgSJGl7BuFeZrIzoAfFUCG7GPTLi2zhHOvBc7lW5BqGxRUFC46LsuCQy98OdwjeTQal0FOeQc3gohLSSDVdJwZLkrE1ZGNl-G84JWA2S4-_zygIz-8Q7IjNwZkyKiYoYAgdv5lp0vZgY0g8eCg5VFjfOAE2A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtw1ds9sTiGM2kMs2uGOr-fl1ObzTCq92_rsboGUz8CWxWoh-doFNQnIegbovfb-82JWc_9Qx5wzgdRv_R49QO0-p4nyhaxEKCF-aLRjrrmSOfxTwQRNwRBRM4i4u0K2_sLfxJvlYTnietoJv7U7GttjIjqqq_M1LuBFY9iSbvmjGAlonX7o_I
+- 인사이트: 국내 기저귀 시장은 저출산 및 고령화 추세에 따라 어린이용 기저귀 공급량은 감소하고 성인용 기저귀 공급량은 증가하는 변화를 보이고 있습니다. 전체 위생용품 시장은 꾸준히 성장하고 있으며, 일회용 기저귀는 시장의 상당 부분을 차지하고 있습니다. 최근에는 친환경 소재와 스마트 기능이 접목된 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPLAq6NqqjkLHZiwR-023XQ2tti-LKi_TcekkK5a4cTtY9S7ee67wYAs7WXTtLPlgmaCzpSbhx1jiCfI9YkCC-kPzJikEHyfZ3dBCMoJtej-X9n5_XEKsqZjZrSz0HzQFxvWqWCrRpqcJBcBumL9s848mtCwjpHIJ91ZI6PQHPto3ofN_DDMKqmIvj6XtY28jYBz8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGe88He-IEYoakm9EfU5PcRj1zVWP8lRAW_glVQZ2s5kWcD18jb0X2Mz2TOopJEx509YVQUsSXHKsDN0MiEA4qZ0lt7_i7jawmc75ghUH89HLfP4FFttxn8o9bWb3tT1QujioeS_pPkmYHqtcDhNVVXsiJGnvlV1gN68Rcpta802odPJbHydcwei1c1SPpZBfHeyNvAY8Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-ilINixWD-acSg4e7kNoYDxVjiAag1m7FbXZeMStLUK32-wVHmhZtOCiZ2WQHjfpX275MrfLIlZS1Ib_JP8Xa26MdZKzjtl9zliZHVSkB5yiiQTOJvLnwBz_TgjtHNeMLzN6gms2ObMdN7LIFuh010xCJB64XGk7cHYYCvQ==
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기의 현재 몸무게는 어떻게 되나요? (사이즈 선택에 가장 중요해요!) | 소형 (4~8kg) |
+| 어떤 형태의 기저귀를 선호하시나요? | 밴드형, 팬티형 |
+| 아기 피부를 위해 가장 중요하게 생각하는 기능은 무엇인가요? | 뛰어난 흡수력과 보송함, 부드러운 소재와 저자극성, 높은 통기성, 샘 방지 및 장시간 흡수력 |
+| 친환경 소재나 지속 가능한 제품에 관심이 있으신가요? | 아니요, 기능과 가격이 우선입니다. |
+| 예산은 어느 정도로 생각하세요? (평균 3만 4천원, 2만 2천원~4만 4천원대가 가장 많아요) | 2만 2천원 ~ 4만 4천원 |
+| __avoid_negatives__ | 상관없어요 |
 
 ---
 
@@ -55,7 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 상관없어요
 
 ---
 

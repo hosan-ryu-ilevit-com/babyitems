@@ -1,5 +1,5 @@
-# 세션: 20260121_053803_gk6m
-> 시작: 2026-01-21T05:38:03.915Z
+# 세션: 20260121_082201_5fmm
+> 시작: 2026-01-21T08:22:01.438Z
 > 카테고리키: 유아책상
 > 카테고리: 유아책상
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아책상 시장 현황
-- 인사이트: 유아 책상은 아이들의 성장 발달을 돕고 학습 습관 형성에 중요한 역할을 합니다. 최근에는 아이의 성장에 맞춰 높이 조절이 가능하거나 각도 조절 기능이 있는 책상이 인기를 얻고 있으며, 친환경 소재와 안전성을 갖춘 제품들이 선호되는 추세입니다. 또한, 디자인 측면에서도 아이 방 인테리어와 조화롭게 어울리는 내추럴하거나 모던한 디자인이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-TfiVZe7_6gvv4bi3n4NShUZMBwowGXFjPspaTYuK6PI80M5ry--vNQ7Fdkuj1nN2gB1pIKJXePZcy-DEdzrYFKtPraBo91Gzop10vLJLNIJBALOoRV9jURpiXyohKhinklF9xRUQo1WMZEmSoqoJvg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGoxmd-GXJpFuCqJkI7ZGvQrqrv25VZp-fFnYT-5bl0UjiIqazBSaXc4NcBZFx2dv-EEvRMe326X2zGrelx7jtKjWY6DCODyZR1mkOTpWQ0evl2XhWO8K5HvxRCqhAGVtC8so_IquHJ_qtvPq-55g0UGQdz1N7UlWQFlIchjucxBFkvxWipf4P9UEvJFCrybuJzDBegexthFdnFmGOx7lB78Tgu2L4O4D7zJBWhn9djvAjhvtlRGUWhKrSpzVscJwo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5X2L91AJhqeIRuNMN72B-FjQw9KEpRkiBaO66SVapjv2r2TwjLCCuGtjkJNszWkE0vVW3IlGFObHmJCsmTjqj_UHVCsrE92tnAMUwX8-GBWxYysvl_B3cgMQ9zP0m3wVA8hvVFmjP9mw7_i9T7bxuw0t7Yk7cxZwip6cGX9n24p2ExkNl3ee_b7gccpTMpokLmoLHGmMJHoGi5kgkTU9k1Uhu2JigKgcW1FvH2sKsMcU3VhEb1qX1sZG2fxpmpQY6Ppa9icT98fNZ2c-EHqbmrBAZUjoQutoYzWw=
+- 인사이트: 유아책상은 아이의 성장 단계에 맞춰 높이 조절이 가능한 제품이 인기를 얻고 있으며, 안전하고 친환경적인 소재를 사용한 제품이 선호됩니다. 또한, 아이의 흥미를 유발하는 디자인과 학습 및 놀이 활동에 적합한 기능성을 갖춘 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHv4A3Cew2bi3-2-92AOjchz0vCl7lqTOtFopQAntShcCLdVqWOn-r9yG7yp4N-zkXoOUG0T181mbgHRcaA9FTNTvgN_IpQpkT46YBu3wE5bptHkp-3Mb-EZu88nCj2azFRt9_DsoCVDOR7s35QwAcs-hjUny7qUJt2Thtl3jOS5hXe9uULKFDKBfHySTAfnP8e83-8OASF1t7VOYOVSURQAf4klXWYWjXqn_SI1lZVNr88yosOJ0f7cV0aFv7BKede00pLkwjFGvgrI2m01mDVxnULc9UJ1LT3MbGEwxLanSd55CbXzJiv7naJef8_XYvFjFWTlP7R9ZXysJXY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrrQC7R46svFYJJqpkTPQczesxmL5jjm68TXgdpi1D156DWTFF0c3CRzmBEKhTAEfi4Ggmdao4E0dP66W6cULuU8wVeZOghAkrl-ub6g1fcncXcbVlSPcHaHm7YaAsV2Xz4FPEi71cja6idfquqvKkrKS4DmMV7SL9L0sTU_xGw37Nl_YTmgQOELVh_oRI4dT-o5cOHa4fujfP3-VjAk9JgLMmnlHAKvlwANHCRWK6-uvmRwRq8OyoeP7sRBh89LiW_z5qlb0jUHrd_JckQI1XQr8XPp4VXxB0-B0UTLLyPHTONM44BBYaxwRJDkpEgAQ9uWmDUvdY9Gf0Eok4JEvDpIW-6G_cqlbbDyQQGEBAlbAGIx6XQa49GdEirCaMQQhIdKCgzFvBpPiRt_OE7T-JeWLGUCYp3qnk7Ksu7AdS7C9RQfEwHLA-NHFLvuF_z4UYYwCTznhd4K4hzOgL7ulVXtRRwA4Er3kdh-frr_FcA1BpHcQo76ENYX0Il9dBZvlR0KHizEYLP15U4Mwd2BNT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcqU1-P5bJz36CMW7-IoBCG6Fs57d8K1bVANh47vp98XHBbSSaAp-lHKS4FQowuxuZDd7xae1Hl8tc8qZXLUDRFu6vcHVIC1iRv35jIOBig52bBTdMxDd-0l47sqvYEXmp4hJS5feglALpE9OsKrVJ6g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzSBmDfWKRxenEIx7tb0rJJ2_JA__d6Hr6BRC9dGPH2nm0zVb5PkQYLG1FG1zp9wZGBkJn6YjL9-10dPxpk1NxkEXLbIkYBsmspnvTk3zYED5mCkhNVf7QLIow-k6o1Jxj1PRWZZkwOYRHm_JiHuhRK-c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEnvCYGw76Enuu3rQU8Kf0peR1dxz-7mVN1zGjJ3My5JEYcRzGDCEg0HcEjxK3JXZuiu3hBv9z01Ftriz_FtcbdF7XTVj8wSaX5wYq5CtiA_IivIlSk6n-hNnbIcnko_C13YKY0NCusOJM3Q97hAbfq5DRx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkDe5jpbJS0inxVn-hl4QNZyda7Eol7NgHXNLX-88jfA7F6OKiaiJYKcrBRUnW5_2Hf4W3mbM_o9EThAqGRoPN4r61gegVdXmPxKzwfZeIPdbz5Z2BLXYVyEYdybcg0NWjkk2kxeMk3eW6bbX0b9kPTZEGgc2q9jWoGhdNE1cVw8BaApIxCwiMvgDIujqNJ22QQcZN1mKfgf2zWTXaPQ0iWxRFgkbfWuayrYZL4VIpv1KDhVxsUlw_aBTFByRf6jY=
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아이가 성장함에 따라 책상 높이를 조절할 수 있는 기능이 중요하신가요? | 높이 조절 불필요 |
+| 책상 소재로 어떤 것을 선호하시나요? | 원목 |
+| 아이의 흥미를 유발하고 방 분위기와 잘 어울리는 디자인을 원하시나요? | 아이 취향 디자인 |
+| 학습 용품이나 학용품을 깔끔하게 정리할 수 있는 수납 공간이 필요한가요? | 넉넉한 수납 공간 |
+| 예산은 어느 정도로 생각하세요? (평균 약 12만 5천원, 7만 6천원~16만원대가 가장 많아요) | 7만 6천원 ~ 16만 3천원 |
+| __avoid_negatives__ | 원목 책상이라 그런지 조립이 복잡하고 어려울 것 같아 막막해요 |
 
 ---
 
@@ -55,7 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 원목 책상이라 그런지 조립이 복잡하고 어려울 것 같아 막막해요
 
 ---
 

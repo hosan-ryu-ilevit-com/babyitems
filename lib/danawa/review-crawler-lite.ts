@@ -257,8 +257,23 @@ export async function fetchReviewsLite(
             const buttonId = buttonEl.attr('id') || '';
             const danawaReviewId = buttonId.replace('danawa-prodBlog-companyReview-button-side-', '');
 
-            // 이미지 URL 매핑 (다나와 리뷰 ID로 매핑)
-            const imageUrls = danawaReviewId ? (photoMap.get(danawaReviewId) || []) : [];
+            // 📸 이미지 URL 추출 - 개별 리뷰 아이템에서 직접 추출 (우선)
+            // .pto_thumb, .photoReviewImgDiv, .pto_list 영역에서 이미지 찾기
+            const directImageUrls: string[] = [];
+            $item.find('.pto_thumb img, .photoReviewImgDiv img, .pto_list img').each((_, imgEl: CheerioElement) => {
+              const src = $review(imgEl).attr('src');
+              if (src && !src.includes('noImg') && !src.includes('logo') && !src.includes('danawa.com/cmpny_info')) {
+                const fullUrl = src.startsWith('//') ? `https:${src}` : src;
+                if (!directImageUrls.includes(fullUrl)) {
+                  directImageUrls.push(fullUrl);
+                }
+              }
+            });
+
+            // 직접 추출한 이미지가 있으면 사용, 없으면 photoMap fallback (photo_rvw 영역)
+            const imageUrls = directImageUrls.length > 0
+              ? directImageUrls
+              : (danawaReviewId ? (photoMap.get(danawaReviewId) || []) : []);
 
             const reviewId = generateReviewId(content, author, date);
 

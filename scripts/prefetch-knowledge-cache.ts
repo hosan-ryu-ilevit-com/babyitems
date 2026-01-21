@@ -325,9 +325,10 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
             crawled_at: new Date().toISOString(),
           }));
 
+          // ignoreDuplicates 제거 - 기존 리뷰도 업데이트 (포토리뷰 이미지 URL 등)
           const { error } = await db
             .from('knowledge_reviews_cache')
-            .upsert(reviewBatch, { onConflict: 'pcode,review_id', ignoreDuplicates: true });
+            .upsert(reviewBatch, { onConflict: 'pcode,review_id' });
 
           if (error) {
             console.error(`   ⚠️ 리뷰 저장 실패 (${result.pcode}):`, error.message);
