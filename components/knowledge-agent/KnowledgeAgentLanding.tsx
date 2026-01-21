@@ -3,7 +3,7 @@
 import { useState, useRef, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkle, ArrowRight, TrendUp, MagnifyingGlass, ChatTeardropText, Question, CaretRight } from '@phosphor-icons/react';
+import { X, Sparkle, ArrowRight, TrendUp, MagnifyingGlass, ChatTeardropText, Question, CaretRight, CaretDown } from '@phosphor-icons/react';
 import {
   logKnowledgeAgentSearchRequest,
   logKnowledgeAgentSearchConfirm,
@@ -244,13 +244,6 @@ interface ConfirmModalProps {
 }
 
 function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby }: ConfirmModalProps) {
-  const steps = [
-    { icon: '/icons/modal/1.png', label: '실시간 인기상품 분석' },
-    { icon: '/icons/modal/2.png', label: '웹 트렌드 검색' },
-    { icon: '/icons/modal/3.png', label: '실사용 리뷰 정밀 분석' },
-    { icon: '/icons/modal/4.png', label: '맞춤 구매 질문 생성' },
-  ];
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -267,98 +260,160 @@ function ConfirmModal({ isOpen, keyword, onConfirm, onCancel, isLoading, isBaby 
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="relative w-full max-w-[480px] bg-white rounded-t-[12px] overflow-hidden shadow-2xl"
+            className="relative w-full max-w-[480px] bg-white rounded-t-[24px] overflow-hidden shadow-2xl h-[70vh]"
           >
-            <div className="p-4 pt-[26px] pb-4">
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-2">
-                   <motion.img
-                     src="/icons/ic-ai.svg"
-                     alt="AI"
-                     className="w-[20px] h-[20px]"
-                     animate={{
-                       rotate: [0, -15, 15, -15, 0],
-                       y: [0, -2.5, 0],
-                     }}
-                     transition={{
-                       duration: 0.8,
-                       repeat: Infinity,
-                       repeatDelay: 2,
-                       ease: "easeInOut"
-                     }}
-                   />
-                   <h3 className="text-[20px] font-bold text-[#6366F1] leading-tight">
-                     맞춤 추천 시작
-                   </h3>
+            <div className="h-full flex flex-col">
+              <div className="flex-1 overflow-y-auto px-4 pt-10 pb-6">
+                {/* Main Message */}
+                <div className="text-center mb-10">
+                  <p className="text-[19px] text-gray-700 font-semibold leading-[1.5] break-keep">
+                     <span className="font-bold text-[#6366F1]">광고 없이</span> 오직 <span className="font-bold text-[#6366F1]">리뷰와 판매량</span>으로만<br/>
+                    객관적으로 판단해요
+                  </p>
                 </div>
-                <button
-                  onClick={onCancel}
-                  className="p-2 -mr-2 -mt-2 text-gray-400 hover:text-gray-500 transition-colors rounded-full hover:bg-gray-50"
+
+              {/* Visualization: Convergence Engine */}
+              <div className="relative h-[180px] mb-12 flex flex-col items-center justify-center">
+                {/* Background Glow */}
+                <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white rounded-2xl -z-10" />
+                
+                {/* Top Layer: Inputs */}
+                <div className="flex gap-6 mb-10 relative z-10">
+                  {[
+                    { icon: '/icons/modal/1.png', label: `인기 ${keyword} 분석`, delay: 0 },
+                    { icon: '/icons/modal/2.png', label: '최신 트렌드 검색', delay: 0.1 },
+                    { icon: '/icons/modal/3.png', label: '최신 리뷰 분석', delay: 0.2 }
+                  ].map((item, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ y: -10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: item.delay, duration: 0.5 }}
+                      className="flex flex-col items-center gap-1"
+                    >
+                      <motion.div 
+                        animate={{ y: [0, -4, 0] }}
+                        transition={{ duration: 3, repeat: Infinity, delay: idx * 0.5, ease: "easeInOut" }}
+                        className="w-[60px] h-[60px] flex items-center justify-center"
+                      >
+                        <img src={item.icon} className="w-[40px] h-[40px] object-contain opacity-90" alt={item.label} />
+                      </motion.div>
+                      <span className="text-[13px] font-medium text-gray-400 mt-[-2px]">{item.label}</span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Connecting Lines (SVG) */}
+                <svg className="absolute top-[75px] left-1/2 -translate-x-1/2 w-[200px] h-[60px] pointer-events-none overflow-visible">
+                  <defs>
+                    <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="60" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" stopColor="#E5E7EB" stopOpacity="0" />
+                      <stop offset="0.5" stopColor="#6366F1" stopOpacity="0.3" />
+                      <stop offset="1" stopColor="#6366F1" stopOpacity="0.8" />
+                    </linearGradient>
+                  </defs>
+                  {/* Left Line */}
+                  <motion.path 
+                    d="M 26,0 C 26,30 100,30 100,60" 
+                    fill="none" 
+                    stroke="url(#lineGradient)" 
+                    strokeWidth="1.5"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  />
+                  {/* Center Line */}
+                  <motion.path 
+                    d="M 100,0 L 100,60" 
+                    fill="none" 
+                    stroke="url(#lineGradient)" 
+                    strokeWidth="1.5"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  />
+                  {/* Right Line */}
+                  <motion.path 
+                    d="M 174,0 C 174,30 100,30 100,60" 
+                    fill="none" 
+                    stroke="url(#lineGradient)" 
+                    strokeWidth="1.5"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                  />
+                  
+                  {/* Moving Particles */}
+                  <motion.circle r="2" fill="#6366F1">
+                    <animateMotion dur="1.5s" repeatCount="indefinite" path="M 26,0 C 26,30 100,30 100,60" />
+                  </motion.circle>
+                  <motion.circle r="2" fill="#6366F1">
+                    <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.4s" path="M 100,0 L 100,60" />
+                  </motion.circle>
+                  <motion.circle r="2" fill="#6366F1">
+                    <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.8s" path="M 174,0 C 174,30 100,30 100,60" />
+                  </motion.circle>
+                </svg>
+
+                {/* Bottom Layer: Output */}
+                <motion.div 
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.5, type: "spring", damping: 15 }}
+                  className="relative z-10 mt-auto"
                 >
-                  <X size={24} weight="regular" />
-                </button>
-              </div>
-
-              <p className="text-[17px] text-gray-700 mb-4 leading-[1.4] font-medium">
-                 <span className="font-bold text-gray-900">{keyword}</span>에 대해 상세히 분석하고 <br/>
-                 추천에 필요한 맞춤 질문을 드릴게요
-              </p>
-
-              {/* Steps Visualization */}
-              <div className="flex flex-col gap-[10px] mb-12">
-                 {steps.map((step, idx) => (
-                    <div key={idx} className="flex items-center gap-3 bg-gray-50 rounded-2xl px-4 h-[52px]">
-                       <div className="w-5 h-5 rounded-full bg-gray-800 text-white flex items-center justify-center text-[12px] font-bold shrink-0">
-                          {idx + 1}
-                       </div>
-                       
-                       <span className="flex-1 text-[16px] font-medium text-gray-700 leading-[1.4]">
-                          {step.label}
-                       </span>
-
-                       <div className="w-8 h-8 flex items-center justify-center shrink-0">
-                          <motion.img
-                            src={step.icon}
-                            alt=""
-                            className="w-[23px] h-[23px] object-contain"
-                            animate={{
-                              y: [0, -3, 0],
-                              scale: [1, 1.2, 1],
-                            }}
-                            transition={{
-                              duration: 0.6,
-                              repeat: Infinity,
-                              repeatDelay: 1.5,
-                              delay: idx * 0.15,
-                              ease: "easeInOut"
-                            }}
-                          />
-                       </div>
+                  <div className="flex items-center gap-3 bg-white pl-2 pr-5 py-2 rounded-full shadow-[0_4px_20px_rgba(99,102,241,0.15)] border border-indigo-100">
+                    <div className="w-9 h-9 bg-indigo-50 rounded-full flex items-center justify-center ">
+                      <motion.img
+                        src="/icons/ic-ai.svg"
+                        alt="AI"
+                        className="w-[18px] h-[18px]"
+                        animate={{
+                          rotate: [0, -15, 15, -15, 0],
+                          y: [0, -2.5, 0],
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          repeat: Infinity,
+                          repeatDelay: 2,
+                          ease: "easeInOut"
+                        }}
+                      />
                     </div>
-                 ))}
+                    <span className="text-[15px] font-bold text-gray-800 tracking-tight">AI 맞춤 질문 & 추천</span>
+                  </div>
+                </motion.div>
+                </div>
               </div>
 
-              {/* Action Button */}
-              <button
-                  onClick={onConfirm}
-                  disabled={isLoading}
-                  className={`
-                    w-full h-[56px] rounded-[12px] font-semibold text-[16px] text-white
-                    transform active:scale-[0.98] transition-all duration-300
-                    flex items-center justify-center gap-2
-                    bg-[#1A1C1E] hover:bg-black
-                    ${isLoading ? 'opacity-80 cursor-wait' : ''}
-                  `}
-                >
-                  {isLoading ? (
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <span>분석 시작하기</span>
-                    </>
-                  )}
-                </button>
+              {/* Action Buttons */}
+              <div className="px-4 pt-3 pb-[max(16px,env(safe-area-inset-bottom))] border-t border-gray-100 bg-white">
+                <div className="flex flex-col gap-3">
+                  <button
+                      onClick={onConfirm}
+                      disabled={isLoading}
+                      className={`
+                        w-full h-[56px] rounded-[12px] font-semibold text-[16px] text-white
+                        transform active:scale-[0.98] transition-all duration-300
+                        flex items-center justify-center gap-2
+                        bg-[#1A1C1E] hover:bg-black
+                        ${isLoading ? 'opacity-80 cursor-wait' : ''}
+                      `}
+                    >
+                      {isLoading ? (
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      ) : (
+                        <span>분석 시작하기</span>
+                      )}
+                  </button>
+                  <button
+                    onClick={onCancel}
+                  className="w-full py-2 rounded-[12px] text-[16px] font-semibold text-gray-500 hover:text-gray-500 transition-colors"
+                  >
+                    취소
+                  </button>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>

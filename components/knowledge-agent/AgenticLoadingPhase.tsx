@@ -819,14 +819,35 @@ function WebSearchContent({
  */
 function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
   // 리뷰 분석 결과 (step.result에서 가져옴)
-  const positiveKeywords = step.result?.positiveKeywords || [];
-  const negativeKeywords = step.result?.negativeKeywords || [];
-  const commonConcerns = step.result?.commonConcerns || [];
   const analyzedCount = step.result?.analyzedCount || step.analyzedCount || 0;
 
-  // 폴백용 태그
-  const prosTags = step.result?.prosTags || positiveKeywords;
-  const consTags = step.result?.consTags || negativeKeywords;
+  // 랜덤으로 3~4개만 선택하는 헬퍼 함수
+  const selectRandomTags = (tags: string[], seed: number): string[] => {
+    if (tags.length <= 3) return tags;
+    const count = 3 + (seed % 2); // seed에 따라 3 또는 4개
+    const shuffled = [...tags].sort(() => 0.5 - Math.sin(seed));
+    return shuffled.slice(0, count);
+  };
+
+  // 각 카테고리별 태그를 3~4개로 제한 (렌더링마다 바뀌지 않도록 useMemo)
+  const displayPositiveKeywords = useMemo(() => {
+    const positiveKeywords = step.result?.positiveKeywords || [];
+    const prosTags = step.result?.prosTags || [];
+    const tags = positiveKeywords.length > 0 ? positiveKeywords : prosTags;
+    return selectRandomTags(tags, 1);
+  }, [step.result?.positiveKeywords, step.result?.prosTags]);
+
+  const displayNegativeKeywords = useMemo(() => {
+    const negativeKeywords = step.result?.negativeKeywords || [];
+    const consTags = step.result?.consTags || [];
+    const tags = negativeKeywords.length > 0 ? negativeKeywords : consTags;
+    return selectRandomTags(tags, 2);
+  }, [step.result?.negativeKeywords, step.result?.consTags]);
+
+  const displayCommonConcerns = useMemo(() => {
+    const commonConcerns = step.result?.commonConcerns || [];
+    return selectRandomTags(commonConcerns, 3);
+  }, [step.result?.commonConcerns]);
 
   // 완료 후 표시용 샘플 리뷰
   const reviewSamples = useMemo(() => {
@@ -901,7 +922,7 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
           {/* 리뷰 샘플 미리보기 */}
           {reviewSamples.length > 0 && (
             <div className="space-y-1">
-              {reviewSamples.slice(0, 3).map((sample, i) => (
+              {reviewSamples.slice(0, 2).map((sample, i) => (
                 <div key={i} className="px-2 py-1.5 bg-gray-50 rounded-lg">
                   <span className="block text-[11px] text-gray-600 leading-[1.4]">
                     {sample.preview.length > 60
@@ -910,18 +931,18 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
                   </span>
                 </div>
               ))}
-              {analyzedCount > 3 && (
+              {analyzedCount > 2 && (
                 <p className="text-[11px] text-gray-400 text-center">
-                  +{(analyzedCount - 3).toLocaleString()}개 더 분석됨
+                  +{(analyzedCount - 2).toLocaleString()}개 더 분석됨
                 </p>
               )}
             </div>
           )}
 
-          {/* 모든 태그 한 줄로 나열 (긍정 → 부정 → 고려사항) */}
+          {/* 모든 태그 한 줄로 나열 (긍정 → 부정 → 고려사항) - 각 3~4개씩 */}
           <div className="flex flex-wrap gap-1.5">
             {/* 긍정 태그 */}
-            {(positiveKeywords.length > 0 ? positiveKeywords : prosTags).map((keyword: string, i: number) => (
+            {displayPositiveKeywords.map((keyword: string, i: number) => (
               <motion.span
                 key={`pos-${i}`}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -933,24 +954,24 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
               </motion.span>
             ))}
             {/* 부정 태그 */}
-            {(negativeKeywords.length > 0 ? negativeKeywords : consTags).map((keyword: string, i: number) => (
+            {displayNegativeKeywords.map((keyword: string, i: number) => (
               <motion.span
                 key={`neg-${i}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: (positiveKeywords.length + i) * 0.03 }}
+                transition={{ delay: (displayPositiveKeywords.length + i) * 0.03 }}
                 className="px-2 py-1 bg-rose-50 border border-rose-100/50 rounded-lg text-[11px] font-semibold text-rose-600"
               >
                 {keyword}
               </motion.span>
             ))}
             {/* 구매 고려사항 태그 */}
-            {commonConcerns.map((concern: string, i: number) => (
+            {displayCommonConcerns.map((concern: string, i: number) => (
               <motion.span
                 key={`con-${i}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: (positiveKeywords.length + negativeKeywords.length + i) * 0.03 }}
+                transition={{ delay: (displayPositiveKeywords.length + displayNegativeKeywords.length + i) * 0.03 }}
                 className="px-2 py-1 bg-purple-50 border border-purple-100/50 rounded-lg text-[11px] font-semibold text-purple-700"
               >
                 {concern}
