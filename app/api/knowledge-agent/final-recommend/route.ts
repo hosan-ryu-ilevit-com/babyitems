@@ -1016,8 +1016,8 @@ ${productInfos}
 // ============================================================================
 
 const PARALLEL_EVAL_MODEL = 'gemini-2.5-flash-lite'; // 비용 효율 + 속도
-const REVIEWS_PER_PRODUCT = 50; // 제품당 리뷰 샘플 수
-const PARALLEL_BATCH_SIZE = 120; // 🧪 테스트: 전체 동시 요청
+const REVIEWS_PER_PRODUCT = 20; // 제품당 리뷰 샘플 수 (50 → 20 최적화)
+const PARALLEL_BATCH_SIZE = 120; // 전체 동시 요청
 
 interface ProductEvaluation {
   pcode: string;
@@ -1038,6 +1038,7 @@ async function evaluateAllCandidatesWithLLM(
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
   negativeSelections: string[],
+  expandedKeywords?: ExpandedKeywords,  // 🆕 키워드 정보 (프롬프트에 활용)
 ): Promise<ProductEvaluation[]> {
   if (!ai) {
     console.log('[ParallelEval] No AI, fallback to score-based');
@@ -1067,7 +1068,13 @@ async function evaluateAllCandidatesWithLLM(
   const priorities = balanceSelections.map(b => b.selectedLabel).join(', ') || '없음';
   const avoidList = negativeSelections.join(', ') || '없음';
 
-  console.log(`[ParallelEval] Starting evaluation of ${candidates.length} products...`);
+  // 🆕 키워드 정보 (프롬프트에 활용)
+  const { preferKeywords = [], avoidKeywords = [] } = expandedKeywords || {};
+  const keywordInfo = (preferKeywords.length > 0 || avoidKeywords.length > 0)
+    ? `\n## 🔍 리뷰에서 주목할 키워드\n- 선호 관련: ${preferKeywords.slice(0, 8).join(', ') || '없음'}\n- 회피 관련: ${avoidKeywords.slice(0, 5).join(', ') || '없음'}`
+    : '';
+
+  console.log(`[ParallelEval] Starting evaluation of ${candidates.length} products... (keywords: prefer=${preferKeywords.length}, avoid=${avoidKeywords.length})`);
   const startTime = Date.now();
 
   // 단일 제품 평가 함수
@@ -1079,7 +1086,7 @@ async function evaluateAllCandidatesWithLLM(
     let sampledReviews: string[];
 
     if (sorted.length <= REVIEWS_PER_PRODUCT) {
-      // 리뷰가 50개 이하면 전체 사용
+      // 리뷰가 20개 이하면 전체 사용
       sampledReviews = sorted.map(r => `[${r.rating}점] ${r.content.slice(0, 150)}`);
     } else {
       // 고평점/저평점 균형 샘플링
@@ -1099,15 +1106,16 @@ async function evaluateAllCandidatesWithLLM(
 - 스펙: ${product.specSummary || ''}
 - 리뷰 ${productReviews.length}개, 평균 ${productReviews.length > 0 ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1) : 0}점
 
-## 리뷰 샘플 (${sampledReviews.length}개)
-${sampledReviews.join('\n')}
-
 ## 사용자가 원하는 조건 (필수 충족)
 ${userConditions}
 ${priorities !== '없음' ? `\n⭐ 특히 중요: ${priorities}` : ''}
 
 ## 피해야 할 단점 (회피 필수)
 ${avoidList !== '없음' ? avoidList.split(', ').map(item => `- ${item}`).join('\n') : '없음'}
+${keywordInfo}
+
+## 리뷰 샘플 (${sampledReviews.length}개)
+${sampledReviews.join('\n')}
 
 ## 평가 방법
 ⚠️ **0단계: 카테고리 적합성 (필수)**
@@ -1118,11 +1126,11 @@ ${avoidList !== '없음' ? avoidList.split(', ').map(item => `- ${item}`).join('
 
 1. **조건 충족도 (60점)**: 사용자 조건을 이 제품이 얼마나 만족하는가?
    - 스펙에서 직접 확인되는 기능/수치가 있는가?
-   - 리뷰에서 해당 조건에 대해 긍정적으로 언급하는가?
+   - 🔍 리뷰에서 **주목할 키워드(선호 관련)**가 언급되면 가점
    - "특히 중요" 항목은 가중치 높게 평가
 
 2. **단점 회피 (40점)**: 피해야 할 단점이 이 제품에 있는가?
-   - 리뷰에서 해당 단점이 언급되는 빈도와 심각도
+   - 🔍 리뷰에서 **주목할 키워드(회피 관련)**가 부정적으로 언급되면 감점
    - "~없다", "~좋다", "~만족" 등 긍정 표현은 회피 성공으로 판단
    - 저평점(1-2점) 리뷰에서 반복 언급되면 감점
 
@@ -1628,7 +1636,7 @@ async function selectTopProducts(
   let topNSelection: { pcode: string; briefReason: string }[];
 
   if (USE_PARALLEL_LLM_EVAL && candidates.length > 10) {
-    // 🆕 새 방식: 120개 전체를 병렬 LLM 평가
+    // 🆕 새 방식: 전체를 병렬 LLM 평가
     console.log(`[FinalRecommend] 🆕 Using parallel LLM evaluation for ${candidates.length} candidates`);
 
     const evaluations = await evaluateAllCandidatesWithLLM(
@@ -1638,13 +1646,13 @@ async function selectTopProducts(
       collectedInfo,
       balanceSelections,
       enhancedNegativeSelections,
+      expandedKeywords,  // 🆕 키워드 전달 (프롬프트에 활용)
     );
 
-    // 상위 N개 선택 (카테고리 불일치 + 리뷰 0개 제외)
+    // 상위 N개 선택 (카테고리 불일치 제외, 리뷰 0개는 이미 사전 필터링됨)
     const validEvaluations = evaluations.filter(e => {
       if (e.score <= 0) return false; // 카테고리 불일치
-      const productReviews = reviews[e.pcode] || [];
-      return productReviews.length > 0; // 리뷰 0개 제외
+      return true;
     });
     topNSelection = validEvaluations.slice(0, RECOMMENDATION_COUNT).map(e => ({
       pcode: e.pcode,
@@ -1734,50 +1742,67 @@ export async function POST(request: NextRequest) {
     const catName = categoryName || categoryKey;
 
     // ============================================================================
-    // 0단계: 키워드 확장 + 자유 입력 분석 (병렬 실행) 🚀
+    // 0단계: 키워드 확장 + 자유 입력 분석 (1단계 LLM 평가에 필요)
     // ============================================================================
     const additionalCondition = collectedInfo?.['__additional_condition__'] || '';
 
-    console.log(`[FinalRecommend] ⚡ Starting parallel: extractExpandedKeywords + analyzeFreeInput + generateFilterTags`);
-    const parallelStartTime = Date.now();
+    console.log(`[FinalRecommend] ⚡ Step 0: extractExpandedKeywords + analyzeFreeInput`);
+    const step0StartTime = Date.now();
 
-    const [expandedKeywords, freeInputAnalysisResult, filterTagsResult] = await Promise.all([
-      // 키워드 확장 (prescreening용)
+    const [expandedKeywords, freeInputAnalysisResult] = await Promise.all([
+      // 키워드 확장 (LLM 평가 프롬프트용)
       extractExpandedKeywords(catName, collectedInfo || {}, negativeSelections || []),
       // 자유 입력 분석
       (additionalCondition && additionalCondition.trim().length >= 2)
         ? analyzeFreeInput(catName, additionalCondition)
         : Promise.resolve(null),
-      // 필터 태그 생성 (사용자 응답 기반)
-      generateFilterTags(
-        catName,
-        collectedInfo || {},
-        balanceSelections || [],
-        negativeSelections || [],
-        null // freeInputAnalysis는 아직 없음, 나중에 병합
-      )
     ]);
 
-    console.log(`[FinalRecommend] ⚡ Parallel completed in ${Date.now() - parallelStartTime}ms`);
-    console.log(`[FinalRecommend] Keywords: prefer=${expandedKeywords.preferKeywords.length}, avoid=${expandedKeywords.avoidKeywords.length}`);
-    console.log(`[FinalRecommend] FilterTags: ${filterTagsResult.length}개 생성`);
+    console.log(`[FinalRecommend] ⚡ Step 0 완료 (${Date.now() - step0StartTime}ms): Keywords prefer=${expandedKeywords.preferKeywords.length}, avoid=${expandedKeywords.avoidKeywords.length}`);
     if (freeInputAnalysisResult) {
       console.log(`[FinalRecommend] Free input analyzed:`, freeInputAnalysisResult);
     }
 
     // ============================================================================
-    // 1단계: Top N 상품 선정 (120개 → 25개 사전 스크리닝 → Top N)
+    // 🆕 리뷰 0개 제품 사전 필터링 (LLM 호출 비용 절감)
+    // - c.reviewCount는 knowledge_products_cache 테이블의 review_count 컬럼 값
     // ============================================================================
-    const { selectedProducts, enhancedNegativeSelections } = await selectTopProducts(
-      catName,
-      candidates,
-      reviews || {},
-      collectedInfo || {},
-      balanceSelections || [],
-      negativeSelections || [],
-      expandedKeywords,        // 🆕 병렬로 미리 계산된 키워드
-      freeInputAnalysisResult  // 🆕 병렬로 미리 분석된 자유입력
-    );
+    const candidatesWithReviews = candidates.filter(c => (c.reviewCount || 0) > 0);
+    const filteredOutCount = candidates.length - candidatesWithReviews.length;
+    if (filteredOutCount > 0) {
+      console.log(`[FinalRecommend] 🗑️ 리뷰 0개 제품 제외: ${filteredOutCount}개 (${candidates.length} → ${candidatesWithReviews.length})`);
+    }
+
+    // ============================================================================
+    // 1단계: Top N 상품 선정 + FilterTags 생성 (병렬 실행) 🚀
+    // ============================================================================
+    console.log(`[FinalRecommend] ⚡ Step 1: LLM 평가 + FilterTags 병렬 시작`);
+    const step1StartTime = Date.now();
+
+    const [topProductsResult, filterTagsResult] = await Promise.all([
+      // Top N 선정 (리뷰 있는 제품만 대상)
+      selectTopProducts(
+        catName,
+        candidatesWithReviews,  // 🆕 리뷰 있는 제품만
+        reviews || {},
+        collectedInfo || {},
+        balanceSelections || [],
+        negativeSelections || [],
+        expandedKeywords,
+        freeInputAnalysisResult
+      ),
+      // 필터 태그 생성 (2단계에서 사용)
+      generateFilterTags(
+        catName,
+        collectedInfo || {},
+        balanceSelections || [],
+        negativeSelections || [],
+        null
+      )
+    ]);
+
+    const { selectedProducts, enhancedNegativeSelections } = topProductsResult;
+    console.log(`[FinalRecommend] ⚡ Step 1 완료 (${Date.now() - step1StartTime}ms): Top ${selectedProducts.length}, FilterTags ${filterTagsResult.length}개`);
 
     // 추천된 상품들의 pcode 추출
     const recommendedPcodes = selectedProducts.map((p: HardCutProduct) => p.pcode);
