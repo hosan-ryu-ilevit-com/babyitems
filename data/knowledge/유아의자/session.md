@@ -1,5 +1,5 @@
-# 세션: 20260121_065243_fjqj
-> 시작: 2026-01-21T06:52:43.442Z
+# 세션: 20260121_072209_fmme
+> 시작: 2026-01-21T07:22:09.083Z
 > 카테고리키: 유아의자
 > 카테고리: 유아의자
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아의자 시장 현황
-- 인사이트: 유아의자 시장은 지속적인 성장세를 보이며, 이동식 바운서, 인플레이션 의자 등 다양한 제품군에서 소비자 관심이 높습니다. 부모들은 유아의 편의성과 안전성을 동시에 고려하며, 제품의 품질, 조립 용이성, 안전성, 가격 등 다양한 요소를 중시합니다. 2020년 기준 유아용품 시장 규모는 4조원을 넘어섰으며, 2031년까지도 꾸준한 성장세가 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfhvnWYwOn45MByU-O0diUTscUUoRIrupW0AEITfCmYG10BzPI2MJOZaFZEAevnBdp-jrW83Kqxp42mGIKBCcplLLRcVGiJDk_6uouIW58xiFVdEofwxCLlxFDDl1BCazWjta_wi_rCZ2OzWYHV3jqeI6rng==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAPDN9W4XL8-PpkDNe8Y6cfuwJpZTfrEdVkN8YaoIyyvssZiQNHo3nOJmVTTy-64_mgZdZl9ddVmjP1K7u2oNttFOq8c2O9zonpWqq1Nq24XcZ-b7pGoqslTQbt8izEVlV_-qd5w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlgvQ7DzRzTDXn1YojDb1JzswJois5u3Lqx41FXkyqZNI4s2Ledg9gmAJKcLOa7q6bI_xnZr_MNenFr2THf9XNF6Cvj144kADdDvo_NQr_bZ1QjvhWxY1ldHAaSGBjEeHnle9rdFBGRuNgdPKYIeACh4mSOYF_t_FWjpUtL9iCqtYK0-ERuWucBGsKXtQe
+- 인사이트: 
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgvXdTAliET4mHpJpU_mzxcjkPGnEkX0DwI7WfhYt96_BTt4li2FAg9WalDtQkX9QvunjqeKOyEf2kNaT_yapEHtiC5m9rfdzgTkSihxqQA7hli-IsrewIg4nvqhd89s8AM2N6nopo5uWUn87GpWBCJ7jkPZXrf6Lljcfaax4EYVyE8-k7Yi-98zoviHceM3GntuM5m2aTae3WNY188SSpgt_UyC7op1zKg6OkcQaSfZqJGvEqnzJW4Yy67ede6H1KYygwVjuQ4g3TNx0N-0e0bwoXfGIUhxkn1wkXrC_1YSmfOeS8zuXed7ei2LOGz2v_LMzqnc7S5QRmAPfHaFUa7MIL4GLWD9Y_MYoxlywVD7Y8AuXVDf4dYpUJvfxE0oVIwoDIhA_k4bvkpJHSqPLg7DIJwNADkMGkQzNntr6oDpo_mMSEN504gQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFykGP5hzdZ_1vdaY4Yh-E4zVyFTI12uw35XvCL4ETZhC6fnfzf0LdDgzLh1WsYLCUfBPQUS6x_ssFFYKgvGhC_LZlncEz25qP8gxiI6pSWa_bH60oyJsqA6pa02usTPWAciI6VRaLB-Ra_-SKn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFL2IZDz2pwcTN3Y98aUZEKgh5L7bGRvyY4KEQz5z6N6KZYMkMc3UakcWp8PDcBW57uB9ndWtlObgfFmtb_Gk8rNmEddTf-D7QnNSdZiotmdhQuGPMYLFLvRKaX9w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZJU74bR9VDDMIe7mrKoKpRod83WAXd3Jtbi75IA820DZWGOemsky1hQu-_mkG6azIGQzhkTl8_NtY5tM9r4D7TxqKdevpX1-7My40bOfO5faWMX0lnMRisWXmkhrByo7ueg_hXpmhrSkwaBpyixKO6PU-uA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELpUao4NHtepzO6VE4MtSC0z_x_6CNNiiD3vqOTcnYT3IJ-khIWbLOjHYSlmRh30OiI_FDc3fy7AGR0OCWgxspO2hjKLEHtHsHtnctPXXFtTJFglcprPK5ySmzrvmcaJDVSUIYnw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfmoB7JjCTrooB4W9EXhDsa509npxJ66A_7hBQlXkgdkMreW3tin2uijh1CzK7_an7CzkdshgtKXXVYuDJtNopWQOiwR00bEhSo2O2qqJHXZ_6idinD0qq56llVoiRVCTYehPvWA==
 
 ---
 

@@ -901,7 +901,7 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
           {/* 리뷰 샘플 미리보기 */}
           {reviewSamples.length > 0 && (
             <div className="space-y-1">
-              {reviewSamples.slice(0, 5).map((sample, i) => (
+              {reviewSamples.slice(0, 3).map((sample, i) => (
                 <div key={i} className="px-2 py-1.5 bg-gray-50 rounded-lg">
                   <span className="block text-[11px] text-gray-600 leading-[1.4]">
                     {sample.preview.length > 60
@@ -910,9 +910,9 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
                   </span>
                 </div>
               ))}
-              {analyzedCount > 5 && (
+              {analyzedCount > 3 && (
                 <p className="text-[11px] text-gray-400 text-center">
-                  +{(analyzedCount - 5).toLocaleString()}개 더 분석됨
+                  +{(analyzedCount - 3).toLocaleString()}개 더 분석됨
                 </p>
               )}
             </div>
@@ -1682,7 +1682,7 @@ export function createDefaultSteps(categoryName: string): AnalysisStep[] {
     },
     {
       id: 'review_extraction',
-      label: '내돈내산 리뷰 분석',
+      label: '리뷰 키워드 분석',
       type: 'analyze',
       status: 'pending',
     },

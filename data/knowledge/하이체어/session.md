@@ -1,5 +1,5 @@
-# 세션: 20260121_055057_izog
-> 시작: 2026-01-21T05:50:57.552Z
+# 세션: 20260121_072330_z314
+> 시작: 2026-01-21T07:23:30.307Z
 > 카테고리키: 하이체어
 > 카테고리: 하이체어
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 하이체어 시장 현황
-- 인사이트: 하이체어 시장은 아기의 성장 단계에 맞춰 조절 가능하고 안전하며 사용이 편리한 제품을 중심으로 성장하고 있습니다. 특히 친환경 소재와 세련된 디자인을 갖춘 프리미엄 하이체어가 주목받고 있으며, 신생아부터 성인까지 사용할 수 있는 다기능 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC_OPJ4fXQPnzn52o1bU9rch5pJBV-hiHsiBm-H8J_kEfLOvLv296jxhDvBkupw9WkaN44IyYJIIFP3NtMpnbzCqsOKlX-QvqlhAelwtpBK7eNWzF1KnJh47s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGP_RPizD6zU6Jw5CkrvBt2pymvEw_c51waKz2LHgqBcawBEK7Iwnv9SQc_76k7YLV4QAW3ddhCjKr9CUFcrZUqHAAmld-VjdnCrZJ4KCCsH-b1UI8vGG6zKjApkw0kY3Bj-296sYbaKsp8qQQltp5mBnRcICWt8ZNNwXakXFCBNFny6B8Y4lJJW3IsAB3-WLrzc239-zcvykkdZxXCCjz8g7vRRRsRWd6hnVBMomNUfNWiBHw1wf_WC7pLhW-hwRW9sWLPBaiuC5qHOmym-_9drU4TweT9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHH6HcdUhg2VEKOX21C2K4DDSJ_LR1RBjbKaLaenc3GlMqMJ3rmmj0uOSzQ42nOylxdfSVqL94dczSHbmXgRN0J_EpWgKj-6KXEhS61AHY34vM3rH2BpDUUGuWE2B7jquZN6H5A6baLAcno5MkIJtm90X-tzhBQExWBAqiTk-aINsC-LHv0QVna, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqLG3NV0vdF2OdI3BY-XuO1f_hH_H7edeMeSCuk-wAo9F8ijex5eNSnZohdHN56uZ3P-6VLWaj4z2ds7PCmgjcUXk-wjO0MH1a-ryul93tlrAiXvzbvnZG94p2EQ2q3TylUh5f7-qMzpCDsAmfsIAmdFkObRY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGsHvXFGcmLYF9ymRDZKoue64e2Jr3GjnBrUnPm9TThGs-gWDJmnk6M6zikfotkmjmBtRDa94cznyCVhK0a2qwXmj1HGu5Ugom7_sDrZUo4fn19ywxJ3OV-DsAjpKnmI7aVely_3lDf67n1hh04snQeJW7DEqGNadeECtTkD8bpDrzEFuCbZwIl8O0JKG-KA6Bg-vo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHmfpn_Vvy4vKQklUQi-k4qPNCDxlPEEPMSONsoD11SUN-LY6fNbjo3wigptJfcn-pO3of0RQgoEbnuN8bnMghJvEvyrlqQlm49n9HHaKFKGuu4LJGLwAUhJRnUUIigMxeJHbvxD6ZMiB4javMXzHtaUMqsYE=
+- 인사이트: 하이체어 시장은 아기의 성장 발달에 맞춰 조절 가능한 기능과 안전성을 갖춘 제품들이 인기를 얻고 있습니다. 특히 친환경 소재 사용, 세련된 디자인, 청소의 용이성 등이 중요한 구매 결정 요소로 작용하고 있습니다. 또한, 신생아부터 유아까지 사용할 수 있는 확장성 있는 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGp9D5oC8I-n78Q3d_R7N5vhfwuwc3vH0wnEJCEMl6dA1wTSzG_hz8lOZn4gmdgaKutP0bLX4OocbxiKP7SfG025G-qSV9gB90gx00ER4eT7VOjoZpjt_nUVim06UZKLdpcwuecj1PNuQw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHG3U7kik71nIwo20gSJFnnFkbelN6yX5Qa0eXCGTpURgzuYi84sqa8LxzJUV5qFUDoT1fNYKb95axZM5hgnJLVd4O6W1CjRdn4b8LUsaFltozqJ5MudvtrTgUi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGoMllD2jUcPAi_cfLU5dVbOXV9te3zkZWU3GzP6BoQirhf7f2zF-GmHtyNtu0Nc1c-yQbOTxbzCuqZnTj8ix_2s9M3vX7zqfqm4FxHZhhtNo3MuXzimrb9JYZ8e3HkT3KlyN_r87vX_oxWpIgD-5Do-oznvDGb367c-ZdAm5MH6l1IQDYL9GV5nTb5oKjGX28-wnp13-c1oeB1pcHUArFyukOsLnYtPYyyesxFM0g2LHTCEwHAA_rdd-xTh9JMOTOsis-9M474x9LfwTVzyFyEzYJC2RT7yg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH541rild3wJnk_W6UkGKN-c4qe_8N45-EIDkPtlIinoAdMp3y_yAVEcg2DQJUytQxfylTYEYQjyQUzGRXDyfJ-Sur0Yts9P5a3v2OF0GwlLRgG9-xDcHVyTWYH8s_SoTY_EB3B0lM7oEpaWjORW_Bp3ysYEt1X7LQLuCWe-pUS5QQ7kft9sTjcxOpqwBAGaQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEl-mfqjXiWtlEu8x0ui-O4JYVqpjGKi2AVe4L-IQaUHBE2aFcPEb_foKWNZsyhd0EhJkFQXYgu-keSFYorR9lSKjiyQtBACxXYlFO8AOXSsyOsAk6Z9rA_LuxgS0TNIMnh9Gd2jX49, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8u40u70TK3UTPiPbASo5TMlZCIdIb3IiefTnkbb2tlPOeGttcTDzpbVMc1ubF2dNafea0ZKVcrMLZuJXWsDCCbYqZvwKSeiRe9ONJHI0P2kIUoaxr-k0tZUCwu0IRESvONOQhCTc=
 
 ---
 

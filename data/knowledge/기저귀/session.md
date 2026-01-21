@@ -1,5 +1,5 @@
-# 세션: 20260121_070328_zi2n
-> 시작: 2026-01-21T07:03:28.865Z
+# 세션: 20260121_072139_py1h
+> 시작: 2026-01-21T07:21:39.116Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 저출산 및 고령화 추세에 따라 국내 기저귀 시장의 판도가 변화하고 있습니다. 2023년 기준, 어린이용 기저귀 공급량은 감소한 반면 성인용 기저귀 공급량은 증가하며 역전 현상이 나타났습니다. 전체 위생용품 시장은 꾸준히 성장하고 있으나, 기저귀 시장 내에서는 이러한 인구 구조 변화가 두드러지게 나타나고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFM4vErs2JP03lolPsfxGaCSrS6k7Q1IaeacWpj1yKN0nYfyLlCvsyuUfBfLdoM0zGCE86Y8IPpYAyEUAuOPdtOhKRYF4jddv_rweNYXgIssZGFjLmNW-XHcHdsxFa5a6iPgtaIY3Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFE7lhpLgJZPIzPs5gIIXSiCF8gnQNHJ7Fr1Jtx7YGlMN_gcASIIm1rgbxmzBROQlMdK7n7WE0jZxIXUEk-VsK4H2Lr8_gdjVUrF2qm_3CjtG4wV7Eqbg6WPu03LTYpW5syOcc6eVT8J5xVUjOH77VrLO1kqGcQ7vdHER87_1FdWyvNDL26mOBfSMrbjAPB1X2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHReziXqNYxv-nDbFyEm42D4u3jraG0tN5lCb9czXh4G-UO8XoEVVhbnXiNSz3Yz4kMeMK1huryDn6XcklQY-SQo1YAEXQMdkSSc36OS_MPt00DBSXQctZDbj3A5nWjef2ZY3-QF5ZWfRWeVz7bJwJgy08bTHMgRQieznXMy6id_llqwHuikioBhmTcjSIPd1oBtAvrf_Pz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmX5Q_1QEocST2vOnsDluo-0xph4xGbmVkpU0Bny5gU6Pb1EnfN1FuhqFO5lgeWGxOyoLp9Btj2b313dZbLdL55kOmWDjTnkwA8aOHsMP1ttPTQmbZ_iaX_rMcu9KwiWYctTeyIebOnu8wjbcPZyHYRT_gUOHWQ4Vmy_E0mQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQ8kNfryGcd6yefPH1PvKMtamzWUHwEMJZ4LuY3e6w-8Iv0N5zyusbvRMOcyebK3If2atPWGAlqrFivVrwF8f71WBwj9JuM9QlBScwpTR897uvnAVwI-k9ypOhacUz3B3ikAKy7h2rzfwQnTznO6JIEZ4epC41qZyrvM4=
+- 인사이트: 한국 기저귀 시장은 2024년 약 17억 달러 규모로 추산되며, 2033년까지 31억 달러에 이를 것으로 전망됩니다. 이는 연평균 6.1%의 성장률을 나타냅니다. 저출생 및 고령화 현상이 시장 구조에 큰 영향을 미치고 있으며, 특히 성인용 기저귀의 생산량이 유아용을 추월하는 추세입니다. 기술 혁신으로 흡수성, 통기성, 피부 친화성을 갖춘 프리미엄 제품에 대한 수요가 증가하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKK6lN13WKOuUMGo3VBGbkejktYCrpDs6xifY33-3UrJ2ITVKsmGXMHtVOeGv5SQNzigEF3LVpT1JH0MtOckqKzaan5egwoSPmXNtyTkyzaU5KM4YRkkHWTNsxVIztnKVYpxZIMqELcPeAsTGHCcamNBIa6bu1B7wkZ6gxjPJE8PGmUW_WBHQSlk1PLoTg6R_JZq4va-aR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7W1Ldc0bwEeTgSJGl7BuFeZrIzoAfFUCG7GPTLi2zhHOvBc7lW5BqGxRUFC46LsuCQy98OdwjeTQal0FOeQc3gohLSSDVdJwZLkrE1ZGNl-G84JWA2S4-_zygIz-8Q7IjNwZkyKiYoYAgdv5lp0vZgY0g8eCg5VFjfOAE2A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtw1ds9sTiGM2kMs2uGOr-fl1ObzTCq92_rsboGUz8CWxWoh-doFNQnIegbovfb-82JWc_9Qx5wzgdRv_R49QO0-p4nyhaxEKCF-aLRjrrmSOfxTwQRNwRBRM4i4u0K2_sLfxJvlYTnietoJv7U7GttjIjqqq_M1LuBFY9iSbvmjGAlonX7o_I
 
 ---
 
