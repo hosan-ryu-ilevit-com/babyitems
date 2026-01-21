@@ -1,5 +1,5 @@
-# 세션: 20260121_061008_visj
-> 시작: 2026-01-21T06:10:08.441Z
+# 세션: 20260121_071554_upod
+> 시작: 2026-01-21T07:15:54.612Z
 > 카테고리키: 분유제조기
 > 카테고리: 분유제조기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유제조기 시장 현황
-- 인사이트: 분유 제조기는 버튼 하나로 자동으로 분유를 타주는 편리한 육아 필수템으로 자리 잡았습니다. 정확한 분유 농도와 온도 조절 기능이 중요하며, 세척 편의성과 사용 편의성 또한 구매 결정에 영향을 미칩니다. 베이비브레짜, 브라비, 리하스 등 다양한 브랜드가 경쟁하고 있으며, 가격대는 제품별로 최대 3.8배까지 차이가 납니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3_wILusDn6wHITOe1CKUZxXuZN2hnENEIpiGwUi8dpHe9sFYOKjQn_-Dj_8klmPgrQ_PlAeubcVyoQNNSHJyZeF9_ye4T8IpW4MP07eCs0ZDoGNS3CYbFTUaXt8UTEWv4X0y4K4k=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlmGOrGJ-UDP8SAmnuiINN1l0ues--EjpqSA8qZXkh1uzG8k8QgQoPBWrjb_nqA4djgBM1N-tInFbzzqDu966a1-j2VdLgMLhaVsBCNpvMkh039UhW3YQNSplySNcr0-ewD2xruHc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOON5_LmfaqiD7dnHVrqEKRDT7os9uz-so7861WhOYLdit7-jqUSLZKb26frwwmxzl2A9FBu_9FAKTHCC3Xj2AHjeyKStfW52rT4Ua_PlccfxP8rFgef_IFr39nN81cr4mfJZOxuWrKPJ_Gkv88gww7bQX
+- 인사이트: 분유제조기 시장은 저출산 기조 속에서도 육아 필수템으로 자리 잡으며 꾸준한 수요를 보이고 있습니다. 특히 정확한 분유 농도 제조와 편리성을 강점으로 내세우는 제품들이 인기를 얻고 있으며, 해외 직구보다 합리적인 가격으로 국내 정식 수입되는 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkRRmMSqzrg-JfUVtosxNWGPkVgjdJTGnuXqnkhiBE20FIDyO1Gb7VFxh5BuBphzBX6yULsyO1axfEX53UGGQTmhm6aCOLYtmbaXg5T5nw_BlVb8LtuHD-C83C8A9Fb49bbnjGBYMHtjfiiqEtzQPxUDWHA9BWDyQAjIrwVMFOxRZOrNl4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5YBNNuB11kjvW4W5c1rnUvQVxHUXWhzbIaNhY5DasFHdApnaNEYiPVFom0cMpmcYK0ckmcqozK9U58R9eLRNZLGjEUZTFtgUTCsDCKIhcXdCYFVc96Gt4oDHVmd2jkRHVC5vlmXc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1bLLcjgTW3e9h2zBsQSSCLrxFl9vx0gSOBq8VKUNFCsnqesNcrlWRi6CMxG1mC7mc3AH3w4bp6eDYrTdwqM052aYwZCH4BBZZtWL-as4X8UOWzuF4PetRKSxQFe0a3iYfUiNlyaMyc5NEzkYIxgKFItsmupXX88y2NyMAZpDIDQyUOcA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHznGlCfRokzj1m76s316stdfty8a-8u5bx9w7XQ17Ve-MbanKMKZ7i2lbfr143zi-fGGJ61f61Jt_qojxKfbYMYvFE4CCrHZ7tz6B3kbK9TNCnYdBvXXFpRDbbmgQxxdn--axlpa0RTMRBZ0jJj3xdhSjk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlLoDNRPiyLUo5GGIQFXcRxPJDtzdxY-tZrWRggwAJOCtrWrsX95sfhexqDkzuHo1dsGnPbH_v3xoq4oAqd6yJdyQp_lGqeSmmAS48uDAFEzflDCmEzGtKbZBeGpKhXOdjseJiyCqaYk32YH9zq025eUtkRaA7v_nHWRwaKU65ZguASj0C2lHV3LM=
 
 ---
 
@@ -16,7 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 분유를 얼마나 정확하고 편리하게 조유하는 것이 가장 중요하신가요? | 정확하고 편리한 자동 조유 |
 
 ---
 

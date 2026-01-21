@@ -777,18 +777,18 @@ function sampleReviewsForAnalysis(
     });
   });
 
-  // 긍정 리뷰 (4-5점) - 길이 긴 순으로 정렬 후 25개
+  // 긍정 리뷰 (4-5점) - 길이 긴 순으로 정렬 후 30개
   const positiveReviews = allReviewsList
     .filter(r => r.rating >= 4)
     .sort((a, b) => b.length - a.length)
-    .slice(0, 25)
+    .slice(0, 30)
     .map(r => ({ content: r.content, rating: r.rating }));
 
-  // 부정 리뷰 (1-3점) - 길이 긴 순으로 정렬 후 25개
+  // 부정 리뷰 (1-3점) - 길이 긴 순으로 정렬 후 30개
   const negativeReviews = allReviewsList
     .filter(r => r.rating <= 3)
     .sort((a, b) => b.length - a.length)
-    .slice(0, 25)
+    .slice(0, 30)
     .map(r => ({ content: r.content, rating: r.rating }));
 
   console.log(`[ReviewAnalysis] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);

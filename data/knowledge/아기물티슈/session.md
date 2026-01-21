@@ -1,5 +1,5 @@
-# 세션: 20260121_060908_dcik
-> 시작: 2026-01-21T06:09:08.258Z
+# 세션: 20260121_065653_53d9
+> 시작: 2026-01-21T06:56:53.273Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 2026년 현재 아기 물티슈 시장은 베베숲이 9년 연속 판매 1위를 기록하며 독보적인 위치를 차지하고 있습니다. 아기 물티슈는 전체 물티슈 시장에서 상당한 비중을 차지하며, 위생에 대한 중요성, 잦은 사용, 지속적인 제품 혁신에 힘입어 꾸준히 성장하고 있습니다. 2024년 전 세계 아기 물티슈 시장 규모는 약 3억 8,550만 달러로 평가되었으며, 향후에도 꾸준한 성장세가 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwz7P9cC9O6D19106EzWdD1--VD6lfNP4U9prU9m0r6g1PAk10YBu1v961CdbbxQfeLIMTlV7D7q6s7q7F8vPUsmB0yECMngCWcKODuPRYwwWOb1pn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvR38O5d8-2FO0t0Xq6T62kSLAspFF3NnCJRCumIYxiLiFzYZfslopFRUgm-cwsTL8EOzOwk-QRecMakcxO1KNKudktygnAIa4YIGJMnbOamUQUj2LmA4gHyVm5AfTWc93P5X8azKutA10C1CZPW9BXaIBitBtByQ-eMwAvaM1tMAOKo_-vab5wRlG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOt2DHFsx3Pzo3yfGuopLreMjW7SnTSbCDIJSKXS3-JjLumb26Gfti-G08rw4eqoVBkfSRqAHolozzJUG8K9-RI0BRCzbHywA7idqrhvIZIh3sKh-Qoa_z0-ta2TkWOX-PrUOWEEOy6S9EVFPHJVLC04U1vtS_AjHLJg==
+- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 2024년부터 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 특히 아기 물티슈는 전체 물티슈 시장 매출의 상당 부분을 차지하며, 위생에 대한 중요성, 일상적인 사용, 지속적인 제품 혁신에 힘입어 꾸준한 성장을 보이고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9NfbKWQ5JtrFsqeZN4qJiZM5UBySHjvnQJzvY6P3dwpmzvjHHuIxSFJQucbGM153mdBp6QSDe_nmFsJu1l5GOY4ZcRj5rOJpOMbx2My4Vt9HkIcztFBEprqZx_yci39AP6i-sG7Yh83tK75qAgJAGq2qz5gWhRsJDpJ2t, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWxyM4z4vyQO_M2PZkQZUDXipM14nlmSxgXTxF4vghsp31kNpnngwu2dFKowXJJXKPR_VXbQY-WLTs49wFZh4PzW9HEnPGQHbz9MRPBdA2TN4E03TJiMcYHYBpdx565XTS8dgXVkkGrg8qac7b04E-qfNbUqPdW1euFQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHH4ZoBv5QJf0cU1ST3uLNS4FQU8e9Zw1uLEGQ71OdoFt1HvDe-EYc9ZmeAhzV9rO8hE-rS4Dk3le6jlwRANGOUe89653zROO1R9TmFlg9IGu1GH5kV_7wsbYpw-Ws1B7Ypck6D9sXJdZCRxuniR0LoKHGAmgFiywlcdE_Pa_7-bi9UMboUjT4Yloh4NJiL7wov188XHbJ3YU7cE2rRD8kQdxs2VvSXS2II6PCu-w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIDXz1k6tn174t6GDNEWTJNxR2lg0lpX6W648XOx7Pm5ZfgOzWOihE27FaGnpvp4yYv1F-vjvN2CzDBocOTiHxe0lhf3tgKItCPJQbY_A4zjrajyK2NPtdHItBCqH1bzdB6zMWHsRlk4fiAVv2dKtVufetugbkWb_CzoJ6XQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHf1sVT7tJ_O0jgYjIE_nEe3nDtSRoszh8seZNfJvjeWVlOjDe1TQ8jIZr9Ib92tW0fXSP9h0ojJDQmipsWRlrcK5ZilE1KJHHVkyoyrLKHDKFwml9cWv93oqEOvbYbwR8AR7YTEyUC16fSgOjXe_dHXZzqOgUDO_g-5WYWd2wfeWLLp2MBRoXgGLUksHVQRFCQT_e7sqE=
 
 ---
 
@@ -16,11 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 피부에 직접 닿는 만큼, 성분 안전성을 가장 중요하게 생각하시나요? | EWG 그린 등급 성분 위주 |
-| 물티슈를 사용할 때 도톰하고 넉넉한 사이즈를 선호하시나요? | 도톰하고 큼직한 사이즈 |
-| 물티슈의 원단 소재는 어떤 것을 선호하시나요? | 레이온 100% |
-| 주로 어떤 상황에서 물티슈를 사용하시나요? | 집에서 주로 사용 (리필형) |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원대 |
+| 아기 피부에 닿는 물티슈 원단, 어떤 느낌을 선호하시나요? | 엠보싱 원단 |
+| 물티슈를 주로 어떤 용도로 사용하시나요? | 아기 피부 케어 (기저귀 교체, 입 주변 등) |
+| 물티슈의 두께감은 어느 정도를 선호하시나요? | 도톰한 두께 (65gsm 이상) |
+| 환경을 생각하는 소재에 관심이 있으신가요? | 생분해 가능한 소재 |
+| 예산은 어느 정도로 생각하세요? (평균 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 이하, 7천원 ~ 1만 8천원대, 1만 8천원 이상, 상관없어요 |
+| __avoid_negatives__ | 생분해 가능한 소재라고 해도 혹시 모를 화학 성분 잔류가 걱정돼요,엠보싱 원단이 너무 거칠면 아기 피부에 쓸릴까 봐 걱정돼요 |
 
 ---
 
@@ -60,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 생분해 가능한 소재라고 해도 혹시 모를 화학 성분 잔류가 걱정돼요
+- 엠보싱 원단이 너무 거칠면 아기 피부에 쓸릴까 봐 걱정돼요
 
 ---
 

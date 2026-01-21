@@ -828,84 +828,31 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
   const prosTags = step.result?.prosTags || positiveKeywords;
   const consTags = step.result?.consTags || negativeKeywords;
 
-  // 슬라이드용 샘플 리뷰 (웹검색 스타일)
+  // 완료 후 표시용 샘플 리뷰
   const reviewSamples = useMemo(() => {
     const positiveSamples = step.result?.positiveSamples || [];
     const negativeSamples = step.result?.negativeSamples || [];
     const samples: Array<{ rating: number; preview: string; type: 'positive' | 'negative' }> = [];
-    // 긍정/부정 번갈아 배치
     const maxLen = Math.max(positiveSamples.length, negativeSamples.length);
     for (let i = 0; i < maxLen; i++) {
-      if (positiveSamples[i]) {
-        samples.push({ ...positiveSamples[i], type: 'positive' });
-      }
-      if (negativeSamples[i]) {
-        samples.push({ ...negativeSamples[i], type: 'negative' });
-      }
+      if (positiveSamples[i]) samples.push({ ...positiveSamples[i], type: 'positive' });
+      if (negativeSamples[i]) samples.push({ ...negativeSamples[i], type: 'negative' });
     }
     return samples;
   }, [step.result?.positiveSamples, step.result?.negativeSamples]);
 
-  // 슬라이드 전환 인덱스
-  const [currentIndex, setCurrentIndex] = useState(0);
-  // 슬라이드 완료 여부 (done 상태여도 샘플이 있으면 한 바퀴 돌린 후 결과 표시)
-  const [slidesComplete, setSlidesComplete] = useState(false);
+  // 스켈레톤 너비 (고정값)
+  const skeletonWidths = [72, 88, 64, 96, 80, 68];
 
-  // 슬라이드 전환 효과 (done 상태여도 샘플이 있으면 계속 진행)
-  useEffect(() => {
-    if (reviewSamples.length === 0 || slidesComplete) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex(prev => {
-        const next = (prev + 1) % reviewSamples.length;
-        // 한 바퀴 돌면 완료
-        if (next === 0 && prev === reviewSamples.length - 1) {
-          setTimeout(() => setSlidesComplete(true), 500);
-        }
-        return next;
-      });
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [reviewSamples.length, slidesComplete]);
-
-  const currentSample = reviewSamples[currentIndex];
-
-  // 스트리밍을 보여줄지 결과를 보여줄지 결정
-  // 샘플이 있고 슬라이드가 완료되지 않았으면 스트리밍 (done 상태여도)
-  const showStreaming = reviewSamples.length > 0 && !slidesComplete;
-  const showResults = step.status === 'done' && (slidesComplete || reviewSamples.length === 0);
-  const showSkeleton = step.status === 'active' && reviewSamples.length === 0 && !slidesComplete;
+  // 스켈레톤은 active일 때
+  const showSkeleton = step.status === 'active';
+  const showResults = step.status === 'done';
 
   return (
     <AnimatePresence mode="wait">
       {showSkeleton ? (
         <motion.div
           key="skeleton"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="space-y-2"
-        >
-          {/* 로딩 상태 텍스트 */}
-          <div className="flex items-center gap-2">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            >
-              <FcProcess size={14} />
-            </motion.div>
-            <span className="text-[12px] text-gray-500 font-medium">실제 구매 리뷰 분석 중...</span>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {[1, 2, 3, 4].map(i => (
-              <Shimmer key={i} className="h-5 w-14 rounded-md" />
-            ))}
-          </div>
-        </motion.div>
-      ) : showStreaming ? (
-        <motion.div
-          key="streaming"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -921,53 +868,54 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
             </motion.div>
             <span className="text-[12px] text-gray-500 font-medium">
               실제 구매 리뷰 분석 중...
-              {reviewSamples.length > 0 && (
-                <span className="ml-2 text-purple-600 font-semibold">
-                  ({currentIndex + 1}/{reviewSamples.length})
-                </span>
-              )}
             </span>
           </div>
 
-          {/* 실시간 리뷰 슬라이드 (웹검색 스타일) */}
-          {currentSample && (
-            <div className="p-2.5 bg-gray-50 rounded-lg">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-[11px]"
-                >
-                  <span className={`font-semibold ${
-                    currentSample.type === 'positive' ? 'text-green-600' : 'text-rose-500'
-                  }`}>
-                    {currentSample.type === 'positive' ? '👍 긍정' : '👎 부정'} [{currentSample.rating}점]
-                  </span>
-                  <span className="text-gray-600 ml-1.5">
-                    {currentSample.preview.length > 60
-                      ? currentSample.preview.substring(0, 60) + '...'
-                      : currentSample.preview}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
+          {/* 로딩 스켈레톤 */}
+          <div className="space-y-2">
+            <div className="flex flex-wrap gap-1.5">
+              {skeletonWidths.map((width, i) => (
+                <div
+                  key={i}
+                  className="h-6 rounded-lg bg-gray-100 animate-pulse"
+                  style={{ width: `${width}px` }}
+                />
+              ))}
             </div>
-          )}
+          </div>
         </motion.div>
       ) : showResults ? (
         <motion.div
           key="results"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="space-y-2"
+          className="space-y-2.5"
         >
           {/* 분석 완료 헤더 */}
           {analyzedCount > 0 && (
             <p className="text-[12px] text-gray-400 font-medium">
               리뷰 {analyzedCount.toLocaleString()}개 분석 완료
             </p>
+          )}
+
+          {/* 리뷰 샘플 미리보기 */}
+          {reviewSamples.length > 0 && (
+            <div className="space-y-1">
+              {reviewSamples.slice(0, 5).map((sample, i) => (
+                <div key={i} className="px-2 py-1.5 bg-gray-50 rounded-lg">
+                  <span className="block text-[11px] text-gray-600 leading-[1.4]">
+                    {sample.preview.length > 60
+                      ? sample.preview.substring(0, 60) + '...'
+                      : sample.preview}
+                  </span>
+                </div>
+              ))}
+              {analyzedCount > 5 && (
+                <p className="text-[11px] text-gray-400 text-center">
+                  +{(analyzedCount - 5).toLocaleString()}개 더 분석됨
+                </p>
+              )}
+            </div>
           )}
 
           {/* 모든 태그 한 줄로 나열 (긍정 → 부정 → 고려사항) */}

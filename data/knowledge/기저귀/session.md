@@ -1,5 +1,5 @@
-# 세션: 20260120_042732_39qg
-> 시작: 2026-01-20T04:27:32.132Z
+# 세션: 20260121_070328_zi2n
+> 시작: 2026-01-21T07:03:28.865Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 국내 기저귀 시장은 저출산과 고령화 추세에 따라 어린이용 기저귀 공급량은 감소하고 성인용 기저귀 공급량은 증가하는 추세입니다. 전체 위생용품 시장 규모는 꾸준히 성장하고 있으며, 일회용 기저귀는 화장지, 일회용 컵에 이어 세 번째로 높은 생산액을 차지하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaIUcMtjhi4yYvZsQR1YLTYqMSssuMc-Cx0cYDuztVykjTcNTORi7r0bOb14DsyNNwhFIlAWzC91G15p2larHZy2lR4IvJHrJvFLm6q5JwRnVEFa5r4xqFGKNjyrICo3WVmjqYxtjhrHQrYBVZzq8urntShOWe8GcjXITR4BgLeAwXZencHEJVaWw3mQRVZRpDAeIRmNzaRgprKnPm-AqqxY0OS3zH5Wc2OOSH9c1X8biLBqI3bnhyWYOpSHjdWUZcJY7nOpenpC3WnBtT5KGd2hUoZSFQBlGey-ca72TNIg3bkepneUy8guFCMQ48sgta2xnuPXW_QnPmaWYZ44JRh9clerhEuq0TIUPiLGPx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHk0XwUVFVa2hlwGCCIFRRO_I-R-PLBeWVMIFyyt1UHfl31IDCapAXJ1J-Owv399iCH3GV6_1_zptWD3NKh4gNy-70bKvRJewuN4O1e09WYdX0LWzPTts38Hsyc1-BHPa04lwBDpQw-Vq2fbQnbWVlna-5PVe9HdLlbZqb5f4t5ktWEM4YWmmwWrdZxq95oM_N7sjXj, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfHvPLHFPZJGQoSUCkT9vGHDkjckdDoaoNyQHQP5g6XftPgGUc6Weu_JCaThvOuyIZ9Z6PnXTSZH8NZWittcS6iK_WGi9RxkyDqYkOp_wlmWCMb0LUib2mliDoB-0MKQKMqoceCPF559HocQXE2U4TSlggG_VRjtOhElD1ZA==
+- 인사이트: 저출산 및 고령화 추세에 따라 국내 기저귀 시장의 판도가 변화하고 있습니다. 2023년 기준, 어린이용 기저귀 공급량은 감소한 반면 성인용 기저귀 공급량은 증가하며 역전 현상이 나타났습니다. 전체 위생용품 시장은 꾸준히 성장하고 있으나, 기저귀 시장 내에서는 이러한 인구 구조 변화가 두드러지게 나타나고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFM4vErs2JP03lolPsfxGaCSrS6k7Q1IaeacWpj1yKN0nYfyLlCvsyuUfBfLdoM0zGCE86Y8IPpYAyEUAuOPdtOhKRYF4jddv_rweNYXgIssZGFjLmNW-XHcHdsxFa5a6iPgtaIY3Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFE7lhpLgJZPIzPs5gIIXSiCF8gnQNHJ7Fr1Jtx7YGlMN_gcASIIm1rgbxmzBROQlMdK7n7WE0jZxIXUEk-VsK4H2Lr8_gdjVUrF2qm_3CjtG4wV7Eqbg6WPu03LTYpW5syOcc6eVT8J5xVUjOH77VrLO1kqGcQ7vdHER87_1FdWyvNDL26mOBfSMrbjAPB1X2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHReziXqNYxv-nDbFyEm42D4u3jraG0tN5lCb9czXh4G-UO8XoEVVhbnXiNSz3Yz4kMeMK1huryDn6XcklQY-SQo1YAEXQMdkSSc36OS_MPt00DBSXQctZDbj3A5nWjef2ZY3-QF5ZWfRWeVz7bJwJgy08bTHMgRQieznXMy6id_llqwHuikioBhmTcjSIPd1oBtAvrf_Pz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmX5Q_1QEocST2vOnsDluo-0xph4xGbmVkpU0Bny5gU6Pb1EnfN1FuhqFO5lgeWGxOyoLp9Btj2b313dZbLdL55kOmWDjTnkwA8aOHsMP1ttPTQmbZ_iaX_rMcu9KwiWYctTeyIebOnu8wjbcPZyHYRT_gUOHWQ4Vmy_E0mQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQ8kNfryGcd6yefPH1PvKMtamzWUHwEMJZ4LuY3e6w-8Iv0N5zyusbvRMOcyebK3If2atPWGAlqrFivVrwF8f71WBwj9JuM9QlBScwpTR897uvnAVwI-k9ypOhacUz3B3ikAKy7h2rzfwQnTznO6JIEZ4epC41qZyrvM4=
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 몸무게는 어떻게 되나요? | 6kg ~ 14kg (소형/중형) |
-| 기저귀의 흡수력과 통기성 중 어떤 점을 더 중요하게 생각하시나요? | 강력한 흡수력, 뛰어난 통기성 |
-| 기저귀 소재와 착용감에 대해 어떤 점을 선호하시나요? | 편안한 착용감 |
-| 어떤 형태의 기저귀를 선호하시나요? | 팬티형 |
-| 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 3천원대, 2만 1천원~4만 3천원대가 가장 많아요) | 2만 1천원 ~ 4만 3천원대, 2만 1천원 이하 |
-| __avoid_negatives__ | 상관없어요 |
 
 ---
 
@@ -61,7 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 상관없어요
+(아직 선택 없음)
 
 ---
 

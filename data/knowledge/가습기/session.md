@@ -1,5 +1,5 @@
-# 세션: 20260120_065727_1a1u
-> 시작: 2026-01-20T06:57:27.586Z
+# 세션: 20260121_063429_a4b8
+> 시작: 2026-01-21T06:34:29.721Z
 > 카테고리키: 가습기
 > 카테고리: 가습기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 가습기 시장 현황
-- 인사이트: 가습기 시장은 2023년부터 2028년까지 연평균 4.8% 성장하여 2028년에는 5억 7030만 달러 규모에 이를 것으로 예상됩니다. 북미와 아시아 태평양 지역이 시장을 주도할 것으로 보이며, 스마트 홈 기술과의 통합 및 건강에 대한 인식 증가가 성장을 견인할 것입니다. 온라인 판매 채널 또한 빠르게 성장하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_szOfFaQw0AxW7EkkSXjqGLy4DoXJauhg0yE5icSvBZoO2gQ_5LDnucaZuWKQ9yYJnmR8uOq4OcTiXaAzzJ40HBloAWK8SC6XrnaNY9FEG-fMimXzgVM-A3xFaEoJq2mnxkSfW-FWq5PbCF3QXZsdSDxFT5_TqKFkS9D6Rn4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXBQdHe7q2pMy0nH1H1wknAWqeSIT2cqMZUGhc5kd-IQ1pKmym-MZOnruMgDwIKeDo89BN6Ew6Hdus0CmTAXVql0RDsvfpKtCJvZJsmmwo2lSvuKmLhEuxqNPnpAf3jVYwbAN1S-jREprdurr5Y_WZVaXiBWLsmw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfPFPhNpFP-HaDp2QFEYojNSUFjdhSFTeoi4u-yfoznXi9uUsEu7k4KO1G24ZbWVjiwuKm-iPq2r5pOYv5akcRrXHBiI9XHPghEb85sTtjN_VXEBMkao6QDkHkOGgTP8ztZWHQCug=
+- 인사이트: 국내 가습기 시장은 2016년 550억원 규모에서 2020년 1000억원 이상으로 크게 성장했으며, 2023년부터 2032년까지 연평간 7.73%의 성장률을 기록하며 2030년에는 20억 2천만 달러에 이를 것으로 전망됩니다. 최근에는 초음파식, 가열식, 복합식, 기화식 등 다양한 가습 방식의 차별화와 함께 USB 타입, 소형부터 대형까지 용량과 디자인별로 세분화된 제품들이 출시되고 있습니다. 샤오미와 위닉스가 시장 점유율 상위를 차지하고 있으며, 듀플렉스 등도 주요 제조사로 꼽힙니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQBiHJO7SEe4JYAio5cHr6umyAEaaWVborMW3_N7k4J-JNTXX6suJkaoSvPsDlmIW7yjyCQv8qJJE6XDcD2Nv_JqhBJXVv5gtV1_CKy9LjWqD4l2kYF8cPoxXTTvCFWgEmveEsOIVMmeU33pUzUP1qHndGMaaZhYxX0IreJI3nZq8SHpQvEv2iR1ralkergnyNs48yiYslKPzlommT4svB3R7Ew99f, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEzc6oGUEC9cDIBCcXTtseNE425ZTcVB9NaOxN1ZTvTFhNZs4KPnmOtnH74nwd1AFuBJvSzo84KfCj7hMxCW6rPGnZ30WjLokcdjbEUY-hp42oR6HfkwbT_d4Inb9iPPD2DmZEwrC6NuDcRfKkF9PIYu28zzN_PvPtSIWbjtYLxDwk5fh8aX16A7ujEgqjb2JK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5b49nC7hvJHplNuNQIZd-KFrmOU7sihbVY_EisC-DtfxP2K1gJeDbZMJ7uQKfIGS01Tmv5lpKku4vz2KV_daSpSxXPGCXcQ3iMMkRP1b4StsRl-tsLuR8_Y68gIFy-QZqIW9BX3ZdkmT5UapQ2vqwB5uyYcSUOeAKTs8LkdqO, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3AsY5nedypo1KUjHYWpWC11EqOVXzajk_73Dz9jsc9mgEpNdJPO_N4LyGJslSyrYl-1i4i3nMbfgGuF5xVLgzX-1kXES4gdvwVUTjgx8my_0dF-86w8rPs2o9ZYhY_1VONryJrEbBxm4_FZLou_AJ3lLnVkCrZQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUlcMSGPnnnz0yQ6Ps-3ZHoYJGm-Wnqs3tDPzhCCFUn96930RKpdIKNF0PHwqdPq5NiQEJZBsr3XMj5gX4-tICJoty49BzzATtNFnoIsuu4TLvf5UaLrLI9DFpAflIQtCSdUpYflU6jgxqUy0DXGAYV_SlSa0QaRvQnxWi_qo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVskJ_WPtCYIyidJdYPkgU856FyRM37nAZcxfHeS1G0eD4gg9Ukgw_Edd-Cedd-5Kx32lwmwbwctf81SpQ4ABHINDLB7ESV9rluhxwTF5XVA0LgAUO21iuMt_5n8fj2xHZM8j0
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 방식의 가습기를 선호하시나요? | 초음파식 |
-| 가습기 세척 및 관리는 얼마나 중요하신가요? | 어느 정도 중요 |
-| 가습기를 주로 사용하실 공간의 크기는 어느 정도인가요? | 작은 방 (~10평 미만) |
-| 스마트 기능(원격 제어, 자동 습도 조절 등)이 필요하신가요? | 있으면 좋음 |
-| 가습기 예산은 어느 정도로 생각하세요? (평균 약 26만원, 14만원~34만원대가 가장 많아요) | 14만원 ~ 34만원 |
-| __avoid_negatives__ | 초음파식 가습기라 물통에 세균이 번식할까 봐 걱정돼요,기화식 가습기는 구조가 복잡해서 세척하기 어려울까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 초음파식 가습기라 물통에 세균이 번식할까 봐 걱정돼요
-- 기화식 가습기는 구조가 복잡해서 세척하기 어려울까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

@@ -1,27 +1,25 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-21T06:09:02.422Z
+> 마지막 업데이트: 2026-01-21T06:56:47.365Z
 > 분석 상품: 20개 | 분석 리뷰: 484,320개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전한 성분 강조 (EWG 레드 등급 제외 등)
-- 친환경 소재 및 생분해성 물티슈 도입 증가
-- 도톰한 두께와 넉넉한 사이즈
-- 친환경 및 생분해성 소재 사용 증가 (플라스틱 함량 감소, 식물성 섬유 기반 소재 등)
-- 피부 안전성 및 순한 성분 강조 (저자극성, 화학 성분 무첨가, 피부과 테스트 완료 등)
+- 안전성 및 저자극 성분 강조
+- 친환경 소재 및 패키징
+- 온라인 판매 채널 성장
 
 ### 구매자 만족 포인트
-- ✓ 안전한 성분
 - ✓ 뛰어난 가성비
-- ✓ 도톰한 두께
-- ✓ 넉넉한 사이즈
-- ✓ 친환경 소재
+- ✓ 안전한 성분 (EWG 그린 등급, 약산성 pH)
+- ✓ 부드러운 원단
+- ✓ 대용량 구성
+- ✓ 편리한 사용성 (캡형)
 
 ### 주의해야 할 단점
-- ⚠ 짧은 유통기한 (일부 제품)
-- ⚠ 잦은 리뉴얼 (제품명 혼동 가능성)
+- ⚠ 일부 제품의 높은 가격대
+- ⚠ 개인별 피부 민감도 차이
 
 ### 가격대 인사이트
 
@@ -243,6 +241,8 @@
 ---
 
 ## 📊 데이터 출처
-- [bebesup.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwz7P9cC9O6D19106EzWdD1--VD6lfNP4U9prU9m0r6g1PAk10YBu1v961CdbbxQfeLIMTlV7D7q6s7q7F8vPUsmB0yECMngCWcKODuPRYwwWOb1pn)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvR38O5d8-2FO0t0Xq6T62kSLAspFF3NnCJRCumIYxiLiFzYZfslopFRUgm-cwsTL8EOzOwk-QRecMakcxO1KNKudktygnAIa4YIGJMnbOamUQUj2LmA4gHyVm5AfTWc93P5X8azKutA10C1CZPW9BXaIBitBtByQ-eMwAvaM1tMAOKo_-vab5wRlG)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOt2DHFsx3Pzo3yfGuopLreMjW7SnTSbCDIJSKXS3-JjLumb26Gfti-G08rw4eqoVBkfSRqAHolozzJUG8K9-RI0BRCzbHywA7idqrhvIZIh3sKh-Qoa_z0-ta2TkWOX-PrUOWEEOy6S9EVFPHJVLC04U1vtS_AjHLJg==)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9NfbKWQ5JtrFsqeZN4qJiZM5UBySHjvnQJzvY6P3dwpmzvjHHuIxSFJQucbGM153mdBp6QSDe_nmFsJu1l5GOY4ZcRj5rOJpOMbx2My4Vt9HkIcztFBEprqZx_yci39AP6i-sG7Yh83tK75qAgJAGq2qz5gWhRsJDpJ2t)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWxyM4z4vyQO_M2PZkQZUDXipM14nlmSxgXTxF4vghsp31kNpnngwu2dFKowXJJXKPR_VXbQY-WLTs49wFZh4PzW9HEnPGQHbz9MRPBdA2TN4E03TJiMcYHYBpdx565XTS8dgXVkkGrg8qac7b04E-qfNbUqPdW1euFQ==)
+- [family-cares.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHH4ZoBv5QJf0cU1ST3uLNS4FQU8e9Zw1uLEGQ71OdoFt1HvDe-EYc9ZmeAhzV9rO8hE-rS4Dk3le6jlwRANGOUe89653zROO1R9TmFlg9IGu1GH5kV_7wsbYpw-Ws1B7Ypck6D9sXJdZCRxuniR0LoKHGAmgFiywlcdE_Pa_7-bi9UMboUjT4Yloh4NJiL7wov188XHbJ3YU7cE2rRD8kQdxs2VvSXS2II6PCu-w==)
+- [apparelnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIDXz1k6tn174t6GDNEWTJNxR2lg0lpX6W648XOx7Pm5ZfgOzWOihE27FaGnpvp4yYv1F-vjvN2CzDBocOTiHxe0lhf3tgKItCPJQbY_A4zjrajyK2NPtdHItBCqH1bzdB6zMWHsRlk4fiAVv2dKtVufetugbkWb_CzoJ6XQ==)
+- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHf1sVT7tJ_O0jgYjIE_nEe3nDtSRoszh8seZNfJvjeWVlOjDe1TQ8jIZr9Ib92tW0fXSP9h0ojJDQmipsWRlrcK5ZilE1KJHHVkyoyrLKHDKFwml9cWv93oqEOvbYbwR8AR7YTEyUC16fSgOjXe_dHXZzqOgUDO_g-5WYWd2wfeWLLp2MBRoXgGLUksHVQRFCQT_e7sqE=)

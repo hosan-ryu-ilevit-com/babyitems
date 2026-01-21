@@ -1,36 +1,31 @@
 # 가습기 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T06:57:21.750Z
+> 마지막 업데이트: 2026-01-21T06:34:23.576Z
 > 분석 상품: 20개 | 분석 리뷰: 4,046개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 위생 관리 용이성 강조 (간편한 세척, 세균 번식 방지)
-- 다양한 가습 방식 (초음파식, 가열식, 복합식, 기화식) 및 기능 차별화
-- 스마트 기능 탑재 (원격 제어, 자동 습도 조절)
-- 친환경 및 자연 재료 활용 제품 인기
-- 대용량 제품 선호 (거거익선 트렌드)
+- 가습 방식의 차별화 (초음파식, 가열식, 복합식, 기화식)
+- 다양한 용량 및 디자인 (USB 타입, 소형/대형)
+- 스마트 기능 및 편의 기능 강화
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 가습 효율
-- ✓ 간편한 세척 및 관리
-- ✓ 위생적인 사용 (살균 기능, 세균 번식 억제)
-- ✓ 다양한 디자인 및 기능
-- ✓ 스마트 기능 탑재
-- ✓ 넓은 가습 범위
-- ✓ 자연스러운 가습
-- ✓ 저렴한 가격대 (일부 모델)
+- ✓ 뛰어난 가습 효율 (초음파식)
+- ✓ 위생적 (가열식, 기화식)
+- ✓ 넓은 가습 범위 (기화식)
+- ✓ 저렴한 가격 (초음파식)
+- ✓ 세척 용이성 (일부 가열식, 복합식)
+- ✓ 따뜻한 수증기 (가열식)
 
 ### 주의해야 할 단점
 - ⚠ 세균 번식 위험 (초음파식)
-- ⚠ 넓지 않은 가습 범위 (초음파식)
-- ⚠ 복잡한 구조 및 높은 세척 난이도 (기화식)
-- ⚠ 높은 가격대 (기화식, 복합식)
-- ⚠ 많은 전력 소비 (가열식)
+- ⚠ 짧은 가습 범위 (초음파식)
+- ⚠ 세척 난이도 (기화식)
+- ⚠ 높은 가격 (기화식, 일부 가열식)
 - ⚠ 화상 위험 (가열식)
-- ⚠ 소음 발생 (일부 모델)
-- ⚠ 필터 교체 필요 (기화식)
+- ⚠ 소음 발생 (일부 기화식, 초음파식)
+- ⚠ 소비 전력 높음 (가열식)
 
 ### 가격대 인사이트
 
@@ -252,6 +247,9 @@
 ---
 
 ## 📊 데이터 출처
-- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_szOfFaQw0AxW7EkkSXjqGLy4DoXJauhg0yE5icSvBZoO2gQ_5LDnucaZuWKQ9yYJnmR8uOq4OcTiXaAzzJ40HBloAWK8SC6XrnaNY9FEG-fMimXzgVM-A3xFaEoJq2mnxkSfW-FWq5PbCF3QXZsdSDxFT5_TqKFkS9D6Rn4=)
-- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXBQdHe7q2pMy0nH1H1wknAWqeSIT2cqMZUGhc5kd-IQ1pKmym-MZOnruMgDwIKeDo89BN6Ew6Hdus0CmTAXVql0RDsvfpKtCJvZJsmmwo2lSvuKmLhEuxqNPnpAf3jVYwbAN1S-jREprdurr5Y_WZVaXiBWLsmw==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfPFPhNpFP-HaDp2QFEYojNSUFjdhSFTeoi4u-yfoznXi9uUsEu7k4KO1G24ZbWVjiwuKm-iPq2r5pOYv5akcRrXHBiI9XHPghEb85sTtjN_VXEBMkao6QDkHkOGgTP8ztZWHQCug=)
+- [kca.go.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQBiHJO7SEe4JYAio5cHr6umyAEaaWVborMW3_N7k4J-JNTXX6suJkaoSvPsDlmIW7yjyCQv8qJJE6XDcD2Nv_JqhBJXVv5gtV1_CKy9LjWqD4l2kYF8cPoxXTTvCFWgEmveEsOIVMmeU33pUzUP1qHndGMaaZhYxX0IreJI3nZq8SHpQvEv2iR1ralkergnyNs48yiYslKPzlommT4svB3R7Ew99f)
+- [kotra.or.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEzc6oGUEC9cDIBCcXTtseNE425ZTcVB9NaOxN1ZTvTFhNZs4KPnmOtnH74nwd1AFuBJvSzo84KfCj7hMxCW6rPGnZ30WjLokcdjbEUY-hp42oR6HfkwbT_d4Inb9iPPD2DmZEwrC6NuDcRfKkF9PIYu28zzN_PvPtSIWbjtYLxDwk5fh8aX16A7ujEgqjb2JK)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5b49nC7hvJHplNuNQIZd-KFrmOU7sihbVY_EisC-DtfxP2K1gJeDbZMJ7uQKfIGS01Tmv5lpKku4vz2KV_daSpSxXPGCXcQ3iMMkRP1b4StsRl-tsLuR8_Y68gIFy-QZqIW9BX3ZdkmT5UapQ2vqwB5uyYcSUOeAKTs8LkdqO)
+- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3AsY5nedypo1KUjHYWpWC11EqOVXzajk_73Dz9jsc9mgEpNdJPO_N4LyGJslSyrYl-1i4i3nMbfgGuF5xVLgzX-1kXES4gdvwVUTjgx8my_0dF-86w8rPs2o9ZYhY_1VONryJrEbBxm4_FZLou_AJ3lLnVkCrZQ==)
+- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUlcMSGPnnnz0yQ6Ps-3ZHoYJGm-Wnqs3tDPzhCCFUn96930RKpdIKNF0PHwqdPq5NiQEJZBsr3XMj5gX4-tICJoty49BzzATtNFnoIsuu4TLvf5UaLrLI9DFpAflIQtCSdUpYflU6jgxqUy0DXGAYV_SlSa0QaRvQnxWi_qo=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVskJ_WPtCYIyidJdYPkgU856FyRM37nAZcxfHeS1G0eD4gg9Ukgw_Edd-Cedd-5Kx32lwmwbwctf81SpQ4ABHINDLB7ESV9rluhxwTF5XVA0LgAUO21iuMt_5n8fj2xHZM8j0)

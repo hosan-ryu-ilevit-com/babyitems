@@ -1438,7 +1438,7 @@ export default function KnowledgeAgentPage() {
         searchResults: (trendResult?.sources || []).slice(0, 5),
         thinking: trendResult?.trendAnalysis?.top10Summary || '',
       });
-      await new Promise(r => setTimeout(r, 200));
+      await new Promise(r => setTimeout(r, 600)); // 사용자가 결과 인식할 시간
 
       // 3. 리뷰 분석 시작
       updateStepAndMessage('review_extraction', {
@@ -1464,6 +1464,8 @@ export default function KnowledgeAgentPage() {
       const reviewNegativeKeywords = reviewResult?.negativeKeywords || [];
       const reviewCommonConcerns = reviewResult?.commonConcerns || [];
 
+      // 기존 step의 result에서 positiveSamples, negativeSamples 유지 (SSE review_analysis_start에서 설정됨)
+      const existingReviewResult = localSteps.find(s => s.id === 'review_extraction')?.result;
       updateStepAndMessage('review_extraction', {
         status: 'done',
         endTime: Date.now(),
@@ -1472,6 +1474,7 @@ export default function KnowledgeAgentPage() {
           ? [...reviewProsTags.slice(0, 3), ...reviewConsTags.slice(0, 2)]
           : [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
         result: {
+          ...existingReviewResult, // 기존 positiveSamples, negativeSamples 유지
           prosTags: reviewProsTags,
           consTags: reviewConsTags,
           analyzedCount: reviewAnalyzedCount,
@@ -1482,7 +1485,7 @@ export default function KnowledgeAgentPage() {
         },
         thinking: `리뷰 키워드 분석 완료`,
       });
-      await new Promise(r => setTimeout(r, 200));
+      await new Promise(r => setTimeout(r, 600)); // 사용자가 태그 인식할 시간
 
       // 4. 질문 생성 시작 & 대기 (실제 서버의 질문 생성을 기다림)
       updateStepAndMessage('question_generation', {
