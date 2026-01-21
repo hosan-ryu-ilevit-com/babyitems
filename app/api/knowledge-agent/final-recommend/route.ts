@@ -321,41 +321,23 @@ async function generateFilterTags(
     return true;
   });
 
-  // 2. 쉼표로 구분된 복수 답변을 별도 항목으로 분리
-  // "실리콘, 천연고무" → [{question, answer: "실리콘"}, {question, answer: "천연고무"}]
-  const expandedEntries: Array<{ question: string; answer: string }> = [];
-  for (const [question, answer] of validEntries) {
-    if (answer.includes(',')) {
-      // 쉼표로 분리 후 각각 태그화
-      const parts = answer.split(',').map(p => p.trim()).filter(p => p && !skipAnswers.includes(p));
-      for (const part of parts) {
-        expandedEntries.push({ question, answer: part });
-      }
-    } else {
-      expandedEntries.push({ question, answer });
-    }
-  }
-
-  if (expandedEntries.length === 0) {
+  if (validEntries.length === 0) {
     console.log('[FilterTags] No valid conditions to generate tags');
     return [];
   }
 
-  // 3. 각 조건을 태그로 1:1 매핑 (기본 구조)
-  const baseTags: FilterTag[] = expandedEntries.map(({ question, answer }, i) => ({
-    id: `tag_${i + 1}`,
-    label: answer.slice(0, 50), // fallback label (LLM 실패 시 사용)
-    category: 'feature' as const,
-    keywords: [],
-    priority: i + 1,
-    sourceType: 'collected' as const,
-    originalCondition: `${question}: ${answer}`, // 원본 보존 (평가용)
-  }));
-
-  // 3. LLM으로 label + keywords 생성
+  // 2. LLM 없으면 fallback (쉼표 분리 없이 원본 그대로)
   if (!ai) {
     console.log('[FilterTags] No AI available, using answer as label');
-    return baseTags;
+    return validEntries.map(([question, answer], i) => ({
+      id: `tag_${i + 1}`,
+      label: answer.slice(0, 50),
+      category: 'feature' as const,
+      keywords: [],
+      priority: i + 1,
+      sourceType: 'collected' as const,
+      originalCondition: `${question}: ${answer}`,
+    }));
   }
 
   const model = ai.getGenerativeModel({
@@ -367,9 +349,9 @@ async function generateFilterTags(
     },
   });
 
-  // 조건 목록 (인덱스 포함) - expandedEntries 사용
-  const conditionList = expandedEntries
-    .map(({ question, answer }, i) => `${i}: "${question}" → "${answer}"`)
+  // 조건 목록 (인덱스 포함) - 원본 validEntries 사용 (쉼표 분리 X)
+  const conditionList = validEntries
+    .map(([question, answer], i) => `${i}: "${question}" → "${answer}"`)
     .join('\n');
 
   const prompt = `## 역할
@@ -385,7 +367,11 @@ ${conditionList}
    - "세척 편의성?" → "중요함" = **"세척 편리"** (O)
    - "용량?" → "3L 이상" = **"대용량 3L+"** (O)
 
-2. **각 조건마다 1개 태그 생성** (조건 개수 = 태그 개수, 병합/생략 금지)
+2. **쉼표가 포함된 답변 처리** (핵심!)
+   - 명확히 다른 조건이면 **분리**: "실리콘, 천연고무" → 2개 태그 ("실리콘 재질", "천연고무 재질")
+   - 하나의 맥락이면 **병합 유지**: "거실, 안방에서 사용" → 1개 태그 ("실내 사용")
+   - 나열형이면 **분리**: "세척 편리, 저소음" → 2개 태그
+   - 장소/상황 설명이면 **병합**: "외출 시, 차량 이동 중 사용" → 1개 태그 ("이동 중 사용")
 
 3. label: 2~5단어, **최대 15자** 키워드 형태 (질문 맥락 + 답변 핵심 결합)
    - 좋은 예: "저소음", "세척 편리", "대용량 3L+", "휴대성 중시"
@@ -393,9 +379,10 @@ ${conditionList}
 
 4. keywords: 리뷰/스펙 검색용 동의어 2~4개
 5. category: usage(용도), spec(스펙), feature(기능)
+6. sourceIndex: 원본 조건의 인덱스 (분리 시 같은 인덱스 공유)
 
-## 응답 (JSON만, 조건 개수만큼 생성)
-{"results":[{"index":0,"label":"저소음","keywords":["소음","조용","정숙"],"category":"feature"}]}`;
+## 응답 (JSON만)
+{"results":[{"sourceIndex":0,"label":"저소음","keywords":["소음","조용","정숙"],"category":"feature"}]}`;
 
   try {
     const startTime = Date.now();
@@ -407,24 +394,39 @@ ${conditionList}
     if (jsonMatch) {
       const parsed = JSON.parse(jsonMatch[0]);
       if (parsed.results && Array.isArray(parsed.results)) {
-        // LLM 결과를 baseTags에 매핑
-        for (const item of parsed.results) {
-          const idx = item.index;
-          if (idx >= 0 && idx < baseTags.length) {
-            baseTags[idx].label = item.label || baseTags[idx].label;
-            baseTags[idx].keywords = item.keywords || [];
-            baseTags[idx].category = item.category || 'feature';
-          }
-        }
+        // LLM 응답에서 직접 FilterTag[] 생성
+        const tags: FilterTag[] = parsed.results.map((item: { sourceIndex?: number; label?: string; keywords?: string[]; category?: string }, i: number) => {
+          const sourceIdx = item.sourceIndex ?? i;
+          const [question, answer] = validEntries[sourceIdx] || ['', ''];
+          return {
+            id: `tag_${i + 1}`,
+            label: item.label || answer.slice(0, 50),
+            category: (item.category || 'feature') as FilterTag['category'],
+            keywords: item.keywords || [],
+            priority: i + 1,
+            sourceType: 'collected' as const,
+            originalCondition: `${question}: ${answer}`,
+          };
+        });
+
+        console.log(`[FilterTags] Generated ${tags.length} tags from ${validEntries.length} conditions in ${Date.now() - startTime}ms`);
+        return tags;
       }
     }
-
-    console.log(`[FilterTags] Generated ${baseTags.length} tags (1:1 mapping) in ${Date.now() - startTime}ms`);
   } catch (error) {
     console.error('[FilterTags] LLM error, using fallback labels:', error);
   }
 
-  return baseTags;
+  // Fallback: 원본 그대로 (쉼표 분리 없이)
+  return validEntries.map(([question, answer], i) => ({
+    id: `tag_${i + 1}`,
+    label: answer.slice(0, 50),
+    category: 'feature' as const,
+    keywords: [],
+    priority: i + 1,
+    sourceType: 'collected' as const,
+    originalCondition: `${question}: ${answer}`,
+  }));
 }
 
 // ============================================================================

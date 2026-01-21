@@ -1,14 +1,14 @@
-# 세션: 20260116_055815_8vkm
-> 시작: 2026-01-16T05:58:15.694Z
+# 세션: 20260121_062149_r0ek
+> 시작: 2026-01-21T06:21:49.595Z
 > 카테고리키: 무선청소기
 > 카테고리: 무선청소기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 무선청소기 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 무선청소기 시장은 강력한 흡입력과 편의성을 갖춘 제품들이 인기를 얻고 있습니다. 특히 다이슨, 삼성, LG 등 주요 브랜드들은 자동 먼지 비움 기능, 물걸레 겸용, 스마트 기능 등을 탑재하며 경쟁력을 강화하고 있습니다. 가성비를 중시하는 소비자들을 위한 차이슨, 클래파 등 중저가 브랜드들도 다양한 라인업을 선보이며 시장 점유율을 높여가고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGZYy8Gb-Oo4AHMEaUv4uRU0npqEIJUGhluiytb-UIsYjx_n3YrIbK06m7dXxFvW3P_zw5L8pLorxmRpbXZB14eC23f_2LLfCa6YWomGib046ntHdmaip8PDTywp-KWacx0qndntCKH1Z-X-QtaCrkr7yooEZeKJMTiqPCXFjky7fq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErAmFj3-8RwYb5-LBiZolM2wdOGoXZPnMbP8BxK2rtXYX_lo_wFs0aQyzDguU1qt6kcqtRdjvNbqPnPmwE79Yh7_D7FMh22ukDJ6DTZLhHZ773xPIMt-8E_4kywbBwqm0IR-S0nnY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPfRylDyU8e0XY5QqLhTyMEgJEOc9lsNIicDnrH1LXkzAXGwI_1aXvOBiiP1rRAVyuHjWh6KsuRNtH9F4l_YaqSsPQZYOyrDYGIeA-7EPw3g8eyZFfUCZ6DRljbRjx_QrxW9Q2UOM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1us1nCpohk1-zbbgeLdVCh7zqVyPFXajOhlL0C3LfULoWdHhTjwmUsqIj1HYwnRsuax-BxH-AtqAPiywz8rStS8E8y5He-flDzd9aAKOogWKxP4qIdgUbPSToT9KFOqaBue_fLwo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvb5u19lwNyOnjSYkkcJW5aGiniHnKIXRfNYOCytcvW61as_1U3gtRdg9y1qavjmmxIrofa8FQYLO2O66nq8A6HxtExu0HehTtF3jn4O9oQx15PSL7nzrROdRPGpbCsGmZDwSxE7M=
+- 쿼리: 무선청소기 시장 현황
+- 인사이트: 국내 무선청소기 시장은 매년 10% 이상 성장하며 연간 200만 대 규모로 전망될 만큼 빠르게 성장하고 있습니다. 편리한 사용성과 효율적인 청소 성능 덕분에 '핸디형 무선 청소기'가 시장의 80% 이상을 차지하며 소비자 선호도가 높습니다. 1-2인 가구 증가와 라이프스타일 변화로 간편한 청소가 가능한 무선청소기 수요는 지속적으로 확대되는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzjLXPmXYckiXp248wmyM0lN1uUvxZ0qNwJotjuffwVD-tuovZHS_RiTaAEGH80sLwPo5JPl8VOctERJWCChWKosVyV0fnFU0L3xtr-2mEohmqSfHibUze-STDWZTsohiI3mdZ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFP-jXMs1xv0gBjPrAaRebPfYJB-vIXav8feEushkRzcGM2OSXk2ZbmV3K4ED1sohDV-kwQQ8gqu6m1XiHLrLsihzxLu577bEKHdDDqCJ0QTMdDiw_kx3-zJa6L04Vwx7VVgFZIHgY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLbktCgmNrqJ4uIJBs1eYVbicw1n5S_ovblt7RI98tC_pi1ROAfax8CplWC-EuvRrWXto1Xlij7oy4504pKqrn2MlGgdOm--RWXpn4n-Z5dH75L-lLagXLnxv4gLILOcNcYM-DSw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwUa8TomUdJk2ODtWj1d7HASPDmMfbEm7_aY8srYKGLaROVl2h78NYsPACnw_CdMycHZ-NsHD1aA7P97kRdAk-j3ct3anEoh_0vrzgu93ZaxtyCv2cmcdm7QNWr39m, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNLN99s2cr20VydZ_X5AQymq-q-w3E7VzFU7REsOro1Wjv6Y2s6nGahm6hg9jEiU6HfR3TB4j_h71h5eRcGNHbOIc83GpaYHgSrTZvxUeZStm43wlzcsEeejFVNjVA525BtGNuXA5Of6UleBL2GJ-Cxqx1, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHiExA9Oxm9RzJAbttjHU-ZguxVDKxSJnaZ2QbEjtOg9pXJ3zJ7bqDzBXKD_qoH4D-PrvFai98XYxmSqBGBLaXZ24vNeU1H6T6TZFVC2dak1mDeQ-7ifTeUozHH5Bsx5nOU_qlWLazkGspO6nZkWWtbMUyFdjqumm6iGiONN-n9yxTJV3fJ6F7bOKjW1T_va1leEUPyHQMjqZkIfhGRoE4KPPaRGkKhUSlHkC-9yMJoxSGYVovAeSMoutFFgHXa7dK0Ivc_ImUk9fv14lgOIktn7QXv3GQa3tal8kdOyAdfGq4KIwktgDV1r5rX6_-3u7QRnAOli_I64IF9FB698_kc36Aoy_5rfBVkwnsI_TbdfZIqAhQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_PdgJLIYJ6fDhRJeWxqcczzEXRtmLHHXL9WBLMKo_nzoXp3grXr2GUTopWcUaOWQj3DJUTPYm8PjFlI6YMHoYNcshfQk_U8sHi_nKXfOq1TItj56hsfXzTnY=
 
 ---
 
@@ -21,15 +21,29 @@
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 6개 (전체 6개 중)
+현재 후보: 107개 (전체 107개 중)
 
 ### 후보 상품
-1. 에어메이드 THE 500 플러스 AMC-4500 - 242,090원 - ⭐4.8
-2. 일렉트로룩스 WELL Q6 WQ61-1OGG - 153,450원 - ⭐4.7
-3. 일렉트로룩스 WELL Q6 WQ61-1EDB - 178,200원 - ⭐4.8
-4. 신일전자 SVC-BL999 - 55,920원 - ⭐5
-5. 다이슨 V10 플러피 오리진 - 341,500원 - ⭐4.8
-6. 아이닉 i20 엘리트 - 147,240원 - ⭐4.7
+1. LG전자 오브제컬렉션 코드제로 A9S AX920BWE - 645,468원 - ⭐4.9
+2. LG전자 오브제컬렉션 코드제로 A9S AX958BWE - 871,811원 - ⭐4.8
+3. LG전자 코드제로 A5 AS520WA - 342,145원 - ⭐4.8
+4. 아이닉 i50 아이타워 - 251,100원 - ⭐4.7
+5. LG전자 오브제컬렉션 코드제로 A7 Core A720WA - 551,821원 - ⭐4.8
+6. 로보락 H60 Hub Ultra - 399,000원 - ⭐4.5
+7. 샤오미 미홀 M22 - 123,761원 - ⭐4.8
+8. LG전자 오브제컬렉션 코드제로 A9S AX948BWE - 837,672원 - ⭐4.8
+9. 다이슨 싸이클론 V10 - 341,388원 - ⭐4.6
+10. 삼성전자 비스포크 제트 VS20C954AQB - 398,970원 - ⭐4.8
+11. 삼성전자 비스포크 제트 AI Lite VS28D950AIB - 680,970원 - ⭐4.9
+12. 캐치웰 CX PRO 매직타워 N - 269,100원 - ⭐4.7
+13. LG전자 오브제컬렉션 코드제로 A9 AI AI948WA - 1,029,730원 - ⭐4.9
+14. LG전자 오브제컬렉션 코드제로 A9 AI AI958WA - 1,261,857원 - ⭐4.9
+15. 샤크닌자 샤크 에보 파워 시스템 NEO 플러스 LC351KR - 682,400원 - ⭐4.7
+16. 삼성전자 비스포크 제트 AI VS90F40CRG - 1,190,000원 - ⭐4.8
+17. 샤크닌자 샤크 에보 파워 시스템 STD+ CS150KRAE - 418,960원 - ⭐4.6
+18. LG전자 오브제컬렉션 코드제로 A7 Core A727WA - 686,700원 - ⭐4.8
+19. 다이슨 V8 - 252,390원 - ⭐4.6
+20. 다이슨 마이크로 - 318,500원 - ⭐4.5
 
 ---
 

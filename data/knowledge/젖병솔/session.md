@@ -1,5 +1,5 @@
-# 세션: 20260119_112514_ach5
-> 시작: 2026-01-19T11:25:14.350Z
+# 세션: 20260121_042259_21p4
+> 시작: 2026-01-21T04:22:59.754Z
 > 카테고리키: 젖병솔
 > 카테고리: 젖병솔
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 젖병솔 시장 현황
-- 인사이트: 젖병솔 시장은 안전과 품질을 중시하는 소비자 트렌드에 따라 프리미엄 제품 수요가 증가하고 있습니다. 특히, 손쉬운 세척, 내구성, 안전한 소재를 중요하게 고려하며, 전동식 및 실리콘 소재 젖병 세척솔의 인기가 상승하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUm7C1Y11aT8kNE7wrKmXQ17E_rZOIh-7xGYrO_PUHgfeAH0R-R5YPjfP-zD1KbUXmVIJwjlb2kk5Gsz1BISrLIfElbblGOyvKaIPAIz1MJZO7WQA_w5IqiHMuQPAuRVNtn08BAlT-I5Hc23pXg3dNFDYYQRQIMMltpBNnzODpujWGq0fYljLIiAAoKLrvPZm6mnCMGK95lrGQMt3SOcFKQJPyzXhXQgbmMkrTEwBSIL6JSRKPWYyaGUkps5IOdFQQW8abe8qGx-ZOWt1UnT6bZwhuhOKrxmNTkEJbbg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENKTklQesV0v9ke40QmQzLZTCoNZEUKakdAVQRHtxJwXk33YR6nauJyNtww8sh9OmdrvjdKLk4GOuo1R8nMF9FaItdVQKqse827QzzA77LBid4xqkJE-rQitMzNYGHDKKMBHe_bLT-5M_JtxmMENWVETJulPL31WwS-PHpgyQDp1zI5lL7RWkLm67HC9H3Y80_vsQjwyQleg9o-L-aLqRhSSZxJm38ta4TkX6FRMC-35IwptInGUeiRg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGakyenS90NX8JM7KyE2lbJNM6XGBvH5_Elew5yle0Vc3hYyScLJjkMsel6yU2E-IO5V1mM2zNqiTqpxqUwEzCLiygBPy5xJM2g95Uar14QhC_0wxHPWD7lxg6gCD4EK0N7AQZD0hAZqoIpFmSC_bFhP0ByL2hNWadc1KO3jvnKSEBVTb-BYnP2SUEl9m_JOh51hXdmurPeKrdj6twyFJjVA07VPqsEmsJw5zV_vAP7WSqxnS5HYHvMBh4vdUyK5Ug=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-UPJdjYPXMsrpzmCnhcMKqvL5lUoupbfpPGbf1e-7IjOifwf248PzfeQkJJa3SjFUfs1ArZ2TBiRg0H_QXkMYkYjjfB3RxArVFtKLmpm7pu7KrFxAHFjqKqTlnJtXjr7YFSllP3P8hAIwRW6FTpY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHm7RZIHSDAVyn3VBkWXm8nKHS1YG7LWLhx0AcO55ND41xHzQPg3LFHPbsUFElGNysG1hHCJrusd-Zb-ZlhuEBee_oCcJgCslLYSS156H1dj_7KUo6JUKV43LYCva_EuV3REDuDciGw_yRq1sSGL_WRKHYYUyqwAert6TaChXLCRDoHjHo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG4a4bzawL1VDlgu4nMGUsfYqKz1ksFQDXQnMIzdqrpxk-2fethpEGKoABhkDBDwzLcQzfFr2KsjWPtCf5mj-Sl6HkpbTB4LvIzVufTW9uW8v3W5DiNMutThJ1X, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-U8reQZsNj_BtI5xJQXdledVWdk44BPSCSkf5I_VK90oFcqkJMHRtydrIQ8RSoK7rboxnpDdjTlf6htmyqNVdowfUdL32YHckF8p9p9ep1Dj5J6zMZJ71ovxm-u7WTE9Llf9q-vICeQfbNwK2k_HqZcUK5qcQt-LDPMz7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOHKk2wqRXO-mWoObQvgxMDJV96_rOgevZOOGDMD_yyNy5CgnlClMCj18wvsNphKCJuWJDlwL0ZVxm_mBetXBREN3GJ4_ROUXY5AXlI_VJ5GFrr8kn6KlG-xNc
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHURZg4MO_52mkiA3cU9gjzsSycRKM3_ocYXEhCMAlXxbKr6lUaH69gy4SGBPYQWQDMAN8N-OKVAFw3-Fb4lluPOKI6-XcrUYlI-_cU4BELnpKBgvzOL8AdkMGV37VFTyVptRjj6_iacZBNaIQism7iODUK_gqLkKVrHeQPDTDwtPntSUuy3-QzkiGnrezeMo12Qx_AgxZSzxL1Ulv0ZxbbpyEgvl4IlmOVGDI914F1R02kdqI9eZfTzI6e2lMD0R30n9aVkiFKqk87yXT6Cz01VGnS6MXxa7TTLXMZLA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEaTCdo1tB81A5BwlGyBanzPkOHIs0I2d8njbdDAfIzUu-yMfInYUilUdop-QvsS3CUkd53QMmVPGqjp3WVa-IrQIWBlgcq7i18yz1yldiZRid1PH3OxgzqHGglRvmmQWezdP8BZk5t44pU1D8P5b4QczQSp5vY58ZoJHa59_WjU56mh50XPPPWVlZvHnsHQXI_oMhH8PLdqpovq40titOEwrlB_YLzev8gQ7qam9nRbt-GdoZlHpX0ag==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXly6oIa5SOHTe6CYJQircmaOE6qWcYkPJIaGlUzM7wE6A5PGnIGRB9q5sUHdUpZ1V4jnF-slkA1umwGJO771KNXp6ld8i6LRO5_1fSkBLtoenlfNAcrR9mmq1JvgQge8JcRSsCNfD0uJ8Xsy0mKS3SV3HB5izah0dDMzoqg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsTya9pNm_0HfqD14MbtiPCRR05gqwlt3X4WDpa_D9Mo9BYGGDCMNXE8ZKx7lna82F7gWcztraqrIYmdRNnRhlcTQALefHkja31x73-OnTrUaDEw_RNQW3soJfdL7BqqgmZaV5bLcqAp6djUKNPGDJY4qKpC_n7JnGO0pW2fvNSIbQAeVYrWDurpZ3IkrFN2oyjocM28KDV5LDM_1ZZGIxniW4D70ayFJEo4pRaXgD9e-kg028hx6E8hZrLoQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvOsoRdppWCYedOqNL95S_A_hR6RHCFIVs7Nf4T4Td53Cr_v2Y71q5ZcVKz-A1Mm4Y6JiXjTs5bn7Axt8y9pl_jYTGEa9e8QIYxzhGPeZ4IzxNSYYADzjCKnwOEsONB0LlK5LbFTEitULhueCmb9SHVNJT-7kAMNQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmkCQw1B8ppjHpY0zznZ5S6T6IQKF61G7MAz9NuQPguzFzH3jy8SHYvBDcBfqhfbSqawsWCQXZYN81AT1Q8ZkBVz3IpBgqLdZeyCAYu6thAxSnSzU9yCwwvs5u7XMju0GE8YR9Aw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCFco4NBNGC9cUR_l_HIj5zipxAXVtjWtx2wzl_tr2hGI6HnF1jNmpNiLqmQCZb6yz54rnNP0jATEcrAeOe7wVVnlM3sXg1W9Nhef2TY-HBK42vWjD6ZpllxHv, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMzZtGjpLtAKOeR_-i_Uh0HqQduTkn5E7i_Ym2whB6Gzyi6MPs_MibGcHybfOo-jhQHNqW1301LglG2VQQ48dyFcoS_vKN28VyzqwEFjqwNlH9kE-btL1a_Ztff7rBOZxIMNhFWtc=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHURZg4MO_52mkiA3cU9gjzsSycRKM3_ocYXEhCMAlXxbKr6lUaH69gy4SGBPYQWQDMAN8N-OKVAFw3-Fb4lluPOKI6-XcrUYlI-_cU4BELnpKBgvzOL8AdkMGV37VFTyVptRjj6_iacZBNaIQism7iODUK_gqLkKVrHeQPDTDwtPntSUuy3-QzkiGnrezeMo12Qx_AgxZSzxL1Ulv0ZxbbpyEgvl4IlmOVGDI914F1R02kdqI9eZfTzI6e2lMD0R30n9aVkiFKqk87yXT6Cz01VGnS6MXxa7TTLXMZLA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEaTCdo1tB81A5BwlGyBanzPkOHIs0I2d8njbdDAfIzUu-yMfInYUilUdop-QvsS3CUkd53QMmVPGqjp3WVa-IrQIWBlgcq7i18yz1yldiZRid1PH3OxgzqHGglRvmmQWezdP8BZk5t44pU1D8P5b4QczQSp5vY58ZoJHa59_WjU56mh50XPPPWVlZvHnsHQXI_oMhH8PLdqpovq40titOEwrlB_YLzev8gQ7qam9nRbt-GdoZlHpX0ag==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXly6oIa5SOHTe6CYJQircmaOE6qWcYkPJIaGlUzM7wE6A5PGnIGRB9q5sUHdUpZ1V4jnF-slkA1umwGJO771KNXp6ld8i6LRO5_1fSkBLtoenlfNAcrR9mmq1JvgQge8JcRSsCNfD0uJ8Xsy0mKS3SV3HB5izah0dDMzoqg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsTya9pNm_0HfqD14MbtiPCRR05gqwlt3X4WDpa_D9Mo9BYGGDCMNXE8ZKx7lna82F7gWcztraqrIYmdRNnRhlcTQALefHkja31x73-OnTrUaDEw_RNQW3soJfdL7BqqgmZaV5bLcqAp6djUKNPGDJY4qKpC_n7JnGO0pW2fvNSIbQAeVYrWDurpZ3IkrFN2oyjocM28KDV5LDM_1ZZGIxniW4D70ayFJEo4pRaXgD9e-kg028hx6E8hZrLoQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvOsoRdppWCYedOqNL95S_A_hR6RHCFIVs7Nf4T4Td53Cr_v2Y71q5ZcVKz-A1Mm4Y6JiXjTs5bn7Axt8y9pl_jYTGEa9e8QIYxzhGPeZ4IzxNSYYADzjCKnwOEsONB0LlK5LbFTEitULhueCmb9SHVNJT-7kAMNQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmkCQw1B8ppjHpY0zznZ5S6T6IQKF61G7MAz9NuQPguzFzH3jy8SHYvBDcBfqhfbSqawsWCQXZYN81AT1Q8ZkBVz3IpBgqLdZeyCAYu6thAxSnSzU9yCwwvs5u7XMju0GE8YR9Aw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCFco4NBNGC9cUR_l_HIj5zipxAXVtjWtx2wzl_tr2hGI6HnF1jNmpNiLqmQCZb6yz54rnNP0jATEcrAeOe7wVVnlM3sXg1W9Nhef2TY-HBK42vWjD6ZpllxHv, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMzZtGjpLtAKOeR_-i_Uh0HqQduTkn5E7i_Ym2whB6Gzyi6MPs_MibGcHybfOo-jhQHNqW1301LglG2VQQ48dyFcoS_vKN28VyzqwEFjqwNlH9kE-btL1a_Ztff7rBOZxIMNhFWtc=
 
 ---
 
@@ -16,25 +16,39 @@
 
 | 항목 | 답변 |
 |------|------|
-| 젖병솔 소재는 어떤 것을 선호하시나요? | 실리콘 |
-| 젖병 세척 시 어떤 방식이 더 편리할까요? | 전동식 |
-| 젖병솔 외에 추가적으로 필요한 세척 용품이 있으신가요? | 젖병솔 + 젖꼭지솔 세트 |
-| 예산은 어느 정도로 생각하세요? (평균 약 4만원, 2만원~5만원대가 가장 많아요) | 2만원 ~ 5만원대 |
-| __avoid_negatives__ | 전동식이라 혹시라도 고장 나면 세척이 어려울까 봐 염려돼요 |
+| 젖병솔의 재질은 어떤 것을 선호하시나요? | 실리콘, 스펀지 |
+| 젖병솔은 어떤 형태를 선호하시나요? | 세트 구성, 젖병솔 단품 |
+| 젖병솔의 손잡이 부분은 어떤 기능이 있으면 좋을까요? | 미끄럼 방지, 길이 조절 가능 |
+| 예산은 어느 정도로 생각하세요? (평균 약 4만원, 2만원~5만원대가 가장 많아요) | 2만원 ~ 5만원대, 2만원 이하 |
+| __avoid_negatives__ | 세트 구성으로 구매했는데,사용하지 않는 솔이 많아 공간만 차지할까 봐 불편해요,실리콘이나 스펀지 재질이 쉽게 닳거나 변색될까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 6개 (전체 6개 중)
+현재 후보: 53개 (전체 53개 중)
 
 ### 후보 상품
-1. 하이비 몽글이 롱 젖병 젖꼭지솔 5p + 먼지캡3p - 13,500원 - ⭐4.7
-2. 유피스 스펀지 젖병솔, 젖꼭지 브러쉬 - 8,620원 - ⭐4.5
-3. 그로미미 엠보싱 젖병솔 세트 - 26,900원 - ⭐4.8
-4. 더블하트 스펀지 브러쉬 - 6,988원 - ⭐4.8
-5. 쁘띠마망 젖병브러쉬 - 4,810원 - ⭐5
-6. 키튼베이비 스펀지 젖병솔 - 2,640원 - ⭐4.4
+1. 마더케이 리필형 스펀지 젖병솔 리필3P - 10,200원 - ⭐4.8
+2. 미화 콤비 병솔 소/병솔/세척솔 - 2,120원 - ⭐5
+3. 피셔프라이스 무민 길이조절 젖병솔 - 3,760원 - ⭐5
+4. 플라팜 뉴코코맘 젖병건조대 젖병꽂이 이유식기건조대 프리미엄 2단 - 25,970원 - ⭐5
+5. 마더케이 신생아 세척용품 세트 젖병건조대 젖병브러시 젖꼭지브러시 젖병집게 - 31,900원 - ⭐4.8
+6. 마더케이 실리콘 젖병솔 2종세트 - 9,820원 - ⭐4.7
+7. 유피스 스펀지 젖병솔, 젖꼭지 브러쉬 - 8,620원 - ⭐4.5
+8. 미니짱 자외선램프 살균 소독 조명 젖병 블루존 - 5,920원 - ⭐4.6
+9. 실리만 실리만  실리콘 목욕솔 WSB205 - 13,990원 - ⭐4.9
+10. 하이비 몽글이 롱 젖병 젖꼭지솔 5p + 먼지캡3p - 13,500원 - ⭐4.7
+11. 하이비 젖병 젖꼭지 세척솔 몽글이 듀얼 버블프로솔 - 16,500원 - ⭐5
+12. 그로미미 엠보싱 젖병솔 세트 - 26,900원 - ⭐4.8
+13. 모윰 롱커브 스펀지 젖병솔 - 4,320원 - ⭐4.6
+14. 스펙트라 스펙트라 젖병솔 젖꼭지솔 - 7,520원 - ⭐4.8
+15. 마더케이 마더케이 젖병솔 세트 젖꼭지솔 - 10,440원 - ⭐4.8
+16. 빨대전용 세척솔 스트로우 이유식용품 기타이유식용품 - 3,300원 - ⭐4.6
+17. 메델라 퀵클린 전자레인지용 소독백 5매/100회사용가능 - 25,260원 - ⭐5
+18. 비비또 비비또 실리콘 꼭지솔 - 3,000원 - ⭐5
+19. 유피스 스폰지 젖병 브러쉬 - 6,620원 - ⭐5
+20. 리에또 미니 젖꼭지솔 젖병세척솔 2P - 5,900원 - ⭐4.6
 
 ---
 
@@ -46,7 +60,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 전동식이라 혹시라도 고장 나면 세척이 어려울까 봐 염려돼요
+- 세트 구성으로 구매했는데
+- 사용하지 않는 솔이 많아 공간만 차지할까 봐 불편해요
+- 실리콘이나 스펀지 재질이 쉽게 닳거나 변색될까 봐 걱정돼요
 
 ---
 

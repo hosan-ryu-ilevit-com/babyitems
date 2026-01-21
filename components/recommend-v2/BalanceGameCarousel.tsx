@@ -476,7 +476,7 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                       setIsAIHelperAutoSubmit(false);
                       setIsAIHelperOpen(true);
                     }}
-                    label="뭘 고를지 모르겠어요"
+                    label="잘 모르겠어요"
                     questionType="balance_game"
                     questionId={currentQuestion.id}
                     questionText={currentQuestion.title}

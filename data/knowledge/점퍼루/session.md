@@ -1,14 +1,14 @@
-# 세션: 20260108_045416_de7p
-> 시작: 2026-01-08T04:54:16.200Z
+# 세션: 20260121_060003_cn1t
+> 시작: 2026-01-21T06:00:03.505Z
 > 카테고리키: 점퍼루
 > 카테고리: 점퍼루
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 점퍼루 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 점퍼루 시장은 육아 필수템으로 꾸준한 인기를 누리고 있으며, 특히 안전성과 아기 발달에 미치는 영향에 대한 부모들의 관심이 높아지고 있습니다. 다양한 브랜드에서 기능성과 디자인을 강화한 제품들을 선보이고 있으며, 중고 거래나 대여를 통해 합리적인 소비를 하는 경향도 보입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFCYglr6WjHZHJzgowwjkw0SpROrRQNPfMmQA-hhR2_qMnQnd_-xrZ-t68X7t4xVmPb0RQqhcDpQbeOuJ6MBUrYwUxVVgUZ0MP9bKj9Rw2L32LWWnt1Nuj2cwTOh2_ehE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErhLq3nvcwiaXcxxVGIvJ0iEoOX23h6EJWDEvfi2sBbZRwUMqjx7b9Zz433zRgKtPwe6SOLtg1FpJoZHIxPiH0tVdyno93x2Fmrm8oE1xxbiw0Bgn6DyeRsRV9K6Bhny4-_3RmW7Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFc_tL4ATqEoewTf8sPl3kOcKxeFrnCuBb7t1kAGtpSHuhbORe-bcWRzN8G0L59rG_3mIECMmFrf6IyWRaLAAOMuvMSK5Ki7yYOMRSPk-yVKElw2YGoK2xSk9vWWVNRLFe6QUsA3w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6AjQut0mq1maBaxzx-43dp6hlzTBKb5qoZ5T5976NZxePX-hndqGvWuMaw8gbWyNlnrLh4tqzt8KXlqUph66K7i1V41REAgoJnsmhD8Tc9pfyp4Bs09pGIp9--HedGl0wlLY1uws=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjw2JKjXZaLJZuE-5c-ujZaCpdtSlOsRFr08LwreY0dMrXxXkD1nZwEYjqvtjsYKU2QYaaqCh-NpDFfkaVbwQCqc4ZKY_KhemEuF2ZqYIilLzlCx9SdyJ26YPsvYVBlyTrvao4-U4=
+- 쿼리: 점퍼루 시장 현황
+- 인사이트: 점퍼루 시장은 다양한 브랜드와 모델이 경쟁하며, 2022년 기준 인기 순위 상위권에는 디즈니베이비, 피셔프라이스, 라라비 등의 브랜드가 차지하고 있습니다. 가격대는 8만 원대부터 16만 원대까지 다양하게 분포되어 있으며, 아기의 발달 단계와 안전성을 고려한 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9DC6NndhZCcakNMOcOJVMDAYi0oBU7Jlq6MMSNPFEN8qF67zJMO59MvBEkwNCcdRkDdknfVAcW60VXRrU1hgsbkKBVrEZTwVmdzgzEXzMD_SEnNQ6vw8Ib4kNSUry4DCSJBPtN_U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE32CBfi8-3tJiORnqiZ1ELhNvTBv8oLl-2bgIuDyROKXeNPrxq3AG_sULk6f9hqUe1enXbLCJo7CGMI-BJeBTkazacwwOT5qch9cQUY0jEBNXfnMLrjHN0PICWffD3VeGdpVmsakg=
 
 ---
 
@@ -21,13 +21,29 @@
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 4개 (전체 4개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 핑크퐁 아기상어 워터매트 자이언트 점퍼루 촉감놀이 - 18,050원 - ⭐4.5
-2. 졸리점퍼 졸리점퍼 아기점퍼루 - 69,000원 - ⭐4.6
-3. 텐바이텐 라라비 스윙점퍼 풀세트 아기 그네 변신 점퍼루 쏘서 - 90,000원 - ⭐4.9
-4. 텐바이텐 라라비 점퍼루 아기 쏘서 - 90,000원 - ⭐4
+1. 몽슈레 봉봉 스윙체어 멀티프레임 미포함/아기그네 바운서 점퍼루 아기텐트 4in1 만능놀이템 - 129,000원 - ⭐0
+2. 텐바이텐 라라비 스윙그네 스탠드 문틀설치 점퍼루 - 179,192원 - ⭐4.5
+3. [해외] 노르웨이 폴리스자켓 남성 점퍼 점퍼루 양면 폴라폴리스 아우터 축열 보온/부드러움/다양한 체형 - 17,560원 - ⭐0
+4. 상품상세설명 참조 스엔코샵 점퍼루 아기용품 점핑 액티비티 디즈니 쏘서 - 265,370원 - ⭐0
+5. [대여] [+10일추가] 피셔프라이스 레인포레스트 개구리 점퍼루 장난감 1개월대여 렌탈 - 19,000원 - ⭐0
+6. 졸리점퍼 일반 스탠드형 아기점퍼루 - 126,100원 - ⭐0
+7. 핑크퐁 아기상어 워터매트 자이언트 점퍼루 촉감놀이 - 18,270원 - ⭐4.6
+8. 파스텔 파스텔 사각 컵쌓기 블록 놀이 8P huanhe0225 하늘썬별 유아 신생아 감각발달 완구 몽키 굴리기 공굴리기 버블크랩 .. - 13,050원 - ⭐0
+9. 텐바이텐 라라비 점퍼루 아기 쏘서 - 90,000원 - ⭐4
+10. 텐바이텐 라라비 스윙점퍼 풀세트 아기 그네 변신 점퍼루 쏘서 - 90,000원 - ⭐4.9
+11. 졸리점퍼 졸리점퍼 아기점퍼루 - 69,000원 - ⭐4.6
+12. 상품상세설명 참조 스엔코샵 바운스 점퍼루 아기용품 점핑 액티비티 쏘서 - 165,290원 - ⭐0
+13. 바운스 액티비티 점퍼루 안전놀이설계 놀이터활용 어린이놀이기구 대근육발달 균형감각향상 안정지지구조 - 237,330원 - ⭐0
+14. 라라비 스윙점퍼 4in1 풀패키지 (점퍼루+그네+플레이시트+바운서)  스윙점퍼풀패키지_시슬리핑크  아기그네_퍼플  스마크쿠션_크림  1개 - 348,990원 - ⭐0
+15. 라라비 스윙점퍼 4in1 풀패키지 (점퍼루+그네+플레이시트+바운서)  스윙점퍼풀패키지_클래식블루  아기그네_아이보리  스마크쿠션_크림  1개 - 348,990원 - ⭐0
+16. [대여] 디즈니 인어공주 액티비티 점퍼루 아기쏘서 1개월 대여 렌탈 - 25,000원 - ⭐0
+17. 주식회사 엠씨알에이치그룹/캐나다 일반 스탠드형 아기점퍼루 - 149,000원 - ⭐0
+18. 7개월 시소 유아 2인용 1인용 점퍼루 어린이 선물 장난감 키즈카페 놀이터 - 77,870원 - ⭐0
+19. 바운스 액티비티 점퍼루 집중력향상활동 어린이놀이기구 대근육발달 내구성강화 유아실내놀이 놀이터활용 - 225,000원 - ⭐0
+20. 브라이트스타트 디즈니베이비 유아용 대근육 발달 인어공주 액티비티 점퍼루 혼합색상 1개 - 359,470원 - ⭐0
 
 ---
 

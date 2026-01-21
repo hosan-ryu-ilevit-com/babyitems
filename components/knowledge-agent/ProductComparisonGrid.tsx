@@ -109,8 +109,8 @@ export function ProductComparisonGrid({
 
   if (displayProducts.length < 2) return null;
 
-  // 컬럼 너비: 약 2.8개 보이게 (36vw 기준, 상한선 적용)
-  const columnWidth = 'clamp(140px, 36vw, 220px)';
+  // 컬럼 너비: 약 2.8개 보이게 (컨테이너 480px 기준 ~170px)
+  const columnWidth = 'clamp(140px, 36vw, 165px)';
   const totalWidth = `calc(${columnWidth} * ${displayProducts.length} + 24px)`;
 
   return (

@@ -397,7 +397,6 @@ function OptionButton({
   onClick,
   description,
   disabled,
-  isNegative,
   isPopular
 }: {
   label: string;
@@ -405,7 +404,6 @@ function OptionButton({
   onClick: () => void;
   description?: string;
   disabled?: boolean;
-  isNegative?: boolean;
   isPopular?: boolean;
 }) {
   return (
@@ -415,14 +413,14 @@ function OptionButton({
       onClick={onClick}
       disabled={disabled}
       className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all flex items-center justify-between group ${isSelected
-        ? (isNegative ? 'bg-red-50 border-red-100' : 'bg-blue-50 border-blue-100')
+        ? 'bg-blue-50 border-blue-100'
         : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
         } ${disabled ? 'cursor-default' : ''}`}
     >
       <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-        <span className={`text-[16px] font-medium leading-[1.4] wrap-break-word ${isSelected ? (isNegative ? 'text-red-500' : 'text-blue-500') : 'text-gray-600'}`}>{label}</span>
+        <span className={`text-[16px] font-medium leading-[1.4] wrap-break-word ${isSelected ? 'text-blue-500' : 'text-gray-600'}`}>{label}</span>
         {description && (
-          <span className={`text-[12px] font-medium wrap-break-word ${isSelected ? (isNegative ? 'text-red-400' : 'text-blue-400') : 'text-gray-400'}`}>{description}</span>
+          <span className={`text-[12px] font-medium wrap-break-word ${isSelected ? 'text-blue-400' : 'text-gray-400'}`}>{description}</span>
         )}
       </div>
       {isPopular && (
@@ -1448,11 +1446,40 @@ export default function KnowledgeAgentPage() {
         startTime: Date.now(),
       });
 
+      // 리뷰 분석 완료 대기 (SSE review_analysis_complete 이벤트에서 resolve)
+      const reviewResult = await stepPromises['review_extraction'] as {
+        prosTags?: string[];
+        consTags?: string[];
+        analyzedCount?: number;
+        positiveKeywords?: string[];
+        negativeKeywords?: string[];
+        commonConcerns?: string[];
+      } | undefined;
+
+      // 결과가 있으면 리뷰 분석 결과 사용, 없으면 웹트렌드 데이터 폴백
+      const reviewProsTags = reviewResult?.prosTags || [];
+      const reviewConsTags = reviewResult?.consTags || [];
+      const reviewAnalyzedCount = reviewResult?.analyzedCount || 0;
+      const reviewPositiveKeywords = reviewResult?.positiveKeywords || [];
+      const reviewNegativeKeywords = reviewResult?.negativeKeywords || [];
+      const reviewCommonConcerns = reviewResult?.commonConcerns || [];
+
       updateStepAndMessage('review_extraction', {
         status: 'done',
         endTime: Date.now(),
-        analyzedCount: localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
-        analyzedItems: [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
+        analyzedCount: reviewAnalyzedCount || localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
+        analyzedItems: reviewProsTags.length > 0
+          ? [...reviewProsTags.slice(0, 3), ...reviewConsTags.slice(0, 2)]
+          : [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
+        result: {
+          prosTags: reviewProsTags,
+          consTags: reviewConsTags,
+          analyzedCount: reviewAnalyzedCount,
+          // 전체 분석 결과 포함
+          positiveKeywords: reviewPositiveKeywords,
+          negativeKeywords: reviewNegativeKeywords,
+          commonConcerns: reviewCommonConcerns,
+        },
         thinking: `리뷰 키워드 분석 완료`,
       });
       await new Promise(r => setTimeout(r, 200));
@@ -1681,6 +1708,52 @@ export default function KnowledgeAgentPage() {
                 case 'reviews_complete':
                   // 리뷰 크롤링 완료
                   console.log(`[SSE] Reviews complete: ${data.productCount} products, ${data.totalReviews} reviews`);
+                  break;
+                case 'review_analysis_start':
+                  // 리뷰 분석 시작 - 샘플 리뷰 로깅
+                  console.log(`[SSE] Review analysis started with samples:`);
+                  if (data.positiveSamples?.length) {
+                    console.log(`  ✅ 긍정 샘플: ${data.positiveSamples.map((s: any) => `[${s.rating}점] ${s.preview}`).join(' | ')}`);
+                  }
+                  if (data.negativeSamples?.length) {
+                    console.log(`  ❌ 부정 샘플: ${data.negativeSamples.map((s: any) => `[${s.rating}점] ${s.preview}`).join(' | ')}`);
+                  }
+                  // review_extraction 단계 업데이트 (샘플 리뷰 표시)
+                  localSteps = localSteps.map(s => s.id === 'review_extraction' ? {
+                    ...s,
+                    status: 'active' as const,
+                    result: {
+                      ...s.result,
+                      positiveSamples: data.positiveSamples,
+                      negativeSamples: data.negativeSamples,
+                    },
+                  } : s);
+                  setAnalysisSteps([...localSteps]);
+                  break;
+                case 'review_analysis_complete':
+                  // 리뷰 분석 완료
+                  console.log(`[SSE] Review analysis complete: ${data.analyzedCount} reviews analyzed`);
+                  console.log(`  ✅ 긍정: ${data.positiveKeywords?.join(', ')}`);
+                  console.log(`  ❌ 부정: ${data.negativeKeywords?.join(', ')}`);
+                  console.log(`  💡 고려사항: ${data.commonConcerns?.join(', ')}`);
+                  // review_extraction 단계 완료 업데이트 (status: done 추가)
+                  localSteps = localSteps.map(s => s.id === 'review_extraction' ? {
+                    ...s,
+                    status: 'done' as const,
+                    endTime: Date.now(),
+                    result: {
+                      ...s.result,
+                      prosTags: data.prosTags,
+                      consTags: data.consTags,
+                      analyzedCount: data.analyzedCount,
+                      // 추가: 전체 분석 결과
+                      positiveKeywords: data.positiveKeywords,
+                      negativeKeywords: data.negativeKeywords,
+                      commonConcerns: data.commonConcerns,
+                    },
+                  } : s);
+                  setAnalysisSteps([...localSteps]);
+                  stepDataResolvers['review_extraction']?.(data);
                   break;
                 case 'questions':
                   // 리뷰 추출 데이터와 질문 데이터를 버퍼링
@@ -3491,7 +3564,7 @@ export default function KnowledgeAgentPage() {
                       questionId: 'final_guide',
                       content: `추천 상품들을 잘 추렸어요! 🎯
 
-마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없다면 아래 [최종 구매 보고서 보기] 버튼을 눌러주세요!`,
+마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없다면 아래 [최종 추천 결과 보기] 버튼을 눌러주세요!`,
                       typing: true,
                       timestamp: Date.now()
                     }];
@@ -3589,7 +3662,7 @@ export default function KnowledgeAgentPage() {
                 <div className="shrink-0 w-5 h-5 flex items-center justify-center">
                   <Image src="/icons/ic-ai.svg" alt="" width={16} height={16} />
                 </div>
-                <span className="text-[16px] tracking-tight">최종 구매 보고서 보기</span>
+                <span className="text-[16px] tracking-tight">최종 추천 결과 보기</span>
               </motion.button>
 
               <div
@@ -3719,83 +3792,41 @@ export default function KnowledgeAgentPage() {
                 }
               />
             </>
-          ) : phase !== 'hardcut_visual' && phase !== 'final_input' && phase !== 'negative_filter' && phase !== 'result' && (
-            <div className="relative">
-              <motion.div
-                key={barAnimationKey}
-                initial={barAnimationKey > 0 ? { scale: 1.02 } : {}}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                className="relative flex items-end overflow-hidden"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(15px)',
-                  WebkitBackdropFilter: 'blur(15px)',
-                  borderRadius: '20px',
-                  boxShadow: '0px 5px 15px 0px rgba(21, 21, 21, 0.04)',
-                  border: '1px solid #e2e2e7',
-                }}
-              >
-                {/* 그라데이션 ellipse */}
-                <div
-                  className="absolute pointer-events-none"
-                  style={{
-                    width: '100%',
-                    height: '176px',
-                    left: 0,
-                    top: '-16px',
-                    transform: 'translateY(-50%)',
-                    background: 'radial-gradient(50% 50% at 50% 50%, rgba(217, 233, 255, 0.40) 0%, rgba(217, 233, 255, 0.00) 100%)',
-                    zIndex: 0,
-                  }}
-                />
-                <textarea
-                  ref={inputRef}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleFreeChat(inputValue); } }}
-                  onFocus={() => setIsInputFocused(true)}
-                  onBlur={() => setIsInputFocused(false)}
-                  placeholder={isInputFocused ? "직접 입력해보세요" : "무엇이든 찾아보세요"}
-                  className={`relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c] ${isHighlighting
-                    ? 'text-blue-600 font-bold'
-                    : 'text-[#71737c]'
-                    } placeholder:text-[#71737c]`}
-                  disabled={isTyping}
-                  rows={1}
-                />
+          ) : (phase === 'questions' || phase === 'report') && activeQuestion && !isTyping ? (
+            /* 질문 단계: 이전/다음 버튼 */
+            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6">
+              <div className="flex gap-3 justify-between">
+                {canGoPrev ? (
+                  <motion.button
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handlePrevStep}
+                    className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  >
+                    이전
+                  </motion.button>
+                ) : <div />}
+
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onMouseDown={(e) => {
-                    // onBlur보다 먼저 실행되도록 하기 위해 mousedown에서 preventDefault를 하지 않고 이벤트만 처리
-                    if (!(!inputValue.trim() || isTyping)) {
-                      handleFreeChat(inputValue);
+                  whileHover={selectedCount > 0 ? { scale: 1.01 } : {}}
+                  whileTap={selectedCount > 0 ? { scale: 0.98 } : {}}
+                  onClick={() => {
+                    const selectedOptions = activeQuestion?.selectedOptions || [];
+                    if (selectedOptions.length > 0) {
+                      handleFreeChat(selectedOptions.join(', '));
                     }
                   }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // 이미 handleFreeChat이 mousedown에서 호출되었을 수 있으므로 안전장치
-                  }}
-                  disabled={!inputValue.trim() || isTyping}
-                  className={`absolute right-3 bottom-3 z-30 flex-shrink-0 transition-all duration-200 ${inputValue.trim() ? '' : 'opacity-50'} disabled:opacity-50`}
+                  disabled={selectedCount === 0}
+                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                    ${selectedCount > 0
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
                 >
-                  {isTyping ? (
-                    <div className="w-8 h-8 flex items-center justify-center">
-                      <div className="w-5 h-5 border-2 border-gray-900/30 border-t-gray-900 rounded-full animate-spin" />
-                    </div>
-                  ) : (
-                    <Image 
-                      src="/icons/sendreal.png" 
-                      alt="전송" 
-                      width={32} 
-                      height={32} 
-                    />
-                  )}
+                  다음
                 </motion.button>
-              </motion.div>
+              </div>
             </div>
-          )}
+          ) : null}
         </div>
         )}
       </div>
@@ -4242,7 +4273,12 @@ function MessageBubble({
   onFilterTagToggle: (tagId: string) => void;
 }) {
   const isUser = message.role === 'user';
-  
+
+  // 직접 추가 인라인 입력 상태
+  const [isCustomInputActive, setIsCustomInputActive] = useState(false);
+  const [customInputValue, setCustomInputValue] = useState('');
+  const [addedCustomOption, setAddedCustomOption] = useState<string | null>(null);
+
   // 🆕 비교표용 선택된 상품 pcodes (2~3개)
   const [selectedComparisonPcodes, setSelectedComparisonPcodes] = useState<Set<string>>(() => {
     // 기본값: 상위 3개 선택
@@ -4405,7 +4441,7 @@ function MessageBubble({
                       type: isNegQ ? 'negative' : 'hard_filter'
                     });
                   }}
-                  label="뭘 고를지 모르겠어요"
+                  label="잘 모르겠어요"
                   questionType={
                     (message.questionId === 'avoid_negatives' || 
                      message.id?.includes('avoid_negatives') ||
@@ -4429,11 +4465,6 @@ function MessageBubble({
                 label={opt}
                 isSelected={message.selectedOptions?.includes(opt)}
                 isPopular={message.popularOptions?.includes(opt)}
-                isNegative={
-                  message.questionId === 'avoid_negatives' ||
-                  message.id?.includes('avoid_negatives') ||
-                  message.content?.includes('단점')
-                }
                 onClick={() => {
                   const isSelected = !message.selectedOptions?.includes(opt);
                   const totalSelected = isSelected
@@ -4458,40 +4489,120 @@ function MessageBubble({
                 disabled={isInactive}
               />
             ))}
-            {!isInactive && (!message.selectedOptions || message.selectedOptions.length === 0) && (
-              <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  // 직접 입력 버튼 클릭 로깅
-                  if (categoryKey) {
-                    logKnowledgeAgentHardFilterSelection(
-                      categoryKey,
-                      categoryName || '',
-                      message.id,
-                      message.content,
-                      '직접 추가',
-                      true,
-                      0
-                    );
-                  }
+            {/* 직접 추가 섹션 */}
+            {!isInactive && (
+              <>
+                {/* 추가된 커스텀 옵션 (파란색 칩) */}
+                {addedCustomOption && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between"
+                  >
+                    <span className="text-[16px] font-medium text-blue-500">{addedCustomOption}</span>
+                    <button
+                      onClick={() => {
+                        // 커스텀 옵션 제거
+                        onOptionToggle(addedCustomOption, message.id);
+                        setAddedCustomOption(null);
+                      }}
+                      className="ml-2 p-1 hover:bg-blue-100 rounded-full transition-colors"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-blue-400">
+                        <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                    </button>
+                  </motion.div>
+                )}
 
-                  inputRef?.current?.focus();
-                  setTimeout(() => { inputRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
-                }}
-                className="w-full py-4 px-5 text-center transition-all flex items-center justify-center group hover:bg-blue-50/30"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%239CA3AF' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
-                  borderRadius: '12px'
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 group-hover:text-blue-500">
-                    <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span className="text-[16px] font-medium text-gray-400 group-hover:text-blue-600">직접 추가</span>
-                </div>
-              </motion.button>
+                {/* 인라인 입력 모드 */}
+                {!addedCustomOption && isCustomInputActive && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="w-full relative"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%239CA3AF' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
+                      borderRadius: '12px'
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={customInputValue}
+                      onChange={(e) => setCustomInputValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && customInputValue.trim()) {
+                          e.preventDefault();
+                          onOptionToggle(customInputValue.trim(), message.id);
+                          setAddedCustomOption(customInputValue.trim());
+                          setCustomInputValue('');
+                          setIsCustomInputActive(false);
+                        } else if (e.key === 'Escape') {
+                          setIsCustomInputActive(false);
+                          setCustomInputValue('');
+                        }
+                      }}
+                      placeholder="원하는 조건을 입력하세요"
+                      autoFocus
+                      className="w-full py-4 px-5 pr-20 bg-transparent rounded-[12px] text-[16px] text-gray-700 focus:outline-none transition-colors"
+                    />
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => {
+                        if (customInputValue.trim()) {
+                          onOptionToggle(customInputValue.trim(), message.id);
+                          setAddedCustomOption(customInputValue.trim());
+                          setCustomInputValue('');
+                          setIsCustomInputActive(false);
+                        }
+                      }}
+                      disabled={!customInputValue.trim()}
+                      className={`absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                        ${customInputValue.trim()
+                          ? 'bg-gray-900 text-white'
+                          : 'bg-gray-100 text-gray-400'}`}
+                    >
+                      추가
+                    </motion.button>
+                  </motion.div>
+                )}
+
+                {/* 직접 추가 버튼 (기본 상태) */}
+                {!addedCustomOption && !isCustomInputActive && (
+                  <motion.button
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      // 직접 입력 버튼 클릭 로깅
+                      if (categoryKey) {
+                        logKnowledgeAgentHardFilterSelection(
+                          categoryKey,
+                          categoryName || '',
+                          message.id,
+                          message.content,
+                          '직접 추가',
+                          true,
+                          0
+                        );
+                      }
+                      setIsCustomInputActive(true);
+                    }}
+                    className="w-full py-4 px-5 text-center transition-all flex items-center justify-center group hover:bg-blue-50/30"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%239CA3AF' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
+                      borderRadius: '12px'
+                    }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 group-hover:text-blue-500">
+                        <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      <span className="text-[16px] font-medium text-gray-400 group-hover:text-blue-600">직접 추가</span>
+                    </div>
+                  </motion.button>
+                )}
+              </>
             )}
           </motion.div>
         )}
@@ -4501,7 +4612,7 @@ function MessageBubble({
             {isLatestAssistantMessage && (
               <AIHelperButton
                 onClick={() => onNegativeAIHelperOpen?.()}
-                label="뭘 고를지 모르겠어요"
+                label="잘 모르겠어요"
                 questionType="negative"
                 questionId="negative_filter"
                 questionText="꼭 피하고 싶은 단점이 있으신가요?"

@@ -1,5 +1,5 @@
-# 세션: 20260120_070956_0bfz
-> 시작: 2026-01-20T07:09:56.879Z
+# 세션: 20260121_045939_pcq4
+> 시작: 2026-01-21T04:59:39.242Z
 > 카테고리키: 소꿉놀이
 > 카테고리: 소꿉놀이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 소꿉놀이 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHy1F9FzbnllqSSTYRFxFkiDy40yPN9blXb2uEWfr4z6w0I8irgAc6W5zcmny5EXYiSMts6KFKeoSWYY3utaKZnfdqJ78c-IwdfU5npj8sAlHX3Pu-PEiMAK4SmWUEQG4LnRb21K2C720kbVjEYMUV8o42gP9d3GF0loqzm1s7qDq8jQ_ajD_WCahoRJkysSEF49_JQei24gc4cvk40zLMgWZRQosNoaOwGX4JN_jw98cGWg9NKx0SzpZhE2dhGo6G2EM3Dc5lDeIPJCveREa2abEzjtZqZKtv-PYOYfAFdMMfRZMMDZsQuLhSs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzX6lgec0BI7SdKiBioi47vzes9MQTHOYVqisYB--VlWgoWQI7vD-PgSBDhtvA20R0_3RwiQCm81_i0ik796D-rJxpTsbfGIaIKcrKqyU0slNV-XuftgV00nj807Ng2sgVsJyNUNAZIcB6genSWT6wd0zd16pPYfc_kRGl9iklfU7cilHo7jt_Jzkqt2FQohpmHEaL2H-buMae0vxUzQ1HJw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQXsTrf8axzjmBvnmwkRdeQ8fMVtlf9AW4uOg_OyC5qSPh1r0vUtqdS9MJ1Zr_44t9YvrNg_4JRGJZKRBBInHeKi8pNFfqZUxl2xHR-v6CMPp4n7mwCkbBxRwTCE80eK-AgGv4r06Ls_DE7zrTBh0VyPNh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmJF9_81b4xEIoaeHijB-LsiWRGa2aEvNW5LCpJZaOZ5VsUB_45ZjqE1mtrvAMz4f5bwPwUCjlVDvwkRN0G5dvEdRhL2ezm1majyzoSq7-r7pqzqHUpZ4Rxpaq-1H5Kp83j5PcZCxxxbhszGxra1OsFdNi_1A1yaqvvkBpQjZqAzQjKzEIZv36, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHifDrwI8CFa91Gzc84Q_vQiadEpM6n4L032c1Y7YQAe8PCYIb8PIp3NjFOVov0yoYhWVb87EpBbCB_aGLwDDSNSo4VAbnxW7wWwZgcXCRsa9P8u3PFcncN27wFLoMIkYl0Dz1RLOvCeBeHG6VKUOu7S-l8wg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0FJ6-pBBQU-MoALu2nko8A9MByvtE-04K83r6ygmKYko1TLG789dKptwX72b-qT1wnN7tILTwGnNdSaRaCWXMczNNHdOP-nbRArdGfpYksQLZgOMWYqR7ZOWgVsOvOK0ekHSyiY91S59VqKj89TSV_e7rcjzk6jjAAi3uTEXXICduvuYOzwXC6rNR7joX2eDT5HTk4kYX
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHy1F9FzbnllqSSTYRFxFkiDy40yPN9blXb2uEWfr4z6w0I8irgAc6W5zcmny5EXYiSMts6KFKeoSWYY3utaKZnfdqJ78c-IwdfU5npj8sAlHX3Pu-PEiMAK4SmWUEQG4LnRb21K2C720kbVjEYMUV8o42gP9d3GF0loqzm1s7qDq8jQ_ajD_WCahoRJkysSEF49_JQei24gc4cvk40zLMgWZRQosNoaOwGX4JN_jw98cGWg9NKx0SzpZhE2dhGo6G2EM3Dc5lDeIPJCveREa2abEzjtZqZKtv-PYOYfAFdMMfRZMMDZsQuLhSs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzX6lgec0BI7SdKiBioi47vzes9MQTHOYVqisYB--VlWgoWQI7vD-PgSBDhtvA20R0_3RwiQCm81_i0ik796D-rJxpTsbfGIaIKcrKqyU0slNV-XuftgV00nj807Ng2sgVsJyNUNAZIcB6genSWT6wd0zd16pPYfc_kRGl9iklfU7cilHo7jt_Jzkqt2FQohpmHEaL2H-buMae0vxUzQ1HJw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQXsTrf8axzjmBvnmwkRdeQ8fMVtlf9AW4uOg_OyC5qSPh1r0vUtqdS9MJ1Zr_44t9YvrNg_4JRGJZKRBBInHeKi8pNFfqZUxl2xHR-v6CMPp4n7mwCkbBxRwTCE80eK-AgGv4r06Ls_DE7zrTBh0VyPNh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmJF9_81b4xEIoaeHijB-LsiWRGa2aEvNW5LCpJZaOZ5VsUB_45ZjqE1mtrvAMz4f5bwPwUCjlVDvwkRN0G5dvEdRhL2ezm1majyzoSq7-r7pqzqHUpZ4Rxpaq-1H5Kp83j5PcZCxxxbhszGxra1OsFdNi_1A1yaqvvkBpQjZqAzQjKzEIZv36, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHifDrwI8CFa91Gzc84Q_vQiadEpM6n4L032c1Y7YQAe8PCYIb8PIp3NjFOVov0yoYhWVb87EpBbCB_aGLwDDSNSo4VAbnxW7wWwZgcXCRsa9P8u3PFcncN27wFLoMIkYl0Dz1RLOvCeBeHG6VKUOu7S-l8wg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0FJ6-pBBQU-MoALu2nko8A9MByvtE-04K83r6ygmKYko1TLG789dKptwX72b-qT1wnN7tILTwGnNdSaRaCWXMczNNHdOP-nbRArdGfpYksQLZgOMWYqR7ZOWgVsOvOK0ekHSyiY91S59VqKj89TSV_e7rcjzk6jjAAi3uTEXXICduvuYOzwXC6rNR7joX2eDT5HTk4kYX
+- 인사이트: 소꿉놀이는 아이들이 부모나 주변 어른들의 행동을 모방하며 역할 놀이를 하는 대표적인 놀이입니다. 최근에는 스마트 기기의 보급으로 인해 소꿉놀이를 덜 하는 경향도 있지만, 여전히 아이들의 사회성, 언어 능력, 창의력 발달에 긍정적인 영향을 미치는 중요한 놀이로 인식되고 있습니다. 장난감 시장에서는 소꿉놀이 세트가 꾸준히 인기를 얻고 있으며, 교육적 가치와 함께 다양한 형태의 제품이 출시되고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGoUqGux6uggmZiDgBuS2uNqCixLrkpwh2I_KNlP9lDxpaiA9KWYuMlxEgS8EQ2fGKAybSfeNnuHVnJrWLuyuKS1yvincWHsUeX8iZ3xnaK1jS-gPYfM7EMHL3L9Bw0Gi6WnFj8l4pvSO95glexOH3JrTPsGXHsvTK4BQfCaXVSZHbX5S3ax3n5, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUvXkePOe7UyMQilG_w-gsjYIROmA3I5S05pTvHq2Ni1_4mz1qQahMsaJEO2_Pu4jOFsbdvpabvLSEaPSj95GtaLu5IWDX2EgZfoJhOVs5zIiK8qaAST91qnVu2bLScAbHe1a-w8mUQNOUEZ9ijgINaEjoo1E6xCY3ykLR6cnEuwViS0k6R9LprFYLKmeM2O90uLqGpHXi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLNNrhz-zQV5noDMJvuhXIuMfFsyv1Q4FMxQvthyXk8W_bg_Ba7nrouhQdBoXkxaApGmgq1l8cpcXT6-FU_S1ax5oHLa9vQZXWcH_4gvBoIwQWzV9_pzgPiKVTCrKMHm-JvIUIJRecoVBzlxvDAggBu1qYfvFXaXWhN9SnBIhlGl5JD2Jm2j8LVnA=
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 종류의 소꿉놀이를 찾으시나요? | 주방놀이 |
-| 어떤 소재의 소꿉놀이를 선호하시나요? | 원목 |
-| 소꿉놀이 구성품은 어느 정도가 적당할까요? | 기본 구성 |
-| 안전 인증(KC 마크)은 필수인가요? | 상관없어요 |
-| 소꿉놀이 예산은 어느 정도로 생각하세요? (평균 5만 5천원, 3만원대 이하가 가장 많아요) | 5만원~12만원 |
-| __avoid_negatives__ | 원목 소재라 아이가 던지거나 험하게 다룰 경우 쉽게 파손될까 봐 걱정돼요,작은 부품들이 많아서 아이가 삼킬까 봐 안전이 염려돼요 |
 
 ---
 
@@ -61,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 원목 소재라 아이가 던지거나 험하게 다룰 경우 쉽게 파손될까 봐 걱정돼요
-- 작은 부품들이 많아서 아이가 삼킬까 봐 안전이 염려돼요
+(아직 선택 없음)
 
 ---
 

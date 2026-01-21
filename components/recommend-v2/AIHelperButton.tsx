@@ -9,7 +9,7 @@ interface AIHelperButtonProps {
   onClick: () => void;
   className?: string;
   variant?: 'default' | 'emphasized'; // default: 연한 배경, emphasized: 진한 배경
-  label?: string; // 버튼 레이블 (기본값: "뭘 고를지 모르겠어요")
+  label?: string; // 버튼 레이블 (기본값: "잘 모르겠어요")
   // 로깅용 메타데이터
   questionType?: 'hard_filter' | 'balance_game' | 'negative' | 'budget' | 'category_selection';
   questionId?: string;
@@ -32,7 +32,7 @@ export function AIHelperButton({
   onClick,
   className = '',
   variant = 'default',
-  label = '뭘 고를지 모르겠어요',
+  label = '잘 모르겠어요',
   questionType,
   questionId,
   questionText,
@@ -122,8 +122,8 @@ export function AIHelperButton({
           <span className="text-[15px] font-bold text-[#6366F1]">
             {label}
           </span>
-          <span className="bg-[#6366F1] text-white text-[10px] px-1.5 py-0.5 rounded-md font-bold leading-none">
-            AI
+          <span className="bg-[#6366F1] text-white text-[10px] px-2 py-1 rounded-md font-bold leading-none">
+            AI 도움
           </span>
         </div>
       </motion.button>

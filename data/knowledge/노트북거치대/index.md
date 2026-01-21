@@ -1,15 +1,27 @@
 # 노트북거치대 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T10:47:27.881Z
+> 마지막 업데이트: 2026-01-21T06:16:45.298Z
 > 분석 상품: 20개 | 분석 리뷰: 616개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 휴대성과 경량성을 강조한 디자인
+- RGB LED 등 개성을 살린 디자인
+- 친환경 및 재활용 소재 사용 증가
 
 ### 구매자 만족 포인트
+- ✓ 자세 개선
+- ✓ 작업 효율 증대
+- ✓ 뛰어난 가성비
+- ✓ 안정적인 거치
+- ✓ 높이 및 각도 조절 기능
 
 ### 주의해야 할 단점
+- ⚠ 휴대 시 무게감
+- ⚠ 화면 시야각 불편
+- ⚠ 쿨링 성능 부족 (일부 제품)
+- ⚠ 높은 가격대 (일부 제품)
 
 ### 가격대 인사이트
 
@@ -231,11 +243,6 @@
 ---
 
 ## 📊 데이터 출처
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqt-2I5mAo5o2rXSsySmpOCkB7R8pg2tVzY9FgU6zZ2MYJJhe7UWqmCvOgopZcfqYZo6ZHFb_oQK3Ejt3Buz7PscL8gjc2BqAPyA_kPGG6tdtnsTEUT-FQkjRf8qG8308tcL3iTa7cR-F5COUEXgAEazVboycF-UcUIRwlpPxQW6phAQ7XF9mOTkigGL_Iv8O_)
-- [ilovepc.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaPY0MxK_f-12_Ci9YSJyVoM26fGvdVTr3znGQrGQKO5qve1S2011jjEZjuAjEPB3SlbzV7iLhinWEfZyrZfnRWuY68znQUjls4PU1m2iNIrQ4h6FqM_pMfZpnCnjPwegr__lj6Qlycq-Cx6DF0mmy7bHjUpLm)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHphJej56HKkykD7xgIlO7fCBQyN2CaOj5K-7FOpEbM7faBqAe9G3pU9iq6Wdg_r4oTyF_irSUUEVzo6QJFLL-gyizYxURoCyURgWBNZeDHnLrMpejat47053EWeRpIKsOWl4ZhmPr7WLkMhPfWEHbeRhTuBUwxGeNmvmZMSZSwIT-pCkO05ukIGj7z_Pzkf8goBmquYtI9FpLLQ-zx2oQjJ8flyVHRvOPfjWaCxNFYUA-JAHat0m5OoOQJlbhE37T4iqFBUWp_Esdrng3GlyHSQEI_MVQjTKCYpVHXqrV0YolFWRam-aordS43JKzBo6PuwJX4BsWZULn6cjOKU3mj)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFX3U2Yq_xS7kXFDoG97iuTLyL9-zqLHizktO7Zv9hB8bNqS_X5Hi_csBiSCAMbx6xt4WADacafoLTctos1SAIBys5oMeFDB3JaZuSFKzzpDQ2Za7ZX9xbvQVeUXUyvZn4G454vnr41csJeg0hFMJWDZJGZiCjQQSePeb6Jld7AgOYtaCVDDCSqRCvATsWW3BXF)
-- [modoobom.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfmgu2Z_pf80fCFUVY4AfjabTDxEVG-iHxgaflsXZJJRp7vzCiLK1iRZ8F-cSPp1q8XYS3ZzFl3evCydoT4a1mPxTFESUaD7oT3ZoKVWJ7JWK6848yZKHh3dxOFMDSebXzyUEbBtxMFTI3CIyu74_JyKW32njEKPLRVlDTqLrFowzw6mIL45CKA2zjpv9A3LujoyCPis0y0nlme44RZfb1tiB9HBIjBPtjW73ktK6wFVIc0GIcFsQG6CH6vcLoqDk9E751NEE8PN_uxDQl24rZbpXzblcgewuoycr95BfyLo5PcOhrJmA-GNU9vB0Nos9HDrsozpccrzNZAMMPNA43yGD3OJSr2Lr5BAZJ3MFBhm96zPKbH4VGDg==)
-- [inven.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGayhbbfmUAi2AgszFXPbNjO-DuTRsuiVHXa7GlKzz7qlSdKZADRc3yXbvhwVZ3XNulZ2hu-ow40zehL58pWrYHTsL-9dw9-Ln71lUqZLjrn_dOe_FUqLNOwWZye9AmkWSV0_XCyho_KoDjFLK3kiuyKtsCMQ==)
-- [ruliweb.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBdBvmV_wy2hjY6vPJz6wyFJ3aF6Yc1BhFP8keapNriqD-B4RJYBfYIziUMn3ooF_uLvKi8NdiW-XTnZiDWRE7rS1w1S1pvr1xbHQPLwbJtLLp18Z2okgpcGhMrvTpYrjc8riryLGxu1goxHJVPAKynM2bvE0=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDfwdNLQlp8EEKJoCNDjuIUZYHKZHelSoS_XubAuxxw5WcrPd0aMaa5QIgTfgtIW2QWiY1STR_lfjE7dkiBDAe1nGAXtM_reRmNCC0278uV2Vp3EeYAOIJx8CQe2r8AIlVYlYUOIJcFoNMpg5ewi0p5gR9VRmP3qnBM_LubvtsqJEGULuSSFS2Gdo9W4uHMiPs4a0FcBw8ZLMz5NxIUQ-lCblEj7oYws-g1vH9_5pOGiPFdXDHg_bY8YiFyvzk8CWsqgQSYnv6yz93QWpoliuJfdAqx7b5zncySoIeRDrS5FntDJyR4ms6_SI3fHdiRk0y5WMTcjpc8QrAqPJzd9GS)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGj8hu8Od1Y_9pJJzmiyfMDBk3gL5Vs8V8ACbYUpx7e4_8nxfHfRf7iR0-2zTkIgbkCWzptdZfAcgSEuvBCTp7FiEXHUp9Zw5Aij-pJ8BClX908HgJYlLAmfodo6yHpWbZ9UYWxanJoBMlG85BKG6Fmr3gg9siuDmic0Pi4PajJNlzYKG2OREbzmku13BQ595V1)
+- [modoobom.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfeZO8PglHSQ4PANuRI3ZZe-ME3B7hpT8A0hDAyI0lkPPpoOB3sugLVHdsGRtta4ODxFQuqnEK8uNMiwmWSCOvHJrxSCXJZgXehZVimpS-KeXcZEzBh9Dfc3qYgOmKt0KXo-xw9A-KXXp9oVTOu_dgO8QqoupvMaGRRxE6uh80MIb0jO3cafupPaz0JIFm2o2u-_dJeJBj6moXTKu9jiYtc0h1neZoXRutaANyyby80MJ6IQkxBIEDSflbmEp-qZ8of5gXMH2IFEpMG8X8qXts_V1im9nss6hEi6PHKATAOKSaADm2G0KKM1R_EPtzmumhDLS1NaT43YfOW03sIvGtYQW5IZcXpn0o6caVfiLSQ1vgLGhf1Lc8jw==)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEy7MqO-QxbSApy8T1jFO78EFxINfPO8KGTUq41l1gjFjWBxonYNx6VyOcMx_6g3xDRQHFubnttqfo7seg0HGCFB26QcDfWSKsITYkO3zj5Blje_XZczwrA3JbQ8-0u-L1ViosAqyfLq229eF13GOOJ7ZeicZa7KfaEsBNvP97qf3gAqehxThQKIF_I7ntjRrDaPzb1AeuQTsik_Kvby7QBg03IpKbjwFnaPqS8I3WlQFOE8g==)

@@ -29,8 +29,7 @@ import {
   FcElectricity,
   FcBullish,
   FcCheckmark,
-  FcProcess,
-  FcDataConfiguration
+  FcProcess
 } from "react-icons/fc";
 
 // ============================================================================
@@ -347,10 +346,10 @@ function ProductAnalysisContent({
               animate={{ opacity: 1, y: 0 }}
               className="space-y-2"
             >
-              <div className="flex items-center gap-1.5">
-                <FcDataConfiguration size={14} className="grayscale opacity-70" />
-                <p className="text-[12px] uppercase tracking-wider text-gray-400 font-medium">
-                  핵심 스펙 필터 ({filterCount}개)
+              <div className="flex items-center">
+                <p className="text-[14px] tracking-tight font-medium">
+                  <span className="text-gray-400">핵심 스펙 필터 </span>
+                  <span className="text-gray-500">{filterCount}개</span>
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -816,16 +815,71 @@ function WebSearchContent({
 }
 
 /**
- * 리뷰 키워드 추출 컨텐츠
+ * 리뷰 키워드 추출 컨텐츠 - 웹검색 스타일 슬라이드 + 태그 형태 결과
  */
 function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
-  const keywords = step.analyzedItems || [];
-  const count = step.analyzedCount || 0;
-  const thinking = step.thinking || '';
+  // 리뷰 분석 결과 (step.result에서 가져옴)
+  const positiveKeywords = step.result?.positiveKeywords || [];
+  const negativeKeywords = step.result?.negativeKeywords || [];
+  const commonConcerns = step.result?.commonConcerns || [];
+  const analyzedCount = step.result?.analyzedCount || step.analyzedCount || 0;
+
+  // 폴백용 태그
+  const prosTags = step.result?.prosTags || positiveKeywords;
+  const consTags = step.result?.consTags || negativeKeywords;
+
+  // 슬라이드용 샘플 리뷰 (웹검색 스타일)
+  const reviewSamples = useMemo(() => {
+    const positiveSamples = step.result?.positiveSamples || [];
+    const negativeSamples = step.result?.negativeSamples || [];
+    const samples: Array<{ rating: number; preview: string; type: 'positive' | 'negative' }> = [];
+    // 긍정/부정 번갈아 배치
+    const maxLen = Math.max(positiveSamples.length, negativeSamples.length);
+    for (let i = 0; i < maxLen; i++) {
+      if (positiveSamples[i]) {
+        samples.push({ ...positiveSamples[i], type: 'positive' });
+      }
+      if (negativeSamples[i]) {
+        samples.push({ ...negativeSamples[i], type: 'negative' });
+      }
+    }
+    return samples;
+  }, [step.result?.positiveSamples, step.result?.negativeSamples]);
+
+  // 슬라이드 전환 인덱스
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // 슬라이드 완료 여부 (done 상태여도 샘플이 있으면 한 바퀴 돌린 후 결과 표시)
+  const [slidesComplete, setSlidesComplete] = useState(false);
+
+  // 슬라이드 전환 효과 (done 상태여도 샘플이 있으면 계속 진행)
+  useEffect(() => {
+    if (reviewSamples.length === 0 || slidesComplete) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => {
+        const next = (prev + 1) % reviewSamples.length;
+        // 한 바퀴 돌면 완료
+        if (next === 0 && prev === reviewSamples.length - 1) {
+          setTimeout(() => setSlidesComplete(true), 500);
+        }
+        return next;
+      });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [reviewSamples.length, slidesComplete]);
+
+  const currentSample = reviewSamples[currentIndex];
+
+  // 스트리밍을 보여줄지 결과를 보여줄지 결정
+  // 샘플이 있고 슬라이드가 완료되지 않았으면 스트리밍 (done 상태여도)
+  const showStreaming = reviewSamples.length > 0 && !slidesComplete;
+  const showResults = step.status === 'done' && (slidesComplete || reviewSamples.length === 0);
+  const showSkeleton = step.status === 'active' && reviewSamples.length === 0 && !slidesComplete;
 
   return (
     <AnimatePresence mode="wait">
-      {step.status === 'active' && keywords.length === 0 ? (
+      {showSkeleton ? (
         <motion.div
           key="skeleton"
           initial={{ opacity: 0 }}
@@ -833,56 +887,130 @@ function ReviewExtractionContent({ step }: { step: AnalysisStep }) {
           exit={{ opacity: 0 }}
           className="space-y-2"
         >
-          <div className="flex items-center gap-1.5">
-            <Shimmer className="h-3 w-32" />
+          {/* 로딩 상태 텍스트 */}
+          <div className="flex items-center gap-2">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            >
+              <FcProcess size={14} />
+            </motion.div>
+            <span className="text-[12px] text-gray-500 font-medium">실제 구매 리뷰 분석 중...</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {[1, 2, 3, 4, 5].map(i => (
-              <Shimmer key={i} className="h-6 w-16 rounded-[6px]" />
+            {[1, 2, 3, 4].map(i => (
+              <Shimmer key={i} className="h-5 w-14 rounded-md" />
             ))}
           </div>
         </motion.div>
-      ) : (
+      ) : showStreaming ? (
         <motion.div
-          key="content"
+          key="streaming"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="space-y-3"
+        >
+          {/* 분석 중 헤더 */}
+          <div className="flex items-center gap-2">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            >
+              <FcProcess size={14} />
+            </motion.div>
+            <span className="text-[12px] text-gray-500 font-medium">
+              실제 구매 리뷰 분석 중...
+              {reviewSamples.length > 0 && (
+                <span className="ml-2 text-purple-600 font-semibold">
+                  ({currentIndex + 1}/{reviewSamples.length})
+                </span>
+              )}
+            </span>
+          </div>
+
+          {/* 실시간 리뷰 슬라이드 (웹검색 스타일) */}
+          {currentSample && (
+            <div className="p-2.5 bg-gray-50 rounded-lg">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentIndex}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-[11px]"
+                >
+                  <span className={`font-semibold ${
+                    currentSample.type === 'positive' ? 'text-green-600' : 'text-rose-500'
+                  }`}>
+                    {currentSample.type === 'positive' ? '👍 긍정' : '👎 부정'} [{currentSample.rating}점]
+                  </span>
+                  <span className="text-gray-600 ml-1.5">
+                    {currentSample.preview.length > 60
+                      ? currentSample.preview.substring(0, 60) + '...'
+                      : currentSample.preview}
+                  </span>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          )}
+        </motion.div>
+      ) : showResults ? (
+        <motion.div
+          key="results"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="space-y-2"
         >
-          {count > 0 && (
-            <div className="flex items-center">
-              <p className="text-[14px] tracking-tight font-medium">
-                <span className="text-gray-400">리뷰 분석 </span>
-                <span className="text-gray-500">{count.toLocaleString()}개</span>
-              </p>
-            </div>
+          {/* 분석 완료 헤더 */}
+          {analyzedCount > 0 && (
+            <p className="text-[12px] text-gray-400 font-medium">
+              리뷰 {analyzedCount.toLocaleString()}개 분석 완료
+            </p>
           )}
 
-          {/* 키워드 태그 */}
-          {keywords.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {keywords.slice(0, 10).map((keyword, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.05 }}
-                  className={`px-2.5 py-1 rounded-[6px] text-[12px] font-semibold ${i < 3
-                    ? 'bg-green-50 text-green-800 border border-green-200/50'
-                    : i < 5
-                      ? 'bg-rose-50 text-rose-700 border border-rose-200/50'
-                      : 'bg-gray-100 text-gray-600 border border-gray-200/50'
-                    }`}
-                >
-                  {i < 3 ? '👍 ' : i < 5 ? '👎 ' : ''}{keyword}
-                </motion.span>
-              ))}
-            </div>
-          )}
-
-          {/* 분석 결과 메시지 제거됨 */}
+          {/* 모든 태그 한 줄로 나열 (긍정 → 부정 → 고려사항) */}
+          <div className="flex flex-wrap gap-1.5">
+            {/* 긍정 태그 */}
+            {(positiveKeywords.length > 0 ? positiveKeywords : prosTags).map((keyword: string, i: number) => (
+              <motion.span
+                key={`pos-${i}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.03 }}
+                className="px-2 py-1 bg-green-50 border border-green-100/50 rounded-lg text-[11px] font-semibold text-green-700"
+              >
+                {keyword}
+              </motion.span>
+            ))}
+            {/* 부정 태그 */}
+            {(negativeKeywords.length > 0 ? negativeKeywords : consTags).map((keyword: string, i: number) => (
+              <motion.span
+                key={`neg-${i}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: (positiveKeywords.length + i) * 0.03 }}
+                className="px-2 py-1 bg-rose-50 border border-rose-100/50 rounded-lg text-[11px] font-semibold text-rose-600"
+              >
+                {keyword}
+              </motion.span>
+            ))}
+            {/* 구매 고려사항 태그 */}
+            {commonConcerns.map((concern: string, i: number) => (
+              <motion.span
+                key={`con-${i}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: (positiveKeywords.length + negativeKeywords.length + i) * 0.03 }}
+                className="px-2 py-1 bg-purple-50 border border-purple-100/50 rounded-lg text-[11px] font-semibold text-purple-700"
+              >
+                {concern}
+              </motion.span>
+            ))}
+          </div>
         </motion.div>
-      )}
+      ) : null}
     </AnimatePresence>
   );
 }

@@ -6,7 +6,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
-import type { DanawaSearchListItem } from '@/lib/danawa/search-crawler';
+import type { DanawaSearchListItem, DanawaFilterSection } from '@/lib/danawa/search-crawler';
 import type { ReviewLite } from '@/lib/danawa/review-crawler-lite';
 
 // Supabase 클라이언트
@@ -271,5 +271,54 @@ export async function getPricesFromCache(
   } catch (error) {
     console.error(`[KnowledgeCache] 가격 캐시 조회 에러:`, error);
     return { hit: false, prices: {}, source: 'crawl' };
+  }
+}
+
+// ============================================================================
+// 필터 캐시 조회
+// ============================================================================
+
+export interface FilterCacheResult {
+  hit: boolean;
+  filters: DanawaFilterSection[];
+  cachedAt: string | null;
+}
+
+/**
+ * 검색 쿼리로 캐시된 필터 목록 조회
+ * @param query 검색 키워드
+ * @returns 캐시된 필터 목록 (없으면 빈 배열)
+ */
+export async function getFiltersFromCache(
+  query: string
+): Promise<FilterCacheResult> {
+  try {
+    const { data, error } = await supabase
+      .from('knowledge_filters_cache')
+      .select('*')
+      .eq('query', query)
+      .single();
+
+    if (error) {
+      // PGRST116 = single row not found (정상적인 캐시 미스)
+      if (error.code !== 'PGRST116') {
+        console.warn(`[KnowledgeCache] 필터 캐시 조회 실패:`, error.message);
+      }
+      return { hit: false, filters: [], cachedAt: null };
+    }
+
+    if (!data || !data.filters) {
+      console.log(`[KnowledgeCache] 필터 캐시 MISS: "${query}"`);
+      return { hit: false, filters: [], cachedAt: null };
+    }
+
+    const filters = data.filters as DanawaFilterSection[];
+    const cachedAt = data.crawled_at || null;
+    console.log(`[KnowledgeCache] 필터 캐시 HIT: "${query}" - ${filters.length}개 섹션 (${cachedAt})`);
+
+    return { hit: true, filters, cachedAt };
+  } catch (error) {
+    console.error(`[KnowledgeCache] 필터 캐시 조회 에러:`, error);
+    return { hit: false, filters: [], cachedAt: null };
   }
 }

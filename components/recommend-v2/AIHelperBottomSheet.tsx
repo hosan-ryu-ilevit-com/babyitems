@@ -438,7 +438,7 @@ export function AIHelperBottomSheet({
                     </linearGradient>
                   </defs>
                 </svg>
-                <h2 className="text-[18px] font-bold text-[#6366F1]">AI 질문하기</h2>
+                <h2 className="text-[18px] font-bold text-[#6366F1]">AI 도움받기</h2>
               </div>
               <button
                 onClick={onClose}
@@ -531,7 +531,7 @@ export function AIHelperBottomSheet({
                         ref={inputRef}
                         value={userInput}
                         onChange={e => setUserInput(e.target.value)}
-                        placeholder={questionType === 'category_selection' ? "고객님의 상황을 알려주세요" : "위 질문과 관련된 상황을 알려주세요"}
+                        placeholder={questionType === 'category_selection' ? "고객님의 상황을 알려주세요" : "질문과 관련된 상황을 알려주세요"}
                         className="w-full p-4 bg-gray-50 border border-gray-100 focus:border-gray-500 rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px] transition-colors"
                         disabled={isQuickMode || isLoading || !!aiResponse}
                       />

@@ -108,7 +108,7 @@ export function NegativeFilterList({
             setIsAIHelperAutoSubmit(false);
             setIsAIHelperOpen(true);
           }}
-          label="뭘 고를지 모르겠어요"
+          label="잘 모르겠어요"
           questionType="negative"
           questionId="negative_filter"
           questionText="꼭 피할 단점을 선택하세요 (건너뛰기 가능)"
@@ -151,14 +151,14 @@ export function NegativeFilterList({
               whileTap={{ scale: 0.98 }}
               className={`w-full py-4 px-5 rounded-[12px] border text-left flex items-center justify-between gap-3 transition-all ${
                 isSelected
-                  ? 'border-red-100 bg-red-50'
-                  : 'border-gray-100 bg-white hover:border-red-100/50 hover:bg-red-50/30 text-gray-600'
+                  ? 'border-blue-100 bg-blue-50'
+                  : 'border-gray-100 bg-white hover:border-blue-200 hover:bg-blue-50/30 text-gray-600'
               }`}
             >
               {/* 옵션 텍스트 */}
               <span
                 className={`text-[16px] font-medium leading-[1.4] flex-1 ${
-                  isSelected ? 'text-red-500' : 'text-gray-600'
+                  isSelected ? 'text-blue-500' : 'text-gray-600'
                 }`}
               >
                 {option.label}

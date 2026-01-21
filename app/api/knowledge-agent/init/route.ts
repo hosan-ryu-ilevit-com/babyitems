@@ -36,7 +36,7 @@ import { getQueryCache, setQueryCache } from '@/lib/knowledge-agent/cache-manage
 import { fetchReviewsBatchParallel, type ReviewCrawlResult } from '@/lib/danawa/review-crawler-lite';
 
 // Supabase 캐시 (프리페치된 데이터)
-import { getProductsFromCache, getReviewsFromCache } from '@/lib/knowledge-agent/supabase-cache';
+import { getProductsFromCache, getReviewsFromCache, getFiltersFromCache } from '@/lib/knowledge-agent/supabase-cache';
 
 // Vercel 서버리스 타임아웃 설정 (기본 10초 → 60초)
 export const maxDuration = 60;
@@ -555,16 +555,24 @@ async function crawlProductsWithStreaming(
 ): Promise<{ products: DanawaSearchListItem[]; cached: boolean; searchUrl: string; filters?: DanawaFilterSection[] }> {
   console.log(`[Step2] Crawling products for: ${categoryName} (limit: ${PRODUCT_CRAWL_LIMIT})`);
 
-  // 1. Supabase 캐시에서 제품 조회 (캐시 전용 - 신선도 체크 제거)
-  const supabaseCache = await getProductsFromCache(categoryName, PRODUCT_CRAWL_LIMIT);
+  // 1. Supabase 캐시에서 제품 + 필터 조회 (캐시 전용 - 신선도 체크 제거)
+  const [supabaseCache, filterCache] = await Promise.all([
+    getProductsFromCache(categoryName, PRODUCT_CRAWL_LIMIT),
+    getFiltersFromCache(categoryName),
+  ]);
+
   if (supabaseCache.hit && supabaseCache.products.length > 0) {
     console.log(`[Step2] Supabase cache HIT: ${supabaseCache.products.length} products (${supabaseCache.cachedAt})`);
+    if (filterCache.hit) {
+      console.log(`[Step2] Filter cache HIT: ${filterCache.filters.length} sections`);
+    }
 
     const searchUrl = `https://search.danawa.com/dsearch.php?query=${encodeURIComponent(categoryName)}`;
+    const cachedFilters = filterCache.hit ? filterCache.filters : undefined;
 
-    // 캐시 히트 시 헤더 정보 즉시 전달
+    // 캐시 히트 시 헤더 정보 즉시 전달 (필터 포함)
     if (onHeaderParsed) {
-      onHeaderParsed({ searchUrl, filters: undefined });
+      onHeaderParsed({ searchUrl, filters: cachedFilters });
     }
 
     // 캐시된 경우: 첫 배치 + 전체 완료 신호만 전송 (빠른 UI 업데이트)
@@ -580,7 +588,7 @@ async function crawlProductsWithStreaming(
         onProductBatch([], true, false);
       }
     }
-    return { products: supabaseCache.products, cached: true, searchUrl, filters: undefined };
+    return { products: supabaseCache.products, cached: true, searchUrl, filters: cachedFilters };
   }
 
   // 2. 파일 기반 캐시 확인 (기존 로직)
@@ -732,6 +740,177 @@ async function crawlReviewsForProducts(
   });
 
   return { reviews: reviewMap, totalReviews: totalReviewsCollected };
+}
+
+// ============================================================================
+// Step 2.6: Review Analysis (실제 리뷰 분석)
+// ============================================================================
+
+export interface ReviewAnalysis {
+  positiveKeywords: string[];   // 긍정 키워드 (예: "세척 편함", "조용함")
+  negativeKeywords: string[];   // 부정 키워드 (예: "물때", "소음")
+  commonConcerns: string[];     // 주요 구매 고려사항
+  prosTags: string[];           // 프론트엔드용 장점 태그
+  consTags: string[];           // 프론트엔드용 단점 태그
+  analyzedCount: number;        // 분석된 리뷰 수
+}
+
+/**
+ * 리뷰 샘플링: 긍정 25개 + 부정 25개 (길이 긴 순)
+ */
+function sampleReviewsForAnalysis(
+  allReviews: Record<string, ReviewCrawlResult>
+): { positive: Array<{ content: string; rating: number }>; negative: Array<{ content: string; rating: number }> } {
+  // 모든 리뷰를 하나의 배열로 합침
+  const allReviewsList: Array<{ content: string; rating: number; length: number }> = [];
+
+  Object.values(allReviews).forEach(result => {
+    if (!result.success) return;
+    result.reviews.forEach(r => {
+      if (r.content && r.content.length >= 20) { // 최소 20자 이상
+        allReviewsList.push({
+          content: r.content,
+          rating: r.rating,
+          length: r.content.length,
+        });
+      }
+    });
+  });
+
+  // 긍정 리뷰 (4-5점) - 길이 긴 순으로 정렬 후 25개
+  const positiveReviews = allReviewsList
+    .filter(r => r.rating >= 4)
+    .sort((a, b) => b.length - a.length)
+    .slice(0, 25)
+    .map(r => ({ content: r.content, rating: r.rating }));
+
+  // 부정 리뷰 (1-3점) - 길이 긴 순으로 정렬 후 25개
+  const negativeReviews = allReviewsList
+    .filter(r => r.rating <= 3)
+    .sort((a, b) => b.length - a.length)
+    .slice(0, 25)
+    .map(r => ({ content: r.content, rating: r.rating }));
+
+  console.log(`[ReviewAnalysis] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  console.log(`[ReviewAnalysis] 📊 리뷰 샘플링 결과`);
+  console.log(`[ReviewAnalysis]   전체 리뷰: ${allReviewsList.length}개`);
+  console.log(`[ReviewAnalysis]   긍정 리뷰 (4-5점): ${positiveReviews.length}개`);
+  console.log(`[ReviewAnalysis]   부정 리뷰 (1-3점): ${negativeReviews.length}개`);
+
+  // 샘플 리뷰 출력 (각 3개씩)
+  if (positiveReviews.length > 0) {
+    console.log(`[ReviewAnalysis] ✅ 긍정 리뷰 샘플 (상위 3개):`);
+    positiveReviews.slice(0, 3).forEach((r, i) => {
+      console.log(`[ReviewAnalysis]   ${i + 1}. [${r.rating}점] ${r.content.slice(0, 100)}...`);
+    });
+  }
+
+  if (negativeReviews.length > 0) {
+    console.log(`[ReviewAnalysis] ❌ 부정 리뷰 샘플 (상위 3개):`);
+    negativeReviews.slice(0, 3).forEach((r, i) => {
+      console.log(`[ReviewAnalysis]   ${i + 1}. [${r.rating}점] ${r.content.slice(0, 100)}...`);
+    });
+  }
+  console.log(`[ReviewAnalysis] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+
+  return { positive: positiveReviews, negative: negativeReviews };
+}
+
+/**
+ * LLM으로 리뷰 분석 (장단점 키워드 추출)
+ */
+async function analyzeReviews(
+  categoryName: string,
+  allReviews: Record<string, ReviewCrawlResult>
+): Promise<ReviewAnalysis | null> {
+  if (!ai) return null;
+
+  const sampled = sampleReviewsForAnalysis(allReviews);
+
+  // 리뷰가 너무 적으면 분석 스킵
+  if (sampled.positive.length + sampled.negative.length < 10) {
+    console.log(`[ReviewAnalysis] Skipping - not enough reviews (${sampled.positive.length + sampled.negative.length})`);
+    return null;
+  }
+
+  const positiveText = sampled.positive
+    .map((r, i) => `${i + 1}. [${r.rating}점] ${r.content.slice(0, 300)}`)
+    .join('\n');
+
+  const negativeText = sampled.negative
+    .map((r, i) => `${i + 1}. [${r.rating}점] ${r.content.slice(0, 300)}`)
+    .join('\n');
+
+  const prompt = `
+당신은 "${categoryName}" 제품 리뷰 분석 전문가입니다.
+아래 실제 구매자 리뷰를 분석하여 핵심 키워드를 추출하세요.
+
+## 긍정 리뷰 (4-5점)
+${positiveText || '(없음)'}
+
+## 부정 리뷰 (1-3점)
+${negativeText || '(없음)'}
+
+## 분석 규칙
+1. 여러 리뷰에서 **반복적으로 언급되는** 내용만 추출하세요
+2. 키워드는 2-5단어로 간결하게 (예: "세척 편함", "소음 큼", "가성비 좋음")
+3. 제품 카테고리에 특화된 키워드 위주로 (일반적인 "배송 빠름" 등 제외)
+4. 각 항목 최대 8개까지
+
+## 출력 (JSON만)
+\`\`\`json
+{
+  "positiveKeywords": ["키워드1", "키워드2", ...],
+  "negativeKeywords": ["키워드1", "키워드2", ...],
+  "commonConcerns": ["구매 시 고려할 점1", "고려할 점2", ...]
+}
+\`\`\`
+`;
+
+  try {
+    console.log(`[ReviewAnalysis] Analyzing ${sampled.positive.length + sampled.negative.length} reviews...`);
+    const startTime = Date.now();
+
+    const model = ai.getGenerativeModel({
+      model: 'gemini-2.0-flash-lite',
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 800,
+      }
+    });
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+
+    // JSON 파싱
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.warn(`[ReviewAnalysis] Failed to parse JSON response`);
+      return null;
+    }
+
+    const parsed = JSON.parse(jsonMatch[0]);
+    const elapsed = Date.now() - startTime;
+
+    console.log(`[ReviewAnalysis] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    console.log(`[ReviewAnalysis] 🎯 LLM 분석 결과 (${elapsed}ms)`);
+    console.log(`[ReviewAnalysis]   ✅ 긍정 키워드: ${(parsed.positiveKeywords || []).join(', ')}`);
+    console.log(`[ReviewAnalysis]   ❌ 부정 키워드: ${(parsed.negativeKeywords || []).join(', ')}`);
+    console.log(`[ReviewAnalysis]   💡 구매 고려사항: ${(parsed.commonConcerns || []).join(', ')}`);
+    console.log(`[ReviewAnalysis] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+
+    return {
+      positiveKeywords: parsed.positiveKeywords || [],
+      negativeKeywords: parsed.negativeKeywords || [],
+      commonConcerns: parsed.commonConcerns || [],
+      prosTags: (parsed.positiveKeywords || []).slice(0, 6),
+      consTags: (parsed.negativeKeywords || []).slice(0, 6),
+      analyzedCount: sampled.positive.length + sampled.negative.length,
+    };
+  } catch (error) {
+    console.error(`[ReviewAnalysis] Error:`, error);
+    return null;
+  }
 }
 
 // ============================================================================
@@ -1287,7 +1466,8 @@ async function generateQuestions(
   products: DanawaSearchListItem[],
   trendAnalysis: TrendAnalysis | null,
   _knowledge: string,
-  filters?: DanawaFilterSection[]
+  filters?: DanawaFilterSection[],
+  reviewAnalysis?: ReviewAnalysis | null  // 🔥 리뷰 분석 결과 (선택적)
 ): Promise<QuestionTodo[]> {
   if (!ai) return getDefaultQuestions(categoryName, products, trendAnalysis);
 
@@ -1316,14 +1496,26 @@ async function generateQuestions(
   // 웹서치 트렌드
   const trendsText = trendAnalysis?.trends.map((t, i) => `${i + 1}. ${t}`).join('\n') || '';
 
-  // 🔍 질문 생성에 전달되는 웹검색 데이터 확인
+  // 🔍 질문 생성에 전달되는 데이터 확인 (웹검색 + 리뷰 분석)
   console.log(`[Step3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-  console.log(`[Step3] 📊 질문 생성에 전달되는 웹검색 데이터:`);
-  console.log(`[Step3]   트렌드: ${trendAnalysis?.trends?.join(', ') || '(없음)'}`);
-  console.log(`[Step3]   장점: ${trendAnalysis?.pros?.join(', ') || '(없음)'}`);
-  console.log(`[Step3]   단점: ${trendAnalysis?.cons?.join(', ') || '(없음)'}`);
-  console.log(`[Step3]   ⭐구매고려사항: ${trendAnalysis?.buyingFactors?.join(' / ') || '(없음)'}`);
+  console.log(`[Step3] 📊 질문 생성에 전달되는 데이터:`);
+  console.log(`[Step3]   [웹검색] 트렌드: ${trendAnalysis?.trends?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   [웹검색] 장점: ${trendAnalysis?.pros?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   [웹검색] 단점: ${trendAnalysis?.cons?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   [웹검색] ⭐구매고려사항: ${trendAnalysis?.buyingFactors?.join(' / ') || '(없음)'}`);
+  console.log(`[Step3]   [리뷰분석] 긍정키워드: ${reviewAnalysis?.positiveKeywords?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   [리뷰분석] 부정키워드: ${reviewAnalysis?.negativeKeywords?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   [리뷰분석] ⭐구매고려사항: ${reviewAnalysis?.commonConcerns?.join(' / ') || '(없음)'}`);
   console.log(`[Step3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+
+  // 🔥 리뷰 분석 결과를 프롬프트용 텍스트로 변환
+  const reviewInsightsText = reviewAnalysis
+    ? `
+- **🔍 실사용 리뷰 분석 (${reviewAnalysis.analyzedCount || 0}개 분석):**
+  - 긍정 키워드: ${reviewAnalysis.positiveKeywords?.join(', ') || '(분석중)'}
+  - 부정 키워드: ${reviewAnalysis.negativeKeywords?.join(', ') || '(분석중)'}
+  - ⭐ 구매 시 고려사항: ${reviewAnalysis.commonConcerns?.join(' / ') || '(분석중)'}`
+    : '';
 
   const prompt = `
 당신은 "${categoryName}" 구매 결정을 돕는 전문 AI 쇼핑 컨시어지입니다.
@@ -1338,7 +1530,7 @@ async function generateQuestions(
 <MarketContext>
 - **카테고리:** ${categoryName}
 - **웹 트렌드/리뷰 요약:** ${trendAnalysis ? `${trendsText || '-'} (주요 장점: ${(trendAnalysis.pros || []).slice(0,3).join(', ')} / 주요 단점: ${(trendAnalysis.cons || []).join(', ')})` : '정보 없음'}
-- **⭐ 핵심 구매 고려사항 (웹검색):** ${trendAnalysis?.buyingFactors?.length ? trendAnalysis.buyingFactors.join(' / ') : '정보 없음'}
+- **⭐ 핵심 구매 고려사항 (웹검색):** ${trendAnalysis?.buyingFactors?.length ? trendAnalysis.buyingFactors.join(' / ') : '정보 없음'}${reviewInsightsText}
 - **가격 분포:** 최저 ${minPrice.toLocaleString()}원 ~ 최고 ${maxPrice.toLocaleString()}원 (평균 ${avgPrice.toLocaleString()}원)
 - **주요 브랜드:** ${brands.slice(0, 6).join(', ')}
 - **필터링 옵션(다나와):** ${filterSummary}
@@ -1902,41 +2094,14 @@ export async function POST(request: NextRequest) {
           const top20ForQuestions = initialData.products;
           const crawledFilters = initialData.filters;
 
-          // Phase 1.5 & 3 준비 (백그라운드에서 crawlPromise는 계속 진행 중)
+          // Phase 1.5 준비 (백그라운드에서 crawlPromise는 계속 진행 중)
           const phase15Start = Date.now();
-          console.log(`[Phase1.5] Starting parallel: question generation (${top20ForQuestions.length} products) + review crawling (Background)`);
+          console.log(`[Phase1.5] Starting: review crawling + analysis (will generate questions after)`);
 
-          // 1. 질문 생성 Promise
-          const questionPromise = (async () => {
-            const phase3Start = Date.now();
+          // 🔥 개선: 질문 생성은 리뷰 분석 완료 후에 실행
+          // (웹검색 + 리뷰분석 데이터를 모두 활용하여 더 정교한 질문 생성)
 
-            const [longTermData, knowledge] = await Promise.all([
-              Promise.resolve(updateLongTermMemory(categoryKey, categoryName, top20ForQuestions, trendAnalysis)),
-              Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
-            ]);
-
-            const questions = await generateQuestions(
-              categoryKey,
-              categoryName,
-              top20ForQuestions,
-              trendAnalysis,
-              knowledge || generateLongTermMarkdown(longTermData),
-              crawledFilters
-            );
-
-            const phase3Duration = Date.now() - phase3Start;
-            console.log(`[Phase3] Question generation completed in ${phase3Duration}ms (${questions.length} questions)`);
-
-            // ✅ 질문 생성 완료 즉시 전송!
-            send('questions', {
-              questionTodos: questions,
-              currentQuestion: questions[0] || null,
-            });
-
-            return { questions, longTermData, phase3Duration };
-          })();
-
-          // 2. 리뷰 크롤링 Promise (나머지 상품들이 다 올 때까지 기다린 후 시작)
+          // 리뷰 크롤링 + 분석 Promise (나머지 상품들이 다 올 때까지 기다린 후 시작)
           const reviewPromise = (async () => {
             // 나머지 120개 수집 완료 대기
             const crawlResult = await crawlPromise;
@@ -1951,6 +2116,7 @@ export async function POST(request: NextRequest) {
 
             let allReviews: Record<string, ReviewCrawlResult> = {};
             let totalReviewsCrawled = 0;
+            let reviewAnalysis: ReviewAnalysis | null = null;
 
             try {
               const reviewResult = await crawlReviewsForProducts(
@@ -1962,29 +2128,84 @@ export async function POST(request: NextRequest) {
               allReviews = reviewResult.reviews;
               totalReviewsCrawled = reviewResult.totalReviews;
 
-              send('reviews_complete', {
+                send('reviews_complete', {
                 productCount: Object.keys(allReviews).length,
                 totalReviews: totalReviewsCrawled,
               });
+
+              // 전체 리뷰 수 계산 (제품별 reviewCount 합산 - PLP에서 가져온 값)
+              const totalProductReviewCount = allProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0);
+
+              // 리뷰 분석 시작 - 샘플 미리 추출해서 프론트엔드에 전달
+              const reviewSamples = sampleReviewsForAnalysis(allReviews);
+              send('review_analysis_start', {
+                reviewCount: totalProductReviewCount,
+                // 프론트엔드에 샘플 리뷰 전달 (각 3개씩)
+                positiveSamples: reviewSamples.positive.slice(0, 3).map(r => ({
+                  rating: r.rating,
+                  preview: r.content.slice(0, 80) + (r.content.length > 80 ? '...' : ''),
+                })),
+                negativeSamples: reviewSamples.negative.slice(0, 3).map(r => ({
+                  rating: r.rating,
+                  preview: r.content.slice(0, 80) + (r.content.length > 80 ? '...' : ''),
+                })),
+              });
+              reviewAnalysis = await analyzeReviews(categoryName, allReviews);
+
+              if (reviewAnalysis) {
+                send('review_analysis_complete', {
+                  // 전체 리뷰 수 사용 (제품별 reviewCount 합산)
+                  analyzedCount: totalProductReviewCount,
+                  prosTags: reviewAnalysis.prosTags,
+                  consTags: reviewAnalysis.consTags,
+                  // 전체 분석 결과
+                  positiveKeywords: reviewAnalysis.positiveKeywords,
+                  negativeKeywords: reviewAnalysis.negativeKeywords,
+                  commonConcerns: reviewAnalysis.commonConcerns,
+                });
+              }
             } catch (error) {
-              console.error('[Phase1.5] Review crawling failed:', error);
+              console.error('[Phase1.5] Review crawling/analysis failed:', error);
               send('reviews_error', { error: 'Review crawling failed' });
             }
 
-            return { allReviews, totalReviewsCrawled };
+            return { allReviews, totalReviewsCrawled, reviewAnalysis };
           })();
 
-          // 3. 병렬 실행 대기
-          const [questionResult, reviewResult] = await Promise.all([
-            questionPromise,
-            reviewPromise,
-          ]);
-
-          const { questions: questionTodos, longTermData, phase3Duration } = questionResult;
-          const { allReviews, totalReviewsCrawled } = reviewResult;
+          // 3. 리뷰 분석 완료 대기
+          const reviewResult = await reviewPromise;
+          const { allReviews, totalReviewsCrawled, reviewAnalysis } = reviewResult;
 
           const phase15Duration = Date.now() - phase15Start;
           const phase1Duration = Date.now() - phase1Start; // Phase 1 전체 시간 (120개 포함)
+
+          // 🔥 Phase 3: 질문 생성 (웹검색 + 리뷰분석 데이터 모두 활용)
+          const phase3Start = Date.now();
+          console.log(`[Phase3] Starting question generation with web search + review analysis data`);
+
+          const [longTermData, knowledge] = await Promise.all([
+            Promise.resolve(updateLongTermMemory(categoryKey, categoryName, top20ForQuestions, trendAnalysis)),
+            Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
+          ]);
+
+          const questionTodos = await generateQuestions(
+            categoryKey,
+            categoryName,
+            top20ForQuestions,
+            trendAnalysis,
+            knowledge || generateLongTermMarkdown(longTermData),
+            crawledFilters,
+            reviewAnalysis  // 🔥 리뷰 분석 결과 전달
+          );
+
+          const phase3Duration = Date.now() - phase3Start;
+          console.log(`[Phase3] Question generation completed in ${phase3Duration}ms (${questionTodos.length} questions)`);
+
+          // ✅ 질문 생성 완료 후 전송
+          send('questions', {
+            questionTodos,
+            currentQuestion: questionTodos[0] || null,
+          });
 
           // 리뷰 0개인 상품 필터링 (품질 향상) - review_count 우선 사용
           const productsBeforeFilter = allProducts.length;
@@ -2032,8 +2253,6 @@ export async function POST(request: NextRequest) {
 
           const phase2Duration = Date.now() - phase2Start;
 
-          // ✅ 질문은 이미 questionPromise 내에서 전송됨 (리뷰 크롤링 대기 없이 즉시)
-
           // Short-term Memory 저장
           const shortTermMemory = initializeShortTermMemory(categoryKey, categoryName, filteredProducts.length);
 
@@ -2080,13 +2299,21 @@ export async function POST(request: NextRequest) {
           const totalReviewCount = filteredProducts.reduce((sum: number, p: DanawaSearchListItem) => sum + (p.reviewCount || 0), 0);
           const avgRating = filteredProducts.filter((p: DanawaSearchListItem) => p.rating).reduce((sum: number, p: DanawaSearchListItem, _: number, arr: DanawaSearchListItem[]) => sum + (p.rating || 0) / arr.length, 0);
 
+          // 장단점 태그: 리뷰 분석 결과 우선, 없으면 웹검색 트렌드 사용
+          const prosKeywords = reviewAnalysis?.prosTags?.length
+            ? reviewAnalysis.prosTags
+            : (trendAnalysis?.pros || []).slice(0, 5);
+          const consKeywords = reviewAnalysis?.consTags?.length
+            ? reviewAnalysis.consTags
+            : (trendAnalysis?.cons || []).slice(0, 5);
+
           const marketSummary = {
             productCount: filteredProducts.length,
             reviewCount: totalReviewCount,
             priceRange: priceStats,
             topBrands,
-            topPros: (trendAnalysis?.pros || []).slice(0, 5).map((p: string) => ({ keyword: p, count: 0 })),
-            topCons: (trendAnalysis?.cons || []).slice(0, 5).map((c: string) => ({ keyword: c, count: 0 })),
+            topPros: prosKeywords.map((p: string) => ({ keyword: p, count: 0 })),
+            topCons: consKeywords.map((c: string) => ({ keyword: c, count: 0 })),
             avgRating: Math.round(avgRating * 10) / 10,
           };
 
@@ -2152,10 +2379,19 @@ export async function POST(request: NextRequest) {
             reviewStats: {
               productsWithReviews: Object.keys(allReviews).length,
               totalReviews: totalReviewsCrawled,
-              avgReviewsPerProduct: Object.keys(allReviews).length > 0 
-                ? Math.round(totalReviewsCrawled / Object.keys(allReviews).length * 10) / 10 
+              avgReviewsPerProduct: Object.keys(allReviews).length > 0
+                ? Math.round(totalReviewsCrawled / Object.keys(allReviews).length * 10) / 10
                 : 0,
             },
+            // 리뷰 분석 결과 (장단점 키워드)
+            reviewAnalysis: reviewAnalysis ? {
+              prosTags: reviewAnalysis.prosTags,
+              consTags: reviewAnalysis.consTags,
+              positiveKeywords: reviewAnalysis.positiveKeywords,
+              negativeKeywords: reviewAnalysis.negativeKeywords,
+              commonConcerns: reviewAnalysis.commonConcerns,
+              analyzedCount: reviewAnalysis.analyzedCount,
+            } : null,
           });
 
           console.log(`[Init V6] Total time: ${totalTime}ms`);

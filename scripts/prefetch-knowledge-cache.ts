@@ -27,7 +27,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 // 타입만 정적 import (런타임에 영향 없음)
 import type { ReviewLite } from '../lib/danawa/review-crawler-lite';
-import type { DanawaSearchListItem } from '../lib/danawa/search-crawler';
+import type { DanawaSearchListItem, DanawaFilterSection } from '../lib/danawa/search-crawler';
 import type { DanawaPriceResult } from '../lib/danawa/price-crawler';
 
 // Supabase는 지연 초기화
@@ -148,6 +148,7 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
   // 1. 제품 메타데이터 (크롤링 또는 DB 캐시에서 로드)
   // -------------------------------------------------------------------------
   let products: DanawaSearchListItem[] = [];
+  let filters: DanawaFilterSection[] = [];
 
   if (skipProducts) {
     // DB 캐시에서 제품 로드
@@ -198,7 +199,8 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
         }
       );
       products = searchResult.items;
-      console.log(`   ✅ ${products.length}개 제품 크롤링 완료`);
+      filters = searchResult.filters || [];
+      console.log(`   ✅ ${products.length}개 제품, ${filters.length}개 필터 섹션 크롤링 완료`);
     } catch (error) {
       const msg = `제품 크롤링 실패: ${error instanceof Error ? error.message : 'Unknown'}`;
       console.error(`   ❌ ${msg}`);
@@ -251,6 +253,33 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
       const msg = `제품 DB 저장 실패: ${error instanceof Error ? error.message : 'Unknown'}`;
       console.error(`   ❌ ${msg}`);
       errors.push(msg);
+    }
+
+    // 필터 저장 (핵심 스펙 필터)
+    if (filters.length > 0) {
+      console.log(`\n🏷️ [Step 2-1] 필터 DB 저장 중...`);
+      try {
+        const filterData = {
+          query,
+          filters: filters,
+          crawled_at: new Date().toISOString(),
+        };
+
+        const { error } = await db
+          .from('knowledge_filters_cache')
+          .upsert(filterData, { onConflict: 'query' });
+
+        if (error) {
+          console.error(`   ⚠️ 필터 저장 실패:`, error.message);
+          errors.push(`필터 저장 실패: ${error.message}`);
+        } else {
+          console.log(`   ✅ ${filters.length}개 필터 섹션 저장 완료`);
+        }
+      } catch (error) {
+        const msg = `필터 DB 저장 실패: ${error instanceof Error ? error.message : 'Unknown'}`;
+        console.error(`   ❌ ${msg}`);
+        errors.push(msg);
+      }
     }
   }
 

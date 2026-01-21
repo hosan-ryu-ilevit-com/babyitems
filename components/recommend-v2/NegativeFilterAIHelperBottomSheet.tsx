@@ -346,7 +346,7 @@ export function NegativeFilterAIHelperBottomSheet({
                     </linearGradient>
                   </defs>
                 </svg>
-                <h2 className="text-[18px] font-bold text-[#6366F1]">AI 질문하기</h2>
+                <h2 className="text-[18px] font-bold text-[#6366F1]">AI 도움받기</h2>
               </div>
               <button
                 onClick={onClose}
@@ -418,7 +418,7 @@ export function NegativeFilterAIHelperBottomSheet({
                         ref={inputRef}
                         value={userInput}
                         onChange={e => setUserInput(e.target.value)}
-                        placeholder="위 질문과 관련된 상황을 알려주세요"
+                        placeholder="질문과 관련된 상황을 알려주세요"
                         className="w-full p-4 bg-gray-50 border-none rounded-2xl text-[16px] text-gray-600 leading-relaxed resize-none focus:outline-none focus:ring-0 placeholder:text-gray-400 h-[94px]"
                         disabled={isQuickMode || isLoading || !!aiResponse}
                       />

@@ -1,32 +1,27 @@
 # 전자레인지 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T04:09:49.439Z
+> 마지막 업데이트: 2026-01-21T06:28:41.729Z
 > 분석 상품: 20개 | 분석 리뷰: 36,406개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 복합 기능 강화 (열선+그릴 등)
-- 스마트 기능 연동 (스마트싱스, 빅스비 등)
-- 친환경 소재 및 에너지 효율성 강조
-- 소비자 맞춤형 디자인 (비스포크 등)
-- AR 기술 접목을 통한 온라인 쇼핑 경험 혁신
+- 고출력 및 대용량 모델 인기 증가
+- 스마트 기능 및 IoT 연동 강화 (예: 스마트싱스 연동, 음성 제어)
+- 친환경 소재 및 에너지 효율성 강조 (예: 재활용 소재 사용, ECV 인증)
 
 ### 구매자 만족 포인트
 - ✓ 빠른 조리 시간
 - ✓ 에너지 효율성
-- ✓ 다양한 활용성 (해동, 데우기, 조리 등)
-- ✓ 영양소 보존
-- ✓ 사용 편의성
-- ✓ 뛰어난 가성비 (일부 모델)
-- ✓ 간편한 재료 손질
+- ✓ 다재다능한 활용 (해동, 베이킹, 스팀 조리 등)
+- ✓ 영양소 보존 용이
+- ✓ 안전성 (화상 위험 적음)
+- ✓ 뛰어난 가성비
 
 ### 주의해야 할 단점
-- ⚠ 내부 조리실 크기 제한
-- ⚠ 복잡한 기능 조작 (일부 모델)
-- ⚠ 소음 발생 (일부 모델)
-- ⚠ 금속 용기 사용 불가
-- ⚠ 플라스틱 용기 사용 시 미세 플라스틱 우려
+- ⚠ 일부 모델의 소음 발생
+- ⚠ 자동 조리 설정의 복잡성
+- ⚠ 조리실 깊이 부족으로 인한 일부 도시락 미수납 문제
 
 ### 가격대 인사이트
 
@@ -248,6 +243,8 @@
 ---
 
 ## 📊 데이터 출처
-- [draft-blog.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1-jsNNLs0tsjrvsmfqo85hdbZorBpcn-KlLdU0wuThwsWRvv56FRVq6CuwM02Vu2a9ll3_Y8W5tuRUcOTNSznM8mtrOmiamBBza-hD0tgi9PtCMvw_pkZcPezRZFu0kOidGNiXmAUeoAPk2al6G6AjJdwlNpE8ananptLMUdG7Nn7ZkJ8sN1Pi1HPZ_JkkoRv1IYLuAmNEcJceI8tadOlZ02hcXWxCcvNiDatghI1rZHDVf6tIA5H5-zG9hIyCNe5JQYZg_oteK7jxVz4zdMACDPvHFH-cesWRC9s29b3NWP_rVHizON6y4udHLof)
-- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpwCSNazMG8gI6pEVNSCvwhNjeAqZYigd4i_zuvBCDiRpk1RHfXedx5r0-DLpOuQZNM-L3t0KDW-0i7qI2ycMXpMmNWdsmwXeXNI9NB_zflGA5xhkjN8q_l4JTdXa964mhZUKt8wqiOymmIaUf7szFmf9CV_zxvA==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEzTw9LZVn_BfMcQkjrXO7bUUflH7BZS3QUrGR2R0gSABE0igOSI0uxUAVFHITqvvRXNuSDbraRG5f_6wkYytPsQ3jzUj1BFtqUsaCNqFA9YYzgw4jHAhZdQ99cVmM6jhN25P5jY8Wo1Bu9XPM5qDL5WuoxRONegDpooYU8o_r86i-)
+- [databridgemarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGo5QRopKn2eZsuxJI4YxUDHq-Ok_VCLmCv1oyZlvcsU7rPGl7uYSfimq4BI2q-pG1n7VIlhzTY85aMyYHCm9EBJ4BmprQllU3VErdfzP6r9m3f8TMV83AY2ske26l2Yxdg7mTEWa3MtGmdKhyoepI6PXqxHUDrPbSquPHP7v8mzPLlUj6AxkBapADp)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCQN-S2NJ7mJmGo7D2g9l81z7Umpa5AFZ0bvZW5w6tX9pUGIKPt1_a9zL0kvvZrHwlwcmOzt9Vq0VmcEcRm28gKiF-U5M5mtt1n8R6iTDFxCi2OFpxQ8dpJOORkJTaQKM3xn8QQ3Af34ha9YQlWlLS2-esr2ttxEyw1SySDCNzInufo-lgJ_rEqAExf6pcHEhX1ukVXgPsJKA5bev6srfybpckAn-VDDCOaatKm1E=)
+- [draft-blog.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrpWEk2B7-wC6sOALlvUgm6UMjXHSdUIPUrQReQSj_S2eSoGVxnbgFRqQ97GyjdKQwt25rCxeSkYmkOYyFY_Sa_--ZopwJkukJPehdQn1OKCcTAAiGVmbEFqZ61eNf7zxIjjO1B8iG7asGvhKDT5N9ZR-EmL68Lz5_rHp-b9uM5DI6ESgs85YRXvUSFKIe0ZwRpxcZzE0U9fhAtIco89D555ZePVoJ45Q-677MdbW0La5emre1tyUVt-DoUlK8NYaNLONvX-HK4h7Kat5EeaEp36nR9VIlxnH8YlWDaJ5xKXp9sKW_ITorZe69M2mADA==)
+- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFukerIZc-phEBbSiq4zOGPQdZJt3iED1d8kxG3eTS0wW__YKxvGx99xE_fzBwB2WSHjNF5b7dZkBDrApCW2iMEKGT8njrwmhBM5-uyvo1t7yW_UDEAp4jP15Mo7gheyB3w4tMN3nvC9Z7eYTYybx0eJOhko5Zhgcw=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7vD317QZcqHcbLRI7wxRUCYHaZnaBrL1C6Wsz4OiseeBGw7a91lvVRefaBKWsWY6aEinKgcKZIHhaRAruSkmWLjyLTnXjYew6SNrIY8RVYTZLD6OuEDqhkrT2dbmgQOtb-n4hLgXL61lUSIL-f9zYh8nhVK1Yyj6DOOAJlxCgTMWOL0UycFcq1TeT6E1XyouZG835h-3glaFosd_eYbnF6ZNZCwcCKy6RXRBPO1tRgxhgsdMOMM-V2HoLbtAbW4T4aKBKvqOpmzeb_oTpuv3z9pro8qCWVJqaO2E1u-y8PE37AeIXxZgC70eVkhHKSKZfTsY5cp6rYBB-EKof2NkcE76qL32I9Fk6U3a9aGRSaY3Slfsr5qYucrEP3c0i6qqQ8h-5d7f0bCsyv2nzKhKKUyigaZoV6iqYH55hjfUimTJkI9cC5xAR7rMEz0kMft0c1xkkTiMQe9kRNsNNesdgYavll0esGL878RQ7ujOQAKjsDcueZ5lWsbBx9EJkIA==)

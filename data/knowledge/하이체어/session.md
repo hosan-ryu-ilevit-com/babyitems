@@ -1,14 +1,14 @@
-# 세션: 20260107_065224_e9p1
-> 시작: 2026-01-07T06:52:24.439Z
+# 세션: 20260121_055057_izog
+> 시작: 2026-01-21T05:50:57.552Z
 > 카테고리키: 하이체어
 > 카테고리: 하이체어
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 하이체어 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재 하이체어 시장은 아이의 성장 단계에 맞춰 오래 사용할 수 있는 제품들이 인기를 얻고 있습니다. 스토케 트립트랩과 부가부 지라프와 같은 프리미엄 브랜드들이 견고한 내구성과 디자인으로 주목받고 있으며, 안전성과 편리한 관리 기능이 중요한 트렌드로 자리 잡고 있습니다. OVO 하이체어와 같은 제품들도 디자인과 안전성을 강점으로 내세우며 시장에서 좋은 반응을 얻고 있습니다.
-- 출처: https://search.danawa.com/dsearch.php?query=%ED%95%98%EC%9D%B4%EC%B2%B4%EC%96%B4&sort=saveDESC
+- 쿼리: 하이체어 시장 현황
+- 인사이트: 하이체어 시장은 아기의 성장 단계에 맞춰 조절 가능하고 안전하며 사용이 편리한 제품을 중심으로 성장하고 있습니다. 특히 친환경 소재와 세련된 디자인을 갖춘 프리미엄 하이체어가 주목받고 있으며, 신생아부터 성인까지 사용할 수 있는 다기능 제품들이 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC_OPJ4fXQPnzn52o1bU9rch5pJBV-hiHsiBm-H8J_kEfLOvLv296jxhDvBkupw9WkaN44IyYJIIFP3NtMpnbzCqsOKlX-QvqlhAelwtpBK7eNWzF1KnJh47s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGP_RPizD6zU6Jw5CkrvBt2pymvEw_c51waKz2LHgqBcawBEK7Iwnv9SQc_76k7YLV4QAW3ddhCjKr9CUFcrZUqHAAmld-VjdnCrZJ4KCCsH-b1UI8vGG6zKjApkw0kY3Bj-296sYbaKsp8qQQltp5mBnRcICWt8ZNNwXakXFCBNFny6B8Y4lJJW3IsAB3-WLrzc239-zcvykkdZxXCCjz8g7vRRRsRWd6hnVBMomNUfNWiBHw1wf_WC7pLhW-hwRW9sWLPBaiuC5qHOmym-_9drU4TweT9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHH6HcdUhg2VEKOX21C2K4DDSJ_LR1RBjbKaLaenc3GlMqMJ3rmmj0uOSzQ42nOylxdfSVqL94dczSHbmXgRN0J_EpWgKj-6KXEhS61AHY34vM3rH2BpDUUGuWE2B7jquZN6H5A6baLAcno5MkIJtm90X-tzhBQExWBAqiTk-aINsC-LHv0QVna, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqLG3NV0vdF2OdI3BY-XuO1f_hH_H7edeMeSCuk-wAo9F8ijex5eNSnZohdHN56uZ3P-6VLWaj4z2ds7PCmgjcUXk-wjO0MH1a-ryul93tlrAiXvzbvnZG94p2EQ2q3TylUh5f7-qMzpCDsAmfsIAmdFkObRY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGsHvXFGcmLYF9ymRDZKoue64e2Jr3GjnBrUnPm9TThGs-gWDJmnk6M6zikfotkmjmBtRDa94cznyCVhK0a2qwXmj1HGu5Ugom7_sDrZUo4fn19ywxJ3OV-DsAjpKnmI7aVely_3lDf67n1hh04snQeJW7DEqGNadeECtTkD8bpDrzEFuCbZwIl8O0JKG-KA6Bg-vo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHmfpn_Vvy4vKQklUQi-k4qPNCDxlPEEPMSONsoD11SUN-LY6fNbjo3wigptJfcn-pO3of0RQgoEbnuN8bnMghJvEvyrlqQlm49n9HHaKFKGuu4LJGLwAUhJRnUUIigMxeJHbvxD6ZMiB4javMXzHtaUMqsYE=
 
 ---
 
@@ -16,39 +16,34 @@
 
 | 항목 | 답변 |
 |------|------|
-| baby_age | 신생아 (0~6개월), 유아 (19개월 이상) |
-| usage_environment | 식탁 |
-| cleaning_preference | 간편한 세척, 튼튼하고 오래가는 소재 |
-| safety_features | 2. 견고하고 안정적인 구조, 1. 5점식 안전벨트 |
-| budget | 14~33만원대, 3~14만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 40개 (전체 40개 중)
+현재 후보: 55개 (전체 55개 중)
 
 ### 후보 상품
-1. 스토케 트립트랩 하이체어 - 372,000원 - ⭐4.9
-2. 리안 프리모 하이체어 아기 유아 식탁의자 - 104,160원 - ⭐4.2
-3. 싸이벡스 레모 4-in-1 하이체어 - 762,600원 - ⭐4.9
-4. 도노도노 맘마존 아기 이유식의자 하이체어+쿠션 세트 - 182,710원 - ⭐4.9
-5. 본베베 멀티레벨 하이체어 Z 식탁의자 - 129,000원 - ⭐5
-6. 베이비캠프 유아용 내츄럴 식탁의자 - 66,480원 - ⭐4.7
-7. 싸이벡스 레모 3-in-1 하이체어 - 579,490원 - ⭐4.9
-8. 도노도노 맘마존 아기 이유식의자 하이체어 - 165,230원 - ⭐4.8
-9. 부가부 지라프 하이체어 식탁의자+베이비 세트+트레이 - 565,440원 - ⭐4.8
-10. 싸이벡스 아기 식탁의자 레모 하이체어 - 371,910원 - ⭐5
+1. 스토케 트립트랩 하이체어 - 369,770원 - ⭐4.9
+2. 싸이벡스 레모 4-in-1 하이체어 - 779,000원 - ⭐4.9
+3. 싸이벡스 레모 3-in-1 하이체어 - 591,950원 - ⭐4.9
+4. 부가부 지라프 하이체어 식탁의자 - 374,500원 - ⭐4.9
+5. 싸이벡스 아기 식탁의자 레모 하이체어 - 379,910원 - ⭐5
+6. 부가부 지라프 하이체어 식탁의자+베이비 세트+트레이 - 578,000원 - ⭐4.8
+7. 디홀릭 피노키오 원목 어린이 식탁의자 - 102,860원 - ⭐4.6
+8. 도노도노 맘마존 아기 이유식의자 하이체어 - 164,900원 - ⭐4.8
+9. hoo 어린이 원목 하이체어 - 63,000원 - ⭐4.8
+10. 베이비캠프 유아용 내츄럴 식탁의자 - 67,417원 - ⭐4.7
 11. 야마토야 아펠 트레이 하이체어 식탁의자 - 279,300원 - ⭐4.8
-12. 디어아이 미코 끌라베 하이체어 식탁의자 - 152,140원 - ⭐4.8
-13. 러버메이드 유아용 식탁의자 - 242,160원 - ⭐4.6
-14. 스토케 노미 유아 식탁의자 - 362,700원 - ⭐5
-15. 부가부 지라프 하이체어 식탁의자+베이비 세트 - 505,400원 - ⭐5
-16. 베이비캠프 PU시트 유아 식탁의자 - 54,710원 - ⭐4.3
-17. 아가드 토스비 버튼형 하이체어 식탁의자 2.0 - 140,230원 - ⭐4.4
-18. 디어아이 미코 스탠다드 플러스 아기 식탁의자 - 137,520원 - ⭐4.8
-19. 디홀릭 피노키오 원목 어린이 식탁의자 - 105,660원 - ⭐4.6
-20. 부가부 지라프 하이체어 식탁의자 - 374,500원 - ⭐4.9
+12. 도노도노 맘마존 아기 이유식의자 하이체어+쿠션 세트 - 191,410원 - ⭐4.9
+13. 스토케 노미 유아 식탁의자 - 362,700원 - ⭐5
+14. 본베베 멀티레벨 하이체어 Z 식탁의자 - 129,000원 - ⭐5
+15. 아가드 아이슬라이드 하이체어 식탁의자 - 129,000원 - ⭐4.7
+16. 시디즈 몰티 헬로베이비 세트 - 389,000원 - ⭐4.9
+17. 파파스토이 베이블퓨어리 NEW 베이비 하이체어 - 92,070원 - ⭐5
+18. 하이목스 이지리빙 릴렉스 이지벤치 - 129,000원 - ⭐5
+19. 리안 프리모 하이체어 아기 유아 식탁의자 - 104,160원 - ⭐4.2
+20. 러버메이드 유아용 식탁의자 - 243,020원 - ⭐4.6
 
 ---
 

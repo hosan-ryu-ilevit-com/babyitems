@@ -1,5 +1,5 @@
-# 세션: 20260120_020532_v0co
-> 시작: 2026-01-20T02:05:32.560Z
+# 세션: 20260121_061008_visj
+> 시작: 2026-01-21T06:10:08.441Z
 > 카테고리키: 분유제조기
 > 카테고리: 분유제조기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유제조기 시장 현황
-- 인사이트: 분유 제조기는 육아 필수품으로 자리 잡으며 높은 만족도를 보이고 있습니다. 특히 밤중 수유 시 편리함과 분유 거품 없이 정확한 농도로 제조할 수 있다는 장점이 있습니다. 하지만 일부 제품은 물 조절 단위가 제한적이거나 세척이 번거로울 수 있다는 단점도 존재합니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLCWLok4CW_HaIHqI5k2olxgdyB2LYJzFCjkCMJEt0lrQZHmfhiqVCzLk0RAtrN-BGcEpPPnYXHcPSDYrHm7vbuKtqi2b9Dxn1VCcExVmSIeJbOIRSHrbXJlgZqq8g8Yq1B7dZgg==
+- 인사이트: 분유 제조기는 버튼 하나로 자동으로 분유를 타주는 편리한 육아 필수템으로 자리 잡았습니다. 정확한 분유 농도와 온도 조절 기능이 중요하며, 세척 편의성과 사용 편의성 또한 구매 결정에 영향을 미칩니다. 베이비브레짜, 브라비, 리하스 등 다양한 브랜드가 경쟁하고 있으며, 가격대는 제품별로 최대 3.8배까지 차이가 납니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3_wILusDn6wHITOe1CKUZxXuZN2hnENEIpiGwUi8dpHe9sFYOKjQn_-Dj_8klmPgrQ_PlAeubcVyoQNNSHJyZeF9_ye4T8IpW4MP07eCs0ZDoGNS3CYbFTUaXt8UTEWv4X0y4K4k=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlmGOrGJ-UDP8SAmnuiINN1l0ues--EjpqSA8qZXkh1uzG8k8QgQoPBWrjb_nqA4djgBM1N-tInFbzzqDu966a1-j2VdLgMLhaVsBCNpvMkh039UhW3YQNSplySNcr0-ewD2xruHc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOON5_LmfaqiD7dnHVrqEKRDT7os9uz-so7861WhOYLdit7-jqUSLZKb26frwwmxzl2A9FBu_9FAKTHCC3Xj2AHjeyKStfW52rT4Ua_PlccfxP8rFgef_IFr39nN81cr4mfJZOxuWrKPJ_Gkv88gww7bQX
 
 ---
 
@@ -16,12 +16,7 @@
 
 | 항목 | 답변 |
 |------|------|
-| 현재 사용 중이시거나 앞으로 사용하실 분유 브랜드와 종류는 무엇인가요? | 다양한 분유 브랜드 호환 |
-| 분유제조기의 세척 및 위생 관리에 어느 정도의 노력을 기울이실 수 있으신가요? | 자동 세척 선호, 간편 세척 가능 |
-| 분유제조기에서 가장 중요하게 생각하는 조유 성능은 무엇인가요? | 정확한 농도 및 온도 유지 |
-| 한 번에 어느 정도 양의 분유를 제조하시나요? | 중간 (3~4회 수유분) |
-| 분유제조기 예산은 어느 정도로 생각하세요? (평균 약 20만원, 10만원대~20만원대가 가장 많아요) | 10만원대 ~ 20만원대 |
-| __avoid_negatives__ | 정해진 물 양 단위로만 조절되어 원하는 농도를 정확히 맞추기 어려울까 봐 걱정돼요,분유와 물이 완벽하게 섞이지 않아 뭉침이 생길까 봐 염려돼요 |
+| 분유를 얼마나 정확하고 편리하게 조유하는 것이 가장 중요하신가요? | 정확하고 편리한 자동 조유 |
 
 ---
 
@@ -61,8 +56,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 정해진 물 양 단위로만 조절되어 원하는 농도를 정확히 맞추기 어려울까 봐 걱정돼요
-- 분유와 물이 완벽하게 섞이지 않아 뭉침이 생길까 봐 염려돼요
+(아직 선택 없음)
 
 ---
 

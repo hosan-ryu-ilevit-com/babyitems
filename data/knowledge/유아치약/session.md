@@ -1,5 +1,5 @@
-# 세션: 20260119_114139_a6nl
-> 시작: 2026-01-19T11:41:39.894Z
+# 세션: 20260121_043504_mgnu
+> 시작: 2026-01-21T04:35:04.770Z
 > 카테고리키: 유아치약
 > 카테고리: 유아치약
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아치약 시장 현황
-- 인사이트: 유아 치약 시장은 안전성과 기능성을 중심으로 성장하고 있으며, 특히 무불소 및 유기농 성분 함유 제품에 대한 선호도가 높습니다. 아이들의 구강 건강에 대한 부모들의 관심 증가와 함께, 맛과 사용 편의성을 개선한 제품들이 주목받고 있습니다. 2026년 세계 유아 치약 시장 규모는 약 7억 9천만 달러로 추산되며, 2035년까지 연평간 8.6% 성장할 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2ZQn7mPl2C7VAaLaPgA3P0XOBStUSbPUEEobhSnhMzAEs9gybCIP_GkzguXXMFWZCosviUXzWzyVCppWt6hs6J4Mq1b04BnVNAc0RRIfLZpnoo_KLRynvv5nLJlKw8OtM5L9hZ2T9ZnNsL1O0P-HK0ModgU-Dk2PpUAaBf64O6Z9BbXrSken17EnFuoNYf1Obz1i_oCx9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlXK9hjAcXOtifcy7H_tfE2B1a0MbmTb9DRZGdvs_OYDinsgGgZZ1Gtg786tJY-CqJJxybS7kUpA24bOufEzLwY635tEpKt142PTaRmuGs2NFD0HeplzabUs46nBPX2tfB9WSIRUPytA5TDYx7tBoVPrXCBxO1qDEiT1iiPkS66Tca7wxM1vEO, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkbsoRpEQROWQPvcFJ3Fi891WxztQYZ0C5D5CpH2p31snjeSFkiAcZUtDxbEAcTHANdosBvWZZRoHE-k5Fg51XHjupoEOx52LUYWdPRD_J3yAj5ext07dDxE08dns2X-SseCgn2tzYgWEypn6BvjlinOanvr-lZCvuxIIDHuJIT_K9DCTZAXtMgr6GGDYYDH2iVXQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDHrINQ2i75aiB0Z0-ES5t1CXnS8tY8HIEzk4lv5xNdhIksD1L1WcbM8Y3eWnOXRl-DUndWDywpv4-tXtt6zRcJrXoE4k8GOnodZo_nTywPKC5NmuQJ5WnG6M3qKacy5WRFhnR0SAuoq7wXdLSEUvODuaS47LoWo5CvHaqG42iN7HTrRWlDrBfUHlST9TRiLbM4gB_XXKBkHCXDloOQDchIw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4n-uQWzZj6h8N99o_lCh8XONy-zoNisPS6cdVfX21dv2pSMieXHtLYLVw2GdRb2ehuJPC0ZlbDUZe8ixXE2UAwB1YUS2xSbKBf1mdmsQ2y-4e29qhDP1v546BzzbDr34RAoe_nq9d1oABJh21BfUSqCekuNvRKXwbGky_Eg8o6duQqMP3T-PWC0R7-ccb3CJcBebDzlMD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKlGFCPIErGzC7LjZUT4vK1CZytMryEP5pbEUee9JseOX6xdNmLdh3o3Vqn18xMQyF7r7znIq3qOOW0ioHxVTeEaMaX-PknhsSL5jNWD4W3DT-gwr2W-ReCFlGaGQYupJJSY51AN_34sSfyOMIzTJC44otUxLF994PcgMbqJU=
+- 인사이트: 유아 치약 시장은 소아 치과 문제 증가와 함께 성장하고 있으며, 2023년 약 99억 달러 규모로 평가되었습니다. 2031년까지 168억 달러에 이를 것으로 예상되며, 연평균 성장률(CAGR)은 6.9%입니다. 특히 베이비 치약 시장은 2025년부터 2032년까지 연평균 10.9%의 높은 성장률을 보일 것으로 전망됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEE9jIuR_19jvSnJflGBh0LEhqBKoGzseguYs3pfk7izSX7SmSEz9cMlaRZ1URN7LSpH2IcXza_BhhKU_gFxQ7gDwSTv3_Vuqn5P6Am2pLtzeB1tjdN-oS1q-QaWQnGB_4Jv8AfFuq-DUXuufIscsYgCP49XtrFiaFhf7QzJWw8598dj5oOXHJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESa_U7dhAnhAHyLrIMSp7xl4O53jFa8T2CfBut60xDX3zwEJ02sk9rDjp_pRxIlIIdByZQ4cmXTaTB5AXmpKL7Q9bc4j8LUY6_aOe4asd-lDsXbRLtUgJ1XRX8AProPIDx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErwrFg7PrXlQ10lxePd61LDBQRri44PhD5THcpWgeMjesGp9cobkZ-5WQ7hWqbuY_7RjrVOPliXodd8ejVK4x5WC9s2KKLwdgbySEyZZEkKep-kLqZfmi4XCG7GzUg8Dcwy12nZrKmgBKGOkbp-Y5fV_46vUAuQrhtj7cQm6MiTuQYaczxrniTbb9DQMY9Rn6d1G62vU7-peL_XiLMCnCV7A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaJCT3Z4X1N8sw_R4ioc2CSF3HA9ZJTR_NTmbwGFSmvnNtBWqja7nJ_wuYFQ-Q0tRSTPbQZIkFwBNYeDQwC3-Hs99Nv7WYNV6z_2HgeygN15BGF9-ncBgxscpT4JvWLi48rHw_h8kSxP7TRVRdSRhj8X2cdPMw7_bEmLyqQY42iLmsMHgKzNILdPPq5SDfVz07g2VP-9gs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFImxYrjy9r5hDQfsL72nCsF6EZPqmrGbTpZECnoVGVGAAYMJbcYbb26C5S1QAhUkCExAccmihVA6l7YmOSgzMEaN1L_Cb3e-KI2IGLrvDwfNncc53NeVwDqjMtBnXZuN3sJ338ALtr066jnjORqApNocKEm-A8cMt68P-QuuDRiKlHLagTqf4gGGrzZQX, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbph9GquF29Jwn47BzF4uamyzSiQAjYkqcZEAd8qhCehtp9v0jpJq7nl0c5weU6k6NxEl9jovcP3UMFBZyTfr8TckcE_HZWGEfFU278NVuwzWyYB_pN3Ilwz5zeOdT53JEsWGMeyAMTrfKUMjt9sKMdqmSM2xkwzkNvwZBvXpj, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhlrW_QKjXCyqTglxyCvX2Ovc-D-Kg3d0aAr60MkdgvC4cC1-TZ3tt6v6gvMaR5x1inF1nySPFl2uOBa8SD6LRKBUTfM-geMfsfKE3DWcHsAk2NDNkSrv-xvVW, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0v0UZNnycLpe6c0zaNzxDfc_cEdEwWvSaa37mRXRz8x_TOejTziW1vDFuhLGczqiZadB1d-kdApkfuiwogU1DR-89kpNIL4fyp3M20fjOXDYp81yqHYdCbgVF6FMVKKYQR3lWOVksU8m0PALZt1c64e__
 
 ---
 
@@ -16,28 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 우리 아이 치아 건강, 어떤 점을 가장 중요하게 생각하시나요? | 충치 예방과 안전성을 모두 고려한 저불소 |
-| 치약 성분, 어떤 점을 가장 신경 쓰시나요? | 자극 없이 순한 저자극 성분 |
-| 우리 아이가 양치 시간을 즐겁게 느끼도록, 어떤 맛을 선호하나요? | 달콤한 과일/베리향 |
-| 유아치약 예산은 어느 정도로 생각하세요? (평균 9천원대, 5천원~1만 2천원대가 가장 많아요) | 5천원 ~ 1만 2천원대, 5천원 이하 |
-| __avoid_negatives__ | 튜브 크기가 너무 작아서 금방 다 써버리면 자주 구매해야 해서 불편해요 |
+| 아이의 충치 예방을 위해 불소 함량을 어떻게 고려하시나요? | 무불소, 저불소 |
+| 아이의 연령대에 맞는 치약을 찾고 계신가요? | 2~6세 (유아) |
+| 아이의 양치 거부감을 줄이기 위해 어떤 맛이나 향을 선호하시나요? | 과일 맛, 은은하거나 순한 맛 |
+| 치약 성분 중 특별히 신경 쓰는 부분이 있으신가요? | 천연 유래/유기농 성분 |
+| 유아치약 예산은 어느 정도로 생각하세요? (평균 1만 5백원, 6천원~1만 3천원대가 가장 많아요) | 6천원 ~ 1만 3천원대 |
+| __avoid_negatives__ | 불소 함량이 명확하게 표기되지 않아 아이에게 적절한지 판단하기 어려워요,무불소 치약이라 충치 예방 효과가 낮을까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 9개 (전체 9개 중)
+현재 후보: 75개 (전체 75개 중)
 
 ### 후보 상품
-1. 2080 키즈 3스텝 브레드 이발소 치약 베리믹스향 80g - 8,740원 - ⭐4.7
-2. 2080 1450 고불소 주니어 치약 80g - 10,350원 - ⭐4.7
-3. 2080 키즈 자일리톨 치약 80g - 1,410원 - ⭐4.7
-4. 멜리사앤더그 슈퍼 스마일 치과놀이 세트 - 78,800원 - ⭐4.5
-5. 그린원일 오루루 캐치티니핑 덴탈 치약 80g - 2,990원 - ⭐4.9
-6. 덴텍 유아치실 90개입 x2팩 180개입 - 14,590원 - ⭐4.7
-7. 리치 키즈 포켓몬볼 펌핑치약 사과향 250g - 7,840원 - ⭐5
-8. 2080 키즈 크리닉 알파 2스텝 치약 80g - 7,260원 - ⭐4.5
-9. 그린핑거 마이키즈 치약 1단계 60g - 4,460원 - ⭐4.8
+1. 키즈세이프 어린이 유아치약 포도향 90g - 1,535원 - ⭐4.6
+2. 뷰카 주니어 마일드 고불소 구취케어 치약 포도향 110g - 12,400원 - ⭐5
+3. 페리오 키즈 포켓몬 꼬부기 사과향 75g - 6,980원 - ⭐5
+4. 2080 키즈 크리닉 4스텝 치약 80g - 1,410원 - ⭐4.7
+5. 2080 키즈 3스텝 브레드 이발소 치약 베리믹스향 80g - 8,850원 - ⭐4.7
+6. 키즈세이프 충치집중케어 치약 60g - 7,020원 - ⭐4.7
+7. 예꼬맘 어린이 치약 60g 3개+소형치약15- 치약3개3단계 - 13,620원 - ⭐5
+8. 제니튼 닥터제니 1450 고불소 주니어 치약 60g + 15g - 14,570원 - ⭐4.8
+9. 2080 키즈 자일리톨 치약 80g - 19,610원 - ⭐4.7
+10. 예꼬맘 고고 불소 1450 어린이 치약 60g - 16,940원 - ⭐5
+11. 2080 1450 고불소 주니어 치약 80g - 10,260원 - ⭐4.7
+12. 리치 키즈 피규어 펌핑치약 어피치 160g - 9,240원 - ⭐5
+13. 제니튼 닥터제니 저불소 어린이 치약 60g - 4,490원 - ⭐5
+14. 페리오 엄마 치약이 투명해요 고불소 80g - 11,400원 - ⭐4.6
+15. 키즈세이프 충치집중케어 치약 60g - 4,120원 - ⭐4.7
+16. 2080 1450 고불소 주니어 치약 80g x 6개 + 키즈치약 50g - 12,730원 - ⭐5
+17. 키즈세이프 어린이 유아치약 딸기향 90g - 1,730원 - ⭐5
+18. 페리오 키즈 포켓몬 피카츄 딸기향 75g - 1,790원 - ⭐4.8
+19. 2080 키즈 크리닉 알파 3스텝 치약 80g - 8,440원 - ⭐5
+20. 아이코닉스 뽀로로 3분 치과놀이 - 30,200원 - ⭐5
 
 ---
 
@@ -49,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 튜브 크기가 너무 작아서 금방 다 써버리면 자주 구매해야 해서 불편해요
+- 불소 함량이 명확하게 표기되지 않아 아이에게 적절한지 판단하기 어려워요
+- 무불소 치약이라 충치 예방 효과가 낮을까 봐 걱정돼요
 
 ---
 

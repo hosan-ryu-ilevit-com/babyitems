@@ -1,5 +1,5 @@
-# 세션: 20260120_131531_s2v3
-> 시작: 2026-01-20T13:15:31.518Z
+# 세션: 20260121_060908_dcik
+> 시작: 2026-01-21T06:09:08.258Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 위생에 대한 중요성, 일상적인 사용 빈도, 지속적인 제품 혁신이 시장 성장을 견인하고 있습니다. 북미 지역이 시장을 주도하고 있으며, 아시아 태평양 지역의 성장률이 가장 높을 것으로 전망됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJRa1xeHoowqpNxi0GthWWCtlo4YyzULl3e9uju3B-dtTidR4glvaPYj6RnopfgP1ZBCUe0XOxvC9q92A6PsG5IvfXIyRS19wciy_9xQ0WgKU1Kks1JVTSyb9Yare1tI9C81Ik_PpFvylw1v8NcjN27WL1eU3GwFr9IqNt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH7dkmv7Ay7cFZqx4UoVSM_MolEwApez8Kwm3BJq-hcgZPLl-ECznbzwcwZ_7seXI5pcGPVkofh_-FdQvqdnhemLv4A8PlpPEF5agv_Ii2MeboGidUBDokPrbSQw7tOW0TDwGIFHvlMP_ol4XPWRDytwNynsZF1xcDCA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGI9owmplDaPuhuiT5et7R3bD3kRyAMBXUvqv1fzw0SfY26fSY75STDKRU0933VOvKSrbef0mOgrBZTBxh2-euBxUia0xBoNz8FteChyL0-v48iHU4KohX1te5scyQ7Fkbvz_PtXouWjWVXGIi-9pe1hknljkIavD86Iq7gTfkVCbJRi38yrqnwXf0ji4ZW1LeOfcjoaow=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHirKQLDbDOlgiZ7oKmhzmRUv1i-ytS4dgn7dCcjVPFJ27q4VzClDrURsMtv2msG4hY07v0RbeA8iijdLUzPH6KLX42_oCQQ4W6yZBajm5MXvmDEx1xyWondhUud95ESgRrGG5AO2Dzt0Gy9WNL__nRRYlybmGJ94fYfsFW158=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWKBu_HatsyqeySrHkNg0RGHVF0Xtngt4UqmhNTXworqfqxBxW_i5MMRcg3EbyFycabSWwCc5iW-N5kMCi2HsQgz1FZlQud7MmGWzBDWmhhfENJ4VEKwB9PSaOFMNQgm-sM96MWkTGizmtcC8XZLtKLHppoK6idRz6W4j1qMeEQ5j9hHguSlWrSPv0GC3iIG3MT-ipwl2SDvL-eKiWvWx_p7q-TheKw4ZLkjUIaA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHv3JKIlM_eVFlhe40FEL6VHo2tAPQ7PwMqSZsIEq8N-OBlXL_UUHCRcTQouMRZZNZhrVFJU6k4LaDMlOHboKD_OzDmIr4j2Y2Ombdrx0auObQrPgoluBlt7hNvYYc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFv0NhAUHey4Ohjr2DjuZKiKiuXD02h_XUJgQIffQ25lLHiOA2Q6KTXAfCoru_5a0i6bCpN0xkcsx1HUWwz0qRTijm11BpiloW-DRhFN_iVimLyDvK4AiyfY-s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQRGpT5V_WE35xHMR5wxriGs65Q5wLPAWkU4bVFnFXMMSlFDB8pzJzRCoL8_KRTo0ez9Mmb8lO-LQKOAqui9e1CSnI_74VHbjlDOrsMyBMjwUrXK1A7a226qK9x_VvSDmS4ve6P5pG95vh4uUnqC_aoU8nnjpA
+- 인사이트: 2026년 현재 아기 물티슈 시장은 베베숲이 9년 연속 판매 1위를 기록하며 독보적인 위치를 차지하고 있습니다. 아기 물티슈는 전체 물티슈 시장에서 상당한 비중을 차지하며, 위생에 대한 중요성, 잦은 사용, 지속적인 제품 혁신에 힘입어 꾸준히 성장하고 있습니다. 2024년 전 세계 아기 물티슈 시장 규모는 약 3억 8,550만 달러로 평가되었으며, 향후에도 꾸준한 성장세가 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwz7P9cC9O6D19106EzWdD1--VD6lfNP4U9prU9m0r6g1PAk10YBu1v961CdbbxQfeLIMTlV7D7q6s7q7F8vPUsmB0yECMngCWcKODuPRYwwWOb1pn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvR38O5d8-2FO0t0Xq6T62kSLAspFF3NnCJRCumIYxiLiFzYZfslopFRUgm-cwsTL8EOzOwk-QRecMakcxO1KNKudktygnAIa4YIGJMnbOamUQUj2LmA4gHyVm5AfTWc93P5X8azKutA10C1CZPW9BXaIBitBtByQ-eMwAvaM1tMAOKo_-vab5wRlG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOt2DHFsx3Pzo3yfGuopLreMjW7SnTSbCDIJSKXS3-JjLumb26Gfti-G08rw4eqoVBkfSRqAHolozzJUG8K9-RI0BRCzbHywA7idqrhvIZIh3sKh-Qoa_z0-ta2TkWOX-PrUOWEEOy6S9EVFPHJVLC04U1vtS_AjHLJg==
 
 ---
 
@@ -16,12 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 피부에 직접 닿는 만큼, 어떤 성분을 가장 중요하게 생각하시나요? | 무향 & 저자극 성분, EWG 그린 등급 성분 |
-| 물티슈를 사용할 때, 어떤 두께감을 선호하시나요? | 도톰하고 부드러운 두께 |
-| 물티슈 표면의 엠보싱 유무에 따라 사용감이 달라지는데, 어떤 타입을 선호하시나요? | 엠보싱 처리된 원단 |
-| 주로 어떤 상황에서 물티슈를 사용하시나요? | 일상적인 아기 케어 (집), 손, 입 주변 닦기 |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 4천원, 8천원~1만 8천원대가 가장 많아요) | 7천원 이하, 8천원 ~ 1만 8천원대, 2만원 이상, 상관없어요 |
-| __avoid_negatives__ | 너무 얇아서 아기 피부에 자극이 될까 봐 신경 쓰여요,인공적인 향이 강해서 아기 코에 자극이 될까 봐 염려돼요 |
+| 아기 피부에 직접 닿는 만큼, 성분 안전성을 가장 중요하게 생각하시나요? | EWG 그린 등급 성분 위주 |
+| 물티슈를 사용할 때 도톰하고 넉넉한 사이즈를 선호하시나요? | 도톰하고 큼직한 사이즈 |
+| 물티슈의 원단 소재는 어떤 것을 선호하시나요? | 레이온 100% |
+| 주로 어떤 상황에서 물티슈를 사용하시나요? | 집에서 주로 사용 (리필형) |
+| 예산은 어느 정도로 생각하세요? (평균 약 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원대 |
 
 ---
 
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 너무 얇아서 아기 피부에 자극이 될까 봐 신경 쓰여요
-- 인공적인 향이 강해서 아기 코에 자극이 될까 봐 염려돼요
+(아직 선택 없음)
 
 ---
 

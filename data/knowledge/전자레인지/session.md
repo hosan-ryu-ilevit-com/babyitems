@@ -1,5 +1,5 @@
-# 세션: 20260120_040956_1zu0
-> 시작: 2026-01-20T04:09:56.059Z
+# 세션: 20260121_062846_y8pa
+> 시작: 2026-01-21T06:28:46.749Z
 > 카테고리키: 전자레인지
 > 카테고리: 전자레인지
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 전자레인지 시장 현황
-- 인사이트: 전자레인지는 현대 주방에서 필수적인 가전제품으로, 빠른 조리 시간과 에너지 효율성, 다양한 활용성으로 편리함을 제공합니다. 최근에는 스마트 기능 연동, 친환경 소재 사용 등 기술 발전과 소비자 맞춤형 디자인이 강화되는 추세입니다. 글로벌 전자레인지 시장은 꾸준한 성장세를 보이며, 특히 아시아 태평양 지역의 수요 증가가 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1-jsNNLs0tsjrvsmfqo85hdbZorBpcn-KlLdU0wuThwsWRvv56FRVq6CuwM02Vu2a9ll3_Y8W5tuRUcOTNSznM8mtrOmiamBBza-hD0tgi9PtCMvw_pkZcPezRZFu0kOidGNiXmAUeoAPk2al6G6AjJdwlNpE8ananptLMUdG7Nn7ZkJ8sN1Pi1HPZ_JkkoRv1IYLuAmNEcJceI8tadOlZ02hcXWxCcvNiDatghI1rZHDVf6tIA5H5-zG9hIyCNe5JQYZg_oteK7jxVz4zdMACDPvHFH-cesWRC9s29b3NWP_rVHizON6y4udHLof, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpwCSNazMG8gI6pEVNSCvwhNjeAqZYigd4i_zuvBCDiRpk1RHfXedx5r0-DLpOuQZNM-L3t0KDW-0i7qI2ycMXpMmNWdsmwXeXNI9NB_zflGA5xhkjN8q_l4JTdXa964mhZUKt8wqiOymmIaUf7szFmf9CV_zxvA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEzTw9LZVn_BfMcQkjrXO7bUUflH7BZS3QUrGR2R0gSABE0igOSI0uxUAVFHITqvvRXNuSDbraRG5f_6wkYytPsQ3jzUj1BFtqUsaCNqFA9YYzgw4jHAhZdQ99cVmM6jhN25P5jY8Wo1Bu9XPM5qDL5WuoxRONegDpooYU8o_r86i-
+- 인사이트: 전자레인지 시장은 편리함과 효율성을 바탕으로 꾸준히 성장하고 있으며, 2028년까지 연평간 3.5%의 성장률을 기록할 것으로 예상됩니다. 특히 도시화와 바쁜 현대 생활 방식이 시장 성장을 견인하는 주요 요인으로 작용하고 있습니다. 소비자들은 용량, 출력, 부가 기능, 디자인 등을 종합적으로 고려하여 제품을 선택하는 경향이 뚜렷하며, 가성비와 실용성을 중시하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGo5QRopKn2eZsuxJI4YxUDHq-Ok_VCLmCv1oyZlvcsU7rPGl7uYSfimq4BI2q-pG1n7VIlhzTY85aMyYHCm9EBJ4BmprQllU3VErdfzP6r9m3f8TMV83AY2ske26l2Yxdg7mTEWa3MtGmdKhyoepI6PXqxHUDrPbSquPHP7v8mzPLlUj6AxkBapADp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCQN-S2NJ7mJmGo7D2g9l81z7Umpa5AFZ0bvZW5w6tX9pUGIKPt1_a9zL0kvvZrHwlwcmOzt9Vq0VmcEcRm28gKiF-U5M5mtt1n8R6iTDFxCi2OFpxQ8dpJOORkJTaQKM3xn8QQ3Af34ha9YQlWlLS2-esr2ttxEyw1SySDCNzInufo-lgJ_rEqAExf6pcHEhX1ukVXgPsJKA5bev6srfybpckAn-VDDCOaatKm1E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrpWEk2B7-wC6sOALlvUgm6UMjXHSdUIPUrQReQSj_S2eSoGVxnbgFRqQ97GyjdKQwt25rCxeSkYmkOYyFY_Sa_--ZopwJkukJPehdQn1OKCcTAAiGVmbEFqZ61eNf7zxIjjO1B8iG7asGvhKDT5N9ZR-EmL68Lz5_rHp-b9uM5DI6ESgs85YRXvUSFKIe0ZwRpxcZzE0U9fhAtIco89D555ZePVoJ45Q-677MdbW0La5emre1tyUVt-DoUlK8NYaNLONvX-HK4h7Kat5EeaEp36nR9VIlxnH8YlWDaJ5xKXp9sKW_ITorZe69M2mADA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFukerIZc-phEBbSiq4zOGPQdZJt3iED1d8kxG3eTS0wW__YKxvGx99xE_fzBwB2WSHjNF5b7dZkBDrApCW2iMEKGT8njrwmhBM5-uyvo1t7yW_UDEAp4jP15Mo7gheyB3w4tMN3nvC9Z7eYTYybx0eJOhko5Zhgcw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7vD317QZcqHcbLRI7wxRUCYHaZnaBrL1C6Wsz4OiseeBGw7a91lvVRefaBKWsWY6aEinKgcKZIHhaRAruSkmWLjyLTnXjYew6SNrIY8RVYTZLD6OuEDqhkrT2dbmgQOtb-n4hLgXL61lUSIL-f9zYh8nhVK1Yyj6DOOAJlxCgTMWOL0UycFcq1TeT6E1XyouZG835h-3glaFosd_eYbnF6ZNZCwcCKy6RXRBPO1tRgxhgsdMOMM-V2HoLbtAbW4T4aKBKvqOpmzeb_oTpuv3z9pro8qCWVJqaO2E1u-y8PE37AeIXxZgC70eVkhHKSKZfTsY5cp6rYBB-EKof2NkcE76qL32I9Fk6U3a9aGRSaY3Slfsr5qYucrEP3c0i6qqQ8h-5d7f0bCsyv2nzKhKKUyigaZoV6iqYH55hjfUimTJkI9cC5xAR7rMEz0kMft0c1xkkTiMQe9kRNsNNesdgYavll0esGL878RQ7ujOQAKjsDcueZ5lWsbBx9EJkIA==
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 주로 몇 분이서 사용하시나요? 또는 어떤 크기의 음식을 자주 데우시나요? | 1~2인 가구 또는 간단한 데우기 |
-| 전자레인지를 주로 어떤 용도로 활용하시나요? | 기본 기능만 필요 |
-| 전자레인지 조작은 어떤 방식을 선호하시나요? | 상관없어요 |
-| 주방 인테리어와 연동되는 스마트 기능에 관심이 있으신가요? | 기능에 충실한 실용성 중시 |
-| 예산은 어느 정도로 생각하세요? (평균 11만 7천원, 8만 7천원~15만 2천원대가 가장 많아요) | 8만 7천원 ~ 15만 2천원 |
-| __avoid_negatives__ | 금속 용기를 사용하지 못하는 점이 불편하고,플라스틱 용기 사용 시 미세 플라스틱이 나올까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 금속 용기를 사용하지 못하는 점이 불편하고
-- 플라스틱 용기 사용 시 미세 플라스틱이 나올까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

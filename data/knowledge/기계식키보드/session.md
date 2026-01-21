@@ -1,5 +1,5 @@
-# 세션: 20260120_070410_edn7
-> 시작: 2026-01-20T07:04:10.222Z
+# 세션: 20260121_061354_4lht
+> 시작: 2026-01-21T06:13:54.260Z
 > 카테고리키: 기계식키보드
 > 카테고리: 기계식키보드
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기계식 키보드 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwKGMBvRd4jNY15SPkMXV874jbW9KKq4ZOh1lg8-qx8md7Fj7p-ZCmTupWDp4LIprP4C9OOWFptNhzsYEFMYPkcZbLLdYQrvDTAT8lUOwu0qmbwl2ulZe_fjUlU2t9nqiisjOQFkxQqQISrPLL0D8ryqKQvGGlPw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGi6z0mR7kDNQTmiWn81w0crzBpB8ZH-Nt06PXC7ReP8ZIhF3A5dzSdrmF2z09yBhH8UDPPfGlPR1HvVSP9jFfKBQpreFU2C1RTbvWq2z1n8Ug23plfeqsafq_1XKRG0fOs26c9S5O1rY6R3MSttcIy7-XGqaVZHJTqIfLje3BZktki1WPekEnm7_gVcRsa6f-DluY6Jy-g8w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRw4N5yQAveba8I6qluZQMvkSQRELt3c3MlIvnSnF1EwFPetpcgsV2dTcp5ahBPL3QPqu4BG-D3qtbpBfv9iLvoqBS-GadzTVVqcDQfjSy8SJZ6sGTri0GaamDGEDF9XeiwRHf6XNrRwi4GwH0_Pl_FajDrdnQU6PBJLsgo7oZQQzHNRIRy31rFjsV40yYPOmLErU-VPcspA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHK3s7JBoFgRpApJERJQ7qgsVXhd8Nfnhve36Actn9xIgSi5VEpqvtFyqgrSt96zaM___v988WaZEyyKr5_-YC-EL9i-X4nhHhl5uNufbs5z0G5onnsYBn_RlFp-gSdUSr2m-MlcWcbGSub24b0ln_D2g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdkOPIL485PESZ8GEmQ27ScEcnDmqHy1Tu8bPUkez9-DrA8QrHQ2idTnxRIVEHJ31S-9W6wT6bN6p2Ng-JL0FgKmXWe6fR5w8G9cbG0I0BQQoWF6rqpokE7h6t5PItuAsGZgAOCzJwOFmjxm1qYcjLwfWBC0RH5K3q3crbpK8MfCQPbydWX0i6r3hhzoXkS3jeL0ZTasTUYlcQc9RTP5cRWSA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1q4m1SFyvsvHK5aa0XCvt8JzX_Gmuw6u6mT3-Q697rBkQ6gYQEMqZUnndSxuEsP4g6PORWRGqJZrL9QQlGXPMuPxFDsEK3f9nFDisQO4ag9aLlnyMXoPnWSaudB2l3uV-EnGGJPyMaYpQHwlNGa0NA1zUUUbtGGkwq0segleqOWUM_fJqIsT-SHZJsOcozfcvYaeKKmahIBrK0nv2g-dobPIThYDkmPPNOrb2f8tXiMhoNbphorM9TOQfoHtHKA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFG4Q4TIs-39-qZDleLvqJhUD0E-Pp-kVoBP2L35s2D5jULmoEmeHsnaH691haE1CeKy-ruawc-HNbT4RZKRPLmWoGrGnpLlCbfUWzfxoBE6PDIt5hAMtJzH33uYvlAsR6Di3IYc_43ieaZeR9mj2zJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSjDhEifc7cnyCTHgOQncT-gz37SHAEmXGutDdoLzwMsAnaveNWOXJXIh4k71PrEx2ifWSrhwVQe4GcateCBParhidPBN_Hs_XD5cwsiwTs35_fe7UiLnv_jdSxAZp9MskXuCSdrP7_in4VwRd0uHaNrYnq8gVuFUJLK59NeX5nOHh7Fk_hS_WTlQdyoHTGw5-7zaxExStCc4W2-ODUEBeJvPw4AiMMSZApZN_A-Sf99jshzFYTZ0GjiKAsS74eTrlwQ_VtyPf-fFkQus1QHzJOhOrTU89fMhCZikiN9I6We-wo42APEJ00aV-ZJpte7pFOHW_6ry2-lD2m8owdB5KJhfEC0c5IOhVeTpAUiA=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwKGMBvRd4jNY15SPkMXV874jbW9KKq4ZOh1lg8-qx8md7Fj7p-ZCmTupWDp4LIprP4C9OOWFptNhzsYEFMYPkcZbLLdYQrvDTAT8lUOwu0qmbwl2ulZe_fjUlU2t9nqiisjOQFkxQqQISrPLL0D8ryqKQvGGlPw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGi6z0mR7kDNQTmiWn81w0crzBpB8ZH-Nt06PXC7ReP8ZIhF3A5dzSdrmF2z09yBhH8UDPPfGlPR1HvVSP9jFfKBQpreFU2C1RTbvWq2z1n8Ug23plfeqsafq_1XKRG0fOs26c9S5O1rY6R3MSttcIy7-XGqaVZHJTqIfLje3BZktki1WPekEnm7_gVcRsa6f-DluY6Jy-g8w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRw4N5yQAveba8I6qluZQMvkSQRELt3c3MlIvnSnF1EwFPetpcgsV2dTcp5ahBPL3QPqu4BG-D3qtbpBfv9iLvoqBS-GadzTVVqcDQfjSy8SJZ6sGTri0GaamDGEDF9XeiwRHf6XNrRwi4GwH0_Pl_FajDrdnQU6PBJLsgo7oZQQzHNRIRy31rFjsV40yYPOmLErU-VPcspA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHK3s7JBoFgRpApJERJQ7qgsVXhd8Nfnhve36Actn9xIgSi5VEpqvtFyqgrSt96zaM___v988WaZEyyKr5_-YC-EL9i-X4nhHhl5uNufbs5z0G5onnsYBn_RlFp-gSdUSr2m-MlcWcbGSub24b0ln_D2g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdkOPIL485PESZ8GEmQ27ScEcnDmqHy1Tu8bPUkez9-DrA8QrHQ2idTnxRIVEHJ31S-9W6wT6bN6p2Ng-JL0FgKmXWe6fR5w8G9cbG0I0BQQoWF6rqpokE7h6t5PItuAsGZgAOCzJwOFmjxm1qYcjLwfWBC0RH5K3q3crbpK8MfCQPbydWX0i6r3hhzoXkS3jeL0ZTasTUYlcQc9RTP5cRWSA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1q4m1SFyvsvHK5aa0XCvt8JzX_Gmuw6u6mT3-Q697rBkQ6gYQEMqZUnndSxuEsP4g6PORWRGqJZrL9QQlGXPMuPxFDsEK3f9nFDisQO4ag9aLlnyMXoPnWSaudB2l3uV-EnGGJPyMaYpQHwlNGa0NA1zUUUbtGGkwq0segleqOWUM_fJqIsT-SHZJsOcozfcvYaeKKmahIBrK0nv2g-dobPIThYDkmPPNOrb2f8tXiMhoNbphorM9TOQfoHtHKA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFG4Q4TIs-39-qZDleLvqJhUD0E-Pp-kVoBP2L35s2D5jULmoEmeHsnaH691haE1CeKy-ruawc-HNbT4RZKRPLmWoGrGnpLlCbfUWzfxoBE6PDIt5hAMtJzH33uYvlAsR6Di3IYc_43ieaZeR9mj2zJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSjDhEifc7cnyCTHgOQncT-gz37SHAEmXGutDdoLzwMsAnaveNWOXJXIh4k71PrEx2ifWSrhwVQe4GcateCBParhidPBN_Hs_XD5cwsiwTs35_fe7UiLnv_jdSxAZp9MskXuCSdrP7_in4VwRd0uHaNrYnq8gVuFUJLK59NeX5nOHh7Fk_hS_WTlQdyoHTGw5-7zaxExStCc4W2-ODUEBeJvPw4AiMMSZApZN_A-Sf99jshzFYTZ0GjiKAsS74eTrlwQ_VtyPf-fFkQus1QHzJOhOrTU89fMhCZikiN9I6We-wo42APEJ00aV-ZJpte7pFOHW_6ry2-lD2m8owdB5KJhfEC0c5IOhVeTpAUiA=
+- 인사이트: 기계식 키보드 시장은 게이머와 전문가들 사이에서 높은 인기를 누리며 꾸준히 성장하고 있습니다. 특히 재택근무 확산과 '데스크테리어' 트렌드에 힘입어 디자인과 개성을 중시하는 소비자들이 늘면서 시장이 더욱 확대되고 있습니다. 다양한 스위치 종류와 커스터마이징 옵션은 기계식 키보드의 주요 특징으로, 사용자 맞춤 경험을 제공합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFej5SgpIQZ48lIJpXmPGAcJa7G7G1UPjswNfCsT2_qtG9ZGVaRYRexGN9fbjpirfOIU58KuNSGa_HuSCUMJc_pczGnKOeZCnBGlBUJqutrJLUyYhObjMWvwuAVNnLDi307MNqUOwlZDtVnE6CTTmzcPt_pVo5QwodZMlquWMJxJcMdeWJPlobyxfSzBHZ33j7ZUCKKa1IpjqZKkgVXObZof0wpt0zcGuBq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFz-UGe-w2FcTPCg1TXduneEI3n_LtzlqyZr9h7l7e-VlBUOSdnwWg7-toL8ir9-DTFSR4oPGSMiYUxQGIQLbj4BI0FVx-gpnfZZ1I9zEV-X4MFVsowpJcT2i54Y51eh40aHRfy4FqN5iV6Jdoix2JS7EDXlEelgI7Hi2SNfTqtyzSZUanP4K_ylucGrffHnPv_YOlY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECwhSkYV9EONx1R3-0ExY1_3SewCYERRhGNl2Ws3inXmzjjlckLk3nOIVBDZRs0v0-e-w1Xn4EI5Hz11xdu6jUMIElCpigdJddwx0srttfPIA8XxXJYZQyXzPE1fySlpdfH04kUiRAnXt1yDeH4AnQmfh5
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 키보드를 사용할 때 어떤 타건감을 선호하시나요? | 갈축 계열 (눌렀을 때 걸리는 느낌) |
-| 키보드 배열은 어떤 형태를 선호하시나요? | 텐키리스 (87키) |
-| 키보드를 어떤 방식으로 연결해서 사용하시겠어요? | 블루투스 무선 |
-| 키캡은 어떤 재질을 선호하시나요? | PBT (내구성 좋음) |
-| 기계식 키보드 예산은 어느 정도로 생각하세요? (평균 약 9만원, 3만원~11만원대가 가장 많아요) | 3만원 ~ 11만원대, 5만원 이하 |
-| __avoid_negatives__ | 갈축 특유의 걸리는 느낌이 일정하지 않거나 너무 약해서 만족스럽지 않을까 걱정돼요,블루투스 연결 시 입력 지연이 발생하여 게임이나 빠른 타이핑 시 불편할 것 같아요 |
 
 ---
 
@@ -61,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 갈축 특유의 걸리는 느낌이 일정하지 않거나 너무 약해서 만족스럽지 않을까 걱정돼요
-- 블루투스 연결 시 입력 지연이 발생하여 게임이나 빠른 타이핑 시 불편할 것 같아요
+(아직 선택 없음)
 
 ---
 

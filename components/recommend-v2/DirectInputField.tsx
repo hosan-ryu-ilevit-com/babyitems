@@ -80,7 +80,6 @@ export default function DirectInputField({
 
   // 등록된 상태이고 편집 중이 아닐 때 → 체크된 옵션처럼 표시
   const showRegisteredState = isRegistered && !isEditing;
-  const isNegative = filterType === 'negative_filter';
 
   return (
     <motion.div
@@ -94,21 +93,13 @@ export default function DirectInputField({
           initial={{ scale: 0.98 }}
           animate={{ scale: 1 }}
           onClick={handleEdit}
-          className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
-            isNegative 
-              ? 'border-red-100 bg-red-50' 
-              : 'border-blue-100 bg-blue-50'
-          }`}
+          className="w-full py-4 px-5 rounded-[12px] border text-left transition-all border-blue-100 bg-blue-50"
         >
           <div className="flex items-center gap-3">
-            <span className={`text-[16px] font-medium leading-[1.4] flex-1 ${
-              isNegative ? 'text-red-500' : 'text-blue-500'
-            }`}>
+            <span className="text-[16px] font-medium leading-[1.4] flex-1 text-blue-500">
               {value}
             </span>
-            <span className={`text-xs ${
-              isNegative ? 'text-red-500/60' : 'text-blue-500/60'
-            }`}>터치하여 수정</span>
+            <span className="text-xs text-blue-500/60">터치하여 수정</span>
           </div>
         </motion.button>
       ) : isEditing ? (
@@ -131,9 +122,9 @@ export default function DirectInputField({
             placeholder={placeholder}
             className={`
               flex-1 px-4 py-2.5 rounded-xl
-              border 
-              ${isFocused 
-                ? (isNegative ? 'border-red-400 bg-white' : 'border-blue-400 bg-white')
+              border
+              ${isFocused
+                ? 'border-blue-400 bg-white'
                 : 'border-gray-200 bg-[#F8F9FB]'
               }
               text-[14px] text-gray-700

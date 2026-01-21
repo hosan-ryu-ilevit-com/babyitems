@@ -772,7 +772,7 @@ export interface KAFlowFunnelStats {
     categorySelected: FunnelStep;           // 3. 특정 카테고리 버튼 누른 수
     loadingStarted: FunnelStep;             // 4. 분석 시작하기 (로딩 시작)
     firstQuestionViewed: FunnelStep;        // 5. 첫 맞춤질문 로딩 완료
-    reportRequested: FunnelStep;            // 6. 최종 구매 보고서 보기 버튼
+    reportRequested: FunnelStep;            // 6. 최종 추천 결과 보기 버튼
     recommendationReceived: FunnelStep;     // 7. Top5 추천 결과 수신
   };
   // 단계별 평균 소요 시간 (초)

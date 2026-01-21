@@ -1,15 +1,26 @@
 # 소꿉놀이 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T07:09:50.558Z
+> 마지막 업데이트: 2026-01-21T04:59:35.359Z
 > 분석 상품: 20개 | 분석 리뷰: 150개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 스마트 기기 보급으로 인한 놀이 시간 감소
+- 성 역할 고정관념 탈피를 위한 노력
+- 교육적 가치 강조 및 STEM 연계
 
 ### 구매자 만족 포인트
+- ✓ 사회성 발달
+- ✓ 언어 능력 향상
+- ✓ 창의력 증진
+- ✓ 공감 능력 향상
+- ✓ 상상력 증진
 
 ### 주의해야 할 단점
+- ⚠ 스마트 기기 사용 증가로 인한 놀이 시간 감소
+- ⚠ 성 역할 고정관념 심화 가능성
+- ⚠ 과도한 경쟁 유발 가능성
 
 ### 가격대 인사이트
 
@@ -231,9 +242,6 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHy1F9FzbnllqSSTYRFxFkiDy40yPN9blXb2uEWfr4z6w0I8irgAc6W5zcmny5EXYiSMts6KFKeoSWYY3utaKZnfdqJ78c-IwdfU5npj8sAlHX3Pu-PEiMAK4SmWUEQG4LnRb21K2C720kbVjEYMUV8o42gP9d3GF0loqzm1s7qDq8jQ_ajD_WCahoRJkysSEF49_JQei24gc4cvk40zLMgWZRQosNoaOwGX4JN_jw98cGWg9NKx0SzpZhE2dhGo6G2EM3Dc5lDeIPJCveREa2abEzjtZqZKtv-PYOYfAFdMMfRZMMDZsQuLhSs)
-- [maeili.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzX6lgec0BI7SdKiBioi47vzes9MQTHOYVqisYB--VlWgoWQI7vD-PgSBDhtvA20R0_3RwiQCm81_i0ik796D-rJxpTsbfGIaIKcrKqyU0slNV-XuftgV00nj807Ng2sgVsJyNUNAZIcB6genSWT6wd0zd16pPYfc_kRGl9iklfU7cilHo7jt_Jzkqt2FQohpmHEaL2H-buMae0vxUzQ1HJw==)
-- [namu.wiki](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQXsTrf8axzjmBvnmwkRdeQ8fMVtlf9AW4uOg_OyC5qSPh1r0vUtqdS9MJ1Zr_44t9YvrNg_4JRGJZKRBBInHeKi8pNFfqZUxl2xHR-v6CMPp4n7mwCkbBxRwTCE80eK-AgGv4r06Ls_DE7zrTBh0VyPNh)
-- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmJF9_81b4xEIoaeHijB-LsiWRGa2aEvNW5LCpJZaOZ5VsUB_45ZjqE1mtrvAMz4f5bwPwUCjlVDvwkRN0G5dvEdRhL2ezm1majyzoSq7-r7pqzqHUpZ4Rxpaq-1H5Kp83j5PcZCxxxbhszGxra1OsFdNi_1A1yaqvvkBpQjZqAzQjKzEIZv36)
-- [greened.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHifDrwI8CFa91Gzc84Q_vQiadEpM6n4L032c1Y7YQAe8PCYIb8PIp3NjFOVov0yoYhWVb87EpBbCB_aGLwDDSNSo4VAbnxW7wWwZgcXCRsa9P8u3PFcncN27wFLoMIkYl0Dz1RLOvCeBeHG6VKUOu7S-l8wg==)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0FJ6-pBBQU-MoALu2nko8A9MByvtE-04K83r6ygmKYko1TLG789dKptwX72b-qT1wnN7tILTwGnNdSaRaCWXMczNNHdOP-nbRArdGfpYksQLZgOMWYqR7ZOWgVsOvOK0ekHSyiY91S59VqKj89TSV_e7rcjzk6jjAAi3uTEXXICduvuYOzwXC6rNR7joX2eDT5HTk4kYX)
+- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGoUqGux6uggmZiDgBuS2uNqCixLrkpwh2I_KNlP9lDxpaiA9KWYuMlxEgS8EQ2fGKAybSfeNnuHVnJrWLuyuKS1yvincWHsUeX8iZ3xnaK1jS-gPYfM7EMHL3L9Bw0Gi6WnFj8l4pvSO95glexOH3JrTPsGXHsvTK4BQfCaXVSZHbX5S3ax3n5)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUvXkePOe7UyMQilG_w-gsjYIROmA3I5S05pTvHq2Ni1_4mz1qQahMsaJEO2_Pu4jOFsbdvpabvLSEaPSj95GtaLu5IWDX2EgZfoJhOVs5zIiK8qaAST91qnVu2bLScAbHe1a-w8mUQNOUEZ9ijgINaEjoo1E6xCY3ykLR6cnEuwViS0k6R9LprFYLKmeM2O90uLqGpHXi)
+- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLNNrhz-zQV5noDMJvuhXIuMfFsyv1Q4FMxQvthyXk8W_bg_Ba7nrouhQdBoXkxaApGmgq1l8cpcXT6-FU_S1ax5oHLa9vQZXWcH_4gvBoIwQWzV9_pzgPiKVTCrKMHm-JvIUIJRecoVBzlxvDAggBu1qYfvFXaXWhN9SnBIhlGl5JD2Jm2j8LVnA=)

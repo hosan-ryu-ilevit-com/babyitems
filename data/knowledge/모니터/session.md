@@ -1,5 +1,5 @@
-# 세션: 20260119_063654_0rah
-> 시작: 2026-01-19T06:36:54.249Z
+# 세션: 20260121_061359_4l93
+> 시작: 2026-01-21T06:13:59.058Z
 > 카테고리키: 모니터
 > 카테고리: 모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 모니터 시장 현황
-- 인사이트: OLED 모니터 시장은 2024년 약 262만 대 출하를 기록하며 전년 대비 84% 성장할 것으로 예상되며, 2028년에는 시장 침투율 5% 달성 가능성이 있습니다. 게이밍 모니터 수요 증가가 성장을 견인하고 있으며, 삼성전자와 LG디스플레이가 시장을 선도하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGg_dZTUsh_CuBtcAaKAQCfqzx4CP3fBGLhLLvfb3fHQt4RKM1rMYJK7TfP3rTRmlqwF_LbnWBqSAYCdGMOe1o0ZNB05ckX07-4qqi2SuNJ3uBsMn1moGZeTnYBggOVgaSSNMIJGqAXu_xS_LFuRP1NQg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqDW7kQrS6ZsqkXLv4qh1SiBOv0L1DDBzRahJBNGfbv1HvddlR1uVGER65o-X0quFztirqGkxDITE1MElwNgFFXb0F_BkNWEWqLE866Rknj3m08ymZ8louR3SXItXwZ-os5RW-YYKvx8nU79GQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZJsI8q_BY7VK7oYBLk2Zh5hhJ-amxOLnLBeh7hFl8enlaO9MKwVlTGFd5MzgkN0MhGcJCz0QXHBBaSHLrwvgCj0VjJycAR0blv-JQPKZuOzbU_4mmJDsRsdv2oaESVaI_5fbmx3VSW3nrJEpqxOZwUaDoJZRDjhpOTF36wugihVSKnonazwlG6MB59ThsfI1fC-uaifg2TDPwceny-vkuyLwpddOjqQSZAvAKZ0je3b2-evT5tgwPm7sbxVvcTbj8doiAzkgYqTMCS-hHH1suqsSlcbDDG-mlRUnTidjwesYMYI1_-XnBUP-Dp4T_G3n7d6515xzZTzT8DNKsNj8-Y8kcqNvCHY365FI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSzaHNS9M-1oM0GPqJXrL0hzPztkNxYfyr6HWIjcehvSKz8YXh0TdMouBNt4bxWBKKHjGz3d545XLxfOlw_WgsZhRKUscZeABwy-SnbJpmGhC-iXU77tR6sMhblKIeHFZY0qFyQ0fN9NVVmXaODU7rMSv8i_LhAKM3Vpg22CRQOMK9fpCJ4qpLK6lsiBVTTAZ4DcZvRMBr7hLmq6mugEJ_MgdyUBn_rWVqOhuiiGlBCUyC3czwTxSbzIESlZjIjmSci8ID3gwfDryYzabGDjPrsMIZG_vj782I7FHGchmv4adF9zZQfqA2X5ozULAtZA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlRXU4Zcf5eogy5LeIldNKGYiXpP5UUeSe2ld0pKfy4-LljCsmUnCdpZNVFFk8ejesdu8_lb_Mzn8x6BWo8QT_RHuhRN_dB2pvZPZ3c7NspDgu1mIOAsDDuunrseIV-PIs5m7x6bh2F_3DmyfsCB9eokUGxK5F7x-_NBDInQJUHVPnv7LUHQgkfhgoojEIHIimGRgJNk_8GnG7HHtduSkJPFMuCpQAVl3C, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFkzCOY9CyUWzBxJhDT_uU3VlXwpC3FQ0-qSXPVGMleUxpsBHAhnzQND5EPdVXIGoGw9mjCnrR_vAS1e7NmX5tDXpSvkvKSTn2Jd249gZfs3ayDlkgJuTUHO_hO66RvDLS7_rX1WUDoTqMP9yMHNb8z1BEgEy1wT8maqZuTLPLEauBLSXKF4a3sAIjwSeYd1O18P3BVeN3KA2Zx9028CEwPAlsOryWWjKZHxBbM9LgYVJ8lHczJw4VwzOCU4qZIoUbNM6NuavngjxAoc8WaeOHo-ClRJr5BvceF4NNp0_Emo89Vm6uzB0Jhqfjof6ARybj
+- 인사이트: 모니터 시장은 전반적으로 성장세를 보이고 있으며, 특히 OLED 모니터의 출하량이 크게 증가하고 있습니다. 게이밍 모니터 시장 역시 강세를 유지하고 있으며, 삼성전자가 6년 연속 글로벌 1위를 차지했습니다. 유럽 및 중국 시장의 점유율도 상승하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8zJYsM70zbWHL_S3gNBr5M6JztAKofW9q4yvUdfh-6GkvsndpU7wBSzSdC434xQ8IZP56WcllTc0e5G7KKO68leb6yWv3sGTDUZimxVzMKYtI_D4OtdOt0maYq_G4M4epnS5BON0DKlogGTRpPfKRH28=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdoCucmInvDSwddypl4b1ta82GRjvuGUWrCybnsDZ-nD-YlhpuFrj39SHU64BVcwCzCSlFClj4vEetLsIQNmSLzMqzmvtshDgISyD_hl4ERlPHXE2PtxUEa691-4MgtJteQH7F8PzoqQdUSjITEQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH17UMbvCh51m97FwOZ0Ewj0neeg-cmdHPUU0BQD-H47sI1Lcxj8cxgxUhHHgiPhAPRgHPVccvwv9Vnb2shdpqJXG7U0l4PcsXI-xFbxf9m3bpzHF0gmu0iEm8H9XsKGfyqmxdO6Ww=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjgm9FevWkp2Uu0lN51ZhJ9O-haqOfW4ieHZfrLWGROXjhT-EEXmXmyqUs9Wd10cLu7cR5Pgh2O66yCo_Cru-3SJCoxAw0UWM6epF_z2Q13E-r4gS-UPAiJsT_765oFeLIYMw4Mo45DUB29bzDJYp9IAgSBcPNgPnM_ryek0vqtRhFmhHTMFh1Cg_BFV2HQ5TXIJZR_H-6N0laNWzSGnsDRubrclq-quM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUsfauAlSOFl9ZZPlRl71dV2Y0WtVSKE4z17o3TRVC1ooRkOdCV_R3ngSfu6VEolgccZ6q9-UxrrRIqxrkneFyWwKF2K9FVfectIcovaaR_NT1zsL07TPLWOqqMBXj7LR_stAlBp1i0qqgGE_j-5AXCKwQBZbl8Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6PFLRi9DIBfpNuKanBThIxzmK2-CAn5yWVndwcufZZoi24tnWeZWA6e71ZMmJDRGEee8DcWYBKF9SBvaQy08GO0IW7388i7gwQHs-pCD0LVWcyonevA_6QDqjsJjlP3qW2eC-ChXY_Z4z8Ddcx9q2zHTVDnEkN-GiHwYX-SKpdfdbl6hLLP-CPVYeATD0jo1X6k0Ov-EmqzVycxIQC9IDJifqbaI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEw-WccbpAk4euER2G3z_lmFsYqgiiAXelAjS8sOytXdQ5uj2lDkJKIFcb7Pm42CD0blGQ-vxY2UxF6z6zcMms-SpoJTrz1vnf8lQvhy6QR13Hz-ydH40KjnESvP6sRSQu01fg4a28lC_9AivwvrIUC, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9BjmW93fhvAWZLrg7ypcjWiBg6q67p9MkKm8h4SQdd7naVyW8Gbf9gcuPmjQN2cakgskzVngHxdGDvN-ijDKM5uE0FSfRpsApx3rVGJnjrDIg-ZsF7H2HA4mzfsc-XXCqxnTMSqz0vKXVjqy09WO9UZ-gYMIXg6vnAp6C1s0hIru_VSFfsR045OOs1nG1F6TQk3pdcsVaI8a7aULwZYdMCAOQ4rjsEJcz-aunopLqdCxbgqRN_fuKe7TgQhJkb1qNjG3w8YwVGcA0bNoyzTr8X8R_BLG7NP3oLnCYsmDsKNaVG1RZTZ9EWsYU6z88FWYMCUhmSb7zWTZ2EXSg05iB8N53IVr5rB6Wd_JpdnlpBMwUrfrc7tHci2LsQEJtNx2xWonUs20g1DXGr7wDn8_w91RBViB9Ysb-FVUPHNYiUciBrDb4GfyNkCldiHUNJBJ7ST7VHyM=
 
 ---
 
@@ -16,38 +16,34 @@
 
 | 항목 | 답변 |
 |------|------|
-| 모니터를 주로 어떤 용도로 사용하실 예정인가요? | 업무 및 생산성 |
-| 선호하시는 모니터 화면 크기가 있으신가요? | 27인치 |
-| 어느 정도의 화면 선명도를 원하시나요? | FHD (1920x1080), QHD (2560x1440) |
-| 화면 전환의 부드러움과 반응 속도가 얼마나 중요하신가요? | 일반적인 수준 (60~100Hz) |
-| 예산은 어느 정도로 생각하세요? (평균 28만원, 13만원~37만원대가 가장 많아요) | 37만원대 |
-| __avoid_negatives__ | 고정된 UI 요소가 오래 표시될 경우 OLED 소자 수명에 영향을 줄까 봐 걱정돼요,HDR 콘텐츠 감상을 위해 매우 높은 최대 밝기가 필요한 상황이 부담스러워요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 18개 (전체 18개 중)
+현재 후보: 110개 (전체 110개 중)
 
 ### 후보 상품
-1. 래안텍 PANTHEON QA2720S 나노IPS 120 QHD USB-C 화이트 멀티스탠드 무결점 - 157,170원 - ⭐5
-2. 알파스캔 3425Q120W 울트라와이드 WQHD 딥 블랙 IPS 120 USB-C HDR 화이트 높낮이 무결점 - 343,170원 - ⭐5
-3. 알파스캔 AOC 27B36X 게이밍 144 IPS 프리싱크 AI HDR 무결점 - 137,300원 - ⭐5
-4. 삼성전자 오디세이 G5 G51F LS32FG510 - 301,380원 - ⭐5
-5. 크로스오버 27QAW995 Fast-iPS WQHD 화이트 Ai게이밍 멀티스탠드 무결점 - 216,740원 - ⭐4.7
-6. 삼성전자 오디세이 G5 G55T C34G55T - 333,870원 - ⭐4.8
-7. 알파스캔 AOC Q27G40E 게이밍 180 QHD FAST IPS 프리싱크 AI HDR 무결점 - 240,860원 - ⭐5
-8. 삼성전자 오디세이 G5 S32FG500E - 377,100원 - ⭐4.8
-9. 삼성전자 S27B610 S61B IPS 멀티스탠드 - 240,870원 - ⭐4.8
-10. 필립스 에브니아 27M2N5500P QHD 260 FAST IPS 프리싱크 HDR 400 게이밍 무결점 - 329,020원 - ⭐4.8
-11. 크로스오버 279QA9200 Fast-iPS 200 WQHD Ai게이밍 무결점 - 202,780원 - ⭐5
-12. 알파스캔 AOC U27B35 4K UHD IPS 보더리스 HDR 시력보호 무결점 - 250,160원 - ⭐4.9
-13. 필립스 에브니아 32M2N5800 4K UHD 듀얼 모드 320 HDR 400 게이밍 무결점 - 525,910원 - ⭐5
-14. 필립스 에브니아 27M2N3500PF QHD 260 FAST IPS 프리싱크 AI HDR 게이밍 무결점 - 289,000원 - ⭐5
-15. MSI MP273L E14-800 IPS 144 시력보호 게이밍 무결점 - 99,300원 - ⭐5
-16. DELL P2423DE - 331,550원 - ⭐5
-17. BenQ PD2705Q 아이케어 무결점 - 439,120원 - ⭐4.9
-18. 쓰리윈즈 인터픽셀 IP2420 IPS 100 멀티스탠드 - 170,050원 - ⭐4.9
+1. 앱코 하이퍼뷰 IP27F180D FAST-IPS FHD 200 HDR - 175,000원 - ⭐5
+2. BenQ GW2791 아이케어 무결점 - 153,980원 - ⭐5
+3. 크로스오버 27QD166CM QHD iPS USB-C 화이트 Ai 멀티스탠드 - 166,470원 - ⭐4.8
+4. 앱코 LPC34Q165D 프라임 나노IPS BLACK UWQHD HDR 블랙 무결점 - 299,000원 - ⭐4.5
+5. 알파스캔 AOC 27B36H3 4면 보더리스 IPS 120 시력보호 무결점 - 132,990원 - ⭐4.9
+6. 알파스캔 AOC 27B36X 게이밍 144 IPS 프리싱크 AI HDR 무결점 - 151,050원 - ⭐5
+7. 래안텍 PANTHEON QA2720S 나노IPS 120 QHD USB-C 화이트 멀티스탠드 무결점 - 168,300원 - ⭐5
+8. 삼성전자 오디세이 G5 G51F LS32FG510 - 333,000원 - ⭐5
+9. 삼성전자 오디세이 G5 G50F LS27FG500 - 292,000원 - ⭐4.8
+10. 알파스캔 3425Q120W 울트라와이드 WQHD 딥 블랙 IPS 120 USB-C HDR 화이트 높낮이 무결점 - 369,000원 - ⭐5
+11. LG전자 울트라기어 27G411A - 185,400원 - ⭐4.9
+12. LG전자 울트라기어 32GS75Q - 461,550원 - ⭐4.8
+13. 삼성전자 오디세이 G7 S32DG700 - 698,990원 - ⭐4.8
+14. 삼성전자 오디세이 G5 S32CG550 - 268,840원 - ⭐4.8
+15. 크로스오버 미켈란 27Q75M4 IPS QHD 400 DCI-P3 멀티스탠드 블랙 무결점 - 174,000원 - ⭐4.7
+16. 알파스캔 AOC U32V11 4K UHD 프리싱크 HDR 시력보호 무결점 - 328,920원 - ⭐4.8
+17. 알파스캔 AOC U32G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점 - 579,000원 - ⭐4.8
+18. 삼성전자 오디세이 G5 S32FG500E - 377,100원 - ⭐4.9
+19. 크로스오버 32UCA950 UHD4K IPS USB-C PD65 프로아트 멀티스탠드 무결점 - 350,100원 - ⭐4.8
+20. 크로스오버 279QA9 Fast-iPS 180 WQHD 게이밍 무결점 - 197,100원 - ⭐4.7
 
 ---
 
@@ -59,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 고정된 UI 요소가 오래 표시될 경우 OLED 소자 수명에 영향을 줄까 봐 걱정돼요
-- HDR 콘텐츠 감상을 위해 매우 높은 최대 밝기가 필요한 상황이 부담스러워요
+(아직 선택 없음)
 
 ---
 

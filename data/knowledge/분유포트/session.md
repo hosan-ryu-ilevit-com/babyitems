@@ -1,5 +1,5 @@
-# 세션: 20260120_071459_renv
-> 시작: 2026-01-20T07:14:59.146Z
+# 세션: 20260121_055013_drnw
+> 시작: 2026-01-21T05:50:13.829Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유포트 시장 현황
-- 인사이트: 분유포트는 아기 분유를 탈 때 필요한 물을 끓이고 적정 온도로 유지해주는 육아 필수템입니다. 물 끓이는 과정의 번거로움을 덜어주어 편리함을 제공하지만, 일부 제품은 가열 속도가 느리거나 사용 기간이 짧다는 단점도 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1Xr-wUoeePU3zkf4jS9nX3gm6PDZkfuuv9NH5qypwzz8pk_qKp_AIzf6ITqnqNIwR7n4-AlHZPUgpdrJPoKrcx7aog8KWfZO8xJP-VbilNickjILx2DxqbwCXzVg85aHED47Lo65YXOPn3NRR6GoWYKxGRmjB3w3I7ShKMTfRbkqx9a8r, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFX5mCXqiMKtABjFLC_kU98jGJ2fLKr-tE9a4hJtpyAReTrYRpBeIf_sHSPh-a23bvbnW0y_S8iEiYTCVbYLP_VOwUi0BYGeAhmzeXjiE0TC12YqWXeJ1yoZ-NbFTLT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-sfI5JzQh58iwcbGuGgyhNSCnDONI7e0rmEIrerr0RXtCMWPyy5gYsalajNg3oHSdDfpKz2-J-aPnUW7q1jNxjIuZSpOJRBioGOcNOdqDDotAYKk2L6SJ7AV0mB9XOhKGFyKneVQHgGoKLR8LVaxrUHQMqArcIg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKs1lEBgZWJZGyXHGyhUBnWBEp17TyLusxzbLvRhgp_7GLCWF1wXa_z84rnKJKgIRFoRqF5vQLi0ifWMK-aLG-nW6kAU2_fqLYkEX37Yni61sKnfYK4pSmXK1SezXlspanOA2dEwg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_Q3J0oggCZQmvAqR9dlSXx7axaYYPJYq9NuOAVTJ9OU9xmNs3QcQY3vYDbByMo7xgMhEv21mxiaSsPB_3_VJ3oAqIZDGwC9mul1-fS58gVXvFzQR6Xkk4ZJeEjjTILFNDJM8_7ut5P13F-sqr7SsfHSwxQuec8Ss5Kpnsq8YsF0VO2A3-ypsLictY
+- 인사이트: 분유포트는 아기에게 분유를 탈 때 필요한 물을 적정 온도로 유지하고, 살균 기능까지 갖춘 육아 필수템입니다. 최근에는 자동 출수 기능, 휴대용 디자인 등 편의성을 높인 제품들이 인기를 얻고 있습니다. 다양한 브랜드에서 기능과 디자인을 차별화한 제품들을 출시하며 시장 경쟁이 치열해지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENYMMSZuBthXYLqFHKmTZvwJxP88pb6JxL8PNsCS8U3kbbuj8jUOYETxM30yE4MtsgKJs4uW5hGbQAX96AITIqvcj9t0jXjaDqIihzlDxR1zAL7vQsGJkrHHtp9_56XBPXe4neBCi9ATw280kWW2FpaXWwEeUvXj4y3vS50V1qSBbsd-uYin_PUCZP3L9Uf_XKNHirzYAC1iW6, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHKn4XGyOVF4bxWupvnhhvPoI8pq1bcZtsdSa73L-J9fo8c88PZ1BO1dhnoTUK7jXA14hluk5tq3er5m24rv0NyutoMeaNSWFXaDP6dH_9McD5d6js6UnTlIc-HC8WhRCO1JF9JZerrtBUswTcdJcBQ4aUHcFzxxWjzexd2BY8LvNRn4IdX8R3GQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8Vk-QEX3fVANzURl8RnYgelOVE28Ua8GshrV8UbcM0Wj4Mg3iEP0uyDiFhtxrrB543fEYqCEE2LuWI5L-HupZmJ3e2HINUBzDspk_fkXzingQf9SR1KI-72zjIBw4PhM-Bu0N9E4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGP5Zyt7lh1gzi9DASEAR1LIc2fR6TC14IaXR8DEXfUjjt0U-cNv1X6y28nLFPpxoZboQOLMB-Om1rvh5jvM9MkN-EBmH3jmQW6blKaY-kZz7htHsRol7zhpWllGb1J_X0JX3_7dUHT-klHd9NegM7Z5HYAfAMqpw4Lg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEd3pxCnLHqll-tU2OSSd6zY0J0oWIeierwIrjpdAn_3aKMqDtSSu9KOKKi8-QENYuHiVqAf-FbBRTpPVup_mbx_6FijkPEP1EUwsI_q1jz4NqXoCJu6HVN_kXhS4HlmGVNjuRFXQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZt0eVmSLlg-DsnTU5k8YgcZk_HJmxOi1ocIuxfvQdm5Ifv6W6VfehkZS7tMjxr3GROdlWM-vp6jnmxD7p2RuZ4shAn71lLgZKLpKTy2vJCth1Rj1cE69vZrgWRdwb-6ttH35lzzD8w-mJQqu6yP8gUya2fTJgMgqoflD6ssU-
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 포트 내부 재질은 어떤 것을 선호하시나요? | 스테인리스 |
-| 한 번에 어느 정도 양의 물을 데우고 싶으신가요? | 1.3L ~ 1.7L |
-| 주로 어디에서 분유포트를 사용하실 예정인가요? | 집에서만 사용 |
-| 분유포트 사용 시 어떤 편의 기능이 중요하신가요? | 자동 출수 |
-| 분유포트 예산은 어느 정도로 생각하세요? (평균 약 8만 6천원, 3만원대~11만원대가 가장 많아요) | 11만원 이하, 5만 8천원 이하 |
-| __avoid_negatives__ | 내구성이 약해서 오래 사용하지 못하고 금방 고장 날까 봐 걱정돼요,내부 물통이 분리되지 않아 구석구석 깨끗하게 세척하기 어려울 것 같아요 |
 
 ---
 
@@ -61,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 내구성이 약해서 오래 사용하지 못하고 금방 고장 날까 봐 걱정돼요
-- 내부 물통이 분리되지 않아 구석구석 깨끗하게 세척하기 어려울 것 같아요
+(아직 선택 없음)
 
 ---
 
