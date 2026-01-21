@@ -1,14 +1,14 @@
-# 세션: 20260120_124528_liju
-> 시작: 2026-01-20T12:45:28.821Z
+# 세션: 20260121_012021_ecq2
+> 시작: 2026-01-21T01:20:21.738Z
 > 카테고리키: 젖병소독기
 > 카테고리: 젖병소독기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 젖병소독기 시장 동향
-- 인사이트: 젖병소독기는 신생아 육아 필수템으로 자리 잡았으며, UV 자외선 방식이 가장 대중적으로 사용됩니다. 최근에는 살균 기능 외에 열풍, 자연 건조 등 다양한 기능이 추가된 제품들이 출시되어 선택의 폭이 넓어졌습니다. 특히 유팡, 스펙트라, 해님 등의 브랜드가 시장에서 높은 점유율을 차지하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6q4QmPhojA1O9CbT2xs4UKDZnmycJKGKC7k2sVdM2b0sRqVUCAMrFBa3a-MkOYZmegacIoUQMN9qYUPM3OhJCFl4DZ80Pn8nJ45jAjfl2tCqG04x-k5xPM6nD59UXi9fXpU_rkSbaaSBwx_zV1Cih6QpupBzWy1naMdM-XarF_-FtWXZT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcuzIBPno6LcYsxvSzYgLQU7ycjR3W5qCNZH5nX9EkqgqvEvzV1Xh3C_LZJQkfU39l4o_BNL3ac315dCMuX_ZXVW5JDheCwhCUN__oIiFlPp0cxiph17hOMsvyoYTMkfq7Xalk_zA8vCdJzwfk3eb5Xe__akEHHbW13k5lazetLxkn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAZgKzzzlsDyNai7O9jKkd5xWSyanBcJCSfRa88Uy6xzwb581oKy4IuCC9Q_kPLJQO9xAOlVPPTnfcw5bBluxdwRxp76n6HSoIMaac6a_b-rNR3-n_EENy_qKMjZELoQFeh2o5Z-fv_7hbqaqGWvtU4Jx6rYWcIzajj50hTCdCj8a5YKrX4_X_OvcV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvacEiQNTl0dOQ53HGcLmp3Je2gieUVvlouiJvzL1d09-lKEhONfSRI91iCBOSP380QXK2z2aM55txd2dJPiIbhlaLxAo0Jb6Vy63ZIB8kwzoa7bA58x0f55ihoQFVwev6s9n_2l0ytPlO9mvV5TE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFsk7TYxBE3YI6ChF_x-JSP8GMfvxlVBG3x9tq7rLH1vLgTmuivTvq03QIfHsYWduO0C-0JpsMyfLoRZQnPJa1M_LInydgvhlPx4fpWDNb_8QLcedb6v3B3LCAr4SnquZe0DhP9ARDnz732JRRdzdURnT4DlWDUVwx72ybvDhaWXnn1HYvD2hIOV1P080gY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOTVF3rk5eU-53yc2oNJWTawv_p9CQz9UYb4-WxoVUa4HXZ4jZj0xnzUJjAWTP53t3ChrzuzJ6nArYw_5WWW709MX8CmRPBj2QlbftMKJXxN3AkezoCEQuLm-fEDT7a6Eo32r0CqwJ7JxvfJNr04RGvdgMsy9O6qkcJQIQ-C3BDg2pNmSyJg5hseK4PkSaaUPavvcNTgpyBCgblsKpbUFAM2cgkvjAuKOYEg==
+- 쿼리: 젖병소독기 시장 현황
+- 인사이트: 젖병소독기 시장은 맞벌이 부부 증가와 위생에 대한 높은 관심으로 필수 육아템으로 자리 잡았습니다. UV(자외선) 살균 방식이 대세이며, 스팀 방식과 결합된 올인원 제품도 인기를 얻고 있습니다. 다양한 브랜드에서 디자인, 기능, 용량 등을 차별화한 제품을 출시하며 경쟁하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNQZNlvx_8e_EvGSyATbK-zFLPY7bFkviCdFcBdU5hGNUSKUG4IVdPj0SJmwwBEBteo0G5JF8fzUXpjHGZkI2TnDzkMVZ8vXefdgStZ3KvYrc_vDEayA81JwhqRA2Es4qAkgzK95Uag5pNIHTe5nw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwNRmx9HBRJiFYc9xe-wOaS7On3zMT6cFgeZkJ2VdTK-6SaUhTDwTs9NBHLJ2ayb-UrESbcKSerGIKTYCcqra6BJb4jXsAA3_NqsC2rMkXd3a5p7-MJmo5esHSYgR5_TwaBSppigZEt5zBwmYalNucYsuOtO1z, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHY5ZPUYxxKbRa6Z2BFYy5ouDg6fwgKXOUduvEDa7Eds-GH9xHsFO1jwrxnFPIbSQ33_MZlrnxdxRazVflm_A8yqVFRizhjdZTIVWE-wsYHoczcd-ZkEgpyETSdS209at2J0L5ri-XY04xPukPi_US3qdEj3xsyJTo4AbWVvjc1PpS0NEJqJHZ15aBxpAkGZc8fjVyj2adxQxVfndFB4dhF8rkqt_YZDUnDSg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuX6ruBVUBWbArHdRS_MSS_egzLNB5Ka9uv-5qQbGEF59mZFeeqXnk9HfURVlywKPZgD62YP4BaUjb4454ZSAJzShc6DQyB4asuwQdeoslT6Yqr4hnYwh5n0fQ6vkbWzbTb0g3UhxEyq5wlbK7m5hYU8Wv63mkvyelX4HHEjLF4YQ54dfy5p4wm954PkvvmttbuxTJToPl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvyH1WtqiKktIDnBsDKaHLMs8jikvXTsRoMaMJUQ99H0IpcsR0JGdre2x4wDUHhiOxOJT177F7zgjG4pB46dGNSzbgGsBHaWTjpnLLA2DH_dnDmdoqUHoQuEjp97M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1_RYLKfQmsvDfy3d5WLm8p3N7uNWUeB_HyV3jmBaRG-xGcr5YSuMzh3hxYRUUee4e2s8eTdtOAXd0l3IC4mE_SJeZpQutQ5hiXsnfDUcoSITMGlzbzsExdff8z1K81f1Z1weHX_8bdne_UNLNSYBm2dm5kqzN6Gyrm7aazUsCKQ==
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 젖병을 가장 깨끗하게 소독하고 싶으신가요? 어떤 소독 방식을 선호하시나요? | UV(자외선) 살균, 스팀 살균 |
+| 한 번에 몇 개의 젖병을 소독하시나요? 젖병 외에 다른 육아용품도 함께 소독하고 싶으신가요? | 일반 용량 (젖병 위주) |
+| 젖병 소독 후 건조 기능은 얼마나 중요하신가요? | 빠른 건조 필수 |
+| 젖병소독기 예산은 어느 정도로 생각하세요? (평균 약 11만원, 6만원~14만원대가 가장 많아요) | 6만원 ~ 14만원대 |
+| __avoid_negatives__ | UV 램프를 주기적으로 교체해야 하는 비용과 번거로움이 걱정돼요,작동 시 소음이 발생해서 아기가 깨거나 생활에 방해가 될까 봐 걱정돼요 |
 
 ---
 
@@ -55,7 +60,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- UV 램프를 주기적으로 교체해야 하는 비용과 번거로움이 걱정돼요
+- 작동 시 소음이 발생해서 아기가 깨거나 생활에 방해가 될까 봐 걱정돼요
 
 ---
 

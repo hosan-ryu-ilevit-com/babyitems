@@ -1139,7 +1139,27 @@ export default function KnowledgeAgentPage() {
       }
 
       if (data.resultProducts?.length > 0 && data.resultMessage) {
-        setResultProducts(data.resultProducts);
+        // 🆕 태그 충족도 기반 재정렬 (O > △ > X)
+        const calcTagScore = (tagScores: Record<string, unknown>): number => {
+          let score = 0;
+          for (const value of Object.values(tagScores || {})) {
+            const status = typeof value === 'object' && value !== null
+              ? (value as { score?: string }).score
+              : value;
+            if (status === 'full') score += 2;
+            else if (status === 'partial') score += 1;
+          }
+          return score;
+        };
+
+        // 태그 점수로 재정렬 후 rank 재부여
+        const sortedProducts = [...data.resultProducts].sort((a, b) => {
+          const aScore = calcTagScore(a.tagScores);
+          const bScore = calcTagScore(b.tagScores);
+          return bScore - aScore;
+        }).map((p, idx) => ({ ...p, rank: idx + 1 }));
+
+        setResultProducts(sortedProducts);
         setMessages([data.resultMessage as ChatMessage]);
         setPhase('result');
         // reviewsData 제외 - PDP에서 Supabase로 직접 fetch
@@ -1147,9 +1167,9 @@ export default function KnowledgeAgentPage() {
         // filterTags 복원
         if (data.filterTags && Array.isArray(data.filterTags)) {
           setFilterTags(data.filterTags);
-          console.log('[KA] ✅ Result restored from localStorage (with', data.filterTags.length, 'tags)');
+          console.log('[KA] ✅ Result restored from localStorage (with', data.filterTags.length, 'tags, re-sorted by tagScores)');
         } else {
-          console.log('[KA] ✅ Result restored from localStorage (no tags)');
+          console.log('[KA] ✅ Result restored from localStorage (no tags, re-sorted by tagScores)');
         }
         return true;
       }

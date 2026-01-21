@@ -1,28 +1,30 @@
 # 젖병소독기 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T12:45:22.833Z
+> 마지막 업데이트: 2026-01-21T01:20:16.755Z
 > 분석 상품: 20개 | 분석 리뷰: 0개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- UV 자외선 살균 방식의 대중화 및 다양한 기능 추가 (열풍, 자연 건조 등)
-- 스마트 기능 탑재 및 사용 편의성 증대 (자동 살균 주기 설정, 이어 작동 등)
-- 다양한 물품 소독 가능성 확대 (장난감, 칫솔, 스마트폰 등)
+- UV(자외선) 살균 방식 대세
+- 스팀 기능 결합 올인원 제품 인기
+- 다양한 디자인 및 편의 기능 강화
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 살균력
-- ✓ 간편한 사용
-- ✓ 다양한 물품 소독 가능
-- ✓ 자동 건조 기능
-- ✓ 높은 수납력
-- ✓ 예쁜 디자인
+- ✓ 빠른 건조 기능
+- ✓ 다양한 육아용품 소독 가능
+- ✓ 편리한 사용법
+- ✓ 넓은 내부 공간
+- ✓ 감각적인 디자인
 
 ### 주의해야 할 단점
-- ⚠ 램프 교체 필요 (일부 모델)
-- ⚠ 내부 청소 주기적 필요
-- ⚠ 가격 부담 (일부 모델)
-- ⚠ UV 램프 교체 시 직접 교체 불가 (일부 모델)
+- ⚠ 잦은 내부 청소 필요 (스팀 방식)
+- ⚠ 램프 교체 주기 발생
+- ⚠ 소음 발생
+- ⚠ 일부 소재 젖병 사용 제한 (UV 방식)
+- ⚠ 자리 차지하는 큰 사이즈
+- ⚠ 건조 후 물기 잔존 가능성
 
 ### 가격대 인사이트
 
@@ -244,9 +246,9 @@
 ---
 
 ## 📊 데이터 출처
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6q4QmPhojA1O9CbT2xs4UKDZnmycJKGKC7k2sVdM2b0sRqVUCAMrFBa3a-MkOYZmegacIoUQMN9qYUPM3OhJCFl4DZ80Pn8nJ45jAjfl2tCqG04x-k5xPM6nD59UXi9fXpU_rkSbaaSBwx_zV1Cih6QpupBzWy1naMdM-XarF_-FtWXZT)
-- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcuzIBPno6LcYsxvSzYgLQU7ycjR3W5qCNZH5nX9EkqgqvEvzV1Xh3C_LZJQkfU39l4o_BNL3ac315dCMuX_ZXVW5JDheCwhCUN__oIiFlPp0cxiph17hOMsvyoYTMkfq7Xalk_zA8vCdJzwfk3eb5Xe__akEHHbW13k5lazetLxkn)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAZgKzzzlsDyNai7O9jKkd5xWSyanBcJCSfRa88Uy6xzwb581oKy4IuCC9Q_kPLJQO9xAOlVPPTnfcw5bBluxdwRxp76n6HSoIMaac6a_b-rNR3-n_EENy_qKMjZELoQFeh2o5Z-fv_7hbqaqGWvtU4Jx6rYWcIzajj50hTCdCj8a5YKrX4_X_OvcV)
-- [fetv.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvacEiQNTl0dOQ53HGcLmp3Je2gieUVvlouiJvzL1d09-lKEhONfSRI91iCBOSP380QXK2z2aM55txd2dJPiIbhlaLxAo0Jb6Vy63ZIB8kwzoa7bA58x0f55ihoQFVwev6s9n_2l0ytPlO9mvV5TE=)
-- [abc-d.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFsk7TYxBE3YI6ChF_x-JSP8GMfvxlVBG3x9tq7rLH1vLgTmuivTvq03QIfHsYWduO0C-0JpsMyfLoRZQnPJa1M_LInydgvhlPx4fpWDNb_8QLcedb6v3B3LCAr4SnquZe0DhP9ARDnz732JRRdzdURnT4DlWDUVwx72ybvDhaWXnn1HYvD2hIOV1P080gY)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOTVF3rk5eU-53yc2oNJWTawv_p9CQz9UYb4-WxoVUa4HXZ4jZj0xnzUJjAWTP53t3ChrzuzJ6nArYw_5WWW709MX8CmRPBj2QlbftMKJXxN3AkezoCEQuLm-fEDT7a6Eo32r0CqwJ7JxvfJNr04RGvdgMsy9O6qkcJQIQ-C3BDg2pNmSyJg5hseK4PkSaaUPavvcNTgpyBCgblsKpbUFAM2cgkvjAuKOYEg==)
+- [fetv.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNQZNlvx_8e_EvGSyATbK-zFLPY7bFkviCdFcBdU5hGNUSKUG4IVdPj0SJmwwBEBteo0G5JF8fzUXpjHGZkI2TnDzkMVZ8vXefdgStZ3KvYrc_vDEayA81JwhqRA2Es4qAkgzK95Uag5pNIHTe5nw=)
+- [dailysecu.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwNRmx9HBRJiFYc9xe-wOaS7On3zMT6cFgeZkJ2VdTK-6SaUhTDwTs9NBHLJ2ayb-UrESbcKSerGIKTYCcqra6BJb4jXsAA3_NqsC2rMkXd3a5p7-MJmo5esHSYgR5_TwaBSppigZEt5zBwmYalNucYsuOtO1z)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHY5ZPUYxxKbRa6Z2BFYy5ouDg6fwgKXOUduvEDa7Eds-GH9xHsFO1jwrxnFPIbSQ33_MZlrnxdxRazVflm_A8yqVFRizhjdZTIVWE-wsYHoczcd-ZkEgpyETSdS209at2J0L5ri-XY04xPukPi_US3qdEj3xsyJTo4AbWVvjc1PpS0NEJqJHZ15aBxpAkGZc8fjVyj2adxQxVfndFB4dhF8rkqt_YZDUnDSg==)
+- [ajd.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuX6ruBVUBWbArHdRS_MSS_egzLNB5Ka9uv-5qQbGEF59mZFeeqXnk9HfURVlywKPZgD62YP4BaUjb4454ZSAJzShc6DQyB4asuwQdeoslT6Yqr4hnYwh5n0fQ6vkbWzbTb0g3UhxEyq5wlbK7m5hYU8Wv63mkvyelX4HHEjLF4YQ54dfy5p4wm954PkvvmttbuxTJToPl)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvyH1WtqiKktIDnBsDKaHLMs8jikvXTsRoMaMJUQ99H0IpcsR0JGdre2x4wDUHhiOxOJT177F7zgjG4pB46dGNSzbgGsBHaWTjpnLLA2DH_dnDmdoqUHoQuEjp97M=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1_RYLKfQmsvDfy3d5WLm8p3N7uNWUeB_HyV3jmBaRG-xGcr5YSuMzh3hxYRUUee4e2s8eTdtOAXd0l3IC4mE_SJeZpQutQ5hiXsnfDUcoSITMGlzbzsExdff8z1K81f1Z1weHX_8bdne_UNLNSYBm2dm5kqzN6Gyrm7aazUsCKQ==)

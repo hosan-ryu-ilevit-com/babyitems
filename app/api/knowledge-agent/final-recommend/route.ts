@@ -1909,6 +1909,35 @@ export async function POST(request: NextRequest) {
       };
     });
 
+    // ============================================================================
+    // 🆕 태그 충족도 기반 재정렬 (O > △ > X)
+    // ============================================================================
+    const calcTagScore = (tagScores: Record<string, unknown>): number => {
+      let score = 0;
+      for (const value of Object.values(tagScores)) {
+        const status = typeof value === 'object' && value !== null ? (value as { score?: string }).score : value;
+        if (status === 'full') score += 2;
+        else if (status === 'partial') score += 1;
+        // null = 0
+      }
+      return score;
+    };
+
+    // 태그 점수로 재정렬
+    type EnrichedRec = (typeof enrichedRecommendations)[number];
+    enrichedRecommendations.sort((a: EnrichedRec, b: EnrichedRec) => {
+      const aScore = calcTagScore(a.tagScores || {});
+      const bScore = calcTagScore(b.tagScores || {});
+      return bScore - aScore; // 높은 점수가 앞으로
+    });
+
+    // rank 재부여
+    enrichedRecommendations.forEach((rec: EnrichedRec, idx: number) => {
+      rec.rank = idx + 1;
+    });
+
+    console.log(`[FinalRecommend] 🔄 태그 기반 재정렬 완료:`, enrichedRecommendations.map((r: EnrichedRec) => `${r.rank}위:${r.pcode}(태그${calcTagScore(r.tagScores || {})}점)`).join(', '));
+
     const elapsedMs = Date.now() - startTime;
     console.log(`✅ [FinalRecommend] 완료: Top ${recommendations.length} 선정 (${(elapsedMs / 1000).toFixed(1)}초)`);
     console.log(`   - 정규화된 스펙: ${normalizedSpecs.length}개 키`);
