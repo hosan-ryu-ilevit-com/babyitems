@@ -1108,6 +1108,12 @@ ${priorities !== '없음' ? `\n⭐ 특히 중요: ${priorities}` : ''}
 ${avoidList !== '없음' ? avoidList.split(', ').map(item => `- ${item}`).join('\n') : '없음'}
 
 ## 평가 방법
+⚠️ **0단계: 카테고리 적합성 (필수)**
+- 이 제품이 "${categoryName}" 카테고리에 해당하는가?
+- 액세서리, 소모품, 관련 용품이 아닌 **본품**인가?
+- 예: "와인셀러" 카테고리 → 와인 오프너, 와인잔은 ❌ / 와인 냉장고는 ✅
+- 카테고리 불일치 시 → categoryMatch: false, score: 0
+
 1. **조건 충족도 (60점)**: 사용자 조건을 이 제품이 얼마나 만족하는가?
    - 스펙에서 직접 확인되는 기능/수치가 있는가?
    - 리뷰에서 해당 조건에 대해 긍정적으로 언급하는가?
@@ -1119,7 +1125,7 @@ ${avoidList !== '없음' ? avoidList.split(', ').map(item => `- ${item}`).join('
    - 저평점(1-2점) 리뷰에서 반복 언급되면 감점
 
 ## 응답 (JSON만)
-{"score":0~100,"avoidanceScore":0~100,"reason":"15자 이내 핵심 판단"}`;
+{"categoryMatch":true/false,"score":0~100,"avoidanceScore":0~100,"reason":"15자 이내"}`;
 
     try {
       const result = await model.generateContent(prompt);
@@ -1129,11 +1135,13 @@ ${avoidList !== '없음' ? avoidList.split(', ').map(item => `- ${item}`).join('
       const jsonMatch = text.match(/\{[\s\S]*?\}/);
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
+        // 카테고리 불일치 시 score 0으로 처리
+        const isCategoryMatch = parsed.categoryMatch !== false;
         return {
           pcode: product.pcode,
-          score: parsed.score || 50,
+          score: isCategoryMatch ? (parsed.score || 50) : 0,
           avoidanceScore: parsed.avoidanceScore || 50,
-          reason: parsed.reason || '',
+          reason: isCategoryMatch ? (parsed.reason || '') : '카테고리 불일치',
         };
       }
     } catch (error) {
@@ -1161,7 +1169,8 @@ ${avoidList !== '없음' ? avoidList.split(', ').map(item => `- ${item}`).join('
   }
 
   const elapsed = Date.now() - startTime;
-  console.log(`[ParallelEval] ✅ Complete: ${results.length} products in ${elapsed}ms (${(elapsed / results.length).toFixed(0)}ms/product)`);
+  const categoryMismatch = results.filter(r => r.reason === '카테고리 불일치').length;
+  console.log(`[ParallelEval] ✅ Complete: ${results.length} products in ${elapsed}ms (${(elapsed / results.length).toFixed(0)}ms/product)${categoryMismatch > 0 ? ` ⚠️ 카테고리 불일치: ${categoryMismatch}개` : ''}`);
 
   // 점수순 정렬
   results.sort((a, b) => b.score - a.score);
@@ -1629,8 +1638,13 @@ async function selectTopProducts(
       enhancedNegativeSelections,
     );
 
-    // 상위 N개 선택
-    topNSelection = evaluations.slice(0, RECOMMENDATION_COUNT).map(e => ({
+    // 상위 N개 선택 (카테고리 불일치 + 리뷰 0개 제외)
+    const validEvaluations = evaluations.filter(e => {
+      if (e.score <= 0) return false; // 카테고리 불일치
+      const productReviews = reviews[e.pcode] || [];
+      return productReviews.length > 0; // 리뷰 0개 제외
+    });
+    topNSelection = validEvaluations.slice(0, RECOMMENDATION_COUNT).map(e => ({
       pcode: e.pcode,
       briefReason: `${e.score}점 (회피:${e.avoidanceScore}) ${e.reason}`,
     }));
