@@ -311,8 +311,20 @@ async function generateFilterTags(
   _negativeSelections: string[],           // PLP 필터 태그에서 제외
   _freeInputAnalysis?: FreeInputAnalysis | null  // TODO: 자유 입력도 태그화 필요시 활용
 ): Promise<FilterTag[]> {
-  // 무의미한 답변 필터링
+  // 무의미한 답변 필터링 (입력 단계 - 완전히 의미 없는 응답만)
   const skipAnswers = ['상관없어요', 'skip', 'any', '', '기타', '없음', '모름', '잘 모르겠어요'];
+
+  // 🆕 무의미한 태그 label 필터링 (출력 단계 - LLM이 그대로 출력한 무의미한 태그)
+  const meaninglessLabels = [
+    // 단순 긍정/부정 (질문 맥락 없이는 의미 없음)
+    '네', '예', '응', '그래요', '맞아요', '좋아요', '괜찮아요',
+    '아니요', '아니오', '아뇨', '별로요',
+    '중요해요', '필요해요', '원해요', '있으면 좋겠어요',
+    '매우 중요', '매우 중요해요', '중요함', '보통', '상관없음',
+    '중요', '필요', '원함', '선호', '좋음',
+    // 영문
+    'yes', 'no', 'ok', 'okay', 'important',
+  ];
 
   // 1. collectedInfo 필터링 (내부 키, 무의미한 응답 제외)
   const filteredEntries = Object.entries(collectedInfo).filter(([question, answer]) => {
@@ -344,24 +356,38 @@ async function generateFilterTags(
   }
 
   if (validEntries.length === 0) {
-    console.log('[FilterTags] No valid conditions to generate tags');
+    console.warn('[FilterTags] ⚠️ No valid conditions to generate tags!');
+    console.warn(`[FilterTags] 원본 collectedInfo: ${JSON.stringify(collectedInfo).slice(0, 500)}`);
+    console.warn(`[FilterTags] 필터링 후 남은 항목: 0개 (모두 skipAnswers에 해당)`);
     return [];
   }
 
-  // 2. LLM 없으면 fallback (쉼표 분리 없이 원본 그대로)
+  // 🆕 무의미한 태그인지 체크하는 헬퍼 함수
+  const isMeaninglessTag = (label: string): boolean => {
+    const labelLower = label.toLowerCase().trim();
+    return meaninglessLabels.some(m =>
+      labelLower === m.toLowerCase() || labelLower === m.toLowerCase() + '요'
+    );
+  };
+
+  // 2. LLM 없으면 fallback (쉼표 분리 없이 원본 그대로) - 무의미한 응답은 제외
   if (!ai) {
     console.log('[FilterTags] No AI available, using answer as label');
-    return validEntries.map(([question, answer], i) => ({
-      id: `tag_${i + 1}`,
-      label: answer.slice(0, 50),
-      category: 'feature' as const,
-      keywords: [],
-      priority: i + 1,
-      sourceType: 'collected' as const,
-      sourceQuestion: question,
-      sourceAnswer: answer,
-      originalCondition: `${question}: ${answer}`,
-    }));
+    const fallbackTags = validEntries
+      .filter(([, answer]) => !isMeaninglessTag(answer))
+      .map(([question, answer], i) => ({
+        id: `tag_${i + 1}`,
+        label: answer.slice(0, 50),
+        category: 'feature' as const,
+        keywords: [],
+        priority: i + 1,
+        sourceType: 'collected' as const,
+        sourceQuestion: question,
+        sourceAnswer: answer,
+        originalCondition: `${question}: ${answer}`,
+      }));
+    console.log(`[FilterTags] Fallback: ${fallbackTags.length} tags (${validEntries.length - fallbackTags.length} filtered as meaningless)`);
+    return fallbackTags;
   }
 
   const model = ai.getGenerativeModel({
@@ -414,7 +440,7 @@ ${conditionList}
       const parsed = JSON.parse(jsonMatch[0]);
       if (parsed.results && Array.isArray(parsed.results)) {
         // LLM 응답에서 직접 FilterTag[] 생성
-        const tags: FilterTag[] = parsed.results.map((item: { sourceIndex?: number; label?: string; keywords?: string[]; category?: string }, i: number) => {
+        const rawTags: FilterTag[] = parsed.results.map((item: { sourceIndex?: number; label?: string; keywords?: string[]; category?: string }, i: number) => {
           const sourceIdx = item.sourceIndex ?? i;
           const [question, answer] = validEntries[sourceIdx] || ['', ''];
           return {
@@ -430,26 +456,46 @@ ${conditionList}
           };
         });
 
-        console.log(`[FilterTags] Generated ${tags.length} tags from ${validEntries.length} conditions in ${Date.now() - startTime}ms`);
+        // 🆕 무의미한 태그 필터링 (LLM이 단순 응답을 그대로 출력한 경우)
+        const tags = rawTags.filter(tag => {
+          if (isMeaninglessTag(tag.label)) {
+            console.log(`[FilterTags] ⚠️ 무의미한 태그 제외: "${tag.label}" (원본: ${tag.originalCondition})`);
+            return false;
+          }
+          return true;
+        });
+
+        // ID 재부여 (필터링 후)
+        tags.forEach((tag, i) => {
+          tag.id = `tag_${i + 1}`;
+          tag.priority = i + 1;
+        });
+
+        console.log(`[FilterTags] Generated ${tags.length} tags (${rawTags.length - tags.length} filtered) from ${validEntries.length} conditions in ${Date.now() - startTime}ms`);
         return tags;
       }
     }
   } catch (error) {
-    console.error('[FilterTags] LLM error, using fallback labels:', error);
+    console.error('[FilterTags] ❌ LLM error, using fallback labels:', error);
+    console.error(`[FilterTags] 입력 조건 수: ${validEntries.length}, 카테고리: ${categoryName}`);
   }
 
-  // Fallback: 원본 그대로 (쉼표 분리 없이)
-  return validEntries.map(([question, answer], i) => ({
-    id: `tag_${i + 1}`,
-    label: answer.slice(0, 50),
-    category: 'feature' as const,
-    keywords: [],
-    priority: i + 1,
-    sourceType: 'collected' as const,
-    sourceQuestion: question,
-    sourceAnswer: answer,
-    originalCondition: `${question}: ${answer}`,
-  }));
+  // Fallback: 원본 그대로 - 무의미한 응답은 제외
+  const fallbackTags = validEntries
+    .filter(([, answer]) => !isMeaninglessTag(answer))
+    .map(([question, answer], i) => ({
+      id: `tag_${i + 1}`,
+      label: answer.slice(0, 50),
+      category: 'feature' as const,
+      keywords: [],
+      priority: i + 1,
+      sourceType: 'collected' as const,
+      sourceQuestion: question,
+      sourceAnswer: answer,
+      originalCondition: `${question}: ${answer}`,
+    }));
+  console.log(`[FilterTags] LLM fallback: ${fallbackTags.length} tags (${validEntries.length - fallbackTags.length} filtered as meaningless)`);
+  return fallbackTags;
 }
 
 // ============================================================================
