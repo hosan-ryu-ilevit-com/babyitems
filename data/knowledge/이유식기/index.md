@@ -1,29 +1,29 @@
 # 이유식기 전문가 지식
 
-> 마지막 업데이트: 2026-01-21T07:03:42.450Z
+> 마지막 업데이트: 2026-01-22T06:52:48.688Z
 > 분석 상품: 20개 | 분석 리뷰: 1,029개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄 및 맞춤형 이유식 선호
-- 온라인/새벽/정기배송 등 배달 서비스 다양화
-- 유기농, 무농약, 친환경 등 건강한 원재료 강조
-- 편의성 증대 (자동 세척, 다기능 이유식 제조기 등)
+- 프리미엄 및 유기농 이유식 선호
+- 온라인 판매 채널 성장
+- 휴대성 및 편의성을 갖춘 제품 개발
+- AI 기반 이유식 식단 추천 및 알레르기 케어 서비스 등장
 
 ### 구매자 만족 포인트
-- ✓ 편리한 조리/보관 용이
-- ✓ 다양한 영양 설계
-- ✓ 안전한 소재 사용
-- ✓ 뛰어난 가성비 (일부 제품)
-- ✓ 세척 용이성 (일부 제품)
+- ✓ 다양한 재료 사용 가능
+- ✓ 냉동/냉장 보관 용이
+- ✓ 눈금 표시로 용량 확인 편리
+- ✓ 전자레인지 사용 가능
+- ✓ 세척 및 관리 용이
+- ✓ 뛰어난 흡착력 (식판)
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대 (프리미엄 제품)
-- ⚠ 세척의 번거로움 (일부 제품)
-- ⚠ 무게감 (일부 제품)
-- ⚠ 용량 부족 (일부 제품)
-- ⚠ 착색 및 이염 (일부 제품)
+- ⚠ 용량 부족 (중기/후기)
+- ⚠ 일부 모델 뚜껑 부재 (외출 시 불편)
+- ⚠ 소재별 단점 (냄새 배임, 냄새 흡수 등)
+- ⚠ 제품별 그람수 상이 (불편)
 
 ### 가격대 인사이트
 
@@ -245,9 +245,9 @@
 ---
 
 ## 📊 데이터 출처
-- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3Q0mY9X8AB5KwZlZ92Ju7shAJFTzxIlfV7nN1qNmbWpcvhrsHCNVPb20GTwoDkuAe-SsW7VihyYch-oWXFV42_PIwIFOv6r2Gs4-wO1L1H3-FK1WArqvNOSSra-axIJRi5NlOXUc=)
-- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHw8Tt5IMjPdolUdSZ5egWgl5tdCQoRf1RzCZMXjw6U6pE_ah7AAWIjeSWOxrbJ_Ca1bio2V87zLH7Cxv-f3l2PjxD_KOHnqaNXooPIQMQbVw3mI0IWiCAjV-GIWRrNY5ftRJ-j_nwFLkSYycCk8zDQuzwi43ymiv8WrXa72IMVfUrQNCNZt3YjISU=)
-- [newsprime.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErOqrJhkKWIdbq2qlQUW8AxaE8sJFkDTla0EAj-pYgLB_iKH_iOvqhQ5KeUG4WwQVB4cEYy2dNayFnBeBQrNjFBVw6J5w108Nl0GaRtDPJGINdj-favSBCjqlg0TmwyY47oMTEa9uwqn7WBWQAMxwQ)
-- [verifiedmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXNDzsfrvoJrwB5WMtNOy25JmcBCFSFiQk4qwai6lBGPZuTY4ZeUGmDwWRLmNv1JXaoBUTg6Q4sEiBD6VdzJfHLK95aijl0IcsRVP9ucBfx9HsOKSWoE1AX3dQUbTVoFQbtF8knOt0rB89PsAo8VAYD3MpkJ9_y4woFU__nkKqbfakL6wDkqM=)
-- [greyb.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGsybxeNsiPQbqvbX0lj4nGz_UIbVmhh1Prn7gH0n5luQXoRtJv0Tn8T-ays-GRkvxk63i0bP-dmhC0fynOpbAAL3MWaxC0_xPxpjPGeJbESj7JcQCC5pJOGIz3QS51atxn-QmPcRTa)
-- [openpr.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEA05K0G8rn4WQOrUP_pfEbb8ZC-ckEj8hJoHeOgC0if1ofrOzYLtUgSAyeVEUTBIUhk3OpAL97MiYSk4dH3UFRIUIbvzoN9oUj5gZ4MB2xmJJiurPWG1rusXKCtJJP7dznCrGtQ7hvQs7L7Tpw82EwJWMEESfRO_FflrgOFJ5p25wNyblhzBeev04BIPx3)
+- [giikorea.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMx21d4Smje9JES330uNAAAxH6mrB1mq9arfZ-Xb9E_sJl0uMyw2Tn1YHav8jvbY87EH9OAyxZDCVCyP8fpXkx0f8_IxuYZy10xDhibXgCMaMBD3SCa4oM-yyWATNW4W-_MUbXoL5fxM51RKat3JE8AHakfNwHLaRl2S1KYJW5FjViZAes7c6csUog)
+- [kingsresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGer5D7QCRG09LtlC1pymPeteuIqNRtunWYT5xj_xGT-1bMhSe9aIEo8wVOgOB6dQrWHyU234eIsT2bBxSFiixxexWDsyS6P3xoKCNJAW_isSxOb6-Z1IdAzbTPn4hZRPiWzzaP_eaSZ3k_18sW3snb)
+- [newsprime.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjlvU7LwTsO-xrRRFZQQ4GfsylSdIAEGE5K7GSmbYkQOnGOueO-uJ6xNnHj2ERDvWhScusHVbxwwMRlVSMk5PSdJ_lm6vL1eoLKI7tTK3_uO4osOyOhEDqtoh5uMFJ7rsjGfQ5fGqJ_z_gB6ct7697)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyr2yYMEjkhz9Zw1Q3Wf_sNrV9yH14h-VAK8vlr1zxtzWwodfS27TPThs842liDkrd7HK5gLHT8KcUBvQ5b6-ZDjhqxVd-NUweAW7te3een0hyNnIlb-7YZBSE5MOJ9kMmcMpXDgMbAHUCDi_gfveAWljNYZmBhXWCUF5WVoRTGxJmWw==)
+- [imarcgroup.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhMSlYplRnWZimGwHu0Jy7ZV5y-YqP4rn_imHTna_zhMJl5yFU_etCPPBqOOSE__XyenFQ48xc4RqAxLnsl24RAMDJA5MTMPz7ZwKXyn1rzdmlMcMq3NQYeuavMJvZwVKskts7FpMoh3DXROzFwBE=)
+- [coherentmarketinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOJPhIe1p7N5Ni7vv7sROjLzGsncZv22UFBTBuxZzaDB396x0TSi5sSJPMdMm4aAHxyWIvIL66x7pxy-X4JHJrwGVkCfjkxyyZoyckHr-QlGb76CHWX8P2ofI7DMqwNHmrrwkxDwbhzoM1-kiBuN7XvLZjCqcp9V9gnPq8esB8znbmtjowSq7tDM_Q1w==)

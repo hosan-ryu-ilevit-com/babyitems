@@ -1,5 +1,5 @@
-# 세션: 20260121_052610_mdyn
-> 시작: 2026-01-21T05:26:10.827Z
+# 세션: 20260122_081251_ddpa
+> 시작: 2026-01-22T08:12:51.550Z
 > 카테고리키: 4K모니터
 > 카테고리: 4K모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 4K 모니터 시장 현황
-- 인사이트: 4K 모니터 시장은 지속적인 성장세를 보이고 있으며, 특히 32인치 모델에 대한 수요가 높습니다. 2026년까지 연평간 8% 성장이 전망되지만, OLED 모니터의 빠른 대체 속도는 잠재적 위험 요인입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZUK0QtsNvQNkj6Sdwc1PKeLrd5XY-LMzbHoHsmvdlFeLQENEOeBK7l6vZnD-GTTcPVhb5SEMSGvYcKAvFhubVhFRGray2cFp1ooG8qW2dinsyAY-uUYOpPdauT0WLhKn1VQfeZNtM7oUHtfNd19mOtuBz-gOgeNY0WcFJzIPrFCJYApZjubwfQdzpXlvb0fQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWN4Kl81BsFgh65IMomYEE01O5CQaW-EQB80NMeGe_f7NWd1QzFBk2ERU1UwHINVplXR1X8XXep7mprw_-GhQRF8ZGuM5jRU4tEbFzgviUYGKQPvkKOjPSYv89NpcMrwwX_pjd1TVa1gX6y2YLDqOheJOBlPUHH-7Sd0KhGJEmp9QflnzK0KArd8_r4vnUmibkNKzqifWq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEMRV5_3ho0AoXJyhzylLzeXWZ6uHwrnbzy0zFAJ_bJ-SyeWpqJg2YhqD5ywqSrIH2QmU1mUib5DkQAHYbvkAy9-BgCVGb5s_LvVNxaXsGXN8fA9r8DlhBIqYg2PeYD2Dz2CzMkMTCFDVUdUgC-ZpIO6D5iMERfzzXgJeMLskmUah4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFPx5P08vv8z6z0hY2hfwTNmGBDqD2ScA3wpXM9qbLGdHE8_rrbm2l9m4No7o0ZFXXERBAnCWJVWaPV0zlRb0YZ5DMkFn1LPLQbH1d8IJ_9sejB0_dHc0emlyao2JiHIUKwFExRhk4OVtceM5ay0v2PpAAar5GIlpadiB0AJWfvMHyCWNEkAhhcyCHOmJSJvMy6L0gsWRmXLat, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPqnNZSK0I-x9k2mHl0Z_4BBOH2iXTo1uLiy-tyCt_8VIh7b9X3uGCCNpCNhSUvg1Q3tlg6XkE05GRJdJJaaKbp6PnWgd39rby_Etal0z_NCl4ovP5BVUTwNew0w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGeZ4NtuDPt256QxzLIMQRb7Y0IZnGT6yt9MXpRYODc1gE8T2L9gKjfplKe3ZdK1WK3wQLfrDJvKhp71fpsSJNPwzpXDwV--elJ5PYNmOnCsEo=
+- 인사이트: 4K 모니터 시장은 지속적인 성장세를 보이며, 특히 32인치 모델에 대한 수요가 높습니다. 2026년까지 연평균 8% 성장이 전망되지만, OLED 모니터의 빠른 대체 속도가 위험 요인으로 작용할 수 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfg-MX4fEUlzyIywbrlloOgDmkC4D5Qn_T3G4jDHTD9ot8hqrShjScAMIgZIYlZbqXf3vFNGLG3i3IZQndQt0ZXJLvc4U9ndTP3yXLHSQ_B81ych9x66Dy_EzHgGr1S7D6WF9hwiY-OB-Rq1ARIVgdgP30aia5BnXk-YTCp_QXOr3ahRZYORfbEmSp_hk6Pgo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUm926QEqVajQKDvwUg8XbqjKlEHwMdWrQNgLQABJjCGSGEx-W-VWRXq8HE5YpOPRF7yxPPanMZPtZbB1nwujeKnSvGVJynFq9VGDRrWYX0Utt4IhIOxHYmmD8x6TQuDxDfrSPY5C_BKXrcroViTjLh-JFbMuRrbPxMToSfDYB0J4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaH3uqWH_yv5zDAzfmQwY1XndZDRYicuk804JBmam4ZSniCHjiHyqF9YI6yUYE_5a23dN_YqaCkTh-avwVZV_jEWB1g46jU_b26uBqXwpFPSrJv6NHZgzbvuGQ9V3_zOrwbWYGDR8ODnhMnCLidOHW9PSHp2t8XWgETngK44lssvNT54-71SgEs5_FtGaAja1MEadBCsZmWt83qef3SpAmkEBoEauIEc3K3EdXKLvt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHt9XblyN8hI3VdBi6JY-d0VadvZLH1shWgBKqcSoLCn07gCDHIkgYMgCJuR083ymtdFaMPil2rNvCaFPKoSB2VTvXMGq532aeFG_Qsd-fSgud7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFiSSy-2NVNnvX5zFcTRHGEVGUUM2dfKdiGQB5AEgnPLbx5NGDkr7ca8M18wwzGM4CpiZrGJSjGB1S8pZEvOmnQs4jkrtZWFmnbfCFUPTCDCwpIiL1SR3ZEqp4TjsglT-P50ax71JUN8YtQ8J9J1Ufba0fxBNb50gQUIJjAs_gGi95AqjoBC8eaUa6yGKLiMtzu4zqqNtD8nFplYT7LGVsLmpKJQLef, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-ujio2V3hWde-5ri0QzuizSrBjx_qhnhSBzix8yoVQntAMge3TwXZ5gygeibVNMEgzpL79QbsAnJhpFGw7PxtcE5fOieP1F-5P_CZ0BJrTJLdvmaUn4BYKqJB8SOeIZoKYwQPCi4ondGFLG5jHAAAuMyeLt62WfUOsTgyl3dIopddwfTUgECS9dfuYWWK0sKFKKjHc615HLvUaoE08MoZgGl8mPE0y_CsLkmUeLC5AlGvTIH0wFFbdOsjnjfQMzcpwszne87zldY-YgbPXtxHfjTb-njLoN4aAUkOZejMxxiTQxAs0DOKzQYfzVOXTqp-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPyBn2HraSiJ9t6VKgf2ZsyFuC9cX5U1T4nCNJCKs2LlrfOVYBBIZTHatk86GrBUBfy9jy0v1Y8vr5jKS7Bj1z8m_pyAVHNLZwMsnZ6d45XrmirWe0Je_uzjqo6uL45I5XKAb2f_xUXvbKrnjQ2dJoCvS2BImUnh62xpuoz7WluVQC-bj0kzuXMAfZ9U_DJaLYT13kvfuGKg4bdrF4_UyG1N2piKJUfz-DwKvloFFR59OY4-F3bk8-ryjTs-l3wkYXYLt42EjxuRI9Pg4nc5tK6tlbzqB7txg0ar7zHu8TrD5oOQaOROV7VPH2rX8ecsXowzkGAxBvsQ5Y2dgFq2J7e2h6sEg7atpJi6jASd9HHvkGLNm2BUCWMdw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPN9z0QiGuyJqd_O-CUwz4gA4xLyYb2Hw6pVVTqZ4MwAgfV8aSfp1L62Wj5_ckdtZIUgG-8WnfJdkxJ1PtuD6r7rcVnbFSV8SgL6U3x9eoReLSdrzFAhlS-B3I
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 어떤 크기의 화면을 선호하시나요? | 27인치, 32인치 |
+| 어떤 종류의 패널을 선호하시나요? (화면 품질에 영향을 줍니다) | IPS |
+| 주로 어떤 용도로 모니터를 사용하시나요? | 게임 |
+| 선호하는 제조사가 있으신가요? | 삼성전자, LG전자, MSI |
+| 예산은 어느 정도로 생각하세요? (평균 62만원, 42만원~81만원대가 가장 많아요) | 42만원 이하 |
+| __avoid_negatives__ | 상관없어요 |
 
 ---
 
@@ -55,7 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 상관없어요
 
 ---
 

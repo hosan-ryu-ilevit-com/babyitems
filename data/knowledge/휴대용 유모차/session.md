@@ -1,5 +1,5 @@
-# 세션: 20260120_032601_8kyh
-> 시작: 2026-01-20T03:26:01.736Z
+# 세션: 20260122_064707_ilol
+> 시작: 2026-01-22T06:47:07.360Z
 > 카테고리키: 휴대용
 > 카테고리: 휴대용 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 휴대용 유모차 시장 현황
-- 인사이트: 휴대용 유모차 시장은 가벼움, 휴대성, 사용 편의성을 중심으로 성장하고 있으며, 특히 여행용, 트윈용, 조깅용 등 특정 상황에 최적화된 제품에 대한 관심이 높습니다. 또한, 친환경 소재 적용 제품의 수요 증가와 스마트 기능(예: 자동 접이식) 탑재가 미래 시장을 주도할 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjOzE0kxLa4e29Ts4jDrSem_wiQNCK9DL4wv150G-nwf7lTMbPJVKuq1T7al44ZNiqEaNHTzDc70yuNGUmLYT6ovKKaEF_qm08gLht4YqlRNf8qzHAWKf0fa5f9moy7qaedxa5ZDYhH2H0l5OGq-q5nVL00kG2WxdnmJA4XGxKjhimLOX6q1NK5H5Ds7NHCObClTdd0KM0DpPqDpKJkqhF6j6Xab2To8Hb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG95EtGKTLT_Ado3cddVqwF-sh4YKIV_0xXkbNbghwDUlpDOBCfEOnXuydfrUGFjl4YRSueDg17b0V-KbxqLFRnyQdXpm80zCknIiimjUXGfqSvrDA5iOdM0wdBMykhBPf1rs3te-a5sV3tN5Yw-cPhhAC6AKaIpcoGGPaRaFBWKecHrZyBf_83n__hSQ2y7fBICw4ZifTg1f7AeQzkgSPoMuamZOH8gELxlmt4n8-N3axi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUNpUehaBy8qfQCAcndEILbmHvl5lSV6SiEAZVJpJAUc3_PQNdx3b_yPsE6bA0uMGr-ymnFmQbEeHITJUj_wuX-2q0fj8ujx-EitJy6WuyPk2DH89bJRXn5flkscfrrZW1BmlT1whyTuutEM9PIEZns_E2IZioyeJoJIOsGndwWBGWqoi0UiUSWvXroo-V6-F0GpLWvmcHlGqD1YecjKPpHht4sHXVBHw4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbnyu6qy7P0kGctVxql0Od6NH4T4M7MftIPDRpIxGQCdtROxhIsXmzDt1v5sB8Vm9ytpwcy2wvdScf74S11nnF8i0QPzy6sUfr7MqUSoRNXy9cUBH115co_PuSqLXNqsRVexRaF6at80u7x0Mtdn4hPO28J-uDsLEx_sZ4H38jZtsqSteHAB0h2SYsN9L0axq91Hf_RT3m0l8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBiIQ66iod4racgHLSSvTCy6-QbV_hhCcvU-XOq6ufw1XmofaxrrEtb-KFJowSv820XaKN806s3CGBZmKvm1wSCyt04FCVjg1_eoTb-RTusfwnd9NHXYHu0MLHt8aPh7Gi2go-Vi95y-dDrvKoEafAWp5XvNXpNTOr0FOyZ2bYzSYnF6cML99EsGx6dG-lkVNIOfN2rjFM31Yb11eTVNTMHHIcnq6xeUbyt6QankyHKRDSRRTiyX8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXrvGI2pKXmxaoV1M2V2tjByG2BjV0azA45zFjMe7srmaXOJkkjL05QAhvO7U0yK9Dgr8FGh-A-hBRAWzF8pErd3YWH5wOMe38tAGNprM2v9XCUYBluWCOg_0a2uLsW4f637SHUrgw8hMWmuMSxCiIbuLro6EtKUlFcat7SypdyXNWTNmzFX5k_7qhtdzxgA2SHJ2imfjxfEQTYE0hrhx0685gz7i1V5wTw7t5NO9-AFBiOVGQw3mA1kPQLSMAJQSU-THk9OZnQHRhasJnHKcxiPR9kxvAPY0D6O8tOmVv1W4uujBlGD04r0Rm6vb-MJFANYWV3ZkPJuI35jKT6g1U6V6GE-QkjzaY5HMk0ccnDEyeGgy2c_OuEgMNKOVOOWG-3f67vfVtZbavukNrvqIUipG-bneNKD4xCI3pTob7c5ZkAuEL9KTGUDC7Z-WJnjdGBg402ucKuqwkKsweAi1ORA2C1QJvY9xYQZ-zkfWxhJCWbtFojrw8LXc3YQtnTVdbmSzI_WGmONCJ3m4dXDA3M1rNWM947UIzv0EpLphQ_-I=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlER_-e5TcFhDFIr9dZQTIKQBpRz5re87DZnz3umQ6xp-G1sWXc96TRLTvQw_HR-i9STj6P2cuU3KgMHqRPSmRi7zXdh3TTxB7DjV2BtIGjlhJIKkauoCwXp68Nt4eJsNY9WwhE-avjLtn5AuzekmfMcMWONABxw4HBZHN-aQja10JcMrZP8bxMEDQHNA4bURTlJKJJY5eR5i4vrH4J4ARcmbGwj3XeBTFZBVxF3CJHDioYGEI8zMp_x0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBomYlICbebOR-tY68h5oDZW2RrZ67Szb01gXUkLLIZn8W3PjAtaWp_53s-Wl0dgl4gd-lJ8UkZl7rtka2ITuqL6DgrTqk2QWLGLDbr3CXgsxO6xHrsnBOkHh2Sd-ts7_rA9psgUJM_lum7QTNXzX1bkb87lFy5p8HWaH_LUVTDAynwVWXPjpNN7NwpZEPThYQFwssO7bsQumEbiIc7xDFC1txrgotxKk=
+- 인사이트: 휴대용 유모차 시장은 경량화와 편리성을 중심으로 성장하고 있으며, 특히 기내 반입 가능한 컴팩트한 모델의 인기가 높습니다. 2025년에는 자동 접이식 등 스마트 기능이 강화된 제품과 친환경 소재를 사용한 유모차가 주목받을 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG6EcUUPoHiMw-Nyopxi8W17JVjPqiRZEyErrGpmLu9UsbUUoEUq2ORLCQaxPzNjeWA_Vvf1zkY7kqAcVEDzsWgQkAcle3uAo-4FbNeOhR1w4orsu_wpo4OD5zeH1AtYslTZ8Q_PeWAHCEU-9Y_eHFIUcdsizRWvtBgFCx2oU9MRMn0DAVcmqDbx7PFKNh-QDiAkfpqCWOgFhjtZYAqU96XeTO3Z-Q7A_HLvg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUm73QCQBkiS5v5nbI0espenpvkAdkzcPoccBH2vXxV488U_XF2kR-jh7L8DkeaKvvVdFoNpAvDKsFsdpl5eKzdl6aBYS4JtReIaM7iI961KZb5i0W9ksCJ7xP5I0F, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEoe6sMfSBIY5ZerMu4Xpb6aHJF_0jRtI_3NQpe8H-QUxgG38nlJMVRT9mt4ElqkD2Ju4URpehv_04r6WMfyXjF8Jq2IgCoJsdEQWUr-kFIyP8i3SRbu8nKntMUt2Kroki0l91iFzWHGknQn3nZpHgN6UNsr09WesLBJ2CL8edwntCi6qfXPbhJ1P6FdEO8xvxXL1zhTAzRsKDdaZt4wX93kHsE_bYR-YH1LQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyCoyXEY4sHJU3eEmlcG3jjmsTmzvfea_Ak7YBDQVszZUg7ZZ7SscDpHC_Q9THvdNPldmrplSUuB0twXCb4nanRtaB0mBNTmvThMAX03C8cDDHGoF267FuFqFSCxCD1WNR4Iyp0nU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKG8yEce9qg9KM-5-GdVqB344lQs28lXiAkFamcz9shSivKP0lwFS2cCQ_kx3lXZ-e55D9RoIUyawG6RO9yDKYr2q4Wxi7mZWue7AtTQjeY72tMwuoth46fR8MDu3H2qEl7v1wlfk=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 유모차를 접고 펼치는 방식은 어떤 것을 선호하시나요? | 한 손으로 간편하게 접고 펴기 |
-| 주로 어떤 상황에서 유모차를 사용하시나요? 특히 여행 시 활용도가 중요하신가요? | 기내 반입 가능한 컴팩트한 사이즈 |
-| 아기의 안전과 편안함을 위해 중요하게 생각하는 기능이 있으신가요? | 5점식 안전벨트 |
-| 유모차 사용 시 수납 공간이나 부가적인 기능 중 중요하게 생각하는 부분이 있으신가요? | 넉넉한 수납 공간 (장바구니) |
-| 예산은 어느 정도로 생각하세요? (평균 58만원, 30만원~75만원대가 가장 많아요) | 31만원 ~ 75만원대, 31만원 이하 |
-| __avoid_negatives__ | 장바구니가 너무 작아서 외출 시 짐을 많이 챙기기 어려울 것 같아요,아기가 금방 자라서 유모차를 오래 사용하지 못할까 봐 걱정돼요 |
+| 유모차는 몇 개월 아기부터 사용하시나요? | 6~12개월 |
+| 휴대용 유모차에서 가장 중요하게 생각하는 휴대성은 무엇인가요? | 가벼운 무게, 작은 접힘 크기 |
+| 특별히 선호하시는 유모차 브랜드가 있으신가요? | 에그, 다이치 |
+| 아기의 안전을 위해 가장 중요하게 생각하는 기능은 무엇인가요? | 5점식 안전벨트 |
+| 예산은 어느 정도로 생각하세요? (평균 58만원, 31만원~75만원대가 가장 많아요) | 31만원 ~ 75만원대 |
+| __avoid_negatives__ | 금방 사용하지 못하게 될까 봐 아깝다는 생각이 들어요,기능이 너무 단순해서 아기에게 필요한 편의 기능이 부족할까 봐 불편해요 |
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 장바구니가 너무 작아서 외출 시 짐을 많이 챙기기 어려울 것 같아요
-- 아기가 금방 자라서 유모차를 오래 사용하지 못할까 봐 걱정돼요
+- 금방 사용하지 못하게 될까 봐 아깝다는 생각이 들어요
+- 기능이 너무 단순해서 아기에게 필요한 편의 기능이 부족할까 봐 불편해요
 
 ---
 

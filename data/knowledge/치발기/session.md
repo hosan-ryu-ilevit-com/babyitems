@@ -1,5 +1,5 @@
-# 세션: 20260121_054623_hjzi
-> 시작: 2026-01-21T05:46:23.576Z
+# 세션: 20260122_084705_00a5
+> 시작: 2026-01-22T08:47:05.346Z
 > 카테고리키: 치발기
 > 카테고리: 치발기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 치발기 시장 현황
-- 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2lr7UFiSKbmkp0a_tmo3IAf3cNRj2Lh5gAKdiOG7gnaKsks-IQHSF2J5E-WKK2Bu484UZ1M0aQb_RYEzHtzGoUQjzLlbEziP1lvE2AkfovnmOli-fmshL6Ie0moAgqy-ZGNop-KjA96paOYkBR7LnTvFT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKcB8qTSKCKlvUGw9bi_FKcgUF7iooAP18pU3dB-BcpqD-zUHpm5OsH6MQVlZZi9ElDspiYx-W3xkop3L7GOJCanPjaQUv-tCUcX7S5K2Zb1PUUPRIOl9PfDb_qzUpsi5fTgwx5N4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnRiGyvAbYurGb4_XrZJNAu_qdsoMuUG_z71YxLAYCtnkBxwfy5yMjlTHhfFhGCPqIvgkK6lxNpf0kV2NsUKXFfTZyMK7iw7XG9FgRHz3LhBnxJT3wGtpG6t5irWIeIyu84m6SJGQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCRqt3bncVp5YuPDlAO8Cjmpx-IO1HsuH1Mu46TeP7KRBzdPwZk-9-4S1_DcIae9t3LsamrH6_1ou7EtJ22uQY7FgOzgn00clv9Ma_i7AwIFVvEecu22p_1tSeRlXbpKTbT43OU2S5Ca3zGdXnaHmnzynTsnsiuj5lYw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdIRekG0-eIzDAEnT9Wulh60FS6BE_YF9caJmkdX1vOBQzUQO_BkQx8KF1u65YXnffkpta0A_Er0Nhokr8y1w2AhG36lgo8AxzxcOc_ebvE6NsuGgvFH1toQT5EVt-_3A8MJ4eBMc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdylIYj6lXoJ4pPef8qr4k6-me58PgcFPYjTit-ez6ttWaiXt43-67wICeiZfKWM-kc3DKfpZm6GJRs5VQvkuaovgcMymfb8lD7-IftAnz6YV3--wW6iFJx3J4bYvmokzFnaP9T-A=
+- 인사이트: 2026년 1월 기준으로 치발기 시장에서는 메디토이, 모윰, 앙쥬 바나나 치발기가 인기 상위권을 차지하고 있습니다. 다양한 디자인과 소재의 치발기가 출시되고 있으며, 특히 손목에 착용하는 형태나 과일 모양의 치발기가 주목받고 있습니다. 휴대 및 보관 용이성과 안전한 소재 사용이 중요한 구매 요인으로 작용하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFh4QvhiQ6JDcrREeXlUJSugPBqF7WxFTbTWMuMWV-d4YnR9gjFIHVA8nyqmTKP3BYcs-fLPr-vT4VzOWrOzntaeVUSYktMzImDnZVEWUr7FUHjcQyX9Cn2UjsrbKzMISSuqbqlrgnBQmMCKwtZuTBKv5aP, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEN2eW6DQSuRT-3JYiNVi_mu7tDBwSFTuFXyTkBLWnu6USs2cOon6U4VmLPrt3LEqAZUthyOODzi_E3vNaJWNy24FpnzfhnnlSgZJKZbjxLgLOnKCJkwsLWCU2rQ7kKz6dAaHGiMkw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWGdUIwsAcC3zlVtBrvPidH7lN5uldQq5s6G2KsHwteNRol_corr4I-rxwl24ktF6RfN2XoR-H2XWKXlPll4lb0i9Z8fbWuXWGvtS8HRE2yxnlxx0NgTZqkvB1_PPok8qcZnR0wV0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHiea38rOA0d4M2zMHfIPyP3hSx5mOhd4CU4hGlsn4YCfQ-APPii6uFCkLn_FgYd2NZYtvdhzMTLNVAAnup_GzEVp_rEzFuryU5OUSfJOWbU_K8Ax0nyatKUIGqNhkdes-pYOYmCdSJ4HTGkl4v3Ok=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYsGb5hv5ozmWiVejcVSkgPouK6tzGGeoDGvLzhQbtysNdqbPxc9wgSj0hkoMo4oBSewsWqyptKQOD8PeQDuJbmdF2y6n7dv458bAxO2SEgkscuT7StBsXI11qoFHqBijn7FguuFs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHU3RPU31gG_pbqrPNB_uXHpljjaEVshmFmL78BeGYNFIFcwxluEpxQ0jOUu-w-BeB_hexxw4md8bj8O-OeXyVNSddAGdIQm-0ZotH-9S_AkFzquG3N1RcCFN5piutAPh2cbVH5fGNxRWNECTLHoHcuD9zevrQ_gQDKCJt2PKEtYLfp0qv2meQzr_hWHuvxvDa79B2B4mMzyL5UXt0=
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기의 개월 수를 알려주세요. 개월 수에 따라 적합한 치발기가 달라질 수 있어요. | 0~12개월 |
+| 치발기 소재는 어떤 것을 선호하시나요? | 의료용 실리콘, 원목, 천연 고무/라텍스 |
+| 어떤 디자인의 치발기를 찾으시나요? | 일반적인 치발기 |
+| 혹시 선호하시는 브랜드가 있으신가요? | 상관없어요 |
+| 예산은 어느 정도로 생각하세요? (평균 1만 5천원, 1만 1천원~2만원대가 가장 많아요) | 1만 1천원 ~ 2만원, 1만 1천원 이하 |
+| __avoid_negatives__ | 아기가 물고 빨다 보면 쉽게 닳거나 손상될까 봐 염려돼요,복잡한 구조 때문에 꼼꼼하게 세척하기 어려울까 봐 걱정돼요 |
 
 ---
 
@@ -55,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 아기가 물고 빨다 보면 쉽게 닳거나 손상될까 봐 염려돼요
+- 복잡한 구조 때문에 꼼꼼하게 세척하기 어려울까 봐 걱정돼요
 
 ---
 

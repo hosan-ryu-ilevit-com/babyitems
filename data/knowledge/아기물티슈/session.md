@@ -1,5 +1,5 @@
-# 세션: 20260122_053251_up1c
-> 시작: 2026-01-22T05:32:51.076Z
+# 세션: 20260122_082018_7yh7
+> 시작: 2026-01-22T08:20:18.469Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 2024년부터 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 위생에 대한 중요성과 잦은 사용, 지속적인 제품 혁신 덕분에 아기 물티슈는 전체 물티슈 시장에서 상당한 비중을 차지하고 있습니다. 베베숲은 2024년 국내 유아용 물티슈 시장 점유율 26.4%로 1위를 차지했으며, 전체 물티슈 시장에서도 16.7%로 1위를 기록했습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5_JeBPArIsRUdyB4xU8c53vMGD8dRwRMBBNNIIcavJXcNHn_8lizEkzaNDcth9431o8i9OhXcf-Pzq1s2TWpTUPhBIeFDs0jXEUJ-8K-26Uu4NXlfwMpe5taqjHS2O6RPgVyiEXybqEz69pR0_JN9h40xfCTFQt2Ef5FH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVMiQKq8sO865wtx-Js-OB-NjDBgS0uOrXnnqJWAlxyVgEP5TOmcIFS8_TiA8rQnUNSMI5S0lq46Qdm8RQ0cWJErWT0J7cxCcEuL7pVfrpC5xNZ2_7a0wZ_WNyYcLVWAlUW_DgMKcrrv1peiW4o-seqh-9um7JJoE5tA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCoOyz2Nqn0YrkvKdGXoUf4_hjn8QXaqMMRCAiIxtJqv7_Mgc0tih6J2j_QRUijy897giUefIfX6NDCZjaIV1DcZ3bD64mg2xQwrqPmfk_vSKqFyFkskXVzMwPbO-OPZ0j0vvb_ivvNmzB10BoioOtsXFeU9d07fD1, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEw_-8cBNXP6YH12kxvwv3HNPjF6N6j6BQJzIhS7qpYTPEDDAmMcx1wSTitpXywMKnY45D9zTlQjKVf3NAZUhfyAciKUx8HBXFJ6_NDOXqoGfRRq4QQwvFpaQj8giWHhTh8EQWRvdhaqfu-yNVU2-2kTFY3lCojMi9de0ieaghbuCWuIJt0APox_Gx4ZpL-JhgVKCjHsgk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-w1evLFbSN17bYYjOjWc5S5qnhbaaT81VqgdUFKyqofq-o4Nqh-VF5SfZreOnJXNbheJAyqfh1VCPPdbfmVeibmCztqv0BHrttAvL-H8RMfzWHuarc-7ark7Hvok4bvK059r3lRIxwn-ad2MI, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcCxQCTfHGuaSdk0oV3lLzhnpOCjNQ_xuJASDDrikGl7-i_d0UnKw9kabzN5aOeOOHai8vF0WlXvntyeeMFm1sNym2cMgeONJxj1el0iAoPQ5Kgv1NjTQw57QauhPHoBML9SHzSAJbD33jWif7JIvw-v_SAPl_HUliaGgBdw==
+- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 2024년부터 2032년까지 연평균 5.6%의 성장률을 기록할 것으로 예상됩니다. 특히 아기 물티슈는 전체 물티슈 시장에서 상당한 비중을 차지하며, 위생에 대한 중요성, 일상적인 사용, 지속적인 제품 혁신에 힘입어 꾸준히 성장하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFr4HuxNqamm03b_jFAZcc9A6C59x7Y_MmT9c4dA2hnCh8j13TyEKuUnn3xCx-onxm72ZTs7uXiX32qGNJeAIgyhB3W7GATOWlMZr3RwDeIyRGP2UrSFYH9tnKrvnlJB49htupmG1K2Dx_68pNkYueXsLIFz6IJ31aIknqp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFQNNn0qxrYtUymICRtnYVBxLEj9tYX2EBgQxOLJDcagoCMFQ5XiinD11XVyvvBruSIxjaA5WD0alE5lAR76_LH5mAPnonhSdwLPNSXejEMWjvXZ4xN8ez_CXxrLJ5vVO2_l_STZNfIcWovYwf9PE7r071OpXsJdb1FQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxphzMBP3IZZxrbogJrPQw9_v4R2mZ-FEI04dR3dne-OSFPKNjC2qJVxD1gpugMOsIvLS0YFNCtznahSq569juXvPNd8DuTdnpQY6MNVzUA5I1656hVr92fNtJEQTTxnf-RJbEAmKpz4U0UBhIj0EBsvoIFfKfOlluRPpTsy7kWwLmisdKBO08JfreYTLZ-9zczeOZico=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPeSMCTPM9NJTWfZwDSwa-IPE1ShDNJzwUWIqsk39AAseUWZIC15P6UMno5d3s_fMzwwczcW7HWhootMpCSXG8LOhRPohJeR3k4lvWxzFHqkSlygr0irUzti70NWKNXG2rLrTVccQ3ltvhSEiY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuPukrlCiX3OtEQra8u-_pRlLFQrEk2LSJ44ywQ3ghhuwpdIAI4Mejw4pwE8zXGcCwWLEWAml6DJefBmpzRnvIARstVM0ymIqJtKPixzucMhqOhNX4pNodtfgbMaOKL1txogE0FOMHjDgNv4upmpNBTG5BSLqQ9SYmwCQRb2EVcqEERj3DmDcEy6I=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 피부에 직접 닿는 만큼, 어떤 성분을 가장 중요하게 생각하시나요? | EWG 그린 등급 성분 |
-| 물티슈를 사용할 때, 도톰한 두께감을 선호하시나요, 아니면 얇은 두께감을 선호하시나요? | 도톰한 두께감 |
-| 물티슈의 원단 소재에 대해 특별히 선호하는 것이 있으신가요? | 생분해성 소재 |
-| 물티슈 표면의 엠보싱 처리에 대해 어떻게 생각하시나요? | 플레인 (민무늬) |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원대 |
-| __avoid_negatives__ | 아기에게 자극적이지 않은 은은한 향이나 무향 제품을 선호해서 강한 향은 피하고 싶어요,도톰한 두께감을 선호하는데,너무 얇으면 여러 번 닦아야 해서 불편할 것 같아요,EWG 그린 등급 성분을 중요하게 생각하는데,혹시라도 민감한 아기 피부에 자극이 될까 봐 염려돼요 |
+| 아기 피부에 직접 닿는 만큼, 어떤 원단 소재를 선호하시나요? | 상관없어요 |
+| 물티슈의 두께감은 어느 정도를 선호하시나요? | 도톰한 두께 (평량 70gsm 이상) |
+| 물티슈 표면의 엠보싱 유무에 따라 사용감이 달라지는데, 어떤 것을 선호하시나요? | 플레인 (깔끔한 사용감) |
+| 믿고 쓰는 브랜드가 있으신가요? 아기 피부에 직접 닿는 만큼 신뢰할 수 있는 브랜드를 선호하시는 경우가 많습니다. | 상관없어요 |
+| 예산은 어느 정도로 생각하세요? (평균 약 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원대, 7천원 이하 |
+| __avoid_negatives__ | 아기 피부에 닿았을 때 보풀이 일어나서 자극이 될까 봐 걱정돼요,물티슈가 너무 건조해서 여러 번 닦아야 할 때 불편해요 |
 
 ---
 
@@ -61,11 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기에게 자극적이지 않은 은은한 향이나 무향 제품을 선호해서 강한 향은 피하고 싶어요
-- 도톰한 두께감을 선호하는데
-- 너무 얇으면 여러 번 닦아야 해서 불편할 것 같아요
-- EWG 그린 등급 성분을 중요하게 생각하는데
-- 혹시라도 민감한 아기 피부에 자극이 될까 봐 염려돼요
+- 아기 피부에 닿았을 때 보풀이 일어나서 자극이 될까 봐 걱정돼요
+- 물티슈가 너무 건조해서 여러 번 닦아야 할 때 불편해요
 
 ---
 

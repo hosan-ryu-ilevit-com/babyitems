@@ -1,5 +1,5 @@
-# 세션: 20260121_070350_w4dh
-> 시작: 2026-01-21T07:03:50.236Z
+# 세션: 20260122_065254_9gq9
+> 시작: 2026-01-22T06:52:54.332Z
 > 카테고리키: 이유식기
 > 카테고리: 이유식기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 이유식기 시장 현황
-- 인사이트: 저출산에도 불구하고 맞벌이 가구 증가와 육아 편의성 추구 경향으로 이유식 시장은 꾸준히 성장하고 있습니다. 2025년에는 3300억 원 규모로 성장할 것으로 예상되며, 프리미엄 및 맞춤형 이유식에 대한 수요가 증가하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3Q0mY9X8AB5KwZlZ92Ju7shAJFTzxIlfV7nN1qNmbWpcvhrsHCNVPb20GTwoDkuAe-SsW7VihyYch-oWXFV42_PIwIFOv6r2Gs4-wO1L1H3-FK1WArqvNOSSra-axIJRi5NlOXUc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHw8Tt5IMjPdolUdSZ5egWgl5tdCQoRf1RzCZMXjw6U6pE_ah7AAWIjeSWOxrbJ_Ca1bio2V87zLH7Cxv-f3l2PjxD_KOHnqaNXooPIQMQbVw3mI0IWiCAjV-GIWRrNY5ftRJ-j_nwFLkSYycCk8zDQuzwi43ymiv8WrXa72IMVfUrQNCNZt3YjISU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErOqrJhkKWIdbq2qlQUW8AxaE8sJFkDTla0EAj-pYgLB_iKH_iOvqhQ5KeUG4WwQVB4cEYy2dNayFnBeBQrNjFBVw6J5w108Nl0GaRtDPJGINdj-favSBCjqlg0TmwyY47oMTEa9uwqn7WBWQAMxwQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXNDzsfrvoJrwB5WMtNOy25JmcBCFSFiQk4qwai6lBGPZuTY4ZeUGmDwWRLmNv1JXaoBUTg6Q4sEiBD6VdzJfHLK95aijl0IcsRVP9ucBfx9HsOKSWoE1AX3dQUbTVoFQbtF8knOt0rB89PsAo8VAYD3MpkJ9_y4woFU__nkKqbfakL6wDkqM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGsybxeNsiPQbqvbX0lj4nGz_UIbVmhh1Prn7gH0n5luQXoRtJv0Tn8T-ays-GRkvxk63i0bP-dmhC0fynOpbAAL3MWaxC0_xPxpjPGeJbESj7JcQCC5pJOGIz3QS51atxn-QmPcRTa, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEA05K0G8rn4WQOrUP_pfEbb8ZC-ckEj8hJoHeOgC0if1ofrOzYLtUgSAyeVEUTBIUhk3OpAL97MiYSk4dH3UFRIUIbvzoN9oUj5gZ4MB2xmJJiurPWG1rusXKCtJJP7dznCrGtQ7hvQs7L7Tpw82EwJWMEESfRO_FflrgOFJ5p25wNyblhzBeev04BIPx3
+- 인사이트: 이유식기 시장은 맞벌이 가구 증가와 건강에 대한 부모의 인식 상승에 힘입어 꾸준히 성장하고 있습니다. 특히 프리미엄 이유식 및 친환경, 유기농 제품에 대한 수요가 증가하며, 온라인 채널의 성장도 두드러지고 있습니다. 기술 혁신과 휴대성, 편의성을 갖춘 제품들이 시장을 주도하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMx21d4Smje9JES330uNAAAxH6mrB1mq9arfZ-Xb9E_sJl0uMyw2Tn1YHav8jvbY87EH9OAyxZDCVCyP8fpXkx0f8_IxuYZy10xDhibXgCMaMBD3SCa4oM-yyWATNW4W-_MUbXoL5fxM51RKat3JE8AHakfNwHLaRl2S1KYJW5FjViZAes7c6csUog, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGer5D7QCRG09LtlC1pymPeteuIqNRtunWYT5xj_xGT-1bMhSe9aIEo8wVOgOB6dQrWHyU234eIsT2bBxSFiixxexWDsyS6P3xoKCNJAW_isSxOb6-Z1IdAzbTPn4hZRPiWzzaP_eaSZ3k_18sW3snb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjlvU7LwTsO-xrRRFZQQ4GfsylSdIAEGE5K7GSmbYkQOnGOueO-uJ6xNnHj2ERDvWhScusHVbxwwMRlVSMk5PSdJ_lm6vL1eoLKI7tTK3_uO4osOyOhEDqtoh5uMFJ7rsjGfQ5fGqJ_z_gB6ct7697, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyr2yYMEjkhz9Zw1Q3Wf_sNrV9yH14h-VAK8vlr1zxtzWwodfS27TPThs842liDkrd7HK5gLHT8KcUBvQ5b6-ZDjhqxVd-NUweAW7te3een0hyNnIlb-7YZBSE5MOJ9kMmcMpXDgMbAHUCDi_gfveAWljNYZmBhXWCUF5WVoRTGxJmWw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhMSlYplRnWZimGwHu0Jy7ZV5y-YqP4rn_imHTna_zhMJl5yFU_etCPPBqOOSE__XyenFQ48xc4RqAxLnsl24RAMDJA5MTMPz7ZwKXyn1rzdmlMcMq3NQYeuavMJvZwVKskts7FpMoh3DXROzFwBE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOJPhIe1p7N5Ni7vv7sROjLzGsncZv22UFBTBuxZzaDB396x0TSi5sSJPMdMm4aAHxyWIvIL66x7pxy-X4JHJrwGVkCfjkxyyZoyckHr-QlGb76CHWX8P2ofI7DMqwNHmrrwkxDwbhzoM1-kiBuN7XvLZjCqcp9V9gnPq8esB8znbmtjowSq7tDM_Q1w==
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기에게 안전하고 오래 사용할 수 있도록, 어떤 소재의 이유식기를 선호하시나요? | BPA-free 플라스틱 |
-| 이유식기 세척에 얼마나 신경 쓰고 싶으신가요? 편리한 세척을 위해 어떤 점이 중요하신가요? | 분리 세척 용이 |
-| 이유식기 사용 시 어떤 기능이 가장 중요하신가요? | 전자레인지/열탕 소독 가능 |
-| 아기의 현재 월령은 어떻게 되나요? 이유식기 선택에 중요한 기준이 됩니다. | 6~12개월 |
-| 이유식기 예산은 어느 정도로 생각하세요? (평균 7천원대, 4천원~1만원대가 가장 많아요) | 4천원 ~ 1만원대, 4천원 이하 |
-| __avoid_negatives__ | 색깔 있는 이유식이 묻어나서 오래 사용하면 얼룩이 남을까 봐 걱정돼요,아기가 스스로 잡고 먹기에는 다소 무게감이 느껴질 수 있을 것 같아요 |
+| 아이가 사용할 이유식기, 어떤 소재를 선호하시나요? | 실리콘 |
+| 이유식기를 주로 어디서 사용하시나요? 휴대성이 얼마나 중요하신가요? | 외출 시 자주 사용 |
+| 이유식기 구매 시 특별히 선호하는 브랜드가 있으신가요? | 리첼 |
+| 이유식기 세척 및 관리는 어떻게 하시는 편인가요? | 식기세척기 & 전자레인지 사용 가능 |
+| 이유식기 예산은 어느 정도로 생각하세요? (평균 7천원대, 4천원~1만원대가 가장 많아요) | 4천원 ~ 1만원대 |
+| __avoid_negatives__ | 외출 시 이유식기 뚜껑이 따로 없으면 내용물이 샐까 봐 휴대하기 불편할 것 같아요.,실리콘 소재 특성상 음식 냄새가 배거나 흡수되어 이유식기에서 냄새가 계속 나지는 않을까 염려돼요. |
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 색깔 있는 이유식이 묻어나서 오래 사용하면 얼룩이 남을까 봐 걱정돼요
-- 아기가 스스로 잡고 먹기에는 다소 무게감이 느껴질 수 있을 것 같아요
+- 외출 시 이유식기 뚜껑이 따로 없으면 내용물이 샐까 봐 휴대하기 불편할 것 같아요.
+- 실리콘 소재 특성상 음식 냄새가 배거나 흡수되어 이유식기에서 냄새가 계속 나지는 않을까 염려돼요.
 
 ---
 

@@ -1414,6 +1414,296 @@ async function refineQuestionOptions(
   return questions;
 }
 
+// ============================================================================
+// Brand Analysis Functions
+// ============================================================================
+
+interface BrandImportanceResult {
+  shouldGenerateBrandQuestion: boolean;
+  score: number; // 0-100
+  involvement: 'high' | 'trust' | 'low'; // 카테고리 관여도
+  topBrands: Array<{
+    name: string;
+    count: number;
+    avgPrice: number;
+    totalReviews: number;
+    avgRating: number;
+    popularityScore: number;
+  }>;
+  reasoning: string;
+}
+
+/**
+ * 브랜드 중요도 자동 감지
+ * - 브랜드 다양성, 구매 고려사항 키워드, 가격 분포, 카테고리 관여도를 분석하여 브랜드 질문 생성 여부 결정
+ */
+/**
+ * 브랜드 중요도 분석 (100점 만점, 임계값 50점)
+ *
+ * 점수 체계:
+ * 1. 브랜드 다양성: 0-30점
+ * 2. 키워드 매칭: 0-15점 (저관여 제품은 10점)
+ * 3. 가격 분포: 0-20점
+ * 4. 카테고리 관여도: 0-30점 (high: 30, trust: 15, low: 0)
+ */
+function analyzeBrandImportance(
+  products: DanawaSearchListItem[],
+  categoryName: string,
+  trendAnalysis: TrendAnalysis | null,
+  reviewAnalysis: ReviewAnalysis | null
+): BrandImportanceResult {
+  let score = 0;
+  const reasons: string[] = [];
+
+  // 브랜드 데이터 수집
+  const brandCounts: Record<string, number> = {};
+  const brandPrices: Record<string, number[]> = {};
+
+  products.forEach(p => {
+    if (p.brand) {
+      brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1;
+      if (!brandPrices[p.brand]) brandPrices[p.brand] = [];
+      if (p.price) brandPrices[p.brand].push(p.price);
+    }
+  });
+
+  const uniqueBrands = Object.keys(brandCounts).length;
+  const totalProducts = products.length;
+
+  // 브랜드가 2개 이하면 의미 없음
+  if (uniqueBrands <= 2) {
+    return {
+      shouldGenerateBrandQuestion: false,
+      score: 0,
+      involvement: 'low',
+      topBrands: [],
+      reasoning: `브랜드 다양성 부족 (${uniqueBrands}개만 존재)`
+    };
+  }
+
+  // 1. 브랜드 다양성 분석 (30점 만점) - 배점 조정
+  const brandConcentration = Math.max(...Object.values(brandCounts)) / totalProducts;
+
+  if (uniqueBrands >= 8 && brandConcentration < 0.5) {
+    score += 30;
+    reasons.push(`브랜드 다양성 높음 (${uniqueBrands}개, 집중도 ${Math.round(brandConcentration * 100)}%)`);
+  } else if (uniqueBrands >= 5 && brandConcentration < 0.55) {
+    score += 20;
+    reasons.push(`브랜드 선택지 있음 (${uniqueBrands}개, 집중도 ${Math.round(brandConcentration * 100)}%)`);
+  } else if (uniqueBrands >= 4) {
+    score += 10;
+    reasons.push(`브랜드 다양성 보통 (${uniqueBrands}개, 집중도 ${Math.round(brandConcentration * 100)}%)`);
+  } else {
+    reasons.push(`브랜드 다양성 낮음 (${uniqueBrands}개)`);
+  }
+
+  // 2. 구매 고려사항 키워드 매칭 (15점 만점) - 배점 조정
+  const brandKeywords = ['브랜드', '제조사', '메이커', 'brand', '회사', '기업', '브랜'];
+  const buyingFactors = [
+    ...(trendAnalysis?.buyingFactors || []),
+    ...(reviewAnalysis?.commonConcerns || [])
+  ].join(' ').toLowerCase();
+
+  const matchedKeywords = brandKeywords.filter(k => buyingFactors.includes(k.toLowerCase()));
+  let keywordScore = 0;
+  if (matchedKeywords.length > 0) {
+    keywordScore = 15;
+  }
+
+  // 3. 브랜드별 가격 분포 차이 (20점 만점) - 배점 조정
+  const brandPriceInfo: Array<{ brand: string; avg: number; variance: number }> = [];
+
+  for (const [brand, prices] of Object.entries(brandPrices)) {
+    if (prices.length >= 1) {
+      const avg = prices.reduce((a, b) => a + b, 0) / prices.length;
+      const variance = prices.length > 1
+        ? prices.reduce((sum, p) => sum + Math.abs(p - avg), 0) / prices.length
+        : 0;
+      brandPriceInfo.push({ brand, avg, variance });
+    }
+  }
+
+  // 브랜드 간 평균 가격 차이 계산
+  if (brandPriceInfo.length >= 3) {
+    const avgPrices = brandPriceInfo.map(b => b.avg);
+    const minAvg = Math.min(...avgPrices);
+    const maxAvg = Math.max(...avgPrices);
+    const priceSpread = (maxAvg - minAvg) / minAvg;
+
+    if (priceSpread > 2.0) { // 3배 이상 차이
+      score += 20;
+      reasons.push('브랜드별 가격대 차별화 명확');
+    } else if (priceSpread > 0.8) { // 1.8배 이상 차이
+      score += 15;
+      reasons.push('브랜드별 일부 가격 차이');
+    } else if (priceSpread > 0.3) {
+      score += 8;
+      reasons.push('브랜드별 소폭 가격 차이');
+    }
+  }
+
+  // 4. 카테고리 관여도 (30점 만점) - 신규 추가
+  let involvement: 'high' | 'trust' | 'low' = 'low';
+  let involvementScore = 0;
+
+  // 고관여 키워드
+  const highKeywords = ['유모차', '카시트', '아기띠', '힙시트', '보행기', '점퍼루'];
+  // 신뢰기반 키워드
+  const trustKeywords = ['기저귀', '물티슈', '로션', '크림', '젖병', '젖꼭지', '쪽쪽이', '치발기', '분유', '이유식', '유산균', '비타민'];
+  // 저관여 키워드 (명시적 체크용)
+  const lowKeywords = ['양말', '내복', '턱받이', '손수건', '욕조', '장난감', '완구'];
+
+  if (highKeywords.some(k => categoryName.includes(k))) {
+    involvement = 'high';
+    involvementScore = 30;
+    reasons.push('고관여 제품 (안전/과시/장기사용)');
+  } else if (trustKeywords.some(k => categoryName.includes(k))) {
+    involvement = 'trust';
+    involvementScore = 15;
+    reasons.push('신뢰기반 제품 (피부접촉/발진우려)');
+  } else if (lowKeywords.some(k => categoryName.includes(k))) {
+    involvement = 'low';
+    involvementScore = 0;
+    reasons.push('저관여 제품 (단기사용/가성비)');
+  } else {
+    // 키워드 매칭 실패 시 기본값 trust (중간)
+    involvement = 'trust';
+    involvementScore = 15;
+    reasons.push('기본 신뢰기반 (키워드 미매칭)');
+  }
+
+  score += involvementScore;
+
+  // 5. 키워드 매칭 점수 적용 (저관여 제품은 감소)
+  if (keywordScore > 0) {
+    if (involvement === 'low') {
+      // 저관여 제품은 키워드 점수 10점으로 감소
+      score += 10;
+      reasons.push('구매 고려사항에 브랜드 언급 (저관여 감소)');
+    } else {
+      score += keywordScore;
+      reasons.push('구매 고려사항에 브랜드 언급');
+    }
+  }
+
+  // 6. Top Brands 정렬 (인기도 점수: 제품 개수 + 리뷰 수 + 평점)
+  const topBrands = Object.entries(brandCounts)
+    .map(([name, count]) => {
+      // 해당 브랜드의 모든 제품
+      const brandProducts = products.filter(p => p.brand === name);
+
+      // 총 리뷰 수
+      const totalReviews = brandProducts.reduce((sum, p) => sum + (p.reviewCount || 0), 0);
+
+      // 평균 평점
+      const avgRating = brandProducts.length > 0
+        ? brandProducts.reduce((sum, p) => sum + (p.rating || 0), 0) / brandProducts.length
+        : 0;
+
+      // 인기도 점수 계산 (제품 개수 우선, 동점 시 리뷰 수와 평점)
+      // - 제품 개수: 100점 단위 (가장 중요)
+      // - 리뷰 수: 0.1점 단위 (많은 리뷰 = 검증된 브랜드)
+      // - 평점: 10점 단위 (품질 지표)
+      const popularityScore = count * 100 + totalReviews * 0.1 + avgRating * 10;
+
+      return {
+        name,
+        count,
+        avgPrice: brandPrices[name] && brandPrices[name].length > 0
+          ? Math.round(brandPrices[name].reduce((a, b) => a + b) / brandPrices[name].length)
+          : 0,
+        totalReviews,
+        avgRating,
+        popularityScore
+      };
+    })
+    .sort((a, b) => b.popularityScore - a.popularityScore)
+    .slice(0, 5);
+
+  return {
+    shouldGenerateBrandQuestion: score >= 60,
+    score,
+    involvement,
+    topBrands,
+    reasoning: reasons.join(' / ')
+  };
+}
+
+/**
+ * 브랜드별 특징 추출 (가격대, 시장 점유율 기반)
+ */
+function extractBrandCharacteristics(
+  topBrands: Array<{ name: string; count: number; avgPrice: number; totalReviews?: number; avgRating?: number }>,
+  trendAnalysis: TrendAnalysis | null,
+  reviewAnalysis: ReviewAnalysis | null
+): Record<string, string> {
+  const brandDescriptions: Record<string, string> = {};
+
+  topBrands.forEach(brand => {
+    const parts: string[] = [];
+
+    // 가격 포지셔닝
+    const avgPrice = brand.avgPrice;
+    if (avgPrice > 500000) {
+      parts.push('프리미엄 라인');
+    } else if (avgPrice > 200000) {
+      parts.push('중고가');
+    } else if (avgPrice > 100000) {
+      parts.push('중가');
+    } else if (avgPrice > 50000) {
+      parts.push('보급형');
+    } else if (avgPrice > 0) {
+      parts.push('가성비');
+    }
+
+    // 시장 점유율 & 검증도 (리뷰 수 기반)
+    if (brand.totalReviews && brand.totalReviews > 1000) {
+      parts.push('검증된 브랜드');
+    } else if (brand.count >= 5) {
+      parts.push('인기 브랜드');
+    } else if (brand.count >= 3) {
+      parts.push('주요 브랜드');
+    }
+
+    // 평점 정보
+    if (brand.avgRating && brand.avgRating >= 4.8) {
+      parts.push('고평점');
+    } else if (brand.avgRating && brand.avgRating >= 4.5) {
+      parts.push('우수');
+    }
+
+    // 트렌드/리뷰 언급 확인
+    const mentionContext = [
+      trendAnalysis?.trends || [],
+      trendAnalysis?.pros || [],
+      reviewAnalysis?.positiveKeywords || []
+    ].flat().join(' ').toLowerCase();
+
+    if (mentionContext.includes(brand.name.toLowerCase())) {
+      parts.push('트렌드');
+    }
+
+    // 제품 개수 정보
+    parts.push(`${brand.count}개 제품`);
+
+    // 가격 정보 (만원 단위)
+    if (avgPrice > 10000) {
+      parts.push(`${Math.round(avgPrice / 10000)}만원대`);
+    } else if (avgPrice > 0) {
+      parts.push(`${Math.round(avgPrice / 1000)}천원대`);
+    }
+
+    // 리뷰 수 정보 (많을 경우만 표시)
+    if (brand.totalReviews && brand.totalReviews > 500) {
+      parts.push(`${Math.round(brand.totalReviews / 100) / 10}k 리뷰`);
+    }
+
+    brandDescriptions[brand.name] = parts.slice(0, 4).join(' / ');
+  });
+
+  return brandDescriptions;
+}
+
 /**
  * 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
  * - 예산 질문은 제외 (예산은 명시적으로 선택해야 함)
@@ -1508,6 +1798,21 @@ async function generateQuestions(
   console.log(`[Step3]   [리뷰분석] ⭐구매고려사항: ${reviewAnalysis?.commonConcerns?.join(' / ') || '(없음)'}`);
   console.log(`[Step3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
+  // 🔥 브랜드 중요도 분석
+  const brandImportance = analyzeBrandImportance(products, categoryName, trendAnalysis, reviewAnalysis || null);
+  console.log(`[Step3] 📊 브랜드 중요도 분석: ${brandImportance.score}점 (${brandImportance.involvement}) - ${brandImportance.reasoning}`);
+  if (brandImportance.shouldGenerateBrandQuestion) {
+    console.log(`[Step3]   ⭐ 브랜드 질문 생성 권장 (임계값 50점 초과)`);
+    console.log(`[Step3]   주요 브랜드: ${brandImportance.topBrands.map(b => `${b.name}(${b.count}개)`).join(', ')}`);
+  }
+
+  // 브랜드 특징 추출
+  const brandCharacteristics = extractBrandCharacteristics(
+    brandImportance.topBrands,
+    trendAnalysis,
+    reviewAnalysis || null
+  );
+
   // 🔥 리뷰 분석 결과를 프롬프트용 텍스트로 변환
   const reviewInsightsText = reviewAnalysis
     ? `
@@ -1533,6 +1838,12 @@ async function generateQuestions(
 - **⭐ 핵심 구매 고려사항 (웹검색):** ${trendAnalysis?.buyingFactors?.length ? trendAnalysis.buyingFactors.join(' / ') : '정보 없음'}${reviewInsightsText}
 - **가격 분포:** 최저 ${minPrice.toLocaleString()}원 ~ 최고 ${maxPrice.toLocaleString()}원 (평균 ${avgPrice.toLocaleString()}원)
 - **주요 브랜드:** ${brands.slice(0, 6).join(', ')}
+${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요 (${brandImportance.score}점):**
+  - 관여도: ${brandImportance.involvement} (${brandImportance.involvement === 'high' ? '안전/과시/장기사용' : brandImportance.involvement === 'trust' ? '피부접촉/발진우려' : '단기사용/가성비'})
+  - 주요 브랜드: ${brandImportance.topBrands.map(b => `${b.name}(${b.count}개, ${Math.round(b.avgPrice/10000)}만원대)`).join(', ')}
+  - 선택 기준: ${brandImportance.reasoning}
+  - 브랜드별 특징: ${Object.entries(brandCharacteristics).map(([brand, desc]) => `${brand}=${desc}`).join(' | ')}
+  - **→ 질문 생성 시 브랜드 선호도 질문을 반드시 포함하세요!**` : `- **브랜드 중요도: 낮음 (${brandImportance.score}점, ${brandImportance.involvement})** - ${brandImportance.reasoning}`}
 - **필터링 옵션(다나와):** ${filterSummary}
 - **상위 제품 스펙 분석:** ${productSpecsForAnalysis}
 </MarketContext>
@@ -1545,6 +1856,16 @@ async function generateQuestions(
 4. **사용자 언어:** 기술 용어보다는 사용자가 얻을 **효익(Benefit)이나 상황(Context)** 중심으로 질문하세요.
 5. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE).
 6. **인기 옵션 표시:** 시장 데이터(판매 순위, 리뷰 수, 트렌드)를 기반으로 가장 많이 선택되는 옵션에 \`isPopular: true\`를 표시하세요. **한 질문당 인기 옵션은 반드시 0~2개 사이여야 합니다 (3개 이상 절대 금지).** 인기 옵션이 명확하지 않으면 표시하지 않아도 됩니다.
+7. **브랜드 질문 생성 조건:**
+   - **⭐ 표시가 있을 경우 (브랜드 중요도 높음)**, 반드시 브랜드 선호도 질문을 생성하세요.
+   - 질문 형태는 카테고리 특성에 맞춰 자연스럽게:
+     * 아기용품: "믿고 쓰는 브랜드가 있으신가요?" 또는 "선호하는 브랜드가 있으신가요?"
+     * 가전제품: "선호하는 제조사가 있으신가요?"
+     * 생활용품: "찾으시는 브랜드가 있으신가요?"
+   - 주요 브랜드 3~5개를 선택지로 제시하고, "브랜드별 특징" 정보를 description에 활용하세요.
+   - **반드시** "상관없어요" 옵션 포함 (value: "any", label: "상관없어요", description: "브랜드보다 스펙/기능 중시")
+   - id는 "brand_preference" 또는 "brand"로 설정
+   - 브랜드 중요도가 낮을 경우 (⭐ 표시 없음) 브랜드 질문을 생성하지 마세요.
 
 ## [작성 규칙]
 1. **Target Audience Check:**
@@ -1694,6 +2015,47 @@ async function generateQuestions(
   // 맞춤질문 생성 실패 시 fallback
   if (customQuestions.length === 0) {
     customQuestions = getDefaultQuestions(categoryName, products, trendAnalysis);
+  }
+
+  // 🔥 브랜드 질문 Fallback: LLM이 생성 안 했으면 강제 주입 (중요도 60점 이상일 때만)
+  if (brandImportance.shouldGenerateBrandQuestion && brandImportance.score >= 60) {
+    const hasBrandQuestion = customQuestions.some(q =>
+      q.id.includes('brand') || q.question.includes('브랜드') || q.question.includes('제조사')
+    );
+
+    if (!hasBrandQuestion) {
+      console.log(`[Step3] ⚠️ LLM이 브랜드 질문 생성 실패 → Fallback 브랜드 질문 주입`);
+
+      const fallbackBrandQuestion: QuestionTodo = {
+        id: 'brand_preference',
+        question: categoryName.includes('아기') || categoryName.includes('유아') || categoryName.includes('베이비')
+          ? '믿고 쓰는 브랜드가 있으신가요?'
+          : categoryName.includes('가전') || categoryName.includes('전자')
+          ? '선호하는 제조사가 있으신가요?'
+          : '선호하는 브랜드가 있으신가요?',
+        options: [
+          ...brandImportance.topBrands.slice(0, 5).map(b => ({
+            value: b.name.toLowerCase(),
+            label: b.name,
+            description: brandCharacteristics[b.name] || `${b.count}개 제품 / ${Math.round(b.avgPrice/10000)}만원대`
+          })),
+          {
+            value: 'any',
+            label: '상관없어요',
+            description: '브랜드보다 스펙/기능 중시'
+          }
+        ],
+        type: 'single' as const,
+        priority: 2,
+        dataSource: '브랜드 중요도 분석',
+        completed: false
+      };
+
+      customQuestions.unshift(fallbackBrandQuestion);
+      console.log(`[Step3] ✅ Fallback 브랜드 질문 추가: ${fallbackBrandQuestion.options.length - 1}개 브랜드 옵션`);
+    } else {
+      console.log(`[Step3] ✅ LLM이 브랜드 질문 정상 생성됨`);
+    }
   }
 
   // ✅ 필수 질문 대기 및 합치기
@@ -2483,6 +2845,10 @@ async function handleNonStreamingRequest(
   const phase3Duration = Date.now() - phase3Start;
   timings.push({ step: 'phase3_questions', duration: phase3Duration, details: `${questionTodos.length}개 질문` });
 
+  // 브랜드 관여도 추출 (generateQuestions 내부에서 이미 계산됨)
+  // Non-streaming 경로에서는 reviewAnalysis가 없으므로 null 전달
+  const brandImportanceForResponse = analyzeBrandImportance(products, categoryName, trendAnalysis, null);
+
   // Short-term Memory 저장
   const shortTermMemory = initializeShortTermMemory(categoryKey, categoryName, products.length);
   if (trendAnalysis) {
@@ -2580,6 +2946,7 @@ async function handleNonStreamingRequest(
     searchQueries: trendAnalysis?.searchQueries || [],
     searchUrl,
     wasCached,
+    categoryInvolvement: brandImportanceForResponse.involvement, // 카테고리 관여도
     questionTodos,
     currentQuestion: questionTodos[0] || null,
     products: products.map((p: DanawaSearchListItem) => ({

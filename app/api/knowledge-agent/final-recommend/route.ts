@@ -556,6 +556,34 @@ evidence는 사용자에게 보여지는 핵심 문장입니다.
 - **"partial"**: 부분적으로 해당되거나 조건부
 - **null**: 관련 없거나 충족 못함/회피 안됨
 
+### ⚠️ 상호 배타적 조건 처리 (중요!)
+같은 질문의 서로 다른 답변 값들은 **물리적으로 동시에 만족 불가능**합니다.
+
+**핵심 규칙:**
+- originalCondition의 질문 부분(콜론 앞)이 같으면 → 상호 배타적
+- 하나의 제품이 여러 값을 동시에 가질 수 없는 속성 (크기, 재질, 용량 등)
+- **하나만 "full"**, 나머지는 null
+
+**예시 1: 재질 (물리적으로 동시 불가)**
+- 조건: "재질: 실리콘", "재질: 원목"
+- 제품: 실리콘 치발기
+  • "재질: 실리콘" → "full" ✅ (스펙: 실리콘 소재)
+  • "재질: 원목" → null ❌ (원목이 아님)
+- ⚠️ 잘못된 평가: 둘 다 "full" (물리적으로 불가능!)
+
+**예시 2: 크기/용량 (정확히 일치만)**
+- 조건: "화면 크기: 27인치", "화면 크기: 32인치"
+- 제품: 27인치 모니터
+  • "화면 크기: 27인치" → "full" ✅
+  • "화면 크기: 32인치" → null ❌ (32인치가 아님)
+
+**예시 3: 용도 (복수 가능, 예외 케이스)**
+- 조건: "사용 장소: 거실", "사용 장소: 안방"
+- 제품: 이동식 가습기
+  • "사용 장소: 거실" → "full" ✅ (이동 가능)
+  • "사용 장소: 안방" → "full" ✅ (이동 가능)
+- ✅ 용도/장소는 동시 만족 가능 (제품 자체 속성이 아님)
+
 ⚠️ negative(피할 단점) 조건의 경우:
 - "full" = 해당 단점이 없음 (회피 성공)
 - "partial" = 일부 있지만 심하지 않음
@@ -1059,9 +1087,33 @@ async function evaluateAllCandidatesWithLLM(
     },
   });
 
-  // 사용자 조건 문자열
+  // 🔥 브랜드 선택 추출 (brand_preference, brand, 또는 질문에 "브랜드"/"제조사" 포함)
+  let selectedBrand: string | null = null;
+  for (const [question, answer] of Object.entries(collectedInfo)) {
+    if (question.includes('brand') || question.includes('브랜드') || question.includes('제조사')) {
+      const skipPatterns = ['skip', 'any', '상관없', '건너뛰', '아무', '없어요', '없음'];
+      const isSkip = skipPatterns.some(pattern => answer.toLowerCase().includes(pattern));
+      if (!isSkip && answer && answer.length > 0) {
+        selectedBrand = answer;
+        break;
+      }
+    }
+  }
+
+  // 🆕 카테고리 관여도 추출 및 브랜드 보너스 계산
+  const categoryInvolvement = (collectedInfo['__category_involvement'] as 'high' | 'trust' | 'low') || 'trust';
+  const BRAND_BONUS = {
+    high: 20,   // 고관여 제품: 브랜드 매우 중요 (유모차, 카시트 등)
+    trust: 15,  // 신뢰기반: 브랜드 중요 (기저귀, 물티슈 등)
+    low: 10     // 저관여: 브랜드 덜 중요 (양말, 턱받이 등)
+  };
+  const brandBonus = BRAND_BONUS[categoryInvolvement];
+  console.log(`[FinalRecommend] 카테고리 관여도: ${categoryInvolvement}, 브랜드 보너스: +${brandBonus}점`);
+
+  // 사용자 조건 문자열 (브랜드 제외 - 별도 표시)
   const userConditions = Object.entries(collectedInfo)
     .filter(([k]) => !k.startsWith('__'))
+    .filter(([k]) => !k.includes('brand') && !k.includes('브랜드') && !k.includes('제조사')) // 브랜드는 별도 표시
     .map(([q, a]) => `- ${q}: ${a}`)
     .join('\n') || '없음';
 
@@ -1097,17 +1149,23 @@ async function evaluateAllCandidatesWithLLM(
         .map(r => `[${r.rating}점] ${r.content.slice(0, 150)}`);
     }
 
+    // 브랜드 매칭 여부 체크
+    const isBrandMatch = selectedBrand && product.brand
+      ? product.brand.toLowerCase().includes(selectedBrand.toLowerCase()) ||
+        selectedBrand.toLowerCase().includes(product.brand.toLowerCase())
+      : false;
+
     const prompt = `## ${categoryName} 제품 평가
 
 ## 제품 정보
-- 브랜드: ${product.brand}
+- 브랜드: ${product.brand}${isBrandMatch ? ' ⭐ (사용자 선호 브랜드!)' : ''}
 - 제품명: ${product.name}
 - 가격: ${product.price?.toLocaleString()}원
 - 스펙: ${product.specSummary || ''}
 - 리뷰 ${productReviews.length}개, 평균 ${productReviews.length > 0 ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1) : 0}점
 
 ## 사용자가 원하는 조건 (필수 충족)
-${userConditions}
+${selectedBrand ? `⭐ **선호 브랜드**: ${selectedBrand}${isBrandMatch ? ' → 이 제품이 해당!' : ''}\n` : ''}${userConditions}
 ${priorities !== '없음' ? `\n⭐ 특히 중요: ${priorities}` : ''}
 
 ## 피해야 할 단점 (회피 필수)
@@ -1128,6 +1186,7 @@ ${sampledReviews.join('\n')}
    - 스펙에서 직접 확인되는 기능/수치가 있는가?
    - 🔍 리뷰에서 **주목할 키워드(선호 관련)**가 언급되면 가점
    - "특히 중요" 항목은 가중치 높게 평가
+   - ⭐ **브랜드 매칭**: 선호 브랜드와 일치하면 +${brandBonus}점 가산
 
 2. **단점 회피 (40점)**: 피해야 할 단점이 이 제품에 있는가?
    - 🔍 리뷰에서 **주목할 키워드(회피 관련)**가 부정적으로 언급되면 감점

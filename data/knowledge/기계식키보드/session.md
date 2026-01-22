@@ -1,5 +1,5 @@
-# 세션: 20260121_061354_4lht
-> 시작: 2026-01-21T06:13:54.260Z
+# 세션: 20260122_112433_rt1e
+> 시작: 2026-01-22T11:24:33.110Z
 > 카테고리키: 기계식키보드
 > 카테고리: 기계식키보드
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기계식 키보드 시장 현황
-- 인사이트: 기계식 키보드 시장은 게이머와 전문가들 사이에서 높은 인기를 누리며 꾸준히 성장하고 있습니다. 특히 재택근무 확산과 '데스크테리어' 트렌드에 힘입어 디자인과 개성을 중시하는 소비자들이 늘면서 시장이 더욱 확대되고 있습니다. 다양한 스위치 종류와 커스터마이징 옵션은 기계식 키보드의 주요 특징으로, 사용자 맞춤 경험을 제공합니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFej5SgpIQZ48lIJpXmPGAcJa7G7G1UPjswNfCsT2_qtG9ZGVaRYRexGN9fbjpirfOIU58KuNSGa_HuSCUMJc_pczGnKOeZCnBGlBUJqutrJLUyYhObjMWvwuAVNnLDi307MNqUOwlZDtVnE6CTTmzcPt_pVo5QwodZMlquWMJxJcMdeWJPlobyxfSzBHZ33j7ZUCKKa1IpjqZKkgVXObZof0wpt0zcGuBq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFz-UGe-w2FcTPCg1TXduneEI3n_LtzlqyZr9h7l7e-VlBUOSdnwWg7-toL8ir9-DTFSR4oPGSMiYUxQGIQLbj4BI0FVx-gpnfZZ1I9zEV-X4MFVsowpJcT2i54Y51eh40aHRfy4FqN5iV6Jdoix2JS7EDXlEelgI7Hi2SNfTqtyzSZUanP4K_ylucGrffHnPv_YOlY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECwhSkYV9EONx1R3-0ExY1_3SewCYERRhGNl2Ws3inXmzjjlckLk3nOIVBDZRs0v0-e-w1Xn4EI5Hz11xdu6jUMIElCpigdJddwx0srttfPIA8XxXJYZQyXzPE1fySlpdfH04kUiRAnXt1yDeH4AnQmfh5
+- 인사이트: 기계식 키보드 시장은 지속적인 성장세를 보이며, 특히 게이머와 전문가들 사이에서 높은 점유율을 유지하고 있습니다. 2024년 전 세계 키보드 시장 규모는 약 6조 3700억 원으로 예상되며, 국내 시장 역시 7% 이상의 높은 성장률을 기록하고 있습니다. [9] 유선 기계식 키보드는 신뢰성과 안정적인 연결성으로 인해 여전히 높은 선호도를 보입니다. [4]
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7njqNQNMp2GfO-j6fx7rlo7FHYpBgX9W0Ar21RajlX2X_YrsrvRcS1M1g_v0AqdfFlSmbQ5qZXUB4yR1LA-TI4uNewGG0AuBPFZ9r3G_-kRCZsp4eptza8p57ROaeKGXDGlj8mfwuU7lyO9MIuA9WTF4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErB9fNu6ouIACkh2ohHUsXw6m5qXn8eD3ozndvH3_jjSkCORLUCDndgCfGsyg3tm9XwyP3xeZOJtWS9tbIn1bpXEM-z_Oinbofah-xhT9IfaVT4zWmIVvGprs6_Z7hljp4uaYQxfj2sUN504YuaUmzPqD7pMbz7o4imW453GVFLp3ol6oa7jUBOoWO0pPdGrfiuf9o24Az4EQWj0vq-n27UYOkqzJEuIJb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOYot2TTgPji8_CVpG7k2OvKIYHlyvGh7QcP66jHKz-u9ym777OUxfs0UQXzvP-MEK-06InCDuarzi_DMULHOLNHdbmVW9eMmBlzF1_-sKReFqWvsJSWDH3Y3SOIVbULqIKIw5FQ==
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 어떤 타건감을 선호하시나요? 기계식 키보드의 가장 큰 매력인 키감은 스위치 종류에 따라 크게 달라져요. | 갈축 계열 (걸림은 있지만 조용한 타건감), 청축 계열 (딸깍거리는 경쾌한 소리와 구분감) |
+| 키보드 크기는 어느 정도가 좋으신가요? 사용 공간과 편의성에 영향을 미쳐요. | 텐키리스 (숫자 키패드 없음) |
+| 키보드는 어떤 방식으로 연결하는 것이 편리하신가요? | 무선 (블루투스 또는 전용 동글) |
+| 혹시 선호하시는 키보드 브랜드가 있으신가요? | 상관없어요 |
+| 예산은 어느 정도로 생각하세요? (평균 8만 9천원, 5만 8천원 ~ 11만 5천원대가 가장 많아요) | 11만 5천원대, 5만 8천원 이하 |
+| __avoid_negatives__ | 상관없어요 |
 
 ---
 
@@ -55,7 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 상관없어요
 
 ---
 

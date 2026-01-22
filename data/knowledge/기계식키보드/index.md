@@ -1,29 +1,30 @@
 # 기계식키보드 전문가 지식
 
-> 마지막 업데이트: 2026-01-21T06:13:45.484Z
+> 마지막 업데이트: 2026-01-22T11:24:23.869Z
 > 분석 상품: 20개 | 분석 리뷰: 591개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 무선 및 커스터마이징 기능 강화
-- 다양한 스위치 종류 및 맞춤형 키캡 인기
-- MZ세대의 개성 표현 수단으로 부상
+- 무선 기계식 키보드 보급 확대
+- 개인 맞춤형 커스터마이징 (키캡, 스위치 등)
+- 로우 프로파일 스위치 적용 및 슬림 디자인
+- 다양한 색상 및 디자인 (블랙, 화이트, 그레이, 레드 등)
+- 게이밍 및 전문가용 고성능 키보드 수요 증가
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 내구성
-- ✓ 다양한 키감 및 타건음
-- ✓ 빠른 반응 속도
-- ✓ 높은 정확성
-- ✓ 사용자 맞춤 설정 용이
+- ✓ 뛰어난 내구성과 긴 수명
+- ✓ 다양한 스위치 종류에 따른 차별화된 타건감
+- ✓ 정확한 입력과 빠른 반응 속도
+- ✓ 개인화 및 커스터마이징 용이성
 - ✓ 수리 용이성
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격대
-- ⚠ 상대적으로 큰 소음
-- ⚠ 휴대성 부족
-- ⚠ 방수 및 방진 기능 취약
-- ⚠ 높은 키 높이로 인한 손목 부담
+- ⚠ 멤브레인 키보드 대비 낮은 방수/방진 성능
+- ⚠ 키보드 자체의 높은 높이로 인한 손목 부담 (팜레스트 필요)
+- ⚠ 일부 스위치의 소음 발생 가능성
+- ⚠ 휴대성 부족 (크고 무거움)
 
 ### 가격대 인사이트
 
@@ -245,6 +246,6 @@
 ---
 
 ## 📊 데이터 출처
-- [reddit.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFej5SgpIQZ48lIJpXmPGAcJa7G7G1UPjswNfCsT2_qtG9ZGVaRYRexGN9fbjpirfOIU58KuNSGa_HuSCUMJc_pczGnKOeZCnBGlBUJqutrJLUyYhObjMWvwuAVNnLDi307MNqUOwlZDtVnE6CTTmzcPt_pVo5QwodZMlquWMJxJcMdeWJPlobyxfSzBHZ33j7ZUCKKa1IpjqZKkgVXObZof0wpt0zcGuBq)
-- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFz-UGe-w2FcTPCg1TXduneEI3n_LtzlqyZr9h7l7e-VlBUOSdnwWg7-toL8ir9-DTFSR4oPGSMiYUxQGIQLbj4BI0FVx-gpnfZZ1I9zEV-X4MFVsowpJcT2i54Y51eh40aHRfy4FqN5iV6Jdoix2JS7EDXlEelgI7Hi2SNfTqtyzSZUanP4K_ylucGrffHnPv_YOlY)
-- [sotatek.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECwhSkYV9EONx1R3-0ExY1_3SewCYERRhGNl2Ws3inXmzjjlckLk3nOIVBDZRs0v0-e-w1Xn4EI5Hz11xdu6jUMIElCpigdJddwx0srttfPIA8XxXJYZQyXzPE1fySlpdfH04kUiRAnXt1yDeH4AnQmfh5)
+- [rtings.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7njqNQNMp2GfO-j6fx7rlo7FHYpBgX9W0Ar21RajlX2X_YrsrvRcS1M1g_v0AqdfFlSmbQ5qZXUB4yR1LA-TI4uNewGG0AuBPFZ9r3G_-kRCZsp4eptza8p57ROaeKGXDGlj8mfwuU7lyO9MIuA9WTF4=)
+- [reddit.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErB9fNu6ouIACkh2ohHUsXw6m5qXn8eD3ozndvH3_jjSkCORLUCDndgCfGsyg3tm9XwyP3xeZOJtWS9tbIn1bpXEM-z_Oinbofah-xhT9IfaVT4zWmIVvGprs6_Z7hljp4uaYQxfj2sUN504YuaUmzPqD7pMbz7o4imW453GVFLp3ol6oa7jUBOoWO0pPdGrfiuf9o24Az4EQWj0vq-n27UYOkqzJEuIJb)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOYot2TTgPji8_CVpG7k2OvKIYHlyvGh7QcP66jHKz-u9ym777OUxfs0UQXzvP-MEK-06InCDuarzi_DMULHOLNHdbmVW9eMmBlzF1_-sKReFqWvsJSWDH3Y3SOIVbULqIKIw5FQ==)

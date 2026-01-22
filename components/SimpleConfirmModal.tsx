@@ -45,7 +45,7 @@ export default function SimpleConfirmModal({
           />
           
           {/* Modal Container */}
-          <div className="fixed bottom-4 left-0 right-0 px-4 z-[210] pointer-events-none flex justify-center">
+          <div className="fixed bottom-4 left-0 right-0 z-[210] pointer-events-none flex justify-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

@@ -1,5 +1,5 @@
-# 세션: 20260121_120130_batw
-> 시작: 2026-01-21T12:01:30.598Z
+# 세션: 20260122_082258_d6sq
+> 시작: 2026-01-22T08:22:58.932Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 쪽쪽이 시장 현황
-- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 아기에게 안정감을 주고 빨기 욕구를 충족시키는 육아 필수품으로 자리 잡고 있습니다. 최근에는 성인들의 스트레스 해소용으로도 소비 트렌드가 확장되고 있으며, 다양한 디자인과 소재의 제품들이 출시되고 있습니다. 특히 위생과 안전성을 고려한 올실리콘 제품이나 감성적인 디자인의 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENL9n5CDZeLGZmO__8D5iwhya4KfBL-TR6swp4cOrk9RWHf_nQkWJ14nL4aFFJHDhgfcbVpyOjNDDs9fVzzxvzdAUnm1KYDr1wdIZer5XJzs7F52FXm104f2e9gU7DPO8qVX64CNFOWIcjVRnbg3yKlXxc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcuWFYOwAz0JM0QPG09pK9GlMxgljdsA6hSiAXlp5xo0xiG1L95Z5B_WxT-HgygegSVo_dZbEwKC0gIWX_uFNV-syH0VxEVEblPVTlKVzZHVgH8F8bEMAMtC0UXTa6NU3d8UZz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNIh8TSoNEkauIwjZDB12UL4-MvjX_m8GFowcam4p94WPeLoY1ixkEP9uIMHtij3ZFbk5d5Cx8_xjf0VwaPl70mgmSGW76ZwxBRjrsnXYsRx4N6ybDGDMa5Sz0-JdWbTaVSGwxgeesHOSLDtL_L7_qZCXtae39OhG1
+- 인사이트: 쪽쪽이(공갈 젖꼭지)는 아기의 빨기 욕구를 충족시키고 심리적 안정감을 제공하여 달래거나 재울 때 유용하게 사용될 수 있습니다. 또한 손가락 빨기를 대체하고 영아돌연사증후군 위험을 낮추는 데 도움이 될 수 있다는 장점이 있습니다. 하지만 너무 이른 시기 사용은 유두 혼동을 일으킬 수 있으며, 장기간 사용 시 치아 발달이나 언어 발달에 부정적인 영향을 줄 수 있다는 단점도 존재합니다. 최근에는 스트레스 해소나 수면 보조 목적으로 성인용 쪽쪽이 시장도 성장하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwyVgwtpUn7Gf4DGG6E6kqe29_n1XN-D702LXkk2FXjfKjAtagxTfBlcVZmv0pl0priCl1ltZsIX9maBjwu1LUxTpzvDAvpgcFDiw1GBTVWk7CkpXuBybuTsDj0Aj9oC1PC0-zJjU9pq53cxDqr9gOzKtQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYj_gJyGNit6cxQPWv4bNUlfRydvud1nmdXgUhiGQY-WEgqAhOB7Kic2xiyXoXgXfknXOW6S2H5jdiFwVQb8c-Wcy3RHlNXdLGBJO4lPWtxicaOpA-2yc-3iu968wAbnemzmajHiWuZ1eSmwKtUqCqb6a2r51t, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVxAt4Wd3a8JUYosBM6AMef-tDY3-dlzDx-MwHQDnEvK3oeG94zLjhc0qhbWjiFg7-eWlGOdjUkKrYmrKXlt4v_aAJn9im1bIeQ-Me3PvG5D5J5n5w0SF8Bsc=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기에게 어떤 재질의 쪽쪽이를 선호하시나요? | 실리콘 |
-| 쪽쪽이 젖꼭지 모양은 어떤 것을 선호하시나요? | 해부학적 모양, 둥근형 |
-| 세척 및 소독의 편리성은 어느 정도가 중요하신가요? | 일반적 |
-| 아기의 개월 수는 어떻게 되나요? | 3~6개월 |
-| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 1만 5천원, 1만원~2만원대가 가장 많아요) | 1만원 ~ 2만원대, 1만원 이하 |
-| __avoid_negatives__ | 쪽쪽이를 오래 사용하면 아기의 언어 발달에 좋지 않을까 봐 염려돼요,모유 수유 중인데,쪽쪽이 때문에 유두 혼동이 올까 봐 불안해요 |
+| 아기의 개월 수를 알려주세요. 쪽쪽이는 월령별로 사이즈 구분이 중요해요. | 0~6개월 |
+| 쪽쪽이 젖꼭지 모양은 어떤 것을 선호하시나요? 모양에 따라 아기의 빨기 습관이나 치아 발달에 영향을 줄 수 있어요. | 둥근형, 자연형 (모유 모양) |
+| 쪽쪽이 소재는 어떤 것을 선호하시나요? 소재에 따라 세척 용이성, 내구성, 아기 안전성이 달라질 수 있습니다. | 실리콘 |
+| 혹시 선호하시는 쪽쪽이 브랜드가 있으신가요? 아기에게 직접 닿는 제품이라 신뢰할 수 있는 브랜드를 많이 찾으세요. | 누크, 모윰 |
+| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 1만 5천원, 1만원 이하~2만원대가 가장 많아요) | 1만 5천원 내외 |
+| __avoid_negatives__ | 아기의 치아가 고르지 않게 자랄까 봐 염려돼요,아기가 젖병이나 엄마 젖을 거부하게 될까 봐 걱정돼요 |
 
 ---
 
@@ -38,8 +38,8 @@
 6. 더블하트 노리개 젖꼭지 2단계 1P - 5,800원 - ⭐4.5
 7. 더블하트 Soft Buddy 노리개젖꼭지 - 11,600원 - ⭐4.7
 8. 스와비넥스 모유촉감 올실리콘 쪽쪽이 일자형 1단계 블루 - 8,290원 - ⭐4.7
-9. 덴티스타 덴티스타 바른치아 노리개 젖꼭지 1단계 - 5,700원 - ⭐4.6
-10. 더블하트 Soft Buddy 노리개젖꼭지 - 11,600원 - ⭐4.7
+9. 더블하트 Soft Buddy 노리개젖꼭지 - 11,600원 - ⭐4.7
+10. 덴티스타 덴티스타 바른치아 노리개 젖꼭지 1단계 - 5,700원 - ⭐4.6
 11. 닥터브라운 실리콘 노리개 젖꼭지 3P - 12,900원 - ⭐5
 12. BIBS 빕스 데니쉬 디럭스 쪽쪽이 + 실리콘 화분캡 - 26,210원 - ⭐5
 13. 모윰 올실리콘 마카롱 쪽쪽이 3개세트 (전용케이스 포함) - 29,380원 - ⭐4.8
@@ -61,9 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 쪽쪽이를 오래 사용하면 아기의 언어 발달에 좋지 않을까 봐 염려돼요
-- 모유 수유 중인데
-- 쪽쪽이 때문에 유두 혼동이 올까 봐 불안해요
+- 아기의 치아가 고르지 않게 자랄까 봐 염려돼요
+- 아기가 젖병이나 엄마 젖을 거부하게 될까 봐 걱정돼요
 
 ---
 

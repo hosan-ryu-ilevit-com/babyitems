@@ -1,14 +1,14 @@
-# 세션: 20260109_075055_80o3
-> 시작: 2026-01-09T07:50:55.239Z
+# 세션: 20260122_082631_q8wx
+> 시작: 2026-01-22T08:26:31.766Z
 > 카테고리키: 블록장난감
 > 카테고리: 블록장난감
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 블록장난감 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 블록 장난감 시장은 레고의 '스마트 브릭' 출시로 기술과의 융합이 가속화되는 추세입니다. 기존의 물리적 조립 경험에 디지털 상호작용을 더한 스마트 브릭은 아이들의 창의력과 몰입도를 높이며 새로운 놀이 경험을 제공합니다. 이와 더불어 교육적이고 창의적인 장난감에 대한 부모의 높은 관심은 시장 성장을 견인하고 있으며, 친환경 및 생분해성 소재를 활용한 제품들도 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuZVceBLiLsaEd5xr2g6GPupcN0z4uklFZrAg6dd07s3Ed0EgV4Z2QAC_eISVeM1zSci88V5Jc6uH5yUXeX5zZLoHyvYtC8sq9QIYpYEFwXEQH-0sy2jZoNzmm1glK3_YbrMcYPkZBErM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEhBb87pEGouCNIoCeheI0km2iWmJavF0A_-phtRlqjiJVRIJbV_a6xFjthOKl34LjdeM0d5RjIR5cDfDs2iofZNC0hcWvFFFFidDLkIBV90Rvi55MJJtGHUSZ4sA6QtzSPWMB3YulF-AWaM6xJJfbn7B9CVREMUM8bIreG21YPVfsZqQTf4_-sRrHUM_Mz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFngzHRkWO6b-q88yqonNOyucqRI3SDqRAHkxWgW79HLr0NyrUkPos8-HJl68Ws6_E2-u3pZlYjyEnkkJota4mrVJLtzT76VCEz0KMzgiVcakL9gJiKwCgCdtRcu08ObwFz-7vN3RwLELboi_eP0wS1PJpNQW4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHb624T-NFVnnbzkTqC9lp59S26r-8LMgbe50r8nv0dT5gemyjw3wIpjqIBqNJ_h309s8U6zjhJ2XD7HD_Gpf8bxyqZqdgxH6a_78UYSIef_B3ji2vDGPUNbdH-XRfHC6v2Fo7awm-lOMB9RErzoP6HFDED55H4Kg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcqqk62pjaDZn_gzcecHxx05C2hLkGBXOmoGgUx1X9W4hlvKFQKxqVjeKywr8Qyx0kDsmTnS8b_Yf1BAciO8Mj-ku1tEwgg_tDHA9a6IVBk3Io1C2W5Z4qqv3YiuBXzJBWJ0q3N5Y=
+- 쿼리: 블록 장난감 시장 현황
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbW5eZXfRBJi74CMvbBlQi0QveF1D9UvJlqC5saylTnYmszvCwRQLveNKflZniLiNaVbZ4YPvL4fsoTN1D0BrugUy9OMTSL1qVNBaMc_zdyuWoY6q9po-kLsqPZqcPb3JUvLXOBrqIOMXaDQD_Jt6T8t2uM6_QP8jsVT9XWE67OZ_iibdN_BdmDz6Zs8rdn4Gn6Sl2P4kcHPDJo4TTIFn0il0J9J-iR-Gm03LP6rBZd6Q-i12O5g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGC6X2XP14u7z3fW-0QKnCRM80l0uNbfLzgYTgQWRfmOUVbnPbeFJwZPReu6Dme4w2_l4Bx_2rqLKeHidOHxuGjqxtK0--EoMwnRF33roVOG4ChWaE_Zvb2TGg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOunbOJHoF26aKztvrrqR2WlhRwwoIiUdLprfvzEZ-mZJhV041_VsEPYMMPrxZwADRVwNDmC01hi9NgttZPMBgl7ROy03EMXBiqOpJ8dFOWL2EILsv1dwmMtM0Kz0eq4shVxi20hkgtMT_JPJBBZB-QSGU-GGwW-jQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGomyxkoWiB_SOnyNltz4Bml1wSmOD7-llgbCvyLqM5e1hmoEn7NhPr4vwHvVXslUx63O4QWZBLTXbsfCJxj5thYPIFPfwzr2b7l3tpvZMP2GMvG-JplJVDwv7-LS1g3ZMn5NL0fFdIQmNU8LZJBsl7EqJrbi8RYypMngZl8K7W1jpq5wFMUYQJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRvCWfQY8XB3u83FBNjYRbRWOh_U-j1ty23EZCmGWiuwVLW7H8vInvCRnm7xK2MARWi3diMWtzcZwIz7uSVoq1cj9ccXHT_Lc1rvIEbXcLW_YUzQanpfArq2fzjVyAyQz2R3xAsxE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZDczOYSm6Hf3lPMJBME7AMhkHP8MCFgA0APoetv6QW13fr5IC5v-TBl2VoU4jgCw8SPfWxsuEarMroRn0SSHDoH7I-PKYNH_NNNPFEqflnbwabaLkYms9wmAihG8xw4mLfCbGidhtl-pwAiOjKQVDtjr2N8vwMtm5NbKMCq9vTJIlPWaSs99zJRk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPR2kk4rFKLDk9PXVvbVc2kfrMnURtcn4x86UuCZ4WrCSphS7oCTQsw18b1LASbIfpK251hmDQ6tJt5M708jJwGKvneTNMf0MENJEjs6o_0qYdEcnT8A9BMwujyPIC67d860_kr6lsYuVmMya028sP97NrdNfRKj-et2MxsAiqSNi6XuJA2Tm55h0Wl7Od1tZSEb0X84UASNDwrQ1JVG5MOhHVF3CwYO6lmeDZyMHKIKGCp4sfNSsReoB-KEnELalP-C5Vj72UDFIR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVrrCFMBcKbfReajTSpLyGsNDGQSUteTPZ4LFqZPGa-YlVKYbzFJ6xPAM3U5LKGfg-1amFz1IqJC0OnkjQYQzXGmSca0GN_Yh0Hreg39GKcH2OqRGJSrFsdaN0abLwRTwxE0c8BdFTGgt5mAdmxZipISCDK1o5UGcbLOu_v6Xq43VHhNUJMC7SZigtBHljRYHIWRYg1hHNSrUUVe_BtNtHp7Ju9N73ULTZ6qDS41koKjo71P8aJ9mRZCxEy0CON_Dq-4ycLPSKymSRpg==
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbW5eZXfRBJi74CMvbBlQi0QveF1D9UvJlqC5saylTnYmszvCwRQLveNKflZniLiNaVbZ4YPvL4fsoTN1D0BrugUy9OMTSL1qVNBaMc_zdyuWoY6q9po-kLsqPZqcPb3JUvLXOBrqIOMXaDQD_Jt6T8t2uM6_QP8jsVT9XWE67OZ_iibdN_BdmDz6Zs8rdn4Gn6Sl2P4kcHPDJo4TTIFn0il0J9J-iR-Gm03LP6rBZd6Q-i12O5g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGC6X2XP14u7z3fW-0QKnCRM80l0uNbfLzgYTgQWRfmOUVbnPbeFJwZPReu6Dme4w2_l4Bx_2rqLKeHidOHxuGjqxtK0--EoMwnRF33roVOG4ChWaE_Zvb2TGg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOunbOJHoF26aKztvrrqR2WlhRwwoIiUdLprfvzEZ-mZJhV041_VsEPYMMPrxZwADRVwNDmC01hi9NgttZPMBgl7ROy03EMXBiqOpJ8dFOWL2EILsv1dwmMtM0Kz0eq4shVxi20hkgtMT_JPJBBZB-QSGU-GGwW-jQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGomyxkoWiB_SOnyNltz4Bml1wSmOD7-llgbCvyLqM5e1hmoEn7NhPr4vwHvVXslUx63O4QWZBLTXbsfCJxj5thYPIFPfwzr2b7l3tpvZMP2GMvG-JplJVDwv7-LS1g3ZMn5NL0fFdIQmNU8LZJBsl7EqJrbi8RYypMngZl8K7W1jpq5wFMUYQJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRvCWfQY8XB3u83FBNjYRbRWOh_U-j1ty23EZCmGWiuwVLW7H8vInvCRnm7xK2MARWi3diMWtzcZwIz7uSVoq1cj9ccXHT_Lc1rvIEbXcLW_YUzQanpfArq2fzjVyAyQz2R3xAsxE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZDczOYSm6Hf3lPMJBME7AMhkHP8MCFgA0APoetv6QW13fr5IC5v-TBl2VoU4jgCw8SPfWxsuEarMroRn0SSHDoH7I-PKYNH_NNNPFEqflnbwabaLkYms9wmAihG8xw4mLfCbGidhtl-pwAiOjKQVDtjr2N8vwMtm5NbKMCq9vTJIlPWaSs99zJRk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPR2kk4rFKLDk9PXVvbVc2kfrMnURtcn4x86UuCZ4WrCSphS7oCTQsw18b1LASbIfpK251hmDQ6tJt5M708jJwGKvneTNMf0MENJEjs6o_0qYdEcnT8A9BMwujyPIC67d860_kr6lsYuVmMya028sP97NrdNfRKj-et2MxsAiqSNi6XuJA2Tm55h0Wl7Od1tZSEb0X84UASNDwrQ1JVG5MOhHVF3CwYO6lmeDZyMHKIKGCp4sfNSsReoB-KEnELalP-C5Vj72UDFIR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVrrCFMBcKbfReajTSpLyGsNDGQSUteTPZ4LFqZPGa-YlVKYbzFJ6xPAM3U5LKGfg-1amFz1IqJC0OnkjQYQzXGmSca0GN_Yh0Hreg39GKcH2OqRGJSrFsdaN0abLwRTwxE0c8BdFTGgt5mAdmxZipISCDK1o5UGcbLOu_v6Xq43VHhNUJMC7SZigtBHljRYHIWRYg1hHNSrUUVe_BtNtHp7Ju9N73ULTZ6qDS41koKjo71P8aJ9mRZCxEy0CON_Dq-4ycLPSKymSRpg==
 
 ---
 
@@ -16,21 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
+| 블록 장난감을 선물하거나 구매하시려는 아이의 연령대는 어떻게 되나요? | 3세 ~ 12세 |
+| 어떤 종류의 블록 놀이를 선호하시나요? | 테마/캐릭터 활용, 자유로운 창작 |
+| 블록 장난감의 소재에 대해 특별히 선호하는 점이 있으신가요? | 나무 소재 |
+| 선호하시는 블록 장난감 브랜드가 있으신가요? | 러닝리소스, 아카데미과학 |
+| 블록 장난감 예산은 어느 정도로 생각하세요? (평균 10만원, 5만원~13만원대가 가장 많아요) | 5만원 ~ 13만원대 |
+| __avoid_negatives__ | 나무 소재 블록이라 쉽게 깨지거나 흠집이 날까 봐 걱정돼요,설명서가 너무 복잡해서 아이가 혼자 조립하기 어려워할 것 같아요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 7개 (전체 7개 중)
+현재 후보: 94개 (전체 94개 중)
 
 ### 후보 상품
-1. 레고 크리에이터 엑스퍼트 부티크호텔 (10297) - 239,920원 - ⭐4.8
-2. 레고 테크닉 람보르기니 시안 FKP 37 (42115) - 466,580원 - ⭐4.9
-3. 레고 크리에이터 해적선 (31109) - 138,890원 - ⭐4.8
-4. 레고 Mercedes-AMG F1 W14 E Performance (42171) - 217,430원 - ⭐5
-5. 레고 마블 슈퍼히어로 어벤져스 헬리캐리어 (76153) - 249,900원 - ⭐4.7
-6. 레고 아이디어 나홀로 집에 (21330) - 315,600원 - ⭐4.8
-7. 레고 듀플로 디럭스 브릭 박스 (10914) - 71,280원 - ⭐4.9
+1. 아카데미과학 메가포스 KAR98K 스나이퍼건 어린이 장난감총 - 67,317원 - ⭐4.6
+2. 레고 밀레니엄 팔콘™ (75375) - 89,200원 - ⭐4.9
+3. 레고 반지의 제왕: 리븐델 (10316) - 518,380원 - ⭐4.8
+4. 러닝리소스 넘버블록스 1-10 - 31,100원 - ⭐5
+5. 아이코닉스 뽀로로 수다쟁이 냉장고 + 마스터카드 - 139,000원 - ⭐4.6
+6. 레고 빈센트 반 고흐 - 별이 빛나는 밤 (21333) - 195,890원 - ⭐4.8
+7. 레고 Mercedes-AMG G 63 & Mercedes-AMG SL 63 (76924) - 52,000원 - ⭐4.7
+8. 벨베이비 자석블록 휠 파스텔 - 24,600원 - ⭐4.9
+9. 레고 Ferrari SF-24 F1 자동차 (42207) - 232,410원 - ⭐4.8
+10. 레고 파리 노트르담 (21061) - 224,960원 - ⭐4.8
+11. 레고 클래식 라지 조립박스 (10698) - 52,560원 - ⭐4.8
+12. 레고 핑크 꽃다발 (10342) - 60,700원 - ⭐4.9
+13. 레고 하늘을 나는 포드 앵글리아 (764224) - 15,920원 - ⭐4.8
+14. 레고 가스트 열기구 마을 공격 (21273)[일반구매] - 75,924원 - ⭐5
+15. 레고 우주왕복선 (31134) - 12,750원 - ⭐4.7
+16. 레고 테크닉 2022 포드 GT (42154) - 118,970원 - ⭐4.8
+17. 레고 크리에이터 백 투 더 퓨처 타임머신 (10300) - 194,840원 - ⭐4.8
+18. 레고 분노의 질주 닛산 스카이라인 GT-R (R34) (76917) - 26,240원 - ⭐4.8
+19. 레고 Lamborghini Revuelto 슈퍼 스포츠카 (42214) - 199,890원 - ⭐5
+20. 레고 경찰 바이크 추격 (60455) - 11,390원 - ⭐4.8
 
 ---
 
@@ -42,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 나무 소재 블록이라 쉽게 깨지거나 흠집이 날까 봐 걱정돼요
+- 설명서가 너무 복잡해서 아이가 혼자 조립하기 어려워할 것 같아요
 
 ---
 

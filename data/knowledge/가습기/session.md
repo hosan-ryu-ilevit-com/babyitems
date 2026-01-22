@@ -1,5 +1,5 @@
-# 세션: 20260122_031013_zbin
-> 시작: 2026-01-22T03:10:13.359Z
+# 세션: 20260122_063906_2ywa
+> 시작: 2026-01-22T06:39:06.211Z
 > 카테고리키: 가습기
 > 카테고리: 가습기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 가습기 시장 현황
-- 인사이트: 가습기 시장은 2026년부터 2035년까지 연평균 6.7% 성장하여 2035년에는 20억 5천만 달러 규모에 이를 것으로 예상됩니다. 북미 시장이 HVAC 시스템 통합 가습 시스템 도입 증가로 성장을 주도하고 있으며, 아시아 태평양 지역은 도시화와 건강에 대한 인식 증가로 큰 폭의 성장이 전망됩니다. 최근에는 초음파식 가습기의 비중이 줄고 복합식 가습기의 비중이 증가하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6cP6eDjjYAdw80L6t3sQW-h50qhm7rO2R2cMT-tLxFF48koAcB-Bi_3q8tQAomA2YrA8Hh65JaLmXEQFOwTb9T1vAb7vbRIVI6sTPe2c618oyMuLa0ZID65IfluohEXf0GST9ILcnJi2he7tykxUlp06TualGlSEjDpFHe3I=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR0UeHI_EUSnc757Prbk5UNBiMAcP5U_UZp9yvcBNMM7ejqTbgXZzs0-_qCJ6vmak5xHI7f4XJlfwnNTjQpNFvegBuPqKki12RIczYJXf4X-L0QT7nuJHAWGMK6z5ItaqDoctRkAZu6jcNEnD6hos1KofP7WR8eQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNsB264bs4SYMOz0XATw4c1T3xndojnJIxReGEsWRS2OvMdt1lA7isAmDiju26wnCqneQysMTepX65zasSOUS1I7WM6whtWS3VMKfnVxKwONnC1MTtbPmL_cfdwXnBxblB35adk8vCKUdfA85E1N_FYGzjHWv-_yT2hCg4fs_oDkf0naPb5OfJJO513UU4o-LWUIN_A_ncfCFFISRX8DkL4p2WPkSHdSyKZ3En-SGVUCZV6cs__3AMC--l548xxur-ooVQvMamoIWfxM0_OZAmpNOio7HGbq2VE1zLPFvJ3ezMHuKOg3mAaSFvPLGkvVnIbG9VAVZzdyla68Qw9ATtrLccAumxG47EuSHIRutZXtssgTJvgeG98rD8J-TLuD8BaR-vARh6xdQB9QgRJMhsvZA1EureDkXqjfN2enEghslA
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFU2lhKZ7hONNVNtYct8IUQkndeLjj1lHNd4Z_iwNxRgiVwvO_g8QNKA48bboyFO7KzOfgEPLhAw8G8fsZ8LvarJ_kxmTibWsWGDo5OoMJEQxkEn8tQ28BnkUlOuK1XrtsE1SZC3lqSH4IpMXmWO_QUHPOqVEwcpEq9Oghd7WaP, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5yo9PDGuOdjDLrvg7KmRMWdVmCVNkVvligqkGAG-SA71_39qFe6BNT3VGHQZeIEDLfxM1cfNggDbWOqDw3IuZGhzz22YEsndys988TfTTXSs2kNx4ChOz1fDHJ9w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaQ-bgyz9pQmhbZVtbO-gaJTcl9BgGeaNe59dTb2bpgusA1LDsCo_7gLaXybrz0iM1SXZFSNlC-ByJ_ts4K48aSnc4a8VBAxMuVhZyTw-XtQ2JjfPQgOFNvPK_wJBfW6PgID7845PXSUvqn7nW_TCDyXnWtNXKKDLXJxw1wwkb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmyMC0--7w7FiPdlwmwwff07Cg06QXIeOF0xyGJqGRL_65isFGqOZMtcxEonUKb8tPXVvp4zAWenn1x9TbjSTh6sxux_aM4lL2Xaxpo2dM339LMjOJZntZvE1gj7RnWpvnetgJsizicbygCsquAb_CW6qsqZgdkcu58gR9e6YOIa8InOcnDaNT0bWUn2qtrGzfMthEonH6WGltnbrAVwbv_4n0C1plYF0gsdeEjOdNTM52eUZ7A0GKenWLDqcC95b3QJdSSRsCUtXExBzwbOvwcF4fWjn3nonX5ZA36gu_3Cn7ypoeDVGvXrVbwzJ9M8vKzUkJazsmX-32VpV_4AEHURsYi7K6jYYDnfQT-kTYGWWmxNfqEkSBQkIZ-SLNQ1WKdnGSIldFTVqEFYsu6rbU_bpQqPmQDFlUgoolZSgD-uc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXzN3hQUUQ2vDBzDhMvZ-Dd0335ZJfHvUj6elxpuiDfQjF-xcD9L2OtvY-3zOAa6Lcni_KkUN7ZtitF2ySdHW1flhk_KRmfr-MpYgI4RvpBIKeMAoZQ9GB2jXRwitPo0sWpODxnf8Rr-QDXOdfSe0tddYRN6QNtf8bTcbzTw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2dKMyY0oWrPjHj6CNiYdhjgi4i0orjICLLKYO88yQ2FsE9P4wm-jiQEe1s99GGhHdOoMeDCtIzEIP7bXvlFAwrHik_8jSKur1AkNdaRtX2MuEO03CJWuzCp83EXOINj20eHS-T43gpvskMSrnYlFd8FO5cl8F
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFU2lhKZ7hONNVNtYct8IUQkndeLjj1lHNd4Z_iwNxRgiVwvO_g8QNKA48bboyFO7KzOfgEPLhAw8G8fsZ8LvarJ_kxmTibWsWGDo5OoMJEQxkEn8tQ28BnkUlOuK1XrtsE1SZC3lqSH4IpMXmWO_QUHPOqVEwcpEq9Oghd7WaP, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5yo9PDGuOdjDLrvg7KmRMWdVmCVNkVvligqkGAG-SA71_39qFe6BNT3VGHQZeIEDLfxM1cfNggDbWOqDw3IuZGhzz22YEsndys988TfTTXSs2kNx4ChOz1fDHJ9w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaQ-bgyz9pQmhbZVtbO-gaJTcl9BgGeaNe59dTb2bpgusA1LDsCo_7gLaXybrz0iM1SXZFSNlC-ByJ_ts4K48aSnc4a8VBAxMuVhZyTw-XtQ2JjfPQgOFNvPK_wJBfW6PgID7845PXSUvqn7nW_TCDyXnWtNXKKDLXJxw1wwkb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmyMC0--7w7FiPdlwmwwff07Cg06QXIeOF0xyGJqGRL_65isFGqOZMtcxEonUKb8tPXVvp4zAWenn1x9TbjSTh6sxux_aM4lL2Xaxpo2dM339LMjOJZntZvE1gj7RnWpvnetgJsizicbygCsquAb_CW6qsqZgdkcu58gR9e6YOIa8InOcnDaNT0bWUn2qtrGzfMthEonH6WGltnbrAVwbv_4n0C1plYF0gsdeEjOdNTM52eUZ7A0GKenWLDqcC95b3QJdSSRsCUtXExBzwbOvwcF4fWjn3nonX5ZA36gu_3Cn7ypoeDVGvXrVbwzJ9M8vKzUkJazsmX-32VpV_4AEHURsYi7K6jYYDnfQT-kTYGWWmxNfqEkSBQkIZ-SLNQ1WKdnGSIldFTVqEFYsu6rbU_bpQqPmQDFlUgoolZSgD-uc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXzN3hQUUQ2vDBzDhMvZ-Dd0335ZJfHvUj6elxpuiDfQjF-xcD9L2OtvY-3zOAa6Lcni_KkUN7ZtitF2ySdHW1flhk_KRmfr-MpYgI4RvpBIKeMAoZQ9GB2jXRwitPo0sWpODxnf8Rr-QDXOdfSe0tddYRN6QNtf8bTcbzTw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2dKMyY0oWrPjHj6CNiYdhjgi4i0orjICLLKYO88yQ2FsE9P4wm-jiQEe1s99GGhHdOoMeDCtIzEIP7bXvlFAwrHik_8jSKur1AkNdaRtX2MuEO03CJWuzCp83EXOINj20eHS-T43gpvskMSrnYlFd8FO5cl8F
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 방식의 가습기를 선호하시나요? | 자연기화식, 초음파식 |
-| 가습기 세척 및 관리는 얼마나 중요하신가요? | 중요 |
-| 스마트 기능이나 부가 기능에 대한 선호도가 있으신가요? | 상관없어요, 기본 가습 기능만 |
-| 가습기가 사용될 공간의 크기와 물 보충 빈도에 대한 선호도는 어떻게 되시나요? | 3L ~ 5.9L |
-| 예산은 어느 정도로 생각하세요? (평균 약 26만원, 14만원대 이하가 가장 많아요) | 14만원 이하 |
-| __avoid_negatives__ | 가습기 내부 구조가 복잡해서 꼼꼼하게 세척하기 어려울 것 같아요,가습기 작동 시 나는 소음이 신경 쓰여서 편안하게 사용하기 어려울 것 같아요 |
+| 어떤 방식의 가습을 선호하시나요? | 가열식, 자연기화식, 초음파식 |
+| 가습기 세척 및 관리는 얼마나 중요하신가요? | 간편 세척/완벽 세척 선호 |
+| 주로 사용하실 공간의 크기는 어느 정도인가요? | 10~15평 |
+| 선호하시는 제조사가 있으신가요? | 루메나, 신일전자, LG전자 |
+| 예산은 어느 정도로 생각하세요? (평균 약 26만원, 14만원대 이하가 가장 많아요) | 14만원 ~ 34만원대 |
+| __avoid_negatives__ | 초음파식 방식은 물통 관리가 소홀하면 세균 번식이 쉬울까 봐 염려돼요,자연기화식 방식은 넓은 공간을 충분히 가습하기에 성능이 부족할까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 가습기 내부 구조가 복잡해서 꼼꼼하게 세척하기 어려울 것 같아요
-- 가습기 작동 시 나는 소음이 신경 쓰여서 편안하게 사용하기 어려울 것 같아요
+- 초음파식 방식은 물통 관리가 소홀하면 세균 번식이 쉬울까 봐 염려돼요
+- 자연기화식 방식은 넓은 공간을 충분히 가습하기에 성능이 부족할까 봐 걱정돼요
 
 ---
 

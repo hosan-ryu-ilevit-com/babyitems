@@ -1,15 +1,28 @@
 # 치발기 전문가 지식
 
-> 마지막 업데이트: 2026-01-21T05:46:18.109Z
+> 마지막 업데이트: 2026-01-22T08:47:01.472Z
 > 분석 상품: 20개 | 분석 리뷰: 3,975개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 손목 착용형 치발기
+- 과일 모양 디자인 치발기
+- 안전한 소재 (실리콘, BPA Free 등) 사용
+- 휴대 및 보관 용이성 (전용 케이스 포함)
 
 ### 구매자 만족 포인트
+- ✓ 이앓이 완화
+- ✓ 구강 발달 도움
+- ✓ 손가락 움직임 발달
+- ✓ 안전한 소재
+- ✓ 다양한 디자인
+- ✓ 휴대 용이성
 
 ### 주의해야 할 단점
+- ⚠ 짧은 배터리 (해당 없음)
+- ⚠ 세척의 어려움 (일부 제품)
+- ⚠ 내구성 부족 (일부 제품)
 
 ### 가격대 인사이트
 
@@ -231,9 +244,9 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2lr7UFiSKbmkp0a_tmo3IAf3cNRj2Lh5gAKdiOG7gnaKsks-IQHSF2J5E-WKK2Bu484UZ1M0aQb_RYEzHtzGoUQjzLlbEziP1lvE2AkfovnmOli-fmshL6Ie0moAgqy-ZGNop-KjA96paOYkBR7LnTvFT)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKcB8qTSKCKlvUGw9bi_FKcgUF7iooAP18pU3dB-BcpqD-zUHpm5OsH6MQVlZZi9ElDspiYx-W3xkop3L7GOJCanPjaQUv-tCUcX7S5K2Zb1PUUPRIOl9PfDb_qzUpsi5fTgwx5N4=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnRiGyvAbYurGb4_XrZJNAu_qdsoMuUG_z71YxLAYCtnkBxwfy5yMjlTHhfFhGCPqIvgkK6lxNpf0kV2NsUKXFfTZyMK7iw7XG9FgRHz3LhBnxJT3wGtpG6t5irWIeIyu84m6SJGQ=)
-- [forthebaby.co.uk](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCRqt3bncVp5YuPDlAO8Cjmpx-IO1HsuH1Mu46TeP7KRBzdPwZk-9-4S1_DcIae9t3LsamrH6_1ou7EtJ22uQY7FgOzgn00clv9Ma_i7AwIFVvEecu22p_1tSeRlXbpKTbT43OU2S5Ca3zGdXnaHmnzynTsnsiuj5lYw==)
-- [mommyhood101.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdIRekG0-eIzDAEnT9Wulh60FS6BE_YF9caJmkdX1vOBQzUQO_BkQx8KF1u65YXnffkpta0A_Er0Nhokr8y1w2AhG36lgo8AxzxcOc_ebvE6NsuGgvFH1toQT5EVt-_3A8MJ4eBMc=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdylIYj6lXoJ4pPef8qr4k6-me58PgcFPYjTit-ez6ttWaiXt43-67wICeiZfKWM-kc3DKfpZm6GJRs5VQvkuaovgcMymfb8lD7-IftAnz6YV3--wW6iFJx3J4bYvmokzFnaP9T-A=)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFh4QvhiQ6JDcrREeXlUJSugPBqF7WxFTbTWMuMWV-d4YnR9gjFIHVA8nyqmTKP3BYcs-fLPr-vT4VzOWrOzntaeVUSYktMzImDnZVEWUr7FUHjcQyX9Cn2UjsrbKzMISSuqbqlrgnBQmMCKwtZuTBKv5aP)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEN2eW6DQSuRT-3JYiNVi_mu7tDBwSFTuFXyTkBLWnu6USs2cOon6U4VmLPrt3LEqAZUthyOODzi_E3vNaJWNy24FpnzfhnnlSgZJKZbjxLgLOnKCJkwsLWCU2rQ7kKz6dAaHGiMkw=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWGdUIwsAcC3zlVtBrvPidH7lN5uldQq5s6G2KsHwteNRol_corr4I-rxwl24ktF6RfN2XoR-H2XWKXlPll4lb0i9Z8fbWuXWGvtS8HRE2yxnlxx0NgTZqkvB1_PPok8qcZnR0wV0=)
+- [mamita.blog](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHiea38rOA0d4M2zMHfIPyP3hSx5mOhd4CU4hGlsn4YCfQ-APPii6uFCkLn_FgYd2NZYtvdhzMTLNVAAnup_GzEVp_rEzFuryU5OUSfJOWbU_K8Ax0nyatKUIGqNhkdes-pYOYmCdSJ4HTGkl4v3Ok=)
+- [mommyhood101.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYsGb5hv5ozmWiVejcVSkgPouK6tzGGeoDGvLzhQbtysNdqbPxc9wgSj0hkoMo4oBSewsWqyptKQOD8PeQDuJbmdF2y6n7dv458bAxO2SEgkscuT7StBsXI11qoFHqBijn7FguuFs=)
+- [cas.org](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHU3RPU31gG_pbqrPNB_uXHpljjaEVshmFmL78BeGYNFIFcwxluEpxQ0jOUu-w-BeB_hexxw4md8bj8O-OeXyVNSddAGdIQm-0ZotH-9S_AkFzquG3N1RcCFN5piutAPh2cbVH5fGNxRWNECTLHoHcuD9zevrQ_gQDKCJt2PKEtYLfp0qv2meQzr_hWHuvxvDa79B2B4mMzyL5UXt0=)

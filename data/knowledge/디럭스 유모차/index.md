@@ -1,27 +1,28 @@
 # 디럭스 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T13:13:30.645Z
+> 마지막 업데이트: 2026-01-22T06:54:26.210Z
 > 분석 상품: 20개 | 분석 리뷰: 195개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 고급 소재 및 편안한 시트 디자인 강조 (프리미엄 시장 공략)
-- 다기능성 및 모듈형 디자인
+- 고급 소재 및 편안한 시트 디자인 강조
+- 다기능성 및 사용 편의성 중심 진화
 - 스마트 기능 (예: 자동 접이식) 및 친환경 소재 적용 확대
 
 ### 구매자 만족 포인트
-- ✓ 안정성 및 승차감 우수
-- ✓ 핸들링 용이
-- ✓ 신생아 사용 적합
+- ✓ 뛰어난 안정감
+- ✓ 우수한 핸들링
+- ✓ 신생아 사용 가능
 - ✓ 넓은 수납 공간
-- ✓ 고급스러운 디자인
+- ✓ 양대면 기능
 
 ### 주의해야 할 단점
 - ⚠ 무거운 무게
-- ⚠ 부피가 큰 편
-- ⚠ 휴대용 대비 낮은 휴대성
+- ⚠ 부피가 큰 사이즈
+- ⚠ 휴대 및 보관 어려움
 - ⚠ 높은 가격대
+- ⚠ 기내 반입 불가
 
 ### 가격대 인사이트
 
@@ -243,9 +244,6 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGt7U0XSbnA6MD841UyWXRvKKK0Mq5ciAMcVvc_2Dwt1Dm48OVja3g3vUmugqNO4R0W9PQ9Ng-Gx5cAyD8M8Z2itX-fyNeaYOoTX1Igwjo5jF45HH1A4XNwvWiE1dvDIGvaQS0=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExR1Qxl2UIBaAt7dyB1UDg4O1d264DPWbDa_e0ewDqas9IKPX1G2cDF9wHk1V_zg2aCE3XWn17e366AvC9SmSkLSaSwK7b0bv9QJ7qFswH0R-vg0i0AfjUzQgqXOu8I5ARgzABuxPKmoA48dprHBqVVEjy6FRPDt7WVickN2-Rf47zP7UIpOLvnQzp1NifI2FZFZJT2-SfuEaXeUtugOB4UfjscZ0aZB_ameFvfDLf5UY=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0yux_9GAq61uMQnnKiGlDiRkvc_X2BnR7_28CV7oiptiPxkCBU-QiA9ivEIVD8JdoiAWP3HgubV8If7xYBiR5hL_GDT3nMYuY5d3SDvOY4a-tdpO64R8-ZFdbewUPPEXATBrWu966Zeys9hNl0awzHhn_sm4Rwyj_1_M6A6Se_mIsT3HlYDU6hzCAUa5bci38gJxvuu9ln1zcrqoMBntBwfprlREwnsq1kIjmC5VtiZXINMGK8DyOEMiCf664n3LKYf6fB6PtPLIBRKX6JFT2VIzHqcWmo5f-J8kRzm47m7g1cx_CtSHZigNBSrQPc1tZfXo_zyZK7IovrJ1Xn_nj2dO5doJ5vNhX42Ye7T82axUdQmPRxks_fx8j5RSoPyEq5bJcjIvHwxO-kcnGznhMGhQ0_EV-ANhlMmJKx1ABJebPjTeonkiWIg==)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTyoXDI25NyPuBkKNIuVWsx1mh2GqrQot2QxvNXu9LJsjIFVwygt-X-X1wTMapWhT8wZlO35vDDhM9wPakgHFFb7dXtbVH1stIXCba4OGM0x4_vZvWUOskGWLIy34UZ4bYNag9gmCBIbQ4YRZlnX-z605pxEUUP4DZsla0aeRih3QlU63fR-ngxiG3bnzv-2Un74cH2oVvzV3F9IWRwKf8B-oRhKvOgqmXVQ==)
-- [momcozy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFB_j6yJmjkzav6pho7qKBpTfDhUKcSvlV60txbuA2ZH1yx1X1jKJrU2ZDV1fJ-YVkEu5ZP9LvzFTdiD1p9tVmqeDXzxC-suK9bnQa6-4Qdst4Zfsvb0jExrC_YiSZpcort5qK1CidzP9CGmupWZ9vSSSFKfwGVpdnP7B1dCAZwBw==)
-- [efnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFruJc7NhW_GmdlxYE_ybOddKqcplH5_j2xFFMK2akwdwqfAMgccsJufHPDHeVl2lhk4Gjrg_cI6o9csYX1B5k0WBLvqKDJiFXPk7u8CcvKs6A8T0IH6RSgoa9eTClVBYkCUCQyK21zstnlMu-bJ97lLQiIJw==)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKytbeu6visgxH4ttVZb-Vw_zqb5G0A5xG1tK14EBssaitlLkaqWCcy9NGZurUPnjh-BtH_11yzBoph4xsVI9jxCYrkE2P-E14GjWvGVjmg6EFNv16o1JHKTDFVFAmqK9R3-iU7O8O8dfK8d2FOXynqO_KTVVoIaz_GryjdkaxMwYwfNdBqqPqM0RxH9ixEc3ElMrL56xF7UTJbSAum0O5sVIN5YvoTXQYGctxDJeAC1PGv5_0ozRT)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGToh3yyZspkQzyqGrMUy30M0sNTnj5bf7pBdrT8DKyams3g_NZkr3ZpJot3dDh6ZSMi-g0ZBFC0In4JtnGvTLsAXvdYWmSklqEytNuG8dOjy-7_CrcEgUerfgfm5wTnYo2tW24LNqsD-NKHKSCA_tljJ6vRD-9iTNHLOlx9ZuCbnKqFhtei-6sdkUpwB7p6JzZAPYyqIuESD_3)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVZpoASR4pAr4ATWRmXcvlqMiV2AzXg9xIaD4IhRrcNsEW3n2cXEAla67JR3l7_tUdAcn5T-vhOeCSXjE0GHU3uk0mWwe_16PuV8lqitJ3OyFQ3YQZ2j5a760JJpJlc70m6kVHXDkNjXA1luiwNzHaVScW52O5sNqIzSwjWpP4T2avKYt4Z1NsHNOONQnKlmAGdx6apJEteBRW2t6H_YWCaS5yMx-7B4oiXA==)

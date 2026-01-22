@@ -1,30 +1,15 @@
 # 가습기 전문가 지식
 
-> 마지막 업데이트: 2026-01-22T03:10:04.814Z
+> 마지막 업데이트: 2026-01-22T06:39:01.249Z
 > 분석 상품: 20개 | 분석 리뷰: 4,046개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 스마트홈 연동 및 IoT 기술 확산
-- UV 살균, HEPA 필터 등 위생 기능 강화
-- 에너지 효율 및 친환경 소재 사용
-- 미니멀, 슬림, 타워형 등 디자인 차별화
-- 복합식 및 자연 기화식 가습기 인기 증가
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 가습 효율
-- ✓ 넓은 가습 범위
-- ✓ 위생적인 관리 용이
-- ✓ 스마트 기능 탑재
-- ✓ 세련된 디자인
 
 ### 주의해야 할 단점
-- ⚠ 세균 번식 위험
-- ⚠ 복잡한 세척 구조
-- ⚠ 높은 가격대
-- ⚠ 소음 발생 가능성
-- ⚠ 짧은 배터리 수명 (휴대용 모델)
 
 ### 가격대 인사이트
 
@@ -246,6 +231,9 @@
 ---
 
 ## 📊 데이터 출처
-- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6cP6eDjjYAdw80L6t3sQW-h50qhm7rO2R2cMT-tLxFF48koAcB-Bi_3q8tQAomA2YrA8Hh65JaLmXEQFOwTb9T1vAb7vbRIVI6sTPe2c618oyMuLa0ZID65IfluohEXf0GST9ILcnJi2he7tykxUlp06TualGlSEjDpFHe3I=)
-- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR0UeHI_EUSnc757Prbk5UNBiMAcP5U_UZp9yvcBNMM7ejqTbgXZzs0-_qCJ6vmak5xHI7f4XJlfwnNTjQpNFvegBuPqKki12RIczYJXf4X-L0QT7nuJHAWGMK6z5ItaqDoctRkAZu6jcNEnD6hos1KofP7WR8eQ==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNsB264bs4SYMOz0XATw4c1T3xndojnJIxReGEsWRS2OvMdt1lA7isAmDiju26wnCqneQysMTepX65zasSOUS1I7WM6whtWS3VMKfnVxKwONnC1MTtbPmL_cfdwXnBxblB35adk8vCKUdfA85E1N_FYGzjHWv-_yT2hCg4fs_oDkf0naPb5OfJJO513UU4o-LWUIN_A_ncfCFFISRX8DkL4p2WPkSHdSyKZ3En-SGVUCZV6cs__3AMC--l548xxur-ooVQvMamoIWfxM0_OZAmpNOio7HGbq2VE1zLPFvJ3ezMHuKOg3mAaSFvPLGkvVnIbG9VAVZzdyla68Qw9ATtrLccAumxG47EuSHIRutZXtssgTJvgeG98rD8J-TLuD8BaR-vARh6xdQB9QgRJMhsvZA1EureDkXqjfN2enEghslA)
+- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFU2lhKZ7hONNVNtYct8IUQkndeLjj1lHNd4Z_iwNxRgiVwvO_g8QNKA48bboyFO7KzOfgEPLhAw8G8fsZ8LvarJ_kxmTibWsWGDo5OoMJEQxkEn8tQ28BnkUlOuK1XrtsE1SZC3lqSH4IpMXmWO_QUHPOqVEwcpEq9Oghd7WaP)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5yo9PDGuOdjDLrvg7KmRMWdVmCVNkVvligqkGAG-SA71_39qFe6BNT3VGHQZeIEDLfxM1cfNggDbWOqDw3IuZGhzz22YEsndys988TfTTXSs2kNx4ChOz1fDHJ9w=)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaQ-bgyz9pQmhbZVtbO-gaJTcl9BgGeaNe59dTb2bpgusA1LDsCo_7gLaXybrz0iM1SXZFSNlC-ByJ_ts4K48aSnc4a8VBAxMuVhZyTw-XtQ2JjfPQgOFNvPK_wJBfW6PgID7845PXSUvqn7nW_TCDyXnWtNXKKDLXJxw1wwkb)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmyMC0--7w7FiPdlwmwwff07Cg06QXIeOF0xyGJqGRL_65isFGqOZMtcxEonUKb8tPXVvp4zAWenn1x9TbjSTh6sxux_aM4lL2Xaxpo2dM339LMjOJZntZvE1gj7RnWpvnetgJsizicbygCsquAb_CW6qsqZgdkcu58gR9e6YOIa8InOcnDaNT0bWUn2qtrGzfMthEonH6WGltnbrAVwbv_4n0C1plYF0gsdeEjOdNTM52eUZ7A0GKenWLDqcC95b3QJdSSRsCUtXExBzwbOvwcF4fWjn3nonX5ZA36gu_3Cn7ypoeDVGvXrVbwzJ9M8vKzUkJazsmX-32VpV_4AEHURsYi7K6jYYDnfQT-kTYGWWmxNfqEkSBQkIZ-SLNQ1WKdnGSIldFTVqEFYsu6rbU_bpQqPmQDFlUgoolZSgD-uc=)
+- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXzN3hQUUQ2vDBzDhMvZ-Dd0335ZJfHvUj6elxpuiDfQjF-xcD9L2OtvY-3zOAa6Lcni_KkUN7ZtitF2ySdHW1flhk_KRmfr-MpYgI4RvpBIKeMAoZQ9GB2jXRwitPo0sWpODxnf8Rr-QDXOdfSe0tddYRN6QNtf8bTcbzTw==)
+- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2dKMyY0oWrPjHj6CNiYdhjgi4i0orjICLLKYO88yQ2FsE9P4wm-jiQEe1s99GGhHdOoMeDCtIzEIP7bXvlFAwrHik_8jSKur1AkNdaRtX2MuEO03CJWuzCp83EXOINj20eHS-T43gpvskMSrnYlFd8FO5cl8F)

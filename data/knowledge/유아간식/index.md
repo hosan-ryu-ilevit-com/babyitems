@@ -1,30 +1,27 @@
 # 유아간식 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T05:45:43.900Z
+> 마지막 업데이트: 2026-01-22T06:57:16.290Z
 > 분석 상품: 20개 | 분석 리뷰: 677개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 유기농 및 클린 라벨 제품 선호
-- 편의성과 휴대성을 갖춘 파우치형 간식 인기
-- 온라인 채널 및 라이브 커머스 판매 증가
-- 건강 기능성 강화 (유산균, 홍삼 등)
-- 다양한 맛과 형태의 제품 개발
+- 편리미엄: 맞벌이 부부 증가로 간편하면서도 다양한 식단을 제공하는 주문배달 영유아식 수요 증가
+- 건강 및 안전 중시: 유기농 재료 사용, HACCP 인증, 무첨가 등 안전성과 영양을 강조한 제품 선호
+- 다양한 맛과 제형: 과일, 채소 등 자연 원료를 활용한 퓨레, 스무디, 쌀과자 등 다양한 형태의 간식 인기
+- 프리미엄 제품 선호: '골드 키즈', 'VIB' 트렌드로 인해 아이에게 더 좋은 것을 먹이려는 경향으로 프리미엄 제품 수요 증가
 
 ### 구매자 만족 포인트
-- ✓ 높은 영양가
+- ✓ 영양 공급원
+- ✓ 새로운 맛 경험
+- ✓ 편리성
 - ✓ 안전한 성분
-- ✓ 편리한 휴대성
-- ✓ 다양한 맛과 식감
-- ✓ 유기농 원료 사용
+- ✓ 유기농 원료
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대
-- ⚠ 과도한 당 함량 (일부 제품)
-- ⚠ 짧은 유통기한 (신선 제품)
-- ⚠ 알레르기 유발 가능성 (원료 확인 필요)
-- ⚠ 과대 포장
+- ⚠ 높은 가격
+- ⚠ 과도한 당 함량 우려
+- ⚠ 첨가물 포함 가능성
 
 ### 가격대 인사이트
 
@@ -246,6 +243,9 @@
 ---
 
 ## 📊 데이터 출처
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8iFtMyToRF3seIxRaDMtqU27Auy1zjZL8De-PZTGbvcbKWnHDO6-5hO41lDJRb7-Ru-O3TYoGB8j0Ryn9R-RyBXSRSvdD4XvXx0owVjDYDX3ot4HL1rhJT9DonWPI_EcpzaCaE6ja_eYrLlvTsJaVxQuppgiXbaBt39WuNnqEx_KxY7qnV6WM5iXRYG5sQQ==)
-- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvX2UrBTetXT1ARBSHUlZMHWsARrc3zla0lodjs7g-k35AHS6jvktzaENwVYmzuPAWKpeDn_BtCh77UPj3l0mT0Ecd7QjGZTcx3kjqoHhNtHzszwaC46IpWn4SeWMt_E-1rFWLQNXmwuz8jrC92K394_9mMHLnMd1e4AhY3qnS_GljgKC8gfyB44bg7L15VQ==)
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDjjDMFLLIjXLHHlDF4DY_b3xjbd7s1bpzj6khDsmsLU-2IR0d0wIw4NIhCf__ACogpj5CPLhR_uVezEAWUljgxvLoZ8isz5fjx76Osh7XEzoW7QRQ8LTFZzePuczQ1Zc6CTB1T3_QFSQKw3Jn519N-bAQihHHH-Ra4od_WQ==)
+- [sommeliertimes.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNdwf5GQ_vyIhb2Lt5x0bl1GRnZxbidp7xC-CqMO8TT0W1Mdxpm-P8_-IyH2mEe8leLXZde9XiBYjeg7SYp2ytS6WQJrsJFSGaCvANuD3qwirQ5d-MQJzsNYDzWlymYzAGGRij1Asciq9o4f7-EO84_pkM5GnMbpjShg==)
+- [tnnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq7GQVwe7dV-3qgvXMdLFby1M4GEdO3ChLWHr2nlLn-e848VjgNyeglCcIwE53uTaoAvr3vTkLrvxbdNBU2CKoI9glKh0Cy4-nrh9t5cBHC8Gd94OztVGRTEf_vtI=)
+- [ibabynews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcexgqrAJUXP5Yt3zZgcKfih6zGDa7YrnIc-tfe_XcWNJJ63ME-CkLYYiAW9rqodQLEcKbpK7cz8tFpp6wWURVtbHR5Tu0EHs1-Suv_w2sTo2kwR6Vyh-ceivTLezQ_QQabuLoY9eWWZ-WgmWvY4NIA3uLdUY=)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4kWobf6CATGDTgEdcMVZMKYHyW-YqlulMUFhpR7I2Y2C4JvDiMirDoh4BQB5pdbBDzuXTiz5jpLecajhVm-Hr5nv5aB5jTJXX7380RQkBZxnHU_0rVRzh8bfS-6MH6EbEvZNEVXoo3YS2-QEGLApZiV4Qf2kF8v4p2FtM4fUQr1YhAojYX1FuXe1DDRD9aA==)
+- [foodicon.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuFhACdodNXXXFXU53QJQyws-MFOA3cdgVqUZU2Z4jlKKvWisVlJ1VypOesE1jabW8ELkuR0dsKtmLlEA9PF3ZVaq0M9MLSxSSU9u8CvZwEj4QdXB7RF9Jg-akvRDinDBiNZQl9OclDTWh3Ak8yZkEt3DluBbXcQ==)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAOzQHw_WsxCvvVk3MYm-ZheMA27LA3ECmVbRLgVhC_F4j2LtlrnxuWW6F0cXDRvRcWIF5QJO6lXsYs2xyAUKyHcrsPQVEbO684xL7qsIU2D1FzrBlbxqgNqm52m4mrIzwCTxfLZDzN2OebNPhySvNmVQGVspEoUH_OeXMDd8OQQtw7KKcc_0AFu-wg1-WXQ==)

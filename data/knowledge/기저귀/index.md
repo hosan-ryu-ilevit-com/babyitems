@@ -1,15 +1,28 @@
 # 기저귀 전문가 지식
 
-> 마지막 업데이트: 2026-01-22T05:27:38.562Z
+> 마지막 업데이트: 2026-01-22T06:44:52.787Z
 > 분석 상품: 20개 | 분석 리뷰: 4,522개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 성인용 기저귀 수요 증가
+- 친환경 소재 및 지속 가능성 강조
+- 온라인 유통 채널 강화 및 해외 시장 공략
 
 ### 구매자 만족 포인트
+- ✓ 뛰어난 흡수력
+- ✓ 피부 자극 최소화
+- ✓ 편리한 사용성
+- ✓ 다양한 브랜드 및 가격대
+- ✓ 친환경 소재
 
 ### 주의해야 할 단점
+- ⚠ 높은 비용 부담
+- ⚠ 쓰레기 발생량
+- ⚠ 통풍 부족으로 인한 짓무름 가능성
+- ⚠ 팬티형 옆부분 까끌거림 (일부 제품)
+- ⚠ 소변 냄새 (일부 제품)
 
 ### 가격대 인사이트
 
@@ -231,4 +244,6 @@
 ---
 
 ## 📊 데이터 출처
-- [다나와 기저귀 인기순위](https://search.danawa.com/dsearch.php?query=%EA%B8%B0%EC%A0%80%EA%B7%80&sort=saveDESC)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSfj1YRZK-GmCEIcXCdQRiTE6cdygXiqe47QX9oDEXbJ3uzgWGd4X6z8VANZgb2_6lgChDJRN6PASWWg07AwLcGZFxXuHDvew9rEXD_nqU_PJ7vWV_LnsrM0BNmIMw0gXLBOUVpVIqMmfHdZ1Jm3KR1XLXJ3l0lokzonx72Yjxr2URzcNgZNtcKNKwdeR5o-UhJKfpJIe9)
+- [fundamentalbusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0Sq_wxSSpPG4PxtQSYOABd2EYsqxk6EVIYz9HMGmvsD1nSQj-jxpa2b7LNPY-WA4j-vIs7pddSMkKss2cFlmkAITO1p0O8iGiGAeoXRhYuDmJVVChmAt4PPs1QWBz2oeiRxU1TRo3TKs7_9Bl3caIBO-8P85DMkUVONhqf_U6XyHqQN-vv-A1L9SGX3mwS_rVX4iG)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKYhkOH4RaEAE95pbhPRu3dTCTOpg-52f6CFNY4p70fKBg9_Em8xwquMzR3JpA1ePgVCtrv5wL-8SBVoqCjT1Ob2rckdtsPE_kQP0cLpVgJgtHitfVcaYkV4aImxvC_0yRY-6ERXUQKa-lbW2n8SoyqY02T8vjdstBunmJhmL1UBs=)

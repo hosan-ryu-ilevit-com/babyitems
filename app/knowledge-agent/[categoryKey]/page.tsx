@@ -1841,6 +1841,25 @@ export default function KnowledgeAgentPage() {
     import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
       logButtonClick('knowledge-agent-prev-step', '이전');
     });
+
+    // 1. 현재 삭제될 질문의 ID와 이전 질문 정보를 먼저 추출
+    const lastQuestionMsg = [...messages].reverse().find(m => m.role === 'assistant' && m.options);
+    if (!lastQuestionMsg) return;
+
+    // 메시지 ID에서 질문 ID 추출 (q_budget → budget)
+    const deletedQuestionId = lastQuestionMsg.id?.startsWith('q_') 
+      ? lastQuestionMsg.id.slice(2) 
+      : lastQuestionMsg.id;
+
+    // 이전 질문 ID도 미리 추출 (메시지 배열에서)
+    const allQuestionMsgs = messages.filter(m => m.role === 'assistant' && m.options);
+    const lastIdx = allQuestionMsgs.findIndex(m => m.id === lastQuestionMsg.id);
+    const prevQuestionMsg = lastIdx > 0 ? allQuestionMsgs[lastIdx - 1] : null;
+    const prevQuestionId = prevQuestionMsg?.id?.startsWith('q_') 
+      ? prevQuestionMsg.id.slice(2) 
+      : prevQuestionMsg?.id;
+
+    // 2. 메시지 배열 업데이트
     setMessages(prev => {
       const newMessages = [...prev];
       const lastQuestionIdx = [...newMessages].reverse().findIndex(m => m.role === 'assistant' && m.options);
@@ -1869,6 +1888,48 @@ export default function KnowledgeAgentPage() {
 
       return trimmed;
     });
+
+    // 3. questionTodos 상태 롤백 - 삭제된 질문과 이전 질문 둘 다 미완료로 되돌림
+    setQuestionTodos(prev => prev.map(q => {
+      if (q.id === deletedQuestionId || q.id === prevQuestionId) {
+        return { ...q, completed: false, answer: undefined };
+      }
+      return q;
+    }));
+
+    // 4. collectedInfo에서 삭제된 질문과 이전 질문의 답변 모두 제거
+    setCollectedInfo(prev => {
+      const updated = { ...prev };
+      // 삭제된 질문의 답변 제거
+      const deletedQuestion = questionTodos.find(q => q.id === deletedQuestionId);
+      if (deletedQuestion) {
+        delete updated[deletedQuestion.question];
+      }
+      // 이전 질문의 답변도 제거 (selectedOptions가 []로 초기화되므로)
+      const prevQuestion = questionTodos.find(q => q.id === prevQuestionId);
+      if (prevQuestion) {
+        delete updated[prevQuestion.question];
+      }
+      return updated;
+    });
+
+    // 5. currentQuestion을 이전 질문으로 설정
+    const prevQuestion = questionTodos.find(q => q.id === prevQuestionId);
+    if (prevQuestion) {
+      setCurrentQuestion({ ...prevQuestion, completed: false, answer: undefined });
+    } else if (questionTodos.length > 0) {
+      // 이전 질문이 없으면 첫 번째 질문으로 설정
+      setCurrentQuestion({ ...questionTodos[0], completed: false, answer: undefined });
+    }
+
+    // 6. 단점 필터 관련 상태 초기화 (avoid_negatives 질문이 삭제되거나 활성화될 경우)
+    const isNegativeQuestion = (id?: string) => 
+      id === 'avoid_negatives' || id?.includes('negative');
+    
+    if (isNegativeQuestion(deletedQuestionId) || isNegativeQuestion(prevQuestionId)) {
+      setSelectedNegativeKeys([]);
+      setSavedNegativeLabels([]);
+    }
 
     // 메시지 삭제 후 약간의 지연을 주어 스크롤이 자연스럽게 위로 올라가도록 함
     setTimeout(() => {
@@ -2390,7 +2451,7 @@ export default function KnowledgeAgentPage() {
         setMessages(prev => [...prev, {
           id: resultMsgId,
           role: 'assistant',
-          content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n상세 분석을 확인하고, 구매해보세요.`,
+          content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n광고 없이 오직 리뷰와 판매량으로만 판단했어요.`,
           resultProducts: mappedResultProducts,
           typing: true,
           timestamp: Date.now()
@@ -2761,7 +2822,7 @@ export default function KnowledgeAgentPage() {
           setMessages(prev => [...prev, {
             id: resultMsgId,
             role: 'assistant',
-            content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n상세 분석을 확인하고, 구매해보세요.`,
+            content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n광고 없이 오직 리뷰와 판매량으로만 판단했어요.`,
             resultProducts: mappedResultProducts,
             typing: true,
             timestamp: Date.now()
@@ -2877,7 +2938,7 @@ export default function KnowledgeAgentPage() {
           setMessages(prev => [...prev, {
             id: resultMsgId,
             role: 'assistant',
-            content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n상세 분석을 확인하고, 구매해보세요.`,
+            content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n광고 없이 오직 리뷰와 판매량으로만 판단했어요.`,
             resultProducts: mappedResultProducts,
             typing: true,
             timestamp: Date.now()
@@ -4547,27 +4608,38 @@ function MessageBubble({
                       }}
                       placeholder="원하는 조건을 입력하세요"
                       autoFocus
-                      className="w-full py-4 px-5 pr-20 bg-transparent rounded-[12px] text-[16px] text-gray-700 focus:outline-none transition-colors"
+                      className="w-full py-4 px-5 pr-[120px] bg-transparent rounded-[12px] text-[16px] text-gray-700 focus:outline-none transition-colors"
                     />
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        if (customInputValue.trim()) {
-                          onOptionToggle(customInputValue.trim(), message.id);
-                          setAddedCustomOption(customInputValue.trim());
-                          setCustomInputValue('');
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                      <button
+                        onClick={() => {
                           setIsCustomInputActive(false);
-                        }
-                      }}
-                      disabled={!customInputValue.trim()}
-                      className={`absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
-                        ${customInputValue.trim()
-                          ? 'bg-gray-900 text-white'
-                          : 'bg-gray-100 text-gray-400'}`}
-                    >
-                      추가
-                    </motion.button>
+                          setCustomInputValue('');
+                        }}
+                        className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
+                      >
+                        취소
+                      </button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          if (customInputValue.trim()) {
+                            onOptionToggle(customInputValue.trim(), message.id);
+                            setAddedCustomOption(customInputValue.trim());
+                            setCustomInputValue('');
+                            setIsCustomInputActive(false);
+                          }
+                        }}
+                        disabled={!customInputValue.trim()}
+                        className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                          ${customInputValue.trim()
+                            ? 'bg-gray-900 text-white'
+                            : 'bg-gray-100 text-gray-400'}`}
+                      >
+                        추가
+                      </motion.button>
+                    </div>
                   </motion.div>
                 )}
 
@@ -4584,24 +4656,24 @@ function MessageBubble({
                           categoryName || '',
                           message.id,
                           message.content,
-                          '직접 추가',
+                          '직접 입력하기',
                           true,
                           0
                         );
                       }
                       setIsCustomInputActive(true);
                     }}
-                    className="w-full py-4 px-5 text-center transition-all flex items-center justify-center group hover:bg-blue-50/30"
+                    className="w-full py-4 px-5 text-center transition-all flex items-center justify-center group hover:bg-gray-50"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%239CA3AF' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
                       borderRadius: '12px'
                     }}
                   >
                     <div className="flex items-center gap-2">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 group-hover:text-blue-500">
-                        <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500 group-hover:text-gray-700">
+                        <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
-                      <span className="text-[16px] font-medium text-gray-400 group-hover:text-blue-600">직접 추가</span>
+                      <span className="text-[16px] font-medium text-gray-600 group-hover:text-gray-900">직접 입력하기</span>
                     </div>
                   </motion.button>
                 )}

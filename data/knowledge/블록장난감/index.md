@@ -1,28 +1,23 @@
 # 블록장난감 전문가 지식
 
-> 마지막 업데이트: 2026-01-09T07:50:48.010Z
-> 분석 상품: 20개 | 분석 리뷰: 4,937개
+> 마지막 업데이트: 2026-01-22T08:26:24.827Z
+> 분석 상품: 20개 | 분석 리뷰: 4,481개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 스마트 브릭 및 디지털 기술과의 통합 (인터랙티브 기능, 빛과 소리 반응)
-- 교육적 및 창의적 놀이 강조
-- 친환경 및 생분해성 소재 채택 증가
+- 스마트 브릭을 통한 인터랙티브 경험 강화 (기술 발전)
+- 교육적 및 창의적 가치 증대 (소비자 선호 변화)
+- 친환경 및 생분해성 소재 사용 증가 (소비자 선호 변화)
+- AI 기반 맞춤형 큐레이션 및 추천 (기술 발전)
+- 수집 및 희소성을 활용한 브랜드 확장 (신기능)
 
 ### 구매자 만족 포인트
-- ✓ 창의력 및 상상력 증진
-- ✓ 교육적 효과 (인지 발달, 문제 해결 능력)
-- ✓ 디지털 기술과의 융합을 통한 새로운 놀이 경험
-- ✓ 다양한 테마와 시리즈로 높은 활용도
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대 (특히 스마트 기능 포함 제품)
-- ⚠ 안전 문제 (작은 부품 등)
-- ⚠ 과도한 디지털 의존성 우려
 
 ### 가격대 인사이트
-일반적인 블록 장난감은 수만 원대의 합리적인 가격대부터 시작하며, 교육용이나 특정 테마를 가진 제품은 가격이 상승합니다. 레고의 스마트 브릭과 같이 첨단 기술이 적용된 제품은 10만 원 이상의 고가로 형성되어 프리미엄 시장을 형성하고 있습니다.
+
 
 ---
 
@@ -30,7 +25,7 @@
 
 ### 1. 아카데미과학 메가포스 KAR98K 스나이퍼건 어린이 장난감총
 - **브랜드**: 아카데미과학
-- **가격**: 68,870원
+- **가격**: 67,317원
 - **평점**: ⭐4.6 (17개 리뷰)
 - **핵심 스펙**: 완구 / 블록 / 매트 / 로봇 / 자동차 / 팽이 / 장난감무기 / 작동완구 완구 / 작동완구
 - **장점 요약**: 분석 중
@@ -38,75 +33,75 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=97417952)
 
-### 2. 레고 반지의 제왕: 리븐델 (10316)
+### 2. 레고 밀레니엄 팔콘™ (75375)
 - **브랜드**: 레고
-- **가격**: 493,300원
-- **평점**: ⭐4.9 (135개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 반지의제왕 / 조각수: 6167조각 블록 / 조각수: 6167조각
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=19279526)
-
-### 3. 레고 클래식 라지 조립박스 (10698)
-- **브랜드**: 레고
-- **가격**: 56,450원
-- **평점**: ⭐4.8 (3,132개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 4세이상 / 시리즈: 클래식 / 조각수: 790조각 / 출시가: 69,900원 블록 / 출시가: 69,900원
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=5147721)
-
-### 4. 레고 Ferrari SF-24 F1 자동차 (42207)
-- **브랜드**: 레고
-- **가격**: 230,970원
-- **평점**: ⭐4.7 (23개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 테크닉 / 조각수: 1361조각 블록 / 조각수: 1361조각
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=77376923)
-
-### 5. 레고 Mercedes-AMG G 63 & Mercedes-AMG SL 63 (76924)
-- **브랜드**: 레고
-- **가격**: 51,240원
-- **평점**: ⭐4.8 (379개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 10세이상 / 시리즈: 스피드챔피언 / 조각수: 808조각 블록 / 조각수: 808조각
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=55449533)
-
-### 6. 레고 밀레니엄 팔콘™ (75375)
-- **브랜드**: 레고
-- **가격**: 93,410원
-- **평점**: ⭐4.9 (111개 리뷰)
+- **가격**: 89,200원
+- **평점**: ⭐4.9 (114개 리뷰)
 - **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 스타워즈 / 조각수: 921조각 블록 / 조각수: 921조각
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=41663054)
 
-### 7. 레고 크리에이터 엑스퍼트 부티크호텔 (10297)
+### 3. 레고 반지의 제왕: 리븐델 (10316)
 - **브랜드**: 레고
-- **가격**: 239,920원
-- **평점**: ⭐4.8 (502개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 크리에이터 / 조각수: 3066조각 / 출시가: 299,900원 블록 / 출시가: 299,900원
+- **가격**: 518,380원
+- **평점**: ⭐4.8 (136개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 반지의제왕 / 조각수: 6167조각 블록 / 조각수: 6167조각
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16077587)
+- [상세보기](https://prod.danawa.com/info/?pcode=19279526)
 
-### 8. 매직큐브 자석블록 매직큐브 100pcs
-- **브랜드**: 매직큐브
-- **가격**: 72,400원
-- **평점**: ⭐4.4 (13개 리뷰)
-- **핵심 스펙**: 자석블록 자석블록
+### 4. 러닝리소스 넘버블록스 1-10
+- **브랜드**: 러닝리소스
+- **가격**: 31,100원
+- **평점**: ⭐5 (27개 리뷰)
+- **핵심 스펙**: 사각블록 / 대상연령: 3세이상 / 넘버블록스 사각블록 / 넘버블록스
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=41437214)
+- [상세보기](https://prod.danawa.com/info/?pcode=79785707)
+
+### 5. 민화샵 MDF 다용도 만년달력 만들기 MDF 다용도 만년달력 만들기 S2301200 MDF 다용도 만년달력 만들기 S2301200
+- **브랜드**: 민화샵
+- **가격**: 3,200원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 완구 / 블록 / 매트 / 음악 / 미술놀이 완구 / 미술놀이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=95131865)
+
+### 6. 아이코닉스 뽀로로 수다쟁이 냉장고 + 마스터카드
+- **브랜드**: 아이코닉스
+- **가격**: 139,000원
+- **평점**: ⭐4.6 (16개 리뷰)
+- **핵심 스펙**: 주방놀이 / 대상연령: 37개월이상 / 뽀로로 / 특징: 소리
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=30307964)
+
+### 7. 레고 빈센트 반 고흐 - 별이 빛나는 밤 (21333)
+- **브랜드**: 레고
+- **가격**: 195,890원
+- **평점**: ⭐4.8 (456개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 아이디어 / 조각수: 2316조각 / 출시가: 229,900원 블록 / 출시가: 229,900원
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=17552042)
+
+### 8. 레고 Mercedes-AMG G 63 & Mercedes-AMG SL 63 (76924)
+- **브랜드**: 레고
+- **가격**: 52,000원
+- **평점**: ⭐4.7 (383개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 10세이상 / 시리즈: 스피드챔피언 / 조각수: 808조각 블록 / 조각수: 808조각
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=55449533)
 
 ### 9. 파크론 우리가족 다용도 놀이방 매트 2p 해피 테라조 200 140 1 cm
 - **브랜드**: 파크론
@@ -118,115 +113,115 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=45328067)
 
-### 10. 영실업 또봇 테트란 스페셜팩
-- **브랜드**: 영실업
-- **가격**: 67,630원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 또봇 / 로봇↔자동차 / 기능: 변신합체 / 구성: 또봇테트란,캐릭터카드,전시대,설명서 / 완구 / 블록 / 매트 / 자동차 / 팽이 / 로봇 로봇
+### 10. 벨베이비 자석블록 휠 파스텔
+- **브랜드**: 벨베이비
+- **가격**: 24,600원
+- **평점**: ⭐4.9 (44개 리뷰)
+- **핵심 스펙**: 자석블록 / 대상연령: 1세이상 / 16조각 자석블록 / 16조각
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=91986365)
+- [상세보기](https://prod.danawa.com/info/?pcode=96591218)
 
-### 11. 아두이노 58종 아두이노 스타터 키트 교재포함
-- **브랜드**: 아두이노
-- **가격**: 39,800원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 블록 / 코딩완구 블록 / 코딩완구
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=23121098)
-
-### 12. 레고 크리에이터 백 투 더 퓨처 타임머신 (10300)
+### 11. 레고 Ferrari SF-24 F1 자동차 (42207)
 - **브랜드**: 레고
-- **가격**: 200,450원
-- **평점**: ⭐4.8 (136개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 조각수: 1872조각 / 출시가: 259,900원 블록 / 출시가: 259,900원
+- **가격**: 232,410원
+- **평점**: ⭐4.8 (26개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 테크닉 / 조각수: 1361조각 블록 / 조각수: 1361조각
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16799468)
+- [상세보기](https://prod.danawa.com/info/?pcode=77376923)
 
-### 13. 레고 레드 드래곤 이야기 (21348)
-- **브랜드**: 레고
-- **가격**: 354,900원
+### 12. 아가드 일반형 모서리보호대 2M 아이보리 4개
+- **브랜드**: 아가드
+- **가격**: 15,600원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 조각수: 3745조각 블록 / 조각수: 3745조각
+- **핵심 스펙**: 완구 / 블록 / 매트 / 놀이방매트 / 베이비룸 / 안전용품 완구 / 안전용품
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=45936746)
+- [상세보기](https://prod.danawa.com/info/?pcode=32853947)
 
-### 14. 레고 콜의 타이탄 드래곤 로봇 (71821)
+### 13. 레고 파리 노트르담 (21061)
 - **브랜드**: 레고
-- **가격**: 102,990원
-- **평점**: ⭐4.7 (125개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 12세이상 / 시리즈: 닌자고 / 조각수: 1055조각 블록 / 조각수: 1055조각
+- **가격**: 224,960원
+- **평점**: ⭐4.8 (37개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 아키텍쳐 / 조각수: 4383조각 블록 / 조각수: 4383조각
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=55656263)
+- [상세보기](https://prod.danawa.com/info/?pcode=55449593)
 
-### 15. 영실업 쓱 콩순이 밀고가면 노래하는 콩순이 유모차
-- **브랜드**: 영실업
-- **가격**: 52,700원
-- **평점**: ⭐4.8 (10개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 기타 역할놀이 / 역할놀이 완구 / 역할놀이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=42729164)
-
-### 16. 레고 테크닉 페라리 데이토나 SP3 (42143)
-- **브랜드**: 레고
-- **가격**: 447,290원
-- **평점**: ⭐4.9 (224개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 테크닉 / 조각수: 3778조각 / 출시가: 599,900원 블록 / 출시가: 599,900원
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=17370470)
-
-### 17. 레고 중세 마기사의 성 (31168)
-- **브랜드**: 레고
-- **가격**: 137,540원
-- **평점**: ⭐5 (6개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 9세이상 / 시리즈: 크리에이터3in1 / 조각수: 1371조각 블록 / 조각수: 1371조각
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=95278217)
-
-### 18. 키저스 뚝딱뚝딱 다이노 로봇트레인
-- **브랜드**: 키저스
-- **가격**: 39,400원
+### 14. 벨베이비 자석블럭 네모 파스텔
+- **브랜드**: 벨베이비
+- **가격**: 38,610원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 로봇 / 블록 / 대상연령: 3세이상 / 기차↔로봇 / 기능: 변신 로봇 / 기능: 변신
+- **핵심 스펙**: 자석블록 / 대상연령: 1세이상 / 64조각 자석블록 / 64조각
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21415742)
+- [상세보기](https://prod.danawa.com/info/?pcode=96591203)
 
-### 19. 레고 에듀케이션 스파이크 프라임 세트 (45678)
+### 15. 레고 클래식 라지 조립박스 (10698)
 - **브랜드**: 레고
-- **가격**: 580,700원
-- **평점**: ⭐4.9 (34개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 10세이상 / 시리즈: 에듀케이션 / 조각수: 528조각 / 출시가: 694,900원 블록 / 출시가: 694,900원
+- **가격**: 52,560원
+- **평점**: ⭐4.8 (3,139개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 4세이상 / 시리즈: 클래식 / 조각수: 790조각 / 출시가: 69,900원 블록 / 출시가: 69,900원
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=7755505)
+- [상세보기](https://prod.danawa.com/info/?pcode=5147721)
 
-### 20. 레고 우주왕복선 (31134)
-- **브랜드**: 레고
-- **가격**: 12,750원
-- **평점**: ⭐4.7 (86개 리뷰)
-- **핵심 스펙**: 블록 / 대상연령: 6세이상 / 시리즈: 크리에이터3in1 / 조각수: 144조각 / 출시가: 12,900원 블록 / 출시가: 12,900원
+### 16. 베일리바오 아기 머리 보호대 아이보리 1개
+- **브랜드**: 베일리바오
+- **가격**: 22,300원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 완구 / 블록 / 매트 / 놀이방매트 / 베이비룸 / 안전용품 완구 / 안전용품
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=19187762)
+- [상세보기](https://prod.danawa.com/info/?pcode=25187291)
+
+### 17. 레고 핑크 꽃다발 (10342)
+- **브랜드**: 레고
+- **가격**: 60,700원
+- **평점**: ⭐4.9 (21개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 18세이상 / 시리즈: 보태니컬 / 조각수: 749조각 블록 / 조각수: 749조각
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=73771004)
+
+### 18. 레고 하늘을 나는 포드 앵글리아 (764224)
+- **브랜드**: 레고
+- **가격**: 15,920원
+- **평점**: ⭐4.8 (58개 리뷰)
+- **핵심 스펙**: 레고 블럭 / 권장사용연령: 7세이상 / 조각수: 165조각 / 시리즈: 해리포터flying ford anglia flying ford anglia
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=41655113)
+
+### 19. 레고 가스트 열기구 마을 공격 (21273)[일반구매]
+- **브랜드**: 레고
+- **가격**: 75,924원
+- **평점**: ⭐5 (7개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 10세이상 / 시리즈: 마인크래프트 / 조각수: 555조각 블록 / 조각수: 555조각
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=92216453)
+
+### 20. 레고 너굴 상점과 부케의 집 (77050)
+- **브랜드**: 레고
+- **가격**: 99,900원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 7세이상 / 시리즈: 동물의 숲 / 조각수: 535조각 블록 / 조각수: 535조각
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=102915092)
 
 ---
 
@@ -241,8 +236,11 @@
 ---
 
 ## 📊 데이터 출처
-- [ajunews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuZVceBLiLsaEd5xr2g6GPupcN0z4uklFZrAg6dd07s3Ed0EgV4Z2QAC_eISVeM1zSci88V5Jc6uH5yUXeX5zZLoHyvYtC8sq9QIYpYEFwXEQH-0sy2jZoNzmm1glK3_YbrMcYPkZBErM=)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEhBb87pEGouCNIoCeheI0km2iWmJavF0A_-phtRlqjiJVRIJbV_a6xFjthOKl34LjdeM0d5RjIR5cDfDs2iofZNC0hcWvFFFFidDLkIBV90Rvi55MJJtGHUSZ4sA6QtzSPWMB3YulF-AWaM6xJJfbn7B9CVREMUM8bIreG21YPVfsZqQTf4_-sRrHUM_Mz)
-- [kmjournal.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFngzHRkWO6b-q88yqonNOyucqRI3SDqRAHkxWgW79HLr0NyrUkPos8-HJl68Ws6_E2-u3pZlYjyEnkkJota4mrVJLtzT76VCEz0KMzgiVcakL9gJiKwCgCdtRcu08ObwFz-7vN3RwLELboi_eP0wS1PJpNQW4=)
-- [kidshankook.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHb624T-NFVnnbzkTqC9lp59S26r-8LMgbe50r8nv0dT5gemyjw3wIpjqIBqNJ_h309s8U6zjhJ2XD7HD_Gpf8bxyqZqdgxH6a_78UYSIef_B3ji2vDGPUNbdH-XRfHC6v2Fo7awm-lOMB9RErzoP6HFDED55H4Kg==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcqqk62pjaDZn_gzcecHxx05C2hLkGBXOmoGgUx1X9W4hlvKFQKxqVjeKywr8Qyx0kDsmTnS8b_Yf1BAciO8Mj-ku1tEwgg_tDHA9a6IVBk3Io1C2W5Z4qqv3YiuBXzJBWJ0q3N5Y=)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbW5eZXfRBJi74CMvbBlQi0QveF1D9UvJlqC5saylTnYmszvCwRQLveNKflZniLiNaVbZ4YPvL4fsoTN1D0BrugUy9OMTSL1qVNBaMc_zdyuWoY6q9po-kLsqPZqcPb3JUvLXOBrqIOMXaDQD_Jt6T8t2uM6_QP8jsVT9XWE67OZ_iibdN_BdmDz6Zs8rdn4Gn6Sl2P4kcHPDJo4TTIFn0il0J9J-iR-Gm03LP6rBZd6Q-i12O5g==)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGC6X2XP14u7z3fW-0QKnCRM80l0uNbfLzgYTgQWRfmOUVbnPbeFJwZPReu6Dme4w2_l4Bx_2rqLKeHidOHxuGjqxtK0--EoMwnRF33roVOG4ChWaE_Zvb2TGg=)
+- [a-ha.io](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOunbOJHoF26aKztvrrqR2WlhRwwoIiUdLprfvzEZ-mZJhV041_VsEPYMMPrxZwADRVwNDmC01hi9NgttZPMBgl7ROy03EMXBiqOpJ8dFOWL2EILsv1dwmMtM0Kz0eq4shVxi20hkgtMT_JPJBBZB-QSGU-GGwW-jQ)
+- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGomyxkoWiB_SOnyNltz4Bml1wSmOD7-llgbCvyLqM5e1hmoEn7NhPr4vwHvVXslUx63O4QWZBLTXbsfCJxj5thYPIFPfwzr2b7l3tpvZMP2GMvG-JplJVDwv7-LS1g3ZMn5NL0fFdIQmNU8LZJBsl7EqJrbi8RYypMngZl8K7W1jpq5wFMUYQJ)
+- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRvCWfQY8XB3u83FBNjYRbRWOh_U-j1ty23EZCmGWiuwVLW7H8vInvCRnm7xK2MARWi3diMWtzcZwIz7uSVoq1cj9ccXHT_Lc1rvIEbXcLW_YUzQanpfArq2fzjVyAyQz2R3xAsxE=)
+- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZDczOYSm6Hf3lPMJBME7AMhkHP8MCFgA0APoetv6QW13fr5IC5v-TBl2VoU4jgCw8SPfWxsuEarMroRn0SSHDoH7I-PKYNH_NNNPFEqflnbwabaLkYms9wmAihG8xw4mLfCbGidhtl-pwAiOjKQVDtjr2N8vwMtm5NbKMCq9vTJIlPWaSs99zJRk=)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPR2kk4rFKLDk9PXVvbVc2kfrMnURtcn4x86UuCZ4WrCSphS7oCTQsw18b1LASbIfpK251hmDQ6tJt5M708jJwGKvneTNMf0MENJEjs6o_0qYdEcnT8A9BMwujyPIC67d860_kr6lsYuVmMya028sP97NrdNfRKj-et2MxsAiqSNi6XuJA2Tm55h0Wl7Od1tZSEb0X84UASNDwrQ1JVG5MOhHVF3CwYO6lmeDZyMHKIKGCp4sfNSsReoB-KEnELalP-C5Vj72UDFIR)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVrrCFMBcKbfReajTSpLyGsNDGQSUteTPZ4LFqZPGa-YlVKYbzFJ6xPAM3U5LKGfg-1amFz1IqJC0OnkjQYQzXGmSca0GN_Yh0Hreg39GKcH2OqRGJSrFsdaN0abLwRTwxE0c8BdFTGgt5mAdmxZipISCDK1o5UGcbLOu_v6Xq43VHhNUJMC7SZigtBHljRYHIWRYg1hHNSrUUVe_BtNtHp7Ju9N73ULTZ6qDS41koKjo71P8aJ9mRZCxEy0CON_Dq-4ycLPSKymSRpg==)
