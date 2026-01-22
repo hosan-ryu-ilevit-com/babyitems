@@ -1,26 +1,26 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-01-19T13:22:10.027Z
-> 분석 상품: 20개 | 분석 리뷰: 33,951개
+> 마지막 업데이트: 2026-01-21T11:58:16.599Z
+> 분석 상품: 20개 | 분석 리뷰: 33,952개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - 프리미엄 분유 수요 증가
-- 수입 분유 인기 상승
-- 온라인 판매 채널 확대
+- 수입 분유 브랜드의 시장 점유율 확대
+- 온라인 판매 채널 강화 및 전자상거래 성장
 
 ### 구매자 만족 포인트
-- ✓ 편리한 보관 및 사용
-- ✓ 긴 유통기한
+- ✓ 편리한 보관 및 유통
 - ✓ 다양한 영양소 함유
-- ✓ 식품 제조 활용도 높음
-- ✓ 온라인 구매 용이
+- ✓ 소화 용이성 (A2 단백질 등)
+- ✓ 프리미엄 제품 라인업 강화
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격 (특히 수입산)
-- ⚠ 성분 논란 (팜유, 덱스트린 등)
-- ⚠ 국내 브랜드 경쟁력 약화
+- ⚠ 높은 가격대 (특히 수입산)
+- ⚠ 팜유, 덱스트린 등 성분 논란
+- ⚠ 국내 브랜드의 경쟁력 약화 우려
+- ⚠ A1 단백질로 인한 소화 문제 가능성
 
 ### 가격대 인사이트
 
@@ -132,7 +132,7 @@
 ### 11. 압타밀 프로푸트라 듀오 어드밴스 프레 800g (해외구매)
 - **브랜드**: 압타밀
 - **가격**: 40,000원
-- **평점**: ⭐4.8 (485개 리뷰)
+- **평점**: ⭐4.8 (486개 리뷰)
 - **핵심 스펙**: 분유 / 일반분유 / 분말 / 최소연령: 0개월~ 분유 / 최소연령: 0개월~
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
@@ -242,7 +242,6 @@
 ---
 
 ## 📊 데이터 출처
-- [giikorea.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzIYeyxnccLhiTG6fRWWSKxQ9DhWOdgrRx63M8ciVW1X8wd6xtOwFBeD0SPUelGelX-jfIiuUsLF1JFgXu8NqHh-yrPCT9Kz8q4NR59OJQIwjTBpCcz97di9z0ERZGJViWGLFDX9iQDQiVy_OtKN68HulfYN293fpAjHV5tZ-kQTNkgnHjOLHbIzZag3AYm7In88tEIzBYtTm0Pi60SkFg)
-- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlLOx5P5OCsJ-T8Tvs0Ggj5u2oZh03AEHj4OOiPYI-F0-rqhvhjUFlTkG3AOV-d-c2EHQJdMgxNmkH0Qm29hJqauCFhXoNpZvlcE_BbcAU3aO3h_vPPTfovhV44IuUQj209YoD8BwirtvRUFAmkKIDWc6z7pt5iFsZJZGNMJd0KKziIhH8hHarca4s)
-- [chuksannews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJFD3dpU3bDf2ZccnRrs4X2wMfcBPUVuQJUb05U0Y7o31gNoIjO-qCMriHi5zsa_jAzAtAslI3OGNCKRHLYRP6vbkdAadZVktD9Vk9JHptjItWrecsNnts8bSZwbAA7_AMj4xoKSNK4GiXkzUDXjIxtOec9Q==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1tucyyyM2-MsCy27yiP1KdlEpcb9Xb7qVhBGvC6W61_64jVAZeg-fZ-s_JhA47tNbPKi1GuA9CHVN-63oBJpFrYQLjDXZqNykUuG1_L9B9wuv-RQqPSXTZ9BRkrhaO8QTCXssory06vkb6p53b2GQ88BDjm9PYuVYzQVi2pqiBQ==)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEl0L6PNNAxt_88sb8Ma8ji-R7N_Hl3mJJ6T0NkezrOgPgD3kmMzh7anQXxXdTw5DeoCnnh8apyV6BuLqVfEiBLLZqdwMy0En6lrov74P2Q4bGrTJDUV92x7mTmLadBhw==)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHJmDBNCQmuw-Pa2rbM7sCPEnaKx2ex4TIp8HcKMyryRotlVINjGoMhFeNvqhOaA3AgSH6kCFdtJ7cEhWLpxsFxF2UzLWSjshy_aTYdyjT0AnCl7pMlCAso-sJ5LCjEgBWswh2NQG7gUHkipAiH90GR7dEhVzd3Il5LelH7xl5OwlQAPwy1Au3wy_5TxmDBA==)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGeCQG7dQu5lRaWvQZLf1iIVdHNxqgt-OlH3rif_e_621zCfYBklIdmfw2MyGHhC2XL7iGeC7AObILY9rbI9ZiDzLaHPLXurHDF2FxMXv-Zq5GvNZWq56fRv301tG9zBso4yMPD6X3SeBLJU_gjNDYAayk-iVUFNYTDy09uiA-Mt28Sr16EEtGq1wais1BEhvC4GEJ4kFWg)

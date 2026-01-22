@@ -1,14 +1,14 @@
-# 세션: 20260121_053846_d5j4
-> 시작: 2026-01-21T05:38:46.466Z
-> 카테고리키: 주니어용 카시트
+# 세션: 20260121_132449_jv5a
+> 시작: 2026-01-21T13:24:49.557Z
+> 카테고리키: 주니어용
 > 카테고리: 주니어용 카시트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 주니어 카시트 시장 현황
-- 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEg7C8bVvPoc_SSbHJMu66GK_wRpe6nIvWCaC2UTJRG8NDQ1xlmEOWoK48MvQeRvuF0YkndgBFu-HAu3ka1jxGFy10vxHpV4viqbArmhT0vDdjH6_2ulR9aWxg65BusUd5jZkmKhvA8FQc8XPUcFxhK68Pe, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHumLttU6Z70bWBOVTTvM2sKjjWjO1Xq9_1ktYvL0ccfkli7-MQv95PCRxqxGGIWzT4y_kxkravT2mIo0U_TzTRxnDbpLqqD8myKNNxFh58S6aCJxKsXOTt9-2BLkECv23wIzqwm48=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrhm0K19Z1h8dL1pb9RK_Yn61M3mBFgsHnQXeZ6krIfXMQQtkzsd7xdyBTVqi1QpY-TO0iLdgl5wpM-Pb6QrDqQVQxj1vneFnfTZqwRlu13V6WrBis6oCN1OUJwTEnY6R0119GOkUnr9vqCDMrhOjHMYw0GKNPjW-zpci8K5_2ZoDFqCuEdYWfxjyjD-C8of3Q, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5qMfmVOs-cn16NNK53BvW6i5EvTetL-dM6d7yH_y1xeZQqKOelL2foQP-kdofE2A3MB4iFnIZDb1ugs7TPFtZu5dfszJ6j814oVhB0BahjlQq5GsaleYKryhp2QKf6Za3EZqB1OxZcFpbEMGYIkDFabLHvI9wa9FgbaDSqF0b6plQcTP-4hC7eIDUKhxeliptB6VwOkC_ou9on47A1D1D7uNWxFLsCGC-rVLb3sJtIWdpi3sju6O5rKjmUOrpNaFIaYfz7mA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEx6VCbQULBlzjFVsTFWJj9l6sdn55rS-a-qEdQ7OOxn8p5cU3glCejjSgV8kxdM8VxqvH8bnxuy8z67F0bO_k9f8gWApvQ0b_XYPe-muCMamMvb3LtHnp-wCn3VGBVOFotCLKa3F8_kUxhC3ZvMw3Tq7pOdji6kiO-6H7AJtIRlCR0hMr7Us2Vpd2iubpy0gVt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOaV5P-4TO_lI_LGFguPg6Weu2qZsIjd45jaOeHNujz8ndC6ljZLGnUM7otgSO0T7QlIesBmkAVwOR7brWjd8Qf5bmpCSe5aR4MV7JO1NBeHptQgdJBHr4vQTLnnmtpW1H5qBpOEvUoNV0WFOjgXrWXVHQ977LLIq8fF8MtDPb9xCeCCNJNn0pcTJnCPUVAmPQ0GNx5sg68tGxjHK2L4K5jkwRCPW6hgIDnSFFGPMjhaP6awuF2flIUwhvnF60bujhCgJcKUjRWHWfVn8=
+- 쿼리: 주니어용 카시트 시장 현황
+- 인사이트: 주니어 카시트 시장은 안전성과 편의성을 중심으로 성장하고 있으며, 다양한 브랜드와 가격대의 제품이 출시되고 있습니다. 특히 유럽 및 미국 안전 인증을 받은 제품들이 선호되는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-kgQ2JaYcG9GCa_azkCfJjP50fkH3z3fUyEP2vSWQw9tvJPQrptE5HujshQ_t72RBn7ywBtkld-eiyeaXojdheD0Ee2wkpcQV-Ac9g3SZkVyRJPLcqaRGm4WUGZB_RP-mzrsMiC7BKB8FSzXG6NbVJKiNgUvFchNRMG7i, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZXXljOygDs1P3OZh6qu0On3GI3BjC8h-DybcwkQ1cJlLn-nMK8ZiXXXFdUcwo1iprufh5Yco9cMXCw0IMH0cttn1l6IdGcdk_wgeb0bYyZ2Yy6IdQLWp0UbV6KbBdsbpkultzX2rLsCE81oLMiMp7BPNNI45vx8NiBtkykySX_4j8PAo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUuWRFRGbsmM8D3YDMPNMljPumHBkBhKsrNbjhurcFc24dIRjQVvHMFyuItanFvf06PNAWzKzUBCUsKgee7wjag4PRlRiHWepO8FfGY_wDqLH19TgKxrn-lVqg6rXYluqBFdL25A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGg6BzJz_z2DqToVxJxCObtfb-WL3FwiT9jVpPFbeSpUORgvldy790zVrBjhOR6nPf0PeiSiHCAk_BRGRnVIEFJOCOr2EjACFuYJr1acg93qJD95zNyV3cWK38DnGsLwi2q3kY2gArBpj2_54kkaQfDmDzyh_FEnqaI63hmYVFq-V07FCm6C28LDRnpSFpq9ys03ncYqA2DTJIKov1_PYnqR6H5z7rLE0CAh4rl2Fwds1iNvXdt5YhFMf3P7HLDapoEGvwmnQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEo7hGV62G2MakaaZLXhfCrSSvg6WkuwTTUU3UPTOoxaKEWX3xCX20VXCr3HP4iJ1-Q3xv89WrlzSsTPUiXyMAvKoyH0sHs0pxRaXpW9A8rxMeyVQxVVsZQucwi-jN5vyE1X5kwFl7Pt59jBsrlvXqoQrhXJC1Hn3KakBQKDJcdNxxs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMjrgUTKLzYkxxmPyPm8mFscTSl8HkIJ1VNMoEvA0ES41_AEiXF6iabS2NRI9HQ-K3dwe55qGAwgFQ7kL1bp0qJ7et8Wm3buFZNxojgM0pzjJGnsaQE0-u-aiMpPP-ZKUHCDjfcWwiK-YY_BprjTJ9Ad3TTjfbMBrSUizOmllCtIS8p7GnCsYNTKtsM4BFjTI=
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 안전을 최우선으로 생각하신다면, 어떤 안전 인증 기준을 선호하시나요? | i-size (R129), KC 인증 |
+| 아이의 현재 키와 앞으로의 성장까지 고려하여 카시트를 선택하고 싶으신가요? | 현재 아이에게 딱 맞는 사이즈 |
+| 차량에 카시트를 설치할 때 어떤 방식을 선호하시나요? | ISOFIX (아이소픽스) |
+| 아이의 편안함과 카시트 사용 편의성 중 어떤 점을 더 중요하게 생각하시나요? | 편안함과 편의성 모두 중요 |
+| 예산은 어느 정도로 생각하세요? (평균 약 27만원, 15만원~35만원대가 가장 많아요) | 15만원 ~ 35만원, 15만원 이하 |
+| __avoid_negatives__ | ISOFIX 방식이라도 설치가 복잡하거나 단단하게 고정되지 않을까 봐 염려돼요,무게가 너무 무겁거나 부피가 커서 차량에 설치하거나 이동할 때 불편할 것 같아요 |
 
 ---
 
@@ -55,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- ISOFIX 방식이라도 설치가 복잡하거나 단단하게 고정되지 않을까 봐 염려돼요
+- 무게가 너무 무겁거나 부피가 커서 차량에 설치하거나 이동할 때 불편할 것 같아요
 
 ---
 

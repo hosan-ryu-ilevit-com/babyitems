@@ -1,15 +1,30 @@
 # 유아의자 전문가 지식
 
-> 마지막 업데이트: 2026-01-21T07:22:03.037Z
+> 마지막 업데이트: 2026-01-21T12:59:04.693Z
 > 분석 상품: 20개 | 분석 리뷰: 2,270개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 이동식 유아 바운서, 인플레이션 유아 바닥 의자, 인플레이션 유아 의자 및 라운저 등 주요 제품군의 검색량 및 판매량 증가
+- 소비자들은 제품의 품질, 조립 용이성, 안전성, 가격 등 다양한 요소를 중시
+- 프리미엄 유아용품 시장 성장 및 친환경 소재에 대한 관심 증가
 
 ### 구매자 만족 포인트
+- ✓ 유아를 즐겁게 함
+- ✓ 좋은 품질
+- ✓ 조립 용이성
+- ✓ 안전성
+- ✓ 편리성
+- ✓ 인테리어 효과
 
 ### 주의해야 할 단점
+- ⚠ 결함 있는 부품
+- ⚠ 짧은 사용 기간
+- ⚠ 관리 어려움
+- ⚠ 안정성 부족 (가벼운 무게)
+- ⚠ 조립 어려움
+- ⚠ 높은 가격
 
 ### 가격대 인사이트
 
@@ -231,9 +246,6 @@
 ---
 
 ## 📊 데이터 출처
-- [kpmg.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgvXdTAliET4mHpJpU_mzxcjkPGnEkX0DwI7WfhYt96_BTt4li2FAg9WalDtQkX9QvunjqeKOyEf2kNaT_yapEHtiC5m9rfdzgTkSihxqQA7hli-IsrewIg4nvqhd89s8AM2N6nopo5uWUn87GpWBCJ7jkPZXrf6Lljcfaax4EYVyE8-k7Yi-98zoviHceM3GntuM5m2aTae3WNY188SSpgt_UyC7op1zKg6OkcQaSfZqJGvEqnzJW4Yy67ede6H1KYygwVjuQ4g3TNx0N-0e0bwoXfGIUhxkn1wkXrC_1YSmfOeS8zuXed7ei2LOGz2v_LMzqnc7S5QRmAPfHaFUa7MIL4GLWD9Y_MYoxlywVD7Y8AuXVDf4dYpUJvfxE0oVIwoDIhA_k4bvkpJHSqPLg7DIJwNADkMGkQzNntr6oDpo_mMSEN504gQ==)
-- [economidaily.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFykGP5hzdZ_1vdaY4Yh-E4zVyFTI12uw35XvCL4ETZhC6fnfzf0LdDgzLh1WsYLCUfBPQUS6x_ssFFYKgvGhC_LZlncEz25qP8gxiI6pSWa_bH60oyJsqA6pa02usTPWAciI6VRaLB-Ra_-SKn)
-- [sidiz.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFL2IZDz2pwcTN3Y98aUZEKgh5L7bGRvyY4KEQz5z6N6KZYMkMc3UakcWp8PDcBW57uB9ndWtlObgfFmtb_Gk8rNmEddTf-D7QnNSdZiotmdhQuGPMYLFLvRKaX9w==)
-- [kidznbaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZJU74bR9VDDMIe7mrKoKpRod83WAXd3Jtbi75IA820DZWGOemsky1hQu-_mkG6azIGQzhkTl8_NtY5tM9r4D7TxqKdevpX1-7My40bOfO5faWMX0lnMRisWXmkhrByo7ueg_hXpmhrSkwaBpyixKO6PU-uA==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELpUao4NHtepzO6VE4MtSC0z_x_6CNNiiD3vqOTcnYT3IJ-khIWbLOjHYSlmRh30OiI_FDc3fy7AGR0OCWgxspO2hjKLEHtHsHtnctPXXFtTJFglcprPK5ySmzrvmcaJDVSUIYnw==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfmoB7JjCTrooB4W9EXhDsa509npxJ66A_7hBQlXkgdkMreW3tin2uijh1CzK7_an7CzkdshgtKXXVYuDJtNopWQOiwR00bEhSo2O2qqJHXZ_6idinD0qq56llVoiRVCTYehPvWA==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQ9YLJWM7wiHMm5rwhEfJTMfYZanFbjOtfm2-B1jD6h43CSvrgMaiWPn2KCff7LsOjDA_yoEhrrBwsgUStRTm3uqxoYAJZhOWUkSM0CEqG0mpVZX02kT1bGZMqeBdLKhJE1zJYKQ==)
+- [kidznbaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw9LwEtNZ4lgpb4cocyTdj22SxjWPikdEBFLqmffUz7kUPsC4aSrq4tLjg0vxzNEL9d3Fx5DNJhKWwK1If5f68yxuOqDiBv2JOJbPEYTin9GlyyBudIpIp4GSWXbaH-qei6O333ulEdP28cUL596wcISwjZg==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQFdf4X7abcjjQwbpAR8__3TFDvjlQuxMe5T_JaiFPo3vPiHwp9r5OmUqSUKY13xJ-NsgCqTxahU3pL2S1qIQXpZITF5DBPDva0tYAqwZoaDLEnORj8JwlNsVp6A8JPw1NOD7lGw==)

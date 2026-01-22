@@ -1,5 +1,5 @@
-# 세션: 20260121_072209_fmme
-> 시작: 2026-01-21T07:22:09.083Z
+# 세션: 20260121_125910_dpgz
+> 시작: 2026-01-21T12:59:10.850Z
 > 카테고리키: 유아의자
 > 카테고리: 유아의자
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아의자 시장 현황
-- 인사이트: 
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgvXdTAliET4mHpJpU_mzxcjkPGnEkX0DwI7WfhYt96_BTt4li2FAg9WalDtQkX9QvunjqeKOyEf2kNaT_yapEHtiC5m9rfdzgTkSihxqQA7hli-IsrewIg4nvqhd89s8AM2N6nopo5uWUn87GpWBCJ7jkPZXrf6Lljcfaax4EYVyE8-k7Yi-98zoviHceM3GntuM5m2aTae3WNY188SSpgt_UyC7op1zKg6OkcQaSfZqJGvEqnzJW4Yy67ede6H1KYygwVjuQ4g3TNx0N-0e0bwoXfGIUhxkn1wkXrC_1YSmfOeS8zuXed7ei2LOGz2v_LMzqnc7S5QRmAPfHaFUa7MIL4GLWD9Y_MYoxlywVD7Y8AuXVDf4dYpUJvfxE0oVIwoDIhA_k4bvkpJHSqPLg7DIJwNADkMGkQzNntr6oDpo_mMSEN504gQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFykGP5hzdZ_1vdaY4Yh-E4zVyFTI12uw35XvCL4ETZhC6fnfzf0LdDgzLh1WsYLCUfBPQUS6x_ssFFYKgvGhC_LZlncEz25qP8gxiI6pSWa_bH60oyJsqA6pa02usTPWAciI6VRaLB-Ra_-SKn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFL2IZDz2pwcTN3Y98aUZEKgh5L7bGRvyY4KEQz5z6N6KZYMkMc3UakcWp8PDcBW57uB9ndWtlObgfFmtb_Gk8rNmEddTf-D7QnNSdZiotmdhQuGPMYLFLvRKaX9w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZJU74bR9VDDMIe7mrKoKpRod83WAXd3Jtbi75IA820DZWGOemsky1hQu-_mkG6azIGQzhkTl8_NtY5tM9r4D7TxqKdevpX1-7My40bOfO5faWMX0lnMRisWXmkhrByo7ueg_hXpmhrSkwaBpyixKO6PU-uA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELpUao4NHtepzO6VE4MtSC0z_x_6CNNiiD3vqOTcnYT3IJ-khIWbLOjHYSlmRh30OiI_FDc3fy7AGR0OCWgxspO2hjKLEHtHsHtnctPXXFtTJFglcprPK5ySmzrvmcaJDVSUIYnw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfmoB7JjCTrooB4W9EXhDsa509npxJ66A_7hBQlXkgdkMreW3tin2uijh1CzK7_an7CzkdshgtKXXVYuDJtNopWQOiwR00bEhSo2O2qqJHXZ_6idinD0qq56llVoiRVCTYehPvWA==
+- 인사이트: 2025년 유아의자 시장은 지속적인 성장세를 보이며, 다양한 제품군에서 소비자들의 관심이 높아지고 있습니다. 특히 이동식 유아 바운서, 인플레이션 유아 바닥 의자, 인플레이션 유아 의자 및 라운저 등의 검색량과 판매량이 안정적으로 유지되거나 증가하는 추세입니다. 이는 부모들이 유아의 편의성과 안전성을 동시에 고려하는 제품에 대한 수요가 높아지고 있음을 반영합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQ9YLJWM7wiHMm5rwhEfJTMfYZanFbjOtfm2-B1jD6h43CSvrgMaiWPn2KCff7LsOjDA_yoEhrrBwsgUStRTm3uqxoYAJZhOWUkSM0CEqG0mpVZX02kT1bGZMqeBdLKhJE1zJYKQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw9LwEtNZ4lgpb4cocyTdj22SxjWPikdEBFLqmffUz7kUPsC4aSrq4tLjg0vxzNEL9d3Fx5DNJhKWwK1If5f68yxuOqDiBv2JOJbPEYTin9GlyyBudIpIp4GSWXbaH-qei6O333ulEdP28cUL596wcISwjZg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQFdf4X7abcjjQwbpAR8__3TFDvjlQuxMe5T_JaiFPo3vPiHwp9r5OmUqSUKY13xJ-NsgCqTxahU3pL2S1qIQXpZITF5DBPDva0tYAqwZoaDLEnORj8JwlNsVp6A8JPw1NOD7lGw==
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아이가 주로 어떤 상황에서 의자를 사용하게 될까요? | 식사 시간, 놀이 및 활동 시간 |
+| 아기의 성장 단계에 맞춰 오래 사용할 수 있는 의자를 찾으시나요? | 성장 단계별 조절 필요 |
+| 의자 소재에 대한 선호도가 있으신가요? | 플라스틱 |
+| 의자 청소 및 관리가 얼마나 중요한가요? | 매우 중요 |
+| 예산은 어느 정도로 생각하세요? (평균 약 24만원, 12만원~31만원대가 가장 많아요) | 12만원 ~ 31만원 |
+| __avoid_negatives__ | 플라스틱 소재라 혹시라도 결함 있는 부품이 있거나 쉽게 파손될까 봐 걱정돼요,아기가 금방 커서 오래 사용하지 못하고 짧은 사용 기간만 끝나버릴까 봐 아쉬울 것 같아요,복잡한 조립 과정 때문에 처음 사용할 때부터 어려움을 겪을까 봐 부담돼요 |
 
 ---
 
@@ -55,7 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 플라스틱 소재라 혹시라도 결함 있는 부품이 있거나 쉽게 파손될까 봐 걱정돼요
+- 아기가 금방 커서 오래 사용하지 못하고 짧은 사용 기간만 끝나버릴까 봐 아쉬울 것 같아요
+- 복잡한 조립 과정 때문에 처음 사용할 때부터 어려움을 겪을까 봐 부담돼요
 
 ---
 

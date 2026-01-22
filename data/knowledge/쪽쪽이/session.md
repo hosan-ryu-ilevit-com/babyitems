@@ -1,5 +1,5 @@
-# 세션: 20260120_080237_31ou
-> 시작: 2026-01-20T08:02:37.715Z
+# 세션: 20260121_120130_batw
+> 시작: 2026-01-21T12:01:30.598Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 쪽쪽이 시장 현황
-- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 아기에게 안정감을 주고 빨기 욕구를 충족시키는 육아 필수품으로 자리 잡고 있습니다. 최근에는 성인들의 스트레스 해소용으로도 인기를 얻으며 새로운 소비 트렌드로 떠오르고 있습니다. 다양한 소재와 디자인의 제품이 출시되고 있으며, 온라인 판매가 활발하게 이루어지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGgtqrHupRKzqFW4NaofENFLgIiSzdo1eKg24nnrNf7LWPIrm2HSCY0-qBY6UN2HXZ2hCA5WZ-VRw-ZrAhVkVe73crHSQOeBDP-gRu5S0VyURyYALj-pFzgTAfMgvpsrjMJHp9B_9OlzYBmAzm-SZjLPjaZ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEI9VIRIQf543ybkULFaLnQpSSCzdPL_gls6kPPGQNgqkL1NMw9ipUVpM9aebKNLhu8uNoJNcM7Ch8-XYwjhgFoy8_vFxDuc8rAdreD5kzQG2AQtBzwUAV1FpA8k5tBq3MBgr7Ozp6zq4s9E4oCTj9mCs5SVQLI, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9osicWSxtMYpwcHkaPgEoc-SzehkkSV2Jn8qoeUtZSLg0fA1vlSlsIdC2nMkEeofq3gXcSyXqMoQf9dzA5_p7233f3SB-q6aCm8dE9XZu-QRsFXx4ZTPnk8CY_enkqbn9q5zA29YiDgugpHf_q6jIjwGDQUuNso9fEBsIFgYqC2BBX7rGkmbdSHWEzw==
+- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 아기에게 안정감을 주고 빨기 욕구를 충족시키는 육아 필수품으로 자리 잡고 있습니다. 최근에는 성인들의 스트레스 해소용으로도 소비 트렌드가 확장되고 있으며, 다양한 디자인과 소재의 제품들이 출시되고 있습니다. 특히 위생과 안전성을 고려한 올실리콘 제품이나 감성적인 디자인의 제품들이 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENL9n5CDZeLGZmO__8D5iwhya4KfBL-TR6swp4cOrk9RWHf_nQkWJ14nL4aFFJHDhgfcbVpyOjNDDs9fVzzxvzdAUnm1KYDr1wdIZer5XJzs7F52FXm104f2e9gU7DPO8qVX64CNFOWIcjVRnbg3yKlXxc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcuWFYOwAz0JM0QPG09pK9GlMxgljdsA6hSiAXlp5xo0xiG1L95Z5B_WxT-HgygegSVo_dZbEwKC0gIWX_uFNV-syH0VxEVEblPVTlKVzZHVgH8F8bEMAMtC0UXTa6NU3d8UZz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNIh8TSoNEkauIwjZDB12UL4-MvjX_m8GFowcam4p94WPeLoY1ixkEP9uIMHtij3ZFbk5d5Cx8_xjf0VwaPl70mgmSGW76ZwxBRjrsnXYsRx4N6ybDGDMa5Sz0-JdWbTaVSGwxgeesHOSLDtL_L7_qZCXtae39OhG1
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주세요. | 0-3개월 |
-| 쪽쪽이 젖꼭지 재질은 어떤 것을 선호하시나요? | 실리콘, 천연고무 |
-| 쪽쪽이 젖꼭지 모양은 어떤 것을 고려하고 계신가요? | 치아교정형, 둥근형 |
-| 사용하고 계신 젖병 브랜드가 있으신가요? | 기타/없음 |
+| 아기에게 어떤 재질의 쪽쪽이를 선호하시나요? | 실리콘 |
+| 쪽쪽이 젖꼭지 모양은 어떤 것을 선호하시나요? | 해부학적 모양, 둥근형 |
+| 세척 및 소독의 편리성은 어느 정도가 중요하신가요? | 일반적 |
+| 아기의 개월 수는 어떻게 되나요? | 3~6개월 |
 | 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 1만 5천원, 1만원~2만원대가 가장 많아요) | 1만원 ~ 2만원대, 1만원 이하 |
-| __avoid_negatives__ | 아기가 쪽쪽이에 너무 의존하게 되어 스스로 진정하는 능력이 떨어질까 봐 부담돼요,아기가 쪽쪽이를 자주 사용하면 중이염에 걸릴 위험이 높아질까 봐 걱정돼요 |
+| __avoid_negatives__ | 쪽쪽이를 오래 사용하면 아기의 언어 발달에 좋지 않을까 봐 염려돼요,모유 수유 중인데,쪽쪽이 때문에 유두 혼동이 올까 봐 불안해요 |
 
 ---
 
@@ -61,8 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기가 쪽쪽이에 너무 의존하게 되어 스스로 진정하는 능력이 떨어질까 봐 부담돼요
-- 아기가 쪽쪽이를 자주 사용하면 중이염에 걸릴 위험이 높아질까 봐 걱정돼요
+- 쪽쪽이를 오래 사용하면 아기의 언어 발달에 좋지 않을까 봐 염려돼요
+- 모유 수유 중인데
+- 쪽쪽이 때문에 유두 혼동이 올까 봐 불안해요
 
 ---
 

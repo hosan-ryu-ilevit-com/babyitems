@@ -1,14 +1,14 @@
-# 세션: 20260121_053537_vfkc
-> 시작: 2026-01-21T05:35:37.704Z
-> 카테고리키: 트라이크 유모차
+# 세션: 20260121_130452_8ebe
+> 시작: 2026-01-21T13:04:52.421Z
+> 카테고리키: 트라이크
 > 카테고리: 트라이크 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 트라이크 유모차 시장 현황
-- 인사이트: 트라이크 유모차는 휴대성과 편의성을 강조하며 시장에서 주목받고 있습니다. 특히 기내 반입이 가능한 초경량 모델과 다기능 디자인이 인기를 얻고 있으며, 안전성과 편안함을 갖춘 프리미엄 브랜드 제품에 대한 선호도도 높아지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJCuf-8x2Mkk5WBnFdK6K-oR_AzEFjaV7WPcAlWF6mM-omI3VYti_3Fb04-BD83Tl4qsC02b8USpRUvej1rvH6KmIIeQa4d0x1rCwPJrFVrLC_Cf_mpxREuYThHeOnLmh8Y1E4Uw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiXF0uYDWbBVZayaxyTihRnWxUz7rInZWsGwpmvYL4N4Y55GnGA6jigOeKaU4_agf7_HHXUux3UPZDGgrIGz1TnsxLImKmGQLgY5IY_9tyKrmo_qWxtHblPFc8DdY05sj6EgluSKRBNhEJOoXPxLKsPirxUZnM5B6RggHZ7fJY_hgLaq8GE7N2KzhruKwxk1osL6EAh0acPhRQobU3QmhtNlr8Dtb6Knds, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEShLbiESQLUcmceHVGhv8eEkSzG9_ksYz5hXLyAGuBb1vAuyj3TVNXu8LSCR_cXSypU4IjryE1fNrQHbrQyDOJPDUDsGT7Xgu7LX6z01Y-o3wlc3TzYrC8FrOpcEusg4d1x0bg0DYNSdjjDpjVJaBk9KpF-eD4EXN8-Vt6tUaBmbE0NcyVWRhtnqLI7sU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIi91EDS3-nOsCYrjwC0lj1NsjPMs8AbXW7u24LpviTTPEIWD8_YMJ1_yyoyWUCfBLslnuKfOovyTGdMWF7sB35gHWcQVYWu0wLVUe_e_qPFuoMYN7_85kaN3aGvmVYrkaG4dnM0M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlv4mRAm-saxsmIRyigx7p3RLK9Cq5t9yw1_dCDOR8tIVzYCB67nvPa3JXTK8wqsonYYjLyf4y5P3phQa66Cu3CPp8hMhyfPXx4IP3ZbpLXbHAWErDMpEWqVgNCv2pw0oOqUgIoo8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFW3Fy3_0jCcY7AjZfKctqTamHG18OeD-D01ngGSCVoyZfI3m0e6-aZxLWVA3fRhw45pX5RVfPQ60F_gcwfaH9J5afpGh5lChUVNTMOfAZu13Lm5PK5GMTgj3FaYlQOzdQdQVYXq4w=
+- 인사이트: 트라이크 유모차 시장은 도시화 증가와 가처분 소득 증대에 힘입어 꾸준히 성장하고 있으며, 특히 프리미엄 브랜드와 다기능성을 갖춘 제품들이 인기를 얻고 있습니다. 휴대성과 편의성을 강조한 경량 트라이크 유모차 또한 도시 부모들 사이에서 수요가 높습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTgX5ChLu-Yl_5Rv9wYRaeHRphYukMFpfG3jP1fzIzj3UD2wpTf-ydaCgCIeUW18ZfrMhNLNSoikQ9GmMRhYGP_YlcOFlm0mvR8tStFgfa3w2Hie2HoM7XX9xED4dw5MGBU0kfSxnxyktKOJxXpwC5ebEAjd2dgJc8UbJ1lagrYhlQjXbkZAxv, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdPJbsQK5qLZobZM72-6PBzbcXRzUjGZ5CTw_veLFT5lmDrS6eNjleOG-ay6mGz8lbtTdawqCiyD4kiiZBI3u769dxiCpiFS4DyTJXEUN3Qf9cH0OyLGl8mqF9ulVHXebJ3C153pwyQoDjuuXnJJ2CxJgijwN1w14oCzJfU17-ai_nhjqNApSHcPQz-mRB, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGD5XWzOiZ17oQHOW4JGVmZur7n-74SEBZlSkpDUvOOIrH0lKfl6kPUngo0niYYCUjWwBAFjMsYUE0piJADr2jfK587GI52yTFn8LiHbtH4w0jnviA1OJ53m63AdTXdRUvgW9-1zECwnVfXIwJ3KgkLnKEfdQ8z9aCs2h9OEYWZyp8P86beLmE-7R3-1K8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGJmgyft_JTJRTc47OZK80w5LoegDrYXnnLcbnuvFcgvVBcN7FkI7WTsQYfEByl0h1mMRujBlDMj8AasJFRm_hJkHypoRUWoyQl-kAhaAeqKYL1C2vJKVIhAVKJuHbzoEAmlPBEzMW6V5sJeHCBdhnzOAYYJE6cQrktv9TzVYAq2lJBzizH9H3BT0HGFX8Dz0ocPzjCJHDMJZbP, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFsdVxJUiWFozDXrZE3ydyX89bdri18yAJUW5i0eL9oOrznF0mZT-2GjzIyK2-SI_XmOzYsR18v8mEMZmJuFZW2xo7yvdOWC6A0L9FFUbnYOBIOBbeXcWCt8RlmE042cprmZBkaxjM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrPKK6gG9mGndMp0CArzxVdJGyNT6BmeICj3p6NDbjDNqlmhBalppUlv9RXw15d0Go6e8I0_vd-49AbzOsn_dkGHxK0xCCVI0_eVTna40uxA8rlMst6h_1Vk0Uq-r6Bua4EfuFx7Wznm3nH_sWvWH6a9M=
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 트라이크 유모차를 주로 어떤 상황에서 사용하실 예정인가요? | 여행 및 외출 시 휴대용 |
+| 아이의 안전을 위해 가장 중요하게 생각하시는 안전 기능은 무엇인가요? | 5점식 안전벨트, 탈부착 가능한 안전 가드 |
+| 아이가 편안하게 사용할 수 있도록 어떤 편의 기능을 고려하시나요? | 등받이 및 발받침 각도 조절, 푹신한 시트 쿠션 및 통풍 기능 |
+| 휴대 및 보관의 편리성을 위해 어떤 기능을 선호하시나요? | 원핸드 폴딩 및 셀프 스탠딩 |
+| 예산은 어느 정도로 생각하세요? (평균 20만원, 10만 9천원~26만원대가 가장 많아요) | 11만원 ~ 26만원대 |
+| __avoid_negatives__ | 이동 중에 바퀴에서 덜그럭거리는 소음이 발생할까 봐 걱정돼요.,원핸드 폴딩과 셀프 스탠딩 기능이 있더라도 접었을 때 부피가 커서 보관 공간이 부족할까 봐 걱정돼요. |
 
 ---
 
@@ -55,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 이동 중에 바퀴에서 덜그럭거리는 소음이 발생할까 봐 걱정돼요.
+- 원핸드 폴딩과 셀프 스탠딩 기능이 있더라도 접었을 때 부피가 커서 보관 공간이 부족할까 봐 걱정돼요.
 
 ---
 

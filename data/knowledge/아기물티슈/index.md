@@ -1,25 +1,26 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-21T06:56:47.365Z
+> 마지막 업데이트: 2026-01-21T13:21:24.384Z
 > 분석 상품: 20개 | 분석 리뷰: 484,320개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전성 및 저자극 성분 강조
-- 친환경 소재 및 패키징
-- 온라인 판매 채널 성장
+- 친환경 소재 및 포장 혁신 중시
+- 물에 녹는 물티슈 및 유기농 물티슈 인기 증가
+- 개인 위생 및 편리한 아기 관리 제품 수요 증대
 
 ### 구매자 만족 포인트
+- ✓ 우수한 성분
 - ✓ 뛰어난 가성비
-- ✓ 안전한 성분 (EWG 그린 등급, 약산성 pH)
-- ✓ 부드러운 원단
-- ✓ 대용량 구성
-- ✓ 편리한 사용성 (캡형)
+- ✓ 도톰한 원단
+- ✓ 안전한 성분
+- ✓ 촉촉함
+- ✓ 저자극성
 
 ### 주의해야 할 단점
-- ⚠ 일부 제품의 높은 가격대
-- ⚠ 개인별 피부 민감도 차이
+- ⚠ 짧은 유통기한
+- ⚠ 휴대 불편
 
 ### 가격대 인사이트
 
@@ -241,8 +242,11 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9NfbKWQ5JtrFsqeZN4qJiZM5UBySHjvnQJzvY6P3dwpmzvjHHuIxSFJQucbGM153mdBp6QSDe_nmFsJu1l5GOY4ZcRj5rOJpOMbx2My4Vt9HkIcztFBEprqZx_yci39AP6i-sG7Yh83tK75qAgJAGq2qz5gWhRsJDpJ2t)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWxyM4z4vyQO_M2PZkQZUDXipM14nlmSxgXTxF4vghsp31kNpnngwu2dFKowXJJXKPR_VXbQY-WLTs49wFZh4PzW9HEnPGQHbz9MRPBdA2TN4E03TJiMcYHYBpdx565XTS8dgXVkkGrg8qac7b04E-qfNbUqPdW1euFQ==)
-- [family-cares.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHH4ZoBv5QJf0cU1ST3uLNS4FQU8e9Zw1uLEGQ71OdoFt1HvDe-EYc9ZmeAhzV9rO8hE-rS4Dk3le6jlwRANGOUe89653zROO1R9TmFlg9IGu1GH5kV_7wsbYpw-Ws1B7Ypck6D9sXJdZCRxuniR0LoKHGAmgFiywlcdE_Pa_7-bi9UMboUjT4Yloh4NJiL7wov188XHbJ3YU7cE2rRD8kQdxs2VvSXS2II6PCu-w==)
-- [apparelnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIDXz1k6tn174t6GDNEWTJNxR2lg0lpX6W648XOx7Pm5ZfgOzWOihE27FaGnpvp4yYv1F-vjvN2CzDBocOTiHxe0lhf3tgKItCPJQbY_A4zjrajyK2NPtdHItBCqH1bzdB6zMWHsRlk4fiAVv2dKtVufetugbkWb_CzoJ6XQ==)
-- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHf1sVT7tJ_O0jgYjIE_nEe3nDtSRoszh8seZNfJvjeWVlOjDe1TQ8jIZr9Ib92tW0fXSP9h0ojJDQmipsWRlrcK5ZilE1KJHHVkyoyrLKHDKFwml9cWv93oqEOvbYbwR8AR7YTEyUC16fSgOjXe_dHXZzqOgUDO_g-5WYWd2wfeWLLp2MBRoXgGLUksHVQRFCQT_e7sqE=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQED-xK3GJyA9r1A3W4J2w76CBMVipo6Y03EWc2b95-D7KmbIiCRdlfJ2aGN2B_i0E0yopmpzmJ6quW-1EX3krhVzr203GBjPrQL_WvC_b4BzlRB6BZ7iYbfEsbcyN5AC-bYMlmYHFiXKpofoFKcLQZrXaE-r3iQis9xomQD)
+- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0GUVOiqsoL6piqvdQVahOkb-GIeCBFkUp1B1anKMx2fCJ9SV6og2lNen6L-6PZ9mHW_PVSAMBErkG_lGAM9TIK6gHpy7keDiWNLBiTvyt6kXinH2JobNiV4r8gI1H2i3_p9KDFiF35xqGmrbAe2BQ3fDAcpCfuM0t4Rtbstbe5mzV_IdD9fIYexhg)
+- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEa7NkNi3PThzhAIJphmPAnr88ELxmSzNusH19IKtIQodFaPoO857W8ZfrSqSb1ZSOFLZEeY4QgEGcPq-ftNoMmHm4rgdFo0VjkqnUzfkxDql36zGR24Lw37CcruGX-XuR7eDnlV0DdWs8ZzC8wJQ-tkHzEi1DN9elmyIWxedFUnycyFkaxFxqQ-ihRqi-0YIvvTXGY3Nw=)
+- [skyquestt.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHP1DYOCB8oDLD9bo-zyx70qdWhoJQoz6P-hV0f7xX3hDjBOiyjH3SHZXaXFDRNZRNj5s0UeufluikF95jypSw6NbclZm1lCwLANm0FkzrNgN0sqtHVhLQ8CMqDdlH6XTe936y0u7Z6T-jzCqiQ)
+- [nonwovens-industry.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEiCa-vMUuUXVoaEjElyifmRQGWmvL2E8peZquozTC2eJOLgVSrNT3vae-O2IDR7hBB2UqLOwvEwG9itJuc8bhdzXcnZ9WV5Bzm0OhISM5F1Pyb_0O93UzwANmxKSvySr-a2pWTtAepkGzxvSL4bm-X2i4rvzqEMZlCmGM2S4xJ13r9kJLtYiEFDaM=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFykD1G4ndGIcsIf55Av0S3Sq0coVsAH6gJ_jVngbFUTi21utSlpSOZ0qOeWovl37LgGcI9XxpqbCABL5Pz3SUJahIRedqvxGKlRKPfRphTNogUbtc6Gl8IC4eVglQ=)
+- [xiandai-care.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIILrDbHdIoLSbaXv0qZXCFGLd8FTaI7-AZWU17QNkEwuS5Hkh3y7jkNWK8xiJz66NCZN7TNUXEOaYXsoHHgkubs_Tw72gS7H8xCnX_ZicdkbW6yqd-Muvd8kVB9aGPYRzq3j1XUJBAjEAWKuhSCOVHk3-xIpQFAXcoDFTM1QGuV6GWFirIxlID9bXTA==)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5_pOhRzrgwDoP_l7cok2Xo1QTjZ2zV4qOXCvOYr20k0O2HQNhdhiUjQGNvOsAvLCc4TcqYjQFHSQcTKSMveVR65q-5Hp4yn4wuRNEu0DvPv8Q1Bjl6OZwUw1m-gx9Vv3Epy2YRd83tkNGyo68HFg3Tdn1_qu40oNjkjQyIA==)
