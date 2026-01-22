@@ -1786,16 +1786,13 @@ async function generateQuestions(
   // 웹서치 트렌드
   const trendsText = trendAnalysis?.trends.map((t, i) => `${i + 1}. ${t}`).join('\n') || '';
 
-  // 🔍 질문 생성에 전달되는 데이터 확인 (웹검색 + 리뷰 분석)
+  // 🔍 질문 생성에 전달되는 데이터 확인 (웹검색 데이터 기반 - 리뷰 분석은 병렬 실행 중)
   console.log(`[Step3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-  console.log(`[Step3] 📊 질문 생성에 전달되는 데이터:`);
-  console.log(`[Step3]   [웹검색] 트렌드: ${trendAnalysis?.trends?.join(', ') || '(없음)'}`);
-  console.log(`[Step3]   [웹검색] 장점: ${trendAnalysis?.pros?.join(', ') || '(없음)'}`);
-  console.log(`[Step3]   [웹검색] 단점: ${trendAnalysis?.cons?.join(', ') || '(없음)'}`);
-  console.log(`[Step3]   [웹검색] ⭐구매고려사항: ${trendAnalysis?.buyingFactors?.join(' / ') || '(없음)'}`);
-  console.log(`[Step3]   [리뷰분석] 긍정키워드: ${reviewAnalysis?.positiveKeywords?.join(', ') || '(없음)'}`);
-  console.log(`[Step3]   [리뷰분석] 부정키워드: ${reviewAnalysis?.negativeKeywords?.join(', ') || '(없음)'}`);
-  console.log(`[Step3]   [리뷰분석] ⭐구매고려사항: ${reviewAnalysis?.commonConcerns?.join(' / ') || '(없음)'}`);
+  console.log(`[Step3] 📊 질문 생성 데이터 (웹검색 기반):`);
+  console.log(`[Step3]   트렌드: ${trendAnalysis?.trends?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   장점: ${trendAnalysis?.pros?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   단점: ${trendAnalysis?.cons?.join(', ') || '(없음)'}`);
+  console.log(`[Step3]   ⭐구매고려사항: ${trendAnalysis?.buyingFactors?.join(' / ') || '(없음)'}`);
   console.log(`[Step3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
   // 🔥 브랜드 중요도 분석
@@ -1813,7 +1810,7 @@ async function generateQuestions(
     reviewAnalysis || null
   );
 
-  // 🔥 리뷰 분석 결과를 프롬프트용 텍스트로 변환
+  // 리뷰 분석 결과 (현재는 병렬 실행으로 null, 웹검색 데이터만 활용)
   const reviewInsightsText = reviewAnalysis
     ? `
 - **🔍 실사용 리뷰 분석 (${reviewAnalysis.analyzedCount || 0}개 분석):**
@@ -2535,33 +2532,34 @@ export async function POST(request: NextRequest) {
             return { allReviews, totalReviewsCrawled, reviewAnalysis };
           })();
 
-          // 3. 리뷰 분석 완료 대기
-          const reviewResult = await reviewPromise;
-          const { allReviews, totalReviewsCrawled, reviewAnalysis } = reviewResult;
-
-          const phase15Duration = Date.now() - phase15Start;
-          const phase1Duration = Date.now() - phase1Start; // Phase 1 전체 시간 (120개 포함)
-
-          // 🔥 Phase 3: 질문 생성 (웹검색 + 리뷰분석 데이터 모두 활용)
+          // 🔥 Phase 3: 질문 생성 (웹검색 데이터로 시작, 리뷰 분석과 병렬 실행)
           const phase3Start = Date.now();
-          console.log(`[Phase3] Starting question generation with web search + review analysis data`);
+          console.log(`[Phase3] Starting question generation with web search data (parallel with review analysis)`);
 
           const [longTermData, knowledge] = await Promise.all([
             Promise.resolve(updateLongTermMemory(categoryKey, categoryName, top20ForQuestions, trendAnalysis)),
             Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
           ]);
 
-          const questionTodos = await generateQuestions(
-            categoryKey,
-            categoryName,
-            top20ForQuestions,
-            trendAnalysis,
-            knowledge || generateLongTermMarkdown(longTermData),
-            crawledFilters,
-            reviewAnalysis  // 🔥 리뷰 분석 결과 전달
-          );
+          // 질문 생성과 리뷰 분석을 병렬로 실행 (질문 생성은 웹검색 데이터만 활용)
+          const [questionTodos, reviewResult] = await Promise.all([
+            generateQuestions(
+              categoryKey,
+              categoryName,
+              top20ForQuestions,
+              trendAnalysis,
+              knowledge || generateLongTermMarkdown(longTermData),
+              crawledFilters,
+              null  // 리뷰 분석 없이 웹검색 + 상품 데이터만 활용 (속도 최적화)
+            ),
+            reviewPromise,
+          ]);
 
+          const { allReviews, totalReviewsCrawled, reviewAnalysis } = reviewResult;
           const phase3Duration = Date.now() - phase3Start;
+          const phase15Duration = Date.now() - phase15Start;
+          const phase1Duration = Date.now() - phase1Start; // Phase 1 전체 시간 (120개 포함)
+
           console.log(`[Phase3] Question generation completed in ${phase3Duration}ms (${questionTodos.length} questions)`);
 
           // ✅ 질문 생성 완료 후 전송
