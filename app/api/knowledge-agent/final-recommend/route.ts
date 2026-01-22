@@ -1661,9 +1661,10 @@ ${candidateInfo}
 }
 
 /**
- * 2단계: 상세 추천 이유 생성 (선정된 N개에 대해서만)
+ * 2단계: 한줄 평 생성 (선정된 N개에 대해서만)
  * - 입력: N개 상품 + 리뷰 원문 10개
- * - 출력: oneLiner, personalReason, highlights, concerns
+ * - 출력: oneLiner (PLP 표시용)
+ * - 장단점(pros/cons)은 별도 generateProsConsFromReviews에서 생성
  */
 async function generateDetailedReasons(
   categoryName: string,
@@ -1681,7 +1682,6 @@ async function generateDetailedReasons(
       product: p,
       reason: `${p.brand} ${p.name}`,
       oneLiner: `✨ ${p.brand} 제품`,
-      highlights: p.matchedConditions?.slice(0, 3) || [],
     }));
   }
 
@@ -1689,7 +1689,7 @@ async function generateDetailedReasons(
     model: FINAL_RECOMMEND_MODEL,
     generationConfig: {
       temperature: 0.5,
-      maxOutputTokens: 8000, // 5개 상품용 (기존 6000 → 8000 상향)
+      maxOutputTokens: 2000, // oneLiner만 생성 (5개 상품)
       responseMimeType: 'application/json',
     },
   });
@@ -1703,7 +1703,7 @@ ${freeInputAnalysis.usageContext ? `**사용 맥락:** ${freeInputAnalysis.usage
 ${freeInputAnalysis.preferredAttributes.length > 0 ? `**선호 속성:** ${freeInputAnalysis.preferredAttributes.join(', ')}` : ''}
 ${freeInputAnalysis.avoidAttributes.length > 0 ? `**피할 단점:** ${freeInputAnalysis.avoidAttributes.join(', ')}` : ''}` : '';
 
-  // 3개 상품 상세 정보 (리뷰 원문 10개 포함)
+  // 5개 상품 상세 정보 (리뷰 원문 10개 포함)
   const productDetails = selectedProducts.map((p, i) => {
     const productReviews = reviews[p.pcode] || [];
     const qualitative = analyzeReviewsQualitative(productReviews);
@@ -1759,18 +1759,13 @@ ${productDetails}
 - 사용자 조건에 맞는 이유도 자연스럽게 포함
 - 예: 🤫 **밤잠 예민한 분들도 걱정 없는 정숙함!** 수면풍 모드가 있어 조용히 사용 가능해요
 
-### highlights - 장점 3개
-- "**키워드**: 설명" 형식
-
-### concerns - 주의점 1-2개 (있다면)
-
 ## 🚫 금지 패턴
 - "실제 사용자들이...라고 평가한 제품입니다"
 - "리뷰에 따르면..."
 - 제품에 없는 기능을 있는 것처럼 언급
 
 ## 응답 (JSON만)
-{"recommendations":[{"rank":1,"pcode":"코드","oneLiner":"한줄평","highlights":["장점1","장점2","장점3"],"concerns":["주의점"]}]}`;
+{"recommendations":[{"rank":1,"pcode":"코드","oneLiner":"한줄평"}]}`;
 
   try {
     console.log(`[Step2] Generating detailed reasons for ${productCount} products...`);
@@ -1798,19 +1793,23 @@ ${productDetails}
       if (parsed?.recommendations && Array.isArray(parsed.recommendations)) {
         console.log(`[Step2] ✅ Detailed reasons generated in ${Date.now() - startTime}ms`);
 
-        return parsed.recommendations.map((rec: any, i: number) => {
-          const product = selectedProducts.find(p => p.pcode === rec.pcode) || selectedProducts[i];
-          const oneLiner = rec.oneLiner || '';
+        // LLM 응답을 pcode 기준으로 맵핑
+        type LLMRec = { pcode: string | number; oneLiner?: string };
+        const recMap = new Map<string, LLMRec>(
+          parsed.recommendations.map((rec: LLMRec) => [String(rec.pcode), rec])
+        );
+
+        // 모든 selectedProducts에 대해 결과 생성 (LLM 응답 없으면 fallback)
+        return selectedProducts.map((product, i) => {
+          const rec = recMap.get(product.pcode);
+          const oneLiner = rec?.oneLiner || `✨ ${product.brand} ${product.name?.slice(0, 20)}`;
 
           return {
-            rank: rec.rank || i + 1,
-            pcode: rec.pcode || product?.pcode,
+            rank: i + 1,
+            pcode: product.pcode,
             product,
             reason: oneLiner,
             oneLiner,
-            highlights: rec.highlights || [],
-            concerns: rec.concerns,
-            bestFor: rec.bestFor,
           };
         });
       }
@@ -1826,7 +1825,6 @@ ${productDetails}
     product: p,
     reason: `${p.brand} ${p.name} - ${(p.specSummary || '').slice(0, 60)}`,
     oneLiner: `✨ ${p.brand} 제품`,
-    highlights: p.matchedConditions?.slice(0, 3) || [],
   }));
 }
 
@@ -2176,9 +2174,9 @@ export async function POST(request: NextRequest) {
         danawaRank: rankMap[rec.pcode] || null,
         // 정규화된 스펙 (비교표용)
         normalizedSpecs: normalizedSpecsObj,
-        // LLM 생성 장단점
-        prosFromReviews: prosConsData?.pros || rec.highlights || [],
-        consFromReviews: prosConsData?.cons || rec.concerns || [],
+        // LLM 생성 장단점 (비교표용)
+        prosFromReviews: prosConsData?.pros || [],
+        consFromReviews: prosConsData?.cons || [],
         // 리뷰 목록 (PLP 표시용)
         reviews: productReviews,
         // 태그 충족도 (full/partial/null)

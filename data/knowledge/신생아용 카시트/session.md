@@ -1,5 +1,5 @@
-# 세션: 20260121_023527_14na
-> 시작: 2026-01-21T02:35:27.470Z
+# 세션: 20260122_123749_71wj
+> 시작: 2026-01-22T12:37:49.598Z
 > 카테고리키: 신생아용
 > 카테고리: 신생아용 카시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 신생아용 카시트 시장 현황
-- 인사이트: 신생아용 카시트는 신생아의 안전과 편안함을 최우선으로 고려하여 설계됩니다. 최근 시장에서는 회전 기능, 신생아 맞춤 이너 시트, 그리고 유모차와의 호환성 등이 주요 트렌드로 부상하고 있습니다. 또한, 안전성과 사용 편의성을 높인 제품들이 소비자들에게 좋은 반응을 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNkHWdg3KebCPnxdhdK9_7nbUZIefRaE0R2IR-p6_GRV0oX19ElNSM1yMxivqjfHmWumcDAk6o-j6jNrzdQM1ALiagE6pJrkGXDYOjji4sLdZDud5QM-SDKKYuOYsaMn7rGF9X7pRFcg1ycQBJ5RLZ6xY8-84ceeUUQrRtVfLgVFKfCMI8kbFcfUsq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbH_fl7mpbD5tsFAClaKZqE7LE3Q8mRziva97rG3jHJhhX1VN8rgUfiWOxuhOFN91TckLvtFi2G4_7eq1cKjyd2cckfYy1Uhm96ZUQzK_BBJ9X7frsimSI32Wwtm-iKvX13m7OjPy_0P4uG35ZS1wxvF9etc-0zOja, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPWj34_8RpvOPB4yG11axA8GNO7dh8w08hwKpxvUtcQstS1-YmGrvBebDTOqyBJiJOxDCW5KfLtITyx0mke0XFRgIcawJ_iwY5FPbCAVyhiiipZZUubL9GXi8ZOp_BAXA2RpihpaT3UetR1ZCnlnaxjo7QfRyaJ5i7X7Ta7tS_fmRbliuJzMUbabyH
+- 인사이트: 신생아용 카시트는 주로 바구니 카시트라고도 불리며, 신생아부터 약 18개월 또는 13kg까지 사용 가능합니다. 안전성과 편안한 각도 확보에 유리하여 신생아 시기에 최적의 보호를 제공하며, ADAC 등 충돌 테스트에서 높은 점수를 받는 경우가 많습니다. 다만, 사용 기간이 짧다는 단점이 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYjX08edUS9r4OaqSnfWrXhgRf_HwcWRosbxbP0NytQRoB7ip9JridfRQXyOETuiNjZhMkoZf_onotUM8Uq8ZgEOM-2ADCEEABO38xq6hlQI1GsJ9ncpOncwsVyqYJk8W3GlRt2gqlMaPou1K9XtwBVtqsInyCeo3IxuYDP9NMGy10WqpZESw40y77, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEBSAcWor16fLKh2EN9Uuf0YL3eSXVb8tUz4y842sn0RTcxFYAAsXzWd0hFpgOv-7C3FpOpQQjD_uD_ycA64BZzh6H1Hdw6B813wCkXxh9_qudrFephNnrSMBI9AtRktD4RTxYbGrAcGG1ml8DPdSGurVXIsPQ2UX3tUD9I9cx3FBmsHydfd1Bp-dM9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTg5zt6J8Kireaf5HQ8WpsSn9_k3kRiwsXCZUhdb9fwIBSqyDRwMH72AEFB8K5Tojs6jsvoxb50BkLZt0B850j-0i-dcn16W1k60voZDz_60qks9gFuOiRdj-jm0kmLAulC0sjVFf4x06mURPo4O4ON4d8HHpfu8DFl0bAOzA=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 편안함과 안전을 위해 어떤 타입의 카시트를 선호하시나요? | 올인원형, 컨버터블형 |
-| 차량에 카시트를 설치하는 방식은 어떤 것을 선호하시나요? | 안전벨트 고정 |
-| 카시트 사용 시 어떤 편의 기능이 중요하신가요? | 360도 회전 |
-| 아기의 민감한 피부를 위해 소재와 통기성은 어느 정도 중요하신가요? | 최고 수준, 우수함 |
-| 예산은 어느 정도로 생각하세요? (평균 58만원, 33만원~75만원대가 가장 많아요) | 33만원 ~ 75만원대, 33만원 이하 |
-| __avoid_negatives__ | 차량 내부에 너무 커서 공간을 많이 차지할까 봐 불편해요.,신생아 시기에만 사용하고 나면 다른 형태로 변형이 어려울까 봐 아쉬워요. |
+| 아기의 개월 수 또는 몸무게를 알려주시면 더 정확한 카시트를 추천해 드릴 수 있어요. | 신생아 ~ 13kg |
+| 카시트를 차량에 설치하는 방식은 어떤 것을 선호하시나요? | ISOFIX |
+| 카시트 회전 기능은 얼마나 중요하신가요? | 360도 회전 기능 필요 |
+| 혹시 선호하시는 카시트 브랜드가 있으신가요? | 다이치 |
+| 예산은 어느 정도로 생각하세요? (평균 58만원, 30만원대~70만원대가 가장 많아요) | 33만원 ~ 75만원 |
+| __avoid_negatives__ | 어두운 색상 위주로만 나와서 아기에게 좀 더 밝고 화사한 느낌을 주기 어려울 것 같아요.,신생아부터 13kg까지 사용 가능하지만,금방 성장해서 오래 사용하지 못할까 봐 걱정돼요. |
 
 ---
 
@@ -61,8 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 차량 내부에 너무 커서 공간을 많이 차지할까 봐 불편해요.
-- 신생아 시기에만 사용하고 나면 다른 형태로 변형이 어려울까 봐 아쉬워요.
+- 어두운 색상 위주로만 나와서 아기에게 좀 더 밝고 화사한 느낌을 주기 어려울 것 같아요.
+- 신생아부터 13kg까지 사용 가능하지만
+- 금방 성장해서 오래 사용하지 못할까 봐 걱정돼요.
 
 ---
 

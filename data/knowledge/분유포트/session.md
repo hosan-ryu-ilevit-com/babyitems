@@ -1,5 +1,5 @@
-# 세션: 20260122_122059_iz6t
-> 시작: 2026-01-22T12:20:59.696Z
+# 세션: 20260122_123510_syh8
+> 시작: 2026-01-22T12:35:10.650Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유포트 시장 현황
-- 인사이트: 분유포트는 육아 필수템으로 자리 잡았으며, 물 끓이기, 온도 조절, 보온 기능을 자동으로 제공하여 육아의 번거로움을 줄여줍니다. 최근에는 자동 출수 기능이 탑재된 제품들이 인기를 얻고 있으며, 휴대용 분유포트 또한 외출 시 유용하게 사용됩니다. 다만, 일부 제품은 가열 속도가 느리거나 사용 기간이 짧다는 단점이 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfQvqZPqcp3Q5D8NUWvycXuK_x9eH-koYUF05GVG5JEBb92BPBJ3CWWGJ81gP4DPdY9QawqXyoa-nzR8GqNynylsGByFMcBkBguTQ8YCX2xaNclqqY5RMdgPC7byAjxEMKDVwtoooRG7bHgyRxoQTJWJjpFOh8qA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbghMkmJkoPiodTnamGFhwlEnz2v6Msdye0fvCOpi1eHd42nmZFBnssEIVYeoh_XvmcRYMeLkD49G_-imQ2WxvDM30q1AJ5lVseuD9ty0FEqht9MitdzH1rWx-W_kYktu_QrdyPoRslzK_5_vo6LyUcSpd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErP10P3hjVQ0fEaCOLi8dFa-7AmhjYkpae_qQwPNan8W6DsCBV_2MSIxa_2L0fT3U0EV7dcx1H1Zdcv7HrjGi0HXHq69ucRW9_JVgA3nPS3_pr5nyP-Fqg4zqmd1mqQL9leQYvaGzQ__u_ubybUzacn8Xu7Xwl5k4S7Kjh-0pz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCgQkB5FzoWTaFNKpvjlZ3NHorae4ZP0DbLWQ5ZkzStwtv4bKqU5VfK0TFuBT8APqmJ1htseqX2Yxk4fuvHdMpEb-QMmyIQA0vmZfYXVb3KPyGf9a47YLBC4BgG66vk8daDqU8byIjHezc7KNPi4htjfTRAwkQXZe70iOnRB-I, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqtz5QU431vn2mPoldwwnr0GtNbS8317RMoBE6aHva9AX3IWfGgJOyZXB_CYv_eRgBxE6SZOl8ZasZzxyRY90GzntGaupBlhtrWJxrSGqkr3_mOnYV2s3M7slgLeYxYsF_W_4d1g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOhj7ic5WHx3lE6bn6dFn9rLyXyjigZvmVHApqx8ypzVCbnf1DjcGdZ4cp2S3kt-XgN2APAFRqj0ObB8CFW8hOkSd5MMYW5FB53r50z3n4a81reURrst8uKHZKph3Lg4reiOupS5z34nWEfS9meii0IbZut5dIwVl19w==
+- 인사이트: 분유포트는 아기 분유를 탈 때 필요한 물을 적정 온도로 유지해주는 육아 필수템입니다. 최근에는 온도 조절, 보온 기능 외에도 살균, 티포트 기능, 자동 세척 등 다양한 부가 기능이 탑재된 제품들이 인기를 얻고 있습니다. 특히 휴대용 분유포트는 외출 시에도 편리하게 사용할 수 있어 많은 부모들에게 사랑받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXIJGlau7_5ZnDiK0EWPd7pLRHI8Ma-R-8QPvrTWvagivAiKiFyr6k4qgiatNAFKtEedfipMTNWeDetuLN8xztVaceeNtzI605iO0wTAqO8Vi-93TnjhAO7fmAQa82LScfwndgxE5Te08A4mVTEUzCys7cVZxZH12_eHJIFFuQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4MgKuOE8uTwceGdrao1DKQMmLN9djQQkg93QdDhm_H-dTcx3oKTljmaSCWpjP8Utr6BhZEFzDMJFJm8FvkfZuPllpJmtX-G68oa_Nl6vu20-4e5IgKCaAAMh8MJX0Fo5AlDs1Dxk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfSPp8ZeowybtYBS5fTWNbMmv5TZmffFhAgmpjh_m0S1BZAboedLBsiq1qSazQ7aANNGSHXfcO5XdHNdslJ3miqj0Y199x-IMt99_7X3ITjtuz4aFNm7G2vU-mqwvVXnT2gg_IhJE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZRVbaf85yuFY0zI6cJGjJhin1U_zPHHTq5Ex2SRZJe84URnMHN-zRQGYQLZ4vqr83sgk7fMf-CcaeaCiaDFfgk2G5qQkgp1NdqbaUbLmn2O4X8My_2dHrMeKbUWwo8KNnSMNSGkwsyGzqZm0YSOGNFIkXjaRzxA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTwiwily3_7IIISf9xSFwddgQsey2NBqt0i60bBzVK-ohVRtolzxHP4LQ6IcqtX2fykMVoHqAngmH7cMV78v2yDiCtT846SOBVXrj4FCTJ1P00P2-ZYJaDeY8okGfr9GWNTmgpDJoNosPxt3OjQV1AByGo82ChaA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOoHI12pdz8ITpd3bGi0GWLeRThYnMvKTNT1JW36JGbHMKjltkfQAhKMPsYaIay4FeH7h0OUvTzZhsoN3RnKfE2la-Gw-9w53mPNYlLf7R-VVSm9_0ampiMslVZUwUCIL-4oFS4wmVG9Gjn2VC7GEpqCG-5DxPEQWToXNCGnzyV3lP5HwEtyxlts_x, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6sZA_BMr347UG8V-aQ1CaMebDaL6FDUmK2lT_PO6_u5t0wskGJh4p1YhAHvIlYuTCDZKmQg2vhe1V5TwTAV4aqWdP85vn-HqYrkP96kP7CHHE0HHtKtaLvH0AaunCJoAFiOEQrwUFzUAe_bwt6E6auEE-Hi-usGYCqtyVAOBp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcjZaFK1sc6hpzmTyjbe2RkQD0n6cZML8R2j_DBlibl-6WwqFe5iLaDLOI36aqtiB7q8Mj56pUMCH5DSUP0qTn5pCnFxpENI3j6tMPJayfOdolfKmKEoDMORt6en4r1nGdhKfvz_tDo2Oc3CURi1MzghdBDycow9O183hH1RhO-Z4GqQHo
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 믿고 쓰는 브랜드가 있으신가요? | 보랄, 키친아트, 신일전자 |
-| 포트의 내부 재질은 어떤 것을 선호하시나요? | 스테인리스, 유리 |
-| 분유를 탈 때 가장 중요하게 생각하는 기능은 무엇인가요? | 빠른 가열 속도, 정확한 온도 조절 및 보온, 쿨링팬 기능 |
-| 휴대용으로 사용할 계획이 있으신가요? | 집에서만 사용 |
+| 분유포트의 내부 재질은 어떤 것을 선호하시나요? | 유리 |
+| 주로 몇 리터 용량의 분유포트를 사용하시나요? | 1.5L ~ 2L |
+| 분유포트 구매 시 선호하는 브랜드가 있으신가요? | 보아르, 보르르, 신일전자 |
+| 분유 타기 좋은 온도로 빠르게 가열하고, 물을 끓여주는 기능이 중요하신가요? | 매우 중요해요 |
 | 분유포트 예산은 어느 정도로 생각하세요? (평균 약 8만 6천원, 3만 원대 ~ 11만 원대가 가장 많아요) | 11만 1천원대, 5만 7천원 이하 |
-| __avoid_negatives__ | 아기가 배고파할 때 바로 분유를 타주기 어려울 정도로 가열 속도가 느린 것은 걱정돼요,내부 세척이나 소독을 꼼꼼하게 하지 않으면 위생적으로 문제가 생길까 봐 신경 쓰여요,정확한 온도 조절이 되지 않아 분유 온도가 너무 차갑거나 뜨거워질까 봐 불안해요 |
+| __avoid_negatives__ | 내부 세척이 꼼꼼하게 되지 않거나 틈새가 많으면 위생 관리가 어려울까 봐 걱정돼요,분유 탈 때 급하게 필요한데,물 끓는 속도가 너무 느리면 답답할 것 같아요 |
 
 ---
 
@@ -61,9 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기가 배고파할 때 바로 분유를 타주기 어려울 정도로 가열 속도가 느린 것은 걱정돼요
-- 내부 세척이나 소독을 꼼꼼하게 하지 않으면 위생적으로 문제가 생길까 봐 신경 쓰여요
-- 정확한 온도 조절이 되지 않아 분유 온도가 너무 차갑거나 뜨거워질까 봐 불안해요
+- 내부 세척이 꼼꼼하게 되지 않거나 틈새가 많으면 위생 관리가 어려울까 봐 걱정돼요
+- 분유 탈 때 급하게 필요한데
+- 물 끓는 속도가 너무 느리면 답답할 것 같아요
 
 ---
 

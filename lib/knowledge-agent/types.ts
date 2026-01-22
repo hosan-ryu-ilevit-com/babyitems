@@ -301,10 +301,8 @@ export interface FinalRecommendation {
   pcode: string;
   product: HardCutProduct;
   reason: string;                  // 추천 이유 (LLM 생성, 호환성 유지)
-  oneLiner?: string;               // 제품 강점 (한줄 평)
+  oneLiner?: string;               // 제품 강점 (한줄 평) - PLP에서 사용
   personalReason?: string;         // 사용자 맞춤형 추천 이유
-  highlights: string[];            // 핵심 장점
-  concerns?: string[];             // 주의점 (있다면)
   reviewQuotes?: string[];         // 리뷰 인용
   bestFor?: string;                // 이런 분께 추천
 }

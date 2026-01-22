@@ -1,30 +1,26 @@
 # 무선마우스 전문가 지식
 
-> 마지막 업데이트: 2026-01-19T08:52:43.916Z
-> 분석 상품: 20개 | 분석 리뷰: 16,146개
+> 마지막 업데이트: 2026-01-22T12:54:55.644Z
+> 분석 상품: 20개 | 분석 리뷰: 16,162개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 고성능 무선 마우스의 인기 증가
-- 프로그래밍 가능한 기능 및 경량화된 디자인 선호
-- 블루투스 연결 탑재 모델 증가로 동글 의존성 감소
-- 인체공학적 디자인 및 멀티 디바이스 지원 강화
-- 원격 근무 및 BYOD 트렌드 확산에 따른 수요 증가
+- 편의성과 효율성 증대
+- 유무선 겸용 마우스의 인기 상승
+- 초경량 마우스의 등장
 
 ### 구매자 만족 포인트
-- ✓ 선 없는 자유로운 움직임
+- ✓ 선으로부터의 자유로움
+- ✓ 깔끔한 책상 환경 구성
 - ✓ 향상된 휴대성
-- ✓ 깔끔한 작업 공간 연출
-- ✓ 멀티태스킹 및 다중 기기 연결 용이
-- ✓ 기술 발전으로 인한 성능 향상
+- ✓ 다중 기기 연결 가능
 
 ### 주의해야 할 단점
-- ⚠ 유선 대비 높은 가격
 - ⚠ 배터리 관리 필요 (충전 또는 교체)
-- ⚠ 간헐적인 지연 또는 전파 간섭 가능성
-- ⚠ 무선 마우스의 무게 증가 (내부 배터리 포함)
-- ⚠ 게임 중 배터리 방전 시 불편함
+- ⚠ 유선 대비 높은 가격
+- ⚠ 간헐적인 지연 가능성
+- ⚠ 수신기 분실 위험
 
 ### 가격대 인사이트
 
@@ -63,29 +59,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=93497630)
 
-### 4. 로지텍 G304 LIGHTSPEED WIRELESS (정품)
-- **브랜드**: 로지텍
-- **가격**: 37,900원
-- **평점**: ⭐4.8 (5,604개 리뷰)
-- **핵심 스펙**: 마우스 / 무선 / DPI+5버튼 / 12000DPI / 전용동글(리시버) / USB / 센서 / HERO / 오른손 / 전원스위치 / 소프트웨어 지원 / AA형 1개 / 상하 / 116mm / 62mm
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=6143401)
-
-### 5. 로지텍 LIFT VERTICAL (정품)
-- **브랜드**: 로지텍
-- **가격**: 67,340원
-- **평점**: ⭐4.8 (1,601개 리뷰)
-- **핵심 스펙**: 마우스 / 무선 / DPI+5버튼 / 4000DPI / 전용동글(리시버) / 블루투스 / 로지볼트 / 오른손 / 버티컬(손목보호) / 기능버튼 위치 / 상단 / 전원스위치 / 멀티페어링 / 소프트웨어 지원 / AA형 1개
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16909604)
-
-### 6. CORSAIR 세이버 v2 PRO 초경량 무선 게이밍
+### 4. CORSAIR 세이버 v2 PRO 초경량 무선 게이밍
 - **브랜드**: CORSAIR
-- **가격**: 125,690원
+- **가격**: 125,680원
 - **평점**: ⭐5 (3개 리뷰)
 - **핵심 스펙**: 마우스 / 유선+무선 / 5버튼 / 33000DPI / 전용동글(리시버) / USB / 750IPS / 오른손 / 소프트웨어 지원 / 내장 메모리 / 내장 배터리 / 상하 / 가속도 50G / 119.16mm / 62.55mm
 - **장점 요약**: 분석 중
@@ -93,19 +69,19 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=97956851)
 
-### 7. 로지텍 MX MASTER 4 (정품)
+### 5. 로지텍 G304 LIGHTSPEED WIRELESS (정품)
 - **브랜드**: 로지텍
-- **가격**: 170,050원
-- **평점**: ⭐4.7 (28개 리뷰)
-- **핵심 스펙**: 마우스 / 무선 / 8버튼 / 8000DPI / 블루투스 / 로지볼트 / USB / 센서 / 다크필드 / 오른손 / 멀티페어링 / 내장 배터리 / 상하좌우 / 무소음 스위치 / 128.2mm
+- **가격**: 36,000원
+- **평점**: ⭐4.8 (5,604개 리뷰)
+- **핵심 스펙**: 마우스 / 무선 / DPI+5버튼 / 12000DPI / 전용동글(리시버) / USB / 센서 / HERO / 오른손 / 전원스위치 / 소프트웨어 지원 / AA형 1개 / 상하 / 116mm / 62mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=98766185)
+- [상세보기](https://prod.danawa.com/info/?pcode=6143401)
 
-### 8. Razer DeathAdder V3 Pro
+### 6. Razer DeathAdder V3 Pro
 - **브랜드**: Razer
-- **가격**: 120,000원
+- **가격**: 150,980원
 - **평점**: ⭐4.9 (62개 리뷰)
 - **핵심 스펙**: 마우스 / 유선+무선 / 5버튼 / 30000DPI / 전용동글(리시버) / USB / 센서 / 750IPS / 오른손 / 소프트웨어 지원 / 내장 메모리 / 매크로 / 내장 배터리 / 상하 / 가속도 70G
 - **장점 요약**: 분석 중
@@ -113,7 +89,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=17673140)
 
-### 9. Razer DeathAdder V2 X HyperSpeed
+### 7. Razer DeathAdder V2 X HyperSpeed
 - **브랜드**: Razer
 - **가격**: 49,700원
 - **평점**: ⭐4.8 (54개 리뷰)
@@ -123,47 +99,47 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=15721307)
 
+### 8. 로지텍 MX MASTER 4 (정품)
+- **브랜드**: 로지텍
+- **가격**: 170,050원
+- **평점**: ⭐4.7 (28개 리뷰)
+- **핵심 스펙**: 마우스 / 무선 / 8버튼 / 8000DPI / 블루투스 / 로지볼트 / USB / 센서 / 다크필드 / 오른손 / 멀티페어링 / 내장 배터리 / 상하좌우 / 무소음 스위치 / 128.2mm
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=98766185)
+
+### 9. 로지텍 LIFT VERTICAL (정품)
+- **브랜드**: 로지텍
+- **가격**: 67,340원
+- **평점**: ⭐4.8 (1,601개 리뷰)
+- **핵심 스펙**: 마우스 / 무선 / DPI+5버튼 / 4000DPI / 전용동글(리시버) / 블루투스 / 로지볼트 / 오른손 / 버티컬(손목보호) / 기능버튼 위치 / 상단 / 전원스위치 / 멀티페어링 / 소프트웨어 지원 / AA형 1개
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=16909604)
+
 ### 10. Razer Viper V3 Pro (정품)
 - **브랜드**: Razer
-- **가격**: 222,230원
-- **평점**: ⭐4.8 (21개 리뷰)
+- **가격**: 219,880원
+- **평점**: ⭐4.8 (22개 리뷰)
 - **핵심 스펙**: 마우스 / 유선+무선 / 5버튼 / 35000DPI / 전용동글(리시버) / USB / 센서 / 750IPS / 오른손 / 내장 메모리 / 매크로 / 내장 배터리 / 상하 / 가속도 70G / 127.1mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=49995902)
 
-### 11. 로지텍 G309 (정품)
-- **브랜드**: 로지텍
-- **가격**: 74,000원
-- **평점**: ⭐4.8 (115개 리뷰)
-- **핵심 스펙**: 마우스 / 무선 / DPI+5버튼 / 25600DPI / 전용동글(리시버) / 블루투스 / USB / 센서 / HERO 25K / 400IPS / MR무선충전 / 오른손 / 전원스위치 / 소프트웨어 지원 / 내장 메모리
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=59928734)
-
-### 12. 삼성전자 SM-M1300Q 무선 블루투스
+### 11. 삼성전자 SM-M1300Q 무선 블루투스
 - **브랜드**: 삼성전자
 - **가격**: 41,900원
-- **평점**: ⭐4.6 (734개 리뷰)
+- **평점**: ⭐4.6 (735개 리뷰)
 - **핵심 스펙**: 마우스 / 무선 / 6버튼 / 4000DPI / 전용동글(리시버) / 블루투스 / 5.2 / USB / 오른손 / 버티컬(손목보호) / 기능버튼 위치 / 상단 / 전원스위치 / 멀티페어링 / AA형 1개
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=19882979)
 
-### 13. 로지텍 M331 (정품)
-- **브랜드**: 로지텍
-- **가격**: 24,130원
-- **평점**: ⭐4.8 (4,674개 리뷰)
-- **핵심 스펙**: 마우스 / 무선 / 3버튼 / 전용동글(리시버) / USB / 오른손 / AA형 1개 / 상하 / 무소음 스위치 / 105.4mm / 67.9mm / 38.4mm
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=4554259)
-
-### 14. Razer DeathAdder V4 Pro
+### 12. Razer DeathAdder V4 Pro
 - **브랜드**: Razer
 - **가격**: 246,050원
 - **평점**: ⭐4.7 (11개 리뷰)
@@ -173,17 +149,47 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=94444589)
 
-### 15. ATK VXE R1 SE+
+### 13. 로지텍 M331 (정품)
+- **브랜드**: 로지텍
+- **가격**: 25,260원
+- **평점**: ⭐4.8 (4,675개 리뷰)
+- **핵심 스펙**: 마우스 / 무선 / 3버튼 / 전용동글(리시버) / USB / 오른손 / AA형 1개 / 상하 / 무소음 스위치 / 105.4mm / 67.9mm / 38.4mm
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=4554259)
+
+### 14. ATK VXE R1 SE+
 - **브랜드**: ATK
 - **가격**: 11,900원
-- **평점**: ⭐4.6 (976개 리뷰)
+- **평점**: ⭐4.6 (988개 리뷰)
 - **핵심 스펙**: 마우스 / 유선+무선 / 5버튼 / 18000DPI / 전용동글(리시버) / 블루투스 / USB / 센서 / 오른손 / 내장 배터리 / 상하 / 120.6mm / 64mm / 37.8mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=33361193)
 
-### 16. 로지텍 MX Master 3S (정품)
+### 15. COX CEM30 서포트오피스 FREE 무선
+- **브랜드**: COX
+- **가격**: 24,350원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 마우스 / 무선 / DPI+5버튼 / 3200DPI / 전용동글(리시버) / 블루투스 / USB / 센서 / 오른손 / 버티컬(손목보호) / 기능버튼 위치 / 상단 / 전원스위치 / 내장 배터리 / 상하좌우
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=102550046)
+
+### 16. 로지텍 시그니처 M650 (정품)
+- **브랜드**: 로지텍
+- **가격**: 46,410원
+- **평점**: ⭐4.8 (857개 리뷰)
+- **핵심 스펙**: 마우스 / 무선 / 5버튼 / 4000DPI / 전용동글(리시버) / 블루투스 / 로지볼트 / 오른손 / 소프트웨어 지원 / AA형 1개 / 상하 / 무소음 스위치 / 107mm / 62mm / 38mm
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=16221932)
+
+### 17. 로지텍 MX Master 3S (정품)
 - **브랜드**: 로지텍
 - **가격**: 122,810원
 - **평점**: ⭐4.8 (1,007개 리뷰)
@@ -193,19 +199,19 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=17171645)
 
-### 17. 로지텍 시그니처 M650 (정품)
+### 18. 로지텍 G309 (정품)
 - **브랜드**: 로지텍
-- **가격**: 46,410원
-- **평점**: ⭐4.8 (856개 리뷰)
-- **핵심 스펙**: 마우스 / 무선 / 5버튼 / 4000DPI / 전용동글(리시버) / 블루투스 / 로지볼트 / 오른손 / 소프트웨어 지원 / AA형 1개 / 상하 / 무소음 스위치 / 107mm / 62mm / 38mm
+- **가격**: 72,800원
+- **평점**: ⭐4.8 (115개 리뷰)
+- **핵심 스펙**: 마우스 / 무선 / DPI+5버튼 / 25600DPI / 전용동글(리시버) / 블루투스 / USB / 센서 / HERO 25K / 400IPS / MR무선충전 / 오른손 / 전원스위치 / 소프트웨어 지원 / 내장 메모리
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16221932)
+- [상세보기](https://prod.danawa.com/info/?pcode=59928734)
 
-### 18. 로지텍 G502 X LIGHTSPEED
+### 19. 로지텍 G502 X LIGHTSPEED
 - **브랜드**: 로지텍
-- **가격**: 79,499원
+- **가격**: 79,647원
 - **평점**: ⭐5 (1개 리뷰)
 - **핵심 스펙**: 마우스 / 유선+무선 / DPI+9버튼 / 25600DPI / 전용동글(리시버) / USB / 센서 / HERO 25K / 400IPS / MR무선충전 / 오른손 / 무한휠 지원 / 소프트웨어 지원 / 내장 메모리 / 내장 배터리
 - **장점 요약**: 분석 중
@@ -213,7 +219,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=17864795)
 
-### 19. 로지텍 G PRO X SUPERLIGHT 2 DEX (정품)
+### 20. 로지텍 G PRO X SUPERLIGHT 2 DEX (정품)
 - **브랜드**: 로지텍
 - **가격**: 166,400원
 - **평점**: ⭐4.9 (58개 리뷰)
@@ -222,16 +228,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=70531103)
-
-### 20. COX CEM30 서포트오피스 FREE 무선
-- **브랜드**: COX
-- **가격**: 22,900원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 마우스 / 무선 / DPI+5버튼 / 3200DPI / 전용동글(리시버) / 블루투스 / USB / 센서 / 오른손 / 버티컬(손목보호) / 기능버튼 위치 / 상단 / 전원스위치 / 내장 배터리 / 상하좌우
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=102550046)
 
 ---
 
@@ -246,6 +242,5 @@
 ---
 
 ## 📊 데이터 출처
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8UxhH3soZNJGvCnxDemk5iQKqUWrDtjKXGlno8iyDLLHP3XiM0A9_qOs-Np2SDucE_up3WW0qOpfKtC0gBcWQMvM3KPdCKbhoNzy1hTzSIYOvsqZKlG0JJtkrctU8p9YbM5mFRl17m19F7ofeeiHfEOkQs99NPMTX0cMkP06Ioxgn1q37KPFG_Qinli9eBYwoC83SObi1KAjvOCMaDqhwRLvj5KOCrTSK8KZx4EPajGR4wFPoV5MnjGOUe2_mDPgx-4nlEnfU)
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUXoe-kl8QbDO7lXb3Y5Ztrfh3OEE84tO-lfqL2kXNZA90SllYIxDbX5JsAJxq9otBQUfG9ylnVHc4wPkB7iCNUQ-okFrK-bcInthFwQGq8Kd8bfMx5htaYgHhMcL5TOmA3YFWDLD7TO5Zs1OCi6OS23VOsvZ1LwproMSAb-xON5Ez-7AuxwUhuzeXJXcv_HYoYKI0Jt7vaSawCXRvAbS5jYapdLkvUN9av79R3WoOrNRrwlBkHlUfUAirZEp-eSzbM5J6hW6c0onf)
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1ph1vehqUzLE7i7RhbOM0G6PQCwA4bwmnwHvYdWilnwvIL8BXjUO84YqLN_HfV9cjeU6nPLmt9kwuNBdkVJ08iTFMU664Z-RwHVQc668O9tApWrWECY-8jJILxZhw8Hj1SZGcXqqHkxs-5Ky6mRDzAhN-AxIlsztlYBaf0fhSB0CZSxp58a8zamF0cOgqQlLF_pWd0JiQVtLy-KESCl9G6RvfFy48pQWognhQtg_G1Lel5iniXVahA9XYPaKP60PS)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELWrB4EwpcaYMGLmlOVdRBJXGT9STMlIx2ixfwrNNqSbEcGHHKhrc34tUXupviDXYIo9OEox_FM1uUOqdQ8jsasCqSdGi0Z-vyN-BaUO04--c5EJ1YMzI0GCejih7mTTCnHrZ3U-TTSEgGjjdFHGegPzEwH502W6N5_sRFUXaZMDrrOUBHZPBGueVKbGtX1q0GwGVMjwB82iHylf-IPiV3QWZrvBJyZwMGtR3xqPTD1X9TIAVI2LX6iFDRf0GSxPvWRdKc67A=)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEhVU9yeZbvacySt6GNoBYAYcMWrL6zce7-tPOGqkz6M__vNFw15847GmQtrNRiWIyCjr2MU2453BRfHblnZ1U-0aUm5Z4Edxo0dE1SVHZr8sogUlkbXQVPQZ-SE8oaReVn8Ws1-QtLX54FzirsFYlQ-Y_ownK0yZqph1eY-T2TtogSIHkDRTURz8f-4g==)

@@ -1,5 +1,5 @@
-# 세션: 20260119_085252_gixu
-> 시작: 2026-01-19T08:52:52.446Z
+# 세션: 20260122_125505_la09
+> 시작: 2026-01-22T12:55:05.092Z
 > 카테고리키: 무선마우스
 > 카테고리: 무선마우스
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 무선마우스 시장 현황
-- 인사이트: 무선 마우스 시장은 지속적인 성장세를 보이며, 소비자들은 편의성, 디자인, 개인화된 경험을 중요하게 생각하고 있습니다. 특히 게이머 증가와 원격 근무 확산이 시장 성장을 견인하고 있으며, 기술 발전으로 무선 마우스의 성능 또한 향상되고 있습니다. 2023년 기준 약 29억 3천만 달러 규모였던 시장은 2031년까지 53억 8천만 달러에 이를 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8UxhH3soZNJGvCnxDemk5iQKqUWrDtjKXGlno8iyDLLHP3XiM0A9_qOs-Np2SDucE_up3WW0qOpfKtC0gBcWQMvM3KPdCKbhoNzy1hTzSIYOvsqZKlG0JJtkrctU8p9YbM5mFRl17m19F7ofeeiHfEOkQs99NPMTX0cMkP06Ioxgn1q37KPFG_Qinli9eBYwoC83SObi1KAjvOCMaDqhwRLvj5KOCrTSK8KZx4EPajGR4wFPoV5MnjGOUe2_mDPgx-4nlEnfU, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUXoe-kl8QbDO7lXb3Y5Ztrfh3OEE84tO-lfqL2kXNZA90SllYIxDbX5JsAJxq9otBQUfG9ylnVHc4wPkB7iCNUQ-okFrK-bcInthFwQGq8Kd8bfMx5htaYgHhMcL5TOmA3YFWDLD7TO5Zs1OCi6OS23VOsvZ1LwproMSAb-xON5Ez-7AuxwUhuzeXJXcv_HYoYKI0Jt7vaSawCXRvAbS5jYapdLkvUN9av79R3WoOrNRrwlBkHlUfUAirZEp-eSzbM5J6hW6c0onf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1ph1vehqUzLE7i7RhbOM0G6PQCwA4bwmnwHvYdWilnwvIL8BXjUO84YqLN_HfV9cjeU6nPLmt9kwuNBdkVJ08iTFMU664Z-RwHVQc668O9tApWrWECY-8jJILxZhw8Hj1SZGcXqqHkxs-5Ky6mRDzAhN-AxIlsztlYBaf0fhSB0CZSxp58a8zamF0cOgqQlLF_pWd0JiQVtLy-KESCl9G6RvfFy48pQWognhQtg_G1Lel5iniXVahA9XYPaKP60PS
+- 인사이트: 무선 마우스 시장은 지속적인 성장세를 보이며, 2023년 약 29억 3천만 달러에서 2031년에는 53억 8천만 달러에 이를 것으로 예상됩니다. 이는 연평균 7.9%의 성장률을 기록할 것으로 전망됩니다. 특히 효율성과 편의성에 대한 수요 증가가 시장의 주요 트렌드를 이끌고 있습니다. 또한, 최근에는 유선과 무선 겸용 마우스의 인기가 급상승하며 시장 점유율을 확대하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELWrB4EwpcaYMGLmlOVdRBJXGT9STMlIx2ixfwrNNqSbEcGHHKhrc34tUXupviDXYIo9OEox_FM1uUOqdQ8jsasCqSdGi0Z-vyN-BaUO04--c5EJ1YMzI0GCejih7mTTCnHrZ3U-TTSEgGjjdFHGegPzEwH502W6N5_sRFUXaZMDrrOUBHZPBGueVKbGtX1q0GwGVMjwB82iHylf-IPiV3QWZrvBJyZwMGtR3xqPTD1X9TIAVI2LX6iFDRf0GSxPvWRdKc67A=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEhVU9yeZbvacySt6GNoBYAYcMWrL6zce7-tPOGqkz6M__vNFw15847GmQtrNRiWIyCjr2MU2453BRfHblnZ1U-0aUm5Z4Edxo0dE1SVHZr8sogUlkbXQVPQZ-SE8oaReVn8Ws1-QtLX54FzirsFYlQ-Y_ownK0yZqph1eY-T2TtogSIHkDRTURz8f-4g==
 
 ---
 
@@ -16,27 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 무선 마우스를 주로 어떤 용도로 사용하시나요? | 게임용 |
-| 어떤 방식으로 마우스를 연결하는 것을 선호하시나요? | USB 동글, 블루투스 |
-| 마우스의 무게와 손에 쥐는 느낌(그립감)은 어느 정도가 적합하신가요? | 중간 무게 |
-| 마우스 배터리는 어떤 방식을 선호하시나요? | 내장 배터리 |
-| 무선 마우스 예산은 어느 정도로 생각하세요? (평균 약 9만 5천원, 5만원~12만원대가 가장 많아요) | 5만원 ~ 12만원대, 5만원 이하 |
-| __avoid_negatives__ | 게임 플레이 중에 갑자기 연결이 끊기거나 입력이 지연될까 봐 걱정돼요,내장 배터리 때문에 마우스가 너무 무거워서 장시간 게임 시 손목에 부담이 될 것 같아요 |
+| 무선 마우스를 주로 어떤 환경에서 사용하시나요? | 디자인/크리에이티브 (정밀한 컨트롤, 커스터마이징) |
+| 어떤 방식으로 마우스를 연결하는 것을 선호하시나요? | 블루투스 (다양한 기기 연결, 포트 절약), USB 동글 (안정적인 연결, 빠른 반응 속도) |
+| 마우스 무게는 어느 정도를 선호하시나요? | 가벼운~보통 (100g ~ 120g), 초경량 (100g 미만) |
+| 어떤 방식으로 마우스를 쥐는 것을 선호하시나요? | 팜 그립 (손바닥 전체 지지) |
+| 예산은 어느 정도로 생각하세요? (평균 약 9만 6천원, 5만 4천원~12만 5천원대가 가장 많아요) | 5만 4천원 ~ 12만 5천원, 5만 4천원 이하 |
+| __avoid_negatives__ | 블루투스 연결 시 수신기를 따로 관리해야 하는데,분실할 위험이 있어 신경 쓰여요,다양한 기기에 연결하고 포트를 절약하는 블루투스 연결만으로는 커스터마이징 옵션이 부족할까 봐 아쉬워요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 7개 (전체 7개 중)
+현재 후보: 94개 (전체 94개 중)
 
 ### 후보 상품
-1. COX CEM30 서포트오피스 FREE 무선 - 22,900원 - ⭐5
-2. 아이리버 EQwear-EV3 버티컬 무선 마우스 - 29,900원 - ⭐4.5
-3. Razer Orochi V2 (정품) - 74,100원 - ⭐4.6
-4. 앱코 WEM300 버티컬 인체공학 OLED 무선 마우스 - 29,000원 - ⭐4.6
-5. 로지텍 G PRO X SUPERLIGHT (정품) - 159,000원 - ⭐4.8
-6. MadCatz R.A.T DWS - 96,578원 - ⭐4.6
-7. COX CWM200 무선 블루투스 마우스 - 14,000원 - ⭐4.8
+1. ATK VXE R1 SE+ 유무선 브라보텍 - 24,350원 - ⭐4.6
+2. 로지텍 G PRO X SUPERLIGHT 2 (정품) - 171,570원 - ⭐4.8
+3. ATK A9 ULTRA 유무선 브라보텍 - 69,920원 - ⭐4.5
+4. CORSAIR 세이버 v2 PRO 초경량 무선 게이밍 - 125,680원 - ⭐5
+5. 로지텍 G304 LIGHTSPEED WIRELESS (정품) - 36,000원 - ⭐4.8
+6. Razer DeathAdder V3 Pro - 150,980원 - ⭐4.9
+7. Razer DeathAdder V2 X HyperSpeed - 49,700원 - ⭐4.8
+8. 로지텍 MX MASTER 4 (정품) - 170,050원 - ⭐4.7
+9. 로지텍 LIFT VERTICAL (정품) - 67,340원 - ⭐4.8
+10. Razer Viper V3 Pro (정품) - 219,880원 - ⭐4.8
+11. 삼성전자 SM-M1300Q 무선 블루투스 - 41,900원 - ⭐4.6
+12. Razer DeathAdder V4 Pro - 246,050원 - ⭐4.7
+13. 로지텍 M331 (정품) - 25,260원 - ⭐4.8
+14. ATK VXE R1 SE+ - 11,900원 - ⭐4.6
+15. COX CEM30 서포트오피스 FREE 무선 - 24,350원 - ⭐5
+16. 로지텍 시그니처 M650 (정품) - 46,410원 - ⭐4.8
+17. 로지텍 MX Master 3S (정품) - 122,810원 - ⭐4.8
+18. 로지텍 G309 (정품) - 72,800원 - ⭐4.8
+19. 로지텍 G502 X LIGHTSPEED - 79,647원 - ⭐5
+20. 로지텍 G PRO X SUPERLIGHT 2 DEX (정품) - 166,400원 - ⭐4.9
 
 ---
 
@@ -48,8 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 게임 플레이 중에 갑자기 연결이 끊기거나 입력이 지연될까 봐 걱정돼요
-- 내장 배터리 때문에 마우스가 너무 무거워서 장시간 게임 시 손목에 부담이 될 것 같아요
+- 블루투스 연결 시 수신기를 따로 관리해야 하는데
+- 분실할 위험이 있어 신경 쓰여요
+- 다양한 기기에 연결하고 포트를 절약하는 블루투스 연결만으로는 커스터마이징 옵션이 부족할까 봐 아쉬워요
 
 ---
 

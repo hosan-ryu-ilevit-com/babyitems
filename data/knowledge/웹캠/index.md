@@ -1,31 +1,15 @@
 # 웹캠 전문가 지식
 
-> 마지막 업데이트: 2026-01-19T07:24:09.103Z
-> 분석 상품: 20개 | 분석 리뷰: 6,406개
+> 마지막 업데이트: 2026-01-22T12:40:48.068Z
+> 분석 상품: 20개 | 분석 리뷰: 6,371개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 원격 근무 및 하이브리드 근무 모델 확산
-- 라이브 스트리밍 및 온라인 콘텐츠 제작 증가
-- AI 기반 기능(자동 프레이밍, 배경 흐림 등) 탑재
-- 고해상도(Full HD, 4K) 및 향상된 화질에 대한 수요 증가
-- 개인 정보 보호 기능(프라이버시 셔터 등) 강화
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 가성비
-- ✓ 향상된 화질
-- ✓ 자동 초점 및 밝기 조절
-- ✓ 내장 마이크 성능 개선
-- ✓ 플러그 앤 플레이 편의성
-- ✓ 다양한 활용성 (화상 통화, 온라인 교육, 방송 등)
 
 ### 주의해야 할 단점
-- ⚠ 저가형 제품의 낮은 화질
-- ⚠ 어두운 환경에서의 프레임 드롭
-- ⚠ 내장 마이크 성능의 한계
-- ⚠ 가격 경쟁 심화
-- ⚠ 개인 정보 보호 우려
 
 ### 가격대 인사이트
 
@@ -46,7 +30,7 @@
 
 ### 2. 로지텍 Brio 500 (정품)
 - **브랜드**: 로지텍
-- **가격**: 132,050원
+- **가격**: 140,600원
 - **평점**: ⭐4.8 (8개 리뷰)
 - **핵심 스펙**: PC 캠 / USB Type-C / 30fps / 시야각 / 90° / 오토포커스 / 프라이버시 셔터 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
 - **장점 요약**: 분석 중
@@ -54,49 +38,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=19016966)
 
-### 3. 앱코 APC920W QHD Wide Angle 웹캠
-- **브랜드**: 앱코
-- **가격**: 37,540원
-- **평점**: ⭐4.5 (162개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 400만 / 30fps / 시야각 / 110° / 얼굴인식 / 프라이버시 셔터 / 자동설치 / 클립형 / 2560 x 1440(QHD) / 내장 마이크
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12948710)
-
-### 4. ASUS ROG EYE S
-- **브랜드**: ASUS
-- **가격**: 103,200원
-- **평점**: ⭐5 (6개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 500만 / 60fps / 얼굴인식 / 오토포커스 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=15674465)
-
-### 5. 로지텍 C922 PRO STREAM WEBCAM (정품)
-- **브랜드**: 로지텍
-- **가격**: 137,080원
-- **평점**: ⭐4.7 (466개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 30fps / 시야각 / 78° / 오토포커스 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=4520140)
-
-### 6. 로지텍 BRIO 100 웹캠
-- **브랜드**: 로지텍
-- **가격**: 39,900원
-- **평점**: ⭐4.8 (10개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 영상 출력 단자 / 30fps / 시야각 / 58° / 프라이버시 셔터 / 클립형 / 1920 x 1080(FHD) / 내장 마이크
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=28393163)
-
-### 7. Elgato Facecam 4K
+### 3. Elgato Facecam 4K
 - **브랜드**: Elgato
-- **가격**: 280,960원
+- **가격**: 280,940원
 - **평점**: ⭐0 (0개 리뷰)
 - **핵심 스펙**: PC 캠 / USB / CMOS / 60fps / 시야각 / 90° / 클립형 / 3840 x 2160(UHD)
 - **장점 요약**: 분석 중
@@ -104,87 +48,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=94999391)
 
-### 8. 앱코 APC900 FHD 웹캠
-- **브랜드**: 앱코
-- **가격**: 29,350원
-- **평점**: ⭐4.6 (304개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 200만 / 30fps / 시야각 / 72° / 프라이버시 셔터 / 자동설치 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12199583)
-
-### 9. 로지텍 HD WebCam C270 (정품)
+### 4. 로지텍 C922 PRO STREAM WEBCAM (정품)
 - **브랜드**: 로지텍
-- **가격**: 23,070원
-- **평점**: ⭐4.7 (597개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / CMOS / 30fps / 클립형 / 1280 x 720(HD) / 내장 마이크
+- **가격**: 136,990원
+- **평점**: ⭐4.7 (466개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 30fps / 시야각 / 78° / 오토포커스 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=1227296)
+- [상세보기](https://prod.danawa.com/info/?pcode=4520140)
 
-### 10. STCOM biz FHD60F 웹캠
-- **브랜드**: STCOM
-- **가격**: 52,500원
-- **평점**: ⭐4.5 (21개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 200만 / 60fps / 시야각 / 95.8° / 프라이버시 셔터 / 자동설치 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13878431)
-
-### 11. 로지텍 C920 HD PRO WEBCAM (정품)
-- **브랜드**: 로지텍
-- **가격**: 109,800원
-- **평점**: ⭐4.7 (108개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 30fps / 오토포커스 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=6846133)
-
-### 12. Microsoft Modern
-- **브랜드**: Microsoft
-- **가격**: 57,500원
-- **평점**: ⭐4.8 (10개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 30fps / 시야각 / 77° / 오토포커스 / 화상회의용 / 프라이버시 셔터 / 클립형 / 1920 x 1080(FHD) / 내장 마이크
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=15992891)
-
-### 13. COX CPC1080 FHD 웹캠
-- **브랜드**: COX
-- **가격**: 22,470원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 30fps / 시야각 / 80° / 오토포커스 / 프라이버시 셔터 / 클립형 / 1920 x 1080(FHD)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93629588)
-
-### 14. MSI FHD 프로캠
-- **브랜드**: MSI
-- **가격**: 35,600원
-- **평점**: ⭐4.4 (19개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / CMOS / 200만 / 30fps / 시야각 / 72° / 자동설치 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13263380)
-
-### 15. 인스타360 Link 2
-- **브랜드**: 
-- **가격**: 299,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / CMOS / 30fps / 얼굴인식 / 오토포커스 / 화상회의용 / 프라이버시 셔터 / 자동설치 / 클립형 / 3840 x 2160(UHD) / 내장 마이크(스테레오)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=67626647)
-
-### 16. 앱코 APC930 QHD 웹캠
+### 5. 앱코 APC930 QHD 웹캠
 - **브랜드**: 앱코
 - **가격**: 62,470원
 - **평점**: ⭐4.6 (2,211개 리뷰)
@@ -194,15 +68,125 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=11306244)
 
-### 17. Elgato Facecam NEO
+### 6. 앱코 APC920W QHD Wide Angle 웹캠
+- **브랜드**: 앱코
+- **가격**: 37,540원
+- **평점**: ⭐4.5 (162개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 400만 / 30fps / 시야각 / 110° / 얼굴인식 / 프라이버시 셔터 / 자동설치 / 클립형 / 2560 x 1440(QHD) / 내장 마이크
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=12948710)
+
+### 7. MSI FHD 프로캠
+- **브랜드**: MSI
+- **가격**: 35,600원
+- **평점**: ⭐4.4 (19개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / CMOS / 200만 / 30fps / 시야각 / 72° / 자동설치 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=13263380)
+
+### 8. ASUS ROG EYE S
+- **브랜드**: ASUS
+- **가격**: 103,200원
+- **평점**: ⭐5 (6개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 500만 / 60fps / 얼굴인식 / 오토포커스 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=15674465)
+
+### 9. STCOM biz FHD60F 웹캠
+- **브랜드**: STCOM
+- **가격**: 52,500원
+- **평점**: ⭐4.5 (21개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 200만 / 60fps / 시야각 / 95.8° / 프라이버시 셔터 / 자동설치 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=13878431)
+
+### 10. Elgato Facecam MK.2
 - **브랜드**: Elgato
-- **가격**: 102,300원
+- **가격**: 229,730원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 영상 출력 단자 / 영상 입력 단자 / CMOS / 60fps / 시야각 / 84° / 프라이버시 셔터 / 클립형 / 1920 x 1080(FHD)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=44763116)
+
+### 11. COX CPC1080 FHD 웹캠
+- **브랜드**: COX
+- **가격**: 21,510원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 30fps / 시야각 / 80° / 오토포커스 / 프라이버시 셔터 / 클립형 / 1920 x 1080(FHD)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=93629588)
+
+### 12. 앱코 APC900 FHD 웹캠
+- **브랜드**: 앱코
+- **가격**: 29,350원
+- **평점**: ⭐4.6 (304개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 200만 / 30fps / 시야각 / 72° / 프라이버시 셔터 / 자동설치 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=12199583)
+
+### 13. 인스타360 Link 2
+- **브랜드**: 
+- **가격**: 459,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / CMOS / 30fps / 얼굴인식 / 오토포커스 / 화상회의용 / 프라이버시 셔터 / 자동설치 / 클립형 / 3840 x 2160(UHD) / 내장 마이크(스테레오)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=67626647)
+
+### 14. Elgato Facecam NEO
+- **브랜드**: Elgato
+- **가격**: 107,200원
 - **평점**: ⭐5 (1개 리뷰)
 - **핵심 스펙**: PC 캠 / USB / 영상 출력 단자 / 영상 입력 단자 / CMOS / 60fps / 시야각 / 77° / 프라이버시 셔터 / 클립형 / 1920 x 1080(FHD)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=48479390)
+
+### 15. 로지텍 HD WebCam C270 (정품)
+- **브랜드**: 로지텍
+- **가격**: 23,070원
+- **평점**: ⭐4.7 (597개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / CMOS / 30fps / 클립형 / 1280 x 720(HD) / 내장 마이크
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=1227296)
+
+### 16. 인텔 RealSense Depth Camera D405
+- **브랜드**: 인텔
+- **가격**: 477,960원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 90fps / 스탠드형
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=17831243)
+
+### 17. 앱코 APC720 HD 웹캠
+- **브랜드**: 앱코
+- **가격**: 23,410원
+- **평점**: ⭐4.5 (213개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 100만 / 30fps / 시야각 / 55° / 얼굴인식 / 프라이버시 셔터 / 자동설치 / 클립형 / 1280 x 720(HD) / 내장 마이크(스테레오)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=12409358)
 
 ### 18. 앱코 APC480 SD 웹캠
 - **브랜드**: 앱코
@@ -214,25 +198,25 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=12246791)
 
-### 19. TGIC TGC-HD200 화상카메라
-- **브랜드**: TGIC
-- **가격**: 23,500원
-- **평점**: ⭐3.4 (5개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 오토포커스 / 프라이버시 셔터 / 자동설치 / 클립형 / 1920 x 1080(FHD) / 내장 마이크
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12787631)
-
-### 20. 앱코 APC720 HD 웹캠
+### 19. 앱코 APC850 FHD 웹캠
 - **브랜드**: 앱코
-- **가격**: 23,410원
-- **평점**: ⭐4.5 (213개 리뷰)
-- **핵심 스펙**: PC 캠 / USB / 100만 / 30fps / 시야각 / 55° / 얼굴인식 / 프라이버시 셔터 / 자동설치 / 클립형 / 1280 x 720(HD) / 내장 마이크(스테레오)
+- **가격**: 23,000원
+- **평점**: ⭐4.7 (98개 리뷰)
+- **핵심 스펙**: PC 캠 / USB / 200만 / 30fps / 시야각 / 110° / 프라이버시 셔터 / 클립형 / 1920 x 1080(FHD) / 내장 마이크(스테레오)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12409358)
+- [상세보기](https://prod.danawa.com/info/?pcode=17726282)
+
+### 20. Razer Kiyo X
+- **브랜드**: Razer
+- **가격**: 109,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: PC 캠 / USB2.0 / 210만 / 30fps / 시야각 / 82° / 오토포커스 / 자동설치 / 클립형 / 1920 x 1080(FHD) / 내장 마이크
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=15766385)
 
 ---
 
@@ -247,9 +231,11 @@
 ---
 
 ## 📊 데이터 출처
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPrWow3VzRCzV3EycyD8UxU9Xt_MLau16Je9ezWYisoiPhtVT4zTmU6ikLDQ_ey8DqjBB6HKOWKV2vM-h2am6VJvFUvrxQZlaATj44uGBbdKPvXadrvZBM3doovrzdiHDpBdu4VALxpReI-QjpHVTY_bWsmV8SfCLNKUZr)
-- [marketgrowthreports.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERh-VvuZ_PzB7AUXrSeVn8gIcMWwQsJZxdoof16-wWLlWCyTFu9MVsRMrZ0kfJLSTFFI4J05kON_VMevx1ycIQuUc07aUaJY0mjpzpD0NZCkirNg9iLayP_EdmVZ3GQnMKUxtCLN50B2m2xGZpneww0C92VJRCdou5uv8dvL8UOPc3iHDsFQ==)
-- [globalinsightservices.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEBFb1BGlvZg3pr6LmEXI7h1a0cYUFYn1Z2EABPV_g0c3NpUAP7twVq-WmZwlc-jNgaTc0wbMmg2WfM1ubF-cy2ZEUbpEawIiru6gEdyCENXG1KB4Go3q3RpsjhgP1b6LJitBvHXj-fol9giNsxHHodFQ4h0lRqp43AiA==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5771PKu8va4g9pKE1UdjUbWwSqf-W0Tu-d_kghcnADiDjVaXDlw-fNVYS-vZ0FxVQ0y2duI_fEzgb82nEr_NG2Tx5lCOVbsTI-ylo-zy-7ohpKVi6FTIlsmeT)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPF7fNli8tcnd0OtctINmvw_QLNGPOgIg1DTtys9mFZcQQRcHczCkw1re-XGY6RNqfXOgtbLOJumelx2XxjC0c0ORftK61ZgrOgCMYBQm0iC4QKSKr4kFKHhbeI8Wme-WDAWkbvWgVm89qLXHPm2ohftwXwglcNe4CMQ_SJbivP0jki-uFBPPgI0HJXbVOYnpgIgo7DROW9r4_vuYY_wSx_aWHr4ui2ebWwiFcOyXnsMlwoBY6RNohxMr5204xm_I=)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXk_D-7rq9I-RZGgSyUuYjmEc3z2trb1_iOCV-n2GxApOsEEMt288sVFu_WwGTiP1PmlLFp_KrMDyv-s_PRZY7PUtk0i2Hb3FMH_VYJmBmyz8VxvVCy35U4HbEUOQzqXXX-JmerORoh4Z4Kh8TkfzufllE0DwaY7_PwQk=)
+- [marketgrowthreports.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3P2Gj1cfwAJUMUDB6XLoLIK97iuwGzOScu9wSt4VOfkstc-AZzHxZr8HAVBuo_jaf29LmXGChl6HpToTOe2AGVm6tpqJ9zhGBm3bByGsrs4FJ3i5v694SvOXFVyqjIFT9wVpxY_lGyOMoXQmidJ69l0lpkKJc3TsjqVYlBSD9fQSqrxhpTg==)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH80-bnp0mG2r4tf5QHgN8a-gVG7JdtMrz19O2dH1tUJr5C7m4buf6ntQUsjBh3ph4BQt1ruyHguUUPU0ySNw6yb4UQuasuWjVscUzXpZxdejqTcNDtd2fB2Ua_vBAh6TXATiUMb702OzCODJgd_X8zBpGtjAUieg0SMo7H)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE75g31oFPs9Ewzj6ypW_eiQ2iobXcTDqAbt8OZ76qKbnCMq__GcRmdmS0b0Pz9m7D4prPgHzOGH4cAiuptJwesQcDPKwfZl8fngvPEehpZq9FoqPvrzOvPAxweZHG3U14TdgYYaX0e5j-56yvJmdC67qiLd6n76CfMQ7HoyMyw0K183s8S5JdKvihexVZmjkm-lFGuaBAquLTpfICZzIu0vSfQvcDcb3VLCUoUg_2aIuTkJlTIF8zdWDMTRBHreMg)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5HiJiGZ6rbLoQo-Vu1O5XjhT2gZoX6nrV2Xuz8CrT6Ws4NK4GYbLMlEPnAAeCNCjwJnR8zTEyKPUNxYkAzEbOxy9YvjIoyitdKikjxDJb95iW9ZAqZw3fTZMfWAQAfgv8oiDfASIMQNOEdM6iyys42z_P8Kl1e7WrMMI=)
+- [reddit.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPafvy3nn52_Lp61kry87uDLLQsrak4tkzQIJa4NQIe9EMRy2vnIHTAChwaN5X4EvvfYfA4tDziXnJeN4McuwM2vv1n3mEEmeJ9XiJQ63c0_b10W45oEpFDwcBzDD_7YGpOAnMgMtVUl2rrkCOp-uEEWHa02ejcQFZwaUsHRFblEXCgbMBFkhdeuDNdZ2-Z1ZrGrqQVLyQrXQilIw=)
+- [mediapic.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrGbOy3NFF7dchkm3HxFKbiUIVpXowp0kmoGhX8ZbrQeFPwFoq5J7YJN1V_lm37M9GrIjqj2m2bM62cb8WQXRjut3TUf79zmvkxY3TnGDjXuY1tzCHIEJlv9RQYFoJfpUAPRRyt-N4dwMlCgZ6hajePzvI5X8=)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHM6TNHPGm720LBcwAS6f1hHrzZofAEYUyAx0JJf2iA5lw_CRsKIyESJyaGn0j7LAbar_2ylHKwYPh5h7w5H3dKIlt4avzp9fuohIDbVfTdD4P1xm36AvgK_PEPs53WWlk5oWaV_94=)
+- [ilovepc.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9QYOMYrbJhiGJAw4FwXT9Vxp2zxWcrb5jDmI5ipcgQCRvfBYr1xG4JuzD3F4tHkYgBbKM_1fu7ys4KEYv5gl-UxQUvUulnkHu8Y7FCW_B3yzTYgDuQZlGCe_Huj7vHZaZbk7K1y_m-QDhmN1ecCD5AgOtT-fa)

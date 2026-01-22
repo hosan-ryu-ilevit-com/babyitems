@@ -986,12 +986,12 @@ export default function KnowledgeAgentPage() {
     };
     setTimelineSteps([step1]);
     setLoadingProgress(10);
-    await new Promise(resolve => setTimeout(resolve, 7000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     // 1단계 완료 처리
     const step1Completed = { ...step1, status: 'completed' as const };
 
-    // 2단계: 후보군 비교 (8초)
+    // 2단계: 후보군 비교 (6초)
     const candidateText = candidateCount > 0 ? `${candidateCount}개` : '전체';
     const step2: TimelineStep = {
       id: 'step-2',
@@ -1006,7 +1006,7 @@ export default function KnowledgeAgentPage() {
     };
     setTimelineSteps([step1Completed, step2]);
     setLoadingProgress(45);
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     // 2단계 완료 처리
     const step2Completed = { ...step2, status: 'completed' as const };

@@ -1768,7 +1768,7 @@ async function generateQuestions(
   const brands = [...new Set(products.map(p => p.brand).filter(Boolean))];
 
   // 스펙 분포 분석을 별도 LLM 호출 대신 텍스트로 준비하여 메인 프롬프트에 포함 (시간 단축)
-  const productSpecsForAnalysis = products.slice(0, 20).map((p, i) => {
+  const productSpecsForAnalysis = products.slice(0, 10).map((p, i) => {
     return `${i + 1}. ${p.name} | 스펙: ${p.specSummary || '(없음)'}`;
   }).join('\n');
 
@@ -1875,7 +1875,7 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
    - 사용자 취향이나 환경에 따라 제품 추천이 달라지는 항목을 우선순위로 두세요.
 3. **예산/단점 질문 생성 금지:**
    - 예산 질문과 "피하고 싶은 단점" 질문은 별도 시스템에서 생성하므로, 여기서는 생성하지 마세요.
-4. **Constraint:**
+4. **간결함:**
    - 오직 JSON 배열만 출력하세요. 설명은 필요 없습니다.
 
 ## [출력 포맷 예시]
@@ -1919,7 +1919,8 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
       model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.35,
-        maxOutputTokens: 2000,  // 1200 → 2000 (JSON 잘림 방지)
+        maxOutputTokens: 3000,
+        responseMimeType: 'application/json',
       }
     });
 
