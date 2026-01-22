@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ExternalLink, Award, Package } from 'lucide-react';
+import { FaChevronDown, FaExternalLinkAlt, FaAward, FaBox } from 'react-icons/fa';
 import type { ProductVariant } from '@/types/danawa';
 
 interface ProductVariantsComparisonProps {
@@ -57,7 +57,7 @@ export default function ProductVariantsComparison({
         className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-neutral-50 transition-colors"
       >
         <div className="flex items-center gap-2">
-          <Package className="w-5 h-5 text-blue-600" />
+          <FaBox className="w-5 h-5 text-blue-600" />
           <span className="font-semibold text-neutral-900">
             다른 구성 {variants.length}가지
           </span>
@@ -78,7 +78,7 @@ export default function ProductVariantsComparison({
             animate={{ rotate: isExpanded ? 180 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            <ChevronDown className="w-5 h-5 text-neutral-400" />
+            <FaChevronDown className="w-5 h-5 text-neutral-400" />
           </motion.div>
         </div>
       </button>
@@ -126,7 +126,7 @@ export default function ProductVariantsComparison({
 
                         {isLowestUnitPrice && (
                           <div className="flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-800 rounded">
-                            <Award className="w-3 h-3" />
+                            <FaAward className="w-3 h-3" />
                             <span>최저단가</span>
                           </div>
                         )}
@@ -171,7 +171,7 @@ export default function ProductVariantsComparison({
                         onClick={(e) => e.stopPropagation()}
                       >
                         <span>다나와</span>
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        <FaExternalLinkAlt className="w-3.5 h-3.5" />
                       </a>
                     </div>
                   </motion.div>
