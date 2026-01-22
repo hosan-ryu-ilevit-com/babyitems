@@ -1,5 +1,5 @@
-# 세션: 20260121_132132_1w4l
-> 시작: 2026-01-21T13:21:32.977Z
+# 세션: 20260122_053251_up1c
+> 시작: 2026-01-22T05:32:51.076Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 2024년부터 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 베베숲은 9년 연속 국내 물티슈 판매 1위를 기록하며 시장 점유율 1위를 굳건히 하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQED-xK3GJyA9r1A3W4J2w76CBMVipo6Y03EWc2b95-D7KmbIiCRdlfJ2aGN2B_i0E0yopmpzmJ6quW-1EX3krhVzr203GBjPrQL_WvC_b4BzlRB6BZ7iYbfEsbcyN5AC-bYMlmYHFiXKpofoFKcLQZrXaE-r3iQis9xomQD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0GUVOiqsoL6piqvdQVahOkb-GIeCBFkUp1B1anKMx2fCJ9SV6og2lNen6L-6PZ9mHW_PVSAMBErkG_lGAM9TIK6gHpy7keDiWNLBiTvyt6kXinH2JobNiV4r8gI1H2i3_p9KDFiF35xqGmrbAe2BQ3fDAcpCfuM0t4Rtbstbe5mzV_IdD9fIYexhg, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEa7NkNi3PThzhAIJphmPAnr88ELxmSzNusH19IKtIQodFaPoO857W8ZfrSqSb1ZSOFLZEeY4QgEGcPq-ftNoMmHm4rgdFo0VjkqnUzfkxDql36zGR24Lw37CcruGX-XuR7eDnlV0DdWs8ZzC8wJQ-tkHzEi1DN9elmyIWxedFUnycyFkaxFxqQ-ihRqi-0YIvvTXGY3Nw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHP1DYOCB8oDLD9bo-zyx70qdWhoJQoz6P-hV0f7xX3hDjBOiyjH3SHZXaXFDRNZRNj5s0UeufluikF95jypSw6NbclZm1lCwLANm0FkzrNgN0sqtHVhLQ8CMqDdlH6XTe936y0u7Z6T-jzCqiQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEiCa-vMUuUXVoaEjElyifmRQGWmvL2E8peZquozTC2eJOLgVSrNT3vae-O2IDR7hBB2UqLOwvEwG9itJuc8bhdzXcnZ9WV5Bzm0OhISM5F1Pyb_0O93UzwANmxKSvySr-a2pWTtAepkGzxvSL4bm-X2i4rvzqEMZlCmGM2S4xJ13r9kJLtYiEFDaM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFykD1G4ndGIcsIf55Av0S3Sq0coVsAH6gJ_jVngbFUTi21utSlpSOZ0qOeWovl37LgGcI9XxpqbCABL5Pz3SUJahIRedqvxGKlRKPfRphTNogUbtc6Gl8IC4eVglQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIILrDbHdIoLSbaXv0qZXCFGLd8FTaI7-AZWU17QNkEwuS5Hkh3y7jkNWK8xiJz66NCZN7TNUXEOaYXsoHHgkubs_Tw72gS7H8xCnX_ZicdkbW6yqd-Muvd8kVB9aGPYRzq3j1XUJBAjEAWKuhSCOVHk3-xIpQFAXcoDFTM1QGuV6GWFirIxlID9bXTA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5_pOhRzrgwDoP_l7cok2Xo1QTjZ2zV4qOXCvOYr20k0O2HQNhdhiUjQGNvOsAvLCc4TcqYjQFHSQcTKSMveVR65q-5Hp4yn4wuRNEu0DvPv8Q1Bjl6OZwUw1m-gx9Vv3Epy2YRd83tkNGyo68HFg3Tdn1_qu40oNjkjQyIA==
+- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 2024년부터 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 위생에 대한 중요성과 잦은 사용, 지속적인 제품 혁신 덕분에 아기 물티슈는 전체 물티슈 시장에서 상당한 비중을 차지하고 있습니다. 베베숲은 2024년 국내 유아용 물티슈 시장 점유율 26.4%로 1위를 차지했으며, 전체 물티슈 시장에서도 16.7%로 1위를 기록했습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5_JeBPArIsRUdyB4xU8c53vMGD8dRwRMBBNNIIcavJXcNHn_8lizEkzaNDcth9431o8i9OhXcf-Pzq1s2TWpTUPhBIeFDs0jXEUJ-8K-26Uu4NXlfwMpe5taqjHS2O6RPgVyiEXybqEz69pR0_JN9h40xfCTFQt2Ef5FH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVMiQKq8sO865wtx-Js-OB-NjDBgS0uOrXnnqJWAlxyVgEP5TOmcIFS8_TiA8rQnUNSMI5S0lq46Qdm8RQ0cWJErWT0J7cxCcEuL7pVfrpC5xNZ2_7a0wZ_WNyYcLVWAlUW_DgMKcrrv1peiW4o-seqh-9um7JJoE5tA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCoOyz2Nqn0YrkvKdGXoUf4_hjn8QXaqMMRCAiIxtJqv7_Mgc0tih6J2j_QRUijy897giUefIfX6NDCZjaIV1DcZ3bD64mg2xQwrqPmfk_vSKqFyFkskXVzMwPbO-OPZ0j0vvb_ivvNmzB10BoioOtsXFeU9d07fD1, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEw_-8cBNXP6YH12kxvwv3HNPjF6N6j6BQJzIhS7qpYTPEDDAmMcx1wSTitpXywMKnY45D9zTlQjKVf3NAZUhfyAciKUx8HBXFJ6_NDOXqoGfRRq4QQwvFpaQj8giWHhTh8EQWRvdhaqfu-yNVU2-2kTFY3lCojMi9de0ieaghbuCWuIJt0APox_Gx4ZpL-JhgVKCjHsgk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-w1evLFbSN17bYYjOjWc5S5qnhbaaT81VqgdUFKyqofq-o4Nqh-VF5SfZreOnJXNbheJAyqfh1VCPPdbfmVeibmCztqv0BHrttAvL-H8RMfzWHuarc-7ark7Hvok4bvK059r3lRIxwn-ad2MI, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcCxQCTfHGuaSdk0oV3lLzhnpOCjNQ_xuJASDDrikGl7-i_d0UnKw9kabzN5aOeOOHai8vF0WlXvntyeeMFm1sNym2cMgeONJxj1el0iAoPQ5Kgv1NjTQw57QauhPHoBML9SHzSAJbD33jWif7JIvw-v_SAPl_HUliaGgBdw==
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 피부에 직접 닿는 만큼, 어떤 성분을 가장 중요하게 생각하시나요? | EWG 그린 등급 성분, 저자극 & 무향 |
-| 물티슈의 두께는 어느 정도를 선호하시나요? 도톰할수록 여러 장 사용하지 않아도 되어 편리합니다. | 도톰한 편 |
-| 물티슈 표면의 엠보싱은 어떤 스타일을 선호하시나요? | 엠보싱 |
-| 주로 집에서 사용하시나요, 아니면 외출 시 휴대용으로도 자주 사용하시나요? | 주로 집에서 사용 |
-| 예산은 어느 정도로 생각하세요? (평균 1만 4천원, 8천원~1만 8천원대가 가장 많아요) | 8천원 ~ 1만 8천원대, 7천원 이하 |
-| __avoid_negatives__ | 도톰해서 여러 장 쓰지 않아도 된다지만,혹시라도 자주 사용하게 되면 금방 없어질까 걱정돼요,EWG 그린 등급 성분과 저자극,무향을 중요하게 생각하지만 혹시라도 아기 피부에 맞지 않을까 걱정돼요 |
+| 아기 피부에 직접 닿는 만큼, 어떤 성분을 가장 중요하게 생각하시나요? | EWG 그린 등급 성분 |
+| 물티슈를 사용할 때, 도톰한 두께감을 선호하시나요, 아니면 얇은 두께감을 선호하시나요? | 도톰한 두께감 |
+| 물티슈의 원단 소재에 대해 특별히 선호하는 것이 있으신가요? | 생분해성 소재 |
+| 물티슈 표면의 엠보싱 처리에 대해 어떻게 생각하시나요? | 플레인 (민무늬) |
+| 예산은 어느 정도로 생각하세요? (평균 약 1만 4천원, 7천원~1만 8천원대가 가장 많아요) | 7천원 ~ 1만 8천원대 |
+| __avoid_negatives__ | 아기에게 자극적이지 않은 은은한 향이나 무향 제품을 선호해서 강한 향은 피하고 싶어요,도톰한 두께감을 선호하는데,너무 얇으면 여러 번 닦아야 해서 불편할 것 같아요,EWG 그린 등급 성분을 중요하게 생각하는데,혹시라도 민감한 아기 피부에 자극이 될까 봐 염려돼요 |
 
 ---
 
@@ -61,10 +61,11 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 도톰해서 여러 장 쓰지 않아도 된다지만
-- 혹시라도 자주 사용하게 되면 금방 없어질까 걱정돼요
-- EWG 그린 등급 성분과 저자극
-- 무향을 중요하게 생각하지만 혹시라도 아기 피부에 맞지 않을까 걱정돼요
+- 아기에게 자극적이지 않은 은은한 향이나 무향 제품을 선호해서 강한 향은 피하고 싶어요
+- 도톰한 두께감을 선호하는데
+- 너무 얇으면 여러 번 닦아야 해서 불편할 것 같아요
+- EWG 그린 등급 성분을 중요하게 생각하는데
+- 혹시라도 민감한 아기 피부에 자극이 될까 봐 염려돼요
 
 ---
 

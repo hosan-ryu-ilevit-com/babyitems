@@ -4177,7 +4177,7 @@ export default function KnowledgeAgentPage() {
       <SimpleConfirmModal
         isOpen={showExitConfirmModal}
         onClose={() => setShowExitConfirmModal(false)}
-        title="메인 페이지로 돌아가겠어요?"
+        title="메인 페이지로 돌아가시겠어요?"
         primaryLabel="돌아가기"
         primaryColor="text-red-500"
         onPrimaryClick={() => {

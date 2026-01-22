@@ -577,7 +577,7 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 200 }}
-              className="absolute bottom-0 left-0 right-0 h-[85vh] bg-white rounded-t-3xl overflow-hidden"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] h-[85vh] bg-white rounded-t-3xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* 핸들 */}

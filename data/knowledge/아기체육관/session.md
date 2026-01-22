@@ -1,14 +1,14 @@
-# 세션: 20260108_045303_pzpn
-> 시작: 2026-01-08T04:53:03.728Z
+# 세션: 20260122_062341_62mt
+> 시작: 2026-01-22T06:23:41.717Z
 > 카테고리키: 아기체육관
 > 카테고리: 아기체육관
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 아기체육관 2026년 추천 순위 및 실사용 후기
-- 인사이트: 2026년 현재, 아기체육관 시장은 피셔프라이스와 하베브릭스 같은 검증된 브랜드들이 여전히 강세를 보이며, 다양한 기능과 디자인을 갖춘 제품들이 인기를 얻고 있습니다. 특히 피아노 건반이 달린 모델과 거울이 포함된 제품이 선호되는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNwUDv8za33PQIgPxClCYHHNB3G4k7ksWXtFlGiAWx4HLW6kgAuFOqvRm7WYKRZ4nO8eYWM2a8GIo0cq0Sp-qxlqsLTeP12twQ3l8xH0SvDwrQswZfOKvgiIQn8f6j_KLESoOupXLC_3ZLzoRK0hltdODFHxuc2blMQbfAo9BwDi00, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFiBGjn2v02LHPaIfLJ_EC5UosOH6heUkM2I6mVMntWxlGXuF8aIK3IxJHCY5wpvteOF_cYLemXYxREWk5I_VO-Eedq4gL_4WQxo6O7JMinEiZxr_v3dxsCgDyFBZE6P7D_1gADLJgWGTnZgA8pK2XdvQZgkA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7emild3uwzmAnqzqTUd2xJBHh4GLmn6C64vDAsLedszYkFiA1MGELmKesUP7Fkn4WMfJKgtTQc4-hKcWGxg1RUa3Myw4kCj5qQI-xLMRtnGAo7x4VC1IKLwyILG4gf_N6YTv-cEuTUj9luYksqOVhiVMCKA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGynSGB-TirYca37wJJ7W3Ik_GiZJjGlbWeQtmplxNYSO3NWoRrHba5VRx03bsR6AOVVTHKx63Q_3E_cIUI7JqwUJ3Y89r8ctDbUWLZe9ODEWUovk6J6NAPTNbIir_28aK-Jgmby32EgrkgLf5UU_fhOnkk9r9bxFBo3Ca6EZvLaPVjOkQ2loUX_sArqgvg_s5C41jQClrh_D7OBfrQysNpj0hHXq0zHP7JQatLkD3qVrzSkq9NmZeIYqjNsxDo7t1U_rAMuBJU1Mmyuwu_IzHJpkI6GhPxwTmU1cm-Aw3i-t6vgxZT-JGC14g2SQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEc-SeuSR8ij8e7YSLWMzIAKqwA84pCKy38TArEFVeacGfp7OVq2BsULT8-KZmP5aSqxPx_anuF9sedDIl4IT6zXhEBGm9dX84Oi5JaL1DaTIrFMlpf1LUT-FE3WWjb-K--0LQZVV09a82U9wyhJoqO-Qdjkg==
+- 쿼리: 아기체육관 시장 현황
+- 인사이트: 아기체육관은 신생아부터 6개월까지 아기의 감각 발달과 근육 발달을 돕는 인기 육아템입니다. 다양한 브랜드와 디자인이 있으며, 특히 피셔프라이스 제품이 국민템으로 불리며 인기가 많습니다. 아기가 누워서 모빌을 보거나 발로 건반을 치며 놀 수 있고, 앉아서도 활용 가능하여 사용 기간이 긴 편입니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EC%95%84%EA%B8%B0%EC%B2%B4%EC%9C%A1%EA%B4%80&sort=saveDESC
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기체육관을 선택할 때 가장 중요하게 생각하는 놀이 기능은 무엇인가요? | 오감 및 소근육 발달, 다양한 놀이 기능 (음악, 불빛 등) |
+| 아기체육관에서 가장 중요하게 생각하는 안전 및 내구성 관련 요소는 무엇인가요? | 견고한 프레임과 마감, 쉬운 조립 및 세척 용이성 |
+| 아기체육관의 디자인은 어떤 스타일을 선호하시나요? | 미니멀하고 모던한 디자인 |
+| 예산은 어느 정도로 생각하세요? (평균 약 7만원, 3만 7천원~9만원대가 가장 많아요) | 3만 7천원 이하, 3만 7천원 ~ 8만 9천원 |
+| __avoid_negatives__ | 상관없어요 |
 
 ---
 
@@ -25,24 +30,24 @@
 
 ### 후보 상품
 1. 코니스 에듀테이블 - 55,800원 - ⭐4.8
-2. 하베브릭스 바람개비 아기체육관 - 63,160원 - ⭐4.8
+2. 하베브릭스 바람개비 아기체육관 - 61,830원 - ⭐4.8
 3. 코니스 에듀테이블 워커 - 109,800원 - ⭐5
-4. 블루래빗 아기 첫 친구 코야 헝겊책 - 21,540원 - ⭐4.8
-5. 핑크퐁 아기상어 워터매트 자이언트 점퍼루 촉감놀이 - 18,050원 - ⭐4.5
-6. 치코 공식수입원 4단계 변신 아기체육관-그로우앤워크짐 아기체육관부터 걸음마보조기까지 - 84,218원 - ⭐5
-7. 라비베베 플레이 펀치백 유아 펀칭백 아동 권투 샌드백 - 26,300원 - ⭐4.5
-8. 립프로그 SSG 가드닝 카트 한영버전 - 59,520원 - ⭐5
-9. 비엔씨코리아 업스케일 아이와패드 말문이 트이는 언어학습 찢어지지않는 플래시 카드 - 19,210원 - ⭐4.6
-10. 비엔씨코리아 업스케일 양동이 모래놀이세트 모래놀이 필수품 - 5,670원 - ⭐5
-11. 비엔씨코리아 업스케일 뽀로로 농구놀이 볼풀 물풀 베이비룸 풀장 - 46,920원 - ⭐4.3
-12. 아카데미과학 3 1/48 F-15K 슬램이글 12213 - 23,450원 - ⭐5
-13. 삼성출판사 마이리틀타이거 little life 워터매트 - 20,000원 - ⭐5
-14. 키움 숨은그림찾기 문화재 도시 문명 동물 4종 - 8,640원 - ⭐5
-15. 블루래빗 신기한 오리기 오려서 만들기 5종 택1 - 8,970원 - ⭐5
-16. 유아월드 낚시놀이매트세트 매트 낚시대 물고기 - 46,750원 - ⭐5
-17. 블루래빗 소리나는 아기 목욕책 - 8,100원 - ⭐5
+4. 블루래빗 아기 첫 친구 코야 헝겊책 - 22,090원 - ⭐4.8
+5. 브이텍 액티비티 아기 체육관 - 87,723원 - ⭐4.6
+6. 라비베베 플레이 펀치백 유아 펀칭백 아동 권투 샌드백 - 26,300원 - ⭐4.5
+7. 립프로그 SSG 가드닝 카트 한영버전 - 57,600원 - ⭐5
+8. 비엔씨코리아 업스케일 아이와패드 말문이 트이는 언어학습 찢어지지않는 플래시 카드 - 19,420원 - ⭐4.6
+9. 비엔씨코리아 업스케일 양동이 모래놀이세트 모래놀이 필수품 - 5,670원 - ⭐5
+10. 비엔씨코리아 업스케일 뽀로로 농구놀이 볼풀 물풀 베이비룸 풀장 - 46,910원 - ⭐4.3
+11. 아카데미과학 3 1/48 F-15K 슬램이글 12213 - 23,450원 - ⭐5
+12. 삼성출판사 마이리틀타이거 little life 워터매트 - 20,000원 - ⭐5
+13. 키움 숨은그림찾기 문화재 도시 문명 동물 4종 - 8,660원 - ⭐5
+14. 블루래빗 신기한 오리기 오려서 만들기 5종 택1 - 8,890원 - ⭐5
+15. 유아월드 낚시놀이매트세트 매트 낚시대 물고기 - 46,750원 - ⭐5
+16. 블루래빗 소리나는 아기 목욕책 - 7,650원 - ⭐5
+17. 핑크퐁 아기상어 워터매트 자이언트 점퍼루 촉감놀이 - 18,270원 - ⭐4.6
 18. 영창 소프라노 리코더 고주파 핑크 YSRG-50P - 3,640원 - ⭐5
-19. 브로키 워터매트 아기 플레이매트 물놀이 장난감 - 6,790원 - ⭐4.9
+19. 브로키 워터매트 아기 플레이매트 물놀이 장난감 - 6,800원 - ⭐4.9
 20. 베이비아인슈타인 매직터치 오케스트라 러닝테이블 - 107,000원 - ⭐4.5
 
 ---
@@ -55,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 상관없어요
 
 ---
 

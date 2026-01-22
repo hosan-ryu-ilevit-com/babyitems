@@ -18,6 +18,7 @@ import {
   FcHighPriority,
   FcBusinessman
 } from "react-icons/fc";
+import ProductVariantsComparison from '@/components/ProductVariantsComparison';
 
 interface ReviewData {
   reviewId: string;
@@ -34,6 +35,17 @@ interface MallPrice {
   price: number;
   delivery: string;
   link?: string;
+}
+
+interface ProductVariant {
+  pcode: string;
+  quantity: string;
+  price: number | null;
+  unitPrice: string | null;
+  mallCount: number | null;
+  rank?: string | null;
+  isActive: boolean;
+  productUrl: string;
 }
 
 interface PriceData {
@@ -65,6 +77,7 @@ interface KnowledgePDPModalProps {
     reviewQuotes?: string[];
     bestFor?: string;
     concerns?: string[];
+    variants?: ProductVariant[];  // 다른 구성 옵션
   };
   categoryKey: string;
   categoryName?: string;
@@ -327,6 +340,13 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
             <h2 className="text-[20px] font-black text-gray-900 mb-6 leading-[1.3] tracking-tight">
               {product.title}
             </h2>
+
+            {/* 다른 구성 옵션 */}
+            {product.variants && product.variants.length > 0 && (
+              <div className="mb-6">
+                <ProductVariantsComparison variants={product.variants} />
+              </div>
+            )}
 
             {/* 실시간 가격 비교 */}
             <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden">
@@ -1003,7 +1023,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 200 }}
-              className="absolute bottom-0 left-0 right-0 h-[85vh] bg-white rounded-t-3xl overflow-hidden"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] h-[85vh] bg-white rounded-t-3xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* 핸들 */}

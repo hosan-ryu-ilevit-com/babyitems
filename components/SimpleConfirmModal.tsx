@@ -51,7 +51,7 @@ export default function SimpleConfirmModal({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="max-w-[480px] mx-auto w-full pointer-events-auto flex justify-center"
+              className="max-w-[480px] mx-auto w-full pointer-events-auto flex justify-center px-4"
             >
               <div className="bg-white rounded-[16px] shadow-xl overflow-hidden flex flex-col w-full sm:w-[320px]">
                 {/* Title */}

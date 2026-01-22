@@ -30,6 +30,16 @@ export interface CachedProduct {
   productUrl: string;
   rank: number;
   crawledAt: string;
+  variants?: Array<{
+    pcode: string;
+    quantity: string;
+    price: number | null;
+    unitPrice: string | null;
+    mallCount: number | null;
+    rank?: string | null;
+    isActive: boolean;
+    productUrl: string;
+  }> | null;
 }
 
 export interface CachedReview {

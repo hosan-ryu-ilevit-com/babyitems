@@ -9,7 +9,7 @@
 
 import puppeteer, { Browser, Page } from 'puppeteer';
 import { load } from 'cheerio';
-import type { DanawaProductData, DanawaPriceInfo } from '@/types/danawa';
+import type { DanawaProductData, DanawaPriceInfo, ProductVariant } from '@/types/danawa';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Cheerio element types - using any to avoid package version conflicts
@@ -369,6 +369,78 @@ function extractSpecs($: ReturnType<typeof load>): Record<string, string> {
 }
 
 /**
+ * 제품 구성 옵션 추출 (다른 구성)
+ */
+function extractVariants($: ReturnType<typeof load>, currentPcode: string): ProductVariant[] {
+  const variants: ProductVariant[] = [];
+  console.log(`\n📦 [Variants] Extracting product variants...`);
+
+  const variantList = $('.list__variant-selector');
+
+  if (variantList.length === 0) {
+    console.log(`   ℹ️ No variants section found (this is normal for products without options)`);
+    return variants;
+  }
+
+  const items = variantList.find('li.list-item');
+  console.log(`   Found ${items.length} variant items`);
+
+  items.each((_, item) => {
+    const $item = $(item);
+
+    // 수량/팩 정보
+    const quantity = $item.find('.text__spec').text().trim();
+    if (!quantity) return;
+
+    // 가격 정보
+    const priceText = $item.find('.sell-price .text__num').text().trim();
+    const price = priceText ? parseInt(priceText.replace(/[^\d]/g, ''), 10) : null;
+
+    // 단가 정보
+    const unitPrice = $item.find('.text__unit-price').text().trim() || null;
+
+    // 쇼핑몰 수
+    const mallCountText = $item.find('.text__count-mall').text().trim();
+    const mallCountMatch = mallCountText.match(/(\d+)/);
+    const mallCount = mallCountMatch ? parseInt(mallCountMatch[1], 10) : null;
+
+    // 순위
+    const rank = $item.find('.label__rank').text().trim() || null;
+
+    // 활성 상태 (현재 보고 있는 상품)
+    const isActive = $item.hasClass('is-active');
+
+    // 링크 (pcode)
+    const link = $item.find('a').attr('href') || '';
+    const pcodeMatch = link.match(/pcode=(\d+)/);
+    const pcode = pcodeMatch ? pcodeMatch[1] : '';
+
+    if (!pcode) {
+      console.log(`   ⚠️ Skipping variant "${quantity}" - no pcode found`);
+      return;
+    }
+
+    const productUrl = link.startsWith('http') ? link : `https://prod.danawa.com${link}`;
+
+    variants.push({
+      pcode,
+      quantity,
+      price,
+      unitPrice,
+      mallCount,
+      rank,
+      isActive,
+      productUrl,
+    });
+
+    console.log(`   ✓ ${quantity}${isActive ? ' (현재)' : ''}${rank ? ` [${rank}]` : ''} - ${price?.toLocaleString()}원`);
+  });
+
+  console.log(`   📊 Total variants extracted: ${variants.length}`);
+  return variants;
+}
+
+/**
  * 가격 정보 추출 (최저가 + 쇼핑몰별 가격)
  */
 async function extractPrices(
@@ -659,6 +731,9 @@ export async function crawlDanawaProduct(productCode: string): Promise<DanawaPro
     const specs = extractSpecs($);
     console.log(`   Specs: ${Object.keys(specs).length} items found`);
 
+    const variants = extractVariants($, productCode);
+    console.log(`   Variants: ${variants.length} items found`);
+
     const { lowestPrice, lowestMall, prices } = await extractPrices(page, $);
 
     // 등록일 보완 (스펙에서)
@@ -679,6 +754,7 @@ export async function crawlDanawaProduct(productCode: string): Promise<DanawaPro
       lowestMall,
       specs,
       prices,
+      variants: variants.length > 0 ? variants : undefined,
     };
 
     console.log(`\n✅ [Summary] Crawling completed successfully`);
@@ -687,6 +763,7 @@ export async function crawlDanawaProduct(productCode: string): Promise<DanawaPro
     console.log(`   Lowest mall: ${lowestMall || '❌ NOT FOUND'}`);
     console.log(`   Specs count: ${Object.keys(specs).length}`);
     console.log(`   Prices count: ${prices.length}`);
+    console.log(`   Variants count: ${variants.length}`);
 
     return result;
   } catch (error) {

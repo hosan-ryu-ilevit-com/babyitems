@@ -11,6 +11,18 @@ export interface DanawaPriceInfo {
   link?: string;             // 상품 링크 (optional)
 }
 
+// 제품 구성 옵션 (예: 기저귀 팩 구성, 물티슈 매수 옵션)
+export interface ProductVariant {
+  pcode: string;                // 해당 구성의 다나와 상품 코드
+  quantity: string;             // 수량/팩 정보 (예: "104매", "200매x2팩")
+  price: number | null;         // 가격
+  unitPrice: string | null;     // 단가 (예: "534원/1매")
+  mallCount: number | null;     // 판매처 수
+  rank?: string | null;         // 순위 (예: "1위", "2위")
+  isActive: boolean;            // 현재 보고 있는 상품 여부
+  productUrl: string;           // 다나와 상품 상세 URL
+}
+
 // 다나와 상품 전체 정보
 export interface DanawaProductData {
   productCode: string;                    // 다나와 상품 코드
@@ -24,6 +36,7 @@ export interface DanawaProductData {
   lowestMall: string | null;              // 최저가 쇼핑몰
   specs: Record<string, string>;          // 스펙 정보 (키-값 쌍)
   prices: DanawaPriceInfo[];              // 쇼핑몰별 가격 리스트
+  variants?: ProductVariant[];            // 다른 구성 옵션 (optional)
 }
 
 // 다나와 검색 결과

@@ -1,5 +1,5 @@
-# 세션: 20260121_063429_a4b8
-> 시작: 2026-01-21T06:34:29.721Z
+# 세션: 20260122_031013_zbin
+> 시작: 2026-01-22T03:10:13.359Z
 > 카테고리키: 가습기
 > 카테고리: 가습기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 가습기 시장 현황
-- 인사이트: 국내 가습기 시장은 2016년 550억원 규모에서 2020년 1000억원 이상으로 크게 성장했으며, 2023년부터 2032년까지 연평간 7.73%의 성장률을 기록하며 2030년에는 20억 2천만 달러에 이를 것으로 전망됩니다. 최근에는 초음파식, 가열식, 복합식, 기화식 등 다양한 가습 방식의 차별화와 함께 USB 타입, 소형부터 대형까지 용량과 디자인별로 세분화된 제품들이 출시되고 있습니다. 샤오미와 위닉스가 시장 점유율 상위를 차지하고 있으며, 듀플렉스 등도 주요 제조사로 꼽힙니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQBiHJO7SEe4JYAio5cHr6umyAEaaWVborMW3_N7k4J-JNTXX6suJkaoSvPsDlmIW7yjyCQv8qJJE6XDcD2Nv_JqhBJXVv5gtV1_CKy9LjWqD4l2kYF8cPoxXTTvCFWgEmveEsOIVMmeU33pUzUP1qHndGMaaZhYxX0IreJI3nZq8SHpQvEv2iR1ralkergnyNs48yiYslKPzlommT4svB3R7Ew99f, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEzc6oGUEC9cDIBCcXTtseNE425ZTcVB9NaOxN1ZTvTFhNZs4KPnmOtnH74nwd1AFuBJvSzo84KfCj7hMxCW6rPGnZ30WjLokcdjbEUY-hp42oR6HfkwbT_d4Inb9iPPD2DmZEwrC6NuDcRfKkF9PIYu28zzN_PvPtSIWbjtYLxDwk5fh8aX16A7ujEgqjb2JK, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5b49nC7hvJHplNuNQIZd-KFrmOU7sihbVY_EisC-DtfxP2K1gJeDbZMJ7uQKfIGS01Tmv5lpKku4vz2KV_daSpSxXPGCXcQ3iMMkRP1b4StsRl-tsLuR8_Y68gIFy-QZqIW9BX3ZdkmT5UapQ2vqwB5uyYcSUOeAKTs8LkdqO, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3AsY5nedypo1KUjHYWpWC11EqOVXzajk_73Dz9jsc9mgEpNdJPO_N4LyGJslSyrYl-1i4i3nMbfgGuF5xVLgzX-1kXES4gdvwVUTjgx8my_0dF-86w8rPs2o9ZYhY_1VONryJrEbBxm4_FZLou_AJ3lLnVkCrZQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUlcMSGPnnnz0yQ6Ps-3ZHoYJGm-Wnqs3tDPzhCCFUn96930RKpdIKNF0PHwqdPq5NiQEJZBsr3XMj5gX4-tICJoty49BzzATtNFnoIsuu4TLvf5UaLrLI9DFpAflIQtCSdUpYflU6jgxqUy0DXGAYV_SlSa0QaRvQnxWi_qo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVskJ_WPtCYIyidJdYPkgU856FyRM37nAZcxfHeS1G0eD4gg9Ukgw_Edd-Cedd-5Kx32lwmwbwctf81SpQ4ABHINDLB7ESV9rluhxwTF5XVA0LgAUO21iuMt_5n8fj2xHZM8j0
+- 인사이트: 가습기 시장은 2026년부터 2035년까지 연평균 6.7% 성장하여 2035년에는 20억 5천만 달러 규모에 이를 것으로 예상됩니다. 북미 시장이 HVAC 시스템 통합 가습 시스템 도입 증가로 성장을 주도하고 있으며, 아시아 태평양 지역은 도시화와 건강에 대한 인식 증가로 큰 폭의 성장이 전망됩니다. 최근에는 초음파식 가습기의 비중이 줄고 복합식 가습기의 비중이 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6cP6eDjjYAdw80L6t3sQW-h50qhm7rO2R2cMT-tLxFF48koAcB-Bi_3q8tQAomA2YrA8Hh65JaLmXEQFOwTb9T1vAb7vbRIVI6sTPe2c618oyMuLa0ZID65IfluohEXf0GST9ILcnJi2he7tykxUlp06TualGlSEjDpFHe3I=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR0UeHI_EUSnc757Prbk5UNBiMAcP5U_UZp9yvcBNMM7ejqTbgXZzs0-_qCJ6vmak5xHI7f4XJlfwnNTjQpNFvegBuPqKki12RIczYJXf4X-L0QT7nuJHAWGMK6z5ItaqDoctRkAZu6jcNEnD6hos1KofP7WR8eQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNsB264bs4SYMOz0XATw4c1T3xndojnJIxReGEsWRS2OvMdt1lA7isAmDiju26wnCqneQysMTepX65zasSOUS1I7WM6whtWS3VMKfnVxKwONnC1MTtbPmL_cfdwXnBxblB35adk8vCKUdfA85E1N_FYGzjHWv-_yT2hCg4fs_oDkf0naPb5OfJJO513UU4o-LWUIN_A_ncfCFFISRX8DkL4p2WPkSHdSyKZ3En-SGVUCZV6cs__3AMC--l548xxur-ooVQvMamoIWfxM0_OZAmpNOio7HGbq2VE1zLPFvJ3ezMHuKOg3mAaSFvPLGkvVnIbG9VAVZzdyla68Qw9ATtrLccAumxG47EuSHIRutZXtssgTJvgeG98rD8J-TLuD8BaR-vARh6xdQB9QgRJMhsvZA1EureDkXqjfN2enEghslA
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 어떤 방식의 가습기를 선호하시나요? | 자연기화식, 초음파식 |
+| 가습기 세척 및 관리는 얼마나 중요하신가요? | 중요 |
+| 스마트 기능이나 부가 기능에 대한 선호도가 있으신가요? | 상관없어요, 기본 가습 기능만 |
+| 가습기가 사용될 공간의 크기와 물 보충 빈도에 대한 선호도는 어떻게 되시나요? | 3L ~ 5.9L |
+| 예산은 어느 정도로 생각하세요? (평균 약 26만원, 14만원대 이하가 가장 많아요) | 14만원 이하 |
+| __avoid_negatives__ | 가습기 내부 구조가 복잡해서 꼼꼼하게 세척하기 어려울 것 같아요,가습기 작동 시 나는 소음이 신경 쓰여서 편안하게 사용하기 어려울 것 같아요 |
 
 ---
 
@@ -55,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 가습기 내부 구조가 복잡해서 꼼꼼하게 세척하기 어려울 것 같아요
+- 가습기 작동 시 나는 소음이 신경 쓰여서 편안하게 사용하기 어려울 것 같아요
 
 ---
 
