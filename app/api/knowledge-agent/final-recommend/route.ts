@@ -315,11 +315,33 @@ async function generateFilterTags(
   const skipAnswers = ['상관없어요', 'skip', 'any', '', '기타', '없음', '모름', '잘 모르겠어요'];
 
   // 1. collectedInfo 필터링 (내부 키, 무의미한 응답 제외)
-  const validEntries = Object.entries(collectedInfo).filter(([question, answer]) => {
+  const filteredEntries = Object.entries(collectedInfo).filter(([question, answer]) => {
     if (question.startsWith('__')) return false;
     if (skipAnswers.includes(answer.trim())) return false;
     return true;
   });
+
+  // 2. 쉼표 답변 분리 (모든 질문에 적용)
+  // - 상호배타적 질문(재질, 브랜드): 분리 + 후처리에서 full 1개만 허용
+  // - 복수 선택 질문(기능, 특징): 분리 + full 여러 개 허용
+  const validEntries: [string, string][] = [];
+  for (const [question, answer] of filteredEntries) {
+    // 쉼표로 분리 (쉼표, 슬래시 등)
+    const parts = answer
+      .split(/[,、\/]/)
+      .map(s => s.trim())
+      .filter(s => s.length > 0 && !skipAnswers.includes(s));
+
+    if (parts.length > 1) {
+      // 분리된 각 항목을 별도 entry로 추가
+      console.log(`[FilterTags] 🔀 "${question}" 답변 분리: "${answer}" → ${parts.length}개`);
+      for (const part of parts) {
+        validEntries.push([question, part]);
+      }
+    } else {
+      validEntries.push([question, answer]);
+    }
+  }
 
   if (validEntries.length === 0) {
     console.log('[FilterTags] No valid conditions to generate tags');
@@ -336,6 +358,8 @@ async function generateFilterTags(
       keywords: [],
       priority: i + 1,
       sourceType: 'collected' as const,
+      sourceQuestion: question,
+      sourceAnswer: answer,
       originalCondition: `${question}: ${answer}`,
     }));
   }
@@ -349,13 +373,14 @@ async function generateFilterTags(
     },
   });
 
-  // 조건 목록 (인덱스 포함) - 원본 validEntries 사용 (쉼표 분리 X)
+  // 조건 목록 (인덱스 포함) - 이미 분리된 validEntries 사용
   const conditionList = validEntries
     .map(([question, answer], i) => `${i}: "${question}" → "${answer}"`)
     .join('\n');
 
   const prompt = `## 역할
 ${categoryName} 구매 조건들을 **짧은 키워드 태그**로 요약합니다.
+각 조건당 1개의 태그를 생성하세요. (이미 분리된 상태)
 
 ## 조건 목록 (인덱스: 질문 → 답변)
 ${conditionList}
@@ -364,22 +389,16 @@ ${conditionList}
 1. **질문+답변 맥락을 파악**해서 의미 있는 태그 생성
    - "소음이 중요한가요?" → "매우 중요" = **"저소음 중시"** (O)
    - "소음이 중요한가요?" → "매우 중요" = "매우 중요" (X, 무의미)
-   - "세척 편의성?" → "중요함" = **"세척 편리"** (O)
+   - "선호 브랜드?" → "삼성" = **"삼성"** (O, 브랜드명 그대로)
+   - "재질?" → "실리콘" = **"실리콘 재질"** (O)
    - "용량?" → "3L 이상" = **"대용량 3L+"** (O)
 
-2. **쉼표가 포함된 답변 처리** (핵심!)
-   - 명확히 다른 조건이면 **분리**: "실리콘, 천연고무" → 2개 태그 ("실리콘 재질", "천연고무 재질")
-   - 하나의 맥락이면 **병합 유지**: "거실, 안방에서 사용" → 1개 태그 ("실내 사용")
-   - 나열형이면 **분리**: "세척 편리, 저소음" → 2개 태그
-   - 장소/상황 설명이면 **병합**: "외출 시, 차량 이동 중 사용" → 1개 태그 ("이동 중 사용")
+2. label: 2~5단어, **최대 15자** 키워드 형태
+   - 브랜드명,  재질/소재는 그대로 사용 (예: "삼성", "LG", "더블하트", "실리콘", "스테인리스")
 
-3. label: 2~5단어, **최대 15자** 키워드 형태 (질문 맥락 + 답변 핵심 결합)
-   - 좋은 예: "저소음", "세척 편리", "대용량 3L+", "휴대성 중시"
-   - 나쁜 예: "매우 중요", "자주 이동할 예정이라 트렁크에 넣어야 해요" (너무 김)
-
-4. keywords: 리뷰/스펙 검색용 동의어 2~4개
-5. category: usage(용도), spec(스펙), feature(기능)
-6. sourceIndex: 원본 조건의 인덱스 (분리 시 같은 인덱스 공유)
+3. keywords: 리뷰/스펙 검색용 동의어 2~4개
+4. category: usage(용도), spec(스펙), feature(기능)
+5. sourceIndex: 원본 조건의 인덱스 (각 조건당 1개)
 
 ## 응답 (JSON만)
 {"results":[{"sourceIndex":0,"label":"저소음","keywords":["소음","조용","정숙"],"category":"feature"}]}`;
@@ -405,6 +424,8 @@ ${conditionList}
             keywords: item.keywords || [],
             priority: i + 1,
             sourceType: 'collected' as const,
+            sourceQuestion: question,  // 상호 배타성 체크용
+            sourceAnswer: answer,
             originalCondition: `${question}: ${answer}`,
           };
         });
@@ -425,6 +446,8 @@ ${conditionList}
     keywords: [],
     priority: i + 1,
     sourceType: 'collected' as const,
+    sourceQuestion: question,
+    sourceAnswer: answer,
     originalCondition: `${question}: ${answer}`,
   }));
 }
@@ -666,6 +689,167 @@ evidence는 사용자에게 보여지는 핵심 문장입니다.
   }
 
   return {};
+}
+
+// ============================================================================
+// 🆕 상호 배타적 태그 후처리 (같은 질문에서 나온 태그 중 full은 1개만 허용)
+// ============================================================================
+
+/**
+ * 상호 배타적 조건인지 판단하는 키워드
+ * - 이 키워드가 질문에 포함되면 상호 배타적 그룹으로 처리
+ * - 용도/장소 관련 질문은 제외 (복수 선택 가능)
+ */
+const EXCLUSIVE_QUESTION_KEYWORDS = [
+  '재질', '소재', '재료', '원단',  // 재질 관련
+  '브랜드', '제조사', '메이커',    // 브랜드 관련
+  '크기', '사이즈', '용량', '인치', // 크기/용량 관련
+  '색상', '색깔', '컬러',          // 색상 관련
+  '타입', '종류', '방식',          // 타입 관련
+];
+
+/**
+ * 복수 선택 가능한 질문 키워드 (상호 배타성 제외)
+ */
+const NON_EXCLUSIVE_KEYWORDS = [
+  '용도', '목적', '사용처',
+  '장소', '공간', '어디',
+  '기능', '특징',
+];
+
+/**
+ * 질문이 상호 배타적 조건인지 판단
+ */
+function isExclusiveQuestion(question: string): boolean {
+  const q = question.toLowerCase();
+
+  // 복수 선택 가능 키워드가 있으면 제외
+  if (NON_EXCLUSIVE_KEYWORDS.some(kw => q.includes(kw))) {
+    return false;
+  }
+
+  // 상호 배타적 키워드가 있으면 true
+  return EXCLUSIVE_QUESTION_KEYWORDS.some(kw => q.includes(kw));
+}
+
+/**
+ * 제품 정보에서 특정 키워드 매칭 점수 계산
+ * - 제품명, 브랜드, 스펙에서 키워드가 얼마나 매칭되는지 확인
+ */
+function calculateKeywordMatchScore(
+  product: HardCutProduct,
+  tag: FilterTag
+): number {
+  let score = 0;
+  const searchTexts = [
+    product.name?.toLowerCase() || '',
+    product.brand?.toLowerCase() || '',
+    product.specSummary?.toLowerCase() || '',
+    JSON.stringify(product.specs || {}).toLowerCase(),
+  ].join(' ');
+
+  // sourceAnswer에서 키워드 추출 (쉼표로 분리된 경우도 처리)
+  const answerKeywords = (tag.sourceAnswer || tag.label || '')
+    .toLowerCase()
+    .split(/[,、\/]/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+
+  // 각 키워드가 제품 정보에 있는지 확인
+  for (const keyword of answerKeywords) {
+    if (searchTexts.includes(keyword)) {
+      score += 10;  // 정확 매칭
+    }
+  }
+
+  // keywords 배열도 확인
+  for (const keyword of (tag.keywords || [])) {
+    if (searchTexts.includes(keyword.toLowerCase())) {
+      score += 5;  // 동의어 매칭
+    }
+  }
+
+  return score;
+}
+
+/**
+ * 상호 배타적 태그 충족도 후처리
+ * - 같은 sourceQuestion을 가진 태그들 중 full이 여러 개면 1개만 남김
+ * - 제품 스펙/이름에서 키워드 매칭으로 가장 적합한 태그 선택
+ */
+function enforceTagExclusivity(
+  tagScoresMap: Record<string, ProductTagScores>,
+  tags: FilterTag[],
+  products: HardCutProduct[]
+): Record<string, ProductTagScores> {
+  // 제품 pcode → HardCutProduct 매핑
+  const productMap = new Map(products.map(p => [p.pcode, p]));
+
+  // 상호 배타적 그룹별 태그 분류 (sourceQuestion 기준)
+  const exclusiveGroups = new Map<string, FilterTag[]>();
+
+  for (const tag of tags) {
+    const question = tag.sourceQuestion || '';
+    if (!question || !isExclusiveQuestion(question)) {
+      continue;  // 상호 배타적이지 않은 질문은 스킵
+    }
+
+    if (!exclusiveGroups.has(question)) {
+      exclusiveGroups.set(question, []);
+    }
+    exclusiveGroups.get(question)!.push(tag);
+  }
+
+  // 그룹이 1개 이하인 경우 (중복 가능성 없음) 스킵
+  const relevantGroups = Array.from(exclusiveGroups.entries())
+    .filter(([, groupTags]) => groupTags.length > 1);
+
+  if (relevantGroups.length === 0) {
+    return tagScoresMap;  // 후처리 불필요
+  }
+
+  console.log(`[TagExclusivity] 🔍 ${relevantGroups.length}개 상호 배타적 그룹 발견`);
+
+  // 각 제품에 대해 후처리
+  const result: Record<string, ProductTagScores> = JSON.parse(JSON.stringify(tagScoresMap));
+
+  for (const [pcode, scores] of Object.entries(result)) {
+    const product = productMap.get(pcode);
+    if (!product) continue;
+
+    for (const [question, groupTags] of relevantGroups) {
+      // 이 그룹에서 full인 태그들 찾기
+      const fullTags = groupTags.filter(tag =>
+        scores[tag.id]?.score === 'full'
+      );
+
+      if (fullTags.length <= 1) {
+        continue;  // full이 0~1개면 문제 없음
+      }
+
+      // full이 2개 이상 → 가장 적합한 1개만 남기기
+      console.log(`[TagExclusivity] ⚠️ ${pcode}: "${question}" 그룹에서 full ${fullTags.length}개 발견`);
+
+      // 키워드 매칭 점수로 정렬
+      const tagScoresPairs = fullTags.map(tag => ({
+        tag,
+        matchScore: calculateKeywordMatchScore(product, tag),
+      }));
+      tagScoresPairs.sort((a, b) => b.matchScore - a.matchScore);
+
+      // 가장 높은 점수의 태그만 full 유지, 나머지는 null로 변경
+      const [winner, ...losers] = tagScoresPairs;
+
+      console.log(`[TagExclusivity] ✅ 선택: "${winner.tag.label}" (점수: ${winner.matchScore})`);
+
+      for (const { tag } of losers) {
+        console.log(`[TagExclusivity] ❌ 제거: "${tag.label}"`);
+        delete result[pcode][tag.id];  // null 대신 삭제 (UI에 표시 안 함)
+      }
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -1927,9 +2111,16 @@ export async function POST(request: NextRequest) {
       ? parallelResults[2].value
       : [];
 
-    const tagScoresMap = parallelResults[3].status === 'fulfilled'
+    const rawTagScoresMap = parallelResults[3].status === 'fulfilled'
       ? parallelResults[3].value
       : {};
+
+    // 🆕 상호 배타적 태그 후처리 (같은 질문에서 full 중복 제거)
+    const tagScoresMap = enforceTagExclusivity(
+      rawTagScoresMap,
+      filterTagsResult,
+      selectedProducts
+    );
 
     // 실패한 작업 로깅
     parallelResults.forEach((result, i) => {

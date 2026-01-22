@@ -1,14 +1,14 @@
-# 세션: 20260122_082258_d6sq
-> 시작: 2026-01-22T08:22:58.932Z
+# 세션: 20260122_121832_ywuu
+> 시작: 2026-01-22T12:18:32.907Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 쪽쪽이 시장 현황
-- 인사이트: 쪽쪽이(공갈 젖꼭지)는 아기의 빨기 욕구를 충족시키고 심리적 안정감을 제공하여 달래거나 재울 때 유용하게 사용될 수 있습니다. 또한 손가락 빨기를 대체하고 영아돌연사증후군 위험을 낮추는 데 도움이 될 수 있다는 장점이 있습니다. 하지만 너무 이른 시기 사용은 유두 혼동을 일으킬 수 있으며, 장기간 사용 시 치아 발달이나 언어 발달에 부정적인 영향을 줄 수 있다는 단점도 존재합니다. 최근에는 스트레스 해소나 수면 보조 목적으로 성인용 쪽쪽이 시장도 성장하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwyVgwtpUn7Gf4DGG6E6kqe29_n1XN-D702LXkk2FXjfKjAtagxTfBlcVZmv0pl0priCl1ltZsIX9maBjwu1LUxTpzvDAvpgcFDiw1GBTVWk7CkpXuBybuTsDj0Aj9oC1PC0-zJjU9pq53cxDqr9gOzKtQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYj_gJyGNit6cxQPWv4bNUlfRydvud1nmdXgUhiGQY-WEgqAhOB7Kic2xiyXoXgXfknXOW6S2H5jdiFwVQb8c-Wcy3RHlNXdLGBJO4lPWtxicaOpA-2yc-3iu968wAbnemzmajHiWuZ1eSmwKtUqCqb6a2r51t, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVxAt4Wd3a8JUYosBM6AMef-tDY3-dlzDx-MwHQDnEvK3oeG94zLjhc0qhbWjiFg7-eWlGOdjUkKrYmrKXlt4v_aAJn9im1bIeQ-Me3PvG5D5J5n5w0SF8Bsc=
+- 쿼리: "쪽쪽이" 제품 시장 현황
+- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 아기들의 안정과 수면을 돕는 필수 육아템으로 자리 잡았습니다. 최근에는 성인용 쪽쪽이도 스트레스 해소 및 금연 보조용으로 주목받으며 새로운 소비 트렌드로 떠오르고 있습니다. 다양한 디자인과 소재의 제품들이 출시되고 있으며, 특히 올실리콘 제품이 위생 및 관리 편의성으로 인기를 얻고 있습니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EC%AA%BD%EC%AA%BD%EC%9D%B4&sort=saveDESC
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주세요. 쪽쪽이는 월령별로 사이즈 구분이 중요해요. | 0~6개월 |
-| 쪽쪽이 젖꼭지 모양은 어떤 것을 선호하시나요? 모양에 따라 아기의 빨기 습관이나 치아 발달에 영향을 줄 수 있어요. | 둥근형, 자연형 (모유 모양) |
-| 쪽쪽이 소재는 어떤 것을 선호하시나요? 소재에 따라 세척 용이성, 내구성, 아기 안전성이 달라질 수 있습니다. | 실리콘 |
-| 혹시 선호하시는 쪽쪽이 브랜드가 있으신가요? 아기에게 직접 닿는 제품이라 신뢰할 수 있는 브랜드를 많이 찾으세요. | 누크, 모윰 |
-| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 1만 5천원, 1만원 이하~2만원대가 가장 많아요) | 1만 5천원 내외 |
-| __avoid_negatives__ | 아기의 치아가 고르지 않게 자랄까 봐 염려돼요,아기가 젖병이나 엄마 젖을 거부하게 될까 봐 걱정돼요 |
+| 쪽쪽이 소재는 어떤 것을 선호하시나요? | 천연 고무, 올 실리콘 |
+| 아기의 개월 수는 어떻게 되나요? | 3-6개월 |
+| 믿고 쓰는 브랜드가 있으신가요? | 더블하트, 모윰, 아벤트 |
+| 쪽쪽이 디자인에서 중요하게 생각하는 부분이 있나요? | 치아 발달 고려 디자인, 세척 및 위생 용이성, 예쁜 디자인 |
+| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 1만 5천원, 1만원대 초중반이 가장 많아요) | 1만 5천원 ~ 2만원대 |
+| __avoid_negatives__ | 아기 치아 발달에 부정적인 영향을 줄까 봐 염려돼요,턱관절 발달에 문제가 생길까 봐 걱정돼요,먼지가 잘 달라붙어서 위생적으로 관리하기 어려울까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기의 치아가 고르지 않게 자랄까 봐 염려돼요
-- 아기가 젖병이나 엄마 젖을 거부하게 될까 봐 걱정돼요
+- 아기 치아 발달에 부정적인 영향을 줄까 봐 염려돼요
+- 턱관절 발달에 문제가 생길까 봐 걱정돼요
+- 먼지가 잘 달라붙어서 위생적으로 관리하기 어려울까 봐 걱정돼요
 
 ---
 
