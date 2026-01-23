@@ -2589,93 +2589,7 @@ export default function KnowledgeAgentPage() {
           mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
         }, 100);
 
-        // ✅ 백그라운드에서 Top 3 리뷰 크롤링 (PDP용) - 블로킹 없음
-        // 🆕 final-recommend에서 이미 리뷰를 받았으면 스킵
-        const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
-        const hasReviewsFromFinalRecommend = top3Pcodes.every((pcode: string) => reviewsData[pcode]?.length > 0);
-
-        if (hasReviewsFromFinalRecommend) {
-          console.log('[V2 Flow - FinalInput] ✅ Reviews already loaded from final-recommend, skipping crawl');
-        } else {
-          console.log('[V2 Flow - FinalInput] 🔄 Background: Crawling reviews for Top 3:', top3Pcodes);
-        }
-
-        // 리뷰가 없는 경우에만 크롤링 (fallback)
-        if (!hasReviewsFromFinalRecommend) {
-          (async () => {
-            try {
-              const reviewRes = await fetch('/api/knowledge-agent/crawl-reviews', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ pcodes: top3Pcodes, maxPerProduct: 50 }),
-            });
-
-            const top3Reviews: Record<string, any[]> = {};
-            const reader = reviewRes.body?.getReader();
-            const decoder = new TextDecoder();
-            let buffer = '';
-            let currentEvent = '';
-
-            if (reader) {
-              while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                buffer += decoder.decode(value, { stream: true });
-                const lines = buffer.split('\n');
-                buffer = lines.pop() || '';
-                for (const line of lines) {
-                  if (line.startsWith('event: ')) {
-                    currentEvent = line.slice(7).trim();
-                  } else if (line.startsWith('data: ')) {
-                    // reviews_complete 이벤트: 리뷰 완료 즉시 처리 (가격 크롤링 완료 기다리지 않음)
-                    if (currentEvent === 'reviews_complete') {
-                      try {
-                        const data = JSON.parse(line.slice(6));
-                        if (data.reviews) {
-                          Object.entries(data.reviews).forEach(([pcode, reviews]) => {
-                            top3Reviews[String(pcode)] = reviews as any[];
-                          });
-                          const reviewCounts = Object.entries(top3Reviews).map(([pcode, reviews]) =>
-                            `${pcode}: ${(reviews as any[]).length}개`
-                          ).join(', ');
-                          console.log('[V2 Flow - FinalInput] ✅ Reviews complete (즉시):', reviewCounts);
-                          // 즉시 reviewsData 업데이트
-                          setReviewsData(prev => ({ ...prev, ...top3Reviews }));
-
-                          // 🔧 리뷰 크롤링 완료 후 product-analysis 호출 (top3Reviews 직접 전달)
-                          console.log('[V2 Flow - FinalInput] 🚀 Triggering product-analysis after reviews loaded');
-                          fetchProductAnalysisForFinal(top3Reviews);
-                        }
-                      } catch (e) {
-                        console.error('[V2 Flow - FinalInput] SSE parsing error:', e);
-                      }
-                    }
-                    // complete 이벤트: 전체 완료 (가격 포함)
-                    else if (currentEvent === 'complete') {
-                      try {
-                        const data = JSON.parse(line.slice(6));
-                        if (data.reviews) {
-                          Object.entries(data.reviews).forEach(([pcode, reviews]) => {
-                            top3Reviews[String(pcode)] = reviews as any[];
-                          });
-                          console.log('[V2 Flow - FinalInput] ✅ Complete event received');
-                        }
-                      } catch (e) {
-                        console.error('[V2 Flow - FinalInput] SSE parsing error:', e);
-                      }
-                    }
-                    currentEvent = '';
-                  }
-                }
-              }
-            }
-            } catch (err) {
-              console.error('[V2 Flow - FinalInput] ❌ Background review crawl failed:', err);
-            }
-          })();
-        }
-
-        // Product Analysis 비동기 호출 (PDP 모달용)
+        // Product Analysis 비동기 호출 (PDP 모달용) - 정의를 먼저 해야 함
         const fetchProductAnalysisForFinal = async (latestReviews?: Record<string, any[]>) => {
           setIsProductAnalysisLoading(true);
           try {
@@ -2766,6 +2680,93 @@ export default function KnowledgeAgentPage() {
             setIsProductAnalysisLoading(false);
           }
         };
+
+        // ✅ 백그라운드에서 Top 3 리뷰 크롤링 (PDP용) - 블로킹 없음
+        // 🆕 final-recommend에서 이미 리뷰를 받았으면 스킵
+        const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
+        const hasReviewsFromFinalRecommend = top3Pcodes.every((pcode: string) => reviewsData[pcode]?.length > 0);
+
+        if (hasReviewsFromFinalRecommend) {
+          console.log('[V2 Flow - FinalInput] ✅ Reviews already loaded from final-recommend, skipping crawl');
+        } else {
+          console.log('[V2 Flow - FinalInput] 🔄 Background: Crawling reviews for Top 3:', top3Pcodes);
+        }
+
+        // 리뷰가 없는 경우에만 크롤링 (fallback)
+        if (!hasReviewsFromFinalRecommend) {
+          (async () => {
+            try {
+              const reviewRes = await fetch('/api/knowledge-agent/crawl-reviews', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ pcodes: top3Pcodes, maxPerProduct: 50 }),
+            });
+
+            const top3Reviews: Record<string, any[]> = {};
+            const reader = reviewRes.body?.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+            let currentEvent = '';
+
+            if (reader) {
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop() || '';
+                for (const line of lines) {
+                  if (line.startsWith('event: ')) {
+                    currentEvent = line.slice(7).trim();
+                  } else if (line.startsWith('data: ')) {
+                    // reviews_complete 이벤트: 리뷰 완료 즉시 처리 (가격 크롤링 완료 기다리지 않음)
+                    if (currentEvent === 'reviews_complete') {
+                      try {
+                        const data = JSON.parse(line.slice(6));
+                        if (data.reviews) {
+                          Object.entries(data.reviews).forEach(([pcode, reviews]) => {
+                            top3Reviews[String(pcode)] = reviews as any[];
+                          });
+                          const reviewCounts = Object.entries(top3Reviews).map(([pcode, reviews]) =>
+                            `${pcode}: ${(reviews as any[]).length}개`
+                          ).join(', ');
+                          console.log('[V2 Flow - FinalInput] ✅ Reviews complete (즉시):', reviewCounts);
+                          // 즉시 reviewsData 업데이트
+                          setReviewsData(prev => ({ ...prev, ...top3Reviews }));
+
+                          // 🔧 리뷰 크롤링 완료 후 product-analysis 호출 (top3Reviews 직접 전달)
+                          console.log('[V2 Flow - FinalInput] 🚀 Triggering product-analysis after reviews loaded');
+                          fetchProductAnalysisForFinal(top3Reviews);
+                        }
+                      } catch (e) {
+                        console.error('[V2 Flow - FinalInput] SSE parsing error:', e);
+                      }
+                    }
+                    // complete 이벤트: 전체 완료 (가격 포함)
+                    else if (currentEvent === 'complete') {
+                      try {
+                        const data = JSON.parse(line.slice(6));
+                        if (data.reviews) {
+                          Object.entries(data.reviews).forEach(([pcode, reviews]) => {
+                            top3Reviews[String(pcode)] = reviews as any[];
+                          });
+                          console.log('[V2 Flow - FinalInput] ✅ Complete event received');
+                        }
+                      } catch (e) {
+                        console.error('[V2 Flow - FinalInput] SSE parsing error:', e);
+                      }
+                    }
+                    currentEvent = '';
+                  }
+                }
+              }
+            }
+            } catch (err) {
+              console.error('[V2 Flow - FinalInput] ❌ Background review crawl failed:', err);
+            }
+          })();
+        }
+
         // 🔧 fetchProductAnalysisForFinal()은 reviews_complete 이벤트에서 호출됨 (리뷰 크롤링 완료 후)
       }
     } finally {
