@@ -579,21 +579,17 @@ async function crawlProductsWithStreaming(
       onHeaderParsed({ searchUrl, filters: cachedFilters });
     }
 
-    // 캐시된 경우: 5개씩 배치로 나눠서 전송 (SSE 메시지 크기 제한 방지)
+    // 캐시된 경우: 첫 배치 + 전체 완료 신호만 전송 (빠른 UI 업데이트)
     if (onProductBatch) {
-      const batchSize = 5;
-      let firstBatchNotified = false;
-
-      for (let i = 0; i < supabaseCache.products.length; i += batchSize) {
-        const batch = supabaseCache.products.slice(i, i + batchSize);
-        const isComplete = i + batchSize >= supabaseCache.products.length;
-        const isFirstBatchComplete = !firstBatchNotified && i + batchSize >= FIRST_BATCH_COMPLETE_COUNT;
-
-        if (isFirstBatchComplete) {
-          firstBatchNotified = true;
-        }
-
-        onProductBatch(batch, isComplete, isFirstBatchComplete);
+      // 첫 5개로 product_analysis 완료 신호
+      const firstBatch = supabaseCache.products.slice(0, FIRST_BATCH_COMPLETE_COUNT);
+      onProductBatch(firstBatch, false, true);
+      // 나머지 한번에 전송 + 완료 신호
+      const rest = supabaseCache.products.slice(FIRST_BATCH_COMPLETE_COUNT);
+      if (rest.length > 0) {
+        onProductBatch(rest, true, false);
+      } else {
+        onProductBatch([], true, false);
       }
     }
     return { products: supabaseCache.products, cached: true, searchUrl, filters: cachedFilters };
