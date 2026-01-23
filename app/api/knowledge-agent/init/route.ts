@@ -38,6 +38,9 @@ import { fetchReviewsBatchParallel, type ReviewCrawlResult } from '@/lib/danawa/
 // Supabase 캐시 (프리페치된 데이터)
 import { getProductsFromCache, getReviewsFromCache, getFiltersFromCache } from '@/lib/knowledge-agent/supabase-cache';
 
+// Gemini 헬퍼
+import { callGeminiWithRetry } from '@/lib/ai/gemini';
+
 // Vercel 서버리스 타임아웃 설정 (기본 10초 → 60초)
 export const maxDuration = 60;
 
@@ -217,7 +220,7 @@ ${brokenJSON.slice(0, 3500)}
 수정된 JSON:`;
 
   try {
-    const result = await model.generateContent(prompt);
+    const result = await callGeminiWithRetry(() => model.generateContent(prompt));
     const text = result.response.text();
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     if (jsonMatch) {
@@ -388,7 +391,7 @@ async function performWebSearchAnalysis(
         });
 
         const queryStart = Date.now();
-        const result = await model.generateContent(q.prompt);
+        const result = await callGeminiWithRetry(() => model.generateContent(q.prompt));
         const queryDuration = Date.now() - queryStart;
         queryTimings.push({ name: q.name, duration: queryDuration });
 
@@ -879,7 +882,7 @@ ${negativeText || '(없음)'}
       }
     });
 
-    const result = await model.generateContent(prompt);
+    const result = await callGeminiWithRetry(() => model.generateContent(prompt));
     const text = result.response.text();
 
     // JSON 파싱
@@ -958,7 +961,7 @@ ${productList}
 
 관련 상품 번호만 콤마로 구분 (예: 1,2,3,5,7):`;
 
-    const result = await model.generateContent(prompt);
+    const result = await callGeminiWithRetry(() => model.generateContent(prompt));
     const response = result.response.text().trim();
 
     console.log(`[Step2.5] LLM response: ${response.slice(0, 100)}`);
@@ -1196,7 +1199,7 @@ async function generateBudgetQuestion(
 
 JSON만 출력하세요:`;
 
-    const result = await model.generateContent(prompt);
+    const result = await callGeminiWithRetry(() => model.generateContent(prompt));
     const text = result.response.text();
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     
@@ -1376,7 +1379,7 @@ async function refineQuestionOptions(
 
   try {
     const startTime = Date.now();
-    const result = await model.generateContent(refinePrompt);
+    const result = await callGeminiWithRetry(() => model.generateContent(refinePrompt));
     const text = result.response.text();
     console.log(`[Step3.5] Options refined in ${Date.now() - startTime}ms`);
 
@@ -1922,7 +1925,7 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
     });
 
     console.log(`[Step3] ⏳ LLM 호출 시작...`);
-    const result = await model.generateContent(prompt);
+    const result = await callGeminiWithRetry(() => model.generateContent(prompt));
     const text = result.response.text();
 
     console.log(`[Step3] ✅ LLM 응답 완료: ${Date.now() - startTime}ms (응답 ${text.length}자)`);
