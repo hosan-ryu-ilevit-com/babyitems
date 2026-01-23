@@ -1,5 +1,5 @@
-# 세션: 20260123_014915_hasu
-> 시작: 2026-01-23T01:49:15.726Z
+# 세션: 20260123_035435_p7pg
+> 시작: 2026-01-23T03:54:35.826Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 2024년 기준 아기 물티슈 시장에서 베베숲이 26.4%의 점유율로 1위를 차지하며 9년 연속 시장 선두를 유지했습니다. 전 세계적으로 물티슈 시장은 2024년부터 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3wF2NdZcMIN-HY7ojmKfF2LouWQZv2AWWePdRxdff9X5y_9SBhiXHw_kYmU6bAv0LVVZ6RFRQv6tuc2_kBd9HkMAQDmVRwmB4pZCNx3wJHpEms8SD_XIQS82jVLsgmUA_i6LknITsgrvj7SXJOMhxlGDaNMLWytXRVW8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuj5c3iyAR12okRTd92hB1c3bi23DEBPknk4PihjD6GonBLb4R2qW0837-_Rxik6Jbpyov1KzPjlRhjy8r54acLAD6fIy6oOt1rDpFAyokRXH_toF67Xd7UkEzuM2RcV-oAeqQiumEnv2jgNEkIYmVQ6MzZgrb_VDm6JS5pHAMbtjhj0zVjYFK7Us=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHa1P8f1N4Wlm67Mip1lHZJ4HWg7STqVGKW0mFfhOHHpMf8NnTXjyGycwhmYUlsCh9az7rK0uiDrzwbOhrbOBFiszhkYMcJE3zSK6QlYsURK4LTsROvBuDyirl8AZ9t00T18jUE5Yd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgtztShCfj1rsLQYf2Y-dro5UW88F2y1NKxKnA2wJxJzuKUYF251t2zlsYpL-Y41B0XfmKQUM5n6M4TD4eiR7xR1li6sptZ7nKYNxuH1HE6Y2pWe7JFFLnXarfUb30SFfc_E0hV6CCMTWbOa6SrbRcIUFK-V9_ByKh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnSb1gFNCDxU0MwjzJqKWkP0IbCBO9jz8HPANDKxtgz3MRl7Tbb6YJEsRFqGr-Q2VVMdJJr-BPJVvZXueBXjaiBrF8pVMSxi_XVGsV1sUV7zF8QUyFcf89f_qhdhYBf50o3qAnmkMYpxDiPC4RsJqa6j7xdtJmz4DsyfpF1PnxwJOpbSeD6fC6ehRllvey98zL, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKWvHlGNto1bMBRggZYVZ7oFkYdfx8R7ZUFjqbkybMDF1quvDF70yPPtSuLdB3Se0Otuz9_nyVlbTV-1ROZEddCQrow_MqQiWk4_BKuHnXLxvxrHRAP93wB_G4p3lN-xa2OYJr2xPKFH1lhApoYoA6nNIovfwUIqyh9A==
+- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 가처분 소득 증가에 힘입어 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 베베숲은 9년 연속 국내 물티슈 판매 1위를 기록하며 시장을 선도하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9TciwjMYw9j-lx-Q7eriU17mLpf4LPtTZJB7spGjALIOue5IBkLYIyaA9udl0mDpU324TLgjdps5RLD38n0BMxEWIktvAkv00UiRIXUVOSfjnNaQHD0-XE6MpAEYlSxbRamGdPt_20DjB1TSmUsS0Nzb6CW3td_CWXF10, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQER4VKxeRzAs9kMnqYbeKzul2Y0PmYVJlYEz6fnvKz9Vl0eGNwA9NKZD52ylVQ1ZyOMBp7P7gzYj1vNUt6e6_M-NzVhCGWO1G9LHTs0SfzTOpnfdSv-uOmRiJ87VbV20WntvzUwi0BsFOk4Y_rYrftV32qrLFDf7GQVg2szCYmSMMLVc52DxYXPfQp2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGv1I9FhRbHpzVCW97Z9y5fFYwnUWx2TiFzVsRRjzTrTOeBNcX2FpfCfWUQ4ObiCye6hj_zOlIrXTsgiqEvwfOtFkGWx9LlkgBE5WcYzNw-kofw4Oc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfNx80rvcHSTvLzgojCuoiRkX4P8fPyCy5iyeBD0Ri6VVA-WKN4yxak9EoQUYknSgr3yPJEFtnEhDd1jKC-1qhSWs1wZX006pHQisqzRGC2WKGyXSEXK07M68del_O-a4pb_a2rn2aodhNdVfvDjz2suSdA1IWlcm8BQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpOLcAMYp0gxRuAqq-QRbWmp2eqhQN29DADnBfuqr79h2Bz-QZ2cefWsq67hP2H3uEI4QjaWfRJrtxvIbKXxhNZZDrXYbuPm2FPr3DyNH-7ngg1QY_M3Kxu9tIFIp_YYmu5zHvRs1cS_IVrcYjMJTqrEqmrgp2xRyS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHtsr9o30DIBL1HuocGDfD3wA8Odrys2FazWTekIaI7pUWpYBuXRPqKH9NuWhMhZ7krTGZDjt9Q2OpZk-FBCmpbkPJjuHBvjEEwDrGqaSFluHLmpOBuhWsv-qK-JNVg1MHonm6L8oNfiGBAoFXFcapIkbUGbt8-kyalPmT1snaIo5NyqpTI
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기물티슈, 혹시 선호하시는 브랜드가 있으신가요? | 아이러브베베, 순둥이, 코멧 |
-| 물티슈의 두께는 어느 정도를 선호하시나요? 도톰할수록 닦임성이 좋아요. | 도톰해요 (75gsm 이상) |
-| 물티슈 표면의 엠보싱 처리에 대한 선호도가 있으신가요? | 플레인 (엠보싱 없는 것) |
-| 주로 어떤 상황에서 물티슈를 사용하실 예정인가요? | 아기 손, 입 주변 닦을 때, 아기 몸 전체 또는 기저귀 교체 시 |
+| 아기물티슈, 혹시 선호하시는 브랜드가 있으신가요? | 순둥이, 아이러브베베 |
+| 물티슈의 두께는 어느 정도를 선호하시나요? | 도톰하고 튼튼한 두께 |
+| 물티슈 표면의 엠보싱 유무는 중요하신가요? | 플레인(엠보싱 없는) 물티슈 |
+| 물티슈를 주로 어떤 용도로 사용하실 예정인가요? | 아기 피부용 |
 | 예산은 어느 정도로 생각하세요? (평균 약 1만 3천원, 7천원~1만 7천원대가 가장 많아요) | 7천원 ~ 1만 7천원대 |
-| __avoid_negatives__ | 포장이 너무 과해서 쓰레기가 많이 나올까 봐 환경적으로 부담돼요 |
+| __avoid_negatives__ | 우리 아기 피부에 맞지 않아 자극이 될까 봐 신경 쓰여요,개봉 후 금방 사용하지 않으면 유통기한이 지나버릴까 봐 걱정돼요 |
 
 ---
 
@@ -61,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 포장이 너무 과해서 쓰레기가 많이 나올까 봐 환경적으로 부담돼요
+- 우리 아기 피부에 맞지 않아 자극이 될까 봐 신경 쓰여요
+- 개봉 후 금방 사용하지 않으면 유통기한이 지나버릴까 봐 걱정돼요
 
 ---
 

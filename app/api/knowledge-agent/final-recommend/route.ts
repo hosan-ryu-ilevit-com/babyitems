@@ -387,11 +387,11 @@ async function generateFilterTags(
   // 🆕 무의미한 태그 label 필터링 (출력 단계 - LLM이 그대로 출력한 무의미한 태그)
   const meaninglessLabels = [
     // 단순 긍정/부정 (질문 맥락 없이는 의미 없음)
-    '네', '예', '응', '그래요', '맞아요', '좋아요', '괜찮아요',
+    '네', '예', '응', '그래요', '맞아요', '좋아요', '괜찮아요', '괜찮음',
     '아니요', '아니오', '아뇨', '별로요',
     '중요해요', '필요해요', '원해요', '있으면 좋겠어요',
     '매우 중요', '매우 중요해요', '중요함', '보통', '상관없음',
-    '중요', '필요', '원함', '선호', '좋음',
+    '중요', '필요', '원함', '선호', '좋음', '있음', '없음',
     // 영문
     'yes', 'no', 'ok', 'okay', 'important',
   ];
@@ -496,6 +496,12 @@ ${conditionList}
 4. category: usage(용도), spec(스펙), feature(기능)
 5. sourceIndex: 원본 조건의 인덱스 (각 조건당 1개)
 
+## 🚫 절대 금지
+답변을 그대로 태그로 사용하지 마세요. 특히 다음과 같은 무의미한 단어는 **절대 금지**:
+- 단순 긍정/부정: "네", "예", "좋아요", "괜찮아요", "괜찮음", "있음", "없음"
+- 추상적 표현: "중요", "필요", "원함", "선호", "보통"
+→ **반드시 질문 맥락을 반영한 구체적 키워드**로 변환하세요!
+
 ## 응답 (JSON만)
 {"results":[{"sourceIndex":0,"label":"저소음","keywords":["소음","조용","정숙"],"category":"feature"}]}`;
 
@@ -507,8 +513,8 @@ ${conditionList}
 
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
-      if (parsed.results && Array.isArray(parsed.results)) {
+      const parsed = await parseWithRetry(jsonMatch[0], 'FilterTags', 1);
+      if (parsed && parsed.results && Array.isArray(parsed.results)) {
         // LLM 응답에서 직접 FilterTag[] 생성
         const rawTags: FilterTag[] = parsed.results.map((item: { sourceIndex?: number; label?: string; keywords?: string[]; category?: string }, i: number) => {
           const sourceIdx = item.sourceIndex ?? i;
@@ -1229,7 +1235,7 @@ async function generateProsConsForProducts(
 
   const model = ai.getGenerativeModel({
     model: PROS_CONS_MODEL,
-    generationConfig: { temperature: 0.3, maxOutputTokens: 2500 },
+    generationConfig: { temperature: 0.3, maxOutputTokens: 4000 },  // 5개 제품 장단점 생성에 충분
   });
 
   // 사용자 컨텍스트 정리
@@ -1308,18 +1314,20 @@ ${productInfos}
 }
 
 ⚠️ JSON만 출력
+⚠️ **반드시 위의 모든 제품(${products.length}개)에 대해 장단점 생성**
 ⚠️ 리뷰에 언급 없는 내용은 작성 금지
 ⚠️ 뻔한 스펙 나열 금지 - USP와 Trade-off 관점으로!`;
 
   try {
     console.log('[Pros/Cons] Generating for products...');
     const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    let responseText = result.response.text().trim();
+    responseText = responseText.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
 
     if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
-      if (parsed.results && Array.isArray(parsed.results)) {
+      const parsed = await parseWithRetry(jsonMatch[0], 'ProsCons', 1);
+      if (parsed && parsed.results && Array.isArray(parsed.results)) {
         console.log(`[Pros/Cons] Generated for ${parsed.results.length} products`);
         return parsed.results;
       }

@@ -1,5 +1,5 @@
-# 세션: 20260123_020240_1s05
-> 시작: 2026-01-23T02:02:40.445Z
+# 세션: 20260123_044603_tn4w
+> 시작: 2026-01-23T04:46:03.441Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 쪽쪽이 시장 현황
-- 인사이트: 쪽쪽이(공갈 젖꼭지)는 아기에게 안정감을 주고 빨기 욕구를 충족시켜주는 육아 필수템으로 자리 잡고 있습니다. 최근에는 성인들의 스트레스 해소용으로도 주목받으며 새로운 소비 트렌드로 떠오르고 있습니다. 다양한 디자인과 소재의 제품들이 출시되고 있으며, 온라인 판매가 활발하게 이루어지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvRWdZhtAb2vVr7YdR_5VuaZ0mVx4s3LSqe22rNfEmbqoFzfg9wwnDu-E4qw6nAkaSlAqr1EnjFH67pjvMWxS9lE6uI7pBqBMBeaPwC5Z7-Ap3iVVby2WFVp5LZfsLFfL6A2HWTsry_lf2kZC88TUqzgE7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEatsIf09JPHgLcr-sdAeUsy26r8UuUQwj8YGb2RCC6xW0-7gx_vtvl0Jk8rPeQ-txCpX0_J6oiaYDEZO70Y84hapwFKtJpzzxu2UUurO07TeTBSEbNWl_esYF_YokXzYd6mokKSLd6Plfs3CsrRDwxQOTQGStG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEZOZiQYFKm3QWWQe8Sh197uEiqM-xh51UYAejMz8TmtumkWLHCPEd5m5-NzFlI_PNsiH-ocGBLiv0K7iWAwIFUgPVWYv0Ly_O0fdqkBtUsLqP0smdGe12IspYTIl0fsULEIui
+- 인사이트: 쪽쪽이(공갈 젖꼭지)는 아기에게 안정감을 주고 빨기 욕구를 충족시켜주는 육아템으로 활용됩니다. 주로 생후 4주 이후부터 사용하며, 돌 전후에 떼는 것이 일반적입니다. 위생적인 측면과 아기 안정에 도움을 주는 장점이 있지만, 유두 혼동, 언어 발달 지연, 중이염 등의 단점도 고려해야 합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfY0Jc1z5TAGC5EZ-iZBGSYocgkzFfquzpXlPQU4RsTBggR1G0Aol0rpJJC6uHoJwzmnDmDbKglE510fV-wWmPoiv_SYGeY40wvuIGCE4Uo5M70e68FWMlPsVZrjtbq3oi09SgsUp21Ns-LDXU6cPOGz8_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMuMLeqMEm_tdwW9EQDcK2ti-wH7HYysG-X_bps_aibQ6re-pKvbTWhMD5NXWFEIa8iUa5NGSpyNTL2rAzJNr94qiZrESrEz4hiMSo6GNDt5ppE1sbOFpiNa4c5lUcOw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJKHIsFjUt_5Gbr7U2HKsGrXmF4u0lD0R_bdCm5e7Q9aCkk1atq3ZJ-3bxs7OX_j2i_BvmrlIlGS6k9x5E2ABfX8IVxq50knlpWkA7lcl_AzHge4R0TOdI9lIRiKSv5oti7PzAItIggFlKcjaNHxBob_fT0wNt3LvMyAZ-3Z2evLLuTII9UptzVIicSsASFAEjEJTpbwskE48SGAUI3kD01pK0ldvJMbC_nkXtdQir9eSOuTW1xOqwvQt240bcTLa3g6018SRYRrdvk1W3OzQMoLtIJedSZ9kjbNdJvlIWIkTRM_2DYuB_OjcwGb3EE5eS2WW4
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 쪽쪽이 소재는 어떤 것을 선호하시나요? | 실리콘 |
-| 쪽쪽이 모양은 어떤 것을 선호하시나요? | 치아 교정형, 둥근형 |
-| 쪽쪽이 브랜드는 어떤 것을 선호하시나요? 믿고 쓰는 브랜드가 있으신가요? | 모윰, 더블하트, 누크 |
-| 아기가 쪽쪽이를 사용할 때 빨기 편한 속도는 어느 정도가 좋을까요? | 느린 속도, 보통 속도 |
-| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 14,414원, 1만원 내외가 가장 많아요) | 1만 5천원 ~ 2만원대 |
-| __avoid_negatives__ | 쪽쪽이 사용으로 인해 아기가 중이염에 걸릴 위험이 높아질까 봐 염려돼요,쪽쪽이를 오래 사용하면 아기의 언어 발달이 늦어질까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 쪽쪽이 사용으로 인해 아기가 중이염에 걸릴 위험이 높아질까 봐 염려돼요
-- 쪽쪽이를 오래 사용하면 아기의 언어 발달이 늦어질까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 
