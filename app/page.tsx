@@ -93,7 +93,7 @@ export default function Home() {
               className="text-gray-600"
               style={{ fontSize: '16px', lineHeight: '1.4', marginTop: '16px', fontFamily: 'Abel', fontWeight: 400 }}
             >
-              인기 아기용품들의 후기를 분석해서<br />나와 딱 맞는 상품을 찾아드려요
+              광고 없이 리뷰와 판매량만 분석해서<br />내게 딱 맞는 상품을 추천해요
             </p>
           </motion.div>
 

@@ -10,14 +10,14 @@ import FeedbackButton from '@/components/FeedbackButton';
 const INTRO_COPY = {
   baby: {
     title: <>수천 개 아기용품 중<br /><span className="text-blue-500">아이에게 딱 맞는 하나</span> 찾기</>,
-    description: <>인기 아기용품들의 후기를 분석해서<br />나와 딱 맞는 상품을 찾아드려요</>,
+    description: <>인기 아기용품들의 후기를 분석해서<br />딱 맞는 상품을 찾아드려요</>,
     imageSrc: '/images/img-baby.png',
     imageAlt: 'Baby Product',
     buttonText: '바로 추천 받기',
   },
   living: {
     title: <>수천 개 가전제품 중<br /><span className="text-blue-500">내게 딱 맞는 하나</span> 찾기</>,
-    description: <>인기 가전제품들의 후기를 분석해서<br />나와 딱 맞는 상품을 찾아드려요</>,
+    description: <>인기 가전제품들의 후기를 분석해서<br />딱 맞는 상품을 찾아드려요</>,
     imageSrc: '/images/img-appliances.png',
     imageAlt: '가전 이미지',
     buttonText: '바로 추천 받기',

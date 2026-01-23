@@ -1,5 +1,5 @@
-# 세션: 20260123_054920_vo0o
-> 시작: 2026-01-23T05:49:20.537Z
+# 세션: 20260123_121537_e2rs
+> 시작: 2026-01-23T12:15:37.971Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아간식 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUIn2vm_9Vif7KVHKIYo4xyomxfkalLX_8e0Zf1Kz6Qf6sMIVVL8nLuRIo3iVJx4iVJhipuuTd-UfURsnsgeNeEkbKCZAiH1D_HDL9GR4WkLphEgW2I4U5hW1K-knp6V_9jcQHgwUhrUU8lHUhL_ldQZ7INZPgOaBHpfE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhM2OVU5-hTJE6SQCpiocWnSBaUveg6Z4bvcaFLqYwNFXWNsvbporhnShiZyZXsU6C2huuvSJ5vM8TAC1WDQyTYNJw9W3xLQ59CGAmmabLqnxywSNlcZCB7hoFVf5ztOFkBnc_KgPPymTAobmtU-nFz82XqrEB7sI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWonC7KPQgc9DXkf5qyBVS1hIDkcSN0a5XFIQNip3ANuIhDGMksFdUzhQGnwUvipYnuoXjCR5P3qXGQ1T9hkmCRI0aWMGHC2I7nTs4VkrFB0Mo6unQQ7qM5GYDUD__5TUCk36ecyO8KfvYJMm6R_LG3UG1Xxn7K4U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOzzkLJ_FpBi5YJY6Vbbb9RvawjntYF3VdOO8ufZfpzEOmqCPXT6MWyBa3FqQ13sapDTeURJPeOAMEpQ9xPtFzfRbztwogVm7TgCVEHJWcYiqFWQWPG-6a8Ju-99DskJwJcN31DB_av99blJDnrouXot4brSyuwkgPXr8SVQFXPyb2vMe3u50nz3wGVLF8QA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkSz6ie-f6MwmH_I2UX4j_yeLmZad_xXevt7aMP-xPLx1EpXR77i9pcB94SpQhdCs1kGkJYBdJ4tA0BuO3SV_Sr-e1rkI7VG2y-nEPQr96MwyQOwCEC_nMmfjlyAKLBUj6JsQUHEoLuw59uTIhysz7dQY4TJ19l1U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9od-n2kQEGzdFo_MeZ734KqWVSJFkHOB699WMavx3cImVlAqgpcqpLnhJWXa6jv9B9W-Lax8LOB672X66_cvugvWxV9Ax5Zgmm7Y6B3tCiHfIOKVtSiku6BcOz0wt_HjAXV4wZt_5bFUrzproLRb6ALPjmwxAarLpk_e50Q==
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUIn2vm_9Vif7KVHKIYo4xyomxfkalLX_8e0Zf1Kz6Qf6sMIVVL8nLuRIo3iVJx4iVJhipuuTd-UfURsnsgeNeEkbKCZAiH1D_HDL9GR4WkLphEgW2I4U5hW1K-knp6V_9jcQHgwUhrUU8lHUhL_ldQZ7INZPgOaBHpfE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhM2OVU5-hTJE6SQCpiocWnSBaUveg6Z4bvcaFLqYwNFXWNsvbporhnShiZyZXsU6C2huuvSJ5vM8TAC1WDQyTYNJw9W3xLQ59CGAmmabLqnxywSNlcZCB7hoFVf5ztOFkBnc_KgPPymTAobmtU-nFz82XqrEB7sI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWonC7KPQgc9DXkf5qyBVS1hIDkcSN0a5XFIQNip3ANuIhDGMksFdUzhQGnwUvipYnuoXjCR5P3qXGQ1T9hkmCRI0aWMGHC2I7nTs4VkrFB0Mo6unQQ7qM5GYDUD__5TUCk36ecyO8KfvYJMm6R_LG3UG1Xxn7K4U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOzzkLJ_FpBi5YJY6Vbbb9RvawjntYF3VdOO8ufZfpzEOmqCPXT6MWyBa3FqQ13sapDTeURJPeOAMEpQ9xPtFzfRbztwogVm7TgCVEHJWcYiqFWQWPG-6a8Ju-99DskJwJcN31DB_av99blJDnrouXot4brSyuwkgPXr8SVQFXPyb2vMe3u50nz3wGVLF8QA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkSz6ie-f6MwmH_I2UX4j_yeLmZad_xXevt7aMP-xPLx1EpXR77i9pcB94SpQhdCs1kGkJYBdJ4tA0BuO3SV_Sr-e1rkI7VG2y-nEPQr96MwyQOwCEC_nMmfjlyAKLBUj6JsQUHEoLuw59uTIhysz7dQY4TJ19l1U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9od-n2kQEGzdFo_MeZ734KqWVSJFkHOB699WMavx3cImVlAqgpcqpLnhJWXa6jv9B9W-Lax8LOB672X66_cvugvWxV9Ax5Zgmm7Y6B3tCiHfIOKVtSiku6BcOz0wt_HjAXV4wZt_5bFUrzproLRb6ALPjmwxAarLpk_e50Q==
+- 인사이트: 유아 간식 시장은 저출산에도 불구하고 '골드 키즈', '에잇 포켓' 트렌드에 힘입어 성장세를 보이고 있습니다. 특히 간편 영유아식 시장은 연평균 20% 이상의 급격한 성장세를 보이며 전체 시장을 견인하고 있습니다. 맞벌이 부부 증가로 인한 편리함 추구와 더불어, 아이에게 더 좋은 것을 먹이고자 하는 부모들의 심리가 프리미엄 제품 수요 증가로 이어지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKq38FT17OJBPbewkNFyoBGnL6WVVUsEQlN1xfkfBt2LJDTOemlfIGQ8qNyO_7i4Pkdtu2OeQ-XyW9mvv-yU7jsjnovo6nSjByRrBwcdugothWcP4x5CRfLJXnV1UizqCyulhvu4q0UjDfkvdIuNCGMoW6-PnPFrVbKBiCFIOfsHL8jmIViFrj04hMKTHoCA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDXbyaG80VEbTMQnkmYzgos4ED4QD81YeJp9Hcfm6bV1cd-lcFIghVwRXkSXhxnSSQdCL2UpbbcjutNVQAecFeAgi4G4SlgOqVIVO3JF2FmrNq2TbKKfVxw46g_rjNeZX-S8V6N1Z3V7TxEMYJelNn8i_ebfPXfz0FeQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfTVf7Iv1meFC-DBKhDihHp9VvcAQDKAl8gmipnKM1Chp3qNt_ulmPdHtqvtwYQ1aNuDb_naLJVg1rkalbXVVeCdqSbVCABoFVzpRQYNJzv1FgznfpJ2fTVoglWszW5LcJDdk_hlT_JgiMK2qmicNhxzPdmG2CiNMtJ5zHrB2tuNO3msQZadg8gNXQWTo=
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 현재 몇 개월인가요? (간식 선택에 중요해요!) | 6-11개월 |
-| 간식 선택 시 가장 중요하게 생각하는 성분은 무엇인가요? | 저자극/알러지 프리 |
-| 어떤 형태의 간식을 선호하시나요? | 과채/퓨레 스낵 |
-| 혹시 선호하시는 유아간식 브랜드가 있으신가요? | 매일유업, 핑크퐁 |
-| 유아 간식 예산은 어느 정도로 생각하세요? (평균 2만 3천원, 1만 3천원~3만원대가 가장 많아요) | 1만 3천원 ~ 3만원대 |
-| __avoid_negatives__ | 아이가 씹거나 삼키기 어려운 딱딱한 식감일까 봐 염려돼요,인공 색소나 향료 등 불필요한 첨가물이 들어있을까 봐 신경 쓰여요 |
 
 ---
 
@@ -61,8 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아이가 씹거나 삼키기 어려운 딱딱한 식감일까 봐 염려돼요
-- 인공 색소나 향료 등 불필요한 첨가물이 들어있을까 봐 신경 쓰여요
+(아직 선택 없음)
 
 ---
 
