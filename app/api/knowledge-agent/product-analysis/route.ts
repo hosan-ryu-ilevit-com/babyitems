@@ -323,17 +323,26 @@ evidence는 PDP 상단 "왜 추천했나요?" 섹션에 표시되는 핵심 문�
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       console.error('[product-analysis] No JSON found in response');
-      return generateFallbackAnalysis(product, userContext);
+      return generateFallbackAnalysis(product, userContext, preEvaluations, filterTags);
     }
 
     const parsed = JSON.parse(jsonMatch[0]);
+
+    // 🔧 LLM 장단점이 비어있으면 highlights/concerns 사용
+    const additionalPros = (parsed.additionalPros && parsed.additionalPros.length > 0)
+      ? parsed.additionalPros
+      : (product.highlights || []).map((text: string) => ({ text, citations: [] }));
+
+    const cons = (parsed.cons && parsed.cons.length > 0)
+      ? parsed.cons
+      : (product.concerns || []).map((text: string) => ({ text, citations: [] }));
 
     return {
       pcode: product.pcode,
       selectedConditionsEvaluation: parsed.selectedConditionsEvaluation || [],
       contextMatch: parsed.contextMatch,
-      additionalPros: parsed.additionalPros || [],
-      cons: parsed.cons || [],
+      additionalPros,
+      cons,
     };
   } catch (error) {
     console.error(`[product-analysis] Failed to analyze ${product.pcode}:`, error);

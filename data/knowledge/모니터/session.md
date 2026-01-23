@@ -1,5 +1,5 @@
-# 세션: 20260123_071122_oqkv
-> 시작: 2026-01-23T07:11:22.887Z
+# 세션: 20260123_083619_o49s
+> 시작: 2026-01-23T08:36:19.404Z
 > 카테고리키: 모니터
 > 카테고리: 모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 모니터 시장 현황
-- 인사이트: 모니터 시장은 OLED 기술의 급격한 성장과 함께 프리미엄 게이밍 모니터 시장을 중심으로 빠르게 확대되고 있습니다. 2028년까지 OLED 모니터의 시장 침투율이 5%에 달할 것으로 예상되며, 이는 전년 대비 큰 폭의 증가입니다. 삼성디스플레이와 LG디스플레이 등 국내 기업들이 이 시장을 주도하고 있으며, 특히 게이밍 모니터 부문에서 OLED 채택률이 78%에 달하는 등 높은 인기를 누리고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpwItCoE3N99p8hisiNWRaz-PUycg9Tfk73FmnR50sVeEDgjtGJ-jzemSK5-ntg5EdnK88Gcpl089TUNst4etpkaKvl7FnCHovLOHZ9Vvnczjm1mPUdmJOumtO0WrxY_ZDiGWzM4jjD8AymakJ-rhMUYc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_h90ia8NWVpb7yReHCGIybZfx5Q4cPKmSRtG9R1q3ykammkHDMjf-yri0Jvj2V2y-qotFywg0Uh6u_7In5zftvRalgHgcytE09VM6ZaOJNsUSbOLsEEEW7BqYN9vNZmezQxVPF3XwWOjZGwECVg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHt3olQz7lDFFaSscQCpUpoT1BzJP_ZI7LQZEpD8s3zfpjvpg_SfBVhpUuFVjBRKo0m_kHdkZ-RbG5P_O3lQuzmoHcXH7O83Oas58Kir-xDPFbm4fjk6wiqSpzZT8WROc_558QlccsdPkgRN1VI, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-dmWSVHvnVDRPI45J9-A4CZXTDnoyfFcyyNMR8Uanr9vIMmfGbSYxmbdTMEURIqYacIFt8c3942G8j2k2bN4SVJCgwAp1wrGjGWvMXtVEA795hyVhg-fHHTYCPuV5NID2nhI31CreGCB1ekMTRlkLFl5ps4_bgso=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZVGYhpzA39O3R6B8iH8Et5iehGRn_RvdD8Lvyan9w5WV5fZuihoWVoIGv5XGyv7Yt8Cf96JNCIADBtt1WKCtujnCStOyhnW6iQoHgarkeB4JZRZK1GpIb2ZUCkmug3_bU6eXKtfl3-Gfd2YfB, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDyey7c3oQC1MOPgz_dgIsr3NzLNjWfeJOju9vh2UXzYtQRodL3Oin9wgfsS__AqzPh5FZbiAFMKMLCdd2NjsG2g_kEwA5yEpVaxX1kIvIlUIp2o4BODoDHI2mebnQ5eI=
+- 인사이트: 모니터 시장은 OLED 기술의 성장과 함께 전반적인 성장을 지속하고 있으며, 특히 게이밍 모니터 부문에서 삼성전자가 6년 연속 글로벌 1위를 차지하는 등 강세를 보이고 있습니다. 2028년에는 OLED 침투율이 5%에 달할 것으로 예상되며, 이는 시장의 주요 트렌드를 형성하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHISxlxvaKJrh6is36ofM8qlSwVs2S31KCC4s1xxZVXAPTHfKswVYsjql6-lDVer4ByU-O98qnySkqkfuffkPFqbs8-EXEfozT2N7_WZ9IZnvlIrguSjD-QQfyacdPZ8u0F8k1jKE6OCRXOIxTOPZzRAwg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1gNTOayhgH7WwQvyz484z6VAh8dqZP80b10REDMOhY6YGea1vSlOh0H0PYGbAQkhS0QJ4fhSddHoPWyFspl1C-Oym0u3eVT8Z8URTj0cSXTP0Spi4ITNYSKDHLGdsyhUGuB7N4PvRt62lpfYXyPr0OcDuhKhs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGga29Y-LqQQtBNlUR3r0Kg5rDclActd9q6haZTne-e94IbfB-oGGQPJmq7-ReoFv8PtBOIrMViLbreiW6Q01KPkRx4CAfnL4ES5E33aIk9R6hvU_oKGGfpBS2d1UBWCItEtwm683E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7Ues2-TXdTS4-n2kxNYrrQJZVOF_73J01hooGb6xND7b6sfqKEUavVCts-eXURjKzHoxZNVsG5LfMMnjg4XQEAcPTyXltUMPFKdLg3wvA_4NoJIIT4s0BF8LkAIQ8un_6miWbYV7UR9H0XLRT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHubJnQmt9dKoKhBOFL2YaqARRPMiT3iLgUKtSbwh0-dXC_gFS7Pj3XCejuEqCAsPxcShSjcp5UTKwrLsXiif9H0Y1IzMfZcZcLpLW6R6R8uvXYeiivH1cavePTkFglSLQGBgFTYiQbBszqpU9NSws-gxkrt8YlqwALAhySi6yTTgSFWPShqnZhZxA5RQK-sU-k1j7mLew2s0JK6PbLJ4aeoyE2Kv_sKA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0OKSYcrYpjgRUKkCCCc7EQeWDqQ76917XMwkMi1K1etjF7T3qv2ZwtVBwIHUR2bfbnpk_blRCR_x4cB1QGR3r48BhC8k7EDB_uPyWG85yuStzMnd-auBjkUnHWB3jRjp2oeIL
 
 ---
 
@@ -16,11 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 모니터를 주로 어떤 용도로 사용하시나요? | 영상 시청/일반 멀티미디어 |
-| 선호하는 화면 크기가 있으신가요? | 32인치, 34인치 이상 울트라와이드 |
-| 어떤 패널 종류를 선호하시나요? | IPS |
-| 선호하는 모니터 브랜드가 있으신가요? | LG전자, 알파스캔, 삼성전자 |
-| 예산은 어느 정도로 생각하세요? (평균 29만원, 20~40만원대가 가장 많아요) | 20만원 ~ 40만원대, 20만원 이하 |
+| 선호하시는 모니터 브랜드가 있으신가요? | 상관없어요 |
+| 어떤 크기의 모니터를 찾으시나요? | 27인치, 32인치 |
+| 원하는 화면 해상도는 무엇인가요? | QHD (2560x1440) |
+| 화면 주사율은 어느 정도로 생각하시나요? | 144Hz 이상 |
+| 예산은 어느 정도로 생각하세요? (평균 29만원, 19만원~37만원대가 가장 많아요) | 20만원 ~ 40만원 |
+| __avoid_negatives__ | 상관없어요 |
 
 ---
 
@@ -60,7 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 상관없어요
 
 ---
 

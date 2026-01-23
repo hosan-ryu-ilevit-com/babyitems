@@ -2326,6 +2326,9 @@ export async function POST(request: NextRequest) {
         // 🔄 비교표용 장단점 (병렬 생성 완료)
         prosFromReviews: prosCons?.pros || [],
         consFromReviews: prosCons?.cons || [],
+        // 🔧 product-analysis API 호환성 (highlights, concerns도 같이 전달)
+        highlights: prosCons?.pros || [],
+        concerns: prosCons?.cons || [],
       };
     });
 

@@ -1724,6 +1724,7 @@ export default function KnowledgeAgentPage() {
                     } : m));
                   }
                   if (data.isComplete) {
+                    console.log('[SSE] Products complete. Total:', localProducts.length);
                     stepDataResolvers['product_analysis']?.(data);
                   }
                   break;

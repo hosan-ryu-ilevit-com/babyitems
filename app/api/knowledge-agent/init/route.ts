@@ -565,7 +565,8 @@ async function crawlProductsWithStreaming(
   ]);
 
   if (supabaseCache.hit && supabaseCache.products.length > 0) {
-    console.log(`[Step2] Supabase cache HIT: ${supabaseCache.products.length} products (${supabaseCache.cachedAt})`);
+    console.log(`[Step2] Supabase cache HIT: ${supabaseCache.products.length} products`);
+
     if (filterCache.hit) {
       console.log(`[Step2] Filter cache HIT: ${filterCache.filters.length} sections`);
     }
@@ -578,17 +579,21 @@ async function crawlProductsWithStreaming(
       onHeaderParsed({ searchUrl, filters: cachedFilters });
     }
 
-    // 캐시된 경우: 첫 배치 + 전체 완료 신호만 전송 (빠른 UI 업데이트)
+    // 캐시된 경우: 5개씩 배치로 나눠서 전송 (SSE 메시지 크기 제한 방지)
     if (onProductBatch) {
-      // 첫 5개로 product_analysis 완료 신호
-      const firstBatch = supabaseCache.products.slice(0, FIRST_BATCH_COMPLETE_COUNT);
-      onProductBatch(firstBatch, false, true);
-      // 나머지 한번에 전송 + 완료 신호
-      const rest = supabaseCache.products.slice(FIRST_BATCH_COMPLETE_COUNT);
-      if (rest.length > 0) {
-        onProductBatch(rest, true, false);
-      } else {
-        onProductBatch([], true, false);
+      const batchSize = 5;
+      let firstBatchNotified = false;
+
+      for (let i = 0; i < supabaseCache.products.length; i += batchSize) {
+        const batch = supabaseCache.products.slice(i, i + batchSize);
+        const isComplete = i + batchSize >= supabaseCache.products.length;
+        const isFirstBatchComplete = !firstBatchNotified && i + batchSize >= FIRST_BATCH_COMPLETE_COUNT;
+
+        if (isFirstBatchComplete) {
+          firstBatchNotified = true;
+        }
+
+        onProductBatch(batch, isComplete, isFirstBatchComplete);
       }
     }
     return { products: supabaseCache.products, cached: true, searchUrl, filters: cachedFilters };
@@ -2335,6 +2340,9 @@ export async function POST(request: NextRequest) {
           let searchUrl = '';
           let wasCached = false;
 
+          // UI 표시용 랜덤 개수 (110~115)
+          const randomDisplayCount = 110 + Math.floor(Math.random() * 6);
+
           // Phase 1: 웹검색과 상품 크롤링 병렬 실행
           const phase1Start = Date.now();
           let firstBatchComplete = false;
@@ -2414,7 +2422,7 @@ export async function POST(request: NextRequest) {
                     specSummary: p.specSummary,
                     danawaRank: p.danawaRank || null,
                   })),
-                  total: allProducts.length,
+                  total: Math.min(allProducts.length, randomDisplayCount), // UI 표시용 랜덤 개수
                   isComplete,
                 });
               }

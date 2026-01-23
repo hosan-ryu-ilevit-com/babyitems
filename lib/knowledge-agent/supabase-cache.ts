@@ -120,9 +120,6 @@ export async function getProductsFromCache(
       return { hit: false, products: [], cachedAt: null, source: 'crawl' };
     }
 
-    // ✅ 디버그: DB에서 rank 값 확인
-    console.log(`[SupabaseCache] DB rank 샘플 (처음 3개):`, data.slice(0, 3).map(r => ({ pcode: r.pcode, rank: r.rank })));
-
     const normalizeRank = (rank: unknown): number | null => {
       if (typeof rank === 'number' && Number.isFinite(rank)) return rank;
       if (typeof rank === 'string') {
