@@ -2578,7 +2578,7 @@ export default function KnowledgeAgentPage() {
         setMessages(prev => [...prev, {
           id: resultMsgId,
           role: 'assistant',
-          content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n광고 없이 오직 리뷰와 판매량으로만 판단했어요.`,
+          content: '',
           resultProducts: mappedResultProducts,
           typing: true,
           timestamp: Date.now()
@@ -2640,6 +2640,10 @@ export default function KnowledgeAgentPage() {
                           console.log('[V2 Flow - FinalInput] ✅ Reviews complete (즉시):', reviewCounts);
                           // 즉시 reviewsData 업데이트
                           setReviewsData(prev => ({ ...prev, ...top3Reviews }));
+
+                          // 🔧 리뷰 크롤링 완료 후 product-analysis 호출 (top3Reviews 직접 전달)
+                          console.log('[V2 Flow - FinalInput] 🚀 Triggering product-analysis after reviews loaded');
+                          fetchProductAnalysisForFinal(top3Reviews);
                         }
                       } catch (e) {
                         console.error('[V2 Flow - FinalInput] SSE parsing error:', e);
@@ -2671,10 +2675,13 @@ export default function KnowledgeAgentPage() {
         }
 
         // Product Analysis 비동기 호출 (PDP 모달용)
-        const fetchProductAnalysisForFinal = async () => {
+        const fetchProductAnalysisForFinal = async (latestReviews?: Record<string, any[]>) => {
           setIsProductAnalysisLoading(true);
           try {
             console.log('[V2 Flow - FinalInput] Fetching product analysis for PDP...');
+
+            // 🔧 최신 리뷰 데이터 사용 (전달받은 것 또는 상태값)
+            const reviewsToUse = latestReviews || reviewsData;
 
             // collectedInfo에서 선호 조건 추출 (__로 시작하는 내부 키 제외)
             const userPreferences = Object.entries(collectedInfo)
@@ -2713,7 +2720,7 @@ export default function KnowledgeAgentPage() {
                   recommendReason: rec.reason,
                   highlights: rec.highlights,
                   concerns: rec.concerns,
-                  reviews: (reviewsData[rec.pcode] || []).slice(0, 30), // 🆕 final-recommend에서 받은 15개 리뷰 사용
+                  reviews: (reviewsToUse[rec.pcode] || []).slice(0, 30), // 🔧 최신 리뷰 데이터 사용
                 })),
                 userContext: {
                   collectedInfo,
@@ -2758,7 +2765,7 @@ export default function KnowledgeAgentPage() {
             setIsProductAnalysisLoading(false);
           }
         };
-        fetchProductAnalysisForFinal();
+        // 🔧 fetchProductAnalysisForFinal()은 reviews_complete 이벤트에서 호출됨 (리뷰 크롤링 완료 후)
       }
     } finally {
       setIsTyping(false);
@@ -2958,7 +2965,7 @@ export default function KnowledgeAgentPage() {
           setMessages(prev => [...prev, {
             id: resultMsgId,
             role: 'assistant',
-            content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n광고 없이 오직 리뷰와 판매량으로만 판단했어요.`,
+            content: '',
             resultProducts: mappedResultProducts,
             typing: true,
             timestamp: Date.now()
@@ -3074,7 +3081,7 @@ export default function KnowledgeAgentPage() {
           setMessages(prev => [...prev, {
             id: resultMsgId,
             role: 'assistant',
-            content: `입력해주신 조건에 맞는 제품을 추천해드렸어요!\n광고 없이 오직 리뷰와 판매량으로만 판단했어요.`,
+            content: '',
             resultProducts: mappedResultProducts,
             typing: true,
             timestamp: Date.now()
@@ -4824,11 +4831,6 @@ function MessageBubble({
           <div className="bg-gray-50 text-gray-800 rounded-[20px] px-5 py-2.5 text-[16px] font-medium min-h-[46px] flex items-center w-fit ml-auto leading-[1.4]">{message.content}</div>
         ) : message.content ? (
           <div className="w-full">
-            {/* 결과 메시지인 경우 상단 구분선 추가 */}
-            {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
-              <div className="h-px bg-gray-200 w-full mb-6" />
-            )}
-
             {/* 실제 질문일 때만 헤더 표시 (options나 questionProgress가 있는 경우) */}
             {message.questionId !== 'final_guide' &&
              (!message.resultProducts || message.resultProducts.length === 0) &&
@@ -5071,9 +5073,6 @@ function MessageBubble({
 
         {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-4">
-            {/* 상단 구분선 */}
-            <div className="h-px bg-gray-200 w-full mb-6" />
-
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1">
               <h3 className="text-[18px] font-bold text-gray-900 mb-3">
