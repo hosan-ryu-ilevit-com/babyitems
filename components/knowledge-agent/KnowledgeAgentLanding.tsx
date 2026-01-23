@@ -13,7 +13,6 @@ import {
   logKAPageView
 } from '@/lib/logging/clientLogger';
 import { KnowledgeAgentStepIndicator } from '@/components/knowledge-agent/KnowledgeAgentStepIndicator';
-import { AIHelperButton } from '@/components/recommend-v2/AIHelperButton';
 import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
 
 
@@ -620,6 +619,40 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
         isBaby={isBaby}
       />
 
+      {/* 우하단 플로팅 AI 버튼 */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={() => setIsAIHelperOpen(true)}
+        className="fixed px-5 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg z-50"
+        style={{
+          right: '16px',
+          bottom: 'calc(16px + env(safe-area-inset-bottom))',
+          background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)'
+        }}
+      >
+        <motion.svg
+          className="w-4 h-4 text-white"
+          viewBox="0 0 24 24"
+          fill="none"
+          animate={{
+            rotate: [0, -15, 15, -15, 0],
+            y: [0, -2.5, 0]
+          }}
+          transition={{
+            duration: 0.8,
+            repeat: Infinity,
+            repeatDelay: 2,
+            ease: "easeInOut"
+          }}
+        >
+          <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+        </motion.svg>
+        뭘 사야 할지 모르겠어요
+      </motion.button>
+
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col">
         {/* Header Bar */}
         <header className="sticky top-0 z-50 bg-[#FBFBFD] h-[54px] flex items-center px-5">
@@ -636,27 +669,10 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
           className="flex-1 flex flex-col pt-0"
         >
           <div className="px-4 pt-0 pb-12">
-            {/* AI 도움 버튼 */}
-            <div className="mt-3 mb-4">
-              <AIHelperButton
-                onClick={() => setIsAIHelperOpen(true)}
-                label="뭘 사야 할지 모르겠어요"
-                questionType="category_selection"
-                questionId="category_selection"
-                questionText={isBaby ? "어떤 육아용품을 찾으시나요?" : "어떤 가전제품을 찾으시나요?"}
-                category={defaultTab}
-                categoryName={selectedMainCategory}
-              />
-            </div>
-
             {/* Title */}
             <motion.div className="mb-[16px]">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[15px] text-gray-400 font-semibold">
-                  카테고리 설정
-                </span>
-              </div>
-              <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
+              
+              <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mt-2">
                 찾으시는 상품을 선택하세요
                 <span className="text-blue-500"> *</span>
               </h3>
