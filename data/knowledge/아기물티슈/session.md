@@ -1,5 +1,5 @@
-# 세션: 20260123_044828_21p3
-> 시작: 2026-01-23T04:48:28.926Z
+# 세션: 20260123_103107_d284
+> 시작: 2026-01-23T10:31:07.941Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 아기 물티슈 시장은 지속적인 성장세를 보이며, 2023년 약 124억 달러 규모로 평가되었습니다. 2024년부터 2032년까지 연평균 5.6%의 성장률이 예상되며, 특히 아기 물티슈는 전체 시장 매출의 상당 부분을 차지하며 강력한 시장 지배력을 유지하고 있습니다. 이는 위생에 대한 중요성, 일상적인 사용 빈도, 그리고 지속적인 제품 혁신에 기인합니다. 베베숲은 9년 연속 국내 물티슈 판매 1위를 기록하며 시장 리더로서의 입지를 공고히 하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwBu4bBJkYEk1C9oziOXX8oyHUTsy5GXUoY7W_UExpeTDngT-KGuyPjp9Opj_XvNA3-I7XVcLGx8PuzxETfsjszVnbW1Ng92wCA2jyCOK26zGWQ0wg3t3GKzhnRp8yz9WI8Eog3c-tAnduRSTldtY_ANTUKSpLoTg7eAY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFot4ZUfg8mwBLb2hRx8RLmR7l9_x1xYpm8_KOHwyvS_n7nB72PmcjsqsPusBKPJCpkCxjM2JNmcE07j1-K0o1fxlrzdwd94Td1Nm8zsy7NIoXioC1tKS-vTtLiTuDVDloj-CzbzggIRn9phY28xOec-ascm9L-CG_qqNoP5ab6FfD4r7e21Q0OBcs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGBNe8UHg52hxd7ht7JpFs0_SxTg8B5-IQ-lgPetcuSv3BE1PKzmRWwdRGSstpE3TxFB_eaXr5UHXIuQI6T0xdh_UMTH4Hqsbb3qJnj6FA8TEdK0zHbDAuxXT9VXFjZ2kVPggyKqHUnK3iXWi7nlADjrCApTFCzfH7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-R0yQrxdzkYXtkIAB9EoBixR9z5g-ffIb84F3JFAuOkZUdxoELTjbdUkCgbLEx9Cp7ET-iSUxbtVcednIthcJjk3NdBmvu9gd3SMeg0X0QEniEq0NwhhBiZsnueoNE6weBtMPtbZFNoW1KFd8Wg-UHmKzkpd58pyfDA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6g6pVk12c5BM01CViY7Z_1rzH2TnEFmHGlDAD0pPPI3GjzKgWLz5_8J_byMcAw3bt2YVt1f0KP4EiPdzlVZUmMrm-x4BfVPwYBEd_VNW1HEf7x3BwLIoc33LyuMX7UIR1Ce-xlhMNPosUvxMDJdttFv55PRIMC57P3galCx9_1ljzdwf7ra7zxlDfgKm2nfhtkg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF72W7krSXlB_Ow2q_VwSSflfEW1M1_O1oUooeWlpJTxRwjhUZWthSJxtYPfgyv-09xIUZFhliRwzVeTPJ_U4nCEueGmisu-sFFVmqi3ROzJWVuQhraDvQ9y4Niv2aTOkIKY-RKNs2S17yjTTBZ4_HwpryTq5bFPzRub5BTskwGtRQg_gnFvD9RzU5cUxlxO7MIhS1bp1s=
+- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 가처분 소득 및 구매력 증가에 힘입어 2024년부터 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 아기 물티슈는 전체 물티슈 시장 매출의 상당 부분을 차지하며, 위생에 대한 중요성, 일상적인 사용 빈도, 지속적인 제품 혁신에 힘입어 강력하고 지속적인 시장 지배력을 보여주고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWQq6sFxVsdHRVuwb3PfZMydn2B77HTsdRCM5q3Z2bsdjjF2B8M8aeuzrVJSAZVMuKxmSfBB-0fMiICC8K9eZvy6zTjmjTMkX3LmRawAF7RmlP--97lYBUMnm4UMOtyDtkbblMyMTcSUXTkRIt88slAJ6GGzqhPKiemDSZ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5KUbFx0_5BPhwV2BXCLzDFOqqyvEdq92GZDJchJ4a1yd6dEEr76kNkficqsaAsnuJ-2baQ78XclLWngnaHlORPAI2gMj_3AJzC_sZQHXvKWNq3TCRAM4hSLjQLU4oyTq94LcZlQ5lqJ2KE9YFf5ealzZ_r6HKhfZA3A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFn02rFEXfyw5jlu5P6uzbow-RtYnagajC9sFLEuzVv1rkFUW1HTFS7QhUO6s6crzuEmTSWXU8JGt-47lQsZ_pthBFJ4oExkDaSYtpI7Zz6yJkCdI1MWsUDjD0JTVjZXQuaMzGD3tFwq5Z8UKK10HxfdyheH01DMSDpGw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOYUn2oiO2I4kLoGylUseZJj847cwytfmoThgFHz6vNZyxJqqBmYz4tN0Yx5AAZrxpJ8MC1BGdMRDcs9wlemhOeCWWAv2QPSQkAitrqDm4mIfKVRzdN4noXmfe5dJTrneuofvzU0gFl36Uj-bdccdiN5-kDUGyeLTJYraAeLFxzMigFbuyQiDd5myuKKMvWQ26O_kG_IU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYNgVEloGvMYEUBTo5TQ5yAmBdPMkAbRAXTenMBH4QQIJuxSiwKu-hmSyGypN8LBTGbIIYymKiLHbSkxsXiKSvTT9kmmrIlbeoJFek3AGxUXxeLinbAAEqpIDyUVXppU6XkDWUQtBDeNi2SSsYzaNfLfA7AUS6ydnza54=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 믿고 쓰는 아기물티슈 브랜드가 있으신가요? | 아이러브베베, 베베숲, 순둥이 |
-| 물티슈의 두께는 어느 정도를 선호하시나요? (평량 기준) | 적당해요, 얇은 편이에요 |
-| 물티슈 표면의 엠보싱 유무는 어떤 것을 선호하시나요? | 엠보싱 없어요 |
-| 주로 어떤 용도로 물티슈를 사용하실 예정인가요? | 다용도, 아기 피부용 |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 3천원, 7천원~1만 7천원대가 가장 많아요) | 7천원 ~ 1만 7천원대, 7천원 이하 |
-| __avoid_negatives__ | 포장 디자인이 너무 촌스러워서 아기 용품으로 두기에는 좀 부담스러워요,제가 선호하지 않는 포장 디자인이 올까 봐 살짝 걱정돼요 |
+| 믿고 쓰는 브랜드가 있으신가요? 선호하는 브랜드가 있다면 알려주세요. | 아이러브베베 |
+| 물티슈의 두께는 어느 정도를 선호하시나요? 도톰할수록 적은 양으로도 잘 닦이고 여러 번 사용하기 좋아요. | 도톰한 두께 |
+| 물티슈 표면의 엠보싱 처리가 되어 있는 것을 선호하시나요? | 플레인, 엠보싱 있음 |
+| 주로 어떤 상황에서 물티슈를 사용하시나요? | 아기 피부 케어 |
+| 예산은 어느 정도로 생각하세요? (평균 1만 3천원대, 7천원~1만 7천원대가 가장 많아요) | 7천원 ~ 1만 7천원대 |
+| __avoid_negatives__ | 금방 말라버려서 아기 피부를 충분히 닦아주기 어려울까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 포장 디자인이 너무 촌스러워서 아기 용품으로 두기에는 좀 부담스러워요
-- 제가 선호하지 않는 포장 디자인이 올까 봐 살짝 걱정돼요
+- 금방 말라버려서 아기 피부를 충분히 닦아주기 어려울까 봐 걱정돼요
 
 ---
 

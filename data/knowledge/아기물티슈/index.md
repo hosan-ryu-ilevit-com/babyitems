@@ -1,25 +1,27 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T04:48:22.743Z
+> 마지막 업데이트: 2026-01-23T10:31:01.442Z
 > 분석 상품: 20개 | 분석 리뷰: 439,818개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 친환경 성분 및 소재 사용 증가
-- 안전한 성분 중시 (EWG 레드 등급 제외)
-- 다양한 기능성 물티슈 출시 (예: 보습, 진정)
+- 친환경 및 생분해성 물티슈 도입 증가
+- 안전한 성분과 저자극 포뮬러에 대한 소비자 관심 증대
+- 온라인 채널을 통한 구매 증가 및 비대면 소비 확산
 
 ### 구매자 만족 포인트
 - ✓ 안전한 성분
 - ✓ 뛰어난 가성비
 - ✓ 도톰한 두께
-- ✓ 넉넉한 사이즈
-- ✓ 높은 휴대성
+- ✓ 높은 수분감
+- ✓ 친환경 소재
 
 ### 주의해야 할 단점
-- ⚠ 짧은 유통기한
-- ⚠ 포장 디자인 호불호
+- ⚠ 얇은 두께
+- ⚠ 짧은 촉촉함 유지 기간
+- ⚠ 보송하지 않은 재질
+- ⚠ 재질의 종이 질감
 
 ### 가격대 인사이트
 
@@ -241,9 +243,8 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwBu4bBJkYEk1C9oziOXX8oyHUTsy5GXUoY7W_UExpeTDngT-KGuyPjp9Opj_XvNA3-I7XVcLGx8PuzxETfsjszVnbW1Ng92wCA2jyCOK26zGWQ0wg3t3GKzhnRp8yz9WI8Eog3c-tAnduRSTldtY_ANTUKSpLoTg7eAY=)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFot4ZUfg8mwBLb2hRx8RLmR7l9_x1xYpm8_KOHwyvS_n7nB72PmcjsqsPusBKPJCpkCxjM2JNmcE07j1-K0o1fxlrzdwd94Td1Nm8zsy7NIoXioC1tKS-vTtLiTuDVDloj-CzbzggIRn9phY28xOec-ascm9L-CG_qqNoP5ab6FfD4r7e21Q0OBcs=)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGBNe8UHg52hxd7ht7JpFs0_SxTg8B5-IQ-lgPetcuSv3BE1PKzmRWwdRGSstpE3TxFB_eaXr5UHXIuQI6T0xdh_UMTH4Hqsbb3qJnj6FA8TEdK0zHbDAuxXT9VXFjZ2kVPggyKqHUnK3iXWi7nlADjrCApTFCzfH7)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-R0yQrxdzkYXtkIAB9EoBixR9z5g-ffIb84F3JFAuOkZUdxoELTjbdUkCgbLEx9Cp7ET-iSUxbtVcednIthcJjk3NdBmvu9gd3SMeg0X0QEniEq0NwhhBiZsnueoNE6weBtMPtbZFNoW1KFd8Wg-UHmKzkpd58pyfDA==)
-- [marketgrowthreports.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6g6pVk12c5BM01CViY7Z_1rzH2TnEFmHGlDAD0pPPI3GjzKgWLz5_8J_byMcAw3bt2YVt1f0KP4EiPdzlVZUmMrm-x4BfVPwYBEd_VNW1HEf7x3BwLIoc33LyuMX7UIR1Ce-xlhMNPosUvxMDJdttFv55PRIMC57P3galCx9_1ljzdwf7ra7zxlDfgKm2nfhtkg==)
-- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF72W7krSXlB_Ow2q_VwSSflfEW1M1_O1oUooeWlpJTxRwjhUZWthSJxtYPfgyv-09xIUZFhliRwzVeTPJ_U4nCEueGmisu-sFFVmqi3ROzJWVuQhraDvQ9y4Niv2aTOkIKY-RKNs2S17yjTTBZ4_HwpryTq5bFPzRub5BTskwGtRQg_gnFvD9RzU5cUxlxO7MIhS1bp1s=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWQq6sFxVsdHRVuwb3PfZMydn2B77HTsdRCM5q3Z2bsdjjF2B8M8aeuzrVJSAZVMuKxmSfBB-0fMiICC8K9eZvy6zTjmjTMkX3LmRawAF7RmlP--97lYBUMnm4UMOtyDtkbblMyMTcSUXTkRIt88slAJ6GGzqhPKiemDSZ)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5KUbFx0_5BPhwV2BXCLzDFOqqyvEdq92GZDJchJ4a1yd6dEEr76kNkficqsaAsnuJ-2baQ78XclLWngnaHlORPAI2gMj_3AJzC_sZQHXvKWNq3TCRAM4hSLjQLU4oyTq94LcZlQ5lqJ2KE9YFf5ealzZ_r6HKhfZA3A==)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFn02rFEXfyw5jlu5P6uzbow-RtYnagajC9sFLEuzVv1rkFUW1HTFS7QhUO6s6crzuEmTSWXU8JGt-47lQsZ_pthBFJ4oExkDaSYtpI7Zz6yJkCdI1MWsUDjD0JTVjZXQuaMzGD3tFwq5Z8UKK10HxfdyheH01DMSDpGw==)
+- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOYUn2oiO2I4kLoGylUseZJj847cwytfmoThgFHz6vNZyxJqqBmYz4tN0Yx5AAZrxpJ8MC1BGdMRDcs9wlemhOeCWWAv2QPSQkAitrqDm4mIfKVRzdN4noXmfe5dJTrneuofvzU0gFl36Uj-bdccdiN5-kDUGyeLTJYraAeLFxzMigFbuyQiDd5myuKKMvWQ26O_kG_IU=)
+- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYNgVEloGvMYEUBTo5TQ5yAmBdPMkAbRAXTenMBH4QQIJuxSiwKu-hmSyGypN8LBTGbIIYymKiLHbSkxsXiKSvTT9kmmrIlbeoJFek3AGxUXxeLinbAAEqpIDyUVXppU6XkDWUQtBDeNi2SSsYzaNfLfA7AUS6ydnza54=)

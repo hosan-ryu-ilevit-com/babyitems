@@ -1,5 +1,5 @@
-# 세션: 20260123_054724_5p3t
-> 시작: 2026-01-23T05:47:24.130Z
+# 세션: 20260123_103838_ive9
+> 시작: 2026-01-23T10:38:38.326Z
 > 카테고리키: 분유제조기
 > 카테고리: 분유제조기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유제조기 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzwqenpGcKXy6OCRv0eT_ZOphOqtr3ujv65gv2TvDE_RniD8ljCO9_XZOqsusfipZJWhsaAlm2KDAJdu6hbXuBaVPbUKPAKvaglFXRJsHu9ChLIIlVafHzLMpCieXazvlRTBvAusdp3LA508cxnOsOtaZ2i-nbrVg02MbWRDtgqu8FWgRy9OfuV40=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6p6pnxlTPt-g6W9iNzcv6brEY9T-rW47OHVTqJ1njFaxOC1KUI9MNg5T1nrU6aNSGjSM1cn3ZVwMdewi_Wg20EfkxGP1Qxshq20hDaBAuYOx46JSRmQTa_MQZ6_VGEw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_n2HINvoTwst4RSUDS6yKwhzirvgST3QU4fRFSHPXW4hsBXH9pbXPSJK_nxNOlRnut_zEPAJfKH54N9_drRSnyTXNnvszhE94U4IPTuqKSz2lTtj5B1wJUtHxF2tsy1s-eHNAQaXpH0tQkFU0P7C5prDmx4gyS-hOOg36yOL-817AC3y3qfjP25-7
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzwqenpGcKXy6OCRv0eT_ZOphOqtr3ujv65gv2TvDE_RniD8ljCO9_XZOqsusfipZJWhsaAlm2KDAJdu6hbXuBaVPbUKPAKvaglFXRJsHu9ChLIIlVafHzLMpCieXazvlRTBvAusdp3LA508cxnOsOtaZ2i-nbrVg02MbWRDtgqu8FWgRy9OfuV40=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6p6pnxlTPt-g6W9iNzcv6brEY9T-rW47OHVTqJ1njFaxOC1KUI9MNg5T1nrU6aNSGjSM1cn3ZVwMdewi_Wg20EfkxGP1Qxshq20hDaBAuYOx46JSRmQTa_MQZ6_VGEw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_n2HINvoTwst4RSUDS6yKwhzirvgST3QU4fRFSHPXW4hsBXH9pbXPSJK_nxNOlRnut_zEPAJfKH54N9_drRSnyTXNnvszhE94U4IPTuqKSz2lTtj5B1wJUtHxF2tsy1s-eHNAQaXpH0tQkFU0P7C5prDmx4gyS-hOOg36yOL-817AC3y3qfjP25-7
+- 인사이트: 최근 출산율 반등과 함께 국내 분유 시장이 활기를 띠고 있으며, 글로벌 분유 시장 규모는 2021년 300억 달러에서 2030년 653억 달러로 성장할 것으로 예상됩니다. 이러한 시장 성장세에 힘입어 다양한 분유 제조기 제품들이 출시되며 소비자들의 선택 폭이 넓어지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHx9FBIAtbifiwnW2wfrYvXPVxF2neoNwDDIeP1E9oMf6FdRWs8mwBwXXdw_rb90LBcy6ENWwtpr-pHZ76ZxCAdOHSBorTtmFMm_ySFyFnzJXvLOjjLY1NKg1ZSIhN6MNzhtyZwZbWHOorI9XAdEoeHTk2W0KHButJ_OVnPEqp3gfUEl4fP--pgIfc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpUWQpUceJLF87YegSMh_8hd9TEXAkmr9kft_X8lWFMpGClvK9AUTa3gaZZ1pgRkp-QqDY7AuKXhw8u_no1xZRQAuqeyQbrL73kaEt1ZFTiUk-DppMQ6PeQm34wQQO837HT72MQE5vyH4Ifb49uezxvJQi0G2j, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZiftPxjiEAqRVaLjN6WAO0DsjCsJ0iBOqriSGVGyfEWFh72-ZRKLqggm9kkD3Qnve5WkdpdkM-ktQ9hrMDsU-er3lTJrHDLAXPVWUUYHduaZjd0o-CAtNt31uV58NMkBeGvniSM9bF_nIR5835lDehVEOaxWEuQ6T8q8deuy2baBRsF_YP6GZ9aVE, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyed14Wiwr5-kR5jVT13pvZVI_TLDRB7u1HJGcI55iTXBmrof-oboKM4i24cSzD_rZGzOCRcdKOB2Z1MT0O_96AMLF7deiRvsa71X_E40wkrKkD-vrLwVx0HUbVoEzFzwzYrCyvwd3WDiiS_055ynUWK2oZgWtpuW_jF8vZsaTJtGhJz8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJ-7tDmV-GkSZNF9nppQDYgXGAemrswx0UvJO3VeyfELnG0t_AA7jhHCyHjJVoKMjB_l5FE2UrX-Zk4leD0EeSI9o8T3V7Z5msW5mYjWCM30KPgPav0940j-u3L8t_HZU_Gcx9_LU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOocXJ7sFDHPm64qa6yxLw8r4AUHNi3yvYt_6AXZLH5mCmwuXNc3FYiVYD8ZxsnkvWypc3U9LM2lqO1umQbRh_EU8McTAFv0QRqPAcArYAkatXtTzX3rZ3mIQhGn7VqYgWnFQFYeAxAaEGPNvvyDRU20JPtNrmDA==
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 믿고 사용할 수 있는 선호하는 브랜드가 있으신가요? | 리하스, 베이비브레짜 |
-| 분유 제조기 사용 후 세척은 어떻게 하는 것이 가장 편리할까요? | 부품 분리 세척, 자동 세척 |
-| 한 번에 얼마나 많은 양의 물을 준비해야 하나요? | 대용량 (2L 이상) |
-| 분유 제조기에 스마트 기능이 얼마나 중요하신가요? | 자동 온도 조절 스마트 기능, 스마트 기능 불필요 |
-| 예산은 어느 정도로 생각하세요? (평균 17만원, 9만원~22만원대가 가장 많아요) | 9만원 ~ 22만원 |
-| __avoid_negatives__ | 한 번에 준비할 수 있는 물의 양이 적어 자주 채워야 하는 것이 불편해요,복잡한 부품 분리 및 세척 과정이 번거로울까 봐 걱정돼요 |
+| 믿고 쓰는 브랜드가 있으신가요? 선호하는 브랜드가 있다면 알려주세요. | 베이비브레짜, 리하스 |
+| 분유 제조 후 세척은 얼마나 중요하게 생각하시나요? | 보통이에요 |
+| 한 번에 얼마나 많은 양의 물을 준비하고 싶으신가요? | 표준 용량 (1.5L ~ 1.8L), 넉넉하게 (1.8L 이상) |
+| 분유의 정확한 온도 조절이 얼마나 중요하신가요? | 매우 중요해요 |
+| 예산은 어느 정도로 생각하세요? (평균 약 17만원, 9만원~22만원대가 가장 많아요) | 9만원 ~ 22만원 |
+| __avoid_negatives__ | 한 번에 만들 수 있는 분유 양이 적어서 자주 만들어야 하는 점이 불편해요,분유가 닿는 깔때기 부분을 매번 세척해야 해서 번거로울 것 같아요 |
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 한 번에 준비할 수 있는 물의 양이 적어 자주 채워야 하는 것이 불편해요
-- 복잡한 부품 분리 및 세척 과정이 번거로울까 봐 걱정돼요
+- 한 번에 만들 수 있는 분유 양이 적어서 자주 만들어야 하는 점이 불편해요
+- 분유가 닿는 깔때기 부분을 매번 세척해야 해서 번거로울 것 같아요
 
 ---
 

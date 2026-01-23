@@ -102,8 +102,8 @@ function StepIndicator({ currentPhase }: { currentPhase: Phase }) {
   const currentStep = currentStepIndex >= 0 ? currentStepIndex + 1 : 1;
 
   return (
-    <div className="sticky top-16 left-0 right-0 z-50 flex justify-center pointer-events-none">
-      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white pt-[12px] pb-[10px] pointer-events-auto px-4">
+    <div className="flex justify-center bg-white shrink-0">
+      <div className="w-full max-w-[480px] h-[49px] flex flex-col items-center bg-white pt-[12px] pb-[10px] px-4">
         {/* 텍스트 라벨 */}
         <div className="flex w-full justify-between items-center mb-[6px]">
           {STEPS.map((step) => {
@@ -766,7 +766,34 @@ function useAutoScroll(containerRef: React.RefObject<HTMLDivElement | null>) {
     });
   }, [containerRef]);
 
-  return { scrollToMessage };
+  const scrollToTop = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    console.log('[KA Scroll] Force scrolling to top');
+
+    // 즉시 실행
+    container.scrollTop = 0;
+
+    // 여러 프레임에 걸쳐 재시도 (모바일 최적화)
+    requestAnimationFrame(() => {
+      if (container) container.scrollTop = 0;
+
+      requestAnimationFrame(() => {
+        if (container) container.scrollTop = 0;
+
+        // 최종 보험
+        setTimeout(() => {
+          if (container) {
+            container.scrollTop = 0;
+            console.log('[KA Scroll] Final scroll attempt, scrollTop:', container.scrollTop);
+          }
+        }, 50);
+      });
+    });
+  }, [containerRef]);
+
+  return { scrollToMessage, scrollToTop };
 }
 
 // ============================================================================
@@ -785,7 +812,7 @@ export default function KnowledgeAgentPage() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // 자동 스크롤 훅
-  const { scrollToMessage } = useAutoScroll(mainRef);
+  const { scrollToMessage, scrollToTop } = useAutoScroll(mainRef);
 
   // State
   const [phase, setPhase] = useState<Phase>('loading');
@@ -1268,9 +1295,7 @@ export default function KnowledgeAgentPage() {
     // 저장된 결과가 있으면 복원하고 초기화 건너뛰기
     if (loadResultFromStorage()) {
       // ✅ localStorage 복원 후 스크롤 맨 위로 (모바일에서 중간 스크롤 방지)
-      setTimeout(() => {
-        mainRef.current?.scrollTo({ top: 0, behavior: 'instant' });
-      }, 100);
+      setTimeout(scrollToTop, 100);
       return;
     }
 
@@ -1306,6 +1331,13 @@ export default function KnowledgeAgentPage() {
     prevMessagesLengthRef.current = messages.length;
   }, [messages, scrollToMessage, phase]);
 
+  // ✅ 결과 화면(phase='result')으로 전환 시 무조건 맨 위로 스크롤 (모바일 최적화)
+  useEffect(() => {
+    if ((phase === 'result' || phase === 'free_chat') && resultProducts.length > 0) {
+      console.log('[KA Scroll] Result phase detected - forcing scroll to top');
+      scrollToTop();
+    }
+  }, [phase, resultProducts.length, scrollToTop]);
 
   // 입력창 높이 자동 조절 및 하이라이트 리셋
   useEffect(() => {
@@ -2585,9 +2617,7 @@ export default function KnowledgeAgentPage() {
           timestamp: Date.now()
         }]);
         // ✅ 결과 화면 맨 위로 스크롤 (모바일에서 중간 스크롤 방지)
-        setTimeout(() => {
-          mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 100);
+        setTimeout(scrollToTop, 100);
 
         // Product Analysis 비동기 호출 (PDP 모달용) - 정의를 먼저 해야 함
         const fetchProductAnalysisForFinal = async (latestReviews?: Record<string, any[]>) => {
@@ -2688,6 +2718,9 @@ export default function KnowledgeAgentPage() {
 
         if (hasReviewsFromFinalRecommend) {
           console.log('[V2 Flow - FinalInput] ✅ Reviews already loaded from final-recommend, skipping crawl');
+          // 🔧 리뷰가 이미 있으면 즉시 product-analysis 호출
+          console.log('[V2 Flow - FinalInput] 🚀 Triggering product-analysis with existing reviews');
+          fetchProductAnalysisForFinal();
         } else {
           console.log('[V2 Flow - FinalInput] 🔄 Background: Crawling reviews for Top 3:', top3Pcodes);
         }
@@ -2973,9 +3006,7 @@ export default function KnowledgeAgentPage() {
             timestamp: Date.now()
           }]);
           // ✅ 결과 화면 맨 위로 스크롤 (모바일에서 중간 스크롤 방지)
-          setTimeout(() => {
-            mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 100);
+          setTimeout(scrollToTop, 100);
           return;
         }
       } finally {
@@ -3089,9 +3120,7 @@ export default function KnowledgeAgentPage() {
             timestamp: Date.now()
           }]);
           // ✅ 결과 화면 맨 위로 스크롤 (모바일에서 중간 스크롤 방지)
-          setTimeout(() => {
-            mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 100);
+          setTimeout(scrollToTop, 100);
 
           // ✅ 백그라운드에서 50개 리뷰 크롤링 + 장단점 재생성 + 분석 (블로킹 없음)
           const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
@@ -3518,8 +3547,8 @@ export default function KnowledgeAgentPage() {
           typing: true,
           timestamp: Date.now()
         }]);
-        // ✅ 결과 메시지 상단으로 스크롤 (비교표 전체가 아닌 메시지 위치로)
-        setTimeout(() => scrollToMessage(chatResultMsgId), 50);
+        // ✅ 결과 화면 맨 위로 스크롤 (모바일 최적화)
+        setTimeout(scrollToTop, 100);
       } else {
         // 일반 AI 응답 로깅
         logKAChatMessage(categoryKey, userMessage, data.content);
@@ -3657,8 +3686,11 @@ export default function KnowledgeAgentPage() {
 
   return (
     <div className="h-screen bg-[#F8F9FB] flex flex-col font-sans overflow-hidden">
-      <div className="max-w-[480px] mx-auto w-full flex-1 flex flex-col relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50 min-h-0">
-        <header className="sticky top-0 z-[100] bg-white/80 backdrop-blur-2xl border-b border-gray-50/50 px-4 h-16 flex items-center justify-between">
+      <div
+        ref={phase === 'result' || phase === 'free_chat' ? mainRef : null}
+        className={`max-w-[480px] mx-auto w-full flex-1 ${phase === 'result' || phase === 'free_chat' ? 'overflow-y-auto scrollbar-hide' : 'flex flex-col min-h-0'} relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50`}
+      >
+        <header className={`bg-white border-b border-gray-50/50 px-4 h-16 flex items-center justify-between shrink-0 ${phase === 'result' || phase === 'free_chat' ? '' : 'sticky top-0 z-100 bg-white/80 backdrop-blur-2xl'}`}>
           <motion.button whileHover={{ x: -2 }} whileTap={{ scale: 0.95 }} onClick={() => setShowExitConfirmModal(true)} className="p-2.5 -ml-2.5 rounded-full hover:bg-gray-50 transition-colors">
             <img src="/icons/back.png" alt="뒤로가기" className="w-5 h-5" />
           </motion.button>
@@ -3679,7 +3711,11 @@ export default function KnowledgeAgentPage() {
           <StepIndicator currentPhase={phase} />
         )}
 
-        <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto scrollbar-hide px-4 pt-0 bg-white relative transition-all duration-300" style={{ paddingBottom: '500px', overflowAnchor: 'none' }}>
+        <main
+          ref={phase === 'result' || phase === 'free_chat' ? null : mainRef}
+          className={`px-4 pt-0 bg-white relative transition-all duration-300 ${phase === 'result' || phase === 'free_chat' ? '' : 'flex-1 min-h-0 overflow-y-auto scrollbar-hide'}`}
+          style={{ paddingBottom: '500px', overflowAnchor: phase === 'result' || phase === 'free_chat' ? undefined : 'none' }}
+        >
           <div className="space-y-8 pt-2">
             {(() => {
               // top3 결과가 있는지 확인하고, 있다면 그 인덱스 찾기
