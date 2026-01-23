@@ -176,7 +176,8 @@ export async function getReviewsFromCache(
     const { data, error } = await supabase
       .from('knowledge_reviews_cache')
       .select('*')
-      .in('pcode', pcodes);
+      .in('pcode', pcodes)
+      .limit(5000);  // 충분한 리뷰 수 확보 (기본 1000개 제한 해제)
 
     if (error) {
       console.warn(`[KnowledgeCache] 리뷰 캐시 조회 실패:`, error.message);

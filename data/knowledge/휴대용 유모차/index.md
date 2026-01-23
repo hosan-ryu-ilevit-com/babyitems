@@ -1,26 +1,28 @@
 # 휴대용 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-22T06:47:02.122Z
+> 마지막 업데이트: 2026-01-22T13:11:51.343Z
 > 분석 상품: 20개 | 분석 리뷰: 3,068개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 경량화 및 휴대성 강화
-- 기내 반입 가능 모델 인기 증가
+- 경량화 및 편리성 강화
+- 기내 반입 가능 모델 인기
 - 스마트 기능 (자동 접이식 등) 탑재
-- 친환경 소재 사용 확대
+- 친환경 소재 적용
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 휴대성
 - ✓ 편리한 폴딩 기능
-- ✓ 컴팩트한 수납
-- ✓ 기내 반입 가능
+- ✓ 세련된 디자인
+- ✓ 합리적인 가격 (일부 모델)
+- ✓ 기내 반입 가능 (일부 모델)
 
 ### 주의해야 할 단점
-- ⚠ 안정성 부족 (신생아에게 부적합)
-- ⚠ 짧은 사용 기간
-- ⚠ 제한적인 기능
+- ⚠ 낮은 안정성 (일부 모델)
+- ⚠ 제한적인 수납 공간
+- ⚠ 짧은 사용 기간 (신생아 부적합)
+- ⚠ 작은 바퀴로 인한 주행 불편함 (일부 모델)
 
 ### 가격대 인사이트
 
@@ -242,8 +244,8 @@
 ---
 
 ## 📊 데이터 출처
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG6EcUUPoHiMw-Nyopxi8W17JVjPqiRZEyErrGpmLu9UsbUUoEUq2ORLCQaxPzNjeWA_Vvf1zkY7kqAcVEDzsWgQkAcle3uAo-4FbNeOhR1w4orsu_wpo4OD5zeH1AtYslTZ8Q_PeWAHCEU-9Y_eHFIUcdsizRWvtBgFCx2oU9MRMn0DAVcmqDbx7PFKNh-QDiAkfpqCWOgFhjtZYAqU96XeTO3Z-Q7A_HLvg==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUm73QCQBkiS5v5nbI0espenpvkAdkzcPoccBH2vXxV488U_XF2kR-jh7L8DkeaKvvVdFoNpAvDKsFsdpl5eKzdl6aBYS4JtReIaM7iI961KZb5i0W9ksCJ7xP5I0F)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEoe6sMfSBIY5ZerMu4Xpb6aHJF_0jRtI_3NQpe8H-QUxgG38nlJMVRT9mt4ElqkD2Ju4URpehv_04r6WMfyXjF8Jq2IgCoJsdEQWUr-kFIyP8i3SRbu8nKntMUt2Kroki0l91iFzWHGknQn3nZpHgN6UNsr09WesLBJ2CL8edwntCi6qfXPbhJ1P6FdEO8xvxXL1zhTAzRsKDdaZt4wX93kHsE_bYR-YH1LQ==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyCoyXEY4sHJU3eEmlcG3jjmsTmzvfea_Ak7YBDQVszZUg7ZZ7SscDpHC_Q9THvdNPldmrplSUuB0twXCb4nanRtaB0mBNTmvThMAX03C8cDDHGoF267FuFqFSCxCD1WNR4Iyp0nU=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKG8yEce9qg9KM-5-GdVqB344lQs28lXiAkFamcz9shSivKP0lwFS2cCQ_kx3lXZ-e55D9RoIUyawG6RO9yDKYr2q4Wxi7mZWue7AtTQjeY72tMwuoth46fR8MDu3H2qEl7v1wlfk=)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEBNtHwc5jfzs5JE4ZQZ5xnAPuow9ba2_qzFJGaEdTjRSo8cLxZm1rAPLkP-v-Ox7gooI1g5w6jEBYWJQfoHciFfazttUNHj7ba1PRsz7v4KAlsWaZKn7USGzr_c72k2smozKpHJeu8oRYJd3vf7uuOk4gQLVBMC8yqa1-sqk5Jzz8QP4WGRYn6JF9zwKGKvObXEpAVaNDeQgxYsFI3bo4q4pPAc-3rRbsF-Q==)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmt5Ok5iRJRloFl3YXsgkz3_9Ed0ZeIf_rjPu2O85Z90_-6BAc5RgwHX2hf7SKEWmQlYCktcLPNbXG3Q3VCnd9klU58PZ3ZKRdWxL9-1ZJfuEVMB3voF6P71tGDFRA)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGimDjbG2pAhuUDrstiFLuWpBqpkDJ7aFrv8FJNPvjHAe1lOO9UHy3a_KyBbTmtQoQ7pAD_7lLw-nBliL_xldWGT3fLit5kzbJs9aRf6pHzq9AHJKIAr-qndWvrTrn4bCzPXhr3x__uNSJzagCyl8koLixNo1LJ37kSRB3bftDmULcYPExDnX-8-PWH2IKvRp5Kes04yuLHhzrZAA7vaN_yg5NOflNguen2R3JUzhXoy7GuEOgw3tTF)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0Lrxawzz4dAP3wx8zlxH-1aqHBtutow3fr3vcd57Zo8zq9ipe4G56vP9JZnPe51oJ7ihENipuevGGWzk8WcyWUHGE33ap6PSaUtufD_Pqb-Qw9fCq0p56Hzt6hkV037v1BS7FHv5AOJOlp28y87BrnxeYAEt80qn3G52QGeM5ZyeWyUyu1qySzo-w5nBQSPCAxTJCAUTD0VufnLA9BNevxFY8i78dtY6HKQ==)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3lm2dNiJxVJI4zqebOFp0xfAO4NYNic5aJi4TL328NNgbVPTcPrbRoO-coDEtWALrwuKRrRVxtwssoTZjomMqa7CVAha-OiNW6md__a2DLeiqTRC81dGJ4IdZBiRMubjXfl9_JvgAwzoqU_ST4zeqST8Si9LbafgudSxLElC-KCGxUei-DmYacU2zw1U=)

@@ -2251,6 +2251,13 @@ export default function KnowledgeAgentPage() {
       if (data.success) {
         console.log(`[V2 Flow] Final recommendations: ${data.recommendations.length}`);
 
+        // 🆕 리뷰 데이터 즉시 저장 (crawl-reviews 중복 호출 방지)
+        if (data.reviews) {
+          setReviewsData(data.reviews);
+          const totalReviews = Object.values(data.reviews).reduce((sum: number, reviews: any) => sum + (reviews?.length || 0), 0);
+          console.log(`[V2 Flow] Reviews saved from final-recommend: ${Object.keys(data.reviews).length}개 제품, ${totalReviews}개 리뷰`);
+        }
+
         // ✅ 추가: 자유 입력 분석 결과 저장 (PDP 선호/회피 조건 표시용)
         if (data.freeInputAnalysis) {
           setFreeInputAnalysis(data.freeInputAnalysis);
@@ -2461,14 +2468,22 @@ export default function KnowledgeAgentPage() {
           mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
         }, 100);
 
-        // ✅ 백그라운드에서 Top 3 리뷰 50개씩 크롤링 (PDP용) - 블로킹 없음
+        // ✅ 백그라운드에서 Top 3 리뷰 크롤링 (PDP용) - 블로킹 없음
+        // 🆕 final-recommend에서 이미 리뷰를 받았으면 스킵
         const top3Pcodes = v2Recommendations.map((rec: any) => rec.pcode);
-        console.log('[V2 Flow - FinalInput] 🔄 Background: Crawling 50 reviews for Top 3:', top3Pcodes);
+        const hasReviewsFromFinalRecommend = top3Pcodes.every((pcode: string) => reviewsData[pcode]?.length > 0);
 
-        // 비동기로 실행 (await 없음)
-        (async () => {
-          try {
-            const reviewRes = await fetch('/api/knowledge-agent/crawl-reviews', {
+        if (hasReviewsFromFinalRecommend) {
+          console.log('[V2 Flow - FinalInput] ✅ Reviews already loaded from final-recommend, skipping crawl');
+        } else {
+          console.log('[V2 Flow - FinalInput] 🔄 Background: Crawling reviews for Top 3:', top3Pcodes);
+        }
+
+        // 리뷰가 없는 경우에만 크롤링 (fallback)
+        if (!hasReviewsFromFinalRecommend) {
+          (async () => {
+            try {
+              const reviewRes = await fetch('/api/knowledge-agent/crawl-reviews', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ pcodes: top3Pcodes, maxPerProduct: 50 }),
@@ -2529,10 +2544,11 @@ export default function KnowledgeAgentPage() {
                 }
               }
             }
-          } catch (err) {
-            console.error('[V2 Flow - FinalInput] ❌ Background review crawl failed:', err);
-          }
-        })();
+            } catch (err) {
+              console.error('[V2 Flow - FinalInput] ❌ Background review crawl failed:', err);
+            }
+          })();
+        }
 
         // Product Analysis 비동기 호출 (PDP 모달용)
         const fetchProductAnalysisForFinal = async () => {
@@ -2577,7 +2593,7 @@ export default function KnowledgeAgentPage() {
                   recommendReason: rec.reason,
                   highlights: rec.highlights,
                   concerns: rec.concerns,
-                  reviews: [],
+                  reviews: (reviewsData[rec.pcode] || []).slice(0, 30), // 🆕 final-recommend에서 받은 15개 리뷰 사용
                 })),
                 userContext: {
                   collectedInfo,
@@ -3040,7 +3056,7 @@ export default function KnowledgeAgentPage() {
                       matchedConditions: rec.product?.matchedConditions || [],
                       bestFor: rec.bestFor,
                     })),
-                    reviews: top3Reviews,
+                    reviews: reviewsData, // 🆕 final-recommend에서 받은 리뷰 사용
                     categoryName,
                     collectedInfo,
                     balanceSelections: savedBalanceSelections.map((s: any) => s.selectedLabel),
@@ -3136,7 +3152,7 @@ export default function KnowledgeAgentPage() {
                       recommendReason: rec.reason,
                       highlights: rec.highlights,
                       concerns: rec.concerns,
-                      reviews: (top3Reviews[String(rec.pcode)] || []).slice(0, 5),
+                      reviews: (reviewsData[rec.pcode] || []).slice(0, 15), // 🆕 final-recommend에서 받은 15개 리뷰 사용
                     })),
                     userContext: {
                       collectedInfo,

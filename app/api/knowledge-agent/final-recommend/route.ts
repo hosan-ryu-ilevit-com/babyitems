@@ -2155,6 +2155,24 @@ export async function POST(request: NextRequest) {
     console.log(`[FinalRecommend] Top ${RECOMMENDATION_COUNT} selected: ${recommendedPcodes.join(', ')}`);
 
     // ============================================================================
+    // 🆕 Step 1.5: Top 5 제품의 리뷰 가져오기 (Supabase 캐시, 30개씩)
+    // ============================================================================
+    console.log(`[FinalRecommend] ⚡ Step 1.5: Top ${RECOMMENDATION_COUNT} 제품 리뷰 조회 (30개씩)`);
+    const step15StartTime = Date.now();
+
+    const { getReviewsFromCache } = await import('@/lib/knowledge-agent/supabase-cache');
+    const reviewCacheResult = await getReviewsFromCache(recommendedPcodes);
+
+    // 제품당 최대 30개로 제한 (한줄평 생성 + product-analysis에 충분)
+    const enrichedReviews: Record<string, ReviewLite[]> = {};
+    for (const pcode of recommendedPcodes) {
+      const pcodeReviews = reviewCacheResult.reviews[pcode] || [];
+      enrichedReviews[pcode] = pcodeReviews.slice(0, 30);
+    }
+
+    console.log(`[FinalRecommend] ⚡ Step 1.5 완료 (${Date.now() - step15StartTime}ms): ${Object.keys(enrichedReviews).length}개 제품, ${Object.values(enrichedReviews).reduce((sum, r) => sum + r.length, 0)}개 리뷰`);
+
+    // ============================================================================
     // 2단계: 한줄평 생성 + 태그 충족도 평가 + 장단점 생성 (병렬)
     // ⚠️ Promise.allSettled로 일부 실패해도 나머지는 정상 처리
     // ============================================================================
@@ -2166,7 +2184,7 @@ export async function POST(request: NextRequest) {
       generateDetailedReasons(
         catName,
         selectedProducts,
-        reviews || {},
+        enrichedReviews,  // 🆕 Step 1.5에서 가져온 50개 리뷰 사용
         collectedInfo || {},
         balanceSelections || [],
         enhancedNegativeSelections,
@@ -2176,13 +2194,13 @@ export async function POST(request: NextRequest) {
       evaluateTagScoresForProducts(
         selectedProducts.map((p: HardCutProduct) => ({ pcode: p.pcode, product: p })),
         filterTagsResult,
-        reviews || {},
+        enrichedReviews,  // 🆕 Step 1.5에서 가져온 50개 리뷰 사용
         catName
       ),
       // 🔄 장단점 생성 (비교표용) - 복원
       generateProsConsForProducts(
         selectedProducts,
-        reviews || {},
+        enrichedReviews,  // 🆕 Step 1.5에서 가져온 50개 리뷰 사용
         collectedInfo || {},
         catName
       ),
@@ -2344,6 +2362,8 @@ export async function POST(request: NextRequest) {
       freeInputAnalysis: freeInputAnalysisResult,
       // 🆕 필터 태그 (사용자 조건 기반 동적 생성)
       filterTags: filterTagsResult,
+      // 🆕 리뷰 데이터 (crawl-reviews API 중복 호출 방지, 30개씩)
+      reviews: enrichedReviews,
     };
 
     return NextResponse.json(response);
