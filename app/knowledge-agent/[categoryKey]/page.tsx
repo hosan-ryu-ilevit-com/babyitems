@@ -2,12 +2,13 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { flushSync } from 'react-dom';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
   CaretLeft, CaretDown, CaretUp, Lightning,
-  PaperPlaneRight, ArrowClockwise, ArrowsLeftRight, Sparkle, CaretRight
+  PaperPlaneRight, ArrowClockwise, ArrowsLeftRight, Sparkle, CaretRight, ChatCircleDots, TrendUp
 } from '@phosphor-icons/react/dist/ssr';
 import {
   FcSearch,
@@ -25,7 +26,6 @@ import { AssistantMessage, LoadingAnimation } from '@/components/recommend-v2';
 import { InlineBudgetSelector } from '@/components/knowledge-agent/ChatUIComponents';
 import { BalanceGameCarousel } from '@/components/recommend-v2/BalanceGameCarousel';
 import { NegativeFilterList } from '@/components/recommend-v2/NegativeFilterList';
-import { AIHelperButton } from '@/components/recommend-v2/AIHelperButton';
 import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
 import { NegativeFilterAIHelperBottomSheet } from '@/components/recommend-v2/NegativeFilterAIHelperBottomSheet';
 import type { BalanceQuestion as V2BalanceQuestion, UserSelections, TimelineStep } from '@/types/recommend-v2';
@@ -412,18 +412,25 @@ function OptionButton({
       whileTap={!disabled ? { scale: 0.99 } : {}}
       onClick={onClick}
       disabled={disabled}
-      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all flex items-center justify-between group ${isSelected
-        ? 'bg-blue-50 border-blue-100'
-        : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
-        } ${disabled ? 'cursor-default' : ''}`}
+      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all flex items-center justify-between group ${
+        disabled
+          ? 'bg-gray-50 border-gray-100 opacity-70 cursor-not-allowed'
+          : isSelected
+          ? 'bg-blue-50 border-blue-100'
+          : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
+      }`}
     >
       <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-        <span className={`text-[16px] font-medium leading-[1.4] wrap-break-word ${isSelected ? 'text-blue-500' : 'text-gray-600'}`}>{label}</span>
+        <span className={`text-[16px] font-medium leading-[1.4] wrap-break-word ${
+          disabled ? 'text-gray-400' : isSelected ? 'text-blue-500' : 'text-gray-600'
+        }`}>{label}</span>
         {description && (
-          <span className={`text-[12px] font-medium wrap-break-word ${isSelected ? 'text-blue-400' : 'text-gray-400'}`}>{description}</span>
+          <span className={`text-[12px] font-medium wrap-break-word ${
+            disabled ? 'text-gray-300' : isSelected ? 'text-blue-400' : 'text-gray-400'
+          }`}>{description}</span>
         )}
       </div>
-      {isPopular && (
+      {isPopular && !disabled && (
         <span className="shrink-0 ml-2 px-1.5 py-0.5 bg-green-100 text-green-700 text-[11px] font-semibold rounded-md">
           인기
         </span>
@@ -840,6 +847,7 @@ export default function KnowledgeAgentPage() {
   const [isNegativeAIHelperOpen, setIsNegativeAIHelperOpen] = useState(false);
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
+  const [isFloatingAIExpanded, setIsFloatingAIExpanded] = useState(false); // 플로팅 AI 버튼 확장 상태
   const [aiHelperData, setAiHelperData] = useState<{
     questionId: string;
     questionText: string;
@@ -954,11 +962,63 @@ export default function KnowledgeAgentPage() {
   const [isHardcutVisualDone, setIsHardcutVisualDone] = useState(false); // 하드컷팅 결과 (시각화용)
   const [showComparisonOnly, setShowComparisonOnly] = useState(false); // 비교표 토글 상태
 
+  // 프로그레스 애니메이션 cleanup 함수 저장용
+  const progressAnimationCleanupRef = useRef<(() => void) | null>(null);
+
+  /**
+   * 프로그레스 바를 부드럽게 애니메이션 (22초 완료 기준)
+   * @param targetDuration 목표 완료 시간 (기본 22000ms)
+   */
+  const animateProgressSmoothly = useCallback((targetDuration: number = 22000) => {
+    // 이전 애니메이션이 있다면 취소
+    if (progressAnimationCleanupRef.current) {
+      progressAnimationCleanupRef.current();
+      progressAnimationCleanupRef.current = null;
+    }
+
+    const startTime = Date.now();
+    const endTime = startTime + targetDuration;
+    let animationFrameId: number;
+
+    const updateProgress = () => {
+      const now = Date.now();
+      const elapsed = now - startTime;
+      const percentage = Math.min(Math.round((elapsed / targetDuration) * 100), 99); // 99%까지만
+
+      setLoadingProgress(percentage);
+
+      if (now < endTime) {
+        animationFrameId = requestAnimationFrame(updateProgress);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(updateProgress);
+
+    // cleanup 함수 생성 및 저장
+    const cleanup = () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+    progressAnimationCleanupRef.current = cleanup;
+
+    return cleanup;
+  }, []);
+
   // 최종 추천 단계의 타임라인 UX 헬퍼
   const runFinalTimelineUX = useCallback(async (candidateCount: number, userSelectionCount: number, negativeCount: number) => {
     setIsCalculating(true);
     setTimelineSteps([]);
     setLoadingProgress(0);
+
+    // 랜덤 시간 variation 헬퍼 (±10%)
+    const getRandomDuration = (baseMs: number) => {
+      const variation = baseMs * 0.1;
+      return baseMs + (Math.random() * variation * 2 - variation);
+    };
+
+    // 🆕 22초 기준 부드러운 프로그레스 애니메이션 시작
+    animateProgressSmoothly(22000);
 
     // 선택 조건 텍스트 동적 생성
     const conditionParts: string[] = [];
@@ -972,63 +1032,81 @@ export default function KnowledgeAgentPage() {
       ? conditionParts.join('과 ')
       : '선택하신 조건';
 
-    // 1단계: 선호도 분석 (7초)
+    // 1단계: 선호도 분석 (5초 ±10%)
+    const step1Duration = getRandomDuration(5000);
     const step1: TimelineStep = {
       id: 'step-1',
-      title: '사용자님의 취향과 답변 내용을 심층 분석하고 있습니다...',
+      title: '사용자 취향 심층 분석',
       icon: '',
       details: [
-        `선택하신 ${conditionText}을 바탕으로 사용자님만의 고유한 선호 패턴과 핵심 우선순위를 정밀하게 파악하고 있습니다. 각 답변이 어떤 제품 특성과 연결되는지 매핑 중입니다.`,
-        '답변하신 내용을 종합하여 가장 중요한 구매 기준을 수립하고 있어요. 비슷한 선호도를 가진 다른 사용자들의 구매 패턴도 함께 참고하여 정확도를 높이고 있습니다.'
+        `${conditionText}을 바탕으로 선호 패턴과 핵심 우선순위를 파악합니다.`
       ],
       timestamp: Date.now(),
+      startTime: Date.now(),
       status: 'in_progress'
     };
     setTimelineSteps([step1]);
-    setLoadingProgress(10);
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, step1Duration));
 
     // 1단계 완료 처리
-    const step1Completed = { ...step1, status: 'completed' as const };
+    const step1Completed = { ...step1, status: 'completed' as const, endTime: Date.now() };
 
-    // 2단계: 후보군 비교 (6초)
+    // 2단계: 제품 스펙 수집 (5초 ±10%)
+    const step2Duration = getRandomDuration(5000);
     const candidateText = candidateCount > 0 ? `${candidateCount}개` : '전체';
     const step2: TimelineStep = {
       id: 'step-2',
-      title: `${candidateText} 제품 데이터를 정밀하게 비교 분석합니다...`,
+      title: `${candidateText} 제품 스펙 수집 및 분석`,
       icon: '',
       details: [
-        '전체 후보 제품의 상세 스펙 데이터, 제조사 공식 정보, 그리고 실제 구매자들이 남긴 수천 건의 리뷰를 꼼꼼하게 대조 분석하고 있습니다. 특히 내돈내산 사용 후기에 주목하여 내구성과 실사용 만족도를 파악합니다.',
-        '가격 대비 성능 비율, 실사용자 만족도 지수, 자주 언급되는 장점과 주의해야 할 단점들을 종합적으로 평가하여 각 제품의 최종 점수를 계산하고 있습니다. 사용자님의 우선순위에 따라 가중치를 적용 중입니다.'
+        '제품 상세 스펙 데이터와 제조사 공식 정보를 수집하여 비교 분석합니다.'
       ],
       timestamp: Date.now(),
+      startTime: Date.now(),
       status: 'in_progress'
     };
     setTimelineSteps([step1Completed, step2]);
-    setLoadingProgress(45);
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, step2Duration));
 
     // 2단계 완료 처리
-    const step2Completed = { ...step2, status: 'completed' as const };
+    const step2Completed = { ...step2, status: 'completed' as const, endTime: Date.now() };
 
-    // 3단계: 최종 TOP 3 선정 (API 완료될 때까지 계속 in_progress 유지)
+    // 3단계: 리뷰 데이터 종합 평가 (6초 ±10%)
+    const step3Duration = getRandomDuration(6000);
     const step3: TimelineStep = {
       id: 'step-3',
-      title: '분석된 데이터를 바탕으로 최적의 제품을 최종 선정 중입니다...',
+      title: '실제 사용자 리뷰 데이터 분석',
       icon: '',
       details: [
-        '지금까지 분석한 모든 데이터를 종합하여, 사용자님의 선호도와 예산에 가장 적합한 상위 제품을 신중하게 선별하고 있습니다. 단순히 인기 있는 제품이 아닌, 사용자님의 답변에 가장 부합하는 제품을 고르는 중입니다.',
-        '선정된 제품들의 핵심 스펙을 한눈에 비교하실 수 있도록 상세 비교표를 생성하고 있습니다. 각 제품의 강점과 약점이 한눈에 드러나도록 데이터를 가공하고, 사용자님이 중요하게 생각하시는 항목들을 우선 배치합니다.',
-        '각 제품별로 "왜 이 제품을 추천하는지", "어떤 점이 사용자님께 맞는지"에 대한 맞춤형 추천 이유와 함께, 실사용 시 주의해야 할 팁까지 정리하고 있습니다. 최상의 결과를 위해 잠시만 기다려주세요. (전체 시간 약 30초 소요될 수 있습니다)'
+        '수천 건의 실제 구매 리뷰를 분석하여 장단점과 만족도를 파악합니다.'
       ],
       timestamp: Date.now(),
+      startTime: Date.now(),
       status: 'in_progress'
     };
     setTimelineSteps([step1Completed, step2Completed, step3]);
-    setLoadingProgress(80);
+    await new Promise(resolve => setTimeout(resolve, step3Duration));
+
+    // 3단계 완료 처리
+    const step3Completed = { ...step3, status: 'completed' as const, endTime: Date.now() };
+
+    // 4단계: 최종 TOP 5 추천 생성 (API 완료될 때까지 계속 in_progress 유지)
+    const step4: TimelineStep = {
+      id: 'step-4',
+      title: 'Top 5 맞춤 추천 생성',
+      icon: '',
+      details: [
+        '분석 결과를 종합하여 사용자님께 최적화된 Top 5 제품을 선정하고 추천 이유를 작성합니다.'
+      ],
+      timestamp: Date.now(),
+      startTime: Date.now(),
+      status: 'in_progress'
+    };
+    setTimelineSteps([step1Completed, step2Completed, step3Completed, step4]);
+    // 프로그레스는 animateProgressSmoothly가 자동으로 99%까지 업데이트
 
     // 여기서는 완료 처리하지 않음 (API 응답 시 컴포넌트가 언마운트됨)
-  }, [categoryName]);
+  }, [categoryName, animateProgressSmoothly]);
 
   // 웹서치 Context (밸런스게임/단점 생성용 - 리뷰 크롤링 전에 사용)
   const [webSearchContext, setWebSearchContext] = useState<{
@@ -2397,6 +2475,48 @@ export default function KnowledgeAgentPage() {
 
       const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
 
+      // 이전 프로그레스 애니메이션 취소
+      if (progressAnimationCleanupRef.current) {
+        progressAnimationCleanupRef.current();
+        progressAnimationCleanupRef.current = null;
+      }
+
+      // 애니메이션 프레임 한 사이클 대기 (cleanup 완료 보장)
+      await new Promise(resolve => requestAnimationFrame(() => resolve(undefined)));
+
+      // 🆕 프로그레스 100% 설정 (부드럽게)
+      await new Promise<void>((resolve) => {
+        const start = Date.now();
+        let startProgress = 0;
+        const duration = 300; // 300ms에 걸쳐 100%까지
+
+        // 현재 progress 값 캡처 (함수형 setState 사용)
+        setLoadingProgress(current => {
+          startProgress = current;
+          return current;
+        });
+
+        const animate = () => {
+          const elapsed = Date.now() - start;
+          const targetProgress = Math.min(startProgress + ((100 - startProgress) * elapsed / duration), 100);
+
+          setLoadingProgress(prev => {
+            // 항상 증가하는 방향으로만 업데이트
+            const newProgress = Math.max(prev, Math.round(targetProgress));
+            return newProgress;
+          });
+
+          if (targetProgress < 100) {
+            requestAnimationFrame(animate);
+          } else {
+            // 최종적으로 정확히 100% 보장
+            setLoadingProgress(100);
+            resolve();
+          }
+        };
+        requestAnimationFrame(animate);
+      });
+
       if (v2Recommendations && v2Recommendations.length > 0) {
         // ✅ 디버그: API 응답에서 oneLiner 확인
         console.log('[V2 Flow - FinalInput] API Response - oneLiner:',
@@ -3708,6 +3828,212 @@ export default function KnowledgeAgentPage() {
             </AnimatePresence>
             <div ref={messagesEndRef} />
           </div>
+
+          {/* 플로팅 AI 도움 버튼 */}
+          <AnimatePresence>
+            {(() => {
+              // 가장 최신의 활성 질문 메시지 찾기
+              const latestQuestionMessage = [...messages].reverse().find(
+                msg => msg.role === 'assistant' &&
+                       (msg.options || msg.negativeFilterOptions) &&
+                       !msg.isFinalized
+              );
+
+              if (!latestQuestionMessage) return null;
+
+              const isNegativeQuestion =
+                !!latestQuestionMessage.negativeFilterOptions ||
+                latestQuestionMessage.questionId === 'avoid_negatives' ||
+                latestQuestionMessage.id?.includes('avoid_negatives') ||
+                latestQuestionMessage.content?.toLowerCase().includes('단점') ||
+                latestQuestionMessage.content?.toLowerCase().includes('피하고') ||
+                latestQuestionMessage.content?.toLowerCase().includes('피할');
+
+              // 단점 질문에서는 플로팅 버튼 숨김
+              if (isNegativeQuestion) return null;
+
+              // 선택지가 하나라도 선택되었으면 버튼 숨김
+              const hasSelection = latestQuestionMessage.selectedOptions && latestQuestionMessage.selectedOptions.length > 0;
+
+              if (hasSelection) return null;
+
+              const hasContext = !!getUserSelections()?.initialContext;
+
+              return (
+                <>
+                  {/* 배경 딤 처리 */}
+                  <AnimatePresence>
+                    {isFloatingAIExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsFloatingAIExpanded(false)}
+                        className="fixed inset-0 bg-black/60 z-[111]"
+                      />
+                    )}
+                  </AnimatePresence>
+
+                  <div className="fixed inset-x-0 bottom-0 pointer-events-none z-[112]">
+                    <div className="max-w-[480px] mx-auto w-full relative">
+                      {/* 확장된 옵션들 */}
+                      <AnimatePresence>
+                        {isFloatingAIExpanded && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 20 }}
+                            transition={{ duration: 0.2, ease: 'easeOut' }}
+                            className="absolute bottom-[calc(160px+env(safe-area-inset-bottom))] left-0 right-0 pointer-events-auto"
+                          >
+                            <div className="flex flex-col gap-2 px-4">
+                              {/* 1. 지금까지 입력한 정보로 추천받기 (hasContext일 때만) */}
+                              {hasContext && (
+                                <motion.button
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: 0.05 }}
+                                  onClick={() => {
+                                    if (isNegativeQuestion) {
+                                      setAiHelperAutoSubmitText("지금까지 입력한 정보로 추천해줘");
+                                      setIsNegativeAIHelperOpen(true);
+                                    } else {
+                                      setAiHelperData({
+                                        questionId: latestQuestionMessage.id,
+                                        questionText: latestQuestionMessage.content,
+                                        options: latestQuestionMessage.options!.map(o => ({ value: o, label: o })),
+                                        type: 'hard_filter'
+                                      });
+                                      setAiHelperAutoSubmitText("지금까지 입력한 정보로 추천해줘");
+                                      setIsAIHelperOpen(true);
+                                    }
+                                    setIsFloatingAIExpanded(false);
+                                  }}
+                                  whileTap={{ scale: 0.98 }}
+                                  className="flex items-center justify-center gap-2 h-[56px] rounded-[12px] text-white"
+                                  style={{ background: 'linear-gradient(270deg, #77A0FF 0%, #907FFF 70%, #6947FF 100%)' }}
+                                >
+                                  <motion.svg
+                                    className="w-5 h-5 text-white"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    animate={{
+                                      rotate: [0, -15, 15, -15, 0],
+                                      y: [0, -2.5, 0]
+                                    }}
+                                    transition={{
+                                      duration: 0.8,
+                                      repeat: Infinity,
+                                      repeatDelay: 2,
+                                      ease: "easeInOut"
+                                    }}
+                                  >
+                                    <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+                                  </motion.svg>
+                                  <span className="text-[16px] font-medium">지금까지 입력한 정보로 추천받기</span>
+                                </motion.button>
+                              )}
+
+                              {/* 2. 내 상황 입력하고 추천받기 */}
+                              <motion.button
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: hasContext ? 0.1 : 0.05 }}
+                                onClick={() => {
+                                  if (isNegativeQuestion) {
+                                    setIsNegativeAIHelperOpen(true);
+                                  } else {
+                                    setAiHelperData({
+                                      questionId: latestQuestionMessage.id,
+                                      questionText: latestQuestionMessage.content,
+                                      options: latestQuestionMessage.options!.map(o => ({ value: o, label: o })),
+                                      type: 'hard_filter'
+                                    });
+                                    setIsAIHelperOpen(true);
+                                  }
+                                  setIsFloatingAIExpanded(false);
+                                }}
+                                whileTap={{ scale: 0.98 }}
+                                className="flex items-center justify-center gap-2 h-[56px] rounded-[12px] text-white"
+                                style={{ background: 'linear-gradient(270deg, #77A0FF 0%, #907FFF 70%, #6947FF 100%)' }}
+                              >
+                                <ChatCircleDots size={20} weight="fill" className="text-white" />
+                                <span className="text-[16px] font-medium">내 상황 입력하고 추천받기</span>
+                              </motion.button>
+
+                              {/* 3. 가장 인기 있는 선택지 추천받기 */}
+                              <motion.button
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: hasContext ? 0.15 : 0.1 }}
+                                onClick={() => {
+                                  if (isNegativeQuestion) {
+                                    setAiHelperAutoSubmitText("가장 많은 사람들이 피하는 옵션이 뭔가요?");
+                                    setIsNegativeAIHelperOpen(true);
+                                  } else {
+                                    setAiHelperData({
+                                      questionId: latestQuestionMessage.id,
+                                      questionText: latestQuestionMessage.content,
+                                      options: latestQuestionMessage.options!.map(o => ({ value: o, label: o })),
+                                      type: 'hard_filter'
+                                    });
+                                    setAiHelperAutoSubmitText("가장 많은 사람들이 구매하는게 뭔가요?");
+                                    setIsAIHelperOpen(true);
+                                  }
+                                  setIsFloatingAIExpanded(false);
+                                }}
+                                whileTap={{ scale: 0.98 }}
+                                className="flex items-center justify-center gap-2 h-[56px] rounded-[12px] bg-purple-50 border border-purple-100"
+                              >
+                                <TrendUp size={20} weight="bold" className="text-purple-500" />
+                                <span className="text-[16px] font-medium text-purple-500">가장 인기 있는 선택지 추천받기</span>
+                              </motion.button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      {/* 플로팅 AI 버튼 */}
+                      <motion.button
+                        key="floating-ai-helper"
+                        initial={{ opacity: 0, scale: 0.9, y: 0 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: 0 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setIsFloatingAIExpanded(!isFloatingAIExpanded)}
+                        className="absolute px-5 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg pointer-events-auto"
+                        style={{
+                          right: '16px',
+                          bottom: 'calc(100px + env(safe-area-inset-bottom))',
+                          background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)'
+                        }}
+                      >
+                        <motion.svg
+                          className="w-4 h-4 text-white"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          animate={{
+                            rotate: [0, -15, 15, -15, 0],
+                            y: [0, -2.5, 0]
+                          }}
+                          transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatDelay: 2,
+                            ease: "easeInOut"
+                          }}
+                        >
+                          <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+                        </motion.svg>
+                        {isFloatingAIExpanded ? '닫기' : '잘 모르겠어요'}
+                      </motion.button>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
+          </AnimatePresence>
         </main>
 
         {/* 🆕 로딩 단계(1~4번 분석)에서는 하단 채팅바 숨김 */}
@@ -3780,7 +4106,7 @@ export default function KnowledgeAgentPage() {
                       setInputValue('');
                     }
                   }}
-                  placeholder="추가 조건을 자유롭게 입력하세요... (선택)"
+                  placeholder="추가 조건을 자유롭게 입력하세요"
                   className="relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] text-[#71737c] placeholder:text-[#71737c] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-[#71737c]"
                   rows={1}
                 />
@@ -4064,16 +4390,29 @@ export default function KnowledgeAgentPage() {
       {/* 단점 필터 AI 도움 바텀시트 */}
       <NegativeFilterAIHelperBottomSheet
         isOpen={isNegativeAIHelperOpen}
-        onClose={() => setIsNegativeAIHelperOpen(false)}
-        options={negativeOptions.map(opt => ({
-          id: opt.id,
-          label: opt.label,
-          target_rule_key: opt.target_rule_key,
-          exclude_mode: (opt.exclude_mode || 'drop_if_has') as 'drop_if_lacks' | 'drop_if_has',
-        }))}
+        onClose={() => {
+          setIsNegativeAIHelperOpen(false);
+          setAiHelperAutoSubmitText(undefined);
+        }}
+        options={(() => {
+          // 현재 메시지 찾기 (가장 최신의 단점 질문)
+          const latestMsg = [...messages].reverse().find(
+            msg => msg.role === 'assistant' &&
+                   msg.negativeFilterOptions &&
+                   !msg.isFinalized
+          );
+          // 현재 메시지의 옵션 반환
+          return (latestMsg?.negativeFilterOptions || negativeOptions || []).map(opt => ({
+            id: opt.id,
+            label: opt.label,
+            target_rule_key: opt.target_rule_key,
+            exclude_mode: (opt.exclude_mode || 'drop_if_has') as 'drop_if_lacks' | 'drop_if_has',
+          }));
+        })()}
         category={categoryKey}
         categoryName={categoryName}
         userSelections={getUserSelections()}
+        autoSubmitText={aiHelperAutoSubmitText}
         onSelectOptions={(selectedRuleKeys) => {
           // AI가 추천한 단점들을 선택
           setSelectedNegativeKeys(selectedRuleKeys);
@@ -4358,6 +4697,41 @@ function MessageBubble({
   const [isCustomInputActive, setIsCustomInputActive] = useState(false);
   const [customInputValue, setCustomInputValue] = useState('');
   const [addedCustomOption, setAddedCustomOption] = useState<string | null>(null);
+  const customInputRef = useRef<HTMLInputElement>(null);
+
+  const activateCustomInput = useCallback(() => {
+    if (isCustomInputActive) return;
+    // 직접 입력 버튼 클릭 로깅
+    if (categoryKey) {
+      logKnowledgeAgentHardFilterSelection(
+        categoryKey,
+        categoryName || '',
+        message.id,
+        message.content,
+        '직접 입력하기',
+        true,
+        0
+      );
+    }
+    // 모바일 키보드 자동 호출을 위해 사용자 제스처 내에서 렌더+포커스
+    flushSync(() => setIsCustomInputActive(true));
+    const inputEl = customInputRef.current;
+    if (inputEl) {
+      inputEl.focus();
+      inputEl.click();
+    }
+  }, [categoryKey, categoryName, isCustomInputActive, message.content, message.id]);
+
+  // 직접 입력 모드 활성화 시 자동 포커스
+  useEffect(() => {
+    if (!isCustomInputActive) return;
+    const inputEl = customInputRef.current;
+    if (!inputEl) return;
+    const rafId = requestAnimationFrame(() => {
+      inputEl.focus();
+    });
+    return () => cancelAnimationFrame(rafId);
+  }, [isCustomInputActive]);
 
   // 🆕 비교표용 선택된 상품 pcodes (2~3개)
   const [selectedComparisonPcodes, setSelectedComparisonPcodes] = useState<Set<string>>(() => {
@@ -4505,71 +4879,7 @@ function MessageBubble({
 
         {!isUser && message.options && message.options.length > 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: isInactive ? 0.5 : 1 }} transition={{ delay: 0.5 }} className="space-y-2 pt-2">
-            {isLatestAssistantMessage && (
-              <div className="mb-3">
-                <AIHelperButton
-                  onClick={() => {
-                    const isNegQ = message.questionId === 'avoid_negatives' || 
-                                  message.id?.includes('avoid_negatives') ||
-                                  message.content?.toLowerCase().includes('단점') ||
-                                  message.content?.toLowerCase().includes('피하고') ||
-                                  message.content?.toLowerCase().includes('피할');
-                    onAIHelperOpen?.({
-                      questionId: message.id,
-                      questionText: message.content,
-                      options: message.options!.map(o => ({ value: o, label: o })),
-                      type: isNegQ ? 'negative' : 'hard_filter'
-                    });
-                  }}
-                  label="잘 모르겠어요"
-                  questionType={
-                    (message.questionId === 'avoid_negatives' || 
-                     message.id?.includes('avoid_negatives') ||
-                     message.content?.toLowerCase().includes('단점') ||
-                     message.content?.toLowerCase().includes('피하고') ||
-                     message.content?.toLowerCase().includes('피할')) ? 'negative' : 'hard_filter'
-                  }
-                  questionId={message.id}
-                  questionText={message.content}
-                  category={categoryKey}
-                  categoryName={categoryName}
-                  hasContext={!!userSelections?.initialContext}
-                  onPopularRecommend={() => onPopularRecommend?.("가장 많은 사람들이 구매하는게 뭔가요?")}
-                  onContextRecommend={() => onContextRecommend?.("지금까지 입력한 정보로 추천해줘")}
-                />
-              </div>
-            )}
-            {message.options.map((opt, i) => (
-              <OptionButton
-                key={i}
-                label={opt}
-                isSelected={message.selectedOptions?.includes(opt)}
-                isPopular={message.popularOptions?.includes(opt)}
-                onClick={() => {
-                  const isSelected = !message.selectedOptions?.includes(opt);
-                  const totalSelected = isSelected
-                    ? (message.selectedOptions?.length || 0) + 1
-                    : (message.selectedOptions?.length || 0) - 1;
-
-                  // 옵션 토글 로깅 (logKAQuestionAnswered는 최종 제출 시에만 호출)
-                  if (categoryKey) {
-                    logKnowledgeAgentHardFilterSelection(
-                      categoryKey,
-                      categoryName || '',
-                      message.id,
-                      message.content,
-                      opt,
-                      isSelected,
-                      totalSelected
-                    );
-                  }
-
-                  onOptionToggle(opt, message.id);
-                }}
-                disabled={isInactive}
-              />
-            ))}
-            {/* 직접 추가 섹션 */}
+            {/* 직접 추가 섹션 - 맨 위로 이동 */}
             {!isInactive && (
               <>
                 {/* 추가된 커스텀 옵션 (파란색 칩) */}
@@ -4577,7 +4887,7 @@ function MessageBubble({
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between"
+                    className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between mb-3"
                   >
                     <span className="text-[16px] font-medium text-blue-500">{addedCustomOption}</span>
                     <button
@@ -4595,129 +4905,152 @@ function MessageBubble({
                   </motion.div>
                 )}
 
-                {/* 인라인 입력 모드 */}
-                {!addedCustomOption && isCustomInputActive && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="w-full relative"
+                {/* 직접 입력 컨테이너 - 고정된 크기 유지 */}
+                {!addedCustomOption && (
+                  <div
+                    className="w-full py-4 px-5 relative mb-3 transition-colors hover:bg-gray-50"
                     style={{
-                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%239CA3AF' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
-                      borderRadius: '12px'
+                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
+                      borderRadius: '12px',
+                      cursor: isCustomInputActive ? 'default' : 'pointer'
+                    }}
+                    onPointerDown={() => {
+                      if (!isCustomInputActive) {
+                        activateCustomInput();
+                      }
+                    }}
+                    onClick={() => {
+                      if (!isCustomInputActive) activateCustomInput();
                     }}
                   >
-                    <input
-                      type="text"
-                      value={customInputValue}
-                      onChange={(e) => setCustomInputValue(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && customInputValue.trim()) {
-                          e.preventDefault();
-                          onOptionToggle(customInputValue.trim(), message.id);
-                          setAddedCustomOption(customInputValue.trim());
-                          setCustomInputValue('');
-                          setIsCustomInputActive(false);
-                        } else if (e.key === 'Escape') {
-                          setIsCustomInputActive(false);
-                          setCustomInputValue('');
-                        }
-                      }}
-                      placeholder="원하는 조건을 입력하세요"
-                      autoFocus
-                      className="w-full py-4 px-5 pr-[120px] bg-transparent rounded-[12px] text-[16px] text-gray-700 focus:outline-none transition-colors"
-                    />
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                      <button
-                        onClick={() => {
-                          setIsCustomInputActive(false);
-                          setCustomInputValue('');
-                        }}
-                        className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
-                      >
-                        취소
-                      </button>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => {
-                          if (customInputValue.trim()) {
+                    {/* 항상 렌더되는 입력창: iOS 포커스 제한 우회 */}
+                    <div className="relative" onClick={(e) => e.stopPropagation()}>
+                      <input
+                        ref={customInputRef}
+                        type="text"
+                        value={customInputValue}
+                        onChange={(e) => setCustomInputValue(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && customInputValue.trim()) {
+                            e.preventDefault();
                             onOptionToggle(customInputValue.trim(), message.id);
                             setAddedCustomOption(customInputValue.trim());
                             setCustomInputValue('');
                             setIsCustomInputActive(false);
+                          } else if (e.key === 'Escape') {
+                            setIsCustomInputActive(false);
+                            setCustomInputValue('');
                           }
                         }}
-                        disabled={!customInputValue.trim()}
-                        className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
-                          ${customInputValue.trim()
-                            ? 'bg-gray-900 text-white'
-                            : 'bg-gray-100 text-gray-400'}`}
-                      >
-                        추가
-                      </motion.button>
-                    </div>
-                  </motion.div>
-                )}
+                        placeholder="원하는 조건을 입력하세요"
+                        className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
+                          ${isCustomInputActive ? 'opacity-100' : 'opacity-0'}`}
+                        style={{ pointerEvents: isCustomInputActive ? 'auto' : 'none' }}
+                      />
+                      {/* 버튼 오버레이 */}
+                      {!isCustomInputActive && (
+                        <div className="absolute inset-0 flex items-center justify-center gap-2">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                            <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                          <span className="text-[16px] font-medium text-gray-600">직접 입력하기</span>
+                        </div>
+                      )}
 
-                {/* 직접 추가 버튼 (기본 상태) */}
-                {!addedCustomOption && !isCustomInputActive && (
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
+                      {/* 입력 액션 버튼 */}
+                      {isCustomInputActive && (
+                        <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                          <button
+                            onClick={() => {
+                              setIsCustomInputActive(false);
+                              setCustomInputValue('');
+                            }}
+                            className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
+                          >
+                            취소
+                          </button>
+                          <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => {
+                              if (customInputValue.trim()) {
+                                onOptionToggle(customInputValue.trim(), message.id);
+                                setAddedCustomOption(customInputValue.trim());
+                                setCustomInputValue('');
+                                setIsCustomInputActive(false);
+                              }
+                            }}
+                            disabled={!customInputValue.trim()}
+                            className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                              ${customInputValue.trim()
+                                ? 'bg-gray-900 text-white'
+                                : 'bg-gray-100 text-gray-400'}`}
+                          >
+                            추가
+                          </motion.button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+            {(() => {
+              // '상관없어요' 선택 여부 확인
+              const hasNotCareSelected = message.selectedOptions?.some(selected =>
+                selected === '상관없어요' || selected === '상관 없어요'
+              );
+
+              return message.options.map((opt, i) => {
+                const isNotCareOption = opt === '상관없어요' || opt === '상관 없어요';
+                // 다른 옵션이 하나라도 선택되었는지 확인
+                const hasOtherOptionSelected = message.selectedOptions?.some(selected =>
+                  selected !== '상관없어요' && selected !== '상관 없어요'
+                );
+
+                // '상관없어요'가 선택되었으면 다른 옵션들 비활성화
+                // 다른 옵션이 선택되었으면 '상관없어요' 비활성화
+                const shouldDisable = isInactive ||
+                  (hasNotCareSelected && !isNotCareOption) ||
+                  (hasOtherOptionSelected && isNotCareOption);
+
+                return (
+                  <OptionButton
+                    key={i}
+                    label={opt}
+                    isSelected={message.selectedOptions?.includes(opt)}
+                    isPopular={message.popularOptions?.includes(opt)}
                     onClick={() => {
-                      // 직접 입력 버튼 클릭 로깅
+                      const isSelected = !message.selectedOptions?.includes(opt);
+                      const totalSelected = isSelected
+                        ? (message.selectedOptions?.length || 0) + 1
+                        : (message.selectedOptions?.length || 0) - 1;
+
+                      // 옵션 토글 로깅 (logKAQuestionAnswered는 최종 제출 시에만 호출)
                       if (categoryKey) {
                         logKnowledgeAgentHardFilterSelection(
                           categoryKey,
                           categoryName || '',
                           message.id,
                           message.content,
-                          '직접 입력하기',
-                          true,
-                          0
+                          opt,
+                          isSelected,
+                          totalSelected
                         );
                       }
-                      setIsCustomInputActive(true);
+
+                      onOptionToggle(opt, message.id);
                     }}
-                    className="w-full py-4 px-5 text-center transition-all flex items-center justify-center group hover:bg-gray-50"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%239CA3AF' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
-                      borderRadius: '12px'
-                    }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500 group-hover:text-gray-700">
-                        <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      <span className="text-[16px] font-medium text-gray-600 group-hover:text-gray-900">직접 입력하기</span>
-                    </div>
-                  </motion.button>
-                )}
-              </>
-            )}
+                    disabled={shouldDisable}
+                  />
+                );
+              });
+            })()}
           </motion.div>
         )}
 
         {!isUser && message.negativeFilterOptions && message.negativeFilterOptions.length > 0 && (
           <div className="space-y-3">
-            {isLatestAssistantMessage && (
-              <AIHelperButton
-                onClick={() => onNegativeAIHelperOpen?.()}
-                label="잘 모르겠어요"
-                questionType="negative"
-                questionId="negative_filter"
-                questionText="꼭 피하고 싶은 단점이 있으신가요?"
-                category={categoryKey}
-                categoryName={categoryName}
-                hasContext={!!userSelections?.initialContext}
-                onPopularRecommend={() => {
-                  onNegativeAIHelperOpen?.("가장 많은 사람들이 피하는 옵션이 뭔가요?");
-                }}
-                onContextRecommend={() => {
-                  onNegativeAIHelperOpen?.("지금까지 입력한 정보로 추천해줘");
-                }}
-              />
-            )}
             <NegativeFilterList
               data={{
                 options: message.negativeFilterOptions.map(opt => ({
@@ -4729,7 +5062,7 @@ function MessageBubble({
                 selectedKeys: selectedNegativeKeys,
               }}
               onToggle={onNegativeKeyToggle}
-              showAIHelper={false} // 이미 위에서 AIHelperButton을 직접 렌더링함
+              showAIHelper={false}
               category={categoryKey}
               categoryName={categoryName}
             />

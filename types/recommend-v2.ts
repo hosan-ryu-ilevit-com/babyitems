@@ -714,6 +714,8 @@ export interface TimelineStep {
   }>;
   timestamp: number;  // Date.now()
   status: 'completed' | 'in_progress' | 'pending';
+  startTime?: number; // 단계 시작 시간 (optional)
+  endTime?: number;   // 단계 완료 시간 (optional)
 }
 
 /**

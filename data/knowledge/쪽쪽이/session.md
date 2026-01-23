@@ -1,5 +1,5 @@
-# 세션: 20260123_044603_tn4w
-> 시작: 2026-01-23T04:46:03.441Z
+# 세션: 20260123_062910_3ecf
+> 시작: 2026-01-23T06:29:10.493Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 쪽쪽이 시장 현황
-- 인사이트: 쪽쪽이(공갈 젖꼭지)는 아기에게 안정감을 주고 빨기 욕구를 충족시켜주는 육아템으로 활용됩니다. 주로 생후 4주 이후부터 사용하며, 돌 전후에 떼는 것이 일반적입니다. 위생적인 측면과 아기 안정에 도움을 주는 장점이 있지만, 유두 혼동, 언어 발달 지연, 중이염 등의 단점도 고려해야 합니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfY0Jc1z5TAGC5EZ-iZBGSYocgkzFfquzpXlPQU4RsTBggR1G0Aol0rpJJC6uHoJwzmnDmDbKglE510fV-wWmPoiv_SYGeY40wvuIGCE4Uo5M70e68FWMlPsVZrjtbq3oi09SgsUp21Ns-LDXU6cPOGz8_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMuMLeqMEm_tdwW9EQDcK2ti-wH7HYysG-X_bps_aibQ6re-pKvbTWhMD5NXWFEIa8iUa5NGSpyNTL2rAzJNr94qiZrESrEz4hiMSo6GNDt5ppE1sbOFpiNa4c5lUcOw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJKHIsFjUt_5Gbr7U2HKsGrXmF4u0lD0R_bdCm5e7Q9aCkk1atq3ZJ-3bxs7OX_j2i_BvmrlIlGS6k9x5E2ABfX8IVxq50knlpWkA7lcl_AzHge4R0TOdI9lIRiKSv5oti7PzAItIggFlKcjaNHxBob_fT0wNt3LvMyAZ-3Z2evLLuTII9UptzVIicSsASFAEjEJTpbwskE48SGAUI3kD01pK0ldvJMbC_nkXtdQir9eSOuTW1xOqwvQt240bcTLa3g6018SRYRrdvk1W3OzQMoLtIJedSZ9kjbNdJvlIWIkTRM_2DYuB_OjcwGb3EE5eS2WW4
+- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 전 세계적으로 꾸준히 성장하고 있으며, 2027년까지 5억 달러 이상의 규모를 기록할 것으로 예상됩니다. 이는 부모의 가처분 소득 증가와 아기 용품에 대한 수요 증가에 힘입은 결과입니다. 특히 실리콘 소재의 젖꼭지가 내구성이 좋아 인기를 얻고 있으며, 온라인 채널을 통한 판매도 증가하는 추세입니다. 최근에는 스트레스 해소용으로 성인용 쪽쪽이 시장도 새롭게 부상하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmStB3NP24iggtiu_QLTOtBvkjhsiTHY0Wu-YTvKWp95EDdKL3gO4dZUomucX7iWCTfoxB4JWj_xkCd0f-w4kPr-22d93G-TL2k7tHik6Txj33nd2Ewp8-VHUb-LFi4qbnr0HVQh23Is_fcr8KHAUIC5Nc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBkHuTWfl6e7RHrnnvk60SR25n666hMR5AwBxydommklG0wwwcaRvav5azrrquDdxnycs-Jm2tSWrWRzUtF7bp5jO8kjfC9_oSvmVyPPjkPdFypj1qxT0WuUgUM448URq_fj1zizf1tqVe1N1ANCo160j6e-UyoS91qiRP8IkSWVPdScnl0FBfLvxXEsDiZ8a3FN3Wh0tF5GmkOqn1d_OX5ubyO6sYyw2G4WikEmUe69XYHJRUIkBHukmCnvmC2zdVU-Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwvzLQj-EtI8bFfgR3ZtW6j1gYyIW_-CBbW9YU-SSu8CzVG2mbekgzG96UJeiQtMsXeDjJo1CzqWnUjYXJWgGizhzD7FLAmJgt5KWaN0WA1S_zLdXbFQvo3NPYbfpTSsWFLZ6b3P2NCTYgWlk2_w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgbRPP8KMnGfG1tF44cvfqTkiG38C9TRa4UqjYw4cbDlr7EsrrFX5yo5P9Xu6zkjxfGRMMmevzcd1D9EVPeaGWETlXzysxnC4NTeE1aNDLFTnAK5KCPZpAZIX_H6oCfoGONU6HjVuZ6LB-5Lr3KbGTZiqSUH7H3L1qcyZ83WYRB0u66NBtqg35TD45cQ81eoebqmdBVMZt0iHARae5mOk6yok-3iEpTWiWbSbsMWxtZA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAQlJdP8EgjrpMXsag5g8dNOpDiphA7Z6LDIzqV4yp-3NaF0piBO0AuvTSNugbNCR1kvuiEXM504tCx8WmiKdjfc6uq3JRO7sxQqDDLrF-90FMlqOypUfk0sb1-Jv5E9rQw83A-8mJdd_cDDBWixXU_ik=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsotG9YAU0q8-WvnkMYvQdi3eKeTAqPhjYZfw0QVA-fjAZwHBmiZJBa9JuK66Gaeav6KH3W1kjytYUg1_uT1Rf95xCRPMlIkGoDtPoXZmkQVywWar5ELhY4CHD_ESYYMvcBdaBsY9BQLUy_YTQtB87k9B_yBotpzK0xt12XhDzXN-sj_FVO8hX_p4mjEzKzNd5kmI1xb__UaIxnYan6Q==
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 쪽쪽이, 어떤 소재를 선호하시나요? | 천연고무 |
-| 아기의 개월 수에 맞는 사이즈를 선택해주세요. | 영아용 (3-6개월) |
-| 아기 구강 구조에 맞는 쪽쪽이 모양을 선택해주세요. | 치아교정형 (누크형) |
-| 믿고 쓰는 브랜드가 있으신가요? | 모윰, 더블하트 |
-| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 14,414원, 9천원~1만 8천원대가 가장 많아요) | 1만 5천원 ~ 2만원대, 1만원 이하 |
-| __avoid_negatives__ | 쪽쪽이를 너무 오래 사용하면 아기 언어 발달에 좋지 않다는 말이 있어서 신경 쓰여요,아기가 쪽쪽이에 너무 익숙해져서 나중에 떼어내기 힘들까 봐 미리 걱정돼요 |
+| 쪽쪽이에서 가장 중요하게 생각하시는 소재는 무엇인가요? | 실리콘 |
+| 아기에게 편안함을 줄 수 있는 쪽쪽이 모양은 어떤 것을 선호하시나요? | 둥근형 (체리형), 납작형 (누크형) |
+| 아기의 개월 수에 맞는 사이즈를 선택하는 것이 중요해요. 현재 아기는 몇 개월인가요? | 0~6개월, 6~18개월 |
+| 쪽쪽이는 아기 입에 직접 닿기 때문에 신뢰할 수 있는 브랜드 선택이 중요해요. 특별히 선호하는 브랜드가 있으신가요? | 더블하트, 모윰 |
+| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 1만 4천원, 1만원~2만원대가 가장 많아요) | 1만 5천원 ~ 2만원대, 3만원 |
+| __avoid_negatives__ | 아기가 쪽쪽이에 너무 익숙해져서 나중에 떼어내기 어려울까 봐 염려돼요,모유 수유 중인데,쪽쪽이 사용으로 인해 아기가 젖꼭지를 거부할까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 쪽쪽이를 너무 오래 사용하면 아기 언어 발달에 좋지 않다는 말이 있어서 신경 쓰여요
-- 아기가 쪽쪽이에 너무 익숙해져서 나중에 떼어내기 힘들까 봐 미리 걱정돼요
+- 아기가 쪽쪽이에 너무 익숙해져서 나중에 떼어내기 어려울까 봐 염려돼요
+- 모유 수유 중인데
+- 쪽쪽이 사용으로 인해 아기가 젖꼭지를 거부할까 봐 걱정돼요
 
 ---
 

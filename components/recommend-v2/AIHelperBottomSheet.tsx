@@ -413,7 +413,7 @@ export function AIHelperBottomSheet({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 z-100"
+            className="fixed inset-0 bg-black/60 z-[120]"
           />
 
           {/* Bottom Sheet */}
@@ -422,7 +422,7 @@ export function AIHelperBottomSheet({
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-110 flex flex-col overflow-hidden"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[121] flex flex-col overflow-hidden"
             style={{ maxWidth: '480px', margin: '0 auto', height: '85vh' }}
           >
             {/* Header */}

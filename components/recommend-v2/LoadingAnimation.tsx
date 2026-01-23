@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { TimelineStreamingView } from './TimelineStreamingView';
+import { FinalRecommendLoadingView } from './FinalRecommendLoadingView';
 import { LoadingDots } from './LoadingDots';
 import type { TimelineStep } from '@/types/recommend-v2';
 
@@ -13,10 +13,10 @@ interface LoadingAnimationProps {
 
 /**
  * 추천 로딩 애니메이션 컴포넌트
- * - 비디오 애니메이션
+ * - 접힌 토글 (기본)
  * - 프로그레스 바 (0-100%)
- * - 단계별 메시지 (애니메이션)
- * - 타임라인 스트리밍 뷰
+ * - 실시간 타이머
+ * - 펼치기: 3단계 Accordion
  */
 export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationProps) {
   const calculatingRef = useRef<HTMLDivElement>(null);
@@ -53,9 +53,12 @@ export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationPr
         animate={{ opacity: 1, y: 0 }}
         className="w-full py-12 flex flex-col items-start"
       >
-        {/* 타임라인 스트리밍 표시 - 새로운 디자인 레이아웃 */}
+        {/* 항상 펼쳐진 상태의 로딩 UI */}
         {timelineSteps.length > 0 && (
-          <TimelineStreamingView steps={timelineSteps} />
+          <FinalRecommendLoadingView
+            steps={timelineSteps}
+            progress={progress}
+          />
         )}
       </motion.div>
     </div>

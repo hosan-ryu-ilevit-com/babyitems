@@ -123,11 +123,22 @@ export function NegativeFilterList({
       {/* 옵션 목록 */}
       <div className="space-y-2">
         {/* 기본 옵션 */}
-        {options.map((option, index) => {
-          const isSelected = selectedKeys.includes(option.target_rule_key);
+        {(() => {
+          // '상관없어요' 류의 옵션을 맨 위로 정렬
+          const sortedOptions = [...options].sort((a, b) => {
+            const aIsNotCare = a.label.includes('상관없') || a.label.includes('없어요') || a.label.includes('괜찮');
+            const bIsNotCare = b.label.includes('상관없') || b.label.includes('없어요') || b.label.includes('괜찮');
 
-          return (
-            <motion.button
+            if (aIsNotCare && !bIsNotCare) return -1;
+            if (!aIsNotCare && bIsNotCare) return 1;
+            return 0;
+          });
+
+          return sortedOptions.map((option, index) => {
+            const isSelected = selectedKeys.includes(option.target_rule_key);
+
+            return (
+              <motion.button
               key={option.id}
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
@@ -164,8 +175,9 @@ export function NegativeFilterList({
                 {option.label}
               </span>
             </motion.button>
-          );
-        })}
+            );
+          });
+        })()}
 
         {/* 직접 입력 필드 */}
         {onDirectInputChange && (

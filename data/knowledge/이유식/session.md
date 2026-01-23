@@ -1,5 +1,5 @@
-# 세션: 20260123_050203_3slc
-> 시작: 2026-01-23T05:02:03.536Z
+# 세션: 20260123_065122_ja1z
+> 시작: 2026-01-23T06:51:22.245Z
 > 카테고리키: 이유식
 > 카테고리: 이유식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 이유식 시장 현황
-- 인사이트: 국내 이유식 시장은 출산율 감소에도 불구하고 프리미엄화, 간편식 선호 트렌드에 힘입어 꾸준히 성장하고 있습니다. 특히 유기농 및 천연 성분을 강조하는 클린 라벨 제품의 인기가 높아지고 있으며, 온라인 유통 채널의 비중도 증가하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGgrzBaUHvg1K4bp0zJM3iALj71N853ve8ZfilXJ0UevNsBHPOQW_0FuDVuG8iCopNa2_LlNuxFoAo38mE1palUg8TCG4KdEdA9PnjwukdAXiPOQ1vrnTi8C9zqDTWdQeH2JQfvmcv1BoBkny9Mku4rhLeYpS9cAoy8IpO89eer_tE8TaHltgmijPs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpcRNSwCZC1wk8UmucLXfB8LuUT8R_8sNzwoA39G3R1_Bxd3ZmqTjMpSj-Xt_9p9U73x7pFr-SJ8nB2yHK83Mk-yWXQCH3XEvHNNyC0D7rhjhQBvVqBX9agQdGiUoobIpXlgEqCxb6Gxar6wNELLoSwQ187Yk0FUiu3DJzFBogXeo0luOseinBlTI2dE0YuzGsZLFIxEfZTc-8agAln4qZC7gBruQm1y5uog==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPEEXMJWrhINPOmpRxMLLCuzJInNdtoXICCTcr1015wOgtenWSv9bCsPCbeuEpOL-_uPrnmDD3ZARTCIGeTgfeU2eobjFFFlMZV0bLEHaoPzHfiV5CocAPPFuRdTJ-jb7ma3ZZ7L2PySLqwWn4ydOd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1z765gzWBMMjfJvkFbrfgrjE9sjapJMr8vSP-uOLT5_6VNhu5X5VEYcCa6PwJprjE0Klh-NFtYJ1t0oR6P6Z67ivh8vDABL7IGOrgqnoLr3mQyyc08V4Br7HqXxKMfKX7StTNUfufFQdzR6ABJDVpBXHXtmji18088NzvLoIB, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGQeOGfg_TB_OEKqqLw2l8YKUB2HmIQz6G5wB5ACNg79k2miy0j0M-KV0xJlQo11zgJWSwT-6Miq6zSyeYuNKofuGwJfnSmV71toOA5OwGFoJnXe8uqWt80ijO5yZvXprhBxM20eFYuD-zDAaqo1_WIt_rkEDt15ah0-JpaA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH8Ur11q0qFmwqHYZG2aiq4_1jl7bRL3Y-RnlBumKer_7VRaj4lHT4v8wv2zmHC8cCTYhzmi-JU7PNyqqgDiyx6oMR9gtjnaE7xTBelXXZe7O_Brf2UmzP-soYxy2fZNrlkCqIb631iKHbpNMS39KsCdlKfCo=
+- 인사이트: 저출산 현상에도 불구하고 이유식 시장은 프리미엄 제품 선호, 온라인 채널 성장, 유기농 및 클린 라벨 트렌드에 힘입어 꾸준히 성장하고 있습니다. 특히 중국과 인도 등 신흥 시장의 성장이 두드러지며, 다양한 맛과 형태의 제품 개발이 활발히 이루어지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbkAoG9KuGKIEEPI4k902IKV2--I3SWoM4KpG5a29ngMBN7FCJ034uo7m8fYbyZ7JdEEWLhGjOwgrvUThoHIlioQpncd5bifVArDb2UtstgFwU4WHSjwZJERcUBcx0ue3kbgHNj3J4e9iEGyJQQE9zHHp6CO9Itj1iaUi98yYaTeSOKB_PDcN4sYKvynho57FFxWqEa6HPEhgesT_EF7CPXL-afBnpckEHMA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWmvV0jy9BK64TyWCowBtUQVcnAdVLeKJSMi5kNvTrvIL2LhE_L0HsbNthMvek8JSJypv5d6AM4VBgA4wJWbGO89-7A3vcxfypn8RQWaWVfwHaNVkDjK-vkoKfCmaSEnhnV4GlJzlPykR8csSxpJGOQW7JOO8NdXph1nrchg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFWpGe0PVJ3-ZvFrH9MYwQ41Cy3m0E6lXogtihfHFddhXUwOepTfq9o0GaBxdPDqpID4y6EVKNX5KaWkaxjMcXsrgPgrcerAjZ1fWMdUUFRd1e2f64eOH9zbSFRqodE6iaCIvHKdKcudn4uHcOwHqeE, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTxTWZsvaVSB-xWn-IyPesQ0-kDPb7-QQAQ8SV_3Hs4FVh2CA_a_LwGGv7NG9cmlB0w7Wjl0OgxTmMBU2HvkSdkKHckSJoNpjmg-eZhfQaHL-4hdnFYRW9VHE2ij4AdBTruGWM7EUJp88GAl6mWvYMw1rQirw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-zWjX9aFkKmfE7mdY9_zZsoz5QMImOlC9Yg74-pos-SGQ9dc9yLUuQ0fmTzvcuJO6-bVil9m3nfKawuDR2Bn1OIa_jTmnYdFYqA-xlWAdBJH6P3P4vu9YT9I7GaUUE2n0It3MMPGLaEVuuXl-iX2ao3fzI1jrOo8SvL09ZIzp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi-Zn8YtgHcDQbwkeQWkbZ5bBmh-9FNYD9KzXQs_7ij1W_CvEgZ82csHLH57ci6gvD62yp1xL-_PXE2rxzqNgM1x3DCsi-Xiw06cMpgtj22XhvHdKGDgE8ZkWSK0SLCLgEesA=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주세요. | 9~11개월 (후기) |
-| 이유식 재료 선택 시 가장 중요하게 생각하는 것은 무엇인가요? | 신선도 및 원산지, 유기농/무첨가 |
-| 이유식 브랜드에 대한 선호도가 있으신가요? | 아이배냇, 베베쿡, 엘빈즈 |
-| 이유식의 식감과 농도는 어느 정도로 선호하시나요? | 곱게 다진/중간 농도, 덩어리진/진한 농도 |
-| 이유식 예산은 어느 정도로 생각하세요? (평균 약 1만 9천원, 1만원~2만 5천원대가 가장 많아요) | 1만 5천원 ~ 2만 5천원대 |
-| __avoid_negatives__ | 우리 아기가 이유식 맛이나 식감을 거부할까 봐 염려돼요,신선도나 원산지가 불확실한 재료가 사용될까 봐 불안해요 |
+| 아기의 개월 수를 알려주세요. | 4~6개월 (초기) |
+| 이유식 재료 선택 시 가장 중요하게 생각하는 것은 무엇인가요? | 유기농/천연, 신선/안전 |
+| 어떤 형태의 이유식을 선호하시나요? | 냉동 이유식 |
+| 이유식 브랜드 중 특별히 선호하는 곳이 있으신가요? | 아이배냇, 베베쿡 |
+| 이유식 예산은 어느 정도로 생각하세요? (평균 약 1만 9천원, 1만원~2만 5천원대가 가장 많아요) | 1만 5천원 ~ 2만 5천원대, 1만원 이하 |
+| __avoid_negatives__ | 아기가 다양한 재료 본연의 맛을 배우는 데 어려움이 있을까 봐 걱정돼요,단조로운 식감 때문에 아기의 씹고 삼키는 능력 발달이 늦어질까 봐 염려돼요 |
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 우리 아기가 이유식 맛이나 식감을 거부할까 봐 염려돼요
-- 신선도나 원산지가 불확실한 재료가 사용될까 봐 불안해요
+- 아기가 다양한 재료 본연의 맛을 배우는 데 어려움이 있을까 봐 걱정돼요
+- 단조로운 식감 때문에 아기의 씹고 삼키는 능력 발달이 늦어질까 봐 염려돼요
 
 ---
 
