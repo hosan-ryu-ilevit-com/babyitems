@@ -1,26 +1,25 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T03:54:25.987Z
+> 마지막 업데이트: 2026-01-23T04:48:22.743Z
 > 분석 상품: 20개 | 분석 리뷰: 439,818개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전성 및 성분 중시
-- 저자극, 무첨가, 친환경 제품 선호
-- 프리미엄 육아 용품 수요 증가
+- 친환경 성분 및 소재 사용 증가
+- 안전한 성분 중시 (EWG 레드 등급 제외)
+- 다양한 기능성 물티슈 출시 (예: 보습, 진정)
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 성분
-- ✓ 친환경
-- ✓ 넉넉한 크기
+- ✓ 안전한 성분
+- ✓ 뛰어난 가성비
 - ✓ 도톰한 두께
-- ✓ 합리적인 가격
-- ✓ 높은 브랜드 선호도
+- ✓ 넉넉한 사이즈
+- ✓ 높은 휴대성
 
 ### 주의해야 할 단점
-- ⚠ 짧은 유통기한 (일부 제품)
-- ⚠ 개인별 피부 민감도 차이
+- ⚠ 짧은 유통기한
+- ⚠ 포장 디자인 호불호
 
 ### 가격대 인사이트
 
@@ -242,9 +241,9 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9TciwjMYw9j-lx-Q7eriU17mLpf4LPtTZJB7spGjALIOue5IBkLYIyaA9udl0mDpU324TLgjdps5RLD38n0BMxEWIktvAkv00UiRIXUVOSfjnNaQHD0-XE6MpAEYlSxbRamGdPt_20DjB1TSmUsS0Nzb6CW3td_CWXF10)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQER4VKxeRzAs9kMnqYbeKzul2Y0PmYVJlYEz6fnvKz9Vl0eGNwA9NKZD52ylVQ1ZyOMBp7P7gzYj1vNUt6e6_M-NzVhCGWO1G9LHTs0SfzTOpnfdSv-uOmRiJ87VbV20WntvzUwi0BsFOk4Y_rYrftV32qrLFDf7GQVg2szCYmSMMLVc52DxYXPfQp2)
-- [bebesup.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGv1I9FhRbHpzVCW97Z9y5fFYwnUWx2TiFzVsRRjzTrTOeBNcX2FpfCfWUQ4ObiCye6hj_zOlIrXTsgiqEvwfOtFkGWx9LlkgBE5WcYzNw-kofw4Oc)
-- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfNx80rvcHSTvLzgojCuoiRkX4P8fPyCy5iyeBD0Ri6VVA-WKN4yxak9EoQUYknSgr3yPJEFtnEhDd1jKC-1qhSWs1wZX006pHQisqzRGC2WKGyXSEXK07M68del_O-a4pb_a2rn2aodhNdVfvDjz2suSdA1IWlcm8BQ==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpOLcAMYp0gxRuAqq-QRbWmp2eqhQN29DADnBfuqr79h2Bz-QZ2cefWsq67hP2H3uEI4QjaWfRJrtxvIbKXxhNZZDrXYbuPm2FPr3DyNH-7ngg1QY_M3Kxu9tIFIp_YYmu5zHvRs1cS_IVrcYjMJTqrEqmrgp2xRyS)
-- [researchandmarkets.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHtsr9o30DIBL1HuocGDfD3wA8Odrys2FazWTekIaI7pUWpYBuXRPqKH9NuWhMhZ7krTGZDjt9Q2OpZk-FBCmpbkPJjuHBvjEEwDrGqaSFluHLmpOBuhWsv-qK-JNVg1MHonm6L8oNfiGBAoFXFcapIkbUGbt8-kyalPmT1snaIo5NyqpTI)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwBu4bBJkYEk1C9oziOXX8oyHUTsy5GXUoY7W_UExpeTDngT-KGuyPjp9Opj_XvNA3-I7XVcLGx8PuzxETfsjszVnbW1Ng92wCA2jyCOK26zGWQ0wg3t3GKzhnRp8yz9WI8Eog3c-tAnduRSTldtY_ANTUKSpLoTg7eAY=)
+- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFot4ZUfg8mwBLb2hRx8RLmR7l9_x1xYpm8_KOHwyvS_n7nB72PmcjsqsPusBKPJCpkCxjM2JNmcE07j1-K0o1fxlrzdwd94Td1Nm8zsy7NIoXioC1tKS-vTtLiTuDVDloj-CzbzggIRn9phY28xOec-ascm9L-CG_qqNoP5ab6FfD4r7e21Q0OBcs=)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGBNe8UHg52hxd7ht7JpFs0_SxTg8B5-IQ-lgPetcuSv3BE1PKzmRWwdRGSstpE3TxFB_eaXr5UHXIuQI6T0xdh_UMTH4Hqsbb3qJnj6FA8TEdK0zHbDAuxXT9VXFjZ2kVPggyKqHUnK3iXWi7nlADjrCApTFCzfH7)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-R0yQrxdzkYXtkIAB9EoBixR9z5g-ffIb84F3JFAuOkZUdxoELTjbdUkCgbLEx9Cp7ET-iSUxbtVcednIthcJjk3NdBmvu9gd3SMeg0X0QEniEq0NwhhBiZsnueoNE6weBtMPtbZFNoW1KFd8Wg-UHmKzkpd58pyfDA==)
+- [marketgrowthreports.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6g6pVk12c5BM01CViY7Z_1rzH2TnEFmHGlDAD0pPPI3GjzKgWLz5_8J_byMcAw3bt2YVt1f0KP4EiPdzlVZUmMrm-x4BfVPwYBEd_VNW1HEf7x3BwLIoc33LyuMX7UIR1Ce-xlhMNPosUvxMDJdttFv55PRIMC57P3galCx9_1ljzdwf7ra7zxlDfgKm2nfhtkg==)
+- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF72W7krSXlB_Ow2q_VwSSflfEW1M1_O1oUooeWlpJTxRwjhUZWthSJxtYPfgyv-09xIUZFhliRwzVeTPJ_U4nCEueGmisu-sFFVmqi3ROzJWVuQhraDvQ9y4Niv2aTOkIKY-RKNs2S17yjTTBZ4_HwpryTq5bFPzRub5BTskwGtRQg_gnFvD9RzU5cUxlxO7MIhS1bp1s=)

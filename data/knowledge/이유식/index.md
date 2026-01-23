@@ -1,30 +1,24 @@
 # 이유식 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T07:41:38.555Z
-> 분석 상품: 20개 | 분석 리뷰: 15,930개
+> 마지막 업데이트: 2026-01-23T05:01:56.535Z
+> 분석 상품: 20개 | 분석 리뷰: 16,286개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄 이유식 및 유기농/친환경 재료 선호 증가
-- 배달 이유식 및 구독 서비스 시장 확대
-- 글로벌 퓨전 레시피 및 맞춤형 이유식 등장
-- 친환경 패키징 도입
-- 클린 라벨 트렌드 확산 (천연 성분, 최소 가공)
+- 유기농 및 천연 성분 강조 (클린 라벨)
+- 프리미엄 및 간편식 선호
+- 온라인 유통 채널 확대
 
 ### 구매자 만족 포인트
-- ✓ 균형 잡힌 영양 공급 (성장 발달 지원)
-- ✓ 오감 발달 촉진 (미각, 시각, 후각, 촉각, 청각)
-- ✓ 씹는 연습을 통한 두뇌 발달 및 턱관절 운동
-- ✓ 다양한 재료 경험을 통한 건강한 식습관 형성
-- ✓ 재료 본연의 맛 학습 가능 (토핑 이유식의 경우)
+- ✓ 영양 균형
+- ✓ 간편한 조리
+- ✓ 다양한 식재료 경험
 
 ### 주의해야 할 단점
-- ⚠ 재료 맛 학습 어려움 (죽 이유식의 경우)
-- ⚠ 식감 발달 지연 가능성 (단조로운 질감)
-- ⚠ 거부 반응 파악 어려움 (알레르기 등)
-- ⚠ 파우치 이유식의 경우 당분 함량 및 영양 불균형 우려
-- ⚠ 편의성 의존으로 인한 다양한 질감/식감 경험 부족
+- ⚠ 높은 가격
+- ⚠ 첨가물 우려
+- ⚠ 아기 선호도 차이
 
 ### 가격대 인사이트
 
@@ -33,15 +27,15 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 매일유업 맘마밀 안심이유식 퓨레 바나나와 단호박 100g
-- **브랜드**: 매일유업
-- **가격**: 1,580원
-- **평점**: ⭐4.8 (459개 리뷰)
-- **핵심 스펙**: 레토르트이유식 / 최소연령: 6개월~ / 상온 레토르트이유식 / 상온
+### 1. 베베쿡 한우다짐육 2단계 180g
+- **브랜드**: 베베쿡
+- **가격**: 19,460원
+- **평점**: ⭐4 (73개 리뷰)
+- **핵심 스펙**: 이유식재료 / 최소연령: 18개월~ / HACCP인증 / 무항생제인증 / 재료: 한우100%(우둔,설도) / 원산지: 국내산 / 냉동 이유식재료 / 냉동
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21212930)
+- [상세보기](https://prod.danawa.com/info/?pcode=21216863)
 
 ### 2. 엘빈즈 이유식 초기/중기/후기/완료기 골고루 랜덤 30팩
 - **브랜드**: 엘빈즈
@@ -53,7 +47,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=25963064)
 
-### 3. 짱죽 짱죽 이유식 골고루 30팩 후기 진밥 11개월부터
+### 3. 베이비본죽 중기 이유식 E세트 1세트
+- **브랜드**: 베이비본죽
+- **가격**: 19,590원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 수제이유식 수제이유식
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=25955555)
+
+### 4. 짱죽 짱죽 이유식 골고루 30팩 후기 진밥 11개월부터
 - **브랜드**: 짱죽
 - **가격**: 73,350원
 - **평점**: ⭐4.4 (54개 리뷰)
@@ -62,16 +66,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=88237205)
-
-### 4. 매일유업 맘마밀 안심이유식 미역과 소고기 100g
-- **브랜드**: 매일유업
-- **가격**: 1,590원
-- **평점**: ⭐4.9 (14,045개 리뷰)
-- **핵심 스펙**: 레토르트이유식 / 최소연령: 9개월~ / 재료: 이천쌀,소고기,당근,감자,양파,무,건미역,단호박 / 상온 레토르트이유식 / 상온
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21210725)
 
 ### 5. 아이배냇 김자반 25g
 - **브랜드**: 아이배냇
@@ -83,25 +77,25 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21216563)
 
-### 6. 거버 아기 이유식 퓨레 치킨 그레이비 10개입
-- **브랜드**: 거버
-- **가격**: 52,500원
-- **평점**: ⭐5 (4개 리뷰)
-- **핵심 스펙**: 분유 / 기저귀 / 물티슈 / 이유식 / 가공이유식 분유 / 가공이유식
+### 6. 강산농원영농조합법인 담은수 순한맛 20g
+- **브랜드**: 강산농원영농조합법인
+- **가격**: 10,500원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 이유식재료 / HACCP인증 이유식재료 / HACCP인증
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25959740)
+- [상세보기](https://prod.danawa.com/info/?pcode=64827338)
 
-### 7. 아이배냇 꼬마 간편반찬 3종세트 (함박,미트볼,두부스테이크)
-- **브랜드**: 아이배냇
-- **가격**: 11,675원
-- **평점**: ⭐4.7 (39개 리뷰)
-- **핵심 스펙**: 반찬 / 최소연령: 36개월~ / HACCP인증 / 상온 반찬 / 상온
+### 7. 남양유업 맘스쿠킹 소고기 배추전골 아기밥 140g
+- **브랜드**: 남양유업
+- **가격**: 2,080원
+- **평점**: ⭐4.8 (29개 리뷰)
+- **핵심 스펙**: 레토르트이유식 / 최소연령: 15개월~ / HACCP인증 / 이유식형태: 아기밥 / 원산지: 국내산 / 상온 레토르트이유식 / 상온
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21225542)
+- [상세보기](https://prod.danawa.com/info/?pcode=21232745)
 
 ### 8. 베리쿡 순한 맛된장 250g
 - **브랜드**: 베리쿡
@@ -113,7 +107,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=97361393)
 
-### 9. Safrunat S.L. 아넬라 과일퓨레 혼합구성 떠짜세트
+### 9. 매일유업 맘마밀 안심이유식 미역과 소고기 100g
+- **브랜드**: 매일유업
+- **가격**: 1,480원
+- **평점**: ⭐4.9 (14,045개 리뷰)
+- **핵심 스펙**: 레토르트이유식 / 최소연령: 9개월~ / 재료: 이천쌀,소고기,당근,감자,양파,무,건미역,단호박 / 상온 레토르트이유식 / 상온
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21210725)
+
+### 10. Safrunat S.L. 아넬라 과일퓨레 혼합구성 떠짜세트
 - **브랜드**: Safrunat
 - **가격**: 33,570원
 - **평점**: ⭐4.8 (6개 리뷰)
@@ -123,7 +127,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21221654)
 
-### 10. 루솔 무항생제 다짐육 큐브 2종세트
+### 11. 루솔 무항생제 다짐육 큐브 2종세트
 - **브랜드**: 루솔
 - **가격**: 17,680원
 - **평점**: ⭐0 (0개 리뷰)
@@ -133,9 +137,39 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=97417001)
 
-### 11. 매일유업 맘마밀 안심이유식 표고버섯과 소고기 100g
+### 12. 루솔 프리미엄 3단계 진밥 180g
+- **브랜드**: 루솔
+- **가격**: 55,800원
+- **평점**: ⭐4.7 (9개 리뷰)
+- **핵심 스펙**: 수제이유식 / 최소연령: 10개월~ / HACCP인증 / 이유식형태: 진밥 / 냉장 수제이유식 / 냉장
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=27752729)
+
+### 13. 아이배냇 순한덮밥소스 간장찜닭 50g
+- **브랜드**: 아이배냇
+- **가격**: 1,980원
+- **평점**: ⭐5 (7개 리뷰)
+- **핵심 스펙**: 양념 / 최소연령: 12개월~ / HACCP인증 / 종류: 덮밥소스 / 상온 양념 / 상온
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76463633)
+
+### 14. 아이배냇 영양죽 전복새우죽 160g
+- **브랜드**: 아이배냇
+- **가격**: 12,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 레토르트이유식 / HACCP인증 / 상온 레토르트이유식 / 상온
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=65229518)
+
+### 15. 매일유업 맘마밀 안심이유식 표고버섯과 소고기 100g
 - **브랜드**: 매일유업
-- **가격**: 1,590원
+- **가격**: 1,480원
 - **평점**: ⭐4.7 (688개 리뷰)
 - **핵심 스펙**: 레토르트이유식 / 최소연령: 12개월~ / 재료: 이천쌀,소고기,표고버섯,양파,당근,양송이버섯,감자,브로콜리 / 상온 레토르트이유식 / 상온
 - **장점 요약**: 분석 중
@@ -143,47 +177,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21210872)
 
-### 12. 아이배냇 꼬마 조아햄 200g 햄 12개
-- **브랜드**: 아이배냇
-- **가격**: 47,000원
+### 16. 아이얌 아기밀 고구마 퓨레 100g
+- **브랜드**: 아이얌
+- **가격**: 24,850원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 분유 / 기저귀 / 물티슈 / 이유식 / 가공이유식 분유 / 가공이유식
+- **핵심 스펙**: 레토르트이유식 / 최소연령: 12개월~ / 상온 레토르트이유식 / 상온
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=27470246)
+- [상세보기](https://prod.danawa.com/info/?pcode=60180743)
 
-### 13. 베베쿡 다짐 새우살 80g
-- **브랜드**: 베베쿡
-- **가격**: 9,760원
-- **평점**: ⭐4.2 (30개 리뷰)
-- **핵심 스펙**: 이유식재료 / HACCP인증 / 냉동 이유식재료 / 냉동
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21220769)
-
-### 14. 루솔 한우 미니 함박스테이크 300g
-- **브랜드**: 루솔
-- **가격**: 8,620원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 반찬 / HACCP인증 / 원산지: 국내산 / 냉동 반찬 / 냉동
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=96855641)
-
-### 15. 매일유업 맘마밀 안심이유식 녹황채소와 소고기 100g
-- **브랜드**: 매일유업
-- **가격**: 1,590원
-- **평점**: ⭐4.7 (289개 리뷰)
-- **핵심 스펙**: 레토르트이유식 / 최소연령: 9개월~ / 재료: 이천쌀,단호박,브로콜리,당근,양파,소고기,감자 / 상온 레토르트이유식 / 상온
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21211007)
-
-### 16. 베이비본죽 닭고기 양송이 진밥 180g
+### 17. 베이비본죽 닭고기 양송이 진밥 180g
 - **브랜드**: 베이비본죽
 - **가격**: 5,590원
 - **평점**: ⭐1 (1개 리뷰)
@@ -193,7 +197,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=27792272)
 
-### 17. 아이배냇 순한덮밥소스 순한카레 50g
+### 18. 베베쿡 다짐 새우살 80g
+- **브랜드**: 베베쿡
+- **가격**: 9,970원
+- **평점**: ⭐4.2 (30개 리뷰)
+- **핵심 스펙**: 이유식재료 / HACCP인증 / 냉동 이유식재료 / 냉동
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21220769)
+
+### 19. 아이배냇 순한덮밥소스 순한카레 50g
 - **브랜드**: 아이배냇
 - **가격**: 1,810원
 - **평점**: ⭐5 (4개 리뷰)
@@ -203,35 +217,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21213548)
 
-### 18. 아이배냇 영양죽 전복새우죽 160g
-- **브랜드**: 아이배냇
-- **가격**: 19,160원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 레토르트이유식 / HACCP인증 / 상온 레토르트이유식 / 상온
+### 20. 파스퇴르 아이생각 완료기 한우 단호박 새송이버섯 진밥 180g
+- **브랜드**: 파스퇴르
+- **가격**: 4,900원
+- **평점**: ⭐4.9 (1,030개 리뷰)
+- **핵심 스펙**: 레토르트이유식 / 최소연령: 12개월~ / HACCP인증 / 이유식형태: 진밥 / 원산지: 국내산 / 상온 레토르트이유식 / 상온
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=65229518)
-
-### 19. 베이비본죽 유아식 반찬세트 닭볶음탕 130g + 한우단호박영양찜 130g + 순두부프리타타 130g + 간장돈불고기 130g 1세트
-- **브랜드**: 베이비본죽
-- **가격**: 20,660원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 반찬 반찬
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25959686)
-
-### 20. 에코맘 산골이유식 완료기 전복영양진밥 100g
-- **브랜드**: 에코맘
-- **가격**: 3,180원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 레토르트이유식 / 최소연령: 12개월~ / 상온 레토르트이유식 / 상온
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=72916646)
+- [상세보기](https://prod.danawa.com/info/?pcode=21224291)
 
 ---
 
@@ -246,9 +240,9 @@
 ---
 
 ## 📊 데이터 출처
-- [heraldcorp.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEREryBHmQ9NipQ-3cQzGCfcp5XaKYSNfUFa9FzHnMnljII35OlkNPQneS31cE6FTTu-dvsam2i-nkyrBsNoXS77kGo7JDmA77rm1v0G5X2HFxoNkwjxM9zvQu8pOooj1neyCE0xg==)
-- [farminsight.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHN1gKa5gdhid955WvLBx__ty_yGVppiOH13cPNIWuliV3BBbvaDKaTM_pITRBYl41lIRxuly50SiDGaiz6qji5QtK_IRcwD06wjHYqYnZYi6Bydo2_8JgugFZ6C1DOYaJM8JH3e2bIpXvL8VFypFQe51DbefHR)
-- [economy.ac](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_wqQyKI1Wjm-fzyNGAwwTSX44zYoLOVFj7PyxdZoXRi1NgGbQtaMmPafblW1HkkQuTMG2L2vm5ixMY1H0TdpRfg3asssQCDD7kPYJcyBIkgDe1T4SjQJLNJi8bPzKIMG1EYmcjClJ)
-- [datainsightsmarket.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz6-n_UcDbaNW1SyMjb1Iid3Gff5tg8GrMWlA-CSpQOvXfkhVn70_KPgNTh-S3JitjniiMyJvHCbS7aIY_htfID2YTfmNeC0t0_GkQz8mfL60MZcQ9t1VBR0obvgIKUbTLnketO1mGKg0qNdVUmBeH54StGnVlkH3FdRp22g==)
-- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHguCwXVAn6GRrwuEyktYQXK6XOoYGnpf1XowBx3bDpvycNJCPekRU6UC89hUr13n1g8MH37dWpuwugJW7zeRP0aGxRDf-xGYE_Qm1eq94nTkqpyj8xXhDahREXziSzg_t8NB3Bf3pjc3yR8TxFxgiDaVWpNC9WXUB-Eut5-tgFj8fc)
-- [taiwannews.com.tw](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrM9I5uRVXLvgvIIdDTL5UY_f6ptd4rKbRQy9AwyiwUeOjg2OPlP9-AyeylrtD3hJQhCWC82yqY8TwPfGndqrOQFRff9fNGqZ0WzHxexDdZcsEH7ACrEo6gOl0CLtLnHlVdnT7CRAyOg==)
+- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGgrzBaUHvg1K4bp0zJM3iALj71N853ve8ZfilXJ0UevNsBHPOQW_0FuDVuG8iCopNa2_LlNuxFoAo38mE1palUg8TCG4KdEdA9PnjwukdAXiPOQ1vrnTi8C9zqDTWdQeH2JQfvmcv1BoBkny9Mku4rhLeYpS9cAoy8IpO89eer_tE8TaHltgmijPs=)
+- [atfis.or.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpcRNSwCZC1wk8UmucLXfB8LuUT8R_8sNzwoA39G3R1_Bxd3ZmqTjMpSj-Xt_9p9U73x7pFr-SJ8nB2yHK83Mk-yWXQCH3XEvHNNyC0D7rhjhQBvVqBX9agQdGiUoobIpXlgEqCxb6Gxar6wNELLoSwQ187Yk0FUiu3DJzFBogXeo0luOseinBlTI2dE0YuzGsZLFIxEfZTc-8agAln4qZC7gBruQm1y5uog==)
+- [kingsresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPEEXMJWrhINPOmpRxMLLCuzJInNdtoXICCTcr1015wOgtenWSv9bCsPCbeuEpOL-_uPrnmDD3ZARTCIGeTgfeU2eobjFFFlMZV0bLEHaoPzHfiV5CocAPPFuRdTJ-jb7ma3ZZ7L2PySLqwWn4ydOd)
+- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1z765gzWBMMjfJvkFbrfgrjE9sjapJMr8vSP-uOLT5_6VNhu5X5VEYcCa6PwJprjE0Klh-NFtYJ1t0oR6P6Z67ivh8vDABL7IGOrgqnoLr3mQyyc08V4Br7HqXxKMfKX7StTNUfufFQdzR6ABJDVpBXHXtmji18088NzvLoIB)
+- [datainsightsmarket.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGQeOGfg_TB_OEKqqLw2l8YKUB2HmIQz6G5wB5ACNg79k2miy0j0M-KV0xJlQo11zgJWSwT-6Miq6zSyeYuNKofuGwJfnSmV71toOA5OwGFoJnXe8uqWt80ijO5yZvXprhBxM20eFYuD-zDAaqo1_WIt_rkEDt15ah0-JpaA==)
+- [hidoc.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH8Ur11q0qFmwqHYZG2aiq4_1jl7bRL3Y-RnlBumKer_7VRaj4lHT4v8wv2zmHC8cCTYhzmi-JU7PNyqqgDiyx6oMR9gtjnaE7xTBelXXZe7O_Brf2UmzP-soYxy2fZNrlkCqIb631iKHbpNMS39KsCdlKfCo=)
