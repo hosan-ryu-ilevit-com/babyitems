@@ -4918,123 +4918,12 @@ function MessageBubble({
         {!isUser && message.reportData && <ReportToggle reportData={message.reportData} />}
 
         {!isUser && message.options && message.options.length > 0 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: isInactive ? 0.5 : 1 }} transition={{ delay: 0.5 }} className="space-y-2 pt-2">
-            {/* 직접 추가 섹션 - 맨 위로 이동 */}
-            {!isInactive && (
-              <>
-                {/* 추가된 커스텀 옵션 (파란색 칩) */}
-                {addedCustomOption && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between mb-3"
-                  >
-                    <span className="text-[16px] font-medium text-blue-500">{addedCustomOption}</span>
-                    <button
-                      onClick={() => {
-                        // 커스텀 옵션 제거
-                        onOptionToggle(addedCustomOption, message.id);
-                        setAddedCustomOption(null);
-                      }}
-                      className="ml-2 p-1 hover:bg-blue-100 rounded-full transition-colors"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-blue-400">
-                        <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                      </svg>
-                    </button>
-                  </motion.div>
-                )}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: isInactive ? 0.5 : 1 }} transition={{ delay: 0.5 }} className="space-y-2 pt-0 -mt-3">
+            {/* 복수 선택 가능 안내 텍스트 */}
+            <div className="mb-4">
+              <span className="text-[14px] text-gray-400 font-medium">복수 선택 가능</span>
+            </div>
 
-                {/* 직접 입력 컨테이너 - 고정된 크기 유지 */}
-                {!addedCustomOption && (
-                  <div
-                    className="w-full py-4 px-5 relative mb-3 transition-colors hover:bg-gray-50"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='1.5' stroke-dasharray='5%2c 3' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
-                      borderRadius: '12px',
-                      cursor: isCustomInputActive ? 'default' : 'pointer'
-                    }}
-                    onPointerDown={() => {
-                      if (!isCustomInputActive) {
-                        activateCustomInput();
-                      }
-                    }}
-                    onClick={() => {
-                      if (!isCustomInputActive) activateCustomInput();
-                    }}
-                  >
-                    {/* 항상 렌더되는 입력창: iOS 포커스 제한 우회 */}
-                    <div className="relative" onClick={(e) => e.stopPropagation()}>
-                      <input
-                        ref={customInputRef}
-                        type="text"
-                        value={customInputValue}
-                        onChange={(e) => setCustomInputValue(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && customInputValue.trim()) {
-                            e.preventDefault();
-                            onOptionToggle(customInputValue.trim(), message.id);
-                            setAddedCustomOption(customInputValue.trim());
-                            setCustomInputValue('');
-                            setIsCustomInputActive(false);
-                          } else if (e.key === 'Escape') {
-                            setIsCustomInputActive(false);
-                            setCustomInputValue('');
-                          }
-                        }}
-                        placeholder="원하는 조건을 입력하세요"
-                        className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
-                          ${isCustomInputActive ? 'opacity-100' : 'opacity-0'}`}
-                        style={{ pointerEvents: isCustomInputActive ? 'auto' : 'none' }}
-                      />
-                      {/* 버튼 오버레이 */}
-                      {!isCustomInputActive && (
-                        <div className="absolute inset-0 flex items-center justify-center gap-2">
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
-                            <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                          <span className="text-[16px] font-medium text-gray-600">직접 입력하기</span>
-                        </div>
-                      )}
-
-                      {/* 입력 액션 버튼 */}
-                      {isCustomInputActive && (
-                        <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                          <button
-                            onClick={() => {
-                              setIsCustomInputActive(false);
-                              setCustomInputValue('');
-                            }}
-                            className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
-                          >
-                            취소
-                          </button>
-                          <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => {
-                              if (customInputValue.trim()) {
-                                onOptionToggle(customInputValue.trim(), message.id);
-                                setAddedCustomOption(customInputValue.trim());
-                                setCustomInputValue('');
-                                setIsCustomInputActive(false);
-                              }
-                            }}
-                            disabled={!customInputValue.trim()}
-                            className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
-                              ${customInputValue.trim()
-                                ? 'bg-gray-900 text-white'
-                                : 'bg-gray-100 text-gray-400'}`}
-                          >
-                            추가
-                          </motion.button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
             {(() => {
               // '상관없어요' 선택 여부 확인
               const hasNotCareSelected = message.selectedOptions?.some(selected =>
@@ -5086,6 +4975,113 @@ function MessageBubble({
                 );
               });
             })()}
+
+            {/* 추가된 커스텀 옵션 (파란색 칩) */}
+            {!isInactive && addedCustomOption && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between"
+              >
+                <span className="text-[16px] font-medium text-blue-500">{addedCustomOption}</span>
+                <button
+                  onClick={() => {
+                    // 커스텀 옵션 제거
+                    onOptionToggle(addedCustomOption, message.id);
+                    setAddedCustomOption(null);
+                  }}
+                  className="ml-2 p-1 hover:bg-blue-100 rounded-full transition-colors"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-blue-400">
+                    <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </motion.div>
+            )}
+
+            {/* 직접 입력 버튼 - 맨 아래로 이동 */}
+            {!isInactive && !addedCustomOption && (
+              <div
+                className="w-full py-4 px-5 relative rounded-[12px] border border-gray-200 bg-white hover:border-blue-200 hover:bg-blue-50/30 transition-all cursor-pointer"
+                onPointerDown={() => {
+                  if (!isCustomInputActive) {
+                    activateCustomInput();
+                  }
+                }}
+                onClick={() => {
+                  if (!isCustomInputActive) activateCustomInput();
+                }}
+              >
+                {/* 항상 렌더되는 입력창: iOS 포커스 제한 우회 */}
+                <div className="relative" onClick={(e) => e.stopPropagation()}>
+                  <input
+                    ref={customInputRef}
+                    type="text"
+                    value={customInputValue}
+                    onChange={(e) => setCustomInputValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && customInputValue.trim()) {
+                        e.preventDefault();
+                        onOptionToggle(customInputValue.trim(), message.id);
+                        setAddedCustomOption(customInputValue.trim());
+                        setCustomInputValue('');
+                        setIsCustomInputActive(false);
+                      } else if (e.key === 'Escape') {
+                        setIsCustomInputActive(false);
+                        setCustomInputValue('');
+                      }
+                    }}
+                    placeholder="원하는 조건을 입력하세요"
+                    className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
+                      ${isCustomInputActive ? 'opacity-100' : 'opacity-0'}`}
+                    style={{ pointerEvents: isCustomInputActive ? 'auto' : 'none' }}
+                  />
+                  {/* 버튼 오버레이 */}
+                  {!isCustomInputActive && (
+                    <div className="absolute inset-0 flex items-center gap-2">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
+                        <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      <span className="text-[16px] font-medium text-gray-600">직접 입력하기</span>
+                    </div>
+                  )}
+
+                  {/* 입력 액션 버튼 */}
+                  {isCustomInputActive && (
+                    <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                      <button
+                        onClick={() => {
+                          setIsCustomInputActive(false);
+                          setCustomInputValue('');
+                        }}
+                        className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
+                      >
+                        취소
+                      </button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          if (customInputValue.trim()) {
+                            onOptionToggle(customInputValue.trim(), message.id);
+                            setAddedCustomOption(customInputValue.trim());
+                            setCustomInputValue('');
+                            setIsCustomInputActive(false);
+                          }
+                        }}
+                        disabled={!customInputValue.trim()}
+                        className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                          ${customInputValue.trim()
+                            ? 'bg-gray-900 text-white'
+                            : 'bg-gray-100 text-gray-400'}`}
+                      >
+                        추가
+                      </motion.button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
 
@@ -5132,7 +5128,7 @@ function MessageBubble({
                     );
                   });
                 }}
-                className={`flex items-center justify-between gap-2 h-[34px] px-3 rounded-lg transition-all duration-200 mb-2 ${
+                className={`flex items-center justify-between gap-2 h-[40px] px-3 rounded-lg transition-all duration-200 mb-2 ${
                   showComparisonOnly
                     ? 'bg-blue-50 border border-blue-100'
                     : 'bg-gray-50 border border-gray-100'
@@ -5154,10 +5150,10 @@ function MessageBubble({
                       ease: "easeInOut"
                     }}
                   />
-                  <span className={`text-[14px] font-semibold transition-colors whitespace-nowrap ${
+                  <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
                     showComparisonOnly ? 'text-blue-500' : 'text-gray-600'
                   }`}>
-                    AI 비교표로 보기
+                    비교표로 보기
                   </span>
                 </div>
                 <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0 ${

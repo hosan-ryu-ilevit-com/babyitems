@@ -1,5 +1,5 @@
-# 세션: 20260123_020429_b0rv
-> 시작: 2026-01-23T02:04:29.673Z
+# 세션: 20260126_032042_8hkx
+> 시작: 2026-01-26T03:20:42.949Z
 > 카테고리키: 분유
 > 카테고리: 분유
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유 시장 현황
-- 인사이트: 국내 분유 시장은 출산율 반등과 MZ세대 부모층의 프리미엄 분유 소비 증가에 힘입어 장기 침체에서 벗어나고 있습니다. 2022년 3045억 원 규모였던 시장은 1인당 소비 단가 상승으로 새로운 성장 동력을 얻고 있으며, 국내외 브랜드 간 경쟁이 심화되고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYmtAPFuuvAxvT4mam778EGxF8JU7ye5MNZA0oU6wJZ7vhBtXMrWVMKumMsD_5NNr8EA1WWrKT6dPAOK1-bmCymxFxbSwNAmVwGI__wuAHGKv-rwt3sbmFOHSuNq3zC5W0CEQ7WjWN73UFS4tQsuMkkw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTI5whhyDALXpb3RBZdfZy9p1V9Mg03XRD97agsGX3PBV4PYkYy0ZWMqAsVrJybpPdBHIYzwnN9ajw5xvQZBMkxWpMVpj1raCmey3ax_L-blLqLA-2Ls9SZ75Fml37CyQ5qeogON8XPWBZDJbJW6RjrtqHD_14D4K7jUGCsp2eWjW03YBI2Rjqw64=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0YaydyMNPuG0S1nl23abSt_Q8ERjCc8I0u1F0SqTvLFDNzUPNzVpoeScUKq9-CrOwgDFMrTy2J1sTqLqOGT5WNSj8NcnCBwWgGGVaJBIIYSFIfCtVy8rx7JK9es5xFNrR-uR8vCPNt5dC1BocsF7EWwi_kirJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw7ZBlZ_IuoizWpCu8v6pjaMqN2XCERccGtbYENBOnLdCbWU5QWGuNT-Ko-0zSJOP3rVd0CAvrSbN9CWpyauwnwcgkwgTceTthNjA3EP5u0cstOD96L9UWsT8gBkGsxRXzE-DjVEPFhZXKgan1sjgTADxQqjPedG3nsi6N-8VmOj-QTXsCW97sVus=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUl9avoxEa5JstTwI_JDD5MWniK5y8XnS4YnOQYMWkBgfrnd6vtm9bJZPbCNbq5ORbb2Y8tYI88BcnZH5et5iwgTB8p-Mbdhgy6CXi1ZGN__vK242KqlY9_t-ptEt3WHUTe7xJhhM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyZb4dre0B2Q17rHhCxN8GSBo7cVBfslGH5Esfoa--gATTMXVr_MUG2UOFU1fcdIp_TeMpPIld1Eq2Bo76Rx2KIFEY1_LeDRJ_QhDnOgQkAc3X0IhhZkDGPRQF2adJw_BmKeIASCpHX-E-HN0bUkH0Ig==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv8Q9QdbkWMZ7RdWqGg8DI_oo9856xKEhKwBlPliTCx0okFd-5z0nkZB3DxGN2xu6kM6cApMvoTZcI5kGwvS7E93cIiluSGiakWgSH4yDFlg3VzRutCJABIcHCAX5_4uQu3UFz1aiRb2OtdXI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdcJ-fSq8-BSZdj4JHK_XQWa2yt2xMMcvg5h04lWrrdYOQW36nmDrhd6v4shpTNeyir9UvFU_RwzwOjzqC1lHKP9IzVz8h19DdXzfD345g4kj8r66EPJgtaPWkilvW6e6dB9GCu5o7gQ1WA3leUfIfVGIXTjfS
+- 인사이트: 국내 분유 시장은 출산율 하락으로 인해 축소세를 보여왔으나, 최근 출생아 수 증가와 함께 반등의 조짐을 보이고 있습니다. 매일유업, 남양유업 등 국내 기업들이 시장 점유율을 높이며 경쟁하고 있으며, 수입 브랜드들도 영토 확장에 나서고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDfNenGMkmWNkJdDFqhsiMP40JMEhM75RhJaNQjH6rZig5SyvQXC4EcFp0xWuuuL1Kn5deP-zrmn7pyVxgeml_UInxphWyZtYXHxEC0W1ozJdOgPUaZlDeL6sDnQRVkfwTTfOfT3pIylccQoIfB_Pl5w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE77RrWRlJYrmXfL1iZTWFLt_yYYES51-koRfj_COrJoQHysl0HgY-b6meJYX0IgGEGvg41Q5ki8sgM2cS_72qM9Nf2mcpKY7_mybQ8Gcib7WLE2mzdGKPgss7fuAsQ01MxG54H5RjSj8GpZ5sJaV7OO8A8JskWjI9lmCNGE3Ey7xzCUirz5Q2sNxY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhh_egApf1CR2vyGRW0VyHzqm6aRdZK7quyGEKTf_7e4muwY01SpkPEQsnDozMe4w7m0vKZgODnx7_x9WhUg9kWg5BiLNDBx93nl4ukxfo-mlcZGgIJOGpnyLVd9HCg4q6uy5FtA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGE-t0mekckA0qu3nzyTD4e5LRuGWfI6FW8ZdQE7R6fzBoBfU6tbdeaRItPQ_0x_gI74IcrxS8l7A9-8gNoODXMfeHCG1jeYlSZ5TAc3XbmNKiImGd8T0YtNgGHgFsPQSKunE0t0knEcRkJVWZEuG8B_vWoC9BZVfu9WZTGGIiehMCFYBZLhSaPaCc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv5DUHikpoBZ6WPUXJpXBtLnhdXqRU-_ccoMGpsjDOyO6n1UKE8nPMOsAYomxi9PRKqgpH9vhhBeKrXC4winyWDSxK6MoikLpPzFP7thLb-ktm5qI0Edzr8kkLrD7O4Cw6pmJO3rc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrLeHVXqU9-iPhLbEVGK8N2vrZQ9Q4OTE1nuO8Bfk-e5qPoakWvLmTOQhhlDsW8tzKhRhckGRcPFmtH_fHab85ok9-ox0UaO97hUeiUDgkBr8BmnS7lSxvVhY_fDQF1xJ-IgqSBvXsMRlvkbLimJoShw==
 
 ---
 
@@ -16,12 +16,9 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주세요. | 6~11개월, 12~24개월 |
-| 선호하는 분유 브랜드가 있으신가요? | Hipp (힙), 매일유업, 일동후디스 |
-| 어떤 종류의 분유를 찾으시나요? | 산양 분유, 일반 분유 |
-| 유기농 분유에 대한 선호도가 있으신가요? | 유기농 선호 |
-| 분유 예산은 어느 정도로 생각하세요? (평균 약 6만 8천원, 4만 3천원 ~ 8만 9천원대가 가장 많아요) | 4만 3천원 ~ 8만 9천원대, 4만 3천원 이하 |
-| __avoid_negatives__ | 과거 분유 안전성 이슈 때문에 혹시나 하는 마음에 걱정돼요,프리미엄 제품으로 인식되어 혹시나 품질 관리가 철저하지 않을까 염려돼요 |
+| 아기의 현재 월령이 어떻게 되나요? | 0~5개월, 6~11개월 |
+| 아기에게 특별히 고려해야 할 영양이나 소화 관련 요구사항이 있나요? | 특별한 요구사항 없음, 소화/알레르기/변비/토함 완화 |
+| 분유 선택 시 특별히 중요하게 생각하는 영양 성분이 있나요? | A2 단백질, 산양유 |
 
 ---
 
@@ -61,8 +58,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 과거 분유 안전성 이슈 때문에 혹시나 하는 마음에 걱정돼요
-- 프리미엄 제품으로 인식되어 혹시나 품질 관리가 철저하지 않을까 염려돼요
+(아직 선택 없음)
 
 ---
 

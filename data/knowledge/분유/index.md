@@ -1,24 +1,26 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T02:04:23.490Z
+> 마지막 업데이트: 2026-01-26T03:20:36.749Z
 > 분석 상품: 20개 | 분석 리뷰: 45,514개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄 분유 소비 증가
-- 수입 유기농 분유 시장 점유율 확대
-- 성인용 분유 시장 성장
+- 프리미엄화 가속
+- 수출 증대
+- 기능성 및 특수 분유 개발
 
 ### 구매자 만족 포인트
-- ✓ 프리미엄 성분 강화
-- ✓ 소화 용이성
-- ✓ 수출 확대
+- ✓ 모유 대체 영양 공급
+- ✓ 육아 부담 분산
+- ✓ 정확한 섭취량 확인
+- ✓ 다양한 영양 성분 강화
 
 ### 주의해야 할 단점
-- ⚠ 수입 분유 경쟁 심화
-- ⚠ 안전성 우려 (과거 사례)
-- ⚠ 높은 가격대 (프리미엄 제품)
+- ⚠ 모유와 영양 구성 차이
+- ⚠ 분유 선택의 어려움
+- ⚠ 분유 제조 및 보관 주의 필요
+- ⚠ 가격 부담
 
 ### 가격대 인사이트
 
@@ -240,11 +242,9 @@
 ---
 
 ## 📊 데이터 출처
-- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYmtAPFuuvAxvT4mam778EGxF8JU7ye5MNZA0oU6wJZ7vhBtXMrWVMKumMsD_5NNr8EA1WWrKT6dPAOK1-bmCymxFxbSwNAmVwGI__wuAHGKv-rwt3sbmFOHSuNq3zC5W0CEQ7WjWN73UFS4tQsuMkkw==)
-- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTI5whhyDALXpb3RBZdfZy9p1V9Mg03XRD97agsGX3PBV4PYkYy0ZWMqAsVrJybpPdBHIYzwnN9ajw5xvQZBMkxWpMVpj1raCmey3ax_L-blLqLA-2Ls9SZ75Fml37CyQ5qeogON8XPWBZDJbJW6RjrtqHD_14D4K7jUGCsp2eWjW03YBI2Rjqw64=)
-- [sphericalinsights.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0YaydyMNPuG0S1nl23abSt_Q8ERjCc8I0u1F0SqTvLFDNzUPNzVpoeScUKq9-CrOwgDFMrTy2J1sTqLqOGT5WNSj8NcnCBwWgGGVaJBIIYSFIfCtVy8rx7JK9es5xFNrR-uR8vCPNt5dC1BocsF7EWwi_kirJ)
-- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw7ZBlZ_IuoizWpCu8v6pjaMqN2XCERccGtbYENBOnLdCbWU5QWGuNT-Ko-0zSJOP3rVd0CAvrSbN9CWpyauwnwcgkwgTceTthNjA3EP5u0cstOD96L9UWsT8gBkGsxRXzE-DjVEPFhZXKgan1sjgTADxQqjPedG3nsi6N-8VmOj-QTXsCW97sVus=)
-- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUl9avoxEa5JstTwI_JDD5MWniK5y8XnS4YnOQYMWkBgfrnd6vtm9bJZPbCNbq5ORbb2Y8tYI88BcnZH5et5iwgTB8p-Mbdhgy6CXi1ZGN__vK242KqlY9_t-ptEt3WHUTe7xJhhM=)
-- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyZb4dre0B2Q17rHhCxN8GSBo7cVBfslGH5Esfoa--gATTMXVr_MUG2UOFU1fcdIp_TeMpPIld1Eq2Bo76Rx2KIFEY1_LeDRJ_QhDnOgQkAc3X0IhhZkDGPRQF2adJw_BmKeIASCpHX-E-HN0bUkH0Ig==)
-- [yugacrew.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv8Q9QdbkWMZ7RdWqGg8DI_oo9856xKEhKwBlPliTCx0okFd-5z0nkZB3DxGN2xu6kM6cApMvoTZcI5kGwvS7E93cIiluSGiakWgSH4yDFlg3VzRutCJABIcHCAX5_4uQu3UFz1aiRb2OtdXI=)
-- [ibabynews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdcJ-fSq8-BSZdj4JHK_XQWa2yt2xMMcvg5h04lWrrdYOQW36nmDrhd6v4shpTNeyir9UvFU_RwzwOjzqC1lHKP9IzVz8h19DdXzfD345g4kj8r66EPJgtaPWkilvW6e6dB9GCu5o7gQ1WA3leUfIfVGIXTjfS)
+- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDfNenGMkmWNkJdDFqhsiMP40JMEhM75RhJaNQjH6rZig5SyvQXC4EcFp0xWuuuL1Kn5deP-zrmn7pyVxgeml_UInxphWyZtYXHxEC0W1ozJdOgPUaZlDeL6sDnQRVkfwTTfOfT3pIylccQoIfB_Pl5w==)
+- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE77RrWRlJYrmXfL1iZTWFLt_yYYES51-koRfj_COrJoQHysl0HgY-b6meJYX0IgGEGvg41Q5ki8sgM2cS_72qM9Nf2mcpKY7_mybQ8Gcib7WLE2mzdGKPgss7fuAsQ01MxG54H5RjSj8GpZ5sJaV7OO8A8JskWjI9lmCNGE3Ey7xzCUirz5Q2sNxY=)
+- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhh_egApf1CR2vyGRW0VyHzqm6aRdZK7quyGEKTf_7e4muwY01SpkPEQsnDozMe4w7m0vKZgODnx7_x9WhUg9kWg5BiLNDBx93nl4ukxfo-mlcZGgIJOGpnyLVd9HCg4q6uy5FtA==)
+- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGE-t0mekckA0qu3nzyTD4e5LRuGWfI6FW8ZdQE7R6fzBoBfU6tbdeaRItPQ_0x_gI74IcrxS8l7A9-8gNoODXMfeHCG1jeYlSZ5TAc3XbmNKiImGd8T0YtNgGHgFsPQSKunE0t0knEcRkJVWZEuG8B_vWoC9BZVfu9WZTGGIiehMCFYBZLhSaPaCc=)
+- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv5DUHikpoBZ6WPUXJpXBtLnhdXqRU-_ccoMGpsjDOyO6n1UKE8nPMOsAYomxi9PRKqgpH9vhhBeKrXC4winyWDSxK6MoikLpPzFP7thLb-ktm5qI0Edzr8kkLrD7O4Cw6pmJO3rc=)
+- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrLeHVXqU9-iPhLbEVGK8N2vrZQ9Q4OTE1nuO8Bfk-e5qPoakWvLmTOQhhlDsW8tzKhRhckGRcPFmtH_fHab85ok9-ox0UaO97hUeiUDgkBr8BmnS7lSxvVhY_fDQF1xJ-IgqSBvXsMRlvkbLimJoShw==)
