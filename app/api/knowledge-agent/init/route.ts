@@ -36,7 +36,7 @@ import { getQueryCache, setQueryCache } from '@/lib/knowledge-agent/cache-manage
 import { fetchReviewsBatchParallel, type ReviewCrawlResult } from '@/lib/danawa/review-crawler-lite';
 
 // Supabase 캐시 (프리페치된 데이터)
-import { getProductsFromCache, getReviewsFromCache, getFiltersFromCache } from '@/lib/knowledge-agent/supabase-cache';
+import { getProductsFromCache, getReviewsFromCache, getFiltersFromCache, getCategoryInfo } from '@/lib/knowledge-agent/supabase-cache';
 
 // Gemini 헬퍼
 import { callGeminiWithRetry } from '@/lib/ai/gemini';
@@ -2410,16 +2410,21 @@ export async function POST(request: NextRequest) {
         };
 
         try {
+          // 카테고리 정보 조회 (product_count 가져오기)
+          const categoryInfo = await getCategoryInfo(categoryName);
+          const dbProductCount = categoryInfo?.productCount || 120;
+          console.log(`[Init] Category product_count from DB: ${dbProductCount}`);
+
           // 초기 이벤트 전송
-          send('init', { categoryKey, categoryName, timestamp: Date.now() });
+          send('init', { categoryKey, categoryName, timestamp: Date.now(), productCount: dbProductCount });
 
           // 수집된 상품 저장
           let allProducts: DanawaSearchListItem[] = [];
           let searchUrl = '';
           let wasCached = false;
 
-          // UI 표시용 랜덤 개수 (110~115)
-          const randomDisplayCount = 110 + Math.floor(Math.random() * 6);
+          // UI 표시용: DB의 product_count 사용
+          const displayProductCount = dbProductCount;
 
           // Phase 1: 웹검색과 상품 크롤링 병렬 실행
           const phase1Start = Date.now();
@@ -2478,7 +2483,7 @@ export async function POST(request: NextRequest) {
               if (isFirstBatchComplete && !firstBatchComplete) {
                 firstBatchComplete = true;
                 send('first_batch_complete', {
-                  count: allProducts.length,
+                  count: displayProductCount,  // DB의 product_count 사용
                   message: '실시간 인기상품 분석 완료',
                 });
               }
@@ -2500,7 +2505,7 @@ export async function POST(request: NextRequest) {
                     specSummary: p.specSummary,
                     danawaRank: p.danawaRank || null,
                   })),
-                  total: Math.min(allProducts.length, randomDisplayCount), // UI 표시용 랜덤 개수
+                  total: Math.min(allProducts.length, displayProductCount), // UI 표시용: DB product_count
                   isComplete,
                 });
               }

@@ -283,6 +283,56 @@ export async function getPricesFromCache(
 }
 
 // ============================================================================
+// 카테고리 정보 조회
+// ============================================================================
+
+export interface CategoryInfo {
+  categoryName: string;
+  productCount: number;
+  crawledAt: string | null;
+}
+
+/**
+ * knowledge_categories 테이블에서 카테고리 정보 조회
+ * @param categoryName 카테고리명 (검색 키워드)
+ * @returns 카테고리 정보 (product_count 포함)
+ */
+export async function getCategoryInfo(
+  categoryName: string
+): Promise<CategoryInfo | null> {
+  try {
+    const { data, error } = await supabase
+      .from('knowledge_categories')
+      .select('query, product_count, crawled_at')
+      .eq('query', categoryName)
+      .single();
+
+    if (error) {
+      if (error.code !== 'PGRST116') {
+        console.warn(`[KnowledgeCache] 카테고리 정보 조회 실패:`, error.message);
+      }
+      return null;
+    }
+
+    if (!data) {
+      console.log(`[KnowledgeCache] 카테고리 정보 없음: "${categoryName}"`);
+      return null;
+    }
+
+    console.log(`[KnowledgeCache] 카테고리 정보: "${categoryName}" - ${data.product_count}개 상품`);
+
+    return {
+      categoryName: data.query,
+      productCount: data.product_count || 120,
+      crawledAt: data.crawled_at || null,
+    };
+  } catch (error) {
+    console.error(`[KnowledgeCache] 카테고리 정보 조회 에러:`, error);
+    return null;
+  }
+}
+
+// ============================================================================
 // 필터 캐시 조회
 // ============================================================================
 

@@ -1,14 +1,14 @@
-# 세션: 20260126_055911_q0gj
-> 시작: 2026-01-26T05:59:11.227Z
-> 카테고리키: 트라이크
+# 세션: 20260126_073430_0m33
+> 시작: 2026-01-26T07:34:30.180Z
+> 카테고리키: 트라이크 유모차
 > 카테고리: 트라이크 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 트라이크 유모차 시장 현황
-- 인사이트: 트라이크 유모차 시장은 도시화 증가, 가처분 소득 증가, 어린이 안전 및 편의성에 대한 인식 증대에 힘입어 꾸준히 성장하고 있습니다. 특히 프리미엄 기능과 다기능성을 갖춘 제품에 대한 수요가 높습니다. 온라인 채널의 성장은 소비자들이 다양한 제품을 비교하고 구매할 수 있는 기회를 제공하며 시장 확대에 기여하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQtZ6vFMYsus6us2PirZEGGb4a7suB_-gusOn3n0LGGxGjVYIi0OcqR0pJd8mv3HQibCuj-kcIfB-RyuUWorWE4j3bXKQu1yaG1VfiLr0J9sOPjmM0fUkxK6vdhzYol1lP34JwETpaqQbIFQqKuq2mciZ1Xb_SLi4yfxZRKpnIZGhXj3zLhT0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFI0m4uhZp9OT9vRH57hLVyTFy_ajOy7SavPN_iAVC94jj2LeSOgO-HV1tC_razJwXd4I8k8pj6nWQ_ewWXWziFI-zeCUP7ju2KtRsHtFkb-vrV8_KsebaaUDE3Xzpk6gWsEEcJvEBF1hZSn9ie-lqaafsLfTkOJB3u-Qv8KT5aOCo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEixu63_JsPYephQ_5BajFJk6b-YzdnXYSrbCfP5j4zjObUtOTC6RWctLGiSCmI2LRHZVyp1CWw_MsYSmFD9amNKNibGnet0gm-vIx3P55dts-tTpVMiPr_quvhdpbfgWMcLW_9rLNScRv6fb_5pl2xMGYOOVlgw2U-nMzGzQa68qk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlo35kmdFt_3i1RziH1XrdNxkSeqEQOBT74Or22aO4XQYA1Ql2rL40V0VisTf2qJlJt5S7D5cN6cD0mLvylLDSoybLq3pjH_-0J5McSYXuCMz5qgLenyVzGbtuegzyJLDeGuef89FFMWtfsDaJmNo3feREk-lJjNP_HzT0B1ptmYaTn0w_tehrayzE44yeCJdDSku7z6SFqrs4uPZKrECjP6R36GJ-KyS1LUJV7y7pXZESj3FHb6qMianToZktqB2TLJ2YyJ2GscW_VInSaxUMfxa1uL_52RRGv4AMLIs6FXjZbQiJLvTD7n-X_r_T-KY0jKI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEiATo9v3MUqprPw-0sBdO5avTHgcZRAtqLIiepq287dyGZqhsZtptjg9Z5ESenXRj--2GfF8LiLbtWGbY1wkKBCUrKJkCW7tC4mi9uHNnDcoSEs5Oh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXAR0RKmFj48qIM1adyvym62bl_uDxSpkKcJhOMymCaIgwlErFs4vpeyAj_5osb1EN-2cHpoYAdOd39yh_CHfcQcaq-LqkUGsIJj5uebU5fz5D7VDmuc5OIDapU6iIml3Wb2DZEn-DaUH4mLqL0xuncKiUmFWbBrLSug==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_3IylAv92NOP5PMGrqThBJZOFy1Jat7sukQtB2Ioi2iIxX2Rji8uC6sQKF_NlIeO49wSSSXipgn9ectMolz8k8vJeIXFkLPdQmy1fqJK5pgoqBQlMgD2rt1SQ7YK4K4acJnsjdZI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF27m4aKEqv_JiQh43YdYr6Yus2Msg-kBl37OC_DG06FfWoWh1e1sgTEtByr8c7FqwUjltth0POuKaLWQp0Juviwuo6hpHSMmCLZ9y5HNYhsN3SYt_pmyjhm2C_EU2IeW0JCFZ-DcU=
+- 인사이트: 트라이크 유모차 시장은 도시화 증가, 가처분 소득 증가, 어린이 안전 및 편의성에 대한 인식 증대에 힘입어 꾸준히 성장하고 있습니다. 특히 프리미엄, 다기능, 스마트 기술이 접목된 제품들이 인기를 얻고 있으며, 휴대성과 편의성을 갖춘 경량 트라이크 유모차에 대한 수요도 높습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7x0zjlywLGrix4brMCCpd_AKFp8KLwOpcujiji4dDYIgvXxqNKX8dsUSid1B9QyNQXT9ekf7-4z01IcRwJChH-0BlmWAVRyimLbfL8ccqcHsrZYPacVYAG-n38l_-DiQUvVTc7EBVdJATDi4l9GbIKtjifvaikl4WS1YuxesLonE4F5B02tLg, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4Z4TXsNZkLkJ8wGkcxw31mLWbw2RkgC9yH-YjZdOjfrg6UaosQ3pVfmFG6zMbgyus-B8fJalFWMkN89JXt2ayXRTgE5Z4yvHZTQVrTdrSDRXWe34EX-ynejquc_A0x3Z1uZA3uyQbU-kXkS4Q4LrXjzit_rIsy2Zpd-ZmF4uGjt3d, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZzGndo6VcEg8tD5XsRieyNmTDEoBmoVSG44eTx6tU6zZJkX9yAzABamFrMoA_00VXapd3IqJDT2MGEx-VpQHLcZMJiTuwkZqYrVm3nPgQxJIAz2hH7NN17bymHDl41vnKvE-PQ0nRevyvHlfSu1Tm_yG6Uj-lKA83TY1EYgbzbzBtVR9E0ZstN2jbpiPY7XCX171KCi5TNMO_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTHm9y6ZgPrNO0yelddLMaUT0017b9K3yiyoJi9PtPIQWiAi9DPBGIezi35Li6uFLpspMvBxQyOFVh-5Foe6by_IJ0mFgIWi-74Rr490l27LJbrX5bKNrn3oFFBur34lXYwuU87KxE-kODMtFIaAE75_zulD6WR5WbvevG-cWdBY1FIlfZWz64LAKZrKIA7r3stferOQrNQujq0cJsH3VRlAveAWFd8ALbHNWMYf4afcVLX9RU8u2N, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpbdQ3Jnr0o6bLt0mHy9IvAEexbbjH5bTxwPw1yHP70shbLs7jUplVisZvepp4YaAjOfTZK4EdRMmNv32TyxaseFY6S1MCjbzjVGxE4yQb8pr_7TdpwOQ_Ni3jglI_UNdRQT9zSZfimUPh_uH0a2xTtedMT0IbEoP8TwFVguHAEuDp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLdMU1_w80apDcux_a2LMFiJLY7FbwzVOlY6XwQNQpWQIXQPBVwjKkr7AwHEmlEsZqByknJEi2qbgA6p9C3u5qpiakm0T7162GhJ2kBoBWcjCUFgyYtpKX_P77CUyWuq7kFe6oyQM0eHI6iTEwtobq0mUBtc5nnZaYfiW0b-_lq3dV3dCxpWmr0BfnwQkZ2fg=
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이의 개월 수를 알려주시겠어요? (트라이크 유모차는 연령별 사용 편의성이 달라요!) | 6개월 ~ 36개월 |
-| 트라이크 유모차를 어떤 형태로 주로 사용하고 싶으신가요? | 유모차 단독 사용 |
-| 휴대 및 보관 편의성은 어느 정도가 중요하신가요? | 매우 중요 (가볍고 한 번에 접힘) |
-| 특별히 선호하는 브랜드가 있으신가요? | 에이블, 베이블퓨어리 |
-| 예산은 어느 정도로 생각하세요? (평균 21만 6천원, 13만원~28만원대가 가장 많아요) | 13만원 이하, 13만원 ~ 28만원 |
-| __avoid_negatives__ | 한 번에 간편하게 접히지 않으면 외출 후 보관이 번거로울 것 같아요,부피가 커서 대중교통 이용 시 다른 승객에게 불편을 줄까 봐 걱정돼요,집에 보관할 공간이 넉넉하지 않은데,부피가 커서 부담스러울 것 같아요 |
 
 ---
 
@@ -61,10 +55,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 한 번에 간편하게 접히지 않으면 외출 후 보관이 번거로울 것 같아요
-- 부피가 커서 대중교통 이용 시 다른 승객에게 불편을 줄까 봐 걱정돼요
-- 집에 보관할 공간이 넉넉하지 않은데
-- 부피가 커서 부담스러울 것 같아요
+(아직 선택 없음)
 
 ---
 

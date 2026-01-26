@@ -1524,12 +1524,14 @@ export default function KnowledgeAgentPage() {
     // UI 흐름 제어 (비동기) - 미리 생성된 Promise 사용
     const driveUIFlow = async () => {
       // 1. 인기상품 분석 대기
-      await stepPromises['product_analysis'];
+      const productAnalysisResult = await stepPromises['product_analysis'] as { count?: number };
+      // DB의 product_count 사용 (first_batch_complete 이벤트에서 전달됨)
+      const displayCount = productAnalysisResult?.count || localProducts.length;
       updateStepAndMessage('product_analysis', {
         status: 'done',
         endTime: Date.now(),
-        analyzedCount: localProducts.length,
-        thinking: `${localProducts.length}개 상품 분석 완료`,
+        analyzedCount: displayCount,
+        thinking: `${displayCount}개 상품 분석 완료`,
       });
       await new Promise(r => setTimeout(r, 200));
 
@@ -1618,7 +1620,7 @@ export default function KnowledgeAgentPage() {
       // 임시 상태 설정 (complete 이벤트 전에 미리 UI 업데이트)
       setIsLoadingComplete(true);
       const tempSummaryData = {
-        productCount: localProducts.length,
+        productCount: displayCount,  // DB의 product_count 사용
         reviewCount: localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
         topBrands: [...new Set(localProducts.map((p: any) => p.brand).filter(Boolean))].slice(0, 5) as string[],
         trends: trendData?.trends || [],
@@ -1681,7 +1683,7 @@ export default function KnowledgeAgentPage() {
         console.log('[SSE] finalProducts danawaRank 샘플:', finalProducts.slice(0, 3).map((p: any) => ({ pcode: p.pcode, danawaRank: p.danawaRank })));
         
         const updatedSummary = {
-          productCount: finalProducts.length,
+          productCount: displayCount,  // DB의 product_count 유지
           reviewCount: completeData.marketSummary?.reviewCount || tempSummaryData.reviewCount,
           topBrands: completeData.marketSummary?.topBrands || tempSummaryData.topBrands,
           trends: completeData.trendAnalysis?.trends || tempSummaryData.trends,
