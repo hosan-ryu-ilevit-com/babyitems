@@ -1,5 +1,5 @@
-# 세션: 20260121_132449_jv5a
-> 시작: 2026-01-21T13:24:49.557Z
+# 세션: 20260126_085702_5a1m
+> 시작: 2026-01-26T08:57:02.835Z
 > 카테고리키: 주니어용
 > 카테고리: 주니어용 카시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 주니어용 카시트 시장 현황
-- 인사이트: 주니어 카시트 시장은 안전성과 편의성을 중심으로 성장하고 있으며, 다양한 브랜드와 가격대의 제품이 출시되고 있습니다. 특히 유럽 및 미국 안전 인증을 받은 제품들이 선호되는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-kgQ2JaYcG9GCa_azkCfJjP50fkH3z3fUyEP2vSWQw9tvJPQrptE5HujshQ_t72RBn7ywBtkld-eiyeaXojdheD0Ee2wkpcQV-Ac9g3SZkVyRJPLcqaRGm4WUGZB_RP-mzrsMiC7BKB8FSzXG6NbVJKiNgUvFchNRMG7i, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZXXljOygDs1P3OZh6qu0On3GI3BjC8h-DybcwkQ1cJlLn-nMK8ZiXXXFdUcwo1iprufh5Yco9cMXCw0IMH0cttn1l6IdGcdk_wgeb0bYyZ2Yy6IdQLWp0UbV6KbBdsbpkultzX2rLsCE81oLMiMp7BPNNI45vx8NiBtkykySX_4j8PAo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUuWRFRGbsmM8D3YDMPNMljPumHBkBhKsrNbjhurcFc24dIRjQVvHMFyuItanFvf06PNAWzKzUBCUsKgee7wjag4PRlRiHWepO8FfGY_wDqLH19TgKxrn-lVqg6rXYluqBFdL25A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGg6BzJz_z2DqToVxJxCObtfb-WL3FwiT9jVpPFbeSpUORgvldy790zVrBjhOR6nPf0PeiSiHCAk_BRGRnVIEFJOCOr2EjACFuYJr1acg93qJD95zNyV3cWK38DnGsLwi2q3kY2gArBpj2_54kkaQfDmDzyh_FEnqaI63hmYVFq-V07FCm6C28LDRnpSFpq9ys03ncYqA2DTJIKov1_PYnqR6H5z7rLE0CAh4rl2Fwds1iNvXdt5YhFMf3P7HLDapoEGvwmnQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEo7hGV62G2MakaaZLXhfCrSSvg6WkuwTTUU3UPTOoxaKEWX3xCX20VXCr3HP4iJ1-Q3xv89WrlzSsTPUiXyMAvKoyH0sHs0pxRaXpW9A8rxMeyVQxVVsZQucwi-jN5vyE1X5kwFl7Pt59jBsrlvXqoQrhXJC1Hn3KakBQKDJcdNxxs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMjrgUTKLzYkxxmPyPm8mFscTSl8HkIJ1VNMoEvA0ES41_AEiXF6iabS2NRI9HQ-K3dwe55qGAwgFQ7kL1bp0qJ7et8Wm3buFZNxojgM0pzjJGnsaQE0-u-aiMpPP-ZKUHCDjfcWwiK-YY_BprjTJ9Ad3TTjfbMBrSUizOmllCtIS8p7GnCsYNTKtsM4BFjTI=
+- 인사이트: 주니어 카시트는 일반적으로 만 5세부터 12세까지, 신체 사이즈 100~150cm, 최대 36kg까지 사용 가능하며, 성인용 안전벨트를 아이에게 맞게 착용하도록 돕는 역할을 합니다. 국내 카시트 시장은 해외보다 가격이 높고 종류가 획일적이라는 지적이 있으며, 안전성, 사용 편의성, 가격 등을 종합적으로 고려하여 선택하는 것이 중요합니다. 최근에는 ISOFIX 장착이 가능한 제품들이 인기를 얻고 있으며, 아이사이즈(i-size) 인증 제품들이 안전성을 높이 평가받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHq3L1E-r_xTRkwa2AI-8FriAfI20NuQXs-G91sR_tIk-lPjjHC455hK4FaoCgoj1B7KM1KOgKZ6PwHvvlK6lLECo1OtTs5KJc3GYg1UR-Gb6Nd20u-cB6oo1KnWr7V6e6jqFhA2RzmPQCKzHFzOe7vekXR-jSiUkiXafmULFtdp0Ac12pdNUq1HGkrb-7YZ7gzqZjng8xuFwoxYtm9g-tosI4cSM6zVZ3kIdNHzWyX0k8uCW53Xue_XlRKJtoT--J_iQCbo74=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGS-T_ilZr4h9ljLcHcLI0m9UfDWsvwWe2rRemM5O5xTNgjrtKJZPVGBvU7DCtcPdK73uuMK6bgdaDp5pbeOEmlGfoxkIZJmVPQOdjFiCU_I3rpim0YxjyO4jiAfIfKrP5xgLuUhNlAHuQWwhFyv0iCF8PpduW6Mv2bFwMtWdEZMFp4hkao3po8eM7ewNuKfze2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRd3_pF_PJJkGbkMhp2LFzf_oYbV9ooHDU7wrU0Zx899fJisabE3AYI8Yf-i2CxNOUXBqhaZww43g0blp82pQQTro8XyaHPhOc-fSfqnruLTozSegu2LIjaHi8MsdwbjSyLw5RTc5YrgzSOJkwSf5cCZwzq8p81DMmPgr05YxV8Au2IBVFnjpPEq4Q_0j3Mgb6GTCx
 
 ---
 
@@ -16,40 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 안전을 최우선으로 생각하신다면, 어떤 안전 인증 기준을 선호하시나요? | i-size (R129), KC 인증 |
-| 아이의 현재 키와 앞으로의 성장까지 고려하여 카시트를 선택하고 싶으신가요? | 현재 아이에게 딱 맞는 사이즈 |
-| 차량에 카시트를 설치할 때 어떤 방식을 선호하시나요? | ISOFIX (아이소픽스) |
-| 아이의 편안함과 카시트 사용 편의성 중 어떤 점을 더 중요하게 생각하시나요? | 편안함과 편의성 모두 중요 |
-| 예산은 어느 정도로 생각하세요? (평균 약 27만원, 15만원~35만원대가 가장 많아요) | 15만원 ~ 35만원, 15만원 이하 |
-| __avoid_negatives__ | ISOFIX 방식이라도 설치가 복잡하거나 단단하게 고정되지 않을까 봐 염려돼요,무게가 너무 무겁거나 부피가 커서 차량에 설치하거나 이동할 때 불편할 것 같아요 |
+| 아이의 연령 또는 체중은 어떻게 되나요? | 만 3세 ~ 6세 (15~25kg) |
+| 차량에 카시트를 어떻게 설치하시겠어요? | 상관없어요 |
+| 안전 인증 중 특별히 선호하는 기준이 있으신가요? | KC 인증 |
+| 혹시 선호하시는 카시트 브랜드가 있으신가요? | 브라이텍스, 조이, 다이치 |
+| 예산은 어느 정도로 생각하세요? (평균 29만원, 16만원~37만원대가 가장 많아요) | 16만원 ~ 37만원대, 43만원 이상 |
+| __avoid_negatives__ | 차량에 설치하는 과정이 복잡하거나 어려울까 봐 걱정돼요.,아이의 성장과 함께 오래 사용하기에 내구성이 떨어지지는 않을까 걱정돼요. |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 33개 (전체 33개 중)
+현재 후보: 37개 (전체 37개 중)
 
 ### 후보 상품
-1. SEEC 아이 폴드 아이사이즈 주니어 휴대용 카시트 - 238,213원 - ⭐4.9
-2. 브라이텍스 키드픽스 아이사이즈 일체형 주니어 카시트 - 483,900원 - ⭐5
-3. 조이 아이트릴로 FX 아이사이즈 주니어 카시트 - 171,820원 - ⭐4.7
-4. 브라이텍스 NEW 하이포인트 주니어 카시트 (ISOFIX) - 203,830원 - ⭐5
-5. 싸이벡스 솔루션 티 플러스 아이사이즈 주니어 카시트 - 608,000원 - ⭐5
-6. 다이치 브이가드 주니어 ISOFIX 시즌2 프리미엄 - 327,500원 - ⭐5
-7. 조이 아이트래버 시그니처 주니어 ISOFIX 카시트 - 256,500원 - ⭐5
-8. 브라이텍스 어드밴스픽스 프로 아이사이즈 토들러 주니어 카시트 (ISOFIX) - 609,780원 - ⭐5
-9. 조이 듀알로 주니어 카시트 (ISOFIX) - 169,100원 - ⭐4.8
-10. 폴레드 볼픽스 아이사이즈 i-Size 주니어 카시트 - 299,060원 - ⭐4.9
-11. 토드비 코쿤 G7 ISOFIX 주니어카시트 - 231,980원 - ⭐4.7
-12. 토드비 코쿤 엠플러스 ISOFIX 주니어 부스터카시트+헤드레스트 SET - 115,100원 - ⭐4.7
-13. 리안 주니어 부스터 카시트 - 30,000원 - ⭐5
-14. 브라이텍스 하이포인트 주니어 카시트 (ISOFIX) - 203,910원 - ⭐4.9
-15. 하이폴드 트랜스포밍 주니어 카시트 - 94,050원 - ⭐5
-16. 다이치 V가드 주니어 카시트 (ISOFIX) - 235,840원 - ⭐4.8
-17. 싸이벡스 솔루션 티 컴포트 아이사이즈 주니어 카시트 - 500,000원 - ⭐5
-18. 순성산업 제나 주니어 플러스 ISOFIX 카시트 - 262,000원 - ⭐4.8
-19. 조이 듀알로 시그니처 주니어 카시트 (ISOFIX) - 256,500원 - ⭐4.9
-20. 조이 듀알로 주니어 아이소픽스 카시트 ISOFIX 포르치니 - 169,100원 - ⭐4.9
+1. 다이치 블리바 이노픽스 주니어 (ISOFIX) - 83,600원 - ⭐4.8
+2. 폴레드 볼픽스 아이사이즈 i-Size 주니어 카시트 - 329,500원 - ⭐4.9
+3. 브라이텍스 키드픽스 아이사이즈 일체형 주니어 카시트 - 510,150원 - ⭐5
+4. 싸이벡스 솔루션 티 플러스 아이사이즈 주니어 카시트 - 608,000원 - ⭐5
+5. SEEC 아이 폴드 아이사이즈 주니어 휴대용 카시트 - 238,220원 - ⭐4.9
+6. 조이 듀알로 주니어 아이소픽스 카시트 ISOFIX 포르치니 - 169,290원 - ⭐4.9
+7. 토드비 코쿤 엠플러스 ISOFIX 주니어 부스터카시트+헤드레스트 SET - 117,570원 - ⭐4.7
+8. 조이 아이트릴로 FX 아이사이즈 주니어 카시트 - 156,180원 - ⭐4.7
+9. 리안 주니어 부스터 카시트 - 30,000원 - ⭐5
+10. 조이 아이트래버 시그니처 주니어 ISOFIX 카시트 - 270,000원 - ⭐5
+11. 다이치 브이가드 주니어 ISOFIX 시즌2 프리미엄 - 237,410원 - ⭐5
+12. 브라이텍스 어드밴스픽스 프로 아이사이즈 토들러 주니어 카시트 (ISOFIX) - 612,800원 - ⭐5
+13. 싸이벡스 솔루션 티 컴포트 아이사이즈 주니어 카시트 - 500,000원 - ⭐5
+14. 순성산업 제나 주니어 플러스 ISOFIX 카시트 - 280,000원 - ⭐4.8
+15. 조이 듀알로 주니어 카시트 (ISOFIX) - 169,290원 - ⭐4.8
+16. 브라이텍스 NEW 하이포인트 주니어 카시트 (ISOFIX) - 203,910원 - ⭐5
+17. 포브 보네떼 토들러 주니어 카시트 - 363,090원 - ⭐4.7
+18. 브라이텍스 키드픽스 M 아이사이즈 주니어 카시트 (ISOFIX) - 540,020원 - ⭐5
+19. 브라이텍스 하이포인트 주니어 카시트 (ISOFIX) - 203,910원 - ⭐4.9
+20. SEEC 아이사이즈 주니어 카시트 맥스 아이진[블룸핑크] - 359,100원 - ⭐5
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- ISOFIX 방식이라도 설치가 복잡하거나 단단하게 고정되지 않을까 봐 염려돼요
-- 무게가 너무 무겁거나 부피가 커서 차량에 설치하거나 이동할 때 불편할 것 같아요
+- 차량에 설치하는 과정이 복잡하거나 어려울까 봐 걱정돼요.
+- 아이의 성장과 함께 오래 사용하기에 내구성이 떨어지지는 않을까 걱정돼요.
 
 ---
 

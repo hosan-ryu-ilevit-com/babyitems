@@ -84,7 +84,7 @@ function getParentCategoryTab(categoryName: string): 'baby' | 'living' {
 // Types
 // ============================================================================
 
-type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' | 'negative_filter' | 'final_input' | 'result' | 'free_chat';
+type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'follow_up_questions' | 'balance' | 'negative_filter' | 'final_input' | 'result' | 'free_chat';
 
 // ============================================================================
 // Step Indicator Component (4단계 진행 표시 - recommend-v2 스타일)
@@ -93,7 +93,7 @@ type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' |
 const STEPS = [
   { id: 1, label: '카테고리 설정', phases: ['loading'] },
   { id: 2, label: '맞춤 질문', phases: ['questions', 'report'] },
-  { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'balance', 'negative_filter', 'final_input'] },
+  { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'follow_up_questions', 'balance', 'negative_filter', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
 ];
 
@@ -869,6 +869,14 @@ export default function KnowledgeAgentPage() {
   const [balanceAllAnswered, setBalanceAllAnswered] = useState(false); // 밸런스 게임 모든 질문 완료 여부
   const [balanceCurrentSelections, setBalanceCurrentSelections] = useState<Set<string>>(new Set()); // 현재 선택된 rule keys
   const [selectedNegativeKeys, setSelectedNegativeKeys] = useState<string[]>([]); // 단점 필터 선택된 rule keys (부모 컴포넌트에서 관리)
+
+  // 꼬리질문 (Follow-up Questions) 상태
+  const [followUpQuestions, setFollowUpQuestions] = useState<QuestionTodo[]>([]);
+  const [currentFollowUpIndex, setCurrentFollowUpIndex] = useState(0);
+  const [isGeneratingFollowUp, setIsGeneratingFollowUp] = useState(false);
+  const [followUpCustomInputActive, setFollowUpCustomInputActive] = useState(false);
+  const [followUpCustomInputValue, setFollowUpCustomInputValue] = useState('');
+  const followUpCustomInputRef = useRef<HTMLInputElement>(null);
 
   // AI Helper (뭘 고를지 모르겠어요) 상태
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
@@ -2201,10 +2209,121 @@ export default function KnowledgeAgentPage() {
       setPhase('hardcut_visual');
       // 자동 스크롤은 phase 변경 시 useEffect에서 처리됨
 
+      // 🆕 꼬리질문 생성 (백그라운드)
+      generateFollowUpQuestions(allProducts);
+
     } catch (error) {
       console.error('[V2 Flow] Error:', error);
     } finally {
       setIsTyping(false);
+    }
+  };
+
+  /**
+   * 꼬리질문 생성 (백그라운드)
+   * - 맞춤 질문 완료 후 사용자 응답 + 상품 데이터 기반으로 추가 질문 생성
+   */
+  const generateFollowUpQuestions = async (products: any[]) => {
+    if (products.length === 0) return;
+
+    console.log('[V2 Flow] Generating follow-up questions...');
+    setIsGeneratingFollowUp(true);
+    setFollowUpQuestions([]); // 초기화
+
+    try {
+      const res = await fetch('/api/knowledge-agent/generate-follow-up-questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryKey,
+          categoryName,
+          collectedInfo,
+          products,
+          reviews: reviewsData,  // 🆕 리뷰 데이터 전달
+          trendData: {
+            items: trendCons,
+            pros: [],
+            cons: trendCons,
+            priceInsight: '',
+          },
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success && data.hasFollowUpQuestions) {
+        setFollowUpQuestions(data.followUpQuestions);
+        console.log(`[V2 Flow] Generated ${data.followUpQuestions.length} follow-up questions`);
+      } else {
+        console.log(`[V2 Flow] No follow-up questions needed: ${data.skipReason || 'unknown'}`);
+      }
+    } catch (error) {
+      console.error('[V2 Flow] Follow-up questions error:', error);
+    } finally {
+      setIsGeneratingFollowUp(false);
+    }
+  };
+
+  /**
+   * 꼬리질문 답변 처리
+   */
+  const handleFollowUpAnswer = (answer: string, questionId?: string) => {
+    const currentQ = followUpQuestions[currentFollowUpIndex];
+    if (!currentQ) return;
+
+    console.log(`[Follow-up] Answer: ${currentQ.question} -> ${answer}`);
+
+    // collectedInfo에 추가 (기존 응답과 병합)
+    setCollectedInfo(prev => ({
+      ...prev,
+      [currentQ.question]: answer,
+    }));
+
+    // 메시지 상태 업데이트: 현재 질문 메시지를 finalized로 만들고 선택된 옵션 기록
+    setMessages(prev => prev.map(m => 
+      m.id === `followup-q-${currentFollowUpIndex}` 
+        ? { ...m, isFinalized: true, selectedOptions: [answer] } 
+        : m
+    ));
+
+    // 사용자 답변 메시지 추가
+    setMessages(prev => [
+      ...prev,
+      {
+        id: `followup-a-${currentFollowUpIndex}-${Date.now()}`,
+        role: 'user',
+        content: answer,
+        timestamp: Date.now(),
+      },
+    ]);
+
+    // 다음 질문으로 이동 또는 완료
+    if (currentFollowUpIndex < followUpQuestions.length - 1) {
+      const nextIndex = currentFollowUpIndex + 1;
+      setCurrentFollowUpIndex(nextIndex);
+      
+      // 다음 질문 메시지 추가
+      const nextQ = followUpQuestions[nextIndex];
+      setMessages(prev => [
+        ...prev,
+        {
+          id: `followup-q-${nextIndex}`,
+          role: 'assistant',
+          content: nextQ.question,
+          options: nextQ.options.map(o => o.label),
+          questionProgress: { current: nextIndex + 1, total: followUpQuestions.length },
+          typing: true,
+          timestamp: Date.now(),
+        }
+      ]);
+    } else {
+      // 모든 꼬리질문 완료 → 최종 추천으로
+      console.log('[Follow-up] All questions answered, proceeding to final recommend');
+      setPhase('hardcut_visual');
+      // 약간의 딜레이 후 최종 추천 실행 (UI 업데이트 대기)
+      setTimeout(() => {
+        handleFinalInputSubmit();
+      }, 100);
     }
   };
 
@@ -3468,6 +3587,12 @@ export default function KnowledgeAgentPage() {
     // 현재 활성화된 질문 찾기 및 확정 처리
     const activeMsg = [...messages].reverse().find(m => m.role === 'assistant' && (m.options || m.negativeFilterOptions) && !m.isFinalized);
     if (activeMsg) {
+      // ✅ 꼬리질문인 경우 handleFollowUpAnswer로 위임
+      if (activeMsg.id?.startsWith('followup-q-')) {
+        handleFollowUpAnswer(message);
+        return;
+      }
+
       // ✅ 피하고 싶은 단점 질문인지 확인하고 선택된 옵션들을 savedNegativeLabels에 저장
       // 메시지 ID가 'q_'로 시작하지 않으면 currentQuestion?.id 사용 (knowledge-agent 로직)
       const questionId = activeMsg.id?.startsWith('q_') ? activeMsg.id.slice(2) : (currentQuestion?.id || '');
@@ -4120,6 +4245,7 @@ export default function KnowledgeAgentPage() {
           {/* 하드컷팅 시각화 완료 시 버튼 및 채팅 바 */}
           {phase === 'hardcut_visual' && isHardcutVisualDone && !isTyping && (
             <div className="space-y-3">
+              {/* 메인 버튼: 최종 추천 결과 보기 */}
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -4136,6 +4262,46 @@ export default function KnowledgeAgentPage() {
                 </div>
                 <span className="text-[16px] tracking-tight">최종 추천 결과 보기</span>
               </motion.button>
+
+              {/* 꼬리질문 버튼 (있을 때만 표시) */}
+              {followUpQuestions.length > 0 && !isGeneratingFollowUp && (
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    setCurrentFollowUpIndex(0);
+                    setPhase('questions'); // follow_up_questions 대신 questions 페이즈 사용
+                    
+                    // 첫 번째 꼬리질문 메시지 추가
+                    const firstQ = followUpQuestions[0];
+                    setMessages(prev => [
+                      ...prev,
+                      {
+                        id: `followup-q-0`,
+                        role: 'assistant',
+                        content: firstQ.question,
+                        options: firstQ.options.map(o => o.label),
+                        questionProgress: { current: 1, total: followUpQuestions.length },
+                        typing: true,
+                        timestamp: Date.now(),
+                      }
+                    ]);
+                  }}
+                  className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-2xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-all"
+                >
+                  <ChatCircleDots size={18} weight="fill" className="text-blue-500" />
+                  <span className="text-[15px]">추가 질문 응답하기 ({followUpQuestions.length}개)</span>
+                </motion.button>
+              )}
+
+              {/* 꼬리질문 생성 중 표시 */}
+              {isGeneratingFollowUp && (
+                <div className="w-full py-3 text-center text-gray-400 text-sm">
+                  추가 질문 생성 중...
+                </div>
+              )}
 
               <div
                 className="relative flex items-end overflow-hidden"
@@ -4201,6 +4367,9 @@ export default function KnowledgeAgentPage() {
               </div>
             </div>
           )}
+
+          {/* 꼬리질문 Phase UI - 제거됨 (MessageBubble 통합) */}
+
 
           {/* 피하고 싶은 단점 선택 완료 버튼 */}
           {phase === 'negative_filter' && !isTyping && (
@@ -4760,6 +4929,9 @@ function MessageBubble({
 }) {
   const isUser = message.role === 'user';
 
+  // 꼬리질문 여부 확인
+  const isFollowUp = message.id?.startsWith('followup-q-');
+
   // 직접 추가 인라인 입력 상태
   const [isCustomInputActive, setIsCustomInputActive] = useState(false);
   const [customInputValue, setCustomInputValue] = useState('');
@@ -4896,7 +5068,9 @@ function MessageBubble({
              (!message.resultProducts || message.resultProducts.length === 0) &&
              (message.options || message.questionProgress) && (
               <div className="flex items-center justify-between mb-1 px-0.5">
-                <span className="text-[16px] font-semibold text-gray-400">구매 조건</span>
+                <span className="text-[16px] font-semibold text-gray-400">
+                  {isFollowUp ? '추가 질문' : '구매 조건'}
+                </span>
                 {message.questionProgress && (
                   <span className="text-[12px] font-semibold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-[6px]">
                     {message.questionProgress.current}/{message.questionProgress.total}
@@ -4952,7 +5126,13 @@ function MessageBubble({
                 selected === '상관없어요' || selected === '상관 없어요'
               );
 
-              return message.options.map((opt, i) => {
+              // 꼬리질문인 경우 옵션 리스트에 '상관없어요'가 없으면 추가 (UI용)
+              const displayOptions = [...message.options];
+              if (isFollowUp && !displayOptions.some(opt => opt === '상관없어요' || opt === '상관 없어요')) {
+                displayOptions.push('상관없어요');
+              }
+
+              return displayOptions.map((opt, i) => {
                 const isNotCareOption = opt === '상관없어요' || opt === '상관 없어요';
                 // 다른 옵션이 하나라도 선택되었는지 확인
                 const hasOtherOptionSelected = message.selectedOptions?.some(selected =>
@@ -5107,6 +5287,20 @@ function MessageBubble({
                   )}
                 </div>
               </div>
+            )}
+
+            {/* 선택 완료 버튼 제거 (꼬리질문에서는 '다음' 버튼 사용) */}
+            {!isInactive && !isFollowUp && message.selectedOptions && message.selectedOptions.length > 0 && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                onClick={() => {
+                  onFreeChat?.(message.selectedOptions!.join(', '));
+                }}
+                className="w-full py-4 bg-gray-900 text-white font-bold rounded-[12px] flex items-center justify-center gap-2 mt-2"
+              >
+                <span>{message.selectedOptions.length}개 선택 완료</span>
+              </motion.button>
             )}
           </motion.div>
         )}
