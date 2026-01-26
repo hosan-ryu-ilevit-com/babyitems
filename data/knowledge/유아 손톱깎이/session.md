@@ -1,12 +1,12 @@
 # 세션: 20260126_032756_eij0
 > 시작: 2026-01-26T03:27:56.142Z
-> 카테고리키: 유아 손톱깎기
-> 카테고리: 유아 손톱깎기
+> 카테고리키: 유아 손톱깎이
+> 카테고리: 유아 손톱깎이
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아 손톱깎기 시장 현황
+- 쿼리: 유아 손톱깎이 시장 현황
 - 인사이트: 
 - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGceUk7JHCpL6Qehu_EqgN8eI-ijomIqvOpOLkiyKLGXw9IZKAtbxChmR40tB_tgVolsuCHYMCxciaabHq75MZb_FH2hnCWRyOjy89AWlReB6BoSzYAj49_E03mFyj5ImRxs9GpClpYU8qq-MmIAq4WqiVl6AiizCVXg696aoCyBnfG2fO1zTohFaM60JU10obXVVCr99nOAhJDm_ZTwA_DzG_ICHzTDFM4iyTuXJlOWJ-GZ9ZPbvtuM_DobYDQF12xxaPghQc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMexJRNM83rTnfKZrY2C9o2ZDGwpq_zJNIw4eX57K-e9hIIKQ4qmeR868Pj47x-bMJDoDzA0CWin8GycpCVtTrWtnnuxO7U4YOXyRSS2M4Qk6ExcrzUPQXM1AMByowWg9Ee3Um5Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8S4cyyfym46HUlBBB-2IUfNfwWQ6lLleRN-4WeyWlj9VIrRUvLo5ZkC9p_RV7tIlyzQ0RfGVBU--X-HXt0qMhyAPLeExPOEm-FSIMZnNVQyKQANdxnR643ZKPFLz3hZjA9WabmxCKbm4UAZLZsCs-Od08jg2Bw-WPSsuR4XDUzxzc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtNtQc6sRMPz_kU4Zi-v0Y0-QiKf4zNsMzR3BHGnkxJAcFSI6mO6yyITfz3Uvd3W8X059UEDA_mN7nz8YqtoZY04GeB7aKgh0vItFp8tjx-riruoEJxfFM_0n7V8tKmIigJdV9tXEgZK4AvwgPls7-oAZFQmEN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERCN_cYEg2ec3_OHJWURX7F0-Y-8Et8t64IC7EIbV1dGFsOLzavhuxnD4KmzwZClYm35-RzINw70eZmc1sHQJq1NPny9xvofunIdqre25LTvKdSDGGQEeXDDeIeojIlWTQzZD6B_QadqjvROPhLAJeAG-aR0XUSGE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMbsdjxqEkmaCyy1MS6J27vBWljYD6yD69onTZDny8SO4Qd_iAPMblMwJJHor-ztnkogLvN3155DBWEKYLX3gm-rjjhxHONzM5cZpmiSBqXePCffW6IIRhvfJ2VFK3ILJC-BQjcx141xXjVVQHt5DvC26-aj4tQRghXjg6-B4f9spISQ==
 

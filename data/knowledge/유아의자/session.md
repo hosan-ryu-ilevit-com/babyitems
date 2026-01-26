@@ -1,5 +1,5 @@
-# 세션: 20260123_104214_we7a
-> 시작: 2026-01-23T10:42:14.389Z
+# 세션: 20260126_075834_vzk7
+> 시작: 2026-01-26T07:58:34.182Z
 > 카테고리키: 유아의자
 > 카테고리: 유아의자
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아의자 시장 현황
-- 인사이트: 유아의자 시장은 저출산 시대에도 불구하고 프리미엄화, 키즈테크, 캐릭터 IP, 글로벌 시장 진출 등의 트렌드와 함께 지속적으로 성장하고 있습니다. 특히 자녀를 위한 투자에 아낌없는 '텐포켓' 소비와 MZ세대의 프리미엄 및 편리미엄 경향이 맞물려 시장 규모가 확대되고 있습니다. 안전성과 친환경성이 강조되는 가운데, 디자인과 기능성을 갖춘 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw8PYEbuFQuNjGkcgQouWhaP8EP5LrrQ5rFKyIzNtLOhVQRhVgpMsAc-2EmVl4kvUtdyiT2ru6tvoFNZbAx6f_Zml6MgnYe01Ka3ByxCZ7iGY1P_kjairMmYWVfH65tvIA6_I_gbnF5eriMxsAb1Vc-9LAD3JrGQJBHtAqwhZ2GaWThJ9XHtxgrQUBpNBTNSEHyyG-euW0dfpKsXynZaG-XjnspwGkzfG0_TbPmWqy, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwerVv8wFy12mK4DnlcJgSWUiDntB1-kww2OP3cxfLX7539t4cCzLSeFSBZvPDwbATxHThTmCqOo7b2eiQPo_n9DiAkWqUwJxhOKyVBY_GJhVMBCFd6mwaYc5UOTAVzYiwOIxZ7DglqKL3EY8cHGX2wpeTwkF-ZkJxr4TcKSM5DzSPLcjVQg04varMzg-nW3tYAw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfizdYFORfkwunUf4yP6CeuS2AFWIXyd284EXFg3Jd3rHv-hJpScghZvUmXssqBkY-UWYejj5C-gNcITtp1BEhZo06nVlRPybyIWrxK-Czq6cvxDUrWPpUehdONiWjuNIaqGEop_A=
+- 인사이트: 유아의자 시장은 아동 발달 및 안전에 대한 관심 증가와 함께 꾸준히 성장하고 있습니다. 특히 친환경 소재와 지속가능성을 강조하는 프리미엄 제품이 MZ세대 부모들 사이에서 인기를 얻고 있으며, 키즈테크와 캐릭터IP를 활용한 제품들도 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKX9_wjDFoX8Vr9KwiboklqWj7NIy0-0Ty5oRgM2LhBPJDD5RfkIL413eOv5KHBwMnwByfT-zktNo8ZX6n558owI6nMI0qA7yZTaJ0K5ySEof1--3jNIn8fwVioRlDUX8omUzPYJ_DXvP3Y2Y0uHOPA9HHev3xl4tj6nYrvL3931DH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFq0QnT-LhONWufTVHpm1BhbaxgVgI6g9vyEoaIJDh0Kb4suTleTLnTzhTSnUuSFWPwhdUJyKLU4avVIE6CHq8b5Y6lIGkfoeQnKEN2AkQZAJmF7e74mB1LbxpcIZu0zd4jIfVJSyuM_a75pEfFPq2EO9dWbNwwRgP-_pO_cUJQYBnd1bjqo9nqpG8_eLTATTpb2x_NHqZ5muNhFEqYJBY3ey5c5bW1dYDJOsRlsbmain330qeFKaSLeZ-QAGpXSqxx_s3L1UGZSrX0eZqx1oWhkJssdkqWr6k0rLWzQH9wc2To_4uFIX7sghnj5Q5Mx1G7ErAL7P5MJOCR-TiHxjDwFMtfQBdpY1Hz6f_UU18l8QQuYZdPEAz_2T5A7cSjZxCfl8X9bMxnL4IoqaYjlrGo4cDkoJlz4WK1gJDSL-rK9P65TYEYwZzCj0w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXdYbdXXLxZJ26WCBhd197ZPgWsf_z730oRrsnCs5IDHhxfGOZgCvCsRbFaW4RLG_ZsWjmLm_fx9PE6tWzyPRd3EmKK5j027nXr5oyFr_DzTvGE4es10bErWuGen_WIsa1zxC8UOzt2xYWAM-XanveNI260QuIEPbRpTBiBvcxPzG2sIlmQCMoNBk2usNV-Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzoaQwXD33iLVKi6YJ-8Nb_5x5hP8QFlfYef_Cyrx3M884XsuKgFr3qXLLLLGoQJoXXI3DP2SOOxIJnuwfkMBFDv6gBpbH5chLTL2cckikDsdBqDPbHzX9_2DVc5QztG3-SqZf8Qxc-nyve9emYv2h9nE35NLymYJwhDpaE5gD4cK1eUjXEWT-9UjTsvfKkp6oeywAYlEi547w0I96xWzcACWdiRK2lLw3FsyqvFtrCV2Dul-2XCa8kSF1m8TcJZRy4wjJdDJwM0kBiPfnnemU1zDn-ipSdR4eIYDajul2XT8go4JPNR7IDADMpyD4rL7sXgNYxzFx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHl23-kcm4791_6bDASKSoUEa40hMPtcsCS-9pR1Qo-rR1SueeUL59nNisvu24cs3aCtbwJeFnn4zdtG5S5dntDTCor_CeOz2ED5NyWeSAva7D6sVnFTXAOwm0Wgp-_OgFuK_GAPVU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2qvFnWupWrqUVaGoRSEr2ONpSx8EEBLIi5qpGmqkkQFTQCnljIPWc4r8GTMZYuvehAdzRcuM3l4xmhZ0UD1XGmbf_OIfEC6Shqgg6gy2z7pH6zPxD_YGVsuPS3QwacGZ367O7hBWJuFRGqLmlAWCWzx5WH00=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 의자를 주로 어떤 용도로 사용하실 예정인가요? | 식사 시간 |
-| 아기 의자의 소재는 어떤 것을 선호하시나요? | 플라스틱, 원목 |
-| 아기의 성장 발달에 맞춰 오래 사용할 수 있는 기능이 중요하신가요? | 고정형 (사용 기간 짧아도 괜찮음) |
-| 혹시 선호하시는 유아의자 브랜드가 있으신가요? | 부가부, 스토케 |
+| 아이가 현재 몇 개월인가요? 의자 선택에 가장 중요한 정보예요. | 7~12개월 |
+| 어떤 소재의 유아의자를 선호하시나요? | 플라스틱, 패브릭/PU |
+| 아기의 안전을 위해 어떤 기능이 중요하다고 생각하시나요? | 5점식 안전벨트 |
+| 선호하시는 유아의자 브랜드가 있으신가요? | 스토케, 도노도노, 야마토야 |
 | 예산은 어느 정도로 생각하세요? (평균 약 23만원, 12만원~29만원대가 가장 많아요) | 12만원 ~ 29만원대 |
-| __avoid_negatives__ | 이유식 얼룩이나 음식물이 끼기 쉬운 구조라 청결하게 유지하기 어려울 것 같아요. |
+| __avoid_negatives__ | 음식물이 묻었을 때 닦고 관리하기가 번거로울 것 같아요.,안전벨트 조절이 불편해서 아기를 앉히고 내릴 때마다 힘들 것 같아요. |
 
 ---
 
@@ -61,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 이유식 얼룩이나 음식물이 끼기 쉬운 구조라 청결하게 유지하기 어려울 것 같아요.
+- 음식물이 묻었을 때 닦고 관리하기가 번거로울 것 같아요.
+- 안전벨트 조절이 불편해서 아기를 앉히고 내릴 때마다 힘들 것 같아요.
 
 ---
 

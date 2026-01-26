@@ -1,5 +1,5 @@
-# 세션: 20260123_020030_gytx
-> 시작: 2026-01-23T02:00:30.434Z
+# 세션: 20260126_081815_h7g3
+> 시작: 2026-01-26T08:18:15.127Z
 > 카테고리키: 유아소파
 > 카테고리: 유아소파
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아소파 시장 현황
-- 인사이트: 유아소파 시장은 전 세계적으로 성장세를 보이며, 2024년 약 365억 달러 규모에서 2034년에는 742억 달러까지 성장할 것으로 예상됩니다. 특히 한국에서는 출생아 수 증가와 함께 키즈 가구 시장이 활기를 띠고 있으며, 안전성과 확장성을 갖춘 제품들이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGujl8zKYV85V2YF0itoRj4do9J9z5cRxgc2hLnOgFH-6Nw9jPCkZiw504O8c7aM68NGBRi9qCjX0sl4rry8hxtbh3YZwZN3XiX2KojQMNfspIU847nWPXkCCuJyYLGzINU0nyDKBcHDqwwukakTzGKHfzHeifzWJAi0tYDH_Ok0w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNC9jjpH8e3dVJE_o8LbfbDv4wUXt2ymC_gbb4y8rKH6t_R0rr2fcXk3Rsn5rjJ0WOUlzcAeNyEqIz95P1HW5HeD-wFxjleKBK88ptLaO7otoYMmxmiK9x6rd14Hddw86mUk8hUdjDiE1noQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDgcqN-zGxRouiosggsNCU662_QjH1aUOReqt5_KOAtkEZfyloyvnFMXoiA9tmbOanjeCUiKEbeYXwMt02oi4Ej6GPLC1-aC0l8rqkjt2DrOFj56h4dpE1TSob0RgJPFjNTfehxlgKz40Y6jlwlbVuIFLzGlH4-055A_ZD-LsB02ldGLEpAJgWiWwtjdrLug==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5k5HZ2OHYuzu6tcGfWHBFzRkxloLhauf4Y86SWsAkvqzR_lO-h14xc-WfTvD5er3g3nAtzyDXZUHZ_kkVL5h0P6Qm9ruZP0jJgQvriKKEt5CDprUR0eTrASMjxFm-3RBh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7jtJX5YnDkkdXCalUXuT-jsU-le53XDnMc1WWqEzqDHa47i6Ntqu-E71PDnDvWBu5_O86rBgo_gpyVeDjyeQts9tzgOnBlvY1vqvQXyDvVVauSiMBEhgbXl-c09Z5sffotJiYoRuMPjyYOXaVHn-I5AGIFQSdRChuLp-bNgn_zU3PJfznqRGY1mjuSR7lDJI-CohMKFJiHTGR6c3x4gRqLDJXPRHhbaJ0h4aels4pRhGM_YE35NdbQ6ooGwZ4ibZQxmYSL_66AzMzm-OK7NoV1sdVeRiwtpGumAnay4S3LXlCE3U_d4FsnV0aNbH9ubGdIQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHew5-VtQ9sobmMTVdUTNCkDFWMRBurCiQmYFic1x7fgmWTX5AP1Kawa5GHDzenZeEVIpa-DZSYr9lZ6YTj0lmwu7jCbhK2ePxI7b6n5UBhvo-dUXJqO1Do4g6vv_T9uK82pTuNtw==
+- 인사이트: 유아소파 시장은 지속적인 성장세를 보이며, 2024년 365억 달러에서 2034년 742억 달러로 연평균 7.6% 성장할 것으로 예상됩니다. 특히 MZ세대 부모의 등장과 온라인 시장의 성장이 유아용품 시장에 큰 영향을 미치고 있으며, 유아 가구는 온라인 유아용품 시장에서 높은 판매 비중을 차지하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHT57HW3bRohR0tU1v0PMCO5w7-22cgGCgCc-YFiO0upLiCAgGSTBcJzVYAofBQCyXEobJi5KxFbqnVFDfErq9nmkFRVe84_3xtCkJf5-HkvPx3njAEjhRBR9bBEEj92W_ubom25wNmj25mlbgVofkVJ-3qWTePK6SPb6P_rHrwvQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWdkAAQSC90z99k3Ta3IdQw0AncJFrLwnfBT-y4nduZarcek3v7dbxSTd1TYUUHDQlemPYfQX9D2BHWvBH6u8k3nNlomyaD3_LbtWY5Ju95sIhihHw0o-6mDf7mzF7nrpP6sLkLgTlBLl_94YOFyAlgefFTy0tfiLcG4S8qoE0y52cDYJgW2iOHbg1jYQ0By99, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHexUM3q0kzQq6G9CyyXw6H_BHVutgQYFIyH2240zWDysQcTHIXy_GMiIycQNjkqVKsOP01ec1TkRul2OUvXE0aCkbiwvNXT6rWHgeE9Lj1fkCcuo0_9wjNpJXOVmwIZo68ZQ1oJuZ5ctOHb9-U2jcVT2575ipuid-QYh-bYNUXEMMjaD9UPrHYU1e3zRXHXERbgKwefEPVMUWK5XjjH9KsWsal3gES-X6S6PLkb60PYQ8lSxVnif140QG9orRcqtjSOtmOpw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQoh1R6fIg2Rp4t9T8251YjDfhAAUeJ9MV9H671nUuGUeHRSrun4eoSNyyhV-EvKVkOASfrbI6lzWuqVzksQ_PtD8pRBsZ3bjawzjO4sJGippw-9yLn420ppRDWFkodPV1Z1JwAKxC4PZRjZpRpZOkp2zDqxGZsXzq47DWTNDeXo0c, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlOcQ7-aohi6jFZndbI2s-y_pdsdrVczMfGFgHd8m_FQda1tEO-ne0ETTlcToMLcvyH2ObfOXpr3fKV33220Pfe8d__lMZswKVlsER19tke79PcMAlgqnoxbRKq5zZq9W5PZ7W5xHo5V6XWK0-09gbuLTyrWpFmMFRxb_qneSNkXOvzlN8-UR8zom_QdkZQhwMzQd80CeROAfUeopuiWS_i6IoP7zGldKaFAwwlmbcdxaeK5Xl6fL2WCZ_Ieg24SWo2XXgs8szurLTO0rKM25GFAbbP1dcuLh1iotrc6ZwFs-YjECq8rxpLYHZI7uoKuZhg9VjfQtPhqrmoeazdMsjgL1-8aED6T3lf1w5iJke6Nd9Ynl-Li-EwiE-JtA7_RMmec1eBBO1QBgrecHIGmzrQNOgyT1HtQwiAIrx_vomx7LvC7ODDSPaBR2FVd3kMAE4GVmbFVfoALR8jNdooTsH8gx5G-YiMtpwsYfbaWwKRDsr-Ji8CA==
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이 피부에 직접 닿는 만큼, 어떤 소재의 유아소파를 선호하시나요? | 패브릭, 친환경 소재 |
-| 유아소파를 어떤 디자인으로 찾으시나요? 아이의 공간에 맞춰 선택해 보세요. | 1인용 |
-| 혹시 선호하시는 유아소파 브랜드가 있으신가요? | 일룸, 뒹굴러 |
-| 유아소파에 특별히 원하시는 기능이 있으신가요? | 세탁 가능한 커버 |
-| 예산은 어느 정도로 생각하세요? (평균 약 18만원, 10만원~24만원대가 가장 많아요) | 10만원 이하 |
-| __avoid_negatives__ | 패브릭 소재가 아이가 사용하면서 쉽게 오염되거나 해질까 봐 관리가 부담돼요,너무 낮은 높이의 유아소파는 아이가 금방 흥미를 잃고 활용도가 떨어질까 봐 걱정돼요,1인용 소파라도 아이가 커가면서 공간을 많이 차지하게 될까 봐 걱정돼요 |
+| 아이 피부에 직접 닿는 만큼, 어떤 소재의 유아소파를 선호하시나요? | 패브릭 |
+| 주로 어떤 공간에서, 몇 명의 아이가 함께 사용할 예정인가요? | 2-3인용 |
+| 아이 방이나 거실 인테리어와 잘 어울리는 디자인은 무엇인가요? | 캐릭터 디자인 |
+| 혹시 선호하시는 유아소파 브랜드가 있으신가요? | 알집/알집매트 |
+| 예산은 어느 정도로 생각하세요? (평균 약 18만원, 10만원~24만원대가 가장 많아요) | 10만원 ~ 24만원, 10만원 이하 |
+| __avoid_negatives__ | 캐릭터 디자인이 처음에는 좋아도 금방 싫증 내고 흥미를 잃을까 봐 걱정돼요,2-3명이 함께 사용하기에는 너무 좁아서 아이들이 불편해할까 봐 걱정돼요 |
 
 ---
 
@@ -61,9 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 패브릭 소재가 아이가 사용하면서 쉽게 오염되거나 해질까 봐 관리가 부담돼요
-- 너무 낮은 높이의 유아소파는 아이가 금방 흥미를 잃고 활용도가 떨어질까 봐 걱정돼요
-- 1인용 소파라도 아이가 커가면서 공간을 많이 차지하게 될까 봐 걱정돼요
+- 캐릭터 디자인이 처음에는 좋아도 금방 싫증 내고 흥미를 잃을까 봐 걱정돼요
+- 2-3명이 함께 사용하기에는 너무 좁아서 아이들이 불편해할까 봐 걱정돼요
 
 ---
 

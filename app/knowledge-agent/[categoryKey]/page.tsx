@@ -5068,7 +5068,7 @@ function MessageBubble({
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
                         <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
-                      <span className="text-[16px] font-medium text-gray-600">기타 - 직접 입력하기</span>
+                      <span className="text-[16px] font-medium text-gray-600">기타 - 직접 입력</span>
                     </div>
                   )}
 

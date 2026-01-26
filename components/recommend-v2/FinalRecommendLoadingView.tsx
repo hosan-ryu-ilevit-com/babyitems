@@ -46,13 +46,35 @@ function RealTimeTimer({ startTime }: { startTime: number }) {
   );
 }
 
+/**
+ * 전체 진행 타이머 (상단 메시지용)
+ */
+function GlobalTimer({ startTime }: { startTime: number }) {
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElapsed(Date.now() - startTime);
+    }, 100);
+    return () => clearInterval(interval);
+  }, [startTime]);
+
+  return (
+    <span className="text-[13px] text-gray-400 font-medium tabular-nums">
+      {(elapsed / 1000).toFixed(1)}s
+    </span>
+  );
+}
+
 
 /**
  * 단계 카드 (항상 표시)
  */
 function StepCard({ step, index, totalSteps }: { step: TimelineStep; index: number; totalSteps: number }) {
+  const isCompleted = step.status === 'completed';
+
   const getIcon = () => {
-    if (step.status === 'completed') {
+    if (isCompleted) {
       return (
         <motion.div
           initial={{ scale: 0 }}
@@ -88,7 +110,7 @@ function StepCard({ step, index, totalSteps }: { step: TimelineStep; index: numb
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={{ opacity: isCompleted ? 0.5 : 1, y: 0 }}
       transition={{
         duration: 0.4,
         delay: index * 0.1,
@@ -157,6 +179,9 @@ export function FinalRecommendLoadingView({
   // 헤더 제목에서 [n/4] 패턴 제거
   const headerTitle = (currentStep?.title || 'AI 추천 생성 중').replace(/\[\d+\/\d+\]\s*/, '');
 
+  // 전체 시작 시간 (첫 번째 단계의 startTime)
+  const globalStartTime = steps[0]?.startTime;
+
   return (
     <div className="w-full">
       {/* AI 메시지 스타일 안내 문구 */}
@@ -165,8 +190,11 @@ export function FinalRecommendLoadingView({
           맞춤 추천을 위해<br />
           AI가 열심히 분석 중이에요
         </p>
-        <p className="text-[14px] text-gray-400 font-medium leading-[140%] mt-2">
-          30초 내에 완료될 예정이니 조금만 기다려주세요.
+        <p className="text-[14px] text-gray-400 font-medium leading-[140%] mt-2 flex items-center gap-1.5">
+          <span>30초 내로 완료될 예정이니 조금만 기다려주세요.</span>
+          {globalStartTime && (
+            <GlobalTimer startTime={globalStartTime} />
+          )}
         </p>
       </div>
 

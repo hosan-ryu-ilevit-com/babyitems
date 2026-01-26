@@ -1,5 +1,5 @@
-# 세션: 20260123_114058_w0x9
-> 시작: 2026-01-23T11:40:58.559Z
+# 세션: 20260126_081535_ec45
+> 시작: 2026-01-26T08:15:35.799Z
 > 카테고리키: 유아세제
 > 카테고리: 유아세제
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아세제 시장 현황
-- 인사이트: 유아세제 시장은 2024년 약 11억 1천만 달러 규모로 성장할 것으로 예상되며, 2032년까지 연평균 8.2%의 성장률을 기록하며 57억 달러에 이를 것으로 전망됩니다. 이는 유아 피부 민감성에 대한 인식 증가, 온라인 유통 채널의 성장, 그리고 친환경 및 식물 기반 제품에 대한 수요 증가에 힘입은 결과입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExrP3T83bSgfpqJMIEQdpk4cs-PwvhKxxqXLyiebL6aGaTN67Qs7gKqIqBbB9WNoBQWZr1h0QJaTZX5oCUQ6tKAIruor3NzLcaJ0KgetsyXw7QW0S9qfp2IjzfLU1lAxeSFJKElYKENhAzi_VOO5voYeVjPJVYTXg3yPSdh6cGN_II7_2s6FfrkdgB, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYrUJeE7OqqLAVufGUkXoRBfOeW7gJNGQES3JDiz1b02jL2S_4WBobCQD2TlHWxxLQy7ThzkGUgI94i2SdzH66-ENz19nsAxLEBeLx1whc49QJF6UEOfyOzqDH7YaG5GtQC3JYHVoWdlKq0_d5u5KgfDv_SjxYUqFhM-I5pk-BMSAvh7JN-nyXKi8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2S1Y5rg7GmHg1gkndaCVEV1u96E6vZrQMAcyFr1UYf8_9NMgveMybLLncH3MXn1EdxZPtgIPL-yqba2QVSU3Uf6Na50J1TxZYeiXErQZzD7V8MK6y0p4kJ1_xFofOqq9QX1VVvbX1BwFcfO5iR03abQyHK67bf1Q_7dRO4VEbsSbs4kyDbdU5ZwrMk7_AI8mhC69PwyfbkI3wU-YXSLgNUxIkSAux_rk=
+- 인사이트: 2026년 1월 기준으로 유아세제 시장에서는 블랑 101, 레드루트, 토루토루 등의 브랜드가 인기 순위 상위권을 차지하고 있습니다. 전반적으로 친환경 성분, 에코서트 인증 원료, 전 성분 공개 등을 강조하는 제품들이 소비자들에게 좋은 반응을 얻고 있습니다. 또한, 한국소비자원의 2020년 품질 비교 시험 결과에 따르면 일부 제품은 용기 내구성이나 세척 성능에서 차이를 보였으며, 안전 기준에는 모두 적합했습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4iW0nEnFqr8llBnqaUJi-FBrzhFSpIlOXDWshPqJaMEuqJ9wGZLUlNCKbawXaFm-gMj7xC31Vr0ZbnlrtknL-CNl0-bHtrHEttTQLxi233BC-uptPiQXtsTn1HMdpxe_q3Qk6JkVgBruCHP7ZmFBctBTegY8ygHIvXBptRNmLk48R1YOh_A0ylqw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHzU_SWSev1GEHRzRkMLVfQlskHIjQOJf1OGrO76WbgVtlrfNi-NvDeaMEboE14OgeAXRt8IHWQ-MQfmij9MXqicr-wcPG8bNVLo6mI0AU_rwnu4terNCr4-NnVOVRdMX7LIDLPmq0jOjMfd6v9G81Nzftc0O5tlCPnSFFbeD-bhHRMsirhz_NRm4heBIlRSd_BEzM0V_Gfy828k3LjxHWnpC_ZxtaOjG5skTGvIsQe3fJMNEP6zwtLdoXaL992ls=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0G1NtB8vJLGnO72_6IrpEifLcgbSWJgUwh6EYlv5IqxeIULC9f07iDIgVwrFkoPX6Ov-jekzYWI9BiE7bd-ZtkOnkuVkc_ijZI6hZJEsqYv9FfaSg4Zk7phYTTYrWtCzPRwROVasPmomaM37jm2q_qd9-R3kQ-V2VuF5DIg6JSI5d7ynNieZ3HYZazEsI-dq8aUJCAaTOHpbjkdnJ57YgG1yammCPBi0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzXLz_P5hIUdLWFyIEfn3ddYxXCN8VgVU6VxkS3sXIgsPDEK1Rhlpo4Zc2k366bRwXMHQh-u4KtOadRF34XtDwCiGh-_74vJjTrvEbwoNTVIM5JhKfYBEqyCvbjPpI-Dx6sZrGP9kVIk1AR38b7HAgVHCIOxGtKocqFzrmgWBryMkLJHqmTAz5DGNwtg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEf82MmxicjK15feUdDTyoYddy8wMTXWkMA3eXbfqHhydVnGcWU6iHLCmBCQ6G5O5Z62ewdOvJkQLaXOzZ5lh_ued5A_-HQIe_cml7UQnZIMxkgtdAoozm9rre4O-qIaL_MbCcEYQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfplbTqB2KGtEzUmMRYb3SA2Gu5TB-oWuPkVAovkKwKQ9XSxLlbRpa2hDyJi1W_0g-mrnlJNpA4cgm9_Rv2rsM9Ak2Z2Jsmsau50owlh-_LLCBSlQyIc1DeyyERJMwttbN7z_UXhA=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 옷을 안심하고 맡길 수 있는, 선호하는 브랜드가 있으신가요? | 프로쉬 |
-| 세탁세제의 향에 대해 선호하는 점이 있으신가요? | 무향 |
-| 세탁세제 선택 시 가장 중요하게 생각하는 성분이나 특징은 무엇인가요? | 친환경/식물성분 |
-| 선호하는 세탁세제 제형이 있으신가요? | 액체형 |
+| 아기의 건강과 직결되는 만큼, 믿고 맡길 수 있는 선호하는 브랜드가 있으신가요? | 프로쉬, 퍼실 |
+| 세탁세제는 어떤 제형을 선호하시나요? | 고농축 액체형 |
+| 아기 피부를 위해 세제 성분 중 특히 중요하게 생각하는 부분이 있으신가요? | 저자극 & 무향 |
+| 아기 옷의 얼룩이나 오염 제거를 위해 가장 중요하게 생각하는 세척력 관련 기능은 무엇인가요? | 일반적인 얼룩 제거 |
 | 예산은 어느 정도로 생각하세요? (평균 14,102원, 9천원~1만 8천원대가 가장 많아요) | 1만 5천원 내외 |
-| __avoid_negatives__ | 일부 제품의 용기가 쉽게 파손될까 봐 내용물이 새어 나올까 봐 걱정돼요,무향을 선호하는데,다양한 향이 아닌 제한적인 향만 있어서 아쉬울 것 같아요 |
+| __avoid_negatives__ | 상관없어요 |
 
 ---
 
@@ -61,9 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 일부 제품의 용기가 쉽게 파손될까 봐 내용물이 새어 나올까 봐 걱정돼요
-- 무향을 선호하는데
-- 다양한 향이 아닌 제한적인 향만 있어서 아쉬울 것 같아요
+- 상관없어요
 
 ---
 

@@ -1,5 +1,5 @@
-# 세션: 20260123_015319_7lfh
-> 시작: 2026-01-23T01:53:19.094Z
+# 세션: 20260126_075500_5zju
+> 시작: 2026-01-26T07:55:00.061Z
 > 카테고리키: 유아침대
 > 카테고리: 유아침대
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아침대 시장 현황
-- 인사이트: 유아 침대 시장은 영유아의 안전하고 편안한 수면 환경 조성을 중요시하는 추세에 따라 지속적으로 성장하고 있습니다. 특히 안전성과 편의성을 강화한 제품들이 주목받고 있으며, 친환경 소재와 디자인의 다양화도 시장 트렌드를 이끌고 있습니다. 확장형 침대나 변형 가능한 침대 등 오래 사용할 수 있는 제품에 대한 선호도도 높아지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNLFzhUPAwFCmPCdbfSST5809QZ57dGefk34GcTwWs_F-enKTCA6H2QQiuFEu3yAt0jTS1KclNz75Q0crHchy-G5Av1Vi6Vfne4DO0KU2SZ-vyF5jRL48yI_HLjjrxGr5K-DMCHW1cvtl7otPD2r7Rlhl8ZxV3RXTTqkjh2huGFdE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPl8qby8g2IS66RhiOXj1UiboUfGXksebWn1lXjcfSL849vC_NmpgyKmlPPjrmNNouA9_YjYs4z4V3iwxk6XqxGNLgeD5-bdwQ2H3eMCrMNdZd456_s1tXp8moUS8N6ef5OyxphciJRnVHFO2MKhvtelAVpokVDYxrMshrVLtxVG823Wp1eEvP0KtoaCR466XG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHk052zCoNIB0zxI7C_Bezhiq1ZOcK8bb-wRZ_hXnKTCEKBkH5gpgY4rYka-l6PqZKNBheOiI8mog9n_ToXdm1pdb-4uL4ZbljMbuWZrhWEMUwQoctF_qCUQj_KFzCRdJPz7io6xoVcgOgNtJTQr8fP
+- 인사이트: 유아 침대 시장은 지속적인 성장세를 보이며, 특히 밀레니얼 세대를 중심으로 프리미엄 제품에 대한 수요가 증가하고 있습니다. 안전 기준과 가격 변동 요인이 중요한 고려 사항으로 작용하며, 다양한 브랜드들이 경쟁하고 있습니다. 글로벌 아동 가구 시장은 연평균 7.6%의 성장률을 기록하며 2034년에는 742억 달러 규모에 이를 것으로 전망됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqyF7ICuDH_n549YwftYJajX2d8wo-kp-x4uPcPVZThUvrXD5YuUN2i02D_tWb3Yg-1wfMWhsKag0RqKuEVIIeDhr3QheByKSxHHqxOwlVAPQUXNbn1ZjoEwmVQnVwjxTsDndLQ0i0ILrPWsONBORaGyqKcGkwQ3M7YeD_4H5VFlET, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKFctUJ3j3Y_ouhotPhqJtNmPDnHMDM_u7ko6yKMdFn0F0_nrzIoEMYJ42dUn5W0_yCmpmANcpaeVh8NqKujk2T8MiZaRs7hNMeJZuM_mVvW2i23TVXjlDgOg2tphxslqp3y96U1Y3zRnGe8cjZ2eSeedlyo6j36ejfOr1aJ2RnX9_koLMKAJj1Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGIgvWVLntXsuR-Av1szD7DhoJLp0pL4DDBrZqBjYfu-f6BlA342vsOZBX04fmZ-oYUaBN3MmvunVdypSfrxe6zuHsSiYeutf5aWNssc7mZ3xJM9EZTswAO9WQU2B9EzFMfG-CgQSXCAXiuJjvLldqB5Q=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주시겠어요? | 영아 (7-24개월) |
-| 어떤 형태의 유아침대를 선호하시나요? | 범퍼 침대형 |
-| 침대 소재는 어떤 것을 선호하시나요? | 원목 |
-| 믿고 구매할 수 있는 선호하는 브랜드가 있으신가요? | 에이원, 도노도노 |
-| 예산은 어느 정도로 생각하세요? (평균 37만원, 25만원~48만원대가 가장 많아요) | 25만원 ~ 48만원대 |
-| __avoid_negatives__ | 아기가 침대를 불편해해서 사용을 거부할까 봐 걱정돼요,집에 놓으면 너무 많은 공간을 차지해서 답답할 것 같아요 |
+| 아기의 개월 수를 알려주세요. 침대 종류와 크기 선택에 도움이 됩니다. | 6개월 ~ 18개월 |
+| 어떤 형태의 유아침대를 선호하시나요? | 범퍼 침대 (Bumper Bed) |
+| 아기가 직접 닿는 만큼, 침대 소재는 무엇을 가장 중요하게 생각하시나요? | 무독성 페인트/마감 |
+| 혹시 선호하시는 유아침대 브랜드가 있으신가요? | 벨라, 에이원 |
+| 예산은 어느 정도로 생각하세요? (평균 37만원, 25만원~48만원대가 가장 많아요) | 25만원 ~ 48만원대, 25만원 이하 |
+| __avoid_negatives__ | 기저귀를 갈거나 아기를 자주 안아줄 때 부모의 허리와 무릎에 부담이 될까 봐 불편해요.,범퍼 침대라 공간을 많이 차지해서 집이 좁아 보일까 봐 걱정돼요. |
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기가 침대를 불편해해서 사용을 거부할까 봐 걱정돼요
-- 집에 놓으면 너무 많은 공간을 차지해서 답답할 것 같아요
+- 기저귀를 갈거나 아기를 자주 안아줄 때 부모의 허리와 무릎에 부담이 될까 봐 불편해요.
+- 범퍼 침대라 공간을 많이 차지해서 집이 좁아 보일까 봐 걱정돼요.
 
 ---
 

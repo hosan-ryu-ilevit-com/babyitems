@@ -1,26 +1,29 @@
 # 절충형 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-20T13:00:51.426Z
-> 분석 상품: 20개 | 분석 리뷰: 2,245개
+> 마지막 업데이트: 2026-01-26T08:08:39.995Z
+> 분석 상품: 20개 | 분석 리뷰: 2,273개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 디럭스급 성능을 갖춘 절충형 유모차 출시
-- 경량성과 컴팩트한 폴딩 기능 강화
-- 신생아부터 사용 가능한 편의 기능 확대 (예: 175도 등받이 조절, 하이포지션 시트)
+- 컴팩트하고 가벼운 유모차 선호도 증가
+- 모듈식 및 컨버터블 유모차 인기
+- 친환경 소재 및 제조 공정 적용
 
 ### 구매자 만족 포인트
-- ✓ 안정성과 휴대성 겸비
-- ✓ 가성비 우수
-- ✓ 다양한 기능 탑재 (예: 175도 등받이 조절, 컴팩트 폴딩)
+- ✓ 안정성
 - ✓ 주행 편의성
+- ✓ 가성비
+- ✓ 신생아부터 사용 가능
+- ✓ 양대면 전환
+- ✓ 경량성
+- ✓ 컴팩트한 폴딩
 
 ### 주의해야 할 단점
-- ⚠ 명확한 기준 부재로 인한 스펙 다양성
-- ⚠ 작은 문턱 넘기 어려움
-- ⚠ 디럭스만큼의 안정성 부족
-- ⚠ 휴대용만큼의 휴대성 부족
+- ⚠ 부피 및 무게
+- ⚠ 휴대 및 보관의 어려움
+- ⚠ 일부 모델의 짧은 배터리 수명 (해당 정보 없음)
+- ⚠ 안전 문제 (접히는 부분 끼임, 바퀴 파손 등)
 
 ### 가격대 인사이트
 
@@ -31,15 +34,35 @@
 
 ### 1. 부가부 드래곤플라이
 - **브랜드**: 부가부
-- **가격**: 1,265,400원
-- **평점**: ⭐4.9 (95개 리뷰)
+- **가격**: 1,356,000원
+- **평점**: ⭐4.9 (96개 리뷰)
 - **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~48개월 / 허용무게: ~22kg / 유모차무게: 7.9kg / 출시년도: 2023년 / 셀프스탠딩 / 원핸드폴딩 / 5점식벨트 유모차 / 5점식벨트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=26489594)
 
-### 2. 싸이벡스 멜리오 카본 3.0 초경량 절충형 유모차
+### 2. 잉글레시나 일렉타 프리미엄 절충형 유모차
+- **브랜드**: 잉글레시나
+- **가격**: 995,100원
+- **평점**: ⭐5 (51개 리뷰)
+- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~4세 / 허용무게: 3~15kg / 유모차무게: 8.7kg / 출시년도: 2024년 / 셀프스탠딩 / 원핸드폴딩 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=52162529)
+
+### 3. 리안 솔로 절충형 유모차
+- **브랜드**: 리안
+- **가격**: 539,600원
+- **평점**: ⭐4.9 (1,713개 리뷰)
+- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~36개월 / 허용무게: ~15kg까지 / 유모차무게: 8.9kg / 출시년도: 2020년 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20847536)
+
+### 4. 싸이벡스 멜리오 카본 3.0 초경량 절충형 유모차
 - **브랜드**: 싸이벡스
 - **가격**: 864,500원
 - **평점**: ⭐5 (16개 리뷰)
@@ -49,17 +72,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29496857)
 
-### 3. 잉글레시나 일렉타 프리미엄 절충형 유모차
-- **브랜드**: 잉글레시나
-- **가격**: 964,250원
-- **평점**: ⭐5 (51개 리뷰)
-- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~4세 / 허용무게: 3~15kg / 유모차무게: 8.7kg / 출시년도: 2024년 / 셀프스탠딩 / 원핸드폴딩 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=52162529)
-
-### 4. 리안 뉴 솔로 절충형 유모차
+### 5. 리안 뉴 솔로 절충형 유모차
 - **브랜드**: 리안
 - **가격**: 615,600원
 - **평점**: ⭐0 (0개 리뷰)
@@ -69,17 +82,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=76076870)
 
-### 5. 뉴나 트리브넥스트 절충형 유모차
-- **브랜드**: 뉴나
-- **가격**: 1,080,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아부터 / 허용무게: ~22kg / 유모차무게: 8.72kg / 출시년도: 2023년 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
+### 6. 리안 트윈 쌍둥이 절충형 유모차
+- **브랜드**: 리안
+- **가격**: 390,000원
+- **평점**: ⭐4.8 (316개 리뷰)
+- **핵심 스펙**: 유모차 / 쌍둥이형 / 사용대상: 신생아~36개월 / 허용무게: 15kg까지 / 유모차무게: 7.7kg / 출시년도: 2019년 이전 / 원핸드폴딩 / 5점식벨트 유모차 / 5점식벨트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=52373384)
+- [상세보기](https://prod.danawa.com/info/?pcode=20809808)
 
-### 6. 잉글레시나 2024 앱티카 프리미엄 절충형 유모차
+### 7. 잉글레시나 2024 앱티카 프리미엄 절충형 유모차
 - **브랜드**: 잉글레시나
 - **가격**: 1,236,900원
 - **평점**: ⭐5 (6개 리뷰)
@@ -89,77 +102,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=37938293)
 
-### 7. 리안 뮤즈 디럭스 유모차 모던 그레이
-- **브랜드**: 리안
-- **가격**: 999,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 출산 / 육아용품 / 유모차 / 유모차용품 / 절충형 / 디럭스형 출산 / 디럭스형
+### 8. 잉글레시나 2024 앱티카 프리미엄 절충형 유모차
+- **브랜드**: 잉글레시나
+- **가격**: 1,258,290원
+- **평점**: ⭐5 (8개 리뷰)
+- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~4세 / 허용무게: ~15kg / 유모차무게: 10.4kg / 출시년도: 2023년 / 셀프스탠딩 / 양대면전환: 시트 전환 유모차 / 양대면전환: 시트 전환
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29497025)
+- [상세보기](https://prod.danawa.com/info/?pcode=37938236)
 
-### 8. 리안 트윈 쌍둥이 절충형 유모차
-- **브랜드**: 리안
-- **가격**: 370,500원
-- **평점**: ⭐4.8 (316개 리뷰)
-- **핵심 스펙**: 유모차 / 쌍둥이형 / 사용대상: 신생아~36개월 / 허용무게: 15kg까지 / 유모차무게: 7.7kg / 출시년도: 2019년 이전 / 원핸드폴딩 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20809808)
-
-### 9. 다이치 더 프라임 스카이 절충형 유모차
-- **브랜드**: 다이치
-- **가격**: 959,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~36개월 / 허용무게: ~15kg / 출시년도: 2024년 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=60173795)
-
-### 10. 줄즈 허브플러스 절충형 유모차
-- **브랜드**: 줄즈
-- **가격**: 988,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아부터 / 허용무게: ~22kg / 유모차무게: 10.6kg / 출시년도: 2021년 / 셀프스탠딩 / 양대면전환: 시트 전환 유모차 / 양대면전환: 시트 전환
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=47404295)
-
-### 11. 싸이벡스 The New 미오스 3.0 절충형 유모차
-- **브랜드**: 싸이벡스
-- **가격**: 1,406,000원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~4세 / 허용무게: ~22kg / 유모차무게: 9.8kg / 출시년도: 2023년 유모차 / 출시년도: 2023년
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75993674)
-
-### 12. 이바겐 까로가자 프리미엄 절충형 유모차
-- **브랜드**: 이바겐
-- **가격**: 341,050원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 0~36개월 / 유모차무게: 6.7kg / 출시년도: 2019년 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20842493)
-
-### 13. 치코 베스트프랜드 유모차
-- **브랜드**: 치코
-- **가격**: 134,340원
-- **평점**: ⭐4.7 (4개 리뷰)
-- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 6개월~36개월 / 허용무게: ~15kg까지 / 유모차무게: 10kg / 출시년도: 2020년 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21657734)
-
-### 14. 다이치 스무즈 절충형 유모차
+### 9. 다이치 스무즈 절충형 유모차
 - **브랜드**: 다이치
 - **가격**: 488,000원
 - **평점**: ⭐5 (8개 리뷰)
@@ -169,37 +122,47 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20803283)
 
-### 15. 쉬크 SEEC 미뇽 양대면 오토폴딩 절충형 유모차 블랙
-- **브랜드**: 쉬크
-- **가격**: 716,100원
-- **평점**: ⭐5 (18개 리뷰)
-- **핵심 스펙**: 출산 / 육아용품 / 유모차 / 유모차용품 / 절충형 / 디럭스형 출산 / 디럭스형
+### 10. 다이치 더 프라임 스카이 절충형 유모차
+- **브랜드**: 다이치
+- **가격**: 959,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~36개월 / 허용무게: ~15kg / 출시년도: 2024년 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26488214)
+- [상세보기](https://prod.danawa.com/info/?pcode=60173795)
 
-### 16. 쉬크 SEEC 미뇽 양대면 오토폴딩 절충형 유모차 메도우 베이지
-- **브랜드**: 쉬크
-- **가격**: 716,100원
+### 11. 리안 솔로 절충형 유모차 제트 블랙
+- **브랜드**: 리안
+- **가격**: 598,000원
 - **평점**: ⭐5 (1개 리뷰)
 - **핵심 스펙**: 출산 / 육아용품 / 유모차 / 유모차용품 / 절충형 / 디럭스형 출산 / 디럭스형
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29497190)
+- [상세보기](https://prod.danawa.com/info/?pcode=26458319)
 
-### 17. 맘네스트 리안 솔로 LX 절충형 유모차 전용 방한커버 블랙멜란지
-- **브랜드**: 맘네스트
-- **가격**: 67,083원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 방한커버 방한커버
+### 12. 리안 뮤즈 디럭스 유모차 모던 그레이
+- **브랜드**: 리안
+- **가격**: 999,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 출산 / 육아용품 / 유모차 / 유모차용품 / 절충형 / 디럭스형 출산 / 디럭스형
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20821235)
+- [상세보기](https://prod.danawa.com/info/?pcode=29497025)
 
-### 18. 다이치 더 프라임 유모차
+### 13. 줄즈 허브플러스 절충형 유모차
+- **브랜드**: 줄즈
+- **가격**: 988,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아부터 / 허용무게: ~22kg / 유모차무게: 10.6kg / 출시년도: 2021년 / 셀프스탠딩 / 양대면전환: 시트 전환 유모차 / 양대면전환: 시트 전환
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=52267664)
+
+### 14. 다이치 더 프라임 유모차
 - **브랜드**: 다이치
 - **가격**: 788,500원
 - **평점**: ⭐0 (0개 리뷰)
@@ -209,25 +172,65 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29497559)
 
-### 19. 리안 솔로 절충형 유모차
-- **브랜드**: 리안
-- **가격**: 528,240원
-- **평점**: ⭐4.9 (1,713개 리뷰)
-- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~36개월 / 허용무게: ~15kg까지 / 유모차무게: 8.9kg / 출시년도: 2020년 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20847536)
-
-### 20. 맘네스트 리안 솔로 절충형 유모차 전용 사계절 투명커버
+### 15. 맘네스트 리안 솔로 LX 절충형 유모차 전용 방풍커버 블랙멜란지
 - **브랜드**: 맘네스트
-- **가격**: 45,458원
-- **평점**: ⭐5 (13개 리뷰)
-- **핵심 스펙**: 출산 / 육아용품 / 유모차용품 / 유모차커버 / 모기장 출산 / 모기장
+- **가격**: 57,770원
+- **평점**: ⭐5 (3개 리뷰)
+- **핵심 스펙**: 방풍커버 방풍커버
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26507594)
+- [상세보기](https://prod.danawa.com/info/?pcode=20819948)
+
+### 16. 뉴나 트리브넥스트 절충형 유모차
+- **브랜드**: 뉴나
+- **가격**: 1,080,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아부터 / 허용무게: ~22kg / 유모차무게: 8.72kg / 출시년도: 2023년 / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=52373384)
+
+### 17. 콤비 조이트립어드밴스 아이사이즈 토들러 주니어 카시트 ISOFIX
+- **브랜드**: 콤비
+- **가격**: 359,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 출산 / 육아용품 / 유모차 / 유모차용품 / 절충형 / 디럭스형 출산 / 디럭스형
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=30326744)
+
+### 18. 싸이벡스 The New 미오스 3.0 절충형 유모차
+- **브랜드**: 싸이벡스
+- **가격**: 1,330,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 유모차 / 절충형 / 사용대상: 신생아~4세 / 허용무게: ~22kg / 유모차무게: 9.8kg / 출시년도: 2023년 유모차 / 출시년도: 2023년
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=75993671)
+
+### 19. 제이엠아이엔티엘 폼포라 위고 웨건W 절충형 유아웨건
+- **브랜드**: 제이엠아이엔티엘
+- **가격**: 455,050원
+- **평점**: ⭐5 (3개 리뷰)
+- **핵심 스펙**: 웨건 / 유아탑승 / 적재하중: 100kg / 부가기능: 접이식, 브레이크, 탈부착캐노피, 안전벨트 / 무게: 13.6kg / 크기(가로x세로x높이): 65x111x107cm / 색상: 블랙, 베이지 웨건 / 색상: 블랙, 베이지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=73429007)
+
+### 20. SEEC 롤리팝2 양대면 휴대용 절충형 유모차
+- **브랜드**: SEEC
+- **가격**: 1,079,160원
+- **평점**: ⭐5 (52개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 신생아~6세 / 허용무게: ~22kg / 유모차무게: 7.2kg / 양대면전환: 시트 전환 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=28381643)
 
 ---
 
@@ -242,9 +245,9 @@
 ---
 
 ## 📊 데이터 출처
-- [etoday.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLNKz2g5A4R9cFJvp2Phxxm7KglZ_d212OP_DZnRufyCz1CO4gAFPqEN7Uigc6nd1W0Pg4ZAg_obbJS4Q8nTGyUloDiAhy088FKW5GNKKckvz_qa7BYQW5ZJpXLRWRa4_DnJEP)
-- [tnnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3_C4lCqj8A1UukGH0dm8fIKYsckqbtXooLF25Gk202S97Vj-PG9XEOBTyC96K1GN9MpojLRDHJ-bxNPeFrN_O3L_kzudL6On6YxY7IdsG4Kq7Sv_sS_mvykI0vKA=)
-- [mirae-biz.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEMNRwtDOC1qAJeK1UEdSTnJcpBK69y9zugPx0X2LQqiYjdAK194z4cXwZdW44TlEakaVx4zyUktsilLes0sLgEIAA4mazviqNWBVMQ8nwNWaApI_GDJZj-IA-nh_dQ1l3EVuxoU20jK9hugud3Va1w1bgsDnE=)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF37a5slpJ6JoK56AbgrC-XQ20LmOOnHQnzsKG0bB_pMHlAfEzUhDZxbGyjBml-TTwlWVml0NLUePWqpq8BMB4aA3V8YflbjnRBhfyCyaOimSda0o03-h-WW2dTbP3vaEL940StbuqbEAAz6aN260AaIAPywmAw6xRfIyKLaTQyyohnUN86edCiQ_pd55sMwTtwFV5putYbBgQQ3XT_ntKUlBItsCtAvSkZ)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdZy2JtyqRXPWaUcWv8ZTo6cMkSvOpVs59xEJfR5dDy8L9JG1Jy5HiAfO2ejf2xxz9cpkeswprPHmVnrvegDUh7ZSODWp6gSuLPUqGs-H9RfLHoo1pywnom6XgJF_iZQp9wfp9mt11fdANCutKIJfYYSzEAC7vE2vEGosZnG6crMLjbJ3-chqrwH8UWFXaPC1PZimTKQFdDo8=)
-- [nbwelldon.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyJwtABOh3va4UskHMEMuAzsOBumvNSr8knqfMI7UmxPkBZf3nERjhC5qbLsuhAu5QszogjOnITVZT9cFsSscdHHgekSrsoAUcQa6WvQirwECvTGlQmAw9C3ZAKLkWG6u9GgnlAKLYDj63Ke5bWloKpaKJedLMbPf3WJWJ6AF4GOPzrBEo-lxWkRKmZCW5uqRJCFHZyhhV)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRIfdAE0zJ1tOslN2jqv3ICwuJRGZ-_eL_Rj6Zoyrii-CKJ5VisIETEdpinx_U7LePiXk3f7FAr7U1cQ0J7P6IVZxhinToKiDOHA9qC7OHYeGPLJqTBdYRLFS66nMV6aV1FwW6SDHHaKgr2zO2XT2dGwiRhVXY8Bdr2D_WYjWCOk82huJXbejEdKvTm3bTLVjVWrIKLKwqnPgerRcjW_sKv3edW-a9VWQelinrMEp8JlM=)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuY3OvJtkJ9hqRdFpX9JgzjGuuRiO9aZS7kqW3Y3qPUcVcbteeeu66H50xaAigh0vPy9XDCAILDsjzyZh-HtwSxfK48SqwwF7A7inVfn484m5SANoeqSZ36ItGFOvO4vtNbGKZvxLbVyMcFmFVQb8ICR3KGiJIUVPjPZoS4icbu9phqJmJyX6ewwLmTGU4UyFf7JCihwDRQU5J)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdIFqN-jruvGqzavZl3p_ikvOf3-gnql0gL-ovx3KkAAN_72fSSkysRS2tQXMIMRwLhvn60zH5PtbwKNiS4Qz-ldPndJaVt3vcnsYWkHhD73a7pb9rPOY4KxB4GyrphKYv6KtM9gSJVXE6klw0LTno6qbG43PzQg-HxMNLoiB5_zoyXxxvY__J)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvxo2HVB8Z3u4juovfHri1HtYChz4wmqahcHnHnpvcrBifJu8E9AwJrCu-MmhKDDIpyi0TRTVVUQAlUmTcuN7Uoji97p9q4gSsy1u1fk5MdJBFrJcW5tg0Nhlz2UCqMkvQ0cbXkwIRZLAK1BR3mWtl-4_QYErRS769-P31E-Yz5WmDQEhCqBn8i00sQU0kpcIIDmHKgcPtW9pX7z_k3lsHRRN7Qclk4Zh7)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqFtLMf-70BINPdQrhpgAMd3AHlZ68AWt_tQvHJcOXfhpyyr7hYSX9LUkbhkcK5TXCQj2SCcHqgPfDatg_B8OeI8Z27JoQsgakf46R0RxfdeN7ZEK_HWHqak1zGnG3sRQkLXP-BjSEKNoi9TqlEY6jmM3eFMj2l15sA57Ug_VfrMrJrB7vAVGIs72REGJJ0WrCD0QjYmOBEyE=)
+- [daum.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5T_Qv1qio_zC9ooPZAejo2r_rBue1_m-0M6yZC-kWydaSjRVCSeZBbR0Et-59H7hH9hUFX89JYaU1TRrSitosYLP8QmQ-M6KsfmS8NwfoKCkS0qYM3XBsHQ==)

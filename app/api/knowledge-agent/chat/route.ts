@@ -415,17 +415,18 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
 
         const model = ai.getGenerativeModel({
           model: MODEL_NAME,
-          generationConfig: { temperature: 0.6, maxOutputTokens: 250 }
+          generationConfig: { temperature: 0.5, maxOutputTokens: 250 }
         });
         const prompt = `사용자가 "${currentQ}"라는 질문에 "${userMessage}"를 선택했습니다.
 
-이 선택에 대해 공감하는 문장 1개만 작성하세요.
+이 선택에 대해 공감하는 1개의 간단한 문장을 작성하세요. 단순 공감보다는 근거가 포함되면 좋습니다. '저도 마음에 듭니다, 저도 좋다고 생각해요, 저도 그 옵션으로 구매한 적이 있어요' 식의 **AI의 생각이나 의도가 1인칭으로 드러나는 문장은 생성해서는 안됩니다. ** 딱딱한 말투보다는 되도록 '~요', '~습니다' 처럼 자연스럽고 친근한 문체를 사용해주세요. 
 
 ⛔ 금지사항:
 - 질문 금지 (물음표 사용 금지)
 - 다음 단계 언급 금지
 - 이모지 금지
-- 2문장 이상 금지`;
+- 아이의 키, 몸무게, 월령처럼 객관적인 정보를 입력했는데도 '좋은 선택이네요' 같이 어색하게 공감하기 금지
+- **2문장 이상 금지**`;
         const result = await model.generateContent(prompt);
         transitionText = result.response.text().trim() + '\n\n';
       } catch (e) {

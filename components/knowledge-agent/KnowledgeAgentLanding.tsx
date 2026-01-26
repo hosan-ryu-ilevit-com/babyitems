@@ -25,7 +25,6 @@ const BABY_CATEGORY_ICONS: Record<string, string> = {
   '이유식': '/images/카테고리 아이콘/이유식.png',
   '유아간식': '/images/카테고리 아이콘/유아간식.png',
   '젖병': '/images/카테고리 아이콘/젖병.png',
-  '젖병소독기': '/images/카테고리 아이콘/젖병 소독기.png',
   '쪽쪽이': '/images/카테고리 아이콘/쪽쪽이노리개.png',
   '분유포트': '/images/카테고리 아이콘/분유포트.png',
   '분유제조기': '/images/카테고리 아이콘/분유제조기.png',
@@ -59,7 +58,7 @@ const BABY_CATEGORY_ICONS: Record<string, string> = {
   '유아치약': '/images/카테고리 아이콘/유아치약.png',
   '유아칫솔': '/images/카테고리 아이콘/유아칫솔.png',
   '유아변기': '/images/카테고리 아이콘/유아변기.png',
-  '유아 손톱깎기': '/images/카테고리 아이콘/손톱깎이.png',
+  '유아 손톱깎이': '/images/카테고리 아이콘/손톱깎이.png',
   '유아세제': '/images/카테고리 아이콘/유아세제.png',
   '아기체육관': '/images/카테고리 아이콘/아기체육관.png',
   '바운서': '/images/카테고리 아이콘/바운서.png',
@@ -127,7 +126,7 @@ export const CATEGORIES_DATA: Record<string, any> = {
       "code": "BABY_003",
       "emoji": "🍼",
       "children": [
-        "젖병", "젖병소독기", "쪽쪽이", "분유포트", "분유제조기", "보틀워머", "젖병솔", "유축기", "수유패드"
+        "젖병", "쪽쪽이", "분유포트", "분유제조기", "보틀워머", "젖병솔", "유축기", "수유패드"
       ]
     },
     "외출용품": {
@@ -157,7 +156,7 @@ export const CATEGORIES_DATA: Record<string, any> = {
       "code": "BABY_005",
       "emoji": "🧼",
       "children": [
-        "아기욕조", "콧물흡입기", "체온계", "유아치약", "유아칫솔", "유아변기", "유아 손톱깎기", "유아세제"
+        "아기욕조", "콧물흡입기", "체온계", "유아치약", "유아칫솔", "유아변기", "유아 손톱깎이", "유아세제"
       ]
     },
     "신생아/영유아 완구": {

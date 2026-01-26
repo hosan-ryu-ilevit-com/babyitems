@@ -1,14 +1,14 @@
-# 세션: 20260126_073430_0m33
-> 시작: 2026-01-26T07:34:30.180Z
-> 카테고리키: 트라이크 유모차
+# 세션: 20260126_080117_1qi0
+> 시작: 2026-01-26T08:01:17.813Z
+> 카테고리키: 트라이크
 > 카테고리: 트라이크 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 트라이크 유모차 시장 현황
-- 인사이트: 트라이크 유모차 시장은 도시화 증가, 가처분 소득 증가, 어린이 안전 및 편의성에 대한 인식 증대에 힘입어 꾸준히 성장하고 있습니다. 특히 프리미엄, 다기능, 스마트 기술이 접목된 제품들이 인기를 얻고 있으며, 휴대성과 편의성을 갖춘 경량 트라이크 유모차에 대한 수요도 높습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7x0zjlywLGrix4brMCCpd_AKFp8KLwOpcujiji4dDYIgvXxqNKX8dsUSid1B9QyNQXT9ekf7-4z01IcRwJChH-0BlmWAVRyimLbfL8ccqcHsrZYPacVYAG-n38l_-DiQUvVTc7EBVdJATDi4l9GbIKtjifvaikl4WS1YuxesLonE4F5B02tLg, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4Z4TXsNZkLkJ8wGkcxw31mLWbw2RkgC9yH-YjZdOjfrg6UaosQ3pVfmFG6zMbgyus-B8fJalFWMkN89JXt2ayXRTgE5Z4yvHZTQVrTdrSDRXWe34EX-ynejquc_A0x3Z1uZA3uyQbU-kXkS4Q4LrXjzit_rIsy2Zpd-ZmF4uGjt3d, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZzGndo6VcEg8tD5XsRieyNmTDEoBmoVSG44eTx6tU6zZJkX9yAzABamFrMoA_00VXapd3IqJDT2MGEx-VpQHLcZMJiTuwkZqYrVm3nPgQxJIAz2hH7NN17bymHDl41vnKvE-PQ0nRevyvHlfSu1Tm_yG6Uj-lKA83TY1EYgbzbzBtVR9E0ZstN2jbpiPY7XCX171KCi5TNMO_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTHm9y6ZgPrNO0yelddLMaUT0017b9K3yiyoJi9PtPIQWiAi9DPBGIezi35Li6uFLpspMvBxQyOFVh-5Foe6by_IJ0mFgIWi-74Rr490l27LJbrX5bKNrn3oFFBur34lXYwuU87KxE-kODMtFIaAE75_zulD6WR5WbvevG-cWdBY1FIlfZWz64LAKZrKIA7r3stferOQrNQujq0cJsH3VRlAveAWFd8ALbHNWMYf4afcVLX9RU8u2N, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpbdQ3Jnr0o6bLt0mHy9IvAEexbbjH5bTxwPw1yHP70shbLs7jUplVisZvepp4YaAjOfTZK4EdRMmNv32TyxaseFY6S1MCjbzjVGxE4yQb8pr_7TdpwOQ_Ni3jglI_UNdRQT9zSZfimUPh_uH0a2xTtedMT0IbEoP8TwFVguHAEuDp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLdMU1_w80apDcux_a2LMFiJLY7FbwzVOlY6XwQNQpWQIXQPBVwjKkr7AwHEmlEsZqByknJEi2qbgA6p9C3u5qpiakm0T7162GhJ2kBoBWcjCUFgyYtpKX_P77CUyWuq7kFe6oyQM0eHI6iTEwtobq0mUBtc5nnZaYfiW0b-_lq3dV3dCxpWmr0BfnwQkZ2fg=
+- 인사이트: 트라이크 유모차는 휴대성과 편의성을 겸비하여 최근 몇 년간 인기를 얻고 있으며, 도시화 증가와 가처분 소득 증가에 힘입어 시장 규모가 꾸준히 성장하고 있습니다. 특히 경량 설계, 쉬운 조작성, 강화된 안전 기능이 통합된 제품들이 부모들의 요구를 충족시키며 시장을 주도하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAQfMDXKtR4orhMTbZ-fyH-WzAuish92aAd4O4HMCJnbtLb8WIlDIJvS2R1ToPAO2b01qzTToQqSSf0-tikzWWDri07F1T6nFGOQ-pqJ8y3U47MePnGGJRLGqgCBpdzod1zF2NpD7t9trAtQBtp3lJQRX56pRgJ14FX1jBOHPSARmQUdrigR6OXOGRxWKh-DWq0hR5xaSRhaUU, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETLyq9_Fx0jNeFk-QYP304IKM-fepc_2ChD-HRbapPeB83meECO99QXoQP3BxwDM4DdR2hWbyRvp1XKrA7M6ZLwKeUDfjjXDtWEqbJ9q1Dbn4x6tP7-orv60bu4X261s5OH2cOSWN3rjiAr9HVlISjVOBcsOhMI2a8v4z2yzoqcHzw8IqVtNv_9oLyo7bPEqdMAozldme8BGpzHSNaoKTnG-XnqCxDvw1fyJxfNhbrfuaP-Q0nhNx0v_IublFmjxTeDHpD-YoHH4OokpF-AvEgzAWb6NPiwxo7qbFNPQ-zV3GsQssstWRdEb0lb7y12fskLxM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNHlZq6Sc7qnvP1dk4FcfE03MbwjGfzJWJo9Jo0xpm1pYwVxDXGrDCMH7XeEVwruZ6K6EpoVxKVeO0pEAqd1ncH5hraZAjaeR-gTbupSuWBfd2ipeg39685LX0edhI9FFPUIMrcVs=
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 선호하는 브랜드가 있으신가요? | 상관없어요 |
+| 아이가 몇 개월인가요? 사용 시기에 따라 적합한 유모차가 달라질 수 있어요. | 24개월 이상 |
+| 주로 어떤 환경에서 유모차를 사용하시나요? 휴대성과 사용 편의성에 영향을 미칩니다. | 자주 이동 (대중교통, 여행) |
+| 트라이크 유모차에서 가장 중요하게 생각하는 기능은 무엇인가요? | 조작 편의성, 안전성 |
+| 예산은 어느 정도로 생각하세요? (평균 21만원대, 13만원~28만원대가 가장 많아요) | 13만원 ~ 28만원 |
+| __avoid_negatives__ | 날씨가 더울 때 아이가 답답해하거나 추울 때 춥지는 않을까 계절별 사용에 제약이 있을까 봐 염려돼요. |
 
 ---
 
@@ -55,7 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 날씨가 더울 때 아이가 답답해하거나 추울 때 춥지는 않을까 계절별 사용에 제약이 있을까 봐 염려돼요.
 
 ---
 

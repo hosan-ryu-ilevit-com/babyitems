@@ -1516,7 +1516,7 @@ function SlideStepContent({
     if (step.status === 'done') {
       return <Image src="/icons/check.png" alt="" width={20} height={20} />;
     }
-    // 슬라이드로 표시 중인 단계는 활성 상태(active)이거나 
+    // 슬라이드로 표시 중인 단계는 활성 상태(active)이거나
     // 아직 시작 전(pending)이라도 분석 중임을 나타내기 위해 스피너 표시
     return <div className="w-4 h-4 rounded-full border-[1.5px] border-purple-500 border-t-transparent animate-spin" />;
   };

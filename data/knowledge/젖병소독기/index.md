@@ -1,26 +1,25 @@
 # 젖병소독기 전문가 지식
 
-> 마지막 업데이트: 2026-01-26T07:27:01.514Z
+> 마지막 업데이트: 2026-01-26T08:10:03.075Z
 > 분석 상품: 20개 | 분석 리뷰: 0개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - UV LED 기술 적용 확대
-- 다기능 (살균, 건조, 보관)
-- 대용량 및 와이드형 디자인
+- 복합 및 다기능 소독기 인기
+- 친환경 및 안전성 강조 제품
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 살균력 (99.9% 살균)
-- ✓ 간편한 사용법
+- ✓ 뛰어난 살균력 (99.9%)
+- ✓ 편리한 건조 기능
 - ✓ 다양한 육아용품 소독 가능
-- ✓ 미세플라스틱/환경호르몬 프리
+- ✓ 자동 살균 및 건조 모드
+- ✓ 넓은 내부 공간
 
 ### 주의해야 할 단점
-- ⚠ 상대적으로 큰 부피 (자리 차지)
-- ⚠ 작동 시 소음 발생
-- ⚠ 내부 용량 아쉬움 (대용량 필요시)
-- ⚠ 건조 후 물기 잔존 가능성
+- ⚠ 상대적으로 큰 부피
+- ⚠ 일부 제품의 높은 가격대
 
 ### 가격대 인사이트
 
@@ -242,6 +241,9 @@
 ---
 
 ## 📊 데이터 출처
-- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1P-tInXZmXhI0FEOHRVoA9-VNArwFR_9HUIh9F4uUcWh6PA3ljSjmfmYX88IHB1sxsPwUmVyjqwngCd9ickwNQ8ei0rKKth1LXhzk6SVlVlZJmvxkzdNj7lybnH_HyBORegj2cj9kXjsmeO3BBG9B_OiNgwVCy1_DDBBHTNoBt__dwpLNuVs=)
-- [fetv.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFN-T7NbV0bfb2He1GxMnbUgCZ30UcWsgVMYzyOWYFYuxAXyeudJQwGthi_NLlhY20p-ubldtq1ynUoio4idRRH4aGzvbaBd-h0k49ys1maUGx93QK8h-RPo8zjgJqCgYyRw4ZJgxx0UKqRHRcmTQ==)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0VCqBnz3YizHOn-SHxedX2byY7mzUZWuN6w7-JylGOdvyKd6_uQA7iL8kBB-YOgFMoJVwFbIoJUOZnzO2zU31kuPSnvmA6cpIFVw10AWJBegpelI6Ud0MJYgNSWcFbuBOJjH5F92AqaVOZgjaeiH85J1g0JR0KrtBg-iQ-MStvPd_2P0YJlSZ6y-X1llzOwHdJW9X7ZHtsBBYXbJhSuHrfaQMHZJO0IAX)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLolxdsVBiguY1l8AED-RFbG_DQKUbxXQKdqIcCVxlKVmh3DivFwTDX4Ca8DZjNNYQP-2KwT3TP7ngYqzMdaMBPZ7O-uWN2nHxgoqwbE2aYGhUAP7-zbVmuCLjJnfikzqVV6xJ7aJBlGafCLLyfcDa0wSohcDBa_TVfYW67wCUNud-FQMxdIGw)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyWDm7n4CYfA-YkJcNH3pMwuYDF4EXGbjexTEk8cR_gUP0-WIb4j5ew_ye137bbORW8OMcdPfuJgQr8uJHzhrHkeFzr4M7Edm97dUyz2p4qXywl5upFyKCsC18CIPMMiGY_fihmF4p6f2MmZ8wwD4miSJbRB1Oiw7UHm8atHLCNhifsXDN9JgLUoPZzKpi5DjnVX0=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGp6ifZ0WLQX-HKkZeVuxaXPHc6rdgLbvxoMWqtOnKZXc0NSy321FORwNl86AghvAxVBMkepBQrr5eM7SDfPiLpyDBdSJCntF87ACmHASBKQM8-8l67oG9aez_YaPrCUHv2tqK85Ps=)
+- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFejRHouKevlqCqwvcsHCzGQW10tLn6cobeC8R85nGrwpgq8ylAZ2ZkoG4vPKSjBTcOn3JiCi4ANniGjbZLysjR2Z1AN0efpSkAyjiYraPHdiFckNFKlr2RIEf9IsqX870EcwczbTEkdLgU9jfBJ1YwIEJBTtjkmKceqC4k21_-RhxTRT478_pK)
+- [fetv.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHiFbfNXTIzfuOk8jKwys-re4UK9vfiikiEtfCBwIvt2BXgNN-nGFjJnAQZdjA-J7Zu5lC6RQjI9WH4qqF-ig7kTHDssLaazgn4gSrR3UZzdL75MoPiy5CyQkilEr7LfnHn4YoNhjJZ_RZ2GoyzJNE=)
+- [dailysecu.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyJHOnVBnE_F4CwRX3hu4Nb-4uLBtw1YTfFwmoPRgP044WSiIe-e5X3kuDBtk5a7HXFmxTe12g6W-cLP1Yk8x4coHftwJgyTFpELCh9qTQDnURyOLisokdyOHEHd0FNFFbhVK7EuwKyq87XAeCuONWWJxe7Die)
